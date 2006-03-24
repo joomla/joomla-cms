@@ -102,12 +102,17 @@ class JMail extends PHPMailer
 	 */
 	function setSender($from) 
 	{
-		/*
-		 * First offset is the e-mail address
-		 * Second offset is the name
-		 */
-		$this->From = $from[0];
-		$this->FromName = $from[1];
+		// If $from is an array we assume it has an address and a name
+		if (is_array($from)) {
+			$this->From = $from[0];
+			$this->FromName = $from[1];
+		// If it is a string we assume it is just the address
+		} elseif (is_string($from)) {
+			$this->From = $from;
+		// If it is neither, we throw a warning
+		} else {
+			JError::raiseWarning( 0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
+		}
 	}
 
 	/**
@@ -333,11 +338,9 @@ class JMailHelper
 	 * @return string Cleaned E-Mail body string
 	 * @since 1.1
 	 */
-	function cleanBody(& $body) 
+	function cleanBody($body) 
 	{
-		/*
-		 * Strip all E-Mail headers from the body
-		 */
+		// Strip all E-Mail headers from a string
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
 	}
 
@@ -370,7 +373,6 @@ class JMailHelper
 		return $address;
 	}
 
-
 	function isEmailAddress($email) {
 		$rBool = false;
 
@@ -379,7 +381,5 @@ class JMailHelper
 		}
 		return $rBool;
 	}
-
-	
 }
 ?>

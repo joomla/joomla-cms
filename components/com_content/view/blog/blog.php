@@ -18,32 +18,51 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * HTML View class for the Content component
  *
- * @static
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
-class JViewContentHTML_blog
+class JViewHTMLBlog extends JView
 {
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Blog';
 
-	function show(&$model, &$access, &$menu)
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	function display()
 	{
-		global $mainframe, $Itemid;
+		// Initialize some variables
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$params	= & $menu->parameters;
+		$Itemid	= $menu->id;
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
 		$gid			= $user->get('gid');
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
 		$option	= JRequest::getVar('option');
 
 		/*
+		 * Create a user access object for the user
+		 */
+		$access							= new stdClass();
+		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+
+		/*
 		 * Menu item parameters
 		 */
-		$params = & $model->getMenuParams();
 		if ($params->get('page_title', 1) && $menu) {
 			$header = $params->def('header', $menu->name);
 		} else {
@@ -70,7 +89,20 @@ class JViewContentHTML_blog
 		/*
 		 * Lets get the content item data from the model
 		 */
-		$rows = & $model->getContentData();
+		$rows = & $this->get( 'Content' );
+
+		// Dynamic Page Title and BreadCrumbs
+		$breadcrumbs = & $app->getPathWay();
+		$document = & $app->getDocument();
+		if ($menu->name)
+		{
+			$document->setTitle($menu->name);
+			$breadcrumbs->addItem($menu->name, '');
+		}
+		else
+		{
+			$breadcrumbs->addItem($rows[0]->section, '');
+		}
 
 		/*
 		 * Pagination support
@@ -93,12 +125,12 @@ class JViewContentHTML_blog
 			switch ($menu->type)
 			{
 				case 'content_blog_section' :
-					$description = & JTable::getInstance('section', $db);
+					$description = & JTable::getInstance('section', $this->get( 'DBO' ));
 					$description->load($menu->componentid);
 					break;
 
 				case 'content_blog_category' :
-					$description = & JTable::getInstance('category', $db);
+					$description = & JTable::getInstance('category', $this->get( 'DBO' ));
 					$description->load($menu->componentid);
 					break;
 
@@ -160,7 +192,7 @@ class JViewContentHTML_blog
 						break;
 					}
 					echo '<div>';
-					JViewContentHTML_blog::showItem($rows[$i], $access, true);
+					$this->showItem($rows[$i], $access, true);
 					echo '</div>';
 				}
 				echo '</td>';
@@ -194,7 +226,7 @@ class JViewContentHTML_blog
 					{
 						if ($i <= $intro && ($i <= $total))
 						{
-							JViewContentHTML_blog::showItem($rows[$i], $access);
+							$this->showItem($rows[$i], $access);
 							$i ++;
 						}
 					}
@@ -213,7 +245,7 @@ class JViewContentHTML_blog
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JViewContentHTML_blog::showLinks($rows, $links, $total, $i);
+				$this->showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -274,35 +306,39 @@ class JViewContentHTML_blog
 
 	function showItem(&$row, &$access, $showImages = false)
 	{
-		global $mainframe, $hide_js;
+		// Initialize some variables
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$Itemid	= $menu->id;
+		$params 	= & new JParameter($row->attribs);
 
-		/*
-		 * Initialize some variables
-		 */
-		$user		= & $mainframe->getUser();
-		$SiteName	= $mainframe->getCfg('sitename');
-		$gid		= $user->get('gid');
-		$task		= JRequest::getVar( 'task' );
-		$no_html	= JRequest::getVar( 'no_html', null );
-		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
+		// These will come from a request object at some point
+		$task			= JRequest::getVar( 'task' );
+		$noJS 			= JRequest::getVar( 'hide_js', 0, '', 'int' );
+		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
+
+		// TODO: clean this part up
+		$SiteName	= $app->getCfg('sitename');
+		$gid				= $user->get('gid');
+
 		$linkOn		= null;
 		$linkText	= null;
-		$params 	= new JParameter($row->attribs);
 
 		/*
 		 * Get some parameters from global configuration
 		 */
-		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
-		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',		!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
-		$params->def('email',		!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',		$mainframe->getCfg('vote'));
-		$params->def('icons',		$mainframe->getCfg('icons'));
-		$params->def('readmore',	$mainframe->getCfg('readmore'));
-		$params->def('back_button', $mainframe->getCfg('back_button'));
+		$params->def('link_titles',	$app->getCfg('link_titles'));
+		$params->def('author',		!$app->getCfg('hideAuthor'));
+		$params->def('createdate',	!$app->getCfg('hideCreateDate'));
+		$params->def('modifydate',	!$app->getCfg('hideModifyDate'));
+		$params->def('print',		!$app->getCfg('hidePrint'));
+		$params->def('pdf',			!$app->getCfg('hidePdf'));
+		$params->def('email',		!$app->getCfg('hideEmail'));
+		$params->def('rating',		$app->getCfg('vote'));
+		$params->def('icons',		$app->getCfg('icons'));
+		$params->def('readmore',	$app->getCfg('readmore'));
+		$params->def('back_button', $app->getCfg('back_button'));
 		
 		/*
 		 * Get some item specific parameters
@@ -327,7 +363,7 @@ class JViewContentHTML_blog
 		 */
 		$row->text	= $row->introtext;
 		JPluginHelper::importPlugin('content');
-		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
+		$results = $app->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
 
 		/*
 		 * Build the link and text of the readmore button
@@ -362,7 +398,7 @@ class JViewContentHTML_blog
 		{
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
-				<?php JViewContentHTMLHelper::editIcon($row, $params, $access); ?>
+				<?php JContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
 
@@ -371,7 +407,7 @@ class JViewContentHTML_blog
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
 		{
 			// link used by print button
-			$print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+			$print_link = $app->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -379,16 +415,16 @@ class JViewContentHTML_blog
 
 
 			// displays Item Title
-			JViewContentHTMLHelper::title($row, $params, $linkOn, $access);
+			JContentHTMLHelper::title($row, $params, $linkOn, $access);
 
 			// displays PDF Icon
-			JViewContentHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
+			JContentHTMLHelper::pdfIcon($row, $params, $linkOn, $noJS);
 
 			// displays Print Icon
-			mosHTML::PrintIcon($row, $params, $hide_js, $print_link);
+			mosHTML::PrintIcon($row, $params, $noJS, $print_link);
 
 			// displays Email Icon
-			JViewContentHTMLHelper::emailIcon($row, $params, $hide_js);
+			JContentHTMLHelper::emailIcon($row, $params, $noJS);
 			?>
 			</tr>
 			</table>
@@ -398,11 +434,11 @@ class JViewContentHTML_blog
 
 		if (!$params->get('intro_only'))
 		{
-			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
+			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
 			echo trim(implode("\n", $results));
 		}
 
-		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
+		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
 		echo trim(implode("\n", $onBeforeDisplayContent));
 		?>
 
@@ -410,23 +446,23 @@ class JViewContentHTML_blog
 		<?php
 
 		// displays Section & Category
-		JViewContentHTMLHelper::sectionCategory($row, $params);
+		JContentHTMLHelper::sectionCategory($row, $params);
 
 		// displays Author Name
-		JViewContentHTMLHelper::author($row, $params);
+		JContentHTMLHelper::author($row, $params);
 
 		// displays Created Date
-		JViewContentHTMLHelper::createDate($row, $params);
+		JContentHTMLHelper::createDate($row, $params);
 
 		// displays Urls
-		JViewContentHTMLHelper::url($row, $params);
+		JContentHTMLHelper::url($row, $params);
 		?>
 		<tr>
 			<td valign="top" colspan="2">
 				<?php
 
 		// displays Table of Contents
-		JViewContentHTMLHelper::toc($row);
+		JContentHTMLHelper::toc($row);
 
 		// displays Item Text
 		echo ampReplace($row->text);
@@ -437,10 +473,10 @@ class JViewContentHTML_blog
 
 
 		// displays Modified Date
-		JViewContentHTMLHelper::modifiedDate($row, $params);
+		JContentHTMLHelper::modifiedDate($row, $params);
 
 		// displays Readmore button
-		JViewContentHTMLHelper::readMore($params, $linkOn, $linkText);
+		JContentHTMLHelper::readMore($params, $linkOn, $linkText);
 		?>
 		</table>
 		<span class="article_seperator">&nbsp;</span>
@@ -448,11 +484,11 @@ class JViewContentHTML_blog
 		<?php
 
 		// Fire the after display content event
-		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
+		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		//JViewContentHTMLHelper::navigation($row, $params);
+		//JContentHTMLHelper::navigation($row, $params);
 	}
 
 	function showLinks(& $rows, $links, $total, $i = 0)

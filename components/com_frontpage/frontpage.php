@@ -62,8 +62,12 @@ class JFrontpageController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		$cache = & JFactory::getCache('com_frontpage');
-		$cache->call('JViewFrontpageHTML::show', $model, $access, $menu);
+//		$cache = & JFactory::getCache('com_frontpage', 'output');
+//		if (!$cache->start('theData', 'com_frontpage')) {
+//			JViewFrontpageHTML::show( $model, $access, $menu );
+//			$cache->end();
+//		}
+		JViewFrontpageHTML::show( $model, $access, $menu );
 	}
 }
 

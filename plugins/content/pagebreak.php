@@ -85,7 +85,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 				} else {
 					$row->page_title = '';
 				}
-			} else if ( $matches[$page-1][2] ) {
+			} else if ( @$matches[$page-1][2] ) {
 				$attrs = josParseAttributes($matches[$page-1][1]);
 
 				if ( @$attrs['title'] ) {

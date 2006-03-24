@@ -15,7 +15,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Content Component Helper
  *
@@ -25,7 +24,36 @@ defined('_JEXEC') or die('Restricted access');
  * @since 1.1
  */
 class JContentHelper
-{	
+{
+	function saveContentPrep(& $row)
+	{
+		/*
+		 * Get submitted text from the request variables
+		 */
+		$text = JRequest :: getVar('text', '', 'post', 'string', _J_ALLOWRAW);
+
+		/*
+		 * Clean text for xhtml transitional compliance
+		 */
+		$text = str_replace('<br>', '<br />', $text);
+		$row->title = ampReplace($row->title);
+
+		/*
+		 * Now we need to search for the {readmore} tag and split the text up
+		 * accordingly.
+		 */
+		$tagPos = strpos($text, '{readmore}');
+
+		if ($tagPos === false)	{
+			$row->introtext = $text;
+		} else 	{
+			$row->introtext = substr($text, 0, $tagPos);
+			$row->fulltext = substr($text, $tagPos +10);
+		}
+
+		return true;
+	}
+
 	function orderbyPrimary($orderby)
 	{
 		switch ($orderby)
@@ -114,23 +142,17 @@ class JContentHelper
 		$where = array ();
 
 		// normal
-		if ($type > 0)
-		{
+		if ($type > 0) {
 			$where[] = "a.state = 1";
-			if (!$access->canEdit)
-			{
+			if (!$access->canEdit) {
 				$where[] = "( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )";
 				$where[] = "( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 			}
-			if ($id > 0)
-			{
-				if ($type == 1)
-				{
+			if ($id > 0) {
+				if ($type == 1) {
 					$where[] = "a.sectionid IN ( $id ) ";
-				}
-				else
-					if ($type == 2)
-					{
+				} else
+					if ($type == 2) {
 						$where[] = "a.catid IN ( $id ) ";
 					}
 			}
@@ -140,34 +162,26 @@ class JContentHelper
 		if ($type < 0)
 		{
 			$where[] = "a.state='-1'";
-			if ($year)
-			{
+			if ($year) {
 				$where[] = "YEAR( a.created ) = '$year'";
 			}
-			if ($month)
-			{
+			if ($month) {
 				$where[] = "MONTH( a.created ) = '$month'";
 			}
-			if ($id > 0)
-			{
-				if ($type == -1)
-				{
-					$where[] = "a.sectionid = $id";
-				}
-				else
-					if ($type == -2)
-					{
+			if ($id > 0) {
+				if ($type == -1) {
+					$where[] = "a.sectionid = $id"; 
+				} else
+					if ($type == -2) {
 						$where[] = "a.catid = $id";
 					}
 			}
 		}
 
-		if ($id == 0)
-		{
+		if ($id == 0) {
 			$where[] = "s.published = 1";
 			$where[] = "cc.published = 1";
-			if ($noauth)
-			{
+			if ($noauth) {
 				$where[] = "a.access <= $gid";
 				$where[] = "s.access <= $gid";
 				$where[] = "cc.access <= $gid";
@@ -183,14 +197,11 @@ class JContentHelper
 
 		$voting = $mainframe->getCfg('vote');
 
-		if ($voting)
-		{
+		if ($voting) {
 			// calculate voting count
 			$select = "\n , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count";
 			$join = "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id";
-		}
-		else
-		{
+		} else {
 			$select = '';
 			$join = '';
 		}
@@ -200,7 +211,7 @@ class JContentHelper
 		return $results;
 	}
 
-	function getSectionLink(&$row)
+	function getSectionLink(& $row)
 	{
 		static $links;
 
@@ -208,8 +219,7 @@ class JContentHelper
 			$links = array ();
 		}
 
-		if (empty ($links[$row->sectionid]))
-		{
+		if (empty ($links[$row->sectionid])) {
 			$query = "SELECT id, link" .
 					"\n FROM #__menu" .
 					"\n WHERE published = 1" .
@@ -227,25 +237,19 @@ class JContentHelper
 			 * Did we find an Itemid for the section?
 			 */
 			$Itemid = null;
-			if ($secLinkID)
-			{
-				$Itemid = '&amp;Itemid='.(int)$secLinkID;
+			if ($secLinkID)	{
+				$Itemid = '&amp;Itemid='.(int) $secLinkID;
 
-				if ($secLinkURL)
-				{
+				if ($secLinkURL) {
 					$link = sefRelToAbs($secLinkURL.$Itemid);
-				}
-				else
-				{
+				} else {
 					$link = sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.$Itemid);
 				}
 				/*
 				 * We found one.. and built the link, so lets set it
 				 */
 				$links[$row->sectionid] = '<a href="'.$link.'">'.$row->section.'</a>';
-			}
-			else
-			{
+			} else {
 				/*
 				 * Didn't find an Itemid.. set the section name as the link
 				 */
@@ -256,7 +260,7 @@ class JContentHelper
 		return $links[$row->sectionid];
 	}
 
-	function getCategoryLink(&$row)
+	function getCategoryLink(& $row)
 	{
 		static $links;
 
@@ -265,7 +269,7 @@ class JContentHelper
 		}
 
 		if (empty ($links[$row->catid])) {
-	
+
 			$query = "SELECT id, link" .
 					"\n FROM #__menu" .
 					"\n WHERE published = 1" .
@@ -282,11 +286,9 @@ class JContentHelper
 			 * Did we find an Itemid for the category?
 			 */
 			$Itemid = null;
-			if ($catLinkID)
-			{
-				$Itemid = '&amp;Itemid='.(int)$catLinkID;
-			}	else
-			{
+			if ($catLinkID) 	{
+				$Itemid = '&amp;Itemid='.(int) $catLinkID;
+			} else {
 				/*
 				 * Nope, lets try to find it by section...
 				 */
@@ -298,33 +300,26 @@ class JContentHelper
 						"\n ORDER BY type DESC, ordering";
 				$database->setQuery($query);
 				$secLinkID = $database->loadResult();
-				
+
 				/*
 				 * Find it by section?
 				 */
-				if ($secLinkID)
-				{
+				if ($secLinkID)	{
 					$Itemid = '&amp;Itemid='.$secLinkID;
 				}
 			}
 
-			if ($Itemid !== null)
-			{
-				if ($catLinkURL)
-				{
+			if ($Itemid !== null) {
+				if ($catLinkURL) {
 					$link = sefRelToAbs($catLinkURL.$Itemid);
-				}
-				else
-				{
+				} else {
 					$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$Itemid);
 				}
 				/*
 				 * We found an Itemid... build the link
 				 */
 				$links[$row->catid] = '<a href="'.$link.'">'.$row->category.'</a>';
-			}
-			else
-			{
+			} else {
 				/*
 				 * Didn't find an Itemid.. set the section name as the link
 				 */
@@ -339,21 +334,18 @@ class JContentHelper
 	{
 		global $mainframe;
 
-		$db			= & $mainframe->getDBO();
-		$menu		= JMenu::getInstance();
-		$items		= $menu->getMenu();
-		$Itemid	= null;
+		$db = & $mainframe->getDBO();
+		$menu = & JMenu :: getInstance();
+		$items = $menu->getMenu();
+		$Itemid = null;
 
 		if (count($items))
 		{
-
 			/*
 			 * Do we have a content item linked to the menu with this id?
 			 */
-			foreach ($items as $item)
-			{
-				if ($item->link == "index.php?option=com_content&task=view&id=$id")
-				{
+			foreach ($items as $item) {
+				if ($item->link == "index.php?option=com_content&task=view&id=$id") {
 					return $item->id;
 				}
 			}
@@ -371,8 +363,7 @@ class JContentHelper
 					"\n AND i.id = $id";
 			$db->setQuery($query);
 			$Itemid = $db->loadResult();
-			if ($Itemid != '')
-			{
+			if ($Itemid != '') {
 				return $Itemid;
 			}
 
@@ -389,8 +380,7 @@ class JContentHelper
 					"\n AND i.id = $id";
 			$db->setQuery($query);
 			$Itemid = $db->loadResult();
-			if ($Itemid != '')
-			{
+			if ($Itemid != '') {
 				return $Itemid;
 			}
 
@@ -401,20 +391,422 @@ class JContentHelper
 			 */
 			foreach ($items as $item)
 			{
-				if ($item->type == "content_blog_section" && $item->componentid == "0")
-				{
+				if ($item->type == "content_blog_section" && $item->componentid == "0") {
 					return $item->id;
 				}
 			}
 		}
 
-		if ($Itemid != '')
-		{
+		if ($Itemid != '') {
 			return $Itemid;
+		} else {
+			return JRequest :: getVar('Itemid', 9999, '', 'int');
 		}
-		else
+	}
+}
+
+class JContentHTMLHelper {
+
+	/**
+	 * Helper method to print the content item's title block if enabled.
+	 * 
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @param string $linkOn 	Menu link for the content item
+	 * @param object $access 	Access object for the content item
+	 * @return void
+	 * @since 1.0
+	 */
+	function title($row, $params, $linkOn, $access) 
+	{
+		if ($params->get('item_title')) {
+			?>
+			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
+				<?php
+				if ($params->get('link_titles') && $linkOn != '') {
+					?>
+					<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo $row->title;?></a>
+					<?php
+				} else {
+					echo $row->title;
+				}
+				?>
+			</td>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the edit icon for the content item if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @param object $access 	Access object for the content item
+	 * @return void
+	 * @since 1.0
+	 */
+	function editIcon($row, $params, $access) 
+	{
+		global $Itemid, $my, $mainframe;
+
+		if ($params->get('popup')) {
+			return;
+		}
+		if ($row->state < 0) {
+			return;
+		}
+		if (!$access->canEdit && !($access->canEditOwn && $row->created_by == $my->id)) {
+			return;
+		}
+
+		mosCommonHTML::loadOverlib();
+
+		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+		$image = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $row->id );
+
+		if ($row->state == 0) {
+			$overlib = JText::_('Unpublished');
+		} else {
+			$overlib = JText::_('Published');
+		}
+		$date = mosFormatDate($row->created);
+		$author = $row->created_by_alias ? $row->created_by_alias : $row->author;
+
+		$overlib .= '<br />';
+		$overlib .= $row->groups;
+		$overlib .= '<br />';
+		$overlib .= $date;
+		$overlib .= '<br />';
+		$overlib .= $author;
+		?>
+		<a href="<?php echo sefRelToAbs( $link ); ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
+			<?php echo $image; ?></a>
+		<?php
+	}
+
+	/**
+	 * Helper method to print the content item's pdf icon if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object 	$row 	The content item
+	 * @param object 	$params The content item's parameters object
+	 * @param string 	$linkOn Menu link for the content item
+	 * @param boolean 	$hideJS True to hide the javascript
+	 * @return void
+	 * @since 1.0
+	 */
+	function pdfIcon($row, $params, $linkOn, $hideJS) 
+	{
+		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) 
 		{
-			return JRequest::getVar('Itemid', 9999, '', 'int');
+			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+			$link = 'index2.php?option=com_content&amp;no_html=1&amp;task=viewpdf&amp;id='.$row->id;
+			if ($params->get('icons')) {
+				$image = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
+			} else {
+				$image = JText::_('PDF').'&nbsp;';
+			}
+			?>
+			<td align="right" width="100%" class="buttonheading">
+				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
+					<?php echo $image; ?></a>
+			</td>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's email icon if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object 	$row 	The content item
+	 * @param object 	$params The content item's parameters object
+	 * @param boolean 	$hideJS True to hide javascript code
+	 * @return void
+	 * @since 1.0
+	 */
+	function emailIcon($row, $params, $hideJS) 
+	{
+		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
+			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
+			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
+			if ($params->get('icons')) 	{
+				$image = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
+			} else {
+				$image = '&nbsp;'.JText::_('Email');
+			}
+			?>
+			<td align="right" width="100%" class="buttonheading">
+				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
+					<?php echo $image; ?></a>
+			</td>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print a container for a category and section blocks
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The item to display
+	 * @param object $params 	The item to display's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function sectionCategory($row, $params) 
+	{
+		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
+			?>
+			<tr>
+				<td>
+				<?php
+		}
+
+		// displays Section Name
+		JContentHTMLHelper::section($row, $params);
+
+		// displays Section Name
+		JContentHTMLHelper::category($row, $params);
+
+		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
+				?>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the section block if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The section item
+	 * @param object $params 	The section item's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function section($row, $params) 
+	{
+		if ($params->get('section') && $row->sectionid) {
+			?>
+			<span>
+				<?php
+				echo $row->section;
+				// writes dash between section & Category Name when both are active
+				if ($params->get('category')) {
+					echo ' - ';
+				}
+				?>
+			</span>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the category block if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The category item
+	 * @param object $params 	The category's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function category($row, $params) 
+	{
+		if ($params->get('category') && $row->catid) {
+			?>
+			<span>
+				<?php
+				echo $row->category;
+				?>
+			</span>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's author block if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function author($row, $params) 
+	{
+		global $acl;
+
+		if (($params->get('author')) && ($row->author != "")) {
+			?>
+			<tr>
+				<td width="70%"  valign="top" colspan="2">
+					<span class="small">
+					&nbsp;<?php JText::printf( 'Written by', ($row->created_by_alias ? $row->created_by_alias : $row->author) ); ?>
+					</span>
+					&nbsp;&nbsp;
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's URL block if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function url($row, $params) 
+	{
+		if ($params->get('url') && $row->urls) 	{
+			?>
+			<tr>
+				<td valign="top" colspan="2">
+					<a href="http://<?php echo $row->urls ; ?>" target="_blank">
+						<?php echo $row->urls; ?></a>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's created date block if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function createDate($row, $params) 
+	{
+		$create_date = null;
+		if (intval($row->created) != 0) {
+			$create_date = mosFormatDate($row->created);
+		}
+		if ($params->get('createdate')) {
+			?>
+			<tr>
+				<td valign="top" colspan="2" class="createdate">
+					<?php echo $create_date; ?>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's modified date block if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @return void
+	 * @since 1.0
+	 */
+	function modifiedDate($row, $params) 
+	{
+		$mod_date = null;
+		if (intval($row->modified) != 0) {
+			$mod_date = mosFormatDate($row->modified);
+		}
+		if (($mod_date != '') && $params->get('modifydate')) {
+			?>
+			<tr>
+				<td colspan="2"  class="modifydate">
+					<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $mod_date; ?> )
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's table of contents block if
+	 * present.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row The content item
+	 * @return void
+	 * @since 1.0
+	 */
+	function toc($row) 
+	{
+		if (isset ($row->toc)) {
+			echo $row->toc;
+		}
+	}
+
+	/**
+	 * Helper method to print the content item's read more button if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $row 		The content item
+	 * @param string $linkOn 	Button link for the read more button
+	 * @param string $linkText 	Text for read more button
+	 * @return void
+	 * @since 1.0
+	 */
+	function readMore($params, $linkOn, $linkText) 
+	{
+		if ($params->get('readmore')) {
+			if ($params->get('intro_only') && $linkText) {
+				?>
+				<tr>
+					<td  colspan="2">
+						<a href="<?php echo $linkOn;?>" class="readon<?php echo $params->get( 'pageclass_sfx' ); ?>">
+							<?php echo $linkText;?></a>
+					</td>
+				</tr>
+				<?php
+			}
 		}
 	}
 }

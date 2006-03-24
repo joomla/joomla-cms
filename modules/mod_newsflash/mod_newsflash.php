@@ -41,7 +41,7 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 			<tr>
 			<?php
 			// displays Item Title
-			JViewContentHTMLHelper::title($row, $params, 0, $access);
+			JContentHTMLHelper::title($row, $params, 0, $access);
 			?>
 			</tr>
 			</table>

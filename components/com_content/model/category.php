@@ -26,28 +26,14 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @subpackage Content
  * @since 1.1
  */
-class JModelCategory extends JObject
+class JModelCategory extends JModel
 {
-	/**
-	 * Database Connector
-	 *
-	 * @var object
-	 */
-	var $_db;
-
 	/**
 	 * Category id
 	 *
 	 * @var int
 	 */
 	var $_id = null;
-
-	/**
-	 * Menu Itemid parameters
-	 *
-	 * @var object
-	 */
-	var $_mparams = null;
 
 	/**
 	 * Category data
@@ -71,18 +57,6 @@ class JModelCategory extends JObject
 	var $_content = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * @access protected
-	 */
-	function __construct( &$db, &$params, $id = null)
-	{
-		$this->_mparams	= &$params;
-		$this->_db				= & $db;
-		$this->_id				= $id;
-	}
-
-	/**
 	 * Method to set the category id
 	 *
 	 * @access	public
@@ -90,9 +64,7 @@ class JModelCategory extends JObject
 	 */
 	function setId($id)
 	{
-		/*
-		 * Set new ID and wipe data
-		 */
+		// Set category ID and wipe data
 		$this->_id				= $id;
 		$this->_category	= null;
 		$this->_siblings		= null;
@@ -100,28 +72,16 @@ class JModelCategory extends JObject
 	}
 
 	/**
-	 * Method to get current menu parameters
-	 *
-	 * @since 1.1
-	 */
-	function & getMenuParams()
-	{
-		return $this->_mparams;
-	}
-
-	/**
 	 * Method to get category data for the current category
 	 *
 	 * @since 1.1
 	 */
-	function getCategoryData()
+	function getCategory()
 	{
-		global $mainframe;
-
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $mainframe->getUser();
+		$user = & $this->_app->getUser();
 
 		/*
 		 * Load the Category data
@@ -153,14 +113,12 @@ class JModelCategory extends JObject
 	 *
 	 * @since 1.1
 	 */
-	function getSiblingData()
+	function getSiblings()
 	{
-		global $mainframe;
-
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $mainframe->getUser();
+		$user = & $this->_app->getUser();
 
 		/*
 		 * Load the Category data
@@ -188,20 +146,29 @@ class JModelCategory extends JObject
 	}
 
 	/**
+	 * Method to get archived article data for the current category
+	 *
+	 * @param	int	$state	The content state to pull from for the current section
+	 * @since 1.5
+	 */
+	function getArchives($state = -1)
+	{
+		return $this->getContent(-1);
+	}
+
+	/**
 	 * Method to get content item data for the current category
 	 *
 	 * @param	int	$state	The content state to pull from for the current
 	 * category
 	 * @since 1.1
 	 */
-	function getContentData($state = 1)
+	function getContent($state = 1)
 	{
-		global $mainframe;
-
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $mainframe->getUser();
+		$user = & $this->_app->getUser();
 
 		/*
 		 * Load the Category data
@@ -270,12 +237,10 @@ class JModelCategory extends JObject
 		 */
 		if (empty($this->_siblings))
 		{
-			global $mainframe;
-
-			$user		= & $mainframe->getUser();
-			$noauth	= !$mainframe->getCfg('shownoauth');
+			$user		= & $this->_app->getUser();
+			$noauth	= !$this->_app->getCfg('shownoauth');
 			$gid			= $user->get('gid');
-			$now		= $mainframe->get('requestTime');
+			$now		= $this->_app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
 			
@@ -294,7 +259,7 @@ class JModelCategory extends JObject
 	
 			// show/hide empty categories
 			$empty = null;
-			if (!$this->_mparams->get('empty_cat'))
+			if (!$this->_menu->parameters->get('empty_cat'))
 			{
 				$empty = "\n HAVING COUNT( b.id ) > 0";
 			}
@@ -388,13 +353,13 @@ class JModelCategory extends JObject
 				/*
 				 * Special ordering for archive content items
 				 */
-				$orderby_sec	= $this->_mparams->def('orderby', 'rdate');
+				$orderby_sec	= $this->_menu->parameters->def('orderby', 'rdate');
 				$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
 				break;
 			case 1:
 			default:
-				$orderby_sec	= $this->_mparams->def('orderby_sec', 'rdate');
-				$orderby_pri	= $this->_mparams->def('orderby_pri', '');
+				$orderby_sec	= $this->_menu->parameters->def('orderby_sec', 'rdate');
+				$orderby_pri	= $this->_menu->parameters->def('orderby_pri', '');
 				$secondary		= JContentHelper::orderbySecondary($orderby_sec).', ';
 				$primary			= JContentHelper::orderbyPrimary($orderby_pri);
 				break;
@@ -406,12 +371,10 @@ class JModelCategory extends JObject
 
 	function _buildContentWhere($state = 1)
 	{
-		global $mainframe;
-
-		$user		= & $mainframe->getUser();
+		$user		= & $this->_app->getUser();
 		$gid			= $user->get('gid');
-		$now		=$mainframe->get('requestTime');
-		$noauth	= !$mainframe->getCfg('shownoauth');
+		$now		=$this->_app->get('requestTime');
+		$noauth	= !$this->_app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 	
 		/*
@@ -465,7 +428,7 @@ class JModelCategory extends JObject
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
-		if ($this->_mparams->get('filter'))
+		if ($this->_menu->parameters->get('filter'))
 		{
 			$filter = JRequest::getVar('filter', '', 'request');
 			if ($filter)
@@ -473,7 +436,7 @@ class JModelCategory extends JObject
 				// clean filter variable
 				$filter = strtolower($filter);
 
-				switch ($this->_mparams->get('filter_type'))
+				switch ($this->_menu->parameters->get('filter_type'))
 				{
 					case 'title' :
 						$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";

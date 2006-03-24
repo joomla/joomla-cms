@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: app.php 1534 2005-12-22 01:38:31Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -12,35 +12,53 @@
 */
 
 /**
-* Base class for a Joomla View
-*
-* Acts as a Factory class for application specific objects and
-* provides many supporting API functions.
-*
-* @abstract
-* @package		Joomla.Framework
-* @subpackage	Application
-* @since		1.1
-*/
+ * Base class for a Joomla View
+ *
+ * @abstract
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
+ */
 class JView extends JObject {
-	/** @var string The view name - must be redefined by the child object */
+
+	/**
+	 * Name of the view.  Defined in subclasses
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
 	var $_viewName = null;
 
-	/** @var array Internal data array */
+	/**
+	 * Registered models
+	 * 
+	 * @access	private
+	 * @var		array
+	 */
 	var $_models = null;
 
+	/**
+	 * Registered controller
+	 * 
+	 * @access	private
+	 * @var		object
+	 */
 	var $_controller = null;
 
 	/**
 	 * Constructor
+	 * 
+	 * @access	protected
+	 * @param	object	$controller	The view's controller
+	 * @since	1.5
 	 */
-	function __construct() {
-		$this->_viewData = array();
+	function __construct( &$controller ) {
+		$this->_controller = & $controller;
 	}
 
 	/**
-	 * Method to set the name of the view.  In most cases this will only be used
-	 * by the constructor, but is provided as a public method for flexibility.
+	 * Method to set the name of the view.  In most cases this will not be used, but is provided as a public 
+	 * method for flexibility.
 	 * 
 	 * @access	public
 	 * @param	string	$name	New view name
@@ -105,7 +123,12 @@ class JView extends JObject {
 	 */
 	function &setModel( &$model, $default = false ) {
 		$name = strtolower(get_class($model));
-		$name = substr($name, strpos($name, 'jmodel') ? strpos($name, 'jmodel')+6 : 0);
+		if (substr($name, 0, 6) ==  'jmodel') {
+			$pos = 6;
+		} else {
+			$pos = 0;
+		}
+		$name = substr($name, $pos);
 		$this->_models[$name] = &$model;
 		if ($default) {
 			$this->_defaultModel = $name;
@@ -128,16 +151,16 @@ class JView extends JObject {
 		if (is_null($model)) {
 			$model = $this->_defaultModel;
 		} 
-
 		// First check to make sure the model requested exists
-		if (isset( $this->_model[$model] )) {
+		if (isset( $this->_models[$model] )) {
 			// Model exists, lets build the method name
 			$method = 'get'.ucfirst($method);
 
 			// Does the method exist?
-			if (method_exists($this->_model[$model], $method)) {
+			if (method_exists($this->_models[$model], $method)) {
 				// The method exists, lets call it and return what we get
-				return $this->_model[$model]->$method();
+				$data = & $this->_models[$model]->$method();
+				return $data;
 			} else {
 				// Method wasn't found... throw a warning and return false
 				JError::raiseWarning( 0, 'Unknown Method', "$model::$method() was not found");
@@ -148,13 +171,6 @@ class JView extends JObject {
 			JError::raiseWarning( 0, 'Unknown Model', "$model model was not found");
 			return false;
 		}
-	}
-
-	/**
-	 * Generic display
-	 */
-	function display() {
-		JError::raiseNotice( 0, 'Display method not set in this class' ); 
 	}
 }
 ?>

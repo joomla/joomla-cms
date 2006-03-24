@@ -17,41 +17,15 @@ defined('_JEXEC') or die('Restricted access');
 
 // require the component helper 
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
-
-// require the html view class
 require_once (JApplicationHelper::getPath('front_html', 'com_content'));
 
+// Require the MVC libraries
+require_once (dirname(__FILE__).DS.'app'.DS.'model.php');
+require_once (dirname(__FILE__).DS.'app'.DS.'view.php');
+require_once (dirname(__FILE__).DS.'app'.DS.'controller.php');
+
+
 /*
-jimport( 'joomla.application.controller' );
-jimport( 'joomla.application.model' );
-jimport( 'joomla.application.view' );
-
-// get the view from the request - set the default
-// note - alternatively we can get it from the menu params
-
-$view = JRequest::getVar( 'view', 'item2' );
-
-// note: this will change to JContentController
-
-$controller = new JController( 'display' );
-
-// need to tell the controller where to look for views
-
-$controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
-
-// set the view name from the Request
-
-$controller->setViewName( $view, 'com_content', 'Content_' );
-
-// perform the Request task
-
-$controller->performTask( $task );
-
-// redirect if set by the controller
-
-$controller->redirect();
-*/
-
 switch (strtolower($task))
 {
 	case 'section' :
@@ -125,93 +99,62 @@ switch (strtolower($task))
 		JError::raiseError( 404, JText::_("Resource Not Found") );
 		break;
 }
+*/
 
 /**
  * Content Component Controller
  *
- * @static
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
-class JContentController
+class JContentController extends JController
 {
 	/**
 	 * Method to build data for displaying a content section
 	 *
-	 * @static
-	 * @since 1.0
+	 * @access	public
+	 * @since	1.5
 	 */
-	function showSection()
+	function section()
 	{
-		global $mainframe, $Itemid;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db				= & $mainframe->getDBO();
-		$user			= & $mainframe->getUser();
-		$noauth		= !$mainframe->getCfg('shownoauth');
-		$now			= $mainframe->get('requestTime');
-		$nullDate		= $db->getNullDate();
-		$gid				= $user->get('gid');
-		$id				= JRequest::getVar('id', 0, '', 'int');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		/*
-		 * I ABSOLUTELY HATE THIS.... But, menu parameters are coupled to the
-		 * display of a category and/or content item.... crazy isn't it?
-		 * Anyway, lets do the obligatory getting of menu params and setting
-		 * them if they exist
-		 */
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		}
-		else
-		{
-			$menu = null;
-			$params = new JParameter();
-		}
-
-		// Set the display type parameter
-		$params->set('type', 'section');
+		// Dirty trick for now until we get the menus ready for us
+		$this->setViewName( 'section', 'com_content', 'HTML' );
 
 		// Set some parameter defaults
-		$params->def('page_title', 1);
-		$params->def('pageclass_sfx', '');
-		$params->def('other_cat_section', 1);
-		$params->def('empty_cat_section', 0);
-		$params->def('other_cat', 1);
-		$params->def('empty_cat', 0);
-		$params->def('cat_items', 1);
-		$params->def('cat_description', 1);
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-		$params->def('pageclass_sfx', '');
+		// TODO: probably this needs to move into the view class
+		$this->_menu->parameters->def('page_title', 1);
+		$this->_menu->parameters->def('pageclass_sfx', '');
+		$this->_menu->parameters->def('other_cat_section', 1);
+		$this->_menu->parameters->def('empty_cat_section', 0);
+		$this->_menu->parameters->def('other_cat', 1);
+		$this->_menu->parameters->def('empty_cat', 0);
+		$this->_menu->parameters->def('cat_items', 1);
+		$this->_menu->parameters->def('cat_description', 1);
+		$this->_menu->parameters->def('back_button', $this->_app->getCfg('back_button'));
+		$this->_menu->parameters->def('pageclass_sfx', '');
 
+		// Get the view
+		$view = & $this->getView();
 
-		/*
-		 * Lets set the page title
-		 */
-		if (!empty ($menu->name))
-		{
-			$mainframe->setPageTitle($menu->name);
-		}
-
+		// Create the model
 		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
-		$model = new JModelSection($db, $params, $id);
+		$model = & new JModelSection($this->_app, $this->_menu);
 
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JViewContentHTML::showSection', $model);
+		// Get the id of the section to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
+
+//		$cache = & JFactory::getCache('com_content', 'output');
+//		if (!$cache->start(md5($id.'section'.$Itemid), 'com_content')) {
+//			JViewContentHTML::showSection( $model );
+//			$cache->end();
+//		}
 	}
 
 	/**
@@ -220,276 +163,149 @@ class JContentController
 	 * @static
 	 * @since 1.0
 	 */
-	function showCategory()
+	function category()
 	{
-		global $mainframe, $Itemid;
+		// Dirty trick for now until we get the menus ready for us
+		$this->setViewName( 'category', 'com_content', 'HTML' );
 
-		/*
-		 * Initialize some variables
-		 */
-		$db						= & $mainframe->getDBO();
-		$user					= & $mainframe->getUser();
-		$id						= JRequest::getVar('id', 0, '', 'int');
-		$filter					= JRequest::getVar('filter', '', 'request');
-		$filter_order		= JRequest::getVar('filter_order');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
+		// Set some parameter defaults
+		// TODO: probably this needs to move into the view class
+		$this->_menu->parameters->def('page_title',				1);
+		$this->_menu->parameters->def('title',							1);
+		$this->_menu->parameters->def('hits',							$this->_app->getCfg('hits'));
+		$this->_menu->parameters->def('author',						!$this->_app->getCfg('hideAuthor'));
+		$this->_menu->parameters->def('date',							!$this->_app->getCfg('hideCreateDate'));
+		$this->_menu->parameters->def('date_format',			JText::_('DATE_FORMAT_LC'));
+		$this->_menu->parameters->def('navigation',				2);
+		$this->_menu->parameters->def('display',					1);
+		$this->_menu->parameters->def('display_num',			$this->_app->getCfg('list_limit'));
+		$this->_menu->parameters->def('other_cat',				1);
+		$this->_menu->parameters->def('empty_cat',				0);
+		$this->_menu->parameters->def('cat_items',				1);
+		$this->_menu->parameters->def('cat_description',	0);
+		$this->_menu->parameters->def('back_button',			$this->_app->getCfg('back_button'));
+		$this->_menu->parameters->def('pageclass_sfx',		'');
+		$this->_menu->parameters->def('headings',					1);
+		$this->_menu->parameters->def('filter',							1);
+		$this->_menu->parameters->def('filter_type',				'title');
 
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+		// Get the view
+		$view = & $this->getView();
 
-		/*
-		 * I HATE that menu item parameters are coupled so closely with the
-		 * view... but alas... they are, so lets get them
-		 */
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-			$pagetitle = $menu->name;
-		}
-		else
-		{
-			$menu = null;
-			$params = new JParameter();
-			$pagetitle = null;
-		}
-
-		$params->def('page_title',				1);
-		$params->def('title',							1);
-		$params->def('hits',							$mainframe->getCfg('hits'));
-		$params->def('author',					!$mainframe->getCfg('hideAuthor'));
-		$params->def('date',						!$mainframe->getCfg('hideCreateDate'));
-		$params->def('date_format',			JText::_('DATE_FORMAT_LC'));
-		$params->def('navigation',				2);
-		$params->def('display',					1);
-		$params->def('display_num',			$mainframe->getCfg('list_limit'));
-		$params->def('other_cat',				1);
-		$params->def('empty_cat',			0);
-		$params->def('cat_items',				1);
-		$params->def('cat_description',	0);
-		$params->def('back_button',			$mainframe->getCfg('back_button'));
-		$params->def('pageclass_sfx',		'');
-		$params->def('headings',				1);
-		$params->def('filter',						1);
-		$params->def('filter_type',				'title');
-
-
-		// Dynamic Page Title
-		// TODO: fix this... move to view and pass proper data
-		$mainframe->SetPageTitle($pagetitle);
-
-
-		/*
-		 * Table ordering values
-		 */
-		$lists['task'] = 'category';
-		$lists['filter'] = $filter;
-		if ($filter_order_Dir == 'DESC')
-		{
-			$lists['order_Dir'] = 'ASC';
-		}
-		else
-		{
-			$lists['order_Dir'] = 'DESC';
-		}
-		$lists['order'] = $filter_order;
-		$selected = '';
-
+		// Create the model
 		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
-		$model = new JModelCategory($db, $params, $id);
+		$model = & new JModelCategory($this->_app, $this->_menu);
+
+		// Get the id of the section to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
 		
-		JViewContentHTML::showCategory($model, $access, $lists, $selected);
+//		$cache = & JFactory::getCache('com_content', 'output');
+//		if (!$cache->start(md5($id.'category'.$Itemid), 'com_content')) {
+//			JViewContentHTML::showCategory($model, $access, $lists, $selected);
+//			$cache->end();
+//		}
 	}
 
-	function showBlogSection()
+	function blogsection()
 	{
-		global $mainframe, $Itemid;
+		// Dirty trick for now until we get the menus ready for us
+		$this->setViewName( 'blog', 'com_content', 'HTML' );
 
-		/*
-		 * Initialize some variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$id			= JRequest::getVar('id', 0, '', 'int');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		// Parameters
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		}
-		else
-		{
-			$menu		= null;
-			$params	= new JParameter(null);
-		}
-
-		// Dynamic Page Title and BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		if ($menu->name)
-		{
-			$breadcrumbs->addItem($menu->name, '');
-			$mainframe->setPageTitle($menu->name);
-		}
-		else
-		{
-			$breadcrumbs->addItem($rows[0]->section, '');
-		}
+		// Get the view
+		$view = & $this->getView();
 
 		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
-		$model = new JModelSection($db, $params, $id);
+		$model = & new JModelSection($this->_app, $this->_menu);
+
+		// Get the id of the section to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
 		
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JViewContentHTML::showBlog', $model, $access, $menu);
+//		$cache = & JFactory::getCache('com_content', 'output');
+//		if (!$cache->start(md5($id.'sectionblog'.$Itemid), 'com_content')) {
+//			JViewContentHTML::showblog($model, $access, $menu);
+//			$cache->end();
+//		}
 	}
 
-	function showBlogCategory()
+	function blogcategory()
 	{
-		global $mainframe, $Itemid;
+		// Dirty trick for now until we get the menus ready for us
+		$this->setViewName( 'blog', 'com_content', 'HTML' );
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$id			= JRequest::getVar('id', 0, '', 'int');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		// Paramters
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		}
-		else
-		{
-			$menu = null;
-			$params = new JParameter();
-		}
-
-		// Dynamic Page Title and BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		$document = & $mainframe->getDocument();
-		if ($menu->name)
-		{
-			$document->setTitle($menu->name);
-			$breadcrumbs->addItem($menu->name, '');
-		}
-		else
-		{
-			$breadcrumbs->addItem($rows[0]->section, '');
-		}
+		// Get the view
+		$view = & $this->getView();
 
 		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
-		$model = new JModelCategory($db, $params, $id);
+		$model = & new JModelCategory($this->_app, $this->_menu);
+
+		// Get the id of the section to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
 		
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JViewContentHTML::showBlog', $model, $access, $menu);
+//		$cache = & JFactory::getCache('com_content', 'output');
+//		if (!$cache->start(md5($id.'sectionblog'.$Itemid), 'com_content')) {
+//			JViewContentHTML::showblog($model, $access, $menu);
+//			$cache->end();
+//		}
 	}
 
-	function showArchiveSection()
+	function archivesection()
 	{
-		global $mainframe, $Itemid;
+		// Dirty trick for now until we get the menus ready for us
+		$this->setViewName( 'archive', 'com_content', 'HTML' );
 
-		/*
-		 * Initialize some variables
-		 */
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
-		$id		= JRequest::getVar('id', 0, '', 'int');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		}
-		else
-		{
-			$menu = null;
-			$params = new JParameter();
-		}
-
-
-		// Dynamic Page Title
-		$mainframe->SetPageTitle($menu->name);
+		// Get the view
+		$view = & $this->getView();
 
 		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
-		$model = new JModelSection($db, $params, $id);
+		$model = & new JModelSection($this->_app, $this->_menu);
 
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JViewContentHTML::showArchive', $model, $access, $menu, $id);
+		// Get the id of the section to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
 	}
 
-	function showArchiveCategory()
+	function archivecategory()
 	{
-		global $mainframe, $Itemid;
+		// Dirty trick for now until we get the menus ready for us
+		$this->setViewName( 'archive', 'com_content', 'HTML' );
 
-		/*
-		 * Initialize some variables
-		 */
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
-		$id		= JRequest::getVar( 'id', 0, '', 'int' );
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		}
-		else
-		{
-			$menu = null;
-			$params = new JParameter();
-		}
-
-		// Page Title
-		$mainframe->SetPageTitle($menu->name);
+		// Get the view
+		$view = & $this->getView();
 
 		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
-		$model = new JModelCategory($db, $params, $id);
-		
-		JViewContentHTML::showArchive($model, $access, $menu, $id);
+		$model = & new JModelCategory($this->_app, $this->_menu);
+
+		// Get the id of the section to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
 	}
 
 	/**
@@ -499,53 +315,32 @@ class JContentController
 	 * @return void
 	 * @since 1.0
 	 */
-	function showItem()
+	function view()
 	{
-		global $mainframe, $Itemid;
-
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$MetaTitle	= $mainframe->getCfg('MetaTitle');
-		$MetaAuthor	= $mainframe->getCfg('MetaAuthor');
-		$voting		= $mainframe->getCfg('vote');
-		$now		= $mainframe->get('requestTime');
-		$noauth		= !$mainframe->getCfg('shownoauth');
-		$nullDate	= $db->getNullDate();
-		$gid		= $user->get('gid');
-		$option		= JRequest::getVar('option');
-		$id		= JRequest::getVar('id', 0, '', 'int');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		if ($Itemid)
-		{
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		}
-		else
-		{
-			$menu = null;
-			$params = new JParameter();
-		}
-
+		// Create the view
+		$view = & $this->getView();
+		
+		// Create the model
 		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$model = & new JModelItem($db, $params, $id);
+		$model = & new JModelArticle($this->_app, $this->_menu);
 
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JViewContentHTML::showItem', $model, $access);
+		// Get the id of the article to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
+		
+//		$cache = & JFactory::getCache('com_content', 'output');
+//		if (!$cache->start(md5($id.'article'.$Itemid.$page), 'com_content')) {
+//			JViewContentHTML::showItem($model, $access, $page);
+//			$cache->end();
+//		}
 	}
 
-	function showItemAsPDF()
+	function viewpdf()
 	{
 		require_once (dirname(__FILE__).DS.'content.pdf.php');
 		JViewContentPDF::showItem();
@@ -562,7 +357,7 @@ class JContentController
 		$user			= & $mainframe->getUser();
 		$breadcrumbs	= & $mainframe->getPathWay();
 		$nullDate		= $db->getNullDate();
-		$uid			= JRequest::getVar('id', 0, '', 'int');
+		$id			= JRequest::getVar('id', 0, '', 'int');
 		$sectionid		= JRequest::getVar('sectionid', 0, '', 'int');
 		$task			= JRequest::getVar('task');
 
@@ -574,66 +369,39 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
+		if ($Itemid) {
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItem($Itemid);
+			$params = new JParameter($menu->params);
+		} else {
+			$menu = null;
+			$params = new JParameter();
+		}
+
 		/*
 		 * Get the content data object
 		 */
-		$row = & JTable::getInstance('content', $db);
-		$row->load($uid);
+		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
+		$model = & new JModelArticle($db, $params, $id);
 
 		// fail if checked out not by 'me'
-		if ($row->isCheckedOut($user->get('id')))
-		{
+		if ($model->isCheckedOut($user->get('id'))) {
 			JViewContentHTML::userInputError(JText::_('The module')." [ ".$row->title." ] ".JText::_('DESCBEINGEDITTEDBY'));
 		}
 
-		if ($uid)
-		{
+		if ($id) {
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('gid'))))
-			{
+			if (!($access->canEdit || ($access->canEditOwn && $model->get('created_by') == $user->get('gid')))) {
 				JError::raiseError( 403, JText::_("Access Forbidden") );
 			}
-		}
-		else
-		{
-			// new record
-			if (!($access->canEdit || $access->canEditOwn))
-			{
-				JError::raiseError( 403, JText::_("Access Forbidden") );
-			}
-		}
-
-		if ($uid)
-		{
-			$sectionid = $row->sectionid;
-		}
-
-		$lists = array ();
-
-		// get the type name - which is a special category
-		$query = "SELECT name FROM #__sections" .
-				"\n WHERE id = $sectionid";
-		$db->setQuery($query);
-		$section = $db->loadResult();
-
-		if ($uid == 0)
-		{
-			$row->catid = 0;
-		}
-
-		if ($uid)
-		{
+			$sectionid = $model->get('sectionid');
 			$row->checkout($user->get('id'));
-			if (trim($row->publish_down) == $nullDate)
-			{
+			if (trim($row->publish_down) == $nullDate) {
 				$row->publish_down = 'Never';
 			}
-			if (trim($row->images))
-			{
+			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
-			}
-			else
-			{
+			} else {
 				$row->images = array ();
 			}
 			$query = "SELECT name" .
@@ -643,12 +411,9 @@ class JContentController
 			$row->creator = $db->loadResult();
 
 			// test to reduce unneeded query
-			if ($row->created_by == $row->modified_by)
-			{
+			if ($row->created_by == $row->modified_by) {
 				$row->modifier = $row->creator;
-			}
-			else
-			{
+			} else {
 				$query = "SELECT name" .
 						"\n FROM #__users" .
 						"\n WHERE id = $row->modified_by";
@@ -663,9 +428,12 @@ class JContentController
 			$row->frontpage = $db->loadResult();
 
 			$title = JText::_('Edit');
-		}
-		else
-		{
+		} else {
+			// new record
+			if (!($access->canEdit || $access->canEditOwn)) {
+				JError::raiseError( 403, JText::_("Access Forbidden") );
+			}
+			$model->set('catid', 0);
 			$row->sectionid			= $sectionid;
 			$row->version				= 0;
 			$row->state				= 0;
@@ -679,6 +447,14 @@ class JContentController
 
 			$title = JText::_('New');
 		}
+
+		$lists = array ();
+
+		// get the type name - which is a special category
+		$query = "SELECT name FROM #__sections" .
+				"\n WHERE id = $sectionid";
+		$db->setQuery($query);
+		$section = $db->loadResult();
 
 		// calls function to read image from directory
 		$pathA			= 'images/stories';
@@ -1048,20 +824,9 @@ class JContentController
 	{
 		global $mainframe;
 
-		$db				= & $mainframe->getDBO();
-		$SiteName	= $mainframe->getCfg('sitename');
-		$MailFrom	= $mainframe->getCfg('mailfrom');
-		$FromName	= $mainframe->getCfg('fromname');
-		$uid				= JRequest::getVar('id', 0, '', 'int');
-		$validate		= JRequest::getVar(mosHash('validate'), 0, 'post');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+		$db			= & $mainframe->getDBO();
+		$id			= JRequest::getVar('id', 0, '', 'int');
+		$validate	= JRequest::getVar(mosHash('validate'), 0, 'post');
 
 		if (!$validate)
 		{
@@ -1108,23 +873,22 @@ class JContentController
 			}
 		}
 
-		/*
-		 * Free up memory
-		 */
+		// Free up memory
 		unset ($headers, $fields);
 
-		$cache					= & JFactory::getCache('getItemid');
-		$_Itemid				= $cache->call( 'JContentHelper::getItemid', $uid);
-		$email					= JRequest::getVar('email', '', 'post');
-		$yourname			= JRequest::getVar('yourname', '', 'post');
-		$youremail			= JRequest::getVar('youremail', '', 'post');
-		$subject_default	= sprintf(JText::_('Item sent by'), $yourname);
-		$subject				= JRequest::getVar('subject', $subject_default, 'post');
+		$to				= JRequest::getVar('email', '', 'post');
+		$from			= JRequest::getVar('youremail', $mainframe->getCfg('mailfrom'), 'post');
+		$fromname	= JRequest::getVar('yourname', $mainframe->getCfg('fromname'), 'post');
+		$subject		= JRequest::getVar('subject', sprintf(JText::_('Item sent by'), $fromname), 'post');
 
 		jimport('joomla.utilities.mail');
-		if ($uid < 1 || !$email || !$youremail || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($youremail) == false))
-		{
-			JViewContentHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
+		if (!JMailHelper::isEmailAddress($to) || !JMailHelper::isEmailAddress($from)) {
+			JViewContentHTML::userInputError(JText::_('INALID_EMAIL_ADDRESS'));
+			return false;
+		}
+		if (!JMailHelper::cleanAddress($to) || !JMailHelper::cleanAddress($from)) {
+			JError::raiseError( 403, JText::_("Access Forbidden") );
+			return false;
 		}
 
 		$query = "SELECT template" .
@@ -1134,73 +898,39 @@ class JContentController
 		$db->setQuery($query);
 		$template = $db->loadResult();
 
-		/*
-		 * Build the link to send in the email
-		 */
-		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$uid.'&Itemid='.$_Itemid);
+		// Get the content article model
+		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
+		$params	=& new JParameters();
+		$model		=& new JModelArticle($db, $params, $id);
 
-		/*
-		 * Build the message to send
-		 */
-		$msg = sprintf(JText::_('EMAIL_MSG'), $SiteName, $yourname, $youremail, $link);
+		// Send mail via the model
+		$email = $model->sendEmail($to, $from, $fromname, $subject);
 
-		/*
-		 * Send the email
-		 */
-		josMail($youremail, $yourname, $email, $subject, $msg);
-
-		JViewContentHTML::emailSent($email, $template);
+		if (!$email) {
+			JViewContentHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
+		} else {
+			JViewContentHTML::emailSent($email, $template);
+		}
 	}
 
 	function recordVote()
 	{
 		global $mainframe;
 
-		$db					= & $mainframe->getDBO();
-		$url					= JRequest::getVar('url', '');
-		$user_rating	= JRequest::getVar('user_rating', 0, '', 'int');
-		$cid					= JRequest::getVar('cid', 0, '', 'int');
+		$db		= & $mainframe->getDBO();
+		$url		= JRequest::getVar('url', '');
+		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
+		$id		= JRequest::getVar('cid', 0, '', 'int');
 
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+		// Get the content article model
+		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
+		$params	=& new JParameters();
+		$model		=& new JModelArticle($db, $params, $id);
 
-		if (($user_rating >= 1) and ($user_rating <= 5))
-		{
-			$currip = getenv('REMOTE_ADDR');
-
-			$query = "SELECT *" .
-					"\n FROM #__content_rating" .
-					"\n WHERE content_id = $cid";
-			$db->setQuery($query);
-			$votesdb = NULL;
-			if (!($db->loadObject($votesdb)))
-			{
-				$query = "INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )" .
-						"\n VALUES ( $cid, '$currip', $user_rating, 1 )";
-				$db->setQuery($query);
-				$db->query() or die($db->stderr());
-			}
-			else
-			{
-				if ($currip != ($votesdb->lastip))
-				{
-					$query = "UPDATE #__content_rating" .
-							"\n SET rating_count = rating_count + 1, rating_sum = rating_sum + $user_rating, lastip = '$currip'" .
-							"\n WHERE content_id = $cid";
-					$db->setQuery($query);
-					$db->query() or die($db->stderr());
-				}
-				else
-				{
-					josRedirect($url, JText::_('You already voted for this poll today!'));
-				}
-			}
+		if ($model->storeVote($rating)) {
 			josRedirect($url, JText::_('Thanks for your vote!'));
+		} else {
+			josRedirect($url, JText::_('You already voted for this poll today!'));
 		}
 	}
 
@@ -1240,4 +970,27 @@ class JContentController
 		}
 	}
 }
+
+// get the view from the request - set the default
+// note - alternatively we can get it from the menu params
+
+$view = JRequest::getVar( 'view', 'article' );
+
+// Create the controller
+$controller = & new JContentController( $mainframe, 'view' );
+
+// need to tell the controller where to look for views
+$controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
+
+// set the view name from the Request
+$controller->setViewName( $view, 'com_content', 'HTML' );
+
+// Register Extra tasks
+$controller->registerTask( 'blogcategorymulti', 'blogcategory' );
+
+// perform the Request task
+$controller->performTask( $task );
+
+// redirect if set by the controller
+$controller->redirect();
 ?>

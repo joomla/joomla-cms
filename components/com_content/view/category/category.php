@@ -18,22 +18,55 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * HTML View class for the Content component
  *
- * @static
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
-class JViewContentHTML_category
+class JViewHTMLCategory extends JView
 {
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Category';
 
-	function show(& $model, & $access, & $lists, $order)
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	function display()
 	{
-		global $mainframe, $Itemid;
+		// Initialize some variables
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$params	= & $menu->parameters;
+		$Itemid	= $menu->id;
 
-		$category = $model->getCategoryData();
-		$other_categories = $model->getSiblingData();
-		$items = $model->getContentData();
-		$params = & $model->getMenuParams();
+		// Get some data from the model
+		$category				= & $this->get( 'Category' );
+		$other_categories	= & $this->get( 'Siblings' );
+		$items						= & $this->get( 'Content' );
+
+		// Get the sort list information
+		$lists	= $this->_buildSortLists();
+		$order	= null;
+
+		/*
+		 * Create a user access object for the user
+		 */
+		$access							= new stdClass();
+		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+
+		// Dynamic Page Title
+		// TODO: fix this... move to view and pass proper data
+		$app->SetPageTitle($menu->name);
 
 		/*
 		 * Set some defaults for $limit and $limitstart
@@ -56,7 +89,7 @@ class JViewContentHTML_category
 		/*
 		 * Handle BreadCrumbs
 		 */
-		$breadcrumbs = & $mainframe->getPathWay();
+		$breadcrumbs = & $app->getPathWay();
 		// Section
 		$breadcrumbs->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
 		// Category
@@ -96,7 +129,7 @@ class JViewContentHTML_category
 		// Displays the Table of Items in Category View
 		if (count($items))
 		{
-			JViewContentHTML_category::buildItemTable($items, $pagination, $params, $lists, $access, $category->id, $category->sectionid, $order);
+			$this->buildItemTable($items, $pagination, $params, $lists, $access, $category->id, $category->sectionid, $order);
 		}
 		else
 			if ($category->id)
@@ -132,7 +165,7 @@ class JViewContentHTML_category
 		{
 			if ($params->get('other_cat'))
 			{
-				JViewContentHTML_category::buildCategories($other_categories, $params, $category->id, $category->sectionid);
+				$this->buildCategories($other_categories, $params, $category->id, $category->sectionid);
 			}
 		}
 		?>
@@ -145,10 +178,10 @@ class JViewContentHTML_category
 
 	function buildCategories($categories, $params, $cid, $sid)
 	{
-		global $mainframe;
-
-		$user = & $mainframe->getUser();
-		$Itemid = JRequest::getVar('Itemid', 9999, '', 'int');
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$Itemid	= $menu->id;
 
 		if (count($categories) > 1)
 		{
@@ -214,10 +247,10 @@ class JViewContentHTML_category
 
 	function buildItemTable(& $items, & $pagination, & $params, & $lists, & $access, $cid, $sid, $order)
 	{
-		global $mainframe;
-
-		$user = & $mainframe->getUser();
-		$Itemid = JRequest::getVar('Itemid', 9999, '', 'int');
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$Itemid	= $menu->id;
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$cid.'&amp;Itemid='.$Itemid;
 		?>
@@ -361,7 +394,7 @@ class JViewContentHTML_category
 								<?php echo $row->title; ?></a>
 							<?php
 
-					JViewContentHTMLHelper::editIcon($row, $params, $access);
+					JContentHTMLHelper::editIcon($row, $params, $access);
 		?>
 						</td>
 						<?php
@@ -457,6 +490,29 @@ class JViewContentHTML_category
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
+	}
+
+	function _buildSortLists()
+	{
+		/*
+		 * Table ordering values
+		 */
+		$filter					= JRequest::getVar('filter');
+		$filter_order		= JRequest::getVar('filter_order');
+		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
+		$lists['task'] = 'category';
+		$lists['filter'] = $filter;
+		if ($filter_order_Dir == 'DESC')
+		{
+			$lists['order_Dir'] = 'ASC';
+		}
+		else
+		{
+			$lists['order_Dir'] = 'DESC';
+		}
+		$lists['order'] = $filter_order;
+		
+		return $lists;
 	}
 }
 ?>

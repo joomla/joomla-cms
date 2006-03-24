@@ -18,28 +18,39 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * HTML View class for the Content component
  *
- * @static
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
-class JViewContentHTML_archive
+class JViewHTMLArchive extends JView
 {
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Archive';
 
-	function show(& $model, & $menu, & $access, $id)
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	function display()
 	{
-		global $Itemid;
-
-		/*
-		 * Initialize variables
-		 */
-		$task = JRequest::getVar('task');
+		// Initialize some variables
+		$menu		= & $this->get( 'Menu' );
+		$Itemid	= $menu->id;
+		$task		= JRequest::getVar('task');
+		$id			= JRequest::getVar('id', 0, '', 'int');
 
 		// initiate form
 		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		echo '<form action="'.sefRelToAbs($link).'" method="post">';
 
-		JViewContentHTML_archive::showArchive($model, $access, $menu, ($id) ? 0 : 1);
+		$this->showArchive();
 
 		echo '<input type="hidden" name="id" value="'.$id.'" />';
 		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
@@ -48,28 +59,40 @@ class JViewContentHTML_archive
 		echo '</form>';
 	}
 
-	function showArchive(&$model, &$access, &$menu, $showAll = 1)
+	function showArchive()
 	{
-		global $mainframe, $Itemid;
-
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		// Initialize some variables
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$params	= & $menu->parameters;
+		$Itemid	= $menu->id;
 		$gid			= $user->get('gid');
+
+		// At some point this will come from a request object
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
 		$option	= JRequest::getVar('option');
+		$showAll	= !$id;
+
+		/*
+		 * Create a user access object for the user
+		 */
+		$access							= new stdClass();
+		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Append Archives to BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
+		$breadcrumbs = & $app->getPathWay();
 		$breadcrumbs->addItem('Archives', '');
+
+		// Page Title
+		$app->SetPageTitle($menu->name);
 
 		/*
 		 * Menu item parameters
 		 */
-		$params = & $model->getMenuParams();
 		if ($params->get('page_title', 1) && $menu)
 		{
 			$header = $params->def('header', $menu->name);
@@ -97,7 +120,7 @@ class JViewContentHTML_archive
 		/*
 		 * Lets get the content item data from the model
 		 */
-		$rows = & $model->getContentData();
+		$rows = & $this->get( 'Archives' );
 
 		/*
 		 * Pagination support
@@ -158,7 +181,7 @@ class JViewContentHTML_archive
 						break;
 					}
 					echo '<div>';
-					JViewContentHTML_archive::showItem($rows[$i], $params, $access, true);
+					$this->showItem($rows[$i], $params, $access, true);
 					echo '</div>';
 					$i ++;
 				}
@@ -189,7 +212,7 @@ class JViewContentHTML_archive
 					{
 						if ($i <= $intro && ($i <= $total))
 						{
-							JViewContentHTML_archive::showItem($rows[ $i], $params, $access);
+							$this->showItem($rows[ $i], $params, $access);
 							$i ++;
 						}
 					}
@@ -207,7 +230,7 @@ class JViewContentHTML_archive
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JViewContentHTML_archive::showLinks($rows, $links, $total, $i);
+				$this->showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -280,34 +303,38 @@ class JViewContentHTML_archive
 
 	function showItem(&$row, &$params, &$access, $showImages = false)
 	{
-		global $mainframe, $hide_js;
+		// Initialize some variables
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
+		$Itemid	= $menu->id;
 
-		/*
-		 * Initialize some variables
-		 */
-		$user			= & $mainframe->getUser();
-		$SiteName	= $mainframe->getCfg('sitename');
+		// These will come from a request object at some point
+		$task			= JRequest::getVar( 'task' );
+		$noJS 			= JRequest::getVar( 'hide_js', 0, '', 'int' );
+		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
+
+		// TODO: clean this part up
+		$SiteName	= $app->getCfg('sitename');
 		$gid				= $user->get('gid');
-		$task			= JRequest::getVar('task');
-		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
-		$linkOn			= null;
-		$linkText		= null;
-		$params 		= new JParameter($row->attribs);
+
+		$linkOn		= null;
+		$linkText	= null;
 
 		/*
 		 * Get some parameters from global configuration
 		 */
-		$params->def('link_titles',		$mainframe->getCfg('link_titles'));
-		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',				!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',					!$mainframe->getCfg('hidePdf'));
-		$params->def('email',				!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',				$mainframe->getCfg('vote'));
-		$params->def('icons',				$mainframe->getCfg('icons'));
-		$params->def('readmore',		$mainframe->getCfg('readmore'));
-		$params->def('back_button', $mainframe->getCfg('back_button'));
+		$params->def('link_titles',		$app->getCfg('link_titles'));
+		$params->def('author',			!$app->getCfg('hideAuthor'));
+		$params->def('createdate',	!$app->getCfg('hideCreateDate'));
+		$params->def('modifydate',	!$app->getCfg('hideModifyDate'));
+		$params->def('print',				!$app->getCfg('hidePrint'));
+		$params->def('pdf',					!$app->getCfg('hidePdf'));
+		$params->def('email',				!$app->getCfg('hideEmail'));
+		$params->def('rating',				$app->getCfg('vote'));
+		$params->def('icons',				$app->getCfg('icons'));
+		$params->def('readmore',		$app->getCfg('readmore'));
+		$params->def('back_button', $app->getCfg('back_button'));
 		
 		/*
 		 * Get some item specific parameters
@@ -332,12 +359,12 @@ class JViewContentHTML_archive
 		 */
 		$row->text	= $row->introtext;
 		JPluginHelper::importPlugin('content');
-		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
+		$results = $app->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
 
 		// adds mospagebreak heading or title to <site> Title
 		if (isset ($row->page_title))
 		{
-			$mainframe->setPageTitle($row->title.' '.$row->page_title);
+			$app->setPageTitle($row->title.' '.$row->page_title);
 		}
 
 		// determines the link and link text of the readmore button
@@ -364,14 +391,12 @@ class JViewContentHTML_archive
 			}
 		}
 
-		$no_html = JRequest::getVar( 'no_html' );
-
 		// edit icon
 		if ($access->canEdit)
 		{
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
-				<?php JViewContentHTMLHelper::editIcon($row, $params, $access); ?>
+				<?php JContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
 
@@ -380,7 +405,7 @@ class JViewContentHTML_archive
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
 		{
 			// link used by print button
-			$print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+			$print_link = $app->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -388,16 +413,16 @@ class JViewContentHTML_archive
 
 
 			// displays Item Title
-			JViewContentHTMLHelper::title($row, $params, $linkOn, $access);
+			JContentHTMLHelper::title($row, $params, $linkOn, $access);
 
 			// displays PDF Icon
-			JViewContentHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
+			JContentHTMLHelper::pdfIcon($row, $params, $linkOn, $noJS);
 
 			// displays Print Icon
-			mosHTML::PrintIcon($row, $params, $hide_js, $print_link);
+			mosHTML::PrintIcon($row, $params, $noJS, $print_link);
 
 			// displays Email Icon
-			JViewContentHTMLHelper::emailIcon($row, $params, $hide_js);
+			JContentHTMLHelper::emailIcon($row, $params, $noJS);
 			?>
 			</tr>
 			</table>
@@ -407,11 +432,11 @@ class JViewContentHTML_archive
 
 		if (!$params->get('intro_only'))
 		{
-			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
+			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
 			echo trim(implode("\n", $results));
 		}
 
-		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
+		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
 		echo trim(implode("\n", $onBeforeDisplayContent));
 		?>
 
@@ -420,23 +445,23 @@ class JViewContentHTML_archive
 
 
 		// displays Section & Category
-		JViewContentHTMLHelper::sectionCategory($row, $params);
+		JContentHTMLHelper::sectionCategory($row, $params);
 
 		// displays Author Name
-		JViewContentHTMLHelper::author($row, $params);
+		JContentHTMLHelper::author($row, $params);
 
 		// displays Created Date
-		JViewContentHTMLHelper::createDate($row, $params);
+		JContentHTMLHelper::createDate($row, $params);
 
 		// displays Urls
-		JViewContentHTMLHelper::url($row, $params);
+		JContentHTMLHelper::url($row, $params);
 		?>
 		<tr>
 			<td valign="top" colspan="2">
 				<?php
 
 		// displays Table of Contents
-		JViewContentHTMLHelper::toc($row);
+		JContentHTMLHelper::toc($row);
 
 		// displays Item Text
 		echo ampReplace($row->text);
@@ -447,10 +472,10 @@ class JViewContentHTML_archive
 
 
 		// displays Modified Date
-		JViewContentHTMLHelper::modifiedDate($row, $params);
+		JContentHTMLHelper::modifiedDate($row, $params);
 
 		// displays Readmore button
-		JViewContentHTMLHelper::readMore($params, $linkOn, $linkText);
+		JContentHTMLHelper::readMore($params, $linkOn, $linkText);
 		?>
 		</table>
 		<span class="article_seperator">&nbsp;</span>
@@ -458,11 +483,11 @@ class JViewContentHTML_archive
 		<?php
 
 		// Fire the after display content event
-		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
+		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		//JViewContentHTMLHelper::navigation($row, $params);
+		//JContentHTMLHelper::navigation($row, $params);
 	}
 
 	function showLinks(& $rows, $links, $total, $i = 0)

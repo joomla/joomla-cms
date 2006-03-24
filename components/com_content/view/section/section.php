@@ -23,21 +23,47 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.1
  */
-class JViewContentHTML_section
+class JViewHTMLSection extends JView
 {
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Section';
 
-	function show(& $model)
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	function display()
 	{
-		global $mainframe;
+		/*
+		 * Initialize some variables
+		 */
+		$app			= & $this->get( 'Application' );
+		$user			= & $app->getUser();
+		$menu			= & $this->get( 'Menu' );
+		$params		= & $menu->parameters;
 		
-		$section = $model->getSectionData();
-		$categories = $model->getCategoriesData();
-		$params = & $model->getMenuParams();
+		// Lets get our data from the model
+		$section		= & $this->get( 'Section' );
+		$categories	= & $this->get( 'Categories' );
+
+		/*
+		 * Lets set the page title
+		 */
+		if (!empty ($menu->name)) {
+			$app->setPageTitle($menu->name);
+		}
 
 		/*
 		 * Handle BreadCrumbs
 		 */
-		$breadcrumbs = & $mainframe->getPathWay();
+		$breadcrumbs = & $app->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
 		if ($params->get('page_title')) {
@@ -68,7 +94,7 @@ class JViewContentHTML_section
 				// Displays listing of Categories
 				if (count($categories) > 0) {
 					if ($params->get('other_cat_section')) {
-						JViewContentHTML_section::buildCategories($categories, $params, $section->id);
+						$this->_buildCategories($categories, $params, $section->id);
 					}
 				}
 				?>
@@ -78,12 +104,13 @@ class JViewContentHTML_section
 		<?php
 	}
 	
-	function buildCategories( $categories, $params, $sid)
+	function _buildCategories( $categories, $params, $sid)
 	{
-		global $mainframe;
-		
-		$user		= & $mainframe->getUser();
-		$Itemid	= JRequest::getVar( 'Itemid', 9999,'', 'int' );
+		// Get some variables
+		$app		= & $this->get( 'Application' );
+		$menu		= & $this->get( 'Menu' );
+		$user		= & $app->getUser();
+		$Itemid	= $menu->id;
 				
 		if ( count($categories) ) {
 			?>
