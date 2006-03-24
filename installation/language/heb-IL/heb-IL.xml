@@ -16,7 +16,7 @@
    	<locale>he, he_IL.utf-8, heb_IL.utf-8, he, hebrew, heb</locale>
     </metadata>
     <files>
-        <filename>heb-IL.ini</filename>
+        <filename>hb-IL.ini</filename>
     </files>
     <params />
 </install>
