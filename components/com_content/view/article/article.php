@@ -234,5 +234,65 @@ class JViewHTMLArticle extends JView
 		mosHTML::CloseButton($params, $noJS);
 
 	}
+
+	function _buildEditLists()
+	{
+		// Get the article from the model
+		$article		= & $this->get( 'Article' );
+
+		// Read the JPATH_ROOT/images/stories/ folder
+		$pathA			= 'images/stories';
+		$pathL			= 'images/stories';
+		$images		= array ();
+		$folders		= array ();
+		$folders[]		= mosHTML::makeOption('/');
+		mosAdminMenus::ReadImages($pathA, '/', $folders, $images);
+
+		// Select List: Subfolders in the JPATH_ROOT/images/stories/ folder
+		$lists['folders'] = mosAdminMenus::GetImageFolders($folders, $pathL);
+
+		// Select List: Images in the JPATH_ROOT/images/stories/ folder
+		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
+
+		// Select List: Saved Images
+		$lists['imagelist'] = mosAdminMenus::GetSavedImages($article, $pathL);
+
+		// Select List: Image Positions
+		$lists['_align'] = mosAdminMenus::Positions('_align');
+
+		// Select List: Image Caption Alignment
+		$lists['_caption_align'] = mosAdminMenus::Positions('_caption_align');
+
+		// Select List: Image Caption Position
+		$pos[] = mosHTML::makeOption('bottom', JText::_('Bottom'));
+		$pos[] = mosHTML::makeOption('top', JText::_('Top'));
+		$lists['_caption_position'] = mosHTML::selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text');
+
+		// Select List: Categories
+		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
+
+		// Select List: Category Ordering
+		$query = "SELECT ordering AS value, title AS text" .
+				"\n FROM #__content" .
+				"\n WHERE catid = $article->catid" .
+				"\n ORDER BY ordering";
+		$lists['ordering'] = mosAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
+
+		// Radio Buttons: Should the article be published
+		$lists['state'] = mosHTML::yesnoradioList('state', '', $article->state);
+
+		// Radio Buttons: Should the article be added to the frontpage
+		$query = "SELECT content_id" .
+				"\n FROM #__content_frontpage" .
+				"\n WHERE content_id = $row->id";
+		$db->setQuery($query);
+		$row->frontpage = $db->loadResult();
+		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $article->frontpage);
+
+		// Select List: Group Access
+		$lists['access'] = mosAdminMenus::Access($article);
+
+		return $lists;
+	}
 }
 ?>

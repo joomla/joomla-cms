@@ -367,12 +367,6 @@ class JContentItem
 				$row->modifier = $db->loadResult();
 			}
 
-			$query = "SELECT content_id" .
-					"\n FROM #__content_frontpage" .
-					"\n WHERE content_id = $row->id";
-			$db->setQuery($query);
-			$row->frontpage = $db->loadResult();
-
 			$title = JText::_('Edit');
 		}
 		else
@@ -391,46 +385,6 @@ class JContentItem
 			$title = JText::_('New');
 		}
 
-		// calls function to read image from directory
-		$pathA			= 'images/stories';
-		$pathL			= 'images/stories';
-		$images		= array ();
-		$folders		= array ();
-		$folders[]		= mosHTML::makeOption('/');
-		mosAdminMenus::ReadImages($pathA, '/', $folders, $images);
-		// list of folders in images/stories/
-		$lists['folders'] = mosAdminMenus::GetImageFolders($folders, $pathL);
-		// list of images in specfic folder in images/stories/
-		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
-		// list of saved images
-		$lists['imagelist'] = mosAdminMenus::GetSavedImages($row, $pathL);
-
-		// build the html select list for ordering
-		$query = "SELECT ordering AS value, title AS text" .
-				"\n FROM #__content" .
-				"\n WHERE catid = $row->catid" .
-				"\n ORDER BY ordering";
-		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $uid, $query, 1);
-
-		// build list of categories
-		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $sectionid, intval($row->catid));
-		// build the select list for the image positions
-		$lists['_align'] = mosAdminMenus::Positions('_align');
-		// build the html select list for the group access
-		$lists['access'] = mosAdminMenus::Access($row);
-
-		// build the select list for the image caption alignment
-		$lists['_caption_align'] = mosAdminMenus::Positions('_caption_align');
-		// build the html select list for the group access
-		// build the select list for the image caption position
-		$pos[] = mosHTML::makeOption('bottom', JText::_('Bottom'));
-		$pos[] = mosHTML::makeOption('top', JText::_('Top'));
-		$lists['_caption_position'] = mosHTML::selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text');
-
-		// build the html radio buttons for published
-		$lists['state'] = mosHTML::yesnoradioList('state', '', $row->state);
-		// build the html radio buttons for frontpage
-		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $row->frontpage);
 
 		$title = $title.' '.JText::_('Content');
 
