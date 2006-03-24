@@ -118,13 +118,19 @@ class JInstallerExtensionTasks {
 				$row->client_id = $language->client;
 				$row->language 	= substr($file,0,-4);
 				
+				// If we didn't get valid data from the xml file, move on...
+				if (!is_array($data)) {
+					continue;
+				}
+				
+				// Populate the row from the xml meta file
 				foreach($data as $key => $value) {
 					$row->$key = $value;
 				}
 	
-				$lang = ($client == 'site') ? 'lang_site' : 'lang_'.$client;
-	
 				// if current than set published
+				$clientVals = JApplicationHelper::getClientInfo($row->client_id);
+				$lang = 'lang_'.$clientVals->name;
 				if ( $mainframe->getCfg($lang) == $row->language) {
 					$row->published	= 1;
 				} else {
@@ -225,7 +231,7 @@ class JInstallerScreens_language {
 					/*
 					 * Handle currently used templates
 					 */
-					if ($row->language == $mainframe->getCfg('lang_site') || $row->language = $mainframe->getCfg('lang_administrator'))	{
+					if ($row->published)	{
 						$cbd 	= 'disabled';
 						$style 	= 'style="color:#999999;"';
 					} else {

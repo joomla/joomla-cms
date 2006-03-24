@@ -1100,7 +1100,7 @@ class JApplicationHelper
 
 		if (!$xml->loadFile($path)) {
 			unset($xml);
-			continue;
+			return false;
 		}
 
 		/*
@@ -1110,7 +1110,7 @@ class JApplicationHelper
 		 */
 		if ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall') {
 			unset($xml);
-			continue;
+			return false;
 		}
 
 		$data = array();

@@ -213,11 +213,10 @@ class JContentController extends JController
 	}
 
 	/**
-	 * Method to show a content item as the main page display
+	 * Method to show an article as the main page display
 	 *
-	 * @static
-	 * @return void
-	 * @since 1.0
+	 * @access	public
+	 * @since	1.5
 	 */
 	function view()
 	{
@@ -247,6 +246,12 @@ class JContentController extends JController
 		JViewContentPDF::showItem();
 	}
 
+	/**
+	* Edits an article
+	*
+	* @access	public
+	* @since	1.5
+	*/
 	function edit()
 	{
 		// Set the view name to article view
@@ -271,6 +276,8 @@ class JContentController extends JController
 
 	/**
 	* Saves the content item an edit form submit
+	* 
+	* @todo
 	*/
 	function save()
 	{
@@ -476,72 +483,47 @@ class JContentController extends JController
 	}
 
 	/**
-	* Cancels an edit content item operation
+	* Cancels an edit article operation
 	*
-	* @static
-	* @since 1.0
+	* @access	public
+	* @since	1.5
 	*/
 	function cancel()
 	{
-		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
-		return true;
+		// Initialize some variables
+		$db		= & $this->getDBO();
+		$user	= & $this->_app->getUser();
 
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$task		= JRequest::getVar('task');
+		// At some point in the future these will be in a request object
 		$Itemid	= JRequest::getVar('Returnid', '0', 'post');
 		$referer	= JRequest::getVar('referer', '', 'post');
-		$query		= null;
 
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		$row = & JTable::getInstance('content', $db);
-		$row->bind($_POST);
-
-		if ($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))
-		{
+		// Get an article table object and bind post variabes to it [We don't need a full model here]
+		$article = & JTable::getInstance('content', $db);
+		$article->bind($_POST);
+		
+		if ($user->authorize('action', 'edit', 'content', 'all') || ($user->authorize('action', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {
 			$row->checkin();
 		}
 
-		/*
-		 * If the task was edit or cancel, we go back to the content item
-		 */
-		if ($task == 'edit' || $task == 'cancel')
-		{
-			$referer = 'index.php?option=com_content&task=view&id='.$row->id.'&Itemid='.$Itemid;
+		// If the task was edit or cancel, we go back to the content item
+		if ($this->_task == 'edit' || $this->_task == 'cancel') {
+			$referer = 'index.php?option=com_content&task=view&id='.$article->id.'&Itemid='.$Itemid;
 		}
 
-		echo $task;
-
-		/*
-		 * If the task was not new, we go back to the referrer
-		 */
-		if ($referer && $row->id)
-		{
-			josRedirect($referer);
+		// If the task was not new, we go back to the referrer
+		if ($referer && $article->id) {
+			$this->setRedirect($referer);
 		}
-		else
-		{
-			josRedirect('index.php');
+		else {
+			$this->setRedirect('index.php');
 		}
 	}
 
 	/**
 	 * Shows the send email form for a content item
 	 *
-	 * @static
+	 * @todo
 	 * @since 1.0
 	 */
 	function emailform()
@@ -590,7 +572,8 @@ class JContentController extends JController
 	/**
 	 * Builds and sends an email to a content item
 	 *
-	 * @since 1.5
+	 * @access	public
+	 * @since	1.5
 	 */
 	function emailsend()
 	{
@@ -677,6 +660,12 @@ class JContentController extends JController
 		}
 	}
 
+	/**
+	* Rates an article
+	*
+	* @access	public
+	* @since	1.5
+	*/
 	function vote()
 	{
 		$url		= JRequest::getVar('url', '');
@@ -689,18 +678,17 @@ class JContentController extends JController
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
-			josRedirect($url, JText::_('Thanks for your vote!'));
+			$this->setRedirect($url, JText::_('Thanks for your vote!'));
 		} else {
-			josRedirect($url, JText::_('You already voted for this poll today!'));
+			$this->setRedirect($url, JText::_('You already voted for this poll today!'));
 		}
 	}
 
 	/**
 	 * Searches for an item by a key parameter
 	 *
-	 * @static
-	 * @return void
-	 * @since 1.0
+	 * @access	public
+	 * @since	1.5
 	 */
 	function findkey()
 	{
