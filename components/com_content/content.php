@@ -249,168 +249,24 @@ class JContentController extends JController
 
 	function edit()
 	{
-		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
-		return true;
+		// Set the view name to article view
+		$this->setViewName( 'article', 'com_content', 'HTML' );
 
-		global $mainframe, $Itemid;
-
-		/*
-		 * Initialize variables
-		 */
-		$db				= & $mainframe->getDBO();
-		$user			= & $mainframe->getUser();
-		$breadcrumbs	= & $mainframe->getPathWay();
-		$nullDate		= $db->getNullDate();
-		$id			= JRequest::getVar('id', 0, '', 'int');
-		$sectionid		= JRequest::getVar('sectionid', 0, '', 'int');
-		$task			= JRequest::getVar('task');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		if ($Itemid) {
-			$menu = JMenu::getInstance();
-			$menu = $menu->getItem($Itemid);
-			$params = new JParameter($menu->params);
-		} else {
-			$menu = null;
-			$params = new JParameter();
-		}
-
-		/*
-		 * Get the content data object
-		 */
+		// Create the view
+		$view = & $this->getView();
+		
+		// Create the model
 		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$model = & new JModelArticle($db, $params, $id);
+		$model = & new JModelArticle($this->_app, $this->_menu);
 
-		// fail if checked out not by 'me'
-		if ($model->isCheckedOut($user->get('id'))) {
-			JViewContentHTML::userInputError(JText::_('The module')." [ ".$row->title." ] ".JText::_('DESCBEINGEDITTEDBY'));
-		}
+		// Get the id of the article to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
 
-		if ($id) {
-			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $model->get('created_by') == $user->get('gid')))) {
-				JError::raiseError( 403, JText::_("Access Forbidden") );
-			}
-			$sectionid = $model->get('sectionid');
-			$row->checkout($user->get('id'));
-			if (trim($row->publish_down) == $nullDate) {
-				$row->publish_down = 'Never';
-			}
-			if (trim($row->images)) {
-				$row->images = explode("\n", $row->images);
-			} else {
-				$row->images = array ();
-			}
-			$query = "SELECT name" .
-					"\n FROM #__users" .
-					"\n WHERE id = $row->created_by";
-			$db->setQuery($query);
-			$row->creator = $db->loadResult();
-
-			// test to reduce unneeded query
-			if ($row->created_by == $row->modified_by) {
-				$row->modifier = $row->creator;
-			} else {
-				$query = "SELECT name" .
-						"\n FROM #__users" .
-						"\n WHERE id = $row->modified_by";
-				$db->setQuery($query);
-				$row->modifier = $db->loadResult();
-			}
-
-			$query = "SELECT content_id" .
-					"\n FROM #__content_frontpage" .
-					"\n WHERE content_id = $row->id";
-			$db->setQuery($query);
-			$row->frontpage = $db->loadResult();
-
-			$title = JText::_('Edit');
-		} else {
-			// new record
-			if (!($access->canEdit || $access->canEditOwn)) {
-				JError::raiseError( 403, JText::_("Access Forbidden") );
-			}
-			$model->set('catid', 0);
-			$row->sectionid			= $sectionid;
-			$row->version				= 0;
-			$row->state				= 0;
-			$row->ordering			= 0;
-			$row->images				= array ();
-			$row->publish_up		= date('Y-m-d', time());
-			$row->publish_down	= 'Never';
-			$row->creator				= 0;
-			$row->modifier			= 0;
-			$row->frontpage		= 0;
-
-			$title = JText::_('New');
-		}
-
-		$lists = array ();
-
-		// get the type name - which is a special category
-		$query = "SELECT name FROM #__sections" .
-				"\n WHERE id = $sectionid";
-		$db->setQuery($query);
-		$section = $db->loadResult();
-
-		// calls function to read image from directory
-		$pathA			= 'images/stories';
-		$pathL			= 'images/stories';
-		$images		= array ();
-		$folders		= array ();
-		$folders[]		= mosHTML::makeOption('/');
-		mosAdminMenus::ReadImages($pathA, '/', $folders, $images);
-		// list of folders in images/stories/
-		$lists['folders'] = mosAdminMenus::GetImageFolders($folders, $pathL);
-		// list of images in specfic folder in images/stories/
-		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
-		// list of saved images
-		$lists['imagelist'] = mosAdminMenus::GetSavedImages($row, $pathL);
-
-		// build the html select list for ordering
-		$query = "SELECT ordering AS value, title AS text" .
-				"\n FROM #__content" .
-				"\n WHERE catid = $row->catid" .
-				"\n ORDER BY ordering";
-		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $uid, $query, 1);
-
-		// build list of categories
-		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $sectionid, intval($row->catid));
-		// build the select list for the image positions
-		$lists['_align'] = mosAdminMenus::Positions('_align');
-		// build the html select list for the group access
-		$lists['access'] = mosAdminMenus::Access($row);
-
-		// build the select list for the image caption alignment
-		$lists['_caption_align'] = mosAdminMenus::Positions('_caption_align');
-		// build the html select list for the group access
-		// build the select list for the image caption position
-		$pos[] = mosHTML::makeOption('bottom', JText::_('Bottom'));
-		$pos[] = mosHTML::makeOption('top', JText::_('Top'));
-		$lists['_caption_position'] = mosHTML::selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text');
-
-		// build the html radio buttons for published
-		$lists['state'] = mosHTML::yesnoradioList('state', '', $row->state);
-		// build the html radio buttons for frontpage
-		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $row->frontpage);
-
-		$title = $title.' '.JText::_('Content');
-
-		// Set page title
-		$mainframe->setPageTitle($title);
-
-		// Add pathway item
-		$breadcrumbs->addItem($title, '');
-
-		JViewContentHTML::editContent($row, $section, $lists, $images, $access, $user->get('id'), $sectionid, $task, $Itemid);
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->edit();
 	}
 
 	/**

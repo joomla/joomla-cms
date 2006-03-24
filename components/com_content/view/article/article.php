@@ -40,9 +40,7 @@ class JViewHTMLArticle extends JView
 	 */
 	function display()
 	{
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize variables
 		$app			= & $this->get( 'Application' );
 		$user			= & $app->getUser();
 		$menu			= & $this->get( 'Menu' );
@@ -235,10 +233,545 @@ class JViewHTMLArticle extends JView
 
 	}
 
-	function _buildEditLists()
+	function edit()
 	{
+		// Initialize variables
+		$app			= & $this->get( 'Application' );
+		$document	= & $app->getDocument();
+		$user			= & $app->getUser();
+		$menu			= & $this->get( 'Menu' );
+		$SiteName	= $app->getCfg('sitename');
+		$Itemid		= $menu->id;
+		$page			= JRequest::getVar('limitstart', 0, '', 'int');
+		$noJS 			= JRequest::getVar( 'hide_js', 0, '', 'int' );
+		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
+		$Returnid		= JRequest::getVar( 'Returnid', $Itemid, '', 'int' );
+
 		// Get the article from the model
 		$article		= & $this->get( 'Article' );
+		$params	= $article->parameters;
+
+		// Get the lists
+		$lists = $this->_buildEditLists();
+
+		// Load the JEditor object
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();
+
+		// Load the JToolBar object
+		jimport( 'joomla.presentation.toolbar.toolbar' );
+		$toolbar =& JToolBar::getInstance('Article');
+		// Add a save button
+		$toolbar->appendButton( 'Standard', 'save', 'Save', 'save', false, false );
+		// Add an apply button
+		$toolbar->appendButton( 'Standard', 'apply', 'Apply', 'apply_new', false, false );
+		// Add a cancel button
+		$toolbar->appendButton( 'Standard', 'cancel', 'Cancel', 'cancel', false, false );
+
+		// Load the mosTabs object
+		$tabs = new mosTabs(0);
+
+		// Add the Calendar includes to the document <head> section
+		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
+		$document->addScript('includes/js/calendar/calendar_mini.js');
+		$document->addScript('includes/js/calendar/lang/calendar-en.js');
+		
+		mosCommonHTML::loadOverlib();
+
+		// Ensure the row data is safe html
+		mosMakeHtmlSafe($article);
+
+		// Set the page title string
+		$title = $article->id ? JText::_( 'Edit' ) : JText::_( 'New' );
+
+		// Set page title
+		$app->setPageTitle($title);
+
+		// Add pathway item
+		$breadcrumbs = & $app->getPathway();
+		$breadcrumbs->addItem($title, '');
+
+		?>
+	  	<script language="javascript" type="text/javascript">
+		onunload = WarnUser;
+		var folderimages = new Array;
+		<?php
+		$i = 0;
+		foreach ($lists['images'] as $k => $items) {
+			foreach ($items as $v) {
+				echo "\n	folderimages[".$i ++."] = new Array( '$k','".addslashes($v->value)."','".addslashes($v->text)."' );";
+			}
+		}
+		?>
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform( pressbutton );
+				return;
+			}
+
+			// var goodexit=false;
+			// assemble the images back into one field
+			form.goodexit.value=1;
+			var temp = new Array;
+			for (var i=0, n=form.imagelist.options.length; i < n; i++) {
+				temp[i] = form.imagelist.options[i].value;
+			}
+			form.images.value = temp.join( '\n' );
+			try {
+				form.onsubmit();
+			}
+			catch(e){}
+			// do field validation
+			if (form.title.value == "") {
+				alert ( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
+			} else if (parseInt('<?php echo $article->sectionid;?>')) {
+				// for content items
+				if (getSelectedValue('adminForm','catid') < 1) {
+					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
+				} else {
+					<?php
+					echo $editor->getEditorContents('editor1', 'introtext');
+					echo $editor->getEditorContents('editor2', 'fulltext');
+					?>
+					submitform(pressbutton);
+				}
+			} else {
+				// for static content
+				<?php
+				echo $editor->getEditorContents('editor1', 'introtext');
+				?>
+				submitform(pressbutton);
+			}
+		}
+
+		function setgood(){
+			document.adminForm.goodexit.value=1;
+		}
+
+		function WarnUser(){
+			if (document.adminForm.goodexit.value==0) {
+				alert('<?php echo JText::_( 'WARNUSER', true );?>');
+				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=edit&sectionid=".$article->sectionid."&id=".$article->id."&Itemid=".$Itemid); ?>";
+			}
+		}
+		</script>
+		<?php
+		$docinfo = '<table><tr><td>'; 
+		$docinfo .= '<strong>'.JText::_('Expiry Date').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $article->publish_down;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText::_('Version').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $article->version;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText::_('Created').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $article->created;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText::_('Last Modified').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $article->modified;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText::_('Hits').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $article->hits;
+		$docinfo .= '</td></tr></table>'; 
+		?>
+		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
+
+		<div class="componentheading">
+			<?php echo $title;?>
+			<?php echo JText::_( 'Article' );?>		
+		</div>
+
+		<table class="adminform" width="100%">
+		<tr>
+			<td>
+				<div style="float: left;">
+					<label for="title">
+						<?php echo JText::_( 'Title' ); ?>:
+					</label>
+					<br />
+					<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $article->title; ?>" />
+					&nbsp;&nbsp;&nbsp;
+					<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
+				</div>
+				<div style="float: right;">
+					<?php
+						echo $toolbar->render();
+					?>
+				</div>
+			</td>
+		</tr>
+		</table>
+		
+		<?php
+		if ($article->sectionid) {
+			?>
+			<table class="adminform" width="100%">
+			<tr>
+				<td>
+					<label for="catid">
+						<?php echo JText::_( 'Section' ); ?>:
+					</label>
+					<strong>
+						<?php echo $article->section;?>
+					</strong>
+				</td>
+				<td>
+					<label for="catid">
+						<?php echo JText::_( 'Category' ); ?>:
+					</label>
+					<?php echo $lists['catid']; ?>
+				</td>
+			</tr>
+			</table>
+			<?php
+		}
+		?>
+		
+		<table class="adminform">
+		<tr>
+			<td>
+				<?php
+				if (intval($article->sectionid) > 0) {
+					?>
+					<?php echo JText::_( 'Intro Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
+					<?php
+				} else {
+					?>
+						<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
+					<?php
+				}
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php
+				// parameters : areaname, content, hidden field, width, height, rows, cols
+				echo $editor->getEditor('editor1', $article->introtext, 'introtext', '600', '400', '70', '15');
+				?>
+			</td>
+		</tr>
+		<?php
+		if (intval($article->sectionid) > 0) {
+			?>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Optional' ) .')'; ?>:
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php
+					// parameters : areaname, content, hidden field, width, height, rows, cols
+					echo $editor->getEditor('editor2', $article->fulltext, 'fulltext', '600', '400', '70', '15');
+					?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
+		</table>
+		
+		<?php
+				echo $toolbar->render();
+		?>
+		
+		<br />
+		
+		<?php
+		$title = JText::_('Images');
+		$tabs->startPane('content-pane');
+		$tabs->startTab($title, 'images-page');
+		?>
+			<table width="100%" class="adminform">
+			<tr>
+				<td colspan="4">
+					<label for="folders">
+						<?php echo JText::_( 'Sub-folder' ); ?>
+					</label>
+					- <?php echo $lists['folders'];?>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<label for="imagefiles">
+						<?php echo JText::_( 'Gallery Images' ); ?>
+					</label>
+				</td>
+				<td width="1%">
+				</td>
+				<td valign="top">
+					<?php echo JText::_( 'Content Images' ); ?>
+				</td>
+				<td valign="top">
+					<?php echo JText::_( 'Edit Image' ); ?>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<?php echo $lists['imagefiles'];?>
+					<br />
+					<input class="button" type="button" value="<?php echo JText::_( 'Insert' ); ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
+				</td>
+				<td width="2%">
+					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>"/>
+					<br/>
+					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>"/>
+				</td>
+				<td valign="top">
+					<?php echo $lists['imagelist'];?>
+					<br />
+					<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+					<br />
+					<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+				</td>
+				<td valign="top" width="100%">
+					<table width="100%">
+					<tr>
+						<td align="right">
+							<label for="_source">
+								<?php echo JText::_( 'Source' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" id= "_source" name= "_source" value="" size="15" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right" valign="top">
+							<label for="_align">
+								<?php echo JText::_( 'Align' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['_align']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="_alt">
+								<?php echo JText::_( 'Alt Text' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" id="_alt" name="_alt" value="" size="15" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="_border">
+								<?php echo JText::_( 'Border' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" id="_border" name="_border" value="" size="3" maxlength="1" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="_caption">
+								<?php echo JText::_( 'Caption' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" id="_caption" name="_caption" value="" size="30" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="_caption_position">
+								<?php echo JText::_( 'Caption Position' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['_caption_position']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="_caption_align">
+								<?php echo JText::_( 'Caption Align' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['_caption_align']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="_width">
+								<?php echo JText::_( 'Caption Width' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" id="_width" name="_width" value="" size="5" maxlength="5" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right"></td>
+						<td>
+							<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img name="view_imagefiles" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
+				</td>
+				<td>&nbsp;</td>
+				<td>
+					<img name="view_imagelist" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			</table>
+			
+		<?php
+		$title = JText::_('Publishing');
+		$tabs->endTab();
+		$tabs->startTab($title, 'publish-page');
+		?>
+		
+			<table class="adminform">
+			<?php
+			if ($user->authorize('action', 'publish', 'content', 'all')) {
+				?>
+				<tr>
+					<td >
+						<label for="state">
+							<?php echo JText::_( 'Published' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['state']; ?>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			<tr>
+				<td width="120">
+					<label for="frontpage">
+						<?php echo JText::_( 'Show on Front Page' ); ?>:
+					</label>
+				</td>
+				<td>
+					<?php echo $lists['frontpage']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="created_by_alias">
+						<?php echo JText::_( 'Author Alias' ); ?>:
+					</label>
+				</td>
+				<td>
+					<input type="text" id="created_by_alias" name="created_by_alias" size="50" maxlength="100" value="<?php echo $article->created_by_alias; ?>" class="inputbox" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="publish_up">
+						<?php echo JText::_( 'Start Publishing' ); ?>:
+					</label>
+				</td>
+				<td>
+					<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $article->publish_up; ?>" />
+					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="publish_down">
+						<?php echo JText::_( 'Finish Publishing' ); ?>:
+					</label>
+				</td>
+				<td>
+					<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $article->publish_down; ?>" />
+					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<label for="access">
+						<?php echo JText::_( 'Access Level' ); ?>:
+					</label>
+				</td>
+				<td>
+					<?php echo $lists['access']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="ordering">
+						<?php echo JText::_( 'Ordering' ); ?>:
+					</label>
+				</td>
+				<td>
+					<?php echo $lists['ordering']; ?>
+				</td>
+			</tr>
+			</table>
+			
+		<?php
+		$title = JText::_('Metadata');
+		$tabs->endTab();
+		$tabs->startTab($title, 'meta-page');
+		?>
+			<table class="adminform">
+			<tr>
+				<td  valign="top">
+					<label for="metadesc">
+						<?php echo JText::_( 'Description' ); ?>:
+					</label>
+				</td>
+				<td>
+					<textarea rows="5" cols="50" style="width:500px; height:120px" class="inputbox" id="metadesc" name="metadesc"><?php echo str_replace('&','&amp;',$article->metadesc); ?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td  valign="top">
+					<label for="metakey">
+						<?php echo JText::_( 'Keywords' ); ?>:
+					</label>
+				</td>
+				<td>
+					<textarea rows="5" cols="50" style="width:500px; height:50px" class="inputbox" id="metakey" name="metakey"><?php echo str_replace('&','&amp;',$article->metakey); ?></textarea>
+				</td>
+			</tr>
+			</table>
+			
+		<?php
+		$tabs->endTab();
+		$tabs->endPane();
+		?>
+
+		<input type="hidden" name="images" value="" />
+		<input type="hidden" name="goodexit" value="0" />
+		<input type="hidden" name="option" value="com_content" />
+		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
+		<input type="hidden" name="id" value="<?php echo $article->id; ?>" />
+		<input type="hidden" name="version" value="<?php echo $article->version; ?>" />
+		<input type="hidden" name="sectionid" value="<?php echo $article->sectionid; ?>" />
+		<input type="hidden" name="created_by" value="<?php echo $article->created_by; ?>" />
+		<input type="hidden" name="referer" value="<?php echo ampReplace( @$_SERVER['HTTP_REFERER'] ); ?>" />
+		<input type="hidden" name="task" value="" />
+		</form>
+		<?php
+	}
+
+	function _buildEditLists()
+	{
+		// Get the article and database connector from the model
+		$article		= & $this->get( 'Article' );
+		$db			= & $this->get( 'DBO' );
 
 		// Read the JPATH_ROOT/images/stories/ folder
 		$pathA			= 'images/stories';
@@ -255,7 +788,15 @@ class JViewHTMLArticle extends JView
 		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
 
 		// Select List: Saved Images
+		if (trim($row->images)) {
+			$article->images = explode("\n", $article->images);
+		} else {
+			$article->images = array ();
+		}
 		$lists['imagelist'] = mosAdminMenus::GetSavedImages($article, $pathL);
+
+		// Images Array: Images
+		$lists['images'] = $images;
 
 		// Select List: Image Positions
 		$lists['_align'] = mosAdminMenus::Positions('_align');
@@ -284,9 +825,9 @@ class JViewHTMLArticle extends JView
 		// Radio Buttons: Should the article be added to the frontpage
 		$query = "SELECT content_id" .
 				"\n FROM #__content_frontpage" .
-				"\n WHERE content_id = $row->id";
+				"\n WHERE content_id = $article->id";
 		$db->setQuery($query);
-		$row->frontpage = $db->loadResult();
+		$article->frontpage = $db->loadResult();
 		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $article->frontpage);
 
 		// Select List: Group Access
