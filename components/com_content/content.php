@@ -28,39 +28,6 @@ require_once (dirname(__FILE__).DS.'app'.DS.'controller.php');
 /*
 switch (strtolower($task))
 {
-	case 'section' :
-		JContentController::showSection();
-		break;
-
-	case 'category' :
-		JContentController::showCategory();
-		break;
-
-	case 'blogsection' :
-		JContentController::showBlogSection();
-		break;
-
-	case 'blogcategorymulti' :
-	case 'blogcategory' :
-		JContentController::showBlogCategory();
-		break;
-
-	case 'archivesection' :
-		JContentController::showArchiveSection();
-		break;
-
-	case 'archivecategory' :
-		JContentController::showArchiveCategory();
-		break;
-
-	case 'view' :
-		JContentController::showItem();
-		break;
-
-	case 'viewpdf' :
-		JContentController::showItemAsPDF();
-		break;
-
 	case 'edit' :
 	case 'new' :
 		JContentController::editItem();
@@ -80,23 +47,6 @@ switch (strtolower($task))
 
 	case 'emailform' :
 		JContentController::emailContentForm();
-		break;
-
-	case 'emailsend' :
-		JContentController::emailContentSend();
-		break;
-
-	case 'vote' :
-		JContentController::recordVote();
-		break;
-
-	case 'findkey' :
-		JContentController::findKeyItem();
-		break;
-
-	default :
-		// Tried to access an unknown task
-		JError::raiseError( 404, JText::_("Resource Not Found") );
 		break;
 }
 */
@@ -317,6 +267,9 @@ class JContentController extends JController
 	 */
 	function view()
 	{
+		// Set the view name to article view
+		$this->setViewName( 'article', 'com_content', 'HTML' );
+
 		// Create the view
 		$view = & $this->getView();
 		
@@ -817,19 +770,13 @@ class JContentController extends JController
 	/**
 	 * Builds and sends an email to a content item
 	 *
-	 * @static
-	 * @since 1.0
+	 * @since 1.5
 	 */
-	function emailContentSend()
+	function emailsend()
 	{
-		global $mainframe;
-
-		$db			= & $mainframe->getDBO();
-		$id			= JRequest::getVar('id', 0, '', 'int');
+		// Check to make sure that the validation variable was posted back
 		$validate	= JRequest::getVar(mosHash('validate'), 0, 'post');
-
-		if (!$validate)
-		{
+		if (!$validate) {
 			JError::raiseError( 403, JText::_("Access Forbidden") );
 		}
 
@@ -837,8 +784,7 @@ class JContentController extends JController
 		 * This obviously won't catch all attempts, but it does not hurt to make
 		 * sure the request came from a client with a user agent string.
 		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT']))
-		{
+		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
 			JError::raiseError( 403, JText::_("Access Forbidden") );
 		}
 
@@ -846,8 +792,7 @@ class JContentController extends JController
 		 * This obviously won't catch all attempts either, but we ought to check
 		 * to make sure that the request was posted as well.
 		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST')
-		{
+		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
 			JError::raiseError( 403, JText::_("Access Forbidden") );
 		}
 
@@ -862,12 +807,9 @@ class JContentController extends JController
 		 * iterate over the array of form input and check for header strings.
 		 * If we fine one, send an unauthorized header and die.
 		 */
-		foreach ($fields as $field)
-		{
-			foreach ($headers as $header)
-			{
-				if (strpos($_POST[$field], $header) !== false)
-				{
+		foreach ($fields as $field) {
+			foreach ($headers as $header) {
+				if (strpos($_POST[$field], $header) !== false) {
 					JError::raiseError( 403, JText::_("Access Forbidden") );
 				}
 			}
@@ -876,9 +818,11 @@ class JContentController extends JController
 		// Free up memory
 		unset ($headers, $fields);
 
+		// At some point tihs will all be in a request object
+		$id				= JRequest::getVar('id', 0, '', 'int');
 		$to				= JRequest::getVar('email', '', 'post');
-		$from			= JRequest::getVar('youremail', $mainframe->getCfg('mailfrom'), 'post');
-		$fromname	= JRequest::getVar('yourname', $mainframe->getCfg('fromname'), 'post');
+		$from			= JRequest::getVar('youremail', $this->_app->getCfg('mailfrom'), 'post');
+		$fromname	= JRequest::getVar('yourname', $this->_app->getCfg('fromname'), 'post');
 		$subject		= JRequest::getVar('subject', sprintf(JText::_('Item sent by'), $fromname), 'post');
 
 		jimport('joomla.utilities.mail');
@@ -891,6 +835,7 @@ class JContentController extends JController
 			return false;
 		}
 
+		$db = & $this->getDBO();
 		$query = "SELECT template" .
 				"\n FROM #__templates_menu" .
 				"\n WHERE client_id = 0" .
@@ -900,8 +845,7 @@ class JContentController extends JController
 
 		// Get the content article model
 		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$params	=& new JParameters();
-		$model		=& new JModelArticle($db, $params, $id);
+		$model = & new JModelArticle($this->_app, $this->_menu);
 
 		// Send mail via the model
 		$email = $model->sendEmail($to, $from, $fromname, $subject);
@@ -913,20 +857,17 @@ class JContentController extends JController
 		}
 	}
 
-	function recordVote()
+	function vote()
 	{
-		global $mainframe;
-
-		$db		= & $mainframe->getDBO();
 		$url		= JRequest::getVar('url', '');
 		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
 		// Get the content article model
 		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$params	=& new JParameters();
-		$model		=& new JModelArticle($db, $params, $id);
+		$model = & new JModelArticle($this->_app, $this->_menu);
 
+		$model->setId($id);
 		if ($model->storeVote($rating)) {
 			josRedirect($url, JText::_('Thanks for your vote!'));
 		} else {
@@ -941,31 +882,40 @@ class JContentController extends JController
 	 * @return void
 	 * @since 1.0
 	 */
-	function findKeyItem()
+	function findkey()
 	{
-		global $mainframe;
-
 		/*
 		 * Initialize variables
 		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$now		= $mainframe->get('requestTime');
+		$db			= & $this->getDBO();
 		$keyref	= $db->getEscaped(JRequest::getVar('keyref'));
-		$pop		= JRequest::getVar('pop', 0, '', 'int');
-		$option	= JRequest::getVar('option');
 
 		$query = "SELECT id" .
 				"\n FROM #__content" .
 				"\n WHERE attribs LIKE '%keyref=$keyref%'";
 		$db->setQuery($query);
 		$id = $db->loadResult();
-		if ($id > 0)
-		{
-			showItem($id, $user->get('gid'), $pop, $option, $now);
+		if ($id > 0) {
+			// Set the view name to article view
+			$this->setViewName( 'article', 'com_content', 'HTML' );
+
+			// Create the view
+			$view = & $this->getView();
+			
+			// Create the model
+			require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
+			$model = & new JModelArticle($this->_app, $this->_menu);
+	
+			// Get the id of the article to display and set the model
+			$id = JRequest::getVar('id', 0, '', 'int');
+			$model->setId($id);
+	
+			// Push the model into the view (as default)
+			$view->setModel($model, true);
+			// Display the view
+			$view->display();
 		}
-		else
-		{
+		else {
 			JError::raiseError( 404, JText::_("Key Not Found") );
 		}
 	}
