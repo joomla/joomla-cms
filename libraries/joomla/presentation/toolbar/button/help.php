@@ -35,7 +35,7 @@ class JButton_Help extends JButton
 		$class	= $this->fetchIconClass('help');
 		$doTask	= $this->_getCommand($ref, $com);
 
-		$html  = "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
+		$html  = "<a onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

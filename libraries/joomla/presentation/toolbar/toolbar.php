@@ -65,7 +65,8 @@ class JToolBar extends JObject
 	function __construct($name = 'toolbar')
 	{
 		$this->_name = $name;
-		
+
+		jimport('joomla.presentation.toolbar.button');
 		if (!defined('JBUTTON_INCLUDE_PATH'))
 		{
 			define('JBUTTON_INCLUDE_PATH', dirname(__FILE__).'/button');
@@ -204,11 +205,8 @@ class JToolBar extends JObject
 
 		if (!class_exists('JButton'))
 		{
-			if (!jimport('joomla.presentation.toolbar.button'))
-			{
-				//JError::raiseWarning( 'SOME_ERROR_CODE', 'Could not load button base class.' );
-				return false;
-			}
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'Could not load button base class.' );
+			return false;
 		}
 
 		$buttonClass = 'JButton_'.$type;
@@ -234,7 +232,7 @@ class JToolBar extends JObject
 
 			if (!$found)
 			{
-				//JError::raiseWarning( 'SOME_ERROR_CODE', "Could not load module $buttonClass ($buttonFile)." );
+				JError::raiseWarning( 'SOME_ERROR_CODE', "Could not load module $buttonClass ($buttonFile)." );
 				return false;
 			}
 		}
