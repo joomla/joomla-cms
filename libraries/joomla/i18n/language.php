@@ -220,14 +220,11 @@ class JLanguage extends JObject
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
 
 		$result = false;
-		if (file_exists( $path . $filename .'.ini') ) {
+		
+		$newStrings = $this->_load( $path . $filename .'.ini' );
 
-			$newStrings = $this->_load( $path . $filename .'.ini' );
-
-			if (is_array($newStrings)) {
-				$this->_strings = array_merge( $this->_strings, $newStrings);
-			}
-
+		if (is_array($newStrings)) {
+			$this->_strings = array_merge( $this->_strings, $newStrings);
 			$result = true;
 		}
 
@@ -244,7 +241,7 @@ class JLanguage extends JObject
 	*/
 	function _load( $filename ) 
 	{
-		if ($content = file_get_contents( $filename )) {
+		if ($content = @file_get_contents( $filename )) {
 			if( $this->_identifyer === null ) {
 				$this->_identifyer = basename( $filename, '.ini' );
 			}

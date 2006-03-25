@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Mar-2006 Johan Janssens
+ ! Preformance improvements
+
 23-Mar-2006 Johan Janssens
  - Removed DOMIT! XML-RPC library
  ^ Implemented JSimpleXML instead of DOMit for parsing extension xml files

@@ -67,6 +67,22 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_dbo  = null;
+	
+	/**
+	 * The document object
+	 *
+	 * @var object
+	 * @access protected
+	 */
+	var $_document = null;
+	
+	/**
+	 * The uri object
+	 *
+	 * @var object
+	 * @access protected
+	 */
+	var $_uri  = null;
 
 	/**
 	 * Application persistent store
@@ -484,9 +500,13 @@ class JApplication extends JObject
 	 */
 	function &getURI()
 	{
+		if(is_object($this->_uri)) {
+			return $this->_uri;
+		}
+		
 		jimport('joomla.application.environment.uri');
-		$instance =& JURI::getInstance();
-		return $instance;
+		$this->_uri =& JURI::getInstance();
+		return $this->_uri;
 	}
 
 	/**
@@ -508,7 +528,10 @@ class JApplication extends JObject
 	 */
 	function &getDocument()
 	{
-		global $mainframe;
+		if(is_object($this->_document)) {
+			return $this->_document;
+		}
+		
 		jimport('joomla.document.document');
 		
 		$attributes = array (
@@ -518,10 +541,10 @@ class JApplication extends JObject
           	'language' => 'en-GB'
 		);
 		
-		$instance =& JDocument::getInstance('html', $attributes);
+		$this->_document =& JDocument::getInstance('html', $attributes);
 		//$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
 		
-		return $instance;
+		return $this->_document;
 	}
 
 	/**

@@ -103,6 +103,6 @@ class JLoader
  * @since 1.1
  */
 function jimport( $path ) {
-	return JLoader::import($path);
+	JLoader::import($path);
 }
 ?>
