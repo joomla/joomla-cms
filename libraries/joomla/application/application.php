@@ -53,12 +53,20 @@ class JApplication extends JObject
 	var $_clientId = null;
 
 	/**
-	 * A string holding the active language
+	 * The language object
 	 *
-	 * @var string
+	 * @var object
 	 * @access protected
 	 */
 	var $_lang  = null;
+	
+	/**
+	 * The database object
+	 *
+	 * @var object
+	 * @access protected
+	 */
+	var $_dbo  = null;
 
 	/**
 	 * Application persistent store
@@ -520,29 +528,24 @@ class JApplication extends JObject
 	 * Return a reference to a JDatabase instance
 	 *
 	 * @access public
-	 * @param string $host 		Database host
-	 * @param string $user 		Database user name
-	 * @param string $password 	Database user password
-	 * @param string $db  		Database name
-	 * @param string $dbprefix	Common prefix for all tables
-	 * @param string $dbtype	Database type
-	 * @param string $debug		True if database needs to be set in debug mode
 	 * @return jdatabase A JDatabase object
 	 * @since 1.1
 	 */
-	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
+	function &getDBO()
 	{
-		$host 		= is_null($host) 	? $this->getCfg('host')    : $host;
-		$user 		= is_null($user) 	? $this->getCfg('user')    : $user;
-		$password 	= is_null($password)? $this->getCfg('password'): $password;
-		$db   		= is_null($db) 		? $this->getCfg('db') 	   : $db;
-		$dbprefix 	= is_null($dbprefix)? $this->getCfg('dbprefix'): $dbprefix;
-		$dbtype 	= is_null($dbtype) 	? $this->getCfg('dbtype')  : $dbtype;
-		$debug 		= is_null($debug) 	? $this->getCfg('debug')   : $debug;
+		if(is_object($this->_dbo)) {
+			return $this->_dbo;
+		}
+		
+		$host 		= $this->getCfg('host');
+		$user 		= $this->getCfg('user');
+		$password 	= $this->getCfg('password');
+		$db   		= $this->getCfg('db');
+		$dbprefix 	= $this->getCfg('dbprefix');
+		$dbtype 	= $this->getCfg('dbtype');
+		$debug 		= $this->getCfg('debug');
 
 		jimport('joomla.database.database');
-
-		/** @global $database */
 		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
 		if ($database->getErrorNum() > 2) {
@@ -591,7 +594,7 @@ class JApplication extends JObject
 	*/
 	function &getLanguage( )
 	{
-		if(is_null($this->_lang)) {
+		if(!is_object($this->_lang)) {
 			$this->setLanguage();
 		}
 
@@ -1141,7 +1144,7 @@ class JApplicationHelper
 		$data['description'] = $element ? $element->data() : '';
 		
 		$element = & $xml->document->group[0];
-		$data['group'] = $element ? $element->group() : '';
+		$data['group'] = $element ? $element->data() : '';
 		
 		return $data;
 	}
