@@ -3469,6 +3469,7 @@ if (!defined("PCL_TAR"))
 	 * MODIFIED FOR JOOMLA
 	 * @since 1.1 December 12, 2005
 	 */
+	jimport('joomla.filesystem.folder');
 	if (!JFolder::create($p_dir, 0777))
 	{
 	  // ----- Error log

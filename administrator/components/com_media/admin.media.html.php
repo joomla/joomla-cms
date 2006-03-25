@@ -168,10 +168,12 @@ class JMediaViews {
 			 * Handle the documents
 			 */
 			if (count($docs)) {
-				foreach ($docs as $doc => $docDetails) {
-					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.JFile::getExt($doc)."_16.png";
+				foreach ($docs as $doc => $docDetails) 
+				{
+					$extfile  = substr($doc, strrpos($doc, '.') + 1);
+					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$extfile."_16.png";
 					if (file_exists($iconfile)) {
-						$icon = "components/com_media/images/".JFile::getExt($doc)."_16.png";
+						$icon = "components/com_media/images/".$extfile."_16.png";
 					} else {
 						$icon = "components/com_media/images/con_info.png";
 					}
@@ -515,6 +517,7 @@ class JMediaViews {
 	{
 		global $mosConfig_absolute_path;
 
+		jimport('joomla.filesystem.folder');
 		$imgFiles 	= JFolder::folders( $basePath, '.', true, true );
 		$folders 	= array();
 		$folders[] 	= mosHTML::makeOption( '/' );

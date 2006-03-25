@@ -77,7 +77,7 @@ jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.presentation.html' );
 jimport( 'joomla.factory' );
-jimport( 'joomla.filesystem.*' );
+//jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );

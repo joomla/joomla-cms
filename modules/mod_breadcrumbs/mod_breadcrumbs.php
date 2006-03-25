@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Include the breadcrumbs functions only once
  */
-require_once (JPath::clean(dirname(__FILE__).DS.'breadcrumbs.functions.php', false));
+require_once (dirname(__FILE__).DS.'breadcrumbs.functions.php');
 
 /*
  * Initialize variables

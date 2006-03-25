@@ -12,6 +12,7 @@
  */
 
 jimport('joomla.common.base.object');
+jimport('joomla.filesystem.*');
 
 /**
  * Joomla base installer class

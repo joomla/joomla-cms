@@ -532,7 +532,8 @@ class mosHTML {
 	 */
 	function Header($text, $iconClass)
 	{
-		$iconClass	= JFile::stripExt($iconClass);
+		//strip the extension
+		$iconClass	= preg_replace('#\.[^.]*$#', '', $iconClass);
 		$html		= null;
 		
 		$html	.= "<div class=\"header icon-48-$iconClass\">\n";

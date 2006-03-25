@@ -276,6 +276,7 @@ class JConfigController {
 		 * Now we get the config registry in PHP class format and write it to
 		 * configuation.php then redirect appropriately.
 		 */
+		jimport('joomla.filesystem.file');
 		if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config', array('class' => 'JConfig')))) {
 
 			$msg = JText::_('The Configuration Details have been updated');

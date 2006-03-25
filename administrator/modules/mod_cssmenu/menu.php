@@ -165,7 +165,7 @@ class JAdminCSSMenu extends JObject
 				if (substr($identifier, 0, 15) == 'js/ThemeOffice/')
 				{
 					// Strip the filename without extension and use that for the classname
-					$class = JFile::stripExt(basename($identifier));
+					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 					$classes[$identifier] = "icon-16-$class";
 				} else
 				{
@@ -174,7 +174,9 @@ class JAdminCSSMenu extends JObject
 						return null;
 					}
 					// Build the CSS class for the icon
-					$class = JFile::makeSafe(JFile::stripExt(basename($identifier)));
+					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
+					$class = preg_replace( '#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
+					
 					$this->_css  .= "\n.icon-16-$class {\n" .
 							"\tbackground: url($identifier) no-repeat;\n" .
 							"}\n";

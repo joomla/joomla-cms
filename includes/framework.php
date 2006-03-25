@@ -18,7 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Post system checks
  */
 
-
 @set_magic_quotes_runtime( 0 );
 
 if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10)) {
@@ -77,9 +76,6 @@ jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.presentation.html' );
 jimport( 'joomla.factory' );
-jimport( 'joomla.filesystem.file' );
-jimport( 'joomla.filesystem.path' );
-jimport( 'joomla.filesystem.folder' );
 jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );

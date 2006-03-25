@@ -16,6 +16,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+//load folder filesystem class
+jimport('joomla.filesystem.folder');
+
 /**
  * Static class to handle language view logic
  * 
@@ -44,7 +47,7 @@ class JInstallerExtensionTasks {
 		$select[] 			= mosHTML::makeOption('0', JText::_('Site Languages'));
 		$select[] 			= mosHTML::makeOption('1', JText::_('Admin Languages'));
 		$lists['filter'] 	= mosHTML::selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
-
+		
 		if ($filter == '-1') 
 		{
 			$client = 'all';

@@ -108,6 +108,7 @@ class JMediaController
 		/*
 		 * Get the list of folders 
 		 */
+		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
 
 		/*
@@ -155,15 +156,17 @@ class JMediaController
 		/*
 		 * Get the list of files and folders from the given folder
 		 */
-		$fileList = JFolder::files($basePath);
+		jimport('joomla.filesystem.folder');
+		 $fileList = JFolder::files($basePath);
 		$folderList = JFolder::folders($basePath);
 
 		/*
 		 * Iterate over the files if they exist
 		 */
-		if ($fileList !== false) {
-			foreach ($fileList as $file) {
-
+		if ($fileList !== false) 
+		{
+			foreach ($fileList as $file) 
+			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					if (eregi($imageTypes, $file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
@@ -223,6 +226,7 @@ class JMediaController
 				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED.File allready exists'));
 			}
 
+			jimport('joomla.filesystem.file');
 			$format = JFile::getExt($file['name']);
 
 			$allowable = array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
@@ -261,7 +265,9 @@ class JMediaController
 				josRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_('WARNDIRNAME'));
 			}
 			$folder = COM_MEDIA_BASE.$path.DS.$folderName;
-			if (!is_dir($folder) && !is_file($folder)) {
+			if (!is_dir($folder) && !is_file($folder)) 
+			{
+				jimport('joomla.filesystem.*');
 				$folder = JPath::clean($folder);
 				JFolder::create($folder);
 				JFile::write($folder."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
@@ -277,6 +283,8 @@ class JMediaController
 	 */
 	function deleteFile($listdir) 
 	{
+		jimport('joomla.filesystem.file');
+		
 		$delFile = JRequest::getVar( 'delFile' );
 		$fullPath = COM_MEDIA_BASE.$listdir.DS.$delFile;
 
@@ -291,6 +299,8 @@ class JMediaController
 	 */
 	function deleteFolder($listdir) 
 	{
+		jimport('joomla.filesystem.folder');
+		
 		$canDelete = true;
 		$delFolder = JRequest::getVar( 'delFolder' );
 		$delFolder = COM_MEDIA_BASE.$listdir.$delFolder;
@@ -310,4 +320,6 @@ class JMediaController
 		}
 	}
 }
+
+
 ?>

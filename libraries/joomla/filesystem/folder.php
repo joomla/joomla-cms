@@ -16,6 +16,8 @@ if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPERATOR);
 }
 
+jimport('joomla.filesystem.path');
+
 /**
  * A Folder handling class
  *
@@ -167,6 +169,7 @@ class JFolder {
 		// Remove all the files in folder if they exist
 		$files = JFolder::files($path, '.', false, true);
 		if (count($files)) {
+			jimport('joomla.filesystem.file');
 			JFile::delete($files);
 		}
 		// Remove sub-folders of folder

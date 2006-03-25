@@ -74,9 +74,9 @@ class JInstallerExtensionTasks {
 
 			// path to module directory
 			if ($row->client_id == "1") {
-				$moduleBaseDir = JPath::clean(JPath::clean(JPATH_ADMINISTRATOR)."modules");
+				$moduleBaseDir = JPATH_ADMINISTRATOR.DS."modules";
 			} else {
-				$moduleBaseDir = JPath::clean(JPath::clean(JPATH_SITE)."modules");
+				$moduleBaseDir = JPATH_SITE.DS."modules";
 			}
 
 			// xml file for module

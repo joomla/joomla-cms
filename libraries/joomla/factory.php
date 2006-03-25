@@ -33,6 +33,8 @@ class JFactory
 		global $mainframe;
 
 		jimport('joomla.cache.cache');
+		
+		$cachePath = $mainframe->getCfg('cachepath').DS;
 
 		/*
 		 * If we are in the installation application, we don't need to be
@@ -43,16 +45,7 @@ class JFactory
 			/*
 			 * Add the application specific subdirectory for cache paths
 			 */
-			$cachePath = $mainframe->getCfg('cachepath').DS;
-			$cachePath .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
-	
-			/*
-			 * Create cache directory if not present
-			 */
-			if (!JFolder::exists($cachePath))
-			{
-				JFolder::create($cachePath);
-			}
+			
 			$options = array(
 				'cacheDir' 		=> $cachePath,
 				'caching' 		=> $mainframe->getCfg('caching'),
@@ -60,7 +53,8 @@ class JFactory
 				'lifeTime' 		=> $mainframe->getCfg('cachetime'),
 				'fileNameProtection' => false
 			);
-		} else
+		} 
+		else
 		{
 			$options = array(
 				'cacheDir' 		=> $mainframe->getCfg('cachepath') . '/',
@@ -85,17 +79,13 @@ class JFactory
 	 */
 	function &getACL( )
 	{
-		static $instances;
+		static $instance;
 
-		if (!isset($instances)) {
-			$instances = array();
+		if (!is_object($instance)) {
+			$instance = JFactory::_createACL();
 		}
 
-		if (empty($instances[0])) {
-			$instances[0] = JFactory::_createACL();
-		}
-
-		return $instances[0];
+		return $instance;
 	}
 
 	/**
@@ -107,17 +97,13 @@ class JFactory
 	 */
 	function &getMailer( )
 	{
-		static $instances;
+		static $instance;
 
-		if (!isset($instances)) {
-			$instances = array();
+		if (!is_object($instance)) {
+			$instance = JFactory::_createMailer();
 		}
 
-		if (empty($instances[0])) {
-			$instances[0] = JFactory::_createMailer();
-		}
-
-		return $instances[0];
+		return $instance;
 	}
 
 	/**

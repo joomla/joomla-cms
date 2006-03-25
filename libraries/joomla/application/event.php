@@ -45,17 +45,13 @@ class JEventDispatcher extends JObservable
 	 */
 	function & getInstance()
 	{
-		static $instances;
+		static $instance;
 
-		if (!isset ($instances)) {
-			$instances = array ();
+		if (!is_object($instance)) {
+			$instance = new JEventDispatcher();
 		}
 
-		if (empty ($instances[0])) {
-			$instances[0] = new JEventDispatcher();
-		}
-
-		return $instances[0];
+		return $instance;
 	}
 
 	/**
@@ -116,8 +112,7 @@ class JEventDispatcher extends JObservable
 		 * If no arguments were passed, we still need to pass an empty array to
 		 * the call_user_func_array function.
 		 */
-		if ($args === null)
-		{
+		if ($args === null) {
 			$args = array ();
 		}
 		
@@ -139,7 +134,8 @@ class JEventDispatcher extends JObservable
 					if (function_exists($observer['handler']))
 					{
 						$result[] = call_user_func_array($observer['handler'], $args);
-					} else
+					} 
+					else
 					{
 						/*
 						 * Couldn't find the function that the observer specified..
@@ -147,7 +143,8 @@ class JEventDispatcher extends JObservable
 						 */
 						JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 					}
-				} else
+				} 
+				else
 				{
 					/*
 					 * Handler doesn't handle this event, move on to next
@@ -155,7 +152,8 @@ class JEventDispatcher extends JObservable
 					 */
 					continue;
 				}
-			} elseif (is_object($observer))
+			} 
+			elseif (is_object($observer))
 			{
 				/*
 				 * Since we have gotten here, we know a little something about
@@ -173,7 +171,8 @@ class JEventDispatcher extends JObservable
 					{
 						$args['event'] = $event;
 						$result[] = $observer->update($args);
-					} else
+					} 
+					else
 					{
 						/*
 						 * Handler doesn't handle this event, move on to next
@@ -181,7 +180,8 @@ class JEventDispatcher extends JObservable
 						 */
 						continue;
 					}
-				} else
+				} 
+				else
 				{
 					/*
 					 * At this point, we know that the registered observer is

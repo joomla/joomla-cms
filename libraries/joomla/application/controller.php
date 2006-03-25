@@ -227,7 +227,7 @@ class JController extends JObject {
 	//
 
 	function setViewPath( $path ) {
-		$this->_viewPath = JPath::clean( $path );
+		$this->_viewPath = $path.DS;
 		return $this->_viewPath;
 	}
 

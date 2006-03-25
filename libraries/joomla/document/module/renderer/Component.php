@@ -88,7 +88,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
 
-			if(JFile::exists($path.DS.$file.'.php')) {
+			if(is_file($path.DS.$file.'.php')) {
 				$path = $path.DS.$file.'.php';
 			} else {
 				$path = $path.DS.'admin.'.$file.'.php';

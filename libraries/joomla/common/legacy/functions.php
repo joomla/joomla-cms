@@ -27,7 +27,9 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  */
-function mosPathName($p_path, $p_addtrailingslash = true) {
+function mosPathName($p_path, $p_addtrailingslash = true) 
+{
+	jimport('joomla.filesystem.path');
 	return JPath::clean( $p_path, $p_addtrailingslash );
 }
 
@@ -37,11 +39,13 @@ function mosPathName($p_path, $p_addtrailingslash = true) {
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  */
-function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
+function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) 
+{
 	$arr = array(null);
 
 	// Get the files and folders
-	$files = JFolder::files($path, $filter, $recurse, $fullpath);
+	jimport('joomla.filesystem.folder');
+	$files   = JFolder::files($path, $filter, $recurse, $fullpath);
 	$folders = JFolder::folders($path, $filter, $recurse, $fullpath);
 	// Merge files and folders into one array
 	$arr = array_merge($files, $folders);
@@ -115,6 +119,7 @@ function mosRedirect( $url, $msg='' ) {
  * @package		Joomla.Legacy
  */
 function mosMakePath($base, $path='', $mode = NULL) {
+	jimport('joomla.filesystem.folder');
 	return JFolder::create($base.$path, $mode);
 }
 
@@ -125,6 +130,7 @@ function mosMakePath($base, $path='', $mode = NULL) {
  * @package		Joomla.Legacy
  */
 function mosChmod( $path ) {
+	jimport('joomla.filesystem.path');
 	return JPath::setPermissions( $path );
 }
 
@@ -135,6 +141,7 @@ function mosChmod( $path ) {
  * @package		Joomla.Legacy
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
+	jimport('joomla.filesystem.path');
 	return JPath::setPermissions( $path, $filemode, $dirmode );
 }
 
@@ -145,6 +152,7 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
  * @package		Joomla.Legacy
  */
 function mosIsChmodable( $file ) {
+	jimport('joomla.filesystem.path');
 	return JPath::canChmod( $file );
 }
 

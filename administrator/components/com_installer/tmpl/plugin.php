@@ -60,7 +60,7 @@ class JInstallerExtensionTasks {
 		/*
 		 * Get the plugin base directory
 		 */
-		$baseDir = JPath::clean(JPATH_SITE.DS.'plugins');
+		$baseDir = JPATH_SITE.DS.'plugins';
 
 		$numRows = count($rows);
 		for ($i = 0; $i < $numRows; $i ++) {

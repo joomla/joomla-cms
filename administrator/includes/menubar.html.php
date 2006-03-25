@@ -89,8 +89,12 @@ class JMenuBar
 	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false)
 	{
 		$bar = & JToolBar::getInstance('JComponent');
+		
+		//strip extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+		
 		// Add a standard button
-		$bar->appendButton( 'Standard', JFile::stripExt($icon), $alt, $task, $listSelect, $x );
+		$bar->appendButton( 'Standard', $icon, $alt, $task, $listSelect, $x );
 	}
 
 	/**
@@ -107,8 +111,12 @@ class JMenuBar
 	function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
 		$bar = & JToolBar::getInstance('JComponent');
+		
+		//strip extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+		
 		// Add a standard button
-		$bar->appendButton( 'Standard', JFile::stripExt($icon), $alt, $task, $listSelect, true );
+		$bar->appendButton( 'Standard', $icon, $alt, $task, $listSelect, true );
 	}
 
 	/**

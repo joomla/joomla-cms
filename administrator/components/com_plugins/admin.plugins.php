@@ -292,6 +292,7 @@ function editPlugin( $option, $uid, $client )
 		$row->description 	= '';
 	}
 	
+	jimport('joomla.filesystem.folder');
 	$folders = JFolder::folders( JPATH_SITE . DS .'plugins'. DS );
 	$folders2 = array();
 	foreach ($folders as $folder) {

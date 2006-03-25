@@ -16,6 +16,8 @@ if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPERATOR);
 }
 
+jimport('joomla.filesystem.path');
+
 /**
  * A File handling class
  *
@@ -106,6 +108,7 @@ class JFile {
 
 			// If the parent folder doesn't exist we must create it
 			if (!file_exists(dirname($dest))) {
+				jimport('joomla.filesystem.folder');
 				JFolder::create(dirname($dest));
 			}
 
@@ -336,6 +339,7 @@ class JFile {
 
 			// If the destination directory doesn't exist we need to create it
 			if (!file_exists(dirname($file))) {
+				jimport('joomla.filesystem.folder');
 				JFolder::create(dirname($file));
 			}
 
@@ -377,6 +381,7 @@ class JFile {
 		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
 		if (!file_exists($baseDir)) {
+			jimport('joomla.filesystem.folder');
 			JFolder::create($baseDir);
 		}
 

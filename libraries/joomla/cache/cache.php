@@ -69,14 +69,14 @@ class JCache extends Cache_Lite
 		 */
 		if (isset ($options['cacheDir']))
 		{
-			$this->_cacheDir = JPath::clean($options['cacheDir']);			
+			$this->_cacheDir = $options['cacheDir'];			
 		}
 		else
 		{
 			$baseDir = $mainframe->getCfg('cachepath');
 			if (!empty($baseDir))
 			{
-				$this->_cacheDir = JPath::clean($baseDir);
+				$this->_cacheDir = $baseDir;
 			}
 		}
 		
@@ -168,12 +168,11 @@ class JCache extends Cache_Lite
 			 * Build the cache directory
 			 */
 			$baseDir = $mainframe->getCfg('cachepath');
-			$baseDir .= ($mainframe->getClientId()) ? DS.'administrator'.DS : DS.'site'.DS;
-			$path = JPath::clean($baseDir);
-			$files = JFolder::files($path, '.xml');
+			jimport('joomla.filesystem.folder');
+			$files = JFolder::files($baseDir, '.xml');
 			foreach ($files as $file)
 			{
-				$file = $path.$file;
+				$file = $baseDir.DS.$file;
 				unlink($file);
 			}
 		}

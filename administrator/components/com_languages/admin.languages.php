@@ -66,11 +66,13 @@ function viewLanguages()
 	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
 	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-	$path = JLanguage::getLanguagePath($client->path);
-
 	$rowid = 0;
 
+	//load folder filesystem class
+	jimport('joomla.filesystem.folder');
+	$path = JLanguage::getLanguagePath($client->path);
 	$dirs = JFolder::folders( $path );
+	
 	foreach ($dirs as $dir) 
 	{
 		$files = JFolder::files( $path . $dir, '^([-_A-Za-z]*)\.xml$' );
@@ -135,6 +137,7 @@ function publishLanguage( $language, $option )
 	 * Now we get the config registry in PHP class format and write it to
 	 * configuation.php then redirect appropriately.
 	 */
+    jimport('joomla.filesystem.file');
 	if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config',  array('class' => 'JConfig')))) {
 		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
 	} else {

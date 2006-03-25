@@ -522,8 +522,11 @@ function selectnew()
 	$modules[0]->module 	= 'custom';
 	$modules[0]->path 		= $path;
 		$i = 1;
+	jimport('joomla.filesystem.folder');
 	$dirs = JFolder::folders( $path );
-	foreach ($dirs as $dir) {
+	
+	foreach ($dirs as $dir) 
+	{
 		$file 			= JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
 		$files_php[] 	= $file[0]; 
 		

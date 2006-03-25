@@ -95,23 +95,19 @@ function setSeparator($custom = null)
 		$tSepPath = 'templates/'.$mainframe->getTemplate().'/images/arrow.png';
 
 		// Check to see if the template specific separator exists and if so, set it
-		if (JFile::exists(JPATH_SITE."/$tSepPath"))
-		{
+		if (is_file(JPATH_SITE."/$tSepPath")) {
 			$_separator = '<img src="'.$tSepPath.'" border="0" alt="arrow" />';
 		}
 		else
 		{
-
 			// Template specific separator does not exist, use the default separator
 			$dSepPath = '/images/M_images/arrow.png';
 
 			// Check to make sure the default separator exists
-			if (JFile::exists(JPATH_SITE.$dSepPath))
-			{
+			if (is_file(JPATH_SITE.$dSepPath)) {
 				$_separator = '<img src="images/M_images/arrow.png" alt="arrow" />';
 			}
-			else
-			{
+			else {
 				// The default separator does not exist either ... just use a bracket
 				$_separator = '&gt;';
 			}

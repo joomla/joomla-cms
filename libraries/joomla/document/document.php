@@ -436,8 +436,8 @@ class JDocument extends JTemplate
 		 * Parse the template INI file if it exists for parameters and insert
 		 * them into the template.
 		 */
-		if ( file_exists( $directory.DS.$template.DS.'params.ini' ) ) {
-			$content = JFile::read($directory.DS.$template.DS.'params.ini');
+		if (is_readable( $directory.DS.$template.DS.'params.ini' ) ) {
+			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
 			$params = new JParameter($content);
 			$this->addVars( $filename, $params->toArray(), 'param_');
 		}
@@ -523,7 +523,7 @@ class JDocument extends JTemplate
 			//get the file content
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
-				require_once( JPath::clean($directory.DS.$filename, false) );
+				require_once( $directory.DS.$filename );
 			?></jdoc:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();

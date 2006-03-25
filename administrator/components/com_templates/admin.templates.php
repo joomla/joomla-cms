@@ -118,7 +118,7 @@ class JTemplatesController
 		$select[] 			= mosHTML::makeOption('1', JText::_('Administrator'));
 		$lists['client'] 	= mosHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
 		
-		$templateBaseDir = JPath::clean($client->path.DS.'templates');
+		$templateBaseDir = $client->path.DS.'templates';
 		
 		//get template xml file info
 		$rows = array();
@@ -232,6 +232,7 @@ class JTemplatesController
 		$row = JTemplatesHelper::parseXMLTemplateFile($templateBaseDir, $template);
 		$row->published = JTemplatesHelper::isTemplateDefault($row->directory, $client->id);
 
+		jimport('joomla.filesystem.file');
 		// Read the ini file
 		if (JFile::exists($ini)) {
 			$content = JFile::read($ini);
@@ -278,6 +279,7 @@ class JTemplatesController
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 		
+		jimport('joomla.filesystem.file');
 		if (JFile::exists($file) && is_array($params))
 		{
 			$txt = null;
@@ -352,6 +354,7 @@ class JTemplatesController
 		$file	= $client->path.DS.'templates'.DS.$p_tname.DS.'index.php';
 
 		// Read the source file
+		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
 
 		if ($content !== false)
@@ -393,17 +396,15 @@ class JTemplatesController
 		/*
 		 * Remove any slashes added by magic quotes
 		 */
-		if (get_magic_quotes_gpc())
-		{
+		if (get_magic_quotes_gpc()) {
 			$filecontent = stripslashes($filecontent);
 		}
 
-		if (JFile::write($file, $filecontent))
-		{
+		jimport('joomla.filesystem.file');
+		if (JFile::write($file, $filecontent)) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id);
 		}
-		else
-		{
+		else {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
@@ -423,6 +424,7 @@ class JTemplatesController
 			// Admin template css dir
 			$a_dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$p_tname.DS.'css';
 			// List .css files
+			jimport('joomla.filesystem.folder');
 			$a_files = JFolder::files($a_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
 			$fs_dir = null;
 			$fs_files = null;
@@ -436,6 +438,7 @@ class JTemplatesController
 			$f_dir = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'css';
 
 			// List template .css files
+			jimport('joomla.filesystem.folder');
 			$f_files = JFolder::files($f_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
 
 			JTemplatesView::chooseCSSFiles($p_tname, $f_dir, $f_files, $option, $client);
@@ -457,15 +460,14 @@ class JTemplatesController
 		$file			= $client->path.$tp_name;
 		$p_tname = $template;
 
+		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
-		if ($content !== false)
-		{
+		
+		if ($content !== false) {
 			$content = htmlspecialchars($content);
-
 			JTemplatesView::editCSSSource($p_tname, $tp_name, $content, $option, $client);
 		}
-		else
-		{
+		else {
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $file);
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, $msg);
 		}
@@ -484,22 +486,19 @@ class JTemplatesController
 		$tp_fname		= JRequest::getVar('tp_fname');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWHTML);
 
-		if (!$template)
-		{
+		if (!$template) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
-		if (!$filecontent)
-		{
+		if (!$filecontent) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
-		if (JFile::write($tp_fname, $filecontent))
-		{
+		jimport('joomla.filesystem.file');
+		if (JFile::write($tp_fname, $filecontent)) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id);
 		}
-		else
-		{
+		else {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
@@ -600,6 +599,7 @@ class JTemplatesHelper
 	function parseXMLTemplateFiles($templateBaseDir)
 	{
 		// Read the template folder to find templates
+		jimport('joomla.filesystem.folder');
 		$templateDirs = JFolder::folders($templateBaseDir);
 
 		$rows = array();
@@ -620,11 +620,11 @@ class JTemplatesHelper
 	function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		// Check of the xml file exists
-		if(!JFile::exists($templateBaseDir.$templateDir.DS.'templateDetails.xml')) {
+		if(!is_file($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml')) {
 			return false;
 		}
 		
-		$xml = JApplicationHelper::parseXMLInstallFile($templateBaseDir.$templateDir.DS.'templateDetails.xml');
+		$xml = JApplicationHelper::parseXMLInstallFile($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml');
 			
 		if ($xml['type'] != 'template') {
 			return false;

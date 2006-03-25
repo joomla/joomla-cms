@@ -244,17 +244,14 @@ class JLanguage extends JObject
 	*/
 	function _load( $filename ) 
 	{
-		if (file_exists( $filename )) 
-		{
-			if ($content = file_get_contents( $filename )) {
-				if( $this->_identifyer === null ) {
-					$this->_identifyer = basename( $filename, '.ini' );
-				}
-				
-				$registry = new JRegistry();
-				$registry->loadINI($content);
-				return $registry->toArray( );
+		if ($content = file_get_contents( $filename )) {
+			if( $this->_identifyer === null ) {
+				$this->_identifyer = basename( $filename, '.ini' );
 			}
+				
+			$registry = new JRegistry();
+			$registry->loadINI($content);
+			return $registry->toArray( );
 		}
 
 		return false;
@@ -402,7 +399,7 @@ class JLanguage extends JObject
 		$file = $lang.'.xml';
 
 		$result = null;
-		if(JFile::exists($path.$file)) {
+		if(is_file($path.$file)) {
 			$result = JLanguage::_parseXMLLanguageFile($path.$file);
 		}
 
@@ -430,16 +427,15 @@ class JLanguage extends JObject
 	 * @access public
 	 * @param string $basePath  The basepath to use
 	 * @param string $language	The language tag
-	 * @param boolean $addTrailingSlash Add a trailing slash to the pathname
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath($basePath = JPATH_BASE, $language = null, $addTrailingSlash = true) 
+	function getLanguagePath($basePath = JPATH_BASE, $language = null ) 
 	{
 		$dir = $basePath.DS.'language'.DS;
 		if (isset ($language)) {
 			$dir .= $language.DS;
 		}
-		return JPath::clean($dir, $addTrailingSlash);
+		return $dir;
 	}
 
 	/** 
@@ -451,6 +447,8 @@ class JLanguage extends JObject
 	 */
 	function _parseLanguageFiles($dir = null) 
 	{
+		jimport('joomla.filesystem.folder');
+		
 		$languages = array ();
 
 		$subdirs = JFolder::folders($dir);
@@ -475,6 +473,7 @@ class JLanguage extends JObject
 			return null;
 
 		$languages = array ();
+		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($dir, '^([_A-Za-z]*)\.ini$');
 		foreach ($files as $file) {
 			if ($content = file_get_contents($dir.$file)) {
@@ -505,6 +504,7 @@ class JLanguage extends JObject
 		}
 
 		$languages = array ();
+		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
 		foreach ($files as $file) {
 			if ($content = file_get_contents($dir.$file)) {

@@ -15,6 +15,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+//load folder filesystem class
+jimport('joomla.filesystem.folder');
+
 /**
  * Static class to handle template view logic
  * 
@@ -108,12 +111,12 @@ class JInstallerExtensionTasks {
 		// Check that the directory contains an xml file
 		foreach($templates as $template) 
 		{
-			$dirName = JPath::clean($template->baseDir .DS. $template->folder);
+			$dirName = $template->baseDir .DS. $template->folder;
 			$xmlFilesInDir = JFolder::files($dirName,'.xml$');
 	
 			foreach($xmlFilesInDir as $xmlfile) 
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($dirName . $xmlfile);
+				$data = JApplicationHelper::parseXMLInstallFile($dirName . DS. $xmlfile);
 				
 				$row = new StdClass();
 				$row->id 		= $rowid;

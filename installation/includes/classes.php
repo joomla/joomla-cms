@@ -358,7 +358,7 @@ class JInstallationController
 			if ($DBSample) {
 				$dbsample = 'language/en-GB/sample_data.sql';
 				// Checks for language depended files
-				if (JFile::exists('language'.DS.$lang.DS.'sample_data.sql')) {
+				if (is_file('language'.DS.$lang.DS.'sample_data.sql')) {
 					$dbsample = 'language'.DS.$lang.DS.'sample_data.sql';
 				}
 				JInstallationHelper::populateDatabase($database, $dbsample, $errors);
@@ -546,6 +546,8 @@ class JInstallationController
 
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
+			jimport('joomla.filesystem.path');
+			
 			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
@@ -905,7 +907,8 @@ class JInstallationHelper
 	 */
 	function setDirPerms($dir, &$srv)
 	{
-
+		jimport('joomla.filesystem.path');
+		
 		/*
 		 * Initialize variables
 		 */

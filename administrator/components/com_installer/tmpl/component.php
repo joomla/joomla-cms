@@ -49,7 +49,7 @@ class JInstallerExtensionTasks
 		$rows = $db->loadObjectList();
 
 		/* Get the component base directory */
-		$baseDir = JPath::clean (JPATH_ADMINISTRATOR .DS. 'components');
+		$baseDir = JPATH_ADMINISTRATOR .DS. 'components';
 		
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++) 
@@ -57,7 +57,8 @@ class JInstallerExtensionTasks
 			$row =& $rows[$i];
 			
 			 /* Get the component folder and list of xml files in folder */ 
-			$folder = $baseDir . $row->option;
+			jimport('joomla.filesystem.folder');
+			$folder = $baseDir .DS. $row->option;
 			$xmlFilesInDir = JFolder::files($folder, '.xml$');
 
 			foreach ($xmlFilesInDir as $xmlfile) 
