@@ -49,22 +49,8 @@ class JLoader
 			$dir->close();
 		} else {
 			$path = str_replace( '.', DS, $filePath );
-			$found = false;
-			foreach (array( '.php', '.class.php', '.lib.php', '.inc' ) as $suffix) {
-				if (file_exists( $base . DS . $path . $suffix )) {
-					$found = true;
-					break;
-				}
-			}
-
-			if ($found) {
-				JLoader::_requireOnce($base . DS . $path . $suffix);
-			} else {
-				return false;
-			}
+			JLoader::_requireOnce($base . DS . $path . '.php');
 		}
-
-		return true;
 	}
 
    /**

@@ -92,20 +92,20 @@ class JAdminCSSMenu extends JObject
 		 */
 		$class = '';
 		if ($this->_current->hasChildren()) {
-			$class = 'submenu ';
+			$class = ' class="submenu"';
 		} 
 		
 		/*
 		 * Print the item
 		 */
-		echo "<li class=\"".$class."\">";
+		echo "<li".$class.">";
 		
 		/*
 		 * Print a link if it exists
 		 */
 		if ($this->_current->link != null)
 		{
-			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a> \n";
+			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
 		} else
 		{
 			echo $this->_current->title."\n";

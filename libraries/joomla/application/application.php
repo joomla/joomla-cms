@@ -511,7 +511,7 @@ class JApplication extends JObject
 		);
 		
 		$instance =& JDocument::getInstance('html', $attributes);
-		$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
+		//$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
 		
 		return $instance;
 	}

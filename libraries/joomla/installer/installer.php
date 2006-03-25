@@ -1201,7 +1201,6 @@ class JInstallerHelper
 	 */
 	function unpack($p_filename)
 	{
-
 		/*
 		 * Initialize variables
 		 */
