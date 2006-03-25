@@ -34,7 +34,7 @@ class JElement_Category extends JElement
 	{
 		global $database;
 
-		$scope = $node->attribute('scope');
+		$scope = $node->attributes('scope');
 		if (!isset ($scope)) {
 			$scope = 'content';
 		}
