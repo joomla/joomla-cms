@@ -303,6 +303,7 @@ class JViewFrontpageHTML_blog
 		$params->def('icons',		$mainframe->getCfg('icons'));
 		$params->def('readmore',	$mainframe->getCfg('readmore'));
 		$params->def('back_button', $mainframe->getCfg('back_button'));
+		$params->set('intro_only', 1);
 		
 		/*
 		 * Get some item specific parameters
@@ -332,7 +333,7 @@ class JViewFrontpageHTML_blog
 		/*
 		 * Build the link and text of the readmore button
 		 */
-		if (($params->get('readmore') && @ $row->fulltext) || $params->get('link_titles'))
+		if (($params->get('readmore') && @ $row->readmore) || $params->get('link_titles'))
 		{
 			if ($params->get('intro_only'))
 			{

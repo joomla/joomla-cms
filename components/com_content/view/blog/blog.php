@@ -339,7 +339,8 @@ class JViewHTMLBlog extends JView
 		$params->def('icons',		$app->getCfg('icons'));
 		$params->def('readmore',	$app->getCfg('readmore'));
 		$params->def('back_button', $app->getCfg('back_button'));
-		
+		$params->set('intro_only', 1);
+
 		/*
 		 * Get some item specific parameters
 		 */
@@ -368,7 +369,7 @@ class JViewHTMLBlog extends JView
 		/*
 		 * Build the link and text of the readmore button
 		 */
-		if (($params->get('readmore') && @ $row->fulltext) || $params->get('link_titles'))
+		if (($params->get('readmore') && @ $row->readmore) || $params->get('link_titles'))
 		{
 			if ($params->get('intro_only'))
 			{

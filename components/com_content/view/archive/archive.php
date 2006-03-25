@@ -335,6 +335,7 @@ class JViewHTMLArchive extends JView
 		$params->def('icons',				$app->getCfg('icons'));
 		$params->def('readmore',		$app->getCfg('readmore'));
 		$params->def('back_button', $app->getCfg('back_button'));
+		$params->set('intro_only', 1);
 		
 		/*
 		 * Get some item specific parameters
