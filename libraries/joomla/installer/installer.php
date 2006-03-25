@@ -1205,15 +1205,13 @@ class JInstallerHelper
 		/*
 		 * Initialize variables
 		 */
-		// Base installation path
-		$base_Dir = JPath::clean(JPATH_SITE.DS.'media');
 		// Path to the archive
-		$archivename = $base_Dir.$p_filename;
+		$archivename = $p_filename;
 		// Temporary folder to extract the archive into
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = JPath::clean($base_Dir.$tmpdir);
+		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
 		$archivename = JPath::clean($archivename, false);
 
 		/*
