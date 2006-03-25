@@ -331,15 +331,14 @@ class JViewHTMLArticle extends JView
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				} else {
 					<?php
-					echo $editor->getEditorContents('editor1', 'introtext');
-					echo $editor->getEditorContents('editor2', 'fulltext');
+					echo $editor->getEditorContents('editor1', 'text');
 					?>
 					submitform(pressbutton);
 				}
 			} else {
 				// for static content
 				<?php
-				echo $editor->getEditorContents('editor1', 'introtext');
+				echo $editor->getEditorContents('editor1', 'text');
 				?>
 				submitform(pressbutton);
 			}
@@ -435,46 +434,27 @@ class JViewHTMLArticle extends JView
 		<table class="adminform">
 		<tr>
 			<td>
-				<?php
-				if (intval($article->sectionid) > 0) {
-					?>
-					<?php echo JText::_( 'Intro Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
-					<?php
-				} else {
-					?>
-						<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
-					<?php
-				}
-				?>
+					<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<?php
+				/*
+				 * We need to unify the introtext and fulltext fields and have the
+				 * fields separated by the {readmore} tag, so lets do that now.
+				 */
+				if (strlen($article->fulltext) > 1) {
+					$article->text = $article->introtext . '{readmore}' . $article->fulltext;
+				} else {
+					$article->text = $article->introtext;
+				}
+
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				echo $editor->getEditor('editor1', $article->introtext, 'introtext', '600', '400', '70', '15');
+				echo $editor->getEditor('editor1', $article->text, 'text', '600', '400', '70', '15');
 				?>
 			</td>
 		</tr>
-		<?php
-		if (intval($article->sectionid) > 0) {
-			?>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Optional' ) .')'; ?>:
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php
-					// parameters : areaname, content, hidden field, width, height, rows, cols
-					echo $editor->getEditor('editor2', $article->fulltext, 'fulltext', '600', '400', '70', '15');
-					?>
-				</td>
-			</tr>
-			<?php
-		}
-		?>
 		</table>
 		
 		<?php

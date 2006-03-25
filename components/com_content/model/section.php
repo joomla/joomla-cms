@@ -196,6 +196,17 @@ class JModelSection extends JModel
 	}
 
 	/**
+	 * Method to get archived article data for the current section
+	 *
+	 * @param	int	$state	The content state to pull from for the current section
+	 * @since 1.5
+	 */
+	function getTree()
+	{
+		return $this->_loadTree();
+	}
+
+	/**
 	 * Method to load section data if it doesn't exist.
 	 *
 	 * @access	private
@@ -347,6 +358,49 @@ class JModelSection extends JModel
 					$orderby;
 			$this->_db->setQuery($query, $limitstart, $limit);
 			$this->_content[$state] = $this->_db->loadObjectList();
+		}		
+		return true;
+	}
+
+	/**
+	 * Method to load content item data for items in the category if they don't
+	 * exist.
+	 *
+	 * @access	private
+	 * @return	boolean	True on success
+	 */
+	function _loadTree()
+	{
+		/*
+		 * Lets load the content if it doesn't already exist
+		 */
+		if (empty($this->_tree))
+		{
+		$user		= & $this->_app->getUser();
+		$gid			= $user->get('gid');
+		$now		=$this->_app->get('requestTime');
+		$nullDate	= $this->_db->getNullDate();
+	
+		// Get the information for the current section
+		if ($this->_id) {
+			$and = "\n AND a.section = '$this->_id'";
+		} else {
+			$and = null;
+		}
+
+		// Query of categories within section
+		$query = "SELECT a.name AS catname, a.title AS cattitle, b.* " .
+				"\n FROM #__categories AS a" .
+				"\n INNER JOIN #__content AS b ON b.catid = a.id" .
+				"\n AND b.state = 1" .
+				"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
+				"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
+				"\n WHERE a.published = 1" .
+				$and .
+				"\n AND a.access <= $gid" .
+				"\n ORDER BY a.catid, a.ordering, b.ordering";
+			$this->_db->setQuery($query);
+			$this->_tree = $this->_db->loadObjectList();
 		}		
 		return true;
 	}

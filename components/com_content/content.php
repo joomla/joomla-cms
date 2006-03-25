@@ -301,10 +301,6 @@ class JContentController extends JController
 	*/
 	function save()
 	{
-		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
-		return true;
-
 		global $mainframe, $Itemid;
 
 		/*
@@ -355,18 +351,6 @@ class JContentController extends JController
 			$row->publish_down = $nullDate;
 		}
 
-		// code cleaner for xhtml transitional compliance
-		$row->introtext = str_replace('<br>', '<br />', $row->introtext);
-		$row->fulltext = str_replace('<br>', '<br />', $row->fulltext);
-
-		// remove <br /> take being automatically added to empty fulltext
-		$length = strlen($row->fulltext) < 9;
-		$search = strstr($row->fulltext, '<br />');
-		if ($length && $search)
-		{
-			$row->fulltext = NULL;
-		}
-
 		$row->title = ampReplace($row->title);
 
 		// Publishing state hardening for Authors
@@ -396,6 +380,9 @@ class JContentController extends JController
 				}
 			}
 		}
+
+		// Prepare content  for save
+		JContentHelper::saveContentPrep($row);
 
 		if (!$row->check())
 		{
@@ -523,7 +510,7 @@ class JContentController extends JController
 		$article->bind($_POST);
 		
 		if ($user->authorize('action', 'edit', 'content', 'all') || ($user->authorize('action', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {
-			$row->checkin();
+			$article->checkin();
 		}
 
 		// If the task was edit or cancel, we go back to the content item
