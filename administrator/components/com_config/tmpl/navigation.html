@@ -30,6 +30,7 @@
 </legend>
 <span class="small">
 <?php
+	jimport('joomla.filesystem.path');
 	if (JPath::canCHMOD( JPATH_CONFIGURATION . DS . 'configuration.php' )) {
 	if (is_writable( JPATH_CONFIGURATION . DS . 'configuration.php')) {
 ?>
