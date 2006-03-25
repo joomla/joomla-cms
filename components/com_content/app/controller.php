@@ -105,6 +105,12 @@ class JController extends JObject {
 	var $_viewPrefix = null;
 
 	/**
+	 * Model file base path
+	 * @var	string
+	 */
+	var $_modelPath = null;
+
+	/**
 	 * Constructor
 	 * 
 	 * @access	protected
@@ -326,7 +332,7 @@ class JController extends JObject {
 	}
 
 	/**
-	 * Method to set the current view path
+	 * Method to get the current view path
 	 * 
 	 * @access	public
 	 * @param	string	View class file base directory
@@ -336,6 +342,32 @@ class JController extends JObject {
 	function getViewPath()
 	{
 		return $this->_viewPath;
+	}
+
+	/**
+	 * Method to get the current model path
+	 * 
+	 * @access	public
+	 * @return	string	Model class file base directory
+	 * @since	1.5
+	 */
+	function setModelPath( $path )
+	{
+		$this->_modelPath = JPath::clean( $path );
+		return $this->_modelPath;
+	}
+
+	/**
+	 * Method to get the current view path
+	 * 
+	 * @access	public
+	 * @param	string	Model class file base directory
+	 * @return	string	The path
+	 * @since	1.5
+	 */
+	function getModelPath()
+	{
+		return $this->_modelPath;
 	}
 
 	/**
@@ -387,6 +419,19 @@ class JController extends JObject {
 	}
 
 	/**
+	 * Method to get a model object, load it if necessary..
+	 * 
+	 * @access	public
+	 * @return	object	The model
+	 * @since	1.5
+	 */
+	function &getModel($name)
+	{
+		$model = & $this->_loadModel( $name );
+		return $model;
+	}
+
+	/**
 	 * Method to load and return a view object.  This method first looks in the current template directory for a match, and 
 	 * failing that uses a default set path to load the view class file.
 	 * 
@@ -404,7 +449,7 @@ class JController extends JObject {
 		
 		// Get the current template name and path
 		$tName = $this->_app->getTemplate();
-		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.$option.DS.$viewName.'.php';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.$option.DS.strtolower($viewName).'.php';
 
 		// If a matching view exists in the current template folder we use that, otherwise we look for the default one
 		if (file_exists( $tPath )) {
@@ -415,11 +460,12 @@ class JController extends JObject {
 			if (!class_exists( $viewClass )) {
 				JError::raiseNotice( 0, 'View class '.$viewClass.' not found' );
 			} else {
-				return new $viewClass( $this );
+				$view = & new $viewClass( $this );
+				return $view;
 			}
 		} else {
 			// Build the path to the default view based upon a supplied base path
-			$path = $this->getViewPath().$viewName.DS.$viewName.'.php';
+			$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.php';
 
 			// If the default view file exists include it and try to instantiate the object
 			if (file_exists( $path )) {
@@ -437,6 +483,40 @@ class JController extends JObject {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Method to load and return a model object.
+	 * 
+	 * @access	private
+	 * @param	string	$modelName	The name of the view
+	 * @return	mixed	Model object or boolean false if failed
+	 * @since	1.5
+	 */
+	function &_loadModel( $modelName )
+	{
+		// Clean the model name
+		$modelName = preg_replace( '#\W#', '', $modelName );
+
+		// Build the path to the model based upon a supplied base path
+		$path = $this->getModelPath().strtolower($modelName).'.php';
+
+		// If the model file exists include it and try to instantiate the object
+		if (file_exists( $path )) {
+			require_once( $path );
+			// Build the view class name
+			$modelClass = 'JModel'.$modelName;
+			if (!class_exists( $modelClass )) {
+				JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
+				return false;
+			} else {
+				$model = & new $modelClass( $this->_app, $this->_menu );
+				return $model;
+			}
+		} else {
+			JError::raiseWarning( 0, 'Model ' . $modelName . ' not supported. File not found.' );
+			return false;
+		}
 	}
 
 	/**

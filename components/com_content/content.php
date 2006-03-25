@@ -33,7 +33,7 @@ require_once (dirname(__FILE__).DS.'app'.DS.'controller.php');
 class JContentController extends JController
 {
 	/**
-	 * Method to build data for displaying a content section
+	 * Method to show a section in list format
 	 *
 	 * @access	public
 	 * @since	1.5
@@ -59,9 +59,8 @@ class JContentController extends JController
 		// Get the view
 		$view = & $this->getView();
 
-		// Create the model
-		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
-		$model = & new JModelSection($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Section');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -80,10 +79,10 @@ class JContentController extends JController
 	}
 
 	/**
-	 * Method to build data for displaying a content section
+	 * Method to show a category in table format
 	 *
-	 * @static
-	 * @since 1.0
+	 * @access	public
+	 * @since	1.5
 	 */
 	function category()
 	{
@@ -114,9 +113,8 @@ class JContentController extends JController
 		// Get the view
 		$view = & $this->getView();
 
-		// Create the model
-		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
-		$model = & new JModelCategory($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Category');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -128,6 +126,12 @@ class JContentController extends JController
 		$view->display();
 	}
 
+	/**
+	 * Method to show a section as a blog
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
 	function blogsection()
 	{
 		// Dirty trick for now until we get the menus ready for us
@@ -136,8 +140,8 @@ class JContentController extends JController
 		// Get the view
 		$view = & $this->getView();
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
-		$model = & new JModelSection($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Section');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -149,6 +153,12 @@ class JContentController extends JController
 		$view->display();
 	}
 
+	/**
+	 * Method to show a category as a blog
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
 	function blogcategory()
 	{
 		// Dirty trick for now until we get the menus ready for us
@@ -157,8 +167,8 @@ class JContentController extends JController
 		// Get the view
 		$view = & $this->getView();
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
-		$model = & new JModelCategory($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Category');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -170,6 +180,12 @@ class JContentController extends JController
 		$view->display();
 	}
 
+	/**
+	 * Method to show a section as an archive
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
 	function archivesection()
 	{
 		// Dirty trick for now until we get the menus ready for us
@@ -178,8 +194,8 @@ class JContentController extends JController
 		// Get the view
 		$view = & $this->getView();
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
-		$model = & new JModelSection($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Section');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -191,6 +207,12 @@ class JContentController extends JController
 		$view->display();
 	}
 
+	/**
+	 * Method to show a category as an archive
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
 	function archivecategory()
 	{
 		// Dirty trick for now until we get the menus ready for us
@@ -199,8 +221,8 @@ class JContentController extends JController
 		// Get the view
 		$view = & $this->getView();
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
-		$model = & new JModelCategory($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Category');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -226,9 +248,8 @@ class JContentController extends JController
 		// Create the view
 		$view = & $this->getView();
 		
-		// Create the model
-		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$model = & new JModelArticle($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Article');
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -260,9 +281,8 @@ class JContentController extends JController
 		// Create the view
 		$view = & $this->getView();
 		
-		// Create the model
-		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$model = & new JModelArticle($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Article');
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -646,9 +666,8 @@ class JContentController extends JController
 		$db->setQuery($query);
 		$template = $db->loadResult();
 
-		// Get the content article model
-		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$model = & new JModelArticle($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Article');
 
 		// Send mail via the model
 		$email = $model->sendEmail($to, $from, $fromname, $subject);
@@ -672,9 +691,8 @@ class JContentController extends JController
 		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
-		// Get the content article model
-		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-		$model = & new JModelArticle($this->_app, $this->_menu);
+		// Get/Create the model
+		$model = & $this->getModel('Article');
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
@@ -710,9 +728,8 @@ class JContentController extends JController
 			// Create the view
 			$view = & $this->getView();
 			
-			// Create the model
-			require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
-			$model = & new JModelArticle($this->_app, $this->_menu);
+			// Get/Create the model
+			$model = & $this->getModel('Article');
 	
 			// Get the id of the article to display and set the model
 			$id = JRequest::getVar('id', 0, '', 'int');
@@ -732,8 +749,9 @@ class JContentController extends JController
 // Create the controller
 $controller = & new JContentController( $mainframe, 'view' );
 
-// need to tell the controller where to look for views
+// need to tell the controller where to look for views and models
 $controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
+$controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
 
 // Set the default view name from the Request
 // note - alternatively we can get it from the menu parameters
