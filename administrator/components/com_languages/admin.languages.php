@@ -78,7 +78,7 @@ function viewLanguages()
 		$files = JFolder::files( $path . $dir, '^([-_A-Za-z]*)\.xml$' );
 		foreach ($files as $file) 
 		{
-			$data = JApplicationHelper::parseXMLInstallFile($path.$dir.DS.$file);
+			$data = JApplicationHelper::parseXMLLangMetaFile($path.$dir.DS.$file);
 			
 			
 			$row 			= new StdClass();

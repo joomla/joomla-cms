@@ -528,19 +528,19 @@ class JLanguage extends JObject
 			return null;
 		}
 		
-		// Check that it's am installation file
-		if ($xml->document->name() != 'mosinstall' && $xml->document->name() != 'install') {
+		// Check that it's am metadata file
+		if ($xml->document->name() != 'metafile') {
 			return null;
 		}
 
 		$metadata = array ();
 
-		if ($xml->document->attributes('type') == 'language') {
+		//if ($xml->document->attributes('type') == 'language') {
 			
 			foreach ($xml->document->metadata[0]->children() as $child) {
 				$metadata[$child->name()] = $child->data();
 			}
-		}
+		//}
 		return $metadata;
 	}
 }

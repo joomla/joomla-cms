@@ -114,7 +114,7 @@ class JInstallerExtensionTasks {
 			$files = JFolder::files( $language->baseDir .DS. $language->folder, '^([-_A-Za-z]*)\.xml$' );
 			foreach ($files as $file) 
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($language->baseDir .DS. $language->folder . DS . $file);
+				$data = JApplicationHelper::parseXMLLangMetaFile($language->baseDir .DS. $language->folder . DS . $file);
 			
 				$row 			= new StdClass();
 				$row->id 		= $rowid;

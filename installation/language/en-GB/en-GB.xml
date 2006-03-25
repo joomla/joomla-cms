@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<install version="1.1" client="installer" type="language">
+<metafile version="1.1" client="installation" >
     <name>English(United Kingdom)</name>
     <version>1.1.0</version>
     <creationDate>Nov 2005</creationDate>
@@ -17,8 +17,5 @@
     	<winCodePage>iso-8859-1</winCodePage>
     	<backwardLang>english</backwardLang>
     </metadata>
-    <files>
-        <filename>en-GB.ini</filename>
-    </files>
     <params />
-</install>
+</metafile>

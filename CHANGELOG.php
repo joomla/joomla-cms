@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Mar-2006 David Gal
+ ^ Separated install xml files and metadata xml files for languages
+ # Fixed some language intall problems
+
 25-Mar-2006 Johan Janssens
  ! Preformance improvements
 
