@@ -511,7 +511,7 @@ function moveSave( &$cid ) {
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
 	
 	if (!$newsect && !$newcat ) {
-		josRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". JText::_( 'An error has occurred' ) );
+		josRedirect( "index.php?option=com_content&sectionid=0&josmsg=". JText::_( 'An error has occurred' ) );
 	}
 	
 	// find section name

@@ -74,7 +74,7 @@ function sendMail() {
 	$message_body 		= stripslashes( $message_body );
 
 	if (!$message_body || !$subject || $gou === null) {
-		josRedirect( 'index2.php?option=com_massmail&mosmsg='. JText::_( 'Please fill in the form correctly' ) );
+		josRedirect( 'index2.php?option=com_massmail&josmsg='. JText::_( 'Please fill in the form correctly' ) );
 	}
 
 	// get users in the group out of the acl

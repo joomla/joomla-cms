@@ -218,7 +218,7 @@ function saveMessage( $option ) {
 	}
 
 	if (!$row->send()) {
-		josRedirect( "index2.php?option=com_messages&mosmsg=" . $row->getError() );
+		josRedirect( "index2.php?option=com_messages&josmsg=" . $row->getError() );
 	}
 	josRedirect( "index2.php?option=com_messages" );
 }

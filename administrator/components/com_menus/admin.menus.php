@@ -63,7 +63,7 @@ switch ($task) {
 	case 'unpublish':
 		if ($msg = publishMenuSection( $cid, ($task == 'publish') )) {
 			// proceed no further if the menu item can't be published
-			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&josmsg= '.$msg );
 		} else {
 			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
 		}
@@ -71,7 +71,7 @@ switch ($task) {
 
 	case 'remove':
 		if ($msg = TrashMenu( $cid )) {
-			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&josmsg= '.$msg );
 		} else {
 			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
 		}
@@ -660,7 +660,7 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 	} // if
 
 	$msg = sprintf( JText::_( 'Menu Items moved to' ), count($cid), $menu );
-	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&josmsg='. $msg );
 } // moveMenuSave
 
 /**
@@ -733,7 +733,7 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 		$curr->reorder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
 	} // foreach
 	$msg = sprintf( JText::_( 'Menu Items Copied to' ), count( $cid ), $menu );
-	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&josmsg='. $msg );
 }
 
 function ReadMenuXML( $type, $component=-1 ) 

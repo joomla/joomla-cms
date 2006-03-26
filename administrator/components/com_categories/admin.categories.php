@@ -603,7 +603,7 @@ function removeCategories( $section, $cid ) {
 	if (count( $err )) {
 		$cids = implode( "\', \'", $err );
     	$msg = sprintf( JText::_( 'WARNNOTREMOVEDRECORDS' ), $cids );
-		josRedirect( 'index2.php?option=com_categories&section='. $section .'&mosmsg='. $msg );
+		josRedirect( 'index2.php?option=com_categories&section='. $section .'&josmsg='. $msg );
 	}
 
 	josRedirect( 'index2.php?option=com_categories&section='. $section );
@@ -767,7 +767,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
-	josRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
+	josRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&josmsg='. $msg );
 }
 
 /**
@@ -878,7 +878,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
-	josRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
+	josRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&josmsg='. $msg );
 }
 
 /**
