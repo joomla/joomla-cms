@@ -23,6 +23,7 @@ function botSyndicateContact( $url, $limit ) {
 	global $database, $mainframe;
 
 	// pull data from referral url and place into array
+	$parts = null;
     parse_str( $url, $parts );
 
     // check if this is the correct bot to be loaded for component

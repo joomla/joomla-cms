@@ -22,6 +22,8 @@ $mainframe->registerEvent( 'onSyndicate', 'botSyndicateWeblinks' );
 function botSyndicateWeblinks( $url, $limit ) {
 	global $database;
 
+	// Initialize variables
+	$parts = null;
 	// pull data from referral url and place into array
     parse_str( $url, $parts );
 

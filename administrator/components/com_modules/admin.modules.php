@@ -506,10 +506,9 @@ function selectnew()
 {
 	global $mainframe;
 	
-	/*
-	 * Initialize some variables
-	 */
-	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	// Initialize some variables
+	$modules	= array();
+	$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	
 	// path to search for modules
 	if ($client->id == '1') {

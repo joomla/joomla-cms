@@ -114,7 +114,7 @@ function viewLanguages()
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
 
-	HTML_languages::showLanguages( $rows, $lists, $pageNav, $option );
+	HTML_languages::showLanguages( $rows, $pageNav, $option );
 }
 
 /**

@@ -466,7 +466,7 @@ class JInstallationController
 //			}
 //		}
 
-		return JInstallationView::mainConfig($vars, $lists);
+		return JInstallationView::mainConfig($vars);
 	}
 
 	function saveConfig($vars) 

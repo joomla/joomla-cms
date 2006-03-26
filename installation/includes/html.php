@@ -212,7 +212,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function mainConfig( &$vars, &$lists ) 
+	function mainConfig( &$vars ) 
 	{
 		global $steps, $mainframe;
 

@@ -73,7 +73,7 @@ class JInstallerExtensionTasks {
 
 			if (file_exists($xmlfile)) 
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile);
+				$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 				foreach($data as $key => $value) {
 					$row->$key = $value;
 				}

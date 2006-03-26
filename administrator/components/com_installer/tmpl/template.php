@@ -133,8 +133,6 @@ class JInstallerExtensionTasks {
 	
 				$rows[] = $row;
 				$rowid++;
-				
-				unset($xmlDoc,$root);
 			}
 		}
 	

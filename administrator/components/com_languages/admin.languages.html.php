@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( &$rows, &$lists, &$pageNav, $option ) 
+	function showLanguages( &$rows, &$pageNav, $option ) 
 	{
 		?>
 		<form action="index2.php" method="post" name="adminForm">

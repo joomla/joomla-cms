@@ -321,8 +321,7 @@ function botJoomlaSEFUrl( ) {
 						}
 						// redirect to 404 page if no component found to match url
 						if ( !$check ) {
-							header( 'HTTP/1.0 404 Not Found' );
-							require_once( $mosConfig_absolute_path . '/templates/404.php' );
+							JError::raiseError( 404, JText::_('Resource not found'));
 							exit( 404 );
 						}
 					}
@@ -415,6 +414,9 @@ function sefRelToAbs( $string ) {
 			// special handling for javascript
 			$url['query'] = stripslashes( str_replace( '+', '%2b', $url['query'] ) );
 			
+			// Initialize variables
+			$parts = null;
+
 			// break url into component parts			
 			parse_str( $url['query'], $parts );
 			

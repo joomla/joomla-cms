@@ -80,6 +80,7 @@ function showMenu( $option )
 {
 	global $database, $mainframe;
 
+	$menus		= array();
 	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
 	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 

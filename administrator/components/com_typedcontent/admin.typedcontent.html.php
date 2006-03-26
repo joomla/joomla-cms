@@ -857,7 +857,7 @@ class HTML_typedcontent {
 		<br /><br />
 
 		<input type="hidden" name="option" value="com_typedcontent" />
-		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
+		<input type="hidden" name="sectionid" value="0" />
 		<input type="hidden" name="task" value="" />
 		<?php
 		foreach ($cid as $id) {

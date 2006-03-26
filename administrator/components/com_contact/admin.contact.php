@@ -330,7 +330,7 @@ function changeContact( $cid=null, $state=0 ) {
 	global $database, $my;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		$action = $publish ? 'publish' : 'unpublish';
+		$action = $state ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit();
 	}

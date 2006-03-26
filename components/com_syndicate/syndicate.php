@@ -110,6 +110,7 @@ function syndicate( $feed ) {
 	}	
 	if ( is_int( $num ) ) {
 		// test to check whether a bot exists for this component
+		$parts = null;
 		parse_str( $from, $parts );    
 		
 		$info       = null;

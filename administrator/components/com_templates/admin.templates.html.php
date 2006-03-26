@@ -452,7 +452,7 @@ class JTemplatesView
 				<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="85%" align="left">
-				<?php echo $s_dir; ?>
+				<?php echo $t_dir; ?>
 			</th>
 			<th width="10%">
 				<?php echo JText::_( 'Writeable' ); ?>/<?php echo JText::_( 'Unwriteable' ); ?>

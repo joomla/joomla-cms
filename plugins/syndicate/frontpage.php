@@ -23,6 +23,9 @@ function botSyndicateFrontpage( $url, $limit ) {
 	global $database, $mainframe;
 	global $mosConfig_offset;
 
+	// Initialize variables
+	$parts = null;
+
 	// pull data from referral url and place into array
     parse_str( $url, $parts );
 

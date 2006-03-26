@@ -186,13 +186,13 @@ class JInstallerController
 			/*
 			 * There was an error in installing the package
 			 */
-			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
+			$msg = sprintf(JText::_('INSTALLEXT'), $type, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 		} else {
 			/*
 			 * Package installed sucessfully
 			 */
-			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
+			$msg = sprintf(JText::_('INSTALLEXT'), $type, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 		}
 	}
