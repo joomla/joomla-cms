@@ -162,7 +162,7 @@ class JInstallerLanguage extends JInstaller
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function uninstall($id, $client = 'site')
+	function uninstall($id, $client = 0)
 	{
 		/*
 		 * For a language the id will be an RFC 3066 code, eg. en-GB which represents the 
@@ -175,7 +175,7 @@ class JInstallerLanguage extends JInstaller
 		}
 
 		// Get some information about the client
-		$clientVals = JApplicationHelper::getClientInfo($client, true);
+		$clientVals = JApplicationHelper::getClientInfo($client, false);
 		if ($clientVals === false) {
 			JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Unknown client type').' ['.$client.']');
 			return false;

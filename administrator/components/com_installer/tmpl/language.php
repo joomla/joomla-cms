@@ -250,6 +250,7 @@ class JInstallerScreens_language {
 						</td>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold"><?php echo $row->name; ?></span>
 						</td>
 						<td align="center">

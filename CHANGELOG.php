@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Mar-2006 David Gal
+ # Fixed language uninstall bug
+
 25-Mar-2006 David Gal
  ^ Separated install xml files and metadata xml files for languages
  # Fixed some language intall problems

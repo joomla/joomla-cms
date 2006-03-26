@@ -304,19 +304,19 @@ class JInstallerController
 		$extension	= JRequest::getVar('extension');
 		$result		= false;
 
-		/*
-		 * Get the extension client
-		 * 
-		 * Defaults to 'site'
-		 * Set 'admin' to 'administrator'
-		 */
-		$client = JRequest::getVar('client', 'site');
-		if ($client == '') {
-			$client = 'site';
-		}
-		if ($client == 'admin') {
-			$client = 'administrator';
-		}
+//		/*
+//		 * Get the extension client
+//		 * 
+//		 * Defaults to 'site'
+//		 * Set 'admin' to 'administrator'
+//		 */
+//		$client = JRequest::getVar('client', 'site');
+//		if ($client == '') {
+//			$client = 'site';
+//		}
+//		if ($client == 'admin') {
+//			$client = 'administrator';
+//		}
 
 		/*
 		 * Ensure eid is an array of extension ids
@@ -369,19 +369,19 @@ class JInstallerController
 		$extension	= JRequest::getVar('extension');
 		$result		= false;
 
-		/*
-		 * Get the extension client
-		 * 
-		 * Defaults to 'site'
-		 * Set 'admin' to 'administrator'
-		 */
-		$client = JRequest::getVar('client', 'site');
-		if ($client == '') {
-			$client = 'site';
-		}
-		if ($client == 'admin') {
-			$client = 'administrator';
-		}
+//		/*
+//		 * Get the extension client
+//		 * 
+//		 * Defaults to 'site'
+//		 * Set 'admin' to 'administrator'
+//		 */
+//		$client = JRequest::getVar('client', 'site');
+//		if ($client == '') {
+//			$client = 'site';
+//		}
+//		if ($client == 'admin') {
+//			$client = 'administrator';
+//		}
 
 		/*
 		 * Ensure eid is an array of extension ids
@@ -432,23 +432,24 @@ class JInstallerController
 		 * Initialize variables
 		 */
 		$eid		= JRequest::getVar('eid', array (0));
+		$eclient	= JRequest::getVar('eclient', array (0));
 		$extension	= JRequest::getVar('extension', '');
 		$result		= false;
 		$failed		= array ();
 
-		/*
-		 * Get the extension client
-		 * 
-		 * Defaults to 'site'
-		 * Set 'admin' to 'administrator'
-		 */
-		$client = JRequest::getVar('client', 'site');
-		if ($client == '') {
-			$client = 'site';
-		}
-		if ($client == 'admin') {
-			$client = 'administrator';
-		}
+//		/*
+//		 * Get the extension client
+//		 * 
+//		 * Defaults to 'site'
+//		 * Set 'admin' to 'administrator'
+//		 */
+//		$client = JRequest::getVar('client', 'site');
+//		if ($client == '') {
+//			$client = 'site';
+//		}
+//		if ($client == 'admin') {
+//			$client = 'administrator';
+//		}
 
 		/*
 		 * Ensure eid is an array of extension ids
@@ -459,6 +460,14 @@ class JInstallerController
 		}
 
 		/*
+		 * Ensure eclient is an array of extension clients
+		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 */
+		if (!is_array($eclient)) {
+			$eclient = array ($eclient);
+		}
+
+		/*
 		 * Get an installer object for the extension type
 		 */
 		$installer = & JInstaller::getInstance($db, $extension);
@@ -466,8 +475,9 @@ class JInstallerController
 		/*
 		 * Uninstall the chosen extensions
 		 */
+		$i = 0; 
 		foreach ($eid as $id) {
-			$result = $installer->uninstall($id, $client);
+			$result = $installer->uninstall($id, $eclient[$i++]);
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {
