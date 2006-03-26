@@ -235,6 +235,7 @@ class JInstallerScreens_template
 						</td>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->baseDir.DS.$row->directory; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold"><?php echo $row->name; ?></span>
 						</td>
 						<td align="center">
