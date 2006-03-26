@@ -105,8 +105,7 @@ class JViewHTMLArticle extends JView
 				// checks if the item is a public or registered/special item
 				if ($article->access <= $user->get('gid'))
 				{
-					$cache = & JFactory::getCache('getItemid');
-					$Itemid = $cache->call( 'JContentHelper::getItemid', $article->id);
+					$Itemid = JContentHelper::getItemid($article->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}

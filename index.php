@@ -112,10 +112,8 @@ $my		= $user->_table;
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {
 	$id = JRequest::getVar( 'id', 0, '', 'int' );
-	$cache = & JFactory::getCache('getItemid');
 	require_once (JApplicationHelper::getPath('helper', 'com_content'));
-	
-	$Itemid = $cache->call( 'JContentHelper::getItemid', $id);
+	$Itemid = JContentHelper::getItemid($id);
 }
 
 /** do we have a valid Itemid yet?? */

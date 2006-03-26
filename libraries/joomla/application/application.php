@@ -987,7 +987,7 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getItemid( $id ) {
-		$menu = JMenu::getInstance();
+		$menu = & JMenu::getInstance();
 		return $menu->getItemid($id);
 	}
 	
@@ -999,7 +999,7 @@ class JApplicationHelper
 	 * @since 1.1
 	 */
 	function getItemCount( $type ) {
-		$menu = JMenu::getInstance();
+		$menu = & JMenu::getInstance();
 		return count($menu->getItems('type', $type));
 	}
 

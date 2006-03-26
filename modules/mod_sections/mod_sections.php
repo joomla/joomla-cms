@@ -43,12 +43,11 @@ if ($rows)
 	<ul>
 	<?php
 
-	$cache = & JFactory::getCache('getItemid');
 	require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 	foreach ($rows as $row)
 	{
-		$_Itemid = $cache->call('JContentHelper::getItemid', $row->id);
+		$_Itemid = JContentHelper::getItemid($row->id);
 		if ($Itemid == $_Itemid)
 		{
 			$link = sefRelToAbs("index.php?option=com_content&task=blogsection&id=".$row->id);

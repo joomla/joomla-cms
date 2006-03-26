@@ -104,7 +104,6 @@ switch ($type)
 <ul class="latestnews<?php echo $moduleclass_sfx; ?>">
 <?php
 
-$cache = & JFactory::getCache('getItemid');
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 foreach ($rows as $row)
@@ -124,7 +123,7 @@ foreach ($rows as $row)
 		case 3 :
 			if ($row->sectionid)
 			{
-				$my_itemid = $cache->call('JContentHelper::getItemid', $row->id);
+				$my_itemid = JContentHelper::getItemid($row->id);
 			}
 			else
 			{
@@ -139,7 +138,7 @@ foreach ($rows as $row)
 
 		case 1 :
 		default :
-			$my_itemid = $cache->call('JContentHelper::getItemid', $row->id);
+			$my_itemid = JContentHelper::getItemid($row->id);
 			break;
 	}
 

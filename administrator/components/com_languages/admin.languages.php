@@ -85,6 +85,9 @@ function viewLanguages()
 			$row->id 		= $rowid;
 			$row->language 	= substr($file,0,-4);
 			
+			if (!is_array($data)) {
+				continue;
+			}
 			foreach($data as $key => $value) {
 				$row->$key = $value;
 			}

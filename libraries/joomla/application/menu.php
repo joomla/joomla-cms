@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @version $Id$
  * @package Joomla
@@ -45,10 +44,8 @@ class JMenu extends JObject
 	{
 		$this->_menuitems = $this->_load();
 
-		foreach ($this->_menuitems as $item)
-		{
-			if ($item->menutype == $name || $name == 'all')
-			{
+		foreach ($this->_menuitems as $item) {
+			if ($item->menutype == $name || $name == 'all') {
 				$this->_thismenu[] = $item;
 			}
 		}
@@ -59,7 +56,7 @@ class JMenu extends JObject
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $menu = JMenu::getInstance();</pre>
+	 * 		<pre>  $menu = & JMenu::getInstance();</pre>
 	 *
 	 * @access	public
 	 * @return	JMenu	The Menu object.
@@ -69,14 +66,12 @@ class JMenu extends JObject
 	{
 		static $instances;
 
-		if (!isset ($instances))
-		{
+		if (!isset ($instances)) {
 			$instances = array ();
 		}
 
-		if (empty ($instances[$id]))
-		{
-			$instances[$id] = new JMenu($id);
+		if (empty ($instances[$id])) {
+			$instances[$id] = & new JMenu($id);
 		}
 
 		return $instances[$id];
@@ -84,83 +79,84 @@ class JMenu extends JObject
 
 	function getItemid($id)
 	{
-		global $mainframe;
+		// Get a JCache object and try to retrieve the itemid from cache
+		$cache = & JFactory::getCache();
+		$signature = md5($id);
+		$Itemid = $cache->get( $signature, 'getItemid' );
 
-		$db = & $mainframe->getDBO();
-		$Itemid = null;
-
-		if (count($this->_menuitems))
-		{
-
-			/*
-			 * Do we have a content item linked to the menu with this id?
-			 */
-			foreach ($this->_menuitems as $item)
-			{
-				if ($item->link == "index.php?option=com_content&task=view&id=$id")
+		if ($Itemid === false) {
+			global $mainframe;
+	
+			$db = & $mainframe->getDBO();
+			$Itemid = null;
+	
+			if (count($this->_menuitems)) {
+				// Do we have a content item linked to the menu with this id?
+				foreach ($this->_menuitems as $item) {
+					if ($item->link == "index.php?option=com_content&task=view&id=$id") {
+						$cache->save( $item->id, $signature, 'getItemid' );
+						return $item->id;
+					}
+				}
+	
+				/*
+				 * Not a content item, so perhaps is it in a section that is linked
+				 * to the menu?
+				 */
+				$query = "SELECT m.id " .
+						"\n FROM #__content AS i" .
+						"\n LEFT JOIN #__sections AS s ON i.sectionid = s.id" .
+						"\n LEFT JOIN #__menu AS m ON m.componentid = s.id " .
+						"\n WHERE (m.type = 'content_section' OR m.type = 'content_blog_section')" .
+						"\n AND m.published = 1" .
+						"\n AND i.id = $id";
+				$db->setQuery($query);
+				$Itemid = $db->loadResult();
+				if ($Itemid != '') {
+					$cache->save( $Itemid, $signature, 'getItemid' );
+					return $Itemid;
+				}
+	
+				/*
+				 * Not a section either... is it in a category that is linked to the
+				 * menu?
+				 */
+				$query = "SELECT m.id " .
+						"\n FROM #__content AS i" .
+						"\n LEFT JOIN #__categories AS c ON i.catid = c.id" .
+						"\n LEFT JOIN #__menu AS m ON m.componentid = c.id " .
+						"\n WHERE (m.type = 'content_blog_category' OR m.type = 'content_category')" .
+						"\n AND m.published = 1" .
+						"\n AND i.id = $id";
+				$db->setQuery($query);
+				$Itemid = $db->loadResult();
+				if ($Itemid != '') {
+					$cache->save( $Itemid, $signature, 'getItemid' );
+					return $Itemid;
+				}
+	
+				/*
+				 * Once we have exhausted all our options for finding the Itemid in
+				 * the content structure, lets see if maybe we have a global blog
+				 * section in the menu we can put it under.
+				 */
+				foreach ($this->_menuitems as $item)
 				{
-					return $item->id;
+					if ($item->type == "content_blog_section" && $item->componentid == "0") {
+						$cache->save( $item->id, $signature, 'getItemid' );
+						return $item->id;
+					}
 				}
 			}
-
-			/*
-			 * Not a content item, so perhaps is it in a section that is linked
-			 * to the menu?
-			 */
-			$query = "SELECT m.id " .
-					"\n FROM #__content AS i" .
-					"\n LEFT JOIN #__sections AS s ON i.sectionid = s.id" .
-					"\n LEFT JOIN #__menu AS m ON m.componentid = s.id " .
-					"\n WHERE (m.type = 'content_section' OR m.type = 'content_blog_section')" .
-					"\n AND m.published = 1" .
-					"\n AND i.id = $id";
-			$db->setQuery($query);
-			$Itemid = $db->loadResult();
-			if ($Itemid != '')
-			{
+	
+			if ($Itemid != '') {
+				$cache->save( $Itemid, $signature, 'getItemid' );
 				return $Itemid;
-			}
-
-			/*
-			 * Not a section either... is it in a category that is linked to the
-			 * menu?
-			 */
-			$query = "SELECT m.id " .
-					"\n FROM #__content AS i" .
-					"\n LEFT JOIN #__categories AS c ON i.catid = c.id" .
-					"\n LEFT JOIN #__menu AS m ON m.componentid = c.id " .
-					"\n WHERE (m.type = 'content_blog_category' OR m.type = 'content_category')" .
-					"\n AND m.published = 1" .
-					"\n AND i.id = $id";
-			$db->setQuery($query);
-			$Itemid = $db->loadResult();
-			if ($Itemid != '')
-			{
-				return $Itemid;
-			}
-
-			/*
-			 * Once we have exhausted all our options for finding the Itemid in
-			 * the content structure, lets see if maybe we have a global blog
-			 * section in the menu we can put it under.
-			 */
-			foreach ($this->_menuitems as $item)
-			{
-				if ($item->type == "content_blog_section" && $item->componentid == "0")
-				{
-					return $item->id;
-				}
+			} else {
+				return JRequest::getVar('Itemid', 9999, '', 'int');
 			}
 		}
-
-		if ($Itemid != '')
-		{
-			return $Itemid;
-		}
-		else
-		{
-			return JRequest::getVar('Itemid', 9999, '', 'int');
-		}
+		return $Itemid;
 	}
 
 	function getMenu()
@@ -182,8 +178,7 @@ class JMenu extends JObject
 		$items = array ();
 		foreach ($this->_menuitems as $item)
 		{
-			if ($item->$attribute == $value)
-			{
+			if ($item->$attribute == $value) {
 				$items[] = $item;
 			}
 		}
@@ -197,23 +192,18 @@ class JMenu extends JObject
 
 		static $menus;
 
-		if (isset ($menus))
-		{
+		if (isset ($menus)) {
 			return $menus;
 		}
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$db = & $mainframe->getDBO();
 		$user = & $mainframe->getUser();
-
 		$sql = "SELECT *" .
 				"\n FROM #__menu" .
 				"\n WHERE published = 1";
 
 		$db->setQuery($sql);
-		if (!($menus = $db->loadObjectList('id')))
-		{
+		if (!($menus = $db->loadObjectList('id'))) {
 			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;
 		}

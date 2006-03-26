@@ -266,8 +266,7 @@ class JModelArticle extends JModel
 	function sendEmail($to, $from, $fromname = null, $subject = null)
 	{
 		// Build the link to send in the E-Mail
-		$cache		= & JFactory::getCache('getItemid');
-		$_Itemid	= $cache->call( 'JContentHelper::getItemid', $this->_id);
+		$_Itemid	= JContentHelper::getItemid($this->_id);
 		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$this->_id.'&Itemid='.$_Itemid);
 
 		// Build the message body to send in the E-Mail

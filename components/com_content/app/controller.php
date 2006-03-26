@@ -453,7 +453,7 @@ class JController extends JObject {
 
 		// If a matching view exists in the current template folder we use that, otherwise we look for the default one
 		if (file_exists( $tPath )) {
-			require_once( $tPath );
+			require( $tPath );
 			// Build the view class name
 			// Alternate view classes must be postfixed with '_alt'
 			$viewClass = 'JView'.$prefix.$viewName.'_alt';
@@ -469,7 +469,7 @@ class JController extends JObject {
 
 			// If the default view file exists include it and try to instantiate the object
 			if (file_exists( $path )) {
-				require_once( $path );
+				require( $path );
 				// Build the view class name
 				$viewClass = 'JView'.$prefix.$viewName;
 				if (!class_exists( $viewClass )) {
@@ -503,7 +503,7 @@ class JController extends JObject {
 
 		// If the model file exists include it and try to instantiate the object
 		if (file_exists( $path )) {
-			require_once( $path );
+			require( $path );
 			// Build the view class name
 			$modelClass = 'JModel'.$modelName;
 			if (!class_exists( $modelClass )) {

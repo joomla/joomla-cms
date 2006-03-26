@@ -30,7 +30,7 @@ class JContentHelper
 		/*
 		 * Get submitted text from the request variables
 		 */
-		$text = JRequest :: getVar('text', '', 'post', 'string', _J_ALLOWRAW);
+		$text = JRequest::getVar('text', '', 'post', 'string', _J_ALLOWRAW);
 
 		/*
 		 * Clean text for xhtml transitional compliance
@@ -332,76 +332,89 @@ class JContentHelper
 
 	function getItemid($id)
 	{
-		global $mainframe;
+		
+		$cache = & JFactory::getCache();
+		$Itemid = $cache->get( md5($id), 'getItemid' );
 
-		$db = & $mainframe->getDBO();
-		$menu = & JMenu :: getInstance();
-		$items = $menu->getMenu();
-		$Itemid = null;
-
-		if (count($items))
+		if ($Itemid === false)
 		{
-			/*
-			 * Do we have a content item linked to the menu with this id?
-			 */
-			foreach ($items as $item) {
-				if ($item->link == "index.php?option=com_content&task=view&id=$id") {
-					return $item->id;
-				}
-			}
-
-			/*
-			 * Not a content item, so perhaps is it in a section that is linked
-			 * to the menu?
-			 */
-			$query = "SELECT m.id " .
-					"\n FROM #__content AS i" .
-					"\n LEFT JOIN #__sections AS s ON i.sectionid = s.id" .
-					"\n LEFT JOIN #__menu AS m ON m.componentid = s.id " .
-					"\n WHERE (m.type = 'content_section' OR m.type = 'content_blog_section')" .
-					"\n AND m.published = 1" .
-					"\n AND i.id = $id";
-			$db->setQuery($query);
-			$Itemid = $db->loadResult();
-			if ($Itemid != '') {
-				return $Itemid;
-			}
-
-			/*
-			 * Not a section either... is it in a category that is linked to the
-			 * menu?
-			 */
-			$query = "SELECT m.id " .
-					"\n FROM #__content AS i" .
-					"\n LEFT JOIN #__categories AS c ON i.catid = c.id" .
-					"\n LEFT JOIN #__menu AS m ON m.componentid = c.id " .
-					"\n WHERE (m.type = 'content_blog_category' OR m.type = 'content_category')" .
-					"\n AND m.published = 1" .
-					"\n AND i.id = $id";
-			$db->setQuery($query);
-			$Itemid = $db->loadResult();
-			if ($Itemid != '') {
-				return $Itemid;
-			}
-
-			/*
-			 * Once we have exhausted all our options for finding the Itemid in
-			 * the content structure, lets see if maybe we have a global blog
-			 * section in the menu we can put it under.
-			 */
-			foreach ($items as $item)
+			global $mainframe;
+	
+			$db = & $mainframe->getDBO();
+			$menu = & JMenu::getInstance();
+			$items = $menu->getMenu();
+			$Itemid = null;
+	
+			if (count($items))
 			{
-				if ($item->type == "content_blog_section" && $item->componentid == "0") {
-					return $item->id;
+				/*
+				 * Do we have a content item linked to the menu with this id?
+				 */
+				foreach ($items as $item) {
+					if ($item->link == "index.php?option=com_content&task=view&id=$id") {
+						$cache->save( $item->id, md5($id), 'getItemid' );
+						return $item->id;
+					}
+				}
+	
+				/*
+				 * Not a content item, so perhaps is it in a section that is linked
+				 * to the menu?
+				 */
+				$query = "SELECT m.id " .
+						"\n FROM #__content AS i" .
+						"\n LEFT JOIN #__sections AS s ON i.sectionid = s.id" .
+						"\n LEFT JOIN #__menu AS m ON m.componentid = s.id " .
+						"\n WHERE (m.type = 'content_section' OR m.type = 'content_blog_section')" .
+						"\n AND m.published = 1" .
+						"\n AND i.id = $id";
+				$db->setQuery($query);
+				$Itemid = $db->loadResult();
+				if ($Itemid != '') {
+					$cache->save( $Itemid, md5($id), 'getItemid' );
+					return $Itemid;
+				}
+	
+				/*
+				 * Not a section either... is it in a category that is linked to the
+				 * menu?
+				 */
+				$query = "SELECT m.id " .
+						"\n FROM #__content AS i" .
+						"\n LEFT JOIN #__categories AS c ON i.catid = c.id" .
+						"\n LEFT JOIN #__menu AS m ON m.componentid = c.id " .
+						"\n WHERE (m.type = 'content_blog_category' OR m.type = 'content_category')" .
+						"\n AND m.published = 1" .
+						"\n AND i.id = $id";
+				$db->setQuery($query);
+				$Itemid = $db->loadResult();
+				if ($Itemid != '') {
+					$cache->save( $Itemid, md5($id), 'getItemid' );
+					return $Itemid;
+				}
+	
+				/*
+				 * Once we have exhausted all our options for finding the Itemid in
+				 * the content structure, lets see if maybe we have a global blog
+				 * section in the menu we can put it under.
+				 */
+				foreach ($items as $item)
+				{
+					if ($item->type == "content_blog_section" && $item->componentid == "0") {
+						$cache->save( $item->id, md5($id), 'getItemid' );
+						return $item->id;
+					}
 				}
 			}
+	
+			if ($Itemid != '') {
+				$cache->save( $Itemid, md5($id), 'getItemid' );
+				return $Itemid;
+			} else {
+				return JRequest::getVar('Itemid', 9999, '', 'int');
+			}
 		}
-
-		if ($Itemid != '') {
-			return $Itemid;
-		} else {
-			return JRequest :: getVar('Itemid', 9999, '', 'int');
-		}
+		return $Itemid;
 	}
 }
 

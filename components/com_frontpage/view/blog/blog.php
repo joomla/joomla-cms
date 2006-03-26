@@ -342,8 +342,7 @@ class JViewFrontpageHTML_blog
 				{
 					if ($task != 'view')
 					{
-						$cache = & JFactory::getCache('getItemid');
-						$Itemid = $cache->call( 'JContentHelper::getItemid', $row->id);
+						$Itemid = JContentHelper::getItemid($row->id);
 					}
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
@@ -476,9 +475,8 @@ class JViewFrontpageHTML_blog
 				 */
 				break;
 			}
-			$cache		= & JFactory::getCache('getItemid');
-			$Itemid	= $cache->call( 'JContentHelper::getItemid', $rows[$i]->id);
-			$link			= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$Itemid)
+			$Itemid	= JContentHelper::getItemid($rows[$i]->id);
+			$link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$Itemid)
 			?>
 			<li>
 				<a class="blogsection" href="<?php echo $link; ?>">
