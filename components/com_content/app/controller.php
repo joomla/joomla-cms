@@ -146,8 +146,8 @@ class JController extends JObject {
 		// Build and set the menu item object from $Itemid
 		$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		if ($Itemid) {
-			$menu = & JMenu::getInstance();
-			$menu = & $menu->getItem($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItem($Itemid);
 			$menu->parameters = & new JParameter($menu->params);
 		} else {
 			$menu = & new stdClass();

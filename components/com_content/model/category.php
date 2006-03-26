@@ -279,7 +279,7 @@ class JModelCategory extends JModel
 					"\n GROUP BY c.id".$empty.
 					"\n ORDER BY c.ordering";
 			$this->_db->setQuery($query);
-			$this->_siblings = & $this->_db->loadObjectList();
+			$this->_siblings = $this->_db->loadObjectList();
 		}		
 		return true;
 	}

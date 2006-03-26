@@ -303,7 +303,7 @@ class JModelSection extends JModel
 					"\n GROUP BY a.id".$empty.$empty_sec .
 					"\n ORDER BY $orderby";
 			$this->_db->setQuery($query);
-			$this->_categories = & $this->_db->loadObjectList();
+			$this->_categories = $this->_db->loadObjectList();
 		}		
 		return true;
 	}

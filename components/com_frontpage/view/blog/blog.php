@@ -68,7 +68,7 @@ class JViewFrontpageHTML_blog
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
 
-		$rows = & $model->getContentData();
+		$rows = $model->getContentData();
 
 		/*
 		 * Pagination support

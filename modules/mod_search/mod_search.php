@@ -69,7 +69,7 @@ if ($set_Itemid)
 }
 else
 {
-	$menu = & JMenu::getInstance();
+	$menu = JMenu::getInstance();
 	$items	= $menu->getMenu();
 
 	$_Itemid = null;

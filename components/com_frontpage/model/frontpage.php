@@ -57,7 +57,7 @@ class JModelFrontpage extends JObject
 	function __construct( &$db, &$params)
 	{
 		$this->_mparams	= &$params;
-		$this->_db				= & $db;
+		$this->_db		= & $db;
 	}
 
 	/**
@@ -68,7 +68,7 @@ class JModelFrontpage extends JObject
 	 */
 	function setId($id)
 	{
-		$this->_content					= null;
+		$this->_content	= null;
 	}
 
 	/**

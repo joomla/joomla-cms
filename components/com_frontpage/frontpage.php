@@ -52,7 +52,7 @@ class JFrontpageController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Parameters
-		$menu = & JMenu::getInstance();
+		$menu = JMenu::getInstance();
 		$menu = $menu->getItem($Itemid);
 		$params = new JParameter($menu->params);
 

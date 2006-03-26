@@ -159,7 +159,7 @@ class JView extends JObject {
 			// Does the method exist?
 			if (method_exists($this->_models[$model], $method)) {
 				// The method exists, lets call it and return what we get
-				$data = & $this->_models[$model]->$method();
+				$data = $this->_models[$model]->$method();
 				return $data;
 			} else {
 				// Method wasn't found... throw a warning and return false

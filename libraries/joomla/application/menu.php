@@ -56,7 +56,7 @@ class JMenu extends JObject
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $menu = & JMenu::getInstance();</pre>
+	 * 		<pre>  $menu = JMenu::getInstance();</pre>
 	 *
 	 * @access	public
 	 * @return	JMenu	The Menu object.

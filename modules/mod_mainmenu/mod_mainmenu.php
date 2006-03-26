@@ -154,7 +154,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		global $mosConfig_shownoauth;
 
 		$template = $mainframe->getTemplate();
-		$menu     =& JMenu::getInstance();
+		$menu     =JMenu::getInstance();
 		$user 	  =& $mainframe->getUser();
 
 		// indent icons
@@ -294,7 +294,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		global $database, $mainframe, $Itemid;
 		global $mosConfig_shownoauth;
 		
-		$menu     =& JMenu::getInstance();
+		$menu     =JMenu::getInstance();
 		$user 	  =& $mainframe->getUser();
 
 		//get menu items

@@ -196,7 +196,7 @@ class JContactView {
 		// displays Email Form
 		JContactView::_writeVcard( $contact, $params );
 		// displays Email Form
-		JContactView::_writeEmailForm( $contact, $params, $sitename, $menu_params );
+		JContactView::_writeEmailForm( $contact, $params, $mainframe->getCfg('sitename'), $menu_params );
 		?>
 		</table>
 		<?php
