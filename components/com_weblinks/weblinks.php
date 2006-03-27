@@ -483,7 +483,7 @@ class WeblinksController
 		// Bind the $_POST array to the web link table
 		if (!$row->bind($_POST, "published"))
 		{
-			WeblinksView::userInputError($row->getError());
+			JError::raiseError( 500, $row->getError());
 			return;
 		}
 
@@ -499,14 +499,14 @@ class WeblinksController
 		// Make sure the web link table is valid
 		if (!$row->check())
 		{
-			WeblinksView::userInputError($row->getError());
+			JError::raiseError( 500, $row->getError());
 			return;
 		}
 
 		// Store the web link table to the database
 		if (!$row->store())
 		{
-			WeblinksView::userInputError($row->getError());
+			JError::raiseError( 500, $row->getError());
 			return;
 		}
 
@@ -524,7 +524,7 @@ class WeblinksController
 		$db->setQuery($query);
 		if (!$db->query())
 		{
-			WeblinksView::userInputError($db->stderr(true));
+			JError::raiseError( 500, $db->stderr(true));
 			return;
 		}
 		$adminRows = $db->loadObjectList();
