@@ -449,7 +449,7 @@ class JController extends JObject {
 		
 		// Get the current template name and path
 		$tName = $this->_app->getTemplate();
-		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.$option.DS.strtolower($viewName).'.php';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.'components'.DS.$option.DS.strtolower($viewName).'.php';
 
 		// If a matching view exists in the current template folder we use that, otherwise we look for the default one
 		if (file_exists( $tPath )) {
