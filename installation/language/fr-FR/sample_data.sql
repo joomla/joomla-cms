@@ -127,7 +127,7 @@ INSERT INTO `#__poll_data` VALUES (12, 14, '', 0);
 # Dumping data for table `#__polls`
 #
 
-INSERT INTO `#__polls` VALUES (14, 'This Joomla! installation was ....', 0, 0, '2000-00-00 00:00:00', 1, 0, 86400);
+INSERT INTO `#__polls` VALUES (14, 'This Joomla! installation was ....', 1, 0, '2000-00-00 00:00:00', 1, 0, 86400);
 
 #
 # Dumping data for table `#__poll_menu`
