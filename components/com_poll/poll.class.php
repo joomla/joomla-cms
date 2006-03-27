@@ -19,6 +19,58 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
+class JModelPolls {
+
+	var $dbo = null;
+
+	function JModelPolls( &$dbo )
+	{
+		$this->_db = &$dbo;
+	}
+
+	function getDBO() {
+		return $this->_db;
+	}
+
+	/**
+	 * Add vote
+	 * @param int The id of the poll
+	 * @param int The id of the option selected
+	 */
+	function addVote( $poll_id, $option_id )
+	{
+		$db = $this->getDBO();
+		$poll_id	= (int) $poll_id;
+		$option_id	= (int) $option_id;
+		
+		$query = 'UPDATE #__poll_data'
+			. ' SET hits = hits + 1'
+			. ' WHERE pollid = ' . (int) $poll_id
+			. ' AND id = ' . (int) $option_id
+			;
+		$db->setQuery( $query );
+		$db->query();
+	
+		$query = 'UPDATE #__polls'
+			. ' SET voters = voters + 1'
+			. ' WHERE id = ' . $poll_id
+			;
+		$db->setQuery( $query );
+		$db->query();
+
+		$query = 'INSERT INTO #__poll_date'
+			. ' SET date = NOW(), vote_id = '. $option_id . ', poll_id = ' . $poll_id
+		;
+		$db->setQuery( $query );
+		$db->query();
+	}
+}
+
+
+/**
+* @package Joomla
+* @subpackage Polls
+*/
 class mosPoll extends JTable {
 	/** @var int Primary key */
 	var $id					= null;

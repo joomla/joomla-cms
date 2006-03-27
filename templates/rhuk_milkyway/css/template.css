@@ -500,14 +500,17 @@ td.sectiontableheader {
   border-right: 1px solid #fff;
 }
 
-tr.sectiontableentry1 td, tr.sectiontableentry2 td {
+tr.sectiontableentry0 td,
+tr.sectiontableentry1 td,
+tr.sectiontableentry2 td {
   padding: 4px;
 }
 
-td.sectiontableentry1, td.sectiontableentry2{
+td.sectiontableentry0,
+td.sectiontableentry1,
+td.sectiontableentry2 {
   padding: 3px;
 }
-
 
 
 /* content styles */

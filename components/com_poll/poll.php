@@ -18,95 +18,88 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'front_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$breadcrumbs =& $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, 'Polls');
-
-
-$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 $task 	= JRequest::getVar( 'task' );
 
 switch ($task) {
 	case 'vote':
-		pollAddVote( $id );
+		pollAddVote();
 		break;
 
 	default:
-		pollresult( $id );
+		pollresult();
 		break;
 }
 
-function pollAddVote( $uid ) {
-	global $database;
+/**
+ * Add a vote to an option
+ */
+function pollAddVote()
+{
+	global $mainframe;
+	
+	$database	= $mainframe->getDBO();
+
+	$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
+	$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
 
 	$redirect = 1;
 
 	$poll = new mosPoll( $database );
-	if (!$poll->load( $uid )) {
+	if (!$poll->load( $poll_id ) || $poll->published != 1)
+	{
 		echo '<h3>'. JText::_('ALERTNOTAUTH') .'</h3>';
 		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
 		return;
 	}
 
-	$cookiename = "voted$poll->id";
-	$voted = mosGetParam( $_COOKIE, $cookiename, '0' );
+	$siteName	= $mainframe->getCfg( 'live_site' );
+	$cookieName	= mosHash( $siteName . 'poll' . $poll_id );
+	$voted = 0; //mosGetParam( $_COOKIE, $cookiename, '0' );
 
-	if ($voted) {
+	if ($voted)
+	{
 		echo '<h3>'. JText::_( 'You already voted for this poll today!' ) .'</h3>';
 		echo "<input class=\"button\" type=\"button\" value=\"". JText::_( 'Continue' )."\" onClick=\"window.history.go(-1);\">";
 		return;
 	}
 
-	$voteid = JRequest::getVar( 'voteid', 0, 'post', 'int' );
-	if (!$voteid) {
+	if (!$option_id)
+	{
 		echo '<h3>'. JText::_( 'WARNSELECT' ) .'</h3>';
 		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
 		return;
 	}
 
-	setcookie( $cookiename, '1', time()+$poll->lag );
+	setcookie( $cookieName, '1', time() + $poll->lag );
 
-	$query = "UPDATE #__poll_data"
-	. "\n SET hits = hits + 1"
-	. "\n WHERE pollid = $poll->id"
-	. "\n AND id = $voteid"
-	;
-	$database->setQuery( $query );
-	$database->query();
-
-	$query = "UPDATE #__polls"
-	. "\n SET voters = voters + 1"
-	. "\n WHERE id = $poll->id"
-	;
-	$database->setQuery( $query );
-
-	$database->query();
-
-	$now = date( 'Y-m-d G:i:s' );
-	$query = "INSERT INTO #__poll_date"
-	. "\n SET date = '$now', vote_id = $voteid, poll_id = $poll->id"
-	;
-	$database->setQuery( $query );
-	$database->query();
+	$model = new JModelPolls( $database );
+	$model->addVote( $poll_id, $option_id );
 
 	if ( $redirect ) {
-		josRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ), JText::_( 'Thanks for your vote!' ) );
+		josRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );
 	} else {
 		echo '<h3>'. JText::_( 'Thanks for your vote!' ) .'</h3>';
 		echo '<form action="" method="GET">';
-		echo '<input class="button" type="button" value="'. JText::_( 'Results' ) .'" onclick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ) .'\'">';
+		echo '<input class="button" type="button" value="'. JText::_( 'Results' ) .'" onclick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ) .'\'">';
 		echo '</form>';
 	}
 }
 
-function pollresult( $uid ) {
-	global $database, $Itemid;
+/**
+ * Display the poll result
+ */
+function pollresult() {
+	global $Itemid;
 	global $mainframe;
 
+	$poll_id 	= JRequest::getVar( 'id', 0, '', 'int' );
+	$database	= $mainframe->getDBO();
+
 	$poll = new mosPoll( $database );
-	$poll->load( $uid );
+	$poll->load( $poll_id );
 
 	// if id value is passed and poll not published then exit
-	if ($poll->id != '' && !$poll->published) {
+	if ($poll->id > 0 && $poll->published != 1) {
 		mosNotAuth();
 		return;
 	}
@@ -119,9 +112,9 @@ function pollresult( $uid ) {
 	Check if there is a poll corresponding to id
 	and if poll is published
 	*/
-	if (isset($poll->id) && $poll->id != '' && $poll->published == 1) {			
-		if (empty($poll->title)) {
-			$poll->id = '';
+	if ($poll->id > 0) {			
+		if (empty( $poll->title )) {
+			$poll->id = 0;
 			$poll->title = JText::_( 'Select Poll from the list' );
 		}
 		
@@ -130,24 +123,23 @@ function pollresult( $uid ) {
 		. "\n WHERE poll_id = $poll->id"
 		;
 		$database->setQuery( $query );
-		$dates = $database->loadObjectList();
+		$dates = null;
+		$database->loadObject( $dates );
  
-		if (isset($dates[0]->mindate)) {
-			$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATEFORMATLC2' ) );
-			$last_vote 	= mosFormatDate( $dates[0]->maxdate, JText::_( 'DATEFORMATLC2' ) );
+		if (isset( $dates->mindate )) {
+			$first_vote = mosFormatDate( $dates->mindate, JText::_( 'DATEFORMATLC2' ) );
+			$last_vote 	= mosFormatDate( $dates->maxdate, JText::_( 'DATEFORMATLC2' ) );
 		}
 
-		$query = "SELECT a.id, a.text, count( DISTINCT b.id ) AS hits, count( DISTINCT b.id )/COUNT( DISTINCT a.id )*100.0 AS percent"
+		$query = "SELECT a.id, a.text, a.hits, b.voters"
 		. "\n FROM #__poll_data AS a"
-		. "\n LEFT JOIN #__poll_date AS b ON b.vote_id = a.id"
+		. "\n INNER JOIN #__polls AS b ON b.id = a.pollid"
 		. "\n WHERE a.pollid = $poll->id"
 		. "\n AND a.text <> ''"
-		. "\n GROUP BY a.id"
-		. "\n ORDER BY a.id"
+		. "\n ORDER BY a.hits DESC"
 		;
 		$database->setQuery( $query );
 		$votes = $database->loadObjectList();
-
 	}
 	
 	// list of polls for dropdown selection
@@ -164,35 +156,26 @@ function pollresult( $uid ) {
 	if ( $Itemid || $Itemid != 99999999 ) {
 		$_Itemid = '&amp;Itemid='. $Itemid;
 	}
+
+	$lists = array();
 	
 	// dropdown output
 	$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
-	$pollist = '<select name="id" id="poll_list" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}">';
-	$pollist .= '<option value="">'. JText::_( 'Select Poll from the list' ) .'</option>';
-	for ($i=0, $n=count( $polls ); $i < $n; $i++ ) {
-		$k = $polls[$i]->id;
-		$t = $polls[$i]->title;
 
-		$sel = ($k == intval( $poll->id ) ? " selected=\"selected\"" : '');
-		$pollist .= "\n\t<option value=\"".$k."\"$sel>" . $t . "</option>";
-	}
-	$pollist .= '</select>';
+	array_unshift( $polls, mosHTML::makeOption( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
+
+	$lists['polls'] = mosHTML::selectList( $polls, 'id',
+		'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}"',
+		'id', 'title',
+		$poll->id
+		);
 
 	// Adds parameter handling
 	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 
 	$params = new JParameter( $menu->params );
-	$params->def( 'page_title',		1 );
-	$params->def( 'pageclass_sfx', 	'' );
-	$params->def( 'back_button', 	$mainframe->getCfg( 'back_button' ) );
-	$params->def( 'header', 		$menu->name );
 
-	$mainframe->SetPageTitle($poll->title);
-
-	$breadcrumbs =& $mainframe->getPathWay();
-	$breadcrumbs->addItem($poll->title, '');
-
-	poll_html::showResults( $poll, $votes, $first_vote, $last_vote, $pollist, $params );
+	poll_html::showResults( $poll, $votes, $first_vote, $last_vote, $lists, $params, $menu );
 }
 ?>
