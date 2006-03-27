@@ -140,6 +140,8 @@ function pollresult() {
 		;
 		$database->setQuery( $query );
 		$votes = $database->loadObjectList();
+	} else {
+		$votes = array();
 	}
 	
 	// list of polls for dropdown selection
