@@ -23,7 +23,6 @@ function initDocument(&$doc, $file = 'index.html')
 {
 	global $mainframe;
 
-	$user    =& $mainframe->getUser();
 	$lang    =& $mainframe->getLanguage();
 	
 	$template = $mainframe->getTemplate();
