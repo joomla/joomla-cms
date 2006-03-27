@@ -323,7 +323,7 @@ class JModelCategory extends JModel
 
 			$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 					"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-					"\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
+					"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
 					"\n FROM #__content AS a" .
 					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
 					"\n LEFT JOIN #__groups AS g ON a.access = g.id".

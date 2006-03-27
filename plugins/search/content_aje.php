@@ -80,7 +80,7 @@ class JSearchContent extends JPlugin {
 				$wheres2 	= array();
 				$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
 				$wheres2[] 	= "LOWER(a.introtext) LIKE '%$text%'";
-				$wheres2[] 	= "LOWER(a.fulltext) LIKE '%$text%'";
+				$wheres2[] 	= "LOWER(a.`fulltext`) LIKE '%$text%'";
 				$wheres2[] 	= "LOWER(a.metakey) LIKE '%$text%'";
 				$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$text%'";
 				$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
@@ -95,7 +95,7 @@ class JSearchContent extends JPlugin {
 					$wheres2 	= array();
 					$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
 					$wheres2[] 	= "LOWER(a.introtext) LIKE '%$word%'";
-					$wheres2[] 	= "LOWER(a.fulltext) LIKE '%$word%'";
+					$wheres2[] 	= "LOWER(a.`fulltext`) LIKE '%$word%'";
 					$wheres2[] 	= "LOWER(a.metakey) LIKE '%$word%'";
 					$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$word%'";
 					$wheres[] 	= implode( ' OR ', $wheres2 );
@@ -136,7 +136,7 @@ class JSearchContent extends JPlugin {
 		if ( $sContent ) {
 			$query = "SELECT a.title AS title,"
 			. "\n a.created AS created,"
-			. "\n CONCAT(a.introtext, a.fulltext) AS text,"
+			. "\n CONCAT(a.introtext, a.`fulltext`) AS text,"
 			. "\n CONCAT_WS( '/', u.title, b.title ) AS section,"
 			. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
 			. "\n '2' AS browsernav"
