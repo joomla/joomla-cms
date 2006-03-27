@@ -130,7 +130,7 @@ ALTER TABLE `jos_session` ADD COLUMN `client_id` tinyint(3) NOT NULL default 0;
 # Delete massmail component from component menu table
 DELETE FROM `jos_components` WHERE `option` = 'com_massmail' 
 
-#AE: 15-Mar-2005
+#AE: 15-Mar-2006
 ALTER TABLE `jos_contact_details` MODIFY COLUMN `name` VARCHAR(255) NOT NULL;
 ALTER TABLE `jos_contact_details` MODIFY COLUMN `con_position` VARCHAR(255) ,
 ALTER TABLE `jos_contact_details` MODIFY COLUMN `suburb` VARCHAR(100) ,
@@ -144,6 +144,13 @@ ALTER TABLE `jos_contact_details` MODIFY COLUMN `email_to` VARCHAR(255) ,
 ALTER TABLE `jos_contact_details` ADD COLUMN `mobile` VARCHAR(255) NOT NULL;
 ALTER TABLE `jos_contact_details` ADD COLUMN `webpage` VARCHAR(255) NOT NULL;
 
-#JJ: 20-Mar-2005
-DROP TABLDE `jos_usertypes`
+#JJ: 20-Mar-2006
+DROP TABLE `jos_usertypes`
+
+#AE: 27-Mar-2006
+ALTER TABLE `jos_menu` ADD COLUMN `model_name` VARCHAR(45) NOT NULL DEFAULT '';
+ALTER TABLE `jos_menu` ADD COLUMN `view_name` VARCHAR(45) NOT NULL DEFAULT '';
+ALTER TABLE `jos_menu` ADD COLUMN `renderer_name` VARCHAR(45)  NOT NULL DEFAULT '';
+ALTER TABLE `jos_menu` ADD COLUMN `lft` INTEGER UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `jos_menu` ADD COLUMN `rgt` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 

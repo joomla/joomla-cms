@@ -369,6 +369,11 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `utaccess` tinyint(3) unsigned NOT NULL default '0',
   `params` text NOT NULL,
+  `model_name` VARCHAR(45) NOT NULL DEFAULT '',
+  `view_name` VARCHAR(45) NOT NULL DEFAULT '',
+  `renderer_name` VARCHAR(45) NOT NULL DEFAULT '',
+  `lft` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+  `rgt` INTEGER UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY  (`id`),
   KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
   KEY `menutype` (`menutype`)
