@@ -1,9 +1,16 @@
 <?php
 /**
 * This is the dynamic loader for the library. It checks whether you have
-* the iconv or mbstring extensions available and includes relevant files
+* the mbstring extension available and includes relevant files
 * on that basis, falling back to the native (as in written in PHP) version
-* if iconv / mbstring is unavailabe.
+* if mbstring is unavailabe.
+*
+* It's probably easiest to use this, if you don't want to understand
+* the dependencies involved, in conjunction with PHP versions etc. At
+* the same time, you might get better performance by managing loading
+* yourself. The smartest way to do this, bearing in mind performance,
+* is probably to "load on demand" - i.e. just before you use these
+* functions in your code, load the version you need.
 *
 * It makes sure the the following functions are available;
 * utf8_strlen, utf8_strpos, utf8_strrpos, utf8_substr,
@@ -14,9 +21,11 @@
 */
 
 /**
-* Put the current directory in this variable
+* Put the current directory in this constant
 */
-$UTF8_DIR = dirname(__FILE__);
+if ( !defined('UTF8') ) {
+    define('UTF8',dirname(__FILE__));
+}
 
 /**
 * If string overloading is active, it will break many of the
@@ -29,60 +38,51 @@ if ( extension_loaded('mbstring')) {
     if ( ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING ) {
         trigger_error('String functions are overloaded by mbstring',E_USER_ERROR);
     }
-
-    if ( mb_internal_encoding() != 'UTF-8' ) {
-        trigger_error('mbstring internal encoding is not set to UTF-8',E_USER_ERROR);
-    }
+    mb_internal_encoding('UTF-8');
 }
 
 /**
-* iconv_strlen only available in PHP 5+. Check the iconv encoding
-* setting is correctly set as well.
-* Note that there is no use of mb_strlen as it's slower
-* than the native implementation
+* Load the faster strlen if mbstring available
 */
-if ( function_exists('iconv_strlen') ) {
-     if ( iconv_get_encoding('internal_encoding') != 'UTF-8' ) {
-        trigger_error('iconv internal encoding is not set to UTF-8',E_USER_ERROR);
+if ( !defined('UTF8_STRLEN') ) {
+    if ( function_exists('mb_strlen') ) {
+        mb_internal_encoding('UTF-8');
+        require_once UTF8 . '/mbstring/strlen.php';
+    } else {
+        require_once UTF8 . '/native/strlen.php';
     }
-    require_once $UTF8_DIR . '/iconv/utf8_strlen.php';
-} else {
-    require_once $UTF8_DIR . '/native/utf8_strlen.php';
 }
 
 /**
 * Load the smartest implementations of utf8_strpos, utf8_strrpos
 * and utf8_substr
 */
-if ( function_exists('iconv_substr') ) {
-    require_once $UTF8_DIR . '/iconv/core.php';
-} else if ( function_exists('mb_substr') ) {
-    require_once $UTF8_DIR . '/mbstring/core.php';
-} else {
-    require_once $UTF8_DIR . '/native/utf8_strpos.php';
-    require_once $UTF8_DIR . '/native/utf8_strrpos.php';
-    require_once $UTF8_DIR . '/native/utf8_substr.php';
+if ( !defined('UTF8_CORE') ) {
+    if ( function_exists('mb_substr') ) {
+        require_once UTF8 . '/mbstring/core.php';
+    } else {
+        require_once UTF8 . '/native/core.php';
+    }
 }
 
 /**
 * Load the smartest implementations of utf8_strtolower and
 * utf8_strtoupper
 */
-if ( function_exists('mb_strtolower') ) {
-    require_once $UTF8_DIR . '/mbstring/case.php';
-} else {
-    require_once $UTF8_DIR . '/utf8_unicode.php';
-    require_once $UTF8_DIR . '/native/utf8_strtolower.php';
-    require_once $UTF8_DIR . '/native/utf8_strtoupper.php';
+if ( !defined('UTF8_CASE') ) {
+    if ( function_exists('mb_strtolower') ) {
+        require_once UTF8 . '/mbstring/case.php';
+    } else {
+        require_once UTF8 . '/utils/unicode.php';
+        require_once UTF8 . '/native/case.php';
+    }
 }
 
 /**
 * Load the native implementation of utf8_substr_replace
 */
-require_once $UTF8_DIR . '/native/utf8_substr_replace.php';
+require_once UTF8 . '/substr_replace.php';
 
 /**
-* You should now be able to use all the other functions
-* in the native directory
+* You should now be able to use all the other utf_* string functions
 */
-?>

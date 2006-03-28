@@ -37,10 +37,20 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Mar-2006 David Gal
+ ^ Changed the phputf8 library to the newer release of the library
+
 27-Mar-2006 Andrew Eddie
  # Fixed mega-inefficient query in the poll results display
  ^ Cleaned up multiple table nestings in poll results page
  ^ Minor refactoring to frontend polls component
+
+27-Mar-2006 David Gal
+ # Fixed language uninstall bug
+
+25-Mar-2006 David Gal
+ ^ Separated install xml files and metadata xml files for languages
+ # Fixed some language intall problems
 
 23-Mar-2006 Johan Janssens
  - Removed DOMIT! XML-RPC library
