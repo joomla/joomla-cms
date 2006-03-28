@@ -228,6 +228,7 @@ class JTemplatesController
 		$ini		= $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 		$xml		= $client->path.DS.'templates'.DS.$template.DS.'templateDetails.xml';
 		
+		jimport('joomla.filesystem.path');
 		$templateBaseDir = JPath::clean($client->path.DS.'templates');
 		$row = JTemplatesHelper::parseXMLTemplateFile($templateBaseDir, $template);
 		$row->published = JTemplatesHelper::isTemplateDefault($row->directory, $client->id);
