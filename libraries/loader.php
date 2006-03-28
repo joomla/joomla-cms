@@ -51,6 +51,7 @@ class JLoader
 			$path = str_replace( '.', DS, $filePath );
 			JLoader::_requireOnce($base . DS . $path . '.php');
 		}
+		return true;
 	}
 
    /**
@@ -103,6 +104,6 @@ class JLoader
  * @since 1.1
  */
 function jimport( $path ) {
-	JLoader::import($path);
+	return JLoader::import($path);
 }
 ?>
