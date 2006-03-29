@@ -675,8 +675,6 @@ class JContentHTMLHelper {
 	 */
 	function author($row, $params) 
 	{
-		global $acl;
-
 		if (($params->get('author')) && ($row->author != "")) {
 			?>
 			<tr>

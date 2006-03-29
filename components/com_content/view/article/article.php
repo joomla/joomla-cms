@@ -41,111 +41,95 @@ class JViewHTMLArticle extends JView
 	function display()
 	{
 		// Initialize variables
-		$app			= & $this->get( 'Application' );
-		$user			= & $app->getUser();
-		$menu			= & $this->get( 'Menu' );
-		$SiteName	= $app->getCfg('sitename');
-		$Itemid		= $menu->id;
-		$page			= JRequest::getVar('limitstart', 0, '', 'int');
-		$noJS 			= JRequest::getVar( 'hide_js', 0, '', 'int' );
-		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
-		$linkOn			= null;
-		$linkText		= null;
+		$app	= & $this->get('Application');
+		$user	= & $app->getUser();
+		$menu	= & $this->get('Menu');
+		$Itemid	= $menu->id;
+		
+		// At some point in the future this will be in a request object
+		$page	= JRequest::getVar('limitstart', 0, '', 'int');
+		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
+		$noHTML	= JRequest::getVar('no_html', 0, '', 'int');
 
 		// Get the article from the model
-		$article		= & $this->get( 'Article' );
-		$params	= $article->parameters;
+		$article	= & $this->get('Article');
+		$params		= & $article->parameters;
 
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+		// Create a user access object for the current user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
 
-		/*
-		 * Handle BreadCrumbs and Page Title
-		 */
+		// Handle BreadCrumbs
 		$breadcrumbs = & $app->getPathWay();
-		if (!empty ($Itemid))
-		{
+		if (!empty ($Itemid)) {
 			// Section
-			if (!empty ($article->section))
-			{
+			if (!empty ($article->section)) {
 				$breadcrumbs->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
 			}
 			// Category
-			if (!empty ($article->section))
-			{
+			if (!empty ($article->section)) {
 				$breadcrumbs->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$article->sectionid.'&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
 			}
 		}
 		// Item
 		$breadcrumbs->addItem($article->title, '');
-		$app->setPageTitle($article->title);
-		$app->appendMetaTag('description', $article->metadesc);
-		$app->appendMetaTag('keywords', $article->metakey);
 
-		// process the new plugins
+		// Handle Page Title
+		$doc = & $app->getDocument();
+		$doc->setTitle($article->title);
+
+		// Handle metadata
+		$doc->setMetadata('description', $article->metadesc);
+		$doc->setMetadata('keywords', $article->metakey);
+
+		// Process the content plugins
 		JPluginHelper::importPlugin('content');
 		$results = $app->triggerEvent('onPrepareContent', array (& $article, & $params, $page));
 
-		// adds mospagebreak heading or title to <site> Title
-		if (isset ($article->page_title))
-		{
-			$app->setPageTitle($article->title.' '.$article->page_title);
+		// If there is a pagebreak heading or title, add it to the page title
+		if (isset ($article->page_title)) {
+			$doc->setTitle($article->title.' '.$article->page_title);
 		}
 
-		// determines the link and link text of the readmore button
-		if (($params->get('readmore') && @ $article->readmore) || $params->get('link_titles'))
-		{
-			if ($params->get('intro_only'))
-			{
-				// checks if the item is a public or registered/special item
-				if ($article->access <= $user->get('gid'))
-				{
+		// Time to build the readmore button if it should be shown
+		if (($params->get('readmore') && @ $article->readmore) || $params->get('link_titles')) {
+			if ($params->get('intro_only')) {
+				// Checks to make sure user has access to the full article
+				if ($article->access <= $user->get('gid')) {
 					$Itemid = JContentHelper::getItemid($article->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
-				}
-				else
-				{
+				} else {
 					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 					$linkText = JText::_('Register to read more...');
 				}
 			}
 		}
 
-		/*
-		 * Handle popup page
-		 */
-		if ($params->get('popup') && $noHTML == 0)
-		{
-			$app->setPageTitle($SiteName.' - '.$article->title);
+		// Popup pages get special treatment for page titles
+		if ($params->get('popup') && $noHTML == 0) {
+			$doc->setTitle($app->getCfg('sitename').' - '.$article->title);
 		}
 
-		// edit icon
-		if ($access->canEdit)
-		{
+		// If the user can edit the article, display the edit icon
+		if ($access->canEdit) {
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
 				<?php JContentHTMLHelper::editIcon($article, $params, $access); ?>
 			</div>
 			<?php
-
-
 		}
 
-		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
-		{
-			// link used by print button
-			$print_link = $app->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
+		// Time to build the title bar... this may also include the pdf/print/email buttons if enabled
+		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
+			// Build the link for the print button
+			$printLink = $app->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
 			<?php
-
 
 			// displays Item Title
 			JContentHTMLHelper::title($article, $params, $linkOn, $access);
@@ -154,7 +138,7 @@ class JViewHTMLArticle extends JView
 			JContentHTMLHelper::pdfIcon($article, $params, $linkOn, $noJS);
 
 			// displays Print Icon
-			mosHTML::PrintIcon($article, $params, $noJS, $print_link);
+			mosHTML::PrintIcon($article, $params, $noJS, $printLink);
 
 			// displays Email Icon
 			JContentHTMLHelper::emailIcon($article, $params, $noJS);
@@ -162,23 +146,20 @@ class JViewHTMLArticle extends JView
 			</tr>
 			</table>
 			<?php
-
-
 		}
 
-		if (!$params->get('intro_only'))
-		{
+		// If only displaying intro, display the output from the onAfterDisplayTitle event
+		if (!$params->get('intro_only')) {
 			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
 			echo trim(implode("\n", $results));
 		}
 
+		// Display the output from the onBeforeDisplayContent event
 		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, $page));
 		echo trim(implode("\n", $onBeforeDisplayContent));
 		?>
-
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<?php
-
 
 		// displays Section & Category
 		JContentHTMLHelper::sectionCategory($article, $params);
@@ -194,8 +175,7 @@ class JViewHTMLArticle extends JView
 		?>
 		<tr>
 			<td valign="top" colspan="2">
-				<?php
-
+		<?php
 
 		// displays Table of Contents
 		JContentHTMLHelper::toc($article);
@@ -207,7 +187,6 @@ class JViewHTMLArticle extends JView
 		</tr>
 		<?php
 
-
 		// displays Modified Date
 		JContentHTMLHelper::modifiedDate($article, $params);
 
@@ -216,75 +195,71 @@ class JViewHTMLArticle extends JView
 		?>
 		</table>
 		<span class="article_seperator">&nbsp;</span>
-
 		<?php
-
 
 		// Fire the after display content event
 		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $article, & $params, $page));
 		echo trim(implode("\n", $onAfterDisplayContent));
 
-		// displays the next & previous buttons
-		//JContentHTMLHelper::navigation($article, $params);
-
 		// displays close button in pop-up window
 		mosHTML::CloseButton($params, $noJS);
-
 	}
 
 	function edit()
 	{
 		// Initialize variables
-		$app			= & $this->get( 'Application' );
-		$document	= & $app->getDocument();
-		$user			= & $app->getUser();
-		$menu			= & $this->get( 'Menu' );
-		$SiteName	= $app->getCfg('sitename');
-		$Itemid		= $menu->id;
-		$page			= JRequest::getVar('limitstart', 0, '', 'int');
-		$noJS 			= JRequest::getVar( 'hide_js', 0, '', 'int' );
+		$app	= & $this->get('Application');
+		$doc	= & $app->getDocument();
+		$user	= & $app->getUser();
+		$menu	= & $this->get('Menu');
+		$Itemid	= $menu->id;
+
+		// At some point in the future this will come from a request object
+		$page		= JRequest::getVar('limitstart', 0, '', 'int');
+		$noJS		= JRequest::getVar('hide_js', 0, '', 'int');
 		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
-		$Returnid		= JRequest::getVar( 'Returnid', $Itemid, '', 'int' );
+		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
+
+		// Add the Calendar includes to the document <head> section
+		$doc->addStyleSheet('includes/js/calendar/calendar-mos.css');
+		$doc->addScript('includes/js/calendar/calendar_mini.js');
+		$doc->addScript('includes/js/calendar/lang/calendar-en.js');
 
 		// Get the article from the model
-		$article		= & $this->get( 'Article' );
-		$params	= $article->parameters;
+		$article	= & $this->get('Article');
+		$params		= $article->parameters;
 
 		// Get the lists
 		$lists = $this->_buildEditLists();
 
 		// Load the JEditor object
-		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();
+		jimport('joomla.presentation.editor');
+		$editor = & JEditor::getInstance();
 
 		// Load the JToolBar object
-		jimport( 'joomla.presentation.toolbar.toolbar' );
-		$toolbar =& JToolBar::getInstance('Article');
+		jimport('joomla.presentation.toolbar.toolbar');
+		$toolbar = & JToolBar::getInstance('Article');
 		// Add a save button
-		$toolbar->appendButton( 'Standard', 'save', 'Save', 'save', false, false );
+		$toolbar->appendButton('Standard', 'save', 'Save', 'save', false, false);
 		// Add an apply button
-		$toolbar->appendButton( 'Standard', 'apply', 'Apply', 'apply_new', false, false );
+		$toolbar->appendButton('Standard', 'apply', 'Apply', 'apply_new', false, false);
 		// Add a cancel button
-		$toolbar->appendButton( 'Standard', 'cancel', 'Cancel', 'cancel', false, false );
+		$toolbar->appendButton('Standard', 'cancel', 'Cancel', 'cancel', false, false);
 
 		// Load the mosTabs object
 		$tabs = new mosTabs(0);
 
-		// Add the Calendar includes to the document <head> section
-		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
-		$document->addScript('includes/js/calendar/calendar_mini.js');
-		$document->addScript('includes/js/calendar/lang/calendar-en.js');
-		
+		// Load the Overlib library
 		mosCommonHTML::loadOverlib();
 
 		// Ensure the row data is safe html
 		mosMakeHtmlSafe($article);
 
-		// Set the page title string
-		$title = $article->id ? JText::_( 'Edit' ) : JText::_( 'New' );
+		// Build the page title string
+		$title = $article->id ? JText::_('Edit') : JText::_('New');
 
 		// Set page title
-		$app->setPageTitle($title);
+		$doc->setTitle($title);
 
 		// Add pathway item
 		$breadcrumbs = & $app->getPathway();
@@ -329,17 +304,12 @@ class JViewHTMLArticle extends JView
 				if (getSelectedValue('adminForm','catid') < 1) {
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				} else {
-					<?php
-					echo $editor->getEditorContents('editor1', 'text');
-					?>
+		<?php
+		// JavaScript for extracting editor text
+		echo $editor->getEditorContents('editor1', 'text');
+		?>
 					submitform(pressbutton);
 				}
-			} else {
-				// for static content
-				<?php
-				echo $editor->getEditorContents('editor1', 'text');
-				?>
-				submitform(pressbutton);
 			}
 		}
 
@@ -355,27 +325,28 @@ class JViewHTMLArticle extends JView
 		}
 		</script>
 		<?php
-		$docinfo = '<table><tr><td>'; 
+		// Build overlib text
+		$docinfo = '<table><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Expiry Date').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $article->publish_down;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Version').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $article->version;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Created').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $article->created;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Last Modified').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $article->modified;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Hits').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $article->hits;
-		$docinfo .= '</td></tr></table>'; 
+		$docinfo .= '</td></tr></table>';
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
 
@@ -397,17 +368,19 @@ class JViewHTMLArticle extends JView
 					<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
 				</div>
 				<div style="float: right;">
-					<?php
-						echo $toolbar->render();
-					?>
+		<?php
+		// Render the toolbar
+		echo $toolbar->render();
+		?>
 				</div>
 			</td>
 		</tr>
 		</table>
 		
 		<?php
+		// If the document is in a section display the section and category dropdown
 		if ($article->sectionid) {
-			?>
+		?>
 			<table class="adminform" width="100%">
 			<tr>
 				<td>
@@ -438,31 +411,34 @@ class JViewHTMLArticle extends JView
 		</tr>
 		<tr>
 			<td>
-				<?php
-				/*
-				 * We need to unify the introtext and fulltext fields and have the
-				 * fields separated by the {readmore} tag, so lets do that now.
-				 */
-				if (strlen($article->fulltext) > 1) {
-					$article->text = $article->introtext . '{readmore}' . $article->fulltext;
-				} else {
-					$article->text = $article->introtext;
-				}
-
-				// parameters : areaname, content, hidden field, width, height, rows, cols
-				echo $editor->getEditor('editor1', $article->text, 'text', '600', '400', '70', '15');
-				?>
+		<?php
+		/*
+		 * We need to unify the introtext and fulltext fields and have the
+		 * fields separated by the {readmore} tag, so lets do that now.
+		 */
+		if (strlen($article->fulltext) > 1) {
+			$article->text = $article->introtext.'{readmore}'.$article->fulltext;
+		} else {
+			$article->text = $article->introtext;
+		}
+		// Display the editor
+		// arguments (areaname, content, hidden field, width, height, rows, cols)
+		echo $editor->getEditor('editor1', $article->text, 'text', '600', '400', '70', '15');
+		?>
 			</td>
 		</tr>
 		</table>
 		
 		<?php
-				echo $toolbar->render();
+		// Display the toolbar again
+		echo $toolbar->render();
 		?>
 		
 		<br />
-		
+		<!-- Begin Article Parameters Section -->		
+		<!-- Images Tab -->		
 		<?php
+
 		$title = JText::_('Images');
 		$tabs->startPane('content-pane');
 		$tabs->startTab($title, 'images-page');
@@ -612,6 +588,7 @@ class JViewHTMLArticle extends JView
 			</tr>
 			</table>
 			
+		<!-- Publishing Tab -->		
 		<?php
 		$title = JText::_('Publishing');
 		$tabs->endTab();
@@ -619,9 +596,10 @@ class JViewHTMLArticle extends JView
 		?>
 		
 			<table class="adminform">
-			<?php
-			if ($user->authorize('action', 'publish', 'content', 'all')) {
-				?>
+		<?php
+
+		if ($user->authorize('action', 'publish', 'content', 'all')) {
+		?>
 				<tr>
 					<td >
 						<label for="state">
@@ -633,8 +611,8 @@ class JViewHTMLArticle extends JView
 					</td>
 				</tr>
 				<?php
-			}
-			?>
+		}
+		?>
 			<tr>
 				<td width="120">
 					<label for="frontpage">
@@ -699,6 +677,7 @@ class JViewHTMLArticle extends JView
 			</tr>
 			</table>
 			
+		<!-- Metadata Tab -->		
 		<?php
 		$title = JText::_('Metadata');
 		$tabs->endTab();
@@ -727,6 +706,7 @@ class JViewHTMLArticle extends JView
 			</tr>
 			</table>
 			
+		<!-- End Article Parameters Section -->		
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
@@ -749,15 +729,15 @@ class JViewHTMLArticle extends JView
 	function _buildEditLists()
 	{
 		// Get the article and database connector from the model
-		$article		= & $this->get( 'Article' );
-		$db			= & $this->get( 'DBO' );
+		$article = & $this->get('Article');
+		$db = & $this->get('DBO');
 
 		// Read the JPATH_ROOT/images/stories/ folder
-		$pathA			= 'images/stories';
-		$pathL			= 'images/stories';
-		$images		= array ();
-		$folders		= array ();
-		$folders[]		= mosHTML::makeOption('/');
+		$pathA = 'images/stories';
+		$pathL = 'images/stories';
+		$images = array ();
+		$folders = array ();
+		$folders[] = mosHTML::makeOption('/');
 		mosAdminMenus::ReadImages($pathA, '/', $folders, $images);
 
 		// Select List: Subfolders in the JPATH_ROOT/images/stories/ folder
@@ -767,9 +747,11 @@ class JViewHTMLArticle extends JView
 		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
 
 		// Select List: Saved Images
-		if (trim($row->images)) {
+		if (trim($row->images))
+		{
 			$article->images = explode("\n", $article->images);
-		} else {
+		} else
+		{
 			$article->images = array ();
 		}
 		$lists['imagelist'] = mosAdminMenus::GetSavedImages($article, $pathL);
@@ -792,19 +774,14 @@ class JViewHTMLArticle extends JView
 		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
 
 		// Select List: Category Ordering
-		$query = "SELECT ordering AS value, title AS text" .
-				"\n FROM #__content" .
-				"\n WHERE catid = $article->catid" .
-				"\n ORDER BY ordering";
+		$query = "SELECT ordering AS value, title AS text"."\n FROM #__content"."\n WHERE catid = $article->catid"."\n ORDER BY ordering";
 		$lists['ordering'] = mosAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
 		$lists['state'] = mosHTML::yesnoradioList('state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
-		$query = "SELECT content_id" .
-				"\n FROM #__content_frontpage" .
-				"\n WHERE content_id = $article->id";
+		$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
 		$db->setQuery($query);
 		$article->frontpage = $db->loadResult();
 		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $article->frontpage);

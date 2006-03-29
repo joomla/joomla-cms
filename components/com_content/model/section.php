@@ -91,16 +91,15 @@ class JModelSection extends JModel
 			/*
 			 * Make sure the category is published
 			 */
-			if (!$this->_section->published)
-			{
+			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
+
 			/*
 			 * check whether category access level allows access
 			 */
-			if ($this->_section->access > $user->get('gid'))
-			{
+			if ($this->_section->access > $user->get('gid')) {
 				JError::raiseError(403, JText::_("Access Forbidden"));
 				return false;
 			}
@@ -123,21 +122,19 @@ class JModelSection extends JModel
 		/*
 		 * Load the Category data
 		 */
-		if ($this->_loadSection() && $this->_loadCategories())
-		{
+		if ($this->_loadSection() && $this->_loadCategories()) {
 			/*
 			 * Make sure the category is published
 			 */
-			if (!$this->_section->published)
-			{
+			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
+
 			/*
 			 * check whether category access level allows access
 			 */
-			if ($this->_section->access > $user->get('gid'))
-			{
+			if ($this->_section->access > $user->get('gid')) {
 				JError::raiseError(403, JText::_("Access Forbidden"));
 				return false;
 			}
@@ -162,21 +159,19 @@ class JModelSection extends JModel
 		/*
 		 * Load the Category data
 		 */
-		if ($this->_loadSection() && $this->_loadContent($state))
-		{
+		if ($this->_loadSection() && $this->_loadContent($state)) {
 			/*
 			 * Make sure the category is published
 			 */
-			if (!$this->_section->published)
-			{
+			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
+
 			/*
 			 * check whether category access level allows access
 			 */
-			if ($this->_section->access > $user->get('gid'))
-			{
+			if ($this->_section->access > $user->get('gid')) {
 				JError::raiseError(403, JText::_("Access Forbidden"));
 				return false;
 			}
@@ -219,12 +214,9 @@ class JModelSection extends JModel
 			/*
 			* Lets get the information for the current section
 			*/
-			if ($this->_id)
-			{
+			if ($this->_id) {
 				$where = "\n WHERE id = '$this->_id'";
-			}
-			else
-			{
+			} else {
 				$where = null;
 			}
 
@@ -249,27 +241,23 @@ class JModelSection extends JModel
 		/*
 		 * Lets load the siblings if they don't already exist
 		 */
-		if (empty($this->_categories))
-		{
+		if (empty($this->_categories)) {
 			$user		= & $this->_app->getUser();
-			$noauth	= !$this->_app->getCfg('shownoauth');
-			$gid			= $user->get('gid');
+			$noauth		= !$this->_app->getCfg('shownoauth');
+			$gid		= $user->get('gid');
 			$now		= $this->_app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-			$params	= & $this->_menu->parameters;
+			$params		= & $this->_menu->parameters;
 			
 			// Ordering control
 			$orderby = $params->get('orderby', '');
 			$orderby = JContentHelper::orderbySecondary($orderby);
 	
 			// Handle the access permissions part of the main database query
-			if ($user->authorize('action', 'edit', 'content', 'all'))
-			{
+			if ($user->authorize('action', 'edit', 'content', 'all')) {
 				$xwhere = '';
 				$xwhere2 = "\n AND b.state >= 0";
-			}
-			else
-			{
+			} else {
 				$xwhere = "\n AND a.published = 1";
 				$xwhere2 = "\n AND b.state = 1" .
 						"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
@@ -279,16 +267,15 @@ class JModelSection extends JModel
 			// Determine whether to show/hide the empty categories and sections
 			$empty = null;
 			$empty_sec = null;
+
 			// show/hide empty categories in section
-			if (!$params->get('empty_cat_section'))
-			{
+			if (!$params->get('empty_cat_section')) {
 				$empty_sec = "\n HAVING numitems > 0";
 			}
 	
 			// Handle the access permissions
 			$access_check = null;
-			if ($noauth)
-			{
+			if ($noauth) {
 				$access_check = "\n AND a.access <= $gid";
 			}
 	
@@ -317,16 +304,14 @@ class JModelSection extends JModel
 	 */
 	function _loadContent($state = 1)
 	{
-		if (empty($this->_section))
-		{
+		if (empty($this->_section)) {
 			return false; // TODO: set error -- can't get siblings when we don't know the category
 		}
 
 		/*
 		 * Lets load the content if it doesn't already exist
 		 */
-		if (empty($this->_content[$state]))
-		{
+		if (empty($this->_content[$state])) {
 			/*
 			 * Get the pagination request variables
 			 */
@@ -342,7 +327,7 @@ class JModelSection extends JModel
 			/*
 			 * Get the WHERE and ORDER BY clauses for the query
 			 */
-			$where	= $this->_buildContentWhere($state);
+			$where		= $this->_buildContentWhere($state);
 			$orderby	= $this->_buildContentOrderBy($state);
 
 			$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
@@ -374,22 +359,21 @@ class JModelSection extends JModel
 		/*
 		 * Lets load the content if it doesn't already exist
 		 */
-		if (empty($this->_tree))
-		{
-		$user		= & $this->_app->getUser();
-		$gid			= $user->get('gid');
-		$now		=$this->_app->get('requestTime');
-		$nullDate	= $this->_db->getNullDate();
+		if (empty($this->_tree)) {
+			$user		= & $this->_app->getUser();
+			$gid		= $user->get('gid');
+			$now		=$this->_app->get('requestTime');
+			$nullDate	= $this->_db->getNullDate();
+		
+			// Get the information for the current section
+			if ($this->_id) {
+				$and = "\n AND a.section = '$this->_id'";
+			} else {
+				$and = null;
+			}
 	
-		// Get the information for the current section
-		if ($this->_id) {
-			$and = "\n AND a.section = '$this->_id'";
-		} else {
-			$and = null;
-		}
-
-		// Query of categories within section
-		$query = "SELECT a.name AS catname, a.title AS cattitle, b.* " .
+			// Query of categories within section
+			$query = "SELECT a.name AS catname, a.title AS cattitle, b.* " .
 				"\n FROM #__categories AS a" .
 				"\n INNER JOIN #__content AS b ON b.catid = a.id" .
 				"\n AND b.state = 1" .
@@ -411,8 +395,7 @@ class JModelSection extends JModel
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
 		$orderby = "\n ORDER BY ";
-		if ($filter_order && $filter_order_Dir)
-		{
+		if ($filter_order && $filter_order_Dir) {
 			$orderby .= "$filter_order $filter_order_Dir, ";
 		}
 
@@ -431,7 +414,7 @@ class JModelSection extends JModel
 				$orderby_sec	= $params->def('orderby_sec', 'rdate');
 				$orderby_pri	= $params->def('orderby_pri', '');
 				$secondary		= JContentHelper::orderbySecondary($orderby_sec);
-				$primary			= JContentHelper::orderbyPrimary($orderby_pri);
+				$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 				break;
 		}
 		$orderby .= "$primary $secondary DESC";
@@ -442,9 +425,9 @@ class JModelSection extends JModel
 	function _buildContentWhere($state = 1)
 	{
 		$user		= & $this->_app->getUser();
-		$gid			= $user->get('gid');
+		$gid		= $user->get('gid');
 		$now		=$this->_app->get('requestTime');
-		$noauth	= !$this->_app->getCfg('shownoauth');
+		$noauth		= !$this->_app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 	
 		/*
@@ -452,8 +435,7 @@ class JModelSection extends JModel
 		 * the current category
 		 */
 		$where = "\n WHERE a.access <= $gid";
-		if ($this->_id)
-		{
+		if ($this->_id) {
 			$where .= "\n AND a.sectionid = $this->_id";
 		}
 
@@ -468,12 +450,9 @@ class JModelSection extends JModel
 		switch ($state)
 		{
 			case 1:
-				if ($user->authorize('action', 'edit', 'content', 'all'))
-				{
+				if ($user->authorize('action', 'edit', 'content', 'all')) {
 					$where .= "\n AND a.state >= 0";
-				}
-				else
-				{
+				} else {
 					$where .= "\n AND a.state = 1" .
 							"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 							"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
@@ -487,7 +466,7 @@ class JModelSection extends JModel
 				/*
 				 * Get some request vars specific to this state
 				 */
-				$year		= JRequest::getVar( 'year', date('Y') );
+				$year	= JRequest::getVar( 'year', date('Y') );
 				$month	= JRequest::getVar( 'month', date('m') );
 
 				$where .= "\n AND a.state = '-1'";
@@ -504,11 +483,9 @@ class JModelSection extends JModel
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
 		$params = & $this->_menu->parameters;
-		if ($params->get('filter'))
-		{
+		if ($params->get('filter')) {
 			$filter = JRequest::getVar('filter', '', 'request');
-			if ($filter)
-			{
+			if ($filter) {
 				// clean filter variable
 				$filter = strtolower($filter);
 
