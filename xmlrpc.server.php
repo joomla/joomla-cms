@@ -16,8 +16,7 @@ define( "_JEXEC", 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( JPATH_BASE .'/includes/defines.php'     );
-require_once ( JPATH_BASE .'/includes/application.php' );
+require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'application.php' );
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
 //	die( 'XML-RPC server not enabled.' );
