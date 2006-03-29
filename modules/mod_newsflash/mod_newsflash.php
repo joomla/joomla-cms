@@ -14,12 +14,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-
 if (!defined('_JOS_NEWSFLASH_MODULE'))
 {
 	/** ensure that functions are declared only once */
 	define('_JOS_NEWSFLASH_MODULE', 1);
+
+	require_once(JApplicationHelper::getPath('helper', 'com_content'));
 
 	function output_newsflash(& $row, & $params, & $access)
 	{
