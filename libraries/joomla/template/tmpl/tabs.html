@@ -1,0 +1,46 @@
+<jtmpl:comment>
+@version $Id: calendar.html 85 2005-09-15 23:12:03Z eddieajau $
+@package Joomla
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</jtmpl:comment>
+
+<!-- DYNAMIC TABS -->
+<jtmpl:tmpl name="includeTabs" useglobals="yes">
+	<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="{SITEURL}/includes/js/tabs/tabpane.css" />
+	<script type="text/javascript" src="{SITEURL}/includes/js/tabs/tabpane.js"></script>
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="startTabPane" varscope="body">
+	<div class="tab-page" id="{PANEID}">
+	<script language="javascript" type="text/javascript">
+	<!--
+	var tabPane1 = new WebFXTabPane( document.getElementById( '{PANEID}' ), {PANECOOKIES} );
+	//-->
+	</script>
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="startTab" varscope="body">
+	<div class="tab-page" id="{PANEID}">
+	<h2 class="tab">
+			<jtmpl:var name="tabtitle" modifier="translate" />
+	</h2>
+		<script language="javascript" type="text/javascript">
+		<!--
+	tabPane1.addTabPage( document.getElementById( '{PANEID}' ) );
+		//-->
+	</script>
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="endTab">
+	</div>
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="endTabPane">
+	</div>
+</jtmpl:tmpl>

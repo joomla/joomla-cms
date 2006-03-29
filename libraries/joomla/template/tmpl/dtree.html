@@ -1,0 +1,26 @@
+<jtmpl:comment>
+@version $Id: calendar.html 85 2005-09-15 23:12:03Z eddieajau $
+@package Joomla
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</jtmpl:comment>
+
+<!-- Dynamic trees -->
+<jtmpl:tmpl name="include-tree">
+	<script type="text/javascript" src="{SITEURL}/includes/js/dtree/dtree.js"></script>
+	<link rel="stylesheet" href="{SITEURL}/includes/js/dtree/dtree.css" type="text/css" />
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="tree-buttons">
+	<div class="expander">
+		<a href="javascript:d.openAll();" title="<jtmpl:Translate>Expand All</jtmpl:Translate>">
+			<img src="{ADMINURL}/images/expandall.png" border="0" height="13" width="13" alt="<jtmpl:Translate>Expand All</jtmpl:Translate>"/></a>
+		<a href="javascript:d.closeAll();" title="<jtmpl:Translate>Collapse All</jtmpl:Translate>">
+			<img src="{ADMINURL}/images/collapseall.png" border="0" height="13" width="13" alt="<jtmpl:Translate>Collapse All</jtmpl:Translate>"/></a>
+	</div>
+</jtmpl:tmpl>

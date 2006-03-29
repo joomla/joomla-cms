@@ -1,0 +1,37 @@
+<jtmpl:comment>
+@version $Id: page.html 85 2005-09-15 23:12:03Z eddieajau $
+@package Joomla
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</jtmpl:comment>
+
+<!-- A HELP LINK -->
+<jtmpl:tmpl name="help">
+	<a href="#" onclick="window.open('{SITEURL}/help/{FILE}.xml', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
+		<jtmpl:Translate>Help</jtmpl:Translate></a>
+</jtmpl:tmpl>
+
+<!-- TOOL TIPS :: note include must go last -->
+<jtmpl:tmpl name="include-tooltips">
+<script language="JavaScript" type="text/javascript" src="{SITEURL}/includes/js/wz_tooltip.js"></script>
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="tooltip" unusedvars="ignore">
+	<a href="#" onmouseover="this.T_BGIMG='{SITEURL}/images/M_images/tt_bg.jpg';this.T_WIDTH=200;{OPTIONS};return escape('<jtmpl:var name="tip" modifier="Translate" />')" class="tooltip">
+		<jtmpl:var name="text" modifier="Translate" /></a>
+</jtmpl:tmpl>
+<jtmpl:tmpl name="tooltip-i" unusedvars="ignore">
+	<a href="#" onmouseover="this.T_BGIMG='{SITEURL}/images/M_images/tt_bg.jpg';this.T_WIDTH=200;{OPTIONS};return escape('<jtmpl:var name="tip" modifier="Translate" />')">
+		<img src="{SITEURL}/includes/js/ThemeOffice/tooltip.png" border="0" /></a>
+</jtmpl:tmpl>
+
+<jtmpl:tmpl name="include-overlib">
+	<script language="javascript" type="text/javascript" src="{SITEURL}/includes/js/overlib_mini.js"></script>
+	<script language="javascript" type="text/javascript" src="{SITEURL}/includes/js/overlib_hideform_mini.js"></script>
+	<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
+</jtmpl:tmpl>
