@@ -32,6 +32,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 			case 'separator' :
 			case 'component_item_link' :
 				break;
+				
 			case 'content_item_link' :
 				$temp = split("&task=view&id=", $mitem->link);
 				require_once (JApplicationHelper::getPath('helper', 'com_content'));
@@ -39,6 +40,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 				$_Itemid = JContentHelper::getItemid($temp[1]);
 				$mitem->link .= '&Itemid='.$_Itemid;
 				break;
+				
 			case 'url' :
 				if (eregi('index.php\?', $mitem->link))
 				{
@@ -48,6 +50,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					}
 				}
 				break;
+				
 			case 'content_typed' :
 			default :
 				$mitem->link .= '&Itemid='.$mitem->id;
@@ -321,6 +324,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					}
 					echo '</ul>';
 					break;
+					
 				default :
 					echo '<table width="100%" border="0" cellpadding="0" cellspacing="1">';
 					echo '<tr>';

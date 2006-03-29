@@ -519,7 +519,7 @@ function sefRelToAbs( $string ) {
 				
 				$string = $live_site_parts[1] . $string;
 			// check that url does not contain `http`, `https` or `ftp` at start of string
-			} else if ( ( strpos( $string, 'http' ) !== 0 ) && ( strpos( $string, 'https' ) !== 0 ) && ( strpos( $string, 'ftp' ) !== 0 ) ) {
+			} else if ( ( strpos( $string, 'http' ) !== 0 ) && ( strpos( $string, 'https' ) !== 0 ) && ( strpos( $string, 'ftp' ) !== 0 ) && ( strpos( $string, 'file' ) !== 0 ) ) {
 				// URI doesn't start with a "/" so relative to the page (live-site):
 				$string = $LiveSite .'/'. $string;
 			}
