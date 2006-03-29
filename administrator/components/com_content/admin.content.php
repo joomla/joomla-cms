@@ -800,24 +800,20 @@ class JContentController
 		}
 
 		/*
-		 * Are we saving from an item edit?
-		 */
-		if ($row->id)
-		{
-			$row->modified			= date('Y-m-d H:i:s');
-			$row->modified_by	= $user->get('id');
-			$row->created			= $row->created ? mosFormatDate($row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset')) : date('Y-m-d H:i:s');
-			$row->created_by		= $row->created_by ? $row->created_by : $user->get('id');
+		* Are we saving from an item edit?
+		*/
+		if ($row->id) {
+			$row->modified 		= date( 'Y-m-d H:i:s' );
+			$row->modified_by 	= $user->get('id');
+			$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset') );
+		} else {
+		/*
+		* Nope, we are creating an item
+		*/
+			$row->created 		= date( 'Y-m-d H:i:s' );
+			$row->created_by 	= $user->get('id');
 		}
-		else
-		{
-			/*
-			 * Nope, we are creating an item
-			 */
-			$row->created		= $row->created ? mosFormatDate($row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset')) : date('Y-m-d H:i:s');
-			$row->created_by	= $row->created_by ? $row->created_by : $user->get('id');
-		}
-
+		
 		/*
 		 * Append time if not added to publish date
 		 */
