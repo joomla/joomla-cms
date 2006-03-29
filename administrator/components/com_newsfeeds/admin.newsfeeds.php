@@ -27,72 +27,64 @@ if (!$user->authorize( 'com_newsfeeds', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$task 	= JRequest::getVar( 'task', array(0), '', 'array' );
-$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-$id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
-if (!is_array( $cid )) {
-	$cid = array(0);
-}
+$task 	= JRequest::getVar( 'task');
 
 switch ($task) {
 
 	case 'new':
-		editNewsFeed( 0, $option );
+		editNewsFeed( );
 		break;
 
 	case 'edit':
-		editNewsFeed( $cid[0], $option );
-		break;
-
-	case 'editA':
-		editNewsFeed( $id, $option );
+		editNewsFeed( );
 		break;
 
 	case 'save':
 	case 'apply':
-		saveNewsFeed( $task );
+		saveNewsFeed( );
 		break;
 
 	case 'publish':
-		publishNewsFeeds( $cid, 1, $option );
+		publishNewsFeeds( );
 		break;
 
 	case 'unpublish':
-		publishNewsFeeds( $cid, 0, $option );
+		unPublishNewsFeeds( );
 		break;
 
 	case 'remove':
-		removeNewsFeeds( $cid, $option );
+		removeNewsFeeds( );
 		break;
 
 	case 'cancel':
-		cancelNewsFeed( $option );
+		cancelNewsFeed( );
 		break;
 
 	case 'orderup':
-		orderNewsFeed( $cid[0], -1, $option );
+		moveUpNewsFeed( );
 		break;
 
 	case 'orderdown':
-		orderNewsFeed( $cid[0], 1, $option );
+		moveDownNewsFeed( );
 		break;
 	
 	case 'saveorder':
-		saveOrder( $cid );
+		saveOrder( );
 		break;	
 
 	default:
-		showNewsFeeds( $option );
+		showNewsFeeds( );
 		break;
 }
 
 /**
 * List the records
-* @param string The current GET/POST option
 */
-function showNewsFeeds( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
-
+function showNewsFeeds(  ) {
+	global $mainframe;
+	
+	$option = JRequest::getVar( 'option');
+	$database 			= $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'catname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -170,21 +162,26 @@ function showNewsFeeds( $option ) {
 
 /**
 * Creates a new or edits and existing user record
-* @param int The id of the user, 0 if a new entry
-* @param string The current GET/POST option
 */
-function editNewsFeed( $id, $option ) {
-	global $database, $my;
+function editNewsFeed(  ) {
+	global $mainframe; 
 
-	$catid = JRequest::getVar( 'catid', 0, '', 'int' );
+	$database 	= $mainframe->getDBO();
+	$user 		= $mainframe->getUser();
+	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
+	$cid 		= JRequest::getVar( 'cid', array(0));
+	$option = JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
 
-	$row = new mosNewsFeed( $database );
+	$row 		= new mosNewsFeed( $database );
 	// load the row from the db table
-	$row->load( $id );
+	$row->load( $cid[0] );
 
-	if ($id) {
+	if ($cid[0]) {
 		// do stuff for existing records
-		$row->checkout( $my->id );
+		$row->checkout( $user->get('id') );
 	} else {
 		// do stuff for new records
 		$row->ordering 		= 0;
@@ -198,7 +195,7 @@ function editNewsFeed( $id, $option ) {
 	. "\n FROM #__newsfeeds AS a"
 	. "\n ORDER BY a.ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $id, $query, 1 );
+	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
 	// build list of categories
 	$lists['category'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
@@ -210,12 +207,14 @@ function editNewsFeed( $id, $option ) {
 
 /**
 * Saves the record from an edit form submit
-* @param string The current GET/POST option
 */
-function saveNewsFeed( $task ) {
-	global $database, $my;
+function saveNewsFeed(  ) {
+	global $mainframe; 
 
-	$row = new mosNewsFeed( $database );
+	$database 	= $mainframe->getDBO();
+	$task 	= JRequest::getVar( 'task');
+
+	$row 		= new mosNewsFeed( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -237,7 +236,7 @@ function saveNewsFeed( $task ) {
 
 	switch ($task) {
 		case 'apply':
-			$link = 'index2.php?option=com_newsfeeds&task=editA&id='. $row->id .'&hidemainmenu=1';
+			$link = 'index2.php?option=com_newsfeeds&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
 		
 		case 'save':
@@ -250,13 +249,33 @@ function saveNewsFeed( $task ) {
 }
 
 /**
-* Publishes or Unpublishes one or more modules
-* @param array An array of unique category id numbers
-* @param integer 0 if unpublishing, 1 if publishing
-* @param string The current GET/POST option
+* Publishes one or more modules
 */
-function publishNewsFeeds( $cid, $publish, $option ) {
-	global $database, $my;
+function publishNewsFeeds(  ) {
+	changePublishNewsFeeds( 1 );
+}
+
+/**
+* Unpublishes one or more modules
+*/
+function unPublishNewsFeeds(  ) {
+	changePublishNewsFeeds( 0 );
+}
+
+/**
+* Publishes or Unpublishes one or more modules
+* @param integer 0 if unpublishing, 1 if publishing
+*/
+function changePublishNewsFeeds( $publish ) {
+	global $mainframe; 
+
+	$database 	= $mainframe->getDBO();
+	$user 		= $mainframe->getUser();
+	$cid 		= JRequest::getVar( 'cid', array(0));
+	$option = JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
@@ -269,7 +288,7 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 	$query = "UPDATE #__newsfeeds"
 	. "\n SET published = ". intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get('id') ) )"
 	;
 	$database->setQuery( $query );
 	if (!$database->query()) {
@@ -287,11 +306,16 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 
 /**
 * Removes records
-* @param array An array of id keys to remove
-* @param string The current GET/POST option
 */
-function removeNewsFeeds( &$cid, $option ) {
-	global $database;
+function removeNewsFeeds( ) {
+	global $mainframe; 
+
+	$database 	= $mainframe->getDBO();
+	$cid 		= JRequest::getVar( 'cid', array(0));
+	$option = JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -313,10 +337,12 @@ function removeNewsFeeds( &$cid, $option ) {
 
 /**
 * Cancels an edit operation
-* @param string The current GET/POST option
 */
-function cancelNewsFeed( $option ) {
-	global $database;
+function cancelNewsFeed(  ) {
+	global $mainframe; 
+
+	$database 	= $mainframe->getDBO();
+	$option = JRequest::getVar( 'option');
 
 	$row = new mosNewsFeed( $database );
 	$row->bind( $_POST );
@@ -325,27 +351,52 @@ function cancelNewsFeed( $option ) {
 }
 
 /**
-* Moves the order of a record
-* @param integer The id of the record to move
-* @param integer The direction to reorder, +1 down, -1 up
-* @param string The current GET/POST option
+* Moves the record up one position
 */
-function orderNewsFeed( $id, $inc, $option ) {
-	global $database;
+function moveUpNewsFeed(  ) {
+	orderNewsFeed( -1 );
+}
+
+/**
+* Moves the record down one position
+*/
+function moveDownNewsFeed(  ) {
+	orderNewsFeed( 1 );
+}
+
+/**
+* Moves the order of a record
+* @param integer The direction to reorder, +1 down, -1 up
+*/
+function orderNewsFeed( $inc ) {
+	global $mainframe; 
+
+	$database 	= $mainframe->getDBO();
+	$cid 		= JRequest::getVar( 'cid', array(0));
+	$option = JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
 
 	$limit 		= JRequest::getVar( 'limit', 0, '', 'int' );
 	$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 
 	$row = new mosNewsFeed( $database );
-	$row->load( $id );
+	$row->load( $cid[0] );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
 	josRedirect( 'index2.php?option='. $option );
 }
 
-function saveOrder( &$cid ) {
-	global $database;
+/**
+* Saves user reordering entry
+*/
+function saveOrder(  ) {
+	global $mainframe; 
+
+	$database 	= $mainframe->getDBO();
+	$cid 		= JRequest::getVar( 'cid' );
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );

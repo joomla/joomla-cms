@@ -22,7 +22,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class HTML_newsfeeds {
 
 	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option ) {
-		global $my, $mosConfig_cachepath;
+		global $mainframe; 
+		
+		$user = $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -87,12 +89,12 @@ class HTML_newsfeeds {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 	
-				$link 		= ampReplace( 'index2.php?option=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->id );
+				$link 		= ampReplace( 'index2.php?option=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->id );
 	
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->catid );
+				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->catid );
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td align="center">
@@ -103,7 +105,7 @@ class HTML_newsfeeds {
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							?>
 							<?php echo $row->name; ?>
 							&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
@@ -157,10 +159,10 @@ class HTML_newsfeeds {
 					<?php
 					$visible = 0;
 					// check to hide certain paths if not super admin
-					if ( $my->gid == 25 ) {
+					if ( $user->get('gid') == 25 ) {
 						$visible = 1;
 					}
-					mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
+					mosHTML::writableCell( $mainframe->getCfg('cachepath'), 0, '<strong>Cache Directory</strong> ', $visible );
 					?>
 					</table>
 				</td>
