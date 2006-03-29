@@ -347,7 +347,7 @@ DEFINE('_REG_COMPLETE_NOPASS','<div class="componentheading">Registration Comple
 .'You may now login.<br />&nbsp;&nbsp;');
 DEFINE('_REG_COMPLETE', '<div class="componentheading">Registration Complete!</div><br />You may now login.');
 DEFINE('_REG_COMPLETE_ACTIVATE', '<div class="componentheading">Registration Complete!</div><br />Your account has been created and activation link has been sent to the e-mail address you entered. Note that you must activate the account by clicking on the activation link when you get the e-mail before you can login.');
-DEFINE('_REG_ACTIVATE_COMPLETE', '<div class="componentheading">Activation Complete!</div><br />Your account has been successfully activated. You can now login using the username and password you choose during the registration.');
+DEFINE('_REG_ACTIVATE_COMPLETE', '<div class="componentheading">Activation Complete!</div><br />Your account has been successfully activated. You can now login using the username and password you chose during the registration.');
 DEFINE('_REG_ACTIVATE_NOT_FOUND', '<div class="componentheading">Invalid Activation Link!</div><br />There is no such account in our database or the account has already been activated.');
 
 /** classes/html/registration.php */
