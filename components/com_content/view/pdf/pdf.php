@@ -50,35 +50,28 @@ class JViewPDF extends JView
 		$app		= & $this->get( 'Application' );
 		$user		= & $app->getUser();
 		$menu		= & $this->get( 'Menu' );
-		$article		= & $this->get( 'Article' );
+		$article	= & $this->get( 'Article' );
 		$Itemid		= $menu->id;
-		$params 	= & new JParameter($article->attribs);
+		$params 	= & $article->parameters;
 
-		$params->def('author', !$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate', !$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate', !$mainframe->getCfg('hideModifyDate'));
-		$params->def('image', 1);
 		$params->def('introtext', 1);
 		$params->set('intro_only', 0);
 
 		// show/hides the intro text
-		if ($params->get('introtext'))
-		{
+		if ($params->get('introtext')) {
 			$article->text = $article->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$article->fulltext);
-		}
-		else
-		{
+		} else {
 			$article->text = $article->fulltext;
 		}
 
 		// process the new plugins
 		JPluginHelper::importPlugin('content');
-		$mainframe->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
+		$app->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
 		//	$text = trim(implode("\n", $results));
-		//				$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
+		//				$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
 		//			$text .= trim(implode("\n", $results));
 		//	
-		//		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
+		//		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
 		//		$text .= trim(implode("\n", $onBeforeDisplayContent));
 
 		//create new PDF document (document units are set by default to millimeters)

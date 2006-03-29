@@ -263,8 +263,23 @@ class JContentController extends JController
 
 	function viewpdf()
 	{
-		require_once (dirname(__FILE__).DS.'content.pdf.php');
-		JViewContentPDF::showItem();
+		// Set the view name to article view
+		$this->setViewName( 'pdf', 'com_content' );
+
+		// Create the view
+		$view = & $this->getView();
+		
+		// Get/Create the model
+		$model = & $this->getModel('Article');
+
+		// Get the id of the article to display and set the model
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$model->setId($id);
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+		// Display the view
+		$view->display();
 	}
 
 	/**

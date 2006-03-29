@@ -326,9 +326,8 @@ class JModelArticle extends JModel
 	 */
 	function _loadArticleParams()
 	{
-
 		$user	= & $this->_app->getUser();
-		$pop	= JRequest::getVar('pop',	0, '', 'int');
+		$pop	= JRequest::getVar('pop', 0, '', 'int');
 
 		// Create a new parameters object for the article
 		$params = new JParameter($this->_article->attribs);
@@ -351,30 +350,31 @@ class JModelArticle extends JModel
 			$this->_app->addMetaTag('author', $this->_article->author);
 		}
 
-		// Get some global configuration parameters
-		$params->def('back_button', $this->_app->getCfg('back_button'));
-		$params->def('link_titles',		$this->_app->getCfg('link_titles'));
-		$params->def('author',			!$this->_app->getCfg('hideAuthor'));
+		// Handle global overides for some article parameters if set
+		$params->def('link_titles',	$this->_app->getCfg('link_titles'));
+		$params->def('author',		!$this->_app->getCfg('hideAuthor'));
 		$params->def('createdate',	!$this->_app->getCfg('hideCreateDate'));
 		$params->def('modifydate',	!$this->_app->getCfg('hideModifyDate'));
-		$params->def('print',				!$this->_app->getCfg('hidePrint'));
-		$params->def('pdf',					!$this->_app->getCfg('hidePdf'));
-		$params->def('email',				!$this->_app->getCfg('hideEmail'));
-		$params->def('rating',				$this->_app->getCfg('vote'));
-		$params->def('icons',				$this->_app->getCfg('icons'));
-		$params->def('readmore',		$this->_app->getCfg('readmore'));
+		$params->def('print',		!$this->_app->getCfg('hidePrint'));
+		$params->def('pdf',			!$this->_app->getCfg('hidePdf'));
+		$params->def('email',		!$this->_app->getCfg('hideEmail'));
+		$params->def('rating',		$this->_app->getCfg('vote'));
+
+		$params->def('back_button', $this->_app->getCfg('back_button'));
+		$params->def('icons',		$this->_app->getCfg('icons'));
+		$params->def('readmore',	$this->_app->getCfg('readmore'));
 		
-		// Get some article specific parameters
-		$params->def('image',					1);
-		$params->def('section',				0);
-		$params->def('popup',					$pop);
-		$params->def('section_link',		0);
-		$params->def('category',			0);
+		// Get some article specific parameter defaults
+		$params->def('image',			1);
+		$params->def('section',			0);
+		$params->def('popup',			$pop);
+		$params->def('section_link',	0);
+		$params->def('category',		0);
 		$params->def('category_link',	0);
-		$params->def('introtext',			1);
+		$params->def('introtext',		1);
 		$params->def('pageclass_sfx',	'');
-		$params->def('item_title',			1);
-		$params->def('url',						1);
+		$params->def('item_title',		1);
+		$params->def('url',				1);
 
 		// Set the Section name as a link if needed
 		if ($params->get('section_link') && $this->_article->sectionid) {
@@ -388,7 +388,7 @@ class JModelArticle extends JModel
 
 		// Show or Hide the introtext column
 		if ($params->get('introtext')) {
-			$this->_article->text = $this->_article->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$this->_article->fulltext);
+			$this->_article->text = $this->_article->introtext . ($params->get('intro_only') ? '' : chr(13).chr(13).$this->_article->fulltext);
 		}
 		else {
 			$this->_article->text = $this->_article->fulltext;
