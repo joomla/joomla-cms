@@ -1,13 +1,14 @@
 var action, orgTableWidth, orgTableHeight;
 
 function insertTable() {
-	tinyMCEPopup.restoreSelection();
-
 	var formObj = document.forms[0];
 	var inst = tinyMCE.selectedInstance;
 	var cols = 2, rows = 2, border = 0, cellpadding = -1, cellspacing = -1, align, width, height, className;
 	var html = '';
 	var elm = tinyMCE.tableElm;
+	var cellLimit, rowLimit, colLimit;
+
+	tinyMCEPopup.restoreSelection();
 
 	// Get form data
 	cols = formObj.elements['cols'].value;
@@ -27,6 +28,22 @@ function insertTable() {
 	dir = formObj.elements['dir'].value;
 	lang = formObj.elements['lang'].value;
 	background = formObj.elements['backgroundimage'].value;
+
+	cellLimit = tinyMCE.getParam('table_cell_limit', false);
+	rowLimit = tinyMCE.getParam('table_row_limit', false);
+	colLimit = tinyMCE.getParam('table_col_limit', false);
+
+	// Validate table size
+	if (colLimit && cols > colLimit) {
+		alert(tinyMCE.getLang('lang_table_col_limit', '', true, {cols : colLimit}));
+		return false;
+	} else if (rowLimit && rows > rowLimit) {
+		alert(tinyMCE.getLang('lang_table_row_limit', '', true, {rows : rowLimit}));
+		return false;
+	} else if (cellLimit && cols * rows > cellLimit) {
+		alert(tinyMCE.getLang('lang_table_cell_limit', '', true, {cells : cellLimit}));
+		return false;
+	}
 
 	// Update table
 	if (action == "update") {
@@ -241,6 +258,11 @@ function init() {
 	if (action == "update") {
 		formObj.cols.disabled = true;
 		formObj.rows.disabled = true;
+	}
+
+	if (tinyMCE.getParam ('class_selectors', true)) {
+		var sr = document.getElementById('styleSelectRow');
+		sr.style.display = 'none';
 	}
 }
 

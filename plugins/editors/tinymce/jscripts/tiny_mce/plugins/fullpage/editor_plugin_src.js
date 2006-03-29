@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.11 $
- * $Date: 2006/02/10 16:29:39 $
+ * $Revision: 1.12 $
+ * $Date: 2006/02/23 16:16:34 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -57,12 +57,6 @@ var TinyMCE_FullPagePlugin = {
 
 	cleanup : function(type, content, inst) {
 		switch (type) {
-			case "submit_content":
-				if (inst.fullpageTopContent)
-					content = inst.fullpageTopContent + content + "\n</body>\n</html>";
-
-				break;
-
 			case "insert_to_editor":
 				var tmp = content.toLowerCase();
 				var pos = tmp.indexOf('<body'), pos2;

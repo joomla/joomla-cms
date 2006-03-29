@@ -40,6 +40,11 @@ function init() {
 		document.getElementById('backgroundimage').style.width = '180px';
 
 	updateColor('bgcolor_pick', 'bgcolor');
+
+	if (tinyMCE.getParam('class_selectors', true)) {
+		var sr = document.getElementById('styleSelectRow');
+		sr.style.display = 'none';
+	}
 }
 
 function updateAction() {

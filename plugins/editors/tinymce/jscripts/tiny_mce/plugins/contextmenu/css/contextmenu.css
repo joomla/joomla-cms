@@ -60,8 +60,15 @@
 	width: 100%;
 	text-decoration: none;
 	color: black;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
 }
 
 .contextMenuText a:hover {
 	background-color: #B6BDD2;
+	text-decoration: none !important;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
 }

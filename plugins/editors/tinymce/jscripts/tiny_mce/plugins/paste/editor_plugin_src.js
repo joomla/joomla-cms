@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.33 $
- * $Date: 2006/02/12 13:31:52 $
+ * $Revision: 1.36 $
+ * $Date: 2006/03/20 12:03:44 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -96,9 +96,11 @@ var TinyMCE_PastePlugin = {
 		switch (e.type) {
 			case "paste":
 				var html = TinyMCE_PastePlugin._clipboardHTML();
+				var r, inst = tinyMCE.selectedInstance;
 
-				// Removes italic, strong etc
-				tinyMCE.execCommand('delete');
+				// Removes italic, strong etc, the if was needed due to bug #1437114
+				if (inst && (r = inst.getRng()) && r.text.length > 0)
+					tinyMCE.execCommand('delete');
 
 				if (html && html.length > 0)
 					tinyMCE.execCommand('mcePasteWord', false, html);
@@ -190,8 +192,13 @@ var TinyMCE_PastePlugin = {
 			content = content.replace(/<o:p><\/o:p>/gi, "");
 			content = content.replace(new RegExp('<br style="page-break-before: always;.*>', 'gi'), '-- page break --'); // Replace pagebreaks
 			content = content.replace(new RegExp('<(!--)([^>]*)(--)>', 'g'), "");  // Word comments
-			content = content.replace(/<\/?span[^>]*>/gi, "");
-			content = content.replace(new RegExp('<(\\w[^>]*) style="([^"]*)"([^>]*)', 'gi'), "<$1$3");
+
+			if (tinyMCE.getParam("paste_remove_spans", true))
+				content = content.replace(/<\/?span[^>]*>/gi, "");
+
+			if (tinyMCE.getParam("paste_remove_styles", true))
+				content = content.replace(new RegExp('<(\\w[^>]*) style="([^"]*)"([^>]*)', 'gi'), "<$1$3");
+
 			content = content.replace(/<\/?font[^>]*>/gi, "");
 
 			// Strips class attributes.
@@ -282,11 +289,12 @@ var TinyMCE_PastePlugin = {
 		var bull = String.fromCharCode(8226);
 
 		var nodes = div.getElementsByTagName("p");
+		var prevul;
 		for (var i=0; i<nodes.length; i++) {
 			var p = nodes[i];
 
 			// Is middot
-			if (p.innerHTML.indexOf(search) != -1) {
+			if (p.innerHTML.indexOf(search) == 0) {
 				var ul = document.createElement("ul");
 
 				if (class_name)
@@ -300,9 +308,37 @@ var TinyMCE_PastePlugin = {
 				// Add the rest
 				var np = p.nextSibling;
 				while (np) {
-					// Not element or middot paragraph
-					if (np.nodeType != 1 || np.innerHTML.indexOf(search) == -1)
-						break;
+				        // If the node is whitespace, then
+				        // ignore it and continue on.
+				        if (np.nodeType == 3 && /^\s$/m.test(np.nodeValue)) {
+				                np = np.nextSibling;
+				                continue;
+				        }
+					
+					if (search == mdot) {
+					        if (np.nodeType == 1 && /^o(\s+|&nbsp;)/.test(np.innerHTML)) {
+					                // Second level of nesting
+					                if (!prevul) {
+					                        prevul = ul;
+					                        ul = document.createElement("ul");
+					                        prevul.appendChild(ul);
+					                }
+					                np.innerHTML = np.innerHTML.replace(/^o/, '');
+					        } else {
+					                // Pop the stack if we're going back up to the first level
+					                if (prevul) {
+					                        ul = prevul;
+					                        prevul = null;
+					                }
+					                // Not element or middot paragraph
+					                if (np.nodeType != 1 || np.innerHTML.indexOf(search) != 0)
+					                        break;
+					        }
+					} else {
+					        // Not element or middot paragraph
+					        if (np.nodeType != 1 || np.innerHTML.indexOf(search) != 0)
+					                break;
+				        }
 
 					var cp = np.nextSibling;
 					var li = document.createElement("li");

@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.15 $
- * $Date: 2006/02/10 16:29:39 $
+ * $Revision: 1.16 $
+ * $Date: 2006/03/14 17:33:39 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -41,7 +41,8 @@ var TinyMCE_FullScreenPlugin = {
 				} else {
 					tinyMCE.setWindowArg('editor_id', editor_id);
 
-					var win = window.open(tinyMCE.baseURL + "/plugins/fullscreen/fullscreen.htm", "mceFullScreenPopup", "fullscreen=yes,menubar=no,toolbar=no,scrollbars=no,resizable=yes,left=0,top=0,width=" + screen.availWidth + ",height="  + screen.availHeight);
+					var win = window.open(tinyMCE.baseURL + "/plugins/fullscreen/fullscreen.htm", "mceFullScreenPopup", "fullscreen=yes,menubar=no,toolbar=no,scrollbars=no,resizable=yes,left=0,top=0,width=" + screen.availWidth + ",height=" + screen.availHeight);
+					try { win.resizeTo(screen.availWidth, screen.availHeight); } catch (e) {}
 				}
 		
 				return true;

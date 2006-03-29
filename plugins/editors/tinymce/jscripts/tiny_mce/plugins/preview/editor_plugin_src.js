@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.22 $
- * $Date: 2006/02/10 16:29:39 $
+ * $Revision: 1.23 $
+ * $Date: 2006/03/20 12:03:44 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -73,7 +73,7 @@ var TinyMCE_PreviewPlugin = {
 					html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 					html += '<link href="' + tinyMCE.getParam("content_css") + '" rel="stylesheet" type="text/css" />';
 					html += '</head>';
-					html += '<body>';
+					html += '<body dir="' + tinyMCE.getParam("directionality") + '">';
 					html += c;
 					html += '</body>';
 					html += '</html>';

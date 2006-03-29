@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_template_src.js,v $
- * $Revision: 1.90 $
- * $Date: 2006/02/13 15:09:28 $
+ * $Revision: 1.93 $
+ * $Date: 2006/03/14 17:33:50 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -99,7 +99,7 @@ var TinyMCE_AdvancedTheme = {
 				return html;
 
 			case "styleselect":
-				return '<select id="{$editor_id}_styleSelect" onmousedown="TinyMCE_AdvancedTheme._setupCSSClasses(\'{$editor_id}\');" name="{$editor_id}_styleSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceSetCSSClass\',false,this.options[this.selectedIndex].value);" class="mceSelectList">{$style_select_options}</select>';
+				return '<select id="{$editor_id}_styleSelect" onmousedown="tinyMCE.themes.advanced._setupCSSClasses(\'{$editor_id}\');" name="{$editor_id}_styleSelect" onfocus="tinyMCE.addSelectAccessibility(event,this,window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceSetCSSClass\',false,this.options[this.selectedIndex].value);" class="mceSelectList">{$style_select_options}</select>';
 
 			case "fontselect":
 				var fontHTML = '<select id="{$editor_id}_fontNameSelect" name="{$editor_id}_fontNameSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontName\',false,this.options[this.selectedIndex].value);" class="mceSelectList"><option value="">{$lang_theme_fontdefault}</option>';
@@ -458,7 +458,7 @@ var TinyMCE_AdvancedTheme = {
 		var deltaHeight = 0;
 		var resizing = tinyMCE.getParam("theme_advanced_resizing", false);
 		var path = tinyMCE.getParam("theme_advanced_path", true);
-		var statusbarHTML = '<div id="{$editor_id}_path" class="mceStatusbarPathText" style="display: ' + (path ? "block" : "none") + '">&nbsp;</div><div id="{$editor_id}_resize" class="mceStatusbarResize" style="display: ' + (resizing ? "block" : "none") + '" onmousedown="TinyMCE_AdvancedTheme._setResizing(event,\'{$editor_id}\',true);"></div><br style="clear: both" />';
+		var statusbarHTML = '<div id="{$editor_id}_path" class="mceStatusbarPathText" style="display: ' + (path ? "block" : "none") + '">&nbsp;</div><div id="{$editor_id}_resize" class="mceStatusbarResize" style="display: ' + (resizing ? "block" : "none") + '" onmousedown="tinyMCE.themes.advanced._setResizing(event,\'{$editor_id}\',true);"></div><br style="clear: both" />';
 		var layoutManager = tinyMCE.getParam("theme_advanced_layout_manager", "SimpleLayout");
 
 		// Setup style select options -- MOVED UP FOR EXTERNAL TOOLBAR COMPATABILITY!
@@ -542,16 +542,12 @@ var TinyMCE_AdvancedTheme = {
 				}
 
 				// External toolbar changes
-				if (toolbarLocation == "external")
-				{
+				if (toolbarLocation == "external") {
 					var bod = document.body;
 					var elm = document.createElement ("div");
-					
-					toolbarHTML = tinyMCE.replaceVars(toolbarHTML, tinyMCE.settings);
-					toolbarHTML = tinyMCE.replaceVars(toolbarHTML, tinyMCELang);
+
 					toolbarHTML = tinyMCE.replaceVar(toolbarHTML, 'style_select_options', styleSelectHTML);
-					toolbarHTML = tinyMCE.replaceVar(toolbarHTML, "editor_id", editorId);
-					toolbarHTML = tinyMCE.applyTemplate(toolbarHTML);
+					toolbarHTML = tinyMCE.applyTemplate(toolbarHTML, {editor_id : editorId});
 
 					elm.className = "mceToolbarExternal";
 					elm.id = editorId+"_toolbar";
@@ -563,14 +559,11 @@ var TinyMCE_AdvancedTheme = {
 					tinyMCE.getInstanceById(editorId).toolbarElement = elm;
 
 					//template['html'] = '<div id="mceExternalToolbar" align="center" class="mceToolbarExternal"><table width="100%" border="0" align="center"><tr><td align="center">'+toolbarHTML+'</td></tr></table></div>' + template["html"];
-				}
-				else
-				{
+				} else {
 					tinyMCE.getInstanceById(editorId).toolbarElement = null;
 				}
 
-				if (statusbarLocation == "bottom")
-				{
+				if (statusbarLocation == "bottom") {
 					template['html'] += '<tr><td class="mceStatusbarBottom" height="1">' + statusbarHTML + '</td></tr>';
 					deltaHeight -= 23;
 				}
@@ -719,7 +712,7 @@ var TinyMCE_AdvancedTheme = {
 				}
 
 				// Only append element nodes to path
-				if (parentNode.nodeType == 1) {
+				if (parentNode.nodeType == 1 && tinyMCE.getAttrib(parentNode, "class").indexOf('mceItemHidden') == -1) {
 					path[path.length] = parentNode;
 				}
 
@@ -1044,24 +1037,23 @@ var TinyMCE_AdvancedTheme = {
 
 	// This function auto imports CSS classes into the class selection droplist
 	_setupCSSClasses : function(editor_id) {
-		if (!TinyMCE_AdvancedTheme._autoImportCSSClasses)	{
-			return;
-		}
+		var i, selectElm;
 
-		var selectElm = document.getElementById(editor_id + '_styleSelect');
+		if (!TinyMCE_AdvancedTheme._autoImportCSSClasses)
+			return;
+
+		selectElm = document.getElementById(editor_id + '_styleSelect');
 
 		if (selectElm && selectElm.getAttribute('cssImported') != 'true') {
 			var csses = tinyMCE.getCSSClasses(editor_id);
 			if (csses && selectElm)	{
-				for (var i=0; i<csses.length; i++) {
-					selectElm.options[selectElm.length] = new Option(csses[i], csses[i]);
-				}
+				for (i=0; i<csses.length; i++)
+					selectElm.options[selectElm.options.length] = new Option(csses[i], csses[i]);
 			}
 
 			// Only do this once
-			if (csses != null && csses.length > 0) {
+			if (csses != null && csses.length > 0)
 				selectElm.setAttribute('cssImported', 'true');
-			}
 		}
 	},
 

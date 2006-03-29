@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.8 $
- * $Date: 2006/02/06 20:03:30 $
+ * $Revision: 1.9 $
+ * $Date: 2006/03/03 16:10:41 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -27,7 +27,7 @@ var TinyMCE_ZoomPlugin = {
 
 		switch (control_name) {
 			case "zoom":
-				return '<select id="{$editor_id}_formatSelect" name="{$editor_id}_zoomSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceZoom\',false,this.options[this.selectedIndex].value);" class="mceSelectList">\
+				return '<select id="{$editor_id}_zoomSelect" name="{$editor_id}_zoomSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceZoom\',false,this.options[this.selectedIndex].value);" class="mceSelectList">\
 						<option value="100%">+ 100%</option>\
 						<option value="150%">+ 150%</option>\
 						<option value="200%">+ 200%</option>\

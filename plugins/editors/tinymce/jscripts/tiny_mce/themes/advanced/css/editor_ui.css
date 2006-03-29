@@ -141,7 +141,8 @@ a.mceButtonNormal img, a.mceButtonSelected img {
 }
 
 a.mceButtonSelected img {
-	border: 1px solid #C0C0BB !important;
+	border: 1px solid #6779AA !important;
+	background-color: #D4D5D8;
 }
 
 a.mceButtonNormal img:hover, a.mceButtonSelected img:hover {
@@ -165,14 +166,14 @@ a.mceTiledButton img {
 /* MSIE specific rules */
 
 * html a.mceButtonNormal img, * html a.mceButtonSelected img, * html a.mceButtonDisabled img {
-	border: 0px !important;
+	border: 0 !important;
 	margin-top: 2px;
 	margin-bottom: 1px;
 }
 
 * html a.mceButtonDisabled img {
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);
-	border: 0px !important;
+	border: 0 !important;
 }
 
 * html a.mceButtonDisabled {
@@ -180,20 +181,168 @@ a.mceTiledButton img {
 }
 
 * html a.mceButtonNormal, * html a.mceButtonSelected {
-	border: 1px solid #F0F0EE;
+	border: 1px solid #F0F0EE !important;
 	cursor: default;
 }
 
 * html a.mceButtonSelected {
-	border: 1px solid #C0C0BB;
+	border: 1px solid #6779AA !important;
+	background-color: #D4D5D8;
 }
 
 * html a.mceButtonNormal:hover, * html a.mceButtonSelected:hover {
-	border: 1px solid #0A246A;
+	border: 1px solid #0A246A !important;
 	cursor: default;
 	background-color: #B6BDD2;
 }
 
 * html .mceSelectList {
 	margin-top: 2px;
+}
+
+/* Menu button CSS rules */
+
+span.mceMenuButton img, span.mceMenuButtonSelected img {
+	border: 1px solid #F0F0EE;
+	margin-left: 1px;
+}
+
+span.mceMenuButtonSelected img {
+	border: 1px solid #6779AA;
+	background-color: #B6BDD2;
+}
+
+span.mceMenuButtonSelected img.mceMenuButton {
+	border: 1px solid #F0F0EE;
+	background-color: transparent;
+}
+
+span.mceMenuButton img.mceMenuButton, span.mceMenuButtonSelected img.mceMenuButton {
+	border-left: 0;
+	margin-left: 0;
+}
+
+span.mceMenuButton:hover img, span.mceMenuButtonSelected:hover img {
+	border: 1px solid #0A246A;
+	background-color: #B6BDD2;
+}
+
+span.mceMenuButton:hover img.mceMenuButton, span.mceMenuButtonSelected:hover img.mceMenuButton {
+	border-left: 0;
+}
+
+span.mceMenuButtonFocus img {
+	border: 1px solid gray;
+	border-right: 0;
+	margin-left: 1px;
+	background-color: #F5F4F2;
+}
+
+span.mceMenuButtonFocus img.mceMenuButton {
+	border: 1px solid gray;
+	border-left: 1px solid #F5F4F2;
+	margin-left: 0;
+}
+
+/* Menu button MSIE specific rules */
+
+* html span.mceMenuButton, * html span.mceMenuButtonFocus {
+	position: relative;
+	left: 0;
+	top: 0;
+}
+
+* html span.mceMenuButton img, * html span.mceMenuButtonSelected img, * html span.mceMenuButtonFocus img {
+	position: relative;
+	top: 1px;
+}
+
+* html span.mceMenuHover img {
+	border: 1px solid #0A246A;
+	background-color: #B6BDD2;
+}
+
+* html span.mceMenuButtonSelected.mceMenuHover img.mceMenuButton {
+	border: 1px solid #0A246A;
+	background-color: #B6BDD2;
+	border-left: 0;
+}
+
+/* Menu */
+
+.mceMenu {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+	z-index: 100;
+	background-color: white;
+	border: 1px solid gray;
+	font-weight: normal;
+}
+
+.mceMenu a, .mceMenuTitle, .mceMenuDisabled {
+	display: block;
+	width: 100%;
+	text-decoration: none;
+	background-color: white;
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+	font-size: 11px;
+	line-height: 20px;
+	color: black;
+}
+
+.mceMenu a:hover {
+	background-color: #B6BDD2;
+	color: black;
+}
+
+.mceMenu span {
+	padding-left: 10px;
+	padding-right: 10px;
+	display: block;
+	line-height: 20px;
+}
+
+.mceMenuSeparator {
+	border-bottom: 1px solid gray;
+	background-color: gray;
+	height: 1px;
+}
+
+.mceMenuTitle span {
+	padding-left: 5px;
+}
+
+.mceMenuTitle {
+	background-color: #DDDDDD;
+	font-weight: bold;
+}
+
+.mceMenuDisabled {
+	color: gray;
+}
+
+span.mceMenuSelectedItem {
+	background-image: url('../images/menu_check.gif');
+	background-repeat: no-repeat;
+	background-position: 5px 8px;
+	padding-left: 20px;
+}
+
+span.mceMenuCheckItem {
+	padding-left: 20px;
+}
+
+span.mceMenuLine {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: -1px;
+	background-color: #F5F4F2;
+	width: 30px;
+	height: 1px;
+	overflow: hidden;
+	padding-left: 0;
+	padding-right: 0;
 }

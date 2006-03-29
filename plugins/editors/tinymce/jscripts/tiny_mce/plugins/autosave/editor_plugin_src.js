@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.10 $
- * $Date: 2006/02/06 20:02:37 $
+ * $Revision: 1.11 $
+ * $Date: 2006/03/22 12:21:21 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -24,11 +24,14 @@ var TinyMCE_AutoSavePlugin = {
 	// Private plugin internal methods
 
 	_beforeUnloadHandler : function() {
-		var msg = tinyMCE.getLang("lang_autosave_unload_msg");
+		var n, inst, anyDirty = false, msg = tinyMCE.getLang("lang_autosave_unload_msg");
 
-		var anyDirty = false;
-		for (var n in tinyMCE.instances) {
-			var inst = tinyMCE.instances[n];
+		if (tinyMCE.getParam("fullscreen_is_enabled"))
+			return;
+
+		for (n in tinyMCE.instances) {
+			inst = tinyMCE.instances[n];
+
 			if (!tinyMCE.isInstance(inst))
 				continue;
 

@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.11 $
- * $Date: 2006/02/10 16:29:37 $
+ * $Revision: 1.12 $
+ * $Date: 2006/02/22 20:06:23 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -168,7 +168,7 @@ var TinyMCE_TemplatePlugin = {
 	 */
 	handleEvent : function(e) {
 		// Display event type in statusbar
-		top.status = "template plugin event: " + e,type;
+		top.status = "template plugin event: " + e.type;
 
 		return true; // Pass to next handler
 	},
