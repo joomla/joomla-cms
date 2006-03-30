@@ -13,7 +13,7 @@
     	<name>French (France)</name>
     	<tag>fr-FR</tag>
     	<rtl>0</rtl>
-    	<locale>fr, French_Standard, french, fr_FR, fre_FR, fr_FR.utf8, fr_FR.UTF-8, fr_FR.UTF-8@euro</locale>
+    	<locale> fr_FR.utf8, fr_FR.UTF-8, fr_FR.UTF-8@euro, fr, French_Standard, french, fr_FR, fre_FR,</locale>
     	<winCodePage>iso-8859-1</winCodePage>
     	<backwardLang>french</backwardLang>
     </metadata>

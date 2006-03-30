@@ -44,6 +44,9 @@ Legend:
  ^ Cleanup/Refactor mod_footer
  ^ Cleanup/Refactor mod_sections
 
+29-Mar-2006 David Gal
+ ^ Cleanup/Refactor com_newsfeeds
+
 27-Mar-2006 David Gal
  ^ Changed the phputf8 library to the newer release of the library
 
