@@ -407,35 +407,37 @@ class JContactController {
 			switch ($params->get('contact_icons')) {
 				case 1 :
 					// text
-					$params->set('marker_address', JText::_('Address').": ");
-					$params->set('marker_email', JText::_('Email').": ");
-					$params->set('marker_telephone', JText::_('Telephone').": ");
-					$params->set('marker_fax', JText::_('Fax').": ");
-					$params->set('marker_misc', JText::_('Information').": ");
-					$params->set('column_width', '100');
+					$params->set('marker_address', 		JText::_('Address').": ");
+					$params->set('marker_email', 		JText::_('Email').": ");
+					$params->set('marker_telephone', 	JText::_('Telephone').": ");
+					$params->set('marker_fax', 			JText::_('Fax').": ");
+					$params->set('marker_misc', 		JText::_('Information').": ");
+					$params->set('column_width', 		'100');
 					break;
+					
 				case 2 :
 					// none
-					$params->set('marker_address', '');
-					$params->set('marker_email', '');
-					$params->set('marker_telephone', '');
-					$params->set('marker_fax', '');
-					$params->set('marker_misc', '');
-					$params->set('column_width', '0');
+					$params->set('marker_address', 		'');
+					$params->set('marker_email', 		'');
+					$params->set('marker_telephone', 	'');
+					$params->set('marker_fax', 			'');
+					$params->set('marker_misc', 		'');
+					$params->set('column_width', 		'0');
 					break;
+					
 				default :
 					// icons
-					$image1 = mosAdminMenus::ImageCheck('con_address.png', '/images/M_images/', $params->get('icon_address'), '/images/M_images/', JText::_('Address').": ", JText::_('Address').": ");
-					$image2 = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', $params->get('icon_email'), '/images/M_images/', JText::_('Email').": ", JText::_('Email').": ");
-					$image3 = mosAdminMenus::ImageCheck('con_tel.png', '/images/M_images/', $params->get('icon_telephone'), '/images/M_images/', JText::_('Telephone').": ", JText::_('Telephone').": ");
-					$image4 = mosAdminMenus::ImageCheck('con_fax.png', '/images/M_images/', $params->get('icon_fax'), '/images/M_images/', JText::_('Fax').": ", JText::_('Fax').": ");
-					$image5 = mosAdminMenus::ImageCheck('con_info.png', '/images/M_images/', $params->get('icon_misc'), '/images/M_images/', JText::_('Information').": ", JText::_('Information').": ");
-					$params->set('marker_address', $image1);
-					$params->set('marker_email', $image2);
-					$params->set('marker_telephone', $image3);
-					$params->set('marker_fax', $image4);
-					$params->set('marker_misc', $image5);
-					$params->set('column_width', '40');
+					$image1 = mosAdminMenus::ImageCheck('con_address.png', 	'/images/M_images/', $params->get('icon_address'), 		'/images/M_images/', JText::_('Address').": ", 		JText::_('Address').": ");
+					$image2 = mosAdminMenus::ImageCheck('emailButton.png', 	'/images/M_images/', $params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ", 		JText::_('Email').": ");
+					$image3 = mosAdminMenus::ImageCheck('con_tel.png', 		'/images/M_images/', $params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ", 	JText::_('Telephone').": ");
+					$image4 = mosAdminMenus::ImageCheck('con_fax.png', 		'/images/M_images/', $params->get('icon_fax'), 			'/images/M_images/', JText::_('Fax').": ", 			JText::_('Fax').": ");
+					$image5 = mosAdminMenus::ImageCheck('con_info.png', 	'/images/M_images/', $params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ", 	JText::_('Information').": ");
+					$params->set('marker_address', 		$image1);
+					$params->set('marker_email', 		$image2);
+					$params->set('marker_telephone', 	$image3);
+					$params->set('marker_fax', 			$image4);
+					$params->set('marker_misc',			$image5);
+					$params->set('column_width', 		'40');
 					break;
 			}
 
@@ -486,11 +488,11 @@ class JContactController {
 		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
 		$option 	= JRequest::getVar('option');
 		$contactId 	= JRequest::getVar('con_id');
-		$validate 	= JRequest::getVar($validate, 	0, 			'post');
+		$validate 	= JRequest::getVar($validate, 		0, 			'post');
 		$email 		= JRequest::getVar('email', 		'', 		'post');
-		$text 		= JRequest::getVar('text', 		'', 		'post');
-		$name 		= JRequest::getVar('name', 		'', 		'post');
-		$subject 	= JRequest::getVar('subject', 	$default, 	'post');
+		$text 		= JRequest::getVar('text', 			'', 		'post');
+		$name 		= JRequest::getVar('name', 			'', 		'post');
+		$subject 	= JRequest::getVar('subject', 		$default, 	'post');
 		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post');
 
 		// probably a spoofing attack
