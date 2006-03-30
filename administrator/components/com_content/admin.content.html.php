@@ -29,7 +29,7 @@ class ContentView {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showContent( &$rows, $section, &$lists, $pageNav, $all=NULL, $redirect ) {
+	function showContent( &$rows, $section, &$lists, $pageNav, $redirect ) {
 		global $my, $mainframe, $database;
 		
 		/*
@@ -39,7 +39,7 @@ class ContentView {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_content&amp;sectionid=<?php echo $section->id; ?>" method="post" name="adminForm">
+		<form action="index2.php?option=com_content" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>
@@ -51,9 +51,7 @@ class ContentView {
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				if ( $all ) {
-					echo $lists['sectionid'];
-				}
+				echo $lists['sectionid'];
 				echo $lists['catid'];
 				echo $lists['authorid'];
 				echo $lists['state'];
@@ -101,15 +99,9 @@ class ContentView {
 				<th width="2%" class="title">
 					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
-				<?php
-				if ( $all ) {
-					?>
 					<th class="title" width="8%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
-					<?php
-				}
-				?>
 				<th  class="title" width="8%" nowrap="nowrap">
 					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 				</th>
@@ -126,7 +118,7 @@ class ContentView {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 	
-				$link 	= 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $row->id;
+				$link 	= 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 	
 				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
@@ -243,16 +235,10 @@ class ContentView {
 					<td>
 						<?php echo $row->id; ?>
 					</td>
-					<?php
-					if ( $all ) {
-						?>
 						<td>
 							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
 								<?php echo $row->section_name; ?></a>
 						</td>
-						<?php
-					}
-					?>
 					<td>
 						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
 							<?php echo $row->name; ?></a>

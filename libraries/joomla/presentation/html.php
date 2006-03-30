@@ -1575,7 +1575,8 @@ class mosAdminMenus {
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		global $database;
 
-		$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = mosHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = mosHTML::makeOption( '0', JText::_( 'Uncategorized' ) );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"

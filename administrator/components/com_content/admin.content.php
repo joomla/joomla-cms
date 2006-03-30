@@ -23,25 +23,18 @@ require_once (JApplicationHelper::getPath('admin_html'));
  */
 $sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 $id			= JRequest::getVar( 'id', 0, '', 'int' );
-$cid			= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$task		= JRequest::getVar( 'task' );
 
-if (!is_array($cid))
-{
+if (!is_array($cid)) {
 	$cid = array (0);
 }
 
 switch (strtolower($task))
 {
 	case 'new' :
-		JContentController::editContent(0);
-		break;
-
 	case 'edit' :
-		JContentController::editContent($id);
-		break;
-
-	case 'editA' :
-		JContentController::editContent($cid[0]);
+		JContentController::editContent();
 		break;
 
 	case 'go2menu' :
@@ -50,7 +43,7 @@ switch (strtolower($task))
 	case 'menulink' :
 	case 'apply' :
 	case 'save' :
-		$cache = & JFactory::getCache();
+		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 		JContentController::saveContent();
 		break;
@@ -155,120 +148,87 @@ class JContentController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db						= & $mainframe->getDBO();
-		$sectionid				= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option					= JRequest::getVar( 'option' );
-		$filter_order			= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.filter_order", 'filter_order', '');
-		$filter_order_Dir		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state			= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.filter_state", 'filter_state', '');
-		$catid					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.catid", 'catid', 0);
-		$filter_authorid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.filter_sectionid", 'filter_sectionid', 0);
-		$limit						= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart				= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.limitstart", 'limitstart', 0);
-		$search					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewcontent.search", 'search', '');
-		$search					= $db->getEscaped(trim(strtolower($search)));
-		$redirect				= $sectionid;
-		$filter					= ''; //getting a undefined variable error
+		// Initialize variables
+		$db			= & $mainframe->getDBO();
+		$filter		= null;
 
-		/*
-		 * A section id of zero means view all content items [all sections]
-		 */
-		if ($sectionid == 0)
-		{
-			$where = array ("c.state >= 0", "c.catid = cc.id", "cc.section = s.id", "s.scope = 'content'",);
+		// Get some variables from the request
+		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
+		$redirect			= $sectionid;
+		$option				= JRequest::getVar( 'option' );
+		$filter_order		= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_order", 'filter_order', '');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_order_Dir", 'filter_order_Dir', '');
+		$filter_state		= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_state", 'filter_state', '');
+		$catid				= $mainframe->getUserStateFromRequest("$option.viewcontent.catid", 'catid', 0);
+		$filter_authorid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_authorid", 'filter_authorid', 0);
+		$filter_sectionid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_sectionid", 'filter_sectionid', 0);
+		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
+		$limitstart			= $mainframe->getUserStateFromRequest("$option.viewcontent.limitstart", 'limitstart', 0);
+		$search				= $mainframe->getUserStateFromRequest("$option.viewcontent.search", 'search', '');
+		$search				= $db->getEscaped(trim(strtolower($search)));
 
-			if (!$filter_order)
-			{
-				$filter_order = 'section_name';
-			}
-			$order = "\n ORDER BY $filter_order $filter_order_Dir, section_name, cc.name, c.ordering";
-			$all = 1;
 
-			if ($filter_sectionid > 0)
-			{
-				$filter = "\n WHERE cc.section = $filter_sectionid";
-			}
-			$section->title = 'All Content Items';
-			$section->id = 0;
+		$where[] = "c.state >= 0";
+
+		if (!$filter_order) {
+			$filter_order = 'section_name';
 		}
-		else
-		{
-			/*
-			 * We are viewing a specific section
-			 */
-			$where = array ("c.state 	>= 0", "c.catid 	= cc.id", "cc.section = s.id", "s.scope 	= 'content'", "c.sectionid = '$sectionid'");
+		$order = "\n ORDER BY $filter_order $filter_order_Dir, section_name, cc.name, c.ordering";
+		$all = 1;
 
-			if (!$filter_order)
-			{
-				$filter_order = 'cc.name';
-			}
-			$order = "\n ORDER BY $filter_order $filter_order_Dir, cc.name, c.ordering";
-
-			$all = NULL;
-			$filter = "\n WHERE cc.section = '$sectionid'";
-			$section = & JTable::getInstance('section', $db);
-			$section->load($sectionid);
+		if ($filter_sectionid >= 0) {
+			$filter = "\n WHERE cc.section = $filter_sectionid";
 		}
+		$section->title = 'All Content Items';
+		$section->id = 0;
 
 		/*
 		 * Add the filter specific information to the where clause
 		 */
 		// Section filter
-		if ($filter_sectionid > 0)
-		{
+		if ($filter_sectionid >= 0) {
 			$where[] = "c.sectionid = $filter_sectionid";
 		}
 		// Category filter
-		if ($catid > 0)
-		{
+		if ($catid > 0) {
 			$where[] = "c.catid = $catid";
 		}
 		// Author filter
-		if ($filter_authorid > 0)
-		{
+		if ($filter_authorid > 0) {
 			$where[] = "c.created_by = $filter_authorid";
 		}
 		// Content state filter
-		if ($filter_state)
-		{
-			if ($filter_state == 'P')
-			{
+		if ($filter_state) {
+			if ($filter_state == 'P') {
 				$where[] = "c.state = 1";
-			}
-			else
-				if ($filter_state == 'U')
-				{
+			} else {
+				if ($filter_state == 'U') {
 					$where[] = "c.state = 0";
 				}
+			}
 		}
 		// Keyword filter
-		if ($search)
-		{
+		if ($search) {
 			$where[] = "LOWER( c.title ) LIKE '%$search%'";
 		}
 
-		/*
-		 * Build the where clause of the content record query
-		 */
+		// Build the where clause of the content record query
 		$where = (count($where) ? "\n WHERE ".implode(' AND ', $where) : '');
 
-		/*
-		 * Get the total number of records
-		 */
+		// Get the total number of records
 		$query = "SELECT COUNT(*)" .
 				"\n FROM #__content AS c" .
 				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid".$where;
+				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid" .
+				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
 
+		// Create the pagination object
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
+		// Get the content items
 		$query = "SELECT c.*, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author" .
 				"\n FROM #__content AS c" .
 				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
@@ -276,15 +236,14 @@ class JContentController
 				"\n LEFT JOIN #__groups AS g ON g.id = c.access" .
 				"\n LEFT JOIN #__users AS u ON u.id = c.checked_out" .
 				"\n LEFT JOIN #__users AS v ON v.id = c.created_by" .
-				"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id".$where.$order;
+				"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id" .
+				$where .
+				$order;
 		$db->setQuery($query, $pagination->limitstart, $pagination->limit);
 		$rows = $db->loadObjectList();
 
-		/*
-		 * If there is a database query error, throw a HTTP 500 and exit
-		 */
-		if ($db->getErrorNum())
-		{
+		// If there is a database query error, throw a HTTP 500 and exit
+		if ($db->getErrorNum()) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
@@ -318,12 +277,9 @@ class JContentController
 		$lists['state'] = mosCommonHTML::selectState($filter_state);
 
 		// table ordering
-		if ($filter_order_Dir == 'DESC')
-		{
+		if ($filter_order_Dir == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
-		}
-		else
-		{
+		} else {
 			$lists['order_Dir'] = 'DESC';
 		}
 		$lists['order'] = $filter_order;
@@ -331,7 +287,7 @@ class JContentController
 		// search filter
 		$lists['search'] = $search;
 
-		ContentView::showContent($rows, $section, $lists, $pagination, $all, $redirect);
+		ContentView::showContent($rows, $section, $lists, $pagination, $redirect);
 	}
 
 	/**
@@ -484,7 +440,7 @@ class JContentController
 	* @param integer The unique id of the record to edit (0 if new)
 	* @param integer The id of the content section
 	*/
-	function editContent($cid = 0)
+	function editContent()
 	{
 		global $mainframe;
 
@@ -493,15 +449,14 @@ class JContentController
 		 */
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
+		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
 		$option		= JRequest::getVar( 'option' );
-		$redirect	= JRequest::getVar( 'redirect', $sectionid, 'post' );
 		$nullDate	= $db->getNullDate();
 		$contentSection = '';
 
-		/*
-		 * Create and load the content item table
-		 */
+		// Handle the $cid array
+		$cid = intval($cid[0]);
+		// Create and load the content table row
 		$row = & JTable::getInstance('content', $db);
 		$row->load($cid);
 
@@ -627,17 +582,11 @@ class JContentController
 				"\n FROM #__sections AS s" .
 				"\n ORDER BY s.ordering";
 		$db->setQuery($query);
-		if ($sectionid == 0)
-		{
-			$sections[] = mosHTML::makeOption('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-			$sections = array_merge($sections, $db->loadObjectList());
-			$lists['sectionid'] = mosHTML::selectList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title');
-		}
-		else
-		{
-			$sections = $db->loadObjectList();
-			$lists['sectionid'] = mosHTML::selectList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
-		}
+
+		$sections[] = mosHTML::makeOption('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = mosHTML::makeOption('0', JText::_('Uncategorized'), 'id', 'title');
+		$sections = array_merge($sections, $db->loadObjectList());
+		$lists['sectionid'] = mosHTML::selectList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
 
 		foreach ($sections as $section)
 		{
@@ -668,6 +617,13 @@ class JContentController
 				"\n ORDER BY ordering";
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
+
+		// Uncategorized category mapped to uncategorized section
+		$uncat = new stdClass();
+		$uncat->id = 0;
+		$uncat->name = JText::_('Uncategorized');
+		$uncat->section = 0;
+		$cat_list[] = $uncat;
 		foreach ($sections as $section)
 		{
 			$sectioncategories[$section->id] = array ();
@@ -683,33 +639,13 @@ class JContentController
 			}
 		}
 
-		// get list of categories
-		if (!$row->catid && !$row->sectionid)
-		{
-			$categories[] = mosHTML::makeOption('-1', '- '.JText::_('Select Category').' -', 'id', 'name');
-			$lists['catid'] = mosHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name');
+		foreach ($cat_list as $cat) {
+			$categoriesA[] = $cat;
 		}
-		else
-		{
-			if ($sectionid == 0) {
-				//$where = "\n WHERE section NOT LIKE '%com_%'";
-				foreach ($cat_list as $cat) {
-					$categoriesA[] = $cat;
-				}
-			}
-			else 
-			{
-				//$where = "\n WHERE section = '$sectionid'";
-				foreach ($cat_list as $cat) {
-					if ($cat->section == $sectionid) {
-						$categoriesA[] = $cat;
-					}
-				}
-			}
-			$categories[] = mosHTML::makeOption('-1', 'Select Category', 'id', 'name');
-			$categories = array_merge($categories, $categoriesA);
-			$lists['catid'] = mosHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
-		}
+
+		$categories[] = mosHTML::makeOption('-1', 'Select Category', 'id', 'name');
+		$categories = array_merge($categories, $categoriesA);
+		$lists['catid'] = mosHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
 
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text" .
@@ -784,12 +720,12 @@ class JContentController
 		 */
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 		$option		= JRequest::getVar( 'option' );
-		$task			= JRequest::getVar( 'task' );
+		$task		= JRequest::getVar( 'task' );
+		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 		$redirect	= JRequest::getVar( 'redirect', $sectionid, 'post' );
 		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
-		$menuid	= JRequest::getVar( 'menuid', 0, 'post' );
+		$menuid		= JRequest::getVar( 'menuid', 0, 'post' );
 		$nullDate	= $db->getNullDate();
 
 

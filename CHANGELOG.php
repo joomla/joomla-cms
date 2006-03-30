@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Mar-2006 Louis Landry
+ ^ Merged com_typedcontent into com_content
+ # Fixed JRequest::getVar integer type unable to accept negative integers
+
 27-Mar-2006 David Gal
  ^ Changed the phputf8 library to the newer release of the library
 

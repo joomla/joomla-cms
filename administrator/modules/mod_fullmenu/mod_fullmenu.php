@@ -195,8 +195,7 @@ class JFullAdminMenu {
 		}
 		*/
 		?>
-				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'All Content Items', true ); ?>','index2.php?option=com_content&sectionid=0',null,'<?php echo JText::_( 'Manage Content Items', true ); ?>'],
-  				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'Static Content Manager', true ); ?>','index2.php?option=com_typedcontent',null,'<?php echo JText::_( 'Manage Typed Content Items', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'Article Manager', true ); ?>','index2.php?option=com_content',null,'<?php echo JText::_( 'Manage Content Items', true ); ?>'],
   				_cmSplit,
   				['<img src="../includes/js/ThemeOffice/add_section.png" />','<?php echo JText::_( 'Section Manager', true ); ?>','index2.php?option=com_sections&scope=content',null,'<?php echo JText::_( 'Manage Content Sections', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/add_section.png" />','<?php echo JText::_( 'Category Manager', true ); ?>','index2.php?option=com_categories&section=content',null,'<?php echo JText::_( 'Manage Content Categories', true ); ?>'],

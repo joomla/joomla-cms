@@ -18,17 +18,19 @@
 */
 class TOOLBAR_content {
 	function _EDIT() {
-		global $id;
+
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+		$cid = intval($cid[0]);
 		
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $cid ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
-		JMenuBar::title( JText::_( 'Content Item' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
-		JMenuBar::preview( 'index3.php?option=com_content&id='.$id, true );
+		JMenuBar::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
+		JMenuBar::preview( 'index3.php?option=com_content&id='.$cid, true );
 		JMenuBar::media_manager();
 		JMenuBar::trash('remove', 'Trash', false);
 		JMenuBar::save();
 		JMenuBar::apply();
-		if ( $id ) {
+		if ( $cid ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
@@ -61,14 +63,14 @@ class TOOLBAR_content {
 
 	function _DEFAULT() {
 
-		JMenuBar::title( JText::_( 'Content Items Manager' ), 'addedit.png' );
+		JMenuBar::title( JText::_( 'Article Manager' ), 'addedit.png' );
 		JMenuBar::archiveList();
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', JText::_( 'Move' ) );
 		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ) );
 		JMenuBar::trash();
-		JMenuBar::editListX( 'editA' );
+		JMenuBar::editListX();
 		JMenuBar::addNewX();
 		JMenuBar::help( 'screen.content' );
 	}

@@ -136,8 +136,8 @@ function & buildMenu($usertype = '')
 	 * Content SubMenu
 	 */
 	$content = new JMenuNode(JText::_('Content'));
-	$content->addChild(new JMenuNode(JText::_('All Content Items'), 'index2.php?option=com_content&sectionid=0', 'class:content'));
-	$content->addChild(new JMenuNode(JText::_('Static Content Manager'), 'index2.php?option=com_typedcontent', 'class:static'));
+	$content->addChild(new JMenuNode(JText::_('Article Manager'), 'index2.php?option=com_content&sectionid=0', 'class:content'));
+//	$content->addChild(new JMenuNode(JText::_('Static Content Manager'), 'index2.php?option=com_typedcontent', 'class:static'));
 	/*
 	 * SPLIT HR
 	 */
