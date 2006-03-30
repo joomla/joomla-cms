@@ -4,15 +4,17 @@
  * -------
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.7.5
- * CVS Revision Version: $Revision: 1.7 $
+ * Release Version: 1.0.7.8
+ * CVS Revision Version: $Revision: 1.13 $
  * Date Started: 2004/09/01
- * Last Modified: $Date: 2005/10/22 07:52:59 $
+ * Last Modified: $Date: 2006/03/23 07:31:32 $
  *
  * XML language file for GeSHi. Based on the idea/file by Christian Weiske
  *
  * CHANGES
  * -------
+ * 2005/12/28 (1.0.2)
+ *   -  Removed escape character for strings
  * 2004/11/27 (1.0.1)
  *   -  Added support for multiple object splitters
  * 2004/10/27 (1.0.0)
@@ -48,7 +50,7 @@ $language_data = array (
 	'COMMENT_MULTI' => array('<!--' => '-->'),
 	'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
 	'QUOTEMARKS' => array("'", '"'),
-	'ESCAPE_CHAR' => '\\',
+	'ESCAPE_CHAR' => '',
 	'KEYWORDS' => array(
 		),
 	'SYMBOLS' => array(
@@ -105,14 +107,14 @@ $language_data = array (
 			GESHI_AFTER => '\\4'
 			),
 		1 => array(
-			GESHI_SEARCH => '(&lt;/?[a-z0-9_]*(&gt;)?)',
+			GESHI_SEARCH => '(&lt;[/?|(\?xml)]?[a-z0-9_]*(\??&gt;)?)',
 			GESHI_REPLACE => '\\1',
 			GESHI_MODIFIERS => 'i',
 			GESHI_BEFORE => '',
 			GESHI_AFTER => ''
 			),
 		2 => array(
-			GESHI_SEARCH => '((/)?&gt;)',
+			GESHI_SEARCH => '(([/|\?])?&gt;)',
 			GESHI_REPLACE => '\\1',
 			GESHI_MODIFIERS => 'i',
 			GESHI_BEFORE => '',

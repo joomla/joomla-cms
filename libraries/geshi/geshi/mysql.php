@@ -1,13 +1,13 @@
- <?php 
+<?php 
  /************************************************************************************* 
  * mysql.php 
  * --------- 
  * Author: Carl Fürstenberg (azatoth@gmail.com) 
  * Copyright: (c) 2005 Carl Fürstenberg, Nigel McNie (http://qbnz.com/highlighter) 
- * Release Version: 1.0.7.5
- * CVS Revision Version: $Revision: 1.2 $ 
+ * Release Version: 1.0.7.8
+ * CVS Revision Version: $Revision: 1.6 $ 
  * Date Started: 2004/06/04 
- * Last Modified: $Date: 2005/10/22 07:52:59 $ 
+ * Last Modified: $Date: 2006/03/11 21:44:08 $ 
  * 
  * MySQL language file for GeSHi. 
  * 

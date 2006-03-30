@@ -4,17 +4,19 @@
  * ---------------
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.7.5
- * CVS Revision Version: $Revision: 1.5 $
+ * Release Version: 1.0.7.8
+ * CVS Revision Version: $Revision: 1.10 $
  * Date Started: 2004/07/10
- * Last Modified: $Date: 2005/10/22 07:52:59 $
+ * Last Modified: $Date: 2006/02/25 00:46:33 $
  *
  * HTML 4.01 strict language file for GeSHi.
  *
  * CHANGES
  * -------
+ * 2005/12/28 (1.0.4)
+ *   -  Removed escape character for strings
  * 2004/11/27 (1.0.3)
- *  -  Added support for multiple object splitters
+ *   -  Added support for multiple object splitters
  * 2004/10/27 (1.0.2)
  *   -  Added support for URLs
  * 2004/08/05 (1.0.1)
@@ -55,7 +57,7 @@ $language_data = array (
 	'COMMENT_MULTI' => array('<!--' => '-->'),
 	'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
 	'QUOTEMARKS' => array("'", '"'),
-	'ESCAPE_CHAR' => '\\',
+	'ESCAPE_CHAR' => '',
 	'KEYWORDS' => array(
 		1 => array(
 			),
