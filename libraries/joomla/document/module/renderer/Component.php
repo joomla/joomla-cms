@@ -77,8 +77,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		/*
 		 * A static array of components that are always enabled
 		 */
-		$enabledList = array('com_content', 'com_frontpage', 'com_user', 'com_wrapper', 'com_registration');
-
+		$enabledList = array('com_login', 'com_content', 'com_frontpage', 'com_user', 'com_wrapper', 'com_registration');
 
 		/*
 		 * Is the component enabled?
@@ -95,11 +94,10 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			}
 
 			$task 	= JRequest::getVar( 'task' );
-			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
-
-			/*
-			 * Load the component paramters
-			 */
+//			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
+			$ret	= 1;
+			
+			// Load the component parameters
 			if ($row) {
 				$params = new JParameter($row->params);
 			}

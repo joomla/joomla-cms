@@ -15,17 +15,18 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// load the html drawing class
+// load the html view class
 require_once( JApplicationHelper::getPath( 'front_html' ) );
 
-global $database, $my;
+// Initialize variables
+$user			= & $mainframe->getUser();
+$menu			= JMenu::getInstance();
+$menu			= $menu->getItem( $Itemid );
+$params			= new JParameter( $menu->params );
+$loginImage		= null;
+$logoutImage	= null;
 
-$breadcrumbs =& $mainframe->getPathWay();
-
-$menu =& JTable::getInstance('menu', $database );
-$menu->load( $Itemid );
-$params = new JParameter( $menu->params );
-
+// Set some default page parameters if not set
 $params->def( 'page_title', 				1 );
 $params->def( 'header_login', 				$menu->name );
 $params->def( 'header_logout', 				$menu->name );
@@ -43,34 +44,38 @@ $params->def( 'image_login_align', 			'right' );
 $params->def( 'image_logout_align', 		'right' );
 $params->def( 'registration', 				$mainframe->getCfg( 'allowUserRegistration' ) );
 
-$image_login = '';
-$image_logout = '';
-if ( $params->get( 'image_login' ) <> -1 ) {
+// Build login image if enabled
+if ( $params->get( 'image_login' ) != -1 ) {
 	$image = 'images/stories/'. $params->get( 'image_login' );
-	$image_login = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
+	$loginImage = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
 }
-if ( $params->get( 'image_logout' ) <> -1 ) {
+// Build logout image if enabled
+if ( $params->get( 'image_logout' ) != -1 ) {
 	$image = 'images/stories/'. $params->get( 'image_logout' );
-	$image_logout = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
+	$logoutImage = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
 }
 
-if ( $my->id ) {
+// Get some page variables
+$breadcrumbs = & $mainframe->getPathway();
+$document	 = & $mainframe->getDocument();
+
+if ( $user->get('id') ) {
 	$title = JText::_( 'Logout');
 	
 	// pathway item
 	$breadcrumbs->setItemName(1, $title );
 	// Set page title
-	$mainframe->setPageTitle( $title );
+	$document->setTitle( $title );
 
-	loginHTML::logoutpage( $params, $image_logout );
+	JViewLoginHTML::logoutpage( $params, $logoutImage );
 } else {
 	$title = JText::_( 'Login');
 	
 	// pathway item
 	$breadcrumbs->setItemName(1, $title );
 	// Set page title
-	$mainframe->setPageTitle( $title );
+	$document->setTitle( $title );
 
-	loginHTML::loginpage( $params, $image_login );
+	JViewLoginHTML::loginpage( $params, $loginImage );
 }
 ?>

@@ -16,13 +16,25 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Users
-*/
-class loginHTML {
+ * Login component HTML view class
+ * 
+ * @package Joomla
+ * @subpackage Users
+ * @since	1.0
+ */	
+class JViewLoginHTML {
 
+	/**
+	 * Method to show the login page
+	 * 
+	 * @static
+	 * @access	public
+	 * @param	object	$params	Page parameters
+	 * @param	string	$image	Display image
+	 * @return	void
+	 * @since	1.0
+	 */	
 	function loginpage ( &$params, $image ) {
-		global $mosConfig_lang;
 
 		$return = $params->get('login');
 		?>
@@ -121,8 +133,17 @@ class loginHTML {
 		<?php
   	}
 
+	/**
+	 * Method to show the logout page
+	 * 
+	 * @static
+	 * @access	public
+	 * @param	object	$params	Page parameters
+	 * @param	string	$image	Display image
+	 * @return	void
+	 * @since	1.0
+	 */	
 	function logoutpage( &$params, $image ) {
-		global $mosConfig_lang;
 
 		$return = $params->get('logout');
 		?>

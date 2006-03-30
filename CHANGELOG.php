@@ -43,6 +43,7 @@ Legend:
  ^ Cleanup/Refactor mod_archive
  ^ Cleanup/Refactor mod_footer
  ^ Cleanup/Refactor mod_sections
+ ^ Cleanup/Refactor com_login
 
 29-Mar-2006 David Gal
  ^ Cleanup/Refactor com_newsfeeds
