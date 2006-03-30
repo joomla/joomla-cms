@@ -11,62 +11,59 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-global $mosConfig_offset;
-
 /// no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$count		= intval($params->get('count', 20));
+$db			= & $mainframe->getDBO();
+$user		= & $mainframe->getUser();
+$gid		= $user->get('gid');
+$nullDate	= $db->getNullDate();
+$menu		= JMenu::getInstance();
+
+$count	= intval($params->get('count', 20));
 $access	= !$mainframe->getCfg('shownoauth');
-$now		= date('Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60);
-$nullDate	= $database->getNullDate();
+$now	= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 
 $query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt" .
 		"\n FROM #__sections as a" .
-		"\n LEFT JOIN #__content as b ON a.id = b.sectionid". 
-		($access ? "\n AND b.access <= $my->gid" : '') .
+		"\n LEFT JOIN #__content as b ON a.id = b.sectionid" . 
+		($access ? "\n AND b.access <= $gid" : '') .
 		"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
 		"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )" .
 		"\n WHERE a.scope = 'content'" .
-		"\n AND a.published = 1". 
-		($access ? "\n AND a.access <= $my->gid" : '').
+		"\n AND a.published = 1" .
+		($access ? "\n AND a.access <= $gid" : '') .
 		"\n GROUP BY a.id" .
 		"\n HAVING COUNT( b.id ) > 0" .
 		"\n ORDER BY a.ordering" .
 		"\n LIMIT $count";
-$database->setQuery($query);
-$rows = $database->loadObjectList();
+$db->setQuery($query);
+$rows = $db->loadObjectList();
 
 if ($rows)
 {
-	?>
+?>
 	<ul>
 	<?php
-
-	require_once (JApplicationHelper::getPath('helper', 'com_content'));
-
 	foreach ($rows as $row)
 	{
-		$_Itemid = JContentHelper::getItemid($row->id);
-		if ($Itemid == $_Itemid)
-		{
+		$_Itemid = $menu->getItemid($row->id);
+		if ($Itemid == $_Itemid) {
 			$link = sefRelToAbs("index.php?option=com_content&task=blogsection&id=".$row->id);
-		}
-		else
-		{
+		} else {
 			$link = sefRelToAbs("index.php?option=com_content&task=blogsection&id=".$row->id."&Itemid=".$_Itemid);
 		}
-		?>
-			<li>
-				<a href="<?php echo $link;?>">
-					<?php echo $row->title;?></a>
-			</li>
-			<?php
 
+		// Render the list item
+		?>
+		<li>
+			<a href="<?php echo $link;?>">
+				<?php echo $row->title;?></a>
+		</li>
+		<?php
 	}
 	?>
 	</ul>
 	<?php
-
 }
 ?>

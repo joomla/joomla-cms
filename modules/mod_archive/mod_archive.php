@@ -14,10 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-global $mosConfig_offset;
-
-$count	= intval($params->def('count', 10));
-$now	= date('Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60);
+// Number of items to display
+$count = intval($params->def('count', 10));
 
 $query = "SELECT MONTH( created ) AS created_month, created, id, sectionid, title, YEAR(created) AS created_year" .
 		"\n FROM #__content" .
@@ -29,14 +27,16 @@ $rows = $database->loadObjectList();
 ?>
 <ul>
 <?php
-
 foreach ($rows as $row)
 {
+	// Set some variables
 	$created_month	= mosFormatDate($row->created, "%m");
 	$month_name		= mosFormatDate($row->created, "%B");
-	$created_year		= mosFormatDate($row->created, "%Y");
-	$link						= sefRelToAbs('index.php?option=com_content&amp;task=archivecategory&amp;year='.$created_year.'&amp;month='.$created_month.'&amp;module=1');
-	$text					= $month_name.', '.$created_year;
+	$created_year	= mosFormatDate($row->created, "%Y");
+
+	// Build link and text for each item
+	$link = sefRelToAbs('index.php?option=com_content&amp;task=archivecategory&amp;year='.$created_year.'&amp;month='.$created_month.'&amp;module=1');
+	$text = $month_name.', '.$created_year;
 ?>
 	<li>
 		<a href="<?php echo $link; ?>">
