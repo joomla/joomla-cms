@@ -639,7 +639,7 @@ class JContactController {
 				josMail($MailFrom, $FromName, $email, $copySubject, $copyText);
 			}
 		
-			$link = 'index.php?option=com_contact&task=view&contact_id='. $contactId .'&Itemid='. $Itemid;
+			$link = sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $contactId .'&Itemid='. $Itemid );
 			$text = JText::_( 'Thank you for your e-mail', true );
 			
 			josRedirect( $link, $text );
