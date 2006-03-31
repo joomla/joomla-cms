@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( &$rows, &$pageNav, $option ) 
+	function showLanguages( &$rows, &$pageNav, $option, &$client ) 
 	{
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -113,6 +113,7 @@ class HTML_languages {
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="boxchecked" value="0" />

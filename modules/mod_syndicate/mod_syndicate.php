@@ -50,10 +50,9 @@ if (!defined('_JOS_SYNDICATE_MODULE'))
 
 	function outputSyndicateLink($check, $link, $img_default, $img_file, $img_alt, $img_name, $moduleclass_sfx)
 	{
-		if ($check)
-		{
+		if ($check) {
 			$img = mosAdminMenus::ImageCheck($img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_name);
-?>
+			?>
 			<div class="syndicate_link<?php echo $moduleclass_sfx;?>">
 				<a href="<?php echo sefRelToAbs( $link ); ?>">
 					<?php echo $img ?></a>
@@ -66,29 +65,28 @@ if (!defined('_JOS_SYNDICATE_MODULE'))
 
 // paramters
 $moduleclass_sfx	= $params->get('moduleclass_sfx', '');
-$rss091					= $params->get('rss091', 1);
-$rss10						= $params->get('rss10', 1);
-$rss20						= $params->get('rss20', 1);
-$atom						= $params->get('atom', 1);
-$opml						= $params->get('opml', 1);
+$rss091				= $params->get('rss091', 1);
+$rss10				= $params->get('rss10', 1);
+$rss20				= $params->get('rss20', 1);
+$atom				= $params->get('atom', 1);
+$opml				= $params->get('opml', 1);
 $rss091_image		= $params->get('rss091_image', '');
-$rss10_image			= $params->get('rss10_image', '');
-$rss20_image			= $params->get('rss20_image', '');
+$rss10_image		= $params->get('rss10_image', '');
+$rss20_image		= $params->get('rss20_image', '');
 $atom_image			= $params->get('atom_image', '');
 $opml_image			= $params->get('opml_image', '');
 
 $from = @ $_SERVER['QUERY_STRING'];
 
-if ($from)
-{
-	$parts = explode('option=', $from);
-	$url = ampReplace($parts[1]);
+if ($from) {
+	$parts	= explode('option=', $from);
+	$url	= ampReplace($parts[1]);
 
-	$linkRSS091		= 'index.php?option=com_syndicate&amp;feed=RSS0.91&amp;type='.$url;
-	$linkRSS10		= 'index.php?option=com_syndicate&amp;feed=RSS1.0&amp;type='.$url;
-	$linkRSS20		= 'index.php?option=com_syndicate&amp;feed=RSS2.0&amp;type='.$url;
+	$linkRSS091	= 'index.php?option=com_syndicate&amp;feed=RSS0.91&amp;type='.$url;
+	$linkRSS10	= 'index.php?option=com_syndicate&amp;feed=RSS1.0&amp;type='.$url;
+	$linkRSS20	= 'index.php?option=com_syndicate&amp;feed=RSS2.0&amp;type='.$url;
 	$linkATOM03	= 'index.php?option=com_syndicate&amp;feed=ATOM0.3&amp;type='.$url;
-	$linkOPML		= 'index.php?option=com_syndicate&amp;feed=OPML&amp;type='.$url;
+	$linkOPML	= 'index.php?option=com_syndicate&amp;feed=OPML&amp;type='.$url;
 	?>
 	<div class="syndicate<?php echo $moduleclass_sfx;?>">
 	<?php
@@ -100,9 +98,7 @@ if ($from)
 	?>
 	</div>
 	<?php
-}
-else
-{
+} else {
 	echo '&nbsp;';
 }
 ?>

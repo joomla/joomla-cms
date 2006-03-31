@@ -25,7 +25,7 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, $client, &$pageNav, $option, &$lists ) 
+	function showModules( &$rows, &$client, &$pageNav, $option, &$lists ) 
 	{
 		global $mainframe;
 		
@@ -198,6 +198,7 @@ class HTML_modules {
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />

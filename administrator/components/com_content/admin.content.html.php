@@ -29,7 +29,7 @@ class ContentView {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showContent( &$rows, $section, &$lists, $pageNav, $redirect ) {
+	function showContent( &$rows, &$lists, $pageNav, $redirect ) {
 		global $my, $mainframe, $database;
 		
 		/*
@@ -261,7 +261,6 @@ class ContentView {
 		</div>
 
 		<input type="hidden" name="option" value="com_content" />
-		<input type="hidden" name="sectionid" value="<?php echo $section->id;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />

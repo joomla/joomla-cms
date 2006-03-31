@@ -287,7 +287,7 @@ class JContentController
 		// search filter
 		$lists['search'] = $search;
 
-		ContentView::showContent($rows, $section, $lists, $pagination, $redirect);
+		ContentView::showContent($rows, $lists, $pagination, $redirect);
 	}
 
 	/**
