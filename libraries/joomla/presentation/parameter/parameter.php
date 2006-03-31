@@ -171,7 +171,7 @@ class JParameter extends JRegistry
 		
 		//remove any occurance of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
-		echo $type;
+		
 		$element =& $this->loadElement($type);
 		
 		/**
