@@ -514,7 +514,7 @@ class JFTP extends JObject {
 		}
 
 		$this->_mode($mode);
-		$this->restart(0);
+		//$this->restart(0);
 
 		// Start passive mode
 		if (!$this->_passive()) {
@@ -577,7 +577,7 @@ class JFTP extends JObject {
 		}
 
 		$this->_mode($mode);
-		$this->restart(0);
+		//$this->restart(0);
 
 		// Check to see if the local file can be opened for writing
 		$fp = fopen($local, "wb");
@@ -650,7 +650,7 @@ class JFTP extends JObject {
 		}
 
 		$this->_mode($mode);
-		$this->restart(0);
+		//$this->restart(0);
 
 		// Check to see if the local file exists and open for reading if so
 		if (@ file_exists($local)) {
