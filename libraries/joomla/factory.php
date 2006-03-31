@@ -111,18 +111,24 @@ class JFactory
 	 *
 	 * @access public
 	 * @return object
-	 * @param boolean If true, include lite version
+	 * $param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
+	 * @param array: 
+	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
+	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
+	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 */
 
-	 function &getXMLParser( $type = 'DOM', $lite =  true)
+	 function &getXMLParser( $type = 'DOM', $options = array())
 	 {
+	 	global $mainframe;
+	 	
 		$doc = null;
 
 		switch($type)
 		{
 			case 'DOM'  :
 			{
-				if($lite) {
+				if( is_null($options['lite']) || $options['lite']) {
 					jimport('domit.xml_domit_lite_include');
 					$doc = new DOMIT_Lite_Document();
 				} else {
@@ -131,6 +137,23 @@ class JFactory
 				}
 			} break;
 
+			
+			case 'RSS' :
+			{
+				if( is_null( $options['rssUrl']) ) {
+					return false;
+				}
+				define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+				define('MAGPIE_CACHE_ON', true);
+				define('MAGPIE_CACHE_DIR',$mainframe->getCfg('cachepath'));
+				if( !is_null( $options['cache_time'])){
+					define('MAGPIE_CACHE_AGE', $options['cache_time']);
+				}
+					
+				jimport('magpierss.rss_fetch');
+				$doc = fetch_rss( $options['rssUrl'] );
+				
+			} break;
 			
 			case 'Simple' :
 			{

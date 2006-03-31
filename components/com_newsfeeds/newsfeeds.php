@@ -240,13 +240,12 @@ function showFeed( ) {
 		return;
 	}
 
-	// setup RSS parser and get RSS parsed object
-	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
-	define('MAGPIE_CACHE_ON', true);
-	define('MAGPIE_CACHE_DIR',$mainframe->getCfg('cachepath'));
-	define('MAGPIE_CACHE_AGE', $newsfeed->cache_time);
-	jimport('magpierss.rss_fetch');
-	$rssDoc = fetch_rss( $newsfeed->link );
+	//  get RSS parsed object
+	$options = array();
+	$options['rssUrl'] = $newsfeed->link;
+	$options['cache_time'] = $newsfeed->cache_time;
+	
+	$rssDoc = JFactory::getXMLparser('RSS', $options);
 
 	if ( $rssDoc == false ) {
 		$msg = JText::_('Error: Feed not retrieved');
