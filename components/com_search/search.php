@@ -184,15 +184,17 @@ function viewSearch() {
 				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );
 			}
 
-			if (!eregi( '^http', $rows[$i]->href )) {
-				// determines Itemid for Content items
-				if ( strstr( $rows[$i]->href, 'view' ) ) {
-					// tests to see if itemid has already been included - this occurs for typed content items
-					if ( !strstr( $rows[$i]->href, 'Itemid' ) ) {
-						$temp = explode( 'id=', $rows[$i]->href );
-						$_Itemid = JContentHelper::getItemid($temp[1]);
-						@$rows[$i]->href = $rows[$i]->href. '&amp;Itemid='. $_Itemid;
+			if ( strpos( $rows[$i]->href, 'http' ) == false ) {
+				$url = parse_url( $rows[$i]->href );
+				parse_str( $url['query'], $link );
+				
+				// determines Itemid for Content items where itemid has not been included
+				if ( @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
+					$itemid = '';
+					if (JContentHelper::getItemid( $link['id'] )) {
+						$itemid = '&amp;Itemid='. JContentHelper::getItemid( $link['id'] );
 					}
+					$rows[$i]->href = $rows[$i]->href . $itemid;
 				}
 			}
 		}
