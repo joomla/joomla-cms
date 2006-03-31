@@ -19,9 +19,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Wrapper
 */
-class HTML_wrapper {
+class JViewWrapperHTML {
 
 	function displayWrap( &$row, &$params, &$menu ) {
+		global $mainframe;
+		
+		$mainframe->SetPageTitle($menu->name);
+
+		// Set the breadcrumbs
+		$breadcrumbs =& $mainframe->getPathWay();
+		$breadcrumbs->setItemName(1, $menu->name);
 		?>
 		<script language="javascript" type="text/javascript">
 		function iFrameHeight() {

@@ -60,12 +60,6 @@ function showWrap( $option ) {
 		$row->load = '';
 	}
 
-	$mainframe->SetPageTitle($menu->name);
-
-	// Set the breadcrumbs
-	$breadcrumbs =& $mainframe->getPathWay();
-	$breadcrumbs->setItemName(1, $menu->name);
-
-	HTML_wrapper::displayWrap( $row, $params, $menu );
+	JViewWrapperHTML::displayWrap( $row, $params, $menu );
 }
 ?>
