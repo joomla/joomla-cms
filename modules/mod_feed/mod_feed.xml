@@ -22,6 +22,10 @@
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="rssurl" type="text" size="50" default="" label="Feed URL" description="Enter the URL of the RSS/RDF feed" />
+		<param name="rssrtl" type="radio" default="0" label="RTL feed" description="Display feed in RTL direction">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="rsstitle" type="radio" default="1" label="Feed Title" description="Display news feed title">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
