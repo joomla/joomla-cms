@@ -14,8 +14,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-global $_CONFIG;
-
 $params->def('url', '');
 $params->def('scrolling', 'auto');
 $params->def('height', '200');
@@ -76,5 +74,5 @@ scrolling="<?php echo $params->get( 'scrolling' ); ?>"
 align="top"
 frameborder="0"
 class="wrapper<?php echo $params->get( 'moduleclass_sfx' ); ?>">
-<?php echo _CMN_IFRAMES; ?>
+<?php echo JText::_('NO_IFRAMES'); ?>
 </iframe>

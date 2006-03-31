@@ -538,7 +538,8 @@ class JApplication extends JObject
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
             'tab'  => '  ',
-          	'language' => 'en-GB'
+          	'language' => 'en-GB',
+          	'admin_language' => 'en-GB'
 		);
 		
 		$this->_document =& JDocument::getInstance('html', $attributes);

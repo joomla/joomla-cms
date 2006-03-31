@@ -15,15 +15,15 @@
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="url" type="text" size="30" default="" label="Url" description="Url to site/file you wish to display within the Iframe" />
+		<param name="url" type="text" size="30" default="" label="Url" description="URL TO SITE/FILE YOU WISH TO DISPLAY WITHIN THE IFRAME" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="Show/Hide Horizontal and Vertical scroll bars.">
+		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="SHOW/HIDE HORIZONTAL AND VERTICAL SCROLL BARS.">
 			<option value="no">No</option>
 			<option value="yes">Yes</option>
 			<option value="auto">Auto</option>
 		</param>
 		<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
-		<param name="height" type="text" size="5" default="200" label="Height" description="Height of the IFrame Window" />
+		<param name="height" type="text" size="5" default="200" label="Height" description="HEIGHT OF THE IFRAME WINDOW" />
 		<param name="height_auto" type="radio" default="1" label="Auto Height" description="PARAMAUTOHEIGHT">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
