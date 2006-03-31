@@ -6,6 +6,7 @@
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * modified by brian & rob
+* rewritten by David Gal to use the MagpieRSS library
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -22,24 +23,25 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'News Feeds');
 
-$feedid = JRequest::getVar( 'feedid', 0, '', 'int' );
-$catid 	= JRequest::getVar( 'catid', 0, '', 'int' );
+$task	= JRequest::getVar( 'task' );
 
 switch( $task ) {
 	case 'view':
-		showFeed( $feedid );
+		showFeed( );
 		break;
 
 	default:
-		listFeeds( $catid );
+		listFeeds( );
 		break;
 }
 
 
-function listFeeds( $catid ) {
+function listFeeds(  ) {
 	global $mainframe;
 	global $Itemid;
 
+	$catid 	= JRequest::getVar( 'catid', 0, '', 'int' );
+	
 	$database 			= & $mainframe->getDBO();
 	$user 				= & $mainframe->getUser();
 	$breadcrumbs 		= & $mainframe->getPathWay();
@@ -193,11 +195,13 @@ function listFeeds( $catid ) {
 }
 
 
-function showFeed( $feedid ) {
-	global $mainframe, $Itemid, $mosConfig_cachepath;
+function showFeed( ) {
+	global $mainframe, $Itemid;
 
+	$feedid = JRequest::getVar( 'feedid', 0, '', 'int' );
+	
 	// check if cache directory is writeable
-	$cacheDir = $mosConfig_cachepath .'/';
+	$cacheDir = $mainframe->getCfg('cachepath') . DS;
 	if ( !is_writable( $cacheDir ) ) {	
 		echo JText::_( 'Cache Directory Unwriteable' );
 		return;
@@ -236,8 +240,28 @@ function showFeed( $feedid ) {
 		return;
 	}
 
-	// full RSS parser used to access image information
-	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
+	// setup RSS parser and get RSS parsed object
+	define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+	define('MAGPIE_CACHE_ON', true);
+	define('MAGPIE_CACHE_DIR',$mainframe->getCfg('cachepath'));
+	define('MAGPIE_CACHE_AGE', $newsfeed->cache_time);
+	jimport('magpierss.rss_fetch');
+	$rssDoc = fetch_rss( $newsfeed->link );
+
+	if ( $rssDoc == false ) {
+		$msg = JText::_('Error: Feed not retrieved');
+		josRedirect('index.php?option=com_newsfeeds&catid='. $newsfeed->catid .'&Itemid=' . $Itemid, $msg);
+		return;
+	}	
+	$lists = array();
+	// channel header and link
+	$lists['channel'] = $rssDoc->channel;
+	
+	// channel image if exists
+	$lists['image'] = $rssDoc->image;
+	
+	// items
+	$lists['items'] = $rssDoc->items;
 
 	// Adds parameter handling
 	$menu =& JTable::getInstance('menu', $database );
@@ -264,6 +288,6 @@ function showFeed( $feedid ) {
 	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem($newsfeed->name, '');
 
-	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $lists, $params );
 }
 ?>

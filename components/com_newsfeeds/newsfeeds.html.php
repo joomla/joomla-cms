@@ -243,7 +243,10 @@ class HTML_newsfeed {
 	}
 
 
-	function showNewsfeeds( &$newsfeed, $LitePath, $cacheDir, &$params ) {
+	/**
+	* Display feed header and items
+	*/
+	function showNewsfeeds( &$newsfeed, &$lists, &$params ) {
 		?>
 		<table width="100%" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<?php
@@ -256,151 +259,124 @@ class HTML_newsfeed {
 			</tr>
 			<?php
 		}
-
-		// full RSS parser used to access image information
-		$rssDoc =& JFactory::getXMLParser('RSS');
-		$rssDoc->useCacheLite( true, $LitePath, $cacheDir, $newsfeed->cache_time );
-		$rssDoc->useHTTPClient(true); 
-		$success = $rssDoc->loadRSS( $newsfeed->link );
-
-		if ( $success ) {
-			$totalChannels = $rssDoc->getChannelCount();
-	
-			for ( $i = 0; $i < $totalChannels; $i++ ) {
-				$currChannel	=& $rssDoc->getChannel($i);
-				$elements 		= $currChannel->getElementList();
-				$descrip 		= 0;
-				$iUrl			= 0;
-				foreach ( $elements as $element ) {
-					//image handling
-					if ( $element == 'image' ) {
-						$image =& $currChannel->getElement( DOMIT_RSS_ELEMENT_IMAGE );
-						$iUrl	= $image->getUrl();
-						$iTitle	= $image->getTitle();
-					}
-					if ( $element == 'description' ) {
-						$descrip = 1;
-						// hide com_rss descrip in 4.5.0 feeds
-						if ( $currChannel->getDescription() == 'com_rss' ) {
-							$descrip = 0;
-						}
-					}
-				}
-				?>
-				<tr>
-					<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
-					<?php echo str_replace('&apos;', "'", $currChannel->getTitle()); ?>
-					</a>
-					</td>
-				</tr>
+		// feed elements
+		$currChannel	= $lists['channel'];
+		$image			= $lists['image'];
+		$items 			= $lists['items'];
+		$descrip 		= 0;
+		$iUrl			= 0;
+		
+		//image handling
+		if ( !is_null( $image ) ) {
+			$iUrl	= $image['url'];
+			$iTitle	= $image['title'];
+		}
+		if ( !is_null( $currChannel['description']) ) {
+			$descrip = 1;
+			// hide com_rss descrip in 4.5.0 feeds
+			if ( $currChannel['description'] == 'com_rss' ) {
+				$descrip = 0;
+			}
+		}
+		// display channel info and image
+		?>
+		<tr>
+			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<a href="<?php echo ampReplace( $currChannel['link'] ); ?>" target="_blank">
+			<?php echo str_replace('&apos;', "'", $currChannel['title']); ?>
+			</a>
+			</td>
+		</tr>
+		<?php
+		// feed description
+		if ( $descrip && $params->get( 'feed_descr' ) ) {
+			?>
+			<tr>
+				<td>
+				<?php echo str_replace('&apos;', "'", $currChannel['description']); ?>
+				<br />
+				<br />
+				</td>
+			</tr>
+			<?php
+		}
+		// feed image
+		if ( $iUrl && $params->get( 'feed_image' ) ) {
+			?>
+			<tr>
+				<td>
+				<img src="<?php echo $iUrl; ?>" alt="<?php echo $iTitle; ?>" />
+				</td>
+			</tr>
+			<?php
+		}
+		
+		// determine number of items to display
+		$actualItems 	= count( $items );
+		$setItems 		= $newsfeed->numarticles;
+		if ( $setItems > $actualItems ) {
+			$totalItems = $actualItems;
+		} else {
+			$totalItems = $setItems;
+		}
+		?>
+		<tr>
+			<td>
+			<ul>
 				<?php
-				// feed description
-				if ( $descrip && $params->get( 'feed_descr' ) ) {
+				
+				// display list of channel items
+				for ( $j = 0; $j < $totalItems; $j++ ) {
+					$currItem =& $items[$j];
 					?>
-					<tr>
-						<td>
-						<?php echo str_replace('&apos;', "'", $currChannel->getDescription()); ?>
-						<br />
-						<br />
-						</td>
-					</tr>
-					<?php
-				}
-				// feed image
-				if ( $iUrl && $params->get( 'feed_image' ) ) {
-					?>
-					<tr>
-						<td>
-						<img src="<?php echo $iUrl; ?>" alt="<?php echo $iTitle; ?>" />
-						</td>
-					</tr>
-					<?php
-				}
-				$actualItems 	= $currChannel->getItemCount();
-				$setItems 		= $newsfeed->numarticles;
-				if ( $setItems > $actualItems ) {
-					$totalItems = $actualItems;
-				} else {
-					$totalItems = $setItems;
-				}
-				?>
-				<tr>
-					<td>
-					<ul>
-						<?php
-						for ( $j = 0; $j < $totalItems; $j++ ) {
-							$currItem =& $currChannel->getItem($j);
+					<li>
+						<?php		
+						if ( !is_null( $currItem['link'] ) ) {
 							?>
-							<li>
-								<?php		
-								// START fix for RSS enclosure tag url not showing
-								if ($currItem->getLink()) {
-									?>
-									<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-										<?php echo $currItem->getTitle(); ?></a>
-									<?php
-								} else if ($currItem->getEnclosure()) {
-									$enclosure 	= $currItem->getEnclosure();
-									$eUrl		= $enclosure->getUrl();
-									?>
-									<a href="<?php echo ampReplace( $eUrl ); ?>" target="_child">
-										<?php echo $currItem->getTitle(); ?></a>
-									<?php
-								}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
-									$enclosure 	= $currItem->getEnclosure();
-									$eUrl		= $enclosure->getUrl();
-									?>
-									<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-										<?php echo $currItem->getTitle(); ?></a>
-									<br />
-									Link: <a href="<?php echo ampReplace( $eUrl ); ?>" target="_blank">
-										<?php echo $eUrl; ?></a>
-									<?php
-								}
-								// END fix for RSS enclosure tag url not showing
-		
-								// item description
-								if ( $params->get( 'item_descr' ) ) {
-									$text   = $currItem->getDescription();
-									$text   = str_replace('&apos;', "'", $text);
-									$num 	= $params->get( 'word_count' );
-		
-									// word limit check
-									if ( $num ) {
-										$texts = explode( ' ', $text );
-										$count = count( $texts );
-										if ( $count > $num ) {
-											$text = '';
-											for( $i=0; $i < $num; $i++ ) {
-												$text .= ' '. $texts[$i];
-											}
-											$text .= '...';
-										}
+							<a href="<?php echo ampReplace( $currItem['link'] ); ?>" target="_blank">
+								<?php echo $currItem['title']; ?></a>
+							<?php
+						} 
+						// Note: enclosure tag removed as not supported by magpierss
+						// item description
+						if ( $params->get( 'item_descr' ) ) {
+							$text   = $currItem['description'];
+							$text   = str_replace('&apos;', "'", $text);
+							$num 	= $params->get( 'word_count' );
+
+							// word limit check
+							if ( $num ) {
+								$texts = explode( ' ', $text );
+								$count = count( $texts );
+								if ( $count > $num ) {
+									$text = '';
+									for( $i=0; $i < $num; $i++ ) {
+										$text .= ' '. $texts[$i];
 									}
-									?>
-									<br />
-									<?php echo $text; ?>
-									<br />
-									<br />
-									<?php
+									$text .= '...';
 								}
-								?>
-							</li>
+							}
+							?>
+							<br />
+							<?php echo $text; ?>
+							<br />
+							<br />
 							<?php
 						}
 						?>
-					</ul>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<br />
-					</td>
-				</tr>
-				<?php
-			}
-		}
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<br />
+			</td>
+		</tr>
+		<?php
 		?>
 		</table>
 		<?php

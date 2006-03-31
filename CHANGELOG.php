@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Mar-2006 David Gal
+ + Integrated new RSS parsing library - MagpieRSS (adds conversion to utf-8 from all encodings)
+ ^ Cleanup/Refactor com_newsfeeds (site)
+
 30-Mar-2006 Louis Landry
  ^ Merged com_typedcontent into com_content
  # Fixed JRequest::getVar integer type unable to accept negative integers
@@ -46,7 +50,7 @@ Legend:
  ^ Cleanup/Refactor com_login
 
 29-Mar-2006 David Gal
- ^ Cleanup/Refactor com_newsfeeds
+ ^ Cleanup/Refactor com_newsfeeds (admin)
 
 27-Mar-2006 David Gal
  ^ Changed the phputf8 library to the newer release of the library
