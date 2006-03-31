@@ -22,10 +22,10 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 showWrap( $option );
 
 function showWrap( $option ) {
-	global $database, $Itemid, $mainframe;
+	global $Itemid, $mainframe;
 
-	$menu =& JTable::getInstance('menu', $database );
-	$menu->load( $Itemid );
+	$menu = JMenu::getInstance();
+	$menu = $menu->getItem($Itemid);
 	$params = new JParameter( $menu->params );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	$params->def( 'scrolling', 'auto' );

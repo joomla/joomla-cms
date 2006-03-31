@@ -114,8 +114,8 @@ class WeblinksController
 		/*
 		 * Load the parameters
 		 */
-		$menu = & JTable::getInstance('menu', $db);
-		$menu->load($Itemid);
+		$menu = JMenu::getInstance();
+		$menu = $menu->getItem($Itemid);
 
 		$params = new JParameter($menu->params);
 		$params->def('page_title', 1);
