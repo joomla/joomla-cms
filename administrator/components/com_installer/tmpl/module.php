@@ -57,10 +57,9 @@ class JInstallerExtensionTasks {
 			}
 		}
 
-		$query = "SELECT id, module, client_id, title" 
+		$query = "SELECT id, module, client_id, title, iscore" 
 				. "\n FROM #__modules" 
 				. "\n WHERE module LIKE 'mod_%' " 
-				. "\n AND iscore='0'"
 				. $and 
 				. "\n GROUP BY module, client_id" 
 				. "\n ORDER BY client_id, module"
@@ -172,14 +171,24 @@ class JInstallerScreens_module {
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
 					$row =& $rows[$i];
 					
+					/*
+					 * Handle currently used templates
+					 */
+					if ($row->iscore)	{
+						$cbd 	= 'disabled';
+						$style 	= 'style="color:#999999;"';
+					} else {
+						$cbd 	= '';
+						$style 	= '';
+					}
 					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
-					<tr class="<?php echo "row$rc"; ?>">
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 						<td>
 							<?php echo $page->rowNumber( $i ); ?>
 						</td>
 						<td>
-							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
+							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
 							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold"><?php echo $row->module; ?></span>
 						</td>

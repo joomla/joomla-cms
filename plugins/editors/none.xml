@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <install version="1.1" type="plugin" group="editors">
-    <name>Editore - None</name>
-    <version></version>
+    <name>Editor - None</name>
+    <version>1.0</version>
     <creationDate>August 2004</creationDate>
     <author></author>
     <authorEmail>N/A</authorEmail>

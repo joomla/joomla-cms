@@ -48,9 +48,8 @@ class JInstallerExtensionTasks {
 		 */
 		$db = & $mainframe->getDBO();
 
-		$query = 	"SELECT id, name, folder, element, client_id" 
+		$query = 	"SELECT id, name, folder, element, client_id, iscore" 
 					. "\n FROM #__plugins" 
-					. "\n WHERE iscore = 0" 
 					. $and
 					. "\n ORDER BY folder, name"
 					;
@@ -179,14 +178,24 @@ class JInstallerScreens_plugin {
 				for ($i = 0; $i < $n; $i ++) {
 					$row = & $rows[$i];
 					
+					/*
+					 * Handle currently used templates
+					 */
+					if ($row->iscore)	{
+						$cbd 	= 'disabled';
+						$style 	= 'style="color:#999999;"';
+					} else {
+						$cbd 	= '';
+						$style 	= '';
+					}
 					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
-					<tr class="<?php echo "row$rc"; ?>">
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 						<td>
 							<?php echo $page->rowNumber( $i ); ?>
 						</td>
 						<td>
-							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
+							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
 							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold">
 								<?php echo $row->name; ?>
