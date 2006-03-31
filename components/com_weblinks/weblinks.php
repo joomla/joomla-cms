@@ -31,9 +31,7 @@ $pathway = & $mainframe->getPathWay();
 $pathway->setItemName(1, JText::_('Links'));
 
 // Get some request variables
-$id		= JRequest::getVar( 'id', 0, '', 'int' );
-$catid	= JRequest::getVar( 'catid', 0, '', 'int' );
-$task		= JRequest::getVar( 'task' );
+$task = JRequest::getVar( 'task' );
 
 /*
  * This is our main control structure for the component
@@ -43,15 +41,11 @@ $task		= JRequest::getVar( 'task' );
 switch ($task)
 {
 	case 'new' :
-		WeblinksController::editWebLink(0);
+		WeblinksController::editWebLink();
 		break;
 
 	case 'edit' :
-		/*
-		 * Disabled until ACL system is implemented.  When enabled the $id variable
-		 * will be passed instead of a 0
-		 */
-		WeblinksController::editWebLink(0);
+		WeblinksController::editWebLink();
 		break;
 
 	case 'save' :
@@ -63,11 +57,11 @@ switch ($task)
 		break;
 
 	case 'view' :
-		WeblinksController::showItem($id);
+		WeblinksController::showItem();
 		break;
 
 	default :
-		WeblinksController::showCategory($catid);
+		WeblinksController::showCategory();
 		break;
 }
 
@@ -76,44 +70,39 @@ switch ($task)
  *
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
- * @package	Joomla
+ * @package		Joomla
  * @subpackage	Weblinks
- * @since			1.1
+ * @since		1.5
  */
 class WeblinksController
 {
 	/**
 	 * Show a web link category
 	 *
-	 * @param	int		$catid	Web Link category id
-	 * @since		1.0
+	 * @param	int	$catid	Web Link category id
+	 * @since	1.0
 	 */
-	function showCategory($catid)
+	function showCategory()
 	{
 		global $mainframe, $Itemid;
 
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
 		$pathway	= & $mainframe->getPathWay();
 		$document	= & $mainframe->getDocument();
-		$gid			= $user->get('gid');
+		$gid		= $user->get('gid');
 		$page		= '';
 		$category	= null;
 
-		/*
-		 * Get some request variables
-		 */
-		$limit					= JRequest::getVar('limit', 0, '', 'int');
+		// Get some request variables
+		$limit				= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
+		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
 
-		/*
-		 * Load the parameters
-		 */
+		// Load the menu object and parameters
 		$menu = JMenu::getInstance();
 		$menu = $menu->getItem($Itemid);
 
@@ -132,12 +121,12 @@ class WeblinksController
 		$params->def('weblink_icons', '');
 		$params->def('image_align', 'right');
 		$params->def('back_button', $mainframe->getCfg('back_button'));
+
 		// pagination parameters
 		$params->def('display', 1);
 		$params->def('display_num', $mainframe->getCfg('list_limit'));
 
-		if ($catid)
-		{
+		if ($catid) {
 			// Initialize variables
 			$rows = array ();
 
@@ -152,17 +141,14 @@ class WeblinksController
 			$counter = $db->loadObjectList();
 			$total = $counter[0]->numitems;
 			$limit = $limit ? $limit : $params->get('display_num');
-			if ($total <= $limit)
-			{
+			if ($total <= $limit) {
 				$limitstart = 0;
 			}
 
 			jimport('joomla.presentation.pagination');
 			$page = new JPagination($total, $limitstart, $limit);
 
-			/*
-			 * We need to get a list of all weblinks in the given category
-			 */
+			// We need to get a list of all weblinks in the given category
 			$query = "SELECT id, url, title, description, date, hits, params" .
 					"\n FROM #__weblinks" .
 					"\n WHERE catid = $catid" .
@@ -184,14 +170,12 @@ class WeblinksController
 			/*
 			 * Check if the category is published or if access level allows access
 			 */
-			if (!$category->name)
-			{
+			// Check to see if the category is published or if access level allows access
+			if (!$category->name) {
 				JError::raiseError( 404, JText::_( 'You need to login.' ));
 				return;
 			}
-		}
-		else
-		{
+		} else {
 			/*
 			 * If we are at the WebLink component root (no category id set) certain
 			 * defaults need to be set based on parameter values.
@@ -201,14 +185,12 @@ class WeblinksController
 			$params->set('type', 'section');
 
 			// Handle the page description
-			if ($params->get('description'))
-			{
+			if ($params->get('description')) {
 				$category->description = $params->get('description_text');
 			}
 
 			// Handle the page image
-			if ($params->get('image') != -1)
-			{
+			if ($params->get('image') != -1) {
 				$category->image = $params->get('image');
 				$category->image_position = $params->get('image_align');
 			}
@@ -230,8 +212,7 @@ class WeblinksController
 		$categories = $db->loadObjectList();
 
 		// Handle page header, page title, and pathway
-		if (empty ($category->name))
-		{
+		if (empty ($category->name)) {
 			/*
 			 * We do not have a name set for the category, so we should get the default
 			 * information from the parameters.
@@ -240,9 +221,7 @@ class WeblinksController
 
 			// Set page title
 			$document->setTitle($menu->name);
-		}
-		else
-		{
+		} else {
 			/*
 			 * A name is set for the current category so let's use it.
 			 */
@@ -255,8 +234,7 @@ class WeblinksController
 		}
 
 		// Define image tag attributes
-		if (isset ($category->image))
-		{
+		if (isset ($category->image)) {
 			$imgAttribs['align'] = '"'.$category->image_position.'"';
 			$imgAttribs['hspace'] = '"6"';
 
@@ -268,12 +246,9 @@ class WeblinksController
 		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
 
 		// table ordering
-		if ($filter_order_Dir == 'DESC')
-		{
+		if ($filter_order_Dir == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
-		}
-		else
-		{
+		} else {
 			$lists['order_Dir'] = 'DESC';
 		}
 		$lists['order'] = $filter_order;
@@ -289,66 +264,52 @@ class WeblinksController
 	 * @param	int		$catid	Web Link category id
 	 * @since 1.0
 	 */
-	function showItem($id)
+	function showItem()
 	{
 		global $mainframe;
 
 		/*
 		 * Initialize variables
 		 */
-		$db				= & $mainframe->getDBO();
-		$user			= & $mainframe->getUser();
-		$document		= & $mainframe->getDocument();
+		// Initialize variables
+		$db			= & $mainframe->getDBO();
+		$user		= & $mainframe->getUser();
+		$document	= & $mainframe->getDocument();
+		$id			= JRequest::getVar( 'id', 0, '', 'int' );
 
-		/*
-		 * Get the weblink table and load it
-		 */
-		$weblink		= & new JTableWeblink($db);
+		// Get the weblink table object and load it
+		$weblink = & new JTableWeblink($db);
 		$weblink->load($id);
 
-		/*
-		* Check if link is published
-		*/
-		if (!$weblink->published)
-		{
+		// Check if link is published
+		if (!$weblink->published) {
 			JError::raiseError( 404, JText::_('Link not found.') );
 			return;
 		}
 
-		/*
-		 * Get the category table and load it
-		 */
-		$cat = new JTableCategory($db);
+		// Get the category table object and load it
+		$cat = & new JTableCategory($db);
 		$cat->load($weblink->catid);
 
-		/*
-		* Check if category is published
-		*/
-		if (!$cat->published)
-		{
-			JError::raiseError( 404, JText::_('Category not found.') );
+		// Check to see if the category is published
+		if (!$cat->published) {
+			JError::raiseError( 404, JText::_('Resource not found.') );
 			return;
 		}
 
-		/*
-		* check whether category access level allows access
-		*/
-		if ($cat->access > $user->get('gid'))
-		{
-			JError::raiseError( 403, JText::_('Insufficient Access.') );
+		// Check whether category access level allows access
+		if ($cat->access > $user->get('gid')) {
+			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
 
 		// Record the hit
 		$weblink->hit();
 
-		if ($weblink->url)
-		{
+		if ($weblink->url) {
 			// redirects to url if matching id found
 			josRedirect($weblink->url);
-		}
-		else
-		{
+		} else {
 			// redirects to weblink category page if no matching id found
 			WeblinksController::showCategory($cat->id);
 		}
@@ -371,25 +332,30 @@ class WeblinksController
 		$document	= & $mainframe->getDocument();
 
 		// Make sure you are logged in
-		if ($user->get('gid') < 1)
-		{
-			JError::raiseError( 403, JText::_('Insufficient Access.') );
+		if ($user->get('gid') < 1) {
+			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
 
-		// Create and load a weblink table
-		$row = new JTableWeblink($db);
+		/*
+		 * Disabled until ACL system is implemented.  When enabled the $id variable
+		 * will be used instead of a 0
+		 */
+		// $id = JRequest::getVar( 'id', 0, '', 'int' );
+		$id = 0;
+
+
+		// Create and load a weblink table object
+		$row = & new JTableWeblink($db);
 		$row->load($id);
 
 		// Is this link checked out?  If not by me fail
-		if ($row->isCheckedOut($user->get('id')))
-		{
+		if ($row->isCheckedOut($user->get('id'))) {
 			josRedirect("index2.php?option=$option", "The module $row->title is currently being edited by another administrator.");
 		}
 
 		// Edit or Create?
-		if ($id)
-		{
+		if ($id) {
 			/*
 			 * The web link already exists so we are editing it.  Here we want to
 			 * manipulate the pathway and pagetitle to indicate this, plus we want
@@ -402,9 +368,7 @@ class WeblinksController
 
 			// Add pathway item
 			$pathway->addItem(JText::_('Edit'), '');
-		}
-		else
-		{
+		} else {
 			/*
 			 * The web link does not already exist so we are creating a new one.  Here
 			 * we want to manipulate the pathway and pagetitle to indicate this.  Also,
@@ -441,9 +405,8 @@ class WeblinksController
 		$user	= & $mainframe->getUser();
 
 		// Must be logged in
-		if ($user->get('id') < 1)
-		{
-			JError::raiseError( 403, JText::_('Insufficient Access.') );
+		if ($user->get('id') < 1) {
+			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
 
@@ -471,9 +434,8 @@ class WeblinksController
 		$user	= & $mainframe->getUser();
 
 		// Must be logged in
-		if ($user->get('id') < 1)
-		{
-			JError::raiseError( 403, JText::_('Insufficient Access.') );
+		if ($user->get('id') < 1) {
+			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
 
@@ -481,8 +443,7 @@ class WeblinksController
 		$row = new JTableWeblink($db);
 
 		// Bind the $_POST array to the web link table
-		if (!$row->bind($_POST, "published"))
-		{
+		if (!$row->bind($_POST, "published")) {
 			JError::raiseError( 500, $row->getError());
 			return;
 		}
@@ -497,15 +458,13 @@ class WeblinksController
 		$row->id = 0;
 
 		// Make sure the web link table is valid
-		if (!$row->check())
-		{
+		if (!$row->check()) {
 			JError::raiseError( 500, $row->getError());
 			return;
 		}
 
 		// Store the web link table to the database
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			JError::raiseError( 500, $row->getError());
 			return;
 		}
@@ -522,16 +481,14 @@ class WeblinksController
 				"\n WHERE gid = $gid" .
 				"\n AND sendEmail = 1";
 		$db->setQuery($query);
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			JError::raiseError( 500, $db->stderr(true));
 			return;
 		}
 		$adminRows = $db->loadObjectList();
 
 		// send email notification to admins
-		foreach ($adminRows as $adminRow)
-		{
+		foreach ($adminRows as $adminRow) {
 			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $user->get('username'), $mainframe->getBaseURL());
 		}
 
