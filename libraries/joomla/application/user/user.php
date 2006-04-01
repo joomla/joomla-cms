@@ -268,14 +268,13 @@ class JUser extends JObject
 		/*
 		 * Lets check to see if the user is new or not
 		 */
-		if (empty($this->_table->id) && empty($this->_id) && $array['id'])
-		{
+		if (empty($this->_table->id) && empty($this->_id) && $array['id']) {
 			/*
 			 * Since we have a new user, and we are going to create it... we
 			 * need to check a few things and set some defaults if we don't
 			 * already have them.
 			 */
-die("HERE");				
+			die("HERE");				
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
@@ -284,7 +283,21 @@ die("HERE");
 				
 			// Next the registration timestamp
 			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
-				
+			
+			// check that username is not greater than 25 characters
+			$username = $this->get( 'username' );
+			if ( strlen($username) > 25 ) {
+				$username = substr( $username, 0, 25 );
+				$this->set( 'username', $username ); 
+			}
+			
+			// check that password is not greater than 50 characters
+			$password = $this->get( 'password' );
+			if ( strlen($password) > 50 ) {
+				$password = substr( $password, 0, 50 );
+				$this->set( 'password', $password ); 
+			}
+	
 			/*
 			 * NOTE
 			 * TODO
@@ -296,16 +309,13 @@ die("HERE");
 				;
 			$this->_table->_db->setQuery( $query );
 			$this->set( 'usertype', $this->_table->_db->loadResult());
-		}
-		else
-		{
+		} else {
 			/*
 			 * We are updating an existing user.. so lets get down to it.
 			 */
 			if (!empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
-			} else
-			{
+			} else {
 				$array['password'] = $this->get('password');
 			}
 

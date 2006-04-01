@@ -208,7 +208,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $user->get('name'); ?>" />
+							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $user->get('name'); ?>" maxlength="50" />
 						</td>
 					</tr>
 					<tr>
@@ -218,7 +218,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" />
+							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" maxlength="25" />
 						</td>
 					</tr>
 					<tr>

@@ -203,7 +203,14 @@ function constructFeed( $rows, $feed, $filename, $title, &$params, $showFeed=tru
 		$item_title = html_entity_decode( $item_title );
 		
 		// url link to article
-		$item_link = $row->link;
+		// & used instead of &amp; as this is converted by feed creator
+		$_Itemid	= '';
+		$itemid 	= $mainframe->getItemid( $row->id );
+		if ($itemid) {
+			$_Itemid = '&Itemid='. $itemid;
+		}
+		
+		$item_link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
 		$item_link = sefRelToAbs( $item_link );
 		
 		// strip html from feed item description text

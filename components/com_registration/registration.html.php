@@ -144,7 +144,7 @@ class HTML_registration {
 				</label>
 			</td>
 		  	<td>
-		  		<input type="text" name="name" id="name" size="40" value="" class="inputbox" /> *
+		  		<input type="text" name="name" id="name" size="40" value="" class="inputbox" maxlength="50" /> *
 		  	</td>
 		</tr>
 		<tr>
@@ -154,7 +154,7 @@ class HTML_registration {
 				</label>
 			</td>
 			<td>
-				<input type="text" id="username" name="username" size="40" value="" class="inputbox" /> *
+				<input type="text" id="username" name="username" size="40" value="" class="inputbox" maxlength="25" /> *
 			</td>
 		<tr>
 			<td height="40">
@@ -163,7 +163,7 @@ class HTML_registration {
 				</label>
 			</td>
 			<td>
-				<input type="text" id="email" name="email" size="40" value="" class="inputbox" /> *
+				<input type="text" id="email" name="email" size="40" value="" class="inputbox" maxlength="100" /> *
 			</td>
 		</tr>
 		<tr>
