@@ -273,8 +273,7 @@ class JTemplatesController
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
 		$params		= JRequest::getVar('params', array (), '', 'array');
 		
-		if (!$template)
-		{
+		if (!$template) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
@@ -295,7 +294,7 @@ class JTemplatesController
 		
 		
 		$query = "DELETE FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
+				"\n WHERE client_id =" .$client->id.
 				"\n AND template = '$template'" .
 				"\n AND menuid <> 0";
 		$db->setQuery($query);

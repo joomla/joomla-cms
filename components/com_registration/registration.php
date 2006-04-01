@@ -146,7 +146,7 @@ function saveRegistration()
 
 	$user->set('id', 0);
 	$user->set('usertype', '');
-	$user->set('gid', $acl->get_group_id( '', 'Registered', 'ARO' ));
+	$user->set('gid', $acl->get_group_id( 'Registered', 'ARO' ));
 
 	if ($mosConfig_useractivation == '1') {
 		$user->set('activation', md5( mosMakePassword()) );
@@ -196,7 +196,7 @@ function saveRegistration()
 
 	// Send notification to all administrators
 	$subject2 = sprintf ( JText::_( 'Account details for %s at %s' ), $name, $mosConfig_sitename);
-	$message2 = sprintf ( JText::_( 'SEND_MSG_ADMIN' ), $adminName2, $mosConfig_sitename, $row->name, $email, $username);
+	$message2 = sprintf ( JText::_( 'SEND_MSG_ADMIN' ), $adminName2, $mosConfig_sitename, $name, $email, $username);
 	$subject2 = html_entity_decode($subject2, ENT_QUOTES);
 	$message2 = html_entity_decode($message2, ENT_QUOTES);
 

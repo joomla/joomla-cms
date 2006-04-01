@@ -478,8 +478,11 @@ legend {
 	padding: 2px 0px 0px 0px;	
 }
 
-#pane-document fieldset    { border: 1px #ccc solid;  }
+#pane-document   fieldset  { border: 1px #ccc solid;  }
 #pane-navigation fieldset  {  }
+
+#pane-navigation ul   { margin-left: 0; padding-left: 20px;}
+#pane-navigation ul a { cursor: pointer; }
 
 .expander {  float: right; }
 

@@ -48,7 +48,7 @@ class JInstallerScreens
 
 		</script>
 		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
 		
 		<div id="pane-document">
@@ -156,7 +156,7 @@ class JInstallerScreens
 	{
 		?>
 		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
 		
 		<div id="pane-document">

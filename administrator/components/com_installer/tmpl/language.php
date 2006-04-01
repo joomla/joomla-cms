@@ -182,7 +182,7 @@ class JInstallerScreens_language {
 		<form action="index2.php" method="post" name="adminForm">
 			
 		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
+			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 		
 		<div id="pane-document">

@@ -1828,16 +1828,16 @@ class gacl_api extends gacl {
 			$query .= '
 				FROM		'. $group_table .' g2
 				JOIN		'. $group_table .' g1 ON g1.lft>=g2.lft AND g1.rgt<=g2.rgt
-				JOIN		'. $map_table .' gm ON gm.group_id=g1.id
-				JOIN		'. $object_table .' o ON o.id=gm.'. $group_type .'_id
+				JOIN		'. $map_table .' AS gm ON gm.group_id=g1.id
+				JOIN		'. $object_table .' AS o ON o.id=gm.'. $group_type .'_id
 				WHERE		g2.id='. $group_id;
 		} else {
 			$query .= '
-				FROM		'. $map_table .' gm
-				JOIN		'. $object_table .' o ON o.id=gm.'. $group_type .'_id
+				FROM		'. $map_table .' AS gm
+				LEFT JOIN		'. $object_table .' AS o ON o.id=gm.'. $group_type .'_id
 				WHERE		gm.group_id='. $group_id;
 		}
-
+		
 		$rs = $this->db->Execute($query);
 
 		if (!is_object($rs)) {

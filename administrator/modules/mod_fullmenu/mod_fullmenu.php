@@ -251,7 +251,7 @@ class JFullAdminMenu {
 						$alt 	= addslashes($row->admin_menu_alt);
 						$link 	= $row->admin_menu_link ? "'index2.php?$row->admin_menu_link'" : "null";
 						?>
-				['<img src=\"../includes/<?php echo $row->admin_menu_img; ?>\" />','<?php echo $name; ?>',<?php echo $link; ?>,null,'<?php echo $alt; ?>',
+				['<img src=\"../includes/<?php echo $row->admin_menu_img; ?>\" />','<?php echo $name; ?>',<?php echo $link; ?>,null,'<?php echo $alt; ?>'
 						<?php
 						if (array_key_exists($row->id, $subs)) 	{
 							foreach ($subs[$row->id] as $sub) {
@@ -261,7 +261,7 @@ class JFullAdminMenu {
 								$alt 	= addslashes($sub->admin_menu_alt);
 								$link 	= $sub->admin_menu_link ? "'index2.php?$sub->admin_menu_link'" : "null";
 								?>
-					['<img src=\"../includes/<?php echo $sub->admin_menu_img; ?>\" />','<?php echo $name; ?>',<?php echo $link; ?>,null,'<?php echo $alt; ?>']
+					,['<img src=\"../includes/<?php echo $sub->admin_menu_img; ?>\" />','<?php echo $name; ?>',<?php echo $link; ?>,null,'<?php echo $alt; ?>']
 								<?php
 							}
 						}
