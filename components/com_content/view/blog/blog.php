@@ -260,14 +260,8 @@ class JViewHTMLBlog extends JView
 		$menu = & $this->get('Menu');
 		$Itemid = $menu->id;
 		$params = & new JParameter($row->attribs);
-<<<<<<< .mine
-		
-		$linkOn   = '';
-		$linkText = '';
-=======
 		$linkOn = null;
 		$linkText = null;
->>>>>>> .r2995
 
 		// These will come from a request object at some point
 		$task = JRequest::getVar('task');
