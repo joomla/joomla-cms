@@ -135,7 +135,7 @@ function listFeeds(  ) {
 		Check if the category is published or if access level allows access
 		*/
 		if (!$currentcat->name) {
-			JError::raiseError( 403, JText::_('Access Forbidden'));
+			JError::raiseError(403, JText::_("Access Forbidden"));
 			return;
 		}
 	}
