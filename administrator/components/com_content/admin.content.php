@@ -453,6 +453,7 @@ class JContentController
 		$option		= JRequest::getVar( 'option' );
 		$nullDate	= $db->getNullDate();
 		$contentSection = '';
+		$sectionid  = 0;
 
 		// Handle the $cid array
 		$cid = intval($cid[0]);
