@@ -45,7 +45,9 @@ class JViewHTMLArticle extends JView
 		$user	= & $app->getUser();
 		$menu	= & $this->get('Menu');
 		$Itemid	= $menu->id;
-		
+		$linkOn = null;
+		$linkText = null;
+
 		// At some point in the future this will be in a request object
 		$page	= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
