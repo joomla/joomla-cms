@@ -1712,18 +1712,12 @@ class mosAdminMenus {
 		$cur_template = $mainframe->getTemplate();
 
 		// strip html
-		$alt	= mosHTML::cleanText( $alt );
 		$alt	= html_entity_decode( $alt );		
-		// strip html
-		$name	= mosHTML::cleanText( $name );
-		$name	= html_entity_decode( $name );
-		$name	= str_replace( ' ','', $name );
-		$name 	= ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
 			$image = $param_directory . $param;
 			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
+				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" border="0" />';
 			}
 		} else if ( $param == -1 ) {
 			$image = '';
@@ -1742,7 +1736,7 @@ class mosAdminMenus {
 
 		// outputs actual html <img> tag
 		if ( $type ) {
-			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
+			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" border="0" />';
 		}
 
 		return $image;
@@ -1760,13 +1754,7 @@ class mosAdminMenus {
 		$cur_template = $mainframe->getTemplate();
 
 		// strip html
-		$alt	= mosHTML::cleanText( $alt );
-		$alt	= html_entity_decode( $alt );		
-		// strip html
-		$name	= mosHTML::cleanText( $name );
-		$name	= html_entity_decode( $name );
-		$name	= str_replace( ' ','', $name );
-		$name 	= ( $name ? 'name="'. $name .'"' : '' );
+		$alt	= html_entity_decode( $alt );
 
 		if ( $param ) {
 			$image = $param_directory . $param;
@@ -1791,7 +1779,7 @@ class mosAdminMenus {
 
 		// outputs actual html <img> tag
 		if ( $type ) {
-			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
+			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" border="0" />';
 		}
 
 		return $image;

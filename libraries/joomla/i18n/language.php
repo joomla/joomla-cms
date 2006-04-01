@@ -152,8 +152,7 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global Language object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a reference to a language object
 	 *
 	 * This method must be invoked as:
 	 * 		<pre>  $browser = &JLanguage::getInstance([$lang);</pre>
@@ -164,17 +163,8 @@ class JLanguage extends JObject
 	 */
 	function & getInstance($lang) 
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
-		if (empty ($instances[$lang])) {
-			$instances[$lang] = new JLanguage($lang);
-		}
-
-		return $instances[$lang];
+		$instance = new JLanguage($lang);
+		return $instance;
 	}
 
 	/**
