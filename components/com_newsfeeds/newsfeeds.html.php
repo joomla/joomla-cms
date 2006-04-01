@@ -267,11 +267,9 @@ class HTML_newsfeed {
 		$iUrl			= 0;
 		
 		//image handling
-		if ( !is_null( $image ) ) {
-			$iUrl	= $image['url'];
-			$iTitle	= $image['title'];
-		}
-		if ( !is_null( $currChannel['description']) ) {
+		$iUrl = isset($image['url']) ? $image['url'] : null;
+		$iTitle = isset($image['title']) ? $image['title'] : null;
+		if ( isset( $currChannel['description']) ) {
 			$descrip = 1;
 			// hide com_rss descrip in 4.5.0 feeds
 			if ( $currChannel['description'] == 'com_rss' ) {

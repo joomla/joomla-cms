@@ -61,10 +61,8 @@ if ($rssDoc != false)
 	$iUrl = 0;
 	
 	//image handling
-	if ( !is_null( $image ) ) {
-		$iUrl	= $image['url'];
-		$iTitle	= $image['title'];
-	}
+	$iUrl = isset($image['url']) ? $image['url'] : null;
+	$iTitle = isset($image['title']) ? $image['title'] : null;
 
 	// feed title
 	?>
