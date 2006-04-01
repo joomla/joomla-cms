@@ -52,29 +52,21 @@ class JViewHTMLBlog extends JView
 		$id = JRequest::getVar('id');
 		$option = JRequest::getVar('option');
 
-		/*
-		 * Create a user access object for the user
-		 */
+		// Create a user access object for the user
 		$access = new stdClass();
 		$access->canEdit = $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
-		/*
-		 * Menu item parameters
-		 */
-		if ($params->get('page_title', 1) && $menu)
-		{
+		// Menu item parameters
+		if ($params->get('page_title', 1) && $menu) {
 			$header = $params->def('header', $menu->name);
-		} else
-		{
+		} else {
 			$header = '';
 		}
 
 		$columns = $params->def('columns', 2);
-
-		if ($columns == 0)
-		{
+		if ($columns == 0) {
 			$columns = 1;
 		}
 
@@ -89,31 +81,24 @@ class JViewHTMLBlog extends JView
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
 
-		/*
-		 * Lets get the content item data from the model
-		 */
+		// Lets get the article data from the model
 		$rows = & $this->get('Content');
 
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs = & $app->getPathWay();
 		$document = & $app->getDocument();
-		if ($menu->name)
-		{
+		if ($menu->name) {
 			$document->setTitle($menu->name);
 			$breadcrumbs->addItem($menu->name, '');
-		} else
-		{
+		} else {
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 
-		/*
-		 * Pagination support
-		 */
+		// Pagination support
 		$total = count($rows);
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit = $intro + $leading + $links;
-		if ($total <= $limit)
-		{
+		if ($total <= $limit) {
 			$limitstart = 0;
 		}
 		$i = $limitstart;
@@ -122,8 +107,7 @@ class JViewHTMLBlog extends JView
 		 * Set section/category description text and images for blog sections
 		 * and categories
 		 */
-		if ($menu && $menu->componentid && ($descrip || $descrip_image))
-		{
+		if ($menu && $menu->componentid && ($descrip || $descrip_image)) {
 			switch ($menu->type)
 			{
 				case 'content_blog_section' :
@@ -142,36 +126,27 @@ class JViewHTMLBlog extends JView
 			}
 		}
 
-		/*
-		 * Header output
-		 */
-		if ($header)
-		{
+		// Header output
+		if ($header) {
 			echo '<div class="componentheading'.$params->get('pageclass_sfx').'">'.$header.'</div>';
 		}
 
-		/*
-		 * Do we have any items to display?
-		 */
-		if ($total)
-		{
+		// Do we have any items to display?
+		if ($total) {
 			$col_width = 100 / $columns; // width of each column
 			$width = 'width="'.intval($col_width).'%"';
 
 			echo '<table class="blog'.$params->get('pageclass_sfx').'" cellpadding="0" cellspacing="0">';
 
 			// Secrion/Category Description & Image
-			if ($menu && $menu->componentid && ($descrip || $descrip_image))
-			{
+			if ($menu && $menu->componentid && ($descrip || $descrip_image)) {
 				$link = 'images/stories/'.$description->image;
 				echo '<tr>';
 				echo '<td valign="top">';
-				if ($descrip_image && $description->image)
-				{
+				if ($descrip_image && $description->image) {
 					echo '<img src="'.$link.'" align="'.$description->image_position.'" hspace="6" alt="" />';
 				}
-				if ($descrip && $description->description)
-				{
+				if ($descrip && $description->description) {
 					echo $description->description;
 				}
 				echo '<br/><br/>';
@@ -179,17 +154,12 @@ class JViewHTMLBlog extends JView
 				echo '</tr>';
 			}
 
-			/*
-			 * Leading story output
-			 */
-			if ($leading)
-			{
+			// Leading story output
+			if ($leading) {
 				echo '<tr>';
 				echo '<td valign="top">';
-				for ($i = 0; $i < $leading; $i ++)
-				{
-					if ($i >= $total)
-					{
+				for ($i = 0; $i < $leading; $i ++) {
+					if ($i >= $total) {
 						// stops loop if total number of items is less than the number set to display as leading
 						break;
 					}
@@ -199,16 +169,12 @@ class JViewHTMLBlog extends JView
 				}
 				echo '</td>';
 				echo '</tr>';
-			} else
-			{
+			} else {
 				$i = 0;
 			}
 
-			/*
-			 * Newspaper style vertical layout
-			 */
-			if ($intro && ($i < $total))
-			{
+			// Newspaper style vertical layout
+			if ($intro && ($i < $total)) {
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<table width="100%"  cellpadding="0" cellspacing="0">';
@@ -216,33 +182,26 @@ class JViewHTMLBlog extends JView
 				echo '<td>';
 
 				$divider = '';
-				for ($z = 0; $z < $columns; $z ++)
-				{
-					if ($z > 0)
-					{
+				for ($c = 0; $c < $columns; $c ++) {
+					if ($c > 0) {
 						$divider = " column_seperator";
 					}
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
-					for ($y = 0; $y < $intro / $columns; $y ++)
-					{
-						if ($i <= $intro && ($i <= $total))
-						{
+
+					$remaining = $total;
+					for ($r = 0; $r < $intro / $columns; $r ++) {
+						if ($i <= $intro && ($i < $total)) {
 							$this->showItem($rows[$i], $access);
 							$i ++;
 						}
 					}
 					echo "</td>\n";
-
 				}
 				echo '</table>';
-
 			}
 
-			/*
-			 * Links output
-			 */
-			if ($links && ($i < $total))
-			{
+			// Links output
+			if ($links && ($i < $total)) {
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
@@ -252,26 +211,19 @@ class JViewHTMLBlog extends JView
 				echo '</tr>';
 			}
 
-			/*
-			 * Pagination output
-			 */
-			if ($usePagination)
-			{
-				if (($usePagination == 2) && ($total <= $limit))
-				{
+			// Pagination output
+			if ($usePagination) {
+				if (($usePagination == 2) && ($total <= $limit)) {
 					// not visible when they is no 'other' pages to display
-				} else
-				{
+				} else {
 					// get the total number of records
 					$limitstart = $limitstart ? $limitstart : 0;
 					jimport('joomla.presentation.pagination');
 					$pagination = new JPagination($total, $limitstart, $limit);
 
-					if ($option == 'com_frontpage')
-					{
+					if ($option == 'com_frontpage') {
 						$link = 'index.php?option=com_frontpage&amp;Itemid='.$Itemid;
-					} else
-					{
+					} else {
 						$link = 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid;
 					}
 					echo '<tr>';
@@ -281,8 +233,7 @@ class JViewHTMLBlog extends JView
 					echo '</td>';
 					echo '</tr>';
 
-					if ($showPaginationResults)
-					{
+					if ($showPaginationResults) {
 						echo '<tr>';
 						echo '<td valign="top" align="center">';
 						echo $pagination->getPagesCounter();
@@ -294,8 +245,7 @@ class JViewHTMLBlog extends JView
 
 			echo '</table>';
 
-		} else
-		{
+		} else {
 			// Generic blog empty display
 			echo '<p>'.JText::_(_EMPTY_BLOG).'</p>';
 		}
@@ -304,12 +254,14 @@ class JViewHTMLBlog extends JView
 
 	function showItem(& $row, & $access, $showImages = false)
 	{
-			// Initialize some variables
-	$app = & $this->get('Application');
+		// Initialize some variables
+		$app = & $this->get('Application');
 		$user = & $app->getUser();
 		$menu = & $this->get('Menu');
 		$Itemid = $menu->id;
 		$params = & new JParameter($row->attribs);
+		$linkOn = null;
+		$linkText = null;
 
 		// These will come from a request object at some point
 		$task = JRequest::getVar('task');
