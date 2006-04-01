@@ -301,7 +301,7 @@ class JController extends JObject {
 			return call_user_func( array( &$this, $doTask ) );
 		} else {
 			// No access... better luck next time
-			JError::raiseError( 403, JText::_('Access Forbidden') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return false;
 		}
 	}

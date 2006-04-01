@@ -100,7 +100,7 @@ class JModelSection extends JModel
 			 * check whether category access level allows access
 			 */
 			if ($this->_section->access > $user->get('gid')) {
-				JError::raiseError(403, JText::_("Access Forbidden"));
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
 		}
@@ -135,7 +135,7 @@ class JModelSection extends JModel
 			 * check whether category access level allows access
 			 */
 			if ($this->_section->access > $user->get('gid')) {
-				JError::raiseError(403, JText::_("Access Forbidden"));
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
 		}
@@ -172,7 +172,7 @@ class JModelSection extends JModel
 			 * check whether category access level allows access
 			 */
 			if ($this->_section->access > $user->get('gid')) {
-				JError::raiseError(403, JText::_("Access Forbidden"));
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
 		}

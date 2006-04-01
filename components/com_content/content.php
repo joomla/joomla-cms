@@ -346,7 +346,7 @@ class JContentController extends JController
 			// new record
 			if (!($access->canEdit || $access->canEditOwn))
 			{
-				JError::raiseError( 403, JText::_("Access Forbidden") );
+				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->created = date('Y-m-d H:i:s');
 			$row->created_by = $user->get('id');
@@ -356,7 +356,7 @@ class JContentController extends JController
 			// existing record
 			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id'))))
 			{
-				JError::raiseError( 403, JText::_("Access Forbidden") );
+				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->modified = date('Y-m-d H:i:s');
 			$row->modified_by = $user->get('id');
@@ -576,7 +576,7 @@ class JContentController extends JController
 
 		if ($row->id === null || $row->access > $user->get('gid'))
 		{
-			JError::raiseError( 403, JText::_("Access Forbidden") );
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 		else
 		{
@@ -602,7 +602,7 @@ class JContentController extends JController
 		// Check to make sure that the validation variable was posted back
 		$validate	= JRequest::getVar(mosHash('validate'), 0, 'post');
 		if (!$validate) {
-			JError::raiseError( 403, JText::_("Access Forbidden") );
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 
 		/*
@@ -610,7 +610,7 @@ class JContentController extends JController
 		 * sure the request came from a client with a user agent string.
 		 */
 		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
-			JError::raiseError( 403, JText::_("Access Forbidden") );
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 
 		/*
@@ -618,7 +618,7 @@ class JContentController extends JController
 		 * to make sure that the request was posted as well.
 		 */
 		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			JError::raiseError( 403, JText::_("Access Forbidden") );
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 
 		// An array of e-mail headers we do not want to allow as input
@@ -635,7 +635,7 @@ class JContentController extends JController
 		foreach ($fields as $field) {
 			foreach ($headers as $header) {
 				if (strpos($_POST[$field], $header) !== false) {
-					JError::raiseError( 403, JText::_("Access Forbidden") );
+					JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 				}
 			}
 		}
@@ -656,7 +656,7 @@ class JContentController extends JController
 			return false;
 		}
 		if (!JMailHelper::cleanAddress($to) || !JMailHelper::cleanAddress($from)) {
-			JError::raiseError( 403, JText::_("Access Forbidden") );
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			return false;
 		}
 

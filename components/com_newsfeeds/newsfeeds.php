@@ -135,7 +135,7 @@ function listFeeds(  ) {
 		Check if the category is published or if access level allows access
 		*/
 		if (!$currentcat->name) {
-			JError::raiseError(403, JText::_("Access Forbidden"));
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			return;
 		}
 	}
@@ -219,7 +219,7 @@ function showFeed( ) {
 	* Check if newsfeed is published
 	*/
 	if(!$newsfeed->published) {
-		JError::raiseError( 403, JText::_('Access Forbidden'));
+		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 		return;
 	}
 		
@@ -230,13 +230,13 @@ function showFeed( ) {
 	* Check if newsfeed category is published
 	*/
 	if(!$category->published) {
-		JError::raiseError( 403, JText::_('Access Forbidden'));
+		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 		return;
 	}	/*
 	* check whether category access level allows access
 	*/
 	if ( $category->access > $user->get('gid') ) {	
-		JError::raiseError( 403, JText::_('Access Forbidden'));  
+		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));  
 		return;
 	}
 

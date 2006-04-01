@@ -283,7 +283,7 @@ class WeblinksController
 
 		// Check if link is published
 		if (!$weblink->published) {
-			JError::raiseError( 404, JText::_('Link not found.') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
@@ -293,13 +293,13 @@ class WeblinksController
 
 		// Check to see if the category is published
 		if (!$cat->published) {
-			JError::raiseError( 404, JText::_('Resource not found.') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
 		// Check whether category access level allows access
 		if ($cat->access > $user->get('gid')) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
@@ -333,7 +333,7 @@ class WeblinksController
 
 		// Make sure you are logged in
 		if ($user->get('gid') < 1) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
@@ -406,7 +406,7 @@ class WeblinksController
 
 		// Must be logged in
 		if ($user->get('id') < 1) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
@@ -435,7 +435,7 @@ class WeblinksController
 
 		// Must be logged in
 		if ($user->get('id') < 1) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 

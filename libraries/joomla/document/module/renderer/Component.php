@@ -116,7 +116,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 				$lang->load($component);
 				require_once $path;
 			} else {
-				JError::raiseError( 403, JText::_('Component Access Forbidden') );
+				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			}
 
 			$contents = ob_get_contents();
