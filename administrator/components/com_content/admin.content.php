@@ -705,7 +705,7 @@ class JContentController
 			$row->text = $row->introtext;
 		}
 
-		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $images, $params, $option, $redirect, $menus);
+		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $images, $params, $option, $menus);
 	}
 
 	/**
@@ -902,41 +902,34 @@ class JContentController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$cid			= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$option		= JRequest::getVar( 'option' );
-		$task			= JRequest::getVar( 'task' );
+		// Initialize variables
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$option	= JRequest::getVar( 'option' );
+		$task	= JRequest::getVar( 'task' );
 		
-		if (count($cid) < 1)
-		{
+		if (count($cid) < 1) {
 			$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 			JViewContent::displayError( JText::_('Select an item to') . ' ' . JText::_($action) );
 			return false;
 		}
 
-		/*
-		 * Get some vars for the query
-		 */
-		$uid		= $user->get('id');
+		// Get some variables for the query
+		$uid	= $user->get('id');
 		$total	= count($cid);
-		$cids		= implode(',', $cid);
+		$cids	= implode(',', $cid);
 
 		$query = "UPDATE #__content" .
 				"\n SET state = $state" .
 				"\n WHERE id IN ( $cids ) AND ( checked_out = 0 OR (checked_out = $uid ) )";
 		$db->setQuery($query);
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			JError::raiseError( 500, $db->getErrorMsg() );
 			return false;
 		}
 
-		if (count($cid) == 1)
-		{
+		if (count($cid) == 1) {
 			$row = & JTable::getInstance('content', $db);
 			$row->checkin($cid[0]);
 		}
@@ -969,12 +962,9 @@ class JContentController
 		 */
 		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post' );
 		$rtask		= JRequest::getVar( 'returntask', '', 'post' );
-		if ($rtask)
-		{
+		if ($rtask) {
 			$rtask = '&task='.$rtask;
-		}
-		else
-		{
+		} else {
 			$rtask = '';
 		}
 
@@ -989,17 +979,13 @@ class JContentController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$cid			= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$section		= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getVar( 'option' );
-		$msg			= null;
+		// Initialize variables
+		$db		= & $mainframe->getDBO();
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$option	= JRequest::getVar( 'option' );
+		$msg	= null;
 
-		if (count($cid) < 1)
-		{
+		if (count($cid) < 1) {
 			JViewContent::displayError( JText::_('Select an item to toggle') );
 			return false;
 		}
@@ -1016,22 +1002,17 @@ class JContentController
 		foreach ($cid as $id)
 		{
 			// toggles go to first place
-			if ($fp->load($id))
-			{
-				if (!$fp->delete($id))
-				{
+			if ($fp->load($id)) {
+				if (!$fp->delete($id)) {
 					$msg .= $fp->stderr();
 				}
 				$fp->ordering = 0;
-			}
-			else
-			{
+			} else {
 				// new entry
 				$query = "INSERT INTO #__content_frontpage" .
 						"\n VALUES ( $id, 0 )";
 				$db->setQuery($query);
-				if (!$db->query())
-				{
+				if (!$db->query()) {
 					JError::raiseError( 500, $db->stderr() );
 					return false;
 				}
@@ -1040,7 +1021,7 @@ class JContentController
 			$fp->reorder();
 		}
 
-		josRedirect('index2.php?option='.$option.'&sectionid='.$section, $msg);
+		josRedirect('index2.php?option='.$option, $msg);
 	}
 
 	function removeContent()
@@ -1051,8 +1032,7 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db			= & $mainframe->getDBO();
-		$cid			= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
+		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$option		= JRequest::getVar( 'option' );
 		$return		= JRequest::getVar( 'returntask', '', 'post' );
 		$nullDate	= $db->getNullDate();
@@ -1088,7 +1068,7 @@ class JContentController
 		}
 
 		$msg = sprintf(JText::_('Item(s) sent to the Trash'), count($cid));
-		josRedirect('index2.php?option='.$option.'&task='.$return.'&sectionid='.$sectionid, $msg);
+		josRedirect('index2.php?option='.$option.'&task='.$return, $msg);
 	}
 
 	/**
@@ -1098,20 +1078,15 @@ class JContentController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$redirect	= JRequest::getVar( 'redirect', 0, 'post' );
+		// Initialize variables
+		$db	= & $mainframe->getDBO();
 
-		/*
-		 * Check the content item in if checked out
-		 */
+		// Check the content item in if checked out
 		$row = & JTable::getInstance('content', $db);
 		$row->bind($_POST);
 		$row->checkin();
 
-		josRedirect('index2.php?option=com_content&sectionid='.$redirect);
+		josRedirect('index2.php?option=com_content');
 	}
 
 	/**
@@ -1134,9 +1109,7 @@ class JContentController
 		$row->load($cid[0]);
 		$row->move($direction, "catid = $row->catid AND state >= 0");
 
-		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post' );
-
-		josRedirect('index2.php?option='.$option.'&sectionid='.$redirect);
+		josRedirect('index2.php?option='.$option);
 	}
 
 	/**
@@ -1420,61 +1393,46 @@ class JContentController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$db		= & $mainframe->getDBO();
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$option	= JRequest::getVar( 'option' );
-		$uid		= $cid[0];
+		$uid	= $cid[0];
 
-		/*
-		 * Create and instantiate a the content table
-		 */
+		// Create and load the article table object
 		$row = & JTable::getInstance('content', $db);
 		$row->load($uid);
 		$row->access = $access;
 
-		/*
-		 * Ensure the content item is valid
-		 */
-		if (!$row->check())
-		{
+		// Ensure the article object is valid
+		if (!$row->check()) {
 			JError::raiseError( 500, $row->getError() );
 			return false;
 		}
 		
-		/*
-		 * Store the changes
-		 */
-		if (!$row->store())
-		{
+		// Store the changes
+		if (!$row->store()) {
 			JError::raiseError( 500, $row->getError() );
 			return false;
 		}
 
-		$redirect = JRequest::getVar( 'redirect', $row->sectionid, 'post' );
-		josRedirect('index2.php?option='.$option.'&sectionid='.$redirect);
+		josRedirect('index2.php?option='.$option);
 	}
 
 	function saveOrder()
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db				= & $mainframe->getDBO();
-		$cid				= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$order			= JRequest::getVar( 'order', array (0), 'post', 'array' );
-		$redirect		= JRequest::getVar( 'redirect', 0, 'post' );
-		$rettask			= JRequest::getVar( 'returntask', '', 'post' );
-		$total			= count($cid);
+		// Initialize variables
+		$db			= & $mainframe->getDBO();
+		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
+		$redirect	= JRequest::getVar( 'redirect', 0, 'post' );
+		$rettask	= JRequest::getVar( 'returntask', '', 'post' );
+		$total		= count($cid);
 		$conditions	= array ();
 		
-		/*
-		 * Instantiate a content item table
-		 */
+		// Instantiate a content item table object
 		$row = & JTable::getInstance('content', $db);
 
 		/*
@@ -1483,11 +1441,9 @@ class JContentController
 		for ($i = 0; $i < $total; $i ++)
 		{
 			$row->load($cid[$i]);
-			if ($row->ordering != $order[$i])
-			{
+			if ($row->ordering != $order[$i]) {
 				$row->ordering = $order[$i];
-				if (!$row->store())
-				{
+				if (!$row->store()) {
 					JError::raiseError( 500, $db->getErrorMsg() );
 					return false;
 				} // if
@@ -1495,8 +1451,7 @@ class JContentController
 				$condition = "catid = $row->catid AND state >= 0";
 				$found = false;
 				foreach ($conditions as $cond)
-					if ($cond[1] == $condition)
-					{
+					if ($cond[1] == $condition) {
 						$found = true;
 						break;
 					} // if

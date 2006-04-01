@@ -431,7 +431,7 @@ class ContentView {
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, $redirect, &$menus ) {
+	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, &$menus ) {
 		global $database;
 		
 		mosMakeHtmlSafe( $row );
@@ -1048,7 +1048,6 @@ class ContentView {
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
 		<input type="hidden" name="mask" value="0" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="images" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
