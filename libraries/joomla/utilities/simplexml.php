@@ -30,28 +30,24 @@ jimport( 'joomla.common.base.object' );
  * <ul> 
  * <li>The access to the root node has to be explicit in
  * JSimpleXML, not implicit as with PHP5. Write
- * $doc->root->node instead of $doc->node</li>
- * <li>You cannot acces CDATA using array syntax. Use methods
- * CDATA() and setCDATA() instead.</li>
- * <li>You cannot access attributes directly with array syntax. 
- * Always use attributes() to read and setAttribute() to write attributes.</li>
+ * $xml->document->node instead of $xml->node</li>
+ * <li>You cannot acces CDATA using array syntax. Use the method data() instead</li>
+ * <li>You cannot access attributes directly with array syntax. use attributes() 
+ * to read them.</li>
  * <li>Comments are ignored.</li>
  * <li>Last and least, this is not as fast as PHP5 SimpleXML--it is pure PHP4.</li> 
  * </ul>
- *
- * The PHP5 implementation of JSimpleXML will provide a
- * wrapper or proxy object with the same name to keep compatibility.
  *
  * Example:
  * <code>
  * :simple.xml:
  * <?xml version="1.0" encoding="utf-8" standalon="yes"?>
- * <root>
+ * <document>
  *   <node>
  *     <child gender="m">Tom Foo</child>
  *     <child gender="f">Tamara Bar</child>
  *   <node>
- * </root>
+ * </document>
  *
  * ---
  *
@@ -69,14 +65,8 @@ jimport( 'joomla.common.base.object' );
  * 
  * // access children
  * foreach( $xml->root->node->children() as $child ) {
- *   print $child->CDATA();
+ *   print $child->data();
  * }
- * 
- * // change or add CDATA
- * $xml->root->node->child[0]->setCDATA('Jane Foo');
- * 
- * // change or add attribute
- * $xml->root->node->child[0]->setAttribute('gender', 'f');
  * </code>
  *
  * Note: JSimpleXML cannot be used to access sophisticated XML doctypes
@@ -145,8 +135,8 @@ class JSimpleXML extends JObject
 		}
 		
 		//Set the handlers
-        xml_set_element_handler($this->_parser, 'StartElement', 'EndElement');
-        xml_set_character_data_handler($this->_parser, 'CharacterData');
+        xml_set_element_handler($this->_parser, '_startElement', '_endElement');
+        xml_set_character_data_handler($this->_parser, '_characterData');
 	}
 	
 	 /**
@@ -272,11 +262,12 @@ class JSimpleXML extends JObject
     /**
      * Handler function for the start of a tag
      *
+     * @access protected
      * @param resource $parser
      * @param string $name
      * @param array $attrs
      */
-    function StartElement($parser, $name, $attrs = array())
+    function _startElement($parser, $name, $attrs = array())
     {
         //Make the name of the tag lower case
         $name = strtolower($name);
@@ -307,10 +298,11 @@ class JSimpleXML extends JObject
     /**
      * Handler function for the end of a tag
      *
+     * @access protected
      * @param resource $parser
      * @param string $name
      */
-    function EndElement($parser, $name)
+    function _endElement($parser, $name)
     {
         //Update stack by removing the end value from it as the parent
         array_pop($this->_stack);
@@ -319,10 +311,11 @@ class JSimpleXML extends JObject
     /**
      * Handler function for the character data within a tag
      *
+     * @access protected
      * @param resource $parser
      * @param string $data
      */
-    function CharacterData($parser, $data)
+    function _characterData($parser, $data)
     {
         //Get the reference to the current parent object
         $tag = $this->_getStackLocation();
@@ -415,8 +408,7 @@ class JSimpleXMLElement extends JObject
 	 * @access public
 	 * @return string
 	 */
-	function name()
-	{
+	function name() {
 		return $this->_name;
 	}
 	
