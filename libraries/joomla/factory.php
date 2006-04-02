@@ -126,18 +126,6 @@ class JFactory
 
 		switch($type)
 		{
-			case 'DOM'  :
-			{
-				if( is_null($options['lite']) || $options['lite']) {
-					jimport('domit.xml_domit_lite_include');
-					$doc = new DOMIT_Lite_Document();
-				} else {
-					jimport('domit.xml_domit_include');
-					$doc = new DOMIT_Document();
-				}
-			} break;
-
-			
 			case 'RSS' :
 			{
 				if( is_null( $options['rssUrl']) ) {
@@ -159,7 +147,20 @@ class JFactory
 			{
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
-			}
+			} break;
+			
+			case 'DOM'  :
+			default :
+			{
+				if( !isset($options['lite']) || $options['lite']) {
+					jimport('domit.xml_domit_lite_include');
+					$doc = new DOMIT_Lite_Document();
+				} else {
+					jimport('domit.xml_domit_include');
+					$doc = new DOMIT_Document();
+				}
+			} 
+			
 		}
 
 		$reference =& $doc;
