@@ -3467,7 +3467,7 @@ if (!defined("PCL_TAR"))
 	TrFctMessage(__FILE__, __LINE__, 3, "Create directory '$p_dir'");
 	/*
 	 * MODIFIED FOR JOOMLA
-	 * @since 1.1 December 12, 2005
+	 * @since 1.5 December 12, 2005
 	 */
 	jimport('joomla.filesystem.folder');
 	if (!JFolder::create($p_dir, 0777))

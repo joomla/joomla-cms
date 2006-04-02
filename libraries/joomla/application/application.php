@@ -48,7 +48,7 @@ class JApplication extends JObject
 	 *
 	 * @var integer
 	 * @access protected
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	var $_clientId = null;
 
@@ -192,7 +192,7 @@ class JApplication extends JObject
 	 * @static
 	 * @param string The event name
 	 * @param mixed The handler, a function or an instance of a event object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function registerEvent($event, $handler) {
 		$dispatcher =& JEventDispatcher::getInstance();
@@ -206,7 +206,7 @@ class JApplication extends JObject
 	 * @param string The event name
 	 * @param array An array of arguments
 	 * @return array An array of results from each function call
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function triggerEvent($event, $args=null) {
 		$dispatcher =& JEventDispatcher::getInstance();
@@ -229,7 +229,7 @@ class JApplication extends JObject
 	 * @param string The password
 	 * @return boolean True on success
 	 * @access public
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function login($username,$password)
 	{
@@ -386,7 +386,7 @@ class JApplication extends JObject
 	 *
 	 * @access public
 	 * @return string Option
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getOption() {
 		return JRequest::getVar('option');
@@ -397,7 +397,7 @@ class JApplication extends JObject
 	 *
 	 * @access public
 	 * @return string The url of the application
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getBaseURL()
 	{
@@ -440,7 +440,7 @@ class JApplication extends JObject
 	 *
 	 * @access private
 	 * @param string 	The language name
-	 * @since 1.1
+	 * @since 1.5
 	 */
 
 	function setLanguage($lang = null)
@@ -476,7 +476,7 @@ class JApplication extends JObject
 	 * @access public
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setConfiguration($file, $type = 'config') {
 		$this->_createConfiguration($file, $type);
@@ -496,7 +496,7 @@ class JApplication extends JObject
 	 *
 	 * @access public
 	 * @return juri 	JURI object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &getURI()
 	{
@@ -514,7 +514,7 @@ class JApplication extends JObject
 	 *
 	 * @access public
 	 * @return jpathway 	JPathWay object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &getPathWay() {
 		return $this->_pathway;
@@ -524,7 +524,7 @@ class JApplication extends JObject
 	 * Return a reference to the JDocument object
 	 *
 	 * @access public
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &getDocument()
 	{
@@ -552,7 +552,7 @@ class JApplication extends JObject
 	 *
 	 * @access public
 	 * @return jdatabase A JDatabase object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &getDBO()
 	{
@@ -613,7 +613,7 @@ class JApplication extends JObject
 	* Return a reference to the JLanguage object
 	*
 	* @return jlanguage 	A JLanguage object
-	* @since 1.1
+	* @since 1.5
 	*/
 	function &getLanguage( )
 	{
@@ -629,7 +629,7 @@ class JApplication extends JObject
 	 *
 	 * @access private
 	 * @return boolean True if successful
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _createPathWay()
 	{
@@ -781,7 +781,7 @@ class JApplication extends JObject
 
 	 /**
 	 * Depreceated, use JPathWay->addItem() method instead
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function appendPathWay( $name, $link = null ) {
 
@@ -803,7 +803,7 @@ class JApplication extends JObject
 
 	 /**
  	 * Depreceated, use JPathWay->getNamePathWay() method instead
- 	 * @since 1.1
+ 	 * @since 1.5
  	 */
 	function getCustomPathWay() {
 		return $this->_pathway->getNamePathWay();
@@ -811,7 +811,7 @@ class JApplication extends JObject
 
 	 /**
 	* Depreacted, use JDocument->renderHead instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	 function getHead() {
 		$document=& $this->getDocument();
@@ -820,7 +820,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JDocument->setMetadata instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function addMetaTag( $name, $content, $prepend='', $append='' ) {
 		$document=& $this->getDocument();
@@ -829,7 +829,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JDocument->setMetadata instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function appendMetaTag( $name, $content ) {
 		$this->addMetaTag($name, $content);
@@ -837,7 +837,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JDocument->setMetadata instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function prependMetaTag( $name, $content ) {
 		$this->addMetaTag($name, $content);
@@ -845,7 +845,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JDocument->addCustomTag instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function addCustomHeadTag( $html ) {
 		$document=& $this->getDocument();
@@ -854,7 +854,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getItemid instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
 		return JApplicationHelper::getItemid($id);
@@ -862,7 +862,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getItemCount instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getBlogSectionCount( ) {
 		return JApplicationHelper::getItemCount( 'content_blog_section' );
@@ -870,7 +870,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getItemCount instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getBlogCategoryCount( ) {
 		return JApplicationHelper::getItemCount( 'content_blog_category' );
@@ -878,7 +878,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getItemCount instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getGlobalBlogSectionCount( ) {
 		return JApplicationHelper::getItemCount( 'content_blog_section' );
@@ -886,7 +886,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getItemCount instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getStaticContentCount( ) {
 		return JApplicationHelper::getItemCount( 'content_typed' );
@@ -894,7 +894,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getItemCount instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getContentItemLinkCount( ) {
 		return JApplicationHelper::getItemCount( 'content_item_link');
@@ -902,7 +902,7 @@ class JApplication extends JObject
 
 	/**
 	* Depreacted, use JApplicationHelper::getPath instead
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getPath($varname, $user_option=null) {
 		return JApplicationHelper::getPath ($varname, $user_option);
@@ -996,7 +996,7 @@ class JApplicationHelper
 	 *
 	 * @access public
 	 * @return integer
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getItemCount( $type ) {
 		$menu = JMenu::getInstance();
@@ -1178,7 +1178,7 @@ class JApplicationHelper
 	 * @access private
 	 * @param string 	$parth			A file name
 	 * @param integer 	$checkAdmin		0 to check site, 1 to check site and admin only, -1 to check admin only
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _checkPath( $path, $checkAdmin=1 )
 	{

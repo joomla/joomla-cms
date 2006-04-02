@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
 class JViewHTMLArticle extends JView
 {

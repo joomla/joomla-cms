@@ -271,7 +271,7 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
  * Format a backtrace error
  * 
  * @package Joomla.Framework
- * @since 1.1
+ * @since 1.5
  */
 function mosBackTrace() {
 	if (function_exists( 'debug_backtrace' )) {
@@ -556,7 +556,7 @@ function mosHash( $seed ) {
  * @param mixed $replyto Reply to email address(es)
  * @param mixed $replytoname Reply to name(s)
  * @return boolean True on success
- * @since 1.1
+ * @since 1.5
  */
 function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
 	global $mainframe;
@@ -623,7 +623,7 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
  * @param string $title Title of item to approve
  * @param string $author Author of item to approve
  * @return boolean True on success
- * @since 1.1
+ * @since 1.5
  */
 function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) {
 	global $mainframe;
@@ -656,7 +656,7 @@ function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  * @param int $sef Search engine friendly state for the processed URL
  *    1: Make URL search engine friendly
  *    0: Leave URL in the same sef state as it was passed to the function
- * @since 1.1
+ * @since 1.5
  */
 function josURL( $url, $ssl=0, $sef=1 ) {
 	global $mainframe;
@@ -757,7 +757,7 @@ function josParseAttributes( $string ) {
 * @param int Number of chars to trim
 * @param string The searchword to select around
 * @return string
-* @since 1.1
+* @since 1.5
 */
 function mosPrepareSearchContent( $text, $length=200, $searchword ) {
 	// strips tags won't remove the actual jscript

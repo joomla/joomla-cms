@@ -2262,7 +2262,7 @@ if(!class_exists('TCPDF')) {
 		* @param float $h Height of the image in the page. If not specified or equal to zero, it is automatically calculated.
 		* @param string $type Image format. Possible values are (case insensitive): JPG, JPEG, PNG. If not specified, the type is inferred from the file extension.
 		* @param mixed $link URL or identifier returned by AddLink().
-		* @since 1.1
+		* @since 1.5
 		* @see AddLink()
 		*/
 		function Image($file, $x, $y, $w=0, $h=0, $type='', $link='') {
@@ -3519,7 +3519,7 @@ if(!class_exists('TCPDF')) {
 		/**
 	 	 * Set header font.
 		 * @param array $font font
-		 * @since 1.1
+		 * @since 1.5
 		 */
 		function setHeaderFont($font) {
 			$this->header_font = $font;
@@ -3528,7 +3528,7 @@ if(!class_exists('TCPDF')) {
 		/**
 	 	 * Set footer font.
 		 * @param array $font font
-		 * @since 1.1
+		 * @since 1.5
 		 */
 		function setFooterFont($font) {
 			$this->footer_font = $font;
@@ -3537,7 +3537,7 @@ if(!class_exists('TCPDF')) {
 		/**
 	 	 * Set language array.
 		 * @param array $language
-		 * @since 1.1
+		 * @since 1.5
 		 */
 		function setLanguageArray($language) {
 			$this->l = $language;

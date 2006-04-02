@@ -89,7 +89,7 @@ class mosMainFrame extends JApplication
 	
 	/**
 	* Depreacted, use JDocument->setTitle instead or override in your application class
-	* @since 1.1
+	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) {
 		$document=& $this->getDocument();
@@ -98,7 +98,7 @@ class mosMainFrame extends JApplication
 
 	/**
 	* Depreacted, use JDocument->getTitle instead or override in your application class
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getPageTitle() {
 		$document=& $this->getDocument();
@@ -850,7 +850,7 @@ class mosMambotHandler extends JEventDispatcher
 	/**
 	* Deprecated, use JEventDispatcher->trigger intead and handle return values
 	* in your code
-	* @since 1.1
+	* @since 1.5
 	*/
 	function call($event)
 	{

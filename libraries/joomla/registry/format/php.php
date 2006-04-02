@@ -29,7 +29,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @param object $object Data Source Object
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string Config class formatted string
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function objectToString( &$object, $params ) {
 		
@@ -51,7 +51,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * 
 	 * @access public
 	 * @return boolean True
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function stringToObject() {
 		return true;

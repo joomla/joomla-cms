@@ -27,7 +27,7 @@ class JInstallerModule extends JInstaller
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the module
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function install($p_fromdir)
 	{
@@ -290,7 +290,7 @@ class JInstallerModule extends JInstaller
 	 * @param int $cid The id of the module to uninstall
 	 * @param int $client The client id
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function uninstall($id, $client = 0)
 	{
@@ -427,7 +427,7 @@ class JInstallerModule extends JInstaller
 	 * @static
 	 * @param string $position Template position to create
 	 * @return mixed Template position id (int) if a position was inserted or boolean false otherwise
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _createTemplatePosition($position)
 	{
@@ -466,7 +466,7 @@ class JInstallerModule extends JInstaller
 	 * @access private
 	 * @param array $arg Installation step to rollback
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _rollback_menu($arg)
 	{
@@ -493,7 +493,7 @@ class JInstallerModule extends JInstaller
 	 * @access private
 	 * @param array $arg Installation step to rollback
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _rollback_position($arg)
 	{
@@ -520,7 +520,7 @@ class JInstallerModule extends JInstaller
 	 * @access private
 	 * @param array $arg Installation step to rollback
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _rollback_module($arg)
 	{

@@ -93,7 +93,7 @@ switch ($task) {
  * @static
  * @package Joomla
  * @subpackage Media
- * @since 1.1
+ * @since 1.5
  */
 class JMediaController 
 {
@@ -101,7 +101,7 @@ class JMediaController
 	 * Show media manager
 	 * 
 	 * @param string $listFolder The image directory to display
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function showMedia($listFolder) 
 	{
@@ -140,7 +140,7 @@ class JMediaController
 	 * Build imagelist
 	 * 
 	 * @param string $listFolder The image directory to display
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function listMedia($listFolder) 
 	{
@@ -208,7 +208,7 @@ class JMediaController
 	/**
 	 * Upload a file
 	 * 
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function upload() 
 	{
@@ -254,7 +254,7 @@ class JMediaController
 	 * Create a folder
 	 * 
 	 * @param string $path Path of the folder to create
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function createFolder($path) 
 	{
@@ -279,7 +279,7 @@ class JMediaController
 	 * Deletes a file
 	 * 
 	 * @param string $listFolder The image directory to delete a file from
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function deleteFile($listdir) 
 	{
@@ -295,7 +295,7 @@ class JMediaController
 	 * Delete a folder
 	 * 
 	 * @param string $listdir The image directory to delete a folder from
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function deleteFolder($listdir) 
 	{

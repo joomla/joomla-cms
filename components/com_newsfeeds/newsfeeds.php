@@ -1,12 +1,10 @@
 <?php
-/** module to display newsfeeds
+/**
 * version $Id$
 * @package Joomla
 * @subpackage Newsfeeds
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* modified by brian & rob
-* rewritten by David Gal to use the MagpieRSS library
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or

@@ -144,7 +144,7 @@ class JEditor extends JObservable {
 	 * Load the editor
 	 *
 	 * @access private
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _loadEditor() 
 	{

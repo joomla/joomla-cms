@@ -51,7 +51,7 @@ class JPathWay extends JObject {
 	 * @param boolean $showHome True to show the home element of the JPathWay array
 	 * @param boolean $showComponent True to show the component element of the JPathWay array
 	 * @return array Array of pathway items
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getPathWay($showHome = true, $showComponent = true)
 	{
@@ -77,7 +77,7 @@ class JPathWay extends JObject {
 	 * @param boolean $showHome True to show the home element of the JPathWay array
 	 * @param boolean $showComponent True to show the component element of the JPathWay array
 	 * @return array Array of names of pathway items
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getNamePathWay($showHome = true, $showComponent = true)
 	{
@@ -111,7 +111,7 @@ class JPathWay extends JObject {
 	 * @param string $name
 	 * @param string $link
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addItem($name, $link='')
 	{
@@ -133,7 +133,7 @@ class JPathWay extends JObject {
 	 * @param integer $id
 	 * @param string $name
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setItemName($id, $name)
 	{
@@ -155,7 +155,7 @@ class JPathWay extends JObject {
 	 * @param string $name Name of the item
 	 * @param string $link Link to the item
 	 * @return object Pathway item object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _makeItem($name, $link)
 	{

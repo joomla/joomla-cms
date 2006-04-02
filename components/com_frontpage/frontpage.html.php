@@ -41,7 +41,7 @@ class JViewFrontpageHTML
 	 * @static
 	 * @param string $msg The message to show
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function emptyContainer($msg) {
 		echo '<p><div align="center">'.$msg.'</div></p>';
@@ -53,7 +53,7 @@ class JViewFrontpageHTML
 	 * 
 	 * @param string $msg The error message to display
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function userInputError($msg) {
 		josErrorAlert($msg);

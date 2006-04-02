@@ -259,7 +259,7 @@ class JUser extends JObject
 	 * @access 	private
 	 * @param 	array 	$array 	The associative array to bind to the object
 	 * @return 	boolean 		True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function bind(& $array)
 	{
@@ -366,7 +366,7 @@ class JUser extends JObject
 	 * @access 	private
 	 * @param 	boolean $updateOnly Save the object only if not a new user
 	 * @return 	boolean 			True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function save( $updateOnly = false )
 	{
@@ -435,7 +435,7 @@ class JUser extends JObject
 	 * @access 	private
 	 * @param 	boolean $updateOnly Save the object only if not a new user
 	 * @return 	boolean 			True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function delete( )
 	{
@@ -464,7 +464,7 @@ class JUser extends JObject
 	 * @param 	int 	$identifier The user id or username for the user to load
 	 * @param 	string 	$path 		Path to a parameters xml file
 	 * @return 	boolean 			True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _load($identifier)
 	{

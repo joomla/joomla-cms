@@ -16,7 +16,7 @@
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @package JoomlaFramework
- * @since 1.1
+ * @since 1.5
  */
 class JMenu extends JObject
 {
@@ -38,7 +38,7 @@ class JMenu extends JObject
 	 * 
 	 * @param string $name The menu name to load
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function __construct($name = 'all')
 	{

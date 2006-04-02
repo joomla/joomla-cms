@@ -24,7 +24,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @author	Louis Landry <louis.landry@joomla.org>
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
 class JModelFrontpage extends JObject
 {
@@ -74,7 +74,7 @@ class JModelFrontpage extends JObject
 	/**
 	 * Method to get current menu parameters
 	 *
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getMenuParams()
 	{
@@ -84,7 +84,7 @@ class JModelFrontpage extends JObject
 	/**
 	 * Method to get content item data for the frontpage
 	 *
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getContentData()
 	{

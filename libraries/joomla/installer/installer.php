@@ -150,7 +150,7 @@ class JInstaller extends JObject
 	 * @param object $db A database connector object
 	 * @param string $type The installer type to instantiate [optional]
 	 * @return database A database object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getInstance(& $db, $type = null)
 	{
@@ -250,7 +250,7 @@ class JInstaller extends JObject
 	 * 	- override in child class
 	 * 
 	 * @abstract
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function update()
 	{
@@ -616,7 +616,7 @@ class JInstaller extends JObject
 	 * @access private
 	 * @param string $tagName The tag name to parse
 	 * @return mixed Number of queries processed or False on error
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _parseBackwardQueries($tagName = 'queries')
 	{
@@ -678,7 +678,7 @@ class JInstaller extends JObject
 	 * @access private
 	 * @param string $tagName The tag name to parse
 	 * @return mixed Number of queries processed or False on error
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _parseQueries($tagName = 'install/sql/mysql-412')
 	{
@@ -754,7 +754,7 @@ class JInstaller extends JObject
 	 *
 	 * @access private
 	 * @return string INI string of parameter values
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _getParams()
 	{
@@ -920,7 +920,7 @@ class JInstaller extends JObject
 	 * @param string $tagName The tag name to parse
 	 * @param boolean $admin True for Administrator files
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _removeFiles($tagName = 'files', $admin = false)
 	{
@@ -1044,7 +1044,7 @@ class JInstaller extends JObject
 	 *
 	 * @access private
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _rollback()
 	{
@@ -1131,7 +1131,7 @@ class JInstallerHelper
 	 * @param string URL of file to download
 	 * @param string Download target filename [optional]
 	 * @return mixed Path to downloaded package or boolean false on failure
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function downloadPackage($url, $target = false)
 	{
@@ -1198,7 +1198,7 @@ class JInstallerHelper
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
 	 * @return boolean True on success, False on error
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function unpack($p_filename)
 	{
@@ -1331,7 +1331,7 @@ class JInstallerHelper
 	 * @static
 	 * @param string $p_dir Path to package directory
 	 * @return mixed Extension type string or boolean false on fail
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function detectType($p_dir)
 	{
@@ -1383,7 +1383,7 @@ class JInstallerHelper
 	 * @static
 	 * @param string $url URL to get name from
 	 * @return mixed String filename or boolean false if failed
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getFilenameFromURL($url)
 	{
@@ -1402,7 +1402,7 @@ class JInstallerHelper
 	 * @param string $p_file Path to the uploaded package file
 	 * @param string $resultdir Path to the unpacked extension
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function cleanupInstall($p_file, $resultdir)
 	{

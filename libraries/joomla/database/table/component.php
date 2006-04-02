@@ -62,7 +62,7 @@ class JTableComponent extends JTable
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
-	* @since 1.1
+	* @since 1.5
 	*/
 	function bind($array, $ignore = '')
 	{

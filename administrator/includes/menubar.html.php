@@ -29,7 +29,7 @@ class JMenuBar
 	* @param string The title
 	* @param string The image.  If starting with / it using the component image directory
 	* @param string
-	* @since 1.1
+	* @since 1.5
 	*/
 	function title($title, $icon = 'generic.png')
 	{

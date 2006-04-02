@@ -171,7 +171,7 @@ class JFactory
 	 *
 	 * @access private
 	 * @return object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &_createACL()
 	{
@@ -196,7 +196,7 @@ class JFactory
 	 *
 	 * @access private
 	 * @return object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &_createMailer()
 	{

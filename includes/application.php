@@ -182,7 +182,7 @@ class JSite extends JApplication {
 	* Set Page Title
 	* 
 	* @param string $title The title for the page
-	* @since 1.1
+	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) {
 	
@@ -202,7 +202,7 @@ class JSite extends JApplication {
 	* Get Page title
 	* 
 	* @return string The page title
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getPageTitle() {
 		$document=& $this->getDocument();
@@ -215,7 +215,7 @@ class JSite extends JApplication {
 	 * @access public
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setConfiguration($file, $type = 'config') 
 	{

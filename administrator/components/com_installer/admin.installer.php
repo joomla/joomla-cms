@@ -202,7 +202,7 @@ class JInstallerController
 	 * 
 	 * @static
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function installFromUrl() 
 	{
@@ -351,7 +351,7 @@ class JInstallerController
 	 * 
 	 * @static
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function disableextension() 
 	{

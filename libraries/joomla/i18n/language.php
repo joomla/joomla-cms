@@ -539,7 +539,7 @@ class JLanguage extends JObject
  * @package 	Joomla.Framework
  * @subpackage 	I18N
  * @static
- * @since 1.1
+ * @since 1.5
  */
 class JLanguageHelper 
 {

@@ -55,7 +55,7 @@ class JAuthenticate extends JObject
 	 * @static
 	 * @access public
 	 * @return object The global JAuthenticate object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getInstance()
 	{
@@ -79,7 +79,7 @@ class JAuthenticate extends JObject
 	 * @access public
 	 * @param array $credentials  The credentials to authenticate.
 	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function authenticate($credentials)
 	{
@@ -120,7 +120,7 @@ class JAuthenticate extends JObject
 	 * @param string $plugin The authentication plugin to use.
 	 * @param object $subject Observable object for the plugin to observe
 	 * @return boolean True if plugin is loaded
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function loadPlugin($plugin, & $subject)
 	{
@@ -359,7 +359,7 @@ class JAuthenticateHelper
 	 *
 	 * @access public
 	 * @return boolean True of authenticated user exists.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function isAuthenticated()
 	{
@@ -405,7 +405,7 @@ class JAuthenticateHelper
 	 *
 	 * @access private
 	 * @return boolean  True if IP Address is the same as the last access.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _checkRemoteAddr() {
 		return (JSession::get('JAuthenticate_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
@@ -417,7 +417,7 @@ class JAuthenticateHelper
 	 *
 	 * @access private
 	 * @return boolean  True if browser user agent is the same as the last access.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _checkUserAgent() {
 		return (JSession::get('JAuthenticate_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
@@ -430,7 +430,7 @@ class JAuthenticateHelper
 	 * @param string  $value
 	 * @param integer $count
 	 * @return string  $value converted to the 64 MD5 characters.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _toAPRMD5($value, $count) {
 		/* 64 characters that are valid for APRMD5 passwords. */
@@ -451,7 +451,7 @@ class JAuthenticateHelper
 	 * @access private
 	 * @param string $hex  Hex data.
 	 * @return string  Binary data.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function _bin($hex) {
 		$bin = '';

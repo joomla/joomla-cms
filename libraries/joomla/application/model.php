@@ -38,7 +38,7 @@ class JModel extends JObject {
 	 * references. This causes problems with cross-referencing.
 	 *
 	 * @param object $subject The object to observe
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function JModel(&$dbo) {
 		parent::__construct();

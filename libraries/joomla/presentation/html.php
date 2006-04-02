@@ -27,7 +27,7 @@ class mosHTML {
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @param integer	Set the SSL functionality
-	 * @since 1.1
+	 * @since 1.5
 	 */
 
 	function Link($url, $text, $attribs = null, $ssl = 0) {
@@ -48,7 +48,7 @@ class mosHTML {
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function Image($url, $alt, $attribs = null) {
 		global $mainframe;
@@ -69,7 +69,7 @@ class mosHTML {
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function Script($url, $attribs = null) {
 		global $mainframe;
@@ -90,7 +90,7 @@ class mosHTML {
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @param integer	Set the SSL functionality
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function Iframe($url, $name, $attribs = null, $ssl = 0)	{
 		global $mainframe;
@@ -414,7 +414,7 @@ class mosHTML {
 	 * @param string Warning text
 	 * @param string Box title
 	 * @returns HTML code for Warning
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function WarningIcon($warning, $title='Joomla Warning')	{
 		global $mainframe;
@@ -528,7 +528,7 @@ class mosHTML {
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @param integer	Set the SSL functionality
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function Header($text, $iconClass)
 	{

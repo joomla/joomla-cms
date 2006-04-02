@@ -1230,7 +1230,7 @@ class ContentView {
 	 * 
 	 * @param string $msg The error message to display
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function displayError($msg) {
 		josErrorAlert($msg);

@@ -87,7 +87,7 @@ jimport( 'joomla.common.base.object' );
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
- * @since 1.1
+ * @since 1.5
  */
 class JSimpleXML extends JObject
 {
@@ -350,7 +350,7 @@ class JSimpleXML extends JObject
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
- * @since 1.1
+ * @since 1.5
  */
 class JSimpleXMLElement extends JObject
 {

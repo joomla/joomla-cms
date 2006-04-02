@@ -61,7 +61,7 @@ class JRegistry extends JObject
 	 * @param $id 			string 	An ID for the registry instance
 	 * @param $namespace	string 	The default namespace for the registry object [optional]
 	 * @return object  		The JRegistry object.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getInstance($id, $namespace = 'default') 
 	{
@@ -84,7 +84,7 @@ class JRegistry extends JObject
 	 * @access public
 	 * @param $namespace 	string 		Name of the namespace to create
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function makeNameSpace($namespace) 
 	{	
@@ -133,7 +133,7 @@ class JRegistry extends JObject
 	 * @param $regpath	string 	Registry Path (e.g. joomla.content.showauthor)	 
 	 * @param 	mixed Value of entry
 	 * @return 	mixed Value of old value or boolean false if operation failed
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setValue($regpath, $value) 
 	{
@@ -178,7 +178,7 @@ class JRegistry extends JObject
 	 * @param &array 		Array 	Associative array of value to load
 	 * @param &namepsace 	String	The name of the namespace
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function loadArray($array, $namespace = null) 
 	{
@@ -210,7 +210,7 @@ class JRegistry extends JObject
 	 * @param &object 		stdClass 	The object holding the public vars to load
 	 * @param &namespace 	string 		Namespace to load the INI string into [optional]
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function loadObject(&$object, $namespace = null) 
 	{
@@ -247,7 +247,7 @@ class JRegistry extends JObject
 	 * @param $format		string 		Format of the file [optional: defaults to INI]
 	 * @param $namespace	string 		Namespace to load the INI string into [optional]
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function loadFile($file, $format = 'INI', $namespace = null) 
 	{
@@ -288,7 +288,7 @@ class JRegistry extends JObject
 	 * @param $data 		string 		XML formatted string to load into the registry
 	 * @param $namespace	string 		Namespace to load the INI string into [optional]
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function loadXML($data, $namespace = null) 
 	{
@@ -326,7 +326,7 @@ class JRegistry extends JObject
 	 * @param $data			string 		INI formatted string to load into the registry
 	 * @param $namespace	string 		Namespace to load the INI string into [optional]
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function loadINI($data, $namespace = null) 
 	{
@@ -365,7 +365,7 @@ class JRegistry extends JObject
 	 * @param $namespace	string	Namespace to return [optional: null returns the default namespace]
 	 * @param $params		mixed	Parameters used by the formatter, see formatters for more info
 	 * @return string Namespace in string format
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function toString($format = 'INI', $namespace = null, $params = null) {
 		

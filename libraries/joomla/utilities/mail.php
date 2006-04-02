@@ -72,7 +72,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param string $id The id string for the JMail instance [optional]
 	 * @return object The global JMail object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getInstance($id = 'Joomla') 
 	{
@@ -98,7 +98,7 @@ class JMail extends PHPMailer
 	 * 			array( [0] => E-Mail Address [1] => Name )
 	 * 		</pre>
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setSender($from) 
 	{
@@ -121,7 +121,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param string $subject Subject of the e-mail
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setSubject($subject) {
 		$this->Subject = $subject;
@@ -133,7 +133,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param string $content Body of the e-mail
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setBody($content) 
 	{
@@ -150,7 +150,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param mixed $recipient Either a string or array of strings [e-mail address(es)]
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addRecipient($recipient) 
 	{
@@ -172,7 +172,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param mixed $cc Either a string or array of strings [e-mail address(es)]
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addCC($cc) 
 	{
@@ -196,7 +196,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param mixed $cc Either a string or array of strings [e-mail address(es)]
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addBCC($bcc) 
 	{
@@ -220,7 +220,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param mixed $attachment Either a string or array of strings [filenames]
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addAttachment($attachment) 
 	{
@@ -247,7 +247,7 @@ class JMail extends PHPMailer
 	 * 			array( [0] => E-Mail Address [1] => Name )
 	 * 		</pre>
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addReplyTo($replyto) 
 	{
@@ -269,7 +269,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param string $sendmail Path to sendmail [optional]
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function useSendmail($sendmail = null) 
 	{
@@ -295,7 +295,7 @@ class JMail extends PHPMailer
 	 * @param string $user SMTP Username [optional]
 	 * @param string $pass SMTP Password [optional]
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function useSMTP($auth = null, $host = null, $user = null, $pass = null) 
 	{
@@ -336,7 +336,7 @@ class JMailHelper
 	 * @static
 	 * @param string $body E-Mail body string
 	 * @return string Cleaned E-Mail body string
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function cleanBody($body) 
 	{
@@ -350,7 +350,7 @@ class JMailHelper
 	 * @static
 	 * @param string $subject E-Mail subject string
 	 * @return string Cleaned E-Mail subject string
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function cleanSubject($subject) {
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", "", $subject);
@@ -363,7 +363,7 @@ class JMailHelper
 	 * @static
 	 * @param string $address E-Mail address
 	 * @return mixed E-Mail address string or boolean false if injected headers are present
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function cleanAddress($address) 
 	{

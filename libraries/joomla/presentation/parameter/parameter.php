@@ -194,7 +194,7 @@ class JParameter extends JRegistry
 	* @access	public
 	* @param	string	path to xml setup file
 	* @return	object
-	* @since 1.1
+	* @since 1.5
 	*/
 	function loadSetupFile($path) 
 	{
@@ -224,7 +224,7 @@ class JParameter extends JRegistry
 	* @access	public
 	* @param	string	elementType
 	* @return	object
-	* @since 1.1
+	* @since 1.5
 	*/
 	function &loadElement( $type, $new = false ) {	
 		$signature = md5( $type  );
@@ -287,7 +287,7 @@ class JParameter extends JRegistry
 	*
 	* @access	public
 	* @param	string|array	directory or directories to search.
-	* @since 1.1
+	* @since 1.5
 	*/
 	function addParameterDir( $dir ) {
 		if( is_array( $dir ) ) {
@@ -302,7 +302,7 @@ class JParameter extends JRegistry
 	*
 	* @access	public
 	* @return   string
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getIncludePath() {
 		return	JPARAMETER_INCLUDE_PATH;

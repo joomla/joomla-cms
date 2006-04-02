@@ -20,7 +20,7 @@ jimport('joomla.application.extension.plugin');
  * @author Samuel Moffatt <pasamio@gmail.com>
  * @package Joomla
  * @subpackage JFramework
- * @since 1.1
+ * @since 1.5
  */
 class JAuthenticateGMail extends JPlugin {
 
@@ -32,7 +32,7 @@ class JAuthenticateGMail extends JPlugin {
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function JAuthenticateGMail(& $subject) {
 		parent::__construct($subject);
@@ -45,7 +45,7 @@ class JAuthenticateGMail extends JPlugin {
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
 	 * @return	object	JAuthenticateResponse
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password ) 
 	{

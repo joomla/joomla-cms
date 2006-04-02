@@ -859,7 +859,7 @@ class JInstallationHelper
 	 * @param string $user Username of the ftp user to determine root for
 	 * @param string $pass Password of the ftp user to determine root for
 	 * @return string Filesystem root for given FTP user
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21') 
 	{
@@ -903,7 +903,7 @@ class JInstallationHelper
 	 * @param string $path The full file path
 	 * @param string $buffer The buffer to write
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setDirPerms($dir, &$srv)
 	{

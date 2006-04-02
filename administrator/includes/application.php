@@ -178,7 +178,7 @@ class JAdministrator extends JApplication
 	* Set Page Title
 	* 
 	* @param string $title The title for the page
-	* @since 1.1
+	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) 
 	{
@@ -190,7 +190,7 @@ class JAdministrator extends JApplication
 	* Get Page title
 	* 
 	* @return string The page title
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getPageTitle() 
 	{
@@ -204,7 +204,7 @@ class JAdministrator extends JApplication
 	 * @access public
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setConfiguration($file, $type = 'config') 
 	{
@@ -270,7 +270,7 @@ class JAdministrator extends JApplication
 	* Get the url of the site 
 	* 
 	* @return string The site URL
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getSiteURL() 
 	{
@@ -289,7 +289,7 @@ class JAdministrator extends JApplication
 	* Purge the jos_messages table of old messages 
 	* 
 	* static method
-	* @since 1.1
+	* @since 1.5
 	*/
 	function purgeMessages() 
 	{

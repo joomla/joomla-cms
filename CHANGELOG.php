@@ -23,7 +23,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.1, including beta and release candidate versions.
+Joomla! 1.5, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -36,6 +36,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+02-Mar-2006 Johan Janssens
+ ^ Changed file header copyright information
+ ^ Changed version information from 1.1 to 1.5
 
 31-Mar-2006 David Gal
  + Integrated new RSS parsing library - MagpieRSS (adds conversion to utf-8 from all encodings)

@@ -28,7 +28,7 @@ require_once (JApplicationHelper::getPath('front_html', 'com_frontpage'));
  * @static
  * @package Joomla
  * @subpackage Frontpage
- * @since 1.1
+ * @since 1.5
  */
 class JFrontpageController
 {

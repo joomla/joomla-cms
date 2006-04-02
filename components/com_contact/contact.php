@@ -53,7 +53,7 @@ switch ($task) {
  * @static
  * @package Joomla
  * @subpackage Contact
- * @since 1.1
+ * @since 1.5
  */
 class JContactController {
 

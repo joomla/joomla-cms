@@ -80,7 +80,7 @@ class JTable extends JObject
 	 *
 	 * @param type $type The table type to instantiate
 	 * @return database A database object
-	 * @since 1.1
+	 * @since 1.5
 	*/
 	function &getInstance( $type, &$db ) 
 	{

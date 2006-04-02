@@ -140,7 +140,7 @@ class JFTP extends JObject {
 	 *
 	 * @param string $host Host to connect to
 	 * @return JFTP  The FTP Client object.
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getInstance($host = '127.0.0.1', $port = '21', $options = null) {
 		static $instances;

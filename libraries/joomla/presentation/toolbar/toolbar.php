@@ -193,7 +193,7 @@ class JToolBar extends JObject
 	 * @access	public
 	 * @param	string	buttonType
 	 * @return	object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & loadButtonType($type, $new = false)
 	{

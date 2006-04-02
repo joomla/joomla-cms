@@ -97,7 +97,7 @@ class JDatabase extends JObject
 	 * Determines UTF support
      * @abstract
      * @return boolean
-     * @since 1.1
+     * @since 1.5
 	 */
 	function hasUTF() {
 		return false;
@@ -107,7 +107,7 @@ class JDatabase extends JObject
 	 * Custom settings for UTF support
      *
      * @abstract
-     * @since 1.1
+     * @since 1.5
 	 */
 	function setUTF() {
 	}
@@ -123,7 +123,7 @@ class JDatabase extends JObject
 	 * @param string Database name
 	 * @param string Common prefix for all tables
 	 * @return database A database object
-	 * @since 1.1
+	 * @since 1.5
 	*/
 	function &getInstance( $driver='MySQL', $host='localhost', $user, $pass, $db='', $table_prefix='' ) 
 	{
@@ -164,7 +164,7 @@ class JDatabase extends JObject
 	/**
 	 * Adds a field or array of field names to the list that are to be quoted
 	 * @param mixed Field name or array of names
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function addQuoted( $quoted ) {
 		if (is_string( $quoted )) {
@@ -198,7 +198,7 @@ class JDatabase extends JObject
 	/**
 	* @return boolean True if the database version supports utf storage
 	* 				  False if backward compatibility is being used
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getUtfSupport() {
 		return $this->_utf;
@@ -555,7 +555,7 @@ class JDatabase extends JObject
 	/**
 	 * ADODB compatability function
 	 * @param string SQL
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function GetCol( $query ) {
 		$this->setQuery( $query );
@@ -565,7 +565,7 @@ class JDatabase extends JObject
 	 * ADODB compatability function
 	 * @param string SQL
 	 * @return object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function Execute( $query ) {
 		$query = trim( $query );
@@ -584,7 +584,7 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function SelectLimit( $query, $count, $offset=0 ) {
 		$this->setQuery( $query, $offset, $count );
@@ -593,7 +593,7 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 ) {
 		$this->setQuery( $sql, $page*$nrows, $nrows );
@@ -604,7 +604,7 @@ class JDatabase extends JObject
 	 * ADODB compatability function
 	 * @param string SQL
 	 * @return array
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function GetRow( $query ) {
 		$this->setQuery( $query );
@@ -615,7 +615,7 @@ class JDatabase extends JObject
 	 * ADODB compatability function
 	 * @param string SQL
 	 * @return mixed
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function GetOne( $query ) {
 		$this->setQuery( $query );
@@ -624,39 +624,39 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function BeginTrans() {
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function RollbackTrans() {
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function CommitTrans() {
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function ErrorMsg() {
 		return $this->getErrorMsg();
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function ErrorNo() {
 		return $this->getErrorNum();
 	}
 	/**
 	 * ADODB compatability function
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function GenID( $foo1=null, $foo2=null ) {
 		return '0';

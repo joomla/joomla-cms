@@ -14,7 +14,7 @@
 /**
  * Base search class
  * @package Joomla
- * @since 1.1
+ * @since 1.5
  */
 class JSearch extends JObject {
 	/**
@@ -203,7 +203,7 @@ class JSearch extends JObject {
 /**
  * Base search class
  * @package Joomla
- * @since 1.1
+ * @since 1.5
  */
 class JSearchHelper {
 	/**

@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @static
  * @package Joomla
  * @subpackage Media
- * @since 1.1
+ * @since 1.5
  */
 class JMediaViews {
 
@@ -141,7 +141,7 @@ class JMediaViews {
 	 * @param array $folders Array of folders in the current working folder
 	 * @param array $docs Array of documents in the current working folder
 	 * @param array $images Array of images in the current working folder
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function listMedia($listFolder, $folders, $docs, $images)
 	{

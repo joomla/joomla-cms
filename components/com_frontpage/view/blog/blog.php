@@ -24,7 +24,7 @@ require_once (JApplicationHelper::getPath('front_html', 'com_content'));
  * @static
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
 class JViewFrontpageHTML_blog
 {

@@ -60,7 +60,7 @@ class JRequest
 	 * @param string $type Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
 	 * @param int $mask Filter mask for the variable
 	 * @return mixed Requested variable
-	 * @since 1.1
+	 * @since 1.5
 	 */
 
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
@@ -185,7 +185,7 @@ class JRequest
 	 * @param mixed $var The variable to clean
 	 * @param int $mask An options mask
 	 * @return mixed The cleaned variable
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function cleanVar(& $var, $mask = 0)
 	{

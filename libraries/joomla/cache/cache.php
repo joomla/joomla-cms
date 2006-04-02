@@ -90,7 +90,7 @@ class JCache extends Cache_Lite
 	 * @param handler $handler The cache handler to instantiate
 	 * @param array $options options
 	 * @return database A database object
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function &getInstance($handler = 'Function', $options)
 	{
@@ -180,7 +180,7 @@ class JCache extends Cache_Lite
 
 	/**
 	 * Deprecated, use JFactory createCache instead
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function & getCache($group = '')
 	{

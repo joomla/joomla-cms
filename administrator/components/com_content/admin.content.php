@@ -135,7 +135,7 @@ switch (strtolower($task))
  * @static
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
 class JContentController
 {

@@ -23,7 +23,7 @@ class JSearchContent extends JPlugin {
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 * 
 	 * @param object $subject The object to observe
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function JSearchContent(& $subject) {
 		parent::__construct($subject);

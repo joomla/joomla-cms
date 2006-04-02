@@ -82,7 +82,7 @@ class JPagination extends JObject {
 	 * @param object $tmpl PatTemplate Object to add the pagination footer template to
 	 * @param string $name Name of the pagination footer template to add
 	 * @return boolean True if successful
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setTemplateVars(& $tmpl, $name = 'admin-list-footer') {
 

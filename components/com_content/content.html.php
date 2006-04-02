@@ -28,7 +28,7 @@ class JViewContentHTML {
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
 	 * 
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function showSection(& $model) {
 		require_once (dirname(__FILE__).DS.'view'.DS.'section'.DS.'section.php');
@@ -719,7 +719,7 @@ class JViewContentHTML {
 	 * @static
 	 * @param string $msg The message to show
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function emptyContainer($msg) {
 		echo '<p><div align="center">'.$msg.'</div></p>';
@@ -731,7 +731,7 @@ class JViewContentHTML {
 	 * 
 	 * @param string $msg The error message to display
 	 * @return void
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function userInputError($msg) {
 		josErrorAlert($msg);

@@ -49,7 +49,7 @@ jimport( 'joomla.filesystem.*' );
  * @static
  * @package Joomla
  * @subpackage Installer
- * @since 1.1
+ * @since 1.5
  */
 class JAJAXHandler {
 	

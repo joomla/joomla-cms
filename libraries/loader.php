@@ -24,7 +24,7 @@ class JLoader
     * @param string $name The class name to look for.
     * @param string|array $dirs Search these directories for the class.
     * @return void
-    * @since 1.1
+    * @since 1.5
     */
    function import( $filePath )
    {
@@ -77,7 +77,7 @@ class JLoader
     *
     * @access private
     * @param string $file The path to the file to include
-    * @since 1.1
+    * @since 1.5
     * @see require_once
     *
     */
@@ -101,7 +101,7 @@ class JLoader
  *
  * @access public
  * @param string $$path A dot syntax path
- * @since 1.1
+ * @since 1.5
  */
 function jimport( $path ) {
 	return JLoader::import($path);

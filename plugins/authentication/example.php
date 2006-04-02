@@ -21,7 +21,7 @@ jimport('joomla.application.extension.plugin');
  * @author Louis Landry <louis.landry@joomla.org>
  * @package Joomla
  * @subpackage JFramework
- * @since 1.1
+ * @since 1.5
  */
 class JAuthenticateExample extends JPlugin 
 {
@@ -33,7 +33,7 @@ class JAuthenticateExample extends JPlugin
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function JAuthenticateExample(& $subject) {
 		parent::__construct($subject);
@@ -46,7 +46,7 @@ class JAuthenticateExample extends JPlugin
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
 	 * @return	object	JAuthenticateResponse
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password ) 
 	{

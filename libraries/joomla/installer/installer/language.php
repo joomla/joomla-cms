@@ -36,7 +36,7 @@ class JInstallerLanguage extends JInstaller
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the language
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function install($p_fromdir)
 	{
@@ -160,7 +160,7 @@ class JInstallerLanguage extends JInstaller
 	 * @param int $id The id of the language to uninstall [ISO Tag]
 	 * @param int $client The client id
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function uninstall($id, $client = 0)
 	{

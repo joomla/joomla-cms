@@ -117,7 +117,7 @@ class JInstallation extends JApplication
 	* Get the url of the site 
 	* 
 	* @return string The site URL
-	* @since 1.1
+	* @since 1.5
 	*/
 	function getSiteURL() 
 	{

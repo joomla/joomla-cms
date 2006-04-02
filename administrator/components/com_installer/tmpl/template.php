@@ -26,7 +26,7 @@ jimport('joomla.filesystem.folder');
  * @package Joomla
  * @subpackage Installer
  * @category Controller
- * @since 1.1
+ * @since 1.5
  */
 class JInstallerExtensionTasks {
 
@@ -156,7 +156,7 @@ class JInstallerExtensionTasks {
  * @package Joomla
  * @subpackage Installer
  * @category View
- * @since 1.1
+ * @since 1.5
  */
 class JInstallerScreens_template 
 {

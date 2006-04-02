@@ -24,7 +24,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @author	Louis Landry <louis.landry@joomla.org>
  * @package Joomla
  * @subpackage Content
- * @since 1.1
+ * @since 1.5
  */
 class JModelCategory extends JModel
 {
@@ -74,7 +74,7 @@ class JModelCategory extends JModel
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getCategory()
 	{
@@ -111,7 +111,7 @@ class JModelCategory extends JModel
 	/**
 	 * Method to get sibling category data for the current category
 	 *
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getSiblings()
 	{
@@ -161,7 +161,7 @@ class JModelCategory extends JModel
 	 *
 	 * @param	int	$state	The content state to pull from for the current
 	 * category
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getContent($state = 1)
 	{

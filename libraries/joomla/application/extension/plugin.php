@@ -31,7 +31,7 @@ class JPlugin extends JObserver {
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function JPlugin(& $subject) {
 		parent::__construct($subject);
@@ -43,7 +43,7 @@ class JPlugin extends JObserver {
 	 * @access public
 	 * @param array Arguments
 	 * @return mixed Routine return value
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function update(& $args) {
 		/*

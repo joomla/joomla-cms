@@ -21,7 +21,7 @@ jimport( 'joomla.application.extension.plugin' );
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @package Editors
- * @since 1.1
+ * @since 1.5
  */
 class JEditor_none extends JPlugin {
 
@@ -33,7 +33,7 @@ class JEditor_none extends JPlugin {
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 * 
 	 * @param object $subject The object to observe
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function JEditor_none(& $subject) {
 		parent::__construct($subject);
@@ -45,7 +45,7 @@ class JEditor_none extends JPlugin {
 	 * 
 	 * @access public
 	 * @return string JavaScript Initialization string
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function onInitEditor() {
 		$txt =	"<script type=\"text/javascript\">
