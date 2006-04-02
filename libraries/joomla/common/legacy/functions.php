@@ -119,6 +119,11 @@ function mosRedirect( $url, $msg='' ) {
  * @package		Joomla.Legacy
  */
 function mosMakePath($base, $path='', $mode = NULL) {
+	
+	if ($mode===null) {
+		$mode = 0755;
+	}
+	
 	jimport('joomla.filesystem.folder');
 	return JFolder::create($base.$path, $mode);
 }
