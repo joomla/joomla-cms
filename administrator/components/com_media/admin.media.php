@@ -214,11 +214,11 @@ class JMediaController
 	{
 		global $mainframe, $clearUploads;
 
-		$file 		= JRequest::getVar( 'upload', '', 'file', 'array' );
+		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
-		$index		= (strpos($mainframe->getURI(),'index3.php')) ? 'index3.php' : 'index2.php';
-		if (isset ($file) && is_array($file) && isset ($dirPath)) 
-		{
+		$juri 		= $mainframe->getURI();
+		$index		= (strpos($juri->getPath(),'index3.php')) ? 'index3.php' : 'index2.php';	
+		if (isset ($file) && is_array($file) && isset ($dirPath)) {
 			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 
