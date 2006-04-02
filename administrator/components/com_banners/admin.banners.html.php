@@ -21,18 +21,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_banners {
 
-	function showBanners( &$rows, &$pageNav, $option, &$lists ) {
+	function showBanners( &$rows, &$pageNav, $option, &$lists ) 
+	{
 		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
-<form action="index2.php?option=com_banners" method="post" name="adminForm">
+	<form action="index2.php?option=com_banners" method="post" name="adminForm">
 
-	<div id="treecell">
+	<div id="pane-navigation">
 		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 	</div>
 		
-	<div id="datacell">
+	<div id="pane-document">
 
 		<table class="adminform">
 		<tr>
@@ -344,33 +345,33 @@ class HTML_banners {
 */
 class HTML_bannerClient {
 
-	function showClients( &$rows, &$pageNav, $option, &$lists ) {
+	function showClients( &$rows, &$pageNav, $option, &$lists ) 
+	{
 		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
-<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
+		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
 
-	<div id="treecell">
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
-	</div>
+		<div id="pane-navigation">
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+		</div>
 		
-	<div id="datacell">
+		<div id="pane-document">
 
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-			</td>
-		</tr>
-		</table>
-
-		<div id="tablecell">				
+			<table class="adminform">
+			<tr>
+				<td align="left" width="100%">
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				</td>
+				<td nowrap="nowrap">
+				</td>
+			</tr>
+			</table>
+			
 			<table class="adminlist">
 			<tr>
 				<th width="20">
@@ -438,16 +439,15 @@ class HTML_bannerClient {
 			</table>
 			
 			<?php echo $pageNav->getListFooter(); ?>
-		</div>
-	</div>
 		
-	<input type="hidden" name="option" value="<?php echo $option; ?>" />
-	<input type="hidden" name="task" value="listclients" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="hidemainmenu" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="" />
-</form>
+		</div>
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="task" value="listclients" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
+		</form>
 		<?php
 	}
 
