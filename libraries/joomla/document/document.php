@@ -588,7 +588,7 @@ class JDocument extends JTemplate
             if ($keepOuterKey)
                 $output[] = $key;
             // This is value is an array, go and do it again!
-            $output[] = implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+            $output[] = JDocumentHelper::implodeAttribs($inner_glue, $outer_glue, $item, $keepOuterKey);
         } else
             $output[] = $key . $inner_glue . '"'.$item.'"';
 

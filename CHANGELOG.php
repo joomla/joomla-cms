@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
-02-Mar-2006 Johan Janssens
+02-Apr-2006 Johan Janssens
  ^ Changed file header copyright information
  ^ Changed version information from 1.5 to 1.5
+ # Fixed artf4208 : JError::isError()
+ # Fixed artf4137 : JDocumentHelper::implodeAttribs...
+ # Fixed artf4120 : _J_ALLOWHTML and _J_ALLOWRAW mixed up in JRequest::getVar
 
 31-Mar-2006 David Gal
  + Integrated new RSS parsing library - MagpieRSS (adds conversion to utf-8 from all encodings)

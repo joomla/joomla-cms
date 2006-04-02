@@ -40,9 +40,9 @@ class JError extends patErrorManager {
 	* @param	mixed	&$object
 	* @return	boolean $result	True if argument is a JError-object, false otherwise.
 	*/
-    function isError( &$object ) {
-		return JError::isError($object);
-    }
+	function isError( &$object ) {
+		return patErrorManager::isError($object);
+	}
 	
 	/**
 	* method for for retrieving the errors that are stored

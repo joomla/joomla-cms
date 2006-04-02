@@ -42,12 +42,10 @@ if ($params->get('add'))
 }
 
 // auto height control
-if ($params->def('height_auto'))
-{
+if ($params->def('height_auto')) {
 	$load = 'onload="iFrameHeight()"';
 }
-else
-{
+else {
 	$load = '';
 }
 ?>

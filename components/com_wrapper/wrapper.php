@@ -21,11 +21,13 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 
 showWrap( $option );
 
-function showWrap( $option ) {
+function showWrap( $option ) 
+{
 	global $Itemid, $mainframe;
 
 	$menu = JMenu::getInstance();
 	$menu = $menu->getItem($Itemid);
+	
 	$params = new JParameter( $menu->params );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	$params->def( 'scrolling', 'auto' );
@@ -39,7 +41,8 @@ function showWrap( $option ) {
 	$url = $params->def( 'url', '' );
 
 	$row = new stdClass();
-	if ( $params->get( 'add' ) ) {
+	if ( $params->get( 'add' ) ) 
+	{
 		// adds 'http://' if none is set
 		if ( substr( $url, 0, 1 ) == '/' ) {
 			// relative url in component. use server http_host.
@@ -60,6 +63,6 @@ function showWrap( $option ) {
 		$row->load = '';
 	}
 
-	JViewWrapperHTML::displayWrap( $row, $params, $menu );
+	JWrapperView::displayWrap( $row, $params, $menu );
 }
 ?>

@@ -14,9 +14,9 @@
 /**
  * Set the available masks for cleaning variables
  */
-define("_J_NOTRIM", 1);
-define("_J_ALLOWHTML", 2);
-define("_J_ALLOWRAW", 4);
+define("_J_NOTRIM"   , 1);
+define("_J_ALLOWRAW" , 2);
+define("_J_ALLOWHTML", 4);
 
 /**
  * JRequest Class

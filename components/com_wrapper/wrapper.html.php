@@ -19,9 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Wrapper
 */
-class JViewWrapperHTML {
-
-	function displayWrap( &$row, &$params, &$menu ) {
+class WrapperView 
+{
+	function displayWrap( &$row, &$params, &$menu ) 
+	{
 		global $mainframe;
 		
 		$mainframe->SetPageTitle($menu->name);
@@ -45,7 +46,8 @@ class JViewWrapperHTML {
 		<div class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 
 		<?php
-		if ( $params->get( 'page_title' ) ) {
+		if ( $params->get( 'page_title' ) )
+		 {
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $params->get( 'header' ); ?>
