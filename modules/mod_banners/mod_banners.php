@@ -14,10 +14,50 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+require_once (dirname(__FILE__).DS.'banners.functions.php');
+
 $clientids	= $params->get( 'banner_cids' );
 $limit		= intval($params->get( 'count', 1 ));
 $randomise	= intval($params->get( 'randomise' ));
 $cssSuffix	= $params->get( 'moduleclass_sfx' );
+
+$mod = JRequest::getVar( 'module' );
+$task = JRequest::getVar( 'task' );
+$bid = JRequest::getVar( 'bid', 0, '', 'int' );
+
+if( $mod == 'mod_banners' && $task == 'click' && $bid != 0 ) {
+	
+	// update click count
+	$query = "UPDATE #__banner"
+	. "\n SET clicks = ( clicks + 1 )"
+	. "\n WHERE bid = $bid"
+	;
+
+	$database->setQuery( $query );
+	if(!$database->query()) {
+		JError::raiseError( 500, $db->stderror());
+	}
+	
+	
+	// redirect to banner url
+	$query = "SELECT clickurl FROM #__banner"
+	. "\n WHERE bid = $bid"
+	;
+		
+	$database->setQuery( $query );
+	if(!$database->query()) {
+		JError::raiseError( 500, $db->stderror());
+	}
+	
+	$database->loadObject($row);
+	
+	if (substr( $row->clickurl, 0, 7 ) != 'http://' &&  substr( $row->clickurl, 0, 8 ) != 'https://' ) {
+		$row->clickurl = "http://$row->clickurl";
+	}
+	josRedirect( $row->clickurl );	
+	
+	
+}
 
 $query = "SELECT *"
 	. ($randomise ? ', RAND() AS ordering' : ', 1 AS ordering')
@@ -28,6 +68,10 @@ $query = "SELECT *"
 	. "\nLIMIT " . $limit;
 	
 $database->setQuery( $query );
+if(!$database->query()) {
+	JError::raiseError( 500, $db->stderror());
+}
+
 $banners = $database->loadObjectList();
 $numrows = count($banners);
 
@@ -73,7 +117,7 @@ for ($i = 0; $i < $numrows; $i++) {
 		echo $item->custombannercode;
 	} else if(eregi("(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $item->imageurl)) {
 		$imageurl 	= 'images/banners/'.$item->imageurl;
-		$link		= sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
+		$link		= sefRelToAbs( 'index.php?module=mod_banners&amp;task=click&amp;bid='. $item->bid );
 		echo '<a href="'.$link.'" target="_blank"><img src="'.$imageurl.'" border="0" alt="'.JText::_('Banner').'" /></a>';
 	} else if(eregi("\.swf$", $item->imageurl)) {
 		$imageurl = "images/banners/".$item->imageurl;
