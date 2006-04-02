@@ -70,14 +70,19 @@ function contentSEF_replacer( &$matches ) {
 		return $original;
 	}
 	
-	$uriLocal =& JURI::getInstance();
-	$uriHREF  =& JURI::getInstance($matches[1]);
-	
-	//disbale bot from being applied to external links
-	if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost())) {
+	// will only process links containing 'index.php?option
+	if ( strpos( $matches[1], 'index.php?option' ) !== false ) {
+		$uriLocal =& JURI::getInstance();
+		$uriHREF  =& JURI::getInstance($matches[1]);
+		
+		//disbale bot from being applied to external links
+		if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost())) {
+			return $original;
+		}
+		
+		return 'href="'. sefRelToAbs( 'index.php' . $uriHREF->getQueryString() ) . $uriHREF->getAnchor() .'"';
+	} else {
 		return $original;
 	}
-	
-	return 'href="'. sefRelToAbs( 'index.php' . $uriHREF->getQueryString() ) . $uriHREF->getAnchor() .'"';
 }
 ?>

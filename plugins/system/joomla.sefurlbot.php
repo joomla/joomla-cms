@@ -449,7 +449,7 @@ function sefRelToAbs( $string ) {
 				// Itemid 
 				if ( isset( $parts['Itemid'] ) ) {
 					//only add Itemid value if it does not correspond with the 'unassigned' Itemid value
-					if ( $parts['Itemid'] != 99999999 ) {
+					if ( $parts['Itemid'] != 99999999 && $parts['Itemid'] != 0 ) {
 						$sefstring .= $parts['Itemid'].'/';					
 					}
 				}
