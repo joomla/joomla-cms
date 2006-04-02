@@ -32,9 +32,6 @@ $task 	= JRequest::getVar( 'task');
 switch ($task) {
 
 	case 'new':
-		editNewsFeed( );
-		break;
-
 	case 'edit':
 		editNewsFeed( );
 		break;
@@ -170,7 +167,7 @@ function editNewsFeed(  ) {
 	$user 		= $mainframe->getUser();
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 	$cid 		= JRequest::getVar( 'cid', array(0));
-	$option = JRequest::getVar( 'option');
+	$option 	= JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}

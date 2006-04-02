@@ -82,7 +82,7 @@ class HTML_users {
 				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 				$task 	= $row->block ? 'unblock' : 'block';
 				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
-				$link 	= 'index2.php?option=com_users&amp;task=editA&amp;id='. $row->id. '&amp;hidemainmenu=1';
+				$link 	= 'index2.php?option=com_users&amp;task=edit&amp;cid[]='. $row->id. '&amp;hidemainmenu=1';
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

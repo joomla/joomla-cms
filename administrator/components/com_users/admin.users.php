@@ -37,44 +37,37 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		editUser( 0, $option);
-		break;
-
 	case 'edit':
-		editUser( intval( $cid[0] ), $option );
-		break;
-
-	case 'editA':
-		editUser( $id, $option );
+		editUser( );
 		break;
 
 	case 'save':
 	case 'apply':
- 		saveUser( $option, $task );
+ 		saveUser( );
 		break;
 
 	case 'remove':
-		removeUsers( $cid );
+		removeUsers( );
 		break;
 
 	case 'block':
-		changeUserBlock( $cid, 1, $option );
+		blockUser( );
 		break;
 
 	case 'unblock':
-		changeUserBlock( $cid, 0, $option );
+		unBlockUser( );
 		break;
 
 	case 'logout':
-		logoutUser( $cid, $option, $task );
+		logoutUser( );
 		break;
 
 	case 'flogout':
-		logoutUser( $id, $option, $task );
+		logoutUser( );
 		break;
 
 	case 'cancel':
-		cancelUser( $option );
+		cancelUser( );
 		break;
 
 	case 'contact':
@@ -83,12 +76,14 @@ switch ($task) {
 		break;
 
 	default:
-		showUsers( $option );
+		showUsers( );
 		break;
 }
 
-function showUsers( $option ) {
+function showUsers( ) {
 	global $database, $mainframe, $my, $acl;
+
+	$option 	= JRequest::getVar( 'option');
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.name' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -203,14 +198,21 @@ function showUsers( $option ) {
  * @param int The user ID
  * @param string The URL option
  */
-function editUser( $id, $option='users' ) 
+function editUser( ) 
 {
 	global $mainframe;
-	
-	$database =& $mainframe->getDBO();
-	$user 	  =& JUser::getInstance($id);
-	$acl      =& JFactory::getACL();
 
+	$cid 		= JRequest::getVar( 'cid', array(0) );
+	$option 	= JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
+	
+//JError::raisewarning(1, intval($cid[0])); return;
+	
+	$database 	=& $mainframe->getDBO();
+	$user 	  	=& JUser::getInstance(intval($cid[0]));
+	$acl      	=& JFactory::getACL();
 	if ( $user->get('id') ) {
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
@@ -274,9 +276,12 @@ function editUser( $id, $option='users' )
 	HTML_users::edituser( $user, $contact, $lists, $option );
 }
 
-function saveUser( $option, $task ) 
+function saveUser(  ) 
 {
 	global $mainframe;
+
+	$task 	= JRequest::getVar( 'task' );
+	$option 	= JRequest::getVar( 'option');
 
 	/*
 	 * Initialize some variables
@@ -368,15 +373,17 @@ function saveUser( $option, $task )
 * Cancels an edit operation
 * @param option component option to call
 */
-function cancelUser( $option ) 
+function cancelUser( ) 
 {
+	$option 	= JRequest::getVar( 'option');
 	josRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
-function removeUsers( $cid ) 
+function removeUsers(  ) 
 {
 	global $mainframe, $database, $acl, $my;
 
+	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -416,14 +423,33 @@ function removeUsers( $cid )
 }
 
 /**
-* Blocks or Unblocks one or more user records
-* @param array An array of unique category id numbers
-* @param integer 0 if unblock, 1 if blocking
-* @param string The current url option
+* Unblocks one or more user records
 */
-function changeUserBlock( $cid=null, $block=1, $option ) 
+function unBlockUser( ) 
 {
-	global $database;
+	changeUserBlock( 0 );
+}
+
+/**
+* Blocks one or more user records
+*/
+function blockUser( ) 
+{
+	changeUserBlock( 1 );
+}
+
+/**
+* Blocks or Unblocks one or more user records
+* @param integer 0 if unblock, 1 if blocking
+*/
+function changeUserBlock( $block=1 ) 
+{
+	global $mainframe;
+	
+	$database = $mainframe->getDBO();
+
+	$option = JRequest::getVar( 'option');
+	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 
 	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
@@ -451,24 +477,32 @@ function changeUserBlock( $cid=null, $block=1, $option )
 * @param array An array of unique user id numbers
 * @param string The current url option
 */
-function logoutUser( $cid=null, $option, $task ) 
+function logoutUser( ) 
 {
 	global $database, $my;
-	
-	$client = JRequest::getVar( 'client' );
+	$task 	= JRequest::getVar( 'task' );
+	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+	$client = JRequest::getVar( 'client', 0, '', 'int' );
+	$id = JRequest::getVar( 'id', 0, '', 'int' );
 
-	$cids = $cid;
-	if ( is_array( $cid ) ) {
-		if ( count( $cid ) < 1 ) {
+	if ( is_array( $cids ) ) {
+		if ( count( $cids ) < 1 ) {
 			josRedirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
 		}
-		$cids = implode( ',', $cid );
+		$cids = implode( ',', $cids );
 	}
 
-	$query = "DELETE FROM #__session"
-	. "\n WHERE userid IN ( $cids )"
-	. "\n AND client_id = $client"
-	;
+	if ($task == 'logout'){
+		$query = "DELETE FROM #__session"
+		. "\n WHERE userid IN ( $cids )"
+		;
+	} else if ($task == 'flogout'){
+		$query = "DELETE FROM #__session"
+		. "\n WHERE userid = $id"
+		. "\n AND client_id = $client"
+		;		
+	}
+	
 	$database->setQuery( $query );
 	$database->query();
 	
