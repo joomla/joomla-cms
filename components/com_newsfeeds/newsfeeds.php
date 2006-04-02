@@ -3,7 +3,7 @@
 * version $Id$
 * @package Joomla
 * @subpackage Newsfeeds
-* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * modified by brian & rob
 * rewritten by David Gal to use the MagpieRSS library

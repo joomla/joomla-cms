@@ -1,4 +1,4 @@
-/*** @version $Id: install.js 966 2005-11-11 01:37:07Z Jinx $* @package Joomla* @subpackage Installation* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL*/
+/*** @version $Id: install.js 966 2005-11-11 01:37:07Z Jinx $* @package Joomla* @subpackage Installation* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL*/
  /**
 * @param object A form element
 * @param string The name of the element to find

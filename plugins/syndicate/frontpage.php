@@ -2,8 +2,8 @@
 /**
 * @version $Id: frontpage.rssbot.php,v 1.0 2005/09/05 00:00:00 stingrey Exp $
 * @package Joomla!
-* @copyright (C) 2005 Open Source Matters Inc.
-* @copyright (C) 2005 Rey Gigataras
+* @Copyright (C) 2005 - 2006 Open Source Matters Inc.
+* @Copyright (C) 2005 - 2006 Rey Gigataras
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * Joomla! is Free Software
 */

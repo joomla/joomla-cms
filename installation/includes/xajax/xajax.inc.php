@@ -3,7 +3,7 @@
 // xajax.inc.php::Main xajax class and setup file
 //
 // xajax version 0.2
-// copyright (c) 2005 by Jared White & J. Max Wilson
+// Copyright (C) 2005 - 2006 by Jared White & J. Max Wilson
 // http://xajax.sourceforge.net
 //
 // xajax is an open source PHP class library for easily creating powerful
