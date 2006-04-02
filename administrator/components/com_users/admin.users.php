@@ -27,13 +27,6 @@ if (!$user->authorize( 'com_users', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$task 	= JRequest::getVar( 'task' );
-$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
-$id 	= JRequest::getVar( 'id', 0, '', 'int' );
-
-if (!is_array( $cid )) {
-	$cid = array ( 0 );
-}
 
 switch ($task) {
 	case 'new':
@@ -81,8 +74,12 @@ switch ($task) {
 }
 
 function showUsers( ) {
-	global $database, $mainframe, $my, $acl;
+	global $mainframe;
 
+	$database = $mainframe->getDBO();
+	$currentUser = $mainframe->getUser();
+	$acl =& JFactory::getACL();
+	
 	$option 	= JRequest::getVar( 'option');
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.name' );
@@ -114,7 +111,7 @@ function showUsers( ) {
 	}
 
 	// exclude any child group id's for this user
-	$pgids = $acl->get_group_children( $my->gid, 'ARO', 'RECURSE' );
+	$pgids = $acl->get_group_children( $currentUser->gid, 'ARO', 'RECURSE' );
 
 	if (is_array( $pgids ) && count( $pgids ) > 0) {
 		$where[] = "(a.gid NOT IN (" . implode( ',', $pgids ) . "))";
@@ -208,11 +205,10 @@ function editUser( )
 		$cid = array(0);
 	}
 	
-//JError::raisewarning(1, intval($cid[0])); return;
-	
 	$database 	=& $mainframe->getDBO();
 	$user 	  	=& JUser::getInstance(intval($cid[0]));
 	$acl      	=& JFactory::getACL();
+	
 	if ( $user->get('id') ) {
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
@@ -247,7 +243,7 @@ function editUser( )
 
 	//if ( $userGroupName == 'super administrator' ) {
 		// super administrators can't change
-	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. JText::_( 'Super Administrator' ) .'</strong>';
+	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $currentUser->gid .'" /><strong>'. JText::_( 'Super Administrator' ) .'</strong>';
 	//} else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
 	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
 		// administrators can't change each other
@@ -381,7 +377,11 @@ function cancelUser( )
 
 function removeUsers(  ) 
 {
-	global $mainframe, $database, $acl, $my;
+	global $mainframe, $acl;
+
+	$database = $mainframe->getDBO();
+	$currentUser = $mainframe->getUser();
+//	$acl =& JFactory::getACL();
 
 	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -403,11 +403,11 @@ function removeUsers(  )
 			{
 				$msg = JText::_( 'You cannot delete a Super Administrator' );
  			} 
-			else if ( $id == $my->id )
+			else if ( $id == $currentUser->id )
 			{
  				$msg = JText::_( 'You cannot delete Yourself!' );
  			} 
-			else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) )
+			else if ( ( $this_group == 'administrator' ) && ( $currentUser->gid == 24 ) )
 			{
  				$msg = JText::_( 'WARNDELETE' );
 			} 
@@ -450,6 +450,9 @@ function changeUserBlock( $block=1 )
 
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+	if (!is_array( $cid )) {
+		$cid = array ( 0 );
+	}
 
 	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
@@ -479,7 +482,7 @@ function changeUserBlock( $block=1 )
 */
 function logoutUser( ) 
 {
-	global $database, $my;
+	global $database, $currentUser;
 	$task 	= JRequest::getVar( 'task' );
 	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );
