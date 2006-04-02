@@ -21,7 +21,7 @@ jimport('joomla.application.extension.module');
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
- * @since		1.1
+ * @since		1.5
  * @see			patTemplate
  */
 
@@ -575,7 +575,7 @@ class JDocument extends JTemplate
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
- * @since		1.1
+ * @since		1.5
  */
  class JDocumentHelper 
  {

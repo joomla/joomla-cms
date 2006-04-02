@@ -290,7 +290,7 @@ $_VERSION = new JVersion();
  *  Legacy global
  * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
  *  use JPlugingHelper::importPlugin to load bot code
- *  @deprecated As of version 1.1
+ *  @deprecated As of version 1.5
  */
 $_MAMBOTS = new mosMambotHandler();
 ?>

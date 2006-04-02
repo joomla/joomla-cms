@@ -15,7 +15,7 @@
  *
  * @package 	Joomla.Framework
  * @subpackage 	Template
- * @since		1.1
+ * @since		1.5
  */
 class patTemplate_Modifier_Translate extends patTemplate_Modifier
 {

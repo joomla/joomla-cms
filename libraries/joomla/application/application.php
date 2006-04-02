@@ -22,7 +22,7 @@ jimport( 'joomla.common.base.object' );
 * @abstract
 * @package		Joomla.Framework
 * @subpackage	Application
-* @since		1.1
+* @since		1.5
 */
 
 class JApplication extends JObject
@@ -702,7 +702,7 @@ class JApplication extends JObject
 	 * @param	string		The sessions name
 	 * @param	boolean 	Use cookies to store the session on the client
 	 * @return	void
-	 * @since		1.1
+	 * @since		1.5
 	 */
 	function _createSession( $name, $useCookies = true)
 	{
@@ -747,7 +747,7 @@ class JApplication extends JObject
 	 * 
 	 * @access	public
 	 * @return	int			A client identifier
-	 * @since		1.1
+	 * @since		1.5
 	 */
 	function getClientId( ) {
 		return $this->_clientId;
@@ -769,7 +769,7 @@ class JApplication extends JObject
 	 * 
 	 * @access	public
 	 * @return	boolean		True of this application is site
-	 * @since		1.1
+	 * @since		1.5
 	 */
 	function isSite() {
 		return ($this->_clientId == 0) ?  true : false;
@@ -915,7 +915,7 @@ class JApplication extends JObject
  * @static
  * @package		Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JApplicationHelper
 {
@@ -927,7 +927,7 @@ class JApplicationHelper
 	 * @access	public
 	 * @param	int		$id	A client identifier
 	 * @return	mixed	Object describing the client or false if not known
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getClientInfo($id, $byName = false) {
 		

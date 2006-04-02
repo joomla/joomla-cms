@@ -19,7 +19,7 @@ jimport( 'joomla.common.base.object' );
  * @abstract
  * @author	Louis Landry <louis.landry@joomla.org>
  * @package	Joomla.Framework
- * @since	1.1
+ * @since	1.5
  */
 class JObserver extends JObject {
 
@@ -61,7 +61,7 @@ class JObserver extends JObject {
  * @abstract
  * @author	Louis Landry <louis.landry@joomla.org>
  * @package	Joomla.Framework
- * @since	1.1
+ * @since	1.5
  */
 
 class JObservable extends JObject {

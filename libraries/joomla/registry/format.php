@@ -20,7 +20,7 @@ jimport( 'joomla.common.base.object' );
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
- * @since		1.1
+ * @since		1.5
  */
 class JRegistryFormat extends JObject {
 

@@ -1138,6 +1138,6 @@ function cmGetProperties (obj)
 					   to be opened in the current window, but this behavior
 					   could change in the future releases
 */
-/* JSCookMenu v1.1.		added ability to hide controls in IE to show submenus properly */
+/* JSCookMenu v1.5.		added ability to hide controls in IE to show submenus properly */
 /* JSCookMenu v1.01.	cmDraw generates XHTML code */
 /* JSCookMenu v1.0.		(c) Copyright 2002 by Heng Yuan */

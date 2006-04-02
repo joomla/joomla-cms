@@ -19,7 +19,7 @@ jimport( 'joomla.common.base.object' );
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JAuthenticate extends JObject 
 {
@@ -153,7 +153,7 @@ class JAuthenticate extends JObject
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JAuthenticateHelper 
 {
@@ -338,7 +338,7 @@ class JAuthenticateHelper
 	 * @static
 	 * @param	int		$length	Length of the password to generate
 	 * @return	string			Random Password
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function genRandomPassword($length = 8)
 	{

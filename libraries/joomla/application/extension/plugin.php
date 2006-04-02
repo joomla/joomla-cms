@@ -19,7 +19,7 @@ jimport( 'joomla.common.base.observer' );
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JPlugin extends JObserver {
 
@@ -72,7 +72,7 @@ class JPlugin extends JObserver {
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Application
-* @since		1.1
+* @since		1.5
 */
 class JPluginHelper
 {

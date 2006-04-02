@@ -20,7 +20,7 @@ jimport( 'joomla.registry.format' );
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
- * @since 		1.1
+ * @since 		1.5
  */
 class JRegistry extends JObject 
 {

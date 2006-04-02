@@ -52,17 +52,17 @@ class JDatabase extends JObject
 	var $_nameQuote		= null;
 	/**
 	 * @var boolean UTF-8 support
-	 * @since    1.1
+	 * @since    1.5
 	 */
 	var $_utf			= 0;
 	/**
 	 * @var array The fields that are to be quote
-	 * @since    1.1
+	 * @since    1.5
 	 */
 	var $_quoted	= null;
 	/**
 	 * @var bool Legacy compatibility
-	 * @since    1.1
+	 * @since    1.5
 	 */
 	var $_hasQuoted	= null;
 

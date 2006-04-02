@@ -14,7 +14,7 @@
 /**
  * Legacy define, _ISO defined not used anymore. All output is forced as utf-8
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 DEFINE('_ISO','charset=utf-8');
@@ -22,7 +22,7 @@ DEFINE('_ISO','charset=utf-8');
 /**
  * Legacy constant, use _JEXEC instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 define( '_VALID_MOS', 1 );
@@ -30,7 +30,7 @@ define( '_VALID_MOS', 1 );
 /**
  * Legacy constant, use _JEXEC instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 define( '_MOS_MAMBO_INCLUDED', 1 );
@@ -39,7 +39,7 @@ define( '_MOS_MAMBO_INCLUDED', 1 );
  * Legacy global, use JVersion->getLongVersion() instead
  * 
  * @name $_VERSION
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 $_VERSION = new JVersion();
@@ -51,7 +51,7 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 /**
  * Load the site language file (the old way - to be deprecated)
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 global $mosConfig_lang;

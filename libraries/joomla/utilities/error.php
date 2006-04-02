@@ -27,7 +27,7 @@ $GLOBALS['_JError_errorStore']	= array();
  * @static
  * @package 	Joomla.Framework
  * @subpackage	Utilities
- * @since		1.1
+ * @since		1.5
  */
 class JError extends patErrorManager {
 
@@ -381,7 +381,7 @@ class JError extends patErrorManager {
  *
  * @package 	Joomla.Framework
  * @subpackage	Utilities
- * @since		1.1
+ * @since		1.5
  */
 class JErrorHandler
 {
@@ -392,7 +392,7 @@ class JErrorHandler
 	* @access		public
 	* @param		object	Error object
 	* @return	mixed	Error object or void
-	* @since		1.1
+	* @since		1.5
 	*/
 	function &handleError( &$error )
 	{
@@ -448,7 +448,7 @@ class JErrorHandler
 	* @access		public
 	* @param		object	Error object
 	* @return	string	Error code template
-	* @since		1.1
+	* @since		1.5
 	*/
 	function getErrorDocument( &$error )
 	{
@@ -476,7 +476,7 @@ class JErrorHandler
 	* @access		public
 	* @param		object	Error object
 	* @return	string	Error message
-	* @since		1.1
+	* @since		1.5
 	*/
 	function getErrorMessage( &$error )
 	{
@@ -504,23 +504,23 @@ class JErrorHandler
 	* @access		public
 	* @param		object	Error object
 	* @return	void
-	* @since		1.1
+	* @since		1.5
 	*/
 	function _sendErrorHeader( &$error )
 	{
 		switch ($error->code)
 		{
 			case '403':
-				header('HTTP/1.1 403 Forbidden');
+				header('HTTP/1.5 403 Forbidden');
 				break;
 
 			case '404':
-				header('HTTP/1.1 404 Not Found');
+				header('HTTP/1.5 404 Not Found');
 				break;
 
 			case '500':
 			default:
-				header('HTTP/1.1 500 Internal Server Error');
+				header('HTTP/1.5 500 Internal Server Error');
 				break;
 		}
 		return;
@@ -541,7 +541,7 @@ class JErrorHandler
 	* @access		public
 	* @param		object	Error object
 	* @return	string	HTML Debugging string
-	* @since		1.1
+	* @since		1.5
 	*/
 	function _fetchDebug(&$error)
 	{

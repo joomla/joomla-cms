@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.1.0</version>
+	<version>1.5.0</version>
 	<description>User Manager</description>
 	<params>
 	    <param name="admin_language" type="languages" client="administrator" default="" label="Back-end Language" description="paramAdminLanguage" />

@@ -239,7 +239,7 @@ function josRedirect( $url, $msg='' )
 		echo "<script>document.location.href='$url';</script>\n";
 	} else {
 		//@ob_end_clean(); // clear output buffer
-		header( 'HTTP/1.1 301 Moved Permanently' );
+		header( 'HTTP/1.5 301 Moved Permanently' );
 		header( "Location: ". $url );
 	}
 	exit();
@@ -724,7 +724,7 @@ function josURL( $url, $ssl=0, $sef=1 ) {
  * @package	Joomla.Framework
  * @param	string	$string	String containing xml style attributes
  * @return	array	Key/Value pairs for the attributes
- * @since	1.1
+ * @since	1.5
  */
 function josParseAttributes( $string ) {
 	

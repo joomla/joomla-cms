@@ -20,7 +20,7 @@
  * @author 		Louis Landry <louis.landry@joomla.org
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
- * @since		1.1
+ * @since		1.5
  */
 class JButton extends JObject
 {
@@ -94,7 +94,7 @@ class JButton extends JObject
 	 * @access	public
 	 * @param	string	$identifier	Icon identification string
 	 * @return	string	CSS class name
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function fetchIconClass($identifier)
 	{
@@ -107,7 +107,7 @@ class JButton extends JObject
 	 * Can be redefined in the final button class
 	 * 
 	 * @access		public
-	 * @since		1.1
+	 * @since		1.5
 	 */
 	function fetchId()
 	{
@@ -121,7 +121,7 @@ class JButton extends JObject
 	 * 
 	 * @abstract
 	 * @access		public
-	 * @since		1.1
+	 * @since		1.5
 	 */
 	function fetchButton()
 	{

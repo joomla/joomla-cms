@@ -199,7 +199,7 @@ class JMediaViews {
 	/**
 	 * Method to display an error message if the working directory is not valid
 	 *
-	 * since 1.1
+	 * since 1.5
 	 */
 	function listError() {
 		global $BASE_DIR, $BASE_ROOT;

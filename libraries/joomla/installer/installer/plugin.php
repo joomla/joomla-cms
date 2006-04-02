@@ -16,7 +16,7 @@
  *
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @since		1.1
+ * @since		1.5
  */
 class JInstallerPlugin extends JInstaller
 {
@@ -27,7 +27,7 @@ class JInstallerPlugin extends JInstaller
 	 * @access	public
 	 * @param	string	$p_fromdir	Directory from which to install the plugin
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function install($p_fromdir)
 	{
@@ -197,7 +197,7 @@ class JInstallerPlugin extends JInstaller
 	 * @param	int		$cid	The id of the plugin to uninstall
 	 * @param	int		$client	The client id
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function uninstall($id, $client = 0)
 	{
@@ -315,7 +315,7 @@ class JInstallerPlugin extends JInstaller
 	 * @access	private
 	 * @param	array	$arg	Installation step to rollback
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function _rollback_plugin($arg)
 	{

@@ -46,7 +46,7 @@ span.todotitle {
 <pre class="todo">
 <span class="todotitle">STATUS</span>
 
-<b>** Joomla! 1.1.0 Alpha Release2 [06-02-2006] **</b>
+<b>** Joomla! 1.5.0 Alpha Release2 [06-02-2006] **</b>
 
 <span class="highlight">** This should NOT meant to be used for a `live` or `production` site **</span>
 This Alpha version is for testing and development purposes, or internal use only.  Use at your own risk!

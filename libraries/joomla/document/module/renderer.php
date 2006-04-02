@@ -18,7 +18,7 @@
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
- * @since		1.1
+ * @since		1.5
  */
 class patTemplate_Renderer extends patTemplate_Module
 {

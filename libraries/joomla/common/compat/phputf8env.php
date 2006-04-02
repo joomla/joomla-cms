@@ -16,7 +16,7 @@
  *
  * @package		Joomla.Framework
  * @subpackage	Compatibility
- * @since		1.1
+ * @since		1.5
  */
 // check if mbstring extension is loaded and attempt to load it if not present except for windows
 if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so')))) {

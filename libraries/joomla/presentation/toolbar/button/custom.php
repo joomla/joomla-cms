@@ -17,7 +17,7 @@
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
- * @since		1.1
+ * @since		1.5
  */
 class JButton_Custom extends JButton
 {
@@ -39,7 +39,7 @@ class JButton_Custom extends JButton
 	 * 
 	 * @access	public
 	 * @return	string	Button CSS Id
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function fetchId( $type='Custom', $html = '', $id = 'custom' )
 	{

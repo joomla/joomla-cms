@@ -19,7 +19,7 @@ jimport( 'joomla.common.base.object' );
  *
  * @package		Joomla.Framework
  * @subpackage	Database
- * @since		1.1
+ * @since		1.5
  */
 class JSimpleRecordSet
 {

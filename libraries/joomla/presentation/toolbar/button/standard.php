@@ -17,7 +17,7 @@
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
- * @since		1.1
+ * @since		1.5
  */
 class JButton_Standard extends JButton
 {
@@ -49,7 +49,7 @@ class JButton_Standard extends JButton
 	 * 
 	 * @access	public
 	 * @return	string	Button CSS Id
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function fetchId( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
@@ -62,7 +62,7 @@ class JButton_Standard extends JButton
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function _getCommand($name, $task, $list, $hide)
 	{

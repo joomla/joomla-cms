@@ -26,7 +26,7 @@ jimport('phpgacl.gacl_api');
  * 
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JAuthorization extends gacl_api 
 {
@@ -485,7 +485,7 @@ class JAuthorization extends gacl_api
 /**
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JTableARO extends JTable 
 {
@@ -505,7 +505,7 @@ class JTableARO extends JTable
 /**
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
  class JTableAroGroup extends JTable 
  {

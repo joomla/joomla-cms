@@ -16,7 +16,7 @@
  *
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @since		1.1
+ * @since		1.5
  */
 class JInstallerComponent extends JInstaller
 {
@@ -143,7 +143,7 @@ class JInstallerComponent extends JInstaller
 		/*
 		 * Let's run the install queries for the component
 		 *    If backward compatibility is required - run queries in xml file
-		 *    If Joomla 1.1 compatible, with discreet sql files - execute appropriate
+		 *    If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *    file for utf-8 support or non-utf-8 support
 		 */
 
@@ -160,7 +160,7 @@ class JInstallerComponent extends JInstaller
 		} else
 			if ($result === 0)
 			{
-				// no backward compatibility queries found - try for Joomla 1.1 type queries
+				// no backward compatibility queries found - try for Joomla 1.5 type queries
 				$utfresult = $this->_parseQueries("install/sql/". ($db->hasUTF() ? 'mysql-4.1.2' : 'mysql-3.2.0'));
 				if ($utfresult === false)
 				{
@@ -480,7 +480,7 @@ class JInstallerComponent extends JInstaller
 		/*
 		 * Let's run the uninstall queries for the component
 		 *    If backward compatibility is required - run queries in xml file
-		 *    If Joomla 1.1 compatible, with discreet sql files - execute appropriate
+		 *    If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *    file for utf-8 support or non-utf support
 		 */
 
@@ -494,7 +494,7 @@ class JInstallerComponent extends JInstaller
 		} else
 			if ($result === 0)
 			{
-				// no backward compatibility queries found - try for Joomla 1.1 type queries
+				// no backward compatibility queries found - try for Joomla 1.5 type queries
 				$utfresult = $this->_parseQueries("uninstall/sql/". ($db->hasUTF() ? 'mysql-4.1.2' : 'mysql-3.2.0'));
 				if ($utfresult === false)
 				{
@@ -576,7 +576,7 @@ class JInstallerComponent extends JInstaller
 	 * @access	private
 	 * @param	array	$arg	Installation step to rollback
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function _rollback_menu($arg)
 	{

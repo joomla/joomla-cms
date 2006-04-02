@@ -17,7 +17,7 @@
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
  * @subpackage	Config
- * @since		1.1
+ * @since		1.5
  */
 
 document.addLoadEvent = function(func) { 

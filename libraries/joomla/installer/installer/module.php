@@ -16,7 +16,7 @@
  *
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @since		1.1
+ * @since		1.5
  */
 class JInstallerModule extends JInstaller
 {

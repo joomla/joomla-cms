@@ -449,7 +449,7 @@ class mosHTML {
 	}
 
 	/**
-	* Writes Back Button - Deprecated in 1.1
+	* Writes Back Button - Deprecated in 1.5
 	* TODO : move to legacy classes 
 	*/
 	function BackButton ( &$params, $hide_js=NULL ) {

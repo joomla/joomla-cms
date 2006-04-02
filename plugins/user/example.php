@@ -26,7 +26,7 @@ $dispatcher->attach('JUserExample');
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
- * @since 		1.1
+ * @since 		1.5
  */
 class JUserExample extends JPlugin {
 
@@ -138,7 +138,7 @@ class JUserExample extends JPlugin {
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function onLogin(& $credentials) 
 	{

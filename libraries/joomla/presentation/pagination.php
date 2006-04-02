@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Presentation
- * @since		1.1
+ * @since		1.5
  */
 class JPagination extends JObject {
 
@@ -429,7 +429,7 @@ class JPagination extends JObject {
 	 * Writes the dropdown select list for number of rows to show per page
 	 * Use: print $pagination->getLimitBox();
 	 * 
-	 * @deprecated as of 1.1
+	 * @deprecated as of 1.5
 	 */
 	function writeLimitBox($link = null) {
 		echo $this->getLimitBox($link);
@@ -439,7 +439,7 @@ class JPagination extends JObject {
 	 * Writes the counter string
 	 * Use: print $pagination->getLimitBox();
 	 * 
-	 * @deprecated as of 1.1
+	 * @deprecated as of 1.5
 	 */
 	function writePagesCounter() {
 		echo $this->getPagesCounter();
@@ -449,7 +449,7 @@ class JPagination extends JObject {
 	 * Writes the page list string
 	 * Use: print $pagination->getPagesLinks();
 	 * 
-	 * @deprecated as of 1.1
+	 * @deprecated as of 1.5
 	 */
 	function writePagesLinks($link = null) {
 		echo $this->getPagesLinks($link);

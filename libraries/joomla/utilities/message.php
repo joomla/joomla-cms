@@ -22,7 +22,7 @@ jimport('joomla.database.table');
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
- * @since		1.1
+ * @since		1.5
  */
 class JMessage extends JTable
 {
@@ -116,7 +116,7 @@ class JMessage extends JTable
 	 * @param	string	$subject		The message subject
 	 * @param	string	$message	The message body
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function send($fromId = null, $toId = null, $subject = null, $message = null)
 	{

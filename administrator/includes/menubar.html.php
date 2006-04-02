@@ -38,7 +38,7 @@ class JMenuBar
 	}
 
 	/**
-	* @deprecated As of Version 1.1
+	* @deprecated As of Version 1.5
 	*/
 	function startTable()
 	{
@@ -46,7 +46,7 @@ class JMenuBar
 	}
 
 	/**
-	* @deprecated As of Version 1.1
+	* @deprecated As of Version 1.5
 	*/
 	function endTable()
 	{
@@ -465,7 +465,7 @@ class JMenuBar
 
 /**
  * Legacy class, use JMenuBar instead
- * @deprecated As of version 1.1
+ * @deprecated As of version 1.5
  */
 class mosMenuBar extends JMenuBar { }
 ?>

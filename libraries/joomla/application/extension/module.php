@@ -18,7 +18,7 @@
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Application
-* @since		1.1
+* @since		1.5
 */
 class JModuleHelper
 {

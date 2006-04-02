@@ -19,7 +19,7 @@ jimport('joomla.utilities.message');
 
 /**
  * Use JMessage instead
-* @deprecated	As of 1.1
+* @deprecated	As of 1.5
 */
 class mosMessage extends JMessage {
 	function __construct( &$db ) {

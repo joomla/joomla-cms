@@ -361,7 +361,7 @@ class JAdminMenu {
 	 * @access	public
 	 * @param	string	$identifier	Icon identification string
 	 * @return	string	CSS class name
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getIconClass($identifier, &$css)
 	{

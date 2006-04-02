@@ -21,7 +21,7 @@ class JVersion {
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '1.1';
+	var $RELEASE 	= '1.5';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'Alpha 2';
 	/** @var int Sub Release Level */

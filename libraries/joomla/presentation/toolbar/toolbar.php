@@ -19,7 +19,7 @@ jimport( 'joomla.common.base.object' );
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
- * @since		1.1
+ * @since		1.5
  */
 class JToolBar extends JObject
 {
@@ -258,7 +258,7 @@ class JToolBar extends JObject
 	 *
 	 * @access	public
 	 * @param	string|array	directory or directories to search.
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function addButtonDir($dir)
 	{
@@ -276,7 +276,7 @@ class JToolBar extends JObject
 	 *
 	 * @access	public
 	 * @return	string
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getIncludePath()
 	{

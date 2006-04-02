@@ -322,7 +322,7 @@ function Xajax()
 		{
 			try
 			{
-				r.setRequestHeader("Method", "POST " + uri + " HTTP/1.1");
+				r.setRequestHeader("Method", "POST " + uri + " HTTP/1.5");
 				r.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			}
 			catch(e)

@@ -19,7 +19,7 @@ jimport('phpmailer.phpmailer');
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
- * @since		1.1
+ * @since		1.5
  */
 class JMail extends PHPMailer 
 {
@@ -326,7 +326,7 @@ class JMail extends PHPMailer
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
- * @since		1.1
+ * @since		1.5
  */
 class JMailHelper 
 {

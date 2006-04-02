@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_users', 'manage' ))
-{
+if (!$user->authorize( 'com_users', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -73,7 +72,8 @@ switch ($task) {
 		break;
 }
 
-function showUsers( ) {
+function showUsers( ) 
+{
 	global $mainframe;
 
 	$database = $mainframe->getDBO();

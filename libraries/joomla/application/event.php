@@ -18,7 +18,7 @@ jimport('joomla.common.base.observer');
  *
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JEventDispatcher extends JObservable
 {
@@ -41,7 +41,7 @@ class JEventDispatcher extends JObservable
 	 *
 	 * @access	public
 	 * @return	JEventDispatcher	The EventDispatcher object.
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function & getInstance()
 	{
@@ -61,7 +61,7 @@ class JEventDispatcher extends JObservable
 	 * @param	string	$event		Name of the event to register handler for
 	 * @param	string	$handler	Name of the event handler
 	 * @return	void
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function register($event, $handler)
 	{
@@ -99,7 +99,7 @@ class JEventDispatcher extends JObservable
 	 * @param	array	$args			An array of arguments
 	 * @param	boolean	$doUnpublished	[DEPRECEATED]
 	 * @return	array	An array of results from each function call
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function trigger($event, $args = null, $doUnpublished = false)
 	{

@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  * @param	array	$items		Pathway items to build a BreadCrumbs string
  * @param	string	$separator	BreadCrumbs separator string [XHTML]
  * @return	string	XHTML Compliant breadcrumbs string
- * @since	1.1
+ * @since	1.5
  */
 function showBreadCrumbs(& $items, $separator)
 {
@@ -78,7 +78,7 @@ function showBreadCrumbs(& $items, $separator)
  * @param	string	$custom	Custom xhtml complient string to separate the
  * items of the breadcrumbs
  * @return	string	Separator string
- * @since	1.1
+ * @since	1.5
  */
 function setSeparator($custom = null)
 {

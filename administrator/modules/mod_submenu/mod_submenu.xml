@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<install type="module" version="1.1.0" client="administrator">
+<install type="module" version="1.5.0" client="administrator">
 	<name>Admin Submenu</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>

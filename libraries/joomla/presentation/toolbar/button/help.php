@@ -17,7 +17,7 @@
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
- * @since		1.1
+ * @since		1.5
  */
 class JButton_Help extends JButton
 {
@@ -52,7 +52,7 @@ class JButton_Help extends JButton
 	 * @access		public
 	 * @param		string	$name	Button name
 	 * @return		string	Button CSS Id
-	 * @since		1.1
+	 * @since		1.5
 	 */
 	function fetchId($name)
 	{
@@ -65,7 +65,7 @@ class JButton_Help extends JButton
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function _getCommand($ref, $com)
 	{

@@ -17,7 +17,7 @@
  * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Parameter
- * @since		1.1
+ * @since		1.5
  */
 
 class JElement_Radio extends JElement {

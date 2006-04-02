@@ -29,7 +29,7 @@ jimport( 'joomla.common.base.object' );
  * 
  * @package		Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 
 class JBrowser extends JObject
@@ -400,13 +400,13 @@ class JBrowser extends JObject
                     break;
 
                 case 3:
-                    $this->setFeature('javascript', 1.1);
+                    $this->setFeature('javascript', 1.5);
                     $this->setQuirk('avoid_popup_windows');
                     break;
                 }
             } elseif (preg_match('|ANTFresco/([0-9]+)|', $this->_agent, $version)) {
                 $this->setBrowser('fresco');
-                $this->setFeature('javascript', 1.1);
+                $this->setFeature('javascript', 1.5);
                 $this->setQuirk('avoid_popup_windows');
             } elseif (strpos($this->_lowerAgent, 'avantgo') !== false) {
                 $this->setBrowser('avantgo');
@@ -438,7 +438,7 @@ class JBrowser extends JObject
                     }
                 } else {
                     // Konqueror.
-                    $this->setFeature('javascript', 1.1);
+                    $this->setFeature('javascript', 1.5);
                     switch ($this->_majorVersion) {
                     case 3:
                         $this->setFeature('dom');

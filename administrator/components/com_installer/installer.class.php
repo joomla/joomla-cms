@@ -16,7 +16,7 @@ jimport('joomla.installer.installer');
 
 /**
  * Legacy class, use JInstaller instead
- * @deprecated As of version 1.1
+ * @deprecated As of version 1.5
  */
 class mosInstaller extends JInstaller
 {
@@ -28,7 +28,7 @@ class mosInstaller extends JInstaller
 /**
  * Legacy function, use JFolder::delete($path)
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  */
 function deldir( $dir ) 
 {

@@ -1,5 +1,5 @@
-<?xml version="1.1" encoding="iso-8859-1"?>
-<install version="1.1" type="plugin" group="xmlrpc">
+<?xml version="1.5" encoding="iso-8859-1"?>
+<install version="1.5" type="plugin" group="xmlrpc">
 	<name>XML-RPC - Joomla API</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<install version="1.1" type="plugin" group="editors-xtd">
+<install version="1.5" type="plugin" group="editors-xtd">
 	<name>Button - Pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.1</version>
+	<version>1.5</version>
 	<description>Provides button to insert {pagebreak} into content edit box</description>
 	<files>
 		<filename plugin="pagebreak">pagebreak.php</filename>

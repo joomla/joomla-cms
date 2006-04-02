@@ -1,10 +1,10 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.16 $
+ * $Revision: 1.56 $
  * $Date: 2006/03/14 17:33:39 $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ? 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */

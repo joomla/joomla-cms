@@ -39,7 +39,7 @@ Legend:
 
 02-Mar-2006 Johan Janssens
  ^ Changed file header copyright information
- ^ Changed version information from 1.1 to 1.5
+ ^ Changed version information from 1.5 to 1.5
 
 31-Mar-2006 David Gal
  + Integrated new RSS parsing library - MagpieRSS (adds conversion to utf-8 from all encodings)
@@ -256,7 +256,7 @@ Legend:
 08-Feb-2005 Louis Landry
  # Fixed artf3432 : Administrator toolbar items do not contain port number
 
--------------------- 1.1.0 Alpha 2 Released -- [06-Feb-2006 00:00 UTC] ------------------
+-------------------- 1.5.0 Alpha 2 Released -- [06-Feb-2006 00:00 UTC] ------------------
 
 04-Feb-2005 Johan Janssens
  # Fixed artf3368 : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
@@ -572,7 +572,7 @@ Legend:
 
 21-Dec-2005 Andy Miller
  + Added editor_content.css for MilkyWay template
- + changed admin acccent color from red to green to differentiate 1.0 and 1.1
+ + changed admin acccent color from red to green to differentiate 1.0 and 1.5
 
 21-Dec-2005 Levis Bisson
  + Added and wrapped tinymce language module file for parameters in the backend
@@ -1020,7 +1020,7 @@ Legend:
  # Fixed artf1824, fatal error in Private messaging, backend
 
 
--------------------- 1.1.0 Alpha Released [26-Oct-2005] ------------------------
+-------------------- 1.5.0 Alpha Released [26-Oct-2005] ------------------------
 
 
 26-Oct-2005 Samuel Moffatt

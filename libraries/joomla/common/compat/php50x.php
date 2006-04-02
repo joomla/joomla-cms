@@ -16,7 +16,7 @@
  *
  * @package		Joomla.Framework
  * @subpackage	Compatibility
- * @since		1.1
+ * @since		1.5
  */
 
 if (!defined('FILE_USE_INCLUDE_PATH')) {

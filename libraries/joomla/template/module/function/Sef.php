@@ -16,7 +16,7 @@
  *
  * @package 	Joomla.Framework
  * @subpackage 	Template
- * @since		1.1
+ * @since		1.5
  */
 class patTemplate_Function_Sef extends patTemplate_Function
 {

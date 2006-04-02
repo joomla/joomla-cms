@@ -21,7 +21,7 @@ jimport('joomla.filesystem.*');
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @since		1.1
+ * @since		1.5
  */
 class JInstaller extends JObject
 {
@@ -1119,7 +1119,7 @@ class JInstaller extends JObject
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @since		1.1
+ * @since		1.5
  */
 class JInstallerHelper
 {

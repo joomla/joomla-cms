@@ -1,6 +1,6 @@
 # $Id$
 
-# Joomla 1.0 to Joomla 1.1
+# Joomla 1.0 to Joomla 1.5
 
 # Mambot Additions
 INSERT INTO `jos_mambots` VALUES (0, 'Authentication - Joomla', 'joomla', 'authentication', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');

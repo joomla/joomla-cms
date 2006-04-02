@@ -60,7 +60,7 @@ class JMenu extends JObject
 	 *
 	 * @access	public
 	 * @return	JMenu	The Menu object.
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getInstance($id = 'all')
 	{

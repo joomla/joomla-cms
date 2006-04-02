@@ -16,7 +16,7 @@
  *
  * @package		Joomla.Framework
  * @subpackage	Compatibility
- * @since		1.1
+ * @since		1.5
  */
 
 if (phpversion() < '4.2.0') {

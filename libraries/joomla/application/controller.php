@@ -20,7 +20,7 @@
 * @abstract
 * @package		Joomla.Framework
 * @subpackage	Application
-* @since		1.1
+* @since		1.5
 */
 class JController extends JObject {
 	/** @var array An array of the class methods to call for a task */

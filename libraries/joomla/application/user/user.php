@@ -20,7 +20,7 @@ jimport( 'joomla.presentation.parameter.parameter' );
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JUser extends JObject
 {
@@ -91,7 +91,7 @@ class JUser extends JObject
 	 * @access 	public
 	 * @param 	int 	$id 	The user id to load.
 	 * @return 	JUser  			The User object.
-	 * @since 	1.1
+	 * @since 	1.5
 	 */
 	function & getInstance($username = 'guest') 
 	{
@@ -115,7 +115,7 @@ class JUser extends JObject
 	 * @param	string	$property	The name of the property
 	 * @param	mixed	$value		The value of the property to set
 	 * @return	void
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function set( $property, $value=null ) 
 	{
@@ -129,7 +129,7 @@ class JUser extends JObject
 	 * @param	string	$property	The name of the property
 	 * @param	mixed	$value		The value of the property to set
 	 * @return 	mixed 				The value of the property
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function get($property, $default=null) 
 	{
@@ -146,7 +146,7 @@ class JUser extends JObject
 	 * @param 	string 	$key 		Parameter key
 	 * @param 	mixed	$default	Parameter default value
 	 * @return	mixed				The value or the default if it did not exist
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getParam( $key, $default = null ) {
 		return $this->_params->get( $key, $default );	
@@ -159,7 +159,7 @@ class JUser extends JObject
 	 * @param 	string 	$key 	Parameter key
 	 * @param 	mixed	$value	Parameter value
 	 * @return	mixed			Set parameter value
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function setParam( $key, $value ) {
 		return $this->_params->set( $key, $value );	
@@ -172,7 +172,7 @@ class JUser extends JObject
 	 * @param 	string 	$key 	Parameter key
 	 * @param 	mixed	$value	Parameter value
 	 * @return	mixed			Set parameter value
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function defParam( $key, $value ) {
 		return $this->_params->def( $key, $value );	
@@ -188,7 +188,7 @@ class JUser extends JObject
 	 * @param	string	$axoSection	The AXO section value	[optional]
 	 * @param	string	$axo		The AXO value			[optional]
 	 * @return	boolean	True if authorized
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
 	{
@@ -202,7 +202,7 @@ class JUser extends JObject
 	 * @access 	public
 	 * @param	int		$timestamp	The timestamp, defaults to 'now'
 	 * @return	boolean	True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function setLastVisit($timestamp=null) {
 		return $this->_table->setLastVisit($timestamp);
@@ -213,7 +213,7 @@ class JUser extends JObject
 	 * 
 	 * @access 	public
 	 * @return	object	The user parameters object
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getParameters() {
 		return $this->_params;
@@ -226,7 +226,7 @@ class JUser extends JObject
 	 * @access 	public
 	 * @param 	string 	$data 	The paramters string in INI format
 	 * @param 	string 	$path 	Path to the parameters xml file [optional]
-	 * @since 	1.1
+	 * @since 	1.5
 	 */
 	function setParameters($data, $path = null)
 	{
@@ -247,7 +247,7 @@ class JUser extends JObject
 	 * 
 	 * @access 	public
 	 * @return	string	The error message
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function getError() {
 		return $this->_errorMsg;
@@ -512,7 +512,7 @@ class JUser extends JObject
 	 * @access	private
 	 * @param	string	$msg	The message to append to the error message
 	 * @return	void
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function _setError( $msg ) {
 		$this->_errorMsg .= $msg."\n";
@@ -527,7 +527,7 @@ class JUser extends JObject
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.1
+ * @since		1.5
  */
 class JUserHelper {
 
@@ -536,7 +536,7 @@ class JUserHelper {
 	 *
 	 * @param	string	$activation	Activation string
 	 * @return 	boolean 			True on success
-	 * @since	1.1
+	 * @since	1.5
 	 */
 	function activateUser($activation)
 	{

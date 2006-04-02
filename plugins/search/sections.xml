@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<install version="1.1" type="plugin" group="search">
+<install version="1.5" type="plugin" group="search">
 	<name>Search - Sections</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.1</version>
+	<version>1.5</version>
 	<description>Allows Searching of Content Section information</description>
 	<files>
 		<filename plugin="sections">sections.php</filename>

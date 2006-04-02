@@ -19,7 +19,7 @@ jimport('pattemplate.patTemplate');
  * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Template
- * @since		1.1
+ * @since		1.5
  * @see			patTemplate
  */
 

@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.1.x</version>
+	<version>1.5.x</version>
 	<description>DESCMASSMAIL</description>
 	<params/>
 </install>

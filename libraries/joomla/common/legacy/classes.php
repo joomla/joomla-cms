@@ -19,9 +19,9 @@ jimport( 'joomla.database.table.*' );
 /**
  * Legacy class, derive from JApplication instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosMainFrame extends JApplication 
 {
@@ -109,9 +109,9 @@ class mosMainFrame extends JApplication
 /**
  * Legacy class, derive from JTable instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosDBTable extends JTable 
 {
@@ -128,7 +128,7 @@ class mosDBTable extends JTable
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -146,9 +146,9 @@ class mosDBTable extends JTable
 /**
  * Legacy class, use JTableCategory instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosCategory extends JTableCategory 
 {
@@ -165,7 +165,7 @@ class mosCategory extends JTableCategory
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -183,9 +183,9 @@ class mosCategory extends JTableCategory
 /**
  * Legacy class, use JTableComponent instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosComponent extends JTableComponent 
 {
@@ -202,7 +202,7 @@ class mosComponent extends JTableComponent
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -220,9 +220,9 @@ class mosComponent extends JTableComponent
 /**
  * Legacy class, use JTableContent instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosContent extends JTableContent 
 {
@@ -239,7 +239,7 @@ class mosContent extends JTableContent
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -257,9 +257,9 @@ class mosContent extends JTableContent
 /**
  * Legacy class, replaced by JTablePlugin
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosMambot extends JTablePlugin 
 {
@@ -276,7 +276,7 @@ class mosMambot extends JTablePlugin
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -294,9 +294,9 @@ class mosMambot extends JTablePlugin
 /**
  * Legacy class, use JTableMenu instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosMenu extends JTableMenu 
 {
@@ -313,7 +313,7 @@ class mosMenu extends JTableMenu
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -331,9 +331,9 @@ class mosMenu extends JTableMenu
 /**
  * Legacy class, use JTableModule instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosModule extends JTableModule 
 {
@@ -350,7 +350,7 @@ class mosModule extends JTableModule
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -368,9 +368,9 @@ class mosModule extends JTableModule
 /**
  * Legacy class, use JTableSection instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosSection extends JTableSection 
 {
@@ -387,7 +387,7 @@ class mosSection extends JTableSection
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -405,9 +405,9 @@ class mosSection extends JTableSection
 /**
  * Legacy class, use JTableSession instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosSession extends JTableSession 
 {
@@ -454,7 +454,7 @@ class mosSession extends JTableSession
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -472,9 +472,9 @@ class mosSession extends JTableSession
 /**
  * Legacy class, use JTableUser instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosUser extends JTableUser 
 {
@@ -491,7 +491,7 @@ class mosUser extends JTableUser
 
 	/**
 	 * Legacy Method, use reorder() instead
-	 * @deprecated As of 1.1
+	 * @deprecated As of 1.5
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -509,9 +509,9 @@ class mosUser extends JTableUser
 /**
  * Legacy class, use JDatabase
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class database extends JDatabaseMySQL 
 {
@@ -523,9 +523,9 @@ class database extends JDatabaseMySQL
  /**
  * Legacy class, use & JFactory::getCache instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosCache 
 {
@@ -547,9 +547,9 @@ class mosCache
  /**
  * Legacy class, use JProfiler instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 jimport('joomla.utilities.profiler'); 
 class mosProfiler extends JProfiler 
@@ -565,9 +565,9 @@ class mosProfiler extends JProfiler
  /**
  * Legacy class, use JParameter instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosParameters extends JParameter 
 {
@@ -583,7 +583,7 @@ class mosParameters extends JParameter
 	/**
 	 * Legacy function, use JParameter->toObject instead
 	 * 
-	 * @deprecated As of version 1.1
+	 * @deprecated As of version 1.5
 	 */
 	function toObject() {
 		$this->toObject();
@@ -592,7 +592,7 @@ class mosParameters extends JParameter
 	/**
 	 * Legacy function, use JParameter->toArray instead
 	 * 
-	 * @deprecated As of version 1.1
+	 * @deprecated As of version 1.5
 	 */
 	function toArray() {
 		$this->toArray();
@@ -636,9 +636,9 @@ class mosParameters extends JParameter
 /**
  * Legacy class, will be replaced by full MVC implementation in 1.2
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosAbstractTasker 
 {
@@ -809,9 +809,9 @@ class mosAbstractTasker
 /**
  * Legacy class, use JEventDispatcher instead
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosMambotHandler extends JEventDispatcher 
 {
@@ -865,9 +865,9 @@ class mosMambotHandler extends JEventDispatcher
 /**
  * Legacy class, removed
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class mosEmpty 
 {
@@ -883,9 +883,9 @@ class mosEmpty
 /**
  * Legacy class, removed
  * 
- * @deprecated	As of version 1.1
+ * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- * @subpackage	1.1
+ * @subpackage	1.5
  */
 class MENU_Default 
 {	

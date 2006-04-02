@@ -17,7 +17,7 @@
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
- * @since		1.1
+ * @since		1.5
  */
 
 class JDocumentHTML extends JDocument
@@ -36,7 +36,7 @@ class JDocumentHTML extends JDocument
      * @var     array
      * @access  private
      */
-    var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.1' ) );
+    var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.5' ) );
 
 	 /**
      * Array of Header <link> tags

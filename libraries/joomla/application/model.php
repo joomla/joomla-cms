@@ -20,7 +20,7 @@
 * @abstract
 * @package		Joomla.Framework
 * @subpackage	Application
-* @since		1.1
+* @since		1.5
 */
 class JModel extends JObject {
 	/**
