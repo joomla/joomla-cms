@@ -14,8 +14,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (dirname(__FILE__).DS.'banners.functions.php');
-
 $clientids	= $params->get( 'banner_cids' );
 $limit		= intval($params->get( 'count', 1 ));
 $randomise	= intval($params->get( 'randomise' ));
