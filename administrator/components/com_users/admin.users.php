@@ -72,6 +72,9 @@ switch ($task) {
 		break;
 }
 
+/**
+ * Display users in list form
+ */
 function showUsers( ) 
 {
 	global $mainframe;
@@ -192,8 +195,6 @@ function showUsers( )
 
 /**
  * Edit the user
- * @param int The user ID
- * @param string The URL option
  */
 function editUser( ) 
 {
@@ -272,6 +273,9 @@ function editUser( )
 	HTML_users::edituser( $user, $contact, $lists, $option );
 }
 
+/**
+ * Save current edit or addition
+ */
 function saveUser(  ) 
 {
 	global $mainframe;
@@ -311,28 +315,6 @@ function saveUser(  )
 		return false;
 	}
 
-/*
- * TODO
- * @todo Remove this section if we don't need it... shouldn't need it as it is
- * taken care of in the JUserModel class inside of the JUser class... don't we
- * just LOVE encapsulation?... i thought so.
- */
-//	// update the ACL
-//	if ( !$isNew ) {
-//		$query = "SELECT id"
-//		. "\n FROM #__core_acl_aro"
-//		. "\n WHERE value = '$row->id'"
-//		;
-//		$database->setQuery( $query );
-//		$aro_id = $database->loadResult();
-//
-//		$query = "UPDATE #__core_acl_groups_aro_map"
-//		. "\n SET group_id = $row->gid"
-//		. "\n WHERE aro_id = $aro_id"
-//		;
-//		$database->setQuery( $query );
-//		$database->query() or die( $database->stderr() );
-//	}
 
 	/*
 	 * Time for the email magic so get ready to sprinkle the magic dust...
@@ -354,7 +336,7 @@ function saveUser(  )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to User' ), $user->get('name') );
-			josRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $user->get('id'), $msg );
+			josRedirect( 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $user->get('id'), $msg );
 			break;
 
 		case 'save':
@@ -367,7 +349,6 @@ function saveUser(  )
 
 /**
 * Cancels an edit operation
-* @param option component option to call
 */
 function cancelUser( ) 
 {
@@ -375,14 +356,18 @@ function cancelUser( )
 	josRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
+/**
+* Delete selected users
+*/
 function removeUsers(  ) 
 {
-	global $mainframe, $acl;
+	global $mainframe;
 
 	$database = $mainframe->getDBO();
 	$currentUser = $mainframe->getUser();
-//	$acl =& JFactory::getACL();
 
+	$acl      	=& JFactory::getACL();
+	
 	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -477,8 +462,7 @@ function changeUserBlock( $block=1 )
 }
 
 /**
-* @param array An array of unique user id numbers
-* @param string The current url option
+ * logout selected users 
 */
 function logoutUser( ) 
 {

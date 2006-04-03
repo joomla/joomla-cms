@@ -20,7 +20,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Users
 */
 class HTML_users {
-
+	
+	/**
+	 * Display list of users
+	 */
 	function showUsers( &$rows, &$pageNav, $option, &$lists ) {
 		?>
 		<form action="index2.php?option=com_users" method="post" name="adminForm">
@@ -137,7 +140,10 @@ class HTML_users {
 		</form>
 		<?php
 	}
-
+	
+	/**
+	 * Form for editing a user
+	 */
 	function edituser( &$user, &$contact, &$lists, $option ) 
 	{
 		global $mainframe;

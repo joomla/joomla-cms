@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Apr-2006 David Gal
+ ^ Cleanup/Refactor com_user (admin)
+
 02-Apr-2006 Johan Janssens
  ^ Changed file header copyright information
  ^ Changed version information from 1.5 to 1.5
