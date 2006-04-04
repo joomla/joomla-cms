@@ -179,7 +179,12 @@ div.icon-32-back {
 div.icon-32-next {
 	background: url(../../../images/next_f2.png) no-repeat left;
 }
-
+div.icon-32-xml {
+	background: url(../../../images/xml_f2.png) no-repeat left;
+}
+div.icon-32-downloads {
+	background: url(../../../images/downloads_f2.png) no-repeat left;
+}
 /** header icons **/
 div.icon-48-generic {
 	background: url(../../../images/generic.png) no-repeat left;

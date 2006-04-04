@@ -84,6 +84,9 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		 */
 		if ( $mainframe->isAdmin() || $row->enabled || in_array($component, $enabledList) ) 
 		{
+			// preload toolbar in case component handles it manually
+			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
+
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
 
@@ -126,7 +129,6 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			 * Build the component toolbar
 			 * - This will move to a MVC controller at some point in the future
 			 */
-			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 			if ($path = JApplicationHelper::getPath( 'toolbar' )) {
 				include_once( $path );
 			}

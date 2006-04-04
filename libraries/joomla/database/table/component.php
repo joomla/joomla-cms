@@ -54,7 +54,16 @@ class JTableComponent extends JTable
 	function __construct( &$db ) {
 		parent::__construct( '#__components', 'id', $db );
 	}
-	
+
+	/**
+	 * Validate and filter fields
+	 */
+	function check() {
+	    $this->parent = intval( $this->parent );
+	    $this->ordering = intval( $this->ordering );
+	    return true;
+	}
+
 	/**
 	* Overloaded bind function
 	*
