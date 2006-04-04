@@ -107,6 +107,28 @@ class JTable extends JObject
 			$this->$k = $iFilter->process( $this->$k );
 		}
 	}
+
+	/**
+	 * Gets the internal table name for the object
+	 * @return string
+	 * @since 1.5
+	 */
+	function getTableName()
+	{
+		return $this->_tbl;
+	}
+
+	/**
+	 * Gets the internal primary key name
+	 * @return string
+	 * @since 1.5
+	 */
+	function getKeyName()
+	{
+		return $this->_tbl_key;
+	}
+
+
 	/**
 	 * Returns the error message
 	 *
