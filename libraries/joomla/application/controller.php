@@ -210,7 +210,7 @@ class JController extends JObject {
 		return $app;
 	}
 
-	function &getApp() {
+	function &getApplication() {
 		return $this->_app;
 	}
 
@@ -263,7 +263,7 @@ class JController extends JObject {
 	/**
 	 */
 	function &_loadView( $viewName, $option, $prefix='' ) {
-		$mainframe = $this->getApp();
+		$mainframe = $this->getApplication();
 
 		$viewName = preg_replace( '#\W#', '', $viewName );
 

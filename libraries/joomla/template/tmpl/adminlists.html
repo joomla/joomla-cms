@@ -71,27 +71,27 @@ See COPYRIGHT.php for copyright notices and details.
 </jtmpl:tmpl>
 
 <jtmpl:tmpl name="item-title" varscope="list-items" autoclear="yes">
-	<a href="#edit" onclick="listItemTask( 'cb{ITEM_ID}', 'edit' )">{ITEM_TITLE}</a>
+	<a href="javascript:void listItemTask( 'cb{ITEM_ID}', 'edit' )">{ITEM_TITLE}</a>
 </jtmpl:tmpl>
 
 <jtmpl:tmpl name="item-sticky-icon" type="condition" conditionvar="item_sticky" varscope="list-items" autoclear="yes">
 	<jtmpl:sub condition="0">
-		<a href="#publish" onclick="listItemTask('cb{ITEM_ID}', 'stick' )" title="Toggle">
+		<a href="javascript:void listItemTask('cb{ITEM_ID}', 'stick' )" title="Toggle">
 			<img src="images/publish_x.png" alt="<jtmpl:Translate>Free</jtmpl:Translate>" border="0" /></a>
 	</jtmpl:sub>
 	<jtmpl:sub condition="1">
-		<a href="#unpublish" onclick="listItemTask('cb{ITEM_ID}', 'unstick' )" title="Toggle">
+		<a href="javascript:void listItemTask('cb{ITEM_ID}', 'unstick' )" title="Toggle">
 			<img src="images/tick.png" alt="<jtmpl:Translate>Sticky</jtmpl:Translate>" border="0" /></a>
 	</jtmpl:sub>
 </jtmpl:tmpl>
 
 <jtmpl:tmpl name="item-publish-icon" type="condition" conditionvar="item_published" varscope="list-items" autoclear="yes">
 	<jtmpl:sub condition="0">
-		<a href="#publish" onclick="listItemTask('cb{ITEM_ID}', 'publish' )" title="Toggle">
+		<a href="javascript:void listItemTask('cb{ITEM_ID}', 'publish' )" title="Toggle">
 			<img src="images/publish_x.png" alt="<jtmpl:Translate>Unpublished</jtmpl:Translate>" border="0" /></a>
 	</jtmpl:sub>
 	<jtmpl:sub condition="1">
-		<a href="#unpublish" onclick="listItemTask('cb{ITEM_ID}', 'unpublish' )" title="Toggle">
+		<a href="javascript:void listItemTask('cb{ITEM_ID}', 'unpublish' )" title="Toggle">
 			<img src="images/tick.png" alt="<jtmpl:Translate>Published</jtmpl:Translate>" border="0" /></a>
 	</jtmpl:sub>
 </jtmpl:tmpl>
