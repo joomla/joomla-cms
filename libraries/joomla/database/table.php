@@ -79,13 +79,18 @@ class JTable extends JObject
 	 * Returns a reference to the a Model object, always creating it
 	 *
 	 * @param type $type The table type to instantiate
+	 * @param object A JDatabase object
+	 * @param string A prefix for the table class name
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, &$db ) 
+	function &getInstance( $type, &$db, $prefix='JTable' ) 
 	{
-		jimport('joomla.database.table.'.$type);
-		$adapter = 'JTable'.$type;
+		$adapter = $prefix.$type;
+		if (!class_exists( $adapter ))
+		{ 
+			jimport('joomla.database.table.'.$type);
+		}
 		$m = new $adapter($db);
 		return $m;
 	}
