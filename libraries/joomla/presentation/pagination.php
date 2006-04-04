@@ -376,7 +376,7 @@ class JPagination extends JObject {
 				$show = true;
 			};
 		if ($show) {
-			$output = '<a href="#ordering" onClick="listItemTask(\'cb'.$id.'\',\'orderup\')" title="'.$alt.'">';
+			$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderup\')" title="'.$alt.'">';
 			$output .= '<img src="images/'.$img.'" width="12" height="12" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
 
 			return $output;
@@ -416,7 +416,7 @@ class JPagination extends JObject {
 				$show = true;
 			};
 		if ($show) {
-			$output = '<a href="#ordering" onClick="listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'.$alt.'">';
+			$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'.$alt.'">';
 			$output .= '<img src="images/'.$img.'" width="12" height="12" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
 
 			return $output;
