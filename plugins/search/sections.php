@@ -39,9 +39,10 @@ function &botSearchSectionAreas() {
 */
 function botSearchSections( $text, $phrase='', $ordering='', $areas=null ) 
 {
-	global $mainframe, $my;
+	global $mainframe;
 	
-	$database =& $mainframe->getDBO();
+	$db =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchSectionAreas() ) )) {
@@ -84,13 +85,13 @@ function botSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	. "\n OR a.title LIKE '%$text%'"
 	. "\n OR a.description LIKE '%$text%' )"
 	. "\n AND a.published = 1"
-	. "\n AND a.access <= $my->gid"
+	. "\n AND a.access <= " .$user->get( 'gid' )
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section' )"
 	. "\n GROUP BY a.id"
 	. "\n ORDER BY $order"
 	;
-	$database->setQuery( $query, 0, $limit );
-	$rows = $database->loadObjectList();
+	$db->setQuery( $query, 0, $limit );
+	$rows = $db->loadObjectList();
 
 	$count = count( $rows );
 	for ( $i = 0; $i < $count; $i++ ) {

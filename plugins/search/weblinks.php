@@ -39,9 +39,10 @@ function &botSearchWeblinksAreas() {
  */
 function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null ) 
 {
-	global $mainframe, $my;
+	global $mainframe;
 	
-	$database =& $mainframe->getDBO();
+	$db =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchWeblinksAreas() ) )) {
@@ -120,11 +121,11 @@ function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	. "\n WHERE ($where)"
 	. "\n AND a.published = 1"
 	. "\n AND b.published = 1"
-	. "\n AND b.access <= $my->gid"
+	. "\n AND b.access <= " .$user->get( 'gid' )
 	. "\n ORDER BY $order"
 	;
-	$database->setQuery( $query, 0, $limit );
-	$rows = $database->loadObjectList();
+	$db->setQuery( $query, 0, $limit );
+	$rows = $db->loadObjectList();
 
 	return $rows;
 }

@@ -38,10 +38,11 @@ function &botSearchContentAreas() {
  */
 function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) 
 {
-	global $mainframe, $my;
+	global $mainframe;
 	global $mosConfig_offset;
 	
 	$database =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchContentAreas() ) )) {
@@ -140,9 +141,9 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n AND a.state = 1"
 		. "\n AND u.published = 1"
 		. "\n AND b.published = 1"
-		. "\n AND a.access <= $my->gid"
-		. "\n AND b.access <= $my->gid"
-		. "\n AND u.access <= $my->gid"
+		. "\n AND a.access <= " .$user->get( 'gid' )
+		. "\n AND b.access <= " .$user->get( 'gid' )
+		. "\n AND u.access <= " .$user->get( 'gid' )
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. "\n GROUP BY a.id"
@@ -156,7 +157,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 	// search static content
 	if ( $sStatic ) {
-		$query = "SELECT a.title AS title, a.created AS created,"
+		$query = "SELECT id, a.title AS title, a.created AS created,"
 		. "\n a.introtext AS text,"
 		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id, '&Itemid=', m.id ) AS href,"
 		. "\n '2' as browsernav, '". JText::_('Static Content') ."' AS section"
@@ -164,7 +165,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n LEFT JOIN #__menu AS m ON m.componentid = a.id"
 		. "\n WHERE ($where)"
 		. "\n AND a.state = 1"
-		. "\n AND a.access <= $my->gid"
+		. "\n AND a.access <= " .$user->get( 'gid' )
 		. "\n AND m.type = 'content_typed'"
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
@@ -187,15 +188,15 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n CONCAT('index.php?option=com_content&task=view&id=',a.id) AS href,"
 		. "\n '2' AS browsernav"
 		. "\n FROM #__content AS a"
-		. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <='$my->gid'"
+		. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= " .$user->get( 'gid' )
 		. "\n INNER JOIN #__sections AS u ON u.id = a.sectionid"
 		. "\n WHERE ( $where )"
 		. "\n AND a.state = -1"
 		. "\n AND u.published = 1"
 		. "\n AND b.published = 1"
-		. "\n AND a.access <= $my->gid"
-		. "\n AND b.access <= $my->gid"
-		. "\n AND u.access <= $my->gid"
+		. "\n AND a.access <= " .$user->get( 'gid' )
+		. "\n AND b.access <= " .$user->get( 'gid' )
+		. "\n AND u.access <= " .$user->get( 'gid' )
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. "\n ORDER BY $order"
@@ -229,7 +230,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n WHERE ($where)"
 		. "\n AND a.id NOT IN ( '$ids' )"
 		. "\n AND a.state = 1"
-		. "\n AND a.access <= $my->gid"
+		. "\n AND a.access <= " .$user->get( 'gid' )
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. "\n ORDER BY $order"

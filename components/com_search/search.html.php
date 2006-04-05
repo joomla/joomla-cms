@@ -109,18 +109,12 @@ class search_html {
 		<?php
 	}
 
-	function message( $message, $params ) {
-		?>
-		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<tr>
-			<td colspan="3" >
-				<?php eval ('echo "'.$message.'";'); ?>
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-
+	/**
+	 * Displays no result information
+	 * 
+	 * @static 
+	 * @return void
+	 */
 	function displaynoresult() {
 		?>
 			</td>
@@ -128,6 +122,21 @@ class search_html {
 		<?php
 	}
 
+	/**
+	 * Displays the search result
+	 *
+	 * @static 
+	 * @param array $rows
+	 * @param object $params
+	 * @param object $pageNav
+	 * @param int $limitstart
+	 * @param int $limit
+	 * @param int $total
+	 * @param int $totalRows
+	 * @param string $searchword
+	 * @return void
+	 * @since 1.0
+	 */
 	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 		global $mosConfig_hideCreateDate;
 		global $option, $Itemid;
@@ -246,6 +255,16 @@ class search_html {
 		<?php
 	}
 
+	/**
+	 * Writes search conclusion
+	 *
+	 * @static 
+	 * @param int $totalRows
+	 * @param string $searchword
+	 * @param obj $pageNav
+	 * @return void
+	 * @since 1.0
+	 */
 	function conclusion( $totalRows, $searchword, $pageNav ) {
 		global $option, $Itemid;
 		?>
@@ -270,6 +289,53 @@ class search_html {
 		</tr>
 		</table>
 		<?php
+	}
+	
+
+	/**
+	 * Shows a message output within a table
+	 *
+	 * @static 
+	 * @param string $message
+	 * @param object $params
+	 * @return void
+	 * @since 1.0
+	 * @deprecated 1.5
+	 */
+	function message( $message, $params ) {
+		?>
+		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<tr>
+			<td colspan="3" >
+				<?php eval ('echo "'.$message.'";'); ?>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
+	
+	/**
+	 * Method to show an empty container if there is no data to display
+	 * 
+	 * @static
+	 * @param string $msg The message to show
+	 * @return void
+	 * @since 1.5
+	 */
+	function emptyContainer($msg) {
+		echo '<p>'.$msg.'</p>';
+	}
+	
+	/**
+	 * Writes a user input error message and if javascript is enabled goes back
+	 * to the previous screen to try again.
+	 * 
+	 * @param string $msg The error message to display
+	 * @return void
+	 * @since 1.5
+	 */
+	function userInputError($msg) {
+		josErrorAlert($msg);
 	}
 }
 ?>

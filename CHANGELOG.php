@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Apr-2006 Alex Kempkens
+ ^ Cleanup/Refactor com_search (frontend) incl. all related plugins
+
 03-Apr-2006 David Gal
  ^ Cleanup/Refactor com_user (admin)
 

@@ -27,11 +27,13 @@ switch ( $task ) {
 }
 
 function viewSearch() {
-	global $mainframe, $mosConfig_lang, $my;
-	global $Itemid, $database;
-	global $mosConfig_list_limit;
+	global $mainframe;
 
 	$restriction = 0;
+	$lang = $mainframe->getCfg( 'lang' );
+	$list_limit = $mainframe->getCfg( 'list_limit' );
+	$Itemid = JRequest::getVar( 'Itemid' );
+	$db = $mainframe->getDBO();
 
 	// try to find search component's Itemid
 	$query = "SELECT id"
@@ -40,18 +42,16 @@ function viewSearch() {
 		. "\n AND published = 1"
 		. "\n AND link = 'index.php?option=com_search'"
 		;
-	$database->setQuery( $query );
-	$_Itemid = $database->loadResult();
+	$db->setQuery( $query );
+	$_Itemid = $db->loadResult();
 
 	if ($_Itemid != '') {
 		$Itemid = $_Itemid;
 	}
 
-	$gid = $my->gid;
-
 	// Adds parameter handling
 	if( $Itemid > 0 ) {
-		$menu =& JTable::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $Itemid );
 		$params = new JParameter( $menu->params );
 		$params->def( 'page_title', 1 );
@@ -70,7 +70,7 @@ function viewSearch() {
 	search_html::openhtml( $params );
 
 	$searchword = JRequest::getVar( 'searchword' );
-	$searchword = $database->getEscaped( trim( $searchword ) );
+	$searchword = $db->getEscaped( trim( $searchword ) );
 
 	// limit searchword to 20 characters
 	if ( strlen( $searchword ) > 20 ) {
@@ -85,7 +85,7 @@ function viewSearch() {
 	}
 
 	$search_ignore = array();
-	@include JPATH_SITE . "/language/$mosConfig_lang.ignore.php";
+	@include JPATH_SITE . "/language/$lang.ignore.php";
 
 	$orders = array();
 	$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
@@ -131,20 +131,20 @@ function viewSearch() {
 		if ( count( $_POST ) ) {
 			// html output
 			// no matches found
-			search_html::message( JText::_( 'No results were found' ), $params );
+			search_html::emptyContainer( JText::_( 'No results were found' ) );
 		} else if ( $restriction ) {
 				// html output
-				search_html::message( JText::_( 'SEARCH_MESSAGE' ), $params );
+				search_html::emptyContainer( JText::_( 'SEARCH_MESSAGE' ) );
 		}
 	} else if ( in_array( $searchword, $search_ignore ) ) {
 		// html output
-		search_html::message( JText::_( 'IGNOREKEYWORD' ), $params );
+		search_html::emptyContainer( JText::_( 'IGNOREKEYWORD' ) );
 	} else {
 		// html output
 
 		if ( $restriction ) {
 			// html output
-			search_html::message( JText::_( 'SEARCH_MESSAGE' ), $params );
+			search_html::emptyContainer( JText::_( 'SEARCH_MESSAGE' ) );
 		}
 
 		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );
@@ -186,10 +186,14 @@ function viewSearch() {
 
 			if ( strpos( $rows[$i]->href, 'http' ) == false ) {
 				$url = parse_url( $rows[$i]->href );
-				parse_str( $url['query'], $link );
+				if( !empty( $url['query'] ) ) {
+					parse_str( $url['query'], $link );
+				} else {
+					$link = '';
+				}
 				
 				// determines Itemid for Content items where itemid has not been included
-				if ( @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
+				if ( !empty($link) && @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
 					$itemid = '';
 					if (JContentHelper::getItemid( $link['id'] )) {
 						$itemid = '&amp;Itemid='. JContentHelper::getItemid( $link['id'] );
@@ -200,7 +204,7 @@ function viewSearch() {
 		}
 
 		$total 		= $totalRows;
-		$limit		= JRequest::getVar( 'limit', $mosConfig_list_limit, 'get', 'int' );
+		$limit		= JRequest::getVar( 'limit', $list_limit, 'get', 'int' );
 		$limitstart = JRequest::getVar( 'limitstart', 0, 'get', 'int' );
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( $total, $limitstart, $limit );
@@ -221,28 +225,29 @@ function viewSearch() {
 }
 
 function mosLogSearch( $search_term ) {
-	global $database;
-	global $mosConfig_enable_log_searches;
+	global $mainframe;
+	$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
 
-	if ( @$mosConfig_enable_log_searches ) {
+	if ( @$enable_log_searches ) {
+		$db = $mainframe->getDBO();
 		$query = "SELECT hits"
 		. "\n FROM #__core_log_searches"
 		. "\n WHERE LOWER( search_term ) = '$search_term'"
 		;
-		$database->setQuery( $query );
-		$hits = intval( $database->loadResult() );
+		$db->setQuery( $query );
+		$hits = intval( $db->loadResult() );
 		if ( $hits ) {
 			$query = "UPDATE #__core_log_searches"
 			. "\n SET hits = ( hits + 1 )"
 			. "\n WHERE LOWER( search_term ) = '$search_term'"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 		} else {
 			$query = "INSERT INTO #__core_log_searches VALUES ( '$search_term', 1 )"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 		}
 	}
 }
