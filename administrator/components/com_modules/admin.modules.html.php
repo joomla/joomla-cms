@@ -247,7 +247,6 @@ class HTML_modules {
 					echo $editor->getEditorContents( 'editor1', 'content' );
 				}
 				?>
-				submitform(pressbutton);
 			}
 			submitform(pressbutton);
 		}
