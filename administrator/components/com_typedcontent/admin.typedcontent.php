@@ -344,8 +344,9 @@ function edit( $uid, $option ) {
 /**
 * Saves the typed content item
 */
-function save( $option, $task ) {
-	global $database, $my;
+function save( $option, $task ) 
+{
+	global $mainframe, $database, $my;
 
 	$nullDate = $database->getNullDate();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );

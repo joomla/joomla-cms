@@ -114,7 +114,7 @@ function showUsers( )
 	}
 
 	// exclude any child group id's for this user
-	$pgids = $acl->get_group_children( $currentUser->gid, 'ARO', 'RECURSE' );
+	$pgids = $acl->get_group_children( $currentUser->get('gid'), 'ARO', 'RECURSE' );
 
 	if (is_array( $pgids ) && count( $pgids ) > 0) {
 		$where[] = "(a.gid NOT IN (" . implode( ',', $pgids ) . "))";

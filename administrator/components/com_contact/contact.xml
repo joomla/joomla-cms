@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<install type="component" version="1.0.0">
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
 	<name>Contact</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2006 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>April 2006</creationDate>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.5.0</version>
 	<description>This component shows a listing of Contact Information</description>
 	<params>
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />

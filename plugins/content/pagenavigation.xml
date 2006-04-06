@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Add the Next & Previous functionality to Content Items</description>
+	<description>Add the Next &amp; Previous functionality to Content Items</description>
 	<files>
 		<filename plugin="pagenavigation">pagenavigation.php</filename>
 	</files>

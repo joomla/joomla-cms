@@ -318,10 +318,9 @@ class WeblinksController
 	/**
 	 * Edit a web link record
 	 *
-	 * @param int $id Web Link id to edit
 	 * @since 1.0
 	 */
-	function editWebLink($id)
+	function editWebLink()
 	{
 		global $mainframe;
 
@@ -341,8 +340,7 @@ class WeblinksController
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be used instead of a 0
 		 */
-		// $id = JRequest::getVar( 'id', 0, '', 'int' );
-		$id = 0;
+		$id = JRequest::getVar( 'id', 0, '', 'int' );
 
 
 		// Create and load a weblink table object

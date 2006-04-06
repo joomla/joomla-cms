@@ -461,7 +461,7 @@ class JUser extends JObject
 	 * Method to load a JUser object by user id number
 	 * 
 	 * @access 	protected
-	 * @param 	int 	$identifier The user id or username for the user to load
+	 * @param 	mixed 	$identifier The user id or username for the user to load
 	 * @param 	string 	$path 		Path to a parameters xml file
 	 * @return 	boolean 			True on success
 	 * @since 1.5
@@ -561,7 +561,7 @@ class JUserHelper {
 		// Is it a valid user to activate?
 		if ($id) {
 			
-			$user = JUser::getInstance( $id );
+			$user = JUser::getInstance( (int) $id );
 			
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -569,7 +569,7 @@ class JUserHelper {
 			/*
 			 * Time to take care of business.... store the user.
 			 */
-			if (!$user->store()) {
+			if (!$user->save()) {
 				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".$user->getError() );
 				return false;
 			}

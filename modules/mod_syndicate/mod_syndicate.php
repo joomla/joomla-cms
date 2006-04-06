@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = $mosConfig_cachepath.'/';
+$cacheDir = $mainframe->get('cache_path').'/';
 if (!is_writable($cacheDir))
 {
 	echo '<div>';
@@ -76,11 +76,13 @@ $rss20_image		= $params->get('rss20_image', '');
 $atom_image			= $params->get('atom_image', '');
 $opml_image			= $params->get('opml_image', '');
 
-$from = @ $_SERVER['QUERY_STRING'];
 
-if ($from) {
-	$parts	= explode('option=', $from);
-	$url	= ampReplace($parts[1]);
+$uri =& $mainframe->getURI();
+
+$from = $uri->getVars();
+
+if (isset($from['option'])) {
+	$url	= $from['option'];
 
 	$linkRSS091	= 'index.php?option=com_syndicate&amp;feed=RSS0.91&amp;type='.$url;
 	$linkRSS10	= 'index.php?option=com_syndicate&amp;feed=RSS1.0&amp;type='.$url;

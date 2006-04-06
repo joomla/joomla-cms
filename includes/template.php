@@ -84,7 +84,7 @@ function initDocument( &$doc, $file = 'index.php' )
 	$user    	=& $mainframe->getUser();
 	$db      	=& $mainframe->getDBO();
 	$lang    	=& $mainframe->getLanguage();
-	$version 	= new JVersion();
+	//$version 	= new JVersion();
 
 	$template 	= $mainframe->getTemplate();
 
@@ -92,7 +92,7 @@ function initDocument( &$doc, $file = 'index.php' )
 	
 	$doc->setMetaData( 'description', 	$mainframe->getCfg('MetaDesc') );
 	$doc->setMetaData( 'keywords', 		$mainframe->getCfg('MetaKeys') );
-	$doc->setMetaData( 'Generator', 	$version->PRODUCT .' - '. $version->COPYRIGHT );
+	//$doc->setMetaData( 'Generator', 	$version->PRODUCT .' - '. $version->COPYRIGHT );
 	$doc->setMetaData( 'robots', 		'index, follow' );
 
 	$doc->setBase( $mainframe->getBaseURL() );

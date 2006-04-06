@@ -14,12 +14,6 @@
 jimport('pattemplate.patErrorManager');
 
 /**
- * stored errors
- * Store error-codes for retrieval
- */
-$GLOBALS['_JError_errorStore']	= array();
-
-/**
  * Error Handling Class
  *
  * This class is an proxy of the patError class
@@ -263,23 +257,6 @@ class JError extends patErrorManager {
 				die( "J$level_human " . $error->getMessage() . "\n" );
 			}
 		}
-		return $error;
-    }
-	
-	/**
-	* handleError: store
-	* store error-message for easy 
-	*
-	* @access private
-	* @param object $error patError-Object
-	* @param array $options options for handler
-	* @return object $error error-object
-	* @see raise()
-	*/
-    function &handleErrorStore( &$error, $options )
-    {
-		//store error for easy retrieval
-		$GLOBALS['_JError_errorStore'][] = &$error;
 		return $error;
     }
 	

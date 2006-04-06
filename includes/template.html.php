@@ -149,8 +149,8 @@ class modules_html {
 	function modoutput_xhtml( $module, &$params ) {
 
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-
-		?>
+		
+		if ( !empty($module->content)) { ?>
 		<div class="moduletable<?php echo $moduleclass_sfx; ?>">
 			<?php
 			if ($module->showtitle != 0) {
@@ -166,6 +166,7 @@ class modules_html {
 			?>
 		</div>
 		<?php
+		}
 	}
 
 	/*

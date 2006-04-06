@@ -878,7 +878,7 @@ class JContentController
 
 			case 'apply' :
 				$msg = sprintf(JText::_('Successfully Saved changes to Item'), $row->title);
-				josRedirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$row->id, $msg);
+				josRedirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&cid[]='.$row->id, $msg);
 				break;
 
 			case 'save' :

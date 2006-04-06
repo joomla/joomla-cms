@@ -192,7 +192,7 @@ class JViewFrontpageHTML_blog
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
 					for ($y = 0; $y < $intro / $columns; $y ++)
 					{
-						if ($i <= $intro && ($i <= $total))
+						if ($i <= $intro && ($i < $total))
 						{
 							JViewFrontpageHTML_blog::showItem($rows[$i], $access);
 							$i ++;
