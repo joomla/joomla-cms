@@ -165,7 +165,7 @@ class JContentController
 		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart			= $mainframe->getUserStateFromRequest("$option.viewcontent.limitstart", 'limitstart', 0);
 		$search				= $mainframe->getUserStateFromRequest("$option.viewcontent.search", 'search', '');
-		$search				= $db->getEscaped(trim(strtolower($search)));
+		$search				= $db->getEscaped(trim(JString::strtolower($search)));
 
 
 		$where[] = "c.state >= 0";
