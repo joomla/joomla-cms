@@ -326,13 +326,30 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					break;
 					
 				default :
+					$spacer_start 	= $params->get( 'spacer' );
+					$spacer_end 	= $params->get( 'end_spacer' );
+					
 					echo '<table width="100%" border="0" cellpadding="0" cellspacing="1">';
 					echo '<tr>';
 					echo '<td nowrap="nowrap">';
-					echo '<span class="'.$menuclass.'"> '.$params->get('end_spacer').' </span>';
-					echo implode('<span class="'.$menuclass.'"> '.$params->get('spacer').' </span>', $links);
-					echo '<span class="'.$menuclass.'"> '.$params->get('end_spacer').' </span>';
-					echo '</td></tr>';
+					
+					if ( $spacer_end ) {
+						echo '<span class="'. $menuclass .'"> '. $spacer_end .' </span>';
+					}
+					
+					if ( $spacer_start ) {
+						$html = '<span class="'. $menuclass .'"> '. $spacer_start .' </span>';
+						echo implode( $html, $links );
+					} else {
+						echo implode( '', $links );
+					}
+					
+					if ( $spacer_end ) {
+						echo '<span class="'. $menuclass .'"> '. $spacer_end .' </span>';
+					}
+					
+					echo '</td>';
+					echo '</tr>';
 					echo '</table>';
 					break;
 			}
@@ -367,26 +384,24 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 	}
 
 }
-$params->def('menutype', 'mainmenu');
-$params->def('class_sfx', '');
-$params->def('menu_images', 0);
-$params->def('menu_images_align', 0);
-$params->def('expand_menu', 0);
-$params->def('activate_parent', 0);
-$params->def('indent_image', 0);
-$params->def('indent_image1', 'indent1.png');
-$params->def('indent_image2', 'indent2.png');
-$params->def('indent_image3', 'indent3.png');
-$params->def('indent_image4', 'indent4.png');
-$params->def('indent_image5', 'indent5.png');
-$params->def('indent_image6', 'indent.png');
-$params->def('spacer', '');
-$params->def('end_spacer', '');
 
-$menu_style = $params->get('menu_style', 'vert_indent');
+$params->def('menutype', 			'mainmenu');
+$params->def('class_sfx', 			'');
+$params->def('menu_images', 		0);
+$params->def('menu_images_align', 	0);
+$params->def('expand_menu', 		0);
+$params->def('activate_parent', 	0);
+$params->def('indent_image', 		0);
+$params->def('indent_image1', 		'indent1.png');
+$params->def('indent_image2', 		'indent2.png');
+$params->def('indent_image3', 		'indent3.png');
+$params->def('indent_image4', 		'indent4.png');
+$params->def('indent_image5', 		'indent5.png');
+$params->def('indent_image6', 		'indent.png');
+$params->def('spacer', 				'');
+$params->def('end_spacer', 			'');
 
-switch ($menu_style)
-{
+switch ( $params->get( 'menu_style', 'vert_indent' ) ) {
 	case 'list_flat' :
 		mosShowHFMenu($params, 1);
 		break;
