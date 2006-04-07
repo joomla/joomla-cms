@@ -59,51 +59,61 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 
 		// Active Menu highlighting
 		$current_itemid = $Itemid;
-		if (!$current_itemid)
-		{
+		if (!$current_itemid) {
 			$id = '';
-		}
-		else
-			if ($current_itemid == $mitem->id)
-			{
-				$id = 'id="active_menu'.$params->get('class_sfx').'"';
+		} else {
+			if ($current_itemid == $mitem->id) {
+				$id = 'id="active_menu'. $params->get('class_sfx') .'"';
+			} else if ($params->get('activate_parent') && isset ($open) && in_array($mitem->id, $open)) {
+				$id = 'id="active_menu'. $params->get('class_sfx') .'"';
+			} else if ($mitem->type == 'url' && ItemidContained($mitem->link, $current_itemid)) {
+				$id = 'id="active_menu'. $params->get('class_sfx') .'"';
+			} else {
+				$id = '';
 			}
-			else
-				if ($params->get('activate_parent') && isset ($open) && in_array($mitem->id, $open))
-				{
-					$id = 'id="active_menu'.$params->get('class_sfx').'"';
+		}
+
+		if ( $params->get( 'full_active_id' ) ) {
+			// support for `active_menu` of 'Link - Component Item'	
+			if ( $id == '' && $mitem->type == 'component_item_link' ) {
+				parse_str( $mitem->link, $url );
+				if ( $url['Itemid'] == $current_itemid ) {
+					$id = 'id="active_menu'. $params->get( 'class_sfx' ) .'"';
 				}
-				else
-					if ($mitem->type == 'url' && ItemidContained($mitem->link, $current_itemid))
-					{
-						$id = 'id="active_menu'.$params->get('class_sfx').'"';
+			}
+			
+			// support for `active_menu` of 'Link - Url' if link is relative
+			if ( $id == '' && $mitem->type == 'url' && strpos( 'http', $mitem->link ) === false) {
+				parse_str( $mitem->link, $url );
+				if ( isset( $url['Itemid'] ) ) {
+					if ( $url['Itemid'] == $current_itemid ) {
+						$id = 'id="active_menu'. $params->get( 'class_sfx' ) .'"';
 					}
-					else
-					{
-						$id = '';
-					}
-
-		$mitem->link = ampReplace($mitem->link);
-
+				}
+			}
+		}
+		
+		// replace & with amp; for xhtml compliance
+		$mitem->link = ampReplace( $mitem->link );
+		
 		$menu_params = new stdClass();
 		$menu_params = & new JParameter($mitem->params);
 		$menu_secure = $menu_params->def('secure', 0);
 
-		if (strcasecmp(substr($mitem->link, 0, 4), 'http'))
-		{
+		if (strcasecmp(substr($mitem->link, 0, 4), 'http')) {
 			$mitem->link = josURL($mitem->link, $menu_secure);
 		}
 
 		$menuclass = 'mainlevel'.$params->get('class_sfx');
-		if ($level > 0)
-		{
+		if ($level > 0) {
 			$menuclass = 'sublevel'.$params->get('class_sfx');
 		}
 
+		// replace & with amp; for xhtml compliance
+		// remove slashes from excaped characters
 		$mitem->name = stripslashes(ampReplace($mitem->name));
 
-		switch ($mitem->browserNav)
-		{
+		switch ($mitem->browserNav) {
 			// cases are slightly different
 			case 1 :
 				// open in a new window
@@ -400,6 +410,7 @@ $params->def('indent_image5', 		'indent5.png');
 $params->def('indent_image6', 		'indent.png');
 $params->def('spacer', 				'');
 $params->def('end_spacer', 			'');
+$params->def( 'full_active_id', 	0 );
 
 switch ( $params->get( 'menu_style', 'vert_indent' ) ) {
 	case 'list_flat' :

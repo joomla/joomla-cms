@@ -22,6 +22,12 @@
 			<option value="horiz_flat">Horizontal</option>
 			<option value="list_flat">Flat List</option>
 		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="full_active_id" type="radio" default="0" label="Full Active highlighting" description="Enable full active menu item highlighting, including for `Link - Component Item` and `Link - Url`, which can cause loss of XHTML compliance, if more than one item is active">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>		
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
