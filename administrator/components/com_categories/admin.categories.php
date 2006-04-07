@@ -121,7 +121,7 @@ function showCategories( $section, $option )
 	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
 
 	$section_name 	= '';
 	$content_add 	= '';

@@ -149,7 +149,7 @@ function showPageImpressions( $option, $task ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mosConfig_list_limit );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );	
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 	
 	// used by filter
@@ -234,7 +234,7 @@ function showSearches( $option, $task, $showResults=null ) {
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mosConfig_list_limit );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );	
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 
 	if ($search) {

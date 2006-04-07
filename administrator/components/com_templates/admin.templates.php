@@ -638,7 +638,7 @@ class JTemplatesHelper
 		}
 
 		$data->checked_out = 0;
-		$data->mosname = strtolower(str_replace(' ', '_', $data->name));
+		$data->mosname = JString::strtolower(str_replace(' ', '_', $data->name));
 		
 		return $data;
 	}

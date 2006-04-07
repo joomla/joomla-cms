@@ -590,7 +590,7 @@ function getHelpTOC( $helpsearch )
 					$file = preg_replace( '#\.xml$|\.html$#', '', $file );
 				}
 				if ($helpsearch) {
-					if (strpos( strip_tags( $buffer ), $helpsearch ) !== false) {
+					if (JString::strpos( strip_tags( $buffer ), $helpsearch ) !== false) {
 						$toc[$file] = $title;
 					}
 				} else {

@@ -24,7 +24,7 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 	global $database;
 
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'loadposition' ) === false ) {
+	if ( JString::strpos( $row->text, 'loadposition' ) === false ) {
 		return true;
 	}
 	

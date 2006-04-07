@@ -487,7 +487,7 @@ class JModelSection extends JModel
 			$filter = JRequest::getVar('filter', '', 'request');
 			if ($filter) {
 				// clean filter variable
-				$filter = strtolower($filter);
+				$filter = JString::strtolower($filter);
 
 				switch ($params->get('filter_type'))
 				{

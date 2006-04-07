@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Wrapper
 */
-class WrapperView 
+class JWrapperView 
 {
 	function displayWrap( &$row, &$params, &$menu ) 
 	{

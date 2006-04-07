@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Apr-2006 David Gal
+ + Applied utf-8 aware string functions (JString class) to all extensions
+   All of the php code should now be utf-8 aware.
+
 05-Apr-2006 Alex Kempkens
  ^ Cleanup/Refactor com_search (frontend) incl. all related plugins
 

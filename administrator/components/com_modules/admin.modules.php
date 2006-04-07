@@ -124,7 +124,7 @@ function viewModules()
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where[] = "m.client_id = ".$client->id;
 

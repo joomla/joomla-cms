@@ -24,7 +24,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginGeshi' );
 function convertGeshi( &$row, &$params, $page=0 ) 
 {
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'pre>' ) === false ) {
+	if ( JString::strpos( $row->text, 'pre>' ) === false ) {
 		return true;
 	}	
 

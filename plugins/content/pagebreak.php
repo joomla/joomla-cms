@@ -35,7 +35,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	global $mainframe, $Itemid, $database;
 
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, '{pagebreak' ) === false ) {
+	if ( JString::strpos( $row->text, '{pagebreak' ) === false ) {
 		return true;
 	}
 	

@@ -129,7 +129,7 @@ class JInstallerExtensionTasks {
 				}
 				
 				$row->checked_out = 0;
-				$row->jname = strtolower( str_replace( ' ', '_', $row->name ) );
+				$row->jname = JString::strtolower( str_replace( ' ', '_', $row->name ) );
 	
 				$rows[] = $row;
 				$rowid++;

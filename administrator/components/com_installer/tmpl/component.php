@@ -68,7 +68,7 @@ class JInstallerExtensionTasks
 					$row->$key = $value;
 				}
 
-				$row->jname = strtolower(str_replace(" ", "_", $row->name));
+				$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 			}
 		}
 		

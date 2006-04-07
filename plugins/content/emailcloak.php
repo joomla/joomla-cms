@@ -21,7 +21,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginEmailCloak' );
 */
 function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, '@' ) === false ) {
+	if ( JString::strpos( $row->text, '@' ) === false ) {
 		return true;
 	}
 	
@@ -33,8 +33,8 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	}
 
 	// check for presence of {emailcloak=off} which is explicits disables this bot for the item
-	if ( !strpos( $row->text, '{emailcloak=off}' ) === false ) {		
-		$row->text = str_replace( '{emailcloak=off}', '', $row->text );
+	if ( !JString::strpos( $row->text, '{emailcloak=off}' ) === false ) {		
+		$row->text = JString::str_replace( '{emailcloak=off}', '', $row->text );
 		return true;
 	}
 	

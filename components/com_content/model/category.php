@@ -434,7 +434,7 @@ class JModelCategory extends JModel
 			if ($filter)
 			{
 				// clean filter variable
-				$filter = strtolower($filter);
+				$filter = JString::strtolower($filter);
 
 				switch ($this->_menu->parameters->get('filter_type'))
 				{

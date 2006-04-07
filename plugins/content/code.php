@@ -25,7 +25,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginCode' );
 function pluginCode( &$row, &$params, $page=0 ) 
 {
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, '{code' ) === false ) {
+	if ( JString::strpos( $row->text, '{code' ) === false ) {
 		return true;
 	}
 	

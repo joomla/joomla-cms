@@ -151,7 +151,7 @@ function viewMenuItems( $menutype, $option )
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 			'limitstart', 		0 );
 	$levellimit 		= $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 			'levellimit', 		10 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 				'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$and = '';
 	if ( $filter_state ) {
@@ -170,7 +170,7 @@ function viewMenuItems( $menutype, $option )
 		$query = "SELECT m.id"
 		. "\n FROM #__menu AS m"
 		. "\n WHERE menutype = '$menutype'"
-		. "\n AND LOWER( m.name ) LIKE '%" . strtolower( $search ) . "%'"
+		. "\n AND LOWER( m.name ) LIKE '%" . JString::strtolower( $search ) . "%'"
 		. $and
 		;
 		$database->setQuery( $query );

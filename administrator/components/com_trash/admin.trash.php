@@ -80,7 +80,7 @@ function viewTrashContent( $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );	
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
 
 	$where[] = "c.state = -2";
 		if ($search) {
@@ -144,7 +144,7 @@ function viewTrashMenu( $option ) {
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
 		
 	$where[] = "m.published = -2";
 	

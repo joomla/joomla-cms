@@ -418,7 +418,7 @@ class JViewHTMLArticle extends JView
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
 		 */
-		if (strlen($article->fulltext) > 1) {
+		if (JString::strlen($article->fulltext) > 1) {
 			$article->text = $article->introtext.'{readmore}'.$article->fulltext;
 		} else {
 			$article->text = $article->introtext;

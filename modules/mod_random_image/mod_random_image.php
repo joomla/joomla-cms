@@ -24,12 +24,12 @@ $the_array 		= array();
 $the_image 		= array();
 
 // if folder includes livesite info, remove
-if ( strpos($folder, $LiveSite) === 0 ) {
-	$folder = str_replace( $LiveSite, '', $folder );
+if ( JString::strpos($folder, $LiveSite) === 0 ) {
+	$folder = JString::str_replace( $LiveSite, '', $folder );
 }
 // if folder includes absolute path, remove
-if ( strpos($folder, JPATH_SITE) === 0 ) {
-	$folder= str_replace( JPATH_SITE, '', $folder );
+if ( JString::strpos($folder, JPATH_SITE) === 0 ) {
+	$folder= JString::str_replace( JPATH_SITE, '', $folder );
 }
 $folder = str_replace('\\',DS,$folder);
 $folder = str_replace('/',DS,$folder);

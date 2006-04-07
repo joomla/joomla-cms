@@ -32,7 +32,7 @@ function pluginSEF( &$row, &$params, $page=0 )
 	}
 	
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'href="' ) === false ) {
+	if ( JString::strpos( $row->text, 'href="' ) === false ) {
 		return true;
 	}
 	
@@ -61,17 +61,17 @@ function contentSEF_replacer( &$matches ) {
 	$original = 'href="'. $matches[1] .'"';
 	
 	// disable bot from being applied to mailto tags
-	if ( strpos($matches[1],'mailto:') !== false ) {
+	if ( JString::strpos($matches[1],'mailto:') !== false ) {
 		return $original;
 	}
 	
 	// disable bot from being applied to javascript tags
-	if ( strpos( $matches[1], 'javascript:' ) !== false ) {
+	if ( JString::strpos( $matches[1], 'javascript:' ) !== false ) {
 		return $original;
 	}
 	
 	// will only process links containing 'index.php?option
-	if ( strpos( $matches[1], 'index.php?option' ) !== false ) {
+	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false ) {
 		$uriLocal =& JURI::getInstance();
 		$uriHREF  =& JURI::getInstance($matches[1]);
 		

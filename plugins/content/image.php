@@ -23,7 +23,7 @@ function pluginImage( &$row, &$params, $page=0 )
 	global $database;
 
  	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, '{image' ) === false ) {
+	if ( JString::strpos( $row->text, '{image' ) === false ) {
 		return true;
 	}
 	

@@ -587,7 +587,7 @@ class JContactController {
 			if ( $bannedEmail ) {
 				$bannedEmail = explode( ';', $bannedEmail );
 				foreach ($bannedEmail as $value) {
-					if ( stristr($email, $value) ) {
+					if ( JString::stristr($email, $value) ) {
 						mosErrorAlert( _NOT_AUTH );
 					}
 				}
@@ -596,7 +596,7 @@ class JContactController {
 			if ( $bannedSubject ) {
 				$bannedSubject = explode( ';', $bannedSubject );
 				foreach ($bannedSubject as $value) {
-					if ( stristr($subject, $value) ) {
+					if ( JString::stristr($subject, $value) ) {
 						mosErrorAlert( _NOT_AUTH );
 					}
 				}
@@ -605,7 +605,7 @@ class JContactController {
 			if ( $bannedText ) {
 				$bannedText = explode( ';', $bannedText );
 				foreach ($bannedText as $value) {
-					if ( stristr($text, $value) ) {
+					if ( JString::stristr($text, $value) ) {
 						mosErrorAlert( _NOT_AUTH );
 					}
 				}

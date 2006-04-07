@@ -112,7 +112,7 @@ function showContacts( $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.view.limitstart",	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 	
 	$where = array();	
 

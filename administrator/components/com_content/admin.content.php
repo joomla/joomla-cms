@@ -312,7 +312,7 @@ class JContentController
 		$filter_authorid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_sectionid", 'filter_sectionid', 0);
 		$search					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.search", 'search', '');
-		$search					= $db->getEscaped(trim(strtolower($search)));
+		$search					= $db->getEscaped(trim(JString::strtolower($search)));
 		$redirect				= $sectionid;
 
 		/*
@@ -699,7 +699,7 @@ class JContentController
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
 		 */
-		if (strlen($row->fulltext) > 1) {
+		if (JString::strlen($row->fulltext) > 1) {
 			$row->text = $row->introtext . '{readmore}' . $row->fulltext;
 		} else {
 			$row->text = $row->introtext;
@@ -1521,15 +1521,15 @@ class JContentHelper {
 		 * Now we need to search for the {readmore} tag and split the text up
 		 * accordingly.
 		 */
-		$tagPos	= strpos( $text, '{readmore}' );
+		$tagPos	= JString::strpos( $text, '{readmore}' );
 		
 		if ( $tagPos === false )
 		{
 			$row->introtext	= $text;
 		} else
 		{
-			$row->introtext	= substr($text, 0, $tagPos);
-			$row->fulltext	= substr($text, $tagPos + 10 );
+			$row->introtext	= JString::substr($text, 0, $tagPos);
+			$row->fulltext	= JString::substr($text, $tagPos + 10 );
 		}
 		
 		return true;

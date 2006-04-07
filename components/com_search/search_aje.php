@@ -76,13 +76,13 @@ function viewSearch() {
 	$searchword = $database->getEscaped( trim( $searchword ) );
 
 	// limit searchword to 20 characters
-	if ( strlen( $searchword ) > 20 ) {
-		$searchword 	= substr( $searchword, 0, 19 );
+	if ( JString::strlen( $searchword ) > 20 ) {
+		$searchword 	= JString::substr( $searchword, 0, 19 );
 		$restriction 	= 1;
 	}
 
 	// searchword must contain a minimum of 3 characters
-	if ( $searchword && strlen( $searchword ) < 3 ) {
+	if ( $searchword && JString::strlen( $searchword ) < 3 ) {
 		$searchword 	= '';
 		$restriction 	= 1;
 	}

@@ -102,7 +102,7 @@ function viewLanguages()
 			}
 
 			$row->checked_out = 0;
-			$row->mosname = strtolower( str_replace( " ", "_", $row->name ) );
+			$row->mosname = JString::strtolower( str_replace( " ", "_", $row->name ) );
 			$rows[] = $row;
 			$rowid++;
 		}
