@@ -336,6 +336,20 @@ class WeblinksController
 			return;
 		}
 
+		// security check to see if link exists in a menu
+		$link = 'index.php?option=com_weblinks&task=new';
+		$query = "SELECT id"
+		. "\n FROM #__menu"
+		. "\n WHERE link LIKE '%$link%'"
+		. "\n AND published = 1"
+		;
+		$db->setQuery( $query );
+		$exists = $db->loadResult();
+		if ( !$exists ) {						
+			mosNotAuth();
+			return;
+		}		
+		
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be used instead of a 0

@@ -534,19 +534,17 @@ class InputFilter
 	 * @param	resource	$connection		An open MySQL connection
 	 * @return	string		Escaped string
 	 */
-	function escapeString($string, & $connection)
-	{
+	function escapeString($string, & $connection) {
 		/*
-		 * Use the appropriate escape string depending upon which version of php
-		 * you are running
-		 */
-		if (version_compare(phpversion(), "4.3.0", "<"))
-		{
-			mysql_escape_string($string);
-		} else
-		{
-			mysql_real_escape_string($string);
+		* Use the appropriate escape string depending upon which version of php
+		* you are running
+		*/
+		if (version_compare(phpversion(), '4.3.0', '<')) {
+			$string = mysql_escape_string($string);
+		} else 	{
+			$string = mysql_real_escape_string($string);
 		}
+		
 		return $string;
 	}
 }

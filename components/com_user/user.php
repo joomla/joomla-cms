@@ -106,14 +106,26 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 	}
 }
 
-function userEdit( $option, $submitvalue) 
-{
+function userEdit( $option, $submitvalue) {
 	global $mainframe, $Itemid;
 
 	$database 		=& $mainframe->getDBO();
 	$breadcrumbs 	=& $mainframe->getPathWay();
 	$user			=& $mainframe->getUser();	
-	
+	// security check to see if link exists in a menu
+	$link = 'index.php?option=com_user&task=CheckIn';
+	$query = "SELECT id"
+	. "\n FROM #__menu"
+	. "\n WHERE link LIKE '%$link%'"
+	. "\n AND published = 1"
+	;
+	$database->setQuery( $query );
+	$exists = $database->loadResult();
+	if ( !$exists ) {						
+		mosNotAuth();
+		return;
+	}		
+
 	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	
@@ -172,6 +184,20 @@ function CheckIn( $userid, $access, $option ){
 		return;
 	}
 
+	// security check to see if link exists in a menu
+	$link = 'index.php?option=com_user&task=CheckIn';
+	$query = "SELECT id"
+	. "\n FROM #__menu"
+	. "\n WHERE link LIKE '%$link%'"
+	. "\n AND published = 1"
+	;
+	$database->setQuery( $query );
+	$exists = $database->loadResult();
+	if ( !$exists ) {						
+		mosNotAuth();
+		return;
+	}		
+	
 	$lt = mysql_list_tables($mosConfig_db);
 	$k = 0;
 	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">";
