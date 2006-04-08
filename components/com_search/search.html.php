@@ -141,16 +141,16 @@ class search_html {
 		global $mosConfig_hideCreateDate;
 		global $option, $Itemid;
 
-		$c = count ($rows);
+		$c 			= count ($rows);
+		$strResult 	= sprintf( JText::_( 'TOTALRESULTSFOUND' ), $totalRows, $searchword );
+		$image 		= mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 
 				// number of matches found
 				echo '<br />';
-            	$strResult = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $totalRows, $searchword );
 				eval ('echo "'. $strResult .'";');
 
-				$image = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 				?>
-				<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">
+				<a href="http://www.google.com/search?q=<?php echo $searchword; ?>" target="_blank">
 					<?php echo $image; ?></a>
 			</td>
 		</tr>
@@ -161,8 +161,8 @@ class search_html {
 		<div align="center">
 			<?php
 
-			$searchphrase = trim( JString::strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
-			$ordering = trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
+			$searchphrase 	= trim( JString::strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
+			$ordering 		= trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
 
 			$link = "index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
 			?>
@@ -265,26 +265,20 @@ class search_html {
 	 * @return void
 	 * @since 1.0
 	 */
-	function conclusion( $totalRows, $searchword, $pageNav ) {
+	function conclusion( $searchword, $pageNav ) {
 		global $option, $Itemid;
+		
+		$searchphrase 	= trim( JString::strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
+		$ordering 		= trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
+		
+		$link 			= "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
+		
 		?>
 		<tr>
 			<td colspan="3">
 				<div align="center">
-					<?php
-					$searchphrase = trim( JString::strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
-					$ordering = trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
-	
-					$link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
-	
-					echo $pageNav->writePagesLinks( $link );
-					?>
+					<?php echo $pageNav->writePagesLinks( $link ); ?>
 				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="3">
-
 			</td>
 		</tr>
 		</table>

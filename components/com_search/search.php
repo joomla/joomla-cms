@@ -97,29 +97,29 @@ function viewSearch() {
 	$lists = array();
 	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
-	$searchphrase = JRequest::getVar( 'searchphrase', 'any' );
-	$searchphrases = array();
+	$searchphrase 		= JRequest::getVar( 'searchphrase', 'any' );
+	$searchphrases 		= array();
 
-	$phrase = new stdClass();
-	$phrase->value = 'any';
-	$phrase->text = JText::_( 'Any words' );
-	$searchphrases[] = $phrase;
+	$phrase 			= new stdClass();
+	$phrase->value 		= 'any';
+	$phrase->text 		= JText::_( 'Any words' );
+	$searchphrases[] 	= $phrase;
 
-	$phrase = new stdClass();
-	$phrase->value = 'all';
-	$phrase->text = JText::_( 'All words' );
-	$searchphrases[] = $phrase;
+	$phrase 			= new stdClass();
+	$phrase->value 		= 'all';
+	$phrase->text 		= JText::_( 'All words' );
+	$searchphrases[] 	= $phrase;
 
-	$phrase = new stdClass();
-	$phrase->value = 'exact';
-	$phrase->text = JText::_( 'Exact phrase' );
-	$searchphrases[] = $phrase;
+	$phrase 			= new stdClass();
+	$phrase->value 		= 'exact';
+	$phrase->text 		= JText::_( 'Exact phrase' );
+	$searchphrases[] 	= $phrase;
 
-	$lists['searchphrase']= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
+	$lists['searchphrase' ]= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
 	JPluginHelper::importPlugin( 'search' );
 	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
-	$areas 	= JRequest::getVar( 'areas' );
+	$areas 			= JRequest::getVar( 'areas' );
 
 	// html output
 	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
@@ -208,7 +208,10 @@ function viewSearch() {
 		$limitstart = JRequest::getVar( 'limitstart', 0, 'get', 'int' );
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( $total, $limitstart, $limit );
-
+		
+		// prepares searchword for proper display in url
+		$searchword_clean = urlencode(stripslashes($searchword_clean));
+		
 		if ( $n ) {
 		// html output
 			search_html::display( $rows, $params, $page, $limitstart, $limit, $total, $totalRows, $searchword_clean );
@@ -218,14 +221,13 @@ function viewSearch() {
 		}
 
 		// html output
-		search_html::conclusion( $totalRows, $searchword_clean, $page );
-		
-		
+		search_html::conclusion( $searchword_clean, $page );		
 	}
 }
 
 function mosLogSearch( $search_term ) {
 	global $mainframe;
+	
 	$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
 
 	if ( @$enable_log_searches ) {
