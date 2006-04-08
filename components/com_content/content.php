@@ -45,16 +45,16 @@ class JContentController extends JController
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
-		$this->_menu->parameters->def('page_title', 1);
-		$this->_menu->parameters->def('pageclass_sfx', '');
-		$this->_menu->parameters->def('other_cat_section', 1);
-		$this->_menu->parameters->def('empty_cat_section', 0);
-		$this->_menu->parameters->def('other_cat', 1);
-		$this->_menu->parameters->def('empty_cat', 0);
-		$this->_menu->parameters->def('cat_items', 1);
-		$this->_menu->parameters->def('cat_description', 1);
-		$this->_menu->parameters->def('back_button', $this->_app->getCfg('back_button'));
-		$this->_menu->parameters->def('pageclass_sfx', '');
+		$this->_menu->parameters->def('page_title', 		1);
+		$this->_menu->parameters->def('pageclass_sfx', 		'');
+		$this->_menu->parameters->def('other_cat_section', 	1);
+		$this->_menu->parameters->def('empty_cat_section', 	0);
+		$this->_menu->parameters->def('other_cat', 			1);
+		$this->_menu->parameters->def('empty_cat', 			0);
+		$this->_menu->parameters->def('cat_items', 			1);
+		$this->_menu->parameters->def('cat_description', 	1);
+		$this->_menu->parameters->def('back_button', 		$this->_app->getCfg('back_button'));
+		$this->_menu->parameters->def('pageclass_sfx', 		'');
 
 		// Get the view
 		$view = & $this->getView();
@@ -91,24 +91,24 @@ class JContentController extends JController
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
-		$this->_menu->parameters->def('page_title',				1);
-		$this->_menu->parameters->def('title',							1);
-		$this->_menu->parameters->def('hits',							$this->_app->getCfg('hits'));
-		$this->_menu->parameters->def('author',						!$this->_app->getCfg('hideAuthor'));
-		$this->_menu->parameters->def('date',							!$this->_app->getCfg('hideCreateDate'));
-		$this->_menu->parameters->def('date_format',			JText::_('DATE_FORMAT_LC'));
-		$this->_menu->parameters->def('navigation',				2);
-		$this->_menu->parameters->def('display',					1);
-		$this->_menu->parameters->def('display_num',			$this->_app->getCfg('list_limit'));
-		$this->_menu->parameters->def('other_cat',				1);
-		$this->_menu->parameters->def('empty_cat',				0);
-		$this->_menu->parameters->def('cat_items',				1);
+		$this->_menu->parameters->def('page_title',			1);
+		$this->_menu->parameters->def('title',				1);
+		$this->_menu->parameters->def('hits',				$this->_app->getCfg('hits'));
+		$this->_menu->parameters->def('author',				!$this->_app->getCfg('hideAuthor'));
+		$this->_menu->parameters->def('date',				!$this->_app->getCfg('hideCreateDate'));
+		$this->_menu->parameters->def('date_format',		JText::_('DATE_FORMAT_LC'));
+		$this->_menu->parameters->def('navigation',			2);
+		$this->_menu->parameters->def('display',			1);
+		$this->_menu->parameters->def('display_num',		$this->_app->getCfg('list_limit'));
+		$this->_menu->parameters->def('other_cat',			1);
+		$this->_menu->parameters->def('empty_cat',			0);
+		$this->_menu->parameters->def('cat_items',			1);
 		$this->_menu->parameters->def('cat_description',	0);
-		$this->_menu->parameters->def('back_button',			$this->_app->getCfg('back_button'));
+		$this->_menu->parameters->def('back_button',		$this->_app->getCfg('back_button'));
 		$this->_menu->parameters->def('pageclass_sfx',		'');
-		$this->_menu->parameters->def('headings',					1);
-		$this->_menu->parameters->def('filter',							1);
-		$this->_menu->parameters->def('filter_type',				'title');
+		$this->_menu->parameters->def('headings',			1);
+		$this->_menu->parameters->def('filter',				1);
+		$this->_menu->parameters->def('filter_type',		'title');
 
 		// Get the view
 		$view = & $this->getView();
@@ -762,9 +762,9 @@ $controller->setViewName( $view, 'com_content', 'HTML' );
 
 // Register Extra tasks
 $controller->registerTask( 'blogcategorymulti', 'blogcategory' );
-$controller->registerTask( 'new', 'edit' );
-$controller->registerTask( 'apply', 'save' );
-$controller->registerTask( 'apply_new', 'save' );
+$controller->registerTask( 'new', 				'edit' );
+$controller->registerTask( 'apply', 			'save' );
+$controller->registerTask( 'apply_new', 		'save' );
 
 // Perform the Request task
 $controller->performTask( $task );

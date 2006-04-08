@@ -96,16 +96,24 @@ class JViewHTMLArticle extends JView
 		}
 
 		// Time to build the readmore button if it should be shown
-		if (($params->get('readmore') && @ $article->readmore) || $params->get('link_titles')) {
+		if ($params->get('readmore') || $params->get('link_titles')) {
 			if ($params->get('intro_only')) {
 				// Checks to make sure user has access to the full article
 				if ($article->access <= $user->get('gid')) {
-					$Itemid = JContentHelper::getItemid($article->id);
+					$Itemid = JContentHelper::getItemid($article->id);					
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
-					$linkText = JText::_('Read more...');
+					
+					if (@$article->readmore) {
+					// text for the readmore link
+						$linkText = JText::_('Read more...');
+					}
 				} else {
 					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-					$linkText = JText::_('Register to read more...');
+					
+					if (@$article->readmore) {
+					// text for the readmore link if accessible only if registered
+						$linkText = JText::_('Register to read more...');
+					}
 				}
 			}
 		}
