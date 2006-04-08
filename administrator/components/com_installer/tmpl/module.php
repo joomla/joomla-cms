@@ -62,7 +62,7 @@ class JInstallerExtensionTasks {
 				. "\n WHERE module LIKE 'mod_%' " 
 				. $and 
 				. "\n GROUP BY module, client_id" 
-				. "\n ORDER BY client_id, module"
+				. "\n ORDER BY iscore, client_id, module"
 				;
 		$database->setQuery($query);
 		$rows = $database->loadObjectList();

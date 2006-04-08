@@ -44,7 +44,7 @@ class JInstallerExtensionTasks
 		$query = 	"SELECT *" .
 					"\n FROM #__components" .
 					"\n WHERE parent = 0" .
-					"\n ORDER BY name";
+					"\n ORDER BY iscore, name";
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

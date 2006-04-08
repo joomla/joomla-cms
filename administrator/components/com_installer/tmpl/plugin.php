@@ -51,7 +51,7 @@ class JInstallerExtensionTasks {
 		$query = 	"SELECT id, name, folder, element, client_id, iscore" 
 					. "\n FROM #__plugins" 
 					. $and
-					. "\n ORDER BY folder, name"
+					. "\n ORDER BY iscore, folder, name"
 					;
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
