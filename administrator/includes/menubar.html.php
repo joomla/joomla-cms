@@ -34,7 +34,7 @@ class JMenuBar
 	function title($title, $icon = 'generic.png')
 	{
 		global $mainframe;
-		$mainframe->set('JComponentTitle', mosHTML::Header( JText::_($title), $icon ));
+		$mainframe->set('JComponentTitle', mosHTML::Header( $title, $icon ));
 	}
 
 	/**

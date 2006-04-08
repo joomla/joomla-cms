@@ -275,11 +275,15 @@ class JPagination extends JObject {
 	 * @since 1.0
 	 */
 	function getListFooter() {
+		global $mainframe;
+		
+		$lang = $mainframe->getLanguage();
 
 		$html = '<table class="adminlist"><tr><th colspan="3">';
 		$html .= $this->getPagesLinks();
 		$html .= '</th></tr><tr>';
-		$html .= '<td nowrap="nowrap" width="48%" align="right">'.JText::_('Display Num').'</td>';
+		$html .= '<td nowrap="nowrap" width="48%" align="'.($lang->isRTL() ? 'left' : 'right').'">';
+		$html .= JText::_('Display Num').'</td>';
 		$html .= '<td>'.$this->getLimitBox().'</td>';
 		$html .= '<td nowrap="nowrap" width="48%" >'.$this->getPagesCounter().'</td>';
 		$html .= '</tr></table>';

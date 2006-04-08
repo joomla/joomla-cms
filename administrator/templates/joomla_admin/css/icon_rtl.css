@@ -105,165 +105,165 @@
 /** toolbar icons **/
 
 div.icon-32-delete {
-	background: url(../../../images/delete_f2.png) no-repeat left;
+	background: url(../../../images/delete_f2.png) no-repeat right;
 }
 div.icon-32-help {
-	background: url(../../../images/help_f2.png) no-repeat left;
+	background: url(../../../images/help_f2.png) no-repeat right;
 }
 div.icon-32-cancel {
-	background: url(../../../images/cancel_f2.png) no-repeat left;
+	background: url(../../../images/cancel_f2.png) no-repeat right;
 }
 div.icon-32-apply {
-	background: url(../../../images/apply_f2.png) no-repeat left;
+	background: url(../../../images/apply_f2.png) no-repeat right;
 }
 div.icon-32-save {
-	background: url(../../../images/save_f2.png) no-repeat left;
+	background: url(../../../images/save_f2.png) no-repeat right;
 }
 div.icon-32-edit {
-	background: url(../../../images/edit_f2.png) no-repeat left;
+	background: url(../../../images/edit_f2.png) no-repeat right;
 }
 div.icon-32-copy {
-	background: url(../../../images/copy_f2.png) no-repeat left;
+	background: url(../../../images/copy_f2.png) no-repeat right;
 }
 div.icon-32-move {
-	background: url(../../../images/move_f2.png) no-repeat left;
+	background: url(../../../images/move_f2.png) no-repeat right;
 }
 div.icon-32-new {
-	background: url(../../../images/new_f2.png) no-repeat left;
+	background: url(../../../images/new_f2.png) no-repeat right;
 }
 div.icon-32-upload {
-	background: url(../../../images/upload_f2.png) no-repeat left;
+	background: url(../../../images/upload_f2.png) no-repeat right;
 }
 div.icon-32-send {
-	background: url(../../../images/publish_f2.png) no-repeat left;
+	background: url(../../../images/publish_f2.png) no-repeat right;
 }
 div.icon-32-default {
-	background: url(../../../images/publish_f2.png) no-repeat left;
+	background: url(../../../images/publish_f2.png) no-repeat right;
 }
 div.icon-32-assign {
-	background: url(../../../images/publish_f2.png) no-repeat left;
+	background: url(../../../images/publish_f2.png) no-repeat right;
 }
 div.icon-32-html {
-	background: url(../../../images/html_f2.png) no-repeat left;
+	background: url(../../../images/html_f2.png) no-repeat right;
 }
 div.icon-32-css {
-	background: url(../../../images/css_f2.png) no-repeat left;
+	background: url(../../../images/css_f2.png) no-repeat right;
 }
 div.icon-32-publish {
-	background: url(../../../images/publish_f2.png) no-repeat left;
+	background: url(../../../images/publish_f2.png) no-repeat right;
 }
 div.icon-32-unpublish {
-	background: url(../../../images/unpublish_f2.png) no-repeat left;
+	background: url(../../../images/unpublish_f2.png) no-repeat right;
 }
 div.icon-32-restore {
-	background: url(../../../images/restore_f2.png) no-repeat left;
+	background: url(../../../images/restore_f2.png) no-repeat right;
 }
 div.icon-32-trash {
-	background: url(../../../images/delete_f2.png) no-repeat left;
+	background: url(../../../images/delete_f2.png) no-repeat right;
 }
 div.icon-32-archive {
-	background: url(../../../images/archive_f2.png) no-repeat left;
+	background: url(../../../images/archive_f2.png) no-repeat right;
 }
 div.icon-32-unarchive {
-	background: url(../../../images/unarchive_f2.png) no-repeat left;
+	background: url(../../../images/unarchive_f2.png) no-repeat right;
 }
 div.icon-32-preview {
-	background: url(../../../images/preview_f2.png) no-repeat left;
+	background: url(../../../images/preview_f2.png) no-repeat right;
 }
 div.icon-32-properties {
-	background: url(../../../images/properties_f2.png) no-repeat left;
+	background: url(../../../images/properties_f2.png) no-repeat right;
 }
 div.icon-32-back {
-	background: url(../../../images/back_f2.png) no-repeat left;
+	background: url(../../../images/back_f2.png) no-repeat right;
 }
 div.icon-32-next {
-	background: url(../../../images/next_f2.png) no-repeat left;
+	background: url(../../../images/next_f2.png) no-repeat right;
 }
 div.icon-32-xml {
-	background: url(../../../images/xml_f2.png) no-repeat left;
+	background: url(../../../images/xml_f2.png) no-repeat right;
 }
 div.icon-32-downloads {
-	background: url(../../../images/downloads_f2.png) no-repeat left;
+	background: url(../../../images/downloads_f2.png) no-repeat right;
 }
 /** header icons **/
 div.icon-48-generic {
-	background: url(../../../images/generic.png) no-repeat left;
+	background: url(../../../images/generic.png) no-repeat right;
 }
 div.icon-48-checkin {
-	background: url(../../../images/checkin.png) no-repeat left;
+	background: url(../../../images/checkin.png) no-repeat right;
 }
 div.icon-48-cpanel {
-	background: url(../../../images/cpanel.png) no-repeat left;
+	background: url(../../../images/cpanel.png) no-repeat right;
 }
 div.icon-48-config {
-	background: url(../../../images/config.png) no-repeat left;
+	background: url(../../../images/config.png) no-repeat right;
 }
 div.icon-48-module {
-	background: url(../../../images/module.png) no-repeat left;
+	background: url(../../../images/module.png) no-repeat right;
 }
 div.icon-48-menu {
-	background: url(../../../images/menu.png) no-repeat left;
+	background: url(../../../images/menu.png) no-repeat right;
 }
 div.icon-48-trash {
-	background: url(../../../images/trash.png) no-repeat left;
+	background: url(../../../images/trash.png) no-repeat right;
 }
 div.icon-48-user {
-	background: url(../../../images/user.png) no-repeat left;
+	background: url(../../../images/user.png) no-repeat right;
 }
 div.icon-48-inbox {
-	background: url(../../../images/inbox.png) no-repeat left;
+	background: url(../../../images/inbox.png) no-repeat right;
 }
 div.icon-48-msgconfig {
-	background: url(../../../images/message_config.png) no-repeat left;
+	background: url(../../../images/message_config.png) no-repeat right;
 }
 div.icon-48-langmanager {
-	background: url(../../../images/langmanager.png) no-repeat left;
+	background: url(../../../images/langmanager.png) no-repeat right;
 }
 div.icon-48-mediamanager {
-	background: url(../../../images/mediamanager.png) no-repeat left;
+	background: url(../../../images/mediamanager.png) no-repeat right;
 }
 div.icon-48-help_header {
-	background: url(../../../images/help_header.png) no-repeat left;
+	background: url(../../../images/help_header.png) no-repeat right;
 }
 div.icon-48-impressions {
-	background: url(../../../images/impressions.png) no-repeat left;
+	background: url(../../../images/impressions.png) no-repeat right;
 }
 div.icon-48-browser {
-	background: url(../../../images/browser.png) no-repeat left;
+	background: url(../../../images/browser.png) no-repeat right;
 }
 div.icon-48-searchtext {
-	background: url(../../../images/searchtext.png) no-repeat left;
+	background: url(../../../images/searchtext.png) no-repeat right;
 }
 div.icon-48-thememanager {
-	background: url(../../../images/templatemanager.png) no-repeat left;
+	background: url(../../../images/templatemanager.png) no-repeat right;
 }
 div.icon-48-massemail {
-	background: url(../../../images/massemail.png) no-repeat left;
+	background: url(../../../images/massemail.png) no-repeat right;
 }
 div.icon-48-frontpage {
-	background: url(../../../images/frontpage.png) no-repeat left;
+	background: url(../../../images/frontpage.png) no-repeat right;
 }
 div.icon-48-sections {
-	background: url(../../../images/sections.png) no-repeat left;
+	background: url(../../../images/sections.png) no-repeat right;
 }
 div.icon-48-addedit {
-	background: url(../../../images/addedit.png) no-repeat left;
+	background: url(../../../images/addedit.png) no-repeat right;
 }
 div.icon-48-categories {
-	background: url(../../../images/categories.png) no-repeat left;
+	background: url(../../../images/categories.png) no-repeat right;
 }
 div.icon-48-install {
-	background: url(../../../images/install.png) no-repeat left;
+	background: url(../../../images/install.png) no-repeat right;
 }
 div.icon-48-dbbackup {
-	background: url(../../../images/backup.png) no-repeat left;
+	background: url(../../../images/backup.png) no-repeat right;
 }
 div.icon-48-dbrestore {
-	background: url(../../../images/dbrestore.png) no-repeat left;
+	background: url(../../../images/dbrestore.png) no-repeat right;
 }
 div.icon-48-dbquery {
-	background: url(../../../images/query.png) no-repeat left;
+	background: url(../../../images/query.png) no-repeat right;
 }
 div.icon-48-systeminfo {
-	background: url(../../../images/systeminfo.png) no-repeat left;
+	background: url(../../../images/systeminfo.png) no-repeat right;
 }
