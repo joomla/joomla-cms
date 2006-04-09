@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Apr-2006 Andy Miller
+ # Added some padding/js trickery to stop nifty corners from jumping around
+
 08-Apr-2006 Johan Janssens
  + Implemented hybrid javascript menu in new admin template
 
