@@ -23,10 +23,10 @@ $tstart = JProfiler::getmicrotime();
 	<jdoc:include type="head" />
 	<jdoc:tmpl name="isRTL" varscope="login.php" type="condition" conditionvar="LANG_ISRTL">
 		<jdoc:sub condition="1">
-			<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
+			<link href="templates/{TEMPLATE}/css/login_rtl.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 		<jdoc:sub condition="0">
-			<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
+			<link href="templates/{TEMPLATE}/css/login.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
 	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css" />

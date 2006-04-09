@@ -32,9 +32,7 @@ if ($hide) {
 	$menu = & buildMenu($user->get('usertype'));
 }
 
-echo "<div id=\"menu\">";
 $menu->renderMenu();
-echo "</div>";
 
 /**
 * Show the menu

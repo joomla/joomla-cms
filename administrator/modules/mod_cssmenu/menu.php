@@ -67,7 +67,7 @@ class JAdminCSSMenu extends JObject
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id=\"menuList\" class=\"adxm\">\n";
+			echo "<ul id=\"menu\">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
@@ -92,7 +92,7 @@ class JAdminCSSMenu extends JObject
 		 */
 		$class = '';
 		if ($this->_current->hasChildren()) {
-			$class = ' class="submenu"';
+			$class = ' class="node"';
 		} 
 		
 		/*
@@ -108,7 +108,7 @@ class JAdminCSSMenu extends JObject
 			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
 		} else
 		{
-			echo $this->_current->title."\n";
+			echo "<a href=\"#\">".$this->_current->title."</a>\n";
 		}
 		
 		/*
@@ -116,7 +116,7 @@ class JAdminCSSMenu extends JObject
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id=\"".$this->_current->title."Menu\">\n";
+			echo "<ul id=\"menu-".strtolower($this->_current->title)."\">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;

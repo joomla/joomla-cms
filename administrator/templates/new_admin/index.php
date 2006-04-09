@@ -16,7 +16,7 @@ $lang =& $mainframe->getLanguage();
 	<head>
 	<jdoc:include type="head" />
 	<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
-	<link href="templates/{TEMPLATE}/css/icon.css" rel="stylesheet" type="text/css" />
+	
 	<jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL">
 		<jdoc:sub condition="1">
 			<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -24,25 +24,11 @@ $lang =& $mainframe->getLanguage();
 	</jdoc:tmpl>
 	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css">
 	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print">
-	<script type="text/javascript" src="../includes/js/moofx/prototype.lite.js"></script>
-	<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
-	<script type="text/javascript" src="../includes/js/moofx/moo.fx.pack.js"></script>
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/moo.fx.effect.js"></script>
+	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/rounded_corners.js"></script>
-	<script type="text/javascript">
-	window.onload=function(){
-   
-		if(!NiftyCheck()) alert("hello");
-		Rounded("div.sidemenu-box","all","#fff","#f7f7f7","border #ccc");
-		Rounded("div.component","all","#fff","#fff","border #ccc");
-		Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
-		Rounded("div.element-box","all","#fff","#fff","border #ccc");
-		Rounded("div.submenu-box","all","#fff","#f2f2f2","border #ccc");
-		
-		
-	}
-	</script>
+	<script type="text/javascript" src="templates/{TEMPLATE}/js/template.js"></script>
+
 	</head>
 	<body>
 		<div id="header1">
@@ -53,6 +39,9 @@ $lang =& $mainframe->getLanguage();
 				</div>
 			</div>
 		</div>
+		<div id="menu-box">
+			<jdoc:include type="module" name="cssmenu" />
+		</div>
 		<div id="content-box">
 			<div id="content-box2">
 				<div id="content-pad">
@@ -62,7 +51,6 @@ $lang =& $mainframe->getLanguage();
 							<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
 							<jdoc:include type="modules" name="status" style="3" />
 							<div class="status-divider"></div>
-							<jdoc:include type="modules" name="menu" />
 						</div>
 					</div>
 					<div class="content-area">
@@ -118,15 +106,5 @@ $lang =& $mainframe->getLanguage();
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
 			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
 		</div>
-		
-<jdoc:tmpl name="initMoo" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
-	<jdoc:sub condition="1">
-	</jdoc:sub>
-	<jdoc:sub condition="0">
-		<script type="text/javascript">
-			init_moofx();
-		</script>
-	</jdoc:sub>
-</jdoc:tmpl>
 	</body>
 	</html>

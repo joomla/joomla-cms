@@ -1,0 +1,319 @@
+/**
+* @version $Id$
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * Joomla! 1.5 Admin template main css file
+ *
+ * @author		Andy Miller <andy.miller@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+
+/* -- General styles ------------------------------ */
+
+body {
+	margin: 10px; padding: 0;
+	background: #fff;
+	padding-bottom: 1px;
+	font-family: Arial Narrow, Helvetica, Arial, sans-serif; font-size: 76%;
+}
+
+html, body { height: 100%; }
+
+.clr { clear: both; overflow:hidden; }
+
+a, img { padding: 0; margin: 0; }
+
+img { border: 0 none; }
+
+form { margin: 0; padding: 0; }
+
+h1 {
+	margin: 0;
+	padding-bottom: 8px;
+	color: #0B55C4; font-size: 22px; font-weight: bold;
+}
+
+a:link    { color: #0B55C4; text-decoration: none; }
+a:visited { color: #0B55C4; text-decoration: none; }
+a:hover   { text-decoration: underline; }
+
+/* -- header styles ------------------------------ */
+
+#header1 { background: url(../images/j_header_middle.png) repeat-x; }
+#header2 { background: url(../images/j_header_right.png) 100% 0 no-repeat; }
+#header3 { background: url(../images/j_header_left.png) no-repeat; height: 54px; }
+
+#header3 span {
+	font-size: 22px; font-weight: bold;
+	color: #fff;
+	padding-left: 180px;
+	line-height: 44px;
+}
+
+#version {
+	float: right;
+	color: #fff;
+	padding-top: 25px;
+	padding-right: 5px;
+}
+
+.far-right {
+	margin-right: 6px !Important;
+	margin-right: 0px;
+	margin-top: 2px;
+	float: right;
+	text-align: right;
+}
+
+/* -- overall styles ------------------------------ */
+
+#footer1 { background: url(../images/j_bottom.png) repeat-x; } 
+#footer2 { background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
+#footer3 { background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
+
+#copyright { margin: 10px; text-align: center; }
+
+#content-box  { background: url(../images/j_border.png) 0 0 repeat-y; }
+#content-box2 { background: url(../images/j_border.png) 100% 0 repeat-y; }
+#content-pad  { padding: 10px 10px 0 10px; }
+
+.component { background: #fff; }
+
+.spacer { height: 10px; overflow: hidden; }
+
+.element-box   { background: #fff; }
+.element-pad   { padding: 10px; }
+.extra-padding { padding: 10px; }
+
+
+/* -- buttons */
+
+.button1-left {
+	background: url(../images/j_button1_left.png) no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button1-right {
+	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button1-right .prev {
+	float: left;
+	background: url(../images/j_button1_prev.png) no-repeat;
+}
+
+.button1-left .next {
+	float: left;
+	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
+}
+
+.button1-left a, 
+.button1-right a {
+	display: block;
+	height: 26px;
+	float: left;
+	line-height: 26px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	cursor: pointer;
+}
+
+.button1-left a {
+	padding: 0 30px 0 6px;
+}
+
+.button1-right a {
+	padding: 0 6px 0 30px;
+}
+
+/* -- status layout */
+
+span.unread-messages,
+span.no-unread-messages,
+span.loggedin-users,
+span.logout {
+	display: block;
+	float: left;
+	padding-left: 22px;
+	line-height: 16px;
+	padding-right: 10px;
+	padding-top: 4px;
+	margin-bottom: 5px;
+}
+
+span.unread-messages,
+span.no-unread-messages { background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat; }
+span.unread-messages a  { font-weight: bold; }
+span.loggedin-users     { background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat; }
+span.logout             { background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat; }
+
+div.status-divider {
+	clear:left;
+	height: 1px !important;
+	height: 3px;
+	overflow: hidden;
+}
+
+/** administrator pages **/
+
+.sidemenu-box {
+	background: #F7F7F7;
+	float: left;
+	width: 20%;
+}
+
+.sidemenu-pad {
+	padding: 0;
+	margin-bottom: 0 !Important;
+}
+
+.content-area {
+	float: right;
+	width: 80%;
+}
+
+.content-area-full {
+	clear: both;
+	float: none;
+	width: 100%;
+}
+
+.content-area .content-pad {
+	padding-left: 10px;
+}
+
+.content-area-full .content-pad {
+	padding: 0;
+}
+
+/** toolbar **/
+
+.toolbar-box {
+	background: #fbfbfb;
+	width: 100%;
+}
+
+.toolbar-pad {
+	padding: 0 5px;
+	padding-bottom: 2px;
+}
+
+div.header {
+	color: #0B55C4;
+	font-size: 22px;
+	line-height: 48px;
+	font-weight: bold;
+	padding-left: 55px;
+}
+
+div.toolbar {
+	float: right;
+	text-align: right;
+	padding: 0;
+}
+
+table.toolbar {
+	border-collapse: collapse;
+	width: 1;
+	padding: 0;
+	margin: 0;
+	
+}
+
+table.toolbar td {
+	padding: 1px;
+	padding-left: 4px;
+	text-align: center;
+	color: #666;
+	height: 48px;
+}
+
+table.toolbar td.spacer {
+	width: 10px;
+}
+
+table.toolbar td.divider {
+	border-right: 1px solid #eee;
+	width: 5px;
+}
+
+table.toolbar div {
+	float: none;
+	width: 32px;
+	height: 32px;
+	margin: 0 auto;
+}
+
+table.toolbar a {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	display: block;
+	border: 1px solid #fbfbfb;
+	padding: 1px 5px;
+	cursor: pointer;
+}
+
+table.toolbar a:hover {
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-decoration: none;
+}
+
+/** submenu **/
+
+.submenu-box {
+	margin-top: 10px;
+	background: #f2f2f2;
+	width: 100%;
+}
+
+.submenu-pad {
+	padding: 0;
+	margin: 0;
+}
+
+.submenu-box ul {
+	margin: 0;
+	padding: 0;
+	height: 12px;
+}
+
+.submenu-box ul li {
+	list-style: none;
+	padding: 0 10px;
+	line-height: 12px;
+	float: left;
+	border-right: 1px solid #ccc;
+}
+
+.submenu-box li a {
+	color: #666;
+	font-weight: bold;
+}
+
+.submenu-box li a:hover {
+	color: #0B55C4;
+	text-decoration: none;
+}
+
+/** for massmail component **/
+input#mm_subject    { width: 200px; }
+textarea#mm_message { width: 200px; }
+
