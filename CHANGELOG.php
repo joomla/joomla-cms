@@ -41,6 +41,7 @@ Legend:
  + Store user state on administrator auto-logout so that when the user logs in again, the 
    state is restored
  ^ com_content now uses JMessage
+ # artf4250 : FTP directory listing returns double entries (with fix proposal)
 
 09-Apr-2006 Andy Miller
  # Added some padding/js trickery to stop nifty corners from jumping around
