@@ -88,12 +88,12 @@ class JInstallerController
 		 * Move uploaded file
 		 */
 		jimport('joomla.filesystem.file');		
-		$uploaded = JFile::upload($userfile['tmp_name'], dirname($userfile['tmp_name']).DS.$userfile['name']);
+		$uploaded = JFile::upload($userfile['tmp_name'], JPATH_SITE.DS.'media'.DS.$userfile['name']);
 
 		/*
 		 * Unpack the downloaded package file
 		 */
-		$package = JInstallerHelper::unpack(dirname($userfile['tmp_name']).DS.$userfile['name']);
+		$package = JInstallerHelper::unpack(JPATH_SITE.DS.'media'.DS.$userfile['name']);
 
 		/*
 		 * Was the package unpacked?
@@ -118,7 +118,7 @@ class JInstallerController
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
-			JInstallerHelper::cleanupInstall(dirname($userfile['tmp_name']).DS.$userfile['name'], $package['extractdir']);
+			JInstallerHelper::cleanupInstall(JPATH_SITE.DS.'media'.DS.$userfile['name'], $package['extractdir']);
 		} else {
 			/*
 			 * Package installed sucessfully
@@ -126,7 +126,7 @@ class JInstallerController
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
-			JInstallerHelper::cleanupInstall(dirname($userfile['tmp_name']).DS.$userfile['name'], $package['extractdir']);
+			JInstallerHelper::cleanupInstall(JPATH_SITE.DS.'media'.DS.$userfile['name'], $package['extractdir']);
 		}
 	}
 

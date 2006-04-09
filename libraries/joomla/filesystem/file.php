@@ -401,7 +401,7 @@ class JFile {
 
 			// Copy the file to the destination directory
 			if ($ftp->store($src, $dest)) {
-				$ftp->chmod($dest, 644);
+				$ftp->chmod($dest, 0777);
 				$ret = true;
 			} else {
 				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));

@@ -1233,11 +1233,9 @@ class JInstallerHelper
 			$zipfile = new PclZip($archivename);
 
 			// Constants used by the zip library
-			if (JPATH_ISWIN)
-			{
+			if (JPATH_ISWIN) {
 				define('OS_WINDOWS', 1);
-			} else
-			{
+			} else {
 				define('OS_WINDOWS', 0);
 			}
 
@@ -1250,7 +1248,9 @@ class JInstallerHelper
 				JError::raiseWarning(1, JText::_('Unrecoverable error').' "'.$zipfile->errorName(true).'"');
 				return false;
 			}
-
+			// Set permissions for extracted dir
+			JPath::setPermissions($extractdir, '0666', '0777');
+			
 			// Free up PCLZIP memory
 			unset ($zipfile);
 		} else
@@ -1272,12 +1272,14 @@ class JInstallerHelper
 			/*
 			 * Now its time to extract the archive
 			 */
-			if (!$archive->extractModify($extractdir, ''))
-			{
+			if (!$archive->extractModify($extractdir, '')) {
 				// Unable to extract the archive, set an error and fail
 				JError::raiseWarning(1, JText::_('Extract Error'));
 				return false;
 			}
+
+			// Set permissions for extracted dir
+			JPath::setPermissions($extractdir, '0666', '0777');
 
 			// Free up PCLTAR memory
 			unset ($archive);

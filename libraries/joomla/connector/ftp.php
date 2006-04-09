@@ -227,9 +227,14 @@ class JFTP extends JObject {
 	function login($user = 'anonymous', $pass = 'jftp@joomla.org') {
 
 		// Send the username
-		if (!$this->_putCmd('USER '.$user, 331)) {
+		if (!$this->_putCmd('USER '.$user, array(331, 503))) {
 			JError::raiseWarning('33', 'JFTP::login: Bad Username.', 'Server response:'.$this->_response.' [Expected: 331] Username sent:'.$user );
 			return false;
+		}
+
+		// If we are already logged in, continue :)
+		if ($this->_responseCode == 503) {
+			return true;
 		}
 
 		// Send the password
@@ -992,18 +997,18 @@ class JFTP extends JObject {
 		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts) && time() - $time < 5);
 
 		// Separate the code from the message
-		$responseCode = $parts[1];
-		$responseMsg = $parts[0];
+		$this->_responseCode = $parts[1];
+		$this->_responseMsg = $parts[0];
 
 		// Did the server respond with the code we wanted?
 		if (is_array($expected)) {
-			if (in_array($responseCode, $expected)) {
+			if (in_array($this->_responseCode, $expected)) {
 				$retval = true;
 			} else {
 				$retval = false;
 			}
 		} else {
-			if ($responseCode == $expected) {
+			if ($this->_responseCode == $expected) {
 				$retval = true;
 			} else {
 				$retval = false;

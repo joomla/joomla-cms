@@ -890,10 +890,11 @@ class JInstallationHelper
 
 				$thePath = $ftpPath;
 			}
-			$ftpPath .= "/".$parts[$i];
+			$ftpPath .= $parts[$i]."/";
 		}
 
 		$thePath = str_replace($thePath, '', JPATH_SITE);
+		
 		return ($thePath == '') ? "/" : $thePath."/";
 	}
 
