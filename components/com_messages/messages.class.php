@@ -22,8 +22,5 @@ jimport('joomla.utilities.message');
 * @deprecated	As of 1.5
 */
 class mosMessage extends JMessage {
-	function __construct( &$db ) {
-		parent::__construct( '#__messages', 'message_id', $db );
-	}
 }
 ?>

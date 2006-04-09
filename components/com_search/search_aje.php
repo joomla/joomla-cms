@@ -158,7 +158,7 @@ function viewSearch() {
 
 		search_html::searchintro( $searchword_clean, $params );
 
-		mosLogSearch( $searchword );
+		logSearch( $searchword );
 		$phrase 	= JRequest::getVar( 'searchphrase' );
 		$ordering 	= JRequest::getVar( 'ordering' );
 
@@ -230,7 +230,7 @@ function viewSearch() {
 	}
 }
 
-function mosLogSearch( $search_term ) {
+function logSearch( $search_term ) {
 	global $database;
 	global $mosConfig_enable_log_searches;
 

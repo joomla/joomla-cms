@@ -470,7 +470,8 @@ class JContentController extends JController
 			$users = $db->loadResultArray();
 			foreach ($users as $user_id)
 			{
-				$msg = new mosMessage($db);
+				jimport('joomla.utilities.message');
+				$msg = new JMessage($db);
 				$msg->send($user->get('id'), $user_id, "New Item", sprintf(JText::_('ON_NEW_CONTENT'), $user->get('username'), $row->title, $section, $category));
 			}
 		}
