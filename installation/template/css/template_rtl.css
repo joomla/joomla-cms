@@ -98,6 +98,7 @@ form {
 	background: #F7F7F7;
 	float: right;
 	width: 170px;
+	padding: 5px 1px;
 }
 
 #stepbarpad {
@@ -229,6 +230,7 @@ span.step {
 
 #installer {
 	background: #fff;
+	padding: 5px 1px;
 }
 
 #installerpad {
@@ -260,6 +262,7 @@ span.step {
 	background: #fbfbfb;
 	width: 100% !important;
 	width: 99%;
+	padding: 5px 1px;
 }
 
 .extra-padding {

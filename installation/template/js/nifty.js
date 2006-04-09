@@ -52,6 +52,7 @@ else if(wich.indexOf("br")>=0){
 var v=getElementsBySelector(selector);
 var l=v.length;
 for(i=0;i<l;i++){
+	v[i].style.padding="0";
     if(edges) AddBorder(v[i],ecolor);
     if(t) AddTop(v[i],bk,color,ecolor,prefixt);
     if(b) AddBottom(v[i],bk,color,ecolor,prefixb);
