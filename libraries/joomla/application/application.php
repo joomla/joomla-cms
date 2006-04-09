@@ -321,8 +321,8 @@ class JApplication extends JObject
 				}
 
 				// Clean the cache for this user
-				$cache = & JFactory::getCache();
-				$cache->cleanCache();
+				//$cache = & JFactory::getCache();
+				//$cache->cleanCache();
 				return true;
 			}
 		}
@@ -365,8 +365,8 @@ class JApplication extends JObject
 		if (!in_array(false, $results, true)) 
 		{
 			// Clean the cache for this user
-			$cache = & JFactory::getCache();
-			$cache->cleanCache();
+			//$cache = & JFactory::getCache();
+			//$cache->cleanCache();
 
 			// TODO: JRegistry will make this unnecessary
 			// Get the session object
@@ -717,8 +717,11 @@ class JApplication extends JObject
 			$session->update();
 		} else {
 
-			//make sure the session is cleared
-			JSession::clear();
+			//make sure the session is cleared if we are logging in
+			$option = JRequest::getVar('option');
+			if ($option == 'login') {
+				JSession::clear();
+			}
 			
 			//create persistance store in the session
 			JSession::set('registry', new JRegistry('application'));

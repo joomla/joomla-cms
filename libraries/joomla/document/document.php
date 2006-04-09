@@ -529,6 +529,9 @@ class JDocument extends JTemplate
 			ob_end_clean();
 		}
 		
+		// Add the option variable to the template
+		$this->addVar($filename, 'option', $option);
+
 		return $contents;
 	}
 	

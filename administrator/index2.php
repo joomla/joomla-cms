@@ -41,15 +41,18 @@ JPluginHelper::importPlugin( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-// Get the global option variable and create the pathway
-$option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
-$mainframe->_createPathWay( );	
-
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
 
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
+
+// load a stored user state if it exists
+$mainframe->loadStoredUserState();
+
+// Get the global option variable and create the pathway
+$option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
+$mainframe->_createPathWay( );	
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	josRedirect( 'index.php');

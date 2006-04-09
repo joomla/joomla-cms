@@ -210,6 +210,7 @@ function josRedirect( $url, $msg='' )
     /*
      * Instantiate an input filter and process the URL and message
      */
+	jimport( 'phpinputfilter.inputfilter' );
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
 	if (!empty($msg)) {

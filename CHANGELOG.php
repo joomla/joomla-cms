@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Apr-2006 Louis Landry
+ + Store user state on administrator auto-logout so that when the user logs in again, the 
+   state is restored
+
 09-Apr-2006 Andy Miller
  # Added some padding/js trickery to stop nifty corners from jumping around
 

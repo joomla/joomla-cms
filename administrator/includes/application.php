@@ -149,14 +149,13 @@ class JAdministrator extends JApplication
 	{
 		$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
-	
+
 		if (parent::login($username, $password)) 
 		{
 			$this->setUserState( 'application.lang', JRequest::getVar( 'lang', $this->getCfg('lang_administrator') ) );
 			JSession::pause();
 
 			JAdministrator::purgeMessages();
-		
 			josRedirect( 'index2.php' );
 		}
 		
@@ -228,6 +227,39 @@ class JAdministrator extends JApplication
 		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
 	}
 	
+	/**
+	 * Set the user session
+	 *
+	 * @access public
+	 * @param string	The sessions name
+	 */
+	function setSession($name) 
+	{
+		$this->_createSession($name);
+		
+		if (JSession::isIdle()) {
+			// Build the URL
+			$uri = JURI::getInstance();
+			$url = basename($uri->getPath());
+			$url .= $uri->toString(array('query', 'fragment'));
+
+			// Build the user state
+			$state = new stdClass();
+			$state->post	= $_POST;
+			$state->get		= $_GET;
+			$state->request	= $_REQUEST;
+
+			// Store the user state 
+			$cache = & JFactory::getCache();
+			$user = $this->getUser();
+			$cache->save(serialize($state), md5($user->get('id')), 'autoLogoutState');
+
+			$this->logout();
+		}
+
+		JSession::updateIdle();
+	}
+
 	/**
 	* Get the template
 	* 
@@ -326,6 +358,25 @@ class JAdministrator extends JApplication
 			$db->setQuery( $query );
 			$db->query();
 		}		
+	}
+	
+	function loadStoredUserState()
+	{
+		// Get the stored the user state if it exists 
+		$cache	= & JFactory::getCache();
+		$user	= & $this->getUser();
+		$state	= unserialize($cache->get(md5($user->get('id')), 'autoLogoutState'));
+		$cache->remove(md5($user->get('id')), 'autoLogoutState');
+
+		// If the stored user state exists, lets restore it, remove the stored state and go back to where we were.
+		if ($state) {
+			$_POST		= $state->post;
+			$_GET		= $state->get;
+			$_REQUEST	= $state->request;
+			return true;
+		}
+		// No stored user state exists
+		return false;		
 	}
 }
 
