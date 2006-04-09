@@ -239,6 +239,7 @@ table.adminlist th {
 	background-repeat: repeat;
 	font-size: 11px;
 	color: #000;
+	text-align: right;
 }
 table.adminlist th.title {
 	text-align: right;
@@ -262,6 +263,7 @@ table.adminlist tr.row1 {
 table.adminlist td {
 	border-bottom: 1px solid #e5e5e5;
 	padding: 4px;
+	text-align: right;
 }
 table.adminlist tr.row0:hover {
 	background-color: #f1f1f1;
@@ -484,7 +486,7 @@ legend {
 }
 
 #pane-document   fieldset  { border: 1px #ccc solid;  }
-#pane-navigation fieldset  {  }
+#pane-navigation fieldset  { 	 }
 
 #pane-navigation ul   { margin-left: 0; padding-left: 20px;}
 #pane-navigation ul a { cursor: pointer; }
