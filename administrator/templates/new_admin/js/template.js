@@ -43,10 +43,8 @@ addLoadEvent(function() {
 
 addLoadEvent(function() {  
 	if(!NiftyCheck()) alert("hello");
-	Rounded("div.sidemenu-box","all","#fff","#f7f7f7","border #ccc");
 	Rounded("div.component","all","#fff","#fff","border #ccc");
 	Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
 	Rounded("div.element-box","all","#fff","#fff","border #ccc");
-	Rounded("div.submenu-box","all","#fff","#f2f2f2","border #ccc");		
 });
 

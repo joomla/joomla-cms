@@ -26,7 +26,6 @@ $lang =& $mainframe->getLanguage();
 	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print">
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/rounded_corners.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/template.js"></script>
 
 	</head>
@@ -39,21 +38,19 @@ $lang =& $mainframe->getLanguage();
 				</div>
 			</div>
 		</div>
-		<div id="menu-box">
-			<jdoc:include type="module" name="cssmenu" />
+		<div id="top-box">
+			<div id="status-box">
+				<jdoc:include type="modules" name="status" style="3" />
+			</div>
+			<div id="menu-box">
+				<jdoc:include type="module" name="cssmenu" />
+			</div>
+			<div class="clr"></div>
 		</div>
 		<div id="content-box">
 			<div id="content-box2">
 				<div id="content-pad">
-					<div class="sidemenu-box">
-						<div class="sidemenu-pad">
-							<!-- toolbox module here -->
-							<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
-							<jdoc:include type="modules" name="status" style="3" />
-							<div class="status-divider"></div>
-						</div>
-					</div>
-					<div class="content-area">
+					<div class="content-area-full">
 						<div class="content-pad">
 							<div class="toolbar-box">
 								<div class="toolbar-pad">
@@ -63,35 +60,18 @@ $lang =& $mainframe->getLanguage();
 								</div>
 								<div class="clr"></div>
 							</div>
-						</div>
-					</div>
-	
-	<jdoc:tmpl name="fullsizeComponent" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
-		<jdoc:sub condition="1">
-					<div class="content-area-full">
-		</jdoc:sub>
-		<jdoc:sub condition="0">
-					<div class="content-area">
-		</jdoc:sub>
-	</jdoc:tmpl>
-						<div class="content-pad">
-	
-	
-								<jdoc:include type="modules" name="submenu" />
-								<div class="spacer"></div>
-								<div class="element-box">
-									<div class="element-pad">
-										<jdoc:include type="component" />
-									</div>
+							<div class="spacer"></div>
+							<div class="element-box">
+								<div class="element-pad">
+									<jdoc:include type="component" />
 								</div>
 							</div>
-			
 							<noscript>
 								<jdoc:translate key="WARNJAVASCRIPT" />
 							</noscript>
-							
+					
+							<div class="clr"></div>
 						</div>
-						<div class="clr"></div>
 					</div>
 				</div>
 				<div class="clr"></div>

@@ -26,13 +26,17 @@
 
 #login-content-pad { padding-top: 40px; padding-bottom: 100px; }
 
-#login           { background: #fff; margin: 0 auto; width: 500px; }
+#login           { background: #fff; margin: 0 auto; width: 500px; padding: 5px 1px;}
 #login .inputbox { width: 120px; }
 
 table.login     { width: 100%; padding: 0; margin: 0; }
 td.login-button { text-align: right; }
 
-#login-form     { float: right; width: 210px; }
+#content-box {
+	border-right: 1px solid #ccc;
+}
+
+#login-form     { float: right; width: 210px; padding: 5px 1px;}
 
 #loginpad {
 	padding: 20px; padding-bottom: 60px;

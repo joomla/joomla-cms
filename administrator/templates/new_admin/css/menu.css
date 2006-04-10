@@ -38,30 +38,31 @@
 /* ---- Menu layout -------------------------- */
 
 #menu {
-	height: 2.1em !important;
-	height /**/: 1.923em;
-	padding-left: 1em;
-	background-color: #F1F3F5;
-	border-bottom: 0.1em solid #333333;
-	border-top: 0.5em solid #6D9D2E;
+
 }
 
-#menu ul    { border: 0.1em solid #8C867B; background: #F1F3F5 url(../images/bg-menu.gif) repeat-y left;}
-#menu ul li.node { background: transparent url(../images/arrow.png) no-repeat right 50%; }
+#menu li { 
+	border-left: 1px solid #fff;
+	border-right: 1px solid #d8d8d8;
+}
+#menu li li { border: 0;}
+
+#menu ul    { border: 0.1em solid #ccc; background: #f0f0f0 url(../images/bg-menu.gif) repeat-y left;}
+#menu ul li.node { background: transparent url(../images/j_arrow.png) no-repeat right 50%; }
 #menu ul li.seperator { background: #DDE1E6 url(../images/bg-menu.gif);  height: 1px;  }
 
 #menu a {
-	padding: 0.35em 0.5em 0.3em;
+	padding: 0.35em 1em 0.35em;
 	margin: 0 1px 0 1px;
 	color: #333333;
 	line-height: 1.4em; vertical-align: middle;
-	font-size: 1em; font-weight: bold; text-decoration: none;
+	font-size: 11px; font-weight: bold; text-decoration: none;
 	cursor: default;
 	background-repeat: no-repeat; background-position: left 50%
 }
 
 #menu ul a {
-	font-size: 0.90em;
+	font-size: 11px;
 	font-weight: normal;
 	padding-left: 25px;
 	padding-right: 20px;

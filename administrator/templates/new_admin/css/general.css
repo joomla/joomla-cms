@@ -24,7 +24,7 @@ body {
 	margin: 10px; padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
-	font-family: Arial Narrow, Helvetica, Arial, sans-serif; font-size: 76%;
+	font-family: Arial, Helvetica, sans-serif; font-size: 76%;
 }
 
 html, body { height: 100%; }
@@ -87,11 +87,11 @@ a:hover   { text-decoration: underline; }
 #content-box2 { background: url(../images/j_border.png) 100% 0 repeat-y; }
 #content-pad  { padding: 10px 10px 0 10px; }
 
-.component { background: #fff; }
+.component { background: #fff; padding: 5px 1px;}
 
 .spacer { height: 10px; overflow: hidden; }
 
-.element-box   { background: #fff; }
+.element-box   { background: #fff; padding: 5px 1px;}
 .element-pad   { padding: 10px; }
 .extra-padding { padding: 10px; }
 
@@ -169,17 +169,20 @@ div.status-divider {
 }
 
 /** administrator pages **/
-
-.sidemenu-box {
-	background: #F7F7F7;
-	float: left;
-	width: 20%;
+#top-box {
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #f0f0f0;
 }
 
-.sidemenu-pad {
-	padding: 0;
-	margin-bottom: 0 !Important;
+#status-box {
+	float: right;
 }
+
+#menu-box {
+}
+
 
 .content-area {
 	float: right;
@@ -204,7 +207,7 @@ div.status-divider {
 
 .toolbar-box {
 	background: #fbfbfb;
-	width: 100%;
+	padding: 5px 1px;
 }
 
 .toolbar-pad {
@@ -273,43 +276,6 @@ table.toolbar a:hover {
 	border-top: 1px solid #eee;
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
-	text-decoration: none;
-}
-
-/** submenu **/
-
-.submenu-box {
-	margin-top: 10px;
-	background: #f2f2f2;
-	width: 100%;
-}
-
-.submenu-pad {
-	padding: 0;
-	margin: 0;
-}
-
-.submenu-box ul {
-	margin: 0;
-	padding: 0;
-	height: 12px;
-}
-
-.submenu-box ul li {
-	list-style: none;
-	padding: 0 10px;
-	line-height: 12px;
-	float: left;
-	border-right: 1px solid #ccc;
-}
-
-.submenu-box li a {
-	color: #666;
-	font-weight: bold;
-}
-
-.submenu-box li a:hover {
-	color: #0B55C4;
 	text-decoration: none;
 }
 
