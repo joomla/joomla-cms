@@ -41,7 +41,7 @@ class JInstallerExtensionTasks {
 		if ($filter == NULL) {
 			$and = '';
 		} else {
-			$and = "\n AND folder = '$filter'";
+			$and = "\n WHERE folder = '$filter'";
 		}
 		/*
 		 * Get a database connector
