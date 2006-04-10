@@ -365,11 +365,12 @@ class JAdministrator extends JApplication
 		// Get the stored the user state if it exists 
 		$cache	= & JFactory::getCache();
 		$user	= & $this->getUser();
-		$state	= unserialize($cache->get(md5($user->get('id')), 'autoLogoutState'));
+		$state	= $cache->get(md5($user->get('id')), 'autoLogoutState');
 		$cache->remove(md5($user->get('id')), 'autoLogoutState');
 
 		// If the stored user state exists, lets restore it, remove the stored state and go back to where we were.
 		if ($state) {
+			$state		= unserialize($state);
 			$_POST		= $state->post;
 			$_GET		= $state->get;
 			$_REQUEST	= $state->request;

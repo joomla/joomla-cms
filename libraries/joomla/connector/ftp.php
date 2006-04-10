@@ -861,7 +861,7 @@ class JFTP extends JObject {
 		 */
 		if ($osType == 'UNIX') {
 			foreach ($contents as $file) {
-				$tmp_array = array();
+				$tmp_array = null;
 				if (ereg("([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)", $file, $regs)) {
 					$fType = (int) strpos("-dl", $regs[1] { 0 });
 					//$tmp_array['line'] = $regs[0];
@@ -883,12 +883,14 @@ class JFTP extends JObject {
 				if ($type == 'folders' && $tmp_array['type'] == 0) {
 					continue;
 				}
-				$dir_list[] = $tmp_array;
+				if (is_array($tmp_array)) {
+					$dir_list[] = $tmp_array;
+				}
 			}
 		}
 		elseif ($osType == 'MAC') {
 			foreach ($contents as $file) {
-				$tmp_array = array();
+				$tmp_array = null;
 				if (ereg("([-dl][rwxstST-]+).* ?([0-9 ]* )?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)", $file, $regs)) {
 					$fType = (int) strpos("-dl", $regs[1] { 0 });
 					//$tmp_array['line'] = $regs[0];
@@ -910,11 +912,13 @@ class JFTP extends JObject {
 				if ($type == 'folders' && $tmp_array['type'] == 0) {
 					continue;
 				}
-				$dir_list[] = $tmp_array;
+				if (is_array($tmp_array)) {
+					$dir_list[] = $tmp_array;
+				}
 			}
 		} else {
 			foreach ($contents as $file) {
-				$tmp_array = array();
+				$tmp_array = null;
 				if (ereg("([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)", $file, $regs)) {
 					// Four digit year fix
 					if ($regs[3] < 70) {
@@ -942,7 +946,9 @@ class JFTP extends JObject {
 				if ($type == 'folders' && $tmp_array['type'] == 0) {
 					continue;
 				}
-				$dir_list[] = $tmp_array;
+				if (is_array($tmp_array)) {
+					$dir_list[] = $tmp_array;
+				}
 			}
 		}
 
