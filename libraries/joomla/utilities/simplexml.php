@@ -284,7 +284,7 @@ class JSimpleXML extends JObject
         //If it isn't root level, use the stack to find the parent
         else
         {
-            //Get the name which points to the current direct parent, relative to $this
+			 //Get the name which points to the current direct parent, relative to $this
             $parent = $this->_getStackLocation();
             
             //Add the child

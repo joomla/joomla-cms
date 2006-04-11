@@ -140,7 +140,6 @@ class JToolBar extends JObject
 	 */
 	function render()
 	{
-
 		/*
 		 * Initialize variables
 		 */
@@ -262,11 +261,9 @@ class JToolBar extends JObject
 	 */
 	function addButtonDir($dir)
 	{
-		if (is_array($dir))
-		{
+		if (is_array($dir)) {
 			$this->_buttonDirs = array_merge($this->_buttonDirs, $dir);
-		} else
-		{
+		} else {
 			array_push($this->_buttonDirs, $dir);
 		}
 	}
@@ -278,8 +275,7 @@ class JToolBar extends JObject
 	 * @return	string
 	 * @since	1.5
 	 */
-	function getIncludePath()
-	{
+	function getIncludePath() {
 		return JBUTTON_INCLUDE_PATH;
 	}
 }

@@ -29,19 +29,6 @@ $lang =& $mainframe->getLanguage();
 	</jdoc:sub>
 </jdoc:tmpl>
 
-<!--[if !IE]> <-->
-
-<!--> <![endif]-->
-<style type="text/css" media="screen, tv, projection">
-	@import "templates/{TEMPLATE}/css/menu.css";
-</style>
-<!--[if lte IE 6]>
-<style type="text/css" media="screen, tv, projection">
-	@import "templates/{TEMPLATE}/css/menu4ie.css";
-	body { behavior:url("templates/{TEMPLATE}/js/ADxMenu.htc"); }
-</style>
-<![endif]-->
-
 </head>
 <body>
 <div id="wrapper">

@@ -11,9 +11,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// ensure this file is being included by a parent file
-defined('_JEXEC') or die('Restricted access');
-
 /**
  * Pagination Class.  Provides a common interface for content pagination for the
  * Joomla! Framework
@@ -23,7 +20,8 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage	Presentation
  * @since		1.5
  */
-class JPagination extends JObject {
+class JPagination extends JObject 
+{
 
 	/**
 	 * The record number to start dislpaying from

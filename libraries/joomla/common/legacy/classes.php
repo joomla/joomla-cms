@@ -901,4 +901,26 @@ class MENU_Default
 	}
 }
 
+/**
+ * Legacy class, use JPanel instead
+ * 
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ * @subpackage	1.5
+ */
+jimport('joomla.presentation.pane'); 
+class mosTabs extends JPaneTabs
+{
+	function __construct( $useCookies, $xhtml = null) {
+		parent::__construct( $useCookies );
+	}
+	
+	function startTab( $tabText, $paneid ) {
+		$this->startPanel( $tabText, $paneid);
+	}
+
+	function endTab()  {
+		$this->endPanel();
+	}
+}
 ?>

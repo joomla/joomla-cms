@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Apr-2006 Johan Janssens
+ ^ Deprecated mosTabs, use JPane instead
+
 09-Apr-2006 Louis Landry
  + Store user state on administrator auto-logout so that when the user logs in again, the 
    state is restored

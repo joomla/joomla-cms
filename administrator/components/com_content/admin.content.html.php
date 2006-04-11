@@ -23,13 +23,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Content
  * @since 1.0
  */
-class ContentView {
-
+class ContentView 
+{
 	/**
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showContent( &$rows, &$lists, $pageNav, $redirect ) {
+	function showContent( &$rows, &$lists, $pageNav, $redirect ) 
+	{
 		global $my, $mainframe, $database;
 		
 		/*
@@ -276,7 +277,8 @@ class ContentView {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect ) {
+	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect ) 
+	{
 		global $my, $mainframe;
 		
 		/*
@@ -431,7 +433,8 @@ class ContentView {
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, &$menus ) {
+	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, &$menus ) 
+	{
 		global $database;
 		
 		mosMakeHtmlSafe( $row );
@@ -1063,7 +1066,8 @@ class ContentView {
 	* @param int The current section we are looking at
 	* @param array The list of sections and categories to move to
 	*/
-	function moveSection( $cid, $sectCatList, $option, $sectionid, $items ) {
+	function moveSection( $cid, $sectCatList, $option, $sectionid, $items ) 
+	{
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -1124,7 +1128,8 @@ class ContentView {
 	/**
 	* Form to select Section/Category to copys item(s) to
 	*/
-	function copySection( $option, $cid, $sectCatList, $sectionid, $items  ) {
+	function copySection( $option, $cid, $sectCatList, $sectionid, $items  ) 
+	{
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

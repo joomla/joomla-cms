@@ -80,7 +80,8 @@ class JElement extends JObject {
 		return $result;
 	}
 	
-	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') {
+	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') 
+	{
 		$output = '<label for="'.$control_name.$name.'">';
 		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
 		$output .= '</label>';
