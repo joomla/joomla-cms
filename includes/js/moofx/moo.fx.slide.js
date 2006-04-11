@@ -22,6 +22,7 @@ fx.Slide.prototype = {
 		});
 
 		togglers.each(function(toggler, i){
+			if(i == 0) this.toggle(sliders[i], toggler);
 			toggler.onclick = function(){
 				this.toggle(sliders[i], toggler);
 			}.bind(this);
