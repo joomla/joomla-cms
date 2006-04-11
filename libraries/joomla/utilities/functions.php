@@ -195,6 +195,28 @@ function mosObjectToArray($p_obj) {
 }
 
 /**
+ * Utility function to map an array to a stdClass object.
+ * 
+ * @package	Joomla.Framework
+ * @param	array	$p_array	The array to map.
+ * @return	object	The object mapped from the given array.
+ * @since	1.5
+ */
+function josArrayToObject($p_array) {
+	$ret_obj = null;
+	if(is_array($p_array)) {
+		$ret_obj = new stdClass();
+		foreach ($p_array as $k => $v) {
+			if(is_array($v))
+			$ret_obj->$k = josArrayToObject($v);
+			else
+			$ret_obj->$k = $v;
+		}
+	}
+	return $ret_obj;
+}
+
+/**
  * Utility function redirect the browser location to another url
  *
  * @package Joomla.Framework
