@@ -166,10 +166,9 @@ if (JDEBUG) {
 	echo $_PROFILER->getMemory();
 }
 
-echo "<br />";
-
 // displays queries performed for page
 if (JDEBUG) {
+	echo "<br />";
 	echo $database->_ticker . ' queries executed';
 	echo '<pre>';
  	foreach ($database->_log as $k=>$sql) {
