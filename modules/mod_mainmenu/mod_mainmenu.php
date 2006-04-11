@@ -27,25 +27,26 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		global $Itemid, $mainframe;
 		$txt = '';
 
-		switch ($mitem->type)
-		{
+		switch ($mitem->type) {
 			case 'separator' :
 			case 'component_item_link' :
 				break;
 				
-			case 'content_item_link' :
-				$temp = split("&task=view&id=", $mitem->link);
-				require_once (JApplicationHelper::getPath('helper', 'com_content'));
-				
-				$_Itemid = JContentHelper::getItemid($temp[1]);
-				$mitem->link .= '&Itemid='.$_Itemid;
+			case 'content_item_link':
+				if ( $params->get( 'unique_itemid' ) ) {
+					$mitem->link .= '&Itemid='. $mitem->id;
+				} else {
+					$temp = split("&task=view&id=", $mitem->link);
+					require_once (JApplicationHelper::getPath('helper', 'com_content'));
+					
+					$_Itemid = JContentHelper::getItemid($temp[1]);
+					$mitem->link .= '&Itemid='.$_Itemid;
+				}
 				break;
-				
+			
 			case 'url' :
-				if (eregi('index.php\?', $mitem->link))
-				{
-					if (!eregi('Itemid=', $mitem->link))
-					{
+				if (eregi('index.php\?', $mitem->link)) {
+					if (!eregi('Itemid=', $mitem->link)) {
 						$mitem->link .= '&Itemid='.$mitem->id;
 					}
 				}
@@ -410,7 +411,8 @@ $params->def('indent_image5', 		'indent5.png');
 $params->def('indent_image6', 		'indent.png');
 $params->def('spacer', 				'');
 $params->def('end_spacer', 			'');
-$params->def( 'full_active_id', 	0 );
+$params->def('full_active_id', 		0);
+$params->def('unique_itemid', 		0);
 
 switch ( $params->get( 'menu_style', 'vert_indent' ) ) {
 	case 'list_flat' :
