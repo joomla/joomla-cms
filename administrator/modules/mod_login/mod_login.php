@@ -14,7 +14,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$browserLang = JLanguageHelper::detectLanguage();
+//$browserLang = JLanguageHelper::detectLanguage();
+// forced to default
+$browserLang = null;
 
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );

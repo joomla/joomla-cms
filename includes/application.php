@@ -234,9 +234,6 @@ class JSite extends JApplication {
 			$name = 'mosConfig_'.$k;
 			$GLOBALS[$name] = $v;
 		}
-		// create the backward language value
-		$lang = $this->getLanguage();
-		$GLOBALS['mosConfig_lang'] = $lang->getBackwardLang();
 	}
 	
 	/**

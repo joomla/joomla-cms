@@ -152,7 +152,8 @@ class JAdministrator extends JApplication
 
 		if (parent::login($username, $password)) 
 		{
-			$this->setUserState( 'application.lang', JRequest::getVar( 'lang', $this->getCfg('lang_administrator') ) );
+			$lang = JRequest::getVar( 'lang' );
+			$this->setUserState( 'application.lang', $lang  );
 			JSession::pause();
 
 			JAdministrator::purgeMessages();
@@ -222,9 +223,6 @@ class JAdministrator extends JApplication
 			$name = 'mosConfig_'.$k;
 			$GLOBALS[$name] = $v;
 		}
-		// create the backward language value
-		$lang = $this->getLanguage();
-		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
 	}
 	
 	/**

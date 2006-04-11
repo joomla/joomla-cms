@@ -59,7 +59,7 @@ if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 }
 
 // set language 
-$mainframe->setLanguage($mainframe->getUserStateFromRequest( "lang", 'lang' ));
+$mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );

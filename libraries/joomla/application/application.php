@@ -448,9 +448,12 @@ class JApplication extends JObject
 		//get the user
 		$user = & $this->getUser();
 		
-		if (empty($lang)) 
-		{	
-			// get user's prefered language
+		// if a language was specified at login it has priority
+		// otherwise use user or default language settings
+		if (empty($lang)) {	
+			/*
+			 * if the user has a prefered language - use it else use default
+			 */
 			if( $this->isAdmin() ) {
 				$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
 			} else {
@@ -468,6 +471,9 @@ class JApplication extends JObject
 		//Set the language in the class
 		$this->_lang =& JLanguage::getInstance( $lang );
 		$this->_lang->setDebug( $this->getCfg('debug') );
+				
+		// create the backward compatible language value for old 3PD components
+		$GLOBALS['mosConfig_lang']  = $this->_lang->getBackwardLang();
 	}
 
 	/**
