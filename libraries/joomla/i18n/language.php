@@ -164,7 +164,8 @@ class JLanguage extends JObject
 	function & getInstance($lang) 
 	{
 		$instance = new JLanguage($lang);
-		return $instance;
+		$reference = & $instance;
+		return $reference;
 	}
 
 	/**
