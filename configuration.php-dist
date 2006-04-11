@@ -9,6 +9,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 *
 * -------------------------------------------------------------------------
+* THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS
+*
 * If you are installing Joomla manually i.e. not using the web installer
 * then rename this file to configuration.php e.g.
 *
@@ -42,7 +44,7 @@ class JConfig {
 	var $live_site = 'http://your_joomla_site.com';	// No trailing slash
 	var $admin_site = 'http://your_secure_site.com/administrator'; // No trailing slash
 	var $sitename = 'Joomla';				// Name of Joomla site
-	var $shownoauth = '1';				// Display links & categories users don't have access to
+	var $shownoauth = '0';				// Display links & categories users don't have access to
 	var $useractivation = '1';			// Send new registration passwords via e-mail
 	var $uniquemail = '1';				// Require unique email adress for each user
 	var $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
