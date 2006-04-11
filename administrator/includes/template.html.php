@@ -17,16 +17,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 * @package Joomla
 */
-class modules_html {
-
+class modules_html 
+{
 	/**
 	* @param object
 	* @param object
 	* @param int 0=show without wrapper and title, 1=tabbed style, 2=xhtml style
 	*/
-	function module( &$module, &$params, $style=0, $preview=true ) {	
+	function module( &$module, &$params, $style=0, $preview=true ) 
+	{	
 		switch ( $style ) 
 		{
+			case 3:
+				// show a naked module - no wrapper and no title
+				modules_html::modoutput_sliders( $module, $params );
+				break;
+			
 			case 2:
 				// show a naked module - no wrapper and no title
 				modules_html::modoutput_xhtml( $module, $params );
@@ -51,9 +57,10 @@ class modules_html {
 	}
 
 	/*
-	* standard tabled output
+	* standard xhtml output, module wrapped in a div
 	*/
-	function modoutput_xhtml( $module, $params  ) {
+	function modoutput_xhtml( $module, $params  ) 
+	{
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
 		?>
@@ -62,38 +69,64 @@ class modules_html {
 		</div>
 		<?php
 	}
-
+	
 	/*
-	* standard tabled output
+	* show a tabbed module
 	*/
-	function modoutput_tabs( $module, $params  ) {
+	function modoutput_sliders( $module, $params  ) 
+	{
 		global $mainframe;
 
 		/*
 		 * Initialize variables
 		 */
-		$user	= & $mainframe->getUser();
-		$tabs	= new mosTabs(1);
+		$user	=& $mainframe->getUser();
+		$tabs	=& JPane::getInstance('sliders');
 
 		$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
 		// special handling for components module
 
 		if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-				$tabs->startTab( JText::_( $module->title ), 'module' . $module->id );
+				$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
 				echo $module->content;
-				$tabs->endTab();
+				$tabs->endPanel();
+		}
+	}
+
+	/*
+	* show a tabbed module
+	*/
+	function modoutput_tabs( $module, $params  ) 
+	{
+		global $mainframe;
+
+		/*
+		 * Initialize variables
+		 */
+		$user	=& $mainframe->getUser();
+		$tabs	=& JPane::getInstance('tabs');
+
+		$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
+		// special handling for components module
+
+		if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
+				$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
+				echo $module->content;
+				$tabs->endPanel();
 		}
 	}
 
 	/*
 	* show a naked module - no wrapper and no title
 	*/
-	function modoutput_naked( $module, $params  ) {
+	function modoutput_naked( $module, $params  ) 
+	{
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 		echo $module->content;
 	}
 
-	function modoutput_feed( &$module, &$params ) {
+	function modoutput_feed( &$module, &$params ) 
+	{
 		global $mainframe;
 		
 		$rssurl 			= $params->get( 'rssurl', '' );

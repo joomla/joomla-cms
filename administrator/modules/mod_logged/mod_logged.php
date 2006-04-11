@@ -56,11 +56,6 @@ $database->setQuery( $query );
 $rows = $database->loadObjectList();
 ?>
 <table class="adminlist">
-<tr>
-	<th colspan="5">
-	<?php echo JText::_( 'Currently Logged in Users' ); ?>
-	</th>
-</tr>
 <?php
 $i = 0;
 foreach ( $rows as $row ) 

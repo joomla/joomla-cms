@@ -24,12 +24,12 @@ $rows = $database->loadObjectList();
 ?>
 <table class="adminlist">
 	<tr>
-		<th class="title" width="80%">
-			<?php echo JText::_( 'Menu' ); ?>
-		</th>
-		<th class="title">
-			<?php echo JText::_( 'Num Items' ); ?>
-		</th>
+		<td class="title" width="80%">
+			<strong><?php echo JText::_( 'Menu' ); ?></strong>
+		</td>
+		<td class="title">
+			<strong><?php echo JText::_( 'Num Items' ); ?></strong>
+		</td>
 	</tr>
 <?php
 foreach ($rows as $row) {
@@ -47,8 +47,4 @@ foreach ($rows as $row) {
 <?php
 }
 ?>
-<tr>
-	<th colspan="2">
-	</th>
-</tr>
 </table>

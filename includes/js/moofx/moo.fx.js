@@ -2,8 +2,8 @@
 moo.fx, simple effects library built with prototype.js (http://prototype.conio.net).
 by Valerio Proietti (http://mad4milk.net) MIT-style LICENSE.
 for more info (http://moofx.mad4milk.net).
-Sunday, February 05, 2006
-v 1.2
+Sunday, March 05, 2006
+v 1.2.3
 */
 
 var fx = new Object();
@@ -17,11 +17,6 @@ fx.Base.prototype = {
 		transition: fx.sinoidal
 	}
 	Object.extend(this.options, options || {});
-	},
-
-	go: function() {
-		this.startTime = (new Date).getTime();
-		this.timer = setInterval (this.step.bind(this), 13);
 	},
 
 	step: function() {
@@ -43,7 +38,8 @@ fx.Base.prototype = {
 		if (this.timer != null) return;
 		this.from = from;
 		this.to = to;
-		this.go();
+		this.startTime = (new Date).getTime();
+		this.timer = setInterval (this.step.bind(this), 13);
 	},
 
 	hide: function() {
@@ -63,8 +59,8 @@ fx.Layout.prototype = Object.extend(new fx.Base(), {
 	initialize: function(el, options) {
 		this.el = $(el);
 		this.el.style.overflow = "hidden";
-		this.el.iniWidth = this.el.offsetWidth;
-		this.el.iniHeight = this.el.offsetHeight;
+		this.iniWidth = this.el.offsetWidth;
+		this.iniHeight = this.el.offsetHeight;
 		this.setOptions(options);
 	}
 });
@@ -89,7 +85,7 @@ Object.extend(Object.extend(fx.Width.prototype, fx.Layout.prototype), {
 
 	toggle: function(){
 		if (this.el.offsetWidth > 0) this.custom(this.el.offsetWidth, 0);
-		else this.custom(0, this.el.iniWidth);
+		else this.custom(0, this.iniWidth);
 	}
 });
 
@@ -109,12 +105,10 @@ fx.Opacity.prototype = Object.extend(new fx.Base(), {
 	},
 	
 	setOpacity: function(opacity) {
+		if (opacity == 0 && this.el.style.visibility != "hidden") this.el.style.visibility = "hidden";
+		else if (this.el.style.visibility != "visible") this.el.style.visibility = "visible";
 		if (window.ActiveXObject) this.el.style.filter = "alpha(opacity=" + opacity*100 + ")";
 		this.el.style.opacity = opacity;
-		if (window.opera) {
-			if (opacity < 0.3) this.el.style.visibility = "hidden";
-			else this.el.style.visibility = "visible";
-		}
 	},
 
 	toggle: function() {

@@ -27,15 +27,15 @@ $rows = $database->loadObjectList();
 
 <table class="adminlist">
 <tr>
-	<th class="title">
-		<?php echo JText::_( 'Most Popular Items' ); ?>
-	</th>
-	<th class="title">
-		<?php echo JText::_( 'Created' ); ?>
-	</th>
-	<th class="title">
-		<?php echo JText::_( 'Hits' ); ?>
-	</th>
+	<td class="title">
+		<strong><?php echo JText::_( 'Most Popular Items' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Created' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Hits' ); ?></strong>
+	</td>
 </tr>
 <?php
 foreach ($rows as $row) {
@@ -60,8 +60,4 @@ foreach ($rows as $row) {
 	<?php
 }
 ?>
-<tr>
-	<th colspan="3">
-	</th>
-</tr>
 </table>

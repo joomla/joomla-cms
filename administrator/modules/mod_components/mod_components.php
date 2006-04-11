@@ -56,11 +56,6 @@ foreach ($comps as $row) {
 ?>
 <table class="adminlist">
 <tr>
-	<th class="title">
-	   <?php echo JText::_( 'Components' ); ?>
-	</th>
-</tr>
-<tr>
 	<td>
 		<?php
 		$i = 0;
@@ -144,9 +139,5 @@ foreach ($comps as $row) {
 		} // foreach
 		?>
 	</td>
-</tr>
-<tr>
-	<th>
-	</th>
 </tr>
 </table>

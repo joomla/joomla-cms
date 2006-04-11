@@ -31,11 +31,6 @@ $rows = $database->loadObjectList();
 ?>
 
 <table class="adminlist">
-<tr>
-	<th colspan="3">
-	<?php echo JText::_( 'Most Recently Added Content' ); ?>
-	</th>
-</tr>
 <?php
 foreach ($rows as $row) {
 	if ( $row->sectionid == 0 ) {
@@ -75,8 +70,4 @@ foreach ($rows as $row) {
 	<?php
 }
 ?>
-<tr>
-	<th colspan="3">
-	</th>
-</tr>
 </table>

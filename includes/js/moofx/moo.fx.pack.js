@@ -2,8 +2,8 @@
 moo.fx pack, effects extensions for moo.fx.
 by Valerio Proietti (http://mad4milk.net) MIT-style LICENSE
 for more info visit (http://moofx.mad4milk.net).
-Sunday, February 05, 2006
-v 1.2
+Tuesday, March 07, 2006
+v 1.2.3
 */
 
 //smooth scroll
@@ -57,14 +57,14 @@ fx.Combo.prototype = {
 		this.el = $(el);
 		this.setOptions(options);
 		if (this.options.opacity) {
-			this.el.o = new fx.Opacity(el, options);
+			this.o = new fx.Opacity(el, options);
 			options.onComplete = null;
 		}
 		if (this.options.height) {
-			this.el.h = new fx.Height(el, options);
-			options.onComplete = null;	
+			this.h = new fx.Height(el, options);
+			options.onComplete = null;
 		}
-		if (this.options.width) this.el.w = new fx.Width(el, options);
+		if (this.options.width) this.w = new fx.Width(el, options);
 	},
 	
 	toggle: function() { this.checkExec('toggle'); },
@@ -74,21 +74,21 @@ fx.Combo.prototype = {
 	clearTimer: function(){ this.checkExec('clearTimer'); },
 	
 	checkExec: function(func){
-		if (this.el.o) this.el.o[func]();
-		if (this.el.h) this.el.h[func]();
-		if (this.el.w) this.el.w[func]();
+		if (this.o) this.o[func]();
+		if (this.h) this.h[func]();
+		if (this.w) this.w[func]();
 	},
 	
 	//only if width+height
 	resizeTo: function(hto, wto) {
-		if (this.el.h && this.el.w) {
+		if (this.h && this.w) {
 			this.h.custom(this.el.offsetHeight, this.el.offsetHeight + hto);
 			this.w.custom(this.el.offsetWidth, this.el.offsetWidth + wto);
 		}
 	},
 
 	customSize: function(hto, wto) {
-		if (this.el.h && this.el.w) {
+		if (this.h && this.w) {
 			this.h.custom(this.el.offsetHeight, hto);
 			this.w.custom(this.el.offsetWidth, wto);
 		}
@@ -108,6 +108,7 @@ fx.Accordion.prototype = {
 	initialize: function(togglers, elements, options) {
 		this.elements = elements;
 		this.setOptions(options);
+		var options = options || '';
 		elements.each(function(el, i){
 			options.onComplete = function(){
 				if (el.offsetHeight > 0) el.style.height = '1%';
@@ -124,10 +125,11 @@ fx.Accordion.prototype = {
 	},
 
 	showThisHideOpen: function(toShow){
-		if (toShow.offsetHeight == 0) setTimeout(function(){this.clearAndToggle(toShow);}.bind(this), this.options.delay);
 		this.elements.each(function(el, i){
 			if (el.offsetHeight > 0 && el != toShow) this.clearAndToggle(el);
 		}.bind(this));
+		if (toShow.offsetHeight == 0) setTimeout(function(){this.clearAndToggle(toShow);}.bind(this), this.options.delay);
+
 	},
 
 	clearAndToggle: function(el){

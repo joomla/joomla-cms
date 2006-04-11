@@ -36,7 +36,7 @@ class JPane extends JObject
 	* 
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	*/
-	function __construct( $useCookies )
+	function __construct( $useCookies = true )
 	{
 		global $mainframe;
 
@@ -65,7 +65,7 @@ class JPane extends JObject
 	 * @param string 	The behavior to use
 	 * @param boolean	Use cookies to remember the state of the panel
 	 */
-	function &getInstance( $behavior = 'Tabs', $useCookies = false) 
+	function &getInstance( $behavior = 'Tabs', $useCookies = true) 
 	{
 		$classname = 'JPane'.$behavior;
 		$instance = new $classname($useCookies);
@@ -141,8 +141,6 @@ class JPaneTabs extends JPane
 	
 	/**
 	* Load the javascript behavior and attach it to the document
-	* 
-	* @abstract
 	*/
 	function loadBehavior() 
 	{	
@@ -162,8 +160,7 @@ class JPaneTabs extends JPane
 	
    /**
 	* Creates a pane and creates the javascript object for it
-	* 
-	* @abstract
+	*
 	* @param string The pane identifier
 	*/
 	function startPane( $id )
@@ -174,14 +171,12 @@ class JPaneTabs extends JPane
 		
 		echo "<div class=\"tab-page\" id=\"".$id."\">";
 		echo "<script type=\"text/javascript\">\n";
-		echo "	var tabPane1 = new WebFXTabPane( document.getElementById( \"".$id."\" ), ".$this->useCookies." )\n";
+		echo "	var tabPane1 = new WebFXTabPane( document.getElementById( \"".$id."\" ), ".(int)$this->useCookies." )\n";
 		echo "</script>\n";
 	}
 
    /**
 	* Ends the pane
-	* 
-	* @abstract
 	*/
 	function endPane() {
 		echo "</div>";
@@ -207,6 +202,93 @@ class JPaneTabs extends JPane
 	*/
 	function endPanel() {
 		echo "</div>";
+	}
+}
+
+/**
+ * JPanelSliders class to to draw parameter panes
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla.Framework
+ * @subpackage	Presentation
+ * @since		1.5
+ */
+class JPaneSliders extends JPane
+{
+	/**
+	* Constructor
+	* 
+	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	*/
+	function __construct( $useCookies )
+	{
+		parent::__construct($useCookies);
+		
+		global $mainframe;
+
+		if(!$mainframe->get( 'JPanelSliders_loaded')) {
+			$this->loadBehavior();
+		}
+	}
+	
+	/**
+	* Load the javascript behavior and attach it to the document
+	*/
+	function loadBehavior() 
+	{	
+		global $mainframe;
+		
+		$document =& $mainframe->getDocument();
+		$lang     =& $mainframe->getLanguage();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+
+		$document->addScript( $url. 'includes/js/moofx/prototype.lite.js' );
+		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
+		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
+		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );
+		
+		$mainframe->set( 'JPanelSliders_loaded', true );
+	}
+	
+   /**
+	* Creates a pane and creates the javascript object for it
+	*
+	* @param string The pane identifier
+	*/
+	function startPane( $id )
+	{
+		echo '<div id="'.$id.'" class="pane-sliders">';	
+	}
+
+   /**
+	* Ends the pane
+	*/
+	function endPane() {
+		echo '</div>';
+		echo '<script type="text/javascript">';
+		echo '	init_moofx();';
+		echo '</script>';
+	}
+
+	/**
+	* Creates a tab panel with title text and starts that panel
+	*
+	* @param text - The name of the tab
+	* @param id - The tab identifier
+	*/
+	function startPanel( $text, $id ) 
+	{
+		echo '<div class="panel">';
+		echo '<h3 class="moofx-toggler title" id="'.$id.'">'.$text.'</h3>';
+		echo '<div class="moofx-slider content">';
+	}
+
+	/** 
+	* Ends a tab page
+	*/
+	function endPanel() {
+		echo '</div></div>';
 	}
 }
 ?>
