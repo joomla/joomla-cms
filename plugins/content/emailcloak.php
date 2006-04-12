@@ -83,7 +83,9 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	while( eregi( $pattern, $row->text, $regs ) ) {				
 		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text	= $regs[6] . $regs[7]. $regs[8];
-		
+		//needed for handling of Body parameter
+		$mail 		= str_replace( '&amp;', '&', $mail );
+
 		// check to see if mail text is different from mail addy
 		if ( $mail_text ) {
 			$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text );
@@ -101,7 +103,9 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	while( eregi( $pattern, $row->text, $regs ) ) {		
 		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text	= $regs[6];
-		
+		//needed for handling of Body parameter
+		$mail 		= str_replace( '&amp;', '&', $mail );
+
 		$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
 		
 		// replace the found address with the js cloacked email
