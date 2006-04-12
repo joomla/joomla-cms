@@ -82,11 +82,11 @@ class JPagination extends JObject
 	 * @return boolean True if successful
 	 * @since 1.5
 	 */
-	function setTemplateVars(& $tmpl, $name = 'admin-list-footer') {
+	function setTemplateVars(& $tmpl, $name = 'admin-list-footer', $link = null) {
 
 		// Set the template variables
-		$tmpl->addVar($name, 'PAGE_LINKS', $this->getPagesLinks());
-		$tmpl->addVar($name, 'PAGE_LIST_OPTIONS', $this->getLimitBox());
+		$tmpl->addVar($name, 'PAGE_LINKS', $this->getPagesLinks($link));
+		$tmpl->addVar($name, 'PAGE_LIST_OPTIONS', $this->getLimitBox($link));
 		$tmpl->addVar($name, 'PAGE_COUNTER', $this->getPagesCounter());
 
 		return true;
