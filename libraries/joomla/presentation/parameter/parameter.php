@@ -142,7 +142,7 @@ class JParameter extends JRegistry
 			
 			$html[] = '<tr>';
 
-			$html[] = '<td width="40%" align="right" valign="top" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
+			$html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
 			$html[] = '<td class="paramlist_value">'.$result[1].'</td>';
 
 			$html[] = '</tr>';

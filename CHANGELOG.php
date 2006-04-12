@@ -40,6 +40,7 @@ Legend:
 11-Apr-2006 Johan Janssens
  + Added JPaneSliders class, for creating moofx driven sliding panes
  ^ Updated moofx library to 1.2.3
+ ^ Switched article edit view to using JPaneSliders
 
 10-Apr-2006 Johan Janssens
  ^ Deprecated mosTabs, use JPane instead

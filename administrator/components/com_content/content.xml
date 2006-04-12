@@ -75,19 +75,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="language" type="languages" client="site" label="Content language" description="PARAMCONTENTLANGUAGE" />
 		<param name="keyref" type="text" size="25" default="" label="Key Reference" description="PARAMKEYREF" />
-		<param name="docbook_type" type="list" default="" label="DocBook Type" description="PARAMDOCBOOKTYPE">
-			<option value="0"></option>
-			<option value="appendix">Appendix</option>
-			<option value="article">Article</option>
-			<option value="book">Book</option>
-			<option value="chapter">Chapter</option>
-			<option value="glossary">Glossary</option>
-			<option value="part">Part</option>
-			<option value="refentry">Refentry</option>
-			<option value="section">Section</option>
-		</param>
 	</params>
 </install>
