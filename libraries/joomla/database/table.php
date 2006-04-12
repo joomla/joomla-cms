@@ -533,8 +533,8 @@ class JTable extends JObject
 	 */
 	function checkin( $oid=null ) {
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
-			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
-			return false;
+			//$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
+			return true;
 		}
 		$k = $this->_tbl_key;
 		if ($oid !== null) {
