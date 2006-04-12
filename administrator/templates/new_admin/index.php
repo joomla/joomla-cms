@@ -40,7 +40,7 @@ $lang =& $mainframe->getLanguage();
 		</div>
 		<div id="top-box">
 			<div id="status-box">
-				<jdoc:include type="modules" name="status" style="3" />
+				<jdoc:include type="modules" name="status"  />
 			</div>
 			<div id="menu-box">
 				<jdoc:include type="module" name="cssmenu" />

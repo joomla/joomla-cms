@@ -28,14 +28,14 @@ global $document;
 				<form action="index2.php" method="post" name="adminForm">
 				
 				<?php
-				$tabs = new mosTabs(1);
-				$tabs->startPane( 'modules-cpanel' );
+				$pane =& JPane::getInstance('sliders');
+				$pane->startPane( 'modules-cpanel' );
 				?>
 				
-				<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 1)); ?>
+				<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 3)); ?>
 				
 				<?php
-				$tabs->endPane();
+				$pane->endPane();
 				?>
 				
 				</form>

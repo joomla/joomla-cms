@@ -283,3 +283,23 @@ table.toolbar a:hover {
 input#mm_subject    { width: 200px; }
 textarea#mm_message { width: 200px; }
 
+/* pane-sliders  */
+.pane-sliders .title {
+	margin: 0;
+	border-bottom: 1px solid #ccc;
+	padding: 2px;
+	color: #666;
+	cursor: pointer;
+}
+
+.pane-sliders .panel {
+	border: 1px solid #ccc; margin-bottom: 3px;
+}
+
+
+.pane-sliders .content {
+	height: 0px; display: none;
+}
+.moofx-toggler      { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
+.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
+
