@@ -37,14 +37,11 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	?>
 	<div id="cpanel">
 		<?php
-		$link = 'index2.php?option=com_content&amp;sectionid=0&amp;task=new';
-		quickiconButton( $link, 'module.png', JText::_( 'Add New Content' ) );
+		$link = 'index2.php?option=com_content&amp;task=new';
+		quickiconButton( $link, 'module.png', JText::_( 'Add New Article' ) );
 
-		$link = 'index2.php?option=com_content&amp;sectionid=0';
-		quickiconButton( $link, 'addedit.png', JText::_( 'Content Items Manager' ) );
-
-		$link = 'index2.php?option=com_typedcontent';
-		quickiconButton( $link, 'addedit.png', JText::_( 'Static Content Manager' ) );
+		$link = 'index2.php?option=com_content';
+		quickiconButton( $link, 'addedit.png', JText::_( 'Article Manager' ) );
 
 		$link = 'index2.php?option=com_frontpage';
 		quickiconButton( $link, 'frontpage.png', JText::_( 'Frontpage Manager' ) );
