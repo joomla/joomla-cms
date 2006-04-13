@@ -224,10 +224,10 @@ class JFolder {
 		JPath::check($dest);
 
 		if (!JFolder::exists($src) && !is_writable($src)) {
-			return JText::_('Cannot find source file');
+			return JText::_('Cannot find source folder');
 		}
 		if (JFolder::exists($dest)) {
-			return JText::_('Directory exists');
+			return JText::_('Folder already exists');
 		}
 
 		// Do NOT use ftp if it is not enabled
