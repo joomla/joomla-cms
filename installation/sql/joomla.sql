@@ -768,7 +768,7 @@ CREATE TABLE `#__weblinks` (
   `sid` int(11) NOT NULL default '0',
   `title` varchar(250) NOT NULL default '',
   `url` varchar(250) NOT NULL default '',
-  `description` varchar(250) NOT NULL default '',
+  `description` text NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `hits` int(11) NOT NULL default '0',
   `published` tinyint(1) NOT NULL default '0',
