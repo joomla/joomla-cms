@@ -137,7 +137,7 @@ class JPath {
 	 * @since 1.5
 	 */
 	function check($path) {
-		if (strpos($path, '..') != false) {
+		if (strpos($path, '..') !== false) {
 			mosBackTrace();
 			JError::raiseError( 20, 'JPath::check use of relative paths not permitted'); // don't translate
 		}

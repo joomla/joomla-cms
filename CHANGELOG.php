@@ -40,6 +40,7 @@ Legend:
 13-Apr-2006 Louis Landry
  # Fixed artf3574 : com_weblinks description field
  # Fixed artf3902 : small problem with content.php when no frontpage items are to be shown
+ # Fixed artf4251 : JPath::check function incorrectly checks for presence of ..
 
 11-Apr-2006 Johan Janssens
  + Added JPaneSliders class, for creating moofx driven sliding panes
