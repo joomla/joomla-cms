@@ -165,7 +165,7 @@ class JFile {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
 			if ($ftpFlag) {
-				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
+				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false));
 			} else {
 				$fail = !unlink($file);
 			}
