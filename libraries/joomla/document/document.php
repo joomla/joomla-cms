@@ -523,7 +523,7 @@ class JDocument extends JTemplate
 			//get the file content
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
-				require_once( $directory.DS.$filename );
+				require_once(JPATH_BASE.DS.$directory.DS.$filename );
 			?></jdoc:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();
