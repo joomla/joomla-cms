@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Apr-2006 Louis Landry
+ # Fixed artf3574 : com_weblinks description field
+ # Fixed artf3902 : small problem with content.php when no frontpage items are to be shown
+
 11-Apr-2006 Johan Janssens
  + Added JPaneSliders class, for creating moofx driven sliding panes
  ^ Updated moofx library to 1.2.3

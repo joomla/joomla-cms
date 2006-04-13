@@ -151,6 +151,7 @@ class JModelFrontpage extends JObject
 
 			// special handling required as static content does not have a section / category id linkage
 			$i = 0;
+			$rows = array();
 			foreach ($Arows as $row)
 			{
 				if (($row->sec_pub == 1 && $row->cat_pub == 1) || ($row->sec_pub == '' && $row->cat_pub == ''))
