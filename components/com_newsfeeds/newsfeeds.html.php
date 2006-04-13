@@ -193,53 +193,55 @@ class HTML_newsfeed {
 	function showCategories( &$params, &$categories, $catid ) {
 		global $Itemid;
 		
-		?>
-		<ul>
-		<?php
-		foreach ( $categories as $cat ) {
-			if ( $catid == $cat->catid ) {
-				?>
-				<li>
-					<b>
-					<?php echo $cat->title;?>
-					</b>
-					&nbsp;
-					<span class="small">
-					(<?php echo $cat->numlinks;?>)
-					</span>
-				</li>
-				<?php
-			} else {
-				$link = 'index.php?option=com_newsfeeds&amp;catid='. $cat->catid .'&amp;Itemid='. $Itemid;
-				?>
-				<li>
-					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo $cat->title;?>
-					</a>
-					<?php
-					if ( $params->get( 'cat_items' ) ) {
-						?>
+		if (count($categories)) {
+			?>
+			<ul>
+			<?php
+			foreach ( $categories as $cat ) {
+				if ( $catid == $cat->catid ) {
+					?>
+					<li>
+						<b>
+						<?php echo $cat->title;?>
+						</b>
 						&nbsp;
 						<span class="small">
 						(<?php echo $cat->numlinks;?>)
 						</span>
-						<?php
-					}
-					?>
+					</li>
 					<?php
-					// Writes Category Description
-					if ( $params->get( 'cat_description' ) && $cat->description ) {
-						echo '<br />';
-						echo $cat->description;
-					}
+				} else {
+					$link = 'index.php?option=com_newsfeeds&amp;catid='. $cat->catid .'&amp;Itemid='. $Itemid;
 					?>
-				</li>
-				<?php
+					<li>
+						<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo $cat->title;?>
+						</a>
+						<?php
+						if ( $params->get( 'cat_items' ) ) {
+							?>
+							&nbsp;
+							<span class="small">
+							(<?php echo $cat->numlinks;?>)
+							</span>
+							<?php
+						}
+						?>
+						<?php
+						// Writes Category Description
+						if ( $params->get( 'cat_description' ) && $cat->description ) {
+							echo '<br />';
+							echo $cat->description;
+						}
+						?>
+					</li>
+					<?php
+				}
 			}
+			?>
+			</ul>
+			<?php
 		}
-		?>
-		</ul>
-		<?php
 	}
 
 
@@ -320,6 +322,9 @@ class HTML_newsfeed {
 		?>
 		<tr>
 			<td>
+			<?php
+			if (count($totalItems)) {
+			?>
 			<ul>
 				<?php
 				
@@ -367,6 +372,9 @@ class HTML_newsfeed {
 				}
 				?>
 			</ul>
+			<?php
+			}
+			?>
 			</td>
 		</tr>
 		<tr>
