@@ -34,7 +34,7 @@ class JArchive {
 	 * @param boolean Automatically append the extension for the archive
 	 * @param boolean Remove for source files
 	 */
-	function create($archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false) {
+	function create($archive, $files, $compress = 'none', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false) {
 
 		jimport('archive.Tar');
 
