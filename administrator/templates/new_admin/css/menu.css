@@ -47,7 +47,7 @@
 }
 #menu li li { border: 0;}
 
-#menu ul    { border: 0.1em solid #ccc; background: #f0f0f0 url(../images/bg-menu.gif) repeat-y left;}
+#menu ul    { border: 0.1em solid #ccc; background: #f6f6f6 url(../images/bg-menu.gif) repeat-y left;}
 #menu ul li.node { background: transparent url(../images/j_arrow.png) no-repeat right 50%; }
 #menu ul li.seperator { background: #DDE1E6 url(../images/bg-menu.gif);  height: 1px;  }
 

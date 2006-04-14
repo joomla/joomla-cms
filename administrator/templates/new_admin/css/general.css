@@ -24,7 +24,8 @@ body {
 	margin: 10px; padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
-	font-family: Arial, Helvetica, sans-serif; font-size: 76%;
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: 11px;
 }
 
 html, body { height: 100%; }
@@ -40,7 +41,7 @@ form { margin: 0; padding: 0; }
 h1 {
 	margin: 0;
 	padding-bottom: 8px;
-	color: #0B55C4; font-size: 22px; font-weight: bold;
+	color: #0B55C4; font-size: 20px; font-weight: bold;
 }
 
 a:link    { color: #0B55C4; text-decoration: none; }
@@ -48,6 +49,14 @@ a:visited { color: #0B55C4; text-decoration: none; }
 a:hover   { text-decoration: underline; }
 
 /* -- header styles ------------------------------ */
+
+#header3 span,
+.header,
+#menu,
+#toolbar,
+.pane-sliders .title {
+	font-family: Arial, Helvetica, sans-serif;
+}
 
 #header1 { background: url(../images/j_header_middle.png) repeat-x; }
 #header2 { background: url(../images/j_header_right.png) 100% 0 no-repeat; }
@@ -277,6 +286,7 @@ table.toolbar a:hover {
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	text-decoration: none;
+	color: #0B55C4;
 }
 
 /** for massmail component **/
@@ -303,3 +313,42 @@ textarea#mm_message { width: 200px; }
 .moofx-toggler      { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
 .moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
+
+/** cpanel settings **/
+
+#cpanel div.icon {
+	text-align: center;
+	margin-right: 5px;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#cpanel div.icon a {
+	display: block;
+	float: left;
+	border: 1px solid #f0f0f0;
+	height: 97px;
+	width: 108px;
+	color: #666;
+	vertical-align: middle;
+	text-decoration: none;
+}
+
+#cpanel div.icon a:hover {
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #f9f9f9;
+	color: #0B55C4;
+}
+
+#cpanel img {
+padding: 10px 0;
+margin: 0 auto;
+}
+
+#cpanel span {
+display: block;
+text-align: center;
+}

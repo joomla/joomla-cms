@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5,
 .step,
 .button1-left a,
 .button1-right a {
-	font-family: Arial Narrow, Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .clr {
@@ -98,18 +98,18 @@ form {
 	background: #F7F7F7;
 	float: left;
 	width: 170px;
-	padding: 5px 1px;
+	padding: 5px 1px;	
 }
 
 #stepbarpad {
-	padding: 0px 6px 150px 6px;
+	padding: 3px 6px 150px 6px;
 	background:  url(../images/j_joomla_box.jpg) 50% 100% no-repeat;
 }
 
 #stepbar h1 {
 	margin: 0;
 	padding-bottom: 8px;
-	font-size: 22px;
+	font-size: 20px;
 	color: #0B55C4;
 	font-weight: bold;
 	background: url(../images/j_divider.png) 0 100% repeat-x;
@@ -118,7 +118,7 @@ form {
 .step-on, .step-off {
 	padding-top: 10px;
 	padding-bottom: 12px;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: bold;
 	background: url(../images/j_divider.png) 0 100% repeat-x;
 }
@@ -151,15 +151,15 @@ form {
 }
 
 span.step {
-	font-size: 22px;
+	font-size: 20px;
+	line-height: 30px;
 	color: #0B55C4;
 	font-weight: bold;
 	padding-left: 6px;
 }
 
 .far-right {
-	margin-right: 6px !Important;
-	margin-right: 0px;
+	padding-right: 6px;
 	margin-top: 2px;
 	float: right;
 	text-align: right;
@@ -215,7 +215,7 @@ span.step {
 	height: 26px;
 	float: left;
 	line-height: 26px;
-	font-size: 14px;
+	font-size: 11px;
 	font-weight: bold;
 	color: #333;
 	cursor: pointer;
@@ -239,7 +239,7 @@ span.step {
 }
 
 #installer h2 {
-	font-size: 16px;
+	font-size: 14px;
 	color: #333;
 	font-weight: bold;
 	margin: 0;
@@ -305,6 +305,7 @@ h3.title-smenu, h3.moofx-toggler {
 	padding: 4px;
 	background-color: #EBEBEB;
 	margin-bottom: 1px;
+	font-size: 12px;
 	color: #666;
 	cursor: pointer;
 }
@@ -313,3 +314,7 @@ h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% n
 h3.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
 .final-table { width: 100%; }
+
+td em {
+	color: #666;
+}
