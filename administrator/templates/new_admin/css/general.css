@@ -54,7 +54,8 @@ a:hover   { text-decoration: underline; }
 .header,
 #menu,
 #toolbar,
-.pane-sliders .title {
+.pane-sliders .title,
+.adminlist th {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -352,3 +353,54 @@ margin: 0 auto;
 display: block;
 text-align: center;
 }
+
+/** Form styles **/
+table.adminform {
+	margin-bottom: 15px;
+}
+
+
+/** Table styles **/
+
+table.adminlist {
+	background: #fff;
+	padding: 0px;
+	border-spacing: 0;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+table.adminlist th {
+	padding: 6px 4px;
+}
+
+table.adminlist td {
+	padding: 4px;
+}
+
+table.adminlist th {
+	background: #f0f0f0;
+	text-align: left;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ccc;
+}
+
+table.adminlist td {
+	border-bottom: 1px solid #ddd;
+}
+
+table.adminlist tr.row1 {
+	background: #fff;
+}
+
+table.adminlist tr.row0 {
+	background: #f9f9f9;
+}
+
+table.adminlist tr {
+
+}
+
+
+
