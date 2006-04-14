@@ -14,14 +14,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$button					= $params->get('button', '');
-$imagebutton			= $params->get('imagebutton', '');
+$button				= $params->get('button', '');
+$imagebutton		= $params->get('imagebutton', '');
 $button_pos			= $params->get('button_pos', 'left');
-$button_text			= $params->get('button_text', JText::_('Search'));
-$width						= intval($params->get('width', 20));
-$text						= $params->get('text', JText::_('search...'));
+$button_text		= $params->get('button_text', JText::_('Search'));
+$width				= intval($params->get('width', 20));
+$text				= $params->get('text', JText::_('search...'));
 $moduleclass_sfx	= $params->get('moduleclass_sfx');
-$set_Itemid				= intval($params->get('set_itemid', 0));
+$set_Itemid			= intval($params->get('set_itemid', 0));
 
 $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
 

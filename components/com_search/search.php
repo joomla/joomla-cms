@@ -50,7 +50,7 @@ function viewSearch() {
 	}
 
 	// Adds parameter handling
-	if( $Itemid > 0 ) {
+	if( $Itemid > 0 && $Itemid != 99999999 ) {
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $Itemid );
 		$params = new JParameter( $menu->params );
