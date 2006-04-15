@@ -84,7 +84,7 @@ if(JDEBUG) {
  */
  
 //Joomla library imports
-//jimport( 'joomla.common.compat.compat' );
+jimport( 'joomla.common.compat.compat' );
 
 jimport( 'joomla.version' );
 jimport( 'joomla.utilities.functions' );
@@ -104,7 +104,7 @@ jimport( 'joomla.application.application');
 jimport( 'joomla.application.menu' );
 
 // support for legacy classes & functions that will be depreciated
-//jimport( 'joomla.common.legacy.*' );
+jimport( 'joomla.common.legacy.*' );
 
 JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 
