@@ -573,12 +573,7 @@ class JContactController {
 			
 			// check for session cookie
 			if  ( $sessionCheck ) {		
-				// Session Cookie `name`
-				$sessionCookieName 	= mosMainFrame::sessionCookieName();		
-				// Get Session Cookie `value`
-				$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );			
-				
-				if ( !(strlen($sessioncookie) == 32 || $sessioncookie == '-') ) {
+				if ( !isset($_COOKIE[JSession::name()]) ) {
 					mosErrorAlert( _NOT_AUTH );
 				}
 			}			
