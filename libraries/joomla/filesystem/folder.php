@@ -316,7 +316,7 @@ class JFolder {
 
 
 			// Use FTP get the file listing
-			if (($list = $ftp->listDir($ftpPath, 'folders')) === false) {
+			if (($list = $ftp->listDir($ftpPath, 'files')) === false) {
 				$ftp->quit();
 				// Warning will be thrown by the FTP connector
 				return false;
