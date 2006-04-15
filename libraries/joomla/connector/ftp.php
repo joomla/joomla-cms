@@ -809,11 +809,12 @@ class JFTP extends JObject {
 	 * @param string $path Path local file to store on the FTP server
 	 * @param string $type Return type [raw|all|folders|files]
 	 * @param boolean $search Recursively search subdirectories
-	 * @return string Directory listing
+	 * @return mixed : if $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
 	function listDir($path = null, $type = 'all') {
 
 		// Initialize variables
+		$dir_list = array();
 		$data = null;
 		$regs = null;
 		// TODO: Deal with recurse -- nightmare

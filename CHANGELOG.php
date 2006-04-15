@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Apr-2006 Louis Landry
+ # Fixed small bugs with JFolder and JFTP -- Thanks Beat --
+
 13-Apr-2006 Louis Landry
  # Fixed artf3574 : com_weblinks description field
  # Fixed artf3902 : small problem with content.php when no frontpage items are to be shown

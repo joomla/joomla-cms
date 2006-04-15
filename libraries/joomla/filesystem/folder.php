@@ -314,10 +314,14 @@ class JFolder {
 			//Translate path for the FTP account
 			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
+
 			// Use FTP get the file listing
-			if (!($list = $ftp->listDir($ftpPath, 'files'))) {
-				return JText::_('File Listing failed');
+			if (($list = $ftp->listDir($ftpPath, 'folders')) === false) {
+				$ftp->quit();
+				// Warning will be thrown by the FTP connector
+				return false;
 			}
+			// Close the FTP connection
 			$ftp->quit();
 
 			$path .= DS;
@@ -417,7 +421,8 @@ class JFolder {
 			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
 			// Use FTP get the file listing
-			if (!($list = $ftp->listDir($ftpPath, 'folders'))) {
+			if (($list = $ftp->listDir($ftpPath, 'folders')) === false) {
+				$ftp->quit();
 				// Warning will be thrown by the FTP connector
 				return false;
 			}
