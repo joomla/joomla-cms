@@ -171,7 +171,7 @@ class JAdministrator extends JApplication
 	*/
 	function logout() {
 		parent::logout();
-		josRedirect( $this->getSiteURL() );
+		josRedirect( $this->getBaseURL() );
 	}
 	
 	/**
