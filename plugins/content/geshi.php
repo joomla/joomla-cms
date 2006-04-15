@@ -55,7 +55,7 @@ function contentGeshi_replacer( &$matches )
 {
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
 	
-	jiimpor('geshi.geshi');
+	jimport('geshi.geshi');
 	jimport('domit.xml_saxy_shared');
 	
 	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
