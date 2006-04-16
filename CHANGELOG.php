@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Apr-2006 Johan Janssens
+ ^ Moved site content item editing to modal popup 
+
 15-Apr-2006 Louis Landry
  # Fixed small bugs with JFolder and JFTP -- Thanks Beat --
  # Fixed some translation strings in admin

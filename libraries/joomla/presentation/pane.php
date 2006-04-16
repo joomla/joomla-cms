@@ -24,51 +24,26 @@ jimport( 'joomla.common.base.object' );
  */
 class JPane extends JObject
 {
-	/** 
-	 * Use cookies
-	 * 
-	 * @var boolean  
-	 */
-	var $useCookies = false;
-
 	/**
 	* Constructor
 	* 
-	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+ 	* @param array 	$params		Associative array of values
 	*/
-	function __construct( $useCookies = true )
-	{
-		global $mainframe;
-
-		if($mainframe->get( 'JPanel_loaded')) {
-			return;
-		}
-
-		$this->useCookies = $useCookies;
-
-		$mainframe->set( 'JPanel', true );
-
-	}
-	
-	/**
-	* Load the javascript behavior and attach it to the document
-	* 
-	* @abstract
-	*/
-	function loadBehavior() {
-		return;
+	function __construct( $params = array() ) {
+		
 	}
 	
 	/**
 	 * Returns a reference to a JPanel object
 	 * 
-	 * @param string 	The behavior to use
-	 * @param boolean	Use cookies to remember the state of the panel
+	 * @param string 	$behavior   The behavior to use
+	 * @param boolean	$useCookies Use cookies to remember the state of the panel
+	 * @param array 	$params		Associative array of values
 	 */
-	function &getInstance( $behavior = 'Tabs', $useCookies = true) 
+	function &getInstance( $behavior = 'Tabs', $params = array()) 
 	{
 		$classname = 'JPane'.$behavior;
-		$instance = new $classname($useCookies);
+		$instance = new $classname($params);
 
 		return $instance;
 	}
@@ -111,6 +86,15 @@ class JPane extends JObject
 	function endPanel() { 
 		return;
 	}
+	
+	/**
+	* Load the javascript behavior and attach it to the document
+	* 
+	* @abstract
+	*/
+	function _loadBehavior() {
+		return;
+	}
 }
 
 /**
@@ -126,36 +110,17 @@ class JPaneTabs extends JPane
 	/**
 	* Constructor
 	* 
-	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	* @param array 	$params		Associative array of values
 	*/
-	function __construct( $useCookies )
+	function __construct( $params = array() )
 	{
-		parent::__construct($useCookies);
+		parent::__construct($params);
 		
 		global $mainframe;
 
 		if(!$mainframe->get( 'JPanelTabs_loaded')) {
-			$this->loadBehavior();
+			$this->_loadBehavior($params);
 		}
-	}
-	
-	/**
-	* Load the javascript behavior and attach it to the document
-	*/
-	function loadBehavior() 
-	{	
-		global $mainframe;
-		
-		$document =& $mainframe->getDocument();
-		$lang     =& $mainframe->getLanguage();
-
-		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-
-		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css, 'text/css', null, array(' id' => 'luna-tab-style-sheet' ));
-		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
-		
-		$mainframe->set( 'JPanelTabs_loaded', true );
 	}
 	
    /**
@@ -203,6 +168,27 @@ class JPaneTabs extends JPane
 	function endPanel() {
 		echo "</div>";
 	}
+	
+	/**
+	* Load the javascript behavior and attach it to the document
+	* 
+	* @param array 	$params		Associative array of values
+	*/
+	function _loadBehavior($params = array()) 
+	{	
+		global $mainframe;
+		
+		$document =& $mainframe->getDocument();
+		$lang     =& $mainframe->getLanguage();
+
+		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+
+		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css, 'text/css', null, array(' id' => 'luna-tab-style-sheet' ));
+		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
+		
+		$mainframe->set( 'JPanelTabs_loaded', true );
+	}
 }
 
 /**
@@ -220,35 +206,15 @@ class JPaneSliders extends JPane
 	* 
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	*/
-	function __construct( $useCookies )
+	function __construct( $params = array() )
 	{
-		parent::__construct($useCookies);
+		parent::__construct($params);
 		
 		global $mainframe;
 
 		if(!$mainframe->get( 'JPanelSliders_loaded')) {
-			$this->loadBehavior();
+			$this->_loadBehavior($params);
 		}
-	}
-	
-	/**
-	* Load the javascript behavior and attach it to the document
-	*/
-	function loadBehavior() 
-	{	
-		global $mainframe;
-		
-		$document =& $mainframe->getDocument();
-		$lang     =& $mainframe->getLanguage();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-
-		$document->addScript( $url. 'includes/js/moofx/prototype.lite.js' );
-		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
-		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
-		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );
-		
-		$mainframe->set( 'JPanelSliders_loaded', true );
 	}
 	
    /**
@@ -289,6 +255,28 @@ class JPaneSliders extends JPane
 	*/
 	function endPanel() {
 		echo '</div></div>';
+	}
+	
+	/**
+	* Load the javascript behavior and attach it to the document
+	* 
+	* @param array 	$params		Associative array of values
+	*/
+	function _loadBehavior($params = array()) 
+	{	
+		global $mainframe;
+		
+		$document =& $mainframe->getDocument();
+		$lang     =& $mainframe->getLanguage();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+
+		$document->addScript( $url. 'includes/js/moofx/prototype.lite.js' );
+		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
+		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
+		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );
+		
+		$mainframe->set( 'JPanelSliders_loaded', true );
 	}
 }
 ?>

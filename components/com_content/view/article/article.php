@@ -246,16 +246,6 @@ class JViewHTMLArticle extends JView
 		jimport('joomla.presentation.editor');
 		$editor = & JEditor::getInstance();
 
-		// Load the JToolBar object
-		jimport('joomla.presentation.toolbar.toolbar');
-		$toolbar = & JToolBar::getInstance('Article');
-		// Add a save button
-		$toolbar->appendButton('Standard', 'save', 'Save', 'save', false, false);
-		// Add an apply button
-		//$toolbar->appendButton('Standard', 'apply', 'Apply', 'apply_new', false, false);
-		// Add a cancel button
-		$toolbar->appendButton('Standard', 'cancel', 'Close', 'cancel', false, false);
-
 		// Load the mosTabs object
 		$tabs = new mosTabs(0);
 
@@ -287,16 +277,16 @@ class JViewHTMLArticle extends JView
 			}
 		}
 		?>
+		
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
 				submitform( pressbutton );
+				window.top.hidePopWin();
 				return;
 			}
 			
-			// var goodexit=false;
 			// assemble the images back into one field
-			form.goodexit.value=1;
 			var temp = new Array;
 			for (var i=0, n=form.imagelist.options.length; i < n; i++) {
 				temp[i] = form.imagelist.options[i].value;
@@ -319,18 +309,9 @@ class JViewHTMLArticle extends JView
 		echo $editor->getEditorContents('editor1', 'text');
 		?>
 					submitform(pressbutton);
+					window.top.hidePopWin();
+					window.top.location.reload(true);
 				}
-			}
-		}
-
-		function setgood(){
-			document.adminForm.goodexit.value=1;
-		}
-
-		function WarnUser(){
-			if (document.adminForm.goodexit.value==0) {
-				//alert('<?php echo JText::_( 'WARNUSER', true );?>');
-				//window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=edit&sectionid=".$article->sectionid."&id=".$article->id."&Itemid=".$Itemid); ?>";
 			}
 		}
 		</script>
@@ -367,51 +348,29 @@ class JViewHTMLArticle extends JView
 					<label for="title">
 						<?php echo JText::_( 'Title' ); ?>:
 					</label>
-					<br />
 					<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $article->title; ?>" />
 					&nbsp;&nbsp;&nbsp;
-					<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
+					<?php /*echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>');*/ ?>
 				</div>
 				<div style="float: right;">
-		<?php
-		// Render the toolbar
-		echo $toolbar->render();
-		?>
+				<button type="button" onclick="javascript:submitbutton('save')">
+					<?php echo JText::_('Save') ?>
+				</button>
+				<button type="button" onclick="javascript:submitbutton('cancel')" />
+					<?php echo JText::_('Cancel') ?>
+				</button>
 				</div>
 			</td>
 		</tr>
 		</table>
 		
+		<!-- Begin Article Parameters Section -->		
+		<!-- Images Tab -->		
 		<?php
-		// If the document is in a section display the section and category dropdown
-		if ($article->sectionid) {
-		?>
-			<table class="adminform" width="100%">
-			<tr>
-				<td>
-					<label for="catid">
-						<?php echo JText::_( 'Section' ); ?>:
-					</label>
-					<strong>
-						<?php echo $article->section;?>
-					</strong>
-				</td>
-				<td>
-					<label for="catid">
-						<?php echo JText::_( 'Category' ); ?>:
-					</label>
-					<?php echo $lists['catid']; ?>
-				</td>
-			</tr>
-			</table>
-			<?php
-		}
-		?>
+		$title = JText::_('Editor');
+		$tabs->startPane('content-pane');
+		$tabs->startTab($title, 'editor-page');
 		
-		<table class="adminform">
-		<tr>
-			<td>
-		<?php
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
@@ -423,18 +382,13 @@ class JViewHTMLArticle extends JView
 		}
 		// Display the editor
 		// arguments (areaname, content, hidden field, width, height, rows, cols)
-		echo $editor->getEditor('editor1', $article->text, 'text', '600', '400', '70', '15');
+		echo $editor->getEditor('editor1', $article->text, 'text', '655', '400', '70', '15');
 		?>
-			</td>
-		</tr>
-		</table>
 		
-		<!-- Begin Article Parameters Section -->		
-		<!-- Images Tab -->		
-		<?php
-
+		<!-- Images Tab -->	
+		<?php	
 		$title = JText::_('Images');
-		$tabs->startPane('content-pane');
+		$tabs->endTab();
 		$tabs->startTab($title, 'images-page');
 		?>
 			<table width="100%" class="adminform">
@@ -591,6 +545,34 @@ class JViewHTMLArticle extends JView
 		
 			<table class="adminform">
 		<?php
+		
+		// If the document is in a section display the section and category dropdown
+		if ($article->sectionid) {
+		?>
+			<tr>
+				<td>
+					<label for="catid">
+						<?php echo JText::_( 'Section' ); ?>:
+					</label>
+				</td>
+				<td>
+					<strong>
+						<?php echo $article->section;?>
+					</strong>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="catid">
+						<?php echo JText::_( 'Category' ); ?>:
+					</label>
+				</td>
+				<td>
+					<?php echo $lists['catid']; ?>
+				</td>
+			</tr>
+			<?php
+		}
 
 		if ($user->authorize('action', 'publish', 'content', 'all')) {
 		?>
@@ -707,7 +689,6 @@ class JViewHTMLArticle extends JView
 		?>
 
 		<input type="hidden" name="images" value="" />
-		<input type="hidden" name="goodexit" value="0" />
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
 		<input type="hidden" name="id" value="<?php echo $article->id; ?>" />

@@ -911,8 +911,10 @@ class MENU_Default
 jimport('joomla.presentation.pane'); 
 class mosTabs extends JPaneTabs
 {
+	var $useCookies = false;
+	
 	function __construct( $useCookies, $xhtml = null) {
-		parent::__construct( $useCookies );
+		parent::__construct( array('useCookies' => $useCookies) );
 	}
 	
 	function startTab( $tabText, $paneid ) {
