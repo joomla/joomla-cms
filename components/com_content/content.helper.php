@@ -461,47 +461,55 @@ class JContentHTMLHelper {
 	 * Joomla 1.2
 	 *
 	 * @static
-	 * @param object $row 		The content item
+	 * @param object $item 		The content item
 	 * @param object $params 	The content item's parameters object
 	 * @param object $access 	Access object for the content item
 	 * @return void
 	 * @since 1.0
 	 */
-	function editIcon($row, $params, $access) 
+	function editIcon($item, $params, $access) 
 	{
-		global $Itemid, $my, $mainframe;
+		global $Itemid, $mainframe;
+		
+		$user     =& $mainframe->getUser();
+		$document =& $mainframe->getDocument();
 
 		if ($params->get('popup')) {
 			return;
 		}
-		if ($row->state < 0) {
+		if ($item->state < 0) {
 			return;
 		}
-		if (!$access->canEdit && !($access->canEditOwn && $row->created_by == $my->id)) {
+		if (!$access->canEdit && !($access->canEditOwn && $item->created_by == $user->get('id'))) {
 			return;
 		}
 
 		mosCommonHTML::loadOverlib();
+		
+		$document->addScript('components/com_content/theme/js/common.js');
+		$document->addScript('components/com_content/theme/js/subModal.js');
+		
+		$document->addStyleSheet('components/com_content/theme/css/subModal.css');
 
-		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
-		$image = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $row->id );
+		$link = 'index2.php?option=com_content&amp;task=edit&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+		$image = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $item->id );
 
-		if ($row->state == 0) {
+		if ($item->state == 0) {
 			$overlib = JText::_('Unpublished');
 		} else {
 			$overlib = JText::_('Published');
 		}
-		$date = mosFormatDate($row->created);
-		$author = $row->created_by_alias ? $row->created_by_alias : $row->author;
+		$date = mosFormatDate($item->created);
+		$author = $item->created_by_alias ? $item->created_by_alias : $item->author;
 
 		$overlib .= '<br />';
-		$overlib .= $row->groups;
+		$overlib .= $item->groups;
 		$overlib .= '<br />';
 		$overlib .= $date;
 		$overlib .= '<br />';
 		$overlib .= $author;
 		?>
-		<a href="<?php echo sefRelToAbs( $link ); ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
+		<a href="javascript:showPopWin('<?php echo $link ?>', 700, 500, null);" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 			<?php echo $image; ?></a>
 		<?php
 	}

@@ -252,9 +252,9 @@ class JViewHTMLArticle extends JView
 		// Add a save button
 		$toolbar->appendButton('Standard', 'save', 'Save', 'save', false, false);
 		// Add an apply button
-		$toolbar->appendButton('Standard', 'apply', 'Apply', 'apply_new', false, false);
+		//$toolbar->appendButton('Standard', 'apply', 'Apply', 'apply_new', false, false);
 		// Add a cancel button
-		$toolbar->appendButton('Standard', 'cancel', 'Cancel', 'cancel', false, false);
+		$toolbar->appendButton('Standard', 'cancel', 'Close', 'cancel', false, false);
 
 		// Load the mosTabs object
 		$tabs = new mosTabs(0);
@@ -293,7 +293,7 @@ class JViewHTMLArticle extends JView
 				submitform( pressbutton );
 				return;
 			}
-
+			
 			// var goodexit=false;
 			// assemble the images back into one field
 			form.goodexit.value=1;
@@ -329,8 +329,8 @@ class JViewHTMLArticle extends JView
 
 		function WarnUser(){
 			if (document.adminForm.goodexit.value==0) {
-				alert('<?php echo JText::_( 'WARNUSER', true );?>');
-				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=edit&sectionid=".$article->sectionid."&id=".$article->id."&Itemid=".$Itemid); ?>";
+				//alert('<?php echo JText::_( 'WARNUSER', true );?>');
+				//window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=edit&sectionid=".$article->sectionid."&id=".$article->id."&Itemid=".$Itemid); ?>";
 			}
 		}
 		</script>
@@ -359,11 +359,6 @@ class JViewHTMLArticle extends JView
 		$docinfo .= '</td></tr></table>';
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
-
-		<div class="componentheading">
-			<?php echo $title;?>
-			<?php echo JText::_( 'Article' );?>		
-		</div>
 
 		<table class="adminform" width="100%">
 		<tr>
@@ -416,11 +411,6 @@ class JViewHTMLArticle extends JView
 		<table class="adminform">
 		<tr>
 			<td>
-					<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
-			</td>
-		</tr>
-		<tr>
-			<td>
 		<?php
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
@@ -439,12 +429,6 @@ class JViewHTMLArticle extends JView
 		</tr>
 		</table>
 		
-		<?php
-		// Display the toolbar again
-		echo $toolbar->render();
-		?>
-		
-		<br />
 		<!-- Begin Article Parameters Section -->		
 		<!-- Images Tab -->		
 		<?php
@@ -757,7 +741,7 @@ class JViewHTMLArticle extends JView
 		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
 
 		// Select List: Saved Images
-		if (trim($row->images))
+		if (trim($article->images))
 		{
 			$article->images = explode("\n", $article->images);
 		} else
