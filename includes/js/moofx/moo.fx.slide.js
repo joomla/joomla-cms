@@ -32,22 +32,17 @@ fx.Slide.prototype = {
 	toggle: function(slider, toggler){
 		
 		this.sliders.each(function(el, i){
-			if (el.offsetHeight > 0 && el != slider) this.clear(el);
+			if (el.offsetHeight > 0) this.clear(el);
 		}.bind(this));
 		
 		this.togglers.each(function(el, i){
-			if (el != toggler) Element.removeClassName(el, 'moofx-toggler-down');
+			 Element.removeClassName(el, 'moofx-toggler-down');
 		}.bind(this));
 		
 		if (slider.offsetHeight == 0) {
 			setTimeout(function(){this.clear(slider);}.bind(this), this.options.delay);
 			Element.addClassName(toggler, 'moofx-toggler-down');
 		}
-		
-		/*if (slider.offsetHeight > 0) {
-			setTimeout(function(){this.clear(slider);}.bind(this), this.options.delay);
-				Element.removeClassName(toggler, 'moofx-toggler-down');
-		}*/
 	},
 
 	clear: function(slider){
@@ -76,5 +71,5 @@ addLoadEvent(function() {
   var sliders  = document.getElementsByClassName('moofx-slider'); 	//div that stretches
   var togglers = document.getElementsByClassName('moofx-toggler'); 	//h3s where I click on
   
-  var slide = new fx.Slide(togglers, sliders, {opacity: true, duration: 400});
+  var slide = new fx.Slide(togglers, sliders, {opacity: true, duration: 200});
 });
