@@ -24,7 +24,7 @@ class TOOLBAR_messages
 	function _VIEW() {
 
 		JMenuBar::title(  JText::_( 'View Private Message' ), 'inbox.png' );
-		JMenuBar::customX('reply', 'restore.png', 'restore_f2.png', JText::_( 'Reply' ), false );
+		JMenuBar::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false );
 		JMenuBar::deleteList();
 		JMenuBar::cancel();
 	}
@@ -48,7 +48,7 @@ class TOOLBAR_messages
 		JMenuBar::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
 		JMenuBar::deleteList();
 		JMenuBar::addNewX();
-		JMenuBar::custom('config', 'properties.png', 'properties_f2.png', JText::_( 'Settings' ), false, false);
+		JMenuBar::custom('config', 'properties.png', 'properties_f2.png', 'Settings', false, false);
 		JMenuBar::help( 'screen.messages.inbox' );
 	}
 }

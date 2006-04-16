@@ -28,7 +28,7 @@ class TOOLBAR_installer
 		$type = JRequest::getVar( 'extension');
 
 		JMenuBar::title( JText::_( 'Extension Manager'), 'install.png' );
-		JMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
+		JMenuBar::deleteList( '', 'remove', 'Uninstall' );
 		JMenuBar::help( 'screen.installer2' );
 	}
 

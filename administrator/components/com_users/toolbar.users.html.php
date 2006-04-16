@@ -43,7 +43,7 @@ class TOOLBAR_users {
 	function _DEFAULT() {
 
 		JMenuBar::title( JText::_( 'User Manager' ), 'user.png' );
-		JMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;'. JText::_( 'Logout' ) );
+		JMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', 'Logout' );
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();

@@ -70,8 +70,8 @@ class TOOLBAR_categories {
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		if ( $section == 'content' || ( $section > 0 ) ) {
-			JMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
-			JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+			JMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
+			JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
 		}
 		JMenuBar::deleteList();
 		JMenuBar::editListX();

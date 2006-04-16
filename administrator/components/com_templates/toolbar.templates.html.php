@@ -26,7 +26,7 @@ class TOOLBAR_templates
 		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		
 		if ($client->id == '1') {
-			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
+			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', 'Default', true);
 		} else {
 			JMenuBar::makeDefault();
 		}
@@ -50,8 +50,8 @@ class TOOLBAR_templates
 	function _EDIT(&$client){
 
 		JMenuBar::title( JText::_( 'Template Parameters' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
-		JMenuBar::custom('preview', 'preview.png', 'preview_f2.png', JText::_( 'Preview' ), false, false);
-		JMenuBar::custom( 'edit_source', 'html.png', 'html_f2.png', JText::_( 'Edit HTML' ), false, false );
+		JMenuBar::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
+		JMenuBar::custom( 'edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false );
 		JMenuBar::custom( 'choose_css', 'css.png', 'css_f2.png', JText::_( 'Edit CSS' ), false, false );
 		JMenuBar::save( 'save' );
 		JMenuBar::apply();
@@ -61,7 +61,7 @@ class TOOLBAR_templates
 	function _CHOOSE_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template CSS Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::back();
-		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );	
+		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', 'Next', true );	
 	}
 
 	function _EDIT_CSS(&$client){

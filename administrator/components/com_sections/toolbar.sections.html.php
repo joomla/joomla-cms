@@ -56,7 +56,7 @@ class TOOLBAR_sections {
 		JMenuBar::title( JText::_( 'Section Manager' ), 'sections.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+		JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();

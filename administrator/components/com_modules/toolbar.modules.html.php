@@ -22,7 +22,7 @@ class TOOLBAR_modules {
 	*/
 	function _NEW($client)	{
 		JMenuBar::title( JText::_( 'New Module' ).': <small><small>['. JText::_( $client->name ) .']</small></small>', 'module.png' );
-		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
+		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', 'Next', true );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.modules.new' );
 	}
@@ -55,7 +55,7 @@ class TOOLBAR_modules {
 		JMenuBar::title( JText::_( 'Module Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'module.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();

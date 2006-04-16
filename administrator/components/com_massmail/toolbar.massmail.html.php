@@ -26,7 +26,7 @@ class TOOLBAR_massmail {
 	function _DEFAULT() {
 
 		JMenuBar::title( JText::_( 'Mass Mail' ), 'massemail.png' );
-		JMenuBar::custom('send','send.png','send_f2.png',JText::_( 'Send Mail' ),false);
+		JMenuBar::custom('send','send.png','send_f2.png','Send Mail',false);
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.users.massmail' );
 	}

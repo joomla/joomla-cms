@@ -39,6 +39,7 @@ Legend:
 
 15-Apr-2006 Louis Landry
  # Fixed small bugs with JFolder and JFTP -- Thanks Beat --
+ # Fixed some translation strings in admin
 
 13-Apr-2006 Louis Landry
  # Fixed artf3574 : com_weblinks description field

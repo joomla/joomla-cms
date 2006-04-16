@@ -43,21 +43,21 @@ class TOOLBAR_content {
 
 		JMenuBar::title( JText::_( 'Archive Manager' ), 'addedit.png' );
 		JMenuBar::unarchiveList();
-		JMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', JText::_( 'Trash' ), false );
+		JMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
 		JMenuBar::help( 'screen.content.archive' );
 	}
 
 	function _MOVE() {
 
 		JMenuBar::title( JText::_( 'Move Content Items' ), 'move_f2.png' );
-		JMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
+		JMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
 		JMenuBar::cancel();
 	}
 
 	function _COPY() {
 
 		JMenuBar::title( JText::_( 'Copy Content Items' ), 'copy_f2.png' );
-		JMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
+		JMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', 'Save', false );
 		JMenuBar::cancel();
 	}
 
@@ -67,8 +67,8 @@ class TOOLBAR_content {
 		JMenuBar::archiveList();
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', JText::_( 'Move' ) );
-		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ) );
+		JMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
+		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();

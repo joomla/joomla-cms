@@ -26,7 +26,7 @@ class TOOLBAR_menus {
 	function _NEW()	{
 
 		JMenuBar::title(  JText::_( 'New Menu Item' ), 'menu.png' );
-		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
+		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', 'Next', true );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.menus.new' );
 	}
@@ -37,7 +37,7 @@ class TOOLBAR_menus {
 	function _MOVEMENU()	{
 
 		JMenuBar::title( JText::_( 'Move Menu Items' ) );
-		JMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', JText::_( 'Move' ), false );
+		JMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', 'Move', false );
 		JMenuBar::cancel( 'cancelmovemenu' );
 		JMenuBar::help( 'screen.menus.move' );
 	}
@@ -48,7 +48,7 @@ class TOOLBAR_menus {
 	function _COPYMENU()	{
 
 		JMenuBar::title( JText::_( 'Copy Menu Items' ) );
-		JMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );
+		JMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JMenuBar::cancel( 'cancelcopymenu' );
 		JMenuBar::help( 'screen.menus.copy' );
 	}
@@ -88,8 +88,8 @@ class TOOLBAR_menus {
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
-		JMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+		JMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', 'Move', true );
+		JMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();

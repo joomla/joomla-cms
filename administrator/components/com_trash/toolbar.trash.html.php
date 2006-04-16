@@ -30,8 +30,8 @@ class TOOLBAR_Trash {
 		}
 
 		JMenuBar::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );
-		JMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
-		JMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);
+		JMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', 'Restore', true);
+		JMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', 'Delete', true);
 		JMenuBar::help( 'screen.trashmanager' );
 	}
 

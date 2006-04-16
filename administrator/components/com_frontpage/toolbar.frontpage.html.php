@@ -26,7 +26,7 @@ class TOOLBAR_FrontPage {
 		JMenuBar::archiveList();
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::custom('remove','delete.png','delete_f2.png',JText::_( 'Remove' ), true);
+		JMenuBar::custom('remove','delete.png','delete_f2.png','Remove', true);
 		JMenuBar::help( 'screen.frontpage' );
 	}
 }
