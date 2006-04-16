@@ -44,9 +44,9 @@ function botDetectVisitor()
 	$platform = $objBrowser->getPlatform();
 
 	if (phpversion() <= '4.2.1') {
-		$domain = gethostbyaddr( getenv( 'REMOTE_ADDR' ) );
+		$domain = @gethostbyaddr( getenv( 'REMOTE_ADDR' ) );
 	} else {
-		$domain = gethostbyaddr( mosGetParam( $_SERVER, 'REMOTE_ADDR', '' ) );
+		$domain = @gethostbyaddr( mosGetParam( $_SERVER, 'REMOTE_ADDR', '' ) );
 	}
 
 	$query = "SELECT COUNT(*)"
