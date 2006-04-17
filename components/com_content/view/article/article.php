@@ -391,7 +391,7 @@ class JViewHTMLArticle extends JView
 		}
 		// Display the editor
 		// arguments (areaname, content, hidden field, width, height, rows, cols)
-		echo $editor->getEditor('editor1', $article->text, 'text', '655', '400', '70', '15');
+		echo $editor->display('text', $article->text, '655', '400', '70', '15');
 		?>
 		
 		<!-- Images Tab -->	
@@ -768,7 +768,8 @@ class JViewHTMLArticle extends JView
 		$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
 		$db->setQuery($query);
 		$article->frontpage = $db->loadResult();
-		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $article->frontpage);
+		
+		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
 		$lists['access'] = mosAdminMenus::Access($article);

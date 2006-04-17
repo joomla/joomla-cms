@@ -119,14 +119,13 @@ class JEditor extends JObservable {
 	 *
 	 *
 	 */
-	function save( $editorArea, $hiddenField )
+	function save( $editor )
 	{
 		global $mainframe;
 
 		$this->_loadEditor();
 
-		$args[] = $editorArea;
-		$args[] = $hiddenField;
+		$args[] = $editor;
 		$args['event'] = 'onSave';
 
 		$return = '';
