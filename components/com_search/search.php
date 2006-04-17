@@ -210,7 +210,8 @@ function viewSearch() {
 		$page = new JPagination( $total, $limitstart, $limit );
 		
 		// prepares searchword for proper display in url
-		$searchword_clean = urlencode(stripslashes($searchword_clean));
+//		$searchword_clean = urlencode(stripslashes($searchword_clean));
+		$searchword_clean = stripslashes($searchword_clean);
 		
 		if ( $n ) {
 		// html output
