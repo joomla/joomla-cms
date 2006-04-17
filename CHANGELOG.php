@@ -41,6 +41,7 @@ Legend:
  ^ Preview content now works on the fly
  ^ Refactored JEditor API
  ^ Moved site content item editing to modal popup 
+ - Removed TinyMCE print, save and preview plugins
 
 15-Apr-2006 Louis Landry
  # Fixed small bugs with JFolder and JFTP -- Thanks Beat --
