@@ -50,7 +50,6 @@ $query = "SELECT *"
 . "\n WHERE userid != 0"
 . $and
 . "\n ORDER BY usertype, username"
-. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 ;
 $database->setQuery( $query );
 $rows = $database->loadObjectList();
@@ -100,5 +99,4 @@ foreach ( $rows as $row )
 }
 ?>
 </table>
-<?php echo $pageNav->getListFooter(); ?>
 <input type="hidden" name="option" value="com_admin" />

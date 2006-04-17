@@ -42,6 +42,7 @@ Legend:
  ^ Refactored JEditor API
  ^ Moved site content item editing to modal popup 
  - Removed TinyMCE print, save and preview plugins
+ - Removed administrator/mod_components
 
 15-Apr-2006 Louis Landry
  # Fixed small bugs with JFolder and JFTP -- Thanks Beat --

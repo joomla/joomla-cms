@@ -601,19 +601,17 @@ div.footer {
 /* pane-sliders  */
 .pane-sliders .title {
 	margin: 0;
-	border-bottom: 1px solid #ccc;
 	padding: 2px;
 	color: #666;
 	cursor: pointer;
 }
 
-.pane-sliders .panel {
-	border: 1px solid #ccc; margin-bottom: 3px;
-}
+.pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px; }
 
+.pane-sliders .content { height: 0px; display: none; }
 
-.pane-sliders .content {
-	height: 0px; display: none;
-}
-.moofx-toggler      { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
-.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
+.pane-sliders .adminlist     { border: 0 none; }
+.pane-sliders .adminlist td  { border: 0 none; }
+
+.moofx-toggler      { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px;}
+.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); border-bottom: 1px solid #ccc; }

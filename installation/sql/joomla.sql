@@ -458,7 +458,6 @@ INSERT INTO `#__modules` VALUES (14, 'Search', '', 1, 'user4', 0, '0000-00-00 00
 INSERT INTO `#__modules` VALUES (15, 'Random Image', '', 9, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 0, 1, '', 0, 0);
 INSERT INTO `#__modules` VALUES (16, 'Top Menu', '', 1, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=topmenu\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\nmoduleclass_sfx=\nindent_image1=0\nindent_image2=0\nindent_image3=0\nindent_image4=0\nindent_image5=0\nindent_image6=0', 1, 0);
 INSERT INTO `#__modules` VALUES (17, 'Banners', '', 1, 'banner', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 0, 'banner_cids=\nmoduleclass_sfx=\n', 1, 0);
-INSERT INTO `#__modules` VALUES (18, 'Components','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_components',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (19, 'Popular','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',0,23,1,'',0, 1);
 INSERT INTO `#__modules` VALUES (20, 'Recent added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',0,23,1,'',0, 1);
 INSERT INTO `#__modules` VALUES (21, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:00:00',1,'mod_stats',0,23,1,'',0, 1);
