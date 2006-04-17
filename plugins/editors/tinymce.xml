@@ -75,12 +75,6 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="preview_height" type="text" default="550" label="Preview Height" description="PARAMPREVIEWHEIGHT"/>
- 		<param name="preview_width" type="text" default="750" label="Preview Width" description="PARAMPREVIEWWIDTH"/>
- 		<param name="searchreplace" type="radio" default="1" label="Search and Replace" description="PARAMSEARCHREPLACE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
  		<param name="insertdate" type="radio" default="1" label="Insert Date" description="PARAMINSERTDATE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>

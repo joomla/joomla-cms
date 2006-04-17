@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 16-Apr-2006 Johan Janssens
+ ^ Preview content now works on the fly
+ ^ Refactored JEditor API
  ^ Moved site content item editing to modal popup 
 
 15-Apr-2006 Louis Landry

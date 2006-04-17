@@ -75,7 +75,7 @@ class JButton_Popup extends JButton
 			$url = $mainframe->getBaseURL().$url;
 		}
 		 
-		$cmd = "popupWindow('$url','$name',$width,$height,'no');";
+		$cmd = "popupWindow('$url','$name',$width,$height,'yes');";
 		
 		return $cmd;
 	}

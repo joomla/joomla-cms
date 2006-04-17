@@ -316,7 +316,7 @@ class HTML_typedcontent {
 				} else {
 				}
 				<?php 
-				echo $editor->getEditorContents( 'editor1', 'introtext' ) ; ?>
+				echo $editor->save( 'introtext' ) ; ?>
 				submitform( pressbutton );
 			}
 		}

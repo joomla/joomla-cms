@@ -266,7 +266,7 @@ function initEditor() {
 }
 
 /**
- * Legacy function, use JEditor::getEditorContents instead
+ * Legacy function, use JEditor::save or JEditor::getContent instead
  * 
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
@@ -274,11 +274,11 @@ function initEditor() {
 function getEditorContents($editorArea, $hiddenField) {
 	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
-	echo $editor->getEditorContents($editorArea, $hiddenField);
+	echo $editor->getEditorContents( $hiddenField );
 }
 
 /**
- * Legacy function, use JEditor::getEditor instead
+ * Legacy function, use JEditor::display instead
  * 
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
@@ -286,7 +286,7 @@ function getEditorContents($editorArea, $hiddenField) {
 function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
 	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
-	echo $editor->getEditor($name, $content, $hiddenField, $width, $height, $col, $row);
+	echo $editor->getEditor($hiddenField, $content, $width, $height, $col, $row);
 }
 
 /**

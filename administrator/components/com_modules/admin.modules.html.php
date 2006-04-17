@@ -244,7 +244,7 @@ class HTML_modules {
 			} else {
 				<?php
 				if ($row->module == '' || $row->module == 'custom') {
-					echo $editor->getEditorContents( 'editor1', 'content' );
+					echo $editor->save( 'content' );
 				}
 				?>
 			}

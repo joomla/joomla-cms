@@ -47,7 +47,7 @@ class JEditor_xstandard extends JPlugin {
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
 	 */
-	function onInitEditor() 
+	function onInit() 
 	{
 		global $mainframe;
 		
@@ -63,15 +63,32 @@ class JEditor_xstandard extends JPlugin {
 	
 		return $html;
 	}
-
+	
 	/**
-	 * XStandard Lite WYSIWYG Editor - copy editor contents to form field
+	 * XStandard Lite WYSIWYG Editor - get the editor content
 	 * 
-	 * @param string The name of the editor area
-	 * @param string The name of the form field
+	 * @param string 	The name of the editor
 	 */
-	function onGetEditorContents( $editorArea, $hiddenField ) {
-
+	function onGetContent( $editor ) {
+		return;
+	}
+	
+	/**
+	 * XStandard Lite WYSIWYG Editor - set the editor content
+	 * 
+	 * @param string 	The name of the editor
+	 */
+	function onSetContent( $editor, $html ) {
+		return ;
+	}
+	
+	/**
+	 * XStandard Lite WYSIWYG Editor - copy editor content to form field
+	 * 
+	 * @param string 	The name of the editor
+	 */
+	function onSave( $editor ) {
+		return;
 	}
 	
 	/**
@@ -85,7 +102,7 @@ class JEditor_xstandard extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row ) 
 	{
 		global $mainframe;
 		
@@ -104,7 +121,7 @@ class JEditor_xstandard extends JPlugin {
 		?> 
 	
 		<div style="border: 1px solid #D5D5D5">  
-		<object type="application/x-xstandard" id="<?php echo $name ?>" class="<?php echo $hiddenField ?>" width="<?php echo $width ?>" height="<?php echo $height ?>">
+		<object type="application/x-xstandard" id="<?php echo $name ?>" class="<?php echo $name ?>" width="<?php echo $width ?>" height="<?php echo $height ?>">
  			<param name="Value" value="<?php echo convertToXML($content) ?>" />
  			
  			<param name="Lang" value="en" />
@@ -137,7 +154,7 @@ class JEditor_xstandard extends JPlugin {
 		
 			<textarea name="alternate1" id="alternate1" cols="60" rows="15"><?php echo $content ?></textarea>
 		</object>
- 		<input type="hidden" id="<?php echo $hiddenField ?>" name="<?php echo $hiddenField ?>" value="" />
+ 		<input type="hidden" id="<?php echo $name ?>" name="<?php echo $name ?>" value="" />
  		</div>
 		<?php
 		$html = ob_get_contents();

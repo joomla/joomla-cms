@@ -152,15 +152,15 @@ class JViewContentHTML {
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				} else {
 					<?php
-					echo $editor->getEditorContents('editor1', 'introtext');
-					echo $editor->getEditorContents('editor2', 'fulltext');
+					echo $editor->save( 'introtext' );
+					echo $editor->save( 'fulltext' );
 					?>
 					submitform(pressbutton);
 				}
 			} else {
 				// for static content
 				<?php
-				echo $editor->getEditorContents('editor1', 'introtext');
+				echo $editor->save( 'introtext' );
 				?>
 				submitform(pressbutton);
 			}
@@ -278,7 +278,7 @@ class JViewContentHTML {
 			<td>
 				<?php
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				echo $editor->getEditor('editor1', $row->introtext, 'introtext', '600', '400', '70', '15');
+				echo $editor->display('introtext', $row->introtext, '600', '400', '70', '15');
 				?>
 			</td>
 		</tr>
@@ -294,7 +294,7 @@ class JViewContentHTML {
 				<td>
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					echo $editor->getEditor('editor2', $row->fulltext, 'fulltext', '600', '400', '70', '15');
+					echo $editor->display('fulltext', $row->fulltext, '600', '400', '70', '15');
 					?>
 				</td>
 			</tr>

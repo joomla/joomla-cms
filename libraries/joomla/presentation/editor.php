@@ -67,7 +67,7 @@ class JEditor extends JObservable {
 		$return = '';
 		if ($mainframe->get('loadEditor', false)) {
 
-			$args['event'] = 'onInitEditor';
+			$args['event'] = 'onInit';
 
 			$results[] = $this->_editor->update($args);
 			foreach ($results as $result) {
@@ -79,13 +79,47 @@ class JEditor extends JObservable {
 		}
 		return $return;
 	}
-
+	
 	/**
-	 * Get the editor contents
+	 * Present a text area
 	 *
 	 *
 	 */
-	function getEditorContents($editorArea, $hiddenField) 
+	function display($name, $html, $width, $height, $col, $row) 
+	{
+		global $mainframe, $my;
+
+		$this->_loadEditor();
+		
+		/*
+		 * Initialize variables
+		 */
+		$return = null;
+
+		$args['name'] 		 = $name;
+		$args['content']	 = $html;
+		$args['width'] 		 = $width;
+		$args['height'] 	 = $height;
+		$args['col'] 		 = $col;
+		$args['row'] 		 = $row;
+		$args['event'] 		 = 'onDisplay';
+		
+		$results[] = $this->_editor->update($args);
+		
+		foreach ($results as $result) {
+			if (trim($result)) {
+				$return .= $result;
+			}
+		}
+		return $return;
+	}
+	
+	/**
+	 * Save the editor content
+	 *
+	 *
+	 */
+	function save( $editorArea, $hiddenField )
 	{
 		global $mainframe;
 
@@ -93,7 +127,7 @@ class JEditor extends JObservable {
 
 		$args[] = $editorArea;
 		$args[] = $hiddenField;
-		$args['event'] = 'onGetEditorContents';
+		$args['event'] = 'onSave';
 
 		$return = '';
 		$results[] = $this->_editor->update($args);
@@ -106,32 +140,45 @@ class JEditor extends JObservable {
 	}
 
 	/**
-	 * Present a text area
+	 * Get the editor contents
 	 *
 	 *
 	 */
-	function getEditor($name, $content, $hiddenField, $width, $height, $col, $row) 
+	function getContent( $editor ) 
 	{
-		global $mainframe, $my;
+		global $mainframe;
 
 		$this->_loadEditor();
-		
-		/*
-		 * Initialize variables
-		 */
-		$return = null;
 
-		$args['name'] 		 = $name;
-		$args['content']	 = $content;
-		$args['hiddenField'] = $hiddenField;
-		$args['width'] 		 = $width;
-		$args['height'] 	 = $height;
-		$args['col'] 		 = $col;
-		$args['row'] 		 = $row;
-		$args['event'] 		 = 'onEditorArea';
-		
+		$args[] = $editor;
+		$args['event'] = 'onGetContent';
+
+		$return = '';
 		$results[] = $this->_editor->update($args);
-		
+		foreach ($results as $result) {
+			if (trim($result)) {
+				$return .= $result;
+			}
+		}
+		return $return;
+	}
+	
+	/**
+	 * Set the editor contents
+	 *
+	 *
+	 */
+	function setContent( $editor, $html ) 
+	{
+		global $mainframe;
+
+		$this->_loadEditor();
+
+		$args[] = $editor;
+		$args['event'] = 'onSetContent';
+
+		$return = '';
+		$results[] = $this->_editor->update($args);
 		foreach ($results as $result) {
 			if (trim($result)) {
 				$return .= $result;

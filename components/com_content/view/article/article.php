@@ -314,7 +314,7 @@ class JViewHTMLArticle extends JView
 				} else {
 		<?php
 		// JavaScript for extracting editor text
-		echo $editor->getEditorContents('editor1', 'text');
+		echo $editor->save( 'text' );
 		?>
 					submitform(pressbutton);
 					window.top.hidePopWin();

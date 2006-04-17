@@ -262,7 +262,7 @@ class categories_html {
 				alert("<?php echo JText::_( 'Category must have a name', true ); ?>");
 			} else {
 				<?php 
-				echo $editor->getEditorContents( 'editor1', 'description' ) ; ?>
+				echo $editor->save( 'description' ) ; ?>
 				submitform(pressbutton);
 			}
 		}

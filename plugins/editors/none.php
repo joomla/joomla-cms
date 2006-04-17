@@ -47,7 +47,7 @@ class JEditor_none extends JPlugin {
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
 	 */
-	function onInitEditor() {
+	function onInit() {
 		$txt =	"<script type=\"text/javascript\">
 					function insertAtCursor(myField, myValue) {
 						if (document.selection) {
@@ -69,15 +69,32 @@ class JEditor_none extends JPlugin {
 				</script>";
 		return $txt;
 	}
-
+	
 	/**
-	 * No WYSIWYG Editor - copy editor contents to form field
+	 * No WYSIWYG Editor - copy editor content to form field
 	 * 
-	 * @param string The name of the editor area
-	 * @param string The name of the form field
+	 * @param string 	The name of the editor
 	 */
-	function onGetEditorContents( $editorArea, $hiddenField ) {
-		return null;
+	function onSave( $editor ) {
+		return;
+	}
+	
+	/**
+	 * No WYSIWYG Editor - get the editor content
+	 * 
+	 * @param string 	The name of the editor
+	 */
+	function onGetContent( $editor ) {
+		return;
+	}
+	
+	/**
+	 * No WYSIWYG Editor - set the editor content
+	 * 
+	 * @param string 	The name of the editor
+	 */
+	function onSetContent( $editor, $html ) {
+		return;
 	}
 	
 	/**
@@ -91,7 +108,7 @@ class JEditor_none extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row ) 
 	{
 		global $mainframe;
 	
@@ -109,7 +126,7 @@ class JEditor_none extends JPlugin {
 		}
 		$buttons = implode( "", $buttons );
 
-		$txt = "<textarea name=\"$hiddenField\" id=\"$hiddenField\" cols=\"$col\" rows=\"$row\" style=\"width:$width;height:$height;\">$content</textarea>
+		$txt = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:$width;height:$height;\">$content</textarea>
 				<br />$buttons";
 		return $txt;
 	}

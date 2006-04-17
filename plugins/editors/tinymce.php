@@ -40,14 +40,14 @@ class JEditor_tinymce extends JPlugin {
 	}
 
 	/**
-	 * Method to handle the onInitEditor event.
+	 * Method to handle the onInit event.
 	 *  - Initializes the TinyMCE WYSIWYG Editor
 	 * 
 	 * @access public
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
 	 */
-	function onInitEditor() 
+	function onInit() 
 	{
 		global $mainframe;
 		
@@ -79,10 +79,6 @@ class JEditor_tinymce extends JPlugin {
 
 
 		// Plugins
-		// preview
-		$preview			= $params->def( 'preview', 1 );
-		$preview_height		= $params->def( 'preview_height', '550' );
-		$preview_width		= $params->def( 'preview_width', '750' );
 		// insert date
 		$insertdate			= $params->def( 'insertdate', 1 );
 		$format_date		= $params->def( 'format_date', '%Y-%m-%d' );
@@ -92,7 +88,7 @@ class JEditor_tinymce extends JPlugin {
 		// search & replace
 		$searchreplace		=  $params->def( 'searchreplace', 1 );
 		// emotions
-		$smilies			=  $params->def( 'smilies', 1 );
+		$smilies			=  $params->def( 'smilies', 0 );
 		// flash
 		$flash				=  $params->def( 'flash', 1 );
 		// table
@@ -173,11 +169,6 @@ class JEditor_tinymce extends JPlugin {
 			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 		}
 	
-		// preview
-		if ( $preview ) {
-			$plugins[]	= 'preview';
-			$buttons2[]	= 'preview';
-		}
 		// search & replace
 		if ( $searchreplace ) {
 			$plugins[]	= 'searchreplace';
@@ -258,10 +249,9 @@ class JEditor_tinymce extends JPlugin {
 			plugins : \"advlink, advimage, $plugins\",
 			theme_advanced_buttons2_add : \"$buttons2\",
 			theme_advanced_buttons3_add : \"$buttons3\",
+			theme_advanced_disable : \"help\",
 			plugin_insertdate_dateFormat : \"$format_date\",
 			plugin_insertdate_timeFormat : \"$format_time\",
-			plugin_preview_width : \"$preview_width\",
-			plugin_preview_height : \"$preview_height\",
 			extended_valid_elements : \"a[name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
 			fullscreen_settings : {
 				theme_advanced_path_location : \"top\"
@@ -285,12 +275,29 @@ class JEditor_tinymce extends JPlugin {
 	}
 
 	/**
-	 * TinyMCE WYSIWYG Editor - copy editor contents to form field
+	 * TinyMCE WYSIWYG Editor - get the editor content
 	 * 
-	 * @param string The name of the editor area
-	 * @param string The name of the form field
+	 * @param string 	The name of the editor
 	 */
-	function onGetEditorContents( $editorArea, $hiddenField ) {
+	function onGetContent( $editor ) {
+		return "tinyMCE.getContent();";
+	}
+	
+	/**
+	 * TinyMCE WYSIWYG Editor - set the editor content
+	 * 
+	 * @param string 	The name of the editor
+	 */
+	function onSetContent( $editor, $html ) {
+		return "tinyMCE.setContent(".$html.");";
+	}
+	
+	/**
+	 * TinyMCE WYSIWYG Editor - copy editor content to form field
+	 * 
+	 * @param string 	The name of the editor
+	 */
+	function onSave( $editor ) {
 		return "tinyMCE.triggerSave();";
 	}
 	
@@ -299,13 +306,12 @@ class JEditor_tinymce extends JPlugin {
 	 * 
 	 * @param string The name of the editor area
 	 * @param string The content of the field
-	 * @param string The name of the form field
 	 * @param string The width of the editor area
 	 * @param string The height of the editor area
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row ) 
 	{
 		global $mainframe;
 	
@@ -329,7 +335,7 @@ class JEditor_tinymce extends JPlugin {
 		 * 
 		 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 		 */
-		return "<textarea id=\"$hiddenField\" name=\"$hiddenField\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>" .
+		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>" .
 				"<div id=\"editor-xtd-buttons\">$buttons</div>";
 	}
 }

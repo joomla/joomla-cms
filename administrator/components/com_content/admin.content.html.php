@@ -505,8 +505,8 @@ class ContentView
  				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
 			} else {
 				<?php 
-				echo $editor->getEditorContents( 'editor1', 'introtext' );
-				echo $editor->getEditorContents( 'editor2', 'fulltext' ); ?>
+				echo $editor->save( 'text' );
+				?>
 				submitform( pressbutton );
 			}
 		}
@@ -524,7 +524,7 @@ class ContentView
 					<td>
 						<?php
 						// parameters : areaname, content, hidden field, width, height, rows, cols
-						echo $editor->getEditor( 'editor1',  $row->text , 'text', '100%;', '550', '75', '20' ) ; 
+						echo $editor->display( 'text',  $row->text , '100%;', '550', '75', '20' ) ; 
 						?>
 					</td>
 				</tr>
@@ -709,16 +709,16 @@ class ContentView
 
 	function previewContent()
 	{
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();
+		
 		?>
 		<script>
 		var form = window.opener.document.adminForm
 		var title = form.title.value;
 
-		var alltext = form.introtext.value;
-		if (form.fulltext) {
-			alltext += form.fulltext.value;
-		}
-
+		var alltext = window.opener.<?php echo $editor->getContent('text') ?>;
+		
 		// do the images
 		var temp = new Array();
 		for (var i=0, n=form.imagelist.options.length; i < n; i++) {
@@ -1138,7 +1138,7 @@ class ContentView
 			<td>
 				<label>
 				<?php echo JText::_( 'Frontpage' ); ?>
-				</label
+				</label>
 			</td>
 			<td>
 				<?php echo $lists['frontpage']; ?> 

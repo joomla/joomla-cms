@@ -226,7 +226,7 @@ class sections_html {
 				alert("<?php echo JText::_( 'Section must have a title', true  ); ?>");
 			} else {
 				<?php 
-				echo $editor->getEditorContents( 'editor1', 'description' ) ; ?>
+				echo $editor->save( 'description' ) ; ?>
 				submitform(pressbutton);
 			}
 		}
