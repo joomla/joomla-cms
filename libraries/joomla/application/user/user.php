@@ -268,13 +268,13 @@ class JUser extends JObject
 		/*
 		 * Lets check to see if the user is new or not
 		 */
-		if (empty($this->_table->id) && empty($this->_id) && $array['id']) {
+		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/) {
 			/*
 			 * Since we have a new user, and we are going to create it... we
 			 * need to check a few things and set some defaults if we don't
 			 * already have them.
 			 */
-			die("HERE");				
+			//die("HERE");				
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
@@ -297,18 +297,6 @@ class JUser extends JObject
 				$password = substr( $password, 0, 50 );
 				$this->set( 'password', $password ); 
 			}
-	
-			/*
-			 * NOTE
-			 * TODO
-			 * @todo: this will be deprecated as of the ACL implementation
-			 */
-			$query = "SELECT name"
-				. "\n FROM #__core_acl_aro_groups"
-				. "\n WHERE id = " . $this->get('gid')
-				;
-			$this->_table->_db->setQuery( $query );
-			$this->set( 'usertype', $this->_table->_db->loadResult());
 		} else {
 			/*
 			 * We are updating an existing user.. so lets get down to it.
@@ -318,19 +306,19 @@ class JUser extends JObject
 			} else {
 				$array['password'] = $this->get('password');
 			}
-
-			/*
-			 * NOTE
-			 * TODO
-			 * @todo: this will be deprecated as of the ACL implementation
-			 */
-			$query = "SELECT name"
-			. "\n FROM #__core_acl_aro_groups"
-			. "\n WHERE id = " . $this->get('gid')
-			;
-			$this->_table->_db->setQuery( $query );
-			$this->set( 'usertype', $this->_table->_db->loadResult());
 		}
+		
+		/*
+		 * NOTE
+		 * TODO
+		 * @todo: this will be deprecated as of the ACL implementation
+		 */
+		$query = "SELECT name"
+		. "\n FROM #__core_acl_aro_groups"
+		. "\n WHERE id = " . $array['gid']
+		;
+		$this->_table->_db->setQuery( $query );
+		$this->set( 'usertype', $this->_table->_db->loadResult());
 		
 		
 		/*

@@ -50,7 +50,7 @@ class JFullAdminMenu {
 		$editAllComponents 	= $user->authorize('com_components', 	'manage');
 		$canMassMail 		= $user->authorize('com_massmail', 		'manage');
 		$canManageUsers 	= $user->authorize('com_users', 		'manage');
-
+		
 		$query = "SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc" .
 				"\n FROM #__sections AS a" .
 				"\n LEFT JOIN #__categories AS c ON c.section = a.id" .

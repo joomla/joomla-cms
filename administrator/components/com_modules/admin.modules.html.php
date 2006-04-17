@@ -281,7 +281,7 @@ class HTML_modules {
 						</td>
 						<td>
 							<strong>
-								<?php echo JText::_($row->type); ?>
+								<?php echo JText::_($row->module); ?>
 							</strong>
 						</td>
 					</tr>

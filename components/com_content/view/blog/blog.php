@@ -186,7 +186,7 @@ class JViewHTMLBlog extends JView
 					if ($c > 0) {
 						$divider = " column_seperator";
 					}
-					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
+					echo "<td valign=\"top\" ".$width." class=\"article_column".$divider."\">\n";
 
 					$remaining = $total;
 					for ($r = 0; $r < $intro / $columns; $r ++) {

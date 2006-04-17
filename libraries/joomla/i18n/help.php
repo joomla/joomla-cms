@@ -72,7 +72,7 @@ class JHelp {
 		$list = array ();
 
 		$xml  = JFactory::getXMLParser('Simple');
-		$data = @file_get_contents($pathToXml);
+		//$data = file_get_contents($pathToXml);
 		
 		if(empty($data)) 
 		{

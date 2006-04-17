@@ -281,7 +281,7 @@ function saveUser(  )
 	global $mainframe;
 
 	$task 	= JRequest::getVar( 'task' );
-	$option 	= JRequest::getVar( 'option');
+	$option = JRequest::getVar( 'option');
 
 	/*
 	 * Initialize some variables
@@ -404,7 +404,7 @@ function removeUsers(  )
 		}
 	}
 
-	josRedirect( 'index2.php?option=com_users', $user->getError() );
+	josRedirect( 'index2.php?option=com_users', $msg);
 }
 
 /**

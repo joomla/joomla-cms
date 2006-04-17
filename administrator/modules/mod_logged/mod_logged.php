@@ -83,7 +83,7 @@ foreach ( $rows as $row )
 		<?php echo $clientInfo->name;?>
 		</td>
 		<?php
-		if ( $user->authorize( 'com_users', 'manage' ) ) {
+		if ( $user->authorize( 'com_users', 'manage' ) && $user->get('gid') != 25) {
 			?>
 			<td>
 			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">

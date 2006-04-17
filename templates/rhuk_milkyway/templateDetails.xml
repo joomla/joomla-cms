@@ -15,6 +15,7 @@
 			<filename>index.php</filename>
 			<filename>templateDetails.xml</filename>
 			<filename>template_thumbnail.png</filename>
+			<filename>params.ini</filename>
 			<filename>images/arrow.png</filename>
 			<filename>images/indent1.png</filename>
 			<filename>images/indent2.png</filename>
@@ -54,8 +55,10 @@
 			<filename>images/mw_shadow_blue_r.png</filename>
 			<filename>images/spacer.png</filename>
 			<filename>css/index.html</filename>
-			<filename>css/template_css.css</filename>
-			<filename>css/template_ie_only.css</filename>
+			<filename>css/template.css</filename>
+			<filename>css/template_rtl.css</filename>
+			<filename>css/editor.css</filename>
+			<filename>css/ieonly.css</filename>
     </files>
 		<positions>
 			<position>left</position>

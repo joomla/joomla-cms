@@ -303,14 +303,14 @@ class HTML_admin_misc
 						<?php
 						$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
 						foreach ($cf as $k=>$v) {
-							if (eregi( 'mosConfig_host', $v)) {
-								$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
-							} else if (eregi( 'mosConfig_user', $v)) {
-								$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
-							} else if (eregi( 'mosConfig_password', $v)) {
-								$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
-							} else if (eregi( 'mosConfig_db ', $v)) {
-								$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
+							if (eregi( 'var \$host', $v)) {
+								$cf[$k] = 'var $host = \'xxxxxx\'';
+							} else if (eregi( 'var \$user', $v)) {
+								$cf[$k] = 'var $user = \'xxxxxx\'';
+							} else if (eregi( 'var \$password', $v)) {
+								$cf[$k] = 'var $password = \'xxxxxx\'';
+							} else if (eregi( 'var \$db ', $v)) {
+								$cf[$k] = 'var $db = \'xxxxxx\'';
 							} else if (eregi( '<?php', $v)) {
 								$cf[$k] = '&lt;?php';
 							}

@@ -272,7 +272,7 @@ class JParameter extends JRegistry
 			return false;
 		}
 
-		$this->_elements[$signature]	= new $elementClass($this);
+		$this->_elements[$signature] = new $elementClass($this);
 		
 		return $this->_elements[$signature];
 	}

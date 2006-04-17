@@ -189,7 +189,7 @@ class JViewFrontpageHTML_blog
 					{
 						$divider = " column_seperator";
 					}
-					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
+					echo "<td valign=\"top\" ".$width." class=\"article_column".$divider."\">\n";
 					for ($y = 0; $y < $intro / $columns; $y ++)
 					{
 						if ($i <= $intro && ($i < $total))
