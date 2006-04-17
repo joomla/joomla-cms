@@ -278,6 +278,14 @@ class JViewHTMLArticle extends JView
 		}
 		?>
 		
+		function delay(gap)
+		{ /* gap is in millisecs */
+			var then,now; then=new Date().getTime();
+			now=then;
+			while((now-then)<gap)
+			{now=new Date().getTime();}
+		}
+		
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
@@ -310,6 +318,7 @@ class JViewHTMLArticle extends JView
 		?>
 					submitform(pressbutton);
 					window.top.hidePopWin();
+					delay(500);
 					window.top.location.reload(true);
 				}
 			}
@@ -705,7 +714,7 @@ class JViewHTMLArticle extends JView
 	{
 		// Get the article and database connector from the model
 		$article = & $this->get('Article');
-		$db = & $this->get('DBO');
+		$db 	 = & $this->get('DBO');
 
 		// Read the JPATH_ROOT/images/stories/ folder
 		$pathA = 'images/stories';

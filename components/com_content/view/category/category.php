@@ -48,9 +48,9 @@ class JViewHTMLCategory extends JView
 		$Itemid	= $menu->id;
 
 		// Get some data from the model
-		$category				= & $this->get( 'Category' );
+		$category			= & $this->get( 'Category' );
 		$other_categories	= & $this->get( 'Siblings' );
-		$items						= & $this->get( 'Content' );
+		$items				= & $this->get( 'Content' );
 
 		// Get the sort list information
 		$lists	= $this->_buildSortLists();
@@ -59,8 +59,8 @@ class JViewHTMLCategory extends JView
 		/*
 		 * Create a user access object for the user
 		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
@@ -144,14 +144,7 @@ class JViewHTMLCategory extends JView
 		// New Content icon
 		if (($access->canEdit || $access->canEditOwn) && count($other_categories) > 0)
 		{
-			$link = sefRelToAbs('index.php?option=com_content&amp;task=new&amp;sectionid='.$category->sectionid.'&amp;Itemid='.$Itemid);
-		?>
-					<a href="<?php echo $link; ?>">
-						<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
-						&nbsp;<?php echo JText::_( 'New' );?>...</a>
-					<br /><br />
-					<?php
-
+			JContentHTMLHelper::newIcon($category, $params, $access);
 		}
 		?>
 			</td>

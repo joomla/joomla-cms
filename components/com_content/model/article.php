@@ -157,7 +157,8 @@ class JModelArticle extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 ) {
+	function isCheckedOut( $uid=0 ) 
+	{
 		if (_loadArticle()) {
 			if ($uid) {
 				return ($this->_article->checked_out && $this->_article->checked_out != $uid);

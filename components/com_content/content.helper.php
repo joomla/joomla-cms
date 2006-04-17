@@ -513,6 +513,42 @@ class JContentHTMLHelper {
 			<?php echo $image; ?></a>
 		<?php
 	}
+	
+	/**
+	 * Helper method to print the new icon for the content item if enabled.
+	 *
+	 * This method will be deprecated with full patTemplate integration in
+	 * Joomla 1.2
+	 *
+	 * @static
+	 * @param object $item 		The content item
+	 * @param object $params 	The content item's parameters object
+	 * @param object $access 	Access object for the content item
+	 * @return void
+	 * @since 1.0
+	 */
+	function newIcon($item, $params, $access) 
+	{
+		global $Itemid, $mainframe;
+		
+		$user     =& $mainframe->getUser();
+		$document =& $mainframe->getDocument();
+	
+		$document->addScript('components/com_content/theme/js/common.js');
+		$document->addScript('components/com_content/theme/js/subModal.js');
+		
+		$document->addStyleSheet('components/com_content/theme/css/subModal.css');
+
+		$link = 'index2.php?option=com_content&amp;task=new&amp;sectionid='.$item->sectionid.'&amp;Itemid='.$Itemid;
+		$image = mosAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $item->id );
+
+		?>
+		<a href="javascript:showPopWin('<?php echo $link ?>', 700, 500, null);">
+			<?php echo $image ?>
+			&nbsp;<?php echo JText::_( 'New' );?>...
+		</a>
+		<?php
+	}
 
 	/**
 	 * Helper method to print the content item's pdf icon if enabled.
