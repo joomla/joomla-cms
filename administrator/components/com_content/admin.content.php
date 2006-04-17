@@ -541,10 +541,6 @@ class JContentController
 			{
 				$row->frontpage = 0;
 			}
-
-			// get list of links to this item
-			$and = "\n AND componentid = $row->id";
-			$menus = mosAdminMenus::Links2Menu('content_item_link', $and);
 		}
 		else
 		{
@@ -574,7 +570,6 @@ class JContentController
 			$row->modified = $nullDate;
 			$row->modifier = '';
 			$row->frontpage = 0;
-			$menus = array ();
 		}
 
 		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
@@ -684,8 +679,6 @@ class JContentController
 		$lists['_caption_align'] = mosAdminMenus::Positions('_caption_align', '', '', 1, 1, 1, 1, 'Icaption_align');
 		// build the html select list for the group access
 		$lists['access'] = mosAdminMenus::Access($row);
-		// build the html select list for menu selection
-		$lists['menuselect'] = mosAdminMenus::MenuSelect();
 
 		// build the select list for the image caption position
 		$pos[] = mosHTML::makeOption('bottom', JText::_('Bottom'));

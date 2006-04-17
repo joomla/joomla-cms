@@ -43,6 +43,7 @@ Legend:
  ^ Moved site content item editing to modal popup 
  - Removed TinyMCE print, save and preview plugins
  - Removed administrator/mod_components
+ - Removed 'Link To Menu' edit content tab 
 
 15-Apr-2006 Louis Landry
  # Fixed small bugs with JFolder and JFTP -- Thanks Beat --

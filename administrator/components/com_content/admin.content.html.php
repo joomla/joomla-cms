@@ -556,12 +556,6 @@ class ContentView
 				
 				ContentView::_paneParameters( $row, $lists, $params );			
 								
-				$title = JText::_( 'Link to Menu' );
-				$pane->endPanel();
-				$pane->startPanel( $title, "link-page" );
-					
-				ContentView::_paneLinkToMenu( $row, $lists, $params, $menus );			
-				
 				$pane->endPanel();
 				$pane->endPane();
 			?>
@@ -1050,60 +1044,7 @@ class ContentView
 		</table>
 		<?php
 	}
-	
-	function _paneLinkToMenu( &$row, &$lists, &$params, $menus)
-	{
-		?>
-		<table>
-		<tr>
-			<td colspan="2">
-				<?php echo JText::_( 'DESCWILLCREATELINKINMENU' ); ?>
-				<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td width="90">
-				<label for="menuselect">
-					<?php echo JText::_( 'Select a Menu' ); ?>
-				</label>
-			</td>
-			<td>
-				<?php echo $lists['menuselect']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td width="90">
-				<label for="link_name">
-					<?php echo JText::_( 'Menu Item Name' ); ?>
-				</label>
-			</td>
-			<td>
-				<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="30" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-			</td>
-			<td>
-				<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
-			</td>
-		</tr>
-		</table>
-		<?php
-		if ( $menus != NULL ) {
-		?>
-		<br />
-		<table class="adminform">
-		<tr>
-			<td colspan="2">
-				<?php mosCommonHTML::menuLinksContent( $menus ); ?>
-			</td>
-		</tr>
-		</table>
-		<?php
-		}
-	}
-	
+		
 	function _displayArticleDetails(&$row, &$lists, &$params )
 	{
 		?>
