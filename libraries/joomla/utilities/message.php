@@ -121,6 +121,7 @@ class JMessage extends JTable
 	function send($fromId = null, $toId = null, $subject = null, $message = null)
 	{
 		global $mainframe, $mosConfig_mailfrom, $mosConfig_fromname;
+		$database = &$mainframe->getDBO();
 
 		if (is_object($this))
 		{
