@@ -452,7 +452,7 @@ class HTML_modules {
 								<td>
 									<?php
 									// parameters : areaname, content, hidden field, width, height, rows, cols
-									echo $editor->getEditor( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
+									echo $editor->display( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
 								</td>
 							</tr>
 							</table>
@@ -506,7 +506,8 @@ class HTML_modules {
 		</table>
 		<?php
 	}
-	/**
+	
+/**
 	/**
 	* Displays a selection list for module types
 	*/

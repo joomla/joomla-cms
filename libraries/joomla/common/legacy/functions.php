@@ -286,7 +286,7 @@ function getEditorContents($editorArea, $hiddenField) {
 function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
 	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
-	echo $editor->getEditor($hiddenField, $content, $width, $height, $col, $row);
+	echo $editor->display($hiddenField, $content, $width, $height, $col, $row);
 }
 
 /**
@@ -297,7 +297,8 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
  */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
-		
+	
+	
 	// attempt to disable session.use_trans_sid
 	ini_set('session.use_trans_sid', false);
 	

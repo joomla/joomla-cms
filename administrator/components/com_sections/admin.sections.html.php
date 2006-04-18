@@ -338,7 +338,7 @@ class sections_html {
 							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							echo $editor->getEditor( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; 
+							echo $editor->display( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; 
 							?>
 						</td>
 					</tr>

@@ -333,7 +333,7 @@ class HTML_typedcontent {
 						<td>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							echo $editor->getEditor( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
+							echo $editor->display( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
 							?>
 						</td>
 					</tr>
