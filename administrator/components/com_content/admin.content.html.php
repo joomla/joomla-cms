@@ -434,7 +434,7 @@ class ContentView
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, &$menus ) 
+	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option ) 
 	{
 		global $database;
 		

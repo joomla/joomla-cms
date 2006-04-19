@@ -161,7 +161,7 @@ class JContentController
 		$filter_state		= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_state", 'filter_state', '');
 		$catid				= $mainframe->getUserStateFromRequest("$option.viewcontent.catid", 'catid', 0);
 		$filter_authorid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_sectionid", 'filter_sectionid', 0);
+		$filter_sectionid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_sectionid", 'filter_sectionid', -1);
 		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart			= $mainframe->getUserStateFromRequest("$option.viewcontent.limitstart", 'limitstart', 0);
 		$search				= $mainframe->getUserStateFromRequest("$option.viewcontent.search", 'search', '');
@@ -444,9 +444,7 @@ class JContentController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
 		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -461,25 +459,18 @@ class JContentController
 		$row = & JTable::getInstance('content', $db);
 		$row->load($cid);
 
-		if ($cid)
-		{
+		if ($cid) {
 			$sectionid = $row->sectionid;
-			if ($row->state < 0) {
-				josRedirect('index2.php?option=com_content&sectionid='.$row->sectionid, JText::_('You cannot edit an archived item'));
+			if ($row->state < 0) { 
+				josRedirect('index2.php?option=com_content', JText::_('You cannot edit an archived item'));
 			}
 		}
 
-		/*
-		 * A section id of zero means grab from all sections
-		 */
+		// A sectionid of zero means grab from all sections
 		if ($sectionid == 0) {
 			$where = "\n WHERE section NOT LIKE '%com_%'";
-		}
-		else
-		{
-			/*
-			 * Grab from the specific section
-			 */
+		} else {
+			// Grab from the specific section
 			$where = "\n WHERE section = '$sectionid'";
 		}
 
@@ -493,15 +484,11 @@ class JContentController
 			josRedirect('index2.php?option=com_content', $msg);
 		}
 
-		if ($cid)
-		{
+		if ($cid) {
 			$row->checkout($user->get('id'));
-			if (trim($row->images))
-			{
+			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
-			}
-			else
-			{
+			} else {
 				$row->images = array ();
 			}
 
@@ -522,9 +509,7 @@ class JContentController
 			// test to reduce unneeded query
 			if ($row->created_by == $row->modified_by) {
 				$row->modifier = $row->creator;
-			}
-			else
-			{
+			} else {
 				$query = "SELECT name" .
 						"\n FROM #__users" .
 						"\n WHERE id = $row->modified_by";
@@ -537,26 +522,20 @@ class JContentController
 					"\n WHERE content_id = $row->id";
 			$db->setQuery($query);
 			$row->frontpage = $db->loadResult();
-			if (!$row->frontpage)
-			{
+			if (!$row->frontpage) {
 				$row->frontpage = 0;
 			}
-		}
-		else
-		{
+		} else {
 			if (!$sectionid && @ $_POST['filter_sectionid']) {
 				$sectionid = $_POST['filter_sectionid'];
 			}
 			
-			if (@ $_POST['catid'])
-			{
+			if (@ $_POST['catid']) {
 				$row->catid = $_POST['catid'];
 				$category = & JTable::getInstance('category', $db);
 				$category->load($_POST['catid']);
 				$sectionid = $category->section;
-			}
-			else
-			{
+			} else {
 				$row->catid = NULL;
 			}
 			$row->sectionid = $sectionid;
@@ -588,14 +567,11 @@ class JContentController
 		{
 			$section_list[] = $section->id;
 			// get the type name - which is a special category
-			if ($row->sectionid)
-			{
+			if ($row->sectionid) {
 				if ($section->id == $row->sectionid) {
 					$contentSection = $section->title;
 				}
-			}
-			else
-			{
+			} else {
 				if ($section->id == $sectionid) {
 					$contentSection = $section->title;
 				}
@@ -698,7 +674,7 @@ class JContentController
 			$row->text = $row->introtext;
 		}
 
-		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $images, $params, $option, $menus);
+		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $images, $params, $option);
 	}
 
 	/**

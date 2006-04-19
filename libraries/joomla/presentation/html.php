@@ -439,10 +439,16 @@ class mosHTML {
 		if ( $params->get( 'popup' ) && !$hide_js ) {
 			?>
 			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
-				<a href='javascript:window.close();'>
-					<span class="small">
-						<?php echo JText::_( 'Close Window' );?>
-					</span></a>
+				<script type="text/javascript">
+					document.write('<a href="#" onclick="javascript:window.close();"><span class="small"><?php echo JText::_( 'Close Window' );?></span></a>');
+				</script>
+				<?php
+				if ( $_SERVER['HTTP_REFERER'] != "") {
+					echo '<noscript>';
+					echo '<a href="'. $_SERVER['HTTP_REFERER'] .'"><span class="small">'. JText::_( 'BACK' ) .'</span></a>';
+					echo '</noscript>';
+				}
+				?>
 			</div>
 			<?php
 		}
@@ -502,17 +508,19 @@ class mosHTML {
 			if ( $params->get( 'popup' ) && !$hide_js ) {
 				// Print Preview button - used when viewing page
 				?>
-				<td align="right" width="100%" class="buttonheading">
-				<a href="javascript:void(0)" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">
-				<?php echo $image;?>
-				</a>
-				</td>
+				<script type="text/javascript">
+					document.write('<td align="right" width="100%" class="buttonheading">');
+					document.write('<a href="#" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">');
+					document.write('<?php echo $image;?>');
+					document.write('</a>');
+					document.write('</td>');
+				</script>
 				<?php
 			} else {
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Print' );?>">
+				<a href="<?php echo $link; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>

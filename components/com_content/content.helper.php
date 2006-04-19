@@ -577,7 +577,7 @@ class JContentHTMLHelper {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
+				<a href="<?php echo $link; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'PDF' );?>">
 					<?php echo $image; ?></a>
 			</td>
 			<?php
@@ -602,6 +602,7 @@ class JContentHTMLHelper {
 		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
+			$acclink = 'index.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
 			if ($params->get('icons')) 	{
 				$image = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 			} else {
@@ -609,7 +610,7 @@ class JContentHTMLHelper {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
+				<a href="<?php echo $acclink; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'Email' );?>">
 					<?php echo $image; ?></a>
 			</td>
 			<?php
