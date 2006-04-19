@@ -98,8 +98,22 @@ class JProfiler extends JObject
 	 * @access public
 	 * @param string Glue string
 	 */
-	function report( $glue='' )  {
-		return implode( $glue, $this->_buffer );
+	function report( $memory = true, $database = true, $glue='' )  
+	{
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
+		
+		echo implode( $glue, $this->_buffer );
+		echo "<br />";
+		echo $this->getmemory();
+		echo "<br />";
+		echo $db->_ticker . ' queries executed';
+		echo '<pre>';
+		foreach ($db->_log as $k=>$sql) {
+			echo $k+1 . "\n" . $sql . '<hr />';
+		}
+		echo '</pre>';
 	}
 
 	/**
@@ -118,12 +132,11 @@ class JProfiler extends JObject
 	 * @access public
 	 * @return int The memory usage
 	 */
-	function getMemory() 
+	function getmemory() 
 	{
 		static $isWin;
 
-		if (function_exists( 'memory_get_usage' )) 
-		{
+		if (function_exists( 'memory_get_usage' )) {
 			return memory_get_usage();
 		} 
 		else 

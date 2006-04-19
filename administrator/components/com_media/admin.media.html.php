@@ -37,7 +37,7 @@ class JMediaViews {
 			var urlquery=frames['imgManager'].location.search.substring(1);
 			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
 			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
-			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + listdir;
+			frames['imgManager'].location.href='index2.php?option=com_media&task=list&listdir=' + listdir;
 		}
 
 

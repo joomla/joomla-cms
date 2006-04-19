@@ -16,7 +16,8 @@
 * @package Joomla
 * @subpackage Content
 */
-class TOOLBAR_content {
+class TOOLBAR_content 
+{
 	function _EDIT() {
 
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -25,7 +26,7 @@ class TOOLBAR_content {
 		$text = ( $cid ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
 		JMenuBar::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
-		JMenuBar::preview( 'index3.php?option=com_content&id='.$cid, true );
+		JMenuBar::preview( 'index2.php?option=com_content&id='.$cid.'&file=component.html', true );
 		JMenuBar::media_manager();
 		JMenuBar::trash('remove', 'Trash', false);
 		JMenuBar::save();

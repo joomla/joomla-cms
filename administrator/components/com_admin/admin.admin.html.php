@@ -501,9 +501,9 @@ class HTML_admin_misc
 							|
 							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo mosHTML::Link('index3.php?option=com_admin&task=changelog', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link('index2.php?option=com_admin&task=changelog&file=component.html', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('index3.php?option=com_admin&task=sysinfo', JText::_( 'System Info' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link('index2.php?option=com_admin&task=sysinfo&file=component.html', JText::_( 'System Info' ), array('target' => "'helpFrame'")) ?>
 							|
 							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>

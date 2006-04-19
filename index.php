@@ -142,7 +142,9 @@ if ($option == 'search') {
 $mainframe->set( 'loadOverlib', false );
 
 $cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
-$file     = 'index.php';
+$no_html 	  = JRequest::getVar( 'no_html', 0, '', 'int' );
+$type 	 	  = JRequest::getVar( 'type', $no_html ? 'raw' : 'html',  '', 'string'  );
+$file 	 	  = JRequest::getVar( 'type', isset($file) ? $file : 'index.php',  '', 'string'  );
 
 if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 	$file = 'offline.php';
@@ -154,18 +156,5 @@ $document->display( $cur_template, $file, $mainframe->getCfg('gzip'), array('out
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 
-if (JDEBUG) {
-	echo $_PROFILER->report();
-	echo $_PROFILER->getMemory();
-}
-
-// displays queries performed for page
-if (JDEBUG) {
-	echo "<br />";
-	echo $database->_ticker . ' queries executed';
-	echo '<pre>';
- 	foreach ($database->_log as $k=>$sql) {
- 		echo $k+1 . "\n" . $sql . '<hr />';
-	}
-}
+JDEBUG ? $_PROFILER->report() : null;
 ?>

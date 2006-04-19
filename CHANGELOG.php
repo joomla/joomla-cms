@@ -42,6 +42,8 @@ Legend:
  + Added JDocumentRAW format for RAW output rendering
  ^ Refactored JDocument and com_content to use output types
  ^ Deprecated administrator/includes/template.php, file removed
+ ^ Made index.php only entry point for JSite
+ ^ Made index.php only entry point for JAdministrator
 
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly

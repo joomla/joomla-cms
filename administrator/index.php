@@ -19,6 +19,12 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.html.php'    );
 
+// initialise some common request directives
+$task 		= JRequest::getVar( 'task' );
+$section 	= JRequest::getVar( 'section' );
+$id         = JRequest::getVar( 'id', 0, '', 'int' );
+$cid		= JRequest::getVar( 'cid', null, 'post' );
+
 // create the mainframe object
 $mainframe = new JAdministrator();
 
@@ -34,27 +40,62 @@ JPluginHelper::importPlugin( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-// Get the global option variable and create the pathway
-$option = strtolower( JRequest::getVar( 'option' ) );
-$mainframe->_createPathWay( );	
-
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
 
-//create the session
+// create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
-// trigger the onAfterStart events
+// load a stored user state if it exists
+$mainframe->loadStoredUserState();
+
+// Get the global option variable and create the pathway
+$option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
+$mainframe->_createPathWay( );	
+
+if (is_null(JSession::get('guest')) || JSession::get('guest')) {
+	$file = 'login.php';
+}
+
+// set language 
+$mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
+
+// trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );
+
+JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
 
 // login the user
 if ($option == 'login') {
 	$mainframe->login();
 }
 
-$cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
+// logout the user
+if ($option == 'logout') {
+	$mainframe->logout();
+}
 
-$document =& $mainframe->getDocument();
+// get the information about the current user from the sessions table
+$user   = & $mainframe->getUser();
+$my		= $user->_table;
+
+// set for overlib check
+$mainframe->set( 'loadOverlib', false );
+
+$no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
+$type 	 	= JRequest::getVar( 'type', $no_html ? 'raw' : 'html',  '', 'string'  );
+$file 	 	= JRequest::getVar( 'type', isset($file) ? $file : 'index.php',  '', 'string'  );
+
+// loads template file
+$cur_template = $mainframe->getTemplate();
+
+$document =& $mainframe->getDocument($type);
+// Add the hidemainmenu var to the JDocument object so templates can adapt if needed
+$document->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' ))? '1' : '0');
 $document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-$document->display( $cur_template, 'login.php', $mainframe->getCfg('gzip') );
+$document->display( $cur_template, $file, $mainframe->getCfg('gzip') );
+
+JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ; 
+
+JDEBUG ? $_PROFILER->report() : null;
 ?>
