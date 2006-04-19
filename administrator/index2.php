@@ -17,7 +17,7 @@ define( '_JEXEC', 1 );
 define('JPATH_BASE', dirname(__FILE__) );
 
 require_once ( JPATH_BASE .'/includes/application.php' );
-require_once ( JPATH_BASE .'/includes/template.php'    );
+require_once ( JPATH_BASE .'/includes/template.html.php'    );
 
 // initialise some common request directives
 $task 		= JRequest::getVar( 'task' );

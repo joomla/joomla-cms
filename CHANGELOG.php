@@ -41,6 +41,7 @@ Legend:
  + Added JDocumentPDF format for PDF output rendering
  + Added JDocumentRAW format for RAW output rendering
  ^ Refactored JDocument and com_content to use output types
+ ^ Deprecated administrator/includes/template.php, file removed
 
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly
