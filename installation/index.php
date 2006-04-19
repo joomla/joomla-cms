@@ -36,12 +36,6 @@ $mainframe->setLanguage($configLang);
 $lang =& $mainframe->getLanguage();
 $lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
 
-$document =& $mainframe->getDocument();
-$document->parse( 'template', 'index.html', JPATH_BASE);
-
-//initialise the document
-initDocument($document, 'index.html');
-
 $task = JRequest::getVar( 'task' );
 
 $vars = $registry->toArray('application');
@@ -91,14 +85,8 @@ switch ($task)
 		break;
 }
 
+$document =& $mainframe->getDocument();
 $document->addGlobalVar('installation_', $result);
-
-header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
-header( 'Pragma: no-cache' );										// HTTP/1.0
-
-
-$document->display( 'index.html', false);
+$document->setTitle( 'Joomla! - Web Installer' );
+$document->display( 'template', 'index.html', false, array('directory' => JPATH_BASE));
 ?>

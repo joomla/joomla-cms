@@ -242,29 +242,10 @@ class JContentController extends JController
 	 */
 	function view()
 	{
-		// Set the view name to article view
-		$this->setViewName( 'article', 'com_content', 'HTML' );
-
-		// Create the view
-		$view = & $this->getView();
+		$type = JRequest::getVar( 'type', 'html' );
 		
-		// Get/Create the model
-		$model = & $this->getModel('Article');
-
-		// Get the id of the article to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
-	function viewpdf()
-	{
 		// Set the view name to article view
-		$this->setViewName( 'pdf', 'com_content' );
+		$this->setViewName( 'article', 'com_content', $type );
 
 		// Create the view
 		$view = & $this->getView();
@@ -759,7 +740,7 @@ $controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
 // Set the default view name from the Request
 // note - alternatively we can get it from the menu parameters
 $view = JRequest::getVar( 'view', 'article' );
-$controller->setViewName( $view, 'com_content', 'HTML' );
+$controller->setViewName( $view, 'com_content');
 
 // Register Extra tasks
 $controller->registerTask( 'blogcategorymulti', 'blogcategory' );

@@ -143,7 +143,7 @@ while ($data = mysql_fetch_object($res)) {
 
 	//optional
 	item->descriptionTruncSize = 500;
-	item->descriptionHtmlSyndicated = true;
+	item->descriptionHtmlSyndicated = true;yeah
 
 	$item->date = $data->newsdate;
 	$item->source = "http://www.dailyphp.net";

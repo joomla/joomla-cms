@@ -46,8 +46,8 @@ class JFrontpageController
 		/*
 		 * Create a user access object for the user
 		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 

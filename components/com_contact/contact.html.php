@@ -747,7 +747,7 @@ class JContactView {
 			<tr>
 				<td colspan="2">
 				<?php echo JText::_( 'Download information as a' );?>
-				<a href="index2.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $contact->id; ?>&amp;no_html=1">
+				<a href="index2.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $contact->id; ?>&amp;type=raw">
 				<?php echo JText::_( 'VCard' );?>
 				</a>
 				</td>

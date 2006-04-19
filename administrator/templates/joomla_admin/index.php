@@ -16,13 +16,13 @@ $lang =& $mainframe->getLanguage();
 <head>
 <jdoc:include type="head" />
 
-<jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL">
-	<jdoc:sub condition="1">
+<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
+	<jdoc:sub condition="rtl">
 		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<link href="templates/{TEMPLATE}/css/theme_rtl.css" rel="stylesheet" type="text/css" />
 		<link href="templates/{TEMPLATE}/css/icon_rtl.css" rel="stylesheet" type="text/css" />
 	</jdoc:sub>
-	<jdoc:sub condition="0">
+	<jdoc:sub condition="ltr">
 		<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 		<link href="templates/{TEMPLATE}/css/theme.css" rel="stylesheet" type="text/css" />
 		<link href="templates/{TEMPLATE}/css/icon.css" rel="stylesheet" type="text/css" />

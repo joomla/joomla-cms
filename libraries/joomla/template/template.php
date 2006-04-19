@@ -51,19 +51,13 @@ class JTemplate extends patTemplate
 	/**
 	* Class constructor
 	*
-	* The constructor accepts the type of the templates as sole parameter.
-	* You may choose one of:
-	* - html (default)
-	* - tex
-	*
 	* The type influences the tags you are using in your templates.
 	*
 	* @access	protected
-	* @param	string	$type (either html or tex)
 	*/
-	function __construct($type = 'html') 
+	function __construct() 
 	{
-		parent::patTemplate($type);
+		parent::patTemplate();
 		
 		//set the namespace
 		$this->setNamespace( 'jtmpl' );

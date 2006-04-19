@@ -21,11 +21,11 @@ $tstart = JProfiler::getmicrotime();
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 	<head>
 	<jdoc:include type="head" />
-	<jdoc:tmpl name="isRTL" varscope="login.php" type="condition" conditionvar="LANG_ISRTL">
-		<jdoc:sub condition="1">
+	<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
+		<jdoc:sub condition="rtl">
 			<link href="templates/{TEMPLATE}/css/login_rtl.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
-		<jdoc:sub condition="0">
+		<jdoc:sub condition="ltr">
 			<link href="templates/{TEMPLATE}/css/login.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>

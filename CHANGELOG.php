@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Apr-2006 Johan Janssens
+ + Added JDocumentPDF format for PDF output rendering
+ + Added JDocumentRAW format for RAW output rendering
+ ^ Refactored JDocument and com_content to use output types
+
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly
  ^ Refactored JEditor API

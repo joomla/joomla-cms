@@ -144,23 +144,13 @@ $mainframe->set( 'loadOverlib', false );
 $cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
 $file     = 'index.php';
 
-if ($mainframe->getCfg('offline') && $my->gid < '23' ) {
+if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 	$file = 'offline.php';
 }
 
 $document =& $mainframe->getDocument();
-$document->parse($cur_template, $file);
-
-JDEBUG ? $_PROFILER->mark( 'afterBufferOutput' ) : null;
-
-header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
-header( 'Pragma: no-cache' );										// HTTP/1.0
-
-initDocument($document, $file); //initialise the document
-$document->display( $file, $mainframe->getCfg('gzip'), JRequest::getVar('tp', 0 ));
+$document->setTitle( $mainframe->getCfg('sitename' ));
+$document->display( $cur_template, $file, $mainframe->getCfg('gzip'), array('outline' => JRequest::getVar('tp', 0 )));
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 

@@ -16,7 +16,7 @@ See COPYRIGHT.php for copyright notices and details.
 <!--[if lte IE 6]>
 <link href="templates/{TEMPLATE}/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL">
+<jdoc:tmpl name="isRTL" varscope="document" type="condition" conditionvar="LANG_ISRTL">
 	<jdoc:sub condition="1">
 		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	</jdoc:sub>
@@ -109,7 +109,7 @@ See COPYRIGHT.php for copyright notices and details.
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<jdoc:tmpl name="showComponent" varscope="index.php" type="condition" conditionvar="PARAM_SHOWCOMPONENT">
+										<jdoc:tmpl name="showComponent" varscope="document" type="condition" conditionvar="PARAM_SHOWCOMPONENT">
 											<jdoc:sub condition="1">
 												<jdoc:include type="component" />
 											</jdoc:sub>

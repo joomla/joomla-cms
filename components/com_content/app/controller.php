@@ -407,11 +407,11 @@ class JController extends JObject {
 	 * @access	public
 	 * @param	string	$viewName	The name of the view
 	 * @param	string	$option		The component subdirectory of the template folder to look in for an alternate
-	 * @param	string	$prefix			Optional prefix for the view class name
+	 * @param	string	$prefix		Optional prefix for the view class name
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setViewName( $viewName, $option, $prefix='' )
+	function setViewName( $viewName, $option, $prefix='html' )
 	{
 		$this->_viewName	= $viewName;
 		$this->_viewOption	= $option;
@@ -438,18 +438,18 @@ class JController extends JObject {
 	 * @access	private
 	 * @param	string	$viewName	The name of the view
 	 * @param	string	$option		The component subdirectory of the template folder to look in for an alternate
-	 * @param	string	$prefix			Optional prefix for the view class name
+	 * @param	string	$prefix		Optional prefix for the view class name
 	 * @return	mixed	View object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_loadView( $viewName, $option, $prefix='' )
+	function &_loadView( $viewName, $option, $prefix='html' )
 	{
 		// Clean the view name
 		$viewName = preg_replace( '#\W#', '', $viewName );
 		
 		// Get the current template name and path
 		$tName = $this->_app->getTemplate();
-		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.'components'.DS.$option.DS.strtolower($viewName).'.php';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.'components'.DS.$option.DS.strtolower($viewName).'.'.$prefix.'.php';
 
 		// If a matching view exists in the current template folder we use that, otherwise we look for the default one
 		if (file_exists( $tPath )) {
@@ -465,7 +465,7 @@ class JController extends JObject {
 			}
 		} else {
 			// Build the path to the default view based upon a supplied base path
-			$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.php';
+			$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.'.$prefix.'.php';
 
 			// If the default view file exists include it and try to instantiate the object
 			if (file_exists( $path )) {

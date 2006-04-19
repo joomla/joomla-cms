@@ -19,7 +19,8 @@ $_MAMBOTS->registerFunction( 'onSyndicate', 'botSyndicateFrontpage' );
  * routine: title, link, description, date
 * @param string URL info
 */
-function botSyndicateFrontpage( $url, $limit ) {
+function botSyndicateFrontpage( $url, $limit ) 
+{
 	global $database, $mainframe;
 	global $mosConfig_offset;
 

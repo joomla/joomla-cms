@@ -310,13 +310,12 @@ class JViewHTMLArchive extends JView
 		$Itemid	= $menu->id;
 
 		// These will come from a request object at some point
-		$task			= JRequest::getVar( 'task' );
-		$noJS 			= JRequest::getVar( 'hide_js', 0, '', 'int' );
-		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
+		$task		= JRequest::getVar( 'task' );
+		$noJS 		= JRequest::getVar( 'hide_js', 0, '', 'int' );
 
 		// TODO: clean this part up
 		$SiteName	= $app->getCfg('sitename');
-		$gid				= $user->get('gid');
+		$gid		= $user->get('gid');
 
 		$linkOn		= null;
 		$linkText	= null;
@@ -324,34 +323,33 @@ class JViewHTMLArchive extends JView
 		/*
 		 * Get some parameters from global configuration
 		 */
-		$params->def('link_titles',		$app->getCfg('link_titles'));
-		$params->def('author',			!$app->getCfg('hideAuthor'));
+		$params->def('link_titles',	$app->getCfg('link_titles'));
+		$params->def('author',		!$app->getCfg('hideAuthor'));
 		$params->def('createdate',	!$app->getCfg('hideCreateDate'));
 		$params->def('modifydate',	!$app->getCfg('hideModifyDate'));
-		$params->def('print',				!$app->getCfg('hidePrint'));
-		$params->def('pdf',					!$app->getCfg('hidePdf'));
-		$params->def('email',				!$app->getCfg('hideEmail'));
-		$params->def('rating',				$app->getCfg('vote'));
-		$params->def('icons',				$app->getCfg('icons'));
-		$params->def('readmore',		$app->getCfg('readmore'));
+		$params->def('print',		!$app->getCfg('hidePrint'));
+		$params->def('pdf',			!$app->getCfg('hidePdf'));
+		$params->def('email',		!$app->getCfg('hideEmail'));
+		$params->def('rating',		$app->getCfg('vote'));
+		$params->def('icons',		$app->getCfg('icons'));
+		$params->def('readmore',	$app->getCfg('readmore'));
 		$params->def('back_button', $app->getCfg('back_button'));
 		$params->set('intro_only', 1);
 		
 		/*
 		 * Get some item specific parameters
 		 */
-		$params->def('image',					1);
-		$params->def('section',				0);
-		$params->def('section_link',		0);
-		$params->def('category',			0);
+		$params->def('image',			1);
+		$params->def('section',			0);
+		$params->def('section_link',	0);
+		$params->def('category',		0);
 		$params->def('category_link',	0);
-		$params->def('introtext',			1);
+		$params->def('introtext',		1);
 		$params->def('pageclass_sfx',	'');
-		$params->def('item_title',			1);
-		$params->def('url',						1);
+		$params->def('item_title',		1);
+		$params->def('url',				1);
 
-		if (!$showImages)
-		{
+		if (!$showImages) {
 			$params->set('image',	0);
 		}
 		

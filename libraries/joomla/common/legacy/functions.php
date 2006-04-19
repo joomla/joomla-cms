@@ -368,4 +368,57 @@ function doGzip() {
 		ob_end_flush();
 	}
 }
+
+/**
+ * Legacy function, using <jdoc:exists> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosCountAdminModules(  $position='left' ) {
+	global $mainframe;
+	$document =& $mainframe->getDocument();
+	return count($document->getModules($position));
+}
+
+/**
+ * Legacy function, using <jdoc:include type="component" /> instead
+ * 
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosMainBody_Admin() {
+	?><jdoc:include type="component" /><?php
+}
+
+/**
+ * Legacy function, using <jdoc:include type="modules" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+ 
+function mosLoadAdminModules( $position='left', $style=0 ) {
+	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" /><?php
+}
+
+/**
+ * Legacy function, using <jdoc:include type="module" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosLoadAdminModule( $name, $style=0 ) {
+	?><jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" /><?php
+}
+
+/**
+ * Legacy function, using <jdoc:include type="head" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosShowHead_Admin() {	
+	?><jdoc:include type="head" /><?php
+}
 ?>

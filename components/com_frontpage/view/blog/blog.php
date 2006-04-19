@@ -283,7 +283,6 @@ class JViewFrontpageHTML_blog
 		$SiteName	= $mainframe->getCfg('sitename');
 		$gid		= $user->get('gid');
 		$task		= JRequest::getVar( 'task' );
-		$no_html	= JRequest::getVar( 'no_html', null );
 		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
 		$linkOn		= null;
 		$linkText	= null;

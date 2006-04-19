@@ -569,7 +569,7 @@ class JContentHTMLHelper {
 		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) 
 		{
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			$link = 'index2.php?option=com_content&amp;no_html=1&amp;pop=1&amp;task=viewpdf&amp;id='.$row->id;
+			$link = 'index2.php?option=com_content&amp;id='.$row->id.'&amp;type=pdf';
 			if ($params->get('icons')) {
 				$image = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 			} else {

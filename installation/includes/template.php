@@ -28,31 +28,11 @@ function initDocument(&$doc, $file = 'index.html')
 	$template = $mainframe->getTemplate();
 	
 	$version = new JVersion();
-
-	$doc->setMetaContentType();
-
-	$doc->setTitle( 'Joomla! - Web Installer' );
-
-	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
-	$doc->setMetaData( 'robots', 'noindex, nofollow' );
-
-	$doc->setBase( $mainframe->getBaseURL());
-
-	$doc->addScript( 'includes/js/installation.js');
 	
 	if ($lang->isRTL()) {
 		$doc->addStyleSheet( 'template/css/template_rtl.css' );
-		$doc->addGlobalVar( 'lang_dir', 'rtl' );
 	} else {
 		$doc->addStyleSheet( 'template/css/template.css' );
-		$doc->addGlobalVar( 'lang_dir', 'ltr' );
 	}
-
-	$doc->addGlobalVar('lang_tag', $lang->getTag());
-	$doc->addGlobalVar( 'template', $template);
-	
-	$doc->addVar( $file, 'lang_isrtl', $lang->isRTL());
-
-	$doc->addFavicon( 'favicon.ico' );
 }
 ?>

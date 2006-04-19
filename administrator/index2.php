@@ -91,24 +91,13 @@ if($no_html == 1) {
 
 // loads template file
 $cur_template = $mainframe->getTemplate();
-$file     = 'index.php';
+$file     	  = 'index.php';
 
 $document =& $mainframe->getDocument();
-$document->parse($cur_template, $file);
 // Add the hidemainmenu var to the JDocument object so templates can adapt if needed
 $document->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' ))? '1' : '0');
-
-JDEBUG ? $_PROFILER->mark( 'afterBufferOutput' ) : null;
-
-header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-header( 'Cache-Control: post-check=0, pre-check=0', false );
-header( 'Pragma: no-cache' );
-
-initDocument($document, $file); //initialise the document
-
-$document->display( $file, $mainframe->getCfg('gzip') );
+$document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+$document->display( $cur_template, $file, $mainframe->getCfg('gzip') );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ; 
 

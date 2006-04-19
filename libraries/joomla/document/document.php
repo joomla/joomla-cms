@@ -58,6 +58,14 @@ class JDocument extends JTemplate
      * @access  private
      */
     var $_language = 'en';
+	
+	/**
+     * Contains the page direction setting
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_direction = 'ltr';
 
 	/**
      * Document mime type
@@ -124,25 +132,24 @@ class JDocument extends JTemplate
     var $_title = '';
 	
 	/**
-     * Array of renderers
+     * Array of meta tags
      *
-     * @var       array
-     * @access    private
+     * @var     array
+     * @access  private
      */
-	var $_renderers = array();
+    var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.5' ) );
 	
 
 	/**
 	* Class constructor
 	* 
 	* @access protected
-	* @param  string	$type (either html or tex)
 	* @param	array	$attributes Associative array of attributes
 	* @see JDocument
 	*/
-	function __construct($type, $attributes = array())
+	function __construct( $attributes = array())
 	{
-		parent::__construct($type);
+		parent::__construct();
 		
 		if (isset($attributes['lineend'])) {
             $this->setLineEnd($attributes['lineend']);
@@ -153,7 +160,11 @@ class JDocument extends JTemplate
         }
 
         if (isset($attributes['language'])) {
-            $this->setLang($attributes['language']);
+            $this->setLanguage($attributes['language']);
+        }
+		
+		 if (isset($attributes['direction'])) {
+            $this->setDirection($attributes['direction']);
         }
 
         if (isset($attributes['tab'])) {
@@ -167,7 +178,6 @@ class JDocument extends JTemplate
 		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'module'. DS .'function');
 		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'module'. DS .'filter'  );
 		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'module'. DS .'renderer');
-		
 	}
 
 	/**
@@ -194,12 +204,51 @@ class JDocument extends JTemplate
 		if (empty($instances[$signature])) {
 			jimport('joomla.document.document.'.$type);
 			$adapter = 'JDocument'.$type;
-			$instances[$signature] = new $adapter($type, $attributes);
+			$instances[$signature] = new $adapter($attributes);
 		}
 
 		return $instances[$signature];
 	}
+	
+	/**
+     * Sets or alters a meta tag.
+     *
+     * @param string  $name           Value of name or http-equiv tag
+     * @param string  $content        Value of the content tag
+     * @param bool    $http_equiv     META type "http-equiv" defaults to null
+     * @return void
+     * @access public
+     */
+    function setMetaData($name, $content, $http_equiv = false)
+    {
+        if ($content == '') {
+            $this->unsetMetaData($name, $http_equiv);
+        } else {
+            if ($http_equiv == true) {
+                $this->_metaTags['http-equiv'][$name] = $content;
+            } else {
+                $this->_metaTags['standard'][$name] = $content;
+            }
+        }
+    }
 
+	 /**
+     * Unsets a meta tag.
+     *
+     * @param string  $name           Value of name or http-equiv tag
+     * @param bool    $http_equiv     META type "http-equiv" defaults to null
+     * @return void
+     * @access public
+     */
+    function unsetMetaData($name, $http_equiv = false)
+    {
+        if ($http_equiv == true) {
+            unset($this->_metaTags['http-equiv'][$name]);
+        } else {
+            unset($this->_metaTags['standard'][$name]);
+        }
+    }
+	
 	 /**
      * Adds a linked script to the page
      *
@@ -207,8 +256,7 @@ class JDocument extends JTemplate
      * @param    string  $type       Type of script. Defaults to 'text/javascript'
      * @access   public
      */
-    function addScript($url, $type="text/javascript")
-    {
+    function addScript($url, $type="text/javascript") {
         $this->_scripts[$url] = $type;
     }
 
@@ -248,8 +296,7 @@ class JDocument extends JTemplate
      * @access   public
      * @return   void
      */
-    function addStyleDeclaration($content, $type = 'text/css')
-    {
+    function addStyleDeclaration($content, $type = 'text/css') {
         $this->_style[][strtolower($type)] = $content;
     }
 
@@ -260,8 +307,7 @@ class JDocument extends JTemplate
      * @access  public
      * @return  void
      */
-    function setCharset($type = 'utf-8')
-	{
+    function setCharset($type = 'utf-8') {
         $this->_charset = $type;
     }
 
@@ -271,19 +317,17 @@ class JDocument extends JTemplate
      * @access public
      * @return string
      */
-    function getCharset()
-	{
+    function getCharset() {
         return $this->_charset;
     }
 
 	/**
-     * Sets the global document language declaration. Default is English.
+     * Sets the global document language declaration. Default is English (en).
      *
      * @access public
      * @param   string   $lang
      */
-    function setLang($lang = "en-GB")
-	{
+    function setLanguage($lang = "en") {
         $this->_language = strtolower($lang);
     }
 
@@ -293,9 +337,28 @@ class JDocument extends JTemplate
      * @return string
      * @access public
      */
-    function getLang()
-	{
+    function getLanguage() {
         return $this->_language;
+    }
+	
+	/**
+     * Sets the global document direction declaration. Default is left-to-right (ltr).
+     *
+     * @access public
+     * @param   string   $lang
+     */
+    function setDirection($dir = "ltr") {
+        $this->_direction = strtolower($dir);
+    }
+
+	/**
+     * Returns the document language.
+     *
+     * @return string
+     * @access public
+     */
+    function getDirection() {
+        return $this->_direction;
     }
 
 	/**
@@ -365,8 +428,7 @@ class JDocument extends JTemplate
      * @access    private
      * @return    string
      */
-    function _getLineEnd()
-    {
+    function _getLineEnd() {
         return $this->_lineEnd;
     }
 
@@ -377,8 +439,7 @@ class JDocument extends JTemplate
      * @access    public
      * @return    void
      */
-    function setTab($string)
-    {
+    function setTab($string) {
         $this->_tab = $string;
     }
 
@@ -388,81 +449,21 @@ class JDocument extends JTemplate
      * @access    private
      * @return    string
      */
-    function _getTab()
-    {
+    function _getTab() {
         return $this->_tab;
     }
-	
-	/**
-	 * Execute a renderer
-	 *
-	 * @access public
-	 * @param string 	$type	The type of renderer
-	 * @param string 	$name	The name of the element to render
-	 * @param array 	$params	Associative array of values
-	 * @return 	The output of the renderer
-	 */
-	function execRenderer($type, $name, $params = array()) 
-	{
-		jimport('joomla.document.module.renderer');
-		
-		if(!$this->moduleExists('Renderer', ucfirst($type))) {
-			return false;
-		}
-		
-		$module =& $this->loadModule( 'Renderer', ucfirst($type));
-		
-		if( patErrorManager::isError( $module ) ) {
-			return false;
-		}
-		
-		return $module->render($name, $params);
-	}
-
-	/**
-	 * Parse a file and create an internal patTemplate object
-	 *
-	 * @access public
-	 * @param string 	$template	The template to look for the file
-	 * @param string 	$filename	The actual filename
-	 * @param string 	$directory	The directory to look for the template
-	 */
-	function parse($template, $filename = 'index.php', $directory = 'templates')
-	{
-		$contents = $this->_load($directory.DS.$template, $filename);
-		$this->readTemplatesFromInput( $contents, 'String' );
-		
-		/*
-		 * Parse the template INI file if it exists for parameters and insert
-		 * them into the template.
-		 */
-		if (is_readable( $directory.DS.$template.DS.'params.ini' ) ) {
-			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
-			$params = new JParameter($content);
-			$this->addVars( $filename, $params->toArray(), 'param_');
-		}
-	}
 	
 	/**
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
 	 * @param string 	$template	The name of the template
-	 * @param boolean 	$compress	If true, compress the output using Zlib compression
+	 * @param boolean 	$file		If true, compress the output using Zlib compression
 	 * @param boolean 	$compress	If true, will display information about the placeholders
+	 * @param array		$params	    Associative array of attributes
 	 */
-	function display($template, $compress = false, $outline = false)
+	function display( $template, $file, $compress = false, $params = array())
 	{
-		foreach($this->_renderers as $type => $names) 
-		{
-			foreach($names as $name) 
-			{
-				if($html = $this->execRenderer($type, $name, array('outline' => $outline))) {
-					$this->addGlobalVar($type.'_'.$name, $html);
-				}
-			}
-		}
-
 		if($compress) {
 			$this->applyOutputFilter('Zlib');
 		}
@@ -470,7 +471,7 @@ class JDocument extends JTemplate
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
-		parent::display( $template );
+		parent::display( 'document' );
 	}
 
 	/**
@@ -495,57 +496,6 @@ class JDocument extends JTemplate
 		return '';
     }
 
-	/**
-	 * Load a template file
-	 *
-	 * @param string 	$template	The name of the template
-	 * @param string 	$filename	The actual filename
-	 * @return string The contents of the template 
-	 */
-	function _load($directory, $filename)
-	{
-		global $mainframe, $my, $acl, $database;
-		global $Itemid, $task, $option, $_VERSION;
-		
-		//For backwards compatibility extract the config vars as globals
-		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
-			$name = 'mosConfig_'.$k;
-			$$name = $v;
-		}
-		
-		$contents = '';
-		//Check to see if we have a valid template file
-		if ( file_exists( $directory.DS.$filename ) ) 
-		{
-			//store the file path 
-			$this->_file = $directory.DS.$filename;
-			
-			//get the file content
-			ob_start();
-			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
-				require_once($directory.DS.$filename );
-			?></jdoc:tmpl><?php
-			$contents = ob_get_contents();
-			ob_end_clean();
-		}
-		
-		// Add the option variable to the template
-		$this->addVar($filename, 'option', $option);
-
-		return $contents;
-	}
-	
-	/**
-	 * Adds a renderer to be called 
-	 *
-	 * @param string 	$type	The renderer type
-	 * @param string 	$name	The renderer name
-	 * @return string The contents of the template 
-	 */
-	function _addRenderer($type, $name) {
-		$this->_renderers[$type][] = $name;
-	}
-	
 	 /**
 	* load from template cache
 	*

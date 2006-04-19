@@ -55,9 +55,6 @@ if ($option == 'login') {
 $cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
 
 $document =& $mainframe->getDocument();
-$document->parse($cur_template, 'login.php');
-
-initDocument($document, 'login.php'); //initialise the document
-
-$document->display( 'login.php', $mainframe->getCfg('gzip') );
+$document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+$document->display( $cur_template, 'login.php', $mainframe->getCfg('gzip') );
 ?>

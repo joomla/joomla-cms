@@ -51,7 +51,7 @@ class JViewHTMLArticle extends JView
 		// At some point in the future this will be in a request object
 		$page	= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
-		$noHTML	= JRequest::getVar('no_html', 0, '', 'int');
+		$type	= JRequest::getVar('type', 'html');
 
 		// Get the article from the model
 		$article	= & $this->get('Article');
@@ -119,7 +119,7 @@ class JViewHTMLArticle extends JView
 		}
 
 		// Popup pages get special treatment for page titles
-		if ($params->get('popup') && $noHTML == 0) {
+		if ($params->get('popup') && $type =! 'html') {
 			$doc->setTitle($app->getCfg('sitename').' - '.$article->title);
 		}
 
@@ -227,7 +227,6 @@ class JViewHTMLArticle extends JView
 		// At some point in the future this will come from a request object
 		$page		= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS		= JRequest::getVar('hide_js', 0, '', 'int');
-		$noHTML		= JRequest::getVar('no_html', 0, '', 'int');
 		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section

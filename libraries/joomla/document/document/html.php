@@ -30,14 +30,6 @@ class JDocumentHTML extends JDocument
      */
     var $_base = '';
 
-	/**
-     * Array of meta tags
-     *
-     * @var     array
-     * @access  private
-     */
-    var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.5' ) );
-
 	 /**
      * Array of Header <link> tags
      *
@@ -53,6 +45,14 @@ class JDocumentHTML extends JDocument
      * @access  private
      */
     var $_custom = array();
+	
+	/**
+     * Array of renderers
+     *
+     * @var       array
+     * @access    private
+     */
+	var $_renderers = array();
 	
 	/**
 	 * Class constructore
@@ -78,6 +78,10 @@ class JDocumentHTML extends JDocument
 		                          'module'    => array(), 
 		                          'head'      => array()
 							);
+			
+		//set default document metadata				
+		 $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
+		 $this->setMetaData('robots', 'index, follow' );
 	}
 
 	 /**
@@ -154,56 +158,6 @@ class JDocumentHTML extends JDocument
         return $this->_base;
     }
 
-	 /**
-     * Sets or alters a meta tag.
-     *
-     * @param string  $name           Value of name or http-equiv tag
-     * @param string  $content        Value of the content tag
-     * @param bool    $http_equiv     META type "http-equiv" defaults to null
-     * @return void
-     * @access public
-     */
-    function setMetaData($name, $content, $http_equiv = false)
-    {
-        if ($content == '') {
-            $this->unsetMetaData($name, $http_equiv);
-        } else {
-            if ($http_equiv == true) {
-                $this->_metaTags['http-equiv'][$name] = $content;
-            } else {
-                $this->_metaTags['standard'][$name] = $content;
-            }
-        }
-    }
-
-	 /**
-     * Unsets a meta tag.
-     *
-     * @param string  $name           Value of name or http-equiv tag
-     * @param bool    $http_equiv     META type "http-equiv" defaults to null
-     * @return void
-     * @access public
-     */
-    function unsetMetaData($name, $http_equiv = false)
-    {
-        if ($http_equiv == true) {
-            unset($this->_metaTags['http-equiv'][$name]);
-        } else {
-            unset($this->_metaTags['standard'][$name]);
-        }
-    }
-
-	 /**
-     * Sets an http-equiv Content-Type meta tag
-     *
-     * @access   public
-     * @return   void
-     */
-    function setMetaContentType()
-    {
-        $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
-    }
-	
 	 /**
      * Generates the head html and return the results as a string
      * 
@@ -308,22 +262,168 @@ class JDocumentHTML extends JDocument
 
         return $strHtml;
     }
+	
+	/**
+	 * Execute a renderer
+	 *
+	 * @access public
+	 * @param string 	$type	The type of renderer
+	 * @param string 	$name	The name of the element to render
+	 * @param array 	$params	Associative array of values
+	 * @return 	The output of the renderer
+	 */
+	function execRenderer($type, $name, $params = array()) 
+	{
+		jimport('joomla.document.module.renderer');
+		
+		if(!$this->moduleExists('Renderer', ucfirst($type))) {
+			return false;
+		}
+		
+		$module =& $this->loadModule( 'Renderer', ucfirst($type));
+		
+		if( patErrorManager::isError( $module ) ) {
+			return false;
+		}
+		
+		return $module->render($name, $params);
+	}
 
 	/**
 	 * Parse a document template
 	 *
 	 * @access public
-	 * @param string 	$template	The template to look for the file
-	 * @param string 	$filename	The actual filename
-	 * @param string 	$directory	The directory to look for the template
+	 * @param string 	$directory	The template directory
+	 * @param string 	$file 		The actual template file
 	 */
-	function parse($template, $filename = 'index.php', $directory = 'templates')
+	function parse($directory, $file = 'index.php')
 	{
-		if ( !file_exists( $directory.DS.$template.DS.$filename) ) {
+		global $mainframe;
+			
+		$contents = $this->_load( $directory, $file);
+		$this->readTemplatesFromInput( $contents, 'String' );
+		
+		/*
+		 * Parse the template INI file if it exists for parameters and insert
+		 * them into the template.
+		 */
+		if (is_readable( $directory.DS.'params.ini' ) ) {
+			$content = file_get_contents($directory.DS.'params.ini');
+			$params = new JParameter($content);
+			$this->addVars( 'document', $params->toArray(), 'param_');
+		}
+		
+		/* 
+		 * Try to find a favicon by checking the template and root folder
+		 */
+		$path = $directory .'/';
+		$dirs = array( $path, '' );
+		foreach ($dirs as $dir ) {
+			$icon =   $dir . 'favicon.ico';
+
+			if(file_exists( JPATH_SITE .'/'. $icon )) {
+				$this->addFavicon( $icon);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Outputs the template to the browser.
+	 *
+	 * @access public
+	 * @param string 	$template	The name of the template
+	 * @param boolean 	$compress	If true, compress the output using Zlib compression
+	 * @param boolean 	$compress	If true, will display information about the placeholders
+	 */
+	function display( $template, $file, $compress = false, $params = array())
+	{
+		// check
+		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		
+		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
 		
-		parent::parse($template, $filename, $directory);
+		// parse 
+		$this->parse($directory.DS.$template, $file);
+		
+		// render
+		foreach($this->_renderers as $type => $names) 
+		{
+			foreach($names as $name) 
+			{
+				if($html = $this->execRenderer($type, $name, $params)) {
+					$this->addGlobalVar($type.'_'.$name, $html);
+				}
+			}
+		}
+		
+		$this->addGlobalVar( 'template', $template);
+
+		//output
+		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
+		header( 'Pragma: no-cache' );										// HTTP/1.0
+
+		parent::display( $template, $file, $compress, $params );
+	}
+	
+	/**
+	 * Load a template file
+	 *
+	 * @param string 	$template	The name of the template
+	 * @param string 	$filename	The actual filename
+	 * @return string The contents of the template 
+	 */
+	function _load($directory, $filename)
+	{
+		global $mainframe, $my, $acl, $database;
+		global $Itemid, $task, $option, $_VERSION;
+		
+		//For backwards compatibility extract the config vars as globals
+		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$$name = $v;
+		}
+		
+		$contents = '';
+		//Check to see if we have a valid template file
+		if ( file_exists( $directory.DS.$filename ) ) 
+		{
+			//store the file path 
+			$this->_file = $directory.DS.$filename;
+			
+			//get the file content
+			ob_start();
+			?><jdoc:tmpl name="document" autoclear="yes"><?php
+				require_once($directory.DS.$filename );
+			?></jdoc:tmpl><?php
+			$contents = ob_get_contents();
+			ob_end_clean();
+		}
+		
+		// Add the option variable to the template
+		$this->addVar('document', 'option', $option);
+		
+		// Add the language information to the template
+		$this->addVar( 'document', 'lang_tag', $this->getLanguage() );
+		$this->addVar( 'document', 'lang_dir', $this->getDirection() );
+
+		return $contents;
+	}
+	
+	/**
+	 * Adds a renderer to be called 
+	 *
+	 * @param string 	$type	The renderer type
+	 * @param string 	$name	The renderer name
+	 * @return string The contents of the template 
+	 */
+	function _addRenderer($type, $name) {
+		$this->_renderers[$type][] = $name;
 	}
 }
 ?>

@@ -266,7 +266,6 @@ class JViewHTMLBlog extends JView
 		// These will come from a request object at some point
 		$task = JRequest::getVar('task');
 		$noJS = JRequest::getVar('hide_js', 0, '', 'int');
-		$noHTML = JRequest::getVar('no_html', 0, '', 'int');
 
 		// TODO: clean this part up
 		$SiteName = $app->getCfg('sitename');

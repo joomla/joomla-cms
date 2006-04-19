@@ -116,7 +116,8 @@ JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 * @package Joomla
 * @final
 */
-class JSite extends JApplication {
+class JSite extends JApplication 
+{
 
 	/**
 	* Class constructor
@@ -237,6 +238,43 @@ class JSite extends JApplication {
 	}
 	
 	/**
+	 * Return a reference to the JDocument object
+	 *
+	 * @access public
+	 * @since 1.5
+	 */
+	function &getDocument($type = 'html')
+	{
+		if(is_object($this->_document)) {
+			return $this->_document;
+		}
+		
+		$doc  =& parent::getDocument($type);	
+		$user =& $this->getUser();
+	
+		switch($type) 
+		{
+			case 'html' :
+			{
+				//set metadata
+				$doc->setMetaData( 'description', 	$this->getCfg('MetaDesc') );
+				$doc->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
+
+				//set base URL
+				$doc->setBase( $this->getBaseURL() );
+		
+				if ( $user->get('id') ) {
+					$doc->addScript( 'includes/js/joomla.javascript.js');
+				}
+			} break;
+			
+			default : break;
+		}
+		
+		return $this->_document;
+	}
+	
+	/**
 	* Get the template
 	* 
 	* @return string The template name
@@ -289,5 +327,5 @@ $_VERSION = new JVersion();
  *  use JPlugingHelper::importPlugin to load bot code
  *  @deprecated As of version 1.5
  */
-//$_MAMBOTS = new mosMambotHandler();
+$_MAMBOTS = new mosMambotHandler();
 ?>

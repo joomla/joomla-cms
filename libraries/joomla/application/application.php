@@ -532,7 +532,7 @@ class JApplication extends JObject
 	 * @access public
 	 * @since 1.5
 	 */
-	function &getDocument()
+	function &getDocument($type = 'html')
 	{
 		if(is_object($this->_document)) {
 			return $this->_document;
@@ -540,14 +540,19 @@ class JApplication extends JObject
 		
 		jimport('joomla.document.document');
 		
+		$lang  =& $this->getLanguage();
+		
 		$attributes = array (
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
             'tab'  => '  ',
-          	'language' => 'en-GB',
+          	'language'  => $lang->getTag(),
+			'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
 		);
 		
-		$this->_document =& JDocument::getInstance('html', $attributes);
+		$doc  =& JDocument::getInstance($type, $attributes);
+			
+		$this->_document =& $doc;
 		//$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
 		
 		return $this->_document;
