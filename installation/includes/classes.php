@@ -277,7 +277,7 @@ class JInstallationController
 		$DBname = mosGetParam($vars, 'DBname', '');
 		$DBPrefix = mosGetParam($vars, 'DBPrefix', 'jos_');
 		$DBOld = mosGetParam($vars, 'DBOld', 'bu');
-		$DBSample = mosGetParam($vars, 'DBSample', 1);
+//		$DBSample = mosGetParam($vars, 'DBSample', 1);
 		$DButfSupport = intval(mosGetParam($vars, 'DButfSupport', 0));
 		$DBcollation = mosGetParam($vars, 'DBcollation', '');
 		$DBversion = mosGetParam($vars, 'DBversion', '');
@@ -350,19 +350,19 @@ class JInstallationController
 				$dbscheme = 'sql'.DS.'joomla_backward.sql';
 			}
 
-			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '')) {
+			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0) {
 				JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				return false;
 			}
 
-			if ($DBSample) {
-				$dbsample = 'language/en-GB/sample_data.sql';
-				// Checks for language depended files
-				if (is_file('language'.DS.$lang.DS.'sample_data.sql')) {
-					$dbsample = 'language'.DS.$lang.DS.'sample_data.sql';
-				}
-				JInstallationHelper::populateDatabase($database, $dbsample, $errors);
-			}
+//			if ($DBSample) {
+//				$dbsample = 'language/en-GB/sample_data.sql';
+//				// Checks for language depended files
+//				if (is_file('language'.DS.$lang.DS.'sample_data.sql')) {
+//					$dbsample = 'language'.DS.$lang.DS.'sample_data.sql';
+//				}
+//				JInstallationHelper::populateDatabase($database, $dbsample, $errors);
+//			}
 		}
 
 		return true;
@@ -416,6 +416,27 @@ class JInstallationController
 	function mainConfig($vars) 
 	{
 		global $mainframe;
+		////////////////////////////////////////////
+		// Require the xajax library
+		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+
+		/*
+		 * Instantiate the xajax object and register the function
+		 */
+		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
+		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
+//		$xajax->debugOn();
+		$xajax->errorHandlerOn();
+		$doc =& $mainframe->getDocument();
+		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
+		
+		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1) {
+			$vars['response'] = JInstallationHelper::uploadSql( $vars );
+		}
+		
+		
+		
+		//////////////////////////////////////////////////////////
 		
 		$strip = get_magic_quotes_gpc();
 
@@ -469,7 +490,7 @@ class JInstallationController
 		return JInstallationView::mainConfig($vars);
 	}
 
-	function saveConfig($vars) 
+	function saveConfig(&$vars) 
 	{
 		global $mainframe;
 		
@@ -734,7 +755,9 @@ class JInstallationHelper
 	 */
 	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '') 
 	{
-		$buffer = file_get_contents($sqlfile);
+		if( !($buffer = file_get_contents($sqlfile)) ){
+			return -1;
+		}
 		$queries = JInstallationHelper::splitSql($buffer, $collation);
 
 		foreach ($queries as $query) {
@@ -821,18 +844,26 @@ class JInstallationHelper
 		$adminEmail			= mosGetParam($vars, 'adminEmail', '');
 
 		$cryptpass = md5($adminPassword);
+		$vars['adminLogin'] = 'admin';
 		
 		jimport('joomla.database.database');
 		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-
+		
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
 		$nullDate 		= $database->getNullDate();
 		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$database->Quote($adminEmail).", ".$database->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 		$database->setQuery($query);
 		if (!$database->query()) {
-			echo $database->getErrorMsg();
-			return;
+			// is there already and existing admin in migrated data
+			if ( $database->getErrorNum() == 1062 ) {
+				$vars['adminLogin'] = JText::_('Admin login in migrated content was kept');
+				$vars['adminPassword'] = JText::_('Admin password in migrated content was kept');
+				return;
+			} else {
+				echo $database->getErrorMsg();
+				return;
+			}
 		}
 
 		// add the ARO (Access Request Object)
@@ -965,6 +996,181 @@ class JInstallationHelper
 		}
 
 		return $ret;
+	}
+	
+	function uploadSql( &$args ) {
+		global $mainframe;
+		$archive = '';
+		$script = '';
+
+
+		/*
+		 * Get the uploaded file information
+		 */
+		$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
+
+		/*
+		 * Make sure that file uploads are enabled in php
+		 */
+		if (!(bool) ini_get('file_uploads')) {
+			return JText::_('WARNINSTALLFILE');
+		}
+
+		/*
+		 * Make sure that zlib is loaded so that the package can be unpacked
+		 */
+		if (!extension_loaded('zlib')) {
+			return JText::_('WARNINSTALLZLIB');
+		}
+
+		/*
+		 * If there is no uploaded file, we have a problem...
+		 */
+		if (!is_array($sqlFile) || $sqlFile['size'] < 1) {
+			return JText::_('WARNNOFILE');
+		}
+
+		/*
+		 * Move uploaded file
+		 */
+		jimport('joomla.filesystem.file');		
+		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'media'.DS.$sqlFile['name']);
+		if( !eregi('.sql$', $sqlFile['name']) ){
+			$archive = JPATH_SITE.DS.'media'.DS.$sqlFile['name'];
+			$script = JFile::stripExt($archive).'.sql';
+		} else {
+			$script = JPATH_SITE.DS.'media'.DS.$sqlFile['name'];
+		}
+
+		// unpack archived sql files
+		if ($archive && !JInstallationHelper::unpack( $archive )){
+			return JText::_('WARNUNPACK');
+		}
+		
+		$errors = null;
+		$msg = '';
+		jimport('joomla.database.database');
+		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$result = JInstallationHelper::populateDatabase($database, $script, $errors);
+		
+		/*
+		 * prepare sql error messages if returned from populate
+		 */
+		//TODO - returned message strings need to be translated
+		if (!is_null($errors)){
+			foreach($errors as $error){
+				$msg .= stripslashes( $error['msg'] );
+				$msg .= chr(13)."-------------".chr(13);
+				$txt = '<textarea cols="40" rows="4" name="instDefault" readonly="readonly" >'.JText::_("Database Errors Reported").chr(13).$msg.'</textarea>';
+			}
+		} else {
+			// consider other possible errors from populate
+			$msg = $result == 0 ? JText::_('SQL script installed successfully') : JText::_('Error installing SQL script') ;
+			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
+		}
+
+			// Cleanup 
+			JFile::delete($script);
+			if ($archive){
+				JFile::delete($archive);
+			}
+			
+		return $txt;
+	}
+	
+	/**
+	 * Unpacks a file and verifies it as a Joomla element package
+	 *
+	 * @static
+	 * @param string $p_filename The uploaded package filename or install directory
+	 * @return boolean True on success, False on error
+	 * @since 1.5
+	 */
+	function unpack($p_filename) {
+		/*
+		 * Initialize variables
+		 */
+		// Path to the archive
+		$archivename = $p_filename;
+//		// Temporary folder to extract the archive into
+//		$tmpdir = uniqid('install_');
+
+		// Clean the paths to use for archive extraction
+		$extractdir = JPath::clean(dirname($p_filename));
+		$archivename = JPath::clean($archivename, false);
+
+		/*
+		 * Are we working with a zipfile?
+		 */
+		if (eregi('.zip$', $archivename)) {
+
+			/*
+			 * Import the zipfile libraries
+			 */
+			jimport('pcl.pclzip');
+			jimport('pcl.pclerror');
+			//jimport('pcl.pcltrace');
+
+			/*
+			 * Create a zipfile object
+			 */
+			$zipfile = new PclZip($archivename);
+
+			// Constants used by the zip library
+			if (JPATH_ISWIN) {
+				define('OS_WINDOWS', 1);
+			} else {
+				define('OS_WINDOWS', 0);
+			}
+
+			/*
+			 * Now its time to extract the archive
+			 */
+			if ($zipfile->extract(PCLZIP_OPT_PATH, $extractdir) == 0)
+			{
+				// Unable to extract the archive, set an error and fail
+				JError::raiseWarning(1, JText::_('Extract Error').' "'.$zipfile->errorName(true).'"');
+				return false;
+			}
+			// Set permissions for extracted dir
+			JPath::setPermissions($extractdir, '0666', '0777');
+			
+			// Free up PCLZIP memory
+			unset ($zipfile);
+		} else {
+
+			/*
+			 * Not a zipfile, must be a tarball.  Lets import that library.
+			 */
+			jimport('pear.PEAR');
+			jimport('archive.Tar');
+
+			/*
+			 * Create a tarball object
+			 */
+			$archive = new Archive_Tar($archivename);
+
+			// Set the tar error handling
+			$archive->setErrorHandling(PEAR_ERROR_PRINT);
+
+			/*
+			 * Now its time to extract the archive
+			 */
+			if (!$archive->extractModify($extractdir, '')) {
+				
+				// Unable to extract the archive, set an error and fail
+				JError::raiseWarning(1, JText::_('Extract Error'));
+				return false;
+			}
+
+			// Set permissions for extracted dir
+			JPath::setPermissions($extractdir, '0666', '0777');
+
+			// Free up PCLTAR memory
+			unset ($archive);
+		}
+		return true;
+	
 	}
 }
 ?>

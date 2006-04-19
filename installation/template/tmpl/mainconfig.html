@@ -22,6 +22,35 @@
 			submitForm( frm, task );
 		}
 	}
+	
+	function selectMode() {
+		var frm = this.document.filename;
+		if(frm.what_to_load[0].checked) {
+			frm.instDefault.disabled = false;
+			frm.sqlFile.disabled = true;
+			frm.sqlLoad.disabled = true;
+		} else {
+			frm.instDefault.disabled = true;
+			frm.sqlFile.disabled = false;
+			frm.sqlLoad.disabled = false;
+		}
+	}
+	
+	function JDefault() {
+		xajax_instDefault(xajax.getFormValues('filename'));
+	}
+	
+	function externalSql(frm, task) {
+	
+		if (frm.sqlFile.value == '') {
+			alert("no file provided");
+			return;
+		} else {
+			frm.sqlupload.value = '1';
+			submitForm(frm, task);
+		}
+	}
+
 </script>
 
 <form action="index.php" method="post" name="adminForm">
@@ -109,6 +138,89 @@
 				</div>
 
 			</div>
+<input type="hidden" name="task" value="" />
+</form>
+<form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
+			<div id="installerpad">
+			
+				<h2><jtmpl:translate>Load Sample Data or Restore Backed Up Content</jtmpl:translate></h2>
+				<div class="install-text">
+					<jtmpl:translate>LOADSQLINSTRUCTIONS1</jtmpl:translate>
+					<br/><br/>
+					<jtmpl:translate>LOADSQLINSTRUCTIONS2</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<table class="content2">
+				  			<tr>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+							</tr>
+				  			<tr>
+					  		    <td>
+					  		    	<input id="default_sample" type="radio" name="what_to_load" checked="checked" onclick="selectMode();"/>
+					  		    </td>
+								<td>
+				    				<label for="default_sample">
+										<jtmpl:translate>Install default sample data</jtmpl:translate>
+									</label>
+								</td>
+				    			<td>
+				    				<em>
+				    				<jtmpl:translate key="tipInstallDefault" />
+				    				</em>
+				    			</td>
+					  		</tr>
+					  		<tr>
+					  			<td></td>
+					  			<td colspan="2">
+									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<jtmpl:translate>Install default sample data</jtmpl:translate>" onclick="JDefault();"/></span>
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>&nbsp;</td>
+					  			<td></td>
+					  			<td></td>
+					  		</tr>
+				  			<tr>
+					  		    <td>
+					  		    	<input id="local_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
+					  		    </td>
+								<td>
+				    				<label for="local_sql">
+										<jtmpl:translate>Load local SQL script</jtmpl:translate>
+									</label>
+								</td>
+				    			<td>
+				    				<em>
+				    				<jtmpl:translate key="tipLoadSql">The SQL scripts need to be in utf-8 encoding and should have the appropriate table prefix</jtmpl:translate>
+				    				</em>
+				    			</td>
+					  		</tr>
+					  		<tr>
+					  			<td></td>
+					  			<td colspan="2">
+									<input class="input_box" id="sql_script" name="sqlFile" type="file" size="40" disabled="disabled" />
+									<br/>
+									<input class="button" type="button" name="sqlLoad" value="Upload and execute" disabled="disabled" onclick="externalSql(filename, 'mainconfig');"/>
+									<br/><br/>
+									
+									<span id="theResponse">{VAR_RESPONSE}<span>
+					  			</td>
+					  		</tr>
+					  		</table>
+
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+			</div>
+
+			
+			
+			
 		</div>
 
 	</div>
@@ -116,5 +228,18 @@
 
 <div class="clr"></div>	
 
-<input type="hidden" name="task" value="" />
+<input type="hidden" name="task" value="mainconfig" />
+<input type="hidden" name="sqlupload" value="0" />
+<input type="hidden" name="DBtype" value="{VAR_DBTYPE}" />
+<input type="hidden" name="DBhostname" value="{VAR_DBHOSTNAME}" />
+<input type="hidden" name="DBuserName" value="{VAR_DBUSERNAME}" />
+<input type="hidden" name="DBpassword" value="{VAR_DBPASSWORD}" />
+<input type="hidden" name="DBname" value="{VAR_DBNAME}" />
+<input type="hidden" name="DBPrefix" value="{VAR_DBPREFIX}" />
+<input type="hidden" name="ftpRoot" value="{VAR_FTPROOT}" />
+<input type="hidden" name="ftpEnable" value="{VAR_FTPENABLE}" />
+<input type="hidden" name="ftpHost" value="{VAR_FTPHOST}" />
+<input type="hidden" name="ftpPort" value="{VAR_FTPPORT}" />
+<input type="hidden" name="ftpUser" value="{VAR_FTPUSER}" />
+<input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
 </form>

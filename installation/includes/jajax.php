@@ -38,6 +38,7 @@ $xajax->errorHandlerOn();
 
 $xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
 $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
+$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
 jimport( 'joomla.common.base.object' );
 jimport( 'joomla.i18n.string' );
@@ -125,6 +126,49 @@ class JAJAXHandler {
 		$objResponse->addAssign('rootPath', 'style.display', '');
 		return $objResponse;
 	}
+	
+	/**
+	 * Method to load and execute a sql script
+	 */
+	function sampledata($args) {
+		jimport( 'joomla.utilities.error' );
+		jimport( 'joomla.database.database');
+		require_once(JPATH_BASE.DS."classes.php");
+
+		$errors = null;
+		$msg = '';
+		$objResponse = new xajaxResponse();
+		
+		/*
+		 * execute the default sample data file
+		 */
+		//TODO - consider changing location back to sql folder
+		$dbsample = '../language/en-GB/sample_data.sql';
+		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$result = JInstallationHelper::populateDatabase($database, $dbsample, $errors);
+		
+		/*
+		 * prepare sql error messages if returned from populate
+		 */
+		//TODO - returned message strings need to be translated
+		//       hopefully without loading the entire framework
+		if (!is_null($errors)){
+			foreach($errors as $error){
+				$msg .= stripslashes( $error['msg'] );
+				$msg .= chr(13)."-------------".chr(13);
+				$txt = '<textarea cols="40" rows="4" name="instDefault" readonly="readonly" >DATABASE ERRORS REPORTED'.chr(13).$msg.'</textarea>';
+			}
+		} else {
+			// consider other possible errors from populate
+			$msg = $result == 0 ? "Sample data installed successfully" : "Error installing sample data" ;
+			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
+		}
+		
+		$objResponse->addAssign("theDefault", "innerHTML", $txt);
+		return $objResponse;
+	}
+
+	
 }
 
 /*

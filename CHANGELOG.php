@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Apr-2006 David Gal
+ + Moved loading of sample data in installation to MainConfig step. Implemented with xajax
+ + Added possibility of uploading and executing sql scripts during installation
+   from MainConfig step. Good for localised sample data or data migration/restore
+
 19-Apr-2006 Johan Janssens
  + Added JDocumentPDF format for PDF output rendering
  + Added JDocumentRAW format for RAW output rendering
