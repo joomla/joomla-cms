@@ -73,7 +73,8 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseError( $code, $msg, $info = null ) {
-		return JError::raise( E_ERROR, $code, $msg, $info );
+		$reference = & JError::raise( E_ERROR, $code, $msg, $info );
+		return $reference;
 	}
 
    /**
@@ -89,7 +90,8 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseWarning( $code, $msg, $info = null ) {
-		return JError::raise( E_WARNING, $code, $msg, $info );
+		$reference = & JError::raise( E_WARNING, $code, $msg, $info );
+		return $reference;
 	}
 
    /**
@@ -105,7 +107,8 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseNotice( $code, $msg, $info = null ) {
-		return JError::raise( E_NOTICE, $code, $msg, $info );
+		$reference = & JError::raise( E_NOTICE, $code, $msg, $info );
+		return $reference;
 	}
 
 	/**
