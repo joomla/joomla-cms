@@ -13,7 +13,7 @@
 		<filename module="mod_newsflash">mod_newsflash.php</filename>
 	</files>
 	<params>
-		<param name="catid" type="mos_category" default="0" label="Category" description="A content category" />
+		<param name="catid" type="category" default="0" label="Category" description="A content category" />
 		<param name="style" type="list" default="random" label="Style" description="The style to display the category">
 			<option value="random">Randomly choose one at a time</option>
 			<option value="horiz">Horizontal</option>
@@ -32,7 +32,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
         </param>
-        <param name="item_title" type="list" default="0" label="Item Title" description="Show item title">
+        <param name="item_title" type="list" default="0" label="Article Title" description="Show article title">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
         </param>
