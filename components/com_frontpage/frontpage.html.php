@@ -16,23 +16,26 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * HTML View class for the Content component
+ * HTML View class for the Frontpage component
  *
  * @static
  * @package Joomla
  * @subpackage Content
  * @since 1.0
  */
-class JViewFrontpageHTML
+class JViewFrontpage
 {
 
 	function show(&$model, &$access, &$menu) 
 	{
-		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.php');
+		$type = JRequest::getVar( 'type', 'html' );
+		
+		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.'.$type.'.php');
+		
 		/*
 		 * Need to cache this for speed
 		 */
-		JViewFrontpageHTML_blog::show($model, $access, $menu);
+		JViewBlog::show($model, $access, $menu);
 	}
 
 	/**

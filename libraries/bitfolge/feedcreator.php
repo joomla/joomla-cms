@@ -164,13 +164,10 @@ echo $rss->saveFeed("RSS1.0", "news/feed.xml");
 // your local timezone, set to "" to disable or for GMT
 define("TIME_ZONE","+01:00");
 
-
-
-
 /**
  * Version string.
  **/
-define("FEEDCREATOR_VERSION", "FeedCreator 1.7.2");
+define("FEEDCREATOR_VERSION", "Joomla! 1.5");
 
 
 

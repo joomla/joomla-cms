@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: frontpage.php 3106 2006-04-13 07:57:09Z webImagery $
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -112,7 +112,7 @@ class JModelFrontpage extends JObject
 			global $mainframe;
 	
 			$user		= & $mainframe->getUser();
-			$gid			= $user->get('gid');
+			$gid		= $user->get('gid');
 
 			/*
 			 * Get the pagination request variables
@@ -129,7 +129,7 @@ class JModelFrontpage extends JObject
 			/*
 			 * Get the WHERE and ORDER BY clauses for the query
 			 */
-			$where	= $this->_buildContentWhere();
+			$where		= $this->_buildContentWhere();
 			$orderby	= $this->_buildContentOrderBy();
 
 			$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
@@ -175,7 +175,7 @@ class JModelFrontpage extends JObject
 		$orderby_sec	= $this->_mparams->def('orderby_sec', '');
 		$orderby_pri	= $this->_mparams->def('orderby_pri', '');
 		$secondary		= JContentHelper::orderbySecondary($orderby_sec);
-		$primary			= JContentHelper::orderbyPrimary($orderby_pri);
+		$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 
 		$orderby = "\n ORDER BY $primary $secondary";
 		
@@ -187,9 +187,9 @@ class JModelFrontpage extends JObject
 		global $mainframe;
 
 		$user		= & $mainframe->getUser();
-		$gid			= $user->get('gid');
-		$now		=$mainframe->get('requestTime');
-		$noauth	= !$mainframe->getCfg('shownoauth');
+		$gid		= $user->get('gid');
+		$now		= $mainframe->get('requestTime');
+		$noauth		= !$mainframe->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 	
 		/*

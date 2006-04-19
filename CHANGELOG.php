@@ -45,11 +45,13 @@ Legend:
 19-Apr-2006 Johan Janssens
  + Added JDocumentPDF format for PDF output rendering
  + Added JDocumentRAW format for RAW output rendering
+ + Added JDocumentRSS format for RSS output rendering
  ^ Refactored JDocument and com_content to use output types
  ^ Deprecated administrator/includes/template.php, file removed
  ^ Made index.php only entry point for JSite
  ^ Made index.php only entry point for JAdministrator
  ! Set minimum system requirements to PHP version to 4.3.0
+ ^ Moved frontpage feed handling into frontpage component
 
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly

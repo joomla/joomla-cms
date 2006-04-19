@@ -26,7 +26,7 @@ require_once (JApplicationHelper::getPath('front_html', 'com_content'));
  * @subpackage Content
  * @since 1.5
  */
-class JViewFrontpageHTML_blog
+class JViewBlog
 {
 
 	function show(&$model, &$access, &$menu)
@@ -40,8 +40,8 @@ class JViewFrontpageHTML_blog
 		$user		= & $mainframe->getUser();
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
-		$option	= JRequest::getVar('option');
-		$gid			= $user->get('gid');
+		$option		= JRequest::getVar('option');
+		$gid		= $user->get('gid');
 
 		// parameters
 		$params = & $model->getMenuParams();
@@ -160,7 +160,7 @@ class JViewFrontpageHTML_blog
 						break;
 					}
 					echo '<div>';
-					JViewFrontpageHTML_blog::showItem($rows[$i], $access, true);
+					JViewBlog::showItem($rows[$i], $access, true);
 					echo '</div>';
 				}
 				echo '</td>';
@@ -194,7 +194,7 @@ class JViewFrontpageHTML_blog
 					{
 						if ($i <= $intro && ($i < $total))
 						{
-							JViewFrontpageHTML_blog::showItem($rows[$i], $access);
+							JViewBlog::showItem($rows[$i], $access);
 							$i ++;
 						}
 					}
@@ -213,7 +213,7 @@ class JViewFrontpageHTML_blog
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JViewFrontpageHTML_blog::showLinks($rows, $links, $total, $i);
+				JViewBlog::showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -267,7 +267,7 @@ class JViewFrontpageHTML_blog
 		else
 		{
 			// Generic blog empty display
-			JViewFrontpageHTML::emptyContainer(_EMPTY_BLOG);
+			JViewHTML::emptyContainer(_EMPTY_BLOG);
 		}
 
 	}

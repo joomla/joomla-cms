@@ -35,7 +35,8 @@ if ( $feed ) {
 	syndicate( $feed );
 }
 
-function syndicate( $feed ) {
+function syndicate( $feed ) 
+{
 	global $database;
 	global $mainframe, $Itemid;  	
 	

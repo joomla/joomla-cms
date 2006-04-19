@@ -84,7 +84,7 @@ $mainframe->set( 'loadOverlib', false );
 
 $no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
 $type 	 	= JRequest::getVar( 'type', $no_html ? 'raw' : 'html',  '', 'string'  );
-$file 	 	= JRequest::getVar( 'type', isset($file) ? $file : 'index.php',  '', 'string'  );
+$file 	 	= JRequest::getVar( 'file', isset($file) ? $file : 'index.php',  '', 'string'  );
 
 // loads template file
 $cur_template = $mainframe->getTemplate();

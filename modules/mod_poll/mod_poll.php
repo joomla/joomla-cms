@@ -66,8 +66,8 @@ if (!defined('_JOS_POLL_MODULE')) {
 		$tabcnt 			= 0;
 		$moduleclass_sfx 	= $params->get('moduleclass_sfx');
 		
-//		$sessionCookieName 	= mosMainFrame::sessionCookieName();
-//		$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, 'z' );
+		//$sessionCookieName 	= mosMainFrame::sessionCookieName();
+		//$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, 'z' );
 		
 		$cookiename 		= "voted$poll->id";
 		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );

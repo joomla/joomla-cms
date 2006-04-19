@@ -41,7 +41,7 @@ class JFrontpageController
 		 */
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
-		$gid			= $user->get('gid');
+		$gid		= $user->get('gid');
 
 		/*
 		 * Create a user access object for the user
@@ -67,7 +67,7 @@ class JFrontpageController
 //			JViewFrontpageHTML::show( $model, $access, $menu );
 //			$cache->end();
 //		}
-		JViewFrontpageHTML::show( $model, $access, $menu );
+		JViewFrontpage::show( $model, $access, $menu );
 	}
 }
 
