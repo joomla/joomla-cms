@@ -42,8 +42,8 @@ class JInstallationController
 		$lists = array ();
 
 		$phpOptions[] = array (
-			'label' => JText::_('PHP version').' >= 4.1.0',
-			'state' => phpversion() < '4.1' ? 'No' : 'Yes'
+			'label' => JText::_('PHP version').' >= 4.3.0',
+			'state' => phpversion() < '4.3' ? 'No' : 'Yes'
 		);
 		$phpOptions[] = array (
 			'label' => '- '.JText::_('zlib compression support'),
@@ -73,14 +73,14 @@ class JInstallationController
 			);
 		}
 		$sp = '';
-		$phpOptions[] = array (
+		/*$phpOptions[] = array (
 			'label' => JText::_('Session path set'),
 			'state' => ($sp = ini_get('session.save_path')) ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array (
 			'label' => JText::_('Session path writeable'),
 			'state' => is_writable($sp) ? 'Yes' : 'No'
-		);
+		);*/
 		$cW = (@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('..');
 		$phpOptions[] = array (
 			'label' => 'configuration.php '.JText::_('writeable'),

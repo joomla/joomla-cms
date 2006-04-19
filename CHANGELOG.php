@@ -44,6 +44,7 @@ Legend:
  ^ Deprecated administrator/includes/template.php, file removed
  ^ Made index.php only entry point for JSite
  ^ Made index.php only entry point for JAdministrator
+ ! Set minimum system requirements to PHP version to 4.3.0
 
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly
