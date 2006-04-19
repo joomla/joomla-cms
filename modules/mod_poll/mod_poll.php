@@ -14,16 +14,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!defined('_JOS_POLL_MODULE'))
-{
+if (!defined('_JOS_POLL_MODULE')) {
 	/** ensure that functions are declared only once */
 	define('_JOS_POLL_MODULE', 1);
 
 	/**
 	 * @param int The current menu item
 	 */
-	function show_poll_vote_form($Itemid, $moduleclass_sfx)
-	{
+	function show_poll_vote_form($Itemid, &$params) {
 		global $database;
 
 		$query = "SELECT p.id, p.title" .
@@ -35,17 +33,13 @@ if (!defined('_JOS_POLL_MODULE'))
 		$database->setQuery($query);
 		$polls = $database->loadObjectList();
 
-		if ($database->getErrorNum())
-		{
-			echo "MB ".$database->stderr(true);
+		if ($database->getErrorNum()) {
+			echo $database->stderr(true);
 			return;
 		}
 
-		foreach ($polls as $poll)
-		{
-			if ($poll->id && $poll->title)
-			{
-
+		foreach ($polls as $poll) {
+			if ($poll->id && $poll->title) {
 				$query = "SELECT id, text" .
 						"\n FROM #__poll_data" .
 						"\n WHERE pollid = $poll->id" .
@@ -53,12 +47,11 @@ if (!defined('_JOS_POLL_MODULE'))
 						"\n ORDER BY id";
 				$database->setQuery($query);
 
-				if (!($options = $database->loadObjectList()))
-				{
+				if (!($options = $database->loadObjectList())) {
 					echo "MD ".$database->stderr(true);
 					return;
 				}
-				poll_vote_form_html($poll, $options, $Itemid, $moduleclass_sfx);
+				poll_vote_form_html($poll, $options, $Itemid, $params);
 			}
 		}
 	}
@@ -68,11 +61,45 @@ if (!defined('_JOS_POLL_MODULE'))
 	 * @param array
 	 * @param int The current menu item
 	 */
-	function poll_vote_form_html(& $poll, & $options, $Itemid, $moduleclass_sfx)
-	{
-		$tabclass_arr = array ('sectiontableentry2', 'sectiontableentry1');
-		$tabcnt = 0;
+	function poll_vote_form_html(&$poll, $options, $Itemid, &$params) {
+		$tabclass_arr 		= array ('sectiontableentry2', 'sectiontableentry1');
+		$tabcnt 			= 0;
+		$moduleclass_sfx 	= $params->get('moduleclass_sfx');
+		
+		$sessionCookieName 	= mosMainFrame::sessionCookieName();
+		$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, 'z' );
+		
+		$cookiename 		= "voted$poll->id";
+		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );
 		?>
+		<script language="javascript" type="text/javascript">
+		<!--
+		function submitbutton() {
+			var form 		= document.pollxtd;			
+			var radio		= form.voteid;
+			var radioLength = radio.length;
+			var check 		= 0;
+			
+			if ( '<?php echo $voted; ?>' != 'z' ) {
+				alert('<?php echo _ALREADY_VOTE; ?>');
+				return;
+			}
+			if ( '<?php echo $sessioncookie; ?>' == 'z' ) {
+				alert('<?php echo _ALERT_ENABLED; ?>');
+				return;
+			}
+			for(var i = 0; i < radioLength; i++) {
+				if(radio[i].checked) {
+					form.submit();
+					check = 1;					
+				}
+			}		
+			if (check == 0) {
+				alert('<?php echo _NO_SELECTION; ?>');
+			}
+		}		
+		//-->
+		</script>		
 		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll&amp;Itemid=$Itemid"); ?>">
 
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">
@@ -87,32 +114,26 @@ if (!defined('_JOS_POLL_MODULE'))
 			<td align="center">
 				<table class="pollstableborder<?php echo $moduleclass_sfx; ?>" cellspacing="0" cellpadding="0" border="0">
 				<?php
-
-		for ($i = 0, $n = count($options); $i < $n; $i ++)
-		{
-		?>
-							<tr>
-								<td class="<?php echo $tabclass_arr[$tabcnt]; ?><?php echo $moduleclass_sfx; ?>" valign="top">
-									<input type="radio" name="voteid" id="voteid<?php echo $options[$i]->id;?>" value="<?php echo $options[$i]->id;?>" alt="<?php echo $options[$i]->id;?>" />
-								</td>
-								<td class="<?php echo $tabclass_arr[$tabcnt]; ?><?php echo $moduleclass_sfx; ?>" valign="top">
-									<label for="voteid<?php echo $options[$i]->id;?>">
-										<?php echo stripslashes($options[$i]->text); ?>
-									</label>
-								</td>
-							</tr>
+				for ($i = 0, $n = count($options); $i < $n; $i ++) {
+					?>
+					<tr>
+						<td class="<?php echo $tabclass_arr[$tabcnt]; ?><?php echo $moduleclass_sfx; ?>" valign="top">
+							<input type="radio" name="voteid" id="voteid<?php echo $options[$i]->id;?>" value="<?php echo $options[$i]->id;?>" alt="<?php echo $options[$i]->id;?>" />
+						</td>
+						<td class="<?php echo $tabclass_arr[$tabcnt]; ?><?php echo $moduleclass_sfx; ?>" valign="top">
+							<label for="voteid<?php echo $options[$i]->id;?>">
+								<?php echo stripslashes($options[$i]->text); ?>
+							</label>
+						</td>
+					</tr>
 					<?php
-
-			if ($tabcnt == 1)
-			{
-				$tabcnt = 0;
-			}
-			else
-			{
-				$tabcnt ++;
-			}
-		}
-		?>
+					if ($tabcnt == 1) {
+						$tabcnt = 0;
+					} else {
+						$tabcnt ++;
+					}
+				}
+				?>
 				</table>
 			</td>
 		</tr>
@@ -131,10 +152,8 @@ if (!defined('_JOS_POLL_MODULE'))
 		<input type="hidden" name="task" value="vote" />
 		</form>
 		<?php
-
 	}
 }
 
-$moduleclass_sfx = $params->get('moduleclass_sfx');
-show_poll_vote_form($Itemid, $moduleclass_sfx);
+show_poll_vote_form($Itemid, $params);
 ?>
