@@ -22,6 +22,11 @@ $user	= $mainframe->getUser();
 $db		= & $mainframe->getDBO();
 
 /*
+ * Print the preview button
+ */
+echo "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
+
+/*
  * Get the number of unread messages in your inbox
  */
 $query = "SELECT COUNT(*)"
