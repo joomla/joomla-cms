@@ -66,9 +66,6 @@ if (!defined('_JOS_POLL_MODULE')) {
 		$tabcnt 			= 0;
 		$moduleclass_sfx 	= $params->get('moduleclass_sfx');
 		
-		//$sessionCookieName 	= mosMainFrame::sessionCookieName();
-		//$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, 'z' );
-		
 		$cookiename 		= "voted$poll->id";
 		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );
 		?>
@@ -81,11 +78,7 @@ if (!defined('_JOS_POLL_MODULE')) {
 			var check 		= 0;
 			
 			if ( '<?php echo $voted; ?>' != 'z' ) {
-				alert('<?php echo _ALREADY_VOTE; ?>');
-				return;
-			}
-			if ( '<?php //echo $sessioncookie; ?>' == 'z' ) {
-				alert('<?php echo _ALERT_ENABLED; ?>');
+				alert('<?php echo JText::_( 'You already voted for this poll today!' ); ?>');
 				return;
 			}
 			for(var i = 0; i < radioLength; i++) {
@@ -95,7 +88,7 @@ if (!defined('_JOS_POLL_MODULE')) {
 				}
 			}		
 			if (check == 0) {
-				alert('<?php echo _NO_SELECTION; ?>');
+				alert('<?php echo JText::_( 'WARNSELECT' ); ?>');
 			}
 		}		
 		//-->
