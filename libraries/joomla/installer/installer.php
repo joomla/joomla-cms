@@ -1141,10 +1141,10 @@ class JInstallerHelper
 		 */
 		if (!$target)
 		{
-			$target = JPATH_SITE.DS.'media'.DS.JInstallerHelper::getFilenameFromURL($url);
+			$target = JPATH_SITE.DS.'tmp'.DS.JInstallerHelper::getFilenameFromURL($url);
 		} else
 		{
-			$target = JPATH_SITE.DS.'media'.DS.basename($target);
+			$target = JPATH_SITE.DS.'tmp'.DS.basename($target);
 		}
 
 		/*
@@ -1423,12 +1423,12 @@ class JInstallerHelper
 		{
 			JFile::delete($p_file);
 		}
-		elseif (is_file(JPath::clean(JPATH_SITE.DS.'media'.DS.$p_file, false)))
+		elseif (is_file(JPath::clean(JPATH_SITE.DS.'tmp'.DS.$p_file, false)))
 		{
 			/*
 			 * It might also be just a base filename
 			 */
-			JFile::delete(JPath::clean(JPATH_SITE.DS.'media'.DS.$p_file, false));
+			JFile::delete(JPath::clean(JPATH_SITE.DS.'tmp'.DS.$p_file, false));
 		}
 	}
 

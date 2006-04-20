@@ -471,7 +471,7 @@ class JInstallationController
 			'plugins/editors',
 			'plugins/search',
 			'plugins/system',
-			'media',
+			'tmp',
 			'modules',
 			'templates',
 		);
@@ -504,7 +504,7 @@ class JInstallationController
 		 */
 		$vars['siteUrl']			= $mainframe->getSiteURL(); 
 		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
-		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'media'.DS));
+		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
 		$vars['cachePath']	= JPATH_SITE.DS.'cache';
 		
 		/*
@@ -1034,12 +1034,12 @@ class JInstallationHelper
 		 * Move uploaded file
 		 */
 		jimport('joomla.filesystem.file');		
-		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'media'.DS.$sqlFile['name']);
+		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
 		if( !eregi('.sql$', $sqlFile['name']) ){
-			$archive = JPATH_SITE.DS.'media'.DS.$sqlFile['name'];
+			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 			$script = JFile::stripExt($archive).'.sql';
 		} else {
-			$script = JPATH_SITE.DS.'media'.DS.$sqlFile['name'];
+			$script = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 		}
 
 		// unpack archived sql files

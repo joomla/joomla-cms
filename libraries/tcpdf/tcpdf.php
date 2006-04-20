@@ -2289,7 +2289,9 @@ if(!class_exists('TCPDF')) {
 					//Allow for additional formats
 					$mtd='_parse'.$type;
 					if(!method_exists($this,$mtd)) {
-						$this->Error('Unsupported image type: '.$type);
+						// Graceful error handling
+						return false;
+						//$this->Error('Unsupported image type: '.$type);
 					}
 					$info=$this->$mtd($file);
 				}

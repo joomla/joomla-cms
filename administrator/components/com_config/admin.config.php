@@ -234,7 +234,7 @@ class JConfigController {
 
 		$lists['hits'] 			= mosHTML::RadioList($show_hide_r, 'hits', 'class="inputbox"', $row->hits, 'value', 'text');
 
-		if (is_writable(JPATH_SITE.DS.'media'.DS)) {
+		if (is_writable(JPATH_SITE.DS.'tmp'.DS)) {
 			$lists['hidePdf'] = mosHTML::RadioList($show_hide, 'hidePdf', 'class="inputbox"', $row->hidePdf, 'value', 'text');
 		} else {
 			$lists['hidePdf'] = '<input type="hidden" name="hidePdf" value="1" /><strong>Hide</strong>';

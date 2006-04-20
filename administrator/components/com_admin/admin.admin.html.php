@@ -410,7 +410,7 @@ class HTML_admin_misc
 				mosHTML::writableCell( 'plugins/system' );
 				mosHTML::writableCell( 'plugins/user' );
 				mosHTML::writableCell( 'plugins/xmlrpc' );
-				mosHTML::writableCell( 'media' );
+				mosHTML::writableCell( 'tmp' );
 				mosHTML::writableCell( 'modules' );
 				mosHTML::writableCell( 'templates' );
 				mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );

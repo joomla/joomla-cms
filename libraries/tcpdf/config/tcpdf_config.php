@@ -43,7 +43,7 @@ define ("K_PATH_MAIN", JPATH_LIBRARIES.DS."tcpdf".DS);
 /**
  * url path
  */
-define ("K_PATH_URL", $mainframe->getCfg( 'live_site' ));
+define ("K_PATH_URL", $mainframe->getBaseURL());
 
 /**
  * path for PDF fonts
