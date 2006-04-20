@@ -43,10 +43,14 @@ class ContentView
 		$pagesList = $pageNav->getPagesList();
 		$html = null;
 		if ($pagesList['first']['start'] !== null) {
-			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a>";
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a></div></div>";
+		} else {
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['first']['txt']."\">".$pagesList['first']['txt']."</a></div></div>";
 		}
 		if ($pagesList['prev']['start'] !== null) {
-			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a>";
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a></div></div>";
+		} else {
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['prev']['txt']."\">".$pagesList['prev']['txt']."</a></div></div>";
 		}
 		$i = 1;
 		while (isset($pagesList['pages'][$i])) {
@@ -56,10 +60,14 @@ class ContentView
 			$i++;
 		}
 		if ($pagesList['next']['start'] !== null) {
-			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a>";
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a></div></div>";
+		} else {
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['next']['txt']."\">".$pagesList['next']['txt']."</a></div></div>";
 		}
 		if ($pagesList['end']['start'] !== null) {
-			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a>";
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a></div></div>";
+		} else {
+			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['end']['txt']."\">".$pagesList['end']['txt']."</a></div></div>";
 		}
 		$pageNav->set('LinkList', $html);
 
