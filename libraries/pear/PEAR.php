@@ -21,6 +21,9 @@
 // $Id$
 //
 
+//Prevent PEAR from being includes twice for server who have PEAR already installed
+if ( @require_once('PEAR.php') ) return;
+
 define('PEAR_ERROR_RETURN',     1);
 define('PEAR_ERROR_PRINT',      2);
 define('PEAR_ERROR_TRIGGER',    4);

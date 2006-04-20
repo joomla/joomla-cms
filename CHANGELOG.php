@@ -52,6 +52,8 @@ Legend:
  ^ Made index.php only entry point for JAdministrator
  ! Set minimum system requirements to PHP version to 4.3.0
  ^ Moved frontpage feed handling into frontpage component
+ # Fixed artf3911 : Pear include in lite.php problem in safe mode
+ # Fixed artf4330 : PEAR being included twice
 
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly

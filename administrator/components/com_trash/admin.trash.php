@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_trash', 'manage' ))
-{
+if (!$user->authorize( 'com_trash', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -29,11 +28,13 @@ require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
+
 if ( !is_array( $cid ) ) {
 	$cid = array(0);
 }
 
-switch ($task) {
+switch ($task) 
+{
 	case 'deleteconfirm':
 		viewdeleteTrash( $cid, $mid, $option );
 		break;
@@ -72,7 +73,8 @@ switch ($task) {
 /**
 * Compiles a list of trash items
 */
-function viewTrashContent( $option ) {
+function viewTrashContent( $option ) 
+{
 	global $database, $mainframe;
 	
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	'sectname' );
@@ -137,7 +139,8 @@ function viewTrashContent( $option ) {
 /**
 * Compiles a list of trash items
 */
-function viewTrashMenu( $option ) {
+function viewTrashMenu( $option ) 
+{
 	global $database, $mainframe;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order", 	'filter_order', 	'm.menutype' );
@@ -202,7 +205,8 @@ function viewTrashMenu( $option ) {
 /**
 * Compiles a list of the items you have selected to permanently delte
 */
-function viewdeleteTrash( $cid, $mid, $option ) {
+function viewdeleteTrash( $cid, $mid, $option ) 
+{
 	global $database;
 
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
@@ -242,7 +246,8 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 /**
 * Permanently deletes the selected list of trash items
 */
-function deleteTrash( $cid, $option ) {
+function deleteTrash( $cid, $option ) 
+{
 	global $database;
 
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
@@ -314,7 +319,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 /**
 * Restores items selected to normal - restores to an unpublished state
 */
-function restoreTrash( $cid, $option ) {
+function restoreTrash( $cid, $option ) 
+{
 	global $database;
 
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );

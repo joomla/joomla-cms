@@ -121,13 +121,14 @@ class JMessage extends JTable
 	function send($fromId = null, $toId = null, $subject = null, $message = null)
 	{
 		global $mainframe, $mosConfig_mailfrom, $mosConfig_fromname;
-		$database = &$mainframe->getDBO();
+		
+		$database =& $mainframe->getDBO();
 
 		if (is_object($this))
 		{
-			$fromId		= $fromId	? $fromId		: $this->user_id_from;
-			$toId			= $toId		? $toId			: $this->user_id_to;
-			$subject		= $subject	? $subject	: $this->subject;
+			$fromId		= $fromId	? $fromId	: $this->user_id_from;
+			$toId		= $toId		? $toId		: $this->user_id_to;
+			$subject	= $subject	? $subject	: $this->subject;
 			$message	= $message	? $message	: $this->message;
 		}
 
@@ -135,18 +136,18 @@ class JMessage extends JTable
 				"\n FROM #__messages_cfg" .
 				"\n WHERE user_id = $toId";
 		$database->setQuery($query);
+		
 		$config = $database->loadObjectList('cfg_name');
 		$locked = @ $config['lock']->cfg_value;
 		$domail = @ $config['mail_on_new']->cfg_value;
 
 		if (!$locked)
 		{
-
 			$this->user_id_from	= $fromId;
-			$this->user_id_to		= $toId;
-			$this->subject				= $subject;
-			$this->message			= $message;
-			$this->date_time			= date('Y-m-d H:i:s');
+			$this->user_id_to	= $toId;
+			$this->subject		= $subject;
+			$this->message		= $message;
+			$this->date_time	= date('Y-m-d H:i:s');
 
 			if ($this->store())
 			{

@@ -257,8 +257,8 @@ class HTML_trash {
 			 <strong><font color="#FF0000"><?php echo JText::_( 'Permanently Delete' ); ?></font></strong> <br /><?php echo JText::_( 'these Items from the Database *' ); ?>
 			<br /><br /><br />
 			<div style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px;">
-			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNWANTDELLISTEDITEMS' ); ?>')){ submitbutton('delete');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
-			<img name="remove" src="images/delete.png" alt="<?php echo JText::_( 'Delete' ); ?>" border="0" align="middle" />
+			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNWANTDELLISTEDITEMS' ); ?>')){ submitbutton('delete');}">
+			<img name="remove" src="images/delete_f2.png" alt="<?php echo JText::_( 'Delete' ); ?>" border="0" align="middle" />
 			&nbsp;<?php echo JText::_( 'Delete' ); ?>
 			</a>
 			</div>
@@ -317,8 +317,8 @@ class HTML_trash {
 			 <strong><font color="#FF0000"><?php echo JText::_( 'Restore' ); ?></font></strong> <?php echo JText::_( 'these Items,' ); ?><br /><?php echo JText::_( 'TIPWILLBERETURNED' ); ?>
 			<br /><br /><br />
 			<div style="border: 1px dotted gray; width: 80px; padding: 10px; margin-left: 50px;">
-			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('restore','','images/restore_f2.png',1);">
-			<img name="restore" src="images/restore.png" alt="<?php echo JText::_( 'Restore' ); ?>" border="0" align="middle" />
+			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}">
+			<img name="restore" src="images/restore_f2.png" alt="<?php echo JText::_( 'Restore' ); ?>" border="0" align="middle" />
 			&nbsp;<?php echo JText::_( 'Restore' ); ?>
 			</a>
 			</div>
