@@ -53,6 +53,7 @@ a:hover   { text-decoration: underline; }
 #header3 span,
 .header,
 #menu,
+#submenu,
 #toolbar,
 .pane-sliders .title,
 .adminlist th {
@@ -288,6 +289,13 @@ table.toolbar a:hover {
 	border-bottom: 1px solid #ccc;
 	text-decoration: none;
 	color: #0B55C4;
+}
+
+/* submenu box */
+.submenu-box {
+	background: #fbfbfb;
+	padding: 5px 1px;
+	margin-top: 10px;
 }
 
 /** for massmail component **/

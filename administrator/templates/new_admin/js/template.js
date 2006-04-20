@@ -46,5 +46,6 @@ addLoadEvent(function() {
 	Rounded("div.component","all","#fff","#fff","border #ccc");
 	Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
 	Rounded("div.element-box","all","#fff","#fff","border #ccc");
+	Rounded("div.submenu-box","all","#fff","#fbfbfb","border #ccc");
 });
 

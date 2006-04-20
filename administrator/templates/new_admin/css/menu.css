@@ -79,3 +79,21 @@
 /* 3 level - hover */
 #menu li.hover li.hover li a:hover { background-color: #E7EDDF; border: 1px solid #6D9D2E;  margin: 1px;  }
 
+/* submenu styling */
+#submenu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#submenu li {
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+
+#submenu li a {
+	padding: 5px 15px;
+	border-right: 1px solid #ccc;
+	font-weight: bold;
+}
