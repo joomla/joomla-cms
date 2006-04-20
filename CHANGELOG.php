@@ -36,9 +36,15 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+20-Apr-2006 Johan Janssens
+ ^ Moved content feed handling into content component
+ ^ Moved contact feed handling into contact component
+ ^ Moved weblink feed handling into weblink component
+ - Removed syndicate plugins
+
 20-Apr-2006 David Gal
  ^ Moved installation sample data sql file to sql folder - no longer part of language packs
-
 
 20-Apr-2006 Louis Landry
  + setVar method to JRequest

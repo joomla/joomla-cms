@@ -9,11 +9,6 @@ INSERT INTO `jos_mambots` VALUES (0, 'Joomla SEF URLs', 'joomla.sefurlbot', 'sys
 INSERT INTO `jos_mambots` VALUES (0, 'XML-RPC - Joomla', 'joomla', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Visitor Statistics', 'joomla.visitorbot', 'system', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Page Navigation','pagenavigation','content',0,2,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Content', 'content', 'syndicate', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Frontpage', 'frontpage', 'syndicate', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Weblinks', 'weblinks', 'syndicate', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Contacts', 'contact', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Poll', 'poll', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Editor - XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Authentication - GMail', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Editor Button - Readmore','readmore','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');

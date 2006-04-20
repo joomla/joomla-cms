@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: blog.php 3152 2006-04-19 14:28:35Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -15,42 +15,58 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the content html view
-require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-
 /**
- * RSS Blog View class for the Frontpage component
+ * HTML View class for the Content component
  *
- * @static
  * @package Joomla
  * @subpackage Content
  * @since 1.5
  */
-class JViewBlog
+class JViewRSSCategory extends JView
 {
-	function show(&$model, &$access, &$menu)
-	{
-		global $mainframe, $Itemid;
-		
-		// parameters
-		$params =& $model->getMenuParams();
-		$db     =& $mainframe->getDBO();
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Category';
 
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	function display()
+	{
+		global $mainframe;
+		
+		// Initialize some variables
+		$menu	= & $this->get( 'Menu' );
+		$params	= & $menu->parameters;
+		$Itemid	= $menu->id;
+
+		// Get some data from the model
+		$rows = & $this->get( 'Content' );
+		
 		$link       = $mainframe->getBaseURL() .'index.php?option=com_content&task=view&id=';
 		$format		= 'RSS2.0';
 		$limit		= '10';
 		
 		JRequest::setVar('limit', $limit);
-		$rows = $model->getContentData();
-	  	
+		$category = & $this->get( 'Category' );
+		$rows 	  = & $this->get( 'Content' );
+		
 		$count = count( $rows );
 		for ( $i=0; $i < $count; $i++ ) 
 		{
 			$Itemid = $mainframe->getItemid( $rows[$i]->id );
-			$rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid;   
+			$rows[$i]->link     = $rows[$i]->link .'&Itemid='. $Itemid; 
+			$rows[$i]->category = $category->title;
 		}
     	
-		JViewBlog::createFeed( $rows, $format, $menu->name, $params );
+		JViewRSSCategory::createFeed( $rows, $format, $menu->name, $params );
 	}
 	
 	function createFeed( $rows, $format, $title, &$params ) 
@@ -92,7 +108,7 @@ class JViewBlog
 		$syndicate->syndicationURL 	= $info[ 'link' ];
 		$syndicate->cssStyleSheet 	= NULL;
 		$syndicate->encoding 		= 'UTF-8';
-		
+	
 		foreach ( $rows as $row ) 
 		{
 			// strip html from feed item title

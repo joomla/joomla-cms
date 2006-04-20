@@ -40,8 +40,10 @@ class JContentController extends JController
 	 */
 	function section()
 	{
+		$type = JRequest::getVar( 'type', 'html' );
+		
 		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'section', 'com_content', 'HTML' );
+		$this->setViewName( 'section', 'com_content', $type );
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
@@ -86,8 +88,10 @@ class JContentController extends JController
 	 */
 	function category()
 	{
+		$type = JRequest::getVar( 'type', 'html' );
+		
 		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'category', 'com_content', 'HTML' );
+		$this->setViewName( 'category', 'com_content', $type );
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
@@ -134,8 +138,10 @@ class JContentController extends JController
 	 */
 	function blogsection()
 	{
+		$type = JRequest::getVar( 'type', 'html' );
+		
 		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'blog', 'com_content', 'HTML' );
+		$this->setViewName( 'blog', 'com_content', $type );
 
 		// Get the view
 		$view = & $this->getView();
@@ -161,8 +167,10 @@ class JContentController extends JController
 	 */
 	function blogcategory()
 	{
+		$type = JRequest::getVar( 'type', 'html' );
+		
 		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'blog', 'com_content', 'HTML' );
+		$this->setViewName( 'blog', 'com_content', $type );
 
 		// Get the view
 		$view = & $this->getView();

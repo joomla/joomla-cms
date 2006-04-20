@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: blog.php 3152 2006-04-19 14:28:35Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -15,42 +15,51 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the content html view
-require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-
 /**
- * RSS Blog View class for the Frontpage component
+ * HTML View class for the Content component
  *
  * @static
  * @package Joomla
  * @subpackage Content
  * @since 1.5
  */
-class JViewBlog
+class JViewRSSSection extends JView
 {
-	function show(&$model, &$access, &$menu)
-	{
-		global $mainframe, $Itemid;
-		
-		// parameters
-		$params =& $model->getMenuParams();
-		$db     =& $mainframe->getDBO();
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Section';
 
-		$link       = $mainframe->getBaseURL() .'index.php?option=com_content&task=view&id=';
-		$format		= 'RSS2.0';
-		$limit		= '10';
+	/**
+	 * Name of the view.
+	 * 
+	 * @access	private
+	 * @var		string
+	 */
+	function display()
+	{
+		global $mainframe;
 		
-		JRequest::setVar('limit', $limit);
-		$rows = $model->getContentData();
-	  	
+		//Initialize some variables
+		$menu	= & $this->get( 'Menu' );
+		$params	= & $menu->parameters;
+		$Itemid	= $menu->id;
+		
+		// Lets get our data from the model
+		$rows = & $this->get( 'Section' );
+		
 		$count = count( $rows );
 		for ( $i=0; $i < $count; $i++ ) 
 		{
 			$Itemid = $mainframe->getItemid( $rows[$i]->id );
-			$rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid;   
+			$rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid; 
 		}
     	
-		JViewBlog::createFeed( $rows, $format, $menu->name, $params );
+		JViewRSSSection::createFeed( $rows, $format, $menu->name, $params );
+
 	}
 	
 	function createFeed( $rows, $format, $title, &$params ) 
@@ -92,7 +101,7 @@ class JViewBlog
 		$syndicate->syndicationURL 	= $info[ 'link' ];
 		$syndicate->cssStyleSheet 	= NULL;
 		$syndicate->encoding 		= 'UTF-8';
-		
+	
 		foreach ( $rows as $row ) 
 		{
 			// strip html from feed item title

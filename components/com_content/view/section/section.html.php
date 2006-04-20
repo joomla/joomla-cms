@@ -41,12 +41,10 @@ class JViewHTMLSection extends JView
 	 */
 	function display()
 	{
-		/*
-		 * Initialize some variables
-		 */
-		$app			= & $this->get( 'Application' );
-		$user			= & $app->getUser();
-		$menu			= & $this->get( 'Menu' );
+		// Initialize some variables
+		$app		= & $this->get( 'Application' );
+		$user		= & $app->getUser();
+		$menu		= & $this->get( 'Menu' );
 		$params		= & $menu->parameters;
 		
 		// Lets get our data from the model
