@@ -153,6 +153,26 @@ class JCache extends Cache_Lite
 	}
 
 	/**
+	* Remove a cache file
+	*
+	* @param string $id cache id
+	* @param string $group name of the cache group
+	* @return boolean true if no problem
+	* @access public
+	*/
+	function remove($id, $group = 'default')
+	{
+		$this->_setFileName($id, $group);
+		if (file_exists($this->_file)) {
+			if (!@unlink($this->_file)) {
+				$this->raiseError('Cache_Lite : Unable to remove cache !', -3);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Cleans the cache
 	 */
 	function cleanCache($group = false, $mode = 'ingroup')

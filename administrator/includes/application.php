@@ -234,7 +234,6 @@ class JAdministrator extends JApplication
 	function setSession($name) 
 	{
 		$this->_createSession($name);
-		
 		if (JSession::isIdle()) {
 			// Build the URL
 			$uri = JURI::getInstance();

@@ -65,69 +65,58 @@ class JRequest
 
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-		static $vars;
-		
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$hash		= strtoupper($hash);
 		$type		= strtoupper($type);
-		$signature	= $name.$default.$hash.$type.$mask;
+		$signature	= $name.$hash.$type.$mask;
 
-		if (!isset($vars[$signature]))
-		{
+		if (!isset($GLOBALS['JRequest'][$signature])) {
 			$result		= null;
 			$matches	= array ();
 	
-			if ($hash === 'METHOD')
-			{
+			if ($hash === 'METHOD') {
 				$hash = strtoupper($_SERVER['REQUEST_METHOD']);
-			} else
-			{
-				switch ($hash)
-				{
-					case 'GET' :
-						if (isset ($_GET[$name]))
-							$result = $_GET[$name];
-						break;
-					case 'POST' :
-						if (isset ($_POST[$name]))
-							$result = $_POST[$name];
-						break;
-					case 'FILES' :
-						if (isset ($_FILES[$name]))
-							$result = $_FILES[$name];
-						break;
-					default:
-						if (isset ($_REQUEST[$name]))
-							$result = $_REQUEST[$name];
-						break;
-				}
 			}
-	
-			/*
-			 * Handle default case
-			 */
-			if ((empty($result)) && (!is_null($default)))
+			switch ($hash)
 			{
+				case 'GET' :
+					if (isset ($_GET[$name]))
+						$result = $_GET[$name];
+					break;
+				case 'POST' :
+					if (isset ($_POST[$name]))
+						$result = $_POST[$name];
+					break;
+				case 'FILES' :
+					if (isset ($_FILES[$name]))
+						$result = $_FILES[$name];
+					break;
+				default:
+					if (isset ($_REQUEST[$name]))
+						$result = $_REQUEST[$name];
+					break;
+			}
+
+			// Handle the default case
+			if ((empty($result)) && (!is_null($default))) {
 				$result = $default;
 			}
 	
-			if ($result != null)
-			{
-				/*
-				 * Handle the type constraint
-				 */
+			if ($result != null) {
+
+				// Handle the type constraint
 				switch ($type)
 				{
 					case 'INT' :
 					case 'INTEGER' :
+
 						// Only use the first integer value
 						@preg_match('/-?[0-9]+/', $result, $matches);
 						$result = @(int) $matches[0];
 						break;
 					case 'FLOAT' :
 					case 'DOUBLE' :
+
 						// Only use the first floating point value
 						@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
 						$result = @(float) $matches[0];
@@ -137,39 +126,67 @@ class JRequest
 						$result = (bool) $result;
 						break;
 					case 'ARRAY' :
-	
-						/*
-						 * Clean the variable given using the given filter mask
-						 */
+
+						// Clean the variable given using the given filter mask
 						$result = JRequest::cleanVar($result, $mask);
-	
-						if (!is_array($result))
-						{
+
+						if (!is_array($result)) {
 							$result = null;
 						}
 						break;
 					case 'STRING' :
-	
-						/*
-						 * Clean the variable given using the given filter mask
-						 */
+
+						// Clean the variable given using the given filter mask
 						$result = JRequest::cleanVar($result, $mask);
 	
 						$result = (string) $result;
 						break;
 					case 'NONE' :
 					default :
-	
-						/*
-						 * Clean the variable given using the given filter mask
-						 */
+
+						// Clean the variable given using the given filter mask
 						$result = JRequest::cleanVar($result, $mask);
 						break;
 				}
 			}
-			$vars[$signature] = $result;
+			$GLOBALS['JRequest'][$signature] = $result;
 		}
-		return $vars[$signature];
+		return $GLOBALS['JRequest'][$signature];
+	}
+
+	function setVar($name, $value = null, $hash = 'default', $type = 'none', $mask = 0)
+	{
+		// Initialize variables
+		$hash		= strtoupper($hash);
+		$type		= strtoupper($type);
+		$signature	= $name.$hash.$type.$mask;
+
+		// Set global request var
+		$GLOBALS['JRequest'][$signature] = $value;
+
+		if ($hash === 'METHOD') {
+			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
+		}
+		switch ($hash)
+		{
+			case 'GET' :
+					$_GET[$name] = $value;
+					$_REQUEST[$name] = $value;
+				break;
+			case 'POST' :
+					$_POST[$name] = $value;
+					$_REQUEST[$name] = $value;
+				break;
+			case 'FILES' :
+					$_FILES[$name] = $value;
+					$_REQUEST[$name] = $value;
+				break;
+			default:
+					$_GET[$name] = $value;
+					$_POST[$name] = $value;
+					$_REQUEST[$name] = $value;
+				break;
+		}
 	}
 
 	/**
