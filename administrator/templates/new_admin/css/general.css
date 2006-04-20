@@ -152,11 +152,7 @@ a:hover   { text-decoration: underline; }
 }
 
 /* -- status layout */
-
-span.unread-messages,
-span.no-unread-messages,
-span.loggedin-users,
-span.logout {
+#status-box span {
 	display: block;
 	float: left;
 	padding-left: 22px;
@@ -166,6 +162,7 @@ span.logout {
 	margin-bottom: 5px;
 }
 
+span.preview { background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat; }
 span.unread-messages,
 span.no-unread-messages { background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat; }
 span.unread-messages a  { font-weight: bold; }
