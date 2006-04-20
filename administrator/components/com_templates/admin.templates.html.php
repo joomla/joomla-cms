@@ -46,9 +46,9 @@ class JTemplatesView
 			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a>";
 		}
 		$i = 1;
-		while (isset($pagesList[$i])) {
-			if ($pagesList[$i]['start'] !== null) {
-				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList[$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList[$i]['start']."; document.adminForm.submit();return false;\">".$pagesList[$i]['txt']."</a>";
+		while (isset($pagesList['pages'][$i])) {
+			if ($pagesList['pages'][$i]['start'] !== null) {
+				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$pagesList['pages'][$i]['txt']."</a>";
 			}
 			$i++;
 		}

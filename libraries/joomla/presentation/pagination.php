@@ -212,12 +212,13 @@ class JPagination extends JObject
 			$list['end'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('End') );
 		}
 
+		$list['pages'] = array();
 		for ($i = $start_loop; $i <= $stop_loop; $i ++) {
 			$page = ($i -1) * $this->limit;
 			if ($i == $this_page) {
-				$list[$i] = array( 'start' => null, 'url' => null, 'txt' => "$i" );
+				$list['pages'][$i] = array( 'start' => null, 'url' => null, 'txt' => "$i" );
 			} else {
-				$list[$i] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => "$i" );
+				$list['pages'][$i] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => "$i" );
 			}
 		}
 		return $list;
