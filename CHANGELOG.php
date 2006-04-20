@@ -36,6 +36,9 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+20-Apr-2006 David Gal
+ ^ Moved installation sample data sql file to sql folder - no longer part of language packs
+
 
 20-Apr-2006 Louis Landry
  + setVar method to JRequest

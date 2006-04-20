@@ -143,7 +143,7 @@ class JAJAXHandler {
 		 * execute the default sample data file
 		 */
 		//TODO - consider changing location back to sql folder
-		$dbsample = '../language/en-GB/sample_data.sql';
+		$dbsample = '../sql/sample_data.sql';
 		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($database, $dbsample, $errors);
 		
