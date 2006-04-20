@@ -45,6 +45,7 @@ Legend:
  # Fix error in JCache::remove method causing problems with auto state storage
  ^ Installation and temporary files are handled in the tmp/ folder -- not media/
  + Added preview link to mod_status
+ + Added JPagination link list method
 
 20-Apr-2006 David Gal
  + Moved loading of sample data in installation to MainConfig step. Implemented with xajax

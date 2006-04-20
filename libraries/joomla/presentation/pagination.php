@@ -169,6 +169,61 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Create and return the pagination page list array
+	 * 
+	 * @access public
+	 * @return array Pagination page list array
+	 * @since 1.5
+	 */
+	function getPagesList($link = null) {
+		global $mainframe;
+
+		// Initialize variables
+		$list = array();
+		$link .= '&amp;limit='.$this->limit;
+
+		$displayed_pages = 10;
+		$total_pages = ceil($this->total / $this->limit);
+		$this_page = ceil(($this->limitstart + 1) / $this->limit);
+		$start_loop = (floor(($this_page -1) / $displayed_pages)) * $displayed_pages +1;
+
+		if ($start_loop + $displayed_pages -1 < $total_pages) {
+			$stop_loop = $start_loop + $displayed_pages -1;
+		} else {
+			$stop_loop = $total_pages;
+		}
+
+		if ($this_page > 1) {
+			$page = ($this_page -2) * $this->limit;
+			$list['first'] = array( 'start' => "0", 'url' => sefRelToAbs("$link&amp;limitstart=0"), 'txt' => JText::_('Start') );
+			$list['prev'] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => JText::_('Prev') );
+		} else {
+			$list['first'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Start') );
+			$list['prev'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Prev') );
+		}
+
+		if ($this_page < $total_pages) {
+			$page = $this_page * $this->limit;
+			$end_page = ($total_pages -1) * $this->limit;
+			$list['next'] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => JText::_('Next') );
+			$list['end'] = array( 'start' => "$end_page", 'url' => sefRelToAbs("$link&amp;limitstart=$end_page"), 'txt' => JText::_('End') );
+		} else {
+			$list['next'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Next') );
+			$list['end'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('End') );
+		}
+
+		for ($i = $start_loop; $i <= $stop_loop; $i ++) {
+			$page = ($i -1) * $this->limit;
+			if ($i == $this_page) {
+				$list[$i] = array( 'start' => null, 'url' => null, 'txt' => "$i" );
+			} else {
+				$list[$i] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => "$i" );
+			}
+		}
+		return $list;
+	}
+
+	/**
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x
 	 * 
 	 * @access public

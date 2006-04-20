@@ -26,7 +26,7 @@ class JTemplatesView
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates( &$rows, &$lists, &$pageNav, $option, &$client ) 
+	function showTemplates( &$rows, &$lists, &$page, $option, &$client ) 
 	{
 		global $mainframe;
 		
@@ -36,6 +36,31 @@ class JTemplatesView
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );
 		}
 
+		// Build the page navigation list
+		$pagesList = $page->getPagesList();
+		$html = null;
+		if ($pagesList['first']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a>";
+		}
+		if ($pagesList['prev']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a>";
+		}
+		$i = 1;
+		while (isset($pagesList[$i])) {
+			if ($pagesList[$i]['start'] !== null) {
+				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList[$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList[$i]['start']."; document.adminForm.submit();return false;\">".$pagesList[$i]['txt']."</a>";
+			}
+			$i++;
+		}
+		if ($pagesList['next']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a>";
+		}
+		if ($pagesList['end']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a>";
+		}
+		$page->set('LinkList', $html);
+		
+		
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -44,14 +69,10 @@ class JTemplatesView
 			var pattern = /\b \b/ig;
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
-			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
-				var html=name;
-				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
-				return overlib(html, CAPTION, name)
-			} else {
-				return false;
-			}
+			var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
+			var html=name;
+			html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
+			return overlib(html, CAPTION, name)
 		}
 		-->
 		</script>
@@ -64,15 +85,6 @@ class JTemplatesView
 		
 		<div id="pane-document">
 		
-			<table class="adminform">
-			<tr>
-				<td nowrap="nowrap" align="left" width="100%">
-					<input type="checkbox" name="doPreview" id="doPreview" checked="checked" />
-					<label id="doPreview"><?php echo JText::_( 'Preview Template' ); ?></label>
-				</td>
-			</tr>
-			</table>
-				
 			<table class="adminlist">
 			<tr>
 				<th width="5" class="title">
@@ -118,7 +130,7 @@ class JTemplatesView
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td>
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td width="5">
 					<?php
@@ -201,7 +213,7 @@ class JTemplatesView
 			}
 			?>
 			</table>
-			<?php echo $pageNav->getListFooter(); ?>
+			<?php echo $page->get('LinkList'); ?>
 	</div>
 
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
