@@ -162,7 +162,7 @@ class JAdminSubMenu
 			return null;
 		}
 
-		$txt = "<ul>\n";
+		$txt = "<ul id=\"submenu\">\n";
 
 		/*
 		 * Iterate through the link items for building the menu items

@@ -90,16 +90,16 @@ $tstart = JProfiler::getmicrotime();
 												</td>
 											</tr>
 											<tr>
-												<td colspan="2">
-													<div class="far-right">
-														<div class="button1-left">
-															<div class="next">
-																<a onclick="loginForm.submit();">
-																	<jdoc:translate>Login</jdoc:translate></a>
-															</div>
+												<td>&nbsp;</td>
+												<td><br />
+													<div class="button1-left">
+														<div class="next">
+															<a onclick="loginForm.submit();">
+																<jdoc:translate>Login</jdoc:translate></a>
 														</div>
-														<input type="hidden" name="option" value="login" />
 													</div>
+													<input type="submit" name="submit" style="visibility:hidden;" />
+													<input type="hidden" name="option" value="login" />
 												</td>
 											</tr>
 										</table>														
