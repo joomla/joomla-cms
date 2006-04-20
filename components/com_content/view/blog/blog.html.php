@@ -41,15 +41,15 @@ class JViewHTMLBlog extends JView
 	function display()
 	{
 		// Initialize some variables
-		$app = & $this->get('Application');
-		$user = & $app->getUser();
-		$menu = & $this->get('Menu');
+		$app 	= & $this->get('Application');
+		$user 	= & $app->getUser();
+		$menu 	= & $this->get('Menu');
 		$params = & $menu->parameters;
 		$Itemid = $menu->id;
 
-		$gid = $user->get('gid');
-		$task = JRequest::getVar('task');
-		$id = JRequest::getVar('id');
+		$gid 	= $user->get('gid');
+		$task 	= JRequest::getVar('task');
+		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
 
 		// Create a user access object for the user
@@ -70,13 +70,13 @@ class JViewHTMLBlog extends JView
 			$columns = 1;
 		}
 
-		$intro = $params->def('intro', 4);
-		$leading = $params->def('leading', 1);
-		$links = $params->def('link', 4);
-		$usePagination = $params->def('pagination', 2);
-		$showPaginationResults = $params->def('pagination_results', 1);
-		$descrip = $params->def('description', 1);
-		$descrip_image = $params->def('description_image', 1);
+		$intro 		= $params->def('intro', 4);
+		$leading 	= $params->def('leading', 1);
+		$links 		= $params->def('link', 4);
+		$usePagination 			= $params->def('pagination', 2);
+		$showPaginationResults 	= $params->def('pagination_results', 1);
+		$descrip 				= $params->def('description', 1);
+		$descrip_image	 		= $params->def('description_image', 1);
 
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
@@ -86,7 +86,8 @@ class JViewHTMLBlog extends JView
 
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs = & $app->getPathWay();
-		$document = & $app->getDocument();
+		$document 	 = & $app->getDocument();
+		
 		if ($menu->name) {
 			$document->setTitle($menu->name);
 			$breadcrumbs->addItem($menu->name, '');
@@ -107,7 +108,8 @@ class JViewHTMLBlog extends JView
 		 * Set section/category description text and images for blog sections
 		 * and categories
 		 */
-		if ($menu && $menu->componentid && ($descrip || $descrip_image)) {
+		if ($menu && $menu->componentid && ($descrip || $descrip_image)) 
+		{
 			switch ($menu->type)
 			{
 				case 'content_blog_section' :

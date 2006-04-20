@@ -65,7 +65,6 @@ class JRequest
 
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-
 		static $vars;
 		
 		/*

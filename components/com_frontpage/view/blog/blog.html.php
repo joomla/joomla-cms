@@ -57,13 +57,13 @@ class JViewBlog
 			$columns = 1;
 		}
 		
-		$intro								= $params->def('intro', 4);
-		$leading							= $params->def('leading', 1);
-		$links								= $params->def('link', 4);
-		$usePagination				= $params->def('pagination', 2);
+		$intro					= $params->def('intro', 4);
+		$leading				= $params->def('leading', 1);
+		$links					= $params->def('link', 4);
+		$usePagination			= $params->def('pagination', 2);
 		$showPaginationResults	= $params->def('pagination_results', 1);
-		$descrip							= $params->def('description', 1);
-		$descrip_image				= $params->def('description_image', 1);
+		$descrip				= $params->def('description', 1);
+		$descrip_image			= $params->def('description_image', 1);
 
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
