@@ -60,6 +60,7 @@ $lang =& $mainframe->getLanguage();
 								</div>
 								<div class="clr"></div>
 							</div>
+							<jdoc:include type="module" name="submenu" />
 							<div class="spacer"></div>
 							<div class="element-box">
 								<div class="element-pad">
