@@ -25,11 +25,36 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, &$client, &$pageNav, $option, &$lists ) 
+	function showModules( &$rows, &$client, &$page, $option, &$lists ) 
 	{
 		global $mainframe;
 		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
+
+		// Build the page navigation list
+		$pagesList = $page->getPagesList();
+		$html = null;
+		if ($pagesList['first']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a>";
+		}
+		if ($pagesList['prev']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a>";
+		}
+		$i = 1;
+		while (isset($pagesList['pages'][$i])) {
+			if ($pagesList['pages'][$i]['start'] !== null) {
+				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$pagesList['pages'][$i]['txt']."</a>";
+			}
+			$i++;
+		}
+		if ($pagesList['next']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a>";
+		}
+		if ($pagesList['end']['start'] !== null) {
+			$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a>";
+		}
+		$page->set('LinkList', $html);
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -123,7 +148,7 @@ class HTML_modules {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="right">
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td>
 						<?php echo $checked; ?>
@@ -148,10 +173,10 @@ class HTML_modules {
 					if ( $lists['order'] == 'm.position' ) {
 						?>
 						<td>
-							<?php echo $pageNav->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
+							<?php echo $page->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
 						</td>
 						<td>
-							<?php echo $pageNav->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
+							<?php echo $page->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
 						</td>
 						<td align="center" colspan="2">
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
@@ -194,9 +219,10 @@ class HTML_modules {
 			}
 			?>
 			</table>
-			<?php echo $pageNav->getListFooter(); ?>
+			<?php echo $page->get('LinkList'); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
