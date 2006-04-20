@@ -100,7 +100,7 @@ class HTML_content {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 	
-				$link 			= ampReplace( 'index2.php?option=com_content&sectionid=0&task=edit&hidemainmenu=1&id='. $row->id );
+				$link 			= ampReplace( 'index2.php?option=com_content&task=edit&hidemainmenu=1&cid[]='. $row->id );
 	
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == '1' ) {
