@@ -98,7 +98,7 @@ $tstart = JProfiler::getmicrotime();
 																<jdoc:translate>Login</jdoc:translate></a>
 														</div>
 													</div>
-													<input type="submit" name="submit" style="visibility:hidden;" />
+													<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
 													<input type="hidden" name="option" value="login" />
 												</td>
 											</tr>
