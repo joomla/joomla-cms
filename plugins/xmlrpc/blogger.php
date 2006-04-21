@@ -77,7 +77,7 @@ function wsGetBloggerWebServices()
 function getUserBlogs($msg)
 {
 	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
-	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$appkey   = php_xmlrpc_decode($msg->getParam(0));
 	$username = php_xmlrpc_decode($msg->getParam(1));
 	$password = php_xmlrpc_decode($msg->getParam(2));
 	global $mainframe;
@@ -228,8 +228,8 @@ function editPost($msg)
 {
 	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 	
-	$appkey = php_xmlrpc_decode($msg->getParam(0));
-	$postid = php_xmlrpc_decode($msg->getParam(1));
+	$appkey   = php_xmlrpc_decode($msg->getParam(0));
+	$postid   = php_xmlrpc_decode($msg->getParam(1));
 	$username = php_xmlrpc_decode($msg->getParam(2));
 	$password = php_xmlrpc_decode($msg->getParam(3));
 	$content = php_xmlrpc_decode($msg->getParam(4));

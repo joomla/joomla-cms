@@ -38,11 +38,18 @@ class JViewBlog
 		 */
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
+		$document	= & $mainframe->getDocument();
+		
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
 		$option		= JRequest::getVar('option');
 		$gid		= $user->get('gid');
 
+		//add alternate feed link
+		$link    = $mainframe->getBaseURL() .'index.php?option=com_frontpage&format=rss';
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$document->addHeadLink($link, 'alternate', 'rel', $attribs);
+		
 		// parameters
 		$params = & $model->getMenuParams();
 		if ($params->get('page_title', 1) && $menu) {

@@ -41,6 +41,7 @@ Legend:
  - Removed syndicate component
  ^ Moved feed settings to configuration
  ^ Remorked syndication module to support JDocumentRSS
+ + Added live bookmark support to frontpage component
 
 20-Apr-2006 Johan Janssens
  ^ Moved content feed handling into content component

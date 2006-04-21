@@ -82,6 +82,7 @@ if(JDEBUG) {
 /**
  * Joomla! framework loading
  */
+
  
 //Joomla library imports
 jimport( 'joomla.common.compat.compat' );

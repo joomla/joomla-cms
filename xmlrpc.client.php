@@ -34,11 +34,15 @@ $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post' );
 
 $output = '';
-if ($task) {
-	$client = new xmlrpc_client("/joomla/xmlrpc.server.php", "localhost", 80);
+$array  = array();
+
+if ($task) 
+{
+	$client = new xmlrpc_client("joomla11/xmlrpc.server.php", "localhost", 80);
 	$client->setDebug(true);
 
-	switch ($task) {
+	switch ($task) 
+	{
 		case 'list_methods':
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
@@ -67,7 +71,7 @@ if ($task) {
 			
 		case 'exec':
 			$method = JRequest::getVar( 'method' );
-			$args = JRequest::getVar( 'args' );
+			$args 	= JRequest::getVar( 'args' );
 			
 			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
 			
