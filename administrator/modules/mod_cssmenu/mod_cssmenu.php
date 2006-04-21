@@ -297,7 +297,57 @@ function & buildDisabledMenu($usertype = '')
 	 * Get the menu object
 	 */
 	$menu = new JAdminCSSMenu();
+	
+		/*
+	 * Site SubMenu
+	 */
+	$site = new JMenuNode(JText::_('Site'), null, 'disabled');
+	$menu->addTree($site);
 
+	/*
+	 * Menus SubMenu
+	 */
+	$menus = new JMenuNode(JText::_('Menus'), null, 'disabled');
+	$menu->addTree($menus);
+
+	/*
+	 * Content SubMenu
+	 */
+	$content = new JMenuNode(JText::_('Content'), null, 'disabled');
+	$menu->addTree($content);
+
+	/*
+	 * Components SubMenu
+	 */
+	if ($installComponents) {
+		$components = new JMenuNode(JText::_('Components'), null, 'disabled');
+		$menu->addTree($components);
+	}
+
+	/*
+	 * Extensions SubMenu
+	 */
+	if ($installModules)
+	{
+		$extensions = new JMenuNode(JText::_('Extensions'), null, 'disabled');
+		$menu->addTree($extensions);
+	}
+
+	/*
+	 * System SubMenu
+	 */
+	if ($canConfig)
+	{
+		$tools = new JMenuNode(JText::_('Tools'), null, 'disabled');
+		$menu->addTree($tools);
+	}
+
+	/*
+	 * Home SubMenu
+	 */
+	$help = new JMenuNode(JText::_('Help'), null, 'disabled');
+	$menu->addTree($help);
+	
 	return $menu;
 }
 ?>

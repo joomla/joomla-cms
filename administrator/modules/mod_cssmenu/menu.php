@@ -99,6 +99,10 @@ class JAdminCSSMenu extends JObject
 			$class = ' class="seperator"';
 		}
 		
+		if($this->_current->class == 'disabled') {
+			$class = ' class="disabled"';
+		}
+		
 		
 		/*
 		 * Print the item
@@ -114,7 +118,7 @@ class JAdminCSSMenu extends JObject
 		} 
 		else if ($this->_current->title != null)
 		{
-			echo "<a href=\"#\">".$this->_current->title."</a>\n";
+			echo "<div>".$this->_current->title."</div>";
 		}
 		else
 		{
