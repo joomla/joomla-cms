@@ -164,6 +164,45 @@ a:hover   { text-decoration: underline; }
 	padding: 0 6px 0 30px;
 }
 
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
+	display: block;
+	height: 22px;
+	float: left;
+	line-height: 22px;
+	font-size: 11px;
+	color: #666;
+	cursor: pointer;	
+}
+
+.button2-left span,
+.button2-right span {
+	cursor: default;
+}
+
+.button2-left .page a,
+.button2-right .page a {
+	padding: 0 6px;
+}
+
+.button2-left a:hover, 
+.button2-right a:hover {
+	text-decoration: none;
+	color: #000;
+}
+
+.button2-left a,
+.button2-left span {
+	padding: 0 24px 0 6px;
+}
+
+.button2-right a,
+.button2-right span {
+	padding: 0 6px 0 24px;
+}
+
 .button2-left {
 	background: url(../images/j_button2_left.png) no-repeat;
 	float: left;
@@ -171,7 +210,7 @@ a:hover   { text-decoration: underline; }
 }
 
 .button2-right {
-	background: url(../images/j_button2_right.png) no-repeat;
+	background: url(../images/j_button2_right.png) 100% 0 no-repeat;
 	float: left;
 	margin-left: 5px;
 }
@@ -193,23 +232,23 @@ a:hover   { text-decoration: underline; }
 }
 
 .button2-left .page {
-	background: url(../images/j_button2_right_cap.png) no-repeat;
+	background: url(../images/j_button2_right_cap.png) 100% 0 no-repeat;
 }
 
 .button2-left .next {
-	background: url(../images/j_button2_next.png) no-repeat;
+	background: url(../images/j_button2_next.png) 100% 0 no-repeat;
 }
 
 .button2-left.off .next {
-	background: url(../images/j_button2_next_off.png) no-repeat;
+	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
 }
 
 .button2-left .end {
-	background: url(../images/j_button2_last.png) no-repeat;
+	background: url(../images/j_button2_last.png) 100% 0 no-repeat;
 }
 
 .button2-left.off .end{
-	background: url(../images/j_button2_last_off.png) no-repeat;
+	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
 }
 
 
@@ -431,44 +470,88 @@ table.adminform {
 /** Table styles **/
 
 table.adminlist {
-	background: #fff;
-	padding: 0px;
-	border-spacing: 0;
-	border-top: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
+	border-spacing: 1px;
+	background-color: #e7e7e7;
+	color: #666;
 }
 
-table.adminlist th {
-	padding: 6px 4px;
-}
-
-table.adminlist td {
+table.adminlist td, table.adminlist th {
 	padding: 4px;
 }
 
-table.adminlist th {
+table.adminlist thead th {
+	text-align: center;
 	background: #f0f0f0;
+	color: #666;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #fff;
+}
+
+table.adminlist thead a:hover {
+	text-decoration: none;
+}
+
+table.adminlist thead th img {
+	vertical-align: middle;
+}
+
+table.adminlist tbody th {
+	font-weight: bold;
+}
+
+table.adminlist tbody tr		{
+	background-color: #fff; 
 	text-align: left;
-	border-right: 1px solid #ddd;
-	border-bottom: 1px solid #ccc;
-}
-
-table.adminlist td {
-	border-bottom: 1px solid #ddd;
-}
-
-table.adminlist tr.row1 {
-	background: #fff;
-}
-
-table.adminlist tr.row0 {
+	}
+table.adminlist tbody tr.row1 	{
 	background: #f9f9f9;
+	border-top: 1px solid #fff;
 }
 
-table.adminlist tr {
+table.adminlist tbody tr td { 
+	height: 25px;
+	background: #fff;
+	border: 1px solid #fff;
+	}
 
+table.adminlist tbody tr.row1 td{ 
+	background: #f9f9f9;
+	border-top: 1px solid #FFF;
+	}
+
+table.adminlist tfoot tr {
+	background-color: #f0f0f0; 
+	text-align: center; 
+	color: #333;
 }
+
+table.adminlist tfoot td, 
+table.adminlist tfoot th {
+	border-top: 1px solid #999;
+	text-align: center;
+}
+
+table.adminlist td.order {
+	text-align: center;
+}
+
+table.adminlist td.order span {
+	float: left;
+	display: block;
+	width: 20px;
+	text-align: center;
+}
+
+table.adminlist .pagination {
+	display:table;
+	padding:0; 
+	margin:0 auto;	
+}
+
+
+/** stu nicholls solution for centering divs **/
+.containter {clear:both; text-decoration:none;}
+* html .container {display:inline-block;}
 
 
 

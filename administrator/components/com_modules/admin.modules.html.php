@@ -35,15 +35,16 @@ class HTML_modules {
 		// Build the page navigation list
 		$pagesList = $page->getPagesList();
 		$html = null;
+		$html .= "<del class=\"container\"><div class=\"pagination\">\n";
 		if ($pagesList['first']['start'] !== null) {
 			$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button2-right off\"><div class=\"start\">".$pagesList['first']['txt']."</div></div>";
+			$html .= "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$pagesList['first']['txt']."</span></div></div>";
 		}
 		if ($pagesList['prev']['start'] !== null) {
 			$html .= "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button2-right off\"><div class=\"prev\">".$pagesList['prev']['txt']."</div></div>";
+			$html .= "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$pagesList['prev']['txt']."</span></div></div>";
 		}
 		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
 		$i = 1;
@@ -57,22 +58,23 @@ class HTML_modules {
 		if ($pagesList['next']['start'] !== null) {
 			$html .= "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button2-left off\"><div class=\"next\">".$pagesList['next']['txt']."</div></div>";
+			$html .= "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$pagesList['next']['txt']."</span></div></div>";
 		}
 		if ($pagesList['end']['start'] !== null) {
 			$html .= "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button2-left off\"><div class=\"end\">".$pagesList['end']['txt']."</div></div>";
+			$html .= "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$pagesList['end']['txt']."</span></div></div>";
 		}
+		$html .= "\n</div></del>";
 		$page->set('LinkList', $html);
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_modules" method="post" name="adminForm">
 		
-		<div id="pane-navigation">
+		<!--<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>
+		</div>-->
 	
 		<div id="pane-document">
 			<table class="adminform" >
@@ -94,7 +96,8 @@ class HTML_modules {
 			</table>
 
 						
-			<table class="adminlist">
+			<table class="adminlist" cellspacing="1">
+			<thead>
 			<tr>
 				<th width="20">
 					<?php echo JText::_( 'NUM' ); ?>
@@ -111,7 +114,7 @@ class HTML_modules {
 				<?php
 				if ( $lists['order'] == 'm.position' ) {
 					?>
-					<th colspan="2" align="center" width="5%">
+					<th align="center" width="5%">
 						<?php echo JText::_( 'Reorder' ); ?>
 					</th>
 					<th width="2%" nowrap="nowrap">
@@ -145,6 +148,8 @@ class HTML_modules {
 					<?php mosCommonHTML::tableOrdering( 'Type', 'm.module', $lists ); ?>
 				</th>
 			</tr>
+			</thead>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -182,11 +187,9 @@ class HTML_modules {
 					<?php
 					if ( $lists['order'] == 'm.position' ) {
 						?>
-						<td>
-							<?php echo $page->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
-						</td>
-						<td>
-							<?php echo $page->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
+						<td class="order">
+							<span><?php echo $page->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?></span>
+							<span><?php echo $page->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?></span>
 						</td>
 						<td align="center" colspan="2">
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
@@ -228,8 +231,13 @@ class HTML_modules {
 				$k = 1 - $k;
 			}
 			?>
+			</tbody>
+			<tfoot>
+				<td colspan="12">
+					<?php echo $page->get('LinkList'); ?>
+				</td>
+			</tfoot>
 			</table>
-			<?php echo $page->get('LinkList'); ?>
 		</div>
 
 		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
