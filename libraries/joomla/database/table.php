@@ -104,6 +104,7 @@ class JTable extends JObject
 	function filter( $ignoreList=null ) {
 		$ignore = is_array( $ignoreList );
 
+		jimport('phpinputfilter.inputfilter');
 		$iFilter = new InputFilter();
 		foreach ($this->getPublicProperties() as $k) {
 			if ($ignore && in_array( $k, $ignoreList ) ) {
