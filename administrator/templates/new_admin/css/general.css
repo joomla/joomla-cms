@@ -106,6 +106,15 @@ a:hover   { text-decoration: underline; }
 .element-pad   { padding: 10px; }
 .extra-padding { padding: 10px; }
 
+/* -- various styles -- */
+div.message {
+	text-align: center;
+	font-size: 12px;
+	padding: 3px;
+	border: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+
 
 /* -- buttons */
 

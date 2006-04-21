@@ -26,6 +26,7 @@ $lang =& $mainframe->getLanguage();
 	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print">
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
+	<script type="text/javascript" src="templates/{TEMPLATE}/js/fat.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/template.js"></script>
 
 	</head>
