@@ -47,5 +47,6 @@ addLoadEvent(function() {
 	Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
 	Rounded("div.element-box","all","#fff","#fff","border #ccc");
 	Rounded("div.submenu-box","all","#fff","#f6f6f6","border #ccc");
+	Fat.fade_all();
 });
 

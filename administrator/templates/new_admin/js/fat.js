@@ -84,8 +84,3 @@ var Fat = {
 		return c;
 	}
 }
-
-window.onload = function () 
-	{
-	Fat.fade_all();
-	}

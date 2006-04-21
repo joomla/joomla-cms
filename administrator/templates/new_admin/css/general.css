@@ -483,6 +483,7 @@ text-align: center;
 /** Form styles **/
 table.adminform {
 	margin-bottom: 15px;
+	width: 100%;
 }
 
 
