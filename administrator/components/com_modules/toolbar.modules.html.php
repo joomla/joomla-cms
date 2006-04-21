@@ -52,7 +52,8 @@ class TOOLBAR_modules {
 	}
 	function _DEFAULT($client) {
 
-		JMenuBar::title( JText::_( 'Module Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'module.png' );
+		//JMenuBar::title( JText::_( 'Module Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Module Manager' ), 'module.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );

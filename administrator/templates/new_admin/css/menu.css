@@ -98,3 +98,8 @@
 	font-weight: bold;
 }
 
+#submenu a.active {
+	color: #000;
+	text-decoration: underline;
+}
+

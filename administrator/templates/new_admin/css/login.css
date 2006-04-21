@@ -39,7 +39,7 @@ td.login-button { text-align: right; }
 #login-form     { float: right; width: 210px; padding: 5px 1px;}
 
 #loginpad {
-	padding: 20px; padding-bottom: 40px;
+	padding: 20px; padding-bottom: 50px;
 	background: url(../images/j_login_lock.jpg) 50px 100% no-repeat;
 }
 
