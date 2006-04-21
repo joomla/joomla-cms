@@ -184,8 +184,15 @@ a:hover   { text-decoration: underline; }
 }
 
 .button2-left .page a,
-.button2-right .page a {
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span {
 	padding: 0 6px;
+}
+
+.page span {
+	color: #000;
+	font-weight: bold;
 }
 
 .button2-left a:hover, 
