@@ -109,25 +109,32 @@ a:hover   { text-decoration: underline; }
 
 /* -- buttons */
 
+.button1-left,
+.button1-right,
+.button2-left,
+.button2-right,
+.button1-left div,
+.button1-right div,
+.button2-left div,
+.button2-right div {
+	float: left;
+}
+
 .button1-left {
 	background: url(../images/j_button1_left.png) no-repeat;
-	float: left;
 	margin-left: 5px;
 }
 
 .button1-right {
 	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
-	float: left;
 	margin-left: 5px;
 }
 
 .button1-right .prev {
-	float: left;
 	background: url(../images/j_button1_prev.png) no-repeat;
 }
 
 .button1-left .next {
-	float: left;
 	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
 }
 
@@ -155,6 +162,54 @@ a:hover   { text-decoration: underline; }
 
 .button1-right a {
 	padding: 0 6px 0 30px;
+}
+
+.button2-left {
+	background: url(../images/j_button2_left.png) no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right {
+	background: url(../images/j_button2_right.png) no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right .prev {
+	background: url(../images/j_button2_prev.png) no-repeat;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background: url(../images/j_button2_first.png) no-repeat;
+}
+
+.button2-right.off .start {
+	background: url(../images/j_button2_first_off.png) no-repeat;
+}
+
+.button2-left .page {
+	background: url(../images/j_button2_right_cap.png) no-repeat;
+}
+
+.button2-left .next {
+	background: url(../images/j_button2_next.png) no-repeat;
+}
+
+.button2-left.off .next {
+	background: url(../images/j_button2_next_off.png) no-repeat;
+}
+
+.button2-left .end {
+	background: url(../images/j_button2_last.png) no-repeat;
+}
+
+.button2-left.off .end{
+	background: url(../images/j_button2_last_off.png) no-repeat;
 }
 
 
