@@ -149,6 +149,11 @@ class HTML_modules {
 				</th>
 			</tr>
 			</thead>
+			<tfoot>
+				<td colspan="12">
+					<?php echo $page->get('LinkList'); ?>
+				</td>
+			</tfoot>
 			<tbody>
 			<?php
 			$k = 0;
@@ -232,11 +237,6 @@ class HTML_modules {
 			}
 			?>
 			</tbody>
-			<tfoot>
-				<td colspan="12">
-					<?php echo $page->get('LinkList'); ?>
-				</td>
-			</tfoot>
 			</table>
 		</div>
 
