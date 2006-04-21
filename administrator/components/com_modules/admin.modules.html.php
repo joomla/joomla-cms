@@ -32,44 +32,6 @@ class HTML_modules {
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
-		// Build the page navigation list
-		$pagesList = $page->getPagesList();
-		$html = null;
-		$html .= "<del class=\"container\"><div class=\"pagination\">\n";
-		if ($pagesList['first']['start'] !== null) {
-			$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$pagesList['first']['txt']."</span></div></div>";
-		}
-		if ($pagesList['prev']['start'] !== null) {
-			$html .= "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$pagesList['prev']['txt']."</span></div></div>";
-		}
-		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-		$i = 1;
-		while (isset($pagesList['pages'][$i])) {
-			if ($pagesList['pages'][$i]['start'] !== null) {
-				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$pagesList['pages'][$i]['txt']."</a>";
-			} else {
-				$html .= "\n<span class=\"pagenav\">".$pagesList['pages'][$i]['txt']."</span>";
-			}
-			$i++;
-		}
-		$html .= "\n</div></div>";
-		if ($pagesList['next']['start'] !== null) {
-			$html .= "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$pagesList['next']['txt']."</span></div></div>";
-		}
-		if ($pagesList['end']['start'] !== null) {
-			$html .= "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$pagesList['end']['txt']."</span></div></div>";
-		}
-		$html .= "\n</div></del>";
-		$page->set('LinkList', $html);
-
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_modules" method="post" name="adminForm">
@@ -92,6 +54,7 @@ class HTML_modules {
 					echo $lists['position'];
 					echo $lists['type'];
 					echo $lists['state'];
+//					echo $page->getLimitBox();
 					?>
 				</td>
 			</tr>
@@ -153,7 +116,7 @@ class HTML_modules {
 			</thead>
 			<tfoot>
 				<td colspan="12">
-					<?php echo $page->get('LinkList'); ?>
+					<?php echo $page->getPagesLinks(); ?>
 				</td>
 			</tfoot>
 			<tbody>

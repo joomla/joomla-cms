@@ -29,7 +29,7 @@ class ContentView
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showContent( &$rows, &$lists, $pageNav, $redirect ) 
+	function showContent( &$rows, &$lists, $page, $redirect ) 
 	{
 		global $my, $mainframe, $database;
 		
@@ -38,40 +38,6 @@ class ContentView
 		 */
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user	= & $mainframe->getUser();
-
-		// Build the page navigation list
-		$pagesList = $pageNav->getPagesList();
-		$html = null;
-		if ($pagesList['first']['start'] !== null) {
-			$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-right off\"><div class=\"start\">".$pagesList['first']['txt']."</div></div>";
-		}
-		if ($pagesList['prev']['start'] !== null) {
-			$html .= "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-right off\"><div class=\"prev\">".$pagesList['prev']['txt']."</div></div>";
-		}
-		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-		$i = 1;
-		while (isset($pagesList['pages'][$i])) {
-			if ($pagesList['pages'][$i]['start'] !== null) {
-				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$pagesList['pages'][$i]['txt']."</a>";
-			}
-			$i++;
-		}
-		$html .= "\n</div></div>";
-		if ($pagesList['next']['start'] !== null) {
-			$html .= "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-left off\"><div class=\"next\">".$pagesList['next']['txt']."</div></div>";
-		}
-		if ($pagesList['end']['start'] !== null) {
-			$html .= "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a></div></div>";
-		} else {
-			$html .= "\n<div class=\"button2-left off\"><div class=\"end\">".$pagesList['end']['txt']."</div></div>";
-		}
-		$pageNav->set('LinkList', $html);
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -212,7 +178,7 @@ class ContentView
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td align="center">
 						<?php echo $checked; ?>
@@ -255,10 +221,10 @@ class ContentView
 					if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
 						?>
 						<td align="right">
-							<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
+							<?php echo $page->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
 						</td>
 						<td >
-							<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+							<?php echo $page->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
 						</td>
 						<td align="center" colspan="2">
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
@@ -293,7 +259,7 @@ class ContentView
 			?>
 			</table>
 	
-			<?php echo $pageNav->get('LinkList'); ?>
+			<?php echo $page->getPagesLinks(); ?>
 			<?php mosCommonHTML::ContentLegend(); ?>
 		</div>
 

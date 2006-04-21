@@ -234,88 +234,79 @@ class JPagination extends JObject
 	function getPagesLinks($link = null) {
 		global $mainframe;
 
-		// Initialize variables
+		// Build the page navigation list
+		$list = $this->getPagesList();
 		$html = null;
-
-		$displayed_pages = 10;
-		$total_pages = ceil($this->total / $this->limit);
-		$this_page = ceil(($this->limitstart + 1) / $this->limit);
-		$start_loop = (floor(($this_page -1) / $displayed_pages)) * $displayed_pages +1;
-
-		if ($start_loop + $displayed_pages -1 < $total_pages) {
-			$stop_loop = $start_loop + $displayed_pages -1;
-		} else {
-			$stop_loop = $total_pages;
-		}
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			/*
-			 * This is for page navigation if in administration section
-			 */
-			if ($this_page > 1) {
-				$page = ($this_page -2) * $this->limit;
-				$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"".JText::_('first page')."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\"><< ".JText::_('Start')."</a>";
-				$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"".JText::_('previous page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">< ".JText::_('Previous')."</a>";
+			$html .= "<del class=\"container\"><div class=\"pagination\">\n";
+			if ($list['first']['start'] !== null) {
+				$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$list['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['first']['start']."; document.adminForm.submit();return false;\">".$list['first']['txt']."</a></div></div>";
 			} else {
-				$html .= "\n<span class=\"pagenav\">&lt;&lt; ".JText::_('Start')."</span>";
-				$html .= "\n<span class=\"pagenav\">&lt; ".JText::_('Previous')."</span>";
+				$html .= "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$list['first']['txt']."</span></div></div>";
 			}
-
-			for ($i = $start_loop; $i <= $stop_loop; $i ++) {
-				$page = ($i -1) * $this->limit;
-				if ($i == $this_page) {
-					$html .= "\n<span class=\"pagenav\"> $i </span>";
+			if ($list['prev']['start'] !== null) {
+				$html .= "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$list['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['prev']['start']."; document.adminForm.submit();return false;\">".$list['prev']['txt']."</a></div></div>";
+			} else {
+				$html .= "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$list['prev']['txt']."</span></div></div>";
+			}
+			$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
+			$i = 1;
+			while (isset($list['pages'][$i])) {
+				if ($list['pages'][$i]['start'] !== null) {
+					$html .= "\n<a title=\"".$list['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$list['pages'][$i]['txt']."</a>";
 				} else {
-					$html .= "\n<a href=\"#$i\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"><strong>$i</strong></a>";
+					$html .= "\n<span>".$list['pages'][$i]['txt']."</span>";
 				}
+				$i++;
 			}
-
-			if ($this_page < $total_pages) {
-				$page = $this_page * $this->limit;
-				$end_page = ($total_pages -1) * $this->limit;
-				$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"".JText::_('next page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ".JText::_('Next')." ></a>";
-				$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"".JText::_('end page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ".JText::_('End')." >></a>";
+			$html .= "\n</div></div>";
+			if ($list['next']['start'] !== null) {
+				$html .= "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$list['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['next']['start']."; document.adminForm.submit();return false;\">".$list['next']['txt']."</a></div></div>";
 			} else {
-				$html .= "\n<span class=\"pagenav\">".JText::_('Next')." &gt;</span>";
-				$html .= "\n<span class=\"pagenav\">".JText::_('End')." &gt;&gt;</span>";
+				$html .= "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$list['next']['txt']."</span></div></div>";
 			}
+			if ($list['end']['start'] !== null) {
+				$html .= "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$list['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['end']['start']."; document.adminForm.submit();return false;\">".$list['end']['txt']."</a></div></div>";
+			} else {
+				$html .= "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$list['end']['txt']."</span></div></div>";
+			}
+			$html .= "\n</div></del>";
 		} else {
 			/*
 			 * This is for page navigation if not in the administration section
 			 */
-			$link .= '&amp;limit='.$this->limit;
-
-			$pnSpace = "";
-			if (JText::_('&lt') || JText::_('&gt'))
-				$pnSpace = " ";
-
-			if ($this_page > 1) {
-				$page = ($this_page -2) * $this->limit;
-				$html .= '<a href="'.sefRelToAbs("$link&amp;limitstart=0").'" class="pagenav" title="first page">'.JText::_('&lt').JText::_('&lt').$pnSpace.JText::_('Start').'</a> ';
-				$html .= '<a href="'.sefRelToAbs("$link&amp;limitstart=$page").'" class="pagenav" title="previous page">'.JText::_('&lt').$pnSpace.JText::_('Prev').'</a> ';
+			if ($list['first']['start'] !== null) {
+				$html .= '<a href="'.$list['first']['url'].'" class="pagenav" title="first page">'.$list['first']['txt'].'</a> ';
 			} else {
-				$html .= '<span class="pagenav">'.JText::_('&lt').JText::_('&lt').$pnSpace.JText::_('Start').'</span> ';
-				$html .= '<span class="pagenav">'.JText::_('&lt').$pnSpace.JText::_('Prev').'</span> ';
+				$html .= '<span class="pagenav">'.$list['first']['txt'].'</span> ';
+			}
+			if ($list['prev']['start'] !== null) {
+				$html .= '<a href="'.$list['prev']['url'].'" class="pagenav" title="previous page">'.$list['prev']['txt'].'</a> ';
+			} else {
+				$html .= '<span class="pagenav">'.$list['prev']['txt'].'</span> ';
 			}
 
-			for ($i = $start_loop; $i <= $stop_loop; $i ++) {
-				$page = ($i -1) * $this->limit;
-				if ($i == $this_page) {
-					$html .= '<span class="pagenav">'.$i.'</span> ';
+			$i = 1;
+			while (isset($list['pages'][$i])) {
+				if ($list['pages'][$i]['start'] !== null) {
+					$html .= '<a href="'.$list[$i]['url'].'" class="pagenav"><strong>'.$list[$i]['txt'].'</strong></a> ';
 				} else {
-					$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$page).'" class="pagenav"><strong>'.$i.'</strong></a> ';
+					$html .= '<span class="pagenav">'.$list[$i]['txt'].'</span> ';
 				}
+				$i++;
 			}
 
-			if ($this_page < $total_pages) {
-				$page = $this_page * $this->limit;
-				$end_page = ($total_pages -1) * $this->limit;
-				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$page).' " class="pagenav" title="next page">'.JText::_('Next').$pnSpace.JText::_('&gt').'</a> ';
-				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$end_page).' " class="pagenav" title="end page">'.JText::_('End').$pnSpace.JText::_('&gt').JText::_('&gt').'</a>';
+			if ($list['next']['start'] !== null) {
+				$html .= '<a href="'.$list['next']['url'].' " class="pagenav" title="next page">'.$list['next']['txt'].'</a> ';
 			} else {
-				$html .= '<span class="pagenav">'.JText::_('Next').$pnSpace.JText::_('&gt').'</span> ';
-				$html .= '<span class="pagenav">'.JText::_('End').$pnSpace.JText::_('&gt').JText::_('&gt').'</span>';
+				$html .= '<span class="pagenav">'.$list['next']['txt'].'</span> ';
+			}
+			if ($list['end']['start'] !== null) {
+				$html .= '<a href="'.$list['end']['url'].' " class="pagenav" title="end page">'.$list['end']['txt'].'</a>';
+			} else {
+				$html .= '<span class="pagenav">'.$list['end']['txt'].'</span>';
 			}
 		}
 		return $html;
