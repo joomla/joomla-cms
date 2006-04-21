@@ -467,7 +467,7 @@ INSERT INTO `#__modules` VALUES (30, 'Footer', '', 1, 'footer', 0, '0000-00-00 0
 INSERT INTO `#__modules` VALUES (31, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1);
 INSERT INTO `#__modules` VALUES (32, 'Feed Display', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (33, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, '', 1, 0);
-INSERT INTO `#__modules` VALUES (34, 'Syndication', '', 3, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0);
+INSERT INTO `#__modules` VALUES (34, 'Syndication', '', 3, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0);
 INSERT INTO `#__modules` VALUES (35, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1);
 INSERT INTO `#__modules` VALUES (36, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1);
 INSERT INTO `#__modules` VALUES (37, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1);
@@ -514,10 +514,7 @@ INSERT INTO `#__modules_menu` VALUES (28,0);
 INSERT INTO `#__modules_menu` VALUES (31,0);
 INSERT INTO `#__modules_menu` VALUES (32,0);
 INSERT INTO `#__modules_menu` VALUES (33,0);
-INSERT INTO `#__modules_menu` VALUES (34,1);
-INSERT INTO `#__modules_menu` VALUES (34,9);
-INSERT INTO `#__modules_menu` VALUES (34,23);
-INSERT INTO `#__modules_menu` VALUES (34,25);
+INSERT INTO `#__modules_menu` VALUES (34,0);
 
 # --------------------------------------------------------
 

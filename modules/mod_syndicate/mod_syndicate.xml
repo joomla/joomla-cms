@@ -13,36 +13,11 @@
 		<filename module="mod_syndicate">mod_sydicate.php</filename>
 	</files>
 	<params>
-		<param name="text" type="text" default="" label="Text" description="PARAMTEXT" />
+		<param name="text" type="text" default="Feed Entries" label="Text" description="PARAMTEXT" />
 		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="rss091" type="radio" default="1" label="RSS 0.91" description="Show/Hide RSS 0.91 Link">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="rss10" type="radio" default="1" label="RSS 1.0" description="Show/Hide RSS 1.0 Link">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="rss20" type="radio" default="1" label="RSS 2.0" description="Show/Hide RSS 2.0 Link">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="atom" type="radio" default="1" label="Atom" description="Show/Hide Atom 0.3 Link">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="opml" type="radio" default="1" label="OPML" description="Show/Hide OPML Link">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="rss091_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="RSS 0.91 Image" description="Choose the image to be used" />
-		<param name="rss10_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="RSS 1.0 Image" description="Choose the image to be used" />
-		<param name="rss20_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="RSS 2.0 Image" description="Choose the image to be used" />
-		<param name="atom_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Atom Image" description="Choose the image to be used" />
-		<param name="opml_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="OPML Image" description="Choose the image to be used" />
 	</params>
 </install>

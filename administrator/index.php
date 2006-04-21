@@ -83,13 +83,13 @@ $my		= $user->_table;
 $mainframe->set( 'loadOverlib', false );
 
 $no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
-$type 	 	= JRequest::getVar( 'type', $no_html ? 'raw' : 'html',  '', 'string'  );
+$format 	= JRequest::getVar( 'format', $no_html ? 'raw' : 'html',  '', 'string'  );
 $file 	 	= JRequest::getVar( 'file', isset($file) ? $file : 'index.php',  '', 'string'  );
 
 // loads template file
 $cur_template = $mainframe->getTemplate();
 
-$document =& $mainframe->getDocument($type);
+$document =& $mainframe->getDocument($format);
 // Add the hidemainmenu var to the JDocument object so templates can adapt if needed
 $document->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' ))? '1' : '0');
 $document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));

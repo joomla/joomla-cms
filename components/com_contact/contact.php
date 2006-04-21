@@ -27,8 +27,8 @@ $breadcrumbs = & $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, JText::_('Contact'));
 
 // Get the task variable
-$task = JRequest::getVar( 'task' );
-$type = JRequest::getVar( 'type', 'html' );
+$task   = JRequest::getVar( 'task' );
+$format = JRequest::getVar( 'format', 'html' );
 
 switch ($task) {
 	case 'view' :
@@ -44,7 +44,7 @@ switch ($task) {
 		break;
 
 	default :
-		if($type = 'rss') {
+		if($format = 'rss') {
 			JContactController::listContactsRSS();
 		} else {
 			JContactController::listContacts();

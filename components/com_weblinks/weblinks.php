@@ -32,7 +32,7 @@ $pathway->setItemName(1, JText::_('Links'));
 
 // Get some request variables
 $task = JRequest::getVar( 'task' );
-$type = JRequest::getVar( 'type', 'html' );
+$format = JRequest::getVar( 'format', 'html' );
 
 /*
  * This is our main control structure for the component
@@ -62,7 +62,7 @@ switch ($task)
 		break;
 
 	default :
-		if($type == 'rss') {
+		if($format == 'rss') {
 			WeblinksController::showCategoryRSS();
 		} else {
 			WeblinksController::showCategory();

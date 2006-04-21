@@ -40,6 +40,7 @@ Legend:
 21-Apr-2006 Johan Janssens
  - Removed syndicate component
  ^ Moved feed settings to configuration
+ ^ Remorked syndication module to support JDocumentRSS
 
 20-Apr-2006 Johan Janssens
  ^ Moved content feed handling into content component

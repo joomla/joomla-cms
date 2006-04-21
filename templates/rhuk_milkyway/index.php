@@ -146,7 +146,14 @@ See COPYRIGHT.php for copyright notices and details.
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<jdoc:include type="modules" name="footer" style="-1" />
+					<p style="float:left; padding-left: 25px;">
+						<jdoc:include type="module" name="syndicate" style="-1" />
+					</p>
+					<p style="float:right; padding-right: 25px;">
+     				 	Powered by <a href="http://joomla.org">Joomla</a>.
+      					
+      					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>. 
+    				</p>
 				</div>
 			</div>
 		</div>

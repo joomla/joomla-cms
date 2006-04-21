@@ -51,7 +51,7 @@ class JViewHTMLArticle extends JView
 		// At some point in the future this will be in a request object
 		$page	= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
-		$type	= JRequest::getVar('type', 'html');
+		$type	= JRequest::getVar('format', 'html');
 
 		// Get the article from the model
 		$article	= & $this->get('Article');

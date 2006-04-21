@@ -143,7 +143,7 @@ $mainframe->set( 'loadOverlib', false );
 
 $cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
 $no_html 	  = JRequest::getVar( 'no_html', 0, '', 'int' );
-$type 	 	  = JRequest::getVar( 'type', $no_html ? 'raw' : 'html',  '', 'string'  );
+$format 	  = JRequest::getVar( 'format', $no_html ? 'raw' : 'html',  '', 'string'  );
 $file 	 	  = JRequest::getVar( 'file', isset($file) ? $file : 'index.php',  '', 'string'  );
 
 
@@ -151,7 +151,7 @@ if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 	$file = 'offline.php';
 }
 
-$document =& $mainframe->getDocument($type);
+$document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ));
 $document->display( $cur_template, $file, $mainframe->getCfg('gzip'), array('outline' => JRequest::getVar('tp', 0 )));
 
