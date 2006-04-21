@@ -51,6 +51,8 @@ class HTML_modules {
 		while (isset($pagesList['pages'][$i])) {
 			if ($pagesList['pages'][$i]['start'] !== null) {
 				$html .= "\n<a class=\"pagenav\" title=\"".$pagesList['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$pagesList['pages'][$i]['txt']."</a>";
+			} else {
+				$html .= "\n<span class=\"pagenav\">".$pagesList['pages'][$i]['txt']."</span>";
 			}
 			$i++;
 		}
