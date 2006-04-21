@@ -17,34 +17,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $document;
 
 ?>
-<div style="padding: 10px 2px;">	
-	<table class="adminform">
-	<tr>
-		<td width="55%" valign="top">
-		   <?php echo $document->execRenderer('modules','icon'); ?>
-		</td>
-		<td width="45%" valign="top">
-			<div style="width=100%;">
-				<form action="index2.php" method="post" name="adminForm">
-				
-				<?php
-				$pane =& JPane::getInstance('sliders');
-				$pane->startPane( 'modules-cpanel' );
-				?>
-				
-				<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 3)); ?>
-				
-				<?php
-				$pane->endPane();
-				?>
-				
-				</form>
-			</div>
-		</td>
-	</tr>
-	</table>
-</div>
 
+	<?php echo $document->execRenderer('modules','icon'); ?>
+
+<div class="clr"></div>
 <?php
 readfile( JPATH_SITE .'/TODO.php' );
 ?>
