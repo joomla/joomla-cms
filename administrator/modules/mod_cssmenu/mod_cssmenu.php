@@ -96,16 +96,19 @@ function & buildMenu($usertype = '')
 	 */
 	$site = new JMenuNode(JText::_('Site'));
 	$site->addChild(new JMenuNode(JText::_('Control Panel'), 'index2.php', 'class:cpanel'));
+	$site->addSeperator();
 	if ($canManageUsers) {
 		$site->addChild(new JMenuNode(JText::_('User Manager'), 'index2.php?option=com_users&task=view', 'class:user'));
 	}
 	$site->addChild(new JMenuNode(JText::_('Media Manager'), 'index2.php?option=com_media', 'class:media'));
-	$site->addChild(new JMenuNode(JText::_('Preview...'), 'index2.php?option=com_templates&task=preview', 'class:preview'));
+	$site->addSeperator();
+	//$site->addChild(new JMenuNode(JText::_('Preview...'), 'index2.php?option=com_templates&task=preview', 'class:preview'));
 	if ($enableStats || $enableSearches) {
 		$site->addChild(new JMenuNode(JText::_('Statistics'), 'index2.php?option=com_statistics', 'class:stats'));
 	}
 	if ($canConfig) {
 		$site->addChild(new JMenuNode(JText::_('Configuration'), 'index2.php?option=com_config&hidemainmenu=1', 'class:config'));
+		$site->addSeperator();
 	}
 	$site->addChild(new JMenuNode(JText::_('Logout'), 'index2.php?option=com_logout', 'class:logout'));
 
@@ -121,6 +124,10 @@ function & buildMenu($usertype = '')
 	if ($manageTrash) {
 		$menus->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewMenu', 'class:trash'));
 	}
+	
+	if($manageTrash || $maangeMenuMan) {
+		$menus->addSeperator();
+	}
 	/*
 	 * SPLIT HR
 	 */
@@ -135,21 +142,15 @@ function & buildMenu($usertype = '')
 	 */
 	$content = new JMenuNode(JText::_('Content'));
 	$content->addChild(new JMenuNode(JText::_('Article Manager'), 'index2.php?option=com_content&sectionid=0', 'class:content'));
+	$content->addSeperator();
 //	$content->addChild(new JMenuNode(JText::_('Static Content Manager'), 'index2.php?option=com_typedcontent', 'class:static'));
-	/*
-	 * SPLIT HR
-	 */
 	$content->addChild(new JMenuNode(JText::_('Section Manager'), 'index2.php?option=com_sections&scope=content', 'class:category'));
 	$content->addChild(new JMenuNode(JText::_('Category Manager'), 'index2.php?option=com_categories&section=content', 'class:category'));
-	/*
-	 * SPLIT HR
-	 */
+	$content->addSeperator();
 	$content->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index2.php?option=com_frontpage', 'class:frontpage'));
 	$content->addChild(new JMenuNode(JText::_('Archive Manager'), 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class:archive'));
 	if ($manageTrash) {
-		/*
-		 * SPLIT HR
-		 */
+		$content->addSeperator();
 		$content->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewContent', 'class:trash'));
 		$content->addChild(new JMenuNode(JText::_('Page Hits'), 'index2.php?option=com_statistics&task=pageimp', 'class:stats'));
 	}
@@ -213,6 +214,7 @@ function & buildMenu($usertype = '')
 		$extensions = new JMenuNode(JText::_('Extensions'));
 
 		$extensions->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index2.php?option=com_installer', 'class:install'));
+		$extensions->addSeperator();
 		if ($editAllModules) {
 			$extensions->addChild(new JMenuNode(JText::_('Module Manager'), 'index2.php?option=com_modules', 'class:module'));
 		}
@@ -238,12 +240,14 @@ function & buildMenu($usertype = '')
 
 		$tools->addChild(new JMenuNode(JText::_('Read Messages'), 'index2.php?option=com_messages', 'class:messages'));
 		$tools->addChild(new JMenuNode(JText::_('New Messages'), 'index2.php?option=com_messages&task=new', 'class:messages'));
-
+		$tools->addSeperator();
 		if ($canMassMail) {
 			$tools->addChild(new JMenuNode(JText::_('Mass Mail'), 'index2.php?option=com_massmail', 'class:massmail'));
+			$site->addSeperator();
 		}
 		if ($canCheckin) {
 			$tools->addChild(new JMenuNode(JText::_('Global Checkin'), 'index2.php?option=com_checkin', 'class:checkin'));
+			$tools->addSeperator();
 		}
 		if ($caching) {
 			$tools->addChild(new JMenuNode(JText::_('Clean Content Cache'), 'index2.php?option=com_admin&task=clean_cache', 'class:config'));

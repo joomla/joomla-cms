@@ -37,9 +37,7 @@
 
 /* ---- Menu layout -------------------------- */
 
-#menu {
-
-}
+#menu { }
 
 #menu li { 
 	border-left: 1px solid #fff;
@@ -55,7 +53,7 @@
 	padding: 0.35em 1em 0.35em;
 	margin: 0 1px 0 1px;
 	color: #333333;
-	line-height: 1.4em; vertical-align: middle;
+	line-height: 1.6em; vertical-align: middle;
 	font-size: 11px; font-weight: bold; text-decoration: none;
 	cursor: default;
 	background-repeat: no-repeat; background-position: left 50%
@@ -66,6 +64,7 @@
 	font-weight: normal;
 	padding-left: 25px;
 	padding-right: 20px;
+	line-height: 1.2em;
 }
 
 /* 1 level - hover */

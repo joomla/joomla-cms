@@ -95,6 +95,11 @@ class JAdminCSSMenu extends JObject
 			$class = ' class="node"';
 		} 
 		
+		if($this->_current->class == 'seperator') {
+			$class = ' class="seperator"';
+		}
+		
+		
 		/*
 		 * Print the item
 		 */
@@ -106,9 +111,14 @@ class JAdminCSSMenu extends JObject
 		if ($this->_current->link != null)
 		{
 			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
-		} else
+		} 
+		else if ($this->_current->title != null)
 		{
 			echo "<a href=\"#\">".$this->_current->title."</a>\n";
+		}
+		else
+		{
+			echo "<span></span>";
 		}
 		
 		/*
@@ -225,7 +235,7 @@ class JMenuNode extends JObject
 
 	function __construct($title, $link = null, $class = null, $active = false)
 	{
-		$this->title		= $title;
+		$this->title	= $title;
 		$this->link		= $link;
 		$this->class	= $class;
 		$this->active	= $active;
@@ -235,6 +245,11 @@ class JMenuNode extends JObject
 	{
 		$node->setParent($this);
 		$this->_children[] = & $node;
+	}
+	
+	function addSeperator()
+	{
+		$this->_children[] = new JMenuNode(null, null, 'seperator', false);
 	}
 
 	function setParent( &$node )

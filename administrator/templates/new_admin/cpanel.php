@@ -18,9 +18,9 @@ global $document;
 
 ?>
 
-	<?php echo $document->execRenderer('modules','icon'); ?>
+<?php echo $document->execRenderer('modules','icon'); ?>
 
 <div class="clr"></div>
 <?php
-readfile( JPATH_SITE .'/TODO.php' );
+/*readfile( JPATH_SITE .'/TODO.php' );*/
 ?>
