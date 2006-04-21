@@ -88,7 +88,7 @@ class JAdminSubMenu
 				break;
 
 			case 'com_modules' :
-				$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png');
+				$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
 				$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
 				$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::buildList($subMenuList);
@@ -170,12 +170,12 @@ class JAdminSubMenu
 		foreach ($list as $item)
 		{
 			if (isset ($item['active']) && $item['active'] == 1) {
-				$sfx = $suffix.'_active';
+				$active = "class=\"active\"";
 			} else {
-				$sfx = $suffix;
+				$active = null;
 			}
-			$txt .= "<li class=\"item".$sfx."\">\n";
-			$txt .= "<a href=\"".$item['link']."\">".$item['title']."</a>\n";
+			$txt .= "<li class=\"item".$suffix."\">\n";
+			$txt .= "<a $active href=\"".$item['link']."\">".$item['title']."</a>\n";
 			$txt .= "</li>\n";
 		}
 
