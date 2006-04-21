@@ -149,5 +149,7 @@ ALTER TABLE `jos_menu` ADD COLUMN `lft` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `jos_menu` ADD COLUMN `rgt` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 
 #JJ: 17-Apr-2006
-DELETE FROM `jos_components` WHERE `title` = 'Components' 
+DELETE FROM `jos_modules` WHERE `title` = 'Components'
 
+#FF: 21-Apr-2006 
+DELETE FROM `jos_components` WHERE `title` = 'Syndicate'

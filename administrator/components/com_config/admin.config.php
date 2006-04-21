@@ -19,8 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_config', 'manage' ))
-{
+if (!$user->authorize( 'com_config', 'manage' )) {
 	josRedirect('index2.php?', JText::_('ALERTNOTAUTH'));
 }
 
@@ -248,6 +247,17 @@ class JConfigController {
 
 		$lists['ml_support'] 	= mosHTML::yesnoRadioList('multilingual_support', 'class="inputbox" onclick="javascript: if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
 
+		// FEED SETTINGS
+		$formats  = array (mosHTML::makeOption('RSS2.0', JText::_('RSS')), mosHTML::makeOption('Atom', JText::_('Atom')));
+		$summary = array (mosHTML::makeOption(1, JText::_('Full Text')), mosHTML::makeOption(0, JText::_('Intro Text')),);
+		
+			
+		$lists['feed_format']  = mosHTML::selectList($formats, 'feed_format', 'class="inputbox" size="1"', 'value', 'text', $row->feed_format);
+		
+		$lists['feed_limit']   = mosHTML::selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
+		
+		$lists['feed_excerpt'] = mosHTML::RadioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_excerpt);
+		
 		// SHOW EDIT FORM
 
 		JConfigView::showConfig($row, $lists, $option);

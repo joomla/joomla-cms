@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Apr-2006 Johan Janssens
+ - Removed syndicate component
+ ^ Moved feed settings to configuration
+
 20-Apr-2006 Johan Janssens
  ^ Moved content feed handling into content component
  ^ Moved contact feed handling into contact component

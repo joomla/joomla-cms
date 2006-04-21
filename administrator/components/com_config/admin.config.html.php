@@ -19,8 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Config
 */
-class JConfigView {
-
+class JConfigView 
+{
 	function showConfig( &$row, &$lists, $option) 
 	{
 		global $mainframe;
@@ -89,6 +89,10 @@ class JConfigView {
 			
 			<div id="page-ftp">
 				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_ftp.html'); ?>	
+			</div>
+			
+			<div id="page-feeds">
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>	
 			</div>
 		</div>
 
