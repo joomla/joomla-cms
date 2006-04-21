@@ -153,7 +153,7 @@ a:hover   { text-decoration: underline; }
 .button1-left a:hover, 
 .button1-right a:hover {
 	text-decoration: none;
-	color: #000;
+	color: #0B55C4;
 }
 
 .button1-left a {
@@ -180,6 +180,7 @@ a:hover   { text-decoration: underline; }
 .button2-left span,
 .button2-right span {
 	cursor: default;
+	color: #999;
 }
 
 .button2-left .page a,
@@ -190,7 +191,7 @@ a:hover   { text-decoration: underline; }
 .button2-left a:hover, 
 .button2-right a:hover {
 	text-decoration: none;
-	color: #000;
+	color: #0B55C4;
 }
 
 .button2-left a,
