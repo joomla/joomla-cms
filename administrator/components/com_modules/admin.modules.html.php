@@ -36,15 +36,16 @@ class HTML_modules {
 		$pagesList = $page->getPagesList();
 		$html = null;
 		if ($pagesList['first']['start'] !== null) {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$pagesList['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['first']['start']."; document.adminForm.submit();return false;\">".$pagesList['first']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['first']['txt']."\">".$pagesList['first']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-right off\"><div class=\"start\">".$pagesList['first']['txt']."</div></div>";
 		}
 		if ($pagesList['prev']['start'] !== null) {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$pagesList['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['prev']['start']."; document.adminForm.submit();return false;\">".$pagesList['prev']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['prev']['txt']."\">".$pagesList['prev']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-right off\"><div class=\"prev\">".$pagesList['prev']['txt']."</div></div>";
 		}
+		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
 		$i = 1;
 		while (isset($pagesList['pages'][$i])) {
 			if ($pagesList['pages'][$i]['start'] !== null) {
@@ -52,15 +53,16 @@ class HTML_modules {
 			}
 			$i++;
 		}
+		$html .= "\n</div></div>";
 		if ($pagesList['next']['start'] !== null) {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$pagesList['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['next']['start']."; document.adminForm.submit();return false;\">".$pagesList['next']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['next']['txt']."\">".$pagesList['next']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-left off\"><div class=\"next\">".$pagesList['next']['txt']."</div></div>";
 		}
 		if ($pagesList['end']['start'] !== null) {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$pagesList['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$pagesList['end']['start']."; document.adminForm.submit();return false;\">".$pagesList['end']['txt']."</a></div></div>";
 		} else {
-			$html .= "\n<div class=\"button1-left\"><div class=\"pagenav\"><a title=\"".$pagesList['end']['txt']."\">".$pagesList['end']['txt']."</a></div></div>";
+			$html .= "\n<div class=\"button2-left off\"><div class=\"end\">".$pagesList['end']['txt']."</div></div>";
 		}
 		$page->set('LinkList', $html);
 
