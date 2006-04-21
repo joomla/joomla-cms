@@ -118,8 +118,12 @@ class JAdminCSSMenu extends JObject
 		} 
 		else if ($this->_current->title != null)
 		{
-			echo "<div>".$this->_current->title."</div>";
-		}
+			if($this->_current->class == 'disabled') {
+				echo "<div>".$this->_current->title."</div>\n";
+			} else {
+				echo "<a href=\"#\">".$this->_current->title."</a>\n";
+			}
+		} 
 		else
 		{
 			echo "<span></span>";

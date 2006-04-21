@@ -36,6 +36,7 @@ JMenu.prototype = {
 	constructor: function(element) 
 	{	
 		var elements = element.getElementsByTagName("LI");
+		var nested = null
 		for (var i=0; i<elements.length; i++) 
 		{
 			var element = elements[i];
@@ -44,7 +45,6 @@ JMenu.prototype = {
 			this.registerEvent(element, 'mouseout');
 			
 			//find nested UL
-			var nested = null
 			for (j=0; j < element.childNodes.length; j++) {
 				if (element.childNodes[j].nodeName == "UL")  {	
 					nested = element.childNodes[j]
