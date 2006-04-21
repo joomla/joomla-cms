@@ -15,7 +15,7 @@
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @since		1.5
- * @version    1.0
+ * @version     1.0
  */
   
 /* -------------------------------------------- */
@@ -44,11 +44,15 @@ JMenu.prototype = {
 			this.registerEvent(element, 'mouseout');
 			
 			//find nested UL
+			var nested = null
 			for (j=0; j < element.childNodes.length; j++) {
 				if (element.childNodes[j].nodeName == "UL")  {	
 					nested = element.childNodes[j]
 				}
 			}
+			
+			if(nested == null) 
+				return;
 			
 			//declare width
 			var offsetWidth  = 0;
