@@ -553,8 +553,7 @@ class JApplication extends JObject
 		
 		$doc  =& JDocument::getInstance($type, $attributes);
 			
-//		$this->_document =& $doc;
-		$this->_document = $doc;
+		$this->_document =& $doc;
 		//$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
 		
 		return $this->_document;
@@ -628,8 +627,7 @@ class JApplication extends JObject
 	* @return jlanguage 	A JLanguage object
 	* @since 1.5
 	*/
-//	function &getLanguage( )
-	function getLanguage( )
+	function &getLanguage( )
 	{
 		if(!is_object($this->_lang)) {
 			$this->setLanguage();
