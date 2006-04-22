@@ -20,6 +20,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Users
 */
 class HTML_registration {
+	
+	/**
+	 * Shows the lost passowrd form
+	 * @return void
+	 */
 	function lostPassForm() {
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 		?>
@@ -84,7 +89,12 @@ class HTML_registration {
 		<?php
 	}
 
-	function registerForm() {
+	/**
+	 * Shows the registration form
+	 * @param JUser		reference to the actual user information
+	 * @return void
+	 */
+	function registerForm( $user ) {
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -144,7 +154,7 @@ class HTML_registration {
 				</label>
 			</td>
 		  	<td>
-		  		<input type="text" name="name" id="name" size="40" value="" class="inputbox" maxlength="50" /> *
+		  		<input type="text" name="name" id="name" size="40" value="<?php echo $user->get( 'name' );?>" class="inputbox" maxlength="50" /> *
 		  	</td>
 		</tr>
 		<tr>
@@ -154,7 +164,7 @@ class HTML_registration {
 				</label>
 			</td>
 			<td>
-				<input type="text" id="username" name="username" size="40" value="" class="inputbox" maxlength="25" /> *
+				<input type="text" id="username" name="username" size="40" value="<?php echo $user->get( 'username' );?>" class="inputbox" maxlength="25" /> *
 			</td>
 		<tr>
 			<td height="40">
@@ -163,7 +173,7 @@ class HTML_registration {
 				</label>
 			</td>
 			<td>
-				<input type="text" id="email" name="email" size="40" value="" class="inputbox" maxlength="100" /> *
+				<input type="text" id="email" name="email" size="40" value="<?php echo $user->get( 'email' );?>" class="inputbox" maxlength="100" /> *
 			</td>
 		</tr>
 		<tr>
@@ -200,6 +210,13 @@ class HTML_registration {
 		<?php
 	}
 	
+	/**
+	 * Shows the component message
+	 *
+	 * @param string $title
+	 * @param string $text
+	 * @return void
+	 */
 	function message( $title, $text ) {
 		?>
 		<div class="componentheading">
@@ -211,5 +228,23 @@ class HTML_registration {
 		</div>
 		<?php
 	}
-}
+	
+	/**
+	 * Shows the component message
+	 *
+	 * @param string $title
+	 * @param string $text
+	 * @return void
+	 */
+	function errorMessage( $title, $text ) {
+		?>
+		<div class="componentheading">
+			<?php echo JText::_( $title ); ?>
+		</div>
+		
+		<div class="message">
+			<?php echo JText::_( $text ); ?>
+		</div>
+		<?php
+	}}
 ?>

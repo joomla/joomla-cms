@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Apr-2006 Alex Kempkens
+ ^ Cleanup/Refactor com_registration
+   - adapted new user handling as well and changed the standard registration procedure to it
+ ^ Corrected getInstace of user objects with id's
+ + Language tag for Registration Errors   
+
 21-Apr-2006 Johan Janssens
  - Removed syndicate component
  ^ Moved feed settings to configuration

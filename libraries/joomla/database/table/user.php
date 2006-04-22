@@ -255,7 +255,7 @@ class JTableUser extends JTable
 	
 	function bind($array, $ignore = '')
 	{
-		if (is_array( $array['params'] )) {
+		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();

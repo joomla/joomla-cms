@@ -89,11 +89,11 @@ class JUser extends JObject
 	 * 		<pre>  $user = JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
-	 * @param 	int 	$id 	The user id to load.
+	 * @param 	int 	$id 	The user id to load - if int then the id field is referend, for strings the username!
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	function & getInstance($username = 'guest') 
+	function & getInstance($id = 'guest') 
 	{
 		static $instances;
 
@@ -101,11 +101,11 @@ class JUser extends JObject
 			$instances = array ();
 		}
 
-		if (empty ($instances[$username])) {
-			$instances[$username] = new JUser($username);
+		if (empty ($instances[$id])) {
+			$instances[ $id ] = new JUser($id);
 		}
 
-		return $instances[$username];
+		return $instances[$id];
 	}
 
 	/**
@@ -544,7 +544,7 @@ class JUserHelper {
 		. "\n AND block = 1"
 		;
 		$db->setQuery( $query );
-		$id = $db->loadResult();
+		$id = intval( $db->loadResult() );
 		
 		// Is it a valid user to activate?
 		if ($id) {

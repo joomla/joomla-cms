@@ -282,6 +282,7 @@ class JApplication extends JObject
 				$grp = $acl->getAroGroup($user->get('id'));
 				$row->gid = 1;
 
+				// ToDO: Add simple mapping based on the group table to allow positive references between content and user groups
 				if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
 					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
 					$user->set('gid', 2);
