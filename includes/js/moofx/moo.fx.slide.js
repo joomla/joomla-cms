@@ -55,21 +55,10 @@ fx.Slide.prototype = {
 /* -- page loader ----------------------------- */
 /* -------------------------------------------- */
 
-function addLoadEvent(func) {
-  var oldonload = window.onload;
-  if (typeof window.onload != 'function') {
-    window.onload = func;
-  } else {
-    window.onload = function() {
-      oldonload();
-      func();
-    }
-  }
-}
-
-addLoadEvent(function() {
+function init_moofx() {
+	
   var sliders  = document.getElementsByClassName('moofx-slider'); 	//div that stretches
   var togglers = document.getElementsByClassName('moofx-toggler'); 	//h3s where I click on
   
   var slide = new fx.Slide(togglers, sliders, {opacity: true, duration: 200});
-});
+}

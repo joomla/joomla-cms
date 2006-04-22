@@ -49,7 +49,7 @@ document.getElementsByClassName =  function(sClassName, oElement, sTagName, fn)
 function loadSwicther() {
 
   toggler = document.getElementById('menu-tree')
-  element = document.getElementById('pane-document')
+  element = document.getElementById('config-document')
   if(element) {
   	 var switcher = new Switcher(toggler, element)
   	 switcher.switchTo('page-site');

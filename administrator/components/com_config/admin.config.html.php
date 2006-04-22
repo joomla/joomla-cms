@@ -34,11 +34,11 @@ class JConfigView
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="pane-navigation">
+		<div id="config-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
 		
-		<div id="pane-document">
+		<div id="config-document">
 			<div id="page-site">
 				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_site.html'); ?>
 			</div>
@@ -95,6 +95,8 @@ class JConfigView
 				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>	
 			</div>
 		</div>
+		<div class="clr"></div>
+		<script> loadSwicther()</script>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
