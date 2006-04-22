@@ -74,33 +74,110 @@ class JAdminSubMenu
 		switch ($option)
 		{
 			case 'com_templates' :
-				$subMenuList[] = array ('title' => JText::_('Site Templates'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText::_('Administrator Templates'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_templates&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png');
+				$task	= JRequest::getVar('task');
+				$client	= JRequest::getVar('client', 0, '', 'int');
+				if ($client == 1) {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
+				} elseif ($client == 0 && !$task) {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
+				} else {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
+				}
+
+				if ($task == 'positions') {
+					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
+				} else {
+					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
+				}
+
+				if ($task == 'preview') {
+					$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_templates&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png', 'active' => 1);
+				} else {
+					$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_templates&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png');
+				}
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			case 'com_languages' :
-				$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png');
-				$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png');
+				$client	= JRequest::getVar('client', 0, '', 'int');
+				if ($client == 1) {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
+				} else {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png');
+				}
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			case 'com_modules' :
-				$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
-				$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
+				$client	= JRequest::getVar('client', 0, '', 'int');
+				if ($client == 1) {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
+				} else {
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
+				}
 				$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			case 'com_installer' :
-				$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png');
-				$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png');
-				$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png');
-				$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png');
-				$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png');
-				$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png');
+				$ext	= JRequest::getVar('extension');
+				switch ($ext) {
+					case 'component':
+						$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png', 'active' => 1);
+						$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png');
+						break;
+					case 'module':
+						$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png', 'active' => 1);
+						$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png');
+						break;
+					case 'plugin':
+						$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png', 'active' => 1);
+						$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png');
+						break;
+					case 'language':
+						$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png', 'active' => 1);
+						$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png');
+						break;
+					case 'template':
+						$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png', 'active' => 1);
+						break;
+					default:
+						$subMenuList[] = array ('title' => JText::_('Install'), 'link' => 'index2.php?option=com_installer&amp;task=installer', 'img' => '../includes/js/ThemeOffice/installer.png', 'active' => 1);
+						$subMenuList[] = array ('title' => JText::_('Components'), 'link' => 'index2.php?option=com_installer&extension=component', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Modules'), 'link' => 'index2.php?option=com_installer&extension=module', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Plugins'), 'link' => 'index2.php?option=com_installer&extension=plugin', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Languages'), 'link' => 'index2.php?option=com_installer&extension=language', 'img' => '../includes/js/ThemeOffice/installer.png');
+						$subMenuList[] = array ('title' => JText::_('Templates'), 'link' => 'index2.php?option=com_installer&extension=template', 'img' => '../includes/js/ThemeOffice/installer.png');
+						break;
+				}
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 

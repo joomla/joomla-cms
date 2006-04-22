@@ -23,7 +23,7 @@ class TOOLBAR_templates
 {
 	function _DEFAULT(&$client) 
 	{
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
 		
 		if ($client->id == '1') {
 			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', 'Default', true);
@@ -36,20 +36,20 @@ class TOOLBAR_templates
 	}
  	function _VIEW(&$client){
 
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JMenuBar::back();
 	}
 
 	function _EDIT_SOURCE(&$client){
 
-		JMenuBar::title( JText::_( 'Template HTML Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
 		JMenuBar::save( 'save_source' );
 		JMenuBar::back();
 	}
 
 	function _EDIT(&$client){
 
-		JMenuBar::title( JText::_( 'Template Parameters' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::title( JText::_( 'Template Parameters' ), 'thememanager' );
 		JMenuBar::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
 		JMenuBar::custom( 'edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false );
 		JMenuBar::custom( 'choose_css', 'css.png', 'css_f2.png', JText::_( 'Edit CSS' ), false, false );
@@ -59,13 +59,13 @@ class TOOLBAR_templates
 	}
 
 	function _CHOOSE_CSS(&$client){
-		JMenuBar::title( JText::_( 'Template CSS Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
 		JMenuBar::back();
 		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', 'Next', true );	
 	}
 
 	function _EDIT_CSS(&$client){
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JMenuBar::save( 'save_css' );
 		JMenuBar::back();
 	}
