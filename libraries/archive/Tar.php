@@ -18,7 +18,7 @@
 //
 // $Id$
 
-//jimport('pear.PEAR');
+jimport('pear.PEAR');
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 
