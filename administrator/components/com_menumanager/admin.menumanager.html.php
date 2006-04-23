@@ -25,9 +25,13 @@ class HTML_menumanager
 	/**
 	* Writes a list of the menumanager items
 	*/
-	function show ( $option, $menus, $pageNav ) {
+	function show ( $option, $menus, $page ) {
 		global $mainframe;
 		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
+
+		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
 		function menu_listItemTask( id, task, option ) {
@@ -43,43 +47,51 @@ class HTML_menumanager
 
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<div id="tablecell">				
+		<div id="pane-document">
 			<table class="adminlist">
-			<tr>
-				<th width="20">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
-				</th>
-				<th class="title" nowrap="nowrap">
-					<?php echo JText::_( 'Menu Name' ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php echo JText::_( 'Menu Items' ); ?>
-				</th>
-				<th width="10%">
-					<?php echo JText::_( 'NUM Published' ); ?>
-				</th>
-				<th width="15%">
-					<?php echo JText::_( 'NUM Unpublished' ); ?>
-				</th>
-				<th width="15%">
-					<?php echo JText::_( 'NUM Trash' ); ?>
-				</th>
-				<th width="15%">
-					<?php echo JText::_( 'NUM Modules' ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="20">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20">
+					</th>
+					<th class="title" nowrap="nowrap">
+						<?php echo JText::_( 'Menu Name' ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php echo JText::_( 'Menu Items' ); ?>
+					</th>
+					<th width="10%">
+						<?php echo JText::_( 'NUM Published' ); ?>
+					</th>
+					<th width="15%">
+						<?php echo JText::_( 'NUM Unpublished' ); ?>
+					</th>
+					<th width="15%">
+						<?php echo JText::_( 'NUM Trash' ); ?>
+					</th>
+					<th width="15%">
+						<?php echo JText::_( 'NUM Modules' ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="13">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			$i = 0;
 			$start = 0;
-			if ($pageNav->limitstart)
-				$start = $pageNav->limitstart;
+			if ($page->limitstart)
+				$start = $page->limitstart;
 			$count = count($menus)-$start;
 			if ($pageNav->limit)
-				if ($count > $pageNav->limit)
-					$count = $pageNav->limit;
+				if ($count > $page->limit)
+					$count = $page->limit;
 			for ($m = $start; $m < $start+$count; $m++) {
 				$menu = $menus[$m];
 				$link 	= 'index2.php?option=com_menumanager&amp;task=edit&amp;hidemainmenu=1&amp;menu='. $menu->type;
@@ -87,7 +99,7 @@ class HTML_menumanager
 				?>
 				<tr class="<?php echo "row". $k; ?>">
 					<td align="center" width="30">
-						<?php echo $i + 1 + $pageNav->limitstart;?>
+						<?php echo $i + 1 + $page->limitstart;?>
 					</td>
 					<td width="30" align="center">
 						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $menu->type; ?>" onclick="isChecked(this.checked);" />
@@ -126,11 +138,11 @@ class HTML_menumanager
 				$i++;
 			}
 			?>
+			</tbody>
 			</table>
-			
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
