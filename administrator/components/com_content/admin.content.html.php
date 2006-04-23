@@ -31,7 +31,7 @@ class ContentView
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect ) 
 	{
-		global $my, $mainframe, $database;
+		global $mainframe, $database;
 		
 		/*
 		 * Initialize variables
@@ -43,77 +43,86 @@ class ContentView
 		?>
 		<form action="index2.php?option=com_content" method="post" name="adminForm">
 
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php
-				echo $lists['sectionid'];
-				echo $lists['catid'];
-				echo $lists['authorid'];
-				echo $lists['state'];
-				?>
-			</td>
-		</tr>
-		</table>
+		<div id="pane-document">
+			<table class="adminform">
+				<tr>
+					<td align="left" width="100%">
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+						<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+						<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+					</td>
+					<td nowrap="nowrap">
+						<?php
+						echo $lists['sectionid'];
+						echo $lists['catid'];
+						echo $lists['authorid'];
+						echo $lists['state'];
+//						echo $page->getLimitBox();
+						?>
+					</td>
+				</tr>
+			</table>
 
-		<div id="tablecell">				
-			<table class="adminlist">
-			<tr>
-				<th width="5">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th width="5">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
-				</th>
-				<th width="1%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
-				</th>
-				<th nowrap="nowrap" width="1%">
-					<?php mosCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
-				</th>
-				<?php
-				if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
-					?>
-					<th colspan="2" align="center" width="5%">
-						<?php echo JText::_( 'Reorder' ); ?>
+			<table class="adminlist" cellspacing="1">
+			<thead>
+				<tr>
+					<th width="5">
+						<?php echo JText::_( 'Num' ); ?>
 					</th>
-					<th width="2%">
-						<?php echo JText::_( 'Order' ); ?>
+					<th width="5">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
-					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+					</th>
+					<th width="1%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
+					</th>
+					<th nowrap="nowrap" width="1%">
+						<?php mosCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
 					</th>
 					<?php
-				}
-				?>
-				<th width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
-				</th>
-				<th width="2%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
-				</th>
+					if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
+						?>
+						<th colspan="2" align="center" width="5%">
+							<?php echo JText::_( 'Reorder' ); ?>
+						</th>
+						<th width="2%">
+							<?php echo JText::_( 'Order' ); ?>
+						</th>
+						<th width="1%">
+							<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						</th>
+						<?php
+					}
+					?>
+					<th width="7%">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					</th>
+					<th width="2%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+					</th>
 					<th class="title" width="8%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
-				<th  class="title" width="8%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
-				</th>
-				<th  class="title" width="8%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
-				</th>
-				<th align="center" width="10">
-					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
-				</th>
-			  </tr>
+					<th  class="title" width="8%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+					</th>
+					<th  class="title" width="8%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
+					</th>
+					<th align="center" width="10">
+						<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="15">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			$nullDate = $database->getNullDate();
@@ -192,7 +201,7 @@ class ContentView
 		    			else{
 							echo "<td>";
 		                }
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->title;
 						}
 		                else {
@@ -257,9 +266,8 @@ class ContentView
 				$k = 1 - $k;
 			}
 			?>
+			</tbody>
 			</table>
-	
-			<?php echo $page->getPagesLinks(); ?>
 			<?php mosCommonHTML::ContentLegend(); ?>
 		</div>
 

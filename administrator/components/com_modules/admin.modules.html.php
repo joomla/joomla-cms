@@ -59,7 +59,6 @@ class HTML_modules {
 				</td>
 			</tr>
 			</table>
-
 						
 			<table class="adminlist" cellspacing="1">
 			<thead>
