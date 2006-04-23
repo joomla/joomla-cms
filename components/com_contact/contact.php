@@ -44,7 +44,7 @@ switch ($task) {
 		break;
 
 	default :
-		if($format = 'rss') {
+		if($format == 'rss') {
 			JContactController::listContactsRSS();
 		} else {
 			JContactController::listContacts();
