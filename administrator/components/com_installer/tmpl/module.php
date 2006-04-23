@@ -124,12 +124,7 @@ class JInstallerScreens_module {
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 		
-		<div id="pane-document">
-			<fieldset title="<?php echo JText::_('Installed Modules'); ?>">
-				<legend>
-					<?php echo JText::_('Installed Modules'); ?>
-				</legend>
-				
+		<div id="pane-document">	
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -218,7 +213,6 @@ class JInstallerScreens_module {
 				echo JText::_( 'No custom modules installed' ); 
 			}
 			?>
-			</fieldset>
 		</div>
 	
 		<input type="hidden" name="task" value="" />

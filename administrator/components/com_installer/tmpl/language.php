@@ -185,12 +185,7 @@ class JInstallerScreens_language {
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 		
-		<div id="pane-document">
-			<fieldset title="<?php echo JText::_('Installed Languages'); ?>">
-				<legend>
-					<?php echo JText::_('Installed Languages'); ?>
-				</legend>
-				
+		<div id="pane-document">	
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -279,7 +274,6 @@ class JInstallerScreens_language {
 				echo JText::_( 'No Languages installed' ); 
 			}
 			?>									
-			</fieldset>
 		</div>
 		
 		<input type="hidden" name="option" value="com_installer" />

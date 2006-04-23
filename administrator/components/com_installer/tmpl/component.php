@@ -107,12 +107,7 @@ class JInstallerScreens_component {
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 
-		<div id="pane-document">
-			<fieldset title="<?php echo JText::_('Installed Components'); ?>">
-				<legend>
-					<?php echo JText::_('Installed Components'); ?>
-				</legend>
-				
+		<div id="pane-document">	
 			<?php
 				if (count($rows)) {
 				?>
@@ -198,7 +193,6 @@ class JInstallerScreens_component {
 				echo JText::_( 'There are no custom components installed' ); 
 			}
 			?>
-			</fieldset>
 		</div>
 
 		<input type="hidden" name="task" value="" />

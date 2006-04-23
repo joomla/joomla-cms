@@ -130,12 +130,7 @@ class JInstallerScreens_plugin {
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 		
-		<div id="pane-document">
-			<fieldset title="<?php echo JText::_('Installed Plugins'); ?>">
-				<legend>
-					<?php echo JText::_('Installed Plugins'); ?>
-				</legend>
-				
+		<div id="pane-document">	
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -227,7 +222,6 @@ class JInstallerScreens_plugin {
 				echo JText::_('WARNNONONCORE');
 			}
 			?>
-			</fieldset>
 		</div>
 
 		<input type="hidden" name="task" value="" />

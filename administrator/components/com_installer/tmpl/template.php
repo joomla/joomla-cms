@@ -170,12 +170,7 @@ class JInstallerScreens_template
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 		
-		<div id="pane-document">
-			<fieldset title="<?php echo JText::_('Installed Templates'); ?>">
-				<legend>
-					<?php echo JText::_('Installed Templates'); ?>
-				</legend>
-				
+		<div id="pane-document">	
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -264,7 +259,6 @@ class JInstallerScreens_template
 				echo JText::_('No Installed Templates');
 			}
 			?>
-			</fieldset>
 		</div>
 		
 		<input type="hidden" name="extension" value="template" />

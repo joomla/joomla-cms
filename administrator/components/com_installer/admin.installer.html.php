@@ -21,7 +21,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class JInstallerScreens 
 {
-	function showInstallForm( $p_startdir = "", $backLink="" ) {
+	function showInstallForm( $p_startdir = "", $backLink="" ) 
+	{
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton3(pressbutton) {
@@ -51,12 +52,7 @@ class JInstallerScreens
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
 		
-		<div id="pane-document">
-			<fieldset title="<?php echo JText::_('Installer Form'); ?>">
-				<legend>
-					<?php echo JText::_('Installer Form'); ?>
-				</legend>
-				
+		<div id="pane-document">	
 				<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
 				
 				<table class="adminform">
@@ -137,7 +133,6 @@ class JInstallerScreens
                 <input type="hidden" name="task" value="installfromurl" />
                 <input type="hidden" name="option" value="com_installer" />		                
                 </form>
-			</fieldset>
 		</div>
 		<?php
 	}
