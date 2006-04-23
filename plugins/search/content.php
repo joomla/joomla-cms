@@ -245,16 +245,16 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	if ( $count > 1 ) {
 		switch ( $count ) {
 			case 2:
-				$results = array_merge( $rows[0], $rows[1] );
+				$results = array_merge( (array) $rows[0], (array) $rows[1] );
 				break;
 
 			case 3:
-				$results = array_merge( $rows[0], $rows[1], $rows[2] );
+				$results = array_merge( (array) $rows[0], (array) $rows[1], (array) $rows[2] );
 				break;
 
 			case 4:
 			default:
-				$results = array_merge( $rows[0], $rows[1], $rows[2], $rows[3] );
+				$results = array_merge( (array) $rows[0], (array) $rows[1], (array) $rows[2], (array) $rows[3] );
 				break;
 		}
 
