@@ -21,12 +21,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_menusections {
 
-	function showMenusections( &$rows, &$pageNav, $menutype, $option, &$lists ) {
-		global $my;
+	function showMenusections( &$rows, &$page, $menutype, $option, &$lists ) {
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
+		
+		<div id="pane-document">
 		
 		<table class="adminform">
 		<tr>
@@ -41,6 +46,7 @@ class HTML_menusections {
 				echo JText::_( 'Max Levels' );
 				echo $lists['levellist'];
 				echo $lists['state'];
+				echo $page->getLimitBox();
 				?>
 			</td>
 		</tr>
@@ -63,43 +69,50 @@ class HTML_menusections {
 		}
 		?>
 
-		<div id="tablecell">				
-			<table class="adminlist">
-			<tr>
-				<th width="20">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
-				</th>
-				<th class="title" width="40%">
-					<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
-				</th>
-				<th colspan="2" width="5%">
-					<?php echo JText::_( 'Reorder' ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Order', 'm.ordering', $lists ); ?>
-				</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="10%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
-				</th>
-				<th nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $lists ); ?>
-				</th>
-				<th width="35%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
-				</th>
-				<th nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'CID', 'm.componentid', $lists ); ?>
-				</th>
-			</tr>
+		<table class="adminlist">
+			<thead>
+				<tr>
+					<th width="20">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+					</th>
+					<th class="title" width="40%">
+						<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
+					</th>
+					<th colspan="2" width="5%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
+					<th width="2%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Order', 'm.ordering', $lists ); ?>
+					</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="10%">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					</th>
+					<th nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $lists ); ?>
+					</th>
+					<th width="35%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
+					</th>
+					<th nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'CID', 'm.componentid', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="12">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			$i = 0;
@@ -111,14 +124,14 @@ class HTML_menusections {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $i + 1 + $pageNav->limitstart;?>
+						<?php echo $i + 1 + $page->limitstart;?>
 					</td>
 					<td>
 						<?php echo $checked; ?>
 					</td>
 					<td nowrap="nowrap">
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->treename;
 						} else {
 							$link = 'index2.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1';
@@ -133,10 +146,10 @@ class HTML_menusections {
 						<?php echo $published;?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderUpIcon( $i ); ?>
+						<?php echo $page->orderUpIcon( $i ); ?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+						<?php echo $page->orderDownIcon( $i, $n ); ?>
 					</td>
 					<td align="center" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
@@ -163,11 +176,11 @@ class HTML_menusections {
 				$i++;
 			}
 			?>
+			</tbody>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menutype; ?>" />
 		<input type="hidden" name="task" value="" />

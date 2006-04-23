@@ -24,83 +24,90 @@ class HTML_content {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showList( &$rows, $pageNav, $option, $lists ) {
-		global $my, $mainframe, $database;
-
-		/*
-		 * Initialize variables
-		 */
-		$user		= & $mainframe->getUser();
-		$nullDate	= $database->getNullDate();
+	function showList( &$rows, $page, $option, $lists ) {
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
+		$db = & $mainframe->getDBO();
+		$nullDate = $db->getNullDate();
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
 		
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php
-				echo $lists['sectionid'];
-				echo $lists['catid'];
-				echo $lists['authorid'];
-				echo $lists['state'];
-				?>
-			</td>
-		</tr>
-		</table>
+			<table class="adminform">
+				<tr>
+					<td align="left" width="100%">
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+						<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+						<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+					</td>
+					<td nowrap="nowrap">
+						<?php
+						echo $lists['sectionid'];
+						echo $lists['catid'];
+						echo $lists['authorid'];
+						echo $lists['state'];
+						echo $page->getLimitBox();
+						?>
+					</td>
+				</tr>
+			</table>
 
-		<div id="tablecell">				
 			<table class="adminlist">
-			<tr>
-				<th width="5">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
-				</th>
-				<th width="10%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
-				</th>
-				<th colspan="2" nowrap="nowrap" width="5%">
-					<?php echo JText::_( 'Reorder' ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Order', 'fpordering', $lists ); ?>
-	 			</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="8%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
-				</th>
-				<th width="2%" class="title" align="center" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
-				</th>
-				<th width="10%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Section', 'sect_name', $lists ); ?>
-				</th>
-				<th width="10%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
-				</th>
-				<th width="10%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="5">
+						<?php echo JText::_( 'Num' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+					</th>
+					<th width="10%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
+					</th>
+					<th colspan="2" nowrap="nowrap" width="5%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
+					<th width="2%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Order', 'fpordering', $lists ); ?>
+		 			</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="8%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					</th>
+					<th width="2%" class="title" align="center" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+					</th>
+					<th width="10%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Section', 'sect_name', $lists ); ?>
+					</th>
+					<th width="10%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+					</th>
+					<th width="10%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="13">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 	
-				$link 			= ampReplace( 'index2.php?option=com_content&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link = ampReplace( 'index2.php?option=com_content&task=edit&hidemainmenu=1&cid[]='. $row->id );
 	
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == '1' ) {
@@ -172,14 +179,14 @@ class HTML_content {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td>
 						<?php echo $checked; ?>
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->title;
 						} else {
 							?>
@@ -200,10 +207,10 @@ class HTML_content {
 					}
 					?>
 					<td>
-						<?php echo $pageNav->orderUpIcon( $i ); ?>
+						<?php echo $page->orderUpIcon( $i ); ?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+						<?php echo $page->orderDownIcon( $i, $n ); ?>
 					</td>
 					<td align="center" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->fpordering;?>" class="text_area" style="text-align: center" />
@@ -230,14 +237,14 @@ class HTML_content {
 				$k = 1 - $k;
 			}
 			?>
+			</tbody>
 			</table>
-	
 			<?php
-			echo $pageNav->getListFooter();
 			mosCommonHTML::ContentLegend();
 			?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

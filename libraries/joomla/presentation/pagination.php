@@ -129,7 +129,6 @@ class JPagination extends JObject
 		// Build the select list
 		if ($mainframe->isAdmin()) {
 			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
-			$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		} else {
 			$link = sefRelToAbs($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
 			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);

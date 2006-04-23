@@ -55,48 +55,56 @@ class JTemplatesView
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="pane-navigation">
+		<!--<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>
+		</div>-->
 		
 		<div id="pane-document">
 		
 			<table class="adminlist">
-			<tr>
-				<th width="5" class="title">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th class="title" colspan="2">
-					<?php echo JText::_( 'Name' ); ?>
-				</th>
-				<?php
-				if ( $client->id == 1 ) {
-					?>
-					<th width="5%">
-						<?php echo JText::_( 'Default' ); ?>
+			<thead>
+				<tr>
+					<th width="5" class="title">
+						<?php echo JText::_( 'Num' ); ?>
+					</th>
+					<th class="title" colspan="2">
+						<?php echo JText::_( 'Name' ); ?>
 					</th>
 					<?php
-				} else {
+					if ( $client->id == 1 ) {
+						?>
+						<th width="5%">
+							<?php echo JText::_( 'Default' ); ?>
+						</th>
+						<?php
+					} else {
+						?>
+						<th width="5%">
+							<?php echo JText::_( 'Default' ); ?>
+						</th>
+						<th width="5%">
+							<?php echo JText::_( 'Assigned' ); ?>
+						</th>
+						<?php
+					}
 					?>
-					<th width="5%">
-						<?php echo JText::_( 'Default' ); ?>
+					<th width="10%" align="center">
+						<?php echo JText::_( 'Version' ); ?>
 					</th>
-					<th width="5%">
-						<?php echo JText::_( 'Assigned' ); ?>
+					<th width="15%" class="title">
+						<?php echo JText::_( 'Date' ); ?>
 					</th>
-					<?php
-				}
-				?>
-				<th width="10%" align="center">
-					<?php echo JText::_( 'Version' ); ?>
-				</th>
-				<th width="15%" class="title">
-					<?php echo JText::_( 'Date' ); ?>
-				</th>
-				<th width="25%"  class="title">
-					<?php echo JText::_( 'Author' ); ?>
-				</th>
-			</tr>
+					<th width="25%"  class="title">
+						<?php echo JText::_( 'Author' ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="8">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ( $i=0, $n = count( $rows ); $i < $n; $i++ ) {
@@ -188,11 +196,11 @@ class JTemplatesView
 				<?php
 			}
 			?>
+			</tbody>
 			</table>
-			<?php echo $page->getPagesLinks(); ?>
 	</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
+	<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 	<input type="hidden" name="task" value="" />

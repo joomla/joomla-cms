@@ -25,68 +25,81 @@ class sections_html {
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $scope, $myid, &$pageNav, $option, &$lists ) {
-		global $my;
+	function show( &$rows, $scope, $myid, &$page, $option, &$lists ) {
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
 
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php echo $lists['state'];	?>
-			</td>
-		</tr>
-		</table>
-
-		<div id="editcell">				
-			<table class="adminlist">
+		<div id="pane-document">
+			<table class="adminform">
 			<tr>
-				<th width="10">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="10">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Section Name', 's.name', $lists ); ?>
-				</th>
-				<th width="10%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
-				</th>
-				<th colspan="2" width="4%">
-					<?php echo JText::_( 'Reorder' ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Order', 's.ordering', $lists ); ?>
-				</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="8%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 's.id', $lists ); ?>
-				</th>
-				<th width="9%" nowrap="nowrap">
-					<?php echo JText::_( 'Num Categories' ); ?>
-				</th>
-				<th width="9%" nowrap="nowrap">
-					<?php echo JText::_( 'Num Active' ); ?>
-				</th>
-				<th width="9%" nowrap="nowrap">
-					<?php echo JText::_( 'Num Trash' ); ?>
-				</th>
-	
+				<td align="left" width="100%">
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				</td>
+				<td nowrap="nowrap">
+					<?php
+					echo $lists['state'];
+					echo $page->getLimitBox();
+					?>
+				</td>
 			</tr>
+			</table>
+
+			<table class="adminlist">
+			<thead>
+				<tr>
+					<th width="10">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="10">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Section Name', 's.name', $lists ); ?>
+					</th>
+					<th width="10%">
+						<?php mosCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
+					</th>
+					<th colspan="2" width="4%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
+					<th width="2%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Order', 's.ordering', $lists ); ?>
+					</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="8%">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					</th>
+					<th width="2%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 's.id', $lists ); ?>
+					</th>
+					<th width="9%" nowrap="nowrap">
+						<?php echo JText::_( 'Num Categories' ); ?>
+					</th>
+					<th width="9%" nowrap="nowrap">
+						<?php echo JText::_( 'Num Active' ); ?>
+					</th>
+					<th width="9%" nowrap="nowrap">
+						<?php echo JText::_( 'Num Trash' ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="13">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
@@ -100,14 +113,14 @@ class sections_html {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td>
 						<?php echo $checked; ?>
 					</td>
 					<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->name;
 						} else {
 							?>
@@ -121,10 +134,10 @@ class sections_html {
 						<?php echo $published;?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderUpIcon( $i ); ?>
+						<?php echo $page->orderUpIcon( $i ); ?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+						<?php echo $page->orderDownIcon( $i, $n ); ?>
 					</td>
 					<td align="center" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
@@ -151,11 +164,11 @@ class sections_html {
 				<?php
 			}
 			?>
+			</tbody>
 			</table>
-	
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $scope;?>" />
 		<input type="hidden" name="task" value="" />

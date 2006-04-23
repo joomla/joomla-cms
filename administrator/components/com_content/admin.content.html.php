@@ -58,7 +58,7 @@ class ContentView
 						echo $lists['catid'];
 						echo $lists['authorid'];
 						echo $lists['state'];
-//						echo $page->getLimitBox();
+						echo $page->getLimitBox();
 						?>
 					</td>
 				</tr>

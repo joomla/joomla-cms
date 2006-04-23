@@ -25,8 +25,11 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showPlugins( &$rows, $client, &$pageNav, $option, &$lists ) {
-		global $my;
+	function showPlugins( &$rows, $client, &$page, $option, &$lists ) {
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -46,53 +49,62 @@ class HTML_modules {
 					<?php 
 					echo $lists['type'];
 					echo $lists['state'];
+					echo $page->getLimitBox();
 					?>
 				</td>
 			</tr>
 			</table>
 			
 			<table class="adminlist">
-			<tr>
-				<th width="20">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>				
-				</th>
-				<th nowrap="nowrap" width="5%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>				
-				</th>
-				<?php
-				if ( $lists['order'] == 'p.folder' ) {
-					?>
-					<th colspan="2" nowrap="true" width="5%">
-						<?php echo JText::_( 'Reorder' ); ?>
+			<thead>
+				<tr>
+					<th width="20">
+						<?php echo JText::_( 'Num' ); ?>
 					</th>
-					<th width="2%">
-						<?php echo JText::_( 'Order' ); ?>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 					</th>
-					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>				
+					</th>
+					<th nowrap="nowrap" width="5%">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>				
 					</th>
 					<?php
-				}
-				?>
-				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>				
-				</th>
-				<th nowrap="nowrap"  width="3%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>				
-				</th>
-				<th nowrap="nowrap"  width="13%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>				
-				</th>
-				<th nowrap="nowrap"  width="13%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>				
-				</th>
-			</tr>
+					if ( $lists['order'] == 'p.folder' ) {
+						?>
+						<th colspan="2" nowrap="true" width="5%">
+							<?php echo JText::_( 'Reorder' ); ?>
+						</th>
+						<th width="2%">
+							<?php echo JText::_( 'Order' ); ?>
+						</th>
+						<th width="1%">
+							<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						</th>
+						<?php
+					}
+					?>
+					<th nowrap="nowrap" width="7%">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>				
+					</th>
+					<th nowrap="nowrap"  width="3%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>				
+					</th>
+					<th nowrap="nowrap"  width="13%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>				
+					</th>
+					<th nowrap="nowrap"  width="13%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>				
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="12">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -106,14 +118,14 @@ class HTML_modules {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="right">
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td>
 						<?php echo $checked; ?>
 					</td>
 					<td>
 					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+					if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 						echo $row->name;
 					} else {
 						?>
@@ -130,10 +142,10 @@ class HTML_modules {
 					if ( $lists['order'] == 'p.folder' ) {
 						?>
 						<td>
-							<?php echo $pageNav->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
+							<?php echo $page->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
 						</td>
 						<td>
-							<?php echo $pageNav->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
+							<?php echo $page->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
 						</td>
 						<td align="center" colspan="2">
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
@@ -158,11 +170,11 @@ class HTML_modules {
 				$k = 1 - $k;
 			}
 			?>
+			</tbody>
 			</table>
-	
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />

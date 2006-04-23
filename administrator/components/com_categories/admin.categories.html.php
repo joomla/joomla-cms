@@ -26,90 +26,104 @@ class categories_html {
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $section, $section_name, &$pageNav, &$lists, $type ) {
-		global $my;
+	function show( &$rows, $section, $section_name, &$page, &$lists, $type ) {
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
 		
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php
-				if ( $section == 'content') {
-					echo $lists['sectionid'];
-				}
-				?>
-				<?php echo $lists['state']; ?>
-			</td>
-		</tr>
-		</table>
+		<div id="pane-document">
+			<table class="adminform">
+				<tr>
+					<td align="left" width="100%">
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+						<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+						<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+					</td>
+					<td nowrap="nowrap">
+						<?php
+						if ( $section == 'content') {
+							echo $lists['sectionid'];
+						}
+						?>
+						<?php
+						echo $lists['state'];
+						echo $page->getLimitBox();
+						?>
+					</td>
+				</tr>
+			</table>
 
-		<div id="tablecell">				
 			<table class="adminlist">
-			<tr>
-				<th width="10" align="left">
-	            	<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Category Name', 'c.name', $lists ); ?>
-				</th>
-				<th width="10%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'c.published', $lists ); ?>
-				</th>
-				<?php
-				if ( $section <> 'content') {
-					?>
-					<th colspan="2" width="5%">
-						<?php echo JText::_( 'Reorder' ); ?>
+			<thead>
+				<tr>
+					<th width="10" align="left">
+		            	<?php echo JText::_( 'Num' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Category Name', 'c.name', $lists ); ?>
+					</th>
+					<th width="10%">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'c.published', $lists ); ?>
 					</th>
 					<?php
-				}
-				?>
-				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Order', 'c.ordering', $lists ); ?>
-				</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
-				</th>
-				<?php
-				if ( $section == 'content') {
+					if ( $section <> 'content') {
+						?>
+						<th colspan="2" width="5%">
+							<?php echo JText::_( 'Reorder' ); ?>
+						</th>
+						<?php
+					}
 					?>
-					<th width="20%"  class="title">
-						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+					<th width="2%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Order', 'c.ordering', $lists ); ?>
+					</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="7%">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					</th>
+					<th width="2%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 					</th>
 					<?php
-				}
-				?>
-				<?php
-				if ( $type == 'content') {
+					if ( $section == 'content') {
+						?>
+						<th width="20%"  class="title">
+							<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+						</th>
+						<?php
+					}
 					?>
-					<th width="5%">
-						<?php echo JText::_( 'Num Active' ); ?>
-					</th>
-					<th width="5%">
-						<?php echo JText::_( 'Num Trash' ); ?>
-					</th>
 					<?php
-				}
-				?>
-			</tr>
+					if ( $type == 'content') {
+						?>
+						<th width="5%">
+							<?php echo JText::_( 'Num Active' ); ?>
+						</th>
+						<th width="5%">
+							<?php echo JText::_( 'Num Trash' ); ?>
+						</th>
+						<?php
+					}
+					?>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="13">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -125,14 +139,14 @@ class categories_html {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td>
 						<?php echo $checked; ?>
 					</td>
 					<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 						<?php
-						if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $my->id ) ) {
+						if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $user->get('id') ) ) {
 							echo $row->name;
 						} else {
 							?>
@@ -149,10 +163,10 @@ class categories_html {
 					if ( $section <> 'content' ) {
 						?>
 						<td>
-							<?php echo $pageNav->orderUpIcon( $i ); ?>
+							<?php echo $page->orderUpIcon( $i ); ?>
 						</td>
 						<td>
-							<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+							<?php echo $page->orderDownIcon( $i, $n ); ?>
 						</td>
 						<?php
 					}
@@ -193,11 +207,11 @@ class categories_html {
 				<?php
 			}
 			?>
+			</tbody>
 			</table>
-	
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="section" value="<?php echo $section;?>" />
 		<input type="hidden" name="task" value="" />

@@ -21,23 +21,34 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( &$rows, &$pageNav, $option, &$client ) 
+	function showLanguages( &$rows, &$page, $option, &$client ) 
 	{
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
+
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<div id="pane-navigation">
+		<!--<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>
+		</div>-->
 		
 		<div id="pane-document">
 			<table class="adminform">
 			<tr>
-				<td align="left" width="100%">&nbsp;</td>
+				<td align="right">
+				<?php
+					echo $page->getLimitBox();
+				?>
+				</td>
 			</tr>
 			</table>
 
 			<table class="adminlist">
+			<thead>
 			<tr>
 				<th width="20">
 					<?php echo JText::_( 'Num' ); ?>
@@ -64,6 +75,13 @@ class HTML_languages {
 					<?php echo JText::_( 'Author Email' ); ?>
 				</th>
 			</tr>
+			</thead>
+			<tfoot>
+				<td colspan="8">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -71,7 +89,7 @@ class HTML_languages {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td width="20">
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td width="20">
 						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" />
@@ -107,11 +125,11 @@ class HTML_languages {
 			<?php
 			}
 			?>
+			</tbody>
 			</table>
-			
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />

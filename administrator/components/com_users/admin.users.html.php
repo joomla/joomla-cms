@@ -24,59 +24,75 @@ class HTML_users {
 	/**
 	 * Display list of users
 	 */
-	function showUsers( &$rows, &$pageNav, $option, &$lists ) {
+	function showUsers( &$rows, &$page, $option, &$lists ) {
+		global $mainframe;
+		
+		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$user =& $mainframe->getUser();
+
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_users" method="post" name="adminForm">
 
+		<div id="pane-document">
+		
 		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php echo $lists['type'];?>
-				<?php echo $lists['logged'];?>
-			</td>
-		</tr>
+			<tr>
+				<td align="left" width="100%">
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				</td>
+				<td nowrap="nowrap">
+					<?php echo $lists['type'];?>
+					<?php echo $lists['logged'];?>
+					<?php echo $page->getLimitBox();?>
+				</td>
+			</tr>
 		</table>
 
-		<div id="tablecell">				
-			<table class="adminlist">
-			<tr>
-				<th width="2%" class="title">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="3%" class="title">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Name', 'a.name', $lists ); ?>
-				</th>
-				<th width="15%" class="title" >
-					<?php mosCommonHTML::tableOrdering( 'Username', 'a.username', $lists ); ?>
-				</th>
-				<th width="5%" class="title" nowrap="nowrap">
-					<?php echo JText::_( 'Logged In' ); ?>
-				</th>
-				<th width="5%" class="title" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Enabled', 'a.block', $lists ); ?>
-				</th>
-				<th width="15%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Group', 'groupname', $lists ); ?>
-				</th>
-				<th width="15%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
-				</th>
-				<th width="10%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
-				</th>
-				<th width="1%" class="title" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
-				</th>
-			</tr>
+		<table class="adminlist">
+			<thead>
+				<tr>
+					<th width="2%" class="title">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="3%" class="title">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Name', 'a.name', $lists ); ?>
+					</th>
+					<th width="15%" class="title" >
+						<?php mosCommonHTML::tableOrdering( 'Username', 'a.username', $lists ); ?>
+					</th>
+					<th width="5%" class="title" nowrap="nowrap">
+						<?php echo JText::_( 'Logged In' ); ?>
+					</th>
+					<th width="5%" class="title" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Enabled', 'a.block', $lists ); ?>
+					</th>
+					<th width="15%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Group', 'groupname', $lists ); ?>
+					</th>
+					<th width="15%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
+					</th>
+					<th width="10%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
+					</th>
+					<th width="1%" class="title" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<td colspan="10">
+					<?php echo $page->getPagesLinks(); ?>
+				</td>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -89,7 +105,7 @@ class HTML_users {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $i+1+$pageNav->limitstart;?>
+						<?php echo $i+1+$page->limitstart;?>
 					</td>
 					<td>
 						<?php echo mosHTML::idBox( $i, $row->id ); ?>
@@ -126,11 +142,11 @@ class HTML_users {
 				$k = 1 - $k;
 			}
 			?>
+			</tbody>
 			</table>
-			
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
+		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
