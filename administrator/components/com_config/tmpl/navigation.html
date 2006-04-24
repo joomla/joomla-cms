@@ -1,6 +1,6 @@
 <fieldset title="Navigation">
 <legend>
-	<?php echo JText::_( 'Configuration' ); ?>	
+	<?php echo JText::_( 'Configuration' ); ?>
 </legend>
 <ul id="menu-tree">
 	<li><a id="site"><?php echo JText::_( 'Site' ); ?></a>
@@ -27,7 +27,7 @@
 </fieldset>
 <fieldset title="File Status">
 <legend>
-	<?php echo JText::_( 'File Status' ); ?>	
+	<?php echo JText::_( 'File Status' ); ?>
 </legend>
 <span class="small">
 <?php
@@ -47,12 +47,12 @@
 	</label>
 	<input type="checkbox" id="enable_write" name="enable_write" value="1" />
 <?php
-} 
-} 
+}
+}
 ?>
 </span>
 <span class="small">
-<?php echo JText::_( 'configuration.php' ); ?> :							
+<?php echo JText::_( 'configuration.php' ); ?> :
 <?php echo is_writable( JPATH_CONFIGURATION . DS . 'configuration.php' ) ? '<b><font color="green"> '. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red"> '. JText::_( 'Unwriteable' ) .'</font></b>' ?>
-</span>	
+</span>
 </fieldset>

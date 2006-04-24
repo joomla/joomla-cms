@@ -22,7 +22,7 @@
 			submitForm( frm, task );
 		}
 	}
-	
+
 	function selectMode() {
 		var frm = this.document.filename;
 		if(frm.what_to_load[0].checked) {
@@ -35,13 +35,13 @@
 			frm.sqlLoad.disabled = false;
 		}
 	}
-	
+
 	function JDefault() {
 		xajax_instDefault(xajax.getFormValues('filename'));
 	}
-	
+
 	function externalSql(frm, task) {
-	
+
 		if (frm.sqlFile.value == '') {
 			alert("no file provided");
 			return;
@@ -75,7 +75,7 @@
 		</div>
 
 		<div id="installer">
-			<div id="installerpad">	
+			<div id="installerpad">
 
 				<h2><jtmpl:translate>Site Name</jtmpl:translate>:</h2>
 				<div class="install-text">
@@ -100,7 +100,7 @@
 					</div>
 					<div class="clr"></div>
 				</div>
-				
+
 				<h2><jtmpl:translate key="confTitle">Confirm the admin email and password</jtmpl:translate></h2>
 				<div class="install-text">
 					<jtmpl:translate key="tipConfSteps">
@@ -142,7 +142,7 @@
 </form>
 <form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
 			<div id="installerpad">
-			
+
 				<h2><jtmpl:translate>Load Sample Data or Restore Backed Up Content</jtmpl:translate></h2>
 				<div class="install-text">
 					<jtmpl:translate>LOADSQLINSTRUCTIONS1</jtmpl:translate>
@@ -206,7 +206,7 @@
 									<br/>
 									<input class="button" type="button" name="sqlLoad" value="Upload and execute" disabled="disabled" onclick="externalSql(filename, 'mainconfig');"/>
 									<br/><br/>
-									
+
 									<span id="theResponse">{VAR_RESPONSE}<span>
 					  			</td>
 					  		</tr>
@@ -218,15 +218,15 @@
 				</div>
 			</div>
 
-			
-			
-			
+
+
+
 		</div>
 
 	</div>
 </div>
 
-<div class="clr"></div>	
+<div class="clr"></div>
 
 <input type="hidden" name="task" value="mainconfig" />
 <input type="hidden" name="sqlupload" value="0" />
