@@ -371,6 +371,10 @@ div.header {
 	padding-left: 55px;
 }
 
+div.header span {
+	color: #666;
+}
+
 div.toolbar {
 	float: right;
 	text-align: right;

@@ -21,7 +21,7 @@ class TOOLBAR_modules {
 	* Draws the menu for a New module
 	*/
 	function _NEW($client)	{
-		JMenuBar::title( JText::_( 'Module Manager' ) . ' - ' . JText::_( 'New' ), 'module.png' );
+		JMenuBar::title( JText::_( 'Module Manager' ) . ' - <span>' . JText::_( 'New Module' ) . '</span>', 'module.png' );
 		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', 'Next', true );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.modules.new' );
@@ -35,7 +35,7 @@ class TOOLBAR_modules {
 
 		$moduleType = JRequest::getVar( 'module' );
 
-		JMenuBar::title( JText::_( 'Module Manager' ) .' - ' . JText::_( 'Edit' ), 'module.png' );
+		JMenuBar::title( JText::_( 'Module Manager' ) .' - <span>' . JText::_( 'Edit Module' ) . '</span>', 'module.png' );
 
 		if($moduleType == 'custom') {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
