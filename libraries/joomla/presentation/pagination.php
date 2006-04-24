@@ -234,7 +234,7 @@ class JPagination extends JObject
 		global $mainframe;
 
 		// Build the page navigation list
-		$list = $this->getPagesList();
+		$list = $this->getPagesList($link);
 		$html = null;
 
 		// Build the select list
@@ -288,9 +288,9 @@ class JPagination extends JObject
 			$i = 1;
 			while (isset($list['pages'][$i])) {
 				if ($list['pages'][$i]['start'] !== null) {
-					$html .= '<a href="'.$list[$i]['url'].'" class="pagenav"><strong>'.$list[$i]['txt'].'</strong></a> ';
+					$html .= '<a href="'.$list['pages'][$i]['url'].'" class="pagenav"><strong>'.$list['pages'][$i]['txt'].'</strong></a> ';
 				} else {
-					$html .= '<span class="pagenav">'.$list[$i]['txt'].'</span> ';
+					$html .= '<span class="pagenav">'.$list['pages'][$i]['txt'].'</span> ';
 				}
 				$i++;
 			}
