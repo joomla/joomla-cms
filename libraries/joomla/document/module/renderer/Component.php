@@ -110,7 +110,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 
 			$msg = stripslashes(urldecode(JRequest::getVar( 'josmsg' )));
 			if (!empty($msg)) {
-				echo "\n<div id=\"system-message\" class=\"message\">$msg</div>";
+				echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
 			}
 
 			if ($ret) {
