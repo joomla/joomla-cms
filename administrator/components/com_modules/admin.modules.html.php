@@ -439,7 +439,7 @@ class HTML_modules {
 				
 				<?php
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				echo $editor->display( 'editor1',  $row->content , 'content', '800', '400', '', '' ) ; ?>
+				echo $editor->display( 'content', $row->content, '800', '400', '', '' ) ; ?>
 
 			</fieldset>
 			<?php
