@@ -115,7 +115,7 @@ class HTML_modules {
 			</thead>
 			<tfoot>
 				<td colspan="12">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
