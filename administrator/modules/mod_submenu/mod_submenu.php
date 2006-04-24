@@ -23,16 +23,14 @@ $user	= & $mainframe->getUser();
 $hide	= JRequest::getVar('hidemainmenu', 0);
 
 // If hidemainmenu is true, we don't want to render this module at all
-if (!$hide) {
-	$contents = JAdminSubMenu::get();
+$contents = JAdminSubMenu::get();
 
-	// Only show the module if there are items to actually show
-	if ($contents) {
-		echo "<div class=\"submenu-box\">\n<div class=\"submenu-pad\">\n";
-		echo "$contents\n";
-		echo "<div class=\"clr\"></div>\n";
-		echo "</div></div>";
-	}
+// Only show the module if there are items to actually show
+if ($contents) {
+	echo "<div class=\"submenu-box\">\n<div class=\"submenu-pad\">\n";
+	echo "$contents\n";
+	echo "<div class=\"clr\"></div>\n";
+	echo "</div></div>";
 }
 
 /**
