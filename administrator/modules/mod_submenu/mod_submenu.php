@@ -20,7 +20,6 @@ defined('_JEXEC') or die('Restricted access');
 $lang	= & $mainframe->getLanguage();
 $doc	= & $mainframe->getDocument();
 $user	= & $mainframe->getUser();
-$hide	= JRequest::getVar('hidemainmenu', 0);
 
 // If hidemainmenu is true, we don't want to render this module at all
 $contents = JAdminSubMenu::get();
@@ -237,6 +236,7 @@ class JAdminSubMenu
 			return null;
 		}
 
+		$hide = JRequest::getVar('hidemainmenu', 0);
 		$txt = "<ul id=\"submenu\">\n";
 
 		/*
@@ -244,13 +244,20 @@ class JAdminSubMenu
 		 */
 		foreach ($list as $item)
 		{
-			if (isset ($item['active']) && $item['active'] == 1) {
-				$active = "class=\"active\"";
-			} else {
-				$active = null;
-			}
 			$txt .= "<li class=\"item".$suffix."\">\n";
-			$txt .= "<a $active href=\"".$item['link']."\">".$item['title']."</a>\n";
+			if ($hide) {
+				if (isset ($item['active']) && $item['active'] == 1) {
+					$txt .= "<span class=\"nolink active\">".$item['title']."</span>\n";
+				} else {
+					$txt .= "<span class=\"nolink\">".$item['title']."</span>\n";
+				}
+			} else {
+				if (isset ($item['active']) && $item['active'] == 1) {
+					$txt .= "<a class=\"active\" href=\"".$item['link']."\">".$item['title']."</a>\n";
+				} else {
+					$txt .= "<a href=\"".$item['link']."\">".$item['title']."</a>\n";
+				}
+			}
 			$txt .= "</li>\n";
 		}
 
