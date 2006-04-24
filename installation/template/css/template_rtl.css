@@ -49,11 +49,11 @@ form {
 }
 
 #header2 {
-	background: url(../images/j_header_right.png) 100% 0 no-repeat;
+	background: url(../images/j_header_right.png) left 0 no-repeat;
 }
 
 #header3 {
-	background: url(../images/j_header_left.png) no-repeat;
+	background: url(../images/j_header_left.png) right no-repeat;
 	height: 54px;
 }
 
@@ -61,12 +61,12 @@ form {
 	font-size: 22px;
 	color: #fff;
 	font-weight: bold;
-	padding-left: 180px;
+	padding-right: 180px;
 	line-height: 44px;
 }
 
 #version {
-	float: right;
+	float: left;
 	color: #fff;
 	padding-top: 25px;
 	padding-right: 5px;
