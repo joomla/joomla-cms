@@ -30,10 +30,7 @@ if ($contents) {
 	echo "$contents\n";
 	echo "<div class=\"clr\"></div>\n";
 	echo "</div></div>";
-} else {
-	//echo something to make sure the patTemplate global var is filled up.
-	echo " ";
-}
+} 
 
 /**
  * Admin Submenu

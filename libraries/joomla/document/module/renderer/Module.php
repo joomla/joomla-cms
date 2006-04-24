@@ -86,7 +86,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 			}
 		$contents = ob_get_contents();
 		ob_end_clean();
-
+		
 		return $contents;
 	}
 }

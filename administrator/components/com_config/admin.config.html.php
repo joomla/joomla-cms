@@ -27,16 +27,20 @@ class JConfigView
 
 		$document =& $mainframe->getDocument();
 		$document->addScript($mainframe->getBaseURL().'components/com_config/js/switcher.js');
+		
+		$contents = '';
+		ob_start();
+			require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html');
+		$contents = ob_get_contents();
+		ob_end_clean();
+		
+		$document->addGlobalVar('MODULE_SUBMENU', $contents);
 
 		mosCommonHTML::loadOverlib();
 
 		$tabs = new mosTabs(1);
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-
-		<div id="config-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>
 
 		<div id="config-document">
 			<div id="page-site">
