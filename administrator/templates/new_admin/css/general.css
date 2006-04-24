@@ -497,6 +497,11 @@ text-align: center;
 }
 
 /* standard form style table */
+div.twocol {
+	float: left;
+	width: 50%;
+}
+
 table.adminform {
 	background-color: #f9f9f9;
 	border: solid 1px #d5d5d5;
@@ -526,6 +531,15 @@ table.adminform th {
 table.adminform td {
 	padding: 3px;
 	text-align: left;
+}
+
+fieldset.adminform {
+	border: 1px solid #ccc;
+	margin: 0 10px 10px 10px;
+}
+
+fieldset.adminform legend {
+	font-size: 14px;
 }
 
 /** Table styles **/
@@ -587,10 +601,6 @@ table.adminlist tfoot tr {
 	color: #333;
 }
 
-table.adminlist tfoot div {
-	float: left;
-}
-
 table.adminlist tfoot td, 
 table.adminlist tfoot th {
 	border-top: 1px solid #999;
@@ -612,6 +622,13 @@ table.adminlist .pagination {
 	display:table;
 	padding:0; 
 	margin:0 auto;	
+}
+
+.pagination div.limit {
+	float: left;
+	height: 20px;
+	line-height: 20px;
+	margin: 0 10px;
 }
 
 

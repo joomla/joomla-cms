@@ -322,10 +322,11 @@ class JPagination extends JObject
 		$lang = $mainframe->getLanguage();
 
 		$html = "<del class=\"container\"><div class=\"pagination\">\n";
-		$html .= "\n<div>".JText::_('Display Num').$this->getLimitBox()."</div>";
+		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$this->getLimitBox()."</div>";
 		$html .= $this->getPagesLinks();
-		$html .= "\n<div>".$this->getPagesCounter()."</div>";
+		$html .= "\n<div class=\"limit\">".$this->getPagesCounter();
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
+		$html .= "\n</div>";
 		$html .= "\n</div></del>";
 		return $html;
 	}
