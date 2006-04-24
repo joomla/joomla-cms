@@ -239,7 +239,6 @@ class JPagination extends JObject
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			$html .= "<del class=\"container\"><div class=\"pagination\">\n";
 			if ($list['first']['start'] !== null) {
 				$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$list['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['first']['start']."; document.adminForm.submit();return false;\">".$list['first']['txt']."</a></div></div>";
 			} else {
@@ -271,7 +270,6 @@ class JPagination extends JObject
 			} else {
 				$html .= "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$list['end']['txt']."</span></div></div>";
 			}
-			$html .= "\n</div></del>";
 		} else {
 			/*
 			 * This is for page navigation if not in the administration section
@@ -323,15 +321,12 @@ class JPagination extends JObject
 
 		$lang = $mainframe->getLanguage();
 
-		$html = '<table class="adminlist"><tr><th colspan="3">';
+		$html = "<del class=\"container\"><div class=\"pagination\">\n";
+		$html .= "\n<div>".JText::_('Display Num').$this->getLimitBox()."</div>";
 		$html .= $this->getPagesLinks();
-		$html .= '</th></tr><tr>';
-		$html .= '<td nowrap="nowrap" width="48%" align="'.($lang->isRTL() ? 'left' : 'right').'">';
-		$html .= JText::_('Display Num').'</td>';
-		$html .= '<td>'.$this->getLimitBox().'</td>';
-		$html .= '<td nowrap="nowrap" width="48%" >'.$this->getPagesCounter().'</td>';
-		$html .= '</tr></table>';
+		$html .= "\n<div>".$this->getPagesCounter()."</div>";
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
+		$html .= "\n</div></del>";
 		return $html;
 	}
 
