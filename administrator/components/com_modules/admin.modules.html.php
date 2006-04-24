@@ -54,7 +54,6 @@ class HTML_modules {
 					echo $lists['position'];
 					echo $lists['type'];
 					echo $lists['state'];
-					echo $page->getLimitBox();
 					?>
 				</td>
 			</tr>
