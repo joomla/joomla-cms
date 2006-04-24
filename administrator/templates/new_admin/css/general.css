@@ -497,9 +497,32 @@ text-align: center;
 }
 
 /* standard form style table */
-div.twocol {
+div.col50 {
 	float: left;
 	width: 50%;
+}
+
+div.col70 {
+	float: left;
+	width: 70%;
+}
+
+div.col30 {
+	float: left;
+	width: 30%;
+}
+
+table.admintable td {
+	padding: 3px;
+}
+
+table.admintable td.key,
+table.admintable td.paramlist_key {
+	background-color: #eee;
+	text-align: right;
+	width: 150px;
+	color: #666;
+	font-weight: bold;
 }
 
 table.adminform {

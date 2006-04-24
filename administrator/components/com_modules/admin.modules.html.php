@@ -270,18 +270,14 @@ class HTML_modules {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table cellspacing="0" cellpadding="0" width="100%">
-			<tr valign="top">
-				<td width="60%">
-					<table class="adminform">
+		
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable" cellspacing="1">
 					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Details' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<?php echo JText::_( 'Module Type' ); ?>:
 						</td>
 						<td>
@@ -291,7 +287,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td width="100" >
+						<td class="key">
 							<label for="title">
 								<?php echo JText::_( 'Title' ); ?>:
 							</label>
@@ -301,7 +297,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<?php echo JText::_( 'Published' ); ?>:
 						</td>
 						<td>
@@ -309,7 +305,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" >
+						<td valign="top" class="key">
 							<label for="position">
 								<?php echo JText::_( 'Position' ); ?>:
 							</label>
@@ -319,7 +315,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" >
+						<td valign="top"  class="key">
 							<label for="ordering">
 								<?php echo JText::_( 'Module Order' ); ?>:
 							</label>
@@ -333,7 +329,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" >
+						<td valign="top" class="key">
 							<label for="access">
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</label>
@@ -343,11 +339,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">
-						</td>
-					</tr>
-					<tr>
-						<td width="100" >
+						<td width="100" class="key">
 							<?php echo JText::_( 'Show title' ); ?>:
 						</td>
 						<td>
@@ -355,7 +347,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<?php echo JText::_( 'ID' ); ?>:
 						</td>
 						<td>
@@ -363,111 +355,95 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<?php echo JText::_( 'Description' ); ?>:
 						</td>
 						<td>
 							<?php echo JText::_($row->description); ?>
 						</td>
 					</tr>
-					</table>
-
-					<?php
-					// Hide params for Custom/New modules
-					// Show custom.xml params for backward compat with existing custom modules
-					// that are used to show rss feeds
-					// extra backward compat check [$row->module == ''] can be depreciated in 1.2
-					if ( !$row->module == '' || $row->module == 'custom' ) {
-						// Render Parameter list
-						?>
-						<table class="adminform">
-						<tr>
-							<th >
-								<?php echo JText::_( 'Parameters' ); ?>
-							</th>
-						</tr>
+				</table>			
+			
+			</fieldset>
+			
+			<?php
+			// Hide params for Custom/New modules
+			// Show custom.xml params for backward compat with existing custom modules
+			// that are used to show rss feeds
+			// extra backward compat check [$row->module == ''] can be depreciated in 1.2
+			if ( !$row->module == '' || $row->module == 'custom' ) {
+				// Render Parameter list
+				?>
+				<fieldset class="adminform">
+					<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+						<table class="admintable">
 						<tr>
 							<td>
 								<?php echo $params->render();?>
 							</td>
 						</tr>
 						</table>
-						<?php
-					}
-					?>
-
-					<?php
-					// show Cache directory writable status for mod_feed or mod_syndication
-					if ( $row->module == 'mod_feed' || $row->module == 'mod_syndicate' ) {
-						?>
-						<table class="adminform">
-						<tr>
-							<td>
-								<table align="center">
-								<?php
-								$visible = 0;
-								// check to hide certain paths if not super admin
-								if ( $my->gid == 25 ) {
-									$visible = 1;
-								}
-								mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
-								?>
-								</table>
-							</td>
-						</tr>
-						</table>
-						<?php
-					}
-					?>
-				</td>
-				<td width="40%" >
-					<table width="100%" class="adminform">
-					<tr>
-						<th>
-							<?php echo JText::_( 'Pages / Items' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<label for="selections">
-								<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
-							</label>
-							<br />
-							<?php echo $lists['selections']; ?>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<?php
-			if ( !$row->module || $row->module == 'custom' ) {
-				?>
-				<tr>
-					<td colspan="2">
-							<table width="100%" class="adminform">
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Custom Output' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td valign="top" >
-									<?php echo JText::_( 'Content' ); ?>:
-								</td>
-								<td>
-									<?php
-									// parameters : areaname, content, hidden field, width, height, rows, cols
-									echo $editor->display( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
-								</td>
-							</tr>
-							</table>
-					</td>
-				</tr>
+				</fieldset>
 				<?php
 			}
 			?>
-			</table>
+			
+			<?php
+			// show Cache directory writable status for mod_feed or mod_syndication
+			if ( $row->module == 'mod_feed' || $row->module == 'mod_syndicate' ) {
+				?>
+				<fieldset class="adminform">
+						<table class="admintable">
+						$visible = 0;
+						// check to hide certain paths if not super admin
+						if ( $my->gid == 25 ) {
+							$visible = 1;
+						}
+						mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
+						?>
+						</table>
+				</fieldset>
+				<?php
+			}
+			?>
+			
 		</div>
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Pages / Items' ); ?></legend>
+				
+				<table class="admintable">
+				<tr>
+					<td>
+						<label for="selections">
+							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
+						</label>
+						<br />
+						<?php echo $lists['selections']; ?>
+					</td>
+				</tr>
+				</table>
+			
+			
+			</fieldset>
+		
+		</div>
+		<div class="clr"></div>
+		
+		<?php
+		if ( !$row->module || $row->module == 'custom' ) {
+			?>
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Custom Output' ); ?></legend>
+				
+				<?php
+				// parameters : areaname, content, hidden field, width, height, rows, cols
+				echo $editor->display( 'editor1',  $row->content , 'content', '800', '400', '', '' ) ; ?>
+
+			</fieldset>
+			<?php
+		}
+		?>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
