@@ -587,6 +587,10 @@ table.adminlist tfoot tr {
 	color: #333;
 }
 
+table.adminlist tfoot div {
+	float: left;
+}
+
 table.adminlist tfoot td, 
 table.adminlist tfoot th {
 	border-top: 1px solid #999;
@@ -609,6 +613,8 @@ table.adminlist .pagination {
 	padding:0; 
 	margin:0 auto;	
 }
+
+
 
 /** stu nicholls solution for centering divs **/
 .containter {clear:both; text-decoration:none;}
