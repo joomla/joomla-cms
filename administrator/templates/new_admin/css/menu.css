@@ -95,13 +95,19 @@
 	margin: 0;
 }
 
-#submenu li a {
+#submenu li a,
+#submenu span.nolink {
 	padding: 5px 15px;
 	border-right: 1px solid #ccc;
 	font-weight: bold;
 }
 
-#submenu a.active {
+#submenu span.nolink {
+	color: #999;
+}
+
+#submenu a.active,
+#submenu span.nolink.active {
 	color: #000;
 	text-decoration: underline;
 }
