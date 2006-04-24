@@ -416,7 +416,6 @@ class JInstallationController
 	function mainConfig($vars)
 	{
 		global $mainframe;
-		////////////////////////////////////////////
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
@@ -435,10 +434,7 @@ class JInstallationController
 		}
 
 
-
-		//////////////////////////////////////////////////////////
-
-		$strip = get_magic_quotes_gpc();
+//		$strip = get_magic_quotes_gpc();
 
 		if (isset ($vars['siteName'])) {
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));

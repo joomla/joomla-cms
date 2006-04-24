@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Apr-2006 David Gal
+ + Added language class (lite) to jajax.php for localisation of server side jajax routines
+
 22-Apr-2006 Alex Kempkens
  ^ Cleanup/Refactor com_registration
    - adapted new user handling as well and changed the standard registration procedure to it

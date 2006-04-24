@@ -14,14 +14,15 @@
 
 define( '_JEXEC', 1 );
 
-define( 'JPATH_BASE', dirname( __FILE__ ) );
+define( 'JXPATH_BASE', dirname( __FILE__ ) );
 
 //Global definitions
 define( 'DS', DIRECTORY_SEPARATOR );
 
 //Joomla framework path definitions
-$parts = explode( DS, JPATH_BASE );
+$parts = explode( DS, JXPATH_BASE );
 array_pop( $parts );
+define( 'JPATH_BASE',			implode( DS, $parts )  );
 array_pop( $parts );
 
 define( 'JPATH_ROOT',			implode( DS, $parts ) );
@@ -41,7 +42,7 @@ $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
 jimport( 'joomla.common.base.object' );
-jimport( 'joomla.i18n.string' );
+//jimport( 'joomla.i18n.string' );
 jimport( 'joomla.filesystem.*' );
 
 /**
@@ -120,7 +121,7 @@ class JAJAXHandler {
 
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
-		require_once(JPATH_BASE.DS."classes.php");
+		require_once(JXPATH_BASE.DS."classes.php");
 		$root =  JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost'], $args['ftpPort']);
 		$objResponse->addAssign('ftproot', 'value', $root);
 		$objResponse->addAssign('rootPath', 'style.display', '');
@@ -133,16 +134,20 @@ class JAJAXHandler {
 	function sampledata($args) {
 		jimport( 'joomla.utilities.error' );
 		jimport( 'joomla.database.database');
-		require_once(JPATH_BASE.DS."classes.php");
+		jimport( 'joomla.i18n.language');
+		jimport( 'joomla.registry.registry');
+
+		require_once(JXPATH_BASE.DS."classes.php");
 
 		$errors = null;
 		$msg = '';
 		$objResponse = new xajaxResponse();
+		$lang = new JAJAXLang($args['lang']);
+//		$lang->setDebug(true);
 
 		/*
 		 * execute the default sample data file
 		 */
-		//TODO - consider changing location back to sql folder
 		$dbsample = '../sql/sample_data.sql';
 		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($database, $dbsample, $errors);
@@ -150,17 +155,15 @@ class JAJAXHandler {
 		/*
 		 * prepare sql error messages if returned from populate
 		 */
-		//TODO - returned message strings need to be translated
-		//       hopefully without loading the entire framework
 		if (!is_null($errors)){
 			foreach($errors as $error){
 				$msg .= stripslashes( $error['msg'] );
 				$msg .= chr(13)."-------------".chr(13);
-				$txt = '<textarea cols="40" rows="4" name="instDefault" readonly="readonly" >DATABASE ERRORS REPORTED'.chr(13).$msg.'</textarea>';
+				$txt = '<textarea cols="40" rows="4" name="instDefault" readonly="readonly" >'.$lang->_('Database Errors Reported').chr(13).$msg.'</textarea>';
 			}
 		} else {
 			// consider other possible errors from populate
-			$msg = $result == 0 ? "Sample data installed successfully" : "Error installing sample data" ;
+			$msg = $result == 0 ? $lang->_("Sample data installed successfully") : $lang->_("Error installing SQL script") ;
 			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
 		}
 
@@ -170,6 +173,247 @@ class JAJAXHandler {
 
 
 }
+
+
+/**
+ * Languages/translation handler class
+ *
+ * @package 	Joomla.Framework
+ * @subpackage	I18N
+ * @since		1.5
+ */
+class JAJAXLang extends JObject
+{
+	/**
+	 * Debug language, If true, highlights if string isn't found
+	 *
+	 * @var boolean
+	 * @access protected
+	 */
+	var $_debug 	= false;
+
+
+	/**
+	 * Identifying string of the language
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	var $_identifyer = null;
+
+	/**
+	 * The language to load
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	var $_lang = null;
+
+	/**
+	 * Transaltions
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	var $_strings = null;
+
+	/**
+	* Constructor activating the default information of the language
+	*
+	* @access protected
+	*/
+	function __construct($lang = null)
+	{
+		$this->_strings = array ();
+
+		if ($lang == null) {
+			$lang = 'en-GB';
+		}
+
+		$this->_lang= $lang;
+
+		$this->load();
+	}
+
+
+	/**
+	* Translator function, mimics the php gettext (alias _) function
+	*
+	* @access public
+	* @param string		$string 	The string to translate
+	* @param boolean	$jsSafe		Make the result javascript safe
+	* @return string	The translation of the string
+	*/
+	function _($string, $jsSafe = false)
+	{
+		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
+		$key = strtoupper($string);
+		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
+		if (isset ($this->_strings[$key])) {
+			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
+		} else {
+			if (defined($string)) {
+				$string = $this->_debug ? "!!".constant($string)."!!" : constant($string);
+			} else {
+				$string = $this->_debug ? "??".$string."??" : $string;
+			}
+		}
+		if ($jsSafe) {
+			$string = addslashes($string);
+		}
+		return $string;
+	}
+
+	/**
+	 * Loads a single langauge file and appends the results to the existing strings
+	 *
+	 * @access public
+	 * @param string 	$prefix 	The prefix
+	 * @param string 	$basePath  	The basepath to use
+	 * $return boolean	True, if the file has successfully loaded.
+	 */
+	function load( $prefix = '', $basePath = JPATH_BASE )
+	{
+        $path = JAJAXLang::getLanguagePath( $basePath, $this->_lang);
+
+		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
+
+		$result = false;
+
+		$newStrings = $this->_load( $path . $filename .'.ini' );
+
+		if (is_array($newStrings)) {
+			$this->_strings = array_merge( $this->_strings, $newStrings);
+			$result = true;
+		}
+
+		return $result;
+
+	}
+
+	/**
+	* Loads a language file and returns the parsed values
+	*
+	* @access private
+	* @param string The name of the file
+	* @return mixed Array of parsed values if successful, boolean False if failed
+	*/
+	function _load( $filename )
+	{
+		if ($content = @file_get_contents( $filename )) {
+			if( $this->_identifyer === null ) {
+				$this->_identifyer = basename( $filename, '.ini' );
+			}
+
+			$registry = new JRegistry();
+			$registry->loadINI($content);
+			return $registry->toArray( );
+		}
+
+		return false;
+	}
+
+
+	/**
+	* Set the Debug property
+	*
+	* @access public
+	*/
+	function setDebug($debug) {
+		$this->_debug = $debug;
+	}
+
+
+	/**
+	 * Determines is a key exists
+	 *
+	 * @access public
+	 * @param key $key	The key to check
+	 * @return boolean True, if the key exists
+	 */
+	function hasKey($key) {
+		return isset ($this->_strings[strtoupper($key)]);
+	}
+
+
+	/**
+	 * Get the path to a language
+	 *
+	 * @access public
+	 * @param string $basePath  The basepath to use
+	 * @param string $language	The language tag
+	 * @return string	language related path or null
+	 */
+	function getLanguagePath($basePath = JPATH_BASE, $language = null )
+	{
+		$dir = $basePath.DS.'language'.DS;
+		if (isset ($language)) {
+			$dir .= $language.DS;
+		}
+		return $dir;
+	}
+
+
+
+	/**
+	 * Parses XML files for language information
+	 *
+	 * @access public
+	 * @param string	$dir	 Directory of files
+	 * @return array	Array holding the found languages as filename => metadata array
+	 */
+	function _parseXMLLanguageFiles($dir = null)
+	{
+		if ($dir == null) {
+			return null;
+		}
+
+		$languages = array ();
+		jimport('joomla.filesystem.folder');
+		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
+		foreach ($files as $file) {
+			if ($content = file_get_contents($dir.$file)) {
+				if ($metadata = JAJAXLang::_parseXMLLanguageFile($dir.$file)) {
+					$lang = str_replace('.xml', '', $file);
+					$languages[$lang] = $metadata;
+				}
+			}
+		}
+		return $languages;
+	}
+
+	/**
+	 * Parse XML file for language information
+	 *
+	 * @access public
+	 * @param string	$path	 Path to the xml files
+	 * @return array	Array holding the found metadat as a key => value pair
+	 */
+	function _parseXMLLanguageFile($path)
+	{
+		jimport('joomla.utilities.simplexml');
+		$xml = new JSimpleXML();
+		
+		if (!$xml->loadFile($path)) {
+			return null;
+		}
+
+		// Check that it's am metadata file
+		if ($xml->document->name() != 'metafile') {
+			return null;
+		}
+
+		$metadata = array ();
+
+			foreach ($xml->document->metadata[0]->children() as $child) {
+				$metadata[$child->name()] = $child->data();
+			}
+		//}
+		return $metadata;
+	}
+}
+
+
 
 /*
  * Process the AJAX requests
