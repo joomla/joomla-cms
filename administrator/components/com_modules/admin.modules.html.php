@@ -500,7 +500,7 @@ class HTML_modules {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table class="adminlist" cellpadding="1">
 		<thead>
 		<tr>
 			<th colspan="4">
