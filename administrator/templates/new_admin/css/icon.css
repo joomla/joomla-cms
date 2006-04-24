@@ -120,6 +120,9 @@
 .icon-32-apply {
 	background: url(../images/toolbar/icon-32-apply.png) 50% 0 no-repeat;
 }
+.icon-32-back{
+	background: url(../images/toolbar/icon-32-back.png) 50% 0 no-repeat;
+}
 .icon-32-save {
 	background: url(../images/toolbar/icon-32-save.png) 50% 0 no-repeat;
 }
@@ -144,10 +147,10 @@
 .icon-32-assign {
 	background: url(../images/toolbar/icon-32-publish.png) 50% 0 no-repeat;
 }
-.icon-32-edithtml {
+.icon-32-html {
 	background: url(../images/toolbar/icon-32-html.png) 50% 0 no-repeat;
 }
-.icon-32-editcss {
+.icon-32-css {
 	background: url(../images/toolbar/icon-32-css.png) 50% 0 no-repeat;
 }
 .icon-32-publish {

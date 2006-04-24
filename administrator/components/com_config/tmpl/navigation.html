@@ -1,42 +1,12 @@
-<fieldset title="Navigation">
-<legend>
-	<?php echo JText::_( 'Configuration' ); ?>
-</legend>
-<ul id="menu-tree">
-	<li><a id="site"><?php echo JText::_( 'Site' ); ?></a>
-	<li><a id="user"><?php echo JText::_( 'Users' ); ?></a></li>
-	<li><a id="content"><?php echo JText::_( 'Content' ); ?></a></li>
-	<li><a id="server"><?php echo JText::_( 'Server' ); ?></a></li>
-</ul>
-</fieldset>
-<fieldset title="File Status">
-<legend>
-	<?php echo JText::_( 'File Status' ); ?>
-</legend>
-<span class="small">
-<?php
-	jimport('joomla.filesystem.path');
-	if (JPath::canCHMOD( JPATH_CONFIGURATION . DS . 'configuration.php' )) {
-	if (is_writable( JPATH_CONFIGURATION . DS . 'configuration.php')) {
-?>
-	<label for="disable_write">
-		<?php echo JText::_( 'Make unwriteable after saving' ); ?>
-	</label>
-	<input type="checkbox" id="disable_write" name="disable_write" value="1" />
-<?php
-} else {
-?>
-	<label for="enable_write">
-		<?php echo JText::_( 'Override write protection while saving' ); ?>
-	</label>
-	<input type="checkbox" id="enable_write" name="enable_write" value="1" />
-<?php
-}
-}
-?>
-</span>
-<span class="small">
-<?php echo JText::_( 'configuration.php' ); ?> :
-<?php echo is_writable( JPATH_CONFIGURATION . DS . 'configuration.php' ) ? '<b><font color="green"> '. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red"> '. JText::_( 'Unwriteable' ) .'</font></b>' ?>
-</span>
-</fieldset>
+<div class="submenu-box">
+	<div class="submenu-pad">
+		<ul id="submenu">
+			<li class="item-smenu"><a id="site"><?php echo JText::_( 'Site' ); ?></a></li>
+			<li class="item-smenu"><a id="user"><?php echo JText::_( 'Users' ); ?></a></li>
+			<li class="item-smenu"><a id="content"><?php echo JText::_( 'Content' ); ?></a></li>
+			<li class="item-smenu"><a id="server"><?php echo JText::_( 'Server' ); ?></a></li>
+		</ul>
+		<div class="clr"></div>
+	</div>
+</div>
+<div class="clr"></div>

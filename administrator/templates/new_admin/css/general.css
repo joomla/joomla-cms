@@ -59,8 +59,8 @@ fieldset p {  margin: 10px 0px;  }
 
 legend    { 
 	color: #0B55C4; 
-	font-size: 1.2em; 
-	/*font-weight: bold; */
+	font-size: 12px;
+	font-weight: bold;
 }
 
 input, select { font-size: 10px; }
@@ -571,11 +571,6 @@ fieldset.adminform {
 	margin: 0 10px 10px 10px;
 }
 
-fieldset.adminform legend {
-	font-size: 12px;
-	font-weight: bold;
-}
-
 /** Table styles **/
 
 table.adminlist {
@@ -674,6 +669,25 @@ table.adminlist .pagination {
 /* Two Pane Formatting */
 #pane-navigation {
 	display: none;
+}
+
+/** table solution for global config **/
+table.noshow {
+	width: 100%;
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+}
+
+table.noshow tr {
+	vertical-align: top;
+}
+
+table.noshow td {
+}
+
+table.noshow fieldset {
+margin: 15px 7px 7px 7px;
 }
 
 

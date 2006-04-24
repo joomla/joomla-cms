@@ -35,7 +35,7 @@ class JConfigView
 		ob_end_clean();
 		
 		$document->addGlobalVar('MODULE_SUBMENU', $contents);
-
+		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.html');
 		mosCommonHTML::loadOverlib();
 
 		$tabs = new mosTabs(1);
@@ -44,30 +44,62 @@ class JConfigView
 
 		<div id="config-document">
 			<div id="page-site">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_site.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.html'); ?>
+				<table class="noshow">
+					<tr>
+						<td with="70%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_site.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.html'); ?>
+						</td>
+						<td width="30%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.html'); ?>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div id="page-user">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_user.html'); ?>
+				<table class="noshow">
+					<tr>
+						<td>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_user.html'); ?>
+						</td>
+					</tr>
+				</table>
 				
 			</div>
 
 			<div id="page-content">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>
+				<table class="noshow">
+					<tr>
+						<td with="50%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>
+						</td>
+						<td width="50%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content2.html'); ?>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div id="page-server">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_database.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_ftp.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_mail.html'); ?>
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.html'); ?>
+				<table class="noshow">
+					<tr>
+						<td with="60%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_ftp.html'); ?>
+						</td>
+						<td width="40%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_database.html'); ?>
+							
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_mail.html'); ?>
+						</td>
+					</tr>
+				</table>				
 			</div>
 		</div>
 		<div class="clr"></div>

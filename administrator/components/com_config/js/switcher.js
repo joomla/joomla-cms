@@ -48,7 +48,7 @@ document.getElementsByClassName =  function(sClassName, oElement, sTagName, fn)
 
 function loadSwicther() {
 
-  toggler = document.getElementById('menu-tree')
+  toggler = document.getElementById('submenu')
   element = document.getElementById('config-document')
   if(element) {
   	 var switcher = new Switcher(toggler, element)

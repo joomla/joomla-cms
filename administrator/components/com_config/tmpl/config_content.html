@@ -1,29 +1,13 @@
-<table class="adminform">
-<thead>
-<tr>
-	<th colspan="2">
-		<?php echo JText::_( 'Content Settings' ); ?>:
-	</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td width="50%">
-		<table class="adminform">
+<fieldset class="adminform">
+	<legend><?php echo JText::_( 'Content Settings' ); ?></legend>
+	<table class="admintable" cellspacing="1">
 		<tr>
-			<td colspan="2">
-				<?php echo JText::_( 'DESCCONTROLOUTPUTELEMENTS' ); ?>
-				<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td width="185">
+			<td width="185" class="key">
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'TIPIFYESTITLECONTENTITEMS' );
 					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Linked Titles' ), '', 0 );
 				?>
-				:
 				</span>
 			</td>
 			<td>
@@ -31,13 +15,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="key">
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'TIPIFSETTOSHOWREADMORELINK' );
 					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Read More Link' ), '', 0 );
 				?>
-				:
 				</span>
 			</td>
 			<td>
@@ -45,13 +28,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="key">
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'TIPIFSETTOSHOWVOTING' );
 					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Item Rating/Voting' ), '', 0 );
 				?>
-				:
 				</span>
 			</td>
 			<td>
@@ -59,13 +41,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="key">
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'TIPIFSETTOSHOWAUTHOR' );
 					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Author Names' ), '', 0 );
 				?>
-				:
 				</span>
 			</td>
 			<td>
@@ -73,13 +54,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="key">
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'TIPIFSETTOSHOWDATETIMECREATED' );
 					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Created Date and Time' ), '', 0 );
 				?>
-				:
 				</span>
 			</td>
 			<td>
@@ -87,111 +67,17 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="key">
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'TIPIFSETTOSHOWDATETIMEMODIFIED' );
 					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Modified Date and Time' ), '', 0 );
 				?>
-				:
 				</span>
 			</td>
 			<td>
 				<?php echo $lists['hideModifyDate']; ?>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="2">
-				<span class="editlinktip">
-				<?php
-					$tip = JText::_( 'TIPPAGENAV' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Content Item Navigation' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=25' );
-				?>
-				:
-				</span>
-			</td>
-		</tr>
-		</table>
-	</td>
-	<td width="50%">
-		<table class="adminform">
-		<tr>
-			<td colspan="2">
-				&nbsp;
-				<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td width="185">
-				<?php echo JText::_( 'PDF Icon' ); ?>:
-			</td>
-			<td>
-				<?php echo $lists['hidePdf']; ?>
-				<?php
-					if (!is_writable( JPATH_SITE . '/media/' )) {
-					   	$tip = JText::_( 'TIPOPTIONMEDIA' );
-						echo mosToolTip( $tip );
-					}
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Print Icon' ); ?>:
-			</td>
-			<td>
-				<?php echo $lists['hidePrint']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Email Icon' ); ?>:
-			</td>
-			<td>
-				<?php echo $lists['hideEmail']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<span class="editlinktip">
-				<?php
-					$tip = JText::_( 'TIPPRINTPDFEMAIL' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Icons' ), '', 0 );
-				?>
-				:
-				</span>
-			</td>
-			<td>
-				<?php echo $lists['icons']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<span class="editlinktip">
-				<?php
-					$tip = JText::_( 'TIPIFSETTOSHOWHITS' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Hits' ), '', 0 );
-				?>
-				:
-				</span>
-			</td>
-			<td>
-				<?php echo $lists['hits']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<span class="editlinktip">
-				<?php
-					$tip = JText::_( 'TIPTOC' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Table of Contents on multi-page items' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=2' );
-				?>
-				:
-				</span>
-			</td>
-		</tr>
 	</table>
-	</td>
-</tr>
-</tbody>
-</table>
+</fieldset>
