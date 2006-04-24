@@ -348,7 +348,7 @@ class JTemplatesView
 		?>
 <form action="index2.php" method="post" name="adminForm">
 
-	<div id="pane-navigation">
+	<div id="templates-navigation">
 		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'snippets.html'); ?>
 
 		<fieldset title="">
@@ -377,7 +377,7 @@ class JTemplatesView
 
 	</div>
 
-	<div id="pane-document">
+	<div id="templates-document">
 
 		<table class="adminform">
 		<tr>
@@ -392,6 +392,7 @@ class JTemplatesView
 		</tr>
 		</table>
 	</div>
+	<div class="clr"></div>
 
 	<input type="hidden" name="id" value="<?php echo $template; ?>" />
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
@@ -441,28 +442,7 @@ class JTemplatesView
 			</tr>
 		<?php
 		$k = 1 - $k; }
-
-		if ( $client->id != 1 ) {
 		?>
-		<tr>
-			<th width="5%" align="left">
-				<?php echo JText::_( 'Num' ); ?>
-			</th>
-			<th width="85%" align="left">
-				<?php echo $t_dir; ?>
-			</th>
-			<th width="10%">
-				<?php echo JText::_( 'Writeable' ); ?>/<?php echo JText::_( 'Unwriteable' ); ?>
-			</th>
-		</tr>
-		<?php
-		}
-		?>
-		</table>
-		<table class="adminlist">
-		<tr>
-			<th width="100%">&nbsp;</th>
-		</tr>
 		</table>
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

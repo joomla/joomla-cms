@@ -55,7 +55,7 @@
 }
 
 /* Two Pane Formatting */
-#config-navigation {
+#config-navigation, #templates-navigation {
 	width: 20%; 
 	display: block; 
 	position: relative; 
@@ -65,7 +65,7 @@
 	overflow: hidden;
 }
 
-#config-document {
+#config-document, #templates-document {
 	width: 78%; 
 	display: block; 
 	float: left;
@@ -76,7 +76,9 @@
 #config-document   fieldset  { border: 1px #ccc solid;  }
 #config-navigation fieldset  {  }
 
-#config-navigation ul   { margin-left: 0; padding-left: 20px;}
+#config-navigation ul,
+#templates-navigation ul { margin-left: 0; padding-left: 20px;}
+
 #config-navigation ul a { cursor: pointer; }
 
 

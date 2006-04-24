@@ -264,10 +264,14 @@ class JContactController {
 		global $mainframe;
 
 		$database = & $mainframe->getDBO();
-
+		
+		$limit 			= JRequest::getVar('limit', 0, '', 'int');
+		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
+		$catid  		= JRequest::getVar('catid', 0);
+		$format			= 'RSS2.0';
+		
 		$where  = "\n WHERE a.published = 1";
-		$catid  = JRequest::getVar('catid', 0);
-
+		
 		if ( $catid ) {
 			$where .= "\n AND a.catid = $catid";
 		}
@@ -352,19 +356,8 @@ class JContactController {
 			$item_title = htmlspecialchars( $row->title );
 			$item_title = html_entity_decode( $item_title );
 
-			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$_Itemid	= '';
-			$itemid 	= $mainframe->getItemid( $row->id );
-			if ($itemid) {
-				$_Itemid = '&Itemid='. $itemid;
-			}
-
-			$item_link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
-			$item_link = sefRelToAbs( $item_link );
-
 			// strip html from feed item description text
-			$item_description = $row->introtext;
+			$item_description = $row->description;
 
 			if ( $info[ 'limit_text' ] )
 			{
@@ -395,7 +388,7 @@ class JContactController {
 			// load individual item creator class
 			$item = new FeedItem();
 			$item->title 		= $item_title;
-			$item->link 		= $item_link;
+			$item->link 		= $row->link;
 			$item->description 	= $item_description;
 			$item->source 		= $info[ 'link' ];
 			$item->date			= $item_date;

@@ -61,13 +61,13 @@ class TOOLBAR_templates
 	function _CHOOSE_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
 		JMenuBar::back();
-		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', 'Next', true );
+		JMenuBar::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
 	}
 
 	function _EDIT_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
-		JMenuBar::save( 'save_css' );
 		JMenuBar::back();
+		JMenuBar::save( 'save_css' );
 	}
 
 	function _POSITIONS(){

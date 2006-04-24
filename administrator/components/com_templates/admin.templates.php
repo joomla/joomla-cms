@@ -356,7 +356,9 @@ class JTemplatesController
 		// Read the source file
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
-
+		
+		JFile::write($client->path.DS.'test.php', $content);
+	
 		if ($content !== false)
 		{
 			$content = htmlspecialchars($content);

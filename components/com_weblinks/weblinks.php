@@ -267,6 +267,11 @@ class WeblinksController
 		global $mainframe;
 
 		$database = & $mainframe->getDBO();
+		
+		// Get some request variables
+		$limit		= JRequest::getVar('limit', 0, '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		$format     = 'RSS2.0';
 
 		$where  = "\n WHERE published = 1";
         $catid  = JRequest::getVar('catid', 0);
@@ -283,7 +288,7 @@ class WeblinksController
 		* date
 		* category
 		*/
-    	$query = "SELECT"
+    	$query = "SELECT *"
     	. "\n title AS title,"
     	. "\n url AS link,"
     	. "\n description AS description,"
@@ -301,7 +306,7 @@ class WeblinksController
 
 	function createFeed( $rows, $format, $title )
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		$option = $mainframe->getOption();
 
@@ -347,17 +352,13 @@ class WeblinksController
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$_Itemid	= '';
-			$itemid 	= $mainframe->getItemid( $row->id );
-			if ($itemid) {
-				$_Itemid = '&Itemid='. $itemid;
-			}
+			$_Itemid = '&Itemid='. $Itemid;
 
-			$item_link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
+			$item_link = 'index.php?option=com_content&task=view&catid='. $row->catid . $_Itemid;
 			$item_link = sefRelToAbs( $item_link );
 
 			// strip html from feed item description text
-			$item_description = $row->introtext;
+			$item_description = $row->description;
 
 			if ( $info[ 'limit_text' ] )
 			{

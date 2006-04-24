@@ -7,16 +7,7 @@ is derivative of works licensed under the GNU General Public License or
 other free or open source software licenses.
 See COPYRIGHT.php for copyright notices and details.
 </jdoc:comment>
-<?php
-global $mosConfig_lang;
-$languages = array();
-$languages = JLanguageHelper::createLanguageList( $mosConfig_lang );
-array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
-$lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', '' );
-$lang = $mainframe->getLanguage();
-$tstart = JProfiler::getmicrotime();
 
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 	<head>
@@ -57,63 +48,22 @@ $tstart = JProfiler::getmicrotime();
 		</div>
 		<div id="content-box">
 			<div id="content-pad">
-				<form action="index.php" method="post" name="loginForm" id="loginForm">
-					<div id="login-content-pad">
-						<div id="login" class="component">
-							<div id="loginpad">
-								<h1><jdoc:translate>Joomla! Administration Login</jdoc:translate></h1>
-								<div class="element-box" id="login-form">
-									<div class="element-pad">
-										<table class="login">
-											<tr>
-												<td>
-													<label for="username"><jdoc:translate>Username</jdoc:translate></label>
-												</td>
-												<td>
-													<input name="username" id="username" type="text" class="inputbox" size="15" />
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<label for="password"><jdoc:translate>Password</jdoc:translate></label>
-												</td>
-												<td>
-													<input name="passwd" id="password" type="password" class="inputbox" size="15" />
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<label for="language"><jdoc:translate>Language</jdoc:translate></label>
-												</td>
-												<td>
-													<?php echo $lists['langs']; ?>
-												</td>
-											</tr>
-											<tr>
-												<td>&nbsp;</td>
-												<td><br />
-													<div class="button1-left">
-														<div class="next">
-															<a onclick="loginForm.submit();">
-																<jdoc:translate>Login</jdoc:translate></a>
-														</div>
-													</div>
-													<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
-													<input type="hidden" name="option" value="login" />
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-
-								<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
-
-								<p><a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a></p>
-								<div class="clr"></div>
+				<div id="login" class="component">
+					<div id="loginpad">
+						<h1><jdoc:translate>Joomla! Administration Login</jdoc:translate></h1>
+						<div class="element-box">
+							<div class="element-pad">
+								<jdoc:include type="module" name="login" />
 							</div>
 						</div>
+					<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
+
+					<p>
+						<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
+					</p>
+					<div class="clr"></div>
 					</div>
-				</form>
+				</div>
 				<noscript>
 					<jdoc:translate key="WARNJAVASCRIPT" />
 				</noscript>

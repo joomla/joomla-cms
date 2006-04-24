@@ -398,7 +398,7 @@ class JDocumentHTML extends JDocument
 
 			//get the file content
 			ob_start();
-			?><jdoc:tmpl name="document" autoclear="yes"><?php
+			?><jdoc:tmpl name="document" autoclear="yes" unusedvars="ignore"><?php
 				require_once($directory.DS.$filename );
 			?></jdoc:tmpl><?php
 			$contents = ob_get_contents();

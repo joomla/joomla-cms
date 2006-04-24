@@ -24,28 +24,16 @@ array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
 $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
 
-<div class="login-form">
-	<h1><jdoc:translate>Login</jdoc:translate></h1>
-	<div class="form-block">
-	<div class="inputlabel">
-		<label for="username">
-			<?php echo JText::_('Username'); ?>
-		</label>
-	</div>
-
-	<div>
+<form action="index.php" method="post" name="loginForm" id="loginForm">
+	<p>
+		<label for="username"><?php echo JText::_('Username'); ?></label><br />
 		<input name="username" id="username" type="text" class="inputbox" size="15" />
-	</div>
+	</p>
 
-	<div class="inputlabel">
-		<label for="password">
-			<?php echo JText::_('Password'); ?>
-		</label>
-	</div>
-
-	<div>
+	<p>
+		<label for="password"><?php echo JText::_('Password'); ?></label><br />
 		<input name="passwd" id="password" type="password" class="inputbox" size="15" />
-	</div>
+	</p>
 	<?php
 	if(JRequest::getVar('option') == 'login') {
 		if(!JSession::get('guest')) {
@@ -55,19 +43,17 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 		}
 	}
 	?>
-	<div class="inputlabel">
-		<label for="lang">
-			<?php echo JText::_('Language'); ?>
-		</label>
-	</div>
-
-	<div>
+	<p>
+		<label for="lang"><?php echo JText::_('Language'); ?></label><br />
 		<?php echo $langs; ?>
+	</p>
+	<div class="button1-left">
+		<div class="next">
+			<a onclick="loginForm.submit();">
+				<jdoc:translate>Login</jdoc:translate>
+			</a>
+		</div>
 	</div>
-
-	<div class="flushstart" >
-		<input type="submit" name="submit" class="button" value="<?php echo JText::_('Login'); ?>" />
-		<input type="hidden" name="option" value="login" />
-	</div>
-</div>
-</div>
+	<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
+	<input type="hidden" name="option" value="login" />
+</form>
