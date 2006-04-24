@@ -46,7 +46,6 @@ class HTML_menusections {
 				echo JText::_( 'Max Levels' );
 				echo $lists['levellist'];
 				echo $lists['state'];
-				echo $page->getLimitBox();
 				?>
 			</td>
 		</tr>
@@ -109,7 +108,7 @@ class HTML_menusections {
 			</thead>
 			<tfoot>
 				<td colspan="12">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -180,7 +179,6 @@ class HTML_menusections {
 			</table>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menutype; ?>" />
 		<input type="hidden" name="task" value="" />

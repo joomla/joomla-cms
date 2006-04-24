@@ -101,7 +101,7 @@ class JTemplatesView
 			</thead>
 			<tfoot>
 				<td colspan="8">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -200,7 +200,6 @@ class JTemplatesView
 			</table>
 	</div>
 
-	<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 	<input type="hidden" name="task" value="" />

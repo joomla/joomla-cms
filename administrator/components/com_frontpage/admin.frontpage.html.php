@@ -49,7 +49,6 @@ class HTML_content {
 						echo $lists['catid'];
 						echo $lists['authorid'];
 						echo $lists['state'];
-						echo $page->getLimitBox();
 						?>
 					</td>
 				</tr>
@@ -98,7 +97,7 @@ class HTML_content {
 			</thead>
 			<tfoot>
 				<td colspan="13">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -244,7 +243,6 @@ class HTML_content {
 			?>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

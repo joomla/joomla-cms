@@ -47,7 +47,6 @@ class HTML_users {
 				<td nowrap="nowrap">
 					<?php echo $lists['type'];?>
 					<?php echo $lists['logged'];?>
-					<?php echo $page->getLimitBox();?>
 				</td>
 			</tr>
 		</table>
@@ -89,7 +88,7 @@ class HTML_users {
 			</thead>
 			<tfoot>
 				<td colspan="10">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -146,7 +145,6 @@ class HTML_users {
 			</table>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

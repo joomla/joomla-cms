@@ -53,7 +53,6 @@ class categories_html {
 						?>
 						<?php
 						echo $lists['state'];
-						echo $page->getLimitBox();
 						?>
 					</td>
 				</tr>
@@ -120,7 +119,7 @@ class categories_html {
 			</thead>
 			<tfoot>
 				<td colspan="13">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -211,7 +210,6 @@ class categories_html {
 			</table>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="section" value="<?php echo $section;?>" />
 		<input type="hidden" name="task" value="" />

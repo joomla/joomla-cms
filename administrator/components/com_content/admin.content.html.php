@@ -58,7 +58,6 @@ class ContentView
 						echo $lists['catid'];
 						echo $lists['authorid'];
 						echo $lists['state'];
-						echo $page->getLimitBox();
 						?>
 					</td>
 				</tr>
@@ -119,7 +118,7 @@ class ContentView
 			</thead>
 			<tfoot>
 				<td colspan="15">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -271,7 +270,6 @@ class ContentView
 			<?php mosCommonHTML::ContentLegend(); ?>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

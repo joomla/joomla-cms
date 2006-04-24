@@ -49,7 +49,6 @@ class HTML_modules {
 					<?php
 					echo $lists['type'];
 					echo $lists['state'];
-					echo $page->getLimitBox();
 					?>
 				</td>
 			</tr>
@@ -101,7 +100,7 @@ class HTML_modules {
 			</thead>
 			<tfoot>
 				<td colspan="12">
-					<?php echo $page->getPagesLinks(); ?>
+					<?php echo $page->getListFooter(); ?>
 				</td>
 			</tfoot>
 			<tbody>
@@ -174,7 +173,6 @@ class HTML_modules {
 			</table>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />
