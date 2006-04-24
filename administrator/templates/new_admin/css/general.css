@@ -525,6 +525,10 @@ table.admintable td.paramlist_key {
 	font-weight: bold;
 }
 
+table.admintable td.key.vtop {
+	vertical-align: top;
+}
+
 table.adminform {
 	background-color: #f9f9f9;
 	border: solid 1px #d5d5d5;

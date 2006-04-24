@@ -414,11 +414,12 @@ class HTML_modules {
 				
 				<table class="admintable">
 				<tr>
-					<td>
+					<td class="key vtop">
 						<label for="selections">
 							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
 						</label>
-						<br />
+					</td>
+					<td>
 						<?php echo $lists['selections']; ?>
 					</td>
 				</tr>
