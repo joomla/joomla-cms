@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class content_menu_html {
 
-	function edit( &$menu, &$lists, &$params, $option, $content ) 
+	function edit( &$menu, &$lists, &$params, $option, $content )
 	{
 		mosCommonHTML::loadOverlib();
 		?>

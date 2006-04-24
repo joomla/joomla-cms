@@ -20,11 +20,11 @@ define("_J_ALLOWHTML", 4);
 
 /**
  * JRequest Class
- * 
+ *
  * This class serves to provide the Joomla Framework with a common interface to access
  * request variables.  This includes $_POST, $_GET, and naturally $_REQUEST.  Variables
  * can be passed through an input filter to avoid injection or returned raw.
- * 
+ *
  * The concept and implementation of this class is inspired by the binary cloud
  * environment package.  <http://www.binarycloud.com/>
  *
@@ -73,7 +73,7 @@ class JRequest
 		if (!isset($GLOBALS['JRequest'][$signature])) {
 			$result		= null;
 			$matches	= array ();
-	
+
 			if ($hash === 'METHOD') {
 				$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 			}
@@ -101,7 +101,7 @@ class JRequest
 			if ((empty($result)) && (!is_null($default))) {
 				$result = $default;
 			}
-	
+
 			if ($result != null) {
 
 				// Handle the type constraint
@@ -138,7 +138,7 @@ class JRequest
 
 						// Clean the variable given using the given filter mask
 						$result = JRequest::cleanVar($result, $mask);
-	
+
 						$result = (string) $result;
 						break;
 					case 'NONE' :
@@ -191,12 +191,12 @@ class JRequest
 
 	/**
 	 * Utility method to clean a string variable using input filters
-	 * 
+	 *
 	 * Available Options masks:
 	 * 		_J_NOTRIM 		: Prevents the trimming of the variable
 	 * 		_J_ALLOWHTML	: Allows safe HTML in the variable
 	 * 		_J_ALLOWRAW		: Allows raw input
-	 * 
+	 *
 	 * @static
 	 * @param mixed $var The variable to clean
 	 * @param int $mask An options mask
@@ -211,7 +211,7 @@ class JRequest
 		static $noHtmlFilter = null;
 		static $safeHtmlFilter = null;
 
-		// Initialize variables	
+		// Initialize variables
 		$return = null;
 
 		// Ensure the variable to clean is a string

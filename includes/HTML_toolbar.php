@@ -22,16 +22,16 @@ class mosToolBar {
 	*/
 	function startTable() {
 		global $mainframe;
-		
+
 		/*
 		* Initialize some variables
 		*/
 		$document = & $mainframe->getDocument();
-		
+
 		/*
 		* load toolbar css
 		*/
-		$document->addStyleSheet( 'templates/_system/css/toolbar.css' );		
+		$document->addStyleSheet( 'templates/_system/css/toolbar.css' );
 		?>
 		<table cellpadding="0" cellspacing="3" border="0" id="toolbar">
 		<tr valign="middle" align="center">
@@ -47,10 +47,10 @@ class mosToolBar {
 	* @param boolean True if required to check that a standard list item is checked
 	*/
 	function custom( $task='', $icon=NULL, $iconOver='', $alt='', $listSelect=true ) {
-		
+
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-			
+
 		if ($listSelect) {
 			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
 		} else {
@@ -82,7 +82,7 @@ class mosToolBar {
 	*/
 	function publish( $task='publish', $alt='Published' ) {
  		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'publish_f2.png', '', $alt, false );
 	}
 
@@ -93,7 +93,7 @@ class mosToolBar {
 	*/
 	function publishList( $task='publish', $alt='Published' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'publish_f2.png', '', $alt, true );
 	}
 
@@ -104,7 +104,7 @@ class mosToolBar {
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublished' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'unpublish_f2.png', '', $alt, false );
 	}
 
@@ -115,7 +115,7 @@ class mosToolBar {
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublished' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
 	}
 
@@ -126,7 +126,7 @@ class mosToolBar {
 	*/
 	function archiveList( $task='archive', $alt='Archived' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'archive_f2.png', '', $alt, true );
 	}
 
@@ -137,7 +137,7 @@ class mosToolBar {
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
         $alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'unarchive_f2.png', '', $alt, true );
 	}
 
@@ -148,7 +148,7 @@ class mosToolBar {
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'edit_f2.png', '', $alt, true );
 	}
 
@@ -159,7 +159,7 @@ class mosToolBar {
 	*/
 	function editHtml( $task='edit_source', $alt='Edit HTML' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'edit_f2.png', '', $alt, true );
 	}
 
@@ -170,7 +170,7 @@ class mosToolBar {
 	*/
 	function editCss( $task='edit_css', $alt='Edit CSS' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'css_f2.png', '', $alt, true );
 	}
 
@@ -182,7 +182,7 @@ class mosToolBar {
 	*/
 	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'delete_f2.png', '', $alt, true );
 	}
 
@@ -193,7 +193,7 @@ class mosToolBar {
 	*/
 	function save( $task='save', $alt='Save' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'save_f2.png', '', $alt, false );
 	}
 
@@ -204,7 +204,7 @@ class mosToolBar {
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'apply_f2.png', '', $alt, false );
 	}
 
@@ -215,7 +215,7 @@ class mosToolBar {
 	*/
 	function cancel( $task='cancel', $alt='Cancel' ) {
 		$alt= JText::_( $alt );
-		
+
 		mosToolBar::custom( $task, 'cancel_f2.png', '', $alt, false );
 	}
 
@@ -225,14 +225,14 @@ class mosToolBar {
 	*/
 	function preview( $popup='' ) {
 		global $database;
-		
+
 		$sql = "SELECT template"
 		. "\n FROM #__templates_menu"
 		. "\n WHERE client_id = 0"
 		. "\n AND menuid = 0";
 		$database->setQuery( $sql );
 		$cur_template = $database->loadResult();
-		
+
 		$alt	= JText::_( 'Preview' );
 		$image 	= mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
 		?>

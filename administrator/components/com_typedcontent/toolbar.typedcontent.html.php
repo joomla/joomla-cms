@@ -19,9 +19,9 @@
 class TOOLBAR_typedcontent {
 	function _EDIT( ) {
 		global $id;
-		
+
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		JMenuBar::title( JText::_( 'Static Content Item' ).': <small>'. $text .'</small>', 'addedit.png' );
 		JMenuBar::preview( 'contentwindow', true );
 		JMenuBar::media_manager();
@@ -32,12 +32,12 @@ class TOOLBAR_typedcontent {
 		JMenuBar::help( 'screen.staticcontent.edit' );
 	}
 
-	function _MOVE() {		
+	function _MOVE() {
 		JMenuBar::title( JText::_( 'Move Static Content' ), 'move_f2.png' );
 		JMenuBar::custom( 'movesave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
 		JMenuBar::cancel();
 	}
-	
+
 	function _DEFAULT() {
 		JMenuBar::title( JText::_( 'Static Content Manager' ), 'addedit.png' );
 		JMenuBar::publishList();

@@ -16,15 +16,15 @@
 * @package Joomla
 * @subpackage Content
 */
-class TOOLBAR_content 
+class TOOLBAR_content
 {
 	function _EDIT() {
 
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		$cid = intval($cid[0]);
-		
+
 		$text = ( $cid ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		JMenuBar::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
 		JMenuBar::preview( 'index2.php?option=com_content&id='.$cid.'&file=component.html', true );
 		JMenuBar::media_manager();

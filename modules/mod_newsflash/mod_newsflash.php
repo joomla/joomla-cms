@@ -100,7 +100,7 @@ $query = "SELECT a.id, a.introtext, a.`fulltext`, a.images, a.attribs, a.title, 
 		"\n FROM #__content AS a" .
 		"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 		"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-		"\n WHERE a.state = 1". 
+		"\n WHERE a.state = 1".
 		($noauth ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '').
 		"\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) " .
 		"\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" .

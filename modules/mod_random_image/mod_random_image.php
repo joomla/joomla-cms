@@ -34,7 +34,7 @@ if ( JString::strpos($folder, JPATH_SITE) === 0 ) {
 $folder = str_replace('\\',DS,$folder);
 $folder = str_replace('/',DS,$folder);
 // if folder doesnt contain slash to start, add
-if ( strpos($folder, DS) !== 0 ) {	
+if ( strpos($folder, DS) !== 0 ) {
 	$folder_path = DS . $folder;
 } else {
 	$folder_path = $folder;
@@ -69,7 +69,7 @@ if (is_dir($abspath_folder)) {
 		$image_name 	= $the_image[$random];
 		$abspath_image	= $abspath_folder . '/'. $image_name;
 		$size 			= getimagesize ($abspath_image);
-		
+
 		if ($width == '') {
 			($size[0] > 100 ? $width = 100 : $width = $size[0]);
 		}
@@ -77,9 +77,9 @@ if (is_dir($abspath_folder)) {
 			$coeff 	= $size[0]/$size[1];
 			$height = (int) ($width/$coeff);
 		}
-		
+
 		$folder = str_replace( '\\', '/', $folder );
-	  	$image 	= $LiveSite . $folder .'/'. $image_name;	
+	  	$image 	= $LiveSite . $folder .'/'. $image_name;
 	  	?>
 	 	<div align="center">
 		 	<?php

@@ -45,9 +45,9 @@ class TOOLBAR_menumanager {
 	*/
 	function _NEWMENU()	{
 		global $menu;
-		
+
 		$text = ( $menu ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 
 		JMenuBar::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menu.png' );
 		JMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', 'Save', false );

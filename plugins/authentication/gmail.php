@@ -47,7 +47,7 @@ class JAuthenticateGMail extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password ) 
+	function onAuthenticate( $username, $password )
 	{
 		global $mainframe;
 
@@ -63,7 +63,7 @@ class JAuthenticateGMail extends JPlugin {
 		}
 
 		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail'); 
+	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail');
 	 	$pluginParams = new JParameter( $plugin->params );
 
 		$curl = curl_init("https://mail.google.com/gmail/feed/atom");
@@ -81,14 +81,14 @@ class JAuthenticateGMail extends JPlugin {
          		$success = 1;
             break;
 			case 401:
-				$message = 'Access Denied';				
+				$message = 'Access Denied';
             break;
 			default:
 				$message = 'Result unknown, access denied.';
-				
+
 				break;
 		}
-					
+
 		return $success;
 	}
 }

@@ -16,7 +16,7 @@ jimport('joomla.application.extension.plugin');
 
 /**
  * Attach the plugin to the event dispatcher
- */  
+ */
 $dispatcher =& JEventDispatcher::getInstance();
 $dispatcher->attach('JUserExample');
 
@@ -32,37 +32,37 @@ class JUserExample extends JPlugin {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 * 
+	 *
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
 	function JUserExample(& $subject) {
 		parent::__construct($subject);
 	}
-	
+
 	/**
 	 * Example store user method
 	 * Method is called before user data is stored in the database
-	 * 
+	 *
 	 * @param 	array	  	holds the user data
 	 * @param 	boolean		true if a new user is stored
 	 */
 	function onBeforeStoreUser($user, $isnew)
 	{
 		global $mainframe;
-		
+
 		//Make sure
 		mysql_select_db($mainframe->getCfg('db'));
 	}
-	
+
 	/**
 	 * Example store user method
 	 * Method is called after user data is stored in the database
-	 * 
+	 *
 	 * @param 	array	  	holds the user data
 	 * @param 	boolean		true if a new user is stored
 	 * @param	boolean		true if user was succesfully stored in the database
@@ -94,10 +94,10 @@ class JUserExample extends JPlugin {
 		//Make sure
 		mysql_select_db($mainframe->getCfg('db'));
 	}
-	
+
 	/**
 	 * Example store user method
-	 * 
+	 *
 	 * Method is called before user data is deleted from the database
 	 * @param 	array	  	holds the user data
 	 */
@@ -140,7 +140,7 @@ class JUserExample extends JPlugin {
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLogin(& $credentials) 
+	function onLogin(& $credentials)
 	{
 		// Initialize variables
 		$success = false;
@@ -155,7 +155,7 @@ class JUserExample extends JPlugin {
 		 * In this example the boolean variable $success would be set to true
 		 * if the login routine succeeds
 		 */
-		 
+
 		 //ThirdPartyApp::loginUser($username, $password);
 
 		return $success;
@@ -169,7 +169,7 @@ class JUserExample extends JPlugin {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function onLogout(& $credentials) 
+	function onLogout(& $credentials)
 	{
 		// Initialize variables
 		$success = false;
@@ -180,7 +180,7 @@ class JUserExample extends JPlugin {
 		 * In this example the boolean variable $success would be set to true
 		 * if the logout routine succeeds
 		 */
-		 
+
 		 // ThirdPartyApp::logoutUser($user->username, $user->password);
 
 		return $success;

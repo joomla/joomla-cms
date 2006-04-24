@@ -59,7 +59,7 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_lang  = null;
-	
+
 	/**
 	 * The database object
 	 *
@@ -67,7 +67,7 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_dbo  = null;
-	
+
 	/**
 	 * The document object
 	 *
@@ -75,7 +75,7 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_document = null;
-	
+
 	/**
 	 * The uri object
 	 *
@@ -215,7 +215,7 @@ class JApplication extends JObject
 
 	/**
 	 * Login authentication function
-	 * 
+	 *
 	 * Username and encoded password are passed the the onLoginUser event who
 	 * is responsible for the user validation.
 	 * A successful validation updates the current session record with the
@@ -224,7 +224,7 @@ class JApplication extends JObject
 	 * Username and Password are sent as credentials (along with other possibilities)
 	 * to each observer (JAuthenticatePlugin) for user validation.  Successful validation will
 	 * update the current session with the user details
-	 * 
+	 *
 	 * @param string The username
 	 * @param string The password
 	 * @return boolean True on success
@@ -236,21 +236,21 @@ class JApplication extends JObject
 		if (empty($username) || empty($password)) {
 			return false;
 		}
-		
+
 		// Get the global database connector object
 		$db = $this->getDBO();
 
 		// Build the credentials array
 		$credentials['username'] = $db->getEscaped( $username );
 		$credentials['password'] = $db->getEscaped( $password );
-		
+
 		// Get the global JAuthenticate object
 		jimport( 'joomla.application.user.authenticate');
 		$auth = & JAuthenticate::getInstance();
 		$authenticated = $auth->authenticate($credentials);
-		
-		if ($authenticated !== false) 
-		{	
+
+		if ($authenticated !== false)
+		{
 			/*
 			 * Import the user plugin group
 		 	 */
@@ -265,11 +265,11 @@ class JApplication extends JObject
 			 * the plugin as this provides the ability to provide much more information
 			 * about why the routine may have failed.
 			 */
-			if (!in_array(false, $results, true)) 
+			if (!in_array(false, $results, true))
 			{
 				// Get the JUser object for the user to login
 				$user =& JUser::getInstance( $username );
-				
+
 				// If the user is blocked, redirect with an error
 				if ($user->get('block') == 1) {
 					 // TODO::provide error message
@@ -288,14 +288,14 @@ class JApplication extends JObject
 					$user->set('gid', 2);
 				}
 				$user->set('usertype', $grp->name);
-				
+
 				// Register the needed session variables
 				JSession::set('guest', 0);
 				JSession::set('username', $user->get('username'));
 				JSession::set('userid', intval($user->get('id')));
 				JSession::set('usertype', $user->get('usertype'));
 				JSession::set('gid', intval($user->get('gid')));
-				
+
 				// Register session variables to prevent spoofing
 				JSession::set('JAuthenticate_RemoteAddr', $_SERVER['REMOTE_ADDR']);
 				JSession::set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
@@ -348,7 +348,7 @@ class JApplication extends JObject
 		// Build the credentials array
 		$credentials['username'] 	= $user->get('username');
 		$credentials['id'] 			= $user->get('id');
-		
+
 		/*
 		 * Import the user plugin group
 		 */
@@ -363,7 +363,7 @@ class JApplication extends JObject
 		 * the plugin as this provides the ability to provide much more information
 		 * about why the routine may have failed.
 		 */
-		if (!in_array(false, $results, true)) 
+		if (!in_array(false, $results, true))
 		{
 			// Clean the cache for this user
 			//$cache = & JFactory::getCache();
@@ -425,10 +425,10 @@ class JApplication extends JObject
 	 * @access public
 	 * @param string	The sessions name
 	 */
-	function setSession($name) 
+	function setSession($name)
 	{
 		$this->_createSession($name);
-		
+
 		if (JSession::isIdle()) {
 			$this->logout();
 		}
@@ -448,10 +448,10 @@ class JApplication extends JObject
 	{
 		//get the user
 		$user = & $this->getUser();
-		
+
 		// if a language was specified at login it has priority
 		// otherwise use user or default language settings
-		if (empty($lang)) {	
+		if (empty($lang)) {
 			/*
 			 * if the user has a prefered language - use it else use default
 			 */
@@ -468,11 +468,11 @@ class JApplication extends JObject
 		if (empty($lang)) {
 			$lang = 'en-GB';
 		}
-		
+
 		//Set the language in the class
 		$this->_lang =& JLanguage::getInstance( $lang );
 		$this->_lang->setDebug( $this->getCfg('debug') );
-				
+
 		// create the backward compatible language value for old 3PD components
 		$GLOBALS['mosConfig_lang']  = $this->_lang->getBackwardLang();
 	}
@@ -510,7 +510,7 @@ class JApplication extends JObject
 		if(is_object($this->_uri)) {
 			return $this->_uri;
 		}
-		
+
 		jimport('joomla.application.environment.uri');
 		$this->_uri =& JURI::getInstance();
 		return $this->_uri;
@@ -538,11 +538,11 @@ class JApplication extends JObject
 		if(is_object($this->_document)) {
 			return $this->_document;
 		}
-		
+
 		jimport('joomla.document.document');
-		
+
 		$lang  =& $this->getLanguage();
-		
+
 		$attributes = array (
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
@@ -550,12 +550,12 @@ class JApplication extends JObject
           	'language'  => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
 		);
-		
+
 		$doc  =& JDocument::getInstance($type, $attributes);
-			
+
 		$this->_document =& $doc;
 		//$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
-		
+
 		return $this->_document;
 	}
 
@@ -571,7 +571,7 @@ class JApplication extends JObject
 		if(is_object($this->_dbo)) {
 			return $this->_dbo;
 		}
-		
+
 		$host 		= $this->getCfg('host');
 		$user 		= $this->getCfg('user');
 		$password 	= $this->getCfg('password');
@@ -720,7 +720,7 @@ class JApplication extends JObject
 	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
-		
+
 		$session = & JTable::getInstance('session', $this->getDBO());
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
@@ -734,14 +734,14 @@ class JApplication extends JObject
 			if ($option == 'login') {
 				JSession::clear();
 			}
-			
+
 			//create persistance store in the session
 			JSession::set('registry', new JRegistry('application'));
-			
+
 			if (!$session->insert( JSession::id(), $this->getClientId())) {
 				die( $session->getError() );
 			}
-			
+
 			//TODO::Fix remember me (harden and move out of function)
 			//$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
 			//if ($usercookie) {
@@ -759,7 +759,7 @@ class JApplication extends JObject
 
 	/**
 	 * Gets the client id of the current running application
-	 * 
+	 *
 	 * @access	public
 	 * @return	int			A client identifier
 	 * @since		1.5
@@ -770,7 +770,7 @@ class JApplication extends JObject
 
 	/**
 	 * Is admin interface?
-	 * 
+	 *
 	 * @access	public
 	 * @return	boolean		True if this application is administrator
 	 * @since		1.0.2
@@ -781,7 +781,7 @@ class JApplication extends JObject
 
 	/**
 	 * Is site interface?
-	 * 
+	 *
 	 * @access	public
 	 * @return	boolean		True of this application is site
 	 * @since		1.5
@@ -938,27 +938,27 @@ class JApplicationHelper
 	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
-	 * 
+	 *
 	 * @access	public
 	 * @param	int		$id	A client identifier
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
 	function getClientInfo($id, $byName = false) {
-		
+
 		static $clients;
 
-		// Only create the array if it does not exist		
+		// Only create the array if it does not exist
 		if (!is_array($clients))
 		{
 			$obj = new stdClass();
-			
+
 			// Site Client
 			$obj->id		= 0;
 			$obj->name	= 'site';
 			$obj->path	= JPATH_SITE;
 			$clients[0] = clone($obj);
-			
+
 			// Administrator Client
 			$obj->id		= 1;
 			$obj->name	= 'administrator';
@@ -971,7 +971,7 @@ class JApplicationHelper
 			$obj->path	= JPATH_INSTALLATION;
 			$clients[2] = clone($obj);
 		}
-		
+
 		/*
 		 * Are we looking for client information by id or by name?
 		 */
@@ -982,7 +982,7 @@ class JApplicationHelper
 			} else {
 				return $clients[$id];
 			}
-		} 
+		}
 		else
 		{
 			foreach ($clients as $client) {
@@ -1005,7 +1005,7 @@ class JApplicationHelper
 		$menu = JMenu::getInstance();
 		return $menu->getItemid($id);
 	}
-	
+
 	/**
 	 * Count the items in the menu for a certain type
 	 *
@@ -1084,7 +1084,7 @@ class JApplicationHelper
 					$result = JApplicationHelper::_checkPath( DS.'includes'.DS. $name .'.php' );
 				}
 				break;
-				
+
 			case 'helper':
 				$path	= DS.'components'.DS. $user_option .DS. $name .'.helper.php';
 				$result = JApplicationHelper::_checkPath( $path );
@@ -1133,7 +1133,7 @@ class JApplicationHelper
 
 		return $result;
 	}
-	
+
 	function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
@@ -1146,7 +1146,7 @@ class JApplicationHelper
 
 		/*
 		 * Check for a valid XML root tag.
-	     * 
+	     *
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
 		if ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall') {
@@ -1155,11 +1155,11 @@ class JApplicationHelper
 		}
 
 		$data = array();
-		
+
 		$element = & $xml->document->name[0];
 		$data['name'] = $element ? $element->data() : '';
 		$data['type'] = $element ? $xml->document->attributes("type") : '';
-		
+
 		$element = & $xml->document->creationdate[0];
 		$data['creationdate'] = $element ? $element->data() : 'Unknown';
 
@@ -1177,13 +1177,13 @@ class JApplicationHelper
 
 		$element = & $xml->document->version[0];
 		$data['version'] = $element ? $element->data() : '';
-		
+
 		$element = & $xml->document->description[0];
 		$data['description'] = $element ? $element->data() : '';
-		
+
 		$element = & $xml->document->group[0];
 		$data['group'] = $element ? $element->data() : '';
-		
+
 		return $data;
 	}
 
@@ -1209,7 +1209,7 @@ class JApplicationHelper
 
 		return null;
 	}
-	
+
 	function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
@@ -1222,7 +1222,7 @@ class JApplicationHelper
 
 		/*
 		 * Check for a valid XML root tag.
-	     * 
+	     *
 		 * Should be 'langMetaData'.
 		 */
 		if ($xml->document->name() != 'metafile') {
@@ -1231,11 +1231,11 @@ class JApplicationHelper
 		}
 
 		$data = array();
-		
+
 		$element = & $xml->document->name[0];
 		$data['name'] = $element ? $element->data() : '';
 		$data['type'] = $element ? $xml->document->attributes("type") : '';
-		
+
 		$element = & $xml->document->creationdate[0];
 		$data['creationdate'] = $element ? $element->data() : 'Unknown';
 
@@ -1253,15 +1253,15 @@ class JApplicationHelper
 
 		$element = & $xml->document->version[0];
 		$data['version'] = $element ? $element->data() : '';
-		
+
 		$element = & $xml->document->description[0];
 		$data['description'] = $element ? $element->data() : '';
-		
+
 		$element = & $xml->document->group[0];
 		$data['group'] = $element ? $element->group() : '';
 		return $data;
 	}
-	
+
 }
 
 ?>

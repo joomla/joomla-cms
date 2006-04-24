@@ -360,7 +360,7 @@ class JFile {
 
 	/**
 	 * Moves and uploaded file to a destination folder
-	 * 
+	 *
 	 * @param string $src The name of the php (temporary) uploaded file
 	 * @param string $dest The path (including filename) to move the uploaded file to
 	 * @return boolean True on success

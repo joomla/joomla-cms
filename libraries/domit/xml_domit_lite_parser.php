@@ -912,7 +912,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	function &createElement($tagName) {
 		$node = new DOMIT_Lite_Element($tagName);
 		$node->ownerDocument = $this;
-		
+
 		$reference =& $node;
 		return $node;
 	} //createElement
@@ -925,7 +925,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	function &createTextNode($data) {
 		$node = new DOMIT_Lite_TextNode($data);
 		$node->ownerDocument = $this;
-		
+
 		$reference =& $node;
 		return $reference;
 	} //createTextNode

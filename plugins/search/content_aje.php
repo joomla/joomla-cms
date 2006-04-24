@@ -17,11 +17,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JSearchContent extends JPlugin {
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 * 
+	 *
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
@@ -52,26 +52,26 @@ class JSearchContent extends JPlugin {
 			// this bot is not in the search areas to be searched
 			return;
 		}
-	
+
 		$offset = $mainframe->getCfg( 'offset' );
 
 		// load plugin params info
 	 	$pluginParams = JSearchHelper::getPluginParams( 'search', 'content' );
-	
+
 		$sContent 	= $pluginParams->get( 'search_content', 	1 );
 		$sStatic 	= $pluginParams->get( 'search_static', 		1 );
 		$sArchived 	= $pluginParams->get( 'search_archived', 	1 );
-	
+
 		$limit 		= $pluginParams->def( 'search_limit', 		50 );
-	
+
 		$nullDate 	= $database->getNullDate();
 		$now 		= date( 'Y-m-d H:i:s', time()+$offset*60*60 );
-	
+
 		$text = trim( $oSearch->getText() );
 		if ($text == '') {
 			return array();
 		}
-	
+
 		$wheres = array();
 		$phrase = $oSearch->getMatchType();
 
@@ -85,7 +85,7 @@ class JSearchContent extends JPlugin {
 				$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$text%'";
 				$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 				break;
-	
+
 			case 'all':
 			case 'any':
 			default:
@@ -103,35 +103,35 @@ class JSearchContent extends JPlugin {
 				$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
 				break;
 		}
-	
+
 		$morder = '';
 		$ordering = $oSearch->getOrdering();
 		switch ($ordering) {
 			case 'oldest':
 				$order = 'a.created ASC';
 				break;
-	
+
 			case 'popular':
 				$order = 'a.hits DESC';
 				break;
-	
+
 			case 'alpha':
 				$order = 'a.title ASC';
 				break;
-	
+
 			case 'category':
 				$order = 'b.title ASC, a.title ASC';
 				$morder = 'a.title ASC';
 				break;
-	
+
 			case 'newest':
 				default:
 				$order = 'a.created DESC';
 				break;
 		}
-	
+
 		$rows = array();
-	
+
 		// search content items
 		if ( $sContent ) {
 			$query = "SELECT a.title AS title,"
@@ -155,7 +155,7 @@ class JSearchContent extends JPlugin {
 			. "\n GROUP BY a.id"
 			. "\n ORDER BY $order"
 			;
-		
+
 			// just count the result set
 			$database->setQuery( $query );
 			$database->query();
@@ -164,7 +164,7 @@ class JSearchContent extends JPlugin {
 
 			$limitstart	= $oSearch->getQueryLimitStart();
 			$limit		= $oSearch->getQueryLimit();
-			
+
 			if ($limit) {
 				$database->setQuery( $query, 0, $limit );
 				$list = $database->loadObjectList();
@@ -198,7 +198,7 @@ class JSearchContent extends JPlugin {
 
 			$limitstart	= $oSearch->getQueryLimitStart();
 			$limit		= $oSearch->getQueryLimit();
-			
+
 			if ($limit) {
 				$database->setQuery( $query, 0, $limit );
 				$list = $database->loadObjectList();
@@ -206,11 +206,11 @@ class JSearchContent extends JPlugin {
 				$oSearch->addResults( $list );
 			}
 		}
-	
+
 		// search archived content
 		if ( $sArchived ) {
 			$searchArchived = JText::_( 'Archived' );
-	
+
 			$query = "SELECT a.title AS title,"
 			. "\n a.created AS created,"
 			. "\n a.introtext AS text,"
@@ -240,7 +240,7 @@ class JSearchContent extends JPlugin {
 
 			$limitstart	= $oSearch->getQueryLimitStart();
 			$limit		= $oSearch->getQueryLimit();
-			
+
 			if ($limit) {
 				$database->setQuery( $query, 0, $limit );
 				$list = $database->loadObjectList();

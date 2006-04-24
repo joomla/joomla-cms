@@ -27,7 +27,7 @@ class JViewHTMLSection extends JView
 {
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -35,7 +35,7 @@ class JViewHTMLSection extends JView
 
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -46,7 +46,7 @@ class JViewHTMLSection extends JView
 		$user		= & $app->getUser();
 		$menu		= & $this->get( 'Menu' );
 		$params		= & $menu->parameters;
-		
+
 		// Lets get our data from the model
 		$section		= & $this->get( 'Section' );
 		$categories	= & $this->get( 'Categories' );
@@ -101,7 +101,7 @@ class JViewHTMLSection extends JView
 		</table>
 		<?php
 	}
-	
+
 	function _buildCategories( $categories, $params, $sid)
 	{
 		// Get some variables
@@ -109,7 +109,7 @@ class JViewHTMLSection extends JView
 		$menu		= & $this->get( 'Menu' );
 		$user		= & $app->getUser();
 		$Itemid	= $menu->id;
-				
+
 		if ( count($categories) ) {
 			?>
 			<ul>
@@ -117,7 +117,7 @@ class JViewHTMLSection extends JView
 				foreach ($categories as $row) {
 					?>
 					<li>
-						<?php				
+						<?php
 						if ($row->access <= $user->get('gid')) {
 							$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
 							?>
@@ -129,7 +129,7 @@ class JViewHTMLSection extends JView
 									&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
 									<?php
 								}
-								
+
 								// Writes Category Description
 								if ($params->get('cat_description') && $row->description) {
 									?>

@@ -27,7 +27,7 @@ class HTML_weblinks {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_weblinks" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -37,7 +37,7 @@ class HTML_weblinks {
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td nowrap="nowrap">
-				<?php 
+				<?php
 				echo $lists['catid'];
 				echo $lists['state'];
 				?>
@@ -45,7 +45,7 @@ class HTML_weblinks {
 		</tr>
 		</table>
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table class="adminlist">
 			<tr>
 				<th width="5">
@@ -83,9 +83,9 @@ class HTML_weblinks {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$link 	= ampReplace( 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id );
-	
+
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 
@@ -139,10 +139,10 @@ class HTML_weblinks {
 			}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
-		
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
@@ -193,12 +193,12 @@ class HTML_weblinks {
 			width: 92px;
 			text-align: left;
 			height: 30px;
-		}		
+		}
 		</style>
-		
+
 		<form action="index2.php" method="post" name="adminForm" id="adminForm">
-		
-		<div id="tablecell">				
+
+		<div id="tablecell">
 			<table width="100%">
 			<tr>
 				<td width="45%" valign="top">
@@ -274,7 +274,7 @@ class HTML_weblinks {
 						<td>
 							<textarea class="text_area" cols="20" rows="9" name="description" id="description" style="width:500px"><?php echo $row->description; ?></textarea>
 						</td>
-					</tr>	
+					</tr>
 					</table>
 				</td>
 			</tr>

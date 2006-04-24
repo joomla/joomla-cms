@@ -27,11 +27,11 @@ class JEditor_tinymce extends JPlugin {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 * 
+	 *
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
@@ -42,30 +42,30 @@ class JEditor_tinymce extends JPlugin {
 	/**
 	 * Method to handle the onInit event.
 	 *  - Initializes the TinyMCE WYSIWYG Editor
-	 * 
+	 *
 	 * @access public
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
 	 */
-	function onInit() 
+	function onInit()
 	{
 		global $mainframe;
-		
+
 		$database =& $mainframe->getDBO();
 		$language =& $mainframe->getLanguage();
-		
+
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-	
-		$plugin = JPluginHelper::getPlugin('editors', 'tinymce'); 
+
+		$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
 		$id		= $plugin->id;
 		$params = new JParameter( $plugin->params );
-	
+
 		$theme = $params->get( 'theme', 'advanced' );
 		// handling for former default option
 		if ($theme == 'default' ) {
 			$theme = 'advanced';
 		}
-	
+
 		$toolbar 			= $params->def( 'toolbar', 'top' );
 		$html_height		= $params->def( 'html_height', '550' );
 		$html_width			= $params->def( 'html_width', '750' );
@@ -98,18 +98,18 @@ class JEditor_tinymce extends JPlugin {
 		// fullscreen
 		$fullscreen			=  $params->def( 'fullscreen', 1 );		// autosave
 		$autosave			= $params->def( 'autosave', 0 );
-		
+
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';
 		} else {
 			$text_direction = 'ltr';
 		}
-		
+
 		// loading of css file for `styles` dropdown
 		if ( $content_css_custom ) {
 			$content_css = 'content_css : "'. $content_css_custom .'", ';
 		} else {
-			
+
 			/*
 			 * Lets get the default template for the site application
 			 */
@@ -120,16 +120,16 @@ class JEditor_tinymce extends JPlugin {
 			;
 			$database->setQuery( $query );
 			$template = $database->loadResult();
-			
+
 			$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
-			if ( $content_css ) {			
+			if ( $content_css ) {
 				$file = 'template.css';
 			} else {
 				$file = 'editor_content.css';
 			}
-			
+
 			$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
-			
+
 			if ( file_exists( $file_path .DS. $file ) ) {
 				$content_css = $content_css . $file .'", ';
 			} else {
@@ -141,19 +141,19 @@ class JEditor_tinymce extends JPlugin {
 		$buttons2	= array();
 		$buttons3	= array();
 		$elements	= array();
-	
+
 		if ( $cleanup ) {
 			$cleanup	= 'true';
 		} else {
 			$cleanup	= 'false';
 		}
-	
+
 		if ( $cleanup_startup ) {
 			$cleanup_startup = 'true';
 		} else {
 			$cleanup_startup = 'false';
-		}	
-		
+		}
+
 		if ( $newlines ) {
 			$br_newlines	= 'true';
 			$p_newlines     = 'false';
@@ -161,14 +161,14 @@ class JEditor_tinymce extends JPlugin {
 			$br_newlines	= 'false';
 			$p_newlines     = 'true';
 		}
-	
+
 		// Tiny Compressed mode
 		if ( $compressed ) {
 			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php\"></script>\n";
 		} else {
 			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 		}
-	
+
 		// search & replace
 		if ( $searchreplace ) {
 			$plugins[]	= 'searchreplace';
@@ -188,7 +188,7 @@ class JEditor_tinymce extends JPlugin {
 			$plugins[]	= 'emotions';
 			$buttons2[]	= 'emotions';
 		}
-	
+
 		// horizontal line
 		if ( $hr ) {
 			$plugins[]	= 'advhr';
@@ -212,7 +212,7 @@ class JEditor_tinymce extends JPlugin {
 		}
 		// rtl/ltr buttons
 		$plugins[] = 'directionality';
-		$buttons2[] = 'ltr,rtl';				// autosave
+		$buttons2[] = 'ltr,rtl';		// autosave
 		if ( $autosave ) {
 			$plugins[]	= 'autosave';
 		}
@@ -222,7 +222,7 @@ class JEditor_tinymce extends JPlugin {
 		$buttons3 	= implode( ', ', $buttons3 );
 		$plugins 	= implode( ', ', $plugins );
 		$elements 	= implode( ', ', $elements );
-		
+
 		$return = $load .
 			"\t<script type=\"text/javascript\">
 			tinyMCE.init({
@@ -270,40 +270,40 @@ class JEditor_tinymce extends JPlugin {
 			return vHTML;
 		}
 	</script>";
-		
+
 		return $return;
 	}
 
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onGetContent( $editor ) {
 		return "tinyMCE.getContent();";
 	}
-	
+
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onSetContent( $editor, $html ) {
 		return "tinyMCE.setContent(".$html.");";
 	}
-	
+
 	/**
 	 * TinyMCE WYSIWYG Editor - copy editor content to form field
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onSave( $editor ) {
 		return "tinyMCE.triggerSave();";
 	}
-	
+
 	/**
 	 * TinyMCE WYSIWYG Editor - display the editor
-	 * 
+	 *
 	 * @param string The name of the editor area
 	 * @param string The content of the field
 	 * @param string The width of the editor area
@@ -311,14 +311,14 @@ class JEditor_tinymce extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
 		global $mainframe;
-	
+
 		$dispatcher =& JEventDispatcher::getInstance();
-		
+
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		$results = $dispatcher->trigger( 'onCustomEditorButton' );
 
 		$buttons = array();
@@ -328,11 +328,11 @@ class JEditor_tinymce extends JPlugin {
 			}
 		}
 		$buttons = implode( "", $buttons );
-	
+
 		/*
 		 * When adding the editor extension buttons to your own editor the following construction :
 		 * Markup : <div id=\"editor-xtd-buttons\">$buttons</div>
-		 * 
+		 *
 		 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 		 */
 		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>" .

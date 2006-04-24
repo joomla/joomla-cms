@@ -10,7 +10,7 @@
 * other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
- 
+
  /**
  * PHP 5.0.x Compatibility functions
  *

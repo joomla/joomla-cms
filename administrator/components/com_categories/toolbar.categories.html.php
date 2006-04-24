@@ -21,7 +21,7 @@ class TOOLBAR_categories {
 	* Draws the menu for Editing an existing category
 	* @param int The published state (to display the inverse button)
 	*/
-	function _EDIT() 
+	function _EDIT()
 	{
 		global $id;
 

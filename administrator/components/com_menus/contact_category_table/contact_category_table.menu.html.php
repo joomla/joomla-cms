@@ -25,10 +25,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class contact_category_table_menu_html {
 
-	function editCategory( &$menu, &$lists, &$params, $option ) 
+	function editCategory( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
-		
+
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

@@ -43,12 +43,12 @@ class JButton_Help extends JButton
 
 		return $html;
 	}
-	
+
 	/**
 	 * Get the button id
-	 * 
+	 *
 	 * Redefined from JButton class
-	 * 
+	 *
 	 * @access		public
 	 * @param		string	$name	Button name
 	 * @return		string	Button CSS Id
@@ -58,10 +58,10 @@ class JButton_Help extends JButton
 	{
 		return $this->_parent->_name.'-'."help";
 	}
-	
+
 	/**
 	 * Get the JavaScript command for the button
-	 * 
+	 *
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
@@ -74,7 +74,7 @@ class JButton_Help extends JButton
 		$url = JHelp::createURL($ref, $com);
 
 		$cmd = "window.open('$url', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');";
-		
+
 		return $cmd;
 	}
 }

@@ -326,13 +326,13 @@ class JAdminMenu {
 
 		$text = JText::_('Menu inactive for this Page', true);
 	}
-	
+
 	function buildDiv ( $title, $list, $suffix = '-smenu' )
 	{
 
-		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>\n";		
+		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>\n";
 		$txt .=	"<div class=\"section".$suffix."\">\n<ul>\n";
-		
+
 		/*
 		 * Iterate through the link items for building the menu items
 		 */
@@ -347,17 +347,17 @@ class JAdminMenu {
 			}
 			$txt .=	"<li class=\"item".$sfx." ".$item['class']."\">";
 			$txt .= "<a href=\"".$item['link']."\">".$item['title']."</a>";
-			$txt .=	"</li>"; 
+			$txt .=	"</li>";
 		}
 		$txt .=	"\n</ul>\n</div>\n";
 
-		return $txt;		
+		return $txt;
 	}
 
 	/**
 	 * Method to get the CSS class name for an icon identifier or create one if
 	 * a custom image path is passed as the identifier
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$identifier	Icon identification string
 	 * @return	string	CSS class name
@@ -366,7 +366,7 @@ class JAdminMenu {
 	function getIconClass($identifier, &$css)
 	{
 		global $mainframe;
-		
+
 		static $classes;
 
 		// Initialize the known classes array if it does not exist
@@ -374,7 +374,7 @@ class JAdminMenu {
 		{
 			$classes = array();
 		}
-		
+
 		/*
 		 * If we don't already know about the class... build it and mark it
 		 * known so we don't have to build it again
@@ -402,12 +402,12 @@ class JAdminMenu {
 					$css  .= "\n.icon-16-$class {\n" .
 							"\tbackground: url($identifier) no-repeat;\n" .
 							"}\n";
-					
+
 					$classes[$identifier] = "icon-16-$class";
 				}
 			}
 		}
-		
+
 		return $classes[$identifier];
 	}
 }

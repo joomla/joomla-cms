@@ -36,11 +36,11 @@ function &botSearchContentAreas() {
  * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
  */
-function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) 
+function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
 	global $mosConfig_offset;
-	
+
 	$database =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
@@ -51,7 +51,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'content'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'content');
  	$pluginParams = new JParameter( $plugin->params );
 
 	$sContent 			= $pluginParams->get( 'search_content', 		1 );
@@ -207,7 +207,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$rows[] = $list3;
 	}
 
-	
+
 	// search static content non linked to a menu
 	if ( $sStatic_nonmenu ) {
 		// collect ids of static content items linked to menu items
@@ -219,7 +219,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 			}
 			$ids = implode( '\',\'', $ids );
 		}
-		
+
 		// search static content not connected to a menu
 		$query = "SELECT a.title AS title, a.created AS created,"
 		. "\n a.introtext AS text,"
@@ -239,8 +239,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$list4 = $database->loadObjectList();
 
 		$rows[] = $list4;
-	}	
-	
+	}
+
 	$count = count( $rows );
 	if ( $count > 1 ) {
 		switch ( $count ) {

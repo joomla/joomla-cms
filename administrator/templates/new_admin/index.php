@@ -16,7 +16,7 @@ $lang =& $mainframe->getLanguage();
 	<head>
 	<jdoc:include type="head" />
 	<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
-	
+
 	<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
 		<jdoc:sub condition="rtl">
 			<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -71,22 +71,22 @@ $lang =& $mainframe->getLanguage();
 							<noscript>
 								<jdoc:translate key="WARNJAVASCRIPT" />
 							</noscript>
-					
+
 							<div class="clr"></div>
 						</div>
 					</div>
 				</div>
 				<div class="clr"></div>
 			</div>
-		</div>	
+		</div>
 		<div id="footer1">
 			<div id="footer2">
 				<div id="footer3"></div>
 			</div>
-		</div>	
-		
+		</div>
+
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
+			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>
 		</div>
 	</body>
 	</html>

@@ -63,7 +63,7 @@ class content_typed_menu {
 		$lists['link_content'] = '';
 		if ( $uid ) {
 			$temp = explode( 'id=', $menu->link );
-			
+
 			$query = "SELECT a.title, a.title_alias, a.id"
 			. "\n FROM #__content AS a"
 			. "\n WHERE a.id = $temp[1]"
@@ -78,10 +78,10 @@ class content_typed_menu {
 			}
 			$contents 	= '';
 			$link 		= 'javascript:submitbutton( \'redirect\' );';
-			
+
 			$lists['link_content'] = '<a href="'. $link .'" title="'. JText::_( 'Edit Static Content Item' ) .'">'. $content[0]->title . $alias .'</a>';
-		} 
-		
+		}
+
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );
 

@@ -27,7 +27,7 @@ class HTML_typedcontent {
 	*/
 	function showContent( &$rows, &$pageNav, $option, &$lists ) {
 		global $my, $mainframe, $database;
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -54,7 +54,7 @@ class HTML_typedcontent {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="5">
@@ -99,7 +99,7 @@ class HTML_typedcontent {
 			$nullDate = $database->getNullDate();
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == 1 ) {
 					$img = 'publish_y.png';
@@ -129,9 +129,9 @@ class HTML_typedcontent {
 						$times .= "<tr><td>". JText::_( 'Finish' ) .": ". $row->publish_down ."</td></tr>";
 					}
 				}
-	
-				$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;	
-	
+
+				$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;
+
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
@@ -146,7 +146,7 @@ class HTML_typedcontent {
 						$author = $row->creator;
 					}
 				}
-	
+
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$date 		= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
@@ -214,7 +214,7 @@ class HTML_typedcontent {
 			}
 			?>
 			</table>
-	
+
 			<?php echo $pageNav->getListFooter(); ?>
 			<?php mosCommonHTML::ContentLegend(); ?>
 		</div>
@@ -229,15 +229,15 @@ class HTML_typedcontent {
 		<?php
 	}
 
-	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) 
+	function edit( &$row, &$images, &$lists, &$params, $option, &$menus )
 	{
 		global $database;
-		
+
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
-		
+
 		mosMakeHtmlSafe( $row );
-		
+
 		$nullDate 		= $database->getNullDate();
 		$create_date 	= null;
 		if ( $row->created != $nullDate ) {
@@ -247,9 +247,9 @@ class HTML_typedcontent {
 		if ( $row->modified != $nullDate ) {
 			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
 		}
-		
+
 		$tabs = new mosTabs(0);
-		
+
 		// used to hide "Reset Hits" when hits = 0
 		if ( !$row->hits ) {
 			$visibility = "style='display: none; visbility: hidden;'";
@@ -315,7 +315,7 @@ class HTML_typedcontent {
 					form.hits.value = 0;
 				} else {
 				}
-				<?php 
+				<?php
 				echo $editor->save( 'introtext' ) ; ?>
 				submitform( pressbutton );
 			}
@@ -324,7 +324,7 @@ class HTML_typedcontent {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
 				<td width="60%" valign="top">
@@ -345,7 +345,7 @@ class HTML_typedcontent {
 					$tabs->startPane("content-pane");
 					$tabs->startTab( $title, "detail-page" );
 					?>
-					
+
 						<table class="adminform">
 						<tr>
 							<td width="130">
@@ -368,9 +368,9 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-						
+
 						<br />
-						
+
 						<table class="adminform">
 						<tr>
 							<td valign="top" align="right" width="130">
@@ -385,7 +385,7 @@ class HTML_typedcontent {
 								<?php echo JText::_( 'Frontpage' ); ?>:
 							</td>
 							<td>
-								<?php echo $lists['frontpage']; ?> 
+								<?php echo $lists['frontpage']; ?>
 							</td>
 						</tr>
 						<tr>
@@ -452,9 +452,9 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-						
+
 						<br />
-						
+
 						<table class="adminform" width="100%">
 						<?php
 						if ( $row->id ) {
@@ -530,13 +530,13 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-					
+
 					<?php
 	       	   		$title = JText::_( 'Images' );
 					$tabs->endTab();
 					$tabs->startTab( $title, "images-page" );
 					?>
-					
+
 						<table class="adminform">
 						<tr>
 							<td colspan="2">
@@ -551,7 +551,7 @@ class HTML_typedcontent {
 											<?php echo $lists['imagefiles'];?>
 											<br />
 											<label for="folders">
-												<?php echo JText::_( 'Sub-folder' ); ?>: 
+												<?php echo JText::_( 'Sub-folder' ); ?>:
 											</label>
 											<?php echo $lists['folders'];?>
 										</div>
@@ -594,9 +594,9 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-						
+
 						<br />
-						
+
 						<table class="adminform">
 						<tr>
 							<td>
@@ -691,13 +691,13 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-					
+
 					<?php
 	       	   		$title = JText::_( 'Parameters' );
 					$tabs->endTab();
 					$tabs->startTab( $title, "params-page" );
 					?>
-					
+
 						<table class="adminform">
 						<tr>
 							<td>
@@ -705,13 +705,13 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-					
-					<?php					
+
+					<?php
 	       	   		$title = JText::_( 'Meta Info' );
 					$tabs->endTab();
 					$tabs->startTab( $title, "metadata-page" );
 					?>
-					
+
 						<table class="adminform">
 						<tr>
 							<td >
@@ -732,13 +732,13 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-					
+
 					<?php
 	       	   		$title = JText::_( 'Link to Menu' );
 					$tabs->endTab();
 					$tabs->startTab( $title, "link-page" );
 					?>
-					
+
 						<table class="adminform">
 						<tr>
 							<td colspan="2">
@@ -774,19 +774,19 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						</table>
-						
+
 						<?php
 						if ( $menus != NULL ) {
 							?>
 							<br />
-							
+
 							<table class="adminform">
 							<?php mosCommonHTML::menuLinksContent( $menus ); ?>
 							</table>
 							<?php
 						}
 						?>
-					
+
 					<?php
 					$tabs->endTab();
 					$tabs->endPane();

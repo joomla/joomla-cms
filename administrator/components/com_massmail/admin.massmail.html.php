@@ -43,11 +43,11 @@ class HTML_massmail {
 		</script>
 
 		<form action="index2.php" name="adminForm" method="post">
-		
-		<div id="editcell">		
-			<table width="100%">		
+
+		<div id="editcell">
+			<table width="100%">
 			<tr>
-				<td>					
+				<td>
 					<table width="100%" class="adminform">
 					<thead>
 					<tr>

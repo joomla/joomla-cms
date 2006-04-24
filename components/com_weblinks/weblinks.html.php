@@ -63,7 +63,7 @@ class WeblinksView {
 			</tr>
 			<?php
 		}
-		?>		
+		?>
 		<tr>
 			<td width="60%" colspan="2">
 				<?php
@@ -100,7 +100,7 @@ class WeblinksView {
 	 */
 	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page  ) {
 		global $Itemid;
-		
+
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
 			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
@@ -111,18 +111,18 @@ class WeblinksView {
 		<script language="javascript" type="text/javascript">
 		function tableOrdering( order, dir, task ) {
 			var form = document.adminForm;
-		
+
 			form.filter_order.value 	= order;
 			form.filter_order_Dir.value	= dir;
 			document.adminForm.submit( task );
 		}
 		</script>
-				
+
 		<form action="index.php?option=com_weblinks&amp;catid=<?php echo $catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
 
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
-			<td align="right" colspan="4">				
+			<td align="right" colspan="4">
 				<?php
 				if ($params->get('display')) {
 					echo JText::_('Display Num') .'&nbsp;';
@@ -245,7 +245,7 @@ class WeblinksView {
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -338,11 +338,11 @@ class WeblinksView {
 		</script>
 
 		<form action="<?php echo sefRelToAbs("index.php"); ?>" method="post" name="adminForm" id="adminForm">
-		
+
 		<div class="componentheading">
 			<?php echo JText::_( 'Submit A Web Link' );?>
 		</div>
-		
+
 		<div style="float: right;">
 			<?php
 			mosToolBar::startTable();
@@ -352,7 +352,7 @@ class WeblinksView {
 			mosToolBar::endtable();
 			?>
 		</div>
-		
+
 		<table cellpadding="4" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="10%">
@@ -408,7 +408,7 @@ class WeblinksView {
 
 	/**
 	 * Method to show an empty container if there is no data to display
-	 * 
+	 *
 	 * @static
 	 * @param string $msg The message to show
 	 * @return void
@@ -417,11 +417,11 @@ class WeblinksView {
 	function emptyContainer($msg) {
 		echo '<p>'.$msg.'</p>';
 	}
-	
+
 	/**
 	 * Writes a user input error message and if javascript is enabled goes back
 	 * to the previous screen to try again.
-	 * 
+	 *
 	 * @param string $msg The error message to display
 	 * @return void
 	 * @since 1.5

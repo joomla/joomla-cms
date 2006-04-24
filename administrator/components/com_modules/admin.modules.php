@@ -34,7 +34,7 @@ if ($cid[0] == 0 && isset($moduleid) ) {
 	$cid[0] = $moduleid;
 }
 
-switch ( $task ) 
+switch ( $task )
 {
 	case 'copy':
 		copyModule( $option, intval( $cid[0] ));
@@ -105,10 +105,10 @@ switch ( $task )
 /**
 * Compiles a list of installed or defined modules
 */
-function viewModules() 
+function viewModules()
 {
 	global $mainframe;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -144,9 +144,9 @@ function viewModules()
 		} else if ($filter_state == 'U' ) {
 			$where[] = "m.published = 0";
 		}
-	}	
+	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -166,7 +166,7 @@ function viewModules()
 	. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 	. $where
 	. "\n GROUP BY m.id"
-	. $orderby	
+	. $orderby
 	;
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $db->loadObjectList();
@@ -199,10 +199,10 @@ function viewModules()
 	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
 	$types 			= array_merge( $types, $db->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
-	
-	// state filter 
+
+	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-	
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -210,10 +210,10 @@ function viewModules()
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-	
+
 	// search filter
 	$lists['search']= $search;
-	
+
 	HTML_modules::showModules( $rows, $client, $pageNav, $option, $lists );
 }
 
@@ -222,7 +222,7 @@ function viewModules()
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function copyModule( $option, $uid ) 
+function copyModule( $option, $uid )
 {
 	global $database, $my;
 
@@ -230,9 +230,9 @@ function copyModule( $option, $uid )
 	 * Initialize some variables
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	
+
 	$row 	=& JTable::getInstance('module', $database );
-	
+
 	// load the row from the db table
 	$row->load( $uid );
 	$row->title 		= sprintf( JText::_( 'Copy of' ), $row->title );
@@ -249,7 +249,7 @@ function copyModule( $option, $uid )
 		exit();
 	}
 	$row->checkin();
-	
+
 	$row->reorder( "position=".$row->position." AND client_id=".$client->id );
 
 	$query = "SELECT menuid"
@@ -274,17 +274,17 @@ function copyModule( $option, $uid )
 /**
 * Saves the module after an edit form submit
 */
-function saveModule( $option, $task ) 
+function saveModule( $option, $task )
 {
 	global $database;
-	
+
 	/*
 	 * Initialize some variables
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row =& JTable::getInstance('module', $database );
-	
+
 	if (!$row->bind( $_POST, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -298,7 +298,7 @@ function saveModule( $option, $task )
 		exit();
 	}
 	$row->checkin();
-	
+
 	$row->reorder( "position=".$row->position." AND client_id=".$client->id );
 
 	$menus = JRequest::getVar( 'selections', array(), 'post', 'array' );
@@ -310,7 +310,7 @@ function saveModule( $option, $task )
 	$database->setQuery( $query );
 	$database->query();
 
-	// check needed to stop a module being assigned to `All` 
+	// check needed to stop a module being assigned to `All`
 	// and other menu items resulting in a module being displayed twice
 	if ( in_array( '0', $menus ) ) {
 		// assign new module to `all` menu item associations
@@ -319,8 +319,8 @@ function saveModule( $option, $task )
 		;
 		$database->setQuery( $query );
 		$database->query();
-	} 
-	else 
+	}
+	else
 	{
 		foreach ($menus as $menuid)
 		{
@@ -333,9 +333,9 @@ function saveModule( $option, $task )
 				$database->setQuery( $query );
 				$database->query();
 			}
-		}				
+		}
 	}
-	
+
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
@@ -355,7 +355,7 @@ function saveModule( $option, $task )
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editModule( $option, $uid, $module=NULL ) 
+function editModule( $option, $uid, $module=NULL )
 {
 	global $database, $my, $mainframe;
 
@@ -363,7 +363,7 @@ function editModule( $option, $uid, $module=NULL )
 	 * Initialize some variables
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	
+
 	$lists 	= array();
 	$row 	=& JTable::getInstance('module', $database );
 	// load the row from the db table
@@ -402,7 +402,7 @@ function editModule( $option, $uid, $module=NULL )
 		$lists['client_id'] = 0;
 		$path				= 'mod0_xml';
 	}
-	
+
 	$query = "SELECT position, ordering, showtitle, title"
 	. "\n FROM #__modules"
 	. "\n WHERE $where"
@@ -487,7 +487,7 @@ function editModule( $option, $uid, $module=NULL )
 
 	// xml file for module
 	$xmlfile = JApplicationHelper::getPath( $path, $row->module );
-	
+
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 	foreach($data as $key => $value) {
 		$row->$key = $value;
@@ -502,14 +502,14 @@ function editModule( $option, $uid, $module=NULL )
 /**
 * Displays a list to select the creation of a new module
 */
-function selectnew() 
+function selectnew()
 {
 	global $mainframe;
-	
+
 	// Initialize some variables
 	$modules	= array();
 	$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	
+
 	// path to search for modules
 	if ($client->id == '1') {
 		$path = JPATH_ADMINISTRATOR .'/modules/';
@@ -520,15 +520,15 @@ function selectnew()
 	// handling for custom module	$modules[0]->file 		= 'custom.xml';
 	$modules[0]->module 	= 'custom';
 	$modules[0]->path 		= $path;
-		$i = 1;
+	$i = 1;
 	jimport('joomla.filesystem.folder');
 	$dirs = JFolder::folders( $path );
-	
-	foreach ($dirs as $dir) 
+
+	foreach ($dirs as $dir)
 	{
 		$file 			= JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
-		$files_php[] 	= $file[0]; 
-		
+		$files_php[] 	= $file[0];
+
 		$modules[$i]->file 		= $file[0];
 		$modules[$i]->module 	= str_replace( '.xml', '', $file[0] );
 		$modules[$i]->path 		= $path . $dir;
@@ -536,10 +536,10 @@ function selectnew()
 	}
 
 	ReadModuleXML( $modules, $client );
-	
+
 	// sort array of objects alphabetically by name
 	SortArrayObjects( $modules, 'name' );
-	
+
 	HTML_modules::addModule( $modules, $client );
 }
 
@@ -549,10 +549,10 @@ function selectnew()
 * Also deletes associated entries in the #__module_menu table.
 * @param array An array of unique category id numbers
 */
-function removeModule( &$cid, $option ) 
+function removeModule( &$cid, $option )
 {
 	global $database;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -628,7 +628,7 @@ function removeModule( &$cid, $option )
 * @param array An array of unique record id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function publishModule( $cid=null, $publish=1, $option ) 
+function publishModule( $cid=null, $publish=1, $option )
 {
 	global $database, $my;
 
@@ -637,7 +637,7 @@ function publishModule( $cid=null, $publish=1, $option )
 		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -667,10 +667,10 @@ function publishModule( $cid=null, $publish=1, $option )
 /**
 * Cancels an edit operation
 */
-function cancelModule( $option ) 
+function cancelModule( $option )
 {
 	global $database;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -689,7 +689,7 @@ function cancelModule( $option )
 * @param integer The unique id of record
 * @param integer The increment to reorder by
 */
-function orderModule( $uid, $inc, $option ) 
+function orderModule( $uid, $inc, $option )
 {
 	global $database;
 
@@ -702,7 +702,7 @@ function orderModule( $uid, $inc, $option )
 	$row->load( $uid );
 
 	$row->move( $inc, "position = ".$row->position." AND client_id=".$client->id  );
-	
+
 	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
@@ -710,10 +710,10 @@ function orderModule( $uid, $inc, $option )
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $option ) 
+function accessMenu( $uid, $access, $option )
 {
 	global $database;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -747,10 +747,10 @@ function accessMenu( $uid, $access, $option )
 	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
-function saveOrder( &$cid ) 
+function saveOrder( &$cid )
 {
 	global $database;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -792,47 +792,47 @@ function saveOrder( &$cid )
 	josRedirect( 'index2.php?option=com_modules&client='. $client->id, $msg );
 } // saveOrder
 
-function previewModule($id ) 
+function previewModule($id )
 {
 	global $mainframe;
 	$mainframe->setPageTitle(JText::_('Module Preview'));
-	
+
 	HTML_modules::previewModule( );
 }
 
-function ReadAModuleXML( &$rows ) 
+function ReadAModuleXML( &$rows )
 {
 	/*
 	 * Initialize some variables
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	
+
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-	
-	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);	
-	
+
+	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+
 	$row[0]	= $data['name'];
 	$row[1] = $data['description'];
 	$row[2] = $data['group'];
-	
+
 	return $row;
 }
-function ReadModuleXML( &$rows  ) 
-{	
-	foreach ($rows as $i => $row) 
+function ReadModuleXML( &$rows  )
+{
+	foreach ($rows as $i => $row)
 	{
-		if ($row->module == '') 
+		if ($row->module == '')
 		{
 			$rows[$i]->name 	= 'custom';
 			$rows[$i]->module 	= 'custom';
 			$rows[$i]->descrip 	= 'Custom created module, using Module Manager `New` function';
-		} 
-		else 
+		}
+		else
 		{
-			$data = JApplicationHelper::parseXMLInstallFile( $row->path.DS.$row->file);	
-			
-			if ( $data['type'] == 'module' ) 
+			$data = JApplicationHelper::parseXMLInstallFile( $row->path.DS.$row->file);
+
+			if ( $data['type'] == 'module' )
 			{
 				$rows[$i]->name		= $data['name'];
 				$rows[$i]->descrip	= $data['description'];

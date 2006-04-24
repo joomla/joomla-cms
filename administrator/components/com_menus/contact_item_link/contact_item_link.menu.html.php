@@ -22,10 +22,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class contact_item_link_menu_html {
 
-	function edit( &$menu, &$lists, &$params, $option, $contact ) 
+	function edit( &$menu, &$lists, &$params, $option, $contact )
 	{
 		mosCommonHTML::loadOverlib();
-			
+
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_banners {
 
-	function showBanners( &$rows, &$pageNav, $option, &$lists ) 
+	function showBanners( &$rows, &$pageNav, $option, &$lists )
 	{
 		global $my;
 
@@ -32,7 +32,7 @@ class HTML_banners {
 	<div id="pane-navigation">
 		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 	</div>
-		
+
 	<div id="pane-document">
 
 		<table class="adminform">
@@ -51,7 +51,7 @@ class HTML_banners {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="20">
@@ -86,21 +86,21 @@ class HTML_banners {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$row->id 	= $row->bid;
 				$link 		= ampReplace( 'index2.php?option=com_banners&task=editA&hidemainmenu=1&id='. $row->id );
-	
+
 				$impleft 	= $row->imptotal - $row->impmade;
 				if( $impleft < 0 ) {
 					$impleft 	= "unlimited";
 				}
-	
+
 				if ( $row->impmade != 0 ) {
 					$percentClicks = substr(100 * $row->clicks/$row->impmade, 0, 5);
 				} else {
 					$percentClicks = 0;
 				}
-	
+
 				$row->published = $row->showBanner;
 				$published 		= mosCommonHTML::PublishedProcessing( $row, $i );
 				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -148,7 +148,7 @@ class HTML_banners {
 			}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 	</div>
@@ -198,7 +198,7 @@ class HTML_banners {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
@@ -250,7 +250,7 @@ class HTML_banners {
 					<input class="inputbox" type="text" name="imptotal" id="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<label for="unlimited">
-						<?php echo JText::_( 'Unlimited' ); ?> 
+						<?php echo JText::_( 'Unlimited' ); ?>
 					</label>
 					<input type="checkbox" name="unlimited" id="unlimited" <?php echo $unlimited;?> />
 				</td>
@@ -345,7 +345,7 @@ class HTML_banners {
 */
 class HTML_bannerClient {
 
-	function showClients( &$rows, &$pageNav, $option, &$lists ) 
+	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
 		global $my;
 
@@ -356,7 +356,7 @@ class HTML_bannerClient {
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 		</div>
-		
+
 		<div id="pane-document">
 
 			<table class="adminform">
@@ -371,7 +371,7 @@ class HTML_bannerClient {
 				</td>
 			</tr>
 			</table>
-			
+
 			<table class="adminlist">
 			<tr>
 				<th width="20">
@@ -397,10 +397,10 @@ class HTML_bannerClient {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$row->id 		= $row->cid;
 				$link 			= ampReplace( 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id );
-				
+
 				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -437,9 +437,9 @@ class HTML_bannerClient {
 			}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
-		
+
 		</div>
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="listclients" />
@@ -478,7 +478,7 @@ class HTML_bannerClient {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table width="100%">
 			<tr>
 				<td width="50%" valign="top">
@@ -518,7 +518,7 @@ class HTML_bannerClient {
 							<input class="inputbox" type="text" name="email" id="email" size="40" maxlength="60" value="<?php echo $row->email; ?>" />
 						</td>
 					</tr>
-					</table>				
+					</table>
 				</td>
 				<td valign="top">
 					<table width="100%" class="adminform">
@@ -539,11 +539,11 @@ class HTML_bannerClient {
 						<td colspan="3">
 						</td>
 					</tr>
-					</table>					
+					</table>
 				</td>
 			</tr>
 			</table>
-			
+
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />

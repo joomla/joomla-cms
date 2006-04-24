@@ -273,7 +273,7 @@ class JContentController
 		$authors = array_merge($authors, $db->loadObjectList());
 		$lists['authorid'] = mosHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
-		// state filter 
+		// state filter
 		$lists['state'] = mosCommonHTML::selectState($filter_state);
 
 		// table ordering
@@ -435,7 +435,7 @@ class JContentController
 
 	/**
 	* Compiles information to add or edit the record
-	* 
+	*
 	* @param database A database connector object
 	* @param integer The unique id of the record to edit (0 if new)
 	* @param integer The id of the content section
@@ -461,7 +461,7 @@ class JContentController
 
 		if ($cid) {
 			$sectionid = $row->sectionid;
-			if ($row->state < 0) { 
+			if ($row->state < 0) {
 				josRedirect('index2.php?option=com_content', JText::_('You cannot edit an archived item'));
 			}
 		}
@@ -529,7 +529,7 @@ class JContentController
 			if (!$sectionid && @ $_POST['filter_sectionid']) {
 				$sectionid = $_POST['filter_sectionid'];
 			}
-			
+
 			if (@ $_POST['catid']) {
 				$row->catid = $_POST['catid'];
 				$category = & JTable::getInstance('category', $db);
@@ -663,7 +663,7 @@ class JContentController
 
 		// get params definitions
 		$params = new JParameter($row->attribs, JApplicationHelper::getPath('com_xml', 'com_content'), 'component');
-		
+
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
@@ -719,7 +719,7 @@ class JContentController
 			$row->created 		= date( 'Y-m-d H:i:s' );
 			$row->created_by 	= $user->get('id');
 		}
-		
+
 		/*
 		 * Append time if not added to publish date
 		 */
@@ -765,12 +765,12 @@ class JContentController
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
-		
+
 		/*
 		 * Increment the content version number
 		 */
 		$row->version++;
-		
+
 		/*
 		 * Store the content to the database
 		 */
@@ -778,7 +778,7 @@ class JContentController
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
-		
+
 		/*
 		 * Check the content item in and update item order
 		 */
@@ -787,7 +787,7 @@ class JContentController
 
 		/*
 		 * We need to update frontpage status for the content item.
-		 * 
+		 *
 		 * First we include the frontpage table and instantiate an instance of
 		 * it.
 		 */
@@ -860,7 +860,7 @@ class JContentController
 
 	/**
 	* Changes the state of one or more content pages
-	* 
+	*
 	* @param string The name of the category section
 	* @param integer A unique category id (passed from an edit form)
 	* @param array An array of unique category id numbers
@@ -877,7 +877,7 @@ class JContentController
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$option	= JRequest::getVar( 'option' );
 		$task	= JRequest::getVar( 'task' );
-		
+
 		if (count($cid) < 1) {
 			$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 			JViewContent::displayError( JText::_('Select an item to') . ' ' . JText::_($action) );
@@ -942,7 +942,7 @@ class JContentController
 
 	/**
 	* Changes the frontpage state of one or more content items
-	* 
+	*
 	*/
 	function toggleFrontPage()
 	{
@@ -961,7 +961,7 @@ class JContentController
 
 		/*
 		 * We need to update frontpage status for the content items.
-		 * 
+		 *
 		 * First we include the frontpage table and instantiate an instance of
 		 * it.
 		 */
@@ -1005,7 +1005,7 @@ class JContentController
 		$option		= JRequest::getVar( 'option' );
 		$return		= JRequest::getVar( 'returntask', '', 'post' );
 		$nullDate	= $db->getNullDate();
-		
+
 		if (count($cid) < 1)
 		{
 			JViewContent::displayError( JText::_('Select an item to delete') );
@@ -1023,10 +1023,10 @@ class JContentController
 		 * Get the list of content id numbers to send to trash.
 		 */
 		$cids = implode(',', $cid);
-		
+
 		/*
 		 * Update content items in the database
-		 */		
+		 */
 		$query = "UPDATE #__content" .
 				"\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '$nullDate'"."\n WHERE id IN ( $cids )";
 		$db->setQuery($query);
@@ -1378,7 +1378,7 @@ class JContentController
 			JError::raiseError( 500, $row->getError() );
 			return false;
 		}
-		
+
 		// Store the changes
 		if (!$row->store()) {
 			JError::raiseError( 500, $row->getError() );
@@ -1400,7 +1400,7 @@ class JContentController
 		$rettask	= JRequest::getVar( 'returntask', '', 'post' );
 		$total		= count($cid);
 		$conditions	= array ();
-		
+
 		// Instantiate a content item table object
 		$row = & JTable::getInstance('content', $db);
 
@@ -1462,7 +1462,7 @@ class JContentController
 
 		// Set page title
 		$document->setTitle(JText::_('Content Preview'));
-		
+
 		/*
 		 * Render content preview
 		 */
@@ -1485,13 +1485,13 @@ class JContentHelper {
 		 */
 		$text				= str_replace( '<br>', '<br />', $text );
 		$row->title	= ampReplace($row->title);
-		
+
 		/*
 		 * Now we need to search for the {readmore} tag and split the text up
 		 * accordingly.
 		 */
 		$tagPos	= JString::strpos( $text, '{readmore}' );
-		
+
 		if ( $tagPos === false )
 		{
 			$row->introtext	= $text;
@@ -1500,13 +1500,13 @@ class JContentHelper {
 			$row->introtext	= JString::substr($text, 0, $tagPos);
 			$row->fulltext	= JString::substr($text, $tagPos + 10 );
 		}
-		
+
 		return true;
 	}
 
 	/**
 	* Function to reset Hit count of a content item
-	* 
+	*
 	*/
 	function resetHits($redirect, $id)
 	{
@@ -1542,7 +1542,7 @@ class JContentHelper {
 		$link	= JRequest::getVar( 'link_name', '', 'post' );
 
 		$link	= stripslashes( ampReplace($link) );
-		
+
 		/*
 		 * Instantiate a new menu item table
 		 */

@@ -25,8 +25,8 @@ class TOOLBAR_poll {
 	*/
 	function _EDIT( $pollid ) {
 		global $id;
-		
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );		
+
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
 		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
@@ -43,7 +43,7 @@ class TOOLBAR_poll {
 		}
 		JMenuBar::help( 'screen.polls.edit' );
 	}
-	
+
 	function _DEFAULT() {
 		JMenuBar::title(  JText::_( 'Poll Manager' ) );
 		JMenuBar::publishList();

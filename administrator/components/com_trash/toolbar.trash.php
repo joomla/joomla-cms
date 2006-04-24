@@ -25,7 +25,7 @@ switch ($task) {
 	case 'deleteconfirm':
 		TOOLBAR_Trash::_DELETE();
 		break;
-	
+
 	default:
 		TOOLBAR_Trash::_DEFAULT();
 		break;

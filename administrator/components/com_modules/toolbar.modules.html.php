@@ -32,7 +32,7 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT( $client ) {
 		global $id;
-		
+
 		$moduleType = JRequest::getVar( 'module' );
 
 		JMenuBar::title( JText::_( 'Module' ) .' <small>'. JText::_( $client->name ) .'</small>: <small><small>[ Edit ]</small></small>', 'module.png' );

@@ -51,13 +51,13 @@ $mainframe->loadStoredUserState();
 
 // Get the global option variable and create the pathway
 $option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
-$mainframe->_createPathWay( );	
+$mainframe->_createPathWay( );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	$file = 'login.php';
 }
 
-// set language 
+// set language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 
 // trigger the onStart events
@@ -95,7 +95,7 @@ $document->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' 
 $document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 $document->display( $cur_template, $file, $mainframe->getCfg('gzip') );
 
-JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ; 
+JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
 
 JDEBUG ? $_PROFILER->report() : null;
 ?>

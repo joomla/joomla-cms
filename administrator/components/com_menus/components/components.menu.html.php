@@ -26,10 +26,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class components_menu_html {
 
 
-	function edit( &$menu, &$components, &$lists, &$params, $option ) 
+	function edit( &$menu, &$components, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
-		
+
 		if ( $menu->id ) {
 			$title = '[ '. $lists['componentname'] .' ]';
 		} else {

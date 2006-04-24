@@ -69,7 +69,7 @@ class JCache extends Cache_Lite
 		 */
 		if (isset ($options['cacheDir']))
 		{
-			$this->_cacheDir = $options['cacheDir'];			
+			$this->_cacheDir = $options['cacheDir'];
 		}
 		else
 		{
@@ -79,7 +79,7 @@ class JCache extends Cache_Lite
 				$this->_cacheDir = $baseDir;
 			}
 		}
-		
+
 		$this->Cache_Lite($options);
 	}
 

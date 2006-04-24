@@ -364,13 +364,13 @@ class JSession
     function set($name, $value)
     {
         $old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
-        
+
 		if (null === $value) {
             unset($_SESSION[$name]);
         } else {
             $_SESSION[$name] = $value;
         }
-		
+
         return $old;
     }
 
@@ -528,7 +528,7 @@ class JSession
         }
         return null;
     }
-	
+
 	 /**
      * Create a session id
      *
@@ -537,7 +537,7 @@ class JSession
      * @return string Session ID
      */
 	function _createID()
-	{	
+	{
 		if (phpversion() <= '4.2.1') {
 			$agent = getenv( 'HTTP_USER_AGENT' );
 		} else {

@@ -74,7 +74,7 @@ class JSearch extends JObject {
 		$this->areas		= $areas;
 		$this->limitstart	= $limitstart;
 		$this->limit		= $limit;
-		
+
 		$this->count		= 0;
 		$this->results		= array();
 	}
@@ -211,7 +211,7 @@ class JSearchHelper {
 	 */
 	function &getPluginParams( $folder, $name ) {
 		if ($folder && $name) {
-	 		$plugin =& JPluginHelper::getPlugin($this->folder, $this->name); 
+	 		$plugin =& JPluginHelper::getPlugin($this->folder, $this->name);
 	 		$pluginParams = new JParameter( $plugin->params );
 		} else {
 	 		$pluginParams = new JParameter( '' );

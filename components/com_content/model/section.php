@@ -15,7 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the component helper 
+// require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 /**
@@ -222,7 +222,7 @@ class JModelSection extends JModel
 
 			$query = "SELECT *" .
 					"\n FROM #__sections" .
-					$where. 
+					$where.
 					"\n LIMIT 1";
 			$this->_db->setQuery($query);
 			return $this->_db->loadObject($this->_section);
@@ -248,11 +248,11 @@ class JModelSection extends JModel
 			$now		= $this->_app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$params		= & $this->_menu->parameters;
-			
+
 			// Ordering control
 			$orderby = $params->get('orderby', '');
 			$orderby = JContentHelper::orderbySecondary($orderby);
-	
+
 			// Handle the access permissions part of the main database query
 			if ($user->authorize('action', 'edit', 'content', 'all')) {
 				$xwhere = '';
@@ -263,7 +263,7 @@ class JModelSection extends JModel
 						"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
 						"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
 			}
-	
+
 			// Determine whether to show/hide the empty categories and sections
 			$empty = null;
 			$empty_sec = null;
@@ -272,13 +272,13 @@ class JModelSection extends JModel
 			if (!$params->get('empty_cat_section')) {
 				$empty_sec = "\n HAVING numitems > 0";
 			}
-	
+
 			// Handle the access permissions
 			$access_check = null;
 			if ($noauth) {
 				$access_check = "\n AND a.access <= $gid";
 			}
-	
+
 			// Query of categories within section
 			$query = "SELECT a.*, COUNT( b.id ) AS numitems" .
 					"\n FROM #__categories AS a" .
@@ -291,7 +291,7 @@ class JModelSection extends JModel
 					"\n ORDER BY $orderby";
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
-		}		
+		}
 		return true;
 	}
 
@@ -343,7 +343,7 @@ class JModelSection extends JModel
 					$orderby;
 			$this->_db->setQuery($query, $limitstart, $limit);
 			$this->_content[$state] = $this->_db->loadObjectList();
-		}		
+		}
 		return true;
 	}
 
@@ -364,14 +364,14 @@ class JModelSection extends JModel
 			$gid		= $user->get('gid');
 			$now		=$this->_app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-		
+
 			// Get the information for the current section
 			if ($this->_id) {
 				$and = "\n AND a.section = '$this->_id'";
 			} else {
 				$and = null;
 			}
-	
+
 			// Query of categories within section
 			$query = "SELECT a.name AS catname, a.title AS cattitle, b.* " .
 				"\n FROM #__categories AS a" .
@@ -385,7 +385,7 @@ class JModelSection extends JModel
 				"\n ORDER BY a.catid, a.ordering, b.ordering";
 			$this->_db->setQuery($query);
 			$this->_tree = $this->_db->loadObjectList();
-		}		
+		}
 		return true;
 	}
 
@@ -418,7 +418,7 @@ class JModelSection extends JModel
 				break;
 		}
 		$orderby .= "$primary $secondary DESC";
-		
+
 		return $orderby;
 	}
 
@@ -429,7 +429,7 @@ class JModelSection extends JModel
 		$now		=$this->_app->get('requestTime');
 		$noauth		= !$this->_app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-	
+
 		/*
 		 * First thing we need to do is assert that the content items are in
 		 * the current category
@@ -477,7 +477,7 @@ class JModelSection extends JModel
 				$where .= "\n AND a.state = '$state'";
 				break;
 		}
-	
+
 		/*
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.

@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Users
 */
 class HTML_registration {
-	
+
 	/**
 	 * Shows the lost passowrd form
 	 * @return void
@@ -31,7 +31,7 @@ class HTML_registration {
 		<script language="javascript" type="text/javascript">
 		function submitbutton( pressbutton ) {
 			var form = document.josForm;
-			
+
 			if (pressbutton == 'cancel') {
 				form.task.value = 'cancel';
 				form.submit();
@@ -83,7 +83,7 @@ class HTML_registration {
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="task" value="sendNewPass" />
 		</form>
 		<?php
@@ -101,7 +101,7 @@ class HTML_registration {
 		function submitbutton( pressbutton ) {
 			var form = document.josForm;
 			var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
-			
+
 			if (pressbutton == 'cancel') {
 				form.task.value = 'cancel';
 				form.submit();
@@ -202,14 +202,14 @@ class HTML_registration {
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="id" value="0" />
 		<input type="hidden" name="gid" value="0" />
 		<input type="hidden" name="task" value="saveRegistration" />
 		</form>
 		<?php
 	}
-	
+
 	/**
 	 * Shows the component message
 	 *
@@ -222,13 +222,13 @@ class HTML_registration {
 		<div class="componentheading">
 			<?php echo JText::_( $title ); ?>
 		</div>
-		
+
 		<div>
 			<?php echo JText::_( $text ); ?>
 		</div>
 		<?php
 	}
-	
+
 	/**
 	 * Shows the component message
 	 *
@@ -241,7 +241,7 @@ class HTML_registration {
 		<div class="componentheading">
 			<?php echo JText::_( $title ); ?>
 		</div>
-		
+
 		<div class="message">
 			<?php echo JText::_( $text ); ?>
 		</div>

@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class content_blog_category_html {
 
-	function edit( &$menu, &$lists, &$params, $option ) 
+	function edit( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
 		/* in the HTML below, references to "section" were changed to "category" */

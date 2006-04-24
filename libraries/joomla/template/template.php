@@ -32,8 +32,8 @@ class JTemplate extends patTemplate
      * @access    private
      */
 	var $_file = '';
-	
-	
+
+
 	/**
 	 * A hack to support __construct() on PHP 4
 	 * Hint: descendant classes have no PHP4 class_name() constructors,
@@ -47,7 +47,7 @@ class JTemplate extends patTemplate
 		$args = func_get_args();
 		call_user_func_array(array(&$this, '__construct'), $args);
 	}
-	
+
 	/**
 	* Class constructor
 	*
@@ -55,10 +55,10 @@ class JTemplate extends patTemplate
 	*
 	* @access	protected
 	*/
-	function __construct() 
+	function __construct()
 	{
 		parent::patTemplate();
-		
+
 		//set the namespace
 		$this->setNamespace( 'jtmpl' );
 
@@ -101,7 +101,7 @@ class JTemplate extends patTemplate
 	 * @param string 	$file	The filename
 	 */
 	function parse( $file )
-	{	
+	{
 		$this->_file = $file; //store the file for later usage
 		$this->readTemplatesFromInput( $file );
 	}
@@ -116,14 +116,14 @@ class JTemplate extends patTemplate
 	{
 		$this->displayParsedTemplate( $name );
 	}
-	
+
 	/**
 	 * Returns a parsed template
 	 *
 	 * @access public
 	 * @param string 	$name		The name of the template
 	 */
-	function fetch( $name ) 
+	function fetch( $name )
 	{
 		$result = $this->getParsedTemplate($name, true);
 
@@ -133,10 +133,10 @@ class JTemplate extends patTemplate
 		if (patErrorManager::isError($result)) {
 			return $result;
 		}
-		
+
 		return $result;
 	}
-	
+
    /**
 	* enable a template cache
 	*
@@ -157,7 +157,7 @@ class JTemplate extends patTemplate
 			'filemode' 		=> 0755
 		);
 		$result = $this->useTemplateCache( 'File', $info );
-		
+
 		return $result;
 	}
 
@@ -168,7 +168,7 @@ class JTemplate extends patTemplate
 	 * @param	string		the prefix of the template cache
 	 * @return	boolean		true on success, patError otherwise
 	 */
-	function setTemplateCachePrefix( $prefix ) 
+	function setTemplateCachePrefix( $prefix )
 	{
 		if (!$this->_tmplCache) {
 			return false;

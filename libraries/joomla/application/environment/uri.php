@@ -175,7 +175,7 @@ class JURI extends JObject
 				 */
 				$theURI = $uri;
 			}
-			
+
 			/*
 			 * Create the new JURI instance
 			 */

@@ -27,11 +27,11 @@ class JEditor_none extends JPlugin {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 * 
+	 *
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
@@ -42,7 +42,7 @@ class JEditor_none extends JPlugin {
 	/**
 	 * Method to handle the onInitEditor event.
 	 *  - Initializes the Editor
-	 * 
+	 *
 	 * @access public
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
@@ -69,37 +69,37 @@ class JEditor_none extends JPlugin {
 				</script>";
 		return $txt;
 	}
-	
+
 	/**
 	 * No WYSIWYG Editor - copy editor content to form field
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onSave( $editor ) {
 		return;
 	}
-	
+
 	/**
 	 * No WYSIWYG Editor - get the editor content
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onGetContent( $editor ) {
 		return;
 	}
-	
+
 	/**
 	 * No WYSIWYG Editor - set the editor content
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onSetContent( $editor, $html ) {
 		return;
 	}
-	
+
 	/**
 	 * No WYSIWYG Editor - display the editor
-	 * 
+	 *
 	 * @param string The name of the editor area
 	 * @param string The content of the field
 	 * @param string The name of the form field
@@ -108,14 +108,14 @@ class JEditor_none extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
 		global $mainframe;
-	
+
 		$dispatcher =& JEventDispatcher::getInstance();
-		
+
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		$results = $dispatcher->trigger( 'onCustomEditorButton' );
 
 		$buttons = array();

@@ -26,12 +26,12 @@ defined('_JEXEC') or die('Restricted access');
 class JViewFrontpage
 {
 
-	function show(&$model, &$access, &$menu) 
+	function show(&$model, &$access, &$menu)
 	{
 		$format = JRequest::getVar( 'format', 'html' );
-		
+
 		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.'.$format.'.php');
-		
+
 		/*
 		 * Need to cache this for speed
 		 */
@@ -40,7 +40,7 @@ class JViewFrontpage
 
 	/**
 	 * Method to show an empty container if there is no data to display
-	 * 
+	 *
 	 * @static
 	 * @param string $msg The message to show
 	 * @return void
@@ -49,11 +49,11 @@ class JViewFrontpage
 	function emptyContainer($msg) {
 		echo '<p><div align="center">'.$msg.'</div></p>';
 	}
-	
+
 	/**
 	 * Writes a user input error message and if javascript is enabled goes back
 	 * to the previous screen to try again.
-	 * 
+	 *
 	 * @param string $msg The error message to display
 	 * @return void
 	 * @since 1.5

@@ -96,7 +96,7 @@ class content_blog_category {
 		content_blog_category_html::edit( $menu, $lists, $params, $option );
 	}
 
-	function saveMenu( $option, $task ) 
+	function saveMenu( $option, $task )
 	{
 		global $database;
 

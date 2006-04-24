@@ -22,7 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class newsfeed_link_menu_html {
 
-	function edit( &$menu, &$lists, &$params, $option, $newsfeed ) 
+	function edit( &$menu, &$lists, &$params, $option, $newsfeed )
 	{
 		mosCommonHTML::loadOverlib();
 		?>

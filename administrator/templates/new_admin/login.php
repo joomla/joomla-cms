@@ -57,7 +57,7 @@ $tstart = JProfiler::getmicrotime();
 		</div>
 		<div id="content-box">
 			<div id="content-pad">
-				<form action="index.php" method="post" name="loginForm" id="loginForm">	
+				<form action="index.php" method="post" name="loginForm" id="loginForm">
 					<div id="login-content-pad">
 						<div id="login" class="component">
 							<div id="loginpad">
@@ -102,12 +102,12 @@ $tstart = JProfiler::getmicrotime();
 													<input type="hidden" name="option" value="login" />
 												</td>
 											</tr>
-										</table>														
+										</table>
 									</div>
 								</div>
 
 								<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
-								
+
 								<p><a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a></p>
 								<div class="clr"></div>
 							</div>
@@ -118,15 +118,15 @@ $tstart = JProfiler::getmicrotime();
 					<jdoc:translate key="WARNJAVASCRIPT" />
 				</noscript>
 			</div>
-		</div>		
+		</div>
 		<div id="footer1">
 			<div id="footer2">
 				<div id="footer3"></div>
 			</div>
-		</div>	
-		
+		</div>
+
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
+			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>
 		</div>
 	</body>
 </html>

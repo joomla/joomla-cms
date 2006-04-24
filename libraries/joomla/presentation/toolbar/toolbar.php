@@ -25,7 +25,7 @@ class JToolBar extends JObject
 {
 	/**
 	 * toolbar name
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -33,7 +33,7 @@ class JToolBar extends JObject
 
 	/**
 	 * toolbar array
-	 * 
+	 *
 	 * @access	private
 	 * @var		array
 	 */
@@ -49,7 +49,7 @@ class JToolBar extends JObject
 
 	/**
 	 * directories, where button types can be stored
-	 * 
+	 *
 	 * @access	private
 	 * @var		array
 	 */
@@ -57,7 +57,7 @@ class JToolBar extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 * @param string The toolbar name
 	 * @var string The type of setup file
@@ -84,7 +84,7 @@ class JToolBar extends JObject
 	 * @param	string		$name  The name of the toolbar.
 	 * @return	JToolBar	The JToolBar object.
 	 */
-	function & getInstance($name) 
+	function & getInstance($name)
 	{
 		static $instances;
 
@@ -101,7 +101,7 @@ class JToolBar extends JObject
 
 	/**
 	 * Set a value
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the param
 	 * @param string The value of the parameter
@@ -117,7 +117,7 @@ class JToolBar extends JObject
 
 	/**
 	 * Get a value
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the param
 	 * @param mixed The default value if not found
@@ -133,7 +133,7 @@ class JToolBar extends JObject
 
 	/**
 	 * Render
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return string HTML
@@ -144,7 +144,7 @@ class JToolBar extends JObject
 		 * Initialize variables
 		 */
 		$html = array ();
-		
+
 		// Start toolbar div
 		$html[] = '<div class="toolbar" id="'.$this->_name.'">';
 		$html[] = '<table class="toolbar"><tr>';
@@ -164,7 +164,7 @@ class JToolBar extends JObject
 
 	/**
 	 * render a parameter type
-	 * 
+	 *
 	 * @param object A param tag node
 	 * @param string The control name
 	 * @return array Any array of the label, the form element and the tooltip
@@ -248,9 +248,9 @@ class JToolBar extends JObject
 
 	/**
 	 * Add a directory where JToolBar should search for button types
-	 * 
+	 *
 	 * You may either pass a string or an array of directories.
-	 * 
+	 *
 	 * JParameter will be searching for a element type in the same order you
 	 * added them. If the parameter type cannot be found in the custom folders,
 	 * it will look in JParameter/types.

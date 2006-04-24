@@ -25,21 +25,21 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, &$client, &$page, $option, &$lists ) 
+	function showModules( &$rows, &$client, &$page, $option, &$lists )
 	{
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_modules" method="post" name="adminForm">
-		
+
 		<!--<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>-->
-	
+
 		<div id="pane-document">
 			<table class="adminform" >
 			<tr>
@@ -59,7 +59,7 @@ class HTML_modules {
 				</td>
 			</tr>
 			</table>
-						
+
 			<table class="adminlist" cellspacing="1">
 			<thead>
 			<tr>
@@ -123,9 +123,9 @@ class HTML_modules {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
-	
+
 				$link = ampReplace( 'index2.php?option=com_modules&client='. $client->id .'&task=editA&hidemainmenu=1&id='. $row->id );
-	
+
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
@@ -230,13 +230,13 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) 
+	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
 	{
 		global $mainframe;
-		global $my, $mosConfig_cachepath;	
-		
+		global $my, $mosConfig_cachepath;
+
 		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();	
+		$editor =& JEditor::getInstance();
 
 		$row->titleA = '';
 		if ( $row->id ) {
@@ -273,7 +273,7 @@ class HTML_modules {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table cellspacing="0" cellpadding="0" width="100%">
 			<tr valign="top">
 				<td width="60%">
@@ -374,7 +374,7 @@ class HTML_modules {
 						</td>
 					</tr>
 					</table>
-	
+
 					<?php
 					// Hide params for Custom/New modules
 					// Show custom.xml params for backward compat with existing custom modules
@@ -398,7 +398,7 @@ class HTML_modules {
 						<?php
 					}
 					?>
-				
+
 					<?php
 					// show Cache directory writable status for mod_feed or mod_syndication
 					if ( $row->module == 'mod_feed' || $row->module == 'mod_syndicate' ) {
@@ -514,12 +514,12 @@ class HTML_modules {
 		</table>
 		<?php
 	}
-	
+
 /**
 	/**
 	* Displays a selection list for module types
 	*/
-	function addModule( &$modules, $client ) 
+	function addModule( &$modules, $client )
 	{
  		mosCommonHTML::loadOverlib();
 
@@ -540,7 +540,7 @@ class HTML_modules {
 			</th>
 		</tr>
 		</tfoot>
-		
+
 		<tbody>
 		<?php
 		$k 		= 0;
@@ -548,7 +548,7 @@ class HTML_modules {
 		$count 	= count( $modules );
 		for ( $i=0; $i < $count; $i++ ) {
 			$row = &$modules[$i];
-			
+
 			$link = 'index2.php?option=com_modules&amp;task=editA&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
 			if ( !$k ) {
 				?>

@@ -22,21 +22,21 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginSEF' );
 * <b>Usage:</b>
 * <code><a href="...relative link..."></code>
 */
-function pluginSEF( &$row, &$params, $page=0 ) 
+function pluginSEF( &$row, &$params, $page=0 )
 {
 	global $mainframe;
-	
+
 	// check to see of SEF is enabled
 	if(!$mainframe->getCfg('sef')) {
 		return true;
 	}
-	
+
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, 'href="' ) === false ) {
 		return true;
 	}
-	
-	$plugin =& JPluginHelper::getPlugin('content', 'sef'); 
+
+	$plugin =& JPluginHelper::getPlugin('content', 'sef');
 
 	// check whether plugin has been unpublished
 	if ( !$plugin->published ) {
@@ -59,27 +59,27 @@ function pluginSEF( &$row, &$params, $page=0 )
 function contentSEF_replacer( &$matches ) {
 	// original text that might be replaced
 	$original = 'href="'. $matches[1] .'"';
-	
+
 	// disable bot from being applied to mailto tags
 	if ( JString::strpos($matches[1],'mailto:') !== false ) {
 		return $original;
 	}
-	
+
 	// disable bot from being applied to javascript tags
 	if ( JString::strpos( $matches[1], 'javascript:' ) !== false ) {
 		return $original;
 	}
-	
+
 	// will only process links containing 'index.php?option
 	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false ) {
 		$uriLocal =& JURI::getInstance();
 		$uriHREF  =& JURI::getInstance($matches[1]);
-		
+
 		//disbale bot from being applied to external links
 		if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost())) {
 			return $original;
 		}
-		
+
 		return 'href="'. sefRelToAbs( 'index.php' . $uriHREF->getQueryString() ) . $uriHREF->getAnchor() .'"';
 	} else {
 		return $original;

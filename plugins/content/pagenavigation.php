@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onBeforeDisplayContent', 'pluginNavigation' );
 
-function pluginNavigation( &$row, &$params, $page=0 ) 
+function pluginNavigation( &$row, &$params, $page=0 )
 {
 	global $Itemid, $access, $mainframe, $my;
 
@@ -30,18 +30,18 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$uid 		= $row->id;
 		$option 	= 'com_content';
-		
+
 		// Editor access object
 		$access = new stdClass();
 		$access->canEdit 	= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');		
+		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 		// Paramters for menu item as determined by controlling Itemid
 		$menu = & JTable::getInstance( 'menu', $db );
 		$menu->load($Itemid);
 		$mparams = new JParameter($menu->params);
-		
+
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
 		// for Table and List views it is the `orderby` param
@@ -103,7 +103,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 				$orderby = 'a.ordering';
 				break;
 		}
-		
+
 		if ($access->canEdit) {
 			$xwhere = '';
 		} else {
@@ -111,24 +111,24 @@ function pluginNavigation( &$row, &$params, $page=0 )
 			"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 			"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
 		}
-		
+
 		// array of content items in same category corretly ordered
-		$query = "SELECT a.id" 
-		. "\n FROM #__content AS a" 
-		. "\n WHERE a.catid = $row->catid" 
+		$query = "SELECT a.id"
+		. "\n FROM #__content AS a"
+		. "\n WHERE a.catid = $row->catid"
 		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= $my->gid")
 		. $xwhere
 		. "\n ORDER BY $orderby";
 		$db->setQuery($query);
 		$list = $db->loadResultArray();
-		
+
 		// this check needed if incorrect Itemid is given resulting in an incorrect result
 		if ( !is_array($list) ) {
 			$list = array();
 		}
 		// location of current content item in array list
 		$location = array_search($uid, $list);
-		
+
 		$row->prev = null;
 		$row->next = null;
 		if ($location -1 >= 0) 	{
@@ -144,7 +144,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		if (JText::_('&lt') || JText::_('&gt')) {
 			$pnSpace = " ";
 		}
-		
+
 		if ($row->prev) {
 			$row->prev = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->prev.'&amp;Itemid='.$Itemid);
 		} else {
@@ -155,8 +155,8 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		} else {
 			$row->next = '';
 		}
-		
-		
+
+
 		// output
 		if ($row->prev || $row->next) {
 			$html = '
@@ -171,7 +171,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 				</th>'
 				;
 			}
-			
+
 			if ($row->prev && $row->next) {
 				$html .= '
 				<td width="50">
@@ -179,7 +179,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 				</td>'
 				;
 			}
-			
+
 			if ($row->next) {
 				$html .= '
 				<th class="pagenav_next">
@@ -192,23 +192,23 @@ function pluginNavigation( &$row, &$params, $page=0 )
 			</tr>
 			</table>'
 			;
-			
+
 			// Get Plugin info
-			$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation'); 	
-			$pluginParams = new JParameter( $plugin->params );			
-			
+			$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');
+			$pluginParams = new JParameter( $plugin->params );
+
 			$position = $pluginParams->get('position', 1);
 
 			if ($position) {
-			// display after content	
+			// display after content
 				$row->text .= $html;
 			} else {
-			// display before content	
+			// display before content
 				$row->text = $html . $row->text;
-			}			
+			}
 		}
 	}
-	
+
 	return ;
 }
 ?>

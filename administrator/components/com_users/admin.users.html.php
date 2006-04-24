@@ -20,13 +20,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Users
 */
 class HTML_users {
-	
+
 	/**
 	 * Display list of users
 	 */
 	function showUsers( &$rows, &$page, $option, &$lists ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
@@ -35,7 +35,7 @@ class HTML_users {
 		<form action="index2.php?option=com_users" method="post" name="adminForm">
 
 		<div id="pane-document">
-		
+
 		<table class="adminform">
 			<tr>
 				<td align="left" width="100%">
@@ -97,7 +97,7 @@ class HTML_users {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	=& $rows[$i];
-	
+
 				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 				$task 	= $row->block ? 'unblock' : 'block';
 				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
@@ -156,14 +156,14 @@ class HTML_users {
 		</form>
 		<?php
 	}
-	
+
 	/**
 	 * Form for editing a user
 	 */
-	function edituser( &$user, &$contact, &$lists, $option ) 
+	function edituser( &$user, &$contact, &$lists, $option )
 	{
 		global $mainframe;
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -212,8 +212,8 @@ class HTML_users {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		
-		<div id="editcell">				
+
+		<div id="editcell">
 			<table width="100%">
 			<tr>
 				<td width="55%" valign="top">
@@ -331,7 +331,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td colspan="2">
-							&nbsp;	
+							&nbsp;
 						</td>
 					</tr>
 					</table>
@@ -345,7 +345,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-							<?php 
+							<?php
 								$params = $user->getParameters();
 								$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
 								echo $params->render( 'params' );
@@ -353,9 +353,9 @@ class HTML_users {
 						</td>
 					</tr>
 					</table>
-	
+
 					<br />
-					
+
 					<?php
 					if ( !$contact ) {
 						?>

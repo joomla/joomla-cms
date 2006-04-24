@@ -19,15 +19,15 @@ defined('_JEXEC') or die('Restricted access');
 * @package Joomla
 * @subpackage Installation
 */
-class JInstallationController 
+class JInstallationController
 {
 	/**
 	 * @param patTemplate A template object
 	 */
-	function chooseLanguage($vars) 
+	function chooseLanguage($vars)
 	{
 		$native = JLanguageHelper::detectLanguage();
-		
+
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
@@ -37,7 +37,7 @@ class JInstallationController
 	/**
 	 * @param patTemplate A template object
 	 */
-	function preInstall($vars) 
+	function preInstall($vars)
 	{
 		$lists = array ();
 
@@ -155,10 +155,10 @@ class JInstallationController
 	/**
 	 * Gets the parameters for database creation
 	 */
-	function dbConfig($vars) 
+	function dbConfig($vars)
 	{
 		global $mainframe;
-		
+
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
@@ -184,21 +184,21 @@ class JInstallationController
 			}
 			$lists['dbTypes'][] = $option;
 		}
-		
+
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
-		
+
 		return JInstallationView::dbConfig($vars, $lists);
 	}
 
 	/**
 	 * Determines db version (for utf-8 support) and gets desired collation
-	 * 
+	 *
 	 * FUNCTIONALITY MOVED TO JAJAX.PHP
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
-//	function dbCollation($vars) 
+//	function dbCollation($vars)
 //	{
 //		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
 //
@@ -262,7 +262,7 @@ class JInstallationController
 	 * Gets the parameters for database creation
 	 * @return boolean True if successful
 	 */
-	function makeDB($vars) 
+	function makeDB($vars)
 	{
 		// Initialize variables
 		$errors = null;
@@ -323,7 +323,7 @@ class JInstallationController
 				// will only affect MySQL 4.1.2 and up
 				JInstallationHelper::setDBCharset($database, $DBname, $DBcollation);
 			}
-			
+
 			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBOld == 'rm') {
@@ -371,10 +371,10 @@ class JInstallationController
 	/**
 	 * Gets ftp configuration parameters
 	 */
-	function ftpConfig($vars, $DBcreated = '0') 
+	function ftpConfig($vars, $DBcreated = '0')
 	{
 		global $mainframe;
-		
+
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
@@ -413,7 +413,7 @@ class JInstallationController
 	/**
 	 * Finishes configuration parameters
 	 */
-	function mainConfig($vars) 
+	function mainConfig($vars)
 	{
 		global $mainframe;
 		////////////////////////////////////////////
@@ -429,26 +429,26 @@ class JInstallationController
 		$xajax->errorHandlerOn();
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
-		
+
 		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1) {
 			$vars['response'] = JInstallationHelper::uploadSql( $vars );
 		}
-		
-		
-		
+
+
+
 		//////////////////////////////////////////////////////////
-		
+
 		$strip = get_magic_quotes_gpc();
 
 		if (isset ($vars['siteName'])) {
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
-		
+
 		/*
 		 * Import the authentication library
 		 */
 		jimport('joomla.application.user.authenticate');
-		
+
 		/*
 		 * Generate a random admin password
 		 */
@@ -475,7 +475,7 @@ class JInstallationController
 			'modules',
 			'templates',
 		);
-		
+
 		/*
 		 * Now lets make sure we have permissions set on the appropriate folders
 		 */
@@ -490,23 +490,23 @@ class JInstallationController
 		return JInstallationView::mainConfig($vars);
 	}
 
-	function saveConfig(&$vars) 
+	function saveConfig(&$vars)
 	{
 		global $mainframe;
-		
+
 		/*
 		 * Import authentication library
 		 */
 		jimport( 'joomla.application.user.authenticate' );
-		
+
 		/*
 		 * Set some needed variables
 		 */
-		$vars['siteUrl']			= $mainframe->getSiteURL(); 
+		$vars['siteUrl']			= $mainframe->getSiteURL();
 		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
 		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
 		$vars['cachePath']	= JPATH_SITE.DS.'cache';
-		
+
 		/*
 		 * If FTP has not been enabled, set the value to 0
 		 */
@@ -514,12 +514,12 @@ class JInstallationController
 		{
 			$vars['ftpEnable'] = 0;
 		}
-		
+
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
 			$vars['siteName'] = addslashes($vars['siteName']);
 		}
-		
+
 		switch ($vars['DBtype']) {
 			case 'mssql' :
 				$vars['ZERO_DATE'] = '1/01/1990';
@@ -568,7 +568,7 @@ class JInstallationController
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			jimport('joomla.filesystem.path');
-			
+
 			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
@@ -596,11 +596,11 @@ class JInstallationController
 	/**
 	 * Displays the finish screen
 	 */
-	function finish($vars, $buffer = '') 
+	function finish($vars, $buffer = '')
 	{
 		global $mainframe;
-		
-		$vars['siteurl'] = $mainframe->getSiteURL(); 
+
+		$vars['siteurl'] = $mainframe->getSiteURL();
 		$vars['adminurl'] = $vars['siteurl'].'administrator/';
 
 		return JInstallationView::finish($vars, $buffer);
@@ -611,12 +611,12 @@ class JInstallationController
 * @package Joomla
 * @subpackage Installation
 */
-class JInstallationHelper 
+class JInstallationHelper
 {
 	/**
 	 * @return string A guess at the db required
 	 */
-	function detectDB() 
+	function detectDB()
 	{
 		$map = array ('mysql_connect' => 'mysql', 'mysqli_connect' => 'mysqli', 'mssql_connect' => 'mssql');
 		foreach ($map as $f => $db) {
@@ -631,7 +631,7 @@ class JInstallationHelper
 	 * @param array
 	 * @return string
 	 */
-	function errors2string(& $errors) 
+	function errors2string(& $errors)
 	{
 		$buffer = '';
 		foreach ($errors as $error) {
@@ -647,7 +647,7 @@ class JInstallationHelper
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function createDatabase(& $database, $DBname, $DButfSupport, $DBcollation) 
+	function createDatabase(& $database, $DBname, $DButfSupport, $DBcollation)
 	{
 		if ($DButfSupport) {
 			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
@@ -674,26 +674,26 @@ class JInstallationHelper
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function setDBCharset(& $database, $DBname, $DBcollation) 
-	{	
+	function setDBCharset(& $database, $DBname, $DBcollation)
+	{
 		if ($database->hasUTF()){
 			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
 			$database->setQuery($sql);
 			$database->query();
-			$result = $database->getErrorNum();	
+			$result = $database->getErrorNum();
 			if ($result != 0) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Backs up existing tables
 	 * @param object Database connector
 	 * @param array An array of errors encountered
 	 */
-	function backupDatabase(& $database, $DBname, $DBPrefix, & $errors) 
+	function backupDatabase(& $database, $DBname, $DBPrefix, & $errors)
 	{
 		// Initialize backup prefix variable
 		// TODO: Should this be user-defined?
@@ -729,7 +729,7 @@ class JInstallationHelper
 	 * @param object Database connector
 	 * @param array An array of errors encountered
 	 */
-	function deleteDatabase(& $database, $DBname, $DBPrefix, & $errors) 
+	function deleteDatabase(& $database, $DBname, $DBPrefix, & $errors)
 	{
 		$query = "SHOW TABLES FROM `$DBname`";
 		$database->setQuery($query);
@@ -753,7 +753,7 @@ class JInstallationHelper
 	/**
 	 *
 	 */
-	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '') 
+	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '')
 	{
 		if( !($buffer = file_get_contents($sqlfile)) ){
 			return -1;
@@ -779,7 +779,7 @@ class JInstallationHelper
 	 * @param string
 	 * @return array
 	 */
-	function splitSql($sql, $collation) 
+	function splitSql($sql, $collation)
 	{
 		$sql = trim($sql);
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
@@ -818,7 +818,7 @@ class JInstallationHelper
 	/**
 	 * Calculates the file/dir permissions mask
 	 */
-	function getFilePerms($input, $type = 'file') 
+	function getFilePerms($input, $type = 'file')
 	{
 		$perms = '';
 		if (mosGetParam($input, $type.'PermsMode', 0)) {
@@ -839,16 +839,16 @@ class JInstallationHelper
 		$DBpassword	= mosGetParam($vars, 'DBpassword', '');
 		$DBname			= mosGetParam($vars, 'DBname', '');
 		$DBPrefix			= mosGetParam($vars, 'DBPrefix', '');
-		
+
 		$adminPassword	= mosGetParam($vars, 'adminPassword', '');
 		$adminEmail			= mosGetParam($vars, 'adminEmail', '');
 
 		$cryptpass = md5($adminPassword);
 		$vars['adminLogin'] = 'admin';
-		
+
 		jimport('joomla.database.database');
 		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-		
+
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
 		$nullDate 		= $database->getNullDate();
@@ -892,7 +892,7 @@ class JInstallationHelper
 	 * @return string Filesystem root for given FTP user
 	 * @since 1.5
 	 */
-	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21') 
+	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21')
 	{
 		jimport('joomla.connector.ftp');
 		$ftp = & JFTP::getInstance($host, $port);
@@ -905,7 +905,7 @@ class JInstallationHelper
 		 */
 		$ftpList = $ftp->nameList();
 		$ftp->quit();
-		
+
 		/*
 		 * Process the list
 		 */
@@ -925,7 +925,7 @@ class JInstallationHelper
 		}
 
 		$thePath = str_replace($thePath, '', JPATH_SITE);
-		
+
 		return ($thePath == '') ? "/" : $thePath."/";
 	}
 
@@ -940,13 +940,13 @@ class JInstallationHelper
 	function setDirPerms($dir, &$srv)
 	{
 		jimport('joomla.filesystem.path');
-		
+
 		/*
 		 * Initialize variables
 		 */
 		$ftpFlag = false;
 		$ftpRoot = $srv['ftpRoot'];
-		
+
 		/*
 		 * First we need to determine if the path is chmodable
 		 */
@@ -997,7 +997,7 @@ class JInstallationHelper
 
 		return $ret;
 	}
-	
+
 	function uploadSql( &$args ) {
 		global $mainframe;
 		$archive = '';
@@ -1033,7 +1033,7 @@ class JInstallationHelper
 		/*
 		 * Move uploaded file
 		 */
-		jimport('joomla.filesystem.file');		
+		jimport('joomla.filesystem.file');
 		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
 		if( !eregi('.sql$', $sqlFile['name']) ){
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
@@ -1046,13 +1046,13 @@ class JInstallationHelper
 		if ($archive && !JInstallationHelper::unpack( $archive )){
 			return JText::_('WARNUNPACK');
 		}
-		
+
 		$errors = null;
 		$msg = '';
 		jimport('joomla.database.database');
 		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($database, $script, $errors);
-		
+
 		/*
 		 * prepare sql error messages if returned from populate
 		 */
@@ -1069,15 +1069,15 @@ class JInstallationHelper
 			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
 		}
 
-			// Cleanup 
+			// Cleanup
 			JFile::delete($script);
 			if ($archive){
 				JFile::delete($archive);
 			}
-			
+
 		return $txt;
 	}
-	
+
 	/**
 	 * Unpacks a file and verifies it as a Joomla element package
 	 *
@@ -1134,7 +1134,7 @@ class JInstallationHelper
 			}
 			// Set permissions for extracted dir
 			JPath::setPermissions($extractdir, '0666', '0777');
-			
+
 			// Free up PCLZIP memory
 			unset ($zipfile);
 		} else {
@@ -1157,7 +1157,7 @@ class JInstallationHelper
 			 * Now its time to extract the archive
 			 */
 			if (!$archive->extractModify($extractdir, '')) {
-				
+
 				// Unable to extract the archive, set an error and fail
 				JError::raiseWarning(1, JText::_('Extract Error'));
 				return false;
@@ -1170,7 +1170,7 @@ class JInstallationHelper
 			unset ($archive);
 		}
 		return true;
-	
+
 	}
 }
 ?>

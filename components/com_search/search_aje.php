@@ -119,10 +119,10 @@ function viewSearch() {
 	$searchphrases[] = $phrase;
 
 	$lists['searchphrase']= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
-	
+
 	// load the JSearch search class
 	jimport( 'joomla.application.search' );
-	
+
 
 	JPluginHelper::importPlugin( 'search' );
 	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
@@ -133,7 +133,7 @@ function viewSearch() {
 
 	// meta pagetitle
 	$mainframe->setPageTitle( JText::_( 'Search' ) );
-		
+
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
 			// html output
@@ -178,7 +178,7 @@ function viewSearch() {
 		$totalRows = count( $rows );
 		*/
 		require_once (JApplicationHelper::getPath('helper', 'com_content'));
-		
+
 		$rows = $oSearch->getResults();
 		$totalRows = count( $rows );
 

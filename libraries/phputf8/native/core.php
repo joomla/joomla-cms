@@ -29,31 +29,31 @@ if ( !defined('UTF8_CORE') ) {
 * @subpackage strings
 */
 function utf8_strpos($str, $needle, $offset = NULL) {
-    
+
     if ( is_null($offset) ) {
-    
+
         $ar = explode($needle, $str);
         if ( count($ar) > 1 ) {
             return utf8_strlen($ar[0]);
         }
         return FALSE;
-        
+
     } else {
-        
+
         if ( !is_int($offset) ) {
             trigger_error('utf8_strpos: Offset must be an integer',E_USER_ERROR);
             return FALSE;
         }
-        
+
         $str = utf8_substr($str, $offset);
-        
+
         if ( FALSE !== ( $pos = utf8_strpos($str, $needle) ) ) {
             return $pos + $offset;
         }
-        
+
         return FALSE;
     }
-    
+
 }
 
 //--------------------------------------------------------------------
@@ -73,11 +73,11 @@ function utf8_strpos($str, $needle, $offset = NULL) {
 * @subpackage strings
 */
 function utf8_strrpos($str, $needle, $offset = NULL) {
-    
+
     if ( is_null($offset) ) {
-    
+
         $ar = explode($needle, $str);
-        
+
         if ( count($ar) > 1 ) {
             // Pop off the end of the string where the last match was made
             array_pop($ar);
@@ -85,23 +85,23 @@ function utf8_strrpos($str, $needle, $offset = NULL) {
             return utf8_strlen($str);
         }
         return FALSE;
-        
+
     } else {
-        
+
         if ( !is_int($offset) ) {
             trigger_error('utf8_strrpos expects parameter 3 to be long',E_USER_WARNING);
             return FALSE;
         }
-        
+
         $str = utf8_substr($str, $offset);
-        
+
         if ( FALSE !== ( $pos = utf8_strrpos($str, $needle) ) ) {
             return $pos + $offset;
         }
-        
+
         return FALSE;
     }
-    
+
 }
 
 //--------------------------------------------------------------------
@@ -118,9 +118,9 @@ function utf8_strrpos($str, $needle, $offset = NULL) {
 * @subpackage strings
 */
 function utf8_substr($str, $offset, $length = NULL) {
-    
+
     if ( $offset >= 0 && $length >= 0 ) {
-    
+
         if ( $length === NULL ) {
             $length = '*';
         } else {
@@ -128,36 +128,36 @@ function utf8_substr($str, $offset, $length = NULL) {
                 trigger_error('utf8_substr expects parameter 3 to be long', E_USER_WARNING);
                 return FALSE;
             }
-            
+
             $strlen = strlen(utf8_decode($str));
             if ( $offset > $strlen ) {
                 return '';
             }
-            
+
             if ( ( $offset + $length ) > $strlen ) {
                $length = '*';
             } else {
                 $length = '{'.$length.'}';
             }
         }
-        
+
         if ( !preg_match('/^[0-9]+$/', $offset) ) {
             trigger_error('utf8_substr expects parameter 2 to be long', E_USER_WARNING);
             return FALSE;
         }
-        
+
         $pattern = '/^.{'.$offset.'}(.'.$length.')/us';
-        
+
         preg_match($pattern, $str, $matches);
-        
+
         if ( isset($matches[1]) ) {
             return $matches[1];
         }
-        
+
         return FALSE;
-    
+
     } else {
-        
+
         // Handle negatives using different, slower technique
         // From: http://www.php.net/manual/en/function.substr.php#44838
         preg_match_all('/./u', $str, $ar);

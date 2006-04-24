@@ -19,9 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Users
 */
-class HTML_user 
+class HTML_user
 {
-	function frontpage() 
+	function frontpage()
 	{
 		?>
 		<div class="componentheading">
@@ -38,7 +38,7 @@ class HTML_user
 		<?php
 	}
 
-	function userEdit( &$user, $option, $submitvalue ) 
+	function userEdit( &$user, $option, $submitvalue )
 	{
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
@@ -74,7 +74,7 @@ class HTML_user
 		}
 		</script>
 		<form action="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=UserDetails' ); ?>" method="post" name="JTableUserForm">
-		
+
 		<div class="componentheading">
 			<?php echo JText::_( 'Edit Your Details' ); ?>
 		</div>
@@ -140,8 +140,8 @@ class HTML_user
 			</td>
 		</tr>
 		</table>
-		<?php 
-			$params =& $user->getParameters(); 
+		<?php
+			$params =& $user->getParameters();
 			$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
 			echo $params->render( 'params' );
 		?>
@@ -153,7 +153,7 @@ class HTML_user
 		<?php
 	}
 
-	function confirmation() 
+	function confirmation()
 	{
 		?>
 		<div class="componentheading">

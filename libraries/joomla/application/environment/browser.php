@@ -26,7 +26,7 @@ jimport( 'joomla.common.base.object' );
  * @author  Chuck Hagenbuch <chuck@horde.org>
  * @author  Jon Parise <jon@horde.org>
  * @author	Johan Janssens <johan.janssens@joomla.org>
- * 
+ *
  * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.5
@@ -47,14 +47,14 @@ class JBrowser extends JObject
      * @var integer
      */
     var $_minorVersion = 0;
-	
+
 	/**
      * Browser name.
      *
      * @var string
      */
     var $_browser = '';
-	
+
 	/**
 	 * Full user agent string.
 	 *
@@ -75,7 +75,7 @@ class JBrowser extends JObject
 	 * @var string
 	 */
 	var $_accept = '';
-	
+
 	 /**
      * Platform the browser is running on.
      *
@@ -137,7 +137,7 @@ class JBrowser extends JObject
 		'www.almaden.ibm.com/cs/crawler',
 		'ZyBorg',
 	);
-	
+
 	/**
      * Is this a mobile browser?
      *
@@ -569,7 +569,7 @@ class JBrowser extends JObject
             }
         }
     }
-	
+
 	 /**
      * Match the platform of the browser.
      *
@@ -596,7 +596,7 @@ class JBrowser extends JObject
 	function getPlatform()     {
 		return $this->_platform;
 	}
-	
+
 	/**
      * Sets the current browser.
      *
@@ -663,7 +663,7 @@ class JBrowser extends JObject
 		}
 		return null;
 	}
-	
+
 	/**
      * Set unique behavior for the current browser.
      *
@@ -683,7 +683,7 @@ class JBrowser extends JObject
     function hasQuirk($quirk) {
         return !empty($this->_quirks[$quirk]);
     }
-	
+
 	 /**
      * Retrieve unique behavior for the current browser.
      *
@@ -696,7 +696,7 @@ class JBrowser extends JObject
                ? $this->_quirks[$quirk]
                : null;
     }
-	
+
 	/**
      * Set capabilities for the current browser.
      *

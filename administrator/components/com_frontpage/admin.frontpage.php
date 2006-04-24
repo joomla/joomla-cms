@@ -124,9 +124,9 @@ function viewFrontPage( $option ) {
 		$where[] = "LOWER( c.title ) LIKE '%$search%'";
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, fpordering";
-	
+
 	// get the total number of records
 	$query = "SELECT count(*)"
 	. "\n FROM #__content AS c"
@@ -188,16 +188,16 @@ function viewFrontPage( $option ) {
 	$authors[] 			= mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$authors 			= array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
+	$lists['order'] = $filter_order;
 	// search filter
 	$lists['search']= $search;
 

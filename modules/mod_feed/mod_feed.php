@@ -59,7 +59,7 @@ if ($rssDoc != false)
 	$image			= $rssDoc->image;
 	$items 			= $rssDoc->items;
 	$iUrl = 0;
-	
+
 	//image handling
 	$iUrl = isset($image['url']) ? $image['url'] : null;
 	$iTitle = isset($image['title']) ? $image['title'] : null;
@@ -131,7 +131,7 @@ if ($rssDoc != false)
 		// item title
 		?>
 			<li >
-		<?php		
+		<?php
 
 		if ( !is_null( $currItem['link'] ) )
 		{

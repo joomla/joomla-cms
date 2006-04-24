@@ -28,35 +28,35 @@ class JInstaller extends JObject
 
 	/**
 	 * The directory that the extension is to be installed from
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_installDir = null;
 
 	/**
 	 * The extension type to install
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_installType = null;
 
 	/**
 	 * The xml install file
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_installFile = null;
 
 	/**
 	 * The does the package have an install script?
-	 * 
+	 *
 	 * @var boolean
 	 */
 	var $_hasInstallScript = false;
 
 	/**
 	 * The package install script
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_installScript = null;
@@ -134,7 +134,7 @@ class JInstaller extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 */
 	function __construct(& $db)
@@ -236,7 +236,7 @@ class JInstaller extends JObject
 	/**
 	 * Abstract install method
 	 * 	- override in child class
-	 * 
+	 *
 	 * @abstract
 	 * @since 1.0
 	 */
@@ -248,7 +248,7 @@ class JInstaller extends JObject
 	/**
 	 * Abstract update method
 	 * 	- override in child class
-	 * 
+	 *
 	 * @abstract
 	 * @since 1.5
 	 */
@@ -260,7 +260,7 @@ class JInstaller extends JObject
 	/**
 	 * Abstract uninstall method
 	 * 	- override in child class
-	 * 
+	 *
 	 * @abstract
 	 * @since 1.0
 	 */
@@ -315,7 +315,7 @@ class JInstaller extends JObject
 
 	/**
 	 * Is the xml file a valid Joomla install file
-	 * 
+	 *
 	 * @access protected
 	 * @param string $p_file An xmlfile path to check
 	 * @return mixed A DOMIT XML document, or null if the file failed to parse
@@ -345,7 +345,7 @@ class JInstaller extends JObject
 
 		/*
 		 * Check for a valid XML root tag.
-		 * 
+		 *
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
 		if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall')
@@ -404,7 +404,7 @@ class JInstaller extends JObject
 
 		/*
 		 * Check for a valid XML root tag.
-		 * 
+		 *
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
 		if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall')
@@ -482,7 +482,7 @@ class JInstaller extends JObject
 		/*
 		 * Here we set the folder we are going to copy the files to.  There are a few
 		 * special cases that need to be considered for certain reserved tags.
-		 * 
+		 *
 		 * 	- 'media' Files are copied to the JROOT/images/stories/ folder
 		 * 	- 'languages' Files are copied to JROOT/languages/ folder
 		 * 	- 'administration/languages' Files are copied to JADMIN_ROOT/languages/
@@ -518,11 +518,11 @@ class JInstaller extends JObject
 
 		/*
 		 * Here we set the folder we are going to copy the files from.
-		 * 
+		 *
 		 * Does the element have a folder attribute?
-		 * 
-		 * If so this indicates that the files are in a subdirectory of the source 
-		 * folder and we should append the folder attribute to the source path when 
+		 *
+		 * If so this indicates that the files are in a subdirectory of the source
+		 * folder and we should append the folder attribute to the source path when
 		 * copying files.
 		 */
 		if ($folder = $filesElement->getAttribute('folder'))
@@ -555,7 +555,7 @@ class JInstaller extends JObject
 			 * 		<language tag="en-US">en-US.mycomponent.ini</language>
 			 *
 			 * would go in the en-US subdirectory of the languages directory.
-			 * 
+			 *
 			 * We will only install language files where a core language pack
 			 * already exists.
 			 */
@@ -572,8 +572,8 @@ class JInstaller extends JObject
 			}
 
 			/*
-			 * Before we can add a file to the copyfiles array we need to ensure 
-			 * that the folder we are copying our file to exits and if it doesn't, 
+			 * Before we can add a file to the copyfiles array we need to ensure
+			 * that the folder we are copying our file to exits and if it doesn't,
 			 * we need to create it.
 			 */
 			if (basename($path) != $path)
@@ -610,7 +610,7 @@ class JInstaller extends JObject
 	}
 
 	/**
-	 * Backward compatible Method to parse through a queries element of the 
+	 * Backward compatible Method to parse through a queries element of the
 	 * installation file and take appropriate action.
 	 *
 	 * @access private
@@ -836,7 +836,7 @@ class JInstaller extends JObject
 		}
 
 		/*
-		 * $p_files must be an array of filenames.  Verify that it is an array with 
+		 * $p_files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
 		if (is_array($p_files) && count($p_files) > 0)
@@ -964,7 +964,7 @@ class JInstaller extends JObject
 		/*
 		 * Here we set the folder we are going to copy the files to.  There are a few
 		 * special cases that need to be considered for certain reserved tags.
-		 * 
+		 *
 		 * 	- 'media' Files are copied to the JROOT/images/stories/ folder
 		 * 	- 'languages' Files are copied to JROOT/languages/ folder
 		 * 	- 'administration/languages' Files are copied to JADMIN_ROOT/languages/
@@ -1091,7 +1091,7 @@ class JInstaller extends JObject
 						$stepval = $this-> $method ($step);
 					} else
 					{
-						// do nothing	
+						// do nothing
 					}
 					break;
 			}
@@ -1250,7 +1250,7 @@ class JInstallerHelper
 			}
 			// Set permissions for extracted dir
 			JPath::setPermissions($extractdir, '0666', '0777');
-			
+
 			// Free up PCLZIP memory
 			unset ($zipfile);
 		} else
@@ -1294,7 +1294,7 @@ class JInstallerHelper
 		/*
 		 * Try to find the correct install directory.  In case the package is inside a
 		 * subdirectory detect this and set the install directory to the correct path.
-		 * 
+		 *
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
@@ -1329,7 +1329,7 @@ class JInstallerHelper
 
 	/**
 	 * Method to detect the extension type from a package directory
-	 * 
+	 *
 	 * @static
 	 * @param string $p_dir Path to package directory
 	 * @return mixed Extension type string or boolean false on fail
@@ -1381,7 +1381,7 @@ class JInstallerHelper
 
 	/**
 	 * Gets a file name out of a url
-	 * 
+	 *
 	 * @static
 	 * @param string $url URL to get name from
 	 * @return mixed String filename or boolean false if failed

@@ -15,7 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the component helper 
+// require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 /**
@@ -110,7 +110,7 @@ class JModelFrontpage extends JObject
 		if (empty($this->_content))
 		{
 			global $mainframe;
-	
+
 			$user		= & $mainframe->getUser();
 			$gid		= $user->get('gid');
 
@@ -166,7 +166,7 @@ class JModelFrontpage extends JObject
 				}
 			}
 			$this->_content = $rows;
-		}		
+		}
 		return true;
 	}
 
@@ -178,7 +178,7 @@ class JModelFrontpage extends JObject
 		$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 
 		$orderby = "\n ORDER BY $primary $secondary";
-		
+
 		return $orderby;
 	}
 
@@ -191,13 +191,13 @@ class JModelFrontpage extends JObject
 		$now		= $mainframe->get('requestTime');
 		$noauth		= !$mainframe->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-	
+
 		/*
 		 * First thing we need to do is assert that the content items are in
 		 * the current category
 		 */
 		$where = "\n WHERE 1";
-		
+
 		/*
 		 * Does the user have access to view the items?
 		 */
@@ -205,7 +205,7 @@ class JModelFrontpage extends JObject
 		{
 			$where .= "\n AND a.access <= $gid";
 		}
-		
+
 		if ($user->authorize('action', 'edit', 'content', 'all'))
 		{
 			$where .= "\n AND a.state >= 0";
@@ -216,7 +216,7 @@ class JModelFrontpage extends JObject
 					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
 		}
-	
+
 		$where .= "\n AND s.published = 1";
 		$where .= "\n AND cc.published = 1";
 

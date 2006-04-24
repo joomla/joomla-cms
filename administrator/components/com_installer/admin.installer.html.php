@@ -19,9 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * @package Joomla
  */
-class JInstallerScreens 
+class JInstallerScreens
 {
-	function showInstallForm( $p_startdir = "", $backLink="" ) 
+	function showInstallForm( $p_startdir = "", $backLink="" )
 	{
 		?>
 		<script language="javascript" type="text/javascript">
@@ -51,10 +51,10 @@ class JInstallerScreens
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
-		
-		<div id="pane-document">	
+
+		<div id="pane-document">
 				<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
-				
+
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
@@ -73,16 +73,16 @@ class JInstallerScreens
 					</td>
 				</tr>
 				</table>
-		
+
 				<input type="hidden" name="task" value="uploadpackage" />
 				<input type="hidden" name="option" value="com_installer" />
 				</form>
-				
+
 				<br />
 				<br />
-		
+
 				<form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_dir">
-				
+
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
@@ -101,16 +101,16 @@ class JInstallerScreens
 					</td>
 				</tr>
 				</table>
-		
+
 				<input type="hidden" name="task" value="installfromdir" />
 				<input type="hidden" name="option" value="com_installer" />
 				</form>
-				
+
 				<br />
 				<br />
-		
+
                 <form enctype="multipart/form-data" action="index2.php" method="post" name="webinstall">
-                
+
                 <table class="adminform">
                 <tr>
                     <th colspan="2">
@@ -131,7 +131,7 @@ class JInstallerScreens
                 </table>
 
                 <input type="hidden" name="task" value="installfromurl" />
-                <input type="hidden" name="option" value="com_installer" />		                
+                <input type="hidden" name="option" value="com_installer" />
                 </form>
 		</div>
 		<?php
@@ -139,7 +139,7 @@ class JInstallerScreens
 
 	/**
 	 * Display an installer message
-	 * 
+	 *
 	 * @static
 	 * @param string $title
 	 * @param string $message
@@ -147,19 +147,19 @@ class JInstallerScreens
 	 * @return void
 	 * @since 1.0
 	 */
-	function showInstallMessage( $title, $message, $scriptOutput ) 
+	function showInstallMessage( $title, $message, $scriptOutput )
 	{
 		?>
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
-		
+
 		<div id="pane-document">
 			<fieldset title="<?php echo $title; ?>">
 				<legend>
 					<?php echo $title; ?>
 				</legend>
-				
+
 				<table class="adminform">
 				<tr>
 					<td >
@@ -179,18 +179,18 @@ class JInstallerScreens
 
 	/**
 	 * Print a writable cell
-	 * 
+	 *
 	 * @param string $folder
 	 * @return string
 	 */
 	function writableCell( $folder ) {
-	
+
 		$txt .= '<tr>';
 		$txt .= '<td class="item">' . $folder . '/</td>';
 		$txt .= '<td >';
 		$txt .= is_writable( JPATH_SITE . '/' . $folder ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
 		$txt .= '</td></tr>';
-	
+
 		return $txt;
 	}
 }

@@ -48,7 +48,7 @@ class JAuthenticateLdap extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password ) 
+	function onAuthenticate( $username, $password )
 	{
 		global $mainframe;
 
@@ -64,11 +64,11 @@ class JAuthenticateLdap extends JPlugin {
 		}
 
 		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap'); 
+	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');
 	 	$pluginParams = new JParameter( $plugin->params );
 
 		$ldap = new JLDAP($pluginParams);
-		
+
 		$return = new JAuthenticateResponse('LDAP');
 		if (!$ldap->connect()) {
 			$return->error_type = 'error';
@@ -76,14 +76,14 @@ class JAuthenticateLdap extends JPlugin {
 			return $return;
 		}
 		$success = $ldap->bind($username, $password);
-	
+
 		/*
 			// just a test, please leave
 			$search_filters = array( '(objectclass=*)' );
 			$attributes = $ldap->search( $search_filters );
 			print_r($attributes);
 		*/
-		
+
 		$ldap->close();
 
 		return $success;

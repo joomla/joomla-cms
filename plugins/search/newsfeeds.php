@@ -37,10 +37,10 @@ function &botSearchNewfeedAreas() {
 * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
 */
-function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null ) 
+function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
@@ -51,7 +51,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'newsfeeds'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'newsfeeds');
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

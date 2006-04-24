@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $document;
 
 ?>
-<div style="padding: 10px 2px;">	
+<div style="padding: 10px 2px;">
 	<table class="adminform">
 	<tr>
 		<td width="55%" valign="top">
@@ -26,14 +26,14 @@ global $document;
 		<td width="45%" valign="top">
 			<div style="width: 100%;">
 				<form action="index2.php" method="post" name="adminForm">
-				
+
 				<?php
 				$tabs =& JPane::getInstance('sliders');
 				$tabs->startPane( 'modules-cpanel' );
 				?>
-				
+
 				<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 3)); ?>
-				
+
 				<?php
 				$tabs->endPane();
 				?>

@@ -18,7 +18,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginImage' );
 
 /**
 */
-function pluginImage( &$row, &$params, $page=0 ) 
+function pluginImage( &$row, &$params, $page=0 )
 {
 	global $database;
 
@@ -26,11 +26,11 @@ function pluginImage( &$row, &$params, $page=0 )
 	if ( JString::strpos( $row->text, '{image' ) === false ) {
 		return true;
 	}
-	
+
 	// expression to search for
 	$regex = '/{image\s*.*?}/i';
 
-	$plugin =& JPluginHelper::getPlugin('content', 'image'); 
+	$plugin =& JPluginHelper::getPlugin('content', 'image');
 
 	// check whether images have been disabled for page
 	// check whether plugin has been unpublished
@@ -82,12 +82,12 @@ function pluginImage( &$row, &$params, $page=0 )
 	}
 }
 
-function processImages ( &$row, &$params, &$introCount ) 
+function processImages ( &$row, &$params, &$introCount )
 {
 	global $mainframe;
-	
+
 	$images 		= array();
-	
+
 	// split on \n the images fields into an array
 	$row->images 	= explode( "\n", $row->images );
 	$total 			= count( $row->images );
@@ -160,10 +160,10 @@ function processImages ( &$row, &$params, &$introCount )
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';
 			}
 			$image .=' alt="'. $attrib[2] .'" title="'. $attrib[2] .'" border="'. $border .'" />';
-			
+
 			// assemble caption - if caption detected
 			$caption = '';
-			if ( $attrib[4] ) {				
+			if ( $attrib[4] ) {
 				$caption = '<div class="mosimage_caption"';
 				if ( $attrib[6] ) {
 					$caption .= ' style="text-align: '. $attrib[6] .';"';
@@ -173,7 +173,7 @@ function processImages ( &$row, &$params, &$introCount )
 				$caption .= $attrib[4];
 				$caption .= '</div>';
 			}
-			
+
 			// final output
 			if ( $attrib[4] ) {
 				// initialize variables
@@ -183,30 +183,30 @@ function processImages ( &$row, &$params, &$introCount )
 				$style		= '';
 				if ( $params->def( 'margin' ) ) {
 					$margin 		= ' margin: '. $params->def( 'margin' ).'px;';
-				}				
+				}
 				if ( $params->def( 'padding' ) ) {
 					$padding 		= ' padding: '. $params->def( 'padding' ).'px;';
-				}				
+				}
 				if ( $attrib[1] ) {
 					$float 			= ' float: '. $attrib[1] .';';
 				}
 				if ( $attrib[3] ) {
 					$border_width	= ' border-width: '. $attrib[3] .'px;';
 				}
-				
+
 				if ( $params->def( 'margin' ) || $params->def( 'padding' ) || $attrib[1] || $attrib[3] ) {
 					$style = ' style="'. $border_width . $float . $margin . $padding . $width .'"';
 				}
-				
-				$img = '<div class="mosimage" '. $style .' align="center">'; 
-				
+
+				$img = '<div class="mosimage" '. $style .' align="center">';
+
 				// display caption in top position
 				if ( $attrib[5] == 'top' && $caption ) {
 					$img .= $caption;
 				}
-				
+
 				$img .= $image;
-				
+
 				// display caption in bottom position
 				if ( $attrib[5] == 'bottom' && $caption ) {
 					$img .= $caption;
@@ -214,8 +214,8 @@ function processImages ( &$row, &$params, &$introCount )
 				$img .='</div>';
 			} else {
 				$img = $image;
-			}			
-			
+			}
+
 			$images[] = $img;
 		}
 	}
@@ -228,7 +228,7 @@ function processImages ( &$row, &$params, &$introCount )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function botMosImage_replacer( &$matches ) 
+function botMosImage_replacer( &$matches )
 {
 	$i = $GLOBALS['botMosImageCount']++;
 

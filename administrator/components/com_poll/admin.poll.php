@@ -84,7 +84,7 @@ function showPolls( $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 
@@ -99,9 +99,9 @@ function showPolls( $option ) {
 		$where[] = "LOWER(m.title) LIKE '%$search%'";
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir";
-	
+
 	$query = "SELECT COUNT(m.id)"
 	. "\n FROM #__polls AS m"
 	. $where
@@ -127,10 +127,10 @@ function showPolls( $option ) {
 		echo $database->stderr();
 		return false;
 	}
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
-	
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -138,10 +138,10 @@ function showPolls( $option ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-	
+
 	// search filter
 	$lists['search']= $search;
-	
+
 	HTML_poll::showPolls( $rows, $pageNav, $option, $lists );
 }
 
@@ -256,17 +256,17 @@ function savePoll( $task ) {
 		case 'apply':
 			$link = 'index2.php?option=com_poll&task=editA&id='. $row->id .'&hidemainmenu=1';
 			break;
-		
+
 		case 'save':
 		default:
 			$link = 'index2.php?option=com_poll';
 			break;
 	}
-	
+
 	josRedirect($link);
 }
 
-function removePoll( $cid, $option ) 
+function removePoll( $cid, $option )
 {
 	global $database;
 	$msg = '';
@@ -317,7 +317,7 @@ function publishPolls( $cid=null, $publish=1, $option )
 	josRedirect( 'index2.php?option='. $option );
 }
 
-function cancelPoll( $option ) 
+function cancelPoll( $option )
 {
 	global $database;
 	$row = new mosPoll( $database );
@@ -326,10 +326,10 @@ function cancelPoll( $option )
 	josRedirect( 'index2.php?option='. $option );
 }
 
-function previewPoll($option) 
+function previewPoll($option)
 {
 	global $database, $mainframe;
-	
+
 	$mainframe->setPageTitle(JText::_('Poll Preview'));
 
 	$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );

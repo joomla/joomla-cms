@@ -27,7 +27,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 	* @var		string
 	*/
 	var $_name	=	'include';
-	
+
 	/**
 	* reference to the JDocument object that instantiated the module
 	*
@@ -36,7 +36,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 	*/
 	var	$_tmpl;
 
-  
+
    /**
 	* call the function
 	*
@@ -50,28 +50,28 @@ class patTemplate_Function_Include extends patTemplate_Function
 		if(!isset($params['type'])) {
 			return false;
 		}
-		
+
 		$type = isset($params['type']) ? strtolower( $params['type'] ) : null;
 		unset($params['type']);
-		
+
 		$name = isset($params['name']) ? strtolower( $params['name'] ) : null;
 		unset($params['name']);
-		
-		switch($type) 
+
+		switch($type)
 		{
 			case 'modules'  		:
 			{
 				$modules =& JModuleHelper::getModules($name);
-		
+
 				$total = count($modules);
 				for($i = 0; $i < $total; $i++) {
 					foreach($params as $param => $value) {
 						$modules[$i]->$param = $value;
 					}
 				}
-				
+
 				$this->_tmpl->_addRenderer($type, $name);
-				
+
 			} break;
 			case 'module' 		:
 			{
@@ -80,16 +80,16 @@ class patTemplate_Function_Include extends patTemplate_Function
 				foreach($params as $param => $value) {
 					$module->$param = $value;
 				}
-				
+
 				$this->_tmpl->_addRenderer($type, $name);
 			} break;
-		
+
 			default : $this->_tmpl->_addRenderer($type, $name);
 		}
-		
+
 		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
-	
+
 	 /**
 	* set a reference to the JDocument object that instantiated the function
 	*

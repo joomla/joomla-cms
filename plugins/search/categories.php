@@ -38,10 +38,10 @@ function &botSearchCategoryAreas() {
  * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if restricted to areas, null if search all
  */
-function botSearchCategories( $text, $phrase='', $ordering='', $areas=null ) 
+function botSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
@@ -52,7 +52,7 @@ function botSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'categories'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'categories');
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

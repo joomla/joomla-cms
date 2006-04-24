@@ -39,7 +39,7 @@ class JViewBlog
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
 		$document	= & $mainframe->getDocument();
-		
+
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
 		$option		= JRequest::getVar('option');
@@ -49,7 +49,7 @@ class JViewBlog
 		$link    = $mainframe->getBaseURL() .'index.php?option=com_frontpage&format=rss';
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link, 'alternate', 'rel', $attribs);
-		
+
 		// parameters
 		$params = & $model->getMenuParams();
 		if ($params->get('page_title', 1) && $menu) {
@@ -57,13 +57,13 @@ class JViewBlog
 		} else {
 			$header = '';
 		}
-		
+
 		$columns = $params->def('columns', 2);
-		
+
 		if ($columns == 0) {
 			$columns = 1;
 		}
-		
+
 		$intro					= $params->def('intro', 4);
 		$leading				= $params->def('leading', 1);
 		$links					= $params->def('link', 4);
@@ -86,7 +86,7 @@ class JViewBlog
 		if (!$limitstart) {
 			$limitstart = 0;
 		}
-		
+
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
@@ -310,7 +310,7 @@ class JViewBlog
 		$params->def('readmore',	$mainframe->getCfg('readmore'));
 		$params->def('back_button', $mainframe->getCfg('back_button'));
 		$params->set('intro_only', 1);
-		
+
 		/*
 		 * Get some item specific parameters
 		 */
@@ -328,7 +328,7 @@ class JViewBlog
 		{
 			$params->set('image',	0);
 		}
-		
+
 		/*
 		 * Process the content preparation plugins
 		 */
@@ -367,7 +367,7 @@ class JViewBlog
 		if ($access->canEdit)
 		{
 			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
+			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
 				<?php JContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
@@ -468,7 +468,7 @@ class JViewBlog
 				<?php echo JText::_( 'Read more...' ); ?>
 				</strong>
 			</div>
-			
+
 			<ul>
 		<?php
 		for ($j = 0; $j < $links; $j ++)

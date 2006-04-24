@@ -111,7 +111,7 @@ function userEdit( $option, $submitvalue) {
 
 	$database 		=& $mainframe->getDBO();
 	$breadcrumbs 	=& $mainframe->getPathWay();
-	$user			=& $mainframe->getUser();	
+	$user			=& $mainframe->getUser();
 	// security check to see if link exists in a menu
 	$link = 'index.php?option=com_user&task=CheckIn';
 	$query = "SELECT id"
@@ -121,24 +121,24 @@ function userEdit( $option, $submitvalue) {
 	;
 	$database->setQuery( $query );
 	$exists = $database->loadResult();
-	if ( !$exists ) {						
+	if ( !$exists ) {
 		mosNotAuth();
 		return;
-	}		
+	}
 
 	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
-	
+
 	// Set page title
 	$mainframe->setPageTitle( $menu->name );
-	
+
 	// Add breadcrumb
 	$breadcrumbs->addItem( $menu->name, '' );
 
 	HTML_user::userEdit( $user, $option, $submitvalue );
 }
 
-function userSave( $option, $uid) 
+function userSave( $option, $uid)
 {
 	global $mainframe, $database, $Itemid;
 
@@ -149,7 +149,7 @@ function userSave( $option, $uid)
 		mosNotAuth();
 		return;
 	}
-	
+
 	// do a password safety check
 	if(isset($_POST["password"]) && $_POST["password"] != "") {
 		if(!isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
@@ -157,7 +157,7 @@ function userSave( $option, $uid)
 			exit();
 		}
 	}
-	
+
 	$user = JUser::getInstance($user_id);
 
 	if (!$user->bind( $_POST )) {
@@ -193,11 +193,11 @@ function CheckIn( $userid, $access, $option ){
 	;
 	$database->setQuery( $query );
 	$exists = $database->loadResult();
-	if ( !$exists ) {						
+	if ( !$exists ) {
 		mosNotAuth();
 		return;
-	}		
-	
+	}
+
 	$lt = mysql_list_tables($mosConfig_db);
 	$k = 0;
 	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">";

@@ -26,7 +26,7 @@ class HTML_content {
 	*/
 	function showList( &$rows, $page, $option, $lists ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 		$db = & $mainframe->getDBO();
@@ -34,7 +34,7 @@ class HTML_content {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
-		
+
 			<table class="adminform">
 				<tr>
 					<td align="left" width="100%">
@@ -106,9 +106,9 @@ class HTML_content {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$link = ampReplace( 'index2.php?option=com_content&task=edit&hidemainmenu=1&cid[]='. $row->id );
-	
+
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == '1' ) {
 					$img = 'publish_y.png';
@@ -123,7 +123,7 @@ class HTML_content {
 					$img = "publish_x.png";
 					$alt = JText::_( 'Unpublished' );
 				}
-	
+
 				$times = '';
 				if ( isset( $row->publish_up ) ) {
 					  if ( $row->publish_up == $nullDate) {
@@ -139,10 +139,10 @@ class HTML_content {
 					  $times .= '<tr><td>'. JText::_( 'Finish' ) .': '. $row->publish_down .'</td></tr>';
 					  }
 				}
-	
+
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-	
+
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
@@ -157,7 +157,7 @@ class HTML_content {
 						$author = $row->author;
 					}
 				}
-				
+
 				// section handling
 				if ($row->sectionid) {
 					$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
@@ -175,7 +175,7 @@ class HTML_content {
 					$row->name 		= JText::_( 'Static Content' );
 					$row->cat_link 	= ampReplace( 'index2.php?option=com_typedcontent' );
 					$title_cat		= JText::_( 'View Static Content Manager' );
-				}				
+				}
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

@@ -110,7 +110,7 @@ switch ($task) {
 * Compiles a list of categories for a section
 * @param string The name of the category section
 */
-function showCategories( $section, $option ) 
+function showCategories( $section, $option )
 {
 	global $database, $mainframe;
 
@@ -121,7 +121,7 @@ function showCategories( $section, $option )
 	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$section_name 	= '';
 	$content_add 	= '';
@@ -176,7 +176,7 @@ function showCategories( $section, $option )
 		$where 			= "\n WHERE c.section NOT LIKE '%com_%'";
 		$order 			= "\n ORDER BY  $filter_order $filter_order_Dir, c.section, c.ordering";
 		$section_name 	= JText::_( 'All Content:' );
-		
+
 		// get the total number of records
 		$query = "SELECT COUNT(*)"
 		. "\n FROM #__categories"
@@ -201,7 +201,7 @@ function showCategories( $section, $option )
 		} else if ($filter_state == 'U' ) {
 			$filter .= "\n AND c.published = 0";
 		}
-	}	
+	}
 	if ($search) {
 		$filter .= "\n AND LOWER(c.name) LIKE '%$search%'";
 	}
@@ -256,16 +256,16 @@ function showCategories( $section, $option )
 	// get list of sections for dropdown filter
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'sectionid', $sectionid, $javascript );
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
+	$lists['order'] = $filter_order;
 	// search filter
 	$lists['search']= $search;
 
@@ -278,7 +278,7 @@ function showCategories( $section, $option )
 * @param integer The unique id of the category to edit (0 if new)
 * @param string The name of the current user
 */
-function editCategory( $uid=0, $section='' ) 
+function editCategory( $uid=0, $section='' )
 {
 	global $database, $my;
 
@@ -329,7 +329,7 @@ function editCategory( $uid=0, $section='' )
 				$and 	= "\n AND type = 'contact_category_table'";
 				$link 	= JText::_( 'Table - Contacts Category' );
 				break;
-			
+
 			default:
 				$and  = '';
 				$link = '';
@@ -464,7 +464,7 @@ function editCategory( $uid=0, $section='' )
 * Saves the catefory after an edit form submit
 * @param string The name of the category section
 */
-function saveCategory( $task ) 
+function saveCategory( $task )
 {
 	global $database;
 
@@ -660,7 +660,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 * @param string The name of the category section
 * @param integer A unique category id
 */
-function cancelCategory() 
+function cancelCategory()
 {
 	global $database;
 
@@ -828,7 +828,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$total 			= count( $contentid  );
 
 	$category =& JTable::getInstance('category', $database );
-	
+
 	foreach( $cid as $id ) {
 		$category->load( $id );
 		$category->id 		= NULL;
@@ -916,7 +916,7 @@ function menuLink( $id ) {
 	$type 		= JRequest::getVar( 'link_type', '', 'post' );
 
 	$name		= stripslashes( ampReplace($name) );
-	
+
 	switch ( $type ) {
 		case 'content_category':
 			$link 		= 'index.php?option=com_content&task=category&sectionid='. $sectionid .'&id='. $id;

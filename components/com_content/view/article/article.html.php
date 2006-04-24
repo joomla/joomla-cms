@@ -26,7 +26,7 @@ class JViewHTMLArticle extends JView
 {
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -34,7 +34,7 @@ class JViewHTMLArticle extends JView
 
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -100,16 +100,16 @@ class JViewHTMLArticle extends JView
 			if ($params->get('intro_only')) {
 				// Checks to make sure user has access to the full article
 				if ($article->access <= $user->get('gid')) {
-					$Itemid = JContentHelper::getItemid($article->id);					
+					$Itemid = JContentHelper::getItemid($article->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
-					
+
 					if (@$article->readmore) {
 					// text for the readmore link
 						$linkText = JText::_('Read more...');
 					}
 				} else {
 					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-					
+
 					if (@$article->readmore) {
 					// text for the readmore link if accessible only if registered
 						$linkText = JText::_('Register to read more...');
@@ -126,7 +126,7 @@ class JViewHTMLArticle extends JView
 		// If the user can edit the article, display the edit icon
 		if ($access->canEdit) {
 			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
+			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
 				<?php JContentHTMLHelper::editIcon($article, $params, $access); ?>
 			</div>
 			<?php
@@ -276,7 +276,7 @@ class JViewHTMLArticle extends JView
 			}
 		}
 		?>
-		
+
 		function delay(gap)
 		{ /* gap is in millisecs */
 			var then,now; then=new Date().getTime();
@@ -284,7 +284,7 @@ class JViewHTMLArticle extends JView
 			while((now-then)<gap)
 			{now=new Date().getTime();}
 		}
-		
+
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
@@ -292,7 +292,7 @@ class JViewHTMLArticle extends JView
 				window.top.hidePopWin();
 				return;
 			}
-			
+
 			// assemble the images back into one field
 			var temp = new Array;
 			for (var i=0, n=form.imagelist.options.length; i < n; i++) {
@@ -371,14 +371,14 @@ class JViewHTMLArticle extends JView
 			</td>
 		</tr>
 		</table>
-		
-		<!-- Begin Article Parameters Section -->		
-		<!-- Images Tab -->		
+
+		<!-- Begin Article Parameters Section -->
+		<!-- Images Tab -->
 		<?php
 		$title = JText::_('Editor');
 		$tabs->startPane('content-pane');
 		$tabs->startTab($title, 'editor-page');
-		
+
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
@@ -392,9 +392,9 @@ class JViewHTMLArticle extends JView
 		// arguments (areaname, content, hidden field, width, height, rows, cols)
 		echo $editor->display('text', $article->text, '655', '400', '70', '15');
 		?>
-		
-		<!-- Images Tab -->	
-		<?php	
+
+		<!-- Images Tab -->
+		<?php
 		$title = JText::_('Images');
 		$tabs->endTab();
 		$tabs->startTab($title, 'images-page');
@@ -543,17 +543,17 @@ class JViewHTMLArticle extends JView
 				<td>&nbsp;</td>
 			</tr>
 			</table>
-			
-		<!-- Publishing Tab -->		
+
+		<!-- Publishing Tab -->
 		<?php
 		$title = JText::_('Publishing');
 		$tabs->endTab();
 		$tabs->startTab($title, 'publish-page');
 		?>
-		
+
 			<table class="adminform">
 		<?php
-		
+
 		// If the document is in a section display the section and category dropdown
 		if ($article->sectionid) {
 		?>
@@ -660,8 +660,8 @@ class JViewHTMLArticle extends JView
 				</td>
 			</tr>
 			</table>
-			
-		<!-- Metadata Tab -->		
+
+		<!-- Metadata Tab -->
 		<?php
 		$title = JText::_('Metadata');
 		$tabs->endTab();
@@ -689,8 +689,8 @@ class JViewHTMLArticle extends JView
 				</td>
 			</tr>
 			</table>
-			
-		<!-- End Article Parameters Section -->		
+
+		<!-- End Article Parameters Section -->
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
@@ -767,7 +767,7 @@ class JViewHTMLArticle extends JView
 		$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
 		$db->setQuery($query);
 		$article->frontpage = $db->loadResult();
-		
+
 		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access

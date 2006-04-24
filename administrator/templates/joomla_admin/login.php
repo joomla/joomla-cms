@@ -39,7 +39,7 @@ $tstart = JProfiler::getmicrotime();
 		<div id="joomla">
 			<jdoc:translate>Administration</jdoc:translate>
 		</div>
-		
+
 		<div id="version">
 			<jdoc:translate>Version#</jdoc:translate>
 		</div>
@@ -53,13 +53,13 @@ $tstart = JProfiler::getmicrotime();
 		<div class="ctr">
 			<img src="templates/joomla_admin/images/security.png" width="64" height="64" alt="<jdoc:translate>security</jdoc:translate>" />
 		</div>
-			
+
 		<p><jdoc:translate>Welcome to Joomla!</jdoc:translate></p>
 		<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
 		<p>&nbsp;</p>
 		<p>
 			<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
-		</p>			
+		</p>
 </div>
 		<div class="clr"></div>
 	</div>

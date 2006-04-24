@@ -27,7 +27,7 @@ class HTML_contact {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_contact" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -37,7 +37,7 @@ class HTML_contact {
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td nowrap="nowrap">
-				<?php 
+				<?php
 				echo $lists['catid'];
 				echo $lists['state'];
 				?>
@@ -45,7 +45,7 @@ class HTML_contact {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="10">
@@ -86,9 +86,9 @@ class HTML_contact {
 			$k = 0;
 			for ($i=0, $n=count($rows); $i < $n; $i++) {
 				$row = $rows[$i];
-	
+
 				$link 		= ampReplace( 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id='. $row->id );
-	
+
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
@@ -165,7 +165,7 @@ class HTML_contact {
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
-		
+
 		mosCommonHTML::loadOverlib();
 
 		$tabs = new mosTabs(0);
@@ -195,7 +195,7 @@ class HTML_contact {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table width="100%">
 			<tr>
 				<td width="60%" valign="top">
@@ -403,9 +403,9 @@ class HTML_contact {
 							</td>
 						</tr>
 						</table>
-					
+
 						<br />
-					
+
 						<table width="100%" class="adminform">
 						<tr>
 							<td  width="100">
@@ -432,13 +432,13 @@ class HTML_contact {
 							</td>
 						</tr>
 						</table>
-					
+
 					<?php
 					$title = JText::_( 'Parameters' );
 					$tabs->endTab();
 					$tabs->startTab( $title, "params-page" );
 					?>
-					
+
 						<table class="adminform">
 						<tr>
 							<td>
@@ -452,7 +452,7 @@ class HTML_contact {
 							</td>
 						</tr>
 						</table>
-					
+
 					<?php
 					$tabs->endTab();
 					$tabs->endPane();

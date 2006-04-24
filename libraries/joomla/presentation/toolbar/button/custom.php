@@ -33,10 +33,10 @@ class JButton_Custom extends JButton
 	{
 		return $html;
 	}
-	
+
 	/**
 	 * Get the button CSS Id
-	 * 
+	 *
 	 * @access	public
 	 * @return	string	Button CSS Id
 	 * @since	1.5

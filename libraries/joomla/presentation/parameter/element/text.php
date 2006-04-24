@@ -28,11 +28,11 @@ class JElement_Text extends JElement {
 	* @var		string
 	*/
 	var	$_name = 'Text';
-	
-	function fetchElement($name, $value, &$node, $control_name) 
+
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = ( $node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '' );
-		
+
 		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" class="text_area" '.$size.' />';
 	}
 }

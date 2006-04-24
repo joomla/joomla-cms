@@ -27,7 +27,7 @@ class sections_html {
 	*/
 	function show( &$rows, $scope, $myid, &$page, $option, &$lists ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
@@ -104,9 +104,9 @@ class sections_html {
 			$k = 0;
 			for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
 				$row = &$rows[$i];
-	
+
 				$link 		= 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $row->id;
-	
+
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
@@ -194,13 +194,13 @@ class sections_html {
 	* @param string The html for the ordering list
 	* @param string The html for the groups select list
 	*/
-	function edit( &$row, $option, &$lists, &$menus ) 
+	function edit( &$row, $option, &$lists, &$menus )
 	{
 		global $mainframe;
-		
+
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
-		
+
 		if ( $row->name != '' ) {
 			$name = $row->name;
 		} else {
@@ -209,7 +209,7 @@ class sections_html {
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
-		
+
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -238,7 +238,7 @@ class sections_html {
 			} else if ( form.title.value == '' ){
 				alert("<?php echo JText::_( 'Section must have a title', true  ); ?>");
 			} else {
-				<?php 
+				<?php
 				echo $editor->save( 'description' ) ; ?>
 				submitform(pressbutton);
 			}
@@ -247,7 +247,7 @@ class sections_html {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table width="100%">
 			<tr>
 				<td valign="top" width="60%">
@@ -351,7 +351,7 @@ class sections_html {
 							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							echo $editor->display( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; 
+							echo $editor->display( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ;
 							?>
 						</td>
 					</tr>
@@ -411,9 +411,9 @@ class sections_html {
 							</td>
 						</tr>
 						</table>
-						
+
 						<br />
-						
+
 						<?php
 						if ( $menus != NULL ) {
 							?>

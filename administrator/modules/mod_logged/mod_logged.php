@@ -57,16 +57,16 @@ $rows = $database->loadObjectList();
 <table class="adminlist">
 <?php
 $i = 0;
-foreach ( $rows as $row ) 
+foreach ( $rows as $row )
 {
-	if ( $user->authorize( 'com_users', 'manage' ) ) 
+	if ( $user->authorize( 'com_users', 'manage' ) )
 	{
 		$link 	= 'index2.php?option=com_users&amp;task=editA&amp;hidemainmenu=1&amp;id='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
 		$name 	= $row->username;
 	}
-	
+
 	$clientInfo = JApplicationHelper::getClientInfo($row->client_id);
 	?>
 	<tr>

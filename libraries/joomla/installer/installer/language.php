@@ -24,7 +24,7 @@ class JInstallerLanguage extends JInstaller
 
 	/**
 	 * Core language pack flag
-	 * 
+	 *
 	 * @access	private
 	 * @var		boolean
 	 */
@@ -165,7 +165,7 @@ class JInstallerLanguage extends JInstaller
 	function uninstall($id, $client = 0)
 	{
 		/*
-		 * For a language the id will be an RFC 3066 code, eg. en-GB which represents the 
+		 * For a language the id will be an RFC 3066 code, eg. en-GB which represents the
 		 * subfolder of the languages folder that the language resides in.
 		 */
 		$id = trim($id);

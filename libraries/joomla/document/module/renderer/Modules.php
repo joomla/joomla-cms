@@ -27,7 +27,7 @@ class patTemplate_Renderer_Modules extends patTemplate_Renderer
 	* @var		string
 	*/
 	var $_name	=	'Modules';
-	
+
    /**
 	 * Renders multiple modules script and returns the results as a string
 	 *

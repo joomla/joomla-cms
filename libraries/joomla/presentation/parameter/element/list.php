@@ -29,13 +29,13 @@ class JElement_List extends JElement
 	* @var		string
 	*/
 	var	$_name = 'List';
-	
-	function fetchElement($name, $value, &$node, $control_name)	
+
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = $node->attributes('size');
-		
+
 		$options = array ();
-		foreach ($node->children() as $option) 
+		foreach ($node->children() as $option)
 		{
 			$val  = $option->attributes('value');
 			$text = $option->data();

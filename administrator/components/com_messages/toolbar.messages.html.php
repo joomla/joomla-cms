@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Messages
 */
-class TOOLBAR_messages 
+class TOOLBAR_messages
 {
 	function _VIEW() {
 

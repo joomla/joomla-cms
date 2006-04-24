@@ -19,28 +19,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Admin
 */
-class HTML_admin_misc 
+class HTML_admin_misc
 {
 	/**
 	* Control panel
 	*/
-	function controlPanel() 
+	function controlPanel()
 	{
 		global $mainframe;
-	
+
 		$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
 		if (file_exists( $path )) {
 			require_once $path;
 		}
 	}
 
-	function get_php_setting($val) 
+	function get_php_setting($val)
 	{
 		$r =  (ini_get($val) == '1' ? 1 : 0);
 		return $r ? JText::_( 'ON' ) : JText::_( 'OFF' ) ;
 	}
 
-	function get_server_software() 
+	function get_server_software()
 	{
 		if (isset($_SERVER['SERVER_SOFTWARE'])) {
 			return $_SERVER['SERVER_SOFTWARE'];
@@ -51,18 +51,18 @@ class HTML_admin_misc
 		}
 	}
 
-	function system_info( ) 
+	function system_info( )
 	{
 		global $database, $_VERSION, $mosConfig_cachepath;
 
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
-		
+
 		$title = JText::_( 'System Info' );
 		$tabs->startPane("sysinfo");
 		$tabs->startTab( $title, "system-page" );
 		?>
-		
+
 		<table class="adminform">
 		<thead>
 		<tr>
@@ -77,7 +77,7 @@ class HTML_admin_misc
 				&nbsp;
 			</th>
 		</tr>
-		</tfoot>			
+		</tfoot>
 		<tbody>
 		<tr>
 			<td valign="top" width="250">
@@ -165,7 +165,7 @@ class HTML_admin_misc
 						<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_( 'none' ) ); ?>
 					</td>
 				</tr>
-				<tr>						
+				<tr>
 					<td>
 						<?php echo JText::_( 'Display Errors' ); ?>:
 					</td>
@@ -313,13 +313,13 @@ class HTML_admin_misc
 		</tr>
 		</tbody>
 		</table>
-		
+
 		<?php
 		$title = JText::_( 'PHP Info' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "php-page" );
 		?>
-			
+
 		<table class="adminform">
 		<thead>
 		<tr>
@@ -334,7 +334,7 @@ class HTML_admin_misc
 				&nbsp;
 			</th>
 		</tr>
-		</tfoot>			
+		</tfoot>
 		<tbody>
 		<tr>
 			<td>
@@ -354,13 +354,13 @@ class HTML_admin_misc
 		</tr>
 		</tbody>
 		</table>
-		
+
 	<?php
 	$title = JText::_( 'Permissions' );
 	$tabs->endTab();
 	$tabs->startTab( $title, "perms" );
 	?>
-	
+
 		<table class="adminform">
 		<thead>
 		<tr>
@@ -375,7 +375,7 @@ class HTML_admin_misc
 				&nbsp;
 			</th>
 		</tr>
-		</tfoot>			
+		</tfoot>
 		<tbody>
 		<tr>
 			<td>
@@ -409,13 +409,13 @@ class HTML_admin_misc
 		?>
 		</tbody>
 		</table>
-		
+
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
 	}
 
-	function ListComponents() 
+	function ListComponents()
 	{
 		global $database;
 
@@ -433,7 +433,7 @@ class HTML_admin_misc
 	/**
 	 * Display Help Page
 	 */
-	function help() 
+	function help()
 	{
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
@@ -451,7 +451,7 @@ class HTML_admin_misc
 		}
 		?>
 		<form action="index2.php?option=com_admin&amp;task=help" method="post" name="adminForm">
-		
+
 		<table class="adminform" border="1">
 		<tr>
 			<td colspan="2">
@@ -498,15 +498,15 @@ class HTML_admin_misc
 					</tr>
 				</table>
 			</td>
-		</tr>		
+		</tr>
 		</table>
-				
+
 		<div id="treecellhelp">
 			<fieldset title="Index">
 				<legend>
 					<?php echo JText::_( 'Index' ); ?>
 				</legend>
-				
+
 				<div class="helpIndex">
 					<ul class="subext">
 						<?php
@@ -526,16 +526,16 @@ class HTML_admin_misc
 				</div>
 			</fieldset>
 		</div>
-		
+
 		<div id="datacellhelp">
 			<fieldset title="Details">
 				<legend>
 					Details
-				</legend>					
-				
+				</legend>
+
 				<iframe name="helpFrame" src="<?php echo 'help/en-GB/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
 			</fieldset>
-		</div>			
+		</div>
 
 		<input type="hidden" name="task" value="help" />
 		</form>
@@ -545,7 +545,7 @@ class HTML_admin_misc
 	/*
 	* Displays contents of Changelog.php file
 	*/
-	function changelog() 
+	function changelog()
 	{
 		?>
 		<pre>
@@ -561,7 +561,7 @@ class HTML_admin_misc
  * Compiles the help table of contents
  * @param string A specific keyword on which to filter the resulting list
  */
-function getHelpTOC( $helpsearch ) 
+function getHelpTOC( $helpsearch )
 {
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 

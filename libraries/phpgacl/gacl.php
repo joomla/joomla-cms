@@ -560,7 +560,7 @@ class gacl {
 			}
 
 			$retarr = array();
-			
+
 			/*
 			 * Changed by: Louis Landry for Joomla ACL integration
 			 * 21-Jan-2006
@@ -568,7 +568,7 @@ class gacl {
 			for ($i = 0; $i < count($rs->data); $i++) {
 				$retarr[] = $rs->data[$i]['id'];
 			}
-			
+
 			//Cache data.
 			$this->put_cache($retarr, $cache_id);
 		}

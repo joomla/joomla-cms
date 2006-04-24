@@ -46,7 +46,7 @@ class contact_item_link_menu {
 			$menu->parent 		= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 	= 1;
 		}
-	
+
 		$query = "SELECT a.id AS value, CONCAT( a.name, ' - ',a.con_position ) AS text, a.catid "
 		. "\n FROM #__contact_details AS a"
 		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"

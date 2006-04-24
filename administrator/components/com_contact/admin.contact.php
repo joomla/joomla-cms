@@ -72,19 +72,19 @@ switch ($task) {
 	case 'orderdown':
 		orderContacts( $cid[0], 1 );
 		break;
-	
+
 	case 'accesspublic':
 		changeAccess( $cid[0], 0 );
 		break;
-	
+
 	case 'accessregistered':
 		changeAccess( $cid[0], 1 );
 		break;
-	
+
 	case 'accessspecial':
 		changeAccess( $cid[0], 2 );
 		break;
-		
+
 	case 'saveorder':
 		saveOrder( $cid );
 		break;
@@ -113,8 +113,8 @@ function showContacts( $option ) {
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.view.limitstart",	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
-	
-	$where = array();	
+
+	$where = array();
 
 	if ( $search ) {
 		$where[] = "cd.name LIKE '%$search%'";
@@ -128,8 +128,8 @@ function showContacts( $option ) {
 			$where[] = "cd.published = 0";
 		}
 	}
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, category, cd.ordering";
 
 	// get the total number of records
@@ -159,19 +159,19 @@ function showContacts( $option ) {
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
-	$lists['search']= $search;	
+	$lists['search']= $search;
 
 	HTML_contact::showcontacts( $rows, $pageNav, $option, $lists );
 }
@@ -284,17 +284,17 @@ function saveContact( $task ) {
 		case 'save2copy':
 			$link = 'index2.php?option=com_contact&task=editA&id='. $row->id .'&hidemainmenu=1';
 			break;
-		
+
 		case 'save2new':
 			$link = 'index2.php?option=com_contact&task=edit&hidemainmenu=1';
 			break;
-		
+
 		case 'save':
 		default:
 			$link = 'index2.php?option=com_contact';
 			break;
 	}
-	
+
 	josRedirect( $link );
 }
 
@@ -379,7 +379,7 @@ function cancelContact() {
 	$row = new JTableContact( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	
+
 	josRedirect('index2.php?option=com_contact');
 }
 
@@ -393,14 +393,14 @@ function changeAccess( $id, $access  ) {
 	$row = new JTableContact( $database );
 	$row->load( $id );
 	$row->access = $access;
-	
+
 	if ( !$row->check() ) {
 		return $row->getError();
 	}
 	if ( !$row->store() ) {
 		return $row->getError();
 	}
-	
+
 	josRedirect( 'index2.php?option=com_contact' );
 }
 

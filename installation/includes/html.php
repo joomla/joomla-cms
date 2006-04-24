@@ -19,14 +19,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package Joomla
  * @subpackage Installation
  */
-class JInstallationView 
+class JInstallationView
 {
 	/**
 	 * Static method to create the template object
 	 * @param string The name of the body html file
 	 * @return patTemplate
 	 */
-	function &createTemplate( $bodyHtml = null ) 
+	function &createTemplate( $bodyHtml = null )
 	{
 		jimport('joomla.template.template');
 
@@ -50,7 +50,7 @@ class JInstallationView
 	 * @param string The name of the step to go back to
 	 * @param string An extra message to display in a text area
 	 */
-	function error( &$vars, $msg, $back, $xmsg='' ) 
+	function error( &$vars, $msg, $back, $xmsg='' )
 	{
 		global $steps;
 
@@ -73,7 +73,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function chooseLanguage( &$lists ) 
+	function chooseLanguage( &$lists )
 	{
 		global $steps, $mainframe;
 
@@ -85,7 +85,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addRows( 'lang-options', $lists['langs'] );
-		
+
 		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		return $tmpl->fetch( 'page' );
@@ -95,7 +95,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function preInstall( $vars, &$lists ) 
+	function preInstall( $vars, &$lists )
 	{
 		global $steps, $_VERSION, $mainframe;
 
@@ -108,7 +108,7 @@ class JInstallationView
 		$tmpl->addVars( 'stepbar', 	$steps, 	'step_' );
 		$tmpl->addVar( 'body', 		'version', 	$_VERSION->getLongVersion() );
 		$tmpl->addVars( 'body', 	$vars, 		'var_' );
-		
+
 		$tmpl->addVar( 'php-options', 'align', $lang->isRTL() ? 'right' : 'left');
 		$tmpl->addRows( 'php-options', 	$lists['phpOptions'] );
 		$tmpl->addRows( 'php-settings', $lists['phpSettings'] );
@@ -122,7 +122,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function license( &$vars ) 
+	function license( &$vars )
 	{
 		global $steps, $mainframe;
 
@@ -143,12 +143,12 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function dbConfig( &$vars, &$lists ) 
+	function dbConfig( &$vars, &$lists )
 	{
 		global $steps, $mainframe;
 
 		$lang    =& $mainframe->getLanguage();
-		
+
 		$tmpl =& JInstallationView::createTemplate( 'dbconfig.html' );
 
 		$steps['dbconfig'] = 'on';
@@ -165,7 +165,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function dbCollation( &$vars, &$collations ) 
+	function dbCollation( &$vars, &$collations )
 	{
 		global $steps;
 
@@ -191,12 +191,12 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function ftpConfig( &$vars ) 
+	function ftpConfig( &$vars )
 	{
 		global $steps, $mainframe;
 
 		$lang    =& $mainframe->getLanguage();
-		
+
 		$tmpl =& JInstallationView::createTemplate( 'ftpconfig.html' );
 
 		$steps['ftpconfig'] = 'on';
@@ -212,7 +212,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function mainConfig( &$vars ) 
+	function mainConfig( &$vars )
 	{
 		global $steps, $mainframe;
 
@@ -235,7 +235,7 @@ class JInstallationView
 	 * @param array An array of lists
 	 * @param string The configuration file if it could not be saved
 	 */
-	function finish( &$vars, $buffer ) 
+	function finish( &$vars, $buffer )
 	{
 		global $steps, $mainframe;
 

@@ -23,18 +23,18 @@ class HTML_statistics {
 	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
 		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
-		
+
 		$tabs 	= new mosTabs(1);
-		?>	
+		?>
 		<form action="index2.php?option=com_statistics" method="post" name="adminForm">
-		
-		<div id="tablecell">				
+
+		<div id="tablecell">
 			<?php
 			$title = JText::_( 'Browsers' );
 			$tabs->startPane("statsPane");
 			$tabs->startTab( $title, "browsers-page" );
 			?>
-			
+
 				<table class="adminlist">
 				<tr>
 					<th class="title">
@@ -82,13 +82,13 @@ class HTML_statistics {
 					<th colspan="4">&nbsp;</th>
 				</tr>
 				</table>
-			
+
 			<?php
 			$title = JText::_( 'OS Stats' );
 			$tabs->endTab();
 			$tabs->startTab( $title, "os-page" );
 			?>
-			
+
 				<table class="adminlist">
 				<tr>
 					<th class="title">
@@ -136,13 +136,13 @@ class HTML_statistics {
 					<th colspan="4">&nbsp;</th>
 				</tr>
 				</table>
-				
+
 			<?php
 			$title = JText::_( 'Domain Stats' );
 			$tabs->endTab();
 			$tabs->startTab( $title, "domain-page" );
 			?>
-			
+
 				<table class="adminlist">
 				<tr>
 					<th class="title">
@@ -190,13 +190,13 @@ class HTML_statistics {
 					<th colspan="4">&nbsp;</th>
 				</tr>
 				</table>
-			
+
 			<?php
 			$tabs->endTab();
 			$tabs->endPane();
 			?>
 		</div>
-		
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="tab" value="<?php echo $tab;?>" />
 		<input type="hidden" name="task" value="" />
@@ -209,7 +209,7 @@ class HTML_statistics {
 		global $my;
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=pageimp" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -227,8 +227,8 @@ class HTML_statistics {
 			</td>
 		</tr>
 		</table>
-		
-		<div id="tablecell">				
+
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="5">
@@ -258,7 +258,7 @@ class HTML_statistics {
 			$k = 0;
 			foreach ($rows as $row) {
 				$link = ampReplace( 'index2.php?option=com_content&sectionid=0&task=edit&hidemainmenu=1&id='. $row->id );
-				
+
 				// section handling
 				if ($row->sectionid) {
 					$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
@@ -277,7 +277,7 @@ class HTML_statistics {
 					$row->cat_link = ampReplace( 'index2.php?option=com_typedcontent' );
 					$title_cat		= JText::_( 'View Static Content Manager' );
 				}
-				
+
 				$img			= ( $row->state	? 'tick.png' : 'publish_x.png' );
 				$date 			= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
@@ -297,7 +297,7 @@ class HTML_statistics {
 						}
 						?>
 					</td>
-					<td align="center" style="font-weight: bold; font-size: larger;">						
+					<td align="center" style="font-weight: bold; font-size: larger;">
 						<?php echo $row->hits; ?>
 					</td>
 					<td align="center">
@@ -322,7 +322,7 @@ class HTML_statistics {
 			</table>
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
-		
+
 	  	<input type="hidden" name="option" value="com_statistics" />
 	  	<input type="hidden" name="task" value="pageimp" />
 	  	<input type="hidden" name="op" value="pi" />
@@ -334,11 +334,11 @@ class HTML_statistics {
 
 	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults ) {
 		global $mainframe;
-		
+
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -374,7 +374,7 @@ class HTML_statistics {
 			</td>
 		</tr>
 		</table>
-		
+
 		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
@@ -429,7 +429,7 @@ class HTML_statistics {
 			</table>
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
-		
+
 	  	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	  	<input type="hidden" name="task" value="<?php echo $task;?>" />
 	  	<input type="hidden" name="op" value="set" />

@@ -21,21 +21,21 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( &$rows, &$page, $option, &$client ) 
+	function showLanguages( &$rows, &$page, $option, &$client )
 	{
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<!--<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>-->
-		
+
 		<div id="pane-document">
 			<table class="adminform">
 			<tr>

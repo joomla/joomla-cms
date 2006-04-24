@@ -29,8 +29,8 @@ class patTemplate_Renderer extends patTemplate_Module
 	* @var	object
 	*/
 	var	$_tmpl;
-    
-    
+
+
     /**
 	 * Renders a script and returns the results as a string
 	 *
@@ -42,9 +42,9 @@ class patTemplate_Renderer extends patTemplate_Module
 	 */
 	function render( $name, $params = array() )
 	{
-		
+
 	}
-	
+
 	/**
 	* set a reference to the JDocument object that instantiated the function
 	*

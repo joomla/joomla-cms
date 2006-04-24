@@ -26,8 +26,8 @@ s { color: red; }
 	text-align: left;
 }
 
-hr { 
-	border: 1px dotted black; 
+hr {
+	border: 1px dotted black;
 }
 
 span.todotitle {
@@ -82,7 +82,7 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* Frontend Translated
 	* RTL language compilance
 	* UTF-8 output
-	
+
 - Framework
 	* Joomla! Framework introduced
 	* FTP installer
@@ -116,17 +116,17 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* /includes/sef.php
 	* /includes/agent_browser
 	* /includes/agent_os
-	
+
 - Removed templates
 	* /templates/madeyourday/..
 	* /templates/rhuk_solarflare_ii/..
 	* /administrator/templates/mambo_admin/...
 	* /administrator/templates/mambo_admin_blue/...
-	
+
 - Removed modules
 	* /modules/mod_templatechooser
 	* /modules/mod_rssfeed
-	
+
 - Removed components
 	* /components/com_rss/..
 
@@ -140,7 +140,7 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* Feature requests on the tracker
 	* Session timeout issues
 	* Core extension refactoring
-	
+
 - User Interface
 	* Usability changes
 	* Media manager improvements

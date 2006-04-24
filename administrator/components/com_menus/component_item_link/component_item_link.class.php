@@ -36,8 +36,8 @@ class component_item_link_menu {
 		}
 
 		if ( $uid ) {
-			$menu->checkout( $my->id );			
-			
+			$menu->checkout( $my->id );
+
 			$temp = explode( '&Itemid=', $menu->link );
 			$query = "SELECT a.id"
 			. "\n FROM #__menu AS a"
@@ -70,7 +70,7 @@ class component_item_link_menu {
 		$components = $database->loadObjectList( );
 		//	Create a list of links
 		$lists['components'] = mosHTML::selectList( $components, 'link', 'class="inputbox" size="10"', 'value', 'text', $selected );
-		
+
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );
 

@@ -19,17 +19,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class JTemplatesView 
+class JTemplatesView
 {
 	/**
 	* @param array An array of data objects
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates( &$rows, &$lists, &$page, $option, &$client ) 
+	function showTemplates( &$rows, &$lists, &$page, $option, &$client )
 	{
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
@@ -58,9 +58,9 @@ class JTemplatesView
 		<!--<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>-->
-		
+
 		<div id="pane-document">
-		
+
 			<table class="adminlist">
 			<thead>
 				<tr>
@@ -109,7 +109,7 @@ class JTemplatesView
 			$k = 0;
 			for ( $i=0, $n = count( $rows ); $i < $n; $i++ ) {
 				$row = &$rows[$i];
-							
+
 				$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
@@ -189,7 +189,7 @@ class JTemplatesView
 					</td>
 					<td>
 						<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-							<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+							<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 						</span>
 					</td>
 				</tr>
@@ -209,14 +209,14 @@ class JTemplatesView
 	</form>
 	<?php
 	}
-	
+
 	function previewTemplate($template, $showPositions, $client, $option)
 	{
 		global $mainframe;
-		
+
 		$tp 	= intval( $showPositions );
 		$url 	= $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
-		
+
 		?>
 		<style type="text/css">
 		.previewFrame {
@@ -226,7 +226,7 @@ class JTemplatesView
 			padding: 0px 5px 0px 10px;
 		}
 		</style>
-	
+
 		<table class="adminform">
 			<tr>
 				<th width="50%" class="title">
@@ -251,13 +251,13 @@ class JTemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplate( $row, $lists, &$params, $option, &$client ) 
-	{		
+	function editTemplate( $row, $lists, &$params, $option, &$client )
+	{
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table cellspacing="0" cellpadding="0" width="100%">
 			<tr valign="top">
 				<td width="60%">
@@ -343,7 +343,7 @@ class JTemplatesView
 		<?php
 	}
 
-	function editTemplateSource( $template, &$content, $option, &$client ) 
+	function editTemplateSource( $template, &$content, $option, &$client )
 	{
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
 		?>
@@ -377,9 +377,9 @@ class JTemplatesView
 		</fieldset>
 
 	</div>
-		
+
 	<div id="pane-document">
-		
+
 		<table class="adminform">
 		<tr>
 			<th>
@@ -459,7 +459,7 @@ class JTemplatesView
 		<?php
 		}
 		?>
-		</table>		
+		</table>
 		<table class="adminlist">
 		<tr>
 			<th width="100%">&nbsp;</th>
@@ -483,7 +483,7 @@ class JTemplatesView
 		$css_path = $client->path . $tp_name;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="260">
@@ -512,7 +512,7 @@ class JTemplatesView
 		?>
 		</tr>
 		</table>
-		
+
 		<table class="adminform">
 		<tr>
 			<th>
@@ -525,7 +525,7 @@ class JTemplatesView
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="tp_fname" value="<?php echo $css_path; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
@@ -539,7 +539,7 @@ class JTemplatesView
 	* @param array
 	* @param string The option
 	*/
-	function editPositions( &$positions, $option ) 
+	function editPositions( &$positions, $option )
 	{
 
 		$rows = 25;
@@ -551,8 +551,8 @@ class JTemplatesView
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
-		
-		<div id="pane-document">				
+
+		<div id="pane-document">
 			<table class="adminform">
 			<tr>
 			<?php
@@ -609,7 +609,7 @@ class JTemplatesView
 			?>
 			</table>
 		</div>
-	
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		</form>

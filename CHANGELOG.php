@@ -41,7 +41,7 @@ Legend:
  ^ Cleanup/Refactor com_registration
    - adapted new user handling as well and changed the standard registration procedure to it
  ^ Corrected getInstace of user objects with id's
- + Language tag for Registration Errors   
+ + Language tag for Registration Errors
 
 21-Apr-2006 Johan Janssens
  - Removed syndicate component
@@ -87,10 +87,10 @@ Legend:
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly
  ^ Refactored JEditor API
- ^ Moved site content item editing to modal popup 
+ ^ Moved site content item editing to modal popup
  - Removed TinyMCE print, save and preview plugins
  - Removed administrator/mod_components
- - Removed 'Link To Menu' edit content tab 
+ - Removed 'Link To Menu' edit content tab
 
 15-Apr-2006 Louis Landry
  # Fixed small bugs with JFolder and JFTP -- Thanks Beat --
@@ -112,7 +112,7 @@ Legend:
  ^ Deprecated mosTabs, use JPane instead
 
 09-Apr-2006 Louis Landry
- + Store user state on administrator auto-logout so that when the user logs in again, the 
+ + Store user state on administrator auto-logout so that when the user logs in again, the
    state is restored
  ^ com_content now uses JMessage
  # artf4250 : FTP directory listing returns double entries (with fix proposal)
@@ -180,12 +180,12 @@ Legend:
  + Added JSimpleXML class to utilities package
 
 21-Mar-2005 Louis Landry
- ^ Renamed JModel to JTable and added to the database package 
+ ^ Renamed JModel to JTable and added to the database package
  ^ Use josRedirect instead of mosRedirect in codebase
  ^ Moved deprecated methods out of JTable class and getPublicProperties() into JObject
 
 20-Mar-2005 Louis Landry
- ^ Use JRequest::getVar instead of mosGetParam in codebase 
+ ^ Use JRequest::getVar instead of mosGetParam in codebase
 
 20-Mar-2005 Johan Janssens
  # Fixed artf3938 : addHeadLink does not properly format output when additional attributes are specified.
@@ -193,11 +193,11 @@ Legend:
 
 19-Mar-2005 Louis Landry
  + CSS driven full admin menu module
- 
+
 17-Mar-2005 Johan Janssens
  ! Overall preformance improvements
  ^ Feature request artf1796 : Admin: Items -> sort by pressing on tableheader
- 
+
 17-Mar-2005 Andrew Eddie
  ^ Upgraded mod_banners to allow for multiple banners to be shown
  ^ For review: In component navigation for com_banners
@@ -224,7 +224,7 @@ Legend:
  ^ Widen several narrow fields in contacts table to allow for more characters
  ^ Contact position, address and phone number edit fields changes to textareas
    to allow for multi-line input
- + New toolbar buttons in contact edit form: Save and New, Save To Copy 
+ + New toolbar buttons in contact edit form: Save and New, Save To Copy
 
 14-Mar-2006 David Gal
  + Added backward compatibility to $mosConfig_lang such that en-GB returns 'english'
@@ -251,7 +251,7 @@ Legend:
 08-Mar-2006 Johan Janssens
  ^ Moved presentation classes into their own package
  ^ Moved mail classes into utilities package
- 
+
 08-Mar-2006 Louis Landry
  + Proper HTML Error page rendering for JError
  # Fixed artf3646 : Lowercase definition in language file
@@ -268,18 +268,18 @@ Legend:
 
 04-Mar-2006 Louis Landry
  # Fixed artf3431 : Error when mod_breadcrumbs is published
- 
+
 26-Feb-2006 Johan Janssens
- + Added Blogger API XML-RPC plugin  
+ + Added Blogger API XML-RPC plugin
 
 25-Feb-2006 David Gal
  ^ Changed xStandard to output utf-8 content instead of NCR codes
  + Implemented converstion to utf-8 of locale formated date when Windows is the host OS
- + Added new metadata tag <winCodePage> in language xml files to support above conversion 
-   
+ + Added new metadata tag <winCodePage> in language xml files to support above conversion
+
 24-Feb-2006 David Gal
  + Added RTL support to new installation program UI
-  
+
 23-Feb-2006 Johan Janssens
  ^ Renamed mossef content plugin to sef
  ^ Renamed moscode content plugin to code
@@ -322,7 +322,7 @@ Legend:
 16-Feb-2006 Louis Landry
  # Fixed artf3475 : relative include paths break installation on some systems
  # Fixed infinite recursion problem with some JError errors
- 
+
 16-Feb-2006 Johan Janssens
  # Fixed artf3454 : using statistics the main toolbar in admin breaks
  ^ Plugin naming cleanup
@@ -348,11 +348,11 @@ Legend:
 
 11-Feb-2006 Louis Landry
  # Fixed artf3478 : Error in SQL Script
- 
+
 11-Feb-2006 David Gal
  ^ Modified JString to load after pre-installation check (phputf8 will crash on wrong settings)
  + Added local mbstring environmental settings in htaccess.txt ready for uncommenting if needed
- 
+
 08-Feb-2005 Louis Landry
  # Fixed artf3432 : Administrator toolbar items do not contain port number
 
@@ -378,10 +378,10 @@ Legend:
  ^ Framework file catagorization cleanup
  ^ JACL class renamed to JAuthorization
  ^ JApplication::getUser now uses the JUser class: global $my deprecated
- 
+
 01-Feb-2006 Rey Gigataras
  ^ Registration component output correctly separated into .html.php
- 
+
 01-Feb-2006 Johan Janssens
  - Removed mod_templatechooser
  ^ Changed bot language file prefix to plg

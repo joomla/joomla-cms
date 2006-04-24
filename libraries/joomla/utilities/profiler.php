@@ -16,44 +16,44 @@ jimport( 'joomla.common.base.object' );
 
 /**
  * Page generation time
- * 
+ *
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.0
  */
 class JProfiler extends JObject
 {
-	/** 
-	 * 
-	 * @var int 
+	/**
+	 *
+	 * @var int
 	 */
 	var $_start = 0;
-	
-	/** 
-	 * 
-	 * @var string 
+
+	/**
+	 *
+	 * @var string
 	 */
 	var $_prefix = '';
-	
-	/** 
-	 * 
-	 * @var array 
+
+	/**
+	 *
+	 * @var array
 	 */
 	var $_buffer= null;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 * @param string Prefix for mark messages
 	 */
-	function __construct( $prefix = '' ) 
+	function __construct( $prefix = '' )
 	{
 		$this->_start = $this->getmicrotime();
 		$this->_prefix = $prefix;
 		$this->_buffer = array();
 	}
-	
+
 	/**
 	 * Returns a reference to the global Profiler object, only creating it
 	 * if it doesn't already exist.
@@ -81,11 +81,11 @@ class JProfiler extends JObject
 
 	/**
 	 * Output a time mark
-	 * 
+	 *
 	 * @access public
 	 * @var string A label for the time mark
 	 */
-	function mark( $label ) 
+	function mark( $label )
 	{
 		$mark = sprintf ( "\n<div class=\"profiler\">$this->_prefix %.3f $label</div>", $this->getmicrotime() - $this->_start );
 		$this->_buffer[] = $mark;
@@ -94,16 +94,16 @@ class JProfiler extends JObject
 
 	/**
 	 * Reports on the buffered marks
-	 * 
+	 *
 	 * @access public
 	 * @param string Glue string
 	 */
-	function report( $memory = true, $database = true, $glue='' )  
+	function report( $memory = true, $database = true, $glue='' )
 	{
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
-		
+
 		echo implode( $glue, $this->_buffer );
 		echo "<br />";
 		echo $this->getmemory();
@@ -117,7 +117,7 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * 
+	 *
 	 * @access public
 	 * @return float The current time
 	 */
@@ -128,18 +128,18 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * 
+	 *
 	 * @access public
 	 * @return int The memory usage
 	 */
-	function getmemory() 
+	function getmemory()
 	{
 		static $isWin;
 
 		if (function_exists( 'memory_get_usage' )) {
 			return memory_get_usage();
-		} 
-		else 
+		}
+		else
 		{
 			if (is_null( $isWin )) {
 				$isWin = (substr(PHP_OS, 0, 3) == 'WIN');

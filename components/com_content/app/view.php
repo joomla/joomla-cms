@@ -23,7 +23,7 @@ class JView extends JObject {
 
 	/**
 	 * Name of the view.  Defined in subclasses
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -31,7 +31,7 @@ class JView extends JObject {
 
 	/**
 	 * Registered models
-	 * 
+	 *
 	 * @access	private
 	 * @var		array
 	 */
@@ -39,7 +39,7 @@ class JView extends JObject {
 
 	/**
 	 * Registered controller
-	 * 
+	 *
 	 * @access	private
 	 * @var		object
 	 */
@@ -47,7 +47,7 @@ class JView extends JObject {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access	protected
 	 * @param	object	$controller	The view's controller
 	 * @since	1.5
@@ -57,9 +57,9 @@ class JView extends JObject {
 	}
 
 	/**
-	 * Method to set the name of the view.  In most cases this will not be used, but is provided as a public 
+	 * Method to set the name of the view.  In most cases this will not be used, but is provided as a public
 	 * method for flexibility.
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$name	New view name
 	 * @return	string	New view name
@@ -73,7 +73,7 @@ class JView extends JObject {
 
 	/**
 	 * Method to get the name of the view.
-	 * 
+	 *
 	 * @access	public
 	 * @return	string	The name of the view
 	 * @since	1.5
@@ -86,7 +86,7 @@ class JView extends JObject {
 	 * Method to set the controller object for the view.  In most cases this
 	 * will only be used by the constructor, but is provided as a public method
 	 * for flexibility.
-	 * 
+	 *
 	 * @access	public
 	 * @param	object	$controller	The view's controller
 	 * @return	object	The controller
@@ -99,7 +99,7 @@ class JView extends JObject {
 
 	/**
 	 * Method to get the view's controller object.
-	 * 
+	 *
 	 * @access	public
 	 * @return	object	The controller
 	 * @since	1.5
@@ -114,7 +114,7 @@ class JView extends JObject {
 	 * classname referencing is that any classname prepended by JModel will be
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
-	 * 
+	 *
 	 * @access	public
 	 * @param	object		$model		The model to add to the view.
 	 * @param	boolean	$default	Is this the default model?
@@ -138,7 +138,7 @@ class JView extends JObject {
 
 	/**
 	 * Method to get data from a registered model
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	The name of the method to call on the model
 	 * @param	string	The name of the model to reference [optional]
@@ -150,7 +150,7 @@ class JView extends JObject {
 		// If $model is null we use the default model
 		if (is_null($model)) {
 			$model = $this->_defaultModel;
-		} 
+		}
 		// First check to make sure the model requested exists
 		if (isset( $this->_models[$model] )) {
 			// Model exists, lets build the method name

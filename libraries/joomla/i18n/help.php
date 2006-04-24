@@ -15,7 +15,7 @@
 
 /**
  * Help system class
- * 
+ *
  * @package 		Joomla.Framework
  * @subpackage	I18N
  * @since		1.5
@@ -35,7 +35,7 @@ class JHelp {
 		$userHelpUrl	= $user->getParam( 'helpsite' );
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$url 			= $mainframe->getCfg('live_site');
-		
+
 		if ($com) {
 	   		// help file for 3PD Components
 			$url .= '/administrator/components/' . $option. '/help/';
@@ -73,16 +73,16 @@ class JHelp {
 
 		$xml  = JFactory::getXMLParser('Simple');
 		//$data = file_get_contents($pathToXml);
-		
-		if(empty($data)) 
+
+		if(empty($data))
 		{
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 			$list[] = $option;
-		} 
-		else 
+		}
+		else
 		{
-			if($xml->loadString($data)) 
+			if($xml->loadString($data))
 			{
 				// Are there any languages??
 				$elmSites = & $xml->document->sites[0];
@@ -92,7 +92,7 @@ class JHelp {
 					$option = array ();
 					$sites = $elmSites->children();
 					foreach ($sites as $site) {
-						
+
 						$text = $site->data();
 						$url  = $site->attributes('url');
 
@@ -103,7 +103,7 @@ class JHelp {
 				}
 			}
 		}
-		
+
 		return $list;
 	}
 }

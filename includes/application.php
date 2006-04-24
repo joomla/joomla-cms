@@ -69,7 +69,7 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( $CONFIG->error_reporting );
 }
 
-define('JDEBUG', $CONFIG->debug); 
+define('JDEBUG', $CONFIG->debug);
 
 unset($CONFIG);
 
@@ -83,7 +83,7 @@ if(JDEBUG) {
  * Joomla! framework loading
  */
 
- 
+
 //Joomla library imports
 jimport( 'joomla.common.compat.compat' );
 
@@ -113,62 +113,62 @@ JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 * Joomla! Application class
 *
 * Provide many supporting API functions
-* 
+*
 * @package Joomla
 * @final
 */
-class JSite extends JApplication 
+class JSite extends JApplication
 {
 
 	/**
 	* Class constructor
-	* 
+	*
 	* @access protected
 	* @param integer A client id
 	*/
 	function __construct() {
 		parent::__construct(0);
 	}
-	
+
 	/**
 	* Login authentication function
-	* 
+	*
 	* @param string The username
 	* @param string The password
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username=null, $password=null, $return=null) 
+	function login($username=null, $password=null, $return=null)
 	{
 		if(!$username || !$password) {
 			$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 			$password = trim( JRequest::getVar( 'passwd', '', 'post' ) );
 		}
-	
-		if (parent::login($username, $password)) 
-		{	
+
+		if (parent::login($username, $password))
+		{
 			$return = JRequest::getVar( 'return' );
-		
+
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 				// checks for the presence of a return url
 				// and ensures that this url is not the registration or login pages
 				josRedirect( $return );
 			}
-		} 
-		
+		}
+
 		return false;
 	}
-	
+
 	/**
 	* Logout authentication function
-	* 
+	*
 	* @access public
 	* @see JApplication::login
 	*/
-	function logout($return = null) 
+	function logout($return = null)
 	{
 		parent::logout();
-		
+
 		$return = JRequest::getVar( 'return' );
 
 		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
@@ -179,30 +179,30 @@ class JSite extends JApplication
 			josRedirect( 'index.php' );
 		}
 	}
-	
+
 	/**
 	* Set Page Title
-	* 
+	*
 	* @param string $title The title for the page
 	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) {
-	
+
 		$site = $this->getCfg('sitename');
-		
+
 		if($this->getCfg('offline')) {
 			$site .= ' [Offline]';
 		}
-		
+
 		$title = stripslashes($title);
-		
+
 		$document=& $this->getDocument();
 		$document->setTitle( $site.' - '.$title);
 	}
 
 	/**
 	* Get Page title
-	* 
+	*
 	* @return string The page title
 	* @since 1.5
 	*/
@@ -210,7 +210,7 @@ class JSite extends JApplication
 		$document=& $this->getDocument();
 		return $document->getTitle();
 	}
-	
+
 	/**
 	 * Set the configuration
 	 *
@@ -219,10 +219,10 @@ class JSite extends JApplication
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file, $type = 'config') 
+	function setConfiguration($file, $type = 'config')
 	{
 		parent::setConfiguration($file, $type);
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
 		$config->live_site     = substr_replace($this->getBaseURL(), '', -1, 1);
@@ -230,14 +230,14 @@ class JSite extends JApplication
 
 		// Load the configuration values into the registry
 		$this->_registry->loadObject($config);
-		
+
 		//Insert configuration values into global scope (for backwards compatibility)
 		foreach (get_object_vars($config) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$GLOBALS[$name] = $v;
 		}
 	}
-	
+
 	/**
 	 * Return a reference to the JDocument object
 	 *
@@ -249,11 +249,11 @@ class JSite extends JApplication
 		if(is_object($this->_document)) {
 			return $this->_document;
 		}
-		
-		$doc  =& parent::getDocument($type);	
+
+		$doc  =& parent::getDocument($type);
 		$user =& $this->getUser();
-	
-		switch($type) 
+
+		switch($type)
 		{
 			case 'html' :
 			{
@@ -263,21 +263,21 @@ class JSite extends JApplication
 
 				//set base URL
 				$doc->setBase( $this->getBaseURL() );
-		
+
 				if ( $user->get('id') ) {
 					$doc->addScript( 'includes/js/joomla.javascript.js');
 				}
 			} break;
-			
+
 			default : break;
 		}
-		
+
 		return $this->_document;
 	}
-	
+
 	/**
 	* Get the template
-	* 
+	*
 	* @return string The template name
 	* @since 1.0
 	*/
@@ -290,7 +290,7 @@ class JSite extends JApplication
 		if (!isset ($templates))
 		{
 			$templates = array();
-			
+
 			/*
 			 * Load template entries for each menuid
 			 */
@@ -302,7 +302,7 @@ class JSite extends JApplication
 			$db->setQuery( $query );
 			$templates = $db->loadObjectList('menuid');
 		}
-		
+
 		if (!empty($Itemid) && (isset($templates[$Itemid])))
 		{
 			$template = $templates[$Itemid];
@@ -317,8 +317,8 @@ class JSite extends JApplication
 }
 
 
-/** 
- * @global $_VERSION 
+/**
+ * @global $_VERSION
  */
 $_VERSION = new JVersion();
 

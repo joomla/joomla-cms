@@ -37,10 +37,10 @@ function &botSearchWeblinksAreas() {
 * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
  */
-function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null ) 
+function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
@@ -51,7 +51,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'weblinks'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'weblinks');
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

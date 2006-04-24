@@ -19,17 +19,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Config
 */
-class JConfigView 
+class JConfigView
 {
-	function showConfig( &$row, &$lists, $option) 
+	function showConfig( &$row, &$lists, $option)
 	{
 		global $mainframe;
-		
+
 		$document =& $mainframe->getDocument();
 		$document->addScript($mainframe->getBaseURL().'components/com_config/js/switcher.js');
-		
+
 		mosCommonHTML::loadOverlib();
-		
+
 		$tabs = new mosTabs(1);
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -37,62 +37,62 @@ class JConfigView
 		<div id="config-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
 		</div>
-		
+
 		<div id="config-document">
 			<div id="page-site">
 				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_site.html'); ?>
 			</div>
 
 			<div id="page-server">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.html'); ?>
 			</div>
 
 			<div id="page-debug">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.html'); ?>
 			</div>
 
 			<div id="page-database">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_database.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_database.html'); ?>
 			</div>
 
 			<div id="page-locale">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.html'); ?>
 			</div>
 
 			<div id="page-mail">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_mail.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_mail.html'); ?>
 			</div>
 
 			<div id="page-cache">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.html'); ?>
 			</div>
 
 			<div id="page-user">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_user.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_user.html'); ?>
 			</div>
 
 			<div id="page-metadata">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.html'); ?>
 			</div>
 
 			<div id="page-statistics">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.html'); ?>
 			</div>
 
 			<div id="page-seo">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.html'); ?>
 			</div>
 
 			<div id="page-content">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content.html'); ?>
 			</div>
-			
+
 			<div id="page-ftp">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_ftp.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_ftp.html'); ?>
 			</div>
-			
+
 			<div id="page-feeds">
-				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>	
+				<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>
 			</div>
 		</div>
 		<div class="clr"></div>

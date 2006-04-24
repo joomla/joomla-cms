@@ -38,7 +38,7 @@ class JObject
 
 	/**
 	 * Class constructor, overridden in descendant classes.
-	 * 
+	 *
 	 * @access	protected
 	 */
 	function __construct() {}
@@ -65,7 +65,7 @@ class JObject
 
 	/**
 	 * Returns an array of public properties
-	 * 
+	 *
 	 * @return array
 	 */
 	function getPublicProperties() {

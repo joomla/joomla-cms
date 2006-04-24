@@ -170,7 +170,7 @@ class JContentHelper
 			}
 			if ($id > 0) {
 				if ($type == -1) {
-					$where[] = "a.sectionid = $id"; 
+					$where[] = "a.sectionid = $id";
 				} else
 					if ($type == -2) {
 						$where[] = "a.catid = $id";
@@ -332,19 +332,19 @@ class JContentHelper
 
 	function getItemid($id)
 	{
-		
+
 		$cache = & JFactory::getCache();
 		$Itemid = $cache->get( md5($id), 'getItemid' );
 
 		if ($Itemid === false)
 		{
 			global $mainframe;
-	
+
 			$db = & $mainframe->getDBO();
 			$menu = JMenu::getInstance();
 			$items = $menu->getMenu();
 			$Itemid = null;
-	
+
 			if (count($items))
 			{
 				/*
@@ -356,7 +356,7 @@ class JContentHelper
 						return $item->id;
 					}
 				}
-	
+
 				/*
 				 * Not a content item, so perhaps is it in a section that is linked
 				 * to the menu?
@@ -374,7 +374,7 @@ class JContentHelper
 					$cache->save( $Itemid, md5($id), 'getItemid' );
 					return $Itemid;
 				}
-	
+
 				/*
 				 * Not a section either... is it in a category that is linked to the
 				 * menu?
@@ -392,7 +392,7 @@ class JContentHelper
 					$cache->save( $Itemid, md5($id), 'getItemid' );
 					return $Itemid;
 				}
-	
+
 				/*
 				 * Once we have exhausted all our options for finding the Itemid in
 				 * the content structure, lets see if maybe we have a global blog
@@ -406,7 +406,7 @@ class JContentHelper
 					}
 				}
 			}
-	
+
 			if ($Itemid != '') {
 				$cache->save( $Itemid, md5($id), 'getItemid' );
 				return $Itemid;
@@ -422,7 +422,7 @@ class JContentHTMLHelper {
 
 	/**
 	 * Helper method to print the content item's title block if enabled.
-	 * 
+	 *
 	 * This method will be deprecated with full patTemplate integration in
 	 * Joomla 1.2
 	 *
@@ -434,7 +434,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function title($row, $params, $linkOn, $access) 
+	function title($row, $params, $linkOn, $access)
 	{
 		if ($params->get('item_title')) {
 			?>
@@ -467,10 +467,10 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function editIcon($item, $params, $access) 
+	function editIcon($item, $params, $access)
 	{
 		global $Itemid, $mainframe;
-		
+
 		$user     =& $mainframe->getUser();
 		$document =& $mainframe->getDocument();
 
@@ -485,10 +485,10 @@ class JContentHTMLHelper {
 		}
 
 		mosCommonHTML::loadOverlib();
-		
+
 		$document->addScript('components/com_content/theme/js/common.js');
 		$document->addScript('components/com_content/theme/js/subModal.js');
-		
+
 		$document->addStyleSheet('components/com_content/theme/css/subModal.css');
 
 		$link = 'index2.php?option=com_content&amp;task=edit&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
@@ -513,7 +513,7 @@ class JContentHTMLHelper {
 			<?php echo $image; ?></a>
 		<?php
 	}
-	
+
 	/**
 	 * Helper method to print the new icon for the content item if enabled.
 	 *
@@ -527,16 +527,16 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function newIcon($item, $params, $access) 
+	function newIcon($item, $params, $access)
 	{
 		global $Itemid, $mainframe;
-		
+
 		$user     =& $mainframe->getUser();
 		$document =& $mainframe->getDocument();
-	
+
 		$document->addScript('components/com_content/theme/js/common.js');
 		$document->addScript('components/com_content/theme/js/subModal.js');
-		
+
 		$document->addStyleSheet('components/com_content/theme/css/subModal.css');
 
 		$link = 'index2.php?option=com_content&amp;task=new&amp;sectionid='.$item->sectionid.'&amp;Itemid='.$Itemid;
@@ -564,9 +564,9 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function pdfIcon($row, $params, $linkOn, $hideJS) 
+	function pdfIcon($row, $params, $linkOn, $hideJS)
 	{
-		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) 
+		if ($params->get('pdf') && !$params->get('popup') && !$hideJS)
 		{
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;id='.$row->id.'&amp;type=pdf';
@@ -597,7 +597,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailIcon($row, $params, $hideJS) 
+	function emailIcon($row, $params, $hideJS)
 	{
 		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
@@ -629,7 +629,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function sectionCategory($row, $params) 
+	function sectionCategory($row, $params)
 	{
 		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 			?>
@@ -664,7 +664,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function section($row, $params) 
+	function section($row, $params)
 	{
 		if ($params->get('section') && $row->sectionid) {
 			?>
@@ -693,7 +693,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function category($row, $params) 
+	function category($row, $params)
 	{
 		if ($params->get('category') && $row->catid) {
 			?>
@@ -718,7 +718,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function author($row, $params) 
+	function author($row, $params)
 	{
 		if (($params->get('author')) && ($row->author != "")) {
 			?>
@@ -746,7 +746,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function url($row, $params) 
+	function url($row, $params)
 	{
 		if ($params->get('url') && $row->urls) 	{
 			?>
@@ -772,7 +772,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function createDate($row, $params) 
+	function createDate($row, $params)
 	{
 		$create_date = null;
 		if (intval($row->created) != 0) {
@@ -801,7 +801,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function modifiedDate($row, $params) 
+	function modifiedDate($row, $params)
 	{
 		$mod_date = null;
 		if (intval($row->modified) != 0) {
@@ -830,7 +830,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function toc($row) 
+	function toc($row)
 	{
 		if (isset ($row->toc)) {
 			echo $row->toc;
@@ -850,7 +850,7 @@ class JContentHTMLHelper {
 	 * @return void
 	 * @since 1.0
 	 */
-	function readMore($params, $linkOn, $linkText) 
+	function readMore($params, $linkOn, $linkText)
 	{
 		if ($params->get('readmore')) {
 			if ($params->get('intro_only') && $linkText) {

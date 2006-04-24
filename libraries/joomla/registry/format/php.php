@@ -10,10 +10,10 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 /**
  * PHP class format handler for JRegistry
- * 
+ *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
@@ -24,7 +24,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	/**
 	 * Converts an object into a php class string.
 	 * 	- NOTE: Only one depth level is supported.
-	 * 
+	 *
 	 * @access public
 	 * @param object $object Data Source Object
 	 * @param array  $param  Parameters used by the formatter
@@ -32,7 +32,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @since 1.5
 	 */
 	function objectToString( &$object, $params ) {
-		
+
 		// Build the object variables string
 		$vars = '';
 		foreach (get_object_vars( $object ) as $k => $v) {
@@ -43,12 +43,12 @@ class JRegistryFormatPHP extends JRegistryFormat {
 		$str .= $vars;
 		$str .= "}\n?>";
 
-		return $str;	
+		return $str;
 	}
 
 	/**
 	 * Placeholder method
-	 * 
+	 *
 	 * @access public
 	 * @return boolean True
 	 * @since 1.5

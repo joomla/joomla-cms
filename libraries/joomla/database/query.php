@@ -14,12 +14,12 @@
 
 /**
  * Class QueryBuilder
- * 
+ *
  * @package 	Joomla.Framework
  * @subpackage 	Database
  * @since		1.5
  */
-class JQuery 
+class JQuery
 {
 	/** @var string The query type */
 	var $_type = '';
@@ -143,12 +143,12 @@ class JQuery
 
 /**
  * Class JQueryElement
- * 
+ *
  * @package 	Joomla.Framework
  * @subpackage 	Database
  * @since		1.5
  */
-class JQueryElement 
+class JQueryElement
 {
 	/** @var string The name of the element */
 	var $_name = null;

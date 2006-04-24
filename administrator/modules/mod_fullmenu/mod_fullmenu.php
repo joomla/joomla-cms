@@ -24,7 +24,7 @@ class JFullAdminMenu {
 	* Show the menu
 	* @param string The current user type
 	*/
-	function show($usertype = '') 
+	function show($usertype = '')
 	{
 		global $mainframe;
 
@@ -50,7 +50,7 @@ class JFullAdminMenu {
 		$editAllComponents 	= $user->authorize('com_components', 	'manage');
 		$canMassMail 		= $user->authorize('com_massmail', 		'manage');
 		$canManageUsers 	= $user->authorize('com_users', 		'manage');
-		
+
 		$query = "SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc" .
 				"\n FROM #__sections AS a" .
 				"\n LEFT JOIN #__categories AS c ON c.section = a.id" .
@@ -107,7 +107,7 @@ class JFullAdminMenu {
 			?>
 			<?php
 			if ($enableStats == 1 && $enableSearches ) {
-				?>	
+				?>
 					,
 				<?php
 			}
@@ -290,22 +290,22 @@ class JFullAdminMenu {
 			[null,'<?php echo JText::_( 'Extensions', true ); ?>',null,null,'<?php echo JText::_( 'Extensions', true ); ?>',
 				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Install/Uninstall', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Install/Uninstall', true ); ?>'],
 				_cmSplit,
-				
+
 			<?php /* Modules Sub-Menu */
 			if ($installModules | $editAllModules) { ?>
 				['<img src="../includes/js/ThemeOffice/component.png" />','<?php echo JText::_( 'Modules', true ); ?>','index2.php?option=com_modules&client=0',null,'<?php echo JText::_( 'Manage modules', true ); ?>'],
 			<?php } ?>
-			
+
 			<?php /* Plugins Sub-Menu */
 			if ($installPlugins | $editAllPlugins) 	{ ?>
 				['<img src="../includes/js/ThemeOffice/component.png" />','<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_plugins',null,'<?php echo JText::_( 'Manage plugins', true ); ?>'],
 			<?php } ?>
-			
+
 			<?php /* Templates Sub-Menu */
 			if ($manageTemplates) { ?>
 				['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Templates', true ); ?>','index2.php?option=com_templates&client=0',null,'<?php echo JText::_( 'Manage templates', true ); ?>'],
 			<?php } ?>
-			
+
 			<?php
 			if ($manageLanguages) { ?>
 				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Languages', true ); ?>','index2.php?option=com_languages&client=0',null,'<?php echo JText::_( 'Manage languages', true ); ?>'],
@@ -324,9 +324,9 @@ class JFullAdminMenu {
 	  			['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Read Messages', true ); ?>','index2.php?option=com_messages',null,null],
 	  			['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'New Message', true ); ?>','index2.php?option=com_messages&taks=new',null,null],
 				_cmSplit,
-			<?php 
+			<?php
 			if ($canMassMail)	{
-				?>	
+				?>
 				['<img src=\"../includes/js/ThemeOffice/mass_email.png\" />','<?php echo JText::_( 'Mass Mail', true ); ?>','index2.php?option=com_massmail&hidemainmenu=1',null,'<?php echo JText::_( 'Send Mass Mail', true ); ?>'],
 				_cmSplit,
 				<?php
@@ -371,7 +371,7 @@ class JFullAdminMenu {
 	*
 	* @param string The current user type
 	*/
-	function showDisabled($usertype = '') 
+	function showDisabled($usertype = '')
 	{
 		global $mainframe;
 

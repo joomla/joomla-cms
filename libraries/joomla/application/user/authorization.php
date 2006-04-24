@@ -23,12 +23,12 @@ jimport('phpgacl.gacl_api');
 
 /**
  * Class that handles all access authorization
- * 
+ *
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.5
  */
-class JAuthorization extends gacl_api 
+class JAuthorization extends gacl_api
 {
 	var $acl=null;
 	var $acl_count=0;
@@ -37,7 +37,7 @@ class JAuthorization extends gacl_api
 	 * Constructor
 	 * @param array An arry of options to oeverride the class defaults
 	 */
-	function JAuthorization($options = NULL) 
+	function JAuthorization($options = NULL)
 	{
 		parent::gacl( $options );
 
@@ -263,10 +263,10 @@ class JAuthorization extends gacl_api
 		return $this->_getGroup( 'aro', $value );
 	}
 
-	function _getGroup( $type, $value ) 
+	function _getGroup( $type, $value )
 	{
 		global $mainframe;
-		
+
 		$database = $mainframe->getDBO();
 
 		$database->setQuery( "SELECT g.*"
@@ -280,10 +280,10 @@ class JAuthorization extends gacl_api
 		return $obj;
 	}
 
-	function _getBelow( $table, $fields, $groupby=null, $root_id=null, $root_name=null, $inclusive=true ) 
+	function _getBelow( $table, $fields, $groupby=null, $root_id=null, $root_name=null, $inclusive=true )
 	{
 		global $mainframe;
-		
+
 		$database = $mainframe->getDBO();
 
 		$root = new stdClass();
@@ -324,10 +324,10 @@ class JAuthorization extends gacl_api
 	 * @param boolean Returns the complete html if true
 	 * @return string|array String if html, otherwise an array
 	 */
-	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true ) 
+	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true )
 	{
 		global $mainframe;
-		
+
 		$database = $mainframe->getDBO();
 
 		$tree = $this->_getBelow( '#__core_acl_aro_groups',
@@ -383,10 +383,10 @@ class JAuthorization extends gacl_api
 		Function:	has_group_parent
 		Purpose:	Checks whether the 'source' group is a child of the 'target'
 	\*======================================================================*/
-	function is_group_child_of( $grp_src, $grp_tgt, $group_type='ARO' ) 
+	function is_group_child_of( $grp_src, $grp_tgt, $group_type='ARO' )
 	{
 		global $mainframe;
-		
+
 		$database = $mainframe->getDBO();
 
 		$this->debug_text("has_group_parent(): Source=$grp_src, Target=$grp_tgt, Type=$group_type");
@@ -487,7 +487,7 @@ class JAuthorization extends gacl_api
  * @subpackage	Application
  * @since		1.5
  */
-class JTableARO extends JTable 
+class JTableARO extends JTable
 {
 /** @var int Primary key */
 	var $id=null;
@@ -507,7 +507,7 @@ class JTableARO extends JTable
  * @subpackage	Application
  * @since		1.5
  */
- class JTableAroGroup extends JTable 
+ class JTableAroGroup extends JTable
  {
 /** @var int Primary key */
 	var $id=null;

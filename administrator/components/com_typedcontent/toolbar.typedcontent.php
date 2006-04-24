@@ -23,7 +23,7 @@ switch ($task) {
 	case 'editA':
 		TOOLBAR_typedcontent::_EDIT( );
 		break;
-	
+
 	case 'move':
 		TOOLBAR_typedcontent::_MOVE();
 		break;

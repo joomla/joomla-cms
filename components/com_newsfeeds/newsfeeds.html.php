@@ -94,8 +94,8 @@ class HTML_newsfeed {
 		if ($params->get('display')) {
 			?>
 			<tr>
-				<td align="right" colspan="4">		
-					<?php		
+				<td align="right" colspan="4">
+					<?php
 					echo JText::_('Display Num') .'&nbsp;';
 					$link = "index.php?option=com_newsfeeds&amp;catid=$catid&amp;Itemid=$Itemid";
 					echo $page->getLimitBox($link);
@@ -182,7 +182,7 @@ class HTML_newsfeed {
 			</td>
 		</tr>
 		</table>
-		
+
 		</form>
 		<?php
 	}
@@ -192,7 +192,7 @@ class HTML_newsfeed {
 	*/
 	function showCategories( &$params, &$categories, $catid ) {
 		global $Itemid;
-		
+
 		if (count($categories)) {
 			?>
 			<ul>
@@ -267,7 +267,7 @@ class HTML_newsfeed {
 		$items 			= $lists['items'];
 		$descrip 		= 0;
 		$iUrl			= 0;
-		
+
 		//image handling
 		$iUrl = isset($image['url']) ? $image['url'] : null;
 		$iTitle = isset($image['title']) ? $image['title'] : null;
@@ -310,7 +310,7 @@ class HTML_newsfeed {
 			</tr>
 			<?php
 		}
-		
+
 		// determine number of items to display
 		$actualItems 	= count( $items );
 		$setItems 		= $newsfeed->numarticles;
@@ -327,19 +327,19 @@ class HTML_newsfeed {
 			?>
 			<ul>
 				<?php
-				
+
 				// display list of channel items
 				for ( $j = 0; $j < $totalItems; $j++ ) {
 					$currItem =& $items[$j];
 					?>
 					<li>
-						<?php		
+						<?php
 						if ( !is_null( $currItem['link'] ) ) {
 							?>
 							<a href="<?php echo ampReplace( $currItem['link'] ); ?>" target="_blank">
 								<?php echo $currItem['title']; ?></a>
 							<?php
-						} 
+						}
 						// Note: enclosure tag removed as not supported by magpierss
 						// item description
 						if ( $params->get( 'item_descr' ) ) {

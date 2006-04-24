@@ -168,7 +168,7 @@ class JMediaViews {
 			 * Handle the documents
 			 */
 			if (count($docs)) {
-				foreach ($docs as $doc => $docDetails) 
+				foreach ($docs as $doc => $docDetails)
 				{
 					$extfile  = substr($doc, strrpos($doc, '.') + 1);
 					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$extfile."_16.png";
@@ -513,7 +513,7 @@ class JMediaViews {
 		<?php
 	}
 
-	function popupUpload( $basePath ) 
+	function popupUpload( $basePath )
 	{
 		global $mosConfig_absolute_path;
 

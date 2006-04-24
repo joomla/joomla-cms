@@ -64,7 +64,7 @@ switch ($task) {
 
 function showMessages( $option ) {
 	global $database, $mainframe, $my;
-	
+
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.date_time' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'DESC' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -72,10 +72,10 @@ function showMessages( $option ) {
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$where = array();
 	$where[] = " a.user_id_to='$my->id'";
-	
+
 	if (isset($search) && $search!= "") {
 		$where[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
 	}	if ( $filter_state ) {
@@ -84,9 +84,9 @@ function showMessages( $option ) {
 		} else if ($filter_state == 'U' ) {
 			$where[] = "a.state = 0";
 		}
-	}	
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	}
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.date_time DESC";
 
 	$query = "SELECT COUNT(*)"
@@ -96,33 +96,33 @@ function showMessages( $option ) {
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
-	
+
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
-	
+
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"
 	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );	
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
 		return false;
-	}		
-	
-	// state filter 
+	}
+
+	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state, 'Read', 'Unread' );
-	
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
+	$lists['order'] = $filter_order;
 	// search filter
 	$lists['search']= $search;
 
@@ -138,7 +138,7 @@ function editConfig( $option ) {
 	;
 	$database->setQuery( $query );
 	$data = $database->loadObjectList( 'cfg_name' );
-	
+
 	// initialize values if they do not exist
 	if (!isset($data['lock']->cfg_value)) {
 		$data['lock']->cfg_value 		= 0;
@@ -149,7 +149,7 @@ function editConfig( $option ) {
 		$data['auto_purge']->cfg_value 	= 7;
 	}
 
-	$vars 					= array();	
+	$vars 					= array();
 	$vars['lock'] 			= mosHTML::yesnoradioList( "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );	$vars['mail_on_new'] 	= mosHTML::yesnoradioList( "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
 	$vars['auto_purge'] 	= $data['auto_purge']->cfg_value;
 

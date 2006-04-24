@@ -20,14 +20,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Menus
 */
-class HTML_menumanager 
+class HTML_menumanager
 {
 	/**
 	* Writes a list of the menumanager items
 	*/
 	function show ( $option, $menus, $page ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
@@ -46,7 +46,7 @@ class HTML_menumanager
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<div id="pane-document">
 			<table class="adminlist">
 			<thead>
@@ -156,10 +156,10 @@ class HTML_menumanager
 	* writes a form to take the name of the menu you would like created
 	* @param option	display options for the form
 	*/
-	function edit ( &$row, $option ) 
+	function edit ( &$row, $option )
 	{
 		mosCommonHTML::loadOverlib();
-		
+
 		$new = $row->menutype ? 0 : 1;
 		?>
 		<script language="javascript" type="text/javascript">
@@ -196,7 +196,7 @@ class HTML_menumanager
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr height="45;">
 			<td width="100" >

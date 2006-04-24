@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class wrapper_menu_html {
 
 
-	function edit( &$menu, &$lists, &$params, $option ) 
+	function edit( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
 		?>

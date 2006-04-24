@@ -21,14 +21,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Trash
 */
 
-class HTML_trash {	
+class HTML_trash {
 	/**
 	* Writes a list of the Trash items
 	*/
 	function showListContent( $option, &$contents, &$pageNav, &$lists ) {
 		?>
 		<form action="index2.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -42,7 +42,7 @@ class HTML_trash {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist" width="90%">
 			<tr>
 				<th width="20">
@@ -96,7 +96,7 @@ class HTML_trash {
 			}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
@@ -156,7 +156,7 @@ class HTML_trash {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist" width="90%">
 			<tr>
 				<th width="20">
@@ -210,7 +210,7 @@ class HTML_trash {
 			}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
@@ -232,7 +232,7 @@ class HTML_trash {
 	function showDelete( $option, $cid, $items, $type, $return ) {
 	?>
 		<form action="index2.php?option=com_trash&amp;task=<?php echo $return; ?>" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
@@ -292,7 +292,7 @@ class HTML_trash {
 	function showRestore( $option, $cid, $items, $type, $return ) {
 		?>
 		<form action="index2.php?option=com_trash&amp;task=<?php echo $return; ?>" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>

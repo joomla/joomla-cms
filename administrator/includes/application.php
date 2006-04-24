@@ -70,7 +70,7 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( $CONFIG->error_reporting );
 }
 
-define('JDEBUG', $CONFIG->debug); 
+define('JDEBUG', $CONFIG->debug);
 
 unset($CONFIG);
 
@@ -113,44 +113,44 @@ JDEBUG ?  $_PROFILER->mark('afterLoadFramework') : null;
 * Joomla! Application class
 *
 * Provide many supporting API functions
-* 
+*
 * @package Joomla
 * @final
 */
-class JAdministrator extends JApplication 
-{	
-	/** 
+class JAdministrator extends JApplication
+{
+	/**
 	 * The url of the site
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_siteURL = null;
-	
+
 	/**
 	* Class constructor
-	* 
+	*
 	* @access protected
 	* @param integer A client id
 	*/
 	function __construct() {
 		parent::__construct(1);
 	}
-	
+
 	/**
 	* Login authentication function
-	* 
+	*
 	* @param string The username
 	* @param string The password
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username=null, $password=null) 
+	function login($username=null, $password=null)
 	{
 		$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
 
-		if (parent::login($username, $password)) 
+		if (parent::login($username, $password))
 		{
 			$lang = JRequest::getVar( 'lang' );
 			$this->setUserState( 'application.lang', $lang  );
@@ -159,13 +159,13 @@ class JAdministrator extends JApplication
 			JAdministrator::purgeMessages();
 			josRedirect( 'index2.php' );
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	* Logout authentication function
-	* 
+	*
 	* @access public
 	* @see JApplication::login
 	*/
@@ -173,14 +173,14 @@ class JAdministrator extends JApplication
 		parent::logout();
 		josRedirect( $this->getBaseURL() );
 	}
-	
+
 	/**
 	* Set Page Title
-	* 
+	*
 	* @param string $title The title for the page
 	* @since 1.5
 	*/
-	function setPageTitle( $title=null ) 
+	function setPageTitle( $title=null )
 	{
 		$document=& $this->getDocument();
 		$document->setTitle($title);
@@ -188,16 +188,16 @@ class JAdministrator extends JApplication
 
 	/**
 	* Get Page title
-	* 
+	*
 	* @return string The page title
 	* @since 1.5
 	*/
-	function getPageTitle() 
+	function getPageTitle()
 	{
 		$document=& $this->getDocument();
 		return $document->getTitle();
 	}
-	
+
 	/**
 	 * Set the configuration
 	 *
@@ -206,10 +206,10 @@ class JAdministrator extends JApplication
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file, $type = 'config') 
+	function setConfiguration($file, $type = 'config')
 	{
 		parent::setConfiguration($file, $type);
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
 		$config->live_site     = substr_replace($this->getSiteURL(), '', -1, 1);
@@ -217,21 +217,21 @@ class JAdministrator extends JApplication
 
 		// Load the configuration values into the registry
 		$this->_registry->loadObject($config);
-		
+
 		//Insert configuration values into global scope (for backwards compatibility)
 		foreach (get_object_vars($config) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$GLOBALS[$name] = $v;
 		}
 	}
-	
+
 	/**
 	 * Set the user session
 	 *
 	 * @access public
 	 * @param string	The sessions name
 	 */
-	function setSession($name) 
+	function setSession($name)
 	{
 		$this->_createSession($name);
 		if (JSession::isIdle()) {
@@ -246,7 +246,7 @@ class JAdministrator extends JApplication
 			$state->get		= $_GET;
 			$state->request	= $_REQUEST;
 
-			// Store the user state 
+			// Store the user state
 			$cache = & JFactory::getCache();
 			$user = $this->getUser();
 			$cache->save(serialize($state), md5($user->get('id')), 'autoLogoutState');
@@ -256,7 +256,7 @@ class JAdministrator extends JApplication
 
 		JSession::updateIdle();
 	}
-	
+
 	/**
 	 * Return a reference to the JDocument object
 	 *
@@ -268,11 +268,11 @@ class JAdministrator extends JApplication
 		if(is_object($this->_document)) {
 			return $this->_document;
 		}
-		
-		$doc  =& parent::getDocument($type);	
+
+		$doc  =& parent::getDocument($type);
 		$user =& $this->getUser();
-	
-		switch($type) 
+
+		switch($type)
 		{
 			case 'html' :
 			{
@@ -282,21 +282,21 @@ class JAdministrator extends JApplication
 
 				//set base URL
 				$doc->setBase( $this->getBaseURL() );
-		
+
 				if ( $user->get('id') ) {
 					$doc->addScript( '../includes/js/joomla.javascript.js');
 				}
 			} break;
-			
+
 			default : break;
 		}
-		
+
 		return $this->_document;
 	}
 
 	/**
 	* Get the template
-	* 
+	*
 	* @return string The template name
 	* @since 1.0
 	*/
@@ -307,7 +307,7 @@ class JAdministrator extends JApplication
 		if (!isset ($templates))
 		{
 			$templates = array();
-			
+
 			/*
 			 * Load template entries for each menuid
 			 */
@@ -324,45 +324,45 @@ class JAdministrator extends JApplication
 		$template = $templates[0];
 
 		$path = JPATH_ADMINISTRATOR ."/templates/$template/index.php";
-		
+
 		if (!file_exists( $path )) {
 			$cur_template = 'joomla_admin';
 		}
-		
+
 		return $template;
 	}
-	
+
 	/**
-	* Get the url of the site 
-	* 
+	* Get the url of the site
+	*
 	* @return string The site URL
 	* @since 1.5
 	*/
-	function getSiteURL() 
+	function getSiteURL()
 	{
 		if(isset($this->_siteURL)) {
 			return $this->_siteURL;
 		}
-		
+
 		$url = $this->getBaseURL();
 		$url = str_replace('administrator/', '', $url);
-		
+
 		$this->_siteURL = $url;
 		return $url;
 	}
-	
+
 	/**
-	* Purge the jos_messages table of old messages 
-	* 
+	* Purge the jos_messages table of old messages
+	*
 	* static method
 	* @since 1.5
 	*/
-	function purgeMessages() 
+	function purgeMessages()
 	{
 		$db = $this->getDBO();
 
 		$userid = JSession::get('userid');
-		
+
 		$query = "SELECT *"
 		. "\n FROM #__messages_cfg"
 		. "\n WHERE user_id = $userid"
@@ -371,7 +371,7 @@ class JAdministrator extends JApplication
 		$db->setQuery( $query );
 		$user = null;
 		$db->loadObject( $user );
-		
+
 		// check if auto_purge value set
 		if ( $user->cfg_name == 'auto_purge' ) {
 			$purge 	= $user->cfg_value;
@@ -381,7 +381,7 @@ class JAdministrator extends JApplication
 		}
 		// calculation of past date
 		$past = date( 'Y-m-d H:i:s', time() - $purge * 60 * 60 * 24 );
-		
+
 		// if purge value is not 0, then allow purging of old messages
 		if ($purge != 0) {
 			// purge old messages at day set in message configuration
@@ -391,12 +391,12 @@ class JAdministrator extends JApplication
 			;
 			$db->setQuery( $query );
 			$db->query();
-		}		
+		}
 	}
-	
+
 	function loadStoredUserState()
 	{
-		// Get the stored the user state if it exists 
+		// Get the stored the user state if it exists
 		$cache	= & JFactory::getCache();
 		$user	= & $this->getUser();
 		$state	= $cache->get(md5($user->get('id')), 'autoLogoutState');
@@ -411,12 +411,12 @@ class JAdministrator extends JApplication
 			return true;
 		}
 		// No stored user state exists
-		return false;		
+		return false;
 	}
 }
 
-/** 
- * @global $_VERSION 
+/**
+ * @global $_VERSION
  */
 $_VERSION = new JVersion();
 

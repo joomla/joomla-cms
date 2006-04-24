@@ -22,14 +22,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class HTML_newsfeeds {
 
 	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option ) {
-		global $mainframe; 
-		
+		global $mainframe;
+
 		$user = $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_newsfeeds" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -47,7 +47,7 @@ class HTML_newsfeeds {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="10">
@@ -88,9 +88,9 @@ class HTML_newsfeeds {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$link 		= ampReplace( 'index2.php?option=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->id );
-	
+
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 
@@ -148,10 +148,10 @@ class HTML_newsfeeds {
 				$k = 1 - $k;
 			}
 			?>
-			</table>			
-			
-			<?php echo $pageNav->getListFooter(); ?>		
-				
+			</table>
+
+			<?php echo $pageNav->getListFooter(); ?>
+
 			<table class="adminform">
 			<tr>
 				<td>
@@ -212,8 +212,8 @@ class HTML_newsfeeds {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		
-		<div id="editcell">				
+
+		<div id="editcell">
 			<table class="adminform">
 			<tr>
 				<th colspan="2">

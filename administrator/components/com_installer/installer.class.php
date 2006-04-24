@@ -27,10 +27,10 @@ class mosInstaller extends JInstaller
 
 /**
  * Legacy function, use JFolder::delete($path)
- * 
+ *
  * @deprecated	As of version 1.5
  */
-function deldir( $dir ) 
+function deldir( $dir )
 {
 	$current_dir = opendir( $dir );
 	$old_umask = umask(0);

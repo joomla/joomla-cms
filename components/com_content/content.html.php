@@ -27,7 +27,7 @@ class JViewContentHTML {
 
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function showSection(& $model) {
@@ -50,7 +50,7 @@ class JViewContentHTML {
 		JViewContentHTML_category::show($model, $access, $lists, $order);
 	}
 
-	function showArchive(&$model, &$menu, &$access, $id) 
+	function showArchive(&$model, &$menu, &$access, $id)
 	{
 		require_once (dirname(__FILE__).DS.'view'.DS.'archive'.DS.'archive.php');
 		/*
@@ -59,7 +59,7 @@ class JViewContentHTML {
 		JViewContentHTML_archive::show($model, $access, $menu, $id);
 	}
 
-	function showBlog(&$model, &$access, &$menu) 
+	function showBlog(&$model, &$access, &$menu)
 	{
 		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.php');
 		/*
@@ -68,7 +68,7 @@ class JViewContentHTML {
 		JViewContentHTML_blog::show($model, $access, $menu);
 	}
 
-	function showItem(&$model, &$access, $page) 
+	function showItem(&$model, &$access, $page)
 	{
 		require_once (dirname(__FILE__).DS.'view'.DS.'item'.DS.'item.php');
 		/*
@@ -82,14 +82,14 @@ class JViewContentHTML {
 	*
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.
-	* 
+	*
 	* @return void
 	* @since 1.0
 	*/
-	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) 	
+	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid)
 	{
 		global $mainframe, $Itemid;
-		
+
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
 
@@ -106,7 +106,7 @@ class JViewContentHTML {
 		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
 		$document->addScript('includes/js/calendar/calendar_mini.js');
 		$document->addScript('includes/js/calendar/lang/calendar-en.js');
-		
+
 		mosCommonHTML::loadOverlib();
 
 		// Ensure the row data is safe html
@@ -178,33 +178,33 @@ class JViewContentHTML {
 		}
 		</script>
 		<?php
-		$docinfo = '<table><tr><td>'; 
+		$docinfo = '<table><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Expiry Date').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $row->publish_down;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Version').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $row->version;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Created').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $row->created;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Last Modified').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $row->modified;
-		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '</td></tr><tr><td>';
 		$docinfo .= '<strong>'.JText::_('Hits').':</strong> ';
-		$docinfo .= '</td><td>'; 
+		$docinfo .= '</td><td>';
 		$docinfo .= $row->hits;
-		$docinfo .= '</td></tr></table>'; 
+		$docinfo .= '</td></tr></table>';
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
 
 		<div class="componentheading">
 			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
-			<?php echo JText::_( 'Content' );?>		
+			<?php echo JText::_( 'Content' );?>
 		</div>
 
 		<table class="adminform" width="100%">
@@ -232,7 +232,7 @@ class JViewContentHTML {
 			</td>
 		</tr>
 		</table>
-		
+
 		<?php
 		if ($row->sectionid) {
 			?>
@@ -257,7 +257,7 @@ class JViewContentHTML {
 			<?php
 		}
 		?>
-		
+
 		<table class="adminform">
 		<tr>
 			<td>
@@ -302,7 +302,7 @@ class JViewContentHTML {
 		}
 		?>
 		</table>
-		
+
 		<?php
 		// Toolbar Bottom
 		mosToolBar::startTable();
@@ -311,9 +311,9 @@ class JViewContentHTML {
 		mosToolBar::cancel();
 		mosToolBar::endtable();
 		?>
-		
+
 		<br />
-		
+
 		<?php
 		$title = JText::_('Images');
 		$tabs->startPane('content-pane');
@@ -463,13 +463,13 @@ class JViewContentHTML {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
-			
+
 		<?php
 		$title = JText::_('Publishing');
 		$tabs->endTab();
 		$tabs->startTab($title, 'publish-page');
 		?>
-		
+
 			<table class="adminform">
 			<?php
 			if ($access->canPublish) {
@@ -550,7 +550,7 @@ class JViewContentHTML {
 				</td>
 			</tr>
 			</table>
-			
+
 		<?php
 		$title = JText::_('Metadata');
 		$tabs->endTab();
@@ -578,7 +578,7 @@ class JViewContentHTML {
 				</td>
 			</tr>
 			</table>
-			
+
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
@@ -600,14 +600,14 @@ class JViewContentHTML {
 
 	/**
 	 * Writes Email form for sending a content item link to a friend
-	 * 
+	 *
 	 * @param int 		$uid 		Content item id
 	 * @param string 	$title 		Content item title
 	 * @param string 	$template 	The current template
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailForm($uid, $title, $template = '') 
+	function emailForm($uid, $title, $template = '')
 	{
 		global $mainframe;
 
@@ -690,13 +690,13 @@ class JViewContentHTML {
 
 	/**
 	 * Writes Email sent popup
-	 * 
+	 *
 	 * @param string $to 		Email recipient
 	 * @param string $template 	The current template
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailSent($to, $template = '') 
+	function emailSent($to, $template = '')
 	{
 		global $mainframe;
 
@@ -704,7 +704,7 @@ class JViewContentHTML {
 		?>
 		<span class="contentheading">
 			<?php echo JText::_( 'This item has been sent to' )." $to";?>
-		</span> 
+		</span>
 		<br />
 		<br />
 		<br />
@@ -715,7 +715,7 @@ class JViewContentHTML {
 
 	/**
 	 * Method to show an empty container if there is no data to display
-	 * 
+	 *
 	 * @static
 	 * @param string $msg The message to show
 	 * @return void
@@ -724,11 +724,11 @@ class JViewContentHTML {
 	function emptyContainer($msg) {
 		echo '<p><div align="center">'.$msg.'</div></p>';
 	}
-	
+
 	/**
 	 * Writes a user input error message and if javascript is enabled goes back
 	 * to the previous screen to try again.
-	 * 
+	 *
 	 * @param string $msg The error message to display
 	 * @return void
 	 * @since 1.5

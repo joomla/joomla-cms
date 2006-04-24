@@ -33,7 +33,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) 
+switch ($task)
 {
 	case 'publish':
 		publishLanguage( $cid[0], $option );
@@ -51,10 +51,10 @@ switch ($task)
 /**
 * Compiles a list of installed languages
 */
-function viewLanguages() 
+function viewLanguages()
 {
 	global $mainframe;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -62,7 +62,7 @@ function viewLanguages()
 	$option = JRequest::getVar('option');
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$rows	= array ();
-	
+
 	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
 	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
@@ -72,26 +72,26 @@ function viewLanguages()
 	jimport('joomla.filesystem.folder');
 	$path = JLanguage::getLanguagePath($client->path);
 	$dirs = JFolder::folders( $path );
-	
-	foreach ($dirs as $dir) 
+
+	foreach ($dirs as $dir)
 	{
 		$files = JFolder::files( $path . $dir, '^([-_A-Za-z]*)\.xml$' );
-		foreach ($files as $file) 
+		foreach ($files as $file)
 		{
 			$data = JApplicationHelper::parseXMLLangMetaFile($path.$dir.DS.$file);
-			
-			
+
+
 			$row 			= new StdClass();
 			$row->id 		= $rowid;
 			$row->language 	= substr($file,0,-4);
-			
+
 			if (!is_array($data)) {
 				continue;
 			}
 			foreach($data as $key => $value) {
 				$row->$key = $value;
 			}
-			
+
 			$lang = ($client->name == 'site') ? 'lang_site' : 'lang_'.$client->name;
 
 			// if current than set published
@@ -123,19 +123,19 @@ function viewLanguages()
 function publishLanguage( $language, $option )
 {
 	global $mainframe;
-	
+
 	/*
 	 * Initialize some variables
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	
+
 	$varname = ($client->id == 0) ? 'lang_site' : 'lang_administrator';
-	
+
 	$mainframe->_registry->setValue('config.'.$varname, $language);
-	
+
 	// Get the path of the configuration file
 	$fname = JPATH_CONFIGURATION.'/configuration.php';
-	
+
 	/*
 	 * Now we get the config registry in PHP class format and write it to
 	 * configuation.php then redirect appropriately.

@@ -21,15 +21,15 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginGeshi' );
 *
 * Replaces <pre>...</pre> tags with highlighted text
 */
-function convertGeshi( &$row, &$params, $page=0 ) 
+function convertGeshi( &$row, &$params, $page=0 )
 {
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, 'pre>' ) === false ) {
 		return true;
-	}	
+	}
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'geshi'); 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'geshi');
 
 	// check whether plugin has been unpublished
 	if (!$plugin->published) {
@@ -51,13 +51,13 @@ function convertGeshi( &$row, &$params, $page=0 )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function contentGeshi_replacer( &$matches ) 
+function contentGeshi_replacer( &$matches )
 {
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
-	
+
 	jimport('geshi.geshi');
 	jimport('domit.xml_saxy_shared');
-	
+
 	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
 	$text = $matches[2];
 

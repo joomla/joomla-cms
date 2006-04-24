@@ -25,7 +25,7 @@ if (!$user->authorize( 'com_checkin', 'manage' ))
 }
 $nullDate = $database->getNullDate();
 ?>
-<div id="tablecell">				
+<div id="tablecell">
 	<table class="adminform">
 	<tr>
 		<th class="title">
@@ -49,15 +49,15 @@ $nullDate = $database->getNullDate();
 			continue;
 		}
 		$fields = $database->getTableFields( array( $tn ) );
-	
+
 		$foundCO = false;
 		$foundCOT = false;
 		$foundE = false;
-	
+
 		$foundCO	= isset( $fields[$tn]['checked_out'] );
 		$foundCOT	= isset( $fields[$tn]['checked_out_time'] );
 		$foundE		= isset( $fields[$tn]['editor'] );
-	
+
 		if ($foundCO && $foundCOT) {
 			if ($foundE) {
 				$query = "SELECT checked_out, editor"
@@ -73,7 +73,7 @@ $nullDate = $database->getNullDate();
 			$database->setQuery( $query );
 			$res = $database->query();
 			$num = $database->getNumRows( $res );
-	
+
 			if ($foundE) {
 				$query = "UPDATE $tn"
 				. "\n SET checked_out = 0, checked_out_time = '$nullDate', editor = NULL"
@@ -87,7 +87,7 @@ $nullDate = $database->getNullDate();
 			}
 			$database->setQuery( $query );
 			$res = $database->query();
-	
+
 			if ($res == 1) {
 				if ($num > 0) {
 					echo "<tr class=\"row$k\">";

@@ -24,11 +24,11 @@ function initDocument(&$doc, $file = 'index.html')
 	global $mainframe;
 
 	$lang    =& $mainframe->getLanguage();
-	
+
 	$template = $mainframe->getTemplate();
-	
+
 	$version = new JVersion();
-	
+
 	if ($lang->isRTL()) {
 		$doc->addStyleSheet( 'template/css/template_rtl.css' );
 	} else {

@@ -25,8 +25,8 @@ class TOOLBAR_sections {
 	*/
 	function _EDIT() {
 		global $id;
-		
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );		
+
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
 		JMenuBar::media_manager();

@@ -1837,7 +1837,7 @@ class gacl_api extends gacl {
 				LEFT JOIN		'. $object_table .' AS o ON o.id=gm.'. $group_type .'_id
 				WHERE		gm.group_id='. $group_id;
 		}
-		
+
 		$rs = $this->db->Execute($query);
 
 		if (!is_object($rs)) {

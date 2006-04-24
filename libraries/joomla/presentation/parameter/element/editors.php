@@ -29,15 +29,15 @@ class JElement_Editors extends JElement
 	* @var		string
 	*/
 	var	$_name = 'Editors';
-	
-	function fetchElement($name, $value, &$node, $control_name)	
+
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		global $mainframe;
 
 		$db		= & $mainframe->getDBO();
 		$user	= & $mainframe->getUser();
 
-		/* 
+		/*
 		 * @todo: change to acl_check method
 		 */
 		if(!($user->get('gid') >= 20) ) {

@@ -11,13 +11,13 @@
 
 /**
  * LDAP client class
- * 
+ *
  * @author		Samuel Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage 	Connector
  * @since		1.5
  */
-class JLDAP 
+class JLDAP
 {
 	/** @var string Hostname of LDAP server
 	    @access public */
@@ -25,13 +25,13 @@ class JLDAP
 	/** @var int Port of LDAP server
 	    @access public */
 	var $port = null;
-	/** @var string Base DN (e.g. o=MyDir) 
+	/** @var string Base DN (e.g. o=MyDir)
 	    @access public */
 	var $base_dn = null;
-	/** @var string User DN (e.g. cn=Users,o=MyDir) 
+	/** @var string User DN (e.g. cn=Users,o=MyDir)
 	    @access public */
 	var $users_dn = null;
-	/** @var string Search String 
+	/** @var string Search String
 	    @access public */
 	var $search_string = null;
 	/** @var boolean Use LDAP Version 3
@@ -40,7 +40,7 @@ class JLDAP
 	/** @var boolean No referrals (server transfers)
 	    @access public */
 	var $no_referrals = null;
-	/** @var boolean Negotiate TLS (encrypted communications) 
+	/** @var boolean Negotiate TLS (encrypted communications)
 	    @access public */
 	var $negotiate_tls = null;
 
@@ -54,7 +54,7 @@ class JLDAP
 	/** @var mixed LDAP Resource Identifier
 	    @access private */
 	var $_resource =  null;
-	/** @var string Current DN 
+	/** @var string Current DN
 	    @access private */
 	var $_dn = null;
 
@@ -194,10 +194,10 @@ class JLDAP
 							for($k = 0; $k < $subcount; $k++) {
 								$attributes[$i][$ki][$k] = $ai[$k];
 							}
-						} 
+						}
 					}
 					$attributes[$i]['dn'] = ldap_get_dn( $resource, $firstentry );
-				} 
+				}
 			}
 		}
 		return $attributes;

@@ -26,21 +26,21 @@ class JPane extends JObject
 {
 	/**
 	* Constructor
-	* 
+	*
  	* @param array 	$params		Associative array of values
 	*/
 	function __construct( $params = array() ) {
-		
+
 	}
-	
+
 	/**
 	 * Returns a reference to a JPanel object
-	 * 
+	 *
 	 * @param string 	$behavior   The behavior to use
 	 * @param boolean	$useCookies Use cookies to remember the state of the panel
 	 * @param array 	$params		Associative array of values
 	 */
-	function &getInstance( $behavior = 'Tabs', $params = array()) 
+	function &getInstance( $behavior = 'Tabs', $params = array())
 	{
 		$classname = 'JPane'.$behavior;
 		$instance = new $classname($params);
@@ -50,7 +50,7 @@ class JPane extends JObject
 
 	/**
 	* Creates a pane and creates the javascript object for it
-	* 
+	*
 	* @abstract
 	* @param string The pane identifier
 	*/
@@ -60,7 +60,7 @@ class JPane extends JObject
 
 	/**
 	* Ends the pane
-	* 
+	*
 	* @abstract
 	*/
 	function endPane() {
@@ -69,27 +69,27 @@ class JPane extends JObject
 
 	/**
 	* Creates a panel with title text and starts that panel
-	* 
+	*
 	* @abstract
 	* @param text - The panel name and/or title
 	* @param id - The panel identifer
 	*/
-	function startPanel( $text, $id ) { 
+	function startPanel( $text, $id ) {
 		return;
 	}
 
-	/** 
+	/**
 	* Ends a panel
-	* 
+	*
 	* @abstract
 	*/
-	function endPanel() { 
+	function endPanel() {
 		return;
 	}
-	
+
 	/**
 	* Load the javascript behavior and attach it to the document
-	* 
+	*
 	* @abstract
 	*/
 	function _loadBehavior() {
@@ -109,20 +109,20 @@ class JPaneTabs extends JPane
 {
 	/**
 	* Constructor
-	* 
+	*
 	* @param array 	$params		Associative array of values
 	*/
 	function __construct( $params = array() )
 	{
 		parent::__construct($params);
-		
+
 		global $mainframe;
 
 		if(!$mainframe->get( 'JPanelTabs_loaded')) {
 			$this->_loadBehavior($params);
 		}
 	}
-	
+
    /**
 	* Creates a pane and creates the javascript object for it
 	*
@@ -131,9 +131,9 @@ class JPaneTabs extends JPane
 	function startPane( $id )
 	{
 		global $mainframe;
-		
+
 		$document =& $mainframe->getDocument();
-		
+
 		echo "<div class=\"tab-page\" id=\"".$id."\">";
 		echo "<script type=\"text/javascript\">\n";
 		echo "	var tabPane1 = new WebFXTabPane( document.getElementById( \"".$id."\" ), ".(int)$this->useCookies." )\n";
@@ -153,7 +153,7 @@ class JPaneTabs extends JPane
 	* @param text - The name of the tab
 	* @param id - The tab identifier
 	*/
-	function startPanel( $text, $id ) 
+	function startPanel( $text, $id )
 	{
 		echo "<div class=\"tab-page\" id=\"".$id."\">";
 		echo "<h2 class=\"tab\"><span>".$text."</span></h2>";
@@ -162,22 +162,22 @@ class JPaneTabs extends JPane
 		echo "</script>";
 	}
 
-	/** 
+	/**
 	* Ends a tab page
 	*/
 	function endPanel() {
 		echo "</div>";
 	}
-	
+
 	/**
 	* Load the javascript behavior and attach it to the document
-	* 
+	*
 	* @param array 	$params		Associative array of values
 	*/
-	function _loadBehavior($params = array()) 
-	{	
+	function _loadBehavior($params = array())
+	{
 		global $mainframe;
-		
+
 		$document =& $mainframe->getDocument();
 		$lang     =& $mainframe->getLanguage();
 
@@ -186,7 +186,7 @@ class JPaneTabs extends JPane
 
 		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css, 'text/css', null, array(' id' => 'luna-tab-style-sheet' ));
 		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
-		
+
 		$mainframe->set( 'JPanelTabs_loaded', true );
 	}
 }
@@ -203,20 +203,20 @@ class JPaneSliders extends JPane
 {
 	/**
 	* Constructor
-	* 
+	*
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	*/
 	function __construct( $params = array() )
 	{
 		parent::__construct($params);
-		
+
 		global $mainframe;
 
 		if(!$mainframe->get( 'JPanelSliders_loaded')) {
 			$this->_loadBehavior($params);
 		}
 	}
-	
+
    /**
 	* Creates a pane and creates the javascript object for it
 	*
@@ -224,7 +224,7 @@ class JPaneSliders extends JPane
 	*/
 	function startPane( $id )
 	{
-		echo '<div id="'.$id.'" class="pane-sliders">';	
+		echo '<div id="'.$id.'" class="pane-sliders">';
 	}
 
    /**
@@ -243,29 +243,29 @@ class JPaneSliders extends JPane
 	* @param text - The name of the tab
 	* @param id - The tab identifier
 	*/
-	function startPanel( $text, $id ) 
+	function startPanel( $text, $id )
 	{
 		echo '<div class="panel">';
 		echo '<h3 class="moofx-toggler title" id="'.$id.'">'.$text.'</h3>';
 		echo '<div class="moofx-slider content">';
 	}
 
-	/** 
+	/**
 	* Ends a tab page
 	*/
 	function endPanel() {
 		echo '</div></div>';
 	}
-	
+
 	/**
 	* Load the javascript behavior and attach it to the document
-	* 
+	*
 	* @param array 	$params		Associative array of values
 	*/
-	function _loadBehavior($params = array()) 
-	{	
+	function _loadBehavior($params = array())
+	{
 		global $mainframe;
-		
+
 		$document =& $mainframe->getDocument();
 		$lang     =& $mainframe->getLanguage();
 
@@ -275,7 +275,7 @@ class JPaneSliders extends JPane
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );
-		
+
 		$mainframe->set( 'JPanelSliders_loaded', true );
 	}
 }

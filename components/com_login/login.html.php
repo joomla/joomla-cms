@@ -17,23 +17,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Login component HTML view class
- * 
+ *
  * @package Joomla
  * @subpackage Users
  * @since	1.0
- */	
+ */
 class JViewLoginHTML {
 
 	/**
 	 * Method to show the login page
-	 * 
+	 *
 	 * @static
 	 * @access	public
 	 * @param	object	$params	Page parameters
 	 * @param	string	$image	Display image
 	 * @return	void
 	 * @since	1.0
-	 */	
+	 */
 	function loginpage ( &$params, $image ) {
 
 		$return = $params->get('login');
@@ -135,20 +135,20 @@ class JViewLoginHTML {
 
 	/**
 	 * Method to show the logout page
-	 * 
+	 *
 	 * @static
 	 * @access	public
 	 * @param	object	$params	Page parameters
 	 * @param	string	$image	Display image
 	 * @return	void
 	 * @since	1.0
-	 */	
+	 */
 	function logoutpage( &$params, $image ) {
 
 		$return = $params->get('logout');
 		?>
 		<form action="<?php echo sefRelToAbs( 'index.php?option=logout' ); ?>" method="post" name="login" id="login">
-		
+
 		<?php
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -158,14 +158,14 @@ class JViewLoginHTML {
 			<?php
 		}
 		?>
-		
+
 		<table border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
 		<tr>
 			<td valign="top">
 				<div>
 					<?php
 					echo $image;
-		
+
 					if ( $params->get( 'description_logout' ) ) {
 						echo $params->get( 'description_logout_text' );
 						?>
@@ -183,7 +183,7 @@ class JViewLoginHTML {
 			</td>
 		</tr>
 		</table>
-		
+
 		<br/><br/>
 
 		<input type="hidden" name="option" value="logout" />

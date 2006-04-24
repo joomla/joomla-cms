@@ -35,7 +35,7 @@ class JMenu extends JObject
 
 	/**
 	 * Class constructor
-	 * 
+	 *
 	 * @param string $name The menu name to load
 	 * @return boolean True on success
 	 * @since 1.5
@@ -86,10 +86,10 @@ class JMenu extends JObject
 
 		if ($Itemid === false) {
 			global $mainframe;
-	
+
 			$db = & $mainframe->getDBO();
 			$Itemid = null;
-	
+
 			if (count($this->_menuitems)) {
 				// Do we have a content item linked to the menu with this id?
 				foreach ($this->_menuitems as $item) {
@@ -98,7 +98,7 @@ class JMenu extends JObject
 						return $item->id;
 					}
 				}
-	
+
 				/*
 				 * Not a content item, so perhaps is it in a section that is linked
 				 * to the menu?
@@ -116,7 +116,7 @@ class JMenu extends JObject
 					$cache->save( $Itemid, $signature, 'getItemid' );
 					return $Itemid;
 				}
-	
+
 				/*
 				 * Not a section either... is it in a category that is linked to the
 				 * menu?
@@ -134,7 +134,7 @@ class JMenu extends JObject
 					$cache->save( $Itemid, $signature, 'getItemid' );
 					return $Itemid;
 				}
-	
+
 				/*
 				 * Once we have exhausted all our options for finding the Itemid in
 				 * the content structure, lets see if maybe we have a global blog
@@ -148,7 +148,7 @@ class JMenu extends JObject
 					}
 				}
 			}
-	
+
 			if ($Itemid != '') {
 				$cache->save( $Itemid, $signature, 'getItemid' );
 				return $Itemid;

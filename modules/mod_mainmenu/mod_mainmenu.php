@@ -31,19 +31,19 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 			case 'separator' :
 			case 'component_item_link' :
 				break;
-				
+
 			case 'content_item_link':
 				if ( $params->get( 'unique_itemid' ) ) {
 					$mitem->link .= '&Itemid='. $mitem->id;
 				} else {
 					$temp = split("&task=view&id=", $mitem->link);
 					require_once (JApplicationHelper::getPath('helper', 'com_content'));
-					
+
 					$_Itemid = JContentHelper::getItemid($temp[1]);
 					$mitem->link .= '&Itemid='.$_Itemid;
 				}
 				break;
-			
+
 			case 'url' :
 				if (eregi('index.php\?', $mitem->link)) {
 					if (!eregi('Itemid=', $mitem->link)) {
@@ -51,7 +51,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					}
 				}
 				break;
-				
+
 			case 'content_typed' :
 			default :
 				$mitem->link .= '&Itemid='.$mitem->id;
@@ -75,14 +75,14 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		}
 
 		if ( $params->get( 'full_active_id' ) ) {
-			// support for `active_menu` of 'Link - Component Item'	
+			// support for `active_menu` of 'Link - Component Item'
 			if ( $id == '' && $mitem->type == 'component_item_link' ) {
 				parse_str( $mitem->link, $url );
 				if ( $url['Itemid'] == $current_itemid ) {
 					$id = 'id="active_menu'. $params->get( 'class_sfx' ) .'"';
 				}
 			}
-			
+
 			// support for `active_menu` of 'Link - Url' if link is relative
 			if ( $id == '' && $mitem->type == 'url' && strpos( 'http', $mitem->link ) === false) {
 				parse_str( $mitem->link, $url );
@@ -93,10 +93,10 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 				}
 			}
 		}
-		
+
 		// replace & with amp; for xhtml compliance
 		$mitem->link = ampReplace( $mitem->link );
-		
+
 		$menu_params = new stdClass();
 		$menu_params = & new JParameter($mitem->params);
 		$menu_secure = $menu_params->def('secure', 0);
@@ -182,7 +182,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					$img[$i] = '<img src="'.$imgpath.'/indent'.$i.'.png" alt="" />';
 				}
 			} break;
-			
+
 			case '2' :
 			{
 				// Use Params
@@ -196,7 +196,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					}
 				}
 			} break;
-			
+
 			case '3' :
 			{
 				// None
@@ -204,7 +204,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					$img[$i] = NULL;
 				}
 			} break;
-			
+
 			default :
 			{
 				// Template
@@ -217,21 +217,21 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 
 		$indents = array (
 			// block prefix / item prefix / item suffix / block suffix
-			array ('<table width="100%" border="0" cellpadding="0" cellspacing="0">', '<tr ><td>', '</td></tr>', '</table>'), 
-			array ('', '<div style="padding-left: 4px">'.$img[1], '</div>', ''), 
-			array ('', '<div style="padding-left: 8px">'.$img[2], '</div>', ''), 
-			array ('', '<div style="padding-left: 12px">'.$img[3], '</div>', ''), 
-			array ('', '<div style="padding-left: 16px">'.$img[4], '</div>', ''), 
-			array ('', '<div style="padding-left: 20px">'.$img[5], '</div>', ''), 
+			array ('<table width="100%" border="0" cellpadding="0" cellspacing="0">', '<tr ><td>', '</td></tr>', '</table>'),
+			array ('', '<div style="padding-left: 4px">'.$img[1], '</div>', ''),
+			array ('', '<div style="padding-left: 8px">'.$img[2], '</div>', ''),
+			array ('', '<div style="padding-left: 12px">'.$img[3], '</div>', ''),
+			array ('', '<div style="padding-left: 16px">'.$img[4], '</div>', ''),
+			array ('', '<div style="padding-left: 20px">'.$img[5], '</div>', ''),
 			array ('', '<div style="padding-left: 24px">'.$img[6], '</div>', ''),
 		);
 
 		// establish the hierarchy of the menu
 		$children = array ();
-		
+
 		//get menu items
 		$rows = $menu->getItems('menutype', $params->get('menutype'));
-		
+
 		// first pass - collect children
 		foreach ($rows as $v)
 		{
@@ -248,7 +248,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		$open = array ($Itemid);
 		$count = 20; // maximum levels - to prevent runaway loop
 		$id = $Itemid;
-		
+
 		while (-- $count)
 		{
 			if (isset ($rows[$id]) && $rows[$id]->parent > 0) {
@@ -258,7 +258,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 				break;
 			}
 		}
-		
+
 		mosRecurseVIMenu(0, 0, $children, $open, $indents, $params);
 	}
 
@@ -269,7 +269,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 	function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $params)
 	{
 		global $Itemid;
-		
+
 		if (@ $children[$id])
 		{
 			$n = min($level, count($indents) - 1);
@@ -307,7 +307,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 	{
 		global $database, $mainframe, $Itemid;
 		global $mosConfig_shownoauth;
-		
+
 		$menu     =JMenu::getInstance();
 		$user 	  =& $mainframe->getUser();
 
@@ -322,7 +322,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		}
 
 		$menuclass = 'mainlevel'.$params->get('class_sfx');
-		
+
 		if (count($links))
 		{
 			switch ($style)
@@ -335,30 +335,30 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 					}
 					echo '</ul>';
 					break;
-					
+
 				default :
 					$spacer_start 	= $params->get( 'spacer' );
 					$spacer_end 	= $params->get( 'end_spacer' );
-					
+
 					echo '<table width="100%" border="0" cellpadding="0" cellspacing="1">';
 					echo '<tr>';
 					echo '<td nowrap="nowrap">';
-					
+
 					if ( $spacer_end ) {
 						echo '<span class="'. $menuclass .'"> '. $spacer_end .' </span>';
 					}
-					
+
 					if ( $spacer_start ) {
 						$html = '<span class="'. $menuclass .'"> '. $spacer_start .' </span>';
 						echo implode( $html, $links );
 					} else {
 						echo implode( '', $links );
 					}
-					
+
 					if ( $spacer_end ) {
 						echo '<span class="'. $menuclass .'"> '. $spacer_end .' </span>';
 					}
-					
+
 					echo '</td>';
 					echo '</tr>';
 					echo '</table>';

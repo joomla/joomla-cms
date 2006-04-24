@@ -28,7 +28,7 @@ if (!defined('JPATH_ROOT')) {
 
 /**
  * A Path handling class
- * 
+ *
  * @static
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem

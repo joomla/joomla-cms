@@ -30,7 +30,7 @@ class JViewPDFArticle extends JView
 {
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -38,7 +38,7 @@ class JViewPDFArticle extends JView
 
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -70,7 +70,7 @@ class JViewPDFArticle extends JView
 		//	$text = trim(implode("\n", $results));
 		//				$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
 		//			$text .= trim(implode("\n", $results));
-		//	
+		//
 		//		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
 		//		$text .= trim(implode("\n", $onBeforeDisplayContent));
 
@@ -105,7 +105,7 @@ class JViewPDFArticle extends JView
 		$pdf->AliasNbPages();
 
 		$pdf->AddPage();
-		
+
 		//	$pdf->WriteHTML($article->introtext ."\n". $article->fulltext, true);
 		$pdf->WriteHTML($article->text, true);
 

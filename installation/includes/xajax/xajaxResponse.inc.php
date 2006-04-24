@@ -23,7 +23,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -61,7 +61,7 @@ class xajaxResponse
 	{
 		$this->setCharEncoding($sEncoding);
 	}
-	
+
 	// setCharEncoding() sets the character encoding for the response based on
 	// $sEncoding, which is a string containing the character encoding to use. You
 	// don't need to use this method normally, since the character encoding for the
@@ -71,7 +71,7 @@ class xajaxResponse
 	{
 		$this->sEncoding = $sEncoding;
 	}
-	
+
 	// addAssign() adds an assign command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sAttribute is the part of the element you wish to modify ("innerHTML", "value", etc.)
@@ -81,17 +81,17 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"as","t"=>$sTarget,"p"=>$sAttribute),$sData);
 	}
-	
+
 	// addAppend() adds an append command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sAttribute is the part of the element you wish to modify ("innerHTML", "value", etc.)
 	// $sData is the data you want to append to the end of the attribute
 	// usage: $objResponse->addAppend("contentDiv", "innerHTML", "Some New Text");
 	function addAppend($sTarget,$sAttribute,$sData)
-	{	
+	{
 		$this->xml .= $this->_cmdXML(array("n"=>"ap","t"=>$sTarget,"p"=>$sAttribute),$sData);
 	}
-	
+
 	// addPrepend() adds an prepend command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sAttribute is the part of the element you wish to modify ("innerHTML", "value", etc.)
@@ -101,7 +101,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"pp","t"=>$sTarget,"p"=>$sAttribute),$sData);
 	}
-	
+
 	// addReplace() adds an replace command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sAttribute is the part of the element you wish to modify ("innerHTML", "value", etc.)
@@ -113,7 +113,7 @@ class xajaxResponse
 		$sDta = "<s><![CDATA[$sSearch]]></s><r><![CDATA[$sData]]></r>";
 		$this->xml .= $this->_cmdXML(array("n"=>"rp","t"=>$sTarget,"p"=>$sAttribute),$sDta);
 	}
-	
+
 	// addClear() adds an clear command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sAttribute is the part of the element you wish to clear ("innerHTML", "value", etc.)
@@ -122,7 +122,7 @@ class xajaxResponse
 	{
 		$this->addAssign($sTarget,$sAttribute,'');
 	}
-	
+
 	// addAlert() adds an alert command message to the XML response
 	// $sMsg is the text to be displayed in the Javascript alert box
 	// usage: $objResponse->addAlert("This is important information");
@@ -130,7 +130,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"al"),$sMsg);
 	}
-	
+
 	// addRedirect() uses the addScript() method to add a Javascript redirect to
 	// another URL
 	// $sURL is the URL to redirect the client browser to
@@ -147,7 +147,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"js"),$sJS);
 	}
-	
+
 	// addRemove() adds a remove element command message to the XML response
 	// $sTarget is a string containing the id of an HTML element to be removed
 	// from your page
@@ -156,7 +156,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"rm","t"=>$sTarget),'');
 	}
-	
+
 	// addCreate() adds a create element command message to the XML response
 	// $sParent is a string containing the id of an HTML element to which the new
 	// element will be appended.
@@ -173,7 +173,7 @@ class xajaxResponse
 		}
 		$this->xml .= $this->_cmdXML(array("n"=>"ce","t"=>$sParent,"p"=>$sId),$sTag);
 	}
-	
+
 	// addInsert() adds an insert element command message to the XML response
 	// $sBefore is a string containing the id of the child before which the new element
 	// will be inserted
@@ -184,7 +184,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"ie","t"=>$sBefore,"p"=>$sId),$sTag);
 	}
-	
+
 	// addCreateInput() adds a create input command message to the XML response
 	// $sParent is a string containing the id of an HTML element to which the new
 	// input will be appended
@@ -196,7 +196,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"ci","t"=>$sParent,"p"=>$sId,"c"=>$sType),$sName);
 	}
-	
+
 	// addInsertInput() adds an insert input command message to the XML response
 	// $sBefore is a string containing the id of the child before which the new element
 	// will be inserted
@@ -208,7 +208,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"ii","t"=>$sBefore,"p"=>$sId,"c"=>$sType),$sName);
 	}
-	
+
 	// addEvent() adds an event command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sEvent is the event you wish to set ("click", "mouseover", etc.)
@@ -218,7 +218,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"ev","t"=>$sTarget,"p"=>$sEvent),$sScript);
 	}
-	
+
 	// addHandler() adds a handler command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sEvent is the event you wish to set ("click", "mouseover", etc.)
@@ -226,10 +226,10 @@ class xajaxResponse
 	// that will handle the event. Multiple handlers can be added for the same event
 	// usage: $objResponse->addHandler("contentDiv", "click", "content_click");
 	function addHandler($sTarget,$sEvent,$sHandler)
-	{	
+	{
 		$this->xml .= $this->_cmdXML(array("n"=>"ah","t"=>$sTarget,"p"=>$sEvent),$sHandler);
 	}
-	
+
 	// addRemoveHandler() adds a remove handler command message to the XML response
 	// $sTarget is a string containing the id of an HTML element
 	// $sEvent is the event you wish to remove ("click", "mouseover", etc.)
@@ -237,10 +237,10 @@ class xajaxResponse
 	// that you want to remove
 	// usage: $objResponse->addRemoveHandler("contentDiv", "click", "content_click");
 	function addRemoveHandler($sTarget,$sEvent,$sHandler)
-	{	
+	{
 		$this->xml .= $this->_cmdXML(array("n"=>"rh","t"=>$sTarget,"p"=>$sEvent),$sHandler);
 	}
-	
+
 	// addIncludeScript() adds an include script command message to the XML response
 	// $sFileName is a URL of the Javascript file to include
 	// usage: $objResponse->addIncludeScript("functions.js");
@@ -248,7 +248,7 @@ class xajaxResponse
 	{
 		$this->xml .= $this->_cmdXML(array("n"=>"in"),$sFileName);
 	}
-	
+
 	// getXML() returns the XML to be returned from your function to the xajax
 	// processor on your page. Since xajax 0.2, you can also return an xajaxResponse
 	// object from your function directly, and xajax will automatically request the
@@ -260,10 +260,10 @@ class xajaxResponse
 		if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
 			$sXML .= " encoding=\"".$this->sEncoding."\"";
 		$sXML .= " ?"."><xjx>" . $this->xml . "</xjx>";
-		
+
 		return $sXML;
 	}
-	
+
 	// loadXML() adds the commands of the provided response XML output to this
 	// response object
 	// $sXML is the response XML (returned from a getXML() method) to add to the
@@ -293,9 +293,9 @@ class xajaxResponse
 			$xml .= ">$sData</cmd>";
 		else
 			$xml .= "></cmd>";
-		
+
 		return $xml;
 	}
-	
+
 }// end class xajaxResponse
 ?>

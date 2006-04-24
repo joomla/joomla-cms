@@ -316,12 +316,12 @@ class mosHTML {
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) {
 		reset( $arr );
 		$html = '';
-		
+
 		$id_text = $tag_name;
 		if ( $idtag ) {
 			$id_text = $idtag;
 		}
-		
+
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
 			$k = $arr[$i]->$key;
 			$t = $arr[$i]->$text;
@@ -384,20 +384,20 @@ class mosHTML {
 			'asc' 	=> JText::_( 'Sort Ascending' ),
 			'desc' 	=> JText::_( 'Sort Descending' ),
 		);
-		
+
 		$next_state = 'asc';
 		if ($state == 'asc') {
 			$next_state = 'desc';
 		} else if ($state == 'desc') {
 			$next_state = 'none';
 		}
-		
+
 		if ($state == 'none') {
 			$img = '';
 		} else {
 			$img = "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />";
 		}
-		
+
 		$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
 		. JText::_( $text )
 		. '&nbsp;&nbsp;'
@@ -456,7 +456,7 @@ class mosHTML {
 
 	/**
 	* Writes Back Button - Deprecated in 1.5
-	* TODO : move to legacy classes 
+	* TODO : move to legacy classes
 	*/
 	function BackButton ( &$params, $hide_js=NULL ) {
 
@@ -543,7 +543,7 @@ class mosHTML {
 		//strip the extension
 		$iconClass	= preg_replace('#\.[^.]*$#', '', $iconClass);
 		$html		= null;
-		
+
 		$html	.= "<div class=\"header icon-48-$iconClass\">\n";
 		$html	.= "$text\n";
 		$html	.= "</div>\n";
@@ -636,7 +636,7 @@ class mosHTML {
 
 /**
  * Utility class for drawing common HTML elements
- * 
+ *
  * @static
  * @package 	Joomla.Framework
  * @subpackage	Presentation
@@ -924,7 +924,7 @@ class mosCommonHTML {
 
 		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}
-	
+
 	function saveorderButton( $rows, $image='filesave.png' ) {
 		$image = mosAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
 		?>
@@ -1377,11 +1377,11 @@ class mosAdminMenus {
 		if ( !$directory ) {
 			$directory = '/images/stories';
 		}
-		
+
 		if ( !$javascript ) {
 			$javascript = "onchange=\"javascript:if (document.forms[0]." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms[0]." . $name . ".options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
 		}
-		
+
 		$imageFiles = mosReadDirectory( JPATH_SITE . $directory );
 		$images 	= array(  mosHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
@@ -1640,7 +1640,7 @@ class mosAdminMenus {
 		$cur_template = $mainframe->getTemplate();
 
 		// strip html
-		$alt	= html_entity_decode( $alt );		
+		$alt	= html_entity_decode( $alt );
 
 		if ( $param ) {
 			$image = $param_directory . $param;

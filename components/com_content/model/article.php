@@ -15,7 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the component helper 
+// require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 /**
@@ -50,14 +50,14 @@ class JModelArticle extends JModel
 
 	/**
 	 * Overridden set method to pass properties on to the article
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$property	The name of the property
 	 * @param	mixed	$value		The value of the property to set
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function set( $property, $value=null ) 
+	function set( $property, $value=null )
 	{
 		if ($this->_loadContent()) {
 			$this->_article->$property = $value;
@@ -69,14 +69,14 @@ class JModelArticle extends JModel
 
 	/**
 	 * Overridden get method to get properties from the article
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$property	The name of the property
 	 * @param	mixed	$value		The value of the property to set
 	 * @return 	mixed 				The value of the property
 	 * @since	1.5
 	 */
-	function get($property, $default=null) 
+	function get($property, $default=null)
 	{
 		if ($this->_loadContent()) {
 			if(isset($this->_article->$property)) {
@@ -126,14 +126,14 @@ class JModelArticle extends JModel
 			if (!$this->_article->parameters->get('intro_only') && ($limitstart == 0)) {
 				$this->incrementHit();
 			}
-			
+
 		}
 		return $this->_article;
 	}
 
 	/**
 	 * Method to increment the hit counter for the article
-	 * 
+	 *
 	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -151,13 +151,13 @@ class JModelArticle extends JModel
 
 	/**
 	 * Tests if article is checked out
-	 * 
+	 *
 	 * @access	public
 	 * @param	int	A user id
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 ) 
+	function isCheckedOut( $uid=0 )
 	{
 		if (_loadArticle()) {
 			if ($uid) {
@@ -173,7 +173,7 @@ class JModelArticle extends JModel
 
 	/**
 	 * Method to checkin/unlock the article
-	 * 
+	 *
 	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -190,7 +190,7 @@ class JModelArticle extends JModel
 
 	/**
 	 * Method to checkout/lock the article
-	 * 
+	 *
 	 * @access	public
 	 * @param	int	$uid	User ID of the user checking the article out
 	 * @return	boolean	True on success
@@ -214,7 +214,7 @@ class JModelArticle extends JModel
 
 	/**
 	 * Method to store a user rating for a content article
-	 * 
+	 *
 	 * @access	public
 	 * @param	int	$rating	Article rating [ 1 - 5 ]
 	 * @return	boolean True on success
@@ -232,7 +232,7 @@ class JModelArticle extends JModel
 					"\n WHERE content_id = $this->_id";
 			$this->_db->setQuery($query);
 			if (!($this->_db->loadObject($articleRatings))) {
-				
+
 				// There are no ratings yet, so lets insert our rating
 				$query = "INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )" .
 						"\n VALUES ( $this->_id, '$userIP', $rating, 1 )";
@@ -243,7 +243,7 @@ class JModelArticle extends JModel
 			}
 			else {
 				if ($userIP != ($votesdb->lastip)) {
-					
+
 					// We weren't the last voter so lets add our vote to the ratings totals for the article
 					$query = "UPDATE #__content_rating" .
 							"\n SET rating_count = rating_count + 1, rating_sum = rating_sum + $rating, lastip = '$userIP'" .
@@ -314,7 +314,7 @@ class JModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			return $this->_db->loadObject($this->_article);
-		}		
+		}
 		return true;
 	}
 
@@ -364,7 +364,7 @@ class JModelArticle extends JModel
 		$params->def('back_button', $this->_app->getCfg('back_button'));
 		$params->def('icons',		$this->_app->getCfg('icons'));
 		$params->def('readmore',	$this->_app->getCfg('readmore'));
-		
+
 		// Get some article specific parameter defaults
 		$params->def('image',			1);
 		$params->def('section',			0);
@@ -412,20 +412,20 @@ class JModelArticle extends JModel
 		$gid			= $user->get('gid');
 		$now		=$this->_app->get('requestTime');
 		$nullDate	= $this->_db->getNullDate();
-	
+
 		/*
 		 * First thing we need to do is assert that the content article is the one
 		 * we are looking for and we have access to it.
 		 */
 		$where = "\n WHERE a.id = $this->_id";
 		$where .= "\n AND a.access <= $gid";
-		
+
 		if (!$user->authorize('action', 'edit', 'content', 'all')) {
 			$where .= " AND ( a.state = 1 OR a.state = -1 )" .
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 		}
-	
+
 		return $where;
 	}
 }

@@ -29,7 +29,7 @@ $showComponent = true;
 $separator = setSeparator();
 
 /*
- * Perhaps we should have a parameter to control whether home is displayed in the 
+ * Perhaps we should have a parameter to control whether home is displayed in the
  * pathway or not.
  */
 if ($params->get('showHome') == false)

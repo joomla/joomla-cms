@@ -27,7 +27,7 @@ class HTML_modules {
 	*/
 	function showPlugins( &$rows, $client, &$page, $option, &$lists ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
@@ -36,7 +36,7 @@ class HTML_modules {
 		<form action="index2.php?option=com_plugins" method="post" name="adminForm">
 
 		<div id="pane-document">
-		
+
 			<table class="adminform">
 			<tr>
 				<td align="left" width="100%">
@@ -46,7 +46,7 @@ class HTML_modules {
 					<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 				</td>
 				<td nowrap="nowrap">
-					<?php 
+					<?php
 					echo $lists['type'];
 					echo $lists['state'];
 					echo $page->getLimitBox();
@@ -54,7 +54,7 @@ class HTML_modules {
 				</td>
 			</tr>
 			</table>
-			
+
 			<table class="adminlist">
 			<thead>
 				<tr>
@@ -65,10 +65,10 @@ class HTML_modules {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>				
+						<?php mosCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>
 					</th>
 					<th nowrap="nowrap" width="5%">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>				
+						<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>
 					</th>
 					<?php
 					if ( $lists['order'] == 'p.folder' ) {
@@ -86,16 +86,16 @@ class HTML_modules {
 					}
 					?>
 					<th nowrap="nowrap" width="7%">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>				
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<th nowrap="nowrap"  width="3%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>				
+						<?php mosCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>				
+						<?php mosCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>				
+						<?php mosCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -109,9 +109,9 @@ class HTML_modules {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
-	
+
 				$link = ampReplace( 'index2.php?option=com_plugins&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id );
-	
+
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
@@ -200,10 +200,10 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editPlugin( &$row, &$lists, &$params, $option ) 
+	function editPlugin( &$row, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
-		
+
 		$row->nameA = '';
 		if ( $row->id ) {
 			$row->nameA = '<small><small>[ '. $row->name .' ]</small></small>';
@@ -228,8 +228,8 @@ class HTML_modules {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		
-		<div id="editcell">				
+
+		<div id="editcell">
 			<table cellspacing="0" cellpadding="0" width="100%">
 			<tr valign="top">
 				<td width="60%" valign="top">
@@ -241,7 +241,7 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td width="100" >
-							<label for="name"> 
+							<label for="name">
 								<?php echo JText::_( 'Name' ); ?>:
 							</label>
 						</td>
@@ -259,7 +259,7 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<label for="folder"> 
+							<label for="folder">
 								<?php echo JText::_( 'Folder' ); ?>:
 							</label>
 						</td>
@@ -269,7 +269,7 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<label for="element"> 
+							<label for="element">
 								<?php echo JText::_( 'Plugin file' ); ?>:
 							</label>
 						</td>
@@ -279,7 +279,7 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<label for="access"> 
+							<label for="access">
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</label>
 						</td>

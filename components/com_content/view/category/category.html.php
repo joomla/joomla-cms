@@ -26,7 +26,7 @@ class JViewHTMLCategory extends JView
 {
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -34,7 +34,7 @@ class JViewHTMLCategory extends JView
 
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -250,15 +250,15 @@ class JViewHTMLCategory extends JView
 		<script language="javascript" type="text/javascript">
 		function tableOrdering( order, dir, task ) {
 			var form = document.adminForm;
-		
+
 			form.filter_order.value 	= order;
 			form.filter_order_Dir.value	= dir;
 			document.adminForm.submit( task );
 		}
 		</script>
-		
+
 		<form action="<?php echo sefRelToAbs($link); ?>" method="post" name="adminForm">
-		
+
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<?php
 
@@ -474,7 +474,7 @@ class JViewHTMLCategory extends JView
 		}
 		?>
 		</table>
-		
+
 		<input type="hidden" name="id" value="<?php echo $cid; ?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $sid; ?>" />
 		<input type="hidden" name="task" value="<?php echo $lists['task']; ?>" />
@@ -504,7 +504,7 @@ class JViewHTMLCategory extends JView
 			$lists['order_Dir'] = 'DESC';
 		}
 		$lists['order'] = $filter_order;
-		
+
 		return $lists;
 	}
 }

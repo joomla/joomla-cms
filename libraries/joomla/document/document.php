@@ -58,7 +58,7 @@ class JDocument extends JTemplate
      * @access  private
      */
     var $_language = 'en';
-	
+
 	/**
      * Contains the page direction setting
      *
@@ -130,7 +130,7 @@ class JDocument extends JTemplate
      * @access  private
      */
     var $_title = '';
-	
+
 	/**
      * Array of meta tags
      *
@@ -138,11 +138,11 @@ class JDocument extends JTemplate
      * @access  private
      */
     var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.5' ) );
-	
+
 
 	/**
 	* Class constructor
-	* 
+	*
 	* @access protected
 	* @param	array	$attributes Associative array of attributes
 	* @see JDocument
@@ -150,7 +150,7 @@ class JDocument extends JTemplate
 	function __construct( $attributes = array())
 	{
 		parent::__construct();
-		
+
 		if (isset($attributes['lineend'])) {
             $this->setLineEnd($attributes['lineend']);
         }
@@ -162,7 +162,7 @@ class JDocument extends JTemplate
         if (isset($attributes['language'])) {
             $this->setLanguage($attributes['language']);
         }
-		
+
 		 if (isset($attributes['direction'])) {
             $this->setDirection($attributes['direction']);
         }
@@ -170,10 +170,10 @@ class JDocument extends JTemplate
         if (isset($attributes['tab'])) {
             $this->setTab($attributes['tab']);
         }
-		
+
 		//set the namespace
 		$this->setNamespace( 'jdoc' );
-		
+
 		//add module directories
 		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'module'. DS .'function');
 		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'module'. DS .'filter'  );
@@ -194,11 +194,11 @@ class JDocument extends JTemplate
 	function &getInstance($type = 'html', $attributes = array())
 	{
 		static $instances;
-		
+
 		if (!isset( $instances )) {
 			$instances = array();
 		}
-		
+
 		$signature = serialize(array($type, $attributes));
 
 		if (empty($instances[$signature])) {
@@ -209,7 +209,7 @@ class JDocument extends JTemplate
 
 		return $instances[$signature];
 	}
-	
+
 	/**
      * Sets or alters a meta tag.
      *
@@ -248,7 +248,7 @@ class JDocument extends JTemplate
             unset($this->_metaTags['standard'][$name]);
         }
     }
-	
+
 	 /**
      * Adds a linked script to the page
      *
@@ -340,7 +340,7 @@ class JDocument extends JTemplate
     function getLanguage() {
         return $this->_language;
     }
-	
+
 	/**
      * Sets the global document direction declaration. Default is left-to-right (ltr).
      *
@@ -452,7 +452,7 @@ class JDocument extends JTemplate
     function _getTab() {
         return $this->_tab;
     }
-	
+
 	/**
 	 * Outputs the template to the browser.
 	 *
@@ -467,7 +467,7 @@ class JDocument extends JTemplate
 		if($compress) {
 			$this->applyOutputFilter('Zlib');
 		}
-		
+
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
@@ -516,21 +516,21 @@ class JDocument extends JTemplate
 		 */
 		$modTime   = $stat->getModificationTime( $this->_file );
 		$templates = $this->_tmplCache->load( $key, $modTime );
-		
+
 		return $templates;
 	}
 }
 
 /**
  * Document helper functions
- * 
+ *
  * @static
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
- class JDocumentHelper 
+ class JDocumentHelper
  {
 	function implodeAttribs($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
     {

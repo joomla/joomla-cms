@@ -58,7 +58,7 @@ class JTableCategory extends JTable
 	}
 
 	// overloaded check function
-	function check() 
+	function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {

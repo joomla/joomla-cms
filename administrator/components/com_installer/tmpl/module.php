@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Static class to handle module view logic
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -31,7 +31,7 @@ class JInstallerExtensionTasks {
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() 
+	function showInstalled()
 	{
 		global $database, $mainframe;
 
@@ -39,12 +39,12 @@ class JInstallerExtensionTasks {
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-		
+
 		$select[] 			= mosHTML::makeOption('', JText::_('All'));
 		$select[] 			= mosHTML::makeOption('0', JText::_('Site Modules'));
 		$select[] 			= mosHTML::makeOption('1', JText::_('Admin Modules'));
 		$lists['filter'] 	= mosHTML::selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
-		
+
 		if ($filter == NULL) {
 			$and = '';
 		} else {
@@ -57,11 +57,11 @@ class JInstallerExtensionTasks {
 			}
 		}
 
-		$query = "SELECT id, module, client_id, title, iscore" 
-				. "\n FROM #__modules" 
-				. "\n WHERE module LIKE 'mod_%' " 
-				. $and 
-				. "\n GROUP BY module, client_id" 
+		$query = "SELECT id, module, client_id, title, iscore"
+				. "\n FROM #__modules"
+				. "\n WHERE module LIKE 'mod_%' "
+				. $and
+				. "\n GROUP BY module, client_id"
 				. "\n ORDER BY iscore, client_id, module"
 				;
 		$database->setQuery($query);
@@ -81,7 +81,7 @@ class JInstallerExtensionTasks {
 			// xml file for module
 			$xmlfile = $moduleBaseDir . DS . $row->module .DS. $row->module.".xml";
 
-			if (file_exists($xmlfile)) 
+			if (file_exists($xmlfile))
 			{
 				$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 				foreach($data as $key => $value) {
@@ -92,11 +92,11 @@ class JInstallerExtensionTasks {
 
 		/*
 		* Take care of the pagination
-		*/	
+		*/
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
-		
+
 		JInstallerScreens_module::showInstalled($rows, $lists, $page);
 	}
 
@@ -104,7 +104,7 @@ class JInstallerExtensionTasks {
 
 /**
  * Static class to handle module view display
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -113,18 +113,18 @@ class JInstallerExtensionTasks {
  * @since 1.5
  */
 class JInstallerScreens_module {
-	
+
 	function showInstalled( &$rows, &$lists, &$page ) {
-		
+
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=module" method="post" name="adminForm">
-				
+
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
-		
-		<div id="pane-document">	
+
+		<div id="pane-document">
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -135,8 +135,8 @@ class JInstallerScreens_module {
 					</td>
 				</tr>
 				</table>
-			
-							
+
+
 			<?php
 			if (count($rows)) {
 				?>
@@ -165,7 +165,7 @@ class JInstallerScreens_module {
 				$rc = 0;
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
 					$row =& $rows[$i];
-					
+
 					/*
 					 * Handle currently used templates
 					 */
@@ -198,7 +198,7 @@ class JInstallerScreens_module {
 						</td>
 						<td>
 							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 							</span>
 						</td>
 					</tr>
@@ -206,15 +206,15 @@ class JInstallerScreens_module {
 					$rc = $rc == 0 ? 1 : 0;
 				}
 				?>
-				</table>						
-				<?php echo $page->getListFooter(); ?>		
+				</table>
+				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
-				echo JText::_( 'No custom modules installed' ); 
+				echo JText::_( 'No custom modules installed' );
 			}
 			?>
 		</div>
-	
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_installer" />

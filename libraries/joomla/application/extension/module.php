@@ -29,16 +29,16 @@ class JModuleHelper
 	 * @param string 	$name	The name of the module
 	 * @return object	The Module object
 	 */
-	function &getModule($name) 
+	function &getModule($name)
 	{
 		$result = null;
-		
+
 		$modules =& JModuleHelper::_load();
-		
+
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
 			if($modules[$i]->name == $name) {
-				
+
 				$result =& $modules[$i];
 				break;
 			}
@@ -57,7 +57,7 @@ class JModuleHelper
 	function &getModules($position)
 	{
 		$result = array();
-		
+
 		$modules =& JModuleHelper::_load();
 
 		$total = count($modules);
@@ -69,30 +69,30 @@ class JModuleHelper
 
 		return $result;
 	}
-	
-	
+
+
 	/**
 	 * Load published modules
 	 *
 	 * @access private
 	 * @return array
 	 */
-	function &_load() 
+	function &_load()
 	{
 		global $mainframe, $Itemid;
-		
+
 		static $modules;
 
 		if (isset($modules)) {
 			return $modules;
 		}
-				
+
 		$user	=& $mainframe->getUser();
 		$db		=& $mainframe->getDBO();
 		$gid	= $user->get('gid');
-		
+
 		$modules = array();
-		
+
 		$wheremenu = isset($Itemid)? "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )" : "";
 
 		$query = "SELECT id, title, module, position, content, showtitle, params"
@@ -106,7 +106,7 @@ class JModuleHelper
 
 		$db->setQuery( $query );
 		$modules = $db->loadObjectList();
-			
+
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
 			//determine if this is a user module
@@ -115,7 +115,7 @@ class JModuleHelper
 			$modules[$i]->name  = substr( $file, 4 );
 			$modules[$i]->style = null;
 		}
-		
+
 		return $modules;
 	}
 

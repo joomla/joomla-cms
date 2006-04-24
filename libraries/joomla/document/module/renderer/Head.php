@@ -27,7 +27,7 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 	* @var		string
 	*/
 	var $_name	=	'Head';
-	
+
    /**
 	 * Renders the document head and returns the results as a string
 	 *
@@ -39,9 +39,9 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 	function render( $head = null, $params = array() )
 	{
 		global $mainframe;
-		
+
 		ob_start();
-		
+
 		echo $this->_tmpl->fetchHead();
 
 		if(isset($mainframe) && class_exists('JEditor')) {

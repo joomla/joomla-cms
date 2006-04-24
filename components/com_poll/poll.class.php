@@ -42,7 +42,7 @@ class JModelPolls {
 		$db = $this->getDBO();
 		$poll_id	= (int) $poll_id;
 		$option_id	= (int) $option_id;
-		
+
 		$query = 'UPDATE #__poll_data'
 			. ' SET hits = hits + 1'
 			. ' WHERE pollid = ' . (int) $poll_id
@@ -50,7 +50,7 @@ class JModelPolls {
 			;
 		$db->setQuery( $query );
 		$db->query();
-	
+
 		$query = 'UPDATE #__polls'
 			. ' SET voters = voters + 1'
 			. ' WHERE id = ' . $poll_id

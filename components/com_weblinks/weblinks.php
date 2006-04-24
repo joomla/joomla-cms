@@ -261,20 +261,20 @@ class WeblinksController
 
 		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass, $lists, $page);
 	}
-	
+
 	function showCategoryRSS()
 	{
 		global $mainframe;
-		
+
 		$database = & $mainframe->getDBO();
-		
+
 		$where  = "\n WHERE published = 1";
         $catid  = JRequest::getVar('catid', 0);
-        
+
         if ( $catid ) {
             $where .= "\n AND catid = $catid";
         }
-       
+
 		/*
 		* All SyndicateBots must return
 		* title
@@ -284,7 +284,7 @@ class WeblinksController
 		* category
 		*/
     	$query = "SELECT"
-    	. "\n title AS title,"	
+    	. "\n title AS title,"
     	. "\n url AS link,"
     	. "\n description AS description,"
     	. "\n '' AS date,"
@@ -295,16 +295,16 @@ class WeblinksController
      	;
 		$database->setQuery( $query, 0, $limit );
     	$rows = $database->loadObjectList();
-		
+
 		WeblinksController::createFeed( $rows, $format, 'WebLinks' );
 	}
-	
-	function createFeed( $rows, $format, $title ) 
+
+	function createFeed( $rows, $format, $title )
 	{
 		global $mainframe;
-	
+
 		$option = $mainframe->getOption();
-	
+
 		// parameter intilization
 		$info[ 'date' ] 			= date( 'r' );
 		$info[ 'year' ] 			= date( 'Y' );
@@ -313,15 +313,15 @@ class WeblinksController
 		$info[ 'cache_time' ] 		= 3600;
 		$info[ 'count' ]			= 5;
 		$info[ 'orderby' ] 			= '';
-		$info[ 'title' ] 			= $mainframe->getCfg('sitename') .' - '. $title; 
-		$info[ 'description' ] 		= $mainframe->getCfg('sitename') .' - '. $title .' Section'; 
+		$info[ 'title' ] 			= $mainframe->getCfg('sitename') .' - '. $title;
+		$info[ 'description' ] 		= $mainframe->getCfg('sitename') .' - '. $title .' Section';
 		$info[ 'limit_text' ] 		= 1;
 		$info[ 'text_length' ] 		= 20;
 		$info[ 'feed' ] 			= $format;
 
 		// set filename for rss feeds
 		$info[ 'file' ]   = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
-		$info[ 'file' ]   = $mainframe->getCfg('cachepath') .'/'. $info[ 'file' ] .'_'. $option .'.xml';	
+		$info[ 'file' ]   = $mainframe->getCfg('cachepath') .'/'. $info[ 'file' ] .'_'. $option .'.xml';
 
 		// load feed creator class
 		jimport('bitfolge.feedcreator');
@@ -331,20 +331,20 @@ class WeblinksController
 		if ( $info[ 'cache' ] ) {
 			$syndicate->useCached( $info[ 'feed' ], $info[ 'file' ], $info[ 'cache_time' ] );
 		}
-	
+
 		$syndicate->title 			= $info[ 'title' ];
 		$syndicate->description 	= $info[ 'description' ];
 		$syndicate->link 			= $info[ 'link' ];
 		$syndicate->syndicationURL 	= $info[ 'link' ];
 		$syndicate->cssStyleSheet 	= NULL;
 		$syndicate->encoding 		= 'UTF-8';
-	
-		foreach ( $rows as $row ) 
+
+		foreach ( $rows as $row )
 		{
 			// strip html from feed item title
 			$item_title = htmlspecialchars( $row->title );
 			$item_title = html_entity_decode( $item_title );
-		
+
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
 			$_Itemid	= '';
@@ -352,21 +352,21 @@ class WeblinksController
 			if ($itemid) {
 				$_Itemid = '&Itemid='. $itemid;
 			}
-		
+
 			$item_link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
 			$item_link = sefRelToAbs( $item_link );
-		
+
 			// strip html from feed item description text
 			$item_description = $row->introtext;
-		
-			if ( $info[ 'limit_text' ] ) 
+
+			if ( $info[ 'limit_text' ] )
 			{
-				if ( $info[ 'text_length' ] ) 
+				if ( $info[ 'text_length' ] )
 				{
 					// limits description text to x words
 					$item_description_array = split( ' ', $item_description );
 					$count = count( $item_description_array );
-					if ( $count > $info[ 'text_length' ] ) 
+					if ( $count > $info[ 'text_length' ] )
 					{
 						$item_description = '';
 						for ( $a = 0; $a < $info[ 'text_length' ]; $a++ ) {
@@ -375,16 +375,16 @@ class WeblinksController
 						$item_description = trim( $item_description );
 						$item_description .= '...';
 					}
-				} 
-				else  
+				}
+				else
 				{
 					// do not include description when text_length = 0
 					$item_description = NULL;
 				}
 			}
-		
+
 			$item_date = ( $row->date ? date( 'r', $row->date ) : '' );
-		
+
 			// load individual item creator class
 			$item = new FeedItem();
 			$item->title 		= $item_title;
@@ -393,11 +393,11 @@ class WeblinksController
 			$item->source 		= $info[ 'link' ];
 			$item->date			= $item_date;
 			$item->category   	= $row->category;
-		
+
 			// loads item info into rss array
 			$syndicate->addItem( $item );
 		}
-	
+
 		// save feed file
 		$syndicate->saveFeed( $info[ 'feed' ], $info[ 'file' ]);
 	}
@@ -490,11 +490,11 @@ class WeblinksController
 		;
 		$db->setQuery( $query );
 		$exists = $db->loadResult();
-		if ( !$exists ) {						
+		if ( !$exists ) {
 			mosNotAuth();
 			return;
-		}		
-		
+		}
+
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be used instead of a 0
@@ -632,7 +632,7 @@ class WeblinksController
 		// admin users gid
 		$gid = 25;
 
-		// list of admins	
+		// list of admins
 		$query = "SELECT email, name" .
 				"\n FROM #__users" .
 				"\n WHERE gid = $gid" .

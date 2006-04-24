@@ -27,7 +27,7 @@ class patTemplate_Function_Exists extends patTemplate_Function
 	* @var		string
 	*/
 	var $_name	=	'exists';
-	
+
 	/**
 	* reference to the JDocument object that instantiated the module
 	*
@@ -36,7 +36,7 @@ class patTemplate_Function_Exists extends patTemplate_Function
 	*/
 	var	$_tmpl;
 
-  
+
    /**
 	* call the function
 	*
@@ -48,34 +48,34 @@ class patTemplate_Function_Exists extends patTemplate_Function
 	function call( $params, $content )
 	{
 		$type = isset($params['type']) ? strtolower( $params['type'] ) : null;
-		
+
 		$result = '';
-		switch($type) 
+		switch($type)
 		{
 			case 'modules'  		:
-			{				
+			{
 				$words = explode(' ', $params['condition']);
-				for($i=0; $i < count($words); $i++) 
+				for($i=0; $i < count($words); $i++)
 				{
-					if($i % 2 == 0) 
+					if($i % 2 == 0)
 					{
 						//odd parts (modules)
 						$name = strtolower($words[$i]);
 						$words[$i] = count(JModuleHelper::getModules($name));
-					} 
+					}
 				}
-			
+
 				$str = 'return '.implode(' ', $words).';';
 				if(eval($str)) {
 					$result = $content;
 				}
-				
+
 			} break;
 		}
-		
+
 		return $result;
 	}
-	
+
 	 /**
 	* set a reference to the JDocument object that instantiated the function
 	*

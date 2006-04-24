@@ -30,7 +30,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'convertPagebreak' );
 * <code>{pagebreak heading=The first page&title=The page title}</code>
 *
 */
-function convertPagebreak( &$row, &$params, $page=0 ) 
+function convertPagebreak( &$row, &$params, $page=0 )
 {
 	global $mainframe, $Itemid, $database;
 
@@ -38,7 +38,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	if ( JString::strpos( $row->text, '{pagebreak' ) === false ) {
 		return true;
 	}
-	
+
 	if(!$page) {
 		$page = 0;
 	}
@@ -46,14 +46,14 @@ function convertPagebreak( &$row, &$params, $page=0 )
  	$regex = '/{pagebreak\s*(.*?)}/i';
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak'); 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
 
 	// check whether plugin has been unpublished
  	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
-	}	
-	
+	}
+
 	// find all instances of plugin and put in $matches
 	$matches = array();
 	preg_match_all( $regex, $row->text, $matches, PREG_SET_ORDER );
@@ -135,7 +135,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	return true;
 }
 
-function createTOC( &$row, &$matches, &$page ) 
+function createTOC( &$row, &$matches, &$page )
 {
 	global $Itemid;
 
@@ -221,7 +221,7 @@ function createTOC( &$row, &$matches, &$page )
 	$row->toc .= '</table>';
 }
 
-function createNavigation( &$row, $page, $n ) 
+function createNavigation( &$row, $page, $n )
 {
 	global $Itemid;
 

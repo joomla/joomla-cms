@@ -28,14 +28,14 @@ class categories_html {
 	*/
 	function show( &$rows, $section, $section_name, &$page, &$lists, $type ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
-		
+
 		<div id="pane-document">
 			<table class="adminform">
 				<tr>
@@ -128,11 +128,11 @@ class categories_html {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
-	
+
 				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
-	
+
 				$link = 'index2.php?option=com_categories&section='. $section .'&task=editA&hidemainmenu=1&id='. $row->id;
-	
+
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
@@ -232,11 +232,11 @@ class categories_html {
 	* @param string
 	* @param array
 	*/
-	function edit( &$row, &$lists, $redirect, $menus ) 
+	function edit( &$row, &$lists, $redirect, $menus )
 	{
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
-		
+
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
@@ -275,7 +275,7 @@ class categories_html {
 			if ( form.name.value == "" ) {
 				alert("<?php echo JText::_( 'Category must have a name', true ); ?>");
 			} else {
-				<?php 
+				<?php
 				echo $editor->save( 'description' ) ; ?>
 				submitform(pressbutton);
 			}
@@ -284,7 +284,7 @@ class categories_html {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table width="100%">
 			<tr>
 				<td valign="top" width="60%">
@@ -389,7 +389,7 @@ class categories_html {
 							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							echo $editor->display( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; 
+							echo $editor->display( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ;
 							?>
 						</td>
 					</tr>
@@ -449,9 +449,9 @@ class categories_html {
 							</td>
 						</tr>
 						</table>
-						
+
 						<br />
-						
+
 						<?php
 						if ( $menus != NULL ) {
 							?>

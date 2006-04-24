@@ -43,12 +43,12 @@ class JButton_Popup extends JButton
 
 		return $html;
 	}
-	
+
 	/**
 	 * Get the button id
-	 * 
+	 *
 	 * Redefined from JButton class
-	 * 
+	 *
 	 * @access		public
 	 * @param		string	$name	Button name
 	 * @return		string	Button CSS Id
@@ -58,10 +58,10 @@ class JButton_Popup extends JButton
 	{
 		return $this->_parent->_name.'-'."popup-$name";
 	}
-	
+
 	/**
 	 * Get the JavaScript command for the button
-	 * 
+	 *
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
@@ -74,9 +74,9 @@ class JButton_Popup extends JButton
 			global $mainframe;
 			$url = $mainframe->getBaseURL().$url;
 		}
-		 
+
 		$cmd = "popupWindow('$url','$name',$width,$height,'yes');";
-		
+
 		return $cmd;
 	}
 }

@@ -45,7 +45,7 @@ class JDocumentHTML extends JDocument
      * @access  private
      */
     var $_custom = array();
-	
+
 	/**
      * Array of renderers
      *
@@ -53,7 +53,7 @@ class JDocumentHTML extends JDocument
      * @access    private
      */
 	var $_renderers = array();
-	
+
 	/**
 	 * Class constructore
 	 *
@@ -71,15 +71,15 @@ class JDocumentHTML extends JDocument
 
 		//set mime type
 		$this->_mime = 'text/html';
-		
+
 		//define renderer sequence
-		$this->_renderers = array('component' => array(), 
-		                          'modules'   => array(), 
-		                          'module'    => array(), 
+		$this->_renderers = array('component' => array(),
+		                          'modules'   => array(),
+		                          'module'    => array(),
 		                          'head'      => array()
 							);
-			
-		//set default document metadata				
+
+		//set default document metadata
 		 $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
 		 $this->setMetaData('robots', 'index, follow' );
 	}
@@ -160,7 +160,7 @@ class JDocumentHTML extends JDocument
 
 	 /**
      * Generates the head html and return the results as a string
-     * 
+     *
      * @access public
      * @return string
      */
@@ -197,9 +197,9 @@ class JDocumentHTML extends JDocument
             if (!is_null($strAttr['media'])){
                 $strHtml .= ' media="'.$strAttr['media'].'" ';
             }
-			
+
 			$strHtml .= JDocumentHelper::implodeAttribs('=', ' ', $strAttr['attribs']);
-			
+
             $strHtml .= $tagEnd . $lnEnd;
         }
 
@@ -262,7 +262,7 @@ class JDocumentHTML extends JDocument
 
         return $strHtml;
     }
-	
+
 	/**
 	 * Execute a renderer
 	 *
@@ -272,20 +272,20 @@ class JDocumentHTML extends JDocument
 	 * @param array 	$params	Associative array of values
 	 * @return 	The output of the renderer
 	 */
-	function execRenderer($type, $name, $params = array()) 
+	function execRenderer($type, $name, $params = array())
 	{
 		jimport('joomla.document.module.renderer');
-		
+
 		if(!$this->moduleExists('Renderer', ucfirst($type))) {
 			return false;
 		}
-		
+
 		$module =& $this->loadModule( 'Renderer', ucfirst($type));
-		
+
 		if( patErrorManager::isError( $module ) ) {
 			return false;
 		}
-		
+
 		return $module->render($name, $params);
 	}
 
@@ -299,10 +299,10 @@ class JDocumentHTML extends JDocument
 	function parse($directory, $file = 'index.php')
 	{
 		global $mainframe;
-			
+
 		$contents = $this->_load( $directory, $file);
 		$this->readTemplatesFromInput( $contents, 'String' );
-		
+
 		/*
 		 * Parse the template INI file if it exists for parameters and insert
 		 * them into the template.
@@ -312,8 +312,8 @@ class JDocumentHTML extends JDocument
 			$params = new JParameter($content);
 			$this->addVars( 'document', $params->toArray(), 'param_');
 		}
-		
-		/* 
+
+		/*
 		 * Try to find a favicon by checking the template and root folder
 		 */
 		$path = $directory .'/';
@@ -327,7 +327,7 @@ class JDocumentHTML extends JDocument
 			}
 		}
 	}
-	
+
 	/**
 	 * Outputs the template to the browser.
 	 *
@@ -340,25 +340,25 @@ class JDocumentHTML extends JDocument
 	{
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		
+
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
-		
-		// parse 
+
+		// parse
 		$this->parse($directory.DS.$template, $file);
-		
+
 		// render
-		foreach($this->_renderers as $type => $names) 
+		foreach($this->_renderers as $type => $names)
 		{
-			foreach($names as $name) 
+			foreach($names as $name)
 			{
 				if($html = $this->execRenderer($type, $name, $params)) {
 					$this->addGlobalVar($type.'_'.$name, $html);
 				}
 			}
 		}
-		
+
 		$this->addGlobalVar( 'template', $template);
 
 		//output
@@ -370,32 +370,32 @@ class JDocumentHTML extends JDocument
 
 		parent::display( $template, $file, $compress, $params );
 	}
-	
+
 	/**
 	 * Load a template file
 	 *
 	 * @param string 	$template	The name of the template
 	 * @param string 	$filename	The actual filename
-	 * @return string The contents of the template 
+	 * @return string The contents of the template
 	 */
 	function _load($directory, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option, $_VERSION;
-		
+
 		//For backwards compatibility extract the config vars as globals
 		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-		
+
 		$contents = '';
 		//Check to see if we have a valid template file
-		if ( file_exists( $directory.DS.$filename ) ) 
+		if ( file_exists( $directory.DS.$filename ) )
 		{
-			//store the file path 
+			//store the file path
 			$this->_file = $directory.DS.$filename;
-			
+
 			//get the file content
 			ob_start();
 			?><jdoc:tmpl name="document" autoclear="yes"><?php
@@ -404,23 +404,23 @@ class JDocumentHTML extends JDocument
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
-		
+
 		// Add the option variable to the template
 		$this->addVar('document', 'option', $option);
-		
+
 		// Add the language information to the template
 		$this->addVar( 'document', 'lang_tag', $this->getLanguage() );
 		$this->addVar( 'document', 'lang_dir', $this->getDirection() );
 
 		return $contents;
 	}
-	
+
 	/**
-	 * Adds a renderer to be called 
+	 * Adds a renderer to be called
 	 *
 	 * @param string 	$type	The renderer type
 	 * @param string 	$name	The renderer name
-	 * @return string The contents of the template 
+	 * @return string The contents of the template
 	 */
 	function _addRenderer($type, $name) {
 		$this->_renderers[$type][] = $name;

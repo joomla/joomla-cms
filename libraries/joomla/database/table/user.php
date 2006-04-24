@@ -19,7 +19,7 @@
  * @subpackage 	Model
  * @since		1.0
  */
-class JTableUser extends JTable 
+class JTableUser extends JTable
 {
 	/** @var int Unique id*/
 	var $id				= null;
@@ -63,7 +63,7 @@ class JTableUser extends JTable
 	 * Validation and filtering
 	 * @return boolean True is satisfactory
 	 */
-	function check() 
+	function check()
 	{
 		global $mosConfig_uniquemail;
 
@@ -122,7 +122,7 @@ class JTableUser extends JTable
 		return true;
 	}
 
-	function store( $updateNulls=false ) 
+	function store( $updateNulls=false )
 	{
 		global $acl, $migrate;
 
@@ -159,7 +159,7 @@ class JTableUser extends JTable
 		}
 	}
 
-	function delete( $oid=null ) 
+	function delete( $oid=null )
 	{
 		global $acl;
 
@@ -208,7 +208,7 @@ class JTableUser extends JTable
 	 * @param int The timestamp, defaults to 'now'
 	 * @return boolean False if an error occurs
 	 */
-	function setLastVisit( $timeStamp=null, $id=null ) 
+	function setLastVisit( $timeStamp=null, $id=null )
 	{
 		// check for User ID
 		if (is_null( $id )) {
@@ -242,17 +242,17 @@ class JTableUser extends JTable
 
 		return true;
 	}
-	
+
 	/**
 	* Overloaded bind function
 	*
-	* @acces public  
+	* @acces public
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	
+
 	function bind($array, $ignore = '')
 	{
 		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
@@ -260,17 +260,17 @@ class JTableUser extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-		
+
 		return parent::bind($array, $ignore);
 	}
 
 	/**
 	 * Returns userid if a user exists
-	 * 
+	 *
 	 * @param string The username to search on
 	 * @return int The user id or 0 if not found
 	 */
-	function getUserId($username) 
+	function getUserId($username)
 	{
 		$this->_db->setQuery("SELECT id FROM #__users WHERE username = '$username' LIMIT 1");
 		return $this->_db->loadResult();
@@ -280,7 +280,7 @@ class JTableUser extends JTable
 	 * Returns a complete user list
 	 * @return array
 	 */
-	function getUserList() 
+	function getUserList()
 	{
 		$this->_db->setQuery("SELECT username FROM #__users");
 		return $this->_db->loadAssocList();
@@ -293,8 +293,8 @@ class JTableUser extends JTable
 	 * @param string If RECURSE, will drill into child groups
 	 * @param string Ordering for the list
 	 * @return array
-	 */	
-	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' ) 
+	 */
+	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' )
 	{
 		global $acl;
 

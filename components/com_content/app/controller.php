@@ -40,7 +40,7 @@ class JController extends JObject {
 
 	/**
 	 * Array of class methods to call for a given task
-	 * @var	array 
+	 * @var	array
 	 */
 	var $_taskMap 	= null;
 
@@ -112,7 +112,7 @@ class JController extends JObject {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access	protected
 	 * @param	object	$app	The main application
 	 * @param	string	$default	The default task [optional]
@@ -142,7 +142,7 @@ class JController extends JObject {
 		}
 		// Register the main application to the controller
 		$this->_app = & $app;
-		
+
 		// Build and set the menu item object from $Itemid
 		$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		if ($Itemid) {
@@ -158,7 +158,7 @@ class JController extends JObject {
 
 	/**
 	 * Get the system database object from the application
-	 * 
+	 *
 	 * @access	public
 	 * @return object
 	 * @since	1.5
@@ -170,7 +170,7 @@ class JController extends JObject {
 
 	/**
 	 * Authorization check
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$task	The ACO Section Value to check access on
 	 * @return	boolean	True if authorized
@@ -196,7 +196,7 @@ class JController extends JObject {
 
 	/**
 	 * Sets the access control levels
-	 * 
+	 *
 	 * @access	public
 	 * @param string The ACO section (eg, the component)
 	 * @param string The ACO section value (if using a constant value)
@@ -228,7 +228,7 @@ class JController extends JObject {
 
 	/**
 	 * Redirects the browser or returns false if no redirect is set.
-	 * 
+	 *
 	 * @access	public
 	 * @return	boolean	False if no redirect exists
 	 * @since	1.5
@@ -242,7 +242,7 @@ class JController extends JObject {
 
 	/**
 	 * Register (map) a task to a method in the class
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$task		The task
 	 * @param	string	$method	The name of the method in the derived class to perform for this task
@@ -260,7 +260,7 @@ class JController extends JObject {
 
 	/**
 	 * Register the default task to perfrom if a mapping is not found
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$method	The name of the method in the derived class to perform if the task is not found
 	 * @return	void
@@ -273,7 +273,7 @@ class JController extends JObject {
 
 	/**
 	 * Perform a task by triggering a method in the derived class
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$task	The task to perform
 	 * @return	mixed	The value returned by the function
@@ -308,7 +308,7 @@ class JController extends JObject {
 
 	/**
 	 * Get the last task that was to be performed
-	 * 
+	 *
 	 * @access	public
 	 * @return	string	The task that was or is being performed
 	 * @since	1.5
@@ -320,7 +320,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to get the current view path
-	 * 
+	 *
 	 * @access	public
 	 * @return	string	View class file base directory
 	 * @since	1.5
@@ -333,7 +333,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to get the current view path
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	View class file base directory
 	 * @return	string	The path
@@ -346,7 +346,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to get the current model path
-	 * 
+	 *
 	 * @access	public
 	 * @return	string	Model class file base directory
 	 * @since	1.5
@@ -359,7 +359,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to get the current view path
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	Model class file base directory
 	 * @return	string	The path
@@ -373,7 +373,7 @@ class JController extends JObject {
 	/**
 	 * Method to set the current view.  Normally this would be done automatically, but this method is provided
 	 * for maximum flexibility
-	 * 
+	 *
 	 * @access	public
 	 * @param	object	The view object to set
 	 * @return	object	The view
@@ -387,7 +387,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to get the current view and load it if necessary..
-	 * 
+	 *
 	 * @access	public
 	 * @return	object	The view
 	 * @since	1.5
@@ -403,7 +403,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to set the view name and options for loading the view class.
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$viewName	The name of the view
 	 * @param	string	$option		The component subdirectory of the template folder to look in for an alternate
@@ -420,7 +420,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to get a model object, load it if necessary..
-	 * 
+	 *
 	 * @access	public
 	 * @return	object	The model
 	 * @since	1.5
@@ -432,9 +432,9 @@ class JController extends JObject {
 	}
 
 	/**
-	 * Method to load and return a view object.  This method first looks in the current template directory for a match, and 
+	 * Method to load and return a view object.  This method first looks in the current template directory for a match, and
 	 * failing that uses a default set path to load the view class file.
-	 * 
+	 *
 	 * @access	private
 	 * @param	string	$viewName	The name of the view
 	 * @param	string	$option		The component subdirectory of the template folder to look in for an alternate
@@ -446,7 +446,7 @@ class JController extends JObject {
 	{
 		// Clean the view name
 		$viewName = preg_replace( '#\W#', '', $viewName );
-		
+
 		// Get the current template name and path
 		$tName = $this->_app->getTemplate();
 		$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.'components'.DS.$option.DS.strtolower($viewName).'.'.$prefix.'.php';
@@ -487,7 +487,7 @@ class JController extends JObject {
 
 	/**
 	 * Method to load and return a model object.
-	 * 
+	 *
 	 * @access	private
 	 * @param	string	$modelName	The name of the view
 	 * @return	mixed	Model object or boolean false if failed

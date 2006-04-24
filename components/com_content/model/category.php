@@ -15,7 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the component helper 
+// require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 /**
@@ -211,7 +211,7 @@ class JModelCategory extends JModel
 			$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle" .
 					"\n FROM #__categories AS c" .
 					"\n INNER JOIN #__sections AS s ON s.id = c.section" .
-					"\n WHERE c.id = '$this->_id'". 
+					"\n WHERE c.id = '$this->_id'".
 					"\n LIMIT 1";
 			$this->_db->setQuery($query);
 			return $this->_db->loadObject($this->_category);
@@ -243,7 +243,7 @@ class JModelCategory extends JModel
 			$now		= $this->_app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
-			
+
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
 				$xwhere = '';
@@ -256,14 +256,14 @@ class JModelCategory extends JModel
 						"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 						"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
 			}
-	
+
 			// show/hide empty categories
 			$empty = null;
 			if (!$this->_menu->parameters->get('empty_cat'))
 			{
 				$empty = "\n HAVING COUNT( b.id ) > 0";
 			}
-	
+
 			/*
 			 * Get the list of sibling categories [categories with the same
 			 * parent]
@@ -271,16 +271,16 @@ class JModelCategory extends JModel
 			$query = "SELECT c.*, COUNT( b.id ) AS numitems" .
 					"\n FROM #__categories AS c" .
 					"\n LEFT JOIN #__content AS b ON b.catid = c.id ".
-					$xwhere2. 
+					$xwhere2.
 					($noauth ? "\n AND b.access <= $gid" : '') .
 					"\n WHERE c.section = '$section'".
-					$xwhere. 
+					$xwhere.
 					($noauth ? "\n AND c.access <= $gid" : '').
 					"\n GROUP BY c.id".$empty.
 					"\n ORDER BY c.ordering";
 			$this->_db->setQuery($query);
 			$this->_siblings = $this->_db->loadObjectList();
-		}		
+		}
 		return true;
 	}
 
@@ -332,7 +332,7 @@ class JModelCategory extends JModel
 					$orderby;
 			$this->_db->setQuery($query, $limitstart, $limit);
 			$this->_content[$state] = $this->_db->loadObjectList();
-		}		
+		}
 		return true;
 	}
 
@@ -365,7 +365,7 @@ class JModelCategory extends JModel
 				break;
 		}
 		$orderby .= "$primary $secondary a.created DESC";
-		
+
 		return $orderby;
 	}
 
@@ -376,7 +376,7 @@ class JModelCategory extends JModel
 		$now		=$this->_app->get('requestTime');
 		$noauth	= !$this->_app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-	
+
 		/*
 		 * First thing we need to do is assert that the content items are in
 		 * the current category
@@ -423,7 +423,7 @@ class JModelCategory extends JModel
 				$where .= "\n AND a.state = '$state'";
 				break;
 		}
-	
+
 		/*
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.

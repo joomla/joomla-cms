@@ -10,10 +10,10 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 /**
  * INI format handler for JRegistry
- * 
+ *
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
@@ -24,16 +24,16 @@ class JRegistryFormatINI extends JRegistryFormat {
 	/**
 	 * Converts an object into an INI formatted string
 	 * 	-	Unfortunately, there is no way to have ini values nested further than two
-	 * 		levels deep.  Therefore we will only go through the first two levels of 
+	 * 		levels deep.  Therefore we will only go through the first two levels of
 	 * 		the object.
-	 * 
+	 *
 	 * @access public
 	 * @param object $object Data Source Object
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string INI Formatted String
 	 */
 	function objectToString( &$object, $params ) {
-		
+
 		// Initialize variables
 		$retval = '';
 		$prepend = '';
@@ -54,18 +54,18 @@ class JRegistryFormatINI extends JRegistryFormat {
 				$prepend .= "$key=$level1\n";
 			}
 		}
-		return $prepend."\n".$retval;	
+		return $prepend."\n".$retval;
 	}
-	
+
 	/**
 	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
-	 * 
+	 *
 	 * @access public
 	 * @param mixed The INI string or array of lines
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object Data Object
 	 */
-	function stringToObject( $data, $process_sections = false, $asArray = false ) 
+	function stringToObject( $data, $process_sections = false, $asArray = false )
 	{
 		if (is_string($data)) {
 			$lines = explode("\n", $data);

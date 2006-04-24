@@ -22,10 +22,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class component_item_link_menu_html {
 
-	function edit( &$menu, &$lists, &$params, $option ) 
+	function edit( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
-		
+
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -47,7 +47,7 @@ class component_item_link_menu_html {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table width="100%">
 		<tr valign="top">
 			<td width="60%">

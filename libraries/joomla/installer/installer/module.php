@@ -423,7 +423,7 @@ class JInstallerModule extends JInstaller
 
 	/**
 	 * Creates a new template position if it doesn't exist already
-	 * 
+	 *
 	 * @static
 	 * @param string $position Template position to create
 	 * @return mixed Template position id (int) if a position was inserted or boolean false otherwise

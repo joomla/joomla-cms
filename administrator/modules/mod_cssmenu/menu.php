@@ -14,17 +14,17 @@
 class JAdminCSSMenu extends JObject
 {
 	/**
-	 * 
+	 *
 	 */
 	var $_root = null;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	var $_current = null;
 
 	/**
-	 * 
+	 *
 	 */
 	var $_css = null;
 
@@ -48,9 +48,9 @@ class JAdminCSSMenu extends JObject
 	function renderMenu($suffix = '-smenu')
 	{
 		global $mainframe;
-		
+
 		$depth = 1;
-		
+
 		/*
 		 * Build the CSS class suffix
 		 */
@@ -61,7 +61,7 @@ class JAdminCSSMenu extends JObject
 		{
 			$sfx = $suffix;
 		}
-		
+
 		/*
 		 * Recurse through children if they exist
 		 */
@@ -86,36 +86,36 @@ class JAdminCSSMenu extends JObject
 
 	function renderLevel($suffix = '-smenu', $depth)
 	{
-		
+
 		/*
 		 * Build the CSS class suffix
 		 */
 		$class = '';
 		if ($this->_current->hasChildren()) {
 			$class = ' class="node"';
-		} 
-		
+		}
+
 		if($this->_current->class == 'seperator') {
 			$class = ' class="seperator"';
 		}
-		
+
 		if($this->_current->class == 'disabled') {
 			$class = ' class="disabled"';
 		}
-		
-		
+
+
 		/*
 		 * Print the item
 		 */
 		echo "<li".$class.">";
-		
+
 		/*
 		 * Print a link if it exists
 		 */
 		if ($this->_current->link != null)
 		{
 			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
-		} 
+		}
 		else if ($this->_current->title != null)
 		{
 			if($this->_current->class == 'disabled') {
@@ -123,12 +123,12 @@ class JAdminCSSMenu extends JObject
 			} else {
 				echo "<a href=\"#\">".$this->_current->title."</a>\n";
 			}
-		} 
+		}
 		else
 		{
 			echo "<span></span>";
 		}
-		
+
 		/*
 		 * Recurse through children if they exist
 		 */
@@ -148,7 +148,7 @@ class JAdminCSSMenu extends JObject
 	/**
 	 * Method to get the CSS class name for an icon identifier or create one if
 	 * a custom image path is passed as the identifier
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$identifier	Icon identification string
 	 * @return	string	CSS class name
@@ -157,7 +157,7 @@ class JAdminCSSMenu extends JObject
 	function getIconClass($identifier)
 	{
 		global $mainframe;
-		
+
 		static $classes;
 
 		// Initialize the known classes array if it does not exist
@@ -165,7 +165,7 @@ class JAdminCSSMenu extends JObject
 		{
 			$classes = array();
 		}
-		
+
 		/*
 		 * If we don't already know about the class... build it and mark it
 		 * known so we don't have to build it again
@@ -194,16 +194,16 @@ class JAdminCSSMenu extends JObject
 					// Build the CSS class for the icon
 					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 					$class = preg_replace( '#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
-					
+
 					$this->_css  .= "\n.icon-16-$class {\n" .
 							"\tbackground: url($identifier) no-repeat;\n" .
 							"}\n";
-					
+
 					$classes[$identifier] = "icon-16-$class";
 				}
 			}
 		}
-		
+
 		return $classes[$identifier];
 	}
 }
@@ -248,13 +248,13 @@ class JMenuNode extends JObject
 		$this->class	= $class;
 		$this->active	= $active;
 	}
-	
+
 	function addChild( &$node )
 	{
 		$node->setParent($this);
 		$this->_children[] = & $node;
 	}
-	
+
 	function addSeperator()
 	{
 		$this->_children[] = new JMenuNode(null, null, 'seperator', false);

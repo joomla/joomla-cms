@@ -39,7 +39,7 @@ function listFeeds(  ) {
 	global $Itemid;
 
 	$catid 	= JRequest::getVar( 'catid', 0, '', 'int' );
-	
+
 	$database 			= & $mainframe->getDBO();
 	$user 				= & $mainframe->getUser();
 	$breadcrumbs 		= & $mainframe->getPathWay();
@@ -47,7 +47,7 @@ function listFeeds(  ) {
 	$limit 				= JRequest::getVar('limit', 				0, '', 'int');
 	$limitstart 		= JRequest::getVar('limitstart', 			0, '', 'int');
 	$gid				= $user->get('gid');
-	
+
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
 	$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
 	. "\n FROM #__categories AS cc"
@@ -66,7 +66,7 @@ function listFeeds(  ) {
 	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	$params = new JParameter( $menu->params );
-	
+
 	$params->def( 'page_title', 		1 );
 	$params->def( 'header', 			$menu->name );
 	$params->def( 'pageclass_sfx', 		'' );
@@ -105,10 +105,10 @@ function listFeeds(  ) {
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
-		
+
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination($total, $limitstart, $limit);
-		
+
 		// url links info for category
 		$query = "SELECT *"
 		. "\n FROM #__newsfeeds"
@@ -118,7 +118,7 @@ function listFeeds(  ) {
 		;
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList();
-		
+
 		// current category info
 		$query = "SELECT id, name, description, image, image_position"
 		. "\n FROM #__categories"
@@ -197,19 +197,19 @@ function showFeed( ) {
 	global $mainframe, $Itemid;
 
 	$feedid = JRequest::getVar( 'feedid', 0, '', 'int' );
-	
+
 	// check if cache directory is writeable
 	$cacheDir = $mainframe->getCfg('cachepath') . DS;
-	if ( !is_writable( $cacheDir ) ) {	
+	if ( !is_writable( $cacheDir ) ) {
 		echo JText::_( 'Cache Directory Unwriteable' );
 		return;
 	}
-	
+
 	// Get some objects from the JApplication
 	$database 	= & $mainframe->getDBO();
 	$user 		= & $mainframe->getUser();
 	require_once( $mainframe->getPath( 'class' ) );
-	
+
 	$newsfeed = new mosNewsFeed($database);
 	$newsfeed->load($feedid);
 
@@ -220,10 +220,10 @@ function showFeed( ) {
 		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 		return;
 	}
-		
+
 	$category = new JTableCategory($database);
 	$category->load($newsfeed->catid);
-	
+
 	/*
 	* Check if newsfeed category is published
 	*/
@@ -233,8 +233,8 @@ function showFeed( ) {
 	}	/*
 	* check whether category access level allows access
 	*/
-	if ( $category->access > $user->get('gid') ) {	
-		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));  
+	if ( $category->access > $user->get('gid') ) {
+		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 		return;
 	}
 
@@ -242,21 +242,21 @@ function showFeed( ) {
 	$options = array();
 	$options['rssUrl'] = $newsfeed->link;
 	$options['cache_time'] = $newsfeed->cache_time;
-	
+
 	$rssDoc = JFactory::getXMLparser('RSS', $options);
 
 	if ( $rssDoc == false ) {
 		$msg = JText::_('Error: Feed not retrieved');
 		josRedirect('index.php?option=com_newsfeeds&catid='. $newsfeed->catid .'&Itemid=' . $Itemid, $msg);
 		return;
-	}	
+	}
 	$lists = array();
 	// channel header and link
 	$lists['channel'] = $rssDoc->channel;
-	
+
 	// channel image if exists
 	$lists['image'] = $rssDoc->image;
-	
+
 	// items
 	$lists['items'] = $rssDoc->items;
 

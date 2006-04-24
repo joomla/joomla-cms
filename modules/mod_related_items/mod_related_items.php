@@ -82,7 +82,7 @@ if ($option == 'com_content' && $task == 'view' && $id)
 				<?php
 
 				require_once (JApplicationHelper::getPath('helper', 'com_content'));
-				
+
 				foreach ($related as $item)
 				{
 					if ($option = "com_content" && $task = "view")

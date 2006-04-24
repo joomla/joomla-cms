@@ -53,8 +53,8 @@ switch ($task) {
 }
 
 /**
- * Contact Component Controller 
- * 
+ * Contact Component Controller
+ *
  * @static
  * @package Joomla
  * @subpackage Contact
@@ -64,11 +64,11 @@ class JContactController {
 
 	/**
 	 * Build the data for a contact category document
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
-	function listContacts() 
+	function listContacts()
 	{
 		global $mainframe, $Itemid;
 
@@ -107,7 +107,7 @@ class JContactController {
 		if (($count < 2) && (@ $categories[0]->numlinks == 1)) {
 			// if only one record exists loads that record, instead of displying category list
 			JContactController::contactPage($categories[0]->cid);
-		} else { 
+		} else {
 			$rows = array ();
 			$current = new stdClass();
 
@@ -169,10 +169,10 @@ class JContactController {
 				if ($total <= $limit) {
 					$limitstart = 0;
 				}
-				
+
 				jimport('joomla.presentation.pagination');
 				$page = new JPagination($total, $limitstart, $limit);
-				
+
 				$query = "SELECT cd.*, cc.name AS cname, cc.description AS cdescription, cc.image AS cimage, cc.image_position AS cimage_position"
 						. "\n FROM #__contact_details AS cd"
 						. "\n INNER JOIN #__categories AS cc on cd.catid = cc.id"
@@ -190,7 +190,7 @@ class JContactController {
 				if (count($rows)) {
 					$current = & $rows[0];
 				}
-			
+
 				/*
 				Check if the category is published or if access level allows access
 				*/
@@ -245,7 +245,7 @@ class JContactController {
 			if (!empty ($current->cname)) {
 				$breadcrumbs->addItem($current->cname, "");
 			}
-			
+
 			// table ordering
 			if ( $filter_order_Dir == 'DESC' ) {
 				$lists['order_Dir'] = 'ASC';
@@ -254,26 +254,26 @@ class JContactController {
 			}
 			$lists['order'] = $filter_order;
 			$selected = '';
-			
+
 			JContactView::displaylist($categories, $rows, $current, $catid, $params, $lists, $page);
 		}
 	}
-	
+
 	function listContactsRSS()
 	{
 		global $mainframe;
-		
+
 		$database = & $mainframe->getDBO();
-		
+
 		$where  = "\n WHERE a.published = 1";
 		$catid  = JRequest::getVar('catid', 0);
-		
+
 		if ( $catid ) {
 			$where .= "\n AND a.catid = $catid";
-		}		
+		}
 
-		$link = $mainframe->getBaseURL() .'index.php?option=com_contact&catid='; 
-		
+		$link = $mainframe->getBaseURL() .'index.php?option=com_contact&catid=';
+
 		/*
 		* All SyndicateBots must return
 		* title
@@ -283,7 +283,7 @@ class JContactController {
 		* category
 		*/
     	$query = "SELECT"
-    	. "\n a.name AS title,"	
+    	. "\n a.name AS title,"
     	. "\n CONCAT( '$link', a.catid, '&id=', a.id ) AS link,"
     	. "\n CONCAT( a.con_position, ' - ',a.misc ) AS description,"
     	. "\n '' AS date,"
@@ -296,22 +296,22 @@ class JContactController {
     	;
 		$database->setQuery( $query, 0, $limit );
     	$rows = $database->loadObjectList();
-    	
+
     	$count = count( $rows );
     	for ( $i=0; $i < $count; $i++ ) {
     	    $Itemid = $mainframe->getItemid( $rows[$i]->id );
-    	    $rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid;   
+    	    $rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid;
     	}
-		
+
 		 JContactController::createFeed( $rows, $format, 'Contacts');
 	}
-	
-	function createFeed( $rows, $format, $title ) 
+
+	function createFeed( $rows, $format, $title )
 	{
 		global $mainframe;
-	
+
 		$option = $mainframe->getOption();
-	
+
 		// parameter intilization
 		$info[ 'date' ] 			= date( 'r' );
 		$info[ 'year' ] 			= date( 'Y' );
@@ -320,15 +320,15 @@ class JContactController {
 		$info[ 'cache_time' ] 		= 3600;
 		$info[ 'count' ]			= 5;
 		$info[ 'orderby' ] 			= '';
-		$info[ 'title' ] 			= $mainframe->getCfg('sitename') .' - '. $title; 
-		$info[ 'description' ] 		= $mainframe->getCfg('sitename') .' - '. $title .' Section'; 
+		$info[ 'title' ] 			= $mainframe->getCfg('sitename') .' - '. $title;
+		$info[ 'description' ] 		= $mainframe->getCfg('sitename') .' - '. $title .' Section';
 		$info[ 'limit_text' ] 		= 1;
 		$info[ 'text_length' ] 		= 20;
 		$info[ 'feed' ] 			= $format;
 
 		// set filename for rss feeds
 		$info[ 'file' ]   = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
-		$info[ 'file' ]   = $mainframe->getCfg('cachepath') .'/'. $info[ 'file' ] .'_'. $option .'.xml';	
+		$info[ 'file' ]   = $mainframe->getCfg('cachepath') .'/'. $info[ 'file' ] .'_'. $option .'.xml';
 
 		// load feed creator class
 		jimport('bitfolge.feedcreator');
@@ -338,20 +338,20 @@ class JContactController {
 		if ( $info[ 'cache' ] ) {
 			$syndicate->useCached( $info[ 'feed' ], $info[ 'file' ], $info[ 'cache_time' ] );
 		}
-	
+
 		$syndicate->title 			= $info[ 'title' ];
 		$syndicate->description 	= $info[ 'description' ];
 		$syndicate->link 			= $info[ 'link' ];
 		$syndicate->syndicationURL 	= $info[ 'link' ];
 		$syndicate->cssStyleSheet 	= NULL;
 		$syndicate->encoding 		= 'UTF-8';
-	
-		foreach ( $rows as $row ) 
+
+		foreach ( $rows as $row )
 		{
 			// strip html from feed item title
 			$item_title = htmlspecialchars( $row->title );
 			$item_title = html_entity_decode( $item_title );
-		
+
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
 			$_Itemid	= '';
@@ -359,21 +359,21 @@ class JContactController {
 			if ($itemid) {
 				$_Itemid = '&Itemid='. $itemid;
 			}
-		
+
 			$item_link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
 			$item_link = sefRelToAbs( $item_link );
-		
+
 			// strip html from feed item description text
 			$item_description = $row->introtext;
-		
-			if ( $info[ 'limit_text' ] ) 
+
+			if ( $info[ 'limit_text' ] )
 			{
-				if ( $info[ 'text_length' ] ) 
+				if ( $info[ 'text_length' ] )
 				{
 					// limits description text to x words
 					$item_description_array = split( ' ', $item_description );
 					$count = count( $item_description_array );
-					if ( $count > $info[ 'text_length' ] ) 
+					if ( $count > $info[ 'text_length' ] )
 					{
 						$item_description = '';
 						for ( $a = 0; $a < $info[ 'text_length' ]; $a++ ) {
@@ -382,16 +382,16 @@ class JContactController {
 						$item_description = trim( $item_description );
 						$item_description .= '...';
 					}
-				} 
-				else  
+				}
+				else
 				{
 					// do not include description when text_length = 0
 					$item_description = NULL;
 				}
 			}
-		
+
 			$item_date = ( $row->date ? date( 'r', $row->date ) : '' );
-		
+
 			// load individual item creator class
 			$item = new FeedItem();
 			$item->title 		= $item_title;
@@ -400,18 +400,18 @@ class JContactController {
 			$item->source 		= $info[ 'link' ];
 			$item->date			= $item_date;
 			$item->category   	= $row->category;
-		
+
 			// loads item info into rss array
 			$syndicate->addItem( $item );
 		}
-	
+
 		// save feed file
 		$syndicate->saveFeed( $info[ 'feed' ], $info[ 'file' ]);
 	}
 
 	/**
 	 * Build the data for an individual contact document
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -444,11 +444,11 @@ class JContactController {
 		/*
 		 * Ok, now lets get the information on the particular contact id
 		 */
-		$query = "SELECT a.*, cc.title as catname, cc.access AS cat_access" 
-				. "\n FROM #__contact_details AS a" 
-				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
-				. "\n WHERE a.published = 1" 
-				. "\n AND a.id = $contactId" 
+		$query = "SELECT a.*, cc.title as catname, cc.access AS cat_access"
+				. "\n FROM #__contact_details AS a"
+				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid"
+				. "\n WHERE a.published = 1"
+				. "\n AND a.id = $contactId"
 				. "\n AND a.access <= $gid"
 				;
 		$db->SetQuery($query);
@@ -458,10 +458,10 @@ class JContactController {
 			/*
 			* check whether category access level allows access
 			*/
-			if ( $contact->cat_access > $gid ) {	
-				mosNotAuth();  
+			if ( $contact->cat_access > $gid ) {
+				mosNotAuth();
 				return;
-			}	
+			}
 
 			/*
 			 * If the drop_down parameter is true, then we need to build a
@@ -570,7 +570,7 @@ class JContactController {
 					$params->set('marker_misc', 		JText::_('Information').": ");
 					$params->set('column_width', 		'100');
 					break;
-					
+
 				case 2 :
 					// none
 					$params->set('marker_address', 		'');
@@ -580,7 +580,7 @@ class JContactController {
 					$params->set('marker_misc', 		'');
 					$params->set('column_width', 		'0');
 					break;
-					
+
 				default :
 					// icons
 					$image1 = mosAdminMenus::ImageCheck('con_address.png', 	'/images/M_images/', $params->get('icon_address'), 		'/images/M_images/', JText::_('Address').": ", 		JText::_('Address').": ");
@@ -623,24 +623,24 @@ class JContactController {
 
 	/**
 	 * Method to send an email to a contact
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
-	function sendmail() 
+	function sendmail()
 	{
 		global $mainframe, $Itemid;
-		
+
 		/*
 		 * Initialize some variables
 		 */
 		$db = & $mainframe->getDBO();
-		
+
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 		$validate 	= mosHash( $mainframe->getCfg('db') );
-		
+
 		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
 		$option 	= JRequest::getVar('option');
 		$contactId 	= JRequest::getVar('con_id');
@@ -655,7 +655,7 @@ class JContactController {
 		if (!$validate) {
 			mosErrorAlert( _NOT_AUTH );
 		}
-		
+
 		/*
 		 * This obviously won't catch all attempts, but it does not hurt to make
 		 * sure the request came from a client with a user agent string.
@@ -721,18 +721,18 @@ class JContactController {
 		} else {
 			$menu = JTable::getInstance( 'menu', $db );
 			$menu->load( $Itemid );
-			$mparams = new JParameter( $menu->params );		
-			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
-			$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );		
+			$mparams = new JParameter( $menu->params );
+			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );
+			$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );
 			$bannedText 	= $mparams->get( 'bannedText', 		'' );
 			$sessionCheck 	= $mparams->get( 'sessionCheck', 	1 );
-			
+
 			// check for session cookie
-			if  ( $sessionCheck ) {		
+			if  ( $sessionCheck ) {
 				if ( !isset($_COOKIE[JSession::name()]) ) {
 					mosErrorAlert( _NOT_AUTH );
 				}
-			}			
+			}
 
 			// Prevent form submission if one of the banned text is discovered in the email field
 			if ( $bannedEmail ) {
@@ -743,7 +743,7 @@ class JContactController {
 					}
 				}
 			}
-			// Prevent form submission if one of the banned text is discovered in the subject field		
+			// Prevent form submission if one of the banned text is discovered in the subject field
 			if ( $bannedSubject ) {
 				$bannedSubject = explode( ';', $bannedSubject );
 				foreach ($bannedSubject as $value) {
@@ -752,7 +752,7 @@ class JContactController {
 					}
 				}
 			}
-			// Prevent form submission if one of the banned text is discovered in the text field		
+			// Prevent form submission if one of the banned text is discovered in the text field
 			if ( $bannedText ) {
 				$bannedText = explode( ';', $bannedText );
 				foreach ($bannedText as $value) {
@@ -760,14 +760,14 @@ class JContactController {
 						mosErrorAlert( _NOT_AUTH );
 					}
 				}
-			}			
+			}
 
 			// test to ensure that only one email address is entered
 			$check = explode( '@', $email );
 			if ( strpos( $email, ';' ) || strpos( $email, ',' ) || strpos( $email, ' ' ) || count( $check ) > 2 ) {
 				mosErrorAlert( JText::_( 'You cannot enter more than one email address', true ) );
 			}
-			
+
 			/*
 			 * Prepare email body
 			 */
@@ -781,9 +781,9 @@ class JContactController {
 			 * If we are supposed to copy the admin, do so.
 			 */
 			// parameter check
-			$params 		= new JParameter( $contact->params );		
+			$params 		= new JParameter( $contact->params );
 			$emailcopyCheck = $params->get( 'email_copy', 0 );
-			
+
 			// check whether email copy function activated
 			if ( $emailCopy && $emailcopyCheck ) {
 				$copyText 		= sprintf(JText::_('Copy of:'), $contact->name, $SiteName);
@@ -791,17 +791,17 @@ class JContactController {
 				$copySubject 	= JText::_('Copy of:')." ".$subject;
 				josMail($MailFrom, $FromName, $email, $copySubject, $copyText);
 			}
-		
+
 			$link = sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $contactId .'&Itemid='. $Itemid );
 			$text = JText::_( 'Thank you for your e-mail', true );
-			
+
 			josRedirect( $link, $text );
 		}
 	}
 
 	/**
 	 * Method to output a vCard
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -812,7 +812,7 @@ class JContactController {
 		 * Initialize some variables
 		 */
 		$db = & $mainframe->getDBO();
-		
+
 		$SiteName = $mainframe->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 

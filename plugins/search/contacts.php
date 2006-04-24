@@ -36,10 +36,10 @@ function &botSearchContactAreas() {
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
-function botSearchContacts( $text, $phrase='', $ordering='', $areas=null ) 
+function botSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
@@ -50,7 +50,7 @@ function botSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'contacts'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'contacts');
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

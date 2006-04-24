@@ -75,14 +75,14 @@ switch ($task) {
 /**
  * Display users in list form
  */
-function showUsers( ) 
+function showUsers( )
 {
 	global $mainframe;
 
 	$database = $mainframe->getDBO();
 	$currentUser = $mainframe->getUser();
 	$acl =& JFactory::getACL();
-	
+
 	$option 	= JRequest::getVar( 'option');
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.name' );
@@ -123,9 +123,9 @@ function showUsers( )
 	if ($filter_logged == 1 || $filter_logged == 2) {
 		$filter = "\n INNER JOIN #__session AS s ON s.userid = a.id";
 	}
-		
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";	
-	$where = ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );		
+
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
+	$where = ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 
 	$query = "SELECT COUNT(a.id)"
 	. "\n FROM #__users AS a"
@@ -140,8 +140,8 @@ function showUsers( )
 
 	$query = "SELECT a.*, g.name AS groupname"
 	. "\n FROM #__users AS a"
-	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"	
-	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"	
+	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"
+	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"
 	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id"
 	. $filter
 	. $where
@@ -178,25 +178,25 @@ function showUsers( )
 	$logged[] = mosHTML::makeOption( 0, '- '. JText::_( 'Select Log Status' ) .' -');
 	$logged[] = mosHTML::makeOption( 1, JText::_( 'Logged In' ) );
 	$lists['logged'] = mosHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
-	
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
-	$lists['search']= $search;	
-	
+	$lists['search']= $search;
+
 	HTML_users::showUsers( $rows, $pageNav, $option, $lists );
 }
 
 /**
  * Edit the user
  */
-function editUser( ) 
+function editUser( )
 {
 	global $mainframe;
 
@@ -205,11 +205,11 @@ function editUser( )
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
-	
+
 	$database 	=& $mainframe->getDBO();
 	$user 	  	=& JUser::getInstance(intval($cid[0]));
 	$acl      	=& JFactory::getACL();
-	
+
 	if ( $user->get('id') ) {
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
@@ -276,7 +276,7 @@ function editUser( )
 /**
  * Save current edit or addition
  */
-function saveUser(  ) 
+function saveUser(  )
 {
 	global $mainframe;
 
@@ -350,7 +350,7 @@ function saveUser(  )
 /**
 * Cancels an edit operation
 */
-function cancelUser( ) 
+function cancelUser( )
 {
 	$option 	= JRequest::getVar( 'option');
 	josRedirect( 'index2.php?option='. $option .'&task=view' );
@@ -359,7 +359,7 @@ function cancelUser( )
 /**
 * Delete selected users
 */
-function removeUsers(  ) 
+function removeUsers(  )
 {
 	global $mainframe;
 
@@ -367,16 +367,16 @@ function removeUsers(  )
 	$currentUser = $mainframe->getUser();
 
 	$acl      	=& JFactory::getACL();
-	
+
 	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
-	if (count( $cid )) 
+	if (count( $cid ))
 	{
-		foreach ($cid as $id) 
+		foreach ($cid as $id)
 		{
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
@@ -384,19 +384,19 @@ function removeUsers(  )
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
 			$success = false;
-			if ( $this_group == 'super administrator' ) 
+			if ( $this_group == 'super administrator' )
 			{
 				$msg = JText::_( 'You cannot delete a Super Administrator' );
- 			} 
+ 			}
 			else if ( $id == $currentUser->id )
 			{
  				$msg = JText::_( 'You cannot delete Yourself!' );
- 			} 
+ 			}
 			else if ( ( $this_group == 'administrator' ) && ( $currentUser->gid == 24 ) )
 			{
  				$msg = JText::_( 'WARNDELETE' );
-			} 
-			else 
+			}
+			else
 			{
 				$user =& JUser::getInstance((int)$id);
 				$user->delete( );
@@ -410,7 +410,7 @@ function removeUsers(  )
 /**
 * Unblocks one or more user records
 */
-function unBlockUser( ) 
+function unBlockUser( )
 {
 	changeUserBlock( 0 );
 }
@@ -418,7 +418,7 @@ function unBlockUser( )
 /**
 * Blocks one or more user records
 */
-function blockUser( ) 
+function blockUser( )
 {
 	changeUserBlock( 1 );
 }
@@ -427,10 +427,10 @@ function blockUser( )
 * Blocks or Unblocks one or more user records
 * @param integer 0 if unblock, 1 if blocking
 */
-function changeUserBlock( $block=1 ) 
+function changeUserBlock( $block=1 )
 {
 	global $mainframe;
-	
+
 	$database = $mainframe->getDBO();
 
 	$option = JRequest::getVar( 'option');
@@ -452,7 +452,7 @@ function changeUserBlock( $block=1 )
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );
-	
+
 	if (!$database->query()) {
 		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -462,9 +462,9 @@ function changeUserBlock( $block=1 )
 }
 
 /**
- * logout selected users 
+ * logout selected users
 */
-function logoutUser( ) 
+function logoutUser( )
 {
 	global $database, $currentUser;
 	$task 	= JRequest::getVar( 'task' );
@@ -487,12 +487,12 @@ function logoutUser( )
 		$query = "DELETE FROM #__session"
 		. "\n WHERE userid = $id"
 		. "\n AND client_id = $client"
-		;		
+		;
 	}
-	
+
 	$database->setQuery( $query );
 	$database->query();
-	
+
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {
 		case 'flogout':

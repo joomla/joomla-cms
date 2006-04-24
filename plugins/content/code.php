@@ -22,18 +22,18 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginCode' );
 * <b>Usage:</b>
 * <code>{moscode}...some code...{/moscode}</code>
 */
-function pluginCode( &$row, &$params, $page=0 ) 
+function pluginCode( &$row, &$params, $page=0 )
 {
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '{code' ) === false ) {
 		return true;
 	}
-	
+
 	// define the regular expression for the bot
 	$regex = "#{code}(.*?){/code}#s";
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'code'); 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'code');
 
 	// check whether plugin has been unpublished
 	if (!$plugin->published) {
@@ -52,7 +52,7 @@ function pluginCode( &$row, &$params, $page=0 )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function contentCode_replacer( &$matches ) 
+function contentCode_replacer( &$matches )
 {
 	$html_entities_match = array("#<#", "#>#");
 	$html_entities_replace = array("&lt;", "&gt;");

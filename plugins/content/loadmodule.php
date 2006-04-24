@@ -19,7 +19,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginLoadModule' );
 /**
 * Plugin that loads module positions within content
 */
-function pluginLoadModule( &$row, &$params, $page=0 ) 
+function pluginLoadModule( &$row, &$params, $page=0 )
 {
 	global $database;
 
@@ -27,9 +27,9 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 	if ( JString::strpos( $row->text, 'loadposition' ) === false ) {
 		return true;
 	}
-	
+
 	// Get plugin info
-	$plugin =& JPluginHelper::getPlugin('content', 'loadmodule'); 
+	$plugin =& JPluginHelper::getPlugin('content', 'loadmodule');
 
  	// expression to search for
  	$regex = '/{loadposition\s*.*?}/i';
@@ -57,7 +57,7 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 	}
 }
 
-function processPositions ( &$row, &$matches, $count, $regex, $style ) 
+function processPositions ( &$row, &$matches, $count, $regex, $style )
 {
 	global $database;
 

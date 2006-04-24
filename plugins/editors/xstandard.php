@@ -24,76 +24,76 @@ jimport( 'joomla.application.extension.plugin' );
  * @since 1.5
  */
 class JEditor_xstandard extends JPlugin {
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 * 
+	 *
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
 	function JEditor_xstandard(& $subject) {
 		parent::__construct($subject);
 	}
-	
+
 	/**
 	 * Method to handle the onInitEditor event.
 	 *  - Initializes the XStandard Lite WYSIWYG Editor
-	 * 
+	 *
 	 * @access public
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
 	 */
-	function onInit() 
+	function onInit()
 	{
 		global $mainframe;
-		
+
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		$html = '';
 		ob_start();
 		?>
-  		<script type="text/javascript" src="<?php echo $url; ?>plugins/editors/xstandard/xstandard.js"></script> 
+  		<script type="text/javascript" src="<?php echo $url; ?>plugins/editors/xstandard/xstandard.js"></script>
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();
-	
+
 		return $html;
 	}
-	
+
 	/**
 	 * XStandard Lite WYSIWYG Editor - get the editor content
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onGetContent( $editor ) {
 		return;
 	}
-	
+
 	/**
 	 * XStandard Lite WYSIWYG Editor - set the editor content
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onSetContent( $editor, $html ) {
 		return ;
 	}
-	
+
 	/**
 	 * XStandard Lite WYSIWYG Editor - copy editor content to form field
-	 * 
+	 *
 	 * @param string 	The name of the editor
 	 */
 	function onSave( $editor ) {
 		return;
 	}
-	
+
 	/**
 	 * XStandard Lite WYSIWYG Editor - display the editor
-	 * 
+	 *
 	 * @param string The name of the editor area
 	 * @param string The content of the field
 	 * @param string The name of the form field
@@ -102,15 +102,15 @@ class JEditor_xstandard extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
 		global $mainframe;
-		
+
  		$browser   =& $mainframe->getBrowser();
 		$language  =& $mainframe->getLanguage();
-		
+
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';
 		} else {
@@ -118,12 +118,12 @@ class JEditor_xstandard extends JPlugin {
 		}
 		$html = '';
 		ob_start();
-		?> 
-	
-		<div style="border: 1px solid #D5D5D5">  
+		?>
+
+		<div style="border: 1px solid #D5D5D5">
 		<object type="application/x-xstandard" id="<?php echo $name ?>" class="<?php echo $name ?>" width="<?php echo $width ?>" height="<?php echo $height ?>">
  			<param name="Value" value="<?php echo convertToXML($content) ?>" />
- 			
+
  			<param name="Lang" value="en" />
  			<param name="Dir" value="<?php echo $text_direction ?>" />
 			<param name="EnablePasteMarkup" value="yes" />
@@ -131,27 +131,27 @@ class JEditor_xstandard extends JPlugin {
 			<param name="EscapeUnicode" value="no" />
 			<param name="Options" value="32768" />
 			<param name="Toolbar" value="numbering, bullets, , draw-layout-table, draw-data-table, image, line, hyperlink, attachment, directory, undo, , wysiwyg, source, preview, screen-reader, ,expand" />
- 			
+
  			<param name="BorderColor" value="#FFF" />
  			<param name="Base" value="<?php echo $url ?>" />
  			<param name="ExpandWidth" value="100%" />
  			<param name="ExpandHeight" value="400" />
- 			
+
  			<param name="License" value="XStandard Lite for Joomla!" />
  			<param name="LatestVersion" value="1.7.0.0" />
- 			
+
  			<param name="Namespaces" value="xmlns:joomla='http://joomla.org'" />
 			<param name="CustomBlockElements" value="joomla:pagebreak" />
 			<param name="CustomInlineElements" value="joomla:readmore,joomla:image" />
 
 			<param name="CustomEmptyElements" value="joomla:readmore,joomla:image" />
- 			
+
  			<param name="CMSCode" value="065126D6-357D-46FC-AF74-A1F5B2D5036E" />
  			<param name="CMSImageLibraryURL" value="<?php echo $url ?>plugins/editors/xstandard/imagelibrary.php" />
 			<param name="CMSAttachmentLibraryURL" value="<?php echo $url ?>plugins/editors/xstandard/attachmentlibrary.php" />
 			<param name="CMSDirectoryURL" value="<?php echo $url ?>plugins/editors/xstandard/directory.php" />
 			<param name="PreviewXSLT" value="<?php echo $url ?>plugins/editors/xstandard/preview.xsl" />
-		
+
 			<textarea name="alternate1" id="alternate1" cols="60" rows="15"><?php echo $content ?></textarea>
 		</object>
  		<input type="hidden" id="<?php echo $name ?>" name="<?php echo $name ?>" value="" />
@@ -159,13 +159,13 @@ class JEditor_xstandard extends JPlugin {
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();
-	
+
 		return $html;
 	}
 }
 
 function convertToXML($content)
-{	
+{
 	$content = preg_replace( '/{image\s*.*?}/i', '<joomla:image />', $content );
 	$content = preg_replace( '/{pagebreak\s*.*?}/i', '<joomla:pagebreak />', $content );
 	$content = preg_replace( '/{readmore\s*.*?}/i', '<joomla:readmore />', $content );

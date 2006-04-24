@@ -27,7 +27,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 	* @var		string
 	*/
 	var $_name	=	'Module';
-	
+
    /**
 	 * Renders a module script and returns the results as a string
 	 *
@@ -40,24 +40,24 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 	{
 		global $mainframe;
 		global $Itemid, $task, $option, $my;
-		
+
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
-		
+
 		//For backwards compatibility extract the config vars as globals
 		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-		
+
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
 		}
-		
+
 		$style   = isset($params['style']) ? $params['style'] : $module->style;
 		$outline = isset($params['outline']) ? $params['outline'] : false;
-		
+
 		//get module parameters
 		$params = new JParameter( $module->params );
 
@@ -75,7 +75,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 			$module->content = ob_get_contents();
 			ob_end_clean();
 		}
-		
+
 		$contents = '';
 		ob_start();
 			if ($params->get('cache') == 1 && $mainframe->getCfg('caching') == 1) {

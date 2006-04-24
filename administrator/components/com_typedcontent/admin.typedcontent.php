@@ -48,15 +48,15 @@ switch ( $task ) {
 	case 'apply':
 		save( $option, $task );
 		break;
-	
+
 	case 'move':
 		move( $cid );
 		break;
-	
+
 	case 'movesave':
 		moveSave( $cid );
 		break;
-	
+
 	case 'copy':
 		copyItem( $cid );
 		break;
@@ -76,7 +76,7 @@ switch ( $task ) {
 	case 'toggle_frontpage':
 		toggleFrontPage( $cid );
 		break;
-	
+
 	case 'accesspublic':
 		changeAccess( $cid[0], 0, $option );
 		break;
@@ -132,7 +132,7 @@ function view( $option ) {
 			$filter .= "\n AND c.state = 0";
 		}
 	}
-	
+
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
 
 	// get the total number of records
@@ -145,7 +145,7 @@ function view( $option ) {
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
-	
+
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
@@ -181,7 +181,7 @@ function view( $option ) {
 		$database->setQuery( $query );
 		$rows[$i]->links = $database->loadResult();
 	}
-	
+
 	// get list of Authors for dropdown filter
 	$query = "SELECT c.created_by AS value, u.name AS text"
 	. "\n FROM #__content AS c"
@@ -194,8 +194,8 @@ function view( $option ) {
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_authorid );
-	
-	// state filter 
+
+	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 
 	// table ordering
@@ -204,11 +204,11 @@ function view( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
-	
+
 	HTML_typedcontent::showContent( $rows, $pageNav, $option, $lists );
 }
 
@@ -227,7 +227,7 @@ function edit( $uid, $option ) {
 
 	$nullDate 	= $database->getNullDate();
 	$lists 		= array();
-	
+
 	if ($uid) {
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
@@ -237,17 +237,17 @@ function edit( $uid, $option ) {
 		}
 
 		$row->checkout( $my->id );
-		
+
 		if (trim( $row->images )) {
 			$row->images = explode( "\n", $row->images );
 		} else {
 			$row->images = array();
 		}
-		
+
 		$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S' );
 		$row->modified 		= $row->modified == $nullDate ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
 		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
-		
+
 		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = JText::_( 'Never' );
 		}
@@ -344,7 +344,7 @@ function edit( $uid, $option ) {
 /**
 * Saves the typed content item
 */
-function save( $option, $task ) 
+function save( $option, $task )
 {
 	global $mainframe, $database, $my;
 
@@ -367,19 +367,19 @@ function save( $option, $task )
 		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset') ) : date( 'Y-m-d H:i:s' );
 		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	}
-	
+
 	if (strlen(trim( $row->publish_up )) <= 10) {
 		$row->publish_up .= ' 00:00:00';
 	}
 	$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset') );
-	
+
 	$nullDate = $database->getNullDate();
 	if (trim( $row->publish_down ) == "Never") {
 		$row->publish_down = $nullDate;
 	}
-	
+
 	$row->state = JRequest::getVar( 'state', 0 );
-	
+
 	// Save Parameters
 	$params = JRequest::getVar( 'params', '', 'post' );
 	if (is_array( $params )) {
@@ -403,13 +403,13 @@ function save( $option, $task )
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	// manage frontpage items
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 	$fp = new JTableFrontPage( $database );
-	
+
 	$frontpage = JRequest::getVar( 'frontpage', 0, 'post' );
-	if ($frontpage) {		
+	if ($frontpage) {
 		// toggles go to first place
 		if (!$fp->load( $row->id )) {
 			// new entry
@@ -432,9 +432,9 @@ function save( $option, $task )
 	}
 	$fp->reorder();
 	$msg = $frontpage;
-	
+
 	$row->checkin();
-	$row->reorder( "state >= 0" );	
+	$row->reorder( "state >= 0" );
 
 	switch ( $task ) {
 		case 'go2menu':
@@ -471,12 +471,12 @@ function save( $option, $task )
 */
 function move( &$cid ) {
 	global $database;
-	
+
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	
+
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	// Content Items query
@@ -487,7 +487,7 @@ function move( &$cid ) {
 	;
 	$database->setQuery( $query );
 	$items = $database->loadObjectList();
-	
+
 	$database->setQuery(
 	$query = 	"SELECT CONCAT_WS( ', ', s.id, c.id ) AS `value`, CONCAT_WS( '/', s.name, c.name ) AS `text`"
 	. "\n FROM #__sections AS s"
@@ -498,7 +498,7 @@ function move( &$cid ) {
 	$rows = $database->loadObjectList();
 	// build the html select list
 	$sectCatList = mosHTML::selectList( $rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null );
-	
+
 	HTML_typedcontent::move( $cid, $sectCatList, $items );
 }
 
@@ -507,14 +507,14 @@ function move( &$cid ) {
 */
 function moveSave( &$cid ) {
 	global $database, $my;
-	
+
 	$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
-	
+
 	if (!$newsect && !$newcat ) {
 		josRedirect( "index.php?option=com_content&sectionid=0&josmsg=". JText::_( 'An error has occurred' ) );
 	}
-	
+
 	// find section name
 	$query = "SELECT a.name"
 	. "\n FROM #__sections AS a"
@@ -522,7 +522,7 @@ function moveSave( &$cid ) {
 	;
 	$database->setQuery( $query );
 	$section = $database->loadResult();
-	
+
 	// find category name
 	$query = "SELECT  a.name"
 	. "\n FROM #__categories AS a"
@@ -530,10 +530,10 @@ function moveSave( &$cid ) {
 	;
 	$database->setQuery( $query );
 	$category = $database->loadResult();
-	
+
 	$total = count( $cid );
 	$cids = implode( ',', $cid );
-	
+
 	$row =& JTable::getInstance('content', $database );
 	// update old orders - put existing items in last place
 	foreach ($cid as $id) {
@@ -542,7 +542,7 @@ function moveSave( &$cid ) {
 		$row->store();
 		$row->reorder( "catid = $row->catid AND state >= 0" );
 	}
-	
+
 	$query = "UPDATE #__content SET sectionid = $newsect, catid = $newcat"
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
@@ -552,7 +552,7 @@ function moveSave( &$cid ) {
 		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	// update new orders - put items in last place
 	foreach ($cid as $id) {
 		$row->load( intval( $id ) );
@@ -560,7 +560,7 @@ function moveSave( &$cid ) {
 		$row->store();
 		$row->reorder( "catid = $row->catid AND state >= 0" );
 	}
-	
+
 	$msg = sprintf( JText::_( 'Item(s) successfully moved to Section' ), $total, $section, $category );
 	josRedirect( 'index2.php?option=com_typedcontent', $msg );
 }
@@ -699,7 +699,7 @@ function trash( &$cid, $option ) {
 		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	josRedirect( 'index2.php?option='. $option, $msg );
 }
@@ -806,7 +806,7 @@ function menuLink( $option, $id ) {
 	$link 	= JRequest::getVar( 'link_name', '', 'post' );
 
 	$link	= stripslashes( ampReplace($link) );
-	
+
 	$row 				=& JTable::getInstance( 'menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $link;

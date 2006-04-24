@@ -103,7 +103,7 @@ switch ($task) {
 		break;
 }
 
-function viewBanners( $option ) 
+function viewBanners( $option )
 {
 	global $database, $mainframe;
 
@@ -113,22 +113,22 @@ function viewBanners( $option )
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.viewbanners.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
-	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+
 	$where = array();
-	
+
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
 			$where[] = "b.showBanner = 1";
 		} else if ($filter_state == 'U' ) {
 			$where[] = "b.showBanner = 0";
 		}
-	}	
+	}
 	if ($search) {
 		$where[] = "LOWER(b.name) LIKE '%$search%'";
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, b.bid";
 
 	// get the total number of records
@@ -151,9 +151,9 @@ function viewBanners( $option )
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
-	
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -161,9 +161,9 @@ function viewBanners( $option )
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-	
+
 	// search filter
-	$lists['search']= $search;	
+	$lists['search']= $search;
 
 	HTML_banners::showBanners( $rows, $pageNav, $option, $lists );
 }
@@ -207,7 +207,7 @@ function editBanner( $bannerid, $option ) {
 	$yesno[] = mosHTML::makeOption( '0', JText::_( 'No' ) );
 
 	$lists['showBanner'] = mosHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
-	
+
 	HTML_banners::bannerForm( $row, $lists, $option );
 }
 
@@ -220,19 +220,19 @@ function saveBanner( $task ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	// Resets clicks when `Reset Clicks` button is used instead of `Save` button
 	if ( $task == 'resethits' ) {
 		$row->clicks = 0;
 		$msg = JText::_( 'Reset Banner clicks' );
 	}
-	
+
 	// Sets impressions to unlimited when `unlimited` checkbox ticked
 	$unlimited = JRequest::getVar( 'unlimited', 0 );
 	if ( $unlimited ) {
 		$row->imptotal = 0;
 	}
-	
+
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -247,15 +247,15 @@ function saveBanner( $task ) {
 		case 'apply':
 			$link = 'index2.php?option=com_banners&task=editA&id='. $row->bid .'&hidemainmenu=1';
 			break;
-		
+
 		case 'save':
 		default:
 			$link = 'index2.php?option=com_banners';
 			break;
-	}	
-	
+	}
+
 	$msg = JText::_( 'Saved Banner info' );
-	
+
 	josRedirect( $link, $msg );
 }
 
@@ -307,7 +307,7 @@ function removeBanner( $cid ) {
 	} else {
 		$cids = JRequest::getVar( 'banner_id', 0, 'post' );
 	}
-	
+
 	if ($cids) {
 		$query = "DELETE FROM #__banner"
 		. "\n WHERE bid IN ( $cids )"
@@ -329,19 +329,19 @@ function viewBannerClients( $option ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );	
+	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 
 	if ($search) {
 		$where[] = "LOWER(a.name) LIKE '%$search%'";
 	}
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.cid";
-	
+
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__bannerclient"
@@ -363,16 +363,16 @@ function viewBannerClients( $option ) {
 	;
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	//$database->setQuery( $query );
-	$rows = $database->loadObjectList();	
-	
+	$rows = $database->loadObjectList();
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -407,7 +407,7 @@ function saveBannerClient( $task ) {
 	global $database;
 
 	$row = new mosBannerClient( $database );
-	
+
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -426,7 +426,7 @@ function saveBannerClient( $task ) {
 		case 'applyclient':
 			$link = 'index2.php?option=com_banners&task=editclientA&id='. $row->cid .'&hidemainmenu=1';
 			break;
-		
+
 		case 'saveclient':
 		default:
 			$link = 'index2.php?option=com_banners&task=listclients';
@@ -448,10 +448,10 @@ function removeBannerClients( $cid, $option ) {
 	global $database;
 
 	if (!count( $cid ) || $cid[0] == 0) {
-		unset($cid);	
+		unset($cid);
 		$cid[0] = JRequest::getVar( 'client_id', 0, 'post' );
 	}
-	
+
 	for ($i = 0; $i < count($cid); $i++) {
 		$query = "SELECT COUNT( bid )"
 		. "\n FROM #__banner"

@@ -197,7 +197,7 @@ class JInstallerTemplate extends JInstaller
 		$retval = true;
 
 		/*
-		 * For a template the id will be the template name which represents the 
+		 * For a template the id will be the template name which represents the
 		 * subfolder of the templates folder that the template resides in.
 		 */
 		$path = trim($path);
@@ -248,7 +248,7 @@ class JInstallerTemplate extends JInstaller
 
 	/**
 	 * Creates a new template position if it doesn't exist already
-	 * 
+	 *
 	 * @access	private
 	 * @param	string	$position	Template position to create
 	 * @return	mixed	Template position id (int) if a position was inserted or

@@ -36,7 +36,7 @@ class JDocumentRSS extends JDocument
 		//set mime type
 		$this->_mime = 'text/xml';
 	}
-	
+
 	/**
 	 * Outputs the document to the browser.
 	 *
@@ -49,17 +49,17 @@ class JDocumentRSS extends JDocument
 	function display( $template, $file, $compress = false, $params = array())
 	{
 		global $mainframe;
-		
+
 		$option = $mainframe->getOption();
-		
+
 		$path 	= JApplicationHelper::getPath( 'front', $option );
 		$task 	= JRequest::getVar( 'task' );
-		
+
 		//load common language files
 		$lang =& $mainframe->getLanguage();
 		$lang->load($option);
-		require_once( $path );	
-	
+		require_once( $path );
+
 		parent::display( $template, $file, $compress, $params );
 	}
 }

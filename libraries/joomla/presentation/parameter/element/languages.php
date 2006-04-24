@@ -29,11 +29,11 @@ class JElement_Languages extends JElement
 	* @var		string
 	*/
 	var	$_name = 'Languages';
-	
-	function fetchElement($name, $value, &$node, $control_name)	
+
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$client = $node->attributes('client');
-		
+
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)));
 		array_unshift($languages, mosHTML::makeOption('', '- '.JText::_('Select Language').' -'));
 

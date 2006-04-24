@@ -26,7 +26,7 @@ class JViewHTMLBlog extends JView
 {
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -34,7 +34,7 @@ class JViewHTMLBlog extends JView
 
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -87,7 +87,7 @@ class JViewHTMLBlog extends JView
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs = & $app->getPathWay();
 		$document 	 = & $app->getDocument();
-		
+
 		if ($menu->name) {
 			$document->setTitle($menu->name);
 			$breadcrumbs->addItem($menu->name, '');
@@ -108,7 +108,7 @@ class JViewHTMLBlog extends JView
 		 * Set section/category description text and images for blog sections
 		 * and categories
 		 */
-		if ($menu && $menu->componentid && ($descrip || $descrip_image)) 
+		if ($menu && $menu->componentid && ($descrip || $descrip_image))
 		{
 			switch ($menu->type)
 			{
@@ -325,7 +325,7 @@ class JViewHTMLBlog extends JView
 		// Display the edit icon if appropriate
 		if ($access->canEdit) {
 			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
+			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
 				<?php JContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
@@ -417,7 +417,7 @@ class JViewHTMLBlog extends JView
 				<?php echo JText::_( 'Read more...' ); ?>
 				</strong>
 			</div>
-			
+
 			<ul>
 		<?php
 

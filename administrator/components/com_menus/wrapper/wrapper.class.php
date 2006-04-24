@@ -80,7 +80,7 @@ class wrapper_menu {
 			}
 			$_POST['params'] = mosParameters::textareaHandling( $txt );
 		}
-		
+
 		$row =& JTable::getInstance('menu', $database );
 
 		if (!$row->bind( $_POST )) {

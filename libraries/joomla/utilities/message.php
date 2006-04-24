@@ -14,8 +14,8 @@
 jimport('joomla.database.table');
 
 /**
- * Message Class  
- * 
+ * Message Class
+ *
  * Provides a common interface to send an internal message to
  * a JUser via the Joomla! Framework
  *
@@ -28,69 +28,69 @@ class JMessage extends JTable
 {
 	/**
 	 * Primary Key
-	 * 
+	 *
 	 * @access	public
 	 * @var		int
 	 */
 	var $message_id	= null;
-	
+
 	/**
 	 * Sender's userid
-	 * 
+	 *
 	 * @access	public
 	 * @var		int
 	 */
 	var $user_id_from	= null;
-	
+
 	/**
 	 * Recipient's userid
-	 * 
+	 *
 	 * @access	public
 	 * @var		int
 	 */
 	var $user_id_to		= null;
-	
+
 	/**
 	 * @access	public
 	 * @var		int
 	 */
 	var $folder_id			= null;
-	
+
 	/**
 	 * Message creation timestamp
-	 * 
+	 *
 	 * @access	public
 	 * @var		datetime
 	 */
 	var $date_time		= null;
-	
+
 	/**
 	 * Message state
-	 * 
+	 *
 	 * @access	public
 	 * @var		int
 	 */
 	var $state				= null;
-	
+
 	/**
 	 * Priority level of the message
-	 * 
+	 *
 	 * @access	public
 	 * @var		int
 	 */
 	var $priority			= null;
-	
+
 	/**
 	 * The message subject
-	 * 
+	 *
 	 * @access	public
 	 * @var		string
 	 */
 	var $subject			= null;
-	
+
 	/**
 	 * The message body
-	 * 
+	 *
 	 * @access	public
 	 * @var		text
 	 */
@@ -98,7 +98,7 @@ class JMessage extends JTable
 
 	/**
 	 * JMessage constructor
-	 * 
+	 *
 	 * @access	protected
 	 * @param database A database connector object
 	 */
@@ -109,7 +109,7 @@ class JMessage extends JTable
 
 	/**
 	 * Method to send a private message
-	 * 
+	 *
 	 * @access	public
 	 * @param	int		$fromId		Sender's userid
 	 * @param	int		$toId			Recipient's userid
@@ -121,7 +121,7 @@ class JMessage extends JTable
 	function send($fromId = null, $toId = null, $subject = null, $message = null)
 	{
 		global $mainframe, $mosConfig_mailfrom, $mosConfig_fromname;
-		
+
 		$database =& $mainframe->getDBO();
 
 		if (is_object($this))
@@ -136,7 +136,7 @@ class JMessage extends JTable
 				"\n FROM #__messages_cfg" .
 				"\n WHERE user_id = $toId";
 		$database->setQuery($query);
-		
+
 		$config = $database->loadObjectList('cfg_name');
 		$locked = @ $config['lock']->cfg_value;
 		$domail = @ $config['mail_on_new']->cfg_value;

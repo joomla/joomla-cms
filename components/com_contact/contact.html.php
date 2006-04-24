@@ -17,8 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 /**
- * Contact Component HTML View Class 
- * 
+ * Contact Component HTML View Class
+ *
  * @static
  * @package Joomla
  * @subpackage Contact
@@ -28,7 +28,7 @@ class JContactView {
 
 	/**
 	 * Method to output a contacts or contact categories view
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -93,7 +93,7 @@ class JContactView {
 
 	/**
 	 * Method to output a single contact view
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -109,7 +109,7 @@ class JContactView {
 			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
 				alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
 			} else if ( ( document.emailForm.email.value.search(";") != -1 ) || ( document.emailForm.email.value.search(",") != -1 ) || ( document.emailForm.email.value.search(" ") != -1 ) ) {
-				alert( "<?php echo JText::_( 'You cannot enter more than one email address', true ); ?>" );			
+				alert( "<?php echo JText::_( 'You cannot enter more than one email address', true ); ?>" );
 			} else {
 				document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
 				document.emailForm.submit();
@@ -206,7 +206,7 @@ class JContactView {
 
 	/**
 	 * Method to output an error condition where there was no contact view
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -222,7 +222,7 @@ class JContactView {
 
 	/**
 	 * Method to output a contact rows view
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -232,18 +232,18 @@ class JContactView {
 		<script language="javascript" type="text/javascript">
 		function tableOrdering( order, dir, task ) {
 			var form = document.adminForm;
-		
+
 			form.filter_order.value 	= order;
 			form.filter_order_Dir.value	= dir;
 			document.adminForm.submit( task );
 		}
 		</script>
-				
+
 		<form action="index.php?option=com_contact&amp;catid=<?php echo $catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
 
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<tr>
-			<td align="right" colspan="6">				
+			<td align="right" colspan="6">
 				<?php
 				if ($params->get('display')) {
 					echo JText::_('Display Num') .'&nbsp;';
@@ -375,7 +375,7 @@ class JContactView {
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -384,7 +384,7 @@ class JContactView {
 
 	/**
 	 * Method to output a contact categories view
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -440,7 +440,7 @@ class JContactView {
 
 	/**
 	 * Method to output an email sending error view
-	 * 
+	 *
 	 * @static
 	 * @since 1.0
 	 */
@@ -568,7 +568,7 @@ class JContactView {
 				<tr>
 					<td valign="top">
 					<?php
-					echo nl2br($contact->address); 
+					echo nl2br($contact->address);
 					?>
 					</td>
 				</tr>
@@ -772,7 +772,7 @@ class JContactView {
 				<?php echo $params->get( 'email_description' ) ?>
 				<br /><br />
 				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
-				
+
 				<div class="contact_email<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
 					<label for="contact_name">
 						&nbsp;<?php echo JText::_( 'Enter your name' );?>:
@@ -812,7 +812,7 @@ class JContactView {
 					<br />
 					<input type="button" name="send" value="<?php echo JText::_( 'Send' ); ?>" class="button" onclick="validate()" />
 				</div>
-				
+
 				<input type="hidden" name="option" value="com_contact" />
 				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
 				<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />

@@ -10,10 +10,10 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 /**
  * XML Format for JRegistry
- * 
+ *
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
@@ -23,7 +23,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 
 	/**
 	 * Converts an XML formatted string into an object
-	 * 
+	 *
 	 * @access public
 	 * @param string  XML Formatted String
 	 * @return object Data Object
@@ -36,7 +36,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * Converts an object into an XML formatted string
 	 * 	-	If more than two levels of nested groups are necessary, since INI is not
 	 * 		useful, XML or another format should be used.
-	 * 
+	 *
 	 * @access public
 	 * @param object $object Data Source Object
 	 * @param array  $param  Parameters used by the formatter
@@ -45,22 +45,22 @@ class JRegistryFormatXML extends JRegistryFormat {
 	function objectToString( &$object, $params ) {
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
-		foreach (get_object_vars( $object ) as $key=>$item) {				
+		foreach (get_object_vars( $object ) as $key=>$item) {
 			if (is_object($item)) {
-				$retval .= "\t<group name=\"$key\">\n";	
+				$retval .= "\t<group name=\"$key\">\n";
 				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= "\t</group>\n";
 			} else {
 				$retval .= "\t<entry name=\"$key\">$item</entry>\n";
 			}
 		}
-		$retval .= '</config>';	
-		return $retval;		
+		$retval .= '</config>';
+		return $retval;
 	}
-	
+
 	/**
 	 * Method to build a level of the XML string -- called recursively
-	 * 
+	 *
 	 * @access private
 	 * @param object $object Object that represents a node of the xml document
 	 * @param int $depth The depth in the XML tree of the $object node
@@ -70,12 +70,12 @@ class JRegistryFormatXML extends JRegistryFormat {
 		// Initialize variables
 		$retval = '';
 		for($i=1;$i <= $depth; $i++) {
-			$tab .= "\t";	
+			$tab .= "\t";
 		}
-		
-		foreach (get_object_vars( $object ) as $key=>$item) {				
+
+		foreach (get_object_vars( $object ) as $key=>$item) {
 			if (is_object($item)) {
-				$retval .= $tab."<group name=\"$key\">\n";	
+				$retval .= $tab."<group name=\"$key\">\n";
 				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= $tab."</group>\n";
 			} else {

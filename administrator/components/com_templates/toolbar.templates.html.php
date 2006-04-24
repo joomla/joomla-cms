@@ -19,12 +19,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class TOOLBAR_templates 
+class TOOLBAR_templates
 {
-	function _DEFAULT(&$client) 
+	function _DEFAULT(&$client)
 	{
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
-		
+
 		if ($client->id == '1') {
 			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', 'Default', true);
 		} else {
@@ -61,7 +61,7 @@ class TOOLBAR_templates
 	function _CHOOSE_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
 		JMenuBar::back();
-		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', 'Next', true );	
+		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', 'Next', true );
 	}
 
 	function _EDIT_CSS(&$client){

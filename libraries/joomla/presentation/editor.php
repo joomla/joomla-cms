@@ -27,7 +27,7 @@ class JEditor extends JObservable {
 	var $_editor = null;
 
 	function __construct() {
-		
+
 	}
 
 	/**
@@ -41,7 +41,7 @@ class JEditor extends JObservable {
 	 * @param string $editor  The editor to use.
 	 * @return JEditor  The Editor object.
 	 */
-	function & getInstance() 
+	function & getInstance()
 	{
 		static $instances;
 
@@ -60,7 +60,7 @@ class JEditor extends JObservable {
 	 * Initialize the editor
 	 *
 	 */
-	function init() 
+	function init()
 	{
 		global $mainframe;
 
@@ -79,18 +79,18 @@ class JEditor extends JObservable {
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Present a text area
 	 *
 	 *
 	 */
-	function display($name, $html, $width, $height, $col, $row) 
+	function display($name, $html, $width, $height, $col, $row)
 	{
 		global $mainframe, $my;
 
 		$this->_loadEditor();
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -103,9 +103,9 @@ class JEditor extends JObservable {
 		$args['col'] 		 = $col;
 		$args['row'] 		 = $row;
 		$args['event'] 		 = 'onDisplay';
-		
+
 		$results[] = $this->_editor->update($args);
-		
+
 		foreach ($results as $result) {
 			if (trim($result)) {
 				$return .= $result;
@@ -113,7 +113,7 @@ class JEditor extends JObservable {
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Save the editor content
 	 *
@@ -143,7 +143,7 @@ class JEditor extends JObservable {
 	 *
 	 *
 	 */
-	function getContent( $editor ) 
+	function getContent( $editor )
 	{
 		global $mainframe;
 
@@ -161,13 +161,13 @@ class JEditor extends JObservable {
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Set the editor contents
 	 *
 	 *
 	 */
-	function setContent( $editor, $html ) 
+	function setContent( $editor, $html )
 	{
 		global $mainframe;
 
@@ -192,7 +192,7 @@ class JEditor extends JObservable {
 	 * @access private
 	 * @since 1.5
 	 */
-	function _loadEditor() 
+	function _loadEditor()
 	{
 		global $mainframe;
 
@@ -219,7 +219,7 @@ class JEditor extends JObservable {
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$editor.'.php';
 
 		//TODO::Raise warning when the file can't be found
-		
+
 		// Require plugin file
 		require_once ($path);
 

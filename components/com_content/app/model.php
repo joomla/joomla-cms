@@ -40,7 +40,7 @@ class JModel extends JObject {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @access protected
 	 * @since	1.5
 	 */

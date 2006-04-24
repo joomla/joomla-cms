@@ -74,10 +74,10 @@ switch ($task) {
 	case 'orderdown':
 		orderWeblinks( $cid[0], 1 );
 		break;
-	
+
 	case 'saveorder':
 		saveOrder( $cid );
-		break;		
+		break;
 
 	default:
 		showWeblinks( $option );
@@ -114,11 +114,11 @@ function showWeblinks( $option ) {
 		} else if ($filter_state == 'U' ) {
 			$where[] = "a.published = 0";
 		}
-	}	
+	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, category, a.ordering";
-	
+
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__weblinks AS a"
@@ -148,21 +148,21 @@ function showWeblinks( $option ) {
 	// build list of categories
 	$javascript 	= 'onchange="document.adminForm.submit();"';
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', $option, intval( $filter_catid ), $javascript );
-	
-	// state filter 
+
+	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-		
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
-	
+
 	HTML_weblinks::showWeblinks( $option, $rows, $lists, $pageNav );
 }
 
@@ -170,7 +170,7 @@ function showWeblinks( $option ) {
 * Compiles information to add or edit
 * @param integer The unique id of the record to edit (0 if new)
 */
-function editWeblink( $option, $id ) 
+function editWeblink( $option, $id )
 {
 	global $database, $my;
 
@@ -253,13 +253,13 @@ function saveWeblink( $task ) {
 		case 'apply':
 			$link = 'index2.php?option=com_weblinks&task=editA&id='. $row->id .'&hidemainmenu=1';
 			break;
-		
+
 		case 'save':
 		default:
 			$link = 'index2.php?option=com_weblinks';
 			break;
 	}
-	
+
 	josRedirect($link);
 }
 
@@ -344,11 +344,11 @@ function orderWeblinks( $uid, $inc, $option ) {
 */
 function cancelWeblink() {
 	global $database;
-	
+
 	$row = new JTableWeblink( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	
+
 	josRedirect( 'index2.php?option=com_weblinks' );
 }
 

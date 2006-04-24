@@ -28,11 +28,11 @@ class JElement_Radio extends JElement {
 	* @var		string
 	*/
 	var	$_name = 'Radio';
-	
-	function fetchElement($name, $value, &$node, $control_name) 
+
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$options = array ();
-		foreach ($node->children() as $option) 
+		foreach ($node->children() as $option)
 		{
 			$val  = $option->attributes('value');
 			$text = $option->data();

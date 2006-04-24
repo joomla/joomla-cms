@@ -21,9 +21,9 @@ $client = JRequest::getVar( 'client', 'site' );
 * @package Joomla
 * @subpackage Languages
 */
-class TOOLBAR_languages 
+class TOOLBAR_languages
 {
-	function _DEFAULT(&$client) 
+	function _DEFAULT(&$client)
 	{
 		JMenuBar::title( JText::_( 'Language Manager' ), 'langmanager.png' );
 		JMenuBar::publishList('publish', 'Default');

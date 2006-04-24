@@ -10,12 +10,12 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 jimport( 'joomla.common.base.object' );
- 
+
 /**
  * Abstract Format for JRegistry
- * 
+ *
  * @abstract
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
@@ -46,11 +46,11 @@ class JRegistryFormat extends JObject {
 		}
 		return $instances[$format];
 	}
-	
-	
+
+
 	/**
 	 * Converts an XML formatted string into an object
-	 * 
+	 *
 	 * @abstract
 	 * @access public
 	 * @param string  XML Formatted String
@@ -62,14 +62,14 @@ class JRegistryFormat extends JObject {
 
 	/**
 	 * Converts an object into an formatted string
-	 * 
+	 *
 	 * @abstract
 	 * @access public
 	 * @param object $object Data Source Object
 	 * @return string XML Formatted String
 	 */
 	function objectToString( &$object ) {
-		
+
 	}
 }
 ?>

@@ -29,7 +29,7 @@ class JElement_Textarea extends JElement
 	* @var		string
 	*/
 	var	$_name = 'Textarea';
-	
+
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$rows = $node->attributes('rows');

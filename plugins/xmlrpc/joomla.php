@@ -39,12 +39,12 @@ function wsGetJoomlaWebServices() {
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
-function wsSearchSite( $searchword, $phrase='', $order='' ) 
+function wsSearchSite( $searchword, $phrase='', $order='' )
 {
 	global $mainframe;
-	
+
 	$database =& $mainframe->getDBO();
-	
+
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 	if (!defined( '_MAMBOT_REMOTE_SEACH')) {

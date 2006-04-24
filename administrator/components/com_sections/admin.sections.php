@@ -114,10 +114,10 @@ function showSections( $scope, $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where[] = "s.scope = '$scope'";
-	
+
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
 			$where[] = "s.published = 1";
@@ -126,10 +126,10 @@ function showSections( $scope, $option ) {
 		}
 	}	if ($search) {
 		$where[] = "LOWER(s.title) LIKE '%$search%'";
-	}	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";	
-	
+	}
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";
+
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__sections AS s"
@@ -191,20 +191,20 @@ function showSections( $scope, $option ) {
 		$trash = $database->loadResult();
 		$rows[$i]->trash = $trash;
 	}
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
-	
+
 	sections_html::show( $rows, $scope, $my->id, $pageNav, $option, $lists );
 }
 
@@ -677,7 +677,7 @@ function menuLink( $id ) {
 	$type 		= JRequest::getVar( 'link_type', '', 'post' );
 
 	$name		= stripslashes( ampReplace($name) );
-	
+
 	switch ( $type ) {
 		case 'content_section':
 			$link 		= 'index.php?option=com_content&task=section&id='. $id;

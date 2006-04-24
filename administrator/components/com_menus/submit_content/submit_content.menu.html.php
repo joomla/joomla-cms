@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 */
 class submit_content_menu_html {
 
-	function edit( &$menu, &$lists, &$params, $option ) 
+	function edit( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
 		?>

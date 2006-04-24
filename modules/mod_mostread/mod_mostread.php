@@ -39,14 +39,14 @@ switch ($type)
 				"\n LEFT OUTER JOIN #__menu AS m ON m.componentid = a.id " .
 				"\n WHERE ( a.state = 1 AND a.sectionid = 0 )" .
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )". 
+				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 				"\n AND m.type = 'content_typed' ".
 				($access ? "\n AND a.access <= $my->gid" : '').
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
 		$database->setQuery($query);
 		$rows = $database->loadObjectList();
-		
+
 		foreach ($rows as $row) {
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.($row->my_itemid?'&amp;Itemid='.$row->my_itemid:''));
 			?>
@@ -54,8 +54,8 @@ switch ($type)
 				<a href="<?php echo $link; ?>" class="mostread<?php echo $moduleclass_sfx; ?>">
 					<?php echo $row->title; ?></a>
 			</li>
-			<?php			
-		}		
+			<?php
+		}
 		break;
 
 	case 3 :
@@ -66,7 +66,7 @@ switch ($type)
 				"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
 				"\n WHERE a.state = 1" .
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )". 
+				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 				($access ? "\n AND a.access <= $my->gid" : '') .
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
@@ -86,7 +86,7 @@ switch ($type)
 						<a href="<?php echo $link; ?>" class="mostread<?php echo $moduleclass_sfx; ?>">
 							<?php echo $row->title; ?></a>
 					</li>
-					<?php							
+					<?php
 				}
 			}
 		}
@@ -102,10 +102,10 @@ switch ($type)
 				"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
 				"\n WHERE ( a.state = 1 AND a.sectionid > 0 )" .
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )". 
-				($access ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : ''). 
-				($catid ? "\n AND ( a.catid IN ( $catid ) )" : ''). 
-				($secid ? "\n AND ( a.sectionid IN ( $secid ) )" : ''). 
+				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
+				($access ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '').
+				($catid ? "\n AND ( a.catid IN ( $catid ) )" : '').
+				($secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '').
 				($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
 				"\n AND s.published = 1" .
 				"\n AND cc.published = 1" .
@@ -121,7 +121,7 @@ switch ($type)
 				<a href="<?php echo $link; ?>" class="mostread<?php echo $moduleclass_sfx; ?>">
 					<?php echo $row->title; ?></a>
 			</li>
-			<?php		
+			<?php
 		}
 		break;
 }

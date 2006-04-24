@@ -26,7 +26,7 @@ class HTML_poll {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_poll" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -43,7 +43,7 @@ class HTML_poll {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="5">
@@ -75,9 +75,9 @@ class HTML_poll {
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$link 		= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
-	
+
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 				?>
@@ -113,7 +113,7 @@ class HTML_poll {
 			}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
@@ -153,8 +153,8 @@ class HTML_poll {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		
-		<div id="editcell">				
+
+		<div id="editcell">
 			<table width="100%">
 			<tr>
 				<td width="50%" valign="top">
@@ -181,7 +181,7 @@ class HTML_poll {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="lag" id="lag" size="10" value="<?php echo $row->lag; ?>" /> 
+							<input class="inputbox" type="text" name="lag" id="lag" size="10" value="<?php echo $row->lag; ?>" />
 							<?php echo JText::_( '(seconds between votes)' ); ?>
 						</td>
 					</tr>

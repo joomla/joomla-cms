@@ -1,7 +1,7 @@
 <?php
 /*************************************************************************************
 ** - Copyright (c) 2006 Belus Technology Inc.
-** - 
+** -
 ** - By using the software and documentation, the user expressly agrees that
 ** - the use of the software documentation is at its sole risk. The software
 ** - and documentation is made available on an "as is" basis. Copyright owner
@@ -20,14 +20,14 @@
 ** - deletion, defect, delay in operation or transmission, computer virus,
 ** - communications line failure, theft or destruction or unauthorized access to,
 ** - alteration of, or use of records, whether for breach of contract, tortious
-** - behavior, negligence, or under any other cause of action. 
-** - 
+** - behavior, negligence, or under any other cause of action.
+** -
 ** - All right, title and interest including, but not limited to, copyright and
 ** - other intellectual property rights in and to the software and documentation
 ** - are owned by Copyright owner and the use of or modification to the software
 ** - and documentation does not pass to the user any title to or any proprietary
 ** - rights in the software and documentation.
-** - 
+** -
 ** - Permission is granted to copy, modify and distribute the software and
 ** - documentation for any purpose and royalty-free, subject to the following:
 ** - copyright and other intellectual property rights in and to the software and
@@ -59,7 +59,7 @@ define("XS_HIDDEN_FILES", ""); //Comma delimited list of hidden files
 function xs_build_path($path, $name) {
 	$p = str_replace("\\", "/", trim($path));
 	$n = trim($name);
-	
+
 	if (strlen($p) > 0 and strlen($n) > 0) {
 		if (substr($p, strlen($p) - 1, 1) == "/") {
 			return $p . $n;
@@ -81,7 +81,7 @@ function xs_is_accepted_file_type($file_name) {
 	$accepted_file_types = split(" ", strtolower(XS_ACCEPTED_FILE_TYPES));
 	foreach ($accepted_file_types as $accepted_file_type) {
 		if ($accepted_file_type == $ext or $accepted_file_type == "*") {
-			return true;	
+			return true;
 		}
 	}
 
@@ -100,7 +100,7 @@ function xs_urlencode($text) {
 	for($i = 0; $i < $count; $i++) {
 		$parts[$i] = str_replace("+", "%20", urlencode($parts[$i]));
 	}
-	
+
 	return implode("/", $parts);
 }
 
@@ -151,7 +151,7 @@ echo "<library>";
 								$found = true;
 							}
 						}
-					
+
 						if (is_dir(xs_build_path($rootFolderPath, $fs_object))) {
 							if ($found === false) {
 								$folder_list[] = $fs_object;
@@ -168,7 +168,7 @@ echo "<library>";
 			echo "<container>";
 				//Folder name
 				echo "<objectName>" . xs_xhtml_escape($fs_object) . "</objectName>";
-			
+
 				//Path to parent folder
 				echo "<path>";
 					if (isset($_SERVER["HTTP_X_CMS_LIBRARY_PATH"])) {
@@ -177,31 +177,31 @@ echo "<library>";
 						}
 					}
 				echo "</path>";
-  
+
 				//Display label
 				echo "<label>" . xs_xhtml_escape($fs_object) . "</label>";
-				
+
 				//Base URL to this folder
 				echo "<baseURL>";
 						$temp = $fs_object;
-					
+
 						if (isset($_SERVER["HTTP_X_CMS_LIBRARY_PATH"])) {
 							if ($_SERVER["HTTP_X_CMS_LIBRARY_PATH"] != "") {
 								$temp = $_SERVER["HTTP_X_CMS_LIBRARY_PATH"] . "/" . $fs_object;
 							}
 						}
-					
+
 						$url = xs_build_path(XS_BASE_URL, xs_urlencode($temp)) . "/";
-					
+
 						echo $url;
 				echo "</baseURL>";
-				
+
 				//Is folder empty (not implemented yet)
 				echo "<empty>false</empty>";
-				
+
 				//Icon ID defined in icons.xml
 				echo "<icon>folder</icon>";
-			
+
 				//Reserved for future use
 				echo "<metadata></metadata>";
 
@@ -223,7 +223,7 @@ echo "<library>";
 								$found = true;
 							}
 						}
-						
+
 						if (is_file(xs_build_path($rootFilePath, $fs_object))) {
 							if (xs_is_accepted_file_type($fs_object)) {
 								if ($found === false) {
@@ -251,13 +251,13 @@ echo "<library>";
 						}
 					}
 				echo "</path>";
-				
+
 				//Display label
 				echo "<label>" . xs_xhtml_escape($fs_object) . "</label>";
-					
+
 				//Icon ID defined in icons.xml
 				echo "<icon>document</icon>";
-			
+
 				//Reserved for future use
 				echo "<metadata></metadata>";
 
@@ -282,7 +282,7 @@ echo "<library>";
 						echo "</value>";
 					echo "</attr>";
 				echo "</attrs>";
-					
+
 				//Properties
 				echo "<props>";
 					//File size
@@ -305,4 +305,4 @@ echo "<library>";
 		}
 	echo "</objects>";
 echo "</library>";
-?> 
+?>

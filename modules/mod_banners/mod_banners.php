@@ -24,7 +24,7 @@ $task = JRequest::getVar( 'task' );
 $bid = JRequest::getVar( 'bid', 0, '', 'int' );
 
 if( $mod == 'mod_banners' && $task == 'click' && $bid != 0 ) {
-	
+
 	// update click count
 	$query = "UPDATE #__banner"
 	. "\n SET clicks = ( clicks + 1 )"
@@ -35,26 +35,26 @@ if( $mod == 'mod_banners' && $task == 'click' && $bid != 0 ) {
 	if(!$database->query()) {
 		JError::raiseError( 500, $db->stderror());
 	}
-	
-	
+
+
 	// redirect to banner url
 	$query = "SELECT clickurl FROM #__banner"
 	. "\n WHERE bid = $bid"
 	;
-		
+
 	$database->setQuery( $query );
 	if(!$database->query()) {
 		JError::raiseError( 500, $db->stderror());
 	}
-	
+
 	$database->loadObject($row);
-	
+
 	if (substr( $row->clickurl, 0, 7 ) != 'http://' &&  substr( $row->clickurl, 0, 8 ) != 'https://' ) {
 		$row->clickurl = "http://$row->clickurl";
 	}
-	josRedirect( $row->clickurl );	
-	
-	
+	josRedirect( $row->clickurl );
+
+
 }
 
 $query = "SELECT *"
@@ -64,7 +64,7 @@ $query = "SELECT *"
 	. ($clientids ? ' AND cid IN ( ' . $clientids . ' ) ' : '')
 	. "\nORDER BY ordering "
 	. "\nLIMIT " . $limit;
-	
+
 $database->setQuery( $query );
 if(!$database->query()) {
 	JError::raiseError( 500, $db->stderror());
@@ -91,12 +91,12 @@ for ($i = 0; $i < $numrows; $i++) {
 
 	// expire the banner
 	if ($item->imptotal >= $item->impmade) {
-		
+
 		$query = "INSERT INTO #__bannerfinish ( cid, type, name, impressions, clicks, imageurl, datestart, dateend )"
 		. "\n VALUES ( $item->cid, '$item->type', '$item->name', $item->impmade, $item->clicks, '$item->imageurl', '$item->date', 'now()' )"
 		;
 		$database->setQuery($query);
-		
+
 		if(!$database->query()) {
 			JError::raiseError( 500, $db->stderror());
 		}

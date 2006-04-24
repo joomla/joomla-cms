@@ -24,7 +24,7 @@ switch ($task) {
 	case 'searchesresults':
 		showSearches( $option, $task, 1 );
 		break;
-	
+
 	case 'pageimp':
 		showPageImpressions( $option, $task );
 		break;
@@ -147,11 +147,11 @@ function showPageImpressions( $option, $task ) {
 	$filter_sectionid	= $mainframe->getUserStateFromRequest( "$option.$task.filter_sectionid", 	'filter_sectionid', '' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$task.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mosConfig_list_limit );
-	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );	
+	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
 	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
-	
+
 	// used by filter
 	if ( $filter_sectionid > 0 ) {
 		$where[] = "c.sectionid = '$filter_sectionid'";
@@ -170,10 +170,10 @@ function showPageImpressions( $option, $task ) {
 	if ($search) {
 		$where[] = "WHERE LOWER( c.title ) LIKE '%$search%'";
 	}
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, c.hits DESC";
-	
+
 	$query = "SELECT COUNT( c.id )"
 	. "\n FROM #__content AS c"
 	. $where
@@ -204,14 +204,14 @@ function showPageImpressions( $option, $task ) {
 	$categories[] 	= mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$categories 	= array_merge( $categories, $database->loadObjectList() );
 	$lists['catid'] = mosHTML::selectList( $categories, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid );
-	
+
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
-	
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -219,10 +219,10 @@ function showPageImpressions( $option, $task ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-	
+
 	// search filter
 	$lists['search']= $search;
-	
+
 	HTML_statistics::pageImpressions( $rows, $pageNav, $lists, $task );
 }
 
@@ -232,7 +232,7 @@ function showSearches( $option, $task, $showResults=null ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mosConfig_list_limit );
-	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );	
+	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
 	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
@@ -240,8 +240,8 @@ function showSearches( $option, $task, $showResults=null ) {
 	if ($search) {
 		$where[] = "LOWER( search_term ) LIKE '%$search%'";
 	}
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, hits DESC";
 
 	// get the total number of records
@@ -275,18 +275,18 @@ function showSearches( $option, $task, $showResults=null ) {
 		// by default it is `off` as it is highly query intensive
 		if ( $showResults ) {
 			$results = $mainframe->triggerEvent( 'onSearch', array( $rows[$i]->search_term ) );
-	
+
 			$count = 0;
 			for ($j = 0, $n2 = count( $results ); $j < $n2; $j++) {
 				$count += count( $results[$j] );
 			}
-	
+
 			$rows[$i]->returns = $count;
 		} else {
 			$rows[$i]->returns = null;
 		}
 	}
-	
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -294,9 +294,9 @@ function showSearches( $option, $task, $showResults=null ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-	
+
 	// search filter
-	$lists['search']= $search;	
+	$lists['search']= $search;
 
 	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task, $showResults );
 }

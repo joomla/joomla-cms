@@ -19,7 +19,7 @@
  * @subpackage 	Model
  * @since		1.0
  */
-class JTableSection extends JTable 
+class JTableSection extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -55,7 +55,7 @@ class JTableSection extends JTable
 		parent::__construct( '#__sections', 'id', $db );
 	}
 	// overloaded check function
-	function check() 
+	function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {

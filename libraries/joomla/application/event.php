@@ -24,7 +24,7 @@ class JEventDispatcher extends JObservable
 {
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access	protected
 	 */
 	function __construct()
@@ -115,7 +115,7 @@ class JEventDispatcher extends JObservable
 		if ($args === null) {
 			$args = array ();
 		}
-		
+
 		/*
 		 * We need to iterate through all of the registered observers and
 		 * trigger the event for each observer that handles the event.
@@ -134,7 +134,7 @@ class JEventDispatcher extends JObservable
 					if (function_exists($observer['handler']))
 					{
 						$result[] = call_user_func_array($observer['handler'], $args);
-					} 
+					}
 					else
 					{
 						/*
@@ -143,7 +143,7 @@ class JEventDispatcher extends JObservable
 						 */
 						JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 					}
-				} 
+				}
 				else
 				{
 					/*
@@ -152,7 +152,7 @@ class JEventDispatcher extends JObservable
 					 */
 					continue;
 				}
-			} 
+			}
 			elseif (is_object($observer))
 			{
 				/*
@@ -171,7 +171,7 @@ class JEventDispatcher extends JObservable
 					{
 						$args['event'] = $event;
 						$result[] = $observer->update($args);
-					} 
+					}
 					else
 					{
 						/*
@@ -180,7 +180,7 @@ class JEventDispatcher extends JObservable
 						 */
 						continue;
 					}
-				} 
+				}
 				else
 				{
 					/*

@@ -99,7 +99,7 @@ if ( !$Itemid ) {
 	$Itemid = 99999999;
 }
 
-// set language 
+// set language
 //$mainframe->setLanguage($mainframe->getUserStateFromRequest( "lang", 'lang' ));
 
 // trigger the onAfterStart events

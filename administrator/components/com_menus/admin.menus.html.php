@@ -23,16 +23,16 @@ class HTML_menusections {
 
 	function showMenusections( &$rows, &$page, $menutype, $option, &$lists ) {
 		global $mainframe;
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
-		
+
 		<div id="pane-document">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -42,7 +42,7 @@ class HTML_menusections {
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td nowrap="nowrap">
-				<?php 
+				<?php
 				echo JText::_( 'Max Levels' );
 				echo $lists['levellist'];
 				echo $lists['state'];
@@ -51,7 +51,7 @@ class HTML_menusections {
 			</td>
 		</tr>
 		</table>
-		
+
 		<?php
 		if ( $menutype == 'mainmenu' ) {
 			?>
@@ -201,7 +201,7 @@ class HTML_menusections {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table width="100%">
 		<tr>
 			<td valign="bottom" nowrap="nowrap" style="color: red;">

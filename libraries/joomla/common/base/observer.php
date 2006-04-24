@@ -34,7 +34,7 @@ class JObserver extends JObject {
 	/**
 	 * Constructor
 	 */
-	function __construct(& $subject) 
+	function __construct(& $subject)
 	{
 		// Register the observer ($this) so we can be notified
 		$subject->attach($this);

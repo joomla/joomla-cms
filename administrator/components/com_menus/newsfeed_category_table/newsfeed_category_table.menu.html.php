@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class newsfeed_category_table_menu_html {
 
-	function editCategory( &$menu, &$lists, &$params, $option ) 
+	function editCategory( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
 		?>

@@ -46,7 +46,7 @@ class TOOLBAR_banners {
 		}
 		JMenuBar::help( 'screen.banners.edit' );
 	}
-	
+
 	function _DEFAULT() {
 
 		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
@@ -89,7 +89,7 @@ class TOOLBAR_bannerClient {
 		}
 		JMenuBar::help( 'screen.banners.client.edit' );
 	}
-	
+
 	/**
 	* Draws the default menu
 	*/

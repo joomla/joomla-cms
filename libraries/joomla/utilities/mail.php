@@ -21,15 +21,15 @@ jimport('phpmailer.phpmailer');
  * @subpackage 	Utilities
  * @since		1.5
  */
-class JMail extends PHPMailer 
+class JMail extends PHPMailer
 {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param
 	 */
-	function JMail() 
+	function JMail()
 	{
 		global $mainframe;
 
@@ -64,7 +64,7 @@ class JMail extends PHPMailer
 	 *
 	 * This method must be invoked as:
 	 * 		<pre>  $mail =& JMail::getInstance();</pre>
-	 * 
+	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
 	 *
@@ -74,7 +74,7 @@ class JMail extends PHPMailer
 	 * @return object The global JMail object
 	 * @since 1.5
 	 */
-	function & getInstance($id = 'Joomla') 
+	function & getInstance($id = 'Joomla')
 	{
 		static $instances;
 
@@ -91,7 +91,7 @@ class JMail extends PHPMailer
 
 	/**
 	 * Set the E-Mail sender
-	 * 
+	 *
 	 * @access public
 	 * @param array $from E-Mail address and Name of sender
 	 * 		<pre>
@@ -100,7 +100,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function setSender($from) 
+	function setSender($from)
 	{
 		// If $from is an array we assume it has an address and a name
 		if (is_array($from)) {
@@ -117,7 +117,7 @@ class JMail extends PHPMailer
 
 	/**
 	 * Set the E-Mail subject
-	 * 
+	 *
 	 * @access public
 	 * @param string $subject Subject of the e-mail
 	 * @return void
@@ -129,13 +129,13 @@ class JMail extends PHPMailer
 
 	/**
 	 * Set the E-Mail body
-	 * 
+	 *
 	 * @access public
 	 * @param string $content Body of the e-mail
 	 * @return void
 	 * @since 1.5
 	 */
-	function setBody($content) 
+	function setBody($content)
 	{
 		/*
 		 * Filter the Body
@@ -146,13 +146,13 @@ class JMail extends PHPMailer
 
 	/**
 	 * Add recipients to the email
-	 * 
+	 *
 	 * @access public
 	 * @param mixed $recipient Either a string or array of strings [e-mail address(es)]
 	 * @return void
 	 * @since 1.5
 	 */
-	function addRecipient($recipient) 
+	function addRecipient($recipient)
 	{
 		/*
 		 * If the recipient is an aray, add each recipient... otherwise just add the one
@@ -168,13 +168,13 @@ class JMail extends PHPMailer
 
 	/**
 	 * Add carbon copy recipients to the email
-	 * 
+	 *
 	 * @access public
 	 * @param mixed $cc Either a string or array of strings [e-mail address(es)]
 	 * @return void
 	 * @since 1.5
 	 */
-	function addCC($cc) 
+	function addCC($cc)
 	{
 		/*
 		 * If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
@@ -192,13 +192,13 @@ class JMail extends PHPMailer
 
 	/**
 	 * Add blind carbon copy recipients to the email
-	 * 
+	 *
 	 * @access public
 	 * @param mixed $cc Either a string or array of strings [e-mail address(es)]
 	 * @return void
 	 * @since 1.5
 	 */
-	function addBCC($bcc) 
+	function addBCC($bcc)
 	{
 		/*
 		 * If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
@@ -216,13 +216,13 @@ class JMail extends PHPMailer
 
 	/**
 	 * Add file attachments to the email
-	 * 
+	 *
 	 * @access public
 	 * @param mixed $attachment Either a string or array of strings [filenames]
 	 * @return void
 	 * @since 1.5
 	 */
-	function addAttachment($attachment) 
+	function addAttachment($attachment)
 	{
 		/*
 		 * If the file attachments is an aray, add each file... otherwise just add the one
@@ -240,7 +240,7 @@ class JMail extends PHPMailer
 
 	/**
 	 * Add Reply to e-mail address(es) to the e-mail
-	 * 
+	 *
 	 * @access public
 	 * @param array $reply Either an array or multi-array of form
 	 * 		<pre>
@@ -249,7 +249,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function addReplyTo($replyto) 
+	function addReplyTo($replyto)
 	{
 		/*
 		 * Take care of reply email addresses
@@ -265,13 +265,13 @@ class JMail extends PHPMailer
 
 	/**
 	 * Use sendmail for sending the e-mail
-	 * 
+	 *
 	 * @access public
 	 * @param string $sendmail Path to sendmail [optional]
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function useSendmail($sendmail = null) 
+	function useSendmail($sendmail = null)
 	{
 		global $mainframe;
 
@@ -288,7 +288,7 @@ class JMail extends PHPMailer
 
 	/**
 	 * Use SMTP for sending the e-mail
-	 * 
+	 *
 	 * @access public
 	 * @param string $auth SMTP Authentication [optional]
 	 * @param string $host SMTP Host [optional]
@@ -297,7 +297,7 @@ class JMail extends PHPMailer
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function useSMTP($auth = null, $host = null, $user = null, $pass = null) 
+	function useSMTP($auth = null, $host = null, $user = null, $pass = null)
 	{
 		global $mainframe;
 
@@ -319,7 +319,7 @@ class JMail extends PHPMailer
 /**
  * E-Mail helper class, provides static methods to perform various tasks relevant
  * to the Joomla e-mail routines.
- * 
+ *
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @static
@@ -328,17 +328,17 @@ class JMail extends PHPMailer
  * @subpackage 	Utilities
  * @since		1.5
  */
-class JMailHelper 
+class JMailHelper
 {
 	/**
 	 * This method cleans any injected headers from the E-Mail body
-	 * 
+	 *
 	 * @static
 	 * @param string $body E-Mail body string
 	 * @return string Cleaned E-Mail body string
 	 * @since 1.5
 	 */
-	function cleanBody($body) 
+	function cleanBody($body)
 	{
 		// Strip all E-Mail headers from a string
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
@@ -346,7 +346,7 @@ class JMailHelper
 
 	/**
 	 * This method cleans any injected headers from the subject string.
-	 * 
+	 *
 	 * @static
 	 * @param string $subject E-Mail subject string
 	 * @return string Cleaned E-Mail subject string
@@ -359,13 +359,13 @@ class JMailHelper
 	/**
 	 * This method verifies that an e-mail address does not have any extra headers
 	 * injected into it.  Tests one e-mail address.
-	 * 
+	 *
 	 * @static
 	 * @param string $address E-Mail address
 	 * @return mixed E-Mail address string or boolean false if injected headers are present
 	 * @since 1.5
 	 */
-	function cleanAddress($address) 
+	function cleanAddress($address)
 	{
 		if (preg_match("[\s;,]", $address)) {
 			return false;

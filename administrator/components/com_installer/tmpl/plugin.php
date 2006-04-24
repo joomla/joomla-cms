@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Static class to handle plugin view logic
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -37,7 +37,7 @@ class JInstallerExtensionTasks {
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-		
+
 		if ($filter == NULL) {
 			$and = '';
 		} else {
@@ -48,8 +48,8 @@ class JInstallerExtensionTasks {
 		 */
 		$db = & $mainframe->getDBO();
 
-		$query = 	"SELECT id, name, folder, element, client_id, iscore" 
-					. "\n FROM #__plugins" 
+		$query = 	"SELECT id, name, folder, element, client_id, iscore"
+					. "\n FROM #__plugins"
 					. $and
 					. "\n ORDER BY iscore, folder, name"
 					;
@@ -70,7 +70,7 @@ class JInstallerExtensionTasks {
 			 */
 			$xmlfile = $baseDir.DS.$row->folder.DS.$row->element.".xml";
 
-			if (file_exists($xmlfile)) 
+			if (file_exists($xmlfile))
 			{
 				$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 				foreach($data as $key => $value) {
@@ -78,7 +78,7 @@ class JInstallerExtensionTasks {
 				}
 			}
 		}
-		
+
 		// get list of Positions for dropdown filter
 		$query = "SELECT folder AS value, folder AS text"
 		. "\n FROM #__plugins"
@@ -92,11 +92,11 @@ class JInstallerExtensionTasks {
 
 		/*
 		* Take care of the pagination
-		*/	
+		*/
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
-		
+
 		JInstallerScreens_plugin::showInstalled($rows, $lists, $page);
 
 	}
@@ -104,7 +104,7 @@ class JInstallerExtensionTasks {
 
 /**
  * Static class to handle plugin view display
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -116,21 +116,21 @@ class JInstallerScreens_plugin {
 
 	/**
 	 * Displays the installed non-core Plugins
-	 * 
+	 *
 	 * @param array An array of plugin objects
 	 * @return void
 	 */
 	function showInstalled(&$rows, &$lists, &$page) {
-		
+
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=plugin" method="post" name="adminForm">
-		
+
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
-		
-		<div id="pane-document">	
+
+		<div id="pane-document">
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -141,8 +141,8 @@ class JInstallerScreens_plugin {
 					</td>
 				</tr>
 				</table>
-				
-			<?php		
+
+			<?php
 			if (count($rows)) {
 				?>
 				<table class="adminlist">
@@ -166,13 +166,13 @@ class JInstallerScreens_plugin {
 						<?php echo JText::_( 'Author' ); ?>
 					</th>
 				</tr>
-				
-				<?php	
+
+				<?php
 				$rc = 0;
 				$n = count($rows);
 				for ($i = 0; $i < $n; $i ++) {
 					$row = & $rows[$i];
-					
+
 					/*
 					 * Handle currently used templates
 					 */
@@ -207,16 +207,16 @@ class JInstallerScreens_plugin {
 						</td>
 						<td>
 							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 							</span>
 						</td>
 					</tr>
-					<?php	
+					<?php
 					$rc = 1 - $rc;
 				}
 				?>
 				</table>
-				<?php echo $page->getListFooter(); ?>		
+				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
 				echo JText::_('WARNNONONCORE');

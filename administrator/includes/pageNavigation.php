@@ -18,7 +18,7 @@ jimport('joomla.presentation.pagination');
 
 /**
 * Legacy class, derive from JPagination instead
-* 
+*
 * @deprecated As of version 1.5
 * @package Joomla.Legacy
 * @subpackage 1.5

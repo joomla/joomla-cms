@@ -64,10 +64,10 @@ switch ($task) {
 	case 'orderdown':
 		moveDownNewsFeed( );
 		break;
-	
+
 	case 'saveorder':
 		saveOrder( );
-		break;	
+		break;
 
 	default:
 		showNewsFeeds( );
@@ -79,7 +79,7 @@ switch ($task) {
 */
 function showNewsFeeds(  ) {
 	global $mainframe;
-	
+
 	$option = JRequest::getVar( 'option');
 	$database 			= $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'catname' );
@@ -105,10 +105,10 @@ function showNewsFeeds(  ) {
 			$where[] = "a.published = 0";
 		}
 	}
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, catname, a.ordering";
-	
+
 	// get the total number of records
 	$query = "SELECT COUNT(*) "
 	. "\n FROM #__newsfeeds AS a"
@@ -139,18 +139,18 @@ function showNewsFeeds(  ) {
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
-	
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
-	
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -161,7 +161,7 @@ function showNewsFeeds(  ) {
 * Creates a new or edits and existing user record
 */
 function editNewsFeed(  ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$user 		= $mainframe->getUser();
@@ -206,7 +206,7 @@ function editNewsFeed(  ) {
 * Saves the record from an edit form submit
 */
 function saveNewsFeed(  ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$task 	= JRequest::getVar( 'task');
@@ -235,13 +235,13 @@ function saveNewsFeed(  ) {
 		case 'apply':
 			$link = 'index2.php?option=com_newsfeeds&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
-		
+
 		case 'save':
 		default:
 			$link = 'index2.php?option=com_newsfeeds';
 			break;
 	}
-	
+
 	josRedirect( $link );
 }
 
@@ -264,7 +264,7 @@ function unPublishNewsFeeds(  ) {
 * @param integer 0 if unpublishing, 1 if publishing
 */
 function changePublishNewsFeeds( $publish ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$user 		= $mainframe->getUser();
@@ -305,7 +305,7 @@ function changePublishNewsFeeds( $publish ) {
 * Removes records
 */
 function removeNewsFeeds( ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
@@ -336,7 +336,7 @@ function removeNewsFeeds( ) {
 * Cancels an edit operation
 */
 function cancelNewsFeed(  ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$option = JRequest::getVar( 'option');
@@ -366,7 +366,7 @@ function moveDownNewsFeed(  ) {
 * @param integer The direction to reorder, +1 down, -1 up
 */
 function orderNewsFeed( $inc ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
@@ -390,7 +390,7 @@ function orderNewsFeed( $inc ) {
 * Saves user reordering entry
 */
 function saveOrder(  ) {
-	global $mainframe; 
+	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid' );

@@ -37,7 +37,7 @@ class JError extends patErrorManager {
 	function isError( &$object ) {
 		return patErrorManager::isError($object);
 	}
-	
+
 	/**
 	* method for for retrieving the errors that are stored
 	*
@@ -48,7 +48,7 @@ class JError extends patErrorManager {
     function getErrors( ) {
 		return $GLOBALS['_JError_errorStore'];
     }
-	
+
 	/**
 	* method to check if any errors have been stored
 	*
@@ -262,7 +262,7 @@ class JError extends patErrorManager {
 		}
 		return $error;
     }
-	
+
 	/**
 	* sets the way the patErrorManager will handle teh different error levels. Use this
 	* if you want to override the default settings.
@@ -365,7 +365,7 @@ class JError extends patErrorManager {
  */
 class JErrorHandler
 {
-	
+
    /**
 	* Method to handle an error
 	*
@@ -384,7 +384,7 @@ class JErrorHandler
 		$document =& JApplication::getDocument();
 
 		/*
-		 * Send the error header for the appropriate error code 
+		 * Send the error header for the appropriate error code
 		 */
 		$this->_sendErrorHeader( $error );
 
@@ -410,7 +410,7 @@ class JErrorHandler
 
 		$document->display($file);
 
-		
+
 		/*
 		 * If error level is less than E_ERROR, return the object and
 		 * continue... otherwise exit
@@ -421,7 +421,7 @@ class JErrorHandler
 		}
 		exit();
 	}
-	
+
    /**
 	* Method to get error template for display
 	*
@@ -449,7 +449,7 @@ class JErrorHandler
 		}
 		return $file;
 	}
-	
+
    /**
 	* Method to get error message for display
 	*
@@ -477,7 +477,7 @@ class JErrorHandler
 		}
 		return $msg;
 	}
-	
+
    /**
 	* Send appropriate HTTP header for error code
 	*
@@ -505,7 +505,7 @@ class JErrorHandler
 		}
 		return;
 	}
-	
+
    /**
 	* Method to output pretty debugging HTML
 	*
@@ -526,7 +526,7 @@ class JErrorHandler
 	function _fetchDebug(&$error)
 	{
 		ob_start();
-		
+
 		echo  	'<div class="Frame">';
 		printf(
 				'<div style="margin-bottom:8px;"><span class="Type">%s:</span> %s in %s on line %s</div>Details: %s',
@@ -576,14 +576,14 @@ class JErrorHandler
 			echo  	'</table>';
 		}
 		echo  	'</div>';
-		
+
 		$contents = ob_get_contents();
 		ob_end_clean();
 
         return $contents;
 	}
 }
-	
+
 // setup handler for each error-level
 JError::setErrorHandling( E_ERROR  , 'callback', array( new JErrorHandler, 'handleError' ) );
 JError::setErrorHandling( E_WARNING, 'verbose' );

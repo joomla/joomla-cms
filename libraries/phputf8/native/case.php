@@ -34,20 +34,20 @@ if ( !defined('UTF8_CASE') ) {
 */
 function utf8_strtolower($string){
     global $UTF8_UPPER_TO_LOWER;
-    
+
     $uni = utf8_to_unicode($string);
-    
+
     if ( !$uni ) {
         return FALSE;
     }
-    
+
     $cnt = count($uni);
     for ($i=0; $i < $cnt; $i++){
         if ( isset($UTF8_UPPER_TO_LOWER[$uni[$i]]) ) {
             $uni[$i] = $UTF8_UPPER_TO_LOWER[$uni[$i]];
         }
     }
-    
+
     return utf8_from_unicode($uni);
 }
 
@@ -130,20 +130,20 @@ $UTF8_UPPER_TO_LOWER = array(
 */
 function utf8_strtoupper($string){
     global $UTF8_LOWER_TO_UPPER;
-    
+
     $uni = utf8_to_unicode($string);
-    
+
     if ( !$uni ) {
         return FALSE;
     }
-    
+
     $cnt = count($uni);
     for ($i=0; $i < $cnt; $i++){
         if( isset($UTF8_LOWER_TO_UPPER[$uni[$i]]) ) {
             $uni[$i] = $UTF8_LOWER_TO_UPPER[$uni[$i]];
         }
     }
-    
+
     return utf8_from_unicode($uni);
 }
 

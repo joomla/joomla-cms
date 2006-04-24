@@ -36,7 +36,7 @@ switch ($task) {
 function pollAddVote()
 {
 	global $mainframe;
-	
+
 	$database	= $mainframe->getDBO();
 
 	$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
@@ -103,21 +103,21 @@ function pollresult() {
 		mosNotAuth();
 		return;
 	}
-	
+
 	$first_vote = '';
 	$last_vote 	= '';
 	$votes		= '';
-	
+
 	/*
 	Check if there is a poll corresponding to id
 	and if poll is published
 	*/
-	if ($poll->id > 0) {			
+	if ($poll->id > 0) {
 		if (empty( $poll->title )) {
 			$poll->id = 0;
 			$poll->title = JText::_( 'Select Poll from the list' );
 		}
-		
+
 		$query = "SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate"
 		. "\n FROM #__poll_date"
 		. "\n WHERE poll_id = $poll->id"
@@ -125,7 +125,7 @@ function pollresult() {
 		$database->setQuery( $query );
 		$dates = null;
 		$database->loadObject( $dates );
- 
+
 		if (isset( $dates->mindate )) {
 			$first_vote = mosFormatDate( $dates->mindate, JText::_( 'DATEFORMATLC2' ) );
 			$last_vote 	= mosFormatDate( $dates->maxdate, JText::_( 'DATEFORMATLC2' ) );
@@ -143,7 +143,7 @@ function pollresult() {
 	} else {
 		$votes = array();
 	}
-	
+
 	// list of polls for dropdown selection
 	$query = "SELECT id, title"
 	. "\n FROM #__polls"
@@ -152,7 +152,7 @@ function pollresult() {
 	;
 	$database->setQuery( $query );
 	$polls = $database->loadObjectList();
-	
+
 	// Itemid for dropdown
 	$_Itemid = '';
 	if ( $Itemid || $Itemid != 99999999 ) {
@@ -160,7 +160,7 @@ function pollresult() {
 	}
 
 	$lists = array();
-	
+
 	// dropdown output
 	$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
 

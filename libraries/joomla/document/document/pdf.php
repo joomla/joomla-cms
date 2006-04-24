@@ -21,7 +21,7 @@
  */
 
 class JDocumentPDF extends JDocument
-{	
+{
 	/**
 	 * Class constructore
 	 *
@@ -49,17 +49,17 @@ class JDocumentPDF extends JDocument
 	function display( $template, $file, $compress = false, $params = array())
 	{
 		global $mainframe;
-		
+
 		$option = $mainframe->getOption();
-		
+
 		$path 	= JApplicationHelper::getPath( 'front', $option );
 		$task 	= JRequest::getVar( 'task' );
-		
+
 		//load common language files
 		$lang =& $mainframe->getLanguage();
 		$lang->load($option);
-		require_once( $path );	
-	
+		require_once( $path );
+
 		parent::display( $template, $file, $compress, $params );
 	}
 }

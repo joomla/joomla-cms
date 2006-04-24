@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class content_category_menu_html {
 
-	function editCategory( &$menu, &$lists, &$params, $option ) 
+	function editCategory( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
 		?>
@@ -36,7 +36,7 @@ class content_category_menu_html {
 				return;
 			}
 			var form = document.adminForm;
-			
+
 			if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
 				alert( "<?php echo JText::_( 'You must select a category', true ); ?>" );
 				return;

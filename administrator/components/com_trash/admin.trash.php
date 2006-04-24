@@ -33,7 +33,7 @@ if ( !is_array( $cid ) ) {
 	$cid = array(0);
 }
 
-switch ($task) 
+switch ($task)
 {
 	case 'deleteconfirm':
 		viewdeleteTrash( $cid, $mid, $option );
@@ -50,16 +50,16 @@ switch ($task)
 	case 'restore':
 		restoreTrash( $cid, $option );
 		break;
-	
+
 	case 'viewMenu':
 		viewTrashMenu( $option );
-		break;	
+		break;
 
 	case 'viewContent':
 		viewTrashContent( $option );
 		break;
-		
-	default:	
+
+	default:
 		$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 		if ( $return == 'viewMenu' ) {
 			viewTrashMenu( $option );
@@ -73,23 +73,23 @@ switch ($task)
 /**
 * Compiles a list of trash items
 */
-function viewTrashContent( $option ) 
+function viewTrashContent( $option )
 {
 	global $database, $mainframe;
-	
+
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	'sectname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );	
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where[] = "c.state = -2";
-		if ($search) {
+	if ($search) {
 		$where[] = "LOWER(c.title) LIKE '%$search%'";
 	}
-	
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.name, cc.name, c.title";
 
 	// get the total number of content
@@ -101,10 +101,10 @@ function viewTrashContent( $option )
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
-	
+
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
-	
+
 	// Query content items
 	$query = "SELECT c.*, g.name AS groupname, cc.name AS catname, s.name AS sectname"
 	. "\n FROM #__content AS c"
@@ -117,19 +117,19 @@ function viewTrashContent( $option )
 	;
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$contents = $database->loadObjectList();
-	
+
 	for ( $i = 0; $i < $total; $i++ ) {
 		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
 			$contents[$i]->sectname = 'Typed Content';
 		}
-	}	
+	}
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
+	$lists['order'] = $filter_order;
 	// search filter
 	$lists['search']= $search;
 
@@ -139,7 +139,7 @@ function viewTrashContent( $option )
 /**
 * Compiles a list of trash items
 */
-function viewTrashMenu( $option ) 
+function viewTrashMenu( $option )
 {
 	global $database, $mainframe;
 
@@ -147,16 +147,16 @@ function viewTrashMenu( $option )
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );	
-		
+	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+
 	$where[] = "m.published = -2";
-	
+
 	if ($search) {
 		$where[] = "LOWER(m.name) LIKE '%$search%'";
-	}	
+	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.menutype, m.ordering, m.ordering, m.name";		
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.menutype, m.ordering, m.ordering, m.name";
 
 	$query = "SELECT count(*)"
 	. "\n FROM #__menu AS m"
@@ -165,7 +165,7 @@ function viewTrashMenu( $option )
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
-	
+
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
@@ -187,14 +187,14 @@ function viewTrashMenu( $option )
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-	
+
 	$i = 0;
 	foreach ( $menus as $row ) {
 		// pulls name and description from menu type xml
 		$row = ReadMenuXML( $row->type, $row->com_name );
 		$menus[$i]->type 	= $row[0];
 		$i++;
-	}	
+	}
 	// search filter
 	$lists['search']= $search;
 
@@ -205,7 +205,7 @@ function viewTrashMenu( $option )
 /**
 * Compiles a list of the items you have selected to permanently delte
 */
-function viewdeleteTrash( $cid, $mid, $option ) 
+function viewdeleteTrash( $cid, $mid, $option )
 {
 	global $database;
 
@@ -246,7 +246,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 /**
 * Permanently deletes the selected list of trash items
 */
-function deleteTrash( $cid, $option ) 
+function deleteTrash( $cid, $option )
 {
 	global $database;
 
@@ -283,7 +283,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 	global $database;
 
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
-	
+
 	// seperate contentids
 	$cids = implode( ',', $cid );
 	$mids = implode( ',', $mid );
@@ -319,7 +319,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 /**
 * Restores items selected to normal - restores to an unpublished state
 */
-function restoreTrash( $cid, $option ) 
+function restoreTrash( $cid, $option )
 {
 	global $database;
 
@@ -356,22 +356,22 @@ function restoreTrash( $cid, $option )
 	josRedirect( "index2.php?option=$option&task=$return&josmsg=$msg" );
 }
 
-function ReadMenuXML( $type, $component=-1 ) 
+function ReadMenuXML( $type, $component=-1 )
 {
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-	
+
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-	
-	if ( $data['type'] == 'component' || $data['type'] == 'menu' ) 
+
+	if ( $data['type'] == 'component' || $data['type'] == 'menu' )
 	{
 		if ( ( $component <> -1 ) && ( $data['name'] == 'Component') ) {
 			$data['name'] .= ' - '. $component;
 		}
-		
+
 		$row[0]	= $data['name'];
 	}
-	
+
 	return $row;
 }
 ?>

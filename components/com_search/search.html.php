@@ -47,7 +47,7 @@ class search_html {
 
 		?>
 		<form action="index.php" method="get">
-		
+
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td nowrap="nowrap">
@@ -76,7 +76,7 @@ class search_html {
 			</td>
 		</tr>
 		</table>
-		
+
 		<?php
 		if ($params->get( 'search_areas', 1 )) {
 			?>
@@ -92,7 +92,7 @@ class search_html {
 				</label>
 				<?php
 			}
-		} 
+		}
 		?>
 		<input type="hidden" name="option" value="com_search" />
 		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
@@ -111,8 +111,8 @@ class search_html {
 
 	/**
 	 * Displays no result information
-	 * 
-	 * @static 
+	 *
+	 * @static
 	 * @return void
 	 */
 	function displaynoresult() {
@@ -125,7 +125,7 @@ class search_html {
 	/**
 	 * Displays the search result
 	 *
-	 * @static 
+	 * @static
 	 * @param array $rows
 	 * @param object $params
 	 * @param object $pageNav
@@ -155,9 +155,9 @@ class search_html {
 			</td>
 		</tr>
 		</table>
-		
+
 		<br />
-		
+
 		<div align="center">
 			<?php
 
@@ -167,7 +167,7 @@ class search_html {
 			$link = "index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
 			?>
 			<div style="float: right;">
-				<label for="limit">			
+				<label for="limit">
 					<?php echo JText::_( 'Display Num' ); ?>
 				</label>
 				<?php echo $pageNav->getLimitBox( $link ); ?>
@@ -176,7 +176,7 @@ class search_html {
 				<?php echo $pageNav->writePagesCounter(); ?>
 			</div>
 		</div>
-		
+
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td>
@@ -245,7 +245,7 @@ class search_html {
 						}
 						?>
 					</fieldset>
-					
+
 					<br />
 					<?php
 				}
@@ -258,7 +258,7 @@ class search_html {
 	/**
 	 * Writes search conclusion
 	 *
-	 * @static 
+	 * @static
 	 * @param int $totalRows
 	 * @param string $searchword
 	 * @param obj $pageNav
@@ -267,12 +267,12 @@ class search_html {
 	 */
 	function conclusion( $searchword, $pageNav ) {
 		global $option, $Itemid;
-		
+
 		$searchphrase 	= trim( JString::strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
 		$ordering 		= trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
-		
+
 		$link 			= "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
-		
+
 		?>
 		<tr>
 			<td colspan="3">
@@ -284,12 +284,12 @@ class search_html {
 		</table>
 		<?php
 	}
-	
+
 
 	/**
 	 * Shows a message output within a table
 	 *
-	 * @static 
+	 * @static
 	 * @param string $message
 	 * @param object $params
 	 * @return void
@@ -307,10 +307,10 @@ class search_html {
 		</table>
 		<?php
 	}
-	
+
 	/**
 	 * Method to show an empty container if there is no data to display
-	 * 
+	 *
 	 * @static
 	 * @param string $msg The message to show
 	 * @return void
@@ -319,11 +319,11 @@ class search_html {
 	function emptyContainer($msg) {
 		echo '<p>'.$msg.'</p>';
 	}
-	
+
 	/**
 	 * Writes a user input error message and if javascript is enabled goes back
 	 * to the previous screen to try again.
-	 * 
+	 *
 	 * @param string $msg The error message to display
 	 * @return void
 	 * @since 1.5

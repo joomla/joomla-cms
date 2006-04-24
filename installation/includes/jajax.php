@@ -46,14 +46,14 @@ jimport( 'joomla.filesystem.*' );
 
 /**
  * AJAX Task handler class
- * 
+ *
  * @static
  * @package Joomla
  * @subpackage Installer
  * @since 1.5
  */
 class JAJAXHandler {
-	
+
 	/**
 	 * Method to get the database collations
 	 */
@@ -68,7 +68,7 @@ class JAJAXHandler {
 
 		/*
 		 * Get a database connection instance
-		 */		
+		 */
 		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'] );
 
 		if ($err = $database->getErrorNum()) {
@@ -78,7 +78,7 @@ class JAJAXHandler {
 			}
 		}
 		/*
-		 * This needs to be rewritten for output to a javascript method... 
+		 * This needs to be rewritten for output to a javascript method...
 		 */
 		$collations = array();
 
@@ -100,12 +100,12 @@ class JAJAXHandler {
 			$objResponse->addAssign('utfsupport', 'value', '0');
 		}
 		$txt = '<select id="vars_dbcollation" name="vars[DBcollation]" class="inputbox" size="1">';
-		
+
 		foreach ($collations as $collation) {
 			$txt .= '<option value="'.$collation["Collation"].'">'.$collation["Collation"].'</option>';
 		}
 		$txt .=	'</select>';
-		
+
 		$objResponse->addAssign("theCollation","innerHTML",$txt);
 		return $objResponse;
 	}
@@ -126,7 +126,7 @@ class JAJAXHandler {
 		$objResponse->addAssign('rootPath', 'style.display', '');
 		return $objResponse;
 	}
-	
+
 	/**
 	 * Method to load and execute a sql script
 	 */
@@ -138,7 +138,7 @@ class JAJAXHandler {
 		$errors = null;
 		$msg = '';
 		$objResponse = new xajaxResponse();
-		
+
 		/*
 		 * execute the default sample data file
 		 */
@@ -146,7 +146,7 @@ class JAJAXHandler {
 		$dbsample = '../sql/sample_data.sql';
 		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($database, $dbsample, $errors);
-		
+
 		/*
 		 * prepare sql error messages if returned from populate
 		 */
@@ -163,12 +163,12 @@ class JAJAXHandler {
 			$msg = $result == 0 ? "Sample data installed successfully" : "Error installing sample data" ;
 			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
 		}
-		
+
 		$objResponse->addAssign("theDefault", "innerHTML", $txt);
 		return $objResponse;
 	}
 
-	
+
 }
 
 /*

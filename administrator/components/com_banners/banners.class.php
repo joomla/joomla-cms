@@ -51,7 +51,7 @@ class mosBannerClient extends JTable {
 			$this->_error = JText::_( 'BNR_VALID_EMAIL' );
 			return false;
 		}
-		
+
 		return true;
 	}
 }

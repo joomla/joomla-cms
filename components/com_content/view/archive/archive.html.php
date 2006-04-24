@@ -26,7 +26,7 @@ class JViewHTMLArchive extends JView
 {
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -34,7 +34,7 @@ class JViewHTMLArchive extends JView
 
 	/**
 	 * Name of the view.
-	 * 
+	 *
 	 * @access	private
 	 * @var		string
 	 */
@@ -335,7 +335,7 @@ class JViewHTMLArchive extends JView
 		$params->def('readmore',	$app->getCfg('readmore'));
 		$params->def('back_button', $app->getCfg('back_button'));
 		$params->set('intro_only', 1);
-		
+
 		/*
 		 * Get some item specific parameters
 		 */
@@ -352,7 +352,7 @@ class JViewHTMLArchive extends JView
 		if (!$showImages) {
 			$params->set('image',	0);
 		}
-		
+
 		/*
 		 * Process the content preparation plugins
 		 */
@@ -393,7 +393,7 @@ class JViewHTMLArchive extends JView
 		if ($access->canEdit)
 		{
 			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
+			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
 				<?php JContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
@@ -496,7 +496,7 @@ class JViewHTMLArchive extends JView
 				<?php echo JText::_( 'Read more...' ); ?>
 				</strong>
 			</div>
-			
+
 			<ul>
 		<?php
 		for ($z = 0; $z < $links; $z ++)

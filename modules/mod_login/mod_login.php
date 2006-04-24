@@ -95,7 +95,7 @@ else
 	// ie HTML when not logged in and trying to login
 	?>
 	<form action="index.php" method="post" name="login" >
-	
+
 	<?php echo $pretext; ?>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 	<tr>
@@ -113,13 +113,13 @@ else
 			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="<?php echo JText::_( 'Password' ); ?>" />
 			<br />
 			<?php
-			if(JRequest::getVar('option') == 'login') {		
+			if(JRequest::getVar('option') == 'login') {
 				if(!JSession::get('guest')) {
 					echo "<p>";
 					echo JText::_( 'LOGIN_INCORRECT' );
 					echo  "</p>";
 				}
-			}	
+			}
 			?>
 			<input type="checkbox" name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="<?php echo JText::_( 'Remember me' ); ?>" />
 			<label for="mod_login_remember">

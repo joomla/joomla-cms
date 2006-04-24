@@ -61,7 +61,7 @@ $document	 = & $mainframe->getDocument();
 
 if ( $user->get('id') ) {
 	$title = JText::_( 'Logout');
-	
+
 	// pathway item
 	$breadcrumbs->setItemName(1, $title );
 	// Set page title
@@ -70,7 +70,7 @@ if ( $user->get('id') ) {
 	JViewLoginHTML::logoutpage( $params, $logoutImage );
 } else {
 	$title = JText::_( 'Login');
-	
+
 	// pathway item
 	$breadcrumbs->setItemName(1, $title );
 	// Set page title

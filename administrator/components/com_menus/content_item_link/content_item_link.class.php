@@ -46,7 +46,7 @@ class content_item_link_menu {
 			$menu->parent 		= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 	= 1;
 		}
-		
+
 		$query = "SELECT a.id AS value, a.title AS text, a.sectionid, a.catid "
 		. "\n FROM #__content AS a"
 		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
@@ -87,7 +87,7 @@ class content_item_link_menu {
 		$lists['link_content'] = '';
 		if ( $uid ) {
 			$link 	= 'javascript:submitbutton( \'redirect\' );';
-			
+
 			$temp 	= explode( 'id=', $menu->link );
 			$query = "SELECT a.title, c.name AS category, s.name AS section"
 			. "\n FROM #__content AS a"
@@ -97,10 +97,10 @@ class content_item_link_menu {
 			;
 			$database->setQuery( $query );
 			$content = $database->loadObjectlist();
-			
+
 			$lists['link_content'] = '<a href="'. $link .'" title="'. JText::_( 'Edit Content Item' ) .'">'. $content[0]->title .'</a>';
-		}		
-			
+		}
+
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );
 

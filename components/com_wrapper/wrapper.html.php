@@ -19,12 +19,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Wrapper
 */
-class JWrapperView 
+class JWrapperView
 {
-	function displayWrap( &$row, &$params, &$menu ) 
+	function displayWrap( &$row, &$params, &$menu )
 	{
 		global $mainframe;
-		
+
 		$mainframe->SetPageTitle($menu->name);
 
 		// Set the breadcrumbs

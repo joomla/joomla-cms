@@ -20,7 +20,7 @@ jimport('joomla.filesystem.folder');
 
 /**
  * Static class to handle template view logic
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -35,7 +35,7 @@ class JInstallerExtensionTasks {
 	*/
 	function showInstalled() {
 		global $mainframe;
-		
+
 		$db			= & $mainframe->getDBO();
 		$option		= JRequest::getVar( 'option' );
 		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', -1 );
@@ -51,52 +51,52 @@ class JInstallerExtensionTasks {
 			$client = 'all';
 			// Get the site templates
 			$templateDirs = JFolder::folders(JPATH_SITE.DS.'templates');
-			
+
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 0;
 				$template->baseDir = JPATH_SITE.DS.'templates';
-				
-				$templates[] = $template;				
-			}			
+
+				$templates[] = $template;
+			}
 			// Get the admin templates
 			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates');
-			
+
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 1;
 				$template->baseDir = JPATH_ADMINISTRATOR.DS.'templates';
-				
-				$templates[] = $template;				
-			}			
+
+				$templates[] = $template;
+			}
 		} elseif ($filter == '0') {
 			$client = 'site';
 			$templateDirs = JFolder::folders(JPATH_SITE.DS.'templates');
-			
+
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 0;
 				$template->baseDir = JPATH_SITE.DS.'templates';
-				
-				$templates[] = $template;				
-			}			
+
+				$templates[] = $template;
+			}
 		} elseif ($filter == '1') {
 			$client = 'administrator';
 			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates');
-			
+
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 1;
 				$template->baseDir = JPATH_ADMINISTRATOR.DS.'templates';
-				
-				$templates[] = $template;				
-			}			
+
+				$templates[] = $template;
+			}
 		}
-		
+
 		/*
 		 * Get a list of currently used templates
 		 */
@@ -109,40 +109,40 @@ class JInstallerExtensionTasks {
 		$rows = array();
 		$rowid = 0;
 		// Check that the directory contains an xml file
-		foreach($templates as $template) 
+		foreach($templates as $template)
 		{
 			$dirName = $template->baseDir .DS. $template->folder;
 			$xmlFilesInDir = JFolder::files($dirName,'.xml$');
-	
-			foreach($xmlFilesInDir as $xmlfile) 
+
+			foreach($xmlFilesInDir as $xmlfile)
 			{
 				$data = JApplicationHelper::parseXMLInstallFile($dirName . DS. $xmlfile);
-				
+
 				$row = new StdClass();
 				$row->id 		= $rowid;
 				$row->client_id	= $template->client;
 				$row->directory = $template->folder;
 				$row->baseDir   = $template->baseDir;
-				
+
 				foreach($data as $key => $value) {
 					$row->$key = $value;
 				}
-				
+
 				$row->checked_out = 0;
 				$row->jname = JString::strtolower( str_replace( ' ', '_', $row->name ) );
-	
+
 				$rows[] = $row;
 				$rowid++;
 			}
 		}
-	
+
 		/*
 		 * Take care of the pagination
-		 */	
+		 */
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
-	
+
 		JInstallerScreens_template::showInstalled($rows, $page, $client, $lists, $currentList);
 	}
 
@@ -150,7 +150,7 @@ class JInstallerExtensionTasks {
 
 /**
  * Static class to handle template view display
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -158,19 +158,19 @@ class JInstallerExtensionTasks {
  * @category View
  * @since 1.5
  */
-class JInstallerScreens_template 
+class JInstallerScreens_template
 {
-	function showInstalled( &$rows, &$page, $client, $lists, &$currentList ) 
-	{	
+	function showInstalled( &$rows, &$page, $client, $lists, &$currentList )
+	{
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-				
+
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
-		
-		<div id="pane-document">	
+
+		<div id="pane-document">
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -181,11 +181,11 @@ class JInstallerScreens_template
 					</td>
 				</tr>
 				</table>
-		
+
 			<?php
 			if (count($rows)) {
 				?>
-				<table class="adminlist">					
+				<table class="adminlist">
 				<tr>
 					<th class="title" width="10">
 						<?php echo JText::_( 'Num' ); ?>
@@ -210,7 +210,7 @@ class JInstallerScreens_template
 				$rc = 0;
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
 					$row =& $rows[$i];
-					
+
 					/*
 					 * Handle currently used templates
 					 */
@@ -221,7 +221,7 @@ class JInstallerScreens_template
 						$cbd 	= '';
 						$style 	= '';
 					}
-					
+
 					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
 					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
@@ -244,7 +244,7 @@ class JInstallerScreens_template
 						</td>
 						<td>
 							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 							</span>
 						</td>
 					</tr>
@@ -253,14 +253,14 @@ class JInstallerScreens_template
 				}
 				?>
 				</table>
-				<?php echo $page->getListFooter(); ?>			
+				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
 				echo JText::_('No Installed Templates');
 			}
 			?>
 		</div>
-		
+
 		<input type="hidden" name="extension" value="template" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

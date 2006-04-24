@@ -77,7 +77,7 @@ function botJoomlaSEFUrl( ) {
 				$filter					= str_replace( 'filter,', '', $url_array[$pos+6] );
 				$limit 					= $url_array[$pos+7];
 				$limitstart 			= $url_array[$pos+8];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -95,7 +95,7 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limit'] 		= $limit;
 				$_GET['limitstart'] 	= $limitstart;
 				$_REQUEST['limitstart'] = $limitstart;
-				
+
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&filter=$filter&limit=$limit&limitstart=$limitstart";
 			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
 				// $option/$task/$sectionid/$Itemid/$limit/$limitstart/year/month
@@ -106,7 +106,7 @@ function botJoomlaSEFUrl( ) {
 				$limitstart 			= $url_array[$pos+5];
 				$year 					= $url_array[$pos+6];
 				$month 					= $url_array[$pos+7];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -122,8 +122,8 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['year'] 		= $year;
 				$_GET['month'] 			= $month;
 				$_REQUEST['month'] 		= $month;
-				
-				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";			
+
+				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";
 			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && in_array('category', $url_array) && ( strpos( $url_array[$pos+5], 'order,' ) !== false )) {
 				// $option/$task/$sectionid/$id/$Itemid/$order/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
@@ -133,7 +133,7 @@ function botJoomlaSEFUrl( ) {
 				$order 					= str_replace( 'order,', '', $url_array[$pos+5] );
 				$limit 					= $url_array[$pos+6];
 				$limitstart 			= $url_array[$pos+7];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -149,7 +149,7 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limit'] 		= $limit;
 				$_GET['limitstart'] 	= $limitstart;
 				$_REQUEST['limitstart'] = $limitstart;
-				
+
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&limit=$limit&limitstart=$limitstart";
 			} else if (isset($url_array[$pos+6]) && $url_array[$pos+6] != '') {
 			// $option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
@@ -288,12 +288,12 @@ function botJoomlaSEFUrl( ) {
 			$uri = explode('component/', $_SERVER['REQUEST_URI']);
 			$uri_array = explode('/', $uri[1]);
 			$QUERY_STRING = '';
-			
+
 			// needed for check if component exists
 			$path 		= JPATH_BASE .'/components';
 			$dirlist 	= array();
 			if ( is_dir( $path ) ) {
-				$base = opendir( $path );	
+				$base = opendir( $path );
 				while (false !== ( $dir = readdir($base) ) ) {
 					if (is_dir($path .'/'. $dir) && $dir !== '.' && $dir !== '..' && strtolower($dir) !== 'cvs' && strtolower($dir) !== '.svn') {
 						$dirlist[] = $dir;
@@ -301,13 +301,13 @@ function botJoomlaSEFUrl( ) {
 				}
 				closedir($base);
 			}
-			
+
 			foreach($uri_array as $value) {
 				$temp = explode(',', $value);
 				if (isset($temp[0]) && $temp[0]!='' && isset($temp[1]) && $temp[1]!='') {
 					$_GET[$temp[0]] 	= $temp[1];
 					$_REQUEST[$temp[0]] = $temp[1];
-				
+
 					// check to ensure component actually exists
 					if ( $temp[0] == 'option' ) {
 						$check = '';
@@ -325,7 +325,7 @@ function botJoomlaSEFUrl( ) {
 							exit( 404 );
 						}
 					}
-					
+
 					if ( $QUERY_STRING == '' ) {
 						$QUERY_STRING .= "$temp[0]=$temp[1]";
 					} else {
@@ -374,7 +374,7 @@ function botJoomlaSEFUrl( ) {
  */
 function sefRelToAbs( $string ) {
 	global $mainframe, $iso_client_lang, $mod_rewrite_off;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -391,15 +391,15 @@ function sefRelToAbs( $string ) {
 	if ( $SEF && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
 		// Replace all &amp; with &
 		$string = str_replace( '&amp;', '&', $string );
-		
+
 		// Home index.php
 		if ($string == 'index.php') {
 			$string = '';
 		}
-		
+
 		// break link into url component parts
 		$url = parse_url( $string );
-		
+
 		// check if link contained fragment identifiers (ex. #foo)
 		$fragment = '';
 		if ( isset($url['fragment']) ) {
@@ -408,95 +408,95 @@ function sefRelToAbs( $string ) {
 				$fragment = '#'. $url['fragment'];
 			}
 		}
-		
+
 		// check if link contained a query component
 		if ( isset($url['query']) ) {
 			// special handling for javascript
 			$url['query'] = stripslashes( str_replace( '+', '%2b', $url['query'] ) );
-			
+
 			// Initialize variables
 			$parts = null;
 
-			// break url into component parts			
+			// break url into component parts
 			parse_str( $url['query'], $parts );
-			
+
 			// special handling for javascript
 			foreach( $parts as $key => $value) {
 				if ( strpos( $value, '+' ) !== false ) {
 					$parts[$key] = stripslashes( str_replace( '%2b', '+', $value ) );
 				}
 			}
-			
+
 			$sefstring = '';
-			
+
 			// Component com_content urls
 			if ( ( $parts['option'] == 'com_content' || $parts['option'] == 'content' ) && ( $parts['task'] != 'new' ) && ( $parts['task'] != 'edit' ) ) {
 				// index.php?option=com_content [&task=$task] [&sectionid=$sectionid] [&id=$id] [&Itemid=$Itemid] [&limit=$limit] [&limitstart=$limitstart] [&year=$year] [&month=$month] [&module=$module]
 				$sefstring .= 'content/';
-				
-				// task 
+
+				// task
 				if ( isset( $parts['task'] ) ) {
-					$sefstring .= $parts['task'].'/';					
+					$sefstring .= $parts['task'].'/';
 				}
-				// sectionid 
+				// sectionid
 				if ( isset( $parts['sectionid'] ) ) {
-					$sefstring .= $parts['sectionid'].'/';					
+					$sefstring .= $parts['sectionid'].'/';
 				}
-				// id 
+				// id
 				if ( isset( $parts['id'] ) ) {
-					$sefstring .= $parts['id'].'/';					
+					$sefstring .= $parts['id'].'/';
 				}
-				// Itemid 
+				// Itemid
 				if ( isset( $parts['Itemid'] ) ) {
 					//only add Itemid value if it does not correspond with the 'unassigned' Itemid value
 					if ( $parts['Itemid'] != 99999999 && $parts['Itemid'] != 0 ) {
-						$sefstring .= $parts['Itemid'].'/';					
+						$sefstring .= $parts['Itemid'].'/';
 					}
 				}
 				// order
 				if ( isset( $parts['order'] ) ) {
-					$sefstring .= $parts['order'].'/';	
+					$sefstring .= $parts['order'].'/';
 				}
 				// filter
 				if ( isset( $parts['filter'] ) ) {
-					$sefstring .= 'filter,'. $parts['filter'].'/';	
+					$sefstring .= 'filter,'. $parts['filter'].'/';
 				}
 				// limit
 				if ( isset( $parts['limit'] ) ) {
-					$sefstring .= $parts['limit'].'/';					
+					$sefstring .= $parts['limit'].'/';
 				}
 				// limitstart
 				if ( isset( $parts['limitstart'] ) ) {
-					$sefstring .= $parts['limitstart'].'/';					
+					$sefstring .= $parts['limitstart'].'/';
 				}
 				// year
 				if ( isset( $parts['year'] ) ) {
-					$sefstring .= $parts['year'].'/';					
+					$sefstring .= $parts['year'].'/';
 				}
 				// month
 				if ( isset( $parts['month'] ) ) {
-					$sefstring .= $parts['month'].'/';					
+					$sefstring .= $parts['month'].'/';
 				}
 				// module
 				if ( isset( $parts['module'] ) ) {
-					$sefstring .= $parts['module'].'/';					
+					$sefstring .= $parts['module'].'/';
 				}
 				// lang
 				if ( isset( $parts['lang'] ) ) {
-					$sefstring .= 'lang,'. $parts['lang'].'/';					
+					$sefstring .= 'lang,'. $parts['lang'].'/';
 				}
-				
+
 				$string = $sefstring;
-				
+
 				// all other components
 			} else if ( ( strpos( $parts['option'], 'com_' ) !== false ) && ( @$parts['task'] != 'new' ) && ( @$parts['task'] != 'edit' ) ) {
 				// index.php?option=com_xxxx &...
 				$sefstring 	= 'component/';
-				
+
 				foreach($parts as $key => $value) {
 					$sefstring .= $key .','. $value.'/';
 				}
-				
+
 				$string = str_replace( '=', ',', $sefstring );
 			}
 		}
@@ -516,7 +516,7 @@ function sefRelToAbs( $string ) {
 				// splits http(s)://xx.xx/yy/zz..." into [1]="http(s)://xx.xx" and [2]="/yy/zz...":
 				$live_site_parts = array();
 				eregi("^(https?:[\/]+[^\/]+)(.*$)", $LiveSite, $live_site_parts);
-				
+
 				$string = $live_site_parts[1] . $string;
 			// check that url does not contain `http`, `https`, `ftp`, `mailto` or `javascript` at start of string
 			} else if ( ( strpos( $string, 'http' ) !== 0 ) && ( strpos( $string, 'https' ) !== 0 ) && ( strpos( $string, 'ftp' ) !== 0 ) && ( strpos( $string, 'file' ) !== 0 ) && ( strpos( $string, 'mailto' ) !== 0 ) && ( strpos( $string, 'javascript' ) !== 0 ) ) {
@@ -524,7 +524,7 @@ function sefRelToAbs( $string ) {
 				$string = $LiveSite .'/'. $string;
 			}
 		}
-		
+
 		return $string;
 	}
 }

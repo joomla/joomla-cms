@@ -85,7 +85,7 @@ function & buildMenu($usertype = '')
 		}
 	}
 	$menuTypes = mosAdminMenus::menutypes();
-	
+
 	/*
 	 * Get the menu object
 	 */
@@ -124,7 +124,7 @@ function & buildMenu($usertype = '')
 	if ($manageTrash) {
 		$menus->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewMenu', 'class:trash'));
 	}
-	
+
 	if($manageTrash || $maangeMenuMan) {
 		$menus->addSeperator();
 	}
@@ -265,7 +265,7 @@ function & buildMenu($usertype = '')
 	$help->addChild(new JMenuNode(JText::_('Help'), 'index2.php?option=com_admin&task=help', 'class:help'));
 
 	$menu->addTree($help);
-	
+
 	return $menu;
 }
 
@@ -297,7 +297,7 @@ function & buildDisabledMenu($usertype = '')
 	 * Get the menu object
 	 */
 	$menu = new JAdminCSSMenu();
-	
+
 		/*
 	 * Site SubMenu
 	 */
@@ -347,7 +347,7 @@ function & buildDisabledMenu($usertype = '')
 	 */
 	$help = new JMenuNode(JText::_('Help'), null, 'disabled');
 	$menu->addTree($help);
-	
+
 	return $menu;
 }
 ?>

@@ -140,7 +140,7 @@ switch ($task) {
 /**
 * Shows a list of items for a menu
 */
-function viewMenuItems( $menutype, $option ) 
+function viewMenuItems( $menutype, $option )
 {
 	global $database, $mainframe, $mosConfig_list_limit;
 
@@ -161,9 +161,9 @@ function viewMenuItems( $menutype, $option )
 			$and = "\n AND m.published = 0";
 		}
 	}
-		
+
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.parent, m.ordering";
-	
+
 	// select the records
 	// note, since this is a tree we have to do the limits code-side
 	if ($search) {
@@ -221,7 +221,7 @@ function viewMenuItems( $menutype, $option )
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
-	
+
 	// slice out elements based on limits
 	$list = array_slice( $list, $pageNav->limitstart, $pageNav->limit );
 
@@ -280,12 +280,12 @@ function viewMenuItems( $menutype, $option )
 		if (!isset($list[$i]->descrip)) $list[$i]->descrip = $row[1];
 		$i++;
 	}
-	
+
 	// level limit filter
 	$lists['levellist'] = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
+
+	// state filter
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
@@ -293,7 +293,7 @@ function viewMenuItems( $menutype, $option )
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
+	$lists['order'] = $filter_order;
 	// search filter
 	$lists['search']= $search;
 
@@ -398,9 +398,9 @@ function saveMenu( $option, $task='save' ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	$row->name = ampReplace( $row->name );
-	
+
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -470,7 +470,7 @@ function TrashMenu( $cid=NULL ) {
 
 	$state 		= -2;
 	$nullDate 	= $database->getNullDate();
-	
+
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__menu"
@@ -736,19 +736,19 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&josmsg='. $msg );
 }
 
-function ReadMenuXML( $type, $component=-1 ) 
+function ReadMenuXML( $type, $component=-1 )
 {
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-	
+
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-			
-	if ( $data['type'] == 'component' || $data['type'] == 'menu' )  
+
+	if ( $data['type'] == 'component' || $data['type'] == 'menu' )
 	{
 		if ( ( $component <> -1 ) && ( $data['name'] == 'Component') ) {
 			$data['name'] .= ' - '. $component;
 		}
-		
+
 		$row[0]	= $data['name'];
 		$row[1] = $data['description'];
 		$row[2] = $data['group'];

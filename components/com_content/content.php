@@ -41,7 +41,7 @@ class JContentController extends JController
 	function section()
 	{
 		$format = JRequest::getVar( 'format', 'html' );
-		
+
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'section', 'com_content', $format );
 
@@ -89,7 +89,7 @@ class JContentController extends JController
 	function category()
 	{
 		$format = JRequest::getVar( 'format', 'html' );
-		
+
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'category', 'com_content', $format );
 
@@ -139,7 +139,7 @@ class JContentController extends JController
 	function blogsection()
 	{
 		$format = JRequest::getVar( 'format', 'html' );
-		
+
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'blog', 'com_content', $format );
 
@@ -168,7 +168,7 @@ class JContentController extends JController
 	function blogcategory()
 	{
 		$format = JRequest::getVar( 'format', 'html' );
-		
+
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'blog', 'com_content', $format );
 
@@ -251,13 +251,13 @@ class JContentController extends JController
 	function view()
 	{
 		$format = JRequest::getVar( 'format', 'html' );
-		
+
 		// Set the view name to article view
 		$this->setViewName( 'article', 'com_content', $format );
 
 		// Create the view
 		$view = & $this->getView();
-		
+
 		// Get/Create the model
 		$model = & $this->getModel('Article');
 
@@ -284,7 +284,7 @@ class JContentController extends JController
 
 		// Create the view
 		$view = & $this->getView();
-		
+
 		// Get/Create the model
 		$model = & $this->getModel('Article');
 
@@ -300,7 +300,7 @@ class JContentController extends JController
 
 	/**
 	* Saves the content item an edit form submit
-	* 
+	*
 	* @todo
 	*/
 	function save()
@@ -513,7 +513,7 @@ class JContentController extends JController
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
 		$article = & JTable::getInstance('content', $db);
 		$article->bind($_POST);
-		
+
 		if ($user->authorize('action', 'edit', 'content', 'all') || ($user->authorize('action', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {
 			$article->checkin();
 		}
@@ -719,14 +719,14 @@ class JContentController extends JController
 
 			// Create the view
 			$view = & $this->getView();
-			
+
 			// Get/Create the model
 			$model = & $this->getModel('Article');
-	
+
 			// Get the id of the article to display and set the model
 			$id = JRequest::getVar('id', 0, '', 'int');
 			$model->setId($id);
-	
+
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 			// Display the view

@@ -13,7 +13,7 @@
 
 /**
  * Button base class
- * 
+ *
  * The JButton is the base class for all JButton types
  *
  * @abstract
@@ -26,7 +26,7 @@ class JButton extends JObject
 {
 	/**
 	 * element name
-	 * 
+	 *
 	 * This has to be set in the final renderer classes.
 	 *
 	 * @access	protected
@@ -44,7 +44,7 @@ class JButton extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 */
 	function __construct($parent = null)
@@ -71,7 +71,7 @@ class JButton extends JObject
 		$html	= null;
 		$id		= call_user_func_array(array(&$this, 'fetchId'), $definition);
 		$action	= call_user_func_array(array(&$this, 'fetchButton'), $definition);
-		
+
 		// Build id attribute
 		if ($id)
 		{
@@ -82,15 +82,15 @@ class JButton extends JObject
 		$html	.= "<td class=\"button\" $id>\n";
 		$html	.= $action;
 		$html	.= "</td>\n";
-		
+
 		return $html;
 	}
-	
+
 	/**
 	 * Method to get the CSS class name for an icon identifier
-	 * 
+	 *
 	 * Can be redefined in the final class
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$identifier	Icon identification string
 	 * @return	string	CSS class name
@@ -103,9 +103,9 @@ class JButton extends JObject
 
 	/**
 	 * Get the button id
-	 * 
+	 *
 	 * Can be redefined in the final button class
-	 * 
+	 *
 	 * @access		public
 	 * @since		1.5
 	 */
@@ -116,9 +116,9 @@ class JButton extends JObject
 
 	/**
 	 * Get the button
-	 * 
+	 *
 	 * Defined in the final button class
-	 * 
+	 *
 	 * @abstract
 	 * @access		public
 	 * @since		1.5

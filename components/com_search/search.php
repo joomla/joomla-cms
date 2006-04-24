@@ -123,10 +123,10 @@ function viewSearch() {
 
 	// html output
 	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
-	
+
 	// meta pagetitle
 	$mainframe->setPageTitle( JText::_( 'Search' ) );
-		
+
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
 			// html output
@@ -152,7 +152,7 @@ function viewSearch() {
 		search_html::searchintro( $searchword_clean, $params );
 
 		logSearch( $searchword );
-		
+
 		$phrase 	= JRequest::getVar( 'searchphrase' );
 		$ordering 	= JRequest::getVar( 'ordering' );
 
@@ -163,7 +163,7 @@ function viewSearch() {
 		for ($i = 0, $n = count( $results); $i < $n; $i++) {
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
-		
+
 		require_once (JApplicationHelper::getPath('helper', 'com_content'));
 		$totalRows = count( $rows );
 
@@ -191,7 +191,7 @@ function viewSearch() {
 				} else {
 					$link = '';
 				}
-				
+
 				// determines Itemid for Content items where itemid has not been included
 				if ( !empty($link) && @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
 					$itemid = '';
@@ -208,11 +208,11 @@ function viewSearch() {
 		$limitstart = JRequest::getVar( 'limitstart', 0, 'get', 'int' );
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( $total, $limitstart, $limit );
-		
+
 		// prepares searchword for proper display in url
 //		$searchword_clean = urlencode(stripslashes($searchword_clean));
 		$searchword_clean = stripslashes($searchword_clean);
-		
+
 		if ( $n ) {
 		// html output
 			search_html::display( $rows, $params, $page, $limitstart, $limit, $total, $totalRows, $searchword_clean );
@@ -222,13 +222,13 @@ function viewSearch() {
 		}
 
 		// html output
-		search_html::conclusion( $searchword_clean, $page );		
+		search_html::conclusion( $searchword_clean, $page );
 	}
 }
 
 function logSearch( $search_term ) {
 	global $mainframe;
-	
+
 	$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
 
 	if ( @$enable_log_searches ) {

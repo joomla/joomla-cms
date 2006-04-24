@@ -32,39 +32,39 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 			<?php echo JText::_('Username'); ?>
 		</label>
 	</div>
-				
+
 	<div>
 		<input name="username" id="username" type="text" class="inputbox" size="15" />
 	</div>
-				
+
 	<div class="inputlabel">
 		<label for="password">
 			<?php echo JText::_('Password'); ?>
 		</label>
 	</div>
-				
+
 	<div>
 		<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 	</div>
-	<?php 
-	if(JRequest::getVar('option') == 'login') {		
+	<?php
+	if(JRequest::getVar('option') == 'login') {
 		if(!JSession::get('guest')) {
 			echo "<p>";
 			echo JText::_( 'LOGIN_INCORRECT' );
 			echo  "</p>";
 		}
-	}	
-	?>	
+	}
+	?>
 	<div class="inputlabel">
 		<label for="lang">
 			<?php echo JText::_('Language'); ?>
 		</label>
 	</div>
-				
+
 	<div>
 		<?php echo $langs; ?>
 	</div>
-				
+
 	<div class="flushstart" >
 		<input type="submit" name="submit" class="button" value="<?php echo JText::_('Login'); ?>" />
 		<input type="hidden" name="option" value="login" />

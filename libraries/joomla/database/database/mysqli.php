@@ -33,7 +33,7 @@ class JDatabaseMySQLi extends JDatabase
 	* @param string Database name
 	* @param string Common prefix for all tables
 	*/
-	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='') 
+	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
 	{
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysqli_connect' )) {
@@ -79,8 +79,8 @@ class JDatabaseMySQLi extends JDatabase
 	* Execute the query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function query() 
-	{	
+	function query()
+	{
 		if ($this->_debug) {
 			$this->_ticker++;
 	  		$this->_log[] = $this->_sql;
@@ -91,12 +91,12 @@ class JDatabaseMySQLi extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		$this->_cursor = mysqli_query( $this->_resource, $this->_sql );
-		
-		if (!$this->_cursor) 
+
+		if (!$this->_cursor)
 		{
 			$this->_errorNum = mysqli_errno( $this->_resource );
 			$this->_errorMsg = mysqli_error( $this->_resource ) . " SQL=$this->_sql";
-			
+
 			if ($this->_debug) {
 				JError::raiseError('joomla.database:'.$this->_errorNum, 'JDatabaseMySQLi::query: '.$this->_errorMsg );
 			}
@@ -117,7 +117,7 @@ class JDatabaseMySQLi extends JDatabase
 	* Execute a batch query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function query_batch( $abort_on_error=true, $p_transaction_safe = false) 
+	function query_batch( $abort_on_error=true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
@@ -154,7 +154,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	* Diagnostic function
 	*/
-	function explain() 
+	function explain()
 	{
 		$temp = $this->_sql;
 		$this->_sql = "EXPLAIN $this->_sql";
@@ -201,7 +201,7 @@ class JDatabaseMySQLi extends JDatabase
 	*
 	* @return The value returned in the query or null if the query failed.
 	*/
-	function loadResult() 
+	function loadResult()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -216,7 +216,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	* Load an array of single field results into an array
 	*/
-	function loadResultArray($numinarray = 0) 
+	function loadResultArray($numinarray = 0)
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -233,7 +233,7 @@ class JDatabaseMySQLi extends JDatabase
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
-	function loadAssocList( $key='' ) 
+	function loadAssocList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -257,7 +257,7 @@ class JDatabaseMySQLi extends JDatabase
 	* @param string The SQL query
 	* @param object The address of variable
 	*/
-	function loadObject( &$object ) 
+	function loadObject( &$object )
 	{
 		if ($object != null) {
 			if (!($cur = $this->query())) {
@@ -291,7 +291,7 @@ class JDatabaseMySQLi extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadObjectList( $key='' ) 
+	function loadObjectList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -310,7 +310,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	* @return The first row of the query.
 	*/
-	function loadRow() 
+	function loadRow()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -329,7 +329,7 @@ class JDatabaseMySQLi extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadRowList( $key='' ) 
+	function loadRowList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -353,7 +353,7 @@ class JDatabaseMySQLi extends JDatabase
 	* @param [type] $keyName
 	* @param [type] $verbose
 	*/
-	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) 
+	function insertObject( $table, &$object, $keyName = NULL, $verbose=false )
 	{
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 		$fields = array();
@@ -384,7 +384,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * Document::db_updateObject()
 	 * @param [type] $updateNulls
 	 */
-	function updateObject( $table, &$object, $keyName, $updateNulls=true ) 
+	function updateObject( $table, &$object, $keyName, $updateNulls=true )
 	{
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
@@ -442,7 +442,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @param array A list of table names
 	 * @return array A list the create SQL for the tables
 	 */
-	function getTableCreate( $tables ) 
+	function getTableCreate( $tables )
 	{
 		$result = array();
 
@@ -460,7 +460,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @param array A list of table names
 	 * @return array An array of fields by table
 	 */
-	function getTableFields( $tables ) 
+	function getTableFields( $tables )
 	{
 		$result = array();
 

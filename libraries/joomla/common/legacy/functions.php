@@ -13,7 +13,7 @@
 
 /**
  * Legacy function, use josErrorAlert instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -23,11 +23,11 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 
 /**
  * Legacy function, use JPath::clean instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosPathName($p_path, $p_addtrailingslash = true) 
+function mosPathName($p_path, $p_addtrailingslash = true)
 {
 	jimport('joomla.filesystem.path');
 	return JPath::clean( $p_path, $p_addtrailingslash );
@@ -35,11 +35,11 @@ function mosPathName($p_path, $p_addtrailingslash = true)
 
 /**
  * Legacy function, use JFolder::files or JFolder::folders instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) 
+function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  )
 {
 	$arr = array(null);
 
@@ -56,7 +56,7 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 
 /**
  * Legacy function, use JFactory::getMailer() instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -74,7 +74,7 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
 /**
  * Legacy function, use josMail instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -84,7 +84,7 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 
 /**
  * Legacy function, use josSendAdminMail instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -94,7 +94,7 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 
 /**
  * Legacy function, use JAuthenticateHelper::genRandomPassword() instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -104,7 +104,7 @@ function mosMakePassword() {
 
 /**
  * Legacy function, use josRedirect instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -114,23 +114,23 @@ function mosRedirect( $url, $msg='' ) {
 
 /**
  * Legacy function, use JFolder::create
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosMakePath($base, $path='', $mode = NULL) {
-	
+
 	if ($mode===null) {
 		$mode = 0755;
 	}
-	
+
 	jimport('joomla.filesystem.folder');
 	return JFolder::create($base.$path, $mode);
 }
 
 /**
  * Legacy function, use JPath::setPermissions instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -141,7 +141,7 @@ function mosChmod( $path ) {
 
 /**
  * Legacy function, use JPath::setPermissions instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -152,7 +152,7 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 
 /**
  * Legacy function, use JPath::canCHMOD
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -163,7 +163,7 @@ function mosIsChmodable( $file ) {
 
 /**
  * Legacy function, replaced by geshi bot
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -198,7 +198,7 @@ function mosShowSource( $filename, $withLineNums=false ) {
 
 /**
  * Legacy function, use mosLoadModule('breadcrumbs); instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -208,7 +208,7 @@ function mosPathWay() {
 
 /**
  * Legacy function, use JApplication::getBrowser() instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -219,7 +219,7 @@ function mosGetBrowser( $agent ) {
 
 /**
  * Legacy function, use JApplication::getBrowser() instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -230,12 +230,12 @@ function mosGetOS( $agent ) {
 
 /**
  * Legacy function, use JRegsitry instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosParseParams( $txt ) {
-	
+
 	$registry = new JRegistry();
 	$registry->loadINI($txt);
 	return $registry->toObject( );
@@ -243,7 +243,7 @@ function mosParseParams( $txt ) {
 
 /**
  * Legacy function, removed
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -255,7 +255,7 @@ function mosLoadComponent( $name ) {
 
 /**
  * Legacy function, use JEditor::init instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -267,7 +267,7 @@ function initEditor() {
 
 /**
  * Legacy function, use JEditor::save or JEditor::getContent instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -279,7 +279,7 @@ function getEditorContents($editorArea, $hiddenField) {
 
 /**
  * Legacy function, use JEditor::display instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -291,17 +291,17 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
 
 /**
  * Legacy function, handled by JDocument Zlib outputfilter
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
-	
-	
+
+
 	// attempt to disable session.use_trans_sid
 	ini_set('session.use_trans_sid', false);
-	
+
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
 		$phpver = phpversion();
@@ -316,7 +316,7 @@ function initGzip() {
 			// Check for gzip header or northon internet securities
 			if ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 				$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
-			}				
+			}
 			if ( (in_array('gzip', $encodings) || isset( $_SERVER['---------------']) ) && extension_loaded('zlib') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') && !ini_get('session.use_trans_sid') ) {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
@@ -341,7 +341,7 @@ function initGzip() {
 
 /**
  * Legacy function, handled by JDocument Zlib outputfilter
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -383,7 +383,7 @@ function mosCountAdminModules(  $position='left' ) {
 
 /**
  * Legacy function, using <jdoc:include type="component" /> instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -397,7 +397,7 @@ function mosMainBody_Admin() {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
- 
+
 function mosLoadAdminModules( $position='left', $style=0 ) {
 	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" /><?php
 }
@@ -418,7 +418,7 @@ function mosLoadAdminModule( $name, $style=0 ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosShowHead_Admin() {	
+function mosShowHead_Admin() {
 	?><jdoc:include type="head" /><?php
 }
 ?>

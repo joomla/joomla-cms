@@ -15,9 +15,9 @@ jimport( 'joomla.common.base.object' );
 
 /**
  * Abstract Model class
- * 
+ *
  * Parent classes to all tables.  Customisation will generally not involve tampering with this object.
- * 
+ *
  * @abstract
  * @author		Andrew Eddie <eddieajau@users.sourceforge.net>
  * @package 	Joomla.Framework
@@ -25,36 +25,36 @@ jimport( 'joomla.common.base.object' );
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
  */
-class JTable extends JObject 
+class JTable extends JObject
 {
-	/** 
+	/**
 	 * Name of the table in the db schema relating to child class
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_tbl		= '';
-	
-	/** 
+
+	/**
 	 * Name of the primary key field in the table
-	 * 
+	 *
 	 * @var string
-	 * @access protected  
+	 * @access protected
 	 */
 	var $_tbl_key	= '';
-	
-	/** 
+
+	/**
 	 * Error message
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_error		= '';
-	
-	/** 
+
+	/**
 	 * Database connector
-	 * 
-	 * @var JDatabase 
+	 *
+	 * @var JDatabase
 	 * @access protected
 	 */
 	var $_db		= null;
@@ -64,17 +64,17 @@ class JTable extends JObject
 	*
 	* Can be overloaded/supplemented by the child class
 	*
-	* @access protected  
+	* @access protected
 	* @param string $table name of the table in the db schema relating to child class
 	* @param string $key name of the primary key field in the table
 	*/
-	function __construct( $table, $key, &$db ) 
+	function __construct( $table, $key, &$db )
 	{
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		=& $db;
 	}
-	
+
 	/**
 	 * Returns a reference to the a Model object, always creating it
 	 *
@@ -84,20 +84,20 @@ class JTable extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, &$db, $prefix='JTable' ) 
+	function &getInstance( $type, &$db, $prefix='JTable' )
 	{
 		$adapter = $prefix.$type;
 		if (!class_exists( $adapter ))
-		{ 
+		{
 			jimport('joomla.database.table.'.$type);
 		}
 		$m = new $adapter($db);
 		return $m;
 	}
-	
+
 	/**
 	 * Filters public properties
-	 * 
+	 *
 	 * @access protected
 	 * @param array List of fields to ignore
 	 */
@@ -149,11 +149,11 @@ class JTable extends JObject
 	*
 	* can be overloaded/supplemented by the child class
 	*
-	* @acces public  
+	* @acces public
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	*/
-	function bind( $array, $ignore="" ) 
+	function bind( $array, $ignore="" )
 	{
 		if (!is_array( $array )) {
 			$this->_error = strtolower(get_class( $this ))."::bind failed.";
@@ -166,19 +166,19 @@ class JTable extends JObject
 	/**
 	* Binds an array/hash to this object
 	*
-	* @access public	
+	* @access public
 	* @param int $oid optional argument, if not specifed then the value of current key is used
 	* @return any result from the database operation
 	*/
 	function load( $oid=null ) {
 		$k = $this->_tbl_key;
-		
+
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		
+
 		$oid = $this->$k;
-		
+
 		if ($oid === null) {
 			return false;
 		}
@@ -189,13 +189,13 @@ class JTable extends JObject
 				$this->$name = $value;
 			}
 		}
-		
+
 		$query = "SELECT *"
 		. "\n FROM $this->_tbl"
 		. "\n WHERE $this->_tbl_key = '$oid'"
 		;
 		$this->_db->setQuery( $query );
-		
+
 		return $this->_db->loadObject( $this );
 	}
 
@@ -203,8 +203,8 @@ class JTable extends JObject
 	* Generic check method
 	*
 	* Can be overloaded/supplemented by the child class
-	* 
-	* @access public  
+	*
+	* @access public
 	* @return boolean True if the object is ok
 	*/
 	function check() {
@@ -215,12 +215,12 @@ class JTable extends JObject
 	* Inserts a new row if id is zero or updates an existing row in the database table
 	*
 	* Can be overloaded/supplemented by the child class
-	* 
+	*
 	* @access public
 	* @param boolean If false, null object variables are not updated
 	* @return null|string null if successful otherwise returns and error message
 	*/
-	function store( $updateNulls=false ) 
+	function store( $updateNulls=false )
 	{
 		$k = $this->_tbl_key;
 		global $migrate;
@@ -236,15 +236,15 @@ class JTable extends JObject
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
-	 * @param 
+	 * @param
 	 * @param
 	 */
-	function move( $dirn, $where='' ) 
+	function move( $dirn, $where='' )
 	{
 		$k = $this->_tbl_key;
 
@@ -316,7 +316,7 @@ class JTable extends JObject
 
 	/**
 	* Compacts the ordering sequence of the selected records
-	* 
+	*
 	* @access public
 	* @param string Additional where query to limit ordering to a particular subset of records
 	*/
@@ -404,7 +404,7 @@ class JTable extends JObject
 	* @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
 	* @return true|false
 	*/
-	function canDelete( $oid=null, $joins=null ) 
+	function canDelete( $oid=null, $joins=null )
 	{
 		$k = $this->_tbl_key;
 		if ($oid) {
@@ -453,11 +453,11 @@ class JTable extends JObject
 	* Default delete method
 	*
 	* can be overloaded/supplemented by the child class
-	* 
+	*
 	* @access public
 	* @return true if successful otherwise returns and error message
 	*/
-	function delete( $oid=null ) 
+	function delete( $oid=null )
 	{
 		//if (!$this->canDelete( $msg )) {
 		//	return $msg;
@@ -483,12 +483,12 @@ class JTable extends JObject
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
-	 * @param 
+	 * @param
 	 * @param
 	 */
-	function checkout( $who, $oid=null ) 
+	function checkout( $who, $oid=null )
 	{
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkouts.";
@@ -527,9 +527,9 @@ class JTable extends JObject
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
-	 * @param 
+	 * @param
 	 * @param
 	 */
 	function checkin( $oid=null ) {
@@ -556,12 +556,12 @@ class JTable extends JObject
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
-	 * @param 
+	 * @param
 	 * @param
 	 */
-	function hit( $oid=null ) 
+	function hit( $oid=null )
 	{
 		global $mosConfig_enable_log_items;
 
@@ -608,7 +608,7 @@ class JTable extends JObject
 
 	/**
 	 * Tests if item is checked out
-	 * 
+	 *
 	 * @access public
 	 * @param int A user id
 	 * @return boolean
@@ -623,13 +623,13 @@ class JTable extends JObject
 
 	/**
 	* Generic save function
-	* 
+	*
 	* @access public
 	* @param array Source array for binding to class vars
 	* @param string Filter for the order updating
 	* @returns TRUE if completely successful, FALSE if partially or not succesful.
 	*/
-	function save( $source, $order_filter='' ) 
+	function save( $source, $order_filter='' )
 	{
 		if (!$this->bind( $source )) {
 			return false;
@@ -691,7 +691,7 @@ class JTable extends JObject
 
 	/**
 	* Export item list to xml
-	* 
+	*
 	* @access public
 	* @param boolean Map foreign keys to text values
 	*/

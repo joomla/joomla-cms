@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Static class to handle component view logic
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -25,19 +25,19 @@ defined('_JEXEC') or die('Restricted access');
  * @category Controller
  * @since 1.5
  */
-class JInstallerExtensionTasks 
+class JInstallerExtensionTasks
 {
 	/**
 	 * @param string The URL option
 	 */
-	function showInstalled() 
+	function showInstalled()
 	{
 		global $mainframe;
 
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-		
+
 		/* Get a database connector */
 		$db =& $mainframe->getDBO();
 
@@ -50,18 +50,18 @@ class JInstallerExtensionTasks
 
 		/* Get the component base directory */
 		$baseDir = JPATH_ADMINISTRATOR .DS. 'components';
-		
+
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++) 
+		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
-			
-			 /* Get the component folder and list of xml files in folder */ 
+
+			 /* Get the component folder and list of xml files in folder */
 			jimport('joomla.filesystem.folder');
 			$folder = $baseDir .DS. $row->option;
 			$xmlFilesInDir = JFolder::files($folder, '.xml$');
 
-			foreach ($xmlFilesInDir as $xmlfile) 
+			foreach ($xmlFilesInDir as $xmlfile)
 			{
 				$data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile);
 				foreach($data as $key => $value) {
@@ -71,12 +71,12 @@ class JInstallerExtensionTasks
 				$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 			}
 		}
-		
+
 		/* Take care of the pagination */
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
-		
+
 		JInstallerScreens_component::showInstalled($rows, $page);
 	}
 
@@ -84,7 +84,7 @@ class JInstallerExtensionTasks
 
 /**
  * Static class to handle component view display
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -102,12 +102,12 @@ class JInstallerScreens_component {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
-				
+
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
 
-		<div id="pane-document">	
+		<div id="pane-document">
 			<?php
 				if (count($rows)) {
 				?>
@@ -136,17 +136,17 @@ class JInstallerScreens_component {
 				$rc = 0;
 				for ($i = 0, $n = count($rows); $i < $n; $i ++) {
 					$row = & $rows[$i];
-							
+
 					$img 	= $row->enabled ? 'tick.png' : 'publish_x.png';
 					$task 	= $row->enabled ? 'disable' : 'enable';
 					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 					$action	= $row->enabled ? 'disable' : 'enable';
 					$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=$task&amp;eid[]=".$row->id."\"><img src=\"images/$img\" border=\"0\" alt=\"$alt\" /></a>";
-					
+
 					if (!$row->option) {
 						$href = '<strong>X</strong>';
 					}
-							
+
 					if ($row->iscore) {
 						$cbd 	= 'disabled';
 						$style 	= 'style="color:#999999;"';
@@ -154,7 +154,7 @@ class JInstallerScreens_component {
 						$cbd 	= '';
 						$style 	= '';
 					}
-							
+
 					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
 					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
@@ -178,19 +178,19 @@ class JInstallerScreens_component {
 							<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
 						</td>
 						<td>
-							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 							</span>
 						</td>
 					</tr>
-					<?php			
+					<?php
 					$rc = 1 - $rc;
 				}
 				?>
 				</table>
-				<?php echo $page->getListFooter(); ?>		
+				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
-				echo JText::_( 'There are no custom components installed' ); 
+				echo JText::_( 'There are no custom components installed' );
 			}
 			?>
 		</div>

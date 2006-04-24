@@ -19,7 +19,7 @@
  * @subpackage 	Model
  * @since		1.0
  */
-class JTableContent extends JTable 
+class JTableContent extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -92,7 +92,7 @@ class JTableContent extends JTable
 	/**
 	 * Validation and filtering
 	 */
-	function check() 
+	function check()
 	{
 		// filter malicious code
 		$ignoreList = array( 'introtext', 'fulltext' );
@@ -118,7 +118,7 @@ class JTableContent extends JTable
 	* Converts record to XML
 	* @param boolean Map foreign keys to text values
 	*/
-	function toXML( $mapKeysToText=false ) 
+	function toXML( $mapKeysToText=false )
 	{
 		global $database;
 

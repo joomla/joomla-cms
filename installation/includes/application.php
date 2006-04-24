@@ -21,20 +21,20 @@ require_once( JPATH_BASE.'/includes/framework.php' );
 * Joomla! Application class
 *
 * Provide many supporting API functions
-* 
+*
 * @package Joomla
 * @final
 */
-class JInstallation extends JApplication 
+class JInstallation extends JApplication
 {
-	/** 
+	/**
 	 * The url of the site
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_siteURL = null;
-	
+
 	/**
 	* Class constructor
 	*/
@@ -42,7 +42,7 @@ class JInstallation extends JApplication
 		parent::__construct(2);
 		$this->_createConfiguration();
 	}
-	
+
 	/**
 	 * Set the application language
 	 *
@@ -55,14 +55,14 @@ class JInstallation extends JApplication
 		if(empty($lang)) {
 			$lang = JLanguageHelper::detectLanguage();
 		}
-		
+
 		/*
 		 * One last check to make sure we have something
 		 */
 		if (empty($lang)) {
 			$lang = 'en-GB';
 		}
-		
+
 		//Set the language in the class
 		$this->_lang =& JLanguage::getInstance( $lang );
 		$this->_lang->setDebug( $this->getCfg('debug') );
@@ -73,17 +73,17 @@ class JInstallation extends JApplication
 	 *
 	 * @access private
 	 */
-	function _createConfiguration() 
-	{	
+	function _createConfiguration()
+	{
 		jimport( 'joomla.registry.registry' );
-		
+
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry = new JRegistry( 'config' );
 	}
-	
+
 	/**
 	* Get the template
-	* 
+	*
 	* @return string The template name
 	*/
 	function getTemplate()
@@ -101,7 +101,7 @@ class JInstallation extends JApplication
 	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
-		
+
 		JSession::get('registry', new JRegistry('application'));
 
 		JSession::setIdle(900);
@@ -112,19 +112,19 @@ class JInstallation extends JApplication
 
 		JSession::updateIdle();
 	}
-	
+
 	/**
-	* Get the url of the site 
-	* 
+	* Get the url of the site
+	*
 	* @return string The site URL
 	* @since 1.5
 	*/
-	function getSiteURL() 
+	function getSiteURL()
 	{
 		if(isset($this->_siteURL)) {
 			return $this->_siteURL;
 		}
-		
+
 		$url = $this->getBaseURL();
 		$url = str_replace('installation/', '', $url);
 		$this->_siteURL = $url;
@@ -132,8 +132,8 @@ class JInstallation extends JApplication
 	}
 }
 
-/** 
- * @global $_VERSION 
+/**
+ * @global $_VERSION
  */
 $_VERSION = new JVersion();
 

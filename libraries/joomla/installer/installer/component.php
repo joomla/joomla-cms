@@ -99,7 +99,7 @@ class JInstallerComponent extends JInstaller
 			if (!$created = JFolder::create($this->_extensionAdminDir))
 			{
 				JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('Failed to create directory').': "'.$this->_extensionAdminDir.'"');
-	
+
 				// Install failed, rollback any changes
 				$this->_rollback();
 				return false;
@@ -147,7 +147,7 @@ class JInstallerComponent extends JInstaller
 		 *    file for utf-8 support or non-utf-8 support
 		 */
 
-		// start with backward compatibility <queries> tag		 
+		// start with backward compatibility <queries> tag
 		$result = $this->_parseBackwardQueries('install/queries');
 
 		if ($result === false)
@@ -455,7 +455,7 @@ class JInstallerComponent extends JInstaller
 		$root = & $this->_xmldoc->documentElement;
 
 		/*
-		 * Now lets load the uninstall file if there is one and execute the uninstall 
+		 * Now lets load the uninstall file if there is one and execute the uninstall
 		 * function if it exists.
 		 */
 		$uninstallfileElement = & $root->getElementsByPath('uninstallfile', 1);
@@ -484,7 +484,7 @@ class JInstallerComponent extends JInstaller
 		 *    file for utf-8 support or non-utf support
 		 */
 
-		// start with backward compatibility <queries> tag		 
+		// start with backward compatibility <queries> tag
 		$result = $this->_parseBackwardQueries('uninstall/queries');
 
 		if ($result === false)
@@ -512,7 +512,7 @@ class JInstallerComponent extends JInstaller
 		$this->_removeFiles('administration/languages');
 
 		/*
-		 * Now we need to delete the installation directories.  This is the final step 
+		 * Now we need to delete the installation directories.  This is the final step
 		 * in uninstalling the component.
 		 */
 		if (trim($row->option))

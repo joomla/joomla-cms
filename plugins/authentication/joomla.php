@@ -48,10 +48,10 @@ class JAuthenticateJoomla extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password ) 
+	function onAuthenticate( $username, $password )
 	{
 		global $mainframe;
-				
+
 		// Initialize variables
 		$conditions = '';
 
@@ -71,7 +71,7 @@ class JAuthenticateJoomla extends JPlugin {
 
 		$db->setQuery( $query );
 		$result = $db->loadResult();
-		
+
 		return $result ? true : false;
 	}
 }

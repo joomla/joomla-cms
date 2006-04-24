@@ -67,7 +67,7 @@ class JPlugin extends JObserver {
 
 /**
 * Plugin helper class
-* 
+*
 * @static
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
@@ -85,29 +85,29 @@ class JPluginHelper
 	 * @param string 	$plugin	The plugin name
 	 * @return mixed 	An array of plugin data objects, or a plugin data object
 	 */
-	function &getPlugin($group, $plugin = null) 
+	function &getPlugin($group, $plugin = null)
 	{
 		$result = array();
-		
+
 		$plugins = JPluginHelper::_load();
 
 		$total = count($plugins);
 		for($i = 0; $i < $total; $i++) {
-			
-			if(is_null($plugin)) 
+
+			if(is_null($plugin))
 			{
 				if($plugins[$i]->folder == $group) {
 					$result[] = $plugins[$i];
 				}
-			} 
-			else 
+			}
+			else
 			{
 				if($plugins[$i]->folder == $group && $plugins[$i]->element == $plugin) {
 					$result = $plugins[$i];
 					break;
 				}
 			}
-			
+
 		}
 
 		return $result;
@@ -116,16 +116,16 @@ class JPluginHelper
 	/**
 	* Loads all the plugin files for a particular group if no specific plugin is specified
 	* otherwise only the specific pugin is loaded.
-	* 
+	*
 	* @access public
 	* @param string 	$group 	The group name, relates to the sub-directory in the plugins directory
 	* @param string 	$plugin	The plugin name
 	* @return boolean True if success
 	*/
-	function importPlugin($group, $plugin = null) 
+	function importPlugin($group, $plugin = null)
 	{
 		$result = false;
-		
+
 		$plugins = JPluginHelper::_load();
 
 		$total = count($plugins);
@@ -138,10 +138,10 @@ class JPluginHelper
 
 		return $result;
 	}
-	
+
 	/**
 	 * Loads the plugin file
-	 * 
+	 *
 	 * @access private
 	 * @param string The folder (group)
 	 * @param string The elements (name of file without extension)
@@ -152,25 +152,25 @@ class JPluginHelper
 	function _import( $folder, $element, $published, $params='' )
 	{
 		global $_MAMBOTS, $mainframe; //needed for backwards compatibility
-		
+
 		$path = JPATH_SITE . DS .'plugins'. DS . $folder . DS . $element . '.php';
-	
+
 		$result = false;
-		
+
 		if (file_exists( $path )) {
 			require_once( $path );
 			$result = true;
-		} 
-		
+		}
+
 		return $result;
 	}
 
 	/**
 	 * Loads the plugin data
-	 * 
+	 *
 	 * @access private
 	 */
-	function _load() 
+	function _load()
 	{
 		global $mainframe;
 

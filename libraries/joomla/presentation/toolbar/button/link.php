@@ -43,10 +43,10 @@ class JButton_Link extends JButton
 
 		return $html;
 	}
-	
+
 	/**
 	 * Get the button CSS Id
-	 * 
+	 *
 	 * @access	public
 	 * @return	string	Button CSS Id
 	 * @since	1.5
@@ -58,7 +58,7 @@ class JButton_Link extends JButton
 
 	/**
 	 * Get the JavaScript command for the button
-	 * 
+	 *
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string

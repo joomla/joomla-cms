@@ -19,7 +19,7 @@
  * @subpackage 	Model
  * @since		1.0
  */
-class JTableModule extends JTable 
+class JTableModule extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -54,22 +54,22 @@ class JTableModule extends JTable
 
 	/**
 	 * Contructore
-	 * 
+	 *
 	 * @access protected
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__modules', 'id', $db );
 	}
-	
+
 	/**
 	* Overloaded check function
-	* 
-	* @access public  
+	*
+	* @access public
 	* @return boolean True if the object is ok
 	* @see JTable:bind
 	*/
-	function check() 
+	function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
@@ -90,11 +90,11 @@ class JTableModule extends JTable
 		//}
 		return true;
 	}
-	
+
 	/**
 	* Overloaded bind function
 	*
-	* @acces public  
+	* @acces public
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
@@ -103,13 +103,13 @@ class JTableModule extends JTable
 	function bind($array, $ignore = '')
 	{
 		$params = JRequest::getVar( 'params', array(), 'post', 'array' );
-	
+
 		if (is_array( $array['params'] )) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-	
+
 		return parent::bind($array, $ignore);
 	}
 }

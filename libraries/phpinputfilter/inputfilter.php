@@ -7,9 +7,9 @@
  * @author: Daniel Morris
  * @contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris
  * Tobin and Andrew Eddie.
- * 
+ *
  * Modification by Louis Landry
- * 
+ *
  * @copyright: Daniel Morris
  * @email: dan@rootcube.com
  * @license: GNU General Public License (GPL)
@@ -28,7 +28,7 @@ class InputFilter
 
 	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
-	 * 
+	 *
 	 * @access	protected
 	 * @param	array	$tagsArray	list of user-defined tags
 	 * @param	array	$attrArray	list of user-defined attributes
@@ -58,7 +58,7 @@ class InputFilter
 	/**
 	 * Method to be called by another php script. Processes for XSS and
 	 * specified bad code.
-	 * 
+	 *
 	 * @access	public
 	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
 	 * @return mixed	$source	'cleaned' version of input parameter
@@ -98,7 +98,7 @@ class InputFilter
 
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
-	 * 
+	 *
 	 * @access	protected
 	 * @param	string	$source	Input string to be 'cleaned'
 	 * @return	string	$source	'cleaned' version of input parameter
@@ -119,7 +119,7 @@ class InputFilter
 
 	/**
 	 * Internal method to strip a string of certain tags
-	 * 
+	 *
 	 * @access	protected
 	 * @param	string	$source	Input string to be 'cleaned'
 	 * @return	string	$source	'cleaned' version of input parameter
@@ -200,8 +200,8 @@ class InputFilter
 			}
 
 			/*
-			 * Exclude all "non-regular" tagnames 
-			 * OR no tagname 
+			 * Exclude all "non-regular" tagnames
+			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
 			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
@@ -326,7 +326,7 @@ class InputFilter
 
 	/**
 	 * Internal method to strip a tag of certain attributes
-	 * 
+	 *
 	 * @access	protected
 	 * @param	array	$attrSet	Array of attribute pairs to filter
 	 * @return	array	$newSet		Filtered array of attribute pairs
@@ -429,7 +429,7 @@ class InputFilter
 
 	/**
 	 * Function to determine if contents of an attribute is safe
-	 * 
+	 *
 	 * @access	protected
 	 * @param	array	$attrSubSet	A 2 element array for attributes name,value
 	 * @return	boolean True if bad code is detected
@@ -443,7 +443,7 @@ class InputFilter
 
 	/**
 	 * Try to convert to plaintext
-	 * 
+	 *
 	 * @access	protected
 	 * @param	string	$source
 	 * @return	string	Plaintext string
@@ -461,7 +461,7 @@ class InputFilter
 
 	/**
 	 * Method to be called by another php script. Processes for SQL injection
-	 * 
+	 *
 	 * @access	public
 	 * @param	mixed		$source	input string/array-of-string to be 'cleaned'
 	 * @param	resource	$connection - An open MySQL connection
@@ -499,10 +499,10 @@ class InputFilter
 
 	/**
 	 * Method to escape a string
-	 * 
+	 *
 	 * @author	Chris Tobin
 	 * @author	Daniel Morris
-	 * 
+	 *
 	 * @access	protected
 	 * @param	string		$source
 	 * @param	resource	$connection		An open MySQL connection
@@ -528,7 +528,7 @@ class InputFilter
 	/**
 	 * @author	Chris Tobin
 	 * @author	Daniel Morris
-	 * 
+	 *
 	 * @access	protected
 	 * @param	string		$source
 	 * @param	resource	$connection		An open MySQL connection
@@ -544,7 +544,7 @@ class InputFilter
 		} else 	{
 			$string = mysql_real_escape_string($string);
 		}
-		
+
 		return $string;
 	}
 }

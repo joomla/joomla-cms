@@ -40,19 +40,19 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 	{
 		global $mainframe;
 		global $Itemid, $task, $option, $id, $my;
-		
+
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
 
 		$gid = $my->gid;
-		
+
 		//For backwards compatibility extract the config vars as globals
 		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-		
+
 		$component = !isset($component) ? $option : $component;
 
 		/*
@@ -66,14 +66,14 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 					"LIMIT 1";
 		$database->setQuery($query);
 		$database->loadObject($row);
-		
+
 		if (!is_object($row))
 		{
 			$row = new stdClass();
 			$row->enabled	= false;
 			$row->params	= null;
 		}
-		
+
 		/*
 		 * A static array of components that are always enabled
 		 */
@@ -82,7 +82,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		/*
 		 * Is the component enabled?
 		 */
-		if ( $mainframe->isAdmin() || $row->enabled || in_array($component, $enabledList) ) 
+		if ( $mainframe->isAdmin() || $row->enabled || in_array($component, $enabledList) )
 		{
 			// preload toolbar in case component handles it manually
 			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
@@ -99,7 +99,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			$task 	= JRequest::getVar( 'task' );
 //			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
 			$ret	= 1;
-			
+
 			// Load the component parameters
 			if ($row) {
 				$params = new JParameter($row->params);

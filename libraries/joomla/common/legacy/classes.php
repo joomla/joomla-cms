@@ -18,12 +18,12 @@ jimport( 'joomla.database.table.*' );
 
 /**
  * Legacy class, derive from JApplication instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosMainFrame extends JApplication 
+class mosMainFrame extends JApplication
 {
 	/**
 	 * Class constructor
@@ -86,7 +86,7 @@ class mosMainFrame extends JApplication
 
 		}
 	}
-	
+
 	/**
 	* Depreacted, use JDocument->setTitle instead or override in your application class
 	* @since 1.5
@@ -108,12 +108,12 @@ class mosMainFrame extends JApplication
 
 /**
  * Legacy class, derive from JTable instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosDBTable extends JTable 
+class mosDBTable extends JTable
 {
 	/**
 	 * Constructor
@@ -145,12 +145,12 @@ class mosDBTable extends JTable
 
 /**
  * Legacy class, use JTableCategory instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosCategory extends JTableCategory 
+class mosCategory extends JTableCategory
 {
 	/**
 	 * Constructor
@@ -182,12 +182,12 @@ class mosCategory extends JTableCategory
 
 /**
  * Legacy class, use JTableComponent instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosComponent extends JTableComponent 
+class mosComponent extends JTableComponent
 {
 	/**
 	 * Constructor
@@ -219,12 +219,12 @@ class mosComponent extends JTableComponent
 
 /**
  * Legacy class, use JTableContent instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosContent extends JTableContent 
+class mosContent extends JTableContent
 {
 	/**
 	 * Constructor
@@ -256,12 +256,12 @@ class mosContent extends JTableContent
 
 /**
  * Legacy class, replaced by JTablePlugin
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosMambot extends JTablePlugin 
+class mosMambot extends JTablePlugin
 {
 	/**
 	 * Constructor
@@ -293,12 +293,12 @@ class mosMambot extends JTablePlugin
 
 /**
  * Legacy class, use JTableMenu instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosMenu extends JTableMenu 
+class mosMenu extends JTableMenu
 {
 	/**
 	 * Constructor
@@ -330,12 +330,12 @@ class mosMenu extends JTableMenu
 
 /**
  * Legacy class, use JTableModule instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosModule extends JTableModule 
+class mosModule extends JTableModule
 {
 	/**
 	 * Constructor
@@ -367,12 +367,12 @@ class mosModule extends JTableModule
 
 /**
  * Legacy class, use JTableSection instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosSection extends JTableSection 
+class mosSection extends JTableSection
 {
 	/**
 	 * Constructor
@@ -404,12 +404,12 @@ class mosSection extends JTableSection
 
 /**
  * Legacy class, use JTableSession instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosSession extends JTableSession 
+class mosSession extends JTableSession
 {
 	/**
 	 * Constructor
@@ -421,14 +421,14 @@ class mosSession extends JTableSession
 	function mosSession(&$db) {
 		parent::__construct( $db );
 	}
-	
+
 	/**
 	 * Encodes a session id
 	 */
-	function hash( $value ) 
+	function hash( $value )
 	{
 		global $mainframe;
-		
+
 		if (phpversion() <= '4.2.1') {
 			$agent = getenv( 'HTTP_USER_AGENT' );
 		} else {
@@ -437,11 +437,11 @@ class mosSession extends JTableSession
 
 		return md5( $agent . $mainframe->getCfg('secret') . $value . $_SERVER['REMOTE_ADDR'] );
 	}
-	
+
 	/**
 	 * Set the information to allow a session to persist
 	 */
-	function persist() 
+	function persist()
 	{
 		global $mainframe;
 
@@ -471,12 +471,12 @@ class mosSession extends JTableSession
 
 /**
  * Legacy class, use JTableUser instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosUser extends JTableUser 
+class mosUser extends JTableUser
 {
 	/**
 	 * Constructor
@@ -508,12 +508,12 @@ class mosUser extends JTableUser
 
 /**
  * Legacy class, use JDatabase
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class database extends JDatabaseMySQL 
+class database extends JDatabaseMySQL
 {
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
 		parent::__construct( $host, $user, $pass, $db, $table_prefix );
@@ -522,12 +522,12 @@ class database extends JDatabaseMySQL
 
  /**
  * Legacy class, use & JFactory::getCache instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosCache 
+class mosCache
 {
 	/**
 	* @return object A function cache object
@@ -546,13 +546,13 @@ class mosCache
 
  /**
  * Legacy class, use JProfiler instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-jimport('joomla.utilities.profiler'); 
-class mosProfiler extends JProfiler 
+jimport('joomla.utilities.profiler');
+class mosProfiler extends JProfiler
 {
 	/**
 	* @return object A function cache object
@@ -564,12 +564,12 @@ class mosProfiler extends JProfiler
 
  /**
  * Legacy class, use JParameter instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosParameters extends JParameter 
+class mosParameters extends JParameter
 {
 	/**
 	* @param string The raw parms text
@@ -579,10 +579,10 @@ class mosParameters extends JParameter
 	function __construct($text, $path = '', $type = 'component') {
 		parent::__construct($text, $path);
 	}
-	
+
 	/**
 	 * Legacy function, use JParameter->toObject instead
-	 * 
+	 *
 	 * @deprecated As of version 1.5
 	 */
 	function toObject() {
@@ -591,32 +591,32 @@ class mosParameters extends JParameter
 
 	/**
 	 * Legacy function, use JParameter->toArray instead
-	 * 
+	 *
 	 * @deprecated As of version 1.5
 	 */
 	function toArray() {
 		$this->toArray();
 	}
-	
+
 	/**
 	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
-	 * 
+	 *
 	 * @access public
 	 * @param mixed The ini string or array of lines
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object
 	 */
-	function parse($txt, $process_sections = false, $asArray = false) 
+	function parse($txt, $process_sections = false, $asArray = false)
 	{
 		$this->loadINI($txt);
-		
+
 		if($asArray) {
 			return $this->toArray();
 		}
-		
+
 		return $this->toObject( );
 	}
-	
+
 	/**
 	* Special handling for textarea param
 	*/
@@ -635,12 +635,12 @@ class mosParameters extends JParameter
 
 /**
  * Legacy class, will be replaced by full MVC implementation in 1.2
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosAbstractTasker 
+class mosAbstractTasker
 {
 	/** @var array An array of the class methods to call for a task */
 	var $_taskMap 	= null;
@@ -808,12 +808,12 @@ class mosAbstractTasker
 
 /**
  * Legacy class, use JEventDispatcher instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosMambotHandler extends JEventDispatcher 
+class mosMambotHandler extends JEventDispatcher
 {
 	function __construct() {
 		parent::__construct();
@@ -864,12 +864,12 @@ class mosMambotHandler extends JEventDispatcher
 
 /**
  * Legacy class, removed
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosEmpty 
+class mosEmpty
 {
 	function def( $key, $value='' ) {
 		return 1;
@@ -882,13 +882,13 @@ class mosEmpty
 
 /**
  * Legacy class, removed
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class MENU_Default 
-{	
+class MENU_Default
+{
 	function MENU_Default() {
 		JMenuBar::startTable();
 		JMenuBar::publishList();
@@ -903,20 +903,20 @@ class MENU_Default
 
 /**
  * Legacy class, use JPanel instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-jimport('joomla.presentation.pane'); 
+jimport('joomla.presentation.pane');
 class mosTabs extends JPaneTabs
 {
 	var $useCookies = false;
-	
+
 	function __construct( $useCookies, $xhtml = null) {
 		parent::__construct( array('useCookies' => $useCookies) );
 	}
-	
+
 	function startTab( $tabText, $paneid ) {
 		$this->startPanel( $tabText, $paneid);
 	}

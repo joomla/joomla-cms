@@ -23,16 +23,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Content
  * @since 1.0
  */
-class ContentView 
+class ContentView
 {
 	/**
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showContent( &$rows, &$lists, $page, $redirect ) 
+	function showContent( &$rows, &$lists, $page, $redirect )
 	{
 		global $mainframe, $database;
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -126,15 +126,15 @@ class ContentView
 			<?php
 			$k = 0;
 			$nullDate = $database->getNullDate();
-			for ($i=0, $n=count( $rows ); $i < $n; $i++) 
+			for ($i=0, $n=count( $rows ); $i < $n; $i++)
 			{
 				$row = &$rows[$i];
-	
+
 				$link 	= 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
-	
+
 				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
-	
+
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == "1" ) {
 					$img = 'publish_y.png';
@@ -164,7 +164,7 @@ class ContentView
 						$times .= "<tr><td>". JText::_( 'Finish' ) .": ". $row->publish_down ."</td></tr>";
 					}
 				}
-	
+
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
@@ -179,9 +179,9 @@ class ContentView
 						$author = $row->author;
 					}
 				}
-	
+
 				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
-	
+
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
@@ -288,10 +288,10 @@ class ContentView
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect ) 
+	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect )
 	{
 		global $my, $mainframe;
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -332,7 +332,7 @@ class ContentView
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="5">
@@ -364,10 +364,10 @@ class ContentView
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
-	
+
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 				$row->sec_link 	= ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
-	
+
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
@@ -382,7 +382,7 @@ class ContentView
 						$author = $row->author;
 					}
 				}
-	
+
 				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -418,7 +418,7 @@ class ContentView
 			}
 			?>
 			</table>
-	
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
@@ -444,15 +444,15 @@ class ContentView
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option ) 
+	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option )
 	{
 		global $database;
-		
+
 		mosMakeHtmlSafe( $row );
-		
+
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
-				
+
 		$pane =& JPane::getInstance('sliders');
 
 		mosCommonHTML::loadOverlib();
@@ -514,7 +514,7 @@ class ContentView
  			} else if (form.catid.value == ""){
  				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
 			} else {
-				<?php 
+				<?php
 				echo $editor->save( 'text' );
 				?>
 				submitform( pressbutton );
@@ -522,9 +522,9 @@ class ContentView
 		}
 		//-->
 		</script>
-		
+
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td valign="top">
@@ -534,7 +534,7 @@ class ContentView
 					<td>
 						<?php
 						// parameters : areaname, content, hidden field, width, height, rows, cols
-						echo $editor->display( 'text',  $row->text , '100%;', '550', '75', '20' ) ; 
+						echo $editor->display( 'text',  $row->text , '100%;', '550', '75', '20' ) ;
 						?>
 					</td>
 				</tr>
@@ -545,27 +545,27 @@ class ContentView
 				$title = JText::_( 'Details' );
 				$pane->startPane("content-pane");
 				$pane->startPanel( $title, "detail-page" );
-			
-				ContentView::_paneDetails(  $row, $lists, $params );	
-					
+
+				ContentView::_paneDetails(  $row, $lists, $params );
+
 				$title = JText::_( 'Meta Info' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "metadata-page" );
-					
-				ContentView::_paneMetaInfo( $row, $lists, $params );		
-					
+
+				ContentView::_paneMetaInfo( $row, $lists, $params );
+
 				$title = JText::_( 'Images' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "images-page" );
-					
-				ContentView::_paneImages( $row, $lists, $params );			
-					
+
+				ContentView::_paneImages( $row, $lists, $params );
+
 				$title = JText::_( 'Parameters' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "params-page" );
-				
-				ContentView::_paneParameters( $row, $lists, $params );			
-								
+
+				ContentView::_paneParameters( $row, $lists, $params );
+
 				$pane->endPanel();
 				$pane->endPane();
 			?>
@@ -593,7 +593,7 @@ class ContentView
 	* @param int The current section we are looking at
 	* @param array The list of sections and categories to move to
 	*/
-	function moveSection( $cid, $sectCatList, $option, $sectionid, $items ) 
+	function moveSection( $cid, $sectCatList, $option, $sectionid, $items )
 	{
 		?>
 		<script language="javascript" type="text/javascript">
@@ -655,7 +655,7 @@ class ContentView
 	/**
 	* Form to select Section/Category to copys item(s) to
 	*/
-	function copySection( $option, $cid, $sectCatList, $sectionid, $items  ) 
+	function copySection( $option, $cid, $sectCatList, $sectionid, $items  )
 	{
 		?>
 		<script language="javascript" type="text/javascript">
@@ -715,14 +715,14 @@ class ContentView
 	{
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
-		
+
 		?>
 		<script>
 		var form = window.opener.document.adminForm
 		var title = form.title.value;
 
 		var alltext = window.opener.<?php echo $editor->getContent('text') ?>;
-		
+
 		// do the images
 		var temp = new Array();
 		for (var i=0, n=form.imagelist.options.length; i < n; i++) {
@@ -759,7 +759,7 @@ class ContentView
 	/**
 	 * Writes a user input error message and if javascript is enabled goes back
 	 * to the previous screen to try again.
-	 * 
+	 *
 	 * @param string $msg The error message to display
 	 * @return void
 	 * @since 1.5
@@ -768,10 +768,10 @@ class ContentView
 		josErrorAlert($msg);
 	}
 
-	function _paneDetails(&$row, &$lists, &$params ) 
+	function _paneDetails(&$row, &$lists, &$params )
 	{
 		?>
-		<table> 
+		<table>
 		<tr>
 			<td>
 				<label for="title_alias">
@@ -849,7 +849,7 @@ class ContentView
 		<?php
 		ContentView::_displayArticleStats($row, $lists, $params);
 	}
-	
+
 	function _paneMetaInfo( &$row, &$lists, &$params )
 	{
 		?>
@@ -878,9 +878,9 @@ class ContentView
 			</td>
 		</tr>
 		</table>
-		<?php		
+		<?php
 	}
-	
+
 	function _paneImages( &$row, &$lists, &$params )
 	{
 		?>
@@ -898,7 +898,7 @@ class ContentView
 							<?php echo $lists['imagefiles'];?>
 							<br />
 							<label for="folders">
-								<?php echo JText::_( 'Sub-folder' ); ?>: 
+								<?php echo JText::_( 'Sub-folder' ); ?>:
 							</label>
 							<?php echo $lists['folders'];?>
 						</div>
@@ -1035,7 +1035,7 @@ class ContentView
 		</table>
 		<?php
 	}
-	
+
 	function _paneParameters( &$row, &$lists, &$params )
 	{
 		?>
@@ -1054,7 +1054,7 @@ class ContentView
 		</table>
 		<?php
 	}
-		
+
 	function _displayArticleDetails(&$row, &$lists, &$params )
 	{
 		?>
@@ -1074,7 +1074,7 @@ class ContentView
 				</label>
 			</td>
 			<td>
-				<?php echo $lists['state']; ?> 
+				<?php echo $lists['state']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -1092,7 +1092,7 @@ class ContentView
 				</label>
 			</td>
 			<td>
-				<?php echo $lists['frontpage']; ?> 
+				<?php echo $lists['frontpage']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -1109,13 +1109,13 @@ class ContentView
 		</table>
 		<?php
 	}
-	
-	function _displayArticleStats(&$row, &$lists, &$params) 
+
+	function _displayArticleStats(&$row, &$lists, &$params)
 	{
 		global $mainframe;
-		
+
 		$database =& $mainframe->getDBO();
-		
+
 		$create_date 	= null;
 		$nullDate 		= $database->getNullDate();
 
@@ -1133,7 +1133,7 @@ class ContentView
 		} else {
 			$visibility = "";
 		}
-		
+
 		?>
 		<table width="100%" style="border-top: 1px dashed silver; padding: 5px;">
 		<?php

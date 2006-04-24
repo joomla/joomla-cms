@@ -21,20 +21,20 @@ jimport( 'joomla.common.base.object' );
  * @subpackage	Application
  * @since		1.5
  */
-class JAuthenticate extends JObject 
+class JAuthenticate extends JObject
 {
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
-	function __construct() 
+	function __construct()
 	{
 		// Get the global event dispatcher to load the plugins
 		$dispatcher =& JEventDispatcher::getInstance();
 
 		$plugins = JPluginHelper::getPlugin('authentication');
-		
+
 		$isLoaded = false;
 		foreach ($plugins as $plugin) {
 			$isLoaded |= $this->loadPlugin($plugin->element, $dispatcher);
@@ -44,7 +44,7 @@ class JAuthenticate extends JObject
 			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.', $plugins);
 		}
 	}
-	
+
 	/**
 	 * Returns a reference to a global authentication object, only creating it
 	 * if it doesn't already exist.
@@ -91,23 +91,23 @@ class JAuthenticate extends JObject
 
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $dispatcher->trigger( 'onAuthenticate', $credentials);
-		
+
 		/*
 		 * Check each of the results to see if a valid user ID was returned. and use the
 		 * furst ID to log into the system.
 		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
 		 * and handled appropriately.
 		 */
-		foreach($results as $result) 
+		foreach($results as $result)
 		{
 			if($result !== false) {
 				return true;
-			}	
+			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Static method to load an auth plugin and attach it to the JEventDispatcher
 	 * object.
@@ -131,7 +131,7 @@ class JAuthenticate extends JObject
 		}
 
 		if (empty ($instances[$plugin])) {
-			
+
 			if(JPluginHelper::importPlugin('authentication', $plugin)) {
 				// Build authentication plugin classname
 				$name = 'JAuthenticate'.$plugin;
@@ -155,7 +155,7 @@ class JAuthenticate extends JObject
  * @subpackage	Application
  * @since		1.5
  */
-class JAuthenticateHelper 
+class JAuthenticateHelper
 {
 
 	/**

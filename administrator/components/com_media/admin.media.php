@@ -88,25 +88,25 @@ switch ($task) {
 }
 
 /**
- * Media Manager Controller 
- * 
+ * Media Manager Controller
+ *
  * @static
  * @package Joomla
  * @subpackage Media
  * @since 1.5
  */
-class JMediaController 
+class JMediaController
 {
 	/**
 	 * Show media manager
-	 * 
+	 *
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function showMedia($listFolder) 
+	function showMedia($listFolder)
 	{
 		/*
-		 * Get the list of folders 
+		 * Get the list of folders
 		 */
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
@@ -138,11 +138,11 @@ class JMediaController
 
 	/**
 	 * Build imagelist
-	 * 
+	 *
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function listMedia($listFolder) 
+	function listMedia($listFolder)
 	{
 		/*
 		 * Initialize variables
@@ -163,9 +163,9 @@ class JMediaController
 		/*
 		 * Iterate over the files if they exist
 		 */
-		if ($fileList !== false) 
+		if ($fileList !== false)
 		{
-			foreach ($fileList as $file) 
+			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					if (eregi($imageTypes, $file)) {
@@ -207,17 +207,17 @@ class JMediaController
 
 	/**
 	 * Upload a file
-	 * 
+	 *
 	 * @since 1.5
 	 */
-	function upload() 
+	function upload()
 	{
 		global $mainframe, $clearUploads;
 
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
 		$juri 		= $mainframe->getURI();
-		$index		= (strpos($juri->getPath(),'index3.php')) ? 'index3.php' : 'index2.php';	
+		$index		= (strpos($juri->getPath(),'index3.php')) ? 'index3.php' : 'index2.php';
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
 			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
@@ -252,11 +252,11 @@ class JMediaController
 
 	/**
 	 * Create a folder
-	 * 
+	 *
 	 * @param string $path Path of the folder to create
 	 * @since 1.5
 	 */
-	function createFolder($path) 
+	function createFolder($path)
 	{
 		$folderName = JRequest::getVar( 'foldername', '', 'post' );
 
@@ -265,7 +265,7 @@ class JMediaController
 				josRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_('WARNDIRNAME'));
 			}
 			$folder = COM_MEDIA_BASE.$path.DS.$folderName;
-			if (!is_dir($folder) && !is_file($folder)) 
+			if (!is_dir($folder) && !is_file($folder))
 			{
 				jimport('joomla.filesystem.*');
 				$folder = JPath::clean($folder);
@@ -277,14 +277,14 @@ class JMediaController
 
 	/**
 	 * Deletes a file
-	 * 
+	 *
 	 * @param string $listFolder The image directory to delete a file from
 	 * @since 1.5
 	 */
-	function deleteFile($listdir) 
+	function deleteFile($listdir)
 	{
 		jimport('joomla.filesystem.file');
-		
+
 		$delFile = JRequest::getVar( 'delFile' );
 		$fullPath = COM_MEDIA_BASE.$listdir.DS.$delFile;
 
@@ -293,14 +293,14 @@ class JMediaController
 
 	/**
 	 * Delete a folder
-	 * 
+	 *
 	 * @param string $listdir The image directory to delete a folder from
 	 * @since 1.5
 	 */
-	function deleteFolder($listdir) 
+	function deleteFolder($listdir)
 	{
 		jimport('joomla.filesystem.folder');
-		
+
 		$canDelete = true;
 		$delFolder = JRequest::getVar( 'delFolder' );
 		$delFolder = COM_MEDIA_BASE.$listdir.$delFolder;

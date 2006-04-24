@@ -34,7 +34,7 @@ class TOOLBAR_newsfeeds  {
 		global $id;
 
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
 		if ($id) {
 			JMenuBar::trash('remove', 'Delete', false);

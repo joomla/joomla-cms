@@ -33,13 +33,13 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 	$return = null;
 	if (isset( $arr[$name] )) {
 		$return = $arr[$name];
-		
+
 		if (is_string( $return )) {
 			// trim data
 			if (!($mask&_MOS_NOTRIM)) {
 				$return = trim( $return );
 			}
-			
+
 			if ($mask&_MOS_ALLOWRAW) {
 				// do nothing
 			} else if ($mask&_MOS_ALLOWHTML) {
@@ -58,13 +58,13 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 				}
 				$return = $noHtmlFilter->process( $return );
 			}
-			
+
 			// account for magic quotes setting
 			if (!get_magic_quotes_gpc()) {
 				$return = addslashes( $return );
 			}
 		}
-		
+
 		return $return;
 	} else {
 		return $def;
@@ -73,7 +73,7 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 
 /**
  * Strip slashes from strings or arrays of strings
- * 
+ *
  * @package Joomla.Framework
  * @param mixed The input string or array
  * @return mixed String or array stripped of slashes
@@ -101,7 +101,7 @@ function mosStripslashes( &$value ) {
 *
 * Object parameters that are non-string, array, object or start with underscore
 * will be converted
-* 
+*
 * @package Joomla.Framework
 * @param object An object to be parsed
 * @param int The optional quote style for the htmlspecialchars function
@@ -129,7 +129,7 @@ function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 * Replaces &amp; with & for xhtml compliance
 *
 * Needed to handle unicode conflicts due to unicode conflicts
-* 
+*
 * @package Joomla.Framework
 * @since 1.0
 */
@@ -147,7 +147,7 @@ function ampReplace( $text ) {
 /**
 * Copy the named array content into the object as properties
 * only existing properties of object are filled. when undefined in hash, properties wont be deleted
-* 
+*
 * @package Joomla.Framework
 * @param array the input array
 * @param obj byref the object to fill of any class
@@ -196,7 +196,7 @@ function mosObjectToArray($p_obj) {
 
 /**
  * Utility function to map an array to a stdClass object.
- * 
+ *
  * @package	Joomla.Framework
  * @param	array	$p_array	The array to map.
  * @return	object	The object mapped from the given array.
@@ -225,10 +225,10 @@ function josArrayToObject($p_array) {
  * @param string $msg A message to display on redirect
  * @since 1.0
  */
-function josRedirect( $url, $msg='' ) 
+function josRedirect( $url, $msg='' )
 {
    global $mainframe;
-   
+
     /*
      * Instantiate an input filter and process the URL and message
      */
@@ -292,7 +292,7 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 
 /**
  * Format a backtrace error
- * 
+ *
  * @package Joomla.Framework
  * @since 1.5
  */
@@ -312,7 +312,7 @@ function mosBackTrace() {
 * Displays a not authorised message
 *
 * If the user is not logged in then an addition message is displayed.
-* 
+*
 * @package Joomla.Framework
 * @since 1.0
 */
@@ -391,7 +391,7 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 
 /**
 * Checks whether a menu option is within the users access level
-* 
+*
 * @package Joomla.Framework
 * @param int Item id number
 * @param string The menu option
@@ -402,9 +402,9 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	global $database;
-	
+
 	$dblink = "index.php?option=$menu_option";
-	
+
 	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
 		$menu = JMenu::getInstance();
 		$results[] = $menu->getItem($Itemid);
@@ -412,7 +412,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 		if ($task!='') {
 			$dblink	.= "&task=$task";
 		}
-		
+
 		$query = "SELECT access"
 		. "\n FROM #__menu"
 		. "\n WHERE link LIKE '$dblink%'"
@@ -421,17 +421,17 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 		$results 	= $database->loadObjectList();
 	}
 	$access 	= 0;
-	
+
 	foreach ($results as $result) {
 		$access = max( $access, $result->access );
 	}
-	
+
 	return ($access <= $gid);
 }
 
 /**
 * Returns formated date according to current local and adds time offset
-* 
+*
 * @package Joomla.Framework
 * @param string date in datetime format
 * @param string format optional format for strftime
@@ -455,24 +455,24 @@ function mosFormatDate( $date, $format="", $offset="" )
 		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
 		$date = $date > -1 ? strftime( $format, $date + ($offset*60*60) ) : '-';
 	}
-	
+
 	// for Windows there is a need to convert the date string to utf-8.
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && function_exists('iconv')) {
 		return iconv($lang->getWinCP(), "UTF-8", $date);
 	}
-	
+
 	return $date;
 }
 
 /**
 * Returns current date according to current local and time offset
-* 
+*
 * @package Joomla.Framework
 * @param string format optional format for strftime
 * @returns current date
 * @since 1.0
 */
-function mosCurrentDate( $format="" ) 
+function mosCurrentDate( $format="" )
 {
 	global $mainframe;
 
@@ -485,43 +485,43 @@ function mosCurrentDate( $format="" )
 
 /**
 * Utility function to provide ToolTips
-* 
+*
 * @package Joomla.Framework
 * @param string ToolTip text
 * @param string Box title
 * @returns HTML code for ToolTip
 * @since 1.0
 */
-function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 ) 
+function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
 {
 	global $mainframe;
-	
+
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
-	
+
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';
 	}
-	
+
 	if ( $title ) {
 		$title = ', CAPTION, \''. JText::_( $title ) .'\'';
 	}
-	
+
 	if ( !$text ) {
 		$image 	= $url . 'includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	} else {
 		$text 	= JText::_( $text, true );
     }
-	
+
 	$style = 'style="text-decoration: none; color: #333;"';
-	
+
 	if ( $href ) {
 		$href = ampReplace( $href );
 		$style = '';
-	} 
+	}
 
 	$mousover = 'return overlib(\''. JText::_( $tooltip, true ) .'\''. $title .', BELOW, RIGHT'. $width .');';
 
@@ -553,7 +553,7 @@ function mosExpandID( $ID ) {
 
 /**
  * Provides a secure hash based on a seed
- * 
+ *
  * @package Joomla.Framework
  * @param string Seed string
  * @return string
@@ -565,7 +565,7 @@ function mosHash( $seed ) {
 
 /**
  * Mail function (uses phpMailer)
- * 
+ *
  * @package Joomla.Framework
  * @param string $from From e-mail address
  * @param string $fromname From name
@@ -585,7 +585,7 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
 	global $mainframe;
 
 	jimport('joomla.utilities.mail');
-	
+
 	/*
 	 * Get a JMail instance
 	 */
@@ -637,7 +637,7 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
 
 /**
  * Sends mail to administrator for approval of a user submission
- * 
+ *
  * @package Joomla.Framework
  * @param string $adminName Name of administrator
  * @param string $adminEmail Email address of administrator
@@ -650,7 +650,7 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
  */
 function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) {
 	global $mainframe;
-	
+
 	if(!isset($url)) {
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	}
@@ -663,7 +663,7 @@ function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
     $message .= JText::_( 'MAIL_MSG') ."\n";
 
 	eval ("\$message = \"$message\";");
-	
+
 	return josMail($mainframe->getCfg( 'mailfrom' ), $mainframe->getCfg( 'fromname' ), $adminEmail, $subject, $message);
 }
 
@@ -688,7 +688,7 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 	 * Get the base request URL from the JApplication object
 	 */
 	$RURL = $mainframe->getBaseURL();
-	
+
 	/*
 	 * First we need to get the secure/unsecure URLs.  To do this we get the
 	 * request URL from the JApplication and do a quick test.  If the first 5
@@ -750,7 +750,7 @@ function josURL( $url, $ssl=0, $sef=1 ) {
  * @since	1.5
  */
 function josParseAttributes( $string ) {
-	
+
 	/*
 	 * Initialize variables
 	 */
@@ -769,12 +769,12 @@ function josParseAttributes( $string ) {
 			$retarray[$attr[1][$i]] = $attr[2][$i];
 		}
 	}
-	return $retarray;	
+	return $retarray;
 }
 
 /**
 * Prepares results from search for display
-* 
+*
 * @package Joomla.Framework
 * @param string The source string
 * @param int Number of chars to trim
@@ -795,7 +795,7 @@ function mosPrepareSearchContent( $text, $length=200, $searchword ) {
 
 /**
 * returns substring of characters around a searchword
-* 
+*
 * @package Joomla.Framework
 * @param string The source string
 * @param int Number of chars to return
@@ -815,7 +815,7 @@ function mosSmartSubstr($text, $length=200, $searchword) {
 
 /**
  * Function to convert array to integer values
- * 
+ *
  * @package Joomla.Framework
  * @param array
  * @param int A default value to assign if $array is not an array
@@ -839,7 +839,7 @@ function mosArrayToInts( &$array, $default=null ) {
 
 /**
 * Sorts an Array of objects
-* 
+*
 * @package Joomla.Framework
 * @since 1.0
 */
@@ -859,7 +859,7 @@ function SortArrayObjects_cmp( &$a, &$b ) {
 
 /**
 * Sorts an Array of objects
-* 
+*
 * @package Joomla.Framework
 * @param integer 	$sort_direction [1 = Ascending] [-1 = Descending]
 * @since 1.0

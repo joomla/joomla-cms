@@ -38,12 +38,12 @@ if ($extension != '') {
 	}
 }
 
-class JInstallerController 
+class JInstallerController
 {
 	/**
 	 * @param string The class name for the installer
 	 */
-	function uploadpackage() 
+	function uploadpackage()
 	{
 		global $mainframe;
 
@@ -87,7 +87,7 @@ class JInstallerController
 		/*
 		 * Move uploaded file
 		 */
-		jimport('joomla.filesystem.file');		
+		jimport('joomla.filesystem.file');
 		$uploaded = JFile::upload($userfile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$userfile['name']);
 
 		/*
@@ -132,12 +132,12 @@ class JInstallerController
 
 	/**
 	 * Install an extension from a directory
-	 * 
+	 *
 	 * @static
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function installFromDirectory() 
+	function installFromDirectory()
 	{
 		global $mainframe;
 
@@ -199,12 +199,12 @@ class JInstallerController
 
 	/**
 	 * Install an extension from a URL
-	 * 
+	 *
 	 * @static
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function installFromUrl() 
+	function installFromUrl()
 	{
 		global $mainframe;
 
@@ -283,12 +283,12 @@ class JInstallerController
 
 	/**
 	 * Enable an extension
-	 * 
+	 *
 	 * @static
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function enableextension() 
+	function enableextension()
 	{
 		global $mainframe;
 
@@ -306,7 +306,7 @@ class JInstallerController
 
 //		/*
 //		 * Get the extension client
-//		 * 
+//		 *
 //		 * Defaults to 'site'
 //		 * Set 'admin' to 'administrator'
 //		 */
@@ -320,7 +320,7 @@ class JInstallerController
 
 		/*
 		 * Ensure eid is an array of extension ids
-		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid)) {
 			$eid = array ($eid);
@@ -348,12 +348,12 @@ class JInstallerController
 
 	/**
 	 * Disable an extension
-	 * 
+	 *
 	 * @static
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function disableextension() 
+	function disableextension()
 	{
 		global $mainframe;
 
@@ -371,7 +371,7 @@ class JInstallerController
 
 //		/*
 //		 * Get the extension client
-//		 * 
+//		 *
 //		 * Defaults to 'site'
 //		 * Set 'admin' to 'administrator'
 //		 */
@@ -385,7 +385,7 @@ class JInstallerController
 
 		/*
 		 * Ensure eid is an array of extension ids
-		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid)) {
 			$eid = array ($eid);
@@ -414,12 +414,12 @@ class JInstallerController
 
 	/**
 	 * Remove (uninstall) an extension
-	 * 
+	 *
 	 * @static
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function removeextension() 
+	function removeextension()
 	{
 		global $mainframe;
 
@@ -439,7 +439,7 @@ class JInstallerController
 
 //		/*
 //		 * Get the extension client
-//		 * 
+//		 *
 //		 * Defaults to 'site'
 //		 * Set 'admin' to 'administrator'
 //		 */
@@ -453,7 +453,7 @@ class JInstallerController
 
 		/*
 		 * Ensure eid is an array of extension ids
-		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid)) {
 			$eid = array ($eid);
@@ -461,7 +461,7 @@ class JInstallerController
 
 		/*
 		 * Ensure eclient is an array of extension clients
-		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eclient)) {
 			$eclient = array ($eclient);
@@ -475,7 +475,7 @@ class JInstallerController
 		/*
 		 * Uninstall the chosen extensions
 		 */
-		$i = 0; 
+		$i = 0;
 		foreach ($eid as $id) {
 			$result = $installer->uninstall($id, $eclient[$i++]);
 

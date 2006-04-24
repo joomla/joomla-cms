@@ -37,7 +37,7 @@ class JButton_Separator extends JButton
 		$html	= null;
 		$class	= null;
 		$style	= null;
-		
+
 		// Separator class name
 		if (empty($definition[1]))
 		{

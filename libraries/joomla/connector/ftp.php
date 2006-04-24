@@ -146,7 +146,7 @@ class JFTP extends JObject {
 		static $instances;
 
 		$signature = $host.":".$port;
-		
+
 		if (!isset ($instances)) {
 			$instances = array ();
 			$instances[$signature] = new JFTP($options);
@@ -189,7 +189,7 @@ class JFTP extends JObject {
 	 * @return boolean True if successful
 	 */
 	function connect($host = '127.0.0.1', $port = 21) {
-		
+
 		// Initialize variables
 		$errno = null;
 		$err = null;
@@ -205,14 +205,14 @@ class JFTP extends JObject {
 				JError::raiseError('30', 'JFTP::connect: Could not connect to host:'.$host.' on port:'.$port.'.', 'Socket error number:'.$errno.' and error message:'.$err );
 				return false;
 			}
-	
+
 			// Check for welcome response code
 			if (!$this->_verifyResponse(220)) {
 				JError::raiseError('35', 'JFTP::connect: Bad response.', 'Server response:'.$this->_response.' [Expected: 220]' );
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -772,7 +772,7 @@ class JFTP extends JObject {
 		 * If a path exists, prepend a space
 		 */
 		if ($path != null) {
-			$path = ' ' . $path;	
+			$path = ' ' . $path;
 		}
 
 		// Start passive mode
@@ -825,9 +825,9 @@ class JFTP extends JObject {
 		 * If a path exists, prepend a space
 		 */
 		if ($path != null) {
-			$path = ' ' . $path;	
+			$path = ' ' . $path;
 		}
-		
+
 		// Determine system type for directory listing parsing
 		$osType = $this->syst();
 

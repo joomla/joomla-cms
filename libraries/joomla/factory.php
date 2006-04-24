@@ -33,7 +33,7 @@ class JFactory
 		global $mainframe;
 
 		jimport('joomla.cache.cache');
-		
+
 		$cachePath = $mainframe->getCfg('cachepath').DS;
 
 		/*
@@ -45,7 +45,7 @@ class JFactory
 			/*
 			 * Add the application specific subdirectory for cache paths
 			 */
-			
+
 			$options = array(
 				'cacheDir' 		=> $cachePath,
 				'caching' 		=> $mainframe->getCfg('caching'),
@@ -53,7 +53,7 @@ class JFactory
 				'lifeTime' 		=> $mainframe->getCfg('cachetime'),
 				'fileNameProtection' => false
 			);
-		} 
+		}
 		else
 		{
 			$options = array(
@@ -112,7 +112,7 @@ class JFactory
 	 * @access public
 	 * @return object
 	 * $param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
-	 * @param array: 
+	 * @param array:
 	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
 	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
@@ -121,7 +121,7 @@ class JFactory
 	 function &getXMLParser( $type = 'DOM', $options = array())
 	 {
 	 	global $mainframe;
-	 	
+
 		$doc = null;
 
 		switch($type)
@@ -137,18 +137,18 @@ class JFactory
 				if( !is_null( $options['cache_time'])){
 					define('MAGPIE_CACHE_AGE', $options['cache_time']);
 				}
-					
+
 				jimport('magpierss.rss_fetch');
 				$doc = fetch_rss( $options['rssUrl'] );
-				
+
 			} break;
-			
+
 			case 'Simple' :
 			{
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
 			} break;
-			
+
 			case 'DOM'  :
 			default :
 			{
@@ -159,8 +159,8 @@ class JFactory
 					jimport('domit.xml_domit_include');
 					$doc = new DOMIT_Document();
 				}
-			} 
-			
+			}
+
 		}
 
 		$reference =& $doc;

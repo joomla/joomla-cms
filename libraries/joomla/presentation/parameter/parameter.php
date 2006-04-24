@@ -23,22 +23,22 @@ jimport( 'joomla.registry.registry' );
  */
 class JParameter extends JRegistry
 {
-	/** 
+	/**
 	 * The raw params string
-	 * 
+	 *
 	 * @access	private
-	 * @var string 
+	 * @var string
 	 */
 	var $_raw = null;
-	
-	/** 
-	 * The xml params element 
-	 * 
+
+	/**
+	 * The xml params element
+	 *
 	 * @access	private
-	 * @var object 
+	 * @var object
 	 */
 	var $_xml = null;
-	
+
 	/**
 	* loaded elements
 	*
@@ -46,10 +46,10 @@ class JParameter extends JRegistry
 	* @var		array
 	*/
 	var $_elements = array();
-	
+
 	/**
 	* directories, where element types can be stored
-	* 
+	*
 	* @access	private
 	* @var		array
 	*/
@@ -57,29 +57,29 @@ class JParameter extends JRegistry
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 * @param string The raw parms text
 	 * @param string Path to the xml setup file
 	 * @var string The type of setup file
 	 */
-	function __construct($data, $path = '') 
+	function __construct($data, $path = '')
 	{
 		if( !defined( 'JPARAMETER_INCLUDE_PATH' ) ) {
 			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ) . '/element' );
 		}
-		
+
 		parent::__construct('parameter');
-			
+
 		$this->loadINI($data);
 		$this->loadSetupFile($path);
-		
+
 		$this->_raw = $data;
 	}
 
 	/**
 	 * Set a value
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the param
 	 * @param string The value of the parameter
@@ -88,10 +88,10 @@ class JParameter extends JRegistry
 	function set($key, $value = '') {
 		return $this->setValue('parameter.'.$key, (string) $value);
 	}
-	
+
 	/**
 	 * Get a value
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the param
 	 * @param mixed The default value if not found
@@ -99,13 +99,13 @@ class JParameter extends JRegistry
 	 */
 	function get($key, $default = '') {
 		$value = $this->getValue('parameter.'.$key);
-		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value; 
+		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
 		return $result;
 	}
 
 	/**
 	 * Sets a default value if not alreay assigned
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the param
 	 * @param string The value of the parameter
@@ -117,17 +117,17 @@ class JParameter extends JRegistry
 
 	/**
 	 * Render
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return string HTML
 	 */
-	function render($name = 'params') 
+	function render($name = 'params')
 	{
 		if (!is_object($this->_xml)) {
 			return false;
 		}
-		
+
 		$html = array ();
 		$html[] = '<table width="100%" class="paramlist">';
 
@@ -136,10 +136,10 @@ class JParameter extends JRegistry
 			$html[] = '<tr><td colspan="3">'.$description.'</td></tr>';
 		}
 
-		foreach ($this->_xml->children() as $param) 
+		foreach ($this->_xml->children() as $param)
 		{
 			$result = $this->renderParam($param, $name);
-			
+
 			$html[] = '<tr>';
 
 			$html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
@@ -151,43 +151,43 @@ class JParameter extends JRegistry
 		if (count($this->_xml->children()) < 1) {
 			$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
 		}
-		
+
 		$html[] = '</table>';
-		
+
 		return implode("\n", $html);
 	}
 
 	/**
 	 * render a parameter type
-	 * 
+	 *
 	 * @param object A param tag node
 	 * @param string The control name
 	 * @return array Any array of the label, the form element and the tooltip
 	 */
-	function renderParam(&$node, $control_name = 'params') 
+	function renderParam(&$node, $control_name = 'params')
 	{
 		//get the type of the parameter
 		$type = $node->attributes('type');
-		
+
 		//remove any occurance of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
-		
+
 		$element =& $this->loadElement($type);
-		
+
 		/**
 		 * error happened
 		 */
 		if ($element === false) {
-			
+
 			$result = array();
 			$result[0] = $node->attributes('name');
 			$result[1] = JText::_('Element not defined for type').' = '.$type;
 			return $result;
 		}
-		
+
 		return $element->render($node, $control_name);
 	}
-	
+
 	/**
 	* Loads an xml setup file and parses it
 	*
@@ -196,7 +196,7 @@ class JParameter extends JRegistry
 	* @return	object
 	* @since 1.5
 	*/
-	function loadSetupFile($path) 
+	function loadSetupFile($path)
 	{
 		$result = false;
 
@@ -204,7 +204,7 @@ class JParameter extends JRegistry
 		{
 			$xml = & JFactory::getXMLParser('Simple');
 
-			if ($xml->loadFile($path)) 
+			if ($xml->loadFile($path))
 			{
 				if ($params = & $xml->document->params[0]) {
 					$this->_xml = & $params;
@@ -212,14 +212,14 @@ class JParameter extends JRegistry
 				}
 			}
 		}
-		else 
+		else
 		{
 			$result = true;
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	* Loads a element type
 	*
@@ -228,7 +228,7 @@ class JParameter extends JRegistry
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadElement( $type, $new = false ) {	
+	function &loadElement( $type, $new = false ) {
 		$signature = md5( $type  );
 
 		if( isset( $this->_elements[$signature] ) && $new === false ) {
@@ -248,13 +248,13 @@ class JParameter extends JRegistry
 				$dirs = $this->_elementDirs;
 			else
 				$dirs = array();
-			
+
 			array_push( $dirs, $this->getIncludePath());
-				
+
 			$found = false;
 			foreach( $dirs as $dir ) {
 				$elementFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $type ) );
-				
+
 				if (@include_once $elementFile) {
 					$found = true;
 					break;
@@ -273,10 +273,10 @@ class JParameter extends JRegistry
 		}
 
 		$this->_elements[$signature] = new $elementClass($this);
-		
+
 		return $this->_elements[$signature];
 	}
-	
+
 	/**
 	* Add a directory where JParameter should search for element types
 	*
@@ -298,7 +298,7 @@ class JParameter extends JRegistry
 			array_push( $this->_elementDirs, $dir );
 		}
 	}
-	
+
    /**
 	* Get the include path
 	*

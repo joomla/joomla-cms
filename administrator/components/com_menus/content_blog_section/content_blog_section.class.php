@@ -93,7 +93,7 @@ class content_blog_section {
 		content_blog_section_html::edit( $menu, $lists, $params, $option );
 	}
 
-	function saveMenu( $option, $task ) 
+	function saveMenu( $option, $task )
 	{
 		global $database;
 
@@ -102,7 +102,7 @@ class content_blog_section {
 		$secid	= implode( ',', $secids );
 
 		$_POST['params']['sectionid']	= $secid;
-	
+
 		$row =& JTable::getInstance('menu', $database );
 
 		if (!$row->bind( $_POST )) {

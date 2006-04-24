@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class content_archive_section_menu_html {
 
-	function editSection( &$menu, &$lists, &$params, $option ) 
+	function editSection( &$menu, &$lists, &$params, $option )
 	{
 		mosCommonHTML::loadOverlib();
 		?>
@@ -36,7 +36,7 @@ class content_archive_section_menu_html {
 				return;
 			}
 			var form = document.adminForm;
-				
+
 			if ( getSelectedValue( 'adminForm', 'componentid' ) < 0 ) {
 				alert( "<?php echo JText::_( 'You must select a Section', true ); ?>" );
 				return;
@@ -50,7 +50,7 @@ class content_archive_section_menu_html {
 				}
 			}
 			form.link.value = "index.php?option=com_content&task=archivesection&id=" + form.componentid.value;
-			submitform( pressbutton );				
+			submitform( pressbutton );
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">

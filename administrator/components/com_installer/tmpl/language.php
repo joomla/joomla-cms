@@ -21,7 +21,7 @@ jimport('joomla.filesystem.folder');
 
 /**
  * Static class to handle language view logic
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -34,10 +34,10 @@ class JInstallerExtensionTasks {
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() 
+	function showInstalled()
 	{
 		global $mainframe;
-		
+
 		$option		= JRequest::getVar( 'option' );
 		$filter 	= $mainframe->getUserStateFromRequest( "$option.language.filter", 'filter', '-1' );
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
@@ -47,90 +47,90 @@ class JInstallerExtensionTasks {
 		$select[] 			= mosHTML::makeOption('0', JText::_('Site Languages'));
 		$select[] 			= mosHTML::makeOption('1', JText::_('Admin Languages'));
 		$lists['filter'] 	= mosHTML::selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
-		
-		if ($filter == '-1') 
+
+		if ($filter == '-1')
 		{
 			$client = 'all';
 			// Get the site languages
 			$langBDir = JLanguage::getLanguagePath(JPATH_SITE);
 			$langDirs = JFolder::folders($langBDir);
-			
+
 			for ($i=0; $i < count($langDirs); $i++) {
 				$lang = new stdClass();
 				$lang->folder = $langDirs[$i];
 				$lang->client = 0;
 				$lang->baseDir = $langBDir;
-				
-				$languages[] = $lang;				
-			}			
+
+				$languages[] = $lang;
+			}
 			// Get the admin languages
 			$langBDir = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 			$langDirs = JFolder::folders($langBDir);
-			
+
 			for ($i=0; $i < count($langDirs); $i++) {
 				$lang = new stdClass();
 				$lang->folder = $langDirs[$i];
 				$lang->client = 1;
 				$lang->baseDir = $langBDir;
-				
-				$languages[] = $lang;				
-			}			
-		} 
-		elseif ($filter == '0') 
+
+				$languages[] = $lang;
+			}
+		}
+		elseif ($filter == '0')
 		{
 			$client = 'site';
 			$langBDir = JLanguage::getLanguagePath(JPATH_SITE);
 			$langDirs = JFolder::folders($langBDir);
-			
+
 			for ($i=0; $i < count($langDirs); $i++) {
 				$lang = new stdClass();
 				$lang->folder = $langDirs[$i];
 				$lang->client = 0;
 				$lang->baseDir = $langBDir;
-				
-				$languages[] = $lang;				
-			}			
-		} 
-		elseif ($filter == '1') 
+
+				$languages[] = $lang;
+			}
+		}
+		elseif ($filter == '1')
 		{
 			$client = 'administrator';
 			$langBDir = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 			$langDirs = JFolder::folders($langBDir);
-			
+
 			for ($i=0; $i < count($langDirs); $i++) {
 				$lang = new stdClass();
 				$lang->folder = $langDirs[$i];
 				$lang->client = 1;
 				$lang->baseDir = $langBDir;
-				
-				$languages[] = $lang;				
-			}			
+
+				$languages[] = $lang;
+			}
 		}
-		
+
 		$rows = array();
 		$rowid = 0;
-		foreach ($languages as $language) 
+		foreach ($languages as $language)
 		{
 			$files = JFolder::files( $language->baseDir .DS. $language->folder, '^([-_A-Za-z]*)\.xml$' );
-			foreach ($files as $file) 
+			foreach ($files as $file)
 			{
 				$data = JApplicationHelper::parseXMLLangMetaFile($language->baseDir .DS. $language->folder . DS . $file);
-			
+
 				$row 			= new StdClass();
 				$row->id 		= $rowid;
 				$row->client_id = $language->client;
 				$row->language 	= substr($file,0,-4);
-				
+
 				// If we didn't get valid data from the xml file, move on...
 				if (!is_array($data)) {
 					continue;
 				}
-				
+
 				// Populate the row from the xml meta file
 				foreach($data as $key => $value) {
 					$row->$key = $value;
 				}
-	
+
 				// if current than set published
 				$clientVals = JApplicationHelper::getClientInfo($row->client_id);
 				$lang = 'lang_'.$clientVals->name;
@@ -139,21 +139,21 @@ class JInstallerExtensionTasks {
 				} else {
 					$row->published = 0;
 				}
-	
+
 				$row->checked_out = 0;
 				$row->jname = JString::strtolower( str_replace( " ", "_", $row->name ) );
 				$rows[] = $row;
 				$rowid++;
 			}
 		}
-	
+
 		/*
 		 * Take care of the pagination
-		 */	
+		 */
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
-	
+
 		JInstallerScreens_language::showInstalled($rows, $page, $client, $lists);
 	}
 
@@ -161,7 +161,7 @@ class JInstallerExtensionTasks {
 
 /**
  * Static class to handle language view display
- * 
+ *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
@@ -170,8 +170,8 @@ class JInstallerExtensionTasks {
  * @since 1.5
  */
 class JInstallerScreens_language {
-	
-	function showInstalled( &$rows, &$page, $client, $lists ) 
+
+	function showInstalled( &$rows, &$page, $client, $lists )
 	{
 		global $mainframe;
 		/*
@@ -180,12 +180,12 @@ class JInstallerScreens_language {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-			
+
 		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
 		</div>
-		
-		<div id="pane-document">	
+
+		<div id="pane-document">
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -196,7 +196,7 @@ class JInstallerScreens_language {
 					</td>
 				</tr>
 				</table>
-		
+
 			<?php
 			if (count($rows)) {
 			?>
@@ -236,7 +236,7 @@ class JInstallerScreens_language {
 						$cbd 	= '';
 						$style 	= '';
 					}
-					
+
 					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
 					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
@@ -259,7 +259,7 @@ class JInstallerScreens_language {
 						</td>
 						<td>
 							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 							</span>
 						</td>
 					</tr>
@@ -268,14 +268,14 @@ class JInstallerScreens_language {
 				}
 				?>
 				</table>
-				<?php echo $page->getListFooter(); ?>		
+				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
-				echo JText::_( 'No Languages installed' ); 
+				echo JText::_( 'No Languages installed' );
 			}
-			?>									
+			?>
 		</div>
-		
+
 		<input type="hidden" name="option" value="com_installer" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="extension" value="language" />

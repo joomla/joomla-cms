@@ -58,7 +58,7 @@ class JFrontpageController
 
 		require_once (dirname(__FILE__).DS.'model'.DS.'frontpage.php');
 		$model = new JModelFrontpage($db, $params);
-		
+
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 

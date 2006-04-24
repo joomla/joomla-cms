@@ -16,10 +16,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onBeforeDisplayContent', 'pluginVote' );
 
-function pluginVote( &$row, &$params, $page=0 ) 
+function pluginVote( &$row, &$params, $page=0 )
 {
 	global $Itemid;
-	
+
 	$id 	= $row->id;
 	$option = 'com_content';
 	$task 	= JRequest::getVar( 'task' );

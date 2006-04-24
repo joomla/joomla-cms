@@ -29,8 +29,8 @@ class JElement_Section extends JElement
 	* @var		string
 	*/
 	var	$_name = 'Section';
-	
-	function fetchElement($name, $value, &$node, $control_name)	
+
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		global $database;
 

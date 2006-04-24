@@ -19,7 +19,7 @@
  * @subpackage 	Model
  * @since		1.0
  */
-class JTableComponent extends JTable 
+class JTableComponent extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -67,7 +67,7 @@ class JTableComponent extends JTable
 	/**
 	* Overloaded bind function
 	*
-	* @acces public  
+	* @acces public
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
@@ -76,13 +76,13 @@ class JTableComponent extends JTable
 	function bind($array, $ignore = '')
 	{
 		$params = JRequest::getVar( 'params', array(), 'post', 'array' );
-	
+
 		if (is_array( $array['params'] )) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-	
+
 		return parent::bind($array, $ignore);
 	}
 }

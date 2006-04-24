@@ -19,7 +19,7 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
 
-switch( $task ) 
+switch( $task )
 {
 	case 'lostPassword':
 		lostPassForm();
@@ -40,13 +40,13 @@ switch( $task )
 	case 'activate':
 		activate();
 		break;
-		
+
 	case 'cancel':
 		josRedirect( 'index.php' );
-		break;	
+		break;
 }
 
-function lostPassForm() 
+function lostPassForm()
 {
 	global $mainframe;
 
@@ -54,7 +54,7 @@ function lostPassForm()
 
 	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
-	
+
 	HTML_registration::lostPassForm();
 }
 
@@ -63,10 +63,10 @@ function lostPassForm()
  * @return void
  *
  */
-function sendNewPass() 
+function sendNewPass()
 {
 	global $mainframe;
-	
+
 	$siteURL 	= $mainframe->getBaseURL();
 	$sitename 	= $mainframe->getCfg('sitename');
 	$db 		=& $mainframe->getDBO();
@@ -115,20 +115,20 @@ function sendNewPass()
  * Prepares the registration form
  * @return void
  */
-function registerForm() 
+function registerForm()
 {
 	global $mainframe;
 	$user = $mainframe->getUser();
-	
+
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
 		JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 		return;
 	}
-	
+
 	$breadcrumbs =& $mainframe->getPathWay();
 
  	// Page Title
- 	$mainframe->SetPageTitle( JText::_( 'Registration' ) ); 
+ 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 	// Breadcrumb
   	$breadcrumbs->addItem( JText::_( 'New' ));
 
@@ -139,10 +139,10 @@ function registerForm()
  * Save user registration and notify users and admins if required
  * @return void
  */
-function saveRegistration() 
+function saveRegistration()
 {
 	global $mainframe;
-	
+
 	$db = $mainframe->getDBO();
 	$user = $mainframe->getUser();
 	$acl = &JFactory::getACL();
@@ -152,12 +152,12 @@ function saveRegistration()
 	$sitename = $mainframe->getCfg( 'sitename' );
 	$mailfrom = $mainframe->getCfg( 'mailfrom' );
 	$fromname = $mainframe->getCfg( 'fromname' );
-	
+
 	if ($allowUserRegistration=='0') {
 		JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 		return;
 	}
-	
+
 	$siteURL 		= $mainframe->getBaseURL();
 	$breadcrumbs 	=& $mainframe->getPathWay();
 
@@ -181,14 +181,14 @@ function saveRegistration()
 	$user->set('registerDate', date('Y-m-d H:i:s'));
 
 	if (!$user->save()) {
-		
+
 		$breadcrumbs =& $mainframe->getPathWay();
-	
+
 	 	// Page Title
-	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) ); 
+	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 		// Breadcrumb
 	  	$breadcrumbs->addItem( JText::_( 'New' ));
-	
+
 		HTML_registration::errorMessage( JText::_( 'REGERROR' ), $user->getError() );
 		HTML_registration::registerForm( $user );
 		return false;
@@ -255,22 +255,22 @@ function saveRegistration()
 		$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ));
-		
+
 		HTML_registration::message( 'REG_COMPLETE_ACTIVATE_TITLE', 'REG_COMPLETE_ACTIVATE' );
 	} else {
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_COMPLETE_TITLE' ));
-		
+
 		HTML_registration::message( 'REG_COMPLETE_TITLE', 'REG_COMPLETE' );
 	}
 }
 
-function activate() 
+function activate()
 {
 	global $mainframe;
-	
+
 	/*
 	 * Initialize some variables
 	 */
@@ -289,37 +289,37 @@ function activate()
 	 */
 	$activation = JRequest::getVar( 'activation', '' );
 	$activation = $db->getEscaped( $activation );
-	
-	if (empty( $activation )) 
+
+	if (empty( $activation ))
 	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
-		
+
 		HTML_registration::message( 'REG_ACTIVATE_NOT_FOUND_TITLE', 'REG_ACTIVATE_NOT_FOUND' );
 		return;
 	}
-	
+
 	/*
 	 * Lets activate this user.
 	 */
-	if (JUserHelper::activateUser($activation)) 
+	if (JUserHelper::activateUser($activation))
 	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
-		
+
 		HTML_registration::message( 'REG_ACTIVATE_COMPLETE_TITLE', 'REG_ACTIVATE_COMPLETE' );
-	} 
-	else 
+	}
+	else
 	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
-		
+
 		HTML_registration::message( 'REG_ACTIVATE_NOT_FOUND_TITLE', 'REG_ACTIVATE_NOT_FOUND' );
 	}
 }

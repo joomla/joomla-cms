@@ -31,7 +31,7 @@ class poll_html {
 		$paramCSS		= $params->get( 'pageclass_sfx' );
 		//$paramBackBtn	= $params->get( 'back_button', 	$mainframe->getCfg( 'back_button' ) );
 		$paramHeader	= $params->get( 'header', 		$menu->name );
-	
+
 		$mainframe->SetPageTitle($poll->title);
 
 		$breadcrumbs =& $mainframe->getPathWay();
@@ -85,7 +85,7 @@ class poll_html {
 		$polls_graphwidth 	= 200;
 		$polls_barheight 	= 4;
 		$polls_maxcolors 	= 5;
-		$polls_barcolor 	= 0;		
+		$polls_barcolor 	= 0;
 		$tabcnt 			= 0;
 		$colorx 			= 0;
 		$maxval 			= 0;
@@ -129,7 +129,7 @@ class poll_html {
 					<td align="right" width="25">
 						<strong><?php echo $hits; ?></strong>&nbsp;
 					</td>
-	
+
 					<td width="30" >
 						<?php echo $percent; ?>%
 					</td>

@@ -46,7 +46,7 @@ class JConfigController {
 	 * Show the configuration edit form
 	 * @param string The URL option
 	 */
-	function showConfig($option) 
+	function showConfig($option)
 	{
 		global $mainframe;
 
@@ -136,44 +136,44 @@ class JConfigController {
 
 		// LOCALE SETTINGS
 
-		$timeoffset = array (	mosHTML::makeOption(-12, JText::_('(UTC -12:00) International Date Line West')), 
-								mosHTML::makeOption(-11, JText::_('(UTC -11:00) Midway Island, Samoa')), 
-								mosHTML::makeOption(-10, JText::_('(UTC -10:00) Hawaii')), 
-								mosHTML::makeOption(-9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')), 
-								mosHTML::makeOption(-9, JText::_('(UTC -09:00) Alaska')), 
-								mosHTML::makeOption(-8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')), 
-								mosHTML::makeOption(-7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')), 
-								mosHTML::makeOption(-6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')), 
-								mosHTML::makeOption(-5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')), 
-								mosHTML::makeOption(-4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')), 
-								mosHTML::makeOption(-3.5, JText::_('(UTC -03:30) St. John`s, Newfoundland and Labrador')), 
-								mosHTML::makeOption(-3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')), 
-								mosHTML::makeOption(-2, JText::_('(UTC -02:00) Mid-Atlantic')), 
-								mosHTML::makeOption(-1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')), 
-								mosHTML::makeOption(0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')), 
-								mosHTML::makeOption(1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')), 
-								mosHTML::makeOption(2, JText::_('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')), 
-								mosHTML::makeOption(3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')), 
-								mosHTML::makeOption(3.5, JText::_('(UTC +03:30) Tehran')), 
-								mosHTML::makeOption(4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')), 
-								mosHTML::makeOption(4.5, JText::_('(UTC +04:30) Kabul')), 
-								mosHTML::makeOption(5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')), 
-								mosHTML::makeOption(5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')), 
-								mosHTML::makeOption(5.75, JText::_('(UTC +05:45) Kathmandu')), 
-								mosHTML::makeOption(6, JText::_('(UTC +06:00) Almaty, Dhaka, Colombo')), 
-								mosHTML::makeOption(6.30, JText::_('(UTC +06:30) Yagoon')), 
-								mosHTML::makeOption(7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')), 
-								mosHTML::makeOption(8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')), 
-								mosHTML::makeOption(8.75, JText::_('(UTC +08:00) Western Australia')), 
-								mosHTML::makeOption(9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')), 
-								mosHTML::makeOption(9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')), 
-								mosHTML::makeOption(10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')), 
-								mosHTML::makeOption(10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')), 
-								mosHTML::makeOption(11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')), 
-								mosHTML::makeOption(11.30, JText::_('(UTC +11:30) Norfolk Island')), 
-								mosHTML::makeOption(12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')), 
-								mosHTML::makeOption(12.75, JText::_('(UTC +12:45) Chatham Island')), 
-								mosHTML::makeOption(13, JText::_('(UTC +13:00) Tonga')), 
+		$timeoffset = array (	mosHTML::makeOption(-12, JText::_('(UTC -12:00) International Date Line West')),
+								mosHTML::makeOption(-11, JText::_('(UTC -11:00) Midway Island, Samoa')),
+								mosHTML::makeOption(-10, JText::_('(UTC -10:00) Hawaii')),
+								mosHTML::makeOption(-9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
+								mosHTML::makeOption(-9, JText::_('(UTC -09:00) Alaska')),
+								mosHTML::makeOption(-8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
+								mosHTML::makeOption(-7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
+								mosHTML::makeOption(-6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
+								mosHTML::makeOption(-5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
+								mosHTML::makeOption(-4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
+								mosHTML::makeOption(-3.5, JText::_('(UTC -03:30) St. John`s, Newfoundland and Labrador')),
+								mosHTML::makeOption(-3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
+								mosHTML::makeOption(-2, JText::_('(UTC -02:00) Mid-Atlantic')),
+								mosHTML::makeOption(-1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
+								mosHTML::makeOption(0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
+								mosHTML::makeOption(1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
+								mosHTML::makeOption(2, JText::_('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')),
+								mosHTML::makeOption(3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
+								mosHTML::makeOption(3.5, JText::_('(UTC +03:30) Tehran')),
+								mosHTML::makeOption(4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
+								mosHTML::makeOption(4.5, JText::_('(UTC +04:30) Kabul')),
+								mosHTML::makeOption(5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
+								mosHTML::makeOption(5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')),
+								mosHTML::makeOption(5.75, JText::_('(UTC +05:45) Kathmandu')),
+								mosHTML::makeOption(6, JText::_('(UTC +06:00) Almaty, Dhaka, Colombo')),
+								mosHTML::makeOption(6.30, JText::_('(UTC +06:30) Yagoon')),
+								mosHTML::makeOption(7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
+								mosHTML::makeOption(8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
+								mosHTML::makeOption(8.75, JText::_('(UTC +08:00) Western Australia')),
+								mosHTML::makeOption(9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
+								mosHTML::makeOption(9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
+								mosHTML::makeOption(10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
+								mosHTML::makeOption(10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
+								mosHTML::makeOption(11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
+								mosHTML::makeOption(11.30, JText::_('(UTC +11:30) Norfolk Island')),
+								mosHTML::makeOption(12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
+								mosHTML::makeOption(12.75, JText::_('(UTC +12:45) Chatham Island')),
+								mosHTML::makeOption(13, JText::_('(UTC +13:00) Tonga')),
 								mosHTML::makeOption(14, JText::_('(UTC +14:00) Kiribati')),);
 
 		$lists['offset'] 		= mosHTML::selectList($timeoffset, 'offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->offset_user);
@@ -250,14 +250,14 @@ class JConfigController {
 		// FEED SETTINGS
 		$formats  = array (mosHTML::makeOption('RSS2.0', JText::_('RSS')), mosHTML::makeOption('Atom', JText::_('Atom')));
 		$summary = array (mosHTML::makeOption(1, JText::_('Full Text')), mosHTML::makeOption(0, JText::_('Intro Text')),);
-		
-			
+
+
 		$lists['feed_format']  = mosHTML::selectList($formats, 'feed_format', 'class="inputbox" size="1"', 'value', 'text', $row->feed_format);
-		
+
 		$lists['feed_limit']   = mosHTML::selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-		
+
 		$lists['feed_excerpt'] = mosHTML::RadioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_excerpt);
-		
+
 		// SHOW EDIT FORM
 
 		JConfigView::showConfig($row, $lists, $option);
@@ -266,12 +266,12 @@ class JConfigController {
 	/**
 	 * Save the configuration
 	 */
-	function saveConfig($task) 
+	function saveConfig($task)
 	{
 		global $mainframe;
-		
+
 		$mainframe->_registry->loadArray($_POST);
-		
+
 		/*
 		 * Handle the server time offset
 		 */

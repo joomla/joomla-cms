@@ -34,7 +34,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ( $task ) 
+switch ( $task )
 {
 	case 'new':
 	case 'edit':
@@ -86,7 +86,7 @@ switch ( $task )
 /**
 * Compiles a list of installed or defined modules
 */
-function viewPlugins( $option, $client ) 
+function viewPlugins( $option, $client )
 {
 	global $database, $mainframe, $mosConfig_list_limit;
 
@@ -122,9 +122,9 @@ function viewPlugins( $option, $client )
 		}
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, p.ordering ASC";
-	
+
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__plugins AS p"
@@ -162,17 +162,17 @@ function viewPlugins( $option, $client )
 	$database->setQuery( $query );
 	$types 			= array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
-	
-	// state filter 
+
+	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-		
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;	
+	$lists['order'] = $filter_order;
 	// search filter
 	$lists['search']= $search;
 
@@ -182,12 +182,12 @@ function viewPlugins( $option, $client )
 /**
 * Saves the module after an edit form submit
 */
-function savePlugin( $option, $client, $task ) 
+function savePlugin( $option, $client, $task )
 {
 	global $database;
 
-	$row =& JTable::getInstance('plugin', $database); 
-	
+	$row =& JTable::getInstance('plugin', $database);
+
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -201,13 +201,13 @@ function savePlugin( $option, $client, $task )
 		exit();
 	}
 	$row->checkin();
-	
+
 	if ($client == 'admin') {
 		$where = "client_id='1'";
 	} else {
 		$where = "client_id='0'";
 	}
-	
+
 	$row->reorder( "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND ( $where )" );
 
 	switch ( $task ) {
@@ -228,12 +228,12 @@ function savePlugin( $option, $client, $task )
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editPlugin( $option, $uid, $client ) 
+function editPlugin( $option, $uid, $client )
 {
 	global $database, $my, $mainframe;
 
 	$lists 	= array();
-	$row 	=& JTable::getInstance('plugin', $database); 
+	$row 	=& JTable::getInstance('plugin', $database);
 
 	// load the row from the db table
 	$row->load( $uid );
@@ -280,9 +280,9 @@ function editPlugin( $option, $uid, $client )
 
         $lang =& $mainframe->getLanguage();
         $lang->load( trim('plg_'. $row->element), JPATH_SITE );
-		
+
 		$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
-		
+
 		$row->description = $data['description'];
 
 	} else {
@@ -291,7 +291,7 @@ function editPlugin( $option, $uid, $client )
 		$row->published 	= 1;
 		$row->description 	= '';
 	}
-	
+
 	jimport('joomla.filesystem.folder');
 	$folders = JFolder::folders( JPATH_SITE . DS .'plugins'. DS );
 	$folders2 = array();
@@ -307,8 +307,8 @@ function editPlugin( $option, $uid, $client )
 
 	// get params definitions
 	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'bot_xml', $row->folder.DS.$row->element ), 'plugin' );
-	
-	
+
+
 	HTML_modules::editPlugin( $row, $lists, $params, $option );
 }
 
@@ -317,7 +317,7 @@ function editPlugin( $option, $uid, $client )
 * @param array An array of unique category id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function publishPlugin( $cid=null, $publish=1, $option, $client ) 
+function publishPlugin( $cid=null, $publish=1, $option, $client )
 {
 	global $database, $my;
 
@@ -340,7 +340,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('plugin', $database); 
+		$row =& JTable::getInstance('plugin', $database);
 		$row->checkin( $cid[0] );
 	}
 
@@ -350,11 +350,11 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 /**
 * Cancels an edit operation
 */
-function cancelPlugin( $option, $client ) 
+function cancelPlugin( $option, $client )
 {
 	global $database;
 
-	$row =& JTable::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database);
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -366,7 +366,7 @@ function cancelPlugin( $option, $client )
 * @param integer The unique id of record
 * @param integer The increment to reorder by
 */
-function orderPlugin( $uid, $inc, $option, $client ) 
+function orderPlugin( $uid, $inc, $option, $client )
 {
 	global $database;
 
@@ -376,7 +376,7 @@ function orderPlugin( $uid, $inc, $option, $client )
 	} else {
 		$where = "client_id = 0";
 	}
-	$row =& JTable::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database);
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
@@ -387,7 +387,7 @@ function orderPlugin( $uid, $inc, $option, $client )
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $option, $client ) 
+function accessMenu( $uid, $access, $option, $client )
 {
 	global $database;
 
@@ -405,7 +405,7 @@ function accessMenu( $uid, $access, $option, $client )
 			break;
 	}
 
-	$row =& JTable::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database);
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -419,13 +419,13 @@ function accessMenu( $uid, $access, $option, $client )
 	josRedirect( 'index2.php?option='. $option );
 }
 
-function saveOrder( &$cid ) 
+function saveOrder( &$cid )
 {
 	global $database;
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JTable::getInstance('plugin', $database); 
+	$row 		=& JTable::getInstance('plugin', $database);
 	$conditions = array();
 
 	// update ordering values

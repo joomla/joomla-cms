@@ -39,7 +39,7 @@ class TOOLBAR_weblinks {
 		}
 		JMenuBar::help( 'screen.weblink.edit' );
 	}
-	
+
 	function _DEFAULT() {
 		JMenuBar::title(   JText::_( 'Weblink Manager' ), 'impressions.png' );
 		JMenuBar::publishList();

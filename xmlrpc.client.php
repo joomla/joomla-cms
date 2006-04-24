@@ -36,17 +36,17 @@ $task 	= JRequest::getVar( 'task', 0, 'post' );
 $output = '';
 $array  = array();
 
-if ($task) 
+if ($task)
 {
 	$client = new xmlrpc_client("joomla11/xmlrpc.server.php", "localhost", 80);
 	$client->setDebug(true);
 
-	switch ($task) 
+	switch ($task)
 	{
 		case 'list_methods':
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
-			
+
 			if ($xmlrpcdoc->faultCode() == 0) {
 				$result = $xmlrpcdoc->value();
 				$array = $result->scalarval();
@@ -58,26 +58,26 @@ if ($task)
 			{
 				$var = new xmlrpcval($array[$i]);
 				$array_method = $var->scalarval();
-				
+
 				$methods[$i] = mosHTML::makeOption($array_method->scalarval());
 			}
-			
+
 			$output = 'Methods<br />';
 			$output .= mosHTML::selectList( $methods, 'method', 'size="10', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
 			break;
-			
+
 		case 'exec':
 			$method = JRequest::getVar( 'method' );
 			$args 	= JRequest::getVar( 'args' );
-			
+
 			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
-			
+
 			$xmlrpcdoc = $client->send($message);
 
-			if ($xmlrpcdoc->faultCode()== 0) { 
+			if ($xmlrpcdoc->faultCode()== 0) {
 				$scalar_var = $xmlrpcdoc->value();
 				$output = var_export($scalar_var->scalarval(), true);
 			} else {

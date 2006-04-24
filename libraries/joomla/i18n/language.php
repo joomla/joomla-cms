@@ -32,7 +32,7 @@ class JText
 	 * @param boolean	$jsSafe		Make the result javascript safe
 	 *
 	 */
-	function _($string, $jsSafe = false) 
+	function _($string, $jsSafe = false)
 	{
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
@@ -46,7 +46,7 @@ class JText
 	 * @param format The format string
 	 * @param mixed Mixed number of arguments for the sprintf function
 	 */
-	function sprintf($string) 
+	function sprintf($string)
 	{
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
@@ -64,7 +64,7 @@ class JText
 	 * @param format The format string
 	 * @param mixed Mixed number of arguments for the sprintf function
 	 */
-	function printf($string) 
+	function printf($string)
 	{
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
@@ -80,49 +80,49 @@ class JText
 
 /**
  * Languages/translation handler class
- * 
+ *
  * @package 	Joomla.Framework
  * @subpackage	I18N
  * @since		1.5
  */
 class JLanguage extends JObject
 {
-	/** 
+	/**
 	 * Debug language, If true, highlights if string isn't found
-	 * 
-	 * @var boolean  
+	 *
+	 * @var boolean
 	 * @access protected
 	 */
 	var $_debug 	= false;
-	
-	/** 
+
+	/**
 	 * Array holding the language metadata
-	 * 
-	 * @var array 
-	 * @access protected	 
+	 *
+	 * @var array
+	 * @access protected
 	 */
 	var $_metadata 	= null;
-	
-	/** 
+
+	/**
 	 * Identifying string of the language
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_identifyer = null;
-	
-	/** 
-	 * The language to load 
-	 * 
-	 * @var string 
+
+	/**
+	 * The language to load
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_lang = null;
-	
-	/** 
+
+	/**
 	 * Transaltions
-	 * 
-	 * @var array  
+	 *
+	 * @var array
 	 * @access protected
 	 */
 	var $_strings = null;
@@ -132,7 +132,7 @@ class JLanguage extends JObject
 	*
 	* @access protected
 	*/
-	function __construct($lang = null) 
+	function __construct($lang = null)
 	{
 		$this->_strings = array ();
 
@@ -161,7 +161,7 @@ class JLanguage extends JObject
 	 * @param string $lang  The language to use.
 	 * @return JLanguage  The Language object.
 	 */
-	function & getInstance($lang) 
+	function & getInstance($lang)
 	{
 		$instance = new JLanguage($lang);
 		$reference = & $instance;
@@ -176,7 +176,7 @@ class JLanguage extends JObject
 	* @param boolean	$jsSafe		Make the result javascript safe
 	* @return string	The translation of the string
 	*/
-	function _($string, $jsSafe = false) 
+	function _($string, $jsSafe = false)
 	{
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper($string);
@@ -211,7 +211,7 @@ class JLanguage extends JObject
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
 
 		$result = false;
-		
+
 		$newStrings = $this->_load( $path . $filename .'.ini' );
 
 		if (is_array($newStrings)) {
@@ -230,13 +230,13 @@ class JLanguage extends JObject
 	* @param string The name of the file
 	* @return mixed Array of parsed values if successful, boolean False if failed
 	*/
-	function _load( $filename ) 
+	function _load( $filename )
 	{
 		if ($content = @file_get_contents( $filename )) {
 			if( $this->_identifyer === null ) {
 				$this->_identifyer = basename( $filename, '.ini' );
 			}
-				
+
 			$registry = new JRegistry();
 			$registry->loadINI($content);
 			return $registry->toArray( );
@@ -253,7 +253,7 @@ class JLanguage extends JObject
 	 * @param mixed  $default	The default value
 	 * @return mixed The value of the property
 	 */
-	function get($property, $default = null) 
+	function get($property, $default = null)
 	{
 		if (isset ($this->_metadata[$property])) {
 			return $this->_metadata[$property];
@@ -318,7 +318,7 @@ class JLanguage extends JObject
 	* @access public
 	* @return string The locale property
 	*/
-	function getLocale() 
+	function getLocale()
 	{
 		$locales = explode(',', $this->_metadata['locale']);
 
@@ -381,7 +381,7 @@ class JLanguage extends JObject
 	 *  				otherwise return NULL
 	 */
 
-	function getMetadata($lang) 
+	function getMetadata($lang)
 	{
 		$path = JLanguage::getLanguagePath(JPATH_BASE, $lang);
 		$file = $lang.'.xml';
@@ -401,7 +401,7 @@ class JLanguage extends JObject
 	 * @param string	$basePath 	The basepath to use
 	 * @return array	key/value pair with the language file and real name
 	 */
-	function getKnownLanguages($basePath = JPATH_BASE) 
+	function getKnownLanguages($basePath = JPATH_BASE)
 	{
 		$dir = JLanguage::getLanguagePath($basePath);
 		$knownLanguages = JLanguage::_parseLanguageFiles($dir);
@@ -417,7 +417,7 @@ class JLanguage extends JObject
 	 * @param string $language	The language tag
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath($basePath = JPATH_BASE, $language = null ) 
+	function getLanguagePath($basePath = JPATH_BASE, $language = null )
 	{
 		$dir = $basePath.DS.'language'.DS;
 		if (isset ($language)) {
@@ -426,17 +426,17 @@ class JLanguage extends JObject
 		return $dir;
 	}
 
-	/** 
+	/**
 	 * Searches for language directories within a certain base dir
 	 *
 	 * @access public
 	 * @param string 	$dir 	directory of files
 	 * @return array	Array holding the found languages as filename => real name pairs
 	 */
-	function _parseLanguageFiles($dir = null) 
+	function _parseLanguageFiles($dir = null)
 	{
 		jimport('joomla.filesystem.folder');
-		
+
 		$languages = array ();
 
 		$subdirs = JFolder::folders($dir);
@@ -448,14 +448,14 @@ class JLanguage extends JObject
 		return $languages;
 	}
 
-	/** 
+	/**
 	 * Parses INI type of files for language information
 	 *
 	 * @access public
 	 * @param string	$dir 	Directory of files
 	 * @return array	Array holding the found languages as filename => real name pairs
 	 */
-	function _parseINILanguageFiles($dir = null) 
+	function _parseINILanguageFiles($dir = null)
 	{
 		if ($dir == null)
 			return null;
@@ -478,14 +478,14 @@ class JLanguage extends JObject
 		return $languages;
 	}
 
-	/** 
+	/**
 	 * Parses XML files for language information
 	 *
 	 * @access public
 	 * @param string	$dir	 Directory of files
 	 * @return array	Array holding the found languages as filename => metadata array
 	 */
-	function _parseXMLLanguageFiles($dir = null) 
+	function _parseXMLLanguageFiles($dir = null)
 	{
 		if ($dir == null) {
 			return null;
@@ -505,20 +505,20 @@ class JLanguage extends JObject
 		return $languages;
 	}
 
-	/** 
+	/**
 	 * Parse XML file for language information
 	 *
 	 * @access public
 	 * @param string	$path	 Path to the xml files
 	 * @return array	Array holding the found metadat as a key => value pair
 	 */
-	function _parseXMLLanguageFile($path) 
+	function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
 		if (!$xml->loadFile($path)) {
 			return null;
 		}
-		
+
 		// Check that it's am metadata file
 		if ($xml->document->name() != 'metafile') {
 			return null;
@@ -527,7 +527,7 @@ class JLanguage extends JObject
 		$metadata = array ();
 
 		//if ($xml->document->attributes('type') == 'language') {
-			
+
 			foreach ($xml->document->metadata[0]->children() as $child) {
 				$metadata[$child->name()] = $child->data();
 			}
@@ -542,7 +542,7 @@ class JLanguage extends JObject
  * @static
  * @since 1.5
  */
-class JLanguageHelper 
+class JLanguageHelper
 {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
@@ -573,27 +573,27 @@ class JLanguageHelper
 
 		return $list;
 	}
-	
+
 	/**
  	 * Tries to detect the language
- 	 * 
+ 	 *
  	 * @access public
  	 */
-	function detectLanguage() 
+	function detectLanguage()
 	{
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
 			$systemLangs  = JLanguage::getKnownLanguages();
 			$browserLangs = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-		
-			foreach ($browserLangs as $browserLang) 
+
+			foreach ($browserLangs as $browserLang)
 			{
 				// slice out the part before ; on first step, the part before - on second, place into array
-				$browserLang = substr( $browserLang, 0, strcspn( $browserLang, ';' ) );	
+				$browserLang = substr( $browserLang, 0, strcspn( $browserLang, ';' ) );
 				$primary_browserLang = substr( $browserLang, 0, 2 );
-			
+
 				foreach($systemLangs as $systemLang => $metadata) {
-				
+
 					if($primary_browserLang == substr( $metadata['tag'], 0, 2 )) {
 						return $systemLang;
 					}

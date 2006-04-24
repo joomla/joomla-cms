@@ -20,12 +20,12 @@
  * @subpackage	Presentation
  * @since		1.5
  */
-class JPagination extends JObject 
+class JPagination extends JObject
 {
 
 	/**
 	 * The record number to start dislpaying from
-	 * 
+	 *
 	 * @access public
 	 * @var int
 	 */
@@ -33,7 +33,7 @@ class JPagination extends JObject
 
 	/**
 	 * Number of rows to display per page
-	 * 
+	 *
 	 * @access public
 	 * @var int
 	 */
@@ -41,7 +41,7 @@ class JPagination extends JObject
 
 	/**
 	 * Total number of rows
-	 * 
+	 *
 	 * @access public
 	 * @var int
 	 */
@@ -66,7 +66,7 @@ class JPagination extends JObject
 		}
 
 		/*
-		 * 
+		 *
 		 */
 		if (($this->limit - 1) * $this->limitstart > $this->total) {
 			$this->limitstart -= $this->limitstart % $this->limit;
@@ -75,7 +75,7 @@ class JPagination extends JObject
 
 	/**
 	 * Sets the vars for the page navigation template
-	 * 
+	 *
 	 * @access public
 	 * @param object $tmpl PatTemplate Object to add the pagination footer template to
 	 * @param string $name Name of the pagination footer template to add
@@ -94,7 +94,7 @@ class JPagination extends JObject
 
 	/**
 	 * Writes the html for the leafs counter, eg, Page 1 of x
-	 * 
+	 *
 	 * @access public
 	 */
 	function writeLeafsCounter() {
@@ -108,7 +108,7 @@ class JPagination extends JObject
 
 	/**
 	 * Creates a dropdown box for selecting how many records to show per page
-	 * 
+	 *
 	 * @access public
 	 * @return string The html for the limit # input box
 	 * @since 1.0
@@ -138,7 +138,7 @@ class JPagination extends JObject
 
 	/**
 	 * Create and return the pagination counter string, ie. Results 1-10 of 42
-	 * 
+	 *
 	 * @access public
 	 * @return string Pagination counter string
 	 * @since 1.0
@@ -169,7 +169,7 @@ class JPagination extends JObject
 
 	/**
 	 * Create and return the pagination page list array
-	 * 
+	 *
 	 * @access public
 	 * @return array Pagination page list array
 	 * @since 1.5
@@ -225,7 +225,7 @@ class JPagination extends JObject
 
 	/**
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x
-	 * 
+	 *
 	 * @access public
 	 * @return string Pagination page list string
 	 * @since 1.0
@@ -313,14 +313,14 @@ class JPagination extends JObject
 
 	/**
 	 * Return the pagination footer
-	 * 
+	 *
 	 * @access public
 	 * @return string Pagination footer
 	 * @since 1.0
 	 */
 	function getListFooter() {
 		global $mainframe;
-		
+
 		$lang = $mainframe->getLanguage();
 
 		$html = '<table class="adminlist"><tr><th colspan="3">';
@@ -336,7 +336,7 @@ class JPagination extends JObject
 
 	/**
 	 * Return the row number
-	 * 
+	 *
 	 * @access public
 	 * @param int $index The row index
 	 * @return int Row number for given index
@@ -348,7 +348,7 @@ class JPagination extends JObject
 
 	/**
 	 * Return the icon to move an item UP
-	 * 
+	 *
 	 * @access public
 	 * @param int $i The row index
 	 * @param boolean $condition True to show the icon
@@ -371,7 +371,7 @@ class JPagination extends JObject
 
 	/**
 	 * Return the icon to move an item DOWN
-	 * 
+	 *
 	 * @access public
 	 * @param int $i The row index
 	 * @param int $n The number of items in the list
@@ -395,7 +395,7 @@ class JPagination extends JObject
 
 	/**
 	 * Return the icon to move an item UP
-	 * 
+	 *
 	 * @access public
 	 * @param int $id The row index
 	 * @param int $order The ordering value for the item
@@ -435,7 +435,7 @@ class JPagination extends JObject
 
 	/**
 	 * Return the icon to move an item DOWN
-	 * 
+	 *
 	 * @access public
 	 * @param int $id The row index
 	 * @param int $order The ordering value for the item
@@ -476,7 +476,7 @@ class JPagination extends JObject
 	/**
 	 * Writes the dropdown select list for number of rows to show per page
 	 * Use: print $pagination->getLimitBox();
-	 * 
+	 *
 	 * @deprecated as of 1.5
 	 */
 	function writeLimitBox($link = null) {
@@ -486,7 +486,7 @@ class JPagination extends JObject
 	/**
 	 * Writes the counter string
 	 * Use: print $pagination->getLimitBox();
-	 * 
+	 *
 	 * @deprecated as of 1.5
 	 */
 	function writePagesCounter() {
@@ -496,7 +496,7 @@ class JPagination extends JObject
 	/**
 	 * Writes the page list string
 	 * Use: print $pagination->getPagesLinks();
-	 * 
+	 *
 	 * @deprecated as of 1.5
 	 */
 	function writePagesLinks($link = null) {

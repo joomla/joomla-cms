@@ -13,10 +13,10 @@
 
 /**
  * Class to cache a hash (used for ACL caching)
- * 
+ *
  * Class Based Heavily on Hashed_Cache_Lite by: Mike Benoit <ipso@snappymail.ca>
  * phpGACL - Generic Access Control List - Hashed Directory Caching.
- * 
+ *
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -55,15 +55,15 @@ class JCacheHash extends JCache
 		// CRC32 with SUBSTR is still faster then MD5.
 		$encoded_id = substr(crc32($id),1);
 		// $encoded_id = md5($id);
-		
+
 		// Generate just the directory, so it can be created.
 		// Groups will have their own top level directory, for quick/easy purging of an entire group.
 		$dir = $this->_cacheDir.$group.DS.substr($encoded_id,0,3);
 		$this->_create_dir_structure($dir);
-		
+
 		$this->_file = $dir.DS.$encoded_id;
 	}
-	
+
 	/**
 	 * Create full directory structure, Ripped straight from the Smarty Template
 	 * engine. Version:     2.3.0 Copyright:   2001,2002 ispi of Lincoln, Inc.
@@ -79,25 +79,25 @@ class JCacheHash extends JCache
 			foreach ($dir_parts as $dir_part) {
 				$new_dir .= $dir_part;
 				if (!file_exists($new_dir) && !mkdir($new_dir, 0771)) {
-					JError::raiseError( -3, 'JCacheHash::_create_dir_structure : problem creating directory \"$dir\" !');   
+					JError::raiseError( -3, 'JCacheHash::_create_dir_structure : problem creating directory \"$dir\" !');
 					return false;
 				}
 				$new_dir .= DS;
 			}
 		}
 	}
-	
+
 	function _remove_dir_structure($dir,$remove_dir = false)
 	{
 		if (in_array(substr($dir,-1),array(DS,'/','\\'))) {
 			$dir = substr($dir,0,-1);
 		}
-		
+
 		if (!($dh = opendir($dir))) {
 			JError::raiseError( -4, 'JCacheHash::_remove_dir_structure: Unable to open cache directory !');
 			return false;
 		}
-		
+
 		while ($file = readdir($dh)) {
 			if ($file == '.' || $file == '..') {
 				continue;
@@ -116,9 +116,9 @@ class JCacheHash extends JCache
 				continue;
 			}
 		}
-		
+
 		closedir($dh);
-		
+
 		if ($remove_dir) {
 			clearstatcache();
 			if (!@rmdir($dir)) {
@@ -126,10 +126,10 @@ class JCacheHash extends JCache
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Clean the cache
 	 * if no group is specified all cache files will be destroyed else only
@@ -143,7 +143,7 @@ class JCacheHash extends JCache
 	{
 		if ($group) {
 			$motif = $this->_cacheDir.$group.'/';
-			
+
 			if ($this->_memoryCaching) {
 				foreach ($this->_memoryCachingArray as $key => $value) {
 					if (strpos($key, $motif, 0)) {
@@ -155,10 +155,10 @@ class JCacheHash extends JCache
 					return true;
 				}
 			}
-			
+
 			return $this->_remove_dir_structure($motif);
 		}
-		
+
 		if ($this->_memoryCaching) {
 			$this->_memoryCachingArray   = array();
 			$this->_memoryCachingCounter = 0;
@@ -166,12 +166,12 @@ class JCacheHash extends JCache
 				return true;
 			}
 		}
-		
+
 		if (!($dh = opendir($this->_cacheDir))) {
 			JError::raiseError( -4, 'JCacheHash::clean: Unable to open cache directory !');
 			return false;
 		}
-		
+
 		while ($file = readdir($dh)) {
 			if ($file == '.' || $file == '..') {
 				continue;
@@ -181,7 +181,7 @@ class JCacheHash extends JCache
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }

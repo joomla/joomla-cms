@@ -22,14 +22,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class HTML_messages {
 	function showMessages( &$rows, &$pageNav, $option, &$lists ) {
 		global $mainframe, $my;
-		
+
 		/*
 		 * Initialize variables
 		 */
 		$user	= & $mainframe->getUser();
 		?>
 		<form action="index2.php?option=com_messages" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -45,14 +45,14 @@ class HTML_messages {
 			</td>
 		</tr>
 		</table>
-		  
-		<div id="tablecell">				
+
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="20">
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
-				<th width="20" class="title"> 
+				<th width="20" class="title">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
 				<th width="25%" class="title">
@@ -74,14 +74,14 @@ class HTML_messages {
 				$row =& $rows[$i];
 				$img = $row->state ? 'tick.png' : 'publish_x.png';
 				$alt = $row->state ? JText::_( 'Read' ) : JText::_( 'Read' );
-				
+
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id_from;
 					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->user_from .'</a>';
 				} else {
 					$author = $row->user_from;
 				}
-				
+
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -97,22 +97,22 @@ class HTML_messages {
 						<a href="javascript: void(0);">
 							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 					</td>
-					<td> 
+					<td>
 						<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','view')">
-							<?php echo $row->subject; ?></a> 
+							<?php echo $row->subject; ?></a>
 					</td>
 					<td>
 						<?php echo $row->date_time; ?>
 					</td>
 				</tr>
 				<?php $k = 1 - $k;
-				} 
+				}
 			?>
 			</table>
-			
+
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
-		
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
@@ -120,7 +120,7 @@ class HTML_messages {
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
-		<?php 
+		<?php
 	}
 
 	function editConfig( &$vars, $option) {
@@ -137,49 +137,49 @@ class HTML_messages {
 				document.location.href = 'index2.php?option=<?php echo $option;?>';
 			}
 		}
-		</script>		
-		<form action="index2.php" method="post" name="adminForm">	
+		</script>
+		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">				
+		<div id="editcell">
 			<table class="adminform">
 			<tr>
 				<td width="20%">
 					<?php echo JText::_( 'Lock Inbox' ); ?>:
-				</td>			
-				<td> 
-					<?php echo $vars['lock']; ?> 
-				</td>				
+				</td>
+				<td>
+					<?php echo $vars['lock']; ?>
+				</td>
 			</tr>
 			<tr>
 				<td width="20%">
 					<?php echo JText::_( 'Mail me on new Message' ); ?>:
 				</td>
-				<td> 
-					<?php echo $vars['mail_on_new']; ?> 
+				<td>
+					<?php echo $vars['mail_on_new']; ?>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<?php echo JText::_( 'Auto Purge Messages' ); ?>:
 				</td>
-				<td> 
-					<input type="text" name="vars[auto_purge]" size="5" value="<?php echo $vars['auto_purge']; ?>" class="inputbox" /> 
+				<td>
+					<input type="text" name="vars[auto_purge]" size="5" value="<?php echo $vars['auto_purge']; ?>" class="inputbox" />
 					<?php echo JText::_( 'days old' ); ?>
 				</td>
 			</tr>
-			</table>	
+			</table>
 		</div>
-		
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />	  
+
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
-		<?php 
+		<?php
 	}
-	
+
 	function viewMessage( &$row, $option ) {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 			<tr>
 				<td width="100">
@@ -214,7 +214,7 @@ class HTML_messages {
 				</td>
 			</tr>
 		</table>
-		
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="1" />
@@ -223,7 +223,7 @@ class HTML_messages {
 		<input type="hidden" name="subject" value="Re: <?php echo $row->subject; ?>" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
-		<?php 
+		<?php
 	}
 
 	function newMessage($option, $recipientslist, $subject ) {
@@ -236,7 +236,7 @@ class HTML_messages {
 				submitform( pressbutton );
 				return;
 			}
-	
+
 			// do field validation
 			if (form.subject.value == "") {
 				alert( "<?php echo JText::_( 'You must provide a subject.' ); ?>" );
@@ -248,9 +248,9 @@ class HTML_messages {
 				submitform( pressbutton );
 			}
 		}
-		</script>	
+		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<td width="100">
@@ -277,12 +277,12 @@ class HTML_messages {
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="user_id_from" value="<?php echo $my->id; ?>">
 		<input type="hidden" name="option" value="<?php echo $option; ?>">
 		<input type="hidden" name="task" value="">
 		</form>
-		<?php 
+		<?php
 	}
 }
 ?>

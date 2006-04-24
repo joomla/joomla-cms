@@ -37,7 +37,7 @@ See COPYRIGHT.php for copyright notices and details.
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="tabarea">
 				<div id="tabarea_l">
 					<div id="tabarea_r">
@@ -57,24 +57,24 @@ See COPYRIGHT.php for copyright notices and details.
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="search">
 				<jdoc:include type="modules" name="user4" style="-1" />
 			</div>
-			
+
 			<div id="pathway">
 				<jdoc:include type="module" name="breadcrumbs" style="-1" />
 			</div>
-			
+
 			<div class="clr"></div>
-			
+
 			<div id="whitebox">
 				<div id="whitebox_t">
 					<div id="whitebox_tl">
 						<div id="whitebox_tr"></div>
 					</div>
 				</div>
-				
+
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
@@ -82,7 +82,7 @@ See COPYRIGHT.php for copyright notices and details.
 							<jdoc:include type="modules" name="left" style="-3" />
 						</jdoc:exists>
 						</div>
-						
+
 						<div id="maincolumn">
 							<jdoc:exists type="modules" condition="user1 or user2" >
 								<table class="nopad user1user2">
@@ -102,10 +102,10 @@ See COPYRIGHT.php for copyright notices and details.
 										</jdoc:exists>
 									</tr>
 								</table>
-								
+
 								<div id="maindivider"></div>
 							</jdoc:exists>
-							
+
 							<table class="nopad">
 								<tr valign="top">
 									<td>
@@ -132,17 +132,17 @@ See COPYRIGHT.php for copyright notices and details.
 					</div>
 					<div class="clr"></div>
 				</div>
-				
+
 				<div id="whitebox_b">
 					<div id="whitebox_bl">
 						<div id="whitebox_br"></div>
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="footerspacer"></div>
 		</div>
-		
+
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
@@ -151,8 +151,8 @@ See COPYRIGHT.php for copyright notices and details.
 					</p>
 					<p style="float:right; padding-right: 25px;">
      				 	Powered by <a href="http://joomla.org">Joomla</a>.
-      					
-      					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>. 
+
+      					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
     				</p>
 				</div>
 			</div>

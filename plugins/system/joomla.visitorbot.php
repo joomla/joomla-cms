@@ -23,7 +23,7 @@ $mainframe->registerEvent( 'onAfterStart', 'botDetectVisitor' );
  * visitor.  The user agent is recorded/incremented if this is the first visit.
  * A cookie is set to mark the first visit.
  */
-function botDetectVisitor() 
+function botDetectVisitor()
 {
 	global $database, $mainframe;
 

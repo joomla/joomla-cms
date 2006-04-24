@@ -19,7 +19,7 @@
  * @subpackage 	Model
  * @since		1.0
  */
-class JTableMenu extends JTable 
+class JTableMenu extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -68,24 +68,24 @@ class JTableMenu extends JTable
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__menu', 'id', $db );
 	}
-	
+
 	/**
 	* Overloaded bind function
 	*
-	* @acces public  
+	* @acces public
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	
+
 	function bind($array, $ignore = '')
 	{
 		if (is_array( $array['params'] )) {
@@ -93,7 +93,7 @@ class JTableMenu extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-	
+
 		return parent::bind($array, $ignore);
 	}
 }
