@@ -29,7 +29,6 @@ class HTML_modules {
 	{
 		global $mainframe;
 
-		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
@@ -203,7 +202,6 @@ class HTML_modules {
 			</table>
 		</div>
 
-		<input type="hidden" name="limitstart" value="<?php echo $limitstart;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
