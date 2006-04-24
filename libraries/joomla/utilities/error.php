@@ -381,7 +381,7 @@ class JErrorHandler
 		/*
 		 * Initialize variables
 		 */
-		$document =& JApplication::getDocument();
+		$document =& $mainframe->getDocument();
 
 		/*
 		 * Send the error header for the appropriate error code
