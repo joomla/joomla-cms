@@ -129,7 +129,7 @@ class JParameter extends JRegistry
 		}
 
 		$html = array ();
-		$html[] = '<table width="100%" class="paramlist">';
+		$html[] = '<table width="100%" class="paramlist" cellspacing="1">';
 
 		if ($description = $this->_xml->attributes('description')) {
 			// add the params description to the display
