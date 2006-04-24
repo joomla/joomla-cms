@@ -331,6 +331,7 @@ class JPagination extends JObject
 		$html .= '<td>'.$this->getLimitBox().'</td>';
 		$html .= '<td nowrap="nowrap" width="48%" >'.$this->getPagesCounter().'</td>';
 		$html .= '</tr></table>';
+		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		return $html;
 	}
 
