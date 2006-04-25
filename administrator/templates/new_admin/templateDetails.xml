@@ -12,4 +12,10 @@
 		<filename>index.php</filename>
 		<filename>css/template.css</filename>
 	</files>
+	<params>
+		<param name="useRoundedCorners" type="radio" default="1" label="Use Rounded Corners" description="Enable/Disable Rounded Corner Effect">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+    </params>
 </install>
