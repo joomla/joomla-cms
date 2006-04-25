@@ -32,10 +32,10 @@ form br { display: none; }
 
 #content-box { border-right: 1px solid #ccc; }
 
-.element-box    { float: right; width: 210px; padding: 5px 1px;}
+.element-box    { float: right; width: 280px; padding: 5px 1px;margin-left: 10px;}
 
 #loginpad {
-	padding: 20px; padding-bottom: 50px;
+	padding: 20px; padding-bottom: 60px;
 	background: url(../images/j_login_lock.jpg) 50px 100% no-repeat;
 }
 
@@ -50,5 +50,14 @@ form br { display: none; }
 
 .inputlabel { float: left; }
 
+#loginForm label {
+	display: block;
+	float: left;
+	width: 70px;
+	text-align: right;
+	padding: 4px;
+	color: #666;
+	font-weight: bold;
+}
 
 

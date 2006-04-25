@@ -56,17 +56,18 @@ See COPYRIGHT.php for copyright notices and details.
 								<jdoc:include type="module" name="login" />
 							</div>
 						</div>
-					<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
+						<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
 
-					<p>
-						<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
-					</p>
-					<div class="clr"></div>
+						<p>
+							<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
+						</p>
+						<div class="clr"></div>
 					</div>
 				</div>
 				<noscript>
 					<jdoc:translate key="WARNJAVASCRIPT" />
 				</noscript>
+										<div class="clr"></div>
 			</div>
 		</div>
 		<div id="footer1">

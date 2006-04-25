@@ -26,12 +26,12 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 
 <form action="index.php" method="post" name="loginForm" id="loginForm">
 	<p>
-		<label for="username"><?php echo JText::_('Username'); ?></label><br />
+		<label for="username"><?php echo JText::_('Username'); ?></label>
 		<input name="username" id="username" type="text" class="inputbox" size="15" />
 	</p>
 
 	<p>
-		<label for="password"><?php echo JText::_('Password'); ?></label><br />
+		<label for="password"><?php echo JText::_('Password'); ?></label>
 		<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 	</p>
 	<?php
@@ -44,9 +44,11 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 	}
 	?>
 	<p>
-		<label for="lang"><?php echo JText::_('Language'); ?></label><br />
+		<label for="lang"><?php echo JText::_('Language'); ?></label>
 		<?php echo $langs; ?>
 	</p>
+	<p>
+		<label></lablel>
 	<div class="button1-left">
 		<div class="next">
 			<a onclick="loginForm.submit();">
@@ -54,6 +56,7 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 			</a>
 		</div>
 	</div>
+	</p>
 	<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
 	<input type="hidden" name="option" value="login" />
 </form>
