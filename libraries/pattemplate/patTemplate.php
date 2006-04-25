@@ -661,6 +661,9 @@ class patTemplate
 
 		$value = array();
 
+		if(!isset($this->_vars[$template]['rows'])) 
+			return null;
+			
 		$cnt = count( $this->_vars[$template]['rows'] );
 		for( $i = 0; $i < $cnt; $i++ )
 		{

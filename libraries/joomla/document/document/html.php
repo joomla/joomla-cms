@@ -181,17 +181,24 @@ class JDocumentHTML extends JDocument
 	{
 		jimport('joomla.document.module.renderer');
 
-		if(!$this->_engine->moduleExists('Renderer', ucfirst($type))) {
-			return false;
+		$result = $this->_engine->getVar('document', $type.'_'.$name);;
+		
+		if($this->_engine->moduleExists('Renderer', ucfirst($type))) 
+		{
+			$module =& $this->_engine->loadModule( 'Renderer', ucfirst($type));
+
+			if( patErrorManager::isError( $module ) ) {
+				return false;
+			}
+
+			$result .=  $module->render($name, $params);
+		}
+		
+		if(!$result) {
+			$result = " ";
 		}
 
-		$module =& $this->_engine->loadModule( 'Renderer', ucfirst($type));
-
-		if( patErrorManager::isError( $module ) ) {
-			return false;
-		}
-
-		return $module->render($name, $params);
+		return $result;
 	}
 	
 	/**
@@ -345,7 +352,7 @@ class JDocumentHTML extends JDocument
 			{
 				if($html = $this->getRenderer($type, $name, $params)) {
 					$this->_engine->addVar('document', $type.'_'.$name, $html);
-				}
+				} 
 			}
 		}
 	}

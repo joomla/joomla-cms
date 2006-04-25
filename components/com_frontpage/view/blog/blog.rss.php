@@ -47,7 +47,8 @@ class JViewBlog
 		for ( $i=0; $i < $count; $i++ )
 		{
 			$Itemid = $mainframe->getItemid( $rows[$i]->id );
-			$rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid;
+			$rows[$i]->link = $link .$rows[$i]->id .'&Itemid='. $Itemid;
+			$rows[$i]->date = $row->created;
 		}
 
 		JViewBlog::createFeed( $rows, $format, $menu->name, $params );

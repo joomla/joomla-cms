@@ -62,7 +62,8 @@ class JViewRSSCategory extends JView
 		for ( $i=0; $i < $count; $i++ )
 		{
 			$Itemid = $mainframe->getItemid( $rows[$i]->id );
-			$rows[$i]->link     = $rows[$i]->link .'&Itemid='. $Itemid;
+			$rows[$i]->link = $link .$rows[$i]->id .'&Itemid='. $Itemid;
+			$rows[$i]->date = $rows[$i]->created;
 			$rows[$i]->category = $category->title;
 		}
 

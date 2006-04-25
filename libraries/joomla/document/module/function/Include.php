@@ -91,9 +91,6 @@ class patTemplate_Function_Include extends patTemplate_Function
 			default : $doc->_addRenderer($type, $name);
 		}
 		
-		//dirty fix for unusedvar="none" template setting
-		//$this->_tmpl->addVar('document', $type.'_'.$name, " ");
-
 		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
 
