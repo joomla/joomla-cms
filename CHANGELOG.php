@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+25-Apr-2006 Andy Miller
+ + Added template param to turn off rounded corners in new admin template
+
 24-Apr-2006 Johan Janssens
  ^ Refactored JDocument package to use an adapter pattern
 
