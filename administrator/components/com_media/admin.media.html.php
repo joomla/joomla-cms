@@ -52,17 +52,17 @@ class JMediaViews {
 
 		<table>
 		<tr>
-			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
+			<td align="right" width="20%" style="padding-right:10px;white-space:nowrap">
 				<label for="foldername">
 					<?php echo JText::_( 'Create Directory' ); ?>
 				</label>
-				<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 250px" />
+				<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 150px" />
 			</td>
-			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
+			<td align="right" width="80%" style="padding-right:10px;white-space:nowrap">
 				<label for="imagecode">
 					<?php echo JText::_( 'Image/Url Code' ); ?>
 				</label>
-				<input class="inputbox" type="text" name="imagecode" id="imagecode" style="width: 250px" />
+				<input class="inputbox" type="text" name="imagecode" id="imagecode" style="width: 400px" />
 			</td>
 		</tr>
 		</table>
