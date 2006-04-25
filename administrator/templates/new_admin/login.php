@@ -67,7 +67,7 @@ See COPYRIGHT.php for copyright notices and details.
 				<noscript>
 					<jdoc:translate key="WARNJAVASCRIPT" />
 				</noscript>
-										<div class="clr"></div>
+				<div class="clr"></div>
 			</div>
 		</div>
 		<div id="footer1">
@@ -81,10 +81,3 @@ See COPYRIGHT.php for copyright notices and details.
 		</div>
 	</body>
 </html>
-
-
-
-
-
-
-

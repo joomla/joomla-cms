@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<install type="template" version="1.0.0" client="administrator">
+<?xml version="1.0" encoding="UTF-8"?>
+<install type="template" version="1.5.0" client="administrator">
 	<name>New Joomla Admin</name>
 	<creationDate>02/16/06</creationDate>
 	<author>Andy Miller</author>

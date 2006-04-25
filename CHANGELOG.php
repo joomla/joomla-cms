@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Apr-2006 Johan Janssens
+ ^ Refactored JDocument package to use an adapter pattern
+
 24-Apr-2006 Andy Miller
  ^ Reworked UI for Global Configuration
  ^ Administrator Modules Manager has been reworked for new design

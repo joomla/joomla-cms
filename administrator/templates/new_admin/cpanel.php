@@ -15,10 +15,9 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 global $document;
-
 ?>
 
-<?php echo $document->execRenderer('modules','icon'); ?>
+<?php echo $document->getRenderer('modules','icon'); ?>
 
 <div class="clr"></div>
 <?php

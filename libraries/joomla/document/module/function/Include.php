@@ -47,6 +47,10 @@ class patTemplate_Function_Include extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
+		global $mainframe;
+		
+		$doc =& $mainframe->getDocument();
+		
 		if(!isset($params['type'])) {
 			return false;
 		}
@@ -70,7 +74,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 					}
 				}
 
-				$this->_tmpl->_addRenderer($type, $name);
+				$doc->_addRenderer($type, $name);
 
 			} break;
 			case 'module' 		:
@@ -81,11 +85,14 @@ class patTemplate_Function_Include extends patTemplate_Function
 					$module->$param = $value;
 				}
 
-				$this->_tmpl->_addRenderer($type, $name);
+				$doc->_addRenderer($type, $name);
 			} break;
 
-			default : $this->_tmpl->_addRenderer($type, $name);
+			default : $doc->_addRenderer($type, $name);
 		}
+		
+		//dirty fix for unusedvar="none" template setting
+		$this->_tmpl->addVar('document', $type.'_'.$name, " ");
 
 		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}

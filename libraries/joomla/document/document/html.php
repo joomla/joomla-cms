@@ -68,6 +68,16 @@ class JDocumentHTML extends JDocument
 		if (isset($attributes['base'])) {
             $this->setBase($attributes['base']);
         }
+		
+		$this->_engine =& JTemplate::getInstance();
+		
+		//set the namespace
+		$this->_engine->setNamespace( 'jdoc' );
+		
+			//add module directories
+		$this->_engine->addModuleDir('Function'    , dirname(__FILE__). '/../module'. DS .'function');
+		$this->_engine->addModuleDir('OutputFilter', dirname(__FILE__). '/../module'. DS .'filter'  );
+		$this->_engine->addModuleDir('Renderer'    , dirname(__FILE__). '/../module'. DS .'renderer');
 
 		//set mime type
 		$this->_mime = 'text/html';
@@ -158,113 +168,8 @@ class JDocumentHTML extends JDocument
         return $this->_base;
     }
 
-	 /**
-     * Generates the head html and return the results as a string
-     *
-     * @access public
-     * @return string
-     */
-    function fetchHead()
-    {
-        // get line endings
-        $lnEnd = $this->_getLineEnd();
-        $tab = $this->_getTab();
-
-		$tagEnd = ' />';
-
-		$strHtml  = $tab . '<title>' . $this->getTitle() . '</title>' . $lnEnd;
-		$strHtml .= $tab . '<base href="' . $this->getBase() . '" />' . $lnEnd;
-
-        // Generate META tags
-        foreach ($this->_metaTags as $type => $tag) {
-            foreach ($tag as $name => $content) {
-                if ($type == 'http-equiv') {
-                    $strHtml .= $tab . "<meta http-equiv=\"$name\" content=\"$content\"" . $tagEnd . $lnEnd;
-                } elseif ($type == 'standard') {
-                    $strHtml .= $tab . "<meta name=\"$name\" content=\"$content\"" . $tagEnd . $lnEnd;
-                }
-            }
-        }
-
-        // Generate link declarations
-        foreach ($this->_links as $link) {
-            $strHtml .= $tab . $link . $tagEnd . $lnEnd;
-        }
-
-        // Generate stylesheet links
-        foreach ($this->_styleSheets as $strSrc => $strAttr ) {
-            $strHtml .= $tab . "<link rel=\"stylesheet\" href=\"$strSrc\" type=\"".$strAttr['mime'].'"';
-            if (!is_null($strAttr['media'])){
-                $strHtml .= ' media="'.$strAttr['media'].'" ';
-            }
-
-			$strHtml .= JDocumentHelper::implodeAttribs('=', ' ', $strAttr['attribs']);
-
-            $strHtml .= $tagEnd . $lnEnd;
-        }
-
-        // Generate stylesheet declarations
-        foreach ($this->_style as $styledecl) {
-            foreach ($styledecl as $type => $content) {
-                $strHtml .= $tab . '<style type="' . $type . '">' . $lnEnd;
-
-                // This is for full XHTML support.
-                if ($this->_mime == 'text/html' ) {
-                    $strHtml .= $tab . $tab . '<!--' . $lnEnd;
-                } else {
-                    $strHtml .= $tab . $tab . '<![CDATA[' . $lnEnd;
-                }
-
-				$strHtml .= $content . $lnEnd;
-
-                // See above note
-                if ($this->_mime == 'text/html' ) {
-                    $strHtml .= $tab . $tab . '-->' . $lnEnd;
-                } else {
-                    $strHtml .= $tab . $tab . ']]>' . $lnEnd;
-                }
-                $strHtml .= $tab . '</style>' . $lnEnd;
-            }
-        }
-
-        // Generate script file links
-        foreach ($this->_scripts as $strSrc => $strType) {
-            $strHtml .= $tab . "<script type=\"$strType\" src=\"$strSrc\"></script>" . $lnEnd;
-        }
-
-        // Generate script declarations
-        foreach ($this->_script as $script) {
-            foreach ($script as $type => $content) {
-                $strHtml .= $tab . '<script type="' . $type . '">' . $lnEnd;
-
-                // This is for full XHTML support.
-                if ($this->_mime == 'text/html' ) {
-                    $strHtml .= $tab . $tab . '// <!--' . $lnEnd;
-                } else {
-                    $strHtml .= $tab . $tab . '<![CDATA[' . $lnEnd;
-                }
-
-				$strHtml .= $content . $lnEnd;
-
-                // See above note
-                if ($this->_mime == 'text/html' ) {
-                    $strHtml .= $tab . $tab . '// -->' . $lnEnd;
-                } else {
-                    $strHtml .= $tab . $tab . '// ]]>' . $lnEnd;
-                }
-                $strHtml .= $tab . '</script>' . $lnEnd;
-            }
-        }
-
-		foreach($this->_custom as $custom) {
-			$strHtml .= $tab . $custom .$lnEnd;
-		}
-
-        return $strHtml;
-    }
-
 	/**
-	 * Execute a renderer
+	 * Get a renderer, executed the renderer and returns the result
 	 *
 	 * @access public
 	 * @param string 	$type	The type of renderer
@@ -272,15 +177,15 @@ class JDocumentHTML extends JDocument
 	 * @param array 	$params	Associative array of values
 	 * @return 	The output of the renderer
 	 */
-	function execRenderer($type, $name, $params = array())
+	function getRenderer($type, $name, $params = array())
 	{
 		jimport('joomla.document.module.renderer');
 
-		if(!$this->moduleExists('Renderer', ucfirst($type))) {
+		if(!$this->_engine->moduleExists('Renderer', ucfirst($type))) {
 			return false;
 		}
 
-		$module =& $this->loadModule( 'Renderer', ucfirst($type));
+		$module =& $this->_engine->loadModule( 'Renderer', ucfirst($type));
 
 		if( patErrorManager::isError( $module ) ) {
 			return false;
@@ -288,44 +193,19 @@ class JDocumentHTML extends JDocument
 
 		return $module->render($name, $params);
 	}
-
+	
 	/**
-	 * Parse a document template
+	 * Set a renderer
 	 *
 	 * @access public
-	 * @param string 	$directory	The template directory
-	 * @param string 	$file 		The actual template file
+	 * @param string 	$type	The type of renderer
+	 * @param string 	$name	The name of the element to render
+	 * @param array 	$params	Associative array of values
+	 * @return 	The output of the renderer
 	 */
-	function parse($directory, $file = 'index.php')
+	function setRenderer($type, $name, $contents)
 	{
-		global $mainframe;
-
-		$contents = $this->_load( $directory, $file);
-		$this->readTemplatesFromInput( $contents, 'String' );
-
-		/*
-		 * Parse the template INI file if it exists for parameters and insert
-		 * them into the template.
-		 */
-		if (is_readable( $directory.DS.'params.ini' ) ) {
-			$content = file_get_contents($directory.DS.'params.ini');
-			$params = new JParameter($content);
-			$this->addVars( 'document', $params->toArray(), 'param_');
-		}
-
-		/*
-		 * Try to find a favicon by checking the template and root folder
-		 */
-		$path = $directory .'/';
-		$dirs = array( $path, '' );
-		foreach ($dirs as $dir ) {
-			$icon =   $dir . 'favicon.ico';
-
-			if(file_exists( JPATH_SITE .'/'. $icon )) {
-				$this->addFavicon( $icon);
-				break;
-			}
-		}
+		$thsi->_engine->addVar('document', strtoupper($type).'_'.strtoupper($name), $contents);
 	}
 
 	/**
@@ -344,23 +224,19 @@ class JDocumentHTML extends JDocument
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
+		
+		//Add template variables
+		$this->_engine->addVar('document', 'template', $template);
+		
+		$this->_engine->addVar( 'document', 'lang_tag', $this->getLanguage() );
+		$this->_engine->addVar( 'document', 'lang_dir', $this->getDirection() );
 
 		// parse
-		$this->parse($directory.DS.$template, $file);
+		$this->_parse($directory.DS.$template, $file);
 
 		// render
-		foreach($this->_renderers as $type => $names)
-		{
-			foreach($names as $name)
-			{
-				if($html = $this->execRenderer($type, $name, $params)) {
-					$this->addVar('document', $type.'_'.$name, $html);
-				}
-			}
-		}
+		$this->_render($params);
 	
-		$this->addVar('document', 'template', $template);
-
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -368,7 +244,13 @@ class JDocumentHTML extends JDocument
 		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 		header( 'Pragma: no-cache' );										// HTTP/1.0
 
+		if($compress) {
+			$this->_engine->applyOutputFilter('Zlib');
+		}
+		
 		parent::display( $template, $file, $compress, $params );
+		
+		$this->_engine->display('document');
 	}
 
 	/**
@@ -406,13 +288,66 @@ class JDocumentHTML extends JDocument
 		}
 
 		// Add the option variable to the template
-		$this->addVar('document', 'option', $option);
-
-		// Add the language information to the template
-		$this->addVar( 'document', 'lang_tag', $this->getLanguage() );
-		$this->addVar( 'document', 'lang_dir', $this->getDirection() );
+		$this->_engine->addVar('document', 'option', $option);
 
 		return $contents;
+	}
+	
+	/**
+	 * Parse a document template
+	 *
+	 * @access public
+	 * @param string 	$directory	The template directory
+	 * @param string 	$file 		The actual template file
+	 */
+	function _parse($directory, $file = 'index.php')
+	{
+		global $mainframe;
+
+		$contents = $this->_load( $directory, $file);
+		$this->_engine->readTemplatesFromInput( $contents, 'String' );
+
+		/*
+		 * Parse the template INI file if it exists for parameters and insert
+		 * them into the template.
+		 */
+		if (is_readable( $directory.DS.'params.ini' ) ) {
+			$content = file_get_contents($directory.DS.'params.ini');
+			$params = new JParameter($content);
+			$this->_engine->addVars( 'document', $params->toArray(), 'param_');
+		}
+
+		/*
+		 * Try to find a favicon by checking the template and root folder
+		 */
+		$path = $directory .'/';
+		$dirs = array( $path, '' );
+		foreach ($dirs as $dir ) {
+			$icon =   $dir . 'favicon.ico';
+
+			if(file_exists( JPATH_SITE .'/'. $icon )) {
+				$this->addFavicon( $icon);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Render the document
+	 *
+	 * @access private
+	 */
+	function _render(&$params)
+	{
+		foreach($this->_renderers as $type => $names)
+		{
+			foreach($names as $name)
+			{
+				if($html = $this->getRenderer($type, $name, $params)) {
+					$this->_engine->addVar('document', $type.'_'.$name, $html);
+				}
+			}
+		}
 	}
 
 	/**
@@ -422,12 +357,32 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The renderer name
 	 * @return string The contents of the template
 	 */
-	function _addRenderer($type, $name) 
-	{
-		//dirty fix for unusedvar="none" template setting
-		$this->addVar('document', $type.'_'.$name, " ");
-		
+	function _addRenderer($type, $name)  {	
 		$this->_renderers[$type][] = $name;
+	}
+	
+	 /**
+	* load from template cache
+	*
+	* @access	private
+	* @param	string	name of the input (filename, shm segment, etc.)
+	* @param	string	driver that is used as reader, you may also pass a Reader object
+	* @param	array	options for the reader
+	* @param	string	cache key
+	* @return	array|boolean	either an array containing the templates, or false
+	*/
+	function _loadTemplatesFromCache( $input, &$reader, $options, $key )
+	{
+		$stat	=	&$this->_engine->loadModule( 'Stat', 'File' );
+		$stat->setOptions( $options );
+
+		/**
+		 * get modification time
+		 */
+		$modTime   = $stat->getModificationTime( $this->_file );
+		$templates = $this->_engine->_tmplCache->load( $key, $modTime );
+
+		return $templates;
 	}
 }
 ?>

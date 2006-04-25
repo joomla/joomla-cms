@@ -25,7 +25,7 @@ jimport('joomla.application.extension.module');
  * @see			patTemplate
  */
 
-class JDocument extends JTemplate
+class JDocument extends JObject
 {
 	/**
      * Tab string
@@ -138,6 +138,14 @@ class JDocument extends JTemplate
      * @access  private
      */
     var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.5' ) );
+	
+	/**
+     * The rendering engine
+     *
+     * @var     object
+     * @access  private
+     */
+    var $_engine = null;
 
 
 	/**
@@ -170,14 +178,6 @@ class JDocument extends JTemplate
         if (isset($attributes['tab'])) {
             $this->setTab($attributes['tab']);
         }
-
-		//set the namespace
-		$this->setNamespace( 'jdoc' );
-
-		//add module directories
-		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'module'. DS .'function');
-		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'module'. DS .'filter'  );
-		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'module'. DS .'renderer');
 	}
 
 	/**
@@ -209,6 +209,16 @@ class JDocument extends JTemplate
 
 		return $instances[$signature];
 	}
+	
+	 /**
+     * Returns the engine instance
+     *
+     * @access    public
+     * @return    object
+     */
+    function getEngine() {
+        return $this->_engine;
+    }
 
 	/**
      * Sets or alters a meta tag.
@@ -464,60 +474,8 @@ class JDocument extends JTemplate
 	 */
 	function display( $template, $file, $compress = false, $params = array())
 	{
-		if($compress) {
-			$this->applyOutputFilter('Zlib');
-		}
-
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-
-		parent::display( 'document' );
-	}
-
-	/**
-     * Return the document head
-     *
-     * @abstract
-     * @access public
-     * @return string
-     */
-    function fetchHead() {
-		return '';
-    }
-
-	/**
-     * Return the document body
-     *
-     * @abstract
-     * @access public
-     * @return string
-     */
-    function fetchBody() {
-		return '';
-    }
-
-	 /**
-	* load from template cache
-	*
-	* @access	private
-	* @param	string	name of the input (filename, shm segment, etc.)
-	* @param	string	driver that is used as reader, you may also pass a Reader object
-	* @param	array	options for the reader
-	* @param	string	cache key
-	* @return	array|boolean	either an array containing the templates, or false
-	*/
-	function _loadTemplatesFromCache( $input, &$reader, $options, $key )
-	{
-		$stat	=	&$this->loadModule( 'Stat', 'File' );
-		$stat->setOptions( $options );
-
-		/**
-		 * get modification time
-		 */
-		$modTime   = $stat->getModificationTime( $this->_file );
-		$templates = $this->_tmplCache->load( $key, $modTime );
-
-		return $templates;
 	}
 }
 

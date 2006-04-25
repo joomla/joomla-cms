@@ -34,7 +34,7 @@ class JConfigView
 		$contents = ob_get_contents();
 		ob_end_clean();
 		
-		$document->addVar('document', 'MODULE_SUBMENU', $contents);
+		$document->setRenderer('module', 'submenu', $contents);
 		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.html');
 		mosCommonHTML::loadOverlib();
 
