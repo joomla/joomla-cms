@@ -354,12 +354,12 @@ class JDocumentHTML extends JDocument
 			foreach($names as $name)
 			{
 				if($html = $this->execRenderer($type, $name, $params)) {
-					$this->addGlobalVar($type.'_'.$name, $html);
+					$this->addVar('document', $type.'_'.$name, $html);
 				}
 			}
 		}
 
-		$this->addGlobalVar( 'template', $template);
+		$this->addVar('document', 'template', $template);
 
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
