@@ -97,9 +97,11 @@
 
 #submenu li a,
 #submenu span.nolink {
+	cursor: pointer;
 	padding: 5px 15px;
 	border-right: 1px solid #ccc;
 	font-weight: bold;
+	color: #0B55C4;
 }
 
 #submenu span.nolink {
@@ -110,5 +112,6 @@
 #submenu span.nolink.active {
 	color: #000;
 	text-decoration: underline;
+	
 }
 
