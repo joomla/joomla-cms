@@ -50,19 +50,19 @@ class JMediaViews {
 
 		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
 				<label for="foldername">
 					<?php echo JText::_( 'Create Directory' ); ?>
 				</label>
-				<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 350px" />
+				<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 250px" />
 			</td>
-			<td align="right" width="50%" style="padding-right:10px;;white-space:nowrap">
+			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
 				<label for="imagecode">
 					<?php echo JText::_( 'Image/Url Code' ); ?>
 				</label>
-				<input class="inputbox" type="text" name="imagecode" id="imagecode" style="width: 350px" />
+				<input class="inputbox" type="text" name="imagecode" id="imagecode" style="width: 250px" />
 			</td>
 		</tr>
 		</table>
@@ -96,7 +96,7 @@ class JMediaViews {
 										</label>
 										<small>[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
 										&nbsp;&nbsp;&nbsp;&nbsp;
-										<input class="inputbox" type="file" name="upload" id="uploadfile" size="63" />&nbsp;
+										<input class="inputbox" type="file" name="upload" id="uploadfile" size="50" />&nbsp;
 									</td>
 								</tr>
 								</table>
@@ -478,6 +478,8 @@ class JMediaViews {
 			padding: 2px;
 			overflow: hidden;
 			border: 1px solid #ccc;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 11px;
 		}
 
 		div.imgBorder a {
@@ -497,12 +499,10 @@ class JMediaViews {
 
 		.imgCaption {
 			font-size: 9pt;
-			font-family: "MS Shell Dlg", Helvetica, sans-serif;
 			text-align: center;
 		}
 		.dirField {
 			font-size: 9pt;
-			font-family: "MS Shell Dlg", Helvetica, sans-serif;
 			width:110px;
 		}
 		div.image {
@@ -534,43 +534,34 @@ class JMediaViews {
 		$dirPath = mosHTML::selectList( $folders, 'dirPath', 'class="inputbox" size="1" ', 'value', 'text', '.' );
 		?>
 		<form method="post" action="index3.php" enctype="multipart/form-data" name="adminForm">
+		
+		<fieldset>
+			<legend><?php echo JText::_( 'Upload a File' ); ?></legend>
 
-		<table id="toolbar">
+		<table class="admintable" cellspacing="1">
 		<tr>
+			<td class="key"><?php echo  JText::_( 'Select File' ); ?><br />
+			[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
+			</td>
 			<td>
-				<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', 'images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
-			</td>
-			<td class="title">
-				<?php echo JText::_( 'Upload a File' ); ?>
-			</td>
-		</tr>
-		</table>
-
-		<table class="adminform">
-		<tr>
-			<td colspan="2">
-				<?php echo  JText::_( 'Select File' ); ?>&nbsp;&nbsp;&nbsp;
-				[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
-				<br/>
+				
 				<input class="inputbox" name="upload" type="file" size="70" />
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">
-				<?php echo  JText::_( 'Destination Sub-folder' ); ?>: <?php echo $dirPath; ?>
-			</td>
+			<td class="key"><?php echo  JText::_( 'Destination Sub-folder' ); ?></td>
+			<td><?php echo $dirPath; ?></td>
 		</tr>
 		<tr>
+			<td class="key">&nbsp;</td>
 			<td>
-				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />
-			</td>
-			<td>
-				<div align="right">
-					<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
-				</div>
+
+				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />&nbsp;&nbsp;&nbsp;
+				<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
 			</td>
 		</tr>
 		</table>
+		</fieldset>
 
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="popupUpload" />

@@ -20,6 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Massmail
 */
 class TOOLBAR_media {
+
 	/**
 	* Draws the menu for a New Media
 	*/

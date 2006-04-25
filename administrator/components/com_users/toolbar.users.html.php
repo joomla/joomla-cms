@@ -28,7 +28,7 @@ class TOOLBAR_users {
 		$cid = JRequest::getVar( 'cid', array(0) );
 		$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
-		JMenuBar::title( JText::_( 'User' ) .': <small><small>[ '. $text.' ]</small></small>', 'user.png' );
+		JMenuBar::title( JText::_( 'User Manager' ) .' - <span>'. $text.'</span>', 'user.png' );
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ( $id ) {

@@ -40,6 +40,8 @@ Legend:
 24-Apr-2006 Andy Miller
  ^ Reworked UI for Global Configuration
  ^ Administrator Modules Manager has been reworked for new design
+ ^ Cleaned up login CSS
+ ^ Reworked UI for User Manager
 
 24-Apr-2006 David Gal
  + Added language class (lite) to jajax.php for localisation of server side jajax routines

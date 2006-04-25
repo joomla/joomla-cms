@@ -18,6 +18,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ( $task ) {
+	'popupUpload':
+		TOOLBAR_media::_UPLOAD();
+		break;
 	default:
 		TOOLBAR_media::_DEFAULT();
 		break;

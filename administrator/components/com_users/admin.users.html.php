@@ -36,7 +36,7 @@ class HTML_users {
 
 		<div id="pane-document">
 
-		<table class="adminform">
+		<table>
 			<tr>
 				<td align="left" width="100%">
 					<?php echo JText::_( 'Filter' ); ?>:
@@ -51,7 +51,7 @@ class HTML_users {
 			</tr>
 		</table>
 
-		<table class="adminlist">
+		<table class="adminlist" cellpadding="1">
 			<thead>
 				<tr>
 					<th width="2%" class="title">
@@ -210,21 +210,19 @@ class HTML_users {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
+		
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'User Details' ); ?></legend>
 
-		<div id="editcell">
-			<table width="100%">
-			<tr>
-				<td width="55%" valign="top">
-					<table class="adminform">
+				<table class="admintable" cellspacing="1">
+		
+
+
 					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'User Details' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td width="150">
+						<td width="150" class="key">
 							<label for="name">
-								<?php echo JText::_( 'Name' ); ?>:
+								<?php echo JText::_( 'Name' ); ?>
 							</label>
 						</td>
 						<td>
@@ -232,9 +230,9 @@ class HTML_users {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="username">
-								<?php echo JText::_( 'Username' ); ?>:
+								<?php echo JText::_( 'Username' ); ?>
 							</label>
 						</td>
 						<td>
@@ -242,9 +240,9 @@ class HTML_users {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="email">
-								<?php echo JText::_( 'Email' ); ?>:
+								<?php echo JText::_( 'Email' ); ?>
 							</label>
 						</td>
 						<td>
@@ -252,9 +250,9 @@ class HTML_users {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="password">
-								<?php echo JText::_( 'New Password' ); ?>:
+								<?php echo JText::_( 'New Password' ); ?>
 							</label>
 						</td>
 						<td>
@@ -262,9 +260,9 @@ class HTML_users {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="password2">
-								<?php echo JText::_( 'Verify Password' ); ?>:
+								<?php echo JText::_( 'Verify Password' ); ?>
 							</label>
 						</td>
 						<td>
@@ -272,9 +270,9 @@ class HTML_users {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<label for="gid">
-								<?php echo JText::_( 'Group' ); ?>:
+								<?php echo JText::_( 'Group' ); ?>
 							</label>
 						</td>
 						<td>
@@ -285,7 +283,7 @@ class HTML_users {
 					if ($canBlockUser) {
 						?>
 						<tr>
-							<td>
+							<td class="key">
 								<?php echo JText::_( 'Block User' ); ?>
 							</td>
 							<td>
@@ -297,7 +295,7 @@ class HTML_users {
 					if ($canEmailEvents) {
 						?>
 						<tr>
-							<td>
+							<td class="key">
 								<?php echo JText::_( 'Receive System Emails' ); ?>
 							</td>
 							<td>
@@ -309,7 +307,7 @@ class HTML_users {
 					if( $user->get('id') ) {
 						?>
 						<tr>
-							<td>
+							<td class="key">
 								<?php echo JText::_( 'Register Date' ); ?>
 							</td>
 							<td>
@@ -317,7 +315,7 @@ class HTML_users {
 							</td>
 						</tr>
 						<tr>
-							<td>
+							<td class="key">
 								<?php echo JText::_( 'Last Visit Date' ); ?>
 							</td>
 							<td>
@@ -327,42 +325,31 @@ class HTML_users {
 						<?php
 					}
 					?>
-					<tr>
-						<td colspan="2">
-							&nbsp;
-						</td>
-					</tr>
+				</table>
+				
+			</div>
+			<div class="col50">
+				<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+					<table class="admintable">
+						<tr>
+							<td>
+								<?php
+									$params = $user->getParameters();
+									$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
+									echo $params->render( 'params' );
+								?>
+							</td>
+						</tr>
 					</table>
-				</td>
-				<td width="45%" valign="top">
-					<table class="adminform">
-					<tr>
-						<th colspan="1">
-							<?php echo JText::_( 'Parameters' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<?php
-								$params = $user->getParameters();
-								$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
-								echo $params->render( 'params' );
-							?>
-						</td>
-					</tr>
-					</table>
-
-					<br />
-
+				</fieldset>
+				<fieldset class="adminform">
+					<legend><?php echo JText::_( 'Contact Information' ); ?></legend>
 					<?php
 					if ( !$contact ) {
 						?>
-						<table class="adminform">
-						<tr>
-							<th>
-								<?php echo JText::_( 'Contact Information' ); ?>
-							</th>
-						</tr>
+						
+						<table class="admintable">
 						<tr>
 							<td>
 								<br />
@@ -376,15 +363,10 @@ class HTML_users {
 						<?php
 					} else {
 						?>
-						<table class="adminform">
+						<table class="admintable">
 						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Contact Information' ); ?>
-							</th>
-						</tr>
-						<tr>
-							<td width="120">
-								<?php echo JText::_( 'Name' ); ?>:
+							<td width="120" class="key">
+								<?php echo JText::_( 'Name' ); ?>
 							</td>
 							<td>
 							<strong>
@@ -393,7 +375,7 @@ class HTML_users {
 							</td>
 						</tr>
 						<tr>
-							<td>
+							<td class="key">
 								<?php echo JText::_( 'Position' ); ?>:
 							</td>
 							<td >
@@ -403,8 +385,8 @@ class HTML_users {
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<?php echo JText::_( 'Telephone' ); ?>:
+							<td class="key">
+								<?php echo JText::_( 'Telephone' ); ?>
 							</td>
 							<td >
 								<strong>
@@ -413,8 +395,8 @@ class HTML_users {
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<?php echo JText::_( 'Fax' ); ?>:
+							<td class="key">
+								<?php echo JText::_( 'Fax' ); ?>
 							</td>
 							<td >
 								<strong>
@@ -423,7 +405,7 @@ class HTML_users {
 							</td>
 						</tr>
 						<tr>
-							<td></td>
+							<td class="key">&nbsp;</td>
 							<td >
 								<strong>
 									<?php echo $contact[0]->misc;?>
@@ -434,7 +416,7 @@ class HTML_users {
 						if ($contact[0]->image) {
 							?>
 							<tr>
-								<td></td>
+								<td class="key">&nbsp;</td>
 								<td valign="top">
 									<img src="<?php echo $mainframe->getSiteURL();?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 								</td>
@@ -443,25 +425,25 @@ class HTML_users {
 						}
 						?>
 						<tr>
-							<td colspan="2" align="center">
-								<div align="center">
+							<td class="key">&nbsp;</td>
+							<td>
+								<div >
 									<br />
 									<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )" />
 									<i>
-									<br />
+									<br /><br />
 									'<?php echo JText::_( 'Components -> Contact -> Manage Contacts' ); ?>'
 									</i>
 								</div>
 							</td>
 						</tr>
-						</table>
-						<?php
-					}
-					?>
-				</td>
-			</tr>
-			</table>
+					</table>
+					<?php
+				}
+				?>
+			</fieldset>
 		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="id" value="<?php echo $user->get('id'); ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $user->get('id'); ?>" />
