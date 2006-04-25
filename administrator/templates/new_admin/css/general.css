@@ -131,9 +131,9 @@ div.message {
 	padding: 3px;
 	border: 1px solid #e0e0e0;
 	margin-bottom: 10px;
-	text-transform: uppercase;
+	font-weight: bold;
 	color: #333;
-	letter-spacing: .5em;
+	letter-spacing: .1em;
 }
 
 
