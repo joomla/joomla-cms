@@ -534,6 +534,7 @@ CREATE TABLE `#__newsfeeds` (
   `checked_out` tinyint(3) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL default '0',
+  `rtl` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `published` (`published`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;

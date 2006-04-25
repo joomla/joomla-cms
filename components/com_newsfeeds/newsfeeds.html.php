@@ -250,6 +250,7 @@ class HTML_newsfeed {
 	*/
 	function showNewsfeeds( &$newsfeed, &$lists, &$params ) {
 		?>
+		<div style="direction: <?php echo $newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $newsfeed->rtl ? 'right' :'left'; ?>">
 		<table width="100%" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<?php
 		if ( $params->get( 'header' ) ) {
@@ -385,6 +386,7 @@ class HTML_newsfeed {
 		<?php
 		?>
 		</table>
+		</div>
 		<?php
 	}
 }

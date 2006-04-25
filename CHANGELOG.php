@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Apr-2006 David Gal
+ + Added RTL display option for newsfeeds component. 
+   Can display RTL feed in LTR site and vice versa
 
 25-Apr-2006 Andy Miller
  + Added template param to turn off rounded corners in new admin template

@@ -217,6 +217,12 @@ function saveNewsFeed(  ) {
 		exit();
 	}
 
+	// Sets rtl value when rtl checkbox ticked
+	$isRtl = JRequest::getVar( 'rtl', 0 );
+	if ( $isRtl) {
+		$row->rtl = 1;
+	}
+
 	// pre-save checks
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

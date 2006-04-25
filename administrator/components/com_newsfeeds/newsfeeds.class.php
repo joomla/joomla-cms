@@ -42,6 +42,8 @@ class mosNewsFeed extends JTable {
 	var $checked_out_time	= null;
 /** @var int */
 	var $ordering			= null;
+/** @var int */
+	var $rtl				= 0;
 
 /**
 * @param database A database connector object

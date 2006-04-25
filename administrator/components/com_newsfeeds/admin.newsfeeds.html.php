@@ -288,6 +288,22 @@ class HTML_newsfeeds {
 					<?php echo $lists['ordering']; ?>
 				</td>
 			</tr>
+			<?php
+				$isRtl = '';
+				if ($row->rtl == 1) {
+					$isRtl = 'checked="checked"';
+				}
+			?>
+			<tr>
+				<td>
+					<label for="rtl">
+						<?php echo JText::_( 'RTL feed' ); ?>
+					</label>
+				</td>
+				<td>
+					<input class="inputbox" type="checkbox" name="rtl" id="rtl" <?php echo $isRtl; ?>  />
+				</td>
+			</tr>
 			<tr>
 				<td colspan="2" align="center">
 				</td>
