@@ -205,7 +205,7 @@ class JDocumentHTML extends JDocument
 	 */
 	function setRenderer($type, $name, $contents)
 	{
-		$thsi->_engine->addVar('document', strtoupper($type).'_'.strtoupper($name), $contents);
+		$this->_engine->addVar('document', $type.'_'.$name, $contents);
 	}
 
 	/**

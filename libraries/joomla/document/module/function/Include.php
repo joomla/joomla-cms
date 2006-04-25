@@ -92,7 +92,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 		}
 		
 		//dirty fix for unusedvar="none" template setting
-		$this->_tmpl->addVar('document', $type.'_'.$name, " ");
+		//$this->_tmpl->addVar('document', $type.'_'.$name, " ");
 
 		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}

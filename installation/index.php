@@ -86,7 +86,7 @@ switch ($task)
 }
 
 $document =& $mainframe->getDocument();
-$document->addGlobalVar('installation_', $result);
+$document->setRenderer('installation', '' , $result);
 $document->setTitle( 'Joomla! - Web Installer' );
 $document->display( 'template', 'index.html', false, array('directory' => JPATH_BASE));
 ?>
