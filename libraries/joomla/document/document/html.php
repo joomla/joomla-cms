@@ -358,7 +358,7 @@ class JDocumentHTML extends JDocument
 				}
 			}
 		}
-
+	
 		$this->addVar('document', 'template', $template);
 
 		//output
@@ -422,7 +422,11 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The renderer name
 	 * @return string The contents of the template
 	 */
-	function _addRenderer($type, $name) {
+	function _addRenderer($type, $name) 
+	{
+		//dirty fix for unusedvar="none" template setting
+		$this->addVar('document', $type.'_'.$name, " ");
+		
 		$this->_renderers[$type][] = $name;
 	}
 }

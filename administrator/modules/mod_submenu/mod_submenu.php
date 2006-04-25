@@ -30,7 +30,8 @@ if ($contents) {
 	echo "$contents\n";
 	echo "<div class=\"clr\"></div>\n";
 	echo "</div></div>";
-} 
+}
+
 
 /**
  * Admin Submenu
@@ -219,7 +220,7 @@ class JAdminSubMenu
 					foreach ($items as $item)
 					{
 						if (trim($item->admin_menu_link)) {
-							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => 'index2.php?'.$item->admin_menu_link, 'img' => '../includes/'.$row->admin_menu_img);
+							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => 'index2.php?'.$item->admin_menu_link, 'img' => '../includes/'.$item->admin_menu_img);
 						}
 					}
 					$menu = JAdminSubMenu::buildList($subMenuList);

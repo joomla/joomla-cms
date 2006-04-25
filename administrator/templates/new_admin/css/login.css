@@ -48,7 +48,6 @@ form br { display: none; }
 .login-form { text-align: left; width: 60%; }
 .login-text { text-align: left; width: 40%; float: left; }
 
-.inputlabel { float: left; }
 
 #loginForm label {
 	display: block;
@@ -59,5 +58,4 @@ form br { display: none; }
 	color: #666;
 	font-weight: bold;
 }
-
 
