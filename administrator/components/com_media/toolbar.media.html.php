@@ -25,6 +25,18 @@ class TOOLBAR_media {
 	* Draws the menu for a New Media
 	*/
 
+	function _upload() {
+
+		JMenuBar::title( JText::_( 'Media Manager' ) . '- <span>' . JText::_( 'Upload' ) . '</span' , 'mediamanager.png');
+		JMenuBar::custom('upload','upload.png','upload_f2.png','Upload',false);
+		JMenuBar::cancel('cancel', JText::_( 'Close' ));
+		JMenuBar::help( 'screen.mediamanager' );
+	}
+
+	/**
+	* Draws the menu for a New Media
+	*/
+
 	function _DEFAULT() {
 
 		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
