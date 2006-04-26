@@ -39,18 +39,24 @@ class JViewHTMLBlog extends JView
 	 * @var		string
 	 */
 	function display()
-	{
+	{		
 		// Initialize some variables
-		$app 	= & $this->get('Application');
-		$user 	= & $app->getUser();
-		$menu 	= & $this->get('Menu');
-		$params = & $menu->parameters;
-		$Itemid = $menu->id;
+		$app 	 = & $this->get('Application');
+		$user 	 = & $app->getUser();
+		$doc	 = & $app->getDocument();
+		$menu 	 = & $this->get('Menu');
+		$params  = & $menu->parameters;
+		$Itemid  = $menu->id;
 
 		$gid 	= $user->get('gid');
 		$task 	= JRequest::getVar('task');
 		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
+		
+		//add alternate feed link
+		$link    = $app->getBaseURL() .'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid.'&amp;format=rss';
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$doc->addHeadLink($link, 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access = new stdClass();

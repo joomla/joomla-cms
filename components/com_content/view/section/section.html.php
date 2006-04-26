@@ -42,14 +42,27 @@ class JViewHTMLSection extends JView
 	function display()
 	{
 		// Initialize some variables
-		$app		= & $this->get( 'Application' );
-		$user		= & $app->getUser();
-		$menu		= & $this->get( 'Menu' );
-		$params		= & $menu->parameters;
+		$app	= & $this->get( 'Application' );
+		$user	= & $app->getUser();
+		$menu	= & $this->get( 'Menu' );
+		$doc	= & $app->getDocument();
+		
+		$params	 = & $menu->parameters;
+		$Itemid  = $menu->id;
+
+		$gid 	= $user->get('gid');
+		$task 	= JRequest::getVar('task');
+		$id 	= JRequest::getVar('id');
+		$option = JRequest::getVar('option');
 
 		// Lets get our data from the model
 		$section		= & $this->get( 'Section' );
 		$categories	= & $this->get( 'Categories' );
+		
+		//add alternate feed link
+		$link    = $app->getBaseURL() .'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid.'&amp;format=rss';
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$doc->addHeadLink($link, 'alternate', 'rel', $attribs);
 
 		/*
 		 * Lets set the page title

@@ -11,6 +11,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.template.template');
+jimport('joomla.application.extension.module');
+
 /**
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
@@ -250,12 +253,11 @@ class JDocumentHTML extends JDocument
 		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 		header( 'Pragma: no-cache' );										// HTTP/1.0
+        header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
 		if($compress) {
 			$this->_engine->applyOutputFilter('Zlib');
 		}
-		
-		parent::display( $template, $file, $compress, $params );
 		
 		$this->_engine->display('document');
 	}

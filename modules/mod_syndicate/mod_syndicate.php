@@ -22,19 +22,33 @@ if (!defined('_SYNDICATE_MODULE'))
 	/** ensure that functions are declared only once */
 	define('_SYNDICATE_MODULE', 1);
 
-	function outputSyndicateLink( $link, &$params )
+	function outputSyndicateLink( &$params )
 	{
 		$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
 		?>
-			<a href="<?php echo sefRelToAbs( $link ); ?>">
+			<a href="<?php echo getSyndicateLink(); ?>">
 				<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
 			</a>
 		<?php
+	}
+	
+	function getSyndicateLink()
+	{
+		global $mainframe;
+		
+		$document =& $mainframe->getDocument();
+		
+		foreach($document->_links as $link) 
+		{
+			if(strpos($link, 'application/rss+xml')) {
+				preg_match("#href=\"(.*?)\"#s", $link, $matches);
+				return $matches[1]; 
+			}
+		}
+		
 	}
 }
 
 // paramters
 $params->def('text', 'Feed Entries');
-
-$link	= 'index.php?option=com_frontpage&amp;format=rss';
-outputSyndicateLink( $link, $params );
+outputSyndicateLink( $params );

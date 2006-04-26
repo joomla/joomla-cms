@@ -32,6 +32,10 @@ class JDocumentRSS extends JDocument
 	function __construct($attributes = array())
 	{
 		parent::__construct($attributes);
+		
+		// load feed creator class
+		jimport('bitfolge.feedcreator');
+		$this->_engine = new UniversalFeedCreator();
 
 		//set mime type
 		$this->_mime = 'text/xml';
@@ -59,8 +63,105 @@ class JDocumentRSS extends JDocument
 		$lang =& $mainframe->getLanguage();
 		$lang->load($option);
 		require_once( $path );
+	}
+	
+	function createFeed( $rows, $format, $title)
+	{
+		global $mainframe;
 
-		parent::display( $template, $file, $compress, $params );
+		$option = $mainframe->getOption();
+
+		// parameter intilization
+		$info[ 'date' ] 			= date( 'r' );
+		$info[ 'year' ] 			= date( 'Y' );
+		$info[ 'link' ] 			= htmlspecialchars( $mainframe->getBaseURL() );
+		$info[ 'cache' ] 			= 1;
+		$info[ 'cache_time' ] 		= 3600;
+		$info[ 'count' ]			= 5;
+		$info[ 'orderby' ] 			= '';
+		$info[ 'title' ] 			= $mainframe->getCfg('sitename') .' - '. $title;
+		$info[ 'description' ] 		= $mainframe->getCfg('sitename') .' - '. $title .' Section';
+		$info[ 'limit_text' ] 		= 1;
+		$info[ 'text_length' ] 		= 20;
+		$info[ 'feed' ] 			= $format;
+
+		// set filename for rss feeds
+		$info[ 'file' ]   = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
+		$info[ 'file' ]   = $mainframe->getCfg('cachepath') .'/'. $info[ 'file' ] .'_'. $option .'.xml';
+
+		// loads cache file
+		if ( $info[ 'cache' ] ) {
+			$this->_engine->useCached( $info[ 'feed' ], $info[ 'file' ], $info[ 'cache_time' ] );
+		}
+
+		$this->_engine->title 			= $info[ 'title' ];
+		$this->_engine->description 	= $info[ 'description' ];
+		$this->_engine->link 			= $info[ 'link' ];
+		$this->_engine->syndicationURL 	= $info[ 'link' ];
+		$this->_engine->cssStyleSheet 	= NULL;
+		$this->_engine->encoding 		= 'UTF-8';
+
+		foreach ( $rows as $row )
+		{
+			// strip html from feed item title
+			$item_title = htmlspecialchars( $row->title );
+			$item_title = html_entity_decode( $item_title );
+
+			// url link to article
+			// & used instead of &amp; as this is converted by feed creator
+			$_Itemid	= '';
+			$itemid 	= $mainframe->getItemid( $row->id );
+			if ($itemid) {
+				$_Itemid = '&Itemid='. $itemid;
+			}
+
+			$item_link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
+			$item_link = sefRelToAbs( $item_link );
+
+			// strip html from feed item description text
+			$item_description = $row->description;
+
+			if ( $info[ 'limit_text' ] )
+			{
+				if ( $info[ 'text_length' ] )
+				{
+					// limits description text to x words
+					$item_description_array = split( ' ', $item_description );
+					$count = count( $item_description_array );
+					if ( $count > $info[ 'text_length' ] )
+					{
+						$item_description = '';
+						for ( $a = 0; $a < $info[ 'text_length' ]; $a++ ) {
+							$item_description .= $item_description_array[$a]. ' ';
+						}
+						$item_description = trim( $item_description );
+						$item_description .= '...';
+					}
+				}
+				else
+				{
+					// do not include description when text_length = 0
+					$item_description = NULL;
+				}
+			}
+
+			$item_date = ( $row->date ? date( 'r', $row->date ) : '' );
+
+			// load individual item creator class
+			$item = new FeedItem();
+			$item->title 		= $item_title;
+			$item->link 		= $item_link;
+			$item->description 	= $item_description;
+			$item->source 		= $info[ 'link' ];
+			$item->date			= $item_date;
+			$item->category   	= $row->category;
+
+			// loads item info into rss array
+			$this->_engine->addItem( $item );
+		}
+		
+		// save feed file
+		$this->_engine->saveFeed( $info[ 'feed' ], $info[ 'file' ]);
 	}
 }
 ?>

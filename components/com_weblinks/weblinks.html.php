@@ -35,7 +35,8 @@ class WeblinksView {
 	 * @param object $params Parameters object for the current category
 	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
 	 */
-	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass, &$lists, &$page ) {
+	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass, &$lists, &$page ) 
+	{
 		global $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
@@ -260,7 +261,8 @@ class WeblinksView {
 	 * @param int $catid Category id of current category
 	 * @since 1.0
 	 */
-	function showCategories( &$params, &$categories, $catid ) {
+	function showCategories( &$params, &$categories, $catid ) 
+	{
 		global $Itemid;
 		?>
 		<ul>

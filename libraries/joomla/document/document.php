@@ -11,9 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.template.template');
-jimport('joomla.application.extension.module');
-
 /**
  * Document class, provides an easy interface to parse and display a document
  *
@@ -474,8 +471,7 @@ class JDocument extends JObject
 	 */
 	function display( $template, $file, $compress = false, $params = array())
 	{
-		// Set mime type and character encoding
-        header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
+	
 	}
 }
 

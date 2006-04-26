@@ -46,6 +46,7 @@ Legend:
 
 24-Apr-2006 Johan Janssens
  ^ Refactored JDocument package to use an adapter pattern
+ ^ Syndication module fetches syndication link from page head
 
 24-Apr-2006 Andy Miller
  ^ Reworked UI for Global Configuration
