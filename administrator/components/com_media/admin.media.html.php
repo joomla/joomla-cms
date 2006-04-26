@@ -253,8 +253,8 @@ class JMediaViews {
 	}
 
 	function showImage($img, $file, $info, $size, $listdir) {
-		$img_file = basename($img);
-		$img_url = COM_MEDIA_BASEURL . $listdir . '/' . $img_file;
+		$img_file 	= basename($img);
+		$img_url 	= COM_MEDIA_BASEURL . $listdir . '/' . $img_file;
 
 		$filesize = JMediaViews::parseSize( $size );
 
@@ -264,9 +264,33 @@ class JMediaViews {
 			$img_dimensions = 'width="'. $info[0] .'" height="'. $info[1] .'"';
 		}
 
-		$overlib = JText::_( 'Width' ) .': '. $info[0].'px<br/>'. JText::_( 'Height' ) .': '.$info[1] . JText::_( 'px' );
-		$overlib .= '<br/>'. JText::_( 'Filesize' ) .': '. $filesize;
-		$overlib .= '<br/><br/> '. JText::_( '*Click to Enlarge*' );
+		$overlib = '<table>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_( 'Width' );
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $info[0] . JText::_( 'px' );
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_( 'Height' );
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $info[1] . JText::_( 'px' );
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_( 'Filesize' );
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $filesize;
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '</table>';
+		$overlib .= '<br/> '. JText::_( '*Click to Enlarge*' );
 		$overlib .= '<br/> '. JText::_( '*Click for Image Code*' );
 		?>
 		<div style="float:left; padding: 5px">
@@ -294,18 +318,36 @@ class JMediaViews {
 	}
 
 	function showDir( $path, $dir, $listdir ) {
-		$numFiles = JMediaViews::numFiles( COM_MEDIA_BASE . $listdir . $path );
+		$count = JMediaViews::numFiles( COM_MEDIA_BASE . $listdir . $path );
 
-		// Fix for Bug [0000577]
-		if ($listdir=='/') {
-			$listdir='';
+		$num_files 	= $count[0];
+		$num_dir 	= $count[1];
+		
+		if ($listdir == '/') {
+			$listdir = '';
 		}
 
 		$link = 'index3.php?option=com_media&amp;task=list&amp;listdir='. $listdir . $path;
 
-    	$overlib = sprintf( JText::_( 'NUMFILES' ), $numFiles );
-		$overlib .= '<br /><br />'. JText::_( '*Click to Open*' );
-
+		$overlib = '<table>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_( 'NUMFILES' );
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $num_files;
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_( 'NUMFOLDERS' );
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $num_dir;
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '</table>';
+		$overlib .= '<br/>'. JText::_( '*Click to Open*' );
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
@@ -390,23 +432,26 @@ class JMediaViews {
 	}
 
 	function numFiles($dir) {
-		$total = 0;
-
+		$total_file 	= 0;
+		$total_dir 		= 0;
+		
 		if(is_dir($dir)) {
-
 			$d = dir($dir);
-			while (false !== ($entry = $d->read())) {
-
-				if(substr($entry,0,1) != '.') {
-					$total++;
+			
+			while ( false !== ($entry = $d->read()) ) {
+				if ( substr($entry,0,1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos( $entry, '.html' ) === false && strpos( $entry, '.php' ) === false ) {
+					$total_file++;
+				}
+				if ( substr($entry,0,1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry) ) {
+					$total_dir++;
 				}
 			}
+			
 			$d->close();
 		}
-
-		return $total - 1;
+		
+		return array( $total_file, $total_dir );
 	}
-
 
 	function imageStyle($listdir) {
 		?>

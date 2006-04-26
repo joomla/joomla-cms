@@ -116,9 +116,9 @@ class JMediaController
 		 */
 		$folders[] = mosHTML::makeOption("/");
 		foreach ($imgFolders as $folder) {
-			$folder = str_replace(COM_MEDIA_BASE, "", $folder);
-			$folder = str_replace(DS, "/", $folder);
-			$folders[] = mosHTML::makeOption($folder);
+			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
+			$folder 	= str_replace(DS, "/", $folder);
+			$folders[] 	= mosHTML::makeOption($folder);
 		}
 
 		/*
@@ -147,17 +147,17 @@ class JMediaController
 		/*
 		 * Initialize variables
 		 */
-		$basePath = COM_MEDIA_BASE.DS.$listFolder;
-		$images = array ();
-		$folders = array ();
-		$docs = array ();
+		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
+		$images 	= array ();
+		$folders 	= array ();
+		$docs 		= array ();
 		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
 		/*
 		 * Get the list of files and folders from the given folder
 		 */
 		jimport('joomla.filesystem.folder');
-		 $fileList = JFolder::files($basePath);
+		 $fileList 	= JFolder::files($basePath);
 		$folderList = JFolder::folders($basePath);
 
 		/*
@@ -227,9 +227,9 @@ class JMediaController
 			}
 
 			jimport('joomla.filesystem.file');
-			$format = JFile::getExt($file['name']);
+			$format 	= JFile::getExt($file['name']);
 
-			$allowable = array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
+			$allowable 	= array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
 			if (in_array($format, $allowable)) {
 				$noMatch = true;
 			} else {
@@ -320,6 +320,4 @@ class JMediaController
 		}
 	}
 }
-
-
 ?>
