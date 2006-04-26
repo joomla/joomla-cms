@@ -51,25 +51,43 @@ class JViewRSSCategory extends JView
 
 		// Get some data from the model
 		$rows = & $this->get( 'Content' );
-
-		$link       = $mainframe->getBaseURL() .'index.php?option=com_content&task=view&id=';
-		$format		= 'RSS2.0';
 		$limit		= '10';
 
 		JRequest::setVar('limit', $limit);
 		$category = & $this->get( 'Category' );
 		$rows 	  = & $this->get( 'Content' );
 
-		$count = count( $rows );
-		for ( $i=0; $i < $count; $i++ )
+		foreach ( $rows as $row )
 		{
-			$Itemid = $mainframe->getItemid( $rows[$i]->id );
-			$rows[$i]->link = $link .$rows[$i]->id .'&Itemid='. $Itemid;
-			$rows[$i]->date = $rows[$i]->created;
-			$rows[$i]->category = $category->title;
-		}
+			// strip html from feed item title
+			$title = htmlspecialchars( $row->title );
+			$title = html_entity_decode( $title );
 
-		$document->createFeed( $rows, $format, $menu->name, $params );
+			// url link to article
+			// & used instead of &amp; as this is converted by feed creator
+			$itemid = $mainframe->getItemid( $row->id );
+			if ($itemid) {
+				$_Itemid = '&Itemid='. $itemid;
+			}
+
+			$link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
+			$link = sefRelToAbs( $link );
+
+			// strip html from feed item description text
+			$description = $row->introtext;
+			$date = ( $row->created ? date( 'r', $row->created ) : '' );
+
+			// load individual item creator class
+			$item = new FeedItem();
+			$item->title 		= $title;
+			$item->link 		= $link;
+			$item->description 	= $description;
+			$item->date			= $date;
+			$item->category   	= $category->title;
+
+			// loads item info into rss array
+			$document->addItem( $item );
+		}
 	}
 }
 ?>

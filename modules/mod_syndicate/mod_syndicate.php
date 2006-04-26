@@ -22,11 +22,11 @@ if (!defined('_SYNDICATE_MODULE'))
 	/** ensure that functions are declared only once */
 	define('_SYNDICATE_MODULE', 1);
 
-	function outputSyndicateLink( &$params )
+	function outputSyndicateLink( $link, &$params )
 	{
 		$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
 		?>
-			<a href="<?php echo getSyndicateLink(); ?>">
+			<a href="<?php echo $link ?>">
 				<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
 			</a>
 		<?php
@@ -51,4 +51,7 @@ if (!defined('_SYNDICATE_MODULE'))
 
 // paramters
 $params->def('text', 'Feed Entries');
-outputSyndicateLink( $params );
+
+if($link = getSyndicateLink()) {
+	outputSyndicateLink( $link, $params );
+}

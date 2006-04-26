@@ -277,7 +277,7 @@ class JAdministrator extends JApplication
 			case 'html' :
 			{
 				//set metadata
-				$doc->setMetaData( 'description', 	$this->getCfg('MetaDesc') );
+				$doc->setDescription( $this->getCfg('MetaDesc') );
 				$doc->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
 
 				//set base URL

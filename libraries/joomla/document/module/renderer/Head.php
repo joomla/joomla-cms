@@ -74,6 +74,7 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 
 		$strHtml  = $tab . '<title>' . $document->getTitle() . '</title>' . $lnEnd;
 		$strHtml .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
+		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;
 
         // Generate META tags
         foreach ($document->_metaTags as $type => $tag) {

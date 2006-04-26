@@ -106,6 +106,11 @@ class WeblinksController
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
+		
+		//add alternate feed link
+		$link    = $mainframe->getBaseURL() .'index.php?option=com_weblinks&amp;catid='.$catid.'&amp;Itemid='.$Itemid.'&amp;format=rss';
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$document->addHeadLink($link, 'alternate', 'rel', $attribs);
 
 		// Load the menu object and parameters
 		$menu = JMenu::getInstance();
@@ -270,9 +275,7 @@ class WeblinksController
 		$document =& $mainframe->getDocument();
 		
 		// Get some request variables
-		$limit		= JRequest::getVar('limit', 0, '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$format     = 'RSS2.0';
+		$limit		= 10;
 
 		$where  = "\n WHERE published = 1";
         $catid  = JRequest::getVar('catid', 0);
@@ -281,28 +284,51 @@ class WeblinksController
             $where .= "\n AND catid = $catid";
         }
 
-		/*
-		* All SyndicateBots must return
-		* title
-		* link
-		* description
-		* date
-		* category
-		*/
-    	$query = "SELECT *"
+    	$query = "SELECT *,"
     	. "\n title AS title,"
     	. "\n url AS link,"
     	. "\n description AS description,"
-    	. "\n '' AS date,"
-		. "\n '' AS category"
+    	. "\n date AS date"
     	. "\n FROM #__weblinks"
     	. $where
     	. "\n ORDER BY ordering"
      	;
 		$database->setQuery( $query, 0, $limit );
     	$rows = $database->loadObjectList();
+		
+		echo $database->getErrorMsg();
 
-		$document->createFeed( $rows, $format, 'WebLinks' );
+		foreach ( $rows as $row )
+		{
+			// strip html from feed item title
+			$title = htmlspecialchars( $row->title );
+			$title = html_entity_decode( $title );
+
+			// url link to article
+			// & used instead of &amp; as this is converted by feed creator
+			$itemid = $mainframe->getItemid( $row->id );
+			if ($itemid) {
+				$_Itemid = '&Itemid='. $itemid;
+			}
+
+			$link = 'index.php?option=com_weblinks&task=view&id='. $row->id . '&catid='.$row->catid.$_Itemid;
+			$link = sefRelToAbs( $link );
+
+			// strip html from feed item description text
+			$description = $row->description;
+			$date = ( $row->date ? date( 'r', $row->date ) : '' );
+
+			// load individual item creator class
+			$item = new FeedItem();
+			$item->title 		= $title;
+			$item->link 		= $link;
+			$item->description 	= $description;
+			$item->date			= $date;
+			$item->category   	= 'Weblinks';
+
+			// loads item info into rss array
+			$document->addItem( $item );
+		}
 	}
 
 	/**

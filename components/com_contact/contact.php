@@ -269,7 +269,6 @@ class JContactController {
 		$limit 			= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
 		$catid  		= JRequest::getVar('catid', 0);
-		$format			= 'RSS2.0';
 		
 		$where  = "\n WHERE a.published = 1";
 		
@@ -277,16 +276,6 @@ class JContactController {
 			$where .= "\n AND a.catid = $catid";
 		}
 
-		$link = $mainframe->getBaseURL() .'index.php?option=com_contact&catid=';
-
-		/*
-		* All SyndicateBots must return
-		* title
-		* link
-		* description
-		* date
-		* category
-		*/
     	$query = "SELECT"
     	. "\n a.name AS title,"
     	. "\n CONCAT( '$link', a.catid, '&id=', a.id ) AS link,"
@@ -302,13 +291,37 @@ class JContactController {
 		$database->setQuery( $query, 0, $limit );
     	$rows = $database->loadObjectList();
 
-    	$count = count( $rows );
-    	for ( $i=0; $i < $count; $i++ ) {
-    	    $Itemid = $mainframe->getItemid( $rows[$i]->id );
-    	    $rows[$i]->link = $rows[$i]->link .'&Itemid='. $Itemid;
-    	}
+		foreach ( $rows as $row )
+		{
+			// strip html from feed item title
+			$title = htmlspecialchars( $row->title );
+			$title = html_entity_decode( $title );
 
-		 $document->createFeed( $rows, $format, 'Contacts');
+			// url link to article
+			// & used instead of &amp; as this is converted by feed creator
+			$itemid = $mainframe->getItemid( $row->id );
+			if ($itemid) {
+				$_Itemid = '&Itemid='. $itemid;
+			}
+
+			$link = 'index.php?option=com_contact&task=view&id='. $row->id . '&catid='.$row->catid.$_Itemid;
+			$link = sefRelToAbs( $link );
+
+			// strip html from feed item description text
+			$description = $row->description;
+			$date = ( $row->date ? date( 'r', $row->date ) : '' );
+
+			// load individual item creator class
+			$item = new FeedItem();
+			$item->title 		= $title;
+			$item->link 		= $link;
+			$item->description 	= $description;
+			$item->date			= $date;
+			$item->category   	= $row->category;
+
+			// loads item info into rss array
+			$document->addItem( $item );
+		}
 	}
 
 	/**

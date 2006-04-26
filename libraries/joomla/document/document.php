@@ -121,12 +121,20 @@ class JDocument extends JObject
     var $_style = array();
 
 	/**
-     * Page title
+     * Document title
      *
      * @var     string
      * @access  private
      */
     var $_title = '';
+	
+	/**
+     * Document description
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_description = '';
 
 	/**
      * Array of meta tags
@@ -369,7 +377,7 @@ class JDocument extends JObject
     }
 
 	/**
-     * Sets the title of the page
+     * Sets the title of the document
      *
      * @param    string    $title
      * @access   public
@@ -379,13 +387,33 @@ class JDocument extends JObject
     }
 
 	/**
-     * Return the title of the page.
+     * Return the title of the document.
      *
      * @return   string
      * @access   public
      */
     function getTitle() {
         return $this->_title;
+    }
+	
+	/**
+     * Sets the description of the document
+     *
+     * @param    string    $title
+     * @access   public
+     */
+    function setDescription($description) {
+		$this->_description = $description;
+    }
+
+	/**
+     * Return the title of the page.
+     *
+     * @return   string
+     * @access   public
+     */
+    function getDescription() {
+        return $this->_description;
     }
 
 	 /**

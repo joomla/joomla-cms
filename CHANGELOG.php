@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Apr-2006 Johan Janssens
+ ^ Refactored JDocumentRSS class to use an adapter pattern
+
 26-Apr-2006 David Gal
  + Added RTL display option for newsfeeds component. 
    Can display RTL feed in LTR site and vice versa

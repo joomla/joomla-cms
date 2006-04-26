@@ -83,7 +83,7 @@ class JViewHTMLArticle extends JView
 		$doc->setTitle($article->title);
 
 		// Handle metadata
-		$doc->setMetadata('description', $article->metadesc);
+		$doc->setDescription( $article->metadesc );
 		$doc->setMetadata('keywords', $article->metakey);
 
 		// Process the content plugins
