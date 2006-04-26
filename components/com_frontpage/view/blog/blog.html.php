@@ -46,7 +46,7 @@ class JViewBlog
 		$gid		= $user->get('gid');
 
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'index.php?option=com_frontpage&format=rss';
+		$link    = $mainframe->getBaseURL() .'index.php?option=com_frontpage&format=rss&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link, 'alternate', 'rel', $attribs);
 

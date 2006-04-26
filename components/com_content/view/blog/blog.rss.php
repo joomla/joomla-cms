@@ -71,7 +71,7 @@ class JViewRSSBlog extends JView
 
 			// strip html from feed item description text
 			$description = $row->introtext;
-			$date = ( $row->created ? date( 'r', $row->created ) : '' );
+			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
 
 			// load individual item creator class
 			$item = new FeedItem();
