@@ -337,6 +337,7 @@ class JTemplatesView
 		<input type="hidden" name="id" value="<?php echo $row->directory; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
