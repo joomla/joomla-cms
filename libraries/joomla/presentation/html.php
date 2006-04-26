@@ -559,49 +559,60 @@ class mosHTML {
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 
 		// convert text
-		$mail 		= mosHTML::_encoding_converter( $mail );
+		$mail 			= mosHTML::_encoding_converter( $mail );
 		// split email by @ symbol
-		$mail		= explode( '@', $mail );
-		$mail_parts	= explode( '.', $mail[1] );
+		$mail			= explode( '@', $mail );
+		$mail_parts		= explode( '.', $mail[1] );
 		// random number
-		$rand	= rand( 1, 100000 );
+		$rand			= rand( 1, 100000 );
 
-		$replacement 	= "\n<script language='JavaScript' type='text/javascript'> \n";
-		$replacement 	.= "<!-- \n";
-		$replacement 	.= "var prefix = '&#109;a' + 'i&#108;' + '&#116;o'; \n";
-		$replacement 	.= "var path = 'hr' + 'ef' + '='; \n";
-		$replacement 	.= "var addy". $rand ." = '". @$mail[0] ."' + '&#64;'; \n";
-		$replacement 	.= "addy". $rand ." = addy". $rand ." + '". implode( "' + '&#46;' + '", $mail_parts ) ."'; \n";
+		$replacement 	= "\n <script language='JavaScript' type='text/javascript'>";
+		$replacement 	.= "\n <!--";
+		$replacement 	.= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
+		$replacement 	.= "\n var path = 'hr' + 'ef' + '=';";
+		$replacement 	.= "\n var addy". $rand ." = '". @$mail[0] ."' + '&#64;';";
+		$replacement 	.= "\n addy". $rand ." = addy". $rand ." + '". implode( "' + '&#46;' + '", $mail_parts ) ."';";
+		
 		if ( $mailto ) {
 			// special handling when mail text is different from mail addy
 			if ( $text ) {
 				if ( $email ) {
 					// convert text
-					$text 	= mosHTML::_encoding_converter( $text );
+					$text 			= mosHTML::_encoding_converter( $text );
 					// split email by @ symbol
-					$text 	= explode( '@', $text );
-					$text_parts	= explode( '.', $text[1] );
-					$replacement 	.= "var addy_text". $rand ." = '". @$text[0] ."' + '&#64;' + '". implode( "' + '&#46;' + '", @$text_parts ) ."'; \n";
+					$text 			= explode( '@', $text );
+					$text_parts		= explode( '.', $text[1] );
+					$replacement 	.= "\n var addy_text". $rand ." = '". @$text[0] ."' + '&#64;' + '". implode( "' + '&#46;' + '", @$text_parts ) ."';";
 				} else {
-					//$text 	= mosHTML::_encoding_converter( $text );
-					$replacement 	.= "var addy_text". $rand ." = '". $text ."';\n";
+					$replacement 	.= "\n var addy_text". $rand ." = '". $text ."';";
 				}
-				$replacement 	.= "document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' ); \n";
-				$replacement 	.= "document.write( addy_text". $rand ." ); \n";
-				$replacement 	.= "document.write( '<\/a>' ); \n";
+				$replacement 	.= "\n document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' );";
+				$replacement 	.= "\n document.write( addy_text". $rand ." );";
+				$replacement 	.= "\n document.write( '<\/a>' );";
 			} else {
-				$replacement 	.= "document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' ); \n";
-				$replacement 	.= "document.write( addy". $rand ." ); \n";
-				$replacement 	.= "document.write( '<\/a>' ); \n";
+				$replacement 	.= "\n document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' );";
+				$replacement 	.= "\n document.write( addy". $rand ." );";
+				$replacement 	.= "\n document.write( '<\/a>' );";
 			}
 		} else {
-			$replacement 	.= "document.write( addy". $rand ." ); \n";
+			$replacement 	.= "\n document.write( addy". $rand ." );";
 		}
-		$replacement 	.= "//--> \n";
-		$replacement 	.= "</script>";
-		$replacement 	.= "<noscript> \n";
+		$replacement 	.= "\n //-->";
+		$replacement 	.= '\n </script>';
+		
+		// XHTML compliance `No Javascript` text handling
+		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
+		$replacement 	.= "\n <!--";
+		$replacement 	.= "\n document.write( '<span style=\"display: none;\">' );";
+		$replacement 	.= "\n //-->";
+		$replacement 	.= "\n </script>";
 		$replacement 	.= JText::_( 'CLOAKING' );
-		$replacement 	.= "\n</noscript>";
+		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
+		$replacement 	.= "\n <!--";
+		$replacement 	.= "\n document.write( '</' );";
+		$replacement 	.= "\n document.write( 'span>' );";
+		$replacement 	.= "\n //-->";
+		$replacement 	.= "\n </script>";
 
 		return $replacement;
 	}
