@@ -63,8 +63,8 @@ legend    {
 	font-weight: bold;
 }
 
-input, select { font-size: 10px; }
-textarea      { font-size: 11px; }
+input, select { font-size: 10px; border: 1px solid silver;  }
+textarea      { font-size: 11px;  border: 1px solid silver; }
 
 /* -- header styles ------------------------------ */
 
