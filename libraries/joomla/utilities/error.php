@@ -401,15 +401,11 @@ class JErrorHandler
 		 */
 		$document->_renderers = array ();
 
-		$document->parse($template, $file);
-
 		$document->setTitle( 'Joomla! - Error: '.$error->code );
-
 		$html = $this->getErrorMessage($error);
-		$document->addGlobalVar('error_msg', $html);
+		$document->setRenderer('error', 'msg', $html);
 
-		$document->display($file);
-
+		$document->display( $template, $file );
 
 		/*
 		 * If error level is less than E_ERROR, return the object and
