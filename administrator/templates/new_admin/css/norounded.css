@@ -22,6 +22,6 @@ div.component,
 div.element-box,
 div.toolbar-box,
 div.submenu-box {
-	padding: 5px 1px;
+	padding: 4px 0px;
 	border: 1px solid #ccc;
 }
