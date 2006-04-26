@@ -2,8 +2,8 @@
 	<legend><?php echo JText::_( 'Content Item Settings' ); ?></legend>
 	<span class="note"><span class="editlinktip">
 	<?php
-		$tip = JText::_( 'TIPTOC' );
-		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Table of Contents on multi-page items' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=2' );
+		$tip = 'TIPTOC';
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Table of Contents on multi-page items', 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=2' );
 	?>
 	</span></span>
 	<table class="admintable" cellspacing="1">
@@ -15,7 +15,7 @@
 				<?php echo $lists['hidePdf']; ?>
 				<?php
 					if (!is_writable( JPATH_SITE . '/media/' )) {
-					   	$tip = JText::_( 'TIPOPTIONMEDIA' );
+					   	$tip = 'TIPOPTIONMEDIA' ;
 						echo mosToolTip( $tip );
 					}
 				?>
@@ -41,8 +41,8 @@
 			<td class="key">
 				<span class="editlinktip">
 				<?php
-					$tip = JText::_( 'TIPPRINTPDFEMAIL' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Icons' ), '', 0 );
+					$tip = 'TIPPRINTPDFEMAIL';
+					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Icons' , '', 0 );
 				?>
 				</span>
 			</td>
@@ -54,8 +54,8 @@
 			<td class="key">
 				<span class="editlinktip">
 				<?php
-					$tip = JText::_( 'TIPIFSETTOSHOWHITS' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Hits' ), '', 0 );
+					$tip = 'TIPIFSETTOSHOWHITS';
+					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Hits', '', 0 );
 				?>
 				</span>
 			</td>

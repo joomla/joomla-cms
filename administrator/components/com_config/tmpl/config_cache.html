@@ -22,9 +22,9 @@
 				<span class="editlinktip">
 				<?php
 					if (is_writeable($row->cachepath)) {
-						$tip = JText::_( 'TIPDIRWRITEABLE' );
+						$tip = 'TIPDIRWRITEABLE';
 					}
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Cache Folder' ), '', 0 );
+					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Cache Folder', '', 0 );
 					?>
 				</span>
 			</td>
