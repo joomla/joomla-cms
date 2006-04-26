@@ -52,7 +52,7 @@ function loadSwicther() {
   element = document.getElementById('config-document')
   if(element) {
   	 var switcher = new Switcher(toggler, element)
-  	 switcher.switchTo('page-site');
+  	 switcher.switchTo('site');
 	 return switcher;
   }
   return null;
@@ -60,7 +60,7 @@ function loadSwicther() {
 
 Switcher = function() { this.initialize.apply(this, arguments);}
 Switcher.prototype = {
-	
+
 	initialize: function(toggler, element) 
 	{	
 		var self = this;
@@ -68,7 +68,7 @@ Switcher.prototype = {
 		togglers = toggler.getElementsByTagName('A');
 		for (i=0; i < togglers.length; i++) {
 			togglers[i].onclick = function() {
-				self.switchTo('page-'+this.getAttribute('id'));
+				self.switchTo(this.getAttribute('id'));
 			}
 		}
 		
@@ -81,7 +81,8 @@ Switcher.prototype = {
 	
 	switchTo: function(id)
 	{
-		element = document.getElementById(id);
+		toggler = document.getElementById(id);
+		element = document.getElementById('page-'+id);
 		
 		if(element) 
 		{
@@ -93,7 +94,10 @@ Switcher.prototype = {
 			//show new element
 			this.show(element);
 			
+			toggler.className = 'active';
+//			document.getElementById(this.test).className = '';
 			this.active = element;
+//			this.test = id;
 		}	
 	},
 
