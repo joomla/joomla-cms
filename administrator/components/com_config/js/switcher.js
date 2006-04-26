@@ -95,9 +95,11 @@ Switcher.prototype = {
 			this.show(element);
 			
 			toggler.className = 'active';
-//			document.getElementById(this.test).className = '';
+			if (this.test) {
+				document.getElementById(this.test).className = '';
+			}
 			this.active = element;
-//			this.test = id;
+			this.test = id;
 		}	
 	},
 
