@@ -23,7 +23,7 @@
 /* common styling */
 #menu, #menu ul, #menu li { margin: 0; padding: 0; border: 0 none; }
 
-#menu       { /*position:relative;*/}
+#menu       { position:relative; z-index: 1000;}
 #menu li    { float:left;  position:relative; list-style: none; display: inline;}
 #menu li a  { display:block; white-space: nowrap;  }
 #menu li li { /*width: 100%;*/ clear: both;  /*FF 1.0.7 needs this */  }
