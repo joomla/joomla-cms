@@ -53,6 +53,8 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
+			if(!is_object($module))
+				return '';
 		}
 
 		$style   = isset($params['style']) ? $params['style'] : $module->style;
