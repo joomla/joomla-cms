@@ -21,7 +21,7 @@ global $document;
 	<table class="adminform">
 	<tr>
 		<td width="55%" valign="top">
-		   <?php echo $document->execRenderer('modules','icon'); ?>
+		   <?php echo $document->getRenderer('modules','icon'); ?>
 		</td>
 		<td width="45%" valign="top">
 			<div style="width: 100%;">
@@ -32,7 +32,7 @@ global $document;
 				$tabs->startPane( 'modules-cpanel' );
 				?>
 
-				<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 3)); ?>
+				<?php echo $document->getRenderer('modules', 'cpanel', array('style' => 3)); ?>
 
 				<?php
 				$tabs->endPane();
