@@ -109,7 +109,7 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
                 $strHtml .= $tab . '<style type="' . $type . '">' . $lnEnd;
 
                 // This is for full XHTML support.
-                if ($this->_mime == 'text/html' ) {
+                if ($document->_mime == 'text/html' ) {
                     $strHtml .= $tab . $tab . '<!--' . $lnEnd;
                 } else {
                     $strHtml .= $tab . $tab . '<![CDATA[' . $lnEnd;
@@ -118,7 +118,7 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 				$strHtml .= $content . $lnEnd;
 
                 // See above note
-                if ($this->_mime == 'text/html' ) {
+                if ($document->_mime == 'text/html' ) {
                     $strHtml .= $tab . $tab . '-->' . $lnEnd;
                 } else {
                     $strHtml .= $tab . $tab . ']]>' . $lnEnd;
