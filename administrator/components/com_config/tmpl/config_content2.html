@@ -1,5 +1,11 @@
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Content Item Settings' ); ?></legend>
+	<span class="note"><span class="editlinktip">
+	<?php
+		$tip = JText::_( 'TIPTOC' );
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Table of Contents on multi-page items' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=2' );
+	?>
+	</span></span>
 	<table class="admintable" cellspacing="1">
 		<tr>
 			<td width="185" class="key">
@@ -57,15 +63,9 @@
 				<?php echo $lists['hits']; ?>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="2">
-				<span class="editlinktip">
-				<?php
-					$tip = JText::_( 'TIPTOC' );
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Table of Contents on multi-page items' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=2' );
-				?>
-				</span>
-			</td>
-		</tr>
-	</table>
+		</table>
+
+
+
+	
 </fieldset>

@@ -690,5 +690,12 @@ table.noshow fieldset {
 margin: 15px 7px 7px 7px;
 }
 
+span.note {
+	display: block;
+	background: #ffd;
+	padding: 5px;
+	color: #666;
+}
+
 
 
