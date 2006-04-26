@@ -293,6 +293,14 @@ class HTML_modules {
 						</td>
 					</tr>
 					<tr>
+						<td width="100" class="key">
+							<?php echo JText::_( 'Show title' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['showtitle']; ?>
+						</td>
+					</tr>
+					<tr>
 						<td valign="top" class="key">
 							<?php echo JText::_( 'Published' ); ?>:
 						</td>
@@ -332,14 +340,6 @@ class HTML_modules {
 						</td>
 						<td>
 							<?php echo $lists['access']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td width="100" class="key">
-							<?php echo JText::_( 'Show title' ); ?>:
-						</td>
-						<td>
-							<?php echo $lists['showtitle']; ?>
 						</td>
 					</tr>
 					<tr>
