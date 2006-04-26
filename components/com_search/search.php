@@ -30,7 +30,8 @@ function viewSearch() {
 	global $mainframe;
 
 	$restriction = 0;
-	$lang = $mainframe->getCfg( 'lang' );
+	$ignored = 0;
+	$lang = $mainframe->getLanguage();
 	$list_limit = $mainframe->getCfg( 'list_limit' );
 	$Itemid = JRequest::getVar( 'Itemid' );
 	$db = $mainframe->getDBO();
@@ -85,7 +86,9 @@ function viewSearch() {
 	}
 
 	$search_ignore = array();
-	@include JPATH_SITE . "/language/$lang.ignore.php";
+	$tag = $lang->getTag();
+	@include $lang->getLanguagePath().$tag.DS.$tag.'.ignore.php' ;
+	
 
 	$orders = array();
 	$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
@@ -127,6 +130,22 @@ function viewSearch() {
 	// meta pagetitle
 	$mainframe->setPageTitle( JText::_( 'Search' ) );
 
+	/*
+	 * check for words to ignore
+	 */
+	$aterms = explode( ' ', JString::strtolower( $searchword ) );
+	
+	// first case is single ignored word
+	if ( count( $aterms ) == 1 && in_array( JString::strtolower( $searchword ), $search_ignore ) ) {
+		$ignored = 1;
+	}
+	// next is to remove ignored words from type 'all' searches with multiple words
+	if ( count( $aterms ) > 1 && $searchphrase == 'any' ) {
+		$pruned = array_diff( $aterms, $search_ignore );
+		$searchword = implode( ' ', $pruned );
+	}
+	
+	
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
 			// html output
@@ -136,7 +155,7 @@ function viewSearch() {
 				// html output
 				search_html::emptyContainer( JText::_( 'SEARCH_MESSAGE' ) );
 		}
-	} else if ( in_array( $searchword, $search_ignore ) ) {
+	} else if ( $ignored ) {
 		// html output
 		search_html::emptyContainer( JText::_( 'IGNOREKEYWORD' ) );
 	} else {
