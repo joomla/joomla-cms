@@ -294,11 +294,15 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
  * Format a backtrace error
  *
  * @package Joomla.Framework
+ * @param string An optional message
  * @since 1.5
  */
-function mosBackTrace() {
+function mosBackTrace( $message='' ) {
 	if (function_exists( 'debug_backtrace' )) {
 		echo '<div align="left">';
+		if ($message) {
+			echo '<p><strong>' . $message . '</strong></p>';
+		}
 		foreach( debug_backtrace() as $back) {
 			if (@$back['file']) {
 				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
