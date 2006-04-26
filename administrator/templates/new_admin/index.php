@@ -75,6 +75,7 @@ See COPYRIGHT.php for copyright notices and details.
 							<div class="element-box">
 								<div class="element-pad">
 									<jdoc:include type="component" />
+									<div class="clr"></div>
 								</div>
 							</div>
 							<noscript>
