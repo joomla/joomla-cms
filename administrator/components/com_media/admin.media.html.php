@@ -254,9 +254,9 @@ class JMediaViews {
 
 	function showImage($img, $file, $info, $size, $listdir) {
 		$img_file 	= basename($img);
-		$img_url 	= COM_MEDIA_BASEURL . $listdir . '/' . $img_file;
+		$img_url 	= COM_MEDIA_BASEURL . $listdir . '/' . rawurlencode( $img_file );
 
-		$filesize = JMediaViews::parseSize( $size );
+		$filesize 	= JMediaViews::parseSize( $size );
 
 		if ( ( $info[0] > 70 ) || ( $info[0] > 70 ) ) {
 			$img_dimensions = JMediaViews::imageResize($info[0], $info[1], 80);
@@ -294,7 +294,7 @@ class JMediaViews {
 		$overlib .= '<br/> '. JText::_( '*Click for Image Code*' );
 		?>
 		<div style="float:left; padding: 5px">
-			<div class="imgTotal"  onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $file; ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
+			<div class="imgTotal"  onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
 				<div align="center" class="imgBorder">
 					<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); 									window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" style="display: block; width: 100%; height: 100%">
 						<div class="image">
@@ -304,7 +304,7 @@ class JMediaViews {
 			</div>
 			<div class="imginfoBorder">
 				<small>
-					<?php echo $file; ?>
+					<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
 				</small>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
