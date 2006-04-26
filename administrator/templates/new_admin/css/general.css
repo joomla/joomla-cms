@@ -47,7 +47,6 @@ a:link    { color: #0B55C4; text-decoration: none; }
 a:visited { color: #0B55C4; text-decoration: none; }
 a:hover   { text-decoration: underline; }
 
-
 fieldset {
 	margin-bottom: 10px;
 	border: 1px #ccc solid;
@@ -65,6 +64,10 @@ legend    {
 
 input, select { font-size: 10px; border: 1px solid silver;  }
 textarea      { font-size: 11px;  border: 1px solid silver; }
+
+input:focus,
+select:focus, 
+textarea:focus { background-color: #ffd }
 
 /* -- header styles ------------------------------ */
 
