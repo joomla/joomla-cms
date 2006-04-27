@@ -625,9 +625,9 @@ class mosHTML {
 	 * @return void
 	 * @since 1.5
 	 */
-	function formatMessage ($type, $msg) {
+	function formatMessage ($msg, $type = 'message fade' ) {
 		?>
-		<div id="system-msg-<?php echo $type;?>" class="<?php echo $type;?>"><?php echo $msg;?></div>
+		<div id="system-message" class="<?php echo $type;?>"><?php echo $msg;?></div>
 		<?php
 	}
 	
