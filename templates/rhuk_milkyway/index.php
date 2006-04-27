@@ -12,7 +12,8 @@ See COPYRIGHT.php for copyright notices and details.
 <head>
 <jdoc:include type="head" />
 
-<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
+<link rel="stylesheet" href="templates/{TEMPLATE}/css/template.css" type="text/css" />
 <!--[if lte IE 6]>
 <link href="templates/{TEMPLATE}/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
