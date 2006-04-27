@@ -108,13 +108,14 @@ class JEditor_none extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row )
-	{
-		return "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:$width;height:$height;\">$content</textarea>";
+	function onDisplay( $name, $content, $width, $height, $col, $row ) {
+		$width  = $width . 'px';
+		$height = $height . 'px';
+		
+		return "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>";
 	}
 
-	function onGetInsertMethod($name)
-	{
+	function onGetInsertMethod($name) {
 		global $mainframe;
 
 		$doc = & $mainframe->getDocument();
