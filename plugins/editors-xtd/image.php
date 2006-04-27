@@ -21,18 +21,24 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginImageButton' );
 * @return array A two element array of ( imageName, textToInsert )
 */
 function pluginImageButton() {
-	global $option;
+	global $mainframe;
 
+	$option = $mainframe->getOption();
+	$doc = & $mainframe->getDocument();
+	$template = $mainframe->getTemplate();
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	// button is not active in specific content components
 	switch ( $option ) {
 		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
-			$button = array( '', '' );
+			$button = array( false );
 			break;
 
 		default:
-			$button = array( 'image.gif', '{image}' );
+			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
+			$doc->addStyleDeclaration($css);
+			$button = array( "jInsertEditorText('{image}')", JText::_('Image'), 'image' );
 			break;
 	}
 

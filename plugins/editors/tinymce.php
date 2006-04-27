@@ -313,30 +313,21 @@ class JEditor_tinymce extends JPlugin {
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
+		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>";
+	}
+
+	function onGetInsertMethod($name)
+	{
 		global $mainframe;
 
-		$dispatcher =& JEventDispatcher::getInstance();
+		$doc = & $mainframe->getDocument();
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$js= "function jInsertEditorText( text ) {
+			tinyMCE.execCommand('mceInsertContent',false,text);
+		}";
+		$doc->addScriptDeclaration($js);
 
-		$results = $dispatcher->trigger( 'onCustomEditorButton' );
-
-		$buttons = array();
-		foreach ($results as $result) {
-			if ( $result[0] ) {
-				$buttons[] = '<img src="'.$url.'plugins/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" alt="'.$result[1].'" />';
-			}
-		}
-		$buttons = implode( "", $buttons );
-
-		/*
-		 * When adding the editor extension buttons to your own editor the following construction :
-		 * Markup : <div id=\"editor-xtd-buttons\">$buttons</div>
-		 *
-		 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-		 */
-		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>" .
-				"<div id=\"editor-xtd-buttons\">$buttons</div>";
+		return true;
 	}
 }
 ?>

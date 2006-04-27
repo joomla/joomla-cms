@@ -21,18 +21,24 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginReadmoreButton' );
 * @return array A two element array of ( imageName, textToInsert )
 */
 function pluginReadmoreButton() {
-	global $option;
+	global $mainframe;
 
+	$option = $mainframe->getOption();
+	$doc = & $mainframe->getDocument();
+	$template = $mainframe->getTemplate();
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	// button is not active in specific content components
 	switch ( $option ) {
 		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
-			$button = array( '', '' );
+			$button = array( false );
 			break;
 
 		default:
-			$button = array( 'readmore.png', '{readmore}' );
+			$css = "\t.button1-left .readmore { background: url($url/plugins/editors-xtd/readmore.png) 100% 0 no-repeat; }";
+			$doc->addStyleDeclaration($css);
+			$button = array( "jInsertEditorText('{readmore}')", JText::_('Readmore'), 'readmore' );
 			break;
 	}
 

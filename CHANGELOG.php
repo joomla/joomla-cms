@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Apr-2006 Louis Landry
+ ^ Refactored editors-xtd plugins and separated rendering from editor
+
 26-Apr-2006 Johan Janssens
  ^ Refactored JDocumentRSS class to use an adapter pattern
 

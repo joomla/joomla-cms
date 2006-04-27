@@ -110,25 +110,21 @@ class JEditor_none extends JPlugin {
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
+		return "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:$width;height:$height;\">$content</textarea>";
+	}
+
+	function onGetInsertMethod($name)
+	{
 		global $mainframe;
 
-		$dispatcher =& JEventDispatcher::getInstance();
+		$doc = & $mainframe->getDocument();
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$js= "\tfunction jInsertEditorText( text ) {
+			insertAtCursor( document.adminForm.".$name.", text );
+		}";
+		$doc->addScriptDeclaration($js);
 
-		$results = $dispatcher->trigger( 'onCustomEditorButton' );
-
-		$buttons = array();
-		foreach ($results as $result) {
-			if ( $result[0] ) {
-				$buttons[] = '<img src="'.$url.'/plugins/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'" />';
-			}
-		}
-		$buttons = implode( "", $buttons );
-
-		$txt = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:$width;height:$height;\">$content</textarea>
-				<br />$buttons";
-		return $txt;
+		return true;
 	}
 }
 ?>

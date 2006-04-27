@@ -21,18 +21,24 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginPagebreakButton' );
 * @return array A two element array of ( imageName, textToInsert )
 */
 function pluginPagebreakButton() {
-	global $option;
+	global $mainframe;
 
+	$option = $mainframe->getOption();
+	$doc = & $mainframe->getDocument();
+	$template = $mainframe->getTemplate();
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	// button is not active in specific content components
 	switch ( $option ) {
 		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
-			$button = array( '', '' );
+			$button = array( false );
 			break;
 
 		default:
-			$button = array( 'pagebreak.gif', '{pagebreak}' );
+			$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
+			$doc->addStyleDeclaration($css);
+			$button = array( "jInsertEditorText('{pagebreak}')", JText::_('Pagebreak'), 'pagebreak' );
 			break;
 	}
 

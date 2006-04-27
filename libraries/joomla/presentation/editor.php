@@ -139,6 +139,49 @@ class JEditor extends JObservable {
 	}
 
 	/**
+	 * Get the editor extended buttons
+	 *
+	 *
+	 */
+	function getButtons($editor)
+	{
+		global $mainframe;
+
+		$this->_loadEditor();
+
+		$args[] = $editor;
+		$args['event'] = 'onGetInsertMethod';
+
+		$return = '';
+		$results[] = $this->_editor->update($args);
+		foreach ($results as $result) {
+			if (trim($result)) {
+				$return .= $result;
+			}
+		}
+
+		$dispatcher =& JEventDispatcher::getInstance();
+		$results = $dispatcher->trigger( 'onCustomEditorButton' );
+
+		$html = null;
+		foreach ($results as $result) {
+			/*
+			 * Results should be a three offset array consisting of:
+			 * [0] - onclick event
+			 * [1] - button text
+			 * [2] - button icon
+			 */
+			if ( $result[0] ) {
+				$html .= "<div class=\"button1-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
+			}
+		}
+		/*
+		 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
+		 */
+		return "\n<div id=\"editor-xtd-buttons\">\n$html</div>";
+	}
+
+	/**
 	 * Get the editor contents
 	 *
 	 *

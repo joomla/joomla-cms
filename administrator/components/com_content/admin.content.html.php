@@ -533,6 +533,7 @@ class ContentView
 						<?php
 						// parameters : areaname, content, hidden field, width, height, rows, cols
 						echo $editor->display( 'text',  $row->text , '100%;', '550', '75', '20' ) ;
+						echo $editor->getButtons('text');
 						?>
 					</td>
 				</tr>
