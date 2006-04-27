@@ -18,22 +18,6 @@
  * @version  	1.0
  */
   
-/* -------------------------------------------- */
-/* -- page loader ----------------------------- */
-/* -------------------------------------------- */
-
-function addLoadEvent(func) {
-  var oldonload = window.onload;
-  if (typeof window.onload != 'function') {
-    window.onload = func;
-  } else {
-    window.onload = function() {
-      oldonload();
-      func();
-    }
-  }
-}
-
 document.menu = null
 addLoadEvent(function() {
   element = document.getElementById('menu')

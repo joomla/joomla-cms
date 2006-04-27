@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Apr-2006 Johan Janssens
+ + Implemented hybrid javascript modal popup library
+
 27-Apr-2006 Alex Kempkens
  + added mosHTML::formatMessage for generic message output
 

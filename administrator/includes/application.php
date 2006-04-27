@@ -284,6 +284,7 @@ class JAdministrator extends JApplication
 				$doc->setBase( $this->getBaseURL() );
 
 				if ( $user->get('id') ) {
+					$doc->addScript( '../includes/js/joomla/common.js');
 					$doc->addScript( '../includes/js/joomla.javascript.js');
 				}
 			} break;

@@ -266,7 +266,6 @@ class JViewHTMLArticle extends JView
 
 		?>
 	  	<script language="javascript" type="text/javascript">
-		onunload = WarnUser;
 		var folderimages = new Array;
 		<?php
 		$i = 0;
@@ -277,19 +276,11 @@ class JViewHTMLArticle extends JView
 		}
 		?>
 
-		function delay(gap)
-		{ /* gap is in millisecs */
-			var then,now; then=new Date().getTime();
-			now=then;
-			while((now-then)<gap)
-			{now=new Date().getTime();}
-		}
-
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
 				submitform( pressbutton );
-				window.top.hidePopWin();
+				window.top.document.popup.hide();
 				return;
 			}
 
@@ -316,8 +307,8 @@ class JViewHTMLArticle extends JView
 		echo $editor->save( 'text' );
 		?>
 					submitform(pressbutton);
-					window.top.hidePopWin();
-					delay(500);
+					window.top.document.popup.hide();
+					delay(750);
 					window.top.location.reload(true);
 				}
 			}

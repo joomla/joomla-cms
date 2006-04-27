@@ -127,6 +127,16 @@ class JModelArticle extends JModel
 				$this->incrementHit();
 			}
 
+		} else {
+			$article =& JTable::getInstance('content', $this->_db);
+			$article->state = 1;
+			$article->parameters = null;
+			$article->cat_pub    = null;
+			$article->sec_pub    = null;
+			$article->cat_access = null;
+			$article->sec_access = null;
+			$article->author     = null;
+			$this->_article 	 = $article;
 		}
 		return $this->_article;
 	}

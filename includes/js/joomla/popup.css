@@ -1,13 +1,28 @@
 /**
- * POPUP CONTAINER STYLES
+* @version $Id$
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * JMenu javascript behavior styling
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version     1.0
  */
+
+
 #popupMask {
-	position: absolute;
-	z-index: 200;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
+	position: fixed; z-index: 200;
+	top: 0px; left: 0px;
+	width: 100%; height: 100%;
 	opacity: .4;
 	filter: alpha(opacity=40);
 	/* this hack is so it works in IE
@@ -20,7 +35,7 @@
 	 * you can uncomment the background-image if you don't care about opera.
 	 * this gives you the flexibility to use any bg color that you want, instead of the png
 	 */
-	background-image/**/: url("../img/maskBG.png") !important; // For browsers Moz, Opera, etc.
+	background-image/**/: url("popup-mask.png") !important; // For browsers Moz, Opera, etc.
 	background-image:none;
 	background-repeat: repeat;
 	display:none;
@@ -58,12 +73,5 @@
 	position: relative;
 	z-index: 203;
 }
-#popupTitle {
-	float:left;
-	font-size: 1.1em;
-}
-#popupControls {
-	float: right;
-	cursor: pointer;
-	cursor: hand;
-}
+#popupTitle    { float:left; font-size: 1.1em;                }
+#popupControls { float: right; cursor: pointer; cursor: hand; }
