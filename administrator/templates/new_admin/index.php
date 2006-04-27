@@ -9,16 +9,19 @@ See COPYRIGHT.php for copyright notices and details.
 </jdoc:comment>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
-	<head>
-	<jdoc:include type="head" />
-	<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
-
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
+		<head>
+		<jdoc:include type="head" />
+		
 	<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
 		<jdoc:sub condition="rtl">
 			<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
+		<jdoc:sub condition="ltr">
+			<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
+		</jdoc:sub>
 	</jdoc:tmpl>
+	
 	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
 		<jdoc:sub condition="0">
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css">
@@ -96,7 +99,7 @@ See COPYRIGHT.php for copyright notices and details.
 		</div>
 
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>
+			<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
 		</div>
 	</body>
 	</html>

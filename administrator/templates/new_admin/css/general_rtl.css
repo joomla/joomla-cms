@@ -1,0 +1,708 @@
+/**
+* @version $Id: general_rtl.css 3317 2006-04-26 21:55:01Z Jinx $
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * Joomla! 1.5 Admin template main css file
+ *
+ * @author		Andy Miller <andy.miller@joomla.org>
+ *              RTL by David Gal <david.gal@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+
+/* -- General styles ------------------------------ */
+
+body {
+	margin: 10px; padding: 0;
+	background: #fff;
+	padding-bottom: 1px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+html, body { height: 100%; }
+
+.clr { clear: both; overflow:hidden; }
+
+a, img { padding: 0; margin: 0; }
+
+img { border: 0 none; }
+
+form { margin: 0; padding: 0; }
+
+h1 {
+	margin: 0; padding-bottom: 8px;
+	color: #0B55C4; font-size: 20px; font-weight: bold;
+}
+
+a:link    { color: #0B55C4; text-decoration: none; }
+a:visited { color: #0B55C4; text-decoration: none; }
+a:hover   { text-decoration: underline; }
+
+fieldset {
+	margin-bottom: 10px;
+	border: 1px #ccc solid;
+	padding: 5px;
+	text-align: left;
+}
+
+fieldset p {  margin: 10px 0px;  }
+
+legend    { 
+	color: #0B55C4; 
+	font-size: 12px;
+	font-weight: bold;
+}
+
+input, select { font-size: 10px; border: 1px solid silver;  }
+textarea      { font-size: 11px;  border: 1px solid silver; }
+
+input:focus,
+select:focus, 
+textarea:focus { background-color: #ffd }
+
+/* -- header styles ------------------------------ */
+
+#header3 span,
+.header,
+#menu,
+#submenu,
+#toolbar,
+.pane-sliders .title,
+.adminlist th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#header1 { background: url(../images/j_header_middle.png) repeat-x; }
+#header2 { background: url(../images/j_header_right_rtl.png) 100% no-repeat; }
+#header3 { background: url(../images/j_header_left_rtl.png) no-repeat; height: 54px; }
+
+#header3 span {
+	font-size: 22px; font-weight: bold;
+	color: #fff;
+	padding-right: 180px;
+	line-height: 44px;
+}
+
+#version {
+	float: left;
+	color: #fff;
+	padding-top: 25px;
+	padding-left: 5px;
+}
+
+.far-right {
+	margin-right: 6px !Important;
+	margin-right: 0px;
+	margin-top: 2px;
+	float: right;
+	text-align: right;
+}
+
+/* -- overall styles ------------------------------ */
+
+#footer1 { background: url(../images/j_bottom.png) repeat-x; } 
+#footer2 { background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
+#footer3 { background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
+
+#copyright { margin: 10px; text-align: center; }
+
+#content-box  { background: url(../images/j_border.png) 0 0 repeat-y; }
+#content-box2 { background: url(../images/j_border.png) 100% 0 repeat-y; }
+#content-pad  { padding: 10px 10px 0 10px; }
+
+.component { background: #fff; padding: 5px 1px;}
+
+.spacer { height: 10px; overflow: hidden; }
+
+.element-box   { background: #fff; padding: 5px 1px;}
+.element-pad   { padding: 10px; }
+.extra-padding { padding: 10px; }
+
+/* -- various styles -- */
+div.message {
+	text-align: center;
+	font-size: 12px;
+	padding: 3px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #333;
+	letter-spacing: .1em;
+}
+
+
+/* -- buttons */
+
+.button1-left,
+.button1-right,
+.button2-left,
+.button2-right,
+.button1-left div,
+.button1-right div,
+.button2-left div,
+.button2-right div {
+	float: left;
+}
+
+.button1-left {
+	background: url(../images/j_button1_left.png) no-repeat;
+	margin-left: 5px;
+}
+
+.button1-right {
+	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
+	margin-left: 5px;
+}
+
+.button1-right .prev {
+	background: url(../images/j_button1_prev.png) no-repeat;
+}
+
+.button1-left .next {
+	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
+}
+
+.button1-left a, 
+.button1-right a {
+	display: block;
+	height: 26px;
+	float: left;
+	line-height: 26px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333;
+	cursor: pointer;
+}
+
+.button1-left a:hover, 
+.button1-right a:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button1-left a {
+	padding: 0 30px 0 6px;
+}
+
+.button1-right a {
+	padding: 0 6px 0 30px;
+}
+
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
+	display: block;
+	height: 22px;
+	float: left;
+	line-height: 22px;
+	font-size: 11px;
+	color: #666;
+	cursor: pointer;	
+}
+
+.button2-left span,
+.button2-right span {
+	cursor: default;
+	color: #999;
+}
+
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span {
+	padding: 0 6px;
+}
+
+.page span {
+	color: #000;
+	font-weight: bold;
+}
+
+.button2-left a:hover, 
+.button2-right a:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2-left a,
+.button2-left span {
+	padding: 0 24px 0 6px;
+}
+
+.button2-right a,
+.button2-right span {
+	padding: 0 6px 0 24px;
+}
+
+.button2-left {
+	background: url(../images/j_button2_left.png) no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right {
+	background: url(../images/j_button2_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right .prev {
+	background: url(../images/j_button2_prev.png) no-repeat;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background: url(../images/j_button2_first.png) no-repeat;
+}
+
+.button2-right.off .start {
+	background: url(../images/j_button2_first_off.png) no-repeat;
+}
+
+.button2-left .page {
+	background: url(../images/j_button2_right_cap.png) 100% 0 no-repeat;
+}
+
+.button2-left .next {
+	background: url(../images/j_button2_next.png) 100% 0 no-repeat;
+}
+
+.button2-left.off .next {
+	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .end {
+	background: url(../images/j_button2_last.png) 100% 0 no-repeat;
+}
+
+.button2-left.off .end{
+	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
+}
+
+
+
+/* -- status layout */
+#status-box span {
+	display: block;
+	float: left;
+	padding-left: 10px;
+	line-height: 16px;
+	padding-right: 22px;
+	padding-top: 4px;
+	margin-bottom: 5px;
+}
+
+span.preview { background: url(../images/menu/icon-16-media.png)right 3px no-repeat; }
+span.unread-messages,
+span.no-unread-messages { background: url(../images/menu/icon-16-messages.png) right 3px no-repeat; }
+span.unread-messages a  { font-weight: bold; }
+span.loggedin-users     { background: url(../images/menu/icon-16-user.png) right 3px no-repeat; }
+span.logout             { background: url(../images/menu/icon-16-logout.png) right 3px no-repeat; }
+
+div.status-divider {
+	clear:left;
+	height: 1px !important;
+	height: 3px;
+	overflow: hidden;
+}
+
+/** administrator pages **/
+#top-box {
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #f0f0f0;
+}
+
+#status-box {
+	width: auto;
+	float: left;
+}
+
+#menu-box {
+	width: 65%; 
+   /*float: right;*/
+}
+
+
+.content-area {
+	float: right;
+	width: 80%;
+}
+
+.content-area-full {
+	clear: both;
+	float: none;
+	width: 100%;
+}
+
+.content-area .content-pad {
+	padding-left: 10px;
+}
+
+.content-area-full .content-pad {
+	padding: 0;
+}
+
+/** toolbar **/
+
+.toolbar-box {
+	background: #fbfbfb;
+	padding: 5px 1px;
+}
+
+.toolbar-pad {
+	padding: 0 5px;
+	padding-bottom: 2px;
+}
+
+div.header {
+	color: #0B55C4;
+	font-size: 22px;
+	line-height: 48px;
+	font-weight: bold;
+	padding-right: 55px;
+}
+
+div.header span {
+	color: #666;
+}
+
+div.toolbar {
+	float: left;
+	text-align: right;
+	padding: 0;
+}
+
+table.toolbar {
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+	
+}
+
+table.toolbar td {
+	padding: 1px;
+	padding-left: 4px;
+	text-align: center;
+	color: #666;
+	height: 48px;
+}
+
+table.toolbar td.spacer {
+	width: 10px;
+}
+
+table.toolbar td.divider {
+	border-right: 1px solid #eee;
+	width: 5px;
+}
+
+table.toolbar div {
+	float: none;
+	width: 32px;
+	height: 32px;
+	margin: 0 auto;
+}
+
+table.toolbar a {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	display: block;
+	border: 1px solid #fbfbfb;
+	padding: 1px 5px;
+	cursor: pointer;
+}
+
+table.toolbar a:hover {
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+/* submenu box */
+.submenu-box {
+	background: #f6f6f6;
+	padding: 5px 1px;
+	margin-top: 10px;
+}
+
+/** for massmail component **/
+input#mm_subject    { width: 200px; }
+textarea#mm_message { width: 200px; }
+
+/* pane-sliders  */
+.pane-sliders .title {
+	margin: 0;
+	padding: 2px;
+	color: #666;
+	cursor: pointer;
+}
+
+.pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px; }
+
+.pane-sliders .content { height: 0px; display: none; }
+
+.pane-sliders .adminlist     { border: 0 none; }
+.pane-sliders .adminlist td  { border: 0 none; }
+
+.moofx-toggler      { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px;}
+.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); border-bottom: 1px solid #ccc; }
+
+
+/** cpanel settings **/
+
+#cpanel div.icon {
+	text-align: center;
+	margin-right: 5px;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#cpanel div.icon a {
+	display: block;
+	float: left;
+	border: 1px solid #f0f0f0;
+	height: 97px;
+	width: 108px;
+	color: #666;
+	vertical-align: middle;
+	text-decoration: none;
+}
+
+#cpanel div.icon a:hover {
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #f9f9f9;
+	color: #0B55C4;
+}
+
+#cpanel img {
+padding: 10px 0;
+margin: 0 auto;
+}
+
+#cpanel span {
+display: block;
+text-align: center;
+}
+
+/* standard form style table */
+div.col50 {
+	float: left;
+	width: 50%;
+}
+
+div.col70 {
+	float: left;
+	width: 70%;
+}
+
+div.col30 {
+	float: left;
+	width: 30%;
+}
+
+table.admintable td {
+	padding: 3px;
+}
+
+table.admintable td.key,
+table.admintable td.paramlist_key {
+	background-color: #f6f6f6;
+	text-align: left;
+	width: 150px;
+	color: #666;
+	font-weight: bold;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+}
+
+table.admintable td.key.vtop {
+	vertical-align: top;
+}
+
+table.adminform {
+	background-color: #f9f9f9;
+	border: solid 1px #d5d5d5;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 8px 0 10px 0;
+	margin-bottom: 15px;
+	width: 100%;
+}
+table.adminform tr.row0 {
+	background-color: #f9f9f9;
+}
+table.adminform tr.row1 {
+	background-color: #eeeeee;
+}
+table.adminform th {
+	font-size: 11px;
+	padding-top: 6px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	text-align: right;
+	height: 25px;
+	color: #000;
+	background-repeat: repeat;
+}
+table.adminform td {
+	padding: 3px;
+	text-align: right;
+}
+
+fieldset.adminform {
+	border: 1px solid #ccc;
+	margin: 0 10px 10px 10px;
+}
+
+/** Table styles **/
+
+table.adminlist {
+	width: 100%;
+	border-spacing: 1px;
+	background-color: #e7e7e7;
+	color: #666;
+}
+
+table.adminlist td, table.adminlist th {
+	padding: 4px;
+}
+
+table.adminlist thead th {
+	text-align: center;
+	background: #f0f0f0;
+	color: #666;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #fff;
+}
+
+table.adminlist thead a:hover {
+	text-decoration: none;
+}
+
+table.adminlist thead th img {
+	vertical-align: middle;
+}
+
+table.adminlist tbody th {
+	font-weight: bold;
+}
+
+table.adminlist tbody tr		{
+	background-color: #fff; 
+	text-align: right;
+	}
+table.adminlist tbody tr.row1 	{
+	background: #f9f9f9;
+	border-top: 1px solid #fff;
+}
+
+table.adminlist tbody tr td { 
+	height: 25px;
+	background: #fff;
+	border: 1px solid #fff;
+	}
+
+table.adminlist tbody tr.row1 td{ 
+	background: #f9f9f9;
+	border-top: 1px solid #FFF;
+	}
+
+table.adminlist tfoot tr {
+	background-color: #f0f0f0; 
+	text-align: center; 
+	color: #333;
+}
+
+table.adminlist tfoot td, 
+table.adminlist tfoot th {
+	border-top: 1px solid #999;
+	text-align: center;
+}
+
+table.adminlist td.order {
+	text-align: center;
+}
+
+table.adminlist td.order span {
+	float: left;
+	display: block;
+	width: 20px;
+	text-align: center;
+}
+
+table.adminlist .pagination {
+	display: table;
+	padding:0; 
+	margin:0 auto;	
+}
+
+.pagination div.limit {
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	margin: 0 10px;
+}
+
+
+
+/** stu nicholls solution for centering divs **/
+.containter {clear:both; text-decoration:none;}
+* html .container {display:inline-block;}
+
+/* Two Pane Formatting */
+#pane-navigation {
+	display: none;
+}
+
+/** table solution for global config **/
+table.noshow {
+	width: 100%;
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+}
+
+table.noshow tr {
+	vertical-align: top;
+}
+
+table.noshow td {
+}
+
+table.noshow fieldset {
+margin: 15px 7px 7px 7px;
+}
+
+span.note {
+	display: block;
+	background: #ffd;
+	padding: 5px;
+	color: #666;
+}
+
+
+

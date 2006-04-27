@@ -49,11 +49,11 @@ form {
 }
 
 #header2 {
-	background: url(../images/j_header_right.png) left 0 no-repeat;
+	background: url(../images/j_header_left_rtl.png) left 0 no-repeat;
 }
 
 #header3 {
-	background: url(../images/j_header_left.png) right no-repeat;
+	background: url(../images/j_header_right_rtl.png) right no-repeat;
 	height: 54px;
 }
 
@@ -69,7 +69,7 @@ form {
 	float: left;
 	color: #fff;
 	padding-top: 25px;
-	padding-right: 5px;
+	padding-left: 5px;
 }
 
 #footer1 {
@@ -310,7 +310,11 @@ h3.title-smenu, h3.moofx-toggler {
 	cursor: pointer;
 }
 
-h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
+h3.moofx-toggler      {
+	background: #EBEBEB url(../images/j_arrow_left.png) 99% 50% no-repeat;
+	text-indent: 15px;
+
+}
 h3.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
 .final-table { width: 100%; }

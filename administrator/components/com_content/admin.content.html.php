@@ -46,7 +46,7 @@ class ContentView
 		<div id="pane-document">
 			<table class="adminform">
 				<tr>
-					<td align="left" width="100%">
+					<td width="100%">
 						<?php echo JText::_( 'Filter' ); ?>:
 						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 						<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
