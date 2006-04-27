@@ -391,6 +391,7 @@ class JViewHTMLArticle extends JView
 		// Display the editor
 		// arguments (areaname, content, hidden field, width, height, rows, cols)
 		echo $editor->display('text', $article->text, '655', '400', '70', '15');
+		echo $editor->getButtons('text');
 		?>
 
 		<!-- Images Tab -->
