@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Apr-2006 Alex Kempkens
+ + added mosHTML::formatMessage for generic message output
+
 26-Apr-2006 Louis Landry
  ^ Refactored editors-xtd plugins and separated rendering from editor
 
