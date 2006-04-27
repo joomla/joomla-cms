@@ -17,6 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 //$browserLang = JLanguageHelper::detectLanguage();
 // forced to default
 $browserLang = null;
+$lang = $mainframe->getLanguage();
 
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );
@@ -49,8 +50,8 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 	</p>
 	<p>
 		<label></lablel>
-	<div class="button1-left">
-		<div class="next">
+	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
+		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
 			<a onclick="loginForm.submit();">
 				<jdoc:translate>Login</jdoc:translate>
 			</a>
