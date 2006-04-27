@@ -617,6 +617,20 @@ class mosHTML {
 		return $replacement;
 	}
 
+	/**
+	 * allows to print out a formated message based on a standard type to style mapping
+	 *
+	 * @param string $type
+	 * @param string $msg
+	 * @return void
+	 * @since 1.5
+	 */
+	function formatMessage ($type, $msg) {
+		?>
+		<div id="system-msg-<?php echo $type;?>" class="<?php echo $type;?>"><?php echo $msg;?></div>
+		<?php
+	}
+	
 	function _encoding_converter( $text ) {
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );
@@ -928,7 +942,8 @@ class mosCommonHTML {
 
 		return $href;
 	}
-	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished' )	{
+
+	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished' )	{
 		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
 		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
 		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
@@ -951,7 +966,8 @@ class mosCommonHTML {
 			<?php mosCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
 		<?php
 	}
-	function tableOrdering_img( $current, &$lists ) {
+
+	function tableOrdering_img( $current, &$lists ) {
 		if ( $current == $lists['order']) {
 			if ( $lists['order_Dir'] == 'ASC' ) {
 				$image = 'sort_desc.png';
