@@ -127,6 +127,8 @@ class JParameter extends JRegistry
 		if (!is_object($this->_xml)) {
 			return false;
 		}
+		
+		$params = $this->getParams($name);
 
 		$html = array ();
 		$html[] = '<table width="100%" class="paramlist" cellspacing="1">';
@@ -135,20 +137,18 @@ class JParameter extends JRegistry
 			// add the params description to the display
 			$html[] = '<tr><td colspan="3">'.$description.'</td></tr>';
 		}
-
-		foreach ($this->_xml->children() as $param)
+		
+		foreach ($params as $param)
 		{
-			$result = $this->renderParam($param, $name);
-
 			$html[] = '<tr>';
 
-			$html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
-			$html[] = '<td class="paramlist_value">'.$result[1].'</td>';
+			$html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$param[0].'</span></td>';
+			$html[] = '<td class="paramlist_value">'.$param[1].'</td>';
 
 			$html[] = '</tr>';
 		}
 
-		if (count($this->_xml->children()) < 1) {
+		if (count($params) < 1) {
 			$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
 		}
 
@@ -156,15 +156,34 @@ class JParameter extends JRegistry
 
 		return implode("\n", $html);
 	}
+	
+	/**
+	 * Render all parameters
+	 * 
+	 * @access public
+	 * @param string The name of the control, or the default text area if a setup file is not found
+	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
+	 */
+	function getParams($name = 'params') 
+	{
+		if (!is_object($this->_xml)) {
+			return false;
+		}
+		$results = array();
+		foreach ($this->_xml->children() as $param)  {
+			$results[] = $this->getParam($param, $name);
+		}
+		return $results;
+	}
 
 	/**
-	 * render a parameter type
+	 * Render a parameter type
 	 *
 	 * @param object A param tag node
 	 * @param string The control name
 	 * @return array Any array of the label, the form element and the tooltip
 	 */
-	function renderParam(&$node, $control_name = 'params')
+	function getParam(&$node, $control_name = 'params')
 	{
 		//get the type of the parameter
 		$type = $node->attributes('type');

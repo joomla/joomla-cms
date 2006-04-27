@@ -76,6 +76,9 @@ class JElement extends JObject {
 
 		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
 		$result[1] = $this->fetchElement($name, $value, $xmlElement, $control_name);
+		$result[2] = $descr;
+		$result[3] = $label;
+		$result[4] = $value;
 
 		return $result;
 	}
