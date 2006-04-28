@@ -502,7 +502,7 @@ class HTML_admin_misc
 		</table>
 
 		<div id="treecellhelp">
-			<fieldset title="Index">
+			<fieldset title="<?php echo JText::_( 'Index' ); ?>">
 				<legend>
 					<?php echo JText::_( 'Index' ); ?>
 				</legend>
@@ -528,9 +528,9 @@ class HTML_admin_misc
 		</div>
 
 		<div id="datacellhelp">
-			<fieldset title="Details">
+			<fieldset title="<?php echo JText::_( 'Details' ); ?>">
 				<legend>
-					Details
+					<?php echo JText::_( 'Details' ); ?>
 				</legend>
 
 				<iframe name="helpFrame" src="<?php echo 'help/en-GB/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
