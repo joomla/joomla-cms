@@ -163,8 +163,7 @@ class JFactory
 
 		}
 
-		$reference =& $doc;
-		return $reference;
+		return $doc;
 	}
 
 	/**
