@@ -720,7 +720,7 @@ class JFTP extends JObject {
 
 		// First we need to set the transfer mode
 		$this->_mode($mode);
-		$this->restart(0);
+		//$this->restart(0);
 
 		// Start passive mode
 		if (!$this->_passive()) {
