@@ -59,7 +59,7 @@
 	background-repeat: no-repeat; background-position: left 50%
 }
 
-#menu li.disabled div {
+#menu li.disabled a {
 	color: grey;
 }
 

@@ -292,15 +292,6 @@ function editPlugin( $option, $uid, $client )
 		$row->description 	= '';
 	}
 
-	jimport('joomla.filesystem.folder');
-	$folders = JFolder::folders( JPATH_SITE . DS .'plugins'. DS );
-	$folders2 = array();
-	foreach ($folders as $folder) {
-		if (is_dir( JPATH_SITE . '/plugins/' . $folder ) && ( $folder <> 'CVS' ) ) {
-			$folders2[] = mosHTML::makeOption( $folder );
-		}
-	}
-	$lists['folder'] = mosHTML::selectList( $folders2, 'folder', 'class="inputbox" size="1"', 'value', 'text', $row->folder );
 	$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
 
 	$lists['published'] = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );

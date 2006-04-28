@@ -258,11 +258,11 @@ class HTML_modules {
 					<tr>
 						<td valign="top" >
 							<label for="folder">
-								<?php echo JText::_( 'Folder' ); ?>:
+								<?php echo JText::_( 'Type' ); ?>:
 							</label>
 						</td>
 						<td>
-							<?php echo $lists['folder']; ?>
+							<?php echo $row->folder; ?>
 						</td>
 					</tr>
 					<tr>
