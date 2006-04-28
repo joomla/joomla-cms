@@ -267,7 +267,7 @@ class JViewHTMLBlog extends JView
 		$user = & $app->getUser();
 		$menu = & $this->get('Menu');
 		$Itemid = $menu->id;
-		$params = & new JParameter($row->attribs);
+		$params  = & $menu->parameters;
 		$linkOn = null;
 		$linkText = null;
 

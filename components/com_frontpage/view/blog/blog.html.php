@@ -167,7 +167,7 @@ class JViewBlog
 						break;
 					}
 					echo '<div>';
-					JViewBlog::showItem($rows[$i], $access, true);
+					JViewBlog::showItem($rows[$i], $params, $access, true);
 					echo '</div>';
 				}
 				echo '</td>';
@@ -201,7 +201,7 @@ class JViewBlog
 					{
 						if ($i <= $intro && ($i < $total))
 						{
-							JViewBlog::showItem($rows[$i], $access);
+							JViewBlog::showItem($rows[$i], $params, $access);
 							$i ++;
 						}
 					}
@@ -279,7 +279,7 @@ class JViewBlog
 
 	}
 
-	function showItem(&$row, &$access, $showImages = false)
+	function showItem(&$row, &$params, &$access, $showImages = false)
 	{
 		global $mainframe, $hide_js;
 
@@ -293,7 +293,6 @@ class JViewBlog
 		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
 		$linkOn		= null;
 		$linkText	= null;
-		$params 	= new JParameter($row->attribs);
 
 		/*
 		 * Get some parameters from global configuration
