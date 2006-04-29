@@ -90,8 +90,6 @@ $file 	 	= JRequest::getVar( 'file', isset($file) ? $file : 'index.php',  '', 's
 $cur_template = $mainframe->getTemplate();
 
 $document =& $mainframe->getDocument($format);
-// Add the hidemainmenu var to the JDocument object so templates can adapt if needed
-$document->_engine->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' ))? '1' : '0');
 $document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 $document->display( $cur_template, $file, $mainframe->getCfg('gzip') );
 

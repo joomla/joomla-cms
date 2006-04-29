@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Apr-2006 Johan Janssens
+ # Fixed artf4238 : Empty JS brackets in backend don't render correctly
+
 27-Apr-2006 Johan Janssens
  + Implemented hybrid javascript modal popup library
 
