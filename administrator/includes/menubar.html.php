@@ -205,7 +205,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a publish button
-		$bar->appendButton( 'Publish', false, $alt, $task );
+		//$bar->appendButton( 'Publish', false, $alt, $task );
 		$bar->appendButton( 'Standard', 'publish', $alt, $task, false, false );
 	}
 
