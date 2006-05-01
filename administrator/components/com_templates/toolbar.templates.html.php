@@ -43,8 +43,8 @@ class TOOLBAR_templates
 	function _EDIT_SOURCE(&$client){
 
 		JMenuBar::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
+		JMenuBar::cancel();
 		JMenuBar::save( 'save_source' );
-		JMenuBar::back();
 	}
 
 	function _EDIT(&$client){
@@ -60,13 +60,13 @@ class TOOLBAR_templates
 
 	function _CHOOSE_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
-		JMenuBar::back();
+		JMenuBar::cancel();
 		JMenuBar::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
 	}
 
 	function _EDIT_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
-		JMenuBar::back();
+		JMenuBar::cancel();
 		JMenuBar::save( 'save_css' );
 	}
 

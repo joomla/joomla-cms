@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-May-2006 Arno Zijlstra
+ ^ Changed back buttons to cancel in template css and html editor
+ 
 01-May-2006 Andrew Eddie
  + Added Relative image url suppot to TinyMCE
 
