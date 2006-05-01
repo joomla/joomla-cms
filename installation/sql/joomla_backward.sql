@@ -342,7 +342,7 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `utaccess` tinyint(3) unsigned NOT NULL default '0',
   `params` text NOT NULL,
-  `model_name` varchar(45) NOT NULL default '',
+  `controller_name` varchar(45) NOT NULL default '',
   `view_name` varchar(45) NOT NULL default '',
   `renderer_name` varchar(45) NOT NULL default '',
   `lft` int(11) unsigned NOT NULL default '0',

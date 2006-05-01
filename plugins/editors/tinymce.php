@@ -99,6 +99,12 @@ class JEditor_tinymce extends JPlugin {
 		$fullscreen			=  $params->def( 'fullscreen', 1 );		// autosave
 		$autosave			= $params->def( 'autosave', 0 );
 
+		if ( $relative_urls ) {
+			$relative_urls = 'true';
+		} else {
+			$relative_urls = 'false';
+		}
+
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';
 		} else {
@@ -231,7 +237,7 @@ class JEditor_tinymce extends JPlugin {
 			mode : \"specific_textareas\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",
-			relative_urls : false,
+			relative_urls : $relative_urls,
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",

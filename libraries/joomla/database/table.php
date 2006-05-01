@@ -674,15 +674,20 @@ class JTable extends JObject
 		$query = "UPDATE $this->_tbl"
 		. "\n SET published = " . intval( $publish )
 		. "\n WHERE ($cids)"
-		. "\n AND (checked_out = 0 OR checked_out = $user_id)"
 		;
+
+		$checkin = array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) );
+		if ($checkin) {
+			$query .= "\n AND (checked_out = 0 OR checked_out = $user_id)";
+		}
+
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {
 			$this->_error = $this->_db->getErrorMsg();
 			return false;
 		}
 
-		if (count( $cid ) == 1) {
+		if (count( $cid ) == 1 && $checkin) {
 			$this->checkin( $cid[0] );
 		}
 		$this->_error = '';

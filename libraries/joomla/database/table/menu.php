@@ -56,7 +56,7 @@ class JTableMenu extends JTable
 	/** @var string */
 	var $params				= null;
 	/** @var string */
-	var $model_name			= null;
+	var $controller_name	= null;
 	/** @var string */
 	var $view_name			= null;
 	/** @var string */

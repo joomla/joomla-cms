@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-01-Apr-2006 Andy Miller
+01-May-2006 Andrew Eddie
+ + Added Relative image url suppot to TinyMCE
+
+01-May-2006 Andy Miller
  ^ Added default styles for the frontend/admin xtd-buttons
 
 28-Apr-2006 Johan Janssens
