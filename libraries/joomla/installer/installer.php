@@ -680,7 +680,7 @@ class JInstaller extends JObject
 	 * @return mixed Number of queries processed or False on error
 	 * @since 1.5
 	 */
-	function _parseQueries($tagName = 'install/sql/mysql-412')
+	function _parseQueries($tagName, $version = '4.1.2')
 	{
 
 		/*
@@ -696,8 +696,8 @@ class JInstaller extends JObject
 		/*
 		 * Get the element of the tag names
 		 */
-		$queriesElement = & $root->getElementsByPath($tagName, 1);
-		if (is_null($queriesElement))
+		$queriesElements = & $root->getElementsByPath($tagName);
+		if (is_null($queriesElements))
 		{
 			/*
 			 * the tag does not exist therefore we return
@@ -709,8 +709,13 @@ class JInstaller extends JObject
 		/*
 		 * Get the name of the sql file to process
 		 */
-
-		$sqlfile = $queriesElement->getText();
+		 $sqlfile = '';
+		for ($i = 0; $i < $queriesElements->getLength(); $i++ ) {
+			if( $queriesElements->item($i)->getAttribute('version') == $version) {
+			$sqlfile = $queriesElements->item($i)->getText();
+			continue;
+			}
+		}
 
 		/*
 		 * Create an array of queries from the sql file

@@ -161,7 +161,8 @@ class JInstallerComponent extends JInstaller
 			if ($result === 0)
 			{
 				// no backward compatibility queries found - try for Joomla 1.5 type queries
-				$utfresult = $this->_parseQueries("install/sql/". ($db->hasUTF() ? 'mysql-4.1.2' : 'mysql-3.2.0'));
+				// second argument is the utf compatible version attribute
+				$utfresult = $this->_parseQueries("install/sql/file", ($db->hasUTF() ? '4.1.2' : '3.2.0'));
 				if ($utfresult === false)
 				{
 					JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('SQL Error')." ".$db->stderr(true));
@@ -495,7 +496,7 @@ class JInstallerComponent extends JInstaller
 			if ($result === 0)
 			{
 				// no backward compatibility queries found - try for Joomla 1.5 type queries
-				$utfresult = $this->_parseQueries("uninstall/sql/". ($db->hasUTF() ? 'mysql-4.1.2' : 'mysql-3.2.0'));
+				$utfresult = $this->_parseQueries("uninstall/sql/file", ($db->hasUTF() ? '4.1.2' : '3.2.0'));
 				if ($utfresult === false)
 				{
 					JError::raiseWarning(1, 'JInstallerComponent::uninstall: '.JText::_('SQL Error')." ".$db->stderr(true));

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-May-2006 David Gal
+ ^ Changed the syntax of sql queries tags in component installer xml file 
+
 01-May-2006 Arno Zijlstra
  ^ Changed back buttons to cancel in template css and html editor
  
