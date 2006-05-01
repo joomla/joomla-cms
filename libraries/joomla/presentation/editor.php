@@ -172,7 +172,7 @@ class JEditor extends JObservable {
 			 * [2] - button icon
 			 */
 			if ( $result[0] ) {
-				$html .= "<div class=\"button1-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
+				$html .= "<div class=\"button2-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
 			}
 		}
 		/*

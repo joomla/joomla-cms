@@ -292,6 +292,18 @@ div.message {
 	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
 }
 
+.button2-left .image {
+	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
 
 
 /* -- status layout */
@@ -698,6 +710,10 @@ span.note {
 	background: #ffd;
 	padding: 5px;
 	color: #666;
+}
+
+#editor-xtd-buttons {
+	padding: 5px;
 }
 
 
