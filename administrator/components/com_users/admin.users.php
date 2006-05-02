@@ -231,6 +231,7 @@ function editUser( )
 	$myGroupName 	= strtolower( $acl->get_group_name( $myGroups[0], 'ARO' ) );;
 
 	// ensure user can't add/edit group higher than themselves
+	/* NOTE : This check doesn't work commented out for the time being
 	if ( is_array( $myGroups ) && count( $myGroups ) > 0 ) {
 		$excludeGroups = (array) $acl->get_group_children( $myGroups[0], 'ARO', 'RECURSE' );
 	} else {
@@ -241,6 +242,7 @@ function editUser( )
 		echo 'not auth';
 		josRedirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
 	}
+	*/
 
 	//if ( $userGroupName == 'super administrator' ) {
 		// super administrators can't change

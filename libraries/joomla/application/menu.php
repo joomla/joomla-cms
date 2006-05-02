@@ -200,7 +200,8 @@ class JMenu extends JObject
 		$user = & $mainframe->getUser();
 		$sql = "SELECT *" .
 				"\n FROM #__menu" .
-				"\n WHERE published = 1";
+				"\n WHERE published = 1".
+				"\n ORDER BY parent, ordering"; 
 
 		$db->setQuery($sql);
 		if (!($menus = $db->loadObjectList('id'))) {

@@ -54,7 +54,7 @@ class mosMainFrame extends JApplication
 	 * the mos_sessions table.
 	 */
 	function initSession( ) {
-		//do nothing, contructor handles session creation
+		$this->setSession($this->getCfg('live_site').$this->getClientId());
 	}
 
 	/**

@@ -54,7 +54,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		}
 
 		$component = !isset($component) ? $option : $component;
-
+		
 		/*
 		 * Check to see if component is enabled and get parameters
 		 */

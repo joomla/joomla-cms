@@ -336,7 +336,8 @@ function editCategory( $uid=0, $section='' )
 				break;
 		}
 
-		if ( $row->section > 0 ) {
+		if ( $row->section > 0 ) 
+		{
 			// content
 			$query = "SELECT *"
 			. "\n FROM #__menu"
@@ -398,7 +399,6 @@ function editCategory( $uid=0, $section='' )
 		$order[] = mosHTML::makeOption( $i );
 	}
 
-	echo 'test';
 	// build the html select list for sections
 	if ( $section == 'content' ) {
 		$query = "SELECT s.id AS value, s.title AS text"
@@ -407,7 +407,7 @@ function editCategory( $uid=0, $section='' )
 		;
 		$database->setQuery( $query );
 		$sections = $database->loadObjectList();
-		$lists['section'] = mosHTML::selectList( $sections, 'section', 'class="inputbox" size="1"', 'value', 'text' );;
+		$lists['section'] = mosHTML::selectList( $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );;
 	} else {
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );

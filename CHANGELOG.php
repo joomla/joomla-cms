@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-May-2006 Johan Janssens
+ # Fixed artf4480 : Menu ordering
+ # Fixed artf4526 : PDF button don't works
+ # Fixed artf4036 : JDocumentHTML constructor incorrectly calls parent constructor.
+ # Fixed artf3287 : Syndicate module not viewable by default
+ # Fixed artf4405 : [patch] Print, PDF and email buttons aren't accessible
+
 01-May-2006 David Gal
  ^ Changed the syntax of sql queries tags in component installer xml file 
 
