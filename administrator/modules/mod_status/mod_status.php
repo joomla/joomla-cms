@@ -20,11 +20,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $sid		= JSession::id();
 $user	= $mainframe->getUser();
 $db		= & $mainframe->getDBO();
+$output = array();
 
 /*
  * Print the preview button
  */
-echo "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
+$output[] = "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
 /*
  * Get the number of unread messages in your inbox
@@ -41,10 +42,10 @@ $unread = $db->loadResult();
  */
 if ($unread)
 {
-	echo "<span class=\"unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
+	$output[] = "<span class=\"unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
 } else
 {
-	echo "<span class=\"no-unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
+	$output[] = "<span class=\"no-unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
 }
 
 /*
@@ -60,10 +61,24 @@ $online_num = intval( $db->loadResult() );
 /*
  * Print the logged in users message
  */
-echo "<span class=\"loggedin-users\">".$online_num."</span>";
+$output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
 
 /*
  * Print the logout message
  */
- echo "<span class=\"logout\"><a href=\"index2.php?option=logout\">".JText::_('Logout')."</a></span>";
+ $output[] = "<span class=\"logout\"><a href=\"index2.php?option=logout\">".JText::_('Logout')."</a></span>";
+ 
+ /*
+  * reverse rendering order for rtl display
+  */
+ if ( $mainframe->getLanguage()->isRTL() ) {
+ 	$output = array_reverse( $output );
+ }
+ 
+ /*
+  * output the module
+  */
+ foreach ($output as $item){
+ 	echo $item;
+ }
  ?>
