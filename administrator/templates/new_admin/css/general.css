@@ -472,9 +472,10 @@ textarea#mm_message { width: 200px; }
 .pane-sliders .adminlist     { border: 0 none; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
-.moofx-toggler      { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px;}
-.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); border-bottom: 1px solid #ccc; }
+.moofx-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
+.moofx-toggler-down span { background-image: url(../images/j_arrow_down.png); }
 
+.moofx-toggler-down {  border-bottom: 1px solid #ccc; }
 
 /** cpanel settings **/
 

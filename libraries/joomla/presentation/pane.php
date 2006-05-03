@@ -246,7 +246,7 @@ class JPaneSliders extends JPane
 	function startPanel( $text, $id )
 	{
 		echo '<div class="panel">';
-		echo '<h3 class="moofx-toggler title" id="'.$id.'">'.$text.'</h3>';
+		echo '<h3 class="moofx-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>';
 		echo '<div class="moofx-slider content">';
 	}
 
