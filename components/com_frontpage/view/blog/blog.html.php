@@ -15,9 +15,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the content html view
-require_once (JApplicationHelper::getPath('front_html', 'com_content'));
-
 /**
  * HTML Blog View class for the Frontpage component
  *
