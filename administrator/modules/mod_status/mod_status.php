@@ -17,9 +17,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Initialize some variables
  */
-$sid		= JSession::id();
+$sid	= JSession::id();
 $user	= $mainframe->getUser();
-$db		= & $mainframe->getDBO();
+$db		=& $mainframe->getDBO();
+$lang   =& $mainframe->getLanguage();
 $output = array();
 
 /*
@@ -40,11 +41,9 @@ $unread = $db->loadResult();
 /*
  * Print the inbox message
  */
-if ($unread)
-{
+if ($unread) {
 	$output[] = "<span class=\"unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
-} else
-{
+} else {
 	$output[] = "<span class=\"no-unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
 }
 
@@ -71,7 +70,7 @@ $output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
  /*
   * reverse rendering order for rtl display
   */
- if ( $mainframe->getLanguage()->isRTL() ) {
+ if ( $lang->isRTL() ) {
  	$output = array_reverse( $output );
  }
  

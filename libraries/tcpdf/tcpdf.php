@@ -3804,7 +3804,7 @@ if(!class_exists('TCPDF')) {
 					break;
 				}
 				case 'a': {
-					$this->HREF = $attr['href'];
+					if (isset($attr['href'])) $this->HREF = $attr['href'];
 					break;
 				}
 				case 'img': {

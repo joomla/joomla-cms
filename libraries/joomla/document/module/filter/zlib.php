@@ -75,7 +75,7 @@ class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter
 
 		Header('Content-Encoding: ' . $encoding);
         Header('Content-Length: ' . strlen($gzdata));
-        Header('X-Content-Encoded-By: patTemplate');
+        Header('X-Content-Encoded-By: Joomla! 1.5');
 
 		return $gzdata;
 	}
