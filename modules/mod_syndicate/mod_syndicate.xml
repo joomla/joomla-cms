@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<install type="module" version="1.0.0">
+<install type="module" version="1.5.0">
 	<name>Syndication</name>
 	<author>Joomla! Project</author>
-	<creationDate>Jan 2006</creationDate>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>May 2006</creationDate>
+	<copyright>(C) 2005 - 2006 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.5.0</version>
 	<description>Smart Syndication module that creates syndicated feed for the page where the module is displayed</description>
 	<files>
 		<filename module="mod_syndicate">mod_sydicate.php</filename>
 	</files>
 	<params>
 		<param name="text" type="text" default="Feed Entries" label="Text" description="PARAMTEXT" />
+		<param name="format" type="list" default="rss" label="Format" description="PARAMFEEDFORMAT">
+			<option value="rss">RSS 2.0</option>
+			<option value="atom">Atom 1.0</option>
+		</param>
 		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

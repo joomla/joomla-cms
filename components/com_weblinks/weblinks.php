@@ -32,7 +32,7 @@ $pathway->setItemName(1, JText::_('Links'));
 
 // Get some request variables
 $task = JRequest::getVar( 'task' );
-$format = JRequest::getVar( 'format', 'html' );
+$type = JRequest::getVar( 'type', 'html' );
 
 /*
  * This is our main control structure for the component
@@ -62,7 +62,7 @@ switch ($task)
 		break;
 
 	default :
-		if($format == 'rss') {
+		if($type == 'rss') {
 			WeblinksController::showCategoryRSS();
 		} else {
 			WeblinksController::showCategory();
@@ -108,9 +108,11 @@ class WeblinksController
 		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
 		
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'index.php?option=com_weblinks&amp;catid='.$catid.'&amp;Itemid='.$Itemid.'&amp;format=rss';
+		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;catid='.$catid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link, 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&type=rss', 'alternate', 'rel', $attribs);
+		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+		$document->addHeadLink($link.'&type=atom', 'alternate', 'rel', $attribs);
 
 		// Load the menu object and parameters
 		$menu = JMenu::getInstance();

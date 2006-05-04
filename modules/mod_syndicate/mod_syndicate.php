@@ -32,7 +32,7 @@ if (!defined('_SYNDICATE_MODULE'))
 		<?php
 	}
 	
-	function getSyndicateLink()
+	function getSyndicateLink(&$params)
 	{
 		global $mainframe;
 		
@@ -40,7 +40,7 @@ if (!defined('_SYNDICATE_MODULE'))
 		
 		foreach($document->_links as $link) 
 		{
-			if(strpos($link, 'application/rss+xml')) {
+			if(strpos($link, 'application/'.$params->get('format').'+xml')) {
 				preg_match("#href=\"(.*?)\"#s", $link, $matches);
 				return $matches[1]; 
 			}
@@ -51,7 +51,8 @@ if (!defined('_SYNDICATE_MODULE'))
 
 // paramters
 $params->def('text', 'Feed Entries');
+$params->def('format', 'rss');
 
-if($link = getSyndicateLink()) {
+if($link = getSyndicateLink($params)) {
 	outputSyndicateLink( $link, $params );
 }

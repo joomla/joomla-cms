@@ -28,9 +28,9 @@ class JViewFrontpage
 
 	function show(&$model, &$access, &$menu)
 	{
-		$format = JRequest::getVar( 'format', 'html' );
+		$type = JRequest::getVar( 'type', 'html' );
 
-		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.'.$format.'.php');
+		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.'.$type.'.php');
 
 		/*
 		 * Need to cache this for speed

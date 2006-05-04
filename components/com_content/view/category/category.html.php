@@ -60,11 +60,13 @@ class JViewHTMLCategory extends JView
 		// Get the sort list information
 		$lists	= $this->_buildSortLists();
 		$order	= null;
-		
+			
 		//add alternate feed link
-		$link    = $app->getBaseURL() .'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid.'&amp;format=rss';
+		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$doc->addHeadLink($link, 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&type=rss', 'alternate', 'rel', $attribs);
+		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+		$document->addHeadLink($link.'&type=atom', 'alternate', 'rel', $attribs);
 
 		/*
 		 * Create a user access object for the user

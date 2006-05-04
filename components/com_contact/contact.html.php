@@ -32,7 +32,8 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists, &$page ) {
+	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists, &$page ) 
+	{
 		global $Itemid, $hide_js;
 
 		// used to show table rows in alternating colours
@@ -97,7 +98,8 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function viewContact( &$contact, &$params, $count, &$list, &$menu_params ) {
+	function viewContact( &$contact, &$params, $count, &$list, &$menu_params ) 
+	{
 		global $mainframe, $Itemid;
 
 		$template = $mainframe->getTemplate();
@@ -210,7 +212,8 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function noContact( &$params ) {
+	function noContact( &$params ) 
+	{
 		?>
 		<br />
 		<br />
@@ -226,7 +229,8 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page ) 
+	{
 		global $Itemid;
 		?>
 		<script language="javascript" type="text/javascript">
@@ -388,7 +392,8 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function showCategories( &$params, &$categories, $catid ) {
+	function showCategories( &$params, &$categories, $catid ) 
+	{
 		global $Itemid;
 		?>
 		<ul>
@@ -444,7 +449,8 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function emailError() {
+	function emailError() 
+	{
 		global $Itemid;
 		$option = JRequest::getVar('option');
 		?>
@@ -458,7 +464,8 @@ class JContactView {
 	/**
 	* Writes Page Title
 	*/
-	function _writePageTitle( &$params, &$menuParams ) {
+	function _writePageTitle( &$params, &$menuParams ) 
+	{
 		if ( $params->get( 'page_title' )  && !$params->get( 'popup' ) ) {
 			?>
 			<tr>
@@ -473,7 +480,8 @@ class JContactView {
 	/**
 	* Writes Dropdown box to select contact
 	*/
-	function _writeSelectContact( &$contact, &$params, $count ) {
+	function _writeSelectContact( &$contact, &$params, $count ) 
+	{
 		if ( ( $count > 1 )  && !$params->get( 'popup' ) && $params->get( 'drop_down' ) ) {
 			global $Itemid;
 			?>
@@ -494,11 +502,14 @@ class JContactView {
 	/**
 	* Writes Name & Position
 	*/
-	function _writeContactName( &$contact, &$params, &$menu_params ) {
+	function _writeContactName( &$contact, &$params, &$menu_params ) 
+	{
 		global $Itemid, $hide_js;
 
-		if ( $contact->name ||  $contact->con_position ) {
-			if ( $contact->name && $params->get( 'name' ) ) {
+		if ( $contact->name ||  $contact->con_position ) 
+		{
+			if ( $contact->name && $params->get( 'name' ) ) 
+			{
 				?>
 				<tr>
 					<td width="100%" class="contentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
@@ -532,7 +543,8 @@ class JContactView {
 	/*
 	* Writes Image
 	*/
-	function _writeImage( &$contact, &$params ) {
+	function _writeImage( &$contact, &$params ) 
+	{
 		if ( $contact->image && $params->get( 'image' ) ) {
 			?>
 			<div style="float: right;">
@@ -545,7 +557,8 @@ class JContactView {
 	/**
 	* Writes Address
 	*/
-	function _writeContactAddress( &$contact, &$params ) {
+	function _writeContactAddress( &$contact, &$params ) 
+	{
 		if ( ( $params->get( 'address_check' ) > 0 ) &&  ( $contact->address || $contact->suburb  || $contact->state || $contact->country || $contact->postcode ) ) {
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -628,7 +641,8 @@ class JContactView {
 	/**
 	* Writes Contact Info
 	*/
-	function _writeContactContact( &$contact, &$params ) {
+	function _writeContactContact( &$contact, &$params ) 
+	{
 		if ( ($contact->email_to && $params->get( 'email' )) || $contact->telephone  || $contact->fax ) {
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -716,8 +730,10 @@ class JContactView {
 	/**
 	* Writes Misc Info
 	*/
-	function _writeContactMisc( &$contact, &$params ) {
-		if ( $contact->misc && $params->get( 'misc' ) ) {
+	function _writeContactMisc( &$contact, &$params ) 
+	{
+		if ( $contact->misc && $params->get( 'misc' ) ) 
+		{
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<tr>
@@ -741,7 +757,8 @@ class JContactView {
 	/**
 	* Writes Email form
 	*/
-	function _writeVcard( &$contact, &$params ) {
+	function _writeVcard( &$contact, &$params ) 
+	{
 		if ( $params->get( 'vcard' ) ) {
 			?>
 			<tr>
@@ -759,7 +776,8 @@ class JContactView {
 	/**
 	* Writes Email form
 	*/
-	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) {
+	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) 
+	{
 		global $Itemid, $mainframe;
 
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
