@@ -34,6 +34,16 @@ class JMenu extends JObject
 	var $_thismenu = array ();
 
 	/**
+	 * Current menu item
+	 */
+	var $_current_id = null;
+
+	/**
+	 * Name of the URI variable for the current menu item
+	 */
+	var $_current_uri_var = 'Itemid';
+
+	/**
 	 * Class constructor
 	 *
 	 * @param string $name The menu name to load
@@ -49,6 +59,8 @@ class JMenu extends JObject
 				$this->_thismenu[] = $item;
 			}
 		}
+
+		$this->_current_id = JRequest::getVar( $this->_current_uri_var, 0, '', 'int' );
 	}
 
 	/**
@@ -184,6 +196,64 @@ class JMenu extends JObject
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Gets the controller name associated with a menu item
+	 * @param int A menu ID
+	 * @return string The name of the controller or an empty string
+	 */
+	function getControllerName($id=0)
+	{
+		if ($id == 0) {
+			$id = $this->_current_id;
+		}
+		if (isset($this->_menuitems[$id])) {
+			return $this->_menuitems[$id]->controller_name;
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Gets the view name associated with a menu item
+	 * @param int A menu ID
+	 * @return string The name of the view or an empty string
+	 */
+	function getViewName($id=0)
+	{
+		if ($id == 0) {
+			$id = $this->_current_id;
+		}
+		if (isset($this->_menuitems[$id])) {
+			return $this->_menuitems[$id]->view_name;
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Gets the renderer (template) name associated with a menu item
+	 * @param int A menu ID
+	 * @return string The name of the renderer or an empty string
+	 */
+	function getRendererName($id=0)
+	{
+		if ($id == 0) {
+			$id = $this->_current_id;
+		}
+		if (isset($this->_menuitems[$id])) {
+			return $this->_menuitems[$id]->renderer_name;
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Get's the current menu item
+	 */
+	function &getCurrent() {
+		return $this->getItem( $this->_current_id );
 	}
 
 	function _load()
