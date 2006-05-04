@@ -405,7 +405,7 @@ class JErrorHandler
 		$html = $this->getErrorMessage($error);
 		$document->setRenderer('error', 'msg', $html);
 
-		$document->display( $template, $file );
+		$document->display( false, false, array('template' => $template, 'file' => $file));
 
 		/*
 		 * If error level is less than E_ERROR, return the object and

@@ -44,7 +44,8 @@ switch ($task) {
 		break;
 
 	default :
-		if($type == 'rss') {
+		$document =& $mainframe->getDocument();
+		if($document->getType() == 'feed') {
 			JContactController::listContactsRSS();
 		} else {
 			JContactController::listContacts();
@@ -259,7 +260,7 @@ class JContactController {
 		}
 	}
 
-	function listContactsRSS()
+	function listContactsFeed()
 	{
 		global $mainframe;
 

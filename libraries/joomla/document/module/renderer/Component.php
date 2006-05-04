@@ -84,6 +84,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		 */
 		if ( $mainframe->isAdmin() || $row->enabled || in_array($component, $enabledList) )
 		{
+			
 			// preload toolbar in case component handles it manually
 			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 
@@ -121,9 +122,11 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			} else {
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			}
+			
 
 			$contents = ob_get_contents();
 			ob_end_clean();
+			
 
 			/*
 			 * Build the component toolbar

@@ -151,6 +151,14 @@ class JDocument extends JObject
      * @access  private
      */
     var $_engine = null;
+	
+	/**
+     * The document type
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_type = null;
 
 
 	/**
@@ -223,6 +231,16 @@ class JDocument extends JObject
      */
     function getEngine() {
         return $this->_engine;
+    }
+	
+	 /**
+     * Returns the document type
+     *
+     * @access    public
+     * @return    string
+     */
+    function getType() {
+        return $this->_type;
     }
 
 	/**
@@ -492,12 +510,11 @@ class JDocument extends JObject
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
-	 * @param string 	$template	The name of the template
-	 * @param boolean 	$file		If true, compress the output using Zlib compression
-	 * @param boolean 	$compress	If true, will display information about the placeholders
+	 * @param boolean 	$cache		If true, cache the output 
+	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $template, $file, $compress = false, $params = array())
+	function display( $cache = false, $compress = false, $params = array())
 	{
 	
 	}

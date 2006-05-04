@@ -54,7 +54,7 @@ $option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
 $mainframe->_createPathWay( );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
-	$file = 'login.php';
+	$tmpl = 'login.php';
 }
 
 // set language
@@ -84,14 +84,19 @@ $mainframe->set( 'loadOverlib', false );
 
 $no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
 $format 	= JRequest::getVar( 'format', $no_html ? 'raw' : 'html',  '', 'string'  );
-$tmpl 	 	= JRequest::getVar( 'file', isset($tmpl) ? $tmpl : 'index.php',  '', 'string'  );
+$tmpl 	 	= JRequest::getVar( 'tmpl', isset($tmpl) ? $tmpl : 'index.php',  '', 'string'  );
 
 // loads template file
 $cur_template = $mainframe->getTemplate();
 
+$params = array(
+	'template' 	=> $cur_template,
+	'file'		=> $tmpl 
+);
+
 $document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-$document->display( $cur_template, $tmpl, $mainframe->getCfg('gzip') );
+$document->display(false, $mainframe->getCfg('gzip'), $params );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
 

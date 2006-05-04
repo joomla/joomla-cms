@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: index.php 1244 2005-11-29 02:39:31Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -30,6 +30,9 @@ JPluginHelper::importPlugin( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
+// create the session
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
+
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
@@ -39,9 +42,13 @@ if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 	$file = 'offline.php';
 }
 
-$document =& $mainframe->getDocument('rss');
+$params = array(
+	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
+);
+
+$document =& $mainframe->getDocument('feed');
 $document->setTitle( $mainframe->getCfg('sitename' ));
-$document->display( null, null, $mainframe->getCfg('gzip'));
+$document->display( false, $mainframe->getCfg('gzip'), $params);
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 

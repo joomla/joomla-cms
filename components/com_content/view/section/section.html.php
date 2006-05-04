@@ -60,11 +60,11 @@ class JViewHTMLSection extends JView
 		$categories	= & $this->get( 'Categories' );
 		
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id;
+		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&type=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=rss2.0', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&type=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=atom1.0', 'alternate', 'rel', $attribs);
 
 		/*
 		 * Lets set the page title

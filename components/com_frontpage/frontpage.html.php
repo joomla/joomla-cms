@@ -28,7 +28,10 @@ class JViewFrontpage
 
 	function show(&$model, &$access, &$menu)
 	{
-		$type = JRequest::getVar( 'type', 'html' );
+		global $mainframe;
+		
+		$doc  =& $mainframe->getDocument();
+		$type = $doc->getType();
 
 		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.'.$type.'.php');
 

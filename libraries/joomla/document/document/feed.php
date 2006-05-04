@@ -14,7 +14,7 @@
 jimport('bitfolge.feedcreator');
 
 /**
- * DocumentRSS class, provides an easy interface to parse and display an rss document
+ * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
@@ -22,7 +22,7 @@ jimport('bitfolge.feedcreator');
  * @since		1.5
  */
 
-class JDocumentRSS extends JDocument
+class JDocumentFeed extends JDocument
 {
 	/**
 	 * Class constructore
@@ -35,15 +35,17 @@ class JDocumentRSS extends JDocument
 	{
 		parent::__construct($attributes);
 		
-		global $mainframe;
+		//set mime type
+		$this->_mime = 'text/xml';
 		
+		//set document type
+		$this->_type = 'feed';
+		
+		global $mainframe;
 		$option = $mainframe->getOption();
 		
 		// load feed creator class
 		$this->_engine = new UniversalFeedCreator();
-
-		//set mime type
-		$this->_mime = 'text/xml';
 		
 		$this->_engine->link 			= htmlspecialchars( $mainframe->getBaseURL());
 		$this->_engine->syndicationURL 	= htmlspecialchars( $mainframe->getBaseURL());
@@ -55,16 +57,15 @@ class JDocumentRSS extends JDocument
 	 * Outputs the document to the browser.
 	 *
 	 * @access public
-	 * @param string 	$template	The name of the template
-	 * @param boolean 	$file		If true, compress the output using Zlib compression
-	 * @param boolean 	$compress	If true, will display information about the placeholders
+	  * @param boolean 	$cache		If true, cache the output 
+	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $template, $file, $compress = false, $params = array())
+	function display( $cache = false, $compress = false, $params = array())
 	{
 		global $mainframe;
 		
-		$feed       = 'RSS2.0';
+		$feed       = isset($params['format']) ? $params['format'] : 'RSS2.0';
 		$cache      = 0;
 		$cache_time = 3600;
 		$cache_path = $mainframe->getCfg('cachepath');
@@ -103,8 +104,7 @@ class JDocumentRSS extends JDocument
 	 */
 	function addItem( &$item )
 	{
-		$item->source 		= $this->_engine->link;
-		
+		$item->source = $this->_engine->link;
 		$this->_engine->addItem($item);
 	}
 }

@@ -22,6 +22,7 @@
 
 class JDocumentRAW extends JDocument
 {
+	
 	/**
 	 * Class constructore
 	 *
@@ -35,18 +36,20 @@ class JDocumentRAW extends JDocument
 
 		//set mime type
 		$this->_mime = 'text/html';
+		
+		//set document type
+		$this->_type = 'raw';
 	}
 
 	/**
 	 * Outputs the document to the browser.
 	 *
 	 * @access public
-	 * @param string 	$template	The name of the template
-	 * @param boolean 	$file		If true, compress the output using Zlib compression
-	 * @param boolean 	$compress	If true, will display information about the placeholders
+	 * @param boolean 	$cache		If true, cache the output 
+	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $template, $file, $compress = false, $params = array())
+	function display( $cache = false, $compress = false, $params = array())
 	{
 		global $mainframe;
 

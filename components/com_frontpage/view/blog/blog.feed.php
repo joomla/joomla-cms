@@ -64,7 +64,7 @@ class JViewBlog
 			$item->link 		= $link;
 			$item->description 	= $description;
 			$item->date			= $date;
-			$item->category   	= $row->category;
+			$item->category   	= 'frontpage';
 
 			// loads item info into rss array
 			$document->addItem( $item );

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: html.php 3288 2006-04-26 00:33:00Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -67,6 +67,9 @@ class JDocumentHTML extends JDocument
 	function __construct($attributes = array())
 	{
 		parent::__construct($attributes);
+		
+		//set document type
+		$this->_type = 'html';
 
 		if (isset($attributes['base'])) {
             $this->setBase($attributes['base']);
@@ -193,7 +196,7 @@ class JDocumentHTML extends JDocument
 			if( patErrorManager::isError( $module ) ) {
 				return false;
 			}
-
+			
 			$result .=  $module->render($name, $params);
 		}
 		
@@ -222,14 +225,16 @@ class JDocumentHTML extends JDocument
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
-	 * @param string 	$template	The name of the template
-	 * @param boolean 	$compress	If true, compress the output using Zlib compression
-	 * @param boolean 	$compress	If true, will display information about the placeholders
+	  * @param boolean 	$cache		If true, cache the output 
+	 * @param boolean 	$compress	If true, compress the output
+	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $template, $file, $compress = false, $params = array())
+	function display( $cache = false, $compress = false, $params = array())
 	{
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		$template  = $params['template'];
+		$file      = $params['file'];
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
