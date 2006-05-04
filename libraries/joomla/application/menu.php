@@ -253,7 +253,8 @@ class JMenu extends JObject
 	 * Get's the current menu item
 	 */
 	function &getCurrent() {
-		return $this->getItem( $this->_current_id );
+		$result = &$this->getItem( $this->_current_id );
+		return $result;
 	}
 
 	function _load()
