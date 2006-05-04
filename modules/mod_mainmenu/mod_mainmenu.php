@@ -322,12 +322,16 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 		}
 
 		$menuclass = 'mainlevel'.$params->get('class_sfx');
+		$lang = $mainframe->getLanguage();
 
 		if (count($links))
 		{
 			switch ($style)
 			{
 				case 1 :
+					if( $lang->isRTL() ) {
+						$links = array_reverse( $links );
+					}
 					echo '<ul id="'.$menuclass.'">';
 					foreach ($links as $link)
 					{

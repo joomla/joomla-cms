@@ -232,43 +232,83 @@ class JPagination extends JObject
 	 */
 	function getPagesLinks($link = null) {
 		global $mainframe;
+		
+		$lang = $mainframe->getLanguage();
 
 		// Build the page navigation list
 		$list = $this->getPagesList($link);
 		$html = null;
+		$buff1 = array();
+		$buff2 = array();
+		$buff3 = array();
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
 			if ($list['first']['start'] !== null) {
-				$html .= "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$list['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['first']['start']."; document.adminForm.submit();return false;\">".$list['first']['txt']."</a></div></div>";
+				$buff1[] = "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$list['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['first']['start']."; document.adminForm.submit();return false;\">".$list['first']['txt']."</a></div></div>";
 			} else {
-				$html .= "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$list['first']['txt']."</span></div></div>";
+				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$list['first']['txt']."</span></div></div>";
 			}
 			if ($list['prev']['start'] !== null) {
-				$html .= "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$list['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['prev']['start']."; document.adminForm.submit();return false;\">".$list['prev']['txt']."</a></div></div>";
+				$buff1[] = "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$list['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['prev']['start']."; document.adminForm.submit();return false;\">".$list['prev']['txt']."</a></div></div>";
 			} else {
-				$html .= "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$list['prev']['txt']."</span></div></div>";
+				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$list['prev']['txt']."</span></div></div>";
 			}
-			$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
+			
+			
+			$openList = "\n<div class=\"button2-left\"><div class=\"page\">";
 			$i = 1;
 			while (isset($list['pages'][$i])) {
 				if ($list['pages'][$i]['start'] !== null) {
-					$html .= "\n<a title=\"".$list['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$list['pages'][$i]['txt']."</a>";
+					$buff2[] = "\n<a title=\"".$list['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$list['pages'][$i]['txt']."</a>";
 				} else {
-					$html .= "\n<span>".$list['pages'][$i]['txt']."</span>";
+					$buff2[] = "\n<span>".$list['pages'][$i]['txt']."</span>";
 				}
 				$i++;
 			}
-			$html .= "\n</div></div>";
+			$closeList = "\n</div></div>";
+			
+			
 			if ($list['next']['start'] !== null) {
-				$html .= "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$list['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['next']['start']."; document.adminForm.submit();return false;\">".$list['next']['txt']."</a></div></div>";
+				$buff3[] = "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$list['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['next']['start']."; document.adminForm.submit();return false;\">".$list['next']['txt']."</a></div></div>";
 			} else {
-				$html .= "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$list['next']['txt']."</span></div></div>";
+				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$list['next']['txt']."</span></div></div>";
 			}
 			if ($list['end']['start'] !== null) {
-				$html .= "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$list['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['end']['start']."; document.adminForm.submit();return false;\">".$list['end']['txt']."</a></div></div>";
+				$buff3[] = "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$list['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['end']['start']."; document.adminForm.submit();return false;\">".$list['end']['txt']."</a></div></div>";
 			} else {
-				$html .= "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$list['end']['txt']."</span></div></div>";
+				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$list['end']['txt']."</span></div></div>";
+			}
+			/*
+			 * reverse output rendering for rtl display
+			 */
+			if( $lang->isRTL() ){
+				$buff1 = array_reverse( $buff1 );
+				$buff2 = array_reverse( $buff2 );
+				$buff3 = array_reverse( $buff3 );
+				foreach( $buff3 as $line ) {
+					$html .= $line;
+				}
+				$html .= $openList;
+				foreach( $buff2 as $line ) {
+					$html .= $line;
+				}
+				$html .= $closeList;
+				foreach( $buff1 as $line ) {
+					$html .= $line;
+				}
+			} else {
+				foreach( $buff1 as $line ) {
+					$html .= $line;
+				}
+				$html .= $openList;
+				foreach( $buff2 as $line ) {
+					$html .= $line;
+				}
+				$html .= $closeList;
+				foreach( $buff3 as $line ) {
+					$html .= $line;
+				}
 			}
 		} else {
 			/*
@@ -320,13 +360,22 @@ class JPagination extends JObject
 		global $mainframe;
 
 		$lang = $mainframe->getLanguage();
+		$buff = array();
 
 		$html = "<del class=\"container\"><div class=\"pagination\">\n";
-		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$this->getLimitBox()."</div>";
-		$html .= $this->getPagesLinks();
-		$html .= "\n<div class=\"limit\">".$this->getPagesCounter();
+		
+		$buff[] = "\n<div class=\"limit\">".JText::_('Display Num').$this->getLimitBox()."</div>";
+		$buff[] = $this->getPagesLinks();
+		$buff[] = "\n<div class=\"limit\">".$this->getPagesCounter()."</div>";
+		
+		if( $lang->isRTL() ){
+			$buff = array_reverse( $buff );
+		}
+		foreach( $buff as $line ) {
+			$html .= $line;
+		}
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
-		$html .= "\n</div>";
+//		$html .= "\n</div>";
 		$html .= "\n</div></del>";
 		return $html;
 	}
