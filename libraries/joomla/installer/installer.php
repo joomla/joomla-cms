@@ -709,10 +709,11 @@ class JInstaller extends JObject
 		/*
 		 * Get the name of the sql file to process
 		 */
-		 $sqlfile = '';
+		$sqlfile = '';
 		for ($i = 0; $i < $queriesElements->getLength(); $i++ ) {
-			if( $queriesElements->item($i)->getAttribute('version') == $version) {
-			$sqlfile = $queriesElements->item($i)->getText();
+			$element = $queriesElements->item($i);
+			if( $element->getAttribute('version') == $version) {
+				$sqlfile = $element->getText();
 			continue;
 			}
 		}
