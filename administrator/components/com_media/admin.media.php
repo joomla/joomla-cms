@@ -82,6 +82,11 @@ switch ($task) {
 		JMediaViews::popupUpload(COM_MEDIA_BASE);
 		break;
 
+		// popup upload interface for use by components
+	case 'popupImgManager' :
+		JMediaController::popupImgManager(COM_MEDIA_BASE);
+		break;
+
 	default :
 		JMediaController::showMedia($listdir);
 		break;
@@ -98,22 +103,20 @@ switch ($task) {
 class JMediaController
 {
 	/**
-	 * Show media manager
+	 * Image Manager Popup
 	 *
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function showMedia($listFolder)
+	function popupImgManager($listFolder)
 	{
-		/*
-		 * Get the list of folders
-		 */
+		global $mainframe;
+
+		// Get the list of folders
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
 
-		/*
-		 * Build the array of select options for the folder list
-		 */
+		// Build the array of select options for the folder list
 		$folders[] = mosHTML::makeOption("/");
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
@@ -121,16 +124,48 @@ class JMediaController
 			$folders[] 	= mosHTML::makeOption($folder);
 		}
 
-		/*
-		 * Sort the folder list array
-		 */
+		// Sort the folder list array
 		if (is_array($folders)) {
 			sort($folders);
 		}
 
-		/*
-		 * Create the drop-down folder select list
-		 */
+		// Create the drop-down folder select list
+		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listFolder);
+
+		$doc = & $mainframe->getDocument();
+		
+		$doc->addStyleSheet('components/com_media/includes/manager.css');
+		$doc->addScript('components/com_media/includes/manager.js');
+
+		JMediaViews::popupImgManager($folderSelect, null);
+	}
+
+	/**
+	 * Show media manager
+	 *
+	 * @param string $listFolder The image directory to display
+	 * @since 1.5
+	 */
+	function showMedia($listFolder)
+	{
+		// Get the list of folders
+		jimport('joomla.filesystem.folder');
+		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
+
+		// Build the array of select options for the folder list
+		$folders[] = mosHTML::makeOption("/");
+		foreach ($imgFolders as $folder) {
+			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
+			$folder 	= str_replace(DS, "/", $folder);
+			$folders[] 	= mosHTML::makeOption($folder);
+		}
+
+		// Sort the folder list array
+		if (is_array($folders)) {
+			sort($folders);
+		}
+
+		// Create the drop-down folder select list
 		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listFolder);
 
 		JMediaViews::showMedia($folderSelect, $listFolder);

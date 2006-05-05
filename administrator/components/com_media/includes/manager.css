@@ -1,0 +1,19 @@
+html, body {  background-color: ButtonFace;  color: ButtonText; font: 11px Tahoma,Verdana,sans-serif; margin: 0; padding: 0;}
+body { padding: 5px; }
+fieldset { padding: 0;}
+.title { background-color: #ddf; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px; border-bottom: 1px  solid black; letter-spacing: 2px;}
+form { padding: 0px;  margin: 0 auto; width: 550px;}
+.dirWidth { width: 70%; }
+a { padding: 5px; border: 1px solid ButtonFace;	}	
+a img	{ border: 0; }	
+a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
+.dirs {	padding: 1em; 	}
+.imageFrame { width: 525px; height: 145px; margin: 0 auto; margin-top: 1em; background-color: White;}
+.smallWidth{ width: 4em; }
+.largelWidth{ width: 22em; }
+.inputTable { margin: 1em auto; }
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+.buttons { width: 70px; text-align: center; }
+.clearboth{ clear: both; }
+#messages { position: relative; left: 175px; top: 115px; background-color: white; width:200px;  float: left; margin-top: -52px; border: 1px solid #ccc; text-align: center; padding: 15px; }
+#message  { font-size: 15px; font-weight: bold; color: #69c; }
