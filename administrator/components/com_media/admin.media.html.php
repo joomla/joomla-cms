@@ -21,8 +21,8 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Media
  * @since 1.5
  */
-class JMediaViews {
-
+class JMediaViews 
+{
 	/**
 	 * Method to show the standard Media Manager view
 	 *
@@ -30,7 +30,8 @@ class JMediaViews {
 	 * @param string $listdir The current working directory
 	 * @since 1.0
 	 */
-	function showMedia($dirPath, $listdir) {
+	function showMedia($dirPath, $listdir) 
+	{
 		JMediaViews::_loadJS();
 		?>
 		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
@@ -128,7 +129,8 @@ class JMediaViews {
 	 * @param array $images Array of images in the current working folder
 	 * @since 1.5
 	 */
-	function listMedia($listFolder, $folders, $docs, $images) {
+	function listMedia($listFolder, $folders, $docs, $images) 
+	{
 		JMediaViews :: imageStyle($listFolder);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
@@ -184,7 +186,8 @@ class JMediaViews {
 	 *
 	 * since 1.5
 	 */
-	function listError() {
+	function listError() 
+	{
 		global $BASE_DIR, $BASE_ROOT;
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
@@ -199,7 +202,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function drawNoResults() {
+	function drawNoResults() 
+	{
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -213,7 +217,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function drawTableHeader() {
+	function drawTableHeader() 
+	{
 		mosCommonHTML :: loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -228,13 +233,15 @@ class JMediaViews {
 		<?php
 	}
 
-	function drawTableFooter() {
+	function drawTableFooter() 
+	{
 		?>
 		</div>
 		<?php
 	}
 
-	function showImage($img, $file, $info, $size, $listdir) {
+	function showImage($img, $file, $info, $size, $listdir) 
+	{
 		$img_file = basename($img);
 		$img_url = COM_MEDIA_BASEURL . $listdir . '/' . rawurlencode($img_file);
 
@@ -299,7 +306,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function showDir($path, $dir, $listdir) {
+	function showDir($path, $dir, $listdir) 
+	{
 		$count = JMediaViews :: numFiles(COM_MEDIA_BASE . $listdir . $path);
 
 		$num_files = $count[0];
@@ -351,7 +359,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function showDoc($doc, $size, $listdir, $icon) {
+	function showDoc($doc, $size, $listdir, $icon) 
+	{
 		global $mainframe;
 
 		$size = JMediaViews :: parseSize($size);
@@ -379,7 +388,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function parseSize($size) {
+	function parseSize($size) 
+	{
 		if ($size < 1024) {
 			return $size . ' bytes';
 		} else
@@ -390,8 +400,8 @@ class JMediaViews {
 			}
 	}
 
-	function imageResize($width, $height, $target) {
-
+	function imageResize($width, $height, $target) 
+	{
 		//takes the larger size of the width and height and applies the
 		//formula accordingly...this is so this script will work
 		//dynamically with any size image
@@ -412,7 +422,8 @@ class JMediaViews {
 		return "width=\"$width\" height=\"$height\"";
 	}
 
-	function numFiles($dir) {
+	function numFiles($dir) 
+	{
 		$total_file = 0;
 		$total_dir = 0;
 
@@ -437,7 +448,8 @@ class JMediaViews {
 		);
 	}
 
-	function imageStyle($listdir) {
+	function imageStyle($listdir) 
+	{
 		?>
 		<script language="javascript" type="text/javascript">
 		function updateDir(){
@@ -542,9 +554,12 @@ class JMediaViews {
 		<?php
 	}
 
-	function popupImgManager($dirPath, $listFolder) {
+	function popupImgManager($dirPath, $listFolder) 
+	{
 		global $mainframe;
+		
 		JMediaViews::_loadJS();
+		
 		?>
 		<form action="index3.php" id="uploadForm" method="post" enctype="multipart/form-data">
 		<fieldset><legend>Image Manager</legend>
@@ -554,7 +569,7 @@ class JMediaViews {
 			<a onclick="javascript: goUpDir();" title="Directory Up"><img src="img/btnFolderUp.gif" height="15" width="15" alt="Directory Up" /></a>
 			<a onclick="newFolder();" title="New Folder"><img src="img/btnFolderNew.gif" height="15" width="15" alt="New Folder" /></a>
 			<div id="messages" style="display: none;"><span id="message"></span><img SRC="img/dots.gif" width="22" height="12" alt="..." /></div>
-			<iframe src="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listFolder?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" style="overflow-x: false;" scrolling="auto" frameborder="0"></iframe>
+			<iframe src="index.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" style="overflow-x: false;" scrolling="auto" frameborder="0"></iframe>
 		</div>
 		</fieldset>
 		<!-- image properties -->
@@ -672,7 +687,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function popupUpload($basePath) {
+	function popupUpload($basePath) 
+	{
 		global $mosConfig_absolute_path;
 
 		jimport('joomla.filesystem.folder');
@@ -727,7 +743,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function popupDirectory($basePath) {
+	function popupDirectory($basePath) 
+	{
 
 		$imgFiles = mosFS :: listFolders($basePath, '.', true, true);
 		$folders = array ();

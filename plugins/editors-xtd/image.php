@@ -17,33 +17,37 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onCustomEditorButton', 'pluginImageButton' );
 
 /**
-* mosimage button
+* Editor Image button
+* 
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginImageButton() {
+function pluginImageButton() 
+{
 	global $mainframe;
 
-	$option = $mainframe->getOption();
-	$doc = & $mainframe->getDocument();
-	$template = $mainframe->getTemplate();
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+	$option 	= $mainframe->getOption();
+	$doc 		= & $mainframe->getDocument();
+	$template 	= $mainframe->getTemplate();
+	
+	$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+	
 	// button is not active in specific content components
-	switch ( $option ) {
-		case 'com_sections':
-		case 'com_categories':
-		case 'com_modules':
+	switch ( $option ) 
+	{
+		case 'com_sections'   	:
+		case 'com_categories'	:
+		case 'com_modules'		:
 			$button = array( false );
 			break;
 
 		default:
-
-			
+		
 			$link = $url.'index2.php?option=com_media&amp;task=popupImgManager';
 			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
 			$doc->addScript($url.'includes/js/joomla/popup.js');
 			$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
-			$button = array( "document.popup.show('$link', 500, 400, null)", JText::_('Image'), 'image' );
+			$button = array( "document.popup.show('$link', 600, 400, null)", JText::_('Image'), 'image' );
 			break;
 	}
 
