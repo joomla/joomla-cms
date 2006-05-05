@@ -36,9 +36,14 @@ function pluginImageButton() {
 			break;
 
 		default:
+
+			
+			$link = $url.'index2.php?option=com_media&amp;task=popupImgManager';
 			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$button = array( "jInsertEditorText('{image}')", JText::_('Image'), 'image' );
+			$doc->addScript($url.'includes/js/joomla/popup.js');
+			$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
+			$button = array( "document.popup.show('$link', 500, 400, null)", JText::_('Image'), 'image' );
 			break;
 	}
 

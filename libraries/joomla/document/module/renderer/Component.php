@@ -77,7 +77,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		/*
 		 * A static array of components that are always enabled
 		 */
-		$enabledList = array('com_login', 'com_content', 'com_frontpage', 'com_user', 'com_wrapper', 'com_registration');
+		$enabledList = array('com_login', 'com_content', 'com_media', 'com_frontpage', 'com_user', 'com_wrapper', 'com_registration');
 
 		/*
 		 * Is the component enabled?
