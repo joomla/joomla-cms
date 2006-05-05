@@ -113,6 +113,13 @@ class JAuthorization extends gacl_api
 		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'super administrator' );
 		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'manager' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'manager' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'registered' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'author' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'editor' );
+		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'publisher' );
 
 		$this->_mos_add_acl( 'com_menumanager', 'manage', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_menumanager', 'manage', 'users', 'super administrator' );

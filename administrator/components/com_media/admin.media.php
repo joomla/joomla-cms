@@ -15,13 +15,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/*
- * Make sure the user is authorized to view this page
- */
+// Make sure the user is authorized to view this page
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_media', 'manage' ))
-{
-	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
+if ($mainframe->isAdmin()) {
+	if (!$user->authorize( 'com_media', 'manage' )) {
+		josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
+	}
+} else {
+	if (!$user->authorize( 'com_media', 'popup' )) {
+		josRedirect('index.php', JText::_('ALERTNOTAUTH'));
+	}
 }
 
 // Load the admin HTML view
@@ -83,8 +86,8 @@ switch ($task) {
 		break;
 
 		// popup upload interface for use by components
-	case 'popupImgManager' :
-		JMediaController::popupImgManager(COM_MEDIA_BASE);
+	case 'imgManager' :
+		JMediaController::imgManager(COM_MEDIA_BASE);
 		break;
 
 	default :
@@ -108,7 +111,7 @@ class JMediaController
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function popupImgManager($listFolder)
+	function imgManager($listFolder)
 	{
 		global $mainframe;
 
@@ -137,7 +140,7 @@ class JMediaController
 		$doc->addStyleSheet('components/com_media/includes/manager.css');
 		$doc->addScript('components/com_media/includes/manager.js');
 
-		JMediaViews::popupImgManager($folderSelect, null);
+		JMediaViews::imgManager($folderSelect, null);
 	}
 
 	/**
@@ -179,27 +182,20 @@ class JMediaController
 	 */
 	function listMedia($listFolder)
 	{
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
 		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
-		/*
-		 * Get the list of files and folders from the given folder
-		 */
+		// Get the list of files and folders from the given folder
 		jimport('joomla.filesystem.folder');
-		 $fileList 	= JFolder::files($basePath);
+		$fileList 	= JFolder::files($basePath);
 		$folderList = JFolder::folders($basePath);
 
-		/*
-		 * Iterate over the files if they exist
-		 */
-		if ($fileList !== false)
-		{
+		// Iterate over the files if they exist
+		if ($fileList !== false) {
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
@@ -210,9 +206,7 @@ class JMediaController
 						$fileDetails['size'] = filesize($basePath.DS.$file);
 						$images[$file] = $fileDetails;
 					} else {
-						/*
-						 * Not a known image file, so we will call it a document
-						 */
+						// Not a known image file so we will call it a document
 						$fileDetails['size'] = filesize($basePath.DS.$file);
 						$fileDetails['file'] = $basePath.DS.$file;
 						$docs[$file] = $fileDetails;
@@ -221,18 +215,14 @@ class JMediaController
 			}
 		}
 
-		/*
-		 * Iterate over the folders if they exist
-		 */
+		// Iterate over the folders if they exist
 		if ($folderList !== false) {
 			foreach ($folderList as $folder) {
 				$folders[$folder] = $folder;
 			}
 		}
 
-		/*
-		 * If there are no errors then lets list the media
-		 */
+		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {
 			JMediaViews::listMedia($listFolder, $folders, $docs, $images);
 		} else {
