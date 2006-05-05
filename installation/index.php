@@ -86,11 +86,12 @@ switch ($task)
 
 $params = array(
 	'template' 	=> 'template',
-	'file'		=> 'index.html'
+	'file'		=> 'index.html',
+	'directory' => JPATH_BASE
 );
 
 $document =& $mainframe->getDocument();
 $document->setRenderer('installation', '' , $result);
 $document->setTitle( 'Joomla! - Web Installer' );
-$document->display( false, false, array('directory' => JPATH_BASE));
+$document->display( false, false, $params);
 ?>
