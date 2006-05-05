@@ -42,7 +42,7 @@ function pluginImageButton()
 
 		default:
 		
-			$link = $url.'index2.php?option=com_media&amp;task=popupImgManager';
+			$link = 'index3.php?option=com_media&amp;task=popupImgManager';
 			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
 			$doc->addScript($url.'includes/js/joomla/popup.js');
