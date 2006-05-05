@@ -40,9 +40,9 @@ class JContentController extends JController
 	 */
 	function section()
 	{
-		$app  = $this->getApp();
+		$app  = $this->_app;
 		$doc  =& $app->getDocument();
-		$type = $document->getType();
+		$type = $doc->getType();
 		
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'section', 'com_content', $type );
@@ -90,9 +90,9 @@ class JContentController extends JController
 	 */
 	function category()
 	{
-		$app  = $this->getApp();
+		$app  = $this->_app;
 		$doc  =& $app->getDocument();
-		$type = $document->getType();
+		$type = $doc->getType();
 		
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'category', 'com_content', $type );
@@ -142,9 +142,9 @@ class JContentController extends JController
 	 */
 	function blogsection()
 	{
-		$app  = $this->getApp();
+		$app  = $this->_app;
 		$doc  =& $app->getDocument();
-		$type = $document->getType();
+		$type = $doc->getType();
 
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'blog', 'com_content', $type );
@@ -173,9 +173,9 @@ class JContentController extends JController
 	 */
 	function blogcategory()
 	{
-		$app  = $this->getApp();
+		$app  = $this->_app;
 		$doc  =& $app->getDocument();
-		$type = $document->getType();
+		$type = $doc->getType();
 
 		// Dirty trick for now until we get the menus ready for us
 		$this->setViewName( 'blog', 'com_content', $type );

@@ -54,11 +54,11 @@ class JViewHTMLBlog extends JView
 		$option = JRequest::getVar('option');
 		
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
+		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&format=rss2.0', 'alternate', 'rel', $attribs);
+		$doc->addHeadLink($link.'&format=rss2.0', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&format=atom1.0', 'alternate', 'rel', $attribs);
+		$doc->addHeadLink($link.'&format=atom1.0', 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access = new stdClass();
@@ -94,10 +94,10 @@ class JViewHTMLBlog extends JView
 
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs = & $app->getPathWay();
-		$document 	 = & $app->getDocument();
+		$doc 	 = & $app->getDocument();
 
 		if ($menu->name) {
-			$document->setTitle($menu->name);
+			$doc->setTitle($menu->name);
 			$breadcrumbs->addItem($menu->name, '');
 		} else {
 			$breadcrumbs->addItem($rows[0]->section, '');

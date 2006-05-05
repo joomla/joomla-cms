@@ -958,7 +958,7 @@ class FeedDate {
 	 */
 	function rfc822() {
 		//return gmdate("r",$this->unix);
-		$date = gmdate("D, d M Y H:i:s", $this->unix);
+		$date = @gmdate("D, d M Y H:i:s", $this->unix);
 		if (TIME_ZONE!="") $date .= " ".str_replace(":","",TIME_ZONE);
 		return $date;
 	}
@@ -969,7 +969,7 @@ class FeedDate {
 	 * @return a date in ISO 8601 (RFC 3339) format
 	 */
 	function iso8601() {
-		$date = gmdate("Y-m-d\TH:i:sO",$this->unix);
+		$date = @gmdate("Y-m-d\TH:i:sO",$this->unix);
 		$date = substr($date,0,22) . ':' . substr($date,-2);
 		if (TIME_ZONE!="") $date = str_replace("+00:00",TIME_ZONE,$date);
 		return $date;

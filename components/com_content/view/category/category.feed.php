@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.5
  */
-class JViewRSSCategory extends JView
+class JViewFeedCategory extends JView
 {
 	/**
 	 * Name of the view.
@@ -40,9 +40,8 @@ class JViewRSSCategory extends JView
 	 */
 	function display()
 	{
-		global $mainframe;
-		
-		$document =& $mainframe->getDocument();
+		$app =& $this->get('Application');
+		$doc =& $app->getDocument();
 
 		// Initialize some variables
 		$menu	= & $this->get( 'Menu' );
@@ -65,7 +64,7 @@ class JViewRSSCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$itemid = $mainframe->getItemid( $row->id );
+			$itemid = $app->getItemid( $row->id );
 			if ($itemid) {
 				$_Itemid = '&Itemid='. $itemid;
 			}
@@ -86,7 +85,7 @@ class JViewRSSCategory extends JView
 			$item->category   	= $category->title;
 
 			// loads item info into rss array
-			$document->addItem( $item );
+			$doc->addItem( $item );
 		}
 	}
 }
