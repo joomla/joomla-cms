@@ -563,7 +563,7 @@ class JInstaller extends JObject
 			{
 				$path		= $file->getAttribute('tag').DS.$file->getText();
 				$langDir	= $installTo.dirname($path);
-				if (!JFolder::exits($langDir)){
+				if (!JFolder::exists($langDir)){
 					continue;
 				}
 			} else
