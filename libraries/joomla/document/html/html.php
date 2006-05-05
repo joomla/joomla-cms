@@ -58,7 +58,7 @@ class JDocumentHTML extends JDocument
 	var $_renderers = array();
 
 	/**
-	 * Class constructore
+	 * Class constructor
 	 *
 	 * @access protected
 	 * @param	string	$type 		(either html or tex)
@@ -81,9 +81,8 @@ class JDocumentHTML extends JDocument
 		$this->_engine->setNamespace( 'jdoc' );
 		
 			//add module directories
-		$this->_engine->addModuleDir('Function'    , dirname(__FILE__). '/../module'. DS .'function');
-		$this->_engine->addModuleDir('OutputFilter', dirname(__FILE__). '/../module'. DS .'filter'  );
-		$this->_engine->addModuleDir('Renderer'    , dirname(__FILE__). '/../module'. DS .'renderer');
+		$this->_engine->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
+		$this->_engine->addModuleDir('OutputFilter', dirname(__FILE__). DS .'filter'  );
 
 		//set mime type
 		$this->_mime = 'text/html';
@@ -185,26 +184,44 @@ class JDocumentHTML extends JDocument
 	 */
 	function getRenderer($type, $name, $params = array())
 	{
-		jimport('joomla.document.module.renderer');
-
 		$result = $this->_engine->getVar('document', $type.'_'.$name);;
 		
-		if($this->_engine->moduleExists('Renderer', ucfirst($type))) 
-		{
-			$module =& $this->_engine->loadModule( 'Renderer', ucfirst($type));
-
-			if( patErrorManager::isError( $module ) ) {
-				return false;
-			}
-			
-			$result .=  $module->render($name, $params);
-		}
+		$renderer =& $this->loadRenderer( $type );	
+		$result .= $renderer->render($name, $params);
 		
 		if(!$result) {
 			$result = " ";
 		}
 
 		return $result;
+	}
+	
+	/**
+	* Loads a renderer
+	*
+	* @access	public
+	* @param	string	elementType
+	* @return	object
+	* @since 1.5
+	*/
+	function &loadRenderer( $type ) 
+	{
+		if( !class_exists( 'JDocumentRenderer' ) ) {
+			jimport('joomla.document.renderer');
+		}
+
+		$class	=	'JDocumentRenderer_' . $type;
+		if( !class_exists( $class ) ) {
+			jimport('document.'.$this->_type.'.renderer.'.$type);
+		}
+
+		if( !class_exists( $class ) ) {
+			return false;
+		}
+
+		$instance = new $class($this);
+
+		return $instance;
 	}
 	
 	/**

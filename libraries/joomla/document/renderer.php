@@ -1,6 +1,6 @@
 <?PHP
 /**
-* @version $Id: modules.php 1593 2005-12-31 03:10:07Z Jinx $
+* @version $Id: renderer.php 3222 2006-04-24 01:49:01Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -12,38 +12,40 @@
 */
 
 /**
- * JDocument Modules renderer
+ * Abstract class for a renderer
  *
+ * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class patTemplate_Renderer_Modules extends patTemplate_Renderer
+class JDocumentRenderer extends JObject
 {
-   /**
-	* name of the renderer
-	* @access	private
-	* @var		string
+ 	/**
+	* reference to the JDocument object that instantiated the renderer
+	*
+	* @access	protected
+	* @var	object
 	*/
-	var $_name	=	'Modules';
+	var	$_doc;
 
-   /**
-	 * Renders multiple modules script and returns the results as a string
+	function __construct(&$doc) {
+		$this->_doc = $doc;
+	}
+	
+    /**
+	 * Renders a script and returns the results as a string
 	 *
+	 * @abstract
 	 * @access public
-	 * @param string 	$name		The position of the modules to render
-	 * @param array 	$params		Associative array of values
+	 * @param string 	$name		The name of the element to render
+	 * @param array 	$array		Array of values
 	 * @return string	The output of the script
 	 */
-	function render( $position, $params = array() )
+	function render( $name, $params = array() )
 	{
-		$contents = '';
-		foreach (JModuleHelper::getModules($position) as $mod)  {
-			$module =& $this->_tmpl->loadModule( 'Renderer', 'Module');
-			$contents .= $module->render($mod, $params);
-		}
-		return $contents;
+
 	}
 }
 ?>

@@ -166,7 +166,6 @@ class JDocument extends JObject
 	*
 	* @access protected
 	* @param	array	$attributes Associative array of attributes
-	* @see JDocument
 	*/
 	function __construct( $attributes = array())
 	{
@@ -200,9 +199,9 @@ class JDocument extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $document = &JDocument::getInstance();</pre>
 	 *
-	 * @param type $type The document type to instantiate
 	 * @access public
-	 * @return jdocument  The document object.
+	 * @param type $type The document type to instantiate
+	 * @return object  The document object.
 	 */
 	function &getInstance($type = 'html', $attributes = array())
 	{
@@ -215,7 +214,7 @@ class JDocument extends JObject
 		$signature = serialize(array($type, $attributes));
 
 		if (empty($instances[$signature])) {
-			jimport('joomla.document.document.'.$type);
+			jimport('joomla.document.'.$type.'.'.$type);
 			$adapter = 'JDocument'.$type;
 			$instances[$signature] = new $adapter($attributes);
 		}

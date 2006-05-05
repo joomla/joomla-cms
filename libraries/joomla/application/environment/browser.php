@@ -20,7 +20,7 @@ jimport( 'joomla.common.base.object' );
  * Browser identification is performed by examining the HTTP_USER_AGENT
  * environment variable provided by the web server.
  *
- * This module has many influences from the lib/Browser.php code in
+ * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde.
  *
  * @author  Chuck Hagenbuch <chuck@horde.org>

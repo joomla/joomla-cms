@@ -110,9 +110,9 @@ class WeblinksController
 		//add alternate feed link
 		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;catid='.$catid.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&format=rss2.0', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&format=atom1.0', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
 		// Load the menu object and parameters
 		$menu = JMenu::getInstance();
@@ -321,7 +321,7 @@ class WeblinksController
 			$date = ( $row->date ? date( 'r', $row->date ) : '' );
 
 			// load individual item creator class
-			$item = new FeedItem();
+			$item = new JFeedItem();
 			$item->title 		= $title;
 			$item->link 		= $link;
 			$item->description 	= $description;

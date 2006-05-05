@@ -45,9 +45,9 @@ class JViewBlog
 		//add alternate feed link
 		$link    = $mainframe->getBaseURL() .'feed.php?option=com_frontpage&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&format=rss2.0', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&format=atom1.0', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
 		// parameters
 		$params = & $model->getMenuParams();

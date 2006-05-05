@@ -19,7 +19,7 @@
  * @subpackage	Document
  * @since		1.5
  */
-class patTemplate_Renderer_Head extends patTemplate_Renderer
+class JDocumentRenderer_Head extends JDocumentRenderer
 {
    /**
 	* name of the renderer

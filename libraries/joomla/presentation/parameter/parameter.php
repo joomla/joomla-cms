@@ -97,7 +97,8 @@ class JParameter extends JRegistry
 	 * @param mixed The default value if not found
 	 * @return string
 	 */
-	function get($key, $default = '') {
+	function get($key, $default = '') 
+	{
 		$value = $this->getValue('parameter.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
 		return $result;
@@ -247,7 +248,8 @@ class JParameter extends JRegistry
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadElement( $type, $new = false ) {
+	function &loadElement( $type, $new = false ) 
+	{
 		$signature = md5( $type  );
 
 		if( isset( $this->_elements[$signature] ) && $new === false ) {
@@ -255,10 +257,7 @@ class JParameter extends JRegistry
 		}
 
 		if( !class_exists( 'JElement' ) ) {
-			if( !jimport('joomla.presentation.parameter.element') ) {
-				//return	JError::raiseError( 'SOME_ERROR_CODE', 'Could not load parameter base class.' );
-				return false;
-			}
+			jimport('joomla.presentation.parameter.element'); 
 		}
 
 		$elementClass	=	'JElement_' . $type;
@@ -281,13 +280,11 @@ class JParameter extends JRegistry
 			}
 
 			if( !$found ) {
-				//return	JError::raiseError( 'SOME_ERROR_CODE', "Could not load module $parameterClass ($parameterFile)." );
 				return false;
 			}
 		}
 
 		if( !class_exists( $elementClass ) ) {
-			//return	JError::raiseError( 'SOME_ERROR_CODE', "Module file $parameterFile does not contain class $paramaterClass." );
 			return false;
 		}
 
@@ -310,7 +307,8 @@ class JParameter extends JRegistry
 	* @param	string|array	directory or directories to search.
 	* @since 1.5
 	*/
-	function addParameterDir( $dir ) {
+	function addParameterDir( $dir ) 
+	{
 		if( is_array( $dir ) ) {
 			$this->_elementDirs = array_merge( $this->_elementDirs, $dir );
 		} else {

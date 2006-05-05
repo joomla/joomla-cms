@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('bitfolge.feedcreator');
+jimport('joomla.feed.feed');
 
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
@@ -25,7 +25,7 @@ jimport('bitfolge.feedcreator');
 class JDocumentFeed extends JDocument
 {
 	/**
-	 * Class constructore
+	 * Class constructor
 	 *
 	 * @access protected
 	 * @param	string	$type 		(either html or tex)
@@ -45,7 +45,7 @@ class JDocumentFeed extends JDocument
 		$option = $mainframe->getOption();
 		
 		// load feed creator class
-		$this->_engine = new UniversalFeedCreator();
+		$this->_engine = new JFeed();
 		
 		$this->_engine->link 			= htmlspecialchars( $mainframe->getBaseURL());
 		$this->_engine->syndicationURL 	= htmlspecialchars( $mainframe->getBaseURL());
@@ -65,19 +65,21 @@ class JDocumentFeed extends JDocument
 	{
 		global $mainframe;
 		
-		$feed       = isset($params['format']) ? $params['format'] : 'RSS2.0';
+		$format     = isset($params['format']) ? $params['format'] : 'RSS';
 		$cache      = 0;
 		$cache_time = 3600;
 		$cache_path = $mainframe->getCfg('cachepath');
 		$option 	= $mainframe->getOption();
 		
 			// set filename for rss feeds
-		$file = strtolower( str_replace( '.', '', $feed ) );
+		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
+		
+		$renderer = JFeedRenderer::getInstance($format);
 		
 		// loads cache file
 		if ( $cache ) {
-			$this->_engine->useCached( $feed, $file, $cache_time );
+			$renderer->useCached( $feed, $file, $cache_time );
 		}
 
 		$path 	= JApplicationHelper::getPath( 'front', $option );
@@ -92,8 +94,16 @@ class JDocumentFeed extends JDocument
 		$this->_engine->title 		= $this->getTitle();
 		$this->_engine->description = $this->getDescription();
 		
+		//output
+		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
+		header( 'Pragma: no-cache' );										// HTTP/1.0
+		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
+    
 		// display the feed
-		$this->_engine->saveFeed( $feed, $file);
+		echo $renderer->render( $this->_engine );
 	}
 	
 	/**

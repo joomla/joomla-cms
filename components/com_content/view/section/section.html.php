@@ -62,9 +62,9 @@ class JViewHTMLSection extends JView
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$doc->addHeadLink($link.'&format=rss2.0', 'alternate', 'rel', $attribs);
+		$doc->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$doc->addHeadLink($link.'&format=atom1.0', 'alternate', 'rel', $attribs);
+		$doc->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
 		/*
 		 * Lets set the page title

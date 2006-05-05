@@ -12,14 +12,14 @@
 */
 
 /**
- * JDocument Component renderer
+ * Component renderer
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class patTemplate_Renderer_Component extends patTemplate_Renderer
+class JDocumentRenderer_Component extends JDocumentRenderer
 {
    /**
 	* name of the renderer

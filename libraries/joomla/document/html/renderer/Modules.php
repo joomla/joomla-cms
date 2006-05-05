@@ -1,6 +1,6 @@
 <?PHP
 /**
-* @version $Id$
+* @version $Id: modules.php 1593 2005-12-31 03:10:07Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -12,48 +12,38 @@
 */
 
 /**
- * Base class for JDocument Renderers
+ * JDocument Modules renderer
  *
- * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class patTemplate_Renderer extends patTemplate_Module
+class JDocumentRenderer_Modules extends JDocumentRenderer
 {
- 	/**
-	* reference to the JDocument object that instantiated the module
-	*
-	* @access	protected
-	* @var	object
+   /**
+	* name of the renderer
+	* @access	private
+	* @var		string
 	*/
-	var	$_tmpl;
+	var $_name	=	'Modules';
 
-
-    /**
-	 * Renders a script and returns the results as a string
+   /**
+	 * Renders multiple modules script and returns the results as a string
 	 *
-	 * @abstract
 	 * @access public
-	 * @param string 	$name		The name of the element to render
-	 * @param array 	$array		Array of values
+	 * @param string 	$name		The position of the modules to render
+	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $name, $params = array() )
+	function render( $position, $params = array() )
 	{
-
-	}
-
-	/**
-	* set a reference to the JDocument object that instantiated the function
-	*
-	* @access	public
-	* @param	object		JDocument object
-	*/
-	function setTemplateReference( &$tmpl )
-	{
-		$this->_tmpl = &$tmpl;
+		$contents = '';
+		foreach (JModuleHelper::getModules($position) as $mod)  {
+			$module =& $this->_tmpl->loadModule( 'Renderer', 'Module');
+			$contents .= $module->render($mod, $params);
+		}
+		return $contents;
 	}
 }
 ?>

@@ -73,7 +73,7 @@ class JViewFeedBlog extends JView
 			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
 
 			// load individual item creator class
-			$item = new FeedItem();
+			$item = new JFeedItem();
 			$item->title 		= $title;
 			$item->link 		= $link;
 			$item->description 	= $description;

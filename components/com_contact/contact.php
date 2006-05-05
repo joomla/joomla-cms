@@ -313,7 +313,7 @@ class JContactController {
 			$date = ( $row->date ? date( 'r', $row->date ) : '' );
 
 			// load individual item creator class
-			$item = new FeedItem();
+			$item = new JFeedItem();
 			$item->title 		= $title;
 			$item->link 		= $link;
 			$item->description 	= $description;
