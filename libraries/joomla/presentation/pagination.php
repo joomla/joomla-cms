@@ -280,7 +280,7 @@ class JPagination extends JObject
 				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$list['end']['txt']."</span></div></div>";
 			}
 			/*
-			 * reverse output rendering for rtl display
+			 * reverse output rendering for rtl display else normal rendering sequence
 			 */
 			if( $lang->isRTL() ){
 				$buff1 = array_reverse( $buff1 );
