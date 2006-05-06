@@ -151,8 +151,9 @@ class JDocumentHTML extends JDocument
 	{
 		$result = $this->_engine->getVar('document', $type.'_'.$name);;
 		
-		$renderer =& $this->loadRenderer( $type );	
-		$result .= $renderer->render($name, $params);
+		if($renderer =& $this->loadRenderer( $type )) {
+			$result .= $renderer->render($name, $params);
+		}
 		
 		if(!$result) {
 			$result = " ";

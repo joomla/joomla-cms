@@ -91,7 +91,7 @@ class JLoader
 
 	   if(!isset($paths[$file])) {
             require($file);
-            $paths[$file] = true;
+			$paths[$file] = true;
 	   }
    }
 }

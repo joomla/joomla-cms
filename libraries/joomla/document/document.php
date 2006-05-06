@@ -574,19 +574,24 @@ class JDocument extends JObject
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadRenderer( $type ) 
+	function loadRenderer( $type ) 
 	{
 		if( !class_exists( 'JDocumentRenderer' ) ) {
 			jimport('joomla.document.renderer');
 		}
 
 		$class	=	'JDocumentRenderer_' . $type;
+		
 		if( !class_exists( $class ) ) {
+			if(!file_exists(dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php')) {
+				return null;
+			}
+			//import renderer
 			jimport('joomla.document.'.$this->_type.'.renderer.'.$type);
 		}
-
+	
 		if( !class_exists( $class ) ) {
-			return false;
+			return null;
 		}
 
 		$instance = new $class($this);
