@@ -490,9 +490,13 @@ class JDatabase extends JObject
 	 * @return string A standised error message
 	 */
 	function stderr( $showSQL = false ) {
-		return "DB function failed with error number $this->_errorNum"
-		."<br /><font color=\"red\">$this->_errorMsg</font>"
-		.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
+		if ( $this->_errorNum != 0 ) {
+			return "DB function failed with error number $this->_errorNum"
+			."<br /><font color=\"red\">$this->_errorMsg</font>"
+			.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
+		} else {
+			return "DB function reports no errors";
+		}
 	}
 
 	/**

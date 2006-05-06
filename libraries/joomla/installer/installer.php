@@ -719,9 +719,23 @@ class JInstaller extends JObject
 		}
 
 		/*
+		 * Check that sql files exists before reading. Otherwise raise error for rollback
+		 */
+		if ( !file_exists( $this->_extensionAdminDir.$sqlfile ) ) {
+			return false;
+		}
+		$buffer = file_get_contents($this->_extensionAdminDir.$sqlfile);
+		
+		/*
+		 * Graceful exit and rollback if read not successful
+		 */
+		if ( $buffer === false ) {
+			return false;
+		}
+		
+		/*
 		 * Create an array of queries from the sql file
 		 */
-		$buffer = file_get_contents($this->_extensionAdminDir.$sqlfile);
 		$queries = JInstallerHelper::splitSql($buffer);
 
 		if (count($queries) == 0)

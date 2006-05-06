@@ -165,7 +165,7 @@ class JInstallerComponent extends JInstaller
 				$utfresult = $this->_parseQueries("install/sql/file", ($db->hasUTF() ? '4.1.2' : '3.2.0'));
 				if ($utfresult === false)
 				{
-					JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('SQL Error')." ".$db->stderr(true));
+					JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 
 					// Install failed, rollback changes
 					$this->_rollback();
@@ -499,7 +499,7 @@ class JInstallerComponent extends JInstaller
 				$utfresult = $this->_parseQueries("uninstall/sql/file", ($db->hasUTF() ? '4.1.2' : '3.2.0'));
 				if ($utfresult === false)
 				{
-					JError::raiseWarning(1, 'JInstallerComponent::uninstall: '.JText::_('SQL Error')." ".$db->stderr(true));
+					JError::raiseWarning(1, 'JInstallerComponent::uninstall: '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 					$retval = false;
 				}
 			}
