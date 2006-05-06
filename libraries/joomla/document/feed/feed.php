@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.feed.feed');
-
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
@@ -24,6 +22,177 @@ jimport('joomla.feed.feed');
 
 class JDocumentFeed extends JDocument
 {
+	/**
+	 * Syndication URL channel element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $syndicationURL = "";
+	 
+	 /**
+	 * Image channel element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $image = "";
+	 
+	/**
+	 * Copyright channel elememnt 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $copyright = "";
+	 
+	 /**
+	 * Language channel elememnt 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $language = "";
+	 
+	 /**
+	 * Published date channel element
+	 * 
+	 *  optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $pubDate = "";
+	 
+	 /**
+	 * Lastbuild date channel element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $lastBuildDate = "";
+	 
+	 /**
+	 * Editor channel element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $editor = "";
+	 
+	 /**
+     * Generator channel element
+     *
+     * @var       string
+     * @access    public
+     */
+	 var $generator = 'Joomla! 1.5';
+	 
+	  /**
+     * Docs channel element
+     *
+     * @var       string
+     * @access    public
+     */
+	 var $docs = "";
+	 
+	 /**
+	 * Editor email channel element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $editorEmail = "";
+	 
+	/**
+	 * Webmaster email channel element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $webmaster = "";
+	 
+	/**
+	 * Category channel element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $category = "";
+	 
+	/**
+	 * TTL feed attribute (optional)
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $ttl = "";
+	 
+	/**
+	 * Rating channel element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $rating = "";
+	 
+	/**
+	 * Skiphours channel element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $skipHours = "";
+	 
+	/**
+	 * Skipdays channel element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $skipDays = "";
+	 
+	/**
+	 * The url of the external xsl stylesheet used to format the naked rss feed.
+	 * Ignored in the output when empty.
+	 * 
+	 * @var		string
+	 * @access	public 
+	 */
+	 var $xslStyleSheet = "";
+
+	/**
+	 * The feed items collection
+	 * 
+	 * @var array
+	 * @access public
+	 */
+	var $items = Array();
+	
 	/**
 	 * Class constructor
 	 *
@@ -117,5 +286,263 @@ class JDocumentFeed extends JDocument
 		$item->source = $this->_engine->link;
 		$this->_engine->addItem($item);
 	}
+}
+
+/**
+ * JFeedItem is an internal class that stores feed item information
+ * 
+ * @author	Johan Janssens <johan.janssens@joomla.org>
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Document
+ * @since	1.5
+ */
+class JFeedItem extends JObject
+{
+	/**
+	 * Title item element 
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	var $title;
+	
+	/**
+	 * Link item element
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	  var $link;
+	
+	/**
+	 * Description item element
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $description;
+	 
+	/**
+	 * Author item element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $author;
+	 
+	 /**
+	 * Author email element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $authorEmail;
+	 
+  
+	/**
+	 * Category element
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $category;
+	 
+	 /**
+	 * Comments element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $comments;
+	 
+	 /**
+	 * Enclosure element
+	 *
+	 * @var		object
+	 * @access	public 	
+	 */
+	 var $enclosure =  null;
+	 
+	 /**
+	 * Guid element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $guid;
+	 
+	/**
+	 * Published date 
+	 * 
+	 * optional
+	 * 
+	 *  May be in one of the following formats:
+	 *
+	 *	RFC 822:
+	 *	"Mon, 20 Jan 03 18:05:41 +0400"
+	 *	"20 Jan 03 18:05:41 +0000"
+	 *
+	 *	ISO 8601:
+	 *	"2003-01-20T18:05:41+04:00"
+	 *
+	 *	Unix:
+	 *	1043082341
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $pubDate;
+	 
+	 /**
+	 * Source element 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $source;
+	
+
+	 /**
+	 * Set the JFeedEnclosure for this item
+	 *
+	 * @access public
+	 * @param object $enclosure The JFeedItem to add to the feed.
+	 */
+	 function setEnclosure($enclosure)	{
+		 $this->enclosure = $enclosure;
+	 }
+}
+
+/**
+ * JFeedEnclosure is an internal class that stores feed enclosure information
+ *
+ * @author	Johan Janssens <johan.janssens@joomla.org>
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Document
+ * @since	1.5
+ */
+class JFeedEnclosure extends JObject
+{
+	/**
+	 * URL enclosure element
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $url = "";
+	 
+	/**
+	 * Lenght enclosure element
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $length = "";
+	 
+	 /**
+	 * Type enclosure element
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $type = "";
+}
+
+/**
+ * JFeedImage is an internal class that stores feed image information
+ *
+ * @author	Johan Janssens <johan.janssens@joomla.org>
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Document
+ * @since	1.5
+ */
+class JFeedImage extends JObject
+{
+	/**
+	 * Title image attribute 
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $title = "";
+	 
+	 /**
+	 * URL image attribute 
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	var $url = "";
+	
+	/**
+	 * Link image attribute 
+	 * 
+	 * required
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $link = "";
+
+	 /**
+	 * witdh image attribute 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $width;
+	 
+	 /**
+	 * Title feed attribute 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $height;
+	 
+	 /**
+	 * Title feed attribute 
+	 * 
+	 * optional
+	 * 
+	 * @var		string
+	 * @access	public 	
+	 */
+	 var $description;
 }
 ?>

@@ -252,17 +252,19 @@ class JSite extends JApplication
 
 		$doc  =& parent::getDocument($type);
 		$user =& $this->getUser();
+		
+		//set document description
+		$doc->setDescription( $this->getCfg('MetaDesc') );
+		
+		//set document link
+		$doc->setLink( $this->getBaseURL() );
 
 		switch($type)
 		{
 			case 'html' :
 			{
 				//set metadata
-				$doc->setDescription( $this->getCfg('MetaDesc') );
 				$doc->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
-
-				//set base URL
-				$doc->setBase( $this->getBaseURL() );
 
 				if ( $user->get('id') ) {
 					$doc->addScript( 'includes/js/joomla/common.js');

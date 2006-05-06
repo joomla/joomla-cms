@@ -22,13 +22,6 @@
 class JDocumentRenderer_Component extends JDocumentRenderer
 {
    /**
-	* name of the renderer
-	* @access	private
-	* @var		string
-	*/
-	var $_name	=	'Component';
-
-   /**
 	 * Renders a component script and returns the results as a string
 	 *
 	 * @access public

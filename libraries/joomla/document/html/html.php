@@ -25,14 +25,6 @@ jimport('joomla.application.extension.module');
 
 class JDocumentHTML extends JDocument
 {
-	/**
-     * Contains the base url
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_base = '';
-
 	 /**
      * Array of Header <link> tags
      *
@@ -70,11 +62,7 @@ class JDocumentHTML extends JDocument
 		
 		//set document type
 		$this->_type = 'html';
-
-		if (isset($attributes['base'])) {
-            $this->setBase($attributes['base']);
-        }
-		
+	
 		$this->_engine =& JTemplate::getInstance();
 		
 		//set the namespace
@@ -150,29 +138,6 @@ class JDocumentHTML extends JDocument
 		$this->_custom[] = trim( $html );
 	}
 
-	 /**
-     * Sets the document base tag
-     *
-     * @param   string   $url  The url used in the base tag
-     * @access  public
-     * @return  void
-     */
-    function setBase($url)
-	{
-        $this->_base = $url;
-    }
-
-	/**
-     * Returns the document base url
-     *
-     * @access public
-     * @return string
-     */
-    function getBase()
-	{
-        return $this->_base;
-    }
-
 	/**
 	 * Get a renderer, executed the renderer and returns the result
 	 *
@@ -194,34 +159,6 @@ class JDocumentHTML extends JDocument
 		}
 
 		return $result;
-	}
-	
-	/**
-	* Loads a renderer
-	*
-	* @access	public
-	* @param	string	elementType
-	* @return	object
-	* @since 1.5
-	*/
-	function &loadRenderer( $type ) 
-	{
-		if( !class_exists( 'JDocumentRenderer' ) ) {
-			jimport('joomla.document.renderer');
-		}
-
-		$class	=	'JDocumentRenderer_' . $type;
-		if( !class_exists( $class ) ) {
-			jimport('document.'.$this->_type.'.renderer.'.$type);
-		}
-
-		if( !class_exists( $class ) ) {
-			return false;
-		}
-
-		$instance = new $class($this);
-
-		return $instance;
 	}
 	
 	/**

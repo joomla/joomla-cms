@@ -22,13 +22,6 @@
 class JDocumentRenderer_Modules extends JDocumentRenderer
 {
    /**
-	* name of the renderer
-	* @access	private
-	* @var		string
-	*/
-	var $_name	=	'Modules';
-
-   /**
 	 * Renders multiple modules script and returns the results as a string
 	 *
 	 * @access public
@@ -40,8 +33,8 @@ class JDocumentRenderer_Modules extends JDocumentRenderer
 	{
 		$contents = '';
 		foreach (JModuleHelper::getModules($position) as $mod)  {
-			$module =& $this->_tmpl->loadModule( 'Renderer', 'Module');
-			$contents .= $module->render($mod, $params);
+			$renderer =& $this->_doc->loadRenderer( 'module');
+			$contents .= $renderer->render($mod, $params);
 		}
 		return $contents;
 	}

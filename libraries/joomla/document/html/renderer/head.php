@@ -22,13 +22,6 @@
 class JDocumentRenderer_Head extends JDocumentRenderer
 {
    /**
-	* name of the renderer
-	* @access	private
-	* @var		string
-	*/
-	var $_name	=	'Head';
-
-   /**
 	 * Renders the document head and returns the results as a string
 	 *
 	 * @access public
@@ -73,7 +66,7 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 		$tagEnd = ' />';
 
 		$strHtml  = $tab . '<title>' . $document->getTitle() . '</title>' . $lnEnd;
-		$strHtml .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
+		$strHtml .= $tab . '<base href="' . $document->getLink() . '" />' . $lnEnd;
 		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;
 
         // Generate META tags

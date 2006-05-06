@@ -135,6 +135,14 @@ class JDocument extends JObject
      * @access  private
      */
     var $_description = '';
+	
+	/**
+     * Document base URL
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_link = '';
 
 	/**
      * Array of meta tags
@@ -190,6 +198,10 @@ class JDocument extends JObject
         if (isset($attributes['tab'])) {
             $this->setTab($attributes['tab']);
         }
+		
+		if (isset($attributes['link'])) {
+            $this->setLink($attributes['link']);
+        }
 	}
 
 	/**
@@ -215,8 +227,8 @@ class JDocument extends JObject
 
 		if (empty($instances[$signature])) {
 			jimport('joomla.document.'.$type.'.'.$type);
-			$adapter = 'JDocument'.$type;
-			$instances[$signature] = new $adapter($attributes);
+			$class = 'JDocument'.$type;
+			$instances[$signature] = new $class($attributes);
 		}
 
 		return $instances[$signature];
@@ -300,8 +312,7 @@ class JDocument extends JObject
      * @param    string  $type      Scripting mime (defaults to 'text/javascript')
      * @return   void
      */
-    function addScriptDeclaration($content, $type = 'text/javascript')
-    {
+    function addScriptDeclaration($content, $type = 'text/javascript') {
         $this->_script[][strtolower($type)] =& $content;
     }
 
@@ -432,6 +443,27 @@ class JDocument extends JObject
     function getDescription() {
         return $this->_description;
     }
+	
+	 /**
+     * Sets the document link
+     *
+     * @param   string   $url  A url
+     * @access  public
+     * @return  void
+     */
+    function setLink($url) {
+        $this->_link = $url;
+    }
+
+	/**
+     * Returns the document base url
+     *
+     * @access public
+     * @return string
+     */
+    function getLink() {
+        return $this->_link;
+    }
 
 	 /**
      * Sets the document MIME encoding that is sent to the browser.
@@ -504,9 +536,37 @@ class JDocument extends JObject
     function _getTab() {
         return $this->_tab;
     }
+	
+	/**
+	* Load a renderer
+	*
+	* @access	public
+	* @param	string	The renderer type
+	* @return	object
+	* @since 1.5
+	*/
+	function &loadRenderer( $type ) 
+	{
+		if( !class_exists( 'JDocumentRenderer' ) ) {
+			jimport('joomla.document.renderer');
+		}
+
+		$class	=	'JDocumentRenderer_' . $type;
+		if( !class_exists( $class ) ) {
+			jimport('joomla.document.'.$this->_type.'.renderer.'.$type);
+		}
+
+		if( !class_exists( $class ) ) {
+			return false;
+		}
+
+		$instance = new $class($this);
+
+		return $instance;
+	}
 
 	/**
-	 * Outputs the template to the browser.
+	 * Outputs the document to the client
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output 

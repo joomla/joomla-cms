@@ -22,13 +22,6 @@
 class JDocumentRenderer_Module extends JDocumentRenderer
 {
    /**
-	* name of the renderer
-	* @access	private
-	* @var		string
-	*/
-	var $_name	=	'Module';
-
-   /**
 	 * Renders a module script and returns the results as a string
 	 *
 	 * @access public
