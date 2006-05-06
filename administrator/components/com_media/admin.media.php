@@ -90,6 +90,10 @@ switch ($task) {
 		JMediaController::imgManager(COM_MEDIA_BASE);
 		break;
 
+	case 'imgManagerList' :
+		JMediaController::imgManagerList($listdir);
+		break;
+
 	default :
 		JMediaController::showMedia($listdir);
 		break;
@@ -225,6 +229,56 @@ class JMediaController
 		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {
 			JMediaViews::listMedia($listFolder, $folders, $docs, $images);
+		} else {
+			JMediaViews::listError();
+		}
+	}
+
+	function imgManagerList($listFolder)
+	{
+		// Initialize variables
+		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
+		$images 	= array ();
+		$folders 	= array ();
+		$docs 		= array ();
+		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+
+		// Get the list of files and folders from the given folder
+		jimport('joomla.filesystem.folder');
+		$fileList 	= JFolder::files($basePath);
+		$folderList = JFolder::folders($basePath);
+
+		// Iterate over the files if they exist
+		if ($fileList !== false) {
+			foreach ($fileList as $file)
+			{
+				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
+					if (eregi($imageTypes, $file)) {
+						$imageInfo = @ getimagesize($basePath.DS.$file);
+						$fileDetails['file'] = $basePath.DS.$file;
+						$fileDetails['imgInfo'] = $imageInfo;
+						$fileDetails['size'] = filesize($basePath.DS.$file);
+						$images[$file] = $fileDetails;
+					} else {
+						// Not a known image file so we will call it a document
+						$fileDetails['size'] = filesize($basePath.DS.$file);
+						$fileDetails['file'] = $basePath.DS.$file;
+						$docs[$file] = $fileDetails;
+					}
+				}
+			}
+		}
+
+		// Iterate over the folders if they exist
+		if ($folderList !== false) {
+			foreach ($folderList as $folder) {
+				$folders[$folder] = $folder;
+			}
+		}
+
+		// If there are no errors then lets list the media
+		if ($folderList !== false && $fileList !== false) {
+			JMediaViews::imgManagerList($listFolder, $folders, $images);
 		} else {
 			JMediaViews::listError();
 		}

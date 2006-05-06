@@ -68,16 +68,9 @@
 		return false;
 	};
 
-	//similar to the Files::makeFile() in Files.php
-	function makeURL(pathA, pathB) 
+	function populateFields(file) 
 	{
-		if(pathA.substring(pathA.length-1) != '/')
-			pathA += '/';
-
-		if(pathB.charAt(0) == '/');	
-			pathB = pathB.substring(1);
-
-		return pathA+pathB;
+		document.getElementById("f_url").value = "images/"+file;
 	}
 
 
@@ -113,12 +106,6 @@
 				break;
 			}
 		}
-	}
-
-	function changeDir(newDir) 
-	{
-		if(typeof imgManager != 'undefined')
-			imgManager.changeDir(newDir);
 	}
 
 	function toggleConstrains(constrains) 
