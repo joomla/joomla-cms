@@ -669,9 +669,9 @@ class JMediaViews
 		<!--// image properties -->	
 			<div style="text-align: right;"> 
 				<hr />
-				<button type="button" class="buttons" onclick="return refresh();">Refresh</button>
-				<button type="button" class="buttons" onclick="return onOK();">OK</button>
-				<button type="button" class="buttons" onclick="return onCancel();">Cancel</button>
+				<button type="button" class="buttons" onclick="window.top.document.popup.frame.src='index.php?option=com_media&amp;task=imgManager&amp;tmpl=component.html';">Refresh</button>
+				<button type="button" class="buttons" onclick="onOK();window.top.document.popup.hide();">OK</button>
+				<button type="button" class="buttons" onclick="window.top.document.popup.hide();">Cancel</button>
 		    </div>
 			<input type="hidden" id="f_file" name="f_file" />
 		</form>
@@ -799,23 +799,25 @@ class JMediaViews
 	function _loadJS()
 	{
 		global $mainframe;
+		
+		$url = ($mainframe->isAdmin()) ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		$js = "
+		var base_url = '".$url."';	
+			
 		function dirup(){
 			var urlquery=frames['imgManager'].location.search.substring(1);
 			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
 			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
-			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + listdir;
+			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&listdir=' + listdir;
 		}
 
 
 		function goUpDir() {
 			var selection = document.forms[0].dirPath;
 			var dir = selection.options[selection.selectedIndex].value;
-			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + dir;
+			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&listdir=' + dir;
 		}";
-
 		$doc =& $mainframe->getDocument();
-		
 		$doc->addScriptDeclaration($js);
 	}
 }

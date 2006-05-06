@@ -5,37 +5,9 @@
  * @package ImageManager
  */
 	
-	//Translation
-	function i18n(str) {
-		if(I18N)
-		  return (I18N[str] || str);
-		else
-			return str;
-	};
-
-
-	//set the alignment options
-	function setAlign(align) 
-	{
-		var selection = document.getElementById('f_align');
-		for(var i = 0; i < selection.length; i++)
-		{
-			if(selection.options[i].value == align)
-			{
-				selection.selectedIndex = i;
-				break;
-			}
-		}
-	}
-
 	//initialise the form
 	init = function () 
 	{
-		__dlg_init();
-
-		if(I18N)
-			__dlg_translate(I18N);
-
 		var uploadForm = document.getElementById('uploadForm');
 		if(uploadForm) uploadForm.target = 'imgManager';
 
@@ -55,28 +27,44 @@
 		document.getElementById("f_url").focus();
 	}
 
-
-	function onCancel() 
-	{
-		__dlg_close(null);
-		return false;
-	};
-
 	function onOK() 
 	{
-		// pass data back to the calling window
-		var fields = ["f_url", "f_alt", "f_align", "f_border", "f_horiz", "f_vert", "f_height", "f_width","f_file"];
-		var param = new Object();
-		for (var i in fields) 
-		{
-			var id = fields[i];
-			var el = document.getElementById(id);
-			if(id == "f_url" && el.value.indexOf('://') < 0 )
-				param[id] = makeURL(base_url,el.value);
-			else
-				param[id] = el.value;
+		// Get the image tag field information
+		var url		= document.getElementById("f_url").value;
+		var alt		= document.getElementById("f_alt").value;
+		var border	= document.getElementById("f_border").value;
+		var vert	= document.getElementById("f_vert").value;
+		var horiz	= document.getElementById("f_horiz").value;
+		var width	= document.getElementById("f_width").value;
+		var height	= document.getElementById("f_height").value;
+		var align	= document.getElementById("f_align").value;
+
+		if (url != '') {
+			// Set alt attribute
+			if (alt != '') {
+				alt = "alt='"+alt+"' ";
+			}
+			// Set border attribute
+			if (border != '') {
+				border = "border='"+border+"' ";
+			}
+			// Set width attribute
+			if (width != '') {
+				width = "width='"+width+"' ";
+			}
+			// Set height attribute
+			if (height != '') {
+				height = "height='"+height+"' ";
+			}
+			// Set align attribute
+			if (align != '') {
+				align = "align='"+align+"' ";
+			}
+
+			var tag = "<img src='"+url+"' "+alt+border+width+height+align+"/>";
 		}
-		__dlg_close(param);
+		
+		window.parent.jInsertEditorText(tag);
 		return false;
 	};
 
