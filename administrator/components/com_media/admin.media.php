@@ -27,9 +27,6 @@ if ($mainframe->isAdmin()) {
 	}
 }
 
-// Load the admin HTML view
-require_once (JApplicationHelper::getPath('admin_html'));
-
 $cid = JRequest::getVar( 'cid', array (0), 'post', 'array');
 if (!is_array($cid)) {
 	$cid = array (0);
@@ -44,7 +41,7 @@ if (is_int(strpos($listdir, "..")) && $listdir != '') {
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
-define('COM_MEDIA_BASEURL', $mainframe->getSiteURL().'images');
+define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : $mainframe->getBaseURL().'images');
 
 switch ($task) {
 
@@ -72,16 +69,20 @@ switch ($task) {
 		break;
 
 	case 'cancel' :
-		josRedirect('index2.php');
+		josRedirect('index.php');
 		break;
 
 		// popup directory creation interface for use by components
 	case 'popupDirectory' :
+		// Load the admin popup view
+		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 		JMediaViews::popupDirectory(COM_MEDIA_BASEURL);
 		break;
 
 		// popup upload interface for use by components
 	case 'popupUpload' :
+		// Load the admin popup view
+		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 		JMediaViews::popupUpload(COM_MEDIA_BASE);
 		break;
 
@@ -119,6 +120,9 @@ class JMediaController
 	{
 		global $mainframe;
 
+		// Load the admin popup view
+		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
+
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
@@ -155,6 +159,9 @@ class JMediaController
 	 */
 	function showMedia($listFolder)
 	{
+		// Load the admin HTML view
+		require_once (JApplicationHelper::getPath('admin_html'));
+
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
@@ -186,6 +193,9 @@ class JMediaController
 	 */
 	function listMedia($listFolder)
 	{
+		// Load the admin HTML view
+		require_once (JApplicationHelper::getPath('admin_html'));
+
 		// Initialize variables
 		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
 		$images 	= array ();
@@ -236,6 +246,9 @@ class JMediaController
 
 	function imgManagerList($listFolder)
 	{
+		// Load the admin popup view
+		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
+
 		// Initialize variables
 		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
 		$images 	= array ();

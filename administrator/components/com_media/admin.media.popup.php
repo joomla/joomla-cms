@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: admin.media.html.php 3402 2006-05-06 02:38:08Z webImagery $
 * @package Joomla
 * @subpackage Massmail
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -665,6 +665,257 @@ class JMediaViews
 		<?php
 	}
 
+	function imgManager($dirPath, $listFolder) 
+	{
+		global $mainframe;
+		
+		JMediaViews::_loadImgManagerJS();
+		
+		?>
+		<form action="index.php&amp;tmpl=component.html" id="uploadForm" method="post" enctype="multipart/form-data">
+		<fieldset><legend>Image Manager</legend>
+		<div class="dirs">
+			<label for="dirPath">Directory</label>
+			<?php echo $dirPath; ?>
+			<a onclick="javascript: goUpDir();" title="Directory Up"><img src="img/btnFolderUp.gif" height="15" width="15" alt="Directory Up" /></a>
+			<a onclick="newFolder();" title="New Folder"><img src="img/btnFolderNew.gif" height="15" width="15" alt="New Folder" /></a>
+			<div id="messages" style="display: none;"><span id="message"></span><img SRC="img/dots.gif" width="22" height="12" alt="..." /></div>
+			<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" style="overflow-x: false;" scrolling="auto" frameborder="0"></iframe>
+		</div>
+		</fieldset>
+		<!-- image properties -->
+			<table class="inputTable">
+				<tr>
+					<td align="right">
+						<label for="f_url">Image File</label>
+					</td>
+					<td>
+						<input type="text" id="f_url" class="largelWidth" value="" />
+					</td>
+					<td rowspan="3" align="right">
+						&nbsp;
+					</td>
+					<td align="right">
+						<label for="f_width">Width</label>
+					</td>
+					<td>
+						<input type="text" id="f_width" class="smallWidth" value="" onchange="javascript:checkConstrains('width');"/>
+					</td>
+					<td rowspan="2" align="right">
+						<img src="img/locked.gif" id="imgLock" width="25" height="32" alt="Constrained Proportions" />
+					</td>
+					<td rowspan="3" align="right">
+						&nbsp;
+					</td>
+					<td align="right">
+						<label for="f_vert">V Space</label>
+					</td>
+					<td>
+						<input type="text" id="f_vert" class="smallWidth" value="" />
+					</td>
+				</tr>		
+				<tr>
+					<td align="right">
+						<label for="f_alt">Alt</label>
+					</td>
+					<td>
+						<input type="text" id="f_alt" class="largelWidth" value="" />
+					</td>
+					<td align="right">
+						<label for="f_height">Height</label>
+					</td>
+					<td>
+						<input type="text" id="f_height" class="smallWidth" value="" onchange="javascript:checkConstrains('height');"/>
+					</td>
+					<td align="right">
+						<label for="f_horiz">H Space</label>
+					</td>
+					<td>
+						<input type="text" id="f_horiz" class="smallWidth" value="" />
+					</td>
+				</tr>
+				<tr>
+		<? if(true) { ?>
+					<td align="right"><label for="upload">Upload</label></td>
+					<td>
+						<table cellpadding="0" cellspacing="0" border="0">
+		                  <tr>
+		                    <td>
+		                    	<input type="file" name="upload" id="upload"/>
+		                    </td>
+		                    <td>
+		                    	&nbsp;
+		                    	<button type="submit" name="submit" onclick="doUpload();"/>Upload</button>
+		                    </td>
+		                  </tr>
+		                </table>
+					</td>
+		<? } else { ?>
+					<td colspan="2"></td>
+		<? } ?>
+					<td align="right"><label for="f_align">Align</label></td>
+					<td colspan="2">
+						<select size="1" id="f_align"  title="Positioning of this image">
+							<option value=""                             >Not Set</option>
+							<option value="left"                         >Left</option>
+							<option value="right"                        >Right</option>
+							<option value="texttop"                      >Texttop</option>
+							<option value="absmiddle"                    >Absmiddle</option>
+							<option value="baseline" selected="selected" >Baseline</option>
+							<option value="absbottom"                    >Absbottom</option>
+							<option value="bottom"                       >Bottom</option>
+							<option value="middle"                       >Middle</option>
+							<option value="top"                          >Top</option>
+						</select>
+					</td>
+					<td align="right">
+						<label for="f_border">Border</label>
+					</td>
+					<td>
+						<input type="text" id="f_border" class="smallWidth" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" align="right">
+						<input type="hidden" id="orginal_width" />
+						<input type="hidden" id="orginal_height" />
+						<input type="checkbox" id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" />
+					</td>
+					<td colspan="5">
+						<label for="constrain_prop">Constrain Proportions</label>
+					</td>
+				</tr>
+			</table>
+		<!--// image properties -->	
+			<div style="text-align: right;"> 
+				<hr />
+				<button type="button" class="buttons" onclick="window.top.document.popup.frame.src='index.php?option=com_media&amp;task=imgManager&amp;tmpl=component.html';">Refresh</button>
+				<button type="button" class="buttons" onclick="onOK();window.top.document.popup.hide();">OK</button>
+				<button type="button" class="buttons" onclick="window.top.document.popup.hide();">Cancel</button>
+		    </div>
+			<input type="hidden" id="f_file" name="f_file" />
+		</form>
+		<?php
+	}
+
+	function popupUpload($basePath) 
+	{
+		global $mosConfig_absolute_path;
+
+		jimport('joomla.filesystem.folder');
+		$imgFiles = JFolder::folders($basePath, '.', true, true);
+		$folders = array ();
+		$folders[] = mosHTML::makeOption('/');
+
+		$len = strlen($basePath);
+		foreach ($imgFiles as $file) {
+			$folders[] = mosHTML::makeOption(str_replace('\\', '/', substr($file, $len)));
+		}
+
+		if (is_array($folders)) {
+			sort($folders);
+		}
+		// create folder selectlist
+		$dirPath = mosHTML::selectList($folders, 'dirPath', 'class="inputbox" size="1" ', 'value', 'text', '.');
+		?>
+		<form method="post" action="index3.php" enctype="multipart/form-data" name="adminForm">
+		
+		<fieldset>
+			<legend><?php echo JText::_( 'Upload a File' ); ?></legend>
+
+		<table class="admintable" cellspacing="1">
+		<tr>
+			<td class="key"><?php echo  JText::_( 'Select File' ); ?><br />
+			[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
+			</td>
+			<td>
+				
+				<input class="inputbox" name="upload" type="file" size="70" />
+			</td>
+		</tr>
+		<tr>
+			<td class="key"><?php echo  JText::_( 'Destination Sub-folder' ); ?></td>
+			<td><?php echo $dirPath; ?></td>
+		</tr>
+		<tr>
+			<td class="key">&nbsp;</td>
+			<td>
+
+				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />&nbsp;&nbsp;&nbsp;
+				<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+			</td>
+		</tr>
+		</table>
+		</fieldset>
+
+		<input type="hidden" name="option" value="com_media" />
+		<input type="hidden" name="task" value="popupUpload" />
+		</form>
+		<?php
+	}
+
+	function popupDirectory($basePath) 
+	{
+
+		$imgFiles = mosFS::listFolders($basePath, '.', true, true);
+		$folders = array ();
+		$folders[] = mosHTML::makeOption('/');
+
+		$len = strlen($basePath);
+		foreach ($imgFiles as $file) {
+			$folders[] = mosHTML::makeOption(str_replace('\\', '/', substr($file, $len)));
+		}
+
+		if (is_array($folders)) {
+			sort($folders);
+		}
+		// create folder selectlist
+		$dirPath = mosHTML::selectList($folders, 'dirPath', 'class="inputbox" size="1"', 'value', 'text', '.');
+		?>
+		<form action="index2.php" name="adminForm" method="post">
+
+		<table id="toolbar">
+		<tr>
+			<td>
+				<?php echo mosAdminMenus::ImageCheck( 'module.png', '/administrator/images/', NULL, NULL, $_LANG->_( 'Upload a File' ), 'upload' ); ?>
+			</td>
+			<td class="title">
+				<?php echo  JText::_( 'Create a Directory' ); ?>
+			</td>
+		</tr>
+		</table>
+
+		<table class="adminform">
+		<tr>
+			<td colspan="2">
+				<?php echo JText::_( 'Directory Name' ); ?>
+			<br/>
+				<input class="inputbox" name="foldername" type="text" size="60" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<?php echo JText::_( 'Parent Directory' ); ?>: <?php echo $dirPath; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input class="button" type="button" value="<?php echo JText::_( 'Create' ); ?>" onclick="javascript:submitbutton('newdir')" />
+			</td>
+			<td>
+				<div align="right">
+					<input class="button" type="button" value="<?php echo JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+				</div>
+			</td>
+		</tr>
+		</table>
+
+		<input type="hidden" name="option" value="com_media" />
+		<input type="hidden" name="task" value="" />
+		</form>
+		<?php
+	}
+
 	function _loadJS()
 	{
 		global $mainframe;
@@ -691,6 +942,37 @@ class JMediaViews
 			var selection = document.forms[0].dirPath;
 			var dir = selection.options[selection.selectedIndex].value;
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&listdir=' + dir;
+		}";
+		$doc =& $mainframe->getDocument();
+		$doc->addScriptDeclaration($js);
+	}
+
+	function _loadImgManagerJS()
+	{
+		global $mainframe;
+		
+		$url = ($mainframe->isAdmin()) ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$js = "
+		var base_url = '".$url."';	
+			
+		function dirup(){
+			var urlquery=frames['imgManager'].location.search.substring(1);
+			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
+			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
+			frames['imgManager'].location.href='index.php?option=com_media&task=imgManagerList&tmpl=component.html&listdir=' + listdir;
+		}
+
+		function dirup(){
+			var urlquery=frames['imgManager'].location.search.substring(1);
+			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
+			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
+			frames['imgManager'].location.href='index.php?option=com_media&task=imgManagerList&tmpl=component.html&listdir=' + listdir;
+		}
+
+		function goUpDir() {
+			var selection = document.forms[0].dirPath;
+			var dir = selection.options[selection.selectedIndex].value;
+			frames['imgManager'].location.href='index.php?option=com_media&task=imgManagerList&tmpl=component.html&listdir=' + dir;
 		}";
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);
