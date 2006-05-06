@@ -7,9 +7,8 @@ www.bitfolge.de
 kaib@bitfolge.de
 v1.3 work by Scott Reynen (scott@randomchaos.com) and Kai Blankenhorn
 v1.5 OPML support by Dirk Clemens
-v1.7.2-mod on-the-fly feed generation by Fabian Wolf (info@f2w.de)
-v1.7.2-ppt ATOM 1.0 support by Mohammad Hafiz bin Ismail (mypapit@gmail.com)
-v1.7.3 podcast support by Steve Blinch
+v1.7.2+ On-the-fly feed generation by Fabian Wolf (info@f2w.de)
+v1.7.3 ATOM 1.0 support by Mohammad Hafiz bin Ismail (mypapit@gmail.com)
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -31,16 +30,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 Changelog:
   
 1.7.3	10-11-04
-	added podcast support
+06-May-2005 Johan Janssens
 	added generator attribute
 	added support for custom markup in feeds and items
-
-v1.7.2-ppt	11-21-05 
 	added Atom 1.0 support
 	added enclosure support for RSS 2.0/ATOM 1.0
-	added docs for v1.7.2-ppt only! 
 	
-v1.7.2-mod	03-12-05
+v1.7.2+	03-12-05
 	added output function outputFeed for on-the-fly feed generation
 
 v1.7.2	Joomla! 1.0
@@ -194,7 +190,7 @@ define("TIME_ZONE","+01:00");
 /**
  * Version string.
  **/
-define("FEEDCREATOR_VERSION", "Joomla! 1.5");
+define("FEEDCREATOR_VERSION", "FeedCreator 1.7.3");
 
 
 
@@ -1830,217 +1826,6 @@ class GoogleSiteMapIndex extends FeedCreator {
 	}
 }
 
-/**
- * A PodcastCategory encapsulates an iTunes category (and zero or more
- * subcategories) for a podcast.
- * @author Steve Blinch <code@blitzaffe.com>
- */
-class PodcastCategory {
-	var $name;
-	var $categories;
-	
-	function PodcastCategory($name) {
-		$this->name = $name;
-		$this->categories = array();
-	}
-	
-	function addCategory($category) {
-		$this->categories[] = $category;
-	}
-}
-
-/**
- * A Podcast acts as a container for all podcasting-related information for an
- * RSSCreatorPodcast object.
- * 
- * @author Steve Blinch <code@blitzaffe.com>
- */
-class Podcast {
-	
-	/**
-	 * Optional attributes of a podcast.
-	 */
-	var $author, $block, $explicit, $keywords, $subtitle, $summary, $new_feed_url, $owner_name, $owner_email;
-	
-	/**
-	 * @access private
-	 */	
-	var $categories, $owner;
-	
-	function Podcast() {
-		$this->categories = array();
-		$this->owner = array();
-	}
-	
-	/**
-	 * Adds a category to the podcast.
-	 *
-	 * @param object PodcastCategory $categort The PodcastCategory to add to the podcast
-	 * @access public
-	 */
-	function addCategory($category) {
-		$this->categories[] = $category;
-	}
-	
-	/**
-	 * @access private
-	 */
-	function getArrayElements($arr) {
-		$output = "";
-		foreach ($arr as $key=>$value) {
-			if (is_array($value)) {
-				$value = $this->getArrayElements($value);
-			} else {
-				$value = htmlentities($value);
-			}
-			if (strlen($value)) $output .= sprintf("<itunes:%s>%s</itunes:%s>",$key,$value,$key);
-		}
-		return $output;
-	}
-	
-	/**
-	 * @access private
-	 */
-	function getElements(&$elements) {
-		
-		$podcast_values = get_object_vars($this);
-		
-		foreach ($podcast_values as $key=>$value) {
-			if (in_array($key,array('categories','owner_name','owner_email'))) continue;
-			
-			if (is_array($value)) {
-				$value = $this->getArrayElements($value);
-			} else {
-				$value = htmlentities($value);
-			}
-			if (strlen($value)) $elements['itunes:'.$key] = $value;
-		}
-		
-	}
-	
-	/**
-	 * Returns all podcast-related XML markup for inclusion in the feed.
-	 *
-	 * @access public
-	 */	
-	function getMarkup() {
-		$categories = "";
-		foreach ($this->categories as $key=>$category) {
-			$subcats = "";
-			foreach ($category->categories as $subkey=>$subcategory) {
-				$subcats .= sprintf("<itunes:category text=\"%s\" />",htmlentities($subcategory->name));
-			}
-			if (strlen($subcats)) {
-				$categories .= sprintf("<itunes:category text=\"%s\">%s</itunes:category>\n",htmlentities($category->name),$subcats);
-			} else {
-				$categories .= sprintf("<itunes:category text=\"%s\" />\n",htmlentities($category->name));
-			}
-		}
-		
-		$owner = array(
-			'owner'=>array(
-				'name'=>$this->owner_name,
-				'email'=>$this->owner_email
-			)
-		);
-		
-		$output = "";
-		$output .= $this->getArrayElements($owner) . "\n";
-		$output .= $categories . "\n";
-		
-		return $output;
-	}
-	
-}
-
-/**
- * A PodcastItem acts as a container for all podcasting-related information for a
- * FeedItem object.
- * 
- * @author Steve Blinch <code@blitzaffe.com>
- */
-class PodcastItem {
-	
-	/**
-	 * Optional attributes of a podcast item.
-	 */
-	var $author, $block, $duration, $explicit, $keywords, $subtitle, $summary;
-	
-	/**
-	 * Media file attachment attributes
-	 */
-	var $enclosure_url, $enclosure_length, $enclosure_type;
-	
-	/**
-	 * @access private
-	 */
-	function getElements(&$elements) {
-		$podcast_values = get_object_vars($this);
-		
-		foreach ($podcast_values as $key=>$value) {
-			if (in_array($key,array('enclosure_url','enclosure_length','enclosure_type'))) continue;
-			
-			if (strlen($value)) $elements['itunes:'.$key] = htmlentities($value);
-		}
-	}
-	
-	/**
-	 * Returns all podcast-related XML markup for this item for inclusion 
-	 * in the feed.
-	 *
-	 * @access public
-	 */	
-	function getMarkup() {
-		if (!strlen($this->enclosure_url) || ($this->enclosure_length==0) || !strlen($this->enclosure_type) ) return "";
-		
-		return sprintf(
-			"<enclosure url=\"%s\" length=\"%s\" type=\"%s\" />\n",
-			$this->enclosure_url,
-			$this->enclosure_length,
-			$this->enclosure_type
-		);
-	}
-	
-}
-
-/**
- * RSSCreatorPodCast is a FeedCreator that implements RDF Site Summary (RSS) 
- * 2.0 with Podcast extensions.
- *
- * @see http://phobos.apple.com/static/iTunesRSS.htm
- * @since 1.7.3
- * @author Steve Blinch <code@blitzaffe.com>
- */
-class RSSCreatorPodcast extends RSSCreator20 {
-
-	var $podcast;
-
-    function RSSCreatorPodcast() {
-        parent::_setRSSVersion("2.0");
-        
-        $this->addNameSpace("xmlns:itunes","http://www.itunes.com/dtds/podcast-1.0.dtd");
-        $this->encoding = "UTF-8";
-
-		$this->podcast = new Podcast();
-    }
-    
-	function createFeed() {
-		$this->additionalMarkup .= $this->podcast->getMarkup();
-		
-		$this->podcast->getElements($this->additionalElements);
-		
-		foreach ($this->items as $k=>$item) {
-			$this->items[$k]->podcast->getElements($this->items[$k]->additionalElements);
-			$this->items[$k]->additionalMarkup .= $this->items[$k]->podcast->getMarkup();
-		}
-		
-		return parent::createFeed();
-	}
-    
-    
-}
-
-
 /*** TEST SCRIPT *********************************************************
 
 //include("feedcreator.class.php");
@@ -2070,21 +1855,6 @@ $image->descriptionHtmlSyndicated = true;
 
 $rss->image = $image;
 
-//optional -- applies only if this is a podcast
-$rss->podcast = new Podcast();
-$rss->podcast->subtitle = "Podcast subtitle";
-$rss->podcast->author = "Some Guy";
-$rss->podcast->summary = "Podcast summary"
-$rss->podcast->keywords = "php podcast rss itunes";
-$rss->podcast->owner_email = "owner@example.com";
-$rss->podcast->owner_name = "Some Guy";
-
-// file this podcast under Technology->Computers
-$podcast_tech_category = new PodcastCategory('Technology');
-$podcast_comp_category = new PodcastCategory('Computers');
-$podcast_tech_category->addCategory($podcast_comp_category);
-$podcast->addCategory($podcast_tech_category);
-
 // get your news items from somewhere, e.g. your database:
 //mysql_select_db($dbHost, $dbUser, $dbPass);
 //$res = mysql_query("SELECT * FROM news ORDER BY newsdate DESC");
@@ -2102,19 +1872,11 @@ $podcast->addCategory($podcast_tech_category);
 	$item->source = "http://www.dailyphp.net";
 	$item->author = "John Doe";
 
-	// optional -- applies only if this is a podcast
-    $item->podcast = new PodcastItem();
-    $item->podcast->duration = 120;
-    $item->podcast->enclosure_url = "http://www.example.com/podcasts/media.mp3";
-    $item->podcast->enclosure_length = 1234567;
-    $item->podcast->enclosure_type = "audio/mpeg";
-	 
-	 
 	$rss->addItem($item);
 //}
 
-// valid format strings are: RSS0.91, RSS1.0, RSS2.0, PIE0.1, MBOX, OPML, ATOM0.3, HTML, JS, PODCAST
-echo $rss->saveFeed("PODCAST", "feed.xml"); 
+// valid format strings are: RSS0.91, RSS1.0, RSS2.0, PIE0.1, MBOX, OPML, ATOM0.3, HTML, JS
+echo $rss->saveFeed("RSS0.91", "feed.xml");
 
 
 

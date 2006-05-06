@@ -23,7 +23,7 @@
 class JDocumentFeed extends JDocument
 {
 	/**
-	 * Syndication URL channel element 
+	 * Syndication URL feed element 
 	 * 
 	 * optional
 	 * 
@@ -33,17 +33,17 @@ class JDocumentFeed extends JDocument
 	 var $syndicationURL = "";
 	 
 	 /**
-	 * Image channel element 
+	 * Image feed element 
 	 * 
 	 * optional
 	 * 
-	 * @var		string
+	 * @var		object
 	 * @access	public 	
 	 */
-	 var $image = "";
+	 var $image = null;
 	 
 	/**
-	 * Copyright channel elememnt 
+	 * Copyright feed elememnt 
 	 * 
 	 * optional
 	 * 
@@ -51,19 +51,9 @@ class JDocumentFeed extends JDocument
 	 * @access	public 	
 	 */
 	 var $copyright = "";
-	 
+	  
 	 /**
-	 * Language channel elememnt 
-	 * 
-	 * optional
-	 * 
-	 * @var		string
-	 * @access	public 	
-	 */
-	 var $language = "";
-	 
-	 /**
-	 * Published date channel element
+	 * Published date feed element
 	 * 
 	 *  optional
 	 * 
@@ -73,7 +63,7 @@ class JDocumentFeed extends JDocument
 	 var $pubDate = "";
 	 
 	 /**
-	 * Lastbuild date channel element 
+	 * Lastbuild date feed element 
 	 * 
 	 * optional
 	 * 
@@ -83,7 +73,7 @@ class JDocumentFeed extends JDocument
 	 var $lastBuildDate = "";
 	 
 	 /**
-	 * Editor channel element 
+	 * Editor feed element 
 	 * 
 	 * optional
 	 * 
@@ -92,16 +82,8 @@ class JDocumentFeed extends JDocument
 	 */
 	 var $editor = "";
 	 
-	 /**
-     * Generator channel element
-     *
-     * @var       string
-     * @access    public
-     */
-	 var $generator = 'Joomla! 1.5';
-	 
-	  /**
-     * Docs channel element
+	/**
+     * Docs feed element
      *
      * @var       string
      * @access    public
@@ -109,7 +91,7 @@ class JDocumentFeed extends JDocument
 	 var $docs = "";
 	 
 	 /**
-	 * Editor email channel element
+	 * Editor email feed element
 	 * 
 	 * optional
 	 * 
@@ -119,7 +101,7 @@ class JDocumentFeed extends JDocument
 	 var $editorEmail = "";
 	 
 	/**
-	 * Webmaster email channel element
+	 * Webmaster email feed element
 	 * 
 	 * optional
 	 * 
@@ -129,7 +111,7 @@ class JDocumentFeed extends JDocument
 	 var $webmaster = "";
 	 
 	/**
-	 * Category channel element
+	 * Category feed element
 	 * 
 	 * optional
 	 * 
@@ -139,7 +121,9 @@ class JDocumentFeed extends JDocument
 	 var $category = "";
 	 
 	/**
-	 * TTL feed attribute (optional)
+	 * TTL feed attribute 
+	 * 
+	 * optional
 	 * 
 	 * @var		string
 	 * @access	public 	
@@ -147,7 +131,7 @@ class JDocumentFeed extends JDocument
 	 var $ttl = "";
 	 
 	/**
-	 * Rating channel element
+	 * Rating feed element
 	 * 
 	 * optional
 	 * 
@@ -157,7 +141,7 @@ class JDocumentFeed extends JDocument
 	 var $rating = "";
 	 
 	/**
-	 * Skiphours channel element
+	 * Skiphours feed element
 	 * 
 	 * optional
 	 * 
@@ -167,7 +151,7 @@ class JDocumentFeed extends JDocument
 	 var $skipHours = "";
 	 
 	/**
-	 * Skipdays channel element
+	 * Skipdays feed element
 	 * 
 	 * optional
 	 * 
@@ -177,21 +161,12 @@ class JDocumentFeed extends JDocument
 	 var $skipDays = "";
 	 
 	/**
-	 * The url of the external xsl stylesheet used to format the naked rss feed.
-	 * Ignored in the output when empty.
-	 * 
-	 * @var		string
-	 * @access	public 
-	 */
-	 var $xslStyleSheet = "";
-
-	/**
 	 * The feed items collection
 	 * 
 	 * @var array
 	 * @access public
 	 */
-	var $items = Array();
+	var $items = array();
 	
 	/**
 	 * Class constructor
@@ -209,19 +184,8 @@ class JDocumentFeed extends JDocument
 		
 		//set document type
 		$this->_type = 'feed';
-		
-		global $mainframe;
-		$option = $mainframe->getOption();
-		
-		// load feed creator class
-		$this->_engine = new JFeed();
-		
-		$this->_engine->link 			= htmlspecialchars( $mainframe->getBaseURL());
-		$this->_engine->syndicationURL 	= htmlspecialchars( $mainframe->getBaseURL());
-		$this->_engine->encoding 		= 'UTF-8';
-		$this->_engine->cssStyleSheet 	= null;
 	}
-
+	
 	/**
 	 * Outputs the document to the browser.
 	 *
@@ -240,17 +204,12 @@ class JDocumentFeed extends JDocument
 		$cache_path = $mainframe->getCfg('cachepath');
 		$option 	= $mainframe->getOption();
 		
-			// set filename for rss feeds
+		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 		
-		$renderer = JFeedRenderer::getInstance($format);
+		$renderer =& $this->loadRenderer($format);
 		
-		// loads cache file
-		if ( $cache ) {
-			$renderer->useCached( $feed, $file, $cache_time );
-		}
-
 		$path 	= JApplicationHelper::getPath( 'front', $option );
 		$task 	= JRequest::getVar( 'task' );
 
@@ -271,20 +230,31 @@ class JDocumentFeed extends JDocument
 		header( 'Pragma: no-cache' );										// HTTP/1.0
 		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
     
-		// display the feed
-		echo $renderer->render( $this->_engine );
+		// Generate prolog
+		$result  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
+		$result .= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
+		
+		 // Generate stylesheet links
+        foreach ($this->_styleSheets as $src => $attr ) {
+            $result .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
+        }
+		
+		// Render the feed
+		$result .= $renderer->render( );
+		
+		echo $result;
 	}
 	
 	/**
-	 * Adds an FeedItem to the feed.
+	 * Adds an JFeedItem to the feed.
 	 *
-	 * @param object FeedItem $item The FeedItem to add to the feed.
+	 * @param object JFeedItem $item The feeditem to add to the feed.
 	 * @access public
 	 */
 	function addItem( &$item )
 	{
-		$item->source = $this->_engine->link;
-		$this->_engine->addItem($item);
+		$item->source = $this->link;
+		$this->items[] = $item;
 	}
 }
 

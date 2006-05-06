@@ -11,23 +11,22 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+ jimport( 'joomla.utilities.date' );
+ 
  /**
  * JFeedRSS is a feed that implements RSS 2.0 Specification
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  *
  * @package 	Joomla.Framework
- * @subpackage 	Feed
+ * @subpackage 	Document
  * @see http://www.rssboard.org/rss-specification
  * @since	1.5
  */
 
 class JDocumentRenderer_RSS extends JDocumentRenderer
 {
-	var $namespaces;
-	
 	//$this->_mime    = "application/rss+xml";
-	//$this->_charset = "utf-8";
 	
 	/**
 	 * Render the feed
@@ -35,135 +34,116 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 	 * @access public
 	 * @return	string
 	 */
-	function render(&$feed) 
+	function render() 
 	{
-		$result = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
-		$result.= $feed->_createGeneratorComment();
-		$result.= $feed->_createStylesheetReferences();
-		$result.= "<rss version=\"2.0\"".$this->_getNameSpaces().">\n"; 
-		$result.= "	<channel>\n";
-		$result.= "		<title>".$feed->title."</title>\n";
-		$result.= "		<description>".$feed->description."</description>\n";
-		$result.= "		<link>".$feed->link."</link>\n";
-		$now = new JFeedDate();
-		$result.= "		<lastBuildDate>".htmlspecialchars($now->rfc822())."</lastBuildDate>\n";
-		$result.= "        <generator>".$feed->generator."</generator>\n";
+		$now  = new JDate();
+		$data =& $this->_doc;
+		
+		$feed = "<rss version=\"2.0\">\n"; 
+		$feed.= "	<channel>\n";
+		$feed.= "		<title>".$data->title."</title>\n";
+		$feed.= "		<description>".$data->description."</description>\n";
+		$feed.= "		<link>".$data->link."</link>\n";
+		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822())."</lastBuildDate>\n";
+		$feed.= "        <generator>".$data->getGenerator()."</generator>\n";
 
-		if ($feed->image!=null) {
-			$result.= "		<image>\n";
-			$result.= "			<url>".$feed->image->url."</url>\n";
-			$result.= "			<title>".htmlspecialchars($feed->image->title)."</title>\n";
-			$result.= "			<link>".$feed->image->link."</link>\n";
-			if ($feed->image->width!="") {
-				$result.= "			<width>".$feed->image->width."</width>\n";
+		if ($data->image!=null) 
+		{
+			$re.= "		<image>\n";
+			$feed.= "			<url>".$data->image->url."</url>\n";
+			$feed.= "			<title>".htmlspecialchars($data->image->title)."</title>\n";
+			$feed.= "			<link>".$data->image->link."</link>\n";
+			if ($data->image->width != "") {
+				$feed.= "			<width>".$data->image->width."</width>\n";
 			}
-			if ($feed->image->height!="") {
-				$result.= "			<height>".$feed->image->height."</height>\n";
+			if ($data->image->height!="") {
+				$feed.= "			<height>".$data->image->height."</height>\n";
 			}
-			if ($feed->image->description!="") {
-				$result.= "			<description>".$feed->image->getDescription()."</description>\n";
+			if ($data->image->description!="") {
+				$feed.= "			<description>".$data->image->description."</description>\n";
 			}
-			$result.= "		</image>\n";
+			$feed.= "		</image>\n";
 		}
-		if ($feed->language!="") {
-			$result.= "		<language>".$this->language."</language>\n";
+		if ($data->language!="") {
+			$feed.= "		<language>".$data->language."</language>\n";
 		}
-		if ($feed->copyright!="") {
-			$result.= "		<copyright>".htmlspecialchars($feed->copyright)."</copyright>\n";
+		if ($data->copyright!="") {
+			$feed.= "		<copyright>".htmlspecialchars($data->copyright)."</copyright>\n";
 		}
-		if ($feed->editor!="") {
-			$result.= "		<managingEditor>".htmlspecialchars($feed->editor)."</managingEditor>\n";
+		if ($data->editor!="") {
+			$feed.= "		<managingEditor>".htmlspecialchars($data->editor)."</managingEditor>\n";
 		}
-		if ($feed->webmaster!="") {
-			$result.= "		<webMaster>".htmlspecialchars($feed->webmaster)."</webMaster>\n";
+		if ($data->webmaster!="") {
+			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster)."</webMaster>\n";
 		}
-		if ($feed->pubDate!="") {
-			$pubDate = new JFeedDate($feed->pubDate);
-			$result.= "		<pubDate>".htmlspecialchars($pubDate->rfc822())."</pubDate>\n";
+		if ($data->pubDate!="") {
+			$pubDate = new JDate($data->pubDate);
+			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822())."</pubDate>\n";
 		}
-		if ($feed->category!="") {
-			$result.= "		<category>".htmlspecialchars($feed->category)."</category>\n";
+		if ($data->category!="") {
+			$feed.= "		<category>".htmlspecialchars($data->category)."</category>\n";
 		}
-		if ($feed->docs!="") {
-			$result.= "		<docs>".htmlspecialchars($feed->docs)."</docs>\n";
+		if ($data->docs!="") {
+			$feed.= "		<docs>".htmlspecialchars($data->docs)."</docs>\n";
 		}
-		if ($feed->ttl!="") {
-			$result.= "		<ttl>".htmlspecialchars($feed->ttl)."</ttl>\n";
+		if ($data->ttl!="") {
+			$feed.= "		<ttl>".htmlspecialchars($data->ttl)."</ttl>\n";
 		}
-		if ($feed->rating!="") {
-			$result.= "        <rating>".htmlspecialchars($feed->rating)."</rating>\n";
+		if ($data->rating!="") {
+			$feed.= "        <rating>".htmlspecialchars($data->rating)."</rating>\n";
 		}
-		if ($feed->skipHours!="") {
-			$result.= "		<skipHours>".htmlspecialchars($feed->skipHours)."</skipHours>\n";
+		if ($data->skipHours!="") {
+			$feed.= "		<skipHours>".htmlspecialchars($data->skipHours)."</skipHours>\n";
 		}
-		if ($feed->skipDays!="") {
-			$result.= "		<skipDays>".htmlspecialchars($feed->skipDays)."</skipDays>\n";
+		if ($data->skipDays!="") {
+			$feed.= "		<skipDays>".htmlspecialchars($data->skipDays)."</skipDays>\n";
 		}
-		$result.= $feed->_createAdditionalElements($feed->additionalElements, "	");
-		$result.= $feed->additionalMarkup;
 
-		for ($i=0;$i<count($feed->items);$i++) {
-			$result.= "		<item>\n";
-			$result.= "			<title>".htmlspecialchars(strip_tags($feed->items[$i]->title))."</title>\n";
-			$result.= "			<link>".htmlspecialchars($feed->items[$i]->link)."</link>\n";
-			$result.= "			<description>".$feed->items[$i]->description."</description>\n";
+		for ($i=0; $i<count($data->items); $i++) 
+		{
+			$feed.= "		<item>\n";
+			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
+			$feed.= "			<link>".htmlspecialchars($data->items[$i]->link)."</link>\n";
+			$feed.= "			<description>".$data->items[$i]->description."</description>\n";
 
-			if ($feed->items[$i]->author!="") {
-				$result.= "			<author>".htmlspecialchars($feed->items[$i]->author)."</author>\n";
+			if ($data->items[$i]->author!="") {
+				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author)."</author>\n";
 			}
 			/*
 			// on hold
-			if ($this->items[$i]->source!="") {
-					$feed.= "			<source>".htmlspecialchars($this->items[$i]->source)."</source>\n";
+			if ($data->items[$i]->source!="") {
+					$data.= "			<source>".htmlspecialchars($data->items[$i]->source)."</source>\n";
 			}
 			*/
-			if ($feed->items[$i]->category!="") {
-				$result.= "			<category>".htmlspecialchars($feed->items[$i]->category)."</category>\n";
+			if ($data->items[$i]->category!="") {
+				$feed.= "			<category>".htmlspecialchars($data->items[$i]->category)."</category>\n";
 			}
-			if ($feed->items[$i]->comments!="") {
-				$result.= "			<comments>".htmlspecialchars($feed->items[$i]->comments)."</comments>\n";
+			if ($data->items[$i]->comments!="") {
+				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments)."</comments>\n";
 			}
-			if ($feed->items[$i]->date!="") {
-			$itemDate = new JFeedDate($feed->items[$i]->date);
-				$result.= "			<pubDate>".htmlspecialchars($itemDate->rfc822())."</pubDate>\n";
+			if ($data->items[$i]->date!="") {
+			$itemDate = new JDate($data->items[$i]->date);
+				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822())."</pubDate>\n";
 			}
-			if ($feed->items[$i]->guid!="") {
-				$result.= "			<guid>".htmlspecialchars($feed->items[$i]->guid)."</guid>\n";
+			if ($data->items[$i]->guid!="") {
+				$feed.= "			<guid>".htmlspecialchars($data->items[$i]->guid)."</guid>\n";
 			}
-			$result.= $feed->_createAdditionalElements($feed->items[$i]->additionalElements, "		");
-			$result.= $feed->items[$i]->additionalMarkup;
-			if ($feed->items[$i]->enclosure != NULL)
+			if ($data->items[$i]->enclosure != NULL)
 			{
-					$result.= "            <enclosure url=\"";
-				    $result.= $feed->items[$i]->enclosure->url;
-				    $result.= "\" length=\"";
-				    $result.= $feed->items[$i]->enclosure->length;
-				    $result.= "\" type=\"";
-				    $result.= $feed->items[$i]->enclosure->type;
-				    $result.= "\"/>\n";
+					$feed.= "            <enclosure url=\"";
+				    $feed.= $data->items[$i]->enclosure->url;
+				    $feed.= "\" length=\"";
+				    $feed.= $data->items[$i]->enclosure->length;
+				    $feed.= "\" type=\"";
+				    $feed.= $data->items[$i]->enclosure->type;
+				    $feed.= "\"/>\n";
 			}
             	
-			$result.= "		</item>\n";
+			$feed.= "		</item>\n";
 		}
-		$result.= "	</channel>\n";
-		$result.= "</rss>\n";
-		return $result;
-	}
-	
-	function _getNameSpaces() 
-	{
-		if (!is_array($this->namespaces)) return "";
-		
-		$output = "";
-		foreach ($this->namespaces as $namespace=>$dtd) {
-			$output .= " ".$namespace."=\"".$dtd."\"";
-		}
-		
-		return $output;
-	}
-	
-	function addNameSpace($namespace,$dtd) {
-		$this->namespaces[$namespace] = $dtd;
+		$feed.= "	</channel>\n";
+		$feed.= "</rss>\n";
+		return $feed;
 	}
 }
 ?>

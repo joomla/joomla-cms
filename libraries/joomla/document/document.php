@@ -25,6 +25,54 @@
 class JDocument extends JObject
 {
 	/**
+     * Document title
+     *
+     * @var     string
+     * @access  public
+     */
+    var $title = '';
+	
+	/**
+     * Document description
+     *
+     * @var     string
+     * @access  public
+     */
+    var $description = '';
+	
+	/**
+     * Document base URL
+     *
+     * @var     string
+     * @access  public
+     */
+    var $link = '';
+	
+	 /**
+     * Contains the document language setting
+     *
+     * @var     string
+     * @access  public
+     */
+    var $language = 'en';
+	
+	/**
+     * Contains the document direction setting
+     *
+     * @var     string
+     * @access  public
+     */
+    var $direction = 'ltr';
+	
+	/**
+     * Document generator
+     *
+     * @var       string
+     * @access    public
+     */
+	 var $_generator = 'Joomla! 1.5';
+
+	/**
      * Tab string
      *
      * @var       string
@@ -47,22 +95,6 @@ class JDocument extends JObject
      * @access  private
      */
     var $_charset = 'utf-8';
-
-    /**
-     * Contains the page language setting
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_language = 'en';
-
-	/**
-     * Contains the page direction setting
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_direction = 'ltr';
 
 	/**
      * Document mime type
@@ -121,36 +153,12 @@ class JDocument extends JObject
     var $_style = array();
 
 	/**
-     * Document title
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_title = '';
-	
-	/**
-     * Document description
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_description = '';
-	
-	/**
-     * Document base URL
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_link = '';
-
-	/**
      * Array of meta tags
      *
      * @var     array
      * @access  private
      */
-    var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.5' ) );
+    var $_metaTags = array();
 	
 	/**
      * The rendering engine
@@ -371,7 +379,7 @@ class JDocument extends JObject
      * @param   string   $lang
      */
     function setLanguage($lang = "en") {
-        $this->_language = strtolower($lang);
+        $this->language = strtolower($lang);
     }
 
 	/**
@@ -381,7 +389,7 @@ class JDocument extends JObject
      * @access public
      */
     function getLanguage() {
-        return $this->_language;
+        return $this->language;
     }
 
 	/**
@@ -391,7 +399,7 @@ class JDocument extends JObject
      * @param   string   $lang
      */
     function setDirection($dir = "ltr") {
-        $this->_direction = strtolower($dir);
+        $this->direction = strtolower($dir);
     }
 
 	/**
@@ -401,7 +409,7 @@ class JDocument extends JObject
      * @access public
      */
     function getDirection() {
-        return $this->_direction;
+        return $this->direction;
     }
 
 	/**
@@ -411,7 +419,7 @@ class JDocument extends JObject
      * @access   public
      */
     function setTitle($title) {
-		$this->_title = $title;
+		$this->title = $title;
     }
 
 	/**
@@ -421,7 +429,7 @@ class JDocument extends JObject
      * @access   public
      */
     function getTitle() {
-        return $this->_title;
+        return $this->title;
     }
 	
 	/**
@@ -431,7 +439,7 @@ class JDocument extends JObject
      * @access   public
      */
     function setDescription($description) {
-		$this->_description = $description;
+		$this->description = $description;
     }
 
 	/**
@@ -441,7 +449,7 @@ class JDocument extends JObject
      * @access   public
      */
     function getDescription() {
-        return $this->_description;
+        return $this->description;
     }
 	
 	 /**
@@ -452,7 +460,7 @@ class JDocument extends JObject
      * @return  void
      */
     function setLink($url) {
-        $this->_link = $url;
+        $this->link = $url;
     }
 
 	/**
@@ -462,7 +470,28 @@ class JDocument extends JObject
      * @return string
      */
     function getLink() {
-        return $this->_link;
+        return $this->link;
+    }
+	
+	 /**
+     * Sets the document generator
+     *
+     * @param   string 
+     * @access  public
+     * @return  void
+     */
+    function setGenerator($generator) {
+        $this->_generator = $generator;
+    }
+
+	/**
+     * Returns the document generator
+     *
+     * @access public
+     * @return string
+     */
+    function getGenerator() {
+        return $this->_generator;
     }
 
 	 /**

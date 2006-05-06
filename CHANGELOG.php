@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-May-2006 Johan Janssens
+ ^ Refactored JDocument class to use an adapter pattern
+ ^ Renamed JDocumentRSS class to JDocumentFeed
+ ^ Implemented RSS 2.0 and Atom 1.0 document renderers
+ ^ Restructured Document package to better reflect different doc types
+ + Added JDate class to easily handle RFC 822, ISO 8601 and UNIX date timestamps
+
 01-May-2006 Johan Janssens
  # Fixed artf4480 : Menu ordering
  # Fixed artf4526 : PDF button don't works
