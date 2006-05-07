@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-May-2006 Samuel Moffatt
+ # Changed languages to language in component and modules installer
+
 06-May-2006 Johan Janssens
  ^ Refactored JDocument class to use an adapter pattern
  ^ Renamed JDocumentRSS class to JDocumentFeed

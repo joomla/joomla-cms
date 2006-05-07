@@ -151,8 +151,8 @@ class JInstallerModule extends JInstaller
 		 */
 		$this->_parseFiles('images');
 		$this->_parseFiles('media');
-		$this->_parseFiles('languages');
-		$this->_parseFiles('administration/languages');
+		$this->_parseFiles('language');
+		$this->_parseFiles('administration/language');
 
 		/*
 		 * Check to see if a module by the same name is already installed
@@ -399,8 +399,8 @@ class JInstallerModule extends JInstaller
 				 */
 				$this->_removeFiles('images');
 				$this->_removeFiles('media');
-				$this->_removeFiles('languages');
-				$this->_removeFiles('administration/languages');
+				$this->_removeFiles('language');
+				$this->_removeFiles('administration/language');
 
 				/*
 				 * Remove module folder

@@ -137,8 +137,8 @@ class JInstallerComponent extends JInstaller
 		$this->_parseFiles('images');
 		$this->_parseFiles('administration/images', '', '', 1);
 		$this->_parseFiles('media');
-		$this->_parseFiles('languages');
-		$this->_parseFiles('administration/languages');
+		$this->_parseFiles('language');
+		$this->_parseFiles('administration/language');
 
 		/*
 		 * Let's run the install queries for the component
@@ -509,8 +509,8 @@ class JInstallerComponent extends JInstaller
 		 * associated with the component we are uninstalling
 		 */
 		$this->_removeFiles('media');
-		$this->_removeFiles('languages');
-		$this->_removeFiles('administration/languages');
+		$this->_removeFiles('language');
+		$this->_removeFiles('administration/language');
 
 		/*
 		 * Now we need to delete the installation directories.  This is the final step
