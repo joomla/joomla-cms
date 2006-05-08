@@ -174,43 +174,4 @@
 		else {  return false; } 
 	} 
 
-	function doUpload() 
-	{
-		
-		var uploadForm = document.getElementById('uploadForm');
-		if(uploadForm)
-			showMessage('Uploading');
-	}
-
-	function refresh()
-	{
-		var selection = document.getElementById('dirPath');
-		updateDir(selection);
-	}
-
-
-	function newFolder() 
-	{
-		var selection = document.getElementById('dirPath');
-		var dir = selection.options[selection.selectedIndex].value;
-
-		Dialog("newFolder.html", function(param) 
-		{
-			if (!param) // user must have pressed Cancel
-				return false;
-			else
-			{
-				var folder = param['f_foldername'];
-				if(folder == thumbdir)
-				{
-					alert(i18n('Invalid folder name, please choose another folder name.'));
-					return false;
-				}
-
-				if (folder && folder != '' && typeof imgManager != 'undefined') 
-					imgManager.newFolder(dir, encodeURI(folder)); 
-			}
-		}, null);
-	}
-
 	addEvent(window, 'load', init);

@@ -678,7 +678,6 @@ class JMediaViews
 			<label for="dirPath">Directory</label>
 			<?php echo $dirPath; ?>
 			<a onclick="javascript: goUpDir();" title="Directory Up"><img src="img/btnFolderUp.gif" height="15" width="15" alt="Directory Up" /></a>
-			<a onclick="newFolder();" title="New Folder"><img src="img/btnFolderNew.gif" height="15" width="15" alt="New Folder" /></a>
 			<div id="messages" style="display: none;"><span id="message"></span><img SRC="img/dots.gif" width="22" height="12" alt="..." /></div>
 			<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" style="overflow-x: false;" scrolling="auto" frameborder="0"></iframe>
 		</div>
@@ -735,24 +734,6 @@ class JMediaViews
 					</td>
 				</tr>
 				<tr>
-		<? if(true) { ?>
-					<td align="right"><label for="upload">Upload</label></td>
-					<td>
-						<table cellpadding="0" cellspacing="0" border="0">
-		                  <tr>
-		                    <td>
-		                    	<input type="file" name="upload" id="upload"/>
-		                    </td>
-		                    <td>
-		                    	&nbsp;
-		                    	<button type="submit" name="submit" onclick="doUpload();"/>Upload</button>
-		                    </td>
-		                  </tr>
-		                </table>
-					</td>
-		<? } else { ?>
-					<td colspan="2"></td>
-		<? } ?>
 					<td align="right"><label for="f_align">Align</label></td>
 					<td colspan="2">
 						<select size="1" id="f_align"  title="Positioning of this image">
@@ -789,7 +770,6 @@ class JMediaViews
 		<!--// image properties -->	
 			<div style="text-align: right;"> 
 				<hr />
-				<button type="button" class="buttons" onclick="window.top.document.popup.frame.src='index.php?option=com_media&amp;task=imgManager&amp;tmpl=component.html';">Refresh</button>
 				<button type="button" class="buttons" onclick="onOK();window.top.document.popup.hide();">OK</button>
 				<button type="button" class="buttons" onclick="window.top.document.popup.hide();">Cancel</button>
 		    </div>

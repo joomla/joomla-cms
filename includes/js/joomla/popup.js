@@ -35,6 +35,7 @@ JPopup.prototype = {
 		this.hideSelects = false;
 		
 		this.returnFunc = null;
+		this.baseURL    = null;
 		
 		this.mask       = null;
 		this.frame      = null;
@@ -53,6 +54,10 @@ JPopup.prototype = {
 			this.registerEvent(document, 'keypress');
 		}
 		
+		//find library base url
+		var base     = document.getElementsByTagName('BASE')[0].getAttribute('href');
+		this.baseURL = base.replace(/administrator\//g, "");
+		
 		// Add the HTML to the body
 		body = document.getElementsByTagName('body')[0];
 		popmask = document.createElement('div');
@@ -64,10 +69,10 @@ JPopup.prototype = {
 				'<div id="popupTitleBar">' +
 					'<div id="popupTitle"></div>' +
 					'<div id="popupControls">' +
-						'<img src="includes/js/joomla/popup-close.gif" onclick="window.frames[\'popupFrame\'].submitbutton(\'cancel\');" />' +
+						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="window.frames[\'popupFrame\'].submitbutton(\'cancel\');" />' +
 					'</div>' +
 				'</div>' +
-				'<iframe src="includes/js/joomla/popup-loading.html" style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"></iframe>' +
+				'<iframe src="'+this.baseURL+'includes/js/joomla/popup-loading.html" style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.setTitle();"></iframe>' +
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
@@ -208,7 +213,7 @@ JPopup.prototype = {
 		if (callReturnFunc == true && this.returnFunc != null) {
 			this.returnFunc(window.frames["popupFrame"].returnVal);
 		}
-		this.frame.src = 'includes/js/joomla/popup-loading.html';
+		this.frame.src = this.baseURL+'includes/js/joomla/popup-loading.html';
 		
 		// display all select boxes
 		if (this.hideSelects == true) {
@@ -222,18 +227,7 @@ JPopup.prototype = {
  	 */
 	setTitle: function() 
 	{
-		//use a closure to keep scope
-		var self = this;
-		
-		if (window.frames["popupFrame"].document.title == null) {
-			window.setTimeout(onDelay(), 100);
-		} else {
-			document.getElementById("popupTitle").innerHTML = window.frames["popupFrame"].document.title;
-		}
-		
-		function onDelay() {
-			self.setTitle();
-		}
+		document.getElementById("popupTitle").innerHTML = window.frames["popupFrame"].document.title;
 	},
 
 

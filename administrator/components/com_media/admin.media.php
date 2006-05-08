@@ -119,6 +119,8 @@ class JMediaController
 	function imgManager($listFolder)
 	{
 		global $mainframe;
+		
+		$mainframe->setPageTitle(JText::_('Insert Image'));
 
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
