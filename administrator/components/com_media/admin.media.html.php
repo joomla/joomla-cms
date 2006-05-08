@@ -30,7 +30,7 @@ class JMediaViews
 	 * @param string $listdir The current working directory
 	 * @since 1.0
 	 */
-	function showMedia($dirPath, $listdir, $tree) 
+	function showMedia($dirPath, $current, $tree) 
 	{
 		JMediaViews::_loadJS();
 		?>
@@ -84,7 +84,7 @@ class JMediaViews
 							<td align="center" bgcolor="white">
 								<?php JMediaViews::_buildFolderTree($tree); ?>
 								<div class="manager">
-									<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+									<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 								</div>
 							</td>
 						</tr>
@@ -109,6 +109,7 @@ class JMediaViews
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="cb1" id="cb1" value="0" />
+		<input type="hidden" name="dirpath" id="dirpath" value="<?php echo $current; ?>" />
 		</form>
 		<?php
 	}
@@ -122,9 +123,9 @@ class JMediaViews
 	 * @param array $images Array of images in the current working folder
 	 * @since 1.5
 	 */
-	function listMedia($listFolder, $folders, $docs, $images) 
+	function listMedia($current, $folders, $docs, $images) 
 	{
-		JMediaViews::imageStyle($listFolder);
+		JMediaViews::imageStyle($current);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
 			//now sort the folders and images by name.
@@ -137,7 +138,7 @@ class JMediaViews
 			// Handle the folders
 			if (count($folders)) {
 				foreach ($folders as $folder => $folderName) {
-					JMediaViews::showDir('/' . $folderName, $folder, $listFolder);
+					JMediaViews::showDir('/' . $folderName, $folder, $current);
 				}
 			}
 
@@ -151,14 +152,14 @@ class JMediaViews
 					} else {
 						$icon = "components/com_media/images/con_info.png";
 					}
-					JMediaViews::showDoc($doc, $docDetails['size'], $listFolder, $icon);
+					JMediaViews::showDoc($doc, $docDetails['size'], $current, $icon);
 				}
 			}
 
 			// Handle the images
 			if (count($images)) {
 				foreach ($images as $image => $imageDetails) {
-					JMediaViews::showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
+					JMediaViews::showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $current);
 				}
 			}
 
@@ -166,27 +167,6 @@ class JMediaViews
 		} else {
 			JMediaViews::drawNoResults();
 		}
-	}
-
-	/**
-	 * Method to display an error message if the working directory is not valid
-	 *
-	 * since 1.5
-	 */
-	function listError() 
-	{
-		global $BASE_DIR, $BASE_ROOT;
-		?>
-		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<td>
-				<div align="center" style="font-size:small;font-weight:bold;color:#CC0000;font-family: Helvetica, sans-serif;">
-					<?php echo JText::_( 'Configuration Problem' ); ?>: &quot;<?php echo $BASE_DIR.$BASE_ROOT; ?>&quot; <?php echo JText::_( 'does not exist.' ); ?>
-				</div>
-			</td>
-		</tr>
-		</table>
-		<?php
 	}
 
 	function drawNoResults() 
@@ -294,7 +274,7 @@ class JMediaViews
 			$listdir = '';
 		}
 
-		$link = 'index3.php?option=com_media&amp;task=list&amp;listdir='.$listdir.$path;
+		$link = 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$listdir.$path;
 
 		$overlib = '<table>';
 		$overlib .= '<tr>';
@@ -328,7 +308,7 @@ class JMediaViews
 					<?php echo $dir; ?>
 				</small>
 				<div class="buttonOut">
-					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $numFiles; ?>);">
+					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
 				</div>
 			</div>
@@ -429,13 +409,9 @@ class JMediaViews
 		?>
 		<script language="javascript" type="text/javascript">
 		function updateDir(){
-			var allPaths = window.top.document.forms[0].dirPath.options;
-			for(i=0; i<allPaths.length; i++) {
-				allPaths.item(i).selected = false;
-				if((allPaths.item(i).value)== '<?php if (strlen($listdir)>0) { echo $listdir ;} else { echo '/';}  ?>') {
-					allPaths.item(i).selected = true;
-				}
-			}
+			window.top.document.forms[0].dirpath.value = '<?php echo $listdir; ?>';
+			var tree = window.parent.d;
+			tree.openToByName('<?php echo $listdir; ?>', true);
 		}
 
 		function deleteImage(file) {
@@ -530,6 +506,27 @@ class JMediaViews
 		<?php
 	}
 
+	/**
+	 * Method to display an error message if the working directory is not valid
+	 *
+	 * since 1.5
+	 */
+	function listError() 
+	{
+		global $BASE_DIR, $BASE_ROOT;
+		?>
+		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>
+				<div align="center" style="font-size:small;font-weight:bold;color:#CC0000;font-family: Helvetica, sans-serif;">
+					<?php echo JText::_( 'Configuration Problem' ); ?>: &quot;<?php echo $BASE_DIR.$BASE_ROOT; ?>&quot; <?php echo JText::_( 'does not exist.' ); ?>
+				</div>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
+
 	function _buildFolderTree($tree)
 	{
 		global $mainframe;
@@ -560,7 +557,7 @@ class JMediaViews
 			
 		function dirup(){
 			var urlquery=frames['imgManager'].location.search.substring(1);
-			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
+			var curdir= urlquery.substring(urlquery.indexOf('cFolder=')+8);
 			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + listdir;
 		}
@@ -569,7 +566,27 @@ class JMediaViews
 			var selection = document.forms[0].dirPath;
 			var dir = selection.options[selection.selectedIndex].value;
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + dir;
-		}";
+		}
+		
+		// Opens the tree to a specific node
+		dTree.prototype.openToByName = function(nName, bSelect, bFirst) {
+			var nId = 0;
+				for (var n=0; n<this.aNodes.length; n++) {
+					if (this.aNodes[n].name == nName) {
+						nId=n;
+						break;
+					}
+				}
+			var cn=this.aNodes[nId];
+			if (cn.pid==this.root.id || !cn._p) return;
+			cn._io = true;
+			cn._is = bSelect;
+			if (this.completed && cn._hc) this.nodeStatus(true, cn._ai, cn._ls);
+			if (this.completed && bSelect) this.s(cn._ai);
+			else if (bSelect) this._sn=cn._ai;
+			this.openTo(cn._p._ai, false, true);
+		};
+		";
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);
 	}
