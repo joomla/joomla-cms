@@ -175,37 +175,6 @@ class JMediaViews
 		}
 	}
 
-	function imgManagerList($listFolder, $folders, $images) 
-	{
-		JMediaViews::imageStyle($listFolder);
-
-		if (count($images) > 0 || count($folders) > 0) {
-			//now sort the folders and images by name.
-			ksort($images);
-			ksort($folders);
-
-			JMediaViews::drawTableHeader();
-
-			// Handle the folders
-			if (count($folders)) {
-				foreach ($folders as $folder => $folderName) {
-					JMediaViews::showDir2('/' . $folderName, $folder, $listFolder);
-				}
-			}
-
-			// Handle the images
-			if (count($images)) {
-				foreach ($images as $image => $imageDetails) {
-					JMediaViews::showImage2($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
-				}
-			}
-
-			JMediaViews::drawTableFooter();
-		} else {
-			JMediaViews::drawNoResults();
-		}
-	}
-
 	/**
 	 * Method to display an error message if the working directory is not valid
 	 *
@@ -322,60 +291,6 @@ class JMediaViews
 		<?php
 	}
 
-	function showImage2($img, $file, $info, $size, $listdir)
-	{
-		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
-		$insert_url = $listdir.'/'.rawurlencode($img_file);
-		$filesize	= JMediaViews::parseSize($size);
-
-		if (($info[0] > 70) || ($info[0] > 70)) {
-			$img_dimensions = JMediaViews::imageResize($info[0], $info[1], 80);
-		} else {
-			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
-		}
-
-		$overlib = '<table>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('Width');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $info[0] . JText::_('px');
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('Height');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $info[1] . JText::_('px');
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('Filesize');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $filesize;
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '</table>';
-		$overlib .= '<br/> ' . JText::_('*Click for Image Code*');
-		?>
-		<div style="float:left; padding: 5px">
-			<div class="imgTotal"  onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
-				<div align="center" class="imgBorder">
-					<a onclick="javascript: window.parent.populateFields('<?php echo $insert_url;?>')" style="display: block; width: 100%; height: 100%">
-						<div class="image">
-							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
-						</div></a>
-				</div>
-			</div>
-		</div>
-		<?php
-	}
-
 	function showDir($path, $dir, $listdir) 
 	{
 		$count		= JMediaViews::numFiles(COM_MEDIA_BASE.$listdir.$path);
@@ -422,49 +337,6 @@ class JMediaViews
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $numFiles; ?>);">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
-				</div>
-			</div>
-		</div>
-		<?php
-	}
-
-	function showDir2($path, $dir, $listdir) 
-	{
-		$count		= JMediaViews::numFiles(COM_MEDIA_BASE.$listdir.$path);
-		$num_files	= $count[0];
-		$num_dir	= $count[1];
-
-		if ($listdir == '/') {
-			$listdir = '';
-		}
-
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;listdir='.$listdir.$path;
-
-		$overlib = '<table>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('NUMFILES');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $num_files;
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('NUMFOLDERS');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $num_dir;
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '</table>';
-		$overlib .= '<br/>' . JText :: _('*Click to Open*');
-		?>
-		<div style="float:left; padding: 5px">
-			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
-				<div align="center" class="imgBorder">
-					<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:window.parent.updateDir();">
-						<img src="components/com_media/images/folder.gif" width="80" height="80" border="0" alt="<?php echo $dir; ?>" /></a>
 				</div>
 			</div>
 		</div>
