@@ -32,7 +32,13 @@ class JMediaViews
 	 */
 	function showMedia($dirPath, $current, $tree) 
 	{
+		global $mainframe;
+
 		JMediaViews::_loadJS();
+		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
+		$styles[] = mosHTML::makeOption('thumbs', 'Thumbs');
+		$styles[] = mosHTML::makeOption('list', 'List');
+		$listStyle = mosHTML::selectList($styles, 'listStyle', 'onchange="setStyle();"', 'value', 'text', $style )		
 		?>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 
@@ -67,6 +73,9 @@ class JMediaViews
 										<a href="javascript:dirup()">
 											<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
 										</a>
+									</td>
+									<td class="buttonOut" width="10">
+										<?php echo $listStyle; ?>
 									</td>
 									<td align="right">
 										<label for="uploadfile">
@@ -125,6 +134,9 @@ class JMediaViews
 	 */
 	function listMedia($current, $folders, $docs, $images) 
 	{
+		global $mainframe;
+
+		$style = ucfirst($mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs'));
 		JMediaViews::imageStyle($current);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
@@ -137,13 +149,15 @@ class JMediaViews
 
 			// Handle the folders
 			if (count($folders)) {
+				$method = 'showFolder'.$style;
 				foreach ($folders as $folder => $folderName) {
-					JMediaViews::showDir('/' . $folderName, $folder, $current);
+					JMediaViews::$method('/' . $folderName, $folder, $current);
 				}
 			}
 
 			// Handle the documents
 			if (count($docs)) {
+				$method = 'showDoc'.$style;
 				foreach ($docs as $doc => $docDetails) {
 					$extfile = substr($doc, strrpos($doc, '.') + 1);
 					$iconfile = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_media" . DS . "images" . DS . $extfile . "_16.png";
@@ -152,14 +166,15 @@ class JMediaViews
 					} else {
 						$icon = "components/com_media/images/con_info.png";
 					}
-					JMediaViews::showDoc($doc, $docDetails['size'], $current, $icon);
+					JMediaViews::$method($doc, $docDetails['size'], $current, $icon);
 				}
 			}
 
 			// Handle the images
 			if (count($images)) {
+				$method = 'showImg'.$style;
 				foreach ($images as $image => $imageDetails) {
-					JMediaViews::showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $current);
+					JMediaViews::$method($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $current);
 				}
 			}
 
@@ -199,7 +214,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showImage($img, $file, $info, $size, $listdir) 
+	function showImgThumbs($img, $file, $info, $size, $listdir) 
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
@@ -264,7 +279,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showDir($path, $dir, $listdir) 
+	function showFolderThumbs($path, $dir, $listdir) 
 	{
 		$count		= JMediaViews::numFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
@@ -316,7 +331,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showDoc($doc, $size, $listdir, $icon) 
+	function showDocThumbs($doc, $size, $listdir, $icon) 
 	{
 		global $mainframe;
 
@@ -342,6 +357,145 @@ class JMediaViews
 				</div>
 			</div>
 		</div>
+		<?php
+	}
+
+	function showImgList($img, $file, $info, $size, $listdir) 
+	{
+		$img_file	= basename($img);
+		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
+		$filesize	= JMediaViews::parseSize($size);
+
+		if (($info[0] > 40) || ($info[0] > 40)) {
+			$img_dimensions = JMediaViews::imageResize($info[0], $info[1], 50);
+		} else {
+			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
+		}
+
+		$overlib = '<table>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_('Width');
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $info[0] . JText::_('px');
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_('Height');
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $info[1] . JText::_('px');
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_('Filesize');
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $filesize;
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '</table>';
+		$overlib .= '<br/> ' . JText::_('*Click to Enlarge*');
+		$overlib .= '<br/> ' . JText::_('*Click for Image Code*');
+		?>
+		<li>
+			<div onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
+				<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" style="display: block; width: 100%; height: 100%">
+					<div>
+						<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
+						<small>
+							<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
+						</small>
+						<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
+							<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
+						</a>
+						<a onclick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" title="<?php echo JText::_( 'Image Code' ); ?>">
+							<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
+						</a>
+					</div>
+				</a>
+			</div>
+		</li>
+		<?php
+	}
+
+	function showFolderList($path, $dir, $listdir) 
+	{
+		$count		= JMediaViews::numFiles(COM_MEDIA_BASE.$listdir.$path);
+		$num_files	= $count[0];
+		$num_dir	= $count[1];
+
+		if ($listdir == '/') {
+			$listdir = '';
+		}
+
+		$link = 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$listdir.$path;
+
+		$overlib = '<table>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_('NUMFILES');
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $num_files;
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '<tr>';
+		$overlib .= '<td>';
+		$overlib .= JText::_('NUMFOLDERS');
+		$overlib .= '</td>';
+		$overlib .= '<td>';
+		$overlib .= $num_dir;
+		$overlib .= '</td>';
+		$overlib .= '</tr>';
+		$overlib .= '</table>';
+		$overlib .= '<br/>' . JText :: _('*Click to Open*');
+		?>
+		<li>
+			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
+				<div align="center" class="imgBorder">
+					<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
+						<img src="components/com_media/images/folder.gif" width="50" height="50" border="0" alt="<?php echo $dir; ?>" />
+					</a>
+					<small>
+						<?php echo $dir; ?>
+					</small>
+					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
+						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
+					</a>
+				</div>
+			</div>
+		</li>
+		<?php
+	}
+
+	function showDocList($doc, $size, $listdir, $icon) 
+	{
+		global $mainframe;
+
+		$size = JMediaViews::parseSize($size);
+		$base = "/images/";
+		$overlib = JText::_('Filesize') . ': ' . $size;
+		$overlib .= '<br /><br />' . JText::_('*Click for Url*');
+		?>
+		<li>
+			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
+				<div align="center" class="imgBorder">
+					<a href="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir; ?>" onclick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mainframe->getSiteURL(). $base . $listdir  .'/'. $doc;?>&quot;><?php echo JText::_( 'Insert your text here' ); ?></a>';">
+		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" />
+		  			</a>
+					<small>
+						<?php echo $doc; ?>
+					</small>
+					<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $doc; ?>');">
+						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
+					</a>
+		  		</div>
+			</div>
+		</li>
 		<?php
 	}
 
@@ -543,6 +697,7 @@ class JMediaViews
 			d = new dTree('d', '../includes/js/dtree/img/');
 			<?php echo $txt; ?>
 			document.write(d);
+			d.openToByName('/',true);
 		</script>
 		<?php
 	}
@@ -563,9 +718,16 @@ class JMediaViews
 		}
 
 		function goUpDir() {
-			var selection = document.forms[0].dirPath;
-			var dir = selection.options[selection.selectedIndex].value;
+			var dir = document.forms[0].dirpath.value;
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + dir;
+		}
+		
+		function setStyle() {
+			var selection = document.forms[0].listStyle;
+			var style = selection.options[selection.selectedIndex].value;
+			var urlquery=frames['imgManager'].location.search.substring(1);
+			var curdir= urlquery.substring(urlquery.indexOf('cFolder=')+8);
+			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + curdir + '&listStyle=' + style;
 		}
 		
 		// Opens the tree to a specific node
