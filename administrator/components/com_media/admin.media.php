@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 $user = & $mainframe->getUser();
 if ($mainframe->isAdmin()) {
 	if (!$user->authorize( 'com_media', 'manage' )) {
-		josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
+		josRedirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
 } else {
 	if (!$user->authorize( 'com_media', 'popup' )) {
@@ -32,17 +32,15 @@ if (!is_array($cid)) {
 	$cid = array (0);
 }
 
-$task	 = JRequest::getVar( 'task', '');
-$listdir = JRequest::getVar( 'listdir', '');
-$dirPath = JRequest::getVar( 'dirPath', '');
-
-if (is_int(strpos($listdir, "..")) && $listdir != '') {
-	josRedirect("index2.php?option=com_media&listdir=".$listDir, JText::_('NO HACKING PLEASE'));
+$current = JRequest::getVar( 'cFolder', '');
+if (is_int(strpos($current, "..")) && $current != '') {
+	josRedirect("index2.php?option=com_media&cFolder=".$current, JText::_('NO HACKING PLEASE'));
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
 define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : $mainframe->getBaseURL().'images');
 
+$task = JRequest::getVar( 'task', '');
 switch ($task) {
 
 	case 'upload' :
@@ -50,18 +48,19 @@ switch ($task) {
 		break;
 
 	case 'newdir' :
+$dirPath = JRequest::getVar( 'dirPath', '');
 		JMediaController::createFolder($dirPath);
 		JMediaController::showMedia($dirPath);
 		break;
 
 	case 'delete' :
-		JMediaController::deleteFile($listdir);
-		JMediaController::showMedia($listdir);
+		JMediaController::deleteFile($current);
+		JMediaController::showMedia($current);
 		break;
 
 	case 'deletefolder' :
-		JMediaController::deleteFolder($listdir);
-		JMediaController::showMedia($listdir);
+		JMediaController::deleteFolder($current);
+		JMediaController::showMedia($current);
 		break;
 
 	case 'list' :
@@ -92,11 +91,11 @@ switch ($task) {
 		break;
 
 	case 'imgManagerList' :
-		JMediaController::imgManagerList($listdir);
+		JMediaController::imgManagerList($current);
 		break;
 
 	default :
-		JMediaController::showMedia($listdir);
+		JMediaController::showMedia();
 		break;
 }
 
@@ -110,6 +109,110 @@ switch ($task) {
  */
 class JMediaController
 {
+	/**
+	 * Show media manager
+	 *
+	 * @param string $listFolder The image directory to display
+	 * @since 1.5
+	 */
+	function showMedia($base = null)
+	{
+		// Load the admin HTML view
+		require_once (JApplicationHelper::getPath('admin_html'));
+
+		// Get some paths from the request
+		if (empty($base)) {
+			$base = COM_MEDIA_BASE;
+		}
+		$current = JRequest::getVar( 'cFolder' );
+
+		// Get the list of folders
+		jimport('joomla.filesystem.folder');
+		$imgFolders = JFolder::folders($base, '.', true, true);
+
+		// Build the array of select options for the folder list
+		$folders[] = mosHTML::makeOption("/");
+		foreach ($imgFolders as $folder) {
+			$folder 	= str_replace($base, "", $folder);
+			$folder 	= str_replace(DS, "/", $folder);
+			$nodes[] 	= $folder;
+			$folders[] 	= mosHTML::makeOption($folder);
+		}
+		$tree = JMediaController::_buildFolderTree($nodes);
+
+		// Sort the folder list array
+		if (is_array($folders)) {
+			sort($folders);
+		}
+
+		// Create the drop-down folder select list
+		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $current);
+
+		JMediaViews::showMedia($folderSelect, $current, $tree);
+	}
+
+	/**
+	 * Build imagelist
+	 *
+	 * @param string $listFolder The image directory to display
+	 * @since 1.5
+	 */
+	function listMedia()
+	{
+		// Load the admin HTML view
+		require_once (JApplicationHelper::getPath('admin_html'));
+
+		// Get current path from request
+		$current = JRequest::getVar( 'cFolder' );
+
+		// Initialize variables
+		$basePath 	= COM_MEDIA_BASE.DS.$current;
+		$images 	= array ();
+		$folders 	= array ();
+		$docs 		= array ();
+		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+
+		// Get the list of files and folders from the given folder
+		jimport('joomla.filesystem.folder');
+		$fileList 	= JFolder::files($basePath);
+		$folderList = JFolder::folders($basePath);
+
+		// Iterate over the files if they exist
+		if ($fileList !== false) {
+			foreach ($fileList as $file)
+			{
+				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
+					if (eregi($imageTypes, $file)) {
+						$imageInfo = @ getimagesize($basePath.DS.$file);
+						$fileDetails['file'] = $basePath.DS.$file;
+						$fileDetails['imgInfo'] = $imageInfo;
+						$fileDetails['size'] = filesize($basePath.DS.$file);
+						$images[$file] = $fileDetails;
+					} else {
+						// Not a known image file so we will call it a document
+						$fileDetails['size'] = filesize($basePath.DS.$file);
+						$fileDetails['file'] = $basePath.DS.$file;
+						$docs[$file] = $fileDetails;
+					}
+				}
+			}
+		}
+
+		// Iterate over the folders if they exist
+		if ($folderList !== false) {
+			foreach ($folderList as $folder) {
+				$folders[$folder] = $folder;
+			}
+		}
+
+		// If there are no errors then lets list the media
+		if ($folderList !== false && $fileList !== false) {
+			JMediaViews::listMedia($current, $folders, $docs, $images);
+		} else {
+			JMediaViews::listError();
+		}
+	}
+
 	/**
 	 * Image Manager Popup
 	 *
@@ -151,99 +254,6 @@ class JMediaController
 		$doc->addScript('components/com_media/includes/manager.js');
 
 		JMediaViews::imgManager($folderSelect, null);
-	}
-
-	/**
-	 * Show media manager
-	 *
-	 * @param string $listFolder The image directory to display
-	 * @since 1.5
-	 */
-	function showMedia($listFolder)
-	{
-		// Load the admin HTML view
-		require_once (JApplicationHelper::getPath('admin_html'));
-
-		// Get the list of folders
-		jimport('joomla.filesystem.folder');
-		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
-
-		// Build the array of select options for the folder list
-		$folders[] = mosHTML::makeOption("/");
-		foreach ($imgFolders as $folder) {
-			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
-			$folder 	= str_replace(DS, "/", $folder);
-			$folders[] 	= mosHTML::makeOption($folder);
-		}
-
-		// Sort the folder list array
-		if (is_array($folders)) {
-			sort($folders);
-		}
-
-		// Create the drop-down folder select list
-		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listFolder);
-
-		JMediaViews::showMedia($folderSelect, $listFolder);
-	}
-
-	/**
-	 * Build imagelist
-	 *
-	 * @param string $listFolder The image directory to display
-	 * @since 1.5
-	 */
-	function listMedia($listFolder)
-	{
-		// Load the admin HTML view
-		require_once (JApplicationHelper::getPath('admin_html'));
-
-		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
-		$images 	= array ();
-		$folders 	= array ();
-		$docs 		= array ();
-		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
-
-		// Get the list of files and folders from the given folder
-		jimport('joomla.filesystem.folder');
-		$fileList 	= JFolder::files($basePath);
-		$folderList = JFolder::folders($basePath);
-
-		// Iterate over the files if they exist
-		if ($fileList !== false) {
-			foreach ($fileList as $file)
-			{
-				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					if (eregi($imageTypes, $file)) {
-						$imageInfo = @ getimagesize($basePath.DS.$file);
-						$fileDetails['file'] = $basePath.DS.$file;
-						$fileDetails['imgInfo'] = $imageInfo;
-						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$images[$file] = $fileDetails;
-					} else {
-						// Not a known image file so we will call it a document
-						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$fileDetails['file'] = $basePath.DS.$file;
-						$docs[$file] = $fileDetails;
-					}
-				}
-			}
-		}
-
-		// Iterate over the folders if they exist
-		if ($folderList !== false) {
-			foreach ($folderList as $folder) {
-				$folders[$folder] = $folder;
-			}
-		}
-
-		// If there are no errors then lets list the media
-		if ($folderList !== false && $fileList !== false) {
-			JMediaViews::listMedia($listFolder, $folders, $docs, $images);
-		} else {
-			JMediaViews::listError();
-		}
 	}
 
 	function imgManagerList($listFolder)
@@ -412,6 +422,29 @@ class JMediaController
 		} else {
 			echo '<font color="red">'.JText::_('Unable to delete: not empty!').'</font>';
 		}
+	}
+
+	function _buildFolderTree($list)
+	{
+		// id, parent, name, url, title, target
+		$nodes = array();
+		$i = 1;
+		$nodes[''] = array ('id' => 0, 'pid' => -1, 'name' => '/', 'url' => 'index3.php?option=com_media&amp;task=list&amp;cFolder=/', 'title' => '/', 'target' => 'imgManager');
+		if (is_array($list) && count($list)) {
+			foreach ($list as $item) {
+				// Try to find parent
+				$pivot = strrpos($item, '/');
+				$parent = substr($item, 0, $pivot);
+				if (isset($nodes[$parent])) {
+					$pid = $nodes[$parent]['id'];
+				} else {
+					$pid = -1;
+				}
+				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => $item, 'url' => 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$item, 'title' => $item, 'target' => 'imgManager');
+				$i++;
+			}
+		}
+		return $nodes;
 	}
 }
 ?>

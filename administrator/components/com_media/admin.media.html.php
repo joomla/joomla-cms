@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Media
  * @since 1.5
  */
-class JMediaViews 
+class JMediaViews
 {
 	/**
 	 * Method to show the standard Media Manager view
@@ -30,11 +30,11 @@ class JMediaViews
 	 * @param string $listdir The current working directory
 	 * @since 1.0
 	 */
-	function showMedia($dirPath, $listdir) 
+	function showMedia($dirPath, $listdir, $tree) 
 	{
 		JMediaViews::_loadJS();
 		?>
-		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
+		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 
 		<table>
 		<tr>
@@ -63,14 +63,6 @@ class JMediaViews
 							<td>
 								<table border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 								<tr>
-									<td>
-										<label for="dirPath">
-											<?php echo JText::_( 'Directory' ); ?>
-										</label>
-									</td>
-									<td>
-										<?php echo $dirPath;?>
-									</td>
 									<td class="buttonOut" width="10">
 										<a href="javascript:dirup()">
 											<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
@@ -90,6 +82,7 @@ class JMediaViews
 						</tr>
 						<tr>
 							<td align="center" bgcolor="white">
+								<?php JMediaViews::_buildFolderTree($tree); ?>
 								<div class="manager">
 									<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 								</div>
@@ -537,6 +530,26 @@ class JMediaViews
 		<?php
 	}
 
+	function _buildFolderTree($tree)
+	{
+		global $mainframe;
+
+		$doc =& $mainframe->getDocument();
+		$doc->addScript('../includes/js/dtree/dtree.js');
+		$doc->addStyleSheet('../includes/js/dtree/dtree.css');
+		$txt = null;
+		foreach($tree as $node) {
+			$txt .= "d.add(".$node['id'].", ".$node['pid'].", '".$node['name']."', '".$node['url']."', '".$node['title']."', '".$node['target']."');\n";
+		}
+		?>
+		<script language="JavaScript" type="text/javascript">
+			d = new dTree('d', '../includes/js/dtree/img/');
+			<?php echo $txt; ?>
+			document.write(d);
+		</script>
+		<?php
+	}
+
 	function _loadJS()
 	{
 		global $mainframe;
@@ -549,20 +562,13 @@ class JMediaViews
 			var urlquery=frames['imgManager'].location.search.substring(1);
 			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
 			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
-			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&listdir=' + listdir;
-		}
-
-		function dirup(){
-			var urlquery=frames['imgManager'].location.search.substring(1);
-			var curdir= urlquery.substring(urlquery.indexOf('listdir=')+8);
-			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
-			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + listdir;
+			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + listdir;
 		}
 
 		function goUpDir() {
 			var selection = document.forms[0].dirPath;
 			var dir = selection.options[selection.selectedIndex].value;
-			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&listdir=' + dir;
+			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + dir;
 		}";
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);
