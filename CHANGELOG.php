@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-May-2006 Johan Janssens
+ ^ Moved ZLib output compressing into JDocument class
+
 07-May-2006 Samuel Moffatt
  # Changed languages to language in component and modules installer
 

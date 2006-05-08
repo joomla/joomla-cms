@@ -68,9 +68,8 @@ class JDocumentHTML extends JDocument
 		//set the namespace
 		$this->_engine->setNamespace( 'jdoc' );
 		
-			//add module directories
+		//add module directories
 		$this->_engine->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
-		$this->_engine->addModuleDir('OutputFilter', dirname(__FILE__). DS .'filter'  );
 
 		//set mime type
 		$this->_mime = 'text/html';
@@ -215,11 +214,13 @@ class JDocumentHTML extends JDocument
 		header( 'Pragma: no-cache' );										// HTTP/1.0
         header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
+		$data = $this->_engine->fetch('document');
+		
 		if($compress) {
-			$this->_engine->applyOutputFilter('Zlib');
+			$data = $this->compress($data);
 		}
 		
-		$this->_engine->display('document');
+		echo $data;
 	}
 
 	/**
