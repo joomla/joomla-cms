@@ -136,7 +136,12 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$style = ucfirst($mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs'));
+		$doc =& $mainframe->getDocument();
+		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
+		
+		$doc->addStyleSheet('templates/_system/css/media'.$style.'.css');
+
+		$style = ucfirst($style);
 		JMediaViews::imageStyle($current);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
