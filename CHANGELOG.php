@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-May-2006 Samuel Moffatt
+ # Fixed issue with login directly after activation causing error, now redirects to index.php
+
 08-May-2006 Johan Janssens
  ^ Moved ZLib output compressing into JDocument class
 

@@ -269,7 +269,15 @@ function saveRegistration()
 
 function activate()
 {
-	global $mainframe;
+	global $mainframe, $my;
+
+	/*
+	 * Check to see if they're logged in, because they don't need activating!
+	 */
+	if($my->id) {
+		// They're already logged in, so redirect them to the home page
+		josRedirect( 'index.php' );
+	}
 
 	/*
 	 * Initialize some variables
