@@ -64,7 +64,7 @@ $dirPath = JRequest::getVar( 'dirPath', '');
 		break;
 
 	case 'list' :
-		JMediaController::listMedia($listdir);
+		JMediaController::listMedia();
 		break;
 
 	case 'cancel' :
