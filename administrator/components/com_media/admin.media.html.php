@@ -91,8 +91,10 @@ class JMediaViews
 						</tr>
 						<tr>
 							<td align="center" bgcolor="white">
-								<?php JMediaViews::_buildFolderTree($tree); ?>
-								<div class="manager">
+								<div class="navigation" style="width: 20%; display: block; position: relative; float: left; margin: 0; padding: 2px; overflow: hidden;">
+									<?php JMediaViews::_buildFolderTree($tree); ?>
+								</div>
+								<div class="manager" style="width: 78%; display: block; float: left; margin: 0; padding: 2px 0px 0px 0px;">
 									<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 								</div>
 							</td>

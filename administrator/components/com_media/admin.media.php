@@ -429,7 +429,7 @@ class JMediaController
 		// id, parent, name, url, title, target
 		$nodes = array();
 		$i = 1;
-		$nodes[''] = array ('id' => 0, 'pid' => -1, 'name' => '/', 'url' => 'index3.php?option=com_media&amp;task=list&amp;cFolder=/', 'title' => '/', 'target' => 'imgManager');
+		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => 'Images Folder', 'url' => 'index3.php?option=com_media&amp;task=list&amp;cFolder=/', 'title' => 'Images Folder', 'target' => 'imgManager');
 		if (is_array($list) && count($list)) {
 			foreach ($list as $item) {
 				// Try to find parent
