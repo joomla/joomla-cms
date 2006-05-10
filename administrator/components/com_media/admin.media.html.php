@@ -599,7 +599,7 @@ class JMediaViews
 		$doc->addStyleSheet('../includes/js/dtree/dtree.css');
 		$txt = null;
 		foreach($tree as $node) {
-			$txt .= "d.add(".$node['id'].", ".$node['pid'].", '".$node['name']."', '".$node['url']."', '".$node['title']."', '".$node['target']."');\n";
+			$txt .= "d.add(".$node['id'].", ".$node['pid'].", '".$node['name']."', '".$node['url']."', '".$node['title']."', '".$node['target']."', '../includes/js/dtree/img/folder.gif');\n";
 		}
 		?>
 		<script language="JavaScript" type="text/javascript">
