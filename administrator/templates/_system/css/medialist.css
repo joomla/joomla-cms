@@ -20,4 +20,9 @@
 	font-size: 11px;
 	border-right: 1px dashed #e0e0e0;
 	border-bottom: 1px solid #f0f0f0;
+	text-align: center;
+}
+
+.manager table td.description {
+	text-align: left;
 }
