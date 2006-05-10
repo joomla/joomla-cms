@@ -281,7 +281,7 @@ class JMediaViews
 		$overlib .= '<br/> ' . JText::_('*Click to Enlarge*');
 		$overlib .= '<br/> ' . JText::_('*Click for Image Code*');
 		?>
-		<div style="float:left; padding: 5px">
+		<div class="imgOutline">
 			<div class="imgTotal"  onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
 				<div align="center" class="imgBorder">
 					<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" style="display: block; width: 100%; height: 100%">
@@ -337,7 +337,7 @@ class JMediaViews
 		$overlib .= '</table>';
 		$overlib .= '<br/>' . JText :: _('*Click to Open*');
 		?>
-		<div style="float:left; padding: 5px">
+		<div class="imgOutline">
 			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
 				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
@@ -366,7 +366,7 @@ class JMediaViews
 		$overlib = JText::_('Filesize') . ': ' . $size;
 		$overlib .= '<br /><br />' . JText::_('*Click for Url*');
 		?>
-		<div style="float:left; padding: 5px">
+		<div class="imgOutline">
 			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
 				<div align="center" class="imgBorder">
 				  <a href="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir; ?>" onclick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mainframe->getSiteURL(). $base . $listdir  .'/'. $doc;?>&quot;><?php echo JText::_( 'Insert your text here' ); ?></a>';">
@@ -563,75 +563,6 @@ class JMediaViews
 		</script>
 		</head>
 		<body onload="updateDir()">
-		<style type="text/css">
-		<!--
-		div.imgTotal {
-			border-top: 1px solid #ccc;
-			border-left: 1px solid #ccc;
-			border-right: 1px solid #ccc;
-		}
-		div.imgBorder {
-			height: 70px;
-			vertical-align: middle;
-			width: 88px;
-			overflow: hidden;
-		}
-		div.imgBorder a {
-			height: 70px;
-			width: 88px;
-			display: block;
-		}
-		div.imgBorder a:hover {
-			height: 70px;
-			width: 88px;
-			background-color: #f1e8e6;
-			color : #FF6600;
-		}
-		.imgBorderHover {
-			background: #FFFFCC;
-			cursor: hand;
-		}
-		div.imginfoBorder {
-			background: #f6f6f6;
-			width: 84px !important;
-			width: 90px;
-			height: 35px;
-			vertical-align: middle;
-			padding: 2px;
-			overflow: hidden;
-			border: 1px solid #ccc;
-			font-family: Arial, Helvetica, sans-serif;
-			font-size: 11px;
-		}
-
-		div.imgBorder a {
-			cursor: pointer;
-		}
-
-		.buttonHover {
-			border: 1px solid;
-			border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
-			cursor: hand;
-			background: #FFFFCC;
-		}
-
-		.buttonOut {
-		 	border: 0px;
-		}
-
-		.imgCaption {
-			font-size: 9pt;
-			text-align: center;
-		}
-		.dirField {
-			font-size: 9pt;
-			width:110px;
-		}
-		div.image {
-			padding-top: 10px;
-		}
-		-->
-		</style>
 		<?php
 	}
 
