@@ -152,7 +152,8 @@ class JMediaViews
 			ksort($folders);
 			ksort($docs);
 
-			JMediaViews::drawTableHeader();
+			$method = 'draw'.$style.'Header';
+			JMediaViews::$method();
 
 			// Handle the folders
 			if (count($folders)) {
@@ -185,7 +186,8 @@ class JMediaViews
 				}
 			}
 
-			JMediaViews::drawTableFooter();
+			$method = 'draw'.$style.'Footer';
+			JMediaViews::$method();
 		} else {
 			JMediaViews::drawNoResults();
 		}
@@ -206,7 +208,7 @@ class JMediaViews
 		<?php
 	}
 
-	function drawTableHeader() 
+	function drawThumbsHeader() 
 	{
 		mosCommonHTML::loadOverlib();
 		?>
@@ -214,9 +216,26 @@ class JMediaViews
 		<?php
 	}
 
-	function drawTableFooter() 
+	function drawThumbsFooter() 
 	{
 		?>
+		</div>
+		<?php
+	}
+
+	function drawListHeader() 
+	{
+		mosCommonHTML::loadOverlib();
+		?>
+		<div class="manager">
+		<table width="100%">
+		<?php
+	}
+
+	function drawListFooter() 
+	{
+		?>
+		</table>
 		</div>
 		<?php
 	}
@@ -408,24 +427,28 @@ class JMediaViews
 		$overlib .= '<br/> ' . JText::_('*Click to Enlarge*');
 		$overlib .= '<br/> ' . JText::_('*Click for Image Code*');
 		?>
-		<li>
-			<div onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
+		<tr>
+			<td onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
 				<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" style="display: block; width: 100%; height: 100%">
-					<div>
-						<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
-						<small>
-							<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
-						</small>
-						<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
-							<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-						</a>
-						<a onclick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" title="<?php echo JText::_( 'Image Code' ); ?>">
-							<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
-						</a>
-					</div>
+					<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 				</a>
-			</div>
-		</li>
+			</td>
+			<td>
+				<small>
+					<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
+				</small>
+			</td>
+			<td>
+				<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
+					<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
+				</a>
+			</td>
+			<td>
+				<a onclick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" title="<?php echo JText::_( 'Image Code' ); ?>">
+					<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
+				</a>
+			</td>
+		</tr>
 		<?php
 	}
 
@@ -461,21 +484,23 @@ class JMediaViews
 		$overlib .= '</table>';
 		$overlib .= '<br/>' . JText :: _('*Click to Open*');
 		?>
-		<li>
-			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
-				<div align="center" class="imgBorder">
-					<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
-						<img src="components/com_media/images/folder.gif" width="50" height="50" border="0" alt="<?php echo $dir; ?>" />
-					</a>
-					<small>
-						<?php echo $dir; ?>
-					</small>
-					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
-						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-					</a>
-				</div>
-			</div>
-		</li>
+		<tr>
+			<td class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
+				<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
+					<img src="components/com_media/images/folder.gif" width="50" height="50" border="0" alt="<?php echo $dir; ?>" />
+				</a>
+			</td>
+			<td>
+				<small>
+					<?php echo $dir; ?>
+				</small>
+			</td>
+			<td>
+				<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
+					<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
+				</a>
+			</td>
+		</tr>
 		<?php
 	}
 
@@ -488,21 +513,23 @@ class JMediaViews
 		$overlib = JText::_('Filesize') . ': ' . $size;
 		$overlib .= '<br /><br />' . JText::_('*Click for Url*');
 		?>
-		<li>
-			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
-				<div align="center" class="imgBorder">
-					<a href="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir; ?>" onclick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mainframe->getSiteURL(). $base . $listdir  .'/'. $doc;?>&quot;><?php echo JText::_( 'Insert your text here' ); ?></a>';">
-		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" />
-		  			</a>
-					<small>
-						<?php echo $doc; ?>
-					</small>
-					<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $doc; ?>');">
-						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-					</a>
-		  		</div>
-			</div>
-		</li>
+		<tr>
+			<td class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
+				<a href="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir; ?>" onclick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mainframe->getSiteURL(). $base . $listdir  .'/'. $doc;?>&quot;><?php echo JText::_( 'Insert your text here' ); ?></a>';">
+	  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" />
+	  			</a>
+			</td>
+			<td>
+				<small>
+					<?php echo $doc; ?>
+				</small>
+			</td>
+			<td>
+				<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $doc; ?>');">
+					<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
+				</a>
+			</td>
+		</tr>
 		<?php
 	}
 
