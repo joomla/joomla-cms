@@ -14,3 +14,10 @@
   background: #ffffff;
   padding: 2px;
 }
+
+.manager table td {
+	font-family: Arial, helvetica, sans-serif;
+	font-size: 11px;
+	border-right: 1px dashed #e0e0e0;
+	border-bottom: 1px solid #f0f0f0;
+}

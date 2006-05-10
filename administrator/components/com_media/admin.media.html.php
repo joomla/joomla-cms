@@ -291,9 +291,7 @@ class JMediaViews
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				<small>
-					<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
-				</small>
+				<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
@@ -345,9 +343,7 @@ class JMediaViews
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				<small>
-					<?php echo $dir; ?>
-				</small>
+				<?php echo $dir; ?>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
@@ -374,9 +370,7 @@ class JMediaViews
 		  		</div>
 			</div>
 			<div class="imginfoBorder">
-				<small>
-					<?php echo $doc; ?>
-				</small>
+				<?php echo $doc; ?>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
@@ -392,8 +386,8 @@ class JMediaViews
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
 		$filesize	= JMediaHelper::parseSize($size);
 
-		if (($info[0] > 40) || ($info[0] > 40)) {
-			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 50);
+		if (($info[0] > 16) || ($info[0] > 16)) {
+			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 16);
 		} else {
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
@@ -434,15 +428,10 @@ class JMediaViews
 				</a>
 			</td>
 			<td>
-				<small>
-					<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
-				</small>
+				<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
 			</td>
 			<td>
-				<?php echo $info[0]; ?>
-			</td>
-			<td>
-				<?php echo $info[1]; ?>
+				<?php echo $info[0]; ?> x <?php echo $info[1]; ?>
 			</td>
 			<td>
 				<?php echo $filesize; ?>
@@ -496,24 +485,25 @@ class JMediaViews
 		<tr>
 			<td class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
 				<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
-					<img src="components/com_media/images/folder.gif" width="50" height="50" border="0" alt="<?php echo $dir; ?>" />
+					<img src="components/com_media/images/folder.gif" width="16" height="16" border="0" alt="<?php echo $dir; ?>" />
 				</a>
 			</td>
 			<td>
-				<small>
 					<?php echo $dir; ?>
-				</small>
 			</td>
 			<td>
+				&nbsp;
 			</td>
 			<td>
-			</td>
-			<td>
+				&nbsp;
 			</td>
 			<td>
 				<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
 					<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
+			</td>
+			<td>
+				&nbsp;
 			</td>
 		</tr>
 		<?php
@@ -535,9 +525,7 @@ class JMediaViews
 	  			</a>
 			</td>
 			<td>
-				<small>
 					<?php echo $doc; ?>
-				</small>
 			</td>
 			<td>
 				<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $doc; ?>');">
