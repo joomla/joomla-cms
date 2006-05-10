@@ -1,0 +1,90 @@
+/**
+* @version $Id:  $
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * JImageManager imagelist styling
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+
+div.imgTotal {
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+div.imgBorder {
+	height: 70px;
+	vertical-align: middle;
+	width: 88px;
+	overflow: hidden;
+}
+
+div.imgBorder a {
+	height: 70px;
+	width: 88px;
+	display: block;
+}
+
+div.imgBorder a:hover {
+	height: 70px;
+	width: 88px;
+	background-color: #f1e8e6;
+	color : #FF6600;
+}
+
+.imgBorderHover {
+	background: #FFFFCC;
+	cursor: hand;
+}
+
+div.imginfoBorder {
+	background: #f6f6f6;
+	width: 84px !important;
+	width: 90px;
+	height: 35px;
+	vertical-align: middle;
+	padding: 2px;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+div.imgBorder a { cursor: pointer; }
+
+.buttonHover {
+	border: 1px solid;
+	border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+	cursor: hand;
+	background: #FFFFCC;
+}
+
+.buttonOut {
+	border: 0px;
+}
+
+.imgCaption {
+	font-size: 9pt;
+	text-align: center;
+}
+
+.dirField {
+	font-size: 9pt;
+	width:110px;
+}
+
+div.image {
+	padding-top: 10px;
+}

@@ -225,10 +225,10 @@ class JMediaViews
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
-		$filesize	= JMediaViews::parseSize($size);
+		$filesize	= JMediaHelper::parseSize($size);
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
-			$img_dimensions = JMediaViews::imageResize($info[0], $info[1], 80);
+			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 80);
 		} else {
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
@@ -288,7 +288,7 @@ class JMediaViews
 
 	function showFolderThumbs($path, $dir, $listdir) 
 	{
-		$count		= JMediaViews::numFiles(COM_MEDIA_BASE.$listdir.$path);
+		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -342,7 +342,7 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$size = JMediaViews::parseSize($size);
+		$size = JMediaHelper::parseSize($size);
 		$base = "/images/";
 		$overlib = JText::_('Filesize') . ': ' . $size;
 		$overlib .= '<br /><br />' . JText::_('*Click for Url*');
@@ -371,10 +371,10 @@ class JMediaViews
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
-		$filesize	= JMediaViews::parseSize($size);
+		$filesize	= JMediaHelper::parseSize($size);
 
 		if (($info[0] > 40) || ($info[0] > 40)) {
-			$img_dimensions = JMediaViews::imageResize($info[0], $info[1], 50);
+			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 50);
 		} else {
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
@@ -431,7 +431,7 @@ class JMediaViews
 
 	function showFolderList($path, $dir, $listdir) 
 	{
-		$count		= JMediaViews::numFiles(COM_MEDIA_BASE.$listdir.$path);
+		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -483,7 +483,7 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$size = JMediaViews::parseSize($size);
+		$size = JMediaHelper::parseSize($size);
 		$base = "/images/";
 		$overlib = JText::_('Filesize') . ': ' . $size;
 		$overlib .= '<br /><br />' . JText::_('*Click for Url*');
@@ -504,65 +504,6 @@ class JMediaViews
 			</div>
 		</li>
 		<?php
-	}
-
-	function parseSize($size) 
-	{
-		if ($size < 1024) {
-			return $size . ' bytes';
-		} else
-			if ($size >= 1024 && $size < 1024 * 1024) {
-				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
-			} else {
-				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
-			}
-	}
-
-	function imageResize($width, $height, $target) 
-	{
-		//takes the larger size of the width and height and applies the
-		//formula accordingly...this is so this script will work
-		//dynamically with any size image
-		if ($width > $height) {
-			$percentage = ($target / $width);
-		} else {
-			$percentage = ($target / $height);
-		}
-
-		//gets the new value and applies the percentage, then rounds the value
-		$width = round($width * $percentage);
-		$height = round($height * $percentage);
-
-		//returns the new sizes in html image tag format...this is so you
-		//can plug this function inside an image tag and just get the
-
-		return "width=\"$width\" height=\"$height\"";
-	}
-
-	function numFiles($dir) 
-	{
-		$total_file = 0;
-		$total_dir = 0;
-
-		if (is_dir($dir)) {
-			$d = dir($dir);
-
-			while (false !== ($entry = $d->read())) {
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
-					$total_file++;
-				}
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
-					$total_dir++;
-				}
-			}
-
-			$d->close();
-		}
-
-		return array (
-			$total_file,
-			$total_dir
-		);
 	}
 
 	function imageStyle($listdir) 

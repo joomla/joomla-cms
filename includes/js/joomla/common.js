@@ -30,7 +30,7 @@ Browser.is_ie	= ((Browser.agt.indexOf("msie") != -1) && (Browser.agt.indexOf("op
 /* -- page loader ----------------------------- */
 /* -------------------------------------------- */
 
-function addLoadEvent(func) {
+document.addLoadEvent= function(func) {
   var oldonload = window.onload;
   if (typeof window.onload != 'function') {
     window.onload = func;
@@ -50,5 +50,20 @@ function delay(gap) {
 	{now=new Date().getTime();}
 }
 
+/* -------------------------------------------- */
+/* -- functions ------------------------------- */
+/* -------------------------------------------- */
 
-
+document.getElementsByClassName =  function(sClassName, oElement, sTagName, fn)
+{
+  var found = new Array();
+  var re = new RegExp('\\b'+sClassName+'\\b', 'i');
+  var list = oElement.getElementsByTagName(sTagName);
+  for (var i = 0; i < list.length; ++i) {
+    if (list[i].className && list[i].className.search(re) != -1) {
+      found[found.length] = list[i];
+      if (fn) fn(list[i]);
+    }
+  }
+  return found;
+}

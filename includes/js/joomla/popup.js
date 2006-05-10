@@ -313,7 +313,7 @@ JPopup.prototype = {
 }
 
 document.popup = null
-addLoadEvent(function() {
+document.addLoadEvent(function() {
   var popup = new JPopup()
   document.popup = popup
 });

@@ -19,13 +19,13 @@
  */
   
 document.menu = null
-addLoadEvent(function() {
+document.addLoadEvent(function() {
   element = document.getElementById('menu')
   var menu = new JMenu(element)
   document.menu = menu
 });
 
-addLoadEvent(function() { 
+document.addLoadEvent(function() { 
 	Fat.fade_all(); 
 	if(NiftyCheck()) {
 		Rounded("div.component","all","#fff","#fff","border #ccc");

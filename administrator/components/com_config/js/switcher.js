@@ -20,46 +20,8 @@
  * @since		1.5
  */
 
-document.addLoadEvent = function(func) { 
-  var oldonload = window.onload;
-  if (typeof window.onload != 'function') {
-    window.onload = func;
-  } else {
-    window.onload = function() {
-		oldonload();
-      func(); 
-	}
-  }
-}
-
-document.getElementsByClassName =  function(sClassName, oElement, sTagName, fn)
-{
-  var found = new Array();
-  var re = new RegExp('\\b'+sClassName+'\\b', 'i');
-  var list = oElement.getElementsByTagName(sTagName);
-  for (var i = 0; i < list.length; ++i) {
-    if (list[i].className && list[i].className.search(re) != -1) {
-      found[found.length] = list[i];
-      if (fn) fn(list[i]);
-    }
-  }
-  return found;
-}
-
-function loadSwicther() {
-
-  toggler = document.getElementById('submenu')
-  element = document.getElementById('config-document')
-  if(element) {
-  	 var switcher = new Switcher(toggler, element)
-  	 switcher.switchTo('site');
-	 return switcher;
-  }
-  return null;
-}
-
-Switcher = function() { this.initialize.apply(this, arguments);}
-Switcher.prototype = {
+JSwitcher = function() { this.initialize.apply(this, arguments);}
+JSwitcher.prototype = {
 
 	initialize: function(toggler, element) 
 	{	
@@ -116,7 +78,12 @@ Switcher.prototype = {
 	}
 }
 
-//load the switcher
+document.switcher = null;
 document.addLoadEvent(function() {
- 	document.switcher = loadSwicther();
+ 	toggler = document.getElementById('submenu')
+  	element = document.getElementById('config-document')
+  	if(element) {
+  		document.switcher = new JSwitcher(toggler, element)
+  	 	document.switcher.switchTo('site');
+  	}
 });

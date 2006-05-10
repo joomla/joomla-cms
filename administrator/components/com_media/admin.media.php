@@ -32,9 +32,9 @@ if (!is_array($cid)) {
 	$cid = array (0);
 }
 
-$current = JRequest::getVar( 'cFolder', '');
-if (is_int(strpos($current, "..")) && $current != '') {
-	josRedirect("index2.php?option=com_media&cFolder=".$current, JText::_('NO HACKING PLEASE'));
+$folder = JRequest::getVar( 'folder', '');
+if (is_int(strpos($folder, "..")) && $folder != '') {
+	josRedirect("index2.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
@@ -48,19 +48,19 @@ switch ($task) {
 		break;
 
 	case 'newdir' :
-$dirPath = JRequest::getVar( 'dirPath', '');
+		$dirPath = JRequest::getVar( 'dirPath', '');
 		JMediaController::createFolder($dirPath);
 		JMediaController::showMedia($dirPath);
 		break;
 
 	case 'delete' :
-		JMediaController::deleteFile($current);
-		JMediaController::showMedia($current);
+		JMediaController::deleteFile($folder);
+		JMediaController::showMedia($folder);
 		break;
 
 	case 'deletefolder' :
-		JMediaController::deleteFolder($current);
-		JMediaController::showMedia($current);
+		JMediaController::deleteFolder($folder);
+		JMediaController::showMedia($folder);
 		break;
 
 	case 'list' :
@@ -91,7 +91,7 @@ $dirPath = JRequest::getVar( 'dirPath', '');
 		break;
 
 	case 'imgManagerList' :
-		JMediaController::imgManagerList($current);
+		JMediaController::imgManagerList($folder);
 		break;
 
 	default :
@@ -246,10 +246,10 @@ class JMediaController
 		}
 
 		// Create the drop-down folder select list
-		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listFolder);
+		$folderSelect = mosHTML::selectList($folders, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"document.imagemanager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $listFolder);
 
+		//attach stylesheet to document
 		$doc = & $mainframe->getDocument();
-		
 		$doc->addStyleSheet('components/com_media/includes/manager.css');
 		$doc->addScript('components/com_media/includes/manager.js');
 
@@ -258,6 +258,8 @@ class JMediaController
 
 	function imgManagerList($listFolder)
 	{
+		global $mainframe;
+		
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 
@@ -300,6 +302,10 @@ class JMediaController
 				$folders[$folder] = $folder;
 			}
 		}
+		
+		//attach stylesheet to document
+		$doc = & $mainframe->getDocument();
+		$doc->addStyleSheet('components/com_media/includes/imagelist.css');
 
 		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {
@@ -445,6 +451,76 @@ class JMediaController
 			}
 		}
 		return $nodes;
+	}
+}
+
+/**
+ * Media Component Helper
+ *
+ * @static
+ * @package Joomla
+ * @subpackage Content
+ * @since 1.5
+ */
+class JMediaHelper 
+{
+	function parseSize($size) 
+	{
+		if ($size < 1024) {
+			return $size . ' bytes';
+		} 
+		else
+		{
+			if ($size >= 1024 && $size < 1024 * 1024) {
+				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
+			} else {
+				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
+			}
+		}
+	}
+	
+	function imageResize($width, $height, $target) 
+	{
+		//takes the larger size of the width and height and applies the
+		//formula accordingly...this is so this script will work
+		//dynamically with any size image
+		if ($width > $height) {
+			$percentage = ($target / $width);
+		} else {
+			$percentage = ($target / $height);
+		}
+
+		//gets the new value and applies the percentage, then rounds the value
+		$width = round($width * $percentage);
+		$height = round($height * $percentage);
+
+		//returns the new sizes in html image tag format...this is so you
+		//can plug this function inside an image tag and just get the
+
+		return "width=\"$width\" height=\"$height\"";
+	}
+	
+	function countFiles( $dir ) 
+	{
+		$total_file = 0;
+		$total_dir = 0;
+
+		if (is_dir($dir)) {
+			$d = dir($dir);
+
+			while (false !== ($entry = $d->read())) {
+				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
+					$total_file++;
+				}
+				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
+					$total_dir++;
+				}
+			}
+
+			$d->close();
+		}
+
+		return array ( $total_file, $total_dir );
 	}
 }
 ?>
