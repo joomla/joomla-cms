@@ -76,7 +76,7 @@ JPopup.prototype = {
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
-	
+		
 		this.mask      = document.getElementById("popupMask");
 		this.container = document.getElementById("popupContainer");
 		this.frame     = document.getElementById("popupFrame");	
@@ -137,6 +137,8 @@ JPopup.prototype = {
 		this.mask.style.display      = "block";
 		this.container.style.display = "block";
 		
+		Element.addClassName(document.body, 'mask');
+	
 		// calculate where to place the window on screen
 		this.center(width, height);
 	

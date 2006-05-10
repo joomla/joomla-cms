@@ -271,7 +271,6 @@ class JPaneSliders extends JPane
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$document->addScript( $url. 'includes/js/moofx/prototype.lite.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );

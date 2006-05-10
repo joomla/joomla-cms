@@ -18,7 +18,6 @@
  * @version     1.0
  */
 
-
 #popupMask {
 	position: fixed; z-index: 200;
 	top: 0px; left: 0px;
