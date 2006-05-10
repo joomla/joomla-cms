@@ -439,6 +439,15 @@ class JMediaViews
 				</small>
 			</td>
 			<td>
+				<?php echo $info[0]; ?>
+			</td>
+			<td>
+				<?php echo $info[1]; ?>
+			</td>
+			<td>
+				<?php echo $filesize; ?>
+			</td>
+			<td>
 				<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
@@ -494,6 +503,12 @@ class JMediaViews
 				<small>
 					<?php echo $dir; ?>
 				</small>
+			</td>
+			<td>
+			</td>
+			<td>
+			</td>
+			<td>
 			</td>
 			<td>
 				<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
