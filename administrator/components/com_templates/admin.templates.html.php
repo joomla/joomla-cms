@@ -334,7 +334,7 @@ class JTemplatesView
 			</table>
 		</div>
 
-		<input type="hidden" name="id" value="<?php echo $row->directory; ?>" />
+		<input type="hidden" name="template" value="<?php echo $row->directory; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="1" />
@@ -395,7 +395,7 @@ class JTemplatesView
 	</div>
 	<div class="clr"></div>
 
-	<input type="hidden" name="id" value="<?php echo $template; ?>" />
+	<input type="hidden" name="template" value="<?php echo $template; ?>" />
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
@@ -432,7 +432,7 @@ class JTemplatesView
 			$file = &$t_files[$i]; ?>
 			<tr class="<?php echo 'row'. $k; ?>">
 				<td width="5%">
-					<input type="radio" id="cb<?php echo $i;?>" name="tp_name" value="<?php echo '/templates/'. $template .'/css/'. $file; ?>" onClick="isChecked(this.checked);" />
+					<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo '/templates/'. $template .'/css/'. $file; ?>" onClick="isChecked(this.checked);" />
 				</td>
 				<td width="85%">
 					<?php echo $file; ?>
@@ -460,8 +460,9 @@ class JTemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource( $template, $tp_name, &$content, $option, &$client ) {
-		$css_path = $client->path . $tp_name;
+	function editCSSSource( $template, $filename, &$content, $option, &$client ) 
+	{
+		$css_path = $client->path . $filename;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
@@ -508,7 +509,7 @@ class JTemplatesView
 		</table>
 
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
-		<input type="hidden" name="tp_fname" value="<?php echo $css_path; ?>" />
+		<input type="hidden" name="filename" value="<?php echo $filename; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />

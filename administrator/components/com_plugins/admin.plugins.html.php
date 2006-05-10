@@ -30,6 +30,9 @@ class HTML_modules {
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
+		
+		//Ordering allowed ?
+		$ordering = ($lists['order'] == 'p.folder');
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -69,21 +72,17 @@ class HTML_modules {
 					<th nowrap="nowrap" width="5%">
 						<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>
 					</th>
-					<?php
-					if ( $lists['order'] == 'p.folder' ) {
-						?>
-						<th colspan="2" nowrap="true" width="5%">
-							<?php echo JText::_( 'Reorder' ); ?>
-						</th>
-						<th width="2%">
-							<?php echo JText::_( 'Order' ); ?>
-						</th>
-						<th width="1%">
-							<?php mosCommonHTML::saveorderButton( $rows ); ?>
-						</th>
-						<?php
-					}
-					?>
+					<th colspan="2" nowrap="true" width="5%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
+					<th width="2%">
+						<a href="javascript:tableOrdering('p.folder','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+							<?php echo JText::_( 'Order' );?>
+						</a>
+					</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
 					<th nowrap="nowrap" width="7%">
 						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
@@ -137,21 +136,16 @@ class HTML_modules {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<?php
-					if ( $lists['order'] == 'p.folder' ) {
-						?>
-						<td>
-							<?php echo $page->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
-						</td>
-						<td>
-							<?php echo $page->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
-						</td>
-						<td align="center" colspan="2">
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-						</td>
-						<?php
-					}
-					?>
+					<td>
+						<?php echo $page->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?>
+					</td>
+					<td>
+						<?php echo $page->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderdown', 'Move Down', $ordering ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"  <?php echo $disabled ?> class="text_area" style="text-align: center" />
+					</td>
 					<td align="center">
 						<?php echo $access;?>
 					</td>

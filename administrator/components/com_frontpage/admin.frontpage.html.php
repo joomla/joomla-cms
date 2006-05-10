@@ -24,13 +24,18 @@ class HTML_content {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showList( &$rows, $page, $option, $lists ) {
+	function showList( &$rows, $page, $option, $lists ) 
+	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
-		$db = & $mainframe->getDBO();
-		$nullDate = $db->getNullDate();
+		$user 		=& $mainframe->getUser();
+		$db 		= & $mainframe->getDBO();
+		$nullDate 	= $db->getNullDate();
+		
+		//Ordering allowed ?
+		$ordering = (($lists['order'] == 'fpordering'));
+		
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
@@ -73,7 +78,9 @@ class HTML_content {
 						<?php echo JText::_( 'Reorder' ); ?>
 					</th>
 					<th width="2%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Order', 'fpordering', $lists ); ?>
+						<a href="javascript:tableOrdering('fpordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+							<?php echo JText::_( 'Order' ); ?>
+						</a>	
 		 			</th>
 					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -206,13 +213,14 @@ class HTML_content {
 					}
 					?>
 					<td>
-						<?php echo $page->orderUpIcon( $i ); ?>
+						<?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?>
 					</td>
 					<td>
-						<?php echo $page->orderDownIcon( $i, $n ); ?>
+						<?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?>
 					</td>
 					<td align="center" colspan="2">
-						<input type="text" name="order[]" size="5" value="<?php echo $row->fpordering;?>" class="text_area" style="text-align: center" />
+						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->fpordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
 						<?php echo $access;?>

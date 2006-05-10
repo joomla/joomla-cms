@@ -19,10 +19,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Contact
 */
-class HTML_contact {
-
-	function showContacts( &$rows, &$pageNav, $option, &$lists ) {
+class HTML_contact 
+{
+	function showContacts( &$rows, &$pageNav, $option, &$lists ) 
+	{
 		global $my;
+		
+		//Ordering allowed ?
+		$ordering = ($lists['order'] == 'cd.ordering');
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -64,7 +68,9 @@ class HTML_contact {
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Order', 'cd.ordering', $lists ); ?>
+					<a href="javascript:tableOrdering('cd.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+						<?php echo JText::_( 'Order' );?>
+					</a>	
 	 			</th>
 				<th width="1%">
 					<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -119,13 +125,14 @@ class HTML_contact {
 						<?php echo $published;?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ) ); ?>
+						<?php echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ), 'orderup', 'Move Up', $ordering ); ?>
 					</td>
 					<td>
-						<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) ); ?>
+						<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ), 'orderdown', 'Move Down', $ordering ); ?>
 					</td>
 					<td align="center" colspan="2">
-						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
+						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
 						<?php echo $access;?>

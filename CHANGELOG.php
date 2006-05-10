@@ -37,6 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-May-2006 Johan Janssens
+ ^ Feature request artf1819 : Duplicate queries
+ ^ Feature request artf3705 : Sorting of all tables in admin area
+ ^ Feature request artf1479 : Content Items Manager add filter by field Date, Publish etc
+ ^ Feature request artf1992 : Allow sorting in Content Items Manager
+ ^ Feature request artf2008 : Contacts Sorting Improvement
+ ^ Feature request artf3884 : mod_sections.php missing css class
+ ^ Feature request artf3170 : Apply button in CSS and HTML built-in editors
+ ^ Feature request artf2271 : Make it possible to send own headers
+ ^ Feature request artf1721 : More advanced editor-xtd triggers
+ ^ Feature request artf2691 : Weblinks: Auto alphabetize
+
 10-May-2006 Samuel Moffatt
  # Fixed issue with login directly after activation causing error, now redirects to index.php
 

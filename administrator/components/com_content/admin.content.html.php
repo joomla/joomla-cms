@@ -33,11 +33,12 @@ class ContentView
 	{
 		global $mainframe, $database;
 
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user	= & $mainframe->getUser();
+		
+		//Ordering allowed ?
+		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -81,21 +82,17 @@ class ContentView
 					<th nowrap="nowrap" width="1%">
 						<?php mosCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
 					</th>
-					<?php
-					if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
-						?>
-						<th colspan="2" align="center" width="5%">
-							<?php echo JText::_( 'Reorder' ); ?>
-						</th>
-						<th width="2%">
+					<th colspan="2" align="center" width="5%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
+					<th width="2%">
+						<a href="javascript:tableOrdering('section_name','DESC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' ); ?>
-						</th>
-						<th width="1%">
-							<?php mosCommonHTML::saveorderButton( $rows ); ?>
-						</th>
-						<?php
-					}
-					?>
+						</a>	
+					</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
 					<th width="7%">
 						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
@@ -225,21 +222,16 @@ class ContentView
 						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
 							<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : 'publish_x.png';?>" width="12" height="12" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>
-					<?php
-					if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
-						?>
-						<td align="right">
-							<?php echo $page->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
-						</td>
-						<td >
-							<?php echo $page->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
-						</td>
-						<td align="center" colspan="2">
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-						</td>
-						<?php
-					}
-					?>
+					<td align="right">
+						<?php echo $page->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid), 'orderup', 'Move Up', $ordering); ?>
+					</td>
+					<td>
+						<?php echo $page->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid), 'orderdown', 'Move Down', $ordering ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+					</td>
 					<td align="center">
 						<?php echo $access;?>
 					</td>

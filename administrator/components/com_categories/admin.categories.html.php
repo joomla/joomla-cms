@@ -26,11 +26,15 @@ class categories_html {
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $section, $section_name, &$page, &$lists, $type ) {
+	function show( &$rows, $section, $section_name, &$page, &$lists, $type ) 
+	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
+		
+		//Ordering allowed ?
+		$ordering = ($lists['order'] == 'c.ordering');
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -83,7 +87,9 @@ class categories_html {
 					}
 					?>
 					<th width="2%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Order', 'c.ordering', $lists ); ?>
+						<a href="javascript:tableOrdering('c.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+							<?php echo JText::_( 'Order' );?>
+						</a>	
 					</th>
 					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -162,16 +168,17 @@ class categories_html {
 					if ( $section <> 'content' ) {
 						?>
 						<td>
-							<?php echo $page->orderUpIcon( $i ); ?>
+							<?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?>
 						</td>
 						<td>
-							<?php echo $page->orderDownIcon( $i, $n ); ?>
+							<?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?>
 						</td>
 						<?php
 					}
 					?>
 					<td align="center" colspan="2">
-						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
 						<?php echo $access;?>

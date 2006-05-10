@@ -43,7 +43,7 @@ $rows = $db->loadObjectList();
 if ($rows)
 {
 ?>
-	<ul>
+	<ul class="sections<?php echo $moduleclass_sfx; ?>">
 	<?php
 	foreach ($rows as $row)
 	{

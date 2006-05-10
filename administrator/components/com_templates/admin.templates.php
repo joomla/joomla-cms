@@ -46,23 +46,25 @@ switch ($task)
 		break;
 
 	case 'edit_source' :
-		JTemplatesController::editTemplateSource($cid[0]);
+		JTemplatesController::editTemplateSource();
 		break;
 
-	case 'save_source' :
+	case 'save_source'  :
+	case 'apply_source' :
 		JTemplatesController::saveTemplateSource();
 		break;
 
 	case 'choose_css' :
-		JTemplatesController::chooseTemplateCSS($cid[0]);
+		JTemplatesController::chooseTemplateCSS();
 		break;
 
 	case 'edit_css' :
-		JTemplatesController::editTemplateCSS($cid[0]);
+		JTemplatesController::editTemplateCSS();
 		break;
 
-	case 'save_css' :
-		JTemplatesController::saveTemplateCSS($cid[0]);
+	case 'save_css'  :
+	case 'apply_css' :
+		JTemplatesController::saveTemplateCSS();
 		break;
 
 	case 'publish' :
@@ -342,27 +344,26 @@ class JTemplatesController
 		josRedirect('index2.php?option='.$option.'&client='.$client->id);
 	}
 
-	function editTemplateSource($p_tname)
+	function editTemplateSource()
 	{
 		global $mainframe;
 
 		/*
 		 * Initialize some variables
 		 */
-		$option	= JRequest::getVar('option');
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$file	= $client->path.DS.'templates'.DS.$p_tname.DS.'index.php';
+		$option		= JRequest::getVar('option');
+		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$template	= JRequest::getVar('template');
+		$file		= $client->path.DS.'templates'.DS.$template.DS.'index.php';
 
 		// Read the source file
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
-		
-		JFile::write($client->path.DS.'test.php', $content);
 	
 		if ($content !== false)
 		{
 			$content = htmlspecialchars($content);
-			JTemplatesView::editTemplateSource($p_tname, $content, $option, $client);
+			JTemplatesView::editTemplateSource($template, $content, $option, $client);
 		}
 		else
 		{
@@ -373,7 +374,7 @@ class JTemplatesController
 
 	function saveTemplateSource()
 	{
-		global $mainframe;
+		global $mainframe, $task;
 
 		/*
 		 * Initialize some variables
@@ -384,12 +385,11 @@ class JTemplatesController
 		$enableWrite	= JRequest::getVar('enable_write', 0, '', 'int');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWHTML);
 
-		if (!$template)
-		{
+		if (!$template) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
-		if (!$filecontent)
-		{
+		
+		if (!$filecontent) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
@@ -403,52 +403,64 @@ class JTemplatesController
 		}
 
 		jimport('joomla.filesystem.file');
-		if (JFile::write($file, $filecontent)) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id);
+		if (JFile::write($file, $filecontent)) 
+		{	
+			switch($task)
+			{
+				case 'apply_source' :
+					josRedirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_source&template='.$template);
+					break;
+				
+				case 'save_source'  :
+				default          :
+					josRedirect('index2.php?option='.$option.'&client='.$client->id);
+					break;
+			}
 		}
 		else {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
 
-	function chooseTemplateCSS($p_tname)
+	function chooseTemplateCSS()
 	{
 		global $mainframe;
 
 		/*
 		 * Initialize some variables
 		 */
-		$option = JRequest::getVar('option');
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$option 	= JRequest::getVar('option');
+		$template	= JRequest::getVar('template');
+		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if ($client->id == 1)
 		{
 			// Admin template css dir
-			$a_dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$p_tname.DS.'css';
+			$a_dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'css';
 			// List .css files
 			jimport('joomla.filesystem.folder');
 			$a_files = JFolder::files($a_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
 			$fs_dir = null;
 			$fs_files = null;
 
-			JTemplatesView::chooseCSSFiles($p_tname, $a_dir, $a_files, $option, $client);
+			JTemplatesView::chooseCSSFiles($template, $a_dir, $a_files, $option, $client);
 
 		}
 		else
 		{
 			// Template css dir
-			$f_dir = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'css';
+			$f_dir = JPATH_SITE.DS.'templates'.DS.$template.DS.'css';
 
 			// List template .css files
 			jimport('joomla.filesystem.folder');
 			$f_files = JFolder::files($f_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
 
-			JTemplatesView::chooseCSSFiles($p_tname, $f_dir, $f_files, $option, $client);
+			JTemplatesView::chooseCSSFiles($template, $f_dir, $f_files, $option, $client);
 
 		}
 	}
 
-	function editTemplateCSS($p_tname)
+	function editTemplateCSS()
 	{
 		global $mainframe;
 
@@ -458,26 +470,24 @@ class JTemplatesController
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('template');
-		$tp_name	= JRequest::getVar('tp_name');
-		$file			= $client->path.$tp_name;
-		$p_tname = $template;
+		$filename	= JRequest::getVar('filename');
 
 		jimport('joomla.filesystem.file');
-		$content = JFile::read($file);
+		$content = JFile::read($client->path.$filename);
 
 		if ($content !== false) {
 			$content = htmlspecialchars($content);
-			JTemplatesView::editCSSSource($p_tname, $tp_name, $content, $option, $client);
+			JTemplatesView::editCSSSource($template, $filename, $content, $option, $client);
 		}
 		else {
-			$msg = sprintf(JText::_('Operation Failed Could not open'), $file);
+			$msg = sprintf(JText::_('Operation Failed Could not open'), $client->path.$filename);
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, $msg);
 		}
 	}
 
-	function saveTemplateCSS($option, $client)
+	function saveTemplateCSS( )
 	{
-		global $mainframe;
+		global $mainframe, $task;
 
 		/*
 		 * Initialize some variables
@@ -485,7 +495,7 @@ class JTemplatesController
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('template');
-		$tp_fname		= JRequest::getVar('tp_fname');
+		$filename		= JRequest::getVar('filename');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWHTML);
 
 		if (!$template) {
@@ -497,8 +507,19 @@ class JTemplatesController
 		}
 
 		jimport('joomla.filesystem.file');
-		if (JFile::write($tp_fname, $filecontent)) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id);
+		if (JFile::write($client->path.$filename, $filecontent)) 
+		{
+			switch($task)
+			{
+				case 'apply_css' :
+					josRedirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_css&template='.$template.'&filename='.$filename);
+					break;
+				
+				case 'save_css'  :
+				default          :
+					josRedirect('index2.php?option='.$option.'&client='.$client->id);
+					break;
+			}
 		}
 		else {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));

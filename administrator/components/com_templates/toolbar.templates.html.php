@@ -44,6 +44,7 @@ class TOOLBAR_templates
 
 		JMenuBar::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
 		JMenuBar::cancel();
+		JMenuBar::apply( 'apply_source' );
 		JMenuBar::save( 'save_source' );
 	}
 
@@ -67,6 +68,7 @@ class TOOLBAR_templates
 	function _EDIT_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JMenuBar::cancel();
+		JMenuBar::apply( 'apply_css');
 		JMenuBar::save( 'save_css' );
 	}
 

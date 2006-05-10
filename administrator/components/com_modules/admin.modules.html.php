@@ -30,6 +30,9 @@ class HTML_modules {
 		global $mainframe;
 
 		$user =& $mainframe->getUser();
+		
+			//Ordering allowed ?
+		$ordering = (($lists['order'] == 'm.position'));
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -69,21 +72,17 @@ class HTML_modules {
 				<th nowrap="nowrap" width="7%">
 					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 				</th>
-				<?php
-				if ( $lists['order'] == 'm.position' ) {
-					?>
-					<th align="center" width="5%">
-						<?php echo JText::_( 'Reorder' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap">
+				<th align="center" width="5%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<a href="javascript:tableOrdering('m.position','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' ); ?>
-					</th>
-					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
-					</th>
-					<?php
-				}
-				?>
+					</a>	
+				</th>
+				<th width="1%">
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
+				</th>
 				<?php
 				if ( $client->id == 0 ) {
 					?>
@@ -147,19 +146,14 @@ class HTML_modules {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<?php
-					if ( $lists['order'] == 'm.position' ) {
-						?>
-						<td class="order">
-							<span><?php echo $page->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?></span>
-							<span><?php echo $page->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?></span>
-						</td>
-						<td align="center" colspan="2">
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-						</td>
-						<?php
-					}
-					?>
+					<td class="order">
+						<span><?php echo $page->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position), 'orderup', 'Move Up', $ordering ); ?></span>
+						<span><?php echo $page->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position),'orderdown', 'Move Down', $ordering ); ?></span>
+					</td>
+					<td align="center" colspan="2">
+						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+					</td>
 					<?php
 					if ( $client->id == 0 ) {
 						?>
