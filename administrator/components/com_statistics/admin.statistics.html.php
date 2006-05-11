@@ -301,7 +301,7 @@ class HTML_statistics {
 						<?php echo $row->hits; ?>
 					</td>
 					<td align="center">
-						<img src="images/<?php echo $img; ?>" width="12" height="12" border="0" />
+						<img src="images/<?php echo $img; ?>" width="16" height="16" border="0" />
 					</td>
 					<td>
 						<a href="<?php echo $row->sect_link; ?>" title="<?php echo $title_sec; ?>">

@@ -207,7 +207,7 @@ class HTML_content {
 						?>
 						<td align="center">
 							<a href="javascript:void(0);" onmouseover="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? 'unpublish' : 'publish' ?>')">
-								<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt;?>" /></a>
+								<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt;?>" /></a>
 						</td>
 						<?php
 					}

@@ -95,7 +95,7 @@ class HTML_messages {
 					</td>
 					<td align="center">
 						<a href="javascript: void(0);">
-							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+							<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
 					</td>
 					<td>
 						<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','view')">

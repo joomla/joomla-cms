@@ -674,25 +674,25 @@ class mosCommonHTML {
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
 		<tr align="center">
 			<td>
-			<img src="images/publish_y.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Pending' ); ?>" />
+			<img src="images/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Pending' ); ?>" />
 			</td>
 			<td>
 			<?php echo JText::_( 'Published, but is' ); ?> <u><?php echo JText::_( 'Pending' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_g.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Visible' ); ?>" />
+			<img src="images/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Visible' ); ?>" />
 			</td>
 			<td>
 			<?php echo JText::_( 'Published and is' ); ?> <u><?php echo JText::_( 'Current' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_r.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
+			<img src="images/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
 			</td>
 			<td>
 			<?php echo JText::_( 'Published, but has' ); ?> <u><?php echo JText::_( 'Expired' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
+			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
 			</td>
 			<td>
 			<?php echo JText::_( 'Not Published' ); ?>

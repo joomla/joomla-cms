@@ -418,12 +418,12 @@ class JPagination extends JObject
 			if($enabled) 
 			{
 				$html  = '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html .= '   <img src="images/uparrow.png" width="12" height="12" border="0" alt="'.$alt.'" />';
+				$html .= '   <img src="images/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html .= '</a>';
 			} 
 			else
 			{
-				$html  = '<img src="images/uparrow0.png" width="12" height="12" border="0" alt="'.$alt.'" />';
+				$html  = '<img src="images/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 			}
 		} 
 		
@@ -452,12 +452,12 @@ class JPagination extends JObject
 			if($enabled) 
 			{
 				$html  = '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html .= '  <img src="images/downarrow.png" width="12" height="12" border="0" alt="'.$alt.'" />';
+				$html .= '  <img src="images/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html .= '</a>';
 			}
 			else 
 			{
-				$html = '<img src="images/downarrow0.png" width="12" height="12" border="0" alt="'.$alt.'" />';
+				$html = '<img src="images/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 			}
 		}
 		
@@ -496,7 +496,7 @@ class JPagination extends JObject
 			};
 		if ($show) {
 			$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderup\')" title="'.$alt.'">';
-			$output .= '<img src="images/'.$img.'" width="12" height="12" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
+			$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
 
 			return $output;
 		} else {
@@ -536,7 +536,7 @@ class JPagination extends JObject
 			};
 		if ($show) {
 			$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'.$alt.'">';
-			$output .= '<img src="images/'.$img.'" width="12" height="12" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
+			$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
 
 			return $output;
 		} else {

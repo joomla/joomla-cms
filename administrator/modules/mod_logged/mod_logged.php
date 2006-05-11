@@ -87,7 +87,7 @@ foreach ( $rows as $row )
 			?>
 			<td>
 			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">
-			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" title="<?php echo JText::_( 'Force Logout User' ); ?>" />
+			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" title="<?php echo JText::_( 'Force Logout User' ); ?>" />
 			</a>
 			</td>
 			<?php
