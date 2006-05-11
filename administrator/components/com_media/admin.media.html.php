@@ -228,15 +228,15 @@ class JMediaViews
 		mosCommonHTML::loadOverlib();
 		?>
 		<div class="manager">
-		<table width="100%">
+		<table width="100%" cellspacing="0">
 		<thead>
 			<tr>
-				<td>Preview</td>
-				<td>Name</td>
-				<td>Dimensions</td>
-				<td>Size</td>
-				<td>Delete</td>
-				<td>Info</td>
+				<th>Preview</td>
+				<th>Name</td>
+				<th>Dimensions</td>
+				<th>Size</td>
+				<th>Delete</td>
+				<th>Info</td>
 			</tr>
 		</thead>
 		<tbody>

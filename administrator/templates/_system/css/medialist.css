@@ -15,14 +15,25 @@
   padding: 2px;
 }
 
-.manager table td {
+.manager table td,
+.manager table th {
 	font-family: Arial, helvetica, sans-serif;
 	font-size: 11px;
-	border-right: 1px dashed #e0e0e0;
-	border-bottom: 1px solid #f0f0f0;
+	border-right: 1px dashed #E7E7E7;
+	border-bottom: 1px solid #E7E7E7;
+	border-left: 1px solid #fff;
 	text-align: center;
 }
 
 .manager table td.description {
 	text-align: left;
 }
+
+.manager table th {
+	border-top: 1px solid #E7E7E7;
+	border-right: 1px solid #E7E7E7;
+	border-bottom: 1px solid #999;
+	background: #F0F0F0;
+	padding: 4px;
+	color: #666;
+} 
