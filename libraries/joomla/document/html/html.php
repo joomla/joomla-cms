@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.extension.module');
-
 /**
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
