@@ -436,10 +436,10 @@ class JMediaViews
 		$overlib .= '</td>';
 		$overlib .= '</tr>';
 		$overlib .= '</table>';
-		$overlib .= '<br/> ' . JText::_('*Click to Enlarge*');
 		$overlib .= '<br/> ' . JText::_('*Click for Image Code*');
 
 		$preview = "<img src='$img_url' alt='$file - $filesize' border='0' />";
+		$preview .= '<br/> ' . JText::_('*Click to Enlarge*');
 		?>
 		<tr>
 			<td onmouseover="return overlib( '<?php echo addslashes($preview); ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
@@ -461,7 +461,7 @@ class JMediaViews
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 			</td>
-			<td>
+			<td onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
 				<a onclick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" title="<?php echo JText::_( 'Image Code' ); ?>">
 					<img src="components/com_media/images/info.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
 				</a>
