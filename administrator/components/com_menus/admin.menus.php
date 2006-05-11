@@ -70,7 +70,7 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		if ($msg = TrashMenu( $cid )) {
+		if ($msg = TrashMenu( $cid, $menutype )) {
 			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&josmsg= '.$msg );
 		} else {
 			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
@@ -465,17 +465,38 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 /**
 * Trashes a menu record
 */
-function TrashMenu( $cid=NULL ) {
+function TrashMenu( $cid=NULL, $menutype=',mainmenu' ) {
 	global $database;
 
-	$state 		= -2;
+	$state		= -2;
 	$nullDate 	= $database->getNullDate();
 
-	//seperate contentids
-	$cids = implode( ',', $cid );
+	$query = "SELECT *"
+	. "\n FROM #__menu"
+	. "\n WHERE menutype = '$menutype'"
+	. "\n AND published != $state"
+	. "\n ORDER BY menutype, parent, ordering"
+	;
+	$database->setQuery( $query );
+	$mitems = $database->loadObjectList();	
+	
+	// determine if selected item has an child items
+	$children = array();
+	foreach ( $cid as $id ) {
+		foreach ( $mitems as $item ) {
+			if ( $item->parent == $id ) {
+				$children[] = $item->id;
+			}		
+		}
+	}	
+	$list 	= josMenuChildrenRecurse( $mitems, $children, $children );
+	$list 	= array_merge( $cid, $list );
+	
+	$ids 	= implode( ',', $list );	
+	
 	$query = "UPDATE #__menu"
 	. "\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '$nullDate'"
-	. "\n WHERE id IN ( $cids )"
+	. "\n WHERE id IN ( $ids )"
 	;
 	$database->setQuery( $query );
 	if ( !$database->query() ) {
@@ -502,14 +523,7 @@ function cancelMenu( $option ) {
 		$menu->id = $menuid;
 	}
 	$menu->checkin();
-/*
-	if ( $menu->type == 'content_typed' ) {
-		$contentid = mosGetParam( $_POST, 'id', 0 );
-		$content =& JTable::getInstance('content', $database );
-		$content->load( $contentid );
-		$content->checkin();
-	}
-*/
+
 	josRedirect( 'index2.php?option='. $option .'&menutype='. $menu->menutype );
 }
 
@@ -795,4 +809,31 @@ function saveOrder( &$cid, $menutype ) {
 	$msg 	= JText::_( 'New ordering saved' );
 	josRedirect( 'index2.php?option=com_menus&menutype='. $menutype, $msg );
 } // saveOrder
+
+/**
+* Returns list of child items for a given set of ids from menu items supplied
+*
+*/
+function josMenuChildrenRecurse( $mitems, $parents, $list, $maxlevel=99, $level=0 ) {
+	// check to reduce recursive processing
+	if ( $level <= $maxlevel && count( $parents ) ) {
+		$children = array();
+		foreach ( $parents as $id ) {			
+			foreach ( $mitems as $item ) {
+				if ( $item->parent == $id ) {
+					$children[] = $item->id;
+				}		
+			}
+		}	
+		
+		// check to reduce recursive processing
+		if ( count( $children ) ) {
+			$list = josMenuChildrenRecurse( $mitems, $children, $list, $maxlevel, $level+1 );
+			
+			$list = array_merge( $list, $children );
+		}
+	}
+	
+	return $list;
+}
 ?>
