@@ -243,16 +243,6 @@ class JDocument extends JObject
 	}
 	
 	 /**
-     * Returns the engine instance
-     *
-     * @access    public
-     * @return    object
-     */
-    function getEngine() {
-        return $this->_engine;
-    }
-	
-	 /**
      * Returns the document type
      *
      * @access    public

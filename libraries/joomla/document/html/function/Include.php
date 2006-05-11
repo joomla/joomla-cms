@@ -87,6 +87,12 @@ class patTemplate_Function_Include extends patTemplate_Function
 
 				$doc->_addRenderer($type, $name);
 			} break;
+			
+			case 'head'         :
+			case 'component'	:
+			{
+				//do nothing
+			}	break;
 
 			default : $doc->_addRenderer($type, $name);
 		}

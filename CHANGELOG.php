@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-May-2006 Johan Janssens 
+ ^ Refactored JDocumentHTML class to use an adapter pattern and added buffering improvements
+
 10-May-2006 Johan Janssens
  ^ Feature request artf1819 : Duplicate queries
  ^ Feature request artf3705 : Sorting of all tables in admin area

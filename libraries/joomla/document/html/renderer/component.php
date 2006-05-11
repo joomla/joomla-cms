@@ -29,14 +29,16 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	 * @param array 	$params	Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $component, $params = array() )
+	function render( $component = null, $params = array() )
 	{
 		global $mainframe;
 		global $Itemid, $task, $option, $id, $my;
-
+		
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
+		
+		$test = '1';
 
 		$gid = $my->gid;
 
@@ -47,7 +49,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		}
 
 		$component = !isset($component) ? $option : $component;
-		
+				
 		/*
 		 * Check to see if component is enabled and get parameters
 		 */
@@ -83,7 +85,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
-
+			
 			if(is_file($path.DS.$file.'.php')) {
 				$path = $path.DS.$file.'.php';
 			} else {

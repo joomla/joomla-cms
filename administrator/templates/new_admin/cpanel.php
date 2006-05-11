@@ -13,12 +13,12 @@
 
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+ 
+$doc =& $mainframe->getDocument();
+$renderer = $doc->loadRenderer( 'modules' );
+echo $renderer->render('icon');
 
-global $document;
 ?>
-
-<?php echo $document->get('modules','icon'); ?>
-
 <div class="clr"></div>
 <?php
 /*readfile( JPATH_SITE .'/TODO.php' );*/

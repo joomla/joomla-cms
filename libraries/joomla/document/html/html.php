@@ -11,7 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.template.template');
 jimport('joomla.application.extension.module');
 
 /**
@@ -42,18 +41,25 @@ class JDocumentHTML extends JDocument
     var $_custom = array();
 
 	/**
-     * Array of renderers
+     * Array of buffered output
      *
      * @var       array
      * @access    private
      */
-	var $_renderers = array();
+	var $_buffer = array();
+	
+	/**
+     * Array of discovered includes
+     *
+     * @var       array
+     * @access    private
+     */
+	var $_include = array();
 
 	/**
 	 * Class constructor
 	 *
 	 * @access protected
-	 * @param	string	$type 		(either html or tex)
 	 * @param	array	$attributes Associative array of attributes
 	 */
 	function __construct($attributes = array())
@@ -63,23 +69,8 @@ class JDocumentHTML extends JDocument
 		//set document type
 		$this->_type = 'html';
 	
-		$this->_engine =& JTemplate::getInstance();
-		
-		//set the namespace
-		$this->_engine->setNamespace( 'jdoc' );
-		
-		//add module directories
-		$this->_engine->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
-
 		//set mime type
 		$this->_mime = 'text/html';
-
-		//define renderer sequence
-		$this->_renderers = array('component' => array(),
-		                          'modules'   => array(),
-		                          'module'    => array(),
-		                          'head'      => array()
-							);
 
 		//set default document metadata
 		 $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
@@ -138,40 +129,35 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Get the contents of a renderer
+	 * Get the contents of the document buffer
 	 *
 	 * @access public
 	 * @param string 	$type	The type of renderer
 	 * @param string 	$name	The name of the element to render
-	 * @param array 	$params	Associative array of values
 	 * @return 	The output of the renderer
 	 */
-	function get($type, $name, $params = array())
+	function get($type, $name = null)
 	{
-		$result = $this->_engine->getVar('document', $type.'_'.$name);;
-		
-		if($renderer = $this->loadRenderer( $type )) {
-			$result .= $renderer->render($name, $params);
+		$result = null;
+		if(isset($this->_buffer[$type][$name])) {
+			$result = $this->_buffer[$type][$name];
 		}
 		
-		if(!$result) {
-			$result = " ";
-		}
-
 		return $result;
+		
 	}
 	
 	/**
-	 * Set the contents a renderer
+	 * Set the contents the document buffer
 	 *
 	 * @access public
 	 * @param string 	$type		The type of renderer
 	 * @param string 	$name		oke The name of the element to render
-	 * @param array 	$content	Associative array of values
+	 * @param string 	$content	The content to be set in the buffer
 	 */
-	function set($type, $name, $contents)
+	function set($type, $name = null, $contents)
 	{
-		$this->_engine->addVar('document', $type.'_'.$name, $contents);
+		$this->_buffer[$type][$name] = $contents;
 	}
 
 	/**
@@ -184,6 +170,8 @@ class JDocumentHTML extends JDocument
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
+		global $mainframe;
+		
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = $params['template'];
@@ -193,18 +181,37 @@ class JDocumentHTML extends JDocument
 			$template = '_system';
 		}
 		
-		//Add template variables
-		$this->_engine->addVar('document', 'template', $template);
+		/*
+		 * Buffer the output of the component before loading the template.  This is done so 
+		 * that non-display tasks, like save, published, etc, will not go thru the overhead of 
+		 * loading the template if it simply redirected.
+		 */ 
+		if($component = $mainframe->getOption()) {
+			$renderer = $this->loadRenderer( 'component' );
+			$result   = $renderer->render();
+			$this->set('component', null, $result);
+		}
 		
-		$this->_engine->addVar( 'document', 'lang_tag', $this->getLanguage() );
-		$this->_engine->addVar( 'document', 'lang_dir', $this->getDirection() );
-
+		//create the document engine 
+		$this->_engine = $this->_initEngine($template);
+		
 		// parse
-		$this->_parse($directory.DS.$template, $file);
+		$this->_parseTemplate($directory.DS.$template, $file);
 
+		// buffer
+		$this->_bufferTemplate($params);
+		
 		// render
-		$this->_render($params);
+		$this->_renderTemplate($params);
 	
+		// fecth
+		$data = $this->_engine->fetch('document');
+		
+		//compress
+		if($compress) {
+			$data = $this->compress($data);
+		}
+		
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -212,14 +219,73 @@ class JDocumentHTML extends JDocument
 		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 		header( 'Pragma: no-cache' );										// HTTP/1.0
         header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-
-		$data = $this->_engine->fetch('document');
-		
-		if($compress) {
-			$data = $this->compress($data);
-		}
 		
 		echo $data;
+	}
+	
+	/**
+	 * Create document engine
+	 *
+	 * @access public
+	 * @param string 	$template 	The actual template name
+	 * @return object 
+	 */
+	function &_initEngine($template)
+	{
+		jimport('joomla.template.template');
+		$instance =& JTemplate::getInstance();
+		
+		//set the namespace
+		$instance->setNamespace( 'jdoc' );
+		
+		//add module directories
+		$instance->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
+		
+		//Add template variables
+		$instance->addVar( 'document', 'template', $template);
+		$instance->addVar( 'document', 'lang_tag', $this->getLanguage() );
+		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
+		
+		return $instance;
+	}
+	
+	/**
+	 * Parse a document template
+	 *
+	 * @access public
+	 * @param string 	$directory	The template directory
+	 * @param string 	$file 		The actual template file
+	 */
+	function _parseTemplate($directory, $file = 'index.php')
+	{
+		global $mainframe;
+
+		$contents = $this->_loadTemplate( $directory, $file);
+		$this->_engine->readTemplatesFromInput( $contents, 'String' );
+
+		/*
+		 * Parse the template INI file if it exists for parameters and insert
+		 * them into the template.
+		 */
+		if (is_readable( $directory.DS.'params.ini' ) ) {
+			$content = file_get_contents($directory.DS.'params.ini');
+			$params = new JParameter($content);
+			$this->_engine->addVars( 'document', $params->toArray(), 'param_');
+		}
+
+		/*
+		 * Try to find a favicon by checking the template and root folder
+		 */
+		$path = $directory .'/';
+		$dirs = array( $path, '' );
+		foreach ($dirs as $dir ) {
+			$icon =   $dir . 'favicon.ico';
+
+			if(file_exists( JPATH_SITE .'/'. $icon )) {
+				$this->addFavicon( $icon);
+				break;
+			}
+		}
 	}
 
 	/**
@@ -229,7 +295,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	function _load($directory, $filename)
+	function _loadTemplate($directory, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option, $_VERSION;
@@ -263,42 +329,34 @@ class JDocumentHTML extends JDocument
 	}
 	
 	/**
-	 * Parse a document template
+	 * Buffer the document
 	 *
-	 * @access public
-	 * @param string 	$directory	The template directory
-	 * @param string 	$file 		The actual template file
+	 * @access private
 	 */
-	function _parse($directory, $file = 'index.php')
-	{
-		global $mainframe;
-
-		$contents = $this->_load( $directory, $file);
-		$this->_engine->readTemplatesFromInput( $contents, 'String' );
-
-		/*
-		 * Parse the template INI file if it exists for parameters and insert
-		 * them into the template.
-		 */
-		if (is_readable( $directory.DS.'params.ini' ) ) {
-			$content = file_get_contents($directory.DS.'params.ini');
-			$params = new JParameter($content);
-			$this->_engine->addVars( 'document', $params->toArray(), 'param_');
-		}
-
-		/*
-		 * Try to find a favicon by checking the template and root folder
-		 */
-		$path = $directory .'/';
-		$dirs = array( $path, '' );
-		foreach ($dirs as $dir ) {
-			$icon =   $dir . 'favicon.ico';
-
-			if(file_exists( JPATH_SITE .'/'. $icon )) {
-				$this->addFavicon( $icon);
-				break;
+	function _bufferTemplate(&$params)
+	{	
+		foreach($this->_include as $type => $includes)
+		{
+			foreach($includes as $include)
+			{
+				$result = $this->get($type, $include);
+				if(empty($result)) 
+				{
+					$renderer = $this->loadRenderer( $type );
+					$result = $renderer->render($include, $params);
+				}
+				
+				if(!$result) {
+					$result = " ";
+				}
+				
+				$this->set($type, $include, $result);
 			}
 		}
+		
+		$renderer = $this->loadRenderer( 'head' );
+		$result   = $renderer->render();
+		$this->set('head', null, $result);
 	}
 	
 	/**
@@ -306,19 +364,17 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @access private
 	 */
-	function _render(&$params)
-	{
-		foreach($this->_renderers as $type => $renderers)
+	function _renderTemplate(&$params)
+	{	
+		foreach($this->_buffer as $type => $buffers)
 		{
-			foreach($renderers as $renderer)
-			{
-				if($html = $this->get($type, $renderer->name, $params)) {
-					$this->_engine->addVar('document', $type.'_'.$renderer->name, $html);
-				} 
+			foreach($buffers as $buffer => $content)
+			{	
+				$this->_engine->addVar('document', $type.'_'.$buffer, $content); 
 			}
 		}
 	}
-
+	
 	/**
 	 * Adds a renderer to be called
 	 *
@@ -327,12 +383,8 @@ class JDocumentHTML extends JDocument
 	 * @return string The contents of the template
 	 */
 	function _addRenderer($type, $name) 
-	{	
-		$renderer = new stdClass();
-		$renderer->name 	= $name;
-		$renderer->contents = null; 
-		
-		$this->_renderers[$type][] = $renderer;
+	{		
+		$this->_include[$type][] = $name;
 	}
 	
 	 /**
