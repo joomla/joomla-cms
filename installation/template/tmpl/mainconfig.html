@@ -19,7 +19,11 @@
 		} else if (adminPassword.value == '') {
 			alert( '<jtmpl:translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</jtmpl:translate>' );
 		} else {
-			submitForm( frm, task );
+			if (this.document.filename.dataLoaded.value == '1' || confirm( '<jtmpl:translate key="warnNoData" escape="yes">No sample data or other data installed. OK to continue. Cancel to redo this step</jtmpl:translate>' )) {
+				submitForm( frm, task );
+			} else {
+				return;
+			} 
 		}
 	}
 
@@ -37,6 +41,7 @@
 	}
 
 	function JDefault() {
+		this.document.filename.dataLoaded.value = '1';
 		xajax_instDefault(xajax.getFormValues('filename'));
 	}
 
@@ -47,6 +52,7 @@
 			return;
 		} else {
 			frm.sqlupload.value = '1';
+			frm.dataLoaded.value = '1';
 			submitForm(frm, task);
 		}
 	}
@@ -62,10 +68,10 @@
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
 							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'saveconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'saveconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
 						</jtmpl:sub>
 						<jtmpl:sub condition="rtl">
-							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'saveconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+							<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'saveconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
 							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
 						</jtmpl:sub>
 					</jtmpl:tmpl>
@@ -176,7 +182,7 @@
 					  		<tr>
 					  			<td></td>
 					  			<td colspan="2">
-									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<jtmpl:translate>Install default sample data</jtmpl:translate>" onclick="JDefault();"/></span>
+									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<jtmpl:translate>clickToInstallDefault</jtmpl:translate>" onclick="JDefault();"/></span>
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -230,6 +236,7 @@
 
 <input type="hidden" name="task" value="mainconfig" />
 <input type="hidden" name="sqlupload" value="0" />
+<input type="hidden" name="dataLoaded" value="0"
 <input type="hidden" name="DBtype" value="{VAR_DBTYPE}" />
 <input type="hidden" name="DBhostname" value="{VAR_DBHOSTNAME}" />
 <input type="hidden" name="DBuserName" value="{VAR_DBUSERNAME}" />

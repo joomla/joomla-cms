@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-May-2006 David Gal
+ + Added confirm for no sample data in installation. 
+
 11-May-2006 Johan Janssens 
  ^ Refactored JDocumentHTML class to use an adapter pattern and added buffering improvements
 
