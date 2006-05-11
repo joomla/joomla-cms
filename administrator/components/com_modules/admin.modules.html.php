@@ -72,10 +72,7 @@ class HTML_modules {
 				<th nowrap="nowrap" width="7%">
 					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 				</th>
-				<th align="center" width="5%">
-					<?php echo JText::_( 'Reorder' ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
+				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('m.position','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' ); ?>
 					</a>	
@@ -146,11 +143,9 @@ class HTML_modules {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td class="order">
+					<td class="order" colspan="2">
 						<span><?php echo $page->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position), 'orderup', 'Move Up', $ordering ); ?></span>
 						<span><?php echo $page->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position),'orderdown', 'Move Down', $ordering ); ?></span>
-					</td>
-					<td align="center" colspan="2">
 						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>

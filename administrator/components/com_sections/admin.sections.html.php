@@ -71,10 +71,7 @@ class sections_html {
 					<th width="10%">
 						<?php mosCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
 					</th>
-					<th colspan="2" width="4%">
-						<?php echo JText::_( 'Reorder' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap">
+					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('s.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' ); ?>
 						</a>	
@@ -138,13 +135,9 @@ class sections_html {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td>
-						<?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?>
-					</td>
-					<td>
-						<?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?>
-					</td>
-					<td align="center" colspan="2">
+					<td class="order" colspan="2">
+						<span><?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?></span>
+						<span><?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>

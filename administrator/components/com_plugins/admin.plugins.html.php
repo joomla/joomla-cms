@@ -72,10 +72,7 @@ class HTML_modules {
 					<th nowrap="nowrap" width="5%">
 						<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>
 					</th>
-					<th colspan="2" nowrap="true" width="5%">
-						<?php echo JText::_( 'Reorder' ); ?>
-					</th>
-					<th width="2%">
+					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('p.folder','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' );?>
 						</a>
@@ -136,13 +133,9 @@ class HTML_modules {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td>
-						<?php echo $page->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?>
-					</td>
-					<td>
-						<?php echo $page->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderdown', 'Move Down', $ordering ); ?>
-					</td>
-					<td align="center" colspan="2">
+					<td class="order" colspan="2">
+						<span><?php echo $page->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?></span>
+						<span><?php echo $page->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"  <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>

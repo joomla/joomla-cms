@@ -81,16 +81,13 @@ class HTML_menusections {
 					<th width="20">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
-					<th class="title" width="40%">
+					<th class="title" width="30%">
 						<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 					</th>
-					<th colspan="2" width="5%">
-						<?php echo JText::_( 'Reorder' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap">
+					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('m.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' ); ?>
 						</a>			
@@ -104,7 +101,7 @@ class HTML_menusections {
 					<th nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $lists ); ?>
 					</th>
-					<th width="35%" class="title">
+					<th width="15%" class="title">
 						<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
 					</th>
 					<th nowrap="nowrap">
@@ -150,13 +147,9 @@ class HTML_menusections {
 					<td width="10%" align="center">
 						<?php echo $published;?>
 					</td>
-					<td>
-						<?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering); ?>
-					</td>
-					<td>
-						<?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?>
-					</td>
-					<td align="center" colspan="2">
+					<td class="order" colspan="2" nowrap="nowrap">
+						<span><?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering); ?></span>
+						<span><?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
