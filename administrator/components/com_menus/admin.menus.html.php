@@ -220,7 +220,7 @@ class HTML_menusections {
 						for ( $i=0; $i < $count; $i++ ) {
 						$row = &$types_content[$i];
 
-						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&hidemainmenu=1&type='. $row->type;
+						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type .'&hidemainmenu=1';
 
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
 
@@ -238,7 +238,7 @@ class HTML_menusections {
 						for ( $i=0; $i < $count; $i++ ) {
 						$row = &$types_other[$i];
 
-						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
+						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type .'&hidemainmenu=1';
 
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
 
@@ -256,7 +256,7 @@ class HTML_menusections {
 						for ( $i=0; $i < $count; $i++ ) {
 						$row = &$types_submit[$i];
 
-						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
+						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type .'&hidemainmenu=1';
 
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
 
@@ -276,7 +276,7 @@ class HTML_menusections {
 						for ( $i=0; $i < $count; $i++ ) {
 						$row = &$types_component[$i];
 
-						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
+						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type .'&hidemainmenu=1';
 
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
 
@@ -294,7 +294,7 @@ class HTML_menusections {
 						for ( $i=0; $i < $count; $i++ ) {
 						$row = &$types_link[$i];
 
-						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
+						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type .'&hidemainmenu=1';
 
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
 
