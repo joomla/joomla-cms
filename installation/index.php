@@ -91,7 +91,7 @@ $params = array(
 );
 
 $document =& $mainframe->getDocument();
-$document->setRenderer('installation', '' , $result);
+$document->set('installation', '' , $result);
 $document->setTitle( 'Joomla! - Web Installer' );
 $document->display( false, false, $params);
 ?>

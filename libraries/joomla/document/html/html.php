@@ -138,7 +138,7 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Get a renderer, executed the renderer and returns the result
+	 * Get the contents of a renderer
 	 *
 	 * @access public
 	 * @param string 	$type	The type of renderer
@@ -146,7 +146,7 @@ class JDocumentHTML extends JDocument
 	 * @param array 	$params	Associative array of values
 	 * @return 	The output of the renderer
 	 */
-	function getRenderer($type, $name, $params = array())
+	function get($type, $name, $params = array())
 	{
 		$result = $this->_engine->getVar('document', $type.'_'.$name);;
 		
@@ -162,15 +162,14 @@ class JDocumentHTML extends JDocument
 	}
 	
 	/**
-	 * Set a renderer
+	 * Set the contents a renderer
 	 *
 	 * @access public
-	 * @param string 	$type	The type of renderer
-	 * @param string 	$name	The name of the element to render
-	 * @param array 	$params	Associative array of values
-	 * @return 	The output of the renderer
+	 * @param string 	$type		The type of renderer
+	 * @param string 	$name		oke The name of the element to render
+	 * @param array 	$content	Associative array of values
 	 */
-	function setRenderer($type, $name, $contents)
+	function set($type, $name, $contents)
 	{
 		$this->_engine->addVar('document', $type.'_'.$name, $contents);
 	}
@@ -309,12 +308,12 @@ class JDocumentHTML extends JDocument
 	 */
 	function _render(&$params)
 	{
-		foreach($this->_renderers as $type => $names)
+		foreach($this->_renderers as $type => $renderers)
 		{
-			foreach($names as $name)
+			foreach($renderers as $renderer)
 			{
-				if($html = $this->getRenderer($type, $name, $params)) {
-					$this->_engine->addVar('document', $type.'_'.$name, $html);
+				if($html = $this->get($type, $renderer->name, $params)) {
+					$this->_engine->addVar('document', $type.'_'.$renderer->name, $html);
 				} 
 			}
 		}
@@ -327,8 +326,13 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The renderer name
 	 * @return string The contents of the template
 	 */
-	function _addRenderer($type, $name)  {	
-		$this->_renderers[$type][] = $name;
+	function _addRenderer($type, $name) 
+	{	
+		$renderer = new stdClass();
+		$renderer->name 	= $name;
+		$renderer->contents = null; 
+		
+		$this->_renderers[$type][] = $renderer;
 	}
 	
 	 /**

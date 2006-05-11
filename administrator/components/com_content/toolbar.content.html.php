@@ -26,7 +26,7 @@ class TOOLBAR_content
 		$text = ( $cid ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
-		JMenuBar::preview( 'index2.php?option=com_content&id='.$cid.'&file=component.html', true );
+		JMenuBar::preview( 'index.php?option=com_content&id='.$cid.'&tmpl=component.html', true );
 		JMenuBar::media_manager();
 		JMenuBar::trash('remove', 'Trash', false);
 		JMenuBar::save();

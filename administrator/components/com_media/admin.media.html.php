@@ -95,7 +95,7 @@ class JMediaViews
 									<?php JMediaViews::_buildFolderTree($tree); ?>
 								</div>
 								<div class="manager" style="width: 78%; display: block; float: left; margin: 0; padding: 2px 0px 0px 0px;">
-									<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+									<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 								</div>
 							</td>
 						</tr>

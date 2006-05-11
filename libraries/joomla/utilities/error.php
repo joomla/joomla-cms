@@ -403,7 +403,7 @@ class JErrorHandler
 
 		$document->setTitle( 'Joomla! - Error: '.$error->code );
 		$html = $this->getErrorMessage($error);
-		$document->setRenderer('error', 'msg', $html);
+		$document->set('error', 'msg', $html);
 
 		$document->display( false, false, array('template' => $template, 'file' => $file));
 
