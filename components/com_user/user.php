@@ -138,9 +138,8 @@ function userEdit( $option, $submitvalue) {
 	HTML_user::userEdit( $user, $option, $submitvalue );
 }
 
-function userSave( $option, $uid)
-{
-	global $mainframe, $database, $Itemid;
+function userSave( $option, $uid) {
+	global $database;
 
 	$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
 
@@ -159,6 +158,7 @@ function userSave( $option, $uid)
 	}
 
 	$user = JUser::getInstance($user_id);
+	$orig_username = $user->username;
 
 	if (!$user->bind( $_POST )) {
 		echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
@@ -170,6 +170,21 @@ function userSave( $option, $uid)
 		exit();
 	}
 
+	
+	// check if username has been changed
+	if ( $orig_username != $user->username ) {
+		// change username value in session table
+		$query = "UPDATE #__session"
+		. "\n SET username = '$user->username'"
+		. "\n WHERE username = '$orig_username'"
+		. "\n AND userid = $user->id"
+		. "\n AND gid = $user->gid"
+		. "\n AND guest = 0"
+		;
+		$database->setQuery( $query );
+		$database->query();		
+	}
+	
 	$link = $_SERVER['HTTP_REFERER'];
 	josRedirect( $link, JText::_( 'Your settings have been saved.' ) );
 }

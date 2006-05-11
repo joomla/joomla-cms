@@ -252,8 +252,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showImgThumbs($img, $file, $info, $size, $listdir) 
-	{
+	function showImgThumbs($img, $file, $info, $size, $listdir) {
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
 		$filesize	= JMediaHelper::parseSize($size);
@@ -298,12 +297,12 @@ class JMediaViews
 				<div align="center" class="imgBorder">
 					<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" style="display: block; width: 100%; height: 100%">
 						<div class="image">
-							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
+							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> border="0" />
 						</div></a>
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
+				<?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
@@ -314,9 +313,8 @@ class JMediaViews
 		</div>
 		<?php
 	}
-
-	function showFolderThumbs($path, $dir, $listdir) 
-	{
+	
+	function showFolderThumbs($path, $dir, $listdir) {
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
@@ -351,11 +349,11 @@ class JMediaViews
 			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onmouseout="return nd();">
 				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
-						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" alt="<?php echo $dir; ?>" /></a>
+						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" /></a>
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				<?php echo $dir; ?>
+				<?php echo substr( $dir, 0, 10 ) . ( strlen( $dir ) > 10 ? '...' : ''); ?>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
@@ -365,8 +363,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showDocThumbs($doc, $size, $listdir, $icon) 
-	{
+	function showDocThumbs($doc, $size, $listdir, $icon) {
 		global $mainframe;
 
 		$size = JMediaHelper::parseSize($size);
