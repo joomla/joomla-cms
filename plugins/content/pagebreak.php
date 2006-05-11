@@ -39,6 +39,8 @@ function convertPagebreak( &$row, &$params, $page=0 )
 		return true;
 	}
 
+	$full = JRequest::getVar('fullview', 0, '', 'int');
+
 	if(!$page) {
 		$page = 0;
 	}
@@ -49,7 +51,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
  	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
 
 	// check whether plugin has been unpublished
- 	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
+ 	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
 	}

@@ -229,12 +229,24 @@ class JMediaViews
 		?>
 		<div class="manager">
 		<table width="100%">
+		<thead>
+			<tr>
+				<td>Preview</td>
+				<td>Name</td>
+				<td>Dimensions</td>
+				<td>Size</td>
+				<td>Delete</td>
+				<td>Info</td>
+			</tr>
+		</thead>
+		<tbody>
 		<?php
 	}
 
 	function drawListFooter() 
 	{
 		?>
+		</tbody>
 		</table>
 		</div>
 		<?php
@@ -392,6 +404,12 @@ class JMediaViews
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
 
+		if (($info[0] > 100) || ($info[0] > 100)) {
+			$prev_dimensions = JMediaHelper::imageResize($info[0], $info[1], 100);
+		} else {
+			$prev_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
+		}
+
 		$overlib = '<table>';
 		$overlib .= '<tr>';
 		$overlib .= '<td>';
@@ -420,9 +438,11 @@ class JMediaViews
 		$overlib .= '</table>';
 		$overlib .= '<br/> ' . JText::_('*Click to Enlarge*');
 		$overlib .= '<br/> ' . JText::_('*Click for Image Code*');
+
+		$preview = "<img src='$img_url' alt='$file - $filesize' border='0' />";
 		?>
 		<tr>
-			<td onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
+			<td onmouseover="return overlib( '<?php echo addslashes($preview); ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
 				<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo JText::_( 'Image' ); ?>&quot; />';" style="display: block; width: 100%; height: 100%">
 					<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 				</a>
