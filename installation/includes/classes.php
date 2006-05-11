@@ -56,7 +56,7 @@ class JInstallationController
 		);
 		$phpOptions[] = array (
 			'label' => '- '.JText::_('MySQL support'),
-			'state' => function_exists('mysql_connect') ? 'Yes' : 'No'
+			'state' => (function_exists('mysql_connect') || function_exists('mysqli_connect')) ? 'Yes' : 'No'
 		);
 		if (extension_loaded( 'mbstring' )) {
 			$mbDefLang = strtolower( ini_get( 'mbstring.language' ) ) == 'neutral';
