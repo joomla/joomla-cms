@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-MAy-2006 Alex Kempkens
+ ^ Updated German installation language
+
 12-May-2006 David Gal
  + Added confirm for no sample data in installation. 
 
