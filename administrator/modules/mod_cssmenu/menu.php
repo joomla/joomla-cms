@@ -45,6 +45,11 @@ class JAdminCSSMenu extends JObject
 		$this->_current->addChild($node);
 	}
 
+	function getParent()
+	{
+		$this->_current =& $this->_current->getParent();
+	}
+
 	function renderMenu($suffix = '-smenu')
 	{
 		global $mainframe;
@@ -256,6 +261,11 @@ class JMenuNode extends JObject
 		$this->_children[] = new JMenuNode(null, null, 'seperator', false);
 	}
 
+	function &getParent()
+	{
+		return $this->_parent;
+	}
+
 	function setParent( &$node )
 	{
 		$this->_parent = & $node;
@@ -266,7 +276,7 @@ class JMenuNode extends JObject
 		return count($this->_children);
 	}
 
-	function getChildren()
+	function &getChildren()
 	{
 		return $this->_children;
 	}

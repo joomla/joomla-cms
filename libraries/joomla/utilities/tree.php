@@ -1,0 +1,105 @@
+<?php
+/**
+ * @version $Id$
+ * @package Joomla
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+/**
+ * Abstract Tree Class.
+ *
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @package 	Joomla.Framework
+ * @subpackage 	Utilities
+ * @since		1.5
+ */
+class JTree extends JObject
+{
+	/**
+	 * Root node
+	 */
+	var $_root = null;
+
+	/**
+	 * Current working node
+	 */
+	var $_current = null;
+
+	function __construct()
+	{
+		$this->_root =  & new JNode('ROOT');
+		$this->_current = & $this->_root;
+	}
+
+	function addChild(&$node, $setCurrent = false)
+	{
+		$this->_current->addChild($node);
+		if ($setCurrent) {
+			$this->_current =& $node;
+		}
+	}
+
+	function getParent()
+	{
+		$this->_current =& $this->_current->getParent();
+	}
+}
+
+/**
+ * Abstract Tree Node Class.
+ *
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @package 	Joomla.Framework
+ * @subpackage 	Utilities
+ * @since		1.5
+ */
+class JNode extends JObject
+{
+	/**
+	 * Parent node
+	 */
+	var $_parent = null;
+
+	/**
+	 * Array of Children
+	 */
+	var $_children = array();
+
+	function __construct()
+	{
+		return true;
+	}
+
+	function addChild( &$node )
+	{
+		$node->setParent($this);
+		$this->_children[] = & $node;
+	}
+
+	function &getParent()
+	{
+		return $this->_parent;
+	}
+
+	function setParent( &$node )
+	{
+		$this->_parent = & $node;
+	}
+
+	function hasChildren()
+	{
+		return count($this->_children);
+	}
+
+	function &getChildren()
+	{
+		return $this->_children;
+	}
+}
+?>

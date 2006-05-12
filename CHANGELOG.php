@@ -37,7 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
-12-MAy-2006 Alex Kempkens
+12-May-2006 Louis Landry
+ ^ Refactored mod_mainmenu -- new options allows for great flexibility using unordered lists
+ + Added JTree and JNode to utilities package -- Abstract tree implementation
+
+12-May-2006 Alex Kempkens
  ^ Updated German installation language
 
 12-May-2006 David Gal

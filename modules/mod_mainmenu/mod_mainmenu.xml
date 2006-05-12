@@ -17,12 +17,19 @@
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="menutype" type="mos_menu" default="" label="Menu Name" description="The name of the menu (default is `mainmenu`)" />
-		<param name="menu_style" type="list" default="vert_indent" label="Menu Style" description="The menu style">
+		<param name="menu_style" type="list" default="list" label="Menu Style" description="The menu style">
+			<option value="list">List</option>
 			<option value="vert_indent">Vertical</option>
 			<option value="horiz_flat">Horizontal</option>
 			<option value="list_flat">Flat List</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="Level to start rendering the menu at." />
+		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="Level to stop rendering the menu at." />
+		<param name="showAllChildren" type="radio" default="0" label="Always show submenu items" description="Display all submenu items regardless of whether parent is active or not.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="full_active_id" type="radio" default="0" label="Full Active highlighting" description="Enable full active menu item highlighting, including for `Link - Component Item` and `Link - Url`, which can cause loss of XHTML compliance, if more than one item is active">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
