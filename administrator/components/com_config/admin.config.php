@@ -188,6 +188,10 @@ class JConfigController {
 		// CACHE SETTINGS
 
 		$lists['caching'] 		= mosHTML::yesnoRadioList('caching', 'class="inputbox"', $row->caching);
+		
+		$lists['caching_tmpl'] 		= mosHTML::yesnoRadioList('caching_tmpl', 'class="inputbox"', $row->caching_tmpl);
+		
+		$lists['caching_page'] 		= mosHTML::yesnoRadioList('caching_page', 'class="inputbox"', $row->caching_page);
 
 		// USER SETTINGS
 
@@ -250,9 +254,6 @@ class JConfigController {
 		// FEED SETTINGS
 		$formats  = array (mosHTML::makeOption('RSS2.0', JText::_('RSS')), mosHTML::makeOption('Atom', JText::_('Atom')));
 		$summary = array (mosHTML::makeOption(1, JText::_('Full Text')), mosHTML::makeOption(0, JText::_('Intro Text')),);
-
-
-		$lists['feed_format']  = mosHTML::selectList($formats, 'feed_format', 'class="inputbox" size="1"', 'value', 'text', $row->feed_format);
 
 		$lists['feed_limit']   = mosHTML::selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
 

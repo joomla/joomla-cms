@@ -42,6 +42,7 @@ Legend:
 
 11-May-2006 Johan Janssens 
  ^ Refactored JDocumentHTML class to use an adapter pattern and added buffering improvements
+ + Added template and page caching configuration settings
 
 10-May-2006 Johan Janssens
  ^ Feature request artf1819 : Duplicate queries
