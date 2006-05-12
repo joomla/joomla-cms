@@ -353,9 +353,11 @@ class HTML_users {
 						<tr>
 							<td>
 								<br />
+								<span class="note">
 								<?php echo JText::_( 'No Contact details linked to this User' ); ?>:
 								<br />
 								<?php echo JText::_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
+								</span>
 								<br /><br />
 							</td>
 						</tr>

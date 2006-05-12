@@ -47,26 +47,42 @@ class component_item_link_menu_html {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
-		<table width="100%">
-		<tr valign="top">
-			<td width="60%">
-				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Component Item' ); ?>
-				<tr>
-					<td align="right" valign="top">
-					<?php echo JText::_( 'Component to Link' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['components']; ?>
-					</td>
-				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<table class="admintable" cellspacing="1">
+					<tr valign="top">
+						<td>
+							<table class="adminform">
+							<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Component Item' ); ?>
+							<tr>
+								<td align="right" valign="top">
+								<?php echo JText::_( 'Component to Link' ); ?>:
+								</td>
+								<td>
+								<?php echo $lists['components']; ?>
+								</td>
+							</tr>
+							<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+							</table>
+						</td>
+					</tr>
 				</table>
-			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
-		</tr>
-		</table>
+			</fieldset>
+		</div>
+		<div class="col50">
+			<fieldset class="adminform">	
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+
+				<table class="admintable" cellspacing="1">
+					<tr valign="top">
+				
+						<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />

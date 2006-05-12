@@ -25,7 +25,7 @@ array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
 $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
 
-<form action="index.php" method="post" name="loginForm" id="loginForm">
+<form action="index.php" method="post" name="loginForm" id="loginForm" style="clear: both;">
 	<p>
 		<label for="username"><?php echo JText::_('Username'); ?></label>
 		<input name="username" id="username" type="text" class="inputbox" size="15" />
@@ -49,7 +49,7 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 		<?php echo $langs; ?>
 	</p>
 	<p>
-		<label></lablel>
+	<label></label>
 	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
 		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
 			<a onclick="loginForm.submit();">
@@ -57,6 +57,7 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 			</a>
 		</div>
 	</div>
+	<div class="clr"></div>
 	</p>
 	<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
 	<input type="hidden" name="option" value="login" />
