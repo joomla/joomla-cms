@@ -529,10 +529,10 @@ switch ($task) {
 		JInstallerController::uploadpackage();
 		break;
 	case 'installfromdirectory' :
-		JInstallerController::installFromDirectory();
+		JInstallerController::installfromdir();
 		break;
 	case 'installfromurl' :
-		JInstallerController::installFromUrl();
+		JInstallerController::installfromurl();
 		break;
 	case 'enable' :
 		JInstallerController::enableextension();
