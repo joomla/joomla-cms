@@ -439,9 +439,13 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	function getCollation ()
 	{
-		$this->setQuery( 'SHOW FULL COLUMNS FROM #__content' );
-		$array = $this->loadAssocList();
-		return $array['4']['Collation'];
+		if ( $this->hasUTF() ) {
+			$this->setQuery( 'SHOW FULL COLUMNS FROM #__content' );
+			$array = $this->loadAssocList();
+			return $array['4']['Collation'];
+		} else {
+			return "N/A (mySQL < 4.1.2)";
+		}
 	}
 
 	/**
