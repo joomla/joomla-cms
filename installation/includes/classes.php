@@ -428,9 +428,20 @@ class JInstallationController
 		$xajax->errorHandlerOn();
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
-
+		
+		/*
+		 * Deal with possible sql script uploads from this stage
+		 */
+		$vars['loadchecked'] = 0;
 		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1) {
-			$vars['response'] = JInstallationHelper::uploadSql( $vars );
+			$vars['sqlresponse'] = JInstallationHelper::uploadSql( $vars );
+			$vars['dataloaded'] = '1';
+			$vars['loadchecked'] = 1;
+		}
+		if (JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) {
+			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
+			$vars['dataloaded'] = '1';
+			$vars['loadchecked'] = 2;
 		}
 
 
@@ -994,16 +1005,20 @@ class JInstallationHelper
 		return $ret;
 	}
 
-	function uploadSql( &$args ) {
+	function uploadSql( &$args, $migration = false ) {
 		global $mainframe;
 		$archive = '';
 		$script = '';
 
-
 		/*
 		 * Get the uploaded file information
 		 */
-		$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
+		if( $migration ) {
+			$sqlFile	= JRequest::getVar('migrationFile', '', 'files', 'array');
+return '<input size="50" value="This is still work in progress" readonly="readonly" />';
+		} else {
+			$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
+		}
 
 		/*
 		 * Make sure that file uploads are enabled in php
@@ -1033,15 +1048,22 @@ class JInstallationHelper
 		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
 		if( !eregi('.sql$', $sqlFile['name']) ){
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
-			$script = JFile::stripExt($archive).'.sql';
 		} else {
 			$script = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 		}
 
 		// unpack archived sql files
-		if ($archive && !JInstallationHelper::unpack( $archive )){
-			return JText::_('WARNUNPACK');
+		if ($archive ){
+			$package = JInstallationHelper::unpack( $archive );
+			if ( $package === false ) {
+				return JText::_('WARNUNPACK');
+			}
+			$script = $package['folder'].$package['script'];
 		}
+		
+		/*
+		 * If migration perform manipulations on script file before population
+		 */
 
 		$errors = null;
 		$msg = '';
@@ -1052,7 +1074,6 @@ class JInstallationHelper
 		/*
 		 * prepare sql error messages if returned from populate
 		 */
-		//TODO - returned message strings need to be translated
 		if (!is_null($errors)){
 			foreach($errors as $error){
 				$msg .= stripslashes( $error['msg'] );
@@ -1062,14 +1083,23 @@ class JInstallationHelper
 		} else {
 			// consider other possible errors from populate
 			$msg = $result == 0 ? JText::_('SQL script installed successfully') : JText::_('Error installing SQL script') ;
-			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
+			$txt = '<input size="50" value="'.$msg.'" readonly="readonly" />';
 		}
 
-			// Cleanup
-			JFile::delete($script);
-			if ($archive){
-				JFile::delete($archive);
-			}
+		/*
+		 * If migration, perform post population manipulations (menu table construction)
+		 */
+		
+		
+		/*
+		 * Clean up
+		 */
+		if ($archive){
+			JFile::delete( $archive );
+			JFolder::delete( $package['folder'] );
+		} else {
+			JFile::delete( $script );
+		}
 
 		return $txt;
 	}
@@ -1079,7 +1109,7 @@ class JInstallationHelper
 	 *
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
-	 * @return boolean True on success, False on error
+	 * @return unpacked filename on success, False on error
 	 * @since 1.5
 	 */
 	function unpack($p_filename) {
@@ -1088,11 +1118,12 @@ class JInstallationHelper
 		 */
 		// Path to the archive
 		$archivename = $p_filename;
-//		// Temporary folder to extract the archive into
-//		$tmpdir = uniqid('install_');
+		// Temporary folder to extract the archive into
+		$tmpdir = uniqid('install_');
+
 
 		// Clean the paths to use for archive extraction
-		$extractdir = JPath::clean(dirname($p_filename));
+		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
 		$archivename = JPath::clean($archivename, false);
 
 		/*
@@ -1133,39 +1164,52 @@ class JInstallationHelper
 
 			// Free up PCLZIP memory
 			unset ($zipfile);
-		} else {
-
+		} else if( eregi('.gz$', $archivename) ){
 			/*
-			 * Not a zipfile, must be a tarball.  Lets import that library.
+			 * Create the folder
 			 */
-			jimport('pear.PEAR');
-			jimport('archive.Tar');
-
+			JFolder::create( $extractdir );
+			
 			/*
-			 * Create a tarball object
+			 * read the gz file and write content to regular file
 			 */
-			$archive = new Archive_Tar($archivename);
-
-			// Set the tar error handling
-			$archive->setErrorHandling(PEAR_ERROR_PRINT);
-
-			/*
-			 * Now its time to extract the archive
-			 */
-			if (!$archive->extractModify($extractdir, '')) {
-
-				// Unable to extract the archive, set an error and fail
-				JError::raiseWarning(1, JText::_('Extract Error'));
-				return false;
-			}
-
+			 $gzFile = @gzopen( $archivename, 'rb' );
+			 $unpacked = fopen( $extractdir.'sqldata.sql', 'w');
+			 if ( $gzFile ) {
+			     $data = '';
+			     while ( !gzeof( $gzFile ) ) {
+			         $data = gzread( $gzFile, 1024 );
+			         $ret = fwrite( $unpacked, $data, 1024 );
+			     }
+			     gzclose( $gzFile );
+			     fclose( $unpacked );
+			 }
+			
 			// Set permissions for extracted dir
 			JPath::setPermissions($extractdir, '0666', '0777');
 
-			// Free up PCLTAR memory
-			unset ($archive);
+		} else {
+			/*
+			 * not an archive we handle 
+			 */
+			 return false;
 		}
-		return true;
+		
+		/*
+		 * return the file found in the extract folder and also folder name
+		 */
+		if ($handle = opendir( $extractdir )) {
+   			while (false !== ($file = readdir($handle))) {
+       			if ($file != "." && $file != "..") {
+          			 $script = $file;
+          			 continue;
+       			}
+   			}
+   			closedir($handle);
+		}
+		$retval['script'] = $script;
+		$retval['folder'] = $extractdir;
+		return $retval;
 
 	}
 }

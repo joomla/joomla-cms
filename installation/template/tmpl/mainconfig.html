@@ -33,10 +33,26 @@
 			frm.instDefault.disabled = false;
 			frm.sqlFile.disabled = true;
 			frm.sqlLoad.disabled = true;
-		} else {
+			frm.tablePrefix.disabled = true;
+			frm.srcEncoding.disabled = true;
+			frm.migrationFile.disabled = true;
+			frm.migrationLoad.disabled = true;
+		} else if(frm.what_to_load[1].checked) {
 			frm.instDefault.disabled = true;
 			frm.sqlFile.disabled = false;
 			frm.sqlLoad.disabled = false;
+			frm.tablePrefix.disabled = true;
+			frm.srcEncoding.disabled = true;
+			frm.migrationFile.disabled = true;
+			frm.migrationLoad.disabled = true;
+		} else if(frm.what_to_load[2].checked) {
+			frm.instDefault.disabled = true;
+			frm.sqlFile.disabled = true;
+			frm.sqlLoad.disabled = true;
+			frm.tablePrefix.disabled = false;
+			frm.srcEncoding.disabled = false;
+			frm.migrationFile.disabled = false;
+			frm.migrationLoad.disabled = false;
 		}
 	}
 
@@ -48,7 +64,7 @@
 	function externalSql(frm, task) {
 
 		if (frm.sqlFile.value == '') {
-			alert("no file provided");
+			alert( '<jtmpl:translate escape="yes">No file selected</jtmpl:translate>' );
 			return;
 		} else {
 			frm.sqlupload.value = '1';
@@ -56,7 +72,19 @@
 			submitForm(frm, task);
 		}
 	}
+	
+	function migrationSql(frm, task) {
 
+		if (frm.migrationFile.value == '') {
+			alert( '<jtmpl:translate escape="yes">No file selected</jtmpl:translate>' );
+			return;
+		} else {
+			frm.migrationupload.value = '1';
+			frm.dataLoaded.value = '1';
+			submitForm(frm, task);
+		}
+	}
+	
 </script>
 
 <form action="index.php" method="post" name="adminForm">
@@ -149,11 +177,14 @@
 <form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
 			<div id="installerpad">
 
-				<h2><jtmpl:translate>Load Sample Data or Restore Backed Up Content</jtmpl:translate></h2>
+				<h2><jtmpl:translate key="loadSampleOrMigrate">Load Sample Data, Restore or Migrate Backed Up Content</jtmpl:translate></h2>
 				<div class="install-text">
-					<jtmpl:translate>LOADSQLINSTRUCTIONS1</jtmpl:translate>
-					<br/><br/>
-					<jtmpl:translate>LOADSQLINSTRUCTIONS2</jtmpl:translate>
+					<p><jtmpl:translate>LOADSQLINSTRUCTIONS1</jtmpl:translate></p>
+					<p><jtmpl:translate>LOADSQLINSTRUCTIONS2</jtmpl:translate></p>
+					<p><jtmpl:translate>LOADSQLINSTRUCTIONS3</jtmpl:translate></p>
+					<p><jtmpl:translate>LOADSQLINSTRUCTIONS4</jtmpl:translate></p>
+					<p><jtmpl:translate>LOADSQLINSTRUCTIONS5</jtmpl:translate></p>
+					<p><jtmpl:translate>LOADSQLINSTRUCTIONS6</jtmpl:translate></p>
 				</div>
 				<div class="install-body">
 					<div class="install-form">
@@ -166,7 +197,7 @@
 							</tr>
 				  			<tr>
 					  		    <td>
-					  		    	<input id="default_sample" type="radio" name="what_to_load" checked="checked" onclick="selectMode();"/>
+					  		    	<input id="default_sample" type="radio" name="what_to_load" onclick="selectMode();"/>
 					  		    </td>
 								<td>
 				    				<label for="default_sample">
@@ -190,32 +221,83 @@
 					  			<td></td>
 					  			<td></td>
 					  		</tr>
+					  		
 				  			<tr>
 					  		    <td>
 					  		    	<input id="local_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
 					  		    </td>
 								<td>
 				    				<label for="local_sql">
-										<jtmpl:translate>Load local SQL script</jtmpl:translate>
+										<jtmpl:translate key="loadJ15Title">Load local Joomla 1.5 SQL script</jtmpl:translate>
 									</label>
 								</td>
 				    			<td>
 				    				<em>
-				    				<jtmpl:translate key="tipLoadSql">The SQL scripts need to be in utf-8 encoding and should have the appropriate table prefix</jtmpl:translate>
+				    				<jtmpl:translate key="tipLoadSql">The SQL scripts need to be Joomla 1.5 compatible and should have the appropriate table prefix.</jtmpl:translate>
 				    				</em>
 				    			</td>
 					  		</tr>
 					  		<tr>
 					  			<td></td>
 					  			<td colspan="2">
-									<input class="input_box" id="sql_script" name="sqlFile" type="file" size="40" disabled="disabled" />
+									<input class="input_box" id="sql_script" name="sqlFile" type="file" size="40"  />
 									<br/>
-									<input class="button" type="button" name="sqlLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" disabled="disabled" onclick="externalSql(filename, 'mainconfig');" />
+									<input class="button" type="button" name="sqlLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="externalSql(filename, 'mainconfig');" />
 									<br/><br/>
 
-									<span id="theResponse">{VAR_RESPONSE}<span>
+									<span id="theSqlResponse">{VAR_SQLRESPONSE}<span>
 					  			</td>
 					  		</tr>
+					  		
+				  			<tr>
+					  		    <td>
+					  		    	<input id="migrate_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
+					  		    </td>
+								<td>
+				    				<label for="migrate_sql">
+										<jtmpl:translate key="migrateTitle">Load migration script</jtmpl:translate>
+									</label>
+								</td>
+				    			<td>
+				    				<em>
+				    				<jtmpl:translate key="tipLoadMigration">The migration script needs to be created on the old site by the com_migrate_to_j15 tool or created manually to conform.</jtmpl:translate>
+				    				</em>
+				    			</td>
+					  		</tr>
+					  		<tr>
+					  			<td></td>
+								<td>
+									<label for="tablePrefix">
+									  	<jtmpl:translate>Old table prefix</jtmpl:translate>
+				  				  	</label>
+								</td>
+								<td>
+							  		<input class="inputbox" type="text" id="tablePrefix" name="vars[tablePrefix]" value="" size="24" />
+								</td>
+					  		</tr>
+					  		<tr>
+					  			<td></td>
+								<td>
+									<label for="srcEncoding">
+									  	<jtmpl:translate>Source encoding</jtmpl:translate>
+				  				  	</label>
+								</td>
+								<td>
+							  		<input class="inputbox" type="text" id="srcEncoding" name="vars[srcEncoding]" value="" size="24" />
+								</td>
+					  		</tr>
+					  		<tr>
+					  			<td></td>
+					  			<td colspan="2">
+									<input class="input_box" id="migration_script" name="migrationFile" type="file" size="40"  />
+									<br/>
+									<input class="button" type="button" name="migrationLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="migrationSql(filename, 'mainconfig');" />
+									<br/><br/>
+
+									<span id="theMigrationResponse">{VAR_MIGRESPONSE}<span>
+					  			</td>
+					  		</tr>
+					  							  		
 					  		</table>
 
 						</fieldset>
@@ -236,7 +318,9 @@
 
 <input type="hidden" name="task" value="mainconfig" />
 <input type="hidden" name="sqlupload" value="0" />
-<input type="hidden" name="dataLoaded" value="0"
+<input type="hidden" name="migrationupload" value="0" />
+<input type="hidden" name="loadchecked" value="{VAR_LOADCHECKED}" />
+<input type="hidden" name="dataLoaded" value="{VAR_DATALOADED}"
 <input type="hidden" name="DBtype" value="{VAR_DBTYPE}" />
 <input type="hidden" name="DBhostname" value="{VAR_DBHOSTNAME}" />
 <input type="hidden" name="DBuserName" value="{VAR_DBUSERNAME}" />
@@ -251,3 +335,7 @@
 <input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
 <input type="hidden" name="lang" value="{VAR_LANG}" />
 </form>
+<script language="JavaScript" type="text/javascript">
+	document.filename.what_to_load[document.filename.loadchecked.value].checked = true;
+	selectMode();
+</script>
