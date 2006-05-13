@@ -247,6 +247,7 @@ function edit( $uid, $option ) {
 		$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S' );
 		$row->modified 		= $row->modified == $nullDate ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
 		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
+		$row->publish_down	= mosFormatDate( $row->publish_down, '%Y-%m-%d %H:%M:%S' );
 
 		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = JText::_( 'Never' );
@@ -348,7 +349,7 @@ function save( $option, $task )
 {
 	global $mainframe, $database, $my;
 
-	$nullDate = $database->getNullDate();
+	$nullDate 	= $database->getNullDate();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 
@@ -371,11 +372,12 @@ function save( $option, $task )
 	if (strlen(trim( $row->publish_up )) <= 10) {
 		$row->publish_up .= ' 00:00:00';
 	}
-	$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset') );
+	$row->publish_up 	= mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset') );
 
-	$nullDate = $database->getNullDate();
-	if (trim( $row->publish_down ) == "Never") {
+	if (trim( $row->publish_down ) == JText::_( 'Never' )) {
 		$row->publish_down = $nullDate;
+	} else {
+		$row->publish_down 	= mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset') );
 	}
 
 	$row->state = JRequest::getVar( 'state', 0 );

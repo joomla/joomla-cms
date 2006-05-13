@@ -440,18 +440,17 @@ class JContentController
 	* @param integer The unique id of the record to edit (0 if new)
 	* @param integer The id of the content section
 	*/
-	function editContent()
-	{
+	function editContent() {
 		global $mainframe;
 
 		// Initialize variables
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
-		$option		= JRequest::getVar( 'option' );
-		$nullDate	= $db->getNullDate();
+		$db				= & $mainframe->getDBO();
+		$user			= & $mainframe->getUser();
+		$cid			= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$option			= JRequest::getVar( 'option' );
+		$nullDate		= $db->getNullDate();
 		$contentSection = '';
-		$sectionid  = 0;
+		$sectionid  	= 0;
 
 		// Handle the $cid array
 		$cid = intval($cid[0]);
@@ -495,6 +494,7 @@ class JContentController
 			$row->created		= mosFormatDate($row->created, '%Y-%m-%d %H:%M:%S');
 			$row->modified		= $row->modified == $nullDate ? '' : mosFormatDate($row->modified, '%Y-%m-%d %H:%M:%S');
 			$row->publish_up	= mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S');
+			$row->publish_down	= mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S');
 
 			if (trim($row->publish_down) == $nullDate) {
 				$row->publish_down = JText::_('Never');
@@ -731,8 +731,10 @@ class JContentController
 		/*
 		 * Handle never unpublish date
 		 */
-		if (trim($row->publish_down) == "Never") {
+		if (trim($row->publish_down) == 'Never') {
 			$row->publish_down = $nullDate;
+		} else {
+			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
 		}
 
 		/*
