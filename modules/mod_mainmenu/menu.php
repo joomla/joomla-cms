@@ -130,7 +130,7 @@ class JMainMenu extends JTree
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id=\"$id\">\n";
+			echo "<ul id=\"$id\" class=\"listmenu$suffix\">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
