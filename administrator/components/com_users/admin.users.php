@@ -309,6 +309,26 @@ function saveUser(  )
 	 */
 	$isNew 	= !$user->get('id');
 
+	if (!$isNew) {
+		// if group has been changed and where original group was a Super Admin
+		if ( $user->gid != $original_gid && $original_gid == 25 ) {						
+			// count number of active super admins
+			$query = "SELECT COUNT( id )"
+			. "\n FROM #__users"
+			. "\n WHERE gid = 25"
+			. "\n AND block = 0"
+			;
+			$database->setQuery( $query );
+			$count = $db->loadResult();
+			
+			if ( $count <= 1 ) {
+			// disallow change if only one Super Admin exists
+				$user->_error = JText::_( 'WARN_ONLY_SUPER' );
+				return false;
+			}
+		}
+	}
+	
 	/*
 	 * Lets save the JUser object
 	 */
@@ -365,43 +385,59 @@ function removeUsers(  )
 {
 	global $mainframe;
 
-	$database = $mainframe->getDBO();
-	$currentUser = $mainframe->getUser();
+	$database 		= $mainframe->getDBO();
+	$currentUser 	= $mainframe->getUser();
 
-	$acl      	=& JFactory::getACL();
+	$acl      		=& JFactory::getACL();
 
-	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+	$cid 			= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
-	if (count( $cid ))
-	{
-		foreach ($cid as $id)
-		{
+	if (count( $cid )) {
+		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
 			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
 			$success = false;
-			if ( $this_group == 'super administrator' )
-			{
+			if ( $this_group == 'super administrator' ) {
 				$msg = JText::_( 'You cannot delete a Super Administrator' );
- 			}
-			else if ( $id == $currentUser->id )
-			{
+ 			} else if ( $id == $currentUser->id ) {
  				$msg = JText::_( 'You cannot delete Yourself!' );
- 			}
-			else if ( ( $this_group == 'administrator' ) && ( $currentUser->gid == 24 ) )
-			{
+ 			} else if ( ( $this_group == 'administrator' ) && ( $currentUser->gid == 24 ) ) {
  				$msg = JText::_( 'WARNDELETE' );
-			}
-			else
-			{
-				$user =& JUser::getInstance((int)$id);
-				$user->delete( );
+			} else {
+				$user =& JUser::getInstance((int)$id);				
+				$count = 2;
+				
+				if ( $user->gid == 25 ) {
+					// count number of active super admins
+					$query = "SELECT COUNT( id )"
+					. "\n FROM #__users"
+					. "\n WHERE gid = 25"
+					. "\n AND block = 0"
+					;
+					$database->setQuery( $query );
+					$count = $database->loadResult();
+				}
+				
+				if ( $count <= 1 && $user->gid == 25 ) {
+				// cannot delete Super Admin where it is the only one that exists
+					$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
+				} else {
+					// delete user
+					$user->delete( );
+					
+					JRequest::setVar( 'task', 'remove' );
+					JRequest::setVar( 'cid', $id );
+					
+					// delete user acounts active sessions
+					logoutUser();
+				}
 			}
 		}
 	}
@@ -412,16 +448,14 @@ function removeUsers(  )
 /**
 * Unblocks one or more user records
 */
-function unBlockUser( )
-{
+function unBlockUser( ) {
 	changeUserBlock( 0 );
 }
 
 /**
 * Blocks one or more user records
 */
-function blockUser( )
-{
+function blockUser( ) {
 	changeUserBlock( 1 );
 }
 
@@ -429,8 +463,7 @@ function blockUser( )
 * Blocks or Unblocks one or more user records
 * @param integer 0 if unblock, 1 if blocking
 */
-function changeUserBlock( $block=1 )
-{
+function changeUserBlock( $block=1 ) {
 	global $mainframe;
 
 	$database = $mainframe->getDBO();
@@ -460,19 +493,29 @@ function changeUserBlock( $block=1 )
 		exit();
 	}
 
+	// if action is to block a user
+	if ( $block == 1 ) {
+		foreach( $cid as $id ) {
+			JRequest::setVar( 'task', 'block' );
+			JRequest::setVar( 'cid', $id );
+			
+			// delete user acounts active sessions
+			logoutUser();
+		}
+	}
+	
 	josRedirect( 'index2.php?option='. $option );
 }
 
 /**
  * logout selected users
 */
-function logoutUser( )
-{
+function logoutUser( ) {
 	global $database, $currentUser;
 	$task 	= JRequest::getVar( 'task' );
 	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );
-	$id = JRequest::getVar( 'id', 0, '', 'int' );
+	$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 
 	if ( is_array( $cids ) ) {
 		if ( count( $cids ) < 1 ) {
@@ -501,6 +544,11 @@ function logoutUser( )
 			josRedirect( 'index2.php', $msg );
 			break;
 
+		case 'remove':
+		case 'block':
+			return;
+			break;
+		
 		default:
 			josRedirect( 'index2.php?option=com_users', $msg );
 			break;
