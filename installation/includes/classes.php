@@ -1067,12 +1067,15 @@ class JInstallationHelper
 			}
 			$script = $package['folder'].$package['script'];
 		}
+
+		jimport('joomla.database.database');
+		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		
 		/*
 		 * If migration perform manipulations on script file before population
 		 */
 		if ( $migration ) {
-			$script = JInstallationHelper::preMigrate($script, $args);
+			$script = JInstallationHelper::preMigrate($script, $args, $database);
 			if ( $script == false ) {
 				// TODO
 				return "TODO add error text";
@@ -1081,12 +1084,32 @@ class JInstallationHelper
 
 		$errors = null;
 		$msg = '';
-		jimport('joomla.database.database');
-		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($database, $script, $errors);
 
 		/*
-		 * prepare sql error messages if returned from populate
+		 * If migration, perform post population manipulations (menu table construction)
+		 */
+		$migErrors = null;
+		if ( $migration ) {
+			$migResult = JInstallationHelper::postMigrate( $database, $migErrors, $args );
+			
+			if ( $migResult != 0 ) {
+				/*
+				 * Merge populate and migrate processing errors
+				 */
+				if( $result == 0 ){
+					$result = $migResult;
+					$errors = $migErrors;
+				} else {
+					$result += $migResult;
+					$errors = array_merge( $errors, $migErrors );
+				}
+			}
+		}
+		
+
+		/*
+		 * prepare sql error messages if returned from populate and migrate
 		 */
 		if (!is_null($errors)){
 			foreach($errors as $error){
@@ -1100,17 +1123,6 @@ class JInstallationHelper
 			$txt = '<input size="50" value="'.$msg.'" readonly="readonly" />';
 		}
 
-		/*
-		 * If migration, perform post population manipulations (menu table construction)
-		 */
-		$migErrors = null;
-		if ( $migration ) {
-			$script = JInstallationHelper::postMigrate( $database, $migErrors );
-			if ( $script == false ) {
-				// TODO
-				return "TODO add error text";
-			}
-		}
 		
 		/*
 		 * Clean up
@@ -1244,7 +1256,7 @@ class JInstallationHelper
 	 * @return converted filename on success, False on error
 	 * @since 1.5
 	 */
-	function preMigrate( $scriptName, &$args ) {
+	function preMigrate( $scriptName, &$args, $db ) {
 		//TODO add error handling
 		$buffer = '';
 		$newPrefix = $args['DBPrefix'];
@@ -1270,6 +1282,26 @@ class JInstallationHelper
 		$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
 		
 		/*
+		 * Create two empty temporary tables
+		 */
+		 
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'comp_migration';
+		$db->setQuery( $query );
+		$db->query();
+		
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
+		$db->setQuery( $query );
+		$db->query(); 
+		
+		$query = 'CREATE TABLE '.$newPrefix.'comp_migration SELECT * FROM '.$newPrefix.'components WHERE 0';
+		$db->setQuery( $query );
+		$db->query();
+		
+		$query = 'CREATE TABLE '.$newPrefix.'menu_migration SELECT * FROM '.$newPrefix.'menu WHERE 0';
+		$db->setQuery( $query );
+		$db->query();
+		
+		/*
 		 * rename two aro_acl... field names
 		 */
 		$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
@@ -1287,9 +1319,6 @@ class JInstallationHelper
 		$ret = file_put_contents( $newFile, $buffer );
 		$buffer = '';
 		return $newFile;
-		
-		
-		
 	}
 	
 	/**
@@ -1297,26 +1326,44 @@ class JInstallationHelper
 	 * These include constructing an appropriate menu table for core content items
 	 *
 	 * @static
-	 * @return converted True on success, False on error
+	 * @param JDatabase
+	 * @param array errors (by ref)
+	 * @return error count
 	 * @since 1.5
 	 */
-	function postMigrate( $db, &$errors ) {
+	function postMigrate( $db, & $errors, & $args ) {
+		
+		$newPrefix = $args['DBPrefix'];
+		
 		
 		/*
 		 * Check to see if migration is from 4.5.1
 		 */
+		$query = "SELECT id, usertype FROM ".$newPrefix."users WHERE id = 62";
+		$row = $db->getRow( $query );
+		if ($db->getErrorNum() > 0) {
+			$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
+		}
 		
-//		$database->setQuery($query);
-//		$database->query();
-//		if ($database->getErrorNum() > 0) {
-//			$errors[] = array ('msg' => $database->getErrorMsg(), 'sql' => $query);
-//		}
+		/*
+		 * if it is, then fill usertype field with correct values from aro_group
+		 */
+		if ( $row[1] == 'superadministrator' ){
+			$query = "UPDATE ".$newPrefix."users AS u, ".$newPrefix."core_acl_aro_groups AS g" .
+					"\n SET u.usertype = g.value" .
+					"\n WHERE u.gid = g.id";
+			$db->setQuery($query);
+			$db->query();
+			if ($db->getErrorNum() > 0) {
+				$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
+			}
+		}
 		
 		/*
 		 * Construct the menu table based on old table references to core items
 		 */
 		
-		return true;
+		return count( $errors );
 	}
 	
 }
