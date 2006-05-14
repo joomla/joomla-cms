@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-May-2006 Johan Janssens
+ ^ Moved Cache_Lite package to pear library folder
+
 12-May-2006 Louis Landry
  ^ Refactored mod_mainmenu -- new options allows for great flexibility using unordered lists
  + Added JTree and JNode to utilities package -- Abstract tree implementation

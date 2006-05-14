@@ -11,7 +11,7 @@
  * details.
  */
 
-jimport('cache.Lite');
+jimport('pear.cache.Lite');
 
 /**
  * Abstract class for caching handlers
