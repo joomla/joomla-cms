@@ -769,9 +769,7 @@ class JInstallationHelper
 
 		foreach ($queries as $query) {
 			$query = trim($query);
-			if ($query != '' && $query {
-				0 }
-			!= '#') {
+			if ($query != '' && $query {0} != '#') {
 				$database->setQuery($query);
 				$database->query();
 				if ($database->getErrorNum() > 0) {
@@ -1073,8 +1071,13 @@ class JInstallationHelper
 		/*
 		 * If migration perform manipulations on script file before population
 		 */
-		$script = JInstallationHelper::preMigrate($script, $args);
-//return '<input size="50" value="'.$script.'" readonly="readonly" />';
+		if ( $migration ) {
+			$script = JInstallationHelper::preMigrate($script, $args);
+			if ( $script == false ) {
+				// TODO
+				return "TODO add error text";
+			}
+		}
 
 		$errors = null;
 		$msg = '';
@@ -1100,7 +1103,14 @@ class JInstallationHelper
 		/*
 		 * If migration, perform post population manipulations (menu table construction)
 		 */
-		
+		$migErrors = null;
+		if ( $migration ) {
+			$script = JInstallationHelper::postMigrate( $database, $migErrors );
+			if ( $script == false ) {
+				// TODO
+				return "TODO add error text";
+			}
+		}
 		
 		/*
 		 * Clean up
@@ -1290,8 +1300,23 @@ class JInstallationHelper
 	 * @return converted True on success, False on error
 	 * @since 1.5
 	 */
-	function postMigrate(  ) {
+	function postMigrate( $db, &$errors ) {
 		
+		/*
+		 * Check to see if migration is from 4.5.1
+		 */
+		
+//		$database->setQuery($query);
+//		$database->query();
+//		if ($database->getErrorNum() > 0) {
+//			$errors[] = array ('msg' => $database->getErrorMsg(), 'sql' => $query);
+//		}
+		
+		/*
+		 * Construct the menu table based on old table references to core items
+		 */
+		
+		return true;
 	}
 	
 }
