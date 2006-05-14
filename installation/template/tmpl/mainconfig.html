@@ -33,7 +33,7 @@
 			frm.instDefault.disabled = false;
 			frm.sqlFile.disabled = true;
 			frm.sqlLoad.disabled = true;
-			frm.tablePrefix.disabled = true;
+			frm.oldPrefix.disabled = true;
 			frm.srcEncoding.disabled = true;
 			frm.migrationFile.disabled = true;
 			frm.migrationLoad.disabled = true;
@@ -41,7 +41,7 @@
 			frm.instDefault.disabled = true;
 			frm.sqlFile.disabled = false;
 			frm.sqlLoad.disabled = false;
-			frm.tablePrefix.disabled = true;
+			frm.oldPrefix.disabled = true;
 			frm.srcEncoding.disabled = true;
 			frm.migrationFile.disabled = true;
 			frm.migrationLoad.disabled = true;
@@ -49,7 +49,7 @@
 			frm.instDefault.disabled = true;
 			frm.sqlFile.disabled = true;
 			frm.sqlLoad.disabled = true;
-			frm.tablePrefix.disabled = false;
+			frm.oldPrefix.disabled = false;
 			frm.srcEncoding.disabled = false;
 			frm.migrationFile.disabled = false;
 			frm.migrationLoad.disabled = false;
@@ -267,12 +267,12 @@
 					  		<tr>
 					  			<td></td>
 								<td>
-									<label for="tablePrefix">
+									<label for="oldPrefix">
 									  	<jtmpl:translate>Old table prefix</jtmpl:translate>
 				  				  	</label>
 								</td>
 								<td>
-							  		<input class="inputbox" type="text" id="tablePrefix" name="vars[tablePrefix]" value="" size="24" />
+							  		<input class="inputbox" type="text" id="oldPrefix" name="vars[oldPrefix]" value="" size="24" />
 								</td>
 					  		</tr>
 					  		<tr>

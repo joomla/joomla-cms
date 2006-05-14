@@ -1005,6 +1005,15 @@ class JInstallationHelper
 		return $ret;
 	}
 
+	/**
+	 * Uploads a sql script and executes it. Script can be text file or zip/gz packed
+	 *
+	 * @static
+	 * @param array The installation variables
+	 * @param boolean true if the script is a migration script
+	 * @return string Success or error messages
+	 * @since 1.5
+	 */
 	function uploadSql( &$args, $migration = false ) {
 		global $mainframe;
 		$archive = '';
@@ -1015,7 +1024,7 @@ class JInstallationHelper
 		 */
 		if( $migration ) {
 			$sqlFile	= JRequest::getVar('migrationFile', '', 'files', 'array');
-return '<input size="50" value="This is still work in progress" readonly="readonly" />';
+//return '<input size="50" value="This is still work in progress" readonly="readonly" />';
 		} else {
 			$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
 		}
@@ -1064,6 +1073,8 @@ return '<input size="50" value="This is still work in progress" readonly="readon
 		/*
 		 * If migration perform manipulations on script file before population
 		 */
+		$script = JInstallationHelper::preMigrate($script, $args);
+//return '<input size="50" value="'.$script.'" readonly="readonly" />';
 
 		$errors = null;
 		$msg = '';
@@ -1105,7 +1116,7 @@ return '<input size="50" value="This is still work in progress" readonly="readon
 	}
 
 	/**
-	 * Unpacks a file and verifies it as a Joomla element package
+	 * Unpacks a compressed script file either as zip or gz/ Assumes single file in archive
 	 *
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
@@ -1165,6 +1176,7 @@ return '<input size="50" value="This is still work in progress" readonly="readon
 			// Free up PCLZIP memory
 			unset ($zipfile);
 		} else if( eregi('.gz$', $archivename) ){
+			//TODO add error handling
 			/*
 			 * Create the folder
 			 */
@@ -1212,5 +1224,75 @@ return '<input size="50" value="This is still work in progress" readonly="readon
 		return $retval;
 
 	}
+	
+	/**
+	 * Performs pre-populate conversions on a migration script
+	 *
+	 * @static
+	 * @param string $scriptName The uploaded / unpacked script file
+	 * $param array $args The installation varibables
+	 * @return converted filename on success, False on error
+	 * @since 1.5
+	 */
+	function preMigrate( $scriptName, &$args ) {
+		//TODO add error handling
+		$buffer = '';
+		$newPrefix = $args['DBPrefix'];
+		/*
+		 * read script file into buffer
+		 */
+		$buffer = file_get_contents( $scriptName );
+		if(  $buffer == false ) {
+			return false;
+		}
+		
+		/*
+		 * search and replace table prefixes
+		 */
+		$oldPrefix = trim( $args['oldPrefix']);
+		$oldPrefix = rtrim( $oldPrefix, '_' ) . '_';
+		$buffer = str_replace( $oldPrefix, $newPrefix, $buffer );
+		
+		/*
+		 * give temp name to menu and components tables
+		 */
+		$buffer = str_replace ( $newPrefix.'components', $newPrefix.'comp_migration', $buffer );
+		$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
+		
+		/*
+		 * rename two aro_acl... field names
+		 */
+		$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
+		$buffer = preg_replace ( '/aro_id(?=.{1,6}section_value)/', 'id', $buffer );
+		
+		/*
+		 * convert to utf-8
+		 */
+		$srcEncoding = $args['srcEncoding'];
+		$buffer = iconv( $srcEncoding, 'utf-8//TRANSLIT', $buffer );
+		/*
+		 * write to file
+		 */
+		$newFile = dirname( $scriptName ).DS.'converted.sql';
+		$ret = file_put_contents( $newFile, $buffer );
+		$buffer = '';
+		return $newFile;
+		
+		
+		
+	}
+	
+	/**
+	 * Performs post-populate conversions after importing a migration script
+	 * These include constructing an appropriate menu table for core content items
+	 *
+	 * @static
+	 * @return converted True on success, False on error
+	 * @since 1.5
+	 */
+	function postMigrate(  ) {
+		
+	}
+	
 }
 ?>
