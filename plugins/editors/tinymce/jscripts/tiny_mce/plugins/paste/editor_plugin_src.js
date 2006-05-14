@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.36 $
- * $Date: 2006/03/20 12:03:44 $
+ * $Revision: 1.37 $
+ * $Date: 2006/03/27 10:07:08 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -308,15 +308,15 @@ var TinyMCE_PastePlugin = {
 				// Add the rest
 				var np = p.nextSibling;
 				while (np) {
-				        // If the node is whitespace, then
-				        // ignore it and continue on.
-				        if (np.nodeType == 3 && /^\s$/m.test(np.nodeValue)) {
-				                np = np.nextSibling;
-				                continue;
-				        }
-					
+			        // If the node is whitespace, then
+			        // ignore it and continue on.
+			        if (np.nodeType == 3 && new RegExp('^\\s$', 'm').test(np.nodeValue)) {
+			                np = np.nextSibling;
+			                continue;
+			        }
+
 					if (search == mdot) {
-					        if (np.nodeType == 1 && /^o(\s+|&nbsp;)/.test(np.innerHTML)) {
+					        if (np.nodeType == 1 && new RegExp('^o(\\s+|&nbsp;)').test(np.innerHTML)) {
 					                // Second level of nesting
 					                if (!prevul) {
 					                        prevul = ul;

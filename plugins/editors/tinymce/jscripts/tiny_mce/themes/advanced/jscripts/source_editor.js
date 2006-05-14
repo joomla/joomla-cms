@@ -17,8 +17,11 @@ function onLoadInit() {
 
 	document.forms[0].htmlSource.value = fixContent(tinyMCE.getContent(tinyMCE.getWindowArg('editor_id')));
 	resizeInputs();
-	
-	setWrap('soft');
+
+	if (tinyMCE.getParam("theme_advanced_source_editor_wrap", true)) {
+		setWrap('soft');
+		document.forms[0].wraped.checked = true;
+	}
 }
 
 function setWrap(val) {

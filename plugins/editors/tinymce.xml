@@ -68,6 +68,14 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
+ 		<param name="style" type="radio" default="1" label="Style" description="Show/Hide the CSS Style control button. Only works in `Advanced` mode">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="layer" type="radio" default="1" label="Layer" description="Show/Hide the Layer control button. Only works in `Advanced` mode">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
  		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="PARAMFULLSCREEN">
  			<option value="0">Hide</option>

@@ -98,6 +98,10 @@ class JEditor_tinymce extends JPlugin {
 		// fullscreen
 		$fullscreen			=  $params->def( 'fullscreen', 1 );		// autosave
 		$autosave			= $params->def( 'autosave', 0 );
+		// layer
+		$layer				= $params->def( 'layer', 1 );
+		// style
+		$style				= $params->def( 'style', 1 );
 
 		if ( $relative_urls ) {
 			$relative_urls = 'true';
@@ -222,7 +226,19 @@ class JEditor_tinymce extends JPlugin {
 		if ( $autosave ) {
 			$plugins[]	= 'autosave';
 		}
-
+		// layer
+		if ( $layer ) {
+			$plugins[]	= 'layer';
+			$buttons2[]	= 'insertlayer';
+			$buttons2[]	= 'moveforward';
+			$buttons2[]	= 'movebackward';
+			$buttons2[]	= 'absolute';
+		}
+		// style
+		if ( $style ) {
+			$plugins[]	= 'style';
+			$buttons3[]	= 'styleprops';
+		}
 
 		$buttons2 	= implode( ', ', $buttons2 );
 		$buttons3 	= implode( ', ', $buttons3 );

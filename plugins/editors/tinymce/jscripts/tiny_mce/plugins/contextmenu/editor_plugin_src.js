@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.29 $
- * $Date: 2006/02/13 15:09:28 $
+ * $Revision: 1.31 $
+ * $Date: 2006/05/03 10:46:41 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -288,12 +288,12 @@ TinyMCE_ContextMenu.prototype = {
 
 		html += '<td class="contextMenuIcon"><img src="' + icon + '" width="20" height="20" class="contextMenuImage" /></td>';
 		html += '<td><div class="contextMenuText">';
-		html += '<a href="javascript:void(0);" onclick="' + onMouseDown + '" onmousedown="return false;">&nbsp;';
+		html += '<a href="javascript:void(0);" onclick="' + onMouseDown + '" onmousedown="return false;">&#160;';
 
 		// Add text
 		html += title;
 
-		html += '&nbsp;</a>';
+		html += '&#160;</a>';
 		html += '</div></td>';
 		html += '</tr>';
 
@@ -302,6 +302,8 @@ TinyMCE_ContextMenu.prototype = {
 	},
 
 	show : function(x, y) {
+		var vp, width, height;
+
 		if (this.html == "")
 			return;
 
@@ -313,25 +315,32 @@ TinyMCE_ContextMenu.prototype = {
 
 		this.contextMenuDiv.innerHTML = html;
 
+		// Get dimensions
+		this.contextMenuDiv.style.display = "block";
+		width = this.contextMenuDiv.offsetWidth;
+		height = this.contextMenuDiv.offsetHeight;
+		this.contextMenuDiv.style.display = "none";
+
 		if (tinyMCE.isMSIE && !tinyMCE.isMSIE5_0 && !tinyMCE.isOpera) {
-			var width, height;
-
-			// Get dimensions
-			this.contextMenuDiv.style.display = "block";
-			width = this.contextMenuDiv.offsetWidth;
-			height = this.contextMenuDiv.offsetHeight;
-			this.contextMenuDiv.style.display = "none";
-
 			// Setup popup and show
 			this.pop.document.body.innerHTML = '<div class="contextMenu">' + html + "</div>";
 			this.pop.document.tinyMCE = tinyMCE;
 			this.pop.document.contextMenu = this;
 			this.pop.show(x, y, width, height);
 		} else {
-			this.contextMenuDiv.style.left = x + 'px';
-			this.contextMenuDiv.style.top = y + 'px';
+			vp = this.getViewPort();
+
+			this.contextMenuDiv.style.left = (x > vp.width - width ? vp.width - width : x) + 'px';
+			this.contextMenuDiv.style.top = (y > vp.height - height ? vp.height - height : y) + 'px';
 			this.contextMenuDiv.style.display = "block";
 		}
+	},
+
+	getViewPort : function() {
+		return {
+			width : document.documentElement.offsetWidth || document.body.offsetWidth,
+			height : self.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+		};
 	},
 
 	hide : function() {
