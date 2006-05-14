@@ -34,7 +34,7 @@ class HTML_newsfeeds
 		?>
 		<form action="index2.php?option=com_newsfeeds" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
@@ -51,7 +51,6 @@ class HTML_newsfeeds
 		</tr>
 		</table>
 
-		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="10">
@@ -168,7 +167,6 @@ class HTML_newsfeeds
 				</td>
 			</tr>
 			</table>
-		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

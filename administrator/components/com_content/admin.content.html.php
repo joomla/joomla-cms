@@ -45,7 +45,7 @@ class ContentView
 		<form action="index2.php?option=com_content" method="post" name="adminForm">
 
 		<div id="pane-document">
-			<table class="adminform">
+			<table>
 				<tr>
 					<td width="100%">
 						<?php echo JText::_( 'Filter' ); ?>:
@@ -295,7 +295,7 @@ class ContentView
 		</script>
 		<form action="index2.php?option=com_content&amp;task=showarchive&amp;sectionid=0" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:

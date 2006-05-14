@@ -180,6 +180,7 @@ class JAdminSubMenu
 				break;
 
 			case 'com_statistics' :
+				$subMenuList = array();
 				if ($enableStats) {
 					$subMenuList[] = array ('title' => JText::_('Browser, OS, Domain'), 'link' => 'index2.php?option=com_statistics', 'img' => '../includes/js/ThemeOffice/globe4.png');
 				}

@@ -21,15 +21,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Trash
 */
 
-class HTML_trash {
+class HTML_trash 
+{
 	/**
 	* Writes a list of the Trash items
 	*/
-	function showListContent( $option, &$contents, &$pageNav, &$lists ) {
+	function showListContent( $option, &$contents, &$pageNav, &$lists ) 
+	{
 		?>
 		<form action="index2.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
@@ -114,7 +116,8 @@ class HTML_trash {
 	/**
 	* Writes a list of the Trash items
 	*/
-	function showListMenu( $option, &$menus, &$pageNav, &$lists ) {
+	function showListMenu( $option, &$menus, &$pageNav, &$lists ) 
+	{
 		?>
 		<script language="javascript" type="text/javascript">
 		/**
@@ -143,7 +146,7 @@ class HTML_trash {
 		</script>
 		<form action="index2.php?option=com_trash&amp;task=viewMenu" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:

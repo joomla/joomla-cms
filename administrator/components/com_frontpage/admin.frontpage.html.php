@@ -40,7 +40,7 @@ class HTML_content {
 		?>
 		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
 
-			<table class="adminform">
+			<table>
 				<tr>
 					<td align="left" width="100%">
 						<?php echo JText::_( 'Filter' ); ?>:

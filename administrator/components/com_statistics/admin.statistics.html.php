@@ -19,8 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Statistics
 */
-class HTML_statistics {
-	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
+class HTML_statistics 
+{
+	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) 
+	{
 		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
 
@@ -35,7 +37,7 @@ class HTML_statistics {
 			$tabs->startTab( $title, "browsers-page" );
 			?>
 
-				<table class="adminlist">
+			<table>
 				<tr>
 					<th class="title">
 						<?php echo ampReplace( $sorts['b_agent'] );?>
@@ -205,12 +207,13 @@ class HTML_statistics {
 		<?php
 	}
 
-	function pageImpressions( &$rows, $pageNav, &$lists, $task ) {
+	function pageImpressions( &$rows, $pageNav, &$lists, $task ) 
+	{
 		global $my;
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=pageimp" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
@@ -332,14 +335,15 @@ class HTML_statistics {
 		<?php
 	}
 
-	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults ) {
+	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults ) 
+	{
 		global $mainframe;
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:

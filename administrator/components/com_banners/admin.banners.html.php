@@ -27,15 +27,8 @@ class HTML_banners {
 
 		mosCommonHTML::loadOverlib();
 		?>
-	<form action="index2.php?option=com_banners" method="post" name="adminForm">
-
-	<div id="pane-navigation">
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
-	</div>
-
-	<div id="pane-document">
-
-		<table class="adminform">
+		<form action="index2.php?option=com_banners" method="post" name="adminForm">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
@@ -51,7 +44,6 @@ class HTML_banners {
 		</tr>
 		</table>
 
-		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
 				<th width="20">
@@ -150,8 +142,6 @@ class HTML_banners {
 			</table>
 
 			<?php echo $pageNav->getListFooter(); ?>
-		</div>
-	</div>
 
 	<input type="hidden" name="option" value="<?php echo $option; ?>" />
 	<input type="hidden" name="task" value="" />
@@ -163,7 +153,8 @@ class HTML_banners {
 		<?php
 	}
 
-	function bannerForm( &$row, &$lists, $_option ) {
+	function bannerForm( &$row, &$lists, $_option ) 
+	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -353,13 +344,7 @@ class HTML_bannerClient {
 		?>
 		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
 
-		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
-		</div>
-
-		<div id="pane-document">
-
-			<table class="adminform">
+			<table>
 			<tr>
 				<td align="left" width="100%">
 					<?php echo JText::_( 'Filter' ); ?>:
@@ -440,7 +425,6 @@ class HTML_bannerClient {
 
 			<?php echo $pageNav->getListFooter(); ?>
 
-		</div>
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="listclients" />
 		<input type="hidden" name="boxchecked" value="0" />

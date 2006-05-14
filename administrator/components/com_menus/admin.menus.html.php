@@ -37,7 +37,7 @@ class HTML_menusections {
 
 		<div id="pane-document">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
@@ -54,24 +54,7 @@ class HTML_menusections {
 			</td>
 		</tr>
 		</table>
-
-		<?php
-		if ( $menutype == 'mainmenu' ) {
-			?>
-			<table class="adminheading">
-			<tr>
-				<td align="left" nowrap="nowrap" style="color: red; font-weight: normal;">
-					<?php echo JText::_( 'WARNDELETEMENU' ); ?>
-				</td>
-				<td align="right" valign="top" nowrap="nowrap" style="font-weight: normal;">
-					<?php echo JText::_( 'WARNMAINMENUHOME' ); ?>
-				</td>
-			</tr>
-			</table>
-			<?php
-		}
-		?>
-
+		
 		<table class="adminlist">
 			<thead>
 				<tr>

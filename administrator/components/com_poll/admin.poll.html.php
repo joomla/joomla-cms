@@ -19,15 +19,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
-class HTML_poll {
-	function showPolls( &$rows, &$pageNav, $option, &$lists ) {
+class HTML_poll 
+{
+	function showPolls( &$rows, &$pageNav, $option, &$lists ) 
+	{
 		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_poll" method="post" name="adminForm">
 
-		<table class="adminform">
+		<table>
 		<tr>
 			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
@@ -128,11 +130,13 @@ class HTML_poll {
 	}
 
 
-	function editPoll( &$row, &$options, &$lists ) {
+	function editPoll( &$row, &$options, &$lists ) 
+	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
-		function submitbutton(pressbutton) {
+		function submitbutton(pressbutton) 
+		{
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
 				submitform( pressbutton );
@@ -235,7 +239,8 @@ class HTML_poll {
 		<?php
 	}
 
-	function previewPoll($title, $options){
+	function previewPoll($title, $options)
+	{
 		?>
 		<form>
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0" >

@@ -25,7 +25,8 @@ class HTML_menumanager
 	/**
 	* Writes a list of the menumanager items
 	*/
-	function show ( $option, $menus, $page ) {
+	function show ( $option, $menus, $page ) 
+	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
@@ -89,7 +90,7 @@ class HTML_menumanager
 			if ($page->limitstart)
 				$start = $page->limitstart;
 			$count = count($menus)-$start;
-			if ($pageNav->limit)
+			if ($page->limit)
 				if ($count > $page->limit)
 					$count = $page->limit;
 			for ($m = $start; $m < $start+$count; $m++) {

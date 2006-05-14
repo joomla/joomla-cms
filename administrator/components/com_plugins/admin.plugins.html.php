@@ -25,7 +25,8 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showPlugins( &$rows, $client, &$page, $option, &$lists ) {
+	function showPlugins( &$rows, $client, &$page, $option, &$lists ) 
+	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
@@ -37,10 +38,7 @@ class HTML_modules {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_plugins" method="post" name="adminForm">
-
-		<div id="pane-document">
-
-			<table class="adminform">
+			<table>
 			<tr>
 				<td align="left" width="100%">
 					<?php echo JText::_( 'Filter' ); ?>:
@@ -158,8 +156,7 @@ class HTML_modules {
 			?>
 			</tbody>
 			</table>
-		</div>
-
+	
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />

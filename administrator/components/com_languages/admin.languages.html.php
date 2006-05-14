@@ -32,18 +32,6 @@ class HTML_languages {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<!--<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>-->
-
-		<div id="pane-document">
-			<table class="adminform">
-			<tr>
-				<td align="right">
-				</td>
-			</tr>
-			</table>
-
 			<table class="adminlist">
 			<thead>
 			<tr>
