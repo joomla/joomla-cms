@@ -164,14 +164,21 @@ class JSimpleXML extends JObject
      *
      * @param string  Path to xml file containing a well-formed XML document
      * @param string  currently ignored
-     * @return object JSimpleXMLElement
+     * @return boolean True if successful, false if file empty
      */
     function loadFile($path, $classname = null)
 	{
 		//Get the XML document loaded into a variable
-		$xml = file_get_contents($path);
-		$this->_parse($xml);
-		return true;
+		$xml = trim( file_get_contents($path) );
+		if ($xml == '')
+		{
+			return false;
+		}
+		else
+		{
+			$this->_parse($xml);
+			return true;
+		}
     }
 
     /**
