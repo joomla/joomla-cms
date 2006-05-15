@@ -157,13 +157,14 @@ class JFactory
 					$doc = & new DOMIT_Lite_Document();
 				} else {
 					jimport('domit.xml_domit_include');
-					$doc = & new DOMIT_Document();
+					$doc = new DOMIT_Document();
 				}
 			}
 
 		}
-
-		return $doc;
+		// needed for php4
+		$reference = & $doc;
+		return $reference;
 	}
 
 	/**
