@@ -73,6 +73,14 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseError( $code, $msg, $info = null ) {
+		// TODO: there is a recursive loop on the callback function screwing everything up
+		// can't find it though
+		echo '<div style="font-family:verdana;font-size:11px;border:1px solid red;">';
+		echo 'Error code = ' . $code;
+		echo '<br/>Error message = ' . nl2br($msg);
+		echo '</div>';
+		die;
+
 		$reference = & JError::raise( E_ERROR, $code, $msg, $info );
 		return $reference;
 	}
@@ -90,6 +98,13 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseWarning( $code, $msg, $info = null ) {
+		// TODO: there is a recursive loop on the callback function screwing everything up
+		// can't find it though
+		echo '<div style="font-family:verdana;font-size:11px;border:1px solid red;">';
+		echo 'Warning code = ' . $code;
+		echo '<br/>Warning message = ' . nl2br($msg);
+		echo '</div>';
+		return;
 		$reference = & JError::raise( E_WARNING, $code, $msg, $info );
 		return $reference;
 	}
@@ -107,6 +122,13 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseNotice( $code, $msg, $info = null ) {
+		// TODO: there is a recursive loop on the callback function screwing everything up
+		// can't find it though
+		echo '<div style="font-family:verdana;font-size:11px;border:1px solid red;">';
+		echo 'Notice code = ' . $code;
+		echo '<br/>Notice message = ' . nl2br($msg);
+		echo '</div>';
+		return;
 		$reference = & JError::raise( E_NOTICE, $code, $msg, $info );
 		return $reference;
 	}
@@ -153,7 +175,7 @@ class JError extends patErrorManager {
 		// see what to do with this kind of error
 		$handling	=	patErrorManager::getErrorHandling( $level );
 
-		$function	=	'handleError' . ucfirst( $handling['mode'] );
+		$function	=	'handleError' . ucfirst( $handling['mode'] );echo $handling['mode']; die;
 		return JError::$function( $error, $handling );
     }
 

@@ -584,7 +584,7 @@ class JApplication extends JObject
 		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
 		if ($database->getErrorNum() > 2) {
-			JError::raiseError('joomla.library:'.$database->getErrorNum(), 'JDatabase::getInstance: Could not connect to database' );
+			JError::raiseError('joomla.library:'.$database->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $database->getErrorMsg() );
 		}
 		$database->debug( $debug );
 		return $database;

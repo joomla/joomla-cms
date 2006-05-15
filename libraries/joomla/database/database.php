@@ -214,7 +214,9 @@ class JDatabase extends JObject
 	 * @return string The error message for the most recent query
 	 */
 	function getErrorMsg() {
-		return str_replace( array( "\n", "'" ), array( '\n', "\'" ), $this->_errorMsg );
+		//return str_replace( array( "\n", "'" ), array( '\n', "\'" ), $this->_errorMsg );
+		// TODO: Check if above line was done for jscript reasons, and if so, make js-safe where the implementation occurs
+		return $this->_errorMsg;
 	}
 	/**
 	 * Get a database escaped string
