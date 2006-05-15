@@ -142,12 +142,12 @@ switch ($task) {
 */
 function viewMenuItems( $menutype, $option )
 {
-	global $database, $mainframe, $mosConfig_list_limit;
+	global $database, $mainframe;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_order", 		'filter_order', 	'm.parent' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state		= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_state", 		'filter_state', 	'' );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mosConfig_list_limit );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg( 'list_limit' ) );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 			'limitstart', 		0 );
 	$levellimit 		= $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 			'levellimit', 		10 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 				'search', 			'' );
@@ -162,7 +162,15 @@ function viewMenuItems( $menutype, $option )
 		}
 	}
 
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.parent, m.ordering";
+	// just in case filter_order get's messed up
+	if ($filter_order)
+	{
+		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.parent, m.ordering";
+	}
+	else
+	{
+		$orderby = "\n ORDER BY m.parent, m.ordering";
+	}
 
 	// select the records
 	// note, since this is a tree we have to do the limits code-side
