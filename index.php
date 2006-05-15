@@ -38,9 +38,6 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 $option = strtolower( JRequest::getVar( 'option' ) );
 $mainframe->_createPathWay( );
 
-//get the acl object (for backwards compatibility)
-$acl =& JFactory::getACL();
-
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
@@ -157,11 +154,13 @@ $params = array(
 	'file'		=> $tmpl 
 );
 
+
 $document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ));
-$document->display( false, $mainframe->getCfg('gzip'), $params);
+$document->display( $mainframe->getCfg('caching_page'), $mainframe->getCfg('gzip'), $params);
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 
 JDEBUG ? $_PROFILER->report() : null;
+
 ?>

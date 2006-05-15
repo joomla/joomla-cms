@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.factory');
+
 /**
  * Component renderer
  *

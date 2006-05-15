@@ -40,31 +40,14 @@ class JFactory
 		 * If we are in the installation application, we don't need to be
 		 * creating any directories or have caching on
 		 */
-		if ($mainframe->getClientId() != 2)
-		{
-			/*
-			 * Add the application specific subdirectory for cache paths
-			 */
-
-			$options = array(
-				'cacheDir' 		=> $cachePath,
-				'caching' 		=> $mainframe->getCfg('caching'),
-				'defaultGroup' 	=> $group,
-				'lifeTime' 		=> $mainframe->getCfg('cachetime'),
-				'fileNameProtection' => false
-			);
-		}
-		else
-		{
-			$options = array(
-				'cacheDir' 		=> $mainframe->getCfg('cachepath') . '/',
-				'caching' 		=> false,
-				'defaultGroup' 	=> $group,
-				'lifeTime' 		=> $mainframe->getCfg('cachetime'),
-				'fileNameProtection' => false
-			);
-		}
-
+		$options = array(
+			'cacheDir' 		=> $cachePath,
+			'caching' 		=> $mainframe->getCfg('caching'),
+			'defaultGroup' 	=> $group,
+			'lifeTime' 		=> $mainframe->getCfg('cachetime'),
+			'fileNameProtection' => false
+		);
+	
 		$cache =& JCache::getInstance( $handler, $options );
 
 		return $cache;

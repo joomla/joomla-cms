@@ -103,7 +103,6 @@ class JConfigView
 			</div>
 		</div>
 		<div class="clr"></div>
-		<script> loadSwicther()</script>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />

@@ -41,20 +41,20 @@ class JCachePage extends JCache
 	}
 
 	/**
-	 * Start the cache
+	 * Get the cached data
 	 *
 	 * @access public
 	 * @param string $id cache id
 	 * @param string $group name of the cache group
 	 * @return boolean true if the cache is hit (false else)
 	 */
-	function start( $id, $group = 'default' )
+	function loadPage( $id, $group = 'default' )
 	{
 		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
 			$etag = stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] );
 			if( $etag == $id) {
 				$this->sendNoChangeHttpHeader($id);
-				return true;
+				exit();
 			}
 		}
 
@@ -62,27 +62,19 @@ class JCachePage extends JCache
 
 		if ($data !== false) {
 			$this->sendEtagHttpHeader($this->_id);
-			echo($data);
-			return true;
-		} else {
-			ob_start();
-			ob_implicit_flush( false );
-			return false;
+			return $data;
 		}
+		
+		return false;
 	}
 
 	/**
-	 * Stop the cache
+	 * Set the data to cache
 	 *
 	 * @access public
 	 */
-	function end()
-	{
-		$data = ob_get_contents();
-		ob_end_clean();
-
+	function savePage($data) {
 		$this->save( $data, $this->_id, $this->_group );
-		echo $data;
 	}
 
 	function generateId($data) {
@@ -94,7 +86,7 @@ class JCachePage extends JCache
 	}
 
 	function sendEtagHttpHeader($md5) {
-		header( 'Etag: '.$md5 );
+		header( 'ETag:'.$md5 );
 	}
 }
 ?>

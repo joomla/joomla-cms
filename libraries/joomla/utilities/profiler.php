@@ -103,7 +103,7 @@ class JProfiler extends JObject
 		global $mainframe;
 
 		$db =& $mainframe->getDBO();
-
+		
 		echo implode( $glue, $this->_buffer );
 		echo "<br />";
 		echo $this->getmemory();

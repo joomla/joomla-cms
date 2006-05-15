@@ -514,6 +514,7 @@ class JLanguage extends JObject
 	 */
 	function _parseXMLLanguageFile($path)
 	{
+		jimport('joomla.factory');
 		$xml = & JFactory::getXMLParser('Simple');
 		if (!$xml->loadFile($path)) {
 			return null;

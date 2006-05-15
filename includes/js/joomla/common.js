@@ -30,7 +30,7 @@ Browser.is_ie	= ((Browser.agt.indexOf("msie") != -1) && (Browser.agt.indexOf("op
 /* -- page loader ----------------------------- */
 /* -------------------------------------------- */
 
-document.addLoadEvent= function(func) {
+document.addLoadEvent = function(func) {
   var oldonload = window.onload;
   if (typeof window.onload != 'function') {
     window.onload = func;

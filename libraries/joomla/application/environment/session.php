@@ -60,6 +60,7 @@ class JSession
         if (is_null(JSession::_detectID())) {
             JSession::id($id ? $id : JSession::_createID());
         }
+		session_cache_limiter('none');
         session_start();
         if (!isset($_SESSION['__HTTP_Session_Info'])) {
             $_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_STARTED;

@@ -64,4 +64,12 @@ if (file_exists( $file )) {
 		require_once( $file );
 	}
 }
+
+/**
+ *  Legacy global
+ * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
+ *  use JPlugingHelper::importPlugin to load bot code
+ *  @deprecated As of version 1.5
+ */
+$_MAMBOTS = new mosMambotHandler();
 ?>

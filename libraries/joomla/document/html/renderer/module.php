@@ -11,6 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.factory');
 jimport('joomla.application.extension.module');
 
 /**

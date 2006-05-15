@@ -94,18 +94,13 @@ jimport( 'joomla.application.user.user' );
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.database.table' );
-jimport( 'joomla.presentation.html' );
-jimport( 'joomla.factory' );
-//jimport( 'joomla.presentation.parameter.parameter' );
+//jimport( 'joomla.presentation.html' );
 jimport( 'joomla.i18n.language' );
-jimport( 'joomla.i18n.string' );
+//jimport( 'joomla.i18n.string' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.application.application');
-jimport( 'joomla.application.menu' );
-
-// support for legacy classes & functions that will be depreciated
-jimport( 'joomla.common.legacy.*' );
+//jimport( 'joomla.application.menu' );
 
 JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 
@@ -324,12 +319,4 @@ class JSite extends JApplication
  * @global $_VERSION
  */
 $_VERSION = new JVersion();
-
-/**
- *  Legacy global
- * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
- *  use JPlugingHelper::importPlugin to load bot code
- *  @deprecated As of version 1.5
- */
-$_MAMBOTS = new mosMambotHandler();
 ?>
