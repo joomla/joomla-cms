@@ -468,7 +468,7 @@ function setAllAttribs(elm) {
 		href = tinyMCE.settings['document_base_url'] + href;
 
 	setAttrib(elm, 'href', convertURL(href, elm));
-	setAttrib(elm, 'mce_href', href);
+	//setAttrib(elm, 'mce_href', href);
 	setAttrib(elm, 'title');
 	setAttrib(elm, 'target', target == '_self' ? '' : target);
 	setAttrib(elm, 'id');
