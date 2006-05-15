@@ -39,6 +39,7 @@ Legend:
 
 15-May-2006 Andrew Eddie
  ^ JSimpleXML will return false it the xml file is empty and not attempt to parse it
+ ^ Added template_name field to menu table
 
 14-May-2006 Johan Janssens
  ^ Moved Cache_Lite package to pear library folder
