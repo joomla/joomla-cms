@@ -606,5 +606,4 @@ class JErrorHandler
 JError::setErrorHandling( E_ERROR  , 'callback', array( new JErrorHandler, 'handleError' ) );
 JError::setErrorHandling( E_WARNING, 'verbose' );
 JError::setErrorHandling( E_NOTICE , 'verbose' );
-
 ?>
