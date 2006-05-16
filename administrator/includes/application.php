@@ -420,12 +420,4 @@ class JAdministrator extends JApplication
 $_VERSION = new JVersion();
 
 
-/**
- *  Legacy global
- * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
- *  use JPlugingHelper::importPlugin
- *  @deprecated As of version 1.5
- */
-$_MAMBOTS = new mosMambotHandler();
-
 ?>

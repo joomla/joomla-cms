@@ -94,13 +94,13 @@ jimport( 'joomla.application.user.user' );
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.database.table' );
-//jimport( 'joomla.presentation.html' );
+jimport( 'joomla.presentation.html' );
 jimport( 'joomla.i18n.language' );
-//jimport( 'joomla.i18n.string' );
+jimport( 'joomla.i18n.string' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.application.application');
-//jimport( 'joomla.application.menu' );
+jimport( 'joomla.application.menu' );
 
 JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 
