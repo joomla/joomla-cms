@@ -104,7 +104,8 @@ class JError extends patErrorManager {
 		echo 'Warning code = ' . $code;
 		echo '<br/>Warning message = ' . nl2br($msg);
 		echo '</div>';
-		return;
+		$null = null;
+		return $null;
 		$reference = & JError::raise( E_WARNING, $code, $msg, $info );
 		return $reference;
 	}
@@ -128,7 +129,8 @@ class JError extends patErrorManager {
 		echo 'Notice code = ' . $code;
 		echo '<br/>Notice message = ' . nl2br($msg);
 		echo '</div>';
-		return;
+		$null = null;
+		return $null;
 		$reference = & JError::raise( E_NOTICE, $code, $msg, $info );
 		return $reference;
 	}
