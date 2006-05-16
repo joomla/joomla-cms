@@ -54,7 +54,7 @@ class url_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - URL' ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Link - URL' ); ?>
 				<tr>
 					<td align="right">
 					<?php echo JText::_( 'Link' ); ?>:
@@ -63,7 +63,7 @@ class url_menu_html {
 					<input class="inputbox" type="text" name="link" size="50" maxlength="250" value="<?php echo $menu->link; ?>" />
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				<tr>
 					<td valign="top" align="right">
 					<?php echo JText::_( 'On Click, Open in' ); ?>:
@@ -74,7 +74,9 @@ class url_menu_html {
 				</tr>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

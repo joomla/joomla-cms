@@ -58,7 +58,7 @@ class content_archive_category_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Blog - Content Category Archive', 1 ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Blog - Content Category Archive', 1 ); ?>
 				<tr>
 					<td valign="top" align="right">
 					<?php echo JText::_( 'Category' ); ?>:
@@ -67,10 +67,12 @@ class content_archive_category_menu_html {
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

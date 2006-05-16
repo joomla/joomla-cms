@@ -46,7 +46,7 @@ class separator_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Separator / Placeholder' ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Separator / Placeholder' ); ?>
 				<tr>
 					<td align="right">
 					<?php echo JText::_( 'Pattern/Name' ); ?>:
@@ -55,10 +55,12 @@ class separator_menu_html {
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

@@ -18,6 +18,138 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 * @package Joomla
 * @subpackage Menus
+* @static
+* @since 1.5
+*/
+class menuHTML
+{
+	/**
+	 * Common top section to a menu edit form
+	 */
+	function MenuOutputTop( &$lists, &$menu, $text=NULL, $tip=NULL ) {
+		?>
+		<tr>
+			<th colspan="2">
+			<?php echo JText::_( 'Details' ); ?>
+			</th>
+		</tr>
+		<tr>
+			<td width="20%" align="right">
+			<?php echo JText::_( 'ID' ); ?>:
+			</td>
+			<td width="80%">
+				<strong><?php echo $menu->id; ?></strong>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+			<?php echo JText::_( 'Menu Type' ); ?>:
+			</td>
+			<td>
+			<?php echo JText::_( $text ); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'Published' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['published']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+			<?php echo JText::_( 'Name' ); ?>:
+			</td>
+			<td>
+			<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
+			<?php
+			if ( !$menu->id && $tip ) {
+				echo mosToolTip( JText::_( 'TIPIFLEAVEBLANKCAT' ) );
+			}
+			?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Common bottom section to a menu edit form
+	 */
+	function MenuOutputBottom( &$lists, &$menu ) {
+		?>
+		<tr>
+			<td align="right">
+			<?php echo JText::_( 'Url' ); ?>:
+			</td>
+			<td>
+			<?php echo ampReplace($lists['link']); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'Ordering' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['ordering']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'Access Level' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['access']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" valign="top">
+			<?php echo JText::_( 'Parent Item' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['parent']; ?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Outputs the parameters block for a menu item edit form
+	 * @param object A JParameters object
+	 * @param object A JMenu object
+	 * @param string ??
+	 */
+	function MenuOutputParams( &$params, $menu, $tip=NULL ) {
+		?>
+		<fieldset>
+			<legend>
+				<?php echo JText::_( 'Menu Parameters' ); ?>
+			</legend>
+				
+			<?php
+			if ($tip) {
+				if ($menu->id) {
+					echo $params->render();
+				} else {
+					?>
+					<strong>
+					<?php echo JText::_( 'TIPPARAMLISTMENUITEM' ); ?>
+					</strong>
+					<?php
+				}
+			} else {
+				echo $params->render();
+			}
+			?>
+		</fieldset>
+		<?php
+	}
+}
+
+
+/**
+* @package Joomla
+* @subpackage Menus
 */
 class HTML_menusections {
 

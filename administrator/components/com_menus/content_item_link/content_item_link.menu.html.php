@@ -59,7 +59,7 @@ class content_item_link_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Content Item' ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Link - Content Item' ); ?>
 				<tr>
 					<td align="right" valign="top">
 					<?php echo JText::_( 'Content to Link' ); ?>:
@@ -76,10 +76,12 @@ class content_item_link_menu_html {
 					<?php echo $lists['link_content']; ?>
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

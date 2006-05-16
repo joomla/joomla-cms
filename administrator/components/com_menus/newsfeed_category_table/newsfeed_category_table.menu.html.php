@@ -56,7 +56,7 @@ class newsfeed_category_table_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Component Item', 1 ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Link - Component Item', 1 ); ?>
 				<tr>
 					<td align="right" valign="top">
 					<?php echo JText::_( 'Category' ); ?>:
@@ -65,10 +65,12 @@ class newsfeed_category_table_menu_html {
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

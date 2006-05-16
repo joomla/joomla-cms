@@ -56,23 +56,25 @@ class content_archive_section_menu_html {
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table width="100%">
-		<tr valign="top">
-			<td width="60%">
-				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Blog - Content Section Archive', 1 ); ?>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Section' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['componentid']; ?>
-					</td>
-				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
-				</table>
-			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
-		</tr>
+			<tr valign="top">
+				<td width="60%">
+					<table class="adminform">
+					<?php menuHTML::MenuOutputTop( $lists, $menu, 'Blog - Content Section Archive', 1 ); ?>
+					<tr>
+						<td valign="top" align="right">
+						<?php echo JText::_( 'Section' ); ?>:
+						</td>
+						<td>
+						<?php echo $lists['componentid']; ?>
+						</td>
+					</tr>
+					<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
+					</table>
+				</td>
+				<td width="40%">
+					<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+				</td>
+			</tr>
 		</table>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

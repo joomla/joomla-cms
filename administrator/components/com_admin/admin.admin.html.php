@@ -563,9 +563,11 @@ class HTML_admin_misc
  */
 function getHelpTOC( $helpsearch )
 {
+	jimport( 'joomla.filesystem.folder' );
+
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
-	$files = mosReadDirectory( JPATH_BASE . '/help/en-GB/', '\.xml$|\.html$' );
+	$files = JFolder::files( JPATH_BASE . '/help/en-GB/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {

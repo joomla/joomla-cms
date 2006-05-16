@@ -41,10 +41,12 @@ class JElement_FileList extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
+		jimport( 'joomla.filesystem.folder' );
+
 		// path to images directory
 		$path = JPATH_SITE.$node->attributes('directory');
 		$filter = $node->attributes('filter');
-		$files = mosReadDirectory($path, $filter);
+		$files = JFolder::files($path, $filter);
 
 		$options = array ();
 		foreach ($files as $file) {

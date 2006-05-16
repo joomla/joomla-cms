@@ -1115,115 +1115,6 @@ class mosAdminMenus {
 		return $target;
 	}
 
-	function MenuOutputTop( &$lists, &$menu, $text=NULL, $tip=NULL ) {
-		?>
-		<tr>
-			<th colspan="2">
-			<?php echo JText::_( 'Details' ); ?>
-			</th>
-		</tr>
-		<tr>
-			<td width="20%" align="right">
-			<?php echo JText::_( 'Menu Type' ); ?>:
-			</td>
-			<td width="80%">
-			<?php echo JText::_( $text ); ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'Published' ); ?>:
-			</td>
-			<td>
-			<?php echo $lists['published']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td align="right">
-			<?php echo JText::_( 'Name' ); ?>:
-			</td>
-			<td>
-			<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
-			<?php
-			if ( !$menu->id && $tip ) {
-				echo mosToolTip( JText::_( 'TIPIFLEAVEBLANKCAT' ) );
-			}
-			?>
-			</td>
-		</tr>
-		<?php
-	}
-
-	function MenuOutputBottom( &$lists, &$menu ) {
-		?>
-		<tr>
-			<td align="right">
-			<?php echo JText::_( 'Url' ); ?>:
-			</td>
-			<td>
-			<?php echo ampReplace($lists['link']); ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'Ordering' ); ?>:
-			</td>
-			<td>
-			<?php echo $lists['ordering']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'Access Level' ); ?>:
-			</td>
-			<td>
-			<?php echo $lists['access']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td align="right" valign="top">
-			<?php echo JText::_( 'Parent Item' ); ?>:
-			</td>
-			<td>
-			<?php echo $lists['parent']; ?>
-			</td>
-		</tr>
-		<?php
-	}
-
-	function MenuOutputParams( &$params, $menu, $tip=NULL ) {
-		?>
-		<td width="40%">
-			<table class="adminform">
-			<tr>
-				<th>
-				<?php echo JText::_( 'Parameters' ); ?>
-				</th>
-			</tr>
-			<tr>
-				<td>
-				<?php
-				if ($tip) {
-					if ($menu->id) {
-						echo $params->render();
-					} else {
-						?>
-						<strong>
-						<?php echo JText::_( 'TIPPARAMLISTMENUITEM' ); ?>
-						</strong>
-						<?php
-					}
-				} else {
-					echo $params->render();
-				}
-				?>
-				</td>
-			</tr>
-			</table>
-		</td>
-		<?php
-	}
-
 	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
@@ -1410,7 +1301,8 @@ class mosAdminMenus {
 			$javascript = "onchange=\"javascript:if (document.forms[0]." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms[0]." . $name . ".options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
 		}
 
-		$imageFiles = mosReadDirectory( JPATH_SITE . $directory );
+		jimport( 'joomla.filesystem.folder' );
+		$imageFiles = JFolder::files( JPATH_SITE . $directory );
 		$images 	= array(  mosHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
@@ -1602,7 +1494,8 @@ class mosAdminMenus {
 	* @param array  Value array of all existing images
 	*/
 	function ReadImages( $imagePath, $folderPath, &$folders, &$images ) {
-		$imgFiles = mosReadDirectory( $imagePath );
+		jimport( 'joomla.filesystem.folder' );
+		$imgFiles = JFolder::files( $imagePath );
 
 		foreach ($imgFiles as $file) {
 			$ff_ 	= $folderPath . $file .'/';

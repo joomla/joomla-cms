@@ -1,24 +1,25 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Menus
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version  $Id$
+ * @package Joomla
+ * @subpackage Menus
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
+ * reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Menus
-*/
+ * @package Joomla
+ * @subpackage Menus
+ */
 class components_menu {
 	/**
 	* @param database A database connector object
@@ -78,9 +79,11 @@ class components_menu {
 		// build the url link output
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
+		$helper = JMenuHelper::getInstance( $row->option );
+		$params = $helper->getParams( $menu->params, $row->option );
 		// get params definitions
-		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
-		components_menu_html::edit( $menu, $components, $lists, $params, $option );
+		//$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
+		components_menu_html::edit( $menu, $components, $lists, $params, $helper, $option );
 	}
 }
 ?>

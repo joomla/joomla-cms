@@ -53,7 +53,7 @@ class newsfeed_link_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Newsfeed' ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Link - Newsfeed' ); ?>
 				<tr>
 					<td align="right" valign="top">
 					<?php echo JText::_( 'Newsfeed to Link' ); ?>:
@@ -62,7 +62,7 @@ class newsfeed_link_menu_html {
 					<?php echo $lists['newsfeed']; ?>
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				<tr>
 					<td align="right" valign="top">
 					<?php echo JText::_( 'On Click, Open in' ); ?>:
@@ -73,7 +73,9 @@ class newsfeed_link_menu_html {
 				</tr>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

@@ -66,7 +66,7 @@ class content_blog_section_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Blog - Content Section' ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Blog - Content Section' ); ?>
 				<tr>
 					<td valign="top" align="right">
 					<?php echo JText::_( 'section' ); ?>:
@@ -80,10 +80,12 @@ class content_blog_section_html {
 			 		?>
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 

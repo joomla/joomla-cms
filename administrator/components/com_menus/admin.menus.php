@@ -1,21 +1,24 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Menus
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version $Id$
+ * @package Joomla
+ * @subpackage Menus
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
+ * reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'admin_html' ) );
+define( 'COM_MENUS', dirname( __FILE__ ) . DS );
+require_once( COM_MENUS . 'menus.class.php' );
+require_once( COM_MENUS . 'admin.menus.html.php' );
 
 $id 		= JRequest::getVar( 'id', 0, '', 'int' );
 $type 		= JRequest::getVar( 'type', false );
@@ -314,8 +317,9 @@ function viewMenuItems( $menutype, $option )
 function addMenuItem( &$cid, $menutype, $option, $task ) {
 	$types 	= array();
 
+	jimport( 'joomla.filesystem.folder' );
 	// list of directories
-	$dirs 	= mosReadDirectory( JPATH_ADMINISTRATOR .'/components/com_menus' );
+	$dirs 	= JFolder::folders( JPATH_ADMINISTRATOR .'/components/com_menus' );
 
 	// load files for menu types
 	foreach ( $dirs as $dir ) {
@@ -323,7 +327,7 @@ function addMenuItem( &$cid, $menutype, $option, $task ) {
 		$type 	= $dir;
 		$dir 	= JPATH_ADMINISTRATOR .'/components/com_menus/'. $dir;
 		if ( is_dir( $dir ) ) {
-			$files = mosReadDirectory( $dir, ".\.menu\.php$" );
+			$files = JFolder::files( $dir, ".\.menu\.php$" );
 			foreach ($files as $file) {
 				require_once( "$dir/$file" );
 				// type of menu type

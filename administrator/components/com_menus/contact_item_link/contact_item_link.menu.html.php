@@ -51,31 +51,33 @@ class contact_item_link_menu_html {
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table width="100%">
-		<tr valign="top">
-			<td width="60%">
-				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Contact Item' ); ?>
-				<tr>
-					<td align="right" valign="top">
-					<?php echo JText::_( 'Contact to Link' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['contact']; ?>
-					</td>
-				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
-				<tr>
-					<td align="right" valign="top">
-					<?php echo JText::_( 'On Click, Open in' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['target']; ?>
-					</td>
-				</tr>
-				</table>
-			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
-		</tr>
+			<tr valign="top">
+				<td width="60%">
+					<table class="adminform">
+					<?php menuHTML::MenuOutputTop( $lists, $menu, 'Link - Contact Item' ); ?>
+					<tr>
+						<td align="right" valign="top">
+						<?php echo JText::_( 'Contact to Link' ); ?>:
+						</td>
+						<td>
+						<?php echo $lists['contact']; ?>
+						</td>
+					</tr>
+					<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
+					<tr>
+						<td align="right" valign="top">
+						<?php echo JText::_( 'On Click, Open in' ); ?>:
+						</td>
+						<td>
+						<?php echo $lists['target']; ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td width="40%">
+					<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+				</td>
+			</tr>
 		</table>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

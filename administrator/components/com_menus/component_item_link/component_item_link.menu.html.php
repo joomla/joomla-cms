@@ -55,7 +55,7 @@ class component_item_link_menu_html {
 					<tr valign="top">
 						<td>
 							<table class="adminform">
-							<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - Component Item' ); ?>
+							<?php menuHTML::MenuOutputTop( $lists, $menu, 'Link - Component Item' ); ?>
 							<tr>
 								<td align="right" valign="top">
 								<?php echo JText::_( 'Component to Link' ); ?>:
@@ -64,7 +64,7 @@ class component_item_link_menu_html {
 								<?php echo $lists['components']; ?>
 								</td>
 							</tr>
-							<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+							<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 							</table>
 						</td>
 					</tr>
@@ -77,8 +77,9 @@ class component_item_link_menu_html {
 
 				<table class="admintable" cellspacing="1">
 					<tr valign="top">
-				
-						<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+						<td width="40%">
+							<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+						</td>
 					</tr>
 				</table>
 			</fieldset>

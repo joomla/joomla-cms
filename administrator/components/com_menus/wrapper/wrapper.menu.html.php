@@ -61,7 +61,7 @@ class wrapper_menu_html {
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Wrapper' ); ?>
+				<?php menuHTML::MenuOutputTop( $lists, $menu, 'Wrapper' ); ?>
 				<tr>
 					<td align="right">
 					<?php echo JText::_( 'Wrapper Link' ); ?>:
@@ -70,10 +70,12 @@ class wrapper_menu_html {
 					<input class="inputbox" type="text" name="url" size="50" maxlength="250" value="<?php echo @$menu->url; ?>" />
 					</td>
 				</tr>
-				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
+				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
+			<td width="40%">
+				<?php menuHTML::MenuOutputParams( $params, $menu ); ?>
+			</td>
 		</tr>
 		</table>
 
