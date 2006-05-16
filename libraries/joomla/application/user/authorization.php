@@ -76,6 +76,8 @@ class JAuthorization extends gacl_api
 		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'manager' );
 
 		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'manager' );
 
 		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'super administrator' );
 		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'administrator' );

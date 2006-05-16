@@ -160,7 +160,7 @@ function & buildMenu($usertype = '')
 	/*
 	 * Components SubMenu
 	 */
-	if ($installComponents) {
+	if ($editAllComponents) {
 		$components = new JMenuNode(JText::_('Components'));
 
 		$query = "SELECT *" .
