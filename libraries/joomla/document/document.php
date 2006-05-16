@@ -403,6 +403,30 @@ class JDocument extends JObject
     }
 
 	/**
+     * Initialises the engine
+     *
+     * @access private
+     */
+    function _initEngine() {
+        $this->_engine = null;
+    }
+
+	/**
+     * Returns the engine.
+     *
+     * @param string An engine type
+     * @return object
+     * @access public
+     */
+    function &getEngine( $type='' ) {
+    	if ($this->_engine == null)
+    	{
+    		$this->_initEngine( $type );
+    	}
+        return $this->_engine;
+    }
+
+	/**
      * Sets the title of the document
      *
      * @param    string    $title

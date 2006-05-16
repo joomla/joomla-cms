@@ -211,8 +211,9 @@ class JDocumentHTML extends JDocument
 			}
 		
 			//create the document engine 
-			$this->_engine = $this->_initEngine($template);
-		
+			$this->_engine = $this->getEngine($template);
+			$this->_engine->addVar( 'document', 'template', $template);
+
 			// parse
 			$this->_parseTemplate($directory.DS.$template, $file);
 
@@ -254,7 +255,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$template 	The actual template name
 	 * @return object 
 	 */
-	function &_initEngine($template)
+	function _initEngine($template)
 	{
 		jimport('joomla.template.template');
 		$instance =& JTemplate::getInstance();
@@ -266,11 +267,10 @@ class JDocumentHTML extends JDocument
 		$instance->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
 		
 		//Add template variables
-		$instance->addVar( 'document', 'template', $template);
 		$instance->addVar( 'document', 'lang_tag', $this->getLanguage() );
 		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
 		
-		return $instance;
+		$this->_engine = &$instance;
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-, <?php
+<?php
 /**
 * @version $Id$
 * @package Joomla
@@ -36,6 +36,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+16-May-2006 Andrew Eddie
+ ^ Adjusted JDoc engine handling so the application has a hook to insert
+   additional variables prior to display
 
 16-May-2006 Andrew Eddie
  + Added template filter to module manager list

@@ -256,8 +256,7 @@ class JSite extends JApplication
 
 		switch($type)
 		{
-			case 'html' :
-			{
+			case 'html':
 				//set metadata
 				$doc->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
 
@@ -265,9 +264,21 @@ class JSite extends JApplication
 					$doc->addScript( 'includes/js/joomla/common.js');
 					$doc->addScript( 'includes/js/joomla.javascript.js');
 				}
-			} break;
+				if ($this->isAdmin()) {
+					$baseURL = $this->getSiteURL();
+				} else {
+					$baseURL = $this->getBaseURL();
+				}
 
-			default : break;
+				$engine = &$doc->getEngine();
+				$engine->addGlobalVar( 'SITEURL',		$baseURL );
+				$engine->addGlobalVar( 'TEMPLATEURL',	$baseURL . '/templates/' . $this->getTemplate() );
+				$engine->addGlobalVar( 'SELF', 			$_SERVER['PHP_SELF'] );
+				$engine->addGlobalVar( 'URI_QUERY', 	$_SERVER['QUERY_STRING'] );
+				break;
+
+			default:
+				break;
 		}
 
 		return $this->_document;
