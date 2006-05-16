@@ -49,7 +49,7 @@ class Cache_Lite
 	*
 	* @var boolean $_caching
 	*/
-	var $_caching = true;
+	var $_caching = false;
 
 	/**
 	* Cache lifetime (in seconds)

@@ -166,7 +166,7 @@ class JDocumentHTML extends JDocument
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $cache = false, $compress = false, $params = array())
+	function display( $caching = false, $compress = false, $params = array())
 	{
 		global $mainframe;
 		
@@ -183,11 +183,11 @@ class JDocumentHTML extends JDocument
 		
 		// Page caching
 		// For now page caching will only be used for anonymous users
-
 		$cache = JFactory::getCache('page', 'page');
-		$cache->setCaching(!$user->get('id') && $cache);
+		$cache->setCaching(!$user->get('id') &&  $caching);
 		$cache->setCacheValidation(true);
-
+		
+			
 		// Compute unique cache identifier for the page we're about
 		// to cache. We'll assume that the page's output depends on
 		// the HTTP GET variables

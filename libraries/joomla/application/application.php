@@ -278,6 +278,7 @@ class JApplication extends JObject
 
 				// Fudge the ACL stuff for now...
 				// TODO: Implement ACL :)
+				jimport('joomla.factory');
 				$acl = &JFactory::getACL();
 				$grp = $acl->getAroGroup($user->get('id'));
 				$row->gid = 1;

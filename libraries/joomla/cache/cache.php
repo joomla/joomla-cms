@@ -114,18 +114,13 @@ class JCache extends Cache_Lite
 	}
 
 	/**
-	 * Enable/disbale caching, if caching is enabled
-	 *
-	 * @param boolean $enable If true enable caching.
-	 * @access public
-	 */
-	function setCaching($enable)
-	{
-		if ($this->_caching)
-		{
-			$this->_caching = $enable;
-		}
-		return $this->_caching;
+    * Enable/disbale caching
+    *
+    * @access public
+    * @param boolean $enable If true enable caching.
+    */
+	function setCaching($enable = false)  {
+		$this->_caching = $enable;
 	}
 
 	/**

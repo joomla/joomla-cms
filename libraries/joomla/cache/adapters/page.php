@@ -31,16 +31,6 @@ class JCachePage extends JCache
 	}
 
 	/**
-    * Enable/disbale caching
-    *
-    * @access public
-    * @param boolean $enable If true enable caching.
-    */
-	function setCaching($enable)  {
-		$this->_caching = $enable;
-	}
-
-	/**
 	 * Get the cached data
 	 *
 	 * @access public
@@ -50,7 +40,7 @@ class JCachePage extends JCache
 	 */
 	function loadPage( $id, $group = 'default' )
 	{
-		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
+		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) && $this->_caching ){
 			$etag = stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] );
 			if( $etag == $id) {
 				$this->sendNoChangeHttpHeader($id);
