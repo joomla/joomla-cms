@@ -192,7 +192,7 @@ class JDocumentHTML extends JDocument
 		// to cache. We'll assume that the page's output depends on
 		// the HTTP GET variables
 
-		$cacheId = $cache->generateId($_GET);
+		$cacheId = $cache->generateId(array_push($_GET, $mainframe->getBaseURL()));
 
 		if(!$data = $cache->loadPage($cacheId, 'page')) 
 		{
