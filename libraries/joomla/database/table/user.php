@@ -279,7 +279,8 @@ class JTableUser extends JTable
 	 */
 	function getUserId($username)
 	{
-		$this->_db->setQuery("SELECT id FROM #__users WHERE username = '$username' LIMIT 1");
+		$query = 'SELECT id FROM #__users WHERE username = ' . $this->_db->Quote( $username );
+		$this->_db->setQuery($query, 0, 1);
 		return $this->_db->loadResult();
 	}
 
