@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-May-2006 Andrew Eddie
+ + Added template filter to module manager list
+
 15-May-2006 Andrew Eddie
  ^ JSimpleXML will return false it the xml file is empty and not attempt to parse it
  ^ Added template_name field to menu table

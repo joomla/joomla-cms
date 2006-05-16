@@ -49,6 +49,7 @@ class HTML_modules {
 				</td>
 				<td nowrap="nowrap">
 					<?php
+					echo $lists['assigned'];
 					echo $lists['position'];
 					echo $lists['type'];
 					echo $lists['state'];

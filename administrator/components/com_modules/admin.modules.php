@@ -121,6 +121,7 @@ function viewModules()
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.filter_position", 	'filter_position', 	0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
+	$filter_assigned 	= $mainframe->getUserStateFromRequest( "$option.filter_assigned",	'filter_assigned',	0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
@@ -128,7 +129,15 @@ function viewModules()
 
 	$where[] = "m.client_id = ".$client->id;
 
+	$joins[] = 'LEFT JOIN #__users AS u ON u.id = m.checked_out';
+	$joins[] = 'LEFT JOIN #__groups AS g ON g.id = m.access';
+	$joins[] = 'LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id';
+
 	// used by filter
+	if ( $filter_assigned ) {
+		$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = m.id';
+		$where[] = "t.template = '$filter_assigned'";
+	}
 	if ( $filter_position ) {
 		$where[] = "m.position = '$filter_position'";
 	}
@@ -146,7 +155,7 @@ function viewModules()
 		}
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
+	$where 		= "\n WHERE " . implode( ' AND ', $where );	$join 		= "\n " . implode( "\n ", $joins );	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -161,9 +170,7 @@ function viewModules()
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"
 	. "\n FROM #__modules AS m"
-	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-	. "\n LEFT JOIN #__groups AS g ON g.id = m.access"
-	. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
+	. $join
 	. $where
 	. "\n GROUP BY m.id"
 	. $orderby
@@ -186,7 +193,7 @@ function viewModules()
 	$positions[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Position' ) .' -' );
 	$db->setQuery( $query );
 	$positions = array_merge( $positions, $db->loadObjectList() );
-	$lists['position']	= mosHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_position" );
+	$lists['position']	= mosHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
 
 	// get list of Positions for dropdown filter
 	$query = "SELECT module AS value, module AS text"
@@ -198,10 +205,19 @@ function viewModules()
 	$db->setQuery( $query );
 	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
 	$types 			= array_merge( $types, $db->loadObjectList() );
-	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
+	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
 
 	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
+	// template assignment filter
+	$query = "SELECT DISTINCT(template) AS text, template AS value" .
+			"\nFROM jos_templates_menu" .
+			"\nWHERE client_id = " . $client->id;
+	$db->setQuery( $query );
+	$assigned[]		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Template' ) .' -' );
+	$assigned 		= array_merge( $assigned, $db->loadObjectList() );
+	$lists['assigned']	= mosHTML::selectList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {

@@ -42,7 +42,7 @@ switch ($task)
 
 	case 'save'  :
 	case 'apply' :
-		JTemplatesController::saveTemplate($cid[0], $task);
+		JTemplatesController::saveTemplate($task);
 		break;
 
 	case 'edit_source' :
@@ -261,7 +261,7 @@ class JTemplatesController
 		JTemplatesView::editTemplate($row, $lists, $params, $option, $client);
 	}
 
-	function saveTemplate($template, $task)
+	function saveTemplate($task)
 	{
 		global $mainframe;
 
@@ -270,6 +270,7 @@ class JTemplatesController
 		 */
 		$db	   		 = & $mainframe->getDBO();
 
+		$template	= JRequest::getVar('template');
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
