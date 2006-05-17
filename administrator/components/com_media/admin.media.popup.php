@@ -188,16 +188,10 @@ class JMediaViews
 		}
 
 		?>
-		<div style="float:left; padding: 5px">
-			<div class="imgTotal">
-				<div align="center" class="imgBorder">
-					<a onclick="javascript:window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')" style="display: block; width: 100%; height: 100%">
-						<div class="image">
-							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
-						</div>
-					</a>
-				</div>
-			</div>
+		<div class="item">
+			<a onclick="javascript:window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
+				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" />
+			</a>
 		</div>
 		<?php
 	}
@@ -215,13 +209,9 @@ class JMediaViews
 		$link = 'index.php?option=com_media&amp;task=imgManagerList&amp;tmpl=component.html&amp;folder='.$listdir.$path;
 
 		?>
-		<div style="float:left; padding: 5px">
-			<div class="imgTotal">
-				<div align="center" class="imgBorder">
-					<a href="<?php echo $link; ?>" onclick="javascript:window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
-						<img src="components/com_media/images/folder.gif" width="80" height="80" border="0" alt="<?php echo $dir; ?>" /></a>
-				</div>
-			</div>
+		<div class="item">
+			<a href="<?php echo $link; ?>" onclick="javascript:window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
+				<img src="components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" /></a>
 		</div>
 		<?php
 	}

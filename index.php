@@ -58,7 +58,7 @@ if ($option == '' || $option == 'login' || $option == 'logout')
 	if ($Itemid) {
 		$query = "SELECT id, link"
 		. "\n FROM #__menu"
-		. "\n WHERE menutype = 'mainmenu'"
+		. "\n WHERE menutype = 'mainmenu'" 
 		. "\n AND id = '$Itemid'"
 		. "\n AND published = '1'"
 		;
