@@ -518,10 +518,28 @@ function sefRelToAbs( $string ) {
 				eregi("^(https?:[\/]+[^\/]+)(.*$)", $LiveSite, $live_site_parts);
 
 				$string = $live_site_parts[1] . $string;
+			/*
 			// check that url does not contain `http`, `https`, `ftp`, `mailto` or `javascript` at start of string
 			} else if ( ( strpos( $string, 'http' ) !== 0 ) && ( strpos( $string, 'https' ) !== 0 ) && ( strpos( $string, 'ftp' ) !== 0 ) && ( strpos( $string, 'file' ) !== 0 ) && ( strpos( $string, 'mailto' ) !== 0 ) && ( strpos( $string, 'javascript' ) !== 0 ) ) {
 				// URI doesn't start with a "/" so relative to the page (live-site):
 				$string = $LiveSite .'/'. $string;
+			}
+			*/
+			} else {
+				$check = 1;
+				
+				// array list of URL schemes
+				$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:', 'http:', 'https:' );
+				
+				foreach ( $url_schemes as $url ) {
+					if ( strpos( $string, $url ) === 0 ) {
+						$check = 0;
+					}
+				}
+				
+				if ( $check ) {
+					$string = $LiveSite .'/'. $string;
+				}
 			}
 		}
 

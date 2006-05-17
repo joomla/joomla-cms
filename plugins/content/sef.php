@@ -60,16 +60,16 @@ function contentSEF_replacer( &$matches ) {
 	// original text that might be replaced
 	$original = 'href="'. $matches[1] .'"';
 
-	// disable bot from being applied to mailto tags
-	if ( JString::strpos($matches[1],'mailto:') !== false ) {
-		return $original;
+	// array list of non http/https	URL schemes
+	$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:' );
+	
+	foreach ( $url_schemes as $url ) {
+		// disable bot from being applied to specific URL Scheme tag
+		if ( JString::strpos($matches[1], $url) !== false ) {
+			return $original;
+		}
 	}
-
-	// disable bot from being applied to javascript tags
-	if ( JString::strpos( $matches[1], 'javascript:' ) !== false ) {
-		return $original;
-	}
-
+	
 	// will only process links containing 'index.php?option
 	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false ) {
 		$uriLocal =& JURI::getInstance();
