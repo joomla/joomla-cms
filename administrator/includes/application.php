@@ -154,7 +154,7 @@ class JAdministrator extends JApplication
 			JSession::pause();
 
 			JAdministrator::purgeMessages();
-			josRedirect( 'index2.php' );
+			return true;
 		}
 
 		return false;
@@ -168,7 +168,6 @@ class JAdministrator extends JApplication
 	*/
 	function logout() {
 		parent::logout();
-		josRedirect( $this->getBaseURL() );
 	}
 
 	/**

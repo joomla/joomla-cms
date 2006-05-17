@@ -206,13 +206,12 @@ class JDocumentHTML extends JDocument
 		 	*/ 
 			if($component = $mainframe->getOption()) {
 				$renderer = $this->loadRenderer( 'component' );
-				$result   = $renderer->render();
+				$result   = $renderer->render($component);
 				$this->set('component', null, $result);
 			}
 		
 			//create the document engine 
-			$this->_engine = $this->getEngine($template);
-			$this->_engine->addVar( 'document', 'template', $template);
+			$this->_engine = $this->_initEngine($template);
 
 			// parse
 			$this->_parseTemplate($directory.DS.$template, $file);
@@ -269,8 +268,9 @@ class JDocumentHTML extends JDocument
 		//Add template variables
 		$instance->addVar( 'document', 'lang_tag', $this->getLanguage() );
 		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
+		$instance->addVar( 'document', 'template', $template);
 		
-		$this->_engine = &$instance;
+		return $instance;
 	}
 	
 	/**

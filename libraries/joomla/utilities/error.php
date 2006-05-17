@@ -606,6 +606,6 @@ class JErrorHandler
 
 // setup handler for each error-level
 JError::setErrorHandling( E_ERROR  , 'callback', array( new JErrorHandler, 'handleError' ) );
-JError::setErrorHandling( E_WARNING, 'verbose' );
-JError::setErrorHandling( E_NOTICE , 'verbose' );
+JError::setErrorHandling( E_WARNING, 'echo' );
+JError::setErrorHandling( E_NOTICE , 'echo' );
 ?>

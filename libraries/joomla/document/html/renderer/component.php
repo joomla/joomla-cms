@@ -34,24 +34,20 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	function render( $component = null, $params = array() )
 	{
 		global $mainframe;
-		global $Itemid, $task, $option, $id, $my;
+		global $Itemid, $task, $id, $my;
 		
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
 		
-		$test = '1';
-
 		$gid = $my->gid;
-
+		
 		//For backwards compatibility extract the config vars as globals
 		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-
-		$component = !isset($component) ? $option : $component;
-				
+			
 		/*
 		 * Check to see if component is enabled and get parameters
 		 */

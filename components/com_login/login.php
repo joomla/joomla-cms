@@ -18,64 +18,134 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // load the html view class
 require_once( JApplicationHelper::getPath( 'front_html' ) );
 
-// Initialize variables
-$user			= & $mainframe->getUser();
-$menu			= JMenu::getInstance();
-$menu			= $menu->getItem( $Itemid );
-$params			= new JParameter( $menu->params );
-$loginImage		= null;
-$logoutImage	= null;
+// Get the task variable from the page request variables
+$task = strtolower(JRequest::getVar('task'));
 
-// Set some default page parameters if not set
-$params->def( 'page_title', 				1 );
-$params->def( 'header_login', 				$menu->name );
-$params->def( 'header_logout', 				$menu->name );
-$params->def( 'pageclass_sfx', 				'' );
-$params->def( 'back_button', 				$mainframe->getCfg( 'back_button' ) );
-$params->def( 'login', 						'index.php' );
-$params->def( 'logout', 					'index.php' );
-$params->def( 'description_login', 			1 );
-$params->def( 'description_logout', 		1 );
-$params->def( 'description_login_text', 	JText::_( 'LOGIN_DESCRIPTION' ) );
-$params->def( 'description_logout_text',	JText::_( 'LOGOUT_DESCRIPTION' ) );
-$params->def( 'image_login', 				'key.jpg' );
-$params->def( 'image_logout', 				'key.jpg' );
-$params->def( 'image_login_align', 			'right' );
-$params->def( 'image_logout_align', 		'right' );
-$params->def( 'registration', 				$mainframe->getCfg( 'allowUserRegistration' ) );
+/*
+ * This is our main control structure for the component
+ *
+ * Each view is determined by the $task variable
+ */
+switch ($task) {
 
-// Build login image if enabled
-if ( $params->get( 'image_login' ) != -1 ) {
-	$image = 'images/stories/'. $params->get( 'image_login' );
-	$loginImage = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
-}
-// Build logout image if enabled
-if ( $params->get( 'image_logout' ) != -1 ) {
-	$image = 'images/stories/'. $params->get( 'image_logout' );
-	$logoutImage = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
+	case 'login' :
+		LoginController::login();
+		break;
+	case 'logout' :
+		LoginController::logout();
+		break;
+	default : 
+		LoginController::showLogin();
+		break;
 }
 
-// Get some page variables
-$breadcrumbs = & $mainframe->getPathway();
-$document	 = & $mainframe->getDocument();
+/**
+ * Static class to hold controller functions for the Login component
+ *
+ * @static
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @subpackage	Login
+ * @since		1.5
+ */
 
-if ( $user->get('id') ) {
-	$title = JText::_( 'Logout');
+class LoginController
+{
+	function showLogin()
+	{
+		global $mainframe, $Itemid;
+		
+		// Initialize variables
+		$user		= & $mainframe->getUser();
+		$menu		= JMenu::getInstance();
+		$menu		= $menu->getItem( $Itemid );
+		$params		= new JParameter( $menu->params );
+		$loginImage	= null;
+		$logoutImage= null;
 
-	// pathway item
-	$breadcrumbs->setItemName(1, $title );
-	// Set page title
-	$document->setTitle( $title );
+		// Set some default page parameters if not set
+		$params->def( 'page_title', 				1 );
+		$params->def( 'header_login', 				$menu->name );
+		$params->def( 'header_logout', 				$menu->name );
+		$params->def( 'pageclass_sfx', 				'' );
+		$params->def( 'back_button', 				$mainframe->getCfg( 'back_button' ) );
+		$params->def( 'login', 						'index.php' );
+		$params->def( 'logout', 					'index.php' );
+		$params->def( 'description_login', 			1 );
+		$params->def( 'description_logout', 		1 );
+		$params->def( 'description_login_text', 	JText::_( 'LOGIN_DESCRIPTION' ) );
+		$params->def( 'description_logout_text',	JText::_( 'LOGOUT_DESCRIPTION' ) );
+		$params->def( 'image_login', 				'key.jpg' );
+		$params->def( 'image_logout', 				'key.jpg' );
+		$params->def( 'image_login_align', 			'right' );
+		$params->def( 'image_logout_align', 		'right' );
+		$params->def( 'registration', 				$mainframe->getCfg( 'allowUserRegistration' ) );
 
-	JViewLoginHTML::logoutpage( $params, $logoutImage );
-} else {
-	$title = JText::_( 'Login');
+		// Build login image if enabled
+		if ( $params->get( 'image_login' ) != -1 ) {
+			$image = 'images/stories/'. $params->get( 'image_login' );
+			$loginImage = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
+		}
+		// Build logout image if enabled
+		if ( $params->get( 'image_logout' ) != -1 ) {
+			$image = 'images/stories/'. $params->get( 'image_logout' );
+			$logoutImage = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
+		}
 
-	// pathway item
-	$breadcrumbs->setItemName(1, $title );
-	// Set page title
-	$document->setTitle( $title );
+		// Get some page variables
+		$breadcrumbs = & $mainframe->getPathway();
+		$document	 = & $mainframe->getDocument();
 
-	JViewLoginHTML::loginpage( $params, $loginImage );
+		if ( $user->get('id') ) {
+			$title = JText::_( 'Logout');
+
+			// pathway item
+			$breadcrumbs->setItemName(1, $title );
+			// Set page title
+			$document->setTitle( $title );
+
+			LoginView::logout( $params, $logoutImage );
+		} else {
+			$title = JText::_( 'Login');
+
+			// pathway item
+			$breadcrumbs->setItemName(1, $title );
+			// Set page title
+			$document->setTitle( $title );
+
+			LoginView::login( $params, $loginImage );
+		}
+	}
+	
+	function login()
+	{
+		global $mainframe;
+		
+		$mainframe->login();
+		
+		$return = JRequest::getVar( 'return' );
+
+		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+			// checks for the presence of a return url
+			// and ensures that this url is not the registration or login pages
+			josRedirect( $return );
+		}
+	}
+	
+	function logout()
+	{
+		global $mainframe;
+		
+		$mainframe->logout();
+		
+		$return = JRequest::getVar( 'return' );
+
+		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+			// checks for the presence of a return url
+			// and ensures that this url is not the registration or logout pages
+			josRedirect( $return );
+		} 
+	}
 }
+
 ?>

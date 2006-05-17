@@ -44,12 +44,12 @@ else
 $return = str_replace('&', '&amp;', $return);
 
 $registration_enabled	= $mainframe->getCfg('allowUserRegistration');
-$pretext						= $params->get('pretext');
-$posttext						= $params->get('posttext');
-$login							= $params->def('login', $return);
-$logout						= $params->def('logout', $return);
-$name							= $params->def('name', 1);
-$greeting						= $params->def('greeting', 1);
+$pretext				= $params->get('pretext');
+$posttext				= $params->get('posttext');
+$login					= $params->def('login', $return);
+$logout					= $params->def('logout', $return);
+$name					= $params->def('name', 1);
+$greeting				= $params->def('greeting', 1);
 
 if ($user->get('id'))
 {
@@ -83,8 +83,8 @@ if ($user->get('id'))
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
 	</div>
 
-	<input type="hidden" name="option" value="logout" />
-	<input type="hidden" name="op2" value="logout" />
+	<input type="hidden" name="option" value="com_login" />
+	<input type="hidden" name="task" value="logout" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />
 	</form>
 	<?php
@@ -113,7 +113,7 @@ else
 			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="<?php echo JText::_( 'Password' ); ?>" />
 			<br />
 			<?php
-			if(JRequest::getVar('option') == 'login') {
+			if(JRequest::getVar('option') == 'com_login') {
 				if(!JSession::get('guest')) {
 					echo "<p>";
 					echo JText::_( 'LOGIN_INCORRECT' );
@@ -154,8 +154,8 @@ else
 	</table>
 	<?php echo $posttext; ?>
 
-	<input type="hidden" name="option" value="login" />
-	<input type="hidden" name="op2" value="login" />
+	<input type="hidden" name="option" value="com_login" />
+	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$login ); ?>" />
 	</form>
 	<?php

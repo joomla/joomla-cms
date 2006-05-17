@@ -2,7 +2,7 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage Users
+* @subpackage Login
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -22,8 +22,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Users
  * @since	1.0
  */
-class JViewLoginHTML {
-
+class LoginView 
+{
 	/**
 	 * Method to show the login page
 	 *
@@ -34,7 +34,7 @@ class JViewLoginHTML {
 	 * @return	void
 	 * @since	1.0
 	 */
-	function loginpage ( &$params, $image ) {
+	function login( &$params, $image ) {
 
 		$return = $params->get('login');
 		?>
@@ -127,7 +127,8 @@ class JViewLoginHTML {
 		</tr>
 		</table>
 
-		<input type="hidden" name="option" value="login" />
+		<input type="hidden" name="option" value="com_login" />
+		<input type="hidden" name="task" value="login" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
 		</form>
 		<?php
@@ -143,7 +144,7 @@ class JViewLoginHTML {
 	 * @return	void
 	 * @since	1.0
 	 */
-	function logoutpage( &$params, $image ) {
+	function logout( &$params, $image ) {
 
 		$return = $params->get('logout');
 		?>
@@ -186,7 +187,8 @@ class JViewLoginHTML {
 
 		<br/><br/>
 
-		<input type="hidden" name="option" value="logout" />
+		<input type="hidden" name="option" value="com_login" />
+		<input type="hidden" name="task" value="logout" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
 		</form>
 		<?php

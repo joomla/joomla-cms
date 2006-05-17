@@ -50,12 +50,7 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId(
 $mainframe->loadStoredUserState();
 
 // Get the global option variable and create the pathway
-$option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
-$mainframe->_createPathWay( );
-
-if (is_null(JSession::get('guest')) || JSession::get('guest')) {
-	$tmpl = 'login.php';
-}
+$option = strtolower( JRequest::getVar( 'option', null ) );
 
 // set language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
@@ -64,16 +59,6 @@ $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
-
-// login the user
-if ($option == 'login') {
-	$mainframe->login();
-}
-
-// logout the user
-if ($option == 'logout') {
-	$mainframe->logout();
-}
 
 // get the information about the current user from the sessions table
 $user   = & $mainframe->getUser();
@@ -85,6 +70,14 @@ $mainframe->set( 'loadOverlib', false );
 $no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
 $format 	= JRequest::getVar( 'format', $no_html ? 'raw' : 'html',  '', 'string'  );
 $tmpl 	 	= JRequest::getVar( 'tmpl', isset($tmpl) ? $tmpl : 'index.php',  '', 'string'  );
+
+if(empty($option)) {
+	$tmpl = 'cpanel.php';
+}
+
+if (is_null(JSession::get('guest')) || JSession::get('guest')) {
+	$tmpl = 'login.php';
+}
 
 // loads template file
 $cur_template = $mainframe->getTemplate();

@@ -42,14 +42,14 @@ $mainframe->_createPathWay( );
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 // login user
-if ($option == 'login')  {
-	$mainframe->login();
-}
+//if ($option == 'login')  {
+//	$mainframe->login();
+//}
 
 // logout user
-if ($option == 'logout') {
-	$mainframe->logout();
-}
+//if ($option == 'logout') {
+//	$mainframe->logout();
+//}
 
 $Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 
@@ -145,7 +145,7 @@ $tmpl 	 	  = JRequest::getVar( 'tmpl', isset($tmpl) ? $tmpl : 'index.php',  '', 
 
 
 if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
-	$file = 'offline.php';
+	$tmpl = 'offline.php';
 }
 
 $params = array(

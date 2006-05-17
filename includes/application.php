@@ -140,18 +140,7 @@ class JSite extends JApplication
 			$password = trim( JRequest::getVar( 'passwd', '', 'post' ) );
 		}
 
-		if (parent::login($username, $password))
-		{
-			$return = JRequest::getVar( 'return' );
-
-			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-				// checks for the presence of a return url
-				// and ensures that this url is not the registration or login pages
-				josRedirect( $return );
-			}
-		}
-
-		return false;
+		return parent::login($username, $password);
 	}
 
 	/**
@@ -160,19 +149,8 @@ class JSite extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function logout($return = null)
-	{
-		parent::logout();
-
-		$return = JRequest::getVar( 'return' );
-
-		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-			// checks for the presence of a return url
-			// and ensures that this url is not the registration or logout pages
-			josRedirect( $return );
-		} else {
-			josRedirect( 'index.php' );
-		}
+	function logout($return = null) {
+		return parent::logout();
 	}
 
 	/**
@@ -264,17 +242,6 @@ class JSite extends JApplication
 					$doc->addScript( 'includes/js/joomla/common.js');
 					$doc->addScript( 'includes/js/joomla.javascript.js');
 				}
-				if ($this->isAdmin()) {
-					$baseURL = $this->getSiteURL();
-				} else {
-					$baseURL = $this->getBaseURL();
-				}
-
-				$engine = &$doc->getEngine();
-				$engine->addGlobalVar( 'SITEURL',		$baseURL );
-				$engine->addGlobalVar( 'TEMPLATEURL',	$baseURL . '/templates/' . $this->getTemplate() );
-				$engine->addGlobalVar( 'SELF', 			$_SERVER['PHP_SELF'] );
-				$engine->addGlobalVar( 'URI_QUERY', 	$_SERVER['QUERY_STRING'] );
 				break;
 
 			default:
