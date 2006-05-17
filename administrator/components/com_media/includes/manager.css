@@ -19,7 +19,7 @@
  */
 
 html, body {
-	background-color: ButtonFace;
+	background-color: #F0F0F0;
 	color: ButtonText;
 	font: 11px Tahoma, Verdana, sans-serif;
 	margin: 0; padding: 0;
@@ -33,7 +33,7 @@ fieldset { padding: 0; }
 
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
-iframe { width: 100%;  overflow-x: false; border: 0 none; }
+iframe { width: 100%;  overflow-x: false; border: 0 none;  height: 180px;}
 
 a       { padding: 5px; border: 1px solid ButtonFace; }
 a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
@@ -57,7 +57,7 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 
 .imageFrame {
 	width: 525px;
-	height: 145px;
+	height: 165px;
 	margin: 0 auto;
 	margin-top: 1em;
 	background-color: White;

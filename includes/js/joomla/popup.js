@@ -35,6 +35,7 @@ JPopup.prototype = {
 		this.hideSelects = false;
 		
 		this.returnFunc = null;
+		this.URL        = null;
 		this.baseURL    = null;
 		
 		this.mask       = null;
@@ -61,7 +62,8 @@ JPopup.prototype = {
 		// Add the HTML to the body
 		body = document.getElementsByTagName('body')[0];
 		popmask = document.createElement('div');
-		popmask.id = 'popupMask';
+		popmask.id = 'popup-overlay';
+		
 		popcont = document.createElement('div');
 		popcont.id = 'popupContainer';
 		popcont.innerHTML = '' +
@@ -72,12 +74,12 @@ JPopup.prototype = {
 						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="window.frames[\'popupFrame\'].submitbutton(\'cancel\');" />' +
 					'</div>' +
 				'</div>' +
-				'<iframe src="'+this.baseURL+'includes/js/joomla/popup-loading.html" style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.setTitle();"></iframe>' +
+				'<iframe src="'+this.baseURL+'includes/js/joomla/popup-loading.html" style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
 		
-		this.mask      = document.getElementById("popupMask");
+		this.mask      = document.getElementById("popup-overlay");
 		this.container = document.getElementById("popupContainer");
 		this.frame     = document.getElementById("popupFrame");	
 	
@@ -114,6 +116,13 @@ JPopup.prototype = {
 		this.center();
 	},
 	
+	onload: function(event, args)  {
+		if(!this.visible) 
+			return;
+		
+		this.setTitle();
+	},
+	
 	keypress: function(event, args)  {
 		/*
 	 	 * Tab key trap. iff popup is shown and key was [TAB], suppress it.
@@ -136,9 +145,7 @@ JPopup.prototype = {
 		
 		this.mask.style.display      = "block";
 		this.container.style.display = "block";
-		
-		Element.addClassName(document.body, 'mask');
-	
+			
 		// calculate where to place the window on screen
 		this.center(width, height);
 	
@@ -152,16 +159,18 @@ JPopup.prototype = {
 		this.frame.style.width = parseInt(document.getElementById("popupTitleBar").offsetWidth, 10) + "px";
 		this.frame.style.height = (height) + "px";
 	
-		// set the url
-		this.frame.src = url;
+		// load the url
+		if(this.URL != url) {
+			this.URL = url;
+			this.frame.src = url;
+		}
 	
 		this.returnFunc = returnFunc;
+		
 		// for IE
 		if (this.hideSelects == true) {
 			this.hideSelectBoxes();
 		}
-	
-		this.setTitle();
 	},
 
 	center: function(width, height) 
@@ -177,22 +186,18 @@ JPopup.prototype = {
 			var fullHeight = this.getViewportHeight();
 			var fullWidth  = this.getViewportWidth();
 		
-			var theBody = document.documentElement;
+			//var theBody = document.documentElement;
 		
-			var scTop = parseInt(theBody.scrollTop,10);
-			var scLeft = parseInt(theBody.scrollLeft,10);
-		
-			this.mask.style.height = fullHeight + "px";
-			this.mask.style.width = fullWidth + "px";
-			this.mask.style.top = scTop + "px";
-			this.mask.style.left = scLeft + "px";
-		
-			window.status = this.mask.style.top + " " + this.mask.style.left;
+			//var scTop = parseInt(theBody.scrollTop,10);
+			//var scLeft = parseInt(theBody.scrollLeft,10);
 		
 			var titleBarHeight = parseInt(document.getElementById("popupTitleBar").offsetHeight, 10);
 		
-			this.container.style.top = (scTop + ((fullHeight - (height+titleBarHeight)) / 2)) + "px";
-			this.container.style.left =  (scLeft + ((fullWidth - width) / 2)) + "px";
+			this.container.style.top = ((fullHeight - (height+titleBarHeight)) / 2) + "px";
+			this.container.style.left =  ((fullWidth - width) / 2) + "px";
+			
+			this.mask.style.height = fullWidth + "px";
+			this.mask.style.width = fullWidth + "px";
 			//alert(fullWidth + " " + width + " " + this.container.style.left);
 		}
 	},
@@ -215,7 +220,7 @@ JPopup.prototype = {
 		if (callReturnFunc == true && this.returnFunc != null) {
 			this.returnFunc(window.frames["popupFrame"].returnVal);
 		}
-		this.frame.src = this.baseURL+'includes/js/joomla/popup-loading.html';
+		//this.frame.src = this.baseURL+'includes/js/joomla/popup-loading.html';
 		
 		// display all select boxes
 		if (this.hideSelects == true) {
@@ -261,7 +266,7 @@ JPopup.prototype = {
 			for (var j = 0; j < this.tabbableTags.length; j++) {
 				var tagElements = document.getElementsByTagName(this.tabbableTags[j]);
 				for (var k = 0 ; k < tagElements.length; k++) {
-					tagElements[k].tabIndex = gTabIndexes[i];
+					tagElements[k].tabIndex = this.tabIndexes[i];
 					tagElements[k].tabEnabled = true;
 					i++;
 				}

@@ -18,38 +18,27 @@
  * @version     1.0
  */
 
-#popupMask {
-	position: fixed; z-index: 200;
-	top: 0px; left: 0px;
+#popup-overlay {
+	position: absolute;
+	top: 0; left: 0; z-index:1001;
 	width: 100%; height: 100%;
-	opacity: .4;
-	filter: alpha(opacity=40);
-	/* this hack is so it works in IE
-	 * I find setting the color in the css gives me more flexibility 
-	 * than the PNG solution.
-	 */
-	background-color:transparent !important;
-	background-color: #333333;
-	/* this hack is for opera support
-	 * you can uncomment the background-image if you don't care about opera.
-	 * this gives you the flexibility to use any bg color that you want, instead of the png
-	 */
-	background-image/**/: url("popup-mask.png") !important; // For browsers Moz, Opera, etc.
-	background-image:none;
-	background-repeat: repeat;
-	display:none;
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	display: none;
+	background-color: #000;
 }
 #popupContainer {
-	position: absolute;
-	z-index: 201;
-	top: 0px;
-	left: 0px;
+	position: fixed;
+	_position: absolute;
+	border: 4px solid #525252;
+	top: 0px; left: 0px; z-index: 2001;
 	display:none;
 	padding: 0px;
 }
 #popupInner {
-	border: 1px solid #000000;
-	background-color: #ffffff;
+	border: 1px solid #CCCCCC;
+	background-color: #FBFBFB;
 }
 
 #popupFrame {
@@ -57,20 +46,17 @@
 	width: 100%;
 	height: 100%;
 	position: relative;
-	z-index: 202;
+	z-index: 2002;
 }
 #popupTitleBar {
-	background-color: #486CAE;
+	background-color: #0C0C0C;
+	border-bottom: 3px solid #88D153;
 	color: #ffffff;
 	font-weight: bold;
 	height: 1.3em;
 	padding: 5px;
-	border-bottom: 2px solid #000000;
-	border-top: 1px solid #78A3F2;
-	border-left: 1px solid #78A3F2;
-	border-right: 1px solid #204095;
 	position: relative;
-	z-index: 203;
+	z-index: 2003;
 }
 #popupTitle    { float:left; font-size: 1.1em;                }
 #popupControls { float: right; cursor: pointer; cursor: hand; }

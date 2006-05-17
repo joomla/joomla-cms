@@ -25,7 +25,7 @@ div.imgTotal {
 }
 
 div.imgBorder {
-	height: 70px;
+	height: 88px;
 	vertical-align: middle;
 	width: 88px;
 	overflow: hidden;
@@ -38,7 +38,7 @@ div.imgBorder a {
 }
 
 div.imgBorder a:hover {
-	height: 70px;
+	height: 80px;
 	width: 88px;
 	background-color: #f1e8e6;
 	color : #FF6600;
