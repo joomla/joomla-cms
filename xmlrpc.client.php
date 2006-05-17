@@ -73,7 +73,7 @@ if ($task)
 			$method = JRequest::getVar( 'method' );
 			$args 	= JRequest::getVar( 'args' );
 
-			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
+			$message = new xmlrpcmsg($method, array(new xmlrpcval($args, 'string')));
 
 			$xmlrpcdoc = $client->send($message);
 
