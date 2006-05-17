@@ -37,9 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
-16-May-2006 Andrew Eddie
- ^ Adjusted JDoc engine handling so the application has a hook to insert
-   additional variables prior to display
+18-May-2006 Johan Janssens
+ # Fixed artf4497 : moofx sliders leave controls visible (Mac OS)
 
 16-May-2006 Andrew Eddie
  + Added template filter to module manager list

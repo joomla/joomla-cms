@@ -13,8 +13,9 @@ fx.Slide.prototype = {
 		this.togglers = togglers;
 		this.setOptions(options);
 		sliders.each(function(el, i){
-			el.style.display = 'block';
+			el.style.display = 'none';
 			options.onComplete = function(){
+				if (el.offsetHeight == 0) el.style.display = 'none';
 				if (el.offsetHeight > 0) el.style.height = '1%';
 			}
 			el.fx = new fx.Combo(el, options);
@@ -40,6 +41,7 @@ fx.Slide.prototype = {
 		}.bind(this));
 		
 		if (slider.offsetHeight == 0) {
+			slider.style.display = 'block';
 			setTimeout(function(){this.clear(slider);}.bind(this), this.options.delay);
 			Element.addClassName(toggler, 'moofx-toggler-down');
 		}
