@@ -38,7 +38,7 @@ $array  = array();
 
 if ($task)
 {
-	$client = new xmlrpc_client("joomla11/xmlrpc.server.php", "localhost", 80);
+	$client = new xmlrpc_client($path, $host, 80);
 	$client->setDebug(true);
 
 	switch ($task)
@@ -63,7 +63,7 @@ if ($task)
 			}
 
 			$output = 'Methods<br />';
-			$output .= mosHTML::selectList( $methods, 'method', 'size="10', 'value', 'text' );
+			$output .= mosHTML::selectList( $methods, 'method', 'size="10"', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
