@@ -157,7 +157,7 @@ $params = array(
 
 $document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ));
-$document->display( $mainframe->getCfg('caching_page'), $mainframe->getCfg('gzip'), $params);
+$document->display( !$user->get('id') && $mainframe->getCfg('caching_page'), $mainframe->getCfg('gzip'), $params);
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 

@@ -38,7 +38,9 @@ See COPYRIGHT.php for copyright notices and details.
 			<input type="submit" name="Submit" class="button" value="<jdoc:translate>_BUTTON_LOGIN</jdoc:translate>" />
 		</p>
 	</fieldset>
-	<input type="hidden" name="option" value="login" />
+	<input type="hidden" name="option" value="com_login" />
+	<input type="hidden" name="task" value="login" />
+	<input type="hidden" name="return" value="index.php" />
 	</form>
 	</div>
 </body>

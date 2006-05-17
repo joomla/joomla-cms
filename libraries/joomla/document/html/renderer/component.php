@@ -34,7 +34,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	function render( $component = null, $params = array() )
 	{
 		global $mainframe;
-		global $Itemid, $task, $id, $my;
+		global $Itemid, $task, $option, $id, $my;
 		
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();

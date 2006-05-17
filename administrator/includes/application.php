@@ -104,6 +104,9 @@ jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.application.application');
 
+// support for legacy classes & functions that will be depreciated
+jimport( 'joomla.common.legacy.*' );
+
 JDEBUG ?  $_PROFILER->mark('afterLoadFramework') : null;
 
 /**

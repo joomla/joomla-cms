@@ -168,9 +168,7 @@ class JDocumentHTML extends JDocument
 	 */
 	function display( $caching = false, $compress = false, $params = array())
 	{
-		global $mainframe;
-		
-		$user =& $mainframe->getUser();
+		global $mainframe; 
 		
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
@@ -184,7 +182,7 @@ class JDocumentHTML extends JDocument
 		// Page caching
 		// For now page caching will only be used for anonymous users
 		$cache = JFactory::getCache('page', 'page');
-		$cache->setCaching(!$user->get('id') &&  $caching);
+		$cache->setCaching( $caching );
 		$cache->setCacheValidation(true);
 		
 			
@@ -196,9 +194,6 @@ class JDocumentHTML extends JDocument
 
 		if(!$data = $cache->loadPage($cacheId, 'page')) 
 		{
-		   // support for legacy classes & functions that will be depreciated
-			jimport( 'joomla.common.legacy.*' );
-		   
 		   /*
 			* Buffer the output of the component before loading the template.  This is done so 
 		 	* that non-display tasks, like save, published, etc, will not go thru the overhead of 
