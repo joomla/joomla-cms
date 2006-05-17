@@ -17,12 +17,13 @@
  * @since		1.5
  * @version    1.0
  */
+ 
+ html, body { margin: 0; padding: 0; }
 
 .item { float: left; border: 1px solid #ccc; margin: 3px; }
 
-.item a       { display: block; width: 80px; height: 80px; text-align: center; vertical-align: middle; }
-.item a:hover { background-color: #F0F0F0; }
+.item a       { display: table-cell; _display: block; vertical-align:middle; width: 80px; height: 80px; text-align: center; }
+.item a:hover { background-color: white; }
 
-.item img { vertical-align: center; border: 0 none;}
-
+.item img {  border: 0 none;  margin-top: expression(( 80 - this.height ) / 2);  }
 

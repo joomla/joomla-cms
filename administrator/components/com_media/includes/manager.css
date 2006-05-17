@@ -25,50 +25,23 @@ html, body {
 	margin: 0; padding: 0;
 }
 
-body     { padding: 5px; }
 img      { border: 0 none; }
 
-form     { padding: 0px; margin: 0 auto; width: 550px; }
-fieldset { padding: 0; }
+form     { padding: 0px; margin: 0 auto; width: 550px; padding-top: 5px; }
+fieldset { margin-top: 0.5em; border: 1px solid #CCCCCC; padding-top: 10px; }
+button   { padding: 3px; border: 1px solid #CCCCCC; font-weight: bold; color: #0B55C4; background-color: white; }
+button:hover { border: 1px solid #0B55C4; }
 
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
-iframe { width: 100%;  overflow-x: false; border: 0 none;  height: 180px;}
+iframe { width: 100%;  overflow-x: false; border: 0 none;  height: 174px; margin: 0; padding: 0; margin-top: 0.5em;}
 
 a       { padding: 5px; border: 1px solid ButtonFace; }
 a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
 
-.title {
-	background-color: #ddf;
-	color: #000;
-	font-weight: bold;
-	font-size: 120%;
-	padding: 3px 10px;
-	margin-bottom: 10px;
-	border-bottom: 1px solid black;
-	letter-spacing: 2px;
-}
-
-.dirWidth {
-	width: 70%;
-}
-
-.dirs { padding: 1em; }
-
-.imageFrame {
-	width: 525px;
-	height: 165px;
-	margin: 0 auto;
-	margin-top: 1em;
-	background-color: White;
-}
-
-.smallWidth  { width: 4em; }
-.largelWidth { width: 22em; }
-
-.inputTable { margin: 1em auto; }
-
 .buttons { width: 70px; text-align: center; }
+
+#f_alt, #f_url { width: 22em; }
 
 #messages {
 	position: relative;

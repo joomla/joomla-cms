@@ -38,11 +38,6 @@ JImageManager.prototype = {
 		// Get the image tag field information
 		var url		= document.getElementById("f_url").value;
 		var alt		= document.getElementById("f_alt").value;
-		var border	= document.getElementById("f_border").value;
-		var vert	= document.getElementById("f_vert").value;
-		var horiz	= document.getElementById("f_horiz").value;
-		var width	= document.getElementById("f_width").value;
-		var height	= document.getElementById("f_height").value;
 		var align	= document.getElementById("f_align").value;
 
 		if (url != '') {
@@ -50,24 +45,12 @@ JImageManager.prototype = {
 			if (alt != '') {
 				alt = "alt='"+alt+"' ";
 			}
-			// Set border attribute
-			if (border != '') {
-				border = "border='"+border+"' ";
-			}
-			// Set width attribute
-			if (width != '') {
-				width = "width='"+width+"' ";
-			}
-			// Set height attribute
-			if (height != '') {
-				height = "height='"+height+"' ";
-			}
 			// Set align attribute
 			if (align != '') {
 				align = "align='"+align+"' ";
 			}
 
-			var tag = "<img src='"+url+"' "+alt+border+width+height+align+"/>";
+			var tag = "<img src='"+url+"' "+alt+align+"/>";
 		}
 		
 		window.parent.jInsertEditorText(tag);
@@ -140,50 +123,3 @@ document.imagemanager = null;
 document.addLoadEvent(function() {
  	document.imagemanager = new JImageManager();
 });
-	
-function toggleConstrains(constrains) 
-{
-	var lockImage = document.getElementById('imgLock');
-	var constrains = document.getElementById('constrain_prop');
-
-	if(constrains.checked) 
-	{
-		lockImage.src = "img/locked.gif";	
-		checkConstrains('width') 
-	}
-	else
-	{
-		lockImage.src = "img/unlocked.gif";	
-	}
-}
-
-function checkConstrains(changed) 
-{
-	//alert(document.form1.constrain_prop);
-	var constrains = document.getElementById('constrain_prop');
-		
-	if(constrains.checked) 
-	{
-		var obj = document.getElementById('orginal_width');
-		var orginal_width = parseInt(obj.value);
-		var obj = document.getElementById('orginal_height');
-		var orginal_height = parseInt(obj.value);
-
-		var widthObj = document.getElementById('f_width');
-		var heightObj = document.getElementById('f_height');
-			
-		var width = parseInt(widthObj.value);
-		var height = parseInt(heightObj.value);
-
-		if(orginal_width > 0 && orginal_height > 0) 
-		{
-			if(changed == 'width' && width > 0) {
-				heightObj.value = parseInt((width/orginal_width)*orginal_height);
-			}
-
-			if(changed == 'height' && height > 0) {
-				widthObj.value = parseInt((height/orginal_height)*orginal_width);
-			}
-		}			
-	}
-}

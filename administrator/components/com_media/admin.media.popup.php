@@ -29,67 +29,30 @@ class JMediaViews
 		
 		?>
 		<form action="index.php" id="uploadForm" method="post" enctype="multipart/form-data">
-		<div class="dirs">
-			<label for="folder">Directory</label>
-			<?php echo $dirPath; ?>
-			<a onclick="document.imagemanager.upFolder()" title="Directory Up">Directory Up</a>
-			<div id="messages" style="display: none;"><span id="message"></span><img SRC="img/dots.gif" width="22" height="12" alt="..." /></div>
-			<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" id="imageview"></iframe>
-		</div>
-		<!-- image properties -->
-		<table class="inputTable">
+		<div id="messages" style="display: none;"><span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." /></div>
+		<fieldset>
+			<div style="float: left">
+				<label for="folder">Directory</label>
+				<?php echo $dirPath; ?>
+				<button onclick="document.imagemanager.upFolder()" title="Directory Up">Up</button>
+			</div>
+			<div style="float: right">
+				<button type="button" class="buttons" onclick="document.imagemanager.onok();window.top.document.popup.hide();">OK</button>
+				<button type="button" class="buttons" onclick="window.top.document.popup.hide();">Cancel</button>
+		    </div>
+		</fieldset>
+		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" id="imageview"></iframe>
+		<fieldset>
+		<table class="properties">
 			<tr>
-				<td align="right">
+				<td>
 					<label for="f_url">Image File</label>
 				</td>
 				<td>
-					<input type="text" id="f_url" class="largelWidth" value="" />
+					<input type="text" id="f_url" value="" />
 				</td>
-				<td rowspan="3" align="right">
-					&nbsp;
-				</td>
-				<td align="right">
-					<label for="f_width">Width</label>
-				</td>
+				<td><label for="f_align">Align</label></td>
 				<td>
-					<input type="text" id="f_width" class="smallWidth" value="" onchange="javascript:checkConstrains('width');"/>
-				</td>
-				<td rowspan="2" align="right">
-					<img src="img/locked.gif" id="imgLock" width="25" height="32" alt="Constrained Proportions" />
-				</td>
-				<td rowspan="3" align="right">
-					&nbsp;
-				</td>
-				<td align="right">
-					<label for="f_vert">V Space</label>
-				</td>
-				<td>
-					<input type="text" id="f_vert" class="smallWidth" value="" />
-				</td>
-			</tr>		
-			<tr>
-				<td align="right">
-					<label for="f_alt">Alt</label>
-				</td>
-				<td>
-					<input type="text" id="f_alt" class="largelWidth" value="" />
-				</td>
-				<td align="right">
-					<label for="f_height">Height</label>
-				</td>
-				<td>
-					<input type="text" id="f_height" class="smallWidth" value="" onchange="javascript:checkConstrains('height');"/>
-				</td>
-				<td align="right">
-					<label for="f_horiz">H Space</label>
-				</td>
-				<td>
-					<input type="text" id="f_horiz" class="smallWidth" value="" />
-				</td>
-			</tr>
-			<tr>
-				<td align="right"><label for="f_align">Align</label></td>
-				<td colspan="2">
 					<select size="1" id="f_align"  title="Positioning of this image">
 						<option value=""                             >Not Set</option>
 						<option value="left"                         >Left</option>
@@ -103,29 +66,17 @@ class JMediaViews
 						<option value="top"                          >Top</option>
 					</select>
 				</td>
-				<td align="right">
-					<label for="f_border">Border</label>
+			</tr>		
+			<tr>
+				<td>
+					<label for="f_alt">Alt</label>
 				</td>
 				<td>
-					<input type="text" id="f_border" class="smallWidth" value="" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4" align="right">
-					<input type="hidden" id="orginal_width" />
-					<input type="hidden" id="orginal_height" />
-					<input type="checkbox" id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" />
-				</td>
-				<td colspan="5">
-					<label for="constrain_prop">Constrain Proportions</label>
+					<input type="text" id="f_alt" value="" />
 				</td>
 			</tr>
 			</table>
-			<!--// image properties -->	
-			<div style="text-align: right;"> 
-				<button type="button" class="buttons" onclick="document.imagemanager.onok();window.top.document.popup.hide();">OK</button>
-				<button type="button" class="buttons" onclick="window.top.document.popup.hide();">Cancel</button>
-		    </div>
+			</fieldset>
 			<input type="hidden" id="f_file" name="f_file" />
 			<input type="hidden" id="tmpl" name="component.html" />
 		</form>
@@ -189,7 +140,7 @@ class JMediaViews
 
 		?>
 		<div class="item">
-			<a onclick="javascript:window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
+			<a href="javascript::return(void)" onclick="javascript:window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
 				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" />
 			</a>
 		</div>
