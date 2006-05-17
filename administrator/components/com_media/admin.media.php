@@ -184,15 +184,17 @@ class JMediaController
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					if (eregi($imageTypes, $file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
-						$fileDetails['file'] = $basePath.DS.$file;
+						$fileDetails['name'] = $file;
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
 						$fileDetails['imgInfo'] = $imageInfo;
 						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$images[$file] = $fileDetails;
+						$images[] = $fileDetails;
 					} else {
 						// Not a known image file so we will call it a document
+						$fileDetails['name'] = $file;
 						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$fileDetails['file'] = $basePath.DS.$file;
-						$docs[$file] = $fileDetails;
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
+						$docs[] = $fileDetails;
 					}
 				}
 			}
@@ -282,14 +284,14 @@ class JMediaController
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					if (eregi($imageTypes, $file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
-						$fileDetails['file'] = $basePath.DS.$file;
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
 						$fileDetails['imgInfo'] = $imageInfo;
 						$fileDetails['size'] = filesize($basePath.DS.$file);
 						$images[$file] = $fileDetails;
 					} else {
 						// Not a known image file so we will call it a document
 						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$fileDetails['file'] = $basePath.DS.$file;
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
 						$docs[$file] = $fileDetails;
 					}
 				}
