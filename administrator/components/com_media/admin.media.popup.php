@@ -46,7 +46,7 @@ class JMediaViews
 		<table class="properties">
 			<tr>
 				<td>
-					<label for="f_url">Image File</label>
+					<label for="f_url">Image Path</label>
 				</td>
 				<td>
 					<input type="text" id="f_url" value="" />
@@ -69,7 +69,7 @@ class JMediaViews
 			</tr>		
 			<tr>
 				<td>
-					<label for="f_alt">Alt</label>
+					<label for="f_alt">Image Description</label>
 				</td>
 				<td>
 					<input type="text" id="f_alt" value="" />
@@ -142,6 +142,7 @@ class JMediaViews
 		<div class="item">
 			<a href="javascript::return(void)" onclick="javascript:window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
 				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" />
+				<span><?php echo $file; ?></span>
 			</a>
 		</div>
 		<?php
@@ -162,7 +163,9 @@ class JMediaViews
 		?>
 		<div class="item">
 			<a href="<?php echo $link; ?>" onclick="javascript:window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
-				<img src="components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" /></a>
+				<img src="components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
+				<span><?php echo $dir; ?></span>
+			</a>
 		</div>
 		<?php
 	}
