@@ -227,56 +227,6 @@ function chgSelectedValue( frmName, srcListName, value ) {
 	}
 }
 
-// Form specific functions for editting content images
-
-function showImageProps(base_path) {
-	form = document.adminForm;
-	value = getSelectedValue( 'adminForm', 'imagelist' );
-	parts = value.split( '|' );
-	form._source.value = parts[0];
-	setSelectedValue( 'adminForm', '_align', parts[1] || '' );
-	form._alt.value = parts[2] || '';
-	form._border.value = parts[3] || '0';
-	form._caption.value = parts[4] || '';
-	setSelectedValue( 'adminForm', '_caption_position', parts[5] || '' );
-	setSelectedValue( 'adminForm', '_caption_align', parts[6] || '' );
-	form._width.value = parts[7] || '';
-
-	//previewImage( 'imagelist', 'view_imagelist', base_path );
-	srcImage = eval( "document." + 'view_imagelist' );
-	srcImage.src = base_path + parts[0];
-}
-
-function applyImageProps() {
-	form = document.adminForm;
-	if (!getSelectedValue( 'adminForm', 'imagelist' )) {
-		alert( "Select an image from the list" );
-		return;
-	}
-	value = form._source.value + '|'
-	+ getSelectedValue( 'adminForm', '_align' ) + '|'
-	+ form._alt.value + '|'
-	+ parseInt( form._border.value ) + '|'
-	+ form._caption.value + '|'
-	+ getSelectedValue( 'adminForm', '_caption_position' ) + '|'
-	+ getSelectedValue( 'adminForm', '_caption_align' ) + '|'
-	+ form._width.value;
-	chgSelectedValue( 'adminForm', 'imagelist', value );
-}
-
-function previewImage( list, image, base_path ) {
-	form = document.adminForm;
-	srcList = eval( "form." + list );
-	srcImage = eval( "document." + image );
-	var fileName = srcList.options[srcList.selectedIndex].text;
-	var fileName2 = srcList.options[srcList.selectedIndex].value;
-	if (fileName.length == 0 || fileName2.length == 0) {
-		srcImage.src = 'images/blank.gif';
-	} else {
-		srcImage.src = base_path + fileName2;
-	}
-}
-
 /**
 * Toggles the check state of a group of boxes
 *

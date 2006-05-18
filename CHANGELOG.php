@@ -39,6 +39,8 @@ Legend:
 
 18-May-2006 Johan Janssens
  # Fixed artf4497 : moofx sliders leave controls visible (Mac OS)
+ - Removed image add/edit functionality from content edit page 
+ + Implemented modal image manager for easy inserting of images into the editor
 
 16-May-2006 Andrew Eddie
  + Added template filter to module manager list

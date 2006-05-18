@@ -627,21 +627,6 @@ class JContentController
 				"\n ORDER BY ordering";
 		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $cid, $query, 1);
 
-		// calls function to read image from directory
-		$pathA = JPATH_SITE.'/images/stories';
-		$pathL = '../images/stories';
-		$images = array ();
-		$folders = array ();
-		$folders[] = mosHTML::makeOption('/');
-		mosAdminMenus::ReadImages($pathA, '/', $folders, $images);
-
-		// list of folders in images/stories/
-		$lists['folders'] = mosAdminMenus::GetImageFolders($folders, $pathL);
-		// list of images in specfic folder in images/stories/
-		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
-		// list of saved images
-		$lists['imagelist'] = mosAdminMenus::GetSavedImages($row, $pathL);
-
 		// build the html radio buttons for frontpage
 		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $row->frontpage);
 		// build the html radio buttons for published
@@ -649,17 +634,9 @@ class JContentController
 		// build list of users
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$lists['created_by'] = mosAdminMenus::UserSelect('created_by', $active);
-		// build the select list for the image positions
-		$lists['_align'] = mosAdminMenus::Positions('_align', '', '', 1, 1, 1, 1, 'Ialign');
-		// build the select list for the image caption alignment
-		$lists['_caption_align'] = mosAdminMenus::Positions('_caption_align', '', '', 1, 1, 1, 1, 'Icaption_align');
+		
 		// build the html select list for the group access
 		$lists['access'] = mosAdminMenus::Access($row);
-
-		// build the select list for the image caption position
-		$pos[] = mosHTML::makeOption('bottom', JText::_('Bottom'));
-		$pos[] = mosHTML::makeOption('top', JText::_('Top'));
-		$lists['_caption_position'] = mosHTML::selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text', '', 'Icaption_position');
 
 		// get params definitions
 		$params = new JParameter($row->attribs, JApplicationHelper::getPath('com_xml', 'com_content'), 'component');
@@ -674,7 +651,7 @@ class JContentController
 			$row->text = $row->introtext;
 		}
 
-		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $images, $params, $option);
+		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $params, $option);
 	}
 
 	/**

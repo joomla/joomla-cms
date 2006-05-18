@@ -988,7 +988,8 @@ class mosCommonHTML {
  * @subpackage	Presentation
  * @since		1.0
  */
-class mosAdminMenus {
+class mosAdminMenus 
+{
 	/**
 	* build the select list for Menu Ordering
 	*/
@@ -1493,6 +1494,7 @@ class mosAdminMenus {
 	* @param array  Value array of all existing folders
 	* @param array  Value array of all existing images
 	*/
+	/* TODO : move to legacy file, deprecated function unused by 1.5 */
 	function ReadImages( $imagePath, $folderPath, &$folders, &$images ) {
 		jimport( 'joomla.filesystem.folder' );
 		$imgFiles = JFolder::files( $imagePath );
@@ -1512,7 +1514,7 @@ class mosAdminMenus {
 			}
 		}
 	}
-
+	/* TODO : move to legacy file, deprecated function unused by 1.5 */
 	function GetImageFolders( &$folders, $path ) {
 		$javascript 	= "onchange=\"changeDynaList( 'imagefiles', folderimages, document.adminForm.folders.options[document.adminForm.folders.selectedIndex].value, 0, 0);  previewImage( 'imagefiles', 'view_imagefiles', '$path/' );\"";
 		$getfolders 	= mosHTML::selectList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
@@ -1530,7 +1532,7 @@ class mosAdminMenus {
 
 		return $getimages;
 	}
-
+	/* TODO : move to legacy file, deprecated function unused by 1.5 */
 	function GetSavedImages( &$row, $path ) {
 		$images2 = array();
 		foreach( $row->images as $file ) {

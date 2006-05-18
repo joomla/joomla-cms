@@ -266,16 +266,6 @@ class JViewHTMLArticle extends JView
 
 		?>
 	  	<script language="javascript" type="text/javascript">
-		var folderimages = new Array;
-		<?php
-		$i = 0;
-		foreach ($lists['images'] as $k => $items) {
-			foreach ($items as $v) {
-				echo "\n	folderimages[".$i ++."] = new Array( '$k','".addslashes($v->value)."','".addslashes($v->text)."' );";
-			}
-		}
-		?>
-
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
@@ -284,12 +274,6 @@ class JViewHTMLArticle extends JView
 				return;
 			}
 
-			// assemble the images back into one field
-			var temp = new Array;
-			for (var i=0, n=form.imagelist.options.length; i < n; i++) {
-				temp[i] = form.imagelist.options[i].value;
-			}
-			form.images.value = temp.join( '\n' );
 			try {
 				form.onsubmit();
 			}
@@ -384,157 +368,6 @@ class JViewHTMLArticle extends JView
 		echo $editor->display('text', $article->text, '655', '400', '70', '15');
 		echo $editor->getButtons('text');
 		?>
-
-		<!-- Images Tab -->
-		<?php
-		$title = JText::_('Images');
-		$tabs->endTab();
-		$tabs->startTab($title, 'images-page');
-		?>
-			<table width="100%" class="adminform">
-			<tr>
-				<td colspan="4">
-					<label for="folders">
-						<?php echo JText::_( 'Sub-folder' ); ?>
-					</label>
-					- <?php echo $lists['folders'];?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<label for="imagefiles">
-						<?php echo JText::_( 'Gallery Images' ); ?>
-					</label>
-				</td>
-				<td width="1%">
-				</td>
-				<td valign="top">
-					<?php echo JText::_( 'Content Images' ); ?>
-				</td>
-				<td valign="top">
-					<?php echo JText::_( 'Edit Image' ); ?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<?php echo $lists['imagefiles'];?>
-					<br />
-					<input class="button" type="button" value="<?php echo JText::_( 'Insert' ); ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
-				</td>
-				<td width="2%">
-					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>"/>
-					<br/>
-					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>"/>
-				</td>
-				<td valign="top">
-					<?php echo $lists['imagelist'];?>
-					<br />
-					<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-					<br />
-					<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-				</td>
-				<td valign="top" width="100%">
-					<table width="100%">
-					<tr>
-						<td align="right">
-							<label for="_source">
-								<?php echo JText::_( 'Source' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="inputbox" type="text" id= "_source" name= "_source" value="" size="15" />
-						</td>
-					</tr>
-					<tr>
-						<td align="right" valign="top">
-							<label for="_align">
-								<?php echo JText::_( 'Align' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['_align']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-							<label for="_alt">
-								<?php echo JText::_( 'Alt Text' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="inputbox" type="text" id="_alt" name="_alt" value="" size="15" />
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-							<label for="_border">
-								<?php echo JText::_( 'Border' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="inputbox" type="text" id="_border" name="_border" value="" size="3" maxlength="1" />
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-							<label for="_caption">
-								<?php echo JText::_( 'Caption' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="inputbox" type="text" id="_caption" name="_caption" value="" size="30" />
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-							<label for="_caption_position">
-								<?php echo JText::_( 'Caption Position' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['_caption_position']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-							<label for="_caption_align">
-								<?php echo JText::_( 'Caption Align' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['_caption_align']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-							<label for="_width">
-								<?php echo JText::_( 'Caption Width' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="inputbox" type="text" id="_width" name="_width" value="" size="5" maxlength="5" />
-						</td>
-					</tr>
-					<tr>
-						<td align="right"></td>
-						<td>
-							<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<img name="view_imagefiles" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
-				</td>
-				<td>&nbsp;</td>
-				<td>
-					<img name="view_imagelist" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
-				</td>
-				<td>&nbsp;</td>
-			</tr>
-			</table>
 
 		<!-- Publishing Tab -->
 		<?php
@@ -688,7 +521,6 @@ class JViewHTMLArticle extends JView
 		$tabs->endPane();
 		?>
 
-		<input type="hidden" name="images" value="" />
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
 		<input type="hidden" name="id" value="<?php echo $article->id; ?>" />
@@ -706,44 +538,6 @@ class JViewHTMLArticle extends JView
 		// Get the article and database connector from the model
 		$article = & $this->get('Article');
 		$db 	 = & $this->get('DBO');
-
-		// Read the JPATH_ROOT/images/stories/ folder
-		$pathA = 'images/stories';
-		$pathL = 'images/stories';
-		$images = array ();
-		$folders = array ();
-		$folders[] = mosHTML::makeOption('/');
-		mosAdminMenus::ReadImages($pathA, '/', $folders, $images);
-
-		// Select List: Subfolders in the JPATH_ROOT/images/stories/ folder
-		$lists['folders'] = mosAdminMenus::GetImageFolders($folders, $pathL);
-
-		// Select List: Images in the JPATH_ROOT/images/stories/ folder
-		$lists['imagefiles'] = mosAdminMenus::GetImages($images, $pathL);
-
-		// Select List: Saved Images
-		if (trim($article->images))
-		{
-			$article->images = explode("\n", $article->images);
-		} else
-		{
-			$article->images = array ();
-		}
-		$lists['imagelist'] = mosAdminMenus::GetSavedImages($article, $pathL);
-
-		// Images Array: Images
-		$lists['images'] = $images;
-
-		// Select List: Image Positions
-		$lists['_align'] = mosAdminMenus::Positions('_align');
-
-		// Select List: Image Caption Alignment
-		$lists['_caption_align'] = mosAdminMenus::Positions('_caption_align');
-
-		// Select List: Image Caption Position
-		$pos[] = mosHTML::makeOption('bottom', JText::_('Bottom'));
-		$pos[] = mosHTML::makeOption('top', JText::_('Top'));
-		$lists['_caption_position'] = mosHTML::selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text');
 
 		// Select List: Categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));

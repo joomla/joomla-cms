@@ -427,7 +427,7 @@ class ContentView
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option )
+	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option )
 	{
 		global $database;
 
@@ -453,16 +453,6 @@ class ContentView
 		}
 		?>
 
-		var folderimages = new Array;
-		<?php
-		$i = 0;
-		foreach ($images as $k=>$items) {
-			foreach ($items as $v) {
-				echo "folderimages[".$i++."] = new Array( '$k','".addslashes( $v->value )."','".addslashes( $v->text )."' );\n\t\t";
-			}
-		}
-		?>
-
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 
@@ -480,13 +470,7 @@ class ContentView
 				submitform( pressbutton );
 				return;
 			}
-			// assemble the images back into one field
-			var temp = new Array;
-			for (var i=0, n=form.imagelist.options.length; i < n; i++) {
-				temp[i] = form.imagelist.options[i].value;
-			}
-			form.images.value = temp.join( '\n' );
-
+		
 			// do field validation
 			if (form.title.value == ""){
 				alert( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
@@ -538,12 +522,6 @@ class ContentView
 
 				ContentView::_paneMetaInfo( $row, $lists, $params );
 
-				$title = JText::_( 'Images' );
-				$pane->endPanel();
-				$pane->startPanel( $title, "images-page" );
-
-				ContentView::_paneImages( $row, $lists, $params );
-
 				$title = JText::_( 'Parameters' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "params-page" );
@@ -563,7 +541,6 @@ class ContentView
 		<input type="hidden" name="mask" value="0" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="images" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
@@ -859,161 +836,6 @@ class ContentView
 		<tr>
 			<td>
 				<input type="button" class="button" value="<?php echo JText::_( 'Add Sect/Cat/Title' ); ?>" onclick="f=document.adminForm;f.metakey.value=document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text+', '+getSelectedText('adminForm','catid')+', '+f.title.value+f.metakey.value;" />
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-
-	function _paneImages( &$row, &$lists, &$params )
-	{
-		?>
-		<table style="width: 100%">
-		<tr>
-			<td colspan="2">
-				<table width="100%">
-				<tr>
-					<td width="48%">
-						<div align="center">
-							<label for="imagefiles">
-								<?php echo JText::_( 'Gallery Images' ); ?>:
-							</label>
-							<br />
-							<?php echo $lists['imagefiles'];?>
-							<br />
-							<label for="folders">
-								<?php echo JText::_( 'Sub-folder' ); ?>:
-							</label>
-							<?php echo $lists['folders'];?>
-						</div>
-					</td>
-					<td width="2%">
-						<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>" />
-						<br />
-						<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>" />
-					</td>
-					<td width="48%">
-						<div align="center">
-							<label for="imagelist">
-								<?php echo JText::_( 'Content Images' ); ?>:
-							</label>
-							<br />
-								<?php echo $lists['imagelist'];?>
-							<br />
-							<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-							<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-						</div>
-					</td>
-				</tr>
-				</table>
-			</td>
-		</tr>
-		<tr valign="top">
-			<td>
-				<div align="center" style="border: 1px solid #d5d5d5;">
-					<?php echo JText::_( 'Sample Image' ); ?>:<br />
-					<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
-				</div>
-			</td>
-			<td valign="top">
-				<div align="center" style="border: 1px solid #d5d5d5;">
-					<?php echo JText::_( 'Active Image' ); ?>:<br />
-					<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
-				</div>
-			</td>
-		</tr>
-		</table>
-		<table>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Edit the image selected' ); ?>:
-				<table>
-				<tr>
-					<td align="right">
-						<label for="Isource">
-							<?php echo JText::_( 'Source' ); ?>
-						</label>
-					</td>
-					<td>
-						<input type="text" name= "_source" id= "Isource" value="" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Ialign">
-							<?php echo JText::_( 'Align' ); ?>
-						</label>
-					</td>
-					<td>
-						<?php echo $lists['_align']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Ialt">
-							<?php echo JText::_( 'Alt Text' ); ?>
-						</label>
-					</td>
-					<td>
-						<input type="text" name="_alt" id="Ialt" value="" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Iborder">
-							<?php echo JText::_( 'Border' ); ?>
-						</label>
-					</td>
-					<td>
-						<input type="text" name="_border" id="Iborder" value="" size="3" maxlength="1" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Icaption">
-							<?php echo JText::_( 'Caption' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="text_area" type="text" name="_caption" id="Icaption" value="" size="30" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Icaption_position">
-							<?php echo JText::_( 'Caption Position' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php echo $lists['_caption_position']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Icaption_align">
-							<?php echo JText::_( 'Caption Align' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php echo $lists['_caption_align']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label for="Iwidth">
-							<?php echo JText::_( 'Width' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="text_area" type="text" name="_width" id="Iwidth" value="" size="5" maxlength="5" />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
-					</td>
-				</tr>
-				</table>
 			</td>
 		</tr>
 		</table>
