@@ -510,23 +510,23 @@ class ContentView
 			</td>
 			<td valign="top" width="320px" style="padding: 7px 0 0 5px">
 			<?php
-				$title = JText::_( 'Details' );
+				$title = JText::_( 'PARAMBASIC' );
 				$pane->startPane("content-pane");
 				$pane->startPanel( $title, "detail-page" );
 
 				ContentView::_paneDetails(  $row, $lists, $params );
-
-				$title = JText::_( 'Meta Info' );
-				$pane->endPanel();
-				$pane->startPanel( $title, "metadata-page" );
-
-				ContentView::_paneMetaInfo( $row, $lists, $params );
-
-				$title = JText::_( 'Parameters' );
+				
+				$title = JText::_( 'PARAMADVANCED' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "params-page" );
 
 				ContentView::_paneParameters( $row, $lists, $params );
+
+				$title = JText::_( 'Metadata Information' );
+				$pane->endPanel();
+				$pane->startPanel( $title, "metadata-page" );
+
+				ContentView::_paneMetaInfo( $row, $lists, $params );
 
 				$pane->endPanel();
 				$pane->endPane();
