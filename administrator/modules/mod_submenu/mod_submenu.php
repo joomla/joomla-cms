@@ -120,7 +120,7 @@ class JAdminSubMenu
 					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
 					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
 				}
-				$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
+				//$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 

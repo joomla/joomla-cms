@@ -255,13 +255,13 @@ function editUser( )
 		$gtree = $acl->get_group_children_tree( null, 'USERS', false );
 
 		// remove users 'above' me
-		$i = 0;
-		while ($i < count( $gtree )) {
-			if ( in_array( $gtree[$i]->value, (array)$excludeGroups ) ) {
-				array_splice( $gtree, $i, 1 );
-			} else {
-				$i++;
-			}
+		//$i = 0;
+		//while ($i < count( $gtree )) {
+		//	if ( in_array( $gtree[$i]->value, (array)$excludeGroups ) ) {
+		//		array_splice( $gtree, $i, 1 );
+		//	} else {
+		//		$i++;
+		//	}
 		}
 
 		$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );

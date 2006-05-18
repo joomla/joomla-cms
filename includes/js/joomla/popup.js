@@ -71,7 +71,7 @@ JPopup.prototype = {
 				'<div id="popupTitleBar">' +
 					'<div id="popupTitle"></div>' +
 					'<div id="popupControls">' +
-						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="window.frames[\'popupFrame\'].submitbutton(\'cancel\');" />' +
+						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide();" />' +
 					'</div>' +
 				'</div>' +
 				'<iframe src="'+this.baseURL+'includes/js/joomla/popup-loading.html" style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
