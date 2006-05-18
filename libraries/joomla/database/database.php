@@ -125,7 +125,7 @@ class JDatabase extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $driver='MySQL', $host='localhost', $user, $pass, $db='', $table_prefix='' )
+	function &getInstance( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='' )
 	{
 		static $instances;
 
