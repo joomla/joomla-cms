@@ -428,7 +428,8 @@ class JInstallationController
 		$xajax->errorHandlerOn();
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
-		
+
+			
 		/*
 		 * Deal with possible sql script uploads from this stage
 		 */
@@ -482,6 +483,8 @@ class JInstallationController
 			'modules',
 			'templates',
 		);
+		
+		
 
 		/*
 		 * Now lets make sure we have permissions set on the appropriate folders
@@ -772,9 +775,7 @@ class JInstallationHelper
 			if ($query != '' && $query {0} != '#') {
 				$database->setQuery($query);
 				$database->query();
-				if ($database->getErrorNum() > 0) {
-					$errors[] = array ('msg' => $database->getErrorMsg(), 'sql' => $query);
-				}
+				JInstallationHelper::getDBErrors($errors, $database ); 
 			}
 		}
 		return count($errors);
@@ -1276,16 +1277,16 @@ class JInstallationHelper
 		$buffer = str_replace( $oldPrefix, $newPrefix, $buffer );
 		
 		/*
-		 * give temp name to menu and components tables
+		 * give temp name to menu and modules tables
 		 */
-		$buffer = str_replace ( $newPrefix.'components', $newPrefix.'comp_migration', $buffer );
+		$buffer = str_replace ( $newPrefix.'modules', $newPrefix.'modules_migration', $buffer );
 		$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
 		
 		/*
 		 * Create two empty temporary tables
 		 */
 		 
-		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'comp_migration';
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
 		$db->query();
 		
@@ -1293,7 +1294,7 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query(); 
 		
-		$query = 'CREATE TABLE '.$newPrefix.'comp_migration SELECT * FROM '.$newPrefix.'components WHERE 0';
+		$query = 'CREATE TABLE '.$newPrefix.'modules_migration SELECT * FROM '.$newPrefix.'modules WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
 		
@@ -1318,12 +1319,14 @@ class JInstallationHelper
 		$newFile = dirname( $scriptName ).DS.'converted.sql';
 		$ret = file_put_contents( $newFile, $buffer );
 		$buffer = '';
+		JFile::delete( $scriptName );
 		return $newFile;
 	}
 	
 	/**
 	 * Performs post-populate conversions after importing a migration script
 	 * These include constructing an appropriate menu table for core content items
+	 * and adding core modules from old site to the modules table
 	 *
 	 * @static
 	 * @param JDatabase
@@ -1341,9 +1344,7 @@ class JInstallationHelper
 		 */
 		$query = "SELECT id, usertype FROM ".$newPrefix."users WHERE id = 62";
 		$row = $db->getRow( $query );
-		if ($db->getErrorNum() > 0) {
-			$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
-		}
+		JInstallationHelper::getDBErrors($errors, $db ); 
 		
 		/*
 		 * if it is, then fill usertype field with correct values from aro_group
@@ -1354,17 +1355,115 @@ class JInstallationHelper
 					"\n WHERE u.gid = g.id";
 			$db->setQuery($query);
 			$db->query();
-			if ($db->getErrorNum() > 0) {
-				$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
-			}
+			JInstallationHelper::getDBErrors($errors, $db ); 
 		}
 		
 		/*
 		 * Construct the menu table based on old table references to core items
 		 */
+		$query = "SELECT DISTINCT `option` FROM ".$newPrefix."components WHERE `option` != ''";
+		$db->setQuery( $query );
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		$lookup = $db->loadResultArray();
+		$lookup[] = 'com_user&';
+		$lookup[] = 'com_content';
+		
+		$query = 'SELECT * FROM '.$newPrefix.'menu_migration';
+		$db->setQuery( $query );
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		$oldMenuItems = $db->loadObjectList();
+		
+		$query = 'SELECT * FROM '.$newPrefix.'menu';
+		$db->setQuery( $query );
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		$newMenuItems = $db->loadObjectList();
+		
+		
+		foreach( $oldMenuItems as $item ) {
+			if ( $item->id == 1 ) {
+				$newMenuItems[0] = $item;
+			} else if ( $item->type == 'url' && $item->link == 'index.php' ) {
+				$newMenuItems[] = $item;
+			} else if ( $item->type == 'url' && JInstallationHelper::isValidItem( $item->link, $lookup ) ) {
+				$newMenuItems[] = $item;
+			} else if ( $item->type == 'components' && (int) $item->componentid < 17 ) {
+				$newMenuItems[] = $item;
+			} else if ( $item->type == 'wrapper' ) {
+				$newMenuItems[] = $item;
+			} else if ( $item->type == 'content_typed' ) {
+				//do nothing - not added
+			} else if ( substr($item->type, 0, 7) == 'content') {
+				$newMenuItems[] = $item;
+			}					
+		}
+		
+		$query = 'DELETE FROM '.$newPrefix.'menu WHERE 1';
+		$db->setQuery( $query );
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		foreach ( $newMenuItems as $item ) {
+			$db->insertObject( $newPrefix.'menu', $item );
+			JInstallationHelper::getDBErrors($errors, $db ); 
+		}
+		
+		/*
+		 * Add core client modules from old site to modules table as unpublished
+		 */
+		$query = "SELECT module FROM ".$newPrefix."modules WHERE client_id = 0 AND module != 'mod_mainmenu'";
+		$db->setQuery( $query );
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		$lookup = $db->loadResultArray();
+		
+		$query = "SELECT MAX(id) FROM ".$newPrefix."modules ";
+		$db->setQuery( $query );
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		$nextId = $db->loadResult();
+		
+		foreach( $lookup as $module ) {
+			$row = null;
+			$nextId++;
+			$qry = "SELECT * FROM ".$newPrefix."modules_migration WHERE module = '".$module."' AND client_id = 0";
+			$db->setQuery( $qry );
+			JInstallationHelper::getDBErrors($errors, $db ); 
+			if ( $db->loadObject( $row ) ) {
+				$row->id = $nextId;
+				$row->published = 0;
+				$db->insertObject( $newPrefix.'modules', $row );
+				JInstallationHelper::getDBErrors($errors, $db ); 
+			}
+		}
+		/*
+		 * Clean up
+		 */
+		
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
+		$db->setQuery( $query );
+		$db->query(); 
+		JInstallationHelper::getDBErrors($errors, $db ); 
+
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
+		$db->setQuery( $query );
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db ); 
+		
+		
 		
 		return count( $errors );
 	}
 	
+	function isValidItem ( $link, $lookup ){
+		foreach( $lookup as $component ) {
+			if ( strpos( $link, $component ) != false ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function getDBErrors( &$errors, $db ) {
+		if ($db->getErrorNum() > 0) {
+			$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
+		}
+	}
 }
 ?>

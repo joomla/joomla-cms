@@ -283,7 +283,12 @@
 				  				  	</label>
 								</td>
 								<td>
-							  		<input class="inputbox" type="text" id="srcEncoding" name="vars[srcEncoding]" value="" size="24" />
+							  		<!--<input class="inputbox" type="text" id="srcEncoding" name="vars[srcEncoding]" value="" size="24" />-->
+									<select id="srcEncoding" name="vars[srcEncoding]" class="inputbox" >
+									<jtmpl:tmpl name="encoding_options">
+										<option value="{VALUE}" >{VALUE}</option>
+									</jtmpl:tmpl>
+									</select>
 								</td>
 					  		</tr>
 					  		<tr>
@@ -320,7 +325,7 @@
 <input type="hidden" name="sqlupload" value="0" />
 <input type="hidden" name="migrationupload" value="0" />
 <input type="hidden" name="loadchecked" value="{VAR_LOADCHECKED}" />
-<input type="hidden" name="dataLoaded" value="{VAR_DATALOADED}"
+<input type="hidden" name="dataLoaded" value="{VAR_DATALOADED}" />
 <input type="hidden" name="DBtype" value="{VAR_DBTYPE}" />
 <input type="hidden" name="DBhostname" value="{VAR_DBHOSTNAME}" />
 <input type="hidden" name="DBuserName" value="{VAR_DBUSERNAME}" />

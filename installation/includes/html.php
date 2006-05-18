@@ -227,6 +227,11 @@ class JInstallationView
 		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 //		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
+		/*
+		 * prepare migration encoding selection
+		 */
+		$encodings = array( 'big5','euc-jp','euc-kr','euc-tw','iso-2022-cn','iso-2022-jp-2','iso-2022-jp','iso-2022-kr','iso-8859-1','iso-8859-2','iso-8859-3','iso-8859-4','iso-8859-5','iso-8859-6','iso-8859-7','iso-8859-8','iso-8859-9','iso-8859-10','iso-8859-13','iso-8859-14','iso-8859-15','iso-10646-ucs-2','iso-10646-ucs-4','koi8-r','koi8-ru','ucs2-internal','ucs4-internal','unicode-1-1-utf-7','us-ascii','utf-16','utf-8','windows-1250','windows-1251','windows-1252','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258' );
+		$tmpl->addVar( 'encoding_options', 'value', $encodings );
 		return $tmpl->fetch( 'page' );
 	}
 
