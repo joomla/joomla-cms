@@ -188,7 +188,7 @@ class ContentView
 		    			<?php
 		    			if ( $row->title_alias ) {
 		                    ?>
-		                    <td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
+		                    <td>
 		                    <?php
 		    			}
 		    			else{

@@ -38,9 +38,9 @@ $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
 
-if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
-	$file = 'offline.php';
-}
+//if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
+//	$file = 'offline.php';
+//}
 
 $params = array(
 	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )

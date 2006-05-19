@@ -262,7 +262,7 @@ function editUser( )
 		//	} else {
 		//		$i++;
 		//	}
-		}
+		//}
 
 		$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );
 	}

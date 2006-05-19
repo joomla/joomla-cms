@@ -208,7 +208,7 @@ class JDocumentFeed extends JDocument
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 		
-		$renderer =& $this->loadRenderer($format);
+		$renderer = $this->loadRenderer($format);
 		
 		$path 	= JApplicationHelper::getPath( 'front', $option );
 		$task 	= JRequest::getVar( 'task' );

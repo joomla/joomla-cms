@@ -624,11 +624,15 @@ table.adminlist tbody th {
 table.adminlist tbody tr		{
 	background-color: #fff; 
 	text-align: left;
-	}
+}
 table.adminlist tbody tr.row1 	{
 	background: #f9f9f9;
 	border-top: 1px solid #fff;
 }
+table.adminlist tbody tr.row0:hover td,
+table.adminlist tbody tr.row1:hover td  {
+	background-color: #ffd ;
+}	
 
 table.adminlist tbody tr td { 
 	height: 25px;
