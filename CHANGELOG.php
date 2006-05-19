@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-May-2006 David Gal
+ + Added automated content migration facility in installation 
+
 18-May-2006 Johan Janssens
  # Fixed artf4497 : moofx sliders leave controls visible (Mac OS)
  - Removed image add/edit functionality from content edit page 
