@@ -1436,11 +1436,21 @@ class JContentController
 		 * Initialize variables
 		 */
 		$document		= & $mainframe->getDocument();
+		$db 			= & $mainframe->getDBO();
 		$id				= JRequest::getVar( 'id', 0, '', 'int' );
 		$option			= JRequest::getVar( 'option' );
+		
+		// Get the current default template
+		$query = "SELECT template" .
+				"\n FROM #__templates_menu" .
+				"\n WHERE client_id = 0" .
+				"\n AND menuid = 0";
+		$db->setQuery($query);
+		$template = $db->loadResult();
 
 		// Set page title
 		$document->setTitle(JText::_('Content Preview'));
+		$document->addStyleSheet('../templates/'.$template.'/css/editor.css');
 
 		/*
 		 * Render content preview
@@ -1449,8 +1459,8 @@ class JContentController
 	}
 }
 
-class JContentHelper {
-
+class JContentHelper 
+{
 	function saveContentPrep( &$row )
 	{
 

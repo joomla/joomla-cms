@@ -17,6 +17,8 @@
  * @since		1.5
  * @version     1.0
  */
+ 
+body { background:url(foo) fixed;}
 
 #popup-overlay {
 	position: absolute;
@@ -35,6 +37,7 @@
 	top: 0px; left: 0px; z-index: 2001;
 	display:none;
 	padding: 0px;
+	background: #FBFBFB url(loading.gif) no-repeat 50% 50%;
 }
 #popupInner {
 	border: 1px solid #CCCCCC;

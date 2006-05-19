@@ -69,13 +69,19 @@ class JButton_Popup extends JButton
 	 */
 	function _getCommand($name, $url, $width, $height, $top, $left)
 	{
-		if (substr($url, 0, 4) !== 'http')
-		{
-			global $mainframe;
+		global $mainframe;
+		
+		if (substr($url, 0, 4) !== 'http') {
 			$url = $mainframe->getBaseURL().$url;
 		}
-
-		$cmd = "popupWindow('$url','$name',$width,$height,'yes');";
+		
+		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		
+		$doc =& $mainframe->getDocument();
+		$doc->addScript($baseurl.'includes/js/joomla/popup.js');
+		$doc->addStyleSheet($baseurl.'includes/js/joomla/popup.css');
+		
+		$cmd = "document.popup.show('$url', $width, $height, null)";
 
 		return $cmd;
 	}

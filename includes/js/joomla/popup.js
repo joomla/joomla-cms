@@ -74,7 +74,7 @@ JPopup.prototype = {
 						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide();" />' +
 					'</div>' +
 				'</div>' +
-				'<iframe src="'+this.baseURL+'includes/js/joomla/popup-loading.html" style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
+				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
@@ -119,7 +119,8 @@ JPopup.prototype = {
 	onload: function(event, args)  {
 		if(!this.visible) 
 			return;
-		
+			
+		this.frame.style.display = 'block';
 		this.setTitle();
 	},
 	
@@ -162,6 +163,7 @@ JPopup.prototype = {
 		// load the url
 		if(this.URL != url) {
 			this.URL = url;
+			this.frame.style.display = 'none';
 			this.frame.src = url;
 		}
 	
@@ -186,15 +188,15 @@ JPopup.prototype = {
 			var fullHeight = this.getViewportHeight();
 			var fullWidth  = this.getViewportWidth();
 		
-			//var theBody = document.documentElement;
+			var theBody = document.documentElement;
 		
-			//var scTop = parseInt(theBody.scrollTop,10);
-			//var scLeft = parseInt(theBody.scrollLeft,10);
-		
+			var scTop = Browser.is_ie ? parseInt(theBody.scrollTop,10) : 0;
+			var scLeft = Browser.is_ie ? parseInt(theBody.scrollLeft,10) : 0;
+			
 			var titleBarHeight = parseInt(document.getElementById("popupTitleBar").offsetHeight, 10);
 		
-			this.container.style.top = ((fullHeight - (height+titleBarHeight)) / 2) + "px";
-			this.container.style.left =  ((fullWidth - width) / 2) + "px";
+			this.container.style.top =  scTop + ((fullHeight - (height+titleBarHeight)) / 2) + "px";
+			this.container.style.left = scLeft + ((fullWidth - width) / 2) + "px";
 			
 			this.mask.style.height = fullWidth + "px";
 			this.mask.style.width = fullWidth + "px";

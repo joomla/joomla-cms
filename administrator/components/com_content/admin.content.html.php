@@ -679,27 +679,10 @@ class ContentView
 
 		?>
 		<script>
-		var form = window.opener.document.adminForm
+		var form = window.top.document.adminForm
 		var title = form.title.value;
 
-		var alltext = window.opener.<?php echo $editor->getContent('text') ?>;
-
-		// do the images
-		var temp = new Array();
-		for (var i=0, n=form.imagelist.options.length; i < n; i++) {
-			value = form.imagelist.options[i].value;
-			parts = value.split( '|' );
-
-			temp[i] = '<img src="../images/stories/' + parts[0] + '" align="' + parts[1] + '" border="' + parts[3] + '" alt="' + parts[2] + '" hspace="6" />';
-		}
-
-		var temp2 = alltext.split( '{image}' );
-
-		var alltext = temp2[0];
-
-		for (var i=0, n=temp2.length-1; i < n; i++) {
-			alltext += temp[i] + temp2[i+1];
-		}
+		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
 		</script>
 
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
