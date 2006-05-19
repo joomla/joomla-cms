@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.common.legacy.classes' );
+
 /**
  * Legacy define, _ISO defined not used anymore. All output is forced as utf-8
  *

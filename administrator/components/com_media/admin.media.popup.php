@@ -34,11 +34,11 @@ class JMediaViews
 			<div style="float: left">
 				<label for="folder">Directory</label>
 				<?php echo $dirPath; ?>
-				<button onclick="document.imagemanager.upFolder()" title="Directory Up">Up</button>
+				<button type="button" onclick="document.imagemanager.upFolder()" title="Directory Up">Up</button>
 			</div>
 			<div style="float: right">
-				<button type="button" class="buttons" onclick="document.imagemanager.onok();window.top.document.popup.hide();">OK</button>
-				<button type="button" class="buttons" onclick="window.top.document.popup.hide();">Cancel</button>
+				<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();">Insert</button>
+				<button type="button" onclick="window.top.document.popup.hide();">Cancel</button>
 		    </div>
 		</fieldset>
 		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" id="imageview"></iframe>
