@@ -160,6 +160,8 @@ class JMainMenu extends JTree
 		
 		if ($this->_active == $this->_current->id) {
 			$active = " id=\"active\"";
+		} else {
+			$active = null;
 		}
 
 		// Build the CSS class selectors
