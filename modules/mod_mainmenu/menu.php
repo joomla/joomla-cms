@@ -52,7 +52,7 @@ class JMainMenu extends JTree
 	{
 		$this->_params =& $params;
 		$this->_active = $active;
-		$this->_root =& new JMenuNode('ROOT');
+		$this->_root =& new JMenuNode(0, 'ROOT');
 		$this->_nodeHash[0] =& $this->_root;
 		$this->_current = & $this->_root;
 	}
@@ -106,7 +106,7 @@ class JMainMenu extends JTree
 		}
 
 		// Create the node and add it
-		$node =& new JMenuNode($item->name, $item->link);
+		$node =& new JMenuNode($item->id, $item->name, $item->link);
 		$this->_nodeHash[$item->id] =& $node;
 		$this->_current =& $this->_nodeHash[$item->parent];
 		$this->addChild($node, true);
@@ -158,6 +158,10 @@ class JMainMenu extends JTree
 			$showChildren = true;
 		}
 		
+		if ($this->_active == $this->_current->id) {
+			$active = " id=\"active\"";
+		}
+
 		// Build the CSS class selectors
 		$classes = "level$depth item".$this->_depthHash[$depth];
 
@@ -177,7 +181,7 @@ class JMainMenu extends JTree
 		if ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0))) {
 
 			// Print the item
-			echo "<li class=\"".$classes."\">";
+			echo "<li$active class=\"".$classes."\">";
 	
 			// Print a link if it exists
 			if ($this->_current->link != null) {
@@ -241,8 +245,9 @@ class JMenuNode extends JNode
 	 */
 	var $active = false;
 
-	function __construct($title, $link = null, $class = null, $active = false)
+	function __construct($id, $title, $link = null, $class = null, $active = false)
 	{
+		$this->id		= $id;
 		$this->title	= $title;
 		$this->link		= $link;
 		$this->class	= $class;
