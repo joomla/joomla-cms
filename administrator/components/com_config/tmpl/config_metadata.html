@@ -8,7 +8,7 @@
 				<?php echo JText::_( 'Global Site Meta Description' ); ?>
 			</td>
 			<td>
-				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaDesc"><?php echo htmlspecialchars($row->MetaDesc, ENT_QUOTES); ?></textarea>
+				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaDesc"><?php echo $row->MetaDesc; ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -16,7 +16,7 @@
 				<?php echo JText::_( 'Global Site Meta Keywords' ); ?>
 			</td>
 			<td>
-				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaKeys"><?php echo htmlspecialchars($row->MetaKeys, ENT_QUOTES); ?></textarea>
+				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaKeys"><?php echo $row->MetaKeys; ?></textarea>
 			</td>
 		</tr>
 		<tr>
