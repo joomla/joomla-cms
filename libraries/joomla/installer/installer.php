@@ -653,7 +653,6 @@ class JInstaller extends JObject
 			if ($query != '' && $query{0} != '#') {
 				$db->setQuery($query);
 				if (!$db->query()) {
-					die("2");
 					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
 					return false;
 				}
