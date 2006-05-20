@@ -1023,11 +1023,16 @@ class JInstallationHelper
 		$script = '';
 
 		/*
+		 * extend script max process time to prevent time-out with large imports
+		 */
+		$oldMaxTime = ini_get( 'max_execution_time' );
+		set_time_limit( 300 );
+		
+		/*
 		 * Get the uploaded file information
 		 */
 		if( $migration ) {
 			$sqlFile	= JRequest::getVar('migrationFile', '', 'files', 'array');
-//return '<input size="50" value="This is still work in progress" readonly="readonly" />';
 		} else {
 			$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
 		}
@@ -1138,6 +1143,7 @@ class JInstallationHelper
 		} else {
 			JFile::delete( $script );
 		}
+		set_time_limit( $oldMaxTime );
 
 		return $txt;
 	}
