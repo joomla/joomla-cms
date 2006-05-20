@@ -137,7 +137,7 @@ class JFactory
 			{
 				if( !isset($options['lite']) || $options['lite']) {
 					jimport('domit.xml_domit_lite_include');
-					$doc = & new DOMIT_Lite_Document();
+					$doc = new DOMIT_Lite_Document();
 				} else {
 					jimport('domit.xml_domit_include');
 					$doc = new DOMIT_Document();

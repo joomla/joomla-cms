@@ -605,10 +605,9 @@ class JInstaller extends JObject
 
 		// Get the install document root element
 		$root = & $this->_xmldoc->documentElement;
-
 		// Get the element of the tag names
 		$queriesElements = & $root->getElementsByPath($tagName);
-		if (is_null($queriesElements)) {
+		if ( count( $queriesElements->toArray() ) == 0 ) {
 			/*
 			 * the tag does not exist therefore we return
 			 * zero queries processed.
