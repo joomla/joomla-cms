@@ -1022,11 +1022,6 @@ class JInstallationHelper
 		$archive = '';
 		$script = '';
 
-		/*
-		 * extend script max process time to prevent time-out with large imports
-		 */
-		$oldMaxTime = ini_get( 'max_execution_time' );
-		set_time_limit( 300 );
 		
 		/*
 		 * Get the uploaded file information
@@ -1143,7 +1138,6 @@ class JInstallationHelper
 		} else {
 			JFile::delete( $script );
 		}
-		set_time_limit( $oldMaxTime );
 
 		return $txt;
 	}
