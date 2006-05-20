@@ -49,7 +49,6 @@ class JInstallation extends JApplication
 	 * @access private
 	 * @param string 	The language name
 	 */
-
 	function setLanguage($lang = null)
 	{
 		if(empty($lang)) {
@@ -66,6 +65,17 @@ class JInstallation extends JApplication
 		//Set the language in the class
 		$this->_lang =& JLanguage::getInstance( $lang );
 		$this->_lang->setDebug( $this->getCfg('debug') );
+	}
+
+	/**
+	 * Set configuration values
+	 *
+	 * @access private
+	 * @param array 	Array of configuration values
+	 * @param string 	The namespace
+	 */
+	function setCfg( $vars, $namespace = 'config' ) {
+		$this->_registry->loadArray( $vars, $namespace );
 	}
 
 	/**

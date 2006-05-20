@@ -416,6 +416,10 @@ class JInstallationController
 	function mainConfig($vars)
 	{
 		global $mainframe;
+		
+		// get ftp configuration into registry for use in case of safe mode
+		JInstallationHelper::setFTPCfg( $vars );
+		
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
@@ -1464,6 +1468,25 @@ class JInstallationHelper
 		if ($db->getErrorNum() > 0) {
 			$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
 		}
+	}
+	
+	/**
+	 * Inserts ftp variables to mainframe registry
+	 * Needed to activate ftp layer for file operations in safe mode
+	 * 
+	 * @param array The post values
+	 */
+	function setFTPCfg( $vars ) {
+		global $mainframe;
+		$arr = array();
+		$arr['ftp_enable'] = $vars['ftpEnable'];
+		$arr['ftp_user'] = $vars['ftpUser'];
+		$arr['ftp_pass'] = $vars['ftpPassword'];
+		$arr['ftp_root'] = $vars['ftpRoot'];
+		$arr['ftp_host'] = $vars['ftpHost'];
+		$arr['ftp_port'] = $vars['ftpPort'];
+		
+		$mainframe->setCfg( $arr, 'config' );
 	}
 }
 ?>
