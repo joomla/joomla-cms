@@ -36,7 +36,6 @@ function pluginImageButton()
 	{
 		case 'com_sections'   	:
 		case 'com_categories'	:
-		case 'com_modules'		:
 			$button = array( false );
 			break;
 
