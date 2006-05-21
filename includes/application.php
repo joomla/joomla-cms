@@ -103,7 +103,9 @@ jimport( 'joomla.application.application');
 jimport( 'joomla.application.menu' );
 
 // support for legacy classes & functions that will be depreciated
-jimport( 'joomla.common.legacy.*' );
+jimport( 'joomla.common.legacy.classes' );
+jimport( 'joomla.common.legacy.functions' );
+jimport( 'joomla.common.legacy.globals' );
 
 JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 
