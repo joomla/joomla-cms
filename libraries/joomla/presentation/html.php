@@ -144,8 +144,11 @@ class mosHTML {
 	* @returns string HTML for the select list
 	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
-		reset( $arr );
-
+		// check if array
+		if ( is_array( $arr ) ) {
+			reset( $arr );
+		}
+		
         $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -1092,16 +1095,36 @@ class mosAdminMenus
 	/**
 	* build the link/url of a menu item
 	*/
-	function Link( &$row, $id, $link=NULL ) {
+	function Link( &$row, $id, $link=NULL ) {		
 		if ( $id ) {
-			if ( $link ) {
-				$link = $row->link;
-			} else {
-				$link = $row->link .'&amp;Itemid='. $row->id;
-			}
+			switch ($row->type) {
+				case 'content_item_link':
+				case 'content_typed':
+					// load menu params
+					$params = new JParameter( $row->params, JApplicationHelper::getPath( 'menu_xml', $row->type ), 'menu' );
+					
+					if ( $params->get( 'unique_itemid' ) ) {
+						$row->link .= '&Itemid='. $row->id;
+					} else {
+						$temp = split( '&task=view&id=', $row->link);
+						$row->link .= '&Itemid='. JContentHelper::getItemid($temp[1], 0, 0);
+					}
+					
+					$link = $row->link;					
+					break;
+				
+				default:
+					if ( $link ) {
+						$link = $row->link;
+					} else {
+						$link = $row->link .'&amp;Itemid='. $row->id;
+					}
+					break;
+			}			
 		} else {
 			$link = NULL;
 		}
+		
 		return $link;
 	}
 
