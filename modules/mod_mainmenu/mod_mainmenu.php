@@ -30,7 +30,6 @@ $params->def('indent_image6', 		'indent.png');
 $params->def('spacer', 				'');
 $params->def('end_spacer', 			'');
 $params->def('full_active_id', 		0);
-$params->def('unique_itemid', 		0);
 
 // Added in 1.5
 $params->def('startLevel', 			0);
