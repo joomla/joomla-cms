@@ -59,8 +59,6 @@ class JMainMenu extends JTree
 
 	function addNode(&$item)
 	{
-		// load menu params
-		$menuparams = new JParameter( $item->params, JApplicationHelper::getPath( 'menu_xml', $item->type ), 'menu' );
 
 		switch ($item->type) {
 			case 'separator' :
@@ -73,7 +71,7 @@ class JMainMenu extends JTree
 
 			case 'content_item_link':
 			case 'content_typed' :
-				if ( $menuparams->_params->get( 'unique_itemid' ) ) {
+				if ( $this->_params->get( 'unique_itemid' ) ) {
 					$item->link .= '&Itemid='. $item->id;
 				} else {
 					$temp = split("&task=view&id=", $item->link);
