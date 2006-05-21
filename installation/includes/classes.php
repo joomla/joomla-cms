@@ -1022,6 +1022,12 @@ class JInstallationHelper
 		$archive = '';
 		$script = '';
 
+		/*
+		 * Check for iconv 
+		 */
+		if ($migration && !function_exists( 'iconv' ) ) {
+			return JText::_( 'WARNICONV' );
+		}
 		
 		/*
 		 * Get the uploaded file information
