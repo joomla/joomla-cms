@@ -248,17 +248,17 @@ class sections_html
 			<table width="100%">
 			<tr>
 				<td valign="top" width="60%">
-					<table class="adminform">
+					<table class="adminform" border="1">
 					<tr>
 						<th colspan="3">
 							<?php echo JText::_( 'Section Details' ); ?>
 						</th>
 					</tr>
 					<tr>
-						<td width="150">
+						<td width="100">
 							<?php echo JText::_( 'Scope' ); ?>:
 						</td>
-						<td width="85%" colspan="2">
+						<td colspan="2">
 							<strong>
 							<?php echo $row->scope; ?>
 							</strong>
@@ -288,8 +288,37 @@ class sections_html
 						<td>
 							<?php echo JText::_( 'Published' ); ?>:
 						</td>
-						<td>
+						<td colspan="2">
 							<?php echo $lists['published']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="ordering">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</label>
+						</td>
+						<td colspan="2">
+							<?php echo $lists['ordering']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td nowrap="nowrap" valign="top">
+							<label for="access">
+								<?php echo JText::_( 'Access Level' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['access']; ?>
+						</td>
+						<td rowspan="4" width="50%">
+							<?php
+								$path = $mainframe->getSiteURL() . "/images/";
+								if ($row->image != "blank.png") {
+									$path.= "stories/";
+								}
+							?>
+							<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -300,15 +329,6 @@ class sections_html
 						</td>
 						<td>
 							<?php echo $lists['image']; ?>
-						</td>
-						<td rowspan="4" width="50%">
-							<?php
-								$path = $mainframe->getSiteURL() . "/images/";
-								if ($row->image != "blank.png") {
-									$path.= "stories/";
-								}
-							?>
-							<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -322,30 +342,14 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<label for="ordering">
-								<?php echo JText::_( 'Ordering' ); ?>:
+						<td valign="top" colspan="2">
+							<label for="description">
+								<?php echo JText::_( 'Description' ); ?>:
 							</label>
-						</td>
-						<td>
-							<?php echo $lists['ordering']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" valign="top">
-							<label for="access">
-								<?php echo JText::_( 'Access Level' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['access']; ?>
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" colspan="3">
-							<label for="description">
-								<?php echo JText::_( 'Description' ); ?>:
-							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							echo $editor->display( 'description',  $row->description, '100%;', '300', '60', '20' ) ;

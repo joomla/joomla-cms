@@ -288,7 +288,7 @@ class categories_html
 					</tr>
 					<tr>
 						<td>
-							<label for="title">
+							<label for="title" width="100">
 								<?php echo JText::_( 'Category Title' ); ?>:
 							</label>
 						</td>
@@ -326,12 +326,22 @@ class categories_html
 					</tr>
 					<tr>
 						<td>
-							<label for="image">
-								<?php echo JText::_( 'Image' ); ?>:
+							<label for="ordering">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</label>
+						</td>
+						<td colspan="2">
+							<?php echo $lists['ordering']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<label for="access">
+								<?php echo JText::_( 'Access Level' ); ?>:
 							</label>
 						</td>
 						<td>
-							<?php echo $lists['image']; ?>
+							<?php echo $lists['access']; ?>
 						</td>
 						<td rowspan="4" width="50%">
 							<script language="javascript" type="text/javascript">
@@ -346,6 +356,16 @@ class categories_html
 					</tr>
 					<tr>
 						<td>
+							<label for="image">
+								<?php echo JText::_( 'Image' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['image']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<label for="image_position">
 								<?php echo JText::_( 'Image Position' ); ?>:
 							</label>
@@ -355,30 +375,14 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<label for="ordering">
-								<?php echo JText::_( 'Ordering' ); ?>:
+						<td valign="top" colspan="2">
+							<label for="description">
+								<?php echo JText::_( 'Description' ); ?>:
 							</label>
-						</td>
-						<td>
-							<?php echo $lists['ordering']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top">
-							<label for="access">
-								<?php echo JText::_( 'Access Level' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['access']; ?>
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" colspan="3">
-							<label for="description">
-								<?php echo JText::_( 'Description' ); ?>:
-							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							echo $editor->display( 'description',  $row->description, '100%;', '300', '60', '20' ) ;
