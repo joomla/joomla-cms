@@ -66,8 +66,7 @@ class HTML_menumanager
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-
-		<div id="pane-document">
+		
 			<table class="adminlist">
 			<thead>
 				<tr>
@@ -168,7 +167,6 @@ class HTML_menumanager
 			?>
 			</tbody>
 			</table>
-		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />

@@ -103,11 +103,6 @@ class JInstallerScreens_component {
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
 
-		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
-		</div>
-
-		<div id="pane-document">
 			<?php
 				if (count($rows)) {
 				?>
@@ -193,8 +188,7 @@ class JInstallerScreens_component {
 				echo JText::_( 'There are no custom components installed' );
 			}
 			?>
-		</div>
-
+		
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_installer" />

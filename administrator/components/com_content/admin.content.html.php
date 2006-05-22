@@ -44,7 +44,6 @@ class ContentView
 		?>
 		<form action="index2.php?option=com_content" method="post" name="adminForm">
 
-		<div id="pane-document">
 			<table>
 				<tr>
 					<td width="100%">
@@ -253,7 +252,6 @@ class ContentView
 			</tbody>
 			</table>
 			<?php mosCommonHTML::ContentLegend(); ?>
-		</div>
 
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />

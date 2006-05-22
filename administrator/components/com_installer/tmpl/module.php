@@ -120,11 +120,6 @@ class JInstallerScreens_module {
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=module" method="post" name="adminForm">
 
-		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
-		</div>
-
-		<div id="pane-document">
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -213,7 +208,6 @@ class JInstallerScreens_module {
 				echo JText::_( 'No custom modules installed' );
 			}
 			?>
-		</div>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

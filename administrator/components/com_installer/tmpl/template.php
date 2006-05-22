@@ -166,11 +166,6 @@ class JInstallerScreens_template
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'navigation.html'); ?>
-		</div>
-
-		<div id="pane-document">
 				<table class="adminform">
 				<tr>
 					<td width="100%">
@@ -259,7 +254,6 @@ class JInstallerScreens_template
 				echo JText::_('No Installed Templates');
 			}
 			?>
-		</div>
 
 		<input type="hidden" name="extension" value="template" />
 		<input type="hidden" name="task" value="" />

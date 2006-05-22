@@ -55,12 +55,6 @@ class JTemplatesView
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<!--<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>-->
-
-		<div id="pane-document">
-
 			<table class="adminlist">
 			<thead>
 				<tr>
@@ -198,7 +192,6 @@ class JTemplatesView
 			?>
 			</tbody>
 			</table>
-	</div>
 
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
