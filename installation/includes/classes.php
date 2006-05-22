@@ -1470,9 +1470,9 @@ class JInstallationHelper
 		return false;
 	}
 	
-	function getDBErrors( &$errors, $db ) {
+	function getDBErrors( & $errors, $db ) {
 		if ($db->getErrorNum() > 0) {
-			$errors[] = array ('msg' => $db->getErrorMsg(), 'sql' => $query);
+			$errors[] = array('msg' => $db->getErrorMsg(), 'sql' => $db->_sql);
 		}
 	}
 	
