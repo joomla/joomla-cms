@@ -50,17 +50,17 @@ switch ($task) {
 	case 'newdir' :
 		$dirPath = JRequest::getVar( 'dirPath', '');
 		JMediaController::createFolder($dirPath);
-		JMediaController::showMedia($dirPath);
+		JMediaController::showMedia();
 		break;
 
 	case 'delete' :
 		JMediaController::deleteFile($folder);
-		JMediaController::showMedia($folder);
+		JMediaController::listMedia();
 		break;
 
 	case 'deletefolder' :
 		JMediaController::deleteFolder($folder);
-		JMediaController::showMedia($folder);
+		JMediaController::listMedia();
 		break;
 
 	case 'list' :
