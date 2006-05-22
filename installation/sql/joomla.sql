@@ -382,7 +382,6 @@ CREATE TABLE `#__menu_types` (
   PRIMARY KEY(`id`),
   UNIQUE `menutype`(`menutype`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
-TYPE = MYISAM;
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu');
 
