@@ -255,5 +255,15 @@ class JMenuHelper extends JObject {
 		}
 		return $result;
 	}
+
+	/**
+	 * Loads files required for menu items
+	 * @param string Item type
+	 */
+	function menuItem( $item ) {
+		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
+		include_once( $path . $item .'.class.php' );
+		include_once( $path . $item .'.menu.html.php' );
+	}
 }
 ?>

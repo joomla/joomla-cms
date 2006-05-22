@@ -17,7 +17,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 define( 'COM_MENUS', dirname( __FILE__ ) . DS );
-require_once( COM_MENUS . 'menus.class.php' );
+require_once( COM_MENUS . 'model.php' );
+require_once( COM_MENUS . 'helper.php' );
 require_once( COM_MENUS . 'admin.menus.html.php' );
 
 $id 		= JRequest::getVar( 'id', 0, '', 'int' );
@@ -709,7 +710,8 @@ function copyMenu( $option, $cid, $menutype ) {
 	$database->setQuery( $query );
 	$items = $database->loadObjectList();
 
-	$menuTypes 	= mosAdminMenus::menutypes();
+	$model		= &JModelMenu::getInstance();
+	$menuTypes 	= $model->getMenuTypes();
 
 	foreach ( $menuTypes as $menuType ) {
 		$menu[] = mosHTML::makeOption( $menuType, $menuType );

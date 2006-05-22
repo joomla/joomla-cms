@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-May-2006 Andrew Eddie
+ ^ mosAdminMenus::menuItem refactored to JMenuHelper::menuItem
+ ^ mosAdminMenus::menutypes refactored JModelMenu method
+ + Added table for menu types
+ ^ Refactored menu type manager
+ ^ Delete menu uses new popup technique
+
 19-May-2006 David Gal
  + Added automated content migration facility in installation 
 

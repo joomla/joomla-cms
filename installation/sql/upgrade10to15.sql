@@ -153,3 +153,28 @@ DELETE FROM `jos_modules` WHERE `title` = 'Components'
 
 #FF: 21-Apr-2006 
 DELETE FROM `jos_components` WHERE `title` = 'Syndicate'
+
+#AE: 22-May-2006
+
+CREATE TABLE `jos_menu_types` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `menutype` VARCHAR(75) NOT NULL DEFAULT '',
+  PRIMARY KEY(`id`),
+  UNIQUE `menutype`(`menutype`)
+) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+
+INSERT INTO `jos_menu_types` VALUES (1, 'mainmenu');
+
+INSERT INTO jos_menu_types (menutype)
+SELECT
+  SUBSTR(
+    params,
+    LOCATE('=', params, LOCATE('menutype',params))+1,
+    75
+    ) AS menutype
+FROM jos_modules
+WHERE module='mod_mainmenu'
+	AND params NOT LIKE '%menutype=mainmenu%';
+
+UPDATE jos_menu_types
+SET menutype = SUBSTR(menutype, 1, LOCATE('\n', menutype)-1);

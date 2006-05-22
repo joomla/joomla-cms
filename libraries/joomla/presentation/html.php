@@ -1659,83 +1659,19 @@ class mosAdminMenus
 		return $image;
 	}
 
+	/**
+	 * @deprecated Use getMenuTypes in JModelMenu class instead
+	 */
 	function menutypes() {
-		global $database;
-
-		$query = "SELECT params"
-		. "\n FROM #__modules"
-		. "\n WHERE module = 'mod_mainmenu'"
-		. "\n ORDER BY title"
-		;
-		$database->setQuery( $query	);
-		$modMenus = $database->loadObjectList();
-
-		$query = "SELECT menutype"
-		. "\n FROM #__menu"
-		. "\n GROUP BY menutype"
-		. "\n ORDER BY menutype"
-		;
-		$database->setQuery( $query	);
-		$menuMenus = $database->loadObjectList();
-
-		$menuTypes = '';
-		foreach ( $modMenus as $modMenu ) {
-			$check = 1;
-			mosMakeHtmlSafe( $modMenu) ;
-
-			$registry = new JRegistry();
-			$registry->loadINI($modMenu->params);
-			$modParams = $registry->toObject( );
-
-			$menuType 	= @$modParams->menutype;
-			if (!$menuType) {
-				$menuType = 'mainmenu';
-			}
-
-			// stop duplicate menutype being shown
-			if ( !is_array( $menuTypes) ) {
-				// handling to create initial entry into array
-				$menuTypes[] = $menuType;
-			} else {
-				$check = 1;
-				foreach ( $menuTypes as $a ) {
-					if ( $a == $menuType ) {
-						$check = 0;
-					}
-				}
-				if ( $check ) {
-					$menuTypes[] = $menuType;
-				}
-			}
-
-		}
-		// add menutypes from jos_menu
-		foreach ( $menuMenus as $menuMenu ) {
-			$check = 1;
-			foreach ( $menuTypes as $a ) {
-				if ( $a == $menuMenu->menutype ) {
-					$check = 0;
-				}
-			}
-			if ( $check ) {
-				$menuTypes[] = $menuMenu->menutype;
-			}
-		}
-
-		// sorts menutypes
-		asort( $menuTypes );
-
-		return $menuTypes;
+		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
 	}
 
-	/*
-	* loads files required for menu items
-	*/
-	function menuItem( $item ) {
-
-		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
-		include_once( $path . $item .'.class.php' );
-		include_once( $path . $item .'.menu.html.php' );
+	/**
+	 * @deprecated Use menuItem in JMenuHelper class instead
+	 */
+	function menuItem( $item )
+	{
+		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );
 	}
 }
 ?>

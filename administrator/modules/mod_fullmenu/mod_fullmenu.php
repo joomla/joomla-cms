@@ -68,7 +68,10 @@ class JFullAdminMenu {
 				}
 			}
 		}
-		$menuTypes = mosAdminMenus::menutypes();
+		// Menu Types
+		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
+		$menuModel	= &JModelMenu::getInstance();
+		$menuTypes 	= $menuModel->getMenuTypes();
 		?>
 		<div id="myMenuID"></div>
 		<script language="JavaScript" type="text/javascript">

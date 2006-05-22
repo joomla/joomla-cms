@@ -34,7 +34,9 @@ class JElement_Menu extends JElement
 	{
 		global $database;
 
-		$menuTypes = mosAdminMenus::menutypes();
+		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
+		$model		= &JModelMenu::getInstance();
+		$menuTypes 	= $model->getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {
 			$options[] = mosHTML::makeOption($menutype, $menutype);

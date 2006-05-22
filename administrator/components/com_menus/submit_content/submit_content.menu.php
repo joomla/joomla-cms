@@ -15,7 +15,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-mosAdminMenus::menuItem( $type );
+JMenuHelper::menuItem( $type );
 
 switch ($task) {
 	case 'submit_content_link':

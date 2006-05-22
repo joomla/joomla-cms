@@ -30,11 +30,30 @@ class HTML_menumanager
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+
+		$user		=& $mainframe->getUser();
+		$document	=& $mainframe->getDocument();
+
+		$document->addScript('../includes/js/joomla/popup.js');
+		$document->addStyleSheet('../includes/js/joomla/popup.css');
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
+		function submitbutton(task)
+		{
+			var f = document.adminForm;
+			if (task == 'deleteconfirm')
+			{
+				id = radioGetCheckedValue( f.cid );
+				document.popup.show('index3.php?option=com_menumanager&task=deleteconfirm&cid='+id, 700, 500, null);
+			}
+			else
+			{
+				submitform(task);
+			}
+		}
+
 		function menu_listItemTask( id, task, option ) {
 			var f = document.adminForm;
 			cb = eval( 'f.' + id );
@@ -75,6 +94,9 @@ class HTML_menumanager
 					<th width="15%">
 						<?php echo JText::_( 'NUM Modules' ); ?>
 					</th>
+					<th width="3%">
+						<?php echo JText::_( 'ID' ); ?>
+					</th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -95,19 +117,19 @@ class HTML_menumanager
 					$count = $page->limit;
 			for ($m = $start; $m < $start+$count; $m++) {
 				$menu = $menus[$m];
-				$link 	= 'index2.php?option=com_menumanager&amp;task=edit&amp;hidemainmenu=1&amp;menu='. $menu->type;
-				$linkA 	= 'index2.php?option=com_menus&amp;menutype='. $menu->type;
+				$link 	= 'index2.php?option=com_menumanager&amp;task=edit&amp;hidemainmenu=1&amp;menu='. $menu->menutype;
+				$linkA 	= 'index2.php?option=com_menus&amp;menutype='. $menu->menutype;
 				?>
 				<tr class="<?php echo "row". $k; ?>">
 					<td align="center" width="30">
 						<?php echo $i + 1 + $page->limitstart;?>
 					</td>
 					<td width="30" align="center">
-						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $menu->type; ?>" onclick="isChecked(this.checked);" />
+						<input type="radio" id="cb<?php echo $i;?>" name="cid" value="<?php echo $menu->id; ?>" onclick="isChecked(this.checked);" />
 					</td>
 					<td>
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Menu Name' ); ?>">
-							<?php echo $menu->type; ?></a>
+							<?php echo $menu->menutype; ?></a>
 					</td>
 					<td align="center">
 						<a href="<?php echo $linkA; ?>" title="<?php echo JText::_( 'Edit Menu Items' ); ?>">
@@ -131,6 +153,11 @@ class HTML_menumanager
 					<td align="center">
 						<?php
 						echo $menu->modules;
+						?>
+					</td>
+					<td align="center">
+						<?php
+						echo $menu->id;
 						?>
 					</td>
 				</tr>
@@ -160,7 +187,7 @@ class HTML_menumanager
 	{
 		mosCommonHTML::loadOverlib();
 
-		$new = $row->menutype ? 0 : 1;
+		$isNew = ($row->id == 0);
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -179,7 +206,7 @@ class HTML_menumanager
 					return;
 				}
 				<?php
-				if ( $new ) {
+				if ($isNew) {
 					?>
 					if ( form.title.value == '' ) {
 						alert( '<?php echo JText::_( 'Please enter a module name for your menu', true ); ?>' );
@@ -198,22 +225,22 @@ class HTML_menumanager
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table class="adminform">
-		<tr height="45;">
-			<td width="100" >
-				<label for="menutype">
-					<strong><?php echo JText::_( 'Menu Name' ); ?>:</strong>
-				</label>
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
-				<?php
-				$tip = JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' );
-				echo mosToolTip( $tip );
-				?>
-			</td>
-		</tr>
+			<tr height="45;">
+				<td width="100" >
+					<label for="menutype">
+						<strong><?php echo JText::_( 'Menu Name' ); ?>:</strong>
+					</label>
+				</td>
+				<td>
+					<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
+					<?php
+					$tip = JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' );
+					echo mosToolTip( $tip );
+					?>
+				</td>
+			</tr>
 		<?php
-		if ( $new ) {
+		if ($isNew) {
 			?>
 			<tr>
 				<td width="100"  valign="top">
@@ -222,7 +249,7 @@ class HTML_menumanager
 					</label>
 				</td>
 				<td>
-					<input class="inputbox" type="text" name="title" id="title" size="30" value="<?php echo $row->title ? $row->title : '';?>" />
+					<input class="inputbox" type="text" name="title" id="title" size="30" value="" />
 					<?php
 					$tip = JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' );
 					echo mosToolTip( $tip );
@@ -238,34 +265,14 @@ class HTML_menumanager
 			<?php
 		}
 		?>
-		<tr>
-			<td colspan="2">
-			</td>
-		</tr>
 		</table>
-		<br /><br />
 
-		<?php
-		if ( $new ) {
-			?>
-			<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
-			<input type="hidden" name="iscore" value="<?php echo $row->iscore; ?>" />
-			<input type="hidden" name="published" value="<?php echo $row->published; ?>" />
-			<input type="hidden" name="position" value="<?php echo $row->position; ?>" />
-			<input type="hidden" name="module" value="mod_mainmenu" />
-			<input type="hidden" name="params" value="<?php echo $row->params; ?>" />
-			<?php
-		}
-		?>
-
-		<input type="hidden" name="new" value="<?php echo $new; ?>" />
-		<input type="hidden" name="old_menutype" value="<?php echo $row->menutype; ?>" />
+		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="savemenu" />
-		<input type="hidden" name="boxchecked" value="0" />
 		</form>
-		<?php
-		}
+	<?php
+	}
 
 
 	/**
@@ -273,12 +280,102 @@ class HTML_menumanager
 	* Writes list of the items that have been selected for deletion
 	*/
 	function showDelete( $option, $type, $items, $modules ) {
+		global $mainframe;
+
+		$document	=& $mainframe->getDocument();
+		$document->addStyleSheet('templates/_system/css/popup.css');
+		$document->setTitle('Confirm Delete Menu Type: ' . $type->menutype );
+
 		?>
+	<form action="index2.php" method="post" name="adminForm" target="_top">
+		<fieldset>
+			<div style="float: right">
+				<button type="button" onclick="if (confirm('<?php echo str_replace( "\n", '\n', JText::_( 'WARNWANTDELTHISMENU' ) ); ?>')){ submitbutton('deletemenu');};window.top.document.popup.hide();">
+					Delete</button>
+				<button type="button" onclick="window.top.document.popup.hide();">
+					<?php echo JText::_( 'Cancel' );?></button>
+		    </div>
+		</fieldset>
+
+		<div>
+			<?php echo JText::_( '* This will' ); ?> <strong><font color="#FF0000"><?php echo JText::_( 'Delete' ); ?></font></strong> <?php echo JText::_( 'this Menu,' ); ?> <br /><?php echo JText::_( 'DESCALLMENUITEMS' ); ?>
+			<div style="width:30%;float:left">
+				<?php
+				if ( $modules ) {
+					?>
+					<strong><?php echo JText::_( 'Module(s) being Deleted' ); ?>:</strong>
+					<ol>
+					<?php
+					foreach ( $modules as $module ) {
+						if ($module->id == 0)
+						{
+							continue;
+						}											
+						?>
+						<li>
+						<?php echo $module->title; ?>
+						</li>
+						<input type="hidden" name="cid[]" value="<?php echo $module->id; ?>" />
+						<?php
+					}
+					?>
+					</ol>
+					<?php
+				}
+				?>
+			</div>
+			<div style="width:30%;float:left">
+				<strong><?php echo JText::_( 'Menu Items being Deleted' ); ?>:</strong>
+				<ol>
+				<?php
+				foreach ( $items as $item ) {
+					?>
+					<li>
+						<?php echo $item->name; ?>
+					</li>
+					<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
+					<?php
+				}
+				?>
+				</ol>
+			</div>
+
+			<div class="clr"></div>
+		</div>
+
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="type" value="<?php echo $type; ?>" />
+		<input type="hidden" name="boxchecked" value="1" />
+	</form>
+		<?php
+	}
+
+	/**
+	* A delete confirmation page
+	* Writes list of the items that have been selected for deletion
+	*/
+	function showDelete_orig( $option, $type, $items, $modules ) {
+		global $mainframe;
+
+		$document	=& $mainframe->getDocument();
+		$document->addStyleSheet('templates/_system/css/popup.css');
+		$document->setTitle('Confirm Delete Menu Type: ' . $type->menutype );
+
+		?>
+		<fieldset>
+			<div style="float: right">
+				<button type="button" onclick="alert('todo');window.top.document.popup.hide();">
+					Delete</button>
+				<button type="button" onclick="window.top.document.popup.hide();">
+					<?php echo JText::_( 'Cancel' );?></button>
+		    </div>
+		</fieldset>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<th>
-				<?php echo JText::_( 'Delete Menu' ); ?>: <?php echo $type;?>
+				<?php echo JText::_( 'Delete Menu' ); ?>: <?php echo $type->menutype;?>
 			</th>
 		</tr>
 		</table>
@@ -295,13 +392,13 @@ class HTML_menumanager
 					<ol>
 					<?php
 					foreach ( $modules as $module ) {
+						if ($module->id == 0)
+						{
+							continue;
+						}											
 						?>
 						<li>
-						<font color="#000066">
-						<strong>
 						<?php echo $module->title; ?>
-						</strong>
-						</font>
 						</li>
 						<input type="hidden" name="cid[]" value="<?php echo $module->id; ?>" />
 						<?php
@@ -314,15 +411,12 @@ class HTML_menumanager
 			</td>
 			<td  valign="top" width="25%">
 				<strong><?php echo JText::_( 'Menu Items being Deleted' ); ?>:</strong>
-				<br />
 				<ol>
 				<?php
 				foreach ( $items as $item ) {
 					?>
 					<li>
-						<font color="#000066">
 						<?php echo $item->name; ?>
-						</font>
 					</li>
 					<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
 					<?php
@@ -353,7 +447,6 @@ class HTML_menumanager
 		</form>
 		<?php
 	}
-
 
 	/**
 	* A copy confirmation page

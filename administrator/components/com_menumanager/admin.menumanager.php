@@ -29,18 +29,12 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 $menu 		= JRequest::getVar( 'menu', '', 'get' );
 $task 		= JRequest::getVar( 'task' );
 $type 		= JRequest::getVar( 'type', '', 'post' );
-$cid 		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$cid 		= JRequest::getVar( 'cid', 0, 'post', 'int' );
 
 switch ($task) {
 	case 'new':
-		editMenu( $option, '' );
-		break;
-
 	case 'edit':
-		if ( !$menu ) {
-			$menu = $cid[0];
-		}
-		editMenu( $option, $menu );
+		editMenu( $option );
 		break;
 
 	case 'savemenu':
@@ -48,15 +42,15 @@ switch ($task) {
 		break;
 
 	case 'deleteconfirm':
-		deleteconfirm( $option, $cid[0] );
+		deleteconfirm( $option );
 		break;
 
-	case 'deletemenu':
+	/* case 'deletemenu':
 		deleteMenu( $option, $cid, $type );
-		break;
+		break;*/
 
 	case 'copyconfirm':
-		copyConfirm( $option, $cid[0] );
+		copyConfirm( $option, $cid );
 		break;
 
 	case 'copymenu':
@@ -72,29 +66,63 @@ switch ($task) {
 		break;
 }
 
-
 /**
-* Compiles a list of menumanager items
-*/
+ * Controller for view listing menu types and related statical info
+ * @param string The URL option
+ */
 function showMenu( $option )
 {
+	// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
+	require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
+
 	global $database, $mainframe;
 
 	$menus		= array();
 	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
 	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-	$menuTypes 	= mosAdminMenus::menutypes();
+	// Preselect some aggregate data
+
+	// Query to get published menu item counts
+	$query = "SELECT a.menutype, COUNT( a.menutype ) AS num"
+	. "\n FROM #__menu AS a"
+	. "\n WHERE a.published = 1"
+	. "\n GROUP BY a.menutype"
+	;
+	$database->setQuery( $query );
+	$published = $database->loadObjectList( 'menutype' );
+
+	// Query to get unpublished menu item counts
+	$query = "SELECT a.menutype, COUNT( a.menutype ) AS num"
+	. "\n FROM #__menu AS a"
+	. "\n WHERE a.published = 0"
+	. "\n GROUP BY a.menutype"
+	;
+	$database->setQuery( $query );
+	$unpublished = $database->loadObjectList( 'menutype' );
+
+	// Query to get trash menu item counts
+	$query = "SELECT a.menutype, COUNT( a.menutype ) AS num"
+	. "\n FROM #__menu AS a"
+	. "\n WHERE a.published = -2"
+	. "\n GROUP BY a.menutype"
+	;
+	$database->setQuery( $query );
+	$trash = $database->loadObjectList( 'menutype' );
+
+	$model		= &JModelMenu::getInstance();
+	$menuTypes 	= $model->getMenuTypeList();
+
 	$total		= count( $menuTypes );
 	$i			= 0;
-	foreach ( $menuTypes as $a ) {
-		$menus[$i]->type 		= $a;
+	for ($i = 0;  $i < $total; $i++) {
+		$row = &$menuTypes[$i];
 
 		// query to get number of modules for menutype
 		$query = "SELECT count( id )"
 		. "\n FROM #__modules"
 		. "\n WHERE module = 'mod_mainmenu'"
-		. "\n AND params LIKE '%$a%'"
+		. "\n AND params LIKE '%" . $row->menutype . "%'"
 		;
 		$database->setQuery( $query );
 		$modules = $database->loadResult();
@@ -102,283 +130,201 @@ function showMenu( $option )
 		if ( !$modules ) {
 			$modules = '-';
 		}
-		$menus[$i]->modules = $modules;
-
-		$i++;
-	}
-
-	// Query to get published menu item counts
-	$query = "SELECT a.menutype, count( a.menutype ) as num"
-	. "\n FROM #__menu AS a"
-	. "\n WHERE a.published = 1"
-	. "\n GROUP BY a.menutype"
-	. "\n ORDER BY a.menutype"
-	;
-	$database->setQuery( $query );
-	$published = $database->loadObjectList();
-
-	// Query to get unpublished menu item counts
-	$query = "SELECT a.menutype, count( a.menutype ) as num"
-	. "\n FROM #__menu AS a"
-	. "\n WHERE a.published = 0"
-	. "\n GROUP BY a.menutype"
-	. "\n ORDER BY a.menutype"
-	;
-	$database->setQuery( $query );
-	$unpublished = $database->loadObjectList();
-
-	// Query to get trash menu item counts
-	$query = "SELECT a.menutype, count( a.menutype ) as num"
-	. "\n FROM #__menu AS a"
-	. "\n WHERE a.published = -2"
-	. "\n GROUP BY a.menutype"
-	. "\n ORDER BY a.menutype"
-	;
-	$database->setQuery( $query );
-	$trash = $database->loadObjectList();
-
-	for( $i = 0; $i < $total; $i++ ) {
-		// adds published count
-		foreach ( $published as $count ) {
-			if ( $menus[$i]->type == $count->menutype ) {
-				$menus[$i]->published = $count->num;
-			}
-		}
-		if ( @!$menus[$i]->published ) {
-			$menus[$i]->published = '-';
-		}
-		// adds unpublished count
-		foreach ( $unpublished as $count ) {
-			if ( $menus[$i]->type == $count->menutype ) {
-				$menus[$i]->unpublished = $count->num;
-			}
-		}
-		if ( @!$menus[$i]->unpublished ) {
-			$menus[$i]->unpublished = '-';
-		}
-		// adds trash count
-		foreach ( $trash as $count ) {
-			if ( $menus[$i]->type == $count->menutype ) {
-				$menus[$i]->trash = $count->num;
-			}
-		}
-		if ( @!$menus[$i]->trash ) {
-			$menus[$i]->trash = '-';
-		}
+		$row->modules		= $modules;
+		$row->published		= @$published[$row->menutype]->num ? $published[$row->menutype]->num : '-' ;
+		$row->unpublished	= @$unpublished[$row->menutype]->num ? $unpublished[$row->menutype]->num : '-';
+		$row->trash			= @$trash[$row->menutype]->num ? $trash[$row->menutype]->num : '-';
 	}
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	HTML_menumanager::show( $option, $menus, $pageNav );
+	HTML_menumanager::show( $option, $menuTypes, $pageNav );
 }
 
 
 /**
-* Edits a mod_mainmenu module
-*
-* @param option	options for the edit mode
-* @param cid	menu id
-*/
-function editMenu( $option, $menu ) {
-	global $database;
+ * Controller for view to create or edit a menu type
+ * @param string The URL option
+ */
+function editMenu( $option ) {
+	global $database, $task;
 
-	if( $menu ) {
-		$row->menutype 	= $menu;
-	} else {
-		$row =& JTable::getInstance('module', $database );
-		// setting default values
-		$row->menutype 	= '';
-		$row->iscore 	= 0;
-		$row->published = 0;
-		$row->position 	= 'left';
-		$row->module 	= 'mod_mainmenu';
+	$id	= (int) JRequest::getVar( 'cid', 0 );
+
+	if ($task == 'new')
+	{
+		$id = 0;
 	}
 
-	HTML_menumanager::edit( $row, $option );
+	jimport( 'joomla.database.table.menutypes' );
+
+	$menuType = new JTableMenuTypes( $database );
+	$menuType->load( $id );
+
+	HTML_menumanager::edit( $menuType, $option );
 }
 
 /**
-* Creates a new mod_mainmenu module, which makes the menu visible
-* this is a workaround until a new dedicated table for menu management can be created
-*/
+ * Controller for saving a menu type
+ */
 function saveMenu() {
 	global $database;
 
-	$menutype 		= JRequest::getVar( 'menutype', '', 'post' );
-	$old_menutype 	= JRequest::getVar( 'old_menutype', '', 'post' );
-	$new			= JRequest::getVar( 'new', 1, 'post', 'int' );
+	$id		= (int) JRequest::getVar( 'id', 0 );
+
+	$oldType = new JTableMenuTypes( $database );
+	$oldType->load( $id );
+
+	$menuType = new JTableMenuTypes( $database );
+	$menuType->bind( $_POST );
+
+	$isNew		= ($menuType->id == 0);
+	$isChanged	= ($oldType->menutype != $menuType->menutype);
 
 	// block to stop renaming of 'mainmenu' menutype
-	if ( $old_menutype == 'mainmenu' ) {
-		if ( $menutype <> 'mainmenu' ) {
-			echo "<script> alert('". JText::_( 'WARNMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
-			exit;
-		}
+	if ($oldType->menutype == 'mainmenu' && $isChanged) {
+		josErrorAlert( JText::_( 'WARNMAINMENU', true ) );
 	}
 
-	// check for ' in menu name
-	if (strstr($menutype, '\'')) {
-		echo "<script> alert('". JText::_( 'The menu name cannot contain a \'', true ) ."'); window.history.go(-1); </script>\n";
+	if (!$menuType->check()) {
+		josErrorAlert( $menuType->getError() );
 		exit;
 	}
 
-	// check for unique menutype for new menus
-	$query = "SELECT params"
-	. "\n FROM #__modules"
-	. "\n WHERE module = 'mod_mainmenu'"
-	;
-	$database->setQuery( $query );
-	$menus = $database->loadResultArray();
-	foreach ( $menus as $menu ) {
-		$params = mosParseParams( $menu );
-		if ( $params->menutype == $menutype ) {
-			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS', true ) ."'); window.history.go(-1); </script>\n";
-			exit;
-		}
+	if (!$menuType->store())
+	{
+		josErrorAlert( $menuType->getError() );
+		exit;
 	}
 
-	switch ( $new ) {
-		case 1:
-		// create a new module for the new menu
-			$row =& JTable::getInstance('module', $database );
-			$row->bind( $_POST );
+	if ($isNew) {
+		$title = JRequest::getVar( 'title', $menuType->menutype, 'post' );
 
-			$row->params = 'menutype='. $menutype;
+		$module =& JTable::getInstance( 'module', $database );
+		$module->title 		= $title;
+		$module->position 	= 'left';
+		$module->module 	= 'mod_mainmenu';
+		$module->published	= 0;
+		$module->iscore 	= 0;
+		$module->params		= 'menutype='. $menuType->menutype;
+
+		// check then store data in db
+		if (!$module->check()) {
+			josErrorAlert( $module->getError() );
+			exit();
+		}
+		if (!$module->store()) {
+			josErrorAlert( $module->getError() );
+			exit();
+		}
+		$module->checkin();
+		$module->reorder( "position='". $module->position ."'" );
+
+		// module assigned to show on All pages by default
+		// ToDO: Changed to become a Joomla! db-object
+		$query = "INSERT INTO #__modules_menu VALUES ( $module->id, 0 )";
+		$database->setQuery( $query );
+		if ( !$database->query() ) {
+			josErrorAlert( $database->getErrorMsg() );
+			exit();
+		}
+
+    	$msg = sprintf( JText::_( 'New Menu created' ), $menuType->menutype );
+	}
+	else if ($isChanged)
+	{
+		$oldTerm = 'menutype=' . $oldType->menutype;
+		$newTerm = 'menutype=' . $menuType->menutype;
+
+		// change menutype being of all mod_mainmenu modules calling old menutype
+		$query = "SELECT id"
+		. "\n FROM #__modules"
+		. "\n WHERE module = 'mod_mainmenu'"
+		. "\n AND params LIKE '%menutype=$oldTerm%'"
+		;
+		$database->setQuery( $query );
+		$modules = $database->loadResultArray();
+
+		foreach ($modules as $id) {
+			$row =& JTable::getInstance('module', $database );
+			$row->load( $id );
+
+			$row->params = str_replace( $oldTerm, $newTerm, $row->params );
 
 			// check then store data in db
-			if (!$row->check()) {
-				echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			if ( !$row->check() ) {
+				josErrorAlert( $row->getError() );
 				exit();
 			}
-			if (!$row->store()) {
-				echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			if ( !$row->store() ) {
+				josErrorAlert( $row->getError() );
 				exit();
 			}
-
 			$row->checkin();
-			$row->reorder( "position='". $row->position ."'" );
-
-			// module assigned to show on All pages by default
-			// ToDO: Changed to become a Joomla! db-object
-			$query = "INSERT INTO #__modules_menu VALUES ( $row->id, 0 )";
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-
-        	$msg = sprintf( JText::_( 'New Menu created' ), $menutype );
-			break;
-
-		default:
-		// change menutype being of all mod_mainmenu modules calling old menutype
-			$query = "SELECT id"
-			. "\n FROM #__modules"
-			. "\n WHERE module = 'mod_mainmenu'"
-			. "\n AND params LIKE '%$old_menutype%'"
-			;
-			$database->setQuery( $query );
-			$modules = $database->loadResultArray();
-
-			foreach ( $modules as $module ) {
-				$row =& JTable::getInstance('module', $database );
-				$row->load( $module );
-
-				$save = 0;
-				$params = mosParseParams( $row->params );
-				if ( $params->menutype == $old_menutype ) {
-					$params->menutype 	= $menutype;
-					$save 				= 1;
-				}
-
-				// save changes to module 'menutype' param
-				if ( $save ) {
-					$txt = array();
-					foreach ( $params as $k=>$v) {
-						$txt[] = "$k=$v";
-					}
-					$row->params = implode( "\n", $txt );
-
-					// check then store data in db
-					if ( !$row->check() ) {
-						echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-						exit();
-					}
-					if ( !$row->store() ) {
-						echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-						exit();
-					}
-
-					$row->checkin();
-				}
-			}
+		}
 
 		// change menutype of all menuitems using old menutype
-			if ( $menutype <> $old_menutype ) {
-				$query = "UPDATE #__menu"
-				. "\n SET menutype = '$menutype'"
-				. "\n WHERE menutype = '$old_menutype'"
-				;
-				$database->setQuery( $query );
-				$database->query();
-			}
+		$query = "UPDATE #__menu"
+		. "\n SET menutype = '$menutype'"
+		. "\n WHERE menutype = '$old_menutype'"
+		;
+		$database->setQuery( $query );
+		$database->query();
 
-			$msg = JText::_( 'Menu Items & Modules updated' );
-			break;
+		$msg = JText::_( 'Menu Items & Modules updated' );
 	}
 
 	josRedirect( 'index2.php?option=com_menumanager', $msg );
 }
 
 /**
-* Compiles a list of the items you have selected to permanently delte
-*/
-function deleteConfirm( $option, $type ) {
+ * Controller for a view to confirm the deletion of a menu type
+ */
+function deleteConfirm( $option ) {
 	global $database;
 
-	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('". JText::_( 'WARNDELMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
+	$id		= (int) JRequest::getVar( 'cid', 0 );
+
+	jimport( 'joomla.database.table.menutypes' );
+
+	$menuType = new JTableMenuTypes( $database );
+	$menuType->load( $id );
+
+	if ($menuType->menutype == 'mainmenu') {
+		josErrorAlert( JText::_( 'WARNDELMAINMENU', true ) );
 		exit();
 	}
 
 	// list of menu items to delete
 	$query = "SELECT a.name, a.id"
 	. "\n FROM #__menu AS a"
-	. "\n WHERE ( a.menutype IN ( '$type' ) )"
+	. "\n WHERE a.menutype = '$menuType->menutype'"
 	. "\n ORDER BY a.name"
 	;
 	$database->setQuery( $query );
-	$items = $database->loadObjectList();
+	$menuItems = $database->loadObjectList();
 
 	// list of modules to delete
-	$query = "SELECT id"
+	$query = "SELECT id, title, params"
 	. "\n FROM #__modules"
 	. "\n WHERE module = 'mod_mainmenu'"
-	. "\n AND params LIKE '%$type%'"
+	. "\n AND params LIKE '%menutype=$menuType->menutype%'"
 	;
 	$database->setQuery( $query );
-	$mods = $database->loadResultArray();
+	$modules = $database->loadObjectList();
 
-	foreach ( $mods as $module ) {
-		$row =& JTable::getInstance('module', $database );
-		$row->load( $module );
-
-		$params = mosParseParams( $row->params );
-		if ( $params->menutype == $type ) {
-			$mid[] = $module;
+	$n = count( $modules );
+	for ($i = 0; $i < $n; $i++)
+	{
+		$params = new JParameter( $modules[$i]->params );
+		if ($params->get( 'menutype' ) != $menuType->menutype)
+		{
+			 $modules[$i]->id = 0;
 		}
 	}
 
-	@$mids = implode( ',', $mid );
-	$query = "SELECT id, title"
-	. "\n FROM #__modules"
-	. "\n WHERE id IN ( $mids )"
-	;
-	$database->setQuery( $query );
-	@$modules = $database->loadObjectList();
-
-	HTML_menumanager::showDelete( $option, $type, $items, $modules );
+	HTML_menumanager::showDelete( $option, $menuType, $menuItems, $modules );
 }
 
 /**
@@ -388,7 +334,7 @@ function deleteMenu( $option, $cid, $type ) {
 	global $database;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('". JText::_( 'WARNDELMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
+		josErrorAlert( JText::_( 'WARNDELMAINMENU', true ) );
 		exit();
 	}
 
@@ -403,7 +349,7 @@ function deleteMenu( $option, $cid, $type ) {
 	;
 	$database->setQuery( $query );
 	if ( !$database->query() ) {
-		echo "<script> alert('". $database->getErrorMsg() ."');</script>\n";
+		josErrorAlert( $database->getErrorMsg() );
 		exit;
 	}
 
@@ -421,7 +367,7 @@ function deleteMenu( $option, $cid, $type ) {
 		;
 		$database->setQuery( $query );
 		if ( !$database->query() ) {
-			echo "<script> alert('". $database->getErrorMsg() ."'); window.history.go(-1); </script>\n";
+			josErrorAlert( $database->getErrorMsg() );
 			exit;
 		}
 		// delete all module entires in jos_modules_menu
@@ -430,7 +376,7 @@ function deleteMenu( $option, $cid, $type ) {
 		;
 		$database->setQuery( $query );
 		if ( !$database->query() ) {
-			echo "<script> alert('". $database->getErrorMsg() ."');</script>\n";
+			josErrorAlert( $database->getErrorMsg() );
 			exit;
 		}
 
@@ -484,7 +430,7 @@ function copyMenu( $option, $cid, $type ) {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menu_name ) {
-			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS', true ) ."'); window.history.go(-1); </script>\n";
+			josErrorAlert( JText::_( 'ERRORMENUNAMEEXISTS', true ) );
 			exit;
 		}
 	}
@@ -505,11 +451,11 @@ function copyMenu( $option, $cid, $type ) {
 		$copy->menutype = $menu_name;
 
 		if ( !$copy->check() ) {
-			echo "<script> alert('".$copy->getError()."'); window.history.go(-1); </script>\n";
+			josErrorAlert( $copy->getError() );
 			exit();
 		}
 		if ( !$copy->store() ) {
-			echo "<script> alert('".$copy->getError()."'); window.history.go(-1); </script>\n";
+			josErrorAlert( $copy->getError() );
 			exit();
 		}
 		$a_ids[$original->id] = $copy->id;
@@ -526,11 +472,11 @@ function copyMenu( $option, $cid, $type ) {
 	$row->params 	= 'menutype='. $menu_name;
 
 	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		josErrorAlert( $row->getError() );
 		exit();
 	}
 	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		josErrorAlert( $row->getError() );
 		exit();
 	}
 	$row->checkin();

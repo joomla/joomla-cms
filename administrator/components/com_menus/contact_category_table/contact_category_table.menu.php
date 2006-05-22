@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-mosAdminMenus::menuItem( $type );
+JMenuHelper::menuItem( $type );
 
 switch ($task) {
 	case 'contact_category_table':

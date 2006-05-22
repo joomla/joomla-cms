@@ -90,6 +90,14 @@ INSERT INTO `#__menu` VALUES (24, 'usermenu', 'Logout', 'index.php?option=com_lo
 INSERT INTO `#__menu` VALUES (25, 'mainmenu', '1.5 Development Cycle', 'index.php?option=com_content&task=view&id=12', 'content_typed', 1, 0, 12, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=-1\nsecure=0\n\n', '', '', '', '', 0, 0);
 
 #
+# Dumping data for table `#__menu_types`
+#
+
+INSERT INTO `#__menu_types` VALUES (2, 'usermenu');
+INSERT INTO `#__menu_types` VALUES (3, 'topmenu');
+INSERT INTO `#__menu_types` VALUES (4, 'othermenu');
+
+#
 # Dumping data for table `#__newsfeeds`
 #
 

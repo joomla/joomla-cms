@@ -175,19 +175,30 @@ function getSelectedRadio( frmName, srcGroupName ) {
 	var form = eval( 'document.' + frmName );
 	var srcGroup = eval( 'form.' + srcGroupName );
 
-	if (srcGroup[0]) {
-		for (var i=0, n=srcGroup.length; i < n; i++) {
-			if (srcGroup[i].checked) {
-				return srcGroup[i].value;
-			}
-		}
-	} else {
-		if (srcGroup.checked) {
-			return srcGroup.value;
-		} // if the one button is checked, return zero
+	return radioGetCheckedValue( srcGroup );
+}
+
+// return the value of the radio button that is checked
+// return an empty string if none are checked, or
+// there are no radio buttons
+function radioGetCheckedValue(radioObj) {
+	if (!radioObj) {
+		return '';
 	}
-   // if we get to this point, no radio button is selected
-   return null;
+	var n = radioObj.length;
+	if (n == undefined) {
+		if (radioObj.checked) {
+			return radioObj.value;
+		} else {
+			return '';
+		}
+	}
+	for (var i = 0; i < n; i++) {
+		if(radioObj[i].checked) {
+			return radioObj[i].value;
+		}
+	}
+	return '';
 }
 
 function getSelectedValue( frmName, srcListName ) {

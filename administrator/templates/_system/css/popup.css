@@ -1,0 +1,106 @@
+/**
+ * @version $Id:  $
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+
+/**
+ * JImageManager javascript behavior styling
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+html,body {
+	background-color: #F0F0F0;
+	color: ButtonText;
+	font: 11px Tahoma, Verdana, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	border: 0 none;
+}
+
+form {
+	padding: 0px;
+	margin: 0 auto;
+	width: 550px;
+	padding-top: 5px;
+}
+
+fieldset {
+	margin-top: 0.5em;
+	border: 1px solid #CCCCCC;
+	padding-top: 10px;
+}
+
+button {
+	padding: 3px;
+	border: 1px solid #CCCCCC;
+	font-weight: bold;
+	color: #0B55C4;
+	background-color: white;
+}
+
+button:hover {
+	border: 1px solid #0B55C4;
+}
+
+select,input,button {
+	font: 11px Tahoma, Verdana, sans-serif;
+}
+
+iframe {
+	width: 100%;
+	overflow-x: false;
+	border: 0 none;
+	height: 174px;
+	margin: 0;
+	padding: 0;
+	margin-top: 0.5em;
+}
+
+a {
+	padding: 5px;
+	border: 1px solid ButtonFace;
+}
+
+a:hover {
+	border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+}
+
+.buttons {
+	width: 70px;
+	text-align: center;
+}
+
+#f_alt,#f_url {
+	width: 22em;
+}
+
+#messages {
+	position: relative;
+	left: 175px;
+	top: 115px;
+	background-color: white;
+	width: 200px;
+	float: left;
+	margin-top: -52px;
+	border: 1px solid #ccc;
+	text-align: center;
+	padding: 15px;
+}
+
+#message {
+	font-size: 15px;
+	font-weight: bold;
+	color: #69c;
+}
