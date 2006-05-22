@@ -100,7 +100,7 @@ function pollresult() {
 
 	// if id value is passed and poll not published then exit
 	if ($poll->id > 0 && $poll->published != 1) {
-		mosNotAuth();
+		JError::raiseError( 403, JText::_('Access Forbidden') );
 		return;
 	}
 

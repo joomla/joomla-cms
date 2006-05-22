@@ -177,7 +177,8 @@ function saveRegistration()
 		$user->set('block', '1');
 	}
 
-	$pwd = $user->get('password');
+	// retrieving the uncrypted password for notification
+	$pwd = JRequest::getVar( 'password' );
 	$user->set('registerDate', date('Y-m-d H:i:s'));
 
 	if (!$user->save()) {

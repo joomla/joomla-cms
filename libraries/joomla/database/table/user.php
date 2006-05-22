@@ -131,8 +131,9 @@ class JTableUser extends JTable
 
 	function store( $updateNulls=false )
 	{
-		global $acl, $migrate;
-
+		global $migrate;
+		$acl =& JFactory::getACL();
+		
 		$section_value = 'users';
 
 		$k = $this->_tbl_key;

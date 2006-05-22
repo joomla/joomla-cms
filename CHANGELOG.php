@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-May-2006 Alex Kempkens
+ # Fixed [artf4240] : Registration confirmation email broken: password
+ ! [task2359] : Refactoring completed
+ ^ [task2519] : getInstance refactored in order to make sure only one instance is created
+ 
+
 22-May-2006 Andrew Eddie
  ^ mosAdminMenus::menuItem refactored to JMenuHelper::menuItem
  ^ mosAdminMenus::menutypes refactored JModelMenu method
@@ -48,7 +54,7 @@ Legend:
  + Added automated content migration facility in installation 
 
 18-May-2006 Johan Janssens
- # Fixed artf4497 : moofx sliders leave controls visible (Mac OS)
+ # Fixed [artf4497] : moofx sliders leave controls visible (Mac OS)
  - Removed image add/edit functionality from content edit page 
  + Implemented modal image manager for easy inserting of images into the editor
  ^ Implemented modal popup for previewing content items

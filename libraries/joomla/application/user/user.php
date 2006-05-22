@@ -102,7 +102,14 @@ class JUser extends JObject
 		}
 
 		if (empty ($instances[$id])) {
-			$instances[ $id ] = new JUser($id);
+			$user = new JUser($id);
+			if( is_string( $id ) ) {
+				$id = $user->get( 'id' );
+			}
+			// using existing user with correct id (might have been modified!
+			if (empty ($instances[$id])) {
+				$instances[ $id ] = $user;
+			}
 		}
 
 		return $instances[$id];

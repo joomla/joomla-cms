@@ -60,7 +60,7 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 	global $database;
 
 	if ($uid == 0) {
-		mosNotAuth();
+		JError::raiseError( 403, JText::_('Access Forbidden') );
 		return;
 	}
 
@@ -112,7 +112,8 @@ function userEdit( $option, $submitvalue) {
 	$database 		=& $mainframe->getDBO();
 	$breadcrumbs 	=& $mainframe->getPathWay();
 	$user			=& $mainframe->getUser();
-	// security check to see if link exists in a menu
+
+	// security check to see if link exists in a menu
 	$link = 'index.php?option=com_user&task=CheckIn';
 	$query = "SELECT id"
 	. "\n FROM #__menu"
@@ -122,7 +123,7 @@ function userEdit( $option, $submitvalue) {
 	$database->setQuery( $query );
 	$exists = $database->loadResult();
 	if ( !$exists ) {
-		mosNotAuth();
+		JError::raiseError( 403, JText::_('Access Forbidden') );
 		return;
 	}
 
@@ -145,7 +146,7 @@ function userSave( $option, $uid) {
 
 	// do some security checks
 	if ($uid == 0 || $user_id == 0 || $user_id <> $uid) {
-		mosNotAuth();
+		JError::raiseError( 403, JText::_('Access Forbidden') );
 		return;
 	}
 
@@ -195,7 +196,7 @@ function CheckIn( $userid, $access, $option ){
 
 	$nullDate = $database->getNullDate();
 	if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
-		mosNotAuth();
+		JError::raiseError( 403, JText::_('Access Forbidden') );
 		return;
 	}
 
@@ -209,7 +210,7 @@ function CheckIn( $userid, $access, $option ){
 	$database->setQuery( $query );
 	$exists = $database->loadResult();
 	if ( !$exists ) {
-		mosNotAuth();
+		JError::raiseError( 403, JText::_('Access Forbidden') );
 		return;
 	}
 

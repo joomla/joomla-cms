@@ -196,7 +196,7 @@ class JContactController {
 				Check if the category is published or if access level allows access
 				*/
 				if (!$current->cname) {
-					mosNotAuth();
+					JError::raiseError( 403, JText::_('Access Forbidden') );
 					return;
 				}
 			}
@@ -376,7 +376,7 @@ class JContactController {
 			* check whether category access level allows access
 			*/
 			if ( $contact->cat_access > $gid ) {
-				mosNotAuth();
+				JError::raiseError( 403, JText::_('Access Forbidden') );
 				return;
 			}
 

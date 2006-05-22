@@ -422,7 +422,7 @@ class WeblinksController
 		$db->setQuery( $query );
 		$exists = $db->loadResult();
 		if ( !$exists ) {
-			mosNotAuth();
+			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
 
