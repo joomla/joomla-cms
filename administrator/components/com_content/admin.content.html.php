@@ -542,7 +542,7 @@ class ContentView
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
-
+		mosHTML::keepAlive();
 	}
 
 

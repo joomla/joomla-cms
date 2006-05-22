@@ -123,6 +123,7 @@ class JMediaViews
 		<input type="hidden" name="dirpath" id="dirpath" value="<?php echo $current; ?>" />
 		</form>
 		<?php
+		mosHTML::keepAlive();
 	}
 
 	/**

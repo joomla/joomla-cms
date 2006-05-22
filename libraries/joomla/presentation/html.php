@@ -634,7 +634,25 @@ class mosHTML {
 		<div id="system-message" class="<?php echo $type;?>"><?php echo $msg;?></div>
 		<?php
 	}
-	
+
+	function keepAlive()
+	{
+		global $mainframe;
+		$js = "
+				function keepAlive() {
+					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component.html&task=keepalive\';', 60000);
+				}";
+		
+		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
+				"style=\"width:0px; height:0px; border: 0px\" " .
+				"src=\"index.php?option=com_admin&tmpl=component.html&task=keepalive\" " .
+				"onload=\"keepAlive();\"></iframe>";
+
+		$doc =& $mainframe->getDocument();
+		$doc->addScriptDeclaration($js);
+		echo $html;
+	}
+
 	function _encoding_converter( $text ) {
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );
