@@ -404,11 +404,12 @@ class JMediaViews
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
 
-		if (($info[0] > 100) || ($info[0] > 100)) {
-			$prev_dimensions = JMediaHelper::imageResize($info[0], $info[1], 100);
+		if (($info[0] > 150) || ($info[0] > 150)) {
+			$prev_dimensions = JMediaHelper::imageResize($info[0], $info[1], 150);
 		} else {
 			$prev_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
+		$prev_dimensions = str_replace('"', "\'", $prev_dimensions);
 
 		$overlib = '<table>';
 		$overlib .= '<tr>';
@@ -437,7 +438,7 @@ class JMediaViews
 		$overlib .= '</tr>';
 		$overlib .= '</table>';
 
-		$preview = "<img src='$img_url' alt='$file - $filesize' border='0' />";
+		$preview = "<img src='$img_url' $prev_dimensions alt='$file - $filesize' border='0' />";
 		?>
 		<tr>
 			<td onmouseover="return overlib( '<?php echo addslashes($preview); ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">

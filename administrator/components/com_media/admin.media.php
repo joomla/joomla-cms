@@ -498,7 +498,6 @@ class JMediaHelper
 
 		//returns the new sizes in html image tag format...this is so you
 		//can plug this function inside an image tag and just get the
-
 		return "width=\"$width\" height=\"$height\"";
 	}
 	
