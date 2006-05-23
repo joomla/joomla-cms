@@ -541,8 +541,8 @@ class JContentHTMLHelper {
 		$image = mosAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $item->id );
 
 		?>
-		<a href="javascript:showPopWin('<?php echo $link ?>', 700, 500, null);">
-			<?php echo $image ?>
+		<a href="javascript:document.popup.show('<?php echo $link ?>', 700, 500, null);">
+			<?php echo $image; ?>
 			&nbsp;<?php echo JText::_( 'New' );?>...
 		</a>
 		<?php
