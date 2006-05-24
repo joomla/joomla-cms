@@ -530,7 +530,7 @@ class JMediaController
 				} else {
 					$pid = -1;
 				}
-				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => $item, 'url' => 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$item, 'title' => $item, 'target' => 'imgManager');
+				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => basename($item), 'url' => 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$item, 'title' => $item, 'target' => 'imgManager');
 				$i++;
 			}
 		}

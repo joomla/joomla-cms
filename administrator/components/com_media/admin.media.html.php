@@ -42,7 +42,10 @@ class JMediaViews
 		$pane =& JPane::getInstance('sliders');
 		?>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
-
+		<?php echo JText::_('CWD').': '.COM_MEDIA_BASE; ?><span id="cwd"><?php echo $current; ?></span><span id="createForm"  style="display: none;"><input class="inputbox" type="text" name="foldername" id="foldername" /><button onclick="javascript:submitbutton('newdir')">Create</button></span>
+		<a id="createButton" onclick="document.getElementById('createForm').style.display = 'inline';document.getElementById('createButton').style.display = 'none';">
+			<img src="components/com_media/images/folder.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'New' ); ?>" />
+		</a>
 		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 		<tr valign="top">
 			<td class="buttonOut" width="150px">
@@ -53,22 +56,10 @@ class JMediaViews
 				<div class="navigation" style="display: block; position: relative; margin: 0; padding: 2px; overflow: auto;">
 					<?php JMediaViews::_buildFolderTree($tree); ?>
 				</div>
-				<table>
-				<tr>
-					<td align="right" width="20%" style="padding-right:10px;white-space:nowrap">
-						<label for="foldername">
-							<?php echo JText::_( 'Create Directory' ); ?>
-						</label>
-						<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 150px" />
-					</td>
-					<td align="right" width="80%" style="padding-right:10px;white-space:nowrap">
-					</td>
-				</tr>
-				</table>
 			</td>
 			<td>
 				<fieldset>
-					<legend>Media</legend>
+					<legend><?php echo JText::_( 'Media' ); ?></legend>
 					<div class="manager" style="display: block; margin: 0; padding: 2px 0px 0px 0px;">
 						<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
@@ -492,7 +483,7 @@ class JMediaViews
 	function imageStyle($listdir) 
 	{
 		if ($listdir == '') {
-			$listdir = 'Images Folder';
+			$listdir = '/';
 		}
 		?>
 		<script language="javascript" type="text/javascript">
@@ -500,6 +491,8 @@ class JMediaViews
 			window.top.document.forms[0].dirpath.value = '<?php echo $listdir; ?>';
 			var tree = window.parent.d;
 			tree.openToByName('<?php echo $listdir; ?>', true);
+			var cwd = window.top.document.getElementById('cwd');
+			cwd.innerHTML = '<?php echo addslashes(JPath::clean($listdir)); ?>';
 		}
 
 		function deleteImage(file) {
@@ -621,7 +614,7 @@ class JMediaViews
 		dTree.prototype.openToByName = function(nName, bSelect, bFirst) {
 			var nId = 0;
 				for (var n=0; n<this.aNodes.length; n++) {
-					if (this.aNodes[n].name == nName) {
+					if (this.aNodes[n].title == nName) {
 						nId=n;
 						break;
 					}
