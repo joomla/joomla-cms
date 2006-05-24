@@ -55,17 +55,11 @@ class JTableMenu extends JTable
 	var $utaccess			= null;
 	/** @var string */
 	var $params				= null;
-	/** @var string */
-	var $controller_name	= null;
-	/** @var string */
-	var $view_name			= null;
-	/** @var string */
-	var $renderer_name		= null;
-	/** @var string */
-	var $template_name		= null;
-	/** @var int */
+	/** @var string Model-View-Controller-Renderer-Template controls */
+	var $mvcrt				= null;
+	/** @var int Pre-order tree traversal - left value */
 	var $lft				= null;
-	/** @var int */
+	/** @var int Pre-order tree traversal - right value */
 	var $rgt				= null;
 
 	/**
@@ -99,5 +93,4 @@ class JTableMenu extends JTable
 		return parent::bind($array, $ignore);
 	}
 }
-
 ?>

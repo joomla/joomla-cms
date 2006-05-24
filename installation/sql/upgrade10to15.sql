@@ -142,9 +142,7 @@ ALTER TABLE `jos_contact_details` ADD COLUMN `webpage` VARCHAR(255) NOT NULL;
 DROP TABLE `jos_usertypes`
 
 #AE: 27-Mar-2006
-ALTER TABLE `jos_menu` ADD COLUMN `controller_name` VARCHAR(45) NOT NULL DEFAULT '';
-ALTER TABLE `jos_menu` ADD COLUMN `view_name` VARCHAR(45) NOT NULL DEFAULT '';
-ALTER TABLE `jos_menu` ADD COLUMN `renderer_name` VARCHAR(45)  NOT NULL DEFAULT '';
+ALTER TABLE `jos_menu` ADD COLUMN `mvcrt` VARCHAR(45) NOT NULL DEFAULT '';
 ALTER TABLE `jos_menu` ADD COLUMN `lft` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `jos_menu` ADD COLUMN `rgt` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 
@@ -159,11 +157,13 @@ DELETE FROM `jos_components` WHERE `title` = 'Syndicate'
 CREATE TABLE `jos_menu_types` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `menutype` VARCHAR(75) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY(`id`),
   UNIQUE `menutype`(`menutype`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
-INSERT INTO `jos_menu_types` VALUES (1, 'mainmenu');
+INSERT INTO `jos_menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
 INSERT INTO jos_menu_types (menutype)
 SELECT
@@ -177,4 +177,7 @@ WHERE module='mod_mainmenu'
 	AND params NOT LIKE '%menutype=mainmenu%';
 
 UPDATE jos_menu_types
-SET menutype = SUBSTR(menutype, 1, LOCATE('\n', menutype)-1);
+	SET menutype = SUBSTR(menutype, 1, LOCATE('\n', menutype)-1);
+
+UPDATE jos_menu_types
+	SET title = menutype;

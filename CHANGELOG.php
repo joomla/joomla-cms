@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-May-2006 Andrew Eddie
+ ^ Refactoring of menu type manager
+
 23-May-2006 Johan Janssens
  + Added AJAX driven upload functionality to image manager
  - Removed old administrator template

@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS mos_groups;
 DROP TABLE IF EXISTS mos_help;
 DROP TABLE IF EXISTS mos_mambots;
 DROP TABLE IF EXISTS mos_menu;
+DROP TABLE IF EXISTS mos_menu_types;
 DROP TABLE IF EXISTS mos_messages;
 DROP TABLE IF EXISTS mos_messages_cfg;
 DROP TABLE IF EXISTS mos_modules;

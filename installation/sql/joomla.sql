@@ -363,10 +363,7 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `utaccess` tinyint(3) unsigned NOT NULL default '0',
   `params` text NOT NULL,
-  `controller_name` varchar(45) NOT NULL default '',
-  `view_name` varchar(45) NOT NULL default '',
-  `renderer_name` varchar(45) NOT NULL default '',
-  `template_name` varchar(45) NOT NULL default '',
+  `mvcrt` varchar(45) NOT NULL default '',
   `lft` int(11) unsigned NOT NULL default '0',
   `rgt` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
@@ -374,7 +371,7 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', '', '', '', '', '0', '0');
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', '', '0', '0');
 
 # --------------------------------------------------------
 
@@ -385,11 +382,13 @@ INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_front
 CREATE TABLE `#__menu_types` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `menutype` VARCHAR(75) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY(`id`),
   UNIQUE `menutype`(`menutype`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
-INSERT INTO `#__menu_types` VALUES (1, 'mainmenu');
+INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
 # --------------------------------------------------------
 

@@ -20,24 +20,78 @@ jimport( 'joomla.application.model' );
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JModelMenu extends JModel
+class JMenuModel extends JModel
 {
 	/**
-	 * Get instance
-	 * @return JModelMenu
+	 * Delete one or more menu items
+	 * @param mixed int or array of id values
 	 */
-	function getInstance()
+	function delete( $ids )
 	{
-		static $instance;
-
-		if ($instance == null)
+		if (!is_array( $ids ))
 		{
-			// TODO: Must be an API method to get the site object 
-			global $mainframe;
-			$db = &$mainframe->getDBO();
-			$instance = new JModelMenu( $db );
+			$ids = array( $ids );
 		}
-		return $instance;
+
+		$db = &$this->getDBO();
+		
+		if (count( $ids ))
+		{
+			// Delete associated module and template mappings
+			$where = 'WHERE menuid = ' . implode( ' OR menuid = ', $ids );
+
+			$query = 'DELETE FROM #__modules_menu '
+				. $where;
+			$db->setQuery( $query );
+			if (!$db->query())
+			{
+				$this->setError( $menuTable->getErrorMsg() );
+				return false;				
+			}
+
+			$query = 'DELETE FROM #__templates_menu '
+				. $where;
+			$db->setQuery( $query );
+			if (!$db->query())
+			{
+				$this->setError( $menuTable->getErrorMsg() );
+				return false;				
+			}
+
+			// Delete the menu items
+			$where = 'WHERE id = ' . implode( ' OR id = ', $ids );
+			
+			$query = 'DELETE FROM #__menu ' . $where;
+			$db->setQuery( $query );
+			if (!$db->query())
+			{
+				$this->setError( $db->getErrorMsg() );
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Delete menu items by type
+	 */
+	function deleteByType( $type = '' )
+	{
+		$db = &$this->getDBO();
+		
+		$query = 'SELECT id' .
+				' FROM #__menu' .
+				' WHERE menutype = ' . $db->Quote( $type );
+		$db->setQuery( $query );
+		$ids = $db->loadResultArray();
+		
+		if ($db->getErrorNum())
+		{
+			$this->setError( $db->getErrorMsg() );
+			return false;
+		}
+
+		return $this->delete( $ids );
 	}
 
 	/**
@@ -47,7 +101,7 @@ class JModelMenu extends JModel
 	function getMenuTypeList()
 	{
 		$db = $this->getDBO();
-		$query = 'SELECT id, menutype FROM #__menu_types';
+		$query = 'SELECT * FROM #__menu_types';
 		$db->setQuery( $query );
 		return $db->loadObjectList();
 	}

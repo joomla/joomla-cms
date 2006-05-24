@@ -70,7 +70,7 @@ class JFullAdminMenu {
 		}
 		// Menu Types
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-		$menuModel	= &JModelMenu::getInstance();
+		$menuModel	= &JModel::getInstance( 'JMenuModel' );
 		$menuTypes 	= $menuModel->getMenuTypes();
 		?>
 		<div id="myMenuID"></div>

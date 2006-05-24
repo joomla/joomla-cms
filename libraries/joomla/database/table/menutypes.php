@@ -24,6 +24,10 @@ class JTableMenuTypes extends JTable
 	var $id					= null;
 	/** @var string */
 	var $menutype			= null;
+	/** @var string */
+	var $title				= null;
+	/** @var string */
+	var $description		= null;
 
 	/**
 	 * Constructor
@@ -43,6 +47,11 @@ class JTableMenuTypes extends JTable
 		if (strstr($this->menutype, '\'')) {
 			$this->_error( JText::_( 'The menu name cannot contain a \'', true ) );
 			return false;
+		}
+
+		// correct spurious data
+		if (trim( $this->title == '')) {
+			$this->title = $this->menutype;
 		}
 		return true;	
 	}

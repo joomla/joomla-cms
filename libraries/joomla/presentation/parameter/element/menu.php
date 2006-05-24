@@ -35,7 +35,7 @@ class JElement_Menu extends JElement
 		global $database;
 
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-		$model		= &JModelMenu::getInstance();
+		$model		= &JModel::getInstance( 'JMenuModel' );
 		$menuTypes 	= $model->getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {

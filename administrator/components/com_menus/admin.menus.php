@@ -710,7 +710,7 @@ function copyMenu( $option, $cid, $menutype ) {
 	$database->setQuery( $query );
 	$items = $database->loadObjectList();
 
-	$model		= &JModelMenu::getInstance();
+	$model		= &JModel::getInstance( 'JMenuModel' );
 	$menuTypes 	= $model->getMenuTypes();
 
 	foreach ( $menuTypes as $menuType ) {
