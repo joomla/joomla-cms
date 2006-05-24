@@ -2,7 +2,7 @@
 /**
  * @version $Id$
  * @package Joomla
- * @subpackage Massmail
+ * @subpackage Media
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
@@ -37,8 +37,11 @@ if (is_int(strpos($folder, "..")) && $folder != '') {
 	josRedirect("index2.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
 }
 
+define( 'JPATH_COM_MEDIA', dirname( __FILE__ ));
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
 define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : $mainframe->getBaseURL().'images');
+
+require_once( JPATH_COM_MEDIA . '/helper.php' );
 
 $task = JRequest::getVar( 'task', '');
 switch ($task) {
@@ -171,7 +174,6 @@ class JMediaController
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
-		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
 		// Get the list of files and folders from the given folder
 		jimport('joomla.filesystem.folder');
@@ -183,7 +185,7 @@ class JMediaController
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					if (eregi($imageTypes, $file)) {
+					if (JMediaHelper::isImage($file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
 						$fileDetails['name'] = $file;
 						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
@@ -312,7 +314,6 @@ class JMediaController
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
-		$imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
 		// Get the list of files and folders from the given folder
 		jimport('joomla.filesystem.folder');
@@ -324,7 +325,7 @@ class JMediaController
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					if (eregi($imageTypes, $file)) {
+					if (JMediaHelper::isImage($file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
 						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
 						$fileDetails['imgInfo'] = $imageInfo;
@@ -381,18 +382,8 @@ class JMediaController
 				return;
 			}
 
-			jimport('joomla.filesystem.file');
-			$format 	= JFile::getExt($file['name']);
-
-			$allowable 	= array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
-			if (in_array($format, $allowable)) {
-				$noMatch = true;
-			} else {
-				$noMatch = false;
-			}
-
-			if (!$noMatch) {
-				JMediaController::showUpload(JText::_('This file type is not supported'));
+			if (!JMediaHelper::canUpload( $file, $err )) {
+				JMediaController::showUpload(JText::_($err));
 				return;
 			}
 
@@ -536,75 +527,6 @@ class JMediaController
 			}
 		}
 		return $nodes;
-	}
-}
-
-/**
- * Media Component Helper
- *
- * @static
- * @package Joomla
- * @subpackage Content
- * @since 1.5
- */
-class JMediaHelper 
-{
-	function parseSize($size) 
-	{
-		if ($size < 1024) {
-			return $size . ' bytes';
-		} 
-		else
-		{
-			if ($size >= 1024 && $size < 1024 * 1024) {
-				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
-			} else {
-				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
-			}
-		}
-	}
-	
-	function imageResize($width, $height, $target) 
-	{
-		//takes the larger size of the width and height and applies the
-		//formula accordingly...this is so this script will work
-		//dynamically with any size image
-		if ($width > $height) {
-			$percentage = ($target / $width);
-		} else {
-			$percentage = ($target / $height);
-		}
-
-		//gets the new value and applies the percentage, then rounds the value
-		$width = round($width * $percentage);
-		$height = round($height * $percentage);
-
-		//returns the new sizes in html image tag format...this is so you
-		//can plug this function inside an image tag and just get the
-		return "width=\"$width\" height=\"$height\"";
-	}
-	
-	function countFiles( $dir ) 
-	{
-		$total_file = 0;
-		$total_dir = 0;
-
-		if (is_dir($dir)) {
-			$d = dir($dir);
-
-			while (false !== ($entry = $d->read())) {
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
-					$total_file++;
-				}
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
-					$total_dir++;
-				}
-			}
-
-			$d->close();
-		}
-
-		return array ( $total_file, $total_dir );
 	}
 }
 ?>

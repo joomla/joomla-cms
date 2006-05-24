@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-May-2006 Andrew Eddie
+ + Added JComponentHelper (joomla.application.extensions.component)
+
 25-May-2006 Mateusz Krzeszowiec
  ^ mod_login now does not enforce redirect links to be /index.php?[...]
 

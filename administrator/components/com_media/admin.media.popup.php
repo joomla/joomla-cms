@@ -2,7 +2,7 @@
 /**
 * @version $Id: admin.media.html.php 3402 2006-05-06 02:38:08Z webImagery $
 * @package Joomla
-* @subpackage Massmail
+* @subpackage Media
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from works
