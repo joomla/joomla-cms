@@ -23,7 +23,7 @@ class JAdminCSSMenu extends JTree
 
 	function __construct()
 	{
-		$this->_root =& new JMenuNode(0, 'ROOT');
+		$this->_root =& new JMenuNode('ROOT');
 		$this->_current = & $this->_root;
 	}
 
