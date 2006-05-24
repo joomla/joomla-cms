@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<josparams>
+	<params>
+		<param name="controller_name" type="controller" size="30" default="" label="Controller Name" />
+		<param name="view_name" type="view" size="30" default="" label="View Name" />
+		<param name="template_name" type="text" size="30" default="" label="Template Name" />
+	</params>
+</josparams>

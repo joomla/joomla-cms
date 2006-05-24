@@ -79,11 +79,9 @@ class components_menu {
 		// build the url link output
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
-		$helper = JMenuHelper::getInstance( $row->option );
-		$params = $helper->getParams( $menu->params, $row->option );
 		// get params definitions
 		//$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
-		components_menu_html::edit( $menu, $components, $lists, $params, $helper, $option );
+		components_menu_html::edit( $menu, $row, $components, $lists, $option );
 	}
 }
 ?>

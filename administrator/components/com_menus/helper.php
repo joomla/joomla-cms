@@ -91,10 +91,25 @@ class JMenuHelper extends JObject {
 	 * @param string The option
 	 * @return object A 
 	 */
-	function &getParams( $params, $option='' )
+	function &getParams( $params, $option='', $path='' )
 	{
-		$params = new JParameter( $params, JApplicationHelper::getPath( 'com_xml', $option ), 'component' );
+		if ($path == '')
+		{
+			$path = JApplicationHelper::getPath( 'com_xml', $option );
+		}
+		$params = new JParameter( $params, $path );
 		return $params;
+	}
+
+	/**
+	 * @return boolean True if the component supports controllers
+	 */
+	function hasMVCRT()
+	{
+		return $this->hasControllers()
+			| $this->hasViews()
+			| $this->hasRenderers()
+			| $this->hasTemplates();
 	}
 
 	/**

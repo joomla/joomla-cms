@@ -27,13 +27,20 @@ class components_menu_html {
 
 	/**
 	 * @param object A menu object
+	 * @param array A list of components
 	 * @param array An array of lists
-	 * @param object A JParamters (or derived) object
-	 * @param object A Menu Helper (or derived) object
 	 * @param string The URI option
 	 */
-	function edit( &$menu, &$components, &$lists, &$params, &$helper, $option )
+	function edit( &$menu, &$component, &$components, &$lists, $option )
 	{
+		$helper	= JMenuHelper::getInstance( $component->option );
+
+		$params	= $helper->getParams( $menu->params, $component->option );
+
+		$mvcrt	= $helper->getParams( $menu->mvcrt, null, dirname( __FILE__ ) . '/mvcrt.xml' );
+		$mvcrt->addParameterDir( dirname( __FILE__ ) . '/parameters' );
+		$mvcrt->private_helper = $helper;
+
 		mosCommonHTML::loadOverlib();
 
 		if ( $menu->id ) {
@@ -91,110 +98,49 @@ class components_menu_html {
 							</td>
 						</tr>
 					<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
-					<?php if ($helper->hasControllers())
-					{ 
-						$controllers = $helper->getControllerList();
-					?>
-						<tr>
-							<td valign="top" align="right">
-								<label for="controller_name">
-									<?php echo JText::_( 'Controller' ); ?>:
-								</label>
-							</td>
-							<td>
-								<?php
-									if (count( $controllers ))
-									{
-										array_unshift( $controllers, mosHTML::makeOption( '', '- Select Controller -' ) );
-										
-										echo mosHTML::selectList( $controllers, 'controller_name',
-											'onchange="alert(\'Please click apply for change to take effect\')"',
-											'value', 'text', $menu->controller_name );
-									}
-									else
-									{ ?>
-								<input type="text" name="controller_name" id="controller_name" value="<?php echo $menu->controller_name;?>" />
-							<?php	} ?>
-							</td>
-						</tr>
-					<?php } ?>
-					<?php if ($helper->hasViews()) {
-						$views = $helper->getViewList();
-					?>
-						<tr>
-							<td valign="top" align="right">
-								<label for="view_name">
-									<?php echo JText::_( 'View' ); ?>:
-								</label>
-							</td>
-							<td>
-								<?php
-									if (count( $views ))
-									{
-										array_unshift( $views, mosHTML::makeOption( '', '- Use Default View -' ) );
-
-										echo mosHTML::selectList( $views, 'view_name',
-											'onchange="alert(\'Please click apply for change to take effect\')"',
-											'value', 'text', $menu->view_name );
-									}
-									else
-									{ ?>
-								<input type="text" name="view_name" id="view_name" value="<?php echo $menu->view_name;?>" />
-							<?php	} ?>
-							</td>
-						</tr>
-					<?php } ?>
-					<?php if ($helper->hasTemplates()) { ?>
-						<tr>
-							<td valign="top" align="right">
-								<label for="template_name">
-									<?php echo JText::_( 'Template' ); ?>:
-								</label>
-							</td>
-							<td>
-								<input type="text" name="template_name" id="template_name" value="<?php echo $menu->template_name;?>" />
-							</td>
-						</tr>
-					<?php } ?>
-						<tr>
-							<td valign="top" align="right">
-								<?php echo JText::_( 'ID' ); ?>:
-							</td>
-							<td>
-								<strong><?php echo $menu->id; ?></strong>
-							</td>
-						</tr>
 					</table>
 				</td>
 				<td width="40%">
 				<?php
 					menuHTML::MenuOutputParams( $params, $menu, 1 );
-					
-					if ($helper->hasControllers())
-					{ ?>
+
+					if ($helper->hasMVCRT()) {
+				?>
+					<fieldset>
+						<legend>
+							<?php echo JText::_( 'MVCRT' ); ?>
+						</legend>
+					<?php
+						echo $mvcrt->render( 'mvcrt' );
+					?>
+					</fieldset>
+				<?php
+						if ($helper->hasControllers())
+						{ ?>
 					<fieldset>
 						<legend>
 							<?php echo JText::_( 'Controller Parameters' ); ?>
 						</legend>
 					<?php
-						$params = $helper->getContollerParams( $menu->controller_name, $menu->params );
+						$params = $helper->getContollerParams( $mvcrt->get( 'controller_name' ), $menu->params );
 						echo $params->render();
 					?>
 					</fieldset>
-			<?php	}
+			<?php		}
 
-					if ($helper->hasViews())
-					{ ?>
+						if ($helper->hasViews())
+						{ ?>
 					<fieldset>
 						<legend>
 							<?php echo JText::_( 'View Parameters' ); ?>
 						</legend>
 					<?php
-						$params = $helper->getViewParams( $menu->view_name, $menu->params );
+						$params = $helper->getViewParams( $mvcrt->get( 'view_name' ), $menu->params );
 						echo $params->render();
 					?>
 					</fieldset>
-			<?php	}
+			<?php		}
+					}
 				?>
 				</td>
 			</tr>
