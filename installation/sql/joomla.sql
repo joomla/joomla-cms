@@ -688,7 +688,7 @@ CREATE TABLE `#__templates_menu` (
 # Dumping data for table `#__templates_menu`
 
 INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
-INSERT INTO `#__templates_menu` VALUES ('new_admin', '0', '1');
+INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
 
 # --------------------------------------------------------
 

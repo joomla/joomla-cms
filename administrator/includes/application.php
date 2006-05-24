@@ -329,7 +329,7 @@ class JAdministrator extends JApplication
 		$path = JPATH_ADMINISTRATOR ."/templates/$template/index.php";
 
 		if (!file_exists( $path )) {
-			$cur_template = 'joomla_admin';
+			$cur_template = 'khepri';
 		}
 
 		return $template;

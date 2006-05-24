@@ -39,6 +39,8 @@ Legend:
 
 23-May-2006 Johan Janssens
  + Added AJAX driven upload functionality to image manager
+ - Removed old administrator template
+ ^ Changed release codename to 'Khepri'
 
 22-May-2006 Alex Kempkens
  # Fixed [artf4240] : Registration confirmation email broken: password

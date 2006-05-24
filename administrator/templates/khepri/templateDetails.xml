@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install type="template" version="1.5.0" client="administrator">
-	<name>New Joomla Admin</name>
-	<creationDate>02/16/06</creationDate>
+	<name>Khepri</name>
+	<creationDate>05/24/06</creationDate>
 	<author>Andy Miller</author>
 	<copyright>GNU/GPL</copyright>
-	<authorEmail>support@rockettheme.com</authorEmail>
-	<authorUrl>http://www.rockettheme.com</authorUrl>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>http://www.joomla.org</authorUrl>
 	<version>1.0</version>
-	<description></description>
+	<description>Administration template for Joomla! 1.5</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>css/template.css</filename>

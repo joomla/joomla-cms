@@ -29,7 +29,7 @@ class JVersion {
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision: 2250 $';
 	/** @var string Codename */
-	var $CODENAME 	= 'Nightlight';
+	var $CODENAME 	= 'Khepri';
 	/** @var string Date */
 	var $RELDATE 	= '06-Feb-2006';
 	/** @var string Time */
