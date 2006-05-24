@@ -31,6 +31,7 @@ class JConfigComponentEditView extends JView
 		$document = &$this->getDocument();
 		$document->setTitle( 'Edit Configuration' );
 		$document->addStyleSheet('templates/_system/css/popup.css');
+		mosCommonHTML::loadOverlib();
 ?>
 	<form action="index3.php" method="post" name="adminForm">
 		<div>
