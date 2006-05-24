@@ -88,7 +88,7 @@ function & buildMenu($usertype = '')
 	// Menu Types
 	require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 	$menuModel	= &JModel::getInstance( 'JMenuModel' );
-	$menuTypes 	= $menuModel->getMenuTypes();
+	$menuTypes 	= $menuModel->getMenuTypelist();
 
 	/*
 	 * Get the menu object
@@ -129,14 +129,14 @@ function & buildMenu($usertype = '')
 		$menus->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewMenu', 'class:trash'));
 	}
 
-	if($manageTrash || $maangeMenuMan) {
+	if($manageTrash || $manageMenuMan) {
 		$menus->addSeperator();
 	}
 	/*
 	 * SPLIT HR
 	 */
 	foreach ($menuTypes as $menuType) {
-		$menus->addChild(new JMenuNode($menuType, 'index2.php?option=com_menus&menutype='.$menuType, 'class:menu'));
+		$menus->addChild(new JMenuNode($menuType->title, 'index2.php?option=com_menus&menutype='.$menuType->menutype, 'class:menu'));
 	}
 
 	$menu->addTree($menus);
