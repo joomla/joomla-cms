@@ -26,8 +26,8 @@ See COPYRIGHT.php for copyright notices and details.
 	<script type="text/javascript">
 	window.onload=function(){
 		if(!NiftyCheck()) alert("hello");
-		Rounded("div.component","all","#fff","#fff","border #ccc");
-		Rounded("div.element-box","all","#fff","#fbfbfb","border #ccc");
+		Rounded("div#login","all","#fff","#fff","border #ccc");
+		Rounded("div#element-box","all","#fff","#fbfbfb","border #ccc");
 		setFocus();
 	}
 	</script>
@@ -39,20 +39,20 @@ See COPYRIGHT.php for copyright notices and details.
 	</script>
 	</head>
 	<body>
-		<div id="header1">
-			<div id="header2">
-				<div id="header3">
-					<span><jdoc:translate>Administration</jdoc:translate></span>
+		<div id="border-top">
+			<div>
+				<div>
+					<span class="title"><jdoc:translate>Administration</jdoc:translate></span>
 				</div>
 			</div>
 		</div>
 		<div id="content-box">
-			<div id="content-pad">
-				<div id="login" class="component">
-					<div id="loginpad">
+			<div class="padding"">
+				<div id="login">
+					<div class="padding">
 						<h1><jdoc:translate>Joomla! Administration Login</jdoc:translate></h1>
-						<div class="element-box">
-							<div class="element-pad">
+						<div id="element-box">
+							<div class="padding">
 								<jdoc:include type="module" name="login" />
 							</div>
 						</div>
@@ -70,14 +70,14 @@ See COPYRIGHT.php for copyright notices and details.
 				<div class="clr"></div>
 			</div>
 		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
+		<div id="border-bottom"><div><div></div></div>
 		</div>
 
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
+		<div id="footer">
+			<p class="copyright">
+				<a href="http://www.joomla.org" target="_blank">Joomla!</a>
+				<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
+			</p>
 		</div>
 	</body>
 </html>

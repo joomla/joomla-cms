@@ -1,262 +1,83 @@
-.icon-16-archive {
-	background: url(../images/menu/icon-16-archive.png) no-repeat;
-}
-
-.icon-16-category {
-	background: url(../images/menu/icon-16-category.png) no-repeat;
-}
-
-.icon-16-checkin {
-	background: url(../images/menu/icon-16-checkin.png) no-repeat;
-}
-
-.icon-16-component {
-	background: url(../images/menu/icon-16-component.png) no-repeat;
-}
-
-.icon-16-config {
-	background: url(../images/menu/icon-16-config.png) no-repeat;
-}
-
-.icon-16-content {
-	background: url(../images/menu/icon-16-content.png) no-repeat;
-}
-
-.icon-16-cpanel {
-	background: url(../images/menu/icon-16-cpanel.png) no-repeat;
-}
-
-.icon-16-frontpage {
-	background: url(../images/menu/icon-16-frontpage.png) no-repeat;
-}
-
-.icon-16-help {
-	background: url(../images/menu/icon-16-help.png) no-repeat;
-}
-
-.icon-16-info {
-	background: url(../images/menu/icon-16-info.png) no-repeat;
-}
-
-.icon-16-install {
-	background: url(../images/menu/icon-16-install.png) no-repeat;
-}
-
-.icon-16-language {
-	background: url(../images/menu/icon-16-language.png) no-repeat;
-}
-
-.icon-16-logout {
-	background: url(../images/menu/icon-16-logout.png) no-repeat;
-}
-
-.icon-16-massmail {
-	background: url(../images/menu/icon-16-massmail.png) no-repeat;
-}
-
-.icon-16-media {
-	background: url(../images/menu/icon-16-media.png) no-repeat;
-}
-
-.icon-16-menu {
-	background: url(../images/menu/icon-16-menu.png) no-repeat;
-}
-
-.icon-16-menumgr {
-	background: url(../images/menu/icon-16-menumgr.png) no-repeat;
-}
-
-.icon-16-messages {
-	background: url(../images/menu/icon-16-messages.png) no-repeat;
-}
-
-.icon-16-module {
-	background: url(../images/menu/icon-16-module.png) no-repeat;
-}
-
-.icon-16-plugin {
-	background: url(../images/menu/icon-16-plugin.png) no-repeat;
-}
-
-.icon-16-section {
-	background: url(../images/menu/icon-16-section.png) no-repeat;
-}
-
-.icon-16-static {
-	background: url(../images/menu/icon-16-static.png) no-repeat;
-}
-
-.icon-16-stats {
-	background: url(../images/menu/icon-16-stats.png) no-repeat;
-}
-
-.icon-16-themes {
-	background: url(../images/menu/icon-16-themes.png) no-repeat;
-}
-
-.icon-16-trash {
-	background: url(../images/menu/icon-16-trash.png) no-repeat;
-}
-
-.icon-16-user {
-	background: url(../images/menu/icon-16-user.png) no-repeat;
-}
+/** menu icons **/
+.icon-16-archive 		{ background-image: url(../images/menu/icon-16-archive.png); }
+.icon-16-category 	{ background-image: url(../images/menu/icon-16-category.png); }
+.icon-16-checkin 		{ background-image: url(../images/menu/icon-16-checkin.png); }
+.icon-16-component	{ background-image: url(../images/menu/icon-16-component.png); }
+.icon-16-config 		{ background-image: url(../images/menu/icon-16-config.png); }
+.icon-16-content 		{ background-image: url(../images/menu/icon-16-content.png); }
+.icon-16-cpanel 		{ background-image: url(../images/menu/icon-16-cpanel.png); }
+.icon-16-frontpage 	{ background-image: url(../images/menu/icon-16-frontpage.png); }
+.icon-16-help			{ background-image: url(../images/menu/icon-16-help.png); }
+.icon-16-info 			{ background-image: url(../images/menu/icon-16-info.png); }
+.icon-16-install 		{ background-image: url(../images/menu/icon-16-install.png);}
+.icon-16-language 	{ background-image: url(../images/menu/icon-16-language.png);}
+.icon-16-logout 		{ background-image: url(../images/menu/icon-16-logout.png);}
+.icon-16-massmail 	{ background-image: url(../images/menu/icon-16-massmail.png); }
+.icon-16-media 		{ background-image: url(../images/menu/icon-16-media.png);}
+.icon-16-menu 			{ background-image: url(../images/menu/icon-16-menu.png); }
+.icon-16-menumgr 		{ background-image: url(../images/menu/icon-16-menumgr.png); }
+.icon-16-messages 	{ background-image: url(../images/menu/icon-16-messages.png); }
+.icon-16-module 		{ background-image: url(../images/menu/icon-16-module.png); }
+.icon-16-plugin 		{ background-image: url(../images/menu/icon-16-plugin.png); }
+.icon-16-section 		{ background-image: url(../images/menu/icon-16-section.png); }
+.icon-16-static 		{ background-image: url(../images/menu/icon-16-static.png); }
+.icon-16-stats 		{ background-image: url(../images/menu/icon-16-stats.png); }
+.icon-16-themes 		{ background-image: url(../images/menu/icon-16-themes.png); }
+.icon-16-trash 		{ background-image: url(../images/menu/icon-16-trash.png); }
+.icon-16-user 			{ background-image: url(../images/menu/icon-16-user.png); }
 
 
 /** toolbar icons **/
-
-.icon-32-send {
-	background: url(../images/toolbar/icon-32-send.png) 50% 0 no-repeat;
-}
-.icon-32-delete {
-	background: url(../images/toolbar/icon-32-trash.png) 50% 0 no-repeat;
-}
-.icon-32-help {
-	background: url(../images/toolbar/icon-32-help.png) 50% 0 no-repeat;
-}
-.icon-32-cancel {
-	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
-}
-.icon-32-apply {
-	background: url(../images/toolbar/icon-32-apply.png) 50% 0 no-repeat;
-}
-.icon-32-back{
-	background: url(../images/toolbar/icon-32-back.png) 50% 0 no-repeat;
-}
-.icon-32-save {
-	background: url(../images/toolbar/icon-32-save.png) 50% 0 no-repeat;
-}
-.icon-32-edit {
-	background: url(../images/toolbar/icon-32-edit.png) 50% 0 no-repeat;
-}
-.icon-32-copy {
-	background: url(../images/toolbar/icon-32-copy.png) 50% 0 no-repeat;
-}
-.icon-32-move {
-	background: url(../images/toolbar/icon-32-move.png) 50% 0 no-repeat;
-}
-.icon-32-new {
-	background: url(../images/toolbar/icon-32-new.png) 50% 0 no-repeat;
-}
-.icon-32-upload {
-	background: url(../images/toolbar/icon-32-upload.png) 50% 0 no-repeat;
-}
-.icon-32-default {
-	background: url(../images/toolbar/icon-32-publish.png) 50% 0 no-repeat;
-}
-.icon-32-assign {
-	background: url(../images/toolbar/icon-32-publish.png) 50% 0 no-repeat;
-}
-.icon-32-html {
-	background: url(../images/toolbar/icon-32-html.png) 50% 0 no-repeat;
-}
-.icon-32-css {
-	background: url(../images/toolbar/icon-32-css.png) 50% 0 no-repeat;
-}
-.icon-32-publish {
-	background: url(../images/toolbar/icon-32-publish.png) 50% 0 no-repeat;
-}
-.icon-32-unpublish {
-	background: url(../images/toolbar/icon-32-unpublish.png) 50% 0 no-repeat;
-}
-.icon-32-restore {
-	background: url(../images/toolbar/icon-32-revert.png) 50% 0 no-repeat;
-}
-.icon-32-trash {
-	background: url(../images/toolbar/icon-32-trash.png) 50% 0 no-repeat;
-}
-.icon-32-archive {
-	background: url(../images/toolbar/icon-32-archive.png) 50% 0 no-repeat;
-}
-.icon-32-unarchive {
-	background: url(../images/toolbar/icon-32-unarchive.png) 50% 0 no-repeat;
-}
-.icon-32-preview {
-	background: url(../images/toolbar/icon-32-archive.png) 50% 0 no-repeat;
-}
+.icon-32-send 			{ background-image: url(../images/toolbar/icon-32-send.png); }
+.icon-32-delete 		{ background-image: url(../images/toolbar/icon-32-trash.png); }
+.icon-32-help 			{ background-image: url(../images/toolbar/icon-32-help.png); }
+.icon-32-cancel 		{ background-image: url(../images/toolbar/icon-32-cancel.png); }
+.icon-32-apply 		{ background-image: url(../images/toolbar/icon-32-apply.png); }
+.icon-32-back			{ background-image: url(../images/toolbar/icon-32-back.png); }
+.icon-32-save 			{ background-image: url(../images/toolbar/icon-32-save.png); }
+.icon-32-edit 			{ background-image: url(../images/toolbar/icon-32-edit.png); }
+.icon-32-copy 			{ background-image: url(../images/toolbar/icon-32-copy.png); }
+.icon-32-move 			{ background-image: url(../images/toolbar/icon-32-move.png); }
+.icon-32-new 			{ background-image: url(../images/toolbar/icon-32-new.png); }
+.icon-32-upload 		{ background-image: url(../images/toolbar/icon-32-upload.png); }
+.icon-32-default 		{ background-image: url(../images/toolbar/icon-32-publish.png); }
+.icon-32-assign 		{ background-image: url(../images/toolbar/icon-32-publish.png); }
+.icon-32-html 			{ background-image: url(../images/toolbar/icon-32-html.png); }
+.icon-32-css 			{ background-image: url(../images/toolbar/icon-32-css.png); }
+.icon-32-publish 		{ background-image: url(../images/toolbar/icon-32-publish.png); }
+.icon-32-unpublish 	{ background-image: url(../images/toolbar/icon-32-unpublish.png);}
+.icon-32-restore		{ background-image: url(../images/toolbar/icon-32-revert.png); }
+.icon-32-trash 		{ background-image: url(../images/toolbar/icon-32-trash.png); }
+.icon-32-archive 		{ background-image: url(../images/toolbar/icon-32-archive.png); }
+.icon-32-unarchive 	{ background-image: url(../images/toolbar/icon-32-unarchive.png); }
+.icon-32-preview 		{ background-image: url(../images/toolbar/icon-32-archive.png); }
 
 /** header icons **/
-.icon-48-generic {
-	background: url(../images/header/icon-48-generic.png) no-repeat;
-}
-.icon-48-checkin {
-	background: url(../images/header/icon-48-checkin.png) no-repeat;
-}
-.icon-48-cpanel {
-	background: url(../images/header/icon-48-cpanel.png) no-repeat;
-}
-.icon-48-config {
-	background: url(../images/header/icon-48-config.png) no-repeat;
-}
-.icon-48-module {
-	background: url(../images/header/icon-48-module.png) no-repeat;
-}
-.icon-48-menu {
-	background: url(../images/header/icon-48-menu.png) no-repeat;
-}
-.icon-48-trash {
-	background: url(../images/header/icon-48-trash.png) no-repeat;
-}
-.icon-48-user {
-	background: url(../images/header/icon-48-user.png) no-repeat;
-}
-.icon-48-inbox {
-	background: url(../images/header/icon-48-inbox.png) no-repeat;
-}
-.icon-48-msgconfig {
-	background: url(../images/header/icon-48-message_config.png) no-repeat;
-}
-.icon-48-langmanager {
-	background: url(../images/header/icon-48-language.png) no-repeat;
-}
-.icon-48-mediamanager {
-	background: url(../images/header/icon-48-media.png) no-repeat;
-}
-.icon-48-help_header {
-	background: url(../images/header/icon-48-help_header.png) no-repeat;
-}
-.icon-48-impressions {
-	background: url(../images/header/icon-48-stats.png) no-repeat;
-}
-.icon-48-browser {
-	background: url(../images/header/icon-48-browser.png) no-repeat;
-}
-.icon-48-searchtext {
-	background: url(../images/header/icon-48-searchtext.png) no-repeat;
-}
-.icon-48-thememanager {
-	background: url(../images/header/icon-48-themes.png) no-repeat;
-}
-.icon-48-massemail {
-	background: url(../images/header/icon-48-massemail.png) no-repeat;
-}
-.icon-48-frontpage {
-	background: url(../images/header/icon-48-frontpage.png) no-repeat;
-}
-.icon-48-sections {
-	background: url(../images/header/icon-48-section.png) no-repeat;
-}
-.icon-48-addedit {
-	background: url(../images/header/icon-48-content.png) no-repeat;
-}
-.icon-48-categories {
-	background: url(../images/header/icon-48-category.png) no-repeat;
-}
-.icon-48-install {
-	background: url(../images/header/icon-48-install.png) no-repeat;
-}
-.icon-48-dbbackup {
-	background: url(../images/header/icon-48-backup.png) no-repeat;
-}
-.icon-48-dbrestore {
-	background: url(../images/header/icon-48-dbrestore.png) no-repeat;
-}
-.icon-48-dbquery {
-	background: url(../images/header/icon-48-query.png) no-repeat;
-}
-.icon-48-systeminfo {
-	background: url(../images/header/icon-48-info.png) no-repeat;
-}
-.icon-48-massemail {
-	background: url(../images/header/icon-48-massmail.png) no-repeat;
-}
+.icon-48-generic 		{ background-image: url(../images/header/icon-48-generic.png); }
+.icon-48-checkin 		{ background-image: url(../images/header/icon-48-checkin.png); }
+.icon-48-cpanel 		{ background-image: url(../images/header/icon-48-cpanel.png); }
+.icon-48-config 		{ background-image: url(../images/header/icon-48-config.png); }
+.icon-48-module 		{ background-image: url(../images/header/icon-48-module.png); }
+.icon-48-menu 			{ background-image: url(../images/header/icon-48-menu.png); }
+.icon-48-trash 		{ background-image: url(../images/header/icon-48-trash.png); }
+.icon-48-user	 		{ background-image: url(../images/header/icon-48-user.png); }
+.icon-48-inbox 		{ background-image: url(../images/header/icon-48-inbox.png); }
+.icon-48-msgconfig 	{ background-image: url(../images/header/icon-48-message_config.png); }
+.icon-48-langmanager { background-image: url(../images/header/icon-48-language.png); }
+.icon-48-mediamanager{ background-image: url(../images/header/icon-48-media.png); }
+.icon-48-help_header { background-image: url(../images/header/icon-48-help_header.png); }
+.icon-48-impressions { background-image: url(../images/header/icon-48-stats.png); }
+.icon-48-browser 		{ background-image: url(../images/header/icon-48-browser.png); }
+.icon-48-searchtext 	{ background-image: url(../images/header/icon-48-searchtext.png); }
+.icon-48-thememanager{ background-image: url(../images/header/icon-48-themes.png); }
+.icon-48-massemail 	{ background-image: url(../images/header/icon-48-massemail.png); }
+.icon-48-frontpage 	{ background-image: url(../images/header/icon-48-frontpage.png); }
+.icon-48-sections 	{ background-image: url(../images/header/icon-48-section.png); }
+.icon-48-addedit 		{ background-image: url(../images/header/icon-48-content.png); }
+.icon-48-categories 	{ background-image: url(../images/header/icon-48-category.png); }
+.icon-48-install 		{ background-image: url(../images/header/icon-48-install.png); }
+.icon-48-dbbackup		{ background-image: url(../images/header/icon-48-backup.png); }
+.icon-48-dbrestore 	{ background-image: url(../images/header/icon-48-dbrestore.png); }
+.icon-48-dbquery 		{ background-image: url(../images/header/icon-48-query.png); }
+.icon-48-systeminfo 	{ background-image: url(../images/header/icon-48-info.png); }
+.icon-48-massemail 	{ background-image: url(../images/header/icon-48-massmail.png); }

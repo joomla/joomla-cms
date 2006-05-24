@@ -39,67 +39,63 @@ See COPYRIGHT.php for copyright notices and details.
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/fat.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/template.js"></script>
 
-
-
 	</head>
 	<body>
-		<div id="header1">
-			<div id="header2">
-				<div id="header3">
-					<div id="version"><jdoc:translate>Version#</jdoc:translate></div>
-					<span><jdoc:translate>Administration</jdoc:translate></span>
+		<div id="border-top">
+			<div>
+				<div>
+					<span class="version"><jdoc:translate>Version#</jdoc:translate></span>
+					<span class="title"><jdoc:translate>Administration</jdoc:translate></span>
 				</div>
 			</div>
 		</div>
-		<div id="top-box">
-			<div id="status-box">
+		<div id="header-box">
+			<div id="module-status">
 				<jdoc:include type="modules" name="status"  />
 			</div>
-			<div id="menu-box">
+			<div id="module-menu">
 				<jdoc:include type="module" name="cssmenu" />
 			</div>
 			<div class="clr"></div>
 		</div>
 		<div id="content-box">
-			<div id="content-box2">
-				<div id="content-pad">
-					<div class="content-area-full">
-						<div class="content-pad">
-							<div class="toolbar-box">
-								<div class="toolbar-pad">
-										<jdoc:include type="modules" name="toolbar" />
-										<jdoc:include type="modules" name="title" />
-										<div class="clr"></div>
-								</div>
-								<div class="clr"></div>
-							</div>
+			<div class="border">
+				<div class="padding">
+					<div id="toolbar-box">
+						<div class="padding">
+							<jdoc:include type="modules" name="toolbar" />
+							<jdoc:include type="modules" name="title" />
+							<div class="clr"></div>
+						</div>
+						<div class="clr"></div>
+					</div>
+					<div id="submenu-box">
+						<div class="padding">
 							<jdoc:include type="module" name="submenu" />
-							<div class="spacer"></div>
-							<div class="element-box">
-								<div class="element-pad">
-									<jdoc:include type="component" />
-									<div class="clr"></div>
-								</div>
-							</div>
-							<noscript>
-								<jdoc:translate key="WARNJAVASCRIPT" />
-							</noscript>
-
 							<div class="clr"></div>
 						</div>
 					</div>
+					<div id="element-box">
+						<div class="padding">
+							<jdoc:include type="component" />
+							<div class="clr"></div>
+						</div>
+					</div>
+					<noscript>
+						<jdoc:translate key="WARNJAVASCRIPT" />
+					</noscript>
+					<div class="clr"></div>
 				</div>
 				<div class="clr"></div>
 			</div>
 		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
-		</div>
+		<div id="border-bottom"><div><div></div></div></div>
 
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
+		<div id="footer">
+			<p class="copyright">
+				<a href="http://www.joomla.org" target="_blank">Joomla!</a>
+				<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
+			</p>
 		</div>
 	</body>
 	</html>

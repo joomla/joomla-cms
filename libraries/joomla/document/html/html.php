@@ -174,7 +174,7 @@ class JDocumentHTML extends JDocument
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = $params['template'];
 		$file      = $params['file'];
-
+		
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}

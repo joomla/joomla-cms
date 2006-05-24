@@ -37,11 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-May-2006 Johan Janssens
+ + Added AJAX driven upload functionality to image manager
+
 22-May-2006 Alex Kempkens
  # Fixed [artf4240] : Registration confirmation email broken: password
  ! [task2359] : Refactoring completed
  ^ [task2519] : getInstance refactored in order to make sure only one instance is created
- 
 
 22-May-2006 Andrew Eddie
  ^ mosAdminMenus::menuItem refactored to JMenuHelper::menuItem

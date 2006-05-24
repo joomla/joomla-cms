@@ -46,7 +46,7 @@ function pluginImageButton()
 			$doc->addStyleDeclaration($css);
 			$doc->addScript($url.'includes/js/joomla/popup.js');
 			$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
-			$button = array( "document.popup.show('$link', 570, 320, null)", JText::_('Image'), 'image' );
+			$button = array( "document.popup.show('$link', 570, 345, null)", JText::_('Image'), 'image' );
 			break;
 	}
 

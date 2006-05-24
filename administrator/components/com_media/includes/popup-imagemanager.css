@@ -1,5 +1,5 @@
 /**
-* @version $Id:  $
+* @version $Id$
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -34,7 +34,9 @@ button:hover { border: 1px solid #0B55C4; }
 
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
-iframe { width: 100%;  overflow-x: false; border: 0 none;  height: 174px; margin: 0; padding: 0; margin-top: 0.5em;}
+iframe { width: 100%;  overflow-x: false; border: 0 none;  margin: 0; padding: 0; margin-top: 0.5em;}
+iframe#imageview  { height: 174px; }
+iframe#uploadview { height: 40px; }
 
 a       { padding: 5px; border: 1px solid ButtonFace; }
 a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
@@ -61,3 +63,13 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 	font-weight: bold;
 	color: #69c;
 }
+
+#uploadpanel  { border: 1px solid #ccc; margin: 5px 2px 0 2px;}
+#uploadpanel .title    { padding: 4px; margin: 0;}
+
+#uploadpane { height: 0; }
+
+#uploadpanel .toggler span     { background: transparent url(arrow.png) 0 50% no-repeat; padding-left: 20px;}
+#uploadpanel .toggler-down span { background-image: url(arrow-down.png); }
+
+#uploadpanel .toggler-down {  border-bottom: 1px solid #ccc; }

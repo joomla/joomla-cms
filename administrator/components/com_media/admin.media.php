@@ -73,16 +73,12 @@ switch ($task) {
 
 		// popup directory creation interface for use by components
 	case 'popupDirectory' :
-		// Load the admin popup view
-		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
-		JMediaViews::popupDirectory(COM_MEDIA_BASEURL);
+		JMediaController::showFolder();
 		break;
 
 		// popup upload interface for use by components
 	case 'popupUpload' :
-		// Load the admin popup view
-		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
-		JMediaViews::popupUpload(COM_MEDIA_BASE);
+		JMediaController::showUpload();
 		break;
 
 		// popup upload interface for use by components
@@ -214,6 +210,43 @@ class JMediaController
 			JMediaViews::listError();
 		}
 	}
+	
+	/**
+	 * Upload popup
+	 *
+	 * @since 1.5
+	 */
+	function showUpload($msg = '')
+	{
+		global $mainframe;
+		
+		$dirPath = JRequest::getVar( 'dirPath', '/' );
+		
+		// Load the admin popup view
+		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
+		
+		//attach stylesheet to document
+		$doc = & $mainframe->getDocument();
+		$doc->addStyleSheet('components/com_media/includes/popup-imageupload.css');
+		$doc->addScript('components/com_media/includes/popup-imageupload.js');
+		
+		JMediaViews::popupUpload($dirPath, $msg);
+	}
+	
+	/**
+	 * Upload popup
+	 *
+	 * @since 1.5
+	 */
+	function showFolder()
+	{
+		global $mainframe;
+		
+		// Load the admin popup view
+		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
+		
+		JMediaViews::popupDirectory(COM_MEDIA_BASEURL);
+	}
 
 	/**
 	 * Image Manager Popup
@@ -251,9 +284,13 @@ class JMediaController
 		$folderSelect = mosHTML::selectList($folders, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"document.imagemanager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $listFolder);
 
 		//attach stylesheet to document
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		
 		$doc = & $mainframe->getDocument();
-		$doc->addStyleSheet('components/com_media/includes/manager.css');
-		$doc->addScript('components/com_media/includes/manager.js');
+		$doc->addStyleSheet('components/com_media/includes/popup-imagemanager.css');
+		$doc->addScript('components/com_media/includes/popup-imagemanager.js');
+		$doc->addScript( $url. 'includes/js/moofx/moo.fx.js' );
+		$doc->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 
 		JMediaViews::imgManager($folderSelect, null);
 	}
@@ -307,7 +344,7 @@ class JMediaController
 		
 		//attach stylesheet to document
 		$doc = & $mainframe->getDocument();
-		$doc->addStyleSheet('components/com_media/includes/imagelist.css');
+		$doc->addStyleSheet('components/com_media/includes/popup-imagelist.css');
 
 		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {
@@ -329,13 +366,14 @@ class JMediaController
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
 		$juri 		= $mainframe->getURI();
-		$index		= (strpos($juri->getPath(),'index3.php')) ? 'index3.php' : 'index2.php';
+		
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
 			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 
 			if (file_exists($destDir.$file['name'])) {
-				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED.File allready exists'));
+				JMediaController::showUpload(JText::_('Upload FAILED.File allready exists'));
+				return;
 			}
 
 			jimport('joomla.filesystem.file');
@@ -349,13 +387,17 @@ class JMediaController
 			}
 
 			if (!$noMatch) {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('This file type is not supported'));
+				JMediaController::showUpload(JText::_('This file type is not supported'));
+				return;
 			}
 
 			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED'));
+				JMediaController::showUpload(JText::_('Upload FAILED'));
+				return;
+				
 			} else {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload complete'));
+				JMediaController::showUpload(JText::_('Upload complete'));
+				return;
 			}
 
 			$clearUploads = true;

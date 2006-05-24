@@ -37,7 +37,7 @@ $lang =& $mainframe->getLanguage();
 		<div id="version"><jdoc:translate>Version#</jdoc:translate></div>
 	</div>
 </div>
-<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" class="menubar" cellpadding="0" cellspacing="0">
 <tr>
 	<td class="menubackgr" style="padding-<?php echo $lang->isRTL() ? 'right' : 'left'; ?>:5px;">
 		<jdoc:include type="module" name="fullmenu" />
@@ -55,7 +55,7 @@ $lang =& $mainframe->getLanguage();
 </tr>
 </table>
 
-<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" class="menubar" cellpadding="0" cellspacing="0">
 <tr>
 	<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
 		<jdoc:include type="modules" name="toolbar" />

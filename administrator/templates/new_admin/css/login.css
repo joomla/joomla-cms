@@ -24,30 +24,31 @@
 
 /* -- Specific styles ----------------------------- */ 
 
-form  { margin: 0px; padding: 0px; }
+form  			{ margin: 0px; padding: 0px; }
 form .inputbox { width: 120px; margin-left: 10px; }
-form br { display: none; }
+form br 			{ display: none; }
 
-#login           { margin: 0 auto; width: 500px; margin-top: 40px; margin-bottom: 100px; }
+#login      { margin: 0 auto; width: 500px; margin-top: 40px; margin-bottom: 100px; }
 
-#content-box { border-right: 1px solid #ccc; }
+#content-box  { border-right: 1px solid #ccc; }
+#element-box  { float: right; width: 280px; padding: 5px 1px;margin-left: 10px;}
 
-.element-box    { float: right; width: 280px; padding: 5px 1px;margin-left: 10px;}
-
-#loginpad {
+#login .padding {
 	padding: 20px; padding-bottom: 60px;
 	background: url(../images/j_login_lock.jpg) 50px 100% no-repeat;
 }
 
+#element-box .padding {
+	background: none; padding: 0;	
+}
+
 .button { text-align: right; }
-	
+		
+.login-form    { text-align: left; width: 60%; }
 .login-form h1 { display: none; }
+.login-form p  { padding: 0 1em 0 1em; }
 
-.login-form p { padding: 0 1em 0 1em; }
-	
-.login-form { text-align: left; width: 60%; }
 .login-text { text-align: left; width: 40%; float: left; }
-
 
 #loginForm label {
 	display: block;

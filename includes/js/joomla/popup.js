@@ -124,12 +124,12 @@ JPopup.prototype = {
 		this.setTitle();
 	},
 	
-	keypress: function(event, args)  {
+	onkeypress: function(event, args)  {
 		/*
 	 	 * Tab key trap. iff popup is shown and key was [TAB], suppress it.
 	 	 * @argument e - event - keyboard event that caused this function to be called.
 	 	 */
-		if (this.visible && e.keyCode == 9)  return false;
+		if (this.visible && event.keyCode == 9)  return false;
 	},
 	
 	/**
@@ -228,6 +228,30 @@ JPopup.prototype = {
 		if (this.hideSelects == true) {
 			this.displaySelectBoxes();
 		}
+	},
+	
+	/**
+	 * Increase the height of the popup
+	 */
+	increaseHeight: function(height)
+	{
+		var effect = new fx.Height(this.container, {opacity: false, duration: 200});
+		effect.custom(this.container.offsetHeight, this.container.offsetHeight + height - 9);
+		
+		var effect = new fx.Height(this.frame, {opacity: false, duration: 200});
+		effect.custom(this.frame.offsetHeight, this.frame.offsetHeight + height);
+	},
+	
+	/**
+	 * Increase the height of the popup
+	 */
+	decreaseHeight: function(height)
+	{
+		var effect = new fx.Height(this.container, {opacity: false, duration: 200});
+		effect.custom(this.container.offsetHeight, this.container.offsetHeight - height - 6);
+		
+		var effect = new fx.Height(this.frame, {opacity: false, duration: 200});
+		effect.custom(this.frame.offsetHeight, this.frame.offsetHeight - height);
 	},
 
 	/**

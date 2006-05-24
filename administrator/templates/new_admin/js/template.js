@@ -28,10 +28,9 @@ document.addLoadEvent(function() {
 document.addLoadEvent(function() { 
 	Fat.fade_all(); 
 	if(NiftyCheck()) {
-		Rounded("div.component","all","#fff","#fff","border #ccc");
-		Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
-		Rounded("div.element-box","all","#fff","#fff","border #ccc");
-		Rounded("div.submenu-box","all","#fff","#f6f6f6","border #ccc");
+		Rounded("div#toolbar-box","all","#fff","#fbfbfb","border #ccc");
+		Rounded("div#element-box","all","#fff","#fff","border #ccc");
+		Rounded("div#submenu-box","all","#fff","#f6f6f6","border #ccc");
 	}
 });
 

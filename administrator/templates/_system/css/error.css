@@ -25,7 +25,7 @@ body {
 	background: #ffffff;
 }
 
-.Frame {
+.frame {
 	background-color:#FEFCF3;
 	padding:8px;
 	border:solid 1px #000000;
@@ -33,12 +33,12 @@ body {
 	margin-bottom:25px;
 }
 
-.Table {
+.table {
 	border-collapse:collapse;
 	margin-top:13px;
 }
 
-TD { 
+td { 
 	padding:3px;
 	padding-left:5px;
 	padding-right:5px;
@@ -46,7 +46,7 @@ TD {
 	font-size: 10px;
 }
 
-.Type {
+.type {
 	background-color:#cc0000;
 	color:#ffffff;
 	font-weight:bold;

@@ -119,7 +119,7 @@ See COPYRIGHT.php for copyright notices and details.
 											</jdoc:sub>
 										</jdoc:tmpl>
 									</td>
-									<jdoc:exists type="modules" condition="right" >
+									<jdoc:exists type="modules" condition="right">
 										<td class="greyline">&nbsp;</td>
 										<td width="170">
 											<jdoc:include type="modules" name="right" style="-2"/>

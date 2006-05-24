@@ -26,7 +26,7 @@ class JMediaViews
 	function imgManager($dirPath, $listFolder) 
 	{
 		global $mainframe;
-		
+			
 		?>
 		<form action="index.php" id="uploadForm" method="post" enctype="multipart/form-data">
 		<div id="messages" style="display: none;"><span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." /></div>
@@ -77,6 +77,13 @@ class JMediaViews
 			</tr>
 			</table>
 			</fieldset>
+			<div id="uploadpanel">
+			<h3 id="uploadtoggler" class="toggler title"><span>Upload</span></h3>
+			<div id="uploadpane" class="content">			
+			<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component.html" id="uploadview" name="uploadview" onload="document.imagemanager.setFolder(window.frames['uploadview'].document.adminForm.dirPath.value, true);"></iframe>
+			</div>
+			</div>
+			</div>
 			<input type="hidden" id="f_file" name="f_file" />
 			<input type="hidden" id="tmpl" name="component.html" />
 		</form>
@@ -191,56 +198,24 @@ class JMediaViews
 		<?php
 	}
 	
-	function popupUpload($basePath) 
+	function popupUpload($dirPath, $msg) 
 	{
-		global $mosConfig_absolute_path;
-
-		jimport('joomla.filesystem.folder');
-		$imgFiles = JFolder::folders($basePath, '.', true, true);
-		$folders = array ();
-		$folders[] = mosHTML::makeOption('/');
-
-		$len = strlen($basePath);
-		foreach ($imgFiles as $file) {
-			$folders[] = mosHTML::makeOption(str_replace('\\', '/', substr($file, $len)));
-		}
-
-		if (is_array($folders)) {
-			sort($folders);
-		}
-		// create folder selectlist
-		$dirPath = mosHTML::selectList($folders, 'dirPath', 'class="inputbox" size="1" ', 'value', 'text', '.');
 		?>
-		<form method="post" action="index3.php" enctype="multipart/form-data" name="adminForm">
-		
-		<fieldset>
-			<legend><?php echo JText::_( 'Upload a File' ); ?></legend>
-
-		<table class="admintable" cellspacing="1">
+		<form method="post" action="index.php" enctype="multipart/form-data" name="adminForm">
+		<div id="message"><?php echo $msg ?></div>
+		<table>
 		<tr>
-			<td class="key"><?php echo  JText::_( 'Select File' ); ?><br />
-			[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
-			</td>
 			<td>
-				
-				<input class="inputbox" name="upload" type="file" size="70" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key"><?php echo  JText::_( 'Destination Sub-folder' ); ?></td>
-			<td><?php echo $dirPath; ?></td>
-		</tr>
-		<tr>
-			<td class="key">&nbsp;</td>
-			<td>
-
-				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />&nbsp;&nbsp;&nbsp;
-				<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+				<label for="upload"><?php echo  JText::_( 'Select File' ); ?></label>
+				<input class="inputbox" name="upload" id="upload" type="file" size="45" />
+				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="document.imageupload.onupload()" />
+				<span>[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]</span>
 			</td>
 		</tr>
 		</table>
-		</fieldset>
-
+		
+		<input type="hidden" name="tmpl" value="component.html" />
+		<input type="hidden" name="dirPath" value="<?php echo $dirPath ?>" />
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="popupUpload" />
 		</form>
@@ -249,7 +224,6 @@ class JMediaViews
 
 	function popupDirectory($basePath) 
 	{
-
 		$imgFiles = mosFS::listFolders($basePath, '.', true, true);
 		$folders = array ();
 		$folders[] = mosHTML::makeOption('/');

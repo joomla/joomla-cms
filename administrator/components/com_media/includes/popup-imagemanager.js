@@ -1,5 +1,5 @@
 /**
-* @version $Id:  $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -19,18 +19,57 @@
  * @since		1.5
  */
  
-JImageManager = function() { this.initialize.apply(this, arguments);}
+JImageManager = function() { this.constructor.apply(this, arguments);}
 JImageManager.prototype = {
 
-	initialize: function() 
+	constructor: function() 
 	{	
 		var self = this;
 		
 		var imageview  = null;
 		var folderlist = null;	
 		
-		this.imageview  = document.getElementById('imageview');
-		this.folderlist = document.getElementById('folderlist');
+		this.imageview  	= document.getElementById('imageview');
+		this.folderlist 	= document.getElementById('folderlist');
+		this.uploadtoggler  = document.getElementById('uploadtoggler');
+				
+		//Setup events
+		this.registerEvent(this.uploadtoggler, 'click');
+		
+		//Setup effect
+		this.uploadpane = new fx.Height(document.getElementById('uploadpane'), {opacity:true, duration: 200});
+		this.uploadpane.hide();
+	},
+	
+	registerEvent: function(target,type,args) 
+	{
+		//use a closure to keep scope
+		var self = this;
+			
+		if (target.addEventListener)   { 
+    		target.addEventListener(type,onEvent,true);
+		} else if (target.attachEvent) { 
+	  		target.attachEvent('on'+type,onEvent);
+		} 
+		
+		function onEvent(e)	{
+			e = e||window.event;
+			e.element = target;
+			return self["on"+type](e, args);
+		}
+	},
+	
+	onclick: function(event, args)  
+	{
+		if(Element.hasClassName(event.element, 'toggler-down')) {
+			Element.removeClassName(event.element, 'toggler-down');
+			window.top.document.popup.decreaseHeight(50);
+		} else {
+			Element.addClassName(event.element, 'toggler-down');
+			window.top.document.popup.increaseHeight(50);
+		}
+		
+		this.uploadpane.toggle();
 	},
 	
 	onok: function() 
@@ -57,7 +96,7 @@ JImageManager.prototype = {
 		return false;
 	},
 		
-	setFolder: function(directory)  
+	setFolder: function(directory, refresh)  
 	{
 		//this.showMessage('Loading');
 		
@@ -70,8 +109,15 @@ JImageManager.prototype = {
 			}
 		}
 		
-		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component.html&folder=' + directory;
-				
+		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component.html&folder=' + directory;		
+	
+		if(refresh) {
+			this.imageview.location.reload(true);
+		}
+	},
+	
+	getFolder: function() {
+		return this.folderlist.options[this.folderlist.selectedIndex].text;
 	},
 	
 	upFolder: function() 
