@@ -38,80 +38,73 @@ class JMediaViews
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 		$styles[] = mosHTML::makeOption('thumbs', 'Thumbs');
 		$styles[] = mosHTML::makeOption('details', 'Details');
-		$listStyle = mosHTML::selectList($styles, 'listStyle', 'onchange="setStyle();"', 'value', 'text', $style )		
+		$listStyle = mosHTML::selectList($styles, 'listStyle', 'onchange="setStyle();"', 'value', 'text', $style );		
+		$pane =& JPane::getInstance('sliders');
 		?>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 
-		<table>
-		<tr>
-			<td align="right" width="20%" style="padding-right:10px;white-space:nowrap">
-				<label for="foldername">
-					<?php echo JText::_( 'Create Directory' ); ?>
-				</label>
-				<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 150px" />
+		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
+		<tr valign="top">
+			<td class="buttonOut" width="150px">
+				<a href="javascript:dirup()">
+					<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
+				</a>
+				<?php echo $listStyle; ?>
+				<div class="navigation" style="display: block; position: relative; margin: 0; padding: 2px; overflow: auto;">
+					<?php JMediaViews::_buildFolderTree($tree); ?>
+				</div>
 			</td>
-			<td align="right" width="80%" style="padding-right:10px;white-space:nowrap">
+			<td>
+				<?php
+					$title = JText::_( 'File Upload' );
+					$pane->startPane("media-pane");
+					$pane->startPanel( $title, "upload-page" );
+				?>
+				<button onclick="jsAddFile();return false">
+					+ Add more files
+				</button>
+				[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]		
+				<div id="uploads">
+					<div style="padding: 4px;">
+						<input class="inputbox" name="uploads[]" type="file" size="60" />
+					</div>
+				</div>
+				
+				<button onclick="javascript:submitbutton('upload')">Upload Files</button>
+		
+				<?php
+					$title = JText::_( 'Create Folder' );
+					$pane->endPanel();
+					$pane->startPanel( $title, "new-folder-page" );
+				?>
+				<table>
+				<tr>
+					<td align="right" width="20%" style="padding-right:10px;white-space:nowrap">
+						<label for="foldername">
+							<?php echo JText::_( 'Create Directory' ); ?>
+						</label>
+						<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 150px" />
+					</td>
+					<td align="right" width="80%" style="padding-right:10px;white-space:nowrap">
+					</td>
+				</tr>
+				</table>
+		
+				<?php
+					$title = JText::_( 'Media' );
+					$pane->endPanel();
+					$pane->startPanel( $title, "list-page" );
+				?>
+				<div class="manager" style="display: block; margin: 0; padding: 2px 0px 0px 0px;">
+					<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+				</div>
+				<?php
+					$pane->endPanel();
+					$pane->endPane();
+				?>
 			</td>
 		</tr>
 		</table>
-
-		<div id="tablecell">
-			<table width="100%" align="center">
-			<tr>
-				<td align="center">
-					<fieldset>
-						<table width="99%" align="center" border="0" cellspacing="2" cellpadding="2">
-						<tr>
-							<td>
-								<table border="0" cellspacing="1" cellpadding="3"  class="adminheading">
-								<tr>
-									<td class="buttonOut" width="10">
-										<a href="javascript:dirup()">
-											<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
-										</a>
-									</td>
-									<td class="buttonOut" width="10">
-										<?php echo $listStyle; ?>
-									</td>
-									<td align="right">
-										<label for="uploadfile">
-											<?php echo JText::_( 'File Upload' ); ?>
-										</label>
-										<small>[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										<input class="inputbox" type="file" name="upload" id="uploadfile" size="50" />&nbsp;
-									</td>
-								</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
-							<td align="center" bgcolor="white">
-								<div class="navigation" style="width: 20%; display: block; position: relative; float: left; margin: 0; padding: 2px; overflow: hidden;">
-									<?php JMediaViews::_buildFolderTree($tree); ?>
-								</div>
-								<div class="manager" style="width: 78%; display: block; float: left; margin: 0; padding: 2px 0px 0px 0px;">
-									<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
-								</div>
-							</td>
-						</tr>
-						</table>
-					</fieldset>
-				</td>
-			</tr>
-			<tr>
-				<td>
-
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div style="text-align: right;">
-					</div>
-				</td>
-			</tr>
-			</table>
-		</div>
 
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="" />
@@ -368,11 +361,10 @@ class JMediaViews
 		$size = JMediaHelper::parseSize($size);
 		$base = "/images/";
 		$overlib = JText::_('Filesize') . ': ' . $size;
-		$overlib .= '<br /><br />' . JText::_('*Click to view*');
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
 		?>
 		<div class="imgOutline">
-			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
+			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 				  <a onclick="javascript: window.open( '<?php echo $doc_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=300,directories=no,location=no,left=120,top=80');" style="display: block; width: 100%; height: 100%">
 		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" /></a>
@@ -384,7 +376,9 @@ class JMediaViews
 					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="imgManager" onclick="return deleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
-					<img src="components/com_media/images/info.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
+					<a onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
+						<img src="components/com_media/images/info.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
+					</a>
 				</div>
 			</div>
 		</div>
@@ -505,6 +499,9 @@ class JMediaViews
 
 	function imageStyle($listdir) 
 	{
+		if ($listdir == '') {
+			$listdir = 'Images Folder';
+		}
 		?>
 		<script language="javascript" type="text/javascript">
 		function updateDir(){
@@ -573,7 +570,7 @@ class JMediaViews
 			d = new dTree('d', '../includes/js/dtree/img/');
 			<?php echo $txt; ?>
 			document.write(d);
-			d.openToByName('/',true);
+			d.openToByName('Images Folder',true);
 		</script>
 		<?php
 	}
@@ -606,7 +603,29 @@ class JMediaViews
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + curdir + '&listStyle=' + style;
 		}
 		
-		// Opens the tree to a specific node
+		function jsAddFile() {
+			div = document.getElementById( 'uploads' );
+		
+			div.appendChild( writeUploadField() );
+			return false;
+		}
+		
+		function writeUploadField() {
+			// <input class=\"inputbox\" name=\"upload\" type=\"file\" size=\"70\" />
+			div = document.createElement( 'div' );
+			div.setAttribute( 'style', 'padding: 4px' );
+		
+			tag = document.createElement( 'input' );
+			tag.setAttribute( 'type', 'file' );
+			tag.setAttribute( 'name', 'uploads[]' );
+			tag.setAttribute( 'size', '60' );
+			tag.setAttribute( 'class', 'inputbox' );
+			div.appendChild( tag );
+		
+			return div;
+		}
+" .
+		"		// Opens the tree to a specific node
 		dTree.prototype.openToByName = function(nName, bSelect, bFirst) {
 			var nId = 0;
 				for (var n=0; n<this.aNodes.length; n++) {

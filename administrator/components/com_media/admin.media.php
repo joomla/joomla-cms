@@ -404,6 +404,46 @@ class JMediaController
 		}
 	}
 
+	function batchUpload()
+	{
+		global $mainframe, $clearUploads;
+
+		$file 		= JRequest::getVar( 'uploads', '', 'files', 'array' );
+		$dirPath 	= JRequest::getVar( 'dirPath', '' );
+		$juri 		= $mainframe->getURI();
+		$index		= (strpos($juri->getPath(),'index3.php')) ? 'index3.php' : 'index2.php';
+		if (isset ($file) && is_array($file) && isset ($dirPath)) {
+			$dirPathPost = $dirPath;
+			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
+
+			if (file_exists($destDir.$file['name'])) {
+				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED.File allready exists'));
+			}
+
+			jimport('joomla.filesystem.file');
+			$format 	= JFile::getExt($file['name']);
+
+			$allowable 	= array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
+			if (in_array($format, $allowable)) {
+				$noMatch = true;
+			} else {
+				$noMatch = false;
+			}
+
+			if (!$noMatch) {
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('This file type is not supported'));
+			}
+
+			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED'));
+			} else {
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload complete'));
+			}
+
+			$clearUploads = true;
+		}
+	}
+
 	/**
 	 * Create a folder
 	 *
