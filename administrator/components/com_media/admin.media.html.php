@@ -57,7 +57,7 @@ class JMediaViews
 		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 		<tr valign="top">
 			<td width="150px">
-				<div class="navigation" style="display: block; position: relative; margin: 0; padding: 2px; overflow: auto;">
+				<div class="navigation" style="padding: 2px; width:140px; overflow: auto;">
 					<?php JMediaViews::_buildFolderTree($tree); ?>
 				</div>
 			</td>
@@ -162,6 +162,7 @@ class JMediaViews
 				$method = 'showDoc'.$style;
 				for($i=0;$i<$numDocs;$i++) {
 					$extfile = substr($docs[$i]['name'], strrpos($docs[$i]['name'], '.') + 1);
+					
 					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$extfile."_16.png";
 					if (file_exists($iconfile)) {
 						$icon = "components/com_media/images/".$extfile."_16.png";
