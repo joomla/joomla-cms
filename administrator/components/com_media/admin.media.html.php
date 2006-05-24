@@ -105,7 +105,7 @@ class JMediaViews
 						</div>
 					</div>
 					
-					<button onclick="javascript:submitbutton('upload')">Upload Files</button>
+					<button onclick="javascript:submitbutton('uploadBatch')">Upload Files</button>
 				</fieldset>
 		
 				<?php

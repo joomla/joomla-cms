@@ -47,6 +47,11 @@ switch ($task) {
 		JMediaController::upload();
 		break;
 
+	case 'uploadBatch' :
+		JMediaController::batchUpload();
+		JMediaController::showMedia();
+		break;
+
 	case 'newdir' :
 		$dirPath = JRequest::getVar( 'dirPath', '');
 		JMediaController::createFolder($dirPath);
@@ -406,41 +411,36 @@ class JMediaController
 
 	function batchUpload()
 	{
-		global $mainframe, $clearUploads;
+		$files 		= JRequest::getVar( 'uploads', array(), 'files', 'array' );
+		$dirPath 	= JRequest::getVar( 'dirpath', '' );
 
-		$file 		= JRequest::getVar( 'uploads', '', 'files', 'array' );
-		$dirPath 	= JRequest::getVar( 'dirPath', '' );
-		$juri 		= $mainframe->getURI();
-		$index		= (strpos($juri->getPath(),'index3.php')) ? 'index3.php' : 'index2.php';
-		if (isset ($file) && is_array($file) && isset ($dirPath)) {
-			$dirPathPost = $dirPath;
-			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
+		jimport('joomla.filesystem.file');
 
-			if (file_exists($destDir.$file['name'])) {
-				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED.File allready exists'));
+		if (is_array($files) && isset ($dirPath)) {
+			for ($i=0;count($files['name']);$i++) {
+				$dirPathPost = $dirPath;
+				$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
+	
+				if (file_exists($destDir.$files['name'][$i])) {
+					return false;
+				}
+
+				$format	= JFile::getExt($files['name'][$i]);
+				$allowable 	= array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
+				if (in_array($format, $allowable)) {
+					$noMatch = true;
+				} else {
+					$noMatch = false;
+				}
+
+				if (!$noMatch) {
+					josRedirect("index.php?option=com_media", JText::_('This file type is not supported'));
+				}
+
+				if (!JFile::upload($files['tmp_name'][$i], $destDir.strtolower($files['name'][$i]))) {
+					josRedirect("index.php?option=com_media", JText::_('Upload FAILED'));
+				}
 			}
-
-			jimport('joomla.filesystem.file');
-			$format 	= JFile::getExt($file['name']);
-
-			$allowable 	= array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
-			if (in_array($format, $allowable)) {
-				$noMatch = true;
-			} else {
-				$noMatch = false;
-			}
-
-			if (!$noMatch) {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('This file type is not supported'));
-			}
-
-			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED'));
-			} else {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload complete'));
-			}
-
-			$clearUploads = true;
 		}
 	}
 
