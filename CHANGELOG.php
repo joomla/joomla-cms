@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-May-2006 Mateusz Krzeszowiec
+ ^ mod_login now does not enforce redirect links to be /index.php?[...]
+
 24-May-2006 Louis Landry
  ^ Moved JTree library to the common package
  ^ Modified admin menu to use JTree

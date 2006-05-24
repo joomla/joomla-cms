@@ -85,7 +85,7 @@ if ($user->get('id'))
 
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="logout" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />
+	<input type="hidden" name="return" value="<?php echo sefRelToAbs( $logout ); ?>" />
 	</form>
 	<?php
 }
@@ -156,7 +156,7 @@ else
 
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$login ); ?>" />
+	<input type="hidden" name="return" value="<?php echo sefRelToAbs( $login ); ?>" />
 	</form>
 	<?php
 }
