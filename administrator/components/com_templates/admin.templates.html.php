@@ -523,10 +523,6 @@ class JTemplatesView
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>
-
 		<div id="pane-document">
 			<table class="adminform">
 			<tr>
