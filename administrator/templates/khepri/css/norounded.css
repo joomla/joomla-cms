@@ -18,10 +18,10 @@
  * @version    1.0
  */
 
-div.component,
-div.element-box,
-div.toolbar-box,
-div.submenu-box {
+div#component,
+div#element-box,
+div#toolbar-box,
+div#submenu-box {
 	padding: 4px 0px;
 	border: 1px solid #ccc;
 }
