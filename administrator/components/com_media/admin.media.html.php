@@ -83,25 +83,28 @@ class JMediaViews
 					</div>
 				</fieldset>
 				<?php
-					$title = JText::_( 'File Upload' );
-					$pane->startPane("media-pane");
-					$pane->startPanel( $title, "upload-page" );
+//					$title = JText::_( 'File Upload' );
+//					$pane->startPane("media-pane");
+//					$pane->startPanel( $title, "upload-page" );
 				?>
-				<button onclick="jsAddFile();return false">
-					+ Add more files
-				</button>
-				[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]		
-				<div id="uploads">
-					<div style="padding: 4px;">
-						<input class="inputbox" name="uploads[]" type="file" size="60" />
+				<fieldset>
+					<legend><?php echo JText::_( 'Upload' ); ?></legend>
+					<button onclick="jsAddFile();return false">
+						+ Add more files
+					</button>
+					[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]		
+					<div id="uploads">
+						<div style="padding: 4px;">
+							<input class="inputbox" name="uploads[]" type="file" size="60" />
+						</div>
 					</div>
-				</div>
-				
-				<button onclick="javascript:submitbutton('upload')">Upload Files</button>
+					
+					<button onclick="javascript:submitbutton('upload')">Upload Files</button>
+				</fieldset>
 		
 				<?php
-					$pane->endPanel();
-					$pane->endPane();
+//					$pane->endPanel();
+//					$pane->endPane();
 				?>
 			</td>
 		</tr>
@@ -571,6 +574,7 @@ class JMediaViews
 		?>
 		<script language="JavaScript" type="text/javascript">
 			d = new dTree('d', '../includes/js/dtree/img/');
+			d.config.useCookies = false;
 			<?php echo $txt; ?>
 			document.write(d);
 			d.openToByName('Images Folder',true);

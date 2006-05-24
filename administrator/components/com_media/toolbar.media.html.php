@@ -35,8 +35,8 @@ class TOOLBAR_media {
 	*/
 	function _DEFAULT() {
 		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
-		JMenuBar::custom('upload','upload.png','upload_f2.png','Upload',false);
-		JMenuBar::custom('newdir','new.png','new_f2.png','Create',false);
+//		JMenuBar::custom('upload','upload.png','upload_f2.png','Upload',false);
+//		JMenuBar::custom('newdir','new.png','new_f2.png','Create',false);
 		JMenuBar::cancel('cancel', 'Close');
 		JMenuBar::help( 'screen.mediamanager' );
 	}
