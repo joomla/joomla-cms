@@ -11,7 +11,7 @@
  * details.
  */
 
-jimport('joomla.utilities.tree');
+jimport('joomla.common.base.tree');
 
 /**
  * Main Menu Tree Class.

@@ -50,7 +50,7 @@
 
 #menu ul    { border: 0.1em solid #ccc; background: #f6f6f6 url(../images/bg-menu.gif) repeat-y right;}
 #menu ul li.node { background: transparent url(../images/j_arrow_left.png) no-repeat left 50%; }
-#menu ul li.seperator { background: #DDE1E6 url(../images/bg-menu.gif);  height: 1px;  }
+#menu ul li.separator { background: #DDE1E6 url(../images/bg-menu.gif);  height: 1px;  }
 
 #menu a, #menu div {
 	padding: 0.35em 1em 0.35em;

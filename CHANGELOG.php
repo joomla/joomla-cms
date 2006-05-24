@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-May-2006 Louis Landry
+ ^ Moved JTree library to the common package
+ ^ Modified admin menu to use JTree
+ ^ Refactor of media manager
+
 24-May-2006 Johan Janssens
  + Added jdoc:empty function to JDocumentHTML
 

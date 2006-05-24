@@ -11,43 +11,19 @@
  * details.
  */
 
-class JAdminCSSMenu extends JObject
+jimport('joomla.common.base.tree');
+
+class JAdminCSSMenu extends JTree
 {
 	/**
-	 *
-	 */
-	var $_root = null;
-
-	/**
-	 *
-	 */
-	var $_current = null;
-
-	/**
-	 *
+	 * CSS string to add to document head
+	 * @var string
 	 */
 	var $_css = null;
 
-	function __construct()
+	function addSeparator()
 	{
-		$this->_root =  & new JMenuNode('ROOT');
-		$this->_current = & $this->_root;
-	}
-
-	function addChild($title, $link = null, $class = null, $active = false)
-	{
-		$newNode = & new JMenuNode($title, $link, $class, $active);
-		$this->_current->addChild($newNode);
-	}
-
-	function addTree(&$node)
-	{
-		$this->_current->addChild($node);
-	}
-
-	function getParent()
-	{
-		$this->_current =& $this->_current->getParent();
+		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
 	function renderMenu($suffix = '-smenu')
@@ -59,11 +35,9 @@ class JAdminCSSMenu extends JObject
 		/*
 		 * Build the CSS class suffix
 		 */
-		if ($this->_current->active)
-		{
+		if ($this->_current->active) {
 			$sfx = $suffix.'_active';
-		} else
-		{
+		} else {
 			$sfx = $suffix;
 		}
 
@@ -81,8 +55,7 @@ class JAdminCSSMenu extends JObject
 			echo "</ul>\n";
 		}
 
-		if ($this->_css)
-		{
+		if ($this->_css) {
 			// Add style to document head
 			$doc = & $mainframe->getDocument();
 			$doc->addStyleDeclaration($this->_css);
@@ -91,17 +64,16 @@ class JAdminCSSMenu extends JObject
 
 	function renderLevel($suffix = '-smenu', $depth)
 	{
-
 		/*
 		 * Build the CSS class suffix
 		 */
 		$class = '';
-		if ($this->_current->hasChildren()) {
+		if ($this->_current->hasChildren()) { 
 			$class = ' class="node"';
 		}
 
-		if($this->_current->class == 'seperator') {
-			$class = ' class="seperator"';
+		if($this->_current->class == 'separator') {
+			$class = ' class="separator"';
 		}
 
 		if($this->_current->class == 'disabled') {
@@ -117,16 +89,11 @@ class JAdminCSSMenu extends JObject
 		/*
 		 * Print a link if it exists
 		 */
-		if ($this->_current->link != null)
-		{
+		if ($this->_current->link != null) {
 			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
-		}
-		else if ($this->_current->title != null)
-		{
+		} elseif ($this->_current->title != null) {
 			echo "<a $class>".$this->_current->title."</a>\n";
-		}
-		else
-		{
+		} else {
 			echo "<span></span>";
 		}
 
@@ -162,8 +129,7 @@ class JAdminCSSMenu extends JObject
 		static $classes;
 
 		// Initialize the known classes array if it does not exist
-		if (!is_array($classes))
-		{
+		if (!is_array($classes)) {
 			$classes = array();
 		}
 
@@ -171,25 +137,19 @@ class JAdminCSSMenu extends JObject
 		 * If we don't already know about the class... build it and mark it
 		 * known so we don't have to build it again
 		 */
-		if (!isset($classes[$identifier]))
-		{
-			if (substr($identifier, 0, 6) == 'class:')
-			{
+		if (!isset($classes[$identifier])) {
+			if (substr($identifier, 0, 6) == 'class:') {
 				// We were passed a class name
 				$class = substr($identifier, 6);
 				$classes[$identifier] = "icon-16-$class";
-			} else
-			{
+			} else {
 				// We were passed an image path... is it a themeoffice one?
-				if (substr($identifier, 0, 15) == 'js/ThemeOffice/')
-				{
+				if (substr($identifier, 0, 15) == 'js/ThemeOffice/') {
 					// Strip the filename without extension and use that for the classname
 					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 					$classes[$identifier] = "icon-16-$class";
-				} else
-				{
-					if ($identifier == null)
-					{
+				} else {
+					if ($identifier == null) {
 						return null;
 					}
 					// Build the CSS class for the icon
@@ -204,14 +164,12 @@ class JAdminCSSMenu extends JObject
 				}
 			}
 		}
-
 		return $classes[$identifier];
 	}
 }
 
-class JMenuNode extends JObject
+class JMenuNode extends JNode
 {
-
 	/**
 	 * Node Title
 	 */
@@ -232,53 +190,12 @@ class JMenuNode extends JObject
 	 */
 	var $active = false;
 
-	/**
-	 * Parent node
-	 */
-	var $_parent = null;
-
-	/**
-	 * Array of Children
-	 */
-	var $_children = array();
-
 	function __construct($title, $link = null, $class = null, $active = false)
 	{
 		$this->title	= $title;
 		$this->link		= $link;
 		$this->class	= $class;
 		$this->active	= $active;
-	}
-
-	function addChild( &$node )
-	{
-		$node->setParent($this);
-		$this->_children[] = & $node;
-	}
-
-	function addSeperator()
-	{
-		$this->_children[] = new JMenuNode(null, null, 'seperator', false);
-	}
-
-	function &getParent()
-	{
-		return $this->_parent;
-	}
-
-	function setParent( &$node )
-	{
-		$this->_parent = & $node;
-	}
-
-	function hasChildren()
-	{
-		return count($this->_children);
-	}
-
-	function &getChildren()
-	{
-		return $this->_children;
 	}
 }
 ?>
