@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 * @version $Id: component.php 1598 2005-12-31 14:40:48Z Jinx $
 * @package Joomla
@@ -36,6 +36,8 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		global $mainframe;
 		global $Itemid, $task, $option, $id, $my;
 		
+		jimport('joomla.application.extension.component');
+
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
@@ -47,35 +49,13 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-			
-		/*
-		 * Check to see if component is enabled and get parameters
-		 */
-		$row = null;
-		$query = 	"SELECT enabled, params" .
-					"\n FROM `#__components`" .
-					"\n WHERE `parent` = 0" .
-					"\n AND `option` = '$component'" .
-					"LIMIT 1";
-		$database->setQuery($query);
-		$database->loadObject($row);
-
-		if (!is_object($row))
-		{
-			$row = new stdClass();
-			$row->enabled	= false;
-			$row->params	= null;
-		}
-
-		/*
-		 * A static array of components that are always enabled
-		 */
-		$enabledList = array('com_login', 'com_content', 'com_media', 'com_frontpage', 'com_user', 'com_wrapper', 'com_registration');
+		
+		$enabled = JComponentHelper::isEnabled( $component );
 
 		/*
 		 * Is the component enabled?
 		 */
-		if ( $mainframe->isAdmin() || $row->enabled || in_array($component, $enabledList) )
+		if ( $enabled || $mainframe->isAdmin() )
 		{
 			
 			// preload toolbar in case component handles it manually
@@ -93,11 +73,6 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 			$task 	= JRequest::getVar( 'task' );
 //			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
 			$ret	= 1;
-
-			// Load the component parameters
-			if ($row) {
-				$params = new JParameter($row->params);
-			}
 
 			$content = '';
 			ob_start();
