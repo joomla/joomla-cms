@@ -51,18 +51,19 @@ class JMediaViews
 		$document->set('module', 'submenu', $listStyle);
 
 		JMediaViews::_loadJS();
-//		$pane =& JPane::getInstance('sliders');
 		?>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 		<tr valign="top">
 			<td width="150px">
-				<div class="navigation" style="padding: 2px; width:140px; overflow: auto;">
+				<fieldset style="padding: 10px; width:140px; overflow: auto; height: 365px">
+					<legend><?php echo JText::_( 'Folders' ); ?></legend>
 					<?php JMediaViews::_buildFolderTree($tree); ?>
-				</div>
-			</td>
-			<td>
-				<div style="padding: 5px;">
+				</fieldset>
+				<fieldset>
+					<legend><?php echo JText::_( 'Create Folder' ); ?></legend>
+					<!--
+					<div style="padding: 5px;">
 					<a href="javascript:dirup()">
 						<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
 					</a>
@@ -75,20 +76,19 @@ class JMediaViews
 					<a id="createButton" onclick="document.getElementById('createForm').style.display = 'inline';document.getElementById('createButton').style.display = 'none';">
 						<img src="components/com_media/images/btnFolderNew.gif" width="16" height="16" border="0" alt="<?php echo JText::_( 'New' ); ?>" />
 					</a>
+					-->
 				</div>
+				</fieldset>
+			</td>
+			<td>
 				<fieldset>
-					<legend><?php echo JText::_( 'Media' ); ?></legend>
-					<div class="manager" style="display: block; margin: 0; padding: 2px 0px 0px 0px;">
-						<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+					<legend><?php echo JText::_( 'Files' ); ?></legend>
+					<div class="manager" style="display: block; margin: 0; padding: 0; height: 360px;">
+						<iframe style="height: 100%" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
 				</fieldset>
-				<?php
-//					$title = JText::_( 'File Upload' );
-//					$pane->startPane("media-pane");
-//					$pane->startPanel( $title, "upload-page" );
-				?>
 				<fieldset>
-					<legend><?php echo JText::_( 'Upload' ); ?></legend>
+					<legend><?php echo JText::_( 'Upload File' ); ?></legend>
 					<button onclick="jsAddFile();return false">
 						+ Add more files
 					</button>
@@ -101,11 +101,6 @@ class JMediaViews
 					
 					<button onclick="javascript:submitbutton('uploadBatch')">Upload Files</button>
 				</fieldset>
-		
-				<?php
-//					$pane->endPanel();
-//					$pane->endPane();
-				?>
 			</td>
 		</tr>
 		</table>
