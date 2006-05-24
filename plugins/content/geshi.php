@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginGeshi' );
+$mainframe->registerEvent( 'onPrepareContent', 'convertGeshi' );
 
 /**
 * Code Highlighting Plugin
