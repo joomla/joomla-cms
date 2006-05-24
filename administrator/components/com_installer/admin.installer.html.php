@@ -138,11 +138,6 @@ class JInstallerScreens
 	function showInstallMessage( $title, $message, $scriptOutput )
 	{
 		?>
-		<div id="pane-navigation">
-			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
-		</div>
-
-		<div id="pane-document">
 			<fieldset title="<?php echo $title; ?>">
 				<legend>
 					<?php echo $title; ?>
@@ -161,7 +156,6 @@ class JInstallerScreens
 				</tr>
 				</table>
 			</fieldset>
-		</div>
 		<?php
 	}
 

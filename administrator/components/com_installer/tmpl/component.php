@@ -97,8 +97,8 @@ class JInstallerScreens_component {
 	* @param array An array of records
 	* @param string The URL option
 	*/
-	function showInstalled(&$rows, &$page) {
-
+	function showInstalled(&$rows, &$page) 
+	{
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
@@ -158,7 +158,6 @@ class JInstallerScreens_component {
 						</td>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
-							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold">
 								<?php echo $row->name; ?>
 							</span>
