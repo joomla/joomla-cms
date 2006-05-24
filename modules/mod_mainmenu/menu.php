@@ -120,17 +120,18 @@ class JMainMenu extends JTree
 		}				
 	}
 
-	function render($id, $suffix = null)
+	function render($type, $suffix = null)
 	{
 		global $mainframe;
 
 		$depth = 0;
 		$this->_current =& $this->_root;
+		$class = $type.$suffix;
 
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id=\"$id\" class=\"listmenu$suffix\">\n";
+			echo "<ul class=\"$class\">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
@@ -158,12 +159,6 @@ class JMainMenu extends JTree
 			$showChildren = true;
 		}
 		
-		if ($this->_active == $this->_current->id) {
-			$active = " id=\"active\"";
-		} else {
-			$active = null;
-		}
-
 		// Build the CSS class selectors
 		$classes = "level$depth item".$this->_depthHash[$depth];
 
@@ -180,10 +175,14 @@ class JMainMenu extends JTree
 			$classes .= ' active';
 		}
 
+		if ($this->_active == $this->_current->id) {
+			$classes .= ' current';
+		}
+
 		if ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0))) {
 
 			// Print the item
-			echo "<li$active class=\"".$classes."\">";
+			echo "<li class=\"".$classes."\">";
 	
 			// Print a link if it exists
 			if ($this->_current->link != null) {
