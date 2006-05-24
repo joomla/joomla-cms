@@ -657,7 +657,7 @@ INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
 
 CREATE TABLE `#__template_positions` (
   `id` int(11) NOT NULL auto_increment,
-  `position` varchar(10) NOT NULL default '',
+  `position` varchar(50) NOT NULL default '',
   `description` text NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;

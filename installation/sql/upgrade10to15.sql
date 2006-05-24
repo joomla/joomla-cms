@@ -186,6 +186,8 @@ UPDATE jos_menu_types
 
 ALTER TABLE `jos_modules`
   MODIFY COLUMN `position` VARCHAR(50) DEFAULT '';
+ALTER TABLE `jos_template_positions`
+  MODIFY COLUMN `position` VARCHAR(50) DEFAULT '';
 
 INSERT INTO jos_components  VALUES (0,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
 INSERT INTO jos_components  VALUES (0,'Articles','option=com_content',0,0,'option=com_content','Articles','com_content',0,'',1,'',1);
