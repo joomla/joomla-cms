@@ -36,10 +36,6 @@ class JMediaViews
 
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
-		$document = &$mainframe->getDocument();
-		$document->addScript('../includes/js/joomla/popup.js');
-		$document->addStyleSheet('../includes/js/joomla/popup.css');
-
 		$listStyle = "<div class=\"submenu-box\">
 			<div class=\"submenu-pad\">
 				<ul id=\"submenu\">
@@ -55,10 +51,8 @@ class JMediaViews
 		$document->set('module', 'submenu', $listStyle);
 
 		JMediaViews::_loadJS();
-		$pane =& JPane::getInstance('sliders');
+//		$pane =& JPane::getInstance('sliders');
 		?>
-		<a href="javascript:void document.popup.show('index3.php?option=com_config&c=component&component=com_media', 700, 500, null);">
-			[Configuration]</a>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 		<tr valign="top">
@@ -467,7 +461,7 @@ class JMediaViews
 				&nbsp;
 			</td>
 			<td>
-				<a href="index2.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;listdir=<?php echo $listdir; ?>" target="_top" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
+				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="imgManager" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 			</td>

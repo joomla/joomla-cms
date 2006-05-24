@@ -35,8 +35,10 @@ class TOOLBAR_media {
 	*/
 	function _DEFAULT() {
 		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
-//		JMenuBar::custom('upload','upload.png','upload_f2.png','Upload',false);
-//		JMenuBar::custom('newdir','new.png','new_f2.png','Create',false);
+		$bar = & JToolBar::getInstance('JComponent');
+
+		// Add a popup configuration button
+		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_media', '700', '500' );
 		JMenuBar::cancel('cancel', 'Close');
 		JMenuBar::help( 'screen.mediamanager' );
 	}

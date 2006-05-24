@@ -453,12 +453,13 @@ class JMediaController
 	function createFolder($path)
 	{
 		$folderName = JRequest::getVar( 'foldername', '', 'post' );
+		$dirPath 	= JRequest::getVar( 'dirpath', '' );
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
-				josRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_('WARNDIRNAME'));
+				josRedirect("index2.php?option=com_media&listdir=".$dirPath, JText::_('WARNDIRNAME'));
 			}
-			$folder = COM_MEDIA_BASE.$path.DS.$folderName;
+			$folder = COM_MEDIA_BASE.$dirPath.DS.$folderName;
 			if (!is_dir($folder) && !is_file($folder))
 			{
 				jimport('joomla.filesystem.*');
