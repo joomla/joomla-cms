@@ -65,23 +65,23 @@ JPopup.prototype = {
 		popmask.id = 'popup-overlay';
 		
 		popcont = document.createElement('div');
-		popcont.id = 'popupContainer';
+		popcont.id = 'popup-container';
 		popcont.innerHTML = '' +
-			'<div id="popupInner">' +
-				'<div id="popupTitleBar">' +
-					'<div id="popupTitle"></div>' +
-					'<div id="popupControls">' +
+			'<div id="popup-inner">' +
+				'<div id="popup-titlebar">' +
+					'<div id="popup-title"></div>' +
+					'<div id="popup-controls">' +
 						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide();" />' +
 					'</div>' +
 				'</div>' +
-				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popupFrame" name="popupFrame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
+				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
 		
 		this.mask      = document.getElementById("popup-overlay");
-		this.container = document.getElementById("popupContainer");
-		this.frame     = document.getElementById("popupFrame");	
+		this.container = document.getElementById("popup-container");
+		this.frame     = document.getElementById("popup-frame");	
 	
 		// check to see if this is IE version 6 or lower. hide select boxes if so
 		var brsVersion = parseInt(window.navigator.appVersion.charAt(0), 10);
@@ -150,14 +150,14 @@ JPopup.prototype = {
 		// calculate where to place the window on screen
 		this.center(width, height);
 	
-		var titleBarHeight = parseInt(document.getElementById("popupTitleBar").offsetHeight, 10);
+		var titleBarHeight = parseInt(document.getElementById("popup-titlebar").offsetHeight, 10);
 	
 		this.container.style.width = width + "px";
 		this.container.style.height = (height+titleBarHeight) + "px";
 		
 		// need to set the width of the iframe to the title bar width because of the dropshadow
 		// some oddness was occuring and causing the frame to poke outside the border in IE6
-		this.frame.style.width = parseInt(document.getElementById("popupTitleBar").offsetWidth, 10) + "px";
+		this.frame.style.width = parseInt(document.getElementById("popup-titlebar").offsetWidth, 10) + "px";
 		this.frame.style.height = (height) + "px";
 	
 		// load the url
@@ -193,7 +193,7 @@ JPopup.prototype = {
 			var scTop = Browser.is_ie ? parseInt(theBody.scrollTop,10) : 0;
 			var scLeft = Browser.is_ie ? parseInt(theBody.scrollLeft,10) : 0;
 			
-			var titleBarHeight = parseInt(document.getElementById("popupTitleBar").offsetHeight, 10);
+			var titleBarHeight = parseInt(document.getElementById("popup-titlebar").offsetHeight, 10);
 		
 			this.container.style.top =  scTop + ((fullHeight - (height+titleBarHeight)) / 2) + "px";
 			this.container.style.left = scLeft + ((fullWidth - width) / 2) + "px";
@@ -220,7 +220,7 @@ JPopup.prototype = {
 		this.container.style.display = "none";
 		
 		if (callReturnFunc == true && this.returnFunc != null) {
-			this.returnFunc(window.frames["popupFrame"].returnVal);
+			this.returnFunc(window.frames["popup-frame"].returnVal);
 		}
 		//this.frame.src = this.baseURL+'includes/js/joomla/popup-loading.html';
 		
@@ -260,7 +260,7 @@ JPopup.prototype = {
  	 */
 	setTitle: function() 
 	{
-		document.getElementById("popupTitle").innerHTML = window.frames["popupFrame"].document.title;
+		document.getElementById("popup-title").innerHTML = window.frames["popup-frame"].document.title;
 	},
 
 

@@ -30,7 +30,7 @@ body { background:url(foo) fixed;}
 	display: none;
 	background-color: #000;
 }
-#popupContainer {
+#popup-container {
 	position: fixed;
 	_position: absolute;
 	border: 4px solid #525252;
@@ -39,19 +39,19 @@ body { background:url(foo) fixed;}
 	padding: 0px;
 	background: #FBFBFB url(loading.gif) no-repeat 50% 50%;
 }
-#popupInner {
+#popup-inner {
 	border: 1px solid #CCCCCC;
 	background-color: #FBFBFB;
 }
 
-#popupFrame {
+#popup-frame {
 	margin: 0px;
 	width: 100%;
 	height: 100%;
 	position: relative;
 	z-index: 2002;
 }
-#popupTitleBar {
+#popup-titlebar {
 	background-color: #0C0C0C;
 	border-bottom: 3px solid #88D153;
 	color: #ffffff;
@@ -61,5 +61,5 @@ body { background:url(foo) fixed;}
 	position: relative;
 	z-index: 2003;
 }
-#popupTitle    { float:left; font-size: 1.3em;                }
-#popupControls { float: right; cursor: pointer; cursor: hand; }
+#popup-title    { float:left; font-size: 1.3em;                }
+#popup-controls { float: right; cursor: pointer; cursor: hand; }
