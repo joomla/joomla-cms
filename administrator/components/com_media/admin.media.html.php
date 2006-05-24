@@ -34,30 +34,48 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		JMediaViews::_loadJS();
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
-		$styles[] = mosHTML::makeOption('thumbs', 'Thumbs');
-		$styles[] = mosHTML::makeOption('details', 'Details');
-		$listStyle = mosHTML::selectList($styles, 'listStyle', 'onchange="setStyle();"', 'value', 'text', $style );		
+
+		$listStyle = "<div class=\"submenu-box\">
+			<div class=\"submenu-pad\">
+				<ul id=\"submenu\">
+					<li class=\"item-smenu\"><a onclick=\"setStyle('thumbs')\">".JText::_('Thumbnail View')."</a></li>
+					<li class=\"item-smenu\"><a onclick=\"setStyle('details')\">".JText::_('Detail View')."</a></li>
+				</ul>
+				<div class=\"clr\"></div>
+			</div>
+		</div>
+		<div class=\"clr\"></div>";
+
+		$document =& $mainframe->getDocument();
+		$document->set('module', 'submenu', $listStyle);
+
+		JMediaViews::_loadJS();
 		$pane =& JPane::getInstance('sliders');
 		?>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
-		<?php echo JText::_('CWD').': '.COM_MEDIA_BASE; ?><span id="cwd"><?php echo $current; ?></span><span id="createForm"  style="display: none;"><input class="inputbox" type="text" name="foldername" id="foldername" /><button onclick="javascript:submitbutton('newdir')">Create</button></span>
-		<a id="createButton" onclick="document.getElementById('createForm').style.display = 'inline';document.getElementById('createButton').style.display = 'none';">
-			<img src="components/com_media/images/folder.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'New' ); ?>" />
-		</a>
 		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 		<tr valign="top">
-			<td class="buttonOut" width="150px">
-				<a href="javascript:dirup()">
-					<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
-				</a>
-				<?php echo $listStyle; ?>
+			<td width="150px">
 				<div class="navigation" style="display: block; position: relative; margin: 0; padding: 2px; overflow: auto;">
 					<?php JMediaViews::_buildFolderTree($tree); ?>
 				</div>
 			</td>
 			<td>
+				<div style="padding: 5px;">
+					<a href="javascript:dirup()">
+						<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
+					</a>
+					<?php echo JText::_('CWD').': '.COM_MEDIA_BASE; ?><span id="cwd"><?php echo $current; ?></span>
+					<span id="createForm"  style="display: none;">
+						<input class="inputbox" type="text" name="foldername" id="foldername" />
+						<input type="button" value="Create" onclick="javascript:submitbutton('newdir')" />
+						<input type="button" value="Cancel" onclick="document.getElementById('createForm').style.display = 'none';document.getElementById('createButton').style.display = 'inline';" />
+					</span>
+					<a id="createButton" onclick="document.getElementById('createForm').style.display = 'inline';document.getElementById('createButton').style.display = 'none';">
+						<img src="components/com_media/images/btnFolderNew.gif" width="16" height="16" border="0" alt="<?php echo JText::_( 'New' ); ?>" />
+					</a>
+				</div>
 				<fieldset>
 					<legend><?php echo JText::_( 'Media' ); ?></legend>
 					<div class="manager" style="display: block; margin: 0; padding: 2px 0px 0px 0px;">
@@ -113,7 +131,7 @@ class JMediaViews
 
 		$doc =& $mainframe->getDocument();
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
-		
+
 		$doc->addStyleSheet('templates/_system/css/media'.$style.'.css');
 
 		$style = ucfirst($style);
@@ -580,9 +598,7 @@ class JMediaViews
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + dir;
 		}
 		
-		function setStyle() {
-			var selection = document.forms[0].listStyle;
-			var style = selection.options[selection.selectedIndex].value;
+		function setStyle(style) {
 			var urlquery=frames['imgManager'].location.search.substring(1);
 			var curdir= urlquery.substring(urlquery.indexOf('cFolder=')+8);
 			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + curdir + '&listStyle=' + style;
