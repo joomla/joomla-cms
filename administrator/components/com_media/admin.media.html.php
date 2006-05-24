@@ -53,8 +53,26 @@ class JMediaViews
 				<div class="navigation" style="display: block; position: relative; margin: 0; padding: 2px; overflow: auto;">
 					<?php JMediaViews::_buildFolderTree($tree); ?>
 				</div>
+				<table>
+				<tr>
+					<td align="right" width="20%" style="padding-right:10px;white-space:nowrap">
+						<label for="foldername">
+							<?php echo JText::_( 'Create Directory' ); ?>
+						</label>
+						<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 150px" />
+					</td>
+					<td align="right" width="80%" style="padding-right:10px;white-space:nowrap">
+					</td>
+				</tr>
+				</table>
 			</td>
 			<td>
+				<fieldset>
+					<legend>Media</legend>
+					<div class="manager" style="display: block; margin: 0; padding: 2px 0px 0px 0px;">
+						<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+					</div>
+				</fieldset>
 				<?php
 					$title = JText::_( 'File Upload' );
 					$pane->startPane("media-pane");
@@ -72,32 +90,6 @@ class JMediaViews
 				
 				<button onclick="javascript:submitbutton('upload')">Upload Files</button>
 		
-				<?php
-					$title = JText::_( 'Create Folder' );
-					$pane->endPanel();
-					$pane->startPanel( $title, "new-folder-page" );
-				?>
-				<table>
-				<tr>
-					<td align="right" width="20%" style="padding-right:10px;white-space:nowrap">
-						<label for="foldername">
-							<?php echo JText::_( 'Create Directory' ); ?>
-						</label>
-						<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 150px" />
-					</td>
-					<td align="right" width="80%" style="padding-right:10px;white-space:nowrap">
-					</td>
-				</tr>
-				</table>
-		
-				<?php
-					$title = JText::_( 'Media' );
-					$pane->endPanel();
-					$pane->startPanel( $title, "list-page" );
-				?>
-				<div class="manager" style="display: block; margin: 0; padding: 2px 0px 0px 0px;">
-					<iframe height="360" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
-				</div>
 				<?php
 					$pane->endPanel();
 					$pane->endPane();
