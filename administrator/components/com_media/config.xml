@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <params>
+		<param name="upload_extensions" type="text" size="50" default="jpg,png" label="Legal Extensions" description="Extensions you are allowed to upload, comma separated." />
+		<param name="upload_maxsize" type="text" size="50" default="1000000" label="Maximum Size" description="The maximum size for an upload (in bytes)." />
+  </params>
+</config>

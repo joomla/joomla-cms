@@ -56,6 +56,30 @@ class JTableComponent extends JTable
 	}
 
 	/**
+	 * Loads a data row by option
+	 * @param string The component option value
+	 * @return boolean
+	 */
+	function loadByOption( $option )
+	{
+		$db = &$this->getDBO();
+		$query = 'SELECT id' .
+				' FROM #__components' .
+				' WHERE ' . $db->NameQuote( 'option' ) . '=' . $db->Quote( $option ) .
+				' AND parent = 0';
+		$db->setQuery( $query, 0, 1 );
+		$id = $db->loadResult();
+
+		if ($id === null)
+		{
+			return false;
+		}
+		else
+		{
+			return $this->load( $id );
+		}
+	}
+	/**
 	 * Validate and filter fields
 	 */
 	function check() {

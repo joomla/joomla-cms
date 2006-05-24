@@ -39,6 +39,11 @@ Legend:
 
 24-May-2006 Andrew Eddie
  ^ Refactoring of menu type manager
+ ^ Widenned jos_modules::position field to 50 chars
+ + Added mvcrt field to jos_modules table
+ + Added all core components to jos_components table in preparation for configuration support
+ + Added functionality to com_config to handle the configuration of any component via parameters
+ + Added basic configuration POC to com_media
 
 23-May-2006 Johan Janssens
  + Added AJAX driven upload functionality to image manager

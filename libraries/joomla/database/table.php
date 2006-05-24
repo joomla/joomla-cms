@@ -115,6 +115,15 @@ class JTable extends JObject
 	}
 
 	/**
+	 * Get the internal database object
+	 * @return object A JDatabase based object
+	 */
+	function &getDBO()
+	{
+		return $this->_db;
+	}
+
+	/**
 	 * Gets the internal table name for the object
 	 * @return string
 	 * @since 1.5

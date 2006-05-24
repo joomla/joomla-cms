@@ -36,6 +36,10 @@ class JMediaViews
 
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
+		$document = &$mainframe->getDocument();
+		$document->addScript('../includes/js/joomla/popup.js');
+		$document->addStyleSheet('../includes/js/joomla/popup.css');
+
 		$listStyle = "<div class=\"submenu-box\">
 			<div class=\"submenu-pad\">
 				<ul id=\"submenu\">
@@ -53,6 +57,8 @@ class JMediaViews
 		JMediaViews::_loadJS();
 		$pane =& JPane::getInstance('sliders');
 		?>
+		<a href="javascript:void document.popup.show('index3.php?option=com_config&c=component&component=com_media', 700, 500, null);">
+			[Configuration]</a>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 		<table width="100%" border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 		<tr valign="top">

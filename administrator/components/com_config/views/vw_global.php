@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: admin.config.html.php 3516 2006-05-15 22:56:37Z Jinx $
 * @package Joomla
 * @subpackage Config
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class JConfigView
 {
-	function showConfig( &$row, &$lists, $option)
+	function showConfig( &$row, &$lists )
 	{
 		global $mainframe;
 
@@ -104,7 +104,8 @@ class JConfigView
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="c" value="global" />
+		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
 		<input type="hidden" name="multilingual_support" value="<?php echo $row->multilingual_support; ?>" />
 	  	<input type="hidden" name="lang_site" value="<?php echo $row->lang_site; ?>" />

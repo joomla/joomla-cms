@@ -243,7 +243,7 @@ class MenuTypeController extends JController
 			$msg = JText::_( 'Menu Items & Modules updated' );
 		}
 	
-		josRedirect( 'index2.php?option=com_menumanager', $msg );
+		$this->setRedirect( 'index2.php?option=com_menumanager', $msg );
 	}
 	
 	/**
@@ -296,73 +296,6 @@ class MenuTypeController extends JController
 			$view->display();
 		}
 	}
-	
-	/**
-	 * Deletes  menu items(s) you have selected
-	 */
-	function deleteMenu( $option, $cid, $type ) {
-		global $database;
-
-		$id = (int) JRequest::getVar( 'cid', 0 );
-	
-		if ( $type == 'mainmenu' ) {
-			josErrorAlert( JText::_( 'WARNDELMAINMENU', true ) );
-			exit();
-		}
-	
-	
-		$mids = JRequest::getVar( 'mids', 0, 'post' );
-		if ( is_array( $mids ) ) {
-			$mids = implode( ',', $mids );
-		}
-		// delete menu items
-		$query = "DELETE FROM #__menu"
-		. "\n WHERE ( id IN ( $mids ) )"
-		;
-		$database->setQuery( $query );
-		if ( !$database->query() ) {
-			josErrorAlert( $database->getErrorMsg() );
-			exit;
-		}
-	
-		if ( is_array( $cid ) ) {
-			$cids = implode( ',', $cid );
-		} else {
-			$cids = $cid;
-		}
-	
-		// checks whether any modules to delete
-		if ( $cids ) {
-			// delete modules
-			$query = "DELETE FROM #__modules"
-			. "\n WHERE id IN ( $cids )"
-			;
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				josErrorAlert( $database->getErrorMsg() );
-				exit;
-			}
-			// delete all module entires in jos_modules_menu
-			$query = "DELETE FROM #__modules_menu"
-			. "\n WHERE moduleid IN ( $cids )"
-			;
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				josErrorAlert( $database->getErrorMsg() );
-				exit;
-			}
-	
-			// reorder modules after deletion
-			$mod =& JTable::getInstance('module', $database );
-			$mod->ordering = 0;
-			$mod->reorder( "position='left'" );
-			$mod->reorder( "position='right'" );
-		}
-	
-		$msg = JText::_( 'Menu Deleted' );
-		josRedirect( 'index2.php?option=' . $option, $msg );
-	}
-	
 	
 	/**
 	* Compiles a list of the items you have selected to Copy

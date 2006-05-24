@@ -181,3 +181,27 @@ UPDATE jos_menu_types
 
 UPDATE jos_menu_types
 	SET title = menutype;
+	
+#AE: 24-May-2006
+
+ALTER TABLE `jos_modules`
+  MODIFY COLUMN `position` VARCHAR(50) DEFAULT '';
+
+INSERT INTO jos_components  VALUES (0,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
+INSERT INTO jos_components  VALUES (0,'Articles','option=com_content',0,0,'option=com_content','Articles','com_content',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Mass mail','',0,0,'','Mass Mail','com_massmail',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Menu Editor','',0,0,'','Menu Editor','com_menus',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Menu Manager','',0,0,'','Menu Manager','com_menumanager',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Messaging','',0,0,'','Messages','com_messages',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Modules Manager','',0,0,'','Modules','com_modules',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Plugin Manager','',0,0,'','Plugins','com_plugins',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Statistics','',0,0,'','Statistics','com_statistics',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Template Manager','',0,0,'','Templates','com_templates',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'User Manager','',0,0,'','Users','com_users',0,'',1,'',1);
+
+ALTER TABLE `jos_modules` ADD COLUMN `mvcrt` TEXT NOT NULL DEFAULT '';
+
+
