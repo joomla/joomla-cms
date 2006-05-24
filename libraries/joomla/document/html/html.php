@@ -134,12 +134,17 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The name of the element to render
 	 * @return 	The output of the renderer
 	 */
-	function get($type, $name = null)
+	function get($type, $name = null, $params = array())
 	{
 		$result = null;
 		if(isset($this->_buffer[$type][$name])) {
-			$result = $this->_buffer[$type][$name];
+			return $this->_buffer[$type][$name];
 		}
+		
+		$renderer = $this->loadRenderer( $type );
+		$result = $renderer->render($name, $params);
+		
+		$this->set($type, $name, $result);
 		
 		return $result;
 		
@@ -358,12 +363,7 @@ class JDocumentHTML extends JDocument
 		{
 			foreach($includes as $include)
 			{
-				$result = $this->get($type, $include);
-				if(empty($result)) 
-				{
-					$renderer = $this->loadRenderer( $type );
-					$result = $renderer->render($include, $params);
-				}
+				$result = $this->get($type, $include, $params);
 				
 				if(!$result) {
 					$result = " ";

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: Placeholder.php 1563 2005-12-27 20:09:40Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -11,24 +11,30 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.extension.module');
-
 /**
- * JDocumentHTML Include function
+ * JDocumentHTML Empty function
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class patTemplate_Function_Include extends patTemplate_Function
+class patTemplate_Function_Empty extends patTemplate_Function
 {
    /**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
-	var $_name	=	'include';
+	var $_name	=	'exists';
+	
+	/**
+	* function type
+	*
+	* @access public
+	* @var	  integer
+	*/
+	var $type = PATTEMPLATE_FUNCTION_RUNTIME;
 
 	/**
 	* reference to the JDocument object that instantiated the module
@@ -49,57 +55,24 @@ class patTemplate_Function_Include extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		global $mainframe;
-		
-		$doc =& $mainframe->getDocument();
-		
-		if(!isset($params['type'])) {
-			return false;
-		}
-
 		$type = isset($params['type']) ? strtolower( $params['type'] ) : null;
-		unset($params['type']);
 
-		$name = isset($params['name']) ? strtolower( $params['name'] ) : null;
-		unset($params['name']);
-
+		$result = '';
 		switch($type)
-		{
-			case 'modules'  		:
+		{	
+			case 'module'			:
 			{
-				$modules =& JModuleHelper::getModules($name);
-
-				$total = count($modules);
-				for($i = 0; $i < $total; $i++) {
-					foreach($params as $param => $value) {
-						$modules[$i]->$param = $value;
-					}
+				global $mainframe;
+				$doc =& $mainframe->getDocument();
+				
+				if( $doc->get($type, $params['name'])) {
+					return $content;
 				}
-
-				$doc->_addRenderer($type, $name);
-
+					
 			} break;
-			case 'module' 		:
-			{
-				$module =& JModuleHelper::getModule($name);
-
-				foreach($params as $param => $value) {
-					$module->$param = $value;
-				}
-
-				$doc->_addRenderer($type, $name);
-			} break;
-			
-			case 'head'         :
-			case 'component'	:
-			{
-				//do nothing
-			}	break;
-
-			default : $doc->_addRenderer($type, $name);
 		}
-		
-		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
+
+		return;
 	}
 
 	 /**

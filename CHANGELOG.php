@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-May-2006 Johan Janssens
+ + Added jdoc:empty function to JDocumentHTML
+
 24-May-2006 Andrew Eddie
  ^ Refactoring of menu type manager
  ^ Widenned jos_modules::position field to 50 chars

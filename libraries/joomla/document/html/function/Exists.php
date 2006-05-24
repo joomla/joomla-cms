@@ -12,7 +12,7 @@
 */
 
 /**
- * JDocument Placeholder function
+ * JDocumentHTML Exist function
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework

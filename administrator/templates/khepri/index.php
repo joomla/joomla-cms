@@ -69,12 +69,14 @@ See COPYRIGHT.php for copyright notices and details.
 						</div>
 						<div class="clr"></div>
 					</div>
-					<div id="submenu-box">
-						<div class="padding">
-							<jdoc:include type="module" name="submenu" />
-							<div class="clr"></div>
+					<jdoc:empty type="module" name="submenu" condition="0">
+						<div id="submenu-box">
+							<div class="padding">
+								<jdoc:include type="module" name="submenu" />
+								<div class="clr"></div>
+							</div>
 						</div>
-					</div>
+					</jdoc:empty>
 					<div id="element-box">
 						<div class="padding">
 							<jdoc:include type="component" />
