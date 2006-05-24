@@ -189,7 +189,7 @@ textarea#mm_message { width: 200px; }
 
 .pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px; }
 
-.pane-sliders .panel h3 { background: #f6f6f6; }
+.pane-sliders .panel h3 { background: #f6f6f6; color: #666}
 
 .pane-sliders .content { height: 0px; display: none; }
 

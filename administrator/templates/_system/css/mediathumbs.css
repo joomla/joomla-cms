@@ -12,7 +12,7 @@
 	  div.imgOutline {
 			float: left;
 			border: 1px;
-			border-right: 1px dashed #f0f0f0;
+			border-right: 1px dashed #e0e0e0;
 			border-bottom: 1px solid #e0e0e0;
 		}
 		
@@ -41,7 +41,7 @@
 			cursor: hand;
 		}
 		div.imginfoBorder {
-			background: #f9f9f9;
+			background: #f3f3f3;
 			font-family: Arial, Helvetica, sans-serif;
 			font-size: 10px;
 			width: 88px;
