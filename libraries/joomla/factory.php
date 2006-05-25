@@ -72,6 +72,17 @@ class JFactory
 	}
 
 	/**
+	 * Returns the database object
+	 * @return object JDatabase based object
+	 */
+	function &getDBO()
+	{
+		// TODO: Make this better
+		global $mainframe;
+		return $mainframe->getDBO();
+	}
+
+	/**
 	 * Returns a reference to the global Mailer object, only creating it
 	 * if it doesn't already exist
 	 *
