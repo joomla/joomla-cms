@@ -68,6 +68,7 @@ class JMediaViews
 			<td>
 				<fieldset>
 					<legend><?php echo JText::_( 'Files' ); ?></legend>
+					<img src="components/com_media/images/terminal_16.png" width="16" height="16" border="0" alt="Current Working Directory" />
 					<input type="text" id="filepath" style="width: 100%; margin-bottom: 5px" disabled="disabled" /> 
 					<div class="manager" style="display: block; margin: 0; padding: 0; height: 360px;">
 						<iframe style="height: 100%" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" id="fileview" name="fileview" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onload();"></iframe>
@@ -309,7 +310,7 @@ class JMediaViews
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="fileview">
-						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" alt="..." /></a>
+						<img src="components/com_media/images/folderup_32.png" width="32" height="32" border="0" alt="..." />
 				</div>
 			</div>
 			<div class="imginfoBorder">
@@ -442,7 +443,7 @@ class JMediaViews
 		<tr>
 			<td class="imgTotal">
 				<a href="<?php echo $link; ?>" target="fileview">
-					<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="..." />
+					<img src="components/com_media/images/folderup_16.png" width="16" height="16" border="0" alt="..." />
 				</a>
 			</td>
 			<td class="description">
