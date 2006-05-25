@@ -573,7 +573,7 @@ class JMediaViews
 		global $mainframe;
 
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
-		$base = str_replace("\\","/",JPATH_BASE);
+		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "	
 		var basepath = '".$base.'/images'."';
 		var cStyle = '".$style."';
