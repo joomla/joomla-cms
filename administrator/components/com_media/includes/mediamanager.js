@@ -48,7 +48,35 @@ JMediaManager.prototype = {
 		}
 	},
 	
-	onload: function()
+	onloadframe: function()
+	{
+		var folder = this.getFolder();
+
+		this.folderpath.value = basepath + folder;
+		var node = d.getNodeByTitle(folder);
+		d.openTo(node, true, true);
+
+		document.getElementById(cStyle).className = 'active';
+	},
+	
+	oncreatefolder: function()
+	{
+		var dirpath    = document.getElementById('dirpath');
+		dirpath.value = '/'+this.getFolder()
+		submitbutton('createfolder');
+	},
+	
+	setViewType: function(type) 
+	{
+		var url    = window.frames['folderframe'].location.search.substring(1);
+		var folder = url.substring(url.indexOf('cFolder=')+8);
+		document.getElementById(type).className = 'active';
+		document.getElementById(cStyle).className = '';
+		cStyle = type;
+		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder='+folder+'&listStyle='+type;
+	},
+	
+	getFolder: function()
 	{
 		var url 	= window.frames['folderframe'].location.search.substring(1);
 		var folder  = url.substring(url.indexOf('cFolder=/')+9);
@@ -72,23 +100,9 @@ JMediaManager.prototype = {
 			// Store as a property
 			args[argname] = unescape(value); 
 		}
-
-		this.folderpath.value = basepath + args['cFolder'];
-//		this.dirpath.value = args['cFolder'];
-		d.openToByTitle(args['cFolder'], true);
-
-		document.getElementById(cStyle).className = 'active';
-	},
-	
-	setViewType: function(type) 
-	{
-		var url    = window.frames['folderframe'].location.search.substring(1);
-		var folder = url.substring(url.indexOf('cFolder=')+8);
-		document.getElementById(type).className = 'active';
-		document.getElementById(cStyle).className = '';
-		cStyle = type;
-		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + folder + '&listStyle=' + type;
-	},
+		
+		return args['cFolder'];
+	}
 }
 
 document.mediamanager = null;

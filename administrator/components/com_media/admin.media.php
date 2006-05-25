@@ -447,7 +447,7 @@ class JMediaController
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
-				josRedirect("index2.php?option=com_media&listdir=".$dirPath, JText::_('WARNDIRNAME'));
+				josRedirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('WARNDIRNAME'));
 			}
 			$folder = COM_MEDIA_BASE.$dirPath.DS.$folderName;
 			if (!is_dir($folder) && !is_file($folder))
@@ -503,6 +503,8 @@ class JMediaController
 		} else {
 			echo '<font color="red">'.JText::_('Unable to delete: not empty!').'</font>';
 		}
+		
+		josRedirect("index.php?option=com_media");
 	}
 
 	function _buildFolderTree($list)

@@ -37,7 +37,7 @@ See COPYRIGHT.php for copyright notices and details.
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
 	
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/fat.js"></script>
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/template.js"></script>
+	<script type="text/javascript" src="templates/{TEMPLATE}/js/index.js"></script>
 
 	</head>
 	<body>

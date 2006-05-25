@@ -10,7 +10,7 @@
 */
 
 /**
- * Joomla! 1.5 Admin template main css file
+ * Joomla! 1.5 Admininstrator index template behvaior
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla

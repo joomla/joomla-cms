@@ -65,10 +65,10 @@ class JMediaViews
 					<div class="path">
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" /> 
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
-						<button type="button" onclick="javascript:submitbutton('newdir')" /><?php echo JText::_( 'Create' ); ?></button>
+						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create' ); ?></button>
 					</div>
 					<div class="view">
-						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onload();"></iframe>
+						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onloadframe();"></iframe>
 					</div>
 				</fieldset>
 			</td>
@@ -246,7 +246,7 @@ class JMediaViews
 			<div class="imginfoBorder">
 				<?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?>
 				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
+					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
 				</div>
@@ -279,7 +279,7 @@ class JMediaViews
 			<div class="imginfoBorder">
 				<?php echo substr( $dir, 0, 10 ) . ( strlen( $dir ) > 10 ? '...' : ''); ?>
 				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
+					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="parent" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
 				</div>
@@ -344,7 +344,7 @@ class JMediaViews
 			<div class="imginfoBorder">
 				<?php echo $doc; ?>
 				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return deleteImage('<?php echo $doc; ?>');">
+					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
 				</div>
@@ -380,7 +380,7 @@ class JMediaViews
 				<?php echo $filesize; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
+				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 			</td>
@@ -416,7 +416,7 @@ class JMediaViews
 				&nbsp;
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
+				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" target="parent" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 			</td>
@@ -484,7 +484,7 @@ class JMediaViews
 				<?php echo $size; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return deleteImage('<?php echo $doc; ?>');">
+				<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="folderframe" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 			</td>
@@ -499,20 +499,23 @@ class JMediaViews
 		}
 		?>
 		<script language="javascript" type="text/javascript">
-		function deleteImage(file) {
+		function confirmDeleteImage(file) 
+		{
 			if(confirm("<?php echo JText::_( 'Delete file' ); ?> \""+file+"\"?"))
 			return true;
 
 			return false;
 		}
-		function deleteFolder(folder, numFiles) {
+		function confirmDeleteFolder(folder, numFiles) 
+		{
 			if(numFiles > 0) {
 				alert("<?php echo JText::_( 'There are', true ); ?> "+numFiles+" <?php echo JText::_( 'files/folders in' ); ?> \""+folder+"\".\n\n<?php echo JText::_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <?php echo JText::_( 'first.' ); ?>");
 				return false;
 			}
 
-			if(confirm("<?php echo JText::_( 'Delete folder', true ); ?> \""+folder+"\"?"))
-			return true;
+			if(confirm("<?php echo JText::_( 'Delete folder', true ); ?> \""+folder+"\"?")) {
+				return true;
+			}
 
 			return false;
 		}

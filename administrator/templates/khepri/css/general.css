@@ -122,17 +122,6 @@ textarea:focus { background-color: #ffd }
 #module-status .logout             { background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat; }
 
 /* -- various styles -- */
-div.message {
-	text-align: center;
-	font-size: 12px;
-	padding: 3px;
-	border: 1px solid #e0e0e0;
-	margin-bottom: 10px;
-	font-weight: bold;
-	color: #333;
-	letter-spacing: .1em;
-}
-
 span.note {
 	display: block;
 	background: #ffd;

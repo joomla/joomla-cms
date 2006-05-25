@@ -37,7 +37,7 @@ See COPYRIGHT.php for copyright notices and details.
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
 	
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/fat.js"></script>
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/template.js"></script>
+	<script type="text/javascript" src="templates/{TEMPLATE}/js/index.js"></script>
 
 	</head>
 	<body>
@@ -97,6 +97,7 @@ See COPYRIGHT.php for copyright notices and details.
 			<p class="copyright">
 				<a href="http://www.joomla.org" target="_blank">Joomla!</a>
 				<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
+				<a href="#border-top">top</a>
 			</p>
 		</div>
 	</body>
