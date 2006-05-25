@@ -26,7 +26,101 @@ class JMediaHelper
 	function isImage( $fileName )
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
-		return eregi($imageTypes, $fileName);
+		return preg_match("/$imageTypes/i",$fileName);
+	}
+
+	/**
+	 * Checks if the file is an image
+	 * @param string The filename
+	 * @return boolean
+	 */
+	function getTypeIcon( $fileName )
+	{
+		// Get file extension
+		$ext = strtolower(substr($fileName, strrpos($fileName, '.') + 1));
+
+		switch ($ext) {
+			case 'xcf':
+			case 'odg':
+			case 'gif':
+			case 'jpg':
+			case 'jpeg':
+			case 'png':
+			case 'odi':
+			case 'pbm':
+			case 'bmp':
+				$icon = 'image';
+				break;
+
+			case 'tar':
+			case 'gz':
+			case 'zip':
+			case 'rar':
+			case 'b2z':
+			case 'jar':
+				$icon = 'archive';
+				break;
+
+			case 'mp3':
+			case 'wav':
+			case 'ogg':
+			case 'au3':
+			case 'wma':
+			case 'aac':
+			case 'ram':
+			case 'aif':
+			case 'aiff':
+				$icon = 'audio';
+				break;
+
+			case 'odb':
+				$icon = 'db';
+				break;
+
+			case 'pdf':
+				$icon = 'pdf';
+				break;
+
+			case 'ppt':
+				$icon = 'presentation';
+				break;
+
+			case 'xls':
+				$icon = 'spreadsheet';
+				break;
+
+			case 'txt':
+				$icon = 'text';
+				break;
+
+			case 'svg':
+				$icon = 'svg';
+				break;
+
+			case 'swf':
+				$icon = 'swf';
+				break;
+
+			case 'rm':
+			case 'wmv':
+			case 'mov':
+			case 'avi':
+			case 'asf':
+			case 'ogm':
+			case 'mpeg':
+			case 'divx':
+				$icon = 'video';
+				break;
+
+			case 'doc':
+				$icon = 'word-processor';
+				break;
+
+			default:
+				$icon = 'unknown';
+				break;
+		}		
+		return $icon;
 	}
 
 	/**

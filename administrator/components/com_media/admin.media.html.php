@@ -145,8 +145,7 @@ class JMediaViews
 			if ($numDocs = count($docs)) {
 				$method = 'showDoc'.$style;
 				for($i=0;$i<$numDocs;$i++) {
-					$extfile = substr($docs[$i]['name'], strrpos($docs[$i]['name'], '.') + 1);
-					
+					$extfile = JMediaHelper::getTypeIcon($docs[$i]['name']);
 					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$extfile."_16.png";
 					if (file_exists($iconfile)) {
 						$icon = "components/com_media/images/".$extfile."_16.png";
