@@ -311,6 +311,7 @@ class JMediaViews
 				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="fileview">
 						<img src="components/com_media/images/folderup_32.png" width="32" height="32" border="0" alt="..." />
+					</a>
 				</div>
 			</div>
 			<div class="imginfoBorder">
