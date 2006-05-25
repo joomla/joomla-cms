@@ -101,14 +101,25 @@ class JMenuHelper extends JObject {
 	 * @param string The option
 	 * @return object A 
 	 */
-	function &getViewParams( $ini, $path='' )
+	function &getViewParams( $ini, $control )
 	{
-		if ($this->_metadata == null && $path == '')
+		if ($this->_metadata == null)
 		{
 			// Check for component metadata.xml file
 			$path = JApplicationHelper::getPath( 'com_xml', 'com_' . $this->_option );
+			$params = new JParameter( $ini, $path );
 		}
-		$params = new JParameter( $ini, $path );
+		else
+		{
+			$params = new JParameter( $ini );
+
+			$viewName = $control->get( 'view_name' );
+			$xmlDoc =& $this->_getMetadataDoc();
+			if (@$xmlDoc->control[0]->views[0]->{$viewName}[0]->params[0])
+			{
+				$params->setXML( $xmlDoc->control[0]->views[0]->{$viewName}[0]->params[0] );
+			}
+		}
 		return $params;
 	}
 

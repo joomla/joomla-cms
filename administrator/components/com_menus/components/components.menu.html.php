@@ -35,7 +35,7 @@ class components_menu_html {
 	{
 		$helper		= new JMenuHelper( $component->option );
 		$control	= $helper->getControlParams( $menu->mvcrt );
-		$params		= $helper->getViewParams( $menu->params );
+		$params		= $helper->getViewParams( $menu->params, $control );
 
 		mosCommonHTML::loadOverlib();
 
