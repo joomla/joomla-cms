@@ -52,10 +52,30 @@ JMediaManager.prototype = {
 	{
 		var url 	= window.frames['fileview'].location.search.substring(1);
 		var folder  = url.substring(url.indexOf('cFolder=/')+9);
+		var args	= new Object();
+
+		// Split query at the comma
+		var pairs = url.split("&"); 
 		
-		this.filepath.value = basepath + '/' + folder;
+		// Begin loop through the querystring
+		for(var i = 0; i < pairs.length; i++) {
+	
+			// Look for "name=value"
+			var pos = pairs[i].indexOf('='); 
+			// if not found, skip to next
+			if (pos == -1) continue; 
+			// Extract the name
+			var argname = pairs[i].substring(0,pos); 
 			
-		d.openToByName(folder, true);
+			// Extract the value
+			var value = pairs[i].substring(pos+1); 
+			// Store as a property
+			args[argname] = unescape(value); 
+		}
+
+		this.filepath.value = basepath + args['cFolder'];
+//		this.dirpath.value = args['cFolder'];
+		d.openToByTitle(args['cFolder'], true);
 	},
 	
 	setViewType: function(type) 
