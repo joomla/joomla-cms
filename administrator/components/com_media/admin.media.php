@@ -41,7 +41,7 @@ define( 'JPATH_COM_MEDIA', dirname( __FILE__ ));
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
 define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : $mainframe->getBaseURL().'images');
 
-require_once( JPATH_COM_MEDIA . '/helper.php' );
+require_once( JPATH_COM_MEDIA . '/media.helper.php' );
 
 $task = JRequest::getVar( 'task', '');
 switch ($task) {
@@ -55,9 +55,8 @@ switch ($task) {
 		JMediaController::showMedia();
 		break;
 
-	case 'newdir' :
-		$dirPath = JRequest::getVar( 'dirPath', '');
-		JMediaController::createFolder($dirPath);
+	case 'createfolder' :
+		JMediaController::createFolder();
 		JMediaController::showMedia();
 		break;
 
@@ -441,9 +440,9 @@ class JMediaController
 	 * @param string $path Path of the folder to create
 	 * @since 1.5
 	 */
-	function createFolder($path)
+	function createFolder()
 	{
-		$folderName = JRequest::getVar( 'foldername', '', 'post' );
+		$folderName = JRequest::getVar( 'foldername', '');
 		$dirPath 	= JRequest::getVar( 'dirpath', '' );
 
 		if (strlen($folderName) > 0) {
@@ -511,7 +510,7 @@ class JMediaController
 		// id, parent, name, url, title, target
 		$nodes = array();
 		$i = 1;
-		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => 'Images Folder', 'url' => 'index.php?option=com_media&task=list&tmpl=component.html&cFolder=/', 'title' => '/', 'target' => 'fileview');
+		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => 'Images Folder', 'url' => 'index.php?option=com_media&task=list&tmpl=component.html&cFolder=/', 'title' => '/', 'target' => 'folderframe');
 		if (is_array($list) && count($list)) {
 			foreach ($list as $item) {
 				// Try to find parent
@@ -522,7 +521,7 @@ class JMediaController
 				} else {
 					$pid = -1;
 				}
-				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => basename($item), 'url' => 'index.php?option=com_media&task=list&tmpl=component.html&cFolder='.$item, 'title' => $item, 'target' => 'fileview');
+				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => basename($item), 'url' => 'index.php?option=com_media&task=list&tmpl=component.html&cFolder='.$item, 'title' => $item, 'target' => 'folderframe');
 				$i++;
 			}
 		}

@@ -26,8 +26,8 @@ JMediaManager.prototype = {
 	{	
 		var self = this;
 		
-		this.fileview  	= document.getElementById('fileview');
-		this.filepath  	= document.getElementById('filepath');
+		this.folderframe  	= document.getElementById('folderframe');
+		this.folderpath  	= document.getElementById('folderpath');
 	},
 	
 	registerEvent: function(target,type,args) 
@@ -50,7 +50,7 @@ JMediaManager.prototype = {
 	
 	onload: function()
 	{
-		var url 	= window.frames['fileview'].location.search.substring(1);
+		var url 	= window.frames['folderframe'].location.search.substring(1);
 		var folder  = url.substring(url.indexOf('cFolder=/')+9);
 		var args	= new Object();
 
@@ -73,7 +73,7 @@ JMediaManager.prototype = {
 			args[argname] = unescape(value); 
 		}
 
-		this.filepath.value = basepath + args['cFolder'];
+		this.folderpath.value = basepath + args['cFolder'];
 //		this.dirpath.value = args['cFolder'];
 		d.openToByTitle(args['cFolder'], true);
 
@@ -82,12 +82,12 @@ JMediaManager.prototype = {
 	
 	setViewType: function(type) 
 	{
-		var url    = window.frames['fileview'].location.search.substring(1);
+		var url    = window.frames['folderframe'].location.search.substring(1);
 		var folder = url.substring(url.indexOf('cFolder=')+8);
 		document.getElementById(type).className = 'active';
 		document.getElementById(cStyle).className = '';
 		cStyle = type;
-		window.frames['fileview'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + folder + '&listStyle=' + type;
+		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + folder + '&listStyle=' + type;
 	},
 }
 

@@ -1,0 +1,31 @@
+/**
+* @version $Id$
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * JMediaManager javascript behvaior styling
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+ 
+#treeview { padding: 10px; width:140px; overflow: auto; height: 390px; }
+ 
+#folderview { }
+#folderview .path { margin-bottom: 10px;  }
+#folderview .view { display: block; margin: 0; padding: 0; height: 360px; }
+ 
+#folderview input#folderpath   { width: 70%; background-color: #EEE; }
+#folderview input#foldername   { width: 20%; }
+#folderview iframe#folderframe { height: 100%; }
+ 
+ 
