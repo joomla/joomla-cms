@@ -38,8 +38,8 @@ class JMediaViews
 
 		$listStyle = "
 			<ul id=\"submenu\">
-				<li class=\"item-smenu\"><a onclick=\"document.mediamanager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
-				<li class=\"item-smenu\"><a onclick=\"document.mediamanager.setViewType('details')\">".JText::_('Detail View')."</a></li>
+				<li class=\"item-smenu\"><a id=\"thumbs\" onclick=\"document.mediamanager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
+				<li class=\"item-smenu\"><a id=\"details\" onclick=\"document.mediamanager.setViewType('details')\">".JText::_('Detail View')."</a></li>
 			</ul>
 		";
 
@@ -568,10 +568,13 @@ class JMediaViews
 	function _loadJS()
 	{	
 		global $mainframe;
+
+		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 		$base = str_replace("\\","/",JPATH_BASE);
 		$js = "	
 		var basepath = '".$base.'/images'."';
-			
+		var cStyle = '".$style."';
+		
 		function jsAddFile() {
 			div = document.getElementById( 'uploads' );
 		

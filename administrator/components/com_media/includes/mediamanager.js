@@ -76,12 +76,17 @@ JMediaManager.prototype = {
 		this.filepath.value = basepath + args['cFolder'];
 //		this.dirpath.value = args['cFolder'];
 		d.openToByTitle(args['cFolder'], true);
+
+		document.getElementById(cStyle).className = 'active';
 	},
 	
 	setViewType: function(type) 
 	{
 		var url    = window.frames['fileview'].location.search.substring(1);
 		var folder = url.substring(url.indexOf('cFolder=')+8);
+		document.getElementById(type).className = 'active';
+		document.getElementById(cStyle).className = '';
+		cStyle = type;
 		window.frames['fileview'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + folder + '&listStyle=' + type;
 	},
 }
