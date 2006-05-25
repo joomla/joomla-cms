@@ -68,6 +68,7 @@ class JMediaViews
 			<td>
 				<fieldset>
 					<legend><?php echo JText::_( 'Files' ); ?></legend>
+					<input type="text" id="filepath" style="width: 100%; margin-bottom: 5px" disabled="disabled" /> 
 					<div class="manager" style="display: block; margin: 0; padding: 0; height: 360px;">
 						<iframe style="height: 100%" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="fileview" id="fileview" name="fileview" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onload();"></iframe>
 					</div>
@@ -564,7 +565,11 @@ class JMediaViews
 
 	function _loadJS()
 	{	
-		$js = "		
+		global $mainframe;
+		
+		$js = "	
+		var basepath = '".JPATH_BASE.'/images'."';
+			
 		function jsAddFile() {
 			div = document.getElementById( 'uploads' );
 		
@@ -586,7 +591,7 @@ class JMediaViews
 		
 			return div;
 		}
-" ;
+		" ;
 		global $mainframe;
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);

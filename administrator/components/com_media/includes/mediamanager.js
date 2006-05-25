@@ -27,6 +27,7 @@ JMediaManager.prototype = {
 		var self = this;
 		
 		this.fileview  	= document.getElementById('fileview');
+		this.filepath  	= document.getElementById('filepath');
 	},
 	
 	registerEvent: function(target,type,args) 
@@ -51,6 +52,8 @@ JMediaManager.prototype = {
 	{
 		var url 	= window.frames['fileview'].location.search.substring(1);
 		var folder  = url.substring(url.indexOf('cFolder=/')+9);
+		
+		this.filepath.value = basepath + '/' + folder;
 			
 		d.openToByName(folder, true);
 	},
@@ -60,7 +63,7 @@ JMediaManager.prototype = {
 		var url    = window.frames['fileview'].location.search.substring(1);
 		var folder = url.substring(url.indexOf('cFolder=')+8);
 		window.frames['fileview'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + folder + '&listStyle=' + type;
-	}
+	},
 }
 
 document.mediamanager = null;
