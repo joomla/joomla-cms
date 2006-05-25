@@ -26,62 +26,72 @@ class JMenuHelper extends JObject {
 	 */
 	var $_option = null;
 
-	/**
-	 * @var string Contollers folder name
-	 */
-	var $_controllersFolder = 'controllers';
-
-	/**
-	 * @var string Views folder name
-	 */
-	var $_viewsFolder = 'views';
-
-	/**
-	 * @var string Templates folder name
-	 */
-	var $_tmplsFolder = 'tmpl';
+	var $_metadata;
 
 	/**
 	 * Constructor
 	 */
 	function __construct( $option )
 	{
-		$this->_option = $option;
-	}
-
-	/**
-	 * @param string The option
-	 * @return object A JMenuHelper or derived object
-	 */
-	function &getInstance( $option='' )
-	{
 		// clean the option
 		$option = preg_replace( '#\W#', '', $option );
 		$option = str_replace( 'com_', '', $option );
 
-		if ($option == '') {
-			$result = new JMenuHelper( $option );
-			return $result;
-		}
+		$this->_option = $option;
 
-		$fileName = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_' . $option . DS . $option . '.menu.php';
-		if (file_exists( $fileName )) {
-			require( $fileName );
-			
-			if (class_exists( 'ComponentMenuHelper' )) {
-				$result = new ComponentMenuHelper( $option );
-			}
-			else
-			{
-				$result = new JMenuHelper( $option );
-			}
-		}
-		else
+		// load the xml metadata
+		$this->_metadata = null;
+
+		$path = JPATH_SITE . '/components/com_' . $this->_option . '/metadata.xml';
+
+		if (file_exists( $path ))
 		{
-				$result = new JMenuHelper( $option );
-		}
+			$xml = & JFactory::getXMLParser('Simple');
 
+			if ($xml->loadFile($path))
+			{
+				$this->_metadata = &$xml;
+			}
+		}
+	}
+
+	/**
+	 * @access private
+	 */
+	function &_getMetadataDoc()
+	{
+		$result = null;
+		if (isset( $this->_metadata->document ))
+		{
+			$result = &$this->_metadata->document;
+		}
 		return $result;
+	}
+
+	function hasControlParams()
+	{
+		return (boolean) $this->_getMetadataDoc();
+	}
+
+	/**
+	 * @param string A params string
+	 * @param string The option
+	 */
+	function &getControlParams( $params, $path='' )
+	{
+		$params = new JParameter( $params );
+
+		if ($xmlDoc =& $this->_getMetadataDoc())
+		{
+			if (isset( $xmlDoc->control[0] ))
+			{
+				if (isset( $xmlDoc->control[0]->params[0] ))
+				{
+					$params->setXML( $xmlDoc->control[0]->params[0] );
+				}
+			}
+		}
+		return $params;
 	}
 
 	/**
@@ -91,13 +101,14 @@ class JMenuHelper extends JObject {
 	 * @param string The option
 	 * @return object A 
 	 */
-	function &getParams( $params, $option='', $path='' )
+	function &getViewParams( $ini, $path='' )
 	{
-		if ($path == '')
+		if ($this->_metadata == null && $path == '')
 		{
-			$path = JApplicationHelper::getPath( 'com_xml', $option );
+			// Check for component metadata.xml file
+			$path = JApplicationHelper::getPath( 'com_xml', 'com_' . $this->_option );
 		}
-		$params = new JParameter( $params, $path );
+		$params = new JParameter( $ini, $path );
 		return $params;
 	}
 
@@ -243,22 +254,6 @@ class JMenuHelper extends JObject {
 	{
 		$folderName = $this->getControllersFolder();
 		$fileName = $folderName . $controller_name . '.xml';
-
-		if (file_exists( $fileName ))
-		{
-			$result = new JParameter( $paramValues, $fileName );
-		}
-		else
-		{
-			$result = new JParameter( $paramValues );
-		}
-		return $result;
-	}
-
-	function getViewParams( $view_name, $paramValues )
-	{
-		$folderName = $this->getViewsFolder();
-		$fileName = $folderName . $view_name . DS . 'metadata.xml';
 
 		if (file_exists( $fileName ))
 		{

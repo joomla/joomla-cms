@@ -33,13 +33,9 @@ class components_menu_html {
 	 */
 	function edit( &$menu, &$component, &$components, &$lists, $option )
 	{
-		$helper	= JMenuHelper::getInstance( $component->option );
-
-		$params	= $helper->getParams( $menu->params, $component->option );
-
-		$mvcrt	= $helper->getParams( $menu->mvcrt, null, dirname( __FILE__ ) . '/mvcrt.xml' );
-		$mvcrt->addParameterDir( dirname( __FILE__ ) . '/parameters' );
-		$mvcrt->private_helper = $helper;
+		$helper		= new JMenuHelper( $component->option );
+		$control	= $helper->getControlParams( $menu->mvcrt );
+		$params		= $helper->getViewParams( $menu->params );
 
 		mosCommonHTML::loadOverlib();
 
@@ -102,45 +98,20 @@ class components_menu_html {
 				</td>
 				<td width="40%">
 				<?php
-					menuHTML::MenuOutputParams( $params, $menu, 1 );
-
-					if ($helper->hasMVCRT()) {
+					if ($helper->hasControlParams()) {
 				?>
 					<fieldset>
 						<legend>
-							<?php echo JText::_( 'MVCRT' ); ?>
+							<?php echo JText::_( 'Control Parameters' ); ?>
 						</legend>
 					<?php
-						echo $mvcrt->render( 'mvcrt' );
+						echo $control->render( 'mvcrt' );
 					?>
 					</fieldset>
-				<?php
-						if ($helper->hasControllers())
-						{ ?>
-					<fieldset>
-						<legend>
-							<?php echo JText::_( 'Controller Parameters' ); ?>
-						</legend>
-					<?php
-						$params = $helper->getContollerParams( $mvcrt->get( 'controller_name' ), $menu->params );
-						echo $params->render();
-					?>
-					</fieldset>
-			<?php		}
-
-						if ($helper->hasViews())
-						{ ?>
-					<fieldset>
-						<legend>
-							<?php echo JText::_( 'View Parameters' ); ?>
-						</legend>
-					<?php
-						$params = $helper->getViewParams( $mvcrt->get( 'view_name' ), $menu->params );
-						echo $params->render();
-					?>
-					</fieldset>
-			<?php		}
+			<?php
 					}
+
+					menuHTML::MenuOutputParams( $params, $menu, 1 );
 				?>
 				</td>
 			</tr>

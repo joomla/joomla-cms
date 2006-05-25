@@ -105,6 +105,16 @@ class JParameter extends JRegistry
 	}
 
 	/**
+	 * Sets the XML object from custom xml files
+	 * @access public
+	 * @param object An XML object
+	 */
+	function setXML( &$xml )
+	{
+		$this->_xml = $xml;
+	}
+
+	/**
 	 * Sets a default value if not alreay assigned
 	 *
 	 * @access public
@@ -227,7 +237,7 @@ class JParameter extends JRegistry
 			if ($xml->loadFile($path))
 			{
 				if ($params = & $xml->document->params[0]) {
-					$this->_xml = & $params;
+					$this->setXML( $params );
 					$result = true;
 				}
 			}
