@@ -360,6 +360,7 @@ class JMediaController
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
 		$juri 		= $mainframe->getURI();
 		$err		= null;
+		JRequest::setVar('cFolder', $dirPath);
 
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
 			$dirPathPost = $dirPath;
@@ -394,6 +395,7 @@ class JMediaController
 		$dirPath 		= JRequest::getVar( 'dirpath', '' );
 		$err			= null;
 		$file['size']	= 0;
+		JRequest::setVar('cFolder', $dirPath);
 
 		jimport('joomla.filesystem.file');
 
@@ -409,12 +411,12 @@ class JMediaController
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
 				if (!JMediaHelper::canUpload( $file, $err )) {
-					JMediaController::showUpload(JText::_($err));
+					josRedirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
 					return;
 				}
 
 				if (!JFile::upload($files['tmp_name'][$i], $destDir.strtolower($files['name'][$i]))) {
-					josRedirect("index.php?option=com_media", JText::_('Upload FAILED'));
+					josRedirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
 				}
 			}
 		}
