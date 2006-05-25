@@ -36,19 +36,17 @@ class JMediaViews
 
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
-		$listStyle = "<div class=\"submenu-box\">
-			<div class=\"submenu-pad\">
-				<ul id=\"submenu\">
-					<li class=\"item-smenu\"><a onclick=\"setStyle('thumbs')\">".JText::_('Thumbnail View')."</a></li>
-					<li class=\"item-smenu\"><a onclick=\"setStyle('details')\">".JText::_('Detail View')."</a></li>
-				</ul>
-				<div class=\"clr\"></div>
-			</div>
-		</div>
-		<div class=\"clr\"></div>";
+		$listStyle = "
+			<ul id=\"submenu\">
+				<li class=\"item-smenu\"><a onclick=\"document.mediamanager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
+				<li class=\"item-smenu\"><a onclick=\"document.mediamanager.setViewType('details')\">".JText::_('Detail View')."</a></li>
+			</ul>
+		";
 
 		$document =& $mainframe->getDocument();
-		$document->set('module', 'submenu', $listStyle);
+		$document->set('module', 'submenu', $listStyle);	
+		$document->addScript('components/com_media/includes/mediamanager.js');
+
 
 		JMediaViews::_loadJS();
 		?>
@@ -62,21 +60,8 @@ class JMediaViews
 				</fieldset>
 				<fieldset>
 					<legend><?php echo JText::_( 'Create Folder' ); ?></legend>
-					<!--
-					<div style="padding: 5px;">
-					<a href="javascript:dirup()">
-						<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
-					</a>
-					<?php echo JText::_('CWD').': '.COM_MEDIA_BASE; ?><span id="cwd"><?php echo $current; ?></span>
-					<span id="createForm"  style="display: none;">
-						<input class="inputbox" type="text" name="foldername" id="foldername" />
-						<input type="button" value="Create" onclick="javascript:submitbutton('newdir')" />
-						<input type="button" value="Cancel" onclick="document.getElementById('createForm').style.display = 'none';document.getElementById('createButton').style.display = 'inline';" />
-					</span>
-					<a id="createButton" onclick="document.getElementById('createForm').style.display = 'inline';document.getElementById('createButton').style.display = 'none';">
-						<img src="components/com_media/images/btnFolderNew.gif" width="16" height="16" border="0" alt="<?php echo JText::_( 'New' ); ?>" />
-					</a>
-					-->
+					<input class="inputbox" type="text" name="foldername" id="foldername" />
+					<input type="button" value="Create" onclick="javascript:submitbutton('newdir')" />
 				</div>
 				</fieldset>
 			</td>
@@ -84,7 +69,7 @@ class JMediaViews
 				<fieldset>
 					<legend><?php echo JText::_( 'Files' ); ?></legend>
 					<div class="manager" style="display: block; margin: 0; padding: 0; height: 360px;">
-						<iframe style="height: 100%" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+						<iframe style="height: 100%" src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" name="fileview" id="fileview" name="fileview" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onload();"></iframe>
 					</div>
 				</fieldset>
 				<fieldset>
@@ -130,12 +115,13 @@ class JMediaViews
 		$doc =& $mainframe->getDocument();
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
-		$doc->addStyleSheet('templates/_system/css/media'.$style.'.css');
+		$doc->addStyleSheet('components/com_media/includes/medialist-'.$style.'.css');
 
 		$style = ucfirst($style);
 		JMediaViews::imageStyle($current);
 
-		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
+		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) 
+		{
 			//now sort the folders and images by name.
 			ksort($images);
 			ksort($folders);
@@ -143,6 +129,9 @@ class JMediaViews
 
 			$method = 'draw'.$style.'Header';
 			JMediaViews::$method();
+			
+			$method = 'showUp'.$style;
+			JMediaViews::$method('/' . $folderName, $folder, $current);
 
 			// Handle the folders
 			if (count($folders)) {
@@ -200,7 +189,6 @@ class JMediaViews
 
 	function drawThumbsHeader() 
 	{
-		mosCommonHTML::loadOverlib();
 		?>
 		<div class="manager">
 		<?php
@@ -215,7 +203,6 @@ class JMediaViews
 
 	function drawDetailsHeader() 
 	{
-		mosCommonHTML::loadOverlib();
 		?>
 		<div class="manager">
 		<table width="100%" cellspacing="0">
@@ -241,7 +228,8 @@ class JMediaViews
 		<?php
 	}
 
-	function showImgThumbs($img, $file, $info, $size, $listdir) {
+	function showImgThumbs($img, $file, $info, $size, $listdir) 
+	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
 		$filesize	= JMediaHelper::parseSize($size);
@@ -252,40 +240,15 @@ class JMediaViews
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
 
-		$overlib = '<table>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('Width');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $info[0] . JText::_('px');
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('Height');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $info[1] . JText::_('px');
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('Filesize');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $filesize;
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '</table>';
 		?>
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-					<a onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80');" style="display: block; width: 100%; height: 100%">
+					<a style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> border="0" />
-						</div></a>
+						</div>
+					</a>
 				</div>
 			</div>
 			<div class="imginfoBorder">
@@ -294,16 +257,14 @@ class JMediaViews
 					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="imgManager" onclick="return deleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
-					<a onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
-						<img src="components/com_media/images/info.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
-					</a>
 				</div>
 			</div>
 		</div>
 		<?php
 	}
 	
-	function showFolderThumbs($path, $dir, $listdir) {
+	function showFolderThumbs($path, $dir, $listdir) 
+	{
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
@@ -312,32 +273,15 @@ class JMediaViews
 			$listdir = '';
 		}
 
-		$link = 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$listdir.$path;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$listdir.$path;
 
-		$overlib = '<table>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('NUMFILES');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $num_files;
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '<tr>';
-		$overlib .= '<td>';
-		$overlib .= JText::_('NUMFOLDERS');
-		$overlib .= '</td>';
-		$overlib .= '<td>';
-		$overlib .= $num_dir;
-		$overlib .= '</td>';
-		$overlib .= '</tr>';
-		$overlib .= '</table>';
 		?>
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-					<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
-						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" /></a>
+					<a href="<?php echo $link; ?>" target="fileview">
+						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" />
+					</a>
 				</div>
 			</div>
 			<div class="imginfoBorder">
@@ -346,28 +290,55 @@ class JMediaViews
 					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="imgManager" onclick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
-					<a onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo addslashes( $listdir.$path ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();">
-						<img src="components/com_media/images/info.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
-					</a>
 				</div>
 			</div>
 		</div>
 		<?php
 	}
+	
+	function showUpThumbs($path, $dir, $listdir) 
+	{
+		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$num_files	= $count[0];
+		$num_dir	= $count[1];
 
-	function showDocThumbs($doc, $size, $listdir, $icon) {
+		if ($listdir == '/') {
+			$listdir = '';
+		}
+		
+		$folder = str_replace("\\", "/", dirname($listdir.$path));
+
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$folder;
+
+		?>
+		<div class="imgOutline">
+			<div class="imgTotal">
+				<div align="center" class="imgBorder">
+					<a href="<?php echo $link; ?>" target="fileview">
+						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" /></a>
+				</div>
+			</div>
+			<div class="imginfoBorder">
+				...
+			</div>
+		</div>
+		<?php
+	}
+
+	function showDocThumbs($doc, $size, $listdir, $icon) 
+	{
 		global $mainframe;
 
 		$size = JMediaHelper::parseSize($size);
 		$base = "/images/";
-		$overlib = JText::_('Filesize') . ': ' . $size;
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
 		?>
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-				  <a onclick="javascript: window.open( '<?php echo $doc_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=300,directories=no,location=no,left=120,top=80');" style="display: block; width: 100%; height: 100%">
-		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" /></a>
+				 	<a style="display: block; width: 100%; height: 100%">
+		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" />
+		  			</a>
 		  		</div>
 			</div>
 			<div class="imginfoBorder">
@@ -375,9 +346,6 @@ class JMediaViews
 				<div class="buttonOut">
 					<a href="index.php?option=com_media&amp;tmpl=component.html&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="imgManager" onclick="return deleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-					</a>
-					<a onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
-						<img src="components/com_media/images/info.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Code' ); ?>" />
 					</a>
 				</div>
 			</div>
@@ -397,18 +365,9 @@ class JMediaViews
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
 
-		// Preview data
-		if (($info[0] > 150) || ($info[0] > 150)) {
-			$prev_dimensions = JMediaHelper::imageResize($info[0], $info[1], 150);
-		} else {
-			$prev_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
-		}
-		$prev_dimensions = str_replace('"', "\'", $prev_dimensions);
-		$preview = "<img src='$img_url' $prev_dimensions alt='$file - $filesize' border='0' />";
-
 		?>
 		<tr>
-			<td onmouseover="return overlib( '<?php echo addslashes($preview); ?>', CAPTION, '<?php echo addslashes( $file ); ?>', BELOW, LEFT, WIDTH, 150 );" onmouseout="return nd();" onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80');">
+			<td>
 				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 			</td>
 			<td class="description">
@@ -439,11 +398,11 @@ class JMediaViews
 			$listdir = '';
 		}
 
-		$link = 'index3.php?option=com_media&amp;task=list&amp;cFolder='.$listdir.$path;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$listdir.$path;
 		?>
 		<tr>
 			<td class="imgTotal">
-				<a href="<?php echo $link; ?>" target="imgManager" onclick="javascript:updateDir();">
+				<a href="<?php echo $link; ?>" target="fileview">
 					<img src="components/com_media/images/folder_sm.png" width="16" height="16" border="0" alt="<?php echo $dir; ?>" />
 				</a>
 			</td>
@@ -464,6 +423,36 @@ class JMediaViews
 		</tr>
 		<?php
 	}
+	
+	function showUpDetails($path, $dir, $listdir) 
+	{
+		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$num_files	= $count[0];
+		$num_dir	= $count[1];
+		
+		if ($listdir == '/') {
+			$listdir = '';
+		}
+		
+		$folder = str_replace("\\", "/", dirname($listdir.$path));
+		
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$folder;
+		?>
+		<tr>
+			<td class="imgTotal">
+				<a href="<?php echo $link; ?>" target="fileview">
+					<img src="components/com_media/images/folderup.png" width="16" height="16" border="0" alt="<?php echo $dir; ?>" />
+				</a>
+			</td>
+			<td class="description">
+				...
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<?php
+	}
 
 	function showDocDetails($doc, $size, $listdir, $icon) 
 	{
@@ -475,7 +464,7 @@ class JMediaViews
 		?>
 		<tr>
 			<td>
-				<a onclick="javascript: window.open( '<?php echo $doc_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=300,directories=no,location=no,left=120,top=80');">
+				<a>
 					<img src="<?php echo $icon ?>" width="16" height="16" border="0" alt="<?php echo $doc; ?>" />
 				</a>
 			</td>
@@ -504,14 +493,6 @@ class JMediaViews
 		}
 		?>
 		<script language="javascript" type="text/javascript">
-		function updateDir(){
-			window.top.document.forms[0].dirpath.value = '<?php echo $listdir; ?>';
-			var tree = window.parent.d;
-			tree.openToByName('<?php echo $listdir; ?>', true);
-			var cwd = window.top.document.getElementById('cwd');
-			cwd.innerHTML = '<?php echo addslashes(JPath::clean($listdir)); ?>';
-		}
-
 		function deleteImage(file) {
 			if(confirm("<?php echo JText::_( 'Delete file' ); ?> \""+file+"\"?"))
 			return true;
@@ -530,8 +511,6 @@ class JMediaViews
 			return false;
 		}
 		</script>
-		</head>
-		<body onload="updateDir()">
 		<?php
 	}
 
@@ -573,37 +552,13 @@ class JMediaViews
 			d.config.useCookies = false;
 			<?php echo $txt; ?>
 			document.write(d);
-			d.openToByName('Images Folder',true);
 		</script>
 		<?php
 	}
 
 	function _loadJS()
-	{
-		global $mainframe;
-		
-		$url = ($mainframe->isAdmin()) ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		$js = "
-		var base_url = '".$url."';	
-			
-		function dirup(){
-			var urlquery=frames['imgManager'].location.search.substring(1);
-			var curdir= urlquery.substring(urlquery.indexOf('cFolder=')+8);
-			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
-			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + listdir;
-		}
-
-		function goUpDir() {
-			var dir = document.forms[0].dirpath.value;
-			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + dir;
-		}
-		
-		function setStyle(style) {
-			var urlquery=frames['imgManager'].location.search.substring(1);
-			var curdir= urlquery.substring(urlquery.indexOf('cFolder=')+8);
-			frames['imgManager'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder=' + curdir + '&listStyle=' + style;
-		}
-		
+	{	
+		$js = "		
 		function jsAddFile() {
 			div = document.getElementById( 'uploads' );
 		
@@ -625,26 +580,8 @@ class JMediaViews
 		
 			return div;
 		}
-" .
-		"		// Opens the tree to a specific node
-		dTree.prototype.openToByName = function(nName, bSelect, bFirst) {
-			var nId = 0;
-				for (var n=0; n<this.aNodes.length; n++) {
-					if (this.aNodes[n].title == nName) {
-						nId=n;
-						break;
-					}
-				}
-			var cn=this.aNodes[nId];
-			if (cn.pid==this.root.id || !cn._p) return;
-			cn._io = true;
-			cn._is = bSelect;
-			if (this.completed && cn._hc) this.nodeStatus(true, cn._ai, cn._ls);
-			if (this.completed && bSelect) this.s(cn._ai);
-			else if (bSelect) this._sn=cn._ai;
-			this.openTo(cn._p._ai, false, true);
-		};
-		";
+" ;
+		global $mainframe;
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);
 	}

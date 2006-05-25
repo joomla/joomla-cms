@@ -360,7 +360,7 @@ class JMenuManagerConfirmDeleteView extends JView
 		$model		= &$this->getModel();
 		$table		= $model->getTable();
 
-		$document->addStyleSheet('templates/_system/css/popup.css');
+		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle('Confirm Delete Menu Type: ' . $table->menutype );
 
 		// view data
