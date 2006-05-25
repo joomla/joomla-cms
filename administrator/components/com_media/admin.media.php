@@ -62,12 +62,12 @@ switch ($task) {
 
 	case 'delete' :
 		JMediaController::deleteFile($folder);
-		JMediaController::listMedia();
+		JMediaController::showMedia();
 		break;
 
 	case 'deletefolder' :
 		JMediaController::deleteFolder($folder);
-		JMediaController::listMedia();
+		JMediaController::showMedia();
 		break;
 
 	case 'list' :
@@ -127,31 +127,19 @@ class JMediaController
 		if (empty($base)) {
 			$base = COM_MEDIA_BASE;
 		}
-		$current = JRequest::getVar( 'cFolder' );
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders($base, '.', true, true);
 
-		// Build the array of select options for the folder list
-		$folders[] = mosHTML::makeOption("/");
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace($base, "", $folder);
 			$folder 	= str_replace(DS, "/", $folder);
 			$nodes[] 	= $folder;
-			$folders[] 	= mosHTML::makeOption($folder);
 		}
 		$tree = JMediaController::_buildFolderTree($nodes);
 
-		// Sort the folder list array
-		if (is_array($folders)) {
-			sort($folders);
-		}
-
-		// Create the drop-down folder select list
-		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $current);
-
-		JMediaViews::showMedia($folderSelect, $current, $tree);
+		JMediaViews::showMedia($tree);
 	}
 
 	/**
@@ -371,7 +359,8 @@ class JMediaController
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
 		$juri 		= $mainframe->getURI();
-		
+		$err		= null;
+
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
 			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
@@ -444,6 +433,7 @@ class JMediaController
 	{
 		$folderName = JRequest::getVar( 'foldername', '');
 		$dirPath 	= JRequest::getVar( 'dirpath', '' );
+		JRequest::setVar('cFolder', $dirPath);
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
@@ -499,12 +489,11 @@ class JMediaController
 		}
 
 		if ($canDelete) {
-			JFolder::delete($delFolder);
+			$ret = JFolder::delete($delFolder);
 		} else {
 			echo '<font color="red">'.JText::_('Unable to delete: not empty!').'</font>';
 		}
-		
-		josRedirect("index.php?option=com_media");
+		return $ret;		
 	}
 
 	function _buildFolderTree($list)

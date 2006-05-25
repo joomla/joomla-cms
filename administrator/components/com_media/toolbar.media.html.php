@@ -34,8 +34,12 @@ class TOOLBAR_media {
 	* Draws the menu for a New Media
 	*/
 	function _DEFAULT() {
-		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
+
+		// Get the toolbar object instance
 		$bar = & JToolBar::getInstance('JComponent');
+
+		// Set the titlebar text
+		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
 
 		// Add a popup configuration button
 		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_media', '700', '500' );
