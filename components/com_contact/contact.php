@@ -31,10 +31,6 @@ $task = JRequest::getVar( 'task' );
 $type = JRequest::getVar( 'type', 'html' );
 
 switch ($task) {
-	case 'view' :
-		JContactController::contactPage();
-		break;
-
 	case 'vcard' :
 		JContactController::vCard();
 		break;
@@ -43,14 +39,29 @@ switch ($task) {
 		JContactController::sendmail();
 		break;
 
-	default :
-		$document =& $mainframe->getDocument();
-		if($document->getType() == 'feed') {
-			JContactController::listContactsRSS();
-		} else {
-			JContactController::listContacts();
+	default:
+		$menus		= JMenu::getInstance();
+		$menu		= $menus->getCurrent();
+		$mParams	= new JParameter( $menu->mvcrt );
+		$viewName	= $mParams->get( 'view_name', $task );
+
+		switch ($viewName)
+		{
+			case 'contact_item_link' :
+			case 'view' :
+				JContactController::contactPage();
+				break;
+		
+			case 'contact_category_table' :
+			default :
+				$document =& $mainframe->getDocument();
+				if($document->getType() == 'feed') {
+					JContactController::listContactsRSS();
+				} else {
+					JContactController::listContacts();
+				}
+				break;
 		}
-		break;
 }
 
 /**
