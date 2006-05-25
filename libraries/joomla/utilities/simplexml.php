@@ -484,6 +484,38 @@ class JSimpleXMLElement extends JObject
     }
 
     /**
+     * Get an element in the document by / separated path
+     *
+     * @param	string	$path	The / separated path to the element
+     * @return	object	JSimpleXMLElement
+     */
+	function &getElementByPath($path)
+	{
+		$tmp	=& $this;
+		$parts	= explode('/', trim($path, '/'));
+		$root	= array_shift($parts);
+		
+		if ($tmp->_name == $root) {
+			foreach ($parts as $node) {
+				$found = false;
+				foreach ($tmp->_children as $child) {
+					if ($child->_name == $node) {
+						$tmp =& $child;
+						$found = true;
+						break;
+					}
+				}
+				if (!$found) {
+					return false;
+				}
+			}
+			return $tmp;
+		} else {
+			return false;
+		}
+	}
+
+    /**
      * Return a well-formed XML string based on SimpleXML element
      *
      * @return string
