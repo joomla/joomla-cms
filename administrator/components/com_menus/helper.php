@@ -114,10 +114,12 @@ class JMenuHelper extends JObject {
 			$params = new JParameter( $ini );
 
 			$viewName = $control->get( 'view_name' );
-			$xmlDoc =& $this->_getMetadataDoc();
-			if (@$xmlDoc->control[0]->views[0]->{$viewName}[0]->params[0])
+			if ($viewName && $xmlDoc =& $this->_getMetadataDoc())
 			{
-				$params->setXML( $xmlDoc->control[0]->views[0]->{$viewName}[0]->params[0] );
+				if (@$xmlDoc->control[0]->views[0]->{$viewName}[0]->params[0])
+				{
+					$params->setXML( $xmlDoc->control[0]->views[0]->{$viewName}[0]->params[0] );
+				}
 			}
 		}
 		return $params;
