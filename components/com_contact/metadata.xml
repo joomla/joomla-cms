@@ -2,7 +2,7 @@
 <metadata>
 	<control>
 		<params>
-			<param name="view_name" type="list" default="contact_category" label="Style">
+			<param name="view_name" type="list" default="" label="Style">
 				<option value="">- Select View Style -</option>
 				<option value="contact_category_table">Table</option>
 				<option value="contact_item_link">Item</option>
