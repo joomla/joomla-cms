@@ -79,7 +79,7 @@ class JComponentHelper
 		if (!isset( $instances[$option] ))
 		{
 			$component = &JComponentHelper::getInfo( $option );
-			$instances[$option] = new JParameter($row->params);
+			$instances[$option] = new JParameter($component->params);
 		}
 		return $instances[$option];
 	}

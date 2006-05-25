@@ -66,6 +66,13 @@ JMediaManager.prototype = {
 		submitbutton('createfolder');
 	},
 	
+	onuploadfiles: function()
+	{
+		var dirpath    = document.getElementById('dirpath');
+		dirpath.value = '/'+this.getFolder()
+		submitbutton('uploadbatch');
+	},
+	
 	setViewType: function(type) 
 	{
 		var url    = window.frames['folderframe'].location.search.substring(1);

@@ -50,7 +50,7 @@ switch ($task) {
 		JMediaController::upload();
 		break;
 
-	case 'uploadBatch' :
+	case 'uploadbatch' :
 		JMediaController::batchUpload();
 		JMediaController::showMedia();
 		break;
@@ -390,13 +390,15 @@ class JMediaController
 
 	function batchUpload()
 	{
-		$files 		= JRequest::getVar( 'uploads', array(), 'files', 'array' );
-		$dirPath 	= JRequest::getVar( 'dirpath', '' );
+		$files 			= JRequest::getVar( 'uploads', array(), 'files', 'array' );
+		$dirPath 		= JRequest::getVar( 'dirpath', '' );
+		$err			= null;
+		$file['size']	= 0;
 
 		jimport('joomla.filesystem.file');
 
 		if (is_array($files) && isset ($dirPath)) {
-			for ($i=0;count($files['name']);$i++) {
+			for ($i=0;$i<count($files['name']);$i++) {
 				$dirPathPost = $dirPath;
 				$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 	
@@ -404,16 +406,11 @@ class JMediaController
 					return false;
 				}
 
-				$format	= JFile::getExt($files['name'][$i]);
-				$allowable 	= array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
-				if (in_array($format, $allowable)) {
-					$noMatch = true;
-				} else {
-					$noMatch = false;
-				}
-
-				if (!$noMatch) {
-					josRedirect("index.php?option=com_media", JText::_('This file type is not supported'));
+				$file['name'] = $files['name'][$i];
+				$file['size'] += (int)$files['size'][$i];
+				if (!JMediaHelper::canUpload( $file, $err )) {
+					JMediaController::showUpload(JText::_($err));
+					return;
 				}
 
 				if (!JFile::upload($files['tmp_name'][$i], $destDir.strtolower($files['name'][$i]))) {

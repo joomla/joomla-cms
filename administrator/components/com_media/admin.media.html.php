@@ -89,7 +89,7 @@ class JMediaViews
 				</div>
 			</div>
 					
-			<button onclick="javascript:submitbutton('uploadBatch')">Upload Files</button>
+			<button onclick="document.mediamanager.onuploadfiles()" /><?php echo JText::_( 'Upload Files' ); ?></button>
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_media" />

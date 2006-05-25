@@ -140,7 +140,7 @@ class JMediaHelper
 		jimport('joomla.filesystem.file');
 		$format = JFile::getExt($file['name']);
 
-		$allowable = implode( ',', (array) $params->get( 'upload_extensions' ));
+		$allowable = explode( ',', $params->get( 'upload_extensions' ));
 
 		if (!in_array($format, $allowable))
 		{
