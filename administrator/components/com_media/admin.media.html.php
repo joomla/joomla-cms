@@ -146,13 +146,7 @@ class JMediaViews
 				$method = 'showDoc'.$style;
 				for($i=0;$i<$numDocs;$i++) {
 					$extfile = JMediaHelper::getTypeIcon($docs[$i]['name']);
-					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$extfile."_16.png";
-					if (file_exists($iconfile)) {
-						$icon = "components/com_media/images/".$extfile."_16.png";
-					} else {
-						$icon = "components/com_media/images/con_info.png";
-					}
-					JMediaViews::$method($docs[$i]['name'], $docs[$i]['size'], $current, $icon);
+					JMediaViews::$method($docs[$i]['name'], $docs[$i]['size'], $current, $extfile);
 				}
 			}
 
@@ -331,6 +325,13 @@ class JMediaViews
 		$size = JMediaHelper::parseSize($size);
 		$base = "/images/";
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
+
+		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$icon."_48.png";
+		if (file_exists($iconfile)) {
+			$icon = "components/com_media/images/".$icon."_48.png";
+		} else {
+			$icon = "components/com_media/images/con_info.png";
+		}
 		?>
 		<div class="imgOutline">
 			<div class="imgTotal">
@@ -457,6 +458,12 @@ class JMediaViews
 	{
 		global $mainframe;
 
+		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$icon."_16.png";
+		if (file_exists($iconfile)) {
+			$icon = "components/com_media/images/".$icon."_16.png";
+		} else {
+			$icon = "components/com_media/images/con_info.png";
+		}
 		$size = JMediaHelper::parseSize($size);
 		$base = "/images/";
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);

@@ -82,14 +82,17 @@ class JMediaHelper
 				break;
 
 			case 'ppt':
+			case 'odp':
 				$icon = 'presentation';
 				break;
 
+			case 'ods':
 			case 'xls':
 				$icon = 'spreadsheet';
 				break;
 
 			case 'txt':
+			case 'odm':
 				$icon = 'text';
 				break;
 
@@ -113,6 +116,7 @@ class JMediaHelper
 				break;
 
 			case 'doc':
+			case 'odt':
 				$icon = 'word-processor';
 				break;
 
