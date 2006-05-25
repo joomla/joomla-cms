@@ -67,15 +67,19 @@ JPopup.prototype = {
 		popcont = document.createElement('div');
 		popcont.id = 'popup-container';
 		popcont.innerHTML = '' +
+			'<div id="popup-header1"><div id="popup-header2"><div id="popup-header3"></div></div></div>' +
 			'<div id="popup-inner">' +
 				'<div id="popup-titlebar">' +
 					'<div id="popup-title"></div>' +
 					'<div id="popup-controls">' +
-						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide();" />' +
+						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.png" onclick="document.popup.hide();" />' +
 					'</div>' +
 				'</div>' +
-				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
-			'</div>';
+				'<div id="popup-left"><div id="popup-right">' +
+					'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
+				'</div></div>' +
+			'</div>'  +
+			'<div id="popup-footer1"><div id="popup-footer2"><div id="popup-footer3"></div></div></div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
 		
