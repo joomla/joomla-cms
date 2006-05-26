@@ -67,7 +67,9 @@ switch ($task) {
 		break;
 
 	case 'save':
-	case 'apply':
+	case 'apply':		
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 		require_once( $path . $type .'/'. $type .'.menu.php' );
 		break;
 
@@ -480,6 +482,10 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 			require_once( JPATH_ADMINISTRATOR . '/components/com_menus/' . $type . '/' . $type . '.menu.php' );
 		}
 	}
+
+	$cache = & JFactory::getCache('com_content');
+	$cache->cleanCache();
+	
 	return null;
 }
 
@@ -525,9 +531,11 @@ function TrashMenu( $cid=NULL, $menutype=',mainmenu' ) {
 		exit();
 	}
 
-	$total = count( $cid );
-
-	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
+	$cache = & JFactory::getCache('com_content');
+	$cache->cleanCache();
+	
+	$total 	= count( $cid );
+	$msg 	= sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	return $msg;
 }
 
@@ -558,6 +566,9 @@ function orderMenu( $uid, $inc, $option ) {
 	$row =& JTable::getInstance('menu', $database );
 	$row->load( $uid );
 	$row->move( $inc, "menutype = '$row->menutype' AND parent = $row->parent" );
+	
+	$cache = & JFactory::getCache('com_content');
+	$cache->cleanCache();
 
 	josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype );
 }
@@ -580,6 +591,9 @@ function accessMenu( $uid, $access, $option, $menutype ) {
 	if (!$menu->store()) {
 		return $menu->getError();
 	}
+	
+	$cache = & JFactory::getCache('com_content');
+	$cache->cleanCache();
 
 	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype );
 }
@@ -827,6 +841,9 @@ function saveOrder( &$cid, $menutype ) {
 		$row->load( $cond[0] );
 		$row->reorder( $cond[1] );
 	} // foreach
+
+	$cache = & JFactory::getCache('com_content');
+	$cache->cleanCache();
 
 	$msg 	= JText::_( 'New ordering saved' );
 	josRedirect( 'index2.php?option=com_menus&menutype='. $menutype, $msg );

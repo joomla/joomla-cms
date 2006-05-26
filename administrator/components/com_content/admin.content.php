@@ -43,8 +43,6 @@ switch (strtolower($task))
 	case 'menulink' :
 	case 'apply' :
 	case 'save' :
-		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
 		JContentController::saveContent();
 		break;
 
@@ -806,6 +804,9 @@ class JContentController
 		}
 		$fp->reorder();
 
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
+		
 		switch ($task)
 		{
 			case 'go2menu' :
@@ -904,6 +905,9 @@ class JContentController
 				}
 				break;
 		}
+		
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 
 		/*
 		 * Get some return/redirect information from the request
@@ -968,6 +972,9 @@ class JContentController
 			}
 			$fp->reorder();
 		}
+		
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 
 		josRedirect('index2.php?option='.$option, $msg);
 	}
@@ -1014,6 +1021,9 @@ class JContentController
 			JError::raiseError( 500, $db->getErrorMsg() );
 			return false;
 		}
+		
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 
 		$msg = sprintf(JText::_('Item(s) sent to the Trash'), count($cid));
 		josRedirect('index2.php?option='.$option.'&task='.$return, $msg);
@@ -1056,6 +1066,9 @@ class JContentController
 		$row = & JTable::getInstance('content', $db);
 		$row->load($cid[0]);
 		$row->move($direction, "catid = $row->catid AND state >= 0");
+		
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 
 		josRedirect('index2.php?option='.$option);
 	}
@@ -1363,6 +1376,9 @@ class JContentController
 			JError::raiseError( 500, $row->getError() );
 			return false;
 		}
+		
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 
 		josRedirect('index2.php?option='.$option);
 	}
@@ -1414,6 +1430,9 @@ class JContentController
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		} // foreach
+
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
 
 		$msg = JText::_('New ordering saved');
 		switch ($rettask)
