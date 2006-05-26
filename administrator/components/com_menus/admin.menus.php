@@ -17,9 +17,10 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 define( 'COM_MENUS', dirname( __FILE__ ) . DS );
+require_once( COM_MENUS . 'controller.php' );
 require_once( COM_MENUS . 'model.php' );
+require_once( COM_MENUS . 'views.php' );
 require_once( COM_MENUS . 'helper.php' );
-require_once( COM_MENUS . 'admin.menus.html.php' );
 
 $id 		= JRequest::getVar( 'id', 0, '', 'int' );
 $type 		= JRequest::getVar( 'type', false );
@@ -39,6 +40,13 @@ if (!is_array( $cid )) {
 
 
 switch ($task) {
+	case 'newwiz':
+	case 'edit2':
+		$controller = new JMenuController( 'newwiz' );
+		$controller->performTask( $task );
+		$controller->redirect();
+		break;
+
 	case 'new':
 		addMenuItem( $cid, $menutype, $option, $task );
 		break;

@@ -93,6 +93,7 @@ class TOOLBAR_menus {
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
+		JMenuBar::addNewX( 'newwiz', 'Wizard' );
 		JMenuBar::help( 'screen.menus' );
 	}
 }

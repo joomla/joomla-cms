@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: admin.menus.html.php 3593 2006-05-22 15:48:29Z Jinx $
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -15,12 +15,327 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport('joomla.application.view');
+
 /**
-* @package Joomla
-* @subpackage Menus
-* @static
-* @since 1.5
-*/
+ * @package Joomla
+ * @subpackage Menus
+ * @static
+ * @since 1.5
+ */
+class JMenuNewWizardView extends JView
+{
+	function display()
+	{
+		$document = &$this->getDocument();
+
+		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
+		$document->setTitle('New Menu Wizard');
+		
+		$menuType	= JRequest::getVar( 'menutype' );
+
+		$model		= &$this->getModel();
+		$menuTypes 	= $model->getMenuTypelist();
+		$components	= $model->getComponentList();
+?>
+	<style type="text/css">
+	._type {
+		font-weight: bold;
+	}
+	</style>
+	<form action="index2.php" method="post" name="adminForm" target="_top">
+		<fieldset>
+			<div style="float: right">
+				<button type="button" onclick="this.form.submit();window.top.document.popup.hide();">
+					<?php echo JText::_('Next');?></button>
+		    </div>
+		    Click Next to create the menu item.
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				<?php echo JText::_('New Menu Item');?>
+			</legend>
+			
+			<table class="adminform">
+				<tr>
+					<td width="20%">
+					</td>
+					<td valign="top">
+						<label for="menutype">
+							<?php echo JText::_('Create in Menu');?>
+						</label>
+						<br/>
+						<?php echo mosHTML::selectList( $menuTypes, 'menutype', 'class="inputbox" size="1"', 'menutype', 'title', $menuType );?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<input type="radio" name="type" id="type_component" value="component" checked="true" />
+						<label for="type_component" class="_type">
+							<?php echo JText::_('Component');?>
+						</label>
+					</td>
+					<td valign="top">
+						<?php echo JText::_('Link a component to this menu item');?>
+						<br/>
+						<?php echo mosHTML::selectList( $components, 'componentid', 'class="inputbox" size="8"', 'id', 'name', $components[0]->id );?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<input type="radio" name="type" id="type_url" value="url" />
+						<label for="type_url" class="_type">
+							<?php echo JText::_('URL');?>
+						</label>
+					</td>
+					<td valign="top">
+						<label for="type_url">
+							<?php echo JText::_('URL Address');?>
+						</label>
+						<br/>
+						<input type="text" name="link" size="40" value="http://" /> 
+						<br/>
+						<?php echo JText::_('Link another URL to this menu item');?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<input type="radio" name="type" id="type_separator" value="separator" />
+						<label for="type_separator" class="_type">
+							<?php echo JText::_('Text Label');?>
+						</label>
+					</td>
+					<td valign="top">
+						<label for="type_url">
+							<?php echo JText::_('Text');?>
+						</label>
+						<br/>
+						<input type="text" name="name" size="40" value="" /> 
+						<br/>
+						<?php echo JText::_('This menu item will be just plain text');?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<input type="radio" name="type" id="type_component_item_link" value="component_item_link" />
+						<label for="type_component_item_link" class="_type">
+							<?php echo JText::_('Menu Item');?>
+						</label>
+						<br/>
+					</td>
+					<td valign="top">
+						<?php echo JText::_('Link to an existing menu item');?>
+						<br/>
+						LIST
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+
+		<input type="hidden" name="option" value="com_menus" />
+		<input type="hidden" name="task" value="edit2" />
+
+	</form>
+<?php
+	}
+}
+
+/**
+ * Displays the menu edit form
+ * @package Joomla
+ * @subpackage Menus
+ * @static
+ * @since 1.5
+ */
+class JMenuEditView extends JView
+{
+	/**
+	 * Display the view
+	 */
+	function display()
+	{
+		$document = &$this->getDocument();
+
+		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
+		$document->setTitle('Edit Menu');
+		
+		$menuType	= JRequest::getVar( 'menutype' );
+
+		$model		= &$this->getModel();
+		$table		= &$model->getTable();
+		$component	= &$model->getComponent();
+		$menuTypes 	= $model->getMenuTypelist();
+		$components	= $model->getComponentList();
+
+		$helper		= new JMenuHelper( $component->option );
+		$control	= $helper->getControlParams( $table->mvcrt );
+		$params		= $helper->getViewParams( $table->params, $control );
+
+		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
+		$put[] = mosHTML::makeOption( '1', JText::_( 'Yes' ));
+		$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
+
+		mosCommonHTML::loadOverlib();
+?>
+	<script language="javascript" type="text/javascript">
+	function submitbutton(pressbutton) {
+		var form = document.adminForm;
+		if (pressbutton == 'cancel') {
+			submitform( pressbutton );
+			return;
+		}
+
+		var comp_links = new Array;
+		<?php
+		foreach ($components as $row) {
+			?>
+			comp_links[ <?php echo $row->id;?> ] = 'index.php?<?php echo addslashes( $row->link );?>';
+			<?php
+		}
+		?>
+		if ( form.id.value == 0 ) {
+			var comp_id = getSelectedValue( 'adminForm', 'componentid' );
+			form.link.value = comp_links[comp_id];
+		} else {
+			form.link.value = comp_links[form.componentid.value];
+		}
+
+		if ( trim( form.name.value ) == "" ){
+			alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
+		} else if (form.componentid.value == ""){
+			alert( "<?php echo JText::_( 'Please select a Component', true ); ?>" );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+	</script>
+
+	<form action="index2.php" method="post" name="adminForm">
+
+		<table width="100%">
+			<tr valign="top">
+				<td width="60%">
+					<table class="adminform">
+						<tr>
+							<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+							</th>
+						</tr>
+						<tr>
+							<td width="20%" align="right">
+								<?php echo JText::_( 'ID' ); ?>:
+							</td>
+							<td width="80%">
+								<strong><?php echo $table->id; ?></strong>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<?php echo JText::_( 'Name' ); ?>:
+							</td>
+							<td>
+								<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $table->name; ?>" />
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<?php echo JText::_( 'Url' ); ?>:
+							</td>
+							<td>
+								<?php echo ampReplace( mosAdminMenus::Link( $table, $table->id ) ); ?>
+							</td>
+						</tr>
+						</tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Component' ); ?>:
+							</td>
+							<td>
+								<?php echo mosHTML::selectList( $components, 'componentid', 'class="inputbox" size="8"', 'id', 'name', $components[0]->id );?>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<?php echo JText::_( 'Display in' ); ?>:
+							</td>
+							<td>
+								<?php echo mosHTML::selectList( $menuTypes, 'menutype', 'class="inputbox" size="1"', 'menutype', 'title', $table->menutype );?>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top">
+								<?php echo JText::_( 'Parent Item' ); ?>:
+							</td>
+							<td>
+								<?php echo mosAdminMenus::Parent( $table ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Published' ); ?>:
+							</td>
+							<td>
+								<?php echo mosHTML::radioList( $put, 'published', '', $table->published ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</td>
+							<td>
+								<?php echo mosAdminMenus::Ordering( $table, $table->id ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Access Level' ); ?>:
+							</td>
+							<td>
+								<?php echo mosAdminMenus::Access( $table ); ?>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td width="40%">
+				<?php
+					if ($helper->hasControlParams()) {
+				?>
+					<fieldset>
+						<legend>
+							<?php echo JText::_( 'Control Parameters' ); ?>
+						</legend>
+					<?php
+						echo $control->render( 'mvcrt' );
+					?>
+					</fieldset>
+			<?php
+					}
+
+					menuHTML::MenuOutputParams( $params, $table, 1 );
+				?>
+				</td>
+			</tr>
+		</table>
+
+		<input type="hidden" name="option" value="com_menus" />
+		<input type="hidden" name="id" value="<?php echo $table->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $table->id; ?>" />
+		<input type="hidden" name="link" value="" />
+		<input type="hidden" name="menutype" value="<?php echo $table->menutype; ?>" />
+		<input type="hidden" name="type" value="<?php echo $table->type; ?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="hidemainmenu" value="0" />
+	</form>
+<?php
+	}
+}
+
+/**
+ * @package Joomla
+ * @subpackage Menus
+ * @static
+ * @since 1.5
+ */
 class menuHTML
 {
 	/**
@@ -163,8 +478,29 @@ class HTML_menusections {
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 
+		$document	= &$mainframe->getDocument();
+
+		$document->addScript('../includes/js/joomla/popup.js');
+		$document->addStyleSheet('../includes/js/joomla/popup.css');
+
 		mosCommonHTML::loadOverlib();
 		?>
+		<script language="javascript" type="text/javascript">
+		function submitbutton(task)
+		{
+			var f = document.adminForm;
+			if (task == 'newwiz')
+			{
+				menutype = f.menutype.value
+				document.popup.show('index3.php?option=com_menus&task=newwiz&menutype='+menutype, 700, 500, null);
+			}
+			else
+			{
+				submitform(task);
+			}
+		}
+		</script>
+
 		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
 
 		<table>

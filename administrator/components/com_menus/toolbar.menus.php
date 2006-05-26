@@ -32,6 +32,7 @@ switch ($task) {
 		break;
 
 	case 'edit':
+	case 'edit2':
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		if (!is_array( $cid )) {
 			$cid = array(0);

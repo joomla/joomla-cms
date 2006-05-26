@@ -22,6 +22,25 @@ jimport( 'joomla.application.model' );
  */
 class JMenuModel extends JModel
 {
+	/** @var object JTable object */
+	var $_table = null;
+
+	/**
+	 * Returns the internal table object
+	 * @return JTable
+	 */
+	function &getTable()
+	{
+		if ($this->_table == null)
+		{
+			jimport( 'joomla.database.table.menu' );
+
+			$db = &$this->getDBO();
+			$this->_table = new JTableMenu( $db );
+		}
+		return $this->_table;
+	}
+
 	/**
 	 * Delete one or more menu items
 	 * @param mixed int or array of id values
@@ -116,6 +135,35 @@ class JMenuModel extends JModel
 		$query = 'SELECT menutype FROM #__menu_types';
 		$db->setQuery( $query );
 		return $db->loadResultArray();
+	}
+
+	/**
+	 * Gets the componet table object related to this menu item
+	 */
+	function &getComponent()
+	{
+		jimport( 'joomla.database.table.component' );
+		$db = $this->getDBO();
+		$id = $this->_table->componentid;
+		$component = new JTableComponent( $db );
+		$component->load( $id );
+		return $component;
+	}
+
+	/**
+	 * Gets a list of components that can link to the menu
+	 */
+	function getComponentList()
+	{
+		$db = $this->getDBO();
+		$query = "SELECT c.id, c.name, c.link"
+		. "\n FROM #__components AS c"
+		. "\n WHERE c.link <> '' AND parent = 0"
+		. "\n ORDER BY c.name"
+		;
+		$db->setQuery( $query );
+		$result = $db->loadObjectList( );
+		return $result;
 	}
 }
 ?>
