@@ -492,27 +492,28 @@ class JSimpleXMLElement extends JObject
 	function &getElementByPath($path)
 	{
 		$tmp	=& $this;
+		$false	= false;
 		$parts	= explode('/', trim($path, '/'));
-		$root	= array_shift($parts);
-		
-		if ($tmp->_name == $root) {
-			foreach ($parts as $node) {
-				$found = false;
-				foreach ($tmp->_children as $child) {
-					if ($child->_name == $node) {
-						$tmp =& $child;
-						$found = true;
-						break;
-					}
-				}
-				if (!$found) {
-					return false;
+
+		foreach ($parts as $node) {
+			$found = false;
+			foreach ($tmp->_children as $child) {
+				if ($child->_name == $node) {
+					$tmp =& $child;
+					$found = true;
+					break;
 				}
 			}
-			return $tmp;
-		} else {
-			return false;
+			if (!$found) {
+				break;
+			}
 		}
+		if ($found) {
+			$ref =& $tmp;
+		} else {
+			$ref =& $false;
+		}
+		return $ref;
 	}
 
     /**
