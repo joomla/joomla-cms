@@ -20,10 +20,6 @@
  
 body { background:url(foo) fixed;}
 
-.clr {
-	clear: both;
-}
-
 #popup-overlay {
 	position: absolute;
 	top: 0; left: 0; z-index:1001;
@@ -38,38 +34,35 @@ body { background:url(foo) fixed;}
 #popup-container {
 	position: fixed;
 	_position: absolute;
-
+	border: 4px solid #525252;
 	top: 0px; left: 0px; z-index: 2001;
 	display:none;
 	padding: 0px;
 	background: #FBFBFB url(loading.gif) no-repeat 50% 50%;
 }
-
-#popup-border {
-	border-left: 10px solid #000;
-	border-right: 10px solid #000;
-	border-bottom: 10px solid #000;
-}
-
 #popup-inner {
-	background-color: #fbfbfb;
+	border: 1px solid #CCCCCC;
+	background-color: #FBFBFB;
 }
 
 #popup-frame {
 	margin: 0px;
-	width: 100px;
+	width: 100%;
 	height: 100%;
+	position: relative;
 	z-index: 2002;
 }
 #popup-titlebar {
-	background: #000 url(popup-head.png) repeat-x;
-	color: #ddd;
+	background-color: #0C0C0C;
+	border-bottom: 3px solid #88D153;
+	color: #ffffff;
 	font-weight: bold;
-	padding: 0 5px;
+	height: 1.5em;
+	padding: 5px;
 	position: relative;
 	z-index: 2003;
 }
 
-#popup-title    { float:left; font-size: 1.5em; line-height: 39px; padding: 5px;                }
-#popup-controls { float: right; cursor: pointer; cursor: hand; margin-top: 3px}
+#popup-title    { float:left; font-size: 1.3em;                }
+#popup-controls { float: right; cursor: pointer; cursor: hand; }
 
