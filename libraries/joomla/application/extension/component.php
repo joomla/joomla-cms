@@ -83,4 +83,49 @@ class JComponentHelper
 		}
 		return $instances[$option];
 	}
+
+	/**
+	 * Gets the title of the current menu item
+	 * @return string
+	 */
+	function getMenuName()
+	{
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
+		return $menu->name;
+	}
+	
+	/**
+	 * Gets the parameter object for the current menu
+	 * @return object A JParameter object
+	 */
+	function &getMenuParams()
+	{
+		static $instance;
+		
+		if ($instance == null)
+		{
+			$menus		= JMenu::getInstance();
+			$menu		= &$menus->getCurrent();
+			$instance	= new JParameter( $menu->params );
+		}
+		return $instance;
+	}
+	
+	/**
+	 * Gets the control parameters object for the current menu
+	 * @return object A JParameter object
+	 */
+	function &getControlParams()
+	{
+		static $instance;
+		
+		if ($instance == null)
+		{
+			$menus		= JMenu::getInstance();
+			$menu		= &$menus->getCurrent();
+			$instance	= new JParameter( $menu->mvcrt );
+		}
+		return $instance;
+	}
 }

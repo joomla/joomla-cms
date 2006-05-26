@@ -32,24 +32,22 @@ class JElement_Contact extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $database;
+		$db = &JFactory::getDBO();
 
-		$scope = $node->attributes('scope');
-		if (!isset ($scope)) {
-			$scope = 'content';
-		}
+		$query = "SELECT a.id, CONCAT( a.name, ' - ',a.con_position ) AS text, a.catid "
+		. "\n FROM #__contact_details AS a"
+		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
+		. "\n WHERE a.published = 1"
+		. "\n ORDER BY a.catid, a.name"
+		;
+		$db->setQuery( $query );
+		$contacts = $db->loadObjectList( );
 
-		if ($scope == 'content') {
-			// This might get a conflict with the dynamic translation - TODO: search for better solution
-			$query = "SELECT c.id, CONCAT_WS( '/',s.title, c.title ) AS title"."\n FROM #__categories AS c"."\n LEFT JOIN #__sections AS s ON s.id=c.section"."\n WHERE c.published = 1"."\n AND s.scope = '$scope'"."\n ORDER BY c.title";
-		} else {
-			$query = "SELECT c.id, c.title"."\n FROM #__categories AS c"."\n WHERE c.published = 1"."\n AND c.section = '$scope'"."\n ORDER BY c.title";
-		}
-		$database->setQuery($query);
-		$options = $database->loadObjectList();
-		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
+		//array_unshift($options, mosHTML::makeOption('0', 'None', 'id', 'text'));
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name );
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox" size="10"', 'id', 'text', $value, $control_name.$name );
 	}
 }
 ?>

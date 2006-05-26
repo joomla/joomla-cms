@@ -111,7 +111,14 @@ class JParameter extends JRegistry
 	 */
 	function setXML( &$xml )
 	{
-		$this->_xml = $xml;
+		if (is_object( $xml ))
+		{
+			$this->_xml = $xml;
+			if ($dir = $xml->attributes( 'addparameterdir' ))
+			{
+				$this->addParameterDir( JPATH_SITE . $dir );
+			}
+		}
 	}
 
 	/**
@@ -260,6 +267,7 @@ class JParameter extends JRegistry
 	*/
 	function &loadElement( $type, $new = false ) 
 	{
+		$false = false;
 		$signature = md5( $type  );
 
 		if( isset( $this->_elements[$signature] ) && $new === false ) {
@@ -290,12 +298,12 @@ class JParameter extends JRegistry
 			}
 
 			if( !$found ) {
-				return false;
+				return $false;
 			}
 		}
 
 		if( !class_exists( $elementClass ) ) {
-			return false;
+			return $false;
 		}
 
 		$this->_elements[$signature] = new $elementClass($this);

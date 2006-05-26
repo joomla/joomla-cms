@@ -10,7 +10,9 @@
 		</params>
 		<views>
 			<contact_category_table>
-				<params addParameterDir="elements">
+				<params addParameterDir="/components/com_contact/elements">
+					<param name="category_id" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
+					<param name="@spacer" type="spacer" default="" label="" description="" />
 					<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 					<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 						<option value="-1">Off</option>
@@ -69,7 +71,9 @@
 				</params>
 			</contact_category_table>
 			<contact_item_link>
-				<params>
+				<params addparameterdir="/components/com_contact/elements">
+					<param name="contact_id" type="contact" default="" label="Select Contact" description="The contact to link to" />
+					<param name="@spacer" type="spacer" default="" label="" description="" />
 					<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 					<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 						<option value="-1">Off</option>

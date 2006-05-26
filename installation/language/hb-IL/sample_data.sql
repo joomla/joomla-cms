@@ -33,7 +33,7 @@ INSERT INTO `#__categories` VALUES (12, 0, 'Kontakte', 'Kontakte', '', 'com_cont
 # Dumping data for table `#__contact_details`
 #
 
-INSERT INTO `#__contact_details` VALUES (1, 'Name', 'Position', 'Strasse', 'Bezirk', 'Staat', 'Land', 'PLZ', 'Telefon', 'Fax', 'Weitere Infos', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, '', 0, 12, 0, '', '');
+INSERT INTO `#__contact_details` VALUES (1, 'Name', 'Position', 'Strasse', 'Bezirk', 'Staat', 'Land', 'PLZ', 'Telefon', 'Fax', 'Weitere Infos', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, 'menu_image=-1\r\npageclass_sfx=\r\nprint=\r\nname=1\r\nposition=1\r\nemail=0\r\nstreet_address=1\r\nsuburb=1\r\nstate=1\r\ncountry=1\r\npostcode=1\r\ntelephone=1\r\nfax=1\r\nmisc=1\r\nimage=1\r\nvcard=0\r\nemail_description=1\r\nemail_description_text=\r\nemail_form=1\r\nemail_copy=1\r\ndrop_down=0\r\ncontact_icons=0\r\nicon_address=\r\nicon_email=\r\nicon_telephone=\r\nicon_fax=\r\nicon_misc=', 0, 12, 0, '', '');
 
 #
 # Dumping data for table `#__content`

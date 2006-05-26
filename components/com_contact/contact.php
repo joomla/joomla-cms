@@ -15,6 +15,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+jimport('joomla.application.extension.component');
+
 // Load the HTML view class
 require_once (JApplicationHelper::getPath('front_html'));
 require_once (JApplicationHelper::getPath('class'));
@@ -40,10 +42,8 @@ switch ($task) {
 		break;
 
 	default:
-		$menus		= JMenu::getInstance();
-		$menu		= $menus->getCurrent();
-		$mParams	= new JParameter( $menu->mvcrt );
-		$viewName	= $mParams->get( 'view_name', $task );
+		$cParams	= JComponentHelper::getControlParams();
+		$viewName	= $cParams->get( 'view_name', $task );
 
 		switch ($viewName)
 		{
@@ -84,6 +84,9 @@ class JContactController {
 	{
 		global $mainframe, $Itemid;
 
+		// Get the menu parameters for this particular menu item
+		$menuParams = JComponentHelper::getMenuParams();
+
 		/*
 		 * Initialize some variables
 		 */
@@ -91,7 +94,7 @@ class JContactController {
 		$user 				= & $mainframe->getUser();
 		$breadcrumbs	 	= & $mainframe->getPathWay();
 		$option 			= JRequest::getVar('option');
-		$catid 				= JRequest::getVar('catid', 				0, '', 'int');
+		$catid 				= (int) JRequest::getVar('catid', $menuParams->get('category_id', 0));
 		$limit 				= JRequest::getVar('limit', 				0, '', 'int');
 		$limitstart 		= JRequest::getVar('limitstart', 			0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
@@ -123,43 +126,24 @@ class JContactController {
 			$rows = array ();
 			$current = new stdClass();
 
-			// Parameters
-			$menu = & JTable::getInstance('menu', $db);
-			$menu->load($Itemid);
-			$params = new JParameter($menu->params);
-
-			$params->def('page_title', 			1);
-			$params->def('header', 				$menu->name);
-			$params->def('pageclass_sfx', 		'');
-			$params->def('headings', 			1);
-			$params->def('back_button', 		$mainframe->getCfg('back_button'));
-			$params->def('description_text', 	JText::_('The Contact list for this Website.'));
-			$params->def('image', 				-1);
-			$params->def('image_align', 		'right');
-			$params->def('other_cat_section', 	1);
-			// Category List Display control
-			$params->def('other_cat', 			1);
-			$params->def('cat_description', 	1);
-			$params->def('cat_items', 			1);
-			// Table Display control
-			$params->def('headings', 			1);
-			$params->def('position', 			1);
-			$params->def('email', 				0);
-			$params->def('phone', 				0);
-			$params->def('fax', 				0);
-			$params->def('telephone', 			0);
+			/*
+			 * Set some defaults against system variables
+			 */
+			$menuParams->def('header', 				JComponentHelper::getMenuName());
+			$menuParams->def('back_button', 		$mainframe->getCfg('back_button'));
+			$menuParams->def('description_text', 	JText::_('The Contact list for this Website.'));
+			$menuParams->def('image_align', 		'right');
 			// pagination parameters
-			$params->def('display', 			1 );
-			$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+			$menuParams->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 			if ($catid == 0) {
-				$catid = $params->get('catid', 0);
+				$catid = $menuParams->get('catid', 0);
 			}
 
 			if ($catid) {
-				$params->set('type', 'category');
+				$menuParams->set('type', 'category');
 			} else {
-				$params->set('type', 'section');
+				$menuParams->set('type', 'section');
 			}
 
 			/*
@@ -177,7 +161,7 @@ class JContactController {
 				$db->setQuery($query);
 				$counter = $db->loadObjectList();
 				$total = $counter[0]->numitems;
-				$limit = $limit ? $limit : $params->get('display_num');
+				$limit = $limit ? $limit : $menuParams->get('display_num');
 				if ($total <= $limit) {
 					$limitstart = 0;
 				}
@@ -216,9 +200,9 @@ class JContactController {
 			 * Lets get a description on the current category
 			 */
 			if (empty ($current->cdescription))	{
-				if ($params->get('description'))
+				if ($menuParams->get('description'))
 				{
-					$current->cdescription = $params->get('description_text');
+					$current->cdescription = $menuParams->get('description_text');
 				}
 			}
 
@@ -227,9 +211,9 @@ class JContactController {
 			 */
 			$path = $mainframe->getCfg('live_site').'/images/stories/';
 			if (empty ($current->cimage)) {
-				if ($params->get('image') != -1) {
-					$current->cimage = $path.$params->get('image');
-					$current->cimage_position = $params->get('image_align');
+				if ($menuParams->get('image') != -1) {
+					$current->cimage = $path.$menuParams->get('image');
+					$current->cimage_position = $menuParams->get('image_align');
 				}
 			} else {
 				$current->cimage = $path.$current->cimage;
@@ -239,9 +223,9 @@ class JContactController {
 			 * Time to set the page header
 			 */
 			if (empty ($current->cname)) {
-				$current->header = $params->get('header');
+				$current->header = $menuParams->get('header');
 			} else {
-				$current->header = $params->get('header').' - '.$current->cname;
+				$current->header = $menuParams->get('header').' - '.$current->cname;
 			}
 
 			/*
@@ -267,7 +251,7 @@ class JContactController {
 			$lists['order'] = $filter_order;
 			$selected = '';
 
-			JContactView::displaylist($categories, $rows, $current, $catid, $params, $lists, $page);
+			JContactView::displaylist($categories, $rows, $current, $catid, $menuParams, $lists, $page);
 		}
 	}
 
@@ -342,32 +326,26 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function contactPage($cid = 0) 
+	function contactPage( $contactId = 0 ) 
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
+
+		// Get the menu parameters for this particular menu item
+		$menuParams = JComponentHelper::getMenuParams();
 
 		/*
 		 * Initialize some variables
 		 */
 		$db 		= & $mainframe->getDBO();
 		$user 		= & $mainframe->getUser();
-		$contactId 	= JRequest::getVar('contact_id', $cid, '', 'int');
+		$contactId 	= (int) JRequest::getVar('contact_id', $menuParams->get('contact_id', $contactId));
 		$gid		= $user->get('gid');
 		$contact 	= null;
 
 		/*
-		 * Get the parameters for this particular menu item
-		 */
-		$menu 		= & JTable::getInstance('menu', $db);
-		$menu->load($Itemid);
-		$menuParams = new JParameter($menu->params);
-
-		/*
 		 * Set some defaults for the menu item parameters
 		 */
-		$menuParams->def('page_title', 1);
-		$menuParams->def('header', $menu->name);
-		$menuParams->def('pageclass_sfx', '');
+		$menuParams->def('header', JComponentHelper::getMenuName() );
 
 		/*
 		 * Ok, now lets get the information on the particular contact id
@@ -412,40 +390,15 @@ class JContactController {
 			}
 
 			// Adds parameter handling
-			$params = new JParameter($contact->params);
+			$menuParams = new JParameter($contact->params);
 
-			$params->set('page_title', 			0);
-			$params->def('pageclass_sfx', 		'');
-			$params->def('back_button', 		$mainframe->getCfg('back_button'));
-			$params->def('print', 				!$mainframe->getCfg('hidePrint'));
-			$params->def('name', 				1);
-			$params->def('email', 				0);
-			$params->def('street_address', 		1);
-			$params->def('suburb', 				1);
-			$params->def('state', 				1);
-			$params->def('country', 			1);
-			$params->def('postcode', 			1);
-			$params->def('telephone', 			1);
-			$params->def('fax', 				1);
-			$params->def('misc', 				1);
-			$params->def('image', 				1);
-			$params->def('email_description', 	1);
-			$params->def('email_description_text', JText::_('Send an Email to this Contact:'));
-			$params->def('email_form', 			1);
-			$params->def('email_copy', 			0);
+			$menuParams->def('back_button', 		$mainframe->getCfg('back_button'));
+			$menuParams->def('print', 				!$mainframe->getCfg('hidePrint'));
+			$menuParams->def('email_description_text', JText::_('Send an Email to this Contact:'));
 			// global pront|pdf|email
-			$params->def('icons', 				$mainframe->getCfg('icons'));
-			// contact only icons
-			$params->def('contact_icons', 		0);
-			$params->def('icon_address', 		'');
-			$params->def('icon_email', 			'');
-			$params->def('icon_telephone', 		'');
-			$params->def('icon_fax', 			'');
-			$params->def('icon_misc', 			'');
-			$params->def('drop_down', 			0);
-			$params->def('vcard', 				0);
+			$menuParams->def('icons', 				$mainframe->getCfg('icons'));
 
-			if ($contact->email_to && $params->get('email'))
+			if ($contact->email_to && $menuParams->get('email'))
 			{
 				// email cloacking
 				$contact->email = mosHTML::emailCloaking($contact->email_to);
@@ -457,19 +410,19 @@ class JContactController {
 			$pop = JRequest::getVar('pop', 0, '', 'int');
 			if ($pop)
 			{
-				$params->set('popup', 1);
-				$params->set('back_button', 0);
+				$menuParams->set('popup', 1);
+				$menuParams->set('back_button', 0);
 			}
 
 			/*
 			 * If e-mail description is set, lets prepare it for display
 			 */
-			if ($params->get('email_description'))
+			if ($menuParams->get('email_description'))
 			{
-				$params->set('email_description', $params->get('email_description_text'));
+				$menuParams->set('email_description', $menuParams->get('email_description_text'));
 			} else
 			{
-				$params->set('email_description', '');
+				$menuParams->set('email_description', '');
 			}
 
 			/*
@@ -479,49 +432,49 @@ class JContactController {
 			 */
 			if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode))
 			{
-				$params->set('address_check', 1);
+				$menuParams->set('address_check', 1);
 			} else
 			{
-				$params->set('address_check', 0);
+				$menuParams->set('address_check', 0);
 			}
 
 			/*
 			 * Time to manage the display mode for contact detail groups
 			 */
-			switch ($params->get('contact_icons')) {
+			switch ($menuParams->get('contact_icons')) {
 				case 1 :
 					// text
-					$params->set('marker_address', 		JText::_('Address').": ");
-					$params->set('marker_email', 		JText::_('Email').": ");
-					$params->set('marker_telephone', 	JText::_('Telephone').": ");
-					$params->set('marker_fax', 			JText::_('Fax').": ");
-					$params->set('marker_misc', 		JText::_('Information').": ");
-					$params->set('column_width', 		'100');
+					$menuParams->set('marker_address', 		JText::_('Address').": ");
+					$menuParams->set('marker_email', 		JText::_('Email').": ");
+					$menuParams->set('marker_telephone', 	JText::_('Telephone').": ");
+					$menuParams->set('marker_fax', 			JText::_('Fax').": ");
+					$menuParams->set('marker_misc', 		JText::_('Information').": ");
+					$menuParams->set('column_width', 		'100');
 					break;
 
 				case 2 :
 					// none
-					$params->set('marker_address', 		'');
-					$params->set('marker_email', 		'');
-					$params->set('marker_telephone', 	'');
-					$params->set('marker_fax', 			'');
-					$params->set('marker_misc', 		'');
-					$params->set('column_width', 		'0');
+					$menuParams->set('marker_address', 		'');
+					$menuParams->set('marker_email', 		'');
+					$menuParams->set('marker_telephone', 	'');
+					$menuParams->set('marker_fax', 			'');
+					$menuParams->set('marker_misc', 		'');
+					$menuParams->set('column_width', 		'0');
 					break;
 
 				default :
 					// icons
-					$image1 = mosAdminMenus::ImageCheck('con_address.png', 	'/images/M_images/', $params->get('icon_address'), 		'/images/M_images/', JText::_('Address').": ", 		JText::_('Address').": ");
-					$image2 = mosAdminMenus::ImageCheck('emailButton.png', 	'/images/M_images/', $params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ", 		JText::_('Email').": ");
-					$image3 = mosAdminMenus::ImageCheck('con_tel.png', 		'/images/M_images/', $params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ", 	JText::_('Telephone').": ");
-					$image4 = mosAdminMenus::ImageCheck('con_fax.png', 		'/images/M_images/', $params->get('icon_fax'), 			'/images/M_images/', JText::_('Fax').": ", 			JText::_('Fax').": ");
-					$image5 = mosAdminMenus::ImageCheck('con_info.png', 	'/images/M_images/', $params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ", 	JText::_('Information').": ");
-					$params->set('marker_address', 		$image1);
-					$params->set('marker_email', 		$image2);
-					$params->set('marker_telephone', 	$image3);
-					$params->set('marker_fax', 			$image4);
-					$params->set('marker_misc',			$image5);
-					$params->set('column_width', 		'40');
+					$image1 = mosAdminMenus::ImageCheck('con_address.png', 	'/images/M_images/', $menuParams->get('icon_address'), 		'/images/M_images/', JText::_('Address').": ", 		JText::_('Address').": ");
+					$image2 = mosAdminMenus::ImageCheck('emailButton.png', 	'/images/M_images/', $menuParams->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ", 		JText::_('Email').": ");
+					$image3 = mosAdminMenus::ImageCheck('con_tel.png', 		'/images/M_images/', $menuParams->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ", 	JText::_('Telephone').": ");
+					$image4 = mosAdminMenus::ImageCheck('con_fax.png', 		'/images/M_images/', $menuParams->get('icon_fax'), 			'/images/M_images/', JText::_('Fax').": ", 			JText::_('Fax').": ");
+					$image5 = mosAdminMenus::ImageCheck('con_info.png', 	'/images/M_images/', $menuParams->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ", 	JText::_('Information').": ");
+					$menuParams->set('marker_address', 		$image1);
+					$menuParams->set('marker_email', 		$image2);
+					$menuParams->set('marker_telephone', 	$image3);
+					$menuParams->set('marker_fax', 			$image4);
+					$menuParams->set('marker_misc',			$image5);
+					$menuParams->set('column_width', 		'40');
 					break;
 			}
 
@@ -537,15 +490,16 @@ class JContactController {
 			 */
 			$breadcrumbs = & $mainframe->getPathWay();
 			if (!$menuParams->get('hideCatCrumbs')) {
+				global $Itemid;				
 				$breadcrumbs->addItem($contact->catname, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
 			}
 			$breadcrumbs->addItem($contact->name, '');
 
-			JContactView::viewContact($contact, $params, count($list), $list, $menuParams);
+			JContactView::viewContact($contact, $menuParams, count($list), $list, $menuParams);
 		} else {
-			$params = new JParameter('');
-			$params->def('back_button', $mainframe->getCfg('back_button'));
-			JContactView::noContact($params);
+			$menuParams = new JParameter('');
+			$menuParams->def('back_button', $mainframe->getCfg('back_button'));
+			JContactView::noContact($menuParams);
 		}
 	}
 
@@ -709,8 +663,8 @@ class JContactController {
 			 * If we are supposed to copy the admin, do so.
 			 */
 			// parameter check
-			$params 		= new JParameter( $contact->params );
-			$emailcopyCheck = $params->get( 'email_copy', 0 );
+			$menuParams 		= new JParameter( $contact->params );
+			$emailcopyCheck = $menuParams->get( 'email_copy', 0 );
 
 			// check whether email copy function activated
 			if ( $emailCopy && $emailcopyCheck ) {
@@ -753,8 +707,8 @@ class JContactController {
 		/*
 		 * Get the contact detail parameters
 		 */
-		$params = new JParameter($contact->params);
-		$show 	= $params->get('vcard', 0);
+		$menuParams = new JParameter($contact->params);
+		$show 	= $menuParams->get('vcard', 0);
 
 		/*
 		 * Should we show the vcard?
