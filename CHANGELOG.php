@@ -47,7 +47,7 @@ Legend:
  ^ Moved JTree library to the common package
  ^ Modified admin menu to use JTree
  ^ Refactor of media manager
- # Fixed artf4579 : geshi WON'T work
+ # Fixed [artf4579] : geshi WON'T work
 
 24-May-2006 Johan Janssens
  + Added jdoc:empty function to JDocumentHTML
@@ -66,7 +66,7 @@ Legend:
  ^ Changed release codename to 'Khepri'
 
 22-May-2006 Alex Kempkens
- # Fixed [artf4240] : Registration confirmation email broken: password
+ # Fixed [[artf4240]] : Registration confirmation email broken: password
  ! [task2359] : Refactoring completed
  ^ [task2519] : getInstance refactored in order to make sure only one instance is created
 
@@ -81,7 +81,7 @@ Legend:
  + Added automated content migration facility in installation 
 
 18-May-2006 Johan Janssens
- # Fixed [artf4497] : moofx sliders leave controls visible (Mac OS)
+ # Fixed [[artf4497]] : moofx sliders leave controls visible (Mac OS)
  - Removed image add/edit functionality from content edit page 
  + Implemented modal image manager for easy inserting of images into the editor
  ^ Implemented modal popup for previewing content items
@@ -111,16 +111,16 @@ Legend:
  + Added template and page caching configuration settings
 
 10-May-2006 Johan Janssens
- ^ Feature request artf1819 : Duplicate queries
- ^ Feature request artf3705 : Sorting of all tables in admin area
- ^ Feature request artf1479 : Content Items Manager add filter by field Date, Publish etc
- ^ Feature request artf1992 : Allow sorting in Content Items Manager
- ^ Feature request artf2008 : Contacts Sorting Improvement
- ^ Feature request artf3884 : mod_sections.php missing css class
- ^ Feature request artf3170 : Apply button in CSS and HTML built-in editors
- ^ Feature request artf2271 : Make it possible to send own headers
- ^ Feature request artf1721 : More advanced editor-xtd triggers
- ^ Feature request artf2691 : Weblinks: Auto alphabetize
+ ^ Feature request [artf1819] : Duplicate queries
+ ^ Feature request [artf3705] : Sorting of all tables in admin area
+ ^ Feature request [artf1479] : Content Items Manager add filter by field Date, Publish etc
+ ^ Feature request [artf1992] : Allow sorting in Content Items Manager
+ ^ Feature request [artf2008] : Contacts Sorting Improvement
+ ^ Feature request [artf3884] : mod_sections.php missing css class
+ ^ Feature request [artf3170] : Apply button in CSS and HTML built-in editors
+ ^ Feature request [artf2271] : Make it possible to send own headers
+ ^ Feature request [artf1721] : More advanced editor-xtd triggers
+ ^ Feature request [artf2691] : Weblinks: Auto alphabetize
 
 10-May-2006 Samuel Moffatt
  # Fixed issue with login directly after activation causing error, now redirects to index.php
@@ -139,11 +139,11 @@ Legend:
  + Added JDate class to easily handle RFC 822, ISO 8601 and UNIX date timestamps
 
 01-May-2006 Johan Janssens
- # Fixed artf4480 : Menu ordering
- # Fixed artf4526 : PDF button don't works
- # Fixed artf4036 : JDocumentHTML constructor incorrectly calls parent constructor.
- # Fixed artf3287 : Syndicate module not viewable by default
- # Fixed artf4405 : [patch] Print, PDF and email buttons aren't accessible
+ # Fixed [artf4480] : Menu ordering
+ # Fixed [artf4526] : PDF button don't works
+ # Fixed [artf4036] : JDocumentHTML constructor incorrectly calls parent constructor.
+ # Fixed [artf3287] : Syndicate module not viewable by default
+ # Fixed [artf4405] : [patch] Print, PDF and email buttons aren't accessible
 
 01-May-2006 David Gal
  ^ Changed the syntax of sql queries tags in component installer xml file 
@@ -158,7 +158,7 @@ Legend:
  ^ Added default styles for the frontend/admin xtd-buttons
 
 28-Apr-2006 Johan Janssens
- # Fixed artf4238 : Empty JS brackets in backend don't render correctly
+ # Fixed [artf4238] : Empty JS brackets in backend don't render correctly
 
 27-Apr-2006 Johan Janssens
  + Implemented hybrid javascript modal popup library
@@ -238,8 +238,8 @@ Legend:
  ^ Made index.php only entry point for JAdministrator
  ! Set minimum system requirements to PHP version to 4.3.0
  ^ Moved frontpage feed handling into frontpage component
- # Fixed artf3911 : Pear include in lite.php problem in safe mode
- # Fixed artf4330 : PEAR being included twice
+ # Fixed [artf3911] : Pear include in lite.php problem in safe mode
+ # Fixed [artf4330] : PEAR being included twice
 
 16-Apr-2006 Johan Janssens
  ^ Preview content now works on the fly
@@ -254,11 +254,11 @@ Legend:
  # Fixed some translation strings in admin
 
 13-Apr-2006 Louis Landry
- # Fixed artf3574 : com_weblinks description field
- # Fixed artf3902 : small problem with content.php when no frontpage items are to be shown
- # Fixed artf4251 : JPath::check function incorrectly checks for presence of ..
- # Fixed artf4044 : com_newsfeeds could generate invalid html
- # Fixed artf3896 : geshi - call to undefined function
+ # Fixed [artf3574] : com_weblinks description field
+ # Fixed [artf3902] : small problem with content.php when no frontpage items are to be shown
+ # Fixed [artf4251] : JPath::check function incorrectly checks for presence of ..
+ # Fixed [artf4044] : com_newsfeeds could generate invalid html
+ # Fixed [artf3896] : geshi - call to undefined function
 
 11-Apr-2006 Johan Janssens
  + Added JPaneSliders class, for creating moofx driven sliding panes
@@ -272,7 +272,7 @@ Legend:
  + Store user state on administrator auto-logout so that when the user logs in again, the
    state is restored
  ^ com_content now uses JMessage
- # artf4250 : FTP directory listing returns double entries (with fix proposal)
+ # [artf4250] : FTP directory listing returns double entries (with fix proposal)
 
 09-Apr-2006 Andy Miller
  # Added some padding/js trickery to stop nifty corners from jumping around
@@ -294,9 +294,9 @@ Legend:
 02-Apr-2006 Johan Janssens
  ^ Changed file header copyright information
  ^ Changed version information from 1.5 to 1.5
- # Fixed artf4208 : JError::isError()
- # Fixed artf4137 : JDocumentHelper::implodeAttribs...
- # Fixed artf4120 : _J_ALLOWHTML and _J_ALLOWRAW mixed up in JRequest::getVar
+ # Fixed [artf4208] : JError::isError()
+ # Fixed [artf4137] : JDocumentHelper::implodeAttribs...
+ # Fixed [artf4120] : _J_ALLOWHTML and _J_ALLOWRAW mixed up in JRequest::getVar
 
 31-Mar-2006 David Gal
  + Integrated new RSS parsing library - MagpieRSS (adds conversion to utf-8 from all encodings)
@@ -345,7 +345,7 @@ Legend:
  ^ Use JRequest::getVar instead of mosGetParam in codebase
 
 20-Mar-2005 Johan Janssens
- # Fixed artf3938 : addHeadLink does not properly format output when additional attributes are specified.
+ # Fixed [artf3938] : addHeadLink does not properly format output when additional attributes are specified.
  - Removed legacy usertypes db table
 
 19-Mar-2005 Louis Landry
@@ -353,7 +353,7 @@ Legend:
 
 17-Mar-2005 Johan Janssens
  ! Overall preformance improvements
- ^ Feature request artf1796 : Admin: Items -> sort by pressing on tableheader
+ ^ Feature request [artf1796] : Admin: Items -> sort by pressing on tableheader
 
 17-Mar-2005 Andrew Eddie
  ^ Upgraded mod_banners to allow for multiple banners to be shown
@@ -400,9 +400,9 @@ Legend:
 
 09-Mar-2006 Johan Janssens
  - Removed backbutton configuration setting
- # Fixed : artf3786 : Template - names
- # Fixed : artf3842 : [patch] JPATH_SITE should be JPATH_CONFIGURATION
- # Fixed : artf3850 : Remove hspace attribute from mosimage.php
+ # Fixed : [artf3786] : Template - names
+ # Fixed : [artf3842] : [patch] JPATH_SITE should be JPATH_CONFIGURATION
+ # Fixed : [artf3850] : Remove hspace attribute from mosimage.php
  + Changed userExists to getUserId in JModelUser
 
 08-Mar-2006 Johan Janssens
@@ -411,9 +411,9 @@ Legend:
 
 08-Mar-2006 Louis Landry
  + Proper HTML Error page rendering for JError
- # Fixed artf3646 : Lowercase definition in language file
- # Fixed artf3452 : array may be passed uninitialised
- # Fixed artf3557 : Bug in go2(), mistake in mosCommonHTML::Images()
+ # Fixed [artf3646] : Lowercase definition in language file
+ # Fixed [artf3452] : array may be passed uninitialised
+ # Fixed [artf3557] : Bug in go2(), mistake in mosCommonHTML::Images()
  ^ Editor unification and com_content cleanup in administrator client
  + Editor button for {readmore} tag
 
@@ -424,7 +424,7 @@ Legend:
  - Removed pagetitles and meta_pagetitle configuration settings
 
 04-Mar-2006 Louis Landry
- # Fixed artf3431 : Error when mod_breadcrumbs is published
+ # Fixed [artf3431] : Error when mod_breadcrumbs is published
 
 26-Feb-2006 Johan Janssens
  + Added Blogger API XML-RPC plugin
@@ -447,10 +447,10 @@ Legend:
  ^ Renamed mosimage.btn editor-xtd plugin to image
  ^ Renamed mospage.btn editor-xtd plugin to pagebreak
  ^ Fixed language detection
- # Fixed artf3624 : Content priview error with {mosImage}
- # Fixed artf3552 : Typo in mosCommonHTML::menuLinksContent
- # Fixed artf3344 : Install errors due to empty browser language setting
- # Fixed artf2792 : Web installer language choice
+ # Fixed [artf3624] : Content priview error with {mosImage}
+ # Fixed [artf3552] : Typo in mosCommonHTML::menuLinksContent
+ # Fixed [artf3344] : Install errors due to empty browser language setting
+ # Fixed [artf2792] : Web installer language choice
 
 23-Feb-2006 Alex Kempkens
  + Added language parameter to content.xml
@@ -477,11 +477,11 @@ Legend:
  + Allow ability to siwtch off emailcloaking for specific items via {mosemailcloak=off} tag
 
 16-Feb-2006 Louis Landry
- # Fixed artf3475 : relative include paths break installation on some systems
+ # Fixed [artf3475] : relative include paths break installation on some systems
  # Fixed infinite recursion problem with some JError errors
 
 16-Feb-2006 Johan Janssens
- # Fixed artf3454 : using statistics the main toolbar in admin breaks
+ # Fixed [artf3454] : using statistics the main toolbar in admin breaks
  ^ Plugin naming cleanup
 
 16-Feb-2006 Samuel Moffatt
@@ -498,25 +498,25 @@ Legend:
  ^ Renamed JDocument placeholder funtion to include
 
 13-Feb-2006 Louis Landry
- # Fixed artf3481 : Changes in uri.php - Corrects MS problem in Installation
- # Fixed artf3498 : Bugs in uri.php - HTTPS detection, URI handling is not correct on Microsoft IIS environment
- # Fixed artf3383 : Component installation languagefiles are not copied
- # Fixed artf3368 : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
+ # Fixed [artf3481] : Changes in uri.php - Corrects MS problem in Installation
+ # Fixed [artf3498] : Bugs in uri.php - HTTPS detection, URI handling is not correct on Microsoft IIS environment
+ # Fixed [artf3383] : Component installation languagefiles are not copied
+ # Fixed [artf3368] : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
 
 11-Feb-2006 Louis Landry
- # Fixed artf3478 : Error in SQL Script
+ # Fixed [artf3478] : Error in SQL Script
 
 11-Feb-2006 David Gal
  ^ Modified JString to load after pre-installation check (phputf8 will crash on wrong settings)
  + Added local mbstring environmental settings in htaccess.txt ready for uncommenting if needed
 
 08-Feb-2005 Louis Landry
- # Fixed artf3432 : Administrator toolbar items do not contain port number
+ # Fixed [artf3432] : Administrator toolbar items do not contain port number
 
 -------------------- 1.5.0 Alpha 2 Released -- [06-Feb-2006 00:00 UTC] ------------------
 
 04-Feb-2005 Johan Janssens
- # Fixed artf3368 : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
+ # Fixed [artf3368] : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
 
 03-Feb 2006 Rey Gigataras
  ^ Modified admin Content/Static Content edit pages to better use of screen realestate
@@ -577,17 +577,17 @@ Legend:
  ^ Moved event library to the application package
  ^ Event system cleanup
  # Fixed editor display issue
- # Fixed artf3306 : locale - time offset in configuration - very minor
- # Fixed artf3255 : unable to edit _system css files
+ # Fixed [artf3306] : locale - time offset in configuration - very minor
+ # Fixed [artf3255] : unable to edit _system css files
  # Fixed XAJAX problem on installation (PHP as CGI on apache)
  # Fixed custom help site per user not working
 
 29-Jan-2006 Johan Janssens
  ^ Moved mail classes into mail library package
- # Fixed artf3285 : White page on Your Details and Check-In My Items
- # Fixed artf3263 : Unable to make new message in private messaging
- # Fixed artf3271 : Category image not visible (path incorrect)
- # Fixed artf3282 : Sample image is missing
+ # Fixed [artf3285] : White page on Your Details and Check-In My Items
+ # Fixed [artf3263] : Unable to make new message in private messaging
+ # Fixed [artf3271] : Category image not visible (path incorrect)
+ # Fixed [artf3282] : Sample image is missing
 
 29-Jan-2006 Rey Gigataras
  + Static Content can be assigned to `Frontpage`
@@ -644,14 +644,14 @@ Legend:
 24-Jan-2006 Louis Landry
  ^ Finished JUser class
  + Added onActivate event triggered on user activation
- # Fixed: artf3197 : component install creates wrong directory permission
- # Fixed: artf2736 : Incorrect language js escape
- # Fixed: artf2911 : 1661: Admin menus inconsistent
- # Fixed: artf3193 : Template editor escapes on save... continually
+ # Fixed: [artf3197] : component install creates wrong directory permission
+ # Fixed: [artf2736] : Incorrect language js escape
+ # Fixed: [artf2911] : 1661: Admin menus inconsistent
+ # Fixed: [artf3193] : Template editor escapes on save... continually
 
 23-Jan-2006 Johan Janssens
- ^ Feature request artf2781 : change $mosConfig_live_site to permit server aliasing
- # Fixed artf1938 : Help site server choice per admin user
+ ^ Feature request [artf2781] : change $mosConfig_live_site to permit server aliasing
+ # Fixed [artf1938] : Help site server choice per admin user
 
 23-Jan-2006 Rey Gigataras
  + Allow control of the formating of the SEO Page Title attribute via a new `Global Configuration` parameter
@@ -691,12 +691,12 @@ Legend:
 
 18-Jan-2006 Louis Landry
  # Fixed a bug with module installer after move
- # Fixed artf3140 : component install creates wrong directory permission
- # Fixed artf3123 : Bad help addressing
+ # Fixed [artf3140] : component install creates wrong directory permission
+ # Fixed [artf3123] : Bad help addressing
  ^ Implemented phase one of component disable/enable functionality (GUI) WIP
 
 18-Jan-2006 Johan Janssens
- # Fixed artf2172 : database settings not retained in installer
+ # Fixed [artf2172] : database settings not retained in installer
 
 17-Jan-2006 Emir Sakic
  # Fixed a bug with base href in installer
@@ -717,10 +717,10 @@ Legend:
  ^ Altered framework to include JAuthResponse object
 
 14-Jan-2006 Samuel Moffatt
- # Fixed artf2143 : Altered radio buttons to checkboxes for installers
+ # Fixed [artf2143] : Altered radio buttons to checkboxes for installers
 
 13-Jan-2006 Johan Janssens
- # Fixed artf2514 : Cannot preview template positions
+ # Fixed [artf2514] : Cannot preview template positions
 
 12-Jan-2006 Louis Landry
  + Phase 1 of refactor and general code cleanup of content component
@@ -742,18 +742,18 @@ Legend:
  ^ Refactor and general code cleanup of Media Manager
  ^ Removed $option coupling in JApplication
  + Added Template and Language extension handlers in installer menu
- # Fixed artf2941: Image Upload and Media Manager issues
- # Fixed artf1863 : Function delete_file and delete_folder not check str
- # Fixed artf2424 : Help Server Select list default problem
- # Fixed artf2948 : 1700: SEF broken
- # Fixed artf1747 : No clean-up in event of component installation failure
- ^ Feature request artf1728 : upload component from server
- ^ Feature request artf2017 : popups/uploadimage.php not using directory
+ # Fixed [artf2941]: Image Upload and Media Manager issues
+ # Fixed [artf1863] : Function delete_file and delete_folder not check str
+ # Fixed [artf2424] : Help Server Select list default problem
+ # Fixed [artf2948] : 1700: SEF broken
+ # Fixed [artf1747] : No clean-up in event of component installation failure
+ ^ Feature request [artf1728] : upload component from server
+ ^ Feature request [artf2017] : popups/uploadimage.php not using directory
 
 07-Jan-2006 Louis Landry
  + Added JPagination class
  ^ Deprecated mosPageNav class, use JPagination instead
- # Fixed artf2917 : Rev#1665 -- Forced log-out on clicking "Upload" in content
+ # Fixed [artf2917] : Rev#1665 -- Forced log-out on clicking "Upload" in content
 
 06-Jan-2006 Johan Janssens
  ^ Implemented adpater pattern in JModel class
@@ -762,7 +762,7 @@ Legend:
 06-Jan-2006 Louis Landry
  ^ Mambots refactored to Plugins
  ^ Interaction with editors is now controlled by JEditor
- # Fixed artf2926 : SVN 1669 file not renamed
+ # Fixed [artf2926] : SVN 1669 file not renamed
  ^ Implemented auth plugins for user authentication
 
 05-Jan-2006 Johan Janssens
@@ -780,7 +780,7 @@ Legend:
 
 01-Jan-2006 Johan Janssens
  + Added error templates for custom debug output
- # Fixed artf2807 : Missing file - Legacy plugins
+ # Fixed [artf2807] : Missing file - Legacy plugins
  + Added JMail class
 
 30-Dec-2005 Johan Janssens
@@ -790,9 +790,9 @@ Legend:
  + Template rendering completely overhaulted by new JDocument interface
 
 27-Dec-2005 Johan Janssens
- # Fixed artf2742 : Backend generates just plain text output in IE or Opera
- # Fixed artf2739 : mambot edit-save error
- # Fixed artf2729 : Same content displayed twice on FrontPage
+ # Fixed [artf2742] : Backend generates just plain text output in IE or Opera
+ # Fixed [artf2739] : mambot edit-save error
+ # Fixed [artf2729] : Same content displayed twice on FrontPage
  - Removed administrator mod_msg module
 
 26-Dec-2005 Samuel Moffatt
@@ -835,7 +835,7 @@ Legend:
  + Added and wrapped tinymce language module file for parameters in the backend
 
 20-Dec-2005 Emir Sakic
- # Fixed artf2432 : Apostrophe in paths isn't escaped properly
+ # Fixed [artf2432] : Apostrophe in paths isn't escaped properly
 
 20-Dec-2005 Levis Bisson
  ^ Changed the translation text Mambots to Plugins
@@ -843,7 +843,7 @@ Legend:
  # Fixed path for site or admin modules in the backend
 
 20-Dec-2005 Johan Janssens
- # Fixed artf2606 : JApplication::getBasePath interface changed from Joomla 1.0.4
+ # Fixed [artf2606] : JApplication::getBasePath interface changed from Joomla 1.0.4
  ^ Reworked installer to use an adapter pattern
 
 19-Dec-2005 Johan Janssens
@@ -851,7 +851,7 @@ Legend:
  ^ Renamed Pathway module to Breadcrumbs - contributed by Louis Landry
  ^ Minor fixes in FTP library that should solve response code problems experienced on
    some mac ftp servers - contributed by Louis Landry
- # Fixed artf2655 : factory.php - xml_domit_lite_parser.php
+ # Fixed [artf2655] : factory.php - xml_domit_lite_parser.php
 
 17-Dec-2005 Johan Janssens
  + Added JPlugin class for easy handling of plugins - contributed by Louis Landry
@@ -879,13 +879,13 @@ Legend:
  ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry
  + Added JError class for easy error management
  + Added JTemplate class, extends patTemplate class
- ^ Feature request artf1063 : Safemode patch for Joomla
- ^ Feature request artf1507 : FTP installer
+ ^ Feature request [artf1063] : Safemode patch for Joomla
+ ^ Feature request [artf1507] : FTP installer
 
 12-Dec-2005 Johan Janssens
  ^ Fixed smaller file system problems - contributed by Louis Landry
  + Added mbstring and dbcollaction information to system info - contributed by David Gal
- # Fixed artf2485 : Impossible to install component/module/mambot/templates
+ # Fixed [artf2485] : Impossible to install component/module/mambot/templates
 
 11-Dec-2005 Levis Bisson
  # fixed Parameters translation from xml files
@@ -900,20 +900,20 @@ Legend:
  ^ XML Storage Format now working for JRegistry
 
 10-Dec-2005 Emir Sakic
- # Fixed artf2517 : "Cancel" the editing of content after "apply" not possible
+ # Fixed [artf2517] : "Cancel" the editing of content after "apply" not possible
 
 10-Dec-2005 Samuel Moffatt
  ^ Disabled php_value in htaccess file, caused 500 Internal Server Errors
  + JRegistry Core Complete (INI Format and Database Storage Engines)
 
 09-Dec-2005 Emir Sakic
- # Fixed artf2324 : SEF for components assumes option is always first part of query
- # Fixed artf1955 : Search results bug
+ # Fixed [artf2324] : SEF for components assumes option is always first part of query
+ # Fixed [artf1955] : Search results bug
  + Added a solution for url-type menu highlighting
 
 09-Dec-2005 Johan Janssens
  + Added support for FTP to the installation - Contributed by Louis Landry
- # Fixed artf2495 : Cant save user details from FE.
+ # Fixed [artf2495] : Cant save user details from FE.
  + Added FTP settings to configuration
  + Added Debugging and Logging settings to configuration
  ^ Deprecated _VALID_MOS, used _JEXEC instead
@@ -965,14 +965,14 @@ Legend:
  + Added 404 handling to SEF for unknown files
 
 30-Nov-2005 Johan Janssens
- # Fixed artf2369 : $mosConfig_lang & $mosConfig_lang_administrator pb
+ # Fixed [artf2369] : $mosConfig_lang & $mosConfig_lang_administrator pb
  + Added 'Site if offline' message to mosMainBody
  + Added error.php system template
  + Added login box to offline system template
  - Removed login and logout message functionality
 
 29-Nov-2005 Johan Janssens
- # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()
+ # Fixed [artf2361] : Fatal error: Call to a member function triggerEvent()
  ^ Moved offline.php to templates/_system
  ^ Moved template/css to template/_system/css
  - Removed offlinebar.php
@@ -992,8 +992,8 @@ Legend:
  ^ All $mosConfig_absolute_path to JPATH_SITE and $mosConfig_live_site to JURL_SITE
 
 27-Nov-2005 Johan Janssens
- # Fixed artf2317 : Installation language file
- # Fixed artf2319 : Spelling error
+ # Fixed [artf2317] : Installation language file
+ # Fixed [artf2319] : Spelling error
 
 26-Nov-2005 Emir Sakic
  + Added mambots/system to chmod check array
@@ -1002,11 +1002,11 @@ Legend:
  ^ Changed help server to dropdown in config
  ^ Changed language prefix to eng_GB (accoording to ISO639-2 and ISO 3166)
  ^ Changed language names to English(GB)
- # Fixed artf2285 : Installation fails
+ # Fixed [artf2285] : Installation fails
 
 24-Nov-2005 Emir Sakic
- # Fixed artf2225 : Email / Print redirects to homepage
- # Fixed artf1705 : Not same URL for same item : duplicate content
+ # Fixed [artf2225] : Email / Print redirects to homepage
+ # Fixed [artf1705] : Not same URL for same item : duplicate content
 
 23-Nov-2005 Andy Miller
  ^ Admin UI lang tweaks
@@ -1024,34 +1024,34 @@ Legend:
  + Added new MilkyWay template
 
 22-Nov-2005 Marko Schmuck
- # Fixed artf2240 : URL encoding entire frontend?
- # Fixed artf2222 : ampReplace in content.html.php
+ # Fixed [artf2240] : URL encoding entire frontend?
+ # Fixed [artf2222] : ampReplace in content.html.php
  # Fixed wrong class call
  + Versioncheck for new_link parameter for mysql_connect.
 
 22-Nov-2005 Johan Janssens
- # Fixed artf2232 : Installation failure
+ # Fixed [artf2232] : Installation failure
 
 21-Nov-2005 Marko Schmuck
  # Fixed files.php wrong default value
 
 21-Nov-2005 Johan Janssens
- # Fixed artf2216 : Extensions Installer
- # Fixed artf2206 : Registered user only is permitted as manager in the backend
+ # Fixed [artf2216] : Extensions Installer
+ # Fixed [artf2206] : Registered user only is permitted as manager in the backend
 
 21-Nov-2005 Levis Bisson
  ^ Changed concatenated translation $msg string to sprintf()
  ^ Changed concatenated translation .' '. and ." ". string to sprintf()
- # Fixed artf2103 : Who's online works partly
- # Fixed artf2215 : smtp mail -> PHP fatal
+ # Fixed [artf2103] : Who's online works partly
+ # Fixed [artf2215] : smtp mail -> PHP fatal
 
 20-Nov-2005 Johan Janssens
- # Fixed artf2196 : Error saving content from back-end
- # Fixed artf2207 : Remember me option -> PHP fatal
+ # Fixed [artf2196] : Error saving content from back-end
+ # Fixed [artf2207] : Remember me option -> PHP fatal
 
 20-Nov-2005 Levis Bisson
- # Fixed Artifact artf1967 : displays with an escaped apostrophe in both title and TOC.
- # Fixed Artifact artf2194 : mod_fullmenu - 2 little mistakes
+ # Fixed Artifact [artf1967] : displays with an escaped apostrophe in both title and TOC.
+ # Fixed Artifact [artf2194] : mod_fullmenu - 2 little mistakes
 
 20-Nov-2005 Emir Sakic
  # Hardened SEF against XSS injection of global variable through the _GET array
@@ -1073,9 +1073,9 @@ Legend:
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
- - Reverted artf2139 : admin menu xhtml
- # Fixed artf2170 : logged.php does not show logged in people
- # Fixed artf2175 : Admin main page vanishes when changing list length
+ - Reverted [artf2139] : admin menu xhtml
+ # Fixed [artf2170] : logged.php does not show logged in people
+ # Fixed [artf2175] : Admin main page vanishes when changing list length
  + Added clone function for PHP5 backwards compatibility
  ^ Deprecated database, use JFactory::getDBO or JDatabase::getInstance instead
  + Added database driver support (currently only mysql and mysqli)
@@ -1104,7 +1104,7 @@ Legend:
  - Removed the left over Global $_LANG in each function
 
 15-Nov-2005 Johan Janssens
- # Fixed artf2122 : Typo in mosGetOS function
+ # Fixed [artf2122] : Typo in mosGetOS function
  + Added new DS define to shortcut DIRECTORT_SEPERATOR
  + Added new mosHTML::Link, Image and Script function
 
@@ -1112,8 +1112,8 @@ Legend:
  ^ Reimplemented installation with new 'dark' theme
 
 14-Nov-2005 Johan Janssens
- # Fixed artf2102 : Cpanel: logged.php works displays incomplete info.
- # Fixed artf2034 : patTemplate - page.html, et al: wrong namespace
+ # Fixed [artf2102] : Cpanel: logged.php works displays incomplete info.
+ # Fixed [artf2034] : patTemplate - page.html, et al: wrong namespace
  + UTF-8 modifications to the installation (contributed by David Gal)
  ^ Changed all instances of $_LANG to JText
  - Deprecated mosProfiler, use JProfiler instead
@@ -1126,7 +1126,7 @@ Legend:
 
 13-Nov-2005 Johan Janssens
  ^ Renamed mosConfig_mbf_content to mosConfig_multilingual_support
- # Fixed artf2081 : Contact us: You are not authorized to view this resource.
+ # Fixed [artf2081] : Contact us: You are not authorized to view this resource.
  ^ Renamed mosLink function to josURL.
  ^ Reverted use of mosConfig_admin_site back to mosConfig_live_site
  ^ Moved includes/domit to libraries/domit
@@ -1172,7 +1172,7 @@ Legend:
  ^ Fixed up a few capitalization issues
 
 09-Nov-2005 Johan Janssens
- # Fixed artf2018 : Admin Menu strings missing
+ # Fixed [artf2018] : Admin Menu strings missing
  ^ Moved includes/gacl.class.php and gacl_api_class.php to libraries/phpgacl
  ^ Moved includes/vcard.class.php and feedcreator.class.php to libraries/bitfolge
  ^ Moved includes/class.pdf.php and class.ezpdf.php to libraries/cpdf
@@ -1190,8 +1190,8 @@ Legend:
  ^ Modified some xml mambots files for translation
 
 08-Nov-2005 Johan Janssens
- # Fixed artf2002 : Can't access Site Mambots
- # Fixed artf2003 : Fatal errors - typos in backend
+ # Fixed [artf2002] : Can't access Site Mambots
+ # Fixed [artf2003] : Fatal errors - typos in backend
 
 08-Nov-2005 Alex Kempkens
  + Added variable admin path with config vars $mosConfig_admin_path & $mosConfig_admin_site
@@ -1215,8 +1215,8 @@ Legend:
  ^ Optimized the english backend language files
 
 04-Nov-2005 Johan Janssens
- # Fixed artf1949 : Typo in back-end com_config.ini
- # Fixed artf1866 : Alpha1: Content categories don't show
+ # Fixed [artf1949] : Typo in back-end com_config.ini
+ # Fixed [artf1866] : Alpha1: Content categories don't show
 
 02-Nov-2005 Andrew Eddie
  ^ Reworked ACL ACO's to better align with future requirements
@@ -1227,8 +1227,8 @@ Legend:
 
 02-Nov-2005 Johan Janssens
  + Added XML-RPC support
- # Fixed artf1918 : Edit News Feeds gives error
- # Fixed artf1841 : Problem with E-Mail / Print Icon Links
+ # Fixed [artf1918] : Edit News Feeds gives error
+ # Fixed [artf1841] : Problem with E-Mail / Print Icon Links
 
 01-Nov-2005 Arno Zijlstra
  + Added footer module english language file
@@ -1236,19 +1236,19 @@ Legend:
 01-Nov-2005 Johan Janssens
  - Removed global $version, use $_VERSION->getLongVersion() instead.
  ^ Moved includes/version.php to libraries/joomla/version.php
- # Fixed artf1901 : english.com_templates.ini
- + Added artf1895 : Footer as as module
+ # Fixed [artf1901] : english.com_templates.ini
+ + Added [artf1895] : Footer as as module
 
 31-Oct-2005 Johan Janssens
- # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
- # Fixed : artf1891 : When trying to register a new user get Fatal error.
+ # Fixed : [artf1883] : DESCMENUGROUP twice in english.com_menus.ini
+ # Fixed : [artf1891] : When trying to register a new user get Fatal error.
 
 30-Oct-2005 Rey Gigataras
  ^ Upgraded TinyMCE Compressor [1.02]
  ^ Upgraded TinyMCE [2.0 RC4]
 
 30-Oct-2005 Johan Janssens
- # Fixed artf1878 : english.com_config.ini missing Berlin
+ # Fixed [artf1878] : english.com_config.ini missing Berlin
  ^ Moved editor/editor.php to libraries/joomla/editor.php
  - Removed editor folder
 
@@ -1261,20 +1261,20 @@ Legend:
  ^ LDAP userbot modified (class moved to libraries)
 
 28-Oct-2005 Johan Janssens
- ^ Changed artf1719 : Don't run initeditor from template
+ ^ Changed [artf1719] : Don't run initeditor from template
 
 27-Oct-2005 Marko Schmuck
- # Fixed artf1805 : Time Offset problem
+ # Fixed [artf1805] : Time Offset problem
 
 27-Oct-2005 Johan Janssens
- # Fixed artf1826 : Typo's in language files
- # Fixed artf1820 : Call to undefined function: mosmainbody()
- # Fixed artf1825 : Can't delete uploaded pic from media manager
- # Fixed artf1818 : Error at "Edit Your Details"
+ # Fixed [artf1826] : Typo's in language files
+ # Fixed [artf1820] : Call to undefined function: mosmainbody()
+ # Fixed [artf1825] : Can't delete uploaded pic from media manager
+ # Fixed [artf1818] : Error at "Edit Your Details"
  ^ Moved backtemplate head handling into new mosShowHead_Admin();
 
 27-Oct-2005 Robin Muilwijk
- # Fixed artf1824, fatal error in Private messaging, backend
+ # Fixed [artf1824], fatal error in Private messaging, backend
 
 
 -------------------- 1.5.0 Alpha Released [26-Oct-2005] ------------------------
@@ -1285,12 +1285,12 @@ Legend:
  # Fixed bug where a new database object with the same username, password and host but different database name would kill Joomla!
 
 26-Oct-2005 Levis Bisson
- # Fixed Artifact artf1713 : Hardcoded text in searchbot
+ # Fixed Artifact [artf1713] : Hardcoded text in searchbot
  # Fixed selectlist finishing by an Hypen
 
 25-Oct-2005 Johan Janssens
- # Fixed artf1724 : Back end language is not being selected
- # Fixed artf1784 : Back end language selected on each user not working
+ # Fixed [artf1724] : Back end language is not being selected
+ # Fixed [artf1784] : Back end language selected on each user not working
 
 25-Oct-2005 Emir Sakic
  # Fixed a bug with live_site appended prefix in SEF
@@ -1298,9 +1298,9 @@ Legend:
  + Added handle buttons to filter box in content admin managers
 
 23-Oct-2005 Johan Janssens
- # Fixed artf1684 : Media manager broken
- # Fixed artf1742 : Can't login in front-end, wrong link
- ^ Artifact artf1413 : My Settings Page: editor selection option
+ # Fixed [artf1684] : Media manager broken
+ # Fixed [artf1742] : Can't login in front-end, wrong link
+ ^ Artifact [artf1413] : My Settings Page: editor selection option
 
 23-Oct-2005 Arno Zijlstra
  + Added reset statistics functions
@@ -1317,10 +1317,10 @@ Legend:
 
 20-Oct-2005 Levis Bisson
  Applied Feature Requests:
- ^ Artifact artf1206 : Don't show Database Password in admin area
- ^ Artifact artf1301 : Expand content title lengths
- ^ Artifact artf1282 : Easier sorting of static content in creating menu links
- ^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php
+ ^ Artifact [artf1206] : Don't show Database Password in admin area
+ ^ Artifact [artf1301] : Expand content title lengths
+ ^ Artifact [artf1282] : Easier sorting of static content in creating menu links
+ ^ Artifact [artf1162] : Remove hardcoding of <<, <, > and >> in pageNavigation.php
 
 19-Oct-2005 Johan Janssens
  + Added full UTF-8 support
