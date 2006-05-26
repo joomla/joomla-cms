@@ -34,35 +34,39 @@ body { background:url(foo) fixed;}
 #popup-container {
 	position: fixed;
 	_position: absolute;
-	border: 4px solid #525252;
+
 	top: 0px; left: 0px; z-index: 2001;
 	display:none;
 	padding: 0px;
 	background: #FBFBFB url(loading.gif) no-repeat 50% 50%;
 }
+
+#popup-border {
+	border-left: 10px solid #000;
+	border-right: 10px solid #000;
+	border-bottom: 10px solid #000;
+}
+
 #popup-inner {
-	border: 1px solid #CCCCCC;
-	background-color: #FBFBFB;
+	background-color: #fbfbfb;
 }
 
 #popup-frame {
 	margin: 0px;
-	width: 100%;
+	width: 100px;
 	height: 100%;
-	position: relative;
 	z-index: 2002;
 }
 #popup-titlebar {
-	background-color: #0C0C0C;
-	border-bottom: 3px solid #88D153;
-	color: #ffffff;
+	background: #000 url(popup-head.png) repeat-x;
+	height: 39px;
+	color: #ddd;
 	font-weight: bold;
-	height: 1.5em;
-	padding: 5px;
+	padding: 0 5px;
 	position: relative;
 	z-index: 2003;
 }
 
-#popup-title    { float:left; font-size: 1.3em;                }
-#popup-controls { float: right; cursor: pointer; cursor: hand; }
+#popup-title    { float:left; font-size: 1.5em; line-height: 39px; height: 39px;                }
+#popup-controls { float: right; cursor: pointer; cursor: hand; margin-top: 3px}
 
