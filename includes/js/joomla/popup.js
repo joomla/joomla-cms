@@ -72,6 +72,7 @@ JPopup.prototype = {
 				'<div id="popup-controls">' +
 					'<img src="'+this.baseURL+'includes/js/joomla/popup-close.png" onclick="document.popup.hide();" />' +
 				'</div>' +
+				'<div class="clr"></div>' +
 			'</div>' +
 			'<div id="popup-border"><div id="popup-inner">' +
 				'<iframe style="background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" onload="document.popup.onload();"></iframe>' +

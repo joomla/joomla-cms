@@ -20,6 +20,10 @@
  
 body { background:url(foo) fixed;}
 
+.clr {
+	clear: both;
+}
+
 #popup-overlay {
 	position: absolute;
 	top: 0; left: 0; z-index:1001;
@@ -59,7 +63,6 @@ body { background:url(foo) fixed;}
 }
 #popup-titlebar {
 	background: #000 url(popup-head.png) repeat-x;
-	height: 39px;
 	color: #ddd;
 	font-weight: bold;
 	padding: 0 5px;
@@ -67,6 +70,6 @@ body { background:url(foo) fixed;}
 	z-index: 2003;
 }
 
-#popup-title    { float:left; font-size: 1.5em; line-height: 39px; height: 39px;                }
+#popup-title    { float:left; font-size: 1.5em; line-height: 39px; padding: 5px;                }
 #popup-controls { float: right; cursor: pointer; cursor: hand; margin-top: 3px}
 
