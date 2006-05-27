@@ -403,6 +403,18 @@ class JController extends JObject {
 	{
 		if (is_null( $this->_view ))
 		{
+			if ($name == '')
+			{
+				$name = $this->_viewName;
+			}
+			if ($option == '')
+			{
+				$option = $this->_viewOption;
+			}
+			if ($prefix == '')
+			{
+				$prefix = $this->_viewPrefix;
+			}
 			$view = $this->_loadView( $name, $option, $prefix );
 			$this->setView( $view );
 		}
