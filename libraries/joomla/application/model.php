@@ -57,8 +57,7 @@ class JModel extends JObject {
 	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function JModel( &$dbo ) {
-		parent::__construct();
+	function __construct( &$dbo ) {
 		$this->_db = &$dbo;
 	}
 

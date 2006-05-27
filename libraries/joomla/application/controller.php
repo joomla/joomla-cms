@@ -399,11 +399,11 @@ class JController extends JObject {
 	 * @return	object	The view
 	 * @since	1.5
 	 */
-	function &getView()
+	function &getView($name='', $option='', $prefix='')
 	{
 		if (is_null( $this->_view ))
 		{
-			$view = $this->_loadView( $this->_viewName, $this->_viewOption, $this->_viewClassPrefix );
+			$view = $this->_loadView( $name, $option, $prefix );
 			$this->setView( $view );
 		}
 		return $this->_view;

@@ -26,9 +26,9 @@ class JMenuController extends JController
 	 */
 	function newwiz()
 	{
-		$model	= &$this->getModel( 'JModelMenu' );
-
-		$view = new JMenuNewWizardView( $this );
+		$model	= &$this->getModel( 'Wizard', 'JMenuModel' );
+		$model->init();
+		$view = &$this->getView( 'Wizard', 'com_menus', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}

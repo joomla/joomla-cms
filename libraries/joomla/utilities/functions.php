@@ -217,6 +217,23 @@ function josArrayToObject($p_array) {
 }
 
 /**
+ * Utility function to convert an array to an INI string.
+ *
+ * @package	Joomla.Framework
+ * @param	array	$p_array	The array to convert.
+ * @return	string	The INI string.
+ * @since	1.5
+ */
+function josArrayToINI($p_array)
+{
+	$str = null;
+	foreach($p_array as $k => $v) {
+		$str .= "$k=$v\n";
+	}
+	return $str;
+}
+
+/**
  * Utility function redirect the browser location to another url
  *
  * @package Joomla.Framework

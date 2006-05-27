@@ -43,6 +43,8 @@ switch ($task) {
 	case 'newwiz':
 	case 'edit2':
 		$controller = new JMenuController( $mainframe, 'newwiz' );
+		$controller->setModelPath( COM_MENUS.'models'.DS );
+		$controller->setViewPath( COM_MENUS.'views'.DS );
 		$controller->execute( $task );
 		$controller->redirect();
 		break;
