@@ -20,8 +20,10 @@ jimport( 'joomla.application.model' );
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JMenuTypeModel extends JModel
+class JModelMenuType extends JModel
 {
+	var $_modelName = 'menutype';
+
 	/** @var object JTable object */
 	var $_table = null;
 
@@ -135,7 +137,7 @@ class JMenuTypeModel extends JModel
 
 		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-		$menu = new JMenuModel( $db );
+		$menu = new JModelMenu( $db );
 
 			if (!$menu->deleteByType( $table->menutype ))
 			{

@@ -24,14 +24,6 @@ class MenuTypeController extends JController
 	var $_option = 'com_menumanager';
 
 	/**
-	 * @return object A Menu Type model object
-	 */
-	function &getModel() {
-		$model = &JModel::getInstance( 'JMenuTypeModel' );
-		return $model;
-	}
-
-	/**
 	 * Controller for view listing menu types and related statical info
 	 * @param string The URL option
 	 */
@@ -76,7 +68,7 @@ class MenuTypeController extends JController
 		$database->setQuery( $query );
 		$trash = $database->loadObjectList( 'menutype' );
 	
-		$model		= &JModel::getInstance( 'JMenuModel' );
+		$model		= &JModel::getInstance( 'JModelMenu' );
 		$menuTypes 	= $model->getMenuTypeList();
 	
 		$total		= count( $menuTypes );
@@ -118,12 +110,12 @@ class MenuTypeController extends JController
 	
 		$id	= (int) JRequest::getVar( 'id', 0 );
 	
-		if ($task == 'new')
+		if ($this->getTask() == 'new')
 		{
 			$id = 0;
 		}
 	
-		$model = &$this->getModel();
+		$model = &$this->getModel( 'JModelMenuType' );
 		$table = &$model->getTable();
 
 		$table->load( $id );
@@ -258,7 +250,7 @@ class MenuTypeController extends JController
 			return false;
 		}
 
-		$model = &$this->getModel();
+		$model = &$this->getModel( 'JModelMenuType' );
 		$table = &$model->getTable();
 
 		if (!$table->load( $id ))

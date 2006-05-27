@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: archive.html.php 3222 2006-04-24 01:49:01Z webImagery $
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.5
  */
-class JViewHTMLArchive extends JView
+class JArchiveViewArchive extends JView
 {
 	/**
 	 * Name of the view.
@@ -41,10 +41,11 @@ class JViewHTMLArchive extends JView
 	function display()
 	{
 		// Initialize some variables
-		$menu		= & $this->get( 'Menu' );
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
 		$Itemid	= $menu->id;
-		$task		= JRequest::getVar('task');
-		$id			= JRequest::getVar('id', 0, '', 'int');
+		$task	= JRequest::getVar('task');
+		$id		= JRequest::getVar('id', 0, '', 'int');
 
 		// initiate form
 		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
@@ -62,12 +63,13 @@ class JViewHTMLArchive extends JView
 	function showArchive()
 	{
 		// Initialize some variables
-		$app		= & $this->get( 'Application' );
-		$user		= & $app->getUser();
-		$menu		= & $this->get( 'Menu' );
-		$params	= & $menu->parameters;
+		$app	= & $this->getApplication();
+		$user	= & $app->getUser();
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
+		$params	= &JComponentHelper::getMenuParams();
 		$Itemid	= $menu->id;
-		$gid			= $user->get('gid');
+		$gid	= $user->get('gid');
 
 		// At some point this will come from a request object
 		$task		= JRequest::getVar('task');
@@ -106,13 +108,13 @@ class JViewHTMLArchive extends JView
 		{
 			$columns = 1;
 		}
-		$intro								= $params->def('intro', 4);
-		$leading							= $params->def('leading', 1);
-		$links								= $params->def('link', 4);
-		$usePagination				= $params->def('pagination', 2);
+		$intro					= $params->def('intro', 4);
+		$leading				= $params->def('leading', 1);
+		$links					= $params->def('link', 4);
+		$usePagination			= $params->def('pagination', 2);
 		$showPaginationResults	= $params->def('pagination_results', 1);
-		$descrip							= $params->def('description', 1);
-		$descrip_image				= $params->def('description_image', 1);
+		$descrip				= $params->def('description', 1);
+		$descrip_image			= $params->def('description_image', 1);
 
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
@@ -304,9 +306,10 @@ class JViewHTMLArchive extends JView
 	function showItem(&$row, &$params, &$access, $showImages = false)
 	{
 		// Initialize some variables
-		$app		= & $this->get( 'Application' );
+		$app		= & $this->getApplication();
 		$user		= & $app->getUser();
-		$menu		= & $this->get( 'Menu' );
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 
 		// These will come from a request object at some point

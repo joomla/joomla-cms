@@ -42,8 +42,8 @@ if (!is_array( $cid )) {
 switch ($task) {
 	case 'newwiz':
 	case 'edit2':
-		$controller = new JMenuController( 'newwiz' );
-		$controller->performTask( $task );
+		$controller = new JMenuController( $mainframe, 'newwiz' );
+		$controller->execute( $task );
 		$controller->redirect();
 		break;
 
@@ -67,7 +67,7 @@ switch ($task) {
 		break;
 
 	case 'save':
-	case 'apply':		
+	case 'apply':
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 		require_once( $path . $type .'/'. $type .'.menu.php' );
@@ -732,7 +732,7 @@ function copyMenu( $option, $cid, $menutype ) {
 	$database->setQuery( $query );
 	$items = $database->loadObjectList();
 
-	$model		= &JModel::getInstance( 'JMenuModel' );
+	$model		= &JModel::getInstance( 'JModelMenu' );
 	$menuTypes 	= $model->getMenuTypes();
 
 	foreach ( $menuTypes as $menuType ) {

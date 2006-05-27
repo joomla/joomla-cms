@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: blog.html.php 3393 2006-05-05 23:26:10Z Jinx $
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.5
  */
-class JViewHTMLBlog extends JView
+class JContentViewBlog extends JView
 {
 	/**
 	 * Name of the view.
@@ -39,14 +39,33 @@ class JViewHTMLBlog extends JView
 	 * @var		string
 	 */
 	function display()
-	{		
+	{
+		$document	= &$this->getDocument();
+		switch ($document->getType())
+		{
+			case 'feeed':
+				$this->displayFeed();
+				break;
+			default:
+				$this->displayHtml();
+				break;
+		}
+	}
+
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	function displayHtml()
+	{
 		// Initialize some variables
-		$app 	 = & $this->get('Application');
-		$user 	 = & $app->getUser();
-		$doc	 = & $app->getDocument();
-		$menu 	 = & $this->get('Menu');
-		$params  = & $menu->parameters;
-		$Itemid  = $menu->id;
+		$app 	= &$this->getApplication();
+		$user 	= &$app->getUser();
+		$doc	= &$app->getDocument();
+		$params = &JComponentHelper::getMenuParams();
+		$Itemid = $menu->id;
 
 		$gid 	= $user->get('gid');
 		$task 	= JRequest::getVar('task');
@@ -67,8 +86,8 @@ class JViewHTMLBlog extends JView
 		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 		// Menu item parameters
-		if ($params->get('page_title', 1) && $menu) {
-			$header = $params->def('header', $menu->name);
+		if ($params->get('page_title', 1)) {
+			$header = $params->def('header', JComponentHelper::getMenuName());
 		} else {
 			$header = '';
 		}
@@ -78,9 +97,9 @@ class JViewHTMLBlog extends JView
 			$columns = 1;
 		}
 
-		$intro 		= $params->def('intro', 4);
-		$leading 	= $params->def('leading', 1);
-		$links 		= $params->def('link', 4);
+		$intro 					= $params->def('intro', 4);
+		$leading 				= $params->def('leading', 1);
+		$links 					= $params->def('link', 4);
 		$usePagination 			= $params->def('pagination', 2);
 		$showPaginationResults 	= $params->def('pagination_results', 1);
 		$descrip 				= $params->def('description', 1);
@@ -265,13 +284,14 @@ class JViewHTMLBlog extends JView
 	function showItem(& $row, & $access, $showImages = false)
 	{
 		// Initialize some variables
-		$app = & $this->get('Application');
-		$user = & $app->getUser();
-		$menu = & $this->get('Menu');
-		$Itemid = $menu->id;
-		$params  = & $menu->parameters;
-		$linkOn = null;
-		$linkText = null;
+		$app		= &$this->getApplication();
+		$user		= &$app->getUser();
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
+		$Itemid 	= $menu->id;
+		$params		= &JComponentHelper::getMenuParams();
+		$linkOn		= null;
+		$linkText	= null;
 
 		// These will come from a request object at some point
 		$task = JRequest::getVar('task');
@@ -452,6 +472,60 @@ class JViewHTMLBlog extends JView
 		?>
 		</ul>
 		<?php
+	}
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	function displayFeed()
+	{
+		$app	= &$this->getApplication();
+		$doc	= &$app->getDocument();
+
+		// parameters
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
+		$params = &JComponentHelper::getMenuParams();
+		$Itemid = $menu->id;
+		$limit	= '10';
+
+		JRequest::setVar('limit', $limit);
+		$rows = & $this->get('Content');
+		
+		foreach ( $rows as $row )
+		{
+			// strip html from feed item title
+			$title = htmlspecialchars( $row->title );
+			$title = html_entity_decode( $title );
+
+			// url link to article
+			// & used instead of &amp; as this is converted by feed creator
+			$itemid = $app->getItemid( $row->id );
+			if ($itemid) {
+				$_Itemid = '&Itemid='. $itemid;
+			}
+
+			$link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
+			$link = sefRelToAbs( $link );
+
+			// strip html from feed item description text
+			$description = $row->introtext;
+			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
+
+			// load individual item creator class
+			$item = new JFeedItem();
+			$item->title 		= $title;
+			$item->link 		= $link;
+			$item->description 	= $description;
+			$item->date			= $date;
+			$item->category   	= $row->category;
+
+			// loads item info into rss array
+			$doc->addItem( $item );
+		}
+
 	}
 }
 ?>

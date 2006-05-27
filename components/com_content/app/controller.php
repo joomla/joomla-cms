@@ -14,9 +14,13 @@
 /**
  * Base class for a Joomla Controller
  *
+ * Acts as a Factory class for application specific objects and provides many
+ * supporting API functions.
+ *
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Application
+ * @author		Andrew Eddie
  * @since		1.5
  */
 class JController extends JObject {

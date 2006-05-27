@@ -18,6 +18,8 @@ defined('_JEXEC') or die('Restricted access');
 // require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
+jimport( 'joomla.application.extension.component');
+
 /**
  * Content Component Section Model
  *
@@ -26,7 +28,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @subpackage Content
  * @since 1.5
  */
-class JModelSection extends JModel
+class JContentModelSection extends JModel
 {
 	/**
 	 * Category id
@@ -81,7 +83,8 @@ class JModelSection extends JModel
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 
 		/*
 		 * Load the Category data
@@ -117,7 +120,8 @@ class JModelSection extends JModel
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 
 		/*
 		 * Load the Category data
@@ -154,7 +158,8 @@ class JModelSection extends JModel
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 
 		/*
 		 * Load the Category data
@@ -242,12 +247,13 @@ class JModelSection extends JModel
 		 * Lets load the siblings if they don't already exist
 		 */
 		if (empty($this->_categories)) {
-			$user		= & $this->_app->getUser();
-			$noauth		= !$this->_app->getCfg('shownoauth');
+			$app		= &$this->getApplication();
+			$user		= &$app->getUser();
+			$noauth		= !$app->getCfg('shownoauth');
 			$gid		= $user->get('gid');
-			$now		= $this->_app->get('requestTime');
+			$now		= $app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-			$params		= & $this->_menu->parameters;
+			$params		= &JComponentHelper::getMenuParams();
 
 			// Ordering control
 			$orderby = $params->get('orderby', '');
@@ -360,9 +366,10 @@ class JModelSection extends JModel
 		 * Lets load the content if it doesn't already exist
 		 */
 		if (empty($this->_tree)) {
-			$user		= & $this->_app->getUser();
+			$app		= &$this->getApplication();
+			$user		= &$app->getUser();
 			$gid		= $user->get('gid');
-			$now		=$this->_app->get('requestTime');
+			$now		=$app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
 			// Get the information for the current section
@@ -399,7 +406,7 @@ class JModelSection extends JModel
 			$orderby .= "$filter_order $filter_order_Dir, ";
 		}
 
-		$params = & $this->_menu->parameters;
+		$params = &JComponentHelper::getMenuParams();
 		switch ($state)
 		{
 			case -1:
@@ -424,10 +431,11 @@ class JModelSection extends JModel
 
 	function _buildContentWhere($state = 1)
 	{
-		$user		= & $this->_app->getUser();
+		$app		= &$this->getApplication();
+		$user		= &$app->getUser();
 		$gid		= $user->get('gid');
-		$now		=$this->_app->get('requestTime');
-		$noauth		= !$this->_app->getCfg('shownoauth');
+		$now		= $app->get('requestTime');
+		$noauth		= !$app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		/*
@@ -482,7 +490,7 @@ class JModelSection extends JModel
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
-		$params = & $this->_menu->parameters;
+		$params = &JComponentHelper::getMenuParams();
 		if ($params->get('filter')) {
 			$filter = JRequest::getVar('filter', '', 'request');
 			if ($filter) {

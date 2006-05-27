@@ -41,7 +41,8 @@ class JView extends JObject {
 	/**
 	 * The model for this view
 	 */
-	var $model = null;
+	// TODO: I don't think this is needed
+	//var $model = null;
 
 	/**
 	 * Registered controller
@@ -75,6 +76,15 @@ class JView extends JObject {
 		// Clean and set the view name
 		$this->_viewName = preg_replace( '#\W#', '', $name );
 		return $this->_viewName;
+	}
+
+	/**
+	 * Gets the application object associated with the controller
+	 * @return object JApplication
+	 */
+	function &getApplication()
+	{
+		return $this->_controller->getApplication();
 	}
 
 	/**
@@ -112,6 +122,44 @@ class JView extends JObject {
 	 */
 	function &getController() {
 		return $this->_controller;
+	}
+
+	/**
+	 * Method to get data from a registered model
+	 *
+	 * @access	public
+	 * @param	string	The name of the method to call on the model
+	 * @param	string	The name of the model to reference [optional]
+	 * @return mixed	The return value of the method
+	 * @since	1.5
+	 */
+	function &get( $method, $model = null ) {
+		$false = false;
+
+		// If $model is null we use the default model
+		if (is_null($model)) {
+			$model = $this->_defaultModel;
+		}
+		// First check to make sure the model requested exists
+		if (isset( $this->_models[$model] )) {
+			// Model exists, lets build the method name
+			$method = 'get'.ucfirst($method);
+
+			// Does the method exist?
+			if (method_exists($this->_models[$model], $method)) {
+				// The method exists, lets call it and return what we get
+				$data = & $this->_models[$model]->$method();
+				return $data;
+			} else {
+				// Method wasn't found... throw a warning and return false
+				JError::raiseWarning( 0, 'Unknown Method', "$model::$method() was not found");
+				return $false;
+			}
+		} else {
+			// Model wasn't found, return throw a warning and return false
+			JError::raiseWarning( 0, 'Unknown Model', "$model model was not found");
+			return $false;
+		}
 	}
 
 	/**

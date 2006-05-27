@@ -22,19 +22,11 @@ jimport('joomla.application.controller');
 class JMenuController extends JController
 {
 	/**
-	 * @return object A Menu model object
-	 */
-	function &getModel() {
-		$model = &JModel::getInstance( 'JMenuModel' );
-		return $model;
-	}
-
-	/**
 	 * New menu item wizard
 	 */
 	function newwiz()
 	{
-		$model	= &$this->getModel();
+		$model	= &$this->getModel( 'JModelMenu' );
 
 		$view = new JMenuNewWizardView( $this );
 		$view->setModel( $model, true );
@@ -48,7 +40,7 @@ class JMenuController extends JController
 	{
 		$id	= (int) JRequest::getVar( 'id', 0 );
 	
-		$model = &$this->getModel();
+		$model = &$this->getModel( 'JModelMenu' );
 		$table = &$model->getTable();
 
 		$isNew = ($this->getTask() == 'new' || $id == 0);

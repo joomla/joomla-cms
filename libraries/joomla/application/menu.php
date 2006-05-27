@@ -199,61 +199,15 @@ class JMenu extends JObject
 	}
 
 	/**
-	 * Gets the controller name associated with a menu item
-	 * @param int A menu ID
-	 * @return string The name of the controller or an empty string
-	 */
-	function getControllerName($id=0)
-	{
-		if ($id == 0) {
-			$id = $this->_current_id;
-		}
-		if (isset($this->_menuitems[$id])) {
-			return $this->_menuitems[$id]->controller_name;
-		} else {
-			return '';
-		}
-	}
-
-	/**
-	 * Gets the view name associated with a menu item
-	 * @param int A menu ID
-	 * @return string The name of the view or an empty string
-	 */
-	function getViewName($id=0)
-	{
-		if ($id == 0) {
-			$id = $this->_current_id;
-		}
-		if (isset($this->_menuitems[$id])) {
-			return $this->_menuitems[$id]->view_name;
-		} else {
-			return '';
-		}
-	}
-
-	/**
-	 * Gets the renderer (template) name associated with a menu item
-	 * @param int A menu ID
-	 * @return string The name of the renderer or an empty string
-	 */
-	function getRendererName($id=0)
-	{
-		if ($id == 0) {
-			$id = $this->_current_id;
-		}
-		if (isset($this->_menuitems[$id])) {
-			return $this->_menuitems[$id]->renderer_name;
-		} else {
-			return '';
-		}
-	}
-
-	/**
 	 * Get's the current menu item
 	 */
 	function &getCurrent() {
 		$result = &$this->getItem( $this->_current_id );
+		if ($result == false)
+		{
+			$db = &JFactory::getDBO();
+			$result = JTable::getInstance( 'menu', $db );
+		}
 		return $result;
 	}
 

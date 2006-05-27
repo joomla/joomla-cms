@@ -72,6 +72,15 @@ class JView extends JObject {
 	}
 
 	/**
+	 * Gets the application object associated with the controller
+	 * @return object JApplication
+	 */
+	function &getApplication()
+	{
+		return $this->_controller->getApplication();
+	}
+
+	/**
 	 * Method to get the name of the view.
 	 *
 	 * @access	public

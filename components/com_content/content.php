@@ -19,9 +19,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 // Require the MVC libraries
-require_once (dirname(__FILE__).DS.'app'.DS.'model.php');
-require_once (dirname(__FILE__).DS.'app'.DS.'view.php');
-require_once (dirname(__FILE__).DS.'app'.DS.'controller.php');
+jimport('joomla.application.controller');
+jimport('joomla.application.model');
+jimport('joomla.application.view');
+jimport('joomla.application.extension.component');
+
 
 /**
  * Content Component Controller
@@ -40,31 +42,28 @@ class JContentController extends JController
 	 */
 	function section()
 	{
-		$app  = $this->_app;
-		$doc  =& $app->getDocument();
-		$type = $doc->getType();
-		
-		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'section', 'com_content', $type );
+		$this->setViewName( 'section', 'com_content', 'JContentView' );
+
+		$params = &JComponentHelper::getMenuParams();
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
-		$this->_menu->parameters->def('page_title', 		1);
-		$this->_menu->parameters->def('pageclass_sfx', 		'');
-		$this->_menu->parameters->def('other_cat_section', 	1);
-		$this->_menu->parameters->def('empty_cat_section', 	0);
-		$this->_menu->parameters->def('other_cat', 			1);
-		$this->_menu->parameters->def('empty_cat', 			0);
-		$this->_menu->parameters->def('cat_items', 			1);
-		$this->_menu->parameters->def('cat_description', 	1);
-		$this->_menu->parameters->def('back_button', 		$this->_app->getCfg('back_button'));
-		$this->_menu->parameters->def('pageclass_sfx', 		'');
+		$params->def('page_title', 			1);
+		$params->def('pageclass_sfx', 		'');
+		$params->def('other_cat_section', 	1);
+		$params->def('empty_cat_section', 	0);
+		$params->def('other_cat', 			1);
+		$params->def('empty_cat', 			0);
+		$params->def('cat_items', 			1);
+		$params->def('cat_description', 	1);
+		$params->def('back_button', 		$this->_app->getCfg('back_button'));
+		$params->def('pageclass_sfx', 		'');
 
 		// Get the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Section');
+		$model = & $this->getModel('Section', 'JContentModel');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -90,39 +89,36 @@ class JContentController extends JController
 	 */
 	function category()
 	{
-		$app  = $this->_app;
-		$doc  =& $app->getDocument();
-		$type = $doc->getType();
-		
-		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'category', 'com_content', $type );
+		$this->setViewName( 'category', 'com_content', 'JContentView' );
+
+		$params = &JComponentHelper::getMenuParams();
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
-		$this->_menu->parameters->def('page_title',			1);
-		$this->_menu->parameters->def('title',				1);
-		$this->_menu->parameters->def('hits',				$this->_app->getCfg('hits'));
-		$this->_menu->parameters->def('author',				!$this->_app->getCfg('hideAuthor'));
-		$this->_menu->parameters->def('date',				!$this->_app->getCfg('hideCreateDate'));
-		$this->_menu->parameters->def('date_format',		JText::_('DATE_FORMAT_LC'));
-		$this->_menu->parameters->def('navigation',			2);
-		$this->_menu->parameters->def('display',			1);
-		$this->_menu->parameters->def('display_num',		$this->_app->getCfg('list_limit'));
-		$this->_menu->parameters->def('other_cat',			1);
-		$this->_menu->parameters->def('empty_cat',			0);
-		$this->_menu->parameters->def('cat_items',			1);
-		$this->_menu->parameters->def('cat_description',	0);
-		$this->_menu->parameters->def('back_button',		$this->_app->getCfg('back_button'));
-		$this->_menu->parameters->def('pageclass_sfx',		'');
-		$this->_menu->parameters->def('headings',			1);
-		$this->_menu->parameters->def('filter',				1);
-		$this->_menu->parameters->def('filter_type',		'title');
+		$params->def('page_title',		1);
+		$params->def('title',			1);
+		$params->def('hits',			$this->_app->getCfg('hits'));
+		$params->def('author',			!$this->_app->getCfg('hideAuthor'));
+		$params->def('date',			!$this->_app->getCfg('hideCreateDate'));
+		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
+		$params->def('navigation',		2);
+		$params->def('display',			1);
+		$params->def('display_num',		$this->_app->getCfg('list_limit'));
+		$params->def('other_cat',		1);
+		$params->def('empty_cat',		0);
+		$params->def('cat_items',		1);
+		$params->def('cat_description',	0);
+		$params->def('back_button',		$this->_app->getCfg('back_button'));
+		$params->def('pageclass_sfx',	'');
+		$params->def('headings',		1);
+		$params->def('filter',			1);
+		$params->def('filter_type',		'title');
 
 		// Get the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Category');
+		$model = & $this->getModel('Category', 'JContentModel');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -142,18 +138,13 @@ class JContentController extends JController
 	 */
 	function blogsection()
 	{
-		$app  = $this->_app;
-		$doc  =& $app->getDocument();
-		$type = $doc->getType();
-
-		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'blog', 'com_content', $type );
+		$this->setViewName( 'blog', 'com_content', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Section');
+		$model = & $this->getModel('Section', 'JContentModel');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -173,18 +164,13 @@ class JContentController extends JController
 	 */
 	function blogcategory()
 	{
-		$app  = $this->_app;
-		$doc  =& $app->getDocument();
-		$type = $doc->getType();
-
-		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'blog', 'com_content', $type );
+		$this->setViewName( 'blog', 'com_content', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Category');
+		$model = & $this->getModel('Category', 'JContentModel');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -204,14 +190,13 @@ class JContentController extends JController
 	 */
 	function archivesection()
 	{
-		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'archive', 'com_content', 'HTML' );
+		$this->setViewName( 'archive', 'com_content', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Section');
+		$model = & $this->getModel('Section', 'JContentModel');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -231,14 +216,13 @@ class JContentController extends JController
 	 */
 	function archivecategory()
 	{
-		// Dirty trick for now until we get the menus ready for us
-		$this->setViewName( 'archive', 'com_content', 'HTML' );
+		$this->setViewName( 'archive', 'com_content', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Category');
+		$model = & $this->getModel('Category', 'JContentModel');
 
 		// Get the id of the section to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -258,16 +242,15 @@ class JContentController extends JController
 	 */
 	function view()
 	{
-		$format = JRequest::getVar( 'format', 'html' );
+		// TODO: What happen if the item doesn't exist?
 
-		// Set the view name to article view
-		$this->setViewName( 'article', 'com_content', $format );
+		$this->setViewName( 'article', 'com_content', 'JContentView' );
 
 		// Create the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Article');
+		$model = & $this->getModel('Article', 'JContentModel');
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -275,6 +258,7 @@ class JContentController extends JController
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
+
 		// Display the view
 		$view->display();
 	}
@@ -288,13 +272,13 @@ class JContentController extends JController
 	function edit()
 	{
 		// Set the view name to article view
-		$this->setViewName( 'article', 'com_content', 'HTML' );
+		$this->setViewName( 'article', 'com_content', 'JContentView' );
 
 		// Create the view
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Article');
+		$model = & $this->getModel('Article', 'JContentModel');
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -667,7 +651,7 @@ class JContentController extends JController
 		$template = $db->loadResult();
 
 		// Get/Create the model
-		$model = & $this->getModel('Article');
+		$model = & $this->getModel('Article', 'JContentModel');
 
 		// Send mail via the model
 		$email = $model->sendEmail($to, $from, $fromname, $subject);
@@ -692,7 +676,7 @@ class JContentController extends JController
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
 		// Get/Create the model
-		$model = & $this->getModel('Article');
+		$model = & $this->getModel('Article', 'JContentModel');
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
@@ -723,13 +707,13 @@ class JContentController extends JController
 		$id = $db->loadResult();
 		if ($id > 0) {
 			// Set the view name to article view
-			$this->setViewName( 'article', 'com_content', 'HTML' );
+			$this->setViewName( 'article', 'com_content', 'JContentView' );
 
 			// Create the view
 			$view = & $this->getView();
 
 			// Get/Create the model
-			$model = & $this->getModel('Article');
+			$model = & $this->getModel('Article', 'JContentModel');
 
 			// Get the id of the article to display and set the model
 			$id = JRequest::getVar('id', 0, '', 'int');
@@ -756,7 +740,7 @@ $controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
 // Set the default view name from the Request
 // note - alternatively we can get it from the menu parameters
 $view = JRequest::getVar( 'view', 'article' );
-$controller->setViewName( $view, 'com_content');
+$controller->setViewName( $view, 'com_content', 'JViewHTML');
 
 // Register Extra tasks
 $controller->registerTask( 'blogcategorymulti', 'blogcategory' );
@@ -765,7 +749,7 @@ $controller->registerTask( 'apply', 			'save' );
 $controller->registerTask( 'apply_new', 		'save' );
 
 // Perform the Request task
-$controller->performTask( $task );
+$controller->execute( $task );
 
 // Redirect if set by the controller
 $controller->redirect();

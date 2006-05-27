@@ -38,10 +38,10 @@ require_once( COM_MENUMANAGER . '/controller.php' );
 require_once( COM_MENUMANAGER . '/model.php' );
 require_once( COM_MENUMANAGER . '/views.php' );
 
-$controller = new MenuTypeController( 'listItems' );
+$controller = new MenuTypeController( $mainframe, 'listItems' );
 $controller->registerTask( 'new', 'edit' );
 $controller->registerTask( 'deleteconfirm', 'delete' );
 
-$controller->performTask( JRequest::getVar( 'task' ) );
+$controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
 ?>

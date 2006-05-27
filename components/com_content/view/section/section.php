@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: section.html.php 3393 2006-05-05 23:26:10Z Jinx $
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.5
  */
-class JViewHTMLSection extends JView
+class JContentViewSection extends JView
 {
 	/**
 	 * Name of the view.
@@ -41,14 +41,35 @@ class JViewHTMLSection extends JView
 	 */
 	function display()
 	{
+		$document	= &$this->getDocument();
+		switch ($document->getType())
+		{
+			case 'feeed':
+				$this->displayFeed();
+				break;
+			default:
+				$this->displayHtml();
+				break;
+		}
+	}
+
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	function displayHtml()
+	{
 		// Initialize some variables
-		$app	= & $this->get( 'Application' );
-		$user	= & $app->getUser();
-		$menu	= & $this->get( 'Menu' );
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
+		$params	= &JComponentHelper::getMenuParams();
 		$doc	= & $app->getDocument();
 		
-		$params	 = & $menu->parameters;
-		$Itemid  = $menu->id;
+		$Itemid = $menu->id;
 
 		$gid 	= $user->get('gid');
 		$task 	= JRequest::getVar('task');
@@ -120,10 +141,12 @@ class JViewHTMLSection extends JView
 	function _buildCategories( $categories, $params, $sid)
 	{
 		// Get some variables
-		$app		= & $this->get( 'Application' );
-		$menu		= & $this->get( 'Menu' );
-		$user		= & $app->getUser();
-		$Itemid	= $menu->id;
+		$app		= &$this->getApplication();
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
+		$params		= &JComponentHelper::getMenuParams();
+		$user		= &$app->getUser();
+		$Itemid		= $menu->id;
 
 		if ( count($categories) ) {
 			?>
@@ -166,6 +189,58 @@ class JViewHTMLSection extends JView
 				?>
 			</ul>
 			<?php
+		}
+	}
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	function displayFeed()
+	{
+		$app =& $this->getApplication();
+		$doc = $app->getDocument();
+
+		//Initialize some variables
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
+		$params		= &JComponentHelper::getMenuParams();
+		$Itemid		= $menu->id;
+
+		// Lets get our data from the model
+		$rows = & $this->get( 'Section' );
+
+		foreach ( $rows as $row )
+		{
+			// strip html from feed item title
+			$title = htmlspecialchars( $row->title );
+			$title = html_entity_decode( $title );
+
+			// url link to article
+			// & used instead of &amp; as this is converted by feed creator
+			$itemid = $app->getItemid( $row->id );
+			if ($itemid) {
+				$_Itemid = '&Itemid='. $itemid;
+			}
+
+			$link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
+			$link = sefRelToAbs( $link );
+
+			// strip html from feed item description text
+			$description = $row->introtext;
+			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
+
+			// load individual item creator class
+			$item = new JFeedItem();
+			$item->title 		= $title;
+			$item->link 		= $link;
+			$item->description 	= $description;
+			$item->date			= $date;
+			$item->category   	= $row->category;
+
+			// loads item info into rss array
+			$doc->addItem( $item );
 		}
 	}
 }

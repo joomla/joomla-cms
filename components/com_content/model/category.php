@@ -26,7 +26,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @subpackage Content
  * @since 1.5
  */
-class JModelCategory extends JModel
+class JContentModelCategory extends JModel
 {
 	/**
 	 * Category id
@@ -81,7 +81,8 @@ class JModelCategory extends JModel
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 
 		/*
 		 * Load the Category data
@@ -118,7 +119,8 @@ class JModelCategory extends JModel
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 
 		/*
 		 * Load the Category data
@@ -168,7 +170,8 @@ class JModelCategory extends JModel
 		/*
 		 * Initialize some variables
 		 */
-		$user = & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 
 		/*
 		 * Load the Category data
@@ -237,12 +240,14 @@ class JModelCategory extends JModel
 		 */
 		if (empty($this->_siblings))
 		{
-			$user		= & $this->_app->getUser();
-			$noauth	= !$this->_app->getCfg('shownoauth');
-			$gid			= $user->get('gid');
-			$now		= $this->_app->get('requestTime');
+			$app		= &$this->getApplication();
+			$user		= &$app->getUser();
+			$noauth		= !$app->getCfg('shownoauth');
+			$gid		= $user->get('gid');
+			$now		= $app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
+			$params		= &JComponentHelper::getMenuParams();
 
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
@@ -259,7 +264,7 @@ class JModelCategory extends JModel
 
 			// show/hide empty categories
 			$empty = null;
-			if (!$this->_menu->parameters->get('empty_cat'))
+			if (!$params->get('empty_cat'))
 			{
 				$empty = "\n HAVING COUNT( b.id ) > 0";
 			}
@@ -338,6 +343,7 @@ class JModelCategory extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
+		$params				= &JComponentHelper::getMenuParams();
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
@@ -353,15 +359,15 @@ class JModelCategory extends JModel
 				/*
 				 * Special ordering for archive content items
 				 */
-				$orderby_sec	= $this->_menu->parameters->def('orderby', 'rdate');
+				$orderby_sec	= $params->def('orderby', 'rdate');
 				$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
 				break;
 			case 1:
 			default:
-				$orderby_sec	= $this->_menu->parameters->def('orderby_sec', 'rdate');
-				$orderby_pri	= $this->_menu->parameters->def('orderby_pri', '');
+				$orderby_sec	= $params->def('orderby_sec', 'rdate');
+				$orderby_pri	= $params->def('orderby_pri', '');
 				$secondary		= JContentHelper::orderbySecondary($orderby_sec).', ';
-				$primary			= JContentHelper::orderbyPrimary($orderby_pri);
+				$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 				break;
 		}
 		$orderby .= "$primary $secondary a.created DESC";
@@ -371,11 +377,13 @@ class JModelCategory extends JModel
 
 	function _buildContentWhere($state = 1)
 	{
-		$user		= & $this->_app->getUser();
-		$gid			= $user->get('gid');
-		$now		=$this->_app->get('requestTime');
-		$noauth	= !$this->_app->getCfg('shownoauth');
+		$app		= &$this->getApplication();
+		$user		= &$app->getUser();
+		$gid		= $user->get('gid');
+		$now		= $app->get('requestTime');
+		$noauth		= !$app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
+		$params		= &JComponentHelper::getMenuParams();
 
 		/*
 		 * First thing we need to do is assert that the content items are in
@@ -412,7 +420,7 @@ class JModelCategory extends JModel
 				/*
 				 * Get some request vars specific to this state
 				 */
-				$year		= JRequest::getVar( 'year', date('Y') );
+				$year	= JRequest::getVar( 'year', date('Y') );
 				$month	= JRequest::getVar( 'month', date('m') );
 
 				$where .= "\n AND a.state = '-1'";
@@ -428,7 +436,7 @@ class JModelCategory extends JModel
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
-		if ($this->_menu->parameters->get('filter'))
+		if ($params->get('filter'))
 		{
 			$filter = JRequest::getVar('filter', '', 'request');
 			if ($filter)
@@ -436,7 +444,7 @@ class JModelCategory extends JModel
 				// clean filter variable
 				$filter = JString::strtolower($filter);
 
-				switch ($this->_menu->parameters->get('filter_type'))
+				switch ($params->get('filter_type'))
 				{
 					case 'title' :
 						$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";

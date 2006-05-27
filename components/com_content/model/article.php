@@ -18,6 +18,8 @@ defined('_JEXEC') or die('Restricted access');
 // require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
+jimport( 'joomla.application.extension.component');
+
 /**
  * Content Component Article Model
  *
@@ -26,7 +28,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @subpackage Content
  * @since 1.5
  */
-class JModelArticle extends JModel
+class JContentModelArticle extends JModel
 {
 	/**
 	 * Content data in category array
@@ -98,7 +100,8 @@ class JModelArticle extends JModel
 		 */
 		if ($this->_loadArticle())
 		{
-			$user = & $this->_app->getUser();
+			$app	= &$this->getApplication();
+			$user	= & $app->getUser();
 
 			// Is the category published?
 			if (!$this->_article->cat_pub && $this->_article->catid) {
@@ -129,14 +132,15 @@ class JModelArticle extends JModel
 
 		} else {
 			$article =& JTable::getInstance('content', $this->_db);
-			$article->state = 1;
-			$article->parameters = null;
-			$article->cat_pub    = null;
-			$article->sec_pub    = null;
-			$article->cat_access = null;
-			$article->sec_access = null;
-			$article->author     = null;
-			$this->_article 	 = $article;
+			$article->state			= 1;
+			$article->cat_pub		= null;
+			$article->sec_pub		= null;
+			$article->cat_access	= null;
+			$article->sec_access	= null;
+			$article->author		= null;
+			$article->parameters	= new JParameter( '' );
+			$article->text			= '';
+			$this->_article			= $article;
 		}
 		return $this->_article;
 	}
@@ -212,8 +216,9 @@ class JModelArticle extends JModel
 		{
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$user	= & $this->_app->getUser();
-				$uid		= $user->get('id');
+				$app	= &$this->getApplication();
+				$user	= &$app->getUser();
+				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$article = & JTable::getInstance('content', $this->_db);
@@ -281,7 +286,8 @@ class JModelArticle extends JModel
 		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$this->_id.'&Itemid='.$_Itemid);
 
 		// Build the message body to send in the E-Mail
-		$SiteName	= $this->_app->getCfg('sitename');
+		$app		= &$this->getApplication();
+		$SiteName	= $app->getCfg('sitename');
 		$body = sprintf(JText::_('EMAIL_MSG'), $SiteName, $fromname, $from, $link);
 
 		// Clean the email data
@@ -337,7 +343,8 @@ class JModelArticle extends JModel
 	 */
 	function _loadArticleParams()
 	{
-		$user	= & $this->_app->getUser();
+		$app	= &$this->getApplication();
+		$user	= &$app->getUser();
 		$pop	= JRequest::getVar('pop', 0, '', 'int');
 
 		// Create a new parameters object for the article
@@ -350,30 +357,30 @@ class JModelArticle extends JModel
 		if ($this->_article->sectionid == 0) {
 			$params->set('item_navigation', 0);
 		} else {
-			$params->set('item_navigation', $this->_app->getCfg('item_navigation'));
+			$params->set('item_navigation', $app->getCfg('item_navigation'));
 		}
 
 		// Set some metatag information if needed
-		if ($this->_app->getCfg('MetaTitle') == '1') {
-			$this->_app->addMetaTag('title', $this->_article->title);
+		if ($app->getCfg('MetaTitle') == '1') {
+			$app->addMetaTag('title', $this->_article->title);
 		}
-		if ($this->_app->getCfg('MetaAuthor') == '1') {
-			$this->_app->addMetaTag('author', $this->_article->author);
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$app->addMetaTag('author', $this->_article->author);
 		}
 
 		// Handle global overides for some article parameters if set
-		$params->def('link_titles',	$this->_app->getCfg('link_titles'));
-		$params->def('author',		!$this->_app->getCfg('hideAuthor'));
-		$params->def('createdate',	!$this->_app->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$this->_app->getCfg('hideModifyDate'));
-		$params->def('print',		!$this->_app->getCfg('hidePrint'));
-		$params->def('pdf',			!$this->_app->getCfg('hidePdf'));
-		$params->def('email',		!$this->_app->getCfg('hideEmail'));
-		$params->def('rating',		$this->_app->getCfg('vote'));
+		$params->def('link_titles',	$app->getCfg('link_titles'));
+		$params->def('author',		!$app->getCfg('hideAuthor'));
+		$params->def('createdate',	!$app->getCfg('hideCreateDate'));
+		$params->def('modifydate',	!$app->getCfg('hideModifyDate'));
+		$params->def('print',		!$app->getCfg('hidePrint'));
+		$params->def('pdf',			!$app->getCfg('hidePdf'));
+		$params->def('email',		!$app->getCfg('hideEmail'));
+		$params->def('rating',		$app->getCfg('vote'));
 
-		$params->def('back_button', $this->_app->getCfg('back_button'));
-		$params->def('icons',		$this->_app->getCfg('icons'));
-		$params->def('readmore',	$this->_app->getCfg('readmore'));
+		$params->def('back_button', $app->getCfg('back_button'));
+		$params->def('icons',		$app->getCfg('icons'));
+		$params->def('readmore',	$app->getCfg('readmore'));
 
 		// Get some article specific parameter defaults
 		$params->def('image',			1);
@@ -418,9 +425,10 @@ class JModelArticle extends JModel
 	 */
 	function _buildContentWhere()
 	{
-		$user		= & $this->_app->getUser();
-		$gid			= $user->get('gid');
-		$now		=$this->_app->get('requestTime');
+		$app		= &$this->getApplication();
+		$user		= &$app->getUser();
+		$gid		= $user->get('gid');
+		$now		= $app->get('requestTime');
 		$nullDate	= $this->_db->getNullDate();
 
 		/*

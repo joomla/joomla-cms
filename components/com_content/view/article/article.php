@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: article.html.php 3545 2006-05-18 00:25:36Z Jinx $
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.5
  */
-class JViewHTMLArticle extends JView
+class JContentViewArticle extends JView
 {
 	/**
 	 * Name of the view.
@@ -40,10 +40,31 @@ class JViewHTMLArticle extends JView
 	 */
 	function display()
 	{
+		$document	= &$this->getDocument();
+		switch ($document->getType())
+		{
+			case 'pdf':
+				$this->displayPdf();
+				break;
+			default:
+				$this->displayHtml();
+				break;
+		}
+	}
+
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	function displayHtml()
+	{
 		// Initialize variables
-		$app	= & $this->get('Application');
+		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		$menu	= & $this->get('Menu');
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 		$linkOn = null;
 		$linkText = null;
@@ -218,10 +239,11 @@ class JViewHTMLArticle extends JView
 	function edit()
 	{
 		// Initialize variables
-		$app	= & $this->get('Application');
+		$app	= & $this->getApplication();
 		$doc	= & $app->getDocument();
 		$user	= & $app->getUser();
-		$menu	= & $this->get('Menu');
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 
 		// At some point in the future this will come from a request object
@@ -560,6 +582,130 @@ class JViewHTMLArticle extends JView
 		$lists['access'] = mosAdminMenus::Access($article);
 
 		return $lists;
+	}
+
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	function displayPdf()
+	{
+		global $l;
+
+		// Initialize some variables
+		$app		= & $this->getApplication();
+		$user		= & $app->getUser();
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
+		$article	= & $this->get( 'Article' );
+		//$Itemid	= $menu->id;
+		$params 	= & $article->parameters;
+
+		$params->def('introtext', 1);
+		$params->set('intro_only', 0);
+
+		// show/hides the intro text
+		if ($params->get('introtext')) {
+			$article->text = $article->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$article->fulltext);
+		} else {
+			$article->text = $article->fulltext;
+		}
+
+		// process the new plugins
+		JPluginHelper::importPlugin('content');
+		$app->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
+		//	$text = trim(implode("\n", $results));
+		//				$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
+		//			$text .= trim(implode("\n", $results));
+		//
+		//		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
+		//		$text .= trim(implode("\n", $onBeforeDisplayContent));
+
+		//create new PDF document (document units are set by default to millimeters)
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);
+
+		// set document information
+		$pdf->SetCreator("Joomla!");
+		$pdf->SetTitle("Joomla generated PDF");
+		$pdf->SetSubject($article->title);
+		$pdf->SetKeywords($article->metakey);
+
+		// prepare header lines
+		$headerText = $this->_getHeaderText($article, $params);
+
+		$pdf->SetHeaderData('', 0, $article->title, $headerText);
+
+		//set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		//set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
+
+		$pdf->setHeaderFont(Array (PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array (PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		$pdf->setLanguageArray($l); //set language items
+
+		//initialize document
+		$pdf->AliasNbPages();
+
+		$pdf->AddPage();
+
+		//	$pdf->WriteHTML($article->introtext ."\n". $article->fulltext, true);
+		$pdf->WriteHTML($article->text, true);
+
+		//Close and output PDF document
+		$pdf->Output("joomla.pdf", "I");
+	}
+
+	function _getHeaderText(& $article, & $params)
+	{
+		// Initialize some variables
+		$db = & $this->get('DBO');
+		$text = '';
+
+		if ($params->get('author')) {
+			// Display Author name
+			if ($article->usertype == 'administrator' || $article->usertype == 'superadministrator') {
+				$text .= "\n";
+				$text .= JText::_('Written by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
+			} else {
+				$text .= "\n";
+				$text .= JText::_('Contributed by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
+			}
+		}
+
+		if ($params->get('createdate') && $params->get('author')) {
+			// Display Separator
+			$text .= "\n";
+		}
+
+		if ($params->get('createdate')) {
+			// Display Created Date
+			if (intval($article->created)) {
+				$create_date = mosFormatDate($article->created);
+				$text .= $create_date;
+			}
+		}
+
+		if ($params->get('modifydate') && ($params->get('author') || $params->get('createdate'))) {
+			// Display Separator
+			$text .= "\n";
+		}
+
+		if ($params->get('modifydate')) {
+			// Display Modified Date
+			if (intval($article->modified)) {
+				$mod_date = mosFormatDate($article->modified);
+				$text .= JText::_('Last Updated').' '.$mod_date;
+			}
+		}
+		//	$text .= "\n\n";
+		return $text;
 	}
 }
 ?>

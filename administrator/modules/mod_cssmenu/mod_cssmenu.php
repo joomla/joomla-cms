@@ -87,7 +87,7 @@ function & buildMenu($usertype = '')
 
 	// Menu Types
 	require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-	$menuModel	= &JModel::getInstance( 'JMenuModel' );
+	$menuModel	= &JModel::getInstance( 'JModelMenu' );
 	$menuTypes 	= $menuModel->getMenuTypelist();
 
 	/*
