@@ -161,7 +161,7 @@ See COPYRIGHT.php for copyright notices and details.
 	</div>
 </div>
 
-<jdoc:include type="modules" name="debug" style="-1"/> 
+<jdoc:include type="modules" name="debug" style="-1"/>
 
 </body>
 </html>

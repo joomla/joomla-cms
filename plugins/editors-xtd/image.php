@@ -18,21 +18,21 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginImageButton' );
 
 /**
 * Editor Image button
-* 
+*
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginImageButton() 
+function pluginImageButton()
 {
 	global $mainframe;
 
 	$option 	= $mainframe->getOption();
 	$doc 		= & $mainframe->getDocument();
 	$template 	= $mainframe->getTemplate();
-	
+
 	$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-	
+
 	// button is not active in specific content components
-	switch ( $option ) 
+	switch ( $option )
 	{
 		case 'com_sections'   	:
 		case 'com_categories'	:
@@ -40,7 +40,7 @@ function pluginImageButton()
 			break;
 
 		default:
-		
+
 			$link = 'index.php?option=com_media&amp;task=imgManager&amp;tmpl=component.html';
 			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);

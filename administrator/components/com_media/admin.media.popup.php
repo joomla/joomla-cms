@@ -21,12 +21,12 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Media
  * @since 1.5
  */
-class JMediaViews 
+class JMediaViews
 {
-	function imgManager($dirPath, $listFolder) 
+	function imgManager($dirPath, $listFolder)
 	{
 		global $mainframe;
-			
+
 		?>
 		<form action="index.php" id="uploadForm" method="post" enctype="multipart/form-data">
 		<div id="messages" style="display: none;"><span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." /></div>
@@ -66,7 +66,7 @@ class JMediaViews
 						<option value="top"                          >Top</option>
 					</select>
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td>
 					<label for="f_alt">Image Description</label>
@@ -79,7 +79,7 @@ class JMediaViews
 			</fieldset>
 			<div id="uploadpanel">
 			<h3 id="uploadtoggler" class="toggler title"><span>Upload</span></h3>
-			<div id="uploadpane" class="content">			
+			<div id="uploadpane" class="content">
 			<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component.html" id="uploadview" name="uploadview" onload="document.imagemanager.setFolder(window.frames['uploadview'].document.adminForm.dirPath.value, true);"></iframe>
 			</div>
 			</div>
@@ -89,10 +89,10 @@ class JMediaViews
 		</form>
 		<?php
 	}
-	
-	function imgManagerList($listFolder, $folders, $images) 
+
+	function imgManagerList($listFolder, $folders, $images)
 	{
-		if (count($images) > 0 || count($folders) > 0) 
+		if (count($images) > 0 || count($folders) > 0)
 		{
 			//now sort the folders and images by name.
 			ksort($images);
@@ -115,8 +115,8 @@ class JMediaViews
 			}
 
 			?></div><?php
-		} 
-		else 
+		}
+		else
 		{
 			?>
 			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
@@ -155,7 +155,7 @@ class JMediaViews
 		<?php
 	}
 
-	function renderFolder($path, $dir, $listdir) 
+	function renderFolder($path, $dir, $listdir)
 	{
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
@@ -176,13 +176,13 @@ class JMediaViews
 		</div>
 		<?php
 	}
-	
+
 	/**
 	 * Method to display an error message if the working directory is not valid
 	 *
 	 * since 1.5
 	 */
-	function listError() 
+	function listError()
 	{
 		global $BASE_DIR, $BASE_ROOT;
 		?>
@@ -197,8 +197,8 @@ class JMediaViews
 		</table>
 		<?php
 	}
-	
-	function popupUpload($dirPath, $msg) 
+
+	function popupUpload($dirPath, $msg)
 	{
 		?>
 		<form method="post" action="index.php" enctype="multipart/form-data" name="adminForm">
@@ -213,7 +213,7 @@ class JMediaViews
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="tmpl" value="component.html" />
 		<input type="hidden" name="dirPath" value="<?php echo $dirPath ?>" />
 		<input type="hidden" name="option" value="com_media" />
@@ -222,7 +222,7 @@ class JMediaViews
 		<?php
 	}
 
-	function popupDirectory($basePath) 
+	function popupDirectory($basePath)
 	{
 		$imgFiles = mosFS::listFolders($basePath, '.', true, true);
 		$folders = array ();

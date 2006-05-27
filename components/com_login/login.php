@@ -34,7 +34,7 @@ switch ($task) {
 	case 'logout' :
 		LoginController::logout();
 		break;
-	default : 
+	default :
 		LoginController::showLogin();
 		break;
 }
@@ -54,7 +54,7 @@ class LoginController
 	function showLogin()
 	{
 		global $mainframe, $Itemid;
-		
+
 		// Initialize variables
 		$user		= & $mainframe->getUser();
 		$menu		= JMenu::getInstance();
@@ -116,13 +116,13 @@ class LoginController
 			LoginView::login( $params, $loginImage );
 		}
 	}
-	
+
 	function login()
 	{
 		global $mainframe;
-		
+
 		$mainframe->login();
-		
+
 		$return = JRequest::getVar( 'return' );
 
 		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
@@ -131,20 +131,20 @@ class LoginController
 			josRedirect( $return );
 		}
 	}
-	
+
 	function logout()
 	{
 		global $mainframe;
-		
+
 		$mainframe->logout();
-		
+
 		$return = JRequest::getVar( 'return' );
 
 		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 			// checks for the presence of a return url
 			// and ensures that this url is not the registration or logout pages
 			josRedirect( $return );
-		} 
+		}
 	}
 }
 

@@ -54,7 +54,7 @@ class JCachePage extends JCache
 			$this->sendEtagHttpHeader($this->_id);
 			return $data;
 		}
-		
+
 		return false;
 	}
 

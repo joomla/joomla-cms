@@ -42,14 +42,14 @@ class JElement_View extends JElement
 		$helper = &$this->_parent->private_helper;
 
 		if ($helper->hasViews())
-		{ 
+		{
 			$views = $helper->getViewList();
 			$controlName = $control_name.'['.$name.']';
 
 			if (count( $views ))
 			{
 				array_unshift( $views, mosHTML::makeOption( '', '- Select View  -' ) );
-				
+
 				$result = mosHTML::selectList( $views, $controlName,
 					'onchange="alert(\'Please click apply for change to take effect\')"',
 					'value', 'text', $value );

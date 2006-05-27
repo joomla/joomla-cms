@@ -66,14 +66,14 @@ $output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
  * Print the logout message
  */
  $output[] = "<span class=\"logout\"><a href=\"index2.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
- 
+
  /*
   * reverse rendering order for rtl display
   */
  if ( $lang->isRTL() ) {
  	$output = array_reverse( $output );
  }
- 
+
  /*
   * output the module
   */

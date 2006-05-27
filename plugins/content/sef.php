@@ -62,14 +62,14 @@ function contentSEF_replacer( &$matches ) {
 
 	// array list of non http/https	URL schemes
 	$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:' );
-	
+
 	foreach ( $url_schemes as $url ) {
 		// disable bot from being applied to specific URL Scheme tag
 		if ( JString::strpos($matches[1], $url) !== false ) {
 			return $original;
 		}
 	}
-	
+
 	// will only process links containing 'index.php?option
 	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false ) {
 		$uriLocal =& JURI::getInstance();

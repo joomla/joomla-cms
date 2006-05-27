@@ -19,20 +19,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Sections
 */
-class sections_html 
+class sections_html
 {
 	/**
 	* Writes a list of the categories for a section
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $scope, $myid, &$page, $option, &$lists ) 
+	function show( &$rows, $scope, $myid, &$page, $option, &$lists )
 	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 's.ordering');
 
@@ -74,7 +74,7 @@ class sections_html
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('s.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' ); ?>
-					</a>	
+					</a>
 				</th>
 				<th width="1%">
 					<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -165,7 +165,7 @@ class sections_html
 		?>
 		</tbody>
 		</table>
-	
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $scope;?>" />
 		<input type="hidden" name="task" value="" />

@@ -19,9 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
-class HTML_poll 
+class HTML_poll
 {
-	function showPolls( &$rows, &$pageNav, $option, &$lists ) 
+	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
 		global $my;
 
@@ -130,12 +130,12 @@ class HTML_poll
 	}
 
 
-	function editPoll( &$row, &$options, &$lists ) 
+	function editPoll( &$row, &$options, &$lists )
 	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
-		function submitbutton(pressbutton) 
+		function submitbutton(pressbutton)
 		{
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {

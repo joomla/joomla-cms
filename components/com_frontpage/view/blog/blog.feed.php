@@ -71,6 +71,6 @@ class JViewBlog
 		}
 	}
 
-	
+
 }
 ?>

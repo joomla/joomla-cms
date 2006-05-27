@@ -74,7 +74,7 @@ class JAdminCSSMenu extends JTree
 		 * Build the CSS class suffix
 		 */
 		$class = '';
-		if ($this->_current->hasChildren()) { 
+		if ($this->_current->hasChildren()) {
 			$class = ' class="node"';
 		}
 

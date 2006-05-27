@@ -81,7 +81,7 @@ class JModel extends JObject {
 
 		if (!isset( $instance[$modelName] ))
 		{
-			// TODO: Must be an API method to get the site object 
+			// TODO: Must be an API method to get the site object
 			global $mainframe;
 			$db = &$mainframe->getDBO();
 			$instance[$modelName] = new $modelName( $db );

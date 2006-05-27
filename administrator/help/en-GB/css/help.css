@@ -3,7 +3,7 @@ body {
 	font-size: 9pt;
 }
 
-h1 { 
+h1 {
 	color: #6D9D2E;
 	font-size: 1.5em;
     border-left: 25px solid #6D9D2E;
@@ -11,10 +11,10 @@ h1 {
 	padding: 0 0 2px 5px;
 }
 
-h2 { 
-	color: #6D9D2E;    
+h2 {
+	color: #6D9D2E;
 	font-size: 1.3em;
-	margin: 1ex 0; 
+	margin: 1ex 0;
 }
 
 pre {

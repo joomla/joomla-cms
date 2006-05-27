@@ -47,7 +47,7 @@ class JFactory
 			'lifeTime' 		=> $mainframe->getCfg('cachetime'),
 			'fileNameProtection' => false
 		);
-	
+
 		$cache =& JCache::getInstance( $handler, $options );
 
 		return $cache;

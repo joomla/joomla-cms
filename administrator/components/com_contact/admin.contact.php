@@ -102,7 +102,7 @@ switch ($task) {
 * List the records
 * @param string The current GET/POST option
 */
-function showContacts( $option ) 
+function showContacts( $option )
 {
 	global $database, $mainframe;
 

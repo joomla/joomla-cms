@@ -19,14 +19,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Newsfeeds
 */
-class HTML_newsfeeds 
+class HTML_newsfeeds
 {
-	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option ) 
+	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option )
 	{
 		global $mainframe;
 
 		$user = $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 
@@ -68,7 +68,7 @@ class HTML_newsfeeds
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' );?>
-					</a>	
+					</a>
 	 			</th>
 				<th width="1%">
 					<?php mosCommonHTML::saveorderButton( $rows ); ?>

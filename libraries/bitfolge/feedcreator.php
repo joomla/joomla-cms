@@ -28,14 +28,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 Changelog:
-  
+
 1.7.3	10-11-04
 06-May-2005 Johan Janssens
 	added generator attribute
 	added support for custom markup in feeds and items
 	added Atom 1.0 support
 	added enclosure support for RSS 2.0/ATOM 1.0
-	
+
 v1.7.2+	03-12-05
 	added output function outputFeed for on-the-fly feed generation
 
@@ -156,14 +156,14 @@ while ($data = mysql_fetch_object($res)) {
 	//optional
 	item->descriptionTruncSize = 500;
     item->descriptionHtmlSyndicated = true;
-    
+
     //optional (enclosure)
     $item->enclosure = new EnclosureItem();
     $item->enclosure->url='http://http://www.dailyphp.net/media/voice.mp3';
     $item->enclosure->length="950230";
     $item->enclosure->type='audio/x-mpeg'
-    
-    
+
+
 
 	$item->date = $data->newsdate;
 	$item->source = "http://www.dailyphp.net";
@@ -233,10 +233,10 @@ class FeedItem extends HtmlDescribable {
 	 *
 	 * display :
 	 * <enclosure length="17691" url="http://something.com/picture.jpg" type="image/jpeg" />
-	 * 
+	 *
 	 */
 	var $enclosure;
-	
+
 	/**
 	 * Any additional elements to include as an assiciated array. All $key => $value pairs
 	 * will be included unencoded in the feed item in the form
@@ -253,7 +253,7 @@ class FeedItem extends HtmlDescribable {
 	 * $additionalElements isn't sufficient (for example, if you need to add elements with
 	 * attributes, eg: <element attribute="value" />).
 	 * @since 1.7.3
-	 */	
+	 */
 	 var $additionalMarkup = "";
 
 
@@ -273,21 +273,21 @@ class FeedItem extends HtmlDescribable {
 
 class EnclosureItem extends HtmlDescribable {
 	/*
-	* 
+	*
 	* core variables
 	*
 	**/
 	var $url,$length,$type;
-	
+
 	/*
 	* For use with another extension like Yahoo mRSS
 	* Warning :
-	* These variables might not show up in 
+	* These variables might not show up in
 	* later release / not finalize yet!
 	*
 	*/
 	var $width, $height, $title, $description, $keywords, $thumburl;
-	
+
 	var $additionalElements = Array();
 
 }
@@ -412,46 +412,46 @@ class UniversalFeedCreator extends FeedCreator {
 
 	function _setMIME($format) {
 		switch (strtoupper($format)) {
-			
+
 			case "2.0":
 				// fall through
 			case "RSS2.0":
 				header('Content-type: text/xml', true);
 				break;
-			
+
 			case "1.0":
 				// fall through
 			case "RSS1.0":
 				header('Content-type: text/xml', true);
 				break;
-			
+
 			case "PIE0.1":
 				header('Content-type: text/xml', true);
 				break;
-			
+
 			case "MBOX":
 				header('Content-type: text/plain', true);
 				break;
-			
+
 			case "OPML":
 				header('Content-type: text/xml', true);
 				break;
-				
+
 			case "ATOM":
 				// fall through: always the latest ATOM version
 			case "ATOM1.0":
 				header('Content-type: application/xml', true);
 				break;
-				
+
 			case "ATOM0.3":
 				header('Content-type: application/xml', true);
 				break;
-	
-				
+
+
 			case "HTML":
 				header('Content-type: text/html', true);
 				break;
-			
+
 			case "JS":
 				// fall through
 			case "JAVASCRIPT":
@@ -466,14 +466,14 @@ class UniversalFeedCreator extends FeedCreator {
 				break;
 		}
 	}
-	
+
 	function _setFormat($format) {
 		switch (strtoupper($format)) {
 
 			case "PODCAST":
 				$this->_feed = new RSSCreatorPodcast();
 				break;
-			
+
 			case "2.0":
 				// fall through
 			case "RSS2.0":
@@ -509,7 +509,7 @@ class UniversalFeedCreator extends FeedCreator {
 			case "ATOM1.0":
 				$this->_feed = new AtomCreator10();
 				break;
-			
+
 
 			case "ATOM0.3":
 				$this->_feed = new AtomCreator03();
@@ -587,7 +587,7 @@ class UniversalFeedCreator extends FeedCreator {
 	  $this->_feed->useCached($filename, $timeout);
    }
 
-   
+
    /**
 	* Outputs feed to the browser - needed for on-the-fly feed generation (like it is done in WordPress, etc.)
 	*
@@ -599,8 +599,8 @@ class UniversalFeedCreator extends FeedCreator {
 		$this->_setMIME($format);
 		$this->_feed->outputFeed();
    }
-   
-   
+
+
 }
 
 
@@ -669,24 +669,24 @@ class FeedCreator extends HtmlDescribable {
 	 * $additionalElements isn't sufficient (for example, if you need to add elements with
 	 * attributes, eg: <element attribute="value" />).
 	 * @since 1.7.3
-	 */	
+	 */
 	 var $additionalMarkup = "";
-	 
-   
+
+
 	/**
 	 * Determines whether or not error messages are displayed by this class.
 	 * @since 1.7.3
 	 **/
 	var $verbose = true;
-	
-	
+
+
 	/**
 	 * Specifies the generator of the feed.
 	 * @since 1.7.3
 	 **/
 	var $generator = FEEDCREATOR_VERSION;
 
-    
+
 	/**
 	 * Adds an FeedItem to the feed.
 	 *
@@ -867,7 +867,7 @@ class FeedCreator extends HtmlDescribable {
 			if ($displayContents) {
 				$this->_redirect($filename);
 			}
-			
+
 			return true;
 		} else {
 			echo "<br /><b>Error creating feed file, please check write permissions.</b><br />";
@@ -884,7 +884,7 @@ class FeedCreator extends HtmlDescribable {
 		echo $this->createFeed();
 	}
 
-	
+
 }
 
 
@@ -1077,7 +1077,7 @@ class RSSCreator091 extends FeedCreator {
 	 * @access private
 	 */
 	var $RSSVersion;
-	
+
 	var $namespaces;
 
 	function RSSCreator091() {
@@ -1096,15 +1096,15 @@ class RSSCreator091 extends FeedCreator {
 
 	function _getNameSpaces() {
 		if (!is_array($this->namespaces)) return "";
-		
+
 		$output = "";
 		foreach ($this->namespaces as $namespace=>$dtd) {
 			$output .= " ".$namespace."=\"".$dtd."\"";
 		}
-		
+
 		return $output;
 	}
-	
+
 	function addNameSpace($namespace,$dtd) {
 		$this->namespaces[$namespace] = $dtd;
 	}
@@ -1118,7 +1118,7 @@ class RSSCreator091 extends FeedCreator {
 		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
 		$feed.= $this->_createGeneratorComment();
 		$feed.= $this->_createStylesheetReferences();
-		$feed.= "<rss version=\"".$this->RSSVersion."\"".$this->_getNameSpaces().">\n"; 
+		$feed.= "<rss version=\"".$this->RSSVersion."\"".$this->_getNameSpaces().">\n";
 		$feed.= "	<channel>\n";
 		$feed.= "		<title>".FeedCreator::iTrunc(htmlspecialchars($this->title),100)."</title>\n";
 		$this->descriptionTruncSize = 500;
@@ -1221,9 +1221,9 @@ class RSSCreator091 extends FeedCreator {
 				                $feed.= $this->items[$i]->enclosure->type;
 				                $feed.= "\"/>\n";
 		            	}
-            	
-		
-		
+
+
+
 			$feed.= "		</item>\n";
 		}
 		$feed.= "	</channel>\n";
@@ -1307,7 +1307,7 @@ class PIECreator01 extends FeedCreator {
  * for the feed or an author for every single feed item.
  *
  * Some elements have not been implemented yet. These are (incomplete list):
- * author URL, item author's email and URL, item contents, alternate links, 
+ * author URL, item author's email and URL, item contents, alternate links,
  * other link content types than text/html. Some of them may be created with
  * AtomCreator10::additionalElements.
  *
@@ -1316,7 +1316,7 @@ class PIECreator01 extends FeedCreator {
  * @author Mohammad Hafiz Ismail (mypapit@gmail.com)
  */
  class AtomCreator10 extends FeedCreator {
- 
+
 	function AtomCreator10() {
 		$this->contentType = "application/atom+xml";
 		$this->encoding = "utf-8";
@@ -1330,7 +1330,7 @@ class PIECreator01 extends FeedCreator {
 		if ($this->language!="") {
 			$feed.= " xml:lang=\"".$this->language."\"";
 		}
-		$feed.= ">\n"; 
+		$feed.= ">\n";
 		$feed.= "    <title>".htmlspecialchars($this->title)."</title>\n";
 		$feed.= "    <subtitle>".htmlspecialchars($this->description)."</subtitle>\n";
 		$feed.= "    <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($this->link)."\"/>\n";
@@ -1377,9 +1377,9 @@ class PIECreator01 extends FeedCreator {
 		return $feed;
 	}
 
-	
+
 }
- 
+
 
 /**
  * AtomCreator03 is a FeedCreator that implements the atom specification,

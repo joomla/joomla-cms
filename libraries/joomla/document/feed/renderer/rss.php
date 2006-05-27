@@ -12,7 +12,7 @@
  */
 
  jimport( 'joomla.utilities.date' );
- 
+
  /**
  * JFeedRSS is a feed that implements RSS 2.0 Specification
  *
@@ -27,19 +27,19 @@
 class JDocumentRenderer_RSS extends JDocumentRenderer
 {
 	//$this->_mime    = "application/rss+xml";
-	
+
 	/**
 	 * Render the feed
-	 * 
+	 *
 	 * @access public
 	 * @return	string
 	 */
-	function render() 
+	function render()
 	{
 		$now  = new JDate();
 		$data =& $this->_doc;
-		
-		$feed = "<rss version=\"2.0\">\n"; 
+
+		$feed = "<rss version=\"2.0\">\n";
 		$feed.= "	<channel>\n";
 		$feed.= "		<title>".$data->title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
@@ -47,7 +47,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822())."</lastBuildDate>\n";
 		$feed.= "        <generator>".$data->getGenerator()."</generator>\n";
 
-		if ($data->image!=null) 
+		if ($data->image!=null)
 		{
 			$re.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
@@ -99,7 +99,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 			$feed.= "		<skipDays>".htmlspecialchars($data->skipDays)."</skipDays>\n";
 		}
 
-		for ($i=0; $i<count($data->items); $i++) 
+		for ($i=0; $i<count($data->items); $i++)
 		{
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
@@ -138,7 +138,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 				    $feed.= $data->items[$i]->enclosure->type;
 				    $feed.= "\"/>\n";
 			}
-            	
+
 			$feed.= "		</item>\n";
 		}
 		$feed.= "	</channel>\n";

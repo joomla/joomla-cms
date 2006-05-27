@@ -37,7 +37,7 @@ class JMainMenu extends JTree
 	 * CSS to add to the document head
 	 */
 	var $_css = null;
-	
+
 	/**
 	 * Menu parameters
 	 */
@@ -110,14 +110,14 @@ class JMainMenu extends JTree
 		$this->_nodeHash[$item->id] =& $node;
 		$this->_current =& $this->_nodeHash[$item->parent];
 		$this->addChild($node, true);
-		
+
 		// Handle active menu items
 		if ($item->id == $this->_active) {
 			while ($this->_current->title != 'ROOT') {
 				$this->_current->active = true;
 				$this->getParent();
 			}
-		}				
+		}
 	}
 
 	function render($type, $suffix = null)
@@ -158,7 +158,7 @@ class JMainMenu extends JTree
 		if ($this->_params->get('showAllChildren')) {
 			$showChildren = true;
 		}
-		
+
 		// Build the CSS class selectors
 		$classes = "level$depth item".$this->_depthHash[$depth];
 
@@ -183,7 +183,7 @@ class JMainMenu extends JTree
 
 			// Print the item
 			echo "<li class=\"".$classes."\">";
-	
+
 			// Print a link if it exists
 			if ($this->_current->link != null) {
 				echo "<a href=\"".$this->_current->link."\">".$this->_current->title."</a>";

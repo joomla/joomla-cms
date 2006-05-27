@@ -100,7 +100,7 @@ class JInstallation extends JApplication
 	{
 		return 'template';
 	}
-	
+
 	/**
 	 * Return a reference to the JDocument object
 	 *
@@ -114,7 +114,7 @@ class JInstallation extends JApplication
 		}
 
 		$doc  =& parent::getDocument($type);
-		
+
 		//set document link
 		$doc->setLink( $this->getBaseURL() );
 

@@ -19,7 +19,7 @@
  * @author Andrew Eddie
  */
 class JMenuHelper extends JObject {
-	// TODO: Move to library, derive similar class for module support 
+	// TODO: Move to library, derive similar class for module support
 
 	/**
 	 * @var string The component file name
@@ -99,7 +99,7 @@ class JMenuHelper extends JObject {
 	 * if the component supports new parameter types
 	 * @param string A params string
 	 * @param string The option
-	 * @return object A 
+	 * @return object A
 	 */
 	function &getViewParams( $ini, $control )
 	{
@@ -150,7 +150,7 @@ class JMenuHelper extends JObject {
 	function hasViews()
 	{
 		return false;
-	}	
+	}
 
 	/**
 	 * @return boolean True if the component supports templates
@@ -212,7 +212,7 @@ class JMenuHelper extends JObject {
 					}
 				}
 			}
-			
+
 			$result[] = array(
 				'value' => $file,
 				'text' => $text
@@ -253,7 +253,7 @@ class JMenuHelper extends JObject {
 					}
 				}
 			}
-			
+
 			$result[] = array(
 				'value' => $folder,
 				'text' => $text

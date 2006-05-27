@@ -88,7 +88,7 @@ function viewSearch() {
 	$search_ignore = array();
 	$tag = $lang->getTag();
 	@include $lang->getLanguagePath().$tag.DS.$tag.'.ignore.php' ;
-	
+
 
 	$orders = array();
 	$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
@@ -134,7 +134,7 @@ function viewSearch() {
 	 * check for words to ignore
 	 */
 	$aterms = explode( ' ', JString::strtolower( $searchword ) );
-	
+
 	// first case is single ignored word
 	if ( count( $aterms ) == 1 && in_array( JString::strtolower( $searchword ), $search_ignore ) ) {
 		$ignored = 1;
@@ -144,8 +144,8 @@ function viewSearch() {
 		$pruned = array_diff( $aterms, $search_ignore );
 		$searchword = implode( ' ', $pruned );
 	}
-	
-	
+
+
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
 			// html output

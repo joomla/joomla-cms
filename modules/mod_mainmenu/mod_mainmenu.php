@@ -66,10 +66,10 @@ switch ( $params->get( 'menu_style', 'list' ) ) {
 		$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$menu = & new JMainMenu($params, $Itemid);
 		$items = JMenu::getInstance();
-		
+
 		// Get Menu Items
 		$rows = $items->getItems('menutype', $params->get('menutype'));
-		
+
 		// Handle RTL
 		$lang = $mainframe->getLanguage();
 		if( $lang->isRTL() ) {
@@ -84,7 +84,7 @@ switch ( $params->get( 'menu_style', 'list' ) ) {
 			}
 		}
 
-		// Render Menu		
+		// Render Menu
 		$menu->render($params->get('menutype'), $params->get('class_sfx'));
 		break;
 }

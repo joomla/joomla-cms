@@ -148,7 +148,7 @@ class mosHTML {
 		if ( is_array( $arr ) ) {
 			reset( $arr );
 		}
-		
+
         $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -575,7 +575,7 @@ class mosHTML {
 		$replacement 	.= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement 	.= "\n var addy". $rand ." = '". @$mail[0] ."' + '&#64;';";
 		$replacement 	.= "\n addy". $rand ." = addy". $rand ." + '". implode( "' + '&#46;' + '", $mail_parts ) ."';";
-		
+
 		if ( $mailto ) {
 			// special handling when mail text is different from mail addy
 			if ( $text ) {
@@ -602,7 +602,7 @@ class mosHTML {
 		}
 		$replacement 	.= "\n //-->";
 		$replacement 	.= '\n </script>';
-		
+
 		// XHTML compliance `No Javascript` text handling
 		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
@@ -628,7 +628,7 @@ class mosHTML {
 	 * @return void
 	 * @since 1.5
 	 */
-	function formatMessage ($msg, $type = 'message fade' ) 
+	function formatMessage ($msg, $type = 'message fade' )
 	{
 		?>
 		<div id="system-message" class="<?php echo $type;?>"><?php echo $msg;?></div>
@@ -642,7 +642,7 @@ class mosHTML {
 				function keepAlive() {
 					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component.html&task=keepalive\';', 60000);
 				}";
-		
+
 		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
 				"style=\"width:0px; height:0px; border: 0px\" " .
 				"src=\"index.php?option=com_admin&tmpl=component.html&task=keepalive\" " .
@@ -1009,7 +1009,7 @@ class mosCommonHTML {
  * @subpackage	Presentation
  * @since		1.0
  */
-class mosAdminMenus 
+class mosAdminMenus
 {
 	/**
 	* build the select list for Menu Ordering
@@ -1113,24 +1113,24 @@ class mosAdminMenus
 	/**
 	* build the link/url of a menu item
 	*/
-	function Link( &$row, $id, $link=NULL ) {		
+	function Link( &$row, $id, $link=NULL ) {
 		if ( $id ) {
 			switch ($row->type) {
 				case 'content_item_link':
 				case 'content_typed':
 					// load menu params
 					$params = new JParameter( $row->params, JApplicationHelper::getPath( 'menu_xml', $row->type ), 'menu' );
-					
+
 					if ( $params->get( 'unique_itemid' ) ) {
 						$row->link .= '&Itemid='. $row->id;
 					} else {
 						$temp = split( '&task=view&id=', $row->link);
 						$row->link .= '&Itemid='. JContentHelper::getItemid($temp[1], 0, 0);
 					}
-					
-					$link = $row->link;					
+
+					$link = $row->link;
 					break;
-				
+
 				default:
 					if ( $link ) {
 						$link = $row->link;
@@ -1138,11 +1138,11 @@ class mosAdminMenus
 						$link = $row->link .'&amp;Itemid='. $row->id;
 					}
 					break;
-			}			
+			}
 		} else {
 			$link = NULL;
 		}
-		
+
 		return $link;
 	}
 

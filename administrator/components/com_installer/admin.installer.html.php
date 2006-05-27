@@ -48,7 +48,7 @@ class JInstallerScreens
 		}
 
 		</script>
-	
+
 		<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
 
 			<table class="adminform">
@@ -73,7 +73,7 @@ class JInstallerScreens
 			<input type="hidden" name="task" value="uploadpackage" />
 			<input type="hidden" name="option" value="com_installer" />
 			</form>
-			
+
 			<form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_dir">
 			<table class="adminform">
 			<tr>

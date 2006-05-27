@@ -29,7 +29,7 @@ class JViewFrontpage
 	function show(&$model, &$access, &$menu)
 	{
 		global $mainframe;
-		
+
 		$doc  =& $mainframe->getDocument();
 		$type = $doc->getType();
 

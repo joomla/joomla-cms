@@ -45,7 +45,7 @@ class JDocumentHTML extends JDocument
      * @access    private
      */
 	var $_buffer = array();
-	
+
 	/**
      * Array of discovered includes
      *
@@ -63,10 +63,10 @@ class JDocumentHTML extends JDocument
 	function __construct($attributes = array())
 	{
 		parent::__construct($attributes);
-		
+
 		//set document type
 		$this->_type = 'html';
-	
+
 		//set mime type
 		$this->_mime = 'text/html';
 
@@ -140,16 +140,16 @@ class JDocumentHTML extends JDocument
 		if(isset($this->_buffer[$type][$name])) {
 			return $this->_buffer[$type][$name];
 		}
-		
+
 		$renderer = $this->loadRenderer( $type );
 		$result = $renderer->render($name, $params);
-		
+
 		$this->set($type, $name, $result);
-		
+
 		return $result;
-		
+
 	}
-	
+
 	/**
 	 * Set the contents the document buffer
 	 *
@@ -167,50 +167,50 @@ class JDocumentHTML extends JDocument
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
-	  * @param boolean 	$cache		If true, cache the output 
+	  * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
 	function display( $caching = false, $compress = false, $params = array())
 	{
-		global $mainframe; 
-		
+		global $mainframe;
+
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = $params['template'];
 		$file      = $params['file'];
-		
+
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
-		
+
 		// Page caching
 		// For now page caching will only be used for anonymous users
 		$cache = JFactory::getCache('page', 'page');
 		$cache->setCaching( $caching );
 		$cache->setCacheValidation(true);
-		
-			
+
+
 		// Compute unique cache identifier for the page we're about
 		// to cache. We'll assume that the page's output depends on
 		// the HTTP GET variables
 
 		$cacheId = $cache->generateId(array_push($_GET, $mainframe->getBaseURL()));
 
-		if(!$data = $cache->loadPage($cacheId, 'page')) 
+		if(!$data = $cache->loadPage($cacheId, 'page'))
 		{
 		   /*
-			* Buffer the output of the component before loading the template.  This is done so 
-		 	* that non-display tasks, like save, published, etc, will not go thru the overhead of 
+			* Buffer the output of the component before loading the template.  This is done so
+		 	* that non-display tasks, like save, published, etc, will not go thru the overhead of
 		 	* loading the template if it simply redirected.
-		 	*/ 
+		 	*/
 			if($component = $mainframe->getOption()) {
 				$renderer = $this->loadRenderer( 'component' );
 				$result   = $renderer->render($component);
 				$this->set('component', null, $result);
 			}
-		
-			//create the document engine 
+
+			//create the document engine
 			$this->_engine = $this->_initEngine($template);
 
 			// parse
@@ -218,16 +218,16 @@ class JDocumentHTML extends JDocument
 
 			// buffer
 			$this->_bufferTemplate($params);
-		
+
 			// render
 			$this->_renderTemplate($params);
-	
+
 			// fecth
 			$data = $this->_engine->fetch('document');
 
 			//cache the data
 			$cache->savePage($data);
-			
+
 			//output
 			//header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 			//header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -235,44 +235,44 @@ class JDocumentHTML extends JDocument
 			//header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 			//header( 'Pragma: no-cache' );										// HTTP/1.0
 		}
-		
+
 		//compress
 		if($compress) {
 			$data = $this->compress($data);
 		}
-		
+
 		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-		
+
 		echo $data;
-	
+
 	}
-	
+
 	/**
 	 * Create document engine
 	 *
 	 * @access public
 	 * @param string 	$template 	The actual template name
-	 * @return object 
+	 * @return object
 	 */
 	function _initEngine($template)
 	{
 		jimport('joomla.template.template');
 		$instance =& JTemplate::getInstance();
-		
+
 		//set the namespace
 		$instance->setNamespace( 'jdoc' );
-		
+
 		//add module directories
 		$instance->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
-		
+
 		//Add template variables
 		$instance->addVar( 'document', 'lang_tag', $this->getLanguage() );
 		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
 		$instance->addVar( 'document', 'template', $template);
-		
+
 		return $instance;
 	}
-	
+
 	/**
 	 * Parse a document template
 	 *
@@ -351,49 +351,49 @@ class JDocumentHTML extends JDocument
 
 		return $contents;
 	}
-	
+
 	/**
 	 * Buffer the document
 	 *
 	 * @access private
 	 */
 	function _bufferTemplate(&$params)
-	{	
+	{
 		foreach($this->_include as $type => $includes)
 		{
 			foreach($includes as $include)
 			{
 				$result = $this->get($type, $include, $params);
-				
+
 				if(!$result) {
 					$result = " ";
 				}
-				
+
 				$this->set($type, $include, $result);
 			}
 		}
-		
+
 		$renderer = $this->loadRenderer( 'head' );
 		$result   = $renderer->render();
 		$this->set('head', null, $result);
 	}
-	
+
 	/**
 	 * Render the document
 	 *
 	 * @access private
 	 */
 	function _renderTemplate(&$params)
-	{	
+	{
 		foreach($this->_buffer as $type => $buffers)
 		{
 			foreach($buffers as $buffer => $content)
-			{	
-				$this->_engine->addVar('document', $type.'_'.$buffer, $content); 
+			{
+				$this->_engine->addVar('document', $type.'_'.$buffer, $content);
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds a renderer to be called
 	 *
@@ -401,11 +401,11 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The renderer name
 	 * @return string The contents of the template
 	 */
-	function _addRenderer($type, $name) 
-	{		
+	function _addRenderer($type, $name)
+	{
 		$this->_include[$type][] = $name;
 	}
-	
+
 	 /**
 	* load from template cache
 	*

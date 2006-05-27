@@ -47,7 +47,7 @@ class JObject
 	* @param string The name of the property
 	* @param mixed The value of the property to set
 	*/
-	function set( $property, $value=null ) 
+	function set( $property, $value=null )
 	{
 		$this->$property = $value;
 	}
@@ -57,7 +57,7 @@ class JObject
 	* @param mixed  The default value
 	* @return mixed The value of the property
 	*/
-	function get($property, $default=null) 
+	function get($property, $default=null)
 	{
 		if(isset($this->$property)) {
 			return $this->$property;
@@ -70,7 +70,7 @@ class JObject
 	 *
 	 * @return array
 	 */
-	function getPublicProperties() 
+	function getPublicProperties()
 	{
 		static $cache = null;
 		if (is_null( $cache )) {

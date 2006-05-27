@@ -20,7 +20,7 @@
 	line-height: 22px;
 	font-size: 11px;
 	color: #666;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .button2-left span,
@@ -41,7 +41,7 @@
 	font-weight: bold;
 }
 
-.button2-left a:hover, 
+.button2-left a:hover,
 .button2-right a:hover {
 	text-decoration: none;
 	color: #0B55C4;

@@ -53,7 +53,7 @@ class JModelMenu extends JModel
 		}
 
 		$db = &$this->getDBO();
-		
+
 		if (count( $ids ))
 		{
 			// Delete associated module and template mappings
@@ -65,7 +65,7 @@ class JModelMenu extends JModel
 			if (!$db->query())
 			{
 				$this->setError( $menuTable->getErrorMsg() );
-				return false;				
+				return false;
 			}
 
 			$query = 'DELETE FROM #__templates_menu '
@@ -74,12 +74,12 @@ class JModelMenu extends JModel
 			if (!$db->query())
 			{
 				$this->setError( $menuTable->getErrorMsg() );
-				return false;				
+				return false;
 			}
 
 			// Delete the menu items
 			$where = 'WHERE id = ' . implode( ' OR id = ', $ids );
-			
+
 			$query = 'DELETE FROM #__menu ' . $where;
 			$db->setQuery( $query );
 			if (!$db->query())
@@ -97,13 +97,13 @@ class JModelMenu extends JModel
 	function deleteByType( $type = '' )
 	{
 		$db = &$this->getDBO();
-		
+
 		$query = 'SELECT id' .
 				' FROM #__menu' .
 				' WHERE menutype = ' . $db->Quote( $type );
 		$db->setQuery( $query );
 		$ids = $db->loadResultArray();
-		
+
 		if ($db->getErrorNum())
 		{
 			$this->setError( $db->getErrorMsg() );

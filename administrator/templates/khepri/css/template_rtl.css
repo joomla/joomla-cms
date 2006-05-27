@@ -18,10 +18,10 @@
  * @version  	1.0
  */
 
-/* -- Imported styles ----------------------------- */ 
- 
-@import url("general_rtl.css"); 
-@import url("icon_rtl.css"); 
+/* -- Imported styles ----------------------------- */
+
+@import url("general_rtl.css");
+@import url("icon_rtl.css");
 @import url("menu_rtl.css");
 @import url("component_rtl.css");
 

@@ -250,7 +250,7 @@ function mosShowVIMenu(& $params) {
 			'</div>',
 			''
 		),
-		
+
 	);
 
 	// establish the hierarchy of the menu

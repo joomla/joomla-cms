@@ -17,12 +17,12 @@
  * @since		1.5
  * @version    1.0
  */
- 
-/* -- Imported styles ----------------------------- */ 
- 
-@import url("general.css"); 
 
-/* -- Specific styles ----------------------------- */ 
+/* -- Imported styles ----------------------------- */
+
+@import url("general.css");
+
+/* -- Specific styles ----------------------------- */
 
 form  			{ margin: 0px; padding: 0px; }
 form .inputbox { width: 120px; margin-left: 10px; }
@@ -39,11 +39,11 @@ form br 			{ display: none; }
 }
 
 #element-box .padding {
-	background: none; padding: 0;	
+	background: none; padding: 0;
 }
 
 .button { text-align: right; }
-		
+
 .login-form    { text-align: left; width: 60%; }
 .login-form h1 { display: none; }
 .login-form p  { padding: 0 1em 0 1em; }

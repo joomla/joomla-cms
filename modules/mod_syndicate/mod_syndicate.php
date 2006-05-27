@@ -31,21 +31,21 @@ if (!defined('_SYNDICATE_MODULE'))
 			</a>
 		<?php
 	}
-	
+
 	function getSyndicateLink(&$params)
 	{
 		global $mainframe;
-		
+
 		$document =& $mainframe->getDocument();
-		
-		foreach($document->_links as $link) 
+
+		foreach($document->_links as $link)
 		{
 			if(strpos($link, 'application/'.$params->get('format').'+xml')) {
 				preg_match("#href=\"(.*?)\"#s", $link, $matches);
-				return $matches[1]; 
+				return $matches[1];
 			}
 		}
-		
+
 	}
 }
 

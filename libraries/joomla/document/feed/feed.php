@@ -23,65 +23,65 @@
 class JDocumentFeed extends JDocument
 {
 	/**
-	 * Syndication URL feed element 
-	 * 
+	 * Syndication URL feed element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $syndicationURL = "";
-	 
+
 	 /**
-	 * Image feed element 
-	 * 
+	 * Image feed element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		object
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $image = null;
-	 
+
 	/**
-	 * Copyright feed elememnt 
-	 * 
+	 * Copyright feed elememnt
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $copyright = "";
-	  
+
 	 /**
 	 * Published date feed element
-	 * 
+	 *
 	 *  optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $pubDate = "";
-	 
+
 	 /**
-	 * Lastbuild date feed element 
-	 * 
+	 * Lastbuild date feed element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $lastBuildDate = "";
-	 
+
 	 /**
-	 * Editor feed element 
-	 * 
+	 * Editor feed element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $editor = "";
-	 
+
 	/**
      * Docs feed element
      *
@@ -89,85 +89,85 @@ class JDocumentFeed extends JDocument
      * @access    public
      */
 	 var $docs = "";
-	 
+
 	 /**
 	 * Editor email feed element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $editorEmail = "";
-	 
+
 	/**
 	 * Webmaster email feed element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $webmaster = "";
-	 
+
 	/**
 	 * Category feed element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $category = "";
-	 
+
 	/**
-	 * TTL feed attribute 
-	 * 
+	 * TTL feed attribute
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $ttl = "";
-	 
+
 	/**
 	 * Rating feed element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $rating = "";
-	 
+
 	/**
 	 * Skiphours feed element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $skipHours = "";
-	 
+
 	/**
 	 * Skipdays feed element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $skipDays = "";
-	 
+
 	/**
 	 * The feed items collection
-	 * 
+	 *
 	 * @var array
 	 * @access public
 	 */
 	var $items = array();
-	
+
 	/**
 	 * Class constructor
 	 *
@@ -178,38 +178,38 @@ class JDocumentFeed extends JDocument
 	function __construct($attributes = array())
 	{
 		parent::__construct($attributes);
-		
+
 		//set mime type
 		$this->_mime = 'text/xml';
-		
+
 		//set document type
 		$this->_type = 'feed';
 	}
-	
+
 	/**
 	 * Outputs the document to the browser.
 	 *
 	 * @access public
-	  * @param boolean 	$cache		If true, cache the output 
+	  * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
 		global $mainframe;
-		
+
 		$format     = isset($params['format']) ? $params['format'] : 'RSS';
 		$cache      = 0;
 		$cache_time = 3600;
 		$cache_path = $mainframe->getCfg('cachepath');
 		$option 	= $mainframe->getOption();
-		
+
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
-		
+
 		$renderer = $this->loadRenderer($format);
-		
+
 		$path 	= JApplicationHelper::getPath( 'front', $option );
 		$task 	= JRequest::getVar( 'task' );
 
@@ -217,11 +217,11 @@ class JDocumentFeed extends JDocument
 		$lang =& $mainframe->getLanguage();
 		$lang->load($option);
 		require_once( $path );
-		
+
 		//set feed information
 		$this->_engine->title 		= $this->getTitle();
 		$this->_engine->description = $this->getDescription();
-		
+
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -229,22 +229,22 @@ class JDocumentFeed extends JDocument
 		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 		header( 'Pragma: no-cache' );										// HTTP/1.0
 		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-    
+
 		// Generate prolog
 		$result  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
 		$result .= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
-		
+
 		 // Generate stylesheet links
         foreach ($this->_styleSheets as $src => $attr ) {
             $result .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
         }
-		
+
 		// Render the feed
 		$result .= $renderer->render( );
-		
+
 		echo $result;
 	}
-	
+
 	/**
 	 * Adds an JFeedItem to the feed.
 	 *
@@ -260,7 +260,7 @@ class JDocumentFeed extends JDocument
 
 /**
  * JFeedItem is an internal class that stores feed item information
- * 
+ *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  *
  * @package 	Joomla.Framework
@@ -270,99 +270,99 @@ class JDocumentFeed extends JDocument
 class JFeedItem extends JObject
 {
 	/**
-	 * Title item element 
-	 * 
+	 * Title item element
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	var $title;
-	
+
 	/**
 	 * Link item element
-	 * 
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	  var $link;
-	
+
 	/**
 	 * Description item element
-	 * 
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $description;
-	 
+
 	/**
 	 * Author item element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $author;
-	 
+
 	 /**
-	 * Author email element 
-	 * 
+	 * Author email element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $authorEmail;
-	 
-  
+
+
 	/**
 	 * Category element
-	 * 
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $category;
-	 
+
 	 /**
-	 * Comments element 
-	 * 
+	 * Comments element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $comments;
-	 
+
 	 /**
 	 * Enclosure element
 	 *
 	 * @var		object
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $enclosure =  null;
-	 
+
 	 /**
-	 * Guid element 
-	 * 
+	 * Guid element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $guid;
-	 
+
 	/**
-	 * Published date 
-	 * 
+	 * Published date
+	 *
 	 * optional
-	 * 
+	 *
 	 *  May be in one of the following formats:
 	 *
 	 *	RFC 822:
@@ -374,22 +374,22 @@ class JFeedItem extends JObject
 	 *
 	 *	Unix:
 	 *	1043082341
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $pubDate;
-	 
+
 	 /**
-	 * Source element 
-	 * 
+	 * Source element
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $source;
-	
+
 
 	 /**
 	 * Set the JFeedEnclosure for this item
@@ -415,31 +415,31 @@ class JFeedEnclosure extends JObject
 {
 	/**
 	 * URL enclosure element
-	 * 
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $url = "";
-	 
+
 	/**
 	 * Lenght enclosure element
-	 * 
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $length = "";
-	 
+
 	 /**
 	 * Type enclosure element
-	 * 
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $type = "";
 }
@@ -456,62 +456,62 @@ class JFeedEnclosure extends JObject
 class JFeedImage extends JObject
 {
 	/**
-	 * Title image attribute 
-	 * 
+	 * Title image attribute
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $title = "";
-	 
+
 	 /**
-	 * URL image attribute 
-	 * 
+	 * URL image attribute
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	var $url = "";
-	
+
 	/**
-	 * Link image attribute 
-	 * 
+	 * Link image attribute
+	 *
 	 * required
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $link = "";
 
 	 /**
-	 * witdh image attribute 
-	 * 
+	 * witdh image attribute
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $width;
-	 
+
 	 /**
-	 * Title feed attribute 
-	 * 
+	 * Title feed attribute
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $height;
-	 
+
 	 /**
-	 * Title feed attribute 
-	 * 
+	 * Title feed attribute
+	 *
 	 * optional
-	 * 
+	 *
 	 * @var		string
-	 * @access	public 	
+	 * @access	public
 	 */
 	 var $description;
 }

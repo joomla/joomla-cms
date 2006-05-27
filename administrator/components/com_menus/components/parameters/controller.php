@@ -42,14 +42,14 @@ class JElement_Controller extends JElement
 		$helper = &$this->_parent->private_helper;
 
 		if ($helper->hasControllers())
-		{ 
+		{
 			$controllers = $helper->getControllerList();
 			$controlName = $control_name.'['.$name.']';
 
 			if (count( $controllers ))
 			{
 				array_unshift( $controllers, mosHTML::makeOption( '', '- Select Controller -' ) );
-				
+
 				$result = mosHTML::selectList( $controllers, $controlName,
 					'onchange="alert(\'Please click apply for change to take effect\')"',
 					'value', 'text', $value );

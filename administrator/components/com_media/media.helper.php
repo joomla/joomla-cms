@@ -123,7 +123,7 @@ class JMediaHelper
 			default:
 				$icon = 'unknown';
 				break;
-		}		
+		}
 		return $icon;
 	}
 
@@ -144,23 +144,23 @@ class JMediaHelper
 
 		if (!in_array($format, $allowable))
 		{
-			$err = 'This file type is not supported';				
+			$err = 'This file type is not supported';
 			return false;
 		}
 		$maxSize = (int) $params->get( 'upload_maxsize', 0 );
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$err = 'This file is too large to upload';				
+			$err = 'This file is too large to upload';
 			return false;
 		}
 		return true;
 	}
 
-	function parseSize($size) 
+	function parseSize($size)
 	{
 		if ($size < 1024) {
 			return $size . ' bytes';
-		} 
+		}
 		else
 		{
 			if ($size >= 1024 && $size < 1024 * 1024) {
@@ -170,8 +170,8 @@ class JMediaHelper
 			}
 		}
 	}
-	
-	function imageResize($width, $height, $target) 
+
+	function imageResize($width, $height, $target)
 	{
 		//takes the larger size of the width and height and applies the
 		//formula accordingly...this is so this script will work
@@ -190,8 +190,8 @@ class JMediaHelper
 		//can plug this function inside an image tag and just get the
 		return "width=\"$width\" height=\"$height\"";
 	}
-	
-	function countFiles( $dir ) 
+
+	function countFiles( $dir )
 	{
 		$total_file = 0;
 		$total_dir = 0;

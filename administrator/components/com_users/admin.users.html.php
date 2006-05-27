@@ -207,13 +207,13 @@ class HTML_users {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'User Details' ); ?></legend>
 
 				<table class="admintable" cellspacing="1">
-		
+
 
 
 					<tr>
@@ -323,7 +323,7 @@ class HTML_users {
 					}
 					?>
 				</table>
-				
+
 			</div>
 			<div class="col50">
 				<fieldset class="adminform">
@@ -345,7 +345,7 @@ class HTML_users {
 					<?php
 					if ( !$contact ) {
 						?>
-						
+
 						<table class="admintable">
 						<tr>
 							<td>

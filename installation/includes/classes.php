@@ -416,10 +416,10 @@ class JInstallationController
 	function mainConfig($vars)
 	{
 		global $mainframe;
-		
+
 		// get ftp configuration into registry for use in case of safe mode
 		JInstallationHelper::setFTPCfg( $vars );
-		
+
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
@@ -433,7 +433,7 @@ class JInstallationController
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
-			
+
 		/*
 		 * Deal with possible sql script uploads from this stage
 		 */
@@ -487,8 +487,8 @@ class JInstallationController
 			'modules',
 			'templates',
 		);
-		
-		
+
+
 
 		/*
 		 * Now lets make sure we have permissions set on the appropriate folders
@@ -779,7 +779,7 @@ class JInstallationHelper
 			if ($query != '' && $query {0} != '#') {
 				$database->setQuery($query);
 				$database->query();
-				JInstallationHelper::getDBErrors($errors, $database ); 
+				JInstallationHelper::getDBErrors($errors, $database );
 			}
 		}
 		return count($errors);
@@ -1023,12 +1023,12 @@ class JInstallationHelper
 		$script = '';
 
 		/*
-		 * Check for iconv 
+		 * Check for iconv
 		 */
 		if ($migration && !function_exists( 'iconv' ) ) {
 			return JText::_( 'WARNICONV' );
 		}
-		
+
 		/*
 		 * Get the uploaded file information
 		 */
@@ -1081,7 +1081,7 @@ class JInstallationHelper
 
 		jimport('joomla.database.database');
 		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
-		
+
 		/*
 		 * If migration perform manipulations on script file before population
 		 */
@@ -1103,7 +1103,7 @@ class JInstallationHelper
 		$migErrors = null;
 		if ( $migration ) {
 			$migResult = JInstallationHelper::postMigrate( $database, $migErrors, $args );
-			
+
 			if ( $migResult != 0 ) {
 				/*
 				 * Merge populate and migrate processing errors
@@ -1117,7 +1117,7 @@ class JInstallationHelper
 				}
 			}
 		}
-		
+
 
 		/*
 		 * prepare sql error messages if returned from populate and migrate
@@ -1134,7 +1134,7 @@ class JInstallationHelper
 			$txt = '<input size="50" value="'.$msg.'" readonly="readonly" />';
 		}
 
-		
+
 		/*
 		 * Clean up
 		 */
@@ -1214,7 +1214,7 @@ class JInstallationHelper
 			 * Create the folder
 			 */
 			JFolder::create( $extractdir );
-			
+
 			/*
 			 * read the gz file and write content to regular file
 			 */
@@ -1229,17 +1229,17 @@ class JInstallationHelper
 			     gzclose( $gzFile );
 			     fclose( $unpacked );
 			 }
-			
+
 			// Set permissions for extracted dir
 			JPath::setPermissions($extractdir, '0666', '0777');
 
 		} else {
 			/*
-			 * not an archive we handle 
+			 * not an archive we handle
 			 */
 			 return false;
 		}
-		
+
 		/*
 		 * return the file found in the extract folder and also folder name
 		 */
@@ -1257,7 +1257,7 @@ class JInstallationHelper
 		return $retval;
 
 	}
-	
+
 	/**
 	 * Performs pre-populate conversions on a migration script
 	 *
@@ -1278,46 +1278,46 @@ class JInstallationHelper
 		if(  $buffer == false ) {
 			return false;
 		}
-		
+
 		/*
 		 * search and replace table prefixes
 		 */
 		$oldPrefix = trim( $args['oldPrefix']);
 		$oldPrefix = rtrim( $oldPrefix, '_' ) . '_';
 		$buffer = str_replace( $oldPrefix, $newPrefix, $buffer );
-		
+
 		/*
 		 * give temp name to menu and modules tables
 		 */
 		$buffer = str_replace ( $newPrefix.'modules', $newPrefix.'modules_migration', $buffer );
 		$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
-		
+
 		/*
 		 * Create two empty temporary tables
 		 */
-		 
+
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
 		$db->query();
-		
+
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
-		$db->query(); 
-		
+		$db->query();
+
 		$query = 'CREATE TABLE '.$newPrefix.'modules_migration SELECT * FROM '.$newPrefix.'modules WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
-		
+
 		$query = 'CREATE TABLE '.$newPrefix.'menu_migration SELECT * FROM '.$newPrefix.'menu WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
-		
+
 		/*
 		 * rename two aro_acl... field names
 		 */
 		$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
 		$buffer = preg_replace ( '/aro_id(?=.{1,6}section_value)/', 'id', $buffer );
-		
+
 		/*
 		 * convert to utf-8
 		 */
@@ -1332,7 +1332,7 @@ class JInstallationHelper
 		JFile::delete( $scriptName );
 		return $newFile;
 	}
-	
+
 	/**
 	 * Performs post-populate conversions after importing a migration script
 	 * These include constructing an appropriate menu table for core content items
@@ -1345,17 +1345,17 @@ class JInstallationHelper
 	 * @since 1.5
 	 */
 	function postMigrate( $db, & $errors, & $args ) {
-		
+
 		$newPrefix = $args['DBPrefix'];
-		
-		
+
+
 		/*
 		 * Check to see if migration is from 4.5.1
 		 */
 		$query = "SELECT id, usertype FROM ".$newPrefix."users WHERE id = 62";
 		$row = $db->getRow( $query );
-		JInstallationHelper::getDBErrors($errors, $db ); 
-		
+		JInstallationHelper::getDBErrors($errors, $db );
+
 		/*
 		 * if it is, then fill usertype field with correct values from aro_group
 		 */
@@ -1365,30 +1365,30 @@ class JInstallationHelper
 					"\n WHERE u.gid = g.id";
 			$db->setQuery($query);
 			$db->query();
-			JInstallationHelper::getDBErrors($errors, $db ); 
+			JInstallationHelper::getDBErrors($errors, $db );
 		}
-		
+
 		/*
 		 * Construct the menu table based on old table references to core items
 		 */
 		$query = "SELECT DISTINCT `option` FROM ".$newPrefix."components WHERE `option` != ''";
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup = $db->loadResultArray();
 		$lookup[] = 'com_user&';
 		$lookup[] = 'com_content';
-		
+
 		$query = 'SELECT * FROM '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 		$oldMenuItems = $db->loadObjectList();
-		
+
 		$query = 'SELECT * FROM '.$newPrefix.'menu';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 		$newMenuItems = $db->loadObjectList();
-		
-		
+
+
 		foreach( $oldMenuItems as $item ) {
 			if ( $item->id == 1 ) {
 				$newMenuItems[0] = $item;
@@ -1404,63 +1404,63 @@ class JInstallationHelper
 				//do nothing - not added
 			} else if ( substr($item->type, 0, 7) == 'content') {
 				$newMenuItems[] = $item;
-			}					
+			}
 		}
-		
+
 		$query = 'DELETE FROM '.$newPrefix.'menu WHERE 1';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 		foreach ( $newMenuItems as $item ) {
 			$db->insertObject( $newPrefix.'menu', $item );
-			JInstallationHelper::getDBErrors($errors, $db ); 
+			JInstallationHelper::getDBErrors($errors, $db );
 		}
-		
+
 		/*
 		 * Add core client modules from old site to modules table as unpublished
 		 */
 		$query = "SELECT module FROM ".$newPrefix."modules WHERE client_id = 0 AND module != 'mod_mainmenu'";
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup = $db->loadResultArray();
-		
+
 		$query = "SELECT MAX(id) FROM ".$newPrefix."modules ";
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 		$nextId = $db->loadResult();
-		
+
 		foreach( $lookup as $module ) {
 			$row = null;
 			$nextId++;
 			$qry = "SELECT * FROM ".$newPrefix."modules_migration WHERE module = '".$module."' AND client_id = 0";
 			$db->setQuery( $qry );
-			JInstallationHelper::getDBErrors($errors, $db ); 
+			JInstallationHelper::getDBErrors($errors, $db );
 			if ( $db->loadObject( $row ) ) {
 				$row->id = $nextId;
 				$row->published = 0;
 				$db->insertObject( $newPrefix.'modules', $row );
-				JInstallationHelper::getDBErrors($errors, $db ); 
+				JInstallationHelper::getDBErrors($errors, $db );
 			}
 		}
 		/*
 		 * Clean up
 		 */
-		
+
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
-		$db->query(); 
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db ); 
-		
-		
-		
+		JInstallationHelper::getDBErrors($errors, $db );
+
+
+
 		return count( $errors );
 	}
-	
+
 	function isValidItem ( $link, $lookup ){
 		foreach( $lookup as $component ) {
 			if ( strpos( $link, $component ) != false ) {
@@ -1469,17 +1469,17 @@ class JInstallationHelper
 		}
 		return false;
 	}
-	
+
 	function getDBErrors( & $errors, $db ) {
 		if ($db->getErrorNum() > 0) {
 			$errors[] = array('msg' => $db->getErrorMsg(), 'sql' => $db->_sql);
 		}
 	}
-	
+
 	/**
 	 * Inserts ftp variables to mainframe registry
 	 * Needed to activate ftp layer for file operations in safe mode
-	 * 
+	 *
 	 * @param array The post values
 	 */
 	function setFTPCfg( $vars ) {
@@ -1491,7 +1491,7 @@ class JInstallationHelper
 		$arr['ftp_root'] = $vars['ftpRoot'];
 		$arr['ftp_host'] = $vars['ftpHost'];
 		$arr['ftp_port'] = $vars['ftpPort'];
-		
+
 		$mainframe->setCfg( $arr, 'config' );
 	}
 }

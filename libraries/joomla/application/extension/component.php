@@ -94,7 +94,7 @@ class JComponentHelper
 		$menu	= &$menus->getCurrent();
 		return $menu->name;
 	}
-	
+
 	/**
 	 * Gets the parameter object for the current menu
 	 * @return object A JParameter object
@@ -102,7 +102,7 @@ class JComponentHelper
 	function &getMenuParams()
 	{
 		static $instance;
-		
+
 		if ($instance == null)
 		{
 			$menus		= JMenu::getInstance();
@@ -111,7 +111,7 @@ class JComponentHelper
 		}
 		return $instance;
 	}
-	
+
 	/**
 	 * Gets the control parameters object for the current menu
 	 * @return object A JParameter object
@@ -119,7 +119,7 @@ class JComponentHelper
 	function &getControlParams()
 	{
 		static $instance;
-		
+
 		if ($instance == null)
 		{
 			$menus		= JMenu::getInstance();

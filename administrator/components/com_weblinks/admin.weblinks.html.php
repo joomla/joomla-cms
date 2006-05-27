@@ -19,12 +19,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Weblinks
 */
-class HTML_weblinks 
+class HTML_weblinks
 {
-	function showWeblinks( $option, &$rows, &$lists, &$pageNav ) 
+	function showWeblinks( $option, &$rows, &$lists, &$pageNav )
 	{
 		global $my;
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 

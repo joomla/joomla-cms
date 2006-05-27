@@ -485,7 +485,7 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
-	
+
 	return null;
 }
 
@@ -505,22 +505,22 @@ function TrashMenu( $cid=NULL, $menutype=',mainmenu' ) {
 	. "\n ORDER BY menutype, parent, ordering"
 	;
 	$database->setQuery( $query );
-	$mitems = $database->loadObjectList();	
-	
+	$mitems = $database->loadObjectList();
+
 	// determine if selected item has an child items
 	$children = array();
 	foreach ( $cid as $id ) {
 		foreach ( $mitems as $item ) {
 			if ( $item->parent == $id ) {
 				$children[] = $item->id;
-			}		
+			}
 		}
-	}	
+	}
 	$list 	= josMenuChildrenRecurse( $mitems, $children, $children );
 	$list 	= array_merge( $cid, $list );
-	
-	$ids 	= implode( ',', $list );	
-	
+
+	$ids 	= implode( ',', $list );
+
 	$query = "UPDATE #__menu"
 	. "\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '$nullDate'"
 	. "\n WHERE id IN ( $ids )"
@@ -533,7 +533,7 @@ function TrashMenu( $cid=NULL, $menutype=',mainmenu' ) {
 
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
-	
+
 	$total 	= count( $cid );
 	$msg 	= sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	return $msg;
@@ -566,7 +566,7 @@ function orderMenu( $uid, $inc, $option ) {
 	$row =& JTable::getInstance('menu', $database );
 	$row->load( $uid );
 	$row->move( $inc, "menutype = '$row->menutype' AND parent = $row->parent" );
-	
+
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
@@ -591,7 +591,7 @@ function accessMenu( $uid, $access, $option, $menutype ) {
 	if (!$menu->store()) {
 		return $menu->getError();
 	}
-	
+
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
@@ -857,22 +857,22 @@ function josMenuChildrenRecurse( $mitems, $parents, $list, $maxlevel=99, $level=
 	// check to reduce recursive processing
 	if ( $level <= $maxlevel && count( $parents ) ) {
 		$children = array();
-		foreach ( $parents as $id ) {			
+		foreach ( $parents as $id ) {
 			foreach ( $mitems as $item ) {
 				if ( $item->parent == $id ) {
 					$children[] = $item->id;
-				}		
+				}
 			}
-		}	
-		
+		}
+
 		// check to reduce recursive processing
 		if ( count( $children ) ) {
 			$list = josMenuChildrenRecurse( $mitems, $children, $list, $maxlevel, $level+1 );
-			
+
 			$list = array_merge( $list, $children );
 		}
 	}
-	
+
 	return $list;
 }
 ?>

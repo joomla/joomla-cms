@@ -25,13 +25,13 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showPlugins( &$rows, $client, &$page, $option, &$lists ) 
+	function showPlugins( &$rows, $client, &$page, $option, &$lists )
 	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'p.folder');
 
@@ -156,7 +156,7 @@ class HTML_modules {
 			?>
 			</tbody>
 			</table>
-	
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />

@@ -18,7 +18,7 @@ jimport( 'joomla.application.model' );
  * @package Joomla
  * @subpackage Config
  */
-class JConfigComponentModel extends JModel 
+class JConfigComponentModel extends JModel
 {
 	/** @var object JTable object */
 	var $_table = null;

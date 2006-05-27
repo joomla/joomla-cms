@@ -44,7 +44,7 @@ div, p, table, td, th {
 /*** Template specific layout elements ***/
 /*****************************************/
 #page_bg {
-	height: 100%; 
+	height: 100%;
 	padding: 10px 0;
 	margin-bottom: 1px;
 	background: #0C3A6D;
@@ -227,7 +227,7 @@ td.pill_l {
   background: url(../images/mw_menu_cap_l.png) no-repeat;
   width:  20px;
   height: 32px;
-  
+
 }
 
 td.pill_m {
@@ -349,7 +349,7 @@ h1 {
 	vertical-align: bottom;
 	color: #666;
 	text-align: left;
-	width: 100%;	
+	width: 100%;
 }
 
 h2, .contentheading {
@@ -452,10 +452,10 @@ span.article_seperator {
 .column_seperator {
 	border-left: 1px dashed #e0e0e0;
 	padding-left: 10px;
-} 
+}
 
 td.buttonheading {
-	
+
 }
 
 .clr {

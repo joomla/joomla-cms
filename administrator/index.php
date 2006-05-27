@@ -84,7 +84,7 @@ $cur_template = $mainframe->getTemplate();
 
 $params = array(
 	'template' 	=> $cur_template,
-	'file'		=> $tmpl 
+	'file'		=> $tmpl
 );
 
 $document =& $mainframe->getDocument($format);

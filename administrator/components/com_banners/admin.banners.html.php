@@ -153,7 +153,7 @@ class HTML_banners {
 		<?php
 	}
 
-	function bannerForm( &$row, &$lists, $_option ) 
+	function bannerForm( &$row, &$lists, $_option )
 	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'custombannercode' );
 		?>

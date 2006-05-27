@@ -58,7 +58,7 @@ if ($option == '' || $option == 'login' || $option == 'logout')
 	if ($Itemid) {
 		$query = "SELECT id, link"
 		. "\n FROM #__menu"
-		. "\n WHERE menutype = 'mainmenu'" 
+		. "\n WHERE menutype = 'mainmenu'"
 		. "\n AND id = '$Itemid'"
 		. "\n AND published = '1'"
 		;
@@ -151,7 +151,7 @@ if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 $params = array(
 	'outline'   => JRequest::getVar('tp', 0 ),
 	'template' 	=> $cur_template,
-	'file'		=> $tmpl 
+	'file'		=> $tmpl
 );
 
 

@@ -30,7 +30,7 @@ class HTML_modules {
 		global $mainframe;
 
 		$user =& $mainframe->getUser();
-		
+
 			//Ordering allowed ?
 		$ordering = (($lists['order'] == 'm.position'));
 
@@ -75,7 +75,7 @@ class HTML_modules {
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('m.position','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' ); ?>
-					</a>	
+					</a>
 				</th>
 				<th width="1%">
 					<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -254,7 +254,7 @@ class HTML_modules {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		
+
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
@@ -346,10 +346,10 @@ class HTML_modules {
 							<?php echo JText::_($row->description); ?>
 						</td>
 					</tr>
-				</table>			
-			
+				</table>
+
 			</fieldset>
-			
+
 			<?php
 			// Hide params for Custom/New modules
 			// Show custom.xml params for backward compat with existing custom modules
@@ -371,7 +371,7 @@ class HTML_modules {
 				<?php
 			}
 			?>
-			
+
 			<?php
 			// show Cache directory writable status for mod_feed or mod_syndication
 			if ( $row->module == 'mod_feed' || $row->module == 'mod_syndicate' ) {
@@ -390,12 +390,12 @@ class HTML_modules {
 				<?php
 			}
 			?>
-			
+
 		</div>
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Pages / Items' ); ?></legend>
-				
+
 				<table class="admintable">
 				<tr>
 					<td class="key vtop">
@@ -408,22 +408,22 @@ class HTML_modules {
 					</td>
 				</tr>
 				</table>
-			
-			
+
+
 			</fieldset>
-		
+
 		</div>
 		<div class="clr"></div>
-		
+
 		<?php
 		if ( !$row->module || $row->module == 'custom' ) {
 			?>
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Custom Output' ); ?></legend>
-				
+
 				<?php
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				echo $editor->display( 'content', $row->content, '800', '400', '', '' ) ; 
+				echo $editor->display( 'content', $row->content, '800', '400', '', '' ) ;
 				echo $editor->getButtons('content');
 				?>
 

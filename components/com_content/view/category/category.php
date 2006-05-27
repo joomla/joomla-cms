@@ -66,7 +66,7 @@ class JContentViewCategory extends JView
 		$menus	= JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
 		$doc	= & $app->getDocument();
-		
+
 		$params	= &JComponentHelper::getMenuParams();
 		$Itemid	= $menu->id;
 		$task 	= JRequest::getVar('task');
@@ -81,7 +81,7 @@ class JContentViewCategory extends JView
 		// Get the sort list information
 		$lists	= $this->_buildSortLists();
 		$order	= null;
-			
+
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');

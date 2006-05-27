@@ -97,7 +97,7 @@ class JInstallerScreens_component {
 	* @param array An array of records
 	* @param string The URL option
 	*/
-	function showInstalled(&$rows, &$page) 
+	function showInstalled(&$rows, &$page)
 	{
 		mosCommonHTML::loadOverlib();
 		?>
@@ -187,7 +187,7 @@ class JInstallerScreens_component {
 				echo JText::_( 'There are no custom components installed' );
 			}
 			?>
-		
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_installer" />

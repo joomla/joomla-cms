@@ -230,10 +230,10 @@ class JSite extends JApplication
 
 		$doc  =& parent::getDocument($type);
 		$user =& $this->getUser();
-		
+
 		//set document description
 		$doc->setDescription( $this->getCfg('MetaDesc') );
-		
+
 		//set document link
 		$doc->setLink( $this->getBaseURL() );
 

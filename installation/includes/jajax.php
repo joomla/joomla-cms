@@ -393,7 +393,7 @@ class JAJAXLang extends JObject
 	{
 		jimport('joomla.utilities.simplexml');
 		$xml = new JSimpleXML();
-		
+
 		if (!$xml->loadFile($path)) {
 			return null;
 		}

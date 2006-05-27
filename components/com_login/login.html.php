@@ -22,7 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Users
  * @since	1.0
  */
-class LoginView 
+class LoginView
 {
 	/**
 	 * Method to show the login page

@@ -98,7 +98,7 @@ form {
 	background: #F7F7F7;
 	float: right;
 	width: 170px;
-	padding: 5px 1px;	
+	padding: 5px 1px;
 }
 
 #stepbarpad {
@@ -208,7 +208,7 @@ span.step {
 
 
 
-.button1-left a, 
+.button1-left a,
 .button1-right a {
 	display: block;
 	height: 26px;
@@ -254,7 +254,7 @@ span.step {
 
 .install-body {
 	float: right;
-	width: 60%; 
+	width: 60%;
 	margin-bottom: 25px;
 }
 

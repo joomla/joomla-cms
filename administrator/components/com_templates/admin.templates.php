@@ -360,7 +360,7 @@ class JTemplatesController
 		// Read the source file
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
-	
+
 		if ($content !== false)
 		{
 			$content = htmlspecialchars($content);
@@ -389,7 +389,7 @@ class JTemplatesController
 		if (!$template) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
-		
+
 		if (!$filecontent) {
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
@@ -404,14 +404,14 @@ class JTemplatesController
 		}
 
 		jimport('joomla.filesystem.file');
-		if (JFile::write($file, $filecontent)) 
-		{	
+		if (JFile::write($file, $filecontent))
+		{
 			switch($task)
 			{
 				case 'apply_source' :
 					josRedirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_source&template='.$template);
 					break;
-				
+
 				case 'save_source'  :
 				default          :
 					josRedirect('index2.php?option='.$option.'&client='.$client->id);
@@ -508,14 +508,14 @@ class JTemplatesController
 		}
 
 		jimport('joomla.filesystem.file');
-		if (JFile::write($client->path.$filename, $filecontent)) 
+		if (JFile::write($client->path.$filename, $filecontent))
 		{
 			switch($task)
 			{
 				case 'apply_css' :
 					josRedirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_css&template='.$template.'&filename='.$filename);
 					break;
-				
+
 				case 'save_css'  :
 				default          :
 					josRedirect('index2.php?option='.$option.'&client='.$client->id);

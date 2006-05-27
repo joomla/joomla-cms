@@ -171,7 +171,7 @@ function userSave( $option, $uid) {
 		exit();
 	}
 
-	
+
 	// check if username has been changed
 	if ( $orig_username != $user->username ) {
 		// change username value in session table
@@ -183,9 +183,9 @@ function userSave( $option, $uid) {
 		. "\n AND guest = 0"
 		;
 		$database->setQuery( $query );
-		$database->query();		
+		$database->query();
 	}
-	
+
 	$link = $_SERVER['HTTP_REFERER'];
 	josRedirect( $link, JText::_( 'Your settings have been saved.' ) );
 }

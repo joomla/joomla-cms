@@ -31,7 +31,7 @@ class JMenuNewWizardView extends JView
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle('New Menu Wizard');
-		
+
 		$menuType	= JRequest::getVar( 'menutype' );
 
 		$model		= &$this->getModel();
@@ -56,7 +56,7 @@ class JMenuNewWizardView extends JView
 			<legend>
 				<?php echo JText::_('New Menu Item');?>
 			</legend>
-			
+
 			<table class="adminform">
 				<tr>
 					<td width="20%">
@@ -94,7 +94,7 @@ class JMenuNewWizardView extends JView
 							<?php echo JText::_('URL Address');?>
 						</label>
 						<br/>
-						<input type="text" name="link" size="40" value="http://" /> 
+						<input type="text" name="link" size="40" value="http://" />
 						<br/>
 						<?php echo JText::_('Link another URL to this menu item');?>
 					</td>
@@ -111,7 +111,7 @@ class JMenuNewWizardView extends JView
 							<?php echo JText::_('Text');?>
 						</label>
 						<br/>
-						<input type="text" name="name" size="40" value="" /> 
+						<input type="text" name="name" size="40" value="" />
 						<br/>
 						<?php echo JText::_('This menu item will be just plain text');?>
 					</td>
@@ -159,7 +159,7 @@ class JMenuEditView extends JView
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle('Edit Menu');
-		
+
 		$menuType	= JRequest::getVar( 'menutype' );
 
 		$model		= &$this->getModel();
@@ -440,7 +440,7 @@ class menuHTML
 			<legend>
 				<?php echo JText::_( 'Menu Parameters' ); ?>
 			</legend>
-				
+
 			<?php
 			if ($tip) {
 				if ($menu->id) {
@@ -468,13 +468,13 @@ class menuHTML
 */
 class HTML_menusections {
 
-	function showMenusections( &$rows, &$page, $menutype, $option, &$lists ) 
+	function showMenusections( &$rows, &$page, $menutype, $option, &$lists )
 	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 
@@ -520,7 +520,7 @@ class HTML_menusections {
 			</td>
 		</tr>
 		</table>
-		
+
 		<table class="adminlist">
 			<thead>
 				<tr>
@@ -539,7 +539,7 @@ class HTML_menusections {
 					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('m.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' ); ?>
-						</a>			
+						</a>
 					</th>
 					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>

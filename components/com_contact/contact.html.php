@@ -32,7 +32,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists, &$page ) 
+	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists, &$page )
 	{
 		global $Itemid, $hide_js;
 
@@ -98,7 +98,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function viewContact( &$contact, &$params, $count, &$list, &$menu_params ) 
+	function viewContact( &$contact, &$params, $count, &$list, &$menu_params )
 	{
 		global $mainframe, $Itemid;
 
@@ -212,7 +212,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function noContact( &$params ) 
+	function noContact( &$params )
 	{
 		?>
 		<br />
@@ -229,7 +229,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page ) 
+	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page )
 	{
 		global $Itemid;
 		?>
@@ -392,7 +392,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function showCategories( &$params, &$categories, $catid ) 
+	function showCategories( &$params, &$categories, $catid )
 	{
 		global $Itemid;
 		?>
@@ -449,7 +449,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function emailError() 
+	function emailError()
 	{
 		global $Itemid;
 		$option = JRequest::getVar('option');
@@ -464,7 +464,7 @@ class JContactView {
 	/**
 	* Writes Page Title
 	*/
-	function _writePageTitle( &$params, &$menuParams ) 
+	function _writePageTitle( &$params, &$menuParams )
 	{
 		if ( $params->get( 'page_title' )  && !$params->get( 'popup' ) ) {
 			?>
@@ -480,7 +480,7 @@ class JContactView {
 	/**
 	* Writes Dropdown box to select contact
 	*/
-	function _writeSelectContact( &$contact, &$params, $count ) 
+	function _writeSelectContact( &$contact, &$params, $count )
 	{
 		if ( ( $count > 1 )  && !$params->get( 'popup' ) && $params->get( 'drop_down' ) ) {
 			global $Itemid;
@@ -502,13 +502,13 @@ class JContactView {
 	/**
 	* Writes Name & Position
 	*/
-	function _writeContactName( &$contact, &$params, &$menu_params ) 
+	function _writeContactName( &$contact, &$params, &$menu_params )
 	{
 		global $Itemid, $hide_js;
 
-		if ( $contact->name ||  $contact->con_position ) 
+		if ( $contact->name ||  $contact->con_position )
 		{
-			if ( $contact->name && $params->get( 'name' ) ) 
+			if ( $contact->name && $params->get( 'name' ) )
 			{
 				?>
 				<tr>
@@ -543,7 +543,7 @@ class JContactView {
 	/*
 	* Writes Image
 	*/
-	function _writeImage( &$contact, &$params ) 
+	function _writeImage( &$contact, &$params )
 	{
 		if ( $contact->image && $params->get( 'image' ) ) {
 			?>
@@ -557,7 +557,7 @@ class JContactView {
 	/**
 	* Writes Address
 	*/
-	function _writeContactAddress( &$contact, &$params ) 
+	function _writeContactAddress( &$contact, &$params )
 	{
 		if ( ( $params->get( 'address_check' ) > 0 ) &&  ( $contact->address || $contact->suburb  || $contact->state || $contact->country || $contact->postcode ) ) {
 			?>
@@ -641,7 +641,7 @@ class JContactView {
 	/**
 	* Writes Contact Info
 	*/
-	function _writeContactContact( &$contact, &$params ) 
+	function _writeContactContact( &$contact, &$params )
 	{
 		if ( ($contact->email_to && $params->get( 'email' )) || $contact->telephone  || $contact->fax ) {
 			?>
@@ -730,9 +730,9 @@ class JContactView {
 	/**
 	* Writes Misc Info
 	*/
-	function _writeContactMisc( &$contact, &$params ) 
+	function _writeContactMisc( &$contact, &$params )
 	{
-		if ( $contact->misc && $params->get( 'misc' ) ) 
+		if ( $contact->misc && $params->get( 'misc' ) )
 		{
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -757,7 +757,7 @@ class JContactView {
 	/**
 	* Writes Email form
 	*/
-	function _writeVcard( &$contact, &$params ) 
+	function _writeVcard( &$contact, &$params )
 	{
 		if ( $params->get( 'vcard' ) ) {
 			?>
@@ -776,7 +776,7 @@ class JContactView {
 	/**
 	* Writes Email form
 	*/
-	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) 
+	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params )
 	{
 		global $Itemid, $mainframe;
 

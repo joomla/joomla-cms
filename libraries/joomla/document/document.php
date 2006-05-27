@@ -31,7 +31,7 @@ class JDocument extends JObject
      * @access  public
      */
     var $title = '';
-	
+
 	/**
      * Document description
      *
@@ -39,7 +39,7 @@ class JDocument extends JObject
      * @access  public
      */
     var $description = '';
-	
+
 	/**
      * Document base URL
      *
@@ -47,7 +47,7 @@ class JDocument extends JObject
      * @access  public
      */
     var $link = '';
-	
+
 	 /**
      * Contains the document language setting
      *
@@ -55,7 +55,7 @@ class JDocument extends JObject
      * @access  public
      */
     var $language = 'en';
-	
+
 	/**
      * Contains the document direction setting
      *
@@ -63,7 +63,7 @@ class JDocument extends JObject
      * @access  public
      */
     var $direction = 'ltr';
-	
+
 	/**
      * Document generator
      *
@@ -159,7 +159,7 @@ class JDocument extends JObject
      * @access  private
      */
     var $_metaTags = array();
-	
+
 	/**
      * The rendering engine
      *
@@ -167,7 +167,7 @@ class JDocument extends JObject
      * @access  private
      */
     var $_engine = null;
-	
+
 	/**
      * The document type
      *
@@ -206,7 +206,7 @@ class JDocument extends JObject
         if (isset($attributes['tab'])) {
             $this->setTab($attributes['tab']);
         }
-		
+
 		if (isset($attributes['link'])) {
             $this->setLink($attributes['link']);
         }
@@ -241,7 +241,7 @@ class JDocument extends JObject
 
 		return $instances[$signature];
 	}
-	
+
 	 /**
      * Returns the document type
      *
@@ -421,7 +421,7 @@ class JDocument extends JObject
     function getTitle() {
         return $this->title;
     }
-	
+
 	/**
      * Sets the description of the document
      *
@@ -441,7 +441,7 @@ class JDocument extends JObject
     function getDescription() {
         return $this->description;
     }
-	
+
 	 /**
      * Sets the document link
      *
@@ -462,11 +462,11 @@ class JDocument extends JObject
     function getLink() {
         return $this->link;
     }
-	
+
 	 /**
      * Sets the document generator
      *
-     * @param   string 
+     * @param   string
      * @access  public
      * @return  void
      */
@@ -555,7 +555,7 @@ class JDocument extends JObject
     function _getTab() {
         return $this->_tab;
     }
-	
+
 	/**
 	* Load a renderer
 	*
@@ -564,14 +564,14 @@ class JDocument extends JObject
 	* @return	object
 	* @since 1.5
 	*/
-	function loadRenderer( $type ) 
+	function loadRenderer( $type )
 	{
 		if( !class_exists( 'JDocumentRenderer' ) ) {
 			jimport('joomla.document.renderer');
 		}
 
 		$class	=	'JDocumentRenderer_' . $type;
-		
+
 		if( !class_exists( $class ) ) {
 			if(!file_exists(dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php')) {
 				return null;
@@ -579,7 +579,7 @@ class JDocument extends JObject
 			//import renderer
 			jimport('joomla.document.'.$this->_type.'.renderer.'.$type);
 		}
-	
+
 		if( !class_exists( $class ) ) {
 			return null;
 		}
@@ -593,19 +593,19 @@ class JDocument extends JObject
 	 * Outputs the document to the client
 	 *
 	 * @access public
-	 * @param boolean 	$cache		If true, cache the output 
+	 * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
-	
+
 	}
-	
+
    /**
 	* Compress the data
 	*
-    * Checks the accept encoding of the browser and compresses the data before 
+    * Checks the accept encoding of the browser and compresses the data before
     * sending it to the client.
 	*
 	* @access	public
@@ -676,7 +676,7 @@ class JDocument extends JObject
 
         return implode($outer_glue, $output);
     }
-	
+
 	 /**
 	* check, whether client supports compressed data
 	*

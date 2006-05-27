@@ -632,7 +632,7 @@ class JContentController
 		// build list of users
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$lists['created_by'] = mosAdminMenus::UserSelect('created_by', $active);
-		
+
 		// build the html select list for the group access
 		$lists['access'] = mosAdminMenus::Access($row);
 
@@ -806,7 +806,7 @@ class JContentController
 
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
-		
+
 		switch ($task)
 		{
 			case 'go2menu' :
@@ -905,7 +905,7 @@ class JContentController
 				}
 				break;
 		}
-		
+
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
@@ -972,7 +972,7 @@ class JContentController
 			}
 			$fp->reorder();
 		}
-		
+
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
@@ -1021,7 +1021,7 @@ class JContentController
 			JError::raiseError( 500, $db->getErrorMsg() );
 			return false;
 		}
-		
+
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
@@ -1066,7 +1066,7 @@ class JContentController
 		$row = & JTable::getInstance('content', $db);
 		$row->load($cid[0]);
 		$row->move($direction, "catid = $row->catid AND state >= 0");
-		
+
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
@@ -1376,7 +1376,7 @@ class JContentController
 			JError::raiseError( 500, $row->getError() );
 			return false;
 		}
-		
+
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
@@ -1458,7 +1458,7 @@ class JContentController
 		$db 			= & $mainframe->getDBO();
 		$id				= JRequest::getVar( 'id', 0, '', 'int' );
 		$option			= JRequest::getVar( 'option' );
-		
+
 		// Get the current default template
 		$query = "SELECT template" .
 				"\n FROM #__templates_menu" .
@@ -1478,7 +1478,7 @@ class JContentController
 	}
 }
 
-class JContentHelper 
+class JContentHelper
 {
 	function saveContentPrep( &$row )
 	{

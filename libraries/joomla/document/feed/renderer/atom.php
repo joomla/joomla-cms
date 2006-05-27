@@ -11,11 +11,11 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
- jimport( 'joomla.utilities.date' ); 
- 
+ jimport( 'joomla.utilities.date' );
+
 /**
  * JFeedAtom is a feed that implements the atom specification
- * 
+ *
  * Please note that just by using this class you won't automatically
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
@@ -38,16 +38,16 @@
 	 * @access public
 	 * @return string
 	 */
-	function render() 
+	function render()
 	{
 		$now  = new JDate();
 		$data =& $this->_doc;
-		
+
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
 		if ($data->language!="") {
 			$feed.= " xml:lang=\"".$data->language."\"";
 		}
-		$feed.= ">\n"; 
+		$feed.= ">\n";
 		$feed.= "    <title>".htmlspecialchars($data->title)."</title>\n";
 		$feed.= "    <subtitle>".htmlspecialchars($data->description)."</subtitle>\n";
 		$feed.= "    <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->link)."\"/>\n";
@@ -63,7 +63,7 @@
 		}
 		$feed.= "    <generator>".$data->getGenerator()."</generator>\n";
 		$feed.= "<link rel=\"self\" type=\"application/atom+xml\" href=\"". $data->syndicationURL . "\" />\n";
-		for ($i=0;$i<count($data->items);$i++) 
+		for ($i=0;$i<count($data->items);$i++)
 		{
 			$feed.= "    <entry>\n";
 			$feed.= "        <title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
@@ -75,8 +75,8 @@
 			$feed.= "        <published>".htmlspecialchars($itemDate->toISO8601())."</published>\n";
 			$feed.= "        <updated>".htmlspecialchars($itemDate->toISO8601())."</updated>\n";
 			$feed.= "        <id>".htmlspecialchars($data->items[$i]->link)."</id>\n";
-		
-			if ($data->items[$i]->author!="") 
+
+			if ($data->items[$i]->author!="")
 			{
 				$feed.= "        <author>\n";
 				$feed.= "            <name>".htmlspecialchars($data->items[$i]->author)."</name>\n";
@@ -94,6 +94,6 @@
 		return $feed;
 	}
 
-	
+
 }
 ?>

@@ -527,16 +527,16 @@ function sefRelToAbs( $string ) {
 			*/
 			} else {
 				$check = 1;
-				
+
 				// array list of URL schemes
 				$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:', 'http:', 'https:' );
-				
+
 				foreach ( $url_schemes as $url ) {
 					if ( strpos( $string, $url ) === 0 ) {
 						$check = 0;
 					}
 				}
-				
+
 				if ( $check ) {
 					$string = $LiveSite .'/'. $string;
 				}

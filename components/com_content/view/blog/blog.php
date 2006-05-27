@@ -71,7 +71,7 @@ class JContentViewBlog extends JView
 		$task 	= JRequest::getVar('task');
 		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
-		
+
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -493,7 +493,7 @@ class JContentViewBlog extends JView
 
 		JRequest::setVar('limit', $limit);
 		$rows = & $this->get('Content');
-		
+
 		foreach ( $rows as $row )
 		{
 			// strip html from feed item title

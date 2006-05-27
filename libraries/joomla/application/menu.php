@@ -226,7 +226,7 @@ class JMenu extends JObject
 		$sql = "SELECT *" .
 				"\n FROM #__menu" .
 				"\n WHERE published = 1".
-				"\n ORDER BY parent, ordering"; 
+				"\n ORDER BY parent, ordering";
 
 		$db->setQuery($sql);
 		if (!($menus = $db->loadObjectList('id'))) {

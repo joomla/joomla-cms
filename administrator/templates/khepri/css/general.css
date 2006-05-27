@@ -24,7 +24,7 @@ body {
 	margin: 10px; padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
-	
+
 	font-size: 11px;
 }
 
@@ -58,8 +58,8 @@ fieldset {
 
 fieldset p {  margin: 10px 0px;  }
 
-legend    { 
-	color: #0B55C4; 
+legend    {
+	color: #0B55C4;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -69,7 +69,7 @@ textarea      { font-size: 11px;  border: 1px solid silver; }
 button        { font-size: 10px; }
 
 input:focus,
-select:focus, 
+select:focus,
 textarea:focus { background-color: #ffd }
 
 /* -- overall styles ------------------------------ */
@@ -84,12 +84,12 @@ textarea:focus { background-color: #ffd }
 }
 
 #border-top .version {
-	display: block; float: right; 
+	display: block; float: right;
 	color: #fff;
 	padding: 25px 5px 0 0;
 }
 
-#border-bottom 			{ background: url(../images/j_bottom.png) repeat-x; } 
+#border-bottom 			{ background: url(../images/j_bottom.png) repeat-x; }
 #border-bottom div  		{ background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
 #border-bottom div div 	{ background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
 
@@ -134,7 +134,7 @@ span.note {
 div.header {
 	font-size: 22px; font-weight: bold; color: #0B55C4; line-height: 48px;
 	padding-left: 55px;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 }
 
 div.header span { color: #666; }
@@ -148,7 +148,7 @@ table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
 
 table.toolbar div { float: none; width: 32px; height: 32px; margin: 0 auto; }
 
-table.toolbar a { 
+table.toolbar a {
    display: block; float: left;
 	white-space: nowrap;
 	border: 1px solid #fbfbfb;
@@ -212,9 +212,9 @@ textarea#mm_message { width: 200px; }
 }
 
 #cpanel div.icon a:hover {
-	border-left: 1px solid #eee; 
+	border-left: 1px solid #eee;
 	border-top: 1px solid #eee;
-	border-right: 1px solid #ccc; 
+	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	background: #f9f9f9;
 	color: #0B55C4;
@@ -275,7 +275,7 @@ table.adminlist {
 	color: #666;
 }
 
-table.adminlist td, 
+table.adminlist td,
 table.adminlist th { padding: 4px; }
 
 table.adminlist thead th {
@@ -296,13 +296,13 @@ table.adminlist tbody tr			{ background-color: #fff;  text-align: left; }
 table.adminlist tbody tr.row1 	{ background: #f9f9f9; border-top: 1px solid #fff; }
 
 table.adminlist tbody tr.row0:hover td,
-table.adminlist tbody tr.row1:hover td  { background-color: #ffd ; }	
+table.adminlist tbody tr.row1:hover td  { background-color: #ffd ; }
 
 table.adminlist tbody tr td 	   { height: 25px; background: #fff; border: 1px solid #fff; }
 table.adminlist tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #FFF; }
 
 table.adminlist tfoot tr { background-color: #f0f0f0;  text-align: center;  color: #333; }
-table.adminlist tfoot td, 
+table.adminlist tfoot td,
 table.adminlist tfoot th { border-top: 1px solid #999; text-align: center; }
 
 table.adminlist td.order 		{ text-align: center; }
@@ -348,7 +348,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button1-right .prev { background: url(../images/j_button1_prev.png) no-repeat; }
 .button1-left .next  { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
 
-.button1-left a, 
+.button1-left a,
 .button1-right a {
 	display: block;
 	height: 26px;
@@ -363,7 +363,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button1-left  a { padding: 0 30px 0 6px; }
 .button1-right a { padding: 0 6px 0 30px; }
 
-.button1-left a:hover, 
+.button1-left a:hover,
 .button1-right a:hover { text-decoration: none; color: #0B55C4; }
 
 .button2-left a,
@@ -376,7 +376,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	line-height: 22px;
 	font-size: 11px;
 	color: #666;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .button2-left span,
@@ -392,7 +392,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	font-weight: bold;
 }
 
-.button2-left a:hover, 
+.button2-left a:hover,
 .button2-right a:hover { text-decoration: none; color: #0B55C4; }
 
 .button2-left a,
@@ -424,5 +424,5 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left.off .end { background: url(../images/j_button2_last_off.png) 100% 0 no-repeat; }
 
 .button2-left .image 		{ background: url(../images/j_button2_image.png) 100% 0 no-repeat; }
-.button2-left .readmore 	{ background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; } 
+.button2-left .readmore 	{ background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; }
 .button2-left .pagebreak 	{ background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat; }

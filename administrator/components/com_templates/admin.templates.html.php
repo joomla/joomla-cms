@@ -453,7 +453,7 @@ class JTemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource( $template, $filename, &$content, $option, &$client ) 
+	function editCSSSource( $template, $filename, &$content, $option, &$client )
 	{
 		$css_path = $client->path . $filename;
 		?>

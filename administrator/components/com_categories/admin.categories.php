@@ -336,7 +336,7 @@ function editCategory( $uid=0, $section='' )
 				break;
 		}
 
-		if ( $row->section > 0 ) 
+		if ( $row->section > 0 )
 		{
 			// content
 			$query = "SELECT *"

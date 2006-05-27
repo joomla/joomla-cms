@@ -27,13 +27,13 @@ class JConfigView
 
 		$document =& $mainframe->getDocument();
 		$document->addScript($mainframe->getBaseURL().'components/com_config/js/switcher.js');
-		
+
 		$contents = '';
 		ob_start();
 			require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'navigation.html');
 		$contents = ob_get_contents();
 		ob_end_clean();
-		
+
 		$document->set('module', 'submenu', $contents);
 		require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'writeable.html');
 		mosCommonHTML::loadOverlib();
@@ -67,7 +67,7 @@ class JConfigView
 						</td>
 					</tr>
 				</table>
-				
+
 			</div>
 
 			<div id="page-content">
@@ -95,11 +95,11 @@ class JConfigView
 						</td>
 						<td width="40%">
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_database.html'); ?>
-							
+
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_mail.html'); ?>
 						</td>
 					</tr>
-				</table>				
+				</table>
 			</div>
 		</div>
 		<div class="clr"></div>

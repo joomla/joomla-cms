@@ -22,7 +22,7 @@ jimport( 'joomla.common.base.object' );
  * @subpackage 	Registry
  * @since		1.5
  */
-class JRegistryFormat extends JObject 
+class JRegistryFormat extends JObject
 {
 	/**
 	 * Returns a reference to a Format object, only creating it
@@ -32,7 +32,7 @@ class JRegistryFormat extends JObject
 	 * @param 	string 	$format	 The format to load
 	 * @return 	object 	Registry format handler
 	 */
-	function &getInstance($format) 
+	function &getInstance($format)
 	{
 		static $instances;
 

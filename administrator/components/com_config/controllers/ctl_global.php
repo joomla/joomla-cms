@@ -18,7 +18,7 @@ jimport( 'joomla.application.controller' );
  * @package Joomla
  * @subpackage Config
  */
-class JConfigGlobalController extends JController 
+class JConfigGlobalController extends JController
 {
 	/**
 	 * Custom Constructor
@@ -175,9 +175,9 @@ class JConfigGlobalController extends JController
 		// CACHE SETTINGS
 
 		$lists['caching'] 		= mosHTML::yesnoRadioList('caching', 'class="inputbox"', $row->caching);
-		
+
 		$lists['caching_tmpl'] 		= mosHTML::yesnoRadioList('caching_tmpl', 'class="inputbox"', $row->caching_tmpl);
-		
+
 		$lists['caching_page'] 		= mosHTML::yesnoRadioList('caching_page', 'class="inputbox"', $row->caching_page);
 
 		// USER SETTINGS
@@ -264,35 +264,35 @@ class JConfigGlobalController extends JController
 		 */
 		$server_time 		= date('O') / 100;
 		$offset 			= JRequest::getVar( 'offset_user', 0, 'post', 'int' ) - $server_time;
-		$mainframe->_registry->setValue('config.offset', $offset);		
+		$mainframe->_registry->setValue('config.offset', $offset);
 
 		//override any possible database password change
 		$mainframe->_registry->setValue('config.password', $mosConfig_password);
-		
+
 		// handling of special characters
 		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post' ) );
 		$mainframe->_registry->setValue('config.sitename', $sitename);
-		
+
 		$MetaDesc			= htmlspecialchars( JRequest::getVar( 'MetaDesc', '', 'post' ) );
 		$mainframe->_registry->setValue('config.MetaDesc', $MetaDesc);
-		
+
 		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post' ) );
 		$mainframe->_registry->setValue('config.MetaKeys', $MetaKeys);
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
 		$offline_message	= JRequest::getVar( 'offline_message', '', 'post' );
-		$offline_message	= ampReplace( $offline_message );	
-		$offline_message	= str_replace( '"', '&quot;', $offline_message );	
-		$offline_message	= str_replace( "'", '&#039;', $offline_message );	
+		$offline_message	= ampReplace( $offline_message );
+		$offline_message	= str_replace( '"', '&quot;', $offline_message );
+		$offline_message	= str_replace( "'", '&#039;', $offline_message );
 		$mainframe->_registry->setValue('config.offline_message', $offline_message);
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
 		$error_message		= JRequest::getVar( 'error_message', '', 'post' );
-		$error_message		= ampReplace( $error_message );	
-		$error_message		= str_replace( '"', '&quot;', $error_message );	
-		$error_message		= str_replace( "'", '&#039;', $error_message );	
+		$error_message		= ampReplace( $error_message );
+		$error_message		= str_replace( '"', '&quot;', $error_message );
+		$error_message		= str_replace( "'", '&#039;', $error_message );
 		$mainframe->_registry->setValue('config.error_message', $error_message);
 
 		// Get the path of the configuration file

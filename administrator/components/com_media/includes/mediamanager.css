@@ -17,15 +17,14 @@
  * @since		1.5
  * @version    1.0
  */
- 
+
 #treeview { padding: 10px; width:140px; overflow: auto; height: 390px; }
- 
+
 #folderview { }
 #folderview .path { margin-bottom: 10px;  }
 #folderview .view { display: block; margin: 0; padding: 0; height: 360px; }
- 
+
 #folderview input#folderpath   { width: 70%; background-color: #EEE; }
 #folderview input#foldername   { width: 20%; }
 #folderview iframe#folderframe { height: 100%; }
- 
- 
+

@@ -37,7 +37,7 @@ class JMenuManagerListView extends JView
 	/**
 	 * Display the view
 	 */
-	function display( $menus, $page ) 
+	function display( $menus, $page )
 	{
 		$this->setToolbar();
 
@@ -79,7 +79,7 @@ class JMenuManagerListView extends JView
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 			<table class="adminlist">
 			<thead>
 				<tr>

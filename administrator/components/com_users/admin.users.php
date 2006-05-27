@@ -311,7 +311,7 @@ function saveUser(  )
 
 	if (!$isNew) {
 		// if group has been changed and where original group was a Super Admin
-		if ( $user->gid != $original_gid && $original_gid == 25 ) {						
+		if ( $user->gid != $original_gid && $original_gid == 25 ) {
 			// count number of active super admins
 			$query = "SELECT COUNT( id )"
 			. "\n FROM #__users"
@@ -320,7 +320,7 @@ function saveUser(  )
 			;
 			$database->setQuery( $query );
 			$count = $db->loadResult();
-			
+
 			if ( $count <= 1 ) {
 			// disallow change if only one Super Admin exists
 				$user->_error = JText::_( 'WARN_ONLY_SUPER' );
@@ -328,7 +328,7 @@ function saveUser(  )
 			}
 		}
 	}
-	
+
 	/*
 	 * Lets save the JUser object
 	 */
@@ -411,9 +411,9 @@ function removeUsers(  )
  			} else if ( ( $this_group == 'administrator' ) && ( $currentUser->gid == 24 ) ) {
  				$msg = JText::_( 'WARNDELETE' );
 			} else {
-				$user =& JUser::getInstance((int)$id);				
+				$user =& JUser::getInstance((int)$id);
 				$count = 2;
-				
+
 				if ( $user->gid == 25 ) {
 					// count number of active super admins
 					$query = "SELECT COUNT( id )"
@@ -424,17 +424,17 @@ function removeUsers(  )
 					$database->setQuery( $query );
 					$count = $database->loadResult();
 				}
-				
+
 				if ( $count <= 1 && $user->gid == 25 ) {
 				// cannot delete Super Admin where it is the only one that exists
 					$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
 				} else {
 					// delete user
 					$user->delete( );
-					
+
 					JRequest::setVar( 'task', 'remove' );
 					JRequest::setVar( 'cid', $id );
-					
+
 					// delete user acounts active sessions
 					logoutUser();
 				}
@@ -498,12 +498,12 @@ function changeUserBlock( $block=1 ) {
 		foreach( $cid as $id ) {
 			JRequest::setVar( 'task', 'block' );
 			JRequest::setVar( 'cid', $id );
-			
+
 			// delete user acounts active sessions
 			logoutUser();
 		}
 	}
-	
+
 	josRedirect( 'index2.php?option='. $option );
 }
 
@@ -548,7 +548,7 @@ function logoutUser( ) {
 		case 'block':
 			return;
 			break;
-		
+
 		default:
 			josRedirect( 'index2.php?option=com_users', $msg );
 			break;

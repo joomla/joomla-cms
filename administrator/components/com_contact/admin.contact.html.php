@@ -19,12 +19,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Contact
 */
-class HTML_contact 
+class HTML_contact
 {
-	function showContacts( &$rows, &$pageNav, $option, &$lists ) 
+	function showContacts( &$rows, &$pageNav, $option, &$lists )
 	{
 		global $my;
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'cd.ordering');
 
@@ -66,7 +66,7 @@ class HTML_contact
 				<th nowrap="nowrap" width="80">
 					<a href="javascript:tableOrdering('cd.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' );?>
-					</a>	
+					</a>
 	 			</th>
 				<th width="1%">
 					<?php mosCommonHTML::saveorderButton( $rows ); ?>

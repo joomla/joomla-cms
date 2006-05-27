@@ -35,7 +35,7 @@ class JDocumentPDF extends JDocument
 
 		//set mime type
 		$this->_mime = 'text/html';
-		
+
 		//set document type
 		$this->_type = 'pdf';
 	}
@@ -44,7 +44,7 @@ class JDocumentPDF extends JDocument
 	 * Outputs the document to the browser.
 	 *
 	 * @access public
-	  * @param boolean 	$cache		If true, cache the output 
+	  * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */

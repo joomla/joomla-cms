@@ -50,7 +50,7 @@ class JPagination extends JObject
 	/**
 	 * Constructor
 	 */
-	function __construct($total, $limitstart, $limit) 
+	function __construct($total, $limitstart, $limit)
 	{
 		// Value/Type checking
 		$this->total = intval($total);
@@ -82,7 +82,7 @@ class JPagination extends JObject
 	 * @return boolean True if successful
 	 * @since 1.5
 	 */
-	function setTemplateVars(& $tmpl, $name = 'admin-list-footer', $link = null) 
+	function setTemplateVars(& $tmpl, $name = 'admin-list-footer', $link = null)
 	{
 		// Set the template variables
 		$tmpl->addVar($name, 'PAGE_LINKS', $this->getPagesLinks($link));
@@ -97,7 +97,7 @@ class JPagination extends JObject
 	 *
 	 * @access public
 	 */
-	function writeLeafsCounter() 
+	function writeLeafsCounter()
 	{
 		$html = null;
 		$page = $this->limitstart + 1;
@@ -114,7 +114,7 @@ class JPagination extends JObject
 	 * @return string The html for the limit # input box
 	 * @since 1.0
 	 */
-	function getLimitBox($link = null) 
+	function getLimitBox($link = null)
 	{
 		global $mainframe;
 
@@ -145,7 +145,7 @@ class JPagination extends JObject
 	 * @return string Pagination counter string
 	 * @since 1.0
 	 */
-	function getPagesCounter() 
+	function getPagesCounter()
 	{
 		// Initialize variables
 		$html = null;
@@ -176,7 +176,7 @@ class JPagination extends JObject
 	 * @return array Pagination page list array
 	 * @since 1.5
 	 */
-	function getPagesList($link = null) 
+	function getPagesList($link = null)
 	{
 		global $mainframe;
 
@@ -233,10 +233,10 @@ class JPagination extends JObject
 	 * @return string Pagination page list string
 	 * @since 1.0
 	 */
-	function getPagesLinks($link = null) 
+	function getPagesLinks($link = null)
 	{
 		global $mainframe;
-		
+
 		$lang = $mainframe->getLanguage();
 
 		// Build the page navigation list
@@ -258,8 +258,8 @@ class JPagination extends JObject
 			} else {
 				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$list['prev']['txt']."</span></div></div>";
 			}
-			
-			
+
+
 			$openList = "\n<div class=\"button2-left\"><div class=\"page\">";
 			$i = 1;
 			while (isset($list['pages'][$i])) {
@@ -271,8 +271,8 @@ class JPagination extends JObject
 				$i++;
 			}
 			$closeList = "\n</div></div>";
-			
-			
+
+
 			if ($list['next']['start'] !== null) {
 				$buff3[] = "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$list['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['next']['start']."; document.adminForm.submit();return false;\">".$list['next']['txt']."</a></div></div>";
 			} else {
@@ -360,7 +360,7 @@ class JPagination extends JObject
 	 * @return string Pagination footer
 	 * @since 1.0
 	 */
-	function getListFooter() 
+	function getListFooter()
 	{
 		global $mainframe;
 
@@ -368,11 +368,11 @@ class JPagination extends JObject
 		$buff = array();
 
 		$html = "<del class=\"container\"><div class=\"pagination\">\n";
-		
+
 		$buff[] = "\n<div class=\"limit\">".JText::_('Display Num').$this->getLimitBox()."</div>";
 		$buff[] = $this->getPagesLinks();
 		$buff[] = "\n<div class=\"limit\">".$this->getPagesCounter()."</div>";
-		
+
 		if( $lang->isRTL() ){
 			$buff = array_reverse( $buff );
 		}
@@ -408,25 +408,25 @@ class JPagination extends JObject
 	 * @return string Either the icon to move an item up or a space
 	 * @since 1.0
 	 */
-	function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up', $enabled = true) 
+	function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
 		$html = '&nbsp;';
-		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) 
+		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			if($enabled) 
+			if($enabled)
 			{
 				$html  = '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
 				$html .= '   <img src="images/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html .= '</a>';
-			} 
+			}
 			else
 			{
 				$html  = '<img src="images/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 			}
-		} 
-		
+		}
+
 		return $html;
 	}
 
@@ -442,25 +442,25 @@ class JPagination extends JObject
 	 * @return string Either the icon to move an item down or a space
 	 * @since 1.0
 	 */
-	function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down', $enabled = true) 
+	function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
 		$html = '&nbsp;';
-		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition) 
+		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			if($enabled) 
+			if($enabled)
 			{
 				$html  = '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
 				$html .= '  <img src="images/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html .= '</a>';
 			}
-			else 
+			else
 			{
 				$html = '<img src="images/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 			}
 		}
-		
+
 		return $html;
 	}
 
@@ -476,7 +476,7 @@ class JPagination extends JObject
 	 * @return string Either the icon to move an item up or a space
 	 * @since 1.0
 	 */
-	function orderUpIcon2($id, $order, $condition = true, $task = 'orderup', $alt = '#') 
+	function orderUpIcon2($id, $order, $condition = true, $task = 'orderup', $alt = '#')
 	{
 		// handling of default value
 		if ($alt = '#') {
@@ -516,7 +516,7 @@ class JPagination extends JObject
 	 * @return string Either the icon to move an item down or a space
 	 * @since 1.0
 	 */
-	function orderDownIcon2($id, $order, $condition = true, $task = 'orderdown', $alt = '#') 
+	function orderDownIcon2($id, $order, $condition = true, $task = 'orderdown', $alt = '#')
 	{
 		// handling of default value
 		if ($alt = '#') {

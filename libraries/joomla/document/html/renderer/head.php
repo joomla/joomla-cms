@@ -32,7 +32,7 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 	function render( $head = null, $params = array() )
 	{
 		global $mainframe;
-		
+
 		$doc =& $mainframe->getDocument();
 
 		ob_start();
@@ -50,7 +50,7 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 
         return $contents;
 	}
-	
+
 	/**
      * Generates the head html and return the results as a string
      *

@@ -27,7 +27,7 @@ class patTemplate_Function_Empty extends patTemplate_Function
 	* @var		string
 	*/
 	var $_name	=	'exists';
-	
+
 	/**
 	* function type
 	*
@@ -59,16 +59,16 @@ class patTemplate_Function_Empty extends patTemplate_Function
 
 		$result = '';
 		switch($type)
-		{	
+		{
 			case 'module'			:
 			{
 				global $mainframe;
 				$doc =& $mainframe->getDocument();
-				
+
 				if( $doc->get($type, $params['name'])) {
 					return $content;
 				}
-					
+
 			} break;
 		}
 

@@ -68,7 +68,7 @@ class JContentViewSection extends JView
 		$menu	= &$menus->getCurrent();
 		$params	= &JComponentHelper::getMenuParams();
 		$doc	= & $app->getDocument();
-		
+
 		$Itemid = $menu->id;
 
 		$gid 	= $user->get('gid');
@@ -79,7 +79,7 @@ class JContentViewSection extends JView
 		// Lets get our data from the model
 		$section		= & $this->get( 'Section' );
 		$categories	= & $this->get( 'Categories' );
-		
+
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');

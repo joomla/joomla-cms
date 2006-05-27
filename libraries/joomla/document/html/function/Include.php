@@ -50,9 +50,9 @@ class patTemplate_Function_Include extends patTemplate_Function
 	function call( $params, $content )
 	{
 		global $mainframe;
-		
+
 		$doc =& $mainframe->getDocument();
-		
+
 		if(!isset($params['type'])) {
 			return false;
 		}
@@ -89,7 +89,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 
 				$doc->_addRenderer($type, $name);
 			} break;
-			
+
 			case 'head'         :
 			case 'component'	:
 			{
@@ -98,7 +98,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 
 			default : $doc->_addRenderer($type, $name);
 		}
-		
+
 		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
 

@@ -118,13 +118,13 @@ class JTableUser extends JTable
 				return false;
 			}
 		}
-		
-		// if user is made a Super Admin group and user is NOT a Super Admin		
+
+		// if user is made a Super Admin group and user is NOT a Super Admin
 		if ( $this->gid == 25 && $my->gid != 25 ) {
 			// disallow creation of Super Admin by non Super Admin users
 			$this->_error = JText::_( 'WARNSUPERADMINCREATE' );
 			return false;
-		}		
+		}
 
 		return true;
 	}
@@ -133,7 +133,7 @@ class JTableUser extends JTable
 	{
 		global $migrate;
 		$acl =& JFactory::getACL();
-		
+
 		$section_value = 'users';
 
 		$k = $this->_tbl_key;

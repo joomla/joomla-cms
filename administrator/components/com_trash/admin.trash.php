@@ -334,25 +334,25 @@ function restoreTrash( $cid, $option ) {
 	if ( $type == 'content' ) {
 		//seperate contentids
 		$cids = implode( ',', $cid );
-		
+
 		// query to restore content items
 		$query = "UPDATE #__content"
 		. "\n SET state = $state, ordering = $ordering"
 		. "\n WHERE id IN ( $cids )"
-		;			
+		;
 		$database->setQuery( $query );
 		if ( !$database->query() ) {
 			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
-		}	
+		}
 	} else if ( $type == 'menu' ) {
 		sort( $cid );
-		
+
 		foreach ( $cid as $id ) {
 			$check = 1;
 			$row = new mosMenu( $database );
 			$row->load( $id );
-			
+
 			// check if menu item is a child item
 			if ( $row->parent != 0 ) {
 				$query = "SELECT id"
@@ -362,7 +362,7 @@ function restoreTrash( $cid, $option ) {
 				;
 				$database->setQuery( $query );
 				$check = $database->loadResult();
-				
+
 				if ( !$check ) {
 					// if menu items parent is not found that are published/unpublished make it a root menu item
 					$query  = "UPDATE #__menu"
@@ -371,20 +371,20 @@ function restoreTrash( $cid, $option ) {
 					;
 				}
 			}
-			
+
 			if ( $check ) {
 				// query to restore menu items
 				$query  = "UPDATE #__menu"
 				. "\n SET published = $state, ordering = 9999"
 				. "\n WHERE id = $id"
 				;
-			}	
-			
+			}
+
 			$database->setQuery( $query );
 			if ( !$database->query() ) {
 				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
-			}	
+			}
 		}
 	}
 

@@ -57,8 +57,8 @@ fieldset {
 
 fieldset p {  margin: 10px 0px;  }
 
-legend    { 
-	color: #0B55C4; 
+legend    {
+	color: #0B55C4;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -67,7 +67,7 @@ input, select { font-size: 10px; border: 1px solid silver;  }
 textarea      { font-size: 11px;  border: 1px solid silver; }
 
 input:focus,
-select:focus, 
+select:focus,
 textarea:focus { background-color: #ffd }
 
 /* -- header styles ------------------------------ */
@@ -110,7 +110,7 @@ textarea:focus { background-color: #ffd }
 
 /* -- overall styles ------------------------------ */
 
-#footer1 { background: url(../images/j_bottom.png) repeat-x; } 
+#footer1 { background: url(../images/j_bottom.png) repeat-x; }
 #footer2 { background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
 #footer3 { background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
 
@@ -172,7 +172,7 @@ div.message {
 	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
 }
 
-.button1-left a, 
+.button1-left a,
 .button1-right a {
 	display: block;
 	height: 26px;
@@ -184,7 +184,7 @@ div.message {
 	cursor: pointer;
 }
 
-.button1-left a:hover, 
+.button1-left a:hover,
 .button1-right a:hover {
 	text-decoration: none;
 	color: #0B55C4;
@@ -208,7 +208,7 @@ div.message {
 	line-height: 22px;
 	font-size: 11px;
 	color: #666;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .button2-left span,
@@ -229,7 +229,7 @@ div.message {
 	font-weight: bold;
 }
 
-.button2-left a:hover, 
+.button2-left a:hover,
 .button2-right a:hover {
 	text-decoration: none;
 	color: #0B55C4;
@@ -334,7 +334,7 @@ div.status-divider {
 }
 
 #menu-box {
-	width: 65%; 
+	width: 65%;
    /*float: right;*/
 }
 
@@ -392,7 +392,7 @@ table.toolbar {
 	border-collapse: collapse;
 	padding: 0;
 	margin: 0;
-	
+
 }
 
 table.toolbar td {
@@ -612,7 +612,7 @@ table.adminlist tbody th {
 }
 
 table.adminlist tbody tr		{
-	background-color: #fff; 
+	background-color: #fff;
 	text-align: right;
 	}
 table.adminlist tbody tr.row1 	{
@@ -620,24 +620,24 @@ table.adminlist tbody tr.row1 	{
 	border-top: 1px solid #fff;
 }
 
-table.adminlist tbody tr td { 
+table.adminlist tbody tr td {
 	height: 25px;
 	background: #fff;
 	border: 1px solid #fff;
 	}
 
-table.adminlist tbody tr.row1 td{ 
+table.adminlist tbody tr.row1 td{
 	background: #f9f9f9;
 	border-top: 1px solid #FFF;
 	}
 
 table.adminlist tfoot tr {
-	background-color: #f0f0f0; 
-	text-align: center; 
+	background-color: #f0f0f0;
+	text-align: center;
 	color: #333;
 }
 
-table.adminlist tfoot td, 
+table.adminlist tfoot td,
 table.adminlist tfoot th {
 	border-top: 1px solid #999;
 	text-align: center;
@@ -656,8 +656,8 @@ table.adminlist td.order span {
 
 table.adminlist .pagination {
 	display: table;
-	padding:0; 
-	margin:0 auto;	
+	padding:0;
+	margin:0 auto;
 }
 
 .pagination div.limit {

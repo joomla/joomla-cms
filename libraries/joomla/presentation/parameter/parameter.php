@@ -97,7 +97,7 @@ class JParameter extends JRegistry
 	 * @param mixed The default value if not found
 	 * @return string
 	 */
-	function get($key, $default = '') 
+	function get($key, $default = '')
 	{
 		$value = $this->getValue('parameter.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
@@ -145,7 +145,7 @@ class JParameter extends JRegistry
 		if (!is_object($this->_xml)) {
 			return false;
 		}
-		
+
 		$params = $this->getParams($name);
 
 		$html = array ();
@@ -155,7 +155,7 @@ class JParameter extends JRegistry
 			// add the params description to the display
 			$html[] = '<tr><td colspan="3">'.$description.'</td></tr>';
 		}
-		
+
 		foreach ($params as $param)
 		{
 			$html[] = '<tr>';
@@ -174,15 +174,15 @@ class JParameter extends JRegistry
 
 		return implode("\n", $html);
 	}
-	
+
 	/**
 	 * Render all parameters
-	 * 
+	 *
 	 * @access public
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 */
-	function getParams($name = 'params') 
+	function getParams($name = 'params')
 	{
 		if (!is_object($this->_xml)) {
 			return false;
@@ -265,7 +265,7 @@ class JParameter extends JRegistry
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadElement( $type, $new = false ) 
+	function &loadElement( $type, $new = false )
 	{
 		$false = false;
 		$signature = md5( $type  );
@@ -275,7 +275,7 @@ class JParameter extends JRegistry
 		}
 
 		if( !class_exists( 'JElement' ) ) {
-			jimport('joomla.presentation.parameter.element'); 
+			jimport('joomla.presentation.parameter.element');
 		}
 
 		$elementClass	=	'JElement_' . $type;
@@ -325,7 +325,7 @@ class JParameter extends JRegistry
 	* @param	string|array	directory or directories to search.
 	* @since 1.5
 	*/
-	function addParameterDir( $dir ) 
+	function addParameterDir( $dir )
 	{
 		if( is_array( $dir ) ) {
 			$this->_elementDirs = array_merge( $this->_elementDirs, $dir );

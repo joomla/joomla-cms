@@ -17,16 +17,16 @@
  * @since		1.5
  * @version    1.0
  */
- 
+
 html, body { margin: 0; padding: 0; font: 11px Tahoma, Verdana, sans-serif; }
- 
+
 form     { padding: 0px; margin: 0; width: 530px; padding: 5px; position: relative; }
 fieldset { margin-top: 0.5em; border: 1px solid #CCCCCC; padding-top: 10px; }
 
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
 #message {
-	position: absolute; top: 11px; left: 67px; 
+	position: absolute; top: 11px; left: 67px;
 }
 
 .uploading { background: url(progress.gif) repeat-x; }

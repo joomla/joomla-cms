@@ -39,7 +39,7 @@ class JMenuController extends JController
 	function edit2()
 	{
 		$id	= (int) JRequest::getVar( 'id', 0 );
-	
+
 		$model = &$this->getModel( 'JModelMenu' );
 		$table = &$model->getTable();
 

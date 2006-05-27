@@ -21,12 +21,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Trash
 */
 
-class HTML_trash 
+class HTML_trash
 {
 	/**
 	* Writes a list of the Trash items
 	*/
-	function showListContent( $option, &$contents, &$pageNav, &$lists ) 
+	function showListContent( $option, &$contents, &$pageNav, &$lists )
 	{
 		?>
 		<form action="index2.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
@@ -116,7 +116,7 @@ class HTML_trash
 	/**
 	* Writes a list of the Trash items
 	*/
-	function showListMenu( $option, &$menus, &$pageNav, &$lists ) 
+	function showListMenu( $option, &$menus, &$pageNav, &$lists )
 	{
 		?>
 		<script language="javascript" type="text/javascript">

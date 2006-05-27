@@ -630,12 +630,12 @@ class JInstaller extends JObject
 			return false;
 		}
 		$buffer = file_get_contents($this->_extensionAdminDir.$sqlfile);
-		
+
 		// Graceful exit and rollback if read not successful
 		if ( $buffer === false ) {
 			return false;
 		}
-		
+
 		// Create an array of queries from the sql file
 		$queries = JInstallerHelper::splitSql($buffer);
 
@@ -859,10 +859,10 @@ class JInstaller extends JObject
 		} else
 			if ($tagName == 'languages') {
 				$removeFrom = JPath::clean(JPATH_SITE.DS.'language');
-			} else 
+			} else
 				if ($tagName == 'administration/languages') {
 					$removeFrom = JPath::clean(JPATH_ADMINISTRATOR.DS.'language');
-				} else 
+				} else
 					if ($admin) {
 						$removeFrom = $this->_extensionAdminDir;
 					} else {

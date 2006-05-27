@@ -111,7 +111,7 @@ class JEditor_none extends JPlugin {
 	function onDisplay( $name, $content, $width, $height, $col, $row ) {
 		$width  = $width . 'px';
 		$height = $height . 'px';
-		
+
 		return "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>";
 	}
 

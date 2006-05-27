@@ -39,7 +39,7 @@
 
 #menu { }
 
-#menu li { 
+#menu li {
 	border-left: 1px solid #fff;
 	border-right: 1px solid #d8d8d8;
 }
@@ -112,6 +112,6 @@
 #submenu span.nolink.active {
 	color: #000;
 	text-decoration: underline;
-	
+
 }
 

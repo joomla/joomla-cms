@@ -35,21 +35,21 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	{
 		global $mainframe;
 		global $Itemid, $task, $option, $id, $my;
-		
+
 		jimport('joomla.application.extension.component');
 
 		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
-		
+
 		$gid = $my->gid;
-		
+
 		//For backwards compatibility extract the config vars as globals
 		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-		
+
 		$enabled = JComponentHelper::isEnabled( $component );
 
 		/*
@@ -57,13 +57,13 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		 */
 		if ( $enabled || $mainframe->isAdmin() )
 		{
-			
+
 			// preload toolbar in case component handles it manually
 			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
-			
+
 			if(is_file($path.DS.$file.'.php')) {
 				$path = $path.DS.$file.'.php';
 			} else {
@@ -90,11 +90,11 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 			} else {
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			}
-			
+
 
 			$contents = ob_get_contents();
 			ob_end_clean();
-			
+
 
 			/*
 			 * Build the component toolbar

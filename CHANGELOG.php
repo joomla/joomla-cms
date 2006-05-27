@@ -78,11 +78,11 @@ Legend:
  ^ Delete menu uses new popup technique
 
 19-May-2006 David Gal
- + Added automated content migration facility in installation 
+ + Added automated content migration facility in installation
 
 18-May-2006 Johan Janssens
  # Fixed [[artf4497]] : moofx sliders leave controls visible (Mac OS)
- - Removed image add/edit functionality from content edit page 
+ - Removed image add/edit functionality from content edit page
  + Implemented modal image manager for easy inserting of images into the editor
  ^ Implemented modal popup for previewing content items
 
@@ -104,9 +104,9 @@ Legend:
  ^ Updated German installation language
 
 12-May-2006 David Gal
- + Added confirm for no sample data in installation. 
+ + Added confirm for no sample data in installation.
 
-11-May-2006 Johan Janssens 
+11-May-2006 Johan Janssens
  ^ Refactored JDocumentHTML class to use an adapter pattern and added buffering improvements
  + Added template and page caching configuration settings
 
@@ -146,11 +146,11 @@ Legend:
  # Fixed [artf4405] : [patch] Print, PDF and email buttons aren't accessible
 
 01-May-2006 David Gal
- ^ Changed the syntax of sql queries tags in component installer xml file 
+ ^ Changed the syntax of sql queries tags in component installer xml file
 
 01-May-2006 Arno Zijlstra
  ^ Changed back buttons to cancel in template css and html editor
- 
+
 01-May-2006 Andrew Eddie
  + Added Relative image url suppot to TinyMCE
 
@@ -173,7 +173,7 @@ Legend:
  ^ Refactored JDocumentRSS class to use an adapter pattern
 
 26-Apr-2006 David Gal
- + Added RTL display option for newsfeeds component. 
+ + Added RTL display option for newsfeeds component.
    Can display RTL feed in LTR site and vice versa
  ^ Changed name of search ignore file to [langTag].ignore.php and move it to language folder
  # Fixed com_search to remove words to ignore from multiple word search terms of type 'all'

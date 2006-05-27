@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Categories
 */
-class categories_html 
+class categories_html
 {
 
 	/**
@@ -27,13 +27,13 @@ class categories_html
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $section, $section_name, &$page, &$lists, $type ) 
+	function show( &$rows, $section, $section_name, &$page, &$lists, $type )
 	{
 		global $mainframe;
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'c.ordering');
 
@@ -80,7 +80,7 @@ class categories_html
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('c.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 						<?php echo JText::_( 'Order' );?>
-					</a>	
+					</a>
 				</th>
 				<th width="1%">
 					<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -124,11 +124,11 @@ class categories_html
 		$k = 0;
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
-			
+
 			$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
 
 			$link = 'index2.php?option=com_categories&section='. $section .'&task=editA&hidemainmenu=1&id='. $row->id;
-			
+
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );

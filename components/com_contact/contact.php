@@ -51,7 +51,7 @@ switch ($task) {
 			case 'view' :
 				JContactController::contactPage();
 				break;
-		
+
 			case 'contact_category_table' :
 			default :
 				$document =& $mainframe->getDocument();
@@ -260,14 +260,14 @@ class JContactController {
 		global $mainframe;
 
 		$database =& $mainframe->getDBO();
-		$document =& $mainframe->getDocument(); 
-		
+		$document =& $mainframe->getDocument();
+
 		$limit 			= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
 		$catid  		= JRequest::getVar('catid', 0);
-		
+
 		$where  = "\n WHERE a.published = 1";
-		
+
 		if ( $catid ) {
 			$where .= "\n AND a.catid = $catid";
 		}
@@ -326,7 +326,7 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function contactPage( $contactId = 0 ) 
+	function contactPage( $contactId = 0 )
 	{
 		global $mainframe;
 
@@ -490,7 +490,7 @@ class JContactController {
 			 */
 			$breadcrumbs = & $mainframe->getPathWay();
 			if (!$menuParams->get('hideCatCrumbs')) {
-				global $Itemid;				
+				global $Itemid;
 				$breadcrumbs->addItem($contact->catname, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
 			}
 			$breadcrumbs->addItem($contact->name, '');

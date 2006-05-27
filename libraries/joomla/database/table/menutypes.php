@@ -53,7 +53,7 @@ class JTableMenuTypes extends JTable
 		if (trim( $this->title == '')) {
 			$this->title = $this->menutype;
 		}
-		return true;	
+		return true;
 	}
 }
 ?>

@@ -24,7 +24,7 @@ class HTML_content {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showList( &$rows, $page, $option, $lists ) 
+	function showList( &$rows, $page, $option, $lists )
 	{
 		global $mainframe;
 
@@ -32,10 +32,10 @@ class HTML_content {
 		$user 		=& $mainframe->getUser();
 		$db 		= & $mainframe->getDBO();
 		$nullDate 	= $db->getNullDate();
-		
+
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'fpordering'));
-		
+
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
@@ -77,7 +77,7 @@ class HTML_content {
 					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('fpordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' ); ?>
-						</a>	
+						</a>
 		 			</th>
 					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>

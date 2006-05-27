@@ -204,7 +204,7 @@ class JMediaController
 			JMediaViews::listError();
 		}
 	}
-	
+
 	/**
 	 * Upload popup
 	 *
@@ -213,20 +213,20 @@ class JMediaController
 	function showUpload($msg = '')
 	{
 		global $mainframe;
-		
+
 		$dirPath = JRequest::getVar( 'dirPath', '/' );
-		
+
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
-		
+
 		//attach stylesheet to document
 		$doc = & $mainframe->getDocument();
 		$doc->addStyleSheet('components/com_media/includes/popup-imageupload.css');
 		$doc->addScript('components/com_media/includes/popup-imageupload.js');
-		
+
 		JMediaViews::popupUpload($dirPath, $msg);
 	}
-	
+
 	/**
 	 * Upload popup
 	 *
@@ -235,10 +235,10 @@ class JMediaController
 	function showFolder()
 	{
 		global $mainframe;
-		
+
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
-		
+
 		JMediaViews::popupDirectory(COM_MEDIA_BASEURL);
 	}
 
@@ -251,7 +251,7 @@ class JMediaController
 	function imgManager($listFolder)
 	{
 		global $mainframe;
-		
+
 		$mainframe->setPageTitle(JText::_('Insert Image'));
 
 		// Load the admin popup view
@@ -279,7 +279,7 @@ class JMediaController
 
 		//attach stylesheet to document
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		$doc = & $mainframe->getDocument();
 		$doc->addStyleSheet('components/com_media/includes/popup-imagemanager.css');
 		$doc->addScript('components/com_media/includes/popup-imagemanager.js');
@@ -292,7 +292,7 @@ class JMediaController
 	function imgManagerList($listFolder)
 	{
 		global $mainframe;
-		
+
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 
@@ -334,7 +334,7 @@ class JMediaController
 				$folders[$folder] = $folder;
 			}
 		}
-		
+
 		//attach stylesheet to document
 		$doc = & $mainframe->getDocument();
 		$doc->addStyleSheet('components/com_media/includes/popup-imagelist.css');
@@ -379,7 +379,7 @@ class JMediaController
 			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
 				JMediaController::showUpload(JText::_('Upload FAILED'));
 				return;
-				
+
 			} else {
 				JMediaController::showUpload(JText::_('Upload complete'));
 				return;
@@ -403,7 +403,7 @@ class JMediaController
 			for ($i=0;$i<count($files['name']);$i++) {
 				$dirPathPost = $dirPath;
 				$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
-	
+
 				if (file_exists($destDir.$files['name'][$i])) {
 					return false;
 				}
@@ -492,7 +492,7 @@ class JMediaController
 		} else {
 			echo '<font color="red">'.JText::_('Unable to delete: not empty!').'</font>';
 		}
-		return $ret;		
+		return $ret;
 	}
 
 	function _buildFolderTree($list)

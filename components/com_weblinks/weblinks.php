@@ -60,7 +60,7 @@ switch ($task)
 		WeblinksController::showItem();
 		break;
 
-	default : 
+	default :
 		$document =& $mainframe->getDocument();
 		if($document->getType() == 'feed') {
 			WeblinksController::showCategoryFeed();
@@ -106,7 +106,7 @@ class WeblinksController
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
-		
+
 		//add alternate feed link
 		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;catid='.$catid.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -275,7 +275,7 @@ class WeblinksController
 
 		$database =& $mainframe->getDBO();
 		$document =& $mainframe->getDocument();
-		
+
 		// Get some request variables
 		$limit		= 10;
 
@@ -297,7 +297,7 @@ class WeblinksController
      	;
 		$database->setQuery( $query, 0, $limit );
     	$rows = $database->loadObjectList();
-		
+
 		echo $database->getErrorMsg();
 
 		foreach ( $rows as $row )

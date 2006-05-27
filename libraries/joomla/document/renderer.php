@@ -39,7 +39,7 @@ class JDocumentRenderer extends JObject
 	function __construct(&$doc) {
 		$this->_doc = $doc;
 	}
-	
+
     /**
 	 * Renders a script and returns the results as a string
 	 *

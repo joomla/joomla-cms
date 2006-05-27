@@ -126,7 +126,7 @@ class JModelMenuType extends JModel
 	 */
 	function delete( $id = 0 )
 	{
-		$table = &$this->getTable();		
+		$table = &$this->getTable();
 		if ($id != 0)
 		{
 			$table->load( $id );
@@ -142,7 +142,7 @@ class JModelMenuType extends JModel
 			if (!$menu->deleteByType( $table->menutype ))
 			{
 				$this->setError( $menu->getError() );
-				return false;				
+				return false;
 			}
 
 		// TODO: Should invoke JModuleModel::delete to delete the actual module
@@ -167,7 +167,7 @@ class JModelMenuType extends JModel
 			if (!$db->query())
 			{
 				$this->setError( $menuTable->getErrorMsg() );
-				return false;				
+				return false;
 			}
 		}
 

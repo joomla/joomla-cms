@@ -19,9 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Statistics
 */
-class HTML_statistics 
+class HTML_statistics
 {
-	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) 
+	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option )
 	{
 		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
@@ -207,7 +207,7 @@ class HTML_statistics
 		<?php
 	}
 
-	function pageImpressions( &$rows, $pageNav, &$lists, $task ) 
+	function pageImpressions( &$rows, $pageNav, &$lists, $task )
 	{
 		global $my;
 		?>
@@ -335,7 +335,7 @@ class HTML_statistics
 		<?php
 	}
 
-	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults ) 
+	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults )
 	{
 		global $mainframe;
 

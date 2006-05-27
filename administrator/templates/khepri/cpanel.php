@@ -12,7 +12,7 @@ See COPYRIGHT.php for copyright notices and details.
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 		<head>
 		<jdoc:include type="head" />
-		
+
 	<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
 		<jdoc:sub condition="rtl">
 			<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -21,7 +21,7 @@ See COPYRIGHT.php for copyright notices and details.
 			<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
-	
+
 	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
 		<jdoc:sub condition="0">
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css">
@@ -31,11 +31,11 @@ See COPYRIGHT.php for copyright notices and details.
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css">
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print">
 			<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
-		</jdoc:sub>	
+		</jdoc:sub>
 	</jdoc:tmpl>
 
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
-	
+
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/fat.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/index.js"></script>
 
@@ -77,7 +77,7 @@ See COPYRIGHT.php for copyright notices and details.
 		</div>
 		<div id="border-bottom"><div><div></div></div></div>
 
-		<div id="footer"> 
+		<div id="footer">
 			<p class="copyright">
 				<a href="http://www.joomla.org" target="_blank">Joomla!</a>
 				<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>

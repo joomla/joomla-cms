@@ -30,7 +30,7 @@ class JMediaViews
 	 * @param string $listdir The current working directory
 	 * @since 1.0
 	 */
-	function showMedia($tree) 
+	function showMedia($tree)
 	{
 		global $mainframe;
 
@@ -47,7 +47,7 @@ class JMediaViews
 		";
 
 		$document =& $mainframe->getDocument();
-		$document->set('module', 'submenu', $listStyle);	
+		$document->set('module', 'submenu', $listStyle);
 		$document->addScript('components/com_media/includes/mediamanager.js');
 		$document->addStyleSheet('components/com_media/includes/mediamanager.css');
 
@@ -66,7 +66,7 @@ class JMediaViews
 				<fieldset id="folderview">
 					<legend><?php echo JText::_( 'Files' ); ?></legend>
 					<div class="path">
-						<input class="inputbox" type="text" id="folderpath" readonly="readonly" /> 
+						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
 						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create' ); ?></button>
 					</div>
@@ -82,13 +82,13 @@ class JMediaViews
 			<button onclick="jsAddFile();return false">
 				+ Add more files
 			</button>
-			[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]		
+			[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]
 			<div id="uploads">
 				<div style="padding: 4px;">
 					<input class="inputbox" name="uploads[]" type="file" size="60" />
 				</div>
 			</div>
-					
+
 			<button onclick="document.mediamanager.onuploadfiles()" /><?php echo JText::_( 'Upload Files' ); ?></button>
 		</fieldset>
 
@@ -110,7 +110,7 @@ class JMediaViews
 	 * @param array $images Array of images in the current working folder
 	 * @since 1.5
 	 */
-	function listMedia($current, $folders, $docs, $images) 
+	function listMedia($current, $folders, $docs, $images)
 	{
 		global $mainframe;
 
@@ -122,7 +122,7 @@ class JMediaViews
 		$style = ucfirst($style);
 		JMediaViews::imageStyle($current);
 
-		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) 
+		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0)
 		{
 			//now sort the folders and images by name.
 			ksort($images);
@@ -131,7 +131,7 @@ class JMediaViews
 
 			$method = 'draw'.$style.'Header';
 			JMediaViews::$method();
-			
+
 			$method = 'showUp'.$style;
 			JMediaViews::$method($current);
 
@@ -167,7 +167,7 @@ class JMediaViews
 		}
 	}
 
-	function drawNoResults() 
+	function drawNoResults()
 	{
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
@@ -182,21 +182,21 @@ class JMediaViews
 		<?php
 	}
 
-	function drawThumbsHeader() 
+	function drawThumbsHeader()
 	{
 		?>
 		<div class="manager">
 		<?php
 	}
 
-	function drawThumbsFooter() 
+	function drawThumbsFooter()
 	{
 		?>
 		</div>
 		<?php
 	}
 
-	function drawDetailsHeader() 
+	function drawDetailsHeader()
 	{
 		?>
 		<div class="manager">
@@ -214,7 +214,7 @@ class JMediaViews
 		<?php
 	}
 
-	function drawDetailsFooter() 
+	function drawDetailsFooter()
 	{
 		?>
 		</tbody>
@@ -223,7 +223,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showImgThumbs($img, $file, $info, $size, $listdir) 
+	function showImgThumbs($img, $file, $info, $size, $listdir)
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
@@ -257,8 +257,8 @@ class JMediaViews
 		</div>
 		<?php
 	}
-	
-	function showFolderThumbs($path, $dir, $listdir) 
+
+	function showFolderThumbs($path, $dir, $listdir)
 	{
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
@@ -290,8 +290,8 @@ class JMediaViews
 		</div>
 		<?php
 	}
-	
-	function showUpThumbs($path) 
+
+	function showUpThumbs($path)
 	{
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$path);
 		$num_files	= $count[0];
@@ -300,7 +300,7 @@ class JMediaViews
 		if ($path == '/') {
 			$path = '';
 		}
-		
+
 		$folder = str_replace("\\", "/", dirname($path));
 
 		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$folder;
@@ -321,7 +321,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showDocThumbs($doc, $size, $listdir, $icon) 
+	function showDocThumbs($doc, $size, $listdir, $icon)
 	{
 		global $mainframe;
 
@@ -356,7 +356,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showImgDetails($img, $file, $info, $size, $listdir) 
+	function showImgDetails($img, $file, $info, $size, $listdir)
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
@@ -391,7 +391,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showFolderDetails($path, $dir, $listdir) 
+	function showFolderDetails($path, $dir, $listdir)
 	{
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
@@ -426,19 +426,19 @@ class JMediaViews
 		</tr>
 		<?php
 	}
-	
-	function showUpDetails($path) 
+
+	function showUpDetails($path)
 	{
 		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
-		
+
 		if ($path == '/') {
 			$path = '';
 		}
-		
+
 		$folder = str_replace("\\", "/", dirname($path));
-		
+
 		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$folder;
 		?>
 		<tr>
@@ -457,7 +457,7 @@ class JMediaViews
 		<?php
 	}
 
-	function showDocDetails($doc, $size, $listdir, $icon) 
+	function showDocDetails($doc, $size, $listdir, $icon)
 	{
 		global $mainframe;
 
@@ -495,21 +495,21 @@ class JMediaViews
 		<?php
 	}
 
-	function imageStyle($listdir) 
+	function imageStyle($listdir)
 	{
 		if ($listdir == '') {
 			$listdir = '/';
 		}
 		?>
 		<script language="javascript" type="text/javascript">
-		function confirmDeleteImage(file) 
+		function confirmDeleteImage(file)
 		{
 			if(confirm("<?php echo JText::_( 'Delete file' ); ?> \""+file+"\"?"))
 			return true;
 
 			return false;
 		}
-		function confirmDeleteFolder(folder, numFiles) 
+		function confirmDeleteFolder(folder, numFiles)
 		{
 			if(numFiles > 0) {
 				alert("<?php echo JText::_( 'There are', true ); ?> "+numFiles+" <?php echo JText::_( 'files/folders in' ); ?> \""+folder+"\".\n\n<?php echo JText::_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <?php echo JText::_( 'first.' ); ?>");
@@ -531,7 +531,7 @@ class JMediaViews
 	 *
 	 * since 1.5
 	 */
-	function listError() 
+	function listError()
 	{
 		global $BASE_DIR, $BASE_ROOT;
 		?>
@@ -569,34 +569,34 @@ class JMediaViews
 	}
 
 	function _loadJS()
-	{	
+	{
 		global $mainframe;
 
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 		$base = str_replace("\\","/",JPATH_ROOT);
-		$js = "	
+		$js = "
 		var basepath = '".$base.'/images'."';
 		var cStyle = '".$style."';
-		
+
 		function jsAddFile() {
 			div = document.getElementById( 'uploads' );
-		
+
 			div.appendChild( writeUploadField() );
 			return false;
 		}
-		
+
 		function writeUploadField() {
 			// <input class=\"inputbox\" name=\"upload\" type=\"file\" size=\"70\" />
 			div = document.createElement( 'div' );
 			div.setAttribute( 'style', 'padding: 4px' );
-		
+
 			tag = document.createElement( 'input' );
 			tag.setAttribute( 'type', 'file' );
 			tag.setAttribute( 'name', 'uploads[]' );
 			tag.setAttribute( 'size', '60' );
 			tag.setAttribute( 'class', 'inputbox' );
 			div.appendChild( tag );
-		
+
 			return div;
 		}
 		" ;

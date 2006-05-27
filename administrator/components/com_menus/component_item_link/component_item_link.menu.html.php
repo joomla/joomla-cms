@@ -72,7 +72,7 @@ class component_item_link_menu_html {
 			</fieldset>
 		</div>
 		<div class="col50">
-			<fieldset class="adminform">	
+			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
 				<table class="admintable" cellspacing="1">

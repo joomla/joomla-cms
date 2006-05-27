@@ -36,7 +36,7 @@ class ContentView
 		// Initialize variables
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user	= & $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
@@ -84,7 +84,7 @@ class ContentView
 					<th width="80">
 						<a href="javascript:tableOrdering('section_name','DESC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
 							<?php echo JText::_( 'Order' ); ?>
-						</a>	
+						</a>
 					</th>
 					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>
@@ -468,7 +468,7 @@ class ContentView
 				submitform( pressbutton );
 				return;
 			}
-		
+
 			// do field validation
 			if (form.title.value == ""){
 				alert( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
@@ -513,7 +513,7 @@ class ContentView
 				$pane->startPanel( $title, "detail-page" );
 
 				ContentView::_paneDetails(  $row, $lists, $params );
-				
+
 				$title = JText::_( 'PARAMADVANCED' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "params-page" );
