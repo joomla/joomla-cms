@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.menumanager.html.php 3593 2006-05-22 15:48:29Z Jinx $
+* @version $Id$
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
