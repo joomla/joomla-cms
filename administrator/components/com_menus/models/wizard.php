@@ -59,7 +59,7 @@ class JMenuModelWizard extends JModel
 
 	function &getItem()
 	{
-		return $this->_helper->getParams($this->_item, $this->_step);
+		return $this->_helper->getParams($this->_item->toArray(), $this->_step);
 	}
 
 	function getStep()
@@ -80,7 +80,7 @@ class JMenuModelWizard extends JModel
 	function isFinished()
 	{
 		$steps = $this->_helper->getSteps();
-		return (count($steps) <= $this->_step);
+		return (count($steps) <= $this->_step - 1);
 	}
 
 	/**

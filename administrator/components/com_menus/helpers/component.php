@@ -93,6 +93,9 @@ class JMenuHelperComponent extends JObject
 					$params =& $this->getControlParams($params);
 				}
 				break;
+			case 2:
+				$params =& $this->getViewParams($params);
+				break;
 		}
 		return $params;
 	}
@@ -118,11 +121,14 @@ class JMenuHelperComponent extends JObject
 	 * @param string A params string
 	 * @param string The option
 	 */
-	function &getControlParams( &$params, $path='' )
+	function &getControlParams( &$vals, $path='' )
 	{
+		$params = new JParameter('');
+
 		if ($xmlDoc =& $this->_getMetadataDoc()) {
 			if ($cParams = $xmlDoc->getElementByPath( 'control/params' )) {
 				$params->setXML( $cParams );
+				$params->loadArray($vals);
 			}
 		}
 		return $params;
@@ -135,15 +141,17 @@ class JMenuHelperComponent extends JObject
 	 * @param string The option
 	 * @return object A 
 	 */
-	function &getViewParams( $ini, $control )
+	function &getViewParams( &$vals )
 	{
 		if ($this->_metadata == null) {
 			// Check for component metadata.xml file
 			$path = JApplicationHelper::getPath( 'com_xml', 'com_'.$this->_option );
-			$params = new JParameter( $ini, $path );
+			$params = new JParameter( '', $path );
+			$params->loadArray($vals);
 		} else {
-			$params = new JParameter( $ini );
-			$viewName = $control->get( 'view_name' );
+			$params = new JParameter( '' );
+			$params->loadArray($vals);
+			$viewName = $params->get( 'view_name' );
 
 			if ($viewName && $xmlDoc =& $this->_getMetadataDoc()) {
 				if ($vParams = $xmlDoc->getElementByPath( 'control/views/'.$viewName.'/params' )) {

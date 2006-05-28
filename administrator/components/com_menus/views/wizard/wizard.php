@@ -192,7 +192,7 @@ class JMenuViewWizard extends JView
 			<legend>
 				<?php echo JText::_('New Menu Item');?>
 			</legend>
-			<?php $item->render('wizVal'); ?>
+			<?php echo $item->render('wizVal'); ?>
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_menus" />
@@ -209,13 +209,16 @@ class JMenuViewWizard extends JView
 		$document = &$this->getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
-		$document->setTitle('New Menu Wizard');
+		$document->setTitle('New Menu Item Confirmation');
 
 		$menuType	= JRequest::getVar( 'menutype' );
 
-		$model		= &$this->getModel();
-		$menuTypes 	= $model->getMenuTypelist();
-		$components	= $model->getComponentList();
+		$steps = $this->get('steps');
+		$step = $this->get('step');
+		$nextStep = $step + 1;
+		$prevStep = $step - 1;
+
+		$item =& $this->get('item');
 ?>
 	<style type="text/css">
 	._type {
@@ -226,90 +229,21 @@ class JMenuViewWizard extends JView
 		<fieldset>
 			<div style="float: right">
 				<button type="button" onclick="this.form.submit();window.top.document.popup.hide();">
-					<?php echo JText::_('Next');?></button>
+					<?php echo JText::_('Finish');?></button>
 		    </div>
 		    Click Next to create the menu item.
 		</fieldset>
 
 		<fieldset>
 			<legend>
-				<?php echo JText::_('New Menu Item');?>
+				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
-
-			<table class="adminform">
-				<tr>
-					<td width="20%">
-					</td>
-					<td valign="top">
-						<label for="menutype">
-							<?php echo JText::_('Create in Menu');?>
-						</label>
-						<br/>
-						<?php echo mosHTML::selectList( $menuTypes, 'menutype', 'class="inputbox" size="1"', 'menutype', 'title', $menuType );?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-						<input type="radio" name="type" id="type_component" value="component" checked="true" />
-						<label for="type_component" class="_type">
-							<?php echo JText::_('Component');?>
-						</label>
-					</td>
-					<td valign="top">
-						<?php echo JText::_('Link a component to this menu item');?>
-						<br/>
-						<?php echo mosHTML::selectList( $components, 'componentid', 'class="inputbox" size="8"', 'id', 'name', $components[0]->id );?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-						<input type="radio" name="type" id="type_url" value="url" />
-						<label for="type_url" class="_type">
-							<?php echo JText::_('URL');?>
-						</label>
-					</td>
-					<td valign="top">
-						<label for="type_url">
-							<?php echo JText::_('URL Address');?>
-						</label>
-						<br/>
-						<input type="text" name="link" size="40" value="http://" />
-						<br/>
-						<?php echo JText::_('Link another URL to this menu item');?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-						<input type="radio" name="type" id="type_separator" value="separator" />
-						<label for="type_separator" class="_type">
-							<?php echo JText::_('Text Label');?>
-						</label>
-					</td>
-					<td valign="top">
-						<label for="type_url">
-							<?php echo JText::_('Text');?>
-						</label>
-						<br/>
-						<input type="text" name="name" size="40" value="" />
-						<br/>
-						<?php echo JText::_('This menu item will be just plain text');?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-						<input type="radio" name="type" id="type_component_item_link" value="component_item_link" />
-						<label for="type_component_item_link" class="_type">
-							<?php echo JText::_('Menu Item');?>
-						</label>
-						<br/>
-					</td>
-					<td valign="top">
-						<?php echo JText::_('Link to an existing menu item');?>
-						<br/>
-						LIST
-					</td>
-				</tr>
-			</table>
+			<?php 
+			foreach ($item as $k => $v) {
+				echo "Name: $k &nbsp; Value: $v <br />\n";
+				echo "<input type=\"hidden\" name=\"$k\" value=\"$v\" />\n";
+			}
+			?>
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_menus" />
