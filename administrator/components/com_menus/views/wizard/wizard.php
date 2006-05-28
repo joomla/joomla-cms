@@ -28,11 +28,11 @@ class JMenuViewWizard extends JView
 
 	function display()
 	{
-		$model =& $this->getModel();
-		if (!$model->isStarted()) {
+		mosCommonHTML::loadOverlib();
+		if (!$this->isStarted()) {
 			$this->doStart();
 		} else {
-			if ($model->isFinished()) {
+			if ($this->isFinished()) {
 				$this->doFinished();
 			} else {
 				$this->doNext();
@@ -109,7 +109,7 @@ class JMenuViewWizard extends JView
 							<?php echo JText::_('URL Address');?>
 						</label>
 						<br/>
-						<input type="text" name="uri" size="40" value="http://" />
+						<input type="text" name="url" size="40" value="http://" />
 						<br/>
 						<?php echo JText::_('Link another URL to this menu item');?>
 					</td>
@@ -122,12 +122,6 @@ class JMenuViewWizard extends JView
 						</label>
 					</td>
 					<td valign="top">
-						<label for="type_url">
-							<?php echo JText::_('Text');?>
-						</label>
-						<br/>
-						<input type="text" name="text" size="40" value="" />
-						<br/>
 						<?php echo JText::_('This menu item will be just plain text');?>
 					</td>
 				</tr>
@@ -161,12 +155,14 @@ class JMenuViewWizard extends JView
 		$document = &$this->getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
-		$document->setTitle('New Menu Wizard');
 
 		$menuType	= JRequest::getVar( 'menutype' );
 
 		$steps = $this->get('steps');
+		$numSteps = count($steps);
 		$step = $this->get('step');
+
+		$document->setTitle('New Menu Wizard : '.'Step '.$step.' of '.$numSteps);
 		$nextStep = $step + 1;
 		$prevStep = $step - 1;
 
@@ -241,10 +237,13 @@ class JMenuViewWizard extends JView
 				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
 			<?php 
-			foreach ($item as $k => $v) {
-				echo "Name: $k &nbsp; Value: $v <br />\n";
-				echo "<input type=\"hidden\" name=\"wizVal[$k]\" value=\"$v\" />\n";
-			}
+//			foreach ($item as $k => $v) {
+//				echo "Name: $k &nbsp; Value: $v <br />\n";
+//				echo "<input type=\"hidden\" name=\"wizVal[$k]\" value=\"$v\" />\n";
+//			}
+			echo '<pre>';
+			print_r($item);
+			echo '</pre>';
 			?>
 		</fieldset>
 
@@ -254,6 +253,17 @@ class JMenuViewWizard extends JView
 
 	</form>
 <?php
+	}
+
+	function isStarted()
+	{
+		return ($this->get('step'));
+	}
+
+	function isFinished()
+	{
+		$steps = $this->get('steps');
+		return (count($steps) <= $this->get('step') - 1);
 	}
 }
 ?>

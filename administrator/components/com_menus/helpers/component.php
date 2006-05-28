@@ -25,16 +25,12 @@ class JMenuHelperComponent extends JObject
 	 */
 	var $_option = null;
 
-	var $_metadata;
+	var $_parent = null;
 
-	var $_app = null;
-
-	var $_steps = array( 1 => 'Control',
-						2 => 'View');
-
-	function __construct(&$app)
+	function __construct(&$parent)
 	{
-		$this->_app =& $app;
+		$this->_parent =& $parent;
+		$app =& $this->_parent->getApplication();
 		$option = $app->getUserStateFromRequest('menuwizard.component.option', 'component', 'content');
 		$this->setOption($option);
 	}
@@ -49,28 +45,12 @@ class JMenuHelperComponent extends JObject
 		$option = str_replace( 'com_', '', $option );
 
 		$this->_option = $option;
-
-		// load the xml metadata
-		$this->_metadata = null;
-
-		$path = JPATH_ROOT.'/components/com_'.$this->_option.'/metadata.xml';
-
-		if (file_exists( $path )) {
-			$xml = & JFactory::getXMLParser('Simple');
-
-			if ($xml->loadFile($path)) {
-				$this->_metadata = &$xml;
-			}
-		}
 	}
 
-	/**
-	 * Returns the option
-	 * @return string
-	 */
-	function getSteps()
+	function loadXML()
 	{
-		return $this->_steps;
+		$path = JPATH_ROOT.'/components/com_'.$this->_option.'/metadata.xml';
+		$this->_parent->_wizard->loadXML($path, 'control');
 	}
 
 	/**
@@ -83,24 +63,6 @@ class JMenuHelperComponent extends JObject
 	}
 
 	/**
-	 * Gets the componet table object related to this menu item
-	 */
-	function &getParams(&$params, $step)
-	{
-		switch ($step) {
-			case 1:
-				if ($this->hasControlParams()) {
-					$params =& $this->getControlParams($params);
-				}
-				break;
-			case 2:
-				$params =& $this->getViewParams($params);
-				break;
-		}
-		return $params;
-	}
-
-	/**
 	 * @param string A params string
 	 * @param string The option
 	 */
@@ -108,7 +70,8 @@ class JMenuHelperComponent extends JObject
 	{
 		$final = new stdClass();
 		$final->values =& $vals;
-		$final->menutype = 'menulink';
+		$final->message = null;
+		$final->menutype = 'component';
 		$final->link = $this->_buildLink($vals);
 		$final->type = null;
 		$final->componentid = null;
@@ -116,132 +79,6 @@ class JMenuHelperComponent extends JObject
 		$final->mvcrt = 0;
 
 		return $final;
-	}
-
-	/**
-	 * @access private
-	 */
-	function &_getMetadataDoc()
-	{
-		$result = null;
-		if (isset( $this->_metadata->document )) {
-			$result = &$this->_metadata->document;
-		}
-		return $result;
-	}
-
-	function hasControlParams()
-	{
-		return (boolean) $this->_getMetadataDoc();
-	}
-
-	/**
-	 * @param string A params string
-	 * @param string The option
-	 */
-	function &getControlParams( &$vals, $path='' )
-	{
-		$params = new JParameter('');
-
-		if ($xmlDoc =& $this->_getMetadataDoc()) {
-			if ($cParams = $xmlDoc->getElementByPath( 'control/params' )) {
-				$params->setXML( $cParams );
-				$params->loadArray($vals);
-			}
-		}
-		return $params;
-	}
-
-	/**
-	 * Allows for the parameter handling to be overridden
-	 * if the component supports new parameter types
-	 * @param string A params string
-	 * @param string The option
-	 * @return object A 
-	 */
-	function &getViewParams( &$vals )
-	{
-		if ($this->_metadata == null) {
-			// Check for component metadata.xml file
-			$path = JApplicationHelper::getPath( 'com_xml', 'com_'.$this->_option );
-			$params = new JParameter( '', $path );
-			$params->loadArray($vals);
-		} else {
-			$params = new JParameter( '' );
-			$params->loadArray($vals);
-			$viewName = $params->get( 'view_name' );
-
-			if ($viewName && $xmlDoc =& $this->_getMetadataDoc()) {
-				$eViews = &$xmlDoc->getElementByPath( 'control/views' );
-				if ($eViews) {
-					// we have a views element
-					$eParams = &$eViews->getElementByPath( $viewName . '/params' );
-					if ($eParams) {
-						// we have a params element in the metadata
-						$params->setXML( $eParams );
-					} else {
-						// check for a different source
-						$source = $eViews->attributes( 'source' );
-						if ($source) {
-							// TODO: check for injection
-							$path = JPATH_SITE . str_replace( '{VIEW_NAME}', $viewName, $source );
-							if (file_exists( $path )) {
-								// load the metadata file local to the view
-								$xml = & JFactory::getXMLParser('Simple');
-								if ($xml->loadFile($path)) {
-									$eParams = &$xml->document->getElementByPath( 'params' );
-									$params->setXML( $eParams );
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return $params;
-	}
-
-	/**
-	 * @return boolean True if the component supports controllers
-	 */
-	function hasMVCRT()
-	{
-		return $this->hasControllers()
-			| $this->hasViews()
-			| $this->hasRenderers()
-			| $this->hasTemplates();
-	}
-
-	/**
-	 * @return boolean True if the component supports controllers
-	 */
-	function hasControllers()
-	{
-		return false;
-	}
-
-	/**
-	 * @return boolean True if the component supports views
-	 */
-	function hasViews()
-	{
-		return false;
-	}	
-
-	/**
-	 * @return boolean True if the component supports templates
-	 */
-	function hasRenderers()
-	{
-		return false;
-	}
-
-	/**
-	 * @return boolean True if the component supports templates
-	 */
-	function hasTemplates()
-	{
-		return false;
 	}
 
 	function getControllersFolder()
@@ -340,16 +177,6 @@ class JMenuHelperComponent extends JObject
 			$result = new JParameter( $paramValues );
 		}
 		return $result;
-	}
-
-	/**
-	 * @param string A params string
-	 * @param string The option
-	 */
-	function _buildLink(&$vals)
-	{
-		$link = null;
-		return $link;
 	}
 }
 ?>

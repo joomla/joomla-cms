@@ -20,57 +20,19 @@
  */
 class JMenuHelperMenulink extends JObject
 {
-	/**
-	 * @var string The component file name
-	 */
-	var $_menu = null;
+	var $_parent = null;
 
-	var $_metadata;
-
-	var $_app = null;
-
-	var $_steps = array( 1 => 'Item');
-
-	function __construct(&$app)
+	function __construct(&$parent)
 	{
-		$this->_app =& $app;
-		$this->_menu = $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu');
+		$this->_parent =& $parent;
+		$app =& $this->_parent->getApplication();
+		$option = $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu');
+	}
 
-		// load the xml metadata
-		$this->_metadata = null;
+	function loadXML()
+	{
 		$path = dirname(__FILE__).DS.'xml'.DS.'menulink.xml';
-		if (file_exists( $path )) {
-			$xml = & JFactory::getXMLParser('Simple');
-
-			if ($xml->loadFile($path)) {
-				$this->_metadata = &$xml;
-			}
-		}
-	}
-
-	/**
-	 * Returns the option
-	 * @return string
-	 */
-	function getSteps()
-	{
-		return $this->_steps;
-	}
-
-	/**
-	 * Gets the componet table object related to this menu item
-	 */
-	function &getParams(&$vals, $step)
-	{
-		$params = new JParameter('');
-		$params->loadArray($vals);
-
-		if ($xmlDoc =& $this->_getMetadataDoc()) {
-			if ($cParams = $xmlDoc->getElementByPath( 'control/params' )) {
-				$params->setXML( $cParams );
-			}
-		}
-		return $params;
+		$this->_parent->_wizard->loadXML($path, 'control');
 	}
 
 	/**
@@ -81,36 +43,15 @@ class JMenuHelperMenulink extends JObject
 	{
 		$final = new stdClass();
 		$final->values =& $vals;
+		$final->message = null;
 		$final->menutype = 'menulink';
-		$final->link = $this->_buildLink($vals);
+		$final->link = $this->_url;
 		$final->type = null;
 		$final->componentid = null;
 		$final->params =& $vals;
 		$final->mvcrt = 0;
 
 		return $final;
-	}
-
-	/**
-	 * @access private
-	 */
-	function &_getMetadataDoc()
-	{
-		$result = null;
-		if (isset( $this->_metadata->document )) {
-			$result = &$this->_metadata->document;
-		}
-		return $result;
-	}
-
-	/**
-	 * @param string A params string
-	 * @param string The option
-	 */
-	function _buildLink(&$vals)
-	{
-		$link = null;
-		return $link;
 	}
 }
 ?>

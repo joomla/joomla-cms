@@ -18,7 +18,7 @@
  * @subpackage Menus
  * @author Louis Landry <louis.landry@joomla.org>
  */
-class JMenuHelperUrl extends JObject
+class JMenuHelperLabel extends JObject
 {
 	var $_parent = null;
 
@@ -26,12 +26,12 @@ class JMenuHelperUrl extends JObject
 	{
 		$this->_parent =& $parent;
 		$app =& $this->_parent->getApplication();
-		$option = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
+		$option = $app->getUserStateFromRequest('menuwizard.label.text', 'text');
 	}
 
 	function loadXML()
 	{
-		$path = dirname(__FILE__).DS.'xml'.DS.'url.xml';
+		$path = dirname(__FILE__).DS.'xml'.DS.'label.xml';
 		$this->_parent->_wizard->loadXML($path, 'control');
 	}
 
@@ -44,7 +44,7 @@ class JMenuHelperUrl extends JObject
 		$final = new stdClass();
 		$final->values =& $vals;
 		$final->message = null;
-		$final->menutype = 'url';
+		$final->menutype = 'label';
 		$final->link = $this->_url;
 		$final->type = null;
 		$final->componentid = null;

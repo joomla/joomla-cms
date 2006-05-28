@@ -23,69 +23,47 @@ jimport( 'joomla.application.model' );
 class JMenuModelWizard extends JModel
 {
 
-	var $_step = null;
+	var $_wizard = null;
+	var $_helper = null;
 
 	/** @var object JRegistry object */
 	var $_item = null;
 
-	function init()
+	function init($type='')
 	{
+		// Create the JWizard object
+		jimport('joomla.presentation.wizard');
 		$app =& $this->getApplication();
-		$this->_step = JRequest::getVar('step', 0, '', 'int');
-		$type = $app->getUserStateFromRequest('menuwizard.type', 'type');
-		if ($this->_step && $type) {
+		$this->_wizard =& new JWizard($app, 'menu');
+
+		// Include and create the helper object
+		$type = $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
+		if ($this->_wizard->getStep() && $type) {
 			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
 			$class = 'JMenuHelper'.ucfirst($type);
-			$this->_helper = new $class($app);
+			$this->_helper =& new $class($this);
+			$this->_helper->loadXML();
 		}
-		
-		// Build registry path
-		$regPath = 'newmenu.wizard';
-		if ($type) {
-			$regPath .= '.'.$type;
-		}
-
-		$this->_item = $app->getUserState($regPath);
-		
-		// Create the object if it does not exist
-		if (!is_a($this->_item, 'JParameter')) {
-			$this->_item = new JParameter('');
-		}
-		
-		$items = JRequest::getVar('wizVal', array(), '', 'array');
-		$this->_item->loadArray($items);
-		$app->setUserState($regPath, $this->_item);
 	}
 
 	function &getItem()
 	{
-		return $this->_helper->getParams($this->_item->toArray(), $this->_step);
+		return $this->_wizard->getForm();
 	}
 
 	function &getFinalItem()
 	{
-		return $this->_helper->getFinalized($this->_item->toArray(), $this->_step);
+		return $this->_wizard->getConfirmation();
 	}
 
 	function getStep()
 	{
-		return $this->_step;
+		return $this->_wizard->getStep();
 	}
 
 	function getSteps()
 	{
-		return $this->_helper->getSteps();
-	}
-
-	function isStarted()
-	{
-		return ($this->_step);
-	}
-
-	function isFinished()
-	{
-		$steps = $this->_helper->getSteps();
-		return (count($steps) <= $this->_step - 1);
+		return $this->_wizard->getSteps();
 	}
 
 	/**
