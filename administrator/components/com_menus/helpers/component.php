@@ -154,8 +154,29 @@ class JMenuHelperComponent extends JObject
 			$viewName = $params->get( 'view_name' );
 
 			if ($viewName && $xmlDoc =& $this->_getMetadataDoc()) {
-				if ($vParams = $xmlDoc->getElementByPath( 'control/views/'.$viewName.'/params' )) {
-					$params->setXML( $vParams );
+				$eViews = &$xmlDoc->getElementByPath( 'control/views' );
+				if ($eViews) {
+					// we have a views element
+					$eParams = &$eViews->getElementByPath( $viewName . '/params' );
+					if ($eParams) {
+						// we have a params element in the metadata
+						$params->setXML( $eParams );
+					} else {
+						// check for a different source
+						$source = $eViews->attributes( 'source' );
+						if ($source) {
+							// TODO: check for injection
+							$path = JPATH_SITE . str_replace( '{VIEW_NAME}', $viewName, $source );
+							if (file_exists( $path )) {
+								// load the metadata file local to the view
+								$xml = & JFactory::getXMLParser('Simple');
+								if ($xml->loadFile($path)) {
+									$eParams = &$xml->document->getElementByPath( 'params' );
+									$params->setXML( $eParams );
+								}
+							}
+						}
+					}
 				}
 			}
 		}

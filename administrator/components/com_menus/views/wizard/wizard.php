@@ -228,6 +228,8 @@ class JMenuViewWizard extends JView
 	<form action="index2.php" method="post" name="adminForm" target="_top">
 		<fieldset>
 			<div style="float: right">
+				<button type="button" onclick="history.back();">
+					<?php echo JText::_('Back');?></button>
 				<button type="button" onclick="this.form.submit();window.top.document.popup.hide();">
 					<?php echo JText::_('Finish');?></button>
 		    </div>
@@ -241,13 +243,14 @@ class JMenuViewWizard extends JView
 			<?php 
 			foreach ($item as $k => $v) {
 				echo "Name: $k &nbsp; Value: $v <br />\n";
-				echo "<input type=\"hidden\" name=\"$k\" value=\"$v\" />\n";
+				echo "<input type=\"hidden\" name=\"wizVal[$k]\" value=\"$v\" />\n";
 			}
 			?>
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_menus" />
-		<input type="hidden" name="task" value="edit2" />
+		<input type="hidden" id="step" name="step" value="<?php echo $step;?>" />
+		<input type="hidden" name="task" value="edit" />
 
 	</form>
 <?php
