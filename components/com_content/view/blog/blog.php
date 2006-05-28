@@ -65,6 +65,8 @@ class JContentViewBlog extends JView
 		$user 	= &$app->getUser();
 		$doc	= &$app->getDocument();
 		$params = &JComponentHelper::getMenuParams();
+		$menus	= JMenu::getInstance();
+		$menu	= &$menus->getCurrent();
 		$Itemid = $menu->id;
 
 		$gid 	= $user->get('gid');
