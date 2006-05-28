@@ -101,6 +101,24 @@ class JMenuHelperComponent extends JObject
 	}
 
 	/**
+	 * @param string A params string
+	 * @param string The option
+	 */
+	function &getFinalized( &$vals, $step )
+	{
+		$final = new stdClass();
+		$final->values =& $vals;
+		$final->menutype = 'menulink';
+		$final->link = $this->_buildLink($vals);
+		$final->type = null;
+		$final->componentid = null;
+		$final->params =& $vals;
+		$final->mvcrt = 0;
+
+		return $final;
+	}
+
+	/**
 	 * @access private
 	 */
 	function &_getMetadataDoc()
@@ -325,13 +343,13 @@ class JMenuHelperComponent extends JObject
 	}
 
 	/**
-	 * Loads files required for menu items
-	 * @param string Item type
+	 * @param string A params string
+	 * @param string The option
 	 */
-	function menuItem( $item ) {
-		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
-		include_once( $path . $item .'.class.php' );
-		include_once( $path . $item .'.menu.html.php' );
+	function _buildLink(&$vals)
+	{
+		$link = null;
+		return $link;
 	}
 }
 ?>

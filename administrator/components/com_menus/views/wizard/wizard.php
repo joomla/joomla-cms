@@ -109,14 +109,14 @@ class JMenuViewWizard extends JView
 							<?php echo JText::_('URL Address');?>
 						</label>
 						<br/>
-						<input type="text" name="link" size="40" value="http://" />
+						<input type="text" name="uri" size="40" value="http://" />
 						<br/>
 						<?php echo JText::_('Link another URL to this menu item');?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_separator" value="separator" />
+						<input type="radio" name="type" id="type_text" value="text" />
 						<label for="type_separator" class="_type">
 							<?php echo JText::_('Text Label');?>
 						</label>
@@ -126,15 +126,15 @@ class JMenuViewWizard extends JView
 							<?php echo JText::_('Text');?>
 						</label>
 						<br/>
-						<input type="text" name="name" size="40" value="" />
+						<input type="text" name="text" size="40" value="" />
 						<br/>
 						<?php echo JText::_('This menu item will be just plain text');?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_component_item_link" value="component_item_link" />
-						<label for="type_component_item_link" class="_type">
+						<input type="radio" name="type" id="type_menulink" value="menulink" />
+						<label for="type_menulink" class="_type">
 							<?php echo JText::_('Menu Item');?>
 						</label>
 						<br/>
@@ -218,7 +218,7 @@ class JMenuViewWizard extends JView
 		$nextStep = $step + 1;
 		$prevStep = $step - 1;
 
-		$item =& $this->get('item');
+		$item =& $this->get('finalItem');
 ?>
 	<style type="text/css">
 	._type {

@@ -62,6 +62,11 @@ class JMenuModelWizard extends JModel
 		return $this->_helper->getParams($this->_item->toArray(), $this->_step);
 	}
 
+	function &getFinalItem()
+	{
+		return $this->_helper->getFinalized($this->_item->toArray(), $this->_step);
+	}
+
 	function getStep()
 	{
 		return $this->_step;
