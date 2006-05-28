@@ -413,7 +413,7 @@ class JController extends JObject {
 			}
 			if ($prefix == '')
 			{
-				$prefix = $this->_viewPrefix;
+				$prefix = $this->_viewClassPrefix;
 			}
 			$view = $this->_loadView( $name, $option, $prefix );
 			$this->setView( $view );
