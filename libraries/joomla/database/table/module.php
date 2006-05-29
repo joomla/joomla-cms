@@ -51,6 +51,8 @@ class JTableModule extends JTable
 	var $iscore				= null;
 	/** @var string */
 	var $client_id			= null;
+	/** @var string */
+	var $mvcrt				= null;
 
 	/**
 	 * Contructore
@@ -108,6 +110,11 @@ class JTableModule extends JTable
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
+		}
+		if (is_array( $array['mvcrt'] )) {
+			$registry = new JRegistry();
+			$registry->loadArray($array['mvcrt']);
+			$array['mvcrt'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);

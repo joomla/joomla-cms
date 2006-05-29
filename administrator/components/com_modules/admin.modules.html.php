@@ -216,6 +216,11 @@ class HTML_modules {
 		global $mainframe;
 		global $my, $mosConfig_cachepath;
 
+		require_once( dirname( __FILE__ ) . '/helpers/module.php' );
+		$helper		= new JModuleEditHelper( $row->module, $client->id );
+		$control	= $helper->getControlParams( $row->mvcrt );
+		$params		= $helper->getViewParams( $row->params, $control );
+
 		jimport( 'joomla.presentation.editor' );
 		$editor =& JEditor::getInstance();
 
@@ -356,6 +361,19 @@ class HTML_modules {
 			// that are used to show rss feeds
 			// extra backward compat check [$row->module == ''] can be depreciated in 1.2
 			if ( !$row->module == '' || $row->module == 'custom' ) {
+				// Render Control Parameters
+					if ($helper->hasControlParams()) {
+				?>
+					<fieldset class="adminform">
+						<legend>
+							<?php echo JText::_( 'Control Parameters' ); ?>
+						</legend>
+					<?php
+						echo $control->render( 'mvcrt' );
+					?>
+					</fieldset>
+			<?php
+					}
 				// Render Parameter list
 				?>
 				<fieldset class="adminform">

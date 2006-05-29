@@ -355,13 +355,13 @@ function saveModule( $option, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
-			josRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client->id .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Module' ), $row->title );
-			josRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client->id, $msg );
 			break;
 	}
 }
@@ -505,8 +505,12 @@ function editModule( $option, $uid, $module=NULL )
 	$xmlfile = JApplicationHelper::getPath( $path, $row->module );
 
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-	foreach($data as $key => $value) {
-		$row->$key = $value;
+	if ($data)
+	{
+		
+		foreach($data as $key => $value) {
+			$row->$key = $value;
+		}
 	}
 
 	// get params definitions

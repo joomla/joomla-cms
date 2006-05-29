@@ -2,7 +2,7 @@
 /**
  * @version $Id: admin.menus.php 3504 2006-05-15 05:25:43Z eddieajau $
  * @package Joomla
- * @subpackage Menus
+ * @subpackage Modules
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
  * reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -18,32 +18,34 @@
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JMenuHelper extends JObject {
-	// TODO: Move to library, derive similar class for module support
+class JModuleEditHelper extends JObject {
+	// TODO: Move to library, derive a parent class to use for both module and components
 
 	/**
 	 * @var string The component file name
 	 */
-	var $_option = null;
+	var $_module;
+
+	var $_client_id;
 
 	var $_metadata;
 
 	/**
 	 * Constructor
 	 */
-	function __construct( $option )
+	function __construct( $module, $client_id = 0 )
 	{
 		// clean the option
-		$option = preg_replace( '#\W#', '', $option );
-		$option = str_replace( 'com_', '', $option );
+		$module = preg_replace( '#\W#', '', $module );
+		$module = str_replace( 'mod_', '', $module );
 
-		$this->_option = $option;
+		$this->_module		= $module;
+		$this->_client_id	= $client_id ? 1 : 0;
 
 		// load the xml metadata
 		$this->_metadata = null;
 
-		$path = JPATH_SITE . '/components/com_' . $this->_option . '/metadata.xml';
-
+		$path = JPATH_SITE . '/modules/mod_' . $this->_module . '/metadata.xml';
 		if (file_exists( $path ))
 		{
 			$xml = & JFactory::getXMLParser('Simple');
@@ -106,7 +108,7 @@ class JMenuHelper extends JObject {
 		if ($this->_metadata == null)
 		{
 			// Check for component metadata.xml file
-			$path = JApplicationHelper::getPath( 'com_xml', 'com_' . $this->_option );
+			$path = JApplicationHelper::getPath( 'mod'.$this->_client_id.'_xml', 'mod_' . $this->_module );
 			$params = new JParameter( $ini, $path );
 		}
 		else
@@ -150,16 +152,6 @@ class JMenuHelper extends JObject {
 			}
 		}
 		return $params;
-	}
-
-	/**
-	 * Loads files required for menu items
-	 * @param string Item type
-	 */
-	function menuItem( $item ) {
-		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
-		include_once( $path . $item .'.class.php' );
-		include_once( $path . $item .'.menu.html.php' );
 	}
 }
 ?>

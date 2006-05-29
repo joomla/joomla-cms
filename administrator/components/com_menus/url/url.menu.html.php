@@ -28,6 +28,10 @@ class url_menu_html {
 	function edit( $menu, $lists, $params, $option )
 	{
 		mosCommonHTML::loadOverlib();
+		$types[] = mosHTML::makeOption( 'components', 'Component' );
+		$types[] = mosHTML::makeOption( 'url', 'URL' );
+		$types[] = mosHTML::makeOption( 'separator', 'Separator' );
+		$types[] = mosHTML::makeOption( 'component_item_link', 'Other Menu Item' );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -72,6 +76,14 @@ class url_menu_html {
 					<?php echo $lists['target']; ?>
 					</td>
 				</tr>
+				<tr>
+					<td valign="top" align="right">
+					<?php echo JText::_( 'Type' ); ?>:
+					</td>
+					<td>
+					<?php echo mosHTML::radioList( $types, 'type', '', $menu->type ); ?>
+					</td>
+				</tr>
 				</table>
 			</td>
 			<td width="40%">
@@ -84,7 +96,6 @@ class url_menu_html {
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $menu->id; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menu->menutype; ?>" />
-		<input type="hidden" name="type" value="<?php echo $menu->type; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>

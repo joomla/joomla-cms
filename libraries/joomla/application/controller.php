@@ -503,7 +503,7 @@ class JController extends JObject {
 
 			// If the default view file exists include it and try to instantiate the object
 			if (file_exists( $path )) {
-				require( $path );
+				require_once( $path );
 				// Build the view class name
 				$viewClass = $classPrefix.$viewName;
 				if (!class_exists( $viewClass )) {
