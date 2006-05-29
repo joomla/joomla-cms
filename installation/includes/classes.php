@@ -331,7 +331,8 @@ class JInstallationController
 					JInstallationView::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
-			} else
+			}
+			else
 			{
 				/*
 				 * We assume since we aren't deleting the database that we need
@@ -350,7 +351,8 @@ class JInstallationController
 				$dbscheme = 'sql'.DS.'joomla_backward.sql';
 			}
 
-			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0) {
+			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0)
+			{
 				JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				return false;
 			}

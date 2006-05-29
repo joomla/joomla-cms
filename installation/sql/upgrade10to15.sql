@@ -206,4 +206,14 @@ INSERT INTO jos_components  VALUES (0,'User Manager','',0,0,'','Users','com_user
 
 ALTER TABLE `jos_modules` ADD COLUMN `mvcrt` TEXT NOT NULL DEFAULT '';
 
+# 29-May-2006 Andrew Eddie
+ALTER TABLE `jos_banner`
+  ADD COLUMN `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+  ADD COLUMN `description` TEXT NOT NULL DEFAULT '',
+  ADD COLUMN `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  ADD COLUMN `ordering` INTEGER NOT NULL DEFAULT 0,
+  ADD INDEX `idx_banner_catid`(`catid`);
 
+DROP TABLE `jos_bannerfinish`;
+
+INSERT INTO jos_components  VALUES (0,'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);

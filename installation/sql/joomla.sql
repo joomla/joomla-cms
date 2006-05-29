@@ -22,8 +22,13 @@ CREATE TABLE `#__banner` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `editor` varchar(50) default NULL,
   `custombannercode` text,
+  `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+  `description` TEXT NOT NULL DEFAULT '',
+  `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `ordering` INTEGER NOT NULL DEFAULT 0,
   PRIMARY KEY  (`bid`),
-  KEY `viewbanner` (`showBanner`)
+  KEY `viewbanner` (`showBanner`),
+  INDEX `idx_banner_catid`(`catid`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 # --------------------------------------------------------
@@ -42,25 +47,6 @@ CREATE TABLE `#__bannerclient` (
   `checked_out_time` time default NULL,
   `editor` varchar(50) default NULL,
   PRIMARY KEY  (`cid`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__bannerfinish`
-#
-
-CREATE TABLE `#__bannerfinish` (
-  `bid` int(11) NOT NULL auto_increment,
-  `cid` int(11) NOT NULL default '0',
-  `type` varchar(10) NOT NULL default '',
-  `name` varchar(50) NOT NULL default '',
-  `impressions` int(11) NOT NULL default '0',
-  `clicks` int(11) NOT NULL default '0',
-  `imageurl` varchar(50) NOT NULL default '',
-  `datestart` datetime default NULL,
-  `dateend` datetime default NULL,
-  PRIMARY KEY  (`bid`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
 # --------------------------------------------------------
@@ -136,6 +122,7 @@ INSERT INTO `#__components` VALUES (13, 'Feeds', '', 0, 12, 'option=com_newsfeed
 INSERT INTO `#__components` VALUES (14, 'Categories', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Search', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '', 1);
+INSERT INTO `#__components`  VALUES (17,'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);
 INSERT INTO `#__components`  VALUES (21,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
 INSERT INTO `#__components`  VALUES (22,'Articles','option=com_content',0,0,'option=com_content','Articles','com_content',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (23,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);

@@ -4,8 +4,11 @@
 # Dumping data for table `#__banner`
 #
 
-INSERT INTO `#__banner` VALUES (1, 1, 'banner', 'OSM 1', 0, 42, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2004-07-07 15:31:29', 1, 0, '2000-00-00 00:00:00', NULL, NULL);
-INSERT INTO `#__banner` VALUES (2, 1, 'banner', 'OSM 2', 0, 48, 0, 'osmbanner2.png', 'http://www.opensourcematters.org', '2004-07-07 15:31:29', 1, 0, '2000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `#__banner`  VALUES (1,1,'banner','OSM 1',0,43,0,'osmbanner1.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'2000-00-00 00:00:00','','',0,'',0,0);
+INSERT INTO `#__banner`  VALUES (2,1,'banner','OSM 2',0,49,0,'osmbanner2.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'2000-00-00 00:00:00','','',0,'',0,0);
+INSERT INTO `#__banner`  VALUES (3,1,'','Joomla',0,11,0,'','http://www.joomla.org','2006-05-29 14:21:28',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! The most popular and widely used Open Source CMS Project in the world.',14,'',0,0);
+INSERT INTO `#__banner`  VALUES (4,1,'','Joomla Forge',0,11,0,'','http://forge.joomla.org','2006-05-29 14:19:26',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! Forge, development and distribution made easy.',14,'',0,0);
+INSERT INTO `#__banner`  VALUES (5,1,'','Joomla Extensions',0,6,0,'','http://extensions.joomla.org','2006-05-29 14:23:21',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! components, modules, plugins and languages by the bucket load.',14,'',0,0);
 
 #
 # Dumping data for table `#__bannerclient`
@@ -27,6 +30,9 @@ INSERT INTO `#__categories` VALUES (9, 0, 'Finance', 'Finance', '', 'com_newsfee
 INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'Linux', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
 INSERT INTO `#__categories` VALUES (11, 0, 'Internet', 'Internet', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 7, 0, 0, '');
 INSERT INTO `#__categories` VALUES (12, 0, 'Contacts', 'Contacts', '', 'com_contact_details', 'left', 'Contact Details for this website', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+
+INSERT INTO `#__categories` VALUES (13, 0, 'Joomla', 'Joomla', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (14, 0, 'Text Ads', 'Text Ads', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
 
 
 #
@@ -96,6 +102,19 @@ INSERT INTO `#__menu` VALUES (25, 'mainmenu', '1.5 Development Cycle', 'index.ph
 INSERT INTO `#__menu_types` VALUES (2, 'usermenu', 'User Menu', 'A menu for logged in users');
 INSERT INTO `#__menu_types` VALUES (3, 'topmenu', 'Top Menu', 'Top level navigation');
 INSERT INTO `#__menu_types` VALUES (4, 'othermenu', 'Other Menu', 'Additional links');
+
+#
+# Dumping data for table `#__modules`
+#
+
+INSERT INTO jos_modules  VALUES (40,'Advertisement','',3,'right',0,'0000-00-00 00:00:00',1,'mod_banners',0,0,1,'count=4\r\nrandomise=0\r\ncid=0\r\ncatid=14\r\nheader_text=Featured Links:\r\nfooter_text=<a href=\"http://www.joomla.org\">Ads by Joomla!</a>\r\nmoduleclass_sfx=_text\r\ncache=0\r\n\r\n',0,0,'');
+
+
+#
+# Dumping data for table `#__modules_menu`
+#
+
+INSERT INTO `#__modules_menu` VALUES (40,0);
 
 #
 # Dumping data for table `#__newsfeeds`

@@ -38,6 +38,7 @@ class HTML_banners {
 			</td>
 			<td nowrap="nowrap">
 				<?php
+				echo $lists['catid'];
 				echo $lists['state'];
 				?>
 			</td>
@@ -55,11 +56,21 @@ class HTML_banners {
 				<th nowrap="nowrap" class="title">
 					<?php mosCommonHTML::tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
 				</th>
+				<th width="15%" nowrap="nowrap">
+					<?php mosCommonHTML::tableOrdering( 'Client', 'c.name', $lists ); ?>
+				</th>
+				<th width="7%" nowrap="nowrap">
+					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+				</th>
 				<th width="7%" nowrap="nowrap">
 					<?php mosCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 				</th>
-				<th width="3%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
+				<th width="5%" nowrap="nowrap">
+					<?php echo JText::_( 'Order' );?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
+				</th>
+				<th width="5%">
+					<?php echo JText::_( 'Sticky' ); ?>
 				</th>
 				<th width="8%" nowrap="nowrap">
 					<?php mosCommonHTML::tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
@@ -70,8 +81,8 @@ class HTML_banners {
 				<th width="7%">
 					<?php mosCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
 				</th>
-				<th width="7%" nowrap="nowrap">
-					<?php echo JText::_( '% Clicks' ); ?>
+				<th width="3%" nowrap="nowrap">
+					<?php mosCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
 				</th>
 			</tr>
 			<?php
@@ -88,7 +99,7 @@ class HTML_banners {
 				}
 
 				if ( $row->impmade != 0 ) {
-					$percentClicks = substr(100 * $row->clicks/$row->impmade, 0, 5);
+					$percentClicks = 100 * $row->clicks/$row->impmade;
 				} else {
 					$percentClicks = 0;
 				}
@@ -117,10 +128,19 @@ class HTML_banners {
 						?>
 					</td>
 					<td align="center">
-						<?php echo $published;?>
+						<?php echo $row->client_name;?>
 					</td>
 					<td align="center">
-						<?php echo $row->id; ?>
+						<?php echo $row->category_name;?>
+					</td>
+					<td align="center">
+						<?php echo $published;?>
+					</td>
+					<td class="order">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<?php echo $row->sticky ? JText::_( 'Yes' ) : 'No';?>
 					</td>
 					<td align="center">
 						<?php echo $row->impmade;?>
@@ -129,10 +149,11 @@ class HTML_banners {
 						<?php echo JText::_( $impleft ); ?>
 					</td>
 					<td align="center">
-						<?php echo $row->clicks;?>
+						<?php echo $row->clicks;?> -
+						<?php echo sprintf( '%.2f%%', $percentClicks );?>
 					</td>
 					<td align="center">
-						<?php echo $percentClicks;?>
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php
@@ -177,8 +198,8 @@ class HTML_banners {
 				alert( "<?php echo JText::_( 'You must provide a banner name.', true ); ?>" );
 			} else if (getSelectedValue('adminForm','cid') < 1) {
 				alert( "<?php echo JText::_( 'Please select a client.', true ); ?>" );
-			} else if (!getSelectedValue('adminForm','imageurl')) {
-				alert( "<?php echo JText::_( 'Please select an image.', true ); ?>" );
+			/*} else if (!getSelectedValue('adminForm','imageurl')) {
+				alert( "<?php echo JText::_( 'Please select an image.', true ); ?>" );*/
 			} else if (form.clickurl.value == "") {
 				alert( "<?php echo JText::_( 'Please fill in the URL for the banner.', true ); ?>" );
 			} else {
@@ -191,131 +212,174 @@ class HTML_banners {
 
 		<div id="editcell">
 			<table class="adminform">
-			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-				</th>
-			</tr>
-			<tr>
-				<td width="20%">
-					<label for="name">
-						<?php echo JText::_( 'Banner Name' ); ?>:
-					</label>
-				</td>
-				<td width="80%">
-					<input class="inputbox" type="text" name="name" id="name" value="<?php echo $row->name;?>" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Show Banner' ); ?>:
-				</td>
-				<td>
-					<?php echo $lists['showBanner']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="cid">
-						<?php echo JText::_( 'Client Name' ); ?>:
-					</label>
-				</td>
-				<td >
-					<?php echo $lists['cid']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="imptotal">
-						<?php echo JText::_( 'Impressions Purchased' ); ?>:
-					</label>
-				</td>
-				<?php
-				$unlimited = '';
-				if ($row->imptotal == 0) {
-					$unlimited = 'checked="checked"';
-					$row->imptotal = '';
-				}
-				?>
-				<td>
-					<input class="inputbox" type="text" name="imptotal" id="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<label for="unlimited">
-						<?php echo JText::_( 'Unlimited' ); ?>
-					</label>
-					<input type="checkbox" name="unlimited" id="unlimited" <?php echo $unlimited;?> />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="clickurl">
-						<?php echo JText::_( 'Click URL' ); ?>:
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" name="clickurl" id="clickurl" size="100" maxlength="200" value="<?php echo $row->clickurl;?>" />
-				</td>
-			</tr>
-			<tr >
-				<td valign="top" align="right">
-					<?php echo JText::_( 'Clicks' ); ?>
-	 			</td>
-				<td colspan="2">
-					<?php echo $row->clicks;?>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onclick="submitbutton('resethits');" />
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<label for="custombannercode">
-						<?php echo JText::_( 'Custom banner code' ); ?>:
-					</label>
-				</td>
-				<td>
-					<textarea class="inputbox" cols="70" rows="5" name="custombannercode" id="custombannercode"><?php echo $row->custombannercode;?></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<label for="imageurl">
-						<?php echo JText::_( 'Banner Image Selector' ); ?>:
-					</label>
-				</td>
-				<td >
-					<?php echo $lists['imageurl']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<?php echo JText::_( 'Banner Image' ); ?>:
-				</td>
-				<td valign="top">
-					<?php
-					if (eregi("swf", $row->imageurl)) {
-						?>
-						<img src="images/blank.png" name="imagelib">
+				<thead>
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="20%">
+							<label for="name">
+								<?php echo JText::_( 'Banner Name' ); ?>:
+							</label>
+						</td>
+						<td width="80%">
+							<input class="inputbox" type="text" name="name" id="name" size="50" value="<?php echo $row->name;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo JText::_( 'Show Banner' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['showBanner']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo JText::_( 'Sticky' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['sticky']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="ordering">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="ordering" id="ordering" size="6" value="<?php echo $row->ordering;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right">
+							<label for="catid">
+								<?php echo JText::_( 'Category' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['catid']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="cid">
+								<?php echo JText::_( 'Client Name' ); ?>:
+							</label>
+						</td>
+						<td >
+							<?php echo $lists['cid']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="imptotal">
+								<?php echo JText::_( 'Impressions Purchased' ); ?>:
+							</label>
+						</td>
 						<?php
-					} elseif (eregi("gif|jpg|png", $row->imageurl)) {
+						$unlimited = '';
+						if ($row->imptotal == 0) {
+							$unlimited = 'checked="checked"';
+							$row->imptotal = '';
+						}
 						?>
-						<img src="../images/banners/<?php echo $row->imageurl; ?>" name="imagelib" />
-						<?php
-					} else {
-						?>
-						<img src="images/blank.png" name="imagelib" />
-						<?php
-					}
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-				</td>
-			</tr>
+						<td>
+							<input class="inputbox" type="text" name="imptotal" id="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<label for="unlimited">
+								<?php echo JText::_( 'Unlimited' ); ?>
+							</label>
+							<input type="checkbox" name="unlimited" id="unlimited" <?php echo $unlimited;?> />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="clickurl">
+								<?php echo JText::_( 'Click URL' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="clickurl" id="clickurl" size="100" maxlength="200" value="<?php echo $row->clickurl;?>" />
+						</td>
+					</tr>
+					<tr >
+						<td valign="top" align="right">
+							<?php echo JText::_( 'Clicks' ); ?>
+			 			</td>
+						<td colspan="2">
+							<?php echo $row->clicks;?>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onclick="submitbutton('resethits');" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<label for="custombannercode">
+								<?php echo JText::_( 'Custom banner code' ); ?>:
+							</label>
+						</td>
+						<td>
+							<textarea class="inputbox" cols="70" rows="8" name="custombannercode" id="custombannercode"><?php echo $row->custombannercode;?></textarea>
+						</td>
+					</tr>
+					<tr>
+					<tr>
+						<td valign="top">
+							<label for="description">
+								<?php echo JText::_( 'Description/Notes' ); ?>:
+							</label>
+						</td>
+						<td>
+							<textarea class="inputbox" cols="70" rows="3" name="description" id="description"><?php echo $row->description;?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<label for="imageurl">
+								<?php echo JText::_( 'Banner Image Selector' ); ?>:
+							</label>
+						</td>
+						<td >
+							<?php echo $lists['imageurl']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Banner Image' ); ?>:
+						</td>
+						<td valign="top">
+							<?php
+							if (eregi("swf", $row->imageurl)) {
+								?>
+								<img src="images/blank.png" name="imagelib">
+								<?php
+							} elseif (eregi("gif|jpg|png", $row->imageurl)) {
+								?>
+								<img src="../images/banners/<?php echo $row->imageurl; ?>" name="imagelib" />
+								<?php
+							} else {
+								?>
+								<img src="images/blank.png" name="imagelib" />
+								<?php
+							}
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 

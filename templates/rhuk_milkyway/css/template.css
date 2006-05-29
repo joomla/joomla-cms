@@ -654,3 +654,25 @@ div.message {
 	padding: 3px 20px;
 }
 
+/* Banners module */
+
+/* Default skyscraper style */
+.bannergroup {
+}
+
+.banneritem {
+}
+
+/* Text advert style */
+
+.banneritem_text {
+	padding: 4px;
+	font-size: 11px;
+}
+
+.bannerfooter_text {
+	padding: 4px;
+	font-size: 11px;
+	background-color: #F7F7F7;
+	text-align: right;
+}

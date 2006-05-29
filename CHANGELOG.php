@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-May-2006 Andrew Eddie
+ + Added category support to banners component
+ + Added ordering and sticky fields to banners to support better ordering
+ + Added description field to banners for general private notes
+ ^ Revised banners module
+ + Added demo banners to sample data in a text adverts style
+
 25-May-2006 Andrew Eddie
  + Added JComponentHelper (joomla.application.extensions.component)
 
