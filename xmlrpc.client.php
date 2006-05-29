@@ -28,7 +28,7 @@ error_reporting( E_ALL );
 
 $uri 	= dirname( $_SERVER['PHP_SELF'] );
 
-$host 	= JRequest::getVar( 'host', 'http://' . $_SERVER['HTTP_HOST'], 'post' );
+$host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
 $path 	= JRequest::getVar( 'path', $uri . '/xmlrpc.server.php', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post' );
@@ -39,7 +39,7 @@ $array  = array();
 if ($task)
 {
 	$client = new xmlrpc_client($path, $host, 80);
-	$client->setDebug(true);
+	$client->setDebug($debug);
 
 	switch ($task)
 	{
@@ -63,7 +63,7 @@ if ($task)
 			}
 
 			$output = 'Methods<br />';
-			$output .= mosHTML::selectList( $methods, 'method', 'size="10"', 'value', 'text' );
+			$output .= mosHTML::selectList( $methods, 'method', 'size="10', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
@@ -73,7 +73,7 @@ if ($task)
 			$method = JRequest::getVar( 'method' );
 			$args 	= JRequest::getVar( 'args' );
 
-			$message = new xmlrpcmsg($method, array(new xmlrpcval($args, 'string')));
+			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
 
 			$xmlrpcdoc = $client->send($message);
 
