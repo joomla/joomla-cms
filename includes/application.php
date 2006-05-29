@@ -119,7 +119,6 @@ JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 */
 class JSite extends JApplication
 {
-
 	/**
 	* Class constructor
 	*
@@ -284,7 +283,12 @@ class JSite extends JApplication
 			$templates = $db->loadObjectList('menuid');
 		}
 
-		if (!empty($Itemid) && (isset($templates[$Itemid])))
+		if ($template = $this->getUserState( 'setTemplate' ))
+		{
+			// ok, allows for an override of the template from a component
+			// eg, $mainframe->setTemplate( 'solar-flare-ii' );
+		}
+		else if (!empty($Itemid) && (isset($templates[$Itemid])))
 		{
 			$template = $templates[$Itemid];
 		}
@@ -294,6 +298,18 @@ class JSite extends JApplication
 		}
 
 		return $template->template;
+	}
+
+	/**
+	 * Overrides the default template that would be used
+	 * @param string The template name
+	 */
+	function setTemplate( $template )
+	{
+		if (is_dir( JPATH_SITE . '/templates/' . $template ))
+		{
+			$this->setUserState( 'setTemplate', $template );
+		}
 	}
 }
 
