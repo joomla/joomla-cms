@@ -154,6 +154,16 @@ class JRequest
 		return $GLOBALS['JRequest'][$signature];
 	}
 
+	/**
+	 * Gets the full request path
+	 * @return string
+	 */
+	function getUrl()
+	{
+		$result = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
+		return $result;
+	}
+
 	function setVar($name, $value = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
 		// Initialize variables
