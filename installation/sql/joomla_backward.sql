@@ -115,8 +115,9 @@ INSERT INTO `#__components` VALUES (14, 'Categories', '', 0, 12, 'option=com_cat
 INSERT INTO `#__components` VALUES (15, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Search', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '', 1);
 INSERT INTO `#__components`  VALUES (17,'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);
+INSERT INTO `#__components`  VALUES (20,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (21,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
-INSERT INTO `#__components`  VALUES (22,'Articles','option=com_content',0,0,'option=com_content','Articles','com_content',0,'',1,'',1);
+INSERT INTO `#__components`  VALUES (22,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (23,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (24,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (25,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
@@ -345,10 +346,7 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `utaccess` tinyint(3) unsigned NOT NULL default '0',
   `params` text NOT NULL,
-  `controller_name` varchar(45) NOT NULL default '',
-  `view_name` varchar(45) NOT NULL default '',
-  `renderer_name` varchar(45) NOT NULL default '',
-  `template_name` varchar(45) NOT NULL default '',
+  `mvcrt` TEXT NOT NULL default '',
   `lft` int(11) unsigned NOT NULL default '0',
   `rgt` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),

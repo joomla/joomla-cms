@@ -189,8 +189,9 @@ ALTER TABLE `jos_modules`
 ALTER TABLE `jos_template_positions`
   MODIFY COLUMN `position` VARCHAR(50) DEFAULT '';
 
+INSERT INTO jos_components  VALUES (20,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
 INSERT INTO jos_components  VALUES (0,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
-INSERT INTO jos_components  VALUES (0,'Articles','option=com_content',0,0,'option=com_content','Articles','com_content',0,'',1,'',1);
+INSERT INTO jos_components  VALUES (0,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'',1);
 INSERT INTO jos_components  VALUES (0,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
 INSERT INTO jos_components  VALUES (0,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
 INSERT INTO jos_components  VALUES (0,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
