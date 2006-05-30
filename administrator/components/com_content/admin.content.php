@@ -686,15 +686,15 @@ class JContentController
 		if ($row->id) {
 			$row->modified 		= date( 'Y-m-d H:i:s' );
 			$row->modified_by 	= $user->get('id');
-			$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset') );
-		} else {
-		/*
-		* Nope, we are creating an item
-		*/
-			$row->created 		= date( 'Y-m-d H:i:s' );
-			$row->created_by 	= $user->get('id');
 		}
 
+		$row->created_by 	= $row->created_by ? $row->created_by : $user->get('id');
+		
+		if ($row->created && strlen(trim( $row->created )) <= 10) {
+			$row->created 	.= ' 00:00:00';
+		}
+		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset') ) : date( 'Y-m-d H:i:s' );
+		
 		/*
 		 * Append time if not added to publish date
 		 */
@@ -706,9 +706,12 @@ class JContentController
 		/*
 		 * Handle never unpublish date
 		 */
-		if (trim($row->publish_down) == 'Never') {
+		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') {
 			$row->publish_down = $nullDate;
 		} else {
+			if (strlen(trim( $row->publish_down )) <= 10) {
+				$row->publish_down .= ' 00:00:00';
+			}
 			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
 		}
 

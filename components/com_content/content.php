@@ -329,8 +329,8 @@ class JContentController extends JController
 			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
-			$row->created = date('Y-m-d H:i:s');
-			$row->created_by = $user->get('id');
+			$row->created 		= date('Y-m-d H:i:s');
+			$row->created_by 	= $user->get('id');
 		}
 		else
 		{
@@ -339,13 +339,29 @@ class JContentController extends JController
 			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
-			$row->modified = date('Y-m-d H:i:s');
-			$row->modified_by = $user->get('id');
+			$row->modified 		= date('Y-m-d H:i:s');
+			$row->modified_by 	= $user->get('id');
 		}
-		if (trim($row->publish_down) == 'Never')
-		{
+		
+		/*
+		* Append time if not added to publish date
+		*/
+		if (strlen(trim($row->publish_up)) <= 10) {
+			$row->publish_up .= ' 00:00:00';
+		}
+		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
+		
+		/*
+		* Handle never unpublish date
+		*/
+		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') {
 			$row->publish_down = $nullDate;
-		}
+		} else {
+			if (strlen(trim( $row->publish_down )) <= 10) {
+				$row->publish_down .= ' 00:00:00';
+			}
+			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
+		}		
 
 		$row->title = ampReplace($row->title);
 
