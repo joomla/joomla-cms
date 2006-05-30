@@ -254,7 +254,7 @@ class JConfigGlobalController extends JController
 	/**
 	 * Save the configuration
 	 */
-	function saveConfig() {
+	function save() {
 		global $mainframe, $mosConfig_password;
 
 		$mainframe->_registry->loadArray($_POST);
