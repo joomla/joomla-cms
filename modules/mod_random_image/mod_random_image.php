@@ -79,7 +79,7 @@ if (is_dir($abspath_folder)) {
 		}
 
 		$folder = str_replace( '\\', '/', $folder );
-	  	$image 	= $LiveSite . $folder .'/'. $image_name;
+	  	$image 	= $LiveSite . '/' . $folder .'/'. $image_name;
 	  	?>
 	 	<div align="center">
 		 	<?php

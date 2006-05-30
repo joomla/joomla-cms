@@ -108,6 +108,7 @@ class JInstallerLanguage extends JInstaller
 		}
 
 		// If the language directory does not exist, lets create it
+		$created = false;
 		if (!file_exists($this->_extensionDir)) {
 			if (!$created = JFolder::create($this->_extensionDir)) {
 				JError::raiseWarning(1, 'JInstallerLanguage::install: '.JText::_('Failed to create directory').' "'.$this->_extensionDir.'"');
