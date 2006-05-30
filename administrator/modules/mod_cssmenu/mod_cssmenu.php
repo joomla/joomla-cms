@@ -135,8 +135,10 @@ function & buildMenu($usertype = '')
 	/*
 	 * SPLIT HR
 	 */
-	foreach ($menuTypes as $menuType) {
-		$menu->addChild(new JMenuNode($menuType->title, 'index2.php?option=com_menus&menutype='.$menuType->menutype, 'class:menu'));
+	if (count($menuTypes)) {
+		foreach ($menuTypes as $menuType) {
+			$menu->addChild(new JMenuNode($menuType->title, 'index2.php?option=com_menus&menutype='.$menuType->menutype, 'class:menu'));
+		}
 	}
 
 	$menu->getParent();
