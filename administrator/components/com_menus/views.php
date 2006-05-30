@@ -243,7 +243,7 @@ class JMenuEditView extends JView
 								<?php echo JText::_( 'Url' ); ?>:
 							</td>
 							<td>
-								<?php echo ampReplace( mosAdminMenus::Link( $table, $table->id ) ); ?>
+								<?php echo ampReplace( JMenuHelper::Link( $table, $table->id ) ); ?>
 							</td>
 						</tr>
 						</tr>

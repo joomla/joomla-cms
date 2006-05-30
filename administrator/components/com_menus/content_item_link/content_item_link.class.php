@@ -113,7 +113,7 @@ class content_item_link_menu {
 		// build published button option
 		$lists['published'] 	= mosAdminMenus::Published( $menu );
 		// build the url link output
-		$lists['link'] 			= mosAdminMenus::Link( $menu, $uid );
+		$lists['link'] 			= JMenuHelper::Link( $menu, $uid );
 
 		// get params definitions
 		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );

@@ -1111,42 +1111,6 @@ class mosAdminMenus
 	}
 
 	/**
-	* build the link/url of a menu item
-	*/
-	function Link( &$row, $id, $link=NULL ) {
-		if ( $id ) {
-			switch ($row->type) {
-				case 'content_item_link':
-				case 'content_typed':
-					// load menu params
-					$params = new JParameter( $row->params, JApplicationHelper::getPath( 'menu_xml', $row->type ), 'menu' );
-
-					if ( $params->get( 'unique_itemid' ) ) {
-						$row->link .= '&Itemid='. $row->id;
-					} else {
-						$temp = split( '&task=view&id=', $row->link);
-						$row->link .= '&Itemid='. JContentHelper::getItemid($temp[1], 0, 0);
-					}
-
-					$link = $row->link;
-					break;
-
-				default:
-					if ( $link ) {
-						$link = $row->link;
-					} else {
-						$link = $row->link .'&amp;Itemid='. $row->id;
-					}
-					break;
-			}
-		} else {
-			$link = NULL;
-		}
-
-		return $link;
-	}
-
-	/**
 	* build the select list for target window
 	*/
 	function Target( &$row ) {
