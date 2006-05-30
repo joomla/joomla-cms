@@ -15,30 +15,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/*
- * Load the html output class and the model class
- */
+// Load the html output class and the model class
 require_once (JApplicationHelper::getPath('front_html'));
 require_once (JApplicationHelper::getPath('class'));
 
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Web Links'));
 
-// Next, let's get the pathway object so that we can manipulate it
+// Set the component name in the pathway
 $pathway = & $mainframe->getPathWay();
-
-// Now that we have the pathway object, let's set the component name in the pathway
 $pathway->setItemName(1, JText::_('Links'));
-
-// Get some request variables
-$task = JRequest::getVar( 'task' );
 
 /*
  * This is our main control structure for the component
  *
  * Each view is determined by the $task variable
  */
-switch ($task)
+switch ( JRequest::getVar( 'task' ) )
 {
 	case 'new' :
 		WeblinksController::editWebLink();

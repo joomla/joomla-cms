@@ -80,7 +80,7 @@ class JMediaViews
 		<fieldset>
 			<legend><?php echo JText::_( 'Upload File' ); ?></legend>
 			<button onclick="jsAddFile();return false">
-				+ Add more files
+				+ <?php echo JText::_( 'Add more files' ); ?>
 			</button>
 			[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]
 			<div id="uploads">
@@ -203,11 +203,11 @@ class JMediaViews
 		<table width="100%" cellspacing="0">
 		<thead>
 			<tr>
-				<th>Preview</td>
-				<th>Name</td>
-				<th>Dimensions</td>
-				<th>Size</td>
-				<th>Delete</td>
+				<th><?php echo JText::_( 'Preview' ); ?></td>
+				<th><?php echo JText::_( 'Name' ); ?></td>
+				<th><?php echo JText::_( 'Dimensions' ); ?></td>
+				<th><?php echo JText::_( 'Size' ); ?></td>
+				<th><?php echo JText::_( 'Delete' ); ?></td>
 			</tr>
 		</thead>
 		<tbody>

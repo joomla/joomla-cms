@@ -61,19 +61,13 @@ class JUser extends JObject
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$db	=& $mainframe->getDBO();
 
-		/*
-		 * Create the user table object
-		 */
+		// Create the user table object
 		$this->_table 	=& JTable::getInstance( 'user', $db );
 
-		/*
-		 * Create the user parameters object
-		 */
+		// Create the user parameters object
 		$this->_params = new JParameter( '' );
 
 		if (!empty($identifier) && $identifier != 'guest') {
@@ -93,7 +87,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	function & getInstance($id = 'guest')
+	function &getInstance($id = 'guest')
 	{
 		static $instances;
 
@@ -101,7 +95,8 @@ class JUser extends JObject
 			$instances = array ();
 		}
 
-		if (empty ($instances[$id])) {
+		if (empty ($instances[$id])) 
+		{
 			$user = new JUser($id);
 			if( is_string( $id ) ) {
 				$id = $user->get( 'id' );

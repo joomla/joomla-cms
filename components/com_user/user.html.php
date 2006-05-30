@@ -147,6 +147,7 @@ class HTML_user
 		?>
 
 		<input type="hidden" name="id" value="<?php echo $user->get('id');?>" />
+		<input type="hidden" name="gid" value="<?php echo $user->get('gid');?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="saveUserEdit" />
 		</form>
