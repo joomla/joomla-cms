@@ -63,7 +63,7 @@ if ($task)
 			}
 
 			$output = 'Methods<br />';
-			$output .= mosHTML::selectList( $methods, 'method', 'size="10', 'value', 'text' );
+			$output .= mosHTML::selectList( $methods, 'method', 'size="10"', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
