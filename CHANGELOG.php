@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-May-2006 David Gal
+ ^ Changed content search plugin to look for uncategorised content instead of static content
+
 30-May-2006 Andrew Eddie
  + Added generic Mail To Friend component, com_mailto
  + Added JRequest::getUrl method

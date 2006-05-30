@@ -19,11 +19,7 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="search_static" type="radio" default="1" label="Static Content" description="Search Static Content?">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="search_static_nonmenu" type="radio" default="1" label="Static Content NonMenu" description="Search Static Content not linked to a menu item?">
+		<param name="search_uncategorised" type="radio" default="1" label="Uncategorised Content" description="Search Uncategorised Content?">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

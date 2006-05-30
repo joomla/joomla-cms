@@ -55,10 +55,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
  	$pluginParams = new JParameter( $plugin->params );
 
 	$sContent 			= $pluginParams->get( 'search_content', 		1 );
-	$sStatic 			= $pluginParams->get( 'search_static', 			1 );
+	$sUncategorised 	= $pluginParams->get( 'search_uncategorised', 	1 );
 	$sArchived 			= $pluginParams->get( 'search_archived', 		1 );
-	$sStatic_nonmenu	= $pluginParams->get( 'search_static_nonmenu', 	1 );
-
 	$limit 				= $pluginParams->def( 'search_limit', 		50 );
 
 	$nullDate 	= $database->getNullDate();
@@ -155,18 +153,18 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$rows[] = $list;
 	}
 
-	// search static content
-	if ( $sStatic ) {
+	// search uncategorised content
+	if ( $sUncategorised ) {
 		$query = "SELECT id, a.title AS title, a.created AS created,"
 		. "\n a.introtext AS text,"
-		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id, '&Itemid=', m.id ) AS href,"
-		. "\n '2' as browsernav, '". JText::_('Static Content') ."' AS section"
+		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
+		. "\n '2' as browsernav, '". JText::_('Uncategorised Content') ."' AS section"
 		. "\n FROM #__content AS a"
-		. "\n LEFT JOIN #__menu AS m ON m.componentid = a.id"
 		. "\n WHERE ($where)"
 		. "\n AND a.state = 1"
 		. "\n AND a.access <= " .$user->get( 'gid' )
-		. "\n AND m.type = 'content_typed'"
+		. "\n AND a.sectionid = 0"
+		. "\n AND a.catid = 0"
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. "\n ORDER BY ". ($morder ? $morder : $order)
@@ -207,39 +205,6 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$rows[] = $list3;
 	}
 
-
-	// search static content non linked to a menu
-	if ( $sStatic_nonmenu ) {
-		// collect ids of static content items linked to menu items
-		// so they can be removed from query that follows
-		$ids = null;
-		if(count($list2)) {
-			foreach($list2 as $static) {
-				$ids[] = $static->id;
-			}
-			$ids = implode( '\',\'', $ids );
-		}
-
-		// search static content not connected to a menu
-		$query = "SELECT a.title AS title, a.created AS created,"
-		. "\n a.introtext AS text,"
-		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
-		. "\n '2' as browsernav, '". JText::_('Static Content') ."' AS section,"
-		. "\n a.id"
-		. "\n FROM #__content AS a"
-		. "\n WHERE ($where)"
-		. "\n AND a.id NOT IN ( '$ids' )"
-		. "\n AND a.state = 1"
-		. "\n AND a.access <= " .$user->get( 'gid' )
-		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
-		. "\n ORDER BY $order"
-		;
-		$database->setQuery( $query, 0, $limit );
-		$list4 = $database->loadObjectList();
-
-		$rows[] = $list4;
-	}
 
 	$count = count( $rows );
 	if ( $count > 1 ) {
