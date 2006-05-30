@@ -297,7 +297,7 @@ INSERT INTO `#__plugins` VALUES (4,'Content - SEF','sef','content',0,3,1,0,0,0,'
 INSERT INTO `#__plugins` VALUES (5,'Content - Rating','vote','content',0,4,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (6,'Search - Content','content','search',0,1,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (7,'Search - Weblinks','weblinks','search',0,2,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__plugins` VALUES (8,'Content - Code Highlighter (simple)','code','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (8, 'Content - Code Highlighter (Joomla)','code','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (9,'Editor - No Editor','none','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (10,'Editor - TinyMCE 2.0','tinymce','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','theme=advanced\r\ncleanup=1\r\ncompressed=0\r\ntext_direction=ltr\r\ninvalid_elements=applet\r\ncontent_css=1\r\ncontent_css_custom=\r\nnewlines=0\r\ntoolbar=top\r\nsmilies=1\r\ntable=1\r\nflash=1\r\nhr=1\r\nfullscreen=1\r\nhtml_height=550\r\nhtml_width=750\r\npreview=1\r\npreview_height=550\r\npreview_width=750\r\nsearchreplace=1\r\ninsertdate=1\r\nformat_date=%Y-%m-%d\r\ninserttime=1\r\nformat_time=%H:%M:%S');
 INSERT INTO `#__plugins` VALUES (11,'Editor Button - Image','image','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
@@ -356,7 +356,25 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', '', '', '', '', '0', '0');
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', '', '0', '0');
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__menu_types`
+#
+
+CREATE TABLE `#__menu_types` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `menutype` VARCHAR(75) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
+  PRIMARY KEY(`id`),
+  UNIQUE `menutype`(`menutype`)
+) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+
+INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+
 # --------------------------------------------------------
 
 #
@@ -491,6 +509,7 @@ INSERT INTO `#__modules_menu` VALUES (12,0);
 INSERT INTO `#__modules_menu` VALUES (14,0);
 INSERT INTO `#__modules_menu` VALUES (16,0);
 INSERT INTO `#__modules_menu` VALUES (17,0);
+INSERT INTO `#__modules_menu` VALUES (27,1);
 INSERT INTO `#__modules_menu` VALUES (28,0);
 INSERT INTO `#__modules_menu` VALUES (31,0);
 INSERT INTO `#__modules_menu` VALUES (32,0);
@@ -785,6 +804,8 @@ INSERT INTO `#__core_acl_aro_groups` VALUES (23,30,'Manager',14,19,'Manager');
 INSERT INTO `#__core_acl_aro_groups` VALUES (24,23,'Administrator',15,18,'Administrator');
 INSERT INTO `#__core_acl_aro_groups` VALUES (25,24,'Super Administrator',16,17,'Super Administrator');
 
+# --------------------------------------------------------
+
 #
 # Table structure for table `#__core_acl_groups_aro_map`
 #
@@ -812,3 +833,5 @@ CREATE TABLE `#__core_acl_aro_sections` (
 ) TYPE=MyISAM ;
 
 INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
+
+# --------------------------------------------------------

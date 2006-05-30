@@ -316,7 +316,7 @@ INSERT INTO `#__plugins` VALUES (4, 'Content - SEF','sef','content',0,3,1,0,0,0,
 INSERT INTO `#__plugins` VALUES (5, 'Content - Rating','vote','content',0,4,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (6, 'Search - Content','content','search',0,1,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (7, 'Search - Weblinks','weblinks','search',0,2,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__plugins` VALUES (8, 'Content - Code Hightlighter (Joomla)','code','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (8, 'Content - Code Highlighter (Joomla)','code','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (9, 'Editor - No Editor','none','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (10,'Editor - TinyMCE 2.0','tinymce','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','theme=advanced\r\ncleanup=1\r\ncompressed=0\r\ntext_direction=ltr\r\ninvalid_elements=applet\r\ncontent_css=1\r\ncontent_css_custom=\r\nnewlines=0\r\ntoolbar=top\r\nsmilies=1\r\ntable=1\r\nflash=1\r\nhr=1\r\nfullscreen=1\r\nhtml_height=550\r\nhtml_width=750\r\npreview=1\r\npreview_height=550\r\npreview_width=750\r\nsearchreplace=1\r\ninsertdate=1\r\nformat_date=%Y-%m-%d\r\ninserttime=1\r\nformat_time=%H:%M:%S');
 INSERT INTO `#__plugins` VALUES (11, 'Editor Button - Image','image','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
@@ -364,7 +364,10 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `utaccess` tinyint(3) unsigned NOT NULL default '0',
   `params` text NOT NULL,
-  `mvcrt` varchar(45) NOT NULL default '',
+  `controller_name` varchar(45) NOT NULL default '',
+  `view_name` varchar(45) NOT NULL default '',
+  `renderer_name` varchar(45) NOT NULL default '',
+  `template_name` varchar(45) NOT NULL default '',
   `lft` int(11) unsigned NOT NULL default '0',
   `rgt` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
@@ -740,6 +743,8 @@ INSERT INTO `#__template_positions` VALUES (0, 'debug', '');
 INSERT INTO `#__template_positions` VALUES (0, 'submenu', '');
 INSERT INTO `#__template_positions` VALUES (0, 'status', '');
 INSERT INTO `#__template_positions` VALUES (0, 'title', '');
+INSERT INTO `#__template_positions` VALUES (0, 'syndicate', '');
+
 # --------------------------------------------------------
 
 #
