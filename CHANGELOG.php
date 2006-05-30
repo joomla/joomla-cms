@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-May-2006 Andrew Eddie
+ + Added generic Mail To Friend component, com_mailto
+
 29-May-2006 Louis Landry
  ^ Added check to JObserver attach method ot make sure an observer can't be attached more than once
 
