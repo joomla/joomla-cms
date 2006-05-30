@@ -153,7 +153,7 @@ class JPluginHelper
 	{
 		global $_MAMBOTS, $mainframe; //needed for backwards compatibility
 
-		$path = JPATH_SITE . DS .'plugins'. DS . $folder . DS . $element . '.php';
+		$path = JPATH_ROOT.DS.'plugins'.DS.$folder.DS.$element.'.php';
 
 		$result = false;
 

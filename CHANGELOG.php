@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-May-2006 Louis Landry
+ ^ Added check to JObserver attach method ot make sure an observer can't be attached more than once
+
 29-May-2006 Andrew Eddie
  + Added category support to banners component
  + Added ordering and sticky fields to banners to support better ordering

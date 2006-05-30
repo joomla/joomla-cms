@@ -124,8 +124,19 @@ class JObservable extends JObject {
 	 * @return void
 	 * @since 1.5
 	 */
-	function attach( $observer) {
-		$this->_observers[] = $observer;
+	function attach( &$observer) {
+		// Make sure we haven't already attached this object as an observer
+		if (is_object($observer)) {
+			$class = get_class($observer);
+			foreach ($this->_observers as $check) {
+				if (is_a($check, $class)) {
+					return;
+				}
+			}
+			$this->_observers[] =& $observer;
+		} else {
+			$this->_observers[] =& $observer;
+		}
 	}
 
 	/**

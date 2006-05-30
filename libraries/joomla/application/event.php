@@ -73,7 +73,8 @@ class JEventDispatcher extends JObservable
 			/*
 			 * Ok, function type event handler... lets attach it.
 			 */
-			$this->attach(array ('event' => $event, 'handler' => $handler));
+			$method = array ('event' => $event, 'handler' => $handler);
+			$this->attach($method);
 		} elseif (class_exists($handler))
 		{
 			/*
