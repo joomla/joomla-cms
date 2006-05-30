@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<mosparam type="component" version="1.0.0">
+	<name>Mailto</name>
+	<author>Andrew Eddie</author>
+	<creationDate>13 Mar 2006</creationDate>
+	<copyright>2006 Jamboworks LLC. All rights reserved.</copyright>
+	<license>GNU General Public License</license>
+	<authorEmail>andrew.eddie@jamboworks.com</authorEmail>
+	<authorUrl>http://www.jamboworks.com</authorUrl>
+	<description>Generic mail link to friend form</description>
+</mosparam>

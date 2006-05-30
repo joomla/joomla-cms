@@ -1,0 +1,29 @@
+<jtmpl:comment>
+@version $Id $
+@copyright 2006 JamboWorks LLC. All rights reserved.
+@license GNU General Public License
+</jtmpl:comment>
+
+<script language="javascript" type="text/javascript">
+<!--
+	function submitbutton(frm) {
+		// do field validation
+		if (frm.mailto.value == "" || frm.from.value == "") {
+			alert( '<jtmpl:Translate>EMAIL_ERR_NOINFO</jtmpl:Translate>' );
+			return false;
+		}
+		return true;
+	}
+-->
+</script>
+
+<div style="padding: 10px;">
+	<div style="text-align:right">
+		<a href="javascript: void window.close()">
+			<jtmpl:Translate>close window</jtmpl:Translate> <img src="{SITEURL}/components/com_mailto/images/close-x.png" border="0" alt="" title="" /></a>
+	</div>
+	
+	<div class="componentheading">
+		<jtmpl:Translate>Email Sent</jtmpl:Translate>
+	</div>
+</div>
