@@ -31,17 +31,17 @@ $controllerName = JRequest::getVar( 'c', 'global' );
 switch ($controllerName)
 {
 	case 'global':
-		require_once( JPATH_COM_CONFIG . '/controllers/ctl_global.php' );
-		require_once( JPATH_COM_CONFIG . '/views/vw_global.php' );
+		require_once( JPATH_COM_CONFIG . '/controllers/global.php' );
+		require_once( JPATH_COM_CONFIG . '/views/global.php' );
 
 		$controller = new JConfigGlobalController( $mainframe, 'showConfig' );
 		break;
 
 	default:
 		// TODO: Lock down access to config changes
-		require_once( JPATH_COM_CONFIG . '/controllers/ctl_component.php' );
-		require_once( JPATH_COM_CONFIG . '/models/mdl_component.php' );
-		require_once( JPATH_COM_CONFIG . '/views/vw_component.php' );
+		require_once( JPATH_COM_CONFIG . '/controllers/component.php' );
+		require_once( JPATH_COM_CONFIG . '/models/component.php' );
+		require_once( JPATH_COM_CONFIG . '/views/component.php' );
 
 		$controller = new JConfigComponentController( $mainframe, 'edit' );
 		break;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: ctl_component.php 3692 2006-05-27 05:07:39Z eddieajau $
  * @package Joomla
  * @subpackage Config
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -28,9 +28,9 @@ class JConfigComponentController extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __constuct( $default )
+	function __constuct( &$app, $default )
 	{
-		parent::__construct( $default );
+		parent::__construct( $app, $default );
 		$this->registerTask( 'apply', 'save' );
 	}
 
