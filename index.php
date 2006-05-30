@@ -157,7 +157,14 @@ $params = array(
 
 $document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ));
+
+// trigger the onBeforeDisplay events
+$mainframe->triggerEvent( 'onBeforeDisplay' );
+
 $document->display( !$user->get('id') && $mainframe->getCfg('caching_page'), $mainframe->getCfg('gzip'), $params);
+
+// trigger the onAfterDisplay events
+$mainframe->triggerEvent( 'onAfterDisplay' );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 
