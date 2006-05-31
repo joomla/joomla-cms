@@ -19,7 +19,6 @@
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
- * @see			patTemplate
  */
 
 class JDocument extends JObject

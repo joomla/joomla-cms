@@ -31,15 +31,11 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 	 */
 	function render( $head = null, $params = array() )
 	{
-		global $mainframe;
-
-		$doc =& $mainframe->getDocument();
-
 		ob_start();
 
-		echo $this->fetchHead($doc);
+		echo $this->fetchHead($this->_doc);
 
-		if(isset($mainframe) && class_exists('JEditor')) {
+		if(class_exists('JEditor')) {
 			jimport( 'joomla.presentation.editor' );
 			$editor =& JEditor::getInstance();
 			echo $editor->init();

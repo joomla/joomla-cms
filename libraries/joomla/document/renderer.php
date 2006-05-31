@@ -22,13 +22,21 @@
  */
 class JDocumentRenderer extends JObject
 {
- 	/**
+   /**
 	* reference to the JDocument object that instantiated the renderer
 	*
+	* @var		object
 	* @access	protected
-	* @var	object
 	*/
-	var	$_doc;
+	var	$_doc = null;
+	
+	/**
+     * Renderer mime type
+     *
+     * @var      string
+     * @access   private
+     */
+	 var $_mime = "text/html";
 
    /**
 	* Class constructor
@@ -52,6 +60,15 @@ class JDocumentRenderer extends JObject
 	function render( $name, $params = array() )
 	{
 
+	}
+	
+	/**
+	 * Return the content type of the renderer
+	 * 
+	 * @return string The contentType
+	 */
+	function getContentType() {
+		return $this->_mime;
 	}
 }
 ?>

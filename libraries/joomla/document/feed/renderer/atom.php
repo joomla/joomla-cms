@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: $
+ * @version $Id$
  * @package Joomla.Framework
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -14,7 +14,7 @@
  jimport( 'joomla.utilities.date' );
 
 /**
- * JFeedAtom is a feed that implements the atom specification
+ * JDocumentRenderer_Atom is a feed that implements the atom specification
  *
  * Please note that just by using this class you won't automatically
  * produce valid atom files. For example, you have to specify either an editor
@@ -30,7 +30,13 @@
 
  class JDocumentRenderer_Atom extends JDocumentRenderer
  {
-	//$this->contentType 	= "application/atom+xml";
+	/**
+     * Document mime type
+     *
+     * @var      string
+     * @access   private
+     */
+	 var $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed
@@ -61,7 +67,7 @@
 			}
 			$feed.= "    </author>\n";
 		}
-		$feed.= "    <generator>".$data->getGenerator()."</generator>\n";
+		$feed.= "    <generator uri=\"http://joomla.org\" version=\"1.5\">".$data->getGenerator()."</generator>\n";
 		$feed.= "<link rel=\"self\" type=\"application/atom+xml\" href=\"". $data->syndicationURL . "\" />\n";
 		for ($i=0;$i<count($data->items);$i++)
 		{
@@ -93,7 +99,5 @@
 		$feed.= "</feed>\n";
 		return $feed;
 	}
-
-
 }
 ?>

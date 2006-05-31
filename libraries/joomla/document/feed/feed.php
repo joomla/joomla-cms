@@ -179,9 +179,6 @@ class JDocumentFeed extends JDocument
 	{
 		parent::__construct($attributes);
 
-		//set mime type
-		$this->_mime = 'text/xml';
-
 		//set document type
 		$this->_type = 'feed';
 	}
@@ -218,17 +215,13 @@ class JDocumentFeed extends JDocument
 		$lang->load($option);
 		require_once( $path );
 
-		//set feed information
-		$this->_engine->title 		= $this->getTitle();
-		$this->_engine->description = $this->getDescription();
-
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 		header( 'Pragma: no-cache' );										// HTTP/1.0
-		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
+		header( 'Content-Type: ' . $renderer->getContentType() .  '; charset=' . $this->_charset);
 
 		// Generate prolog
 		$result  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";

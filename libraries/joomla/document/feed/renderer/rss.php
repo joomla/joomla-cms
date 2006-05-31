@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: $
+ * @version $Id$
  * @package Joomla.Framework
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -14,7 +14,7 @@
  jimport( 'joomla.utilities.date' );
 
  /**
- * JFeedRSS is a feed that implements RSS 2.0 Specification
+ * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  *
@@ -26,7 +26,13 @@
 
 class JDocumentRenderer_RSS extends JDocumentRenderer
 {
-	//$this->_mime    = "application/rss+xml";
+	/**
+     * Renderer mime type
+     *
+     * @var      string
+     * @access   private
+     */
+	 var $_mime = "application/rss+xml";
 
 	/**
 	 * Render the feed
@@ -60,7 +66,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 				$feed.= "			<height>".$data->image->height."</height>\n";
 			}
 			if ($data->image->description!="") {
-				$feed.= "			<description>".$data->image->description."</description>\n";
+				$feed.= "			<description><![CDATA[".$data->image->description."]]></description>\n";
 			}
 			$feed.= "		</image>\n";
 		}
@@ -104,7 +110,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
 			$feed.= "			<link>".htmlspecialchars($data->items[$i]->link)."</link>\n";
-			$feed.= "			<description>".$data->items[$i]->description."</description>\n";
+			$feed.= "			<description><![CDATA[".$data->items[$i]->description."]]></description>\n";
 
 			if ($data->items[$i]->author!="") {
 				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author)."</author>\n";

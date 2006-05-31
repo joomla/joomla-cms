@@ -69,6 +69,59 @@ class JModuleHelper
 
 		return $result;
 	}
+	
+	function renderModule($module, $params = array())
+	{
+		jimport('joomla.factory');
+		
+		global $mainframe;
+		global $Itemid, $task, $option, $my;
+
+		$user 		=& $mainframe->getUser();
+		$database   =& $mainframe->getDBO();
+		$acl  		=& JFactory::getACL();
+
+		//For backwards compatibility extract the config vars as globals
+		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$$name = $v;
+		}
+
+		if(!is_object($module)) {
+			$module = JModuleHelper::getModule($module);
+			if(!is_object($module))
+				return '';
+		}
+
+		$style   = isset($params['style']) ? $params['style'] : $module->style;
+		$outline = isset($params['outline']) ? $params['outline'] : false;
+
+		//get module parameters
+		$params = new JParameter( $module->params );
+
+		//get module path
+		$path = JPATH_BASE . '/modules/'.$module->module.'/'.$module->module.'.php';
+
+		//load the module
+		if (!$module->user && file_exists( $path ))
+		{
+			$lang =& $mainframe->getLanguage();
+			$lang->load($module->module);
+
+			ob_start();
+			require $path;
+			$module->content = ob_get_contents();
+			ob_end_clean();
+		}
+
+		$contents = '';
+		ob_start();
+			modules_html::module( $module, $params, $style, $outline);
+		$contents = ob_get_contents();
+		ob_end_clean();
+
+		return $contents;
+	}
 
 
 	/**
