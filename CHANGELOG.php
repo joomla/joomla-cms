@@ -39,6 +39,7 @@ Legend:
 
 31-May-2006 David Gal
  ^ Changed link in final installation step to point to new languages page on help site
+ ^ Added an access check to allow/block admin language choice by user in front end
 
 30-May-2006 David Gal
  ^ Changed content search plugin to look for uncategorised content instead of static content

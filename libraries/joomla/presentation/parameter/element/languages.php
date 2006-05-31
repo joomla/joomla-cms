@@ -32,6 +32,18 @@ class JElement_Languages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
+		global $mainframe;
+		
+		$user	= & $mainframe->getUser();
+
+		/*
+		 * @TODO: change to acl_check method
+		 */
+		if(!($user->get('gid') >= 30) && $node->attributes('client') == 'administrator') {
+			return JText::_('No Access');
+		}
+
+
 		$client = $node->attributes('client');
 
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)));

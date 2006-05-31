@@ -40,7 +40,7 @@ class JElement_Editors extends JElement
 		/*
 		 * @todo: change to acl_check method
 		 */
-		if(!($user->get('gid') >= 20) ) {
+		if(!($user->get('gid') >= 19) ) {
 			return JText::_('No Access');
 		}
 
