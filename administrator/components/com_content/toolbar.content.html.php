@@ -72,6 +72,7 @@ class TOOLBAR_content
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
+		JMenuBar::addNew( 'wizard', 'Tools' );
 		JMenuBar::help( 'screen.content' );
 	}
 }

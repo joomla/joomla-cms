@@ -210,4 +210,53 @@ class JWizard extends JObject
 		return $result;
 	}
 }
+
+jimport( 'joomla.application.model' );
+
+/**
+ * Library to support a wizard workflow
+ * 
+ * @package Joomla.Framework
+ * @subpackage Presentation
+ * @author Louis Landry <louis.landry@joomla.org>
+ */
+class JWizardModel extends JModel
+{
+
+	var $_wizard = null;
+	var $_helper = null;
+
+	/** @var object JRegistry object */
+	var $_item = null;
+
+	function &getForm()
+	{
+		return $this->_wizard->getForm();
+	}
+
+	function getMessage()
+	{
+		return $this->_wizard->getMessage();
+	}
+
+	function &getConfirmation()
+	{
+		return $this->_helper->getConfirmation();
+	}
+
+	function getStep()
+	{
+		return $this->_wizard->getStep();
+	}
+
+	function getStepName()
+	{
+		return $this->_wizard->getStepName();
+	}
+
+	function getSteps()
+	{
+		return $this->_wizard->getSteps();
+	}
+}
 ?>

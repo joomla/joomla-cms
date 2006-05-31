@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<metadata>
+	<control>
+		<steps>
+			<step id="1" name="Item">
+				<message>
+					<![CDATA[Choose the menu item to link to.]]>
+				</message>
+				<params addparameterdir="/administrator/components/com_menus/helpers/elements">
+					<param name="menu_item" type="menuitem" label="Menu Item" />
+				</params>
+			</step>
+		</steps>
+	</control>
+</metadata>	
