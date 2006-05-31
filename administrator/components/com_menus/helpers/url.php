@@ -25,14 +25,36 @@ class JMenuHelperUrl extends JObject
 	function __construct(&$parent)
 	{
 		$this->_parent =& $parent;
+	}
+
+	/**
+	 * Initializes the helper class with the wizard object and loads the wizard xml.
+	 * 
+	 * @param object JWizard
+	 */
+	function init(&$wizard)
+	{
 		$app =& $this->_parent->getApplication();
-		$option = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
+		$this->_wizard =& $wizard;
+		$url = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
+
+		$this->loadXML();
+	}
+
+	/**
+	 * Sets the wizard object for the helper class
+	 * 
+	 * @param object JWizard
+	 */
+	function setWizard(&$wizard)
+	{
+		$this->_wizard =& $wizard;
 	}
 
 	function loadXML()
 	{
 		$path = dirname(__FILE__).DS.'xml'.DS.'url.xml';
-		$this->_parent->_wizard->loadXML($path, 'control');
+		$this->_wizard->loadXML($path, 'control');
 	}
 
 	/**

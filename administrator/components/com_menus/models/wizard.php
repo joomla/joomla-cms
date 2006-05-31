@@ -51,7 +51,7 @@ class JMenuModelWizard extends JModel
 
 		// Load the XML if helper is set
 		if (isset($this->_helper)) {
-			$this->_helper->loadXML();
+			$this->_helper->init($this->_wizard);
 		}
 	}
 
@@ -67,7 +67,7 @@ class JMenuModelWizard extends JModel
 
 	function &getConfirmation()
 	{
-		return $this->_wizard->getConfirmation();
+		return $this->_helper->getConfirmation();
 	}
 
 	function getStep()

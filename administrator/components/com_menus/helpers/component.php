@@ -30,9 +30,46 @@ class JMenuHelperComponent extends JObject
 	function __construct(&$parent)
 	{
 		$this->_parent =& $parent;
+	}
+
+	/**
+	 * Initializes the helper class with the wizard object and loads the wizard xml.
+	 * 
+	 * @param object JWizard
+	 */
+	function init(&$wizard)
+	{
 		$app =& $this->_parent->getApplication();
+		$this->_wizard =& $wizard;
 		$option = $app->getUserStateFromRequest('menuwizard.component.option', 'component', 'content');
 		$this->setOption($option);
+
+		$this->loadXML();
+	}
+
+	/**
+	 * Sets the wizard object for the helper class
+	 * 
+	 * @param object JWizard
+	 */
+	function setWizard(&$wizard)
+	{
+		$this->_wizard =& $wizard;
+	}
+
+	function loadXML()
+	{
+		$path = JPATH_ROOT.'/components/com_'.$this->_option.'/metadata.xml';
+		$this->_wizard->loadXML($path, 'control');
+	}
+
+	/**
+	 * Returns the option
+	 * @return string
+	 */
+	function getOption()
+	{
+		return $this->_option;
 	}
 
 	/**
@@ -44,21 +81,6 @@ class JMenuHelperComponent extends JObject
 		$option = preg_replace( '#\W#', '', $option );
 		$option = str_replace( 'com_', '', $option );
 		$this->_option = $option;
-	}
-
-	function loadXML()
-	{
-		$path = JPATH_ROOT.'/components/com_'.$this->_option.'/metadata.xml';
-		$this->_parent->_wizard->loadXML($path, 'control');
-	}
-
-	/**
-	 * Returns the option
-	 * @return string
-	 */
-	function getOption()
-	{
-		return $this->_option;
 	}
 
 	/**
@@ -141,6 +163,7 @@ class JMenuHelperComponent extends JObject
 
 		return $result;
 	}
+
 	/**
 	 * Gets a list of the available views
 	 */

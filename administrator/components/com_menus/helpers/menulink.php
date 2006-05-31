@@ -27,13 +27,34 @@ class JMenuHelperMenulink extends JObject
 		$this->_parent =& $parent;
 	}
 
-	function loadXML()
+	/**
+	 * Initializes the helper class with the wizard object and loads the wizard xml.
+	 * 
+	 * @param object JWizard
+	 */
+	function init(&$wizard)
 	{
 		$app =& $this->_parent->getApplication();
-		$this->_parent->_wizard->_registry->set('menu_type', $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu'));
+		$this->_wizard =& $wizard;
+		$this->_wizard->_registry->set('menu_type', $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu'));
 
+		$this->loadXML();
+	}
+
+	/**
+	 * Sets the wizard object for the helper class
+	 * 
+	 * @param object JWizard
+	 */
+	function setWizard(&$wizard)
+	{
+		$this->_wizard =& $wizard;
+	}
+
+	function loadXML()
+	{
 		$path = dirname(__FILE__).DS.'xml'.DS.'menulink.xml';
-		$this->_parent->_wizard->loadXML($path, 'control');
+		$this->_wizard->loadXML($path, 'control');
 	}
 
 	/**
