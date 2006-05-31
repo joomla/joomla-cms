@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-May-2006 David Gal
+ ^ Changed link in final installation step to point to new languages page on help site
+
 30-May-2006 David Gal
  ^ Changed content search plugin to look for uncategorised content instead of static content
 
