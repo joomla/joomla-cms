@@ -547,10 +547,14 @@ class JTable extends JObject
 			return true;
 		}
 		$k = $this->_tbl_key;
+		
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		$time = date( 'H:i:s' );
+		if ($this->$k == NULL) {
+			return false;
+		}			
+
 		$query = "UPDATE $this->_tbl"
 		. "\n SET checked_out = 0, checked_out_time = '$this->_db->_nullDate'"
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
