@@ -18,7 +18,7 @@
  * @subpackage Menus
  * @author Louis Landry <louis.landry@joomla.org>
  */
-class JMenuHelperLabel extends JObject
+class JMenuHelperSeparator extends JObject
 {
 	var $_parent = null;
 
@@ -26,13 +26,21 @@ class JMenuHelperLabel extends JObject
 	{
 		$this->_parent =& $parent;
 		$app =& $this->_parent->getApplication();
-		$option = $app->getUserStateFromRequest('menuwizard.label.text', 'text');
 	}
 
 	function loadXML()
 	{
-		$path = dirname(__FILE__).DS.'xml'.DS.'label.xml';
+		$path = dirname(__FILE__).DS.'xml'.DS.'separator.xml';
 		$this->_parent->_wizard->loadXML($path, 'control');
+	}
+
+	/**
+	 * Returns the wizard name
+	 * @return string
+	 */
+	function getWizardName()
+	{
+		return 'menu.separator';
 	}
 
 	/**

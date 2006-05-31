@@ -43,7 +43,6 @@ class JMenuHelperComponent extends JObject
 		// clean the option
 		$option = preg_replace( '#\W#', '', $option );
 		$option = str_replace( 'com_', '', $option );
-
 		$this->_option = $option;
 	}
 
@@ -60,6 +59,19 @@ class JMenuHelperComponent extends JObject
 	function getOption()
 	{
 		return $this->_option;
+	}
+
+	/**
+	 * Returns the wizard name
+	 * @return string
+	 */
+	function getWizardName()
+	{
+		$name = 'menu.component';
+		if ($this->_option) {
+			$name .= '.'.$this->_option;
+		}
+		return $name;
 	}
 
 	/**

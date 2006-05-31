@@ -34,24 +34,38 @@ class JMenuModelWizard extends JModel
 		// Create the JWizard object
 		jimport('joomla.presentation.wizard');
 		$app =& $this->getApplication();
-		$this->_wizard =& new JWizard($app, 'menu');
+		$type = $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
 
 		// Include and create the helper object
-		$type = $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
-		if ($this->_wizard->getStep() && $type) {
+		if ($type) {
 			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
 			$class = 'JMenuHelper'.ucfirst($type);
 			$this->_helper =& new $class($this);
+			$name = $this->_helper->getWizardName();
+		} else {
+			$name = 'menu';
+		}
+
+		// Instantiate wizard
+		$this->_wizard =& new JWizard($app, $name);
+
+		// Load the XML if helper is set
+		if (isset($this->_helper)) {
 			$this->_helper->loadXML();
 		}
 	}
 
-	function &getItem()
+	function &getForm()
 	{
 		return $this->_wizard->getForm();
 	}
 
-	function &getFinalItem()
+	function getMessage()
+	{
+		return $this->_wizard->getMessage();
+	}
+
+	function &getConfirmation()
 	{
 		return $this->_wizard->getConfirmation();
 	}
@@ -59,6 +73,11 @@ class JMenuModelWizard extends JModel
 	function getStep()
 	{
 		return $this->_wizard->getStep();
+	}
+
+	function getStepName()
+	{
+		return $this->_wizard->getStepName();
 	}
 
 	function getSteps()

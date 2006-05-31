@@ -36,6 +36,15 @@ class JMenuHelperUrl extends JObject
 	}
 
 	/**
+	 * Returns the wizard name
+	 * @return string
+	 */
+	function getWizardName()
+	{
+		return 'menu.url';
+	}
+
+	/**
 	 * @param string A params string
 	 * @param string The option
 	 */

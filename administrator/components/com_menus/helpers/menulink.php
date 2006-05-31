@@ -25,14 +25,24 @@ class JMenuHelperMenulink extends JObject
 	function __construct(&$parent)
 	{
 		$this->_parent =& $parent;
-		$app =& $this->_parent->getApplication();
-		$option = $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu');
 	}
 
 	function loadXML()
 	{
+		$app =& $this->_parent->getApplication();
+		$this->_parent->_wizard->_registry->set('menu_type', $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu'));
+
 		$path = dirname(__FILE__).DS.'xml'.DS.'menulink.xml';
 		$this->_parent->_wizard->loadXML($path, 'control');
+	}
+
+	/**
+	 * Returns the wizard name
+	 * @return string
+	 */
+	function getWizardName()
+	{
+		return 'menu.menulink';
 	}
 
 	/**

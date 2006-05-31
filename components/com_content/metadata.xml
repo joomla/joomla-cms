@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
 	<control>
-		<params>
-			<param name="view_name" type="folderlist" directory="/components/com_content/view" hide_none="1" label="View Style" />
-		</params>
-		<views source="/components/com_content/view/{VIEW_NAME}/metadata.xml" />
+		<steps>
+			<step id="1" name="View">
+				<message>
+					<![CDATA[Choose the content component view.]]>
+				</message>
+				<params>
+					<param name="view_name" type="folderlist" directory="/components/com_content/view" hide_none="1" label="View Style" />
+				</params>
+			</step>
+			<include source="/components/com_content/view/{view_name}/metadata.xml" path="control/steps" />
+		</steps>
 	</control>
+	<state>
+		<include source="/components/com_content/view/{view_name}/metadata.xml" path="state" />
+	</state>
 </metadata>
-		

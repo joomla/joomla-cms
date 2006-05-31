@@ -34,33 +34,32 @@ class JWizard extends JObject
 	/** @var object JRegistry object */
 	var $_registry = null;
 
-	function __construct(&$app, $name)
+	function __construct(&$app, $name, $request='wizVal')
 	{
 		$this->_step = JRequest::getVar('step', 0, '', 'int');
-		$type = $app->getUserStateFromRequest('wizard.'.$name.'.type', 'type');
 
-//		if ($this->_step && $type) {
-//			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
-//			$class = 'JMenuHelper'.ucfirst($type);
-//			$this->_helper = new $class($app);
-//		}
-		
 		// Build registry path
 		$regPath = 'wizard.'.$name;
-		if ($type) {
-			$regPath .= '.'.$type;
-		}
-
-		$this->_registry = $app->getUserState($regPath);
 
 		// Create the object if it does not exist
+		$this->_registry =& $app->getUserState($regPath);
 		if (!is_a($this->_registry, 'JParameter')) {
-			$this->_registry = new JParameter('');
+			$this->_registry =& new JParameter('');
 		}
-		
-		$items = JRequest::getVar('wizVal', array(), '', 'array');
+
+		// Get the values from the request and load them into the object
+		$items = JRequest::getVar($request, array(), '', 'array');
 		$this->_registry->loadArray($items);
-		$app->setUserState($regPath, $this->_registry);
+
+		/*
+		 * Create the JParameter object to sit in the registry.  We have to create a new one
+		 * because if we don't, then the element objects will throw a php error because the 
+		 * class definitions will not be loaded when the object is unserialized...  Thus no
+		 * xml definition is allowed.
+		 */
+		$registry =& new JParameter('');
+		$registry->loadArray($this->_registry->toArray());
+		$app->setUserState($regPath, $registry);
 	}
 
 	function loadXML($path, $xpath='')
@@ -78,32 +77,46 @@ class JWizard extends JObject
 
 	function &getForm()
 	{
-		if ($xmlDoc =& $this->_getWizElement()) {
-			if ($params = $xmlDoc->getElementByPath( 'step'.$this->_step.'/params' )) {
-				$this->_registry->setXML( $params );
-			}
+		$steps = $this->getSteps();
+		$step = $steps[$this->_step - 1];
+		if (isset($step) && $params = $step->getElementByPath('params')) {
+			$this->_registry->setXML( $params );
 		}
 		return $this->_registry;
 	}
 
+	function getMessage()
+	{
+		$msg	= null;
+		$steps	= $this->getSteps();
+		$step	= $steps[$this->_step - 1];
+		if (isset($step)) {
+			$e		= $step->getElementByPath('message');
+			$msg	= $e->data();
+		}
+		return $msg;
+	}
+
 	function &getConfirmation()
 	{
-		$vals = $this->_registry->toArray();
-		$final = new stdClass();
-		$final->values =& $vals;
-		$final->message = null;
-		$final->menutype = 'component';
-		$final->type = null;
-		$final->componentid = null;
-		$final->params =& $vals;
-		$final->mvcrt = 0;
-
-		return $final;
+		$vals =& $this->_registry->toArray();
+		return $vals;
 	}
 
 	function getStep()
 	{
 		return $this->_step;
+	}
+
+	function getStepName()
+	{
+		$name	= null;
+		$steps	= $this->getSteps();
+		$step	= $steps[$this->_step - 1];
+		if (isset($step)) {
+			$name	= $step->attributes('name');
+		}
+		return $name;
 	}
 
 	function getSteps()
@@ -112,7 +125,24 @@ class JWizard extends JObject
 			if ($xmlDoc =& $this->_getWizElement()) {
 				if ($steps = $xmlDoc->getElementByPath( 'steps' )) {
 					foreach($steps->children() as $step) {
-						$this->_steps[$step->attributes('id')] = $step->data();
+						
+						/*
+						 * For each child we need to see if it is an include and if so we
+						 * need to get those children and process them as well (break out into
+						 * another method).  Then we need to create the objects in the _steps 
+						 * array for each child of type step.  For now we aren't going to handle
+						 * nested includes.
+						 */
+						if ($step->name() == 'include') {
+							// Handle include
+							$this->_getIncludedSteps($step);
+						} elseif ($step->name() == 'step') {
+							// Include step to array
+							$this->_steps[] = $step;
+						} else {
+							// Do nothing
+							continue;
+						}
 					}
 				}
 			}
@@ -129,6 +159,43 @@ class JWizard extends JObject
 	{
 		$steps = $this->getSteps();
 		return (count($steps) <= $this->_step - 1);
+	}
+
+	function _getIncludedSteps($include)
+	{
+		$tags	= array();
+		$source	= $include->attributes('source');
+		$path	= $include->attributes('path');
+
+		preg_match_all( "/{([A-Za-z\-_]+)}/", $source, $tags);
+		if (isset($tags[1])) {
+			for ($i=0;$i<count($tags[1]);$i++) {
+				$source = str_replace($tags[0][$i], $this->_registry->get($tags[1][$i]), $source);
+			}
+		}
+
+		// load the source xml file
+		if (file_exists( JPATH_ROOT.$source )) {
+			$xml = & JFactory::getXMLParser('Simple');
+
+			if ($xml->loadFile(JPATH_ROOT.$source)) {
+				$document = &$xml->document;
+
+				$steps = $document->getElementByPath($path);
+
+				foreach($steps->children() as $step) {
+					if ($step->name() == 'include') {
+						// Handle include
+					} elseif ($step->name() == 'step') {
+						// Include step to array
+						$this->_steps[] = $step;
+					} else {
+						// Do nothing
+						continue;
+					}
+				}
+			}
+		}
 	}
 
 	/**

@@ -43,13 +43,13 @@ class JMenuViewWizard extends JView
 	function doStart()
 	{
 		$document = &$this->getDocument();
-
+		
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
-		$document->setTitle('New Menu Wizard');
+		$document->setTitle(JText::_('New Menu Item Wizard'));
 
-		$menuType	= JRequest::getVar( 'menutype' );
 
-		$model		= &$this->getModel();
+		$app		= &$this->get('Application');
+		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$menuTypes 	= $this->get('MenuTypelist');
 		$components	= $this->get('ComponentList');
 ?>
@@ -116,9 +116,9 @@ class JMenuViewWizard extends JView
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_text" value="text" />
+						<input type="radio" name="type" id="type_separator" value="separator" />
 						<label for="type_separator" class="_type">
-							<?php echo JText::_('Text Label');?>
+							<?php echo JText::_('Separator');?>
 						</label>
 					</td>
 					<td valign="top">
@@ -136,7 +136,7 @@ class JMenuViewWizard extends JView
 					<td valign="top">
 						<?php echo JText::_('Link to an existing menu item');?>
 						<br/>
-						LIST
+						<?php echo mosHTML::selectList( $menuTypes, 'menu', 'class="inputbox" size="1"', 'menutype', 'title', $menuType );?>
 					</td>
 				</tr>
 			</table>
@@ -156,17 +156,20 @@ class JMenuViewWizard extends JView
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 
-		$menuType	= JRequest::getVar( 'menutype' );
+		$app		= &$this->get('Application');
+		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 
 		$steps = $this->get('steps');
 		$numSteps = count($steps);
 		$step = $this->get('step');
+		$stepName = $this->get('stepName');
 
-		$document->setTitle('New Menu Wizard : '.'Step '.$step.' of '.$numSteps);
+		$document->setTitle(JText::_('New Menu Item Wizard').' : '.JText::_('Step').' '.$step.' : '.$stepName);
 		$nextStep = $step + 1;
 		$prevStep = $step - 1;
 
-		$item =& $this->get('item');
+		$item	=& $this->get('form');
+		$msg	= $this->get('message');
 	?>
 	<style type="text/css">
 	._type {
@@ -181,7 +184,7 @@ class JMenuViewWizard extends JView
 				<button type="button" onclick="document.getElementById('step').value=<?php echo $nextStep;?>;this.form.submit();">
 					<?php echo JText::_('Next');?></button>
 		    </div>
-		    Click Next to create the menu item.
+			<?php echo $msg; ?>
 		</fieldset>
 
 		<fieldset>
@@ -214,7 +217,7 @@ class JMenuViewWizard extends JView
 		$nextStep = $step + 1;
 		$prevStep = $step - 1;
 
-		$item =& $this->get('finalItem');
+		$item =& $this->get('confirmation');
 ?>
 	<style type="text/css">
 	._type {
