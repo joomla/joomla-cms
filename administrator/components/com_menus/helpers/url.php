@@ -22,6 +22,10 @@ class JMenuHelperUrl extends JObject
 {
 	var $_parent = null;
 
+	var $_type = null;
+
+	var $_url = null;
+
 	function __construct(&$parent)
 	{
 		$this->_parent =& $parent;
@@ -35,8 +39,9 @@ class JMenuHelperUrl extends JObject
 	function init(&$wizard)
 	{
 		$app =& $this->_parent->getApplication();
+		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$this->_wizard =& $wizard;
-		$url = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
+		$this->_url = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
 
 		$this->loadXML();
 	}
@@ -70,17 +75,13 @@ class JMenuHelperUrl extends JObject
 	 * @param string A params string
 	 * @param string The option
 	 */
-	function &getFinalized( &$vals, $step )
+	function &getConfirmation()
 	{
-		$final = new stdClass();
-		$final->values =& $vals;
-		$final->message = null;
-		$final->menutype = 'url';
-		$final->link = $this->_url;
-		$final->type = null;
-		$final->componentid = null;
-		$final->params =& $vals;
-		$final->mvcrt = 0;
+		$values	=& $this->_wizard->getConfirmation();
+
+		$final['type']	= 'url';
+		$final['url']	= $this->_url;
+		$final['menu_type']	= $this->_type;
 
 		return $final;
 	}

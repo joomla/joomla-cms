@@ -35,6 +35,7 @@ class JMenuModelWizard extends JModel
 		jimport('joomla.presentation.wizard');
 		$app =& $this->getApplication();
 		$type = $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
+		$menutype = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 
 		// Include and create the helper object
 		if ($type) {

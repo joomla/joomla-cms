@@ -23,6 +23,8 @@ class JMenuHelperComponent extends JObject
 	/**
 	 * @var string The component file name
 	 */
+	var $_type = null;
+
 	var $_option = null;
 
 	var $_parent = null;
@@ -40,6 +42,7 @@ class JMenuHelperComponent extends JObject
 	function init(&$wizard)
 	{
 		$app =& $this->_parent->getApplication();
+		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$this->_wizard =& $wizard;
 		$option = $app->getUserStateFromRequest('menuwizard.component.option', 'component', 'content');
 		$this->setOption($option);
@@ -100,17 +103,14 @@ class JMenuHelperComponent extends JObject
 	 * @param string A params string
 	 * @param string The option
 	 */
-	function &getFinalized( &$vals, $step )
+	function &getConfirmation()
 	{
-		$final = new stdClass();
-		$final->values =& $vals;
-		$final->message = null;
-		$final->menutype = 'component';
-		$final->link = $this->_buildLink($vals);
-		$final->type = null;
-		$final->componentid = null;
-		$final->params =& $vals;
-		$final->mvcrt = 0;
+		$values	=& $this->_wizard->getConfirmation();
+
+		$final['type']		= 'component';
+		$final['option']	= $this->_option;
+		$final['menu_type']	= $this->_type;
+		$final['control']	= $values;
 
 		return $final;
 	}

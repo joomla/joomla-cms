@@ -21,6 +21,8 @@
 class JMenuHelperSeparator extends JObject
 {
 	var $_parent = null;
+	
+	var $_type = null;
 
 	function __construct(&$parent)
 	{
@@ -36,6 +38,7 @@ class JMenuHelperSeparator extends JObject
 	function init(&$wizard)
 	{
 		$app =& $this->_parent->getApplication();
+		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$this->_wizard =& $wizard;
 
 		$this->loadXML();
@@ -70,17 +73,12 @@ class JMenuHelperSeparator extends JObject
 	 * @param string A params string
 	 * @param string The option
 	 */
-	function &getFinalized( &$vals, $step )
+	function &getConfirmation()
 	{
-		$final = new stdClass();
-		$final->values =& $vals;
-		$final->message = null;
-		$final->menutype = 'label';
-		$final->link = $this->_url;
-		$final->type = null;
-		$final->componentid = null;
-		$final->params =& $vals;
-		$final->mvcrt = 0;
+		$values	=& $this->_wizard->getConfirmation();
+
+		$final['type']	= 'separator';
+		$final['menu_type']	= $this->_type;
 
 		return $final;
 	}
