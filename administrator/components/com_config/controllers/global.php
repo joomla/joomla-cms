@@ -183,11 +183,13 @@ class JConfigGlobalController extends JController
 
 		$lists['allowUserRegistration'] = mosHTML::yesnoRadioList('allowUserRegistration', 'class="inputbox"', $row->allowUserRegistration);
 
-		$lists['useractivation'] = mosHTML::yesnoRadioList('useractivation', 'class="inputbox"', $row->useractivation);
+		$lists['useractivation'] 		= mosHTML::yesnoRadioList('useractivation', 'class="inputbox"', $row->useractivation);
 
-		$lists['uniquemail'] 	= mosHTML::yesnoRadioList('uniquemail', 'class="inputbox"', $row->uniquemail);
+		$lists['uniquemail'] 			= mosHTML::yesnoRadioList('uniquemail', 'class="inputbox"', $row->uniquemail);
 
-		$lists['shownoauth'] 	= mosHTML::yesnoRadioList('shownoauth', 'class="inputbox"', $row->shownoauth);
+		$lists['shownoauth'] 			= mosHTML::yesnoRadioList('shownoauth', 'class="inputbox"', $row->shownoauth);
+
+		$lists['frontend_userparams'] 	= mosHTML::yesnoRadioList('frontend_userparams', 'class="inputbox"', $row->frontend_userparams);
 
 		// META SETTINGS
 

@@ -38,8 +38,9 @@ class HTML_user
 		<?php
 	}
 
-	function userEdit( &$user, $option, $submitvalue )
-	{
+	function userEdit( &$user, $option, $submitvalue ) {
+		global $mainframe;
+		
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
 		mosCommonHTML::loadOverlib();
@@ -141,9 +142,15 @@ class HTML_user
 		</tr>
 		</table>
 		<?php
+		// check to see if Frontend User Params have been enabled
+		$check = $mainframe->getCfg('frontend_userparams');
+		if ($check == '1' || $check == 1 || $check == NULL) {
 			$params =& $user->getParameters();
 			$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
+			
+			// output params
 			echo $params->render( 'params' );
+		}
 		?>
 
 		<input type="hidden" name="id" value="<?php echo $user->get('id');?>" />
