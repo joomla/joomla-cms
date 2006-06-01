@@ -24,19 +24,19 @@ class JContentModelWizard extends JWizardModel
 {
 	function init($type='')
 	{
+		$app = &$this->getApplication();
+		$type = $app->getUserStateFromRequest('contentwizard.tool', 'tool', $type );
 		// Create the JWizard object
-		$app =& $this->getApplication();
-		$type = $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
-		$menutype = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 
 		// Include and create the helper object
 		if ($type) {
-			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
-			$class = 'JMenuHelper'.ucfirst($type);
+			require_once(JPATH_COM_CONTENT.'helpers'.DS.$type.'.php');
+			$class = 'JContentHelper'.ucfirst($type);
 			$this->_helper =& new $class($this);
+			$this->_helper->setXmlPath( JPATH_COM_CONTENT.'helpers'.DS.'xml' );
 			$name = $this->_helper->getWizardName();
 		} else {
-			$name = 'menu';
+			$name = 'content';
 		}
 
 		// Instantiate wizard

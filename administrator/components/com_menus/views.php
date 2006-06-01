@@ -267,7 +267,7 @@ class JMenuEditView extends JView
 								<?php echo JText::_( 'Parent Item' ); ?>:
 							</td>
 							<td>
-								<?php echo mosAdminMenus::Parent( $table ); ?>
+								<?php echo JMenuHelper::Parent( $table ); ?>
 							</td>
 						</tr>
 						<tr>

@@ -41,18 +41,72 @@ class JElement_MenuItem extends JElement
 			$where = "\n WHERE 1";
 		}
 
-		$query = "SELECT id, name" .
+		// load the list of menu types
+		// TODO: move query to model
+		$query = 'SELECT menutype, title' .
+				' FROM #__menu_types' .
+				' ORDER BY title';
+		$db->setQuery( $query );
+		$menuTypes = $db->loadObjectList();
+
+		// load the list of menu items
+		// TODO: move query to model
+		$query = "SELECT id, parent, name, menutype" .
 				"\n FROM #__menu" .
-				$where;
+				$where .
+				' ORDER BY menutype, parent, ordering'
+				;
 
 		$db->setQuery($query);
 		$menuItems = $db->loadObjectList();
 
-		$numItems = count($menuItems);
-		for ($i=0;$i<$numItems;$i++) {
-			$options[] = mosHTML::makeOption($menuItems[$i]->id, $menuItems[$i]->name);
+		// establish the hierarchy of the menu
+		// TODO: use node model
+		$children = array();
+
+		if ($menuItems) {
+			// first pass - collect children
+			foreach ($menuItems as $v) {
+				$pt 	= $v->parent;
+				$list 	= @$children[$pt] ? $children[$pt] : array();
+				array_push( $list, $v );
+				$children[$pt] = $list;
+			}
 		}
-		array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Select Item').' -'));
+
+		// second pass - get an indent list of the items
+		$list = mosTreeRecurse( 0, '', array(), $children, 9999, 0, 0 );
+
+		// assemble into menutype groups
+		$n = count( $list );
+		$groupedList = array();
+		foreach ($list as $k => $v)
+		{
+			$groupedList[$v->menutype][] = &$list[$k];
+		}
+
+		// assemble menu items to the array
+		$options 	= array();
+		$options[]	= mosHTML::makeOption('', '- '.JText::_('Select Item').' -');
+
+		foreach ($menuTypes as $type)
+		{
+			if ($menuType == '')
+			{
+				$options[]	= mosHTML::makeOption( '0', '&nbsp;' );
+				$options[]	= mosHTML::makeOption( $type->title, $type->title . ' - ' . JText::_( 'Top' ) );
+			}
+			if (isset( $groupedList[$type->menutype] ))
+			{
+				$n = count( $groupedList[$type->menutype] );
+				for ($i = 0; $i < $n; $i++)
+				{
+					$item = &$groupedList[$type->menutype][$i];
+					$options[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
+					
+				}
+			}
+		}
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}

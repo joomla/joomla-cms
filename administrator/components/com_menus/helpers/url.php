@@ -18,18 +18,15 @@
  * @subpackage Menus
  * @author Louis Landry <louis.landry@joomla.org>
  */
-class JMenuHelperUrl extends JObject
+class JMenuHelperUrl extends JWizardHelper
 {
-	var $_parent = null;
+	var $_helperContext	= 'menu';
+
+	var $_helperName	= 'url';
 
 	var $_type = null;
 
 	var $_url = null;
-
-	function __construct(&$parent)
-	{
-		$this->_parent =& $parent;
-	}
 
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
@@ -38,37 +35,11 @@ class JMenuHelperUrl extends JObject
 	 */
 	function init(&$wizard)
 	{
+		parent::init( $wizard );
+
 		$app =& $this->_parent->getApplication();
 		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$this->_wizard =& $wizard;
 		$this->_url = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
-
-		$this->loadXML();
-	}
-
-	/**
-	 * Sets the wizard object for the helper class
-	 * 
-	 * @param object JWizard
-	 */
-	function setWizard(&$wizard)
-	{
-		$this->_wizard =& $wizard;
-	}
-
-	function loadXML()
-	{
-		$path = dirname(__FILE__).DS.'xml'.DS.'url.xml';
-		$this->_wizard->loadXML($path, 'control');
-	}
-
-	/**
-	 * Returns the wizard name
-	 * @return string
-	 */
-	function getWizardName()
-	{
-		return 'menu.url';
 	}
 
 	/**

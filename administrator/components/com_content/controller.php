@@ -343,18 +343,16 @@ class JContentController extends JController
 		$db				= & $mainframe->getDBO();
 		$user			= & $mainframe->getUser();
 		$cid			= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$id				= JRequest::getVar( 'id', @$cid[0], '', 'int' );
 		$option			= JRequest::getVar( 'option' );
 		$nullDate		= $db->getNullDate();
 		$contentSection = '';
 		$sectionid  	= 0;
-
-		// Handle the $cid array
-		$cid = intval($cid[0]);
 		// Create and load the content table row
 		$row = & JTable::getInstance('content', $db);
-		$row->load($cid);
+		$row->load($id);
 
-		if ($cid) {
+		if ($id) {
 			$sectionid = $row->sectionid;
 			if ($row->state < 0) {
 				josRedirect('index2.php?option=com_content', JText::_('You cannot edit an archived item'));
@@ -379,7 +377,7 @@ class JContentController extends JController
 			josRedirect('index2.php?option=com_content', $msg);
 		}
 
-		if ($cid) {
+		if ($id) {
 			$row->checkout($user->get('id'));
 			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
@@ -521,7 +519,7 @@ class JContentController extends JController
 				"\n WHERE catid = $row->catid" .
 				"\n AND state >= 0" .
 				"\n ORDER BY ordering";
-		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $cid, $query, 1);
+		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $id, $query, 1);
 
 		// build the html radio buttons for frontpage
 		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $row->frontpage);

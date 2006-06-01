@@ -18,21 +18,18 @@
  * @subpackage Menus
  * @author Louis Landry <louis.landry@joomla.org>
  */
-class JMenuHelperComponent extends JObject
+class JMenuHelperComponent extends JWizardHelper
 {
+	var $_helperContext	= 'menu';
+
+	var $_helperName	= 'component';
+
 	/**
 	 * @var string The component file name
 	 */
 	var $_type = null;
 
 	var $_option = null;
-
-	var $_parent = null;
-
-	function __construct(&$parent)
-	{
-		$this->_parent =& $parent;
-	}
 
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
@@ -42,22 +39,11 @@ class JMenuHelperComponent extends JObject
 	function init(&$wizard)
 	{
 		$app =& $this->_parent->getApplication();
-		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$this->_wizard =& $wizard;
 		$option = $app->getUserStateFromRequest('menuwizard.component.option', 'component', 'content');
+		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$this->setOption($option);
-
-		$this->loadXML();
-	}
-
-	/**
-	 * Sets the wizard object for the helper class
-	 * 
-	 * @param object JWizard
-	 */
-	function setWizard(&$wizard)
-	{
-		$this->_wizard =& $wizard;
+		// init last because of special option handling
+		parent::init( $wizard );
 	}
 
 	function loadXML()
@@ -92,7 +78,7 @@ class JMenuHelperComponent extends JObject
 	 */
 	function getWizardName()
 	{
-		$name = 'menu.component';
+		$name = parent::getWizardName();
 		if ($this->_option) {
 			$name .= '.'.$this->_option;
 		}

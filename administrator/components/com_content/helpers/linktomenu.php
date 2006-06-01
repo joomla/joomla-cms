@@ -18,71 +18,91 @@
  * @subpackage Menus
  * @author Louis Landry <louis.landry@joomla.org>
  */
-class JContentHelperLinkToMenu extends JObject
+class JContentHelperLinkToMenu extends JWizardHelper
 {
-	var $_parent = null;
+	var $_helperContext	= 'content';
 
-	var $_type = null;
-
-	var $_url = null;
-
-	function __construct(&$parent)
-	{
-		$this->_parent =& $parent;
-	}
+	var $_helperName	= 'linktomenu';
 
 	/**
-	 * Initializes the helper class with the wizard object and loads the wizard xml.
-	 * 
-	 * @param object JWizard
+	 * Step1
 	 */
-	function init(&$wizard)
+	// TODO: The wizard should be able to fire these custom steps somehow
+	function doStep1()
 	{
-		$app =& $this->_parent->getApplication();
-		$this->_wizard =& $wizard;
-		$this->_url = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$values		=& $this->_wizard->getConfirmation();
+		$menuItem	= $values['menu_item'];
+		$ordering	= (int) $values['ordering'];
+		$log		= array();
 
-		$this->loadXML();
+		$db			= &JFactory::getDBO();
+		
+		if (is_int( $menuItem ))
+		{
+			// link directly to a menu item
+			$query = 'SELECT menutype' .
+					' FROM #__menu' .
+					' WHERE id = ' . $menuItem;
+			$db->setQuery( $query );
+			$menuType = $db->loadResult();
+			if ($menuType == '')
+			{
+				JError::raiseNotice( '500', 'Invalid menu type for id = ' . $menuItem );
+				return $log;
+			}
+			$parent		= $menuItem;
+		}
+		else
+		{
+			// link to the top of a menu type
+			$menuType	= $menuItem;
+			$parent		= 0;
+		}
+
+
+		$menuItem	=  new JTableMenu( $db );
+
+		foreach ($cid as $id)
+		{
+			$query = 'SELECT title' .
+					' FROM #__content' .
+					' WHERE id = ' . (int) $id;
+			$db->setQuery( $query );
+			$title = $db->loadResult();
+			
+			$menuItem->id			= 0;
+			$menuItem->type			= 'content_item_link';
+			$menuItem->menutype		= $menuType;
+			$menuItem->parent 		= $parent;
+			$menuItem->name 		= $title;
+			$menuItem->published	= 1;
+			$menuItem->componentid	= (int) $id;
+			$menuItem->link			= 'index.php?option=com_content&task=view&id='. $id;
+			$menuItem->ordering		= $ordering;
+			if (!$menuItem->check()) {
+				$log[] = $menuItem->getError();
+				continue;
+			}
+			if (!$menuItem->store()) {
+				$log[] = $menuItem->getError();
+				continue;
+			}
+			$menuItem->checkin();
+			$menuItem->reorder( "menutype = '$menuItem->menutype' AND parent = $menuItem->parent" );
+			$log[] = 'Added ' . $title . ' to ' . $menuType;
+		}
+		return $log;
 	}
 
 	/**
-	 * Sets the wizard object for the helper class
-	 * 
-	 * @param object JWizard
-	 */
-	function setWizard(&$wizard)
-	{
-		$this->_wizard =& $wizard;
-	}
-
-	function loadXML()
-	{
-		$path = dirname(__FILE__).DS.'xml'.DS.'url.xml';
-		$this->_wizard->loadXML($path, 'control');
-	}
-
-	/**
-	 * Returns the wizard name
-	 * @return string
-	 */
-	function getWizardName()
-	{
-		return 'content.linktomenu';
-	}
-
-	/**
-	 * @param string A params string
-	 * @param string The option
+	 * @return array
 	 */
 	function &getConfirmation()
 	{
-		$values	=& $this->_wizard->getConfirmation();
+		$log = $this->doStep1();		
 
-		$final['type']	= 'url';
-		$final['url']	= $this->_url;
-		$final['menu_type']	= $this->_type;
-
-		return $final;
+		return $log;
 	}
 }
 ?>

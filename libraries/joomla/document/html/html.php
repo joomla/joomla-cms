@@ -352,17 +352,21 @@ class JDocumentHTML extends JDocument
 	 */
 	function _bufferTemplate(&$params)
 	{
-		foreach($this->_engine->_discoveredPlaceholders['document'] as $type => $includes)
+		if (isset( $this->_engine->_discoveredPlaceholders['document'] ))
 		{
-			foreach($includes as $include)
+			// TODO: Johan, for some reason this is empty for a wizard
+			foreach($this->_engine->_discoveredPlaceholders['document'] as $type => $includes)
 			{
-				$result = $this->get($type, $include, $params);
-
-				if(!$result) {
-					$result = " ";
+				foreach($includes as $include)
+				{
+					$result = $this->get($type, $include, $params);
+	
+					if(!$result) {
+						$result = " ";
+					}
+	
+					$this->set($type, $include, $result);
 				}
-
-				$this->set($type, $include, $result);
 			}
 		}
 

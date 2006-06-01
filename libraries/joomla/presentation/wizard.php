@@ -259,4 +259,103 @@ class JWizardModel extends JModel
 		return $this->_wizard->getSteps();
 	}
 }
+
+jimport( 'joomla.application.view' );
+
+/**
+ * Wizard View
+ * @abstract
+ */
+class JWizardView extends JView
+{
+	function display()
+	{
+		mosCommonHTML::loadOverlib();
+		if (!$this->isStarted()) {
+			$this->doStart();
+		} else {
+			if ($this->isFinished()) {
+				$this->doFinished();
+			} else {
+				$this->doNext();
+			}
+		}
+	}
+
+	function isStarted()
+	{
+		return ($this->get('step'));
+	}
+
+	function isFinished()
+	{
+		$steps = $this->get('steps');
+		return (count($steps) <= $this->get('step') - 1);
+	}
+}
+
+/**
+ * Wizard Helper
+ * @abstract
+ */
+class JWizardHelper extends JObject
+{
+	var $_helperContext = null;
+
+	var $_helperName = null;
+	
+	var $_xmlPath = null;
+
+	var $_parent = null;
+
+	/**
+	 * Constructor
+	 */
+	function __construct(&$parent)
+	{
+		$this->_parent =& $parent;
+	}
+
+	/**
+	 * Returns the wizard name
+	 * @return string
+	 */
+	function getWizardName()
+	{
+		return $this->_helperContext . '.' . $this->_helperName;
+	}
+
+	/**
+	 * Initializes the helper class with the wizard object and loads the wizard xml.
+	 * 
+	 * @param object JWizard
+	 */
+	function init(&$wizard)
+	{
+		$this->_wizard =& $wizard;
+		$this->loadXML();
+	}
+
+	function loadXML()
+	{
+		$path = $this->_xmlPath.DS.$this->_helperName.'.xml';
+		$this->_wizard->loadXML($path, 'control');
+	}
+
+
+	/**
+	 * Sets the wizard object for the helper class
+	 * 
+	 * @param object JWizard
+	 */
+	function setWizard(&$wizard)
+	{
+		$this->_wizard =& $wizard;
+	}
+
+	function setXmlPath( $path )
+	{
+		$this->_xmlPath = $path;
+	}
+}
 ?>

@@ -68,7 +68,9 @@ class JRequest
 		// Initialize variables
 		$hash		= strtoupper($hash);
 		$type		= strtoupper($type);
-		$signature	= $name.$hash.$type.$mask;
+		// TODO: Louis, had to add $default otherwise it doesn't always work
+		// Must be a way to cache the actual request value, and the processes default value?
+		$signature	= $name.$default.$hash.$type.$mask;
 
 		if (!isset($GLOBALS['JRequest'][$signature])) {
 			$result		= null;

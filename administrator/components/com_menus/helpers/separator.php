@@ -18,17 +18,13 @@
  * @subpackage Menus
  * @author Louis Landry <louis.landry@joomla.org>
  */
-class JMenuHelperSeparator extends JObject
+class JMenuHelperSeparator extends JWizardHelper
 {
-	var $_parent = null;
-	
-	var $_type = null;
+	var $_helperContext	= 'menu';
 
-	function __construct(&$parent)
-	{
-		$this->_parent =& $parent;
-		$app =& $this->_parent->getApplication();
-	}
+	var $_helperName	= 'separator';
+
+	var $_type = null;
 
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
@@ -37,36 +33,9 @@ class JMenuHelperSeparator extends JObject
 	 */
 	function init(&$wizard)
 	{
+		parent::init( $wizard );
 		$app =& $this->_parent->getApplication();
 		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$this->_wizard =& $wizard;
-
-		$this->loadXML();
-	}
-
-	/**
-	 * Sets the wizard object for the helper class
-	 * 
-	 * @param object JWizard
-	 */
-	function setWizard(&$wizard)
-	{
-		$this->_wizard =& $wizard;
-	}
-
-	function loadXML()
-	{
-		$path = dirname(__FILE__).DS.'xml'.DS.'separator.xml';
-		$this->_wizard->loadXML($path, 'control');
-	}
-
-	/**
-	 * Returns the wizard name
-	 * @return string
-	 */
-	function getWizardName()
-	{
-		return 'menu.separator';
 	}
 
 	/**

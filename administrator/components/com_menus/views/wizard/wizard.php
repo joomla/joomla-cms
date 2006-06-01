@@ -15,30 +15,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.view');
-
 /**
  * @package Joomla
  * @subpackage Menus
  * @static
  * @since 1.5
  */
-class JMenuViewWizard extends JView
+class JMenuViewWizard extends JWizardView
 {
-
-	function display()
-	{
-		mosCommonHTML::loadOverlib();
-		if (!$this->isStarted()) {
-			$this->doStart();
-		} else {
-			if ($this->isFinished()) {
-				$this->doFinished();
-			} else {
-				$this->doNext();
-			}
-		}
-	}
 
 	function doStart()
 	{
@@ -256,17 +240,6 @@ class JMenuViewWizard extends JView
 
 	</form>
 <?php
-	}
-
-	function isStarted()
-	{
-		return ($this->get('step'));
-	}
-
-	function isFinished()
-	{
-		$steps = $this->get('steps');
-		return (count($steps) <= $this->get('step') - 1);
 	}
 }
 ?>

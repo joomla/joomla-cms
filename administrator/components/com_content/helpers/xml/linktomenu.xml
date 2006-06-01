@@ -2,12 +2,16 @@
 <metadata>
 	<control>
 		<steps>
-			<step id="1" name="Item">
+			<step id="1" name="Link to Menu">
 				<message>
 					<![CDATA[Choose the menu item to link to.]]>
 				</message>
 				<params addparameterdir="/administrator/components/com_menus/helpers/elements">
 					<param name="menu_item" type="menuitem" label="Menu Item" />
+					<param name="ordering" type="radio" default="0" label="Ordering">
+						<option value="0">First</option>
+						<option value="99999">Last</option>
+					</param>
 				</params>
 			</step>
 		</steps>

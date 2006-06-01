@@ -23,7 +23,7 @@ jimport('joomla.application.view');
  * @static
  * @since 1.5
  */
-class JContentViewWizard extends JView
+class JContentViewWizard extends JWizardView
 {
 	function &getTemplate( $bodyHtml='', $files=null )
 	{
@@ -36,20 +36,6 @@ class JContentViewWizard extends JView
 		return $tmpl;
 	}
 
-	function display()
-	{
-		mosCommonHTML::loadOverlib();
-		if (!$this->isStarted()) {
-			$this->doStart();
-		} else {
-			if ($this->isFinished()) {
-				$this->doFinished();
-			} else {
-				$this->doNext();
-			}
-		}
-	}
-
 	function doStart()
 	{
 		$document = &$this->getDocument();
@@ -59,7 +45,7 @@ class JContentViewWizard extends JView
 
 		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
-		$app		= &$this->get('Application');
+		$app		= &$this->getApplication();
 		$model		= &$this->getModel();
 		$items		= $model->getItems( $cid );
 		
@@ -73,50 +59,27 @@ class JContentViewWizard extends JView
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 
-		$app		= &$this->get('Application');
+		$app		= &$this->getApplication();
 
-		$steps = $this->get('steps');
-		$numSteps = count($steps);
-		$step = $this->get('step');
-		$stepName = $this->get('stepName');
+		$steps		= $this->get('steps');
+		$numSteps	= count($steps);
+		$step		= $this->get('step');
+		$stepName	= $this->get('stepName');
+		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$item		=& $this->get('form');
 
-		$document->setTitle(JText::_('New Menu Item Wizard').' : '.JText::_('Step').' '.$step.' : '.$stepName);
-		$nextStep = $step + 1;
-		$prevStep = $step - 1;
+		$document->setTitle(JText::_('Content Tools Wizard').' : '.JText::_('Step').' '.$step.' : '.$stepName);
 
-		$item	=& $this->get('form');
-		$msg	= $this->get('message');
-	?>
-	<style type="text/css">
-	._type {
-		font-weight: bold;
-	}
-	</style>
-	<form action="index2.php" method="post" name="adminForm">
-		<fieldset>
-			<div style="float: right">
-				<button type="button" onclick="document.getElementById('step').value=<?php echo $prevStep;?>;this.form.submit();">
-					<?php echo JText::_('Back');?></button>
-				<button type="button" onclick="document.getElementById('step').value=<?php echo $nextStep;?>;this.form.submit();">
-					<?php echo JText::_('Next');?></button>
-		    </div>
-			<?php echo $msg; ?>
-		</fieldset>
+		$tmpl	= &$this->getTemplate( 'tmpl/donext.html' );
 
-		<fieldset>
-			<legend>
-				<?php echo JText::_('New Menu Item');?>
-			</legend>
-			<?php echo $item->render('wizVal'); ?>
-		</fieldset>
+		$tmpl->addVar( 'body', 'prevstep',	$step - 1 );
+		$tmpl->addVar( 'body', 'step',		$step );
+		$tmpl->addVar( 'body', 'nextstep',	$step + 1 );
+		$tmpl->addVar( 'body', 'params',	$item->render('wizVal') );
+		$tmpl->addVar( 'body', 'message',	$this->get('message') );
+		$tmpl->addVar( 'cid', 'id',			$cid );
 
-		<input type="hidden" name="option" value="com_menus" />
-		<input type="hidden" name="task" value="newwiz" />
-		<input type="hidden" id="step" name="step" value="<?php echo $step;?>" />
-		<input type="hidden" name="tmpl" value="component.html" />
-
-	</form>
-<?php
+		$tmpl->displayParsedTemplate( 'body' );
 	}
 
 	function doFinished()
@@ -124,65 +87,19 @@ class JContentViewWizard extends JView
 		$document = &$this->getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
-		$document->setTitle('New Menu Item Confirmation');
+		$document->setTitle(JText::_('Content Tools Wizard').' : '.JText::_('Finished'));
 
-		$menuType	= JRequest::getVar( 'menutype' );
+		$steps	= $this->get('steps');
+		$step	= $this->get('step');
 
-		$steps = $this->get('steps');
-		$step = $this->get('step');
-		$nextStep = $step + 1;
-		$prevStep = $step - 1;
+		$tmpl	= &$this->getTemplate( 'tmpl/dofinish.html' );
 
-		$item =& $this->get('confirmation');
-?>
-	<style type="text/css">
-	._type {
-		font-weight: bold;
-	}
-	</style>
-	<form action="index2.php" method="post" name="adminForm" target="_top">
-		<fieldset>
-			<div style="float: right">
-				<button type="button" onclick="history.back();">
-					<?php echo JText::_('Back');?></button>
-				<button type="button" onclick="this.form.submit();window.top.document.popup.hide();">
-					<?php echo JText::_('Finish');?></button>
-		    </div>
-		    Click Next to create the menu item.
-		</fieldset>
+		$tmpl->addVar( 'body', 'prevstep',	$step - 1 );
+		$tmpl->addVar( 'body', 'step',		$step );
+		$tmpl->addVar( 'body', 'nextstep',	$step + 1 );
+		$tmpl->addVar( 'log',  'message',	$this->get('confirmation') );
 
-		<fieldset>
-			<legend>
-				<?php echo JText::_('Menu Item Confirmation');?>
-			</legend>
-			<?php 
-//			foreach ($item as $k => $v) {
-//				echo "Name: $k &nbsp; Value: $v <br />\n";
-//				echo "<input type=\"hidden\" name=\"wizVal[$k]\" value=\"$v\" />\n";
-//			}
-			echo '<pre>';
-			print_r($item);
-			echo '</pre>';
-			?>
-		</fieldset>
-
-		<input type="hidden" name="option" value="com_menus" />
-		<input type="hidden" id="step" name="step" value="<?php echo $step;?>" />
-		<input type="hidden" name="task" value="edit" />
-
-	</form>
-<?php
-	}
-
-	function isStarted()
-	{
-		return ($this->get('step'));
-	}
-
-	function isFinished()
-	{
-		$steps = $this->get('steps');
-		return (count($steps) <= $this->get('step') - 1);
+		$tmpl->displayParsedTemplate( 'body' );
 	}
 }
 ?>

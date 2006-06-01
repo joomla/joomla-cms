@@ -42,6 +42,7 @@ class JMenuModelWizard extends JModel
 			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
 			$class = 'JMenuHelper'.ucfirst($type);
 			$this->_helper =& new $class($this);
+			$this->_helper->setXmlPath( COM_MENUS.'helpers'.DS.'xml' );
 			$name = $this->_helper->getWizardName();
 		} else {
 			$name = 'menu';

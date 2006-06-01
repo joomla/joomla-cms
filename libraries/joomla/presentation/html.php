@@ -1079,12 +1079,6 @@ class mosAdminMenus
 		$query = "SELECT m.*"
 		. "\n FROM #__menu AS m"
 		. "\n WHERE m.published = 1"
-		//. "\n AND m.type != 'separator'"
-		//. "\n AND NOT ("
-		//	. "\n ( m.type = 'url' )"
-		//	. "\n AND ( m.link LIKE '%index.php%' )"
-		//	. "\n AND ( m.link LIKE '%Itemid=%' )"
-		//. "\n )"
 		. "\n ORDER BY m.menutype, m.parent, m.ordering"
 		;
 		$database->setQuery( $query );
@@ -1115,15 +1109,10 @@ class mosAdminMenus
 						$list_temp[] 	= mosHTML::makeOption( -999, '----' );
 						$mitems_spacer 	= $mitems_a->menutype;
 					}
-					
-					// do not display `url` menu item types that contain `index.php` and `Itemid`
-					if (!($mitems_a->type == 'url' && strpos($mitems_a->link, 'index.php') !== false && strpos($mitems_a->link, 'Itemid=') !== false)) {
-						$text = $mitems_a->menutype." | ".$list_a->treename;
-						$list_temp[] = mosHTML::makeOption( $list_a->id, $text );
-						
-						if ( JString::strlen($text) > $text_count) {
-							$text_count = JString::strlen($text);
-						}
+					$text = $mitems_a->menutype." | ".$list_a->treename;
+					$list_temp[] = mosHTML::makeOption( $list_a->id, $text );
+					if ( JString::strlen($text) > $text_count) {
+						$text_count = JString::strlen($text);
 					}
 				}
 			}
