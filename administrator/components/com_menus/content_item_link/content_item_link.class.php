@@ -49,8 +49,8 @@ class content_item_link_menu {
 
 		$query = "SELECT a.id AS value, a.title AS text, a.sectionid, a.catid "
 		. "\n FROM #__content AS a"
-		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
-		. "\n INNER JOIN #__sections AS s ON a.sectionid = s.id"
+		. "\n LEFT JOIN #__categories AS c ON a.catid = c.id"
+		. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id"
 		. "\n WHERE a.state = 1"
 		. "\n ORDER BY a.sectionid, a.catid, a.title"
 		;
