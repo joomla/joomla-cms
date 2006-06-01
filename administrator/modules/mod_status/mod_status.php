@@ -14,6 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+global $task, $hidemainmenu;
+
 /*
  * Initialize some variables
  */
@@ -62,10 +64,17 @@ $online_num = intval( $db->loadResult() );
  */
 $output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
 
-/*
- * Print the logout message
- */
- $output[] = "<span class=\"logout\"><a href=\"index2.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
+if ($task == 'edit' || $task == 'editA' || $hidemainmenu ) {
+	/*
+	 * Print the logout message
+	 */
+	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
+} else {
+	/*
+	* Print the logout message
+	*/
+	$output[] = "<span class=\"logout\"><a href=\"index2.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
+}
 
  /*
   * reverse rendering order for rtl display
