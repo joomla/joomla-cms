@@ -1,0 +1,49 @@
+<fieldset class="adminform">
+	<legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
+		<table class="adminlist">
+		<thead>
+		<thead>
+			<tr>
+				<th width="650">
+					<?php echo JText::_( 'Directory' ); ?>
+				</th>
+				<th>
+					<?php echo JText::_( 'Status' ); ?>
+				</th>
+			</tr>
+		</thead>
+		</thead>
+		<tfoot>
+			<td colspan="2">
+				&nbsp;
+			</td>
+		</tfoot>
+		<tbody>
+			<?php
+			$sp = ini_get('session.save_path');
+			mosHTML::writableCell( 'administrator/backups' );
+			mosHTML::writableCell( 'administrator/components' );
+			mosHTML::writableCell( 'administrator/modules' );
+			mosHTML::writableCell( 'administrator/templates' );
+			mosHTML::writableCell( 'components' );
+			mosHTML::writableCell( 'images' );
+			mosHTML::writableCell( 'images/banners' );
+			mosHTML::writableCell( 'images/stories' );
+			mosHTML::writableCell( 'language' );
+			mosHTML::writableCell( 'plugins' );
+			mosHTML::writableCell( 'plugins/content' );
+			mosHTML::writableCell( 'plugins/editors' );
+			mosHTML::writableCell( 'plugins/editors-xtd' );
+			mosHTML::writableCell( 'plugins/search' );
+			mosHTML::writableCell( 'plugins/system' );
+			mosHTML::writableCell( 'plugins/user' );
+			mosHTML::writableCell( 'plugins/xmlrpc' );
+			mosHTML::writableCell( 'tmp' );
+			mosHTML::writableCell( 'modules' );
+			mosHTML::writableCell( 'templates' );
+			mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+			mosHTML::writableCell( $sp, 0, '<strong>'. JText::_( 'Session Directory' ) .'</strong> ' );
+			?>
+		</tbody>
+		</table>
+</fieldset>

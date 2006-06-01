@@ -54,471 +54,77 @@ class HTML_admin_misc
 	function system_info( )
 	{
 		global $database, $_VERSION, $mosConfig_cachepath;
-
-		$width = 400;	// width of 100%
-		$tabs = new mosTabs(0);
-
-		$title = JText::_( 'System Info' );
-		$tabs->startPane("sysinfo");
-		$tabs->startTab( $title, "system-page" );
-		?>
-
-			<table class="adminform">
-			<thead>
-				<tr>
-					<td valign="top">
-						<strong><?php echo JText::_( 'System Information' ); ?></strong>
-					</td>
-				</tr>
-			</thead>
-			<tr>
-				<td>
-					<table class="adminlist">
-					<thead>
-						<tr>
-							<th width="250">
-								<?php echo JText::_( 'Setting' ); ?>
-							</th>
-							<th>
-								<?php echo JText::_( 'Value' ); ?>
-							</th>
-						</tr>
-					</thead>
-					<tfoot>
-					<tr>
-						<th colspan="2">
-							&nbsp;
-						</th>
-					</tr>
-					</tfoot>
-					<tbody>
-					<tr>
-						<td valign="top">
-							<strong><?php echo JText::_( 'PHP built On' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo php_uname(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'Database Version' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo $database->getVersion(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'Database Collation' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo $database->getCollation(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'PHP Version' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo phpversion(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_server_software(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'WebServer to PHP interface' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo php_sapi_name(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo $_VERSION->getLongVersion() ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
-						</td>
-						<td>
-							<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			</table>
-					
-					
-			<table class="adminform">
-			<thead>
-				<tr>
-					<td valign="top">
-						<strong><?php echo JText::_( 'Relevant PHP Settings' ); ?>:</strong>
-					</td>
-				</tr>
-			</thead>
-			<tr>
-				<td>
-					<table class="adminlist">
-					<thead>
-						<tr>
-							<th width="250">
-								<?php echo JText::_( 'Setting' ); ?>
-							</th>
-							<th>
-								<?php echo JText::_( 'Value' ); ?>
-							</th>
-						</tr>
-					</thead>
-					<tfoot>
-					<tr>
-						<th colspan="2">
-							&nbsp;
-						</th>
-					</tr>
-					</tfoot>
-					<tbody>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Safe Mode' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Open basedir' ); ?>:
-						</td>
-						<td>
-							<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_( 'none' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Display Errors' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Short Open Tags' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'File Uploads' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Magic Quotes' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Register Globals' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Output Buffering' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Session save path' ); ?>:
-						</td>
-						<td>
-							<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_( 'none' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Session auto start' ); ?>:
-						</td>
-						<td>
-							<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'XML enabled' ); ?>:
-						</td>
-						<td>
-						<?php echo extension_loaded('xml') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Zlib enabled' ); ?>:
-						</td>
-						<td>
-							<?php echo extension_loaded('zlib') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Disabled Functions' ); ?>:
-						</td>
-						<td>
-							<?php echo (($df=ini_get('disable_functions')) ? $df : JText::_( 'none' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Mbstring enabled' ); ?>:
-						</td>
-						<td>
-							<?php echo extension_loaded('mbstring') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Iconv available' ); ?>:
-						</td>
-						<td>
-							<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<?php
-					$query = "SELECT name FROM #__plugins"
-					. "\nWHERE folder='editors' AND published='1'"
-					. "\nLIMIT 1";
-					$database->setQuery( $query );
-					$editor = $database->loadResult();
-					?>
-					<tr>
-						<td>
-							<?php echo JText::_( 'WYSIWYG Editor' ); ?>:
-						</td>
-						<td>
-							<?php echo $editor; ?>
-						</td>
-					</tr>
-					</tbody>
-					</table>
-				</td>
-			</tr>
-			</table>
+		global $mainframe;
 		
-		<?php
-		$title = JText::_( 'Config File' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "config-page" );
-		?>
+		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
-			<table class="adminform">
-			<thead>
+		$document =& $mainframe->getDocument();
+		$document->addScript($mainframe->getBaseURL().'components/com_config/assets/switcher.js');
+		
+		$contents = '';
+		ob_start();
+		require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'navigation.html');
+		$contents = ob_get_contents();
+		ob_clean();		
+	
+		$document->set('module', 'submenu', $contents);
+		?>
+		<form action="index2.php" method="post" name="adminForm">
+
+		<div id="config-document">
+			<div id="page-site">
+				<table class="noshow">
 				<tr>
-					<td valign="top">
-						<strong><?php echo JText::_( 'Configuration File' ); ?></strong>
+					<td>
+						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_system.html'); ?>
 					</td>
 				</tr>
-			</thead>
-			<tr>
-				<td>
-					<table class="adminlist">
-					<thead>
-						<tr>
-							<th width="300">
-								<?php echo JText::_( 'Setting' ); ?>
-							</th>
-							<th>
-								<?php echo JText::_( 'Value' ); ?>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-						<?php
-						$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
-						
-						$output = array();
-						foreach ($cf as $k => $v) {
-							if (eregi( 'var \$host', $v)) {
-								$cf[$k] = 'var $host = \'xxxxxx\'';
-							} else if (eregi( 'var \$user', $v)) {
-								$cf[$k] = 'var $user = \'xxxxxx\'';
-							} else if (eregi( 'var \$password', $v)) {
-								$cf[$k] = 'var $password = \'xxxxxx\'';
-							} else if (eregi( 'var \$db ', $v)) {
-								$cf[$k] = 'var $db = \'xxxxxx\'';
-							} else if (eregi( '<?php', $v)) {
-								$cf[$k] = '';
-							} else if (eregi( '\?>', $v)) {
-								$cf[$k] = '';
-							} else if (eregi( '}', $v)) {
-								$cf[$k] = ''; 
-							} else if (eregi( 'class JConfig {', $v)) {
-								$cf[$k] = '';
-							}
-							$cf[$k] 	= str_replace('var ','',$cf[$k]);
-							$cf[$k] 	= str_replace(';','',$cf[$k]);
-							$cf[$k] 	= str_replace(' = ','</td><td>',$cf[$k]);
-							$cf[$k] 	= '<td>'. $cf[$k] .'</td>';
-							if ($cf[$k] != '<td></td>') {
-								$output[] 	= $cf[$k];
-							}
-						}
-						echo implode( '</tr><tr>', $output );
-						?>
-						</tr>
-					</tbody>
-					<tfoot>
-						<td colspan="2">
-							&nbsp;
-						</td>
-					</tfoot>
-					</table>
-				</td>
-			</tr>
-			</table>
-
-
-		<?php
-		$title = JText::_( 'Permissions' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "perms" );
-		?>
-
-			<table class="adminform">
-			<tr>
-				<td valign="top">
-					<strong><?php echo JText::_( 'Directory Permissions' ); ?></strong>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<?php echo JText::_( 'DescDirWritable' ); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<table class="adminlist">
-					<thead>
-					<thead>
-						<tr>
-							<th width="650">
-								<?php echo JText::_( 'Directory' ); ?>
-							</th>
-							<th>
-								<?php echo JText::_( 'Status' ); ?>
-							</th>
-						</tr>
-					</thead>
-					</thead>
-					<tfoot>
-						<td colspan="2">
-							&nbsp;
-						</td>
-					</tfoot>
-					<tbody>
-					<?php
-					$sp = ini_get('session.save_path');
-					mosHTML::writableCell( 'administrator/backups' );
-					mosHTML::writableCell( 'administrator/components' );
-					mosHTML::writableCell( 'administrator/modules' );
-					mosHTML::writableCell( 'administrator/templates' );
-					mosHTML::writableCell( 'components' );
-					mosHTML::writableCell( 'images' );
-					mosHTML::writableCell( 'images/banners' );
-					mosHTML::writableCell( 'images/stories' );
-					mosHTML::writableCell( 'language' );
-					mosHTML::writableCell( 'plugins' );
-					mosHTML::writableCell( 'plugins/content' );
-					mosHTML::writableCell( 'plugins/editors' );
-					mosHTML::writableCell( 'plugins/editors-xtd' );
-					mosHTML::writableCell( 'plugins/search' );
-					mosHTML::writableCell( 'plugins/system' );
-					mosHTML::writableCell( 'plugins/user' );
-					mosHTML::writableCell( 'plugins/xmlrpc' );
-					mosHTML::writableCell( 'tmp' );
-					mosHTML::writableCell( 'modules' );
-					mosHTML::writableCell( 'templates' );
-					mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
-					mosHTML::writableCell( $sp, 0, '<strong>'. JText::_( 'Session Directory' ) .'</strong> ' );
-					?>
-					</tbody>
-					</table>
-				</td>
-			</tr>
-			</table>
-
-		<?php
-		$title = JText::_( 'PHP Info' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "php-page" );
-		?>
-
-			<table class="adminform">
-			<thead>
-			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'PHP Information' ); ?>
-				</th>
-			</tr>
-			</thead>
-			<tfoot>
-			<tr>
-				<th colspan="2">
-					&nbsp;
-				</th>
-			</tr>
-			</tfoot>
-			<tbody>
-			<tr>
-				<td>
-					<?php
-					ob_start();
-					phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-					$phpinfo = ob_get_contents();
-					ob_end_clean();
-					preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-					$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
-					$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-					$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
-					$output = preg_replace('#<hr />#', '', $output);
-					echo $output;
-					?>
-				</td>
-			</tr>
-			</tbody>
-			</table>
+				</table>
+			</div>
+	
+			<div id="page-phpsettings">
+				<table class="noshow">
+				<tr>
+					<td>
+						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_phpsettings.html'); ?>
+					</td>
+				</tr>
+				</table>
+			</div>
+	
+			<div id="page-config">
+				<table class="noshow">
+				<tr>
+					<td>
+						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_config.html'); ?>
+					</td>
+				</tr>
+				</table>
+			</div>
+	
+			<div id="page-directory">
+				<table class="noshow">
+				<tr>
+					<td>
+						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_directory.html'); ?>
+					</td>
+				</tr>
+				</table>
+			</div>
+	
+			<div id="page-phpinfo">
+				<table class="noshow">
+				<tr>
+					<td>
+						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_phpinfo.html'); ?>
+					</td>
+				</tr>
+				</table>
+			</div>
+		</div>
 		
+		<div class="clr"></div>
 		<?php
-		$tabs->endTab();
-		$tabs->endPane();
 	}
 
 	function ListComponents()
