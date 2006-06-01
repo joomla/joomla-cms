@@ -416,9 +416,12 @@ class ContentView
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="8">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

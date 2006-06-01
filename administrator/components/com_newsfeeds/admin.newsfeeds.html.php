@@ -52,40 +52,42 @@ class HTML_newsfeeds
 		</table>
 
 			<table class="adminlist">
-			<tr>
-				<th width="10">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="10">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'News Feed', 'a.name', $lists ); ?>
-				</th>
-				<th width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
-				</th>
-				<th width="80" nowrap="nowrap">
-					<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-						<?php echo JText::_( 'Order' );?>
-					</a>
-	 			</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
-				</th>
-				<th class="title" width="17%">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
-				</th>
-				<th width="10%">
-					<?php mosCommonHTML::tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="10">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="10">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'News Feed', 'a.name', $lists ); ?>
+					</th>
+					<th width="7%">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
+					</th>
+					<th width="80" nowrap="nowrap">
+						<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+							<?php echo JText::_( 'Order' );?>
+						</a>
+		 			</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+					</th>
+					<th class="title" width="17%">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
+					</th>
+					<th width="10%">
+						<?php mosCommonHTML::tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -147,9 +149,12 @@ class HTML_newsfeeds
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="10">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 
 			<table class="adminform">
 			<tr>

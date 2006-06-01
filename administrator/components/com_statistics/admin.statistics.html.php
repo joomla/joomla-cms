@@ -37,7 +37,8 @@ class HTML_statistics
 			$tabs->startTab( $title, "browsers-page" );
 			?>
 
-			<table>
+			<table class="adminlist">
+			<thead>
 				<tr>
 					<th class="title">
 						<?php echo ampReplace( $sorts['b_agent'] );?>
@@ -50,6 +51,7 @@ class HTML_statistics
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 				</tr>
+			</thead>
 				<?php
 				$c = 1;
 				if (is_array($browsers) && count($browsers) > 0) {
@@ -92,18 +94,20 @@ class HTML_statistics
 			?>
 
 				<table class="adminlist">
-				<tr>
-					<th class="title">
-						<?php echo ampReplace( $sorts['o_agent'] );?>
-					</th>
-					<th>&nbsp;</th>
-					<th width="100" class="title">
-						<?php echo ampReplace( $sorts['o_hits'] );?>
-					</th>
-					<th width="100" class="title">
-						<?php echo JText::_( 'NUM' ); ?>
-					</th>
-				</tr>
+				<thead>
+					<tr>
+						<th class="title">
+							<?php echo ampReplace( $sorts['o_agent'] );?>
+						</th>
+						<th>&nbsp;</th>
+						<th width="100" class="title">
+							<?php echo ampReplace( $sorts['o_hits'] );?>
+						</th>
+						<th width="100" class="title">
+							<?php echo JText::_( 'NUM' ); ?>
+						</th>
+					</tr>
+				</thead>
 				<?php
 				$c = 1;
 				if (is_array($platforms) && count($platforms) > 0) {
@@ -146,18 +150,20 @@ class HTML_statistics
 			?>
 
 				<table class="adminlist">
-				<tr>
-					<th class="title">
-						<?php echo ampReplace( $sorts['d_agent'] );?>
-					</th>
-					<th>&nbsp;</th>
-					<th width="100" class="title">
-						<?php echo ampReplace( $sorts['d_hits'] );?>
-					</th>
-					<th width="100" class="title">
-						<?php echo JText::_( 'NUM' ); ?>
-					</th>
-				</tr>
+				<thead>
+					<tr>
+						<th class="title">
+							<?php echo ampReplace( $sorts['d_agent'] );?>
+						</th>
+						<th>&nbsp;</th>
+						<th width="100" class="title">
+							<?php echo ampReplace( $sorts['d_hits'] );?>
+						</th>
+						<th width="100" class="title">
+							<?php echo JText::_( 'NUM' ); ?>
+						</th>
+					</tr>
+				</thead>				
 				<?php
 				$c = 1;
 				if (is_array($tldomains) && count($tldomains) > 0) {
@@ -233,29 +239,31 @@ class HTML_statistics
 
 		<div id="tablecell">
 			<table class="adminlist">
-			<tr>
-				<th width="5">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists, $task ); ?>
-				</th>
-				<th width="80" align="center" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists, $task ); ?>
-				</th>
-				<th width="50" align="center" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'State', 'c.state', $lists, $task ); ?>
-				</th>
-				<th class="title" width="17%">
-					<?php mosCommonHTML::tableOrdering( 'Section', 'sec_title', $lists, $task ); ?>
-				</th>
-				<th class="title" width="17%">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'cat_title', $lists, $task ); ?>
-				</th>
-				<th class="title" width="10%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists, $task ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="5">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists, $task ); ?>
+					</th>
+					<th width="80" align="center" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists, $task ); ?>
+					</th>
+					<th width="50" align="center" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'State', 'c.state', $lists, $task ); ?>
+					</th>
+					<th class="title" width="17%">
+						<?php mosCommonHTML::tableOrdering( 'Section', 'sec_title', $lists, $task ); ?>
+					</th>
+					<th class="title" width="17%">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'cat_title', $lists, $task ); ?>
+					</th>
+					<th class="title" width="10%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists, $task ); ?>
+					</th>
+				</tr>
+			</thead>
 			<?php
 			$i = $pageNav->limitstart;
 			$k = 0;
@@ -322,8 +330,12 @@ class HTML_statistics
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="7">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 	  	<input type="hidden" name="option" value="com_statistics" />
@@ -381,26 +393,28 @@ class HTML_statistics
 
 		<div id="tablecell">
 			<table class="adminlist">
-			<tr>
-				<th width="10">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
-				</th>
-				<th nowrap="nowrap" width="20%">
-					<?php mosCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
-				</th>
-				<?php
-				if ( $showResults ) {
-					?>
+			<thead>
+				<tr>
+					<th width="10">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
+					</th>
 					<th nowrap="nowrap" width="20%">
-						<?php echo JText::_( 'Results Returned' ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
 					</th>
 					<?php
-				}
-				?>
-			</tr>
+					if ( $showResults ) {
+						?>
+						<th nowrap="nowrap" width="20%">
+							<?php echo JText::_( 'Results Returned' ); ?>
+						</th>
+						<?php
+					}
+					?>
+				</tr>
+			</thead>
 			<?php
 			$k = 0;
 			for ($i=0, $n = count($rows); $i < $n; $i++) {
@@ -430,8 +444,12 @@ class HTML_statistics
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="4">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 	  	<input type="hidden" name="option" value="<?php echo $option;?>" />

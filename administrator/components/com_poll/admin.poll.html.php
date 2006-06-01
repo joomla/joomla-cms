@@ -47,32 +47,34 @@ class HTML_poll
 
 		<div id="tablecell">
 			<table class="adminlist">
-			<tr>
-				<th width="5">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-				</th>
-				<th  class="title">
-					<?php mosCommonHTML::tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
-				</th>
-				<th width="8%" align="center">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
-				</th>
-				<th width="3%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
-				</th>
-				<th width="8%" align="center">
-					<?php mosCommonHTML::tableOrdering( 'Votes', 'm.voters', $lists ); ?>
-				</th>
-				<th width="8%" align="center">
-					<?php mosCommonHTML::tableOrdering( 'Options', 'numoptions', $lists ); ?>
-				</th>
-				<th width="10%" align="center">
-					<?php mosCommonHTML::tableOrdering( 'Lag', 'm.lag', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="5">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					</th>
+					<th  class="title">
+						<?php mosCommonHTML::tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
+					</th>
+					<th width="8%" align="center">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
+					</th>
+					<th width="3%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+					</th>
+					<th width="8%" align="center">
+						<?php mosCommonHTML::tableOrdering( 'Votes', 'm.voters', $lists ); ?>
+					</th>
+					<th width="8%" align="center">
+						<?php mosCommonHTML::tableOrdering( 'Options', 'numoptions', $lists ); ?>
+					</th>
+					<th width="10%" align="center">
+						<?php mosCommonHTML::tableOrdering( 'Lag', 'm.lag', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -114,9 +116,12 @@ class HTML_poll
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="8">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

@@ -46,60 +46,67 @@ class HTML_trash
 
 		<div id="tablecell">
 			<table class="adminlist" width="90%">
-			<tr>
-				<th width="20">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
-				</th>
-				<th width="70">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
-				</th>
-				<th class="title" width="25%">
-					<?php mosCommonHTML::tableOrdering( 'Section', 'sectname', $lists ); ?>
-				</th>
-				<th class="title" width="25%">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="20">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+					</th>
+					<th width="70">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+					</th>
+					<th class="title" width="25%">
+						<?php mosCommonHTML::tableOrdering( 'Section', 'sectname', $lists ); ?>
+					</th>
+					<th class="title" width="25%">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
+					</th>
+				</tr>
+			</thead>			
 			<?php
 			$k = 0;
 			$i = 0;
 			$n = count( $contents );
 			foreach ( $contents as $row ) {
 				?>
-				<tr class="<?php echo "row". $k; ?>">
-					<td align="center">
-						<?php echo $i + 1 + $pageNav->limitstart;?>
-					</td>
-					<td align="center">
-						<?php echo mosHTML::idBox( $i, $row->id ); ?>
-					</td>
-					<td nowrap="nowrap">
-						<?php echo $row->title; ?>
-					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
-					</td>
-					<td>
-						<?php echo $row->sectname; ?>
-					</td>
-					<td>
-						<?php echo $row->catname; ?>
-					</td>
-				</tr>
+				<tbody>
+					<tr class="<?php echo "row". $k; ?>">
+						<td align="center">
+							<?php echo $i + 1 + $pageNav->limitstart;?>
+						</td>
+						<td align="center">
+							<?php echo mosHTML::idBox( $i, $row->id ); ?>
+						</td>
+						<td nowrap="nowrap">
+							<?php echo $row->title; ?>
+						</td>
+						<td align="center">
+							<?php echo $row->id; ?>
+						</td>
+						<td>
+							<?php echo $row->sectname; ?>
+						</td>
+						<td>
+							<?php echo $row->catname; ?>
+						</td>
+					</tr>
+				</tbody>
 				<?php
 				$k = 1 - $k;
 				$i++;
 			}
 			?>
+			<tfoot>
+				<td colspan="6">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
@@ -161,26 +168,28 @@ class HTML_trash
 
 		<div id="tablecell">
 			<table class="adminlist" width="90%">
-			<tr>
-				<th width="20">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Name', 'm.name', $lists ); ?>
-				</th>
-				<th width="70">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
-				</th>
-				<th class="title" width="25%">
-					<?php mosCommonHTML::tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
-				</th>
-				<th class="title" width="25%">
-					<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="20">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Name', 'm.name', $lists ); ?>
+					</th>
+					<th width="70">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+					</th>
+					<th class="title" width="25%">
+						<?php mosCommonHTML::tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
+					</th>
+					<th class="title" width="25%">
+						<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
 			<?php
 			$k = 0;
 			$i = 0;
@@ -212,9 +221,12 @@ class HTML_trash
 				$i++;
 			}
 			?>
+			<tfoot>
+				<td colspan="6">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

@@ -48,26 +48,28 @@ class HTML_messages {
 
 		<div id="tablecell">
 			<table class="adminlist">
-			<tr>
-				<th width="20">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20" class="title">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
-				</th>
-				<th width="25%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'From', 'user_from', $lists ); ?>
-				</th>
-				<th width="5%" class="title" align="center">
-					<?php mosCommonHTML::tableOrdering( 'Read', 'a.state', $lists ); ?>
-				</th>
-				<th width="50%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Subject', 'a.subject', $lists ); ?>
-				</th>
-				<th width="15%" class="title" nowrap="nowrap" align="center">
-					<?php mosCommonHTML::tableOrdering( 'Date', 'a.date_time', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="20">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20" class="title">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+					</th>
+					<th width="25%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'From', 'user_from', $lists ); ?>
+					</th>
+					<th width="5%" class="title" align="center">
+						<?php mosCommonHTML::tableOrdering( 'Read', 'a.state', $lists ); ?>
+					</th>
+					<th width="50%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Subject', 'a.subject', $lists ); ?>
+					</th>
+					<th width="15%" class="title" nowrap="nowrap" align="center">
+						<?php mosCommonHTML::tableOrdering( 'Date', 'a.date_time', $lists ); ?>
+					</th>
+				</tr>
+			<thead>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -108,9 +110,12 @@ class HTML_messages {
 				<?php $k = 1 - $k;
 				}
 			?>
+			<tfoot>
+				<td colspan="6">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

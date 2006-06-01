@@ -50,40 +50,42 @@ class HTML_contact
 		</table>
 
 			<table class="adminlist">
-			<tr>
-				<th width="10">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th width="10" class="title">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Name', 'cd.name', $lists ); ?>
-				</th>
-				<th width="5%" class="title" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'cd.published', $lists ); ?>
-				</th>
-				<th nowrap="nowrap" width="80">
-					<a href="javascript:tableOrdering('cd.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-						<?php echo JText::_( 'Order' );?>
-					</a>
-	 			</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="7%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'cd.access', $lists ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'cd.id', $lists ); ?>
-				</th>
-				<th width="15%" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
-				</th>
-				<th class="title" nowrap="nowrap" width="15%">
-					<?php mosCommonHTML::tableOrdering( 'Linked to User', 'user', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="10">
+						<?php echo JText::_( 'Num' ); ?>
+					</th>
+					<th width="10" class="title">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Name', 'cd.name', $lists ); ?>
+					</th>
+					<th width="5%" class="title" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'cd.published', $lists ); ?>
+					</th>
+					<th nowrap="nowrap" width="80">
+						<a href="javascript:tableOrdering('cd.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+							<?php echo JText::_( 'Order' );?>
+						</a>
+		 			</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="7%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Access', 'cd.access', $lists ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'cd.id', $lists ); ?>
+					</th>
+					<th width="15%" class="title">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
+					</th>
+					<th class="title" nowrap="nowrap" width="15%">
+						<?php mosCommonHTML::tableOrdering( 'Linked to User', 'user', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count($rows); $i < $n; $i++) {
@@ -145,8 +147,12 @@ class HTML_contact
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="10">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-			<?php echo $pageNav->getListFooter(); ?>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />

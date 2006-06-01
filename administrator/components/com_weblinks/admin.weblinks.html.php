@@ -51,37 +51,39 @@ class HTML_weblinks
 
 		<div id="editcell">
 			<table class="adminlist">
-			<tr>
-				<th width="5">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-				</th>
-				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Title', 'a.title', $lists ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
-				</th>
-				<th width="80" nowrap="nowrap">
-					<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-						<?php echo JText::_( 'Order' );?>
-					</a>
-	 			</th>
-				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
-				</th>
-				<th width="25%"  class="title">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
-				</th>
-				<th width="5%">
-					<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
-				</th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="5">
+						<?php echo JText::_( 'NUM' ); ?>
+					</th>
+					<th width="20">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					</th>
+					<th class="title">
+						<?php mosCommonHTML::tableOrdering( 'Title', 'a.title', $lists ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
+					</th>
+					<th width="80" nowrap="nowrap">
+						<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
+							<?php echo JText::_( 'Order' );?>
+						</a>
+		 			</th>
+					<th width="1%">
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					</th>
+					<th width="5%" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+					</th>
+					<th width="25%"  class="title">
+						<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
+					</th>
+					<th width="5%">
+						<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
+					</th>
+				</tr>
+			</thead>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -138,9 +140,12 @@ class HTML_weblinks
 				$k = 1 - $k;
 			}
 			?>
+			<tfoot>
+				<td colspan="9">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tfoot>
 			</table>
-
-			<?php echo $pageNav->getListFooter(); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
