@@ -388,10 +388,13 @@ class JContentController extends JController
 			$row->created		= mosFormatDate($row->created, '%Y-%m-%d %H:%M:%S');
 			$row->modified		= $row->modified == $nullDate ? '' : mosFormatDate($row->modified, '%Y-%m-%d %H:%M:%S');
 			$row->publish_up	= mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S');
-			$row->publish_down	= mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S');
 
-			if (trim($row->publish_down) == $nullDate) {
+			if ($row->publish_down == $nullDate)
+			{
 				$row->publish_down = JText::_('Never');
+			} else 
+			{
+				$row->publish_down	= mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S');
 			}
 
 			$query = "SELECT name" .
