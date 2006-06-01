@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+1-Jun-2006 Rey Gigataras
+ + Ability to set usertype of New User Registration via frontend
+ 
 1-Jun-2006 Andrew Eddie
  + Added window.open attributes to mod_mainmenu
 

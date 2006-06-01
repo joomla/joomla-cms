@@ -143,21 +143,26 @@ function saveRegistration()
 {
 	global $mainframe;
 
-	$db = $mainframe->getDBO();
-	$user = $mainframe->getUser();
-	$acl = &JFactory::getACL();
+	$db 	= $mainframe->getDBO();
+	$user 	= $mainframe->getUser();
+	$acl 	= &JFactory::getACL();
 
-	$allowUserRegistration = $mainframe->getCfg( 'allowUserRegistration' );
-	$useractivation = $mainframe->getCfg( 'useractivation' );
-	$sitename = $mainframe->getCfg( 'sitename' );
-	$mailfrom = $mainframe->getCfg( 'mailfrom' );
-	$fromname = $mainframe->getCfg( 'fromname' );
+	$allowUserRegistration 	= $mainframe->getCfg( 'allowUserRegistration' );
+	$useractivation 		= $mainframe->getCfg( 'useractivation' );
+	$sitename 				= $mainframe->getCfg( 'sitename' );
+	$mailfrom 				= $mainframe->getCfg( 'mailfrom' );
+	$fromname 				= $mainframe->getCfg( 'fromname' );
+	$new_usertype			= $mainframe->getCfg( 'new_usertype' );
 
 	if ($allowUserRegistration=='0') {
 		JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 		return;
 	}
 
+	if (!$new_usertype) {
+		$new_usertype = 'Registered';
+	}
+	
 	$siteURL 		= $mainframe->getBaseURL();
 	$breadcrumbs 	=& $mainframe->getPathWay();
 
@@ -168,9 +173,10 @@ function saveRegistration()
 		exit();
 	}
 
+	// setup new user
 	$user->set('id', 0);
 	$user->set('usertype', '');
-	$user->set('gid', $acl->get_group_id( 'Registered', 'ARO' ));
+	$user->set('gid', $acl->get_group_id( $new_usertype, 'ARO' ));
 
 	if ($useractivation == '1') {
 		$user->set('activation', md5( mosMakePassword()) );
@@ -182,7 +188,6 @@ function saveRegistration()
 	$user->set('registerDate', date('Y-m-d H:i:s'));
 
 	if (!$user->save()) {
-
 		$breadcrumbs =& $mainframe->getPathWay();
 
 	 	// Page Title

@@ -191,6 +191,14 @@ class JConfigGlobalController extends JController
 
 		$lists['frontend_userparams'] 	= mosHTML::yesnoRadioList('frontend_userparams', 'class="inputbox"', $row->frontend_userparams);
 
+		$new_usertype = array (	
+			mosHTML::makeOption('Registered', 	JText::_('Registered')),
+			mosHTML::makeOption('Author', 		JText::_('Author')),
+			mosHTML::makeOption('Editor', 		JText::_('Editor')),
+			mosHTML::makeOption('Publisher', 	JText::_('Publisher')),
+		);
+		$lists['new_usertype']			= mosHTML::selectList($new_usertype, 'new_usertype', 'class="inputbox" size="1"', 'value', 'text', $row->new_usertype);
+
 		// META SETTINGS
 
 		$lists['MetaAuthor'] 	= mosHTML::yesnoRadioList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
