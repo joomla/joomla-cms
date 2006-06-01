@@ -34,7 +34,7 @@ class components_menu_html {
 	function edit( &$menu, &$component, &$components, &$lists, $option )
 	{
 		$helper		= new JMenuHelper( $component->option );
-		$control	= $helper->getControlParams( $menu->mvcrt );
+		$control	= $helper->getControlParams( $menu->control );
 		$params		= $helper->getViewParams( $menu->params, $control );
 
 		mosCommonHTML::loadOverlib();
@@ -105,7 +105,7 @@ class components_menu_html {
 							<?php echo JText::_( 'Control Parameters' ); ?>
 						</legend>
 					<?php
-						echo $control->render( 'mvcrt' );
+						echo $control->render( 'control' );
 					?>
 					</fieldset>
 			<?php

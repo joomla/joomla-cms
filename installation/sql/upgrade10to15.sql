@@ -142,7 +142,7 @@ ALTER TABLE `jos_contact_details` ADD COLUMN `webpage` VARCHAR(255) NOT NULL;
 DROP TABLE `jos_usertypes`
 
 #AE: 27-Mar-2006
-ALTER TABLE `jos_menu` ADD COLUMN `mvcrt` VARCHAR(45) NOT NULL DEFAULT '';
+ALTER TABLE `jos_menu` ADD COLUMN `control` VARCHAR(255) NOT NULL DEFAULT '';
 ALTER TABLE `jos_menu` ADD COLUMN `lft` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `jos_menu` ADD COLUMN `rgt` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 
@@ -205,7 +205,7 @@ INSERT INTO jos_components  VALUES (0,'Statistics','',0,0,'','Statistics','com_s
 INSERT INTO jos_components  VALUES (0,'Template Manager','',0,0,'','Templates','com_templates',0,'',1,'',1);
 INSERT INTO jos_components  VALUES (0,'User Manager','',0,0,'','Users','com_users',0,'',1,'',1);
 
-ALTER TABLE `jos_modules` ADD COLUMN `mvcrt` TEXT NOT NULL DEFAULT '';
+ALTER TABLE `jos_modules` ADD COLUMN `control` TEXT NOT NULL DEFAULT '';
 
 # 29-May-2006 Andrew Eddie
 ALTER TABLE `jos_banner`

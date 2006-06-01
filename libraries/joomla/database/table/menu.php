@@ -56,7 +56,7 @@ class JTableMenu extends JTable
 	/** @var string */
 	var $params				= null;
 	/** @var string Model-View-Controller-Renderer-Template controls */
-	var $mvcrt				= null;
+	var $control				= null;
 	/** @var int Pre-order tree traversal - left value */
 	var $lft				= null;
 	/** @var int Pre-order tree traversal - right value */
@@ -89,10 +89,10 @@ class JTableMenu extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-		if (is_array( $array['mvcrt'] )) {
+		if (is_array( $array['control'] )) {
 			$registry = new JRegistry();
-			$registry->loadArray($array['mvcrt']);
-			$array['mvcrt'] = $registry->toString();
+			$registry->loadArray($array['control']);
+			$array['control'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);

@@ -218,7 +218,7 @@ class HTML_modules {
 
 		require_once( dirname( __FILE__ ) . '/helpers/module.php' );
 		$helper		= new JModuleEditHelper( $row->module, $client->id );
-		$control	= $helper->getControlParams( $row->mvcrt );
+		$control	= $helper->getControlParams( $row->control );
 		$params		= $helper->getViewParams( $row->params, $control );
 
 		jimport( 'joomla.presentation.editor' );
@@ -369,7 +369,7 @@ class HTML_modules {
 							<?php echo JText::_( 'Control Parameters' ); ?>
 						</legend>
 					<?php
-						echo $control->render( 'mvcrt' );
+						echo $control->render( 'control' );
 					?>
 					</fieldset>
 			<?php

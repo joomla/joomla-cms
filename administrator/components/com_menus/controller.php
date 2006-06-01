@@ -36,45 +36,47 @@ class JMenuController extends JController
 	/**
 	 * Edits a menu item
 	 */
-	function edit2()
+	function edit()
 	{
-		$id	= (int) JRequest::getVar( 'id', 0 );
-
-		$model = &$this->getModel( 'JModelMenu' );
-		$table = &$model->getTable();
-
-		$isNew = ($this->getTask() == 'new' || $id == 0);
-
-		if ($isNew)
-		{
-			$id = 0;
-			$table->type		= JRequest::getVar( 'type' );
-			$table->menutype	= JRequest::getVar( 'menutype' );
-			$table->published	= 1;
-			$table->access		= 0;
-			switch ($table->type)
-			{
-				case 'component':
-					$table->componentid	= (int) JRequest::getVar( 'componentid', 0 );
-					break;
-				case 'url':
-					$table->link = JRequest::getVar( 'link' );
-					break;
-				case 'separator':
-					$table->name = JRequest::getVar( 'name' );
-					break;
-				case 'component_item_link':
-					break;
-			}
-		}
-		else
-		{
-			$table->load( $id );
-		}
-
-		$view = new JMenuEditView( $this );
+		$model	=& $this->getModel( 'Item', 'JMenuModel' );
+		$view =& $this->getView( 'Item', 'com_menus', 'JMenuView' );
 		$view->setModel( $model, true );
-		$view->display();
+		$view->edit();
+
+//		$id	= (int) JRequest::getVar( 'id', 0 );
+//
+//		$model = &$this->getModel( 'JModelMenu' );
+//		$table = &$model->getTable();
+//
+//		$isNew = ($this->getTask() == 'new' || $id == 0);
+//
+//		if ($isNew) {
+//			$id = 0;
+//			$table->type		= JRequest::getVar( 'type' );
+//			$table->menutype	= JRequest::getVar( 'menutype' );
+//			$table->published	= 1;
+//			$table->access		= 0;
+//			switch ($table->type)
+//			{
+//				case 'component':
+//					$table->componentid	= (int) JRequest::getVar( 'componentid', 0 );
+//					break;
+//				case 'url':
+//					$table->link = JRequest::getVar( 'link' );
+//					break;
+//				case 'separator':
+//					$table->name = JRequest::getVar( 'name' );
+//					break;
+//				case 'component_item_link':
+//					break;
+//			}
+//		} else {
+//			$table->load( $id );
+//		}
+//
+//		$view = new JMenuEditView( $this );
+//		$view->setModel( $model, true );
+//		$view->display();
 	}
 }
 ?>

@@ -241,7 +241,7 @@ class JWizardModel extends JModel
 
 	function &getConfirmation()
 	{
-		return $this->_helper->getConfirmation();
+		return $this->_wizard->getConfirmation();
 	}
 
 	function getStep()

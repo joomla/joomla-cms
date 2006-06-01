@@ -148,7 +148,7 @@ class JModuleHelper
 
 		$wheremenu = isset($Itemid)? "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )" : "";
 
-		$query = "SELECT id, title, module, position, content, showtitle, mvcrt, params"
+		$query = "SELECT id, title, module, position, content, showtitle, control, params"
 			. "\n FROM #__modules AS m"
 			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 			. "\n WHERE m.published = 1"

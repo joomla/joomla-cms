@@ -169,7 +169,7 @@ class JMenuEditView extends JView
 		$components	= $model->getComponentList();
 
 		$helper		= new JMenuHelper( $component->option );
-		$control	= $helper->getControlParams( $table->mvcrt );
+		$control	= $helper->getControlParams( $table->control );
 		$params		= $helper->getViewParams( $table->params, $control );
 
 		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
@@ -305,7 +305,7 @@ class JMenuEditView extends JView
 							<?php echo JText::_( 'Control Parameters' ); ?>
 						</legend>
 					<?php
-						echo $control->render( 'mvcrt' );
+						echo $control->render( 'control' );
 					?>
 					</fieldset>
 			<?php

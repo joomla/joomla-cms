@@ -158,6 +158,9 @@ class JController extends JObject {
 	 */
 	function &_loadModel( $modelName, $prefix )
 	{
+		
+		$false = false;
+
 		// Clean the model name
 		$modelName = preg_replace( '#\W#', '', $modelName );
 		$prefix = preg_replace( '#\W#', '', $prefix );
@@ -175,11 +178,11 @@ class JController extends JObject {
 				require( $path );
 				if (!class_exists( $modelClass )) {
 					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					return false;
+					return $false;
 				}
 			} else {
 				JError::raiseWarning( 0, 'Model ' . $modelName . ' not supported. File not found.' );
-				return false;
+				return $false;
 			}
 		}
 

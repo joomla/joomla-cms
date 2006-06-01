@@ -13,6 +13,8 @@
  * details.
  */
 
+jimport('joomla.presentation.wizard');
+
 /**
  * @package Joomla
  * @subpackage Menus
@@ -94,11 +96,20 @@ class JMenuHelperComponent extends JWizardHelper
 		$values	=& $this->_wizard->getConfirmation();
 
 		$final['type']		= 'component';
-		$final['option']	= $this->_option;
+		$final['component']	= $this->_option;
 		$final['menu_type']	= $this->_type;
 		$final['control']	= $values;
 
 		return $final;
+	}
+
+	function getStateXML()
+	{
+		// load the xml metadata
+		$option = JRequest::getVar('component', 'content');
+		$path = JPATH_ROOT.'/components/com_'.$option.'/metadata.xml';
+		$xpath = 'state';
+		return array('path' => $path, 'xpath' => $xpath);
 	}
 
 	function getControllersFolder()

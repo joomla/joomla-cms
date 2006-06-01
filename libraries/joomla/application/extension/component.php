@@ -142,7 +142,7 @@ class JComponentHelper
 		{
 			$menus		= JMenu::getInstance();
 			$menu		= &$menus->getCurrent();
-			$instance	= new JParameter( $menu->mvcrt );
+			$instance	= new JParameter( $menu->control );
 		}
 		return $instance;
 	}

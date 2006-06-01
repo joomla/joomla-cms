@@ -208,7 +208,7 @@ class JMenuViewWizard extends JWizardView
 		font-weight: bold;
 	}
 	</style>
-	<form action="index2.php" method="post" name="adminForm" target="_top">
+	<form action="index.php" method="post" name="adminForm" target="_top">
 		<fieldset>
 			<div style="float: right">
 				<button type="button" onclick="history.back();">
@@ -233,9 +233,19 @@ class JMenuViewWizard extends JWizardView
 			echo '</pre>';
 			?>
 		</fieldset>
+		<?php
+		foreach ($item as $k => $v) {
+			if (is_array($v)) {
+				foreach ($v as $sk => $sv) {
+					echo '<input type="hidden" name="'.$k.'['.$sk.']" value="'.$sv.'" />';
+				}
+			} else {
+				echo '<input type="hidden" name="'.$k.'" value="'.$v.'" />';
+			}
+		}
+		?>
 
 		<input type="hidden" name="option" value="com_menus" />
-		<input type="hidden" id="step" name="step" value="<?php echo $step;?>" />
 		<input type="hidden" name="task" value="edit" />
 
 	</form>

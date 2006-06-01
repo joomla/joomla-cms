@@ -13,6 +13,8 @@
  * details.
  */
 
+jimport('joomla.presentation.wizard');
+
 /**
  * @package Joomla
  * @subpackage Menus
@@ -55,6 +57,14 @@ class JMenuHelperUrl extends JWizardHelper
 		$final['menu_type']	= $this->_type;
 
 		return $final;
+	}
+
+	function getStateXML()
+	{
+		// load the xml metadata
+		$src = dirname(__FILE__).DS.'xml/url.xml';
+		$path = 'state';
+		return array('path' => $src, 'xpath' => $path);
 	}
 }
 ?>

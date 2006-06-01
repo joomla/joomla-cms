@@ -365,7 +365,7 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `utaccess` tinyint(3) unsigned NOT NULL default '0',
   `params` text NOT NULL,
-  `mvcrt` TEXT NOT NULL default '',
+  `control` TEXT NOT NULL default '',
   `lft` int(11) unsigned NOT NULL default '0',
   `rgt` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
@@ -444,7 +444,7 @@ CREATE TABLE `#__modules` (
   `params` text NOT NULL,
   `iscore` tinyint(4) NOT NULL default '0',
   `client_id` tinyint(4) NOT NULL default '0',
-  `mvcrt` TEXT NOT NULL DEFAULT '',
+  `control` TEXT NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`)

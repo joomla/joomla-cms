@@ -13,6 +13,8 @@
  * details.
  */
 
+jimport('joomla.presentation.wizard');
+
 /**
  * @package Joomla
  * @subpackage Menus
@@ -50,6 +52,14 @@ class JMenuHelperSeparator extends JWizardHelper
 		$final['menu_type']	= $this->_type;
 
 		return $final;
+	}
+
+	function getStateXML()
+	{
+		// load the xml metadata
+		$src = dirname(__FILE__).DS.'xml/separator.xml';
+		$path = 'state';
+		return array('path' => $src, 'xpath' => $path);
 	}
 }
 ?>

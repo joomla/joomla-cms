@@ -20,7 +20,7 @@ jimport( 'joomla.application.model' );
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JMenuModel extends JModel
+class JMenuModelItem extends JModel
 {
 	/** @var object JTable object */
 	var $_table = null;
@@ -39,6 +39,116 @@ class JMenuModel extends JModel
 			$this->_table = new JTableMenu( $db );
 		}
 		return $this->_table;
+	}
+
+	function &getItem() {
+		$table =& $this->getTable();
+		
+		if ($id = JRequest::getVar('id', '', '', 'int')) {
+			$table->load($id);
+		}
+
+		if ($type = JRequest::getVar('type', false)) {
+			$table->type = $type;
+		}
+
+		if ($menu_type = JRequest::getVar('menu_type', false)) {
+			$table->menutype = $menu_type;
+		}
+		return $table;
+	}
+
+	function &getControlParams()
+	{
+		$table =& $this->getTable();
+		$type = JRequest::getVar('type');
+
+		if ($id = JRequest::getVar('id', '', '', 'int')) {
+			$table->load($id);
+		}
+
+		$ini = $table->control;
+		$params =& new JParameter($ini);
+
+		if ($control = JRequest::getVar('control', false, '', 'array')) {
+			$params->loadArray($control);
+		}
+
+		return $params;
+	}
+
+	function &getControlFields()
+	{
+		$params =& $this->getControlParams();
+		
+		$array = $params->toArray();
+
+		foreach($array as $k => $v) {
+			$fields[] = "<input type=\"hidden\" name=\"control[$k]\" value=\"$v\" />";
+		}
+
+		return $fields;
+	}
+
+	function &getStateParams()
+	{
+		$table =& $this->getTable();
+		$type = JRequest::getVar('type');
+
+		if ($id = JRequest::getVar('id', '', '', 'int')) {
+			$table->load($id);
+		}
+		$ini = $table->params;
+		$params =& new JParameter($ini);
+
+		// Include and create the helper object
+		if ($type) {
+			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
+			$class = 'JMenuHelper'.ucfirst($type);
+			$this->_helper =& new $class($this);
+			$xmlInfo =& $this->_helper->getStateXML();
+		} else {
+			// Set default state params...
+		}
+
+		if (file_exists( $xmlInfo['path'] )) {
+
+			$xml =& JFactory::getXMLParser('Simple');
+			if ($xml->loadFile($xmlInfo['path'])) {
+				$this->_xml = &$xml;
+				$document =& $xml->document;
+				$state =& $document->getElementByPath($xmlInfo['xpath']);
+
+				/*
+				 * HANDLE A SWITCH IF IT EXISTS
+				 */
+				if ($switch = $state->attributes('switch')) {
+					// Handle switch
+					$control =& $this->getControlParams();
+					$switchVal = $control->get($switch, 'default');
+					foreach ($state->children() as $child) {
+						if ($child->name() == $switchVal) {
+							$state =& $child;
+							break;
+						}
+					}
+				}
+
+				/*
+				 * HANDLE INCLUDED PARAMS
+				 */
+				$children =& $state->children();
+				if (count($children) == 1) {
+					if ($children[0]->name() == 'include') {
+						$state =& $this->_getIncludedParams($children[0]);
+					}
+				}
+
+				$sp =& $state->getElementByPath('params');
+				$params->setXML($sp);
+			}
+		}
+		return $params;
 	}
 
 	/**
@@ -164,6 +274,33 @@ class JMenuModel extends JModel
 		$db->setQuery( $query );
 		$result = $db->loadObjectList( );
 		return $result;
+	}
+
+	function &_getIncludedParams($include)
+	{
+		$tags	= array();
+		$state	= null;
+		$source	= $include->attributes('source');
+		$path	= $include->attributes('path');
+		$control =& $this->getControlParams();
+
+		preg_match_all( "/{([A-Za-z\-_]+)}/", $source, $tags);
+		if (isset($tags[1])) {
+			for ($i=0;$i<count($tags[1]);$i++) {
+				$source = str_replace($tags[0][$i], $control->get($tags[1][$i]), $source);
+			}
+		}
+
+		// load the source xml file
+		if (file_exists( JPATH_ROOT.$source )) {
+			$xml = & JFactory::getXMLParser('Simple');
+
+			if ($xml->loadFile(JPATH_ROOT.$source)) {
+				$document = &$xml->document;
+				$state = $document->getElementByPath($path);
+			}
+		}
+		return $state;
 	}
 }
 ?>
