@@ -94,7 +94,7 @@ class JElement_MenuItem extends JElement
 			if ($menuType == '')
 			{
 				$options[]	= mosHTML::makeOption( '0', '&nbsp;' );
-				$options[]	= mosHTML::makeOption( $type->title, $type->title . ' - ' . JText::_( 'Top' ) );
+				$options[]	= mosHTML::makeOption( $type->menutype, $type->title . ' - ' . JText::_( 'Top' ) );
 			}
 			if (isset( $groupedList[$type->menutype] ))
 			{
