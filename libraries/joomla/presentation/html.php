@@ -1051,58 +1051,6 @@ class mosAdminMenus
 	}
 
 	/**
-	* build the select list for parent item
-	*/
-	function Parent( &$row ) {
-		global $database;
-
-		$id = '';
-		if ( $row->id ) {
-			$id = "\n AND id != $row->id";
-		}
-
-		// get a list of the menu items
-		// excluding the current menu item and its child elements
-		$query = "SELECT m.*"
-		. "\n FROM #__menu m"
-		. "\n WHERE menutype = '$row->menutype'"
-		. "\n AND published != -2"
-		. $id
-		. "\n ORDER BY parent, ordering"
-		;
-		$database->setQuery( $query );
-		$mitems = $database->loadObjectList();
-
-		// establish the hierarchy of the menu
-		$children = array();
-
-		if ( $mitems ) {
-			// first pass - collect children
-			foreach ( $mitems as $v ) {
-				$pt 	= $v->parent;
-				$list 	= @$children[$pt] ? $children[$pt] : array();
-				array_push( $list, $v );
-				$children[$pt] = $list;
-			}
-		}
-
-		// second pass - get an indent list of the items
-		$list = mosTreeRecurse( 0, '', array(), $children, 9999, 0, 0 );
-
-		// assemble menu items to the array
-		$mitems 	= array();
-		$mitems[] 	= mosHTML::makeOption( '0', JText::_( 'Top' ) );
-
-		foreach ( $list as $item ) {
-			$mitems[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
-		}
-
-		$output = mosHTML::selectList( $mitems, 'parent', 'class="inputbox" size="10"', 'value', 'text', $row->parent );
-
-		return $output;
-	}
-
-	/**
 	* build a radio button option for published state
 	*/
 	function Published( &$row ) {

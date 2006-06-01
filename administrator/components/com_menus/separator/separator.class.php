@@ -61,7 +61,7 @@ class separator_menu {
 		// build the html select list for the group access
 		$lists['access'] 		= mosAdminMenus::Access( $menu );
 		// build the html select list for paraent item
-		$lists['parent'] 		= mosAdminMenus::Parent( $menu );
+		$lists['parent'] 		= JMenuHelper::Parent( $menu );
 		// build published button option
 		$lists['published'] 	= mosAdminMenus::Published( $menu );
 
