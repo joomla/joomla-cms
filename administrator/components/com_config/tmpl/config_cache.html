@@ -3,9 +3,6 @@
 	<table class="admintable" cellspacing="1">
 
 		<tbody>
-		<?php
-			if (is_writeable($row->cachepath)) {
-		?>
 		<tr>
 			<td class="key">
 				<?php echo JText::_( 'Template Cache' ); ?>
@@ -28,30 +25,6 @@
 			</td>
 			<td>
 				<?php echo $lists['caching_page']; ?>
-			</td>
-		</tr>
-		<?php
-		}
-		?>
-		<tr>
-			<td width="185" class="key">
-				<span class="editlinktip">
-				<?php
-					if (is_writeable($row->cachepath)) {
-						$tip = 'TIPDIRWRITEABLE';
-					}
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Cache Folder', '', 0 );
-					?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="cachepath" size="50" value="<?php echo $row->cachepath; ?>" />
-				<?php
-					if (!is_writeable($row->cachepath)) {
-						$warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE', true );
-						echo mosHTML::WarningIcon( $warn );
-					}
-				?>
 			</td>
 		</tr>
 		<tr>

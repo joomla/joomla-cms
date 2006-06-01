@@ -24,25 +24,12 @@
 				<?php echo $lists['debug_db']; ?>
 			</td>
 		</tr>
-		<tr>
+			<tr>
 			<td class="key">
-				<span class="editlinktip">
-				<?php
-					$tip = 'TIPLOGGINGINFO';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Enable Logging', '', 0 );
-				?>
-				</span>
+				<?php echo JText::_( 'Debug Language' ); ?>
 			</td>
 			<td>
-				<?php echo $lists['log']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<?php echo JText::_( 'Log Database' ); ?>
-			</td>
-			<td>
-				<?php echo $lists['log_db']; ?>
+				<?php echo $lists['debug_lang']; ?>
 			</td>
 		</tr>
 	</table>

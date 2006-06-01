@@ -26,7 +26,7 @@ class JConfigView
 		global $mainframe;
 
 		$document =& $mainframe->getDocument();
-		$document->addScript($mainframe->getBaseURL().'components/com_config/js/switcher.js');
+		$document->addScript($mainframe->getBaseURL().'components/com_config/assets/switcher.js');
 
 		$contents = '';
 		ob_start();

@@ -470,6 +470,7 @@ class JInstallationController
 
 		$folders = array (
 			'administrator/backups',
+			'administrator/cache',
 			'administrator/components',
 			'administrator/language',
 			'administrator/modules',
@@ -518,10 +519,9 @@ class JInstallationController
 		/*
 		 * Set some needed variables
 		 */
-		$vars['siteUrl']			= $mainframe->getSiteURL();
+		$vars['siteUrl']		= $mainframe->getSiteURL();
 		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
 		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
-		$vars['cachePath']	= JPATH_SITE.DS.'cache';
 
 		/*
 		 * If FTP has not been enabled, set the value to 0

@@ -103,8 +103,7 @@ class JConfigGlobalController extends JController
 
 		$lists['debug'] 		= mosHTML::yesnoRadioList('debug', 'class="inputbox"', $row->debug);
 		$lists['debug_db'] 		= mosHTML::yesnoRadioList('debug_db', 'class="inputbox"', $row->debug_db);
-		$lists['log'] 			= mosHTML::yesnoRadioList('log', 'class="inputbox"', $row->log);
-		$lists['log_db'] 		= mosHTML::yesnoRadioList('log_db', 'class="inputbox"', $row->log_db);
+		$lists['debug_lang'] 	= mosHTML::yesnoRadioList('debug_lang', 'class="inputbox"', $row->debug_lang);
 
 		// DATABASE SETTINGS
 
