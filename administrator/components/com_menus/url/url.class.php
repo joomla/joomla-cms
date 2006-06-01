@@ -49,9 +49,6 @@ class url_menu {
 			$menu->published 	= 1;
 		}
 
-		// build html select list for target window
-		$lists['target'] 		= mosAdminMenus::Target( $menu );
-
 		// build the html select list for ordering
 		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
 		// build the html select list for the group access

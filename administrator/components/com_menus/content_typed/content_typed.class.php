@@ -82,9 +82,6 @@ class content_typed_menu {
 			$lists['link_content'] = '<a href="'. $link .'" title="'. JText::_( 'Edit Static Content Item' ) .'">'. $content[0]->title . $alias .'</a>';
 		}
 
-		// build html select list for target window
-		$lists['target'] 		= mosAdminMenus::Target( $menu );
-
 		// build the html select list for ordering
 		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
 		// build the html select list for the group access

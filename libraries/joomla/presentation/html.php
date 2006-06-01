@@ -1059,17 +1059,6 @@ class mosAdminMenus
 	}
 
 	/**
-	* build the select list for target window
-	*/
-	function Target( &$row ) {
-		$click[] = mosHTML::makeOption( '0', JText::_( 'Parent Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '1', JText::_( 'New Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
-		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
-		return $target;
-	}
-
-	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {

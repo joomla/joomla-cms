@@ -59,9 +59,6 @@ class newsfeed_link_menu {
 		//	Create a list of links
 		$lists['newsfeed'] = mosHTML::selectList( $newsfeeds, 'newsfeed_link', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
 
-		// build html select list for target window
-		$lists['target'] 		= mosAdminMenus::Target( $menu );
-
 		// build the html select list for ordering
 		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
 		// build the html select list for the group access

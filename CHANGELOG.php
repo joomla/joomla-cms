@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Jun-2006 Andrew Eddie
+ + Added window.open attributes to mod_mainmenu
+
 31-May-2006 Johan Janssens
  - Removed cache_path configuration setting
  + Added debug_lang configuration setting

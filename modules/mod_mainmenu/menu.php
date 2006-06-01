@@ -107,6 +107,9 @@ class JMainMenu extends JTree
 
 		// Create the node and add it
 		$node =& new JMenuNode($item->id, $item->name, $item->link);
+		$node->target = $item->browserNav;
+		$node->window = $this->_params->get('window_open');
+
 		$this->_nodeHash[$item->id] =& $node;
 		$this->_current =& $this->_nodeHash[$item->parent];
 		$this->addChild($node, true);
@@ -148,8 +151,8 @@ class JMainMenu extends JTree
 			$this->_depthHash[$depth] = 0;
 		}
 		$this->_depthHash[$depth]++;
-		$start = $this->_params->get('startLevel');
-		$end = $this->_params->get('endLevel');
+		$start	= $this->_params->get('startLevel');
+		$end	= $this->_params->get('endLevel');
 
 		$showChildren = false;
 		if ($this->_current->active) {
@@ -186,7 +189,26 @@ class JMainMenu extends JTree
 
 			// Print a link if it exists
 			if ($this->_current->link != null) {
-				echo "<a href=\"".$this->_current->link."\">".$this->_current->title."</a>";
+				switch ($this->_current->target)
+				{
+					default:
+					case 0:
+						// _top
+						echo "<a href=\"".$this->_current->link."\">".$this->_current->title."</a>";
+						break;
+					case 1:
+						// _blank
+						echo "<a href=\"".$this->_current->link."\" target=\"_blank\">".$this->_current->title."</a>";
+						break;
+					case 2:
+						// window.open
+						$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'
+							. $this->_current->window;
+						// hrm...this is a bit dickey
+						$link = str_replace( 'index.php', 'index2.php', $this->_current->link );
+						echo "<a href=\"javascript:void window.open('".$link."','targetWindow','".$attribs."')\">".$this->_current->title."</a>";
+						break;
+				}				
 			} else if ($this->_current->title != null) {
 				echo "<a>".$this->_current->title."</a>\n";
 			} else {
@@ -245,6 +267,16 @@ class JMenuNode extends JNode
 	 * Active Node?
 	 */
 	var $active = false;
+
+	/**
+	 * Target: 0=_top, 1=_blank, 2=window.open
+	 */
+	var $target = false;
+	
+	/**
+	 * Atrributes for window.open
+	 */
+	var $window;
 
 	function __construct($id, $title, $link = null, $class = null, $active = false)
 	{

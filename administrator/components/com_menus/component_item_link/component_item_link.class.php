@@ -71,9 +71,6 @@ class component_item_link_menu {
 		//	Create a list of links
 		$lists['components'] = mosHTML::selectList( $components, 'link', 'class="inputbox" size="10"', 'value', 'text', $selected );
 
-		// build html select list for target window
-		$lists['target'] 		= mosAdminMenus::Target( $menu );
-
 		// build the html select list for ordering
 		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
 		// build the html select list for the group access

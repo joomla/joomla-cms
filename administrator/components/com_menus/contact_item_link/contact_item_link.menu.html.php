@@ -64,14 +64,6 @@ class contact_item_link_menu_html {
 						</td>
 					</tr>
 					<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
-					<tr>
-						<td align="right" valign="top">
-						<?php echo JText::_( 'On Click, Open in' ); ?>:
-						</td>
-						<td>
-						<?php echo $lists['target']; ?>
-						</td>
-					</tr>
 					</table>
 				</td>
 				<td width="40%">

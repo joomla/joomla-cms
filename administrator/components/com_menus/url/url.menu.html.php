@@ -70,14 +70,6 @@ class url_menu_html {
 				<?php menuHTML::MenuOutputBottom( $lists, $menu ); ?>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo JText::_( 'On Click, Open in' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['target']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
 					<?php echo JText::_( 'Type' ); ?>:
 					</td>
 					<td>

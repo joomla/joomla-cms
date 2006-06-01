@@ -153,16 +153,6 @@ class JMenuHelper extends JObject {
 	}
 
 	/**
-	 * Loads files required for menu items
-	 * @param string Item type
-	 */
-	function menuItem( $item ) {
-		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
-		include_once( $path . $item .'.class.php' );
-		include_once( $path . $item .'.menu.html.php' );
-	}
-
-	/**
 	* build the link/url of a menu item
 	*/
 	function Link( &$row, $id, $link=NULL ) {
@@ -197,6 +187,16 @@ class JMenuHelper extends JObject {
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Loads files required for menu items
+	 * @param string Item type
+	 */
+	function menuItem( $item ) {
+		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
+		include_once( $path . $item .'.class.php' );
+		include_once( $path . $item .'.menu.html.php' );
 	}
 
 	/**
@@ -251,6 +251,15 @@ class JMenuHelper extends JObject {
 		return $output;
 	}
 
-
+	/**
+	* build the select list for target window
+	*/
+	function Target( &$row ) {
+		$click[] = mosHTML::makeOption( '0', JText::_( 'Parent Window With Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '1', JText::_( 'New Window With Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
+		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
+		return $target;
+	}
 }
 ?>

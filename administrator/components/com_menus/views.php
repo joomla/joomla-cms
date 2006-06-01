@@ -425,6 +425,18 @@ class menuHTML
 			<?php echo $lists['parent']; ?>
 			</td>
 		</tr>
+<?php
+		// build html select list for target window
+		$lists['target'] 		= JMenuHelper::Target( $menu );
+?>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'On Click, Open in' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['target']; ?>
+			</td>
+		</tr>
 		<?php
 	}
 
