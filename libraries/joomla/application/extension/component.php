@@ -188,8 +188,7 @@ class JComponentHelper
 			}
 
 			$task 	= JRequest::getVar( 'task' );
-//			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
-			$ret	= 1;
+			$ret 	= mosMenuCheck( $Itemid, $component, $task, $user->get('gid') );
 
 			$content = '';
 			ob_start();

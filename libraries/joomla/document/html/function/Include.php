@@ -49,10 +49,6 @@ class patTemplate_Function_Include extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		global $mainframe;
-
-		$doc =& $mainframe->getDocument();
-
 		if(!isset($params['type'])) {
 			return false;
 		}
@@ -76,7 +72,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 					}
 				}
 
-				$doc->_addRenderer($type, $name);
+				$this->_addPlaceholder($type, $name);
 
 			} break;
 			case 'module' 		:
@@ -87,7 +83,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 					$module->$param = $value;
 				}
 
-				$doc->_addRenderer($type, $name);
+				$this->_addPlaceholder($type, $name);
 			} break;
 
 			case 'head'         :
@@ -96,14 +92,14 @@ class patTemplate_Function_Include extends patTemplate_Function
 				//do nothing
 			}	break;
 
-			default : $doc->_addRenderer($type, $name);
+			default : $this->_addPlaceholder($type, $name);
 		}
 
 		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
 
 	 /**
-	* set a reference to the JDocument object that instantiated the function
+	* reference to the patTemplate object that instantiated the module
 	*
 	* @access	public
 	* @param	object		JDocument object
@@ -111,6 +107,17 @@ class patTemplate_Function_Include extends patTemplate_Function
 	function setTemplateReference( &$tmpl )
 	{
 		$this->_tmpl = &$tmpl;
+	}
+	
+	/**
+	 * Adds a discovered placeholder
+	 *
+	 * @access protected
+	 * @param string 	$type	The renderer type
+	 * @param string 	$name	The renderer name
+	 */
+	function _addPlaceholder($type, $name) {
+		$this->_tmpl->_discoveredPlaceholders['document'][$type][] = $name;
 	}
 }
 ?>

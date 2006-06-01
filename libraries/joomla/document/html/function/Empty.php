@@ -37,7 +37,7 @@ class patTemplate_Function_Empty extends patTemplate_Function
 	var $type = PATTEMPLATE_FUNCTION_RUNTIME;
 
 	/**
-	* reference to the JDocument object that instantiated the module
+	* reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
 	* @var	object
@@ -62,10 +62,7 @@ class patTemplate_Function_Empty extends patTemplate_Function
 		{
 			case 'module'			:
 			{
-				global $mainframe;
-				$doc =& $mainframe->getDocument();
-
-				if( $doc->get($type, $params['name'])) {
+				if( $this->_tmpl->doc->get($type, $params['name'])) {
 					return $content;
 				}
 

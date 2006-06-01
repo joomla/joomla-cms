@@ -47,14 +47,6 @@ class JDocumentHTML extends JDocument
 	var $_buffer = array();
 
 	/**
-     * Array of discovered includes
-     *
-     * @var       array
-     * @access    private
-     */
-	var $_include = array();
-
-	/**
 	 * Class constructor
 	 *
 	 * @access protected
@@ -258,6 +250,9 @@ class JDocumentHTML extends JDocument
 	{
 		jimport('joomla.template.template');
 		$instance =& JTemplate::getInstance();
+		
+		//set a reference to the document in the engine
+		$instance->doc =& $this;
 
 		//set the namespace
 		$instance->setNamespace( 'jdoc' );
@@ -282,8 +277,6 @@ class JDocumentHTML extends JDocument
 	 */
 	function _parseTemplate($directory, $file = 'index.php')
 	{
-		global $mainframe;
-
 		$contents = $this->_loadTemplate( $directory, $file);
 		$this->_engine->readTemplatesFromInput( $contents, 'String' );
 
@@ -359,7 +352,7 @@ class JDocumentHTML extends JDocument
 	 */
 	function _bufferTemplate(&$params)
 	{
-		foreach($this->_include as $type => $includes)
+		foreach($this->_engine->_discoveredPlaceholders['document'] as $type => $includes)
 		{
 			foreach($includes as $include)
 			{
@@ -392,18 +385,6 @@ class JDocumentHTML extends JDocument
 				$this->_engine->addVar('document', $type.'_'.$buffer, $content);
 			}
 		}
-	}
-
-	/**
-	 * Adds a renderer to be called
-	 *
-	 * @param string 	$type	The renderer type
-	 * @param string 	$name	The renderer name
-	 * @return string The contents of the template
-	 */
-	function _addRenderer($type, $name)
-	{
-		$this->_include[$type][] = $name;
 	}
 
 	 /**

@@ -29,7 +29,7 @@ class patTemplate_Function_Exists extends patTemplate_Function
 	var $_name	=	'exists';
 
 	/**
-	* reference to the JDocument object that instantiated the module
+	* reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
 	* @var	object
