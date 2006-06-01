@@ -21,12 +21,13 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	function quickiconButton( $link, $image, $text ) {
 
 		global $mainframe;
-		$lang = $mainframe->getLanguage();
+		$lang 		= $mainframe->getLanguage();
+		$template	= $mainframe->getTemplate();
 		?>
 		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 			<div class="icon">
 				<a href="<?php echo $link; ?>">
-					<?php echo mosAdminMenus::imageCheckAdmin( $image, '/images/', NULL, NULL, $text ); ?>
+					<?php echo mosAdminMenus::imageCheckAdmin( $image, '/templates/'. $template .'/images/header/', NULL, NULL, $text ); ?>
 					<span><?php echo $text; ?></span>
 				</a>
 			</div>
@@ -38,46 +39,46 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	<div id="cpanel">
 		<?php
 		$link = 'index2.php?option=com_content&amp;task=new';
-		quickiconButton( $link, 'module.png', JText::_( 'Add New Article' ) );
+		quickiconButton( $link, 'icon-48-content.png', JText::_( 'Add New Article' ) );
 
 		$link = 'index2.php?option=com_content';
-		quickiconButton( $link, 'addedit.png', JText::_( 'Article Manager' ) );
+		quickiconButton( $link, 'icon-48-content.png', JText::_( 'Article Manager' ) );
 
 		$link = 'index2.php?option=com_frontpage';
-		quickiconButton( $link, 'frontpage.png', JText::_( 'Frontpage Manager' ) );
+		quickiconButton( $link, 'icon-48-frontpage.png', JText::_( 'Frontpage Manager' ) );
 
 		$link = 'index2.php?option=com_sections&amp;scope=content';
-		quickiconButton( $link, 'sections.png', JText::_( 'Section Manager' ) );
+		quickiconButton( $link, 'icon-48-section.png', JText::_( 'Section Manager' ) );
 
 		$link = 'index2.php?option=com_categories&amp;section=content';
-		quickiconButton( $link, 'categories.png', JText::_( 'Category Manager' ) );
+		quickiconButton( $link, 'icon-48-category.png', JText::_( 'Category Manager' ) );
 
 		$link = 'index2.php?option=com_media';
-		quickiconButton( $link, 'mediamanager.png', JText::_( 'Media Manager' ) );
+		quickiconButton( $link, 'icon-48-media.png', JText::_( 'Media Manager' ) );
 
 		if ( $my->gid > 23 ) {
 			$link = 'index2.php?option=com_trash';
-			quickiconButton( $link, 'trash.png', JText::_( 'Trash Manager' ) );
+			quickiconButton( $link, 'icon-48-trash.png', JText::_( 'Trash Manager' ) );
 		}
 
 		if ( $my->gid > 23 ) {
 			$link = 'index2.php?option=com_menumanager';
-			quickiconButton( $link, 'menu.png', JText::_( 'Menu Manager' ) );
+			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
 		}
 
 		if ( $my->gid > 24 ) {
 			$link = 'index2.php?option=com_languages&amp;client=0';
-			quickiconButton( $link, 'langmanager.png', JText::_( 'Language Manager' ) );
+			quickiconButton( $link, 'icon-48-language.png', JText::_( 'Language Manager' ) );
 		}
 
 		if ( $my->gid > 23 ) {
 			$link = 'index2.php?option=com_users';
-			quickiconButton( $link, 'user.png', JText::_( 'User Manager' ) );
+			quickiconButton( $link, 'icon-48-user.png', JText::_( 'User Manager' ) );
 		}
 
 		if ( $my->gid > 24 ) {
 			$link = 'index2.php?option=com_config&amp;hidemainmenu=1';
-			quickiconButton( $link, 'config.png', JText::_( 'Global Configuration' ) );
+			quickiconButton( $link, 'icon-48-config.png', JText::_( 'Global Configuration' ) );
 		}
 		?>
 	</div>

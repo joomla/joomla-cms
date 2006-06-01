@@ -26,7 +26,7 @@ class JMenuManagerListView extends JView
 	 * Toolbar for view
 	 */
 	function setToolbar() {
-		JMenuBar::title( JText::_( 'Menu Manager' ), 'menu.png' );
+		JMenuBar::title( JText::_( 'Menu Manager' ), 'menumgr.png' );
 		JMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::customX( 'deleteconfirm', 'delete.png', 'delete_f2.png', 'Delete', true );
 		JMenuBar::editListX();
