@@ -21,7 +21,25 @@
 class JFactory
 {
 	/**
-	 * Creates a cache object
+	 * Get an application object
+	 * 
+	 * Returns a reference to the global JApplication object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @return object JApplication
+	 */
+	function &getApplication()
+	{
+		global $mainframe;
+		return $mainframe;
+	}
+	
+	/**
+	 * Get a cache object
+	 * 
+	 * Returns a reference to the global JCache object, only creating it
+	 * if it doesn't already exist.
 	 *
 	 * @access public
 	 * @param string The cache group name
@@ -34,14 +52,12 @@ class JFactory
 
 		jimport('joomla.cache.cache');
 
-		$cachePath = $mainframe->getCfg('cachepath').DS;
-
 		/*
 		 * If we are in the installation application, we don't need to be
 		 * creating any directories or have caching on
 		 */
 		$options = array(
-			'cacheDir' 		=> $cachePath,
+			'cacheDir' 		=> JPATH_BASE.DS.'cache',
 			'caching' 		=> $mainframe->getCfg('caching'),
 			'defaultGroup' 	=> $group,
 			'lifeTime' 		=> $mainframe->getCfg('cachetime'),
@@ -54,6 +70,8 @@ class JFactory
 	}
 
 	/**
+	 * Get the authorization object
+	 * 
 	 * Returns a reference to the global JAuthorization object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -72,7 +90,11 @@ class JFactory
 	}
 
 	/**
-	 * Returns the database object
+	 * Get the database object
+	 * 
+	 * Returns a reference to the global JDatabase object, only creating it
+	 * if it doesn't already exist.
+	 * 
 	 * @return object JDatabase based object
 	 */
 	function &getDBO()
@@ -83,6 +105,8 @@ class JFactory
 	}
 
 	/**
+	 * Get mailer object
+	 * 
 	 * Returns a reference to the global Mailer object, only creating it
 	 * if it doesn't already exist
 	 *
@@ -101,7 +125,7 @@ class JFactory
 	}
 
 	/**
-	 * Creates a XML document
+	 * Get a XML document
 	 *
 	 * @access public
 	 * @return object
@@ -114,8 +138,6 @@ class JFactory
 
 	 function &getXMLParser( $type = 'DOM', $options = array())
 	 {
-	 	global $mainframe;
-
 		$doc = null;
 
 		switch($type)
@@ -127,7 +149,7 @@ class JFactory
 				}
 				define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 				define('MAGPIE_CACHE_ON', true);
-				define('MAGPIE_CACHE_DIR',$mainframe->getCfg('cachepath'));
+				define('MAGPIE_CACHE_DIR',JPATH_BASE.DS.'cache');
 				if( !is_null( $options['cache_time'])){
 					define('MAGPIE_CACHE_AGE', $options['cache_time']);
 				}
@@ -170,11 +192,10 @@ class JFactory
 	 */
 	function &_createACL()
 	{
-		global $mainframe;
-
+		//TODO :: take the authorization class out of the application package
 		jimport( 'joomla.application.user.authorization' );
 
-		$database =&  $mainframe->getDBO();
+		$database =&  JFactory::getDBO();
 
 		$options = array(
 			'db'				=> &$database,
