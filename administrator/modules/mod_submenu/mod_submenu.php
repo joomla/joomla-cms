@@ -38,15 +38,15 @@ class JAdminSubMenu
 		/*
 		 * Lets get some variables we are going to need
 		 */
-		$menu = false;
-		$lang = & $mainframe->getLanguage();
-		$user = & $mainframe->getUser();
-		$db = & $mainframe->getDBO();
-		$enableStats = $mainframe->getCfg('enable_stats');
+		$menu 			= false;
+		$lang 			= & $mainframe->getLanguage();
+		$user			= & $mainframe->getUser();
+		$db 			= & $mainframe->getDBO();
+		$enableStats	= $mainframe->getCfg('enable_stats');
 		$enableSearches = $mainframe->getCfg('enable_log_searches');
-		$option = JRequest::getVar('option');
-		$task = JRequest::getVar('task');
-		$act = JRequest::getVar('act');
+		$option 		= JRequest::getVar('option');
+		$task 			= JRequest::getVar('task');
+		$act 			= JRequest::getVar('act');
 
 		/*
 		 * If there is no option set, then we obviously have no submenu to view
@@ -65,6 +65,7 @@ class JAdminSubMenu
 			case 'com_templates' :
 				$task	= JRequest::getVar('task');
 				$client	= JRequest::getVar('client', 0, '', 'int');
+				
 				if ($client == 1) {
 					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
 					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
@@ -181,6 +182,107 @@ class JAdminSubMenu
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
+			case 'com_content' :
+				$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png', 'active' => 1);			
+				$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png');			
+				$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png');			
+				$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png');			
+
+				$menu = JAdminSubMenu::buildList($subMenuList);
+				break;
+			
+			case 'com_sections' :
+				$scope = JRequest::getVar('scope');
+				
+				if ($scope == 'content') {
+					$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png');			
+					$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png');			
+					$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png', 'active' => 1);					
+					$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png');						
+
+					$menu = JAdminSubMenu::buildList($subMenuList);
+				}
+				break;
+			
+			case 'com_trash' :
+				if ($task == 'viewContent') {
+					$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png');			
+					$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png');			
+					$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png');					
+					$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png', 'active' => 1);						
+					
+					$menu = JAdminSubMenu::buildList($subMenuList);
+				} else if ($task == 'viewMenu') {
+					$subMenuList[] 	= array ('title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'img' => '../includes/js/ThemeOffice/menus.png');			
+					$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewMenu', 'img' => '../includes/js/ThemeOffice/trash.png', 'active' => 1);						
+					
+					$menu = JAdminSubMenu::buildList($subMenuList);
+				}
+				break;
+			
+			case 'com_menumanager' :
+			case 'com_menus' :
+				// handling for active sub menu item
+				$active = 0;
+				if ($option == 'com_menumanager') {
+					$active = 1;
+				}
+
+				$subMenuList[] 	= array ('title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'img' => '../includes/js/ThemeOffice/menus.png', 'active' => $active);			
+				$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewMenu', 'img' => '../includes/js/ThemeOffice/trash.png');						
+				
+				$menu = JAdminSubMenu::buildList($subMenuList);
+				break;
+			
+			case 'com_categories' :
+				$section = JRequest::getVar('section');
+				$subMenuList = array();
+				
+				if ($section) {
+					if ($section == 'content') {
+						$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png');			
+						$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png', 'active' => 1);			
+						$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png');			
+						$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png');						
+
+						$menu = JAdminSubMenu::buildList($subMenuList);
+					} else {
+						// special handling for specific core components
+						switch ($section) {
+							case 'com_contact_details' :
+								$section = 'com_contact';
+								break;
+								
+							case 'com_banner' :
+								$section = 'com_banners';
+								break;
+						}
+						
+						// pull list of links for component - apart from parent item
+						$query = "SELECT *" .
+						"\n FROM `#__components`" .
+						"\n WHERE `option` = '$section'" .
+						"\n AND `parent` != 0"
+						;
+						$db->setQuery($query);
+						$items = $db->loadObjectList();
+						
+						if (count($items)) {
+							foreach ($items as $item) {
+								$link 	= 'index2.php?'. $item->admin_menu_link;
+								$img	= '../includes/'.$item->admin_menu_img;
+								$subMenuList[] = array ('title' => $item->name, 'link' => $link, 'img' => $img);
+							}
+							$title 			= $item->name .' '. JText::_('Categories');
+							$link			= 'index2.php?option=com_categories&section='. $section; 
+							$subMenuList[] 	= array ('title' => $title, 'link' => $link, 'img' => '../includes/js/ThemeOffice/categories.png', 'active' => 1);			
+		
+							$menu = JAdminSubMenu::buildList($subMenuList);
+						}
+					}
+				}
+				break;
+
 			default :
 				/*
 				 * This is where we handle all third party components or
@@ -204,15 +306,21 @@ class JAdminSubMenu
 					$items = false;
 				}
 
+				
 				/*
 				 * Only process the data if we have menu items returned from the
 				 * database query.
 				 */
 				if (is_array($items) && count($items)) {
-					foreach ($items as $item)
-					{
+					foreach ($items as $item) {
 						if (trim($item->admin_menu_link)) {
-							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => 'index2.php?'.$item->admin_menu_link, 'img' => '../includes/'.$item->admin_menu_img);
+							// handling for active sub menu item
+							$active = 0;
+							if (@$_SERVER['QUERY_STRING'] == $item->admin_menu_link) {
+								$active = 1;
+							}
+							
+							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => 'index2.php?'.$item->admin_menu_link, 'img' => '../includes/'.$item->admin_menu_img, 'active' => $active);
 						}
 					}
 					$menu = JAdminSubMenu::buildList($subMenuList);
