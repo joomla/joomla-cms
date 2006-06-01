@@ -46,11 +46,11 @@ class JConfigView
 			<div id="page-site">
 				<table class="noshow">
 					<tr>
-						<td with="70%">
+						<td with="65%">
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_site.html'); ?>
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_metadata.html'); ?>
 						</td>
-						<td width="30%">
+						<td width="35%">
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_debug.html'); ?>
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_statistics.html'); ?>
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_seo.html'); ?>
