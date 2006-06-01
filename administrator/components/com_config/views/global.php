@@ -62,7 +62,10 @@ class JConfigView
 			<div id="page-user">
 				<table class="noshow">
 					<tr>
-						<td>
+						<td with="50%">
+							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_register.html'); ?>
+						</td>
+						<td with="50%">
 							<?php require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'config_user.html'); ?>
 						</td>
 					</tr>

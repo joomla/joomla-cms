@@ -2,6 +2,19 @@
 	<legend><?php echo JText::_( 'Content Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
 		<tr>
+			<td class="key">
+				<span class="editlinktip">
+				<?php
+				$tip = 'TIPLINKS';
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Show UnAuthorized Links', '', 0 );
+				?>
+				</span>
+			</td>
+			<td>
+				<?php echo $lists['shownoauth']; ?>
+			</td>
+		</tr>
+		<tr>
 			<td width="185" class="key">
 				<span class="editlinktip">
 				<?php
