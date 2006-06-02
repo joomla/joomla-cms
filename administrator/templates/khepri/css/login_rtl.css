@@ -1,0 +1,64 @@
+/**
+* @version $Id: login_rtl.css $
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * Joomla! 1.5 Admin template main css file
+ *
+ * @author		Andy Miller <andy.miller@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+ 
+/* -- Imported styles ----------------------------- */ 
+ 
+@import url("general_rtl.css"); 
+
+/* -- Specific styles ----------------------------- */ 
+
+form  { margin: 0px; padding: 0px; }
+form .inputbox { width: 120px; margin-left: 10px; }
+form br { display: none; }
+
+#login           { margin: 0 auto; width: 500px; margin-top: 40px; margin-bottom: 100px; }
+
+#content-box { border-right: 1px solid #ccc; }
+
+#element-box    { float: left; width: 280px; padding: 5px 1px;margin-right: 10px;}
+
+#login .padding {
+	padding: 20px; padding-bottom: 60px;
+	background: url(../images/j_login_lock.jpg) 300px 100% no-repeat;
+}
+
+#element-box .padding {
+	background: none; padding: 0;
+}
+.button { text-align: right; }
+	
+.login-form    { text-align: right; width: 60%; }
+.login-form h1 { display: none; }
+
+.login-form p { padding: 0 1em 0 1em; }
+	
+.login-text { text-align: right; width: 40%; float: right; }
+
+
+#loginForm label {
+	display: block;
+	float: right;
+	width: 70px;
+	text-align: left;
+	padding: 4px 15px 0px 15px;
+	color: #666;
+	font-weight: bold;
+}
+

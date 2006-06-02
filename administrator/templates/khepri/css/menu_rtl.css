@@ -99,12 +99,15 @@
 }
 
 #submenu li a,
-#submenu span.nolink {
+span.nolink {
 	cursor: pointer;
-	padding: 5px 0px 0px 15px;
-	border-right: 1px solid #ccc;
 	font-weight: bold;
 	color: #0B55C4;
+}
+#submenu .item-smenu {
+	border-left: 1px solid #ccc;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 #submenu span.nolink {
