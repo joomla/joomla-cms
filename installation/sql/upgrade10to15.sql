@@ -266,5 +266,7 @@ ALTER TABLE `templates_menu`
 
 ALTER TABLE `jos_users`
   MODIFY COLUMN `name` VARCHAR(255) NOT NULL DEFAULT '',
-  MODIFY COLUMN `username` VARCHAR(75) NOT NULL DEFAULT '',
+  MODIFY COLUMN `username` VARCHAR(75) NOT NULL DEFAULT '';
 
+INSERT INTO jos_components  VALUES (0,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
+  

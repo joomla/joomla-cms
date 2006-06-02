@@ -1,0 +1,172 @@
+# $Id: upgrade10to15.sql 3796 2006-06-02 05:42:53Z eddieajau $
+
+# Joomla 1.0 to Joomla 1.5
+
+####
+#### WARNING! WARNING!  Work in progress.  Requires adult supervision!
+#### DO NOT RUN THIS SCRIPT
+####
+
+####
+#### Manual conversion requires MySQL 4.1 or higher to support sub-queries
+####
+
+## Migrating the menu configuration...hang on!
+
+# Component
+
+UPDATE `jos_menus`
+  SET
+    `type` = 'component'
+  WHERE
+    `type` = 'components';
+
+# Component Item Link (now called a Menu Item Link)
+
+UPDATE `jos_menus`
+  SET
+    `params` = CONCAT_WS( '', params, '\nmenu_item=', SUBSTRING(link,LOCATE('Itemid=',link)+7) ),
+    `type` = 'component'
+  WHERE
+    `type` = 'component_item_link';
+
+# Contact Table
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'task=category',
+    `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'contact_category_table';
+
+# Contact Item Link
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'task=view',
+    `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'contact_item_link';
+
+# Content Archive Category
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=archive\nmodel_name=category',
+    `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_archive_category';
+
+# Content Archive Section
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=archive\nmodel_name=section',
+    `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_archive_category';
+
+# Content Blog Category
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=blog\nmodel_name=category',
+    `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_blog_category';
+
+# Content Blog Section
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=blog\nmodel_name=section',
+    `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_blog_section';
+
+# Content Category
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=category',
+    `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_category';
+
+# Content Item Link
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=article',
+    `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_item_link';
+
+# Content Section
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=section',
+    `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_section';
+
+# Content Typed
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'view=article',
+    `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'content_typed';
+
+# Newsfeed Category Table
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'task=category',
+    `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'newsfeed_category_table';
+
+# Newsfeed Link
+
+UPDATE `jos_menus`
+  SET
+    `control` = 'task=view',
+    `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
+    `type` = 'component'
+  WHERE
+    `type` = 'newsfeed_link';
+
+# Submit Content
+
+# Weblink Category Table
+
+UPDATE `jos_menus`
+  SET
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_weblinks' AND `parent` = 0),
+    `type` = 'component'
+  WHERE
+    `type` = 'weblink_category_table';
+
+# Wrapper
+
+UPDATE `jos_menus`
+  SET
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_wrapper'),
+    `type` = 'component'
+  WHERE
+    `type` = 'wrapper';
+  
