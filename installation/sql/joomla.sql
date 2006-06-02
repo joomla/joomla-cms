@@ -9,8 +9,8 @@
 CREATE TABLE `#__banner` (
   `bid` int(11) NOT NULL auto_increment,
   `cid` int(11) NOT NULL default '0',
-  `type` varchar(10) NOT NULL default 'banner',
-  `name` varchar(50) NOT NULL default '',
+  `type` varchar(30) NOT NULL default 'banner',
+  `name` varchar(255) NOT NULL default '',
   `imptotal` int(11) NOT NULL default '0',
   `impmade` int(11) NOT NULL default '0',
   `clicks` int(11) NOT NULL default '0',
@@ -39,9 +39,9 @@ CREATE TABLE `#__banner` (
 
 CREATE TABLE `#__bannerclient` (
   `cid` int(11) NOT NULL auto_increment,
-  `name` varchar(60) NOT NULL default '',
-  `contact` varchar(60) NOT NULL default '',
-  `email` varchar(60) NOT NULL default '',
+  `name` varchar(255) NOT NULL default '',
+  `contact` varchar(255) NOT NULL default '',
+  `email` varchar(255) NOT NULL default '',
   `extrainfo` text NOT NULL,
   `checked_out` tinyint(1) NOT NULL default '0',
   `checked_out_time` time default NULL,
@@ -58,11 +58,11 @@ CREATE TABLE `#__bannerclient` (
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default 0,
-  `title` varchar(50) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
-  `image` varchar(100) NOT NULL default '',
+  `image` varchar(255) NOT NULL default '',
   `section` varchar(50) NOT NULL default '',
-  `image_position` varchar(10) NOT NULL default '',
+  `image_position` varchar(30) NOT NULL default '',
   `description` text NOT NULL,
   `published` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
@@ -109,17 +109,17 @@ CREATE TABLE `#__components` (
 INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners', 'Active Banners', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&task=listclients', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (4, 'Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/globe2.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/globe2.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (6, 'Links Categories', '', 0, 4, 'option=com_categories&section=com_weblinks', 'Manage weblink categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&section=com_weblinks', 'Manage weblink categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (7, 'Contacts', 'option=com_contact', 0, 0, '', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/user.png', 1, '', 1);
 INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/edit.png', 1, '', 1);
-INSERT INTO `#__components` VALUES (9, 'Contacts Categories', '', 0, 7, 'option=com_categories&section=com_contact_details', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, '', 1);
+INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&section=com_contact_details', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, '', 1);
 INSERT INTO `#__components` VALUES (10, 'FrontPage', 'option=com_frontpage', 0, 0, '', 'Manage Front Page Items', 'com_frontpage', 0, 'js/ThemeOffice/component.png', 1, '', 1);
 INSERT INTO `#__components` VALUES (11, 'Polls', 'option=com_poll', 0, 0, 'option=com_poll', 'Manage Polls', 'com_poll', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (12, 'Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (12, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (13, 'Feeds', '', 0, 12, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (14, 'Feeds Categories', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (14, 'Categories', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Search', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '', 1);
 INSERT INTO `#__components`  VALUES (17,'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);
@@ -129,7 +129,7 @@ INSERT INTO `#__components`  VALUES (22,'Articles','option=com_content',0,0,'','
 INSERT INTO `#__components`  VALUES (23,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (24,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (25,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (26,'Mass Mail','',0,0,'','Mass Mail','com_massmail',0,'',1,'',1);
+INSERT INTO `#__components`  VALUES (26,'Mass mail','',0,0,'','Mass Mail','com_massmail',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (27,'Menu Editor','',0,0,'','Menu Editor','com_menus',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (28,'Menu Manager','',0,0,'','Menu Manager','com_menumanager',0,'',1,'',1);
 INSERT INTO `#__components`  VALUES (29,'Messaging','',0,0,'','Messages','com_messages',0,'',1,'',1);
@@ -192,7 +192,7 @@ CREATE TABLE `#__content` (
   `catid` int(11) unsigned NOT NULL default '0',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(100) NOT NULL default '',
+  `created_by_alias` varchar(255) NOT NULL default '',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) unsigned NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
@@ -349,31 +349,32 @@ INSERT INTO `#__plugins` VALUES (30, 'Editor Button - Readmore','readmore','edit
 
 CREATE TABLE `#__menu` (
   `id` int(11) NOT NULL auto_increment,
-  `menutype` varchar(25) default NULL,
-  `name` varchar(100) default NULL,
+  `menutype` varchar(75) default NULL,
+  `name` varchar(255) default NULL,
   `link` text,
   `type` varchar(50) NOT NULL default '',
-  `published` tinyint(1) NOT NULL default '0',
-  `parent` int(11) unsigned NOT NULL default '0',
-  `componentid` int(11) unsigned NOT NULL default '0',
-  `sublevel` int(11) default '0',
-  `ordering` int(11) default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
+  `published` tinyint(1) NOT NULL default 0,
+  `parent` int(11) unsigned NOT NULL default 0,
+  `componentid` int(11) unsigned NOT NULL default 0,
+  `sublevel` int(11) default 0,
+  `ordering` int(11) default 0,
+  `checked_out` int(11) unsigned NOT NULL default 0,
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `pollid` int(11) NOT NULL default '0',
-  `browserNav` tinyint(4) default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `utaccess` tinyint(3) unsigned NOT NULL default '0',
+  `pollid` int(11) NOT NULL default 0,
+  `browserNav` tinyint(4) default 0,
+  `access` tinyint(3) unsigned NOT NULL default 0,
+  `utaccess` tinyint(3) unsigned NOT NULL default 0,
   `params` text NOT NULL,
   `control` TEXT NOT NULL default '',
-  `lft` int(11) unsigned NOT NULL default '0',
-  `rgt` int(11) unsigned NOT NULL default '0',
+  `lft` int(11) unsigned NOT NULL default 0,
+  `rgt` int(11) unsigned NOT NULL default 0,
+  `home` INTEGER(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY  (`id`),
   KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', '', '0', '0');
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', '', 0, 0, 1);
 
 # --------------------------------------------------------
 
@@ -406,7 +407,7 @@ CREATE TABLE `#__messages` (
   `date_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `state` int(11) NOT NULL default '0',
   `priority` int(1) unsigned NOT NULL default '0',
-  `subject` varchar(230) NOT NULL default '',
+  `subject` text NOT NULL default '',
   `message` text NOT NULL,
   PRIMARY KEY  (`message_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
@@ -596,7 +597,7 @@ CREATE TABLE `#__poll_date` (
 
 CREATE TABLE `#__polls` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(100) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
   `voters` int(9) NOT NULL default '0',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -626,11 +627,11 @@ CREATE TABLE `#__poll_menu` (
 
 CREATE TABLE `#__sections` (
   `id` int(11) NOT NULL auto_increment,
-  `title` varchar(50) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
-  `image` varchar(100) NOT NULL default '',
+  `image` TEXT NOT NULL default '',
   `scope` varchar(50) NOT NULL default '',
-  `image_position` varchar(10) NOT NULL default '',
+  `image_position` varchar(30) NOT NULL default '',
   `description` text NOT NULL,
   `published` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
@@ -650,7 +651,7 @@ CREATE TABLE `#__sections` (
 #
 
 CREATE TABLE `#__session` (
-  `username` varchar(50) default '',
+  `username` varchar(150) default '',
   `time` varchar(14) default '',
   `session_id` varchar(200) NOT NULL default '0',
   `guest` tinyint(4) default '1',
@@ -681,7 +682,7 @@ CREATE TABLE `#__stats_agents` (
 #
 
 CREATE TABLE `#__templates_menu` (
-  `template` varchar(50) NOT NULL default '',
+  `template` varchar(255) NOT NULL default '',
   `menuid` int(11) NOT NULL default '0',
   `client_id` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`template`,`menuid`)
@@ -742,6 +743,7 @@ INSERT INTO `#__template_positions` VALUES (0, 'submenu', '');
 INSERT INTO `#__template_positions` VALUES (0, 'status', '');
 INSERT INTO `#__template_positions` VALUES (0, 'title', '');
 INSERT INTO `#__template_positions` VALUES (0, 'syndicate', '');
+
 # --------------------------------------------------------
 
 #
@@ -750,8 +752,8 @@ INSERT INTO `#__template_positions` VALUES (0, 'syndicate', '');
 
 CREATE TABLE `#__users` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL default '',
-  `username` varchar(25) NOT NULL default '',
+  `name` varchar(255) NOT NULL default '',
+  `username` varchar(75) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
   `password` varchar(100) NOT NULL default '',
   `usertype` varchar(25) NOT NULL default '',
@@ -861,7 +863,6 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 #
 # Table structure for table `#__core_acl_aro_sections`
 #
-
 CREATE TABLE `#__core_acl_aro_sections` (
   `section_id` int(11) NOT NULL auto_increment,
   `value` varchar(230) NOT NULL default '',
