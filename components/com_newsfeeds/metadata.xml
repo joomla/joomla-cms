@@ -18,6 +18,8 @@
 	</control>
 	<state switch="task">
 		<category>
+			<name>Newsfeed Category</name>
+			<description>Newsfeed Category parameters...</description>
 			<params addParameterDir="/components/com_newsfeed/elements">
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
@@ -64,6 +66,8 @@
 			</params>
 		</category>
 		<view>
+			<name>Newsfeed</name>
+			<description>Newsfeed parameters...</description>
 			<params addparameterdir="/components/com_newsfeed/elements">
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">

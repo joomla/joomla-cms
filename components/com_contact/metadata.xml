@@ -18,6 +18,8 @@
 	</control>
 	<state switch="task">
 		<category>
+			<name>Contact Category</name>
+			<description>Contact category parameters...</description>
 			<params addParameterDir="/components/com_contact/elements">
 				<param name="category_id" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 				<param name="@spacer" type="spacer" default="" label="" description="" />
@@ -79,6 +81,8 @@
 			</params>
 		</category>
 		<view>
+			<name>Contact</name>
+			<description>Contact parameters...</description>
 			<params addparameterdir="/components/com_contact/elements">
 				<param name="contact_id" type="contact" default="" label="Select Contact" description="The contact to link to" />
 				<param name="@spacer" type="spacer" default="" label="" description="" />
