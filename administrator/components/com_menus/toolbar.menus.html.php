@@ -83,6 +83,9 @@ class TOOLBAR_menus {
 	}
 
 	function _DEFAULT() {
+		// Get the toolbar object instance
+		$bar = & JToolBar::getInstance('JComponent');
+
 		$menutype 	= JRequest::getVar( 'menutype', 'mainmenu' );
 
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
@@ -94,6 +97,10 @@ class TOOLBAR_menus {
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
 		JMenuBar::addNewX( 'newwiz', 'Wizard' );
+
+		// Add a popup configuration button
+		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_menus', '700', '500' );
+
 		JMenuBar::help( 'screen.menus' );
 	}
 }

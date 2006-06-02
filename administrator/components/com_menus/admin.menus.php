@@ -255,6 +255,7 @@ function viewMenuItems( $menutype, $option )
 		switch ( $mitem->type ) {
 			case 'separator':
 			case 'component_item_link':
+				$list[$i]->descrip 	= 'Separator/Component Item Link';
 				break;
 
 			case 'url':
@@ -263,6 +264,7 @@ function viewMenuItems( $menutype, $option )
 						$mitem->link .= '&Itemid='. $mitem->id;
 					}
 				}
+				$list[$i]->descrip 	= 'URL';
 				break;
 
 			case 'newsfeed_link':
@@ -289,6 +291,7 @@ function viewMenuItems( $menutype, $option )
 
 			default:
 				$mitem->link .= '&Itemid='. $mitem->id;
+				$list[$i]->descrip 	= 'Component';
 				break;
 		}
 		$list[$i]->link = $mitem->link;
