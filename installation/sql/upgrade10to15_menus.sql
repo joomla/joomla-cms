@@ -15,7 +15,7 @@
 
 # Component
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `type` = 'component'
   WHERE
@@ -23,7 +23,7 @@ UPDATE `jos_menus`
 
 # Component Item Link (now called a Menu Item Link)
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `params` = CONCAT_WS( '', params, '\nmenu_item=', SUBSTRING(link,LOCATE('Itemid=',link)+7) ),
     `type` = 'component'
@@ -32,7 +32,7 @@ UPDATE `jos_menus`
 
 # Contact Table
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'task=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
@@ -42,7 +42,7 @@ UPDATE `jos_menus`
 
 # Contact Item Link
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'task=view',
     `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
@@ -52,7 +52,7 @@ UPDATE `jos_menus`
 
 # Content Archive Category
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=archive\nmodel_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
@@ -62,7 +62,7 @@ UPDATE `jos_menus`
 
 # Content Archive Section
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=archive\nmodel_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
@@ -72,7 +72,7 @@ UPDATE `jos_menus`
 
 # Content Blog Category
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=blog\nmodel_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
@@ -82,7 +82,7 @@ UPDATE `jos_menus`
 
 # Content Blog Section
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=blog\nmodel_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
@@ -92,7 +92,7 @@ UPDATE `jos_menus`
 
 # Content Category
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
@@ -102,7 +102,7 @@ UPDATE `jos_menus`
 
 # Content Item Link
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=article',
     `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
@@ -112,7 +112,7 @@ UPDATE `jos_menus`
 
 # Content Section
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
@@ -122,7 +122,7 @@ UPDATE `jos_menus`
 
 # Content Typed
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'view=article',
     `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
@@ -132,7 +132,7 @@ UPDATE `jos_menus`
 
 # Newsfeed Category Table
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'task=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
@@ -142,7 +142,7 @@ UPDATE `jos_menus`
 
 # Newsfeed Link
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `control` = 'task=view',
     `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
@@ -154,7 +154,7 @@ UPDATE `jos_menus`
 
 # Weblink Category Table
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_weblinks' AND `parent` = 0),
     `type` = 'component'
@@ -163,7 +163,7 @@ UPDATE `jos_menus`
 
 # Wrapper
 
-UPDATE `jos_menus`
+UPDATE `jos_menu`
   SET
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_wrapper'),
     `type` = 'component'
