@@ -195,15 +195,17 @@ class JMenuViewItem extends JView
 						</legend>
 					<?php
 						echo $params->render('state');
-						if (is_array($controlFields)) {
-							echo implode("\n", $controlFields);
-						}
 					?>
 					</fieldset>
 				</td>
 			</tr>
 		</table>
 
+		<?php
+			if (is_array($controlFields)) {
+				echo implode("\n", $controlFields);
+			}
+		?>
 		<input type="hidden" name="option" value="com_menus" />
 		<input type="hidden" name="id" value="<?php echo $item->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $item->id; ?>" />

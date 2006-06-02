@@ -492,27 +492,8 @@ class HTML_menusections {
 
 		$document	= &$mainframe->getDocument();
 
-		$document->addScript('../includes/js/joomla/popup.js');
-		$document->addStyleSheet('../includes/js/joomla/popup.css');
-
 		mosCommonHTML::loadOverlib();
 		?>
-		<script language="javascript" type="text/javascript">
-		function submitbutton(task)
-		{
-			var f = document.adminForm;
-			if (task == 'newwiz')
-			{
-				menutype = f.menutype.value
-				document.popup.show('index3.php?option=com_menus&task=newwiz&menutype='+menutype, 700, 500, null);
-			}
-			else
-			{
-				submitform(task);
-			}
-		}
-		</script>
-
 		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
 
 		<table>

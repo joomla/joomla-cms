@@ -96,9 +96,9 @@ class TOOLBAR_menus {
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
-		JMenuBar::addNewX( 'newwiz', 'Wizard' );
 
 		// Add a popup configuration button
+		$bar->appendButton( 'Popup', 'new', 'Wizard', 'index3.php?option=com_menus&task=newwiz&menutype='.$menutype, '700', '500' );
 		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_menus', '700', '500' );
 
 		JMenuBar::help( 'screen.menus' );
