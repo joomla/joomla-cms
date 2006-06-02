@@ -59,23 +59,36 @@ class JMenuHelperMenulink extends JWizardHelper
 	function getDetails()
 	{
 		$item =& $this->_parent->getItem();
+		$control =& new JParameter($item->control);
+
 		if ($rType = JRequest::getVar('menu_type', false)) {
 			$type = $rType;
 		} else {
-			$type = $item->menutype;
+			$type = $control->get('menu_type');
 		}
 
 		if ($rItem = JRequest::getVar('menu_item', false)) {
 			$id = $rItem;
-			$name = $rItem;
 		} else {
-			$id = $rItem;
-			$name = $rItem;
-//			$type = $item->menutype;
+			$id = $control->get('menu_item');
 		}
 
+		// Get the name
+		$db =& $this->_parent->getDBO();
+		$query = "SELECT `name`" .
+				"\n FROM `#__menu`" .
+				"\n WHERE `id` = $id";
+		$db->setQuery($query);
+		$name = $db->loadResult();
+
+		$query = "SELECT `title`" .
+				"\n FROM `#__menu_types`" .
+				"\n WHERE `menutype` = '$type'";
+		$db->setQuery($query);
+		$typeName = $db->loadResult();
+
 		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('Menu Link'), 'key' => 'type', 'value' => 'menulink');
-		$details[] = array('label' => JText::_('Menu Type'), 'name' => $type, 'key' => 'menu_type', 'value' => $type);
+		$details[] = array('label' => JText::_('Menu Type'), 'name' => $typeName, 'key' => 'menu_type', 'value' => $type);
 		$details[] = array('label' => JText::_('Menu Item'), 'name' => $name, 'key' => 'menu_item', 'value' => $id);
 
 		return $details;
