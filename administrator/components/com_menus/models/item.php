@@ -58,16 +58,26 @@ class JMenuModelItem extends JModel
 		return $table;
 	}
 
+	function &getDetails()
+	{
+		$item =& $this->getItem();
+
+		// Include and create the helper object
+		if ($item->type) {
+			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
+			$class = 'JMenuHelper'.ucfirst($item->type);
+			$this->_helper =& new $class($this);
+			$details =& $this->_helper->getDetails();
+		} else {
+			$details = array();
+		}
+		return $details;
+	}
+
 	function &getControlParams()
 	{
-		$table =& $this->getTable();
-		$type = JRequest::getVar('type');
-
-		if ($id = JRequest::getVar('id', '', '', 'int')) {
-			$table->load($id);
-		}
-
-		$ini = $table->control;
+		$item =& $this->getItem();
+		$ini = $item->control;
 		$params =& new JParameter($ini);
 
 		if ($control = JRequest::getVar('control', false, '', 'array')) {
@@ -92,19 +102,14 @@ class JMenuModelItem extends JModel
 
 	function &getStateParams()
 	{
-		$table =& $this->getTable();
-		$type = JRequest::getVar('type');
-
-		if ($id = JRequest::getVar('id', '', '', 'int')) {
-			$table->load($id);
-		}
-		$ini = $table->params;
+		$item =& $this->getItem();
+		$ini = $item->params;
 		$params =& new JParameter($ini);
 
 		// Include and create the helper object
-		if ($type) {
-			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
-			$class = 'JMenuHelper'.ucfirst($type);
+		if ($item->type) {
+			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
+			$class = 'JMenuHelper'.ucfirst($item->type);
 			$this->_helper =& new $class($this);
 			$xmlInfo =& $this->_helper->getStateXML();
 		} else {
@@ -126,6 +131,7 @@ class JMenuModelItem extends JModel
 					// Handle switch
 					$control =& $this->getControlParams();
 					$switchVal = $control->get($switch, 'default');
+
 					foreach ($state->children() as $child) {
 						if ($child->name() == $switchVal) {
 							$state =& $child;
@@ -144,8 +150,10 @@ class JMenuModelItem extends JModel
 					}
 				}
 
-				$sp =& $state->getElementByPath('params');
-				$params->setXML($sp);
+				if (is_a($state, 'JSimpleXMLElement')) {
+					$sp =& $state->getElementByPath('params');
+					$params->setXML($sp);
+				}
 			}
 		}
 		return $params;

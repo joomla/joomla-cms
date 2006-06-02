@@ -54,6 +54,11 @@ class JMenuHelperSeparator extends JWizardHelper
 		return $final;
 	}
 
+	function getDetails()
+	{
+		return array();
+	}
+
 	function getStateXML()
 	{
 		// load the xml metadata

@@ -59,6 +59,20 @@ class JMenuHelperUrl extends JWizardHelper
 		return $final;
 	}
 
+	function getDetails()
+	{
+		$item =& $this->_parent->getItem();
+		if ($rUrl = JRequest::getVar('url', false)) {
+			$url = $rUrl;
+		} else {
+			$url = $item->url;
+		}
+
+		$details[] = array('label' => JText::_('URL'), 'name' => $url, 'key' => 'url', 'value' => $url);
+
+		return $details;
+	}
+
 	function getStateXML()
 	{
 		// load the xml metadata

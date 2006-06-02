@@ -56,6 +56,30 @@ class JMenuHelperMenulink extends JWizardHelper
 		return $final;
 	}
 
+	function getDetails()
+	{
+		$item =& $this->_parent->getItem();
+		if ($rType = JRequest::getVar('menu_type', false)) {
+			$type = $rType;
+		} else {
+			$type = $item->menutype;
+		}
+
+		if ($rItem = JRequest::getVar('menu_item', false)) {
+			$id = $rItem;
+			$name = $rItem;
+		} else {
+			$id = $rItem;
+			$name = $rItem;
+//			$type = $item->menutype;
+		}
+
+		$details[] = array('label' => JText::_('Menu Type'), 'name' => $type, 'key' => 'menu_type', 'value' => $type);
+		$details[] = array('label' => JText::_('Menu Item'), 'name' => $name, 'key' => 'menu_item', 'value' => $id);
+
+		return $details;
+	}
+
 	function getStateXML()
 	{
 		// load the xml metadata

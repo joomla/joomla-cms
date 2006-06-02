@@ -103,11 +103,45 @@ class JMenuHelperComponent extends JWizardHelper
 		return $final;
 	}
 
+	function getDetails()
+	{
+		$item =& $this->_parent->getItem();
+		if ($cid = $item->componentid) {
+			$db =& $this->_parent->getDBO();
+			$query = "SELECT `name`, `option`" .
+					"\n FROM `#__components`" .
+					"\n WHERE `id` = $cid";
+			$db->setQuery($query);
+			$result = $db->loadResultArray();
+			$name	= $result[0];
+			$option = $result[1];
+		} else {
+			$name	= ucfirst(JRequest::getVar('component', 'content'));
+			$option = 'com_'.JRequest::getVar('component', 'content');
+		}
+
+		$details[] = array('label' => JText::_('Component'), 'name' => $name, 'key' => 'component', 'value' => $option);
+
+		return $details;
+	}
+
 	function getStateXML()
 	{
+		$item =& $this->_parent->getItem();
+
+		if ($cid = $item->componentid) {
+			$db =& $this->_parent->getDBO();
+			$query = "SELECT `option`" .
+					"\n FROM `#__components`" .
+					"\n WHERE `id` = $cid";
+			$db->setQuery($query);
+			$option = $db->loadResult();
+		} else {
+			$option = 'com_'.JRequest::getVar('component', 'content');
+		}
+
 		// load the xml metadata
-		$option = JRequest::getVar('component', 'content');
-		$path = JPATH_ROOT.'/components/com_'.$option.'/metadata.xml';
+		$path = JPATH_ROOT.'/components/'.$option.'/metadata.xml';
 		$xpath = 'state';
 		return array('path' => $path, 'xpath' => $xpath);
 	}

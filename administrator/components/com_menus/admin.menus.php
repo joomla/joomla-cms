@@ -296,14 +296,14 @@ function viewMenuItems( $menutype, $option )
 		$i++;
 	}
 
-	$i = 0;
-	foreach ( $list as $row ) {
-		// pulls name and description from menu type xml
-		$row = ReadMenuXML( $row->type, $row->com_name );
-		$list[$i]->type 	= $row[0];
-		if (!isset($list[$i]->descrip)) $list[$i]->descrip = $row[1];
-		$i++;
-	}
+//	$i = 0;
+//	foreach ( $list as $row ) {
+//		// pulls name and description from menu type xml
+//		$row = ReadMenuXML( $row->type, $row->com_name );
+//		$list[$i]->type 	= $row[0];
+//		if (!isset($list[$i]->descrip)) $list[$i]->descrip = $row[1];
+//		$i++;
+//	}
 
 	// level limit filter
 	$lists['levellist'] = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
