@@ -150,6 +150,19 @@ class JMenuModelItem extends JModel
 					}
 				}
 
+				if ($switch = $state->attributes('switch')) {
+					// Handle switch
+					$control =& $this->getControlParams();
+					$switchVal = $control->get($switch, 'default');
+
+					foreach ($state->children() as $child) {
+						if ($child->name() == $switchVal) {
+							$state =& $child;
+							break;
+						}
+					}
+				}
+
 				if (is_a($state, 'JSimpleXMLElement')) {
 					$sp =& $state->getElementByPath('params');
 					$params->setXML($sp);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <metadata>
 	<control>
 		<steps>
@@ -19,7 +19,7 @@
 		<category>
 			<name>Blog View</name>
 			<description>The params data is taken from blog category...</description>
-			<params addparameterdir="/components/com_content/elements">
+			<params>
 				<param name="category" type="category" label="Category" description="Choose a category..." />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
@@ -142,7 +142,7 @@
 		<section>
 			<name>Blog View</name>
 			<description>The params data is taken from blog section...</description>
-			<params addparameterdir="/components/com_content/elements">
+			<params>
 				<param name="section" type="section" label="Section" description="Choose a section..." />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
@@ -265,7 +265,7 @@
 		<default>
 			<name>Blog View</name>
 			<description>The params data is taken from blog section...how to do category??</description>
-			<params addparameterdir="/components/com_content/elements">
+			<params>
 				<param name="category" type="category" label="Category" description="Choose a category..." />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
