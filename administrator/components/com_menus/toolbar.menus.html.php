@@ -95,10 +95,10 @@ class TOOLBAR_menus {
 		JMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::trash();
 		JMenuBar::editListX();
-		JMenuBar::addNewX();
+		//JMenuBar::addNewX();
 
 		// Add a popup configuration button
-		$bar->appendButton( 'Popup', 'new', 'Wizard', 'index3.php?option=com_menus&task=newwiz&menutype='.$menutype, '700', '500' );
+		$bar->appendButton( 'Popup', 'new', 'New', 'index3.php?option=com_menus&task=newwiz&menutype='.$menutype, '700', '500' );
 
 		JMenuBar::help( 'screen.menus' );
 	}
