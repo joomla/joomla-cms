@@ -36,6 +36,7 @@ class JMenuModelWizard extends JModel
 		$app =& $this->getApplication();
 		$type = $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
 		$menutype = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$id = $app->getUserStateFromRequest('menuwizard.id', 'id', false);
 
 		// Include and create the helper object
 		if ($type) {
@@ -54,6 +55,28 @@ class JMenuModelWizard extends JModel
 		// Load the XML if helper is set
 		if (isset($this->_helper)) {
 			$this->_helper->init($this->_wizard);
+		}
+		
+		// Lets load the defaults if we are at the beginning and have an item to load them from
+		if (!$this->_wizard->isStarted() && $id) {
+			jimport( 'joomla.database.table.menu' );
+			$item =& new JTableMenu( $this->getDBO() );
+			$item->load($id);
+
+			if ($cid = $item->componentid) {
+				$db =& $this->getDBO();
+				$query = "SELECT `option`" .
+						"\n FROM `#__components`" .
+						"\n WHERE `id` = $cid";
+				$db->setQuery($query);
+				$option = $db->loadResult();
+			}
+
+			$app->setUserState('request.menuwizard.type', $item->type);
+			$app->setUserState('request.menuwizard.mlinktype', $item->menutype);
+			$app->setUserState('request.menuwizard.component', $option);
+			$app->setUserState('request.menuwizard.url', $item->link);
+			$this->_wizard->loadDefault($item->control);
 		}
 	}
 

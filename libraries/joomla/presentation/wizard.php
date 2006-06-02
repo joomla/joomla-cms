@@ -161,6 +161,11 @@ class JWizard extends JObject
 		return (count($steps) <= $this->_step - 1);
 	}
 
+	function loadDefault($ini='')
+	{
+		$this->_registry->loadINI($ini);
+	}
+
 	function _getIncludedSteps($include)
 	{
 		$tags	= array();

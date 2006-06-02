@@ -33,7 +33,11 @@ class JMenuViewWizard extends JWizardView
 
 
 		$app		= &$this->get('Application');
+		$type		= $app->getUserStateFromRequest('menuwizard.type', 'type');
 		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$mlinkType	= $app->getUserStateFromRequest('menuwizard.mlinktype', 'mlinktype', $menuType);
+		$url		= $app->getUserStateFromRequest('menuwizard.url', 'url', 'http://');
+		$option		= $app->getUserStateFromRequest('menuwizard.component', 'component', 'com_contact');
 		$menuTypes 	= $this->get('MenuTypelist');
 		$components	= $this->get('ComponentList');
 ?>
@@ -70,7 +74,7 @@ class JMenuViewWizard extends JWizardView
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_component" value="component" checked="true" />
+						<input type="radio" name="type" id="type_component" value="component" <?php echo ($type == 'component')? "checked=\"true\"" : '';?> />
 						<label for="type_component" class="_type">
 							<?php echo JText::_('Component');?>
 						</label>
@@ -78,12 +82,12 @@ class JMenuViewWizard extends JWizardView
 					<td valign="top">
 						<?php echo JText::_('Link a component to this menu item');?>
 						<br/>
-						<?php echo mosHTML::selectList( $components, 'component', 'class="inputbox" size="8"', 'option', 'name', $components[0]->option );?>
+						<?php echo mosHTML::selectList( $components, 'component', 'class="inputbox" size="8"', 'option', 'name', $option );?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_url" value="url" />
+						<input type="radio" name="type" id="type_url" value="url" <?php echo ($type == 'url')? "checked=\"true\"" : '';?> />
 						<label for="type_url" class="_type">
 							<?php echo JText::_('URL');?>
 						</label>
@@ -93,14 +97,14 @@ class JMenuViewWizard extends JWizardView
 							<?php echo JText::_('URL Address');?>
 						</label>
 						<br/>
-						<input type="text" name="url" size="40" value="http://" />
+						<input type="text" name="url" size="40" value="<?php echo $url; ?>" />
 						<br/>
 						<?php echo JText::_('Link another URL to this menu item');?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_separator" value="separator" />
+						<input type="radio" name="type" id="type_separator" value="separator" <?php echo ($type == 'separator')? "checked=\"true\"" : '';?> />
 						<label for="type_separator" class="_type">
 							<?php echo JText::_('Separator');?>
 						</label>
@@ -111,7 +115,7 @@ class JMenuViewWizard extends JWizardView
 				</tr>
 				<tr>
 					<td valign="top">
-						<input type="radio" name="type" id="type_menulink" value="menulink" />
+						<input type="radio" name="type" id="type_menulink" value="menulink" <?php echo ($type == 'menulink')? "checked=\"true\"" : '';?> />
 						<label for="type_menulink" class="_type">
 							<?php echo JText::_('Menu Item');?>
 						</label>
@@ -120,7 +124,7 @@ class JMenuViewWizard extends JWizardView
 					<td valign="top">
 						<?php echo JText::_('Link to an existing menu item');?>
 						<br/>
-						<?php echo mosHTML::selectList( $menuTypes, 'menu', 'class="inputbox" size="1"', 'menutype', 'title', $menuType );?>
+						<?php echo mosHTML::selectList( $menuTypes, 'menu', 'class="inputbox" size="1"', 'menutype', 'title', $mlinkType );?>
 					</td>
 				</tr>
 			</table>
