@@ -74,6 +74,7 @@ class JMenuHelperMenulink extends JWizardHelper
 //			$type = $item->menutype;
 		}
 
+		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('Menu Link'), 'key' => 'type', 'value' => 'menulink');
 		$details[] = array('label' => JText::_('Menu Type'), 'name' => $type, 'key' => 'menu_type', 'value' => $type);
 		$details[] = array('label' => JText::_('Menu Item'), 'name' => $name, 'key' => 'menu_item', 'value' => $id);
 

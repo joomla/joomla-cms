@@ -68,6 +68,7 @@ class JMenuHelperUrl extends JWizardHelper
 			$url = $item->url;
 		}
 
+		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('URL'), 'key' => 'type', 'value' => 'url');
 		$details[] = array('label' => JText::_('URL'), 'name' => $url, 'key' => 'url', 'value' => $url);
 
 		return $details;

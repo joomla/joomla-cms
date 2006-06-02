@@ -56,7 +56,8 @@ class JMenuHelperSeparator extends JWizardHelper
 
 	function getDetails()
 	{
-		return array();
+		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('Separator'), 'key' => 'type', 'value' => 'separator');
+		return $details;
 	}
 
 	function getStateXML()

@@ -120,6 +120,7 @@ class JMenuHelperComponent extends JWizardHelper
 			$option = 'com_'.JRequest::getVar('component', 'content');
 		}
 
+		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('Component'), 'key' => 'type', 'value' => 'component');
 		$details[] = array('label' => JText::_('Component'), 'name' => $name, 'key' => 'component', 'value' => $option);
 
 		return $details;
