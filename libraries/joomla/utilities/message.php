@@ -112,17 +112,15 @@ class JMessage extends JTable
 	 *
 	 * @access	public
 	 * @param	int		$fromId		Sender's userid
-	 * @param	int		$toId			Recipient's userid
-	 * @param	string	$subject		The message subject
+	 * @param	int		$toId		Recipient's userid
+	 * @param	string	$subject	The message subject
 	 * @param	string	$message	The message body
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function send($fromId = null, $toId = null, $subject = null, $message = null)
+	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
-		global $mainframe, $mosConfig_mailfrom, $mosConfig_fromname;
-
-		$database =& $mainframe->getDBO();
+		$database =& JFactory::getDBO();
 
 		if (is_object($this))
 		{
@@ -161,7 +159,7 @@ class JMessage extends JTable
 					$subject	= JText::_('A new private message has arrived');
 					$msg		= JText::_('A new private message has arrived');
 
-					josMail($mosConfig_mailfrom, $mosConfig_fromname, $recipient, $subject, $msg);
+					josMail($mailfrom, $fromname, $recipient, $subject, $msg);
 				}
 				return true;
 			}

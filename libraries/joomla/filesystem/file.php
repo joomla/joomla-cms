@@ -27,7 +27,8 @@ jimport('joomla.filesystem.path');
  * @subpackage 	FileSystem
  * @since		1.5
  */
-class JFile {
+class JFile 
+{
 	/**
 	 * Gets the extension of a file name
 	 *
@@ -72,13 +73,8 @@ class JFile {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function copy($src, $dest, $path = null) {
-		global $mainframe;
-
-		// Initialize variables
-		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
-
+	function copy($src, $dest, $path = null) 
+	{
 		// Prepend a base path if it exists
 		if ($path) {
 			$src = JPath::clean($path.$src, false);
@@ -95,16 +91,16 @@ class JFile {
 			return false;
 		}
 
-		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
-			$ftpFlag = false;
-		}
-
-		if ($ftpFlag == true) {
+		$config =& JFactory::getConfig();
+		
+		if ($config->getValue('config.ftp_enable')) 
+		{
+			$ftpRoot = $config->getValue('config.ftp_root');
+			
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
+			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
 			// If the parent folder doesn't exist we must create it
 			if (!file_exists(dirname($dest))) {
@@ -137,12 +133,13 @@ class JFile {
 	 * @return boolean  True on success
 	 * @since 1.5
 	 */
-	function delete($file) {
-		global $mainframe;
+	function delete($file) 
+	{
+		$config =& JFactory::getConfig();
 
 		// Initialize variables
 		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ftpRoot	= $config->getValue('config.ftp_root');
 
 		if (is_array($file)) {
 			$files = $file;
@@ -151,13 +148,13 @@ class JFile {
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($config->getValue('config.ftp_enable') != 1) {
 			$ftpFlag = false;
 		} else {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
+			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 		}
 
 		$retval = true;
@@ -190,12 +187,13 @@ class JFile {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '') {
-		global $mainframe;
-
+	function move($src, $dest, $path = '') 
+	{
+		$config =& JFactory::getConfig();
+		
 		// Initialize variables
 		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ftpRoot	= $config->getValue('config.ftp_root');
 
 		if ($path) {
 			$src = JPath::clean($path.$src, false);
@@ -210,18 +208,18 @@ class JFile {
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($config->getValue('config.ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
+			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
 			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
+			$src  = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
 			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
 			// Use FTP rename to simulate move
@@ -247,12 +245,13 @@ class JFile {
 	 * @return mixed Returns file contents or boolean False if failed
 	 * @since 1.5
 	 */
-	function read($filename, $incpath = false) {
-		global $mainframe;
-
+	function read($filename, $incpath = false) 
+	{
+		$config =& JFactory::getConfig();
+		
 		// Initialize variables
 		$ftpFlag	= false;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ftpRoot	= $config->getValue('config.ftp_root');
 		$data		= null;
 
 		/*
@@ -274,14 +273,14 @@ class JFile {
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($config->getValue('config.ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
+			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
 			//Translate path for the FTP account
 			$file = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $filename), false);
@@ -318,24 +317,25 @@ class JFile {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function write($file, $buffer) {
-		global $mainframe;
-
+	function write($file, $buffer) 
+	{
+		$config =& JFactory::getConfig();
+		
 		// Initialize variables
 		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ftpRoot	= $config->getValue('config.ftp_root');
 		JPath::check($file);
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($config->getCfg('config.ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
+			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
 			// If the destination directory doesn't exist we need to create it
 			if (!file_exists(dirname($file))) {
@@ -366,13 +366,14 @@ class JFile {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function upload($src, $dest) {
-		global $mainframe;
+	function upload($src, $dest) 
+	{
+		$config =& JFactory::getConfig();
 
 		// Initialize variables
 		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
-		$ret			= false;
+		$ftpRoot	= $config->getValue('config.ftp_root');
+		$ret		= false;
 
 		// Ensure that the path is valid and clean
 		$dest = JPath::clean($dest, false);
@@ -386,15 +387,15 @@ class JFile {
 		}
 
 		// do NOT use FTP if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($config->getValue('config.ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
+			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
 			//Translate path for the FTP account
 			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);

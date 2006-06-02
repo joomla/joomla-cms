@@ -85,14 +85,6 @@ class JApplication extends JObject
 	var $_uri  = null;
 
 	/**
-	 * Application persistent store
-	 *
-	 * @var object  JRegistry object
-	 * @access protected
-	 */
-	var $_registry = null;
-
-	/**
 	 * The active user object
 	 *
 	 * @var object JTableUser
@@ -127,7 +119,8 @@ class JApplication extends JObject
 	 * @return The user state
 	 */
 	function getCfg( $varname ) {
-		return $this->_registry->getValue('config.'.$varname);
+		$config =& JFactory::getConfig();
+		return $config->getValue('config.'.$varname);
 	}
 
 	/**
@@ -569,26 +562,8 @@ class JApplication extends JObject
 	 */
 	function &getDBO()
 	{
-		if(is_object($this->_dbo)) {
-			return $this->_dbo;
-		}
-
-		$host 		= $this->getCfg('host');
-		$user 		= $this->getCfg('user');
-		$password 	= $this->getCfg('password');
-		$db   		= $this->getCfg('db');
-		$dbprefix 	= $this->getCfg('dbprefix');
-		$dbtype 	= $this->getCfg('dbtype');
-		$debug 		= $this->getCfg('debug');
-
-		jimport('joomla.database.database');
-		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
-
-		if ($database->getErrorNum() > 2) {
-			JError::raiseError('joomla.library:'.$database->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $database->getErrorMsg() );
-		}
-		$database->debug( $debug );
-		return $database;
+		$instance =& JFactory::getDBO();
+		return $instance;
 	}
 
 	/**
@@ -698,9 +673,15 @@ class JApplication extends JObject
 		jimport( 'joomla.registry.registry' );
 
 		require_once( $file );
-
-		// Create the registry with a default namespace of config which is read only
-		$this->_registry = new JRegistry( 'config');
+		
+		// Create the JConfig object
+		$config = new JConfig();
+		
+		// Get the global configuration object	
+		$registry =& JFactory::getConfig();
+		
+		// Load the configuration values into the registry
+		$registry->loadObject($config);
 	}
 
 	/**

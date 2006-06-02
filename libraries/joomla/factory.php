@@ -21,18 +21,29 @@
 class JFactory
 {
 	/**
-	 * Get an application object
+	 * Get an framework configuration object
 	 * 
-	 * Returns a reference to the global JApplication object, only creating it
+	 * Returns a reference to the global JRegistry object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
-	 * @return object JApplication
+	 * @param string	The path to the configuration file
+	 * @param string	The type of the configuration file
+	 * @return object JRegistry
 	 */
-	function &getApplication()
+	function &getConfig($file = null, $type = 'PHP')
 	{
-		global $mainframe;
-		return $mainframe;
+		static $instance;
+		
+		if(is_null($file)) {
+			$file = dirname(__FILE__) .DS. 'config.php';
+		}
+
+		if (!is_object($instance)) {
+			$instance = JFactory::_createConfig($file, $type);
+		}
+
+		return $instance;
 	}
 	
 	/**
@@ -48,9 +59,9 @@ class JFactory
 	 */
 	function &getCache($group='', $handler = 'function')
 	{
-		global $mainframe;
-
 		jimport('joomla.cache.cache');
+		
+		$registry =& JFactory::getConfig();
 
 		/*
 		 * If we are in the installation application, we don't need to be
@@ -58,9 +69,9 @@ class JFactory
 		 */
 		$options = array(
 			'cacheDir' 		=> JPATH_BASE.DS.'cache',
-			'caching' 		=> $mainframe->getCfg('caching'),
+			'caching' 		=> $registry->getValue('config.caching'),
 			'defaultGroup' 	=> $group,
-			'lifeTime' 		=> $mainframe->getCfg('cachetime'),
+			'lifeTime' 		=> $registry->getValue('config.cachetime'),
 			'fileNameProtection' => false
 		);
 
@@ -99,9 +110,13 @@ class JFactory
 	 */
 	function &getDBO()
 	{
-		// TODO: Make this better
-		global $mainframe;
-		return $mainframe->getDBO();
+		static $instance;
+
+		if (!is_object($instance)) {
+			$instance = JFactory::_createDBO();
+		}
+
+		return $instance;
 	}
 
 	/**
@@ -182,6 +197,33 @@ class JFactory
 		$reference = & $doc;
 		return $reference;
 	}
+	
+	/**
+	 * Create a configuration object
+	 *
+	 * @access private
+	 * @param string	The path to the configuration file
+	 * @param string	The type of the configuration file
+	 * @return object
+	 * @since 1.5
+	 */
+	function &_createConfig($file, $type = 'PHP')
+	{
+		jimport('joomla.registry.registry');
+		
+		require_once( $file );
+
+		// Create the registry with a default namespace of config which is read only
+		$registry = new JRegistry( 'config');
+		
+		// Create the JConfig object
+		$config = new JFrameworkConfig();
+
+		// Load the configuration values into the registry
+		$registry->loadObject($config);
+		
+		return $registry;
+	}
 
 	/**
 	 * Create an ACL object
@@ -206,6 +248,35 @@ class JFactory
 
 		return $acl;
 	}
+	
+	/**
+	 * Create an database object
+	 *
+	 * @access private
+	 * @return object
+	 * @since 1.5
+	 */
+	function &_createDBO()
+	{
+		$conf =& JFactory::getConfig();
+		
+		$host 		= $conf->getValue('config.host');
+		$user 		= $conf->getValue('config.user');
+		$password 	= $conf->getValue('config.password');
+		$db   		= $conf->getValue('config.db');
+		$dbprefix 	= $conf->getValue('config.dbprefix');
+		$dbtype 	= $conf->getValue('config.dbtype');
+		$debug 		= $conf->getValue('config.debug');
+
+		jimport('joomla.database.database');
+		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
+
+		if ($database->getErrorNum() > 2) {
+			JError::raiseError('joomla.library:'.$database->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $database->getErrorMsg() );
+		}
+		$database->debug( $debug );
+		return $database;
+	}
 
 	/**
 	 * Create a mailer object
@@ -216,12 +287,18 @@ class JFactory
 	 */
 	function &_createMailer()
 	{
-		global $mosConfig_sendmail;
-		global $mosConfig_smtpauth, $mosConfig_smtpuser;
-		global $mosConfig_smtppass, $mosConfig_smtphost;
-		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailer;
-
 		jimport('phpmailer.phpmailer');
+		
+		$conf =& JFactory::getConfig();
+		
+		$sendmail 	= $conf->getValue('config.sendmail');
+		$smtpauth 	= $conf->getValue('config.smtpauth');
+		$smtpuser 	= $conf->getValue('config.smtpuser');
+		$smtppass  	= $conf->getValue('config.smtppass');
+		$smtphost 	= $conf->getValue('config.smtphost');
+		$mailfrom 	= $conf->getValue('config.mailfrom');
+		$fromname 	= $conf->getValue('config.fromname');
+		$mailer 	= $conf->getValue('config.mailer');
 
 		$mail = new PHPMailer();
 
@@ -229,22 +306,22 @@ class JFactory
 		$mail->SetLanguage( 'en', JPATH_LIBRARIES . '/includes/phpmailer/language/' );
 		$mail->CharSet 	= "utf-8";
 		$mail->IsMail();
-		$mail->From 	= $mosConfig_mailfrom;
-		$mail->FromName = $mosConfig_fromname;
-		$mail->Mailer 	= $mosConfig_mailer;
+		$mail->From 	= $mailfrom;
+		$mail->FromName = $fromname;
+		$mail->Mailer 	= $mailer;
 
 		// Add smtp values if needed
-		if ( $mosConfig_mailer == 'smtp' ) {
-			$mail->SMTPAuth = $mosConfig_smtpauth;
-			$mail->Username = $mosConfig_smtpuser;
-			$mail->Password = $mosConfig_smtppass;
-			$mail->Host 	= $mosConfig_smtphost;
+		if ( $mailer == 'smtp' ) {
+			$mail->SMTPAuth = $smtpauth;
+			$mail->Username = $smtpuser;
+			$mail->Password = $smtppass;
+			$mail->Host 	= $smtphost;
 		} else
 
 		// Set sendmail path
-		if ( $mosConfig_mailer == 'sendmail' ) {
-			if (isset($mosConfig_sendmail))
-				$mail->Sendmail = $mosConfig_sendmail;
+		if ( $mailer == 'sendmail' ) {
+			if (isset($sendmail))
+				$mail->Sendmail = $sendmail;
 		} // if
 
 		return $mail;

@@ -87,6 +87,7 @@ if(JDEBUG) {
 jimport( 'joomla.common.compat.compat' );
 
 jimport( 'joomla.version' );
+jimport( 'joomla.factory' );
 jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.error');
 jimport( 'joomla.application.user.authenticate');
@@ -95,7 +96,6 @@ jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.presentation.html' );
-jimport( 'joomla.factory' );
 jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
@@ -211,13 +211,12 @@ class JAdministrator extends JApplication
 	{
 		parent::setConfiguration($file, $type);
 
+		$registry =& JFactory::getConfig();
+		$registry->setValue('config.live_site', substr_replace($this->getBaseURL(), '', -1, 1));
+		$registry->setValue('config.absolute_path', JPATH_SITE);
+		
 		// Create the JConfig object
 		$config = new JConfig();
-		$config->live_site     = substr_replace($this->getSiteURL(), '', -1, 1);
-		$config->absolute_path = JPATH_SITE;
-
-		// Load the configuration values into the registry
-		$this->_registry->loadObject($config);
 
 		//Insert configuration values into global scope (for backwards compatibility)
 		foreach (get_object_vars($config) as $k => $v) {

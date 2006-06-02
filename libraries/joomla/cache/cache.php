@@ -54,30 +54,14 @@ class JCache extends Cache_Lite
 	 */
 	function _construct($options)
 	{
-		global $mainframe;
-
-		/*
-		 * Set default group
-		 */
-		if (isset ($options['defaultGroup']))
-		{
+		// Set default group
+		if (isset ($options['defaultGroup'])) {
 			$this->_defaultGroup = $options['defaultGroup'];
 		}
 
-		/*
-		 * Build the cache directory if it exists
-		 */
-		if (isset ($options['cacheDir']))
-		{
+		// Build the cache directory if it exists
+		if (isset ($options['cacheDir'])) {
 			$this->_cacheDir = $options['cacheDir'];
-		}
-		else
-		{
-			$baseDir = $mainframe->getCfg('cachepath');
-			if (!empty($baseDir))
-			{
-				$this->_cacheDir = $baseDir;
-			}
 		}
 
 		$this->Cache_Lite($options);

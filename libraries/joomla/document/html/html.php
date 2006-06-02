@@ -318,7 +318,8 @@ class JDocumentHTML extends JDocument
 		global $Itemid, $task, $option, $_VERSION;
 
 		//For backwards compatibility extract the config vars as globals
-		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
+		$registry =& JFactory::getConfig();
+		foreach (get_object_vars($registry->toObject()) as $k => $v) {
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}

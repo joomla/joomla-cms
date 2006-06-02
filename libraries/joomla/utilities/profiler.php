@@ -100,9 +100,7 @@ class JProfiler extends JObject
 	 */
 	function report( $memory = true, $database = true, $glue='' )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		echo implode( $glue, $this->_buffer );
 		echo "<br />";
