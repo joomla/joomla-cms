@@ -35,7 +35,6 @@ class JMenuViewWizard extends JWizardView
 		$app		= &$this->get('Application');
 		$type		= $app->getUserStateFromRequest('menuwizard.type', 'type', 'component');
 		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$mlinkType	= $app->getUserStateFromRequest('menuwizard.mlinktype', 'mlinktype', $menuType);
 		$url		= $app->getUserStateFromRequest('menuwizard.url', 'url', 'http://');
 		$option		= $app->getUserStateFromRequest('menuwizard.component', 'component', 'com_content');
 		$menuTypes 	= $this->get('MenuTypelist');
@@ -117,14 +116,12 @@ class JMenuViewWizard extends JWizardView
 					<td valign="top">
 						<input type="radio" name="type" id="type_menulink" value="menulink" <?php echo ($type == 'menulink')? "checked=\"true\"" : '';?> />
 						<label for="type_menulink" class="_type">
-							<?php echo JText::_('Menu Item');?>
+							<?php echo JText::_('Menu Link');?>
 						</label>
 						<br/>
 					</td>
 					<td valign="top">
 						<?php echo JText::_('Link to an existing menu item');?>
-						<br/>
-						<?php echo mosHTML::selectList( $menuTypes, 'menu', 'class="inputbox" size="1"', 'menutype', 'title', $mlinkType );?>
 					</td>
 				</tr>
 			</table>
