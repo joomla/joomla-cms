@@ -30,19 +30,18 @@ class JConfigComponentEditView extends JView
 		$table	= &$model->getTable();
 		$document = &$this->getDocument();
 		$document->setTitle( 'Edit Configuration' );
-		$document->addStyleSheet('templates/_system/css/popup.css');
+		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		mosCommonHTML::loadOverlib();
 ?>
 	<form action="index3.php" method="post" name="adminForm">
-		<div>
+		<fieldset>
 			<div style="float: right">
 				<button type="button" onclick="submitbutton('save');window.top.document.popup.hide();">
 					<?php echo JText::_( 'Save' );?></button>
 				<button type="button" onclick="window.top.document.popup.hide();">
 					<?php echo JText::_( 'Cancel' );?></button>
 		    </div>
-		</div>
-		<div class="clr"></div>
+		</fieldset>
 
 		<fieldset>
 			<legend>

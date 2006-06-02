@@ -35,24 +35,29 @@ class JComponentHelper
 
 		if (!isset( $instances[$option] ))
 		{
-			global $mainframe;
-
 			jimport( 'joomla.database.table.component' );
 
-			$database = &$mainframe->getDBO();
+			$db = &JFactory::getDBO();
 
-			$row = new JTableComponent( $database );
-			$row->loadByOption( $option );
-
-			if (!is_object($row))
-			{
-				$row = new stdClass();
-				$row->enabled	= false;
-				$row->params	= null;
-			}
-			$instances[$option] = &$row;
+			$query = 'SELECT *' .
+					' FROM #__components' .
+					' WHERE parent = 0';
+			$db->setQuery( $query );
+			$instances = $db->loadObjectList( 'option' );
 		}
-		return $instances[$option];
+
+		if (isset( $instances[$option] ))
+		{
+			$result = &$instances[$option];
+		}
+		else
+		{
+			$result = new stdClass();
+			$row->enabled	= false;
+			$row->params	= null;
+		}
+
+		return $result;
 	}
 
 	/**
