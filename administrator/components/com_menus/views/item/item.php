@@ -35,7 +35,7 @@ class JMenuViewItem extends JView
 		$app		= &$this->get('Application');
 		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
-		$item		= &$this->get('Item');
+		$item		= &$this->get('ItemForEdit');
 		$component	= &$this->get('Component');
 		$menuTypes 	= $this->get('MenuTypelist');
 		$components	= $this->get('ComponentList');

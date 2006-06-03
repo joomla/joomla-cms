@@ -301,6 +301,24 @@ class JMenuController extends JController
 		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
 	}
 
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function setdefault()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setHome($cid[0])) {
+			$msg = JText::_( 'Default Menu Item Set' );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
 	function remove()
 	{
 		// Get some variables from the request	

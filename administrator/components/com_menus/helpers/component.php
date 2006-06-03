@@ -151,6 +151,10 @@ class JMenuHelperComponent extends JWizardHelper
 		return $values;
 	}
 
+	function &prepForEdit(&$item) {
+		return $item;
+	}
+
 	function getControllersFolder()
 	{
 		return JPATH_ROOT.DS.'components'.DS.'com_'.$this->_option.DS.$this->_controllersFolder.DS;

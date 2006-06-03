@@ -335,6 +335,36 @@ class JMenuModelList extends JModel
 	/**
 	* Set the state of selected menu items
 	*/
+	function setHome( $item )
+	{
+		$db =& $this->getDBO();
+
+		// Clear home field for all other items
+		$query = "UPDATE #__menu" .
+				"\n SET home = 0" .
+				"\n WHERE 1";
+		$db->setQuery( $query );
+		if ( !$db->query() ) {
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Set the given item to home
+		$query = "UPDATE #__menu" .
+				"\n SET home = 1" .
+				"\n WHERE id = $item";
+		$db->setQuery( $query );
+		if ( !$db->query() ) {
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	* Set the state of selected menu items
+	*/
 	function setState( $items, $state )
 	{
 		$row =& $this->getTable();

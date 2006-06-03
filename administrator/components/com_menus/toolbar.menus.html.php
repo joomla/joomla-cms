@@ -88,6 +88,7 @@ class TOOLBAR_menus {
 		$menutype 	= JRequest::getVar( 'menutype', 'mainmenu' );
 
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JMenuBar::makeDefault( 'setdefault' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );

@@ -67,6 +67,17 @@ class JMenuModelItem extends JModel
 		return $item;
 	}
 
+	function &getItemForEdit()
+	{
+		$item	=& $this->getItem();
+		
+		// Run the object through the helper just in case something needs to be handled.
+		if ($helper =& $this->_getHelper()) {
+			$item =& $helper->prepForEdit($item);
+		}
+		return $item;
+	}
+
 	function &getDetails()
 	{
 		// Get the helper object then the details from it.

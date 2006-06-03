@@ -76,6 +76,9 @@ class JMenuViewList extends JView
 					<th class="title" width="30%">
 						<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
 					</th>
+					<th width="5%">
+						<?php echo JText::_( 'Default' ); ?>
+					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 					</th>
@@ -135,6 +138,13 @@ class JMenuViewList extends JView
 							<?php
 						}
 						?>
+					</td>
+					<td align="center">
+						<?php if ( $row->home == 1 ) { ?>
+						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
+						<?php } else { ?>
+						&nbsp;
+						<?php } ?>
 					</td>
 					<td width="10%" align="center">
 						<?php echo $published;?>

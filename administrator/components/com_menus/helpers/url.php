@@ -73,5 +73,9 @@ class JMenuHelperUrl extends JWizardHelper
 		$values['link'] = $values['params']['url'];
 		return $values;
 	}
+
+	function &prepForEdit(&$item) {
+		return $item;
+	}
 }
 ?>

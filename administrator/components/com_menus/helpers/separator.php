@@ -71,5 +71,9 @@ class JMenuHelperSeparator extends JWizardHelper
 	function prepForStore(&$values) {
 		return $values;
 	}
+
+	function &prepForEdit(&$item) {
+		return $item;
+	}
 }
 ?>
