@@ -52,9 +52,9 @@ class JComponentHelper
 		}
 		else
 		{
-			$result = new stdClass();
-			$row->enabled	= false;
-			$row->params	= null;
+			$result				= new stdClass();
+			$result->enabled	= false;
+			$result->params		= null;
 		}
 
 		return $result;
@@ -73,6 +73,7 @@ class JComponentHelper
 		$enabledList = array(
 			'com_login',
 			'com_content',
+			'com_categories',
 			'com_media',
 			'com_frontpage',
 			'com_user',
