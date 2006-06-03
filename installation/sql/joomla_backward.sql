@@ -138,24 +138,23 @@ INSERT INTO `#__components` VALUES (13, 'Feeds', '', 0, 12, 'option=com_newsfeed
 INSERT INTO `#__components` VALUES (14, 'Categories', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Search', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '', 1);
-INSERT INTO `#__components`  VALUES (17,'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);
-
-INSERT INTO `#__components`  VALUES (19,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (20,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (21,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
-INSERT INTO `#__components`  VALUES (22,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (23,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (24,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (25,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (26,'Mass mail','',0,0,'','Mass Mail','com_massmail',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (27,'Menu Editor','',0,0,'','Menu Editor','com_menus',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (28,'Menu Manager','',0,0,'','Menu Manager','com_menumanager',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (29,'Messaging','',0,0,'','Messages','com_messages',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (30,'Modules Manager','',0,0,'','Modules','com_modules',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (31,'Plugin Manager','',0,0,'','Plugins','com_plugins',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (32,'Statistics','',0,0,'','Statistics','com_statistics',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (33,'Template Manager','',0,0,'','Templates','com_templates',0,'',1,'',1);
-INSERT INTO `#__components`  VALUES (34,'User Manager','',0,0,'','Users','com_users',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (17, 'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);
+INSERT INTO `#__components` VALUES (18,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (19,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (20,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
+INSERT INTO `#__components` VALUES (21,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (22,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (23,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (24,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (25,'Mass mail','',0,0,'','Mass Mail','com_massmail',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (26,'Menu Editor','',0,0,'','Menu Editor','com_menus',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (27,'Menu Manager','',0,0,'','Menu Manager','com_menumanager',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (28,'Messaging','',0,0,'','Messages','com_messages',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (29,'Modules Manager','',0,0,'','Modules','com_modules',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (30,'Plugin Manager','',0,0,'','Plugins','com_plugins',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (31,'Statistics','',0,0,'','Statistics','com_statistics',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (32,'Template Manager','',0,0,'','Templates','com_templates',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (33,'User Manager','',0,0,'','Users','com_users',0,'',1,'',1);
 
 # --------------------------------------------------------
 
