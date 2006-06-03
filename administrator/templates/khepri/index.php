@@ -24,12 +24,12 @@ See COPYRIGHT.php for copyright notices and details.
 
 	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
 		<jdoc:sub condition="0">
-			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css">
+			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css" />
 			<script type="text/javascript" src="templates/{TEMPLATE}/js/norounded.js"></script>
 		</jdoc:sub >
 		<jdoc:sub condition="1">
-			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css">
-			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print">
+			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css" />
+			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print" />
 			<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
 		</jdoc:sub>
 	</jdoc:tmpl>
