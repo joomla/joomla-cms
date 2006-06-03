@@ -14,7 +14,12 @@
  */
 
 jimport( 'joomla.application.model' );
+jimport( 'joomla.application.extension.component' );
 
+/**
+ * @package Joomla
+ * @subpackage Banners
+ */
 class JModelBanner extends JModel
 {
 	/**
@@ -24,6 +29,11 @@ class JModelBanner extends JModel
 	 */
 	function getList( $filters )
 	{
+		$db			= &$this->getDBO();
+		$ordering	= @$filters['ordering'];
+		$tagSearch	= @$filters['tag_search'];
+		$randomise	= ($ordering == 'random');
+
 		$wheres = array();
 		$wheres[] = 'showBanner = 1';
 		$wheres[] = '(imptotal = 0 OR impmade < imptotal)';
@@ -36,17 +46,29 @@ class JModelBanner extends JModel
 		{
 			$wheres[] = 'catid = ' . (int) $filters['catid'];
 		}
+		if (is_array( $tagSearch ))
+		{
+			$temp = array();
+			$n = count( $tagSearch );
+			for ($i = 0; $i < $n; $i++)
+			{
+				$temp[] = "tags REGEXP '[[:<:]]".$db->getEscaped( $tagSearch[$i] ) . "[[:>:]]'";
+			}
+			if ($n)
+			{
+				$wheres[] = '(' . implode( ' OR ', $temp). ')';
+			}
+		}
 
-		// TODO: Put into model
 		$query = "SELECT *"
-			. (@$filters['randomise'] ? ', RAND() AS ordering' : '')
+			. ($randomise ? ', RAND() AS ordering' : '')
 			. "\n FROM #__banner"
 			. "\n WHERE " . implode( " AND ", $wheres )
 			. "\nORDER BY sticky, ordering "
 			. "\nLIMIT " . $filters['limit'];
 
-		$db = &$this->getDBO();
 		$db->setQuery( $query );
+		//echo $db->getQuery();die;
 		if(!$db->query()) {
 			JError::raiseError( 500, $db->stderr());
 		}
@@ -60,16 +82,21 @@ class JModelBanner extends JModel
 	 */
 	function impress( $list )
 	{
-		$db	= &$this->getDBO();
-		$n	= count( $list );
+		$config = JComponentHelper::getParams( 'com_banners' );
+		$db		= &$this->getDBO();
+		$n		= count( $list );
 
+		$trackImpressions = $config->get( 'track_impressions' );
+		$trackDate = date( 'Y-m-d' );
+
+		// TODO: Change loop single sql with where bid = x OR bid = y format
 		for ($i = 0; $i < $n; $i++) {
 			$item = &$list[$i];
 		
 			$item->impmade++;
 			$expire = ($item->imptotal >= $item->impmade);
 
-			$query = "UPDATE #__banner"
+			$query = 'UPDATE #__banner'
 			. "\n SET impmade = impmade + 1"
 			. ($expire ? ', showBanner=0' : '')
 			. "\n WHERE bid = $item->bid"
@@ -78,6 +105,14 @@ class JModelBanner extends JModel
 
 			if(!$db->query()) {
 				JError::raiseError( 500, $db->stderror());
+			}
+			
+			if ($trackImpressions)
+			{
+				// TODO: Add impression tracking
+				$query = 'UPDATE #__bannertrack SET' .
+					' track_type = 1,' .
+					' banner_id = ' . $item->bid; 
 			}
 		}
 	}
@@ -107,29 +142,39 @@ class JModelBanner extends JModel
 	 */
 	function click( $id = 0 )
 	{
-		$db = &$this->getDBO();
+		$config = JComponentHelper::getParams( 'com_banners' );
+		$db		= &$this->getDBO();
+
+		$trackClicks = $config->get( 'track_clicks' );
+		$trackDate = date( 'Y-m-d' );
 
 		// update click count
-		$query = "UPDATE #__banner"
-		. "\n SET clicks = ( clicks + 1 )"
-		. "\n WHERE bid = " . (int)$id
-		;
+		$query = 'UPDATE #__banner' .
+			' SET clicks = ( clicks + 1 )' .
+			' WHERE bid = ' . (int)$id;
 	
 		$db->setQuery( $query );
 		if(!$db->query()) {
 			JError::raiseError( 500, $db->stderror());
 		}
-	
+
+		if ($trackClicks)
+		{
+			// TODO: Add click tracking
+		}
+
 	}
 
+	/**
+	 * Get the URL for a 
+	 */
 	function getUrl( $id = 0 )
 	{
 		$db = &$this->getDBO();
 
 		// redirect to banner url
-		$query = "SELECT clickurl FROM #__banner"
-		. "\n WHERE bid = $id"
-		;
+		$query = 'SELECT clickurl FROM #__banner' .
+			' WHERE bid = ' . (int) $id;
 	
 		$db->setQuery( $query );
 		if(!$db->query()) {
@@ -145,4 +190,46 @@ class JModelBanner extends JModel
 	}
 }
 
+/**
+ * @package Joomla
+ * @subpackage Banners
+ */
+class JBannerHelper
+{
+	/**
+	 * Returns a list of valid keywords based on the prefix in banner
+	 * configuration
+	 * @param mixed An array of keywords, or comma delimited string
+	 * @return array
+	 * @static
+	 */
+	function &getKeywords( $keywords )
+	{
+		static $instance;
+
+		if (!$instance)
+		{
+			$config = JComponentHelper::getParams( 'com_banners' );
+			$prefix = $config->get( 'tag_prefix' );
+	
+			$instance = array();
+
+			if (!is_array( $keywords ))
+			{
+				$keywords = explode( ',', $keywords );
+			}
+				
+			foreach ($keywords as $keyword)
+			{
+				$keyword = trim( $keyword );
+				$regex = '#^' . $prefix . '#';
+				if (preg_match( $regex, $keyword ))
+				{
+					$instance[] = $keyword;
+				}
+			}
+		}
+		return $instance;
+	}
+}
 ?>

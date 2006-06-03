@@ -30,7 +30,17 @@ class JModBannerController extends JController
 		$vars['cid']		= (int) $params->get( 'cid' );
 		$vars['catid']		= (int) $params->get( 'catid' );
 		$vars['limit']		= (int) $params->get( 'count', 1 );
-		$vars['randomise']	= (int) $params->get( 'randomise' );
+		$vars['ordering']	= $params->get( 'ordering' );
+
+		if ($params->get( 'tag_search' ))
+		{
+			// get the document keywords
+			$application	= &$this->getApplication();
+			$document		= &$application->getDocument();
+			$keywords		= &$document->getMetaData( 'keywords' );
+
+			$vars['tag_search'] = JBannerHelper::getKeywords( $keywords );
+		}
 
 		$banners = $model->getList( $vars );
 		$model->impress( $banners );

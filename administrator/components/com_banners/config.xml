@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+ <params>
+  <param name="track_impressions" type="radio" default="0" label="Track Banner Impression Times" description="Record the impressions (views) of the banners on a daily basis">
+	<option value="0">No</option>
+	<option value="1">Yes</option>
+  </param>
+  <param name="track_clicks" type="radio" default="0" label="Track Banner Click Times" description="Record the click on the banners on a daily basis">
+	<option value="0">No</option>
+	<option value="1">Yes</option>
+  </param>
+  <param name="tag_prefix" type="text" deault="" label="Tag Prefix" description="When matching tags, search for tags only with this prefix (improves performance)" />
+ </params>
+</config>

@@ -14,15 +14,21 @@
 	</files>
 	<params addparameterdir="/components/com_banners/elements">
 		<param name="count" type="text" default="1" label="Count" description="The number of items to display (default 5)" />
-		<param name="randomise" type="radio" default="0" label="Randomise" description="Randomise the ordering of the banners">
+		<param name="cid" type="bannerclient" default="" label="Banner client" description="Select banners only from a single client." />
+		<param name="catid" type="category" section="com_banner" default="" label="Category" description="Select banners only from a single category." />
+		<param name="tag_search" type="radio" default="0" label="Search By Tags" description="Banner is selected by matching the banner tags to the current document keywords.">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="cid" type="bannerclient" default="" label="Banner client" description="Select banners only from a single client." />
-		<param name="catid" type="category" section="com_banner" default="" label="Category" description="Select banners only from a single category." />
+		<param name="ordering" type="list" default="0" label="Randomise" description="Randomise the ordering of the banners">
+			<option value="0">Sticky,Ordering</option>
+			<option value="random">Sticky,Randomise</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="header_text" type="textarea" rows="3" cols="40" default="" label="Header Text" description="A heading to display before the group of banners" />
 		<param name="footer_text" type="textarea" rows="3" cols="40" default="" label="Footer Text" description="Text to display after the group of banners" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

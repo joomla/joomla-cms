@@ -56,6 +56,12 @@ class TOOLBAR_banners {
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
+
+		// Get the toolbar object instance
+		$bar = & JToolBar::getInstance('JComponent');
+		// Add a popup configuration button
+		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_banners', '700', '500' );
+
 		JMenuBar::help( 'screen.banners' );
 	}
 }

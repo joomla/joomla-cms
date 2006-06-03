@@ -266,7 +266,7 @@ function copyModule( $option, $uid )
 	}
 	$row->checkin();
 
-	$row->reorder( "position=".$row->position." AND client_id=".$client->id );
+	$row->reorder( "position='".$row->position."' AND client_id=".$client->id );
 
 	$query = "SELECT menuid"
 	. "\n FROM #__modules_menu"
@@ -315,7 +315,7 @@ function saveModule( $option, $task )
 	}
 	$row->checkin();
 
-	$row->reorder( "position=".$row->position." AND client_id=".$client->id );
+	$row->reorder( "position='".$row->position."' AND client_id=".$client->id );
 
 	$menus = JRequest::getVar( 'selections', array(), 'post', 'array' );
 

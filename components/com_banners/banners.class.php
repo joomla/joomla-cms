@@ -136,11 +136,11 @@ class mosBanner extends JTable {
 		/*if(trim($this->imageurl) == '') {
 			$this->_error = JText::_( 'BNR_IMAGE' );
 			return false;
-		}*/
+		}
 		if(trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
 			$this->_error = JText::_( 'BNR_URL' );
 			return false;
-		}
+		}*/
 
 		return true;
 	}

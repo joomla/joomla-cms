@@ -113,7 +113,10 @@ class JFactory
 		static $instance;
 
 		if (!is_object($instance)) {
+			// TODO: Don't know how to do this better from within the static call
+			global $mainframe;
 			$instance = JFactory::_createDBO();
+			$instance->debug( $mainframe->getCfg( 'debug_db' ));
 		}
 
 		return $instance;
