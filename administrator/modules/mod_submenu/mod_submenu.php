@@ -182,71 +182,12 @@ class JAdminSubMenu
 				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
-			case 'com_content' :
-				$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png', 'active' => 1);			
-				$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png');			
-				$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png');			
-				$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png');			
-
-				$menu = JAdminSubMenu::buildList($subMenuList);
-				break;
-			
-			case 'com_sections' :
-				$scope = JRequest::getVar('scope');
-				
-				if ($scope == 'content') {
-					$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png');			
-					$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png');			
-					$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png', 'active' => 1);					
-					$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png');						
-
-					$menu = JAdminSubMenu::buildList($subMenuList);
-				}
-				break;
-			
-			case 'com_trash' :
-				if ($task == 'viewContent') {
-					$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png');			
-					$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png');			
-					$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png');					
-					$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png', 'active' => 1);						
-					
-					$menu = JAdminSubMenu::buildList($subMenuList);
-				} else if ($task == 'viewMenu') {
-					$subMenuList[] 	= array ('title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'img' => '../includes/js/ThemeOffice/menus.png');			
-					$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewMenu', 'img' => '../includes/js/ThemeOffice/trash.png', 'active' => 1);						
-					
-					$menu = JAdminSubMenu::buildList($subMenuList);
-				}
-				break;
-			
-			case 'com_menumanager' :
-			case 'com_menus' :
-				// handling for active sub menu item
-				$active = 0;
-				if ($option == 'com_menumanager') {
-					$active = 1;
-				}
-
-				$subMenuList[] 	= array ('title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'img' => '../includes/js/ThemeOffice/menus.png', 'active' => $active);			
-				$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewMenu', 'img' => '../includes/js/ThemeOffice/trash.png');						
-				
-				$menu = JAdminSubMenu::buildList($subMenuList);
-				break;
-			
 			case 'com_categories' :
 				$section = JRequest::getVar('section');
 				$subMenuList = array();
 				
 				if ($section) {
-					if ($section == 'content') {
-						$subMenuList[] 	= array ('title' => JText::_('Article Manager'), 'link' => 'index2.php?option=com_content', 'img' => '../includes/js/ThemeOffice/content.png');			
-						$subMenuList[] 	= array ('title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'img' => '../includes/js/ThemeOffice/categories.png', 'active' => 1);			
-						$subMenuList[] 	= array ('title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'img' => '../includes/js/ThemeOffice/sections.png');			
-						$subMenuList[] 	= array ('title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'img' => '../includes/js/ThemeOffice/trash.png');						
-
-						$menu = JAdminSubMenu::buildList($subMenuList);
-					} else {
+					if ($section != 'content') {
 						// special handling for specific core components
 						switch ($section) {
 							case 'com_contact_details' :
