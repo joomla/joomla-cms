@@ -248,84 +248,87 @@ class JTemplatesView
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+		
+		<div class="col60">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
-		<div id="editcell">
-			<table cellspacing="0" cellpadding="0" width="100%">
-			<tr valign="top">
-				<td width="60%">
-					<table class="adminform">
-					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Template Details' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td valign="top">
-							<?php echo JText::_( 'Name' ); ?>:
-						</td>
-						<td>
-							<strong>
-								<?php echo JText::_($row->name); ?>
-							</strong>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top">
-							<?php echo JText::_( 'Published' ); ?>:
-						</td>
-						<td>
-							<?php echo $lists['published']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top">
-							<?php echo JText::_( 'Description' ); ?>:
-						</td>
-						<td>
-							<?php echo JText::_($row->description); ?>
-						</td>
-					</tr>
-					</table>
-					<table  width="100%" class="adminform">
-					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Parameters' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<?php
-							if ( !is_null($params) ) {
-								echo $params->render();
-							} else {
-								echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
-							}
-							?>
-						</td>
-					</tr>
-					</table>
-				</td>
-				<td width="40%" >
-					<table width="100%" class="adminform">
-					<tr>
-						<th class="left" colspan="2">
-							<?php echo JText::_( 'Assign template' ); ?>
-				 			<?php echo $row->name; ?> <?php echo JText::_( 'to menu items' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td valign="top" >
-							<?php echo JText::_( 'Page(s)' ); ?>:
-						</td>
-						<td width="90%">
-							<?php echo $lists['selections']; ?>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			</table>
+				<table class="admintable">
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Name' ); ?>:
+					</td>
+					<td>
+						<strong>
+							<?php echo JText::_($row->name); ?>
+						</strong>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Published' ); ?>:
+					</td>
+					<td>
+						<?php echo $lists['published']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Description' ); ?>:
+					</td>
+					<td>
+						<?php echo JText::_($row->description); ?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+			
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td>
+						<?php
+						if ( !is_null($params) ) {
+							echo $params->render();
+						} else {
+							echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
+						}
+						?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
 		</div>
+		
+		<div class="col40">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<th class="left" colspan="2">
+						<?php echo JText::_( 'Assign template' ); ?>
+			 			<?php echo $row->name; ?> <?php echo JText::_( 'to menu items' ); ?>
+					</th>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Page(s)' ); ?>:
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" colspan="2">
+						<?php echo $lists['selections']; ?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="template" value="<?php echo $row->directory; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
