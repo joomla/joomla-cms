@@ -329,9 +329,9 @@ class JMediaViews
 		$base = "/images/";
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
 
-		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$icon."_48.png";
+		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$icon.".png";
 		if (file_exists($iconfile)) {
-			$icon = "components/com_media/images/".$icon."_48.png";
+			$icon = "components/com_media/images/mime-icon-32/".$icon.".png";
 		} else {
 			$icon = "components/com_media/images/con_info.png";
 		}
@@ -461,9 +461,9 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.$icon."_16.png";
+		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$icon.".png";
 		if (file_exists($iconfile)) {
-			$icon = "components/com_media/images/".$icon."_16.png";
+			$icon = "components/com_media/images/mime-icon-16/".$icon.".png";
 		} else {
 			$icon = "components/com_media/images/con_info.png";
 		}
