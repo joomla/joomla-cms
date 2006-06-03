@@ -26,17 +26,10 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		editCategory( 0, $section );
-		break;
-
 	case 'edit':
-		editCategory( intval( $cid[0] ), $section );
+		editCategory( );
 		break;
-
-	case 'editA':
-		editCategory( intval( $id ), $section );
-		break;
-
+		
 	case 'moveselect':
 		moveCategorySelect( $option, $cid, $section );
 		break;
@@ -278,12 +271,17 @@ function showCategories( $section, $option )
 * @param integer The unique id of the category to edit (0 if new)
 * @param string The name of the current user
 */
-function editCategory( $uid=0, $section='' )
+function editCategory( )
 {
 	global $database, $my;
 
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
+	$section 	= JRequest::getVar( 'section', 'content' );
+	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
 
 	// check for existance of any sections
 	$query = "SELECT COUNT( id )"
@@ -299,7 +297,7 @@ function editCategory( $uid=0, $section='' )
 
 	$row =& JTable::getInstance('category', $database );
 	// load the row from the db table
-	$row->load( $uid );
+	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
@@ -309,7 +307,7 @@ function editCategory( $uid=0, $section='' )
 
 	$lists['links']	= 0;
 	$menus 			= NULL;
-	if ( $uid ) {
+	if ( $cid[0] ) {
 		// existing record
 		$row->checkout( $my->id );
 		// code for Link Menu
@@ -443,7 +441,7 @@ function editCategory( $uid=0, $section='' )
 	. "\n WHERE section = '$row->section'"
 	. "\n ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $uid, $query );
+	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query );
 
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );

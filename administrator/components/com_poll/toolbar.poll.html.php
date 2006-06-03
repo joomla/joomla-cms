@@ -24,18 +24,18 @@ class TOOLBAR_poll {
 	* Draws the menu for Editing an existing category
 	*/
 	function _EDIT( $pollid ) {
-		global $id;
+		$cid = JRequest::getVar( 'cid', array(0));
 
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
 		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
-		if ($id) {
+		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
 		JMenuBar::apply();
 		JMenuBar::save();
-		if ( $id ) {
+		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

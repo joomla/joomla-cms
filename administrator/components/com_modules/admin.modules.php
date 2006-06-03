@@ -41,20 +41,11 @@ switch ( $task )
 		break;
 
 	case 'new':
-		//editModule( $option, 0, $client );
-		selectnew();
+		selectnew( );
 		break;
 
 	case 'edit':
-		if ( $module && $cid[0] == 0 && $id == 0 ) {
-			editModule( $option, 0, $module );
-		} else {
-			editModule( $option, $cid[0]);
-		}
-		break;
-
-	case 'editA':
-		editModule( $option, $id );
+		editModule( );
 		break;
 
 	case 'save':
@@ -371,7 +362,7 @@ function saveModule( $option, $task )
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editModule( $option, $uid, $module=NULL )
+function editModule( )
 {
 	global $database, $my, $mainframe;
 
@@ -379,11 +370,17 @@ function editModule( $option, $uid, $module=NULL )
 	 * Initialize some variables
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$module = JRequest::getVar( 'module' );
+	$option = JRequest::getVar( 'option');
+	$cid 	= JRequest::getVar( 'cid', array(0));
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}	
 
 	$lists 	= array();
 	$row 	=& JTable::getInstance('module', $database );
 	// load the row from the db table
-	$row->load( $uid );
+	$row->load( $cid[0] );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
@@ -392,13 +389,13 @@ function editModule( $option, $uid, $module=NULL )
 
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
 
-	if ( $uid ) {
+	if ( $cid[0] ) {
 		$row->checkout( $my->id );
 	}
 	// if a new record we must still prime the JTableModel object with a default
 	// position and the order; also add an extra item to the order list to
 	// place the 'new' record in last position if desired
-	if ($uid == 0) {
+	if ($cid[0] == 0) {
 		$row->position 	= 'left';
 		$row->showtitle = true;
 		$row->published = 1;
@@ -463,7 +460,7 @@ function editModule( $option, $uid, $module=NULL )
 	$lists['position'] 	= mosHTML::selectList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
 
 	// get selected pages for $lists['selections']
-	if ( $uid ) {
+	if ( $cid[0] ) {
 		$query = "SELECT menuid AS value"
 		. "\n FROM #__modules_menu"
 		. "\n WHERE moduleid = $row->id"

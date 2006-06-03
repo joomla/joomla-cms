@@ -31,18 +31,10 @@ $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 
 switch ($task) {
-	case 'new':
-		editWeblink( $option, 0 );
+	case 'new':	case 'edit':
+		editWeblink();
 		break;
-
-	case 'edit':
-		editWeblink( $option, $cid[0] );
-		break;
-
-	case 'editA':
-		editWeblink( $option, $id );
-		break;
-
+	
 	case 'save':
 	case 'apply':
 		saveWeblink( $task );
@@ -170,15 +162,21 @@ function showWeblinks( $option ) {
 * Compiles information to add or edit
 * @param integer The unique id of the record to edit (0 if new)
 */
-function editWeblink( $option, $id )
+function editWeblink()
 {
 	global $database, $my;
 
+	$option = JRequest::getVar( 'option');
+	$cid 	= JRequest::getVar( 'cid', array(0));
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
+	
 	$lists = array();
 
 	$row = new JTableWeblink( $database );
 	// load the row from the db table
-	$row->load( $id );
+	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
@@ -186,7 +184,7 @@ function editWeblink( $option, $id )
 		josRedirect( 'index2.php?option='. $option, $msg );
 	}
 
-	if ($id) {
+	if ($cid[0]) {
 		$row->checkout( $my->id );
 	} else {
 		// initialise new record
@@ -202,7 +200,7 @@ function editWeblink( $option, $id )
 	. "\n WHERE catid = $row->catid"
 	. "\n ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $id, $query, 1 );
+	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
 	// build list of categories
 	$lists['catid'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );

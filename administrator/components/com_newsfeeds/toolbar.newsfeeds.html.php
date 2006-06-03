@@ -31,17 +31,17 @@ class TOOLBAR_newsfeeds  {
 	}
 
 	function _EDIT() {
-		global $id;
-
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$cid = JRequest::getVar( 'cid', array(0));
+		
+		$text 	= ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
-		if ($id) {
+		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
 		JMenuBar::apply();
 		JMenuBar::save();
-		if ( $id ) {
+		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

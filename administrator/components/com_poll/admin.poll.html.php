@@ -80,7 +80,7 @@ class HTML_poll
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link 		= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
+				$link 		= ampReplace( 'index2.php?option=com_poll&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
@@ -224,6 +224,20 @@ class HTML_poll
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" id="polloption<?php echo $options[$i]->id; ?>" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
+							</td>
+						</tr>
+						<?php
+					}
+					for (; $i < 12; $i++) {
+						?>
+						<tr>
+							<td>
+								<label for="polloption<?php echo $i + 1; ?>">
+									<?php echo JText::_( 'Option' ); ?> <?php echo $i + 1; ?>
+								</label>
+							</td>
+							<td>
+								<input class="inputbox" type="text" name="polloption[]" id="polloption<?php echo $i + 1; ?>" value="" size="60" />
 							</td>
 						</tr>
 						<?php

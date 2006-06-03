@@ -98,15 +98,21 @@ class JBannerController {
 		JViewBanners::showBanners( $rows, $pageNav, $option, $lists );
 	}
 
-	function edit( $bannerid, $option ) {
+	function edit( ) {
 		global $database, $my;
 
+		$cid 	= JRequest::getVar('cid', array(0));
+		$option = JRequest::getVar('option');
+		if (!is_array( $cid )) {
+			$cid = array(0);
+		}
+		
 		$lists = array();
 
 		$row = new mosBanner($database);
-		$row->load( $bannerid );
+		$row->load( $cid[0] );
 
-		if ( $bannerid ){
+		if ($cid[0]){
 			$row->checkout( $my->id );
 		} else {
 			$row->showBanner = 1;

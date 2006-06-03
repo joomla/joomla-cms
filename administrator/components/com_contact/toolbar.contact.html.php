@@ -24,19 +24,19 @@ class TOOLBAR_contact {
 	* Draws the menu for a New Contact
 	*/
 	function _EDIT() {
-		global $id;
+		$cid = JRequest::getVar( 'cid', array(0));
 
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Contact' ) .': <small><small>[ '. $text .' ]</small></small>', 'generic.png' );
-		if ($id) {
+		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
 		JMenuBar::apply();
 		JMenuBar::save();
 		JMenuBar::custom( 'save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false );
 		JMenuBar::custom( 'save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false );
-		if ( $id ) {
+		if ( $cid[0] ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

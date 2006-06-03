@@ -23,15 +23,18 @@ class TOOLBAR_categories {
 	*/
 	function _EDIT()
 	{
-		global $id;
+		$cid = JRequest::getVar( 'cid', array(0));
 
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
 		JMenuBar::media_manager();
+		if ($cid[0]) {
+			JMenuBar::trash('remove', 'Delete', false);
+		}
 		JMenuBar::save();
 		JMenuBar::apply();
-		if ( $id ) {
+		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
@@ -39,6 +42,7 @@ class TOOLBAR_categories {
 		}
 		JMenuBar::help( 'screen.categories.edit' );
 	}
+	
 	/**
 	* Draws the menu for Moving existing categories
 	* @param int The published state (to display the inverse button)
@@ -49,6 +53,7 @@ class TOOLBAR_categories {
 		JMenuBar::save( 'movesave' );
 		JMenuBar::cancel();
 	}
+	
 	/**
 	* Draws the menu for Copying existing categories
 	* @param int The published state (to display the inverse button)
@@ -59,6 +64,7 @@ class TOOLBAR_categories {
 		JMenuBar::save( 'copysave' );
 		JMenuBar::cancel();
 	}
+	
 	/**
 	* Draws the menu for Editing an existing category
 	*/

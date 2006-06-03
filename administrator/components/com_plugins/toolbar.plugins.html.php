@@ -21,14 +21,14 @@ class TOOLBAR_modules {
 	* Draws the menu for Editing an existing module
 	*/
 	function _EDIT() {
-		global $id;
+		$cid = JRequest::getVar( 'cid', array(0));
 
-		$text = $id ? JText::_('Edit') : JText::_('New');
+		$text = $cid[0] ? JText::_('Edit') : JText::_('New');
 
 		JMenuBar::title( JText::_( 'Plugin' ) .': <small><small>[' .$text. ']</small></small>', 'module.png' );
 		JMenuBar::save();
 		JMenuBar::apply();
-		if ( $id ) {
+		if ( $cid[0] ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

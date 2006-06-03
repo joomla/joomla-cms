@@ -89,7 +89,7 @@ class HTML_weblinks
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link 	= ampReplace( 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id );
+				$link 	= ampReplace( 'index2.php?option=com_weblinks&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );

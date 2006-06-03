@@ -31,18 +31,20 @@ class TOOLBAR_modules {
 	* Draws the menu for Editing an existing module
 	*/
 	function _EDIT( $client ) {
-		global $id;
-
+		$cid 		= JRequest::getVar( 'cid', array(0));
 		$moduleType = JRequest::getVar( 'module' );
 
 		JMenuBar::title( JText::_( 'Module Manager' ) .' - <span>' . JText::_( 'Edit Module' ) . '</span>', 'module.png' );
 
 		if($moduleType == 'custom') {
-			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
+			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$cid[0]);
+		}
+		if ($cid[0]) {
+			JMenuBar::trash('remove', 'Delete', false);
 		}
 		JMenuBar::save();
 		JMenuBar::apply();
-		if ( $id ) {
+		if ( $cid[0] ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

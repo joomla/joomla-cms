@@ -38,11 +38,7 @@ switch ( $task )
 {
 	case 'new':
 	case 'edit':
-		editPlugin( $option, $cid[0], $client );
-		break;
-
-	case 'editA':
-		editPlugin( $option, $id, $client );
+		editPlugin( );
 		break;
 
 	case 'save':
@@ -228,15 +224,22 @@ function savePlugin( $option, $client, $task )
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editPlugin( $option, $uid, $client )
+function editPlugin( )
 {
 	global $database, $my, $mainframe;
 
+	$client = JRequest::getVar( 'client', 'site' );
+	$option = JRequest::getVar( 'option');
+	$cid 	= JRequest::getVar( 'cid', array(0));
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
+	
 	$lists 	= array();
 	$row 	=& JTable::getInstance('plugin', $database);
 
 	// load the row from the db table
-	$row->load( $uid );
+	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
@@ -258,7 +261,7 @@ function editPlugin( $option, $uid, $client )
 		$lists['access'] = mosAdminMenus::Access( $row );
 	}
 
-	if ($uid) {
+	if ($cid[0]) {
 		$row->checkout( $my->id );
 
 		if ( $row->ordering > -10000 && $row->ordering < 10000 ) {

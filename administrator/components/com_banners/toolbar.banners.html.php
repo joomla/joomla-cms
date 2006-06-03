@@ -24,21 +24,18 @@ class TOOLBAR_banners {
 	* Draws the menu for to Edit a banner
 	*/
 	function _EDIT() {
-		global $id;
-
-		if ( !$id ) {
-			$id = JRequest::getVar( 'cid' );
-		}
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$cid = JRequest::getVar( 'cid', array(0));
+		
+		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Banner' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
 		JMenuBar::media_manager( 'banners' );
-		if ($id) {
+		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
 		JMenuBar::apply();
 		JMenuBar::save();
-		if ( $id ) {
+		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
@@ -74,20 +71,17 @@ class TOOLBAR_bannerClient {
 	* Draws the menu for to Edit a client
 	*/
 	function _EDIT() {
-		global $id;
-
-		if ( !$id ) {
-			$id = JRequest::getVar( 'cid' );
-		}
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$cid = JRequest::getVar( 'cid', array(0));
+		
+		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Banner Client' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
-		if ($id) {
+		if ($cid[0]) {
 			JMenuBar::trash('removeclients', 'Delete', false);
 		}
 		JMenuBar::apply('applyclient');
 		JMenuBar::save( 'saveclient' );
-		if ( $id ) {
+		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancelclient', JText::_( 'Close' ) );
 		} else {

@@ -24,15 +24,18 @@ class TOOLBAR_sections {
 	* Draws the menu for Editing an existing category
 	*/
 	function _EDIT() {
-		global $id;
+		$cid = JRequest::getVar( 'cid', array(0));
 
-		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
 		JMenuBar::media_manager();
+		if ($cid[0]) {
+			JMenuBar::trash('remove', 'Delete', false);
+		}
 		JMenuBar::save();
 		JMenuBar::apply();
-		if ( $id ) {
+		if ( $cid[0] ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

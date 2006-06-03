@@ -127,7 +127,7 @@ class categories_html
 
 			$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
 
-			$link = 'index2.php?option=com_categories&section='. $section .'&task=editA&hidemainmenu=1&id='. $row->id;
+			$link = 'index2.php?option=com_categories&section='. $section .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -280,14 +280,14 @@ class categories_html
 			<table width="100%">
 			<tr>
 				<td valign="top" width="60%">
-					<table class="adminform">
+					<table class="admintable">
 					<tr>
 						<th colspan="3">
 							<?php echo JText::_( 'Category Details' ); ?>
 						</th>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="title" width="100">
 								<?php echo JText::_( 'Category Title' ); ?>:
 							</label>
@@ -297,7 +297,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="name">
 								<?php echo JText::_( 'Category Name' ); ?>:
 							</label>
@@ -307,7 +307,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td width="120">
+						<td width="120" class="key">
 							<?php echo JText::_( 'Published' ); ?>:
 						</td>
 						<td>
@@ -315,7 +315,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="section">
 								<?php echo JText::_( 'Section' ); ?>:
 							</label>
@@ -325,7 +325,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="ordering">
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</label>
@@ -335,7 +335,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<label for="access">
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</label>
@@ -355,7 +355,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="image">
 								<?php echo JText::_( 'Image' ); ?>:
 							</label>
@@ -365,7 +365,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="image_position">
 								<?php echo JText::_( 'Image Position' ); ?>:
 							</label>

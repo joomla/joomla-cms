@@ -24,14 +24,16 @@ class TOOLBAR_users {
 	* Draws the menu to edit a user
 	*/
 	function _EDIT() {
-		global $id;
 		$cid = JRequest::getVar( 'cid', array(0) );
 		$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
 		JMenuBar::title( JText::_( 'User Manager' ) .' - <span>'. $text.'</span>', 'user.png' );
+		if ($cid[0]) {
+			JMenuBar::trash('remove', 'Delete', false);
+		}
 		JMenuBar::save();
 		JMenuBar::apply();
-		if ( $id ) {
+		if ( $cid[0] ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {

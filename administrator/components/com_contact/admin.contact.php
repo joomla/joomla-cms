@@ -35,15 +35,8 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		editContact( '0', $option);
-		break;
-
 	case 'edit':
-		editContact( $cid[0], $option );
-		break;
-
-	case 'editA':
-		editContact( $id, $option );
+		editContact( );
 		break;
 
 	case 'apply':
@@ -182,20 +175,26 @@ function showContacts( $option )
 * @param int The id of the record, 0 if a new entry
 * @param string The current GET/POST option
 */
-function editContact( $id, $option ) {
+function editContact( ) {
 	global $database, $my;
 
+	$cid 	= JRequest::getVar( 'cid', array(0));
+	$option = JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
+	
 	$row = new JTableContact( $database );
 	// load the row from the db table
-	$row->load( $id );
+	$row->load( $cid[0] );
 
-	if ($id) {
+	if ($cid[0]) {
 		// do stuff for existing records
 		$row->checkout($my->id);
 	} else {
 		// do stuff for new records
-		$row->imagepos = 'top';
-		$row->ordering = 0;
+		$row->imagepos 	= 'top';
+		$row->ordering 	= 0;
 		$row->published = 1;
 	}
 	$lists = array();
@@ -207,7 +206,7 @@ function editContact( $id, $option ) {
 	. "\n AND catid = '$row->catid'"
 	. "\n ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $id, $query, 1 );
+	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
 	// build list of users
 	$lists['user_id'] 			= mosAdminMenus::UserSelect( 'user_id', $row->user_id, 1, NULL, 'name', 0 );

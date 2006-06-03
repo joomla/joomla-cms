@@ -107,7 +107,7 @@ class sections_html
 		for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
 			$row = &$rows[$i];
 
-			$link 		= 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $row->id;
+			$link 		= 'index2.php?option=com_sections&scope=content&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -248,14 +248,14 @@ class sections_html
 			<table width="100%">
 			<tr>
 				<td valign="top" width="60%">
-					<table class="adminform" border="1">
+					<table class="admintable">
 					<tr>
 						<th colspan="3">
 							<?php echo JText::_( 'Section Details' ); ?>
 						</th>
 					</tr>
 					<tr>
-						<td width="100">
+						<td width="100" class="key">
 							<?php echo JText::_( 'Scope' ); ?>:
 						</td>
 						<td colspan="2">
@@ -265,7 +265,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="title">
 								<?php echo JText::_( 'Title' ); ?>:
 							</label>
@@ -275,7 +275,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td nowrap="nowrap">
+						<td nowrap="nowrap" class="key">
 							<label for="name">
 								<?php echo JText::_( 'Section Name' ); ?>:
 							</label>
@@ -285,7 +285,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<?php echo JText::_( 'Published' ); ?>:
 						</td>
 						<td colspan="2">
@@ -293,7 +293,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="ordering">
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</label>
@@ -303,7 +303,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td nowrap="nowrap" valign="top">
+						<td nowrap="nowrap" valign="top" class="key">
 							<label for="access">
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</label>
@@ -322,7 +322,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="image">
 								<?php echo JText::_( 'Image' ); ?>:
 							</label>
@@ -332,7 +332,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td nowrap="nowrap">
+						<td nowrap="nowrap" class="key">
 							<label for="image_position">
 								<?php echo JText::_( 'Image Position' ); ?>:
 							</label>
@@ -342,7 +342,7 @@ class sections_html
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" colspan="2">
+						<td valign="top" colspan="3">
 							<label for="description">
 								<?php echo JText::_( 'Description' ); ?>:
 							</label>

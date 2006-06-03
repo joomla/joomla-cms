@@ -93,7 +93,7 @@ class JViewBanners {
 				$row = &$rows[$i];
 
 				$row->id 	= $row->bid;
-				$link 		= ampReplace( 'index2.php?option=com_banners&task=editA&hidemainmenu=1&id='. $row->id );
+				$link 		= ampReplace( 'index2.php?option=com_banners&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$impleft 	= $row->imptotal - $row->impmade;
 				if( $impleft < 0 ) {

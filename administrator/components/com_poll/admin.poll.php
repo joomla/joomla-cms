@@ -34,15 +34,8 @@ if (!is_array( $cid )) {
 
 switch( $task ) {
 	case 'new':
-		editPoll( 0, $option );
-		break;
-
 	case 'edit':
-		editPoll( $cid[0], $option );
-		break;
-
-	case 'editA':
-		editPoll( $id, $option );
+		editPoll( );
 		break;
 
 	case 'save':
@@ -145,9 +138,16 @@ function showPolls( $option ) {
 	HTML_poll::showPolls( $rows, $pageNav, $option, $lists );
 }
 
-function editPoll( $uid=0, $option='com_poll' ) {
+function editPoll( ) {
 	global $database, $my;
 
+	$cid 	= JRequest::getVar( 'cid', array(0));
+	$option = JRequest::getVar( 'option');
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
+	$uid 	= $cid[0];
+	
 	$row = new mosPoll( $database );
 	// load the row from the db table
 	$row->load( $uid );

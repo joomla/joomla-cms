@@ -114,7 +114,7 @@ class HTML_modules {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
-				$link = ampReplace( 'index2.php?option=com_modules&client='. $client->id .'&task=editA&hidemainmenu=1&id='. $row->id );
+				$link 		= ampReplace( 'index2.php?option=com_modules&client='. $client->id .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );

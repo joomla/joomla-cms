@@ -27,15 +27,8 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		editSection( 0, $scope, $option );
-		break;
-
 	case 'edit':
-		editSection( $cid[0], '', $option );
-		break;
-
-	case 'editA':
-		editSection( $id, '', $option );
+		editSection( );
 		break;
 
 	case 'go2menu':
@@ -215,12 +208,19 @@ function showSections( $scope, $option ) {
 * @param integer The unique id of the category to edit (0 if new)
 * @param string The name of the current user
 */
-function editSection( $uid=0, $scope='', $option ) {
+function editSection( ) {
 	global $database, $my;
 
+	$option 	= JRequest::getVar( 'option');
+	$scope 		= JRequest::getVar( 'scope' );
+	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
+	
 	$row =& JTable::getInstance('section', $database );
 	// load the row from the db table
-	$row->load( $uid );
+	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
@@ -228,7 +228,7 @@ function editSection( $uid=0, $scope='', $option ) {
 		josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&josmsg='. $msg );
 	}
 
-	if ( $uid ) {
+	if ( $cid[0] ) {
 		$row->checkout( $my->id );
 		if ( $row->id > 0 ) {
 			$query = "SELECT *"
@@ -275,7 +275,7 @@ function editSection( $uid=0, $scope='', $option ) {
 	. "\n FROM #__sections"
 	. "\n WHERE scope='$row->scope' ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $uid, $query );
+	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query );
 
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );

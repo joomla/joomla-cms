@@ -21,17 +21,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_weblinks {
 	function _EDIT() {
-		global $id;
+		$cid = JRequest::getVar( 'cid', array(0));
 
-		$text = $id ? JText::_( 'Edit' ) : JText::_( 'New' );
+		$text = $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' );
 
 		JMenuBar::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		if ($id) {
+		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
 		JMenuBar::apply();
 		JMenuBar::save();
-		if ( $id ) {
+		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
@@ -44,8 +44,8 @@ class TOOLBAR_weblinks {
 		JMenuBar::title(   JText::_( 'Weblink Manager' ), 'impressions.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::editListX();
 		JMenuBar::deleteList();
+		JMenuBar::editListX();
 		JMenuBar::addNewX();
 		JMenuBar::help( 'screen.weblink' );
 	}

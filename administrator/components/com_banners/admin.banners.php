@@ -39,11 +39,10 @@ if (!is_array( $cid )) {
 }
 
 switch ($task) {
-// Banners
-
 	case 'new':
-		JBannerController::edit( null, $option );
-		break;
+	case 'edit':
+		JBannerController::edit( );
+		break;	
 
 	case 'cancel':
 		JBannerController::cancelEditBanner();
@@ -53,14 +52,6 @@ switch ($task) {
 	case 'resethits':
 	case 'apply':
 		JBannerController::saveBanner( $task );
-		break;
-
-	case 'edit':
-		JBannerController::edit( $cid[0], $option );
-		break;
-
-	case 'editA':
-		JBannerController::edit( $id, $option );
 		break;
 
 	case 'remove':
@@ -78,15 +69,8 @@ switch ($task) {
 // Clients
 
 	case 'newclient':
-		JBannerClientController::editBannerClient( 0, $option );
-		break;
-
 	case 'editclient':
-		JBannerClientController::editBannerClient( $cid[0], $option );
-		break;
-
-	case 'editclientA':
-		JBannerClientController::editBannerClient( $id, $option );
+		JBannerClientController::editBannerClient( );
 		break;
 
 	case 'saveclient':

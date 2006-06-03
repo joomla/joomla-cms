@@ -74,11 +74,17 @@ class JBannerClientController {
 		JViewBannerClients::showClients( $rows, $pageNav, $option, $lists );
 	}
 	
-	function editBannerClient( $clientid, $option ) {
+	function editBannerClient( ) {
 		global $database, $my;
 	
+		$cid 	= JRequest::getVar( 'cid', array(0));
+		$option = JRequest::getVar( 'option');
+		if (!is_array( $cid )) {
+			$cid = array(0);
+		}
+		
 		$row = new mosBannerClient($database);
-		$row->load($clientid);
+		$row->load($cid[0]);
 	
 		// fail if checked out not by 'me'
 		if ($row->checked_out && $row->checked_out <> $my->id) {
@@ -86,7 +92,7 @@ class JBannerClientController {
 			josRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 		}
 	
-		if ($clientid) {
+		if ($cid[0]) {
 			// do stuff for existing record
 			$row->checkout( $my->id );
 		} else {

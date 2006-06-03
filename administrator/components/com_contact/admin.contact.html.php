@@ -91,7 +91,7 @@ class HTML_contact
 			for ($i=0, $n=count($rows); $i < $n; $i++) {
 				$row = $rows[$i];
 
-				$link 		= ampReplace( 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id='. $row->id );
+				$link 		= ampReplace( 'index2.php?option=com_contact&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );

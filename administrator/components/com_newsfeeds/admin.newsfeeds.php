@@ -80,7 +80,7 @@ switch ($task) {
 function showNewsFeeds(  ) {
 	global $mainframe;
 
-	$option = JRequest::getVar( 'option');
+	$option 			= JRequest::getVar( 'option');
 	$database 			= $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -209,7 +209,7 @@ function saveNewsFeed(  ) {
 	global $mainframe;
 
 	$database 	= $mainframe->getDBO();
-	$task 	= JRequest::getVar( 'task');
+	$task 		= JRequest::getVar( 'task');
 
 	$row 		= new mosNewsFeed( $database );
 	if (!$row->bind( $_POST )) {
@@ -315,7 +315,7 @@ function removeNewsFeeds( ) {
 
 	$database 	= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
-	$option = JRequest::getVar( 'option');
+	$option 	= JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
