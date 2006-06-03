@@ -35,7 +35,6 @@ class JMenuViewWizard extends JWizardView
 		$app		= &$this->get('Application');
 		$type		= $app->getUserStateFromRequest('menuwizard.type', 'type', 'component');
 		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$url		= $app->getUserStateFromRequest('menuwizard.url', 'url', 'http://');
 		$option		= $app->getUserStateFromRequest('menuwizard.component', 'component', 'com_content');
 		$menuTypes 	= $this->get('MenuTypelist');
 		$components	= $this->get('ComponentList');
@@ -91,13 +90,7 @@ class JMenuViewWizard extends JWizardView
 							<?php echo JText::_('URL');?>
 						</label>
 					</td>
-					<td valign="top">
-						<label for="type_url">
-							<?php echo JText::_('URL Address');?>
-						</label>
-						<br/>
-						<input type="text" name="url" size="40" value="<?php echo $url; ?>" />
-						<br/>
+					<td>
 						<?php echo JText::_('Link another URL to this menu item');?>
 					</td>
 				</tr>
@@ -120,7 +113,7 @@ class JMenuViewWizard extends JWizardView
 						</label>
 						<br/>
 					</td>
-					<td valign="top">
+					<td>
 						<?php echo JText::_('Link to an existing menu item');?>
 					</td>
 				</tr>
@@ -128,7 +121,7 @@ class JMenuViewWizard extends JWizardView
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_menus" />
-		<input type="hidden" name="task" value="newwiz" />
+		<input type="hidden" name="task" value="wizard" />
 		<input type="hidden" name="step" value="1" />
 		<input type="hidden" name="tmpl" value="component.html" />
 	</form>
@@ -180,7 +173,7 @@ class JMenuViewWizard extends JWizardView
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_menus" />
-		<input type="hidden" name="task" value="newwiz" />
+		<input type="hidden" name="task" value="wizard" />
 		<input type="hidden" id="step" name="step" value="<?php echo $step;?>" />
 		<input type="hidden" name="tmpl" value="component.html" />
 

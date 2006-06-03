@@ -4,6 +4,8 @@
 		<steps />
 	</control>
 	<state>
+		<name>Menu Link</name>
+		<description>Menu Link parameters...</description>
 		<params>
 			<param name="menu_item" type="menuitem" label="Menu Item" description="Menu Item to link to..." />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />

@@ -43,6 +43,8 @@ class JMenuViewItem extends JView
 		$control	= $this->get( 'ControlParams' );
 		$params		= $this->get( 'StateParams' );
 		$details	= $this->get( 'Details' );
+		$name		= $this->get( 'StateName' );
+		$description	= $this->get( 'StateDescription' );
 		$controlFields	= $this->get( 'ControlFields' );
 
 		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
@@ -59,31 +61,15 @@ class JMenuViewItem extends JView
 			return;
 		}
 
-		var comp_links = new Array;
-		<?php
-		foreach ($components as $row) {
-			?>
-			comp_links[ <?php echo $row->id;?> ] = 'index.php?<?php echo addslashes( $row->link );?>';
-			<?php
-		}
-		?>
-		if ( form.id.value == 0 ) {
-			var comp_id = getSelectedValue( 'adminForm', 'componentid' );
-			form.link.value = comp_links[comp_id];
-		} else {
-			form.link.value = comp_links[form.componentid.value];
-		}
-
-		if ( trim( form.name.value ) == "" ){
+		if ( (trim( form.type.value ) != "separator") && (trim( form.name.value ) == "") ){
 			alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
-		} else if (form.componentid.value == ""){
-			alert( "<?php echo JText::_( 'Please select a Component', true ); ?>" );
 		} else {
 			submitform( pressbutton );
 		}
 	}
 	</script>
-	<h1>BROKEN - WIP - I KNOW</h1>
+	<h2><?php echo $name; ?></h2>
+	<h4><?php echo $description; ?></h4>
 	<form action="index2.php" method="post" name="adminForm">
 
 		<table class="admintable" width="100%">
@@ -161,7 +147,7 @@ class JMenuViewItem extends JView
 						<table width="100%">
 							</tr>
 								<td align="right"  colspan="2">
-									<a onclick="document.popup.show('index.php?option=com_menus&amp;task=newwiz&amp;tmpl=component.html&amp;id=<?php echo $item->id; ?>', 700, 500, null);" class="toolbar">
+									<a onclick="document.popup.show('index.php?option=com_menus&amp;task=wizard&amp;tmpl=component.html&amp;id=<?php echo $item->id; ?>', 700, 500, null);" class="toolbar">
 										[ EDIT ]
 									</a>
 								</td>
@@ -175,15 +161,6 @@ class JMenuViewItem extends JView
 									<?php echo $detail['name']; ?>
 								</td>
 							</tr>
-							<?php }
-							$cArray = $control->toArray();
-							foreach($cArray as $k => $v) { ?>
-							</tr>
-								<td></td>
-								<td>
-									<?php echo $v; ?>
-								</td>
-							</tr>
 							<?php } ?>
 						</table>
 					</fieldset>
@@ -194,7 +171,7 @@ class JMenuViewItem extends JView
 							<?php echo JText::_( 'Menu Item Parameters' ); ?>
 						</legend>
 					<?php
-						echo $params->render('state');
+						echo $params->render('params');
 					?>
 					</fieldset>
 				</td>
@@ -208,8 +185,7 @@ class JMenuViewItem extends JView
 		?>
 		<input type="hidden" name="option" value="com_menus" />
 		<input type="hidden" name="id" value="<?php echo $item->id; ?>" />
-		<input type="hidden" name="cid[]" value="<?php echo $item->id; ?>" />
-		<input type="hidden" name="link" value="" />
+		<input type="hidden" name="link" value="<?php echo $item->link; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $item->menutype; ?>" />
 		<input type="hidden" name="type" value="<?php echo $item->type; ?>" />
 		<input type="hidden" name="task" value="" />

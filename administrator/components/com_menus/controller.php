@@ -24,7 +24,7 @@ class JMenuController extends JController
 	/**
 	 * New menu item wizard
 	 */
-	function newwiz()
+	function wizard()
 	{
 		$model	= &$this->getModel( 'Wizard', 'JMenuModel' );
 		$model->init();
@@ -42,41 +42,33 @@ class JMenuController extends JController
 		$view =& $this->getView( 'Item', 'com_menus', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->edit();
+	}
 
-//		$id	= (int) JRequest::getVar( 'id', 0 );
-//
-//		$model = &$this->getModel( 'JModelMenu' );
-//		$table = &$model->getTable();
-//
-//		$isNew = ($this->getTask() == 'new' || $id == 0);
-//
-//		if ($isNew) {
-//			$id = 0;
-//			$table->type		= JRequest::getVar( 'type' );
-//			$table->menutype	= JRequest::getVar( 'menutype' );
-//			$table->published	= 1;
-//			$table->access		= 0;
-//			switch ($table->type)
-//			{
-//				case 'component':
-//					$table->componentid	= (int) JRequest::getVar( 'componentid', 0 );
-//					break;
-//				case 'url':
-//					$table->link = JRequest::getVar( 'link' );
-//					break;
-//				case 'separator':
-//					$table->name = JRequest::getVar( 'name' );
-//					break;
-//				case 'component_item_link':
-//					break;
-//			}
-//		} else {
-//			$table->load( $id );
-//		}
-//
-//		$view = new JMenuEditView( $this );
-//		$view->setModel( $model, true );
-//		$view->display();
+	/**
+	 * Saves a menu item
+	 */
+	function save()
+	{
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
+
+		$model =& $this->getModel( 'Item', 'JMenuModel' );
+		if ($model->store()) {
+			$msg = JText::_( 'Menu item Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Menu item' );
+		}
+
+		switch ( $this->_task ) {
+			case 'apply':
+				$this->setRedirect( 'index.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
+				break;
+	
+			case 'save':
+			default:
+				$this->setRedirect( 'index.php?option=com_menus&menutype='. $row->menutype, $msg );
+				break;
+		}
 	}
 }
 ?>

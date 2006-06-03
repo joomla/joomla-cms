@@ -102,74 +102,73 @@ class JMenuModelItem extends JModel
 
 	function &getStateParams()
 	{
-		$item =& $this->getItem();
 		$ini = $item->params;
 		$params =& new JParameter($ini);
 
-		// Include and create the helper object
-		if ($item->type) {
-			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
-			$class = 'JMenuHelper'.ucfirst($item->type);
-			$this->_helper =& new $class($this);
-			$xmlInfo =& $this->_helper->getStateXML();
-		} else {
-			// Set default state params...
-		}
-
-		if (file_exists( $xmlInfo['path'] )) {
-
-			$xml =& JFactory::getXMLParser('Simple');
-			if ($xml->loadFile($xmlInfo['path'])) {
-				$this->_xml = &$xml;
-				$document =& $xml->document;
-				$state =& $document->getElementByPath($xmlInfo['xpath']);
-
-				/*
-				 * HANDLE A SWITCH IF IT EXISTS
-				 */
-				if ($switch = $state->attributes('switch')) {
-					// Handle switch
-					$control =& $this->getControlParams();
-					$switchVal = $control->get($switch, 'default');
-
-					foreach ($state->children() as $child) {
-						if ($child->name() == $switchVal) {
-							$state =& $child;
-							break;
-						}
-					}
-				}
-
-				/*
-				 * HANDLE INCLUDED PARAMS
-				 */
-				$children =& $state->children();
-				if (count($children) == 1) {
-					if ($children[0]->name() == 'include') {
-						$state =& $this->_getIncludedParams($children[0]);
-					}
-				}
-
-				if ($switch = $state->attributes('switch')) {
-					// Handle switch
-					$control =& $this->getControlParams();
-					$switchVal = $control->get($switch, 'default');
-
-					foreach ($state->children() as $child) {
-						if ($child->name() == $switchVal) {
-							$state =& $child;
-							break;
-						}
-					}
-				}
-
-				if (is_a($state, 'JSimpleXMLElement')) {
-					$sp =& $state->getElementByPath('params');
-					$params->setXML($sp);
-				}
+		if ($state =& $this->_getStateXML()) {
+			if (is_a($state, 'JSimpleXMLElement')) {
+				$sp =& $state->getElementByPath('params');
+				$params->setXML($sp);
 			}
 		}
 		return $params;
+	}
+
+	function getStateName()
+	{
+		if ($state =& $this->_getStateXML()) {
+			if (is_a($state, 'JSimpleXMLElement')) {
+				$sn =& $state->getElementByPath('name');
+				$name = $sn->data();
+			}
+		}
+		return $name;
+	}
+
+	function getStateDescription()
+	{
+		if ($state =& $this->_getStateXML()) {
+			if (is_a($state, 'JSimpleXMLElement')) {
+				$sd =& $state->getElementByPath('description');
+				$description = $sd->data();
+			}
+		}
+		return $description;
+	}
+
+	function store()
+	{
+		$row =& $this->getItem();
+	
+		// Include and create the helper object
+		if ($row->type && file_exists(COM_MENUS.'helpers'.DS.$row->type.'.php')) {
+			require_once(COM_MENUS.'helpers'.DS.$row->type.'.php');
+			$class = 'JMenuHelper'.ucfirst($row->type);
+			$this->_helper =& new $class($this);
+			$values =& $this->_helper->prepForStore($_POST);
+		} else {
+			$values =& $_POST;
+		}
+
+		if (!$row->bind( $values )) {
+//			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			return false;
+		}
+	
+		$row->name = ampReplace( $row->name );
+	
+		if (!$row->check()) {
+//			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			return false;
+		}
+		if (!$row->store()) {
+//			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			return false;
+		}
+		$row->checkin();
+		$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
+
+		return true;
 	}
 
 	/**
@@ -295,6 +294,78 @@ class JMenuModelItem extends JModel
 		$db->setQuery( $query );
 		$result = $db->loadObjectList( );
 		return $result;
+	}
+
+	function &_getStateXML()
+	{
+
+		static $xml;
+		
+		if (isset($xml)) {
+			return $xml;
+		}
+
+		$item =& $this->getItem();
+
+		// Include and create the helper object
+		if ($item->type) {
+			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
+			$class = 'JMenuHelper'.ucfirst($item->type);
+			$this->_helper =& new $class($this);
+			$xmlInfo =& $this->_helper->getStateXML();
+		} else {
+			// Set default state params...
+		}
+
+		if (file_exists( $xmlInfo['path'] )) {
+
+			$xml =& JFactory::getXMLParser('Simple');
+			if ($xml->loadFile($xmlInfo['path'])) {
+				$this->_xml = &$xml;
+				$document =& $xml->document;
+				$xml =& $document->getElementByPath($xmlInfo['xpath']);
+
+				/*
+				 * HANDLE A SWITCH IF IT EXISTS
+				 */
+				if ($switch = $xml->attributes('switch')) {
+					// Handle switch
+					$control =& $this->getControlParams();
+					$switchVal = $control->get($switch, 'default');
+
+					foreach ($xml->children() as $child) {
+						if ($child->name() == $switchVal) {
+							$xml =& $child;
+							break;
+						}
+					}
+				}
+
+				/*
+				 * HANDLE INCLUDED PARAMS
+				 */
+				$children =& $xml->children();
+				if (count($children) == 1) {
+					if ($children[0]->name() == 'include') {
+						$xml =& $this->_getIncludedParams($children[0]);
+					}
+				}
+
+				if ($switch = $xml->attributes('switch')) {
+					// Handle switch
+					$control =& $this->getControlParams();
+					$switchVal = $control->get($switch, 'default');
+
+					foreach ($xml->children() as $child) {
+						if ($child->name() == $switchVal) {
+							$xml =& $child;
+							break;
+						}
+					}
+				}
+			}
+		return $xml;
+		}
 	}
 
 	function &_getIncludedParams($include)

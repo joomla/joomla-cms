@@ -28,8 +28,6 @@ class JMenuHelperUrl extends JWizardHelper
 
 	var $_type = null;
 
-	var $_url = null;
-
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
 	 * 
@@ -41,7 +39,6 @@ class JMenuHelperUrl extends JWizardHelper
 
 		$app =& $this->_parent->getApplication();
 		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$this->_url = $app->getUserStateFromRequest('menuwizard.url.url', 'url');
 	}
 
 	/**
@@ -53,7 +50,6 @@ class JMenuHelperUrl extends JWizardHelper
 		$values	=& $this->_wizard->getConfirmation();
 
 		$final['type']	= 'url';
-		$final['url']	= $this->_url;
 		$final['menu_type']	= $this->_type;
 
 		return $final;
@@ -61,16 +57,7 @@ class JMenuHelperUrl extends JWizardHelper
 
 	function getDetails()
 	{
-		$item =& $this->_parent->getItem();
-		if ($rUrl = JRequest::getVar('url', false)) {
-			$url = $rUrl;
-		} else {
-			$url = $item->url;
-		}
-
 		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('URL'), 'key' => 'type', 'value' => 'url');
-		$details[] = array('label' => JText::_('URL'), 'name' => $url, 'key' => 'url', 'value' => $url);
-
 		return $details;
 	}
 
@@ -80,6 +67,11 @@ class JMenuHelperUrl extends JWizardHelper
 		$src = dirname(__FILE__).DS.'xml/url.xml';
 		$path = 'state';
 		return array('path' => $src, 'xpath' => $path);
+	}
+
+	function prepForStore(&$values) {
+		$values['link'] = $values['params']['url'];
+		return $values;
 	}
 }
 ?>

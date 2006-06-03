@@ -40,39 +40,16 @@ if (!is_array( $cid )) {
 
 
 switch ($task) {
-	case 'newwiz':
+	case 'wizard':
 	case 'edit':
-		$controller = new JMenuController( $mainframe, 'newwiz' );
-		$controller->setModelPath( COM_MENUS.'models'.DS );
-		$controller->setViewPath( COM_MENUS.'views'.DS );
-		$controller->execute( $task );
-		$controller->redirect();
-		break;
-
-	case 'new':
-		addMenuItem( $cid, $menutype, $option, $task );
-		break;
-
-//	case 'edit':
-//		$cid[0]	= ( $id ? $id : $cid[0] );
-//		$menu =& JTable::getInstance('menu', $database );
-//		if ( $cid[0] ) {
-//			$menu->load( $cid[0]  );
-//		} else {
-//			$menu->type = $type;
-//		}
-//
-//		if ( $menu->type ) {
-//			$type = $menu->type;
-//			require_once( $path . $menu->type .'/'. $menu->type .'.menu.php' );
-//		}
-//		break;
-
 	case 'save':
 	case 'apply':
-		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
-		require_once( $path . $type .'/'. $type .'.menu.php' );
+		$controller = new JMenuController( $mainframe, 'wizard' );
+		$controller->setModelPath( COM_MENUS.'models'.DS );
+		$controller->setViewPath( COM_MENUS.'views'.DS );
+		$controller->registerTask('apply', 'save');
+		$controller->execute( $task );
+		$controller->redirect();
 		break;
 
 	case 'publish':

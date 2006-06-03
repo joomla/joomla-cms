@@ -94,6 +94,10 @@ class JMenuHelper extends JObject {
 		return $params;
 	}
 
+	function prepForStore(&$values) {
+		return $values;
+	}
+
 	/**
 	 * Allows for the parameter handling to be overridden
 	 * if the component supports new parameter types

@@ -67,5 +67,9 @@ class JMenuHelperSeparator extends JWizardHelper
 		$path = 'state';
 		return array('path' => $src, 'xpath' => $path);
 	}
+
+	function prepForStore(&$values) {
+		return $values;
+	}
 }
 ?>

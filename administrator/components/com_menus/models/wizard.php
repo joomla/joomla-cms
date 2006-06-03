@@ -29,7 +29,7 @@ class JMenuModelWizard extends JModel
 	/** @var object JRegistry object */
 	var $_item = null;
 
-	function init($type='')
+	function init($type='component')
 	{
 		// Create the JWizard object
 		jimport('joomla.presentation.wizard');
@@ -73,9 +73,7 @@ class JMenuModelWizard extends JModel
 			}
 
 			$app->setUserState('request.menuwizard.type', $item->type);
-			$app->setUserState('request.menuwizard.mlinktype', $item->menutype);
 			$app->setUserState('request.menuwizard.component', $option);
-			$app->setUserState('request.menuwizard.url', $item->link);
 			$this->_wizard->loadDefault($item->control);
 		}
 	}
