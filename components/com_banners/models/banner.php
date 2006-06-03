@@ -50,6 +50,12 @@ class JModelBanner extends JModel
 		{
 			$temp = array();
 			$n = count( $tagSearch );
+			if ($n == 0)
+			{
+				// if tagsearch is an array, and empty, fail the query
+				$result = array();
+				return $result;
+			}
 			for ($i = 0; $i < $n; $i++)
 			{
 				$temp[] = "tags REGEXP '[[:<:]]".$db->getEscaped( $tagSearch[$i] ) . "[[:>:]]'";
