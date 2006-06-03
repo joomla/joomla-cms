@@ -244,203 +244,195 @@ class sections_html
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table width="100%">
-			<tr>
-				<td valign="top" width="60%">
-					<table class="admintable">
+		<div class="col60">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td width="100" class="key">
+						<?php echo JText::_( 'Scope' ); ?>:
+					</td>
+					<td colspan="2">
+						<strong>
+						<?php echo $row->scope; ?>
+						</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="title">
+							<?php echo JText::_( 'Title' ); ?>:
+						</label>
+					</td>
+					<td colspan="2">
+						<input class="text_area" type="text" name="title" id="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'TIPTITLEFIELD' ); ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" class="key">
+						<label for="name">
+							<?php echo JText::_( 'Section Name' ); ?>:
+						</label>
+					</td>
+					<td colspan="2">
+						<input class="text_area" type="text" name="name" id="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<?php echo JText::_( 'Published' ); ?>:
+					</td>
+					<td colspan="2">
+						<?php echo $lists['published']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="ordering">
+							<?php echo JText::_( 'Ordering' ); ?>:
+						</label>
+					</td>
+					<td colspan="2">
+						<?php echo $lists['ordering']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" valign="top" class="key">
+						<label for="access">
+							<?php echo JText::_( 'Access Level' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['access']; ?>
+					</td>
+					<td rowspan="4" width="50%">
+						<?php
+							$path = $mainframe->getSiteURL() . "/images/";
+							if ($row->image != "blank.png") {
+								$path.= "stories/";
+							}
+						?>
+						<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="image">
+							<?php echo JText::_( 'Image' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['image']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" class="key">
+						<label for="image_position">
+							<?php echo JText::_( 'Image Position' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['image_position']; ?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+			
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td valign="top" colspan="3">
+						<?php
+						// parameters : areaname, content, hidden field, width, height, rows, cols
+						echo $editor->display( 'description',  $row->description, '100%;', '300', '60', '20' ) ;
+						?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+		
+		<div class="col40">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>
+
+				<?php
+				if ( $row->id > 0 ) {
+					?>
+					<table class="adminform">
 					<tr>
-						<th colspan="3">
-							<?php echo JText::_( 'Section Details' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td width="100" class="key">
-							<?php echo JText::_( 'Scope' ); ?>:
-						</td>
 						<td colspan="2">
-							<strong>
-							<?php echo $row->scope; ?>
-							</strong>
+							<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
+							<br /><br />
 						</td>
 					</tr>
 					<tr>
-						<td class="key">
-							<label for="title">
-								<?php echo JText::_( 'Title' ); ?>:
-							</label>
-						</td>
-						<td colspan="2">
-							<input class="text_area" type="text" name="title" id="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'TIPTITLEFIELD' ); ?>" />
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" class="key">
-							<label for="name">
-								<?php echo JText::_( 'Section Name' ); ?>:
-							</label>
-						</td>
-						<td colspan="2">
-							<input class="text_area" type="text" name="name" id="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<?php echo JText::_( 'Published' ); ?>:
-						</td>
-						<td colspan="2">
-							<?php echo $lists['published']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<label for="ordering">
-								<?php echo JText::_( 'Ordering' ); ?>:
-							</label>
-						</td>
-						<td colspan="2">
-							<?php echo $lists['ordering']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" valign="top" class="key">
-							<label for="access">
-								<?php echo JText::_( 'Access Level' ); ?>:
+						<td valign="top" width="100">
+							<label for="menuselect">
+								<?php echo JText::_( 'Select a Menu' ); ?>
 							</label>
 						</td>
 						<td>
-							<?php echo $lists['access']; ?>
-						</td>
-						<td rowspan="4" width="50%">
-							<?php
-								$path = $mainframe->getSiteURL() . "/images/";
-								if ($row->image != "blank.png") {
-									$path.= "stories/";
-								}
-							?>
-							<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
+							<?php echo $lists['menuselect']; ?>
 						</td>
 					</tr>
 					<tr>
-						<td class="key">
-							<label for="image">
-								<?php echo JText::_( 'Image' ); ?>:
+						<td valign="top" width="100">
+							<label for="link_type">
+								<?php echo JText::_( 'Select Menu Type' ); ?>
 							</label>
 						</td>
 						<td>
-							<?php echo $lists['image']; ?>
+							<?php echo $lists['link_type']; ?>
 						</td>
 					</tr>
 					<tr>
-						<td nowrap="nowrap" class="key">
-							<label for="image_position">
-								<?php echo JText::_( 'Image Position' ); ?>:
+						<td valign="top" width="100">
+							<label for="link_name">
+								<?php echo JText::_( 'Menu Item Name' ); ?>
 							</label>
 						</td>
 						<td>
-							<?php echo $lists['image_position']; ?>
+							<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="25" />
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" colspan="3">
-							<label for="description">
-								<?php echo JText::_( 'Description' ); ?>:
-							</label>
+						<td>
 						</td>
-					</tr>
-					<tr>
-						<td valign="top" colspan="3">
-							<?php
-							// parameters : areaname, content, hidden field, width, height, rows, cols
-							echo $editor->display( 'description',  $row->description, '100%;', '300', '60', '20' ) ;
-							?>
+						<td>
+							<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
 						</td>
 					</tr>
 					</table>
-				</td>
-				<td valign="top">
+
 					<?php
-					if ( $row->id > 0 ) {
+					if ( $menus != NULL ) {
 						?>
 						<table class="adminform">
-						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Link to Menu' ); ?>
-							</th>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
-								<br /><br />
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" width="100">
-								<label for="menuselect">
-									<?php echo JText::_( 'Select a Menu' ); ?>
-								</label>
-							</td>
-							<td>
-								<?php echo $lists['menuselect']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" width="100">
-								<label for="link_type">
-									<?php echo JText::_( 'Select Menu Type' ); ?>
-								</label>
-							</td>
-							<td>
-								<?php echo $lists['link_type']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" width="100">
-								<label for="link_name">
-									<?php echo JText::_( 'Menu Item Name' ); ?>
-								</label>
-							</td>
-							<td>
-								<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="25" />
-							</td>
-						</tr>
-						<tr>
-							<td>
-							</td>
-							<td>
-								<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
-							</td>
-						</tr>
-						</table>
-
-						<br />
-
-						<?php
-						if ( $menus != NULL ) {
-							?>
-							<table class="adminform">
-							<?php mosCommonHTML::menuLinksSecCat( $menus ); ?>
-							</table>
-							<?php
-						}
-						?>
-						<?php
-					} else {
-						?>
-						<table class="adminform" width="40%">
-						<tr>
-							<td>
-								<?php echo JText::_( 'Menu links available when saved' ); ?>
-							</td>
-						</tr>
+						<?php mosCommonHTML::menuLinksSecCat( $menus ); ?>
 						</table>
 						<?php
 					}
 					?>
-				</td>
-			</tr>
-			</table>
+					<?php
+				} else {
+					?>
+					<table class="adminform">
+					<tr>
+						<td>
+							<?php echo JText::_( 'Menu links available when saved' ); ?>
+						</td>
+					</tr>
+					</table>
+					<?php
+				}
+				?>
+			</fieldset>
 		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $row->scope; ?>" />

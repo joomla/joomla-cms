@@ -276,16 +276,11 @@ class categories_html
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table width="100%">
-			<tr>
-				<td valign="top" width="60%">
+		<div class="col60">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
 					<table class="admintable">
-					<tr>
-						<th colspan="3">
-							<?php echo JText::_( 'Category Details' ); ?>
-						</th>
-					</tr>
 					<tr>
 						<td class="key">
 							<label for="title" width="100">
@@ -374,13 +369,13 @@ class categories_html
 							<?php echo $lists['image_position']; ?>
 						</td>
 					</tr>
-					<tr>
-						<td valign="top" colspan="2">
-							<label for="description">
-								<?php echo JText::_( 'Description' ); ?>:
-							</label>
-						</td>
-					</tr>
+				</table>
+			</fieldset>
+			
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
 					<tr>
 						<td valign="top" colspan="3">
 							<?php
@@ -390,90 +385,87 @@ class categories_html
 						</td>
 					</tr>
 					</table>
-				</td>
-				<td valign="top" width="40%">
+			</fieldset>
+		</div>
+		
+		<div class="col40">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>
+
+				<?php
+				if ( $row->id > 0 ) {
+					?>
+					<table class="adminform">
+					<tr>
+						<td colspan="2">
+							<?php echo JText::_( 'Will Create New Menu Item in Menu Selected' ); ?>
+						<br /><br />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" width="100">
+							<label for="menuselect">
+								<?php echo JText::_( 'Select a Menu' ); ?>
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['menuselect']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" width="100">
+							<label for="link_type">
+								<?php echo JText::_( 'Select Menu Type' ); ?>
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['link_type']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" width="100">
+							<label for="link_name">
+								<?php echo JText::_( 'Menu Item Name' ); ?>
+							</label>
+						</td>
+						<td>
+							<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="25" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td>
+							<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
+						</td>
+					</tr>
+					</table>
+
 					<?php
-					if ( $row->id > 0 ) {
+					if ( $menus != NULL ) {
 						?>
 						<table class="adminform">
-						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Link to Menu' ); ?>
-							</th>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<?php echo JText::_( 'Will Create New Menu Item in Menu Selected' ); ?>
-							<br /><br />
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" width="100">
-								<label for="menuselect">
-									<?php echo JText::_( 'Select a Menu' ); ?>
-								</label>
-							</td>
-							<td>
-								<?php echo $lists['menuselect']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" width="100">
-								<label for="link_type">
-									<?php echo JText::_( 'Select Menu Type' ); ?>
-								</label>
-							</td>
-							<td>
-								<?php echo $lists['link_type']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" width="100">
-								<label for="link_name">
-									<?php echo JText::_( 'Menu Item Name' ); ?>
-								</label>
-							</td>
-							<td>
-								<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="25" />
-							</td>
-						</tr>
-						<tr>
-							<td>
-							</td>
-							<td>
-								<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
-							</td>
-						</tr>
-						</table>
-
-						<br />
-
-						<?php
-						if ( $menus != NULL ) {
-							?>
-							<table class="adminform">
-							<?php mosCommonHTML::menuLinksSecCat( $menus ); ?>
-							</table>
-							<?php
-						}
-						?>
-						<?php
-					} else {
-						?>
-						<table class="adminform" width="40%">
-						<tr>
-							<td>
-								<?php echo JText::_( 'Menu links available when saved' ); ?>
-							</td>
-						</tr>
+						<?php mosCommonHTML::menuLinksSecCat( $menus ); ?>
 						</table>
 						<?php
 					}
 					?>
-				</td>
-			</tr>
-			</table>
+					<?php
+				} else {
+					?>
+					<table class="adminform" width="40%">
+					<tr>
+						<td>
+							<?php echo JText::_( 'Menu links available when saved' ); ?>
+						</td>
+					</tr>
+					</table>
+					<?php
+				}
+				?>
+			</fieldset>
 		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="oldtitle" value="<?php echo $row->title ; ?>" />

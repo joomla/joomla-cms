@@ -215,18 +215,14 @@ class JViewBanners {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table class="adminform">
-				<thead>
-					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Details' ); ?>
-						</th>
-					</tr>
-				</thead>
+		<div class="col100">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
 				<tbody>
 					<tr>
-						<td width="20%">
+						<td width="20%" class="key">
 							<label for="name">
 								<?php echo JText::_( 'Banner Name' ); ?>:
 							</label>
@@ -236,7 +232,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<?php echo JText::_( 'Show Banner' ); ?>:
 						</td>
 						<td>
@@ -244,7 +240,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<?php echo JText::_( 'Sticky' ); ?>:
 						</td>
 						<td>
@@ -252,7 +248,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="ordering">
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</label>
@@ -262,7 +258,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" align="right">
+						<td valign="top" align="right" class="key">
 							<label for="catid">
 								<?php echo JText::_( 'Category' ); ?>:
 							</label>
@@ -272,7 +268,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="cid">
 								<?php echo JText::_( 'Client Name' ); ?>:
 							</label>
@@ -282,7 +278,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="imptotal">
 								<?php echo JText::_( 'Impressions Purchased' ); ?>:
 							</label>
@@ -304,7 +300,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="key">
 							<label for="clickurl">
 								<?php echo JText::_( 'Click URL' ); ?>:
 							</label>
@@ -314,7 +310,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr >
-						<td valign="top" align="right">
+						<td valign="top" align="right" class="key">
 							<?php echo JText::_( 'Clicks' ); ?>
 			 			</td>
 						<td colspan="2">
@@ -324,7 +320,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<label for="custombannercode">
 								<?php echo JText::_( 'Custom banner code' ); ?>:
 							</label>
@@ -334,8 +330,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<label for="description">
 								<?php echo JText::_( 'Description/Notes' ); ?>:
 							</label>
@@ -349,7 +344,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<label for="imageurl">
 								<?php echo JText::_( 'Banner Image Selector' ); ?>:
 							</label>
@@ -359,7 +354,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<?php echo JText::_( 'Banner Image' ); ?>:
 						</td>
 						<td valign="top">
@@ -381,7 +376,7 @@ class JViewBanners {
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
+						<td valign="top" class="key">
 							<label for="tags">
 								<?php echo JText::_( 'Tags' ); ?>:
 							</label>
@@ -391,8 +386,10 @@ class JViewBanners {
 						</td>
 					</tr>
 				</tbody>
-			</table>
+				</table>
+			</fieldset>
 		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="<?php echo $_option; ?>" />
 		<input type="hidden" name="bid" value="<?php echo $row->bid; ?>" />

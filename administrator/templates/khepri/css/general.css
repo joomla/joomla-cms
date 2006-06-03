@@ -227,6 +227,8 @@ textarea#mm_message { width: 200px; }
 div.col50 { float: left; width: 50%; }
 div.col70 { float: left; width: 70%; }
 div.col30 { float: left; width: 30%; }
+div.col60 { float: left; width: 60%; }
+div.col40 { float: left; width: 40%; }
 
 table.admintable td 					 { padding: 3px; }
 table.admintable td.key,

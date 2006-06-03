@@ -216,103 +216,103 @@ class HTML_newsfeeds
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table class="adminform">
-			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-				</th>
-			</tr>
-			<tr>
-				<td width="170">
-					<label for="name">
-						<?php echo JText::_( 'Name' ); ?>
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" size="40" name="name" id="name" value="<?php echo $row->name; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" align="right">
-					<?php echo JText::_( 'Published' ); ?>:
-				</td>
-				<td>
-					<?php echo $lists['published']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="catid">
-						<?php echo JText::_( 'Category' ); ?>
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['category']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="link">
-						<?php echo JText::_( 'Link' ); ?>
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" size="60" name="link" id="link" value="<?php echo $row->link; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="numarticles">
-						<?php echo JText::_( 'Number of Articles' ); ?>
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" size="2" name="numarticles" id="numarticles" value="<?php echo $row->numarticles; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="cache_time">
-						<?php echo JText::_( 'Cache time (in seconds)' ); ?>
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" size="4" name="cache_time" id="cache_time" value="<?php echo $row->cache_time; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="ordering">
-						<?php echo JText::_( 'Ordering' ); ?>
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['ordering']; ?>
-				</td>
-			</tr>
-			<?php
-				$isRtl = '';
-				if ($row->rtl == 1) {
-					$isRtl = 'checked="checked"';
-				}
-			?>
-			<tr>
-				<td>
-					<label for="rtl">
-						<?php echo JText::_( 'RTL feed' ); ?>
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="checkbox" name="rtl" id="rtl" <?php echo $isRtl; ?>  />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-				</td>
-			</tr>
-			</table>
+		<div class="col100">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td width="170" class="key">
+						<label for="name">
+							<?php echo JText::_( 'Name' ); ?>
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" size="40" name="name" id="name" value="<?php echo $row->name; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right" class="key">
+						<?php echo JText::_( 'Published' ); ?>:
+					</td>
+					<td>
+						<?php echo $lists['published']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="catid">
+							<?php echo JText::_( 'Category' ); ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['category']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="link">
+							<?php echo JText::_( 'Link' ); ?>
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" size="60" name="link" id="link" value="<?php echo $row->link; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="numarticles">
+							<?php echo JText::_( 'Number of Articles' ); ?>
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" size="2" name="numarticles" id="numarticles" value="<?php echo $row->numarticles; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="cache_time">
+							<?php echo JText::_( 'Cache time (in seconds)' ); ?>
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" size="4" name="cache_time" id="cache_time" value="<?php echo $row->cache_time; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="ordering">
+							<?php echo JText::_( 'Ordering' ); ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['ordering']; ?>
+					</td>
+				</tr>
+				<?php
+					$isRtl = '';
+					if ($row->rtl == 1) {
+						$isRtl = 'checked="checked"';
+					}
+				?>
+				<tr>
+					<td class="key">
+						<label for="rtl">
+							<?php echo JText::_( 'RTL feed' ); ?>
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="checkbox" name="rtl" id="rtl" <?php echo $isRtl; ?>  />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+					</td>
+				</tr>
+				</table>
+			</fieldset>
 		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />

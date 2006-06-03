@@ -203,88 +203,82 @@ class HTML_weblinks
 
 		<form action="index2.php" method="post" name="adminForm" id="adminForm">
 
-		<div id="tablecell">
-			<table width="100%">
-			<tr>
-				<td width="45%" valign="top">
-					<table class="adminform">
-					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Details' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td width="100" align="right">
-							<label for="title">
-								<?php echo JText::_( 'Name' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="text_area" type="text" name="title" id="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" align="right">
-							<?php echo JText::_( 'Published' ); ?>:
-						</td>
-						<td>
-							<?php echo $lists['published']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" align="right">
-							<label for="catid">
-								<?php echo JText::_( 'Category' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['catid']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" align="right">
-							<label for="url">
-								<?php echo JText::_( 'URL' ); ?>:
-							</label>
-						</td>
-						<td>
-							<input class="text_area" type="text" name="url" id="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" align="right">
-							<label for="ordering">
-								<?php echo JText::_( 'Ordering' ); ?>:
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['ordering']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<?php echo $params->render();?>
-						</td>
-					</tr>
-					</table>
-				</td>
-				<td width="55%" valign="top">
-					<table class="adminform">
-					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Description' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<textarea class="text_area" cols="20" rows="9" name="description" id="description" style="width:500px"><?php echo $row->description; ?></textarea>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			</table>
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="title">
+							<?php echo JText::_( 'Name' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="text_area" type="text" name="title" id="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right" class="key">
+						<?php echo JText::_( 'Published' ); ?>:
+					</td>
+					<td>
+						<?php echo $lists['published']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right" class="key">
+						<label for="catid">
+							<?php echo JText::_( 'Category' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['catid']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right" class="key">
+						<label for="url">
+							<?php echo JText::_( 'URL' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="text_area" type="text" name="url" id="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right" class="key">
+						<label for="ordering">
+							<?php echo JText::_( 'Ordering' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['ordering']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<?php echo $params->render();?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
 		</div>
+		
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Description' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td>
+						<textarea class="text_area" cols="20" rows="9" name="description" id="description" style="width:500px"><?php echo $row->description; ?></textarea>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />

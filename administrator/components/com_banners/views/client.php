@@ -149,16 +149,11 @@ class JViewBannerClients {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table width="100%">
-			<tr>
-				<td width="50%" valign="top">
-					<table width="100%" class="adminform">
-					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Details' ); ?>
-						</th>
-					</tr>
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
 					<tr>
 						<td width="20%" nowrap="nowrap">
 							<label for="name">
@@ -190,32 +185,23 @@ class JViewBannerClients {
 						</td>
 					</tr>
 					</table>
-				</td>
-				<td valign="top">
-					<table width="100%" class="adminform">
-					<tr>
-						<th colspan="2">
-							&nbsp;
-						</th>
-					</tr>
-					<tr>
-						<td valign="top">
-							<label for="extrainfo">
-								<?php echo JText::_( 'Extra Info' ); ?>:
-							</label>
-							<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3">
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			</table>
-
+			</fieldset>
 		</div>
+		
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Extra Info' ); ?></legend>
+
+				<table class="admintable">
+				<tr>
+					<td valign="top">
+						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>" />

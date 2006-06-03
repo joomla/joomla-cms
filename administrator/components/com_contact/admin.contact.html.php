@@ -199,18 +199,13 @@ class HTML_contact
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="editcell">
-			<table width="100%">
-			<tr>
-				<td width="60%" valign="top">
-					<table width="100%" class="adminform">
+		<div class="col60">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Details' ); ?></legend>
+
+				<table class="admintable">
 					<tr>
-						<th colspan="2">
-							<?php echo JText::_( 'Contact Details' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td width="20%" align="right">
+						<td width="20%" align="right" class="key">
 							<label>
 								<?php echo JText::_( 'ID' ); ?>:
 							</label>
@@ -220,7 +215,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td width="20%" align="right">
+						<td width="20%" align="right" class="key">
 							<label for="catid">
 								<?php echo JText::_( 'Category' ); ?>:
 							</label>
@@ -230,7 +225,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td width="20%" align="right">
+						<td width="20%" align="right" class="key">
 							<label for="user_id">
 								<?php echo JText::_( 'Linked to User' ); ?>:
 							</label>
@@ -240,7 +235,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td width="20%" align="right">
+						<td width="20%" align="right" class="key">
 							<label for="name">
 								<?php echo JText::_( 'Name' ); ?>:
 							</label>
@@ -250,7 +245,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="con_position">
 								<?php echo JText::_( 'Contact\'s Position' ); ?>:
 							</label>
@@ -260,7 +255,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="email_to">
 								<?php echo JText::_( 'E-mail' ); ?>:
 							</label>
@@ -270,7 +265,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="address">
 								<?php echo JText::_( 'Street Address' ); ?>:
 							</label>
@@ -280,7 +275,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="suburb">
 								<?php echo JText::_( 'Town/Suburb' ); ?>:
 							</label>
@@ -290,7 +285,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="state">
 								<?php echo JText::_( 'State/County' ); ?>:
 							</label>
@@ -300,7 +295,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="country">
 								<?php echo JText::_( 'Country' ); ?>:
 							</label>
@@ -310,7 +305,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="postcode">
 								<?php echo JText::_( 'Postal Code/ZIP' ); ?>:
 							</label>
@@ -320,7 +315,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="telephone">
 								<?php echo JText::_( 'Telephone' ); ?>:
 							</label>
@@ -330,7 +325,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="mobile">
 								<?php echo JText::_( 'Mobile' ); ?>:
 							</label>
@@ -340,7 +335,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="fax">
 								<?php echo JText::_( 'Fax' ); ?>:
 							</label>
@@ -350,7 +345,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right">
+						<td align="right" class="key">
 							<label for="webpage">
 								<?php echo JText::_( 'Webpage' ); ?>:
 							</label>
@@ -360,7 +355,7 @@ class HTML_contact
 						</td>
 					</tr>
 					<tr>
-						<td align="right" valign="top">
+						<td align="right" valign="top" class="key">
 							<label for="misc">
 								<?php echo JText::_( 'Miscellaneous Info' ); ?>:
 							</label>
@@ -370,101 +365,106 @@ class HTML_contact
 						</td>
 					</tr>
 					</table>
-				</td>
-				<td width="40%" valign="top">
-					<?php
-					$title = JText::_( 'Info' );
-					$tabs->startPane("content-pane");
-					$tabs->startTab( $title, "info-page" );
-					?>
-						<table width="100%" class="adminform">
-						<tr>
-							<td valign="top" align="right"  width="100">
-								<?php echo JText::_( 'Published' ); ?>:
-							</td>
-							<td>
-								<?php echo $lists['published']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" align="right">
-								<label for="ordering">
-									<?php echo JText::_( 'Ordering' ); ?>:
-								</label>
-							</td>
-							<td>
-								<?php echo $lists['ordering']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" align="right">
-								<label for="access">
-									<?php echo JText::_( 'Access' ); ?>:
-								</label>
-							</td>
-							<td>
-								<?php echo $lists['access']; ?>
-							</td>
-						</tr>
-						</table>
-
-						<br />
-
-						<table width="100%" class="adminform">
-						<tr>
-							<td  width="100">
-								<label for="image">
-									<?php echo JText::_( 'Image' ); ?>:
-								</label>
-							</td>
-							<td >
-								<?php echo $lists['image']; ?>
-							</td>
-						</tr>
-						<tr>
-							<td>
-							</td>
-							<td>
-								<script language="javascript" type="text/javascript">
-								if (document.forms[0].image.options.value!=''){
-									jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
-								} else {
-									jsimg='../images/M_images/blank.png';
-								}
-								document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />');
-								</script>
-							</td>
-						</tr>
-						</table>
-
-					<?php
-					$title = JText::_( 'Parameters' );
-					$tabs->endTab();
-					$tabs->startTab( $title, "params-page" );
-					?>
-
-						<table class="adminform">
-						<tr>
-							<td>
-								<?php echo JText::_( 'DESCPARAMWHENCLICKCONTAC' ); ?>
-								<br /><br />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<?php echo $params->render();?>
-							</td>
-						</tr>
-						</table>
-
-					<?php
-					$tabs->endTab();
-					$tabs->endPane();
-					?>
-				</td>
-			</tr>
-			</table>
+			</fieldset>
 		</div>
+		
+		<div class="col40">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Other' ); ?></legend>
+
+				<?php
+				$title = JText::_( 'Info' );
+				$tabs->startPane("content-pane");
+				$tabs->startTab( $title, "info-page" );
+				?>
+				
+					<table class="admintable">
+					<tr>
+						<td valign="top" align="right"  width="100" class="key">
+							<?php echo JText::_( 'Published' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['published']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right" class="key">
+							<label for="ordering">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['ordering']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right" class="key">
+							<label for="access">
+								<?php echo JText::_( 'Access' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['access']; ?>
+						</td>
+					</tr>
+					</table>
+
+					<br />
+
+					<table width="100%" class="adminform">
+					<tr>
+						<td  width="100">
+							<label for="image">
+								<?php echo JText::_( 'Image' ); ?>:
+							</label>
+						</td>
+						<td >
+							<?php echo $lists['image']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td>
+							<script language="javascript" type="text/javascript">
+							if (document.forms[0].image.options.value!=''){
+								jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
+							} else {
+								jsimg='../images/M_images/blank.png';
+							}
+							document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />');
+							</script>
+						</td>
+					</tr>
+					</table>
+
+				<?php
+				$title = JText::_( 'Parameters' );
+				$tabs->endTab();
+				$tabs->startTab( $title, "params-page" );
+				?>
+
+					<table class="admintable">
+					<tr>
+						<td>
+							<?php echo JText::_( 'DESCPARAMWHENCLICKCONTAC' ); ?>
+							<br /><br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $params->render();?>
+						</td>
+					</tr>
+					</table>
+
+				<?php
+				$tabs->endTab();
+				$tabs->endPane();
+				?>
+			</fieldset>
+		</div>
+		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
