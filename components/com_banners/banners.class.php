@@ -98,6 +98,14 @@ class mosBanner extends JTable {
 	var $sticky				= null;
 	/** @var int */
 	var $ordering			= null;
+	/** @var date */
+	var $publish_up			= null;
+	/** @var date */
+	var $publish_down		= null;
+	/** @var string */
+	var $tags				= null;
+	/** @var string */
+	var $params				= null;
 
 	function __construct( &$_db ) {
 		parent::__construct( '#__banner', 'bid', $_db );

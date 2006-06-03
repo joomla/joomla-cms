@@ -38,10 +38,15 @@ Legend:
 ! -> Note
 
 
-1-Jun-2006 Rey Gigataras
+03-Jun-2006 Andrew Eddie
+ + Added publish_up, publish_down,tags, params field to banners table
+ + Added table to track banner impressions and clicks
+ + Added metadata field to content table
+
+01-Jun-2006 Rey Gigataras
  + Ability to set usertype of New User Registration via frontend
  
-1-Jun-2006 Andrew Eddie
+01-Jun-2006 Andrew Eddie
  + Added window.open attributes to mod_mainmenu
 
 31-May-2006 Johan Janssens

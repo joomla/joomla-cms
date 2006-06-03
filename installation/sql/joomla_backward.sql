@@ -26,6 +26,10 @@ CREATE TABLE `#__banner` (
   `description` TEXT NOT NULL DEFAULT '',
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00', 
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00', 
+  `tags` TEXT NOT NULL DEFAULT '',
+  `params` TEXT NOT NULL DEFAULT '',
   PRIMARY KEY  (`bid`),
   KEY `viewbanner` (`showBanner`),
   INDEX `idx_banner_catid`(`catid`)
@@ -47,6 +51,18 @@ CREATE TABLE `#__bannerclient` (
   `checked_out_time` time default NULL,
   `editor` varchar(50) default NULL,
   PRIMARY KEY  (`cid`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__bannertrack`
+#
+
+CREATE TABLE  `#__bannertrack` (
+  `track_date` date NOT NULL,
+  `track_type` int(10) unsigned NOT NULL,
+  `banner_id` int(10) unsigned NOT NULL
 ) TYPE=MyISAM;
 
 # --------------------------------------------------------
@@ -211,6 +227,7 @@ CREATE TABLE `#__content` (
   `metadesc` text NOT NULL,
   `access` int(11) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '0',
+  `metadata` TEXT NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `idx_section` (`sectionid`),
   KEY `idx_access` (`access`),

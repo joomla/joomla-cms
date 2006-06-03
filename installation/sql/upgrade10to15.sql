@@ -213,6 +213,11 @@ ALTER TABLE `jos_banner`
   ADD COLUMN `description` TEXT NOT NULL DEFAULT '',
   ADD COLUMN `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   ADD COLUMN `ordering` INTEGER NOT NULL DEFAULT 0,
+
+  ADD COLUMN `publish_up` datetime NOT NULL default '0000-00-00 00:00:00', 
+  ADD COLUMN `publish_down` datetime NOT NULL default '0000-00-00 00:00:00', 
+  ADD COLUMN `tags` TEXT NOT NULL DEFAULT '',
+  ADD COLUMN `params` TEXT NOT NULL DEFAULT '',
   ADD INDEX `idx_banner_catid`(`catid`);
 
 DROP TABLE `jos_bannerfinish`;
@@ -261,7 +266,7 @@ ALTER TABLE `jos_sections`
 ALTER TABLE `jos_session`
   MODIFY COLUMN `username` VARCHAR(255) NOT NULL DEFAULT '';
 
-ALTER TABLE `templates_menu`
+ALTER TABLE `jos_templates_menu`
   MODIFY COLUMN `template` VARCHAR(255) NOT NULL DEFAULT '';
 
 ALTER TABLE `jos_users`
@@ -269,4 +274,16 @@ ALTER TABLE `jos_users`
   MODIFY COLUMN `username` VARCHAR(75) NOT NULL DEFAULT '';
 
 INSERT INTO jos_components  VALUES (0,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
-  
+
+# 03-Jun-2006
+
+CREATE TABLE  `jos_bannertrack` (
+  `track_date` date NOT NULL,
+  `track_type` int(10) unsigned NOT NULL,
+  `banner_id` int(10) unsigned NOT NULL
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+
+ALTER TABLE `jos_content`
+  ADD COLUMN `metadata` TEXT NOT NULL DEFAULT '';
+
+
