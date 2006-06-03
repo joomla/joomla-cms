@@ -15,6 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport('joomla.application.view');
+
 /**
  * @package Joomla
  * @subpackage Menus
@@ -30,7 +32,8 @@ class JMenuViewItem extends JView
 		$document->addScript('../includes/js/joomla/popup.js');
 		$document->addStyleSheet('../includes/js/joomla/popup.css');
 
-		$menuType	= JRequest::getVar( 'menutype' );
+		$app		= &$this->get('Application');
+		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		$item		= &$this->get('Item');
 		$component	= &$this->get('Component');

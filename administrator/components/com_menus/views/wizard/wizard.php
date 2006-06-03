@@ -15,6 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport('joomla.application.view');
+
 /**
  * @package Joomla
  * @subpackage Menus

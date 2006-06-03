@@ -37,8 +37,8 @@ class TOOLBAR_menus {
 	function _MOVEMENU()	{
 
 		JMenuBar::title( JText::_( 'Move Menu Items' ) );
-		JMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', 'Move', false );
-		JMenuBar::cancel( 'cancelmovemenu' );
+		JMenuBar::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
+		JMenuBar::cancel();
 		JMenuBar::help( 'screen.menus.move' );
 	}
 
@@ -48,8 +48,8 @@ class TOOLBAR_menus {
 	function _COPYMENU()	{
 
 		JMenuBar::title( JText::_( 'Copy Menu Items' ) );
-		JMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', 'Copy', false );
-		JMenuBar::cancel( 'cancelcopymenu' );
+		JMenuBar::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
+		JMenuBar::cancel();
 		JMenuBar::help( 'screen.menus.copy' );
 	}
 
@@ -57,15 +57,10 @@ class TOOLBAR_menus {
 	* Draws the menu to edit a menu item
 	*/
 	function _EDIT() {
-		global $id;
 
+		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
+		$id = $cid[0];
 		$menutype	= JRequest::getVar( 'menutype', 'mainmenu' );
-		$id			= JRequest::getVar( 'id', null, '', 'int' );
-
-		if ( !$id ) {
-			$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-			$id = $cid[0];
-		}
 		
 		if ( !$id ) {
 			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
@@ -95,8 +90,8 @@ class TOOLBAR_menus {
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', 'Move', true );
-		JMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JMenuBar::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );
+		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		//JMenuBar::addNewX();

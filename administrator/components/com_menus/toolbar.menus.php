@@ -19,20 +19,15 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 require_once( JApplicationHelper::getPath( 'toolbar_default' ) );
 
 switch ($task) {
-	case 'new':
-		TOOLBAR_menus::_NEW();
-		break;
-
-	case 'movemenu':
+	case 'move':
 		TOOLBAR_menus::_MOVEMENU();
 		break;
 
-	case 'copymenu':
+	case 'copy':
 		TOOLBAR_menus::_COPYMENU();
 		break;
 
 	case 'edit':
-	case 'edit2':
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		if (!is_array( $cid )) {
 			$cid = array(0);

@@ -33,64 +33,68 @@ class JMenuModelItem extends JModel
 	{
 		if ($this->_table == null)
 		{
-			jimport( 'joomla.database.table.menu' );
-
-			$db = &$this->getDBO();
-			$this->_table = new JTableMenu( $db );
+			$this->_table =& JTable::getInstance( 'menu', $this->getDBO() );
 		}
 		return $this->_table;
 	}
 
 	function &getItem() {
-		$table =& $this->getTable();
+
+		static $item;
 		
-		if ($id = JRequest::getVar('id', '', '', 'int')) {
-			$table->load($id);
+		if (isset($item)) {
+			return $item;
+		}
+		$table =& $this->getTable();
+
+		// Load the current item if it has been defined
+		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
+		if ($cid[0]) {
+			$table->load($cid[0]);
 		}
 
+		// Override the current item's type field if defined in the request
 		if ($type = JRequest::getVar('type', false)) {
 			$table->type = $type;
 		}
 
+		// Override the current item's menutype field if defined in the request
 		if ($menu_type = JRequest::getVar('menu_type', false)) {
 			$table->menutype = $menu_type;
 		}
-		return $table;
+
+		$item = clone($table);
+		return $item;
 	}
 
 	function &getDetails()
 	{
-		$item =& $this->getItem();
-
-		// Include and create the helper object
-		if ($item->type) {
-			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
-			$class = 'JMenuHelper'.ucfirst($item->type);
-			$this->_helper =& new $class($this);
-			$details =& $this->_helper->getDetails();
+		// Get the helper object then the details from it.
+		if ($helper =& $this->_getHelper()) {
+			$details =& $helper->getDetails();
 		} else {
 			$details = array();
 		}
+
 		return $details;
 	}
 
 	function &getControlParams()
 	{
-		$item =& $this->getItem();
-		$ini = $item->control;
-		$params =& new JParameter($ini);
+		// Get the control parameters
+		$item	=& $this->getItem();
+		$params	=& new JParameter($item->control);
 
+		// Override params with request params if they are present.
 		if ($control = JRequest::getVar('control', false, '', 'array')) {
 			$params->loadArray($control);
 		}
-
 		return $params;
 	}
 
 	function &getControlFields()
 	{
 		$params =& $this->getControlParams();
-		
 		$array = $params->toArray();
 
 		foreach($array as $k => $v) {
@@ -102,8 +106,9 @@ class JMenuModelItem extends JModel
 
 	function &getStateParams()
 	{
-		$ini = $item->params;
-		$params =& new JParameter($ini);
+		// Get the state parameters
+		$item	=& $this->getItem();
+		$params	=& new JParameter($item->params);
 
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
@@ -148,12 +153,8 @@ class JMenuModelItem extends JModel
 	{
 		$row =& $this->getItem();
 	
-		// Include and create the helper object
-		if ($row->type && file_exists(COM_MENUS.'helpers'.DS.$row->type.'.php')) {
-			require_once(COM_MENUS.'helpers'.DS.$row->type.'.php');
-			$class = 'JMenuHelper'.ucfirst($row->type);
-			$this->_helper =& new $class($this);
-			$values =& $this->_helper->prepForStore($_POST);
+		if ($helper =& $this->_getHelper()) {
+			$values =& $helper->prepForStore($_POST);
 		} else {
 			$values =& $_POST;
 		}
@@ -304,25 +305,37 @@ class JMenuModelItem extends JModel
 		return $result;
 	}
 
+	function &_getHelper()
+	{
+		static $helper;
+		
+		if (isset($helper)) {
+			return $helper;
+		}
+
+		// Include and create the helper object
+		$item =& $this->getItem();
+		if ($item->type && file_exists(COM_MENUS.'helpers'.DS.$item->type.'.php')) {
+			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
+			$class = 'JMenuHelper'.ucfirst($item->type);
+			$helper =& new $class($this);
+		} else {
+			$helper = false;
+		}
+		return $helper;
+	}
+
 	function &_getStateXML()
 	{
-
 		static $xml;
 		
 		if (isset($xml)) {
 			return $xml;
 		}
 
-		$item =& $this->getItem();
-
-		// Include and create the helper object
-		if ($item->type) {
-			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
-			$class = 'JMenuHelper'.ucfirst($item->type);
-			$this->_helper =& new $class($this);
-			$xmlInfo =& $this->_helper->getStateXML();
-		} else {
-			// Set default state params...
+		// Get the helper object and then get the State XML object
+		if ($helper =& $this->_getHelper()) {
+			$xmlInfo =& $helper->getStateXML();
 		}
 
 		if (file_exists( $xmlInfo['path'] )) {

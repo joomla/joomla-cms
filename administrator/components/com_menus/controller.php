@@ -62,14 +62,269 @@ class JMenuController extends JController
 		$item =& $model->getItem();
 		switch ( $this->_task ) {
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_menus&menutype='. $item->menutype .'&task=edit&id='. $item->id . '&hidemainmenu=1' , $msg );
+				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype.'&task=edit&cid[]='.$item->id.'&hidemainmenu=1' , $msg );
 				break;
 	
 			case 'save':
 			default:
-				$this->setRedirect( 'index.php?option=com_menus&menutype='. $item->menutype, $msg );
+				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype, $msg );
 				break;
 		}
+	}
+
+	/**
+	* Cancels an edit operation
+	*/
+	function cancel()
+	{
+//		$menu =& JTable::getInstance('menu', $this->getDBO() );
+//		$menu->bind( $_POST );
+//		$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
+//		if ( $menuid ) {
+//			$menu->id = $menuid;
+//		}
+//		$menu->checkin();
+		$menutype = JRequest::getVar('menutype');
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype);
+	}
+
+	/**
+	* Form for copying item(s) to a specific menu
+	*/
+	function copy()
+	{
+		$model	=& $this->getModel( 'List', 'JMenuModel' );
+		$view =& $this->getView( 'List', 'com_menus', 'JMenuView' );
+		$view->setModel( $model, true );
+		$view->copyForm();
+	}
+	
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function doCopy()
+	{
+		// Get some variables from the request	
+		$menu	= JRequest::getVar( 'menu', '', 'post' );
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+
+		$model	=& $this->getModel( 'List', 'JMenuModel' );
+
+		if ($model->copy($cid, $menu)) {
+			$msg = sprintf( JText::_( 'Menu Items Copied to' ), count( $cid ), $menu );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menu, $msg );
+	}
+
+	/**
+	* Form for moving item(s) to a specific menu
+	*/
+	function move()
+	{
+		$model	=& $this->getModel( 'List', 'JMenuModel' );
+		$view =& $this->getView( 'List', 'com_menus', 'JMenuView' );
+		$view->setModel( $model, true );
+		$view->moveForm();
+	}
+	
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function doMove()
+	{
+		// Get some variables from the request	
+		$menu	= JRequest::getVar( 'menu', '', 'post' );
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+
+		$model	=& $this->getModel( 'List', 'JMenuModel' );
+
+		if ($model->move($cid, $menu)) {
+			$msg = sprintf( JText::_( 'Menu Items Moved to' ), count( $cid ), $menu );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menu, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function publish()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setState($cid, 1)) {
+			$msg = sprintf( JText::_( 'Menu Items Published' ), count( $cid ) );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function unpublish()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setState($cid, 0)) {
+			$msg = sprintf( JText::_( 'Menu Items Unpublished' ), count( $cid ) );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function orderup()
+	{
+		$menutype	= JRequest::getVar('menutype');
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		if ($cid[0]) {
+			$id = $cid[0];
+		} else {
+			$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, JText::_('No Items Selected') );
+			return false;
+		}
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->orderItem($id, -1)) {
+			$msg = JText::_( 'Menu Item Moved Up' );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function orderdown()
+	{
+		$menutype	= JRequest::getVar('menutype');
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		if ($cid[0]) {
+			$id = $cid[0];
+		} else {
+			$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, JText::_('No Items Selected') );
+			return false;
+		}
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->orderItem($id, 1)) {
+			$msg = JText::_( 'Menu Item Moved Down' );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function saveorder()
+	{
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setOrder($cid, $menutype)) {
+			$msg = JText::_( 'New ordering saved' );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function accesspublic()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setAccess($cid, 0)) {
+			$msg = sprintf( JText::_( 'Menu Items Set Public' ), count( $cid ) );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function accessregistered()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setAccess($cid, 1)) {
+			$msg = sprintf( JText::_( 'Menu Items Set Registered' ), count( $cid ) );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function accessspecial()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->setAccess($cid, 2)) {
+			$msg = sprintf( JText::_( 'Menu Items Set Special' ), count( $cid ) );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	function remove()
+	{
+		// Get some variables from the request	
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menutype	= JRequest::getVar('menutype');
+
+		$model =& $this->getModel( 'List', 'JMenuModel' );
+		if ($model->toTrash($cid, $menutype)) {
+			$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), count( $cid ) );
+		} else {
+			$msg = $model->getError();
+		}
+		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function viewList()
+	{
+		$model	=& $this->getModel( 'List', 'JMenuModel' );
+		$view =& $this->getView( 'List', 'com_menus', 'JMenuView' );
+		$view->setModel( $model, true );
+		$view->display();
 	}
 }
 ?>
