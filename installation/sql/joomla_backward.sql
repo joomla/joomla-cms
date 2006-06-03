@@ -33,7 +33,7 @@ CREATE TABLE `#__banner` (
   PRIMARY KEY  (`bid`),
   KEY `viewbanner` (`showBanner`),
   INDEX `idx_banner_catid`(`catid`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -409,7 +409,7 @@ CREATE TABLE `#__menu_types` (
   `description` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY(`id`),
   UNIQUE `menutype`(`menutype`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
