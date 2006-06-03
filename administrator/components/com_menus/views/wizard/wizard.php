@@ -240,6 +240,7 @@ class JMenuViewWizard extends JWizardView
 		?>
 
 		<input type="hidden" name="option" value="com_menus" />
+		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="task" value="edit" />
 
 	</form>

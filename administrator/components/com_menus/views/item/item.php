@@ -29,7 +29,6 @@ class JMenuViewItem extends JView
 
 		$document->addScript('../includes/js/joomla/popup.js');
 		$document->addStyleSheet('../includes/js/joomla/popup.css');
-		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle('Edit Menu');
 
 		$menuType	= JRequest::getVar( 'menutype' );
