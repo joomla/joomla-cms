@@ -791,71 +791,70 @@ class mosCommonHTML {
 	}
 
 	function menuLinksSecCat( &$menus ) {
+		$i = 1;
 		foreach( $menus as $menu ) {
 			?>
-			<tr>
-				<td colspan="2">
-					<hr />
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-					<?php echo JText::_( 'Menu' ); ?>
-				</td>
-				<td>
-					<a href="javascript:go2('go2menu','<?php echo $menu->menutype; ?>');" title="<?php echo JText::_( 'Go to Menu' ); ?>">
-						<?php echo $menu->menutype; ?></a>
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-					<?php echo JText::_( 'Type' ); ?>
-				</td>
-				<td>
-					<?php echo $menu->type; ?>
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-					<?php echo JText::_( 'Item Name' ); ?>
-				</td>
-				<td>
-					<strong>
-					<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
-						<?php echo $menu->name; ?></a>
-					</strong>
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-					<?php echo JText::_( 'State' ); ?>
-				</td>
-				<td>
-					<?php
-					switch ( $menu->published ) {
-						case -2:
-							echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
-							break;
-						case 0:
-							echo JText::_( 'UnPublished' );
-							break;
-						case 1:
-						default:
-							echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
-							break;
-					}
-					?>
-				</td>
-			</tr>
+			<fieldset> 
+				<legend align="right"> <?php echo $i; ?>. </legend>
+			
+				<table class="admintable">
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Menu' ); ?>
+					</td>
+					<td>
+						<a href="javascript:go2('go2menu','<?php echo $menu->menutype; ?>');" title="<?php echo JText::_( 'Go to Menu' ); ?>">
+							<?php echo $menu->menutype; ?></a>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Type' ); ?>
+					</td>
+					<td>
+						<?php echo $menu->type; ?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Item Name' ); ?>
+					</td>
+					<td>
+						<strong>
+						<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
+							<?php echo $menu->name; ?></a>
+						</strong>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'State' ); ?>
+					</td>
+					<td>
+						<?php
+						switch ( $menu->published ) {
+							case -2:
+								echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
+								break;
+							case 0:
+								echo JText::_( 'UnPublished' );
+								break;
+							case 1:
+							default:
+								echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
+								break;
+						}
+						?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
 			<?php
+			$i++;
 		}
 		?>
-		<tr>
-			<td colspan="2">
-				<input type="hidden" name="menu" value="" />
-				<input type="hidden" name="menuid" value="" />
-			</td>
-		</tr>
+		<input type="hidden" name="menu" value="" />
+		<input type="hidden" name="menuid" value="" />
 		<?php
 	}
 

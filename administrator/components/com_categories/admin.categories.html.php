@@ -395,15 +395,14 @@ class categories_html
 				<?php
 				if ( $row->id > 0 ) {
 					?>
-					<table class="adminform">
+					<table class="admintable">
 					<tr>
 						<td colspan="2">
 							<?php echo JText::_( 'Will Create New Menu Item in Menu Selected' ); ?>
-						<br /><br />
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" width="100">
+						<td valign="top" class="key">
 							<label for="menuselect">
 								<?php echo JText::_( 'Select a Menu' ); ?>
 							</label>
@@ -413,7 +412,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" width="100">
+						<td valign="top" class="key">
 							<label for="link_type">
 								<?php echo JText::_( 'Select Menu Type' ); ?>
 							</label>
@@ -423,7 +422,7 @@ class categories_html
 						</td>
 					</tr>
 					<tr>
-						<td valign="top" width="100">
+						<td valign="top" class="key">
 							<label for="link_name">
 								<?php echo JText::_( 'Menu Item Name' ); ?>
 							</label>
@@ -444,16 +443,15 @@ class categories_html
 					<?php
 					if ( $menus != NULL ) {
 						?>
-						<table class="adminform">
-						<?php mosCommonHTML::menuLinksSecCat( $menus ); ?>
-						</table>
-						<?php
+						<br />
+						<?php 
+						mosCommonHTML::menuLinksSecCat( $menus ); 
 					}
 					?>
 					<?php
 				} else {
 					?>
-					<table class="adminform" width="40%">
+					<table class="admintable">
 					<tr>
 						<td>
 							<?php echo JText::_( 'Menu links available when saved' ); ?>

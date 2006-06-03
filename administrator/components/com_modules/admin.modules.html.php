@@ -260,7 +260,7 @@ class HTML_modules {
 		<form action="index2.php" method="post" name="adminForm">
 
 
-		<div class="col50">
+		<div class="col60">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -410,7 +410,7 @@ class HTML_modules {
 			?>
 
 		</div>
-		<div class="col50">
+		<div class="col40">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Pages / Items' ); ?></legend>
 
@@ -421,6 +421,8 @@ class HTML_modules {
 							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
 						</label>
 					</td>
+				</tr>
+				<tr>
 					<td>
 						<?php echo $lists['selections']; ?>
 					</td>
