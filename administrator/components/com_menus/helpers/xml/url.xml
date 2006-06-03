@@ -2,6 +2,10 @@
 <metadata>
 	<control>
 		<steps />
+		<confirmation>
+			<![CDATA[You have successfully created a new URL menu item.  Click the "Finish" button to finish the wizard
+			and add the menu item.]]>
+		</confirmation>
 	</control>
 	<state>
 		<name>URL</name>

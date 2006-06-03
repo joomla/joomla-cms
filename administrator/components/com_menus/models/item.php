@@ -119,7 +119,11 @@ class JMenuModelItem extends JModel
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
 				$sn =& $state->getElementByPath('name');
-				$name = $sn->data();
+				if ($sn) {
+					$name = $sn->data();
+				} else {
+					$name = null;
+				}
 			}
 		}
 		return $name;
@@ -130,7 +134,11 @@ class JMenuModelItem extends JModel
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
 				$sd =& $state->getElementByPath('description');
-				$description = $sd->data();
+				if ($sd) {
+					$description = $sd->data();
+				} else {
+					$description = null;
+				}
 			}
 		}
 		return $description;
@@ -347,7 +355,10 @@ class JMenuModelItem extends JModel
 				$children =& $xml->children();
 				if (count($children) == 1) {
 					if ($children[0]->name() == 'include') {
-						$xml =& $this->_getIncludedParams($children[0]);
+						$ret =& $this->_getIncludedParams($children[0]);
+						if ($ret) {
+							$xml =& $ret;
+						}
 					}
 				}
 

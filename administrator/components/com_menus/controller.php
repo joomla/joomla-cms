@@ -58,15 +58,16 @@ class JMenuController extends JController
 		} else {
 			$msg = JText::_( 'Error Saving Menu item' );
 		}
-
+		
+		$item =& $model->getItem();
 		switch ( $this->_task ) {
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
+				$this->setRedirect( 'index.php?option=com_menus&menutype='. $item->menutype .'&task=edit&id='. $item->id . '&hidemainmenu=1' , $msg );
 				break;
 	
 			case 'save':
 			default:
-				$this->setRedirect( 'index.php?option=com_menus&menutype='. $row->menutype, $msg );
+				$this->setRedirect( 'index.php?option=com_menus&menutype='. $item->menutype, $msg );
 				break;
 		}
 	}

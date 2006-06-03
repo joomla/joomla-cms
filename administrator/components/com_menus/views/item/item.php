@@ -29,7 +29,6 @@ class JMenuViewItem extends JView
 
 		$document->addScript('../includes/js/joomla/popup.js');
 		$document->addStyleSheet('../includes/js/joomla/popup.css');
-		$document->setTitle('Edit Menu');
 
 		$menuType	= JRequest::getVar( 'menutype' );
 
@@ -37,8 +36,6 @@ class JMenuViewItem extends JView
 		$component	= &$this->get('Component');
 		$menuTypes 	= $this->get('MenuTypelist');
 		$components	= $this->get('ComponentList');
-
-		$helper		= new JMenuHelper( $component->option );
 		$control	= $this->get( 'ControlParams' );
 		$params		= $this->get( 'StateParams' );
 		$details	= $this->get( 'Details' );
@@ -46,10 +43,22 @@ class JMenuViewItem extends JView
 		$description	= $this->get( 'StateDescription' );
 		$controlFields	= $this->get( 'ControlFields' );
 
+		if ($item->id) {
+			$document->setTitle('Edit Menu Item');
+		} else {
+			$document->setTitle('New Menu Item');
+		}
+
+
+		// Build the state list options
 		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
 		$put[] = mosHTML::makeOption( '1', JText::_( 'Yes' ));
 		$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
 
+		// Was showing up null in some cases....
+		if (!$item->published) {
+			$item->published = 0;
+		}
 		mosCommonHTML::loadOverlib();
 	?>
 	<script language="javascript" type="text/javascript">

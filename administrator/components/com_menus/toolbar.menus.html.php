@@ -59,20 +59,24 @@ class TOOLBAR_menus {
 	function _EDIT() {
 		global $id;
 
+		$menutype	= JRequest::getVar( 'menutype', 'mainmenu' );
+		$id			= JRequest::getVar( 'id', null, '', 'int' );
+
 		if ( !$id ) {
 			$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 			$id = $cid[0];
 		}
-		$menutype 	= JRequest::getVar( 'menutype', 'mainmenu' );
-
-		JMenuBar::title( JText::_( 'Edit Menu Item' ), 'generic.png' );
+		
 		if ( !$id ) {
-			$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=new&hidemainmenu=1';
-			JMenuBar::back( 'Back', $link );
+			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
+		} else {
+			JMenuBar::title( JText::_( 'Edit Menu Item' ), 'menu.png' );
 		}
+
 		JMenuBar::trash('remove', 'Trash', false);
 		JMenuBar::save();
 		JMenuBar::apply();
+
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', 'Close' );

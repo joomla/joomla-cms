@@ -214,6 +214,11 @@ class JMenuHelper extends JObject {
 			$id = "\n AND id != $row->id";
 		}
 
+		// In case it was null...
+		if (!$row->parent) {
+			$row->parent = 0;
+		}
+
 		// get a list of the menu items
 		// excluding the current menu item and its child elements
 		$query = "SELECT m.*"
