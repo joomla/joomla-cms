@@ -43,7 +43,7 @@ class JMenuViewList extends JView
 		$ordering = ($lists['order'] == 'm.ordering');
 
 		mosCommonHTML::loadOverlib();
-	?>
+		?>
 		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
 
 		<table>
@@ -164,7 +164,8 @@ class JMenuViewList extends JView
 					<td>
 						<span class="editlinktip">
 							<?php
-							echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit, !empty($row->edit) );
+							//echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit, !empty($row->edit) );
+							echo $row->type
 							?>
 						</span>
 					</td>
