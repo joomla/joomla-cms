@@ -17,10 +17,10 @@
 	</control>
 	<state switch="model_name">
 		<category>
-			<name>Blog View</name>
+			<name>Blog Category</name>
 			<description>The params data is taken from blog category...</description>
 			<params>
-				<param name="category" type="category" label="Category" description="Choose a category..." />
+				<param name="category_id" type="category" label="Category" description="Choose a category..." />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 					<option value="-1">Off</option>
@@ -140,10 +140,10 @@
 			</params>
 		</category>
 		<section>
-			<name>Blog View</name>
+			<name>Blog Section</name>
 			<description>The params data is taken from blog section...</description>
 			<params>
-				<param name="section" type="section" label="Section" description="Choose a section..." />
+				<param name="section_id" type="section" label="Section" description="Choose a section..." />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 					<option value="-1">Off</option>
@@ -263,10 +263,10 @@
 			</params>
 		</section>
 		<default>
-			<name>Blog View</name>
-			<description>The params data is taken from blog section...how to do category??</description>
+			<name>Blog Category</name>
+			<description>The params data is taken from blog category...</description>
 			<params>
-				<param name="category" type="category" label="Category" description="Choose a category..." />
+				<param name="category_id" type="category" label="Category" description="Choose a category..." />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 					<option value="-1">Off</option>

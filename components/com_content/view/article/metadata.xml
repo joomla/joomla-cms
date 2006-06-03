@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
 	<control>
-		<steps>
-			<step />
-		</steps>
+		<steps />
 	</control>
 	<state>
 		<name>Article View</name>
