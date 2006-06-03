@@ -33,8 +33,8 @@ class TOOLBAR_banners {
 		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
-		JMenuBar::apply();
 		JMenuBar::save();
+		JMenuBar::apply();
 		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
@@ -79,8 +79,8 @@ class TOOLBAR_bannerClient {
 		if ($cid[0]) {
 			JMenuBar::trash('removeclients', 'Delete', false);
 		}
-		JMenuBar::apply('applyclient');
 		JMenuBar::save( 'saveclient' );
+		JMenuBar::apply('applyclient');
 		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancelclient', JText::_( 'Close' ) );

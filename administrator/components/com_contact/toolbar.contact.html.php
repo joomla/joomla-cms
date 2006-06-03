@@ -32,10 +32,10 @@ class TOOLBAR_contact {
 		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
-		JMenuBar::apply();
-		JMenuBar::save();
 		JMenuBar::custom( 'save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false );
 		JMenuBar::custom( 'save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false );
+		JMenuBar::save();
+		JMenuBar::apply();
 		if ( $cid[0] ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );

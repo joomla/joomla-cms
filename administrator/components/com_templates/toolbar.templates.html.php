@@ -43,9 +43,10 @@ class TOOLBAR_templates
 	function _EDIT_SOURCE(&$client){
 
 		JMenuBar::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
-		JMenuBar::cancel();
-		JMenuBar::apply( 'apply_source' );
 		JMenuBar::save( 'save_source' );
+		JMenuBar::apply( 'apply_source' );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.templates' );
 	}
 
 	function _EDIT(&$client){
@@ -57,19 +58,22 @@ class TOOLBAR_templates
 		JMenuBar::save( 'save' );
 		JMenuBar::apply();
 		JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+		JMenuBar::help( 'screen.templates' );
 	}
 
 	function _CHOOSE_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
-		JMenuBar::cancel();
 		JMenuBar::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.templates' );
 	}
 
 	function _EDIT_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
-		JMenuBar::cancel();
-		JMenuBar::apply( 'apply_css');
 		JMenuBar::save( 'save_css' );
+		JMenuBar::apply( 'apply_css');
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.templates' );
 	}
 
 	function _POSITIONS(){

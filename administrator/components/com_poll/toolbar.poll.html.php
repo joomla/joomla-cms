@@ -33,8 +33,8 @@ class TOOLBAR_poll {
 		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
-		JMenuBar::apply();
 		JMenuBar::save();
+		JMenuBar::apply();
 		if ($cid[0]) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
