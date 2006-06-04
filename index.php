@@ -66,9 +66,8 @@ if ($option == '' || $option == 'login' || $option == 'logout')
 	} else {
 		$query = "SELECT id, link"
 		. "\n FROM #__menu"
-		. "\n WHERE menutype = 'mainmenu'"
-		. "\n AND published = 1"
-		. "\n ORDER BY parent, ordering LIMIT 1"
+		. "\n WHERE home = 1"
+		. "\n LIMIT 1"
 		;
 		$database->setQuery( $query );
 	}

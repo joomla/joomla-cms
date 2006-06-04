@@ -266,27 +266,27 @@ class JConfigGlobalController extends JController
 	function save() {
 		global $mainframe, $mosConfig_password;
 
-		$mainframe->_registry->loadArray($_POST);
-
+		$config =& JFactory::getConfig();
+		$config->loadArray($_POST);
 		/*
 		 * Handle the server time offset
 		 */
 		$server_time 		= date('O') / 100;
 		$offset 			= JRequest::getVar( 'offset_user', 0, 'post', 'int' ) - $server_time;
-		$mainframe->_registry->setValue('config.offset', $offset);
+		$config->setValue('config.offset', $offset);
 
 		//override any possible database password change
-		$mainframe->_registry->setValue('config.password', $mosConfig_password);
+		$config->setValue('config.password', $mosConfig_password);
 
 		// handling of special characters
 		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post' ) );
-		$mainframe->_registry->setValue('config.sitename', $sitename);
+		$config->setValue('config.sitename', $sitename);
 
 		$MetaDesc			= htmlspecialchars( JRequest::getVar( 'MetaDesc', '', 'post' ) );
-		$mainframe->_registry->setValue('config.MetaDesc', $MetaDesc);
+		$config->setValue('config.MetaDesc', $MetaDesc);
 
 		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post' ) );
-		$mainframe->_registry->setValue('config.MetaKeys', $MetaKeys);
+		$config->setValue('config.MetaKeys', $MetaKeys);
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
@@ -294,7 +294,7 @@ class JConfigGlobalController extends JController
 		$offline_message	= ampReplace( $offline_message );
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );
 		$offline_message	= str_replace( "'", '&#039;', $offline_message );
-		$mainframe->_registry->setValue('config.offline_message', $offline_message);
+		$config->setValue('config.offline_message', $offline_message);
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
@@ -302,7 +302,7 @@ class JConfigGlobalController extends JController
 		$error_message		= ampReplace( $error_message );
 		$error_message		= str_replace( '"', '&quot;', $error_message );
 		$error_message		= str_replace( "'", '&#039;', $error_message );
-		$mainframe->_registry->setValue('config.error_message', $error_message);
+		$config->setValue('config.error_message', $error_message);
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';
@@ -312,7 +312,7 @@ class JConfigGlobalController extends JController
 		 * configuation.php then redirect appropriately.
 		 */
 		jimport('joomla.filesystem.file');
-		if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config', array('class' => 'JConfig')))) {
+		if (JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')))) {
 
 			$msg = JText::_('The Configuration Details have been updated');
 
