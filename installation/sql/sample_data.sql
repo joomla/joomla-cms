@@ -4,8 +4,8 @@
 # Dumping data for table `#__banner`
 #
 
-INSERT INTO `#__banner`  VALUES (1,1,'banner','OSM 1',0,43,0,'osmbanner1.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'2000-00-00 00:00:00','','',0,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
-INSERT INTO `#__banner`  VALUES (2,1,'banner','OSM 2',0,49,0,'osmbanner2.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'2000-00-00 00:00:00','','',0,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (1,1,'banner','OSM 1',0,43,0,'osmbanner1.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'0000-00-00 00:00:00','','',0,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (2,1,'banner','OSM 2',0,49,0,'osmbanner2.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'0000-00-00 00:00:00','','',0,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
 INSERT INTO `#__banner`  VALUES (3,1,'','Joomla',0,11,0,'','http://www.joomla.org','2006-05-29 14:21:28',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! The most popular and widely used Open Source CMS Project in the world.',14,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
 INSERT INTO `#__banner`  VALUES (4,1,'','Joomla Forge',0,11,0,'','http://forge.joomla.org','2006-05-29 14:19:26',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! Forge, development and distribution made easy.',14,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
 INSERT INTO `#__banner`  VALUES (5,1,'','Joomla Extensions',0,6,0,'','http://extensions.joomla.org','2006-05-29 14:23:21',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! components, modules, plugins and languages by the bucket load.',14,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
@@ -90,7 +90,7 @@ INSERT INTO `#__menu` VALUES (16, 'topmenu', 'Home', 'index.php', 'url', 1, 0, 0
 INSERT INTO `#__menu` VALUES (17, 'topmenu', 'Contact Us', 'index.php?option=com_contact&Itemid=6', 'url', 1, 0, 0, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (18, 'topmenu', 'News', 'index.php?option=com_content&task=section&id=1&Itemid=3', 'url', 1, 0, 0, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (19, 'topmenu', 'Links', 'index.php?option=com_weblinks&Itemid=5', 'url', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1', '', 0, 0, 0);
-INSERT INTO `#__menu` VALUES (20, 'usermenu', 'Your Details', 'index.php?option=com_user&task=UserDetails', 'url', 1, 0, 0, 0, 1, 0, '2000-00-00 00:00:00', 0, 0, 1, 3, '', '', 0, 0, 0);
+INSERT INTO `#__menu` VALUES (20, 'usermenu', 'Your Details', 'index.php?option=com_user&task=UserDetails', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (23, 'usermenu', 'Check-In My Items', 'index.php?option=com_user&task=CheckIn', 'url', 1, 0, 0, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (24, 'usermenu', 'Logout', 'index.php?option=com_login', 'components', 1, 0, 15, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (25, 'mainmenu', '1.5 Development Cycle', 'index.php?option=com_content&task=view&id=12', 'content_typed', 1, 0, 12, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=-1\nsecure=0\n\n', '', 0, 0, 0);
@@ -152,7 +152,7 @@ INSERT INTO `#__poll_data` VALUES (12, 14, '', 0);
 # Dumping data for table `#__polls`
 #
 
-INSERT INTO `#__polls` VALUES (14, 'This Joomla! installation was ....', 1, 0, '2000-00-00 00:00:00', 1, 0, 86400);
+INSERT INTO `#__polls` VALUES (14, 'This Joomla! installation was ....', 1, 0, '0000-00-00 00:00:00', 1, 0, 86400);
 
 #
 # Dumping data for table `#__poll_menu`
