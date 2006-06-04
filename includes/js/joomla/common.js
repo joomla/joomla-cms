@@ -36,11 +36,14 @@ document.addLoadEvent = function(func) {
     window.onload = func;
   } else {
     window.onload = function() {
-      oldonload();
+      if (oldonload) {
+        oldonload();
+      }
       func();
     }
   }
 }
+
 
 /* gap is in millisecs */
 function delay(gap) { 	

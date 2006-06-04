@@ -20,7 +20,6 @@
  * @subpackage	Document
  * @since		1.5
  */
-	
 class JDocument extends JObject
 {
 	/**
