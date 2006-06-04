@@ -26,11 +26,11 @@ switch ($task) {
 	case 'edit_content_typed':
 		TOOLBAR_content::_EDIT( );
 		break;
-
+/*
 	case 'showarchive':
 		TOOLBAR_content::_ARCHIVE();
 		break;
-
+*/
 	case 'movesect':
 		TOOLBAR_content::_MOVE();
 		break;

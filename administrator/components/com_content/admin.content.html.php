@@ -47,18 +47,16 @@ class ContentView
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
-		function submitbutton(task)
-		{
+		<!--
+		function submitbutton(task) {
 			var f = document.adminForm;
-			if (task == 'wizard')
-			{
+			if (task == 'wizard') {
 				document.popup.show('index3.php?option=com_content&task=wizard', 700, 500, null);
-			}
-			else
-			{
+			} else {
 				submitform(task);
 			}
 		}
+		//-->
 		</script>
 		<form action="index2.php?option=com_content" method="post" name="adminForm">
 
@@ -146,18 +144,21 @@ class ContentView
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 
 				$now = date( 'Y-m-d H:i:s' );
-				if ( $now <= $row->publish_up && $row->state == "1" ) {
+				if ( $now <= $row->publish_up && $row->state == 1 ) {
 					$img = 'publish_y.png';
 					$alt = JText::_( 'Published' );
-				} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == "1" ) {
+				} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
 					$img = 'publish_g.png';
 					$alt = JText::_( 'Published' );
-				} else if ( $now > $row->publish_down && $row->state == "1" ) {
+				} else if ( $now > $row->publish_down && $row->state == 1 ) {
 					$img = 'publish_r.png';
 					$alt = JText::_( 'Expired' );
-				} elseif ( $row->state == "0" ) {
-					$img = "publish_x.png";
+				} else if ( $row->state == 0 ) {
+					$img = 'publish_x.png';
 					$alt = JText::_( 'Unpublished' );
+				} else if ( $row->state == -1 ) {
+					$img = 'disabled.png';
+					$alt = JText::_( 'Archived' );
 				}
 				$times = '';
 				if (isset($row->publish_up)) {
@@ -192,7 +193,7 @@ class ContentView
 
 				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 
-				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
+				$access 	= mosCommonHTML::AccessProcessing( $row, $i, $row->state );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -213,8 +214,10 @@ class ContentView
 		                }
 						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->title;
-						}
-		                else {
+						} else if ($row->state == -1) {
+							echo htmlspecialchars($row->title, ENT_QUOTES); 
+							echo ' [ '. JText::_( 'Archived' ) .' ]';
+						} else {
 							?>
 							<a href="<?php echo ampReplace( $link ); ?>">
 								<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
@@ -234,7 +237,7 @@ class ContentView
 					?>
 					<td align="center">
 						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
-							<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : 'publish_x.png';?>" width="16" height="16" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
+							<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : ( $row->state != -1 ? 'publish_x.png' : 'disabled.png' );?>" width="16" height="16" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>
 					<td class="order" colspan="2">
 						<span><?php echo $page->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid), 'orderup', 'Move Up', $ordering); ?></span>

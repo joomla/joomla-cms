@@ -915,7 +915,7 @@ class mosCommonHTML {
 		$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en.js' );
 	}
 
-	function AccessProcessing( &$row, $i ) {
+	function AccessProcessing( &$row, $i, $archived=NULL ) {
 		if ( !$row->access ) {
 			$color_access = 'style="color: green;"';
 			$task_access = 'accessregistered';
@@ -927,11 +927,15 @@ class mosCommonHTML {
 			$task_access = 'accesspublic';
 		}
 
-		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-		'. $row->groupname .'
-		</a>'
-		;
+		if ($archived == -1) {
+			$href = $row->groupname;
+		} else {
+			$href = '
+			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
+			'. $row->groupname .'
+			</a>'
+			;
+		}
 
 		return $href;
 	}
@@ -964,10 +968,14 @@ class mosCommonHTML {
 		return $href;
 	}
 
-	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished' )	{
+	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
 		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
 		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
 		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
+		
+		if ($archived) {
+			$state[] = mosHTML::makeOption( 'A', JText::_( $archived ) );
+		}
 
 		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}

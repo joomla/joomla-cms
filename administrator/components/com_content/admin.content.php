@@ -95,9 +95,9 @@ switch (strtolower($task))
 		JContentController::orderContent(1);
 		break;
 
-	case 'showarchive' :
-		JContentController::viewArchive();
-		break;
+	//case 'showarchive' :
+	//	JContentController::viewArchive();
+	//	break;
 
 	case 'movesect' :
 		JContentController::moveSection();

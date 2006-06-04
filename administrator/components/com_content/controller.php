@@ -64,7 +64,8 @@ class JContentController extends JController
 		$search				= $db->getEscaped(trim(JString::strtolower($search)));
 
 
-		$where[] = "c.state >= 0";
+		//$where[] = "c.state >= 0";
+		$where[] = "c.state != -2";
 
 		if (!$filter_order) {
 			$filter_order = 'section_name';
@@ -100,6 +101,10 @@ class JContentController extends JController
 			} else {
 				if ($filter_state == 'U') {
 					$where[] = "c.state = 0";
+				} else if ($filter_state == 'A') {
+					$where[] = "c.state = -1";
+				} else {
+					$where[] = "c.state != -2";
 				}
 			}
 		}
@@ -170,7 +175,7 @@ class JContentController extends JController
 		$lists['authorid'] = mosHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// state filter
-		$lists['state'] = mosCommonHTML::selectState($filter_state);
+		$lists['state'] = mosCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
 
 		// table ordering
 		if ($filter_order_Dir == 'DESC') {

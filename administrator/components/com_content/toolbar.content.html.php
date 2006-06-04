@@ -38,7 +38,7 @@ class TOOLBAR_content
 		}
 		JMenuBar::help( 'screen.content.edit' );
 	}
-
+/*
 	function _ARCHIVE() {
 
 		JMenuBar::title( JText::_( 'Archive Manager' ), 'addedit.png' );
@@ -46,7 +46,7 @@ class TOOLBAR_content
 		JMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
 		JMenuBar::help( 'screen.content.archive' );
 	}
-
+*/
 	function _MOVE() {
 
 		JMenuBar::title( JText::_( 'Move Content Items' ), 'move_f2.png' );
@@ -62,9 +62,15 @@ class TOOLBAR_content
 	}
 
 	function _DEFAULT() {
-
+		global $filter_state;
+		
 		JMenuBar::title( JText::_( 'Article Manager' ), 'addedit.png' );
-		JMenuBar::archiveList();
+		if ($filter_state == 'A' || $filter_state == NULL) {
+			JMenuBar::unarchiveList();
+		}
+		if ($filter_state != 'A') {
+			JMenuBar::archiveList();
+		}
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );

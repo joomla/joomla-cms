@@ -154,7 +154,7 @@ function & buildMenu($usertype = '')
 	$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index2.php?option=com_categories&section=content', 'class:category'));
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index2.php?option=com_frontpage', 'class:frontpage'));
-	$menu->addChild(new JMenuNode(JText::_('Archive Manager'), 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class:archive'));
+//	$menu->addChild(new JMenuNode(JText::_('Archive Manager'), 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class:archive'));
 	if ($manageTrash) {
 		$menu->addSeparator();
 		$menu->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewContent', 'class:trash'));
