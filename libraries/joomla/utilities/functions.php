@@ -423,7 +423,10 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 
-	$dblink = "index.php?option=$menu_option";
+	// Initialize variables
+	$results	= array();
+	$dblink		= "index.php?option=$menu_option";
+	$access 	= 0;
 
 	$menu = JMenu::getInstance();
 	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
@@ -433,14 +436,14 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 			$dblink	.= "&task=$task";
 		}
 
-		foreach ($menu as $item) {
+		$items = $menu->getMenu();
+		foreach ($items as $item) {
 			if (strpos($item->link, $dblink)) {
 				$results[] = $item;
 			}
 		}		
 	}
 
-	$access 	= 0;
 	foreach ($results as $result) {
 		$access = max( $access, $result->access );
 	}
