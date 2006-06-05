@@ -7,6 +7,7 @@
 		<name>Article View</name>
 		<description>Article view parameters...</description>
 		<params>
+			<param name="article_id" type="text" default="" label="Article ID" description="Article" />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">

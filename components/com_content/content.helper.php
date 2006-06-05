@@ -598,9 +598,6 @@ class JContentHTMLHelper {
 	function emailIcon($row, $params, $hideJS)
 	{
 		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
-			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
-			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
-			$acclink = 'index.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
 			if ($params->get('icons')) 	{
 				$image = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 			} else {
@@ -608,7 +605,24 @@ class JContentHTMLHelper {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-				<a href="<?php echo $acclink; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'Email' );?>">
+				<script language="JavaScript" type="text/javascript">
+				<!--
+				function mailToFriend() {
+				  if (document.mailToFriend) {
+				    window.open('about:blank',
+				      'MailToFriend',
+				      'width=400,height=300,menubar=yes,resizable=yes');
+				    document.mailToFriend.submit();
+				  }
+				}
+				-->
+				</script>
+				<form action="index2.php" name="mailToFriend" method="post" target="MailToFriend" style="display:inline">
+				  <input type="hidden" name="option" value="com_mailto" />
+				  <input type="hidden" name="link" value="<?php echo urlencode( JRequest::getUrl());?>" />
+				</form>
+
+				<a href="javascript:void mailToFriend()" title="<?php echo JText::_( 'Email' );?>">
 					<?php echo $image; ?></a>
 			</td>
 			<?php

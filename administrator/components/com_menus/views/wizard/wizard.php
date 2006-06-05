@@ -33,7 +33,6 @@ class JMenuViewWizard extends JWizardView
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('New Menu Item Wizard'));
 
-
 		$app		= &$this->get('Application');
 		$type		= $app->getUserStateFromRequest('menuwizard.type', 'type', 'component');
 		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');

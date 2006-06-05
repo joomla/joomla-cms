@@ -52,25 +52,18 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId(
 //}
 
 $Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-
 if ($option == '' || $option == 'login' || $option == 'logout')
 {
-	if ($Itemid) {
-		$query = "SELECT id, link"
-		. "\n FROM #__menu"
-		. "\n WHERE menutype = 'mainmenu'"
-		. "\n AND id = '$Itemid'"
-		. "\n AND published = '1'"
-		;
-		$database->setQuery( $query );
-	} else {
-		$query = "SELECT id, link"
-		. "\n FROM #__menu"
-		. "\n WHERE home = 1"
-		. "\n LIMIT 1"
-		;
-		$database->setQuery( $query );
-	}
+	$query = "SELECT id, link"
+	. "\n FROM #__menu"
+	// . "\n WHERE menutype = 'mainmenu'"   ?? huh?
+	. "\n WHERE (id = $Itemid OR home = 1)"
+	. "\n AND published = 1"
+	. "\n ORDER BY home"
+	. "\n LIMIT 1"
+	;
+	$database->setQuery( $query );
+
 	$menu =& JTable::getInstance('menu', $database );
 	if ($database->loadObject( $menu )) {
 		$Itemid = $menu->id;

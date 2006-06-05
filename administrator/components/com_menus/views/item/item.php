@@ -67,12 +67,14 @@ class JMenuViewItem extends JView
 	<script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
+		var type = form.type.value;
+
 		if (pressbutton == 'cancel') {
 			submitform( pressbutton );
 			return;
 		}
 
-		if ( (trim( form.type.value ) != "separator") && (trim( form.name.value ) == "") ){
+		if ( type != "separator") && (trim( form.name.value ) == "") ){
 			alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
 		} else {
 			submitform( pressbutton );
@@ -106,7 +108,15 @@ class JMenuViewItem extends JView
 									<?php echo JText::_( 'Name' ); ?>:
 								</td>
 								<td>
-									<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $item->name; ?>" />
+									<input class="inputbox" type="text" name="name" size="50" maxlength="255" value="<?php echo $item->name; ?>" />
+								</td>
+							</tr>
+							<tr>
+								<td class="key" align="right">
+									<?php echo JText::_( 'Link' ); ?>:
+								</td>
+								<td>
+									<input class="inputbox" type="text" name="link" size="50" maxlength="255" value="<?php echo $item->link; ?>" />
 								</td>
 							</tr>
 							<tr>
@@ -147,6 +157,14 @@ class JMenuViewItem extends JView
 								</td>
 								<td>
 									<?php echo mosAdminMenus::Access( $item ); ?>
+								</td>
+							</tr>
+							<tr>
+								<td class="key" valign="top" align="right">
+									<?php echo JText::_( 'On Click, Open in' ); ?>:
+								</td>
+								<td>
+									<?php echo JMenuHelper::Target( $item ); ?>
 								</td>
 							</tr>
 						</table>
@@ -196,7 +214,7 @@ class JMenuViewItem extends JView
 		?>
 		<input type="hidden" name="option" value="com_menus" />
 		<input type="hidden" name="id" value="<?php echo $item->id; ?>" />
-		<input type="hidden" name="link" value="<?php echo $item->link; ?>" />
+		<input type="hidden" name="componentid" value="<?php echo $item->componentid; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $item->menutype; ?>" />
 		<input type="hidden" name="type" value="<?php echo $item->type; ?>" />
 		<input type="hidden" name="task" value="" />

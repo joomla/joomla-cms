@@ -54,7 +54,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=archive\nmodel_name=category',
+    `control` = 'view_name=archive\nmodel_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -64,7 +64,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=archive\nmodel_name=section',
+    `control` = 'view_name=archive\nmodel_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -74,7 +74,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=blog\nmodel_name=category',
+    `control` = 'view_name=blog\nmodel_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -84,7 +84,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=blog\nmodel_name=section',
+    `control` = 'view_name=blog\nmodel_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -94,7 +94,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=category',
+    `control` = 'view_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -104,7 +104,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=article',
+    `control` = 'view_name=article',
     `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -114,7 +114,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=section',
+    `control` = 'view_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
     `type` = 'component'
   WHERE
@@ -124,7 +124,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view=article',
+    `control` = 'view_name=article',
     `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
     `type` = 'component'
   WHERE
