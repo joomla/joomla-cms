@@ -86,19 +86,20 @@ class JContentViewArticle extends JView
 
 		// Handle BreadCrumbs
 		$breadcrumbs = & $app->getPathWay();
+
 		if (!empty ($Itemid)) {
 			// Section
 			if (!empty ($article->section)) {
 				$breadcrumbs->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
 			}
 			// Category
-			if (!empty ($article->section)) {
+			if (!empty ($article->category)) {
 				$breadcrumbs->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$article->sectionid.'&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
 			}
 		}
+
 		// Item
 		$breadcrumbs->addItem($article->title, '');
-
 		// Handle Page Title
 		$doc = & $app->getDocument();
 		$doc->setTitle($article->title);
