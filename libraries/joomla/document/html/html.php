@@ -265,6 +265,13 @@ class JDocumentHTML extends JDocument
 		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
 		$instance->addVar( 'document', 'template', $template);
 
+		//Legacy for popups
+		//This is a dirty fix for now until we reach some sort of better way.
+		//Requests running through component.html are supposed to load the default css for BC
+		global $mainframe;
+		$a_template = $mainframe->getTemplate();
+		$instance->addVar( 'document', 'assigned_template', $a_template);
+
 		return $instance;
 	}
 

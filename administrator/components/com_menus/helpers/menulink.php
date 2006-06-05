@@ -82,6 +82,7 @@ class JMenuHelperMenulink extends JWizardHelper
 	}
 
 	function prepForStore(&$values) {
+		$values['link'] = $values['params']['menu_item'];
 		return $values;
 	}
 

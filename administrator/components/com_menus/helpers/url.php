@@ -81,16 +81,10 @@ class JMenuHelperUrl extends JWizardHelper
 	}
 
 	function prepForStore(&$values) {
-		$values['link'] = $values['params']['url'];
 		return $values;
 	}
 
 	function &prepForEdit(&$item) {
-		$params = new JParameter($item->params);
-		if (!$params->get('url')) {
-			$params->set('url', $item->link);
-			$item->params = $params->toString();
-		}
 		return $item;
 	}
 }
