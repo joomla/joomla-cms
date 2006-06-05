@@ -63,6 +63,7 @@ class JMenuViewItem extends JView
 			$item->published = 0;
 		}
 		mosCommonHTML::loadOverlib();
+		$disabled = ($item->type == 'component' ? 'disabled="true"' : '');
 	?>
 	<script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -116,7 +117,7 @@ class JMenuViewItem extends JView
 									<?php echo JText::_( 'Link' ); ?>:
 								</td>
 								<td>
-									<input class="inputbox" type="text" name="link" size="50" maxlength="255" value="<?php echo $item->link; ?>" />
+									<input class="inputbox" type="text" name="link" size="50" maxlength="255" value="<?php echo $item->link; ?>" <?php echo $disabled;?> />
 								</td>
 							</tr>
 							<tr>
