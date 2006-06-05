@@ -109,7 +109,14 @@ class JMenuHelperComponent extends JWizardHelper
 	 */
 	function &getEditFields()
 	{
-		$fields['component'] = $_POST['component'];
+		$component =& $this->_parent->getComponent();
+		if ($component->id) {
+			$fields['component'] = substr($component->option, 4);
+		}
+
+		if (isset($_POST['component'])) {
+			$fields['component'] = $_POST['component'];
+		}
 
 		return $fields;
 	}
