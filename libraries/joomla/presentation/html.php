@@ -910,7 +910,7 @@ class mosCommonHTML {
 		$doc =& $mainframe->getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => '"'. JText::_( 'green' ) .'"',' media' => '"all"' ));
+		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
 		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );
 		$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en.js' );
 	}
