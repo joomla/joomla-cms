@@ -59,28 +59,34 @@ class JMainMenu extends JTree
 
 	function addNode(&$item)
 	{
+		// Menu Link is a special type that is a link to another item
+		if ($item->type == 'menulink') {
+			$menu = JMenu::getInstance();
+			if ($tmp = $menu->getItem($item->link)) {
+				$item = clone($tmp);
+			} else {
+				return;
+			}
+		}
 
 		switch ($item->type) {
 			case 'separator' :
-				$this->addChild(new JMenuNode(null, null, 'seperator', false));
+				$this->addChild(new JMenuNode(null, $item->name, 'seperator', false));
 				return;
 				break;
 
-			case 'component_item_link' :
-				break;
-
-			case 'content_item_link':
-			case 'content_typed' :
-				if ( $this->_params->get( 'unique_itemid' ) ) {
-					$item->link .= '&Itemid='. $item->id;
-				} else {
-					$temp = split("&task=view&id=", $item->link);
-					require_once (JApplicationHelper::getPath('helper', 'com_content'));
-
-					$_Itemid = JContentHelper::getItemid($temp[1]);
-					$item->link .= '&Itemid='.$_Itemid;
-				}
-				break;
+//			case 'content_item_link':
+//			case 'content_typed' :
+//				if ( $this->_params->get( 'unique_itemid' ) ) {
+//					$item->link .= '&Itemid='. $item->id;
+//				} else {
+//					$temp = split("&task=view&id=", $item->link);
+//					require_once (JApplicationHelper::getPath('helper', 'com_content'));
+//
+//					$_Itemid = JContentHelper::getItemid($temp[1]);
+//					$item->link .= '&Itemid='.$_Itemid;
+//				}
+//				break;
 
 			case 'url' :
 				if (eregi('index.php\?', $item->link)) {
