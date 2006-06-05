@@ -110,7 +110,7 @@ class JMenuModelItem extends JModel
 		}
 
 		foreach($values as $k => $v) {
-			$fields[] = "<input type=\"hidden\" name=\"control[$k]\" value=\"$v\" />";
+			$fields[] = "<input type=\"hidden\" name=\"$k\" value=\"$v\" />";
 		}
 
 		$params =& $this->getControlParams();
