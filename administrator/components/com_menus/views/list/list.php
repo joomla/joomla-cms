@@ -93,14 +93,11 @@ class JMenuViewList extends JView
 					<th width="10%">
 						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
-					<th nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $lists ); ?>
-					</th>
-					<th width="15%" class="title">
+					<th width="10%" class="title">
 						<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
 					</th>
 					<th nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'CID', 'm.componentid', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -158,11 +155,8 @@ class JMenuViewList extends JView
 					<td align="center">
 						<?php echo $access;?>
 					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
-					</td>
 					<td>
-						<span class="editlinktip">
+						<span class="editlinktip" style="text-transform:capitalize">
 							<?php
 							//echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit, !empty($row->edit) );
 							echo $row->type
@@ -170,7 +164,7 @@ class JMenuViewList extends JView
 						</span>
 					</td>
 					<td align="center">
-						<?php echo $row->componentid; ?>
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php
