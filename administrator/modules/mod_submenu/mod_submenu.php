@@ -214,7 +214,8 @@ class JAdminSubMenu
 								$img	= '../includes/'.$item->admin_menu_img;
 								$subMenuList[] = array ('title' => $item->name, 'link' => $link, 'img' => $img);
 							}
-							$title 			= $item->name .' '. JText::_('Categories');
+							$itemName = ( $section != 'com_banners' ? $item->name : JText::_('Banner') );
+              $title = sprintf( JText::_( 'CATEGSUBMENU' ), $itemName );
 							$link			= 'index2.php?option=com_categories&section='. $section; 
 							$subMenuList[] 	= array ('title' => $title, 'link' => $link, 'img' => '../includes/js/ThemeOffice/categories.png', 'active' => 1);			
 		
