@@ -166,6 +166,7 @@ class JMenuHelperComponent extends JWizardHelper
 	}
 
 	function prepForStore(&$values) {
+		$values['link'] = 'index.php?option=com_'.$values['component'];
 		return $values;
 	}
 
