@@ -212,7 +212,7 @@ class JAdminSubMenu
 							foreach ($items as $item) {
 								$link 	= 'index2.php?'. $item->admin_menu_link;
 								$img	= '../includes/'.$item->admin_menu_img;
-								$subMenuList[] = array ('title' => $item->name, 'link' => $link, 'img' => $img);
+								$subMenuList[] = array ('title' => JText::_( $item->name ), 'link' => $link, 'img' => $img);
 							}
 							$itemName = ( $section != 'com_banners' ? $item->name : JText::_('Banner') );
               $title = sprintf( JText::_( 'CATEGSUBMENU' ), $itemName );
