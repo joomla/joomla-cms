@@ -193,6 +193,10 @@ class JMenuModelItem extends JModel
 		$row->checkin();
 		$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
+		// Reset the wizard
+		$app =& $this->getApplication();
+		$app->setUserState('request.menuwizard', null);
+
 		return true;
 	}
 

@@ -90,7 +90,13 @@ class JMenuModelWizard extends JModel
 
 	function &getConfirmation()
 	{
-		return $this->_helper->getConfirmation();
+		$return = &$this->_helper->getConfirmation();
+		$app =& $this->getApplication();
+		$id	 = $app->getUserStateFromRequest('menuwizard.id', 'id', false);
+		if ($id) {
+			$return['cid'] = array($id);
+		}
+		return $return;
 	}
 
 	function getStep()
