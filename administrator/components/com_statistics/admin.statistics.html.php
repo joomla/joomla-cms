@@ -290,6 +290,7 @@ class HTML_statistics
 				}
 
 				$img			= ( $row->state	? 'tick.png' : 'publish_x.png' );
+				$alt			= ( $row->state	? JText::_( 'Published' ) : JText::_( 'Unpublished' ) );
 				$date 			= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
 				<tr class="row<?php echo $k;?>">
@@ -312,7 +313,7 @@ class HTML_statistics
 						<?php echo $row->hits; ?>
 					</td>
 					<td align="center">
-						<img src="images/<?php echo $img; ?>" width="16" height="16" border="0" />
+						<img src="images/<?php echo $img; ?>" width="16" height="16" border="0" title="<?php echo $alt; ?>" alt="<?php echo $alt; ?>" />
 					</td>
 					<td>
 						<a href="<?php echo $row->sect_link; ?>" title="<?php echo $title_sec; ?>">
