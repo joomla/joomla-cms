@@ -372,7 +372,8 @@ function editModule( )
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$module = JRequest::getVar( 'module' );
 	$option = JRequest::getVar( 'option');
-	$cid 	= JRequest::getVar( 'cid', array(0));
+	$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
+	$cid 	= JRequest::getVar( 'cid', array( $id ));
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}	
