@@ -95,7 +95,7 @@ class JConfigGlobalController extends JController
 
 		jimport('joomla.i18n.help');
 		$helpsites 				= array ();
-		$helpsites 				= JHelp::createSiteList('http://help.joomla.org/helpsites-11.xml', $row->helpurl);
+		$helpsites 				= JHelp::createSiteList('http://help.joomla.org/helpsites-15.xml', $row->helpurl);
 		array_unshift($helpsites, mosHTML::makeOption('', JText::_('local')));
 		$lists['helpsites'] 	= mosHTML::selectList($helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
 
