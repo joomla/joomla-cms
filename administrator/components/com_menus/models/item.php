@@ -107,6 +107,8 @@ class JMenuModelItem extends JModel
 	{
 		if ($helper =& $this->_getHelper()) {
 			$values =& $helper->getEditFields();
+		} else {
+			$values = array();
 		}
 
 		foreach($values as $k => $v) {
