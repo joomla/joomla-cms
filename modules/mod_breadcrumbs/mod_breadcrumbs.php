@@ -26,7 +26,7 @@ $showHome = true;
 $showComponent = true;
 
 // Set the default separator
-$separator = setSeparator();
+$separator = setSeparator( $params->get( 'separator' ));
 
 /*
  * Perhaps we should have a parameter to control whether home is displayed in the

@@ -17,5 +17,6 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="separator" type="text" default="" label="Text Separator" description="A text separator" />
 	</params>
 </install>
