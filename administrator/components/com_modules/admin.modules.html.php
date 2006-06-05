@@ -529,7 +529,7 @@ class HTML_modules {
 		for ( $i=0; $i < $count; $i++ ) {
 			$row = &$modules[$i];
 
-			$link = 'index2.php?option=com_modules&amp;task=editA&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
+			$link = 'index2.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
 			if ( !$k ) {
 				?>
 				<tr class="<?php echo "row$x"; ?>" valign="top">
