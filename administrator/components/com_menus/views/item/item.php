@@ -215,7 +215,6 @@ class JMenuViewItem extends JView
 		?>
 		<input type="hidden" name="option" value="com_menus" />
 		<input type="hidden" name="id" value="<?php echo $item->id; ?>" />
-		<input type="hidden" name="componentid" value="<?php echo $item->componentid; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $item->menutype; ?>" />
 		<input type="hidden" name="type" value="<?php echo $item->type; ?>" />
 		<input type="hidden" name="task" value="" />

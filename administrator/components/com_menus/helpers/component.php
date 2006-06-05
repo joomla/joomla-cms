@@ -118,6 +118,19 @@ class JMenuHelperComponent extends JWizardHelper
 			$fields['component'] = $_POST['component'];
 		}
 
+		$item =& $this->_parent->getItem();
+		if (!$item->componentid) {
+			$query = "SELECT `id`" .
+					"\n FROM `#__components`" .
+					"\n WHERE `link` <> ''" .
+					"\n AND `option` = 'com_".$fields['component']."'";
+			$db =& JFactory::getDBO();
+			$db->setQuery($query);
+			$fields['componentid'] = $db->loadResult();
+		} else {
+			$fields['componentid'] = $item->componentid;
+		}
+print_r($db);
 		return $fields;
 	}
 
