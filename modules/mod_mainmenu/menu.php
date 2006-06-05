@@ -63,7 +63,9 @@ class JMainMenu extends JTree
 		if ($item->type == 'menulink') {
 			$menu = JMenu::getInstance();
 			if ($tmp = $menu->getItem($item->link)) {
+				$name = $item->title;
 				$item = clone($tmp);
+				$item->title = $name;
 			} else {
 				return;
 			}
