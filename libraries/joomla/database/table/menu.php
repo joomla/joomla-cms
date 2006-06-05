@@ -61,6 +61,8 @@ class JTableMenu extends JTable
 	var $lft				= null;
 	/** @var int Pre-order tree traversal - right value */
 	var $rgt				= null;
+	/** @var int */
+	var $home				= null;
 
 	/**
 	 * Constructor
