@@ -54,6 +54,7 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId(
 $Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 if ($option == '' || $option == 'login' || $option == 'logout')
 {
+	// TODO: See JMenu::__construct - I think this can be ditched!
 	$query = "SELECT id, link"
 	. "\n FROM #__menu"
 	// . "\n WHERE menutype = 'mainmenu'"   ?? huh?

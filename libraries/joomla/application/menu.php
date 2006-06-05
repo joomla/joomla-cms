@@ -54,13 +54,18 @@ class JMenu extends JObject
 	{
 		$this->_menuitems = $this->_load();
 
+		$home = 0;
 		foreach ($this->_menuitems as $item) {
 			if ($item->menutype == $name || $name == 'all') {
 				$this->_thismenu[] = $item;
+				if ($item->home)
+				{
+					$home = $item->id;
+				}
 			}
 		}
 
-		$this->_current_id = JRequest::getVar( $this->_current_uri_var, 0, '', 'int' );
+		$this->_current_id = JRequest::getVar( $this->_current_uri_var, $home, '', 'int' );
 	}
 
 	/**
