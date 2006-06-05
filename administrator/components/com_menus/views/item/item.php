@@ -63,7 +63,7 @@ class JMenuViewItem extends JView
 			$item->published = 0;
 		}
 		mosCommonHTML::loadOverlib();
-		$disabled = ($item->type == 'component' ? 'disabled="true"' : '');
+		$disabled = ($item->type != 'url' ? 'disabled="true"' : '');
 	?>
 	<script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
