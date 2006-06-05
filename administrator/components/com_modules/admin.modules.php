@@ -346,7 +346,7 @@ function saveModule( $option, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
-			josRedirect( 'index2.php?option='. $option .'&client='. $client->id .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client->id .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
