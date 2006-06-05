@@ -51,7 +51,6 @@ class JMenuHelperMenulink extends JWizardHelper
 
 		$final['type']	= 'menulink';
 		$final['menu_type']	= $this->_type;
-		$final['menu_item']	= $values['menu_item'];
 
 		return $final;
 	}
@@ -62,8 +61,7 @@ class JMenuHelperMenulink extends JWizardHelper
 	 */
 	function &getEditFields()
 	{
-		$fields['menu_item'] = $_POST['menu_item'];
-
+		$fields = array();
 		return $fields;
 	}
 
