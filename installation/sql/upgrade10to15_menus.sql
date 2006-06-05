@@ -36,7 +36,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'task=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_contact' AND `parent` = 0)
   WHERE
     `type` = 'contact_category_table';
 
@@ -46,7 +47,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'task=view',
     `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_contact' AND `parent` = 0)
   WHERE
     `type` = 'contact_item_link';
 
@@ -56,7 +58,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=archive\nmodel_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_archive_category';
 
@@ -66,7 +69,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=archive\nmodel_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_archive_category';
 
@@ -76,7 +80,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=blog\nmodel_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_blog_category';
 
@@ -86,7 +91,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=blog\nmodel_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_blog_section';
 
@@ -96,7 +102,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_category';
 
@@ -106,7 +113,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=article',
     `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_item_link';
 
@@ -116,7 +124,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=section',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_section';
 
@@ -126,7 +135,8 @@ UPDATE `jos_menu`
   SET
     `control` = 'view_name=article',
     `params` = CONCAT_WS( '', params, '\narticle_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
   WHERE
     `type` = 'content_typed';
 
@@ -156,8 +166,8 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_weblinks' AND `parent` = 0),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_weblinks' AND `parent` = 0)
   WHERE
     `type` = 'weblink_category_table';
 
@@ -165,8 +175,8 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_wrapper'),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_wrapper')
   WHERE
     `type` = 'wrapper';
   
