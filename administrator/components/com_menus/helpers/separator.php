@@ -54,6 +54,17 @@ class JMenuHelperSeparator extends JWizardHelper
 		return $final;
 	}
 
+	/**
+	 * @param string A params string
+	 * @param string The option
+	 */
+	function &getEditFields()
+	{
+		$fields = array();
+
+		return $fields;
+	}
+
 	function getDetails()
 	{
 		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('Separator'), 'key' => 'type', 'value' => 'separator');

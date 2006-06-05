@@ -50,10 +50,21 @@ class JMenuHelperMenulink extends JWizardHelper
 		$values	=& $this->_wizard->getConfirmation();
 
 		$final['type']	= 'menulink';
-		$final['menu_item']	= $values['menu_item'];
 		$final['menu_type']	= $this->_type;
+		$final['menu_item']	= $values['menu_item'];
 
 		return $final;
+	}
+
+	/**
+	 * @param string A params string
+	 * @param string The option
+	 */
+	function &getEditFields()
+	{
+		$fields['menu_item'] = $_POST['menu_item'];
+
+		return $fields;
 	}
 
 	function getDetails()

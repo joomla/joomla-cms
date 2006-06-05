@@ -55,6 +55,17 @@ class JMenuHelperUrl extends JWizardHelper
 		return $final;
 	}
 
+	/**
+	 * @param string A params string
+	 * @param string The option
+	 */
+	function &getEditFields()
+	{
+		$fields = array();
+
+		return $fields;
+	}
+
 	function getDetails()
 	{
 		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('URL'), 'key' => 'type', 'value' => 'url');

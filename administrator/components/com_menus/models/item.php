@@ -105,6 +105,14 @@ class JMenuModelItem extends JModel
 
 	function &getControlFields()
 	{
+		if ($helper =& $this->_getHelper()) {
+			$values =& $helper->getEditFields();
+		}
+
+		foreach($values as $k => $v) {
+			$fields[] = "<input type=\"hidden\" name=\"control[$k]\" value=\"$v\" />";
+		}
+
 		$params =& $this->getControlParams();
 		$array = $params->toArray();
 

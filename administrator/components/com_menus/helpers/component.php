@@ -96,11 +96,22 @@ class JMenuHelperComponent extends JWizardHelper
 		$values	=& $this->_wizard->getConfirmation();
 
 		$final['type']		= 'component';
-		$final['component']	= $this->_option;
 		$final['menu_type']	= $this->_type;
+		$final['component']	= $this->_option;
 		$final['control']	= $values;
 
 		return $final;
+	}
+
+	/**
+	 * @param string A params string
+	 * @param string The option
+	 */
+	function &getEditFields()
+	{
+		$fields['component'] = $_POST['component'];
+
+		return $fields;
 	}
 
 	function getDetails()
