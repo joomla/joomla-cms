@@ -64,6 +64,48 @@ class JMenu extends JObject
 	}
 
 	/**
+	 * Loads the entire menu table into memory
+	 */
+	function _load()
+	{
+		global $mainframe;
+
+		static $menus;
+
+		if (isset ($menus)) {
+			return $menus;
+		}
+		// Initialize some variables
+		$db = & $mainframe->getDBO();
+		$user = & $mainframe->getUser();
+		$sql = "SELECT *" .
+				"\n FROM #__menu" .
+				"\n WHERE published = 1".
+				"\n ORDER BY parent, ordering";
+
+		$db->setQuery($sql);
+		if (!($menus = $db->loadObjectList('id'))) {
+			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
+			return false;
+		}
+
+		return $menus;
+	}
+
+	/**
+	 * Gets the current menu item
+	 */
+	function &getCurrent() {
+		$result = &$this->getItem( $this->_current_id );
+		if ($result == false)
+		{
+			$db = &JFactory::getDBO();
+			$result = JTable::getInstance( 'menu', $db );
+		}
+		return $result;
+	}
+
+	/**
 	 * Returns a reference to the global JMenu object, only creating it if it
 	 * doesn't already exist.
 	 *
@@ -171,11 +213,11 @@ class JMenu extends JObject
 		return $Itemid;
 	}
 
-	function getMenu()
-	{
-		return $this->_thismenu;
-	}
-
+	/**
+	 * Getter for a menu item
+	 * @param int The item id
+	 * @return mixed The item, or false if not found
+	 */
 	function getItem($id)
 	{
 		if (isset($this->_menuitems[$id])) {
@@ -185,6 +227,12 @@ class JMenu extends JObject
 		}
 	}
 
+	/**
+	 * Gets items by attribute
+	 * @param string The field name
+	 * @param string The value of the field
+	 * @return array
+	 */
 	function getItems($attribute, $value)
 	{
 		$items = array ();
@@ -199,42 +247,38 @@ class JMenu extends JObject
 	}
 
 	/**
-	 * Get's the current menu item
+	 * Getter for the menu array
+	 * @return array
 	 */
-	function &getCurrent() {
-		$result = &$this->getItem( $this->_current_id );
-		if ($result == false)
-		{
-			$db = &JFactory::getDBO();
-			$result = JTable::getInstance( 'menu', $db );
-		}
-		return $result;
+	function getMenu()
+	{
+		return $this->_thismenu;
 	}
 
-	function _load()
+	/**
+	 * Checks if the current menu, or the passed id, is the current menu
+	 * @param int A menu id (Itemid)
+	 * @return boolean
+	 */
+	function isDefault( $id = 0 )
 	{
-		global $mainframe;
-
-		static $menus;
-
-		if (isset ($menus)) {
-			return $menus;
+		$menu = JMenu::getInstance();
+		if ($id)
+		{
+			$item = $menu->getItem( $id );
 		}
-		// Initialize some variables
-		$db = & $mainframe->getDBO();
-		$user = & $mainframe->getUser();
-		$sql = "SELECT *" .
-				"\n FROM #__menu" .
-				"\n WHERE published = 1".
-				"\n ORDER BY parent, ordering";
-
-		$db->setQuery($sql);
-		if (!($menus = $db->loadObjectList('id'))) {
-			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
+		else
+		{
+			$item = $menu->getCurrent();
+		}
+		if ($item)
+		{
+			return (boolean) $item->home;
+		}
+		else
+		{
 			return false;
 		}
-
-		return $menus;
 	}
 }
 ?>
