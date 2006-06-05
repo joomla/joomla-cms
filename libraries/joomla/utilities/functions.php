@@ -422,27 +422,25 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 * @since 1.0
 */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
-	global $database;
 
 	$dblink = "index.php?option=$menu_option";
 
+	$menu = JMenu::getInstance();
 	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
-		$menu = JMenu::getInstance();
 		$results[] = $menu->getItem($Itemid);
 	} else {
 		if ($task!='') {
 			$dblink	.= "&task=$task";
 		}
 
-		$query = "SELECT access"
-		. "\n FROM #__menu"
-		. "\n WHERE link LIKE '$dblink%'"
-		;
-		$database->setQuery( $query );
-		$results 	= $database->loadObjectList();
+		foreach ($menu as $item) {
+			if (strpos($item->link, $dblink)) {
+				$results[] = $item;
+			}
+		}		
 	}
-	$access 	= 0;
 
+	$access 	= 0;
 	foreach ($results as $result) {
 		$access = max( $access, $result->access );
 	}
