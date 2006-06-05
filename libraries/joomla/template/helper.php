@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: template.php 2879 2006-03-23 14:35:57Z Jinx $
+* @version $Id$
 * @package JamboWorks
 * @copyright Copyright (C) 2006 JamboWorks LLC. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL

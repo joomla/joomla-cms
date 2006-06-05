@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: component.php 1598 2005-12-31 14:40:48Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

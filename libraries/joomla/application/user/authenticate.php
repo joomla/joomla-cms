@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: auth.php 1921 2006-01-22 02:34:47Z webImagery $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

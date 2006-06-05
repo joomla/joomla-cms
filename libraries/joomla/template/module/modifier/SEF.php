@@ -1,7 +1,7 @@
 <?php
 /**
 * patTemplate modfifier for Search Engine Friendly URL's
-* @version $Id: SEF.php 47 2005-09-15 02:55:27Z rhuk $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

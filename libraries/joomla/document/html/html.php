@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: html.php 3288 2006-04-26 00:33:00Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

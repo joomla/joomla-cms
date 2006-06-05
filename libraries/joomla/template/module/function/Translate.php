@@ -1,6 +1,6 @@
 <?PHP
 /**
-* @version $Id: Sef.php 85 2005-09-15 23:12:03Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

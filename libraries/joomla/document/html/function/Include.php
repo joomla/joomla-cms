@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: Placeholder.php 1563 2005-12-27 20:09:40Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
