@@ -957,7 +957,7 @@ class mosCommonHTML {
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
 		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$action	= $row->published ? 'Unpublish Item' : 'Publish item';
+		$action 	= $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">
@@ -983,7 +983,7 @@ class mosCommonHTML {
 	function saveorderButton( $rows, $image='filesave.png' ) {
 		$image = mosAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
 		?>
-		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>)">
+		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>)" title="<?php echo JText::_( 'Save Order' ); ?>">
 			<?php echo $image; ?></a>
 		<?php
 	}
