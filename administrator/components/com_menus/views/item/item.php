@@ -178,7 +178,7 @@ class JMenuViewItem extends JView
 				<td width="40%">
 					<fieldset>
 						<legend>
-							<?php echo JText::_( 'Control Parameters' ); ?>
+							<?php echo JText::_( 'Menu Item Type' ); ?>
 						</legend>
 						<table width="100%">
 							</tr>
