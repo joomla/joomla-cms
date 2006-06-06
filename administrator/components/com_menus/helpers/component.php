@@ -174,7 +174,17 @@ class JMenuHelperComponent extends JWizardHelper
 
 		// load the xml metadata
 		$path = JPATH_ROOT.'/components/'.$option.'/metadata.xml';
-		$xpath = 'state';
+		if (file_exists($path)) {
+			$xpath = 'state';
+		} else {
+			$path = JPATH_ADMINISTRATOR.'/components/'.$option.'/'.substr($option, 4).'.xml';
+			if (file_exists($path)) {
+				$xpath = '';
+			} else {
+				$path = dirname(__FILE__).'/xml/component.xml';
+				$xpath = 'state';
+			}
+		}
 		return array('path' => $path, 'xpath' => $xpath);
 	}
 
