@@ -92,13 +92,14 @@ class WeblinksController
 		$gid		= $user->get('gid');
 		$page		= '';
 		$category	= null;
+		$mParams	= JComponentHelper::getMenuParams();
 
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
-		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
+		$catid				= JRequest::getVar( 'catid', (int) $mParams->get('category_id'), '', 'int' );
 
 		//add alternate feed link
 		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;catid='.$catid.'&Itemid='.$Itemid;

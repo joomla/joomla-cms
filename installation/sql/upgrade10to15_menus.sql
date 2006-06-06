@@ -173,6 +173,7 @@ UPDATE `jos_menu`
 UPDATE `jos_menu`
   SET
     `type` = 'component',
+    `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_weblinks' AND `parent` = 0)
   WHERE
     `type` = 'weblink_category_table';
