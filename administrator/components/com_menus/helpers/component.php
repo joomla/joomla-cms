@@ -130,7 +130,6 @@ class JMenuHelperComponent extends JWizardHelper
 		} else {
 			$fields['componentid'] = $item->componentid;
 		}
-print_r($db);
 		return $fields;
 	}
 
