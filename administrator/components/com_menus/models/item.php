@@ -48,7 +48,7 @@ class JMenuModelItem extends JModel
 		$table =& $this->getTable();
 
 		// Load the current item if it has been defined
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		if ($cid[0]) {
 			$table->load($cid[0]);
 		}

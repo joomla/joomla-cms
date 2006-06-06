@@ -58,7 +58,7 @@ class TOOLBAR_menus {
 	*/
 	function _EDIT() {
 
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		$id = $cid[0];
 		$menutype	= JRequest::getVar( 'menutype', 'mainmenu' );
 		

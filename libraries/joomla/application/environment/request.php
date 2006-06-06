@@ -99,9 +99,11 @@ class JRequest
 					break;
 			}
 
+
 			// Handle the default case
 			if ((empty($result)) && (!is_null($default))) {
-				$result = $default;
+				$GLOBALS['JRequest'][$signature] = $default;
+				return $default;
 			}
 
 			if ($result != null) {
@@ -133,7 +135,7 @@ class JRequest
 						$result = JRequest::cleanVar($result, $mask);
 
 						if (!is_array($result)) {
-							$result = null;
+							$result = array();
 						}
 						break;
 					case 'STRING' :
