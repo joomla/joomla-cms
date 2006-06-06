@@ -81,7 +81,7 @@ class JMenuViewWizard extends JWizardView
 					<td valign="top">
 						<?php echo JText::_('Link a component to this menu item');?>
 						<br/>
-						<?php echo mosHTML::selectList( $components, 'component', 'class="inputbox" size="8"', 'option', 'name', $option->option );?>
+						<?php echo mosHTML::selectList( $components, 'component', 'class="inputbox" size="8"', 'option', 'name', $option );?>
 					</td>
 				</tr>
 				<tr>
