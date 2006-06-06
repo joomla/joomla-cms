@@ -69,10 +69,11 @@ class JMenuModelWizard extends JModel
 						"\n FROM `#__components`" .
 						"\n WHERE `id` = $cid";
 				$db->setQuery($query);
-				$option = substr($db->loadResult(), 4);
+				$option = $db->loadResult();
 			} else {
-				$option = 'content';
+				$option = 'com_content';
 			}
+
 			$app->setUserState('request.menuwizard.type', $item->type);
 			$app->setUserState('request.menuwizard.component', $option);
 			$this->_wizard->loadDefault($item->control);

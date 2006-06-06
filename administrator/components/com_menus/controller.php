@@ -38,6 +38,10 @@ class JMenuController extends JController
 	 */
 	function edit()
 	{
+		// Lets clear the wizard information from the session.
+		$app =& $this->getApplication();
+		$app->setUserState('request.menuwizard', '');
+
 		$model	=& $this->getModel( 'Item', 'JMenuModel' );
 		$view =& $this->getView( 'Item', 'com_menus', 'JMenuView' );
 		$view->setModel( $model, true );

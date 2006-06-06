@@ -367,6 +367,10 @@ class JMenuModelItem extends JModel
 				$document =& $xml->document;
 				$xml =& $document->getElementByPath($xmlInfo['xpath']);
 
+				if (!is_a($xml, 'JSimpleXMLElement')) {
+					return $document;
+				}
+
 				/*
 				 * HANDLE A SWITCH IF IT EXISTS
 				 */
