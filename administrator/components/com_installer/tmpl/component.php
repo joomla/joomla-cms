@@ -135,8 +135,8 @@ class JInstallerScreens_component {
 					$img 	= $row->enabled ? 'tick.png' : 'publish_x.png';
 					$task 	= $row->enabled ? 'disable' : 'enable';
 					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-					$action	= $row->enabled ? 'disable' : 'enable';
-					$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=$task&amp;eid[]=".$row->id."\"><img src=\"images/$img\" border=\"0\" alt=\"$alt\" /></a>";
+					$action	= $row->enabled ? JText::_( 'disable' ) : JText::_( 'enable' );
+					$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=".$task."&amp;eid[]=".$row->id."\"><img src=\"images/".$img."\" border=\"0\" title=\"".$action."\" alt=\"".$alt."\" /></a>";
 
 					if (!$row->option) {
 						$href = '<strong>X</strong>';
