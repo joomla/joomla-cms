@@ -38,7 +38,12 @@ class JElement_Article extends JElement
 		$doc 		= & $mainframe->getDocument();
 		$template 	= $mainframe->getTemplate();
 		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-	
+		$fieldName	= $control_name.'['.$name.']';
+		$article =& JTable::getInstance('content', $db);
+		if ($value) {
+			$article->load($value);
+		}
+
 		$js = "
 		function jSelectArticle(id, title) {
 			document.getElementById('a_id').value = id;
@@ -50,9 +55,9 @@ class JElement_Article extends JElement
 		$doc->addScriptDeclaration($js);
 		$doc->addScript($url.'includes/js/joomla/popup.js');
 		$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
-		$html .= "\n<input type=\"text\" id=\"a_name\" value=\"Article Name\" disabled=\"disabled\" />";
-		$html .= "\n<input type=\"button\" onclick=\"document.popup.show('$link', 570, 345, null);\" value=\"".JText::_('Article')."...\" />";
-		$html .= "\n<input type=\"hidden\" id=\"a_id\" name=\"\" value=\"\" />";
+		$html .= "\n<input style=\"background: #ffffff;\" type=\"text\" id=\"a_name\" value=\"$article->title\" disabled=\"disabled\" />";
+		$html .= "\n<input type=\"button\" onclick=\"document.popup.show('$link', 570, 345, null);\" value=\"...\" />";
+		$html .= "\n<input type=\"hidden\" id=\"a_id\" name=\"$fieldName\" value=\"$value\" />";
 
 		return $html;
 	}
