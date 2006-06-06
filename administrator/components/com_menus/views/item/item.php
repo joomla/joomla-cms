@@ -82,8 +82,6 @@ class JMenuViewItem extends JView
 		}
 	}
 	</script>
-	<h2><?php echo $name; ?></h2>
-	<h4><?php echo $description; ?></h4>
 	<form action="index2.php" method="post" name="adminForm">
 
 		<table class="admintable" width="100%">
@@ -196,6 +194,13 @@ class JMenuViewItem extends JView
 					</fieldset>
 				</td>
 				<td width="40%">
+					<fieldset>
+						<legend>
+							<?php echo JText::_( 'Metadata' ); ?>
+						</legend>
+						<h2><?php echo $name; ?></h2>
+						<h4><?php echo $description; ?></h4>
+					</fieldset>
 					<fieldset>
 						<legend>
 							<?php echo JText::_( 'Menu Item Parameters' ); ?>
