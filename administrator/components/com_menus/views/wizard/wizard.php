@@ -126,7 +126,8 @@ class JMenuViewWizard extends JWizardView
 		<input type="hidden" name="step" value="1" />
 		<input type="hidden" name="tmpl" value="component.html" />
 	</form>
-<?php
+	<?php
+		mosHTML::keepAlive();
 	}
 
 	function doNext()
@@ -179,7 +180,8 @@ class JMenuViewWizard extends JWizardView
 		<input type="hidden" name="tmpl" value="component.html" />
 
 	</form>
-<?php
+	<?php
+		mosHTML::keepAlive();
 	}
 
 	function doFinished()
@@ -241,7 +243,8 @@ class JMenuViewWizard extends JWizardView
 		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="task" value="edit" />
 	</form>
-<?php
+	<?php
+		mosHTML::keepAlive();
 	}
 }
 ?>
