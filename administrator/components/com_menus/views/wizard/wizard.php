@@ -158,7 +158,7 @@ class JMenuViewWizard extends JWizardView
 	<form action="index2.php" method="post" name="adminForm">
 		<fieldset>
 			<div style="float: right">
-				<button type="button" onclick="document.getElementById('step').value=<?php echo $prevStep;?>;this.form.submit();">
+				<button type="button" onclick="history.back();">
 					<?php echo JText::_('Back');?></button>
 				<button type="button" onclick="document.getElementById('step').value=<?php echo $nextStep;?>;this.form.submit();">
 					<?php echo JText::_('Next');?></button>
@@ -219,9 +219,9 @@ class JMenuViewWizard extends JWizardView
 				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
 			<?php 
-//			echo '<pre>';
-//			print_r($item);
-//			echo '</pre>';
+			echo '<pre>';
+			print_r($item);
+			echo '</pre>';
 			?>
 		You have sucessfully chosen your menu item type, to complete the process click the "Finish" button, edit
 		the menu item parameters, then save the item.

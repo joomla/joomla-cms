@@ -31,35 +31,33 @@ class JWizard extends JObject
 
 	var $_xpath = null;
 
+	var $_regPath = null;
+
 	/** @var object JRegistry object */
 	var $_registry = null;
 
 	function __construct(&$app, $name, $request='wizVal')
 	{
+		$this->_app = &$app;
 		$this->_step = JRequest::getVar('step', 0, '', 'int');
+		$this->_registry =& new JParameter('');
+		$this->_regPath = 'wizard.'.$name;
 
-		// Build registry path
-		$regPath = 'wizard.'.$name;
-
-		// Create the object if it does not exist
-		$this->_registry =& $app->getUserState($regPath);
-		if (!is_a($this->_registry, 'JParameter')) {
-			$this->_registry =& new JParameter('');
-		}
+		// Get the step data from the session
+		$steps =& $app->getUserState($this->_regPath);
 
 		// Get the values from the request and load them into the object
-		$items = JRequest::getVar($request, array(), '', 'array');
-		$this->_registry->loadArray($items);
+		$steps[$this->_step] = JRequest::getVar($request, array(), '', 'array');
+		
+		// Load all the step data into the registry
+		for ($i=0;$i<=$this->_step;$i++) {
+			if (is_array($steps[$i])) {
+				$this->_registry->loadArray($steps[$i]);
+			}
+		}
 
-		/*
-		 * Create the JParameter object to sit in the registry.  We have to create a new one
-		 * because if we don't, then the element objects will throw a php error because the 
-		 * class definitions will not be loaded when the object is unserialized...  Thus no
-		 * xml definition is allowed.
-		 */
-		$registry =& new JParameter('');
-		$registry->loadArray($this->_registry->toArray());
-		$app->setUserState($regPath, $registry);
+		// Save the step data in the session
+		$app->setUserState($this->_regPath, $steps);
 	}
 
 	function loadXML($path, $xpath='')
@@ -99,7 +97,16 @@ class JWizard extends JObject
 
 	function &getConfirmation()
 	{
-		$vals =& $this->_registry->toArray();
+		// Get the step data from the session
+		$steps =& $this->_app->getUserState($this->_regPath);
+		$vals = array();
+
+		// Load all the step data into the registry
+		for ($i=1;$i<=$this->_step;$i++) {
+			if (is_array($steps[$i])) {
+				$vals = array_merge($vals, $steps[$i]);
+			}
+		}
 		return $vals;
 	}
 
@@ -164,6 +171,11 @@ class JWizard extends JObject
 	function loadDefault($ini='')
 	{
 		$this->_registry->loadINI($ini);
+	}
+
+	function clear()
+	{
+		$this->_app->setUserState($this->_regPath, array());
 	}
 
 	function _getIncludedSteps($include)

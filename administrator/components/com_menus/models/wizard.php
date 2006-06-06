@@ -76,6 +76,9 @@ class JMenuModelWizard extends JModel
 
 			$app->setUserState('request.menuwizard.type', $item->type);
 			$app->setUserState('request.menuwizard.component', $option);
+
+			// Clear the wizard and load the default values
+			$this->_wizard->clear();
 			$this->_wizard->loadDefault($item->control);
 		}
 	}
