@@ -40,6 +40,7 @@ if (!is_array($cid)) {
 
 switch (strtolower($task))
 {
+	case 'element':
 	case 'wizard':
 		$controller->execute( $task );
 		$controller->redirect();

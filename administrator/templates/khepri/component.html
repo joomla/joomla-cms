@@ -16,9 +16,11 @@ See COPYRIGHT.php for copyright notices and details.
 
 	<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
 		<jdoc:sub condition="rtl">
+			<link href="templates/{TEMPLATE}/css/general_rtl.css" rel="stylesheet" type="text/css" />
 			<link href="templates/{TEMPLATE}/css/component_rtl.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 		<jdoc:sub condition="ltr">
+			<link href="templates/{TEMPLATE}/css/general.css" rel="stylesheet" type="text/css" />
 			<link href="templates/{TEMPLATE}/css/component.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>

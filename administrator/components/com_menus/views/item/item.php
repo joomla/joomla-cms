@@ -27,13 +27,14 @@ class JMenuViewItem extends JView
 
 	function edit()
 	{
-		$document = &$this->getDocument();
-
-		$document->addScript('../includes/js/joomla/popup.js');
-		$document->addStyleSheet('../includes/js/joomla/popup.css');
 
 		$app		= &$this->get('Application');
+		$url 		= $app->isAdmin() ? $app->getSiteURL() : $app->getBaseURL();
 		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+
+		$document	= &$this->getDocument();
+		$document->addScript($url.'includes/js/joomla/popup.js');
+		$document->addStyleSheet($url.'includes/js/joomla/popup.css');
 
 		$item		= &$this->get('ItemForEdit');
 		$component	= &$this->get('Component');

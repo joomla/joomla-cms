@@ -6,7 +6,8 @@
 	<state>
 		<name>Article View</name>
 		<description>Article view parameters...</description>
-		<params>
+		<params addParameterDir="/components/com_content/elements">
+			<param name="article" type="article" default="1" label="Select Article" description="An article" />
 			<param name="article_id" type="text" default="" label="Article ID" description="Article" />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />

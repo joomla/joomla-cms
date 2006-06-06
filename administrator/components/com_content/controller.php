@@ -37,6 +37,17 @@ class JContentController extends JController
 	}
 
 	/**
+	 * Articles element
+	 */
+	function element()
+	{
+		$model	= &$this->getModel( 'Element', 'JContentModel' );
+		$view = &$this->getView( 'Element', 'com_content', 'JContentView' );
+		$view->setModel( $model, true );
+		$view->display();
+	}
+
+	/**
 	* Compiles a list of installed or defined modules
 	* @param database A database connector object
 	*/
