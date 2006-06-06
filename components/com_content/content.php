@@ -244,17 +244,18 @@ class JContentController extends JController
 	{
 		// TODO: What happen if the item doesn't exist?
 
-		$this->setViewName( 'article', 'com_content', 'JContentView' );
+		// Get control information from the request
+		$mParams	= JComponentHelper::getMenuParams();
+		$id 		= JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
+		$viewName	= JRequest::getVar('view', $mParams->get( 'view_name', 'article' ));
+		$modelName	= JRequest::getVar('model', $mParams->get( 'model_name', 'article' ));
 
 		// Create the view
+		$this->setViewName( $viewName, 'com_content', 'JContentView' );
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Article', 'JContentModel');
-
-		// Get the id of the article to display and set the model
-		$mParams	= JComponentHelper::getMenuParams();
-		$id 		= JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
+		$model = & $this->getModel($modelName, 'JContentModel');
 		$model->setId($id);
 
 		// Push the model into the view (as default)
@@ -757,8 +758,7 @@ $controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
 
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
-$controller->setViewName( $viewName, 'com_content', 'JViewHTML');
-
+$controller->setViewName( $viewName, 'com_content', 'JContentView' );
 // Register Extra tasks
 $controller->registerTask( 'blogcategorymulti', 'blogcategory' );
 $controller->registerTask( 'new', 				'edit' );
