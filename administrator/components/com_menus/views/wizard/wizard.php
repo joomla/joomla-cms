@@ -211,7 +211,7 @@ class JMenuViewWizard extends JWizardView
 				<button type="button" onclick="this.form.submit();window.top.document.popup.hide();">
 					<?php echo JText::_('Finish');?></button>
 		    </div>
-		    Click Next to create the menu item.
+		    Click finish to complete the wizard.
 		</fieldset>
 
 		<fieldset>
@@ -219,14 +219,12 @@ class JMenuViewWizard extends JWizardView
 				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
 			<?php 
-//			foreach ($item as $k => $v) {
-//				echo "Name: $k &nbsp; Value: $v <br />\n";
-//				echo "<input type=\"hidden\" name=\"wizVal[$k]\" value=\"$v\" />\n";
-//			}
-			echo '<pre>';
-			print_r($item);
-			echo '</pre>';
+//			echo '<pre>';
+//			print_r($item);
+//			echo '</pre>';
 			?>
+		You have sucessfully chosen your menu item type, to complete the process click the "Finish" button, edit
+		the menu item parameters, then save the item.
 		</fieldset>
 		<?php
 		foreach ($item as $k => $v) {

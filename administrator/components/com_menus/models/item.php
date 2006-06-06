@@ -147,7 +147,7 @@ class JMenuModelItem extends JModel
 				}
 			}
 		}
-		return $name;
+		return JText::_($name);
 	}
 
 	function getStateDescription()
@@ -162,7 +162,7 @@ class JMenuModelItem extends JModel
 				}
 			}
 		}
-		return $description;
+		return JText::_($description);
 	}
 
 	function store()
