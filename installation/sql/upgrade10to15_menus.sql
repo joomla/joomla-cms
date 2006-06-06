@@ -179,4 +179,11 @@ UPDATE `jos_menu`
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_wrapper')
   WHERE
     `type` = 'wrapper';
-  
+
+# Finish off
+
+UPDATE `jos_menu`
+  SET
+    `link` = SUBSTRING(`link`,1,LOCATE('&',`link`)-1)
+  WHERE
+    `type` = 'component' AND LOCATE('&',`link`) > 0;

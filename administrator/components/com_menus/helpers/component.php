@@ -130,6 +130,7 @@ class JMenuHelperComponent extends JWizardHelper
 		} else {
 			$fields['componentid'] = $item->componentid;
 		}
+
 		return $fields;
 	}
 
@@ -137,12 +138,12 @@ class JMenuHelperComponent extends JWizardHelper
 	{
 		$item =& $this->_parent->getItem();
 		if ($cid = $item->componentid) {
-			$db =& $this->_parent->getDBO();
+			$db =& JFactory::getDBO();
 			$query = "SELECT `name`, `option`" .
 					"\n FROM `#__components`" .
 					"\n WHERE `id` = $cid";
 			$db->setQuery($query);
-			$result = $db->loadResultArray();
+			$result = $db->loadRow();
 			$name	= $result[0];
 			$option = $result[1];
 		} else {
