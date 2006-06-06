@@ -53,6 +53,9 @@ class JContentViewElement extends JView
 		$document->addScript($url.'includes/js/joomla/popup.js');
 		$document->addStyleSheet($url.'includes/js/joomla/popup.css');
 
+		$template = $app->getTemplate();
+		$document->addStyleSheet("templates/$template/css/general.css");
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 
 		$lists = $this->_getLists();
