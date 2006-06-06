@@ -65,10 +65,6 @@ class JContentController extends JController
 		// Get/Create the model
 		$model = & $this->getModel('Section', 'JContentModel');
 
-		// Get the id of the section to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
-
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
 		// Display the view
@@ -120,10 +116,6 @@ class JContentController extends JController
 		// Get/Create the model
 		$model = & $this->getModel('Category', 'JContentModel');
 
-		// Get the id of the section to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
-
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
 		// Display the view
@@ -145,10 +137,6 @@ class JContentController extends JController
 
 		// Get/Create the model
 		$model = & $this->getModel('Section', 'JContentModel');
-
-		// Get the id of the section to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
@@ -172,10 +160,6 @@ class JContentController extends JController
 		// Get/Create the model
 		$model = & $this->getModel('Category', 'JContentModel');
 
-		// Get the id of the section to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
-
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
 		// Display the view
@@ -197,10 +181,6 @@ class JContentController extends JController
 
 		// Get/Create the model
 		$model = & $this->getModel('Section', 'JContentModel');
-
-		// Get the id of the section to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
@@ -224,10 +204,6 @@ class JContentController extends JController
 		// Get/Create the model
 		$model = & $this->getModel('Category', 'JContentModel');
 
-		// Get the id of the section to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$model->setId($id);
-
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
 		// Display the view
@@ -245,10 +221,9 @@ class JContentController extends JController
 		// TODO: What happen if the item doesn't exist?
 
 		// Get control information from the request
-		$mParams	= JComponentHelper::getMenuParams();
-		$id 		= JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
-		$viewName	= JRequest::getVar('view', $mParams->get( 'view_name', 'article' ));
-		$modelName	= JRequest::getVar('model', $mParams->get( 'model_name', 'article' ));
+		$cParams	= JComponentHelper::getControlParams();
+		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name', 'article' ));
+		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
 
 		// Create the view
 		$this->setViewName( $viewName, 'com_content', 'JContentView' );
@@ -256,7 +231,6 @@ class JContentController extends JController
 
 		// Get/Create the model
 		$model = & $this->getModel($modelName, 'JContentModel');
-		$model->setId($id);
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);

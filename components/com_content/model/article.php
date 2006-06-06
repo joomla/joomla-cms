@@ -38,6 +38,23 @@ class JContentModelArticle extends JModel
 	var $_article = null;
 
 	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT
+	 * references. This causes problems with cross-referencing.
+	 *
+	 * @param object A JDatabase object
+	 * @since 1.5
+	 */
+	function __construct( &$dbo ) {
+		$this->_db = &$dbo;
+		$mParams	= JComponentHelper::getMenuParams();
+		$id 		= JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
+		$this->setId($id);
+	}
+
+	/**
 	 * Method to set the article id
 	 *
 	 * @access	public
