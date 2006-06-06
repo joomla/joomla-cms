@@ -44,20 +44,20 @@ class JContentController extends JController
 	{
 		$this->setViewName( 'section', 'com_content', 'JContentView' );
 
-		$params = &JComponentHelper::getMenuParams();
+		$mParams = &JComponentHelper::getMenuParams();
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
-		$params->def('page_title', 			1);
-		$params->def('pageclass_sfx', 		'');
-		$params->def('other_cat_section', 	1);
-		$params->def('empty_cat_section', 	0);
-		$params->def('other_cat', 			1);
-		$params->def('empty_cat', 			0);
-		$params->def('cat_items', 			1);
-		$params->def('cat_description', 	1);
-		$params->def('back_button', 		$this->_app->getCfg('back_button'));
-		$params->def('pageclass_sfx', 		'');
+		$mParams->def('page_title', 			1);
+		$mParams->def('pageclass_sfx', 		'');
+		$mParams->def('other_cat_section', 	1);
+		$mParams->def('empty_cat_section', 	0);
+		$mParams->def('other_cat', 			1);
+		$mParams->def('empty_cat', 			0);
+		$mParams->def('cat_items', 			1);
+		$mParams->def('cat_description', 	1);
+		$mParams->def('back_button', 		$this->_app->getCfg('back_button'));
+		$mParams->def('pageclass_sfx', 		'');
 
 		// Get the view
 		$view = & $this->getView();
@@ -87,28 +87,28 @@ class JContentController extends JController
 	{
 		$this->setViewName( 'category', 'com_content', 'JContentView' );
 
-		$params = &JComponentHelper::getMenuParams();
+		$mParams = &JComponentHelper::getMenuParams();
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
-		$params->def('page_title',		1);
-		$params->def('title',			1);
-		$params->def('hits',			$this->_app->getCfg('hits'));
-		$params->def('author',			!$this->_app->getCfg('hideAuthor'));
-		$params->def('date',			!$this->_app->getCfg('hideCreateDate'));
-		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
-		$params->def('navigation',		2);
-		$params->def('display',			1);
-		$params->def('display_num',		$this->_app->getCfg('list_limit'));
-		$params->def('other_cat',		1);
-		$params->def('empty_cat',		0);
-		$params->def('cat_items',		1);
-		$params->def('cat_description',	0);
-		$params->def('back_button',		$this->_app->getCfg('back_button'));
-		$params->def('pageclass_sfx',	'');
-		$params->def('headings',		1);
-		$params->def('filter',			1);
-		$params->def('filter_type',		'title');
+		$mParams->def('page_title',		1);
+		$mParams->def('title',			1);
+		$mParams->def('hits',			$this->_app->getCfg('hits'));
+		$mParams->def('author',			!$this->_app->getCfg('hideAuthor'));
+		$mParams->def('date',			!$this->_app->getCfg('hideCreateDate'));
+		$mParams->def('date_format',		JText::_('DATE_FORMAT_LC'));
+		$mParams->def('navigation',		2);
+		$mParams->def('display',			1);
+		$mParams->def('display_num',		$this->_app->getCfg('list_limit'));
+		$mParams->def('other_cat',		1);
+		$mParams->def('empty_cat',		0);
+		$mParams->def('cat_items',		1);
+		$mParams->def('cat_description',	0);
+		$mParams->def('back_button',		$this->_app->getCfg('back_button'));
+		$mParams->def('pageclass_sfx',	'');
+		$mParams->def('headings',		1);
+		$mParams->def('filter',			1);
+		$mParams->def('filter_type',		'title');
 
 		// Get the view
 		$view = & $this->getView();
