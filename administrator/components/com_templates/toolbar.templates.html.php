@@ -26,7 +26,7 @@ class TOOLBAR_templates
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
 
 		if ($client->id == '1') {
-			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', 'Default', true);
+			JMenuBar::makeDefault('publish');
 		} else {
 			JMenuBar::makeDefault();
 		}
