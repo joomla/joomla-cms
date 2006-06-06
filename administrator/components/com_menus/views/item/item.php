@@ -42,10 +42,13 @@ class JMenuViewItem extends JView
 		$components	= $this->get('ComponentList');
 		$control	= $this->get( 'ControlParams' );
 		$params		= $this->get( 'StateParams' );
+		$advanced	= $this->get( 'AdvancedParams' );
 		$details	= $this->get( 'Details' );
 		$name		= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
 		$controlFields	= $this->get( 'ControlFields' );
+
+		$pane =& JPane::getInstance('sliders');
 
 		if ($item->id) {
 			$document->setTitle('Edit Menu Item');
@@ -85,6 +88,8 @@ class JMenuViewItem extends JView
 	</script>
 	<form action="index2.php" method="post" name="adminForm">
 
+		<h2><?php echo $name; ?></h2>
+		<h4><?php echo $description; ?></h4>
 		<table class="admintable" width="100%">
 			<tr valign="top">
 				<td width="60%">
@@ -169,6 +174,8 @@ class JMenuViewItem extends JView
 							</tr>
 						</table>
 					</fieldset>
+				</td>
+				<td width="40%">
 					<fieldset>
 						<legend>
 							<?php echo JText::_( 'Control Parameters' ); ?>
@@ -193,23 +200,20 @@ class JMenuViewItem extends JView
 							<?php } ?>
 						</table>
 					</fieldset>
-				</td>
-				<td width="40%">
-					<fieldset>
-						<legend>
-							<?php echo JText::_( 'Metadata' ); ?>
-						</legend>
-						<h2><?php echo $name; ?></h2>
-						<h4><?php echo $description; ?></h4>
-					</fieldset>
-					<fieldset>
-						<legend>
-							<?php echo JText::_( 'Menu Item Parameters' ); ?>
-						</legend>
 					<?php
+						$pane->startPane("menu-pane");
+						$pane->startPanel( JText::_( 'Menu Item Parameters' ), "param-page" );
+		
 						echo $params->render('params');
+		
+						$pane->endPanel();
+						$pane->startPanel( JText::_( 'Advanced Parameters' ), "advanced-page" );
+		
+						echo $advanced->render('params');
+		
+						$pane->endPanel();
+						$pane->endPane();
 					?>
-					</fieldset>
 				</td>
 			</tr>
 		</table>

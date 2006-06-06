@@ -135,6 +135,21 @@ class JMenuModelItem extends JModel
 		return $params;
 	}
 
+	function &getAdvancedParams()
+	{
+		// Get the state parameters
+		$item	=& $this->getItem();
+		$params	=& new JParameter($item->params);
+
+		if ($state =& $this->_getStateXML()) {
+			if (is_a($state, 'JSimpleXMLElement')) {
+				$ap =& $state->getElementByPath('advanced/params');
+				$params->setXML($ap);
+			}
+		}
+		return $params;
+	}
+
 	function getStateName()
 	{
 		if ($state =& $this->_getStateXML()) {

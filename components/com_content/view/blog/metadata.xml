@@ -138,6 +138,10 @@
 					<option value="1">Show</option>
 				</param>
 			</params>
+			<advanced>
+				<params>
+				</params>
+			</advanced>
 		</category>
 		<section>
 			<name>Blog Section</name>
@@ -261,6 +265,10 @@
 					<option value="1">Show</option>
 				</param>
 			</params>
+			<advanced>
+				<params>
+				</params>
+			</advanced>
 		</section>
 		<default>
 			<name>Blog Category</name>
@@ -384,6 +392,10 @@
 					<option value="1">Show</option>
 				</param>
 			</params>
+			<advanced>
+				<params>
+				</params>
+			</advanced>
 		</default>
 	</state>
 </metadata>
