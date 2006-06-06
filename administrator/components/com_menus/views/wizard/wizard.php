@@ -219,9 +219,9 @@ class JMenuViewWizard extends JWizardView
 				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
 			<?php 
-			echo '<pre>';
-			print_r($item);
-			echo '</pre>';
+//			echo '<pre>';
+//			print_r($item);
+//			echo '</pre>';
 			?>
 		You have sucessfully chosen your menu item type, to complete the process click the "Finish" button, edit
 		the menu item parameters, then save the item.
