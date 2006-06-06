@@ -59,26 +59,24 @@ class JMainMenu extends JTree
 
 	function addNode($item)
 	{
+
+		// Menu Link is a special type that is a link to another item
+		if ($item->type == 'menulink') {
+			$menu = JMenu::getInstance();
+			if ($tmp = $menu->getItem($item->link)) {
+				$name = $item->name;
+				$mid = $item->id;
+				$parent = $item->parent;
+				$item = clone($tmp);
+				$item->name = $name;
+				$item->mid = $mid;
+				$item->parent = $parent;
+			} else {
+				return;
+			}
+		}
+
 		switch ($item->type) {
-			// Menu Link is a special type that is a link to another item
-			case 'menulink':
-				$menu = JMenu::getInstance();
-				if ($tmp = $menu->getItem($item->link)) {
-					$name = $item->name;
-					$mid = $item->id;
-					$parent = $item->parent;
-					$item = clone($tmp);
-					$item->name = $name;
-					$item->mid = $mid;
-					$item->parent = $parent;
-				} else {
-					return;
-				}
-
-				$item->link .= strpos( $item->link, '?' ) === false ? '?' : '&';
-				$item->link .= 'Itemid='.$item->id;
-				break;
-
 			case 'separator' :
 				$this->addChild(new JMenuNode(null, $item->name, 'seperator', false));
 				return;
