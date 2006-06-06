@@ -88,11 +88,40 @@ class JMenuViewItem extends JView
 	</script>
 	<form action="index2.php" method="post" name="adminForm">
 
-		<h2><?php echo $name; ?></h2>
-		<h4><?php echo $description; ?></h4>
 		<table class="admintable" width="100%">
 			<tr valign="top">
 				<td width="60%">
+
+					<fieldset>
+						<legend>
+							<?php echo JText::_( 'Menu Item Type' ); ?>
+						</legend>
+						<div style="float:right">
+							<button onclick="document.popup.show('index.php?option=com_menus&amp;task=wizard&amp;tmpl=component.html&amp;id=<?php echo $item->id; ?>', 700, 500, null);">
+								Change Type</button>
+						</div>
+						<h2><?php echo $name; ?></h2>
+						<div>
+							<?php echo $description; ?>
+						</div>
+						<table width="100%">
+							</tr>
+								<td align="right"  colspan="2">
+								</td>
+							</tr>
+							<?php foreach($details as $detail) { ?>
+							</tr>
+								<td class="key"  width="20%">
+									<?php echo $detail['label']; ?>:
+								</td>
+								<td width="80%">
+									<?php echo $detail['name']; ?>
+								</td>
+							</tr>
+							<?php } ?>
+						</table>
+					</fieldset>
+
 					<fieldset>
 						<legend>
 							<?php echo JText::_( 'Menu Item Details' ); ?>
@@ -176,30 +205,6 @@ class JMenuViewItem extends JView
 					</fieldset>
 				</td>
 				<td width="40%">
-					<fieldset>
-						<legend>
-							<?php echo JText::_( 'Menu Item Type' ); ?>
-						</legend>
-						<table width="100%">
-							</tr>
-								<td align="right"  colspan="2">
-									<a onclick="document.popup.show('index.php?option=com_menus&amp;task=wizard&amp;tmpl=component.html&amp;id=<?php echo $item->id; ?>', 700, 500, null);" class="toolbar">
-										[ EDIT ]
-									</a>
-								</td>
-							</tr>
-							<?php foreach($details as $detail) { ?>
-							</tr>
-								<td class="key"  width="20%">
-									<?php echo $detail['label']; ?>:
-								</td>
-								<td width="80%">
-									<?php echo $detail['name']; ?>
-								</td>
-							</tr>
-							<?php } ?>
-						</table>
-					</fieldset>
 					<?php
 						$pane->startPane("menu-pane");
 						$pane->startPanel( JText::_( 'Menu Item Parameters' ), "param-page" );

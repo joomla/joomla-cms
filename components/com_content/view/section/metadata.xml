@@ -17,7 +17,7 @@
 	</control>
 	<state switch="model_name">
 		<section>
-			<name>Section</name>
+			<name>Article Section</name>
 			<description>The section parameters...</description>
 			<params>
 				<param name="section_id" type="section" label="Section" description="Choose a section..." />
@@ -128,7 +128,7 @@
 			</params>
 		</section>
 		<default>
-			<name>Section</name>
+			<name>Article Section</name>
 			<description>The section parameters...</description>
 			<params>
 				<param name="section_id" type="section" label="Section" description="Choose a section..." />
