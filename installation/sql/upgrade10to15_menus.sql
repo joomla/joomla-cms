@@ -21,6 +21,12 @@ UPDATE `jos_menu`
   WHERE
     `type` = 'components';
 
+UPDATE `jos_menu`
+  SET
+    `control` = 'view_name=blog'
+  WHERE
+    `link` LIKE '%option=com_frontpage%';
+
 # Component Item Link (now called a Menu Item Link)
 
 UPDATE `jos_menu`
