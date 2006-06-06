@@ -32,5 +32,7 @@
 				<option value="1">Yes</option>
 			</param>
 		</params>
+		<advanced>
+		</advanced>
 	</state>
 </metadata>

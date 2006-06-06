@@ -143,7 +143,7 @@ class JMenuModelItem extends JModel
 
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
-				$ap =& $state->getElementByPath('advanced/params');
+				$ap =& $state->getElementByPath('advanced');
 				$params->setXML($ap);
 			}
 		}
@@ -390,14 +390,26 @@ class JMenuModelItem extends JModel
 				 * HANDLE A SWITCH IF IT EXISTS
 				 */
 				if ($switch = $xml->attributes('switch')) {
+					$default = $xml->attributes('default');
 					// Handle switch
 					$control =& $this->getControlParams();
 					$switchVal = $control->get($switch, 'default');
+					$found = false;
 
 					foreach ($xml->children() as $child) {
 						if ($child->name() == $switchVal) {
 							$xml =& $child;
+							$found = true;
 							break;
+						}
+					}
+
+					if (!$found) {
+						foreach ($xml->children() as $child) {
+							if ($child->name() == $default) {
+								$xml =& $child;
+								break;
+							}
 						}
 					}
 				}
@@ -416,14 +428,26 @@ class JMenuModelItem extends JModel
 				}
 
 				if ($switch = $xml->attributes('switch')) {
+					$default = $xml->attributes('default');
 					// Handle switch
 					$control =& $this->getControlParams();
 					$switchVal = $control->get($switch, 'default');
+					$found = false;
 
 					foreach ($xml->children() as $child) {
 						if ($child->name() == $switchVal) {
 							$xml =& $child;
+							$found = true;
 							break;
+						}
+					}
+
+					if (!$found) {
+						foreach ($xml->children() as $child) {
+							if ($child->name() == $default) {
+								$xml =& $child;
+								break;
+							}
 						}
 					}
 				}

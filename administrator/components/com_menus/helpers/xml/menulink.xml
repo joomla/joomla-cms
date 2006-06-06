@@ -13,5 +13,6 @@
 		<params>
 			<param name="menu_item" type="menuitem" label="Menu Item" description="Menu Item to link to..." />
 		</params>
+		<advanced />
 	</state>
 </metadata>	

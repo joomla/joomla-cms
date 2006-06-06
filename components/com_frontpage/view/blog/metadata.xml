@@ -121,5 +121,7 @@
 				<option value="1">Show</option>
 			</param>
 		</params>
+		<advanced>
+		</advanced>
 	</state>
 </metadata>
