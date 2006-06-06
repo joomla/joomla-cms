@@ -253,7 +253,8 @@ class JContentController extends JController
 		$model = & $this->getModel('Article', 'JContentModel');
 
 		// Get the id of the article to display and set the model
-		$id = JRequest::getVar('id', 0, '', 'int');
+		$mParams	= JComponentHelper::getMenuParams();
+		$id 		= JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
 		$model->setId($id);
 
 		// Push the model into the view (as default)
@@ -747,6 +748,7 @@ class JContentController extends JController
 }
 
 // Create the controller
+$cParams 	= JComponentHelper::getControlParams();
 $controller = & new JContentController( $mainframe, 'view' );
 
 // need to tell the controller where to look for views and models
@@ -754,9 +756,8 @@ $controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
 $controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
 
 // Set the default view name from the Request
-// note - alternatively we can get it from the menu parameters
-$view = JRequest::getVar( 'view', 'article' );
-$controller->setViewName( $view, 'com_content', 'JViewHTML');
+$viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
+$controller->setViewName( $viewName, 'com_content', 'JViewHTML');
 
 // Register Extra tasks
 $controller->registerTask( 'blogcategorymulti', 'blogcategory' );

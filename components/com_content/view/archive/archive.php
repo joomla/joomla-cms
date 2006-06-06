@@ -41,11 +41,11 @@ class JArchiveViewArchive extends JView
 	function display()
 	{
 		// Initialize some variables
-		$menus	= JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		$Itemid	= $menu->id;
-		$task	= JRequest::getVar('task');
-		$id		= JRequest::getVar('id', 0, '', 'int');
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
+		$Itemid		= $menu->id;
+		$task		= JRequest::getVar('task');
+		$id			= JRequest::getVar('id', 0, '', 'int');
 
 		// initiate form
 		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
