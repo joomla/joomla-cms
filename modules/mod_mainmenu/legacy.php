@@ -25,9 +25,13 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 	if ($mitem->type == 'menulink') {
 		$menu = JMenu::getInstance();
 		if ($tmp = $menu->getItem($mitem->link)) {
-			$name = $mitem->title;
-			$mitem = clone($tmp);
-			$mitem->title = $name;
+				$name = $mitem->name;
+				$mid = $mitem->id;
+				$parent = $mitem->parent;
+				$mitem = clone($tmp);
+				$mitem->name = $name;
+				$mitem->mid = $mid;
+				$mitem->parent = $parent;
 		} else {
 			return;
 		}

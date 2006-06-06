@@ -57,15 +57,19 @@ class JMainMenu extends JTree
 		$this->_current = & $this->_root;
 	}
 
-	function addNode(&$item)
+	function addNode($item)
 	{
 		// Menu Link is a special type that is a link to another item
 		if ($item->type == 'menulink') {
 			$menu = JMenu::getInstance();
 			if ($tmp = $menu->getItem($item->link)) {
-				$name = $item->title;
+				$name = $item->name;
+				$mid = $item->id;
+				$parent = $item->parent;
 				$item = clone($tmp);
-				$item->title = $name;
+				$item->name = $name;
+				$item->mid = $mid;
+				$item->parent = $parent;
 			} else {
 				return;
 			}
@@ -118,7 +122,12 @@ class JMainMenu extends JTree
 		$node->target = $item->browserNav;
 		$node->window = $this->_params->get('window_open');
 
-		$this->_nodeHash[$item->id] =& $node;
+		if (isset($item->mid)) {
+			$nid = $item->mid;
+		} else {
+			$nid = $item->id;
+		}
+		$this->_nodeHash[$nid] =& $node;
 		$this->_current =& $this->_nodeHash[$item->parent];
 		$this->addChild($node, true);
 
