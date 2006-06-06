@@ -20,7 +20,9 @@
 		<category>
 			<name>Newsfeed Category</name>
 			<description>Newsfeed Category parameters...</description>
-			<params addParameterDir="/components/com_newsfeed/elements">
+			<params addParameterDir="/components/com_newsfeeds/elements">
+				<param name="category_id" type="category" section="com_newsfeeds" default="0" label="Category" description="A newsfeed category (optional)" />
+				<param name="@spacer" type="spacer" default="" label="" description="" />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 					<option value="-1">Off</option>
@@ -66,9 +68,11 @@
 			</params>
 		</category>
 		<view>
-			<name>Newsfeed</name>
+			<name>Newsfeed Item</name>
 			<description>Newsfeed parameters...</description>
-			<params addparameterdir="/components/com_newsfeed/elements">
+			<params addparameterdir="/components/com_newsfeeds/elements">
+				<param name="feed_id" type="newsfeed" default="0" label="Feed" description="A feed" />
+				<param name="@spacer" type="spacer" default="" label="" description="" />
 				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 					<option value="-1">Off</option>

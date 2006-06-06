@@ -21,7 +21,9 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'News Feeds');
 
-$task	= JRequest::getVar( 'task' );
+$cParams = JComponentHelper::getControlParams();
+
+$task	= JRequest::getVar( 'task', $cParams->get( 'task') );
 
 switch( $task ) {
 	case 'view':
@@ -36,17 +38,16 @@ switch( $task ) {
 
 function listFeeds(  ) {
 	global $mainframe;
-	global $Itemid;
 
-	$catid 	= JRequest::getVar( 'catid', 0, '', 'int' );
-
-	$database 			= & $mainframe->getDBO();
-	$user 				= & $mainframe->getUser();
-	$breadcrumbs 		= & $mainframe->getPathWay();
-	$option 			= JRequest::getVar('option');
-	$limit 				= JRequest::getVar('limit', 				0, '', 'int');
-	$limitstart 		= JRequest::getVar('limitstart', 			0, '', 'int');
-	$gid				= $user->get('gid');
+	$database 		= & $mainframe->getDBO();
+	$user 			= & $mainframe->getUser();
+	$breadcrumbs 	= & $mainframe->getPathWay();
+	$option 		= JRequest::getVar('option');
+	$limit 			= JRequest::getVar('limit', 		0, '', 'int');
+	$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
+	$gid			= $user->get('gid');
+	$mParams		= JComponentHelper::getMenuParams();
+	$catid 			= JRequest::getVar( 'catid', $mParams->get( 'category_id' ), '', 'int' );
 
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
 	$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
@@ -63,30 +64,26 @@ function listFeeds(  ) {
 	$categories = $database->loadObjectList();
 
 	// Parameters
-	$menu =& JTable::getInstance('menu', $database );
-	$menu->load( $Itemid );
-	$params = new JParameter( $menu->params );
-
-	$params->def( 'page_title', 		1 );
-	$params->def( 'header', 			$menu->name );
-	$params->def( 'pageclass_sfx', 		'' );
-	$params->def( 'headings', 			1 );
-	$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
-	$params->def( 'description_text', 	'' );
-	$params->def( 'image', 				-1 );
-	$params->def( 'image_align', 		'right' );
-	$params->def( 'other_cat_section', 	1 );
+	$mParams->def( 'page_title', 		1 );
+	$mParams->def( 'header', 			$menu->name );
+	$mParams->def( 'pageclass_sfx', 		'' );
+	$mParams->def( 'headings', 			1 );
+	$mParams->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+	$mParams->def( 'description_text', 	'' );
+	$mParams->def( 'image', 				-1 );
+	$mParams->def( 'image_align', 		'right' );
+	$mParams->def( 'other_cat_section', 	1 );
 	// Category List Display control
-	$params->def( 'other_cat', 			1 );
-	$params->def( 'cat_description', 	1 );
-	$params->def( 'cat_items', 			1 );
+	$mParams->def( 'other_cat', 			1 );
+	$mParams->def( 'cat_description', 	1 );
+	$mParams->def( 'cat_items', 			1 );
 	// Table Display control
-	$params->def( 'headings', 			1 );
-	$params->def( 'name',				1 );
-	$params->def( 'articles', 			1 );
-	$params->def( 'link', 				1 );
-	// pagination parameters	$params->def('display', 			1 );
-	$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+	$mParams->def( 'headings', 			1 );
+	$mParams->def( 'name',				1 );
+	$mParams->def( 'articles', 			1 );
+	$mParams->def( 'link', 				1 );
+	// pagination parameters	$mParams->def('display', 			1 );
+	$mParams->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 
 	$rows 		= array();
@@ -101,7 +98,7 @@ function listFeeds(  ) {
 		$database->setQuery($query);
 		$counter = $database->loadObjectList();
 		$total = $counter[0]->numitems;
-		$limit = $limit ? $limit : $params->get('display_num');
+		$limit = $limit ? $limit : $mParams->get('display_num');
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
@@ -139,9 +136,9 @@ function listFeeds(  ) {
 	}
 
 	if ( $catid ) {
-		$params->set( 'type', 'category' );
+		$mParams->set( 'type', 'category' );
 	} else {
-		$params->set( 'type', 'section' );
+		$mParams->set( 'type', 'section' );
 	}
 
 	// page description
@@ -150,8 +147,8 @@ function listFeeds(  ) {
 		$currentcat->descrip = $currentcat->description;
 	} else if ( !$catid ) {
 		// show description
-		if ( $params->get( 'description' ) ) {
-			$currentcat->descrip = $params->get( 'description_text' );
+		if ( $mParams->get( 'description' ) ) {
+			$currentcat->descrip = $mParams->get( 'description_text' );
 		}
 	}
 
@@ -162,9 +159,9 @@ function listFeeds(  ) {
 		$currentcat->img = $path . $currentcat->image;
 		$currentcat->align = $currentcat->image_position;
 	} else if ( !$catid ) {
-		if ( $params->get( 'image' ) <> -1 ) {
-			$currentcat->img = $path . $params->get( 'image' );
-			$currentcat->align = $params->get( 'image_align' );
+		if ( $mParams->get( 'image' ) <> -1 ) {
+			$currentcat->img = $path . $mParams->get( 'image' );
+			$currentcat->align = $mParams->get( 'image_align' );
 		}
 	}
 
@@ -179,7 +176,7 @@ function listFeeds(  ) {
 		// Add breadcrumb item per category
 		$breadcrumbs->addItem($currentcat->header, '');
 	} else {
-		$currentcat->header = $params->get( 'header' );
+		$currentcat->header = $mParams->get( 'header' );
 
 		// Set page title
 		$mainframe->SetPageTitle( $menu->name );
@@ -189,14 +186,15 @@ function listFeeds(  ) {
 	$tabclass = array( 'sectiontableentry1', 'sectiontableentry2' );
 
 
-	HTML_newsfeed::displaylist( $categories, $rows, $catid, $currentcat, $params, $tabclass, $page );
+	HTML_newsfeed::displaylist( $categories, $rows, $catid, $currentcat, $mParams, $tabclass, $page );
 }
 
 
 function showFeed( ) {
-	global $mainframe, $Itemid;
+	global $Itemid, $mainframe;
 
-	$feedid = JRequest::getVar( 'feedid', 0, '', 'int' );
+	$mParams	= JComponentHelper::getMenuParams();
+	$feedid 	= JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );
 
 	// check if cache directory is writeable
 	$cacheDir = $mainframe->getCfg('cachepath') . DS;
@@ -261,21 +259,18 @@ function showFeed( ) {
 	$lists['items'] = $rssDoc->items;
 
 	// Adds parameter handling
-	$menu =& JTable::getInstance('menu', $database );
-	$menu->load( $Itemid );
-	$params = new JParameter( $menu->params );
-	$params->def( 'page_title', 1 );
-	$params->def( 'header', $menu->name );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+	$mParams->def( 'page_title', 1 );
+	$mParams->def( 'header', $menu->name );
+	$mParams->def( 'pageclass_sfx', '' );
+	$mParams->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	// Feed Display control
-	$params->def( 'feed_image', 1 );
-	$params->def( 'feed_descr', 1 );
-	$params->def( 'item_descr', 1 );
-	$params->def( 'word_count', 0 );
+	$mParams->def( 'feed_image', 1 );
+	$mParams->def( 'feed_descr', 1 );
+	$mParams->def( 'item_descr', 1 );
+	$mParams->def( 'word_count', 0 );
 
-	if ( !$params->get( 'page_title' ) ) {
-		$params->set( 'header', '' );
+	if ( !$mParams->get( 'page_title' ) ) {
+		$mParams->set( 'header', '' );
 	}
 
 	// Set page title per category
@@ -285,6 +280,6 @@ function showFeed( ) {
 	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem($newsfeed->name, '');
 
-	HTML_newsfeed::showNewsfeeds( $newsfeed, $lists, $params );
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $lists, $mParams );
 }
 ?>

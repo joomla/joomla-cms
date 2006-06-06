@@ -152,16 +152,23 @@ UPDATE `jos_menu`
   SET
     `control` = 'task=category',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
-    `type` = 'component'
+    `type` = 'component',
+    `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_newsfeeds' AND `parent` = 0)
   WHERE
     `type` = 'newsfeed_category_table';
+
+UPDATE `jos_menu`
+  SET
+    `control` = 'task=category'
+  WHERE
+    `type` = 'component' AND link LIKE '%option=com_newsfeeds%';
 
 # Newsfeed Link
 
 UPDATE `jos_menu`
   SET
     `control` = 'task=view',
-    `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
+    `params` = CONCAT_WS( '', params, '\nfeed_id=', componentid ),
     `type` = 'component'
   WHERE
     `type` = 'newsfeed_link';
