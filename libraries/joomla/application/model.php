@@ -62,6 +62,16 @@ class JModel extends JObject {
 	}
 
 	/**
+	 * String representation
+	 * @return string
+	 */
+	function __toString()
+	{
+		$result = get_class( $this );
+		return $result;
+	}
+
+	/**
 	 * Gets the application
 	 * @return object A JApplication based object
 	 */

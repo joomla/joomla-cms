@@ -149,6 +149,16 @@ class JController extends JObject {
 	}
 
 	/**
+	 * String representation
+	 * @return string
+	 */
+	function __toString()
+	{
+		$result = get_class( $this );
+		return $result;
+	}
+
+	/**
 	 * Method to load and return a model object.
 	 *
 	 * @access	private

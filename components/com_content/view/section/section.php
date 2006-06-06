@@ -44,7 +44,7 @@ class JContentViewSection extends JView
 		$document	= &$this->getDocument();
 		switch ($document->getType())
 		{
-			case 'feeed':
+			case 'feed':
 				$this->displayFeed();
 				break;
 			default:
@@ -68,6 +68,12 @@ class JContentViewSection extends JView
 		$menu	= &$menus->getCurrent();
 		$params	= &JComponentHelper::getMenuParams();
 		$doc	= & $app->getDocument();
+
+		// workaround
+		$ctrl	= &$this->getController();
+		$section = & $ctrl->getModel('section', 'JContentModel');
+		$this->setModel($section, true);
+
 
 		$Itemid = $menu->id;
 
@@ -100,97 +106,11 @@ class JContentViewSection extends JView
 		$breadcrumbs = & $app->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
-		if ($params->get('page_title')) {
-		?>
-			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $section->name; ?>
-			</div>
-		<?php
-		}
-		?>
-		<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<tr>
-			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-				<?php
-				if ($section->image) {
-					$link = 'images/stories/'.$section->image;
-					?>
-					<img src="<?php echo $link;?>" align="<?php echo $section->image_position;?>" hspace="6" alt="<?php echo $section->image;?>" />
-					<?php
-				}
-				echo $section->description;
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<?php
-				// Displays listing of Categories
-				if (count($categories) > 0) {
-					if ($params->get('other_cat_section')) {
-						$this->_buildCategories($categories, $params, $section->id);
-					}
-				}
-				?>
-			</td>
-		</tr>
-		</table>
-		<?php
+		$template = 'default';
+
+		include (dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
 	}
 
-	function _buildCategories( $categories, $params, $sid)
-	{
-		// Get some variables
-		$app		= &$this->getApplication();
-		$menus		= JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
-		$params		= &JComponentHelper::getMenuParams();
-		$user		= &$app->getUser();
-		$Itemid		= $menu->id;
-
-		if ( count($categories) ) {
-			?>
-			<ul>
-				<?php
-				foreach ($categories as $row) {
-					?>
-					<li>
-						<?php
-						if ($row->access <= $user->get('gid')) {
-							$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
-							?>
-							<a href="<?php echo $link; ?>" class="category">
-								<?php echo $row->name;?></a>
-								<?php
-								if ($params->get('cat_items')) {
-									?>
-									&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
-									<?php
-								}
-
-								// Writes Category Description
-								if ($params->get('cat_description') && $row->description) {
-									?>
-									<br />
-									<?php
-									echo $row->description;
-								}
-						} else {
-							echo $row->name;
-							?>
-							<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-								( <?php echo JText::_( 'Registered Users Only' ); ?> )</a>
-							<?php
-						}
-						?>
-					</li>
-					<?php
-				}
-				?>
-			</ul>
-			<?php
-		}
-	}
 	/**
 	 * Name of the view.
 	 *

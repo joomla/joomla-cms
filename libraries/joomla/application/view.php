@@ -64,6 +64,21 @@ class JView extends JObject {
 	}
 
 	/**
+	 * String representation
+	 * @return string
+	 */
+	function __toString()
+	{
+		$result = get_class( $this );
+		$result .= "\nModels:";
+		foreach ($this->_models as $model)
+		{
+			$result .= '&nbsp;'.$model->__toString();
+		} 
+		return $result;
+	}
+
+	/**
 	 * Method to set the name of the view.  Usually not be used, but is provided
 	 * as a public method for flexibility.
 	 *
@@ -219,5 +234,6 @@ class JView extends JObject {
 		$menu	= $menus->getCurrent();
 		return $menu;
 	}
+
 }
 ?>
