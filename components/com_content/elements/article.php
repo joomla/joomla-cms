@@ -57,8 +57,9 @@ class JElement_Article extends JElement
 		$doc->addScriptDeclaration($js);
 		$doc->addScript($url.'includes/js/joomla/popup.js');
 		$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
-		$html .= "\n<input style=\"background: #ffffff;\" type=\"text\" id=\"a_name\" value=\"$article->title\" disabled=\"disabled\" />";
-		$html .= "\n<input type=\"button\" onclick=\"document.popup.show('$link', 570, 345, null);\" value=\"...\" />";
+		$html .= "\n<div style=\"float: left;\"><input style=\"background: #ffffff;\" type=\"text\" id=\"a_name\" value=\"$article->title\" disabled=\"disabled\" /></div>";
+//		$html .= "\n<input class=\"inputbox\" type=\"button\" onclick=\"document.popup.show('$link', 570, 345, null);\" value=\"...\" />";
+		$html .= "<div class=\"button2-left\"><div class=\"blank\"><a title=\"".JText::_('Select an Article')."\" onclick=\"javascript: document.popup.show('$link', 650, 375, null);\">...</a></div></div>\n";
 		$html .= "\n<input type=\"hidden\" id=\"a_id\" name=\"$fieldName\" value=\"$value\" />";
 
 		return $html;

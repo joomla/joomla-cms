@@ -101,10 +101,10 @@ class JContentViewElement extends JView
 					<th width="2%" class="title">
 						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 					</th>
-					<th class="title" width="8%" nowrap="nowrap">
+					<th class="title" width="15%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
-					<th  class="title" width="8%" nowrap="nowrap">
+					<th  class="title" width="15%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 					</th>
 					<th align="center" width="10">
@@ -143,21 +143,20 @@ class JContentViewElement extends JView
 		                }
 						?>
 						<a onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo $row->title; ?>');">
-							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
+							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
+						</a>
 					</td>
 					<td align="center">
-						<?php echo $access;?>
+						<?php echo $row->groupname;?>
 					</td>
 					<td>
 						<?php echo $row->id; ?>
 					</td>
 						<td>
-							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-								<?php echo $row->section_name; ?></a>
+							<?php echo $row->section_name; ?>
 						</td>
 					<td>
-						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-							<?php echo $row->name; ?></a>
+						<?php echo $row->name; ?>
 					</td>
 					<td nowrap="nowrap">
 						<?php echo $date; ?>
