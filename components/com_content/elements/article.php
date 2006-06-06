@@ -42,6 +42,8 @@ class JElement_Article extends JElement
 		$article =& JTable::getInstance('content', $db);
 		if ($value) {
 			$article->load($value);
+		} else {
+			$article->title = JText::_('Select an Article');
 		}
 
 		$js = "
