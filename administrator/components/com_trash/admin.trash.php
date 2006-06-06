@@ -188,13 +188,6 @@ function viewTrashMenu( $option )
 	}
 	$lists['order'] = $filter_order;
 
-	$i = 0;
-	foreach ( $menus as $row ) {
-		// pulls name and description from menu type xml
-		$row = ReadMenuXML( $row->type, $row->com_name );
-		$menus[$i]->type 	= $row[0];
-		$i++;
-	}
 	// search filter
 	$lists['search']= $search;
 
