@@ -108,133 +108,22 @@ class JContentViewArticle extends JView
 		$doc->setDescription( $article->metadesc );
 		$doc->setMetadata('keywords', $article->metakey);
 
-		// Process the content plugins
-		JPluginHelper::importPlugin('content');
-		$results = $app->triggerEvent('onPrepareContent', array (& $article, & $params, $page));
-
 		// If there is a pagebreak heading or title, add it to the page title
 		if (isset ($article->page_title)) {
 			$doc->setTitle($article->title.' '.$article->page_title);
 		}
 
-		// Time to build the readmore button if it should be shown
-		if ($params->get('readmore') || $params->get('link_titles')) {
-			if ($params->get('intro_only')) {
-				// Checks to make sure user has access to the full article
-				if ($article->access <= $user->get('gid')) {
-					$Itemid = JContentHelper::getItemid($article->id);
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
-
-					if (@$article->readmore) {
-					// text for the readmore link
-						$linkText = JText::_('Read more...');
-					}
-				} else {
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-
-					if (@$article->readmore) {
-					// text for the readmore link if accessible only if registered
-						$linkText = JText::_('Register to read more...');
-					}
-				}
-			}
+		$cParams = &JComponentHelper::getControlParams();
+		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'article' ) );
+		$template = preg_replace( '#\W#', '', $template );
+		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
+		
+		if (!file_exists( $tmplPath ))
+		{
+			$tmplPath = dirname( __FILE__ ) . '/tmpl/article.php';
 		}
 
-		// Popup pages get special treatment for page titles
-		if ($params->get('popup') && $type =! 'html') {
-			$doc->setTitle($app->getCfg('sitename').' - '.$article->title);
-		}
-
-		// If the user can edit the article, display the edit icon
-		if ($access->canEdit) {
-			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-				<?php JContentHTMLHelper::editIcon($article, $params, $access); ?>
-			</div>
-			<?php
-		}
-
-		// Time to build the title bar... this may also include the pdf/print/email buttons if enabled
-		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
-			// Build the link for the print button
-			$printLink = $app->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
-			?>
-			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<tr>
-			<?php
-
-			// displays Item Title
-			JContentHTMLHelper::title($article, $params, $linkOn, $access);
-
-			// displays PDF Icon
-			JContentHTMLHelper::pdfIcon($article, $params, $linkOn, $noJS);
-
-			// displays Print Icon
-			mosHTML::PrintIcon($article, $params, $noJS, $printLink);
-
-			// displays Email Icon
-			JContentHTMLHelper::emailIcon($article, $params, $noJS);
-			?>
-			</tr>
-			</table>
-			<?php
-		}
-
-		// If only displaying intro, display the output from the onAfterDisplayTitle event
-		if (!$params->get('intro_only')) {
-			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
-			echo trim(implode("\n", $results));
-		}
-
-		// Display the output from the onBeforeDisplayContent event
-		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, $page));
-		echo trim(implode("\n", $onBeforeDisplayContent));
-		?>
-		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php
-
-		// displays Section & Category
-		JContentHTMLHelper::sectionCategory($article, $params);
-
-		// displays Author Name
-		JContentHTMLHelper::author($article, $params);
-
-		// displays Created Date
-		JContentHTMLHelper::createDate($article, $params);
-
-		// displays Urls
-		JContentHTMLHelper::url($article, $params);
-		?>
-		<tr>
-			<td valign="top" colspan="2">
-		<?php
-
-		// displays Table of Contents
-		JContentHTMLHelper::toc($article);
-
-		// displays Item Text
-		echo ampReplace($article->text);
-		?>
-			</td>
-		</tr>
-		<?php
-
-		// displays Modified Date
-		JContentHTMLHelper::modifiedDate($article, $params);
-
-		// displays Readmore button
-		JContentHTMLHelper::readMore($params, $linkOn, $linkText);
-		?>
-		</table>
-		<span class="article_seperator">&nbsp;</span>
-		<?php
-
-		// Fire the after display content event
-		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $article, & $params, $page));
-		echo trim(implode("\n", $onAfterDisplayContent));
-
-		// displays close button in pop-up window
-		mosHTML::CloseButton($params, $noJS);
+		require(dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
 	}
 
 	function edit()

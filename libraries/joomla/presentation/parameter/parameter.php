@@ -86,7 +86,8 @@ class JParameter extends JRegistry
 	 * @return string The set value
 	 */
 	function set($key, $value = '') {
-		return $this->setValue('parameter.'.$key, (string) $value);
+		$this->setValue('parameter.'.$key, (string) $value);
+		return $this->getValue('parameter.'.$key);
 	}
 
 	/**

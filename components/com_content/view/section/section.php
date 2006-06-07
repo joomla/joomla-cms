@@ -64,27 +64,25 @@ class JContentViewSection extends JView
 		// Initialize some variables
 		$app	= &$this->getApplication();
 		$user	= &$app->getUser();
+		$doc	= &$app->getDocument();
+		$mParams	= &JComponentHelper::getMenuParams();
 		$menus	= JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
-		$params	= &JComponentHelper::getMenuParams();
-		$doc	= & $app->getDocument();
-
-		// workaround
-		$ctrl	= &$this->getController();
-		$section = & $ctrl->getModel('section', 'JContentModel');
-		$this->setModel($section, true);
-
-
 		$Itemid = $menu->id;
-
 		$gid 	= $user->get('gid');
+
+		// Model workaround
+		$ctrl	= &$this->getController();
+		$model	= & $ctrl->getModel('section', 'JContentModel');
+		$this->setModel($model, true);
+
+		// Get some data from the model
+		$section	= & $this->get( 'Section' );
+
+		// Request variables
 		$task 	= JRequest::getVar('task');
 		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
-
-		// Lets get our data from the model
-		$section		= & $this->get( 'Section' );
-		$categories	= & $this->get( 'Categories' );
 
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
@@ -93,22 +91,43 @@ class JContentViewSection extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$doc->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
-		/*
-		 * Lets set the page title
-		 */
+		// Create a user access object for the user
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+
+		// Set the page title and breadcrumbs
+		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs->addItem($section->title, '');
+
 		if (!empty ($menu->name)) {
 			$app->setPageTitle($menu->name);
 		}
 
-		/*
-		 * Handle BreadCrumbs
-		 */
-		$breadcrumbs = & $app->getPathWay();
-		$breadcrumbs->addItem($section->title, '');
+		$cParams = &JComponentHelper::getControlParams();
+		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'list' ) );
+		$template = preg_replace( '#\W#', '', $template );
+		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
+		
+		if (!file_exists( $tmplPath ))
+		{
+			$tmplPath = dirname( __FILE__ ) . '/tmpl/list.php';
+		}
 
-		$template = 'default';
+		require(dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
+	}
 
-		include (dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
+	function showItem( &$row, &$access, $showImages = false )
+	{
+		require_once( JPATH_COM_CONTENT . '/helpers/article.php' );
+		JContentArticleHelper::showItem( $this, $row, $access, $showImages );
+	}
+
+	function showLinks(& $rows, $links, $total, $i = 0)
+	{
+		require_once( JPATH_COM_CONTENT . '/helpers/article.php' );
+		JContentArticleHelper::showLinks( $rows, $links, $total, $i );
 	}
 
 	/**
@@ -125,7 +144,7 @@ class JContentViewSection extends JView
 		//Initialize some variables
 		$menus		= JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
-		$params		= &JComponentHelper::getMenuParams();
+		$mParams		= &JComponentHelper::getMenuParams();
 		$Itemid		= $menu->id;
 
 		// Lets get our data from the model

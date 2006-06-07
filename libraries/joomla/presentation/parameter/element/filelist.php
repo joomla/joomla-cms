@@ -44,19 +44,27 @@ class JElement_FileList extends JElement
 		jimport( 'joomla.filesystem.folder' );
 
 		// path to images directory
-		$path = JPATH_SITE.$node->attributes('directory');
-		$filter = $node->attributes('filter');
-		$files = JFolder::files($path, $filter);
+		$path		= JPATH_SITE.$node->attributes('directory');
+		$filter		= $node->attributes('filter');
+		$stripExt	= $node->attributes('stripext');
+		$files		= JFolder::files($path, $filter);
 
 		$options = array ();
-		foreach ($files as $file) {
-			$options[] = mosHTML::makeOption($file, $file);
-		}
+
 		if (!$node->attributes('hide_none')) {
-			array_unshift($options, mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -'));
+			$options[] = mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -');
 		}
+
 		if (!$node->attributes('hide_default')) {
-			array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Use default').' -'));
+			$options[] = mosHTML::makeOption('', '- '.JText::_('Use default').' -');
+		}
+
+		foreach ($files as $file) {
+			if ($stripExt)
+			{
+				$file = JFile::stripExt( $file );
+			}
+			$options[] = mosHTML::makeOption($file, $file);
 		}
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");

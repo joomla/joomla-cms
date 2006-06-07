@@ -14,6 +14,6 @@
 		</steps>
 	</control>
 	<state>
-		<include source="/components/com_content/view/{view_name}/metadata.xml" path="state" />
+		<include source="/components/com_content/view/{view_name}/tmpl/{template_name}.xml" path="state" />
 	</state>
 </metadata>

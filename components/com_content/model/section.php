@@ -441,7 +441,7 @@ class JContentModelSection extends JModel
 				$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 				break;
 		}
-		$orderby .= "$primary $secondary DESC";
+		$orderby .= "$primary $secondary";
 
 		return $orderby;
 	}

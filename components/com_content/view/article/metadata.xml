@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
 	<control>
-		<steps />
+		<steps>
+			<step id="2" name="Model">
+				<message>
+					<![CDATA[Choose a template style]]>
+				</message>
+				<params>
+					<param name="template_name" type="filelist" folder="components/com_content/view/article/tmpl" stripext="1" filter="\.php$" default="list" label="Template Name" description="The template" />
+				</params>
+			</step>
+		</steps>
 	</control>
-	<state>
-		<name>Article View</name>
-		<description>Article view parameters...</description>
-		<params addParameterDir="/components/com_content/elements">
-			<param name="article_id" type="article" default="0" label="Select Article" description="An article" />
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
-				<option value="-1">Off</option>
-				<option value="0">Ignore</option>
-				<option value="1">On</option>
-			</param>
-		</params>
-		<advanced>
-			<param name="unique_itemid" type="radio" default="0" label="Unique Itemid" description="Use a unique Itemid for the link">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-		</advanced>
-	</state>
 </metadata>

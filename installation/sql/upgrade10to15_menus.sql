@@ -95,7 +95,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view_name=blog\nmodel_name=section',
+    `control` = 'view_name=section\ntemplate_name=blog',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
     `type` = 'component',
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
@@ -106,7 +106,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view_name=category',
+    `control` = 'view_name=category\ntemplate_name=table',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
     `type` = 'component',
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)
@@ -128,7 +128,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view_name=section',
+    `control` = 'view_name=section\ntemplate_name=list',
     `params` = CONCAT_WS( '', params, '\nsection_id=', componentid ),
     `type` = 'component',
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_content' AND `parent` = 0)

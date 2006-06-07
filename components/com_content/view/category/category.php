@@ -43,7 +43,7 @@ class JContentViewCategory extends JView
 		$document	= &$this->getDocument();
 		switch ($document->getType())
 		{
-			case 'feeed':
+			case 'feed':
 				$this->displayFeed();
 				break;
 			default:
@@ -61,26 +61,29 @@ class JContentViewCategory extends JView
 	function displayHtml()
 	{
 		// Initialize some variables
-		$app	= & $this->getApplication();
-		$user	= & $app->getUser();
-		$menus	= JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		$doc	= & $app->getDocument();
+		$app		= &$this->getApplication();
+		$user		= &$app->getUser();
+		$doc		= &$app->getDocument();
+		$mParams	= &JComponentHelper::getMenuParams();
+		$menus		= JMenu::getInstance();
+		$menu		= &$menus->getCurrent();
+		$Itemid		= $menu->id;
+		$gid 		= $user->get('gid');
 
-		$params	= &JComponentHelper::getMenuParams();
-		$Itemid	= $menu->id;
-		$task 	= JRequest::getVar('task');
-		$id 	= JRequest::getVar('id');
-		$option = JRequest::getVar('option');
+		// Model workaround
+		$ctrl	= &$this->getController();
+		$section = & $ctrl->getModel('category', 'JContentModel');
+		$this->setModel($section, true);
 
 		// Get some data from the model
 		$category			= & $this->get( 'Category' );
 		$other_categories	= & $this->get( 'Siblings' );
 		$items				= & $this->get( 'Content' );
 
-		// Get the sort list information
-		$lists	= $this->_buildSortLists();
-		$order	= null;
+		// Request variables
+		$task 	= JRequest::getVar('task');
+		$id 	= JRequest::getVar('id');
+		$option = JRequest::getVar('option');
 
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
@@ -89,187 +92,33 @@ class JContentViewCategory extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$doc->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
-		/*
-		 * Create a user access object for the user
-		 */
+		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		// Dynamic Page Title
-		// TODO: fix this... move to view and pass proper data
-		$app->SetPageTitle($menu->name);
-
-		/*
-		 * Set some defaults for $limit and $limitstart
-		 */
-		$limit		= JRequest::getVar('limit', 0, '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$total = count($items);
-		$limit = $limit ? $limit : $params->get('display_num');
-		if ($total <= $limit)
-		{
-			$limitstart = 0;
-		}
-
-		/*
-		 * Create JPagination object for the content
-		 */
-		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
-
-		/*
-		 * Handle BreadCrumbs
-		 */
+		// Set the page title and breadcrumbs
 		$breadcrumbs = & $app->getPathWay();
 		// Section
 		$breadcrumbs->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
 		// Category
 		$breadcrumbs->addItem($category->title, '');
 
-		if ($params->get('page_title'))
+		$app->SetPageTitle($menu->name);
+
+		// include the template
+		$cParams = &JComponentHelper::getControlParams();
+		$template = $cParams->get( 'template_name', 'table' );
+		$template = preg_replace( '#\W#', '', $template );
+		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
+		
+		if (!file_exists( $tmplPath ))
 		{
-		?>
-			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $category->name; ?>
-			</div>
-		<?php
-
+			$tmplPath = dirname( __FILE__ ) . '/tmpl/table.php';
 		}
-		?>
-		<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<tr>
-			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-				<?php
 
-		if ($category->image)
-		{
-			$link = 'images/stories/'.$category->image;
-		?>
-						<img src="<?php echo $link;?>" align="<?php echo $category->image_position;?>" hspace="6" alt="<?php echo $category->image;?>" />
-				<?php
-
-		}
-		echo $category->description;
-		?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php
-
-		// Displays the Table of Items in Category View
-		if (count($items))
-		{
-			$this->buildItemTable($items, $pagination, $params, $lists, $access, $category->id, $category->sectionid, $order);
-		}
-		else
-			if ($category->id)
-			{
-		?>
-					<br />
-					<?php echo JText::_( 'This Category is currently empty' ); ?>
-					<br /><br />
-					<?php
-
-			}
-		// New Content icon
-		if (($access->canEdit || $access->canEditOwn) && count($other_categories) > 0)
-		{
-			JContentHTMLHelper::newIcon($category, $params, $access);
-		}
-		?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<?php
-
-		// Displays listing of Categories
-		if (count($other_categories) > 0)
-		{
-			if ($params->get('other_cat'))
-			{
-				$this->buildCategories($other_categories, $params, $category->id, $category->sectionid);
-			}
-		}
-		?>
-			</td>
-		</tr>
-		</table>
-		<?php
-
-	}
-
-	function buildCategories($categories, $params, $cid, $sid)
-	{
-		$app		= & $this->getApplication();
-		$user		= & $app->getUser();
-		$menus		= JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
-		$Itemid	= $menu->id;
-
-		if (count($categories) > 1)
-		{
-		?>
-			<ul>
-				<?php
-
-			foreach ($categories as $row)
-			{
-				if ($cid != $row->id)
-				{
-		?>
-						<li>
-							<?php
-
-					if ($row->access <= $user->get('gid'))
-					{
-						$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
-		?>
-								<a href="<?php echo $link; ?>" class="category">
-									<?php echo $row->name;?></a>
-									<?php
-
-						if ($params->get('cat_items'))
-						{
-		?>
-										&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
-										<?php
-
-						}
-
-						// Writes Category Description
-						if ($params->get('cat_description') && $row->description)
-						{
-		?>
-										<br />
-										<?php
-
-							echo $row->description;
-						}
-					}
-					else
-					{
-						echo $row->name;
-		?>
-								<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-									( <?php echo JText::_( 'Registered Users Only' ); ?> )</a>
-								<?php
-
-					}
-		?>
-						</li>
-						<?php
-
-				}
-			}
-		?>
-			</ul>
-			<?php
-
-		}
+		require(dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
 	}
 
 	function buildItemTable(& $items, & $pagination, & $params, & $lists, & $access, $cid, $sid, $order)
@@ -542,6 +391,19 @@ class JContentViewCategory extends JView
 
 		return $lists;
 	}
+
+	function showItem( &$row, &$access, $showImages = false )
+	{
+		require_once( JPATH_COM_CONTENT . '/helpers/article.php' );
+		JContentArticleHelper::showItem( $this, $row, $access, $showImages );
+	}
+
+	function showLinks(& $rows, $links, $total, $i = 0)
+	{
+		require_once( JPATH_COM_CONTENT . '/helpers/article.php' );
+		JContentArticleHelper::showLinks( $rows, $links, $total, $i );
+	}
+
 	/**
 	 * Name of the view.
 	 *
