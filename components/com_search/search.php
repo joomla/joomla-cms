@@ -206,6 +206,7 @@ function viewSearch() {
 			if ( strpos( $rows[$i]->href, 'http' ) == false ) {
 				$url = parse_url( $rows[$i]->href );
 				if( !empty( $url['query'] ) ) {
+					$link = null;
 					parse_str( $url['query'], $link );
 				} else {
 					$link = '';
