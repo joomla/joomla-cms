@@ -12,13 +12,10 @@
  * details.
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+jimport('joomla.application.model');
 
 // require the component helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
-
-jimport( 'joomla.application.extension.component');
 
 /**
  * Content Component Section Model

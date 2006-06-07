@@ -12,8 +12,7 @@
  * details.
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.view');
 
 /**
  * HTML Article View class for the Content component

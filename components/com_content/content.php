@@ -21,9 +21,7 @@ define( 'JPATH_COM_CONTENT', dirname( __FILE__ ) );
 require_once (JPATH_COM_CONTENT . '/controller.php');
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
-// Require the MVC libraries
-jimport('joomla.application.model');
-jimport('joomla.application.view');
+// Component Helper
 jimport('joomla.application.extension.component');
 
 // Create the controller

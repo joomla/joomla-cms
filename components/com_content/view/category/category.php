@@ -12,8 +12,7 @@
  * details.
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the Content component
@@ -33,10 +32,7 @@ class JContentViewCategory extends JView
 	var $_viewName = 'Category';
 
 	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
+	 * Display the document
 	 */
 	function display()
 	{
