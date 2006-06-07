@@ -41,19 +41,6 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 		case 'separator' :
 			break;
 
-//			case 'content_item_link':
-//			case 'content_typed' :
-//				if ( $this->_params->get( 'unique_itemid' ) ) {
-//					$item->link .= '&Itemid='. $item->id;
-//				} else {
-//					$temp = split("&task=view&id=", $item->link);
-//					require_once (JApplicationHelper::getPath('helper', 'com_content'));
-//
-//					$_Itemid = JContentHelper::getItemid($temp[1]);
-//					$item->link .= '&Itemid='.$_Itemid;
-//				}
-//				break;
-
 		case 'url' :
 			if (eregi('index.php\?', $mitem->link)) {
 				if (!eregi('Itemid=', $mitem->link)) {
@@ -66,37 +53,6 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 			$mitem->link .= '&Itemid='.$mitem->id;
 			break;
 	}
-
-//	switch ($mitem->type) {
-//		case 'separator' :
-//		case 'component_item_link' :
-//			break;
-//
-//		case 'content_item_link' :
-//			if ($params->get('unique_itemid')) {
-//				$mitem->link .= '&Itemid=' . $mitem->id;
-//			} else {
-//				$temp = split("&task=view&id=", $mitem->link);
-//				require_once (JApplicationHelper :: getPath('helper', 'com_content'));
-//
-//				$_Itemid = JContentHelper :: getItemid($temp[1]);
-//				$mitem->link .= '&Itemid=' . $_Itemid;
-//			}
-//			break;
-//
-//		case 'url' :
-//			if (eregi('index.php\?', $mitem->link)) {
-//				if (!eregi('Itemid=', $mitem->link)) {
-//					$mitem->link .= '&Itemid=' . $mitem->id;
-//				}
-//			}
-//			break;
-//
-//		case 'content_typed' :
-//		default :
-//			$mitem->link .= '&Itemid=' . $mitem->id;
-//			break;
-//	}
 
 	// Active Menu highlighting
 	$current_itemid = $Itemid;
@@ -117,16 +73,9 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 	}
 
 	if ($params->get('full_active_id')) {
-		// support for `active_menu` of 'Link - Component Item'
-		if ($id == '' && $mitem->type == 'component_item_link') {
-			parse_str($mitem->link, $url);
-			if ($url['Itemid'] == $current_itemid) {
-				$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-			}
-		}
-
 		// support for `active_menu` of 'Link - Url' if link is relative
 		if ($id == '' && $mitem->type == 'url' && strpos('http', $mitem->link) === false) {
+			$url = array();
 			parse_str($mitem->link, $url);
 			if (isset ($url['Itemid'])) {
 				if ($url['Itemid'] == $current_itemid) {
