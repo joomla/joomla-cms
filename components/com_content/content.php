@@ -26,8 +26,6 @@ jimport('joomla.application.model');
 jimport('joomla.application.view');
 jimport('joomla.application.extension.component');
 
-
-
 // Create the controller
 $cParams 	= JComponentHelper::getControlParams();
 $controller = & new JContentController( $mainframe, 'view' );
@@ -39,39 +37,6 @@ $controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
 
-// URL converter/interceptor
-switch ($task)
-{
-	case 'section':
-		$newTask = '';
-		$viewName = 'section';
-		$tmplName = 'list';
-		break;
-
-	case 'blogsection':
-		$newTask = '';
-		$viewName = 'section';
-		$tmplName = 'blog';
-		break;
-
-	case 'blogcategorymulti': // ??
-	case 'category':
-		$newTask = '';
-		$viewName = 'category';
-		$tmplName = 'table';
-		break;
-
-	case 'blogcategory':
-		$newTask = '';
-		$viewName = 'category';
-		$tmplName = 'blog';
-		break;
-
-	default:
-		$newTask = $task;
-		$tmplName = '';
-}
-
 $controller->setViewName( $viewName, 'com_content', 'JContentView' );
 // Register Extra tasks
 $controller->registerTask( 'new', 				'edit' );
@@ -79,7 +44,7 @@ $controller->registerTask( 'apply', 			'save' );
 $controller->registerTask( 'apply_new', 		'save' );
 
 // Perform the Request task
-$controller->execute( $newTask );
+$controller->execute( $task );
 
 // Redirect if set by the controller
 $controller->redirect();
