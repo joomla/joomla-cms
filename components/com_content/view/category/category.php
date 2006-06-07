@@ -112,13 +112,12 @@ class JContentViewCategory extends JView
 		$template = $cParams->get( 'template_name', 'table' );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-		
 		if (!file_exists( $tmplPath ))
 		{
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/table.php';
 		}
 
-		require(dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
+		require($tmplPath);
 	}
 
 	function buildItemTable(& $items, & $pagination, & $params, & $lists, & $access, $cid, $sid, $order)

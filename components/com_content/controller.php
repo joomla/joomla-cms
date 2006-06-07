@@ -214,6 +214,20 @@ class JContentController extends JController
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name', 'article' ));
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
 
+		// interceptors to support legacy urls
+		switch( $this->getTask())
+		{
+			case 'section':
+				$viewName = 'section';
+				break;
+			case 'category':
+				$viewName = 'category';
+				break;
+			case 'view':
+				$viewName = 'article';
+				break;
+		}
+
 		// Create the view
 		$this->setViewName( $viewName, 'com_content', 'JContentView' );
 		$view = & $this->getView();

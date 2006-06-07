@@ -123,7 +123,7 @@ class JContentViewArticle extends JView
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/article.php';
 		}
 
-		require(dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
+		require($tmplPath);
 	}
 
 	function edit()

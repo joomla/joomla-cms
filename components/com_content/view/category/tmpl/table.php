@@ -19,6 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 	$lists	= $this->_buildSortLists();
 	$order	= null;
 
+	$mParams->def('title',			1);
 	$mParams->def('hits',			$app->getCfg('hits'));
 	$mParams->def('author',			!$app->getCfg('hideAuthor'));
 	$mParams->def('date',			!$app->getCfg('hideCreateDate'));
@@ -83,7 +84,7 @@ defined('_JEXEC') or die('Restricted access');
 	<tr>
 		<td>
 		<?php
-	
+
 	// Displays the Table of Items in Category View
 	if ($total)
 	{

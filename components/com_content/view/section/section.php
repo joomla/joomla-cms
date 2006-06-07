@@ -115,7 +115,7 @@ class JContentViewSection extends JView
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/list.php';
 		}
 
-		require(dirname( __FILE__ ) . '/tmpl/' . $template . '.php' );
+		require($tmplPath);
 	}
 
 	function showItem( &$row, &$access, $showImages = false )
