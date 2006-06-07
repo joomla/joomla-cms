@@ -28,7 +28,7 @@ jimport('joomla.application.extension.component');
 
 // Create the controller
 $cParams 	= JComponentHelper::getControlParams();
-$controller = & new JContentController( $mainframe, 'view' );
+$controller = & new JContentController( $mainframe, 'display' );
 
 // need to tell the controller where to look for views and models
 $controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );

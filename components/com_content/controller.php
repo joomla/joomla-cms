@@ -29,7 +29,7 @@ class JContentController extends JController
 	 * @access	public
 	 * @since	1.5
 	 */
-	function section()
+	function section000()
 	{
 		$this->setViewName( 'section', 'com_content', 'JContentView' );
 
@@ -117,7 +117,7 @@ class JContentController extends JController
 	 * @access	public
 	 * @since	1.5
 	 */
-	function blogsection()
+	function blogsection000()	// view=section&tpl=blog
 	{
 		$this->setViewName( 'blog', 'com_content', 'JContentView' );
 
@@ -139,7 +139,7 @@ class JContentController extends JController
 	 * @access	public
 	 * @since	1.5
 	 */
-	function blogcategory()
+	function blogcategory000()	// view=category&tpl=blog
 	{
 		$this->setViewName( 'blog', 'com_content', 'JContentView' );
 
@@ -205,26 +205,38 @@ class JContentController extends JController
 	 * @access	public
 	 * @since	1.5
 	 */
-	function view()
+	function display()
 	{
 		// TODO: What happen if the item doesn't exist?
 
 		// Get control information from the request
 		$cParams	= JComponentHelper::getControlParams();
-		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name', 'article' ));
+		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
+			//index.php?option=com_content&task=blogsection&id=0&Itemid=4
+			case 'blogsection':
+				$viewName = 'section';
+				JRequest::setVar( 'tpl', 'blog' );
+				break;
 			case 'section':
 				$viewName = 'section';
+				JRequest::setVar( 'tpl', 'list' );
 				break;
 			case 'category':
 				$viewName = 'category';
+				JRequest::setVar( 'tpl', 'table' );
+				break;
+			case 'blogcategory':
+				$viewName = 'section';
+				JRequest::setVar( 'tpl', 'blog' );
 				break;
 			case 'view':
 				$viewName = 'article';
+				JRequest::setVar( 'tpl', 'article' );
 				break;
 		}
 
@@ -525,7 +537,7 @@ class JContentController extends JController
 	 * @todo
 	 * @since 1.0
 	 */
-	function emailform()
+	function emailform000()	// replaced by com_mailto
 	{
 		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
 		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
@@ -574,7 +586,7 @@ class JContentController extends JController
 	 * @access	public
 	 * @since	1.5
 	 */
-	function emailsend()
+	function emailsend000()	// replace by com_mailto
 	{
 		// Check to make sure that the validation variable was posted back
 		$validate	= JRequest::getVar(mosHash('validate'), 0, 'post');
