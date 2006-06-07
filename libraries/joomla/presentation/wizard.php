@@ -51,7 +51,7 @@ class JWizard extends JObject
 		
 		// Load all the step data into the registry
 		for ($i=0;$i<=$this->_step;$i++) {
-			if (is_array($steps[$i])) {
+			if (isset($steps[$i]) && is_array($steps[$i])) {
 				$this->_registry->loadArray($steps[$i]);
 			}
 		}
