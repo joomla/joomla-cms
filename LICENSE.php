@@ -346,12 +346,10 @@ the GNU General Public License cover the whole combination.
 In addition, as a special exception, the copyright holders of Joomla!
 give you permission to combine Joomla! with free software programs or
 libraries that are released under the GNU LGPL and with independent
-modules that communicate with Joomla! solely through the Joomla!
+extensions that communicate with Joomla! solely through the Joomla!
 extension interface.  You may copy and distribute such a system following
-the terms of the GNU GPL for Joomla! and the licenses of the other
-code concerned, provided that you include the source code of that
-other code when and as the GNU GPL requires distribution of source
-code.
+the terms of the GNU GPL for Joomla! and the licenses of the extension, 
+even if you do not include the source code of that extension.
 
 Note that people who make modified versions of Joomla! are not
 obligated to grant this special exception for their modified versions;
