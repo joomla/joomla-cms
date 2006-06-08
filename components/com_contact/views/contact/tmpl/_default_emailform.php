@@ -51,7 +51,7 @@ if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form
 			<br />
 			<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox"></textarea>
 			<?php
-			if ( $params->get( 'email_copy' ) ) {
+			if ($params->get( 'email_copy' )) {
 				?>
 				<br />
 					<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
