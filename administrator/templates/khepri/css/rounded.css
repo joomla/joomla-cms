@@ -1,0 +1,117 @@
+/** rounded corners **/
+div#toolbar-box {
+  background: #f7f7f7;  
+}
+
+div#element-box {
+  background: #fff;  
+}
+
+div#element-box div.section-box div.m {
+	background: #fbfbfb;
+
+}
+
+div.t, div.b {
+  height: 6px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+div.m {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 0 8px;
+}
+
+div#toolbar-box div.m {
+  padding: 0;
+}
+
+div#element-box div.m {
+  padding: 5px 10px;
+}
+
+div#submenu-box div.t {
+  background: url(../images/j_border.png) 0 0 repeat-x;
+}
+
+div#submenu-box div.t div.t {
+   background: url(../images/j_crn_tr_dark.png) 100% 0 no-repeat;
+}
+
+div#submenu-box div.t div.t div.t {
+   background: url(../images/j_crn_tl_dark.png) 0 0 no-repeat;
+}
+
+div#submenu-box div.b {
+  background: url(../images/j_border.png) 0 100% repeat-x;
+}
+
+div#submenu-box div.b div.b {
+   background: url(../images/j_crn_br_dark.png) 100% 0 no-repeat;
+}
+
+div#submenu-box div.b div.b div.b {
+   background: url(../images/j_crn_bl_dark.png) 0 0 no-repeat;
+}
+
+div#toolbar-box,
+div#element-box div.section-box {
+  background: #fbfbfb;  
+}
+
+div#toolbar-box div.t,
+div#element-box div.section-box div.t {
+  background: url(../images/j_border.png) 0 0 repeat-x;
+}
+
+div#toolbar-box div.t div.t,
+div#element-box div.section-box div.t div.t {
+   background: url(../images/j_crn_tr_med.png) 100% 0 no-repeat;
+}
+
+div#toolbar-box div.t div.t div.t,
+div#element-box div.section-box div.t div.t div.t {
+   background: url(../images/j_crn_tl_med.png) 0 0 no-repeat;
+}
+
+div#toolbar-box div.b,
+div#element-box div.section-box div.b {
+  background: url(../images/j_border.png) 0 100% repeat-x;
+}
+
+div#toolbar-box div.b div.b,
+div#element-box div.section-box div.b div.b {
+   background: url(../images/j_crn_br_med.png) 100% 0 no-repeat;
+}
+
+div#toolbar-box div.b div.b div.b,
+div#element-box div.section-box div.b div.b div.b {
+   background: url(../images/j_crn_bl_med.png) 0 0 no-repeat;
+}
+
+div#element-box div.t {
+  background: url(../images/j_border.png) 0 0 repeat-x;
+}
+
+div#element-box div.t div.t {
+   background: url(../images/j_crn_tr_light.png) 100% 0 no-repeat;
+}
+
+div#element-box div.t div.t div.t {
+   background: url(../images/j_crn_tl_light.png) 0 0 no-repeat;
+}
+
+div#element-box div.b {
+  background: url(../images/j_border.png) 0 100% repeat-x;
+}
+
+div#element-box div.b div.b {
+   background: url(../images/j_crn_br_light.png) 100% 0 no-repeat;
+}
+
+div#element-box div.b div.b div.b {
+   background: url(../images/j_crn_bl_light.png) 0 0 no-repeat;
+}

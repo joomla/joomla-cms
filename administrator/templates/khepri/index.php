@@ -21,17 +21,18 @@ See COPYRIGHT.php for copyright notices and details.
 			<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
+	
+	<!--[if lte IE 6]>
+  <link href="templates/{TEMPLATE}/css/ie.css" rel="stylesheet" type="text/css" />
+  <![endif]-->
 
 	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
 		<jdoc:sub condition="0">
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css" />
-			<script type="text/javascript" src="templates/{TEMPLATE}/js/norounded.js"></script>
 		</jdoc:sub >
 		<jdoc:sub condition="1">
-			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css" />
-			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print" />
-			<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
-		</jdoc:sub>
+			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/rounded.css" />
+		</jdoc:sub >
 	</jdoc:tmpl>
 
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/menu.js"></script>
@@ -62,27 +63,57 @@ See COPYRIGHT.php for copyright notices and details.
 			<div class="border">
 				<div class="padding">
 					<div id="toolbar-box">
-						<div class="padding">
+      			<div class="t">
+              <div class="t">
+                <div class="t"></div>
+              </div>
+            </div>
+            <div class="m">
 							<jdoc:include type="modules" name="toolbar" />
 							<jdoc:include type="modules" name="title" />
 							<div class="clr"></div>
 						</div>
-						<div class="clr"></div>
-					</div>
+            <div class="b">
+              <div class="b">
+                <div class="b"></div>
+              </div>
+            </div>
+          </div>
+          <div class="clr"></div>
 					<jdoc:empty type="module" name="submenu" condition="0">
 						<div id="submenu-box">
-							<div class="padding">
+							<div class="t">
+                <div class="t">
+                  <div class="t"></div>
+                </div>
+              </div>
+              <div class="m">
 								<jdoc:include type="module" name="submenu" />
 								<div class="clr"></div>
 							</div>
+              <div class="b">
+                <div class="b">
+                  <div class="b"></div>
+                </div>
+              </div>
 						</div>
 					</jdoc:empty>
 					<div id="element-box">
-						<div class="padding">
+      			<div class="t">
+              <div class="t">
+                <div class="t"></div>
+              </div>
+            </div>
+            <div class="m">
 							<jdoc:include type="component" />
 							<div class="clr"></div>
 						</div>
-					</div>
+            <div class="b">
+              <div class="b">
+                <div class="b"></div>
+              </div>
+            </div>
+          </div>
 					<noscript>
 						<jdoc:translate key="WARNJAVASCRIPT" />
 					</noscript>

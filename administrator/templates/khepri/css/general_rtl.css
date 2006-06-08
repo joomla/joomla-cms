@@ -85,8 +85,7 @@ textarea:focus { background-color: #ffd }
 }
 
 #border-top .version {
-	display: block;
-	float: left;
+	display: block;	float: left;
 	color: #fff;
 	padding: 25px 0px 0 5px;
 }
@@ -97,25 +96,20 @@ textarea:focus { background-color: #ffd }
 
 #footer .copyright { margin: 10px; text-align: center; }
 
-#header-box  { border: 1px solid #ccc; border-right: 0 none; background: #f0f0f0; }
+#header-box  { border: 1px solid #ccc; background: #f0f0f0; }
 
-#content-box           { background: url(../images/j_border.png) 0 0 repeat-y; }
-#content-box .border   { background: url(../images/j_border.png) 100% 0 repeat-y; }
+#content-box {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
 #content-box .padding  { padding: 10px 10px 0 10px; }
 
-#toolbar-box 			{
-	background: #fbfbfb;
-	padding: 5px 0px 0px 1px;
-}
-#toolbar-box .padding { padding: 0 0 2px 5px }
+#toolbar-box 			{ background: #fbfbfb; margin-bottom: 10px; }
 
-#submenu-box { background: #f6f6f6; padding: 5px 1px; margin-top: 10px; }
-#submenu-box .padding {
-	padding: 0px;
-}
+#submenu-box { background: #f6f6f6; margin-bottom: 10px; }
+#submenu-box .padding { padding: 0px;}
 
-#element-box   		  { background: #fff; padding: 5px 1px; margin-top: 10px;}
-#element-box padding   { padding: 10px; }
 
 /* -- status layout */
 #module-status      { float: left; }
@@ -320,9 +314,9 @@ table.adminlist tbody tr.row1:hover td  { background-color: #ffd ; }
 table.adminlist tbody tr td 	   { height: 25px; background: #fff; border: 1px solid #fff; }
 table.adminlist tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #FFF; }
 
-table.adminlist tfoot tr { background-color: #f0f0f0;  text-align: center;  color: #333; }
+table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
-table.adminlist tfoot th { border-top: 1px solid #999; text-align: center; }
+table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #999; text-align: center; }
 
 table.adminlist td.order 		{ text-align: center; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
@@ -414,7 +408,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	float: left;
 	line-height: 22px;
 	font-size: 11px;
-	color: #666;
+	color: #333;
 	cursor: pointer;	
 }
 

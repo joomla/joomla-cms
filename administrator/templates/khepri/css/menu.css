@@ -98,10 +98,12 @@
 #submenu li a,
 #submenu span.nolink {
 	cursor: pointer;
-	padding: 5px 15px;
+	padding: 0px 15px;
 	border-right: 1px solid #ccc;
 	font-weight: bold;
 	color: #0B55C4;
+	line-height: 12px;
+	height: 12px;
 }
 
 #submenu span.nolink {

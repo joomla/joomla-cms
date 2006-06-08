@@ -28,25 +28,46 @@ form  { margin: 0px; padding: 0px; }
 form .inputbox { width: 120px; margin-left: 10px; }
 form br { display: none; }
 
-#login           { margin: 0 auto; width: 500px; margin-top: 40px; margin-bottom: 100px; }
+.login      { margin: 0 auto; width: 500px; margin-bottom: 100px; }
 
-#content-box { border-right: 1px solid #ccc; }
+.section-box  { float: left; width: 280px; margin-left: 10px;}
 
-#element-box    { float: left; width: 280px; padding: 5px 1px;margin-right: 10px;}
-
-#login .padding {
-	padding: 20px; padding-bottom: 60px;
-	background: url(../images/j_login_lock.jpg) 300px 100% no-repeat;
+h1 {
+  margin: 15px 0;
 }
 
-#element-box .padding {
+p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+#lock  {
+	background: url(../images/j_login_lock.jpg) 50% 0 no-repeat;
+	width: 170px;
+	height: 137px;
+}
+
+#content-box .m {
+  padding: 10px;
+}
+
+#content-box .padding {
+  padding: 30px 0;
+}
+
+
+.section-box .m {
+  padding: 5px;
+}
+.section-box .padding {
 	background: none; padding: 0;
 }
+
 .button { text-align: right; }
 	
 .login-form    { text-align: right; width: 60%; }
 .login-form h1 { display: none; }
-
 .login-form p { padding: 0 1em 0 1em; }
 	
 .login-text { text-align: right; width: 40%; float: right; }

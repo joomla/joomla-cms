@@ -1,0 +1,10 @@
+/* CSS Document */
+
+div#toolbar-box {
+  float: left;
+  width: 100%;
+}
+
+#content-box {
+  float: left;
+}

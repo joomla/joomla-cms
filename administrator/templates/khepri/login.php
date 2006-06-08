@@ -20,17 +20,20 @@ See COPYRIGHT.php for copyright notices and details.
 			<link href="templates/{TEMPLATE}/css/login.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
-	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css" />
-	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print" />
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
-	<script type="text/javascript">
-	window.onload=function(){
-		if(!NiftyCheck()) alert("hello");
-		Rounded("div#login","all","#fff","#fff","border #ccc");
-		Rounded("div#element-box","all","#fff","#fbfbfb","border #ccc");
-		setFocus();
-	}
-	</script>
+	
+	<!--[if lte IE 6]>
+  <link href="templates/{TEMPLATE}/css/ie.css" rel="stylesheet" type="text/css" />
+  <![endif]-->	
+	
+	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
+		<jdoc:sub condition="0">
+			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css" />
+		</jdoc:sub >
+		<jdoc:sub condition="1">
+			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/rounded.css" />
+		</jdoc:sub >
+	</jdoc:tmpl>
+  	
 	<script language="javascript" type="text/javascript">
 		function setFocus() {
 			document.loginForm.username.select();
@@ -47,23 +50,46 @@ See COPYRIGHT.php for copyright notices and details.
 			</div>
 		</div>
 		<div id="content-box">
-			<div class="padding"">
-				<div id="login">
-					<div class="padding">
+			<div class="padding">
+        <div id="element-box" class="login">
+    			<div class="t">
+            <div class="t">
+              <div class="t"></div>
+            </div>
+          </div>
+          <div class="m">
 						<h1><jdoc:translate>Joomla! Administration Login</jdoc:translate></h1>
-						<div id="element-box">
-							<div class="padding">
+            <div class="section-box">
+        			<div class="t">
+                <div class="t">
+                  <div class="t"></div>
+                </div>
+              </div>
+              <div class="m">
 								<jdoc:include type="module" name="login" />
 							</div>
-						</div>
+              <div class="b">
+                <div class="b">
+                  <div class="b"></div>
+                </div>
+              </div>
+            </div>
 						<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
 
 						<p>
 							<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
 						</p>
+						<div id="lock"></div>
 						<div class="clr"></div>
-					</div>
-				</div>
+	
+          </div>
+          <div class="b">
+            <div class="b">
+              <div class="b"></div>
+            </div>
+          </div>
+        </div>
+	
 				<noscript>
 					<jdoc:translate key="WARNJAVASCRIPT" />
 				</noscript>

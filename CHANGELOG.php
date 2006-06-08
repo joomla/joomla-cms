@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 08-Jun-2006 Andy Miller
+ ^ Changed khepri Administrator template to use images rather than nifty corners
  ^ Changed Installation to use images rather than nifty corners
  # Fixed Installation to work in IE
  # Fixed Installation to fit in 800x600 browsers
