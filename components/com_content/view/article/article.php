@@ -270,7 +270,7 @@ class JContentViewArticle extends JView
 		 * fields separated by the {readmore} tag, so lets do that now.
 		 */
 		if (JString::strlen($article->fulltext) > 1) {
-			$article->text = $article->introtext.'<hr id=&quot;system-readmore&quot; />'.$article->fulltext;
+			$article->text = $article->introtext."<hr id=\"system-readmore\" />".$article->fulltext;
 		} else {
 			$article->text = $article->introtext;
 		}

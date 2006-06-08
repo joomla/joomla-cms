@@ -559,7 +559,7 @@ class JContentController extends JController
 		 * fields separated by the {readmore} tag, so lets do that now.
 		 */
 		if (JString::strlen($row->fulltext) > 1) {
-			$row->text = $row->introtext . '<hr id=&quot;system-readmore&quot; />' . $row->fulltext;
+			$row->text = $row->introtext . "<hr id=\"system-readmore\" />" . $row->fulltext;
 		} else {
 			$row->text = $row->introtext;
 		}
