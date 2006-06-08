@@ -147,13 +147,11 @@ class JContactController extends JController {
 		if (!$email || !$text || (JMailHelper::isEmailAddress($email) == false)) {
 			JContactView::emailError();
 		} else {
-			$menu = JTable::getInstance( 'menu', $db );
-			$menu->load( $Itemid );
-			$mparams = new JParameter( $menu->params );
-			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );
-			$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );
-			$bannedText 	= $mparams->get( 'bannedText', 		'' );
-			$sessionCheck 	= $mparams->get( 'sessionCheck', 	1 );
+			$config = &JComponentHelper::getParams( 'com_contact' );
+			$bannedEmail 	= $config->get( 'bannedEmail', 	'' );
+			$bannedSubject 	= $config->get( 'bannedSubject', 	'' );
+			$bannedText 	= $config->get( 'bannedText', 		'' );
+			$sessionCheck 	= $config->get( 'sessionCheck', 	1 );
 
 			// check for session cookie
 			if  ( $sessionCheck ) {

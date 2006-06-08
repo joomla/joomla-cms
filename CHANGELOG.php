@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jun-2006 Andrew Eddie
+ ^ Refactoring of com_contact frontend into MVC architecture
+ + Moded params for banned*stuff and session check to component configuration
+
 07-Jun-2006 Louis Landry
  ^ {readmore} changed to HR tag with specific id attribute
  ^ Refactor of menu system to allow third party extensibility

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="bannedEmail" type="textarea" default=""
+			label="Banned Email" rows="3" cols="50"
+			description="Emails containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="bannedSubject" type="textarea" default=""
+			label="Banned Subject" rows="3" cols="50"
+			description="Subjects containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="bannedText" type="textarea" default=""
+			label="Banned Text" rows="3" cols="50"
+			description="Text containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="session" type="radio" default="1"
+			label="Session Check"
+			description="Check for existance of session cookie, this means that users without cookies will not be able to send emails">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</config>
