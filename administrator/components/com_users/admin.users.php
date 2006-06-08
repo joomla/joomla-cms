@@ -304,14 +304,11 @@ function saveUser(  )
 		return false;
 	}
 
-	/*
-	 * Are we dealing with a new user which we need to create?
-	 */
+	// Are we dealing with a new user which we need to create?
 	$isNew 	= !$user->get('id');
-
 	if (!$isNew) {
 		// if group has been changed and where original group was a Super Admin
-		if ( $user->gid != $original_gid && $original_gid == 25 ) {
+		if ( $user->get('gid') != $original_gid && $original_gid == 25 ) {
 			// count number of active super admins
 			$query = "SELECT COUNT( id )"
 			. "\n FROM #__users"

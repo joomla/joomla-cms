@@ -79,6 +79,7 @@ class JElement extends JObject {
 		$result[2] = $descr;
 		$result[3] = $label;
 		$result[4] = $value;
+		$result[5] = $name;
 
 		return $result;
 	}

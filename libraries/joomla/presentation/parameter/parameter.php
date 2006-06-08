@@ -177,6 +177,26 @@ class JParameter extends JRegistry
 	}
 
 	/**
+	 * Render all parameters to an array
+	 *
+	 * @access public
+	 * @param string The name of the control, or the default text area if a setup file is not found
+	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
+	 */
+	function renderToArray($name = 'params')
+	{
+		if (!is_object($this->_xml)) {
+			return false;
+		}
+		$results = array();
+		foreach ($this->_xml->children() as $param)  {
+			$result = $this->getParam($param, $name);
+			$results[$result[5]] = $result;
+		}
+		return $results;
+	}
+
+	/**
 	 * Render all parameters
 	 *
 	 * @access public
@@ -220,6 +240,7 @@ class JParameter extends JRegistry
 			$result = array();
 			$result[0] = $node->attributes('name');
 			$result[1] = JText::_('Element not defined for type').' = '.$type;
+			$result[5] = $result[0];
 			return $result;
 		}
 
