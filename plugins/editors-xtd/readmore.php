@@ -20,7 +20,7 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginReadmoreButton' );
 * readmore button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginReadmoreButton() {
+function pluginReadmoreButton($name) {
 	global $mainframe;
 
 	$option = $mainframe->getOption();
@@ -36,9 +36,25 @@ function pluginReadmoreButton() {
 			break;
 
 		default:
+			$editor =& JEditor::getInstance();
+			$getContent = $editor->getContent($name);
+			$present = "Already Exists";
+			$js = "
+			function insertReadmore() {
+				var content = $getContent
+				if (content.match(/<hr id=\"system-readmore\" \/>/)) {
+					alert('$present');
+					return false;
+				} else {
+					jInsertEditorText('<hr id=\"system-readmore\" />');
+				}
+			}
+			";
+
 			$css = "\t.button1-left .readmore { background: url($url/plugins/editors-xtd/readmore.png) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$button = array( "jInsertEditorText('<hr id=&quot;system-readmore&quot; />')", JText::_('Readmore'), 'readmore' );
+			$doc->addScriptDeclaration($js);
+			$button = array( "insertReadmore()", JText::_('Readmore'), 'readmore' );
 			break;
 	}
 

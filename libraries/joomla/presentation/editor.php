@@ -149,7 +149,7 @@ class JEditor extends JObservable {
 
 		$this->_loadEditor();
 
-		$args[] = $editor;
+		$args['name'] = $editor;
 		$args['event'] = 'onGetInsertMethod';
 
 		$return = '';
@@ -161,7 +161,7 @@ class JEditor extends JObservable {
 		}
 
 		$dispatcher =& JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger( 'onCustomEditorButton' );
+		$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $editor) );
 
 		$html = null;
 		foreach ($results as $result) {
@@ -192,7 +192,7 @@ class JEditor extends JObservable {
 
 		$this->_loadEditor();
 
-		$args[] = $editor;
+		$args['name'] = $editor;
 		$args['event'] = 'onGetContent';
 
 		$return = '';
