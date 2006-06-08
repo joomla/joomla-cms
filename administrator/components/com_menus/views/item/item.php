@@ -79,7 +79,7 @@ class JMenuViewItem extends JView
 			return;
 		}
 
-		if ( type != "separator") && (trim( form.name.value ) == "") ){
+		if ( (type != "separator") && (trim( form.name.value ) == "") ){
 			alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
 		} else {
 			submitform( pressbutton );
