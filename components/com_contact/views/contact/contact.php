@@ -82,6 +82,18 @@ class JContactViewContact extends JView
 		// Adds parameter handling
 		$params = new JParameter($contact->params);
 
+		$params->def( 'name', 				1 );
+		$params->def( 'email', 				0 );
+		$params->def( 'street_address', 	1 );
+		$params->def( 'suburb', 			1 );
+		$params->def( 'state', 				1 );
+		$params->def( 'country', 			1 );
+		$params->def( 'postcode', 			1 );
+		$params->def( 'telephone', 			1 );
+		$params->def( 'fax', 				1 );
+		$params->def( 'misc', 				1 );
+		$params->def( 'image', 				1 );
+
 		$cParams = &JComponentHelper::getControlParams();
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'default' ) );
 		$template = preg_replace( '#\W#', '', $template );

@@ -20,8 +20,8 @@ defined('_JEXEC') or die('Restricted access');
 	$mParams->def('back_button', 			$app->getCfg('back_button'));
 	$mParams->def('print', 					!$app->getCfg('hidePrint'));
 	$mParams->def('email_description_text', JText::_('Send an Email to this Contact:'));
-	// global pront|pdf|email
-	$mParams->def('icons', 				$app->getCfg('icons'));
+	// global print|pdf|email
+	$mParams->def('icons', 					$app->getCfg('icons'));
 
 	if ($contact->email_to && $mParams->get('email'))
 	{
@@ -123,25 +123,6 @@ defined('_JEXEC') or die('Restricted access');
 	}
 	//-->
 	</script>
-	<script type="text/javascript">
-	<!--
-	function ViewCrossReference( selSelectObject ){
-		var links = new Array();
-		<?php
-		foreach ($list as $item) {
-			echo "\n\t\t\tlinks[".$item->value."]='"
-				. sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $item->value .'&Itemid='. $Itemid )
-				. "';";
-		}
-		?>
-
-		var sel = selSelectObject.options[selSelectObject.selectedIndex].value
-		if (sel != "") {
-			location.href = links[sel];
-		}
-	}
-	//-->
-	</script>
 	<?php
 	if ( $mParams->get( 'page_title' ) && !$params->get( 'popup' ) ) {
 		?>
@@ -164,7 +145,7 @@ defined('_JEXEC') or die('Restricted access');
 				<form method="post" name="selectForm" target="_top" id="selectForm">
 					<?php echo JText::_( 'Select Contact' ); ?>:
 					<br />
-					<?php echo mosHTML::selectList($contacts, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contactId);?>
+					<?php echo mosHTML::selectList($contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $contactId);?>
 					<option type="hidden" name="option" value="com_contact" />
 					<option type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 				</form>
@@ -185,7 +166,7 @@ defined('_JEXEC') or die('Restricted access');
 			</td>
 			<?php
 			// displays Print Icon
-			$print_link = 'index2.php?option=com_contact&amp;task=view&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
+			$print_link = 'index2.php?option=com_contact&amp;view=contact&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
 			mosHTML::PrintIcon( $contact, $params, $hide_js, $print_link );
 			?>
 		</tr>
@@ -215,7 +196,7 @@ defined('_JEXEC') or die('Restricted access');
 				if ( $contact->image && $params->get( 'image' ) ) {
 					?>
 					<div style="float: right;">
-					<img src="images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+						<img src="images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 					</div>
 					<?php
 				}
