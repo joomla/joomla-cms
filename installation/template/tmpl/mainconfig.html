@@ -90,7 +90,12 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<div id="steppad">
+			<div class="t">
+        <div class="t">
+          <div class="t"></div>
+        </div>
+      </div>
+      <div class="m">
 				<div class="far-right">
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
@@ -105,12 +110,22 @@
 				</div>
 				<span class="step"><jtmpl:translate>Main Configuration</jtmpl:translate></span>
 			</div>
-		</div>
+      <div class="b">
+        <div class="b">
+          <div class="b"></div>
+        </div>
+      </div>
+    </div>
 
-		<div id="installer">
+    <div id="installer">
+			<div class="t">
+        <div class="t">
+          <div class="t"></div>
+        </div>
+      </div>
+      <div class="m">
 
-			<form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
-			<div id="installerpad">
+        <form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
 
 				<h2><jtmpl:translate key="loadSampleOrMigrate">Load Sample Data, Restore or Migrate Backed Up Content</jtmpl:translate></h2>
 				<div class="install-text">
@@ -122,14 +137,19 @@
 					<p><jtmpl:translate>LOADSQLINSTRUCTIONS6</jtmpl:translate></p>
 				</div>
 				<div class="install-body">
-					<div class="install-form">
+    			<div class="t">
+            <div class="t">
+              <div class="t"></div>
+            </div>
+          </div>
+          <div class="m">
 						<fieldset>
 							<table class="content2">
 				  			<tr>
-				    			<td></td>
-				    			<td></td>
-				    			<td></td>
-							</tr>
+				    			<td width="5%"></td>
+				    			<td width="25%"></td>
+				    			<td width="70%"></td>
+                </tr>
 				  			<tr>
 					  		    <td>
 					  		    	<input id="default_sample" type="radio" name="what_to_load" onclick="selectMode();"/>
@@ -175,7 +195,7 @@
 					  		<tr>
 					  			<td></td>
 					  			<td colspan="2">
-									<input class="input_box" id="sql_script" name="sqlFile" type="file" size="40"  />
+									<input class="input_box" id="sql_script" name="sqlFile" type="file" size="20"  />
 									<br/>
 									<input class="button" type="button" name="sqlLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="externalSql(filename, 'mainconfig');" />
 									<br/><br/>
@@ -229,7 +249,7 @@
 					  		<tr>
 					  			<td></td>
 					  			<td colspan="2">
-									<input class="input_box" id="migration_script" name="migrationFile" type="file" size="40"  />
+									<input class="input_box" id="migration_script" name="migrationFile" type="file" size="20"  />
 									<br/>
 									<input class="button" type="button" name="migrationLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="migrationSql(filename, 'mainconfig');" />
 									<br/><br/>
@@ -242,42 +262,53 @@
 
 						</fieldset>
 					</div>
+          <div class="b">
+            <div class="b">
+              <div class="b"></div>
+            </div>
+          </div>
 					<div class="clr"></div>
 				</div>
-			</div>
-			<input type="hidden" name="task" value="mainconfig" />
-			<input type="hidden" name="sqlupload" value="0" />
-			<input type="hidden" name="migrationupload" value="0" />
-			<input type="hidden" name="loadchecked" value="{VAR_LOADCHECKED}" />
-			<input type="hidden" name="dataLoaded" value="{VAR_DATALOADED}" />
-			<input type="hidden" name="DBtype" value="{VAR_DBTYPE}" />
-			<input type="hidden" name="DBhostname" value="{VAR_DBHOSTNAME}" />
-			<input type="hidden" name="DBuserName" value="{VAR_DBUSERNAME}" />
-			<input type="hidden" name="DBpassword" value="{VAR_DBPASSWORD}" />
-			<input type="hidden" name="DBname" value="{VAR_DBNAME}" />
-			<input type="hidden" name="DBPrefix" value="{VAR_DBPREFIX}" />
-			<input type="hidden" name="ftpRoot" value="{VAR_FTPROOT}" />
-			<input type="hidden" name="ftpEnable" value="{VAR_FTPENABLE}" />
-			<input type="hidden" name="ftpHost" value="{VAR_FTPHOST}" />
-			<input type="hidden" name="ftpPort" value="{VAR_FTPPORT}" />
-			<input type="hidden" name="ftpUser" value="{VAR_FTPUSER}" />
-			<input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
-			<input type="hidden" name="lang" value="{VAR_LANG}" />
-			</form>
+  			<input type="hidden" name="task" value="mainconfig" />
+  			<input type="hidden" name="sqlupload" value="0" />
+  			<input type="hidden" name="migrationupload" value="0" />
+  			<input type="hidden" name="loadchecked" value="{VAR_LOADCHECKED}" />
+  			<input type="hidden" name="dataLoaded" value="{VAR_DATALOADED}" />
+  			<input type="hidden" name="DBtype" value="{VAR_DBTYPE}" />
+  			<input type="hidden" name="DBhostname" value="{VAR_DBHOSTNAME}" />
+  			<input type="hidden" name="DBuserName" value="{VAR_DBUSERNAME}" />
+  			<input type="hidden" name="DBpassword" value="{VAR_DBPASSWORD}" />
+  			<input type="hidden" name="DBname" value="{VAR_DBNAME}" />
+  			<input type="hidden" name="DBPrefix" value="{VAR_DBPREFIX}" />
+  			<input type="hidden" name="ftpRoot" value="{VAR_FTPROOT}" />
+  			<input type="hidden" name="ftpEnable" value="{VAR_FTPENABLE}" />
+  			<input type="hidden" name="ftpHost" value="{VAR_FTPHOST}" />
+  			<input type="hidden" name="ftpPort" value="{VAR_FTPPORT}" />
+  			<input type="hidden" name="ftpUser" value="{VAR_FTPUSER}" />
+  			<input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
+  			<input type="hidden" name="lang" value="{VAR_LANG}" />
+  		</form>
 
 			<form action="index.php" method="post" name="adminForm">
 			<div id="installerpad">
 
+
+        <div class="newsection"></div>
 				<h2><jtmpl:translate>Site Name</jtmpl:translate>:</h2>
 				<div class="install-text">
 					<jtmpl:translate key="enterSiteName">Enter the name of your Joomla! site.</jtmpl:translate>
 				</div>
 				<div class="install-body">
-					<div class="install-form">
+    			<div class="t">
+            <div class="t">
+              <div class="t"></div>
+            </div>
+          </div>
+          <div class="m">
 						<fieldset>
 							<table class="content2">
 				  			   <tr>
-				  				  <td width="100">
+				  				  <td class="item">
 									<label for="siteName">
 				  				  		<jtmpl:translate>Site name</jtmpl:translate>
 				  				  	</label>
@@ -288,10 +319,16 @@
 				  			   </tr>
 							</table>
 						</fieldset>
-					</div>
+          </div>
+          <div class="b">
+            <div class="b">
+              <div class="b"></div>
+            </div>
+          </div>
 					<div class="clr"></div>
 				</div>
 
+        <div class="newsection"></div>
 				<h2><jtmpl:translate key="confTitle">Confirm the admin email and password</jtmpl:translate></h2>
 				<div class="install-text">
 					<jtmpl:translate key="tipConfSteps">
@@ -300,11 +337,16 @@
 					</jtmpl:translate>
 				</div>
 				<div class="install-body">
-					<div class="install-form">
+    			<div class="t">
+            <div class="t">
+              <div class="t"></div>
+            </div>
+          </div>
+          <div class="m">
 						<fieldset>
 							<table class="content2">
 							<tr>
-							  <td>
+							  <td class="item">
 								<label for="adminEmail">
 								  	<jtmpl:translate>Your E-mail</jtmpl:translate>
 			  				  	</label>
@@ -314,7 +356,7 @@
 							  </td>
 							</tr>
 							<tr>
-							  <td>
+							  <td class="item">
 								<label for="adminPassword">
 								  	<jtmpl:translate>Admin password</jtmpl:translate>
 			  				  	</label>
@@ -324,7 +366,12 @@
 							  </td>
 							</table>
 						</fieldset>
-					</div>
+          </div>
+          <div class="b">
+            <div class="b">
+              <div class="b"></div>
+            </div>
+          </div>
 					<div class="clr"></div>
 				</div>
 
@@ -332,10 +379,14 @@
 			<input type="hidden" name="task" value="" />
 			</form>
 
-
-
+      <div class="clr"></div>
+      </div>
+      <div class="b">
+        <div class="b">
+          <div class="b"></div>
+        </div>
+      </div>
 		</div>
-
 	</div>
 </div>
 

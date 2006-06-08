@@ -159,12 +159,12 @@ class JAJAXHandler {
 			foreach($errors as $error){
 				$msg .= stripslashes( $error['msg'] );
 				$msg .= chr(13)."-------------".chr(13);
-				$txt = '<textarea cols="40" rows="4" name="instDefault" readonly="readonly" >'.$lang->_('Database Errors Reported').chr(13).$msg.'</textarea>';
+				$txt = '<textarea cols="35" rows="5" name="instDefault" readonly="readonly" >'.$lang->_('Database Errors Reported').chr(13).$msg.'</textarea>';
 			}
 		} else {
 			// consider other possible errors from populate
 			$msg = $result == 0 ? $lang->_("Sample data installed successfully") : $lang->_("Error installing SQL script") ;
-			$txt = '<input size="50" name="instDefault" value="'.$msg.'" readonly="readonly" />';
+			$txt = '<input size="35" name="instDefault" value="'.$msg.'" readonly="readonly" />';
 		}
 
 		$objResponse->addAssign("theDefault", "innerHTML", $txt);

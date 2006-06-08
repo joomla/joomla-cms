@@ -16,7 +16,13 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<div id="steppad">
+			<div class="t">
+        <div class="t">
+          <div class="t"></div>
+        </div>
+      </div>
+      <div class="m">
+			
 				<div class="far-right">
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
@@ -28,32 +34,57 @@
 					</jtmpl:tmpl>
 				</div>
 				<span class="step"><jtmpl:translate>Choose Language</jtmpl:translate></span>
-			</div>
-		</div>
+			
+      </div>
+      <div class="b">
+        <div class="b">
+          <div class="b"></div>
+        </div>
+      </div>
+    </div>
 
 		<div id="installer">
-			<div id="installerpad">
+			<div class="t">
+        <div class="t">
+          <div class="t"></div>
+        </div>
+      </div>
+      <div class="m">
 
 				<h2><jtmpl:translate>Select Language</jtmpl:translate></h2>
 				<div class="install-text">
 					<jtmpl:translate>PICKYOURCHOICEOFLANGS</jtmpl:translate>
 				</div>
 				<div class="install-body">
-					<div class="install-form">
+    			<div class="t">
+            <div class="t">
+              <div class="t"></div>
+            </div>
+          </div>
+          <div class="m">
 						<fieldset>
 							<select name="vars[lang]" class="inputbox" size="5">
 							<jtmpl:tmpl name="lang-options">
 								<option value="{VALUE}" {SELECTED}>{TEXT}</option>
 							</jtmpl:tmpl>
 							</select>
-
 						</fieldset>
 					</div>
+          <div class="b">
+            <div class="b">
+              <div class="b"></div>
+            </div>
+          </div>
 					<div class="clr"></div>
 				</div>
+				<div class="clr"></div>
 			</div>
+      <div class="b">
+        <div class="b">
+          <div class="b"></div>
+        </div>
+      </div>
 		</div>
-
 	</div>
 </div>
 

@@ -10,7 +10,12 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<div id="steppad">
+			<div class="t">
+        <div class="t">
+          <div class="t"></div>
+        </div>
+      </div>
+      <div class="m">
 				<div class="far-right">
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
@@ -25,19 +30,36 @@
 				</div>
 				<span class="step"><jtmpl:translate>License</jtmpl:translate></span>
 			</div>
-		</div>
+		<div class="b">
+        <div class="b">
+          <div class="b"></div>
+        </div>
+      </div>
+    </div>
 
-		<div id="installer">
-			<div id="installerpad">
+    <div id="installer">
+			<div class="t">
+        <div class="t">
+          <div class="t"></div>
+        </div>
+      </div>
+      <div class="m">
 
 				<h2><jtmpl:translate>GNU/GPL License</jtmpl:translate>:</h2>
 				<iframe src="gpl.html" class="license" frameborder="0" scrolling="auto"></iframe>
 
-			</div>
+			  <div class="clr"></div>
+      </div>
+      <div class="b">
+        <div class="b">
+          <div class="b"></div>
+        </div>
+      </div>
 		</div>
-
 	</div>
 </div>
+
+<div class="clr"></div>
 
 <input type="hidden" name="task" value="" />
 </form>
