@@ -818,24 +818,6 @@ function previewModule($id )
 	HTML_modules::previewModule( );
 }
 
-function ReadAModuleXML( &$rows )
-{
-	/*
-	 * Initialize some variables
-	 */
-	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-
-	// xml file for module
-	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-
-	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-
-	$row[0]	= $data['name'];
-	$row[1] = $data['description'];
-	$row[2] = $data['group'];
-
-	return $row;
-}
 function ReadModuleXML( &$rows  )
 {
 	foreach ($rows as $i => $row)
