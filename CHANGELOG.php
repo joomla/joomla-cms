@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jun-2006 Andy Miller
+ ^ Changed Installation to use images rather than nifty corners
+ # Fixed Installation to work in IE
+ # Fixed Installation to fit in 800x600 browsers
+
 08-Jun-2006 Andrew Eddie
  ^ Refactoring of com_contact frontend into MVC architecture
  + Moded params for banned*stuff and session check to component configuration
