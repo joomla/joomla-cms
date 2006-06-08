@@ -36,9 +36,14 @@ function pluginPagebreakButton() {
 			break;
 
 		default:
+
+			$link = $url.'plugins/editors-xtd/pagebreak/pagebreak.html';
+
 			$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$button = array( "jInsertEditorText('<hr class=&quot;system-pagebreak&quot; />')", JText::_('Pagebreak'), 'pagebreak' );
+			$doc->addScript($url.'includes/js/joomla/popup.js');
+			$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
+			$button = array( "document.popup.show('$link', 400, 150, null)", JText::_('Pagebreak'), 'pagebreak' );
 			break;
 	}
 
