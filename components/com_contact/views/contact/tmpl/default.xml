@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf8"?>
+<metadata>
+	<control>
+		<steps />
+	</control>
+	<state>
+		<name>Contact</name>
+		<description>An all singing, all dancing parameterised template</description>
+		<params addParameterDir="/components/com_contact/elements">
+			<param name="contact_id" type="contact" default="" label="Select Contact" description="The contact to link to" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="email_description" type="radio" default="1" label="Email description" description="Show/Hide the Description Text below">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="email_description_text" type="text" size="30" default="" label="Description text" description="PARAMEMAILDESCTEXT" />
+			<param name="email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</params>
+		<advanced>
+			<params>
+				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+					<option value="-1">Off</option>
+					<option value="0">Ignore</option>
+					<option value="1">On</option>
+				</param>	
+				<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+				<param name="session" type="radio" default="1" label="Session Check" description="Check for existance of session cookie, this means that users without cookies will not be able to send emails">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</param>
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+				<param name="bannedEmail" type="text" default="" label="Banned Email" size="40" description="Emails containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+				<param name="bannedSubject" type="text" default="" label="Banned Subject" size="40" description="Subjects containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+				<param name="bannedText" type="text" default="" label="Banned Text" size="40" description="Text containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+				<param name="email_copy" type="radio" default="1" label="Email Copy" description="PARAMEMAILCOPY">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</param>
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+				<param name="drop_down" type="radio" default="0" label="Drop Down" description="PARAMDROPDOWN">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</param>
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+				<param name="contact_icons" type="list" default="0" label="Icons/text" description="PARAMCONTACTICONS">
+					<option value="0">Icons</option>
+					<option value="1">Text</option>
+					<option value="2">None</option>
+				</param>
+				<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+				<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+				<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+				<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+				<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
+			</params>
+		</advanced>
+	</state>
+</metadata>

@@ -40,7 +40,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'task=category',
+    `control` = 'view_name=category\ntemplate_name=table',
     `params` = CONCAT_WS( '', params, '\ncategory_id=', componentid ),
     `type` = 'component',
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_contact' AND `parent` = 0)
@@ -51,7 +51,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'task=view',
+    `control` = 'view_name=contact\ntemplate_name=default',
     `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ),
     `type` = 'component',
     `componentid` = (SELECT `id` FROM `jos_components` WHERE `option`='com_contact' AND `parent` = 0)

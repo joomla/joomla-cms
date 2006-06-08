@@ -25,7 +25,9 @@ if (!$user->authorize( 'com_contact', 'manage' ))
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class' ) );
+require_once( JPATH_SITE . '/components/com_contact/tables/contact.php' );
+//require_once( JApplicationHelper::getPath( 'class' ) );
+
 
 $id 	= JRequest::getVar(  'id', 0, 'get', 'int' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );

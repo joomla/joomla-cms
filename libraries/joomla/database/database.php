@@ -262,9 +262,9 @@ class JDatabase extends JObject
 	 * @param string The common table prefix
 	 */
 	function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' ) {
-		$this->_sql = $this->replacePrefix( $sql, $prefix );
-		$this->_limit = intval( $limit );
-		$this->_offset = intval( $offset );
+		$this->_sql		= $this->replacePrefix( $sql, $prefix );
+		$this->_limit	= (int) $limit;
+		$this->_offset	= (int) $offset;
 	}
 
 	/**
