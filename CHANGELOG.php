@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Jun-2006 Louis Landry
+ ^ {readmore} changed to HR tag with specific id attribute
+ ^ Refactor of menu system to allow third party extensibility
+
 05-Jun-2006 David Gal
  ^ Changed name of helpsites xml file to correct version
-
 
 03-Jun-2006 Andrew Eddie
  + Added publish_up, publish_down,tags, params field to banners table

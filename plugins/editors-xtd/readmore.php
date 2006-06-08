@@ -38,7 +38,7 @@ function pluginReadmoreButton() {
 		default:
 			$css = "\t.button1-left .readmore { background: url($url/plugins/editors-xtd/readmore.png) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$button = array( "jInsertEditorText('<hr id=&quot;j-readmore&quot; />')", JText::_('Readmore'), 'readmore' );
+			$button = array( "jInsertEditorText('<hr id=&quot;system-readmore&quot; />')", JText::_('Readmore'), 'readmore' );
 			break;
 	}
 

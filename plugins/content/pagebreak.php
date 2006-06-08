@@ -35,7 +35,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	global $mainframe, $Itemid, $database;
 
 	// simple performance check to determine whether bot should process further
-	if ( JString::strpos( $row->text, '{pagebreak' ) === false ) {
+	if ( JString::strpos( $row->text, '<hr class="system-pagebreak' ) === false ) {
 		return true;
 	}
 
@@ -45,7 +45,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 		$page = 0;
 	}
  	// expression to search for
- 	$regex = '/{pagebreak\s*(.*?)}/i';
+ 	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#i';
 
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
@@ -116,6 +116,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 		$row->text .= '</div>';
 
 		// page text
+		$text[$page] = str_replace("<hr id=\"\"system-readmore\"\" />", "", $text[$page]);
 		$row->text .= $text[$page];
 
 		$row->text .= '<br />';

@@ -38,7 +38,7 @@ function pluginPagebreakButton() {
 		default:
 			$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$button = array( "jInsertEditorText('{pagebreak}')", JText::_('Pagebreak'), 'pagebreak' );
+			$button = array( "jInsertEditorText('<hr class=&quot;system-pagebreak&quot; />')", JText::_('Pagebreak'), 'pagebreak' );
 			break;
 	}
 
