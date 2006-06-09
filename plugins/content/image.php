@@ -183,15 +183,23 @@ function processImages ( &$row, &$params, &$introCount )
 				$style		= '';
 				if ( $params->def( 'margin' ) ) {
 					$margin 		= ' margin: '. $params->def( 'margin' ).'px;';
+				} else {
+					$margin			= null;
 				}
 				if ( $params->def( 'padding' ) ) {
 					$padding 		= ' padding: '. $params->def( 'padding' ).'px;';
+				} else {
+					$padding		= null;
 				}
 				if ( $attrib[1] ) {
 					$float 			= ' float: '. $attrib[1] .';';
+				} else {
+					$float			= null;
 				}
 				if ( $attrib[3] ) {
 					$border_width	= ' border-width: '. $attrib[3] .'px;';
+				} else {
+					$border_width	= null;
 				}
 
 				if ( $params->def( 'margin' ) || $params->def( 'padding' ) || $attrib[1] || $attrib[3] ) {
