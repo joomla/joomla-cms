@@ -24,6 +24,9 @@ jimport( 'joomla.common.base.object' );
  */
 class JPane extends JObject
 {
+	
+	var $useCookies = false;
+	
 	/**
 	* Constructor
 	*
