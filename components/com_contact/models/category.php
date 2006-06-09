@@ -38,7 +38,7 @@ class JContactModelCategory extends JModel
 		$db		= JFactory::getDBO();
 		$gid	= @$options['gid'];
 
-		$select = '*, COUNT( a.id ) AS numlinks, a.id as cid';
+		$select = 'cc.*, COUNT( a.id ) AS numlinks, a.id as cid';
 		$from	= '#__categories AS cc';
 		
 		$joins[] = 'LEFT JOIN #__contact_details AS a ON a.catid = cc.id';
@@ -67,6 +67,7 @@ class JContactModelCategory extends JModel
 				"\n GROUP BY " . $groupBy .
 				"\n ORDER BY " . $orderBy;
 
+		//echo $query;
 		return $query;
 	}
 

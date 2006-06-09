@@ -23,7 +23,7 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `control` = 'view_name=blog'
+    `control` = 'view_name='
   WHERE
     `link` LIKE '%option=com_frontpage%';
 
@@ -31,8 +31,9 @@ UPDATE `jos_menu`
 
 UPDATE `jos_menu`
   SET
-    `params` = CONCAT_WS( '', params, '\nmenu_item=', SUBSTRING(link,LOCATE('Itemid=',link)+7) ),
-    `type` = 'component'
+	`link` = SUBSTRING(link,LOCATE('Itemid=',link)+7),
+    `params` = CONCAT_WS( '', params, '\nmenu_item=', `link` ),
+    `type` = 'menulink'
   WHERE
     `type` = 'component_item_link';
 

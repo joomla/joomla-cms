@@ -15,6 +15,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+/*
+ * Variables available from the view
+ * $categoryId
+ * $categories
+ * $contacts
+ * $contactCount
+ * $currentCategory
+ */
+
 jimport('joomla.presentation.pagination');
 $page = new JPagination($contactCount, $limitstart, $limit);
 

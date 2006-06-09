@@ -15,6 +15,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+/*
+ * Available variable:
+ * $contactId - The current id we are looking at
+ * $contact - The current contact
+ * $contacts - A list of other contacts in this category
+ */
+
 	// Set some defaults for the menu item parameters
 	$mParams->def('header', 				JComponentHelper::getMenuName() );
 	$mParams->def('back_button', 			$app->getCfg('back_button'));
