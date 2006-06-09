@@ -30,7 +30,7 @@ form br { display: none; }
 
 .login      { margin: 0 auto; width: 500px; margin-bottom: 100px; }
 
-.section-box  { float: left; width: 280px; margin-left: 10px;}
+.section-box  { float: left; width: 320px; margin-left: 10px;}
 
 h1 {
   margin: 15px 0;
@@ -44,7 +44,7 @@ p {
 
 #lock  {
 	background: url(../images/j_login_lock.jpg) 50% 0 no-repeat;
-	width: 170px;
+	width: 150px;
 	height: 137px;
 }
 
