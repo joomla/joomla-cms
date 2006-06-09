@@ -105,8 +105,8 @@ class JContactModelCategory extends JModel
 			$wheres[] = 'cd.access <= ' . (int) $gid;
 		}
 
-		$groupBy	= 'cc.id';
-		$orderBy	= 'cc.ordering' ;
+		$groupBy	= 'cd.id';
+		$orderBy	= 'cd.ordering' ;
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
@@ -119,6 +119,7 @@ class JContactModelCategory extends JModel
 				($groupBy ? "\n GROUP BY " . $groupBy : '').
 				($orderBy ? "\n ORDER BY " . $orderBy : '');
 
+		//echo "<pre>$query</pre>";
 		return $query;
 	}
 
