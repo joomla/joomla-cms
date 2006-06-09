@@ -46,18 +46,6 @@ class ContentView
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<script language="javascript" type="text/javascript">
-		<!--
-		function submitbutton(task) {
-			var f = document.adminForm;
-			if (task == 'wizard') {
-				document.popup.show('index3.php?option=com_content&task=wizard', 700, 500, null);
-			} else {
-				submitform(task);
-			}
-		}
-		//-->
-		</script>
 		<form action="index2.php?option=com_content" method="post" name="adminForm">
 
 			<table>
