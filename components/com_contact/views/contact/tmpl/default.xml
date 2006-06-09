@@ -26,37 +26,35 @@
 			</param>
 		</params>
 		<advanced>
-			<params>
-				<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-				<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
-					<option value="-1">Off</option>
-					<option value="0">Ignore</option>
-					<option value="1">On</option>
-				</param>	
-				<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-				<param name="@spacer" type="spacer" default="" label="" description="" />
-				<param name="@spacer" type="spacer" default="" label="" description="" />
-				<param name="email_copy" type="radio" default="1" label="Email Copy" description="PARAMEMAILCOPY">
-					<option value="0">Hide</option>
-					<option value="1">Show</option>
-				</param>
-				<param name="@spacer" type="spacer" default="" label="" description="" />
-				<param name="drop_down" type="radio" default="0" label="Drop Down" description="PARAMDROPDOWN">
-					<option value="0">Hide</option>
-					<option value="1">Show</option>
-				</param>
-				<param name="@spacer" type="spacer" default="" label="" description="" />
-				<param name="contact_icons" type="list" default="0" label="Icons/text" description="PARAMCONTACTICONS">
-					<option value="0">Icons</option>
-					<option value="1">Text</option>
-					<option value="2">None</option>
-				</param>
-				<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
-				<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
-				<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
-				<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
-				<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
-			</params>
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+				<option value="-1">Off</option>
+				<option value="0">Ignore</option>
+				<option value="1">On</option>
+			</param>	
+			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="email_copy" type="radio" default="1" label="Email Copy" description="PARAMEMAILCOPY">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="drop_down" type="radio" default="0" label="Drop Down" description="PARAMDROPDOWN">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="contact_icons" type="list" default="0" label="Icons/text" description="PARAMCONTACTICONS">
+				<option value="0">Icons</option>
+				<option value="1">Text</option>
+				<option value="2">None</option>
+			</param>
+			<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+			<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+			<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+			<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+			<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
 		</advanced>
 	</state>
 </metadata>
