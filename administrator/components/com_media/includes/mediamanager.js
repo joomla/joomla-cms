@@ -115,4 +115,6 @@ JMediaManager.prototype = {
 document.mediamanager = null;
 document.addLoadEvent(function() {
  	document.mediamanager = new JMediaManager();
+ 	// Added to populate data on initial page load
+ 	document.mediamanager.onloadframe();
 });
