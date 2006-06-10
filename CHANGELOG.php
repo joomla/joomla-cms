@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jun-2006 Johan Janssens
+ ^ Implemented [task2506] : config component calls help
+
 08-Jun-2006 Andrew Eddie
  ^ Allowed pluggable controller for contact component (so alternative/non-standard routing is possible)
  + Added custom error page for contact component

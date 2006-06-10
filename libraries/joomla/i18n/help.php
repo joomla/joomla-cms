@@ -24,6 +24,7 @@ class JHelp {
 
 	/**
 	* Create an URL for a giving help file reference
+	* 
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/

@@ -390,25 +390,6 @@ class HTML_modules {
 			}
 			?>
 
-			<?php
-			// show Cache directory writable status for mod_feed or mod_syndication
-			if ( $row->module == 'mod_feed' || $row->module == 'mod_syndicate' ) {
-				?>
-				<fieldset class="adminform">
-						<table class="admintable">
-						$visible = 0;
-						// check to hide certain paths if not super admin
-						if ( $my->gid == 25 ) {
-							$visible = 1;
-						}
-						mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
-						?>
-						</table>
-				</fieldset>
-				<?php
-			}
-			?>
-
 		</div>
 		<div class="col40">
 			<fieldset class="adminform">

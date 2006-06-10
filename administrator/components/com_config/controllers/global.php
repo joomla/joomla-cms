@@ -95,7 +95,7 @@ class JConfigGlobalController extends JController
 
 		jimport('joomla.i18n.help');
 		$helpsites 				= array ();
-		$helpsites 				= JHelp::createSiteList('http://help.joomla.org/helpsites-15.xml', $row->helpurl);
+		$helpsites 				= JHelp::createSiteList(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $row->helpurl);
 		array_unshift($helpsites, mosHTML::makeOption('', JText::_('local')));
 		$lists['helpsites'] 	= mosHTML::selectList($helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
 
@@ -263,7 +263,8 @@ class JConfigGlobalController extends JController
 	/**
 	 * Save the configuration
 	 */
-	function save() {
+	function save() 
+	{
 		global $mainframe, $mosConfig_password;
 
 		$config =& JFactory::getConfig();
@@ -338,6 +339,17 @@ class JConfigGlobalController extends JController
 	function cancel()
 	{
 		$this->setRedirect( 'index2.php' );
+	}
+	
+	function refreshHelp()
+	{
+		jimport('joomla.filesystem.file');
+		
+		$data = file_get_contents('http://help.joomla.org/helpsites-15.xml');
+		JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data);
+		
+		$msg = JText::_('The help sites list has been refreshed');
+		$this->setRedirect('index2.php?option=com_config', $msg);
 	}
 }
 ?>
