@@ -84,7 +84,8 @@ $cur_template = $mainframe->getTemplate();
 
 $params = array(
 	'template' 	=> $cur_template,
-	'file'		=> $tmpl
+	'file'		=> $tmpl,
+	'directory'	=> JPATH_BASE.DS.'templates'
 );
 
 $document =& $mainframe->getDocument($format);

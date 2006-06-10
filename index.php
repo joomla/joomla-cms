@@ -130,7 +130,8 @@ if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 $params = array(
 	'outline'   => JRequest::getVar('tp', 0 ),
 	'template' 	=> $cur_template,
-	'file'		=> $tmpl
+	'file'		=> $tmpl,
+	'directory'	=> JPATH_BASE.DS.'templates'
 );
 
 $document =& $mainframe->getDocument($format);
