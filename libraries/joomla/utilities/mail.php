@@ -104,11 +104,11 @@ class JMail extends PHPMailer
 	{
 		// If $from is an array we assume it has an address and a name
 		if (is_array($from)) {
-			$this->From = $from[0];
-			$this->FromName = $from[1];
+			$this->From = JMailHelper::cleanLine( $from[0] );
+			$this->FromName = JMailHelper::cleanLine( $from[1] );
 		// If it is a string we assume it is just the address
 		} elseif (is_string($from)) {
-			$this->From = $from;
+			$this->From = JMailHelper::cleanLine( $from );
 		// If it is neither, we throw a warning
 		} else {
 			JError::raiseWarning( 0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
@@ -124,7 +124,7 @@ class JMail extends PHPMailer
 	 * @since 1.5
 	 */
 	function setSubject($subject) {
-		$this->Subject = $subject;
+		$this->Subject = JMailHelper::cleanLine( $subject );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class JMail extends PHPMailer
 		 * Filter the Body
 		 * TODO: Check for XSS
 		 */
-		$this->Body = $content;
+		$this->Body = JMailHelper::cleanText( $content );
 	}
 
 	/**
@@ -159,9 +159,11 @@ class JMail extends PHPMailer
 		 */
 		if (is_array($recipient)) {
 			foreach ($recipient as $to) {
+				$to = JMailHelper::cleanLine( $to );
 				$this->AddAddress($to);
 			}
 		} else {
+			$recipient = JMailHelper::cleanLine( $recipient );
 			$this->AddAddress($recipient);
 		}
 	}
@@ -182,9 +184,11 @@ class JMail extends PHPMailer
 		if (isset ($cc)) {
 			if (is_array($cc)) {
 				foreach ($cc as $to) {
+					$to = JMailHelper::cleanLine( $to );
 					parent::AddCC($to);
 				}
 			} else {
+				$cc = JMailHelper::cleanLine( $cc );
 				parent::AddCC($cc);
 			}
 		}
@@ -206,9 +210,11 @@ class JMail extends PHPMailer
 		if (isset ($bcc)) {
 			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
+					$to = JMailHelper::cleanLine( $to );
 					parent::AddBCC($to);
 				}
 			} else {
+				$bcc = JMailHelper::cleanLine( $bcc );
 				parent::AddBCC($bcc);
 			}
 		}
@@ -256,10 +262,14 @@ class JMail extends PHPMailer
 		 */
 		if (is_array($replyto[0])) {
 			foreach ($replyto as $to) {
-				parent::AddReplyTo($to[0], $to[1]);
+				$to0 = JMailHelper::cleanLine( $to[0] );
+				$to1 = JMailHelper::cleanLine( $to[1] );
+				parent::AddReplyTo($to0, $to1);
 			}
 		} else {
-			parent::AddReplyTo($replyto[0], $replyto[1]);
+			$replyto0 = JMailHelper::cleanLine( $replyto[0] );
+			$replyto1 = JMailHelper::cleanLine( $replyto[1] );
+			parent::AddReplyTo($replyto0, $replyto1);
 		}
 	}
 
@@ -330,6 +340,26 @@ class JMail extends PHPMailer
  */
 class JMailHelper
 {
+	/**
+	 * Cleans single line inputs
+	 * @param string
+	 * @return string
+	 */
+	function cleanLine( $value )
+	{
+		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)/i', '', $value ) );
+	}
+
+	/**
+	 * Cleans multi-line inputs
+	 * @param string
+	 * @return string
+	 */
+	function cleanText( $value )
+	{
+		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value ) );
+	}
+
 	/**
 	 * This method cleans any injected headers from the E-Mail body
 	 *

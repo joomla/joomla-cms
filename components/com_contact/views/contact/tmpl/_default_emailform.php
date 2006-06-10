@@ -16,8 +16,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
-	// used for spoof hardening
-	$validate = mosHash( $app->getCfg('db') );
 	?>
 	<tr>
 		<td colspan="2">
@@ -49,7 +47,7 @@ if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form
 				&nbsp;<?php echo JText::_( 'Enter your message' );?>:
 			</label>
 			<br />
-			<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox"></textarea>
+			<textarea cols="50" rows="10" name="text" id="body" class="inputbox"></textarea>
 			<?php
 			if ($params->get( 'email_copy' )) {
 				?>
@@ -67,10 +65,9 @@ if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form
 		</div>
 
 		<input type="hidden" name="option" value="com_contact" />
-		<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
-		<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
+		<input type="hidden" name="contact_id" value="<?php echo $contact->id; ?>" />
 		<input type="hidden" name="task" value="sendmail" />
-		<input type="hidden" name="<?php echo $validate; ?>" value="1" />
+		<input type="hidden" name="<?php echo mosHash( $app->getCfg('db') ); ?>" value="1" />
 		</form>
 		<br />
 		</td>

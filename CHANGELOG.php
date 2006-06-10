@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jun-2006 Andrew Eddie
+ ^ Allowed pluggable controller for contact component (so alternative/non-standard routing is possible)
+ + Added custom error page for contact component
+ + Added getError and setError to JController
+ + Added injection filtering to JMail methods
+
 08-Jun-2006 Andy Miller
  ^ Changed khepri Administrator template to use images rather than nifty corners
  ^ Changed Installation to use images rather than nifty corners

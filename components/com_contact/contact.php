@@ -20,19 +20,34 @@ define( 'JPATH_COM_CONTACT', dirname( __FILE__ ) );
 jimport('joomla.application.extension.component');
 
 // Load controller class
-require_once( JPATH_COM_CONTACT . '/controller.php' );
+$controllerType = JRequest::getVar( 'c', 'default', 'post', 'string' );
+$controllerType = preg_replace( '#\W#', '', $controllerType );
+$controllerPath = JPATH_COM_CONTACT . '/controllers/' . $controllerType . '.php';
+
+if (file_exists( $controllerPath ))
+{
+	require_once( $controllerPath );
+}
+else
+{
+	require( JPATH_COM_CONTACT . '/controllers/default.php' );
+}
+
+$controllerName = 'JContactController' . $controllerType;
+if (!class_exists( $controllerName ))
+{
+	require( JPATH_COM_CONTACT . '/controllers/default.php' );
+	$controllerName = 'JContactControllerDefault';
+}
 
 // Create the controller
-$controller = & new JContactController( $mainframe, 'display' );
+$controller = & new $controllerName( $mainframe, 'display' );
 
 // need to tell the controller where to look for views and models
 $controller->setViewPath( JPATH_COM_CONTACT . '/views' );
 $controller->setModelPath( JPATH_COM_CONTACT . '/models' );
 
 // Register Extra tasks
-//$controller->registerTask( 'new', 				'edit' );
-//$controller->registerTask( 'apply', 			'save' );
-//$controller->registerTask( 'apply_new', 		'save' );
 
 // Perform the Request task
 $controller->execute( $task );

@@ -115,6 +115,12 @@ class JController extends JObject {
 	var $_data;
 
 	/**
+	 * An error message
+	 * @var string
+	 */
+	var $_error;
+
+	/**
 	 * Constructor
 	 *
 	 * @access	protected
@@ -357,6 +363,15 @@ class JController extends JObject {
 	}
 
 	/**
+	 * Get the error message
+	 * @return string The error message
+	 * @since 1.5
+	 */
+	function getError() {
+		return $this->_error;
+	}
+
+	/**
 	 * Method to get a model object, load it if necessary..
 	 *
 	 * @access	public
@@ -519,6 +534,17 @@ class JController extends JObject {
 	{
 		$this->_acoSection = $section;
 		$this->_acoSectionValue = $value;
+	}
+
+	/**
+	 * Sets the error message
+	 * @param string The error message
+	 * @return string The new error message
+	 * @since 1.5
+	 */
+	function setError( $value ) {
+		$this->_error = $value;
+		return $this->_error;
 	}
 
 	/**
