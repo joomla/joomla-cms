@@ -305,84 +305,6 @@ function editCategory( )
 		josRedirect( 'index2.php?option=categories&section='. $row->section, $msg );
 	}
 
-	$lists['links']	= 0;
-	$menus 			= NULL;
-	if ( $cid[0] ) {
-		// existing record
-		$row->checkout( $my->id );
-		// code for Link Menu
-
-		switch ( $row->section ) {
-			case 'com_weblinks':
-				$and 	= "\n AND type = 'weblink_category_table'";
-				$link 	= JText::_( 'Table - Weblink Category' );
-				break;
-
-			case 'com_newsfeeds':
-				$and 	= "\n AND type = 'newsfeed_category_table'";
-				$link 	= JText::_( 'Table - Newsfeeds Category' );
-				break;
-
-			case 'com_contact_details':
-				$and 	= "\n AND type = 'contact_category_table'";
-				$link 	= JText::_( 'Table - Contacts Category' );
-				break;
-
-			default:
-				$and  = '';
-				$link = '';
-				break;
-		}
-
-		if ( $row->section > 0 )
-		{
-			// content
-			$query = "SELECT *"
-			. "\n FROM #__menu"
-			. "\n WHERE componentid = ". $row->id
-			. "\n AND ( type = 'content_archive_category' OR type = 'content_blog_category' OR type = 'content_category' )"
-			;
-			$database->setQuery( $query );
-			$menus = $database->loadObjectList();
-
-			$count = count( $menus );
-			for( $i = 0; $i < $count; $i++ ) {
-				switch ( $menus[$i]->type ) {
-					case 'content_category':
-					$menus[$i]->type = JText::_( 'Table - Content Category' );
-					break;
-
-					case 'content_blog_category':
-					$menus[$i]->type = JText::_( 'Blog - Content Category' );
-					break;
-
-					case 'content_archive_category':
-					$menus[$i]->type = JText::_( 'Blog - Content Category Archive' );
-					break;
-				}
-			}
-			$lists['links']	= 1;
-		} else {
-			$query = "SELECT *"
-			. "\n FROM #__menu"
-			. "\n WHERE componentid = ". $row->id
-			. $and
-			;
-			$database->setQuery( $query );
-			$menus = $database->loadObjectList();
-
-			$count = count( $menus );
-			for( $i = 0; $i < $count; $i++ ) {
-				$menus[$i]->type = $link;
-			}
-			$lists['links']	= 1;
-		}
-	} else {
-		// new record
-		$row->section 	= $section;
-		$row->published = 1;
-		$menus 			= NULL;
-	}
 
 	// make order list
 	$order = array();
@@ -418,23 +340,6 @@ function editCategory( )
 		$lists['section'] = '<input type="hidden" name="section" value="'. $row->section .'" />'. $section_name;
 	}
 
-	// build the html select list for category types
-	$types[] = mosHTML::makeOption( '', JText::_( 'Select Type' ) );
-	if ($row->section == 'com_contact_details') {
-		$types[] = mosHTML::makeOption( 'contact_category_table', JText::_( 'Contact Category Table' ) );
-	} else
-	if ($row->section == 'com_newsfeeds') {
-		$types[] = mosHTML::makeOption( 'newsfeed_category_table', JText::_( 'Newsfeed Category Table' ) );
-	} else
-	if ($row->section == 'com_weblinks') {
-		$types[] = mosHTML::makeOption( 'weblink_category_table', JText::_( 'Weblink Category Table' ) );
-	} else {
-		$types[] = mosHTML::makeOption( 'content_category', JText::_( 'Content Category Table' ) );
-		$types[] = mosHTML::makeOption( 'content_blog_category', JText::_( 'Content Category Blog' ) );
-		$types[] = mosHTML::makeOption( 'content_archive_category', JText::_( 'Content Category Archive Blog' ) );
-	} // if
-	$lists['link_type'] 		= mosHTML::selectList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );;
-
 	// build the html select list for ordering
 	$query = "SELECT ordering AS value, title AS text"
 	. "\n FROM #__categories"
@@ -452,8 +357,6 @@ function editCategory( )
 	$lists['access'] 			= mosAdminMenus::Access( $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
-	// build the html select list for menu selection
-	$lists['menuselect']		= mosAdminMenus::MenuSelect( );
 
  	categories_html::edit( $row, $lists, $redirect, $menus );
 }

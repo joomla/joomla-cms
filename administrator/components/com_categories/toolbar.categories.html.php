@@ -28,7 +28,6 @@ class TOOLBAR_categories {
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
-		JMenuBar::media_manager();
 		if ($cid[0]) {
 			JMenuBar::trash('remove', 'Delete', false);
 		}
