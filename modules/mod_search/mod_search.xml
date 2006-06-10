@@ -15,9 +15,9 @@
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="set_itemid" type="text" default="" label="Set Itemid" description="Allow setting of the Itemid for the refencing Search link" />

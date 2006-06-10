@@ -12,5 +12,7 @@
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
 	</files>
-	<params/>
+	<params>
+		
+	</params>
 </install>

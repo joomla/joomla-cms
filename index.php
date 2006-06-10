@@ -109,20 +109,6 @@ if ( $option == 'com_content' && $Itemid === 0 ) {
 	$Itemid = JContentHelper::getItemid($id);
 }
 
-/** do we have a valid Itemid yet?? */
-if ( $Itemid === 0 ) {
-	/** Nope, just use the homepage then. */
-	$query = "SELECT id"
-	. "\n FROM #__menu"
-	. "\n WHERE menutype = 'mainmenu'"
-	. "\n AND published = 1"
-	. "\n ORDER BY parent, ordering"
-	. "\n LIMIT 1"
-	;
-	$database->setQuery( $query );
-	$Itemid = $database->loadResult();
-}
-
 // patch to lessen the impact on templates
 if ($option == 'search') {
 	$option = 'com_search';
@@ -147,14 +133,13 @@ $params = array(
 	'file'		=> $tmpl
 );
 
-
 $document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ));
 
 // trigger the onBeforeDisplay events
 $mainframe->triggerEvent( 'onBeforeDisplay' );
 
-$document->display( !$user->get('id') && $mainframe->getCfg('caching_page'), $mainframe->getCfg('gzip'), $params);
+$document->display( $mainframe->getCfg('caching_tmpl'), $mainframe->getCfg('gzip'), $params);
 
 // trigger the onAfterDisplay events
 $mainframe->triggerEvent( 'onAfterDisplay' );

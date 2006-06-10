@@ -78,7 +78,8 @@ class JTemplate extends patTemplate
 	* @return jtemplate A template object
 	* @since 1.5
 	*/
-	function &getInstance( $type = 'html' ) {
+	function &getInstance( $type = 'html' ) 
+	{
 		static $instances;
 
 		if (!isset( $instances )) {
@@ -176,6 +177,30 @@ class JTemplate extends patTemplate
 
 		$this->_tmplCache->_params['prefix'] = $prefix;
 		return true;
+	}
+	
+	/**
+	* load from template cache
+	*
+	* @access	private
+	* @param	string	name of the input (filename, shm segment, etc.)
+	* @param	string	driver that is used as reader, you may also pass a Reader object
+	* @param	array	options for the reader
+	* @param	string	cache key
+	* @return	array|boolean	either an array containing the templates, or false
+	*/
+	function _loadTemplatesFromCache( $input, &$reader, $options, $key )
+	{
+		$stat	=	&$this->loadModule( 'Stat', 'File' );
+		$stat->setOptions( $options );
+
+		/**
+		 * get modification time
+		 */
+		$modTime   = $stat->getModificationTime( $this->_file );
+		$templates = $this->_tmplCache->load( $key, $modTime );
+
+		return $templates;
 	}
 }
 ?>

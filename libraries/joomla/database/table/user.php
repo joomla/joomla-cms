@@ -51,7 +51,8 @@ class JTableUser extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$database ) {
+	function __construct( &$database ) 
+	{
 		parent::__construct( '#__users', 'id', $database );
 
 		//initialise
@@ -270,19 +271,6 @@ class JTableUser extends JTable
 		}
 
 		return parent::bind($array, $ignore);
-	}
-
-	/**
-	 * Returns userid if a user exists
-	 *
-	 * @param string The username to search on
-	 * @return int The user id or 0 if not found
-	 */
-	function getUserId($username)
-	{
-		$query = 'SELECT id FROM #__users WHERE username = ' . $this->_db->Quote( $username );
-		$this->_db->setQuery($query, 0, 1);
-		return $this->_db->loadResult();
 	}
 
 	/**

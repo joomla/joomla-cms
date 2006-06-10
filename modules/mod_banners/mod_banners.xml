@@ -13,6 +13,12 @@
 		<filename module="mod_banners">mod_banners.php</filename>
 	</files>
 	<params addparameterdir="/components/com_banners/elements">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="count" type="text" default="1" label="Count" description="The number of items to display (default 5)" />
 		<param name="cid" type="bannerclient" default="" label="Banner client" description="Select banners only from a single client." />
 		<param name="catid" type="category" section="com_banner" default="" label="Category" description="Select banners only from a single category." />
@@ -29,9 +35,5 @@
 		<param name="footer_text" type="textarea" rows="3" cols="40" default="" label="Footer Text" description="Text to display after the group of banners" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 	</params>
 </install>

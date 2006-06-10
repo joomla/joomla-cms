@@ -68,7 +68,7 @@ class JFactory
 		 * creating any directories or have caching on
 		 */
 		$options = array(
-			'cacheDir' 		=> JPATH_BASE.DS.'cache',
+			'cacheDir' 		=> JPATH_BASE.DS.'cache'.DS,
 			'caching' 		=> $registry->getValue('config.caching'),
 			'defaultGroup' 	=> $group,
 			'lifeTime' 		=> $registry->getValue('config.cachetime'),

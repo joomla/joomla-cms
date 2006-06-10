@@ -12,5 +12,9 @@
 	<files>
 		<filename module="mod_latest">mod_latest.php</filename>
 	</files>
-	<params/>
+	<params>
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+	  	</param>
+	</params>
 </install>

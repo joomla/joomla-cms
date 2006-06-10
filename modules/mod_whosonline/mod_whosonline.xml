@@ -13,6 +13,10 @@
 		<filename module="mod_whosonline">mod_whosonline.php</filename>
 	</files>
 	<params>
+	   <param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+	  </param>
+	  <param name="@spacer" type="spacer" default="" label="" description="" />
 	  <param name="showmode" type="list" default="0" label="Display" description="Select what shall be shown">
 		<option value="0">Number of Guests/Members</option>
 		<option value="1">Member Names</option>

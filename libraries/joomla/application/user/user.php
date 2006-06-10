@@ -57,7 +57,7 @@ class JUser extends JObject
 	*
 	* @access 	protected
 	*/
-	function __construct($identifier = 'guest')
+	function __construct($identifier = 0)
 	{
 		global $mainframe;
 
@@ -70,7 +70,8 @@ class JUser extends JObject
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
 
-		if (!empty($identifier) && $identifier != 'guest') {
+		// Load the user if it exists
+		if (!empty($identifier)) {
 			$this->_load($identifier);
 		}
 	}
@@ -87,24 +88,27 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	function &getInstance($id = 'guest')
+	function &getInstance($id = 0)
 	{
 		static $instances;
 
 		if (!isset ($instances)) {
 			$instances = array ();
 		}
+		
+		// Find the user id
+		if(!is_int($id))
+		{
+			if (!$id =  JUserHelper::getUserId($id)) {
+				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
+				return false;
+			}
+		}
 
-		if (empty ($instances[$id])) 
+		if (empty($instances[$id])) 
 		{
 			$user = new JUser($id);
-			if( is_string( $id ) ) {
-				$id = $user->get( 'id' );
-			}
-			// using existing user with correct id (might have been modified!
-			if (empty ($instances[$id])) {
-				$instances[ $id ] = $user;
-			}
+			$instances[$id] = $user;
 		}
 
 		return $instances[$id];
@@ -451,28 +455,13 @@ class JUser extends JObject
 	 * Method to load a JUser object by user id number
 	 *
 	 * @access 	protected
-	 * @param 	mixed 	$identifier The user id or username for the user to load
+	 * @param 	mixed 	$identifier The user id of the user to load
 	 * @param 	string 	$path 		Path to a parameters xml file
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function _load($identifier)
+	function _load($id)
 	{
-		 /*
-		 * Find the user id
-		 */
-		if(!is_int($identifier))
-		{
-			if (!$id =  $this->_table->getUserId($identifier)) {
-				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$identifier.' does not exist' );
-				return false;
-			}
-		}
-		else
-		{
-			$id = $identifier;
-		}
-
 		 /*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
@@ -519,8 +508,8 @@ class JUser extends JObject
  * @subpackage	Application
  * @since		1.5
  */
-class JUserHelper {
-
+class JUserHelper 
+{
 	/**
 	 * Method to activate a user
 	 *
@@ -569,6 +558,25 @@ class JUserHelper {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Returns userid if a user exists
+	 *
+	 * @param string The username to search on
+	 * @return int The user id or 0 if not found
+	 */
+	function getUserId($username)
+	{
+		global $mainframe;
+		/*
+		 * Initialize some variables
+		 */
+		$db = & $mainframe->getDBO();
+		
+		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
+		$db->setQuery($query, 0, 1);
+		return $db->loadResult();
 	}
 }
 ?>

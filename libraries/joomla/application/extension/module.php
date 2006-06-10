@@ -89,12 +89,6 @@ class JModuleHelper
 			$$name = $v;
 		}
 
-		if(!is_object($module)) {
-			$module = JModuleHelper::getModule($module);
-			if(!is_object($module))
-				return '';
-		}
-
 		$style   = isset($params['style']) ? $params['style'] : $module->style;
 		$outline = isset($params['outline']) ? $params['outline'] : false;
 

@@ -589,8 +589,8 @@ class JApplication extends JObject
 		 * If there is a userid in the session, load the application user
 		 * object with the logged in user.
 		 */
-		if (JSession::get('username')){
-			$this->_user = & JUser::getInstance(JSession::get('username'));
+		if (JSession::get('userid')){
+			$this->_user = & JUser::getInstance(JSession::get('userid'));
 		} else {
 			$this->_user = & JUser::getInstance();
 		}

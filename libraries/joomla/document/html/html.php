@@ -160,7 +160,7 @@ class JDocumentHTML extends JDocument
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
-	  * @param boolean 	$cache		If true, cache the output
+	 * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
@@ -180,7 +180,7 @@ class JDocumentHTML extends JDocument
 		// Page caching
 		// For now page caching will only be used for anonymous users
 		$cache = JFactory::getCache('page', 'page');
-		$cache->setCaching( $caching );
+		$cache->setCaching( 0 );
 		$cache->setCacheValidation(true);
 
 
@@ -204,7 +204,7 @@ class JDocumentHTML extends JDocument
 			}
 
 			//create the document engine
-			$this->_engine = $this->_initEngine($template);
+			$this->_engine = $this->_initEngine($template, $caching);
 
 			// parse
 			$this->_parseTemplate($directory.DS.$template, $file);
@@ -245,15 +245,22 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @access public
 	 * @param string 	$template 	The actual template name
+	 * @param boolean 	$caching	If true, cache the template
 	 * @return object
 	 */
-	function _initEngine($template)
+	function _initEngine($template, $caching = false)
 	{
 		jimport('joomla.template.template');
 		$instance =& JTemplate::getInstance();
 		
 		//set a reference to the document in the engine
 		$instance->doc =& $this;
+		
+		//set the caching
+		if($caching) {
+			$instance->enableTemplateCache('File', JPATH_BASE.DS.'cache'.DS);
+			$instance->setTemplateCachePrefix('tmpl_');
+		}
 
 		//set the namespace
 		$instance->setNamespace( 'jdoc' );
@@ -398,30 +405,6 @@ class JDocumentHTML extends JDocument
 				$this->_engine->addVar('document', $type.'_'.$buffer, $content);
 			}
 		}
-	}
-
-	 /**
-	* load from template cache
-	*
-	* @access	private
-	* @param	string	name of the input (filename, shm segment, etc.)
-	* @param	string	driver that is used as reader, you may also pass a Reader object
-	* @param	array	options for the reader
-	* @param	string	cache key
-	* @return	array|boolean	either an array containing the templates, or false
-	*/
-	function _loadTemplatesFromCache( $input, &$reader, $options, $key )
-	{
-		$stat	=	&$this->_engine->loadModule( 'Stat', 'File' );
-		$stat->setOptions( $options );
-
-		/**
-		 * get modification time
-		 */
-		$modTime   = $stat->getModificationTime( $this->_file );
-		$templates = $this->_engine->_tmplCache->load( $key, $modTime );
-
-		return $templates;
 	}
 }
 ?>

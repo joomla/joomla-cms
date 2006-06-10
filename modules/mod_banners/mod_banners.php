@@ -99,5 +99,4 @@ $controller->setModelPath( JPATH_SITE . '/components/com_banners/models' );
 $controller->params = &$params;
 $controller->execute( 'display' );
 
-
 ?>

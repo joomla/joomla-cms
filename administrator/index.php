@@ -89,7 +89,7 @@ $params = array(
 
 $document =& $mainframe->getDocument($format);
 $document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-$document->display(false, $mainframe->getCfg('gzip'), $params );
+$document->display($mainframe->getCfg('caching_tmpl'), $mainframe->getCfg('gzip'), $params );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
 

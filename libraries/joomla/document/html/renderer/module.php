@@ -33,12 +33,23 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	 */
 	function render( $module, $params = array() )
 	{
-		return JModuleHelper::renderModule($module, $params);
+		global $my;
 		
-		//if ($params->get('cache') == 1 && $mainframe->getCfg('caching') == 1) {
-		//	$cache =& JFactory::getCache( 'com_content' );
-		//	$cache->call('modules_html::module', $module, $params, $style );
-		//} 
+		if(!is_object($module)) {
+			$module = JModuleHelper::getModule($module);
+			if(!is_object($module)) return '';
+		}
+		
+		//get module parameters
+		$mod_params = new JParameter( $module->params );
+		
+		$cache = JFactory::getCache( $module->module );
+		
+		$cache->setCaching($mod_params->get('cache', 0));
+		$cache->setLifeTime($mod_params->get('cache_time', 900));
+		$cache->setCacheValidation(true);
+		
+		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id.$my->gid );
 	}
 }
 ?>

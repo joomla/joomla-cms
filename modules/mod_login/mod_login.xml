@@ -13,6 +13,11 @@
 		<filename module="mod_login">mod_login.php</filename>
 	</files>
 	<params>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="pretext" type="textarea" cols="20" rows="5" default="" label="Pre-text" description="PARAMPRETEXT" />
 		<param name="posttext" type="textarea" cols="20" rows="5" label="Post-text" description="PARAMPOSTTEXT" />
