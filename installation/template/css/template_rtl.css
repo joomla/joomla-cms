@@ -60,14 +60,15 @@ form {
 #header3 {
 	background: url(../images/j_header_right_rtl.png) right no-repeat;
 	height: 54px;
+	padding-right: 180px;
+
 }
 
 #header3 span {
 	font-size: 22px;
 	color: #fff;
 	font-weight: bold;
-	padding-right: 180px;
-	line-height: 44px;
+		line-height: 44px;
 }
 
 #version {
@@ -91,8 +92,7 @@ form {
 }
 
 #content-box {
-  float: none !important;
-  float: left;
+  	float: none;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
@@ -102,7 +102,7 @@ form {
 }
 
 #stepbar {
-	float: left;
+	float: right;
 	width: 170px;
 }
 
@@ -230,6 +230,7 @@ span.step {
 
 #installer {
 	background: #fff;
+	width: auto;
 }
 
 #installer h2 {
@@ -250,7 +251,7 @@ span.step {
 }
 
 .install-body {
-	float: right;
+	float: left;
 	width: 58%;
 }
 
@@ -300,7 +301,7 @@ h3.title-smenu, h3.moofx-toggler {
 	cursor: pointer;
 }
 
-h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
+h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow_left.png) 99% 50% no-repeat; text-indent: 15px; }
 h3.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
 /* hack to stop ugly aliasing in IE */

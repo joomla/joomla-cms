@@ -248,7 +248,12 @@
 					  		</tr>
 					  		<tr>
 					  			<td></td>
-					  			<td colspan="2">
+					  			<td>
+									<label for="migration_script">
+									  	<jtmpl:translate>Migration Script</jtmpl:translate>
+				  				  	</label>
+					  			</td>
+					  			<td>
 									<input class="input_box" id="migration_script" name="migrationFile" type="file" size="20"  />
 									<br/>
 									<input class="button" type="button" name="migrationLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="migrationSql(filename, 'mainconfig');" />
