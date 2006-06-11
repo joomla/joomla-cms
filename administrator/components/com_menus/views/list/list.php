@@ -314,8 +314,8 @@ class JMenuViewList extends JView
 		$db		=& $this->get('DBO');
 
 		$menutype 			= $app->getUserStateFromRequest( "com_menus.menutype",				 		'menutype', 		'mainmenu' );
-		$filter_order		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.parent' );
-		$filter_order_Dir	= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'' );
+		$filter_order		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
+		$filter_order_Dir	= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
 		$filter_state		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'' );
 		$levellimit 		= $app->getUserStateFromRequest( "com_menus.$menutype.levellimit", 			'levellimit', 		10 );
 		$search 			= $app->getUserStateFromRequest( "com_menus.$menutype.search", 				'search', 			'' );

@@ -52,8 +52,8 @@ class JMenuModelList extends JModel
 		$db		=& $this->getDBO();
 
 		$menutype 			= $app->getUserStateFromRequest( "com_menus.menutype",				 		'menutype', 		'mainmenu' );
-		$filter_order		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.parent' );
-		$filter_order_Dir	= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'' );
+		$filter_order		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
+		$filter_order_Dir	= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
 		$filter_state		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'' );
 		$limit 				= $app->getUserStateFromRequest( "limit", 									'limit', 			$app->getCfg( 'list_limit' ) );
 		$limitstart 		= $app->getUserStateFromRequest( "com_menus.$menutype.limitstart", 			'limitstart', 		0 );
