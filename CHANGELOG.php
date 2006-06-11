@@ -40,6 +40,7 @@ Legend:
 09-Jun-2006 Louis Landry
  ^ Allow overlib to be styled via CSS classes
  # Fixed [artf4828] : incorrect logging of queries.
+ # Fixed [artf4904] : Single quote in config values not saved correctly (PHP Format)
 
 09-Jun-2006 Johan Janssens
  ^ Implemented [task2506] : config component calls help
