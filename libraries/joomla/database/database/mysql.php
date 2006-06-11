@@ -89,12 +89,12 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	function query()
 	{
+		if ($this->_limit > 0 || $this->_offset > 0) {
+			$this->_sql .= "\nLIMIT $this->_offset, $this->_limit";
+		}
 		if ($this->_debug) {
 			$this->_ticker++;
 	  		$this->_log[] = $this->_sql;
-		}
-		if ($this->_limit > 0 || $this->_offset > 0) {
-			$this->_sql .= "\nLIMIT $this->_offset, $this->_limit";
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
