@@ -7,7 +7,13 @@
 </jtmpl:comment>
 
 <script language="JavaScript" type="text/javascript">
+	document.addLoadEvent(function() {
+ 	document.formvalidator.attachToForm(document.getElementById('adminForm'));
+	});
+
 	function validateForm( frm, task ) {
+		var valid = document.formvalidator.isValid(frm);
+
 		var siteName = getElementByName( frm, 'vars[siteName]' );
 		var adminEmail = getElementByName( frm , 'vars[adminEmail]' );
 		var adminPassword = getElementByName( frm , 'vars[adminPassword]' );
@@ -294,7 +300,7 @@
   			<input type="hidden" name="lang" value="{VAR_LANG}" />
   		</form>
 
-			<form action="index.php" method="post" name="adminForm">
+			<form action="index.php" method="post" name="adminForm" id="adminForm">
 			<div id="installerpad">
 
 
@@ -315,11 +321,11 @@
 				  			   <tr>
 				  				  <td class="item">
 									<label for="siteName">
-				  				  		<jtmpl:translate>Site name</jtmpl:translate>
+				  				  		<span id="sitenamemsg"><jtmpl:translate>Site name</jtmpl:translate></span>
 				  				  	</label>
 				  				  </td>
 				  				  <td align="center">
-				  				  	<input class="inputbox" type="text" id="siteName" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
+				  				  	<input class="inputbox validate required none sitenamemsg" type="text" id="siteName" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
 				  				  </td>
 				  			   </tr>
 							</table>
@@ -353,11 +359,11 @@
 							<tr>
 							  <td class="item">
 								<label for="adminEmail">
-								  	<jtmpl:translate>Your E-mail</jtmpl:translate>
+								  	<span id="emailmsg"><jtmpl:translate>Your E-mail</jtmpl:translate></span>
 			  				  	</label>
 							  </td>
 							  <td align="center">
-							  	<input class="inputbox" type="text" id="adminEmail" name="vars[adminEmail]" value="" size="30" />
+							  	<input class="inputbox validate required email emailmsg" type="text" id="adminEmail" name="vars[adminEmail]" value="" size="30" />
 							  </td>
 							</tr>
 							<tr>

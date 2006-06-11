@@ -6,36 +6,57 @@
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jtmpl:comment>
 <script language="JavaScript" type="text/javascript">
-function validateForm( frm, task ) {
-	var ftpEnable = document.getElementById("ftpenable");
-	var ftpRoot = document.getElementById("ftproot");
+	document.addLoadEvent(function() {
+ 	document.formvalidator.attachToForm(document.getElementById('adminForm'));
+ 	document.formvalidator.handlers['isftp'] = { enabled : true,
+									exec : function (value) {
+										if (document.getElementById('ftpenable').checked == true) {
+											if (value == '') {
+												return false;
+											} else {
+												return true;
+											}
+										} else {
+											return true;
+										}
+									}
+								  }
+	});
+	function validateForm( frm, task ) {
+		var valid = document.formvalidator.isValid(frm);
+		if (valid == false) {
+			return false;
+		}
 
-	if (ftpEnable.checked == false) {
-		alert( '<jtmpl:translate key="warnFtpEnable" escape="yes">Disabling the FTP Filesystem layer can cause problems\nwith filesystem ownership permissions.</jtmpl:translate>' );
-		submitForm( frm, task );
-	} else if (ftpRoot.value == '') {
-		alert( '<jtmpl:translate key="warnFtpRoot" escape="yes">Please enter an FTP Root or use\nthe autofind root button.</jtmpl:translate>' );
-		return;
-	} else {
-		submitForm( frm, task );
+		var ftpEnable = document.getElementById("ftpenable");
+		var ftpRoot = document.getElementById("ftproot");
+	
+		if (ftpEnable.checked == false) {
+			alert( '<jtmpl:translate key="warnFtpEnable" escape="yes">Disabling the FTP Filesystem layer can cause problems\nwith filesystem ownership permissions.</jtmpl:translate>' );
+			submitForm( frm, task );
+		} else if (ftpRoot.value == '') {
+			alert( '<jtmpl:translate key="warnFtpRoot" escape="yes">Please enter an FTP Root or use\nthe autofind root button.</jtmpl:translate>' );
+			return;
+		} else {
+			submitForm( frm, task );
+		}
 	}
-}
-
-function JProcess() {
-
-	if ( document.getElementById("ftphost").value == '' ) {
-		alert( '<jtmpl:translate key="validFtpHost" escape="yes">Please enter a correct FTP host</jtmpl:translate>' );
-		return;
-	} else if (document.getElementById("ftpuser").value == '') {
-		alert( '<jtmpl:translate key="validFtpUser" escape="yes">Please enter a username</jtmpl:translate>' );
-		return;
-	} else if (document.getElementById("ftppass").value == '') {
-		alert( '<jtmpl:translate key="validFtpPass" escape="yes">Please enter a FTP password</jtmpl:translate>' );
-		return;
-	} else {
-		xajax_getFtpRoot(xajax.getFormValues('adminForm'));
+	
+	function JProcess() {
+	
+		if ( document.getElementById("ftphost").value == '' ) {
+			alert( '<jtmpl:translate key="validFtpHost" escape="yes">Please enter a correct FTP host</jtmpl:translate>' );
+			return;
+		} else if (document.getElementById("ftpuser").value == '') {
+			alert( '<jtmpl:translate key="validFtpUser" escape="yes">Please enter a username</jtmpl:translate>' );
+			return;
+		} else if (document.getElementById("ftppass").value == '') {
+			alert( '<jtmpl:translate key="validFtpPass" escape="yes">Please enter a FTP password</jtmpl:translate>' );
+			return;
+		} else {
+			xajax_getFtpRoot(xajax.getFormValues('adminForm'));
+		}
 	}
-}
 </script>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 
@@ -52,10 +73,10 @@ function JProcess() {
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
 							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'mainconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
 						</jtmpl:sub>
 						<jtmpl:sub condition="rtl">
-							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'mainconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+							<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
 							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
 						</jtmpl:sub>
 					</jtmpl:tmpl>
@@ -106,12 +127,12 @@ function JProcess() {
 								<table class="content2">
 									<tr>
 										<td width="100">
-						  		    		<input id="vars_ftpenable" type="radio" name="vars[ftpEnable]" value="1" />
+						  		    		<input id="ftpenable" type="radio" name="vars[ftpEnable]" value="1" />
 											<label for="vars_ftpenable">
 												<jtmpl:translate key="YES">Yes</jtmpl:translate>
 											</label>
 											<br />
-						  		    		<input id="vars_ftpdisable" type="radio" name="vars[ftpEnable]" value="0" checked="checked" />
+						  		    		<input id="ftpdisable" type="radio" name="vars[ftpEnable]" value="0" checked="checked" />
 											<label for="vars_ftpdisable">
 												<jtmpl:translate key="NO">No</jtmpl:translate>
 											</label>
@@ -123,31 +144,31 @@ function JProcess() {
 									<tr>
 										<td width="100">
 											<label for="ftpuser">
-												<jtmpl:translate>FTP user</jtmpl:translate>
+												<span id="ftpusermsg"><jtmpl:translate>FTP user</jtmpl:translate></span>
 											</label>
 										</td>
 										<td align="center">
-											<input class="inputbox" type="text" id="ftpuser" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
+											<input class="inputbox validate notrequired isftp ftpusermsg" type="text" id="ftpuser" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
 										</td>
 									</tr>
 									<tr>
 										<td>
 											<label for="ftppass">
-												<jtmpl:translate>FTP password</jtmpl:translate>
+												<span id="ftppassmsg"><jtmpl:translate>FTP password</jtmpl:translate></span>
 											</label>
 										</td>
 										<td align="center">
-											<input class="inputbox" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
+											<input class="inputbox validate notrequired isftp ftppassmsg" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
 										</td>
 									</tr>
 									<tr id="rootPath">
 										<td>
 											<label for="ftproot">
-												<jtmpl:translate>FTP Root Path</jtmpl:translate>
+												<span id="ftprootmsg"><jtmpl:translate>FTP Root Path</jtmpl:translate></span>
 											</label>
 										</td>
 										<td align="center">
-											<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
+											<input class="inputbox validate notrequired isftp ftprootmsg" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
 										</td>
 									</tr>
 								</table>
@@ -213,6 +234,6 @@ function JProcess() {
 </form>
 
 <script type="text/javascript">
-	Element.cleanWhitespace('content');
-	init();
+	//Element.cleanWhitespace('content');
+	//init();
 </script>

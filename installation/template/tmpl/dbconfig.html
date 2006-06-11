@@ -6,7 +6,15 @@
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jtmpl:comment>
 <script language="JavaScript" type="text/javascript">
+	document.addLoadEvent(function() {
+ 	document.formvalidator.attachToForm(document.getElementById('adminForm'));
+	});
+
 function validateForm( frm, task ) {
+	var valid = document.formvalidator.isValid(frm);
+	if (valid == false) {
+		return false;
+	}
 	var DBtype = getElementByName( frm, 'vars[DBtype]' );
 	var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
 	var DBname = getElementByName( frm, 'vars[DBname]' );
@@ -63,10 +71,10 @@ function JProcess() {
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
 							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'makedb' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'makedb' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
 						</jtmpl:sub>
 						<jtmpl:sub condition="rtl">
-							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'makedb' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+							<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'makedb' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
 							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
 						</jtmpl:sub>
 					</jtmpl:tmpl>
@@ -135,10 +143,10 @@ function JProcess() {
 					  			<tr>
 					    			<td colspan="2">
 					    				<label for="vars_dbhostname">
-											<jtmpl:translate>Host Name</jtmpl:translate>
+											<span id="dbhostnamemsg"><jtmpl:translate>Host Name</jtmpl:translate></span>
 										</label>
 					    				<br/>
-					    				<input id="vars_dbhostname" class="inputbox" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
+					    				<input id="vars_dbhostname" class="inputbox validate required none dbhostnamemsg" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
 					    			</td>
 						  		    <td>
 						  		    	<em>
@@ -149,10 +157,10 @@ function JProcess() {
 								<tr>
 						  		    <td colspan="2">
 					    				<label for="vars_dbusername">
-							  		    	<jtmpl:translate>User Name</jtmpl:translate>
+							  		    	<span id="dbusernamemsg"><jtmpl:translate>User Name</jtmpl:translate></span>
 										</label>
 						  		    	<br/>
-						  		    	<input id="vars_dbusername" class="inputbox" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+						  		    	<input id="vars_dbusername" class="inputbox validate required none dbusernamemsg" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
 						  		    </td>
 						  		    <td>
 						  		    	<em>
@@ -191,10 +199,10 @@ function JProcess() {
 					  			<tr>
 					    			<td colspan="2">
 					    				<label for="vars_dbname">
-						    				<jtmpl:translate>Database Name</jtmpl:translate>
+						    				<span id="dbnamemsg"><jtmpl:translate>Database Name</jtmpl:translate></span>
 										</label>
 					    				<br/>
-					    				<input id="vars_dbname" class="inputbox" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
+					    				<input id="vars_dbname" class="inputbox validate required none dbnamemsg" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
 					    			</td>
 						  		    <td>
 						  		    	<em>
