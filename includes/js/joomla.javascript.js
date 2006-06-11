@@ -7,6 +7,16 @@
 * Joomla! is Free Software
 */
 
+/**
+ * Overlib Styling Declarations to allow CSS class override of styles
+ *
+ */
+var ol_fgclass='ol-foreground';
+var ol_bgclass='ol-background';
+var ol_textfontclass='ol-textfont';
+var ol_captionfontclass='ol-captionfont';
+var ol_closefontclass='ol-closefont';
+
 // general utility for browsing a named array or object
 function xshow(o) {
 	s = '';

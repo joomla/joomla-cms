@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jun-2006 Louis Landry
+ ^ Allow overlib to be styled via CSS classes
+
 09-Jun-2006 Johan Janssens
  ^ Implemented [task2506] : config component calls help
 
