@@ -26,6 +26,8 @@ class JMenuController extends JController
 	 */
 	function wizard()
 	{
+		// odd workaround to solve inheritance problem
+		jimport('joomla.application.view');
 		$model	= &$this->getModel( 'Wizard', 'JMenuModel' );
 		$model->init();
 		$view = &$this->getView( 'Wizard', 'com_menus', 'JMenuView' );
