@@ -3,7 +3,7 @@
 * @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @license GNU/GPL
 * Joomla! is Free Software
 */
 
