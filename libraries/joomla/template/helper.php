@@ -3,7 +3,7 @@
 * @version $Id$
 * @package JamboWorks
 * @copyright Copyright (C) 2006 JamboWorks LLC. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @license GNU/GPL
 */
 
 jimport('joomla.template.template');
