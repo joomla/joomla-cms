@@ -14,60 +14,55 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onGetWebServices', 'wsGetJoomlaWebServices' );
+jimport( 'joomla.application.extension.plugin' );
+require_once(dirname(__FILE__).DS.'joomla'.DS.'methods.php');
+
+$dispatcher =& JEventDispatcher::getInstance();
+$dispatcher->attach(new JoomlaXMLRPC($dispatcher));
 
 /**
-* @return array An array of associative arrays defining the available methods
-*/
-function wsGetJoomlaWebServices() {
-	return array(
-		array(
-			'name' => 'joomla.searchSite',
-			'method' => 'wsSearchSite',
-			'help' => 'Searches a remote site',
-			'signature' => array('string','string','string') // ??
-		),
-	);
-}
+ * Joomla! Base XML-RPC Plugin
+ *
+ * @author Louis Landry <louis.landry@joomla.org>
+ * @package XML-RPC
+ * @since 1.5
+ */
+class JoomlaXMLRPC extends JPlugin {
 
-/**
-* Remote Search method
-*
-* The sql must return the following fields that are used in a common display
-* routine: href, title, section, created, text, browsernav
-* @param string Target search string
-* @param string mathcing option, exact|any|all
-* @param string ordering option, newest|oldest|popular|alpha|category
-*/
-function wsSearchSite( $searchword, $phrase='', $order='' )
-{
-	global $mainframe;
-
-	$database =& $mainframe->getDBO();
-
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-
-	if (!defined( '_MAMBOT_REMOTE_SEACH')) {
-		// flag that the site is being searched remotely
-		define( '_MAMBOT_REMOTE_SEACH', 1 );
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @since 1.5
+	 */
+	function JoomlaXMLRPC(& $subject) {
+		parent::__construct($subject);
 	}
 
-	$searchword = $database->getEscaped( trim( $searchword ) );
-	$phrase = '';
-	$ordering = '';
+	/**
+	 * Get available web services for this plugin
+	 *
+	 * @access	public
+	 * @return	array	Array of web service descriptors
+	 * @since	1.5
+	 */
+	function onGetWebServices()
+	{
+		// Initialize variables
+		$services = array();
 
-	JPluginHelper::importPlugin( 'search' );
-	$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
+		// Site search service
+		$services['joomla.searchSite'] = array(
+			'function' => 'JoomlaXMLRPCServices::searchSite',
+			'docstring' => 'Searches a remote site.',
+			'signature' => array(array('string', 'string', 'string'))
+			);
 
-	foreach ($results as $i=>$rows) {
-		foreach ($rows as $j=>$row) {
-			$results[$i][$j]->href = $url . '/' . $row->href;
-			$results[$i][$j]->text = mosPrepareSearchContent( $row->text, 200, $searchword);
-		}
+		return $services;
 	}
-	return $results;
-
-	//return new dom_xmlrpc_fault( '-1', 'Fault' );
 }
-
 ?>

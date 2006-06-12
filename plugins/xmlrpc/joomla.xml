@@ -8,9 +8,10 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0</version>
-	<description>Joomla! XML-PRC API</description>
+	<description>Joomla! XML-RPC API</description>
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
+		<filename>joomla/methods.php</filename>
 	</files>
 	<params/>
 </install>
