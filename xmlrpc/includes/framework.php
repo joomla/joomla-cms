@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: installation.php 1547 2005-12-23 08:43:51Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Installation
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
