@@ -18,7 +18,7 @@
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Forms
- * @since		1.6
+ * @since		1.5
  */
 
 // JFormValidator prototype
@@ -33,7 +33,7 @@ JFormValidator.prototype = {
 		this.vContinue	= true;
 		this.handlers	= Object();
 		
-		// Default handlers
+		// Default regexes
 		this.handlers['date']		= { enabled : true,
 									exec : function (value) {
 										regex=/(((0[13578]|10|12)([-.\/])(0[1-9]|[12][0-9]|3[01])([-.\/])(\d{4}))|((0[469]|11)([-.\/])([0][1-9]|[12][0-9]|30)([-.\/])(\d{4}))|((2)([-.\/])(0[1-9]|1[0-9]|2[0-8])([-.\/])(\d{4}))|((2)(\.|-|\/)(29)([-.\/])([02468][048]00))|((2)([-.\/])(29)([-.\/])([13579][26]00))|((2)([-.\/])(29)([-.\/])([0-9][0-9][0][48]))|((2)([-.\/])(29)([-.\/])([0-9][0-9][2468][048]))|((2)([-.\/])(29)([-.\/])([0-9][0-9][13579][26])))/;
@@ -95,9 +95,7 @@ JFormValidator.prototype = {
 		// Iterate through the form object and attach the validate
 		// method to all input fields.
 		for (var i=0;i < form.elements.length; i++) {
-			if (form.elements[i].tagName == 'INPUT') {
-				form.elements[i].onchange = function(){return document.formvalidator.validate(this);}
-			}
+			form.elements[i].onchange = function(){return document.formvalidator.validate(this);}
 		}
 		// Attach the validate method to the onsubmit event for the given form
 		form.onsubmit = function(){return validate(this);}
@@ -105,8 +103,17 @@ JFormValidator.prototype = {
 	
 	validate: function(target)
 	{
-		// Get the value of the target input tag.
-		var value = target.value;
+		// Get the value of the target tag.
+		switch (target.tagName) {
+			case 'INPUT':
+			case 'TEXTAREA':
+				var value = target.value;
+				break;
+			case 'SELECT':
+				var value = target.options[target.selectedIndex].value;
+				break;
+		}
+		// Check to see if the tag is to be validated
 		var pivot = target.className.indexOf('validate');
 
 		// Make sure we are set to go...
@@ -132,7 +139,7 @@ JFormValidator.prototype = {
 		var type		= rules[2];
 		var feedbackID	= rules[3];
 
-		// The validation state message for the target
+		// The validation state for the target
 		var state;
 
 		//validateRequired() checks if it is required and then sends back feedback
@@ -182,10 +189,8 @@ JFormValidator.prototype = {
 	{
 		var valid = true;
 		for (var i=0;i < form.elements.length; i++) {
-			if (form.elements[i].tagName == 'INPUT') {
-				if (this.validate(form.elements[i]) == false) {
-					valid = false;
-				}
+			if (this.validate(form.elements[i]) == false) {
+				valid = false;
 			}
 		}
 		return valid;
