@@ -30,13 +30,13 @@ if (file_exists( $controllerPath ))
 }
 else
 {
-	require( JPATH_COM_CONTACT . '/controllers/default.php' );
+	require_once( JPATH_COM_CONTACT . '/controllers/default.php' );
 }
 
 $controllerName = 'JContactController' . $controllerType;
 if (!class_exists( $controllerName ))
 {
-	require( JPATH_COM_CONTACT . '/controllers/default.php' );
+	require_once( JPATH_COM_CONTACT . '/controllers/default.php' );
 	$controllerName = 'JContactControllerDefault';
 }
 
