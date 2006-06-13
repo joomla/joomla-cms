@@ -138,9 +138,9 @@ class search_html {
 	 * @since 1.0
 	 */
 	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
-		global $mosConfig_hideCreateDate;
-		global $option, $Itemid;
+		global $mainframe, $option, $Itemid;
 
+		$hideCreateDate = $mainframe->getConfig( 'hideCreateDate' );
 		$c 			= count ($rows);
 		$strResult 	= sprintf( JText::_( 'TOTALRESULTSFOUND' ), $totalRows, $searchword );
 		$image 		= mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
@@ -236,7 +236,7 @@ class search_html {
 						</div>
 
 						<?php
-						if ( !$mosConfig_hideCreateDate ) {
+						if ( !$hideCreateDate ) {
 							?>
 							<div class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
 								<?php echo $created; ?>

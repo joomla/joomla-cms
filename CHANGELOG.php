@@ -104,6 +104,11 @@ Legend:
  ^ Revised banners module
  + Added demo banners to sample data in a text adverts style
 
+26-May-2006 Alex Kempkens
+ ! Refactoring of frontend extentions
+ ^ Removed config references to global vars and refactored them to getCfg calls
+ ^ Removed mosNotAuth calls
+
 25-May-2006 Andrew Eddie
  + Added JComponentHelper (joomla.application.extensions.component)
 

@@ -40,7 +40,8 @@ $breadcrumbs->setItemName(1, 'User');
 switch( JRequest::getVar( 'task' ) ) 
 {
 	case 'saveUpload':
-		UserController::upload( $mosConfig_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage );
+		$dbprefix = $mainframe->getCfg( 'dbprefix' );
+		UserController::upload( $dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage );
 		break;
 
 	case 'UserDetails':
