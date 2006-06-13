@@ -61,7 +61,7 @@ class JInstallerController
 		 * Make sure that file uploads are enabled in php
 		 */
 		if (!(bool) ini_get('file_uploads')) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('WARNINSTALLFILE'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('WARNINSTALLFILE'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -70,7 +70,7 @@ class JInstallerController
 		 * Make sure that zlib is loaded so that the package can be unpacked
 		 */
 		if (!extension_loaded('zlib')) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('WARNINSTALLZLIB'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('WARNINSTALLZLIB'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -79,7 +79,7 @@ class JInstallerController
 		 * If there is no uploaded file, we have a problem...
 		 */
 		if (!is_array($userfile) || $userfile['size'] < 1) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('No file selected'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('No file selected'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -119,6 +119,7 @@ class JInstallerController
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall(JPATH_SITE.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
+			JInstallerScreens::showInstallForm();
 		} else {
 			/*
 			 * Package installed sucessfully
@@ -127,6 +128,7 @@ class JInstallerController
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall(JPATH_SITE.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
+			JInstallerScreens::showInstallForm();
 		}
 	}
 
@@ -155,7 +157,7 @@ class JInstallerController
 		 * Did you give us a valid directory?
 		 */
 		if (!is_dir($p_dir)) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('Please enter a package directory'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Please enter a package directory'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -169,7 +171,7 @@ class JInstallerController
 		 * Did you give us a valid package?
 		 */
 		if (!$type) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('Path does not have a valid package'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Path does not have a valid package'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -188,12 +190,14 @@ class JInstallerController
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $type, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
+			JInstallerScreens::showInstallForm();
 		} else {
 			/*
 			 * Package installed sucessfully
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $type, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
+			JInstallerScreens::showInstallForm();
 		}
 	}
 
@@ -222,7 +226,7 @@ class JInstallerController
 		 * Did you give us a URL?
 		 */
 		if (!$url) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('Please enter a URL'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Please enter a URL'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -236,7 +240,7 @@ class JInstallerController
 		 * Was the package downloaded?
 		 */
 		if (!$p_file) {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('Invalid URL'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid URL'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
@@ -270,6 +274,7 @@ class JInstallerController
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($p_file, $package['extractdir']);
+			JInstallerScreens::showInstallForm();
 		} else {
 			/*
 			 * Package installed sucessfully
@@ -278,6 +283,7 @@ class JInstallerController
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($p_file, $package['extractdir']);
+			JInstallerScreens::showInstallForm();
 		}
 	}
 
@@ -491,12 +497,22 @@ class JInstallerController
 			 */
 			$msg = sprintf(JText::_('UNINSTALLEXT'), $extension, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
+
+			/*
+			 * Display the extension management screen
+			 */
+			JInstallerExtensionTasks::showInstalled();
 		} else {
 			/*
 			 * Package uninstalled sucessfully
 			 */
 			$msg = sprintf(JText::_('UNINSTALLEXT'), $extension, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
+
+			/*
+			 * Display the extension management screen
+			 */
+			JInstallerExtensionTasks::showInstalled();
 		}
 	}
 

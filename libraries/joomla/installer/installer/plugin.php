@@ -68,6 +68,7 @@ class JInstallerPlugin extends JInstaller
 		/*
 		 * If the plugin directory does not exist, lets create it
 		 */
+		$created = false;
 		if (!file_exists($this->_extensionDir))
 		{
 			if (!$created = JFolder::create($this->_extensionDir))

@@ -115,6 +115,7 @@ class JInstallerModule extends JInstaller
 		/*
 		 * If the module directory does not exists, lets create it
 		 */
+		$created = false;
 		if (!file_exists($this->_extensionDir))
 		{
 			if (!$created = JFolder::create($this->_extensionDir))
@@ -151,8 +152,8 @@ class JInstallerModule extends JInstaller
 		 */
 		$this->_parseFiles('images');
 		$this->_parseFiles('media');
-		$this->_parseFiles('language');
-		$this->_parseFiles('administration/language');
+		$this->_parseFiles('languages');
+		$this->_parseFiles('administration/languages');
 
 		/*
 		 * Check to see if a module by the same name is already installed
@@ -399,8 +400,8 @@ class JInstallerModule extends JInstaller
 				 */
 				$this->_removeFiles('images');
 				$this->_removeFiles('media');
-				$this->_removeFiles('language');
-				$this->_removeFiles('administration/language');
+				$this->_removeFiles('languages');
+				$this->_removeFiles('administration/languages');
 
 				/*
 				 * Remove module folder

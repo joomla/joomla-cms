@@ -474,7 +474,7 @@ class JInstaller extends JObject
 		 * copying files.
 		 */
 		if ($folder = $filesElement->getAttribute('folder')) {
-			$installFrom = JPath::clean($this->_installDir.$folder);
+			$installFrom = JPath::clean($this->_installDir.DS.$folder);
 		} else {
 			$installFrom = $this->_installDir;
 		}
@@ -501,13 +501,16 @@ class JInstaller extends JObject
 			 * already exists.
 			 */
 			if ($file->getTagName() == 'language' && $file->getAttribute('tag') != '') {
-				$path		= $file->getAttribute('tag').DS.$file->getText();
-				$langDir	= $installTo.dirname($path);
-				if (!JFolder::exists($langDir)) {
+				$path['src']	= $installFrom.$file->getText();
+				$path['dest']	= $installTo.$file->getAttribute('tag').DS.basename($file->getText());
+
+				// If the language folder is not present, then the core pack hasn't been installed... ignore
+				if (!JFolder::exists(dirname($path['dest']))) {
 					continue;
 				}
 			} else {
-				$path = $file->getText();
+				$path['src']	= $installFrom.$file->getText();
+				$path['dest']	= $installTo.$file->getText();
 			}
 
 			/*
@@ -515,10 +518,10 @@ class JInstaller extends JObject
 			 * that the folder we are copying our file to exits and if it doesn't,
 			 * we need to create it.
 			 */
-			if (basename($path) != $path) {
-				$newdir = dirname($path);
+			if (basename($path['dest']) != $path['dest']) {
+				$newdir = dirname($path['dest']);
 
-				if (!JFolder::create($installTo.$newdir)) {
+				if (!JFolder::create($newdir)) {
 					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'. ($this->elementDir()).$newdir.'"');
 					return false;
 				}
@@ -539,7 +542,7 @@ class JInstaller extends JObject
 			}
 		}
 
-		return $this->_copyFiles($installFrom, $installTo, $copyfiles);
+		return $this->_copyFiles($copyfiles);
 	}
 
 	/**
@@ -721,7 +724,7 @@ class JInstaller extends JObject
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function _copyFiles($p_sourcedir, $p_destdir, $p_files, $overwrite = null)
+	function _copyFiles($p_files, $overwrite = null)
 	{
 		/*
 		 * To allow for manual override on the overwriting flag, we check to see if
@@ -737,11 +740,11 @@ class JInstaller extends JObject
 		 * at least one file to copy.
 		 */
 		if (is_array($p_files) && count($p_files) > 0) {
-			foreach ($p_files as $_file)
+			foreach ($p_files as $file)
 			{
 				// Get the source and destination paths
-				$filesource = JPath::clean($p_sourcedir).$_file;
-				$filedest = JPath::clean($p_destdir).$_file;
+				$filesource = JPath::clean($file['src'], false);
+				$filedest = JPath::clean($file['dest'], false);
 
 				if (!file_exists($filesource)) {
 					/*
@@ -791,13 +794,18 @@ class JInstaller extends JObject
 	 */
 	function _copyInstallFile($client = 1)
 	{
-		if ($client == 1) {
-			return $this->_copyFiles($this->_installDir, $this->_extensionAdminDir, array (basename($this->_installFile)), true);
-		} else {
-			if ($client == 0) {
-				return $this->_copyFiles($this->_installDir, $this->_extensionDir, array (basename($this->_installFile)), true);
-			}
+		switch ($client) {
+			case 1:
+				$path['src'] = $this->_installDir.basename($this->_installFile);
+				$path['dest'] = $this->_extensionAdminDir.basename($this->_installFile);
+				break;
+			case 0:
+			default:
+				$path['src'] = $this->_installDir.basename($this->_installFile);
+				$path['dest'] = $this->_extensionDir.basename($this->_installFile);
+				break;
 		}
+		return $this->_copyFiles(array ($path), true);
 	}
 
 	/**

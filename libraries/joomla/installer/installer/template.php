@@ -81,6 +81,7 @@ class JInstallerTemplate extends JInstaller
 		/*
 		 * If the template directory does not exists, lets create it
 		 */
+		$created = false;
 		if (!file_exists($this->_extensionDir))
 		{
 			if (!$created = JFolder::create($this->_extensionDir))

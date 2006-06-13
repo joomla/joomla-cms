@@ -73,6 +73,7 @@ class JInstallerComponent extends JInstaller
 		/*
 		 * If the component directory does not exists, lets create it
 		 */
+		$created = false;
 		if (!file_exists($this->_extensionDir))
 		{
 			if (!$created = JFolder::create($this->_extensionDir))
@@ -94,6 +95,7 @@ class JInstallerComponent extends JInstaller
 		/*
 		 * If the component admin directory does not exist, lets create it as well
 		 */
+		$created = false;
 		if (!file_exists($this->_extensionAdminDir))
 		{
 			if (!$created = JFolder::create($this->_extensionAdminDir))
@@ -137,8 +139,8 @@ class JInstallerComponent extends JInstaller
 		$this->_parseFiles('images');
 		$this->_parseFiles('administration/images', '', '', 1);
 		$this->_parseFiles('media');
-		$this->_parseFiles('language');
-		$this->_parseFiles('administration/language');
+		$this->_parseFiles('languages');
+		$this->_parseFiles('administration/languages');
 
 		/*
 		 * Let's run the install queries for the component
@@ -509,8 +511,8 @@ class JInstallerComponent extends JInstaller
 		 * associated with the component we are uninstalling
 		 */
 		$this->_removeFiles('media');
-		$this->_removeFiles('language');
-		$this->_removeFiles('administration/language');
+		$this->_removeFiles('languages');
+		$this->_removeFiles('administration/languages');
 
 		/*
 		 * Now we need to delete the installation directories.  This is the final step
