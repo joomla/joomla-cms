@@ -34,7 +34,11 @@ class JElement_Category extends JElement
 	{
 		$database = &JFactory::getDBO();
 
-		$section = $node->attributes('section');
+		$section	= $node->attributes('section');
+		$class		= $node->attributes('class');
+		if (!$class) {
+			$class = "inputbox";
+		}
 
 		if (!isset ($section)) {
 			// alias for section
@@ -63,7 +67,7 @@ class JElement_Category extends JElement
 		$options = $database->loadObjectList();
 		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name );
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
 	}
 }
 ?>
