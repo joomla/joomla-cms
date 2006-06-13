@@ -131,7 +131,8 @@ function publishLanguage( $language, $option )
 
 	$varname = ($client->id == 0) ? 'lang_site' : 'lang_administrator';
 
-	$mainframe->_registry->setValue('config.'.$varname, $language);
+	$config =& JFactory::getConfig();
+	$config->setValue('config.'.$varname, $language);
 
 	// Get the path of the configuration file
 	$fname = JPATH_CONFIGURATION.'/configuration.php';
@@ -141,7 +142,7 @@ function publishLanguage( $language, $option )
 	 * configuation.php then redirect appropriately.
 	 */
     jimport('joomla.filesystem.file');
-	if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config',  array('class' => 'JConfig')))) {
+	if (JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')))) {
 		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
 	} else {
 		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
