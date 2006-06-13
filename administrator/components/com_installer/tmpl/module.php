@@ -83,9 +83,10 @@ class JInstallerExtensionTasks {
 
 			if (file_exists($xmlfile))
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-				foreach($data as $key => $value) {
-					$row->$key = $value;
+				if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+					foreach($data as $key => $value) {
+						$row->$key = $value;
+					}
 				}
 			}
 		}
@@ -135,7 +136,8 @@ class JInstallerScreens_module {
 			<?php
 			if (count($rows)) {
 				?>
-				<table class="adminlist">
+				<table class="adminlist" cellspacing="1">
+				<thead>
 				<tr>
 					<th class="title" width="2">
 						<?php echo JText::_( 'Num' ); ?>
@@ -156,6 +158,13 @@ class JInstallerScreens_module {
 						<?php echo JText::_( 'Author' ); ?>
 					</th>
 				</tr>
+				</thead>
+				<tfoot>
+					<td colspan="6">
+					<?php echo $page->getListFooter(); ?>
+					</td>
+				</tfoot>
+				<tbody>
 				<?php
 				$rc = 0;
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
@@ -201,8 +210,8 @@ class JInstallerScreens_module {
 					$rc = $rc == 0 ? 1 : 0;
 				}
 				?>
+				</tbody>
 				</table>
-				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
 				echo JText::_( 'No custom modules installed' );

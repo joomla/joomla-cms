@@ -58,17 +58,23 @@ class JInstallerExtensionTasks
 
 			 /* Get the component folder and list of xml files in folder */
 			jimport('joomla.filesystem.folder');
-			$folder = $baseDir .DS. $row->option;
-			$xmlFilesInDir = JFolder::files($folder, '.xml$');
+			$folder = $baseDir.DS.$row->option;
+			if (JFolder::exists($folder)) {
+				$xmlFilesInDir = JFolder::files($folder, '.xml$');
+			} else {
+				$xmlFilesInDir = null;
+			}
 
-			foreach ($xmlFilesInDir as $xmlfile)
-			{
-				$data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile);
-				foreach($data as $key => $value) {
-					$row->$key = $value;
+			if (count($xmlFilesInDir)) {
+				foreach ($xmlFilesInDir as $xmlfile)
+				{
+					if ($data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile)) {
+						foreach($data as $key => $value) {
+							$row->$key = $value;
+						}
+					}	
+					$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 				}
-
-				$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 			}
 		}
 
@@ -106,7 +112,8 @@ class JInstallerScreens_component {
 			<?php
 				if (count($rows)) {
 				?>
-				<table class="adminlist">
+				<table class="adminlist" cellspacing="1">
+				<thead>
 				<tr>
 					<th class="title" width="10">
 						<?php echo JText::_( 'Num' ); ?>
@@ -127,7 +134,14 @@ class JInstallerScreens_component {
 						<?php echo JText::_( 'Author' ); ?>
 					</th>
 				</tr>
-			<?php
+				</thead>
+				<tfoot>
+					<td colspan="6">
+					<?php echo $page->getListFooter(); ?>
+					</td>
+				</tfoot>
+				<tbody>
+				<?php
 				$rc = 0;
 				for ($i = 0, $n = count($rows); $i < $n; $i ++) {
 					$row = & $rows[$i];
@@ -180,8 +194,8 @@ class JInstallerScreens_component {
 					$rc = 1 - $rc;
 				}
 				?>
+				</tbody>
 				</table>
-				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
 				echo JText::_( 'There are no custom components installed' );

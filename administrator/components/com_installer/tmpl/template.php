@@ -124,8 +124,10 @@ class JInstallerExtensionTasks {
 				$row->directory = $template->folder;
 				$row->baseDir   = $template->baseDir;
 
-				foreach($data as $key => $value) {
-					$row->$key = $value;
+				if ($data) {
+					foreach($data as $key => $value) {
+						$row->$key = $value;
+					}
 				}
 
 				$row->checked_out = 0;
@@ -180,7 +182,8 @@ class JInstallerScreens_template
 			<?php
 			if (count($rows)) {
 				?>
-				<table class="adminlist">
+				<table class="adminlist" cellspacing="1">
+				<thead>
 				<tr>
 					<th class="title" width="10">
 						<?php echo JText::_( 'Num' ); ?>
@@ -201,6 +204,13 @@ class JInstallerScreens_template
 						<?php echo JText::_( 'Author' ); ?>
 					</th>
 				</tr>
+				</thead>
+				<tfoot>
+					<td colspan="6">
+					<?php echo $page->getListFooter(); ?>
+					</td>
+				</tfoot>
+				<tbody>
 				<?php
 				$rc = 0;
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
@@ -247,8 +257,8 @@ class JInstallerScreens_template
 					$rc = $rc == 0 ? 1 : 0;
 				}
 				?>
+				</tbody>
 				</table>
-				<?php echo $page->getListFooter(); ?>
 				<?php
 			} else {
 				echo JText::_('No Installed Templates');
