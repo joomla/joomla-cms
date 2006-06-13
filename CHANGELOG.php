@@ -37,12 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Jun-2006 Johan Janssens
+ # Feature request [artf4683] : Extended Allowable filetypes in the media manager
+ # Feature request [artf4065] : Include an option in global config to set allowable filetypes for uploading
+ # Feature request [artf1519] : Store post data on session expiry
+ # Feature request [artf1536] : Move category / Bulk move content
+
 13-Jun-2006 Alex Kempkens
  # [task2596] : Beta 1 - Renaming $database -> $db, finished all area
  + some ini files which have been missing, no new tags involved
  # Fixed : ordering of modules didn't worked with the arrows
 
- 13-Jun-2006 Louis Landry
+13-Jun-2006 Louis Landry
  + Added target to banners module params
  
 09-Jun-2006 Louis Landry

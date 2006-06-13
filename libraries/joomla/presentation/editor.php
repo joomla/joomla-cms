@@ -87,8 +87,6 @@ class JEditor extends JObservable {
 	 */
 	function display($name, $html, $width, $height, $col, $row)
 	{
-		global $mainframe, $my;
-
 		$this->_loadEditor();
 
 		/*
@@ -121,8 +119,6 @@ class JEditor extends JObservable {
 	 */
 	function save( $editor )
 	{
-		global $mainframe;
-
 		$this->_loadEditor();
 
 		$args[] = $editor;
@@ -188,8 +184,6 @@ class JEditor extends JObservable {
 	 */
 	function getContent( $editor )
 	{
-		global $mainframe;
-
 		$this->_loadEditor();
 
 		$args['name'] = $editor;
@@ -212,8 +206,6 @@ class JEditor extends JObservable {
 	 */
 	function setContent( $editor, $html )
 	{
-		global $mainframe;
-
 		$this->_loadEditor();
 
 		$args[] = $editor;
