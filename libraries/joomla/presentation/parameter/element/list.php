@@ -33,6 +33,7 @@ class JElement_List extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = $node->attributes('size');
+		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
 
 		$options = array ();
 		foreach ($node->children() as $option)
@@ -42,7 +43,7 @@ class JElement_List extends JElement
 			$options[] = mosHTML::makeOption($val, JText::_($text));
 		}
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);
 	}
 }
 ?>

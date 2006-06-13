@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: text.php 3996 2006-06-12 03:44:31Z spacemonkey $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -12,29 +12,28 @@
 */
 
 /**
- * Renders a text element
+ * Renders a hidden element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Parameter
  * @since		1.5
  */
 
-class JElement_Text extends JElement {
+class JElement_Hidden extends JElement {
    /**
 	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Text';
+	var	$_name = 'Hidden';
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$size = ( $node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '' );
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );
 
-		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' '.$size.' />';
+		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
 	}
 }
 ?>
