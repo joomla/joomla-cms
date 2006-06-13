@@ -2,7 +2,7 @@
 * @version $Id: $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -16,8 +16,8 @@
  * Inspired by: Chris Campbell <www.particletree.com>
  * 
  * @author		Louis Landry <louis.landry@joomla.org>
- * @package		Joomla.Framework
- * @subpackage	Forms
+ * @package		Joomla
+ * @subpackage	Installation
  * @since		1.5
  */
 
@@ -139,6 +139,13 @@ JFormValidator.prototype = {
 		var type		= rules[2];
 		var feedbackID	= rules[3];
 
+		// Check for derived feedbackID
+		if (feedbackID) {
+			if (feedbackID.charAt(0) == '@') {
+				feedbackID = target.id + '-' + feedbackID.substring(1);
+			}
+		}
+
 		// The validation state for the target
 		var state;
 
@@ -153,7 +160,7 @@ JFormValidator.prototype = {
 		if (this.vContinue)
 		{
 			// Check the additional validation types
-			if ((type) && (type != 'none')) {
+			if ((type) && (type != 'none') && (this.handlers[type])) {
 				// Execute the validation handler and return result
 				if (this.handlers[type].exec(value)) {
 			      state = true;
