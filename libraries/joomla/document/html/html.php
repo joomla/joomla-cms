@@ -329,9 +329,12 @@ class JDocumentHTML extends JDocument
 	 */
 	function _loadTemplate($directory, $filename)
 	{
-		global $mainframe, $my, $acl, $database;
+		global $mainframe, $acl;
 		global $Itemid, $task, $option, $_VERSION;
 
+		$db =& JFactory::getDBO();
+		$my =& $mainframe->getUser();
+		
 		//For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();
 		foreach (get_object_vars($registry->toObject()) as $k => $v) {

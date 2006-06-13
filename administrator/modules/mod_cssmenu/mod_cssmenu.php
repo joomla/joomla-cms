@@ -44,7 +44,7 @@ function & buildMenu($usertype = '')
 
 	$lang			= & $mainframe->getLanguage();
 	$user			= & $mainframe->getUser();
-	$database		= & $mainframe->getDBO();
+	$db				= & $mainframe->getDBO();
 	$enableStats	= $mainframe->getCfg('enable_stats');
 	$enableSearches	= $mainframe->getCfg('enable_log_searches');
 	$caching		= $mainframe->getCfg('caching');
@@ -72,8 +72,8 @@ function & buildMenu($usertype = '')
 			"\n WHERE a.scope = 'content'" .
 			"\n GROUP BY a.id" .
 			"\n ORDER BY a.ordering";
-	$database->setQuery($query);
-	$sections = $database->loadObjectList();
+	$db->setQuery($query);
+	$sections = $db->loadObjectList();
 	$nonemptySections = 0;
 	if (count($sections) > 0)
 	{
@@ -174,8 +174,8 @@ function & buildMenu($usertype = '')
 				"\n WHERE name <> 'frontpage'" .
 				"\n AND name <> 'media manager'" .
 				"\n ORDER BY ordering, name";
-		$database->setQuery($query);
-		$comps = $database->loadObjectList(); // component list
+		$db->setQuery($query);
+		$comps = $db->loadObjectList(); // component list
 		$subs = array (); // sub menus
 		// first pass to collect sub-menu items
 		foreach ($comps as $row)

@@ -37,9 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
-13-Jun-2006 Louis Landry
- + Added target to banners module params
+13-Jun-2006 Alex Kempkens
+ # [task2596] : Beta 1 - Renaming $database -> $db, finished all area
+ + some ini files which have been missing, no new tags involved
+ # Fixed : ordering of modules didn't worked with the arrows
 
+ 13-Jun-2006 Louis Landry
+ + Added target to banners module params
+ 
 09-Jun-2006 Louis Landry
  ^ Allow overlib to be styled via CSS classes
  # Fixed [artf4828] : incorrect logging of queries.

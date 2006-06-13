@@ -14,13 +14,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$moduleclass_sfx	= $params->get('moduleclass_sfx');
+$db						=& $mainframe->getDBO();
+$moduleclass_sfx		= $params->get('moduleclass_sfx');
 $option					= JRequest::getVar( 'option' );
-$task						= JRequest::getVar( 'task' );
-$id							= JRequest::getVar( 'id', 0, '', 'int' );
+$task					= JRequest::getVar( 'task' );
+$id						= JRequest::getVar( 'id', 0, '', 'int' );
 $showDate				= $params->get('showDate', 0);
-$now						= date('Y-m-d H:i:s', time());
-$nullDate					= $database->getNullDate();
+$now					= date('Y-m-d H:i:s', time());
+$nullDate				= $db->getNullDate();
 
 if ($option == 'com_content' && $task == 'view' && $id)
 {
@@ -28,8 +29,8 @@ if ($option == 'com_content' && $task == 'view' && $id)
 	$query = "SELECT metakey" .
 			"\n FROM #__content" .
 			"\n WHERE id = $id";
-	$database->setQuery($query);
-	if ($metakey = trim($database->loadResult()))
+	$db->setQuery($query);
+	if ($metakey = trim($db->loadResult()))
 	{
 		// explode the meta keys on a comma
 		$keys = explode(',', $metakey);
@@ -41,7 +42,7 @@ if ($option == 'com_content' && $task == 'view' && $id)
 			$key = trim($key);
 			if ($key)
 			{
-				$likes[] = $database->getEscaped($key);
+				$likes[] = $db->getEscaped($key);
 			}
 		}
 
@@ -59,8 +60,8 @@ if ($option == 'com_content' && $task == 'view' && $id)
 					"\n AND ( a.metakey LIKE '%".implode("%' OR a.metakey LIKE '%", $likes)."%' )" .
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
-			$database->setQuery($query);
-			$temp = $database->loadObjectList();
+			$db->setQuery($query);
+			$temp = $db->loadObjectList();
 
 			$related = array ();
 			if (count($temp))

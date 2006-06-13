@@ -120,7 +120,7 @@ class JMessage extends JTable
 	 */
 	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
-		$database =& JFactory::getDBO();
+		$db =& JFactory::getDBO();
 
 		if (is_object($this))
 		{
@@ -133,9 +133,9 @@ class JMessage extends JTable
 		$query = "SELECT cfg_name, cfg_value" .
 				"\n FROM #__messages_cfg" .
 				"\n WHERE user_id = $toId";
-		$database->setQuery($query);
+		$db->setQuery($query);
 
-		$config = $database->loadObjectList('cfg_name');
+		$config = $db->loadObjectList('cfg_name');
 		$locked = @ $config['lock']->cfg_value;
 		$domail = @ $config['mail_on_new']->cfg_value;
 
@@ -154,8 +154,8 @@ class JMessage extends JTable
 					$query = "SELECT email" .
 							"\n FROM #__users" .
 							"\n WHERE id = $to_id";
-					$database->setQuery($query);
-					$recipient	= $database->loadResult();
+					$db->setQuery($query);
+					$recipient	= $db->loadResult();
 					$subject	= JText::_('A new private message has arrived');
 					$msg		= JText::_('A new private message has arrived');
 

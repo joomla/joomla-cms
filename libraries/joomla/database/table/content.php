@@ -120,29 +120,29 @@ class JTableContent extends JTable
 	*/
 	function toXML( $mapKeysToText=false )
 	{
-		global $database;
+		$db =& JFactory::getDBO();
 
 		if ($mapKeysToText) {
 			$query = "SELECT name"
 			. "\n FROM #__sections"
 			. "\n WHERE id = $this->sectionid"
 			;
-			$database->setQuery( $query );
-			$this->sectionid = $database->loadResult();
+			$db->setQuery( $query );
+			$this->sectionid = $db->loadResult();
 
 			$query = "SELECT name"
 			. "\n FROM #__categories"
 			. "\n WHERE id $this->catid"
 			;
-			$database->setQuery( $query );
-			$this->catid = $database->loadResult();
+			$db->setQuery( $query );
+			$this->catid = $db->loadResult();
 
 			$query = "SELECT name"
 			. "\n FROM #__users"
 			. "\n WHERE id = $this->created_by"
 			;
-			$database->setQuery( $query );
-			$this->created_by = $database->loadResult();
+			$db->setQuery( $query );
+			$this->created_by = $db->loadResult();
 		}
 
 		return parent::toXML( $mapKeysToText );

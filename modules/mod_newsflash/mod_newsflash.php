@@ -81,7 +81,8 @@ $access->canPublish = 0;
 
 $now = date('Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60);
 $noauth = !$mainframe->getCfg('shownoauth');
-$nullDate = $database->getNullDate();
+$db =& $mainframe->getDBO();
+$nullDate = $db->getNullDate();
 
 $catid = intval($params->get('catid'));
 $items = intval($params->get('items', 0));
@@ -107,8 +108,8 @@ $query = "SELECT a.id, a.introtext, a.`fulltext`, a.images, a.attribs, a.title, 
 		"\n AND a.catid = $catid"."\n AND cc.published = 1" .
 		"\n AND s.published = 1" .
 		"\n ORDER BY a.ordering";
-$database->setQuery($query, 0, $items);
-$rows = $database->loadObjectList();
+$db->setQuery($query, 0, $items);
+$rows = $db->loadObjectList();
 
 $numrows = count($rows);
 

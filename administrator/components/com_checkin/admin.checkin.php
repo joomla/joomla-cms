@@ -23,7 +23,8 @@ if (!$user->authorize( 'com_checkin', 'manage' ))
 {
 	josRedirect( 'index2.php?', JText::_('ALERTNOTAUTH') );
 }
-$nullDate = $database->getNullDate();
+$db =& $mainframe->getDBO();
+$nullDate = $db->getNullDate();
 ?>
 <div id="tablecell">
 	<table class="adminform">
@@ -41,14 +42,14 @@ $nullDate = $database->getNullDate();
 		</th>
 	</tr>
 	<?php
-	$tables = $database->getTableList();
+	$tables = $db->getTableList();
 	$k = 0;
 	foreach ($tables as $tn) {
 		// make sure we get the right tables based on prefix
 		if (!preg_match( "/^".$mainframe->getCfg('dbprefix')."/i", $tn )) {
 			continue;
 		}
-		$fields = $database->getTableFields( array( $tn ) );
+		$fields = $db->getTableFields( array( $tn ) );
 
 		$foundCO = false;
 		$foundCOT = false;
@@ -70,9 +71,9 @@ $nullDate = $database->getNullDate();
 				. "\n WHERE checked_out > 0"
 				;
 			}
-			$database->setQuery( $query );
-			$res = $database->query();
-			$num = $database->getNumRows( $res );
+			$db->setQuery( $query );
+			$res = $db->query();
+			$num = $db->getNumRows( $res );
 
 			if ($foundE) {
 				$query = "UPDATE $tn"
@@ -85,8 +86,8 @@ $nullDate = $database->getNullDate();
 				. "\n WHERE checked_out > 0"
 				;
 			}
-			$database->setQuery( $query );
-			$res = $database->query();
+			$db->setQuery( $query );
+			$res = $db->query();
 
 			if ($res == 1) {
 				if ($num > 0) {

@@ -25,9 +25,10 @@ class mosTemplatePosition extends JTable {
 	var $description	= null;
 
 	function mosTemplatePosition() {
-		global $database;
+		global $mainframe;
 
-		parent::__construct( '#__template_positions', 'id', $database );
+		$db =& $mainframe->getDBO();
+		parent::__construct( '#__template_positions', 'id', $db );
 	}
 }
 ?>

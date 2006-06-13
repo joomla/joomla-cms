@@ -32,11 +32,11 @@ class JElement_Section extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
-		$database->setQuery($query);
-		$options = $database->loadObjectList();
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
 		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Section').' -', 'id', 'title'));
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name);

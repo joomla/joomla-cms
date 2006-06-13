@@ -24,7 +24,7 @@ class JModBannerController extends JController
 	{
 		$model		= &$this->getModel( 'banner', 'JModel' );
 		$params		= &$this->params;
-		$database	= &JFactory::getDBO();
+		$db			= &JFactory::getDBO();
 
 		// Model Variables
 		$vars['cid']		= (int) $params->get( 'cid' );

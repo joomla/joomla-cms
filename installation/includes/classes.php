@@ -229,13 +229,13 @@ class JInstallationController
 //			return false;
 //		}
 //
-//		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
+//		$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
 //
-//		if ($err = $database->getErrorNum()) {
+//		if ($err = $db->getErrorNum()) {
 //			if ($err != 3) {
 //				// connection failed
-//				//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-//				JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+//				//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $db->getErrorNum() ), 'dbconfig', $db->getErrorMsg() );
+//				JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
 //				return false;
 //			}
 //		}
@@ -243,13 +243,13 @@ class JInstallationController
 //		$collations = array();
 //
 //		// determine db version, utf support and available collations
-//		$vars['DBversion'] = $database->getVersion();
+//		$vars['DBversion'] = $db->getVersion();
 //		$verParts = explode( '.', $vars['DBversion'] );
 //		$vars['DButfSupport'] = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
 //		if ($vars['DButfSupport']) {
 //			$query = "SHOW COLLATION LIKE 'utf8%'";
-//			$database->setQuery( $query );
-//			$collations = $database->loadAssocList();
+//			$db->setQuery( $query );
+//			$collations = $db->loadAssocList();
 //		} else {
 //			// backward compatibility - utf-8 data in non-utf database
 //			// collation does not really have effect so default charset and collation is set
@@ -298,36 +298,36 @@ class JInstallationController
 		if (!$DBcreated) {
 
 			jimport('joomla.database.database');
-			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
-			if ($err = $database->getErrorNum()) {
+			if ($err = $db->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
-					if (JInstallationHelper::createDatabase($database, $DBname, $DButfSupport, $DBcollation)) {
+					if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport, $DBcollation)) {
 						// make the new connection to the new database
-						$database = NULL;
-						$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+						$db = NULL;
+						$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					} else {
-						$error = $database->getErrorMsg();
+						$error = $db->getErrorMsg();
 						JInstallationView::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
 						return false;
 					}
 				} else {
 					// connection failed
-					//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-					JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+					//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $db->getErrorNum() ), 'dbconfig', $db->getErrorMsg() );
+					JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
 					return false;
 				}
 			} else {
 				// pre-existing database - need to set character set to utf8
 				// will only affect MySQL 4.1.2 and up
-				JInstallationHelper::setDBCharset($database, $DBname, $DBcollation);
+				JInstallationHelper::setDBCharset($db, $DBname, $DBcollation);
 			}
 
-			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBOld == 'rm') {
-				if (JInstallationHelper::deleteDatabase($database, $DBname, $DBPrefix, $errors)) {
+				if (JInstallationHelper::deleteDatabase($db, $DBname, $DBPrefix, $errors)) {
 					JInstallationView::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
@@ -338,7 +338,7 @@ class JInstallationController
 				 * We assume since we aren't deleting the database that we need
 				 * to back it up :)
 				 */
-				if (JInstallationHelper::backupDatabase($database, $DBname, $DBPrefix, $errors)) {
+				if (JInstallationHelper::backupDatabase($db, $DBname, $DBPrefix, $errors)) {
 					JInstallationView::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
@@ -351,7 +351,7 @@ class JInstallationController
 				$dbscheme = 'sql'.DS.'joomla_backward.sql';
 			}
 
-			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0)
+			if (JInstallationHelper::populateDatabase($db, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0)
 			{
 				JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				return false;
@@ -363,7 +363,7 @@ class JInstallationController
 //				if (is_file('language'.DS.$lang.DS.'sample_data.sql')) {
 //					$dbsample = 'language'.DS.$lang.DS.'sample_data.sql';
 //				}
-//				JInstallationHelper::populateDatabase($database, $dbsample, $errors);
+//				JInstallationHelper::populateDatabase($db, $dbsample, $errors);
 //			}
 		}
 
@@ -663,7 +663,7 @@ class JInstallationHelper
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function createDatabase(& $database, $DBname, $DButfSupport, $DBcollation)
+	function createDatabase(& $db, $DBname, $DButfSupport, $DBcollation)
 	{
 		if ($DButfSupport) {
 			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
@@ -671,9 +671,9 @@ class JInstallationHelper
 			$sql = "CREATE DATABASE `$DBname`";
 		}
 
-		$database->setQuery($sql);
-		$database->query();
-		$result = $database->getErrorNum();
+		$db->setQuery($sql);
+		$db->query();
+		$result = $db->getErrorNum();
 
 		if ($result != 0) {
 			return false;
@@ -690,13 +690,13 @@ class JInstallationHelper
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function setDBCharset(& $database, $DBname, $DBcollation)
+	function setDBCharset(& $db, $DBname, $DBcollation)
 	{
-		if ($database->hasUTF()){
+		if ($db->hasUTF()){
 			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
-			$database->setQuery($sql);
-			$database->query();
-			$result = $database->getErrorNum();
+			$db->setQuery($sql);
+			$db->query();
+			$result = $db->getErrorNum();
 			if ($result != 0) {
 				return false;
 			}
@@ -709,30 +709,30 @@ class JInstallationHelper
 	 * @param object Database connector
 	 * @param array An array of errors encountered
 	 */
-	function backupDatabase(& $database, $DBname, $DBPrefix, & $errors)
+	function backupDatabase(& $db, $DBname, $DBPrefix, & $errors)
 	{
 		// Initialize backup prefix variable
 		// TODO: Should this be user-defined?
 		$BUPrefix = 'bak_';
 
 		$query = "SHOW TABLES FROM `$DBname`";
-		$database->setQuery($query);
+		$db->setQuery($query);
 		$errors = array ();
-		if ($tables = $database->loadResultArray()) {
+		if ($tables = $db->loadResultArray()) {
 			foreach ($tables as $table) {
 				if (strpos($table, $DBPrefix) === 0) {
 					$butable = str_replace($DBPrefix, $BUPrefix, $table);
 					$query = "DROP TABLE IF EXISTS `$butable`";
-					$database->setQuery($query);
-					$database->query();
-					if ($database->getErrorNum()) {
-						$errors[$database->getQuery()] = $database->getErrorMsg();
+					$db->setQuery($query);
+					$db->query();
+					if ($db->getErrorNum()) {
+						$errors[$db->getQuery()] = $db->getErrorMsg();
 					}
 					$query = "RENAME TABLE `$table` TO `$butable`";
-					$database->setQuery($query);
-					$database->query();
-					if ($database->getErrorNum()) {
-						$errors[$database->getQuery()] = $database->getErrorMsg();
+					$db->setQuery($query);
+					$db->query();
+					if ($db->getErrorNum()) {
+						$errors[$db->getQuery()] = $db->getErrorMsg();
 					}
 				}
 			}
@@ -745,19 +745,19 @@ class JInstallationHelper
 	 * @param object Database connector
 	 * @param array An array of errors encountered
 	 */
-	function deleteDatabase(& $database, $DBname, $DBPrefix, & $errors)
+	function deleteDatabase(& $db, $DBname, $DBPrefix, & $errors)
 	{
 		$query = "SHOW TABLES FROM `$DBname`";
-		$database->setQuery($query);
+		$db->setQuery($query);
 		$errors = array ();
-		if ($tables = $database->loadResultArray()) {
+		if ($tables = $db->loadResultArray()) {
 			foreach ($tables as $table) {
 				if (strpos($table, $DBPrefix) === 0) {
 					$query = "DROP TABLE IF EXISTS `$table`";
-					$database->setQuery($query);
-					$database->query();
-					if ($database->getErrorNum()) {
-						$errors[$database->getQuery()] = $database->getErrorMsg();
+					$db->setQuery($query);
+					$db->query();
+					if ($db->getErrorNum()) {
+						$errors[$db->getQuery()] = $db->getErrorMsg();
 					}
 				}
 			}
@@ -769,7 +769,7 @@ class JInstallationHelper
 	/**
 	 *
 	 */
-	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '')
+	function populateDatabase(& $db, $sqlfile, & $errors, $collation = '')
 	{
 		if( !($buffer = file_get_contents($sqlfile)) ){
 			return -1;
@@ -779,9 +779,9 @@ class JInstallationHelper
 		foreach ($queries as $query) {
 			$query = trim($query);
 			if ($query != '' && $query {0} != '#') {
-				$database->setQuery($query);
-				$database->query();
-				JInstallationHelper::getDBErrors($errors, $database ); 
+				$db->setQuery($query);
+				$db->query();
+				JInstallationHelper::getDBErrors($errors, $db ); 
 			}
 		}
 		return count($errors);
@@ -859,38 +859,38 @@ class JInstallationHelper
 		$vars['adminLogin'] = 'admin';
 
 		jimport('joomla.database.database');
-		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+		$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
-		$nullDate 		= $database->getNullDate();
-		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$database->Quote($adminEmail).", ".$database->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
-		$database->setQuery($query);
-		if (!$database->query()) {
+		$nullDate 		= $db->getNullDate();
+		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
+		$db->setQuery($query);
+		if (!$db->query()) {
 			// is there already and existing admin in migrated data
-			if ( $database->getErrorNum() == 1062 ) {
+			if ( $db->getErrorNum() == 1062 ) {
 				$vars['adminLogin'] = JText::_('Admin login in migrated content was kept');
 				$vars['adminPassword'] = JText::_('Admin password in migrated content was kept');
 				return;
 			} else {
-				echo $database->getErrorMsg();
+				echo $db->getErrorMsg();
 				return;
 			}
 		}
 
 		// add the ARO (Access Request Object)
 		$query = "INSERT INTO #__core_acl_aro VALUES (10,'users','62',0,'Administrator',0)";
-		$database->setQuery($query);
-		if (!$database->query()) {
-			echo $database->getErrorMsg();
+		$db->setQuery($query);
+		if (!$db->query()) {
+			echo $db->getErrorMsg();
 			return;
 		}
 
 		// add the map between the ARO and the Group
 		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
-		$database->setQuery($query);
-		if (!$database->query()) {
-			echo $database->getErrorMsg();
+		$db->setQuery($query);
+		if (!$db->query()) {
+			echo $db->getErrorMsg();
 			return;
 		}
 	}
@@ -1086,13 +1086,13 @@ class JInstallationHelper
 		}
 
 		jimport('joomla.database.database');
-		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		
 		/*
 		 * If migration perform manipulations on script file before population
 		 */
 		if ( $migration ) {
-			$script = JInstallationHelper::preMigrate($script, $args, $database);
+			$script = JInstallationHelper::preMigrate($script, $args, $db);
 			if ( $script == false ) {
 				return JText::_( 'Script operations failed' );
 			}
@@ -1100,14 +1100,14 @@ class JInstallationHelper
 
 		$errors = null;
 		$msg = '';
-		$result = JInstallationHelper::populateDatabase($database, $script, $errors);
+		$result = JInstallationHelper::populateDatabase($db, $script, $errors);
 
 		/*
 		 * If migration, perform post population manipulations (menu table construction)
 		 */
 		$migErrors = null;
 		if ( $migration ) {
-			$migResult = JInstallationHelper::postMigrate( $database, $migErrors, $args );
+			$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
 			
 			if ( $migResult != 0 ) {
 				/*

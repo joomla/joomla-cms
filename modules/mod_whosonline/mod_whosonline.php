@@ -15,6 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $showmode = $params->get('showmode', 0);
+$db		  =& $mainframe->getDBO();
 
 $output = '';
 
@@ -23,8 +24,8 @@ if ($showmode == 0 || $showmode == 2)
 {
 	$query = "SELECT guest, usertype" .
 			"\n FROM #__session";
-	$database->setQuery($query);
-	$sessions = $database->loadObjectList();
+	$db->setQuery($query);
+	$sessions = $db->loadObjectList();
 
 	// calculate number of guests and members
 	$user_array = 0;
@@ -94,8 +95,8 @@ if ($showmode > 0)
 	$query = "SELECT DISTINCT a.username" .
 			"\n FROM #__session AS a" .
 			"\n WHERE a.guest = 0";
-	$database->setQuery($query);
-	$rows = $database->loadObjectList();
+	$db->setQuery($query);
+	$rows = $db->loadObjectList();
 
 	if (count($rows))
 	{

@@ -33,8 +33,9 @@ class JInstallerExtensionTasks {
 	*/
 	function showInstalled()
 	{
-		global $database, $mainframe;
+		global $mainframe;
 
+		$db					=& $mainframe->getDBO();
 		$filter 			= JRequest::getVar( 'filter' );
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
@@ -64,8 +65,8 @@ class JInstallerExtensionTasks {
 				. "\n GROUP BY module, client_id"
 				. "\n ORDER BY iscore, client_id, module"
 				;
-		$database->setQuery($query);
-		$rows = $database->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		$n = count($rows);
 		for ($i = 0; $i < $n; $i ++) {

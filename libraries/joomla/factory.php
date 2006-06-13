@@ -240,11 +240,11 @@ class JFactory
 		//TODO :: take the authorization class out of the application package
 		jimport( 'joomla.application.user.authorization' );
 
-		$database =&  JFactory::getDBO();
+		$db =&  JFactory::getDBO();
 
 		$options = array(
-			'db'				=> &$database,
-			'db_table_prefix'	=> $database->getPrefix() . 'core_acl_',
+			'db'				=> &$db,
+			'db_table_prefix'	=> $db->getPrefix() . 'core_acl_',
 			'debug'				=> 0
 		);
 		$acl = new JAuthorization( $options );
@@ -272,13 +272,13 @@ class JFactory
 		$debug 		= $conf->getValue('config.debug');
 
 		jimport('joomla.database.database');
-		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
+		$db =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
-		if ($database->getErrorNum() > 2) {
-			JError::raiseError('joomla.library:'.$database->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $database->getErrorMsg() );
+		if ($db->getErrorNum() > 2) {
+			JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
 		}
-		$database->debug( $debug );
-		return $database;
+		$db->debug( $debug );
+		return $db;
 	}
 
 	/**

@@ -32,14 +32,14 @@ class JElement_BannerClient extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$database = &JFactory::getDBO();
+		$db = &JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT cid, name' .
 				' FROM #__bannerclient' .
 				' ORDER BY name';
-		$database->setQuery($query);
-		$options = $database->loadObjectList();
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
 		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Client').' -', 'cid', 'name'));
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'cid', 'name', $value, $control_name.$name );

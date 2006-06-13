@@ -105,8 +105,9 @@ switch ($task) {
 */
 function showCategories( $section, $option )
 {
-	global $database, $mainframe;
-
+	global $mainframe;
+	
+	$db                 =& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 	'filter_state', 	'' );
@@ -114,7 +115,7 @@ function showCategories( $section, $option )
 	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$section_name 	= '';
 	$content_add 	= '';
@@ -126,8 +127,8 @@ function showCategories( $section, $option )
 		$query = "SELECT name"
 		. "\n FROM #__sections"
 		. "\n WHERE id = $section";
-		$database->setQuery( $query );
-		$section_name = $database->loadResult();
+		$db->setQuery( $query );
+		$section_name = $db->loadResult();
 		$section_name = sprintf( JText::_( 'Content:' ), JText::_( $section_name ) );
 		$where 	= "\n WHERE c.section = '$section'";
 		$type 	= 'content';
@@ -138,8 +139,8 @@ function showCategories( $section, $option )
 		. "\n FROM #__components"
 		. "\n WHERE link = 'option=$section'"
 		;
-		$database->setQuery( $query );
-		$section_name = $database->loadResult();
+		$db->setQuery( $query );
+		$section_name = $db->loadResult();
 		$where 	= "\n WHERE c.section = '$section'";
 		$type 	= 'other';
 		// special handling for contact component
@@ -158,8 +159,8 @@ function showCategories( $section, $option )
 	. "\n FROM #__categories"
 	. "\n WHERE section = '$section'"
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	// allows for viweing of all content categories
 	if ( $section == 'content' ) {
@@ -177,8 +178,8 @@ function showCategories( $section, $option )
 		if ( $sectionid > 0 ) {
 			$query .= "\n WHERE section = '$sectionid'";
 		}
-		$database->setQuery( $query );
-		$total = $database->loadResult();
+		$db->setQuery( $query );
+		$total = $db->loadResult();
 		$type 			= 'content';
 	}
 
@@ -215,10 +216,10 @@ function showCategories( $section, $option )
 	. "\n GROUP BY c.id"
 	. $order
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return;
 	}
 
@@ -230,8 +231,8 @@ function showCategories( $section, $option )
 		. "\n WHERE a.catid = ". $rows[$i]->id
 		. "\n AND a.state <> -2"
 		;
-		$database->setQuery( $query );
-		$active = $database->loadResult();
+		$db->setQuery( $query );
+		$active = $db->loadResult();
 		$rows[$i]->active = $active;
 	}
 	// number of Trashed Items
@@ -241,8 +242,8 @@ function showCategories( $section, $option )
 		. "\n WHERE a.catid = ". $rows[$i]->id
 		. "\n AND a.state = -2"
 		;
-		$database->setQuery( $query );
-		$trash = $database->loadResult();
+		$db->setQuery( $query );
+		$trash = $db->loadResult();
 		$rows[$i]->trash = $trash;
 	}
 
@@ -251,14 +252,16 @@ function showCategories( $section, $option )
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'sectionid', $sectionid, $javascript );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -273,8 +276,9 @@ function showCategories( $section, $option )
 */
 function editCategory( )
 {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db         =& $mainframe->getDBO();
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
 	$section 	= JRequest::getVar( 'section', 'content' );
@@ -288,14 +292,14 @@ function editCategory( )
 	. "\n FROM #__sections"
 	. "\n WHERE scope = 'content'"
 	;
-	$database->setQuery( $query );
-	$sections = $database->loadResult();
+	$db->setQuery( $query );
+	$sections = $db->loadResult();
 	if (!$sections && $type != 'other') {
 		echo "<script> alert('". JText::_( 'WARNSECTION', true ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	$row =& JTable::getInstance('category', $database );
+	$row =& JTable::getInstance('category', $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -312,8 +316,8 @@ function editCategory( )
 	. "\n FROM #__categories"
 	. "\n WHERE section = '$row->section'"
 	;
-	$database->setQuery( $query );
-	$max = intval( $database->loadResult() ) + 1;
+	$db->setQuery( $query );
+	$max = intval( $db->loadResult() ) + 1;
 
 	for ($i=1; $i < $max; $i++) {
 		$order[] = mosHTML::makeOption( $i );
@@ -325,14 +329,14 @@ function editCategory( )
 		. "\n FROM #__sections AS s"
 		. "\n ORDER BY s.ordering"
 		;
-		$database->setQuery( $query );
-		$sections = $database->loadObjectList();
+		$db->setQuery( $query );
+		$sections = $db->loadObjectList();
 		$lists['section'] = mosHTML::selectList( $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );;
 	} else {
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );
 		} else {
-			$temp =& JTable::getInstance('section', $database );
+			$temp =& JTable::getInstance('section', $db );
 			$temp->load( $row->section );
 			$section_name = $temp->name;
 		}
@@ -367,14 +371,15 @@ function editCategory( )
 */
 function saveCategory( $task )
 {
-	global $database;
+	global $mainframe;
 
+	$db         =& $mainframe->getDBO();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$redirect 	= JRequest::getVar( 'redirect', '', 'post' );
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', 'post' );
 
-	$row = JTable::getInstance('category', $database );
+	$row = JTable::getInstance('category', $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -398,8 +403,8 @@ function saveCategory( $task )
 			. "\n WHERE name = '$oldtitle'"
 			. "\n AND type = 'content_category'"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 		}
 	}
 
@@ -410,11 +415,11 @@ function saveCategory( $task )
 		$query = "UPDATE #__sections SET count=count+1"
 		. "\n WHERE id = '$row->section'"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	}
 
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -450,8 +455,9 @@ function saveCategory( $task )
 * @param array An array of unique category id numbers
 */
 function removeCategories( $section, $cid ) {
-	global $database;
-	;
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a category to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -474,10 +480,10 @@ function removeCategories( $section, $cid ) {
 	. "\n WHERE c.id IN ( $cids )"
 	. "\n GROUP BY c.id"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 
-	if (!($rows = $database->loadObjectList())) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	if (!($rows = $db->loadObjectList())) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 	}
 
 	$err = array();
@@ -495,9 +501,9 @@ function removeCategories( $section, $cid ) {
 		$query = "DELETE FROM #__categories"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 
@@ -519,8 +525,9 @@ function removeCategories( $section, $cid ) {
 * @param string The name of the current user
 */
 function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) {
-	global $database, $my;
-	;
+	global $mainframe, $my;
+	
+	$db =& $mainframe->getDBO();
 
 	if (!is_array( $cid )) {
 		$cid = array();
@@ -542,14 +549,14 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('category', $database );
+		$row =& JTable::getInstance('category', $db );
 		$row->checkin( $cid[0] );
 	}
 
@@ -563,11 +570,13 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 */
 function cancelCategory()
 {
-	global $database;
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
 
 	$redirect = JRequest::getVar( 'redirect', '', 'post' );
 
-	$row =& JTable::getInstance('category', $database );
+	$row =& JTable::getInstance('category', $db );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -579,9 +588,10 @@ function cancelCategory()
 * @param integer The increment to reorder by
 */
 function orderCategory( $uid, $inc ) {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('category', $database );
+	$db  =& $mainframe->getDBO();
+	$row =& JTable::getInstance('category', $db );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
 
@@ -592,8 +602,9 @@ function orderCategory( $uid, $inc ) {
 * Form for moving item(s) to a specific menu
 */
 function moveCategorySelect( $option, $cid, $sectionOld ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$redirect = JRequest::getVar( 'section', 'content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -607,8 +618,8 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 	. "\n FROM #__categories AS a"
 	. "\n WHERE a.id IN ( $cids )"
 	;
-	$database->setQuery( $query );
-	$items = $database->loadObjectList();
+	$db->setQuery( $query );
+	$items = $db->loadObjectList();
 
 	## query to list items from categories
 	$query = "SELECT a.title"
@@ -616,8 +627,8 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 	. "\n WHERE a.catid IN ( $cids )"
 	. "\n ORDER BY a.catid, a.title"
 	;
-	$database->setQuery( $query );
-	$contents = $database->loadObjectList();
+	$db->setQuery( $query );
+	$contents = $db->loadObjectList();
 
 	## query to choose section to move to
 	$query = "SELECT a.name AS text, a.id AS value"
@@ -625,8 +636,8 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 	. "\n WHERE a.published = 1"
 	. "\n ORDER BY a.name"
 	;
-	$database->setQuery( $query );
-	$sections = $database->loadObjectList();
+	$db->setQuery( $query );
+	$sections = $db->loadObjectList();
 
 	// build the html select list
 	$SectionList = mosHTML::selectList( $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
@@ -639,8 +650,9 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 * Save the item(s) to the menu selected
 */
 function moveCategorySave( $cid, $sectionOld ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$sectionMove = JRequest::getVar( 'sectionmove' );
 
 	$cids = implode( ',', $cid );
@@ -650,21 +662,21 @@ function moveCategorySave( $cid, $sectionOld ) {
 	. "\n SET section = '$sectionMove'"
 	. "WHERE id IN ( $cids )"
 	;
-	$database->setQuery( $query );
-	if ( !$database->query() ) {
-		echo "<script> alert('". $database->getErrorMsg() ."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if ( !$db->query() ) {
+		echo "<script> alert('". $db->getErrorMsg() ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$query = "UPDATE #__content"
 	. "\n SET sectionid = '$sectionMove'"
 	. "\n WHERE catid IN ( $cids )"
 	;
-	$database->setQuery( $query );
-	if ( !$database->query() ) {
-		echo "<script> alert('". $database->getErrorMsg() ."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if ( !$db->query() ) {
+		echo "<script> alert('". $db->getErrorMsg() ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	$sectionNew =& JTable::getInstance('section', $database );
+	$sectionNew =& JTable::getInstance('section', $db );
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
@@ -675,8 +687,9 @@ function moveCategorySave( $cid, $sectionOld ) {
 * Form for copying item(s) to a specific menu
 */
 function copyCategorySelect( $option, $cid, $sectionOld ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$redirect = JRequest::getVar( 'section', 'content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -690,8 +703,8 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 	. "\n FROM #__categories AS a"
 	. "\n WHERE a.id IN ( $cids )"
 	;
-	$database->setQuery( $query );
-	$items = $database->loadObjectList();
+	$db->setQuery( $query );
+	$items = $db->loadObjectList();
 
 	## query to list items from categories
 	$query = "SELECT a.title, a.id"
@@ -699,8 +712,8 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 	. "\n WHERE a.catid IN ( $cids )"
 	. "\n ORDER BY a.catid, a.title"
 	;
-	$database->setQuery( $query );
-	$contents = $database->loadObjectList();
+	$db->setQuery( $query );
+	$contents = $db->loadObjectList();
 
 	## query to choose section to move to
 	$query = "SELECT a.name AS `text`, a.id AS `value`"
@@ -708,8 +721,8 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 	. "\n WHERE a.published = 1"
 	. "\n ORDER BY a.name"
 	;
-	$database->setQuery( $query );
-	$sections = $database->loadObjectList();
+	$db->setQuery( $query );
+	$sections = $db->loadObjectList();
 
 	// build the html select list
 	$SectionList = mosHTML::selectList( $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
@@ -722,13 +735,14 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 * Save the item(s) to the menu selected
 */
 function copyCategorySave( $cid, $sectionOld ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$sectionMove 	= JRequest::getVar( 'sectionmove' );
 	$contentid 		= JRequest::getVar( 'item' );
 	$total 			= count( $contentid  );
 
-	$category =& JTable::getInstance('category', $database );
+	$category =& JTable::getInstance('category', $db );
 
 	foreach( $cid as $id ) {
 		$category->load( $id );
@@ -752,7 +766,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content =& JTable::getInstance('content', $database );
+	$content =& JTable::getInstance('content', $db );
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id 		= NULL;
@@ -775,7 +789,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 		$content->checkin();
 	}
 
-	$sectionNew =& JTable::getInstance('section', $database );
+	$sectionNew =& JTable::getInstance('section', $db );
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
@@ -787,9 +801,10 @@ function copyCategorySave( $cid, $sectionOld ) {
 * @param integer The increment to reorder by
 */
 function accessMenu( $uid, $access, $section ) {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('category', $database );
+	$db =& $mainframe->getDBO();
+	$row =& JTable::getInstance('category', $db );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -804,9 +819,10 @@ function accessMenu( $uid, $access, $section ) {
 }
 
 function menuLink( $id ) {
-	global $database;
+	global $mainframe;
 
-	$category =& JTable::getInstance('category', $database );
+	$db =& $mainframe->getDBO();
+	$category =& JTable::getInstance('category', $db );
 	$category->bind( $_POST );
 	$category->checkin();
 
@@ -850,7 +866,7 @@ function menuLink( $id ) {
 			break;
 	}
 
-	$row 				=& JTable::getInstance('menu', $database );
+	$row 				=& JTable::getInstance('menu', $db );
 	$row->menutype 		= $menu;
 	$row->name 			= $name;
 	$row->type 			= $type;
@@ -879,11 +895,12 @@ function menuLink( $id ) {
 }
 
 function saveOrder( &$cid, $section ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row		=& JTable::getInstance('category', $database );
+	$row		=& JTable::getInstance('category', $db );
 	$conditions = array();
 
 	// update ordering values
@@ -892,7 +909,7 @@ function saveOrder( &$cid, $section ) {
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			} // if
 			// remember to updateOrder this group

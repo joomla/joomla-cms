@@ -26,9 +26,10 @@ class content_blog_category {
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
 	function edit( &$uid, $menutype, $option ) {
-		global $database, $my, $mainframe;
+		global $my, $mainframe;
 
-		$menu =& JTable::getInstance('menu', $database );
+		$db =& $mainframe->getDBO();
+		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -51,8 +52,8 @@ class content_blog_category {
 				. "\n AND c.id IN ( $catids )"
 				. "\n ORDER BY s.name,c.name"
 				;
-				$database->setQuery( $query );
-				$lookup = $database->loadObjectList();
+				$db->setQuery( $query );
+				$lookup = $db->loadObjectList();
 			} else {
 				$lookup 			= '';
 			}
@@ -73,8 +74,8 @@ class content_blog_category {
 		. "\n WHERE s.scope = 'content'"
 		. "\n ORDER BY s.name,c.name"
 		;
-		$database->setQuery( $query );
-		$rows = array_merge( $rows, $database->loadObjectList() );
+		$db->setQuery( $query );
+		$rows = array_merge( $rows, $db->loadObjectList() );
 		$category = mosHTML::selectList( $rows, 'catid[]', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $lookup );
 		$lists['categoryid']	= $category;
 
@@ -98,15 +99,16 @@ class content_blog_category {
 
 	function saveMenu( $option, $task )
 	{
-		global $database;
+		global $maiframe;
 
+		$db =& $maiframe->getDBO();
 		$params = JRequest::getVar( 'params', '', 'post' );
 		$catids	= JRequest::getVar( 'catid', array(), 'post', 'array' );
 		$catid	= implode( ',', $catids );
 
 		$_POST['params']['categoryid']	= $catid;
 
-		$row =& JTable::getInstance('menu', $database );
+		$row =& JTable::getInstance('menu', $db );
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

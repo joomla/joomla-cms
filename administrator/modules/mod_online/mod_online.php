@@ -15,14 +15,15 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $session_id = JSession::id();
+$db			=& $mainframe->getDBO();
 
 // Get no. of users online not including current session
 $query = "SELECT COUNT( session_id )"
 . "\n FROM #__session"
 . "\n WHERE session_id <> '$session_id'"
 ;
-$database->setQuery($query);
-$online_num = intval( $database->loadResult() );
+$db->setQuery($query);
+$online_num = intval( $db->loadResult() );
 
 echo $online_num . " <img src=\"images/users.png\" align=\"middle\" alt=\"". JText::_( 'Users Online' ) ."\" />";
 ?>

@@ -39,7 +39,7 @@ switch( $task ) {
 function listFeeds(  ) {
 	global $mainframe;
 
-	$database 		= & $mainframe->getDBO();
+	$db		 		= & $mainframe->getDBO();
 	$user 			= & $mainframe->getUser();
 	$breadcrumbs 	= & $mainframe->getPathWay();
 	$option 		= JRequest::getVar('option');
@@ -60,8 +60,8 @@ function listFeeds(  ) {
 	. "\n GROUP BY cc.id"
 	. "\n ORDER BY cc.ordering"
 	;
-	$database->setQuery( $query );
-	$categories = $database->loadObjectList();
+	$db->setQuery( $query );
+	$categories = $db->loadObjectList();
 
 	// Parameters
 	$mParams->def( 'page_title', 		1 );
@@ -82,7 +82,8 @@ function listFeeds(  ) {
 	$mParams->def( 'name',				1 );
 	$mParams->def( 'articles', 			1 );
 	$mParams->def( 'link', 				1 );
-	// pagination parameters	$mParams->def('display', 			1 );
+	// pagination parameters
+	$mParams->def('display', 			1 );
 	$mParams->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 
@@ -95,8 +96,8 @@ function listFeeds(  ) {
 		. "\n WHERE catid = $catid"
 		. "\n AND published = 1"
 		;
-		$database->setQuery($query);
-		$counter = $database->loadObjectList();
+		$db->setQuery($query);
+		$counter = $db->loadObjectList();
 		$total = $counter[0]->numitems;
 		$limit = $limit ? $limit : $mParams->get('display_num');
 		if ($total <= $limit) {
@@ -113,8 +114,8 @@ function listFeeds(  ) {
 		 . "\n AND published = 1"
 		. "\n ORDER BY ordering"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
 
 		// current category info
 		$query = "SELECT id, name, description, image, image_position"
@@ -123,8 +124,8 @@ function listFeeds(  ) {
 		. "\n AND published = 1"
 		. "\n AND access <= $gid"
 		;
-		$database->setQuery( $query );
-		$database->loadObject( $currentcat );
+		$db->setQuery( $query );
+		$db->loadObject( $currentcat );
 
 		/*
 		Check if the category is published or if access level allows access
@@ -204,11 +205,12 @@ function showFeed( ) {
 	}
 
 	// Get some objects from the JApplication
-	$database 	= & $mainframe->getDBO();
-	$user 		= & $mainframe->getUser();
+	$db		 	= & $mainframe->getDBO();
+	$user 		= & $mainframe->getUser();
+
 	require_once( $mainframe->getPath( 'class' ) );
 
-	$newsfeed = new mosNewsFeed($database);
+	$newsfeed = new mosNewsFeed($db);
 	$newsfeed->load($feedid);
 
 	/*
@@ -219,7 +221,7 @@ function showFeed( ) {
 		return;
 	}
 
-	$category = new JTableCategory($database);
+	$category = new JTableCategory($db);
 	$category->load($newsfeed->catid);
 
 	/*
@@ -228,7 +230,8 @@ function showFeed( ) {
 	if(!$category->published) {
 		JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 		return;
-	}	/*
+	}
+	/*
 	* check whether category access level allows access
 	*/
 	if ( $category->access > $user->get('gid') ) {

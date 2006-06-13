@@ -1022,7 +1022,7 @@ class mosAdminMenus
 	* build the select list for Menu Ordering
 	*/
 	function Ordering( &$row, $id ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		if ( $id ) {
 			$query = "SELECT ordering AS value, name AS text"
@@ -1044,14 +1044,14 @@ class mosAdminMenus
 	* build the select list for access level
 	*/
 	function Access( &$row ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT id AS value, name AS text"
 		. "\n FROM #__groups"
 		. "\n ORDER BY id"
 		;
-		$database->setQuery( $query );
-		$groups = $database->loadObjectList();
+		$db->setQuery( $query );
+		$groups = $db->loadObjectList();
 		$access = mosHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
@@ -1069,7 +1069,7 @@ class mosAdminMenus
 	* build the multiple select list for Menu Links/Pages
 	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
@@ -1077,8 +1077,8 @@ class mosAdminMenus
 		. "\n WHERE m.published = 1"
 		. "\n ORDER BY m.menutype, m.parent, m.ordering"
 		;
-		$database->setQuery( $query );
-		$mitems = $database->loadObjectList();
+		$db->setQuery( $query );
+		$mitems = $db->loadObjectList();
 		$mitems_temp = $mitems;
 
 		// establish the hierarchy of the menu
@@ -1147,7 +1147,7 @@ class mosAdminMenus
 	* build the select list to choose a category
 	*/
 	function Category( &$menu, $id, $javascript='' ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
 		. "\n FROM #__sections AS s"
@@ -1155,8 +1155,8 @@ class mosAdminMenus
 		. "\n WHERE s.scope = 'content'"
 		. "\n ORDER BY s.name, c.name"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
 		$category = '';
 
 		$category .= mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
@@ -1169,19 +1169,19 @@ class mosAdminMenus
 	* build the select list to choose a section
 	*/
 	function Section( &$menu, $id, $all=0 ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
 		. "\n FROM #__sections AS s"
 		. "\n WHERE s.scope = 'content'"
 		. "\n ORDER BY s.name"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 		if ( $all ) {
 			$rows[] = mosHTML::makeOption( 0, '- '. JText::_( 'All Sections' ) .' -' );
-			$rows = array_merge( $rows, $database->loadObjectList() );
+			$rows = array_merge( $rows, $db->loadObjectList() );
 		} else {
-			$rows = $database->loadObjectList();
+			$rows = $db->loadObjectList();
 		}
 
 		$section = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
@@ -1194,15 +1194,15 @@ class mosAdminMenus
 	* build the select list to choose a component
 	*/
 	function Component( &$menu, $id ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT c.id AS value, c.name AS text, c.link"
 		. "\n FROM #__components AS c"
 		. "\n WHERE c.link <> ''"
 		. "\n ORDER BY c.name"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList( );
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList( );
 
 		$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
 
@@ -1213,15 +1213,15 @@ class mosAdminMenus
 	* build the select list to choose a component
 	*/
 	function ComponentName( &$menu, $id ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT c.id AS value, c.name AS text, c.link"
 		. "\n FROM #__components AS c"
 		. "\n WHERE c.link <> ''"
 		. "\n ORDER BY c.name"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList( );
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList( );
 
 		$component = 'Component';
 		foreach ( $rows as $row ) {
@@ -1262,7 +1262,7 @@ class mosAdminMenus
 	* build the select list for Ordering of a specified Table
 	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		if ( $id ) {
 			$order = mosGetOrderingList( $query );
@@ -1282,7 +1282,9 @@ class mosAdminMenus
 	* Select list of active users
 	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
-		global $database, $my;
+		global $my;
+		
+		$db =& JFactory::getDBO();
 
 		$and = '';
 		if ( $reg ) {
@@ -1296,12 +1298,12 @@ class mosAdminMenus
 		. $and
 		. "\n ORDER BY $order"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 		if ( $nouser ) {
 			$users[] = mosHTML::makeOption( '0', '- '. JText::_( 'No User' ) .' -' );
-			$users = array_merge( $users, $database->loadObjectList() );
+			$users = array_merge( $users, $db->loadObjectList() );
 		} else {
-			$users = $database->loadObjectList();
+			$users = $db->loadObjectList();
 		}
 
 		$users = mosHTML::selectList( $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
@@ -1336,7 +1338,7 @@ class mosAdminMenus
 	* Select list of active categories for components
 	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT id AS value, name AS text"
 		. "\n FROM #__categories"
@@ -1344,12 +1346,12 @@ class mosAdminMenus
 		. "\n AND published = 1"
 		. "\n ORDER BY $order"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 		if ( $sel_cat ) {
 			$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select a Category' ) .' -' );
-			$categories = array_merge( $categories, $database->loadObjectList() );
+			$categories = array_merge( $categories, $db->loadObjectList() );
 		} else {
-			$categories = $database->loadObjectList();
+			$categories = $db->loadObjectList();
 		}
 
 		if ( count( $categories ) < 1 ) {
@@ -1365,7 +1367,7 @@ class mosAdminMenus
 	* Select list of active sections
 	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$categories[] = mosHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -' );
 		$categories[] = mosHTML::makeOption( '0', JText::_( 'Uncategorized' ) );
@@ -1374,8 +1376,8 @@ class mosAdminMenus
 		. "\n WHERE published = 1"
 		. "\n ORDER BY $order"
 		;
-		$database->setQuery( $query );
-		$sections = array_merge( $categories, $database->loadObjectList() );
+		$db->setQuery( $query );
+		$sections = array_merge( $categories, $db->loadObjectList() );
 
 		$category = mosHTML::selectList( $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
@@ -1386,7 +1388,7 @@ class mosAdminMenus
 	* Select list of menu items for a specific menu
 	*/
 	function Links2Menu( $type, $and ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT *"
 		. "\n FROM #__menu"
@@ -1394,8 +1396,8 @@ class mosAdminMenus
 		. "\n AND published = 1"
 		. $and
 		;
-		$database->setQuery( $query );
-		$menus = $database->loadObjectList();
+		$db->setQuery( $query );
+		$menus = $db->loadObjectList();
 
 		return $menus;
 	}
@@ -1404,14 +1406,14 @@ class mosAdminMenus
 	* Select list of menus
 	*/
 	function MenuSelect( $name='menuselect', $javascript=NULL ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT params"
 		. "\n FROM #__modules"
 		. "\n WHERE module = 'mod_mainmenu'"
 		;
-		$database->setQuery( $query );
-		$menus = $database->loadObjectList();
+		$db->setQuery( $query );
+		$menus = $db->loadObjectList();
 		$total = count( $menus );
 		$menuselect = array();
 		for( $i = 0; $i < $total; $i++ ) {

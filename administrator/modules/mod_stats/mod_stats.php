@@ -14,13 +14,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$db =& $mainframe->getDBO();
 $query = "SELECT menutype, COUNT(id) AS numitems"
 . "\n FROM #__menu"
 . "\n WHERE published = 1"
 . "\n GROUP BY menutype"
 ;
-$database->setQuery( $query );
-$rows = $database->loadObjectList();
+$db->setQuery( $query );
+$rows = $db->loadObjectList();
 ?>
 <table class="adminlist">
 	<tr>

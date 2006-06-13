@@ -18,6 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Get the user object for the logged in user
  */
 $user	= & $mainframe->getUser();
+$db		=& $mainframe->getDBO();
 
 $query = "SELECT a.id, a.sectionid, a.title, a.created, u.name, a.created_by_alias, a.created_by"
 . "\n FROM #__content AS a"
@@ -26,8 +27,8 @@ $query = "SELECT a.id, a.sectionid, a.title, a.created, u.name, a.created_by_ali
 . "\n ORDER BY created DESC"
 . "\n LIMIT 10"
 ;
-$database->setQuery( $query );
-$rows = $database->loadObjectList();
+$db->setQuery( $query );
+$rows = $db->loadObjectList();
 ?>
 
 <table class="adminlist">

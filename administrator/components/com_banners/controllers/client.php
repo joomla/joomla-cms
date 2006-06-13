@@ -19,14 +19,15 @@
 class JBannerClientController {
 
 	function viewBannerClients( $option ) {
-		global $database, $mainframe, $mosConfig_list_limit;
-	
+		global $mainframe, $mosConfig_list_limit;
+		
+		$db =& $mainframe->getDBO();
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
 		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mosConfig_list_limit );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
 		$search 			= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.search", 			'search', 			'' );
-		$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	
 		$where = array();
 	
@@ -42,8 +43,8 @@ class JBannerClientController {
 		. "\n FROM #__bannerclient"
 		. $where
 		;
-		$database->setQuery( $query );
-		$total = $database->loadResult();
+		$db->setQuery( $query );
+		$total = $db->loadResult();
 	
 		jimport('joomla.presentation.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -56,9 +57,8 @@ class JBannerClientController {
 		. "\n GROUP BY a.cid"
 		. $orderby
 		;
-		$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-		//$database->setQuery( $query );
-		$rows = $database->loadObjectList();
+		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+		$rows = $db->loadObjectList();
 	
 		// table ordering
 		if ( $filter_order_Dir == 'DESC' ) {
@@ -75,15 +75,16 @@ class JBannerClientController {
 	}
 	
 	function editBannerClient( ) {
-		global $database, $my;
+		global $mainframe, $my;
 	
+		$db     =& $mainframe->getDBO();
 		$cid 	= JRequest::getVar( 'cid', array(0));
 		$option = JRequest::getVar( 'option');
 		if (!is_array( $cid )) {
 			$cid = array(0);
 		}
 		
-		$row = new mosBannerClient($database);
+		$row = new mosBannerClient($db);
 		$row->load($cid[0]);
 	
 		// fail if checked out not by 'me'
@@ -105,9 +106,10 @@ class JBannerClientController {
 	}
 	
 	function saveBannerClient( $task ) {
-		global $database;
+		global $mainframe;
 	
-		$row = new mosBannerClient( $database );
+		$db  =& $mainframe->getDBO();
+		$row = new mosBannerClient( $db );
 	
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -138,16 +140,19 @@ class JBannerClientController {
 	}
 	
 	function cancelEditClient( $option ) {
-		global $database;
-		$row = new mosBannerClient( $database );
+		global $mainframe;
+		
+		$db  =& $mainframe->getDBO();
+		$row = new mosBannerClient( $db );
 		$row->bind( $_POST );
 		$row->checkin();
 		josRedirect( "index2.php?option=$option&task=listclients" );
 	}
 	
 	function removeBannerClients( $cid, $option ) {
-		global $database;
+		global $mainframe;
 	
+		$db =& $mainframe->getDBO();
 		if (!count( $cid ) || $cid[0] == 0) {
 			unset($cid);
 			$cid[0] = JRequest::getVar( 'client_id', 0, 'post' );
@@ -158,9 +163,9 @@ class JBannerClientController {
 			. "\n FROM #__banner"
 			. "\n WHERE cid = ".$cid[$i]
 			;
-			$database->setQuery($query);
-			if(($count = $database->loadResult()) == null) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			$db->setQuery($query);
+			if(($count = $db->loadResult()) == null) {
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			}
 	
 			if ($count != 0) {
@@ -169,14 +174,14 @@ class JBannerClientController {
 				$query="DELETE FROM #__bannerfinish"
 				. "\n WHERE cid = ". $cid[$i]
 				;
-				$database->setQuery($query);
-				$database->query();
+				$db->setQuery($query);
+				$db->query();
 	
 				$query = "DELETE FROM #__bannerclient"
 				. "\n WHERE cid = ". $cid[$i]
 				;
-				$database->setQuery($query);
-				$database->query();
+				$db->setQuery($query);
+				$db->query();
 			}
 		}
 		josRedirect("index2.php?option=$option&task=listclients");

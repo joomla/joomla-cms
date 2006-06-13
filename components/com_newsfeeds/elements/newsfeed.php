@@ -32,7 +32,9 @@ class JElement_Newsfeed extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$database = &JFactory::getDBO();
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 
 		$query = "SELECT a.id, c.title, a.name"
 		. "\n FROM #__newsfeeds AS a"
@@ -40,8 +42,8 @@ class JElement_Newsfeed extends JElement
 		. "\n WHERE a.published = 1"
 		. "\n ORDER BY a.catid, a.name"
 		;
-		$database->setQuery( $query );
-		$options = $database->loadObjectList( );
+		$db->setQuery( $query );
+		$options = $db->loadObjectList( );
 
 		$n = count( $options );
 		for ($i = 0; $i < $n; $i++)

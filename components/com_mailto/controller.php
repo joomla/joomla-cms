@@ -23,12 +23,11 @@ class mailtoController extends JController {
 	 * Mail the link
 	 */
 	function send() {
-		$database	= &$this->getDBO();
+		$db			= &$this->getDBO();
 		$mainframe	= &$this->getApplication();
 
 		jimport( 'joomla.utilities.mail' );
 
-		$db			= &$database;
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');

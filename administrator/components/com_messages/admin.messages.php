@@ -63,8 +63,9 @@ switch ($task) {
 }
 
 function showMessages( $option ) {
-	global $database, $mainframe, $my;
+	global $mainframe, $my;
 
+	$db					=& $mainframe->getDBO();
 	$context			= 'com_messages.list';
 	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order', 	'filter_order', 	'a.date_time' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC' );
@@ -72,14 +73,15 @@ function showMessages( $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 					'limit',  			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( $context.'.limitstart', 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( $context.'search', 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 	$where[] = " a.user_id_to='$my->id'";
 
 	if (isset($search) && $search!= "") {
 		$where[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
-	}	if ( $filter_state ) {
+	}
+	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
 			$where[] = "a.state = 1";
 		} else if ($filter_state == 'U' ) {
@@ -95,8 +97,8 @@ function showMessages( $option ) {
 	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -107,10 +109,10 @@ function showMessages( $option ) {
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -123,7 +125,8 @@ function showMessages( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -131,19 +134,21 @@ function showMessages( $option ) {
 }
 
 function editConfig( $option ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	$query = "SELECT cfg_name, cfg_value"
 	. "\n FROM #__messages_cfg"
 	. "\n WHERE user_id = $my->id"
 	;
-	$database->setQuery( $query );
-	$data = $database->loadObjectList( 'cfg_name' );
+	$db->setQuery( $query );
+	$data = $db->loadObjectList( 'cfg_name' );
 
 	// initialize values if they do not exist
 	if (!isset($data['lock']->cfg_value)) {
 		$data['lock']->cfg_value 		= 0;
-	}	if (!isset($data['mail_on_new']->cfg_value)) {
+	}
+	if (!isset($data['mail_on_new']->cfg_value)) {
 		$data['mail_on_new']->cfg_value = 0;
 	}
 	if (!isset($data['auto_purge']->cfg_value)) {
@@ -151,7 +156,8 @@ function editConfig( $option ) {
 	}
 
 	$vars 					= array();
-	$vars['lock'] 			= mosHTML::yesnoradioList( "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );	$vars['mail_on_new'] 	= mosHTML::yesnoradioList( "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
+	$vars['lock'] 			= mosHTML::yesnoradioList( "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );
+	$vars['mail_on_new'] 	= mosHTML::yesnoradioList( "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
 	$vars['auto_purge'] 	= $data['auto_purge']->cfg_value;
 
 	HTML_messages::editConfig( $vars, $option );
@@ -159,30 +165,32 @@ function editConfig( $option ) {
 }
 
 function saveConfig( $option ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	$query = "DELETE FROM #__messages_cfg"
 	. "\n WHERE user_id = $my->id"
 	;
-	$database->setQuery( $query );
-	$database->query();
+	$db->setQuery( $query );
+	$db->query();
 
 	$vars = JRequest::getVar( 'vars', array(), 'post', 'array' );
 	foreach ($vars as $k=>$v) {
-		$v = $database->getEscaped( $v );
+		$v = $db->getEscaped( $v );
 		$query = "INSERT INTO #__messages_cfg"
 		. "\n ( user_id, cfg_name, cfg_value )"
 		. "\n VALUES ( $my->id, '$k', '$v' )"
 		;
-		$database->setQuery( $query );
-		$database->query();
+		$db->setQuery( $query );
+		$db->query();
 	}
 	josRedirect( "index2.php?option=$option" );
 }
 
 function newMessage( $option, $user, $subject ) {
-	global $database, $mainframe, $my, $acl;
+	global $mainframe, $my, $acl;
 
+	$db =& $mainframe->getDBO();
 	// get available backend user groups
 	$gid 	= $acl->get_group_id( 'Public Backend', '', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
@@ -194,8 +202,8 @@ function newMessage( $option, $user, $subject ) {
 	. "\n WHERE gid IN ( $gids )"
 	. "\n ORDER BY name"
 	;
-	$database->setQuery( $query );
-	$recipients = array_merge( $recipients, $database->loadObjectList() );
+	$db->setQuery( $query );
+	$recipients = array_merge( $recipients, $db->loadObjectList() );
 
 	$recipientslist =
 		mosHTML::selectList(
@@ -210,9 +218,10 @@ function newMessage( $option, $user, $subject ) {
 }
 
 function saveMessage( $option ) {
-	global $database, $mainframe, $my;
+	global $mainframe, $mainframe, $my;
 
-	$row = new mosMessage( $database );
+	$db =& $mainframe->getDBO();
+	$row = new mosMessage( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -225,8 +234,9 @@ function saveMessage( $option ) {
 }
 
 function viewMessage( $uid='0', $option ) {
-	global $database, $my, $acl;
+	global $mainframe, $my, $acl;
 
+	$db =& $mainframe->getDBO();
 	$row = null;
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"
@@ -234,22 +244,23 @@ function viewMessage( $uid='0', $option ) {
 	. "\n WHERE a.message_id = $uid"
 	. "\n ORDER BY date_time DESC"
 	;
-	$database->setQuery( $query );
-	$database->loadObject( $row );
+	$db->setQuery( $query );
+	$db->loadObject( $row );
 
 	$query = "UPDATE #__messages"
 	. "\n SET state = 1"
 	. "\n WHERE message_id = $uid"
 	;
-	$database->setQuery( $query );
-	$database->query();
+	$db->setQuery( $query );
+	$db->query();
 
 	HTML_messages::viewMessage( $row, $option );
 }
 
 function removeMessage( $cid, $option ) {
-	global $database;
+	global $maiframe;
 
+	$db =& $maiframe->getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -259,9 +270,9 @@ function removeMessage( $cid, $option ) {
 		$query = "DELETE FROM #__messages"
 		. "\n WHERE message_id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 

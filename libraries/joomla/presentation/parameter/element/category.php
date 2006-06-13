@@ -32,7 +32,7 @@ class JElement_Category extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$database = &JFactory::getDBO();
+		$db = &JFactory::getDBO();
 
 		$section	= $node->attributes('section');
 		$class		= $node->attributes('class');
@@ -63,8 +63,8 @@ class JElement_Category extends JElement
 				"\n AND c.section = '$section'" .
 				"\n ORDER BY c.title";
 		}
-		$database->setQuery($query);
-		$options = $database->loadObjectList();
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
 		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );

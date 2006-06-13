@@ -17,13 +17,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $mosConfig_offset, $mosConfig_caching, $mosConfig_enable_stats;
 global $mosConfig_gzip;
 
+$db =& $mainframe->getDBO();
 $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
 
 if ($serverinfo) {
 	echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 	echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
-	echo "<strong>MySQL:</strong> " .$database->getVersion() . "<br />\n";
+	echo "<strong>MySQL:</strong> " .$db->getVersion() . "<br />\n";
 	echo "<strong>". JText::_( 'Time' ) .": </strong> " .date("H:i",time()+($mosConfig_offset*60*60)) . "<br />\n";
 	$c = $mosConfig_caching ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 	echo "<strong>Caching:</strong> " . $c . "<br />\n";
@@ -35,21 +36,21 @@ if ($siteinfo) {
 	$query="SELECT COUNT( id ) AS count_users"
 	. "\n FROM #__users"
 	;
-	$database->setQuery($query);
-	echo "<strong>". JText::_( 'Members' ) .":</strong> " .$database->loadResult() . "<br />\n";
+	$db->setQuery($query);
+	echo "<strong>". JText::_( 'Members' ) .":</strong> " .$db->loadResult() . "<br />\n";
 
 	$query="SELECT COUNT( id ) AS count_items"
 	. "\n FROM #__content"
 	;
-	$database->setQuery($query);
-	echo "<strong>". JText::_( 'News' ) .":</strong> ".$database->loadResult() . "<br />\n";
+	$db->setQuery($query);
+	echo "<strong>". JText::_( 'News' ) .":</strong> ".$db->loadResult() . "<br />\n";
 
 	$query="SELECT COUNT( id ) AS count_links"
 	. "\n FROM #__weblinks"
 	. "\n WHERE published = 1"
 	;
-	$database->setQuery($query);
-	echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$database->loadResult() . "<br />\n";
+	$db->setQuery($query);
+	echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$db->loadResult() . "<br />\n";
 }
 
 if ($mosConfig_enable_stats) {
@@ -60,8 +61,8 @@ if ($mosConfig_enable_stats) {
 		. "\n FROM #__stats_agents"
 		. "\n WHERE type = 1"
 		;
-		$database->setQuery( $query );
-		$hits = $database->loadResult();
+		$db->setQuery( $query );
+		$hits = $db->loadResult();
 
 		$hits = $hits + $increase;
 

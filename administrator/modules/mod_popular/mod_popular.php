@@ -14,6 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$db =& $mainframe->getDBO();
 $query = "SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name"
 . "\n FROM #__content AS a"
 . "\n LEFT JOIN #__users AS u ON u.id=a.created_by"
@@ -21,8 +22,8 @@ $query = "SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name"
 . "\n ORDER BY hits DESC"
 . "\n LIMIT 10"
 ;
-$database->setQuery( $query );
-$rows = $database->loadObjectList();
+$db->setQuery( $query );
+$rows = $db->loadObjectList();
 ?>
 
 <table class="adminlist">

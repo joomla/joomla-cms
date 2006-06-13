@@ -267,7 +267,7 @@ class WeblinksController
 	{
 		global $mainframe;
 
-		$database =& $mainframe->getDBO();
+		$db		  =& $mainframe->getDBO();
 		$document =& $mainframe->getDocument();
 
 		// Get some request variables
@@ -289,10 +289,10 @@ class WeblinksController
     	. $where
     	. "\n ORDER BY ordering"
      	;
-		$database->setQuery( $query, 0, $limit );
-    	$rows = $database->loadObjectList();
+		$db->setQuery( $query, 0, $limit );
+    	$rows = $db->loadObjectList();
 
-		echo $database->getErrorMsg();
+		echo $db->getErrorMsg();
 
 		foreach ( $rows as $row )
 		{

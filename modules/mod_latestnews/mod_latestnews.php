@@ -15,6 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
+$db							=& $mainframe->getDBO();
 $type						= intval($params->get('type', 1));
 $count						= intval($params->get('count', 5));
 $catid						= trim($params->get('catid'));
@@ -23,7 +24,7 @@ $show_front					= $params->get('show_front', 1);
 $moduleclass_sfx			= $params->get('moduleclass_sfx');
 $now						= date('Y-m-d H:i:s', time());
 $access						= !$mainframe->getCfg('shownoauth');
-$nullDate					= $database->getNullDate();
+$nullDate					= $db->getNullDate();
 
 ?>
 <ul class="latestnews<?php echo $moduleclass_sfx; ?>">
@@ -44,8 +45,8 @@ switch ($type)
 				($access ? "\n AND a.access <= $my->gid" : '').
 				"\n ORDER BY a.created DESC" .
 				"\n LIMIT $count";
-		$database->setQuery($query);
-		$rows = $database->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		foreach ($rows as $row) {
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.($row->my_itemid?'&amp;Itemid='.$row->my_itemid:''));
@@ -71,8 +72,8 @@ switch ($type)
 				"\n ORDER BY a.created DESC" .
 				"\n LIMIT $count";
 
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
 
 		if (count($rows)) {
 			foreach ($rows as $row) {
@@ -113,8 +114,8 @@ switch ($type)
 				"\n AND cc.published = 1" .
 				"\n ORDER BY a.created DESC" .
 				"\n LIMIT $count";
-		$database->setQuery($query);
-		$rows = $database->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 		foreach ($rows as $row) {
 			$my_itemid = JContentHelper::getItemid($row->id);
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.($my_itemid?'&amp;Itemid='.$my_itemid:''));

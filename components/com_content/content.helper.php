@@ -135,10 +135,11 @@ class JContentHelper
 	*/
 	function buildWhere($type = 1, & $access, & $noauth, $gid, $id, $now = NULL, $year = NULL, $month = NULL)
 	{
-		global $database, $mainframe;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		$noauth = !$mainframe->getCfg('shownoauth');
-		$nullDate = $database->getNullDate();
+		$nullDate = $db->getNullDate();
 		$where = array ();
 
 		// normal
@@ -213,8 +214,10 @@ class JContentHelper
 
 	function getSectionLink(& $row)
 	{
+		global $mainframe;
+		$db =& $mainframe->getDBO();
 		static $links;
-
+		
 		if (!isset ($links)) {
 			$links = array ();
 		}
@@ -226,9 +229,9 @@ class JContentHelper
 					"\n AND (type = 'content_section' OR type = 'content_blog_section' )" .
 					"\n AND componentid = $row->sectionid" .
 					"\n ORDER BY type DESC, ordering";
-			$database->setQuery($query);
-			//$secLinkID = $database->loadResult();
-			$result = $database->loadRow();
+			$db->setQuery($query);
+			//$secLinkID = $db->loadResult();
+			$result = $db->loadRow();
 
 			$secLinkID = $result[0];
 			$secLinkURL = $result[1];
@@ -262,6 +265,8 @@ class JContentHelper
 
 	function getCategoryLink(& $row)
 	{
+		global $mainframe;
+		$db =& $mainframe->getDBO();
 		static $links;
 
 		if (!isset ($links)) {
@@ -276,8 +281,8 @@ class JContentHelper
 					"\n AND (type = 'content_category' OR type = 'content_blog_category' )" .
 					"\n AND componentid = $row->catid" .
 					"\n ORDER BY type DESC, ordering";
-			$database->setQuery($query);
-			$result = $database->loadRow();
+			$db->setQuery($query);
+			$result = $db->loadRow();
 
 			$catLinkID = $result[0];
 			$catLinkURL = $result[1];
@@ -298,8 +303,8 @@ class JContentHelper
 						"\n AND (type = 'content_section' OR type = 'content_blog_section' )" .
 						"\n AND componentid = $row->sectionid" .
 						"\n ORDER BY type DESC, ordering";
-				$database->setQuery($query);
-				$secLinkID = $database->loadResult();
+				$db->setQuery($query);
+				$secLinkID = $db->loadResult();
 
 				/*
 				 * Find it by section?

@@ -224,14 +224,14 @@ class mosToolBar {
 	* @param string The name of the popup file (excluding the file extension)
 	*/
 	function preview( $popup='' ) {
-		global $database;
+		$db =& JFactory::getDBO();
 
 		$sql = "SELECT template"
 		. "\n FROM #__templates_menu"
 		. "\n WHERE client_id = 0"
 		. "\n AND menuid = 0";
-		$database->setQuery( $sql );
-		$cur_template = $database->loadResult();
+		$db->setQuery( $sql );
+		$cur_template = $db->loadResult();
 
 		$alt	= JText::_( 'Preview' );
 		$image 	= mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );

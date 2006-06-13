@@ -85,8 +85,9 @@ switch ($task) {
 * Compiles a list of frontpage items
 */
 function viewFrontPage( $option ) {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db 				=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'fpordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -96,7 +97,7 @@ function viewFrontPage( $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array(
 		"c.state >= 0"
@@ -135,8 +136,8 @@ function viewFrontPage( $option ) {
 	. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -152,10 +153,10 @@ function viewFrontPage( $option ) {
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart,$pageNav->limit );
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$db->setQuery( $query, $pageNav->limitstart,$pageNav->limit );
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -165,9 +166,9 @@ function viewFrontPage( $option ) {
 	. "\n INNER JOIN #__sections AS s ON s.id = cc.section "
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$categories[] 	= mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
-	$categories 	= array_merge( $categories, $database->loadObjectList() );
+	$categories 	= array_merge( $categories, $db->loadObjectList() );
 	$lists['catid'] = mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
 
 	// get list of sections for dropdown filter
@@ -184,20 +185,22 @@ function viewFrontPage( $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$authors[] 			= mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
-	$authors 			= array_merge( $authors, $database->loadObjectList() );
+	$authors 			= array_merge( $authors, $db->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -210,8 +213,9 @@ function viewFrontPage( $option ) {
 * @param integer 0 if unpublishing, 1 if publishing
 */
 function changeFrontPage( $cid=null, $state=0, $option ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -225,14 +229,14 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('content', $database );
+		$row =& JTable::getInstance('content', $db );
 		$row->checkin( $cid[0] );
 	}
 
@@ -243,19 +247,20 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 }
 
 function removeFrontPage( &$cid, $option ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp = new JTableFrontPage( $database );
+	$fp = new JTableFrontPage( $db );
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
 			exit();
 		}
-		$obj =& JTable::getInstance('content', $database );
+		$obj =& JTable::getInstance('content', $db );
 		$obj->load( $id );
 		$obj->mask = 0;
 		if (!$obj->store()) {
@@ -276,9 +281,10 @@ function removeFrontPage( &$cid, $option ) {
 * @param integer The increment to reorder by
 */
 function orderFrontPage( $uid, $inc, $option ) {
-	global $database;
+	global $mainframe;
 
-	$fp = new JTableFrontPage( $database );
+	$db =& $mainframe->getDBO();
+	$fp = new JTableFrontPage( $db );
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -294,9 +300,10 @@ function orderFrontPage( $uid, $inc, $option ) {
 * @param string The URL option
 */
 function accessMenu( $uid, $access ) {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('content', $database );
+	$db = & $mainframe->getDBO();
+	$row =& JTable::getInstance('content', $db );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -314,8 +321,9 @@ function accessMenu( $uid, $access ) {
 }
 
 function saveOrder( &$cid ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
@@ -323,14 +331,14 @@ function saveOrder( &$cid ) {
 		$query = "UPDATE #__content_frontpage"
 		. "\n SET ordering = $order[$i]"
 		. "\n WHERE content_id = $cid[$i]";
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		// update ordering
-		$row = new JTableFrontPage( $database );
+		$row = new JTableFrontPage( $db );
 		$row->load( $cid[$i] );
 		$row->reorder();
 	}

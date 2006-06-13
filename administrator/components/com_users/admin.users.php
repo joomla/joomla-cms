@@ -79,7 +79,7 @@ function showUsers( )
 {
 	global $mainframe;
 
-	$database = $mainframe->getDBO();
+	$db = $mainframe->getDBO();
 	$currentUser = $mainframe->getUser();
 	$acl =& JFactory::getACL();
 
@@ -92,7 +92,7 @@ function showUsers( )
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where 				= array();
 
 	if (isset( $search ) && $search!= '') {
@@ -132,8 +132,8 @@ function showUsers( )
 	. $filter
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -148,8 +148,8 @@ function showUsers( )
 	. "\n GROUP BY a.id"
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
 
 	$n = count( $rows );
 	$template = "SELECT COUNT(s.userid)"
@@ -159,8 +159,8 @@ function showUsers( )
 	for ($i = 0; $i < $n; $i++) {
 		$row = &$rows[$i];
 		$query = sprintf( $template, intval( $row->id ) );
-		$database->setQuery( $query );
-		$row->loggedin = $database->loadResult();
+		$db->setQuery( $query );
+		$row->loggedin = $db->loadResult();
 	}
 
 	// get list of Groups for dropdown filter
@@ -169,9 +169,9 @@ function showUsers( )
 	. "\n WHERE name != 'ROOT'"
 	. "\n AND name != 'USERS'"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
-	$types 			= array_merge( $types, $database->loadObjectList() );
+	$types 			= array_merge( $types, $db->loadObjectList() );
 	$lists['type'] 	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
@@ -206,7 +206,7 @@ function editUser( )
 		$cid = array(0);
 	}
 
-	$database 	=& $mainframe->getDBO();
+	$db 		=& $mainframe->getDBO();
 	$user 	  	=& JUser::getInstance(intval($cid[0]));
 	$acl      	=& JFactory::getACL();
 
@@ -215,8 +215,8 @@ function editUser( )
 		. "\n FROM #__contact_details"
 		. "\n WHERE user_id =". $user->get('id')
 		;
-		$database->setQuery( $query );
-		$contact = $database->loadObjectList();
+		$db->setQuery( $query );
+		$contact = $db->loadObjectList();
 	} else {
 		$contact 	= NULL;
 		$row->block = 0;
@@ -316,7 +316,7 @@ function saveUser(  )
 			. "\n WHERE gid = 25"
 			. "\n AND block = 0"
 			;
-			$database->setQuery( $query );
+			$db->setQuery( $query );
 			$count = $db->loadResult();
 
 			if ( $count <= 1 ) {
@@ -383,7 +383,7 @@ function removeUsers(  )
 {
 	global $mainframe;
 
-	$database 		= $mainframe->getDBO();
+	$db 			= $mainframe->getDBO();
 	$currentUser 	= $mainframe->getUser();
 
 	$acl      		=& JFactory::getACL();
@@ -419,8 +419,8 @@ function removeUsers(  )
 					. "\n WHERE gid = 25"
 					. "\n AND block = 0"
 					;
-					$database->setQuery( $query );
-					$count = $database->loadResult();
+					$db->setQuery( $query );
+					$count = $db->loadResult();
 				}
 
 				if ( $count <= 1 && $user->gid == 25 ) {
@@ -464,7 +464,7 @@ function blockUser( ) {
 function changeUserBlock( $block=1 ) {
 	global $mainframe;
 
-	$database = $mainframe->getDBO();
+	$db = $mainframe->getDBO();
 
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
@@ -484,10 +484,10 @@ function changeUserBlock( $block=1 ) {
 	. "\n SET block = $block"
 	. "\n WHERE id IN ( $cids )"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -509,7 +509,8 @@ function changeUserBlock( $block=1 ) {
  * logout selected users
 */
 function logoutUser( ) {
-	global $database, $currentUser;
+	global $mainframe, $currentUser;
+	$db		=& $mainframe->getDBO();
 	$task 	= JRequest::getVar( 'task' );
 	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );
@@ -533,8 +534,8 @@ function logoutUser( ) {
 		;
 	}
 
-	$database->setQuery( $query );
-	$database->query();
+	$db->setQuery( $query );
+	$db->query();
 
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {

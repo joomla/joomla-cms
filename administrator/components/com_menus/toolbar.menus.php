@@ -35,12 +35,13 @@ switch ($task) {
 		$path 	= JPATH_ADMINISTRATOR .'/components/com_menus/';
 
 		if ( $cid[0] ) {
+			$db =& $mainframe->getDBO();
 			$query = "SELECT type"
 			. "\n FROM #__menu"
 			. "\n WHERE id = $cid[0]"
 			;
-			$database->setQuery( $query );
-			$type = $database->loadResult();
+			$db->setQuery( $query );
+			$type = $db->loadResult();
 			$item_path  = $path . $type .'/'. $type .'.menubar.php';
 
 			if ( $type ) {
@@ -50,7 +51,7 @@ switch ($task) {
 					TOOLBAR_menus::_EDIT();
 				}
 			} else {
-				echo $database->stderr();
+				echo $db->stderr();
 			}
 		} else {
 			$type 		= JRequest::getVar( 'type' );

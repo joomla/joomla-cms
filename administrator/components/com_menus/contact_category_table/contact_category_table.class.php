@@ -26,9 +26,10 @@ class contact_category_table_menu {
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
 	function editCategory( $uid, $menutype, $option ) {
-		global $database, $my, $mainframe;
+		global $my, $mainframe;
 
-		$menu =& JTable::getInstance('menu', $database );
+		$db =& $mainframe->getDBO();
+		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'

@@ -79,7 +79,7 @@ class JModuleHelper
 		global $Itemid, $task, $option, $my;
 
 		$user 		=& $mainframe->getUser();
-		$database   =& $mainframe->getDBO();
+		$db	 	    =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
 
 		//For backwards compatibility extract the config vars as globals

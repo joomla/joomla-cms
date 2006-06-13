@@ -39,8 +39,9 @@ switch ($task) {
 }
 
 function showSummary( $option, $task ) {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db	=& $mainframe->getDBO();
 	// get sort field and check against allowable field names
 	$field = strtolower( JRequest::getVar( 'field' ) );
 	if (!in_array( $field, array( 'agent', 'hits' ) )) {
@@ -90,16 +91,16 @@ function showSummary( $option, $task ) {
 	. "\n WHERE type = 0"
 	. "\n ORDER BY $order_by"
 	;
-	$database->setQuery( $query );
-	$browsers = $database->loadObjectList();
+	$db->setQuery( $query );
+	$browsers = $db->loadObjectList();
 
 	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"
 	. "\n FROM #__stats_agents"
 	. "\n WHERE type = 0"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$bstats = null;
-	$database->loadObject( $bstats );
+	$db->loadObject( $bstats );
 
 	// platform statistics
 	$query = "SELECT *"
@@ -107,16 +108,16 @@ function showSummary( $option, $task ) {
 	. "\n WHERE type = 1"
 	. "\n ORDER BY hits DESC"
 	;
-	$database->setQuery( $query );
-	$platforms = $database->loadObjectList();
+	$db->setQuery( $query );
+	$platforms = $db->loadObjectList();
 
 	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"
 	. "\n FROM #__stats_agents"
 	. "\n WHERE type = 1"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$pstats = null;
-	$database->loadObject( $pstats );
+	$db->loadObject( $pstats );
 
 	// domain statistics
 	$query = "SELECT *"
@@ -124,23 +125,24 @@ function showSummary( $option, $task ) {
 	. "\n WHERE type = 2"
 	. "\n ORDER BY hits DESC"
 	;
-	$database->setQuery( $query );
-	$tldomains = $database->loadObjectList();
+	$db->setQuery( $query );
+	$tldomains = $db->loadObjectList();
 
 	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"
 	. "\n FROM #__stats_agents"
 	. "\n WHERE type = 2"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$dstats = null;
-	$database->loadObject( $dstats );
+	$db->loadObject( $dstats );
 
 	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option );
 }
 
 function showPageImpressions( $option, $task ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+	global $mainframe, $mosConfig_list_limit;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'c.hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'DESC' );
 	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.$task.filter_catid", 		'filter_catid', 	'' );
@@ -149,7 +151,7 @@ function showPageImpressions( $option, $task ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mosConfig_list_limit );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 
 	// used by filter
@@ -178,8 +180,8 @@ function showPageImpressions( $option, $task ) {
 	. "\n FROM #__content AS c"
 	. $where
 	;
-	$database->setQuery($query);
-	$total = $database->loadResult();
+	$db->setQuery($query);
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -191,8 +193,8 @@ function showPageImpressions( $option, $task ) {
 	. $where
 	. $orderby
 	;
-	$database->setQuery($query, $pageNav->limitstart, $pageNav->limit);
-	$rows = $database->loadObjectList();
+	$db->setQuery($query, $pageNav->limitstart, $pageNav->limit);
+	$rows = $db->loadObjectList();
 
 	// get list of categories for dropdown filter
 	$query = "SELECT cc.id AS value, cc.title AS text, section"
@@ -200,9 +202,9 @@ function showPageImpressions( $option, $task ) {
 	. "\n INNER JOIN #__sections AS s ON s.id = cc.section "
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$categories[] 	= mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
-	$categories 	= array_merge( $categories, $database->loadObjectList() );
+	$categories 	= array_merge( $categories, $db->loadObjectList() );
 	$lists['catid'] = mosHTML::selectList( $categories, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid );
 
 	// get list of sections for dropdown filter
@@ -227,14 +229,15 @@ function showPageImpressions( $option, $task ) {
 }
 
 function showSearches( $option, $task, $showResults=null ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+	global $mainframe, $mosConfig_list_limit;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mosConfig_list_limit );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 
 	if ($search) {
@@ -249,8 +252,8 @@ function showSearches( $option, $task, $showResults=null ) {
 	. "\n FROM #__core_log_searches"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -260,11 +263,11 @@ function showSearches( $option, $task, $showResults=null ) {
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -302,8 +305,9 @@ function showSearches( $option, $task, $showResults=null ) {
 }
 
 function resetStats( $option, $task ) {
-		global $database, $mainfraime;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		$op = JRequest::getVar( 'op' );
 
 		switch ($op) {
@@ -312,8 +316,8 @@ function resetStats( $option, $task ) {
 				$query = "SELECT COUNT( * )"
 				. "\n FROM #__stats_agents"
 				;
-				$database->setQuery( $query );
-				$total = $database->loadResult();
+				$db->setQuery( $query );
+				$total = $db->loadResult();
 
 					if ( $total == 0 ) {
 						$msg = JText::_( 'reset statistics failed' );
@@ -332,8 +336,8 @@ function resetStats( $option, $task ) {
 				. "\n FROM #__content"
 				. "\n WHERE hits != 0"
 				;
-				$database->setQuery( $query );
-				$total = $database->loadResult();
+				$db->setQuery( $query );
+				$total = $db->loadResult();
 
 					if ( $total == 0 ) {
 						$msg = JText::_( 'reset statistics failed' );
@@ -354,8 +358,8 @@ function resetStats( $option, $task ) {
 				$query = "SELECT COUNT( * )"
 				. "\n FROM #__core_log_searches"
 				;
-				$database->setQuery( $query );
-				$total = $database->loadResult();
+				$db->setQuery( $query );
+				$total = $db->loadResult();
 
 					if ( $total == 0 ) {
 						$msg = JText::_( 'reset statistics failed' );
@@ -369,8 +373,8 @@ function resetStats( $option, $task ) {
 			break;
 		}
 
-		$database->setQuery( $query );
-		$database->query();
+		$db->setQuery( $query );
+		$db->query();
 
 		josRedirect( $redirecturl, $msg );
 }

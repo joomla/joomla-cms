@@ -69,15 +69,16 @@ switch( $task ) {
 }
 
 function showPolls( $option ) {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.id' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 
@@ -99,8 +100,8 @@ function showPolls( $option ) {
 	. "\n FROM #__polls AS m"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -113,11 +114,11 @@ function showPolls( $option ) {
 	. "\n GROUP BY m.id"
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
 
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -139,8 +140,9 @@ function showPolls( $option ) {
 }
 
 function editPoll( ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db		=& $mainframe->getDBO();
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -148,7 +150,7 @@ function editPoll( ) {
 	}
 	$uid 	= $cid[0];
 	
-	$row = new mosPoll( $database );
+	$row = new mosPoll( $db );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -167,8 +169,8 @@ function editPoll( ) {
 		. "\n WHERE pollid = $uid"
 		. "\n ORDER BY id"
 		;
-		$database->setQuery($query);
-		$options = $database->loadObjectList();
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
 	} else {
 		$row->lag = 3600*24;
 	}
@@ -179,8 +181,8 @@ function editPoll( ) {
 		. "\n FROM #__poll_menu"
 		. "\n WHERE pollid = $row->id"
 		;
-		$database->setQuery( $query );
-		$lookup = $database->loadObjectList();
+		$db->setQuery( $query );
+		$lookup = $db->loadObjectList();
 	} else {
 		$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
 	}
@@ -192,10 +194,11 @@ function editPoll( ) {
 }
 
 function savePoll( $task ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	// save the poll parent information
-	$row = new mosPoll( $database );
+	$row = new mosPoll( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -216,22 +219,22 @@ function savePoll( $task ) {
 	$options = JRequest::getVar( 'polloption', array(), 'post', 'array' );
 
 	foreach ($options as $i=>$text) {
-		$text = $database->Quote($text);
+		$text = $db->Quote($text);
 		if ($isNew) {
 			$query = "INSERT INTO #__poll_data"
 			. "\n ( pollid, text )"
 			. "\n VALUES ( $row->id, $text )"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 		} else {
 			$query = "UPDATE #__poll_data"
 			. "\n SET text = $text"
 			. "\n WHERE id = $i"
 			. "\n AND pollid = $row->id"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 		}
 	}
 
@@ -241,15 +244,15 @@ function savePoll( $task ) {
 	$query = "DELETE FROM #__poll_menu"
 	. "\n WHERE pollid = $row->id"
 	;
-	$database->setQuery( $query );
-	$database->query();
+	$db->setQuery( $query );
+	$db->query();
 
 	for ($i=0, $n=count($selections); $i < $n; $i++) {
 		$query = "INSERT INTO #__poll_menu"
 		. "\n SET pollid = $row->id, menuid = ". $selections[$i]
 		;
-		$database->setQuery( $query );
-		$database->query();
+		$db->setQuery( $query );
+		$db->query();
 	}
 
 	switch ($task) {
@@ -268,10 +271,12 @@ function savePoll( $task ) {
 
 function removePoll( $cid, $option )
 {
-	global $database;
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
 	$msg = '';
 	for ($i=0, $n=count($cid); $i < $n; $i++) {
-		$poll = new mosPoll( $database );
+		$poll = new mosPoll( $db );
 		if (!$poll->delete( $cid[$i] )) {
 			$msg .= $poll->getError();
 		}
@@ -287,8 +292,9 @@ function removePoll( $cid, $option )
 */
 function publishPolls( $cid=null, $publish=1, $option )
 {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -304,14 +310,14 @@ function publishPolls( $cid=null, $publish=1, $option )
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosPoll( $database );
+		$row = new mosPoll( $db );
 		$row->checkin( $cid[0] );
 	}
 	josRedirect( 'index2.php?option='. $option );
@@ -319,8 +325,10 @@ function publishPolls( $cid=null, $publish=1, $option )
 
 function cancelPoll( $option )
 {
-	global $database;
-	$row = new mosPoll( $database );
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
+	$row = new mosPoll( $db );
 	$row->bind( $_POST );
 	$row->checkin();
 	josRedirect( 'index2.php?option='. $option );
@@ -328,10 +336,11 @@ function cancelPoll( $option )
 
 function previewPoll($option)
 {
-	global $database, $mainframe;
-
+	global $mainframe;
+	
 	$mainframe->setPageTitle(JText::_('Poll Preview'));
 
+	$db 	=& $mainframe->getDBO();
 	$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
 	$css = JRequest::getVar( 't', '' );
 
@@ -339,16 +348,16 @@ function previewPoll($option)
 		. "\n FROM #__polls"
 		. "\n WHERE id = $pollid"
 	;
-	$database->setQuery( $query );
-	$title = $database->loadResult();
+	$db->setQuery( $query );
+	$title = $db->loadResult();
 
 	$query = "SELECT text"
 		. "\n FROM #__poll_data"
 		. "\n WHERE pollid = $pollid"
 		. "\n ORDER BY id"
 	;
-	$database->setQuery( $query );
-	$options = $database->loadResultArray();
+	$db->setQuery( $query );
+	$options = $db->loadResultArray();
 
 	HTML_poll::previewPoll($title, $options);
 }

@@ -99,15 +99,16 @@ switch ($task) {
 * @param string The name of the current user
 */
 function showSections( $scope, $option ) {
-	global $database, $my, $mainframe;
+	global $my, $mainframe;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	's.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where[] = "s.scope = '$scope'";
 
@@ -117,9 +118,11 @@ function showSections( $scope, $option ) {
 		} else if ($filter_state == 'U' ) {
 			$where[] = "s.published = 0";
 		}
-	}	if ($search) {
+	}
+	if ($search) {
 		$where[] = "LOWER(s.title) LIKE '%$search%'";
-	}
+	}
+
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";
 
@@ -128,8 +131,8 @@ function showSections( $scope, $option ) {
 	. "\n FROM #__sections AS s"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -143,10 +146,10 @@ function showSections( $scope, $option ) {
 	. "\n GROUP BY s.id"
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -158,8 +161,8 @@ function showSections( $scope, $option ) {
 		. "\n WHERE a.section = '". $rows[$i]->id ."'"
 		. "\n AND a.published <> -2"
 		;
-		$database->setQuery( $query );
-		$active = $database->loadResult();
+		$db->setQuery( $query );
+		$active = $db->loadResult();
 		$rows[$i]->categories = $active;
 	}
 	// number of Active Items
@@ -169,8 +172,8 @@ function showSections( $scope, $option ) {
 		. "\n WHERE a.sectionid = '". $rows[$i]->id ."'"
 		. "\n AND a.state <> -2"
 		;
-		$database->setQuery( $query );
-		$active = $database->loadResult();
+		$db->setQuery( $query );
+		$active = $db->loadResult();
 		$rows[$i]->active = $active;
 	}
 	// number of Trashed Items
@@ -180,13 +183,14 @@ function showSections( $scope, $option ) {
 		. "\n WHERE a.sectionid = '". $rows[$i]->id ."'"
 		. "\n AND a.state = -2"
 		;
-		$database->setQuery( $query );
-		$trash = $database->loadResult();
+		$db->setQuery( $query );
+		$trash = $db->loadResult();
 		$rows[$i]->trash = $trash;
 	}
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -209,8 +213,9 @@ function showSections( $scope, $option ) {
 * @param string The name of the current user
 */
 function editSection( ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db			=& $mainframe->getDBO();
 	$option 	= JRequest::getVar( 'option');
 	$scope 		= JRequest::getVar( 'scope' );
 	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -218,7 +223,7 @@ function editSection( ) {
 		$cid = array(0);
 	}
 	
-	$row =& JTable::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -236,8 +241,8 @@ function editSection( ) {
 			. "\n WHERE componentid = '". $row->id ."'"
 			. "\n AND ( type = 'content_archive_section' OR type = 'content_blog_section' OR type = 'content_section' )"
 			;
-			$database->setQuery( $query );
-			$menus = $database->loadObjectList();
+			$db->setQuery( $query );
+			$menus = $db->loadObjectList();
 			$count = count( $menus );
 			for( $i = 0; $i < $count; $i++ ) {
 				switch ( $menus[$i]->type ) {
@@ -298,13 +303,14 @@ function editSection( ) {
 * @param string The name of the category section
 */
 function saveSection( $option, $scope, $task ) {
-	global $database;
+	global $mainframe;
 
+	$db			=& $mainframe->getDBO();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
 
-	$row =& JTable::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index2.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
@@ -320,8 +326,8 @@ function saveSection( $option, $scope, $task ) {
 			. "\n WHERE name = '$oldtitle'"
 			. "\n AND type = 'content_section'"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 		}
 	}
 
@@ -364,8 +370,9 @@ function saveSection( $option, $scope, $task ) {
 * @param array An array of unique category id numbers
 */
 function removeSections( $cid, $scope, $option ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a section to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -379,9 +386,9 @@ function removeSections( $cid, $scope, $option ) {
 	. "\n WHERE s.id IN ( $cids )"
 	. "\n GROUP BY s.id"
 	;
-	$database->setQuery( $query );
-	if (!($rows = $database->loadObjectList())) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!($rows = $db->loadObjectList())) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 	}
 
 	$err = array();
@@ -400,9 +407,9 @@ function removeSections( $cid, $scope, $option ) {
 		$query = "DELETE FROM #__sections"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 
@@ -427,8 +434,9 @@ function removeSections( $cid, $scope, $option ) {
 * @param string The name of the current user
 */
 function publishSections( $scope, $cid=null, $publish=1, $option ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a section to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -449,14 +457,14 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if ( $count == 1 ) {
-		$row =& JTable::getInstance('section', $database );
+		$row =& JTable::getInstance('section', $db );
 		$row->checkin( $cid[0] );
 	}
 
@@ -467,8 +475,8 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 		. "\n WHERE type = 'content_section'"
 		. "\n AND componentid IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		$menus = $database->loadObjectList();
+		$db->setQuery( $query );
+		$menus = $db->loadObjectList();
 
 		if ($menus) {
 			foreach ($menus as $menu) {
@@ -476,8 +484,8 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 				. "\n SET published = " . intval( $publish )
 				. "\n WHERE id = $menu->id"
 				;
-				$database->setQuery( $query );
-				$database->query();
+				$db->setQuery( $query );
+				$db->query();
 			}
 		}
 	}
@@ -492,8 +500,10 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 * @param integer A unique category id
 */
 function cancelSection( $option, $scope ) {
-	global $database;
-	$row =& JTable::getInstance('section', $database );
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
+	$row =& JTable::getInstance('section', $db );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -505,9 +515,10 @@ function cancelSection( $option, $scope ) {
 * @param integer The increment to reorder by
 */
 function orderSection( $uid, $inc, $option, $scope ) {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('section', $database );
+	$db =& $mainframe->getDBO();
+	$row =& JTable::getInstance('section', $db );
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
@@ -519,8 +530,9 @@ function orderSection( $uid, $inc, $option, $scope ) {
 * Form for copying item(s) to a specific menu
 */
 function copySectionSelect( $option, $cid, $section ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -532,8 +544,8 @@ function copySectionSelect( $option, $cid, $section ) {
 	. "\n FROM #__categories AS a"
 	. "\n WHERE a.section IN ( $cids )"
 	;
-	$database->setQuery( $query );
-	$categories = $database->loadObjectList();
+	$db->setQuery( $query );
+	$categories = $db->loadObjectList();
 
 	## query to list items from categories
 	$query = "SELECT a.title, a.id"
@@ -541,8 +553,8 @@ function copySectionSelect( $option, $cid, $section ) {
 	. "\n WHERE a.sectionid IN ( $cids )"
 	. "\n ORDER BY a.sectionid, a.catid, a.title"
 	;
-	$database->setQuery( $query );
-	$contents = $database->loadObjectList();
+	$db->setQuery( $query );
+	$contents = $db->loadObjectList();
 
 	sections_html::copySectionSelect( $option, $cid, $categories, $contents, $section );
 }
@@ -552,14 +564,15 @@ function copySectionSelect( $option, $cid, $section ) {
 * Save the item(s) to the menu selected
 */
 function copySectionSave( $sectionid ) {
-	global $database;
+	global $mainframe;
 
+	$db			=& $mainframe->getDBO();
 	$title 		= JRequest::getVar( 'title' );
 	$contentid 	= JRequest::getVar( 'content' );
 	$categoryid = JRequest::getVar( 'category' );
 
 	// copy section
-	$section =& JTable::getInstance('section', $database );
+	$section =& JTable::getInstance('section', $db );
 	foreach( $sectionid as $id ) {
 		$section->load( $id );
 		$section->id 	= NULL;
@@ -584,7 +597,7 @@ function copySectionSave( $sectionid ) {
 	$sectionMove = $section->id;
 
 	// copy categories
-	$category =& JTable::getInstance('category', $database );
+	$category =& JTable::getInstance('category', $db );
 	foreach( $categoryid as $id ) {
 		$category->load( $id );
 		$category->id = NULL;
@@ -611,7 +624,7 @@ function copySectionSave( $sectionid ) {
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content =& JTable::getInstance('content', $database );
+	$content =& JTable::getInstance('content', $db );
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id = NULL;
@@ -637,7 +650,7 @@ function copySectionSave( $sectionid ) {
 		}
 		$content->checkin();
 	}
-	$sectionOld =& JTable::getInstance('section', $database );
+	$sectionOld =& JTable::getInstance('section', $db );
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
@@ -649,9 +662,10 @@ function copySectionSave( $sectionid ) {
 * @param integer The increment to reorder by
 */
 function accessMenu( $uid, $access, $option ) {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('section', $database );
+	$db	=& $mainframe->getDBO();
+	$row =& JTable::getInstance('section', $db );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -666,9 +680,10 @@ function accessMenu( $uid, $access, $option ) {
 }
 
 function menuLink( $id ) {
-	global $database;
+	global $mainframe;
 
-	$section =& JTable::getInstance('section', $database );
+	$db		=& $mainframe->getDBO();
+	$section =& JTable::getInstance('section', $db );
 	$section->bind( $_POST );
 	$section->checkin();
 
@@ -695,7 +710,7 @@ function menuLink( $id ) {
 			break;
 	}
 
-	$row 				=& JTable::getInstance('menu', $database );
+	$row 				=& JTable::getInstance('menu', $db );
 	$row->menutype 		= $menu;
 	$row->name 			= $name;
 	$row->type 			= $type;
@@ -724,11 +739,12 @@ function menuLink( $id ) {
 }
 
 function saveOrder( &$cid ) {
-	global $database;
+	global $mainframe;
 
+	$db			=& $mainframe->getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JTable::getInstance('section', $database );
+	$row 		=& JTable::getInstance('section', $db );
 	$conditions = array();
 
 	// update ordering values
@@ -737,7 +753,7 @@ function saveOrder( &$cid ) {
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			} // if
 			// remember to updateOrder this group

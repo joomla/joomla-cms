@@ -16,6 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.presentation.pagination');
 
+$db				=& $mainframe->getDBO();
 $user			= & $mainframe->getUser();
 $limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
 $limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
@@ -39,8 +40,8 @@ $query = "SELECT COUNT(*)"
 . $and
 . "\n ORDER BY usertype, username"
 ;
-$database->setQuery( $query );
-$total = $database->loadResult();
+$db->setQuery( $query );
+$total = $db->loadResult();
 
 // page navigation
 $pageNav = new JPagination( $total, $limitstart, $limit );
@@ -51,8 +52,8 @@ $query = "SELECT *"
 . $and
 . "\n ORDER BY usertype, username"
 ;
-$database->setQuery( $query );
-$rows = $database->loadObjectList();
+$db->setQuery( $query );
+$rows = $db->loadObjectList();
 ?>
 <table class="adminlist">
 <?php

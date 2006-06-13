@@ -81,7 +81,7 @@ function showNewsFeeds(  ) {
 	global $mainframe;
 
 	$option 			= JRequest::getVar( 'option');
-	$database 			= $mainframe->getDBO();
+	$db 				= $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -89,7 +89,7 @@ function showNewsFeeds(  ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 	if ( $filter_catid ) {
@@ -114,8 +114,8 @@ function showNewsFeeds(  ) {
 	. "\n FROM #__newsfeeds AS a"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -128,11 +128,11 @@ function showNewsFeeds(  ) {
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -163,7 +163,7 @@ function showNewsFeeds(  ) {
 function editNewsFeed(  ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db 		= $mainframe->getDBO();
 	$user 		= $mainframe->getUser();
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 	$cid 		= JRequest::getVar( 'cid', array(0));
@@ -172,7 +172,7 @@ function editNewsFeed(  ) {
 		$cid = array(0);
 	}
 
-	$row 		= new mosNewsFeed( $database );
+	$row 		= new mosNewsFeed( $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -208,10 +208,10 @@ function editNewsFeed(  ) {
 function saveNewsFeed(  ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db 		= $mainframe->getDBO();
 	$task 		= JRequest::getVar( 'task');
 
-	$row 		= new mosNewsFeed( $database );
+	$row 		= new mosNewsFeed( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -272,7 +272,7 @@ function unPublishNewsFeeds(  ) {
 function changePublishNewsFeeds( $publish ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db 		= $mainframe->getDBO();
 	$user 		= $mainframe->getUser();
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
@@ -293,14 +293,14 @@ function changePublishNewsFeeds( $publish ) {
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get('id') ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosNewsFeed( $database );
+		$row = new mosNewsFeed( $db );
 		$row->checkin( $cid[0] );
 	}
 
@@ -313,7 +313,7 @@ function changePublishNewsFeeds( $publish ) {
 function removeNewsFeeds( ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db 		= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option 	= JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -329,9 +329,9 @@ function removeNewsFeeds( ) {
 		$query = "DELETE FROM #__newsfeeds"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 
@@ -344,10 +344,10 @@ function removeNewsFeeds( ) {
 function cancelNewsFeed(  ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db 	= $mainframe->getDBO();
 	$option = JRequest::getVar( 'option');
 
-	$row = new mosNewsFeed( $database );
+	$row = new mosNewsFeed( $db );
 	$row->bind( $_POST );
 	$row->checkin();
 	josRedirect( 'index2.php?option='. $option );
@@ -374,7 +374,7 @@ function moveDownNewsFeed(  ) {
 function orderNewsFeed( $inc ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db		 	= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -385,7 +385,7 @@ function orderNewsFeed( $inc ) {
 	$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 
-	$row = new mosNewsFeed( $database );
+	$row = new mosNewsFeed( $db );
 	$row->load( $cid[0] );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -398,7 +398,7 @@ function orderNewsFeed( $inc ) {
 function saveOrder(  ) {
 	global $mainframe;
 
-	$database 	= $mainframe->getDBO();
+	$db		 	= $mainframe->getDBO();
 	$cid 		= JRequest::getVar( 'cid' );
 
 	$total		= count( $cid );
@@ -408,14 +408,14 @@ function saveOrder(  ) {
 		$query = "UPDATE #__newsfeeds"
 		. "\n SET ordering = $order[$i]"
 		. "\n WHERE id = $cid[$i]";
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		// update ordering
-		$row = new mosNewsFeed( $database );
+		$row = new mosNewsFeed( $db );
 		$row->load( $cid[$i] );
 		$row->reorder( "catid = $row->catid AND published != 0" );
 	}

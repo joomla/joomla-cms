@@ -21,11 +21,12 @@ $mainframe->registerEvent( 'onBeforeStart', 'botJoomlaSEFUrl' );
 *
 */
 function botJoomlaSEFUrl( ) {
-	global $mainframe, $task, $sectionid, $id, $Itemid, $limit, $limitstart, $database, $mod_rewrite_off;
+	global $mainframe, $task, $sectionid, $id, $Itemid, $limit, $limitstart, $mod_rewrite_off;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db					=& $mainframe->getDBO();
 	$mod_rewrite_off 	= 0;
 	$SEF 				= $mainframe->getCfg('sef');
 

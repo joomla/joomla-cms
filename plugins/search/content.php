@@ -41,7 +41,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	global $mainframe;
 	global $mosConfig_offset;
 
-	$database =& $mainframe->getDBO();
+	$db	  =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
 	if (is_array( $areas )) {
@@ -59,7 +59,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$sArchived 			= $pluginParams->get( 'search_archived', 		1 );
 	$limit 				= $pluginParams->def( 'search_limit', 		50 );
 
-	$nullDate 	= $database->getNullDate();
+	$nullDate 	= $db->getNullDate();
 	$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
 	$text = trim( $text );
@@ -147,8 +147,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n GROUP BY a.id"
 		. "\n ORDER BY $order"
 		;
-		$database->setQuery( $query, 0, $limit );
-		$list = $database->loadObjectList();
+		$db->setQuery( $query, 0, $limit );
+		$list = $db->loadObjectList();
 
 		$rows[] = $list;
 	}
@@ -169,8 +169,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. "\n ORDER BY ". ($morder ? $morder : $order)
 		;
-		$database->setQuery( $query, 0, $limit );
-		$list2 = $database->loadObjectList();
+		$db->setQuery( $query, 0, $limit );
+		$list2 = $db->loadObjectList();
 
 		$rows[] = $list2;
 	}
@@ -199,8 +199,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. "\n ORDER BY $order"
 		;
-		$database->setQuery( $query, 0, $limit );
-		$list3 = $database->loadObjectList();
+		$db->setQuery( $query, 0, $limit );
+		$list3 = $db->loadObjectList();
 
 		$rows[] = $list3;
 	}

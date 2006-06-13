@@ -146,7 +146,9 @@ function viewModules()
 		}
 	}
 
-	$where 		= "\n WHERE " . implode( ' AND ', $where );	$join 		= "\n " . implode( "\n ", $joins );	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
+	$where 		= "\n WHERE " . implode( ' AND ', $where );
+	$join 		= "\n " . implode( "\n ", $joins );
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -231,14 +233,15 @@ function viewModules()
 */
 function copyModule( $option, $uid )
 {
-	global $database, $my;
+	global $mainframe, $my;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db 	=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row 	=& JTable::getInstance('module', $database );
+	$row 	=& JTable::getInstance('module', $db );
 
 	// load the row from the db table
 	$row->load( $uid );
@@ -263,15 +266,15 @@ function copyModule( $option, $uid )
 	. "\n FROM #__modules_menu"
 	. "\n WHERE moduleid = $uid"
 	;
-	$database->setQuery( $query );
-	$rows = $database->loadResultArray();
+	$db->setQuery( $query );
+	$rows = $db->loadResultArray();
 
 	foreach($rows as $menuid) {
 		$query = "INSERT INTO #__modules_menu"
 		. "\n SET moduleid = $row->id, menuid = $menuid"
 		;
-		$database->setQuery( $query );
-		$database->query();
+		$db->setQuery( $query );
+		$db->query();
 	}
 
 	$msg = sprintf( JText::_( 'Module Copied' ), $row->title );
@@ -283,14 +286,15 @@ function copyModule( $option, $uid )
 */
 function saveModule( $option, $task )
 {
-	global $database;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row =& JTable::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $db );
 
 	if (!$row->bind( $_POST, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -314,8 +318,8 @@ function saveModule( $option, $task )
 	$query = "DELETE FROM #__modules_menu"
 	. "\n WHERE moduleid = $row->id"
 	;
-	$database->setQuery( $query );
-	$database->query();
+	$db->setQuery( $query );
+	$db->query();
 
 	// check needed to stop a module being assigned to `All`
 	// and other menu items resulting in a module being displayed twice
@@ -324,8 +328,8 @@ function saveModule( $option, $task )
 		$query = "INSERT INTO #__modules_menu"
 		. "\n SET moduleid = $row->id, menuid = 0"
 		;
-		$database->setQuery( $query );
-		$database->query();
+		$db->setQuery( $query );
+		$db->query();
 	}
 	else
 	{
@@ -337,8 +341,8 @@ function saveModule( $option, $task )
 				$query = "INSERT INTO #__modules_menu"
 				. "\n SET moduleid = $row->id, menuid = $menuid"
 				;
-				$database->setQuery( $query );
-				$database->query();
+				$db->setQuery( $query );
+				$db->query();
 			}
 		}
 	}
@@ -364,11 +368,12 @@ function saveModule( $option, $task )
 */
 function editModule( )
 {
-	global $database, $my, $mainframe;
+	global $mainframe, $my, $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db 	=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$module = JRequest::getVar( 'module' );
 	$option = JRequest::getVar( 'option');
@@ -379,7 +384,7 @@ function editModule( )
 	}	
 
 	$lists 	= array();
-	$row 	=& JTable::getInstance('module', $database );
+	$row 	=& JTable::getInstance('module', $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
 	// fail if checked out not by 'me'
@@ -422,9 +427,9 @@ function editModule( )
 	. "\n WHERE $where"
 	. "\n ORDER BY ordering"
 	;
-	$database->setQuery( $query );
-	if ( !($orders = $database->loadObjectList()) ) {
-		echo $database->stderr();
+	$db->setQuery( $query );
+	if ( !($orders = $db->loadObjectList()) ) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -433,9 +438,9 @@ function editModule( )
 	. "\n WHERE position <> ''"
 	. "\n ORDER BY position"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	// hard code options for now
-	$positions = $database->loadObjectList();
+	$positions = $db->loadObjectList();
 
 	$orders2 	= array();
 	$pos 		= array();
@@ -466,8 +471,8 @@ function editModule( )
 		. "\n FROM #__modules_menu"
 		. "\n WHERE moduleid = $row->id"
 		;
-		$database->setQuery( $query );
-		$lookup = $database->loadObjectList();
+		$db->setQuery( $query );
+		$lookup = $db->loadObjectList();
 	} else {
 		$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
 	}
@@ -535,10 +540,12 @@ function selectnew()
 		$path = JPATH_ROOT .'/modules/';
 	}
 
-	// handling for custom module	$modules[0]->file 		= 'custom.xml';
+	// handling for custom module
+	$modules[0]->file 		= 'custom.xml';
 	$modules[0]->module 	= 'custom';
 	$modules[0]->path 		= $path;
-	$i = 1;
+
+	$i = 1;
 	jimport('joomla.filesystem.folder');
 	$dirs = JFolder::folders( $path );
 
@@ -569,11 +576,12 @@ function selectnew()
 */
 function removeModule( &$cid, $option )
 {
-	global $database;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	if (count( $cid ) < 1) {
@@ -586,9 +594,9 @@ function removeModule( &$cid, $option )
 	$query = "SELECT id, module, title, iscore, params"
 	. "\n FROM #__modules WHERE id IN ( $cids )"
 	;
-	$database->setQuery( $query );
-	if (!($rows = $database->loadObjectList())) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!($rows = $db->loadObjectList())) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit;
 	}
 
@@ -614,20 +622,20 @@ function removeModule( &$cid, $option )
 		$query = "DELETE FROM #__modules"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 		$query = "DELETE FROM #__modules_menu"
 		. "\n WHERE moduleid IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."');</script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."');</script>\n";
 			exit;
 		}
-		$mod =& JTable::getInstance('module', $database );
+		$mod =& JTable::getInstance('module', $db );
 		$mod->ordering = 0;
 		$mod->reorder( "position='left'" );
 		$mod->reorder( "position='right'" );
@@ -648,8 +656,9 @@ function removeModule( &$cid, $option )
 */
 function publishModule( $cid=null, $publish=1, $option )
 {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -668,14 +677,14 @@ function publishModule( $cid=null, $publish=1, $option )
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('module', $database );
+		$row =& JTable::getInstance('module', $db );
 		$row->checkin( $cid[0] );
 	}
 
@@ -687,14 +696,15 @@ function publishModule( $cid=null, $publish=1, $option )
 */
 function cancelModule( $option )
 {
-	global $database;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row =& JTable::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $db );
 	// ignore array elements
 	$row->bind( $_POST, 'selections params' );
 	$row->checkin();
@@ -709,17 +719,18 @@ function cancelModule( $option )
 */
 function orderModule( $uid, $inc, $option )
 {
-	global $database;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row =& JTable::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $db );
 	$row->load( $uid );
 
-	$row->move( $inc, "position = ".$row->position." AND client_id=".$client->id  );
+	$row->move( $inc, "position = '".$row->position."' AND client_id=".$client->id  );
 
 	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
@@ -730,11 +741,12 @@ function orderModule( $uid, $inc, $option )
 */
 function accessMenu( $uid, $access, $option )
 {
-	global $database;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	switch ( $access ) {
@@ -751,7 +763,7 @@ function accessMenu( $uid, $access, $option )
 			break;
 	}
 
-	$row =& JTable::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $db );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -767,16 +779,17 @@ function accessMenu( $uid, $access, $option )
 
 function saveOrder( &$cid )
 {
-	global $database;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
+	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JTable::getInstance('module', $database );
+	$row 		=& JTable::getInstance('module', $db );
 	$conditions = array();
 
 	// update ordering values
@@ -785,7 +798,7 @@ function saveOrder( &$cid )
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			} // if
 			// remember to updateOrder this group
@@ -837,6 +850,7 @@ function ReadModuleXML( &$rows  )
 				$rows[$i]->name		= $data['name'];
 				$rows[$i]->descrip	= $data['description'];
 			}
-		}	}
+		}
+	}
 }
 ?>

@@ -81,7 +81,7 @@ class UserController
 		global $mainframe;
 		
 		// Initialize some variables
-		$database = & $mainframe->getDBO();
+		$db = & $mainframe->getDBO();
 
 		if ($uid == 0) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
@@ -144,7 +144,7 @@ class UserController
 	{
 		global $mainframe, $Itemid;
 
-		$database 		=& $mainframe->getDBO();
+		$db 		=& $mainframe->getDBO();
 		$breadcrumbs 	=& $mainframe->getPathWay();
 		$user			=& $mainframe->getUser();
 
@@ -155,14 +155,14 @@ class UserController
 			. "\n WHERE link LIKE '%$link%'"
 			. "\n AND published = 1"
 			;
-		$database->setQuery( $query );
-		$exists = $database->loadResult();
+		$db->setQuery( $query );
+		$exists = $db->loadResult();
 		if ( !$exists ) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
 
-		$menu =& JTable::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $Itemid );
 
 		// Set page title
@@ -178,7 +178,7 @@ class UserController
 	{
 		global $mainframe;
 
-		$database 	=& $mainframe->getDBO();
+		$db 	=& $mainframe->getDBO();
 
 		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
 
@@ -221,8 +221,8 @@ class UserController
 				. "\n AND gid = $user->get('gid')"
 				. "\n AND guest = 0"
 				;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 			
 			JSession::set('username', $user->get('username'));
 		}
@@ -235,9 +235,9 @@ class UserController
 	{
 		global $mainframe;
 
-		$database 	=& $mainframe->getDBO();
+		$db 	=& $mainframe->getDBO();
 
-		$nullDate = $database->getNullDate();
+		$nullDate = $db->getNullDate();
 		if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
@@ -250,8 +250,8 @@ class UserController
 			. "\n WHERE link LIKE '%$link%'"
 			. "\n AND published = 1"
 		;
-		$database->setQuery( $query );
-		$exists = $database->loadResult();
+		$db->setQuery( $query );
+		$exists = $db->loadResult();
 		if ( !$exists ) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
@@ -262,7 +262,7 @@ class UserController
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">";
 		while (list($tn) = mysql_fetch_array($lt)) {
 			// only check in the jos_* tables
-			if (strpos( $tn, $database->_table_prefix ) !== 0) {
+			if (strpos( $tn, $db->_table_prefix ) !== 0) {
 				continue;
 			}
 			$lf = mysql_list_fields($mainframe->getCfg('db'), "$tn");
@@ -288,32 +288,32 @@ class UserController
 					. "\n WHERE checked_out > 0"
 					. "\n AND checked_out = $userid"
 					;
-					$database->setQuery( $query );
+					$db->setQuery( $query );
 				} else {
 					$query = "SELECT checked_out"
 					. "\n FROM $tn"
 					. "\n WHERE checked_out > 0"
 					. "\n AND checked_out = $userid"
 					;
-					$database->setQuery( $query );
+					$db->setQuery( $query );
 				}
-				$res = $database->query();
-				$num = $database->getNumRows( $res );
+				$res = $db->query();
+				$num = $db->getNumRows( $res );
 
 				if ($editor) {
 					$query = "UPDATE $tn"
 					. "\n SET checked_out = 0, checked_out_time = '$nullDate', editor = NULL"
 					. "\n WHERE checked_out > 0"
 					;
-					$database->setQuery( $query );
+					$db->setQuery( $query );
 				} else {
 					$query = "UPDATE $tn"
 					. "\n SET checked_out = 0, checked_out_time = '$nullDate'"
 					. "\n WHERE checked_out > 0"
 					;
-					$database->setQuery( $query );
+					$db->setQuery( $query );
 				}
-				$res = $database->query();
+				$res = $db->query();
 
 				if ($res == 1) {
 

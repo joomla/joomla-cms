@@ -46,7 +46,7 @@ class JSearchContent extends JPlugin {
 	function onSearch( &$oSearch ) {
 		global $mainframe, $my;
 
-		$database =& $mainframe->getDBO();
+		$db 		=& $mainframe->getDBO();
 
 		if (!JSearchHelper::inArea( $oSearch->getAreas(), JSearchContent::onSearchAreas() )) {
 			// this bot is not in the search areas to be searched
@@ -64,7 +64,7 @@ class JSearchContent extends JPlugin {
 
 		$limit 		= $pluginParams->def( 'search_limit', 		50 );
 
-		$nullDate 	= $database->getNullDate();
+		$nullDate 	= $db->getNullDate();
 		$now 		= date( 'Y-m-d H:i:s', time()+$offset*60*60 );
 
 		$text = trim( $oSearch->getText() );
@@ -157,17 +157,17 @@ class JSearchContent extends JPlugin {
 			;
 
 			// just count the result set
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 
-			$oSearch->addResultCount( $database->getNumRows() );
+			$oSearch->addResultCount( $db->getNumRows() );
 
 			$limitstart	= $oSearch->getQueryLimitStart();
 			$limit		= $oSearch->getQueryLimit();
 
 			if ($limit) {
-				$database->setQuery( $query, 0, $limit );
-				$list = $database->loadObjectList();
+				$db->setQuery( $query, 0, $limit );
+				$list = $db->loadObjectList();
 
 				$oSearch->addResults( $list );
 			}
@@ -191,17 +191,17 @@ class JSearchContent extends JPlugin {
 			;
 
 			// just count the result set
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 
-			$oSearch->addResultCount( $database->getNumRows() );
+			$oSearch->addResultCount( $db->getNumRows() );
 
 			$limitstart	= $oSearch->getQueryLimitStart();
 			$limit		= $oSearch->getQueryLimit();
 
 			if ($limit) {
-				$database->setQuery( $query, 0, $limit );
-				$list = $database->loadObjectList();
+				$db->setQuery( $query, 0, $limit );
+				$list = $db->loadObjectList();
 
 				$oSearch->addResults( $list );
 			}
@@ -233,17 +233,17 @@ class JSearchContent extends JPlugin {
 			;
 
 			// just count the result set
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 
-			$oSearch->addResultCount( $database->getNumRows() );
+			$oSearch->addResultCount( $db->getNumRows() );
 
 			$limitstart	= $oSearch->getQueryLimitStart();
 			$limit		= $oSearch->getQueryLimit();
 
 			if ($limit) {
-				$database->setQuery( $query, 0, $limit );
-				$list = $database->loadObjectList();
+				$db->setQuery( $query, 0, $limit );
+				$list = $db->loadObjectList();
 
 				$oSearch->addResults( $list );
 			}

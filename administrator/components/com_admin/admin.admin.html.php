@@ -53,8 +53,10 @@ class HTML_admin_misc
 
 	function system_info( )
 	{
-		global $database, $_VERSION, $mosConfig_cachepath;
+		global $_VERSION, $mosConfig_cachepath;
 		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 		
 		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
@@ -129,14 +131,16 @@ class HTML_admin_misc
 
 	function ListComponents()
 	{
-		global $database;
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 
 		$query = "SELECT params"
 		. "\n FROM #__modules "
 		. "\n WHERE module = 'mod_components'"
 		;
-		$database->setQuery( $query );
-		$row = $database->loadResult();
+		$db->setQuery( $query );
+		$row = $db->loadResult();
 		$params = new JParameter( $row );
 
 		mosLoadAdminModule( 'components', $params );

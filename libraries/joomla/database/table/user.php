@@ -51,9 +51,9 @@ class JTableUser extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$database ) 
+	function __construct( &$db ) 
 	{
-		parent::__construct( '#__users', 'id', $database );
+		parent::__construct( '#__users', 'id', $db );
 
 		//initialise
 		$this->id  = 0;

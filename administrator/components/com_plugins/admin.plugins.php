@@ -84,8 +84,9 @@ switch ( $task )
 */
 function viewPlugins( $option, $client )
 {
-	global $database, $mainframe, $mosConfig_list_limit;
+	global $mainframe, $mosConfig_list_limit;
 
+	$db =& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'' );
@@ -93,7 +94,7 @@ function viewPlugins( $option, $client )
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 				'limitstart', 		0 );
 	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		1 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	if ($client == 'admin') {
 		$where[] = "p.client_id = '1'";
@@ -126,8 +127,8 @@ function viewPlugins( $option, $client )
 	. "\n FROM #__plugins AS p"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -140,10 +141,10 @@ function viewPlugins( $option, $client )
 	. "\n GROUP BY p.id"
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -155,20 +156,22 @@ function viewPlugins( $option, $client )
 	. "\n ORDER BY folder"
 	;
 	$types[] = mosHTML::makeOption( 1, '- '. JText::_( 'Select Type' ) .' -' );
-	$database->setQuery( $query );
-	$types 			= array_merge( $types, $database->loadObjectList() );
+	$db->setQuery( $query );
+	$types 			= array_merge( $types, $db->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-
+
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -180,9 +183,10 @@ function viewPlugins( $option, $client )
 */
 function savePlugin( $option, $client, $task )
 {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('plugin', $database);
+	$db =& $mainframe->getDBO();
+	$row =& JTable::getInstance('plugin', $db);
 
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -226,8 +230,9 @@ function savePlugin( $option, $client, $task )
 */
 function editPlugin( )
 {
-	global $database, $my, $mainframe;
+	global $my, $mainframe;
 
+	$db		= & $mainframe->getDBO();
 	$client = JRequest::getVar( 'client', 'site' );
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
@@ -236,7 +241,7 @@ function editPlugin( )
 	}
 	
 	$lists 	= array();
-	$row 	=& JTable::getInstance('plugin', $database);
+	$row 	=& JTable::getInstance('plugin', $db);
 
 	// load the row from the db table
 	$row->load( $cid[0] );
@@ -313,8 +318,9 @@ function editPlugin( )
 */
 function publishPlugin( $cid=null, $publish=1, $option, $client )
 {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
 		echo "<script> alert('". JText::_( 'Select a plugin to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -327,14 +333,14 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ))"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('plugin', $database);
+		$row =& JTable::getInstance('plugin', $db);
 		$row->checkin( $cid[0] );
 	}
 
@@ -346,9 +352,10 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 */
 function cancelPlugin( $option, $client )
 {
-	global $database;
+	global $mainframe;
 
-	$row =& JTable::getInstance('plugin', $database);
+	$db =& $mainframe->getDBO();
+	$row =& JTable::getInstance('plugin', $db);
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -362,15 +369,16 @@ function cancelPlugin( $option, $client )
 */
 function orderPlugin( $uid, $inc, $option, $client )
 {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	// Currently Unsupported
 	if ($client == 'admin') {
 		$where = "client_id = 1";
 	} else {
 		$where = "client_id = 0";
 	}
-	$row =& JTable::getInstance('plugin', $database);
+	$row =& JTable::getInstance('plugin', $db);
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
@@ -383,8 +391,9 @@ function orderPlugin( $uid, $inc, $option, $client )
 */
 function accessMenu( $uid, $access, $option, $client )
 {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	switch ( $access ) {
 		case 'accesspublic':
 			$access = 0;
@@ -399,7 +408,7 @@ function accessMenu( $uid, $access, $option, $client )
 			break;
 	}
 
-	$row =& JTable::getInstance('plugin', $database);
+	$row =& JTable::getInstance('plugin', $db);
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -415,11 +424,12 @@ function accessMenu( $uid, $access, $option, $client )
 
 function saveOrder( &$cid )
 {
-	global $database;
+	global $mainframe;
 
+	$db			=& $mainframe->getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JTable::getInstance('plugin', $database);
+	$row 		=& JTable::getInstance('plugin', $db);
 	$conditions = array();
 
 	// update ordering values
@@ -428,7 +438,7 @@ function saveOrder( &$cid )
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			} // if
 			// remember to updateOrder this group

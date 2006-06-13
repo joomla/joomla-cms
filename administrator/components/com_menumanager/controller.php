@@ -32,7 +32,7 @@ class MenuTypeController extends JController
 		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 
-		$database	= &$this->getDBO();
+		$db	= &$this->getDBO();
 		$mainframe	= &$this->getApplication();
 
 		$menus		= array();
@@ -47,8 +47,8 @@ class MenuTypeController extends JController
 		. "\n WHERE a.published = 1"
 		. "\n GROUP BY a.menutype"
 		;
-		$database->setQuery( $query );
-		$published = $database->loadObjectList( 'menutype' );
+		$db->setQuery( $query );
+		$published = $db->loadObjectList( 'menutype' );
 
 		// Query to get unpublished menu item counts
 		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num"
@@ -56,8 +56,8 @@ class MenuTypeController extends JController
 		. "\n WHERE a.published = 0"
 		. "\n GROUP BY a.menutype"
 		;
-		$database->setQuery( $query );
-		$unpublished = $database->loadObjectList( 'menutype' );
+		$db->setQuery( $query );
+		$unpublished = $db->loadObjectList( 'menutype' );
 
 		// Query to get trash menu item counts
 		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num"
@@ -65,8 +65,8 @@ class MenuTypeController extends JController
 		. "\n WHERE a.published = -2"
 		. "\n GROUP BY a.menutype"
 		;
-		$database->setQuery( $query );
-		$trash = $database->loadObjectList( 'menutype' );
+		$db->setQuery( $query );
+		$trash = $db->loadObjectList( 'menutype' );
 
 		$model		= &JModel::getInstance( 'JModelMenu' );
 		$menuTypes 	= $model->getMenuTypeList();
@@ -82,8 +82,8 @@ class MenuTypeController extends JController
 			. "\n WHERE module = 'mod_mainmenu'"
 			. "\n AND params LIKE '%" . $row->menutype . "%'"
 			;
-			$database->setQuery( $query );
-			$modules = $database->loadResult();
+			$db->setQuery( $query );
+			$modules = $db->loadResult();
 
 			if ( !$modules ) {
 				$modules = '-';
@@ -106,8 +106,9 @@ class MenuTypeController extends JController
 	 * Controller for view to create or edit a menu type
 	 */
 	function edit() {
-		global $database, $task;
+		global $mainframe, $task;
 
+		$db =& $mainframe->getDBO();
 		$id	= (int) JRequest::getVar( 'id', 0 );
 
 		if ($this->getTask() == 'new')
@@ -129,14 +130,15 @@ class MenuTypeController extends JController
 	 * Controller for saving a menu type
 	 */
 	function saveMenu() {
-		global $database;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		$id		= (int) JRequest::getVar( 'id', 0 );
 
-		$oldType = new JTableMenuTypes( $database );
+		$oldType = new JTableMenuTypes( $db );
 		$oldType->load( $id );
 
-		$menuType = new JTableMenuTypes( $database );
+		$menuType = new JTableMenuTypes( $db );
 		$menuType->bind( $_POST );
 
 		$isNew		= ($menuType->id == 0);
@@ -161,7 +163,7 @@ class MenuTypeController extends JController
 		if ($isNew) {
 			$title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' );
 
-			$module =& JTable::getInstance( 'module', $database );
+			$module =& JTable::getInstance( 'module', $db );
 			$module->title 		= $title;
 			$module->position 	= 'left';
 			$module->module 	= 'mod_mainmenu';
@@ -184,9 +186,9 @@ class MenuTypeController extends JController
 			// module assigned to show on All pages by default
 			// ToDO: Changed to become a Joomla! db-object
 			$query = "INSERT INTO #__modules_menu VALUES ( $module->id, 0 )";
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				josErrorAlert( $database->getErrorMsg() );
+			$db->setQuery( $query );
+			if ( !$db->query() ) {
+				josErrorAlert( $db->getErrorMsg() );
 				exit();
 			}
 
@@ -203,11 +205,11 @@ class MenuTypeController extends JController
 			. "\n WHERE module = 'mod_mainmenu'"
 			. "\n AND params LIKE '%menutype=$oldTerm%'"
 			;
-			$database->setQuery( $query );
-			$modules = $database->loadResultArray();
+			$db->setQuery( $query );
+			$modules = $db->loadResultArray();
 
 			foreach ($modules as $id) {
-				$row =& JTable::getInstance('module', $database );
+				$row =& JTable::getInstance('module', $db );
 				$row->load( $id );
 
 				$row->params = str_replace( $oldTerm, $newTerm, $row->params );
@@ -229,8 +231,8 @@ class MenuTypeController extends JController
 			. "\n SET menutype = '$menutype'"
 			. "\n WHERE menutype = '$old_menutype'"
 			;
-			$database->setQuery( $query );
-			$database->query();
+			$db->setQuery( $query );
+			$db->query();
 
 			$msg = JText::_( 'Menu Items & Modules updated' );
 		}
@@ -293,16 +295,17 @@ class MenuTypeController extends JController
 	* Compiles a list of the items you have selected to Copy
 	*/
 	function copyConfirm( $option, $type ) {
-		global $database;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		// Content Items query
 		$query = 	"SELECT a.name, a.id"
 		. "\n FROM #__menu AS a"
 		. "\n WHERE ( a.menutype = ( '$type' ) )"
 		. "\n ORDER BY a.name"
 		;
-		$database->setQuery( $query );
-		$items = $database->loadObjectList();
+		$db->setQuery( $query );
+		$items = $db->loadObjectList();
 
 		$view = new JMenuManagerConfirmCopyView( $this );
 		$view->display( $type, $items );
@@ -313,8 +316,9 @@ class MenuTypeController extends JController
 	* Copies a complete menu, all its items and creates a new module, using the name speified
 	*/
 	function copyMenu( $option, $cid, $type ) {
-		global $database;
+		global $mainframe;
 
+		$db				=& $mainframe->getDBO();
 		$menu_name 		= JRequest::getVar( 'menu_name', 'New Menu', 'post' );
 		$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
 
@@ -323,8 +327,8 @@ class MenuTypeController extends JController
 		. "\n FROM #__modules"
 		. "\n WHERE module = 'mod_mainmenu'"
 		;
-		$database->setQuery( $query );
-		$menus = $database->loadResultArray();
+		$db->setQuery( $query );
+		$menus = $db->loadResultArray();
 		foreach ( $menus as $menu ) {
 			$params = mosParseParams( $menu );
 			if ( $params->menutype == $menu_name ) {
@@ -336,8 +340,8 @@ class MenuTypeController extends JController
 		// copy the menu items
 		$mids 		= JRequest::getVar( 'mids', array(), 'post', 'array' );
 		$total 		= count( $mids );
-		$copy 		=& JTable::getInstance('menu', $database );
-		$original 	=& JTable::getInstance('menu', $database );
+		$copy 		=& JTable::getInstance('menu', $db );
+		$original 	=& JTable::getInstance('menu', $db );
 		sort( $mids );
 		$a_ids 		= array();
 
@@ -360,7 +364,7 @@ class MenuTypeController extends JController
 		}
 
 		// create the module copy
-		$row =& JTable::getInstance('module', $database );
+		$row =& JTable::getInstance('module', $db );
 		$row->load( 0 );
 		$row->title 	= $module_name;
 		$row->iscore 	= 0;
@@ -382,9 +386,9 @@ class MenuTypeController extends JController
 		// module assigned to show on All pages by default
 		// ToDO: Changed to become a Joomla! db-object
 		$query = "INSERT INTO #__modules_menu VALUES ( $row->id, 0 )";
-		$database->setQuery( $query );
-		if ( !$database->query() ) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if ( !$db->query() ) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 

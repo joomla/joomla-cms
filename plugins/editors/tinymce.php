@@ -51,7 +51,7 @@ class JEditor_tinymce extends JPlugin {
 	{
 		global $mainframe;
 
-		$database =& $mainframe->getDBO();
+		$db		  =& $mainframe->getDBO();
 		$language =& $mainframe->getLanguage();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
@@ -75,7 +75,8 @@ class JEditor_tinymce extends JPlugin {
 		$newlines			= $params->def( 'newlines', 0 );
 		$cleanup			= $params->def( 'cleanup', 1 );
 		$cleanup_startup	= $params->def( 'cleanup_startup', 0 );
-		$compressed			= $params->def( 'compressed', 0 );		$relative_urls		= $params->def( 'relative_urls', 0 );
+		$compressed			= $params->def( 'compressed', 0 );
+		$relative_urls		= $params->def( 'relative_urls', 0 );
 
 
 		// Plugins
@@ -96,7 +97,8 @@ class JEditor_tinymce extends JPlugin {
 		// horizontal line
 		$hr					=  $params->def( 'hr', 1 );
 		// fullscreen
-		$fullscreen			=  $params->def( 'fullscreen', 1 );		// autosave
+		$fullscreen			=  $params->def( 'fullscreen', 1 );
+		// autosave
 		$autosave			= $params->def( 'autosave', 0 );
 		// layer
 		$layer				= $params->def( 'layer', 1 );
@@ -128,8 +130,8 @@ class JEditor_tinymce extends JPlugin {
 			. "\n WHERE client_id = 0"
 			. "\n AND menuid = 0"
 			;
-			$database->setQuery( $query );
-			$template = $database->loadResult();
+			$db->setQuery( $query );
+			$template = $db->loadResult();
 
 			$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
 			if ( $content_css ) {
@@ -222,7 +224,8 @@ class JEditor_tinymce extends JPlugin {
 		}
 		// rtl/ltr buttons
 		$plugins[] = 'directionality';
-		$buttons2[] = 'ltr,rtl';		// autosave
+		$buttons2[] = 'ltr,rtl';
+		// autosave
 		if ( $autosave ) {
 			$plugins[]	= 'autosave';
 		}

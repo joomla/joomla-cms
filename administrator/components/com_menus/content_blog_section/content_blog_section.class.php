@@ -26,9 +26,10 @@ class content_blog_section {
 	* @param integer The unique id of the section to edit (0 if new)
 	*/
 	function edit( $uid, $menutype, $option ) {
-		global $database, $my, $mainframe;
+		global $my, $mainframe;
 
-		$menu =& JTable::getInstance('menu', $database );
+		$db =& $mainframe->getDBO();
+		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -50,8 +51,8 @@ class content_blog_section {
 				. "\n AND s.id IN ( $secids )"
 				. "\n ORDER BY s.name"
 				;
-				$database->setQuery( $query );
-				$lookup = $database->loadObjectList();
+				$db->setQuery( $query );
+				$lookup = $db->loadObjectList();
 			} else {
 				$lookup 			= '';
 			}
@@ -71,8 +72,8 @@ class content_blog_section {
 		. "\n WHERE s.scope = 'content'"
 		. "\n ORDER BY s.name"
 		;
-		$database->setQuery( $query );
-		$rows = array_merge( $rows, $database->loadObjectList() );
+		$db->setQuery( $query );
+		$rows = array_merge( $rows, $db->loadObjectList() );
 		$section = mosHTML::selectList( $rows, 'secid[]', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $lookup );
 		$lists['sectionid']		= $section;
 
@@ -95,15 +96,16 @@ class content_blog_section {
 
 	function saveMenu( $option, $task )
 	{
-		global $database;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		$params =JRequest::getVar( 'params', array(), 'post', 'array' );
 		$secids	= JRequest::getVar( 'secid', array(), 'post', 'array' );
 		$secid	= implode( ',', $secids );
 
 		$_POST['params']['sectionid']	= $secid;
 
-		$row =& JTable::getInstance('menu', $database );
+		$row =& JTable::getInstance('menu', $db );
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

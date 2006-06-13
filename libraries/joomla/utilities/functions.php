@@ -381,13 +381,13 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
  * @since 1.0
  */
 function mosGetOrderingList( $sql, $chop='30' ) {
-	global $database;
 
+	$db =& JFactory::getDBO();
 	$order = array();
-	$database->setQuery( $sql );
-	if (!($orders = $database->loadObjectList())) {
-		if ($database->getErrorNum()) {
-			echo $database->stderr();
+	$db->setQuery( $sql );
+	if (!($orders = $db->loadObjectList())) {
+		if ($db->getErrorNum()) {
+			echo $db->stderr();
 			return false;
 		} else {
 			$order[] = mosHTML::makeOption( 1, JText::_( 'first' ) );

@@ -25,8 +25,9 @@ $mainframe->registerEvent( 'onAfterStart', 'botDetectVisitor' );
  */
 function botDetectVisitor()
 {
-	global $database, $mainframe;
-
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
 	if ( mosGetParam( $_COOKIE, 'mosvisitor', 0 ) || !$mainframe->isSite() ) {
 		return;
 	}
@@ -54,42 +55,42 @@ function botDetectVisitor()
 	. "\n WHERE agent = '$browser'"
 	. "\n AND type = '0'"
 	;
-	$database->setQuery( $query );
-	if ($database->loadResult()) {
+	$db->setQuery( $query );
+	if ($db->loadResult()) {
 		$query = "UPDATE #__stats_agents"
 		. "\n SET hits = ( hits + 1 )"
 		. "\n WHERE agent = '$browser'"
 		. "\n AND type = '0'"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	} else {
 		$query = "INSERT INTO #__stats_agents"
 		. "\n ( agent, type ) VALUES ( '$browser', '0' )"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	}
-	$database->query();
+	$db->query();
 
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__stats_agents"
 	. "\n WHERE agent = '$platform'"
 	. "\n AND type = '1'"
 	;
-	$database->setQuery( $query );
-	if ($database->loadResult()) {
+	$db->setQuery( $query );
+	if ($db->loadResult()) {
 		$query = "UPDATE #__stats_agents"
 		. "\n SET hits = ( hits + 1 )"
 		. "\n WHERE agent = '$platform'"
 		. "\n AND type = '1'"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	} else {
 		$query = "INSERT INTO #__stats_agents"
 		. "\n ( agent, type ) VALUES ( '$platform', '1' )"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	}
-	$database->query();
+	$db->query();
 
 	// tease out the last element of the domain
 	$tldomain = split( "\.", $domain );
@@ -104,20 +105,20 @@ function botDetectVisitor()
 	. "\n WHERE agent = '$tldomain'"
 	. "\n AND type = '2'"
 	;
-	$database->setQuery( $query );
-	if ($database->loadResult()) {
+	$db->setQuery( $query );
+	if ($db->loadResult()) {
 		$query = "UPDATE #__stats_agents"
 		. "\n SET hits = ( hits + 1 )"
 		. "\n WHERE agent = '$tldomain'"
 		. "\n AND type = '2'"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	} else {
 		$query = "INSERT INTO #__stats_agents"
 		. "\n ( agent, type ) VALUES ( '$tldomain', '2' )"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 	}
-	$database->query();
+	$db->query();
 }
 ?>

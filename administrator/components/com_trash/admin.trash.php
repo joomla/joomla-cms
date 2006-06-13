@@ -75,17 +75,19 @@ switch ($task)
 */
 function viewTrashContent( $option )
 {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	'sectname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where[] = "c.state = -2";
-	if ($search) {
+
+	if ($search) {
 		$where[] = "LOWER(c.title) LIKE '%$search%'";
 	}
 
@@ -99,8 +101,8 @@ function viewTrashContent( $option )
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -115,21 +117,23 @@ function viewTrashContent( $option )
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$contents = $database->loadObjectList();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$contents = $db->loadObjectList();
 
 	for ( $i = 0; $i < $total; $i++ ) {
 		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
 			$contents[$i]->sectname = 'Typed Content';
 		}
-	}
+	}
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;
+
 	// search filter
 	$lists['search']= $search;
 
@@ -141,14 +145,17 @@ function viewTrashContent( $option )
 */
 function viewTrashMenu( $option )
 {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order", 	'filter_order', 	'm.menutype' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
-
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+
+
 	$where[] = "m.published = -2";
 
 	if ($search) {
@@ -163,8 +170,8 @@ function viewTrashMenu( $option )
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -177,8 +184,8 @@ function viewTrashMenu( $option )
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$menus = $database->loadObjectList();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$menus = $db->loadObjectList();
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
@@ -200,8 +207,9 @@ function viewTrashMenu( $option )
 */
 function viewdeleteTrash( $cid, $mid, $option )
 {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
@@ -215,8 +223,8 @@ function viewdeleteTrash( $cid, $mid, $option )
 		. "\n WHERE ( a.id IN ( $cids ) )"
 		. "\n ORDER BY a.title"
 		;
-		$database->setQuery( $query );
-		$items = $database->loadObjectList();
+		$db->setQuery( $query );
+		$items = $db->loadObjectList();
 		$id = $cid;
 		$type = "content";
 	} else if ( $mids ) {
@@ -226,8 +234,8 @@ function viewdeleteTrash( $cid, $mid, $option )
 		. "\n WHERE ( a.id IN ( $mids ) )"
 		. "\n ORDER BY a.name"
 		;
-		$database->setQuery( $query );
-		$items = $database->loadObjectList();
+		$db->setQuery( $query );
+		$items = $db->loadObjectList();
 		$id = $mid;
 		$type = "menu";
 	}
@@ -241,23 +249,24 @@ function viewdeleteTrash( $cid, $mid, $option )
 */
 function deleteTrash( $cid, $option )
 {
-	global $database;
+	global $mainframe;
 
+	$db		=& $mainframe->getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 
 	$total = count( $cid );
 
 	if ( $type == 'content' ) {
-		$obj =& JTable::getInstance('content', $database );
-		$fp = new JTableFrontPage( $database );
+		$obj =& JTable::getInstance('content', $db );
+		$fp = new JTableFrontPage( $db );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );
 			$fp->delete( $id );
 		}
 	} else if ( $type == "menu" ) {
-		$obj =& JTable::getInstance('menu', $database );
+		$obj =& JTable::getInstance('menu', $db );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );
@@ -273,8 +282,9 @@ function deleteTrash( $cid, $option )
 * Compiles a list of the items you have selected to permanently delte
 */
 function viewrestoreTrash( $cid, $mid, $option ) {
-	global $database;
+	global $mainframe;
 
+	$db		=& $mainframe->getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
@@ -288,8 +298,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 		. "\n WHERE ( a.id IN ( $cids ) )"
 		. "\n ORDER BY a.title"
 		;
-		$database->setQuery( $query );
-		$items = $database->loadObjectList();
+		$db->setQuery( $query );
+		$items = $db->loadObjectList();
 		$id = $cid;
 		$type = "content";
 	} else if ( $mids ) {
@@ -299,8 +309,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 		. "\n WHERE ( a.id IN ( $mids ) )"
 		. "\n ORDER BY a.name"
 		;
-		$database->setQuery( $query );
-		$items = $database->loadObjectList();
+		$db->setQuery( $query );
+		$items = $db->loadObjectList();
 		$id = $mid;
 		$type = "menu";
 	}
@@ -313,8 +323,9 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 * Restores items selected to normal - restores to an unpublished state
 */
 function restoreTrash( $cid, $option ) {
-	global $database;
+	global $mainframe;
 
+	$db		= & $mainframe->getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 
@@ -333,9 +344,9 @@ function restoreTrash( $cid, $option ) {
 		. "\n SET state = $state, ordering = $ordering"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if ( !$database->query() ) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if ( !$db->query() ) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 	} else if ( $type == 'menu' ) {
@@ -343,7 +354,7 @@ function restoreTrash( $cid, $option ) {
 
 		foreach ( $cid as $id ) {
 			$check = 1;
-			$row = new mosMenu( $database );
+			$row = new mosMenu( $db );
 			$row->load( $id );
 
 			// check if menu item is a child item
@@ -353,8 +364,8 @@ function restoreTrash( $cid, $option ) {
 				. "\n WHERE id = $row->parent"
 				. "\n AND ( published = 0 OR published = 1 )"
 				;
-				$database->setQuery( $query );
-				$check = $database->loadResult();
+				$db->setQuery( $query );
+				$check = $db->loadResult();
 
 				if ( !$check ) {
 					// if menu items parent is not found that are published/unpublished make it a root menu item
@@ -373,9 +384,9 @@ function restoreTrash( $cid, $option ) {
 				;
 			}
 
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			$db->setQuery( $query );
+			if ( !$db->query() ) {
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			}
 		}

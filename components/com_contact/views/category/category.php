@@ -126,7 +126,7 @@ class JContactViewCategory extends JView
 	{
 		global $mainframe;
 
-		$database =& $mainframe->getDBO();
+		$db		  =& $mainframe->getDBO();
 		$document =& $mainframe->getDocument();
 
 		$limit 			= JRequest::getVar('limit', 0, '', 'int');
@@ -151,8 +151,8 @@ class JContactViewCategory extends JView
     	. $where
     	. "\n ORDER BY a.catid, a.ordering"
     	;
-		$database->setQuery( $query, 0, $limit );
-    	$rows = $database->loadObjectList();
+		$db->setQuery( $query, 0, $limit );
+    	$rows = $db->loadObjectList();
 
 		foreach ( $rows as $row )
 		{

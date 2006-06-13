@@ -161,7 +161,7 @@ class JComponentHelper
 		global $Itemid, $task, $option, $id, $my;
 
 		$user 		=& $mainframe->getUser();
-		$database   =& $mainframe->getDBO();
+		$db			=& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
 
 		//For backwards compatibility extract the users gid as globals

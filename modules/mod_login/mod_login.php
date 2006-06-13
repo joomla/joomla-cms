@@ -43,6 +43,7 @@ else
 // converts & to &amp; for xtml compliance
 $return = str_replace('&', '&amp;', $return);
 
+$db						=& $mainframe->getDBO();
 $registration_enabled	= $mainframe->getCfg('allowUserRegistration');
 $pretext				= $params->get('pretext');
 $posttext				= $params->get('posttext');
@@ -60,8 +61,8 @@ if ($user->get('id'))
 		$query = "SELECT name" .
 				"\n FROM #__users" .
 				"\n WHERE id = ".$user->get('id');
-		$database->setQuery($query);
-		$name = $database->loadResult();
+		$db->setQuery($query);
+		$name = $db->loadResult();
 	}
 	else
 	{

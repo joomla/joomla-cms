@@ -15,6 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
+$db							=& $mainframe->getDBO();
 $type						= intval($params->get('type', 1));
 $count						= intval($params->get('count', 5));
 $catid						= trim($params->get('catid'));
@@ -23,7 +24,7 @@ $show_front					= $params->get('show_front', 1);
 $moduleclass_sfx			= $params->get('moduleclass_sfx');
 $now						= date('Y-m-d H:i:s', time());
 $access						= !$mainframe->getCfg('shownoauth');
-$nullDate					= $database->getNullDate();
+$nullDate					= $db->getNullDate();
 
 ?>
 <ul class="mostread<?php echo $moduleclass_sfx; ?>">
@@ -44,8 +45,8 @@ switch ($type)
 				($access ? "\n AND a.access <= $my->gid" : '').
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
-		$database->setQuery($query);
-		$rows = $database->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		foreach ($rows as $row) {
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.($row->my_itemid?'&amp;Itemid='.$row->my_itemid:''));
@@ -70,8 +71,8 @@ switch ($type)
 				($access ? "\n AND a.access <= $my->gid" : '') .
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
 		if (count($rows)) {
 			foreach ($rows as $row) {
 				if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $my->gid || $row->cat_access == '' || !$access) && ($row->sec_access <= $my->gid || $row->sec_access == '' || !$access)) {
@@ -111,8 +112,8 @@ switch ($type)
 				"\n AND cc.published = 1" .
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
-		$database->setQuery($query);
-		$rows = $database->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 		foreach ($rows as $row) {
 			$my_itemid = JContentHelper::getItemid($row->id);
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.($my_itemid?'&amp;Itemid='.$my_itemid:''));

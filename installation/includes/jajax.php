@@ -70,9 +70,9 @@ class JAJAXHandler {
 		/*
 		 * Get a database connection instance
 		 */
-		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'] );
+		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'] );
 
-		if ($err = $database->getErrorNum()) {
+		if ($err = $db->getErrorNum()) {
 			if ($err != 3) {
 				$objResponse->addAlert('Database Connection Failed');
 				return $objResponse;
@@ -84,13 +84,13 @@ class JAJAXHandler {
 		$collations = array();
 
 		// determine db version, utf support and available collations
-		$vars['DBversion'] = $database->getVersion();
+		$vars['DBversion'] = $db->getVersion();
 		$verParts = explode( '.', $vars['DBversion'] );
 		$vars['DButfSupport'] = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
 		if ($vars['DButfSupport']) {
 			$query = "SHOW COLLATION LIKE 'utf8%'";
-			$database->setQuery( $query );
-			$collations = $database->loadAssocList();
+			$db->setQuery( $query );
+			$collations = $db->loadAssocList();
 			// Tell javascript we have UTF support
 			$objResponse->addAssign('utfsupport', 'value', '1');
 		} else {
@@ -149,8 +149,8 @@ class JAJAXHandler {
 		 * execute the default sample data file
 		 */
 		$dbsample = '../sql/sample_data.sql';
-		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
-		$result = JInstallationHelper::populateDatabase($database, $dbsample, $errors);
+		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$result = JInstallationHelper::populateDatabase($db, $dbsample, $errors);
 
 		/*
 		 * prepare sql error messages if returned from populate

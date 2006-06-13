@@ -20,8 +20,9 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginImage' );
 */
 function pluginImage( &$row, &$params, $page=0 )
 {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
  	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '{image' ) === false ) {
 		return true;

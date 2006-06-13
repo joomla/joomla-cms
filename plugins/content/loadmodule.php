@@ -21,8 +21,9 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginLoadModule' );
 */
 function pluginLoadModule( &$row, &$params, $page=0 )
 {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, 'loadposition' ) === false ) {
 		return true;
@@ -59,14 +60,16 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 
 function processPositions ( &$row, &$matches, $count, $regex, $style )
 {
-	global $database;
+	global $mainframe;
+
+	$db =& $mainframe->getDBO();
 
 	$query = "SELECT position"
 	. "\n FROM #__template_positions"
 	. "\n ORDER BY position"
 	;
-	$database->setQuery( $query );
- 	$positions 	= $database->loadResultArray();
+	$db->setQuery( $query );
+ 	$positions 	= $db->loadResultArray();
 
  	for ( $i=0; $i < $count; $i++ ) {
  		$load = str_replace( 'oadposition', '', $matches[0][$i] );

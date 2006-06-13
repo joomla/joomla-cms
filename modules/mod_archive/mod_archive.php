@@ -17,13 +17,14 @@ defined('_JEXEC') or die('Restricted access');
 // Number of items to display
 $count = intval($params->def('count', 10));
 
+$db =& $mainframe->getDBO();
 $query = "SELECT MONTH( created ) AS created_month, created, id, sectionid, title, YEAR(created) AS created_year" .
 		"\n FROM #__content" .
 		"\n WHERE ( state = -1 AND checked_out = 0 AND sectionid > 0 )" .
 		"\n GROUP BY created_year DESC, created_month DESC" .
 		"\n LIMIT $count";
-$database->setQuery($query);
-$rows = $database->loadObjectList();
+$db->setQuery($query);
+$rows = $db->loadObjectList();
 ?>
 <ul>
 <?php

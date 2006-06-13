@@ -32,7 +32,7 @@ class JElement_Menu extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $database;
+		$db =& JFactory::getDBO();
 
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 		$model		= &JModel::getInstance( 'JModelMenu' );

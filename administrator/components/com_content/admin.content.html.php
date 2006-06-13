@@ -31,9 +31,10 @@ class ContentView
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
-		global $mainframe, $database;
+		global $mainframe;
 
 		// Initialize variables
+		$db =& $mainframe->getDBO();
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user	= & $mainframe->getUser();
 
@@ -121,7 +122,7 @@ class ContentView
 			<tbody>
 			<?php
 			$k = 0;
-			$nullDate = $database->getNullDate();
+			$nullDate = $db->getNullDate();
 			for ($i=0, $n=count( $rows ); $i < $n; $i++)
 			{
 				$row = &$rows[$i];
@@ -439,8 +440,9 @@ class ContentView
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option )
 	{
-		global $database;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		mosMakeHtmlSafe( $row );
 
 		jimport( 'joomla.presentation.editor' );
@@ -913,10 +915,10 @@ class ContentView
 	{
 		global $mainframe;
 
-		$database =& $mainframe->getDBO();
+		$db =& $mainframe->getDBO();
 
 		$create_date 	= null;
-		$nullDate 		= $database->getNullDate();
+		$nullDate 		= $db->getNullDate();
 
 		if ( $row->created != $nullDate ) {
 			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );

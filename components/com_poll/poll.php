@@ -37,14 +37,14 @@ function pollAddVote()
 {
 	global $mainframe;
 
-	$database	= $mainframe->getDBO();
+	$db			= $mainframe->getDBO();
 
 	$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
 	$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
 
 	$redirect = 1;
 
-	$poll = new mosPoll( $database );
+	$poll = new mosPoll( $db );
 	if (!$poll->load( $poll_id ) || $poll->published != 1)
 	{
 		echo '<h3>'. JText::_('ALERTNOTAUTH') .'</h3>';
@@ -72,7 +72,7 @@ function pollAddVote()
 
 	setcookie( $cookieName, '1', time() + $poll->lag );
 
-	$model = new JModelPolls( $database );
+	$model = new JModelPolls( $db );
 	$model->addVote( $poll_id, $option_id );
 
 	if ( $redirect ) {
@@ -93,9 +93,9 @@ function pollresult() {
 	global $mainframe;
 
 	$poll_id 	= JRequest::getVar( 'id', 0, '', 'int' );
-	$database	= $mainframe->getDBO();
+	$db	= $mainframe->getDBO();
 
-	$poll = new mosPoll( $database );
+	$poll = new mosPoll( $db );
 	$poll->load( $poll_id );
 
 	// if id value is passed and poll not published then exit
@@ -122,9 +122,9 @@ function pollresult() {
 		. "\n FROM #__poll_date"
 		. "\n WHERE poll_id = $poll->id"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 		$dates = null;
-		$database->loadObject( $dates );
+		$db->loadObject( $dates );
 
 		if (isset( $dates->mindate )) {
 			$first_vote = mosFormatDate( $dates->mindate, JText::_( 'DATEFORMATLC2' ) );
@@ -138,8 +138,8 @@ function pollresult() {
 		. "\n AND a.text <> ''"
 		. "\n ORDER BY a.hits DESC"
 		;
-		$database->setQuery( $query );
-		$votes = $database->loadObjectList();
+		$db->setQuery( $query );
+		$votes = $db->loadObjectList();
 	} else {
 		$votes = array();
 	}
@@ -150,8 +150,8 @@ function pollresult() {
 	. "\n WHERE published = 1"
 	. "\n ORDER BY id"
 	;
-	$database->setQuery( $query );
-	$polls = $database->loadObjectList();
+	$db->setQuery( $query );
+	$polls = $db->loadObjectList();
 
 	// Itemid for dropdown
 	$_Itemid = '';
@@ -173,7 +173,7 @@ function pollresult() {
 		);
 
 	// Adds parameter handling
-	$menu =& JTable::getInstance('menu', $database );
+	$menu =& JTable::getInstance('menu', $db );
 	$menu->load( $Itemid );
 
 	$params = new JParameter( $menu->params );

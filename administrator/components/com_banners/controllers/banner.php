@@ -19,7 +19,9 @@
 class JBannerController {
 	function viewBanners( $option )
 	{
-		global $database, $mainframe;
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -28,7 +30,7 @@ class JBannerController {
 		$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 		'limitstart', 		0 );
 		$search 			= $mainframe->getUserStateFromRequest( "$option.viewbanners.search", 			'search', 			'' );
-		$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 		$where = array();
 
@@ -60,8 +62,8 @@ class JBannerController {
 		. "\n FROM #__banner AS b"
 		. $where
 		;
-		$database->setQuery( $query );
-		$total = $database->loadResult();
+		$db->setQuery( $query );
+		$total = $db->loadResult();
 
 		jimport('joomla.presentation.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -74,8 +76,8 @@ class JBannerController {
 		. $where
 		. $orderby
 		;
-		$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-		$rows = $database->loadObjectList();
+		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+		$rows = $db->loadObjectList();
 
 		// build list of categories
 		$javascript 	= 'onchange="document.adminForm.submit();"';
@@ -99,8 +101,9 @@ class JBannerController {
 	}
 
 	function edit( ) {
-		global $database, $my;
+		global $mainframe, $my;
 
+		$db =& $mainframe->getDBO();
 		$cid 	= JRequest::getVar('cid', array(0));
 		$option = JRequest::getVar('option');
 		if (!is_array( $cid )) {
@@ -109,7 +112,7 @@ class JBannerController {
 		
 		$lists = array();
 
-		$row = new mosBanner($database);
+		$row = new mosBanner($db);
 		$row->load( $cid[0] );
 
 		if ($cid[0]){
@@ -122,14 +125,14 @@ class JBannerController {
 		$sql = "SELECT cid, name"
 		. "\n FROM #__bannerclient"
 		;
-		$database->setQuery($sql);
-		if (!$database->query()) {
-			echo $database->stderr();
+		$db->setQuery($sql);
+		if (!$db->query()) {
+			echo $db->stderr();
 			return;
 		}
 
 		$clientlist[] 		= mosHTML::makeOption( '0', JText::_( 'Select Client' ), 'cid', 'name' );
-		$clientlist 		= array_merge( $clientlist, $database->loadObjectList() );
+		$clientlist 		= array_merge( $clientlist, $db->loadObjectList() );
 		$lists['cid'] 		= mosHTML::selectList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
 
 		// Imagelist
@@ -150,9 +153,10 @@ class JBannerController {
 	}
 
 	function saveBanner( $task ) {
-		global $database;
+		global $mainframe;
 
-		$row = new mosBanner($database);
+		$db =& $mainframe->getDBO();
+		$row = new mosBanner($db);
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -199,9 +203,11 @@ class JBannerController {
 	}
 
 	function cancelEditBanner() {
-		global $database;
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 
-		$row = new mosBanner($database);
+		$row = new mosBanner($db);
 		$row->bind( $_POST );
 		$row->checkin();
 
@@ -209,7 +215,9 @@ class JBannerController {
 	}
 
 	function publishBanner( $cid, $publish=1 ) {
-		global $database, $my;
+		global $mainframe, $my;
+		
+		$db =& $mainframe->getDBO();
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$action = $publish ? 'publish' : 'unpublish';
@@ -224,14 +232,14 @@ class JBannerController {
 		. "\n WHERE bid IN ( $cids )"
 		. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		if (count( $cid ) == 1) {
-			$row = new mosBanner( $database );
+			$row = new mosBanner( $db );
 			$row->checkin( $cid[0] );
 		}
 		josRedirect( 'index2.php?option=com_banners' );
@@ -239,7 +247,9 @@ class JBannerController {
 	}
 
 	function removeBanner( $cid ) {
-		global $database;
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 
 		if (count( $cid ) && $cid[0] != 0) {
 			$cids = implode( ',', $cid );
@@ -251,9 +261,9 @@ class JBannerController {
 			$query = "DELETE FROM #__banner"
 			. "\n WHERE bid IN ( $cids )"
 			;
-			$database->setQuery( $query );
-			if (!$database->query()) {
-				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			$db->setQuery( $query );
+			if (!$db->query()) {
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			}
 		}
 

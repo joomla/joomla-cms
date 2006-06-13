@@ -276,16 +276,16 @@ class JAuthorization extends gacl_api
 	{
 		global $mainframe;
 
-		$database = $mainframe->getDBO();
+		$db =& $mainframe->getDBO();
 
-		$database->setQuery( "SELECT g.*"
+		$db->setQuery( "SELECT g.*"
 			. "\nFROM #__core_acl_{$type}_groups AS g"
 			. "\nINNER JOIN #__core_acl_groups_{$type}_map AS gm ON gm.group_id = g.id"
 			. "\nINNER JOIN #__core_acl_{$type} AS ao ON ao.id = gm.{$type}_id"
 			. "\nWHERE ao.value='$value'"
 		);
 		$obj = null;
-		$database->loadObject( $obj );
+		$db->loadObject( $obj );
 		return $obj;
 	}
 
@@ -293,7 +293,7 @@ class JAuthorization extends gacl_api
 	{
 		global $mainframe;
 
-		$database = $mainframe->getDBO();
+		$db =& $mainframe->getDBO();
 
 		$root = new stdClass();
 		$root->lft = 0;
@@ -301,8 +301,8 @@ class JAuthorization extends gacl_api
 
 		if ($root_id) {
 		} else if ($root_name) {
-			$database->setQuery( "SELECT lft, rgt FROM $table WHERE name='$root_name'" );
-			$database->loadObject( $root );
+			$db->setQuery( "SELECT lft, rgt FROM $table WHERE name='$root_name'" );
+			$db->loadObject( $root );
 		}
 
 		$where = '';
@@ -314,7 +314,7 @@ class JAuthorization extends gacl_api
 			}
 		}
 
-		$database->setQuery( "SELECT $fields"
+		$db->setQuery( "SELECT $fields"
 			. "\nFROM $table AS g1"
 			. "\nINNER JOIN $table AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt"
 			. "\n$where"
@@ -322,8 +322,8 @@ class JAuthorization extends gacl_api
 			. "\nORDER BY g1.lft"
 		);
 
-		//echo $database->getQuery();
-		return $database->loadObjectList();
+		//echo $db->getQuery();
+		return $db->loadObjectList();
 	}
 
 	/**
@@ -337,7 +337,7 @@ class JAuthorization extends gacl_api
 	{
 		global $mainframe;
 
-		$database = $mainframe->getDBO();
+		$db =& $mainframe->getDBO();
 
 		$tree = $this->_getBelow( '#__core_acl_aro_groups',
 			'g1.id, g1.name, COUNT(g2.name) AS level',
@@ -396,7 +396,7 @@ class JAuthorization extends gacl_api
 	{
 		global $mainframe;
 
-		$database = $mainframe->getDBO();
+		$db =& $mainframe->getDBO();
 
 		$this->debug_text("has_group_parent(): Source=$grp_src, Target=$grp_tgt, Type=$group_type");
 
@@ -410,31 +410,31 @@ class JAuthorization extends gacl_api
 		}
 
 		if (is_int( $grp_src ) && is_int($grp_tgt)) {
-			$database->setQuery( "SELECT COUNT(*)"
+			$db->setQuery( "SELECT COUNT(*)"
 				. "\nFROM $table AS g1"
 				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
 				. "\nWHERE g1.id=$grp_src AND g2.id=$grp_tgt"
 			);
 		} else if (is_string( $grp_src ) && is_string($grp_tgt)) {
-			$database->setQuery( "SELECT COUNT(*)"
+			$db->setQuery( "SELECT COUNT(*)"
 				. "\nFROM $table AS g1"
 				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
 				. "\nWHERE g1.name='$grp_src' AND g2.name='$grp_tgt'"
 			);
 		} else if (is_int( $grp_src ) && is_string($grp_tgt)) {
-			$database->setQuery( "SELECT COUNT(*)"
+			$db->setQuery( "SELECT COUNT(*)"
 				. "\nFROM $table AS g1"
 				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
 				. "\nWHERE g1.id='$grp_src' AND g2.name='$grp_tgt'"
 			);
 		} else {
-			$database->setQuery( "SELECT COUNT(*)"
+			$db->setQuery( "SELECT COUNT(*)"
 				. "\nFROM $table AS g1"
 				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
 				. "\nWHERE g1.name=$grp_src AND g2.id='$grp_tgt'"
 			);
 		}
-		return $database->loadResult();
+		return $db->loadResult();
 	}
 
 	/*======================================================================*\

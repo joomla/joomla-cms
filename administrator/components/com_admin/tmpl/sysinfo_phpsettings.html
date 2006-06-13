@@ -143,8 +143,8 @@
 		$query = "SELECT name FROM #__plugins"
 		. "\nWHERE folder='editors' AND published='1'"
 		. "\nLIMIT 1";
-		$database->setQuery( $query );
-		$editor = $database->loadResult();
+		$db->setQuery( $query );
+		$editor = $db->loadResult();
 		?>
 		<tr>
 			<td>

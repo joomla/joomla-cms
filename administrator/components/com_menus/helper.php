@@ -207,8 +207,9 @@ class JMenuHelper extends JObject {
 	 * Build the select list for parent menu item
 	 */
 	function Parent( &$row ) {
-		global $database;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		$id = '';
 		if ( $row->id ) {
 			$id = "\n AND id != $row->id";
@@ -228,8 +229,8 @@ class JMenuHelper extends JObject {
 		. $id
 		. "\n ORDER BY parent, ordering"
 		;
-		$database->setQuery( $query );
-		$mitems = $database->loadObjectList();
+		$db->setQuery( $query );
+		$mitems = $db->loadObjectList();
 
 		// establish the hierarchy of the menu
 		$children = array();

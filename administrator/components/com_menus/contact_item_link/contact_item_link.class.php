@@ -23,9 +23,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class contact_item_link_menu {
 
 	function edit( &$uid, $menutype, $option ) {
-		global $database, $my, $mainframe;
+		global $my, $mainframe;
 
-		$menu =& JTable::getInstance('menu', $database );
+		$db =& $mainframe->getDBO();
+		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -53,8 +54,8 @@ class contact_item_link_menu {
 		. "\n WHERE a.published = 1"
 		. "\n ORDER BY a.catid, a.name"
 		;
-		$database->setQuery( $query );
-		$contacts = $database->loadObjectList( );
+		$db->setQuery( $query );
+		$contacts = $db->loadObjectList( );
 
 		//	Create a list of links
 		$lists['contact'] = mosHTML::selectList( $contacts, 'contact_item_link', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );

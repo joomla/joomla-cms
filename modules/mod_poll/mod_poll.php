@@ -22,19 +22,20 @@ if (!defined('_JOS_POLL_MODULE')) {
 	 * @param int The current menu item
 	 */
 	function show_poll_vote_form($Itemid, &$params) {
-		global $database;
+		global $mainframe;
 
+		$db =& $mainframe->getDBO();
 		$query = "SELECT p.id, p.title" .
 				"\n FROM #__polls AS p, #__poll_menu AS pm" .
 				"\n WHERE (pm.menuid = ".(int) $Itemid." OR pm.menuid = 0)" .
 				"\n AND p.id = pm.pollid" .
 				"\n AND p.published = 1";
 
-		$database->setQuery($query);
-		$polls = $database->loadObjectList();
+		$db->setQuery($query);
+		$polls = $db->loadObjectList();
 
-		if ($database->getErrorNum()) {
-			echo $database->stderr(true);
+		if ($db->getErrorNum()) {
+			echo $db->stderr(true);
 			return;
 		}
 
@@ -45,10 +46,10 @@ if (!defined('_JOS_POLL_MODULE')) {
 						"\n WHERE pollid = $poll->id" .
 						"\n AND text <> ''" .
 						"\n ORDER BY id";
-				$database->setQuery($query);
+				$db->setQuery($query);
 
-				if (!($options = $database->loadObjectList())) {
-					echo "MD ".$database->stderr(true);
+				if (!($options = $db->loadObjectList())) {
+					echo "MD ".$db->stderr(true);
 					return;
 				}
 				poll_vote_form_html($poll, $options, $Itemid, $params);

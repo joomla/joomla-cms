@@ -99,8 +99,9 @@ switch ($task) {
 */
 function showContacts( $option )
 {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'cd.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -108,7 +109,7 @@ function showContacts( $option )
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.view.limitstart",	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 
@@ -117,7 +118,8 @@ function showContacts( $option )
 	}
 	if ( $filter_catid ) {
 		$where[] = "cd.catid = '$filter_catid'";
-	}	if ( $filter_state ) {
+	}
+	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
 			$where[] = "cd.published = 1";
 		} else if ($filter_state == 'U' ) {
@@ -133,8 +135,8 @@ function showContacts( $option )
 	. "\n FROM #__contact_details AS cd"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -149,15 +151,16 @@ function showContacts( $option )
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -178,15 +181,16 @@ function showContacts( $option )
 * @param string The current GET/POST option
 */
 function editContact( ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db		=& $mainframe->getDBO();
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
 	
-	$row = new JTableContact( $database );
+	$row = new JTableContact( $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -235,9 +239,10 @@ function editContact( ) {
 * @param string The current GET/POST option
 */
 function saveContact( $task ) {
-	global $database;
+	global $mainframe;
 
-	$row = new JTableContact( $database );
+	$db  =& $mainframe->getDBO();
+	$row = new JTableContact( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -277,14 +282,14 @@ function saveContact( $task ) {
 		. "\n WHERE id <> $row->id"
 		. "\n AND default_con = 1"
 		;
-		$database->setQuery( $query );
-		$database->query();
+		$db->setQuery( $query );
+		$db->query();
 	}
 
 	switch ($task) {
 		case 'apply':
 		case 'save2copy':
-			$link = 'index2.php?option=com_contact&task=editA&id='. $row->id .'&hidemainmenu=1';
+			$link = 'index2.php?option=com_contact&task=edit&id='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save2new':
@@ -306,16 +311,17 @@ function saveContact( $task ) {
 * @param string The current GET/POST option
 */
 function removeContacts( &$cid ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__contact_details"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 
@@ -329,8 +335,9 @@ function removeContacts( &$cid ) {
 * @param string The current option
 */
 function changeContact( $cid=null, $state=0 ) {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db =& $mainframe->getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $state ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -344,14 +351,14 @@ function changeContact( $cid=null, $state=0 ) {
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JTableContact( $database );
+		$row = new JTableContact( $db );
 		$row->checkin( intval( $cid[0] ) );
 	}
 
@@ -363,9 +370,10 @@ function changeContact( $cid=null, $state=0 ) {
 * @param integer The increment to reorder by
 */
 function orderContacts( $uid, $inc ) {
-	global $database;
+	global $mainframe;
 
-	$row = new JTableContact( $database );
+	$db =& $mainframe->getDBO();
+	$row = new JTableContact( $db );
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -376,9 +384,10 @@ function orderContacts( $uid, $inc ) {
 * Cancels editing and checks in the record
 */
 function cancelContact() {
-	global $database;
+	global $mainframe;
 
-	$row = new JTableContact( $database );
+	$db =& $mainframe->getDBO();
+	$row = new JTableContact( $db );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -390,9 +399,10 @@ function cancelContact() {
 * @param integer The increment to reorder by
 */
 function changeAccess( $id, $access  ) {
-	global $database;
+	global $mainframe;
 
-	$row = new JTableContact( $database );
+	$db =& $mainframe->getDBO();
+	$row = new JTableContact( $db );
 	$row->load( $id );
 	$row->access = $access;
 
@@ -407,8 +417,9 @@ function changeAccess( $id, $access  ) {
 }
 
 function saveOrder( &$cid ) {
-	global $database;
+	global $mainframe;
 
+	$db			=& $mainframe->getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
@@ -416,14 +427,14 @@ function saveOrder( &$cid ) {
 		$query = "UPDATE #__contact_details"
 		. "\n SET ordering = $order[$i]"
 		. "\n WHERE id = $cid[$i]";
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		// update ordering
-		$row = new JTableContact( $database );
+		$row = new JTableContact( $db );
 		$row->load( $cid[$i] );
 		$row->reorder( "catid = $row->catid AND published != 0" );
 	}

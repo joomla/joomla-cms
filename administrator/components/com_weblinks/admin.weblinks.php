@@ -31,7 +31,8 @@ $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 
 switch ($task) {
-	case 'new':	case 'edit':
+	case 'new':
+	case 'edit':
 		editWeblink();
 		break;
 	
@@ -81,8 +82,9 @@ switch ($task) {
 * @param database A database connector object
 */
 function showWeblinks( $option ) {
-	global $database, $mainframe;
+	global $mainframe;
 
+	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -90,7 +92,7 @@ function showWeblinks( $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 
@@ -116,8 +118,8 @@ function showWeblinks( $option ) {
 	. "\n FROM #__weblinks AS a"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
@@ -129,11 +131,11 @@ function showWeblinks( $option ) {
 	. $where
 	. $orderby
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -143,7 +145,8 @@ function showWeblinks( $option ) {
 
 	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-
+
+
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -164,8 +167,9 @@ function showWeblinks( $option ) {
 */
 function editWeblink()
 {
-	global $database, $my;
+	global $mainframe, $my;
 
+	$db		=& $mainframe->getDBO();
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	if (!is_array( $cid )) {
@@ -174,7 +178,7 @@ function editWeblink()
 	
 	$lists = array();
 
-	$row = new JTableWeblink( $database );
+	$row = new JTableWeblink( $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -218,9 +222,10 @@ function editWeblink()
 * @param database A database connector object
 */
 function saveWeblink( $task ) {
-	global $database, $my;
+	global $mainframe, $my;
 
-	$row = new JTableWeblink( $database );
+	$db	=& $mainframe->getDBO();
+	$row = new JTableWeblink( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -267,8 +272,9 @@ function saveWeblink( $task ) {
 * @param string The current url option
 */
 function removeWeblinks( $cid, $option ) {
-	global $database;
+	global $mainframe;
 
+	$db =& $mainframe->getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -278,9 +284,9 @@ function removeWeblinks( $cid, $option ) {
 		$query = "DELETE FROM #__weblinks"
 		. "\n WHERE id IN ( $cids )"
 		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 
@@ -294,9 +300,10 @@ function removeWeblinks( $cid, $option ) {
 * @param string The current url option
 */
 function publishWeblinks( $cid=null, $publish=1,  $option ) {
-	global $database, $my;
+	global $mainframe, $my;
 
-	$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
+	$db		=& $mainframe->getDBO();
+	$catid	= JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
@@ -311,14 +318,14 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
-	$database->setQuery( $query );
-	if (!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JTableWeblink( $database );
+		$row = new JTableWeblink( $db );
 		$row->checkin( $cid[0] );
 	}
 	josRedirect( "index2.php?option=". $option );
@@ -328,8 +335,10 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 * @param integer The increment to reorder by
 */
 function orderWeblinks( $uid, $inc, $option ) {
-	global $database;
-	$row = new JTableWeblink( $database );
+	global $mainframe;
+	
+	$db =& $mainframe->getDBO();
+	$row = new JTableWeblink( $db );
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
@@ -341,9 +350,10 @@ function orderWeblinks( $uid, $inc, $option ) {
 * @param string The current url option
 */
 function cancelWeblink() {
-	global $database;
+	global $mainframe;
 
-	$row = new JTableWeblink( $database );
+	$db =& $mainframe->getDBO();
+	$row = new JTableWeblink( $db );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -351,8 +361,9 @@ function cancelWeblink() {
 }
 
 function saveOrder( &$cid ) {
-	global $database;
+	global $mainframe;
 
+	$db			=& $mainframe->getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
@@ -360,14 +371,14 @@ function saveOrder( &$cid ) {
 		$query = "UPDATE #__weblinks"
 		. "\n SET ordering = $order[$i]"
 		. "\n WHERE id = $cid[$i]";
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		// update ordering
-		$row = new JTableWeblink( $database );
+		$row = new JTableWeblink( $db );
 		$row->load( $cid[$i] );
 		$row->reorder();
 	}
