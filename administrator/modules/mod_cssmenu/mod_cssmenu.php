@@ -114,7 +114,7 @@ function & buildMenu($usertype = '')
 		$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index2.php?option=com_config&hidemainmenu=1', 'class:config'));
 		$menu->addSeparator();
 	}
-	$menu->addChild(new JMenuNode(JText::_('Logout'), 'index2.php?option=com_logout', 'class:logout'));
+	$menu->addChild(new JMenuNode(JText::_('Logout'), 'index2.php?option=com_login&task=logout', 'class:logout'));
 
 	$menu->getParent();
 

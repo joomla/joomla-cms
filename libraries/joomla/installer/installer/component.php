@@ -551,7 +551,7 @@ class JInstallerComponent extends JInstaller
 			$db->setQuery($sql);
 			if (!$db->query())
 			{
-				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.$db->stder(true));
+				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.$db->stderr(true));
 				$retval = false;
 			}
 
@@ -633,7 +633,7 @@ class JInstallerComponent extends JInstaller
 		$db->setQuery($query);
 		if (!$db->query())
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::_createParentMenu: '.$db->stder(true));
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::_createParentMenu: '.$db->stderr(true));
 			return false;
 		}
 		$menuid = $db->insertid();

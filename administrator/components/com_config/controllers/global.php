@@ -251,7 +251,7 @@ class JConfigGlobalController extends JController
 		$formats  = array (mosHTML::makeOption('RSS2.0', JText::_('RSS')), mosHTML::makeOption('Atom', JText::_('Atom')));
 		$summary = array (mosHTML::makeOption(1, JText::_('Full Text')), mosHTML::makeOption(0, JText::_('Intro Text')),);
 
-		$lists['feed_limit']   = mosHTML::selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
+		$lists['feed_limit']   = mosHTML::selectList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
 
 		$lists['feed_excerpt'] = mosHTML::RadioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_excerpt);
 
@@ -266,6 +266,8 @@ class JConfigGlobalController extends JController
 	function save() 
 	{
 		global $mainframe, $mosConfig_password;
+		
+		echo $_POST['list_limit'];
 
 		$config =& JFactory::getConfig();
 		$config->loadArray($_POST);

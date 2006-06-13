@@ -62,7 +62,7 @@ class JDocumentPDF extends JDocument
 		$lang->load($option);
 		require_once( $path );
 
-		parent::display( $template, $file, $compress, $params );
+		parent::display( $cache, $compress, $params );
 	}
 }
 ?>
