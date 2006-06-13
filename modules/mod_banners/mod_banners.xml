@@ -13,6 +13,11 @@
 		<filename module="mod_banners">mod_banners.php</filename>
 	</files>
 	<params addparameterdir="/components/com_banners/elements">
+		<param name="target" type="list" default="1" label="Target" description="Target window when the link is clicked">
+			<option value="0">Parent Window With Browser Navigation</option>
+			<option value="1">New Window With Browser Navigation</option>
+			<option value="2">New Window Without Browser Navigation</option>
+		</param>
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>

@@ -72,8 +72,34 @@ class JModBannerController extends JController
 			}
 			else if ($model->isImage( $item->imageurl ))
 			{
-				$imageurl 	= 'images/banners/'.$item->imageurl;
-				echo '<a href="'.$link.'" target="_blank"><img src="'.$imageurl.'" border="0" alt="'.JText::_('Banner').'" /></a>';
+				$image 	= '<img src="images/banners/'.$item->imageurl.'" border="0" alt="'.JText::_('Banner').'" />';
+				if ($item->clickurl)
+				{
+					switch ($params->get( 'target', 1 )) {
+						// cases are slightly different
+						case 1:
+							// open in a new window
+							$a = '<a href="'. $link .'" target="_blank">';
+							break;
+		
+						case 2:
+							// open in a popup window
+							$a = "<a href=\"javascript:void window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">";
+							break;
+		
+						default:	// formerly case 2
+							// open in parent window
+							$a = '<a href="'. $link .'">';
+							break;
+					}
+
+					echo $a . $image . '</a>';
+				}
+				else
+				{
+					echo $image;
+					
+				}
 			}
 			else if ($model->isFlash( $item->imageurl ))
 			{
