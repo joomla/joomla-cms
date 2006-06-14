@@ -53,10 +53,4 @@ class JXMLRPC extends JApplication
 		return $url;
 	}
 }
-
-/**
- * @global $_VERSION
- */
-$_VERSION = new JVersion();
-
 ?>
