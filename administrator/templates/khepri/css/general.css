@@ -350,7 +350,7 @@ table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 }
 
 /** stu nicholls solution for centering divs **/
-.containter {clear:both; text-decoration:none;}
+.container {clear:both; text-decoration:none;}
 * html .container {display:inline-block;}
 
 /** table solution for global config **/
