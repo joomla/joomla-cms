@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: content.php 3912 2006-06-06 06:12:38Z eddieajau $
+ * @version $Id$
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

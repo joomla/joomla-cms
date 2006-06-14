@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: contact.php 3690 2006-05-27 04:59:14Z eddieajau $
+ * @version $Id$
  * @package Joomla
  * @subpackage Contact
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

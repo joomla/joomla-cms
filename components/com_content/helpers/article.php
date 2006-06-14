@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: frontpage.php 2874 2006-03-22 22:57:55Z webImagery $
+ * @version $Id$
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

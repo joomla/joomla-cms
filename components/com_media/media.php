@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: admin.media.php 3382 2006-05-05 00:30:32Z webImagery $
+ * @version $Id$
  * @package Joomla
  * @subpackage Massmail
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: mod_banners.php 3222 2006-04-24 01:49:01Z webImagery $
+ * @version $Id$
  * @package  Joomla
  * @subpackage Banners
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
