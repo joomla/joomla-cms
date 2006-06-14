@@ -149,16 +149,14 @@ function & buildMenu($usertype = '')
 	$menu->addChild(new JMenuNode(JText::_('Content')), true);
 	$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index2.php?option=com_content&sectionid=0', 'class:content'));
 	$menu->addSeparator();
-//	$menu->addChild(new JMenuNode(JText::_('Static Content Manager'), 'index2.php?option=com_typedcontent', 'class:static'));
 	$menu->addChild(new JMenuNode(JText::_('Section Manager'), 'index2.php?option=com_sections&scope=content', 'class:category'));
 	$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index2.php?option=com_categories&section=content', 'class:category'));
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index2.php?option=com_frontpage', 'class:frontpage'));
-//	$menu->addChild(new JMenuNode(JText::_('Archive Manager'), 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class:archive'));
 	if ($manageTrash) {
 		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewContent', 'class:trash'));
-		$menu->addChild(new JMenuNode(JText::_('Page Hits'), 'index2.php?option=com_statistics&task=pageimp', 'class:stats'));
+		$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index2.php?option=com_trash&task=viewContent', 'class:trash'));
+		$menu->addChild(new JMenuNode(JText::_('Article Statistics'), 'index2.php?option=com_statistics&task=pageimp', 'class:stats'));
 	}
 
 	$menu->getParent();
@@ -259,7 +257,6 @@ function & buildMenu($usertype = '')
 			$menu->addChild(new JMenuNode(JText::_('Clean Content Cache'), 'index2.php?option=com_admin&task=clean_cache', 'class:config'));
 			$menu->addChild(new JMenuNode(JText::_('Clean All Cache'), 'index2.php?option=com_admin&task=clean_all_cache', 'class:config'));
 		}
-		$menu->addChild(new JMenuNode(JText::_('System Info'), 'index2.php?option=com_admin&task=sysinfo', 'class:info'));
 
 		$menu->getParent();
 	}
@@ -268,8 +265,9 @@ function & buildMenu($usertype = '')
 	 * Help SubMenu
 	 */
 	$menu->addChild(new JMenuNode(JText::_('Help')), true);
-	$menu->addChild(new JMenuNode(JText::_('Help'), 'index2.php?option=com_admin&task=help', 'class:help'));
-
+	$menu->addChild(new JMenuNode(JText::_('Joomla! Help'), 'index2.php?option=com_admin&task=help', 'class:help'));
+	$menu->addChild(new JMenuNode(JText::_('System Info'), 'index2.php?option=com_admin&task=sysinfo', 'class:info'));
+	
 	$menu->getParent();
 
 	return $menu;
