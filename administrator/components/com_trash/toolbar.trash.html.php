@@ -26,7 +26,7 @@ class TOOLBAR_Trash {
 		if ( $task == 'viewMenu') {
 			$text = ': <small><small>['. JText::_( 'Menu Items' ) .']</small></small>';
 		} else {
-			$text = ': <small><small>['. JText::_( 'Content Items' ) .']</small></small>';
+			$text = ': <small><small>['. JText::_( 'Articles' ) .']</small></small>';
 		}
 
 		JMenuBar::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );

@@ -106,7 +106,6 @@ function & buildMenu($usertype = '')
 	}
 	$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index2.php?option=com_media', 'class:media'));
 	$menu->addSeparator();
-	//$site->addChild(new JMenuNode(JText::_('Preview...'), 'index2.php?option=com_templates&task=preview', 'class:preview'));
 	if ($enableStats || $enableSearches) {
 		$menu->addChild(new JMenuNode(JText::_('Statistics'), 'index2.php?option=com_statistics', 'class:stats'));
 	}
