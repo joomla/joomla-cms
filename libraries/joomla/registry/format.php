@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: xml.php 1443 2005-12-14 14:35:11Z pasamio $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php

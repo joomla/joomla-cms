@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: breadcrumbs.php 1592 2005-12-31 01:10:14Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php

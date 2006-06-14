@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
+* @version $Id$
 * @package Joomla.Legacy
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php

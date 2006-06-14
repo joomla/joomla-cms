@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: plugin.php 1479 2005-12-20 03:47:14Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php

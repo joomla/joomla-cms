@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: menu.php 3497 2006-05-15 02:35:23Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php

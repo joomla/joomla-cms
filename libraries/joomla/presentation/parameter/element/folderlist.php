@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: filelist.php 3520 2006-05-16 07:11:19Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php

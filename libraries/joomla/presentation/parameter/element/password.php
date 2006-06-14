@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: text.php 4013 2006-06-13 08:53:28Z webImagery $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php

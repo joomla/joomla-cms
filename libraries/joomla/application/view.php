@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: view.php 43 2006-03-27 14:33:24Z louis $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
