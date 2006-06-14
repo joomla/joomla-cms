@@ -41,7 +41,7 @@ class JContentHelper
 		 * Now we need to search for the {readmore} tag and split the text up
 		 * accordingly.
 		 */
-		$tagPos	= JString::strpos( $text, '<hr id=&quot;system-readmore&quot; />' );
+		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );
 
 		if ( $tagPos === false )
 		{
@@ -49,7 +49,7 @@ class JContentHelper
 		} else
 		{
 			$row->introtext	= JString::substr($text, 0, $tagPos);
-			$row->fulltext	= JString::substr($text, $tagPos + 37 );
+			$row->fulltext	= JString::substr($text, $tagPos + 27 );
 		}
 
 		return true;

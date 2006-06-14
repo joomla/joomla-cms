@@ -225,6 +225,7 @@ JPopup.prototype = {
 
 		if (resetURL) {
 			this.URL = null;
+			document.getElementById("popup-title").innerHTML = '';
 		}
 		
 		// display all select boxes
