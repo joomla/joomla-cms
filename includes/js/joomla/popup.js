@@ -71,7 +71,7 @@ JPopup.prototype = {
 				'<div id="popup-titlebar">' +
 					'<div id="popup-title"></div>' +
 					'<div id="popup-controls">' +
-						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide();" />' +
+						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide(null, true);" />' +
 					'</div>' +
 				'</div>' +
 				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
@@ -208,7 +208,7 @@ JPopup.prototype = {
  	 * @argument callReturnFunc - bool - determines if we call the return function specified
  	 * @argument returnVal - anything - return value 
  	 */
-	hide: function(callReturnFunc) 
+	hide: function(callReturnFunc, resetURL) 
 	{
 		this.visible = false;
 		
@@ -222,7 +222,10 @@ JPopup.prototype = {
 		if (callReturnFunc == true && this.returnFunc != null) {
 			this.returnFunc(window.frames["popup-frame"].returnVal);
 		}
-		//this.frame.src = this.baseURL+'includes/js/joomla/popup-loading.html';
+
+		if (resetURL) {
+			this.URL = null;
+		}
 		
 		// display all select boxes
 		if (this.hideSelects == true) {
