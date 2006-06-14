@@ -695,6 +695,7 @@ class ContentView
 		var title = form.title.value;
 
 		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
+		alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
 		</script>
 
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
