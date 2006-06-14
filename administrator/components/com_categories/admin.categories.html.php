@@ -226,8 +226,9 @@ class categories_html
 	*/
 	function edit( &$row, &$lists, $redirect, $menus )
 	{
-		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();
+		global $mainframe;
+		
+		$editor =& $mainframe->getEditor();
 
 		if ($row->image == '') {
 			$row->image = 'blank.png';

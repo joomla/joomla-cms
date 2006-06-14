@@ -20,7 +20,8 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginReadmoreButton' );
 * readmore button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginReadmoreButton($name) {
+function pluginReadmoreButton($name) 
+{
 	global $mainframe;
 
 	$option = $mainframe->getOption();
@@ -36,7 +37,7 @@ function pluginReadmoreButton($name) {
 			break;
 
 		default:
-			$editor =& JEditor::getInstance();
+			$editor =& $mainframe->getEditor();
 			$getContent = $editor->getContent($name);
 			$present = "Already Exists";
 			$js = "

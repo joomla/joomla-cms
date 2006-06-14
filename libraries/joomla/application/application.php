@@ -611,6 +611,34 @@ class JApplication extends JObject
 
 		return $this->_lang;
 	}
+	
+	/**
+	* Return a reference to the JEditor object
+	*
+	* @return JEditor 	A JEditor object
+	* @since 1.5
+	*/
+	function &getEditor()
+	{
+		jimport( 'joomla.presentation.editor' );
+		
+		if ($this->getCfg('editor') == '') {
+			$editor = 'none';
+		} else {
+			$editor = $this->getCfg('editor');
+		}
+
+		/*
+		 * Handle per-user editor options
+		 */
+		$user =& $this->getUser();
+		if (is_object($user)) {
+			$editor = $user->getParam('editor', $editor);
+		}
+		
+		$instance =& JEditor::getInstance($editor);
+		return $instance;
+	}
 
 	/**
 	 * Create a JPathWay object and set the home/component items of the pathway

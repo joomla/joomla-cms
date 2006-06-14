@@ -221,8 +221,7 @@ class HTML_modules {
 		$control	= $helper->getControlParams( $row->control );
 		$params		= $helper->getViewParams( $row->params, $control );
 
-		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();
+		$editor =& $mainframe->getEditor();
 
 		$row->titleA = '';
 		if ( $row->id ) {

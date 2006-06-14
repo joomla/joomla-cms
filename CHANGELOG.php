@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jun-2006 Johan Janssens
+ # Feature request [artf1718] : Selecting wysiwyg editor in components
+
 13-Jun-2006 Johan Janssens
  # Feature request [artf4683] : Extended Allowable filetypes in the media manager
  # Feature request [artf4065] : Include an option in global config to set allowable filetypes for uploading

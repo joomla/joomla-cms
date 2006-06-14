@@ -445,10 +445,8 @@ class ContentView
 		$db =& $mainframe->getDBO();
 		mosMakeHtmlSafe( $row );
 
-		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();
-
-		$pane =& JPane::getInstance('sliders');
+		$editor =& $mainframe->getEditor();
+		$pane   =& JPane::getInstance('sliders');
 
 		mosCommonHTML::loadOverlib();
 		mosCommonHTML::loadCalendar();
@@ -686,8 +684,9 @@ class ContentView
 
 	function previewContent()
 	{
-		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();
+		global $mainframe;
+		
+		$editor =& $mainframe->getEditor();
 
 		?>
 		<script>

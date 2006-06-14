@@ -153,8 +153,7 @@ class JContentViewArticle extends JView
 		$lists = $this->_buildEditLists();
 
 		// Load the JEditor object
-		jimport('joomla.presentation.editor');
-		$editor = & JEditor::getInstance();
+		$editor =& $app->getEditor();
 
 		// Load the mosTabs object
 		$tabs = new mosTabs(0);

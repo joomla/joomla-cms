@@ -19,15 +19,32 @@
  * @subpackage	Presentation
  * @since		1.5
  */
-class JEditor extends JObservable {
-
+class JEditor extends JObservable 
+{
 	/**
 	 * Editor Plugin object
+	 * 
+	 * 
 	 */
 	var $_editor = null;
+	
+	
+	/**
+	 * Editor Plugin name
+	 * 
+	 * 
+	 */
+	var $_name = null;
+	
+	/**
+	* constructor
+	*
+	* @access protected
+	* @param string The editor name
+	*/
 
-	function __construct() {
-
+	function __construct($editor = 'none') {
+		$this->_name = $editor;
 	}
 
 	/**
@@ -41,7 +58,7 @@ class JEditor extends JObservable {
 	 * @param string $editor  The editor to use.
 	 * @return JEditor  The Editor object.
 	 */
-	function & getInstance()
+	function & getInstance($editor = 'none')
 	{
 		static $instances;
 
@@ -49,11 +66,13 @@ class JEditor extends JObservable {
 			$instances = array ();
 		}
 
-		if (empty ($instances[0])) {
-			$instances[0] = new JEditor();
+		$signature = serialize($editor);
+		
+		if (empty ($instances[$signature])) {
+			$instances[$signature] = new JEditor($editor);
 		}
 
-		return $instances[0];
+		return $instances[$signature];
 	}
 
 	/**
@@ -62,21 +81,18 @@ class JEditor extends JObservable {
 	 */
 	function init()
 	{
-		global $mainframe;
-
 		$return = '';
-		if ($mainframe->get('loadEditor', false)) {
+		
+		$args['event'] = 'onInit';
 
-			$args['event'] = 'onInit';
-
-			$results[] = $this->_editor->update($args);
-			foreach ($results as $result) {
-				if (trim($result)) {
-					//$return .= $result;
-					$return = $result;
-				}
+		$results[] = $this->_editor->update($args);
+		foreach ($results as $result) {
+			if (trim($result)) {
+				//$return .= $result;
+				$return = $result;
 			}
 		}
+
 		return $return;
 	}
 
@@ -230,28 +246,9 @@ class JEditor extends JObservable {
 	function _loadEditor()
 	{
 		global $mainframe;
-
-		if ($mainframe->get('loadEditor')) {
-			return;
-		}
-
-		if ($mainframe->getCfg('editor') == '') {
-			$editor = 'none';
-		} else {
-			$editor = $mainframe->getCfg('editor');
-		}
-
-		/*
-		 * Handle per-user editor options
-		 */
-		$user	=& $mainframe->getUser();
-		if (is_object($user))
-		{
-			$editor = $user->getParam('editor', $editor);
-		}
-
+			
 		// Build the path to the needed editor plugin
-		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$editor.'.php';
+		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$this->_name.'.php';
 
 		//TODO::Raise warning when the file can't be found
 
@@ -259,12 +256,10 @@ class JEditor extends JObservable {
 		require_once ($path);
 
 		// Build editor plugin classname
-		$name = 'JEditor_'.$editor;
+		$name = 'JEditor_'.$this->_name;
 		$this->_editor = new $name ($this);
 
 		JPluginHelper::importPlugin('editors-xtd');
-
-		$mainframe->set('loadEditor', true);
 	}
 }
 ?>

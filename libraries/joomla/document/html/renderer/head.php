@@ -36,8 +36,8 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 		echo $this->fetchHead($this->_doc);
 
 		if(class_exists('JEditor')) {
-			jimport( 'joomla.presentation.editor' );
-			$editor =& JEditor::getInstance();
+			global $mainframe;
+			$editor =& $mainframe->getEditor();
 			echo $editor->init();
 		}
 

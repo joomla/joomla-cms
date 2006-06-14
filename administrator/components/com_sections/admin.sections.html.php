@@ -195,8 +195,7 @@ class sections_html
 	{
 		global $mainframe;
 
-		jimport( 'joomla.presentation.editor' );
-		$editor =& JEditor::getInstance();
+		$editor =& $mainframe->getEditor();
 
 		if ( $row->name != '' ) {
 			$name = $row->name;

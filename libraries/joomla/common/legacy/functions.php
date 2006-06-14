@@ -260,8 +260,8 @@ function mosLoadComponent( $name ) {
  * @package		Joomla.Legacy
  */
 function initEditor() {
-	jimport( 'joomla.presentation.editor' );
-	$editor =& JEditor::getInstance();
+	global $mainframe;
+	$editor =& $mainframe->getEditor();
 	echo $editor->init();
 }
 
