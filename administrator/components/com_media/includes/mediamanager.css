@@ -24,7 +24,7 @@
 #folderview .path { margin-bottom: 10px;  }
 #folderview .view { display: block; margin: 0; padding: 0; height: 360px; }
 
-#folderview input#folderpath   { width: 70%; background-color: #EEE; }
+#folderview input#folderpath   { width: 65%; background-color: #EEE; }
 #folderview input#foldername   { width: 20%; }
 #folderview iframe#folderframe { height: 100%; }
 

@@ -66,9 +66,9 @@ class JMediaViews
 				<fieldset id="folderview">
 					<legend><?php echo JText::_( 'Files' ); ?></legend>
 					<div class="path">
-						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
+						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
-						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create' ); ?></button>
+						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create Folder' ); ?></button>
 					</div>
 					<div class="view">
 						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onloadframe();"></iframe>
