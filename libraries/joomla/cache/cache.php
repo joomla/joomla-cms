@@ -178,11 +178,10 @@ class JCache extends Cache_Lite
 	}
 
 	/**
-	 * Deprecated, use JFactory createCache instead
+	 * Deprecated, use JFactory getCache instead
 	 * @since 1.5
 	 */
-	function & getCache($group = '')
-	{
+	function & getCache($group = '') {
 		return JFactory::getCache($group);
 	}
 }

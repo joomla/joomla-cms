@@ -74,10 +74,6 @@ switch ($task) {
 		JMediaController::listMedia();
 		break;
 
-	case 'cancel' :
-		josRedirect('index.php');
-		break;
-
 		// popup directory creation interface for use by components
 	case 'popupDirectory' :
 		JMediaController::showFolder();

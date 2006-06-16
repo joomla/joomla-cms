@@ -43,7 +43,6 @@ class TOOLBAR_media {
 
 		// Add a popup configuration button
 		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_media', '700', '500' );
-		JMenuBar::cancel('cancel', 'Close');
 		JMenuBar::help( 'screen.mediamanager' );
 	}
 }
