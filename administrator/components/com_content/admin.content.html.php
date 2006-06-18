@@ -704,10 +704,6 @@ class ContentView
 		<tr>
 			<script>document.write("<td valign=\"top\" height=\"90%\" colspan=\"2\">" + alltext + "</td>");</script>
 		</tr>
-		<tr>
-			<td align="right"><a href="#" onclick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
-			<td ><a href="javascript:;" onclick="window.print(); return false"><?php echo JText::_( 'Print' ); ?></a></td>
-		</tr>
 		</table>
 		<?php
 	}

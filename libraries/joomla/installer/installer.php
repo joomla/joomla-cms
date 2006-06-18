@@ -287,7 +287,8 @@ class JInstaller extends JObject
 			// None of the xml files found were valid install files
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORJOSXMLSETUP'));
 			return false;
-		} else
+		} 
+		else
 		{
 			// No xml files were found in the install folder
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORXMLSETUP'));

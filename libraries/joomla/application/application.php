@@ -1202,7 +1202,7 @@ class JApplicationHelper
 	 *
 	 * @access private
 	 * @param string 	$parth			A file name
-	 * @param integer 	$checkAdmin		0 to check site, 1 to check site and admin only, -1 to check admin only
+	 * @param integer 	$checkAdmin		0 to check site only, 1 to check site and admin, -1 to check admin only
 	 * @since 1.5
 	 */
 	function _checkPath( $path, $checkAdmin=1 )

@@ -67,8 +67,8 @@ class HTML_admin_misc
 		ob_start();
 		require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'navigation.html');
 		$contents = ob_get_contents();
-		ob_clean();		
-	
+		ob_clean();	
+		
 		$document->set('module', 'submenu', $contents);
 		?>
 		<form action="index2.php" method="post" name="adminForm">

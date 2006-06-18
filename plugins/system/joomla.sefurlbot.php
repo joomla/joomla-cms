@@ -20,7 +20,8 @@ $mainframe->registerEvent( 'onBeforeStart', 'botJoomlaSEFUrl' );
 * Converting the site URL to fit to the HTTP request
 *
 */
-function botJoomlaSEFUrl( ) {
+function botJoomlaSEFUrl( ) 
+{
 	global $mainframe, $task, $sectionid, $id, $Itemid, $limit, $limitstart, $mod_rewrite_off;
 
 	/*
@@ -373,7 +374,8 @@ function botJoomlaSEFUrl( ) {
  * @return string The absolute search engine friendly URL
  * @since 1.0
  */
-function sefRelToAbs( $string ) {
+function sefRelToAbs( $string ) 
+{
 	global $mainframe, $iso_client_lang, $mod_rewrite_off;
 
 	/*
