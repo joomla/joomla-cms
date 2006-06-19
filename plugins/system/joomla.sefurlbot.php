@@ -99,21 +99,48 @@ function botJoomlaSEFUrl( )
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&filter=$filter&limit=$limit&limitstart=$limitstart";
-			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
-				// $option/$task/$sectionid/$Itemid/$limit/$limitstart/year/month
+		} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && $url_array[$pos+5] > 1000 && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
+				// $option/$task/$id/$limit/$limitstart/year/month/module
 				$task 					= $url_array[$pos+1];
-				$sectionid				= $url_array[$pos+2];
+				$id						= $url_array[$pos+2];
+				$limit 					= $url_array[$pos+3];
+				$limitstart 			= $url_array[$pos+4];
+				$year 					= $url_array[$pos+5];
+				$month 					= $url_array[$pos+6];
+				$module					= $url_array[$pos+7];
+				
+				// pass data onto global variables
+				$_GET['task'] 			= $task;
+				$_REQUEST['task'] 		= $task;
+				$_GET['id'] 			= $id;
+				$_REQUEST['id'] 		= $id;
+				$_GET['limit'] 			= $limit;
+				$_REQUEST['limit'] 		= $limit;
+				$_GET['limitstart'] 	= $limitstart;
+				$_REQUEST['limitstart'] = $limitstart;
+				$_GET['year'] 			= $year;
+				$_REQUEST['year'] 		= $year;
+				$_GET['month'] 			= $month;
+				$_REQUEST['month'] 		= $month;
+				$_GET['module']			= $module;
+				$_REQUEST['module']		= $module;
+				
+				$QUERY_STRING = "option=com_content&task=$task&id=$id&limit=$limit&limitstart=$limitstart&year=$year&month=$month&module=$module";			
+			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && $url_array[$pos+6] > 1000 && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
+				// $option/$task/$id/$Itemid/$limit/$limitstart/year/month
+				$task 					= $url_array[$pos+1];
+				$id						= $url_array[$pos+2];
 				$Itemid 				= $url_array[$pos+3];
 				$limit 					= $url_array[$pos+4];
 				$limitstart 			= $url_array[$pos+5];
 				$year 					= $url_array[$pos+6];
 				$month 					= $url_array[$pos+7];
-
+				
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
-				$_GET['id'] 			= $sectionid;
-				$_REQUEST['id'] 		= $sectionid;
+				$_GET['id'] 			= $id;
+				$_REQUEST['id'] 		= $id;
 				$_GET['Itemid'] 		= $Itemid;
 				$_REQUEST['Itemid'] 	= $Itemid;
 				$_GET['limit'] 			= $limit;
@@ -124,8 +151,8 @@ function botJoomlaSEFUrl( )
 				$_REQUEST['year'] 		= $year;
 				$_GET['month'] 			= $month;
 				$_REQUEST['month'] 		= $month;
-
-				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";
+				
+				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";			
 			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && in_array('category', $url_array) && ( strpos( $url_array[$pos+5], 'order,' ) !== false )) {
 				// $option/$task/$sectionid/$id/$Itemid/$order/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
