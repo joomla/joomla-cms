@@ -27,7 +27,29 @@ class JViewMailTo extends JView {
 	function &createTemplate( $bodyHtml='', $files=null ) {
 		jimport('jamboworks.template.template');
 
-		$tmpl = jwTemplateHelper::getInstance( $files );
+		$tmpl = new JTemplate;
+
+		// patTemplate
+		if ($mainframe->get( 'caching' )) {
+	   		 $tmpl->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
+		}
+
+		$tmpl->setNamespace( 'jtmpl' );
+
+		// load the wrapper and common templates
+		$tmpl->readTemplatesFromFile( 'page.html' );
+		$tmpl->applyInputFilter('ShortModifiers');
+
+		// load the stock templates
+		if (is_array( $files )) {
+			foreach ($files as $file) {
+				$tmpl->readTemplatesFromInput( $file );
+			}
+		}
+
+		// TODO: Do the protocol better
+		$tmpl->addVar( 'form', 'formAction', basename($_SERVER['PHP_SELF']) );
+		$tmpl->addVar( 'form', 'formName', 'adminForm' );
 
 		$tmpl->setRoot( JPATH_COM_MAILTO . '/views' );
 
