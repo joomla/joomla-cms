@@ -34,9 +34,10 @@
 /*
  * Path to ADODB.
  */
-if ( !defined('ADODB_DIR') ) {
-	define('ADODB_DIR', dirname(__FILE__).'/adodb');
-}
+//if ( !defined('ADODB_DIR') ) {
+//	define('ADODB_DIR', dirname(__FILE__).'/adodb');
+//}
+// Causing conflicts with 3rd party apps using adodb
 
 /**
 * phpGACL main class
