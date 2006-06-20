@@ -290,7 +290,7 @@ class JFactory
 	 */
 	function &_createMailer()
 	{
-		jimport('phpmailer.phpmailer');
+		jimport('joomla.utilities.mail');
 		
 		$conf =& JFactory::getConfig();
 		
@@ -303,30 +303,29 @@ class JFactory
 		$fromname 	= $conf->getValue('config.fromname');
 		$mailer 	= $conf->getValue('config.mailer');
 
-		$mail = new PHPMailer();
+		$mail = new JMail();
 
-		$mail->PluginDir = JPATH_LIBRARIES .'/phpmailer/';
-		$mail->SetLanguage( 'en', JPATH_LIBRARIES . '/includes/phpmailer/language/' );
-		$mail->CharSet 	= "utf-8";
-		$mail->IsMail();
-		$mail->From 	= $mailfrom;
-		$mail->FromName = $fromname;
-		$mail->Mailer 	= $mailer;
-
-		// Add smtp values if needed
-		if ( $mailer == 'smtp' ) {
-			$mail->SMTPAuth = $smtpauth;
-			$mail->Username = $smtpuser;
-			$mail->Password = $smtppass;
-			$mail->Host 	= $smtphost;
-		} else
-
-		// Set sendmail path
-		if ( $mailer == 'sendmail' ) {
-			if (isset($sendmail))
-				$mail->Sendmail = $sendmail;
-		} // if
-
+		$mail->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
+		$mail->SetLanguage('en', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
+		$mail->CharSet = 'utf-8';
+	
+		// Set default sender
+		$mail->setSender(array ($mailfrom, $fromname);
+		
+		// Default mailer is to use PHP's mail function
+		switch ($mailer) 
+		{
+			case 'smtp' :
+				$mail->useSMTP($smtpauth, $smpthost, $smtpuser, $smtppass);
+				break;
+			case 'sendmail' :
+				$mail->useSendmail();
+				break;
+			default :
+				$mail->IsMail();
+				break;
+		}
+		
 		return $mail;
 	}
 }

@@ -31,31 +31,6 @@ class JMail extends PHPMailer
 	 */
 	function JMail()
 	{
-		global $mainframe;
-
-		$this->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
-		$this->SetLanguage('en', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
-		$this->CharSet = 'utf-8';
-
-		/*
-		 * Set the default mail sender address and name
-		 */
-		$this->setSender(array ($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
-
-		/*
-		 * Default mailer is to use PHP's mail function
-		 */
-		switch ($mainframe->getCfg('mailer')) {
-			case 'smtp' :
-				$this->useSMTP();
-				break;
-			case 'sendmail' :
-				$this->useSendmail();
-				break;
-			default :
-				$this->IsMail();
-				break;
-		}
 	}
 
 	/**
@@ -103,8 +78,9 @@ class JMail extends PHPMailer
 	function setSender($from)
 	{
 		// If $from is an array we assume it has an address and a name
-		if (is_array($from)) {
-			$this->From = JMailHelper::cleanLine( $from[0] );
+		if (is_array($from)) 
+		{
+			$this->From 	= JMailHelper::cleanLine( $from[0] );
 			$this->FromName = JMailHelper::cleanLine( $from[1] );
 		// If it is a string we assume it is just the address
 		} elseif (is_string($from)) {
@@ -283,9 +259,7 @@ class JMail extends PHPMailer
 	 */
 	function useSendmail($sendmail = null)
 	{
-		global $mainframe;
-
-		$this->Sendmail = (empty ($sendmail)) ? $mainframe->getCfg('sendmail') : $sendmail;
+		$this->Sendmail = $sendmail;
 
 		if (!empty ($this->Sendmail)) {
 			$this->IsSendmail();
@@ -309,12 +283,10 @@ class JMail extends PHPMailer
 	 */
 	function useSMTP($auth = null, $host = null, $user = null, $pass = null)
 	{
-		global $mainframe;
-
-		$this->SMTPAuth = (empty ($auth)) ? $mainframe->getCfg('smtpauth') : $auth;
-		$this->Host = (empty ($host)) ? $mainframe->getCfg('smtphost') : $host;
-		$this->Username = (empty ($user)) ? $mainframe->getCfg('smtpuser') : $user;
-		$this->Password = (empty ($pass)) ? $mainframe->getCfg('smtppass') : $pass;
+		$this->SMTPAuth = $auth; 
+		$this->Host 	= $host;
+		$this->Username = $user;
+		$this->Password = $pass;
 
 		if (!empty ($this->SMTPAuth) && !empty ($this->Host) && !empty ($this->Username) && !empty ($this->Password)) {
 			$this->IsSMTP();
