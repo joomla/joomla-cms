@@ -61,7 +61,7 @@ class JFactory
 	{
 		jimport('joomla.cache.cache');
 		
-		$registry =& JFactory::getConfig();
+		$conf =& JFactory::getConfig();
 
 		/*
 		 * If we are in the installation application, we don't need to be
@@ -69,9 +69,9 @@ class JFactory
 		 */
 		$options = array(
 			'cacheDir' 		=> JPATH_BASE.DS.'cache'.DS,
-			'caching' 		=> $registry->getValue('config.caching'),
+			'caching' 		=> $conf->getValue('config.caching'),
 			'defaultGroup' 	=> $group,
-			'lifeTime' 		=> $registry->getValue('config.cachetime'),
+			'lifeTime' 		=> $conf->getValue('config.cachetime'),
 			'fileNameProtection' => false
 		);
 
@@ -95,6 +95,26 @@ class JFactory
 
 		if (!is_object($instance)) {
 			$instance = JFactory::_createACL();
+		}
+
+		return $instance;
+	}
+	
+	/**
+	 * Get the template object
+	 * 
+	 * Returns a reference to the global JAuthorization object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @return object
+	 */
+	function &getTemplate( )
+	{
+		static $instance;
+
+		if (!is_object($instance)) {
+			$instance = JFactory::_createTemplate();
 		}
 
 		return $instance;
@@ -310,7 +330,7 @@ class JFactory
 		$mail->CharSet = 'utf-8';
 	
 		// Set default sender
-		$mail->setSender(array ($mailfrom, $fromname);
+		$mail->setSender(array ($mailfrom, $fromname));
 		
 		// Default mailer is to use PHP's mail function
 		switch ($mailer) 
@@ -327,6 +347,51 @@ class JFactory
 		}
 		
 		return $mail;
+	}
+	
+	
+	/**
+	 * Create a mailer object
+	 *
+	 * @access private
+	 * @param array An array of support template files to load
+	 * @return object
+	 * @since 1.5
+	 */
+	function &_createTemplate($files = array())
+	{
+		jimport('joomla.template.template');
+		
+		$conf =& JFactory::getConfig();
+
+		$tmpl = new JTemplate;
+
+		// patTemplate
+		if ($conf->getValue('config.caching')) {
+	   		 $tmpl->enableTemplateCache( 'File', JPATH_BASE.DS.'cache'.DS);
+		}
+
+		$tmpl->setNamespace( 'jtmpl' );
+
+		// load the wrapper and common templates
+		$tmpl->readTemplatesFromFile( 'page.html' );
+		$tmpl->applyInputFilter('ShortModifiers');
+
+		// load the stock templates
+		if (is_array( $files ))
+		{
+			foreach ($files as $file) {
+				$tmpl->readTemplatesFromInput( $file );
+			}
+		}
+	
+		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
+		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
+		$tmpl->addGlobalVar( 'uri_query', 			$_SERVER['QUERY_STRING'] );
+		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
+		$tmpl->addGlobalVar( 'REQUEST_URL',			JRequest::getUrl() );
+
+		return $tmpl;
 	}
 }
 ?>
