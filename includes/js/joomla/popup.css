@@ -65,4 +65,5 @@ body { background:url(foo) fixed;}
 
 #popup-title    { float:left; font-size: 1.3em;                }
 #popup-controls { float: right; cursor: pointer; cursor: hand; }
+#popup-controls .close { background: url(popup-close.gif) no-repeat 50% 50%; width: 16px; height: 16px;}
 

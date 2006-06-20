@@ -56,9 +56,9 @@ JPopup.prototype = {
 		}
 		
 		//find library base url
-		var base     = document.getElementsByTagName('BASE')[0].getAttribute('href');
-		this.baseURL = base.replace(/administrator\//g, "");
-		
+		//var base     = window.location.pathname;
+		//this.baseURL = base.replace(/administrator\//g, "");
+			
 		// Add the HTML to the body
 		body = document.getElementsByTagName('body')[0];
 		popmask = document.createElement('div');
@@ -71,7 +71,7 @@ JPopup.prototype = {
 				'<div id="popup-titlebar">' +
 					'<div id="popup-title"></div>' +
 					'<div id="popup-controls">' +
-						'<img src="'+this.baseURL+'includes/js/joomla/popup-close.gif" onclick="document.popup.hide(null, true);" />' +
+						'<div class="close" onclick="document.popup.hide(null, true);" /></div>' +
 					'</div>' +
 				'</div>' +
 				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +

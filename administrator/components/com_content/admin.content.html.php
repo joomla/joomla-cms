@@ -901,7 +901,8 @@ class ContentView
 			<td>
 				<?php echo $lists['catid']; ?>
 			</td>
-			<td>
+			<tr>
+		</tr>
 		</tr>
 		</table>
 		<?php

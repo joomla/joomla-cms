@@ -548,7 +548,6 @@ class JApplication extends JObject
 		$doc  =& JDocument::getInstance($type, $attributes);
 
 		$this->_document =& $doc;
-		//$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
 
 		return $this->_document;
 	}

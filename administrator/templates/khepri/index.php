@@ -128,7 +128,6 @@ See COPYRIGHT.php for copyright notices and details.
 			<p class="copyright">
 				<a href="http://www.joomla.org" target="_blank">Joomla!</a>
 				<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
-				<a href="#border-top">top</a>
 			</p>
 		</div>
 	</body>

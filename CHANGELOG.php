@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Jun-2006 Johan Janssens
+ # Fixed [task2548] : Base tag issues
+
 14-Jun-2006 Johan Janssens
  # Feature request [artf1718] : Selecting wysiwyg editor in components
 

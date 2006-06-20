@@ -177,9 +177,6 @@ class JAdministrator extends JApplication
 		$doc  =& parent::getDocument($type);
 		$user =& $this->getUser();
 
-		//set document link
-		$doc->setLink( $this->getBaseURL() );
-
 		//set document description
 		$doc->setDescription( $this->getCfg('MetaDesc') );
 

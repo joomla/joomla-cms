@@ -139,9 +139,6 @@ class JSite extends JApplication
 		//set document description
 		$doc->setDescription( $this->getCfg('MetaDesc') );
 
-		//set document link
-		$doc->setLink( $this->getBaseURL() );
-
 		switch($type)
 		{
 			case 'html':

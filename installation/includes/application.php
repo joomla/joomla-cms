@@ -115,9 +115,6 @@ class JInstallation extends JApplication
 
 		$doc  =& parent::getDocument($type);
 
-		//set document link
-		$doc->setLink( $this->getBaseURL() );
-
 		return $this->_document;
 	}
 

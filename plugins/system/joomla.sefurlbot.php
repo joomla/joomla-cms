@@ -32,8 +32,12 @@ function botJoomlaSEFUrl( )
 	$SEF 				= $mainframe->getCfg('sef');
 
 	//Only use SEF is enabled and not in the administrator
-	if ($SEF && !$mainframe->isAdmin()) {
-
+	if ($SEF && !$mainframe->isAdmin()) 
+	{
+		//set document link
+		$doc =& $mainframe->getDocument();
+		$doc->setLink( $this->getBaseURL() );
+		
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot');
 	 	$pluginParams = new JParameter( $plugin->params );
