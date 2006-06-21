@@ -161,8 +161,6 @@ class JEditor extends JObservable
 	 */
 	function getButtons($editor)
 	{
-		global $mainframe;
-
 		$this->_loadEditor();
 
 		$args['name'] = $editor;
