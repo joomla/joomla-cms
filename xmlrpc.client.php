@@ -31,7 +31,7 @@ jimport('phpxmlrpc.xmlrpc');
 $uri 	= dirname( $_SERVER['PHP_SELF'] );
 
 $host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
-$path 	= JRequest::getVar( 'path', $uri . '/xmlrpc.server.php', 'post' );
+$path 	= JRequest::getVar( 'path', $uri . '/xmlrpc/', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post' );
 
