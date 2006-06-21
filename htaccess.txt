@@ -62,7 +62,8 @@ RewriteEngine On
 # RewriteBase /
 
 
-########## Begin Standard SEF Section
+########## Begin - Joomla! core SEF Section
+############# Use this section if using ONLY Joomla! core SEF
 ## ALL (RewriteCond) lines in this section are only required if you actually
 ## have directories named 'content' or 'component' on your server
 ## If you do not have directories with these names, comment them out.
@@ -73,10 +74,12 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|/[^.]*)$  [NC]
 RewriteRule ^(content/|component/) index.php
 #
-########## End Standard SEF Section
+########## End - Joomla! core SEF Section
 
 
-########## Begin 3rd Party or Core SEF Section
+
+########## Begin - 3rd Party SEF Section
+############# Use this section if you are using a 3rd party (Non Joomla! core) SEF extension - e.g. OpenSEF, 404_SEF, 404SEFx, SEF Advance, etc
 #
 #RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 		##optional - see notes##
 #RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|/[^.]*)$  [NC]
@@ -84,14 +87,4 @@ RewriteRule ^(content/|component/) index.php
 #RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule (.*) index.php
 #
-########## End 3rd Party or Core SEF Section
-
-########## Begin mbstring section
-## UNCOMMENT THE APPROPRIATE SETTING WHEN SETTINGS IN php.ini CAN'T BE CHANGED
-## THIS WILL PROVIDE LOCAL SETTINGS WITHOUT DISTURBING SITE DEFAULTS
-#
-# php_value mbstring.func_overload 0
-# php_value mbstring.language neutral
-#
-########## End mbstring section
-
+########## End - 3rd Party SEF Section

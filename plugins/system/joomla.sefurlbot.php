@@ -447,6 +447,8 @@ function sefRelToAbs( $string )
 		if ( isset($url['query']) ) {
 			// special handling for javascript
 			$url['query'] = stripslashes( str_replace( '+', '%2b', $url['query'] ) );
+			// clean possible xss attacks
+			$url['query'] = preg_replace( "'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $url['query'] );
 
 			// Initialize variables
 			$parts = null;
