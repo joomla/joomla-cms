@@ -16,6 +16,9 @@ define( "_JEXEC", 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
+error_reporting( E_ALL );
+
+require_once ( JPATH_BASE .'/includes/defines.php' );
 require_once ( JPATH_BASE .'/includes/application.php' );
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
@@ -24,7 +27,6 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 
 jimport('phpxmlrpc.xmlrpc');
 
-error_reporting( E_ALL );
 
 $uri 	= dirname( $_SERVER['PHP_SELF'] );
 
