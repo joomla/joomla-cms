@@ -41,6 +41,10 @@ foreach($allCalls as $calls) {
 }
 
 $xmlrpcServer = new xmlrpc_server($methodsArray, false);
+// allow casting to be defined by that actual values passed
+$xmlrpcServer->functions_parameters_type = 'phpvals';
+// debug level
 $xmlrpcServer->setDebug(3);
+// start the service
 $xmlrpcServer->service();
 ?>
