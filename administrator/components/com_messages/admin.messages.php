@@ -227,6 +227,11 @@ function saveMessage( $option ) {
 		exit();
 	}
 
+	if (!$row->check()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+	
 	if (!$row->send()) {
 		josRedirect( "index2.php?option=com_messages&josmsg=" . $row->getError() );
 	}

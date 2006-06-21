@@ -108,6 +108,16 @@ class JMessage extends JTable
 	}
 
 	/**
+	* Validation and filtering
+	*/
+	function check() {
+		// filter malicious code
+		$this->filter( );
+		
+		return true;
+	}
+	
+	/**
 	 * Method to send a private message
 	 *
 	 * @access	public
