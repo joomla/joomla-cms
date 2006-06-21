@@ -1,7 +1,7 @@
 <?php					// -*-c++-*-
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
-// $Id: xmlrpc.inc,v 1.113 2006/01/22 23:55:57 ggiunta Exp $
+// $Id: xmlrpc.inc,v 1.124 2006/04/22 21:34:31 ggiunta Exp $
 
 
 // Copyright (c) 1999,2000,2002 Edd Dumbill.
@@ -47,7 +47,7 @@
 	}
 
 	// Try to be backward compat with php < 4.2 (are we not being nice ?)
-	if(substr(phpversion(), 0, 3) == '4.0' || @version_compare(substr(phpversion(), 0, 3) == '4.1'))
+	if(substr(phpversion(), 0, 3) == '4.0' || substr(phpversion(), 0, 3) == '4.1')
 	{
 		// give an opportunity to user to specify where to include other files from
 		if(!defined('PHP_XMLRPC_COMPAT_DIR'))
@@ -110,6 +110,12 @@
 		'VALUE' => array('MEMBER', 'DATA', 'PARAM', 'FAULT'),
 	);
 
+	// define extra types for supporting NULL (useful for json or <NIL/>)
+	$GLOBALS['xmlrpcNull']='null';
+	$GLOBALS['xmlrpcTypes']['null']=1;
+
+	// Not in use anymore since 2.0. Shall we remove it?
+	/// @deprecated
 	$GLOBALS['xmlEntities']=array(
 		'amp'  => '&',
 		'quot' => '"',
@@ -212,7 +218,7 @@ $cp1252_to_htmlent =
 	$GLOBALS['xmlrpc_internalencoding']='ISO-8859-1';
 
 	$GLOBALS['xmlrpcName']='XML-RPC for PHP';
-	$GLOBALS['xmlrpcVersion']='2.0RC3';
+	$GLOBALS['xmlrpcVersion']='2.0';
 
 	// let user errors start at 800
 	$GLOBALS['xmlrpcerruser']=800;
@@ -220,6 +226,8 @@ $cp1252_to_htmlent =
 	$GLOBALS['xmlrpcerrxml']=100;
 
 	// formulate backslashes for escaping regexp
+	// Not in use anymore since 2.0. Shall we remove it?
+	/// @deprecated
 	$GLOBALS['xmlrpc_backslash']=chr(92).chr(92);
 
 	// used to store state during parsing
@@ -295,13 +303,14 @@ $cp1252_to_htmlent =
 //1 7 0bbbbbbb (127)
 		if ($ii < 128)
 		{
-			/// @todo shall we replace this with a (suuposedly) faster str_replace?
+			/// @todo shall we replace this with a (supposedly) faster str_replace?
 			switch($ii){
 				case 34:
 					$escaped_data .= '&quot;';
 					break;
 				case 38:
 					$escaped_data .= '&amp;';
+					break;
 				case 39:
 					$escaped_data .= '&apos;';
 					break;
@@ -518,20 +527,22 @@ $cp1252_to_htmlent =
 					elseif ($name=='BOOLEAN')
 					{
 						// special case here: we translate boolean 1 or 0 into PHP
-							// constants true or false
-							// NB: this simple checks helps a lot sanitizing input, ie no
-							// security problems around here
-							if ($GLOBALS['_xh']['ac']=='1')
-							{
-								$GLOBALS['_xh']['value']=true;
-							}
-							else
-							{
-								// log if receiveing something strange, even though we set the value to false anyway
-								if ($GLOBALS['_xh']['ac']!='0')
-									error_log('XML-RPC: invalid value received in BOOLEAN: '.$GLOBALS['_xh']['ac']);
-								$GLOBALS['_xh']['value']=false;
-							}
+						// constants true or false.
+						// Strings 'true' and 'false' are accepted, even though the
+						// spec never mentions them (see eg. Blogger api docs)
+						// NB: this simple checks helps a lot sanitizing input, ie no
+						// security problems around here
+						if ($GLOBALS['_xh']['ac']=='1' || strcasecmp($GLOBALS['_xh']['ac'], 'true') == 0)
+						{
+							$GLOBALS['_xh']['value']=true;
+						}
+						else
+						{
+							// log if receiveing something strange, even though we set the value to false anyway
+							if ($GLOBALS['_xh']['ac']!='0' && strcasecmp($_xh[$parser]['ac'], 'false') != 0)
+								error_log('XML-RPC: invalid value received in BOOLEAN: '.$GLOBALS['_xh']['ac']);
+							$GLOBALS['_xh']['value']=false;
+						}
 					}
 					elseif ($name=='DOUBLE')
 					{
@@ -716,17 +727,21 @@ $cp1252_to_htmlent =
 		var $debug=0;
 		var $username='';
 		var $password='';
+		var $authtype=1;
 		var $cert='';
 		var $certpass='';
+		var $cacert='';
+		var $cacertdir='';
 		var $key='';
 		var $keypass='';
-		var $verifypeer=1;
+		var $verifypeer=true;
 		var $verifyhost=1;
 		var $no_multicall=false;
-		var $proxy = '';
+		var $proxy='';
 		var $proxyport=0;
-		var $proxy_user = '';
-		var $proxy_pass = '';
+		var $proxy_user='';
+		var $proxy_pass='';
+		var $proxy_authtype=1;
 		var $cookies=array();
 		/**
 		* List of http compression methods accepted by the client for responses.
@@ -851,12 +866,14 @@ $cp1252_to_htmlent =
 		* Add some http BASIC AUTH credentials, used by the client to authenticate
 		* @param string $u username
 		* @param string $p password
+		* @param integer $t auth type. See curl_setopt man page for supported auth types. Defaults to CURLAUTH_BASIC (basic auth)
 		* @access public
 		*/
-		function setCredentials($u, $p)
+		function setCredentials($u, $p, $t=1)
 		{
 			$this->username=$u;
 			$this->password=$p;
+			$this->authtype=$t;
 		}
 
 		/*
@@ -869,6 +886,25 @@ $cp1252_to_htmlent =
 		{
 			$this->cert = $cert;
 			$this->certpass = $certpass;
+		}
+
+		/*
+		* Add a CA certificate to verify server with (see man page about
+		* CURLOPT_CAINFO for more details
+		* @param string $cacert certificate file name (or dir holding certificates)
+		* @param bool $is_dir set to true to indicate cacert is a dir. defaults to false
+		* @access public
+		*/
+		function setCaCertificate($cacert, $is_dir=false)
+		{
+			if ($is_dir)
+			{
+				$this->cacert = $cacert;
+			}
+			else
+			{
+				$this->cacertdir = $cacert;
+			}
 		}
 
 		/*
@@ -885,6 +921,7 @@ $cp1252_to_htmlent =
 		}
 
 		/*
+		* @param bool $i enable/diable verification of peer certificate
 		* @access public
 		*/
 		function setSSLVerifyPeer($i)
@@ -907,14 +944,16 @@ $cp1252_to_htmlent =
 		* @param    string $proxyport Defaults to 8080 for HTTP and 443 for HTTPS
 		* @param    string $proxyusername Leave blank if proxy has public access
 		* @param    string $proxypassword Leave blank if proxy has public access
+		* @param    int    $proxyauthtype set to constant CURLAUTH_MTLM to use NTLM auth with proxy
 		* @access   public
 		*/
-		function setProxy($proxyhost, $proxyport, $proxyusername = '', $proxypassword = '')
+		function setProxy($proxyhost, $proxyport, $proxyusername = '', $proxypassword = '', $proxyauthtype = 1)
 		{
 			$this->proxy = $proxyhost;
 			$this->proxyport = $proxyport;
 			$this->proxy_user = $proxyusername;
 			$this->proxy_pass = $proxypassword;
+			$this->proxy_autthtype = $proxyauthtype;
 		}
 
 		/**
@@ -1014,12 +1053,16 @@ $cp1252_to_htmlent =
 					$timeout,
 					$this->username,
 					$this->password,
+					$this->authtype,
 					$this->cert,
 					$this->certpass,
+					$this->cacert,
+					$this->cacertdir,
 					$this->proxy,
 					$this->proxyport,
 					$this->proxy_user,
 					$this->proxy_pass,
+					$this->proxy_authtype,
 					$this->keepalive,
 					$this->key,
 					$this->keypass
@@ -1034,12 +1077,16 @@ $cp1252_to_htmlent =
 					$timeout,
 					$this->username,
 					$this->password,
+					$this->authtype,
+					null,
+					null,
 					null,
 					null,
 					$this->proxy,
 					$this->proxyport,
 					$this->proxy_user,
 					$this->proxy_pass,
+					$this->proxy_authtype,
 					'http',
 					$this->keepalive
 				);
@@ -1053,10 +1100,12 @@ $cp1252_to_htmlent =
 					$timeout,
 					$this->username,
 					$this->password,
+					$this->authtype,
 					$this->proxy,
 					$this->proxyport,
 					$this->proxy_user,
-					$this->proxy_pass
+					$this->proxy_pass,
+					$this->proxy_authtype
 				);
 			}
 
@@ -1066,8 +1115,9 @@ $cp1252_to_htmlent =
 		/**
 		* @access private
 		*/
-		function &sendPayloadHTTP10($msg, $server, $port, $timeout=0,$username='', $password='',
-			$proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='')
+		function &sendPayloadHTTP10($msg, $server, $port, $timeout=0,
+			$username='', $password='', $authtype=1, $proxyhost='',
+			$proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1)
 		{
 			if($port==0)
 			{
@@ -1114,6 +1164,10 @@ $cp1252_to_htmlent =
 			if($username!='')
 			{
 				$credentials='Authorization: Basic ' . base64_encode($username . ':' . $password) . "\r\n";
+				if ($authtype != 1)
+				{
+					error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth is supported with HTTP 1.0');
+				}
 			}
 
 			$accepted_encoding = '';
@@ -1134,6 +1188,10 @@ $cp1252_to_htmlent =
 				$uri = 'http://'.$server.':'.$port.$this->path;
 				if($proxyusername != '')
 				{
+					if ($proxyauthtype != 1)
+					{
+						error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth to proxy is supported with HTTP 1.0');
+					}
 					$proxy_credentials = 'Proxy-Authorization: Basic ' . base64_encode($proxyusername.':'.$proxypassword) . "\r\n";
 				}
 			}
@@ -1240,11 +1298,14 @@ $cp1252_to_htmlent =
 		/**
 		* @access private
 		*/
-		function &sendPayloadHTTPS($msg, $server, $port, $timeout=0,$username='', $password='', $cert='',$certpass='',
-			$proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $keepalive=false, $key='', $keypass='')
+		function &sendPayloadHTTPS($msg, $server, $port, $timeout=0, $username='',
+			$password='', $authtype=1, $cert='',$certpass='', $cacert='', $cacertdir='',
+			$proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1,
+			$keepalive=false, $key='', $keypass='')
 		{
-			$r =& $this->sendPayloadCURL($msg, $server, $port, $timeout, $username, $password, $cert, $certpass,
-				$proxyhost, $proxyport, $proxyusername, $proxypassword, 'https', $keepalive, $key, $keypass);
+			$r =& $this->sendPayloadCURL($msg, $server, $port, $timeout, $username,
+				$password, $authtype, $cert, $certpass, $cacert, $cacertdir, $proxyhost, $proxyport,
+				$proxyusername, $proxypassword, $proxyauthtype, 'https', $keepalive, $key, $keypass);
 			return $r;
 		}
 
@@ -1254,9 +1315,10 @@ $cp1252_to_htmlent =
 		* NB: CURL versions before 7.11.10 cannot use proxy to talk to https servers!
 		* @access private
 		*/
-		function &sendPayloadCURL($msg, $server, $port, $timeout=0, $username='', $password='', $cert='', $certpass='',
-			$proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $method='https', $keepalive=false,
-			$key='', $keypass='')
+		function &sendPayloadCURL($msg, $server, $port, $timeout=0, $username='',
+			$password='', $authtype=1, $cert='', $certpass='', $cacert='', $cacertdir='',
+			$proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1, $method='https',
+			$keepalive=false, $key='', $keypass='')
 		{
 			if(!function_exists('curl_init'))
 			{
@@ -1390,6 +1452,14 @@ $cp1252_to_htmlent =
 			if($username && $password)
 			{
 				curl_setopt($curl, CURLOPT_USERPWD,"$username:$password");
+				if (defined('CURLOPT_HTTPAUTH'))
+				{
+					curl_setopt($curl, CURLOPT_HTTPAUTH, $authtype);
+				}
+				else if ($authtype != 1)
+				{
+					error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth is supported by the current PHP/curl install');
+				}
 			}
 
 			if($method == 'https')
@@ -1404,6 +1474,17 @@ $cp1252_to_htmlent =
 				{
 					curl_setopt($curl, CURLOPT_SSLCERTPASSWD, $certpass);
 				}
+				// whether to verify remote host's cert
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verifypeer);
+				// set ca certificates file/dir
+				if($cacert)
+				{
+					curl_setopt($curl, CURLOPT_CAINFO, $cacert);
+				}
+				if($cacertdir)
+				{
+					curl_setopt($curl, CURLOPT_CAPATH, $cacertdir);
+				}
 				// set key file (shall we catch errors in case CURLOPT_SSLKEY undefined ?)
 				if($key)
 				{
@@ -1414,8 +1495,6 @@ $cp1252_to_htmlent =
 				{
 					curl_setopt($curl, CURLOPT_SSLKEYPASSWD, $keypass);
 				}
-				// whether to verify remote host's cert
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verifypeer);
 				// whether to verify cert's common name (CN); 0 for no, 1 to verify that it exists, and 2 to verify that it matches the hostname used
 				curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $this->verifyhost);
 			}
@@ -1432,6 +1511,14 @@ $cp1252_to_htmlent =
 				if($proxyusername)
 				{
 					curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyusername.':'.$proxypassword);
+					if (defined('CURLOPT_PROXYAUTH'))
+					{
+						curl_setopt($curl, CURLOPT_PROXYAUTH, $proxyauthtype);
+					}
+					else if ($proxyauthtype != 1)
+					{
+						error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth to proxy is supported by the current PHP/curl install');
+					}
 				}
 			}
 
@@ -1512,7 +1599,7 @@ $cp1252_to_htmlent =
 					}
 					else
 					{
-						if (is_a($result, 'xmlrpcresp'))
+						if (is_a($results, 'xmlrpcresp'))
 						{
 							$result = $results;
 						}
@@ -1704,6 +1791,7 @@ $cp1252_to_htmlent =
 		var $valtyp;
 		var $errno = 0;
 		var $errstr = '';
+		var $payload;
 		var $hdrs = array();
 		var $_cookies = array();
 		var $content_type = 'text/xml';
@@ -1848,6 +1936,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				}
 			}
 			$result .= "\n</methodResponse>";
+			$this->payload = $result;
 			return $result;
 		}
 	}
@@ -1876,9 +1965,16 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			}
 		}
 
-		function xml_header()
+		function xml_header($charset_encoding='')
 		{
-			return "<?xml version=\"1.0\"?" . ">\n<methodCall>\n";
+			if ($charset_encoding != '')
+			{
+				return "<?xml version=\"1.0\" encoding=\"$charset_encoding\" ?" . ">\n<methodCall>\n";
+			}
+			else
+			{
+				return "<?xml version=\"1.0\"?" . ">\n<methodCall>\n";
+			}
 		}
 
 		function xml_footer()
@@ -1897,7 +1993,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				$this->content_type = 'text/xml; charset=' . $charset_encoding;
 			else
 				$this->content_type = 'text/xml';
-			$this->payload=$this->xml_header();
+			$this->payload=$this->xml_header($charset_encoding);
 			$this->payload.='<methodName>' . $this->methodname . "</methodName>\n";
 			//	if(sizeof($this->params)) {
 			$this->payload.="<params>\n";
@@ -2306,6 +2402,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			xml_set_character_data_handler($parser, 'xmlrpc_cd');
 			xml_set_default_handler($parser, 'xmlrpc_dh');
 
+			// first error check: xml not well formed
 			if(!xml_parse($parser, $data, sizeof($data)))
 			{
 				// thanks to Peter Kocks <peter.kocks@baygate.com>
@@ -2315,9 +2412,9 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				}
 				else
 				{
-					$errstr = sprintf('XML error: %s at line %d',
+					$errstr = sprintf('XML error: %s at line %d, column %d',
 						xml_error_string(xml_get_error_code($parser)),
-						xml_get_current_line_number($parser));
+						xml_get_current_line_number($parser), xml_get_current_column_number($parser));
 				}
 				error_log($errstr);
 				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'], $GLOBALS['xmlrpcstr']['invalid_return'].' ('.$errstr.')');
@@ -2331,6 +2428,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				return $r;
 			}
 			xml_parser_free($parser);
+			// second error check: xml well formed but not xml-rpc compliant
 			if ($GLOBALS['_xh']['isf'] > 1)
 			{
 				if ($this->debug)
@@ -2341,9 +2439,11 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'],
 				$GLOBALS['xmlrpcstr']['invalid_return'] . ' ' . $GLOBALS['_xh']['isf_reason']);
 			}
+			// third error check: parsing of the response has somehow gone boink.
+			// NB: shall we omit this check, since we trust the parsing code?
 			elseif ($return_type == 'xmlrpcvals' && !is_object($GLOBALS['_xh']['value']))
 			{
-				// then something odd has happened
+				// something odd has happened
 				// and it's time to generate a client side error
 				// indicating something odd went on
 				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'],
@@ -2356,8 +2456,9 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					print "<PRE>---PARSED---\n" ;
 					var_export($GLOBALS['_xh']['value']);
 					print "\n---END---</PRE>";
-				}				// note that using =& will raise an error if $GLOBALS['_xh']['st'] does not generate an object.
+				}
 
+				// note that using =& will raise an error if $GLOBALS['_xh']['st'] does not generate an object.
 				$v =& $GLOBALS['_xh']['value'];
 
 				if($GLOBALS['_xh']['isf'])
@@ -2381,11 +2482,11 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 						$errno = -1;
 					}
 
-					$r =& new xmlrpcresp($v, $errno, $errstr);
+					$r =& new xmlrpcresp(0, $errno, $errstr);
 				}
 				else
 				{
-					$r=&new xmlrpcresp($v, 0, '', 'phpvals');
+					$r=&new xmlrpcresp($v, 0, '', $return_type);
 				}
 			}
 
@@ -2569,7 +2670,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					{
 						$rs.="<member><name>${key2}</name>\n";
 						//$rs.=$this->serializeval($val2);
-						$rs.=$val2->serialize();
+						$rs.=$val2->serialize($charset_encoding);
 						$rs.="</member>\n";
 					}
 					$rs.='</struct>';
@@ -2580,7 +2681,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					for($i=0; $i<sizeof($val); $i++)
 					{
 						//$rs.=$this->serializeval($val[$i]);
-						$rs.=$val[$i]->serialize();
+						$rs.=$val[$i]->serialize($charset_encoding);
 					}
 					$rs.="</data>\n</array>";
 					break;
@@ -2654,7 +2755,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 		*/
 		function structmemexists($m)
 		{
-			return array_key_exists($this->me['struct'][$m]);
+			return array_key_exists($m, $this->me['struct']);
 		}
 
 		/*
@@ -3389,7 +3490,8 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 		else
 		{
 			$desc = $response->value();
-			if($desc->kindOf() != 'array' || $desc->arraysize() <= $signum)
+			if(($client->return_type == 'xmlrpcvals' && ($desc->kindOf() != 'array' || $desc->arraysize() <= $signum)) ||
+				($client->return_type == 'phpvals' && (!is_array($desc) || count($desc) <= $signum)))
 			{
 				return false;
 			}
@@ -3407,7 +3509,14 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				{
 					$xmlrpcfuncname .= 'x';
 				}
-				$desc = $desc->arraymem($signum);
+				if ($client->return_type == 'phpvals')
+				{
+					$desc = $desc[$signum];
+				}
+				else
+				{
+					$desc = $desc->arraymem($signum);
+				}
 				$code = "function $xmlrpcfuncname (";
 				$innercode = "\$client =& new xmlrpc_client('$client->path', '$client->server');\n";
 				// copy all client fields to the client that will be generated runtime
@@ -3426,12 +3535,26 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 
 				// param parsing
 				$plist = array();
-				$pcount = $desc->arraysize();
+				if ($client->return_type == 'phpvals')
+				{
+					$pcount = count($desc);
+				}
+				else
+				{
+					$pcount = $desc->arraysize();
+				}
 				for($i = 1; $i < $pcount; $i++)
 				{
 					$plist[] = "\$p$i";
-					$ptype = $desc->arraymem($i);
-					$ptype = $ptype->scalarval();
+					if ($client->return_type == 'phpvals')
+					{
+						$ptype = $desc[$i];
+					}
+					else
+					{
+						$ptype = $desc->arraymem($i);
+						$ptype = $ptype->scalarval();
+					}
 					if($ptype == 'dateTime.iso8601' || $ptype == 'base64')
 					{
 						$innercode .= "\$p$i =& new xmlrpcval(\$p$i, '$ptype');\n";

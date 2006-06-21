@@ -1,7 +1,7 @@
 <?php
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
-// $Id: xmlrpcs.inc,v 1.52 2006/01/19 23:48:58 ggiunta Exp $
+// $Id: xmlrpcs.inc,v 1.57 2006/03/20 13:48:25 ggiunta Exp $
 
 // Copyright (c) 1999,2000,2002 Edd Dumbill.
 // All rights reserved.
@@ -343,7 +343,7 @@
 		if($GLOBALS['_xmlrpcs_prev_ehandler'] == '')
 		{
 			// The previous error handler was the default: all we should do is log error
-			// to teh default error log (if level high enough)
+			// to the default error log (if level high enough)
 			if(ini_get('log_errors') && (intval(ini_get('error_reporting')) & $errcode))
 			{
 				error_log($errstring);
@@ -413,12 +413,11 @@
 		* NB: if we can, we will convert the generated response from internal_encoding to the intended one.
 		* can be: a supported xml encoding (only UTF-8 and ISO-8859-1 at present, unless mbstring is enabled),
 		* null (leave unspecified in response, convert output stream to US_ASCII),
-		* 'default' (use xmlrpc library default as specified in xmlrpc.inc, convert outpt stream if needed),
+		* 'default' (use xmlrpc library default as specified in xmlrpc.inc, convert output stream if needed),
 		* or 'auto' (use client-specified charset encoding or same as request if request headers do not specify it (unless request is US-ASCII: then use library default anyway).
 		* NB: pretty dangerous if you accept every charset and do not have mbstring enabled)
 		*/
 		var $response_charset_encoding = '';
-		var $xml_header = "<?xml version=\"1.0\" ?>\n";
 		/// storage for internal debug info
 		var $debug_info = '';
 
@@ -535,7 +534,8 @@
 			}
 
 			//$payload='<?xml version="1.0" encoding="' . $GLOBALS['xmlrpc_defencoding'] . '"?' . '>' . "\n"
-			$payload=$this->xml_header;
+
+			$payload=$this->xml_header($resp_charset);
 			if($this->debug > 0)
 			{
 
@@ -545,7 +545,13 @@
 			}
 			//else
 			//{
-			$payload = $payload . $r->serialize($resp_charset);
+			// G. Giunta 2006-01-27: do not create response serialization if it has
+			// already happened. Helps building json magic
+			if (empty($r->payload))
+			{
+				$r->serialize($resp_charset);
+			}
+			$payload = $payload . $r->payload;
 			//}
 
 
@@ -580,6 +586,7 @@
 			else
 			{
 				//print "Internal server error: headers sent before PHP response"
+				error_log('XML-RPC: xmlrpc_server::service: http headers already sent before response is fully generated. Check for php warning or error messages');
 			}
 
 			print $payload;
@@ -768,7 +775,6 @@
 			}
 			else
 			{
-
 				$resp_encoding = $this->response_charset_encoding;
 			}
 
@@ -783,7 +789,7 @@
 
 			// 'guestimate' request encoding
 			/// @todo check if mbstring is enabled and automagic input conversion is on: it might mingle with this check???
-			$req_encoding = guess_encoding(isset($_SERVER['HTTP_CONTENT_TYPE']) ? $_SERVER['HTTP_CONTENT_TYPE'] : '',
+			$req_encoding = guess_encoding(isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : '',
 				$data);
 
 			return null;
@@ -830,6 +836,8 @@
 					error_log('XML-RPC: xmlrpc_server::parseRequest: invalid charset encoding of received request: '.$req_encoding);
 					$req_encoding = $GLOBALS['xmlrpc_defencoding'];
 				}
+				/// @BUG this will fail on PHP 5 if charset is not specified in the xml prologue,
+				// the encoding is not UTF8 and there are non-ascii chars in the text...
 				$parser = xml_parser_create($req_encoding);
 			}
 			else
@@ -853,9 +861,9 @@
 				// return XML error as a faultCode
 				$r=&new xmlrpcresp(0,
 				$GLOBALS['xmlrpcerrxml']+xml_get_error_code($parser),
-				sprintf('XML error: %s at line %d',
+				sprintf('XML error: %s at line %d, column %d',
 					xml_error_string(xml_get_error_code($parser)),
-					xml_get_current_line_number($parser)));
+					xml_get_current_line_number($parser), xml_get_current_column_number($parser)));
 				xml_parser_free($parser);
 			}
 			elseif ($GLOBALS['_xh']['isf'])
@@ -957,6 +965,7 @@
 			// verify that function to be invoked is in fact callable
 			if(!is_callable($func))
 			{
+				error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler is not callable");
 				return new xmlrpcresp(
 					0,
 					$GLOBALS['xmlrpcerr']['server_error'],
@@ -980,6 +989,22 @@
 				{
 					$r = call_user_func($func, $m);
 				}
+				if (!is_a($r, 'xmlrpcresp'))
+				{
+					error_log("XML-RPC: xmlrpc_server::execute: function $func registered as method handler does not return an xmlrpcresp object");
+					if (is_a($r, 'xmlrpcval'))
+					{
+						$r =& new xmlrpcresp($r);
+					}
+					else
+					{
+						$r =& new xmlrpcresp(
+							0,
+							$GLOBALS['xmlrpcerr']['server_error'],
+							$GLOBALS['xmlrpcstr']['server_error'] . ": function does not return xmlrpcresp object"
+						);
+					}
+                }
 			}
 			else
 			{
@@ -998,7 +1023,7 @@
 				{
 					// what should we assume here about automatic encoding of datetimes
 					// and php classes instances???
-					$r = new xmlrpcresp(php_xmlrpc_encode($r, array('auto_dates')));
+					$r =& new xmlrpcresp(php_xmlrpc_encode($r, array('auto_dates')));
 				}
 			}
 			if($this->debug > 2)
@@ -1025,6 +1050,18 @@
 		function debugmsg($string)
 		{
 			$this->debug_info .= $string."\n";
+		}
+
+		function xml_header($charset_encoding='')
+		{
+			if ($charset_encoding != '')
+			{
+				return "<?xml version=\"1.0\" encoding=\"$charset_encoding\"?" . ">\n";
+			}
+			else
+			{
+				return "<?xml version=\"1.0\"?" . ">\n";
+			}
 		}
 
 		/**
