@@ -277,7 +277,7 @@ class JEditor_tinymce extends JPlugin {
 			theme_advanced_disable : \"help\",
 			plugin_insertdate_dateFormat : \"$format_date\",
 			plugin_insertdate_timeFormat : \"$format_time\",
-			extended_valid_elements : \"hr[id|class|title], a[name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
+			extended_valid_elements : \"hr[id|class|title], a[class|name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
 			fullscreen_settings : {
 				theme_advanced_path_location : \"top\"
 			}
