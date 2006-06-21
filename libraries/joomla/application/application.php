@@ -173,7 +173,12 @@ class JApplication extends JObject
 		$old_state = $this->getUserState( $key );
 		$cur_state = isset( $old_state ) ? $old_state : $default;
 		$new_state = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $cur_state;
-
+		
+		// filter input
+		jimport( 'phpinputfilter.inputfilter' );
+		$iFilter = new InputFilter();			
+		$new_state = $iFilter->process( $new_state );
+		
 		$this->setUserState( $key, $new_state );
 
 		return $new_state;
