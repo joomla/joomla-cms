@@ -40,6 +40,7 @@ Legend:
 21-Jun-2006 Johan Janssens
  # Updated phpxmlrpc library to version 2.0 stable
  # Updated cache_lite library to version 1.7.2
+ # Fixed [task2517] : Updated core libraries
 
 20-Jun-2006 Johan Janssens
  # Fixed [task2548] : Base tag issues
