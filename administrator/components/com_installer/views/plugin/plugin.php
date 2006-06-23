@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: plugin.php 4008 2006-06-13 01:49:41Z webImagery $
  * @package Joomla
  * @subpackage Installer
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Static class to handle component view logic
+ * Static class to handle plugin view logic
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
@@ -25,71 +25,86 @@ defined('_JEXEC') or die('Restricted access');
  * @category Controller
  * @since 1.5
  */
-class JInstallerExtensionTasks
-{
+class JInstallerExtensionTasks {
+
 	/**
 	 * @param string The URL option
 	 */
-	function showInstalled()
-	{
+	function showInstalled() {
 		global $mainframe;
 
+		$filter 			= JRequest::getVar( 'filter', '' );
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-		/* Get a database connector */
-		$db =& $mainframe->getDBO();
+		if ($filter == NULL) {
+			$and = '';
+		} else {
+			$and = "\n WHERE folder = '$filter'";
+		}
+		/*
+		 * Get a database connector
+		 */
+		$db = & $mainframe->getDBO();
 
-		$query = 	"SELECT *" .
-					"\n FROM #__components" .
-					"\n WHERE parent = 0" .
-					"\n ORDER BY iscore, name";
+		$query = 	"SELECT id, name, folder, element, client_id, iscore"
+					. "\n FROM #__plugins"
+					. $and
+					. "\n ORDER BY iscore, folder, name"
+					;
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
-		/* Get the component base directory */
-		$baseDir = JPATH_ADMINISTRATOR .DS. 'components';
+		/*
+		 * Get the plugin base directory
+		 */
+		$baseDir = JPATH_SITE.DS.'plugins';
 
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++)
-		{
-			$row =& $rows[$i];
+		for ($i = 0; $i < $numRows; $i ++) {
+			$row = & $rows[$i];
 
-			 /* Get the component folder and list of xml files in folder */
-			jimport('joomla.filesystem.folder');
-			$folder = $baseDir.DS.$row->option;
-			if (JFolder::exists($folder)) {
-				$xmlFilesInDir = JFolder::files($folder, '.xml$');
-			} else {
-				$xmlFilesInDir = null;
-			}
+			/*
+			 * Get the plugin xml file
+			 */
+			$xmlfile = $baseDir.DS.$row->folder.DS.$row->element.".xml";
 
-			if (count($xmlFilesInDir)) {
-				foreach ($xmlFilesInDir as $xmlfile)
-				{
-					if ($data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile)) {
-						foreach($data as $key => $value) {
-							$row->$key = $value;
-						}
-					}	
-					$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
+			if (file_exists($xmlfile))
+			{
+				if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+					foreach($data as $key => $value) {
+						$row->$key = $value;
+					}
 				}
 			}
 		}
 
-		/* Take care of the pagination */
+		// get list of Positions for dropdown filter
+		$query = "SELECT folder AS value, folder AS text"
+		. "\n FROM #__plugins"
+		. "\n GROUP BY folder"
+		. "\n ORDER BY folder"
+		;
+		$types[] = mosHTML::makeOption( '', JText::_( 'All' ) );
+		$db->setQuery( $query );
+		$types = array_merge( $types, $db->loadObjectList() );
+		$lists['filter'] = mosHTML::selectList( $types, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter );
+
+		/*
+		* Take care of the pagination
+		*/
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 
-		JInstallerScreens_component::showInstalled($rows, $page);
-	}
+		JInstallerScreens_plugin::showInstalled($rows, $lists, $page);
 
+	}
 }
 
 /**
- * Static class to handle component view display
+ * Static class to handle plugin view display
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @static
@@ -98,31 +113,45 @@ class JInstallerExtensionTasks
  * @category View
  * @since 1.5
  */
-class JInstallerScreens_component {
+class JInstallerScreens_plugin {
+
 	/**
-	* @param array An array of records
-	* @param string The URL option
-	*/
-	function showInstalled(&$rows, &$page)
-	{
+	 * Displays the installed non-core Plugins
+	 *
+	 * @param array An array of plugin objects
+	 * @return void
+	 */
+	function showInstalled(&$rows, &$lists, &$page) {
+
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
+		<form action="index2.php?option=com_installer&amp;extension=plugin" method="post" name="adminForm">
+
+				<table class="adminform">
+				<tr>
+					<td width="100%">
+						<?php echo JText::_( 'DESCPLUGINS' ); ?>
+					</td>
+					<td align="right">
+						<?php echo $lists['filter'];?>
+					</td>
+				</tr>
+				</table>
 
 			<?php
-				if (count($rows)) {
+			if (count($rows)) {
 				?>
 				<table class="adminlist" cellspacing="1">
 				<thead>
 				<tr>
-					<th class="title" width="10">
+					<th class="title" width="2">
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
-					<th class="title" nowrap="nowrap">
-						<?php echo JText::_( 'Currently Installed' ); ?>
+					<th class="title">
+						<?php echo JText::_( 'Plugin' ); ?>
 					</th>
-					<th width="5%" align="center">
-						<?php echo JText::_( 'Enabled' ); ?>
+					<th width="10%" class="title">
+						<?php echo JText::_( 'Type' ); ?>
 					</th>
 					<th width="10%" align="center">
 						<?php echo JText::_( 'Version' ); ?>
@@ -143,27 +172,20 @@ class JInstallerScreens_component {
 				<tbody>
 				<?php
 				$rc = 0;
-				for ($i = 0, $n = count($rows); $i < $n; $i ++) {
+				$n = count($rows);
+				for ($i = 0; $i < $n; $i ++) {
 					$row = & $rows[$i];
 
-					$img 	= $row->enabled ? 'tick.png' : 'publish_x.png';
-					$task 	= $row->enabled ? 'disable' : 'enable';
-					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-					$action	= $row->enabled ? JText::_( 'disable' ) : JText::_( 'enable' );
-					$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=".$task."&amp;eid[]=".$row->id."\"><img src=\"images/".$img."\" border=\"0\" title=\"".$action."\" alt=\"".$alt."\" /></a>";
-
-					if (!$row->option) {
-						$href = '<strong>X</strong>';
-					}
-
-					if ($row->iscore) {
+					/*
+					 * Handle currently used templates
+					 */
+					if ($row->iscore)	{
 						$cbd 	= 'disabled';
 						$style 	= 'style="color:#999999;"';
 					} else {
 						$cbd 	= '';
 						$style 	= '';
 					}
-
 					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
 					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
@@ -172,12 +194,13 @@ class JInstallerScreens_component {
 						</td>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold">
 								<?php echo $row->name; ?>
 							</span>
 						</td>
-						<td align="center">
-							<?php echo $href; ?>
+						<td>
+							<?php echo $row->folder; ?>
 						</td>
 						<td align="center">
 							<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
@@ -186,7 +209,8 @@ class JInstallerScreens_component {
 							<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
 						</td>
 						<td>
-							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
+							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 							</span>
 						</td>
 					</tr>
@@ -198,14 +222,14 @@ class JInstallerScreens_component {
 				</table>
 				<?php
 			} else {
-				echo JText::_( 'There are no custom components installed' );
+				echo JText::_('WARNNONONCORE');
 			}
 			?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_installer" />
-		<input type="hidden" name="extension" value="component" />
+		<input type="hidden" name="extension" value="plugin" />
 		</form>
 		<?php
 	}

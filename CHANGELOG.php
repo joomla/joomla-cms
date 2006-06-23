@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Jun-2006 Johan Janssens
+ + Added com_cache to easily manage and clean the cache throught the backend
+
 21-Jun-2006 Johan Janssens
  # Updated phpxmlrpc library to version 2.0 stable
  # Updated cache_lite library to version 1.7.2

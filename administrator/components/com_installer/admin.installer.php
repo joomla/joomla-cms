@@ -31,7 +31,7 @@ if (!$user->authorize('com_installer', 'installer')) {
  */
 $extension	= JRequest::getVar('extension');
 if ($extension != '') {
-	$path = dirname(__FILE__).DS.'tmpl'.DS.$extension.'.php';
+	$path = dirname(__FILE__).DS.'views'.DS.$extension.DS.$extension.'.php';
 
 	if (file_exists($path)) {
 		require_once ($path);
@@ -565,4 +565,3 @@ switch ($task) {
 		break;
 }
 ?>
-

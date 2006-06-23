@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id$
+* @version $Id: module.php 4020 2006-06-13 16:09:10Z akede $
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
