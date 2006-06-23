@@ -22,6 +22,7 @@ require_once( JPATH_BASE . '/includes/template.html.php' );
  * @return 	integer The number of modules loaded for that position
  */
 function mosCountModules( $position='left' ) {
+	jimport('joomla.application.extension.module');
 	return count(JModuleHelper::getModules($position));
 }
 
