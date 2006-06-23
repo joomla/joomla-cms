@@ -560,28 +560,27 @@ class mosHTML {
  	* by default replaces an email with a mailto link with email cloacked
 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
-
 		// convert text
-		$mail 			= mosHTML::_encoding_converter( $mail );
+		$mail 			= mosHTML::encoding_converter( $mail );
 		// split email by @ symbol
 		$mail			= explode( '@', $mail );
 		$mail_parts		= explode( '.', $mail[1] );
 		// random number
 		$rand			= rand( 1, 100000 );
-
+		
 		$replacement 	= "\n <script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
 		$replacement 	.= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement 	.= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement 	.= "\n var addy". $rand ." = '". @$mail[0] ."' + '&#64;';";
 		$replacement 	.= "\n addy". $rand ." = addy". $rand ." + '". implode( "' + '&#46;' + '", $mail_parts ) ."';";
-
+		
 		if ( $mailto ) {
 			// special handling when mail text is different from mail addy
 			if ( $text ) {
 				if ( $email ) {
 					// convert text
-					$text 			= mosHTML::_encoding_converter( $text );
+					$text 			= mosHTML::encoding_converter( $text );
 					// split email by @ symbol
 					$text 			= explode( '@', $text );
 					$text_parts		= explode( '.', $text[1] );
@@ -602,21 +601,21 @@ class mosHTML {
 		}
 		$replacement 	.= "\n //-->";
 		$replacement 	.= '\n </script>';
-
+		
 		// XHTML compliance `No Javascript` text handling
-		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
+		$replacement 	.= "<script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
-		$replacement 	.= "\n document.write( '<span style=\"display: none;\">' );";
+		$replacement 	.= "\n document.write( '<span style=\'display: none;\'>' );";
 		$replacement 	.= "\n //-->";
 		$replacement 	.= "\n </script>";
-		$replacement 	.= JText::_( 'CLOAKING' );
+		$replacement 	.= _CLOAKING;
 		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
 		$replacement 	.= "\n document.write( '</' );";
 		$replacement 	.= "\n document.write( 'span>' );";
 		$replacement 	.= "\n //-->";
 		$replacement 	.= "\n </script>";
-
+		
 		return $replacement;
 	}
 
