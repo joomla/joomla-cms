@@ -34,6 +34,20 @@ if (!defined('_JOS_POLL_MODULE')) {
 		$db->setQuery($query);
 		$polls = $db->loadObjectList();
 
+		// try to find poll component's Itemid
+		$query = "SELECT id"
+		. "\n FROM #__menu"
+		. "\n WHERE type = 'components'"
+		. "\n AND published = 1"
+		. "\n AND link = 'index.php?option=com_poll'"
+		;
+		$db->setQuery( $query );
+		$_Itemid = $db->loadResult();
+		
+		if ($_Itemid) {
+			$_Itemid = '&amp;Itemid='. $_Itemid;
+		}			
+		
 		if ($db->getErrorNum()) {
 			echo $db->stderr(true);
 			return;
@@ -52,7 +66,7 @@ if (!defined('_JOS_POLL_MODULE')) {
 					echo "MD ".$db->stderr(true);
 					return;
 				}
-				poll_vote_form_html($poll, $options, $Itemid, $params);
+				poll_vote_form_html($poll, $options, $_Itemid, $params);
 			}
 		}
 	}
@@ -62,7 +76,7 @@ if (!defined('_JOS_POLL_MODULE')) {
 	 * @param array
 	 * @param int The current menu item
 	 */
-	function poll_vote_form_html(&$poll, $options, $Itemid, &$params) {
+	function poll_vote_form_html(&$poll, $options, $_Itemid, &$params) {
 		$tabclass_arr 		= array ('sectiontableentry2', 'sectiontableentry1');
 		$tabcnt 			= 0;
 		$moduleclass_sfx 	= $params->get('moduleclass_sfx');
@@ -94,7 +108,7 @@ if (!defined('_JOS_POLL_MODULE')) {
 		}
 		//-->
 		</script>
-		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll&amp;Itemid=$Itemid"); ?>">
+		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll$_Itemid"); ?>">
 
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">
 		<thead>
@@ -136,7 +150,7 @@ if (!defined('_JOS_POLL_MODULE')) {
 				<div align="center">
 					<input type="submit" name="task_button" class="button" value="<?php echo JText::_('Vote'); ?>" />
 					&nbsp;
-					<input type="button" name="option" class="button" value="<?php echo JText::_('Results'); ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=$poll->id"); ?>';" />
+					<input type="button" name="option" class="button" value="<?php echo JText::_('Results'); ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=$poll->id$_Itemid"); ?>';" />
 				</div>
 			</td>
 		</tr>

@@ -99,11 +99,11 @@ class JContentHelper
 				break;
 
 			case 'hits' :
-				$orderby = 'a.hits';
+				$orderby = 'a.hits DESC';
 				break;
 
 			case 'rhits' :
-				$orderby = 'a.hits DESC';
+				$orderby = 'a.hits';
 				break;
 
 			case 'order' :
