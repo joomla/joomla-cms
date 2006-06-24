@@ -40,25 +40,20 @@ class JInstallerComponent extends JInstaller
 		 * First lets set the installation directory, find and check the installation file and verify
 		 * that it is the proper installation type
 		 */
-		if (!$this->preInstallCheck($p_fromdir, 'component'))
-		{
+		if (!$this->preInstallCheck($p_fromdir, 'component')) {
 			return false;
 		}
 
 		// Get the root node of the XML document
 		$root = & $this->_xmldoc->documentElement;
 
-		/*
-		 * Set the component name
-		 */
+		// Set the component name
 		$e = & $root->getElementsByPath('name', 1);
 		$this->_extensionName = $e->getText();
 
-		/*
-		 * Set the installation target paths
-		 */
-		$this->_extensionDir = JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->_extensionName)).DS);
-		$this->_extensionAdminDir = JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->_extensionName)).DS);
+		// Set the installation target paths
+		$this->_extensionDir		= JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->_extensionName)).DS);
+		$this->_extensionAdminDir	= JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->_extensionName)).DS);
 
 		/*
 		 * If the component directory already exists, then we will assume that the component is already
@@ -87,8 +82,7 @@ class JInstallerComponent extends JInstaller
 		 * Since we created the component directory and will want to remove it if we have to roll back
 		 * the installation, lets add it to the installation step stack
 		 */
-		if ($created)
-		{
+		if ($created) {
 			$this->_stepStack[] = array ('type' => 'folder', 'path' => $this->_extensionDir);
 		}
 
@@ -112,30 +106,25 @@ class JInstallerComponent extends JInstaller
 		 * Since we created the component admin directory and we will want to remove it if we have to roll
 		 * back the installation, lets add it to the installation step stack
 		 */
-		if ($created)
-		{
+		if ($created) {
 			$this->_stepStack[] = array ('type' => 'folder', 'path' => $this->_extensionAdminDir);
 		}
 
 		// Find files to copy
 		if ($this->_parseFiles('files') === false)
 		{
-
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
 		if ($this->_parseFiles('administration/files', '', '', 1) === false)
 		{
-
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
 
-		/*
-		 * Parse optional files tags
-		 */
+		// Parse optional files tags
 		$this->_parseFiles('images');
 		$this->_parseFiles('administration/images', '', '', 1);
 		$this->_parseFiles('media');
@@ -175,9 +164,7 @@ class JInstallerComponent extends JInstaller
 				}
 			}
 
-		/*
-		 * If there is an install file, lets copy it.
-		 */
+		// If there is an install file, lets copy it.
 		$installScriptElement = & $root->getElementsByPath('installfile', 1);
 		if (!is_null($installScriptElement))
 		{
@@ -197,9 +184,7 @@ class JInstallerComponent extends JInstaller
 			$this->_installScript = $installScriptElement->getText();
 		}
 
-		/*
-		 * If there is an uninstall file, lets copy it.
-		 */
+		// If there is an uninstall file, lets copy it.
 		$uninstallScriptElement = & $root->getElementsByPath('uninstallfile', 1);
 		if (!is_null($uninstallScriptElement))
 		{
@@ -217,13 +202,10 @@ class JInstallerComponent extends JInstaller
 			}
 		}
 
-		/*
-		 * Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
-		 */
+		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$adminMenuElement = & $root->getElementsByPath('administration/menu', 1);
 		if (!is_null($adminMenuElement))
 		{
-
 			// Initialize some variables
 			$adminSubmenuElement = & $root->getElementsByPath('administration/submenu', 1);
 			$comName = strtolower("com_".str_replace(" ", "", $this->_extensionName));
@@ -331,12 +313,10 @@ class JInstallerComponent extends JInstaller
 				}
 			} else
 			{
-
 				// No submenus, just create the component root menu item
 				$menuid = $this->_createParentMenu($comAdminMenuName, $comName, $comImg);
 				if ($menuid === false)
 				{
-
 					// Install failed, rollback changes
 					$this->_rollback();
 					return false;
@@ -348,17 +328,52 @@ class JInstallerComponent extends JInstaller
 				 */
 				$this->_stepStack[] = array ('type' => 'menu', 'id' => $menuid);
 			}
-		}
-
-		/*
-		 * Get the component description
-		 */
-		$e = & $root->getElementsByPath('description', 1);
-		if (!is_null($e))
-		{
-			$this->description = $this->_extensionName.'<p>'.$e->getText().'</p>';
 		} else
 		{
+			// No menu entry, lets just enter a component entry to the table.
+			$db_name = $this->_extensionName;
+			$db_link = "";
+			$db_menuid = 0;
+			$db_parent = 0;
+			$db_admin_menu_link = "";
+			$db_admin_menu_alt = $this->_extensionName;
+			$db_option = strtolower("com_".str_replace(" ", "", $this->_extensionName));
+			$db_ordering = 0;
+			$db_admin_menu_img = "";
+			$db_iscore = 0;
+			$db_params = $this->_getParams();
+			$db_enabled = 1;
+	
+			// Get database connector object
+			$query = "INSERT INTO #__components" .
+					"\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '$db_params', '$db_enabled' )";
+			$this->_db->setQuery($query);
+			if (!$this->_db->query())
+			{
+				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::install: '.$db->stderr(true));
+				return false;
+			}
+
+			$menuid = $this->_db->insertid();
+			if ($menuid === false)
+			{
+				// Install failed, rollback changes
+				$this->_rollback();
+				return false;
+			}
+
+			/*
+			 * Since we have created a menu item, we add it to the installation step stack
+			 * so that if we have to rollback the changes we can undo it.
+			 */
+			$this->_stepStack[] = array ('type' => 'menu', 'id' => $menuid);
+		}
+
+		// Get the component description
+		$e = & $root->getElementsByPath('description', 1);
+		if (!is_null($e)) {
+			$this->description = $this->_extensionName.'<p>'.$e->getText().'</p>';
+		} else {
 			$this->description = $this->_extensionName;
 		}
 
@@ -384,9 +399,7 @@ class JInstallerComponent extends JInstaller
 			}
 		}
 
-		/*
-		 * Lastly, we will copy the setup file to its appropriate place.
-		 */
+		// Lastly, we will copy the setup file to its appropriate place.
 		if (!$this->_copyInstallFile())
 		{
 			JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('Could not copy setup file'));
@@ -587,9 +600,7 @@ class JInstallerComponent extends JInstaller
 		// Get database connector object
 		$db = & $this->_db;
 
-		/*
-		 * Remove the entry from the #__components table
-		 */
+		// Remove the entry from the #__components table
 		$query = "DELETE " .
 				"\nFROM `#__components` " .
 				"\nWHERE id='".$arg['id']."'";
