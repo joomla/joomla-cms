@@ -381,7 +381,7 @@ class categories_html
 						<td valign="top" colspan="3">
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							echo $editor->display( 'description',  $row->description, '100%;', '300', '60', '20' ) ;
+							echo $editor->display( 'description',  $row->description, '100%', '300', '60', '20' ) ;
 							?>
 						</td>
 					</tr>

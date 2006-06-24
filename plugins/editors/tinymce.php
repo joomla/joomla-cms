@@ -338,7 +338,7 @@ class JEditor_tinymce extends JPlugin {
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
-		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>";
+		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>";
 	}
 
 	function onGetInsertMethod($name)
