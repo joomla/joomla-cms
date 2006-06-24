@@ -41,7 +41,7 @@ See COPYRIGHT.php for copyright notices and details.
 		}
 	</script>
 	</head>
-	<body>
+	<body onload="javascript:setFocus()">
 		<div id="border-top">
 			<div>
 				<div>

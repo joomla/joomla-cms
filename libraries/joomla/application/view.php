@@ -148,7 +148,8 @@ class JView extends JObject {
 	 * @return mixed	The return value of the method
 	 * @since	1.5
 	 */
-	function &get( $method, $model = null ) {
+	function &get( $method, $model = null ) 
+	{
 		$false = false;
 
 		// If $model is null we use the default model

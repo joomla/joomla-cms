@@ -67,14 +67,16 @@ class JContentViewCategory extends JView
 		$gid 		= $user->get('gid');
 
 		// Model workaround
-		$ctrl	= &$this->getController();
-		$section = & $ctrl->getModel('category', 'JContentModel');
+		$ctrl		= &$this->getController();
+		$section 	= &$ctrl->getModel('category', 'JContentModel');
 		$this->setModel($section, true);
 
 		// Get some data from the model
 		$category			= & $this->get( 'Category' );
 		$other_categories	= & $this->get( 'Siblings' );
 		$items				= & $this->get( 'Content' );
+		
+		echo var_dump($category);
 
 		// Request variables
 		$task 	= JRequest::getVar('task');
