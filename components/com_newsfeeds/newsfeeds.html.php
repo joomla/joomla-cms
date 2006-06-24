@@ -17,12 +17,17 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Newsfeeds
-*/
-class HTML_newsfeed {
-
-	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass, &$page ) {
+ * HTML View class for the Newsfeeds component
+ *
+ * @static
+ * @package Joomla
+ * @subpackage Newsfeeds
+ * @since 1.0
+ */
+class NewsfeedsView 
+{
+	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass, &$page ) 
+	{
 		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
@@ -57,7 +62,7 @@ class HTML_newsfeed {
 			<td width="60%" colspan="2">
 				<?php
 				if ( count( $rows ) ) {
-					HTML_newsfeed::showTable( $params, $rows, $catid, $tabclass, $page );
+					NewsfeedsView::showTable( $params, $rows, $catid, $tabclass, $page );
 				}
 				?>
 			</td>
@@ -67,9 +72,9 @@ class HTML_newsfeed {
 				<?php
 				// Displays listing of Categories
 				if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
-					HTML_newsfeed::showCategories( $params, $categories, $catid );
+					NewsfeedsView::showCategories( $params, $categories, $catid );
 				} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
-					HTML_newsfeed::showCategories( $params, $categories, $catid );
+					NewsfeedsView::showCategories( $params, $categories, $catid );
 				}
 				?>
 			</td>
@@ -81,7 +86,8 @@ class HTML_newsfeed {
 	/**
 	* Display Table of items
 	*/
-	function showTable( &$params, &$rows, $catid, $tabclass, &$page ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$page ) 
+	{
 		global $Itemid;
 
 		// icon in table display
@@ -190,7 +196,8 @@ class HTML_newsfeed {
 	/**
 	* Display links to categories
 	*/
-	function showCategories( &$params, &$categories, $catid ) {
+	function showCategories( &$params, &$categories, $catid ) 
+	{
 		global $Itemid;
 
 		if (count($categories)) {
@@ -248,7 +255,8 @@ class HTML_newsfeed {
 	/**
 	* Display feed header and items
 	*/
-	function showNewsfeeds( &$newsfeed, &$lists, &$params ) {
+	function showNewsfeeds( &$newsfeed, &$lists, &$params ) 
+	{
 		?>
 		<div style="direction: <?php echo $newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $newsfeed->rtl ? 'right' :'left'; ?>">
 		<table width="100%" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">

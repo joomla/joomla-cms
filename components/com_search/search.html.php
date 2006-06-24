@@ -19,10 +19,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Search
 */
-class search_html {
-
-	function openhtml( $params ) {
-		if ( $params->get( 'page_title' ) ) {
+class search_html 
+{
+	function openhtml( $params ) 
+	{
+		if ( $params->get( 'page_title' ) ) 
+		{
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<?php echo $params->get( 'header' ); ?>
@@ -36,7 +38,8 @@ class search_html {
 	 * @param object
 	 * @param array Array of the selected areas
 	 */
-	function searchbox( $searchword, &$lists, $params, &$areas ) {
+	function searchbox( $searchword, &$lists, $params, &$areas ) 
+	{
 		global $Itemid;
 
 		$showAreas = mosGetParam( $lists, 'areas', array() );
@@ -100,7 +103,8 @@ class search_html {
 		<?php
 	}
 
-	function searchintro( $searchword, $params ) {
+	function searchintro( $searchword, $params ) 
+	{
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
@@ -115,9 +119,10 @@ class search_html {
 	 * @static
 	 * @return void
 	 */
-	function displaynoresult() {
+	function displaynoresult() 
+	{
 		?>
-			</td>
+		</td>
 		</tr>
 		<?php
 	}
@@ -137,10 +142,11 @@ class search_html {
 	 * @return void
 	 * @since 1.0
 	 */
-	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
+	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) 
+	{
 		global $mainframe, $option, $Itemid;
 
-		$hideCreateDate = $mainframe->getConfig( 'hideCreateDate' );
+		$hideCreateDate = $mainframe->getCfg( 'hideCreateDate' );
 		$c 			= count ($rows);
 		$strResult 	= sprintf( JText::_( 'TOTALRESULTSFOUND' ), $totalRows, $searchword );
 		$image 		= mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
@@ -265,7 +271,8 @@ class search_html {
 	 * @return void
 	 * @since 1.0
 	 */
-	function conclusion( $searchword, $pageNav ) {
+	function conclusion( $searchword, $pageNav ) 
+	{
 		global $option, $Itemid;
 
 		$searchphrase 	= trim( JString::strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
@@ -296,7 +303,8 @@ class search_html {
 	 * @since 1.0
 	 * @deprecated 1.5
 	 */
-	function message( $message, $params ) {
+	function message( $message, $params ) 
+	{
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>

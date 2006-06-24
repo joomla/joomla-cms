@@ -23,7 +23,8 @@
  * @author		Andrew Eddie
  * @since		1.5
  */
-class JController extends JObject {
+class JController extends JObject 
+{
 	/**
 	 * The Main Application [JApplication]
 	 * @var	object

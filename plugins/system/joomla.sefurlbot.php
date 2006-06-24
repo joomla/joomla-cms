@@ -36,7 +36,7 @@ function botJoomlaSEFUrl( )
 	{
 		//set document link
 		$doc =& $mainframe->getDocument();
-		$doc->setLink( $this->getBaseURL() );
+		$doc->setLink( $mainframe->getBaseURL() );
 		
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot');

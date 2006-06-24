@@ -742,7 +742,7 @@ class JContentHTMLHelper {
 			<tr>
 				<td width="70%"  valign="top" colspan="2">
 					<span class="small">
-					&nbsp;<?php JText::printf( 'Written by', ($row->created_by_alias ? $row->created_by_alias : $row->author) ); ?>
+					<?php JText::printf( 'Written by', ($row->created_by_alias ? $row->created_by_alias : $row->author) ); ?>
 					</span>
 					&nbsp;&nbsp;
 				</td>

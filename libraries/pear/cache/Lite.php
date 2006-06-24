@@ -533,7 +533,7 @@ class Cache_Lite
     */
     function raiseError($msg, $code)
     {
-        jimport('pear.pear');
+        jimport('pear.PEAR');
         return PEAR::raiseError($msg, $code, $this->_pearErrorMode);
     }
     

@@ -563,7 +563,7 @@ class mosHTML {
 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 		// convert text
-		$mail 			= mosHTML::encoding_converter( $mail );
+		$mail 			= mosHTML::_encoding_converter( $mail );
 		// split email by @ symbol
 		$mail			= explode( '@', $mail );
 		$mail_parts		= explode( '.', $mail[1] );
@@ -582,7 +582,7 @@ class mosHTML {
 			if ( $text ) {
 				if ( $email ) {
 					// convert text
-					$text 			= mosHTML::encoding_converter( $text );
+					$text 			= mosHTML::_encoding_converter( $text );
 					// split email by @ symbol
 					$text 			= explode( '@', $text );
 					$text_parts		= explode( '.', $text[1] );
