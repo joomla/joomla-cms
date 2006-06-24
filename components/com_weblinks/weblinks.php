@@ -468,7 +468,7 @@ class WeblinksController
 		}
 
 		// build list of categories
-		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', JRequest::getVar('option'), intval($row->catid));
+		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
 		WeblinksView::editWeblink($row, $lists);
 	}
@@ -521,11 +521,40 @@ class WeblinksController
 			return;
 		}
 
+		// Lets make sure they saw the html form
+		$hash 	= mosHash( JSession::id() );
+		$valid 	= JRequest::getVar($hash, 0, 'post');
+		if (!$valid) {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return false;
+		}
+
+		/*
+		 * This obviously won't catch all attempts, but it does not hurt to make
+		 * sure the request came from a client with a user agent string.
+		 */
+		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return false;
+		}
+
+		/*
+		 * This obviously won't catch all attempts either, but we ought to check
+		 * to make sure that the request was posted as well.
+		 */
+		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return false;
+		}
+
 		// Create a web link table
 		$row = new JTableWeblink($db);
 
-		// Bind the $_POST array to the web link table
-		if (!$row->bind($_POST, "published")) {
+		// Get the form fields.
+		$fields = JRequest::getVar('jform', array(), 'post', 'array');
+
+		// Bind the form fields to the web link table
+		if (!$row->bind($fields, "published")) {
 			JError::raiseError( 500, $row->getError());
 			return;
 		}

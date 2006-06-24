@@ -153,6 +153,8 @@ class mosHTML {
 		if ( $idtag ) {
 			$id = $idtag;
 		}
+		$id = str_replace('[','',$id);
+		$id = str_replace(']','',$id);
 
 		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {

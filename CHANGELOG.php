@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-23-Jun-2006 Johan Janssens
+23-Jun-2006 Louis Landry
+ ^ POC for hardened form handling -- weblinks submission
+
+223-Jun-2006 Johan Janssens
  + Added com_cache to easily manage and clean the cache throught the backend
 
 21-Jun-2006 Johan Janssens
