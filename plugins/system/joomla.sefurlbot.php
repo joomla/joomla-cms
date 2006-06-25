@@ -530,6 +530,8 @@ function sefRelToAbs( $string )
 				$sefstring 	= 'component/';
 
 				foreach($parts as $key => $value) {
+					// remove slashes automatically added by parse_str
+					$value		= stripslashes($value);
 					$sefstring .= $key .','. $value.'/';
 				}
 
