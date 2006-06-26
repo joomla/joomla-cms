@@ -140,9 +140,10 @@ function showPolls( $option ) {
 }
 
 function editPoll( ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db		=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -155,7 +156,7 @@ function editPoll( ) {
 	$row->load( $uid );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $my->id )) {
+	if ($row->isCheckedOut( $user->get( 'id' ) )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The poll' ), $row->title );
 		josRedirect( 'index2.php?option='. $option, $msg );
 	}
@@ -163,7 +164,7 @@ function editPoll( ) {
 	$options = array();
 
 	if ($uid) {
-		$row->checkout( $my->id );
+		$row->checkout( $user->get( 'id' ) );
 		$query = "SELECT id, text"
 		. "\n FROM #__poll_data"
 		. "\n WHERE pollid = $uid"
@@ -194,7 +195,7 @@ function editPoll( ) {
 }
 
 function savePoll( $task ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
 	// save the poll parent information
@@ -292,9 +293,10 @@ function removePoll( $cid, $option )
 */
 function publishPolls( $cid=null, $publish=1, $option )
 {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -308,7 +310,7 @@ function publishPolls( $cid=null, $publish=1, $option )
 	$query = "UPDATE #__polls"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

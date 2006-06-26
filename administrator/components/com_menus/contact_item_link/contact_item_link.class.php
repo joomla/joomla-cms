@@ -23,21 +23,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class contact_item_link_menu {
 
 	function edit( &$uid, $menutype, $option ) {
-		global $my, $mainframe;
+		global $mainframe;
 
 		$db =& $mainframe->getDBO();
+		$user =& $mainframe->getUser();
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
-		if ($menu->checked_out && $menu->checked_out <> $my->id) {
+		if ($menu->checked_out && $menu->checked_out <> $user->get ( 'id' )) {
         	$alert = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 			$action = "document.location.href='index2.php?option=$option'";
 			mosErrorAlert( $alert, $action );
 		}
 
 		if ( $uid ) {
-			$menu->checkout( $my->id );
+			$menu->checkout( $user->get ('id' ) );
 		} else {
 			// load values for new entry
 			$menu->type 		= 'contact_item_link';

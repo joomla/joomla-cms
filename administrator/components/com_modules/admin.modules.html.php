@@ -214,14 +214,14 @@ class HTML_modules {
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
 	{
 		global $mainframe;
-		global $my, $mosConfig_cachepath;
+		global $mosConfig_cachepath;
 
 		require_once( dirname( __FILE__ ) . '/helpers/module.php' );
 		$helper		= new JModuleEditHelper( $row->module, $client->id );
 		$control	= $helper->getControlParams( $row->control );
 		$params		= $helper->getViewParams( $row->params, $control );
 
-		$editor =& $mainframe->getEditor();
+		$editor 	=& $mainframe->getEditor();
 
 		$row->titleA = '';
 		if ( $row->id ) {

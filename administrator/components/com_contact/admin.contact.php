@@ -181,9 +181,10 @@ function showContacts( $option )
 * @param string The current GET/POST option
 */
 function editContact( ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db		=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -196,7 +197,7 @@ function editContact( ) {
 
 	if ($cid[0]) {
 		// do stuff for existing records
-		$row->checkout($my->id);
+		$row->checkout($user->get( 'id' ));
 	} else {
 		// do stuff for new records
 		$row->imagepos 	= 'top';
@@ -335,9 +336,10 @@ function removeContacts( &$cid ) {
 * @param string The current option
 */
 function changeContact( $cid=null, $state=0 ) {
-	global $mainframe, $my;
+	global $mainframe;
 
-	$db =& $mainframe->getDBO();
+	$db 	=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $state ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -349,7 +351,7 @@ function changeContact( $cid=null, $state=0 ) {
 	$query = "UPDATE #__contact_details"
 	. "\n SET published = " . intval( $state )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get( 'id' ) ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

@@ -66,8 +66,9 @@ class JTableUser extends JTable
 	 */
 	function check()
 	{
-		global $mosConfig_uniquemail, $my;
+		global $mosConfig_uniquemail, $mainframe;
 
+		$user =& $mainframe->getUser();
 		// filter malicious code
 		//$this->filter();
 
@@ -121,7 +122,7 @@ class JTableUser extends JTable
 		}
 
 		// if user is made a Super Admin group and user is NOT a Super Admin
-		if ( $this->gid == 25 && $my->gid != 25 ) {
+		if ( $this->gid == 25 && $user->get('gid') != 25 ) {
 			// disallow creation of Super Admin by non Super Admin users
 			$this->_error = JText::_( 'WARNSUPERADMINCREATE' );
 			return false;

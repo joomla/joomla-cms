@@ -158,7 +158,7 @@ class JComponentHelper
 		jimport('joomla.factory');
 		
 		global $mainframe;
-		global $Itemid, $task, $option, $id, $my;
+		global $Itemid, $task, $option, $id;
 
 		$user 		=& $mainframe->getUser();
 		$db			=& $mainframe->getDBO();

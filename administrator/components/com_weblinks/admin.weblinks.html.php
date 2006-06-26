@@ -23,8 +23,10 @@ class HTML_weblinks
 {
 	function showWeblinks( $option, &$rows, &$lists, &$pageNav )
 	{
-		global $my;
+		global $mainframe;
 
+		$user 	=& $mainframe->getUser();
+		
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 
@@ -105,7 +107,7 @@ class HTML_weblinks
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get( 'id' ) ) ) {
 							echo $row->title;
 						} else {
 							?>

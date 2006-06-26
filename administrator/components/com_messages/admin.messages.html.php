@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_messages {
 	function showMessages( &$rows, &$pageNav, $option, &$lists ) {
-		global $mainframe, $my;
+		global $mainframe;
 
 		/*
 		 * Initialize variables
@@ -232,7 +232,9 @@ class HTML_messages {
 	}
 
 	function newMessage($option, $recipientslist, $subject ) {
-		global $my;
+		global $mainframe;
+
+		$user =& $mainframe->getUser();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -283,7 +285,7 @@ class HTML_messages {
 		</tr>
 		</table>
 
-		<input type="hidden" name="user_id_from" value="<?php echo $my->id; ?>">
+		<input type="hidden" name="user_id_from" value="<?php echo $user->get( 'id' ); ?>">
 		<input type="hidden" name="option" value="<?php echo $option; ?>">
 		<input type="hidden" name="task" value="">
 		</form>

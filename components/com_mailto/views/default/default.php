@@ -27,8 +27,9 @@ class JViewMailToDefault extends JViewMailTo {
 	 * @return array
 	 */
 	function &getData() {
-		global $my;
+		global $mainframe;
 
+		$user =& $mainframe->getUser();
 		$data = array(); 
 		
 		$data['link'] = urldecode( JRequest::getVar( 'link' ) );
@@ -38,9 +39,9 @@ class JViewMailToDefault extends JViewMailTo {
 			return $false;
 		}
 
-		if ($my->id > 0) {
-			$data['sender'] = $my->name;
-			$data['from'] = $my->email;
+		if ($user->get('id') > 0) {
+			$data['sender'] = $user->get('name');
+			$data['from'] = $user->get('email');
 		}
 
 		return $data;

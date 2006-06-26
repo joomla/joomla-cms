@@ -76,7 +76,7 @@ class JModuleHelper
 		jimport('joomla.factory');
 		
 		global $mainframe;
-		global $Itemid, $task, $option, $my;
+		global $Itemid, $task, $option;
 
 		$user 		=& $mainframe->getUser();
 		$db	 	    =& $mainframe->getDBO();

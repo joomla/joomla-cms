@@ -23,8 +23,6 @@ class HTML_poll
 {
 	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $my;
-
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_poll" method="post" name="adminForm">

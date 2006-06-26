@@ -56,27 +56,27 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		$link = 'index2.php?option=com_media';
 		quickiconButton( $link, 'icon-48-media.png', JText::_( 'Media Manager' ) );
 
-		if ( $my->gid > 23 ) {
+		if ( $user->get('gid') > 23 ) {
 			$link = 'index2.php?option=com_trash';
 			quickiconButton( $link, 'icon-48-trash.png', JText::_( 'Trash Manager' ) );
 		}
 
-		if ( $my->gid > 23 ) {
+		if ( $user->get('gid') > 23 ) {
 			$link = 'index2.php?option=com_menumanager';
 			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
 		}
 
-		if ( $my->gid > 24 ) {
+		if ( $user->get('gid') > 24 ) {
 			$link = 'index2.php?option=com_languages&amp;client=0';
 			quickiconButton( $link, 'icon-48-language.png', JText::_( 'Language Manager' ) );
 		}
 
-		if ( $my->gid > 23 ) {
+		if ( $user->get('gid') > 23 ) {
 			$link = 'index2.php?option=com_users';
 			quickiconButton( $link, 'icon-48-user.png', JText::_( 'User Manager' ) );
 		}
 
-		if ( $my->gid > 24 ) {
+		if ( $user->get('gid') > 24 ) {
 			$link = 'index2.php?option=com_config&amp;hidemainmenu=1';
 			quickiconButton( $link, 'icon-48-config.png', JText::_( 'Global Configuration' ) );
 		}

@@ -23,8 +23,9 @@ class HTML_contact
 {
 	function showContacts( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $my;
+		global $mainframe;
 
+		$user =& $mainframe->getUser();
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'cd.ordering');
 
@@ -109,7 +110,7 @@ class HTML_contact
 					</td>
 					<td>
 					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+					if ( $row->checked_out && ( $row->checked_out != $user->get( 'id' ) ) ) {
 						echo $row->name;
 					} else {
 						?>

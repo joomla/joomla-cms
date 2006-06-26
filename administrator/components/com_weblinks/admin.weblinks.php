@@ -167,9 +167,10 @@ function showWeblinks( $option ) {
 */
 function editWeblink()
 {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db		=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	if (!is_array( $cid )) {
@@ -183,13 +184,13 @@ function editWeblink()
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $my->id )) {
+	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 		josRedirect( 'index2.php?option='. $option, $msg );
 	}
 
 	if ($cid[0]) {
-		$row->checkout( $my->id );
+		$row->checkout( $user->get('id') );
 	} else {
 		// initialise new record
 		$row->published = 1;
@@ -222,7 +223,7 @@ function editWeblink()
 * @param database A database connector object
 */
 function saveWeblink( $task ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db	=& $mainframe->getDBO();
 	$row = new JTableWeblink( $db );
@@ -300,9 +301,10 @@ function removeWeblinks( $cid, $option ) {
 * @param string The current url option
 */
 function publishWeblinks( $cid=null, $publish=1,  $option ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db		=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$catid	= JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -316,7 +318,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 	$query = "UPDATE #__weblinks"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

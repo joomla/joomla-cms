@@ -338,10 +338,11 @@ function mosBackTrace( $message='' ) {
 * @since 1.0
 */
 function mosNotAuth() {
-	global $my;
+	global $mainframe;
 
+	$user =& $mainframe->getUser();
 	echo JText::_('ALERTNOTAUTH');
-	if ($my->id < 1) {
+	if ($user->get('id') < 1) {
 		echo "<br />" . JText::_( 'You need to login.' );
 	}
 }

@@ -20,8 +20,9 @@ class JViewBannerClients {
 
 	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $my;
+		global $mainframe;
 
+		$user =& $mainframe->getUser();
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
@@ -81,7 +82,7 @@ class JViewBannerClients {
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get( 'id' ) ) ) {
 							echo $row->name;
 						} else {
 							?>

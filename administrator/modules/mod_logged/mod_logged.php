@@ -24,11 +24,11 @@ $limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limit
 // hides Administrator or Super Administrator from list depending on usertype
 $and = '';
 // administrator check
-if ( $my->gid == 24 ) {
+if ( $user->get('gid') == 24 ) {
 	$and = "\n AND gid != '25'";
 }
 // manager check
-if ( $my->gid == 23 ) {
+if ( $user->get('gid') == 23 ) {
 	$and = "\n AND gid != '25'";
 	$and .= "\n AND gid != '24'";
 }

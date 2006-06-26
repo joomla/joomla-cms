@@ -215,7 +215,8 @@ class HTML_statistics
 
 	function pageImpressions( &$rows, $pageNav, &$lists, $task )
 	{
-		global $my;
+		global $mainframe;
+		$user 	=& $mainframe->getUser();
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=pageimp" method="post" name="adminForm">
 
@@ -299,7 +300,7 @@ class HTML_statistics
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get( 'id' ) ) ) {
 							echo $row->title;
 						} else {
 							?>

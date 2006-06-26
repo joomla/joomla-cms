@@ -49,11 +49,11 @@ switch( JRequest::getVar( 'task' ) )
 		break;
 
 	case 'saveUserEdit':
-		UserController::save( $option, $my->id );
+		UserController::save( $option, $user->get('id') );
 		break;
 
 	case 'CheckIn':
-		UserController::checkin( $my->id, $access, $option );
+		UserController::checkin( $user->get('id'), $access, $option );
 		break;
 
 	case 'cancel':

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Jun-2006 Alex Kempkens
+ ^ [task2638] : Refactoring of $my to $user, changed in all core files
+
 23-Jun-2006 Louis Landry
  ^ POC for hardened form handling -- weblinks submission
 

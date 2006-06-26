@@ -23,8 +23,9 @@ class JViewBanners {
 
 	function showBanners( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $my;
+		global $mainframe;
 
+		$user =& $mainframe->getUser();
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_banners" method="post" name="adminForm">
@@ -119,7 +120,7 @@ class JViewBanners {
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						if ( $row->checked_out && ( $row->checked_out != $user->get ('id') ) ) {
 							echo $row->name;
 						} else {
 							?>

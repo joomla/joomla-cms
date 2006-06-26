@@ -276,9 +276,10 @@ function showCategories( $section, $option )
 */
 function editCategory( )
 {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db         =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
 	$section 	= JRequest::getVar( 'section', 'content' );
@@ -304,7 +305,7 @@ function editCategory( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->checked_out && $row->checked_out <> $my->id) {
+	if ($row->checked_out && $row->checked_out <> $user->get( 'id' )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The category' ), $row->title );
 		josRedirect( 'index2.php?option=categories&section='. $row->section, $msg );
 	}
@@ -525,9 +526,10 @@ function removeCategories( $section, $cid ) {
 * @param string The name of the current user
 */
 function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) {
-	global $mainframe, $my;
+	global $mainframe;
 	
 	$db =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 
 	if (!is_array( $cid )) {
 		$cid = array();
@@ -547,7 +549,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 	$query = "UPDATE #__categories"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get( 'id' ) ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

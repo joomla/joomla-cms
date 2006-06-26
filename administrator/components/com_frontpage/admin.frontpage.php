@@ -213,9 +213,10 @@ function viewFrontPage( $option ) {
 * @param integer 0 if unpublishing, 1 if publishing
 */
 function changeFrontPage( $cid=null, $state=0, $option ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -227,7 +228,7 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 	$query = "UPDATE #__content"
 	. "\n SET state = $state"
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get ('id' ). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

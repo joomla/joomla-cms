@@ -99,9 +99,10 @@ switch ($task) {
 * @param string The name of the current user
 */
 function showSections( $scope, $option ) {
-	global $my, $mainframe;
+	global $mainframe;
 
 	$db					=& $mainframe->getDBO();
+	$user 				=& $mainframe->getUser();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	's.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -202,7 +203,7 @@ function showSections( $scope, $option ) {
 	// search filter
 	$lists['search']= $search;
 
-	sections_html::show( $rows, $scope, $my->id, $pageNav, $option, $lists );
+	sections_html::show( $rows, $scope, $user->get( 'id' ), $pageNav, $option, $lists );
 }
 
 /**
@@ -213,9 +214,10 @@ function showSections( $scope, $option ) {
 * @param string The name of the current user
 */
 function editSection( ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db			=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$option 	= JRequest::getVar( 'option');
 	$scope 		= JRequest::getVar( 'scope' );
 	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -228,13 +230,13 @@ function editSection( ) {
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $my->id )) {
+	if ($row->isCheckedOut( $user->get( 'id' ) )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
 		josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&josmsg='. $msg );
 	}
 
 	if ( $cid[0] ) {
-		$row->checkout( $my->id );
+		$row->checkout( $user->get( 'id' ) );
 		if ( $row->id > 0 ) {
 			$query = "SELECT *"
 			. "\n FROM #__menu"
@@ -434,9 +436,10 @@ function removeSections( $cid, $scope, $option ) {
 * @param string The name of the current user
 */
 function publishSections( $scope, $cid=null, $publish=1, $option ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a section to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -455,7 +458,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	$query = "UPDATE #__sections"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

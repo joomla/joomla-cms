@@ -233,7 +233,7 @@ function viewModules()
 */
 function copyModule( $option, $uid )
 {
-	global $mainframe, $my;
+	global $mainframe;
 
 	/*
 	 * Initialize some variables
@@ -368,12 +368,13 @@ function saveModule( $option, $task )
 */
 function editModule( )
 {
-	global $mainframe, $my, $mainframe;
+	global $mainframe, $mainframe;
 
 	/*
 	 * Initialize some variables
 	 */
 	$db 	=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$module = JRequest::getVar( 'module' );
 	$option = JRequest::getVar( 'option');
@@ -388,7 +389,7 @@ function editModule( )
 	// load the row from the db table
 	$row->load( $cid[0] );
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $my->id )) {
+	if ($row->isCheckedOut( $user->get( 'id' ) )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option" );
 	}
@@ -396,7 +397,7 @@ function editModule( )
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
 
 	if ( $cid[0] ) {
-		$row->checkout( $my->id );
+		$row->checkout( $user->get( 'id' ) );
 	}
 	// if a new record we must still prime the JTableModel object with a default
 	// position and the order; also add an extra item to the order list to
@@ -656,9 +657,10 @@ function removeModule( &$cid, $option )
 */
 function publishModule( $cid=null, $publish=1, $option )
 {
-	global $mainframe, $my;
+	global $mainframe;
 
-	$db =& $mainframe->getDBO();
+	$db 	=& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -675,7 +677,7 @@ function publishModule( $cid=null, $publish=1, $option )
 	$query = "UPDATE #__modules"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

@@ -56,11 +56,12 @@ function messageForm( $option ) {
 }
 
 function sendMail() {
-	global $mainframe, $my, $acl;
+	global $mainframe, $acl;
 	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
 
 	$db					=& $mainframe->getDBO();
+	$user 				=& $mainframe->getUser();
 	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post' );
 	$gou				= JRequest::getVar( 'mm_group', '', 'post' );
@@ -86,15 +87,15 @@ function sendMail() {
 		// Get sending email address
 		$query = "SELECT email"
 		. "\n FROM #__users"
-		. "\n WHERE id = $my->id"
+		. "\n WHERE id = " .$user->get( 'id' )
 		;
 		$db->setQuery( $query );
-		$my->email = $db->loadResult();
+		$user->set( 'email', $db->loadResult() );
 
 		// Get all users email and group except for senders
 		$query = "SELECT email"
 		. "\n FROM #__users"
-		. "\n WHERE id != $my->id"
+		. "\n WHERE id != " .$user->get( 'id' )
 		. ( $gou !== '0' ? " AND id IN (" . implode( ',', $to['users'] ) . ")" : '' )
 		;
 		$db->setQuery( $query );

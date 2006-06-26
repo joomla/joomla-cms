@@ -71,7 +71,7 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 		<?php
 	}
 }
-global $my, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
+global $user, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
 
 // Disable edit ability icon
 $access = new stdClass();
@@ -102,7 +102,7 @@ $query = "SELECT a.id, a.introtext, a.`fulltext`, a.images, a.attribs, a.title, 
 		"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 		"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
 		"\n WHERE a.state = 1".
-		($noauth ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '').
+		($noauth ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
 		"\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) " .
 		"\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" .
 		"\n AND a.catid = $catid"."\n AND cc.published = 1" .

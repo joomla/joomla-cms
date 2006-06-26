@@ -18,7 +18,7 @@ $db =& $mainframe->getDBO();
 $query = "SELECT COUNT(*)"
 . "\n FROM #__messages"
 . "\n WHERE state = 0"
-. "\n AND user_id_to = $my->id"
+. "\n AND user_id_to = " .$user->get('id')
 ;
 $db->setQuery( $query );
 $unread = $db->loadResult();

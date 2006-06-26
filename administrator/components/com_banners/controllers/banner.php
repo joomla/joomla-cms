@@ -101,9 +101,10 @@ class JBannerController {
 	}
 
 	function edit( ) {
-		global $mainframe, $my;
+		global $mainframe;
 
 		$db =& $mainframe->getDBO();
+		$user =& $mainframe->getUser();
 		$cid 	= JRequest::getVar('cid', array(0));
 		$option = JRequest::getVar('option');
 		if (!is_array( $cid )) {
@@ -116,7 +117,7 @@ class JBannerController {
 		$row->load( $cid[0] );
 
 		if ($cid[0]){
-			$row->checkout( $my->id );
+			$row->checkout( $user->get( 'id' ) );
 		} else {
 			$row->showBanner = 1;
 		}
@@ -215,9 +216,10 @@ class JBannerController {
 	}
 
 	function publishBanner( $cid, $publish=1 ) {
-		global $mainframe, $my;
+		global $mainframe;
 		
 		$db =& $mainframe->getDBO();
+		$user =& $mainframe->getUser();
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$action = $publish ? 'publish' : 'unpublish';
@@ -230,7 +232,7 @@ class JBannerController {
 		$query = "UPDATE #__banner"
 		. "\n SET showBanner = " . intval( $publish )
 		. "\n WHERE bid IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {

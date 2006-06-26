@@ -230,9 +230,10 @@ function savePlugin( $option, $client, $task )
 */
 function editPlugin( )
 {
-	global $my, $mainframe;
+	global $mainframe;
 
 	$db		= & $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	$client = JRequest::getVar( 'client', 'site' );
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
@@ -247,7 +248,7 @@ function editPlugin( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $my->id )) {
+	if ($row->isCheckedOut( $user->get( 'id' ) )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option'" );
 	}
@@ -267,7 +268,7 @@ function editPlugin( )
 	}
 
 	if ($cid[0]) {
-		$row->checkout( $my->id );
+		$row->checkout( $user->get( 'id' ) );
 
 		if ( $row->ordering > -10000 && $row->ordering < 10000 ) {
 			// build the html select list for ordering
@@ -318,9 +319,10 @@ function editPlugin( )
 */
 function publishPlugin( $cid=null, $publish=1, $option, $client )
 {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
+	$user 	=& $mainframe->getUser();
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
 		echo "<script> alert('". JText::_( 'Select a plugin to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -331,7 +333,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	$query = "UPDATE #__plugins SET published = '". intval( $publish ) ."'"
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ))"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .user->get( 'id' ). " ))"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

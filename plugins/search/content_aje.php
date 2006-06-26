@@ -44,9 +44,10 @@ class JSearchContent extends JPlugin {
 	 * @param JSearch The search object
 	 */
 	function onSearch( &$oSearch ) {
-		global $mainframe, $my;
+		global $mainframe;
 
 		$db 		=& $mainframe->getDBO();
+		$user		=& $mainframe->getUser();
 
 		if (!JSearchHelper::inArea( $oSearch->getAreas(), JSearchContent::onSearchAreas() )) {
 			// this bot is not in the search areas to be searched
@@ -147,9 +148,9 @@ class JSearchContent extends JPlugin {
 			. "\n AND a.state = 1"
 			. "\n AND u.published = 1"
 			. "\n AND b.published = 1"
-			. "\n AND a.access <= $my->gid"
-			. "\n AND b.access <= $my->gid"
-			. "\n AND u.access <= $my->gid"
+			. "\n AND a.access <= " .$user->get('gid')
+			. "\n AND b.access <= " .$user->get('gid')
+			. "\n AND u.access <= " .$user->get('gid')
 			. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
 			. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 			. "\n GROUP BY a.id"
@@ -183,7 +184,7 @@ class JSearchContent extends JPlugin {
 			. "\n LEFT JOIN #__menu AS m ON m.componentid = a.id"
 			. "\n WHERE ($where)"
 			. "\n AND a.state = 1"
-			. "\n AND a.access <= $my->gid"
+			. "\n AND a.access <= " .$user->get('gid')
 			. "\n AND m.type = 'content_typed'"
 			. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
 			. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
@@ -218,15 +219,15 @@ class JSearchContent extends JPlugin {
 			. "\n CONCAT('index.php?option=com_content&task=view&id=',a.id) AS href,"
 			. "\n '2' AS browsernav"
 			. "\n FROM #__content AS a"
-			. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <='$my->gid'"
+			. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <='" .$user->get('gid'). "'"
 			. "\n INNER JOIN #__sections AS u ON u.id = a.sectionid"
 			. "\n WHERE ( $where )"
 			. "\n AND a.state = -1"
 			. "\n AND u.published = 1"
 			. "\n AND b.published = 1"
-			. "\n AND a.access <= $my->gid"
-			. "\n AND b.access <= $my->gid"
-			. "\n AND u.access <= $my->gid"
+			. "\n AND a.access <= " .$user->get('gid')
+			. "\n AND b.access <= " .$user->get('gid')
+			. "\n AND u.access <= " .$user->get('gid')
 			. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
 			. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
 			. "\n ORDER BY $order"

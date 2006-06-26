@@ -942,12 +942,13 @@ class mosCommonHTML {
 	}
 
 	function CheckedOutProcessing( &$row, $i ) {
-		global $my;
+		global $mainframe;
 
+		$user =& $mainframe->getUser();
 		if ( $row->checked_out ) {
 			$checked = mosCommonHTML::checkedOut( $row );
 		} else {
-			$checked = mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );
+			$checked = mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $user->get('id') ) );
 		}
 
 		return $checked;
@@ -1283,7 +1284,6 @@ class mosAdminMenus
 	* Select list of active users
 	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
-		global $my;
 		
 		$db =& JFactory::getDBO();
 

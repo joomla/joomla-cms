@@ -42,7 +42,7 @@ switch ($type)
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 				"\n AND m.type = 'content_typed' ".
-				($access ? "\n AND a.access <= $my->gid" : '').
+				($access ? "\n AND a.access <= " .$user->get('gid') : '').
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
 		$db->setQuery($query);
@@ -68,14 +68,14 @@ switch ($type)
 				"\n WHERE a.state = 1" .
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-				($access ? "\n AND a.access <= $my->gid" : '') .
+				($access ? "\n AND a.access <= " .$user->get('gid') : '') .
 				"\n ORDER BY a.hits DESC" .
 				"\n LIMIT $count";
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 		if (count($rows)) {
 			foreach ($rows as $row) {
-				if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $my->gid || $row->cat_access == '' || !$access) && ($row->sec_access <= $my->gid || $row->sec_access == '' || !$access)) {
+				if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('gid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('gid') || $row->sec_access == '' || !$access)) {
 					if ($row->sectionid) {
 						$my_itemid = JContentHelper::getItemid($row->id);
 					} else {
@@ -104,7 +104,7 @@ switch ($type)
 				"\n WHERE ( a.state = 1 AND a.sectionid > 0 )" .
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-				($access ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '').
+				($access ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
 				($catid ? "\n AND ( a.catid IN ( $catid ) )" : '').
 				($secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '').
 				($show_front == '0' ? "\n AND f.content_id IS NULL" : '').

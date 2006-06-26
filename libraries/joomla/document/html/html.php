@@ -333,7 +333,6 @@ class JDocumentHTML extends JDocument
 		global $Itemid, $task, $option, $_VERSION;
 
 		$db =& JFactory::getDBO();
-		$my =& $mainframe->getUser();
 		
 		//For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();

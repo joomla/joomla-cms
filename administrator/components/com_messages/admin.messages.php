@@ -63,9 +63,10 @@ switch ($task) {
 }
 
 function showMessages( $option ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db					=& $mainframe->getDBO();
+	$user 				=& $mainframe->getUser();
 	$context			= 'com_messages.list';
 	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order', 	'filter_order', 	'a.date_time' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC' );
@@ -76,7 +77,7 @@ function showMessages( $option ) {
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
-	$where[] = " a.user_id_to='$my->id'";
+	$where[] = " a.user_id_to='" .$user->get( 'id' ). "'";
 
 	if (isset($search) && $search!= "") {
 		$where[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
@@ -134,12 +135,13 @@ function showMessages( $option ) {
 }
 
 function editConfig( $option ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 	$query = "SELECT cfg_name, cfg_value"
 	. "\n FROM #__messages_cfg"
-	. "\n WHERE user_id = $my->id"
+	. "\n WHERE user_id = " .$user->get( 'id' )
 	;
 	$db->setQuery( $query );
 	$data = $db->loadObjectList( 'cfg_name' );
@@ -165,11 +167,12 @@ function editConfig( $option ) {
 }
 
 function saveConfig( $option ) {
-	global $mainframe, $my;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
+	$user =& $mainframe->getUser();
 	$query = "DELETE FROM #__messages_cfg"
-	. "\n WHERE user_id = $my->id"
+	. "\n WHERE user_id = " .$user->get( 'id' )
 	;
 	$db->setQuery( $query );
 	$db->query();
@@ -179,7 +182,7 @@ function saveConfig( $option ) {
 		$v = $db->getEscaped( $v );
 		$query = "INSERT INTO #__messages_cfg"
 		. "\n ( user_id, cfg_name, cfg_value )"
-		. "\n VALUES ( $my->id, '$k', '$v' )"
+		. "\n VALUES ( " .$user->get( 'id' ). ", '" .$k. "', '" .$v. "' )"
 		;
 		$db->setQuery( $query );
 		$db->query();
@@ -188,7 +191,7 @@ function saveConfig( $option ) {
 }
 
 function newMessage( $option, $user, $subject ) {
-	global $mainframe, $my, $acl;
+	global $mainframe, $acl;
 
 	$db =& $mainframe->getDBO();
 	// get available backend user groups
@@ -218,7 +221,7 @@ function newMessage( $option, $user, $subject ) {
 }
 
 function saveMessage( $option ) {
-	global $mainframe, $mainframe, $my;
+	global $mainframe, $mainframe;
 
 	$db =& $mainframe->getDBO();
 	$row = new mosMessage( $db );
@@ -239,7 +242,7 @@ function saveMessage( $option ) {
 }
 
 function viewMessage( $uid='0', $option ) {
-	global $mainframe, $my, $acl;
+	global $mainframe, $acl;
 
 	$db =& $mainframe->getDBO();
 	$row = null;
@@ -263,9 +266,9 @@ function viewMessage( $uid='0', $option ) {
 }
 
 function removeMessage( $cid, $option ) {
-	global $maiframe;
+	global $mainframe;
 
-	$db =& $maiframe->getDBO();
+	$db =& $mainframe->getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;

@@ -18,9 +18,10 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'pluginNavigation' );
 
 function pluginNavigation( &$row, &$params, $page=0 )
 {
-	global $Itemid, $access, $mainframe, $my;
+	global $Itemid, $access, $mainframe;
 
 	$task 		= JRequest::getVar( 'task' );
+	$user		=& $mainframe->getUser();
 
 	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) {
 		$html 		= '';
@@ -116,7 +117,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		$query = "SELECT a.id"
 		. "\n FROM #__content AS a"
 		. "\n WHERE a.catid = $row->catid"
-		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= $my->gid")
+		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= " .$user->get('gid'))
 		. $xwhere
 		. "\n ORDER BY $orderby";
 		$db->setQuery($query);

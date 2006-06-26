@@ -275,12 +275,13 @@ function saveRegistration()
 
 function activate()
 {
-	global $mainframe, $my;
+	global $mainframe;
 
+	$user =& $mainframe->getUser();
 	/*
 	 * Check to see if they're logged in, because they don't need activating!
 	 */
-	if($my->id) {
+	if($user->get('id')) {
 		// They're already logged in, so redirect them to the home page
 		josRedirect( 'index.php' );
 	}

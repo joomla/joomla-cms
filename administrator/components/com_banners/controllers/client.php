@@ -22,6 +22,7 @@ class JBannerClientController {
 		global $mainframe, $mosConfig_list_limit;
 		
 		$db =& $mainframe->getDBO();
+		$user =& $mainframe->getUser();
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
 		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mosConfig_list_limit );
@@ -75,9 +76,10 @@ class JBannerClientController {
 	}
 	
 	function editBannerClient( ) {
-		global $mainframe, $my;
+		global $mainframe;
 	
 		$db     =& $mainframe->getDBO();
+		$user =& $mainframe->getUser();
 		$cid 	= JRequest::getVar( 'cid', array(0));
 		$option = JRequest::getVar( 'option');
 		if (!is_array( $cid )) {
@@ -88,14 +90,14 @@ class JBannerClientController {
 		$row->load($cid[0]);
 	
 		// fail if checked out not by 'me'
-		if ($row->checked_out && $row->checked_out <> $my->id) {
+		if ($row->checked_out && $row->checked_out <> $user->get ( 'id' )) {
 	    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
 			josRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 		}
 	
 		if ($cid[0]) {
 			// do stuff for existing record
-			$row->checkout( $my->id );
+			$row->checkout( $user->get( 'id' ) );
 		} else {
 			// do stuff for new record
 			$row->published = 0;

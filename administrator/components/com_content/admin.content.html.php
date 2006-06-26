@@ -281,7 +281,7 @@ class ContentView
 	*/
 	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect )
 	{
-		global $my, $mainframe;
+		global $mainframe;
 
 		/*
 		 * Initialize variables

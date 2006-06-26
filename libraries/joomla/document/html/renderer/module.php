@@ -33,7 +33,9 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	 */
 	function render( $module, $params = array() )
 	{
-		global $my;
+		global $mainframe;
+		
+		$user =& $mainframe->getUser();
 		
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
@@ -49,7 +51,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		$cache->setLifeTime($mod_params->get('cache_time', 900));
 		$cache->setCacheValidation(true);
 		
-		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id.$my->gid );
+		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('gid') );
 	}
 }
 ?>
