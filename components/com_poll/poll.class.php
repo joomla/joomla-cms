@@ -15,11 +15,13 @@
 /// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport( 'joomla.application.model' );
+
 /**
 * @package Joomla
 * @subpackage Polls
 */
-class JModelPolls {
+class JModelPolls extends JModel  {
 
 	var $dbo = null;
 

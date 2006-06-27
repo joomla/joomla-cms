@@ -42,31 +42,27 @@ function pollAddVote()
 	$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
 	$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
 
-	$redirect = 1;
-
 	$poll = new mosPoll( $db );
 	if (!$poll->load( $poll_id ) || $poll->published != 1)
 	{
-		echo '<h3>'. JText::_('ALERTNOTAUTH') .'</h3>';
-		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
+		JError::raiseWarning( 404, JText::_('ALERTNOTAUTH') );
 		return;
 	}
 
 	$siteName	= $mainframe->getCfg( 'live_site' );
 	$cookieName	= mosHash( $siteName . 'poll' . $poll_id );
-	$voted = 0; //mosGetParam( $_COOKIE, $cookiename, '0' );
+	// ToDo - may be adding those information to the session?
+	$voted = intval( mosGetParam( $_COOKIE, $cookieName, '0' ) );
 
 	if ($voted)
 	{
-		echo '<h3>'. JText::_( 'You already voted for this poll today!' ) .'</h3>';
-		echo "<input class=\"button\" type=\"button\" value=\"". JText::_( 'Continue' )."\" onClick=\"window.history.go(-1);\">";
+		JError::raiseWarning( 404, JText::_('You already voted for this poll today!') );
 		return;
 	}
 
 	if (!$option_id)
 	{
-		echo '<h3>'. JText::_( 'WARNSELECT' ) .'</h3>';
-		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
+		JError::raiseWarning( 404, JText::_('WARNSELECT') );
 		return;
 	}
 
@@ -75,14 +71,7 @@ function pollAddVote()
 	$model = new JModelPolls( $db );
 	$model->addVote( $poll_id, $option_id );
 
-	if ( $redirect ) {
-		josRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );
-	} else {
-		echo '<h3>'. JText::_( 'Thanks for your vote!' ) .'</h3>';
-		echo '<form action="" method="GET">';
-		echo '<input class="button" type="button" value="'. JText::_( 'Results' ) .'" onclick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ) .'\'">';
-		echo '</form>';
-	}
+	josRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );
 }
 
 /**

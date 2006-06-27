@@ -39,6 +39,7 @@ Legend:
 
 27-Jun-2006 Alex Kempkens
  ^ [task2640] : Beta 1 - refactor of global vars
+ ^ [task2358] : Refactoring of com_poll finished
 
 26-Jun-2006 Alex Kempkens
  ^ [task2638] : Refactoring of $my to $user, changed in all core files
