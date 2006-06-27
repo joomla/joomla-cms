@@ -84,7 +84,7 @@ switch ( $task )
 */
 function viewPlugins( $option, $client )
 {
-	global $mainframe, $mosConfig_list_limit;
+	global $mainframe;
 
 	$db =& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
@@ -248,7 +248,7 @@ function editPlugin( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $user->get( 'id' ) )) {
+	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option'" );
 	}
@@ -268,7 +268,7 @@ function editPlugin( )
 	}
 
 	if ($cid[0]) {
-		$row->checkout( $user->get( 'id' ) );
+		$row->checkout( $user->get('id') );
 
 		if ( $row->ordering > -10000 && $row->ordering < 10000 ) {
 			// build the html select list for ordering

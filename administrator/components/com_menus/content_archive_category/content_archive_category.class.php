@@ -33,14 +33,14 @@ class content_archive_category_menu {
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
-		if ($menu->checked_out && $menu->checked_out <> $user->get( 'id' )) {
+		if ($menu->checked_out && $menu->checked_out <> $user->get('id')) {
         	$alert = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 			$action = "document.location.href='index2.php?option=$option'";
 			mosErrorAlert( $alert, $action );
 		}
 
 		if ($uid) {
-			$menu->checkout( $user->get( 'id' ) );
+			$menu->checkout( $user->get('id') );
 		} else {
 			$menu->type 		= 'content_archive_category';
 			$menu->menutype 	= $menutype;

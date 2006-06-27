@@ -203,7 +203,7 @@ function showSections( $scope, $option ) {
 	// search filter
 	$lists['search']= $search;
 
-	sections_html::show( $rows, $scope, $user->get( 'id' ), $pageNav, $option, $lists );
+	sections_html::show( $rows, $scope, $user->get('id'), $pageNav, $option, $lists );
 }
 
 /**
@@ -230,13 +230,13 @@ function editSection( ) {
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $user->get( 'id' ) )) {
+	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
 		josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&josmsg='. $msg );
 	}
 
 	if ( $cid[0] ) {
-		$row->checkout( $user->get( 'id' ) );
+		$row->checkout( $user->get('id') );
 		if ( $row->id > 0 ) {
 			$query = "SELECT *"
 			. "\n FROM #__menu"
@@ -458,7 +458,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	$query = "UPDATE #__sections"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

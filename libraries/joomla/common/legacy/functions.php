@@ -297,14 +297,14 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
  * @package		Joomla.Legacy
  */
 function initGzip() {
-	global $mosConfig_gzip, $do_gzip_compress;
+	global $mainframe, $do_gzip_compress;
 
 
 	// attempt to disable session.use_trans_sid
 	ini_set('session.use_trans_sid', false);
 
 	$do_gzip_compress = FALSE;
-	if ($mosConfig_gzip == 1) {
+	if ($mainframe->getCfg('gzip') == 1) {
 		$phpver = phpversion();
 		$useragent = mosGetParam( $_SERVER, 'HTTP_USER_AGENT', '' );
 		$canZip = mosGetParam( $_SERVER, 'HTTP_ACCEPT_ENCODING', '' );

@@ -576,7 +576,7 @@ class JTable extends JObject
 	 */
 	function hit( $oid=null )
 	{
-		global $mosConfig_enable_log_items;
+		global $mainframe;
 
 		$k = $this->_tbl_key;
 		if ($oid !== null) {
@@ -590,7 +590,7 @@ class JTable extends JObject
 		$this->_db->setQuery( $query );
 		$this->_db->query();
 
-		if (@$mosConfig_enable_log_items) {
+		if (@$mainframe->getCfg('enable_log_items')) {
 			$now = date( 'Y-m-d' );
 			$query = "SELECT hits"
 			. "\n FROM #__core_log_items"

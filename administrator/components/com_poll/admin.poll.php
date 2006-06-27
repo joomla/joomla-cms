@@ -156,7 +156,7 @@ function editPoll( ) {
 	$row->load( $uid );
 
 	// fail if checked out not by 'me'
-	if ($row->isCheckedOut( $user->get( 'id' ) )) {
+	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The poll' ), $row->title );
 		josRedirect( 'index2.php?option='. $option, $msg );
 	}
@@ -164,7 +164,7 @@ function editPoll( ) {
 	$options = array();
 
 	if ($uid) {
-		$row->checkout( $user->get( 'id' ) );
+		$row->checkout( $user->get('id') );
 		$query = "SELECT id, text"
 		. "\n FROM #__poll_data"
 		. "\n WHERE pollid = $uid"
@@ -310,7 +310,7 @@ function publishPolls( $cid=null, $publish=1, $option )
 	$query = "UPDATE #__polls"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

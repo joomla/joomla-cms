@@ -265,7 +265,7 @@ class JConfigGlobalController extends JController
 	 */
 	function save() 
 	{
-		global $mainframe, $mosConfig_password;
+		global $mainframe;
 		
 		echo $_POST['list_limit'];
 
@@ -279,7 +279,7 @@ class JConfigGlobalController extends JController
 		$config->setValue('config.offset', $offset);
 
 		//override any possible database password change
-		$config->setValue('config.password', $mosConfig_password);
+		$config->setValue('config.password', $mainframe->getCfg('password'));
 
 		// handling of special characters
 		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post' ) );

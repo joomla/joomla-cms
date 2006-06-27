@@ -63,25 +63,23 @@ class mosMainFrame extends JApplication
 	 * @param boolean True (default) to add traling slash
 	 */
 	function getBasePath( $client=0, $addTrailingSlash=true ) {
-		global $mosConfig_absolute_path;
-
 		switch ($client) {
 			case '0':
 			case 'site':
 			case 'front':
 			default:
-				return mosPathName( $mosConfig_absolute_path, $addTrailingSlash );
+				return mosPathName( JPATH_BASE, $addTrailingSlash );
 				break;
 
 			case '2':
 			case 'installation':
-				return mosPathName( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				return mosPathName( JPATH_INSTALLATION, $addTrailingSlash );
 				break;
 
 			case '1':
 			case 'admin':
 			case 'administrator':
-				return mosPathName( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				return mosPathName( JPATH_ADMINISTRATOR, $addTrailingSlash );
 				break;
 
 		}

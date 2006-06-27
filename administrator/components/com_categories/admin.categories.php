@@ -305,7 +305,7 @@ function editCategory( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->checked_out && $row->checked_out <> $user->get( 'id' )) {
+	if ($row->checked_out && $row->checked_out <> $user->get('id')) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The category' ), $row->title );
 		josRedirect( 'index2.php?option=categories&section='. $row->section, $msg );
 	}
@@ -549,7 +549,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 	$query = "UPDATE #__categories"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get( 'id' ) ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get('id') ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

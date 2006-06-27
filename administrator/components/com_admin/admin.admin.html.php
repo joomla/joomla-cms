@@ -53,7 +53,7 @@ class HTML_admin_misc
 
 	function system_info( )
 	{
-		global $_VERSION, $mosConfig_cachepath;
+		global $_VERSION;
 		global $mainframe;
 		
 		$db =& $mainframe->getDBO();

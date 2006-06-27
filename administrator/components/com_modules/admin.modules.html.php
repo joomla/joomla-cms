@@ -214,7 +214,7 @@ class HTML_modules {
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
 	{
 		global $mainframe;
-		global $mosConfig_cachepath;
+		//global $mosConfig_cachepath;		@todo; not anymore in use
 
 		require_once( dirname( __FILE__ ) . '/helpers/module.php' );
 		$helper		= new JModuleEditHelper( $row->module, $client->id );

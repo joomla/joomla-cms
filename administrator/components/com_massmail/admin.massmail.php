@@ -57,8 +57,6 @@ function messageForm( $option ) {
 
 function sendMail() {
 	global $mainframe, $acl;
-	global $mosConfig_sitename;
-	global $mosConfig_mailfrom, $mosConfig_fromname;
 
 	$db					=& $mainframe->getDBO();
 	$user 				=& $mainframe->getUser();
@@ -87,7 +85,7 @@ function sendMail() {
 		// Get sending email address
 		$query = "SELECT email"
 		. "\n FROM #__users"
-		. "\n WHERE id = " .$user->get( 'id' )
+		. "\n WHERE id = " .$user->get('id')
 		;
 		$db->setQuery( $query );
 		$user->set( 'email', $db->loadResult() );
@@ -95,20 +93,20 @@ function sendMail() {
 		// Get all users email and group except for senders
 		$query = "SELECT email"
 		. "\n FROM #__users"
-		. "\n WHERE id != " .$user->get( 'id' )
+		. "\n WHERE id != " .$user->get('id')
 		. ( $gou !== '0' ? " AND id IN (" . implode( ',', $to['users'] ) . ")" : '' )
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 
 		// Build e-mail message format
-		$message_header 	= sprintf( _MASSMAIL_MESSAGE, $mosConfig_sitename );
+		$message_header 	= sprintf( _MASSMAIL_MESSAGE, $mainframe->getCfg('sitename') );
 		$message 			= $message_header . $message_body;
-		$subject 			= $mosConfig_sitename. ' / '. stripslashes( $subject);
+		$subject 			= $mainframe->getCfg('sitename'). ' / '. stripslashes( $subject);
 
 		//Send email
 		foreach ($rows as $row) {
-			mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $row->email, $subject, $message, $mode );
+			mosMail( $mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname'), $row->email, $subject, $message, $mode );
 		}
 	}
 

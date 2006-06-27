@@ -140,7 +140,7 @@ function showSummary( $option, $task ) {
 }
 
 function showPageImpressions( $option, $task ) {
-	global $mainframe, $mosConfig_list_limit;
+	global $mainframe;
 
 	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'c.hits' );
@@ -148,7 +148,7 @@ function showPageImpressions( $option, $task ) {
 	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.$task.filter_catid", 		'filter_catid', 	'' );
 	$filter_sectionid	= $mainframe->getUserStateFromRequest( "$option.$task.filter_sectionid", 	'filter_sectionid', '' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$task.filter_state", 		'filter_state', 	'' );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mosConfig_list_limit );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
@@ -229,12 +229,12 @@ function showPageImpressions( $option, $task ) {
 }
 
 function showSearches( $option, $task, $showResults=null ) {
-	global $mainframe, $mosConfig_list_limit;
+	global $mainframe;
 
 	$db					=& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
-	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mosConfig_list_limit );
+	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );

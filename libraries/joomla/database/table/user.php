@@ -66,7 +66,7 @@ class JTableUser extends JTable
 	 */
 	function check()
 	{
-		global $mosConfig_uniquemail, $mainframe;
+		global $mainframe;
 
 		$user =& $mainframe->getUser();
 		// filter malicious code
@@ -106,7 +106,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if ($mosConfig_uniquemail) {
+		if ($mainframe->getCfg('uniquemail')) {
 			// check for existing email
 			$query = "SELECT id"
 			. "\n FROM #__users "

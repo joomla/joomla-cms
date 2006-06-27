@@ -30,7 +30,7 @@ class JViewMailTo extends JView {
 		$tmpl = new JTemplate;
 
 		// patTemplate
-		if ($mainframe->get( 'caching' )) {
+		if ($mainframe->getCfg( 'caching' )) {
 	   		 $tmpl->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
 		}
 

@@ -71,7 +71,7 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 		<?php
 	}
 }
-global $user, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
+global $user, $acl;
 
 // Disable edit ability icon
 $access = new stdClass();
@@ -79,7 +79,7 @@ $access->canEdit = 0;
 $access->canEditOwn = 0;
 $access->canPublish = 0;
 
-$now = date('Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60);
+$now = date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 $noauth = !$mainframe->getCfg('shownoauth');
 $db =& $mainframe->getDBO();
 $nullDate = $db->getNullDate();
@@ -88,7 +88,7 @@ $catid = intval($params->get('catid'));
 $items = intval($params->get('items', 0));
 $style = $params->get('style', 'flash');
 $moduleclass_sfx = $params->get('moduleclass_sfx');
-$link_titles = $params->get('link_titles', $mosConfig_link_titles);
+$link_titles = $params->get('link_titles', $mainframe->getCfg('link_titles'));
 
 $params->set('intro_only', 1);
 $params->set('hide_author', 1);

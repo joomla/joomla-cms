@@ -117,7 +117,7 @@ class JBannerController {
 		$row->load( $cid[0] );
 
 		if ($cid[0]){
-			$row->checkout( $user->get( 'id' ) );
+			$row->checkout( $user->get('id') );
 		} else {
 			$row->showBanner = 1;
 		}
@@ -232,7 +232,7 @@ class JBannerController {
 		$query = "UPDATE #__banner"
 		. "\n SET showBanner = " . intval( $publish )
 		. "\n WHERE bid IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ) )"
+		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {

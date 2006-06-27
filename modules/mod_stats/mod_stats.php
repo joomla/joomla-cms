@@ -14,9 +14,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-global $mosConfig_offset, $mosConfig_caching, $mosConfig_enable_stats;
-global $mosConfig_gzip;
-
 $db =& $mainframe->getDBO();
 $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
@@ -25,10 +22,10 @@ if ($serverinfo) {
 	echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 	echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
 	echo "<strong>MySQL:</strong> " .$db->getVersion() . "<br />\n";
-	echo "<strong>". JText::_( 'Time' ) .": </strong> " .date("H:i",time()+($mosConfig_offset*60*60)) . "<br />\n";
-	$c = $mosConfig_caching ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+	echo "<strong>". JText::_( 'Time' ) .": </strong> " .date("H:i",time()+($mainframe->getCfg('offset')*60*60)) . "<br />\n";
+	$c = $mainframe->getCfg('caching') ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 	echo "<strong>Caching:</strong> " . $c . "<br />\n";
-	$z = $mosConfig_gzip ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+	$z = $mainframe->getCfg('gzip') ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 	echo "<strong>GZIP:</strong> " . $z . "<br />\n";
 }
 
@@ -53,7 +50,7 @@ if ($siteinfo) {
 	echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$db->loadResult() . "<br />\n";
 }
 
-if ($mosConfig_enable_stats) {
+if ($mainframe->getCfg('enable_stats')) {
 	$counter 	= $params->get( 'counter' );
 	$increase 	= $params->get( 'increase' );
 	if ($counter) {

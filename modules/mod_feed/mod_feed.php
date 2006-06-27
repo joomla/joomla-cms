@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = $mosConfig_cachepath.DS;
+$cacheDir = $mainframe->getCfg('cachepath').DS;
 if (!is_writable($cacheDir))
 {
 	echo '<div>';

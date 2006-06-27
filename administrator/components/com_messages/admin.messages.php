@@ -77,7 +77,7 @@ function showMessages( $option ) {
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
-	$where[] = " a.user_id_to='" .$user->get( 'id' ). "'";
+	$where[] = " a.user_id_to='" .$user->get('id'). "'";
 
 	if (isset($search) && $search!= "") {
 		$where[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
@@ -141,7 +141,7 @@ function editConfig( $option ) {
 	$user =& $mainframe->getUser();
 	$query = "SELECT cfg_name, cfg_value"
 	. "\n FROM #__messages_cfg"
-	. "\n WHERE user_id = " .$user->get( 'id' )
+	. "\n WHERE user_id = " .$user->get('id')
 	;
 	$db->setQuery( $query );
 	$data = $db->loadObjectList( 'cfg_name' );
@@ -172,7 +172,7 @@ function saveConfig( $option ) {
 	$db =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 	$query = "DELETE FROM #__messages_cfg"
-	. "\n WHERE user_id = " .$user->get( 'id' )
+	. "\n WHERE user_id = " .$user->get('id')
 	;
 	$db->setQuery( $query );
 	$db->query();
@@ -182,7 +182,7 @@ function saveConfig( $option ) {
 		$v = $db->getEscaped( $v );
 		$query = "INSERT INTO #__messages_cfg"
 		. "\n ( user_id, cfg_name, cfg_value )"
-		. "\n VALUES ( " .$user->get( 'id' ). ", '" .$k. "', '" .$v. "' )"
+		. "\n VALUES ( " .$user->get('id'). ", '" .$k. "', '" .$v. "' )"
 		;
 		$db->setQuery( $query );
 		$db->query();

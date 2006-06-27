@@ -19,13 +19,13 @@
 class JBannerClientController {
 
 	function viewBannerClients( $option ) {
-		global $mainframe, $mosConfig_list_limit;
+		global $mainframe;
 		
 		$db =& $mainframe->getDBO();
 		$user =& $mainframe->getUser();
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
-		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mosConfig_list_limit );
+		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
 		$search 			= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
@@ -97,7 +97,7 @@ class JBannerClientController {
 	
 		if ($cid[0]) {
 			// do stuff for existing record
-			$row->checkout( $user->get( 'id' ) );
+			$row->checkout( $user->get('id') );
 		} else {
 			// do stuff for new record
 			$row->published = 0;

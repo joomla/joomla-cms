@@ -464,7 +464,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 */
 function mosFormatDate( $date, $format="", $offset="" )
 {
-	global $mosConfig_offset, $mainframe;
+	global $mainframe;
 
 	$lang = $mainframe->getLanguage();
 	if ( $format == '' ) {
@@ -472,7 +472,7 @@ function mosFormatDate( $date, $format="", $offset="" )
 		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
 	if ( $offset == '' ) {
-		$offset = $mainframe->get('offset');
+		$offset = $mainframe->getCfg('offset');
 	}
 	if ( $date && ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})", $date, $regs ) ) {
 		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
