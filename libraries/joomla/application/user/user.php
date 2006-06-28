@@ -381,6 +381,13 @@ class JUser extends JObject
 			$this->_setError("JUser::save: ".$this->_table->getError());
 			return false;
 		}
+		
+		// if user is made a Super Admin group and user is NOT a Super Admin
+		if ( $this->get('gid') == 25 && $me->get('gid') != 25 ) {
+			// disallow creation of Super Admin by non Super Admin users
+			$this->_setError("JUser::save: ".JText::_( 'WARNSUPERADMINCREATE' ));
+			return false;
+		}
 
 		/*
 		 * Since we have passed all checks lets load the user plugin group and

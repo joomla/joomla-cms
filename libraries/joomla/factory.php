@@ -132,11 +132,11 @@ class JFactory
 	{
 		static $instance;
 
-		if (!is_object($instance)) {
-			// TODO: Don't know how to do this better from within the static call
-			global $mainframe;
+		if (!is_object($instance)) 
+		{
+			$conf =& JFactory::getConfig();
 			$instance = JFactory::_createDBO();
-			$instance->debug( $mainframe->getCfg( 'debug_db' ));
+			$instance->debug( $conf->getValue('config.debug'));
 		}
 
 		return $instance;

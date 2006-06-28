@@ -307,7 +307,8 @@ function saveUser(  )
 
 	// Are we dealing with a new user which we need to create?
 	$isNew 	= !$user->get('id');
-	if (!$isNew) {
+	if (!$isNew) 
+	{
 		// if group has been changed and where original group was a Super Admin
 		if ( $user->get('gid') != $original_gid && $original_gid == 25 ) {
 			// count number of active super admins
@@ -326,7 +327,7 @@ function saveUser(  )
 			}
 		}
 	}
-
+	
 	/*
 	 * Lets save the JUser object
 	 */

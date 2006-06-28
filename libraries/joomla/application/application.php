@@ -567,6 +567,7 @@ class JApplication extends JObject
 	function &getDBO()
 	{
 		$instance =& JFactory::getDBO();
+		$instance->debug( $this->getCfg('debug_db'));
 		return $instance;
 	}
 

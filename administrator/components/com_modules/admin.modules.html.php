@@ -214,9 +214,9 @@ class HTML_modules {
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
 	{
 		global $mainframe;
-		//global $mosConfig_cachepath;		@todo; not anymore in use
 
 		require_once( dirname( __FILE__ ) . '/helpers/module.php' );
+		
 		$helper		= new JModuleEditHelper( $row->module, $client->id );
 		$control	= $helper->getControlParams( $row->control );
 		$params		= $helper->getViewParams( $row->params, $control );
@@ -443,7 +443,8 @@ class HTML_modules {
 		<?php
 	}
 
-	function previewModule() {
+	function previewModule() 
+	{
 		?>
 		<script>
 		var content = window.opener.document.adminForm.content.value;
