@@ -482,6 +482,8 @@ class JContentViewArticle extends JView
 	{
 		global $l;
 
+		jimport('tcpdf.tcpdf');
+		
 		// Initialize some variables
 		$app		= & $this->getApplication();
 		$user		= & $app->getUser();
