@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Jun-2006 David Gal
+ ^ Modified the migration to convert imported menu table to the new menu system
+ 
 27-Jun-2006 Alex Kempkens
  ^ [task2640] : Beta 1 - refactor of global vars
  ^ [task2358] : Refactoring of com_poll finished
