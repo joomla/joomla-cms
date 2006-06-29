@@ -20,7 +20,7 @@ $mainframe->registerEvent( 'onBeforeStart', 'botJoomlaSEFUrl' );
 * Converting the site URL to fit to the HTTP request
 *
 */
-function botJoomlaSEFUrl( ) 
+function botJoomlaSEFUrl( )
 {
 	global $mainframe, $task, $sectionid, $id, $Itemid, $limit, $limitstart, $mod_rewrite_off;
 
@@ -32,12 +32,12 @@ function botJoomlaSEFUrl( )
 	$SEF 				= $mainframe->getCfg('sef');
 
 	//Only use SEF is enabled and not in the administrator
-	if ($SEF && !$mainframe->isAdmin()) 
+	if ($SEF && !$mainframe->isAdmin())
 	{
 		//set document link
 		$doc =& $mainframe->getDocument();
 		$doc->setLink( $mainframe->getBaseURL() );
-		
+
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot');
 	 	$pluginParams = new JParameter( $plugin->params );
@@ -112,7 +112,7 @@ function botJoomlaSEFUrl( )
 				$year 					= $url_array[$pos+5];
 				$month 					= $url_array[$pos+6];
 				$module					= $url_array[$pos+7];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -128,8 +128,8 @@ function botJoomlaSEFUrl( )
 				$_REQUEST['month'] 		= $month;
 				$_GET['module']			= $module;
 				$_REQUEST['module']		= $module;
-				
-				$QUERY_STRING = "option=com_content&task=$task&id=$id&limit=$limit&limitstart=$limitstart&year=$year&month=$month&module=$module";			
+
+				$QUERY_STRING = "option=com_content&task=$task&id=$id&limit=$limit&limitstart=$limitstart&year=$year&month=$month&module=$module";
 			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && $url_array[$pos+6] > 1000 && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
 				// $option/$task/$id/$Itemid/$limit/$limitstart/year/month
 				$task 					= $url_array[$pos+1];
@@ -139,7 +139,7 @@ function botJoomlaSEFUrl( )
 				$limitstart 			= $url_array[$pos+5];
 				$year 					= $url_array[$pos+6];
 				$month 					= $url_array[$pos+7];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -155,8 +155,8 @@ function botJoomlaSEFUrl( )
 				$_REQUEST['year'] 		= $year;
 				$_GET['month'] 			= $month;
 				$_REQUEST['month'] 		= $month;
-				
-				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";			
+
+				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";
 			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && in_array('category', $url_array) && ( strpos( $url_array[$pos+5], 'order,' ) !== false )) {
 				// $option/$task/$sectionid/$id/$Itemid/$order/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
@@ -405,7 +405,7 @@ function botJoomlaSEFUrl( )
  * @return string The absolute search engine friendly URL
  * @since 1.0
  */
-function sefRelToAbs( $string ) 
+function sefRelToAbs( $string )
 {
 	global $mainframe, $iso_client_lang, $mod_rewrite_off;
 
@@ -466,7 +466,7 @@ function sefRelToAbs( $string )
 			$sefstring = '';
 
 			// Component com_content urls
-			if ( ( $parts['option'] == 'com_content' || $parts['option'] == 'content' ) && ( $parts['task'] != 'new' ) && ( $parts['task'] != 'edit' ) ) {
+			if ( ( isset($parts['option']) && ($parts['option'] == 'com_content' || $parts['option'] == 'content') ) && ( isset($parts['task']) && ( $parts['task'] != 'new' ) && ( $parts['task'] != 'edit' ) ) ) {
 				// index.php?option=com_content [&task=$task] [&sectionid=$sectionid] [&id=$id] [&Itemid=$Itemid] [&limit=$limit] [&limitstart=$limitstart] [&year=$year] [&month=$month] [&module=$module]
 				$sefstring .= 'content/';
 

@@ -37,11 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Jun-2006 Emir Sakic
+# Fixed task notices in sefurlbot
+
 29-Jun-2006 David Gal
  ^ Modified the migration to convert imported menu table to the new menu system
  # Fixed PDF display
  ^ Updated our modified TCPDF library to changes made in latest release of the library
- 
+
 27-Jun-2006 Alex Kempkens
  ^ [task2640] : Beta 1 - refactor of global vars
  ^ [task2358] : Refactoring of com_poll finished
@@ -79,7 +82,7 @@ Legend:
 
 13-Jun-2006 Louis Landry
  + Added target to banners module params
- 
+
 09-Jun-2006 Louis Landry
  ^ Allow overlib to be styled via CSS classes
  # Fixed [artf4828] : incorrect logging of queries.
@@ -118,7 +121,7 @@ Legend:
 
 01-Jun-2006 Rey Gigataras
  + Ability to set usertype of New User Registration via frontend
- 
+
 01-Jun-2006 Andrew Eddie
  + Added window.open attributes to mod_mainmenu
 
