@@ -11,9 +11,10 @@
 // Description : This is a PHP5 class for generating PDF files
 //               on-the-fly without requiring external
 //               extensions.
-//               This class is an extension and improvement of
-//               the Public Domain FPDF class by Olivier Plathey
-//               (http://www.fpdf.org).
+//
+// IMPORTANT:
+// This class is an extension and improvement of the Public Domain 
+// FPDF class by Olivier Plathey (http://www.fpdf.org).
 //
 // Main changes by Nicola Asuni:
 //    PHP5 porting;
@@ -79,14 +80,15 @@ if(!class_exists('TCPDF')) {
 	/**
 	 * define default PDF document producer
 	 */
-	define('PDF_PRODUCER','TCPDF 1.53.0.TC015 (http://tcpdf.sourceforge.net)');
+	define('PDF_PRODUCER','TCPDF 1.53.0.TC019 (http://tcpdf.sourceforge.net)');
 
 	/**
 	* This is a PHP class for generating PDF files on-the-fly without requiring external extensions.<br>
 	* This class is an extension and improvement of the FPDF class by Olivier Plathey (http://www.fpdf.org).<br>
 	* This version contains some changes: [support for UTF-8 Unicode, support for RTL, code style and formatting, php documentation (www.phpdoc.org), ISO page formats, minor improvements, image scale factor]<br>
 	* Tools to encode your unicode fonts can be found at: http://www.acko.net/blog/ufpdf
-	* @name FPDF
+	* To add your own TTF fonts please read /fonts/README.TXT
+	* @name TCPDF
 	* @package com.tecnick.tcpdf
 	* @version 1.53.0.TC015
 	* @author Olivier PLATHEY, Nicola Asuni. modifications: David Gal
@@ -697,6 +699,34 @@ if(!class_exists('TCPDF')) {
 		 */
 		var $internal_encoding;
 
+		/**
+		 * @var store previous fill color as RGB array
+		 * @access private
+		 * @since 1.53.0.TC017
+		 */
+		var $prevFillColor = array(255,255,255);
+		
+		/**
+		 * @var store previous text color as RGB array
+		 * @access private
+		 * @since 1.53.0.TC017
+		 */
+		var $prevTextColor = array(0,0,0);
+		
+		/**
+		 * @var store previous font family
+		 * @access private
+		 * @since 1.53.0.TC017
+		 */
+		var $prevFontFamily;
+		
+		/**
+		 * @var store previous font style
+		 * @access private
+		 * @since 1.53.0.TC017
+		 */
+		var $prevFontStyle;
+		
 
 		//------------------------------------------------------------
 		// Public methods
@@ -893,6 +923,9 @@ if(!class_exists('TCPDF')) {
 			$this->tdheight = 0;
 			$this->tdalign = "L";
 			$this->tdbgcolor = false;
+			
+			$this->SetFillColor(200, 200, 200, true);
+			$this->SetTextColor(0, 0, 0, true);
 		}
 
 		/**
@@ -1438,10 +1471,11 @@ if(!class_exists('TCPDF')) {
 		* @param int $r If g et b are given, red component; if not, indicates the gray level. Value between 0 and 255
 		* @param int $g Green component (between 0 and 255)
 		* @param int $b Blue component (between 0 and 255)
+		* @param boolean $storeprev if true stores the RGB array on $prevFillColor variable.
 		* @since 1.3
 		* @see SetDrawColor(), SetTextColor(), Rect(), Cell(), MultiCell()
 		*/
-		function SetFillColor($r, $g=-1, $b=-1) {
+		function SetFillColor($r, $g=-1, $b=-1, $storeprev=false) {
 			//Set color for all filling operations
 			if(($r==0 and $g==0 and $b==0) or $g==-1) {
 				$this->FillColor=sprintf('%.3f g',$r/255);
@@ -1453,6 +1487,10 @@ if(!class_exists('TCPDF')) {
 			if($this->page>0) {
 				$this->_out($this->FillColor);
 			}
+			if ($storeprev) {
+				// store color as previous value
+				$this->prevFillColor = array($r, $g, $b);
+			}
 		}
 
 		/**
@@ -1460,10 +1498,11 @@ if(!class_exists('TCPDF')) {
 		* @param int $r If g et b are given, red component; if not, indicates the gray level. Value between 0 and 255
 		* @param int $g Green component (between 0 and 255)
 		* @param int $b Blue component (between 0 and 255)
+		* @param boolean $storeprev if true stores the RGB array on $prevTextColor variable.
 		* @since 1.3
 		* @see SetDrawColor(), SetFillColor(), Text(), Cell(), MultiCell()
 		*/
-		function SetTextColor($r, $g=-1, $b=-1) {
+		function SetTextColor($r, $g=-1, $b=-1, $storeprev=false) {
 			//Set color for text
 			if(($r==0 and $g==0 and $b==0) or $g==-1) {
 				$this->TextColor=sprintf('%.3f g',$r/255);
@@ -1472,6 +1511,10 @@ if(!class_exists('TCPDF')) {
 				$this->TextColor=sprintf('%.3f %.3f %.3f rg',$r/255,$g/255,$b/255);
 			}
 			$this->ColorFlag=($this->FillColor!=$this->TextColor);
+			if ($storeprev) {
+				// store color as previous value
+				$this->prevTextColor = array($r, $g, $b);
+			}
 		}
 
 		/**
@@ -1681,6 +1724,9 @@ if(!class_exists('TCPDF')) {
 		* @see AddFont(), SetFontSize(), Cell(), MultiCell(), Write()
 		*/
 		function SetFont($family, $style='', $size=0) {
+			// save previous values
+			$this->prevFontFamily = $this->FontFamily;
+			$this->prevFontStyle = $this->FontStyle;
 
 			//Select a font; size given in points
 			global $fpdf_charwidths;
@@ -2153,10 +2199,11 @@ if(!class_exists('TCPDF')) {
 		* @param float $h Line height
 		* @param string $txt String to print
 		* @param mixed $link URL or identifier returned by AddLink()
+		* @param int $fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
 		* @since 1.5
 		* @see SetFont(), SetTextColor(), AddLink(), MultiCell(), SetAutoPageBreak()
 		*/
-		function Write($h, $txt, $link='') {
+		function Write($h, $txt, $link='', $fill=0) {
 
 			//Output text in flowing mode
 			$cw = &$this->CurrentFont['cw'];
@@ -2182,7 +2229,7 @@ if(!class_exists('TCPDF')) {
 				$c=$s{$i};
 				if(preg_match("/[\n]/u", $c)) {
 					//Explicit line break
-					$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, '', 0, $link);
+					$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, '', $fill, $link);
 					$i++;
 					$sep = -1;
 					$j = $i;
@@ -2202,7 +2249,7 @@ if(!class_exists('TCPDF')) {
 				$l = $this->GetStringWidth(substr($s, $j, $i-$j));
 
 				if($l > $wmax) {
-					//Automatic line break
+					//Automatic line break (word wrapping)
 					if($sep == -1) {
 						if($this->x > $this->lMargin) {
 							//Move to next line
@@ -2217,10 +2264,10 @@ if(!class_exists('TCPDF')) {
 						if($i==$j) {
 							$i++;
 						}
-						$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, '', 0, $link);
+						$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, '', $fill, $link);
 					}
 					else {
-						$this->Cell($w, $h, substr($s, $j, $sep-$j), 0, 2, '', 0, $link);
+						$this->Cell($w, $h, substr($s, $j, $sep-$j), 0, 2, '', $fill, $link);
 						$i=$sep+1;
 					}
 					$sep = -1;
@@ -2239,10 +2286,10 @@ if(!class_exists('TCPDF')) {
 			}
 			//Last chunk
 			if($i!=$j) {
-				$this->Cell($l / 1000 * $this->FontSize, $h, substr($s, $j), 0, 0, '', 0, $link);
+				$this->Cell($this->GetStringWidth(substr($s, $j)."  "), $h, substr($s, $j), 0, 0, '', $fill, $link);
 			}
 
-			$this->x += $this->GetStringWidth(substr($s, $j, $i-$j));
+ 			//$this->x += $this->GetStringWidth(substr($s, $j, $i-$j));
 		}
 
 		/**
@@ -3571,8 +3618,11 @@ if(!class_exists('TCPDF')) {
 		 * Supports: h1, h2, h3, h4, h5, h6, b, u, i, a, img, p, br, strong, em, font, blockquote, li, ul, ol, hr, td, th, tr, table, sup, sub, small
 		 * @param string $html text to display
 		 * @param boolean $ln if true add a new line after text (default = true)
+		 * @param int $fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
 		 */
-		function writeHTML($html, $ln=true) {
+		function writeHTML($html, $ln=true, $fill=0) {
+						
+			// store some variables
 			$html=strip_tags($html,"<h1><h2><h3><h4><h5><h6><b><u><i><a><img><p><br><strong><em><font><blockquote><li><ul><ol><hr><td><th><tr><table><sup><sub><small>"); //remove all unsupported tags
 			//replace carriage returns, newlines and tabs
 			$repTable = array("\t" => " ", "\n" => " ", "\r" => " ", "\0" => " ", "\x0B" => " ");
@@ -3589,7 +3639,7 @@ if(!class_exists('TCPDF')) {
 				if (!preg_match($pattern, $element)) {
 					//Text
 					if($this->HREF) {
-						$this->addHtmlLink($this->HREF, $element);
+						$this->addHtmlLink($this->HREF, $element, $fill);
 					}
 					elseif($this->tdbegin) {
 						if((strlen(trim($element)) > 0) AND ($element != "&nbsp;")) {
@@ -3600,7 +3650,7 @@ if(!class_exists('TCPDF')) {
 						}
 					}
 					else {
-						$this->Write($this->lasth, stripslashes($this->unhtmlentities($element)));
+						$this->Write($this->lasth, stripslashes($this->unhtmlentities($element)), '', $fill);
 					}
 				}
 				else {
@@ -3619,7 +3669,7 @@ if(!class_exists('TCPDF')) {
 								$attr[strtolower($a3[1])] = $a3[2];
 							}
 						}
-						$this->openHTMLTagHandler($tag, $attr);
+						$this->openHTMLTagHandler($tag, $attr, $fill);
 					}
 				}
 			}
@@ -3639,12 +3689,10 @@ if(!class_exists('TCPDF')) {
 		 * @param mixed $border Indicates if borders must be drawn around the cell. The value can be either a number:<ul><li>0: no border (default)</li><li>1: frame</li></ul>or a string containing some or all of the following characters (in any order):<ul><li>L: left</li><li>T: top</li><li>R: right</li><li>B: bottom</li></ul>
 		 * @param int $ln Indicates where the current position should go after the call. Possible values are:<ul><li>0: to the right</li><li>1: to the beginning of the next line</li><li>2: below</li></ul>
 	Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
-		 * @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0. NOTE: this parameter has not been implemented.
+		 * @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
 		 * @see Cell()
 		 */
 		function writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0) {
-
-			$fill = 0; // disable fill function
 
 			if (empty($this->lasth)) {
 				//set row height
@@ -3679,29 +3727,29 @@ if(!class_exists('TCPDF')) {
 			// calculate remaining vertical space on page
 			$restspace = $this->getPageHeight() - $this->GetY() - $this->getBreakMargin();
 
-			$this->writeHTML($html); // write html text
+			$this->writeHTML($html, true, $fill); // write html text
 
+			$currentY =  $this->GetY();
+			
 			// check if a new page has been created
 			if ($this->page > $pagenum) {
-				$currentY =  $this->GetY();
-
 				// design a cell around the text on first page
 				$currentpage = $this->page;
 				$this->page = $pagenum;
 				$this->SetY($this->getPageHeight() - $restspace - $this->getBreakMargin());
 				$h = $restspace - 1;
-				$this->Cell($w, $h, "", $border, $ln, 'L', $fill);
+				$this->Cell($w, $h, "", $border, $ln, 'L', 0);
 
 				// design a cell around the text on last page
 				$this->page = $currentpage;
 				$h = $currentY - $this->tMargin;
 				$this->SetY($this->tMargin); // put cursor at the beginning of text
-				$this->Cell($w, $h, "", $border, $ln, 'L', $fill);
+				$this->Cell($w, $h, "", $border, $ln, 'L', 0);
 			} else {
-				$h = max($h, ($this->GetY() - $y));
+				$h = max($h, ($currentY - $y));
 				$this->SetY($y); // put cursor at the beginning of text
 				// design a cell around the text
-				$this->Cell($w, $h, "", $border, $ln, 'L', $fill);
+				$this->Cell($w, $h, "", $border, $ln, 'L', 0);
 			}
 
 			// restore original margin values
@@ -3717,9 +3765,10 @@ if(!class_exists('TCPDF')) {
 		 * Process opening tags.
 		 * @param string $tag tag name (in uppercase)
 		 * @param string $attr tag attribute (in uppercase)
+		 * @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
 		 * @access private
 		 */
-		function openHTMLTagHandler($tag, $attr) {
+		function openHTMLTagHandler($tag, $attr, $fill=0) {
 			//Opening tag
 			switch($tag) {
 				case 'table': {
@@ -3804,7 +3853,7 @@ if(!class_exists('TCPDF')) {
 					break;
 				}
 				case 'a': {
-					if (isset($attr['href'])) $this->HREF = $attr['href'];
+					$this->HREF = $attr['href'];
 					break;
 				}
 				case 'img': {
@@ -3844,7 +3893,7 @@ if(!class_exists('TCPDF')) {
 						//unordered list simbol
 						$this->lispacer = "    -  ";
 					}
-					$this->Write($this->lasth, $this->lispacer);
+					$this->Write($this->lasth, $this->lispacer, '', $fill);
 					break;
 				}
 				case 'tr':
@@ -3935,6 +3984,7 @@ if(!class_exists('TCPDF')) {
 					$this->tdheight = 0;
 					$this->tdalign = "L";
 					$this->tdbgcolor = false;
+					$this->SetFillColor($this->prevFillColor[0], $this->prevFillColor[1], $this->prevFillColor[2]);
 					break;
 				}
 				case 'tr': {
@@ -3946,12 +3996,10 @@ if(!class_exists('TCPDF')) {
 					break;
 				}
 				case 'strong': {
-					$tag = 'b';
-					break;
+					$this->setStyle('b', false);
 				}
 				case 'em': {
-					$tag = 'i';
-					break;
+					$this->setStyle('i', false);
 				}
 				case 'b':
 				case 'i':
@@ -3986,15 +4034,19 @@ if(!class_exists('TCPDF')) {
 				}
 				case 'font': {
 					if ($this->issetcolor == true) {
-						$this->SetTextColor(0);
+						$this->SetTextColor($this->prevTextColor[0], $this->prevTextColor[1], $this->prevTextColor[2]);
 					}
 					if ($this->issetfont) {
-						$this->SetFont('arial');
+						$this->FontFamily = $this->prevFontFamily;
+						$this->FontStyle = $this->prevFontStyle;
+						//$this->SetFont('arial');
+						$this->SetFont($this->FontFamily);
 						$this->issetfont = false;
 					}
 					$currentFontSize = $this->FontSize;
 					$this->SetFontSize($this->tempfontsize);
 					$this->tempfontsize = $this->FontSizePt;
+					//$this->TextColor = $this->prevTextColor;
 					$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO;
 					break;
 				}
@@ -4052,13 +4104,14 @@ if(!class_exists('TCPDF')) {
 		 * Output anchor link.
 		 * @param string $url link URL
 		 * @param string $name link name
+		 * @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
 		 * @access public
 		 */
-		function addHtmlLink($url, $name) {
+		function addHtmlLink($url, $name, $fill=0) {
 			//Put a hyperlink
 			$this->SetTextColor(0, 0, 255);
 			$this->setStyle('u', true);
-			$this->Write($this->lasth, $name, $url);
+			$this->Write($this->lasth, $name, $url, $fill);
 			$this->setStyle('u', false);
 			$this->SetTextColor(0);
 		}

@@ -5,15 +5,15 @@ Name:
 	TCPDF
 
 Version:
-	1.53.0.TC015
+	1.53.0.TC019
 	
 Release date:
-	2005-08-28
+	2006-05-21
 
 Author:
 	Nicola Asuni 
 	
-Copyright (c) 2001-2003:
+Copyright (c) 2001-2006:
 	Tecnick.com S.r.l.
 	Via Ugo Foscolo n.19
 	09045 Quartu Sant'Elena (CA)
@@ -22,7 +22,7 @@ Copyright (c) 2001-2003:
 	
 URLs:
 	http://tcpdf.sourceforge.net/
-	http://www.tecnick.com
+	http://tcpdf.sf.net/
 
 Description:
 	TCPDF is a PHP5 class for generating PDF files on-the-fly without requiring external extensions.

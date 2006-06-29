@@ -1,4 +1,20 @@
-1.53.0.TC015 (2005-08-28)
+1.53.0.TC019 (2006-05-21)
+	- fixed <strong> and <em> closing tags.
+	
+1.53.0.TC018 (2006-05-18)
+	- fixed font names bug
+	
+1.53.0.TC017 (2006-05-18)
+	- the TTF2UFM utility to convert True Type fonts for TCPDF were included on fonts folder.
+	- new free unicode fonts were included on /fonts/freefont.
+	- test_unicode.php example were exended.
+	- parameter $fill were added on Write, writeHTML and writeHTMLCell functions.
+	- documentation were updated.
+	
+1.53.0.TC016 (2006-03-09)
+	- fixed closing <strong> tag on html parser.
+	
+1.53.0.TC016 (2005-08-28)
 	- fpdf.php and tcpdf.php files were joined in one single class (you can still extend TCPDF with your own class).
 	- fixed problem when mb_internal_encoding is set.
 

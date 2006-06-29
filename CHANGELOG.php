@@ -39,6 +39,8 @@ Legend:
 
 29-Jun-2006 David Gal
  ^ Modified the migration to convert imported menu table to the new menu system
+ # Fixed PDF display
+ ^ Updated our modified TCPDF library to changes made in latest release of the library
  
 27-Jun-2006 Alex Kempkens
  ^ [task2640] : Beta 1 - refactor of global vars
