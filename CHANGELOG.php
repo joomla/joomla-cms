@@ -39,6 +39,7 @@ Legend:
 
 30-Jun-2006 Emir Sakic
 # Fixed task notices in sefurlbot
+# Fixed weblinks ordering
 
 29-Jun-2006 David Gal
  ^ Modified the migration to convert imported menu table to the new menu system

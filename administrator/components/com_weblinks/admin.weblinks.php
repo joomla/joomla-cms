@@ -35,7 +35,7 @@ switch ($task) {
 	case 'edit':
 		editWeblink();
 		break;
-	
+
 	case 'save':
 	case 'apply':
 		saveWeblink( $task );
@@ -176,7 +176,7 @@ function editWeblink()
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
-	
+
 	$lists = array();
 
 	$row = new JTableWeblink( $db );
@@ -336,15 +336,17 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderWeblinks( $uid, $inc, $option ) {
+function orderWeblinks( $uid, $inc ) {
 	global $mainframe;
-	
+
+	$option = JRequest::getVar( 'option');
+
 	$db =& $mainframe->getDBO();
 	$row = new JTableWeblink( $db );
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
-	josRedirect( "index2.php?option=". $option );
+	josRedirect( 'index.php?option='. $option );
 }
 
 /**
