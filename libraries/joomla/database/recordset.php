@@ -21,7 +21,7 @@ jimport( 'joomla.common.base.object' );
  * @subpackage	Database
  * @since		1.5
  */
-class JSimpleRecordSet
+class JRecordSet
 {
 	/** @var array */
 	var $data	= null;
@@ -34,7 +34,8 @@ class JSimpleRecordSet
 	 * Constuctor
 	 * @param array
 	 */
-	function JSimpleRecordSet( $data ) {
+	function JRecordSet( $data ) 
+	{
 		$this->data = $data;
 		$this->pointer = 0;
 		$this->count = count( $data );
@@ -48,7 +49,8 @@ class JSimpleRecordSet
 	/**
 	 * @return mixed A row from the data array or null
 	 */
-	function FetchRow() {
+	function FetchRow() 
+	{
 		if ($this->pointer < $this->count) {
 			$result = $this->data[$this->pointer];
 			$this->pointer++;
