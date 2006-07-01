@@ -333,7 +333,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	$query = "UPDATE #__plugins SET published = '". intval( $publish ) ."'"
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = " .user->get( 'id' ). " ))"
+	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ))"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
