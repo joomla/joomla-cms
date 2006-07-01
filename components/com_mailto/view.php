@@ -24,8 +24,11 @@ class JViewMailTo extends JView {
 	 * @param array An array of other standard files to include
 	 * @return patTemplate A template object
 	 */
-	function &createTemplate( $bodyHtml='', $files=null ) {
+	function &createTemplate( $bodyHtml='', $files=null )
+	{
+		global $mainframe;
 
+		jimport('joomla.template.template');
 		$tmpl = new JTemplate();
 
 		// patTemplate
