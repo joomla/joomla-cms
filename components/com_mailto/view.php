@@ -31,13 +31,6 @@ class JViewMailTo extends JView {
 		jimport('joomla.template.template');
 		$tmpl = new JTemplate();
 
-		// patTemplate
-		if ($mainframe->getCfg( 'caching' )) {
-	   		 $tmpl->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
-		}
-
-		$tmpl->setNamespace( 'jtmpl' );
-
 		// load the wrapper and common templates
 		$tmpl->readTemplatesFromFile( 'page.html' );
 		$tmpl->applyInputFilter('ShortModifiers');
