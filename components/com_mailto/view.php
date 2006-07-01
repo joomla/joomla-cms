@@ -25,9 +25,8 @@ class JViewMailTo extends JView {
 	 * @return patTemplate A template object
 	 */
 	function &createTemplate( $bodyHtml='', $files=null ) {
-		jimport('jamboworks.template.template');
 
-		$tmpl = new JTemplate;
+		$tmpl = new JTemplate();
 
 		// patTemplate
 		if ($mainframe->getCfg( 'caching' )) {

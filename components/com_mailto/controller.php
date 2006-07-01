@@ -15,7 +15,7 @@
 jimport('joomla.application.controller');
 
 /**
- * @package JamboWorks
+ * @package Joomla
  * @subpackage MailTo
  */
 class mailtoController extends JController {
