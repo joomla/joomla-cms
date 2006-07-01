@@ -1398,6 +1398,7 @@ if(!class_exists('TCPDF')) {
 	 	 * It is automatically called by AddPage() and could be overwritten in your own inherited class.
 		 */
 		function Footer() {
+			
 			if ($this->print_footer) {
 
 				if (!isset($this->original_lMargin)) {
@@ -1430,7 +1431,8 @@ if(!class_exists('TCPDF')) {
 				$this->SetXY($this->original_lMargin, $footer_y);
 
 				//Print page number
-				$this->Cell(0, $footer_height, $this->l['w_page']." ".$this->PageNo().' / {nb}', 'T', 0, 'R');
+//				$this->Cell(0, $footer_height, $this->l['w_page']." ".$this->PageNo().' / {nb}', 'T', 0, 'R');
+				$this->Cell(0, $footer_height, JText::_( 'Page' )." ".$this->PageNo()." / {nb} ", 'T', 0, 'R');
 			}
 		}
 
@@ -2493,8 +2495,8 @@ if(!class_exists('TCPDF')) {
 					}
 					if(php_sapi_name()!='cli') {
 						//We send to a browser
-						header("Cache-Control: cache, must-revalidate");
-						header("Pragma: public");
+//						header("Cache-Control: cache, must-revalidate");
+//						header("Pragma: public");
 						header('Content-Type: application/pdf');
 						if(headers_sent()) {
 							$this->Error('Some data has already been output to browser, can\'t send PDF file');
@@ -2597,6 +2599,7 @@ if(!class_exists('TCPDF')) {
 					$this->pages[$n]=str_replace($this->AliasNbPages, $nbstr, $this->pages[$n]);
 				}
 			}
+
 			if($this->DefOrientation=='P') {
 				$wPt=$this->fwPt;
 				$hPt=$this->fhPt;
@@ -3327,171 +3330,103 @@ if(!class_exists('TCPDF')) {
 		}
 
 
-		/** utf8_to_unicode
-		* Takes an UTF-8 string and returns an array of ints representing the
-		* Unicode characters. Astral planes are supported ie. the ints in the
-		* output can be > 0xFFFF. Occurrances of the BOM are ignored. Surrogates
-		* are not allowed.
-		* Returns false if the input string isn't a valid UTF-8 octet sequence
-		* and raises a PHP error at level E_USER_WARNING
-		* Note: this function has been modified slightly in this library to
-		* trigger errors on encountering bad bytes
-		* @author <hsivonen@iki.fi>
-		* @param string UTF-8 encoded string
-		* @return mixed array of unicode code points or FALSE if UTF-8 invalid
-		* @see utf8_from_unicode
-		* @see http://hsivonen.iki.fi/php-utf8/
-		* @package utf8
-		* @subpackage unicode
-		*/
-		function UTF8StringToArray($str) {
-		    $mState = 0;     // cached expected number of octets after the current octet
-		                     // until the beginning of the next UTF8 character sequence
-		    $mUcs4  = 0;     // cached Unicode character
-		    $mBytes = 1;     // cached expected number of octets in the current sequence
 
-		    $out = array();
-
-		    $len = strlen($str);
-
-		    for($i = 0; $i < $len; $i++) {
-
-		        $in = ord($str{$i});
-
-		        if ( $mState == 0) {
-
-		            // When mState is zero we expect either a US-ASCII character or a
-		            // multi-octet sequence.
-		            if (0 == (0x80 & ($in))) {
-		                // US-ASCII, pass straight through.
-		                $out[] = $in;
-		                $mBytes = 1;
-
-		            } else if (0xC0 == (0xE0 & ($in))) {
-		                // First octet of 2 octet sequence
-		                $mUcs4 = ($in);
-		                $mUcs4 = ($mUcs4 & 0x1F) << 6;
-		                $mState = 1;
-		                $mBytes = 2;
-
-		            } else if (0xE0 == (0xF0 & ($in))) {
-		                // First octet of 3 octet sequence
-		                $mUcs4 = ($in);
-		                $mUcs4 = ($mUcs4 & 0x0F) << 12;
-		                $mState = 2;
-		                $mBytes = 3;
-
-		            } else if (0xF0 == (0xF8 & ($in))) {
-		                // First octet of 4 octet sequence
-		                $mUcs4 = ($in);
-		                $mUcs4 = ($mUcs4 & 0x07) << 18;
-		                $mState = 3;
-		                $mBytes = 4;
-
-		            } else if (0xF8 == (0xFC & ($in))) {
-		                /* First octet of 5 octet sequence.
-		                *
-		                * This is illegal because the encoded codepoint must be either
-		                * (a) not the shortest form or
-		                * (b) outside the Unicode range of 0-0x10FFFF.
-		                * Rather than trying to resynchronize, we will carry on until the end
-		                * of the sequence and let the later error handling code catch it.
-		                */
-		                $mUcs4 = ($in);
-		                $mUcs4 = ($mUcs4 & 0x03) << 24;
-		                $mState = 4;
-		                $mBytes = 5;
-
-		            } else if (0xFC == (0xFE & ($in))) {
-		                // First octet of 6 octet sequence, see comments for 5 octet sequence.
-		                $mUcs4 = ($in);
-		                $mUcs4 = ($mUcs4 & 1) << 30;
-		                $mState = 5;
-		                $mBytes = 6;
-
-		            } else {
-		                /* Current octet is neither in the US-ASCII range nor a legal first
-		                 * octet of a multi-octet sequence.
-		                 */
-		                trigger_error(
-		                        'utf8_to_unicode: Illegal sequence identifier '.
-		                            'in UTF-8 at byte '.$i,
-		                        E_USER_WARNING
-		                    );
-		                return FALSE;
-
-		            }
-
-		        } else {
-
-		            // When mState is non-zero, we expect a continuation of the multi-octet
-		            // sequence
-		            if (0x80 == (0xC0 & ($in))) {
-
-		                // Legal continuation.
-		                $shift = ($mState - 1) * 6;
-		                $tmp = $in;
-		                $tmp = ($tmp & 0x0000003F) << $shift;
-		                $mUcs4 |= $tmp;
-
-		                /**
-		                * End of the multi-octet sequence. mUcs4 now contains the final
-		                * Unicode codepoint to be output
-		                */
-		                if (0 == --$mState) {
-
-		                    /*
-		                    * Check for illegal sequences and codepoints.
-		                    */
-		                    // From Unicode 3.1, non-shortest form is illegal
-		                    if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
-		                        ((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
-		                        ((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
-		                        (4 < $mBytes) ||
-		                        // From Unicode 3.2, surrogate characters are illegal
-		                        (($mUcs4 & 0xFFFFF800) == 0xD800) ||
-		                        // Codepoints outside the Unicode range are illegal
-		                        ($mUcs4 > 0x10FFFF)) {
-
-		                        trigger_error(
-		                                'utf8_to_unicode: Illegal sequence or codepoint '.
-		                                    'in UTF-8 at byte '.$i,
-		                                E_USER_WARNING
-		                            );
-
-		                        return FALSE;
-
-		                    }
-
-		                    if (0xFEFF != $mUcs4) {
-		                        // BOM is legal but we don't want to output it
-		                        $out[] = $mUcs4;
-		                    }
-
-		                    //initialize UTF8 cache
-		                    $mState = 0;
-		                    $mUcs4  = 0;
-		                    $mBytes = 1;
-		                }
-
-		            } else {
-		                /**
-		                *((0xC0 & (*in) != 0x80) && (mState != 0))
-		                * Incomplete multi-octet sequence.
-		                */
-		                trigger_error(
-		                        'utf8_to_unicode: Incomplete multi-octet '.
-		                        '   sequence in UTF-8 at byte '.$i,
-		                        E_USER_WARNING
-		                    );
-
-		                return FALSE;
-		            }
-		        }
-		    }
-		    return $out;
+		 /**
+		 * Converts UTF-8 strings to codepoints array.<br>
+		 * Invalid byte sequences will be replaced with 0xFFFD (replacement character)<br>
+		 * Based on: http://www.faqs.org/rfcs/rfc3629.html
+		 * <pre>
+		 * 	  Char. number range  |        UTF-8 octet sequence
+		 *       (hexadecimal)    |              (binary)
+		 *    --------------------+-----------------------------------------------
+		 *    0000 0000-0000 007F | 0xxxxxxx
+		 *    0000 0080-0000 07FF | 110xxxxx 10xxxxxx
+		 *    0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
+		 *    0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+		 *    ---------------------------------------------------------------------
+		 *
+		 *   ABFN notation:
+		 *   ---------------------------------------------------------------------
+		 *   UTF8-octets = *( UTF8-char )
+		 *   UTF8-char   = UTF8-1 / UTF8-2 / UTF8-3 / UTF8-4
+		 *   UTF8-1      = %x00-7F
+		 *   UTF8-2      = %xC2-DF UTF8-tail
+		 *
+		 *   UTF8-3      = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2( UTF8-tail ) /
+		 *                 %xED %x80-9F UTF8-tail / %xEE-EF 2( UTF8-tail )
+		 *   UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
+		 *                 %xF4 %x80-8F 2( UTF8-tail )
+		 *   UTF8-tail   = %x80-BF
+		 *   ---------------------------------------------------------------------
+		 * </pre>
+		 * @param string $str string to process.
+		 * @return array containing codepoints (UTF-8 characters values)
+		 * @access protected
+		 * @author Nicola Asuni
+		 * @since 1.53.0.TC005 (2005-01-05)
+		 */
+		 function UTF8StringToArray($str) {
+			if(!$this->isunicode) {
+				return $str; // string is not in unicode
+			}
+			$unicode = array(); // array containing unicode values
+			$bytes  = array(); // array containing single character byte sequences
+			$numbytes  = 1; // number of octetc needed to represent the UTF-8 character
+			
+			$str .= ""; // force $str to be a string
+			$length = strlen($str);
+			
+			for($i = 0; $i < $length; $i++) {
+				$char = ord($str{$i}); // get one string character at time
+				if(count($bytes) == 0) { // get starting octect
+					if ($char <= 0x7F) {
+						$unicode[] = $char; // use the character "as is" because is ASCII
+					} elseif (($char >> 0x05) == 0x06) { // 2 bytes character (0x06 = 110 BIN)
+						$bytes[] = ($char - 0xC0) << 0x06; 
+						$numbytes = 2;
+					} elseif (($char >> 0x04) == 0x0E) { // 3 bytes character (0x0E = 1110 BIN)
+						$bytes[] = ($char - 0xE0) << 0x0C; 
+						$numbytes = 3;
+					} elseif (($char >> 0x03) == 0x1E) { // 4 bytes character (0x1E = 11110 BIN)
+						$bytes[] = ($char - 0xF0) << 0x12; 
+						$numbytes = 4;
+					} else {
+						// use replacement character for other invalid sequences
+						$unicode[] = 0xFFFD;
+						$bytes = array();
+						$numbytes = 1;
+					}
+				} elseif (($char >> 0x06) == 0x02) { // bytes 2, 3 and 4 must start with 0x02 = 10 BIN
+					$bytes[] = $char - 0x80;
+					if (count($bytes) == $numbytes) {
+						// compose UTF-8 bytes to a single unicode value
+						$char = $bytes[0];
+						for($j = 1; $j < $numbytes; $j++) {
+							$char += ($bytes[$j] << (($numbytes - $j - 1) * 0x06));
+						}
+						if ((($char >= 0xD800) AND ($char <= 0xDFFF)) OR ($char >= 0x10FFFF)) {
+							/* The definition of UTF-8 prohibits encoding character numbers between
+							U+D800 and U+DFFF, which are reserved for use with the UTF-16
+							encoding form (as surrogate pairs) and do not directly represent
+							characters. */
+							$unicode[] = 0xFFFD; // use replacement character
+						}
+						else {
+							$unicode[] = $char; // add char to array
+						}
+						// reset data for next char
+						$bytes = array(); 
+						$numbytes = 1;
+					}
+				} else {
+					// use replacement character for other invalid sequences
+					$unicode[] = 0xFFFD;
+					$bytes = array();
+					$numbytes = 1;
+				}
+			}
+			return $unicode;
 		}
-
 
 
 		/**
@@ -4169,10 +4104,10 @@ if(!class_exists('TCPDF')) {
 	} // END OF CLASS
 
 	//Handle special IE contype request
-	if(isset($_SERVER['HTTP_USER_AGENT']) AND ($_SERVER['HTTP_USER_AGENT']=='contype')) {
-		header('Content-Type: application/pdf');
-		exit;
-	}
+//	if(isset($_SERVER['HTTP_USER_AGENT']) AND ($_SERVER['HTTP_USER_AGENT']=='contype')) {
+//		header('Content-Type: application/pdf');
+//		exit;
+//	}
 
 }
 //============================================================+

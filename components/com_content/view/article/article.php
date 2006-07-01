@@ -480,15 +480,14 @@ class JContentViewArticle extends JView
 	 */
 	function displayPdf()
 	{
-		global $l;
 
 		jimport('tcpdf.tcpdf');
 		
 		// Initialize some variables
 		$app		= & $this->getApplication();
-		$user		= & $app->getUser();
-		$menus		= JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
+//		$user		= & $app->getUser();
+//		$menus		= JMenu::getInstance();
+//		$menu		= &$menus->getCurrent();
 		$article	= & $this->get( 'Article' );
 		//$Itemid	= $menu->id;
 		$params 	= & $article->parameters;
@@ -506,12 +505,6 @@ class JContentViewArticle extends JView
 		// process the new plugins
 		JPluginHelper::importPlugin('content');
 		$app->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
-		//	$text = trim(implode("\n", $results));
-		//				$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
-		//			$text .= trim(implode("\n", $results));
-		//
-		//		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
-		//		$text .= trim(implode("\n", $onBeforeDisplayContent));
 
 		//create new PDF document (document units are set by default to millimeters)
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);
@@ -538,14 +531,11 @@ class JContentViewArticle extends JView
 		$pdf->setHeaderFont(Array (PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->setFooterFont(Array (PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-		$pdf->setLanguageArray($l); //set language items
-
 		//initialize document
 		$pdf->AliasNbPages();
 
 		$pdf->AddPage();
 
-		//	$pdf->WriteHTML($article->introtext ."\n". $article->fulltext, true);
 		$pdf->WriteHTML($article->text, true);
 
 		//Close and output PDF document
@@ -584,7 +574,7 @@ class JContentViewArticle extends JView
 
 		if ($params->get('modifydate') && ($params->get('author') || $params->get('createdate'))) {
 			// Display Separator
-			$text .= "\n";
+			$text .= " - ";
 		}
 
 		if ($params->get('modifydate')) {
@@ -594,7 +584,6 @@ class JContentViewArticle extends JView
 				$text .= JText::_('Last Updated').' '.$mod_date;
 			}
 		}
-		//	$text .= "\n\n";
 		return $text;
 	}
 }
