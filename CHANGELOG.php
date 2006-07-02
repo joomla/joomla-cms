@@ -40,6 +40,9 @@ Legend:
 01-Jul-2006 Johan Janssens
  - Removed unique email registration setting
 
+01-Jul-2006 Louis Landry
+ + Added JLog class for logging actions/events
+
 30-Jun-2006 Johan Janssens 
  ^ [task2569] : Revisit the ADODB compatibility
 
