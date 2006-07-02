@@ -66,8 +66,6 @@ class JTableUser extends JTable
 	 */
 	function check()
 	{
-		global $mainframe;
-		
 		// filter malicious code
 		//$this->filter();
 
@@ -105,21 +103,20 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if ($mainframe->getCfg('uniquemail')) {
-			// check for existing email
-			$query = "SELECT id"
+		
+		// check for existing email
+		$query = "SELECT id"
 			. "\n FROM #__users "
 			. "\n WHERE email = '$this->email'"
 			. "\n AND id != $this->id"
 			;
-			$this->_db->setQuery( $query );
-			$xid = intval( $this->_db->loadResult() );
-			if ($xid && $xid != intval( $this->id )) {
-				$this->_error = JText::_( 'WARNREG_EMAIL_INUSE' );
-				return false;
-			}
+		$this->_db->setQuery( $query );
+		$xid = intval( $this->_db->loadResult() );
+		if ($xid && $xid != intval( $this->id )) {
+			$this->_error = JText::_( 'WARNREG_EMAIL_INUSE' );
+			return false;
 		}
-
+		
 		return true;
 	}
 

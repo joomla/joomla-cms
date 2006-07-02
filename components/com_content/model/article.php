@@ -168,10 +168,12 @@ class JContentModelArticle extends JModel
 	 */
 	function incrementHit()
 	{
+		global $mainframe;
+		
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content', $this->_db);
-			$article->hit($this->_id);
+			$article->hit($this->_id, $mainframe->getCfg('enable_log_items'));
 			return true;
 		}
 		return false;

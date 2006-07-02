@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jul-2006 Johan Janssens
+ - Removed unique email registration setting
+
 30-Jun-2006 Johan Janssens 
  ^ [task2569] : Revisit the ADODB compatibility
 

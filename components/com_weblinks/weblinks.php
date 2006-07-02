@@ -374,7 +374,7 @@ class WeblinksController
 		}
 
 		// Record the hit
-		$weblink->hit();
+		$weblink->hit(null, $mainframe->getCfg('enable_log_items'));
 
 		if ($weblink->url) {
 			// redirects to url if matching id found

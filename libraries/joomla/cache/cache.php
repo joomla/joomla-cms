@@ -156,25 +156,8 @@ class JCache extends Cache_Lite
 	 */
 	function cleanCache($group = false, $mode = 'ingroup')
 	{
-		global $mainframe;
-
-		if ($mainframe->getCfg('caching'))
-		{
-			$cache = & JCache::getCache($group);
-			$cache->clean($group, $mode);
-
-			/*
-			 * Build the cache directory
-			 */
-			$baseDir = $mainframe->getCfg('cachepath');
-			jimport('joomla.filesystem.folder');
-			$files = JFolder::files($baseDir, '.xml');
-			foreach ($files as $file)
-			{
-				$file = $baseDir.DS.$file;
-				unlink($file);
-			}
-		}
+		$cache = & JCache::getCache($group);
+		$cache->clean($group, $mode);
 	}
 
 	/**
