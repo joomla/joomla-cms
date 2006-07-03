@@ -132,7 +132,7 @@ class JPagination extends JObject
 		if ($mainframe->isAdmin()) {
 			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
 		} else {
-			$link = sefRelToAbs($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
+			$link = josUrl($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
 			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
 		}
 		return $html;
@@ -197,8 +197,8 @@ class JPagination extends JObject
 
 		if ($this_page > 1) {
 			$page = ($this_page -2) * $this->limit;
-			$list['first'] = array( 'start' => "0", 'url' => sefRelToAbs("$link&amp;limitstart=0"), 'txt' => JText::_('Start') );
-			$list['prev'] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => JText::_('Prev') );
+			$list['first'] = array( 'start' => "0", 'url' => josUrl("$link&amp;limitstart=0"), 'txt' => JText::_('Start') );
+			$list['prev'] = array( 'start' => "$page", 'url' => josUrl("$link&amp;limitstart=$page"), 'txt' => JText::_('Prev') );
 		} else {
 			$list['first'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Start') );
 			$list['prev'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Prev') );
@@ -207,8 +207,8 @@ class JPagination extends JObject
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages -1) * $this->limit;
-			$list['next'] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => JText::_('Next') );
-			$list['end'] = array( 'start' => "$end_page", 'url' => sefRelToAbs("$link&amp;limitstart=$end_page"), 'txt' => JText::_('End') );
+			$list['next'] = array( 'start' => "$page", 'url' => josUrl("$link&amp;limitstart=$page"), 'txt' => JText::_('Next') );
+			$list['end'] = array( 'start' => "$end_page", 'url' => josUrl("$link&amp;limitstart=$end_page"), 'txt' => JText::_('End') );
 		} else {
 			$list['next'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Next') );
 			$list['end'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('End') );
@@ -220,7 +220,7 @@ class JPagination extends JObject
 			if ($i == $this_page) {
 				$list['pages'][$i] = array( 'start' => null, 'url' => null, 'txt' => "$i" );
 			} else {
-				$list['pages'][$i] = array( 'start' => "$page", 'url' => sefRelToAbs("$link&amp;limitstart=$page"), 'txt' => "$i" );
+				$list['pages'][$i] = array( 'start' => "$page", 'url' => josUrl("$link&amp;limitstart=$page"), 'txt' => "$i" );
 			}
 		}
 		return $list;

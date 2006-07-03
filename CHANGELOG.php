@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Jul-2006 Samuel Moffatt
+ ^ Changed instances of sefRelToAbs to josUrl in pagination class
+
 01-Jul-2006 Johan Janssens
  - Removed unique email registration setting
 
