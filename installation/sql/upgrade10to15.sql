@@ -150,7 +150,7 @@ ALTER TABLE `jos_menu` ADD COLUMN `rgt` INTEGER UNSIGNED NOT NULL DEFAULT 0;
 DELETE FROM `jos_modules` WHERE `title` = 'Components'
 
 #FF: 21-Apr-2006 
-DELETE FROM `jos_components` WHERE `title` = 'Syndicate'
+DELETE FROM `jos_components` WHERE `name` = 'Syndicate'
 
 #AE: 22-May-2006
 

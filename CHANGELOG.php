@@ -42,6 +42,7 @@ Legend:
 
 03-Jul-2006 Louis Landry
  # [artf5152] : JApplication->getHead calls a non existant method
+ # [artf4537] : upgrade10to15.sql - wrong field reference (build 3336)
 
 01-Jul-2006 Johan Janssens
  - Removed unique email registration setting
