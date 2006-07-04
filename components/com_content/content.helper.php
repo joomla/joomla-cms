@@ -15,6 +15,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Component Helper
+jimport('joomla.application.extension.component');
+
 /**
  * Content Component Helper
  *
