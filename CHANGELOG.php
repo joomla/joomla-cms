@@ -40,6 +40,9 @@ Legend:
 04-Jul-2006 Samuel Moffatt
  ^ Changed instances of sefRelToAbs to josUrl in pagination class
 
+03-Jul-2006 Louis Landry
+ # [artf5152] : JApplication->getHead calls a non existant method
+
 01-Jul-2006 Johan Janssens
  - Removed unique email registration setting
 

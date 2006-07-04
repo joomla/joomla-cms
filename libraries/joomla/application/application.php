@@ -845,7 +845,7 @@ class JApplication extends JObject
 	*/
 	 function getHead() {
 		$document=& $this->getDocument();
-		return $document->fetchHead();
+		return $document->get('head');
 	 }
 
 	/**
