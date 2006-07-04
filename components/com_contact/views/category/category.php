@@ -162,7 +162,7 @@ class JContactViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$itemid = $mainframe->getItemid( $row->id );
+			$itemid = JApplicationHelper::getItemid( $row->id );
 			if ($itemid) {
 				$_Itemid = '&Itemid='. $itemid;
 			}

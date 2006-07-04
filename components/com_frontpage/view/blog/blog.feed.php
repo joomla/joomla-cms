@@ -46,7 +46,7 @@ class JViewBlog
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$itemid = $mainframe->getItemid( $row->id );
+			$itemid = JContentHelper::getItemid( $row->id );
 			if ($itemid) {
 				$_Itemid = '&Itemid='. $itemid;
 			}

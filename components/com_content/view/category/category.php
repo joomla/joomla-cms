@@ -76,8 +76,6 @@ class JContentViewCategory extends JView
 		$other_categories	= & $this->get( 'Siblings' );
 		$items				= & $this->get( 'Content' );
 		
-		echo var_dump($category);
-
 		// Request variables
 		$task 	= JRequest::getVar('task');
 		$id 	= JRequest::getVar('id');
@@ -434,7 +432,7 @@ class JContentViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$itemid = $app->getItemid( $row->id );
+			$itemid = JContentHelper::getItemid( $row->id );
 			if ($itemid) {
 				$_Itemid = '&Itemid='. $itemid;
 			}

@@ -42,12 +42,13 @@ $rows = $db->loadObjectList();
 
 if ($rows)
 {
+	require_once (JApplicationHelper::getPath('helper', 'com_content'));
 ?>
 	<ul class="sections<?php echo $moduleclass_sfx; ?>">
 	<?php
 	foreach ($rows as $row)
 	{
-		$_Itemid = $menu->getItemid($row->id);
+		$_Itemid = JContentHelper::getItemid($id);
 		if ($Itemid == $_Itemid) {
 			$link = sefRelToAbs("index.php?option=com_content&task=blogsection&id=".$row->id);
 		} else {

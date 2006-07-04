@@ -349,6 +349,7 @@ class JContentHelper
 			$menu = JMenu::getInstance();
 			$items = $menu->getMenu();
 			$Itemid = null;
+			$component = JComponentHelper::getInfo('com_content');
 
 			if (count($items))
 			{
@@ -356,56 +357,56 @@ class JContentHelper
 				 * Do we have a content item linked to the menu with this id?
 				 */
 				foreach ($items as $item) {
-					if ($item->link == "index.php?option=com_content&task=view&id=$id") {
+					$item->cParams = & new JParameter( $item->control );
+					$item->mParams = & new JParameter( $item->params );
+
+					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}
 				}
 
 				/*
-				 * Not a content item, so perhaps is it in a section that is linked
+				 * Not a linked as an article, so perhaps is it in a category or section that is linked
 				 * to the menu?
 				 */
-				$query = "SELECT m.id " .
-						"\n FROM #__content AS i" .
-						"\n LEFT JOIN #__sections AS s ON i.sectionid = s.id" .
-						"\n LEFT JOIN #__menu AS m ON m.componentid = s.id " .
-						"\n WHERE (m.type = 'content_section' OR m.type = 'content_blog_section')" .
-						"\n AND m.published = 1" .
-						"\n AND i.id = $id";
-				$db->setQuery($query);
-				$Itemid = $db->loadResult();
-				if ($Itemid != '') {
-					$cache->save( $Itemid, md5($id), 'getItemid' );
-					return $Itemid;
+
+				// First we must load the article data to know what section/category it is in.
+				$article = JTable::getInstance('content', $db);
+				$article->load($id);
+
+				// Check to see if it is in a published category
+				foreach ($items as $item) {
+					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == $article->catid)) {
+						$cache->save( $item->id, md5($id), 'getItemid' );
+						return $item->id;
+					}
 				}
 
-				/*
-				 * Not a section either... is it in a category that is linked to the
-				 * menu?
-				 */
-				$query = "SELECT m.id " .
-						"\n FROM #__content AS i" .
-						"\n LEFT JOIN #__categories AS c ON i.catid = c.id" .
-						"\n LEFT JOIN #__menu AS m ON m.componentid = c.id " .
-						"\n WHERE (m.type = 'content_blog_category' OR m.type = 'content_category')" .
-						"\n AND m.published = 1" .
-						"\n AND i.id = $id";
-				$db->setQuery($query);
-				$Itemid = $db->loadResult();
-				if ($Itemid != '') {
-					$cache->save( $Itemid, md5($id), 'getItemid' );
-					return $Itemid;
+				// Check to see if it is in a published section
+				foreach ($items as $item) {
+					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('section_id') == $article->sectionid)) {
+						$cache->save( $item->id, md5($id), 'getItemid' );
+						return $item->id;
+					}
 				}
 
 				/*
 				 * Once we have exhausted all our options for finding the Itemid in
-				 * the content structure, lets see if maybe we have a global blog
-				 * section in the menu we can put it under.
+				 * the content structure, lets see if maybe we have a global 
+				 * category or section in the menu we can put it under.
 				 */
-				foreach ($items as $item)
-				{
-					if ($item->type == "content_blog_section" && $item->componentid == "0") {
+
+				// Category
+				foreach ($items as $item) {
+					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == 0)) {
+						$cache->save( $item->id, md5($id), 'getItemid' );
+						return $item->id;
+					}
+				}
+				// Section
+				foreach ($items as $item) {
+					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('category_id') == 0)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}

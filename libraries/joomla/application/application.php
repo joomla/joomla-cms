@@ -1017,8 +1017,8 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getItemid( $id ) {
-		$menu = JMenu::getInstance();
-		return $menu->getItemid($id);
+		require_once (JApplicationHelper::getPath('helper', 'com_content'));
+		return JContentHelper::getItemid($id);
 	}
 
 	/**

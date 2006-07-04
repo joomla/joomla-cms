@@ -22,6 +22,9 @@ $lang->load('com_content');
 
 // require the frontpage html view
 require_once (JApplicationHelper::getPath('front_html', 'com_frontpage'));
+
+// require the content helper
+require_once (JApplicationHelper::getPath('helper', 'com_content'));
 /**
  * Frontpage Component Controller
  *
