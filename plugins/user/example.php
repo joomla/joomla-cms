@@ -18,7 +18,7 @@ jimport('joomla.application.extension.plugin');
  * Attach the plugin to the event dispatcher
  */
 $dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach('JUserExample');
+$dispatcher->attach(new JUserExample($dispatcher));
 
 /**
  * Example User Plugin
