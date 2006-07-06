@@ -37,6 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Jul-2006 Johan Janssens
+ # Fixed [artf5210] : New categories have no entry for component
+ # Fixed [artf5176] : JInstallerModule->uninstall returns wrong error message
+ # Fixed [artf5088] : admin template/wrong class in com_messages
+ # Fixed [artf5087] : Error deleting private message
+ # Fixed [artf5087] : Error deleting private message
+ # Fixed [artf4939] : Can't reach to help server
+ # Fixed [artf4815] : Feedcreator 1.7.3 with sticky encoding ISO-8859-1
+ # Fixed [artf4755] : Installation language rev. 3580
+ # Fixed [artf4640] : Error trying to authenticate using LDAP
+ # Fixed [artf4213] : JFactory::_createMailer() possibly instantiates wrong class...
+
 04-Jul-2006 Samuel Moffatt
  ^ Changed instances of sefRelToAbs to josUrl in pagination class
 

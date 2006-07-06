@@ -265,7 +265,8 @@ function viewMessage( $uid='0', $option ) {
 	HTML_messages::viewMessage( $row, $option );
 }
 
-function removeMessage( $cid, $option ) {
+function removeMessage( $cid, $option ) 
+{
 	global $mainframe;
 
 	$db =& $mainframe->getDBO();

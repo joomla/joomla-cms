@@ -48,7 +48,7 @@ class TOOLBAR_messages
 		JMenuBar::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
 		JMenuBar::deleteList();
 		JMenuBar::addNewX();
-		JMenuBar::custom('config', 'properties.png', 'properties_f2.png', 'Settings', false, false);
+		JMenuBar::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
 		JMenuBar::help( 'screen.messages.inbox' );
 	}
 }

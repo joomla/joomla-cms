@@ -110,7 +110,7 @@ function & buildMenu($usertype = '')
 		$menu->addChild(new JMenuNode(JText::_('Statistics'), 'index.php?option=com_statistics', 'class:stats'));
 	}
 	if ($canConfig) {
-		$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config&hidemainmenu=1', 'class:config'));
+		$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 		$menu->addSeparator();
 	}
 	$menu->addChild(new JMenuNode(JText::_('Logout'), 'index.php?option=com_login&task=logout', 'class:logout'));

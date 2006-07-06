@@ -120,7 +120,7 @@ class JInstallerModule extends JInstaller
 		{
 			if (!$created = JFolder::create($this->_extensionDir))
 			{
-				JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('Failed to create directory').': "'.$this->_extensionDir.'"');
+				JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('Failed to create directory').': "'.$this->_extensionDir.'"');
 				return false;
 			}
 		}
@@ -318,7 +318,7 @@ class JInstallerModule extends JInstaller
 		 */
 		if ($row->iscore)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.sprintf(JText::_('WARNCORECOMPONENT'), $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.sprintf(JText::_('WARNCOREMODULE'), $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
 
