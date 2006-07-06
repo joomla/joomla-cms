@@ -279,11 +279,12 @@ function editCategory( )
 	global $mainframe;
 
 	$db         =& $mainframe->getDBO();
-	$user =& $mainframe->getUser();
+	$user 		=& $mainframe->getUser();
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
 	$section 	= JRequest::getVar( 'section', 'content' );
 	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
+	
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
@@ -342,6 +343,7 @@ function editCategory( )
 			$section_name = $temp->name;
 		}
 		if(!$section_name) $section_name = JText::_( 'N/A' );
+		$row->section = $section;
 		$lists['section'] = '<input type="hidden" name="section" value="'. $row->section .'" />'. $section_name;
 	}
 
@@ -363,7 +365,7 @@ function editCategory( )
 	// build the html radio buttons for published
 	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
- 	categories_html::edit( $row, $lists, $redirect, $menus );
+ 	categories_html::edit( $row, $lists, $redirect );
 }
 
 /**

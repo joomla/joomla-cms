@@ -37,7 +37,6 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 
 // Get the global option variable and create the pathway
 $option = strtolower( JRequest::getVar( 'option' ) );
-$mainframe->_createPathWay( );
 
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );

@@ -71,7 +71,7 @@ class TOOLBAR_categories {
 	{
 		$section = JRequest::getVar( 'section' );
 
-		JMenuBar::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JString::substr($section, 4).' ]</small></small>', 'categories.png' );
+		JMenuBar::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($section, 4)).' ]</small></small>', 'categories.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		if ( $section == 'content' || ( $section > 0 ) ) {

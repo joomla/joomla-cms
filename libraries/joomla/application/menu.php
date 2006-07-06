@@ -100,7 +100,8 @@ class JMenu extends JObject
 	/**
 	 * Gets the current menu item
 	 */
-	function &getCurrent() {
+	function &getCurrent() 
+	{
 		$result = &$this->getItem( $this->_current_id );
 		if ($result == false)
 		{
@@ -138,10 +139,11 @@ class JMenu extends JObject
 
 	/**
 	 * Getter for a menu item
+	 * 
 	 * @param int The item id
 	 * @return mixed The item, or false if not found
 	 */
-	function getItem($id)
+	function &getItem($id)
 	{
 		if (isset($this->_menuitems[$id])) {
 			return $this->_menuitems[$id];
@@ -152,6 +154,7 @@ class JMenu extends JObject
 
 	/**
 	 * Gets items by attribute
+	 * 
 	 * @param string The field name
 	 * @param string The value of the field
 	 * @return array
@@ -171,6 +174,7 @@ class JMenu extends JObject
 
 	/**
 	 * Getter for the menu array
+	 * 
 	 * @return array
 	 */
 	function getMenu()
@@ -180,6 +184,7 @@ class JMenu extends JObject
 
 	/**
 	 * Checks if the current menu, or the passed id, is the current menu
+	 * 
 	 * @param int A menu id (Itemid)
 	 * @return boolean
 	 */

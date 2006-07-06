@@ -34,6 +34,8 @@ class JSite extends JApplication
 	*/
 	function __construct() {
 		parent::__construct(0);
+		
+		$this->_createPathWay( );
 	}
 
 	/**

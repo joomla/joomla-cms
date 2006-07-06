@@ -69,11 +69,8 @@ class JAuthenticateLdap extends JPlugin {
 
 		$ldap = new JLDAP($pluginParams);
 
-		$return = new JAuthenticateResponse('LDAP');
 		if (!$ldap->connect()) {
-			$return->error_type = 'error';
-			$return->error_message = 'Connection to LDAP server failed';
-			return $return;
+			return false;
 		}
 		$success = $ldap->bind($username, $password);
 

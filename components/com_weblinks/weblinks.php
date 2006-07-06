@@ -22,10 +22,6 @@ require_once (JApplicationHelper::getPath('class'));
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Web Links'));
 
-// Set the component name in the pathway
-$pathway = & $mainframe->getPathWay();
-$pathway->setItemName(1, JText::_('Links'));
-
 /*
  * This is our main control structure for the component
  *
@@ -89,6 +85,7 @@ class WeblinksController
 		$user		= & $mainframe->getUser();
 		$pathway	= & $mainframe->getPathWay();
 		$document	= & $mainframe->getDocument();
+		$pathway 	= & $mainframe->getPathWay();
 		$gid		= $user->get('gid');
 		$page		= '';
 		$category	= null;
@@ -107,6 +104,9 @@ class WeblinksController
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
+		
+		// Set the component name in the pathway
+		$pathway->setItemName(1, JText::_('Links'));
 
 		// Load the menu object and parameters
 		$menu = JMenu::getInstance();
@@ -338,9 +338,6 @@ class WeblinksController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
 		// Initialize variables
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
@@ -435,7 +432,7 @@ class WeblinksController
 		if ($row->isCheckedOut($user->get('id'))) {
 			josRedirect("index2.php?option=$option", "The module $row->title is currently being edited by another administrator.");
 		}
-
+		
 		// Edit or Create?
 		if ($id) {
 			/*

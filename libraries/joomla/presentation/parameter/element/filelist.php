@@ -43,9 +43,10 @@ class JElement_FileList extends JElement
 	{
 		jimport( 'joomla.filesystem.folder' );
 		jimport( 'joomla.filesystem.file' );
-
+		
 		// path to images directory
 		$path		= JPATH_ROOT.DS.$node->attributes('folder');
+		echo $path;
 		$filter		= $node->attributes('filter');
 		$stripExt	= $node->attributes('stripext');
 		$files		= JFolder::files($path, $filter);
@@ -60,9 +61,9 @@ class JElement_FileList extends JElement
 			$options[] = mosHTML::makeOption('', '- '.JText::_('Use default').' -');
 		}
 
-		foreach ($files as $file) {
-			if ($stripExt)
-			{
+		foreach ($files as $file) 
+		{
+			if ($stripExt) {
 				$file = JFile::stripExt( $file );
 			}
 			$options[] = mosHTML::makeOption($file, $file);

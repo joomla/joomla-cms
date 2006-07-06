@@ -128,6 +128,7 @@ class JMediaController
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders($base, '.', true, true);
 
+		$nodes = array();
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace($base, "", $folder);
 			$folder 	= str_replace(DS, "/", $folder);

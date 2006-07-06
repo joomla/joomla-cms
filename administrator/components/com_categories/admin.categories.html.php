@@ -224,7 +224,7 @@ class categories_html
 	* @param string
 	* @param array
 	*/
-	function edit( &$row, &$lists, $redirect, $menus )
+	function edit( &$row, &$lists, $redirect )
 	{
 		global $mainframe;
 		
