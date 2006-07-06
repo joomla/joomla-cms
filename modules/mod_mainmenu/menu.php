@@ -78,7 +78,15 @@ class JMainMenu extends JTree
 
 		switch ($item->type) {
 			case 'separator' :
-				$this->addChild(new JMenuNode(null, $item->name, 'seperator', false));
+				$node = & new JMenuNode(null, $item->name, 'seperator', false);
+				if (isset($item->mid)) {
+					$nid = $item->mid;
+				} else {
+					$nid = $item->id;
+				}
+				$this->_nodeHash[$nid] =& $node;
+				$this->_current =& $this->_nodeHash[$item->parent];
+				$this->addChild($node, true);
 				return;
 				break;
 
