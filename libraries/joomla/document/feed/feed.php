@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.application.extension.component');
+
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
@@ -207,13 +209,7 @@ class JDocumentFeed extends JDocument
 
 		$renderer = $this->loadRenderer($format);
 
-		$path 	= JApplicationHelper::getPath( 'front', $option );
-		$task 	= JRequest::getVar( 'task' );
-
-		//load common language files
-		$lang =& $mainframe->getLanguage();
-		$lang->load($option);
-		require_once( $path );
+		echo JComponentHelper::renderComponent($option);
 
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );

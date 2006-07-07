@@ -69,6 +69,8 @@ class JComponentHelper
 	 */
 	function isEnabled( $option )
 	{
+		global $mainframe;
+		
 		// TODO: In future versions this should be ACL controlled
 		$enabledList = array(
 			'com_login',
@@ -81,7 +83,7 @@ class JComponentHelper
 			'com_registration'
 		);
 		$component = &JComponentHelper::getInfo( $option );
-		return ($component->enabled | in_array($option, $enabledList));
+		return ($component->enabled | in_array($option, $enabledList) | $mainframe->isAdmin());
 	}
 
 	/**
@@ -158,78 +160,34 @@ class JComponentHelper
 		jimport('joomla.factory');
 		
 		global $mainframe;
-		global $Itemid, $task, $option, $id;
+		global $Itemid, $id; //for backwards compatibility
 
-		$user 		=& $mainframe->getUser();
-		$db			=& $mainframe->getDBO();
+		$database	=& JFactory::getDBO();
 		$acl  		=& JFactory::getACL();
+		
+		$task 	= JRequest::getVar( 'task' );
+		$option = JRequest::getVar('option');
 
-		//For backwards compatibility extract the users gid as globals
-		$gid = $user->get('gid');
+		$file = substr( $component, 4 );
+		$path = JPATH_BASE.DS.'components'.DS.$component;
 
-		//For backwards compatibility extract the config vars as globals
-		$registry =& JFactory::getConfig();
-		foreach (get_object_vars($registry->toObject()) as $k => $v) {
-			$name = 'mosConfig_'.$k;
-			$$name = $v;
-		}
-
-		$enabled = JComponentHelper::isEnabled( $component );
-
-		/*
-		 * Is the component enabled?
-		 */
-		if ( $enabled || $mainframe->isAdmin() )
-		{
-
-			// preload toolbar in case component handles it manually
-			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
-
-			$file = substr( $component, 4 );
-			$path = JPATH_BASE.DS.'components'.DS.$component;
-
-			if(is_file($path.DS.$file.'.php')) {
-				$path = $path.DS.$file.'.php';
-			} else {
-				$path = $path.DS.'admin.'.$file.'.php';
-			}
-
-			$task 	= JRequest::getVar( 'task' );
-			$ret 	= mosMenuCheck( $Itemid, $component, $task, $user->get('gid') );
-
-			$content = '';
-			ob_start();
-
-			$msg = stripslashes(urldecode(JRequest::getVar( 'josmsg' )));
-			if (!empty($msg)) {
-				echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
-			}
-
-			if ($ret) {
-				//load common language files
-				$lang =& $mainframe->getLanguage();
-				$lang->load($component);
-				require_once $path;
-			} else {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			}
-
-
-			$contents = ob_get_contents();
-			ob_end_clean();
-
-
-			/*
-			 * Build the component toolbar
-			 * - This will move to a MVC controller at some point in the future
-			 */
-			if ($path = JApplicationHelper::getPath( 'toolbar' )) {
-				include_once( $path );
-			}
-
-			return $contents;
+		if(is_file($path.DS.$file.'.php')) {
+			$path = $path.DS.$file.'.php';
 		} else {
-			JError::raiseError( 404, JText::_('Component Not Found') );
+			$path = $path.DS.'admin.'.$file.'.php';
 		}
+			
+		$contents = '';
+		ob_start();
+		
+		//load common language files
+		$lang =& $mainframe->getLanguage();
+		$lang->load($component);
+		require_once $path;
+	
+		$contents = ob_get_contents();
+		ob_end_clean();
+
+		return $contents;
 	}
 }

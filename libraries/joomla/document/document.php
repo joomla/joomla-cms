@@ -589,7 +589,8 @@ class JDocument extends JObject
 
 		$class	=	'JDocumentRenderer_' . $type;
 
-		if( !class_exists( $class ) ) {
+		if( !class_exists( $class ) ) 
+		{
 			if(!file_exists(dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php')) {
 				return null;
 			}

@@ -167,7 +167,7 @@ class JDocumentHTML extends JDocument
 	function display( $caching = false, $compress = false, $params = array())
 	{
 		global $mainframe;
-
+		
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = $params['template'];
@@ -177,64 +177,44 @@ class JDocumentHTML extends JDocument
 			$template = '_system';
 		}
 
-		// Page caching
-		// For now page caching will only be used for anonymous users
-		$cache = JFactory::getCache('page', 'page');
-		$cache->setCaching( 0 );
-		$cache->setCacheValidation(true);
-
-
-		// Compute unique cache identifier for the page we're about
-		// to cache. We'll assume that the page's output depends on
-		// the HTTP GET variables
-
-		$cacheId = $cache->generateId(array_push($_GET, $mainframe->getBaseURL()));
-
-		if(!$data = $cache->loadPage($cacheId, 'page'))
-		{
-		   /*
-			* Buffer the output of the component before loading the template.  This is done so
-		 	* that non-display tasks, like save, published, etc, will not go thru the overhead of
-		 	* loading the template if it simply redirected.
-		 	*/
-			if($component = $mainframe->getOption()) {
-				$renderer = $this->loadRenderer( 'component' );
-				$result   = $renderer->render($component);
-				$this->set('component', null, $result);
-			}
-
-			//create the document engine
-			$this->_engine = $this->_initEngine($template, $caching);
-
-			// parse
-			$this->_parseTemplate($directory.DS.$template, $file);
-
-			// buffer
-			$this->_bufferTemplate($params);
-
-			// render
-			$this->_renderTemplate($params);
-
-			// fecth
-			$data = $this->_engine->fetch('document');
-
-			//cache the data
-			$cache->savePage($data);
-
-			//output
-			//header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-			//header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-			//header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-			//header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
-			//header( 'Pragma: no-cache' );										// HTTP/1.0
+		/*
+		 * Buffer the output of the component before loading the template.  This is done so
+		 * that non-display tasks, like save, published, etc, will not go thru the overhead of
+		 * loading the template if it simply redirected.
+		 */
+		if($component = $mainframe->getOption()) {
+			$renderer = $this->loadRenderer( 'component' );
+			$result   = $renderer->render($component);
+			$this->set('component', null, $result);
 		}
 
+		//create the document engine
+		$this->_engine = $this->_initEngine($template, $caching);
+
+		// parse
+		$this->_parseTemplate($directory.DS.$template, $file);
+
+		// buffer
+		$this->_bufferTemplate($params);
+
+		// render
+		$this->_renderTemplate($params);
+
+		// fecth
+		$data = $this->_engine->fetch('document');
+
+		//output
+		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
+		header( 'Pragma: no-cache' );										// HTTP/1.0
+		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
+		
 		//compress
 		if($compress) {
 			$data = $this->compress($data);
 		}
-
-		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
 		echo $data;
 

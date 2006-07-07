@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.application.extension.component');
+
 /**
  * DocumentPDF class, provides an easy interface to parse and display a pdf document
  *
@@ -51,16 +53,10 @@ class JDocumentPDF extends JDocument
 	function display( $cache = false, $compress = false, $params = array())
 	{
 		global $mainframe;
-
+		
 		$option = $mainframe->getOption();
-
-		$path 	= JApplicationHelper::getPath( 'front', $option );
-		$task 	= JRequest::getVar( 'task' );
-
-		//load common language files
-		$lang =& $mainframe->getLanguage();
-		$lang->load($option);
-		require_once( $path );
+		
+		echo JComponentHelper::renderComponent($option);
 
 		parent::display( $cache, $compress, $params );
 	}
