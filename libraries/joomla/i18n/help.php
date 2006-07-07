@@ -20,7 +20,8 @@
  * @subpackage	I18N
  * @since		1.5
  */
-class JHelp {
+class JHelp 
+{
 
 	/**
 	* Create an URL for a giving help file reference

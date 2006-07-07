@@ -109,6 +109,14 @@ JMediaManager.prototype = {
 		}
 		
 		return args['cFolder'];
+	},
+	
+	addFile: function() 
+	{
+		uploads = document.getElementById( 'uploads' );
+		upload  = uploads.childNodes[1].cloneNode(true);
+		uploads.appendChild( upload );
+		return false;
 	}
 }
 

@@ -218,8 +218,8 @@ class JMediaController
 
 		//attach stylesheet to document
 		$doc = & $mainframe->getDocument();
-		$doc->addStyleSheet('components/com_media/includes/popup-imageupload.css');
-		$doc->addScript('components/com_media/includes/popup-imageupload.js');
+		$doc->addStyleSheet('components/com_media/assets/popup-imageupload.css');
+		$doc->addScript('components/com_media/assets/popup-imageupload.js');
 
 		JMediaViews::popupUpload($dirPath, $msg);
 	}
@@ -278,8 +278,8 @@ class JMediaController
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		$doc = & $mainframe->getDocument();
-		$doc->addStyleSheet('components/com_media/includes/popup-imagemanager.css');
-		$doc->addScript('components/com_media/includes/popup-imagemanager.js');
+		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');
+		$doc->addScript('components/com_media/assets/popup-imagemanager.js');
 		$doc->addScript( $url. 'includes/js/moofx/moo.fx.js' );
 		$doc->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 
@@ -334,7 +334,7 @@ class JMediaController
 
 		//attach stylesheet to document
 		$doc = & $mainframe->getDocument();
-		$doc->addStyleSheet('components/com_media/includes/popup-imagelist.css');
+		$doc->addStyleSheet('components/com_media/assets/popup-imagelist.css');
 
 		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {

@@ -28,3 +28,5 @@
 #folderview input#foldername   { width: 20%; }
 #folderview iframe#folderframe { height: 100%; }
 
+#uploads .upload { padding: 4px; }
+

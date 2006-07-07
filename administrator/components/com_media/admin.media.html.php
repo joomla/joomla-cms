@@ -48,8 +48,8 @@ class JMediaViews
 
 		$document =& $mainframe->getDocument();
 		$document->set('module', 'submenu', $listStyle);
-		$document->addScript('components/com_media/includes/mediamanager.js');
-		$document->addStyleSheet('components/com_media/includes/mediamanager.css');
+		$document->addScript('components/com_media/assets/mediamanager.js');
+		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 
 		JMediaViews::_loadJS();
 		?>
@@ -79,17 +79,18 @@ class JMediaViews
 		</table>
 		<fieldset>
 			<legend><?php echo JText::_( 'Upload File' ); ?></legend>
-			<button onclick="jsAddFile();return false">
-				+ <?php echo JText::_( 'Add more files' ); ?>
-			</button>
-			[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]
 			<div id="uploads">
-				<div style="padding: 4px;">
+				<div class="upload">
+					<button onclick="document.mediamanager.addFile();return false;">
+						+ <?php echo JText::_( 'Add file' ); ?>
+					</button>
 					<input class="inputbox" name="uploads[]" type="file" size="60" />
+					[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]
 				</div>
 			</div>
-
-			<button onclick="document.mediamanager.onuploadfiles()" /><?php echo JText::_( 'Upload Files' ); ?></button>
+			<div style="padding: 4px;">
+				<button onclick="document.mediamanager.onuploadfiles()" /><?php echo JText::_( 'Upload Files' ); ?></button>
+			</div>
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_media" />
@@ -117,7 +118,7 @@ class JMediaViews
 		$doc =& $mainframe->getDocument();
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
-		$doc->addStyleSheet('components/com_media/includes/medialist-'.$style.'.css');
+		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
 
 		$style = ucfirst($style);
 		JMediaViews::imageStyle($current);
@@ -248,11 +249,6 @@ class JMediaViews
 			</div>
 			<div class="imginfoBorder">
 				<?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?>
-				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
-						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-					</a>
-				</div>
 			</div>
 		</div>
 		<?php
@@ -281,11 +277,6 @@ class JMediaViews
 			</div>
 			<div class="imginfoBorder">
 				<?php echo substr( $dir, 0, 10 ) . ( strlen( $dir ) > 10 ? '...' : ''); ?>
-				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
-						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-					</a>
-				</div>
 			</div>
 		</div>
 		<?php
@@ -575,32 +566,10 @@ class JMediaViews
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
-		var basepath = '".$base.'/images'."';
-		var cStyle = '".$style."';
-
-		function jsAddFile() {
-			div = document.getElementById( 'uploads' );
-
-			div.appendChild( writeUploadField() );
-			return false;
-		}
-
-		function writeUploadField() {
-			// <input class=\"inputbox\" name=\"upload\" type=\"file\" size=\"70\" />
-			div = document.createElement( 'div' );
-			div.setAttribute( 'style', 'padding: 4px' );
-
-			tag = document.createElement( 'input' );
-			tag.setAttribute( 'type', 'file' );
-			tag.setAttribute( 'name', 'uploads[]' );
-			tag.setAttribute( 'size', '60' );
-			tag.setAttribute( 'class', 'inputbox' );
-			div.appendChild( tag );
-
-			return div;
-		}
+			var basepath = '".$base.'/images'."';
+			var cStyle = '".$style."';
 		" ;
-		global $mainframe;
+		
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);
 	}
