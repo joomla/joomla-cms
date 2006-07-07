@@ -47,7 +47,6 @@ class TOOLBAR_banners {
 	function _DEFAULT() {
 
 		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
-		JMenuBar::media_manager( 'banners' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::deleteList();
