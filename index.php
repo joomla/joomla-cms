@@ -41,15 +41,8 @@ $option = strtolower( JRequest::getVar( 'option' ) );
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
-// login user
-//if ($option == 'login')  {
-//	$mainframe->login();
-//}
-
-// logout user
-//if ($option == 'logout') {
-//	$mainframe->logout();
-//}
+// set language
+$mainframe->setLanguage();
 
 $Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 if ($option == '' || $option == 'login' || $option == 'logout')
@@ -88,9 +81,6 @@ if ( !$Itemid ) {
 // when no Itemid give a default value
 	$Itemid = 99999999;
 }
-
-// set language
-//$mainframe->setLanguage($mainframe->getUserStateFromRequest( "lang", 'lang' ));
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );

@@ -53,14 +53,6 @@ class JApplication extends JObject
 	var $_clientId = null;
 
 	/**
-	 * The language object
-	 *
-	 * @var object
-	 * @access protected
-	 */
-	var $_lang  = null;
-
-	/**
 	 * The database object
 	 *
 	 * @var object
@@ -450,10 +442,9 @@ class JApplication extends JObject
 
 		// if a language was specified at login it has priority
 		// otherwise use user or default language settings
-		if (empty($lang)) {
-			/*
-			 * if the user has a prefered language - use it else use default
-			 */
+		if (empty($lang)) 
+		{
+			//if the user has a prefered language - use it else use default
 			if( $this->isAdmin() ) {
 				$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
 			} else {
@@ -461,19 +452,18 @@ class JApplication extends JObject
 			}
 		}
 
-		/*
-		 * One last check to make sure we have something
-		 */
+		//One last check to make sure we have something
 		if (empty($lang)) {
 			$lang = 'en-GB';
 		}
 
 		//Set the language in the class
-		$this->_lang =& JLanguage::getInstance( $lang );
-		$this->_lang->setDebug( $this->getCfg('debug') );
-
+		$conf =& JFactory::getConfig();
+		$conf->setValue('config.language', $lang);
+		
 		// create the backward compatible language value for old 3PD components
-		$GLOBALS['mosConfig_lang']  = $this->_lang->getBackwardLang();
+		$lang =& JFactory::getLanguage();
+		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
 	}
 
 	/**
@@ -610,11 +600,9 @@ class JApplication extends JObject
 	*/
 	function &getLanguage( )
 	{
-		if(!is_object($this->_lang)) {
-			$this->setLanguage();
-		}
-
-		return $this->_lang;
+		$instance =& JFactory::getLanguage();
+		$instance->setDebug( $this->getCfg('debug'));
+		return $instance;
 	}
 	
 	/**

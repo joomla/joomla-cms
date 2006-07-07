@@ -24,5 +24,6 @@ class JFrameworkConfig
 	var $debug 		= 0;
 	var $caching 	= '0';
 	var $cachetime  = '900';
+	var $language  	= 'en-GB'; 
 }
 ?>

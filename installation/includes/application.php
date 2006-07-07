@@ -55,16 +55,14 @@ class JInstallation extends JApplication
 			$lang = JLanguageHelper::detectLanguage();
 		}
 
-		/*
-		 * One last check to make sure we have something
-		 */
+		// One last check to make sure we have something
 		if (empty($lang)) {
 			$lang = 'en-GB';
 		}
 
 		//Set the language in the class
-		$this->_lang =& JLanguage::getInstance( $lang );
-		$this->_lang->setDebug( $this->getCfg('debug') );
+		$conf =& JFactory::getConfig();
+		$conf->setValue('config.language', $lang);
 	}
 
 	/**

@@ -50,11 +50,11 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId(
 // load a stored user state if it exists
 $mainframe->loadStoredUserState();
 
-// Get the global option variable and create the pathway
-$option = strtolower( JRequest::getVar( 'option', null ) );
-
 // set language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
+
+// Get the global option variable and create the pathway
+$option = strtolower( JRequest::getVar( 'option', null ) );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );

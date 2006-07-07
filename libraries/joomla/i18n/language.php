@@ -34,8 +34,7 @@ class JText
 	 */
 	function _($string, $jsSafe = false)
 	{
-		global $mainframe;
-		$lang = & $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 		return $lang->_($string, $jsSafe);
 	}
 
@@ -48,8 +47,7 @@ class JText
 	 */
 	function sprintf($string)
 	{
-		global $mainframe;
-		$lang = & $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 		$args = func_get_args();
 		if (count($args) > 0) {
 			$args[0] = $lang->_($args[0]);
@@ -66,8 +64,7 @@ class JText
 	 */
 	function printf($string)
 	{
-		global $mainframe;
-		$lang = & $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 		$args = func_get_args();
 		if (count($args) > 0) {
 			$args[0] = $lang->_($args[0]);

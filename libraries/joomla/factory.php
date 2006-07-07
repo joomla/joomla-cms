@@ -47,6 +47,25 @@ class JFactory
 	}
 	
 	/**
+	 * Get an framework language object
+	 * 
+	 * Returns a reference to the global JLanguage object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @return object JLanguage
+	 */
+	function &getLanguage()
+	{
+		jimport('joomla.i18n.language');
+		
+		$conf =& JFactory::getConfig();
+		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
+		
+		return $lang;
+	}
+	
+	/**
 	 * Get a cache object
 	 * 
 	 * Returns a reference to the global JCache object, only creating it
