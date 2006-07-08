@@ -153,6 +153,7 @@ function viewModules()
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__modules AS m"
+	. $join
 	. $where
 	;
 	$db->setQuery( $query );

@@ -98,7 +98,8 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( $clientId = 0 ) {
+	function __construct( $clientId = 0 ) 
+	{
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
 	}
@@ -461,8 +462,11 @@ class JApplication extends JObject
 		$conf =& JFactory::getConfig();
 		$conf->setValue('config.language', $lang);
 		
-		// create the backward compatible language value for old 3PD components
+		//set language debug
 		$lang =& JFactory::getLanguage();
+		$lang->setDebug($this->getCfg('debug_lang'));
+		
+		// create the backward compatible language value for old 3PD components
 		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
 	}
 

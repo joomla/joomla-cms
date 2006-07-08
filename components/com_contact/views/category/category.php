@@ -75,7 +75,7 @@ class JContactViewCategory extends JView
 		$qOptions['limitstart']		= $limitstart;
 		$qOptions['order by']		= "$filter_order $filter_order_Dir, cd.ordering";
 
-		$contacts = &$model->getContacts( $qOptions );
+		$contacts = $model->getContacts( $qOptions );
 		$contactCount = $model->getContactCount( $qOptions );
 
 		// find current category

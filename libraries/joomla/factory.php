@@ -57,12 +57,13 @@ class JFactory
 	 */
 	function &getLanguage()
 	{
-		jimport('joomla.i18n.language');
+		static $instance;
 		
-		$conf =& JFactory::getConfig();
-		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
+		if (!is_object($instance)) {
+			$instance = JFactory::_createLanguage();
+		}
 		
-		return $lang;
+		return $instance;
 	}
 	
 	/**
@@ -154,6 +155,7 @@ class JFactory
 		if (!is_object($instance)) 
 		{
 			$conf =& JFactory::getConfig();
+			
 			$instance = JFactory::_createDBO();
 			$instance->debug( $conf->getValue('config.debug'));
 		}
@@ -411,6 +413,23 @@ class JFactory
 		$tmpl->addGlobalVar( 'REQUEST_URL',			JRequest::getUrl() );
 
 		return $tmpl;
+	}
+	
+	/**
+	 * Create a language object
+	 *
+	 * @access private
+	 * @return object
+	 * @since 1.5
+	 */
+	function &_createLanguage()
+	{
+		$conf =& JFactory::getConfig();
+		
+		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
+		$lang->setDebug(true);
+		
+		return $lang;
 	}
 }
 ?>

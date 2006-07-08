@@ -610,7 +610,7 @@ class mosHTML {
 		$replacement 	.= "\n document.write( '<span style=\'display: none;\'>' );";
 		$replacement 	.= "\n //-->";
 		$replacement 	.= "\n </script>";
-		$replacement 	.= _CLOAKING;
+		$replacement 	.= JText::_('CLOAKING');
 		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
 		$replacement 	.= "\n document.write( '</' );";
