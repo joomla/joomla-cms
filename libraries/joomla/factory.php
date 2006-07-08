@@ -357,7 +357,7 @@ class JFactory
 		switch ($mailer) 
 		{
 			case 'smtp' :
-				$mail->useSMTP($smtpauth, $smpthost, $smtpuser, $smtppass);
+				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass);
 				break;
 			case 'sendmail' :
 				$mail->useSendmail();
