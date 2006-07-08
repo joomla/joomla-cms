@@ -19,7 +19,7 @@ class JContentArticleHelper
 		// Initialize some variables
 		$app		= &$parent->getApplication();
 		$user		= &$app->getUser();
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
 		$Itemid 	= $menu->id;
 		$params		= &JComponentHelper::getMenuParams();

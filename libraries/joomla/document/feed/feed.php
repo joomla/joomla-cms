@@ -209,7 +209,7 @@ class JDocumentFeed extends JDocument
 
 		$renderer = $this->loadRenderer($format);
 
-		echo JComponentHelper::renderComponent($option);
+		echo JComponentHelper::renderComponent();
 
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );

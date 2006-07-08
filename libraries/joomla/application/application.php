@@ -381,7 +381,38 @@ class JApplication extends JObject
 	 * @since 1.5
 	 */
 	function getOption() {
-		return JRequest::getVar('option');
+		return strtolower(JRequest::getVar('option', null));
+	}
+	
+	/**
+	 * Return the application itemid
+	 *
+	 * @access public
+	 * @return string Option
+	 * @since 1.5
+	 */
+	function getItemid() 
+	{
+		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
+		$option = $this->getOption();
+		
+		// checking if we can find the Itemid thru the content
+		if ( $itemid === 0 ) 
+		{
+			if($option == 'com_content') 
+			{
+				require_once (JApplicationHelper::getPath('helper', 'com_content'));
+				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+				$itemid = JContentHelper::getItemid($id);
+			} 
+			else
+			{
+				$menu =& JMenu::getInstance();
+				$itemid = $menu->isDefault();
+			}
+		}
+		
+		return $itemid;
 	}
 
 	/**
@@ -871,14 +902,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getItemid instead
-	* @since 1.5
-	*/
-	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
-		return JApplicationHelper::getItemid($id);
-	}
-
-	/**
 	* Depreacted, use JApplicationHelper::getItemCount instead
 	* @since 1.5
 	*/
@@ -1017,7 +1040,7 @@ class JApplicationHelper
 	 * @since 1.5
 	 */
 	function getItemCount( $type ) {
-		$menu = JMenu::getInstance();
+		$menu = &JMenu::getInstance();
 		return count($menu->getItems('type', $type));
 	}
 

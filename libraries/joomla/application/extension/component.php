@@ -112,7 +112,7 @@ class JComponentHelper
 	 */
 	function getMenuName()
 	{
-		$menus	= JMenu::getInstance();
+		$menus	= &JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
 		return $menu->name;
 	}
@@ -129,7 +129,7 @@ class JComponentHelper
 
 		if ($instance == null)
 		{
-			$menus		= JMenu::getInstance();
+			$menus		= &JMenu::getInstance();
 			$menu		= &$menus->getCurrent();
 			$instance	= new JParameter( $menu->params );
 		}
@@ -148,22 +148,35 @@ class JComponentHelper
 
 		if ($instance == null)
 		{
-			$menus		= JMenu::getInstance();
+			$menus		= &JMenu::getInstance();
 			$menu		= &$menus->getCurrent();
 			$instance	= new JParameter( $menu->control );
 		}
 		return $instance;
 	}
 	
-	function renderComponent($component, $params = array())
+	function renderComponent($component = null, $params = array())
 	{
-		jimport('joomla.factory');
-		
 		global $mainframe;
 		global $Itemid, $id; //for backwards compatibility
-
+		
+		$component = is_null($component) ? $mainframe->getOption() : $component;
+		
+		//if no component found return
+		if(empty($component)) {
+			return false;
+		}
+ 		
+		//if component disabled throw error
+		if (! JComponentHelper::isEnabled( $component ) ) {
+			JError::raiseError( 404, JText::_('Component Not Found') );
+		}
+		
 		$database	=& JFactory::getDBO();
 		$acl  		=& JFactory::getACL();
+		
+		$user   = & $mainframe->getUser();
+		$my		= $user->_table;
 		
 		$task 	= JRequest::getVar( 'task' );
 		$option = JRequest::getVar('option');

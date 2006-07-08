@@ -35,73 +35,25 @@ JPluginHelper::importPlugin( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-// Get the global option variable and create the pathway
-$option = strtolower( JRequest::getVar( 'option' ) );
-
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 // set language
 $mainframe->setLanguage();
 
-$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-if ($option == '' || $option == 'login' || $option == 'logout')
-{
-	// TODO: See JMenu::__construct - I think this can be ditched!
-	$query = "SELECT id, link"
-	. "\n FROM #__menu"
-	// . "\n WHERE menutype = 'mainmenu'"   ?? huh?
-	. "\n WHERE (id = $Itemid OR home = 1)"
-	. "\n AND published = 1"
-	. "\n ORDER BY home"
-	. "\n LIMIT 1"
-	;
-	$database->setQuery( $query );
-
-	$menu =& JTable::getInstance('menu', $database );
-	if ($database->loadObject( $menu )) {
-		$Itemid = $menu->id;
-	}
-	$link = $menu->link;
-	if (($pos = strpos( $link, '?' )) !== false) {
-		$link = substr( $link, $pos+1 ). '&Itemid='.$Itemid;
-	}
-	parse_str( $link, $temp );
-	/** this is a patch, need to rework when globals are handled better */
-	foreach ($temp as $k=>$v) {
-		$GLOBALS[$k] = $v;
-		$_REQUEST[$k] = $v;
-		if ($k == 'option') {
-			$option = $v;
-		}
-	}
-}
-
-if ( !$Itemid ) {
-// when no Itemid give a default value
-	$Itemid = 99999999;
-}
-
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
 
-// get the information about the current user from the sessions table
-// Note: Moved to allow for single sign-on bots that can't run with onBeforeStart due to extra setup
-$user	= & $mainframe->getUser();
-$my		= $user->_table;
+// initialise some common request directives
+$option = $mainframe->getOption();
+$Itemid = $mainframe->getItemid();
 
-// checking if we can find the Itemid thru the content
-if ( $option == 'com_content' && $Itemid === 0 ) {
-	$id = JRequest::getVar( 'id', 0, '', 'int' );
-	require_once (JApplicationHelper::getPath('helper', 'com_content'));
-	$Itemid = JContentHelper::getItemid($id);
-}
-
-// patch to lessen the impact on templates
-if ($option == 'search') {
-	$option = 'com_search';
+//TODO :: should we show a login screen here ?
+$menu =& JMenu::getInstance();
+if(!$menu->authorize($Itemid, $mainframe->getUser())) {
+	JError::raiseError( 403, JText::_('Not Authorised') );
 }
 
 // set for overlib check

@@ -67,6 +67,33 @@ class JMenu extends JObject
 
 		$this->_current_id = JRequest::getVar( $this->_current_uri_var, $home, '', 'int' );
 	}
+	
+	/**
+	 * Returns a reference to the global JMenu object, only creating it if it
+	 * doesn't already exist.
+	 *
+	 * This method must be invoked as:
+	 * 		<pre>  $menu = &JMenu::getInstance();</pre>
+	 *
+	 * @access	public
+	 * @return	JMenu	The Menu object.
+	 * @since	1.5
+	 */
+	function &getInstance($id = 'all')
+	{
+		static $instances;
+
+		if (!isset ($instances)) {
+			$instances = array ();
+		}
+
+		if (empty ($instances[$id])) {
+			$instances[$id] =& new JMenu($id);
+		}
+
+		$instance = $instances[$id];
+		return $instance;
+	}
 
 	/**
 	 * Loads the entire menu table into memory
@@ -112,32 +139,6 @@ class JMenu extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global JMenu object, only creating it if it
-	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = JMenu::getInstance();</pre>
-	 *
-	 * @access	public
-	 * @return	JMenu	The Menu object.
-	 * @since	1.5
-	 */
-	function getInstance($id = 'all')
-	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
-		if (empty ($instances[$id])) {
-			$instances[$id] = & new JMenu($id);
-		}
-
-		return $instances[$id];
-	}
-
-	/**
 	 * Getter for a menu item
 	 * 
 	 * @param int The item id
@@ -148,7 +149,7 @@ class JMenu extends JObject
 		if (isset($this->_menuitems[$id])) {
 			return $this->_menuitems[$id];
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -190,23 +191,42 @@ class JMenu extends JObject
 	 */
 	function isDefault( $id = 0 )
 	{
-		$menu = JMenu::getInstance();
-		if ($id)
-		{
+		$menu = &JMenu::getInstance();
+		
+		if ($id) {
 			$item = $menu->getItem( $id );
-		}
-		else
-		{
+		} else {
 			$item = $menu->getCurrent();
 		}
-		if ($item)
-		{
+		
+		if ($item) {
 			return (boolean) $item->home;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Method to check JMenu object authorization against an access control
+	 * object and optionally an access extension object
+	 *
+	 * @access 	public
+	 * @param	integer	$itemid		The itemid
+	 * @param	object	$user		The user object
+	 * @return	boolean	True if authorized
+	 */
+	function authorize($itemid, &$user) 
+	{
+		// Initialize variables
+		$results	= array();
+		$access 	= 0;
+		
+		foreach ($results as $result) {
+			$access = max( $access, $result->access );
+		}
+	
+		echo $user->get('usertype');
+		return ($access <= $user->get('usertype'));
 	}
 }
 ?>

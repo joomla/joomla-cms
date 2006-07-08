@@ -61,7 +61,7 @@ class JContentViewCategory extends JView
 		$user		= &$app->getUser();
 		$doc		= &$app->getDocument();
 		$mParams	= &JComponentHelper::getMenuParams();
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
 		$Itemid		= $menu->id;
 		$gid 		= $user->get('gid');
@@ -120,7 +120,7 @@ class JContentViewCategory extends JView
 	{
 		$app		= & $this->getApplication();
 		$user		= & $app->getUser();
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 
@@ -411,7 +411,7 @@ class JContentViewCategory extends JView
 		$doc =& $app->getDocument();
 
 		// Initialize some variables
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
 		$params		= &JComponentHelper::getMenuParams();
 		$Itemid		= $menu->id;

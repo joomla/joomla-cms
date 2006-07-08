@@ -40,7 +40,7 @@ class JArchiveViewArchive extends JView
 	function display()
 	{
 		// Initialize some variables
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
 		$Itemid		= $menu->id;
 		$task		= JRequest::getVar('task');
@@ -64,7 +64,7 @@ class JArchiveViewArchive extends JView
 		// Initialize some variables
 		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		$menus	= JMenu::getInstance();
+		$menus	= &JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
 		$params	= &JComponentHelper::getMenuParams();
 		$Itemid	= $menu->id;
@@ -307,7 +307,7 @@ class JArchiveViewArchive extends JView
 		// Initialize some variables
 		$app		= & $this->getApplication();
 		$user		= & $app->getUser();
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 

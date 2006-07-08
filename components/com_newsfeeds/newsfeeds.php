@@ -85,7 +85,7 @@ class NewsfeedsController
 		$categories = $db->loadObjectList();
 		
 		// Load the menu object and parameters
-		$menu = JMenu::getInstance();
+		$menu = &JMenu::getInstance();
 		$menu = $menu->getItem($Itemid);
 
 		// Parameters

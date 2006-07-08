@@ -23,7 +23,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 
 	// Menu Link is a special type that is a link to another item
 	if ($mitem->type == 'menulink') {
-		$menu = JMenu::getInstance();
+		$menu = &JMenu::getInstance();
 		if ($tmp = $menu->getItem($mitem->link)) {
 				$name = $mitem->name;
 				$mid = $mitem->id;

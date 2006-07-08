@@ -291,6 +291,19 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
 }
 
 /**
+* Legacy function, use JMenu::authorize instead
+*
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) 
+{
+	$user =& $mainframe->getUser();
+	$menu =& JMenu::getInstance();
+	$menu->authorize($Itemid, $user);
+}
+
+/**
  * Legacy function, handled by JDocument Zlib outputfilter
  *
  * @deprecated	As of version 1.5

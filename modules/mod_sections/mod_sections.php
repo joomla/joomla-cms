@@ -18,7 +18,7 @@ $db			= & $mainframe->getDBO();
 $user		= & $mainframe->getUser();
 $gid		= $user->get('gid');
 $nullDate	= $db->getNullDate();
-$menu		= JMenu::getInstance();
+$menu		= &JMenu::getInstance();
 
 $count	= intval($params->get('count', 20));
 $access	= !$mainframe->getCfg('shownoauth');

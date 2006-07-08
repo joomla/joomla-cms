@@ -25,7 +25,7 @@ function showWrap( $option )
 {
 	global $Itemid, $mainframe;
 
-	$menu = JMenu::getInstance();
+	$menu = &JMenu::getInstance();
 	$menu = $menu->getItem($Itemid);
 
 	$params = new JParameter( $menu->params );

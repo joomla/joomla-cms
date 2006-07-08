@@ -52,12 +52,7 @@ class JDocumentPDF extends JDocument
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
-		global $mainframe;
-		
-		$option = $mainframe->getOption();
-		
-		echo JComponentHelper::renderComponent($option);
-
+		echo JComponentHelper::renderComponent();
 		parent::display( $cache, $compress, $params );
 	}
 }

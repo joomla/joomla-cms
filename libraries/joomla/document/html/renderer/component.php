@@ -42,49 +42,35 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 			$$name = $v;
 		}
 
-		// Is the component enabled?
-		if ( JComponentHelper::isEnabled( $component ) )
-		{
-			// preload toolbar in case component handles it manually
-			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
+		// preload toolbar in case component handles it manually
+		require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 
-			//$ret 	= mosMenuCheck( $Itemid, $component, $task, $user->get('gid') );
-			$ret = 1;
+		$contents = '';
+		ob_start();
 
-			$contents = '';
-			ob_start();
-
-			$msg = stripslashes(urldecode(JRequest::getVar( 'josmsg' )));
-			if (!empty($msg)) {
-				echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
-			}
-
-			if ($ret) {
-				echo JComponentHelper::renderComponent($component);
-			} else {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			}
-
-			$contents = ob_get_contents();
-			ob_end_clean();
+		$msg = stripslashes(urldecode(JRequest::getVar( 'josmsg' )));
+		if (!empty($msg)) {
+			echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
+		}
+	
+		echo JComponentHelper::renderComponent($component);
+		
+		$contents = ob_get_contents();
+		ob_end_clean();
 			
 	
-			/*
-			 * Build the component toolbar
-			 * - This will move to a MVC controller at some point in the future
-			 */
-			if ($path = JApplicationHelper::getPath( 'toolbar' )) 
-			{
-				$task = JRequest::getVar( 'task' );
-				include_once( $path );
-			}
-
-			return $contents;
-		} 
-		else 
+		/*
+		 * Build the component toolbar
+		 * - This will move to a MVC controller at some point in the future
+		 */
+		if ($path = JApplicationHelper::getPath( 'toolbar' )) 
 		{
-			JError::raiseError( 404, JText::_('Component Not Found') );
+			global $mainframe;
+			$task = JRequest::getVar( 'task' );
+			include_once( $path );
 		}
+
+		return $contents;
 	}
 }
 ?>

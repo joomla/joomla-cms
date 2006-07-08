@@ -349,7 +349,7 @@ class JContentHelper
 			global $mainframe;
 
 			$db = & $mainframe->getDBO();
-			$menu = JMenu::getInstance();
+			$menu =& JMenu::getInstance();
 			$items = $menu->getMenu();
 			$Itemid = null;
 			$component = JComponentHelper::getInfo('com_content');

@@ -65,7 +65,7 @@ class JContentViewSection extends JView
 		$user	= &$app->getUser();
 		$doc	= &$app->getDocument();
 		$mParams	= &JComponentHelper::getMenuParams();
-		$menus	= JMenu::getInstance();
+		$menus	= &JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
 		$Itemid = $menu->id;
 		$gid 	= $user->get('gid');
@@ -141,9 +141,9 @@ class JContentViewSection extends JView
 		$doc = $app->getDocument();
 
 		//Initialize some variables
-		$menus		= JMenu::getInstance();
+		$menus		= &JMenu::getInstance();
 		$menu		= &$menus->getCurrent();
-		$mParams		= &JComponentHelper::getMenuParams();
+		$mParams	= &JComponentHelper::getMenuParams();
 		$Itemid		= $menu->id;
 
 		// Lets get our data from the model

@@ -109,7 +109,7 @@ class WeblinksController
 		$pathway->setItemName(1, JText::_('Links'));
 
 		// Load the menu object and parameters
-		$menu = JMenu::getInstance();
+		$menu = &JMenu::getInstance();
 		$menu = $menu->getItem($Itemid);
 
 		$params = new JParameter($menu->params);

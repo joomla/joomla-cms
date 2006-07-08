@@ -65,7 +65,7 @@ switch ( $params->get( 'menu_style', 'list' ) ) {
 		// Initialize some variables
 		$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$menu = & new JMainMenu($params, $Itemid);
-		$items = JMenu::getInstance();
+		$items = &JMenu::getInstance();
 
 		// Get Menu Items
 		$rows = $items->getItems('menutype', $params->get('menutype'));

@@ -71,7 +71,9 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 		<?php
 	}
 }
-global $user, $acl;
+global $acl;
+
+$user =& $mainframe->getUser();
 
 // Disable edit ability icon
 $access = new stdClass();

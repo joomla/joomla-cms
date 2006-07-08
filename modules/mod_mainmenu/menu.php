@@ -62,7 +62,7 @@ class JMainMenu extends JTree
 
 		// Menu Link is a special type that is a link to another item
 		if ($item->type == 'menulink') {
-			$menu = JMenu::getInstance();
+			$menu = &JMenu::getInstance();
 			if ($tmp = $menu->getItem($item->link)) {
 				$name = $item->name;
 				$mid = $item->id;

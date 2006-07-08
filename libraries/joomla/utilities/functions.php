@@ -217,23 +217,6 @@ function josArrayToObject($p_array) {
 }
 
 /**
- * Utility function to convert an array to an INI string.
- *
- * @package	Joomla.Framework
- * @param	array	$p_array	The array to convert.
- * @return	string	The INI string.
- * @since	1.5
- */
-function josArrayToINI($p_array)
-{
-	$str = null;
-	foreach($p_array as $k => $v) {
-		$str .= "$k=$v\n";
-	}
-	return $str;
-}
-
-/**
  * Utility function redirect the browser location to another url
  *
  * @package Joomla.Framework
@@ -409,47 +392,6 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
 
 	return $order;
-}
-
-/**
-* Checks whether a menu option is within the users access level
-*
-* @package Joomla.Framework
-* @param int Item id number
-* @param string The menu option
-* @param int The users group ID number
-* @param database A database connector object
-* @return boolean True if the visitor's group at least equal to the menu access
-* @since 1.0
-*/
-function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
-
-	// Initialize variables
-	$results	= array();
-	$dblink		= "index.php?option=$menu_option";
-	$access 	= 0;
-
-	$menu = JMenu::getInstance();
-	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
-		$results[] = $menu->getItem($Itemid);
-	} else {
-		if ($task!='') {
-			$dblink	.= "&task=$task";
-		}
-
-		$items = $menu->getMenu();
-		foreach ($items as $item) {
-			if (strpos($item->link, $dblink)) {
-				$results[] = $item;
-			}
-		}		
-	}
-
-	foreach ($results as $result) {
-		$access = max( $access, $result->access );
-	}
-
-	return ($access <= $gid);
 }
 
 /**

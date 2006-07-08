@@ -166,8 +166,6 @@ class JDocumentHTML extends JDocument
 	 */
 	function display( $caching = false, $compress = false, $params = array())
 	{
-		global $mainframe;
-		
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = $params['template'];
@@ -182,11 +180,9 @@ class JDocumentHTML extends JDocument
 		 * that non-display tasks, like save, published, etc, will not go thru the overhead of
 		 * loading the template if it simply redirected.
 		 */
-		if($component = $mainframe->getOption()) {
-			$renderer = $this->loadRenderer( 'component' );
-			$result   = $renderer->render($component);
-			$this->set('component', null, $result);
-		}
+		$renderer = $this->loadRenderer( 'component' );
+		$result   = $renderer->render();
+		$this->set('component', null, $result);
 
 		//create the document engine
 		$this->_engine = $this->_initEngine($template, $caching);
@@ -309,10 +305,11 @@ class JDocumentHTML extends JDocument
 	 */
 	function _loadTemplate($directory, $filename)
 	{
-		global $mainframe, $acl;
+		global $mainframe;
 		global $Itemid, $task, $option, $_VERSION;
 
-		$db =& JFactory::getDBO();
+		$db  =& JFactory::getDBO();
+		$acl =& JFactory::getACL();
 		
 		//For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();

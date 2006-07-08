@@ -62,7 +62,7 @@ class JContentViewArticle extends JView
 		// Initialize variables
 		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		$menus	= JMenu::getInstance();
+		$menus	= &JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 		$linkOn = null;
@@ -131,7 +131,7 @@ class JContentViewArticle extends JView
 		$app	= & $this->getApplication();
 		$doc	= & $app->getDocument();
 		$user	= & $app->getUser();
-		$menus	= JMenu::getInstance();
+		$menus	= &JMenu::getInstance();
 		$menu	= &$menus->getCurrent();
 		$Itemid	= $menu->id;
 
@@ -486,7 +486,7 @@ class JContentViewArticle extends JView
 		// Initialize some variables
 		$app		= & $this->getApplication();
 //		$user		= & $app->getUser();
-//		$menus		= JMenu::getInstance();
+//		$menus		= &JMenu::getInstance();
 //		$menu		= &$menus->getCurrent();
 		$article	= & $this->get( 'Article' );
 		//$Itemid	= $menu->id;

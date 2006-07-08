@@ -231,7 +231,7 @@ class JView extends JObject {
 	 */
 	function &getCurrentMenu()
 	{
-		$menus	= JMenu::getInstance();
+		$menus	= &JMenu::getInstance();
 		$menu	= $menus->getCurrent();
 		return $menu;
 	}

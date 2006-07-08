@@ -20,12 +20,6 @@ require_once(  JPATH_BASE.'/includes/defines.php'       );
 require_once ( JPATH_BASE.'/includes/application.php'   );
 require_once ( JPATH_BASE.'/includes/template.html.php' );
 
-// initialise some common request directives
-$task 		= JRequest::getVar( 'task' );
-$section 	= JRequest::getVar( 'section' );
-$id         = JRequest::getVar( 'id', 0, '', 'int' );
-$cid		= JRequest::getVar( 'cid', null, 'post' );
-
 // create the mainframe object
 $mainframe = new JAdministrator();
 
@@ -41,9 +35,6 @@ JPluginHelper::importPlugin( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-//get the acl object (for backwards compatibility)
-$acl =& JFactory::getACL();
-
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
@@ -53,17 +44,17 @@ $mainframe->loadStoredUserState();
 // set language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 
-// Get the global option variable and create the pathway
-$option = strtolower( JRequest::getVar( 'option', null ) );
-
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
 
-// get the information about the current user from the sessions table
-$user   = & $mainframe->getUser();
-$my		= $user->_table;
+// initialise some common request directives
+$option 	= $mainframe->getOption();
+$task 		= JRequest::getVar( 'task' );
+$section 	= JRequest::getVar( 'section' );
+$id         = JRequest::getVar( 'id', 0, '', 'int' );
+$cid		= JRequest::getVar( 'cid', null, 'post' );
 
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
