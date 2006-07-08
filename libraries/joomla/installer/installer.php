@@ -740,7 +740,8 @@ class JInstaller extends JObject
 		 * $p_files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
-		if (is_array($p_files) && count($p_files) > 0) {
+		if (is_array($p_files) && count($p_files) > 0) 
+		{
 			foreach ($p_files as $file)
 			{
 				// Get the source and destination paths
