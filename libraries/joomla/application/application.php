@@ -383,37 +383,6 @@ class JApplication extends JObject
 	function getOption() {
 		return strtolower(JRequest::getVar('option', null));
 	}
-	
-	/**
-	 * Return the application itemid
-	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
-	 */
-	function getItemid() 
-	{
-		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-		$option = $this->getOption();
-		
-		// checking if we can find the Itemid thru the content
-		if ( $itemid === 0 ) 
-		{
-			if($option == 'com_content') 
-			{
-				require_once (JApplicationHelper::getPath('helper', 'com_content'));
-				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
-				$itemid = JContentHelper::getItemid($id);
-			} 
-			else
-			{
-				$menu =& JMenu::getInstance();
-				$itemid = $menu->isDefault();
-			}
-		}
-		
-		return $itemid;
-	}
 
 	/**
 	 * Return the application url

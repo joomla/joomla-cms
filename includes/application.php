@@ -159,6 +159,63 @@ class JSite extends JApplication
 
 		return $this->_document;
 	}
+	
+	/**
+	 * Return the application itemid
+	 *
+	 * @access public
+	 * @return string Option
+	 * @since 1.5
+	 */
+	function getItemid() 
+	{
+		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
+		$option = strtolower(JRequest::getVar('option', null));
+		
+		if ( $itemid === 0 ) 
+		{
+			// checking if we can find the Itemid thru the content
+			if($option == 'com_content') 
+			{
+				require_once (JApplicationHelper::getPath('helper', 'com_content'));
+				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+				$itemid = JContentHelper::getItemid($id);
+			} 
+			else
+			{
+				$menu =& JMenu::getInstance();
+				$itemid = $menu->isDefault();
+			}
+		}
+		
+		return $itemid;
+	}
+	
+	/**
+	 * Return the application option string [main component]
+	 *
+	 * @access public
+	 * @return string Option
+	 * @since 1.5
+	 */
+	function getOption() 
+	{	
+		$option = strtolower(JRequest::getVar('option', null));
+		
+		if(empty($option)) 
+		{
+			$menu =& JMenu::getInstance();
+			$item =& $menu->getItem($this->getItemid());
+		
+			$component = JTable::getInstance( 'component', $this->getDBO() );
+			$component->load($item->componentid);
+			
+			$option = $component->option;
+
+		}
+		
+		return $option;
+	}
 
 	/**
 	* Get the template
