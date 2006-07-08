@@ -110,6 +110,13 @@ class JEditor extends JObservable
 		$this->_loadEditor();
 
 		/*
+		 * Backwards compatibility. Width and height should be passed without a semicolon from now on.
+		 * If editor plugins need a unit like "px" for CSS styling, the need to take care of that
+		 */
+		$width	= str_replace( ';', '', $width );
+		$height	= str_replace( ';', '', $height );
+
+		/*
 		 * Initialize variables
 		 */
 		$return = null;

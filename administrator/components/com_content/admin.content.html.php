@@ -518,7 +518,7 @@ class ContentView
 				</tr>
 				</table>
 			</td>
-			<td valign="top" width="320px" style="padding: 7px 0 0 5px">
+			<td valign="top" width="320" style="padding: 7px 0 0 5px">
 			<?php
 				$title = JText::_( 'PARAMBASIC' );
 				$pane->startPane("content-pane");
@@ -812,7 +812,7 @@ class ContentView
 					<?php echo JText::_( 'Description' ); ?>:
 				</label>
 				<br />
-				<textarea class="inputbox" cols="40" rows="5" name="metadesc" id="metadesc" style="width:300"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+				<textarea class="inputbox" cols="40" rows="5" name="metadesc" id="metadesc" style="width:300px;"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -821,7 +821,7 @@ class ContentView
 					<?php echo JText::_( 'Keywords' ); ?>:
 				</label>
 				<br />
-				<textarea class="inputbox" cols="40" rows="5" name="metakey" id="metakey" style="width:300"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+				<textarea class="inputbox" cols="40" rows="5" name="metakey" id="metakey" style="width:300px;"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -901,8 +901,8 @@ class ContentView
 			<td>
 				<?php echo $lists['catid']; ?>
 			</td>
-			<tr>
-		</tr>
+			<td colspan="2">
+			</td>
 		</tr>
 		</table>
 		<?php
@@ -927,9 +927,9 @@ class ContentView
 
 		// used to hide "Reset Hits" when hits = 0
 		if ( !$row->hits ) {
-			$visibility = "style='display: none; visbility: hidden;'";
+			$visibility = 'style="display: none; visibility: hidden;"';
 		} else {
-			$visibility = "";
+			$visibility = '';
 		}
 
 		?>

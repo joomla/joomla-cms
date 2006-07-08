@@ -338,6 +338,14 @@ class JEditor_tinymce extends JPlugin {
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
+		// Only add "px" to width and height if they are not given as a percentage
+		if (is_numeric( $width )) {
+			$width .= 'px';
+		}
+		if (is_numeric( $height )) {
+			$height .= 'px';
+		}
+
 		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>";
 	}
 
