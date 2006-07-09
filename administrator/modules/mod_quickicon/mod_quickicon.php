@@ -77,7 +77,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		}
 
 		if ( $user->get('gid') > 24 ) {
-			$link = 'index2.php?option=com_config&amp;hidemainmenu=1';
+			$link = 'index2.php?option=com_config';
 			quickiconButton( $link, 'icon-48-config.png', JText::_( 'Global Configuration' ) );
 		}
 		?>
