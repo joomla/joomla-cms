@@ -274,7 +274,7 @@ class JContentViewArticle extends JView
 			$article->text = $article->introtext;
 		}
 		// Display the editor
-		// arguments (areaname, content, hidden field, width, height, rows, cols)
+		// arguments (areaname, content, width, height, cols, rows)
 		echo $editor->display('text', $article->text, '655', '400', '70', '15');
 		echo $editor->getButtons('text');
 		?>

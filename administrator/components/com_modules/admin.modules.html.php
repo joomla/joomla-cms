@@ -422,8 +422,8 @@ class HTML_modules {
 				<legend><?php echo JText::_( 'Custom Output' ); ?></legend>
 
 				<?php
-				// parameters : areaname, content, hidden field, width, height, rows, cols
-				echo $editor->display( 'content', $row->content, '800', '400', '', '' ) ;
+				// parameters : areaname, content, width, height, cols, rows
+				echo $editor->display( 'content', $row->content, '100%', '400', '60', '20' ) ;
 				echo $editor->getButtons('content');
 				?>
 
