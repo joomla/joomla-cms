@@ -85,7 +85,7 @@ class JEditor_none extends JPlugin {
 	 * @param string 	The name of the editor
 	 */
 	function onGetContent( $editor ) {
-		return;
+		return "document.getElementById( '$editor' ).value;\n";
 	}
 
 	/**
@@ -94,7 +94,7 @@ class JEditor_none extends JPlugin {
 	 * @param string 	The name of the editor
 	 */
 	function onSetContent( $editor, $html ) {
-		return;
+		return "document.getElementById( '$editor' ).value = $html;\n";
 	}
 
 	/**
