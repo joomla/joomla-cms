@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jul-2006
+ ^ Installer, database password input field changed to type: password
+ ^ Installer, admin password input field changed to type: password
+ ^ Installer, admin password have to be confirmed
+ - Installer, admin password removed from the installation finish screen
+
 06-Jul-2006 Johan Janssens
  # Fixed [artf5210] : New categories have no entry for component
  # Fixed [artf5176] : JInstallerModule->uninstall returns wrong error message
