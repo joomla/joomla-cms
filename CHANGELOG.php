@@ -37,7 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
-09-Jul-2006
+09-Jul-2006 Louis Landry
+ # Fixed different admin menu behavior if entering com_config from control panel or main menu
+ # Fixed notice in JApplicationHelper::getPath()
+
+09-Jul-2006 Mat???
  ^ Installer, database password input field changed to type: password
  ^ Installer, admin password input field changed to type: password
  ^ Installer, admin password have to be confirmed

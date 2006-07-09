@@ -25,6 +25,7 @@ class TOOLBAR_config {
 		JMenuBar::title( JText::_( 'Global Configuration' ), 'config.png' );
 		JMenuBar::save();
 		JMenuBar::apply();
+//		JMenuBar::cancel('cancel', JText::_('Close'));
 		JMenuBar::help( 'screen.config' );
 	}
 }
