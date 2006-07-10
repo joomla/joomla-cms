@@ -107,8 +107,10 @@ class JTable extends JObject
 
 		jimport('phpinputfilter.inputfilter');
 		$iFilter = new InputFilter();
-		foreach ($this->getPublicProperties() as $k) {
-			if ($ignore && in_array( $k, $ignoreList ) ) {
+		foreach ($this->getPublicProperties() as $k)
+		{
+			if ($ignore && in_array( $k, $ignoreList ) )
+			{
 				continue;
 			}
 			$this->$k = $iFilter->process( $this->$k );
@@ -165,10 +167,13 @@ class JTable extends JObject
 	*/
 	function bind( $array, $ignore="" )
 	{
-		if (!is_array( $array )) {
+		if (!is_array( $array ))
+		{
 			$this->_error = strtolower(get_class( $this ))."::bind failed.";
 			return false;
-		} else {
+		}
+		else
+		{
 			return mosBindArrayToObject( $array, $this, $ignore );
 		}
 	}
@@ -184,19 +189,23 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if ($oid !== null) {
+		if ($oid !== null)
+		{
 			$this->$k = $oid;
 		}
 
 		$oid = $this->$k;
 
-		if ($oid === null) {
+		if ($oid === null)
+		{
 			return false;
 		}
 		//Note: Prior to PHP 4.2.0, Uninitialized class variables will not be reported by get_class_vars().
 		$class_vars = get_class_vars(get_class($this));
-		foreach ($class_vars as $name => $value) {
-			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key")) {
+		foreach ($class_vars as $name => $value)
+		{
+			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key"))
+			{
 				$this->$name = $value;
 			}
 		}
@@ -235,15 +244,21 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 		global $migrate;
-		if( $this->$k && !$migrate) {
+		if( $this->$k && !$migrate)
+		{
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-		} else {
+		}
+		else
+		{
 			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
 		}
-		if( !$ret ) {
+		if( !$ret )
+		{
 			$this->_error = strtolower(get_class( $this ))."::store failed <br />" . $this->_db->getErrorMsg();
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -283,14 +298,16 @@ class JTable extends JObject
 
 
 		$row = null;
-		if ($this->_db->loadObject( $row )) {
+		if ($this->_db->loadObject( $row ))
+		{
 			$query = "UPDATE $this->_tbl"
 			. "\n SET ordering = '$row->ordering'"
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
 
-			if (!$this->_db->query()) {
+			if (!$this->_db->query())
+			{
 				$err = $this->_db->getErrorMsg();
 				die( $err );
 			}
@@ -303,13 +320,16 @@ class JTable extends JObject
 			$this->_db->setQuery( $query );
 //echo 'C: ' . $this->_db->getQuery();
 
-			if (!$this->_db->query()) {
+			if (!$this->_db->query())
+			{
 				$err = $this->_db->getErrorMsg();
 				die( $err );
 			}
 
 			$this->ordering = $row->ordering;
-		} else {
+		}
+		else
+		{
 			$query = "UPDATE $this->_tbl"
 			. "\n SET ordering = '$this->ordering'"
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
@@ -318,7 +338,8 @@ class JTable extends JObject
 //echo 'D: ' . $this->_db->getQuery();
 
 
-			if (!$this->_db->query()) {
+			if (!$this->_db->query())
+			{
 				$err = $this->_db->getErrorMsg();
 				die( $err );
 			}
@@ -335,14 +356,18 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) )) {
+		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) ))
+		{
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support ordering.";
 			return false;
 		}
 
-		if ($this->_tbl == "#__content_frontpage") {
+		if ($this->_tbl == '#__content_frontpage')
+		{
 			$order2 = ", content_id DESC";
-		} else {
+		}
+		else
+		{
 			$order2 = "";
 		}
 
@@ -352,33 +377,42 @@ class JTable extends JObject
 		. "\n ORDER BY ordering$order2 "
 		;
 		$this->_db->setQuery( $query );
-		if (!($orders = $this->_db->loadObjectList())) {
+		if (!($orders = $this->_db->loadObjectList()))
+		{
 			$this->_error = $this->_db->getErrorMsg();
 			return false;
 		}
 		// first pass, compact the ordering numbers
-		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
-			if ($orders[$i]->ordering >= 0) {
+		for ($i=0, $n=count( $orders ); $i < $n; $i++)
+		{
+			if ($orders[$i]->ordering >= 0)
+			{
 				$orders[$i]->ordering = $i+1;
 			}
 		}
 
 		$shift = 0;
 		$n=count( $orders );
-		for ($i=0; $i < $n; $i++) {
+		for ($i=0; $i < $n; $i++)
+		{
 			//echo "i=$i id=".$orders[$i]->$k." order=".$orders[$i]->ordering;
-			if ($orders[$i]->$k == $this->$k) {
+			if ($orders[$i]->$k == $this->$k)
+			{
 				// place 'this' record in the desired location
 				$orders[$i]->ordering = min( $this->ordering, $n );
 				$shift = 1;
-			} else if ($orders[$i]->ordering >= $this->ordering && $this->ordering > 0) {
+			}
+			else if ($orders[$i]->ordering >= $this->ordering && $this->ordering > 0)
+			{
 				$orders[$i]->ordering++;
 			}
 		}
 	//echo '<pre>';print_r($orders);echo '</pre>';
 		// compact once more until I can find a better algorithm
-		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
-			if ($orders[$i]->ordering >= 0) {
+		for ($i=0, $n=count( $orders ); $i < $n; $i++)
+		{
+			if ($orders[$i]->ordering >= 0)
+			{
 				$orders[$i]->ordering = $i+1;
 				$query = "UPDATE $this->_tbl"
 				. "\n SET ordering = '". $orders[$i]->ordering ."'"
@@ -391,7 +425,8 @@ class JTable extends JObject
 		}
 
 		// if we didn't reorder the current record, make it last
-		if ($shift == 0) {
+		if ($shift == 0)
+		{
 			$order = $n+1;
 			$query = "UPDATE $this->_tbl"
 			. "\n SET ordering = '$order'"
@@ -418,13 +453,16 @@ class JTable extends JObject
 	function canDelete( $oid=null, $joins=null )
 	{
 		$k = $this->_tbl_key;
-		if ($oid) {
+		if ($oid)
+		{
 			$this->$k = intval( $oid );
 		}
-		if (is_array( $joins )) {
+		if (is_array( $joins ))
+		{
 			$select = "$k";
 			$join = "";
-			foreach( $joins as $table ) {
+			foreach( $joins as $table )
+			{
 				$select .= ",\n COUNT(DISTINCT {$table['idfield']}) AS {$table['idfield']}";
 				$join .= "\n LEFT JOIN {$table['name']} ON {$table['joinfield']} = $k";
 			}
@@ -437,22 +475,28 @@ class JTable extends JObject
 			;
 			$this->_db->setQuery( $query );
 
-			if ($obj = $this->_db->loadObject()) {
+			if ($obj = $this->_db->loadObject())
+			{
 				$this->_error = $this->_db->getErrorMsg();
 				return false;
 			}
 			$msg = array();
-			foreach( $joins as $table ) {
+			foreach( $joins as $table )
+			{
 				$k = $table['idfield'];
-				if ($obj->$k) {
+				if ($obj->$k)
+				{
 					$msg[] = $AppUI->_( $table['label'] );
 				}
 			}
 
-			if (count( $msg )) {
+			if (count( $msg ))
+			{
 				$this->_error = "noDeleteRecord" . ": " . implode( ', ', $msg );
 				return false;
-			} else {
+			}
+			else
+			{
 				return true;
 			}
 		}
@@ -475,7 +519,8 @@ class JTable extends JObject
 		//}
 
 		$k = $this->_tbl_key;
-		if ($oid) {
+		if ($oid)
+		{
 			$this->$k = intval( $oid );
 		}
 
@@ -484,9 +529,12 @@ class JTable extends JObject
 		;
 		$this->_db->setQuery( $query );
 
-		if ($this->_db->query()) {
+		if ($this->_db->query())
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			$this->_error = $this->_db->getErrorMsg();
 			return false;
 		}
@@ -501,16 +549,21 @@ class JTable extends JObject
 	 */
 	function checkout( $who, $oid=null )
 	{
-		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
+		// TODO: Can following be safely replaced with
+		// $checkedOut = $this->get( 'checked_out' );
+		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
+		{
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkouts.";
 			return false;
 		}
 		$k = $this->_tbl_key;
-		if ($oid !== null) {
+		if ($oid !== null)
+		{
 			$this->$k = $oid;
 		}
 		$time = date( 'Y-m-d H:i:s' );
-		if (intval( $who )) {
+		if (intval( $who ))
+		{
 			// new way of storing editor, by id
 			$query = "UPDATE $this->_tbl"
 			. "\n SET checked_out = $who, checked_out_time = '$time'"
@@ -520,7 +573,9 @@ class JTable extends JObject
 
 			$this->checked_out = $who;
 			$this->checked_out_time = $time;
-		} else {
+		}
+		else
+		{
 			// old way of storing editor, by name
 			$query = "UPDATE $this->_tbl"
 			. "\n SET checked_out = 1, checked_out_time = '$time', editor = '".$who."' "
@@ -545,13 +600,15 @@ class JTable extends JObject
 	 */
 	function checkin( $oid=null ) 
 	{
-		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
+		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
+		{
 			//$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
 			return true;
 		}
 		$k = $this->_tbl_key;
 		
-		if ($oid !== null) {
+		if ($oid !== null)
+		{
 			$this->$k = $oid;
 		}
 		if ($this->$k == NULL) {
@@ -630,10 +687,15 @@ class JTable extends JObject
 	 */
 	function isCheckedOut( $user_id=0 ) 
 	{
-		if ($user_id) {
-			return ($this->checked_out && $this->checked_out <> $user_id);
-		} else {
-			return $this->checked_out;
+		$checkedOut = $this->get( 'checked_out' );
+
+		if ($user_id)
+		{
+			return ($checkedOut && $checkedOut <> $user_id);
+		}
+		else
+		{
+			return $checkedOut;
 		}
 	}
 
@@ -647,19 +709,24 @@ class JTable extends JObject
 	*/
 	function save( $source, $order_filter='' )
 	{
-		if (!$this->bind( $source )) {
+		if (!$this->bind( $source ))
+		{
 			return false;
 		}
-		if (!$this->check()) {
+		if (!$this->check())
+		{
 			return false;
 		}
-		if (!$this->store()) {
+		if (!$this->store())
+		{
 			return false;
 		}
-		if (!$this->checkin()) {
+		if (!$this->checkin())
+		{
 			return false;
 		}
-		if ($order_filter) {
+		if ($order_filter)
+		{
 			$filter_value = $this->$order_filter;
 			$this->reorder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
 		}
@@ -681,7 +748,8 @@ class JTable extends JObject
 		$user_id = (int) $user_id;
 		$publish = (int) $publish;
 
-		if (count( $cid ) < 1) {
+		if (count( $cid ) < 1)
+		{
 			$this->_error = "No items selected.";
 			return false;
 		}
@@ -694,17 +762,20 @@ class JTable extends JObject
 		;
 
 		$checkin = array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) );
-		if ($checkin) {
+		if ($checkin)
+		{
 			$query .= "\n AND (checked_out = 0 OR checked_out = $user_id)";
 		}
 
 		$this->_db->setQuery( $query );
-		if (!$this->_db->query()) {
+		if (!$this->_db->query())
+		{
 			$this->_error = $this->_db->getErrorMsg();
 			return false;
 		}
 
-		if (count( $cid ) == 1 && $checkin) {
+		if (count( $cid ) == 1 && $checkin)
+		{
 			$this->checkin( $cid[0] );
 		}
 		$this->_error = '';
@@ -725,11 +796,14 @@ class JTable extends JObject
 			$xml .= ' mapkeystotext="true"';
 		}
 		$xml .= '>';
-		foreach (get_object_vars( $this ) as $k => $v) {
-			if (is_array($v) or is_object($v) or $v === NULL) {
+		foreach (get_object_vars( $this ) as $k => $v)
+		{
+			if (is_array($v) or is_object($v) or $v === NULL)
+			{
 				continue;
 			}
-			if ($k[0] == '_') { // internal field
+			if ($k[0] == '_')
+			{ // internal field
 				continue;
 			}
 			$xml .= '<' . $k . '><![CDATA[' . $v . ']]></' . $k . '>';

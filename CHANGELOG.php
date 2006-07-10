@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jul-2006 Andrew Eddie
+ # Fixed problem in JTable::isCheckedOut where checked_out doesn't exist
+
 09-Jul-2006 Louis Landry
  # Fixed different admin menu behavior if entering com_config from control panel or main menu
  # Fixed notice in JApplicationHelper::getPath()
