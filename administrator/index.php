@@ -86,5 +86,5 @@ $document->display($mainframe->getCfg('caching_tmpl'), $mainframe->getCfg('gzip'
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
 
-JDEBUG ? $_PROFILER->report() : null;
+JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
 ?>

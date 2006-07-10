@@ -103,15 +103,19 @@ class JProfiler extends JObject
 		$db =& JFactory::getDBO();
 
 		echo implode( $glue, $this->_buffer );
-		echo "<br />";
-		echo $this->getmemory();
-		echo "<br />";
-		echo $db->_ticker . ' queries executed';
-		echo '<pre>';
-		foreach ($db->_log as $k=>$sql) {
-			echo $k+1 . "\n" . $sql . '<hr />';
+		if ($memory) {
+			echo '<br />';
+			echo $this->getmemory();
 		}
-		echo '</pre>';
+		if ($database) {
+			echo '<br />';
+			echo $db->_ticker . ' queries executed';
+			echo '<pre>';
+			foreach ($db->_log as $k=>$sql) {
+				echo $k+1 . "\n" . $sql . '<hr />';
+			}
+			echo '</pre>';
+		}
 	}
 
 	/**

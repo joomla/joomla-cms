@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jul-2006 Enno Klasing
+ # Fixed [topic,75439] : Debug-information don't count/show SQL queries
+
 10-Jul-2006 Andrew Eddie
  # Fixed problem in JTable::isCheckedOut where checked_out doesn't exist
 
@@ -49,6 +52,11 @@ Legend:
  ^ Installer, admin password input field changed to type: password
  ^ Installer, admin password have to be confirmed
  - Installer, admin password removed from the installation finish screen
+
+09-Jul-2006 Enno Klasing
+ # Fixed [topic,70013] : 4047 Some HTML and CSS issues
+ # Fixed [topic,70002] : 4047 $editor->setContent and $editor->getContent
+ # Fixed [topic,74971] : 4180 Editor broken when in Custom Module
 
 06-Jul-2006 Johan Janssens
  # Fixed [artf5210] : New categories have no entry for component
