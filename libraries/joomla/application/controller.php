@@ -141,8 +141,16 @@ class JController extends JObject
 		$this->_data		= array();
 		$this->_app			= &$application;
 
+		// Get the methods only for the final controller class
+		$this_methods	= get_class_methods( get_class( $this ) );
+		$parent_methods	= get_class_methods( get_parent_class( $this ) );
+		$methods = array_diff($this_methods, $parent_methods);
+
+		// Add default display method
+		$methods[] = 'display';
+
 		// Iterate through methods and map tasks
-		foreach (get_class_methods( get_class( $this ) ) as $method) {
+		foreach ($methods as $method) {
 			if (substr( $method, 0, 1 ) != '_') {
 				$this->_methods[] = strtolower( $method );
 				// auto register public methods as tasks
