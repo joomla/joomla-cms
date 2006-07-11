@@ -78,7 +78,10 @@ class JRequest
 			if (is_array( $hash ))
 			{
 				// user supplied array
-				$result = $hash;
+				if (isset ($hash[$name]))
+				{
+					$result = $hash[$name];
+				}
 			}
 			else
 			{
@@ -91,31 +94,40 @@ class JRequest
 				{
 					case 'GET' :
 						if (isset ($_GET[$name]))
+						{
 							$result = $_GET[$name];
+						}
 						break;
 					case 'POST' :
 						if (isset ($_POST[$name]))
+						{
 							$result = $_POST[$name];
+						}
 						break;
 					case 'FILES' :
 						if (isset ($_FILES[$name]))
+						{
 							$result = $_FILES[$name];
+						}
 						break;
 					default:
 						if (isset ($_REQUEST[$name]))
+						{
 							$result = $_REQUEST[$name];
+						}
 						break;
 				}
 			}
 
 			// Handle the default case
-			if ((empty($result)) && (!is_null($default))) {
+			if ((empty($result)) && (!is_null($default)))
+			{
 				$GLOBALS['JRequest'][$signature] = $default;
 				return $default;
 			}
 
-			if ($result != null) {
-
+			if ($result != null) 
+			{
 				// Handle the type constraint
 				switch ($type)
 				{
@@ -142,7 +154,8 @@ class JRequest
 						// Clean the variable given using the given filter mask
 						$result = JRequest::cleanVar($result, $mask);
 
-						if (!is_array($result)) {
+						if (!is_array($result))
+						{
 							$result = array();
 						}
 						break;
