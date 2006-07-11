@@ -40,6 +40,7 @@ Legend:
 11-Jul-2006 Enno Klasing
  # Fixed [artf5246] : Hardcoded strings (could not be localized)
  # Fixed [topic,35325] : Possible error in eng_GB.mod_feed.ini
+ # Fixed [artf3900] : Usertype not translated in listings
 
 10-Jul-2006 Louis Landry
  # Backward Compatability issue: define $database and $my as globals -- still deprecated

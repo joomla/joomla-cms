@@ -929,11 +929,11 @@ class mosCommonHTML {
 		}
 
 		if ($archived == -1) {
-			$href = $row->groupname;
+			$href = JText::_( $row->groupname );
 		} else {
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-			'. $row->groupname .'
+			'. JText::_( $row->groupname ) .'
 			</a>'
 			;
 		}
