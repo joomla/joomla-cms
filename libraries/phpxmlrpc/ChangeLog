@@ -1,3 +1,97 @@
+2006-04-24  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* minor fixes makefiles. Tagged and released as 2.0 final
+
+2006-04-22  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* debugger/*: added option to set cainfo; improve web layout
+
+	* xmlrpc.inc: set sslverifypeer tp TRUE instaed of 1 by default
+
+	* doc/php_xmlrpc.xml: documentation updates
+
+2006-04-21  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: added option to set ca certs dir instead of single cert
+	(used to validate server in https connetions)
+
+2006-04-18  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: fixed bug in xmlrpcval::structmemexists()
+
+	* testsuite.php: added test case for xmlrpcval::structmemexists()
+
+2006-04-03  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: add support for Digest and NTLM authentication, both to server
+	and to proxies (note: must use CURL for this to work)
+
+	* debugger/*: add support for Digest/NTLM auth to remote servers
+
+2006-03-19  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: fix a bug parsing of 'true' bool values;
+	added a new method to the client class: SetCaCertificate;
+	add column number in xml parsing error messages;
+	fix serialization of messages to ISO-8859-1 charset with php 5 (by adding
+	encoding to the xml prologue of generated messages)
+
+	* xmlrpcs.inc: correct detection of charset in http headers;
+	add column number in xml parsing error messages;
+	fix serialization of responses to ISO-8859-1 charset with php 5 (by adding
+	encoding to the xml prologue of generated responses)
+
+	* testsuite.php: added two more tests on charset encoding
+
+	* NEWS: update info for impending release
+
+2006-03-23  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* added a new demo file: simple_call.php
+
+2006-02-20  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpcs.inc: more error checking and logging with regard to user-coded
+	method handler functions not being well behaved;
+	fix a case where error handler would not be reset upon user function
+	returning not valid xmlrpresp
+
+	* xmlrpc.inc: fix bug in detection of php 4.3.0
+
+	* Makefile: fix uppercase filenames
+
+2006-02-15
+
+	* xmlrpc.inc: parse 'true' and 'false' as valid booleans, even though the
+	spec is quite clear on that; fix small bug w. internal_encoding = utf8; add
+	definition of $GLOBALS['xmlrpcNull'] for extensibility, e.g. json or
+	extensions to the xmlrpc spec
+
+2006-02-05  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: fix bug in wrap_xmlrpc_method if client passed to function has
+	return_type=phpvals
+
+	* all demo files: review code, add more comments and information
+
+	* added 2 demo files: proxy.php (implementing an xmlrpc proxy server) and
+	wrap.php (showing usage of wrap_method_call)
+
+2006-02-04  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: fix bug in multicall in case of no fallback and server error
+
+2006-01-30  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
+
+	* xmlrpc.inc: fix recursive serialization of xmlrpcvals loosing UTF8 charset;
+	correctly set type field of xmlrpcvals returned by send() calls
+
+	* xmlrpcs.inc: add to server checks for correct return type of user-coded
+	method handling function; tolerate xmlrpcval instead of xmlrpcresp
+
+	* minor change in xmlrpcresp internals, to ease subclassing (store payload
+	in an internal var on serialize(), same as xmlrpcclient does)
+
 2006-01-22  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
 
 	* benchmark.php: do not run http 1.1 tests if CURL notfound
@@ -1080,4 +1174,4 @@
 
 	* Fixed bugs in the XML parsing and reworked it
 
-$Id: ChangeLog,v 1.54 2006/01/22 23:56:29 ggiunta Exp $
+$Id: ChangeLog,v 1.60 2006/04/24 15:15:47 ggiunta Exp $
