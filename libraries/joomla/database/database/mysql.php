@@ -60,6 +60,21 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Database object destructor
+	 *
+     * @return boolean
+     * @since 1.5
+	 */
+	function __destruct()
+	{
+		$return = false;
+		if (is_resource($this->_resource)) {
+			$return = mysql_close($this->_resource);
+		}
+		return $return;
+	}
+
+	/**
 	 * Determines UTF support
 	 */
 	function hasUTF() {

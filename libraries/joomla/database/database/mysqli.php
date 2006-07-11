@@ -53,6 +53,21 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
+	 * Database object destructor
+	 *
+     * @return boolean
+     * @since 1.5
+	 */
+	function __destruct()
+	{
+		$return = false;
+		if (is_resource($this->_resource)) {
+			$return = mysqli_close($this->_resource);
+		}
+		return $return;
+	}
+
+	/**
 	 * Determines UTF support
 	 * @return boolean True - UTF is supported
 	 */

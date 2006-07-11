@@ -91,6 +91,21 @@ class JDatabase extends JObject
 		$this->_log = array();
 		$this->_quoted = array();
 		$this->_hasQuoted = false;
+
+		// If we opened the connection lets make sure we close it
+		register_shutdown_function(array(&$this,'__destruct'));
+	}
+
+	/**
+	 * Database object destructor
+	 *
+     * @abstract
+     * @return boolean
+     * @since 1.5
+	 */
+	function __destruct()
+	{
+		return true;
 	}
 
 	/**

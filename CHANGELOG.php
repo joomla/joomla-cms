@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jul-2006 Louis Landry
+ ^ JDatabase::__destruct added to make sure db connections are closed on all page loads
+
 10-Jul-2006 Andrew Eddie
  ^ JTable::load sets the internal error message on a fail
 
