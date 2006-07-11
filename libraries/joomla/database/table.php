@@ -183,7 +183,7 @@ class JTable extends JObject
 	*
 	* @access public
 	* @param int $oid optional argument, if not specifed then the value of current key is used
-	* @return any result from the database operation
+	* @return boolean True if successful
 	*/
 	function load( $oid=null ) 
 	{
@@ -210,13 +210,23 @@ class JTable extends JObject
 			}
 		}
 
+		$db =& $this->getDBO();
+
 		$query = "SELECT *"
 		. "\n FROM $this->_tbl"
 		. "\n WHERE $this->_tbl_key = '$oid'"
 		;
-		$this->_db->setQuery( $query );
+		$db->setQuery( $query );
 
-		return $this->_db->loadObject( $this );
+		if ($db->loadObject( $this ))
+		{
+			return true;
+		}
+		else
+		{
+			$this->setError( $db->getErrorMsg() );
+			return false;
+		}
 	}
 
 	/**
@@ -732,6 +742,15 @@ class JTable extends JObject
 		}
 		$this->_error = '';
 		return true;
+	}
+
+	/**
+	 * Sets the internal error message
+	 * @param string The error message
+	 */
+	function setError( $value )
+	{
+		$this->_error = $value;
 	}
 
 	/**
