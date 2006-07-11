@@ -56,7 +56,7 @@ class JRequest
 	 * @static
 	 * @param string $name Variable name
 	 * @param string $default Default value if the variable does not exist
-	 * @param string $hash Where the var should come from (POST, GET, FILES, METHOD)
+	 * @param string $hash Where the var should come from (POST, GET, FILES, METHOD) or a user supplied array
 	 * @param string $type Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
 	 * @param int $mask Filter mask for the variable
 	 * @return mixed Requested variable
@@ -79,26 +79,34 @@ class JRequest
 			if ($hash === 'METHOD') {
 				$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 			}
-			switch ($hash)
-			{
-				case 'GET' :
-					if (isset ($_GET[$name]))
-						$result = $_GET[$name];
-					break;
-				case 'POST' :
-					if (isset ($_POST[$name]))
-						$result = $_POST[$name];
-					break;
-				case 'FILES' :
-					if (isset ($_FILES[$name]))
-						$result = $_FILES[$name];
-					break;
-				default:
-					if (isset ($_REQUEST[$name]))
-						$result = $_REQUEST[$name];
-					break;
-			}
 
+			if (is_array( $hash ))
+			{
+				// user supplied array
+				$result = $hash;
+			}
+			else
+			{
+				switch ($hash)
+				{
+					case 'GET' :
+						if (isset ($_GET[$name]))
+							$result = $_GET[$name];
+						break;
+					case 'POST' :
+						if (isset ($_POST[$name]))
+							$result = $_POST[$name];
+						break;
+					case 'FILES' :
+						if (isset ($_FILES[$name]))
+							$result = $_FILES[$name];
+						break;
+					default:
+						if (isset ($_REQUEST[$name]))
+							$result = $_REQUEST[$name];
+						break;
+				}
+			}
 
 			// Handle the default case
 			if ((empty($result)) && (!is_null($default))) {
