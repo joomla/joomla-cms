@@ -298,6 +298,7 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
  */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) 
 {
+	global $mainframe;
 	$user =& $mainframe->getUser();
 	$menu =& JMenu::getInstance();
 	$menu->authorize($Itemid, $user);
