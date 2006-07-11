@@ -66,7 +66,6 @@ class JRequest
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
 		// Initialize variables
-		$hash		= strtoupper($hash);
 		$type		= strtoupper($type);
 		// TODO: Louis, had to add $default otherwise it doesn't always work
 		// Must be a way to cache the actual request value, and the processes default value?
@@ -76,10 +75,6 @@ class JRequest
 			$result		= null;
 			$matches	= array ();
 
-			if ($hash === 'METHOD') {
-				$hash = strtoupper($_SERVER['REQUEST_METHOD']);
-			}
-
 			if (is_array( $hash ))
 			{
 				// user supplied array
@@ -87,6 +82,11 @@ class JRequest
 			}
 			else
 			{
+				$hash = strtoupper($hash);
+				if ($hash === 'METHOD') {
+					$hash = strtoupper($_SERVER['REQUEST_METHOD']);
+				}
+	
 				switch ($hash)
 				{
 					case 'GET' :
