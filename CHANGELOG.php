@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 10-Jul-2006 Louis Landry
+ # Backward Compatability issue: define $database and $my as globals -- still deprecated
  ^ JDatabase::__destruct added to make sure db connections are closed on all page loads
 
 10-Jul-2006 Andrew Eddie

@@ -226,6 +226,17 @@ class JUser extends JObject
 	}
 
 	/**
+	 * Method to get the user table object
+	 *
+	 * @access 	public
+	 * @return	object	The user table object
+	 * @since	1.5
+	 */
+	function getTable() {
+		return $this->_table;
+	}
+
+	/**
 	 * Method to set the user parameters
 	 *
 	 *

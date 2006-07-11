@@ -26,8 +26,16 @@ $mainframe = new JAdministrator();
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
-//get the database object
-$database =& $mainframe->getDBO();
+/*
+ * BACKWARDS COMPATABILITY
+ * 	Set globals for:
+ * 		- $database
+ * 		- $my
+ * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
+ */
+$GLOBALS['database'] =& $mainframe->getDBO();
+$user =& $mainframe->getUser();
+$GLOBALS['my'] =& $user->getTable();
 
 // load system plugin group
 JPluginHelper::importPlugin( 'system' );
