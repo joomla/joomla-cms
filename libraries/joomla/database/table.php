@@ -747,6 +747,7 @@ class JTable extends JObject
 	/**
 	 * Sets the internal error message
 	 * @param string The error message
+	 * @since 1.5
 	 */
 	function setError( $value )
 	{
