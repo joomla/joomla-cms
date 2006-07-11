@@ -50,8 +50,8 @@ class JMenuViewWizard extends JWizardView
 			<div style="float: right">
 				<button type="button" onclick="this.form.submit();">
 					<?php echo JText::_('Next');?></button>
-		    </div>
-		    Click Next to create the menu item.
+			</div>
+			<?php echo JText::_('Click Next to create the menu item.');?>
 		</fieldset>
 
 		<fieldset>
@@ -212,8 +212,8 @@ class JMenuViewWizard extends JWizardView
 					<?php echo JText::_('Back');?></button>
 				<button type="button" onclick="this.form.submit();window.top.document.popup.hide();">
 					<?php echo JText::_('Finish');?></button>
-		    </div>
-		    Click finish to complete the wizard.
+			</div>
+			<?php echo JText::_('Click finish to complete the wizard.');?>
 		</fieldset>
 
 		<fieldset>
@@ -225,8 +225,7 @@ class JMenuViewWizard extends JWizardView
 //			print_r($item);
 //			echo '</pre>';
 			?>
-		You have sucessfully chosen your menu item type, to complete the process click the "Finish" button, edit
-		the menu item parameters, then save the item.
+			<?php echo JText::_('DESCWIZARDFINISHING');?>
 		</fieldset>
 		<?php
 		foreach ($item as $k => $v) {
