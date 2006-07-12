@@ -11,6 +11,8 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+jimport('joomla.utilities.functions');
+
 /**
  * JRequest Class
  *
@@ -43,8 +45,8 @@ class JRequest
 	 */
 	function getUrl()
 	{
-		$result = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
-		return $result;
+		$uri = &JURI::getInstance();
+		return $uri->toString();
 	}
 
 	/**

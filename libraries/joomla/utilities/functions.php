@@ -305,10 +305,6 @@ function josArrayGetColumn( &$array, $index )
 	return $result;
 }
 
-define( "_MOS_NOTRIM"   , 0x0001 );
-define( "_MOS_ALLOWHTML", 0x0002 );
-define( "_MOS_ALLOWRAW" , 0x0004 );
-
 /**
  * Utility function to return a value from a named array or a specified default
  * @package Joomla.Framework
