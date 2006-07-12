@@ -129,6 +129,25 @@ function mosMakePath($base, $path='', $mode = NULL) {
 }
 
 /**
+ * Legacy function, use josArrayToInts instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */function mosArrayToInts( &$array, $default=null ) {
+	return josArrayToInts( $array, $default );
+}
+
+/**
+ * Legacy function, use josBackTrace instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosBackTrace( $message='' ) {
+	josBackTrace( $message );
+}
+
+/**
  * Legacy function, use JPath::setPermissions instead
  *
  * @deprecated	As of version 1.5
@@ -226,6 +245,16 @@ function mosGetBrowser( $agent ) {
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
 	return $browser->getPlatform();
+}
+
+/**
+ * Legacy function, use josArrayGetValue instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
+	return josArrayGetValue( $arr, $name, $def, '', $mask );
 }
 
 /**

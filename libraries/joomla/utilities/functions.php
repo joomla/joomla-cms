@@ -12,65 +12,6 @@
  * details.
  */
 
-define( "_MOS_NOTRIM"   , 0x0001 );
-define( "_MOS_ALLOWHTML", 0x0002 );
-define( "_MOS_ALLOWRAW" , 0x0004 );
-
-/**
- * Utility function to return a value from a named array or a specified default
- * @package Joomla.Framework
- * @param array A named array
- * @param string The key to search for
- * @param mixed The default value to give if no key found
- * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
- * @since 1.0
- * @tutorial Joomla.Framework/mosgetparam.proc
- */
-function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
-	static $noHtmlFilter 	= null;
-	static $safeHtmlFilter 	= null;
-
-	$return = null;
-	if (isset( $arr[$name] )) {
-		$return = $arr[$name];
-
-		if (is_string( $return )) {
-			// trim data
-			if (!($mask&_MOS_NOTRIM)) {
-				$return = trim( $return );
-			}
-
-			if ($mask&_MOS_ALLOWRAW) {
-				// do nothing
-			} else if ($mask&_MOS_ALLOWHTML) {
-				// do nothing - compatibility mode
-				/*
-				if (is_null( $safeHtmlFilter )) {
-					$safeHtmlFilter = new InputFilter( null, null, 1, 1 );
-				}
-				$arr[$name] = $safeHtmlFilter->process( $arr[$name] );
-				*/
-			} else {
-				// send to inputfilter
-				if (is_null( $noHtmlFilter )) {
-					jimport( 'phpinputfilter.inputfilter' );
-					$noHtmlFilter = new InputFilter( /* $tags, $attr, $tag_method, $attr_method, $xss_auto */ );
-				}
-				$return = $noHtmlFilter->process( $return );
-			}
-
-			// account for magic quotes setting
-			if (!get_magic_quotes_gpc()) {
-				$return = addslashes( $return );
-			}
-		}
-
-		return $return;
-	} else {
-		return $def;
-	}
-}
-
 /**
  * Strip slashes from strings or arrays of strings
  *
@@ -216,6 +157,30 @@ function mosObjectToArray($p_obj, $recurse = true, $regex = null)
 }
 
 /**
+ * Function to convert array to integer values
+ *
+ * @package Joomla.Framework
+ * @param array
+ * @param int A default value to assign if $array is not an array
+ * @return array
+ * @since 1.0
+ */
+function josArrayToInts( &$array, $default=null ) {
+	if (is_array( $array )) {
+		$n = count( $array );
+		for ($i = 0; $i < $n; $i++) {
+			$array[$i] = intval( $array[$i] );
+		}
+	} else {
+		if (is_null( $default )) {
+			return array();
+		} else {
+			return array( $default );
+		}
+	}
+}
+
+/**
  * Utility function to map an array to a stdClass object.
  *
  * @package	Joomla.Framework
@@ -289,6 +254,137 @@ function josRedirect( $url, $msg='' )
 	exit();
 }
 
+/**
+ * Format a backtrace error
+ *
+ * @package Joomla.Framework
+ * @param string An optional message
+ * @since 1.5
+ */
+function josBackTrace( $message='' ) {
+	if (function_exists( 'debug_backtrace' )) {
+		echo '<div align="left">';
+		if ($message) {
+			echo '<p><strong>' . $message . '</strong></p>';
+		}
+		foreach( debug_backtrace() as $back) {
+			if (@$back['file']) {
+				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
+			}
+		}
+		echo '</div>';
+	}
+}
+
+/**
+ * Extracts a column from an array of arrays or objects
+ * @param array The source array
+ * @param string The index of the column or name of object property
+ */
+function josArrayGetColumn( &$array, $index )
+{
+	$result = array();
+
+	if (is_array( $array ))
+	{
+		$n = count( $array );
+		for ($i = 0; $i < $n; $i++)
+		{
+			$item = &$array[$i];
+			if (is_array( $item ) && isset( $item[$index] ))
+			{
+				$result[] = $item[$index];
+			}
+			else if (is_object( $item ) && isset( $item->$index ))
+			{
+				$result[] = $item->$index;
+			}
+			// else ignore the entry
+		}
+	}
+	return $result;
+}
+
+define( "_MOS_NOTRIM"   , 0x0001 );
+define( "_MOS_ALLOWHTML", 0x0002 );
+define( "_MOS_ALLOWRAW" , 0x0004 );
+
+/**
+ * Utility function to return a value from a named array or a specified default
+ * @package Joomla.Framework
+ * @param array A named array
+ * @param string The key to search for
+ * @param mixed The default value to give if no key found
+ * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
+ * @since 1.5
+ * @tutorial Joomla.Framework/josarraygetvalue.proc
+ */
+function josArrayGetValue( &$arr, $name, $default=null, $type='', $mask=0 )
+{
+	// Initialize variables
+	$type	= strtoupper( $type );
+	$result	= null;
+
+	if (isset( $arr[$name] ))
+	{
+		$result = $arr[$name];
+	}
+
+	// Handle the default case
+	if ((empty( $result )))
+	{
+		$result = $default;
+	}
+
+	// Handle the type constraint
+	switch ($type)
+	{
+		case 'INT' :
+		case 'INTEGER' :
+			// Only use the first integer value
+			@preg_match('/-?[0-9]+/', $result, $matches);
+			$result = @(int) $matches[0];
+			break;
+
+		case 'FLOAT' :
+		case 'DOUBLE' :
+			// Only use the first floating point value
+			@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
+			$result = @(float) $matches[0];
+			break;
+
+		case 'BOOL' :
+		case 'BOOLEAN' :
+			$result = (bool) $result;
+			break;
+
+		case 'ARRAY' :
+			// Clean the variable given using the given filter mask
+			$result = josFilterValue($result, $mask);
+
+			if (!is_array( $result ))
+			{
+				$result = array();
+			}
+			break;
+
+		case 'STRING' :
+			// Clean the variable given using the given filter mask
+			$result = josFilterValue($result, $mask);
+
+			$result = (string) $result;
+			break;
+
+		case 'NONE' :
+		default :
+			// Clean the variable given using the given filter mask
+			$result = josFilterValue($result, $mask);
+			break;
+	}
+
+	return $result;
+}
+
 function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 	$text = nl2br( $text );
 	$text = addslashes( $text );
@@ -312,25 +408,94 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 }
 
 /**
- * Format a backtrace error
+ * Set the available masks for cleaning variables
+ */
+define("_J_NOTRIM"   , 1);
+define("_J_ALLOWRAW" , 2);
+define("_J_ALLOWHTML", 4);
+
+/**
+ * Utility method to clean a string variable using input filters
  *
- * @package Joomla.Framework
- * @param string An optional message
+ * Available Options masks:
+ * 		_J_NOTRIM 		: Prevents the trimming of the variable
+ * 		_J_ALLOWHTML	: Allows safe HTML in the variable
+ * 		_J_ALLOWRAW		: Allows raw input
+ *
+ * @static
+ * @param mixed $var The variable to clean
+ * @param int $mask An options mask
+ * @return mixed The cleaned variable
  * @since 1.5
  */
-function mosBackTrace( $message='' ) {
-	if (function_exists( 'debug_backtrace' )) {
-		echo '<div align="left">';
-		if ($message) {
-			echo '<p><strong>' . $message . '</strong></p>';
+function josFilterValue( &$var, $mask = 0 )
+{
+	// Static input filters for specific settings
+
+	static $noHtmlFilter = null;
+	static $safeHtmlFilter = null;
+
+	// Initialize variables
+	$return = null;
+
+	// Ensure the variable to clean is a string
+	if (is_string($var))
+	{
+		// If the no trim flag is not set, trim the variable
+		if (!($mask & 1))
+		{
+			$var = trim($var);
 		}
-		foreach( debug_backtrace() as $back) {
-			if (@$back['file']) {
-				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
+
+		// Now we handle input filtering
+		if ($mask & 2)
+		{
+			// If the allow raw flag is set, do not modify the variable
+			$return = $var;
+		}
+		elseif ($mask & 4)
+		{
+			// If the allow html flag is set, apply a safe html filter to the variable
+			if (is_null($safeHtmlFilter))
+			{
+				jimport( 'phpinputfilter.inputfilter' );
+				$safeHtmlFilter = new InputFilter(null, null, 1, 1);
 			}
+			$return = $safeHtmlFilter->process($var);
 		}
-		echo '</div>';
+		else
+		{
+			// Since no allow flags were set, we will apply the most strict filter to the variable
+			if (is_null($noHtmlFilter))
+			{
+				jimport( 'phpinputfilter.inputfilter' );
+				$noHtmlFilter = new InputFilter(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */
+				);
+			}
+			$return = $noHtmlFilter->process($var);
+		}
+
+		// Handle magic quotes compatability
+		if (get_magic_quotes_gpc())
+		{
+			$return = stripslashes($return);
+		}
 	}
+	elseif (is_array($var))
+	{
+		// If the variable to clean is an array, recursively iterate through it
+		foreach ($var as $k => $v)
+		{
+			$var[$k] = josFilterValue( $v, $mask );
+		}
+		$return = $var;
+	}
+	else
+	{
+		// If the variable is neither an array or string just return the raw value
+		$return = $var;
+	}
+	return $return;
 }
 
 /**
@@ -797,30 +962,6 @@ function mosSmartSubstr($text, $length=200, $searchword) {
   } else {
 	return JString::substr( $text, 0, $length);
   }
-}
-
-/**
- * Function to convert array to integer values
- *
- * @package Joomla.Framework
- * @param array
- * @param int A default value to assign if $array is not an array
- * @return array
- * @since 1.0
- */
-function mosArrayToInts( &$array, $default=null ) {
-	if (is_array( $array )) {
-		$n = count( $array );
-		for ($i = 0; $i < $n; $i++) {
-			$array[$i] = intval( $array[$i] );
-		}
-	} else {
-		if (is_null( $default )) {
-			return array();
-		} else {
-			return array( $default );
-		}
-	}
 }
 
 /**
