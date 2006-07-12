@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Jul-2006 Andrew Eddie
+ ^ mosGetParam -> josArrayGetValue
+ ^ mosBackTrace -> josBackTrace
+ ^ mosArrayToInts -> jos ArrayToInts
+ ^ Filtering and casting parts of JRequest::getVar broken into functions
+ + josFilterValue - new function that breaks out filtering from mosGetParam
+ + josArrayGetColumn - new utility function
+
 11-Jul-2006 Enno Klasing
  # Fixed [artf5246] : Hardcoded strings (could not be localized)
  # Fixed [topic,35325] : Possible error in eng_GB.mod_feed.ini
