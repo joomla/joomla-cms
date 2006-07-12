@@ -14,7 +14,7 @@
 /**
  * Renders a newsfeed selection element
  *
- * @author 		Andrew Eddie <andrew.eddie@joomla.org>
+ * @author 		Andrew Eddie <andrew.eddie@jamboworks.com>
  * @package 	Newsfeeds
  * @subpackage 	Parameter
  * @since		1.5
