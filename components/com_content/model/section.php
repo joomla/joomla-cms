@@ -241,9 +241,8 @@ class JContentModelSection extends JModel
 
 			$query = "SELECT *" .
 					"\n FROM #__sections" .
-					$where.
-					"\n LIMIT 1";
-			$this->_db->setQuery($query);
+					$where;
+			$this->_db->setQuery($query, 0, 1);
 			return $this->_db->loadObject($this->_section);
 		}
 		return true;

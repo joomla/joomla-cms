@@ -1212,9 +1212,8 @@ class JContentController extends JController
 			// main query
 			$query = "SELECT a.*" .
 					"\n FROM #__content AS a" .
-					"\n WHERE a.id = ".$cid[$i] .
-					"\n LIMIT 1";
-			$db->setQuery($query);
+					"\n WHERE a.id = ".$cid[$i];
+			$db->setQuery($query, 0, 1);
 			$db->loadObject($item);
 
 			// values loaded into array set for store

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Jul-2006 Louis Landry
+ ^ All core database queries changed to use the limit/offset arguments to JDatabase::setQuery instead of hardcoded SQL
+
 13-Jul-2006 Enno Klasing
  # Fixed [topic,70004] : 4047 no languagefile loaded for plugins
  ^ Naming conventions for plugin language files have changed to include the folder name of the plugin

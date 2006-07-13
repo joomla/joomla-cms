@@ -290,20 +290,17 @@ class JTable extends JObject
 			$sql .= "\n WHERE ordering < $this->ordering";
 			$sql .= ($where ? "\n	AND $where" : '');
 			$sql .= "\n ORDER BY ordering DESC";
-			$sql .= "\n LIMIT 1";
 		} else if ($dirn > 0) {
 			$sql .= "\n WHERE ordering > $this->ordering";
 			$sql .= ($where ? "\n	AND $where" : '');
 			$sql .= "\n ORDER BY ordering";
-			$sql .= "\n LIMIT 1";
 		} else {
 			$sql .= "\nWHERE ordering = $this->ordering";
 			$sql .= ($where ? "\n AND $where" : '');
 			$sql .= "\n ORDER BY ordering";
-			$sql .= "\n LIMIT 1";
 		}
 
-		$this->_db->setQuery( $sql );
+		$this->_db->setQuery( $sql, 0, 1 );
 //echo 'A: ' . $this->_db->getQuery();
 
 

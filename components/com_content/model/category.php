@@ -230,9 +230,8 @@ class JContentModelCategory extends JModel
 			$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle" .
 					"\n FROM #__categories AS c" .
 					"\n INNER JOIN #__sections AS s ON s.id = c.section" .
-					"\n WHERE c.id = '$this->_id'".
-					"\n LIMIT 1";
-			$this->_db->setQuery($query);
+					"\n WHERE c.id = '$this->_id'";
+			$this->_db->setQuery($query, 0, 1);
 			return $this->_db->loadObject($this->_category);
 		}
 		return true;

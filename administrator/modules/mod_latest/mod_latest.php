@@ -25,9 +25,8 @@ $query = "SELECT a.id, a.sectionid, a.title, a.created, u.name, a.created_by_ali
 . "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
 . "\n WHERE a.state <> -2"
 . "\n ORDER BY created DESC"
-. "\n LIMIT 10"
 ;
-$db->setQuery( $query );
+$db->setQuery( $query, 0, 10 );
 $rows = $db->loadObjectList();
 ?>
 

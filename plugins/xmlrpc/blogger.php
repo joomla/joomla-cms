@@ -360,9 +360,8 @@ function getRecentPosts($msg)
 		. "\n FROM #__content"
 		. $where
 		. "\n ORDER BY created"
-		. "\n LIMIT ".$numposts
 		;
-	$db->setQuery($query);
+	$db->setQuery($query, 0, $numposts);
 	$items = $db->loadObjectList();
 
 	if (!$items) {

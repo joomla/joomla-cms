@@ -70,10 +70,9 @@ class JModelBanner extends JModel
 			. ($randomise ? ', RAND() AS ordering' : '')
 			. "\n FROM #__banner"
 			. "\n WHERE " . implode( " AND ", $wheres )
-			. "\nORDER BY sticky, ordering "
-			. "\nLIMIT " . $filters['limit'];
+			. "\nORDER BY sticky, ordering ";
 
-		$db->setQuery( $query );
+		$db->setQuery( $query, 0, $filters['limit'] );
 		//echo $db->getQuery();die;
 		if(!$db->query()) {
 			JError::raiseError( 500, $db->stderr());

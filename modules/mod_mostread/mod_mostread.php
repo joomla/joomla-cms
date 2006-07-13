@@ -43,9 +43,8 @@ switch ($type)
 				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 				"\n AND m.type = 'content_typed' ".
 				($access ? "\n AND a.access <= " .$user->get('gid') : '').
-				"\n ORDER BY a.hits DESC" .
-				"\n LIMIT $count";
-		$db->setQuery($query);
+				"\n ORDER BY a.hits DESC";
+		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
 
 		foreach ($rows as $row) {
@@ -69,9 +68,8 @@ switch ($type)
 				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 				($access ? "\n AND a.access <= " .$user->get('gid') : '') .
-				"\n ORDER BY a.hits DESC" .
-				"\n LIMIT $count";
-		$db->setQuery( $query );
+				"\n ORDER BY a.hits DESC";
+		$db->setQuery( $query, 0, $count );
 		$rows = $db->loadObjectList();
 		if (count($rows)) {
 			foreach ($rows as $row) {
@@ -110,9 +108,8 @@ switch ($type)
 				($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
 				"\n AND s.published = 1" .
 				"\n AND cc.published = 1" .
-				"\n ORDER BY a.hits DESC" .
-				"\n LIMIT $count";
-		$db->setQuery($query);
+				"\n ORDER BY a.hits DESC";
+		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
 		foreach ($rows as $row) {
 			$my_itemid = JContentHelper::getItemid($row->id);
