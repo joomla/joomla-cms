@@ -43,6 +43,7 @@ Legend:
  # Removed double definitions of language strings (en-GB.com_plugins.ini), added missing language strings
  # Labels without a description (tooltip) for parameters were not translated
  # Fixed [topic,70006] : 4047 pagebreak-plugin-issues
+ # Fixed [artf4985] : Translate 'Login' in administrator login
 
 12-Jul-2006 Andrew Eddie
  ^ mosGetParam -> josArrayGetValue

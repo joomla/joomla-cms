@@ -53,7 +53,7 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
 		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
 			<a onclick="loginForm.submit();">
-				<jdoc:translate>Login</jdoc:translate>
+				<?php echo JText::_( 'Login' ); ?>
 			</a>
 		</div>
 	</div>
