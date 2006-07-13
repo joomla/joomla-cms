@@ -42,6 +42,7 @@ Legend:
  ^ Naming conventions for plugin language files have changed to include the folder name of the plugin
  # Removed double definitions of language strings (en-GB.com_plugins.ini), added missing language strings
  # Labels without a description (tooltip) for parameters were not translated
+ # Fixed [topic,70006] : 4047 pagebreak-plugin-issues
 
 12-Jul-2006 Andrew Eddie
  ^ mosGetParam -> josArrayGetValue

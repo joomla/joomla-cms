@@ -46,7 +46,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 		$page = 0;
 	}
  	// expression to search for
- 	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#i';
+ 	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
 
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
@@ -78,7 +78,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
 			$page_text = $page + 1;
-			$row->page_title = sprintf( JText::_( 'Page' ), $page_text );
+			$row->page_title = sprintf( JText::_( 'Page #' ), $page_text );
 			if ( !$page ) {
 				// processing for first page
 				$attrs = josParseAttributes($matches[0][1]);
@@ -202,7 +202,7 @@ function createTOC( &$row, &$matches, &$page )
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. sprintf( JText::_( 'Page' ), $i ) .
+					. sprintf( JText::_( 'Page #' ), $i ) .
 					'</a>
 					</td>
 				</tr>
@@ -213,7 +213,7 @@ function createTOC( &$row, &$matches, &$page )
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. sprintf( JText::_( 'Page' ), $i ) .
+				. sprintf( JText::_( 'Page #' ), $i ) .
 				'</a>
 				</td>
 			</tr>
