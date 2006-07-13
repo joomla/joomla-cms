@@ -171,7 +171,9 @@ class JInstallerComponent extends JInstaller
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->_extensionAdminDir.$installScriptElement->getText()))
 			{
-				if (!$this->_copyFiles($this->_installDir, $this->_extensionAdminDir, array ($installScriptElement->getText())))
+				$path['src']	= $this->_installDir.$installScriptElement->getText();
+				$path['dest']	= $this->_extensionAdminDir.$installScriptElement->getText();
+				if (!$this->_copyFiles(array ($path)))
 				{
 					JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('Could not copy PHP install file.'));
 
@@ -191,7 +193,9 @@ class JInstallerComponent extends JInstaller
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->_extensionAdminDir.$uninstallScriptElement->getText()))
 			{
-				if (!$this->_copyFiles($this->_installDir, $this->_extensionAdminDir, array ($uninstallScriptElement->getText())))
+				$path['src']	= $this->_installDir.$uninstallScriptElement->getText();
+				$path['dest']	= $this->_extensionAdminDir.$uninstallScriptElement->getText();
+				if (!$this->_copyFiles(array ($path)))
 				{
 					JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('Could not copy PHP uninstall file.'));
 
