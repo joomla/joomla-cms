@@ -287,8 +287,8 @@ function editPlugin( )
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
 
-        $lang =& $mainframe->getLanguage();
-        $lang->load( trim('plg_'. $row->element), JPATH_SITE );
+		$lang =& $mainframe->getLanguage();
+		$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE );
 
 		$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
 

@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Jul-2006 Enno Klasing
+ # Fixed [topic,70004] : 4047 no languagefile loaded for plugins
+ ^ Naming conventions for plugin language files have changed to include the folder name of the plugin
+ # Removed double definitions of language strings (en-GB.com_plugins.ini), added missing language strings
+ # Labels without a description (tooltip) for parameters were not translated
+
 12-Jul-2006 Andrew Eddie
  ^ mosGetParam -> josArrayGetValue
  ^ mosBackTrace -> josBackTrace

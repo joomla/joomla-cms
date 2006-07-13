@@ -160,6 +160,9 @@ class JPluginHelper
 		if (file_exists( $path )) {
 			require_once( $path );
 			$result = true;
+
+			$lang =& $mainframe->getLanguage();
+			$lang->load( 'plg_' . trim( $folder ) . '_' . trim( $element ) );
 		}
 
 		return $result;

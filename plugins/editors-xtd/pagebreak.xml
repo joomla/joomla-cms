@@ -8,8 +8,9 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Provides button to insert {pagebreak} into content edit box</description>
+	<description>DESCPAGEBREAK</description>
 	<files>
 		<filename plugin="pagebreak">pagebreak.php</filename>
 	</files>
+	<params />
 </install>

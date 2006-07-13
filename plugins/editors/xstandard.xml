@@ -8,11 +8,11 @@
     <authorUrl>http://www.joomla.be</authorUrl>
     <copyright>(C) 2006 Johan Janssens</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <description>XStandard is the leading standards-compliant plug-in WYSIWYG editor for Windows desktop applications and browser-based content management systems (IE/Mozilla/Firefox/Netscape).</description>
+    <description>DESCXSTANDARD</description>
     <files>
     	 <filename>xstandard_lite/xstandard.js</filename>
     	 <filename plugin="xstandard">xstandard.php</filename>
     </files>
-    <parameters>
-    </parameters>
+    <params>
+    </params>
 </install>

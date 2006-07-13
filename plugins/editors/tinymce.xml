@@ -8,7 +8,7 @@
 	<authorUrl>tinymce.moxiecode.com/</authorUrl>
 	<copyright>Moxiecode Systems AB</copyright>
 	<license>LGPL</license>
-	<description></description>
+	<description>DESCTINYMCE</description>
 	<params>
 		<param name="theme" type="list" default="advanced" label="Functionality" description="Select functionality">
 			<option value="simple">Simple</option>
@@ -37,11 +37,11 @@
  			<option value="1">Relative</option>
  		</param>
  		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
-  		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="By default the bot looks for an editor_content.css file.  If it cant find one it loads template_css.css.  However if you want to force loading of template_css.css than please select `yes`">
+  		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="PARAMTEMPLATECSS">
  			<option value="0">No</option>
  			<option value="1">Yes</option>
  		</param>
-  		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="You can specify the loading of a custom CSS file - simply enter the FULL URl path to the css file you want loaded.  If you enter a value in this field, this will overrule the `Template CSS classes` parameter"/>
+  		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="PARAMCUSTOMCSS"/>
  		<param name="newlines" type="list" default="0" label="Newlines" description="Newlines will be made into the selected option">
  			<option value="1">BR Elements</option>
  			<option value="0">P Elements</option>
@@ -68,11 +68,11 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="style" type="radio" default="1" label="Style" description="Show/Hide the CSS Style control button. Only works in `Advanced` mode">
+ 		<param name="style" type="radio" default="1" label="Style" description="PARAMSTYLE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="layer" type="radio" default="1" label="Layer" description="Show/Hide the Layer control button. Only works in `Advanced` mode">
+ 		<param name="layer" type="radio" default="1" label="Layer" description="PARAMLAYER">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>

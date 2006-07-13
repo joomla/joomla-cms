@@ -8,8 +8,9 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Provides button to insert {readmore} into content edit box</description>
+	<description>DESCREADMORE</description>
 	<files>
 		<filename plugin="readmore">readmore.php</filename>
 	</files>
+	<params />
 </install>

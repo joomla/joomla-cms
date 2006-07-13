@@ -90,7 +90,7 @@ class JElement extends JObject {
 		if ($description) {
 			$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
 		} else {
-			$output .= $label;
+			$output .= JText::_( $label );
 		}
 		$output .= '</label>';
 
