@@ -55,7 +55,7 @@ class JInstallerController
 		/*
 		 * Get the uploaded file information
 		 */
-		$userfile	= JRequest::getVar('userfile', '', 'files', 'array');
+		$userfile	= JRequest::getVar('userfile', '', 'files', 'array' );
 
 		/*
 		 * Make sure that file uploads are enabled in php
@@ -84,16 +84,20 @@ class JInstallerController
 			return false;
 		}
 
+		// Build the appropriate paths
+		$tmp_dest 	= JPATH_ROOT.DS.'tmp'.DS.$userfile['name'];
+		$tmp_src	= $userfile['tmp_name'];
+
 		/*
 		 * Move uploaded file
 		 */
 		jimport('joomla.filesystem.file');
-		$uploaded = JFile::upload($userfile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$userfile['name']);
+		$uploaded = JFile::upload($tmp_src, $tmp_dest);
 
 		/*
 		 * Unpack the downloaded package file
 		 */
-		$package = JInstallerHelper::unpack(JPATH_SITE.DS.'tmp'.DS.$userfile['name']);
+		$package = JInstallerHelper::unpack($tmp_dest);
 
 		/*
 		 * Was the package unpacked?
@@ -118,7 +122,7 @@ class JInstallerController
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
-			JInstallerHelper::cleanupInstall(JPATH_SITE.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
+			JInstallerHelper::cleanupInstall(JPATH_ROOT.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
 			JInstallerScreens::showInstallForm();
 		} else {
 			/*
@@ -127,7 +131,7 @@ class JInstallerController
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
-			JInstallerHelper::cleanupInstall(JPATH_SITE.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
+			JInstallerHelper::cleanupInstall(JPATH_ROOT.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
 			JInstallerScreens::showInstallForm();
 		}
 	}

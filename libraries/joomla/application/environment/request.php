@@ -110,6 +110,13 @@ class JRequest
 
 			$result = josArrayGetValue( $input, $name, $default, $type, $mask );
 
+			// Handle magic quotes compatability
+			if (get_magic_quotes_gpc() && ($result != $default))
+			{
+				if (!is_array($result)) {
+					$result = stripslashes($result);
+				}
+			}
 			$GLOBALS['JRequest'][$signature] = $result;
 		}
 		return $GLOBALS['JRequest'][$signature];
