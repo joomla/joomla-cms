@@ -162,7 +162,7 @@ class JPluginHelper
 			$result = true;
 
 			$lang =& $mainframe->getLanguage();
-			$lang->load( 'plg_' . trim( $folder ) . '_' . trim( $element ) );
+			$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
 		}
 
 		return $result;

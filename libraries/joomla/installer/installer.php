@@ -451,7 +451,11 @@ class JInstaller extends JObject
 				$installTo = JPath::clean(JPATH_SITE.DS.'images'.DS.$folder);
 				break;
 			case 'languages' :
-				$installTo = JPath::clean(JPATH_SITE.DS.'language');
+				if ($admin) {
+					$installTo = JPath::clean(JPATH_ADMINISTRATOR.DS.'language');
+				} else {
+					$installTo = JPath::clean(JPATH_SITE.DS.'language');
+				}
 				break;
 			case 'administration/languages' :
 				$installTo = JPath::clean(JPATH_ADMINISTRATOR.DS.'language');

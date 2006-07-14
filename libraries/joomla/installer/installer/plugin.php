@@ -104,8 +104,7 @@ class JInstallerPlugin extends JInstaller
 		 * Copy extra files
 		 */
 		$this->_parseFiles('media');
-		$this->_parseFiles('languages');
-		$this->_parseFiles('administration/languages');
+		$this->_parseFiles('languages', null, null, true);
 
 		/*
 		 * Check to make sure a plugin by the same name is not already installed
