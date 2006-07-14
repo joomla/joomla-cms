@@ -68,6 +68,7 @@
 .icon-48-msgconfig 	{ background-image: url(../images/header/icon-48-message_config.png); }
 .icon-48-langmanager { background-image: url(../images/header/icon-48-language.png); }
 .icon-48-mediamanager{ background-image: url(../images/header/icon-48-media.png); }
+.icon-48-plugin 	{ background-image: url(../images/header/icon-48-plugin.png); }
 .icon-48-help_header { background-image: url(../images/header/icon-48-help_header.png); }
 .icon-48-impressions { background-image: url(../images/header/icon-48-stats.png); }
 .icon-48-browser 		{ background-image: url(../images/header/icon-48-browser.png); }
@@ -76,9 +77,9 @@
 .icon-48-massemail 	{ background-image: url(../images/header/icon-48-massemail.png); }
 .icon-48-frontpage 	{ background-image: url(../images/header/icon-48-frontpage.png); }
 .icon-48-sections 	{ background-image: url(../images/header/icon-48-section.png); }
-.icon-48-addedit 		{ background-image: url(../images/header/icon-48-content.png); }
+.icon-48-addedit 		{ background-image: url(../images/header/icon-48-article.png); }
 .icon-48-categories 	{ background-image: url(../images/header/icon-48-category.png); }
-.icon-48-install 		{ background-image: url(../images/header/icon-48-install.png); }
+.icon-48-install 		{ background-image: url(../images/header/icon-48-extension.png); }
 .icon-48-dbbackup		{ background-image: url(../images/header/icon-48-backup.png); }
 .icon-48-dbrestore 	{ background-image: url(../images/header/icon-48-dbrestore.png); }
 .icon-48-dbquery 		{ background-image: url(../images/header/icon-48-query.png); }

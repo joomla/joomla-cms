@@ -25,7 +25,7 @@ class TOOLBAR_modules {
 
 		$text = $cid[0] ? JText::_('Edit') : JText::_('New');
 
-		JMenuBar::title( JText::_( 'Plugin' ) .': <small><small>[' .$text. ']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Plugin' ) .': <small><small>[' .$text. ']</small></small>', 'plugin.png' );
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ( $cid[0] ) {
@@ -38,7 +38,7 @@ class TOOLBAR_modules {
 	}
 
 	function _DEFAULT() {
-		JMenuBar::title( JText::_( 'Plugin Manager' ), 'module.png' );
+		JMenuBar::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::editListX();

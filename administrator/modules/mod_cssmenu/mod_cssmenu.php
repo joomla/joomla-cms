@@ -147,16 +147,15 @@ function & buildMenu($usertype = '')
 	 */
 	$menu->addChild(new JMenuNode(JText::_('Content')), true);
 	$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content&sectionid=0', 'class:content'));
+	if ($manageTrash) {
+		$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
+	}
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Section Manager'), 'index.php?option=com_sections&scope=content', 'class:category'));
 	$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=content', 'class:category'));
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
-	if ($manageTrash) {
-		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
-		$menu->addChild(new JMenuNode(JText::_('Article Statistics'), 'index.php?option=com_statistics&task=pageimp', 'class:stats'));
-	}
+	$menu->addChild(new JMenuNode(JText::_('Article Statistics'), 'index.php?option=com_statistics&task=pageimp', 'class:stats'));
 
 	$menu->getParent();
 
