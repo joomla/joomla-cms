@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jul-2006 Enno Klasing
+ # Fixed [topic,76819] : minor typo
+ # Fixed [topic,70004] : 4047 no languagefile loaded for plugins (reply #2)
+
 14-Jul-2006 Andy Miller
  ^ Changed overlib css style
  ^ Updated publish/expired/pending 16x16 icons for improved clarity

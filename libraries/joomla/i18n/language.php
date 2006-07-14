@@ -194,7 +194,7 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Loads a single langauge file and appends the results to the existing strings
+	 * Loads a single language file and appends the results to the existing strings
 	 *
 	 * @access public
 	 * @param string 	$prefix 	The prefix
@@ -507,7 +507,7 @@ class JLanguage extends JObject
 	 *
 	 * @access public
 	 * @param string	$path	 Path to the xml files
-	 * @return array	Array holding the found metadat as a key => value pair
+	 * @return array	Array holding the found metadata as a key => value pair
 	 */
 	function _parseXMLLanguageFile($path)
 	{

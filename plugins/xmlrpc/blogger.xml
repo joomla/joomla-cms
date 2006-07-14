@@ -8,12 +8,12 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0</version>
-	<description>Blogger XML-PRC API</description>
+	<description>Blogger XML-RPC API</description>
 	<files>
 		<filename plugin="blogger">blogger.php</filename>
 	</files>
 	<params>
-		<param name="catid" type="category" default="1" label="New posts" description="Set the category to place new posts into" />
-		<param name="sectionid" type="section" default="0" label="Edit posts" description="Set the section to retrieve posts from" />
+		<param name="catid" type="category" default="1" label="New posts" description="PARAMCATEGORY" />
+		<param name="sectionid" type="section" default="0" label="Edit posts" description="PARAMSECTION" />
 	</params>
 </install>
