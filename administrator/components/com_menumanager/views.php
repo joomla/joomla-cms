@@ -209,7 +209,7 @@ class JMenuManagerEditView extends JView
 	 */
 	function setToolbar( $isNew ) {
 		$text = ( $isNew ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		JMenuBar::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menu.png' );
+		JMenuBar::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menumgr.png' );
 		JMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', 'Save', false );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.menumanager.new' );
