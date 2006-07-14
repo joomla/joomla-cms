@@ -139,28 +139,28 @@ span.note {
 /** overlib **/
 
 .ol-foreground {
-	background-color: #f6f6f6;
+	background-color: #ffe;
 }
 
 .ol-background {
-	background-color: #666;
+	background-color: #6db03c;
 }
 
 .ol-textfont {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
+	color: #666;
 }
 
 .ol-captionfont {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #f6f6f6;
+	font-size: 11px;
+	color: #fff;
 	font-weight: bold;
 }
 .ol-captionfont a {
-	color: #0B55C4;
+	color: #0b5fc6;
 	text-decoration: none;
-	font-size: 12px;
 }
 
 .ol-closefont {}
