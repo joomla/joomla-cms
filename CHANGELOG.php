@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jul-2006 Andy Miller
+ ^ Changed overlib css style
+
 13-Jul-2006 Louis Landry
  ^ All core database queries changed to use the limit/offset arguments to JDatabase::setQuery instead of hardcoded SQL
 
