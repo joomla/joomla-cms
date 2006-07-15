@@ -41,6 +41,7 @@ Legend:
  # Fixed [topic,76819] : minor typo
  # Fixed [topic,70004] : 4047 no languagefile loaded for plugins (reply #2)
  ^ Relocated plugin language files to Administrator
+ # Fixed [topic,77035] : Article Manager links bugs
 
 14-Jul-2006 Andy Miller
  ^ Changed overlib css style

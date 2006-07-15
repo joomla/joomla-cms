@@ -129,8 +129,8 @@ class ContentView
 
 				$link 	= 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
-				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=edit&hidemainmenu=1&cid[]='. $row->sectionid );
+				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=edit&hidemainmenu=1&cid[]='. $row->catid );
 
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == 1 ) {
@@ -169,7 +169,7 @@ class ContentView
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
+						$linkA 	= 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $row->created_by;
 						$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
@@ -356,14 +356,14 @@ class ContentView
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
-				$row->sec_link 	= ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=edit&hidemainmenu=1&cid[]='. $row->catid );
+				$row->sec_link 	= ampReplace( 'index2.php?option=com_sections&task=edit&hidemainmenu=1&cid[]='. $row->sectionid );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= ampReplace( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by );
+						$linkA 	= ampReplace( 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $row->created_by );
 						$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
