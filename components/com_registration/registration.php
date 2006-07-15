@@ -87,7 +87,8 @@ function sendNewPass()
 		josRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 	}
 
-	$newpass = mosMakePassword();
+	jimport('joomla.application.authenticate');
+	$newpass = JAuthenticateHelper::genRandomPassword();
 	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
 
 	eval ("\$message = \"$message\";");
@@ -179,7 +180,8 @@ function saveRegistration()
 	$user->set('gid', $acl->get_group_id( $new_usertype, 'ARO' ));
 
 	if ($useractivation == '1') {
-		$user->set('activation', md5( mosMakePassword()) );
+		jimport('joomla.application.user.authenticate');
+		$user->set('activation', md5( JAuthenticateHelper::genRandomPassword()) );
 		$user->set('block', '1');
 	}
 

@@ -50,17 +50,6 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 	}
 }
 
-function mosMakePassword($length) {
-	$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	$len = strlen($salt);
-	$makepass='';
-	mt_srand(10000000*(double)microtime());
-	for ($i = 0; $i < $length; $i++)
-	$makepass .= $salt[mt_rand(0,$len - 1)];
-	return $makepass;
-}
-
-
 function get_php_setting($val) {
 	$r =  (ini_get($val) == '1' ? 1 : 0);
 	return $r ? 'ON' : 'OFF';

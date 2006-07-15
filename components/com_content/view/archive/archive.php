@@ -298,7 +298,7 @@ class JArchiveViewArchive extends JView
 			else
 			{
 				// Generic blog empty display
-				JViewContentHTML::emptyContainer(_EMPTY_BLOG);
+				JViewContentHTML::emptyContainer(EMPTY_BLOG);
 			}
 	}
 

@@ -50,7 +50,7 @@ class JViewFrontpage
 	 * @since 1.5
 	 */
 	function emptyContainer($msg) {
-		echo '<p><div align="center">'.$msg.'</div></p>';
+		echo '<p><div align="center">'.JTEXT::_($msg).'</div></p>';
 	}
 
 	/**

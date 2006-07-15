@@ -55,7 +55,7 @@ class JInstallerPlugin extends JInstaller
 
 		/*
 		 * Backward Compatability
-		 * @TODO Deprecate in 1.2
+		 * @TODO Deprecate in 2.0
 		 */
 		$specialTag = & $root->getAttribute('type');
 

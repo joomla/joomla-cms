@@ -190,10 +190,13 @@ function saveConfig( $option ) {
 	josRedirect( "index2.php?option=$option" );
 }
 
-function newMessage( $option, $user, $subject ) {
-	global $mainframe, $acl;
+function newMessage( $option, $user, $subject ) 
+{
+	global $mainframe;
 
-	$db =& $mainframe->getDBO();
+	$db  =& $mainframe->getDBO();
+	$acl =& JFactory::getACL();
+	
 	// get available backend user groups
 	$gid 	= $acl->get_group_id( 'Public Backend', '', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
@@ -241,10 +244,13 @@ function saveMessage( $option ) {
 	josRedirect( "index2.php?option=com_messages" );
 }
 
-function viewMessage( $uid='0', $option ) {
-	global $mainframe, $acl;
+function viewMessage( $uid='0', $option ) 
+{
+	global $mainframe;
 
-	$db =& $mainframe->getDBO();
+	$db  =& $mainframe->getDBO();
+	$acl =& JFactory::getACl();
+	
 	$row = null;
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"

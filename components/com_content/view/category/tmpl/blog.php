@@ -204,6 +204,6 @@ defined('_JEXEC') or die('Restricted access');
 
 	} else {
 		// Generic blog empty display
-		echo '<p>'.JText::_(_EMPTY_BLOG).'</p>';
+		echo '<p>'.JText::_(EMPTY_BLOG).'</p>';
 	}
 ?>

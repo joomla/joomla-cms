@@ -99,6 +99,7 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  * @package		Joomla.Legacy
  */
 function mosMakePassword() {
+	jimport('joomla.application.user.authenticate');
 	return JAuthenticateHelper::genRandomPassword();
 }
 

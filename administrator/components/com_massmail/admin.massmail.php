@@ -40,11 +40,12 @@ switch ($task) {
 		break;
 }
 
-function messageForm( $option ) {
-	global $acl;
+function messageForm( $option ) 
+{
+	$acl = JFactory::getACL();
 
 	$gtree = array(
-	mosHTML::makeOption( 0, '- '. JText::_( 'All User Groups' ) .' -' )
+		mosHTML::makeOption( 0, '- '. JText::_( 'All User Groups' ) .' -' )
 	);
 
 	// get list of groups
@@ -55,11 +56,14 @@ function messageForm( $option ) {
 	HTML_massmail::messageForm( $lists, $option );
 }
 
-function sendMail() {
-	global $mainframe, $acl;
+function sendMail() 
+{
+	global $mainframe;
 
 	$db					=& $mainframe->getDBO();
 	$user 				=& $mainframe->getUser();
+	$acl 				= JFactory::getACL();
+	
 	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post' );
 	$gou				= JRequest::getVar( 'mm_group', '', 'post' );
