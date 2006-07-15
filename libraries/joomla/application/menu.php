@@ -225,7 +225,6 @@ class JMenu extends JObject
 			$access = max( $access, $result->access );
 		}
 	
-//		echo $user->get('usertype');
 		return ($access <= $user->get('usertype'));
 	}
 }

@@ -87,7 +87,7 @@ function sendNewPass()
 		josRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 	}
 
-	jimport('joomla.application.authenticate');
+	jimport('joomla.application.user.authenticate');
 	$newpass = JAuthenticateHelper::genRandomPassword();
 	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
 

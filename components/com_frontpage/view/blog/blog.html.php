@@ -273,7 +273,7 @@ class JViewBlog
 		else
 		{
 			// Generic blog empty display
-			JViewFrontpage::emptyContainer(EMPTY_BLOG);
+			JViewFrontpage::emptyContainer('EMPTY_BLOG');
 		}
 
 	}

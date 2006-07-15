@@ -45,8 +45,7 @@ class JElement_FileList extends JElement
 		jimport( 'joomla.filesystem.file' );
 		
 		// path to images directory
-		$path		= JPATH_ROOT.DS.$node->attributes('folder');
-		echo $path;
+		$path		= JPATH_ROOT.DS.$node->attributes('directory');
 		$filter		= $node->attributes('filter');
 		$stripExt	= $node->attributes('stripext');
 		$files		= JFolder::files($path, $filter);
