@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Jul-2006 Andy Miller
+ ^ Updated some menu icons to match new manager icons
+
 16-Jul-2006 Sam Moffatt
  # Fixed up minor authentication issues
 
