@@ -100,8 +100,24 @@ class JAuthenticate extends JObject
 		 */
 		foreach($results as $result)
 		{
-			if($result !== false) {
-				return true;
+			switch($result->type) {
+				case 'success':
+					return true;
+					break;
+				case 'autocreate':
+					// We need to create the user
+//					print_r($credentials[username]);
+//					die();
+					$user = new JUser();
+					$user->set( 'id', 0 );
+					$user->set( 'name', $credentials[username] );
+					$user->set( 'username', $credentials[username] );
+					$user->set( 'gid', 18 );
+					$user->set( 'usertype', 'Registered' );
+					$user->set( 'email', $credentials[username] );
+					$user->save();
+					return true;
+					break;
 			}
 		}
 
@@ -462,6 +478,36 @@ class JAuthenticateHelper
 		}
 		return $bin;
 	}
+}
+
+/**
+ * Authorization response class, provides an object for storing error details
+ *
+ * @author 		Samuel Moffatt <pasamio@gmail.com>
+ * @package 	Joomla.Framework
+ * @static
+ * @since 1.5
+ */
+class JAuthenticateResponse extends JObject {
+	/** @var type string Response Type (success, failure, critical_failure, error, critical_error,autocreate) */ 
+	var $type 			= null;
+	/** @var name string Name of Response */
+	var $name 			= '';
+	/** @var error_message string The error message */
+	var $error_message 	= '';
+	/** @var autocreate int Flag to autocreate a user */
+	var $autocreate		= 0;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string $name The name of the response
+	 * @since 1.5
+	 */
+	function JAuthenticateResponse($name) {
+		$this->name = $name;
+	}
+	
 }
 
 ?>

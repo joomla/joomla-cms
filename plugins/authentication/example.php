@@ -51,7 +51,7 @@ class JAuthenticateExample extends JPlugin
 	function onAuthenticate( $username, $password )
 	{
 		// Initialize variables
-		$return = false;
+		$return = new JAuthenticateResponse('example');
 
 		/*
 		 * Here you would do whatever you need for an authentication routine with the credentials
@@ -61,6 +61,7 @@ class JAuthenticateExample extends JPlugin
 		 * user if the routine passes
 		 */
 
+		$return->type = 'success';
 		return $return;
 	}
 }

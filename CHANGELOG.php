@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Jul-2006 Sam Moffatt
+ # Fixed up minor authentication issues
+
 15-Jul-2006 Enno Klasing
  # Fixed [topic,76819] : minor typo
  # Fixed [topic,70004] : 4047 no languagefile loaded for plugins (reply #2)
