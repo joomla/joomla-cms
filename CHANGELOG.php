@@ -40,6 +40,7 @@ Legend:
 15-Jul-2006 Enno Klasing
  # Fixed [topic,76819] : minor typo
  # Fixed [topic,70004] : 4047 no languagefile loaded for plugins (reply #2)
+ ^ Relocated plugin language files to Administrator
 
 14-Jul-2006 Andy Miller
  ^ Changed overlib css style

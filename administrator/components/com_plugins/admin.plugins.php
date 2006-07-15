@@ -288,7 +288,7 @@ function editPlugin( )
 		}
 
 		$lang =& $mainframe->getLanguage();
-		$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE );
+		$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
 
 		$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
 
