@@ -41,7 +41,7 @@ class TOOLBAR_weblinks {
 	}
 
 	function _DEFAULT() {
-		JMenuBar::title(   JText::_( 'Weblink Manager' ), 'impressions.png' );
+		JMenuBar::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::deleteList();
