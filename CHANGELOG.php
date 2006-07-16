@@ -40,10 +40,12 @@ Legend:
 16-Jul-2006 Alex Kempkens
  ^ [task2379] refactoring of mod_whosonline
  # Corrected the missing '!' in the template
- ^ [task2378] refactoring of mod_syndicate
- ^ [task2378] refactoring of mod_stats
- ^ [task2375] refactoring of mod_search
- ^ [task2374] refactoring of mod_related_items
+ ^ [task2378] refactored of mod_syndicate
+ ^ [task2378] refactored of mod_stats
+ ^ [task2375] refactored of mod_search
+ ^ [task2374] refactored of mod_related_items
+ ^ [task2373] refactored of mod_random_image
+ ^ [task2372] refactored of mod_poll
 
 16-Jul-2006 Andy Miller
  ^ Updated some menu icons to match new manager icons
