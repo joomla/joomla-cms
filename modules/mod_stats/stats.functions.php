@@ -57,6 +57,7 @@ class JModStatsController extends JController
 	
 	function _showServerInfo() {
 		$mainframe =& $this->getApplication();
+		$db = $this->getDBO();
 		
 		echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 		echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";

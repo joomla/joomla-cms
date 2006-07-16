@@ -42,6 +42,7 @@ Legend:
  # Corrected the missing '!' in the template
  ^ [task2378] refactoring of mod_syndicate
  ^ [task2378] refactoring of mod_stats
+ ^ [task2375] refactoring of mod_search
 
 16-Jul-2006 Andy Miller
  ^ Updated some menu icons to match new manager icons
