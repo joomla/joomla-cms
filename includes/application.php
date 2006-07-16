@@ -273,6 +273,31 @@ class JSite extends JApplication
 			$this->setUserState( 'setTemplate', $template );
 		}
 	}
+	
+	function setLanguage()
+	{
+		//get the user
+		$user = & $this->getUser();
+
+		// use user or default language settings
+		$lang = $user->getParam( 'language', $this->getCfg('lang_site') );
+
+		//One last check to make sure we have something
+		if (empty($lang)) {
+			$lang = 'en-GB';
+		}
+
+		//Set the language in the class
+		$conf =& JFactory::getConfig();
+		$conf->setValue('config.language', $lang);
+		//set language debug
+		$lang =& JFactory::getLanguage();
+		$lang->setDebug($this->getCfg('debug_lang'));
+		
+		// create the backward compatible language value for old 3PD components
+		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+	}
+
 }
 
 

@@ -37,17 +37,17 @@ $GLOBALS['database'] =& $mainframe->getDBO();
 $user =& $mainframe->getUser();
 $GLOBALS['my'] =& $user->getTable();
 
-// load system plugin group
-JPluginHelper::importPlugin( 'system' );
-
-// trigger the onStart events
-$mainframe->triggerEvent( 'onBeforeStart' );
-
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 // set language
 $mainframe->setLanguage();
+
+// load system plugin group
+JPluginHelper::importPlugin( 'system' );
+
+// trigger the onStart events
+$mainframe->triggerEvent( 'onBeforeStart' );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );

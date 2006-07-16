@@ -22,7 +22,6 @@ require_once ( JPATH_BASE.'/includes/template.html.php' );
 
 // create the mainframe object
 $mainframe = new JAdministrator();
-
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
@@ -37,20 +36,20 @@ $GLOBALS['database'] =& $mainframe->getDBO();
 $user =& $mainframe->getUser();
 $GLOBALS['my'] =& $user->getTable();
 
+// create the session
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
+
+// set language
+$mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
+
 // load system plugin group
 JPluginHelper::importPlugin( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-// create the session
-$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
-
 // load a stored user state if it exists
 $mainframe->loadStoredUserState();
-
-// set language
-$mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );

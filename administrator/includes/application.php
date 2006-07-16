@@ -317,6 +317,36 @@ class JAdministrator extends JApplication
 		// No stored user state exists
 		return false;
 	}
+	
+	function setLanguage($lang = null)
+	{
+		//get the user
+		$user = & $this->getUser();
+
+		// if a language was specified at login it has priority
+		// otherwise use user or default language settings
+		if (empty($lang)) 
+		{
+			$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
+		}
+
+		//One last check to make sure we have something
+		if (empty($lang)) {
+			$lang = 'en-GB';
+		}
+
+		//Set the language in the class
+		$conf =& JFactory::getConfig();
+		$conf->setValue('config.language', $lang);
+		//set language debug
+		$lang =& JFactory::getLanguage();
+		$lang->setDebug($this->getCfg('debug_lang'));
+		
+		// create the backward compatible language value for old 3PD components
+		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+	}
+	
+	
 }
 
 /**
