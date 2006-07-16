@@ -36,11 +36,7 @@ if (!is_array( $cid )) {
 switch ($task)
 {
 	case 'publish':
-		publishLanguage( $cid[0], $option );
-		break;
-
-	case 'cancel':
-		josRedirect( "index2.php?option=$option" );
+		publishLanguage( $cid[0]);
 		break;
 
 	default:
@@ -120,7 +116,8 @@ function viewLanguages()
 /**
 * Publish, or make current, the selected language
 */
-function publishLanguage( $language, $option )
+//function publishLanguage( $language, $option )
+function publishLanguage( $language )
 {
 	global $mainframe;
 
