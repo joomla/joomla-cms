@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Jul-2006 Alex Kempkens
+ ^ [task2379] refactoring of mod_whosonline
+
 16-Jul-2006 Andy Miller
  ^ Updated some menu icons to match new manager icons
 
