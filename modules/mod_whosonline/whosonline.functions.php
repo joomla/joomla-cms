@@ -21,7 +21,7 @@ class JModWhoIsOnlineController extends JController
 	function display()
 	{
 		$params		= &$this->params;
-		$db			= &JFactory::getDBO();
+		$db			= &$this->getDBO();
 
 		$showmode = $params->get('showmode', 0);
 
