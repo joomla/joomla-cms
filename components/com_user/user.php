@@ -179,7 +179,6 @@ class UserController
 		global $mainframe;
 
 		$db 	=& $mainframe->getDBO();
-
 		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
 
 		// do some security checks

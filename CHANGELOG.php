@@ -43,6 +43,7 @@ Legend:
 16-Jul-2006 David Gal
  ^ Moved session creation and language setting prior to plugin loading index.php (admin and site)
  ^ Refactored setLanguage - removed from JApplication and created specific methods in JSite and JAdministrator
+ # Fixed JRequest::getVar type casting
 
 16-Jul-2006 Alex Kempkens
  ^ [task2379] refactoring of mod_whosonline

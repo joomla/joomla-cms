@@ -113,7 +113,7 @@ class JRequest
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($result != $default))
 			{
-				if (!is_array($result)) {
+				if (!is_array($result) && is_string($result)) {
 					$result = stripslashes($result);
 				}
 			}
