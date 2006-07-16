@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Jul-2006 Wilco Jansen
+ ^ Added JTable::addTableDir enabling 3rd party components to make use of the JTable::getInstance method 
+
 16-Jul-2006 David Gal
  ^ Moved session creation and language setting prior to plugin loading index.php (admin and site)
  ^ Refactored setLanguage - removed from JApplication and created specific methods in JSite and JAdministrator
