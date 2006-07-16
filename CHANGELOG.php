@@ -39,6 +39,8 @@ Legend:
 
 16-Jul-2006 Alex Kempkens
  ^ [task2379] refactoring of mod_whosonline
+ # Corrected the missing '!' in the template
+ ^ [task2378] refactoring of mod_syndicate
 
 16-Jul-2006 Andy Miller
  ^ Updated some menu icons to match new manager icons

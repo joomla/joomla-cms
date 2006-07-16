@@ -14,45 +14,13 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-$option	= JRequest::getVar( 'option', '', 'get' );
-$task	= JRequest::getVar( 'task', '', 'get' );
+jimport( 'joomla.application.controller' );
+/*
+ * Include the syndicate functions only once
+ */
+require_once (dirname(__FILE__).DS.'syndicate.functions.php');
 
-if (!defined('_SYNDICATE_MODULE'))
-{
-	/** ensure that functions are declared only once */
-	define('_SYNDICATE_MODULE', 1);
-
-	function outputSyndicateLink( $link, &$params )
-	{
-		$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
-		?>
-			<a href="<?php echo $link ?>">
-				<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
-			</a>
-		<?php
-	}
-
-	function getSyndicateLink(&$params)
-	{
-		global $mainframe;
-
-		$document =& $mainframe->getDocument();
-
-		foreach($document->_links as $link)
-		{
-			if(strpos($link, 'application/'.$params->get('format').'+xml')) {
-				preg_match("#href=\"(.*?)\"#s", $link, $matches);
-				return $matches[1];
-			}
-		}
-
-	}
-}
-
-// paramters
-$params->def('text', 'Feed Entries');
-$params->def('format', 'rss');
-
-if($link = getSyndicateLink($params)) {
-	outputSyndicateLink( $link, $params );
-}
+$controller = new JModSyndicateController( $mainframe );
+$controller->params = &$params;
+$controller->execute( 'display' );
+?>
