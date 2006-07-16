@@ -106,15 +106,13 @@ class JAuthenticate extends JObject
 					break;
 				case 'autocreate':
 					// We need to create the user
-//					print_r($credentials[username]);
-//					die();
 					$user = new JUser();
 					$user->set( 'id', 0 );
-					$user->set( 'name', $credentials[username] );
-					$user->set( 'username', $credentials[username] );
+					$user->set( 'name', $credentials['username'] );
+					$user->set( 'username', $credentials['username'] );
 					$user->set( 'gid', 18 );
 					$user->set( 'usertype', 'Registered' );
-					$user->set( 'email', $credentials[username] );
+					$user->set( 'email', $credentials['username'] );
 					$user->save();
 					return true;
 					break;
