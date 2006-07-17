@@ -30,6 +30,4 @@ switch ($task) {
 		break;
 	default : break;
 }
-
-josRedirect( 'index.php' );
 ?>

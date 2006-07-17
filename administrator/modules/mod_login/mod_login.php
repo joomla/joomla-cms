@@ -36,12 +36,11 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 		<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 	</p>
 	<?php
-	if(JRequest::getVar('option') == 'com_login') {
-		if(!JSession::get('guest')) {
-			echo "<p>";
-			echo JText::_( 'LOGIN_INCORRECT' );
-			echo  "</p>";
-		}
+	$error =& JError::getError();
+	if(JError::isError($error)) {
+		echo "<p>";
+		echo $error->getMessage();
+		echo  "</p>";
 	}
 	?>
 	<p>

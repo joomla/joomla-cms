@@ -224,16 +224,20 @@ class JApplication extends JObject
 	 */
 	function login($username,$password)
 	{
-		if (empty($username) || empty($password)) {
-			return false;
+		if (empty($username))  { 
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('LOGIN_NOUSERNAME'));
+		}
+		
+		if(empty($password)) {
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('LOGIN_NOPASSWORD'));	
 		}
 
 		// Get the global database connector object
 		$db = $this->getDBO();
 
 		// Build the credentials array
-		$credentials['username'] = $db->getEscaped( $username );
-		$credentials['password'] = $db->getEscaped( $password );
+		$credentials['username'] = $username;
+		$credentials['password'] = $password;
 
 		// Get the global JAuthenticate object
 		jimport( 'joomla.application.user.authenticate');
@@ -263,8 +267,7 @@ class JApplication extends JObject
 
 				// If the user is blocked, redirect with an error
 				if ($user->get('block') == 1) {
-					 // TODO::provide error message
-					return false;
+					return JError::raiseWarning('SOME_ERROR_CODE', JText::_('NOLOGIN_BLOCKED'));
 				}
 
 				// Fudge the ACL stuff for now...
@@ -319,7 +322,7 @@ class JApplication extends JObject
 				return true;
 			}
 		}
-		return false;
+		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('LOGIN_NOAUTHENTICATE'));
 	}
 
 	/**
