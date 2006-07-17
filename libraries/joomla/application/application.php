@@ -225,11 +225,11 @@ class JApplication extends JObject
 	function login($username,$password)
 	{
 		if (empty($username))  { 
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('LOGIN_NOUSERNAME'));
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_USERNAME'));
 		}
 		
 		if(empty($password)) {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('LOGIN_NOPASSWORD'));	
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));	
 		}
 
 		// Get the global database connector object
@@ -267,7 +267,7 @@ class JApplication extends JObject
 
 				// If the user is blocked, redirect with an error
 				if ($user->get('block') == 1) {
-					return JError::raiseWarning('SOME_ERROR_CODE', JText::_('NOLOGIN_BLOCKED'));
+					return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
 				}
 
 				// Fudge the ACL stuff for now...
@@ -322,7 +322,7 @@ class JApplication extends JObject
 				return true;
 			}
 		}
-		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('LOGIN_NOAUTHENTICATE'));
+		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
 	}
 
 	/**

@@ -23,6 +23,13 @@ jimport('pattemplate.patErrorManager');
  * @subpackage	Utilities
  * @since		1.5
  */
+ 
+ 
+/**
+ * global definition needed to store the latest raised error
+ */
+$GLOBALS['_JError_errorStore'] = null; 
+ 
 class JError extends patErrorManager 
 {
 	/**
