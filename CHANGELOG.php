@@ -39,6 +39,8 @@ Legend:
 
 17-Jul-2006 Alex Kempkens
  + [task2536] com_registration -> remember me changed. Frontend texts added to language files
+ # [artf3899] Missing definitions in backend language files - added which I found missing
+ ^ updated installation language file for German
 
 16-Jul-2006 Wilco Jansen
  ^ Added JTable::addTableDir enabling 3rd party components to make use of the JTable::getInstance method 

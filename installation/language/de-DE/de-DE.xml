@@ -10,7 +10,7 @@
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <description>German language file for web installer, provided by joomla!GTT</description>
     <metadata>
-    	<name>German (Germany)</name>
+    	<name>German (Deutschland)</name>
     	<tag>de-DE</tag>
     	<rtl>0</rtl>
     	<locale>ge, de, de_DE@euro, de_DE, deu, german, germany</locale>
