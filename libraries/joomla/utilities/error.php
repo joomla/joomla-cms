@@ -23,8 +23,8 @@ jimport('pattemplate.patErrorManager');
  * @subpackage	Utilities
  * @since		1.5
  */
-class JError extends patErrorManager {
-
+class JError extends patErrorManager 
+{
 	/**
 	* method for checking whether the return value of a pat application method is a pat
 	* error object.
@@ -45,7 +45,7 @@ class JError extends patErrorManager {
 	* @access	public
 	* @return	array 	$result	Chronological array of errors that have been stored during script execution
 	*/
-    function getErrors( ) {
+    function getError( ) {
 		return $GLOBALS['_JError_errorStore'];
     }
 
@@ -56,8 +56,8 @@ class JError extends patErrorManager {
 	* @access	public
 	* @return	array 	$result	True if any error are stored
 	*/
-    function hasErrors( ) {
-		return count($GLOBALS['_JError_errorStore']);
+    function hasError( ) {
+		return isnull($GLOBALS['_JError_errorStore']);
     }
 
    /**
@@ -73,14 +73,6 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseError( $code, $msg, $info = null ) {
-		// TODO: there is a recursive loop on the callback function screwing everything up
-		// can't find it though
-		echo '<div style="font-family:verdana;font-size:11px;border:1px solid red;">';
-		echo 'Error code = ' . $code;
-		echo '<br/>Error message = ' . nl2br($msg);
-		echo '</div>';
-		die;
-
 		$reference = & JError::raise( E_ERROR, $code, $msg, $info );
 		return $reference;
 	}
@@ -98,14 +90,6 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseWarning( $code, $msg, $info = null ) {
-		// TODO: there is a recursive loop on the callback function screwing everything up
-		// can't find it though
-		echo '<div style="font-family:verdana;font-size:11px;border:1px solid red;">';
-		echo 'Warning code = ' . $code;
-		echo '<br/>Warning message = ' . nl2br($msg);
-		echo '</div>';
-		$null = null;
-		return $null;
 		$reference = & JError::raise( E_WARNING, $code, $msg, $info );
 		return $reference;
 	}
@@ -123,14 +107,6 @@ class JError extends patErrorManager {
 	* @see		patErrorManager
 	*/
 	function &raiseNotice( $code, $msg, $info = null ) {
-		// TODO: there is a recursive loop on the callback function screwing everything up
-		// can't find it though
-		echo '<div style="font-family:verdana;font-size:11px;border:1px solid red;">';
-		echo 'Notice code = ' . $code;
-		echo '<br/>Notice message = ' . nl2br($msg);
-		echo '</div>';
-		$null = null;
-		return $null;
 		$reference = & JError::raise( E_NOTICE, $code, $msg, $info );
 		return $reference;
 	}
@@ -158,26 +134,27 @@ class JError extends patErrorManager {
 		if( !empty( $GLOBALS['_pat_errorExpects'] ) )
 		{
 			$expected =	array_pop( $GLOBALS['_pat_errorExpects'] );
-			if( in_array( $code, $expected ) )
-			{
+			if( in_array( $code, $expected ) ) {
 				return false;
 			}
 		}
 
 		// need patError
 		$class	=	$GLOBALS['_pat_errorClass'];
-		if( !class_exists( $class ) )
-		{
+		if( !class_exists( $class ) ) {
 			jimport('pattemplate.patError');
 		}
 
 		// build error object
-		$error			=&	new	$class( $level, $code, $msg, $info );
+		$error		=&	new	$class( $level, $code, $msg, $info );
 
 		// see what to do with this kind of error
 		$handling	=	patErrorManager::getErrorHandling( $level );
+		
+		//store the error
+		$GLOBALS['_JError_errorStore'] =& $error;
 
-		$function	=	'handleError' . ucfirst( $handling['mode'] );echo $handling['mode']; die;
+		$function	=	'handleError' . ucfirst( $handling['mode'] );
 		return JError::$function( $error, $handling );
     }
 
@@ -192,8 +169,8 @@ class JError extends patErrorManager {
 	* @see raise()
 	*/
     function &handleErrorEcho( &$error, $options )
-    {
-		$level_human	=	patErrorManager::translateErrorLevel( $error->getLevel() );
+    {	
+    	$level_human	=	patErrorManager::translateErrorLevel( $error->getLevel() );
 
 		if( isset( $_SERVER['HTTP_HOST'] ) )
 		{
@@ -605,7 +582,11 @@ class JErrorHandler
 }
 
 // setup handler for each error-level
-JError::setErrorHandling( E_ERROR  , 'callback', array( new JErrorHandler, 'handleError' ) );
+//JError::setErrorHandling( E_ERROR  , 'callback', array( new JErrorHandler, 'handleError' ) );
+//JError::setErrorHandling( E_WARNING, 'echo' );
+//JError::setErrorHandling( E_NOTICE , 'echo' );
+
+JError::setErrorHandling( E_ERROR  , 'echo' );
 JError::setErrorHandling( E_WARNING, 'echo' );
 JError::setErrorHandling( E_NOTICE , 'echo' );
 ?>
