@@ -23,10 +23,14 @@ $task = strtolower(JRequest::getVar('task'));
 switch ($task) {
 
 	case 'login' :
-		$mainframe->login();
+		if(!JError::isError($mainframe->login())) {
+			josRedirect('index.php');
+		}
 		break;
 	case 'logout' :
-		$mainframe->logout();
+		if(!JError::isError($mainframe->logout())) {
+			josRedirect('index.php');
+		}
 		break;
 	default : break;
 }

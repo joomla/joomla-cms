@@ -57,17 +57,16 @@ class JAdministrator extends JApplication
 		$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
 
-		if (parent::login($username, $password))
-		{
+		$result = parent::login($username, $password);
+		if(!JError::isError($result)){
 			$lang = JRequest::getVar( 'lang' );
 			$this->setUserState( 'application.lang', $lang  );
 			JSession::pause();
 
 			JAdministrator::purgeMessages();
-			return true;
 		}
 
-		return false;
+		return $result;
 	}
 
 	/**
@@ -325,8 +324,7 @@ class JAdministrator extends JApplication
 
 		// if a language was specified at login it has priority
 		// otherwise use user or default language settings
-		if (empty($lang)) 
-		{
+		if (empty($lang)) {
 			$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
 		}
 
