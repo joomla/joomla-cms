@@ -63,6 +63,11 @@ class HTML_registration {
 			</td>
 		</tr>
 		<tr>
+			<td colspan="2" height="40">
+				<?php echo JText::_( 'USER_UNKNOWN_DESC' ); ?>
+			</td>
+		</tr>
+		<tr>
 			<td height="40">
 				<label for="checkusername">
 					<?php echo JText::_( 'Username' ); ?>:
@@ -70,6 +75,16 @@ class HTML_registration {
 			</td>
 			<td>
 				<input type="text" id="checkusername" name="checkusername" class="inputbox" size="40" maxlength="25" />
+			</td>
+		</tr>
+		<tr>
+			<td height="40">
+				<label for="userunknown">
+					<?php echo JText::_( 'User unknown' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input type="checkbox" id="userunknown" name="userunkown" class="inputbox" value="1" />
 			</td>
 		</tr>
 		<tr>

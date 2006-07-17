@@ -26,7 +26,12 @@ switch( $task )
 		break;
 
 	case 'sendNewPass':
-		sendNewPass();
+		$userunknown	= JRequest::getVar( 'userunkown', 0, 'post', 'integer' );
+		if( $userunknown == 1 ) {
+			resendUser();
+		} else {
+			sendNewPass();
+		}
 		break;
 
 	case 'register':
@@ -110,6 +115,43 @@ function sendNewPass()
 	}
 
 	josRedirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
+}
+
+/**
+ * Resends the user details if a user with the email adress can be found
+ * @return void
+ */
+function resendUser() {
+	global $mainframe;
+
+	$siteURL 	= $mainframe->getBaseURL();
+	$sitename 	= $mainframe->getCfg('sitename');
+	$db 		=& $mainframe->getDBO();
+
+	// ensure no malicous sql gets past
+	$confirmEmail	= JRequest::getVar( 'confirmEmail', '', 'post' );
+	$confirmEmail	= $db->getEscaped( $confirmEmail );
+
+	$query = "SELECT username"
+	. "\n FROM #__users"
+	. "\n WHERE email = '$confirmEmail'"
+	;
+	$db->setQuery( $query );
+	if (!($username = $db->loadResult()) || !$confirmEmail) {
+		josRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+	}
+
+	$message = sprintf( JText::_( 'RESEND_MAIL_MSG' ), $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
+
+	eval ("\$message = \"$message\";");
+	$subject = sprintf( JText::_( 'Resend username for' ), $sitename );
+	eval ("\$subject = \"$subject\";");
+
+	$mailfrom = $mainframe->getCfg( 'mailfrom' );
+	$fromname = $mainframe->getCfg( 'fromname' );
+	mosMail($mailfrom, $fromname, $confirmEmail, $subject, $message);
+
+	josRedirect( 'index.php?option=com_registration', JText::_( 'Username resend' ) );
 }
 
 /**
