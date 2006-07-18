@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jul-2006 Marko Schmuck
+ ^ updated installation language file for German latest version of the GTT Team
+ 
 18-Jul-2006 Enno Klasing
  # Fixed [artf3839] : patTemplate Tabs
 
