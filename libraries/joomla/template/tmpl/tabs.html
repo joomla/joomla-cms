@@ -28,11 +28,11 @@ See COPYRIGHT.php for copyright notices and details.
 <jtmpl:tmpl name="startTab" varscope="body">
 	<div class="tab-page" id="{PANEID}">
 	<h2 class="tab">
-			<jtmpl:var name="tabtitle" modifier="translate" />
+		<span><jtmpl:var name="tabtitle" modifier="translate" /></span>
 	</h2>
-		<script language="javascript" type="text/javascript">
+	<script language="javascript" type="text/javascript">
 		<!--
-	tabPane1.addTabPage( document.getElementById( '{PANEID}' ) );
+		tabPane1.addTabPage( document.getElementById( '{PANEID}' ) );
 		//-->
 	</script>
 </jtmpl:tmpl>

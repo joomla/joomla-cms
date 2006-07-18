@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jul-2006 Enno Klasing
+ # Fixed [artf3839] : patTemplate Tabs
+
 17-Jul-2006 Alex Kempkens
  + [task2536] com_registration -> remember me changed. Frontend texts added to language files
  # [artf3899] Missing definitions in backend language files - added which I found missing
