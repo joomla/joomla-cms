@@ -192,7 +192,7 @@ class JPluginHelper
 			$gid = 0;
 		}
 
-		$query = "SELECT id, folder, element, published, params"
+		$query = "SELECT id, name, folder, element, published, params"
 			. "\n FROM #__plugins"
 			. "\n WHERE published >= 1"
 			. "\n AND access <= $gid"
