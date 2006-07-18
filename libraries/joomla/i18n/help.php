@@ -41,7 +41,7 @@ class JHelp
 		if ($com) 
 		{
 	   		// help file for 3PD Components
-			$url .= '/administrator/components/' . $option. '/help/';
+			$url .= '/components/' . $option. '/help/';
 			if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}

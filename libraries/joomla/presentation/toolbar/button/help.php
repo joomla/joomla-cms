@@ -69,11 +69,23 @@ class JButton_Help extends JButton
 	 */
 	function _getCommand($ref, $com)
 	{
+		global $mainframe;
+		
 		// Get Help URL
 		jimport('joomla.i18n.help');
 		$url = JHelp::createURL($ref, $com);
 
-		$cmd = "window.open('$url', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');";
+		if (substr($url, 0, 4) !== 'http') {
+			$url = $mainframe->getBaseURL().$url;
+		}
+
+		$baseurl = $mainframe->isAdmin() ? '../' : '';
+
+		$doc =& $mainframe->getDocument();
+		$doc->addScript($baseurl.'includes/js/joomla/popup.js');
+		$doc->addStyleSheet($baseurl.'includes/js/joomla/popup.css');
+
+		$cmd = "document.popup.show('$url', 640, 480, null)";
 
 		return $cmd;
 	}
