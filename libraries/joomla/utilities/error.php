@@ -52,19 +52,8 @@ class JError extends patErrorManager
 	* @access	public
 	* @return	array 	$result	Chronological array of errors that have been stored during script execution
 	*/
-    function getError( ) {
+    function &getError( ) {
 		return $GLOBALS['_JError_errorStore'];
-    }
-
-	/**
-	* method to check if any errors have been stored
-	*
-	* @static
-	* @access	public
-	* @return	array 	$result	True if any error are stored
-	*/
-    function hasError( ) {
-		return isnull($GLOBALS['_JError_errorStore']);
     }
 
    /**
@@ -153,7 +142,7 @@ class JError extends patErrorManager
 		}
 
 		// build error object
-		$error		=&	new	$class( $level, $code, $msg, $info );
+		$error		=	new	$class( $level, $code, $msg, $info );
 
 		// see what to do with this kind of error
 		$handling	=	patErrorManager::getErrorHandling( $level );

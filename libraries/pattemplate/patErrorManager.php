@@ -95,8 +95,10 @@ class patErrorManager
 		{
 			return false;
 		}
+		
+		
 
-		if( get_class( $object ) != strtolower( $GLOBALS['_pat_errorClass'] ) && !is_subclass_of( $object, $GLOBALS['_pat_errorClass'] ) )
+		if( strtolower(get_class( $object )) != strtolower( $GLOBALS['_pat_errorClass'] ) && !is_subclass_of( $object, $GLOBALS['_pat_errorClass'] ) )
 		{
 			return false;
 		}
