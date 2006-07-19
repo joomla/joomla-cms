@@ -343,19 +343,13 @@ class JTemplatesView
 	{
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
 		?>
-<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php" method="post" name="adminForm">
 
-	<div id="templates-navigation">
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'snippets.html'); ?>
-
-		<fieldset title="">
-			<p>
-				<?php echo JText::_( 'This file is' ); ?>:
-				<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
-			</p>
-			<p>
-			<?php
-			if (mosIsChmodable($template_path)) {
+		<?php echo JText::_( 'This file is' ); ?>:
+		<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
+		<?php
+			if (mosIsChmodable($template_path)) 
+			{
 				if (is_writable($template_path)) {
 				?>
 					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
@@ -368,14 +362,8 @@ class JTemplatesView
 				<?php
 				} // if
 			} // if
-			?>
-			</p>
-		</fieldset>
-
-	</div>
-
-	<div id="templates-document">
-
+		?>
+	
 		<table class="adminform">
 		<tr>
 			<th>
@@ -388,14 +376,14 @@ class JTemplatesView
 			</td>
 		</tr>
 		</table>
-	</div>
-	<div class="clr"></div>
 
-	<input type="hidden" name="template" value="<?php echo $template; ?>" />
-	<input type="hidden" name="option" value="<?php echo $option;?>" />
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
-</form>
+		<div class="clr"></div>
+
+		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
+		</form>
 		<?php
 	}
 
