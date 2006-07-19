@@ -124,14 +124,21 @@ class LoginController
 		$username = JRequest::getVar( 'username' );
 		$password = JRequest::getVar( 'password' );
 
-		$mainframe->login($username, $password);
+		$error = $mainframe->login($username, $password);
+		
+		if(!JError::isError($error)) 
+		{
+			$return = JRequest::getVar( 'return' );
 
-		$return = JRequest::getVar( 'return' );
-
-		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-			// checks for the presence of a return url
-			// and ensures that this url is not the registration or login pages
-			josRedirect( $return );
+			/* 
+			 * checks for the presence of a return url and ensures that this url is not 
+			 * the registration or login pages
+			 */
+			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+				josRedirect( $return );
+			}
+		} else {
+			josErrorAlert($error->getMessage());
 		}
 	}
 
@@ -139,14 +146,21 @@ class LoginController
 	{
 		global $mainframe;
 
-		$mainframe->logout();
+		$error = $mainframe->logout();
+		
+		if(!JError::isError($error)) 
+		{
+			$return = JRequest::getVar( 'return' );
 
-		$return = JRequest::getVar( 'return' );
-
-		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-			// checks for the presence of a return url
-			// and ensures that this url is not the registration or logout pages
-			josRedirect( $return );
+			/* 
+			 * checks for the presence of a return url and ensures that this url is not 
+			 * the registration or login pages
+			 */
+			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+				josRedirect( $return );
+			}
+		} else {
+			josErrorAlert($error->getMessage());
 		}
 	}
 }

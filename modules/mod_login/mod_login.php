@@ -111,14 +111,6 @@ else
 			<br />
 			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="<?php echo JText::_( 'Password' ); ?>" />
 			<br />
-			<?php
-				$error =& JError::getError();
-				if(JError::isError($error)) {
-					echo "<p>";
-					echo $error->getMessage();
-					echo  "</p>";
-				}
-			?>
 			<input type="checkbox" name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="<?php echo JText::_( 'Remember me' ); ?>" />
 			<label for="mod_login_remember">
 				<?php echo JText::_( 'Remember me' ); ?>
