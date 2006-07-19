@@ -79,7 +79,7 @@ class JButton_Help extends JButton
 			$url = $mainframe->getBaseURL().$url;
 		}
 
-		$baseurl = $mainframe->isAdmin() ? '../' : '';
+		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		$doc =& $mainframe->getDocument();
 		$doc->addScript($baseurl.'includes/js/joomla/popup.js');
