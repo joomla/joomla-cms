@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Jul-2006 Johan Janssens 
+ + Added static JUtility static as container for utility functions
+ ^ Implemented JError store to track last error message
+ # Fixed login error reporting on both front and backend 
+ ^ josMail 			-> JUtility::sendMail
+ ^ josSendAdminMail -> JUtility::sendAdminMail
+
 19-Jul-2006 Enno Klasing
  # Fixed [artf4441] : Missing translation in default en_GB
  # Fixed problems with josMail() when using SMTP Mailer

@@ -307,12 +307,12 @@ class JContentModelArticle extends JModel
 		$body = sprintf(JText::_('EMAIL_MSG'), $SiteName, $fromname, $from, $link);
 
 		// Clean the email data
-		$subject			= JMailHelper::cleanSubject($subject);
-		$body				= JMailHelper::cleanBody($body);
+		$subject	= JMailHelper::cleanSubject($subject);
+		$body		= JMailHelper::cleanBody($body);
 		$yourename	= JMailHelper::cleanAddress($fromname);
 
 		// Send the email
-		josMail($from, $fromname, $to, $subject, $body);
+		JUtility::sendMail($from, $fromname, $to, $subject, $body);
 	}
 
 	/**

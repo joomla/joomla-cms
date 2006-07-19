@@ -351,7 +351,7 @@ function saveUser(  )
 			$adminName 	= $FromName;
 			$adminEmail = $MailFrom;
 		}
-		josMail( $adminEmail, $adminName, $user->get('email'), $subject, $message );
+		JUtility::sendMail( $adminEmail, $adminName, $user->get('email'), $subject, $message );
 	}
 
 	switch ( $task ) {

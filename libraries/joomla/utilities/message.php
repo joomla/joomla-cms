@@ -169,15 +169,14 @@ class JMessage extends JTable
 					$subject	= JText::_('A new private message has arrived');
 					$msg		= JText::_('A new private message has arrived');
 
-					josMail($mailfrom, $fromname, $recipient, $subject, $msg);
+					JUtility::sendMail($mailfrom, $fromname, $recipient, $subject, $msg);
 				}
 				return true;
 			}
 		}
 		else
 		{
-			if (is_object($this))
-			{
+			if (is_object($this)) {
 				$this->_error = JText::_('MESSAGE_FAILED');
 			}
 		}

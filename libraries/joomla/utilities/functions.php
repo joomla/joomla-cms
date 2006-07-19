@@ -13,31 +13,6 @@
  */
 
 /**
- * Strip slashes from strings or arrays of strings
- *
- * @package Joomla.Framework
- * @param mixed The input string or array
- * @return mixed String or array stripped of slashes
- * @since 1.0
- */
-function mosStripslashes( &$value ) {
-	$ret = '';
-	if (is_string( $value )) {
-		$ret = stripslashes( $value );
-	} else {
-		if (is_array( $value )) {
-			$ret = array();
-			foreach ($value as $key => $val) {
-				$ret[$key] = mosStripslashes( $val );
-			}
-		} else {
-			$ret = $value;
-		}
-	}
-	return $ret;
-}
-
-/**
 * Makes a variable safe to display in forms
 *
 * Object parameters that are non-string, array, object or start with underscore
@@ -488,24 +463,6 @@ function josFilterValue( &$var, $mask = 0 )
 	return $return;
 }
 
-/**
-* Displays a not authorised message
-*
-* If the user is not logged in then an addition message is displayed.
-*
-* @package Joomla.Framework
-* @since 1.0
-*/
-function mosNotAuth() {
-	global $mainframe;
-
-	$user =& $mainframe->getUser();
-	echo JText::_('ALERTNOTAUTH');
-	if ($user->get('id') < 1) {
-		echo "<br />" . JText::_( 'You need to login.' );
-	}
-}
-
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {
 	if (@$children[$id] && $level <= $maxlevel) {
 		foreach ($children[$id] as $v) {
@@ -676,22 +633,6 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	return $tip;
 }
 
-function mosCreateGUID(){
-	srand((double)microtime()*1000000);
-	$r = rand() ;
-	$u = uniqid(getmypid() . $r . (double)microtime()*1000000,1);
-	$m = md5 ($u);
-	return($m);
-}
-
-function mosCompressID( $ID ){
-	return(Base64_encode(pack("H*",$ID)));
-}
-
-function mosExpandID( $ID ) {
-	return ( implode(unpack("H*",Base64_decode($ID)), '') );
-}
-
 /**
  * Provides a secure hash based on a seed
  *
@@ -702,110 +643,6 @@ function mosExpandID( $ID ) {
  */
 function mosHash( $seed ) {
 	return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
-}
-
-/**
- * Mail function (uses phpMailer)
- *
- * @package Joomla.Framework
- * @param string $from From e-mail address
- * @param string $fromname From name
- * @param mixed $recipient Recipient e-mail address(es)
- * @param string $subject E-mail subject
- * @param string $body Message body
- * @param boolean $mode false = plain text, true = HTML
- * @param mixed $cc CC e-mail address(es)
- * @param mixed $bcc BCC e-mail address(es)
- * @param mixed $attachment Attachment file name(s)
- * @param mixed $replyto Reply to email address(es)
- * @param mixed $replytoname Reply to name(s)
- * @return boolean True on success
- * @since 1.5
- */
-function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
-	global $mainframe;
-
-	jimport('joomla.utilities.mail');
-
-	/*
-	 * Get a JMail instance
-	 */
-	$mail =& JFactory::getMailer();
-
-	$mail->setSender(array($from, $fromname));
-	$mail->setSubject($subject);
-	$mail->setBody($body);
-
-	/*
-	 * Are we sending the email as HTML?
-	 */
-	if ( $mode ) {
-		$mail->IsHTML(true);
-	}
-
-	$mail->addRecipient($recipient);
-	$mail->addCC($cc);
-	$mail->addBCC($bcc);
-	$mail->addAttachment($attachment);
-
-	/*
-	 * Take care of reply email addresses
-	 */
-	$numReplyTo = count($replyto);
-	for ($i=0;$i < $numReplyTo; $i++) {
-		$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
-	}
-
-	/*
-	 * Send the email
-	 */
-	$sent = $mail->Send();
-
-	/*
-	 * Set debug information
-	 * TODO: Common debug template perhaps?
-	 */
-	if( $mainframe->getCfg( 'debug' ) ) {
-		//$mosDebug->message( "Mails send: $mailssend");
-	}
-	if( $mail->error_count > 0 ) {
-		//$mosDebug->message( "The mail message $fromname <$from> about $subject to $recipient <b>failed</b><br /><pre>$body</pre>", false );
-		//$mosDebug->message( "Mailer Error: " . $mail->ErrorInfo . "" );
-	}
-
-	return $sent;
-}
-
-/**
- * Sends mail to administrator for approval of a user submission
- *
- * @package Joomla.Framework
- * @param string $adminName Name of administrator
- * @param string $adminEmail Email address of administrator
- * @param string $email [NOT USED TODO: Deprecate?]
- * @param string $type Type of item to approve
- * @param string $title Title of item to approve
- * @param string $author Author of item to approve
- * @return boolean True on success
- * @since 1.5
- */
-function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) {
-	global $mainframe;
-
-	if(!isset($url)) {
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-	}
-
-    $strAdminDir = 'administrator';
-
-	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
-
-	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, $strAdminDir, $type);
-    $message .= JText::_( 'MAIL_MSG') ."\n";
-
-	eval ("\$message = \"$message\";");
-
-	return josMail($mainframe->getCfg( 'mailfrom' ), $mainframe->getCfg( 'fromname' ), $adminEmail, $subject, $message);
 }
 
 /**

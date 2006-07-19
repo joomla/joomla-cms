@@ -12,6 +12,47 @@
 */
 
 /**
+ * Legacy function
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosStripslashes( &$value ) 
+{
+	$ret = '';
+	if (is_string( $value )) {
+		$ret = stripslashes( $value );
+	} else {
+		if (is_array( $value )) {
+			$ret = array();
+			foreach ($value as $key => $val) {
+				$ret[$key] = mosStripslashes( $val );
+			}
+		} else {
+			$ret = $value;
+		}
+	}
+	return $ret;
+}
+
+/**
+* Legacy function
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+*/
+function mosNotAuth() 
+{
+	global $mainframe;
+
+	$user =& $mainframe->getUser();
+	echo JText::_('ALERTNOTAUTH');
+	if ($user->get('id') < 1) {
+		echo "<br />" . JText::_( 'You need to login.' );
+	}
+}
+
+/**
  * Legacy function, use josErrorAlert instead
  *
  * @deprecated	As of version 1.5
@@ -73,23 +114,23 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 }
 
 /**
- * Legacy function, use josMail instead
+ * Legacy function, use JUtility::sendMail instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
-	josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
+	JUTility::sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
 }
 
 /**
- * Legacy function, use josSendAdminMail instead
+ * Legacy function, use JUtility::sendAdminMail instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
-	josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
+	JUtility::sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
 }
 
 /**

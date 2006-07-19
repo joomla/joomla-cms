@@ -597,7 +597,7 @@ class WeblinksController
 
 		// send email notification to admins
 		foreach ($adminRows as $adminRow) {
-			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $user->get('username'), $mainframe->getBaseURL());
+			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $user->get('username'), $mainframe->getBaseURL());
 		}
 
 		$msg = $isNew ? JText::_('THANK_SUB') : '';

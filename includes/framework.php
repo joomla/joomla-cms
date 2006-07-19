@@ -71,6 +71,7 @@ jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.utilities.functions' );
+jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.error');
 jimport( 'joomla.application.user.user' );
 jimport( 'joomla.application.environment.session' );
