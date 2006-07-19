@@ -40,11 +40,9 @@ fx.Slide.prototype = {
 			 Element.removeClassName(el, 'moofx-toggler-down');
 		}.bind(this));
 		
-		if (slider.offsetHeight == 0) {
-			slider.style.display = 'block';
-			setTimeout(function(){this.clear(slider);}.bind(this), this.options.delay);
-			Element.addClassName(toggler, 'moofx-toggler-down');
-		}
+		slider.style.display = 'block';
+		setTimeout(function(){this.clear(slider);}.bind(this), this.options.delay);
+		Element.addClassName(toggler, 'moofx-toggler-down');
 	},
 
 	clear: function(slider){
@@ -58,7 +56,7 @@ fx.Slide.prototype = {
 /* -------------------------------------------- */
 
 function init_moofx() {
-	
+ 
   var sliders  = document.getElementsByClassName('moofx-slider'); 	//div that stretches
   var togglers = document.getElementsByClassName('moofx-toggler'); 	//h3s where I click on
   
