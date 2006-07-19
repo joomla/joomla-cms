@@ -730,7 +730,7 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
 	/*
 	 * Get a JMail instance
 	 */
-	$mail =& JMail::getInstance();
+	$mail =& JFactory::getMailer();
 
 	$mail->setSender(array($from, $fromname));
 	$mail->setSubject($subject);

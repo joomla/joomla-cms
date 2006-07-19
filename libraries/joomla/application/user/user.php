@@ -53,6 +53,13 @@ class JUser extends JObject
 	var $_errorMsg	= null;
 
 	/**
+	 * Clear password, only available when a new password is set for a user
+	 *
+	 * @var string
+	 */
+	var $clearPW	= '';
+
+	/**
 	* Constructor activating the default information of the language
 	*
 	* @access 	protected
@@ -296,6 +303,7 @@ class JUser extends JObject
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
 			}
+			$this->clearPW = josArrayGetValue( $array, 'password', '', 'string' );
 			$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
 
 			// Next the registration timestamp
@@ -319,6 +327,7 @@ class JUser extends JObject
 			 * We are updating an existing user.. so lets get down to it.
 			 */
 			if (!empty($array['password'])) {
+				$this->clearPW = josArrayGetValue( $array, 'password', '', 'string' );
 				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
 			} else {
 				$array['password'] = $this->get('password');

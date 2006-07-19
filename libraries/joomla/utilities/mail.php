@@ -288,7 +288,7 @@ class JMail extends PHPMailer
 		$this->Username = $user;
 		$this->Password = $pass;
 
-		if (!empty ($this->SMTPAuth) && !empty ($this->Host) && !empty ($this->Username) && !empty ($this->Password)) {
+		if ($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) {
 			$this->IsSMTP();
 			return true;
 		} else {

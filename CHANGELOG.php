@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jul-2006 Enno Klasing
+ # Fixed [artf4441] : Missing translation in default en_GB
+ # Fixed problems with josMail() when using SMTP Mailer
+
 18-Jul-2006 Marko Schmuck
  ^ updated installation language file for German latest version of the GTT Team
  
