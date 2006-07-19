@@ -54,31 +54,5 @@
 	padding: 2px 0px 0px 0px;
 }
 
-/* Two Pane Formatting */
-#config-navigation, #templates-navigation {
-	width: 20%;
-	display: block;
-	position: relative;
-	float: left;
-	margin: 0;
-	padding: 2px;
-	overflow: hidden;
-}
-
-#config-document, #templates-document {
-	display: block;
-	float: left;
-	margin: 0;
-	padding: 2px 0px 0px 0px;
-}
-
-#config-document   fieldset  { border: 1px #ccc solid;  }
-#config-navigation fieldset  {  }
-
-#config-navigation ul,
-#templates-navigation ul { margin-left: 0; padding-left: 20px;}
-
-#config-navigation ul a { cursor: pointer; }
-
 
 

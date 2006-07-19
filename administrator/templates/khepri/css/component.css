@@ -66,23 +66,5 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
-/* Two Pane Formatting */
-#templates-navigation {
-	width: 20%;
-	display: block;
-	position: relative;
-	float: left;
-	margin: 0;
-	padding: 2px;
-	overflow: hidden;
-}
-
-#templates-document {
-	display: block;
-	float: left;
-	margin: 0;
-	padding: 2px 0px 0px 0px;
-}
-
 
 
