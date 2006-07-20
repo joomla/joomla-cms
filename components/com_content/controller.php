@@ -589,7 +589,7 @@ class JContentController extends JController
 	function emailsend000()	// replace by com_mailto
 	{
 		// Check to make sure that the validation variable was posted back
-		$validate	= JRequest::getVar(mosHash('validate'), 0, 'post');
+		$validate	= JRequest::getVar(JUtility::getHash('validate'), 0, 'post');
 		if (!$validate) {
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}

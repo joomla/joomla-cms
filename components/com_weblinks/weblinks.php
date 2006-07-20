@@ -519,7 +519,7 @@ class WeblinksController
 		}
 
 		// Lets make sure they saw the html form
-		$hash 	= mosHash( JSession::id() );
+		$hash 	= JUtility::getHash( JSession::id() );
 		$valid 	= JRequest::getVar($hash, 0, 'post');
 		if (!$valid) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );

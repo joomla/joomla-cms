@@ -162,7 +162,7 @@ class JContactControllerDefault extends JController {
 		$SiteName 	= $app->getCfg('sitename');
 		$MailFrom 	= $app->getCfg('mailfrom');
 		$FromName 	= $app->getCfg('fromname');
-		$validate 	= mosHash( $app->getCfg('db') );
+		$validate 	= JUtility::getHash( $app->getCfg('db') );
 
 		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
 		$validate 	= JRequest::getVar($validate, 		0, 			'post');

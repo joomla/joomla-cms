@@ -406,7 +406,7 @@ class WeblinksView {
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
-		<input type="hidden" name="<?php echo mosHash( JSession::id() ); ?>" value="1" />
+		<input type="hidden" name="<?php echo JUtility::getHash( JSession::id() ); ?>" value="1" />
 		</form>
 		<?php
 	}

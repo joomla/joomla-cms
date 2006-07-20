@@ -35,7 +35,7 @@ class mailtoController extends JController {
 		$link 		= urldecode( JRequest::getVar( 'link', '', 'post' ) );
 		$hash 		= JRequest::getVar( 'hash', '', 'post' );
 
-		if ($hash != mosHash( $link ))
+		if ($hash != JUtility::getHash( $link ))
 		{
 			header("HTTP/1.0 403 Forbidden");
 			die(_NOT_AUTH);

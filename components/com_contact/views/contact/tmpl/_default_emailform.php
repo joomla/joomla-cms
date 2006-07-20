@@ -67,7 +67,7 @@ if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form
 		<input type="hidden" name="option" value="com_contact" />
 		<input type="hidden" name="contact_id" value="<?php echo $contact->id; ?>" />
 		<input type="hidden" name="task" value="sendmail" />
-		<input type="hidden" name="<?php echo mosHash( $app->getCfg('db') ); ?>" value="1" />
+		<input type="hidden" name="<?php echo JUtility::getHash( $app->getCfg('db') ); ?>" value="1" />
 		</form>
 		<br />
 		</td>

@@ -50,7 +50,7 @@ function pollAddVote()
 	}
 
 	$siteName	= $mainframe->getCfg( 'live_site' );
-	$cookieName	= mosHash( $siteName . 'poll' . $poll_id );
+	$cookieName	= JUtility::getHash( $siteName . 'poll' . $poll_id );
 	// ToDo - may be adding those information to the session?
 	$voted = intval( mosGetParam( $_COOKIE, $cookieName, '0' ) );
 

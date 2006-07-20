@@ -100,5 +100,17 @@ class JUtility
 
 		return  $mail->Send();
 	}
+	
+	/**
+  	 * Provides a secure hash based on a seed
+ 	 *
+ 	 * @param string Seed string
+ 	 * @return string
+ 	 */
+	function getHash( $seed ) 
+	{
+		$conf =& JFactory::getConfig();
+		return md5( $conf->getValue('config.secret') . md5( $seed ) );
+	}
 }
 ?>

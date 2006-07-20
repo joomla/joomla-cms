@@ -223,32 +223,10 @@ function josRedirect( $url, $msg='' )
 		echo "<script>document.location.href='$url';</script>\n";
 	} else {
 		//@ob_end_clean(); // clear output buffer
-		header( 'HTTP/1.5 301 Moved Permanently' );
+		header( 'HTTP/1.1 301 Moved Permanently' );
 		header( "Location: ". $url );
 	}
 	exit();
-}
-
-/**
- * Format a backtrace error
- *
- * @package Joomla.Framework
- * @param string An optional message
- * @since 1.5
- */
-function josBackTrace( $message='' ) {
-	if (function_exists( 'debug_backtrace' )) {
-		echo '<div align="left">';
-		if ($message) {
-			echo '<p><strong>' . $message . '</strong></p>';
-		}
-		foreach( debug_backtrace() as $back) {
-			if (@$back['file']) {
-				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
-			}
-		}
-		echo '</div>';
-	}
 }
 
 /**
@@ -631,18 +609,6 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	}
 
 	return $tip;
-}
-
-/**
- * Provides a secure hash based on a seed
- *
- * @package Joomla.Framework
- * @param string Seed string
- * @return string
- * @since 1.0
- */
-function mosHash( $seed ) {
-	return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
 }
 
 /**

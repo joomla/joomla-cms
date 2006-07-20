@@ -36,6 +36,16 @@ function mosStripslashes( &$value )
 }
 
 /**
+ * Legacy function, use JUtility::getHash instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosHash( $seed ) {
+	return JUtility::getHash( $seed );
+}
+
+/**
 * Legacy function
  *
  * @deprecated	As of version 1.5
@@ -175,18 +185,30 @@ function mosMakePath($base, $path='', $mode = NULL) {
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
- */function mosArrayToInts( &$array, $default=null ) {
+ */
+function mosArrayToInts( &$array, $default=null ) {
 	return josArrayToInts( $array, $default );
 }
 
 /**
- * Legacy function, use josBackTrace instead
+ * Legacy function, use JError->getBackTrace instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosBackTrace( $message='' ) {
-	josBackTrace( $message );
+	if (function_exists( 'debug_backtrace' )) {
+		echo '<div align="left">';
+		if ($message) {
+			echo '<p><strong>' . $message . '</strong></p>';
+		}
+		foreach( debug_backtrace() as $back) {
+			if (@$back['file']) {
+				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
+			}
+		}
+		echo '</div>';
+	}
 }
 
 /**
