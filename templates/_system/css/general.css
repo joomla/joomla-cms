@@ -80,3 +80,6 @@
 .button2-left .pagebreak {
 	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
 }
+
+.system-error      {  background: red url(../../../images/M_images/icon_error.gif) no-repeat 10px 10px; color: white; padding: 10px 10px 10px 40px; }
+.system-error span { font-weight: bold; }

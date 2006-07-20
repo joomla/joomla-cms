@@ -16,14 +16,11 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.controller' );
 
-class JModBannerController extends JController
+class modBanner extends JController
 {
-	var $params;
-
-	function display()
+	function display(&$params)
 	{
 		$model		= &$this->getModel( 'banner', 'JModel' );
-		$params		= &$this->params;
 		$db			= &JFactory::getDBO();
 
 		// Model Variables
@@ -120,9 +117,8 @@ class JModBannerController extends JController
 	}
 }
 
-$controller = new JModBannerController( $mainframe );
+$controller = new modBanner($mainframe );
 $controller->setModelPath( JPATH_SITE . '/components/com_banners/models' );
-$controller->params = &$params;
-$controller->execute( 'display' );
+$controller->display($params);
 
 ?>

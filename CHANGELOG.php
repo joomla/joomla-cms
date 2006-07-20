@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Jul-2006 
+ ^ Refactored frontend mod_login
+ + Improved login error reporting on the frontend
+
 20-Jul-2006 Johan Janssens 
  + Added static JUtility static as container for utility functions
  ^ Implemented JError store to track last error message

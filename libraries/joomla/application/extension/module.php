@@ -39,7 +39,6 @@ class JModuleHelper
 		for ($i = 0; $i < $total; $i++) {
 			if ($modules[$i]->name == $name)
 			{
-
 				$result =& $modules[$i];
 				break;
 			}

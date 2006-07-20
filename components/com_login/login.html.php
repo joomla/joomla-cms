@@ -34,10 +34,19 @@ class LoginView
 	 * @return	void
 	 * @since	1.0
 	 */
-	function login( &$params, $image ) {
-
+	function login( &$params, $image ) 
+	{
 		$return = $params->get('login');
+		
+		$error =& JError::getError();
+		if(JError::isError($error)) {
+			echo '<div class="system-error">';
+			echo '<span>ERROR</span><br />';
+			echo  $error->getMessage();
+			echo  '</div>';
+		}
 		?>
+		
 		<form action="<?php echo sefRelToAbs( 'index.php?option=login' ); ?>" method="post" name="login" id="login">
 		<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
@@ -144,8 +153,8 @@ class LoginView
 	 * @return	void
 	 * @since	1.0
 	 */
-	function logout( &$params, $image ) {
-
+	function logout( &$params, $image ) 
+	{
 		$return = $params->get('logout');
 		?>
 		<form action="<?php echo sefRelToAbs( 'index.php?option=logout' ); ?>" method="post" name="login" id="login">

@@ -138,7 +138,7 @@ class LoginController
 				josRedirect( $return );
 			}
 		} else {
-			josErrorAlert($error->getMessage());
+			LoginController::showLogin();
 		}
 	}
 
@@ -160,7 +160,7 @@ class LoginController
 				josRedirect( $return );
 			}
 		} else {
-			josErrorAlert($error->getMessage());
+			LoginController::showLogin();
 		}
 	}
 }
