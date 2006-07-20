@@ -40,7 +40,7 @@ class JUtility
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
   	 */
-	function snedMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) 
+	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) 
 	{
 		jimport('joomla.utilities.mail');
 
