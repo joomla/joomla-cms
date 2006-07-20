@@ -40,7 +40,7 @@ Legend:
 20-Jul-2006 
  ^ Refactored frontend mod_login
  + Improved login error reporting on the frontend
- ^ mosHash 			-> JUtility::getHash
+ ^ mosHash -> JUtility::getHash
  ^ Deprecated mosBackTrace, use JError->getBackTrace instead
 
 19-Jul-2006 Johan Janssens 

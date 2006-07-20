@@ -239,7 +239,7 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function getTable() {
+	function &getTable() {
 		return $this->_table;
 	}
 
@@ -462,8 +462,6 @@ class JUser extends JObject
 	{
 		global $mainframe;
 
-		echo $this->_id;
-
 		//trigger the onBeforeDeleteUser event
 		$mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
 
@@ -551,7 +549,6 @@ class JUserHelper
 		 * Initialize some variables
 		 */
 		$db = & $mainframe->getDBO();
-
 
 		/*
 		 * Lets get the id of the user we want to activate
