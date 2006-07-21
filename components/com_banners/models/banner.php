@@ -76,7 +76,7 @@ class JModelBanner extends JModel
 		
 		$result = $db->loadObjectList();
 
-//		if(!$db->query()) {
+//		if($db->getErrorNum()) {
 //			JError::raiseError( 500, $db->stderr());
 //		}
 		return $result;
