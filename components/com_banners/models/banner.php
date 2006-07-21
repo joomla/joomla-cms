@@ -73,12 +73,12 @@ class JModelBanner extends JModel
 			. "\nORDER BY sticky, ordering ";
 
 		$db->setQuery( $query, 0, $filters['limit'] );
-		//echo $db->getQuery();die;
-		if(!$db->query()) {
-			JError::raiseError( 500, $db->stderr());
-		}
 		
 		$result = $db->loadObjectList();
+
+//		if(!$db->query()) {
+//			JError::raiseError( 500, $db->stderr());
+//		}
 		return $result;
 	}
 
