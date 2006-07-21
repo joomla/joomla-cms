@@ -405,15 +405,15 @@ function removeUsers(  )
 			$success = false;
 			if ( $this_group == 'super administrator' ) {
 				$msg = JText::_( 'You cannot delete a Super Administrator' );
- 			} else if ( $id == $currentUser->id ) {
+ 			} else if ( $id == $currentUser->get( 'id' ) ) {
  				$msg = JText::_( 'You cannot delete Yourself!' );
- 			} else if ( ( $this_group == 'administrator' ) && ( $currentUser->gid == 24 ) ) {
+ 			} else if ( ( $this_group == 'administrator' ) && ( $currentUser->get( 'gid' ) == 24 ) ) {
  				$msg = JText::_( 'WARNDELETE' );
 			} else {
 				$user =& JUser::getInstance((int)$id);
 				$count = 2;
 
-				if ( $user->gid == 25 ) {
+				if ( $user->get( 'gid' ) == 25 ) {
 					// count number of active super admins
 					$query = "SELECT COUNT( id )"
 					. "\n FROM #__users"
@@ -424,12 +424,13 @@ function removeUsers(  )
 					$count = $db->loadResult();
 				}
 
-				if ( $count <= 1 && $user->gid == 25 ) {
+				if ( $count <= 1 && $user->get( 'gid' ) == 25 ) {
 				// cannot delete Super Admin where it is the only one that exists
 					$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
 				} else {
 					// delete user
-					$user->delete( );
+					$user->delete();
+					$msg = '';
 
 					JRequest::setVar( 'task', 'remove' );
 					JRequest::setVar( 'cid', $id );
@@ -535,8 +536,10 @@ function logoutUser( ) {
 		;
 	}
 
-	$db->setQuery( $query );
-	$db->query();
+	if (isset( $query ) ) {
+		$db->setQuery( $query );
+		$db->query();
+	}
 
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {

@@ -160,7 +160,7 @@ class JTableUser extends JTable
 
 	function delete( $oid=null )
 	{
-		global $acl;
+		$acl =& JFactory::getACL();
 
 		$k = $this->_tbl_key;
 		if ($oid) {

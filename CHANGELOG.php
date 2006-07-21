@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Jul-2006 Enno Klasing
+ # Fixed [artf5360] : Cannot delete user
+
 20-Jul-2006 Louis Landry
  # Fixed bug in com_banners
  # Fixed bug in mod_mainmenu and split menus
