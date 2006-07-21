@@ -32,7 +32,7 @@ class JArrayHelper
 	 * @return	array
 	 * @since	1.5
 	 */
-	function toInts(& $array, $default = null)
+	function toInts( &$array, $default = null)
 	{
 		if (is_array($array)) {
 			$n = count($array);
@@ -57,7 +57,7 @@ class JArrayHelper
 	 * @return	object	The object mapped from the given array.
 	 * @since	1.5
 	 */
-	function toObject($array)
+	function toObject(&$array)
 	{
 		$obj = null;
 		if (is_array($array)) {
@@ -108,25 +108,25 @@ class JArrayHelper
 	 * Utility function to return a value from a named array or a specified default
 	 * 
 	 * @static
-	 * @param	array	$arr		A named array
+	 * @param	array	$array		A named array
 	 * @param	string	$name		The key to search for
 	 * @param	mixed	$default	The default value to give if no key found
 	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
 	 * @return	mixed	The value from the source array
 	 * @since	1.5
 	 */
-	function getValue(&$arr, $name, $default=null, $type='')
+	function getValue(&$array, $name, $default=null, $type='')
 	{
 		// Initialize variables
 		$type = strtoupper($type);
 		$result = null;
 
-		if (isset ($arr[$name])) {
-			$result = $arr[$name];
+		if (isset ($array[$name])) {
+			$result = $array[$name];
 		}
 
 		// Handle the default case
-		if ((empty ($result))) {
+		if ((is_null($result))) {
 			$result = $default;
 		}
 
