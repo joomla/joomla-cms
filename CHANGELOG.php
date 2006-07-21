@@ -37,7 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
-20-Jul-2006 
+20-Jul-2006 Louis Landry
+ # Fixed bug in com_banners
+ # Fixed bug in mod_mainmenu and split menus
+ + Added JArrayHelper static class in utilities package
+ ^ Moved input filtering on request variables to the correct place
+
+20-Jul-2006 Johan Janssens 
  ^ Refactored frontend mod_login
  + Improved login error reporting on the frontend
  ^ mosHash -> JUtility::getHash

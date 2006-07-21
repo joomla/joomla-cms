@@ -11,6 +11,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+jimport('joomla.utilities.array');
 jimport('joomla.utilities.functions');
 
 /**
@@ -108,7 +109,26 @@ class JRequest
 					break;
 			}
 
-			$result = josArrayGetValue( $input, $name, $default, $type, $mask );
+			// Get the casted value
+			$result = JArrayHelper::getValue( $input, $name, $default, $type );
+
+			// Run through input filter if necessary
+			switch (strtoupper($type))
+			{
+				case 'INT' :
+				case 'INTEGER' :
+				case 'FLOAT' :
+				case 'DOUBLE' :
+				case 'BOOL' :
+				case 'BOOLEAN' :
+					break;
+	
+				default :
+					// Clean the variable given using the given filter mask
+					$result = josFilterValue($result, $mask);
+					break;
+			}
+			
 
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($result != $default))
