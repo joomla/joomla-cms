@@ -179,7 +179,6 @@ class JMainMenu extends JTree
 		// Build the CSS class selectors
 		$classes = "level$depth item".$this->_depthHash[$depth];
 
-
 		if ($this->_current->hasChildren() && (($depth < $end) || ($end == 0))) {
 			$classes .= ' parent';
 		}
@@ -196,8 +195,14 @@ class JMainMenu extends JTree
 			$classes .= ' current';
 		}
 
-		if ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0))) {
-
+		$inBounds = ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0))); 
+		
+		$parent = & $this->_current->getParent();
+		$inActive = $parent->active;
+		if ($start && ($depth >= $start) && !$inActive) {
+			return;
+		}
+		if ($inBounds) {
 			// Print the item
 			echo "<li class=\"".$classes."\">";
 
@@ -230,7 +235,7 @@ class JMainMenu extends JTree
 			}
 		}
 
-		if (($depth < $end) || ($end == 0) && $showChildren) {
+		if ((($depth < $end) || ($end == 0)) && $showChildren) {
 			// Recurse through children if they exist
 			while ($this->_current->hasChildren())
 			{
@@ -254,7 +259,7 @@ class JMainMenu extends JTree
 		}
 
 		// Close item
-		if ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0))) {
+		if ($inBounds) {
 			echo "</li>\n";
 		}
 	}
