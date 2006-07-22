@@ -113,7 +113,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 			"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
 		}
 
-		// array of content items in same category corretly ordered
+		// array of articles in same category corretly ordered
 		$query = "SELECT a.id"
 		. "\n FROM #__content AS a"
 		. "\n WHERE a.catid = $row->catid"

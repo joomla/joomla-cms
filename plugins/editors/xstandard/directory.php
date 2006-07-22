@@ -77,7 +77,7 @@ echo "<library>";
 		// Process folders
 		if ($id == "") {
 			echo ("<container>");
-				echo ("<label>Content Items</label>");
+				echo ("<label>Articles</label>");
 				echo ("<id>a</id>");
 				echo ("<metadata></metadata>");
 				echo ("<location></location>");

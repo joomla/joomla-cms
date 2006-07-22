@@ -81,7 +81,7 @@ class JContentModelElement extends JModel
 		if ($filter_sectionid >= 0) {
 			$filter = "\n WHERE cc.section = $filter_sectionid";
 		}
-		$section->title = 'All Content Items';
+		$section->title = 'All Articles';
 		$section->id = 0;
 
 		/*
@@ -134,7 +134,7 @@ class JContentModelElement extends JModel
 		jimport('joomla.presentation.pagination');
 		$this->_page = new JPagination($total, $limitstart, $limit);
 
-		// Get the content items
+		// Get the articles
 		$query = "SELECT c.*, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author" .
 				"\n FROM #__content AS c" .
 				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .

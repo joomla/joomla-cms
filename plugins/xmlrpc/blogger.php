@@ -94,7 +94,7 @@ function getUserBlogs($msg)
 	$blog = new xmlrpcval(array(
 	    'url'      => new xmlrpcval($mainframe->getBaseURL(), $xmlrpcString),
 	    'blogid'   => new xmlrpcval('1', $xmlrpcString),
-	    'blogName' => new xmlrpcval('Joomla Content Items', $xmlrpcString)
+	    'blogName' => new xmlrpcval('Joomla Articles', $xmlrpcString)
 	  ), 'struct');
 
 	array_push($structarray, $blog);
@@ -349,7 +349,7 @@ function getRecentPosts($msg)
 
 	$db =& $mainframe->getDBO();
 
-	// Lets get a list of the recents content items
+	// Lets get a list of the recents articles
 	$where = '';
 	//echo $params->get('sectionid', 0);
 	if($params->get('sectionid', 0)) {

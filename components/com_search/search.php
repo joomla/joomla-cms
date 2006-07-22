@@ -212,7 +212,7 @@ function viewSearch() {
 					$link = '';
 				}
 
-				// determines Itemid for Content items where itemid has not been included
+				// determines Itemid for articles where itemid has not been included
 				if ( !empty($link) && @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
 					$itemid = '';
 					if (JContentHelper::getItemid( $link['id'] )) {

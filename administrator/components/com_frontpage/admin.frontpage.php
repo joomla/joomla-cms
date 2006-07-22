@@ -296,7 +296,7 @@ function orderFrontPage( $uid, $inc, $option ) {
 }
 
 /**
-* @param integer The id of the content item
+* @param integer The id of the article
 * @param integer The new access level
 * @param string The URL option
 */

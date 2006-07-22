@@ -424,7 +424,7 @@ class JContentModelSection extends JModel
 		{
 			case -1:
 				/*
-				 * Special ordering for archive content items
+				 * Special ordering for archive articles
 				 */
 				$orderby_sec	= $params->def('orderby', 'rdate');
 				$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
@@ -452,7 +452,7 @@ class JContentModelSection extends JModel
 		$nullDate	= $this->_db->getNullDate();
 
 		/*
-		 * First thing we need to do is assert that the content items are in
+		 * First thing we need to do is assert that the articles are in
 		 * the current category
 		 */
 		$where = "\n WHERE a.access <= $gid";

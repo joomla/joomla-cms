@@ -146,10 +146,10 @@ class JFullAdminMenu {
 
 <?php /* Content Sub-Menu */ ?>
 			[null,'<?php echo JText::_( 'Content', true ); ?>',null,null,'<?php echo JText::_( 'Content Management', true ); ?>',
-				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'Article Manager', true ); ?>','index2.php?option=com_content',null,'<?php echo JText::_( 'Manage Content Items', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'Article Manager', true ); ?>','index2.php?option=com_content',null,'<?php echo JText::_( 'Manage Articles', true ); ?>'],
   				_cmSplit,
-  				['<img src="../includes/js/ThemeOffice/add_section.png" />','<?php echo JText::_( 'Section Manager', true ); ?>','index2.php?option=com_sections&scope=content',null,'<?php echo JText::_( 'Manage Content Sections', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/add_section.png" />','<?php echo JText::_( 'Category Manager', true ); ?>','index2.php?option=com_categories&section=content',null,'<?php echo JText::_( 'Manage Content Categories', true ); ?>'],
+  				['<img src="../includes/js/ThemeOffice/add_section.png" />','<?php echo JText::_( 'Section Manager', true ); ?>','index2.php?option=com_sections&scope=content',null,'<?php echo JText::_( 'Manage Article Sections', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/add_section.png" />','<?php echo JText::_( 'Category Manager', true ); ?>','index2.php?option=com_categories&section=content',null,'<?php echo JText::_( 'Manage Article Categories', true ); ?>'],
 				_cmSplit,
   				['<img src="../includes/js/ThemeOffice/home.png" />','<?php echo JText::_( 'Frontpage Manager', true ); ?>','index2.php?option=com_frontpage',null,'<?php echo JText::_( 'Manage Frontpage Items', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'Archive Manager', true ); ?>','index2.php?option=com_content&task=showarchive&sectionid=0',null,'<?php echo JText::_( 'Manage Archive Items', true ); ?>'],
@@ -294,7 +294,7 @@ class JFullAdminMenu {
 			<?php
 			if ($caching) {
 				?>
-				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Clean Content Cache', true ); ?>','index2.php?option=com_admin&task=clean_cache',null,'<?php echo JText::_( 'Clean the content items cache', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Clean Content Cache', true ); ?>','index2.php?option=com_admin&task=clean_cache',null,'<?php echo JText::_( 'Clean the articles cache', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Clean All Caches', true ); ?>','index2.php?option=com_admin&task=clean_all_cache',null,'<?php echo JText::_( 'Clean all caches', true ); ?>'],
 				_cmSplit,
 				<?php

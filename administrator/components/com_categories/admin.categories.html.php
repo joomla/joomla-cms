@@ -432,7 +432,7 @@ class categories_html
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong><?php echo JText::_( 'Content Items being moved' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Articles being moved' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -497,7 +497,7 @@ class categories_html
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong><?php echo JText::_( 'Content Items being copied' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Articles being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";

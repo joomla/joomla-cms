@@ -292,13 +292,13 @@ class MenuTypeController extends JController
 	}
 
 	/**
-	* Compiles a list of the items you have selected to Copy
+	* Compiles a list of the articles you have selected to Copy
 	*/
 	function copyConfirm( $option, $type ) {
 		global $mainframe;
 
 		$db =& $mainframe->getDBO();
-		// Content Items query
+		// Article Items query
 		$query = 	"SELECT a.name, a.id"
 		. "\n FROM #__menu AS a"
 		. "\n WHERE ( a.menutype = ( '$type' ) )"

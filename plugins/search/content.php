@@ -123,7 +123,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 	$rows = array();
 
-	// search content items
+	// search articles
 	if ( $sContent ) {
 		$query = "SELECT a.title AS title,"
 		. "\n a.created AS created,"

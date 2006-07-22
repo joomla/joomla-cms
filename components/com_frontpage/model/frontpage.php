@@ -184,7 +184,7 @@ class JModelFrontpage extends JObject
 		$nullDate	= $this->_db->getNullDate();
 
 		/*
-		 * First thing we need to do is assert that the content items are in
+		 * First thing we need to do is assert that the articles are in
 		 * the current category
 		 */
 		$where = "\n WHERE 1";

@@ -30,7 +30,7 @@ class TOOLBAR_content
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ( $cid ) {
-			// for existing content items the button is renamed `close`
+			// for existing articles the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
@@ -48,14 +48,14 @@ class TOOLBAR_content
 */
 	function _MOVE() {
 
-		JMenuBar::title( JText::_( 'Move Content Items' ), 'move_f2.png' );
+		JMenuBar::title( JText::_( 'Move Articles' ), 'move_f2.png' );
 		JMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
 		JMenuBar::cancel();
 	}
 
 	function _COPY() {
 
-		JMenuBar::title( JText::_( 'Copy Content Items' ), 'copy_f2.png' );
+		JMenuBar::title( JText::_( 'Copy Articles' ), 'copy_f2.png' );
 		JMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', 'Save', false );
 		JMenuBar::cancel();
 	}

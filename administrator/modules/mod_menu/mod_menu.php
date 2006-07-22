@@ -179,7 +179,7 @@ class JAdminMenu {
 	/*
 	 * Content SubMenu
 	 */
-		$contentList[] = array( 'title' => JText::_('All Content Items'), 'link' => 'index2.php?option=com_content&sectionid=0', 'class' => JAdminMenu::getIconClass('class:content', $css) );
+		$contentList[] = array( 'title' => JText::_('All Articles'), 'link' => 'index2.php?option=com_content&sectionid=0', 'class' => JAdminMenu::getIconClass('class:content', $css) );
 		$contentList[] = array( 'title' => JText::_('Static Content Manager'), 'link' => 'index2.php?option=com_typedcontent', 'class' => JAdminMenu::getIconClass('class:static', $css) );
 		/*
 		 * SPLIT HR

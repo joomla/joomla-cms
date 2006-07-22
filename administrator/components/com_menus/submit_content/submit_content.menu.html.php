@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
-* Writes the edit form for new and existing content item
+* Writes the edit form for new and existing article
 *
 * A new record is defined when <var>$row</var> is passed with the <var>id</var>
 * property set to 0.

@@ -73,7 +73,7 @@ class TOOLBAR_menus {
 		JMenuBar::apply();
 
 		if ( $id ) {
-			// for existing content items the button is renamed `close`
+			// for existing items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', 'Close' );
 		} else {
 			JMenuBar::cancel();

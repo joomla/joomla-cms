@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_content {
 	/**
-	* Writes a list of the content items
+	* Writes a list of the articles
 	* @param array An array of content objects
 	*/
 	function showList( &$rows, $page, $option, $lists )

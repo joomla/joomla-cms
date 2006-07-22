@@ -107,7 +107,7 @@ function viewTrashContent( $option )
 	jimport('joomla.presentation.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	// Query content items
+	// Query articles
 	$query = "SELECT c.*, g.name AS groupname, cc.name AS catname, s.name AS sectname"
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
@@ -217,7 +217,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 	$mids = implode( ',', $mid );
 
 	if ( $cids ) {
-		// Content Items query
+		// Articles query
 		$query = 	"SELECT a.title AS name"
 		. "\n FROM #__content AS a"
 		. "\n WHERE ( a.id IN ( $cids ) )"
@@ -228,7 +228,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 		$id = $cid;
 		$type = "content";
 	} else if ( $mids ) {
-		// Content Items query
+		// Articles query
 		$query = 	"SELECT a.name"
 		. "\n FROM #__menu AS a"
 		. "\n WHERE ( a.id IN ( $mids ) )"
@@ -292,7 +292,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 	$mids = implode( ',', $mid );
 
 	if ( $cids ) {
-		// Content Items query
+		// Articles query
 		$query = "SELECT a.title AS name"
 		. "\n FROM #__content AS a"
 		. "\n WHERE ( a.id IN ( $cids ) )"
@@ -303,7 +303,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 		$id = $cid;
 		$type = "content";
 	} else if ( $mids ) {
-		// Content Items query
+		// Articles query
 		$query = "SELECT a.name"
 		. "\n FROM #__menu AS a"
 		. "\n WHERE ( a.id IN ( $mids ) )"
@@ -339,7 +339,7 @@ function restoreTrash( $cid, $option ) {
 		//seperate contentids
 		$cids = implode( ',', $cid );
 
-		// query to restore content items
+		// query to restore article
 		$query = "UPDATE #__content"
 		. "\n SET state = $state, ordering = $ordering"
 		. "\n WHERE id IN ( $cids )"

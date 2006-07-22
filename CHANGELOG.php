@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Jul-2006 David Gal
+ ^ Replaced most instances of 'content item' to 'article' in code, comments and language files
+
 22-Jul-2006 Johan Janssens
  ^ Replaced mosArrayToInts by JArrayHelper::toIntegers
  ^ Replaced mosGetParam by JArrayHelper::getValue

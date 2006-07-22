@@ -26,8 +26,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class ContentView
 {
 	/**
-	* Writes a list of the content items
-	* @param array An array of content objects
+	* Writes a list of the articles
+	* @param array An array of article objects
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
@@ -276,8 +276,8 @@ class ContentView
 
 
 	/**
-	* Writes a list of the content items
-	* @param array An array of content objects
+	* Writes a list of the articles
+	* @param array An array of article objects
 	*/
 	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect )
 	{
@@ -431,7 +431,7 @@ class ContentView
 
 
 	/**
-	* Writes the edit form for new and existing content item
+	* Writes the edit form for new and existing article
 	*
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.
@@ -483,7 +483,7 @@ class ContentView
 
 			// do field validation
 			if (form.title.value == ""){
-				alert( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
+				alert( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 			} else if (form.sectionid.value == "-1"){
 				alert( "<?php echo JText::_( 'You must select a Section.', true ); ?>" );
 			} else if (form.catid.value == "-1"){

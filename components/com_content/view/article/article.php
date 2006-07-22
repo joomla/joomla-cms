@@ -190,9 +190,9 @@ class JContentViewArticle extends JView
 			catch(e){}
 			// do field validation
 			if (form.title.value == "") {
-				alert ( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
+				alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 			} else if (parseInt('<?php echo $article->sectionid;?>')) {
-				// for content items
+				// for articles
 				if (getSelectedValue('adminForm','catid') < 1) {
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				} else {

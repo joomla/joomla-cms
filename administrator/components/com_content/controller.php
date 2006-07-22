@@ -87,7 +87,7 @@ class JContentController extends JController
 		if ($filter_sectionid >= 0) {
 			$filter = "\n WHERE cc.section = $filter_sectionid";
 		}
-		$section->title = 'All Content Items';
+		$section->title = 'All Articles';
 		$section->id = 0;
 
 		/*
@@ -140,7 +140,7 @@ class JContentController extends JController
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		// Get the content items
+		// Get the articles
 		$query = "SELECT c.*, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author" .
 				"\n FROM #__content AS c" .
 				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
@@ -203,7 +203,7 @@ class JContentController extends JController
 	}
 
 	/**
-	* Shows a list of archived content items
+	* Shows a list of archived articles
 	* @param int The section id
 	*/
 	function viewArchive()
@@ -228,7 +228,7 @@ class JContentController extends JController
 		$redirect				= $sectionid;
 
 		/*
-		 * A section id of zero means view all content items [all sections]
+		 * A section id of zero means view all articles [all sections]
 		 */
 		if ($sectionid == 0)
 		{
@@ -568,7 +568,7 @@ class JContentController extends JController
 	}
 
 	/**
-	* Saves the content item an edit form submit
+	* Saves the article an edit form submit
 	* @param database A database connector object
 	*/
 	function saveContent()
@@ -675,13 +675,13 @@ class JContentController extends JController
 		}
 
 		/*
-		 * Check the content item in and update item order
+		 * Check the article and update item order
 		 */
 		$row->checkin();
 		$row->reorder("catid = $row->catid AND state >= 0");
 
 		/*
-		 * We need to update frontpage status for the content item.
+		 * We need to update frontpage status for the article.
 		 *
 		 * First we include the frontpage table and instantiate an instance of
 		 * it.
@@ -690,7 +690,7 @@ class JContentController extends JController
 		$fp = new JTableFrontPage($db);
 
 		/*
-		 * Is the content item viewable on the frontpage?
+		 * Is the article viewable on the frontpage?
 		 */
 		if (JRequest::getVar( 'frontpage', 0, '', 'int' ))
 		{
@@ -842,7 +842,7 @@ class JContentController extends JController
 	}
 
 	/**
-	* Changes the frontpage state of one or more content items
+	* Changes the frontpage state of one or more articles
 	*
 	*/
 	function toggleFrontPage()
@@ -861,7 +861,7 @@ class JContentController extends JController
 		}
 
 		/*
-		 * We need to update frontpage status for the content items.
+		 * We need to update frontpage status for the articles.
 		 *
 		 * First we include the frontpage table and instantiate an instance of
 		 * it.
@@ -929,7 +929,7 @@ class JContentController extends JController
 		$cids = implode(',', $cid);
 
 		/*
-		 * Update content items in the database
+		 * Update articles in the database
 		 */
 		$query = "UPDATE #__content" .
 				"\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '$nullDate'"."\n WHERE id IN ( $cids )";
@@ -957,7 +957,7 @@ class JContentController extends JController
 		// Initialize variables
 		$db	= & $mainframe->getDBO();
 
-		// Check the content item in if checked out
+		// Check the article in if checked out
 		$row = & JTable::getInstance('content', $db);
 		$row->bind($_POST);
 		$row->checkin();
@@ -1014,7 +1014,7 @@ class JContentController extends JController
 
 		//seperate contentids
 		$cids = implode(',', $cid);
-		// Content Items query
+		// Articles query
 		$query = "SELECT a.title" .
 				"\n FROM #__content AS a" .
 				"\n WHERE ( a.id IN ( $cids ) )" .
@@ -1142,7 +1142,7 @@ class JContentController extends JController
 
 		//seperate contentids
 		$cids = implode(',', $cid);
-		## Content Items query
+		## Articles query
 		$query = "SELECT a.title" .
 				"\n FROM #__content AS a" .
 				"\n WHERE ( a.id IN ( $cids ) )" .
@@ -1263,7 +1263,7 @@ class JContentController extends JController
 	}
 
 	/**
-	* @param integer The id of the content item
+	* @param integer The id of the article
 	* @param integer The new access level
 	* @param string The URL option
 	*/
@@ -1313,7 +1313,7 @@ class JContentController extends JController
 		$total		= count($cid);
 		$conditions	= array ();
 
-		// Instantiate a content item table object
+		// Instantiate an article table object
 		$row = & JTable::getInstance('content', $db);
 
 		/*
@@ -1385,11 +1385,11 @@ class JContentController extends JController
 		$template = $db->loadResult();
 
 		// Set page title
-		$document->setTitle(JText::_('Content Preview'));
+		$document->setTitle(JText::_('Article Preview'));
 		$document->addStyleSheet('../templates/'.$template.'/css/editor.css');
 
 		/*
-		 * Render content preview
+		 * Render article preview
 		 */
 		ContentView::previewContent();
 	}

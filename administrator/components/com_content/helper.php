@@ -56,7 +56,7 @@ class JContentHelper
 	}
 
 	/**
-	* Function to reset Hit count of a content item
+	* Function to reset Hit count of an article
 	*
 	*/
 	function resetHits($redirect, $id)
@@ -69,7 +69,7 @@ class JContentHelper
 		$db	= & $mainframe->getDBO();
 
 		/*
-		 * Instantiate and load a content item table
+		 * Instantiate and load an article table
 		 */
 		$row = & JTable::getInstance('content', $db);
 		$row->Load($id);

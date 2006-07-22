@@ -42,7 +42,7 @@ class TOOLBAR_newsfeeds  {
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ($cid[0]) {
-			// for existing content items the button is renamed `close`
+			// for existing items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();

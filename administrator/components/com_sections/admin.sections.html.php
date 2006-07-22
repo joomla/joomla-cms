@@ -471,7 +471,7 @@ class sections_html
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong><?php echo JText::_( 'Content Items being copied' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Articles being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
