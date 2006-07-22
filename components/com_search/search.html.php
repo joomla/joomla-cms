@@ -42,7 +42,7 @@ class search_html
 	{
 		global $Itemid;
 
-		$showAreas = mosGetParam( $lists, 'areas', array() );
+		$showAreas = JArrayHelper::getValue( $lists, 'areas', array() );
 		$allAreas = array();
 		foreach ($showAreas as $area) {
 			$allAreas = array_merge( $allAreas, $area );

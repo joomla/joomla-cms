@@ -267,20 +267,20 @@ class JInstallationController
 		// Initialize variables
 		$errors = null;
 
-		$lang = mosGetParam($vars, 'lang', 'en-GB');
-		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
+		$lang 		= mosGetParam($vars, 'lang', 'en-GB');
+		$DBcreated  = mosGetParam($vars, 'DBcreated', '0');
 
-		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
+		$DBtype 	= mosGetParam($vars, 'DBtype', 'mysql');
 		$DBhostname = mosGetParam($vars, 'DBhostname', '');
 		$DBuserName = mosGetParam($vars, 'DBuserName', '');
 		$DBpassword = mosGetParam($vars, 'DBpassword', '');
-		$DBname = mosGetParam($vars, 'DBname', '');
-		$DBPrefix = mosGetParam($vars, 'DBPrefix', 'jos_');
-		$DBOld = mosGetParam($vars, 'DBOld', 'bu');
+		$DBname 	= mosGetParam($vars, 'DBname', '');
+		$DBPrefix 	= mosGetParam($vars, 'DBPrefix', 'jos_');
+		$DBOld 		= mosGetParam($vars, 'DBOld', 'bu');
 //		$DBSample = mosGetParam($vars, 'DBSample', 1);
-		$DButfSupport = intval(mosGetParam($vars, 'DButfSupport', 0));
-		$DBcollation = mosGetParam($vars, 'DBcollation', '');
-		$DBversion = mosGetParam($vars, 'DBversion', '');
+		$DButfSupport 	= intval(mosGetParam($vars, 'DButfSupport', 0));
+		$DBcollation 	= mosGetParam($vars, 'DBcollation', '');
+		$DBversion 		= mosGetParam($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
 			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');

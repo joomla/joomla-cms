@@ -181,13 +181,13 @@ function mosMakePath($base, $path='', $mode = NULL) {
 }
 
 /**
- * Legacy function, use josArrayToInts instead
+ * Legacy function, use JArray::toInteger instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosArrayToInts( &$array, $default=null ) {
-	return josArrayToInts( $array, $default );
+	return JArrayHelper::toInteger( $array, $default );
 }
 
 /**
@@ -312,13 +312,14 @@ function mosGetOS( $agent ) {
 }
 
 /**
- * Legacy function, use josArrayGetValue instead
+ * Legacy function, use JArrayHelper::getValue instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
-	return josArrayGetValue( $arr, $name, $def, '', $mask );
+	$value = JArrayHelper::getValue( $arr, $name, $def, '' );
+	return josFilterValue($value, $mask);
 }
 
 /**
@@ -475,6 +476,16 @@ function doGzip() {
 	} else {
 		ob_end_flush();
 	}
+}
+
+/**
+ * Legacy function, use JArrayHelper::sortObjects instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function SortArrayObjects( &$a, $k, $sort_direction=1 ) {
+	JArrayHelper::sortObjects($a, $k, $sort_direction);
 }
 
 /**

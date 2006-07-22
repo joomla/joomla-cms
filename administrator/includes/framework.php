@@ -69,6 +69,7 @@ jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.utilities.utility' );
+jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.error');
 jimport( 'joomla.application.user.authenticate');

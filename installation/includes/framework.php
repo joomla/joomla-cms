@@ -50,6 +50,7 @@ jimport( 'joomla.common.base.object' );
 jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.utilities.error');
+jimport( 'joomla.utilities.array');
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.presentation.parameter.parameter' );

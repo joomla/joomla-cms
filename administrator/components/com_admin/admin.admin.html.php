@@ -151,7 +151,7 @@ class HTML_admin_misc
 	 */
 	function help()
 	{
-		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
+		$helpurl 	= JArrayHelper::getValue( $GLOBALS, 'mosConfig_helpurl', '' );
 
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';

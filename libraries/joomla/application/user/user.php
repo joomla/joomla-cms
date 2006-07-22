@@ -303,7 +303,7 @@ class JUser extends JObject
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
 			}
-			$this->clearPW = josArrayGetValue( $array, 'password', '', 'string' );
+			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
 			$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
 
 			// Next the registration timestamp

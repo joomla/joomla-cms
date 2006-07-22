@@ -438,40 +438,19 @@ class JApplication extends JObject
 	 * @param string 	The language name
 	 * @since 1.5
 	 */
-
-	// moved to individual instances of application
-//	function setLanguage($lang = null)
-//	{
-//		//get the user
-//		$user = & $this->getUser();
-//
-//		// if a language was specified at login it has priority
-//		// otherwise use user or default language settings
-//		if (empty($lang)) 
-//		{
-//			//if the user has a prefered language - use it else use default
-//			if( $this->isAdmin() ) {
-//				$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
-//			} else {
-//				$lang = $user->getParam( 'language', $this->getCfg('lang_site') );
-//			}
-//		}
-//
-//		//One last check to make sure we have something
-//		if (empty($lang)) {
-//			$lang = 'en-GB';
-//		}
-//
-//		//Set the language in the class
-//		$conf =& JFactory::getConfig();
-//		$conf->setValue('config.language', $lang);
-//		//set language debug
-//		$lang =& JFactory::getLanguage();
-//		$lang->setDebug($this->getCfg('debug_lang'));
-//		
-//		// create the backward compatible language value for old 3PD components
-//		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
-//	}
+	function setLanguage( $lang )
+	{
+		//Set the language in the class
+		$conf =& JFactory::getConfig();
+		$conf->setValue('config.language', $lang);
+		
+		//set language debug
+		$lang =& JFactory::getLanguage();
+		$lang->setDebug($this->getCfg('debug_lang'));
+		
+		// create the backward compatible language value for old 3PD components
+		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+	}
 
 	/**
 	 * Set the configuration

@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Jul-2006 Johan Janssens
+ ^ Replaced mosArrayToInts by JArrayHelper::toIntegers
+ ^ Replaced mosGetParam by JArrayHelper::getValue
+
 21-Jul-2006 Enno Klasing
  # Fixed [artf5360] : Cannot delete user
 
@@ -49,15 +53,15 @@ Legend:
 20-Jul-2006 Johan Janssens 
  ^ Refactored frontend mod_login
  + Improved login error reporting on the frontend
- ^ mosHash -> JUtility::getHash
+ ^ Replaced mosHash by JUtility::getHash
  ^ Deprecated mosBackTrace, use JError->getBackTrace instead
 
 19-Jul-2006 Johan Janssens 
  + Added static JUtility static as container for utility functions
  ^ Implemented JError store to track last error message
  # Fixed login error reporting on both front and backend 
- ^ josMail 			-> JUtility::sendMail
- ^ josSendAdminMail -> JUtility::sendAdminMail
+ ^ Replaced josMail by JUtility::sendMail
+ ^ Replaced josSendAdminMail by JUtility::sendAdminMail
 
 19-Jul-2006 Enno Klasing
  # Fixed [artf4441] : Missing translation in default en_GB
@@ -122,12 +126,8 @@ Legend:
  # Fixed [artf4985] : Translate 'Login' in administrator login
 
 12-Jul-2006 Andrew Eddie
- ^ mosGetParam -> josArrayGetValue
- ^ mosBackTrace -> josBackTrace
- ^ mosArrayToInts -> jos ArrayToInts
+ ^ Deprecated mosBackTrace, use JError instead
  ^ Filtering and casting parts of JRequest::getVar broken into functions
- + josFilterValue - new function that breaks out filtering from mosGetParam
- + josArrayGetColumn - new utility function
 
 11-Jul-2006 Enno Klasing
  # Fixed [artf5246] : Hardcoded strings (could not be localized)

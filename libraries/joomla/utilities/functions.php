@@ -132,52 +132,6 @@ function mosObjectToArray($p_obj, $recurse = true, $regex = null)
 }
 
 /**
- * Function to convert array to integer values
- *
- * @package Joomla.Framework
- * @param array
- * @param int A default value to assign if $array is not an array
- * @return array
- * @since 1.0
- */
-function josArrayToInts( &$array, $default=null ) {
-	if (is_array( $array )) {
-		$n = count( $array );
-		for ($i = 0; $i < $n; $i++) {
-			$array[$i] = intval( $array[$i] );
-		}
-	} else {
-		if (is_null( $default )) {
-			return array();
-		} else {
-			return array( $default );
-		}
-	}
-}
-
-/**
- * Utility function to map an array to a stdClass object.
- *
- * @package	Joomla.Framework
- * @param	array	$p_array	The array to map.
- * @return	object	The object mapped from the given array.
- * @since	1.5
- */
-function josArrayToObject($p_array) {
-	$ret_obj = null;
-	if(is_array($p_array)) {
-		$ret_obj = new stdClass();
-		foreach ($p_array as $k => $v) {
-			if(is_array($v))
-			$ret_obj->$k = josArrayToObject($v);
-			else
-			$ret_obj->$k = $v;
-		}
-	}
-	return $ret_obj;
-}
-
-/**
  * Utility function redirect the browser location to another url
  *
  * @package Joomla.Framework
@@ -227,111 +181,6 @@ function josRedirect( $url, $msg='' )
 		header( "Location: ". $url );
 	}
 	exit();
-}
-
-/**
- * Extracts a column from an array of arrays or objects
- * @param array The source array
- * @param string The index of the column or name of object property
- */
-function josArrayGetColumn( &$array, $index )
-{
-	$result = array();
-
-	if (is_array( $array ))
-	{
-		$n = count( $array );
-		for ($i = 0; $i < $n; $i++)
-		{
-			$item = &$array[$i];
-			if (is_array( $item ) && isset( $item[$index] ))
-			{
-				$result[] = $item[$index];
-			}
-			else if (is_object( $item ) && isset( $item->$index ))
-			{
-				$result[] = $item->$index;
-			}
-			// else ignore the entry
-		}
-	}
-	return $result;
-}
-
-/**
- * Utility function to return a value from a named array or a specified default
- * @package Joomla.Framework
- * @param array A named array
- * @param string The key to search for
- * @param mixed The default value to give if no key found
- * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
- * @since 1.5
- * @tutorial Joomla.Framework/josarraygetvalue.proc
- */
-function josArrayGetValue( &$arr, $name, $default=null, $type='', $mask=0 )
-{
-	// Initialize variables
-	$type	= strtoupper( $type );
-	$result	= null;
-
-	if (isset( $arr[$name] ))
-	{
-		$result = $arr[$name];
-	}
-
-	// Handle the default case
-	if ((empty( $result )))
-	{
-		$result = $default;
-	}
-
-	// Handle the type constraint
-	switch ($type)
-	{
-		case 'INT' :
-		case 'INTEGER' :
-			// Only use the first integer value
-			@preg_match('/-?[0-9]+/', $result, $matches);
-			$result = @(int) $matches[0];
-			break;
-
-		case 'FLOAT' :
-		case 'DOUBLE' :
-			// Only use the first floating point value
-			@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
-			$result = @(float) $matches[0];
-			break;
-
-		case 'BOOL' :
-		case 'BOOLEAN' :
-			$result = (bool) $result;
-			break;
-
-		case 'ARRAY' :
-			// Clean the variable given using the given filter mask
-			$result = josFilterValue($result, $mask);
-
-			if (!is_array( $result ))
-			{
-				$result = array();
-			}
-			break;
-
-		case 'STRING' :
-			// Clean the variable given using the given filter mask
-			$result = josFilterValue($result, $mask);
-
-			$result = (string) $result;
-			break;
-
-		case 'NONE' :
-		default :
-			// Clean the variable given using the given filter mask
-			$result = josFilterValue($result, $mask);
-			break;
-	}
-
-	return $result;
 }
 
 function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
@@ -686,37 +535,6 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 }
 
 /**
- * Method to extract key/value pairs out of a string with xml style attributes
- *
- * @package	Joomla.Framework
- * @param	string	$string	String containing xml style attributes
- * @return	array	Key/Value pairs for the attributes
- * @since	1.5
- */
-function josParseAttributes( $string ) {
-
-	/*
-	 * Initialize variables
-	 */
-	$attr		= array();
-	$retarray	= array();
-	/*
-	 * Lets grab all the key/value pairs using a regular expression
-	 */
-	preg_match_all( '/([\w]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
-
-	if (is_array($attr))
-	{
-		$numPairs = count($attr[1]);
-		for($i = 0; $i < $numPairs; $i++ )
-		{
-			$retarray[$attr[1][$i]] = $attr[2][$i];
-		}
-	}
-	return $retarray;
-}
-
-/**
 * Prepares results from search for display
 *
 * @package Joomla.Framework
@@ -756,45 +574,4 @@ function mosSmartSubstr($text, $length=200, $searchword) {
 	return JString::substr( $text, 0, $length);
   }
 }
-
-/**
-* Sorts an Array of objects
-*
-* @package Joomla.Framework
-* @since 1.0
-*/
-function SortArrayObjects_cmp( &$a, &$b ) {
-	global $csort_cmp;
-
-	if ( $a->$csort_cmp['key'] > $b->$csort_cmp['key'] ) {
-		return $csort_cmp['direction'];
-	}
-
-	if ( $a->$csort_cmp['key'] < $b->$csort_cmp['key'] ) {
-		return -1 * $csort_cmp['direction'];
-	}
-
-	return 0;
-}
-
-/**
-* Sorts an Array of objects
-*
-* @package Joomla.Framework
-* @param integer 	$sort_direction [1 = Ascending] [-1 = Descending]
-* @since 1.0
-*/
-function SortArrayObjects( &$a, $k, $sort_direction=1 ) {
-	global $csort_cmp;
-
-	$csort_cmp = array(
-		'key'		  => $k,
-		'direction'	=> $sort_direction
-	);
-
-	usort( $a, 'SortArrayObjects_cmp' );
-
-	unset( $csort_cmp );
-}
-
 ?>

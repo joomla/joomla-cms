@@ -81,7 +81,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 			$row->page_title = sprintf( JText::_( 'Page #' ), $page_text );
 			if ( !$page ) {
 				// processing for first page
-				$attrs = josParseAttributes($matches[0][1]);
+				$attrs = JUtility::parseAttributes($matches[0][1]);
 
 				if ( @$attrs['heading'] ) {
 					$row->page_title = $attrs['heading'];
@@ -89,7 +89,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 					$row->page_title = '';
 				}
 			} else if ( @$matches[$page-1][2] ) {
-				$attrs = josParseAttributes($matches[$page-1][1]);
+				$attrs = JUtility::parseAttributes($matches[$page-1][1]);
 
 				if ( @$attrs['title'] ) {
 					$row->page_title = $attrs['title'];

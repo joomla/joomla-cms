@@ -32,7 +32,7 @@ class JArrayHelper
 	 * @return	array
 	 * @since	1.5
 	 */
-	function toInts( &$array, $default = null)
+	function toInteger( &$array, $default = null)
 	{
 		if (is_array($array)) {
 			$n = count($array);
