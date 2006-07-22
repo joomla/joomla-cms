@@ -2,7 +2,7 @@
 <joshelp>
 <sites>
   <site tag="ar-EG" url="http://www.joomlatna.com/help">Arabic - www.joomlatna.com/help</site>
-  <site tag="mor-PH" url="http://joomla.morofocus.com">Joomla! Bangsamoro - joomla.morofocus.com/</site>
+  <site tag="mor-PH" url="http://www.joomlamoro.com">Bangsamoro - www.joomlamoro.com</site>
   <site tag="bn-IN" url="http://www.joomlabengali.org">Bengali - www.joomlabengali.org</site>
   <site tag="bos_BA" url="http://www.joomla.ba">Bosnian - www.joomla.ba</site>
 	<site tag="bg-BG" url="http://help.joomla-bg.com">Bulgarian - help.joomla-bg.com</site>
@@ -12,7 +12,7 @@
 	<site tag="cze_CZ" url="http://www.joomla.cz">Czech - www.joomla.cz</site>
  	<site tag="da-DK" url="http://help.joomla.dk">Danish - help.joomla.dk</site>
  	<site tag="hin_IN" url="http://www.indicjoomla.org">Devanagari/Hindi - www.indicjoomla.org</site>
- 	<site tag="nl-NL" url="http://www.dutchjoomla.com">Dutch (NL) - www.dutchjoomla.com/</site>
+ 	<site tag="nl-NL" url="http://www.dutchjoomla.org">Dutch (NL) - www.dutchjoomla.org/</site>
  	<site tag="eng_GB" url="http://help.joomla.org">English (GB) - help.joomla.org</site>
  	<site tag="est_EE" url="http://www.joomlaest.com">Estonian - www.joomlaest.com</site>
  	<site tag="fas_IR" url="http://www.joomla.ir">Farsi - www.joomla.ir</site>
@@ -38,6 +38,6 @@
  	<site tag="spa_ES" url="http://www.joomlahispano.org">Spanish (SP) - www.joomlahispano.org</site>
  	<site tag="sv-SE" url="http://www.svenskjoomla.se">Swedish - www.svenskjoomla.se</site>
  	<site tag="tha_TH" url="http://www.joomlaCorner.com">Thai - www.joomlaCorner.com</site>
- 	<site tag="tur_TR" url="http://www.joomla.gen.tr">Turkish - www.joomla.gen.tr</site>
+ 	<site tag="tr-TR" url="http://www.joomlaturkiye.org">JoomlaTurkiye - www.joomlaturkiye.org</site>
 </sites>
 </joshelp>
