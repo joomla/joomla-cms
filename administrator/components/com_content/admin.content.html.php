@@ -939,7 +939,7 @@ class ContentView
 		?>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Content ID' ); ?>:</strong>
+				<strong><?php echo JText::_( 'Article ID' ); ?>:</strong>
 			</td>
 			<td>
 				<?php echo $row->id; ?>
