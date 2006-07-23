@@ -58,7 +58,7 @@ class JEditor extends JObservable
 	 * @param string $editor  The editor to use.
 	 * @return JEditor  The Editor object.
 	 */
-	function & getInstance($editor = 'none')
+	function &getInstance($editor = 'none')
 	{
 		static $instances;
 
