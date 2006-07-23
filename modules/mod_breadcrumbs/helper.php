@@ -14,9 +14,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modBreadCrumbs
+class modBreadCrumbsHelper
 {
-	function display(&$params)
+	function getList(&$params)
 	{
 		global $mainframe;
 		
@@ -24,26 +24,19 @@ class modBreadCrumbs
 		$showHome 		= true;
 		$showComponent  = true;
 
-		// Set the default separator
-		$separator = modBreadCrumbs::setSeparator( $params->get( 'separator' ));
-
-		// Perhaps we should have a parameter to control whether home is displayed in the
-		// pathway or not.
+		// Show the home link in the breadcrumbs
 		if ($params->get('showHome') == false) {
 			$showHome = false;
 		}
 
 		// Do not show the content component item in the BreadCrumbs list
 		if (JRequest::getVar('option') == 'com_content') {
-				$showComponent = false;
+			$showComponent = false;
 		}
 
 		// Get the PathWay object from the application
 		$pathway = & $mainframe->getPathWay();
-		$crumbs  = $pathway->getPathWay($showHome, $showComponent);
-
-		// This is the standard way of displaying the BreadCrumbs
-		echo modBreadCrumbs::showBreadCrumbs($crumbs, $separator);
+		return $pathway->getPathWay($showHome, $showComponent);
 	}
 	
 	/**
@@ -54,19 +47,17 @@ class modBreadCrumbs
  	 * @return	string	XHTML Compliant breadcrumbs string
  	 * @since	1.5
  	 */
-	function showBreadCrumbs(& $items, $separator)
+	function renderBreadCrumbs(& $items, $separator)
 	{
-		// Initialize variables
-		$breadcrumbs	= '<span class="breadcrumbs pathway">';
-		$i				= null;
-		$numItems		= count($items);
+		$i	   = null;
+		$count = count($items);
 
-		for ($i = 0; $i < $numItems; $i ++)
+		for ($i = 0; $i < $count; $i ++) 
 		{
 			$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
 
 			// If a link is present create an html link, if not just use the name
-			if (empty ($items[$i]->link) || $numItems == $i +1)
+			if (empty ($items[$i]->link) || $count == $i +1)
 			{
 				$link = $items[$i]->name;
 			}
@@ -82,22 +73,14 @@ class modBreadCrumbs
 			{
 				$breadcrumbs .= $link;
 				// If not the last item in the breadcrumbs add the separator
-				if ($i < $numItems -1)
+				if ($i < $count -1)
 				{
 					$breadcrumbs .= ' '.$separator.' ';
 				}
 			}
 		}
-
-		if (!$numItems)
-		{
-			$breadcrumbs .= '&nbsp;';
-		}
-
-		// Close the breadcrumbs span
-		$breadcrumbs .= '</span>';
-
-		return $breadcrumbs;
+		
+		return $breadcrumbs ;
 	}
 
 	/**

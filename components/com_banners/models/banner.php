@@ -123,26 +123,6 @@ class JModelBanner extends JModel
 	}
 
 	/**
-	 * Checks if a URL is an image
-	 * @param string
-	 * @return URL
-	 */
-	function isImage( $url )
-	{
-		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#', $url );
-		return $result;
-	}
-
-	/**
-	 * Checks if a URL is a Flash file
-	 */
-	function isFlash( $url )
-	{
-		$result = preg_match( '#\.swf$#', $url );
-		return $result;
-	}
-
-	/**
 	 * Clicks the URL, incrementing the counter
 	 */
 	function click( $id = 0 )
@@ -235,6 +215,30 @@ class JBannerHelper
 			}
 		}
 		return $instance;
+	}
+	
+	/**
+	 * Checks if a URL is an image
+	 * 
+	 * @param string
+	 * @return URL
+	 */
+	function isImage( $url )
+	{
+		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#', $url );
+		return $result;
+	}
+
+	/**
+	 * Checks if a URL is a Flash file
+	 * 
+	 * @param string
+	 * @return URL
+	 */
+	function isFlash( $url )
+	{
+		$result = preg_match( '#\.swf$#', $url );
+		return $result;
 	}
 }
 ?>

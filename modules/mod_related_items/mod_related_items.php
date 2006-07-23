@@ -17,5 +17,21 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modRelatedItems::display($params);
+$list = modRelatedItemsHelper::getList($params);
+		
+if (!count($list)) {
+	return;
+}
+		
 ?>
+<ul class="relateditems<?php echo $params->get('moduleclass_sfx'); ?>">
+
+<?php foreach ($list as $item) :	?>
+<li>
+	<a href="<?php echo sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$item->itemid"); ?>">
+		<?php if ($showDate) echo $item->created . " - "; ?>
+		<?php echo $item->title; ?>
+	</a>
+</li>
+<?php endforeach; ?>
+</ul>

@@ -14,33 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modArchive
-{
-	function display(&$params)
-	{
-		$params->def('count', 10);
-		
-		$list = modArchive::getList($params);
-		
-		?>
-		<ul>
-		<?php
-		foreach ($list as $item)
-		{
-			// Set some variables
-			?>
-			<li>
-				<a href="<?php echo $item->link; ?>">
-					<?php echo $item->text; ?>
-				</a>
-			</li>
-			<?php
-		}
-		?>
-		</ul>
-		<?php
-	}
-	
+class modArchiveHelper
+{	
 	function getList(&$params)
 	{
 		global $mainframe;

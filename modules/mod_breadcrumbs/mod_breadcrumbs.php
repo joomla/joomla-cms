@@ -17,5 +17,13 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modBreadCrumbs::display($params);
+// Get the breadcrumbs
+$list = modBreadCrumbsHelper::getList($params);
+		
+// Set the default separator
+$separator = modBreadCrumbsHelper::setSeparator( $params->get( 'separator' ));
 ?>
+
+<span class="breadcrumbs pathway">
+<?php echo modBreadCrumbsHelper::renderBreadCrumbs($list, $separator); ?>
+</span>

@@ -17,6 +17,20 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modSections::display($params);
+$list = modSections::getList($params);
+		
+if (!count($list)) {
+	return;
+}
 
+?><ul class="sections<?php echo $params->get('moduleclass_sfx'); ?>"><?php
+foreach ($list as $item) :	
+	$itemid = JContentHelper::getItemid($item->id);
 ?>
+<li>
+	<a href="<?php echo sefRelToAbs("index.php?option=com_content&task=blogsection&id=".$item->id."&Itemid=".$itemid);?>">
+		<?php echo $item->title;?>
+	</a>
+</li>
+<?php endforeach; ?>
+</ul>

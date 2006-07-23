@@ -17,5 +17,17 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modSyndicate::display($params);
+$params->def('text', 'Feed Entries');
+$params->def('format', 'rss');
+		
+$link = modSyndicateHelper::getLink($params);
+	
+if(is_null($link)) {
+	return;
+}
+		
+$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
 ?>
+<a href="<?php echo $link ?>">
+	<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
+</a>

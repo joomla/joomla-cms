@@ -14,9 +14,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modWhosonline
+class modWhosonlineHelper
 {
-	function display(&$params)
+	function render(&$params)
 	{
 		global $mainframe;
 		

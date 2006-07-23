@@ -16,29 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class modStats
 {
-	function display($params)
-	{
-		global $mainframe;
-		
-		$db			= $mainframe->getDBO();
-		
-		$serverinfo = $params->get( 'serverinfo' );
-		$siteinfo 	= $params->get( 'siteinfo' );
-		
-		if ($serverinfo) {
-			modStats::showServerInfo($params);
-		}
-		
-		if ($siteinfo) {
-			modStats::showSiteInfo($params);
-		}
-		
-		if ($mainframe->getCfg('enable_stats')) {
-			modStats::showVisitorInfo($params);
-		}
-	}
-	
-	function showServerInfo($params) 
+	function renderServerInfo(&$params) 
 	{
 		global $mainframe;
 		
@@ -54,7 +32,7 @@ class modStats
 		echo "<strong>GZIP:</strong> " . $z . "<br />\n";
 	}
 	
-	function showSiteInfo($params) 
+	function renderSiteInfo(&$params) 
 	{
 		global $mainframe;
 		
@@ -80,7 +58,7 @@ class modStats
 		echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$db->loadResult() . "<br />\n";
 	}
 	
-	function showVistorInfo($params)
+	function renderVistorInfo(&$params)
 	{
 		$counter 	= $params->get( 'counter' );
 		$increase 	= $params->get( 'increase' );

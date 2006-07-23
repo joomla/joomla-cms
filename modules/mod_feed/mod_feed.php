@@ -14,6 +14,12 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
+// Include the syndicate functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
+
+$rssurl	= $params->get('rssurl', '');
+$rssrtl	= $params->get('rssrtl', 0);
+
 //check if cache diretory is writable as cache files will be created for the feed
 $cacheDir = $mainframe->getCfg('cachepath').DS;
 if (!is_writable($cacheDir))
@@ -24,18 +30,7 @@ if (!is_writable($cacheDir))
 	return;
 }
 
-// module params
-$moduleclass_sfx	= $params->get('moduleclass_sfx');
-$rssurl				= $params->get('rssurl', '');
-$rssitems			= $params->get('rssitems', 5);
-$rssdesc			= $params->get('rssdesc', 1);
-$rssimage			= $params->get('rssimage', 1);
-$rssitemdesc		= $params->get('rssitemdesc', 1);
-$words				= $params->def('word_count', 0);
-$rsstitle			= $params->get('rsstitle', 1);
-$rssrtl				= $params->get('rssrtl', 0);
-
-
+//check if feed URL has been set
 if (empty ($rssurl))
 {
 	echo '<div>';
@@ -44,143 +39,8 @@ if (empty ($rssurl))
 	return;
 }
 
-
-//  get RSS parsed object
-$options = array();
-$options['rssUrl'] = $rssurl;
-$options['cache_time'] = 3600;
-
-$rssDoc = JFactory::getXMLparser('RSS', $options);
-
-if ($rssDoc != false)
-{
-	// feed elements
-	$currChannel	= $rssDoc->channel;
-	$image			= $rssDoc->image;
-	$items 			= $rssDoc->items;
-	$iUrl = 0;
-
-	//image handling
-	$iUrl = isset($image['url']) ? $image['url'] : null;
-	$iTitle = isset($image['title']) ? $image['title'] : null;
-
-	// feed title
-	?>
-	<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
-	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
-	<?php
-
-	// feed description
-	if (!is_null( $currChannel['title'] ) && $rsstitle)
-	{
-	?>
-		<tr>
-			<td>
-				<strong>
-				<a href="<?php echo ampReplace( $currChannel['link'] ); ?>" target="_blank">
-					<?php echo $currChannel['title']; ?></a>
-				</strong>
-			</td>
-		</tr>
-	<?php
-	}
-
-	// feed description
-	if ($rssdesc)
-	{
-	?>
-		<tr>
-			<td>
-				<?php echo $currChannel['description']; ?>
-			</td>
-		</tr>
-	<?php
-	}
-
-	// feed image
-	if ($rssimage && $iUrl)
-	{
-	?>
-		<tr>
-			<td align="center">
-				<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
-			</td>
-		</tr>
-	<?php
-	}
-
-	$actualItems = count( $items );
-	$setItems = $rssitems;
-
-	if ($setItems > $actualItems)
-	{
-		$totalItems = $actualItems;
-	}
-	else
-	{
-		$totalItems = $setItems;
-	}
-	?>
-	<tr>
-		<td>
-			<ul class="newsfeed<?php echo $moduleclass_sfx; ?>"  >
-	<?php
-	for ($j = 0; $j < $totalItems; $j ++)
-	{
-		$currItem = & $items[$j];
-		// item title
-		?>
-			<li >
-		<?php
-
-		if ( !is_null( $currItem['link'] ) )
-		{
-		?>
-					<a href="<?php echo $currItem['link']; ?>" target="_child">
-					<?php echo $currItem['title']; ?>
-					</a>
-				<?php
-		}
-
-		// item description
-		if ($rssitemdesc)
-		{
-			// item description
-			$text = html_entity_decode($currItem['description']);
-			$text = str_replace('&apos;', "'", $text);
-
-			// word limit check
-			if ($words)
-			{
-				$texts = explode(' ', $text);
-				$count = count($texts);
-				if ($count > $words)
-				{
-					$text = '';
-					for ($i = 0; $i < $words; $i ++)
-					{
-						$text .= ' '.$texts[$i];
-					}
-					$text .= '...';
-				}
-			}
-			?>
-					<div style="text-align: <?php echo $rssrtl ? 'right': 'left'; ?> ! important">
-						<?php echo $text; ?>
-					</div>
-					<?php
-		}
-		?>
-			</li>
-			<?php
-
-	}
-	?>
-			</ul>
-		</td>
-	</tr>
-	</table>
-	</div>
-		<?php
-}
 ?>
+
+<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
+<?php echo modFeedHelper::renderFeed($params); ?>
+</div>

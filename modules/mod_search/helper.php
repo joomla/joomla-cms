@@ -14,9 +14,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modSearch
+class modSearchHelper
 {
-	function display($params)
+	function renderInputField($params)
 	{
 		$button				= $params->get('button', '');
 		$imagebutton		= $params->get('imagebutton', '');
@@ -24,7 +24,6 @@ class modSearch
 		$button_text		= $params->get('button_text', JText::_('Search'));
 		$width				= intval($params->get('width', 20));
 		$text				= $params->get('text', JText::_('search...'));
-		$moduleclass_sfx	= $params->get('moduleclass_sfx');
 		$set_Itemid			= intval($params->get('set_itemid', 0));
 		
 		$output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
@@ -64,12 +63,17 @@ class modSearch
 				break;
 		}
 		
+		return $output;	
+	}
+		
+	function getItemid(&$params)
+	{
+		$set_Itemid	= intval($params->get('set_itemid', 0));
+		
 		// set Itemid id for links
-		if ($set_Itemid)
-		{
+		if ($set_Itemid) {
 			// use param setting
-			$_Itemid = $set_Itemid;
-			$link = 'index.php?option=com_search&amp;Itemid='.$set_Itemid;
+			$itemid = $set_Itemid;
 		}
 		else
 		{
@@ -80,22 +84,11 @@ class modSearch
 			foreach ($items as $item)
 			{
 				if ($item->link == "index.php?option=com_search") {
-					$_Itemid = '&amp;Itemid='.$item->id;
+					$itemid = $item->id;
 				}
 			}
-		
-			$link = 'index.php?option=com_search'.$_Itemid;
 		}
 		
-		?>
-<form action="<?php echo $link; ?>" method="get">
-	<div class="search<?php echo $moduleclass_sfx; ?>">
-		<?php echo $output; ?>
-	</div>
-
-	<input type="hidden" name="option" value="com_search" />
-	<input type="hidden" name="Itemid" value="<?php echo $_Itemid; ?>" />
-</form>
-		<?php
+		return $itemid;
 	}
 }

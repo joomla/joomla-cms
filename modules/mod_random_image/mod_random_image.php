@@ -17,5 +17,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modRandomImage::display($params);
-?>
+$link 	 = $params->get( 'link' );
+		
+$folder  = modRandomImageHelper::getFolder($params);	
+$images  = modRandomImageHelper::getImages($params, $folder);
+		
+if (!count($images)) {
+	echo JText::_( 'No images ');
+	return;
+} 
+		
+$image = modRandomImageHelper::getRandomImage($params, $images);
+			
+?><div align="center"><?php
+
+if ($link) : ?>
+	<a href="<?php echo $link; ?>" target="_self">
+<?php endif; ?>
+
+<img src="<?php echo $image->folder.'/'.$image->name; ?>" border="0" width="<?php echo $image->width; ?>" height="<?php echo $image->height; ?>" alt="<?php echo $image->name; ?>" /><br />
+
+<?php if ($link) : ?>
+	</a>
+<?php endif; ?>
+
+</div>

@@ -17,5 +17,17 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modLogin::display($params);
-?>
+$params->def('greeting', 1);
+		
+$type 	= modLoginHelper::getType();
+$return	= modLoginHelper::getReturnURL();
+		
+switch($type)
+{
+	case 'login' 	: 
+		modLoginHelper::renderLoginForm($params, $return);
+		break;
+	case 'logout'	:
+		modLoginHelper::renderLogoutForm($params, $return);
+		break;
+}

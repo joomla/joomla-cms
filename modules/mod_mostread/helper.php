@@ -16,30 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
-class modMostRead
+class modMostReadHelper
 {
-	function display(&$params)
-	{
-		$list = modMostRead::getList($params);
-		
-		?>
-		<ul class="mostread<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php
-			foreach ($list as $item) 
-			{
-				?>
-				<li class="mostread<?php echo $moduleclass_sfx; ?>">
-				<a href="<?php echo $item->link; ?>" class="mostread<?php echo $params->get('moduleclass_sfx'); ?>">
-					<?php echo $item->text; ?></a>
-				</li>
-				<?php
-			}
-		?>
-		</ul>
-		<?php
-		
-	}
-	
 	function getList(&$params)
 	{
 		global $mainframe;

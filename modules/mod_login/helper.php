@@ -14,26 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modLogin
+class modLoginHelper
 {
-	function display(&$params)
-	{		
-		$params->def('greeting', 1);
-		
-		$type 	= modLogin::getType();
-		$return	= modLogin::getReturnURL();
-		
-		switch($type)
-		{
-			case 'login' 	: 
-				modLogin::renderLoginForm($params, $return);
-				break;
-			case 'logout'	:
-				modLogin::renderLogoutForm($params, $return);
-				break;
-		}
-	}
-	
 	function renderLogoutForm(&$params, $return)
 	{
 		global $mainframe;

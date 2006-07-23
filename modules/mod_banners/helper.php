@@ -14,14 +14,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modBanner
+class modBannersHelper
 {
-	function display(&$params)
+	function getList(&$params)
 	{
 		global $mainframe;
 		
 		$db			= $mainframe->getDBO();
-		$model		= modBanner::getModel($db);
+		$model		= modBannersHelper::getModel($db);
 
 		// Model Variables
 		$vars['cid']		= (int) $params->get( 'cid' );
@@ -39,79 +39,8 @@ class modBanner
 
 		$banners = $model->getList( $vars );
 		$model->impress( $banners );
-
-		// View Variables
-		$cssSuffix	= $params->get( 'moduleclass_sfx' );
-		$headerText	= trim( $params->get( 'header_text' ) );
-		$footerText	= trim( $params->get( 'footer_text' ) );
-
-		echo '<div class="bannergroup' . $cssSuffix . '">';
-		if ($footerText)
-		{
-			echo '<div class="bannerheader">' . $headerText . '</div>';
-		}
 		
-		$n = count( $banners );
-		for ($i = 0; $i < $n; $i++) {
-			$item = &$banners[$i];
-			$link = sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
-		
-			echo '<div class="banneritem' . $cssSuffix . '">';
-
-			if (trim($item->custombannercode))
-			{
-				// template replacements
-				$html = str_replace( '{CLICKURL}', $link, $item->custombannercode );
-				$html = str_replace( '{NAME}', $item->name, $html );
-				echo $html;
-			}
-			else if ($model->isImage( $item->imageurl ))
-			{
-				$image 	= '<img src="images/banners/'.$item->imageurl.'" border="0" alt="'.JText::_('Banner').'" />';
-				if ($item->clickurl)
-				{
-					switch ($params->get( 'target', 1 )) {
-						// cases are slightly different
-						case 1:
-							// open in a new window
-							$a = '<a href="'. $link .'" target="_blank">';
-							break;
-		
-						case 2:
-							// open in a popup window
-							$a = "<a href=\"javascript:void window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">";
-							break;
-		
-						default:	// formerly case 2
-							// open in parent window
-							$a = '<a href="'. $link .'">';
-							break;
-					}
-
-					echo $a . $image . '</a>';
-				}
-				else
-				{
-					echo $image;
-					
-				}
-			}
-			else if ($model->isFlash( $item->imageurl ))
-			{
-				$imageurl = "images/banners/".$item->imageurl;
-				echo "	<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">
-							<param name=\"movie\" value=\"$imageurl\"><embed src=\"$imageurl\" loop=\"false\" pluginspage=\"http://www.macromedia.com/go/get/flashplayer\" type=\"application/x-shockwave-flash\"></embed>
-						</object>";
-			}
-		
-			echo '	<div class="clr"></div>';
-			echo '</div>';
-		}
-		if ($footerText)
-		{
-			echo '<div class="bannerfooter' . $cssSuffix . '">' . $footerText . '</div>';
-		}
-		echo '</div>';
+		return $banners;
 	}
 	
 	function getModel(&$db)
@@ -136,5 +65,58 @@ class modBanner
 			
 		$model = & new JModelBanner( $db );
 		return $model;
+	}
+		
+	function renderBanner(&$item)
+	{
+		$link = sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
+		
+		$html = '';
+		if (trim($item->custombannercode))
+		{
+			// template replacements
+			$html = str_replace( '{CLICKURL}', $link, $item->custombannercode );
+			$html = str_replace( '{NAME}', $item->name, $html );
+		}
+		else if (JBannerHelper::isImage( $item->imageurl ))
+		{
+			$image 	= '<img src="images/banners/'.$item->imageurl.'" border="0" alt="'.JText::_('Banner').'" />';
+			if ($item->clickurl)
+			{
+				switch ($params->get( 'target', 1 )) 
+				{
+					// cases are slightly different
+					case 1:
+						// open in a new window
+						$a = '<a href="'. $link .'" target="_blank">';
+						break;
+		
+					case 2:
+						// open in a popup window
+						$a = "<a href=\"javascript:void window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">";
+						break;
+		
+					default:	// formerly case 2
+						// open in parent window
+						$a = '<a href="'. $link .'">';
+						break;
+					}
+
+				$html = $a . $image . '</a>';
+			}
+			else
+			{
+				$html = $image;				
+			}
+		}
+		else if (JBannerHelper::isFlash( $item->imageurl ))
+		{
+			$imageurl = "images/banners/".$item->imageurl;
+			$html =	"<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">
+						<param name=\"movie\" value=\"$imageurl\"><embed src=\"$imageurl\" loop=\"false\" pluginspage=\"http://www.macromedia.com/go/get/flashplayer\" type=\"application/x-shockwave-flash\"></embed>
+					</object>";
+		}
+		
+		return $html;
 	}
 }

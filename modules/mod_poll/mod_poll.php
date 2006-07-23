@@ -17,5 +17,14 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modPoll::display($params);
+$list = modPollHelper::getList($params);
+		
+foreach ($list as $item) 
+{
+	if ($item->id && $item->title)  {
+		$options = modPollHelper::getPollOptions($item->id);
+		modPollHelper::renderPollForm($item, $params, $options);
+	}
+}
+	
 ?>

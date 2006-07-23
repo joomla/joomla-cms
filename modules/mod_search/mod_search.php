@@ -17,5 +17,12 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modSearch::display($params);
 ?>
+<form action="<?php echo $link; ?>" method="get">
+	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
+		<?php echo modSearchHelper::renderInputField($params) ?>
+	</div>
+
+	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="Itemid" value="<?php echo modSearchHelper::getItemid($params); ?>" />
+</form>

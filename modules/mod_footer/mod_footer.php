@@ -14,6 +14,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-mod_footer.php
+global $mainframe;
 
-modFooter::display($params);
+$cur_year	= mosCurrentDate('%Y');
+$csite_name	= $mainframe->getCfg('sitename');
+
+if (JString::strpos(JText :: _('FOOTER_LINE1'), '%date%')) {
+	$line1 = ereg_replace('%date%', $cur_year, JText :: _('FOOTER_LINE1'));
+} else {
+	$line1 = JText :: _('FOOTER_LINE1');
+}
+
+if (JString::strpos($line1, '%sitename%')) {
+	$lineone = ereg_replace('%sitename%', $csite_name, $line1);
+} else {
+	$lineone = $line1;
+}
+	
+?>
+<div><?php echo $lineone; ?></div>
+<div><?php echo JText::_( 'FOOTER_LINE2' ); ?></div>

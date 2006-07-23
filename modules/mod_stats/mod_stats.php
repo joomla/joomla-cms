@@ -17,5 +17,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modStats::display($params);
-?>
+$serverinfo = $params->get( 'serverinfo' );
+$siteinfo 	= $params->get( 'siteinfo' );
+		
+if ($serverinfo) {
+	modStatsHelper::showServerInfo($params);
+}
+		
+if ($siteinfo) {
+	modStatsHelper::showSiteInfo($params);
+}
+		
+if ($mainframe->getCfg('enable_stats')) {
+	modStatsHelper::showVisitorInfo($params);
+}

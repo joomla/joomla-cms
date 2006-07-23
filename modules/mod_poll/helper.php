@@ -14,22 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-class modPoll
+class modPollHelper
 {
-	function display($params) 
-	{
-		$list = modPoll::getList($params);
-		
-		foreach ($list as $item) 
-		{
-			if ($item->id && $item->title)  {
-				$options = modPoll::getPollOptions($item->id);
-				modPoll::renderPollForm($item, $params, $options);
-			}
-		}
-	}
-	
 	function getList(&$params)
 	{
 		global $mainframe;

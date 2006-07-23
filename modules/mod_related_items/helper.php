@@ -16,37 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
-class modRelatedItems
+class modRelatedItemsHelper
 {
-	function display(&$params)
-	{
-		$list = modRelatedItems::getList($params);
-		
-		if (!count($list)) {
-			return;
-		}
-		
-		?>
-		<ul class="relateditems<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php
-		
-		foreach ($list as $item)
-		{
-			?>
-			<li>
-				<a href="<?php echo sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$item->itemid"); ?>">
-					<?php if ($showDate) echo $item->created . " - "; ?>
-					<?php echo $item->title; ?>
-				</a>
-			</li>
-			<?php
-		}
-		?>
-		</ul>
-		<?php
-		
-	}
-	
 	function getList($params)
 	{
 		global $mainframe;

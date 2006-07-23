@@ -14,28 +14,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-class modSyndicate
+class modSyndicateHelper
 {
-	function display($params)
-	{
-		// paramters
-		$params->def('text', 'Feed Entries');
-		$params->def('format', 'rss');
-		
-		$link = modSyndicate::getLink($params);
-	
-		if(is_null($link)) {
-			return;
-		}
-		
-		$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
-		?>
-			<a href="<?php echo $link ?>">
-				<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
-			</a>
-		<?php
-	}
-	
 	function getLink(&$params)
 	{
 		global $mainframe;
