@@ -541,11 +541,6 @@ function selectnew()
 		$path = JPATH_ROOT .'/modules/';
 	}
 
-	// handling for custom module
-	$modules[0]->file 		= 'custom.xml';
-	$modules[0]->module 	= 'custom';
-	$modules[0]->path 		= $path;
-
 	$i = 1;
 	jimport('joomla.filesystem.folder');
 	$dirs = JFolder::folders( $path );

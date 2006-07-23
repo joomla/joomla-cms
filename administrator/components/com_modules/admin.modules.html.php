@@ -359,7 +359,8 @@ class HTML_modules {
 			// Show custom.xml params for backward compat with existing custom modules
 			// that are used to show rss feeds
 			// extra backward compat check [$row->module == ''] can be depreciated in 1.2
-			if ( !$row->module == '' || $row->module == 'custom' ) {
+			if ( !$row->module == '' || $row->module == 'custom' ) 
+			{
 				// Render Control Parameters
 					if ($helper->hasControlParams()) {
 				?>
@@ -373,22 +374,19 @@ class HTML_modules {
 					</fieldset>
 			<?php
 					}
-				// Render Parameter list
-				?>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-						<table class="admintable">
-						<tr>
-							<td>
-								<?php echo $params->render();?>
-							</td>
-						</tr>
-						</table>
-				</fieldset>
-				<?php
 			}
+			// Render Parameter list
 			?>
-
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+					<table class="admintable">
+					<tr>
+						<td>
+							<?php echo $params->render();?>
+						</td>
+					</tr>
+					</table>
+			</fieldset>
 		</div>
 		<div class="col40">
 			<fieldset class="adminform">
