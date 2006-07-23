@@ -26,7 +26,6 @@ class modNewsFlash
 		$params->set('hide_author', 1);
 		$params->set('hide_createdate', 0);
 		$params->set('hide_modifydate', 1);
-		$params->set('link_titles', $link_titles);
 		
 		// Disable edit ability icon
 		$access = new stdClass();
@@ -69,7 +68,7 @@ class modNewsFlash
 			case 'flash' :
 			default :
 				srand((double) microtime() * 1000000);
-				$flashnum = rand(0, $numrows -1);
+				$flashnum = rand(0, $items -1);
 
 				$item = $list[$flashnum];
 
@@ -161,5 +160,3 @@ class modNewsFlash
 		return $rows;
 	}
 }
-
-?>

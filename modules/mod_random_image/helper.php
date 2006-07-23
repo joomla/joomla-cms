@@ -131,4 +131,4 @@ class modRandomImage
 		return $folder;
 	}
 }
-?>
+

@@ -20,7 +20,7 @@ class modLatestNews
 {
 	function display(&$params )
 	{
-		$list = modLatestNews::getList(&$params);
+		$list = modLatestNews::getList($params);
 		
 		?>
 		<ul class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">

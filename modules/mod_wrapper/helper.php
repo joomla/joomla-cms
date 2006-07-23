@@ -57,5 +57,3 @@ class modWrapper
 		return $params;
 	}
 }
-
-?>

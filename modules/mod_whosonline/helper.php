@@ -124,4 +124,3 @@ class modWhosonline
 		echo $output;
 	}
 }
-?>

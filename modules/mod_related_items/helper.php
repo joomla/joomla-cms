@@ -122,4 +122,3 @@ class modRelatedItems
 		return $related;
 	}
 }
-?>

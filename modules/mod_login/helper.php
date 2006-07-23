@@ -145,4 +145,3 @@ class modLogin
 	    return ($user->get('id')) ? 'logout' : 'login';
 	}
 }
-?>

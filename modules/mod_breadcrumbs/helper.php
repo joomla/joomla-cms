@@ -147,6 +147,3 @@ class modBreadCrumbs
 		return $_separator;
 	}
 }
-
-
-?>

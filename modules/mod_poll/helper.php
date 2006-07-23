@@ -163,4 +163,3 @@ class modPoll
 		<?php
 	}
 }
-?>

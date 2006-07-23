@@ -235,6 +235,10 @@ class NewsfeedsController
 		// Get some objects from the JApplication
 		$db		 	= & $mainframe->getDBO();
 		$user 		= & $mainframe->getUser();
+		
+		// Get the current menu item
+		$menu =& JMenu::getInstance();
+		$menu = $menu->getCurrent();
 
 		require_once( $mainframe->getPath( 'class' ) );
 

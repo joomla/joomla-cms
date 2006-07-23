@@ -51,18 +51,20 @@ class modSections
 		$count	= intval($params->get('count', 20));
 		$access	= !$mainframe->getCfg('shownoauth');
 		
-		$now	= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
+		$gid 		= $user->get('gid');
+		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate	= $db->getNullDate();
+		
 		
 		$query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt" .
 			"\n FROM #__sections as a" .
 			"\n LEFT JOIN #__content as b ON a.id = b.sectionid" .
-			($access ? "\n AND b.access <= $user->get('gid')" : '') .
+			($access ? "\n AND b.access <= $gid" : '') .
 			"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
 			"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )" .
 			"\n WHERE a.scope = 'content'" .
 			"\n AND a.published = 1" .
-			($access ? "\n AND a.access <= $user->get('gid')" : '') .
+			($access ? "\n AND a.access <= $gid" : '') .
 			"\n GROUP BY a.id" .
 			"\n HAVING COUNT( b.id ) > 0" .
 			"\n ORDER BY a.ordering";
@@ -72,6 +74,3 @@ class modSections
 		return $rows;
 	}
 }
-
-
-?>

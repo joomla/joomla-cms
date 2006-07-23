@@ -99,4 +99,3 @@ class modSearch
 		<?php
 	}
 }
-?>

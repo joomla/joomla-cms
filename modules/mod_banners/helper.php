@@ -138,4 +138,3 @@ class modBanner
 		return $model;
 	}
 }
-?>
