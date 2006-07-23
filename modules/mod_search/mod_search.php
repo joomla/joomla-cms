@@ -14,15 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Include the syndicate functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
 
-jimport( 'joomla.application.controller' );
-
-/*
- * Include the syndicate functions only once
- */
-require_once (dirname(__FILE__).DS.'search.functions.php');
-
-$controller = new JModSearchController( $mainframe );
-$controller->params = &$params;
-$controller->execute( 'display' );
+modSearch::display($params);
 ?>

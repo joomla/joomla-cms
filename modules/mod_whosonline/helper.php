@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_whosonline.php 4248 2006-07-16 14:39:15Z akede $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -14,14 +14,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class JModWhoIsOnlineController extends JController
+class modWhosonline
 {
-	var $params;
-
-	function display()
+	function display(&$params)
 	{
-		$params		= &$this->params;
-		$db			= &$this->getDBO();
+		global $mainframe;
+		
+		$db		=& $mainframe->getDBO();
 
 		$showmode = $params->get('showmode', 0);
 

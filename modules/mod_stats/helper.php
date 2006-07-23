@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_stats.php 4133 2006-06-27 08:21:05Z akede $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -14,50 +14,35 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class JModStatsController extends JController
+class modStats
 {
-	var $params;
-
-	function display()
+	function display($params)
 	{
-		$mainframe	= &$this->getApplication();
-		$db			= &$this->getDBO();
-		$serverinfo = $this->params->get( 'serverinfo' );
-		$siteinfo 	= $this->params->get( 'siteinfo' );
+		global $mainframe;
+		
+		$db			= $mainframe->getDBO();
+		
+		$serverinfo = $params->get( 'serverinfo' );
+		$siteinfo 	= $params->get( 'siteinfo' );
 		
 		if ($serverinfo) {
-			$this->_showServerInfo();
+			modStats::showServerInfo($params);
 		}
 		
 		if ($siteinfo) {
-			$this->_showSiteInfo();
+			modStats::showSiteInfo($params);
 		}
 		
 		if ($mainframe->getCfg('enable_stats')) {
-			$counter 	= $params->get( 'counter' );
-			$increase 	= $params->get( 'increase' );
-			if ($counter) {
-				$query = "SELECT SUM( hits ) AS count"
-				. "\n FROM #__stats_agents"
-				. "\n WHERE type = 1"
-				;
-				$db->setQuery( $query );
-				$hits = $db->loadResult();
-		
-				$hits = $hits + $increase;
-		
-				if ($hits == NULL) {
-					echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> 0\n";
-				} else {
-					echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> " . $hits . "\n";
-				}
-			}
+			modStats::showVisitorInfo($params);
 		}
 	}
 	
-	function _showServerInfo() {
-		$mainframe =& $this->getApplication();
-		$db = $this->getDBO();
+	function showServerInfo($params) 
+	{
+		global $mainframe;
+		
+		$db = $mainframe->getDBO();
 		
 		echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 		echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
@@ -69,8 +54,11 @@ class JModStatsController extends JController
 		echo "<strong>GZIP:</strong> " . $z . "<br />\n";
 	}
 	
-	function _showSiteInfo() {
-		$db =& $this->getDBO();
+	function showSiteInfo($params) 
+	{
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
 		
 		$query="SELECT COUNT( id ) AS count_users"
 		. "\n FROM #__users"
@@ -90,6 +78,30 @@ class JModStatsController extends JController
 		;
 		$db->setQuery($query);
 		echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$db->loadResult() . "<br />\n";
+	}
+	
+	function showVistorInfo($params)
+	{
+		$counter 	= $params->get( 'counter' );
+		$increase 	= $params->get( 'increase' );
+			
+		if ($counter) 
+		{
+			$query = "SELECT SUM( hits ) AS count"
+				. "\n FROM #__stats_agents"
+				. "\n WHERE type = 1"
+				;
+			$db->setQuery( $query );
+			$hits = $db->loadResult();
+		
+			$hits = $hits + $increase;
+		
+			if ($hits == NULL) {
+				echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> 0\n";
+			} else {
+				echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> " . $hits . "\n";
+			}
+		}
 	}
 }
 ?>

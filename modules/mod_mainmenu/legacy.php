@@ -17,7 +17,8 @@ defined('_JEXEC') or die('Restricted access');
 /**
 * Utility function for writing a menu link
 */
-function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
+function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) 
+{
 	global $Itemid, $mainframe;
 	$txt = '';
 
@@ -150,7 +151,8 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 /**
 * Vertically Indented Menu
 */
-function mosShowVIMenu(& $params) {
+function mosShowVIMenu(& $params) 
+{
 	global $database, $mainframe, $Itemid;
 	global $mosConfig_shownoauth;
 
@@ -289,7 +291,8 @@ function mosShowVIMenu(& $params) {
 * Utility function to recursively work through a vertically indented
 * hierarchial menu
 */
-function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $params) {
+function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $params) 
+{
 	global $Itemid;
 
 	if (@ $children[$id]) {
@@ -319,7 +322,8 @@ function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $para
 /**
 * Draws a horizontal 'flat' style menu (very simple case)
 */
-function mosShowHFMenu(& $params, $style = 0) {
+function mosShowHFMenu(& $params, $style = 0) 
+{
 	global $database, $mainframe, $Itemid;
 	global $mosConfig_shownoauth;
 
@@ -386,7 +390,8 @@ function mosShowHFMenu(& $params, $style = 0) {
 /**
 * Search for Itemid in link
 */
-function ItemidContained($link, $Itemid) {
+function ItemidContained($link, $Itemid) 
+{
 	$link = str_replace('&amp;', '&', $link);
 	$temp = split("&", $link);
 	$linkItemid = "";

@@ -14,13 +14,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-jimport( 'joomla.application.controller' );
-/*
- * Include the syndicate functions only once
- */
-require_once (dirname(__FILE__).DS.'syndicate.functions.php');
+// Include the syndicate functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
 
-$controller = new JModSyndicateController( $mainframe );
-$controller->params = &$params;
-$controller->execute( 'display' );
+modSyndicate::display($params);
 ?>

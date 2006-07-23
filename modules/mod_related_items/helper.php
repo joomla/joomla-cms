@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_related_items.php 4132 2006-06-26 12:52:06Z akede $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -14,25 +14,54 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class JModRelatedItemsController extends JController
-{
-	var $params;
+require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
-	function display()
+class modRelatedItems
+{
+	function display(&$params)
 	{
-		$db						=& $this->getDBO();
-		$mainframe				=& $this->getApplication();
-		$user					=& $mainframe->getUser();
-		$option					= JRequest::getVar( 'option', '' );
-		$task					= JRequest::getUrl( 'task', '' );
+		$list = modRelatedItems::getList($params);
 		
-		$moduleclass_sfx		= $this->params->get('moduleclass_sfx');
-		$option					= JRequest::getVar( 'option' );
-		$task					= JRequest::getVar( 'task' );
-		$id						= JRequest::getVar( 'id', 0, '', 'int' );
-		$showDate				= $this->params->get('showDate', 0);
-		$now					= date('Y-m-d H:i:s', time());
-		$nullDate				= $db->getNullDate();
+		if (!count($list)) {
+			return;
+		}
+		
+		?>
+		<ul class="relateditems<?php echo $params->get('moduleclass_sfx'); ?>">
+		<?php
+		
+		foreach ($list as $item)
+		{
+			?>
+			<li>
+				<a href="<?php echo sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$item->itemid"); ?>">
+					<?php if ($showDate) echo $item->created . " - "; ?>
+					<?php echo $item->title; ?>
+				</a>
+			</li>
+			<?php
+		}
+		?>
+		</ul>
+		<?php
+		
+	}
+	
+	function getList($params)
+	{
+		global $mainframe;
+		
+		$db					=& $mainframe->getDBO();
+		$user				=& $mainframe->getUser();
+		
+		$option				= JRequest::getVar( 'option', '' );
+		$task				= JRequest::getVar( 'task' );
+		
+		$id					= JRequest::getVar( 'id', 0, '', 'int' );
+		$showDate			= $this->params->get('showDate', 0);
+		
+		$now				= date('Y-m-d H:i:s', time());
+		$nullDate			= $db->getNullDate();
 		
 		if ($option == 'com_content' && $task == 'view' && $id)
 		{
@@ -51,8 +80,7 @@ class JModRelatedItemsController extends JController
 				foreach ($keys as $key)
 				{
 					$key = trim($key);
-					if ($key)
-					{
+					if ($key) {
 						$likes[] = $db->getEscaped($key);
 					}
 				}
@@ -81,44 +109,17 @@ class JModRelatedItemsController extends JController
 						{
 							if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('gid') || $row->cat_access == '') && ($row->sec_access <= $user->get('gid') || $row->sec_access == ''))
 							{
+								$row->itemid = JContentHelper::getItemid($row->id);
 								$related[] = $row;
 							}
 						}
 					}
 					unset ($temp);
-		
-					if (count($related))
-					{
-					?>
-						<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
-						<?php
-		
-						require_once (JApplicationHelper::getPath('helper', 'com_content'));
-		
-						foreach ($related as $item)
-						{
-							if ($option = "com_content" && $task = "view")
-							{
-								$Itemid = JContentHelper::getItemid($item->id);
-							}
-							$href = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$Itemid");
-							?>
-							<li>
-								<a href="<?php echo $href; ?>">
-									<?php if ($showDate) echo $item->created . " - "; ?>
-									<?php echo $item->title; ?></a>
-							</li>
-							<?php
-		
-						}
-						?>
-						</ul>
-						<?php
-		
-					}
 				}
 			}
 		}
+		
+		return $related;
 	}
 }
 ?>

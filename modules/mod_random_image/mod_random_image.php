@@ -14,16 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+// Include the syndicate functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
 
-
-jimport( 'joomla.application.controller' );
-
-/*
- * Include the syndicate functions only once
- */
-require_once (dirname(__FILE__).DS.'random_image.functions.php');
-
-$controller = new JModRandomImageController( $mainframe );
-$controller->params = &$params;
-$controller->execute( 'display' );
+modRandomImage::display($params);
 ?>

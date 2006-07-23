@@ -14,63 +14,41 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$params->def('url', '');
-$params->def('scrolling', 'auto');
-$params->def('height', '200');
-$params->def('height_auto', '0');
-$params->def('width', '100%');
-$params->def('add', '1');
-$params->def('name', 'wrapper');
+// Include the syndicate functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
 
-$url = $params->get('url');
-if ($params->get('add'))
-{
-	// adds 'http://' if none is set
-	if (substr($url, 0, 1) == '/')
-	{
-		// relative url in component. use server http_host.
-		$url = 'http://'.$_SERVER['HTTP_HOST'].$url;
-	}
-	elseif (!strstr($url, 'http') && !strstr($url, 'https'))
-	{
-		$url = 'http://'.$url;
-	}
-	else
-	{
-		$url = $url;
-	}
-}
+$params = modWrapper::getParams($params);
 
-// auto height control
-if ($params->def('height_auto')) {
-	$load = 'onload="iFrameHeight()"';
-}
-else {
-	$load = '';
-}
+$load   = $params->get( 'load');
+$url    = $params->get( 'url');
+$target = $params->get( 'target' );
+$width  = $params->get( 'width');
+$height = $params->get( 'height');
+$scroll = $params->get( 'scrolling' );
+$class  = $params->get( 'moduleclass_sfx' );
 ?>
+
 <script language="javascript" type="text/javascript">
-function iFrameHeight() {
-	var h = 0;
-	if ( !document.all ) {
-		h = document.getElementById('blockrandom').contentDocument.height;
-		document.getElementById('blockrandom').style.height = h + 60 + 'px';
-	} else if( document.all ) {
-		h = document.frames('blockrandom').document.body.scrollHeight;
-		document.all.blockrandom.style.height = h + 20 + 'px';
+	function iFrameHeight() {
+		var h = 0;
+		if ( !document.all ) {
+			h = document.getElementById('blockrandom').contentDocument.height;
+			document.getElementById('blockrandom').style.height = h + 60 + 'px';
+		} else if( document.all ) {
+			h = document.frames('blockrandom').document.body.scrollHeight;
+			document.all.blockrandom.style.height = h + 20 + 'px';
+		}
 	}
-}
 </script>
-<iframe
-<?php echo $load; ?>
-id="blockrandom"
-name="<?php echo $params->get( 'target' ); ?>"
+
+<iframe <?php echo $load; ?> id="blockrandom"
+name="<?php echo $target ?>"
 src="<?php echo $url; ?>"
-width="<?php echo $params->get( 'width' ); ?>"
-height="<?php echo $params->get( 'height' ); ?>"
-scrolling="<?php echo $params->get( 'scrolling' ); ?>"
+width="<?php echo $width ?>"
+height="<?php echo $height ?>"
+scrolling="<?php echo $scoll ?>"
 align="top"
 frameborder="0"
-class="wrapper<?php echo $params->get( 'moduleclass_sfx' ); ?>">
+class="wrapper<?php echo $class ?>">
 <?php echo JText::_('NO_IFRAMES'); ?>
 </iframe>

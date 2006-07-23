@@ -14,14 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.controller' );
+// Include the syndicate functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
 
-/*
- * Include the syndicate functions only once
- */
-require_once (dirname(__FILE__).DS.'stats.functions.php');
-
-$controller = new JModStatsController( $mainframe );
-$controller->params = &$params;
-$controller->execute( 'display' );
+modStats::display($params);
 ?>

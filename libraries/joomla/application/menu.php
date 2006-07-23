@@ -15,7 +15,7 @@
  * JMenu class
  *
  * @author Louis Landry <louis.landry@joomla.org>
- * @package JoomlaFramework
+ * @package Joomla.Framework
  * @since 1.5
  */
 class JMenu extends JObject

@@ -14,32 +14,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-global $_VERSION;
+mod_footer.php
 
-/*
- * 						::NOTE::
- * You may change this file to suit your site needs
- * 						::NOTE::
- */
-
-$cur_year	= mosCurrentDate('%Y');
-$csite_name	= $mainframe->getCfg('sitename');
-
-if (JString::strpos(JText :: _('FOOTER_LINE1'), '%date%')) {
-	$line1 = ereg_replace('%date%', $cur_year, JText :: _('FOOTER_LINE1'));
-} else {
-	$line1 = JText :: _('FOOTER_LINE1');
-}
-
-if (JString::strpos($line1, '%sitename%')) {
-	$lineone = ereg_replace('%sitename%', $csite_name, $line1);
-} else {
-	$lineone = $line1;
-}
-?>
-<div>
-<?php echo $lineone; ?>
-</div>
-<div>
-<?php echo JText::_( 'FOOTER_LINE2' ); ?>
-</div>
+modFooter::display($params);

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_search.php 4184 2006-07-08 01:08:35Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -14,20 +14,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class JModSearchController extends JController
+class modSearch
 {
-	var $params;
-
-	function display()
+	function display($params)
 	{
-		$button				= $this->params->get('button', '');
-		$imagebutton		= $this->params->get('imagebutton', '');
-		$button_pos			= $this->params->get('button_pos', 'left');
-		$button_text		= $this->params->get('button_text', JText::_('Search'));
-		$width				= intval($this->params->get('width', 20));
-		$text				= $this->params->get('text', JText::_('search...'));
-		$moduleclass_sfx	= $this->params->get('moduleclass_sfx');
-		$set_Itemid			= intval($this->params->get('set_itemid', 0));
+		$button				= $params->get('button', '');
+		$imagebutton		= $params->get('imagebutton', '');
+		$button_pos			= $params->get('button_pos', 'left');
+		$button_text		= $params->get('button_text', JText::_('Search'));
+		$width				= intval($params->get('width', 20));
+		$text				= $params->get('text', JText::_('search...'));
+		$moduleclass_sfx	= $params->get('moduleclass_sfx');
+		$set_Itemid			= intval($params->get('set_itemid', 0));
 		
 		$output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
 		
@@ -81,8 +79,7 @@ class JModSearchController extends JController
 			$_Itemid = null;
 			foreach ($items as $item)
 			{
-				if ($item->link == "index.php?option=com_search")
-				{
+				if ($item->link == "index.php?option=com_search") {
 					$_Itemid = '&amp;Itemid='.$item->id;
 				}
 			}

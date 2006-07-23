@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_poll.php 4111 2006-06-23 21:20:29Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -15,77 +15,79 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-class JModPollController extends JController
+class modPoll
 {
-	var $params;
-
-	function display() {
-		$mainframe	= &$this->getApplication();
-		$db			= &$this->getDBO();
-		$Itemid		= JRequest::getVar( 'Itemid' );
+	function display($params) 
+	{
+		$list = modPoll::getList($params);
+		
+		foreach ($list as $item) 
+		{
+			if ($item->id && $item->title)  {
+				$options = modPoll::getPollOptions($item->id);
+				modPoll::renderPollForm($item, $params, $options);
+			}
+		}
+	}
+	
+	function getList(&$params)
+	{
+		global $mainframe;
+		
+		$Itemid = JRequest::getVar( 'Itemid' );
+		$db		= &$mainframe->getDBO();
 		
 		$query = "SELECT p.id, p.title" .
-				"\n FROM #__polls AS p, #__poll_menu AS pm" .
-				"\n WHERE (pm.menuid = ".(int) $Itemid." OR pm.menuid = 0)" .
-				"\n AND p.id = pm.pollid" .
-				"\n AND p.published = 1";
-
+			"\n FROM #__polls AS p, #__poll_menu AS pm" .
+			"\n WHERE (pm.menuid = ".(int) $Itemid." OR pm.menuid = 0)" .
+			"\n AND p.id = pm.pollid" .
+			"\n AND p.published = 1";
 		$db->setQuery($query);
-		$polls = $db->loadObjectList();
-
-		// try to find poll component's Itemid
-		$query = "SELECT id"
-		. "\n FROM #__menu"
-		. "\n WHERE type = 'components'"
-		. "\n AND published = 1"
-		. "\n AND link = 'index.php?option=com_poll'"
-		;
-		$db->setQuery( $query );
-		$_Itemid = $db->loadResult();
-		
-		if ($_Itemid) {
-			$_Itemid = '&amp;Itemid='. $_Itemid;
-		}			
+		$rows = $db->loadObjectList();
 		
 		if ($db->getErrorNum()) {
 			echo $db->stderr(true);
 			return;
 		}
-
-		foreach ($polls as $poll) {
-			if ($poll->id && $poll->title) {
-				$query = "SELECT id, text" .
-						"\n FROM #__poll_data" .
-						"\n WHERE pollid = $poll->id" .
-						"\n AND text <> ''" .
-						"\n ORDER BY id";
-				$db->setQuery($query);
-
-				if (!($options = $db->loadObjectList())) {
-					echo "MD ".$db->stderr(true);
-					return;
-				}
-				$this->_poll_vote_form_html($poll, $options, $_Itemid );
-			}
-		}
+		
+		return $rows;
 	}
 
-	/**
-	 * @param object Poll object
-	 * @param array
-	 * @param int The current menu item
-	 */
-	function _poll_vote_form_html(&$poll, $options, $_Itemid ) {
+	function getPollOptions($id)
+	{
+		global $mainframe;
+		
+		$db	= &$mainframe->getDBO();
+
+		$query = "SELECT id, text" .
+			"\n FROM #__poll_data" .
+			"\n WHERE pollid = $id" .
+			"\n AND text <> ''" .
+			"\n ORDER BY id";
+		$db->setQuery($query);
+
+		if (!($options = $db->loadObjectList())) {
+			echo "MD ".$db->stderr(true);
+			return;
+		}
+			
+		return $options;
+	}
+
+	function renderPollForm(&$poll, &$params, $options ) 
+	{
 		$tabclass_arr 		= array ('sectiontableentry2', 'sectiontableentry1');
 		$tabcnt 			= 0;
-		$moduleclass_sfx 	= $this->params->get('moduleclass_sfx');
+		$moduleclass_sfx 	= $params->get('moduleclass_sfx');
 
 		$cookiename 		= "voted$poll->id";
 		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );
+		
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
-		function submitbutton() {
+		function submitbutton() 
+		{
 			var form 		= document.pollxtd;
 			var radio		= form.voteid;
 			var radioLength = radio.length;

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_rssfeed.php 588 2005-10-23 15:20:09Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -14,35 +14,29 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-class JModSyndicateController extends JController
+class modSyndicate
 {
-	var $params;
-
-	function display()
+	function display($params)
 	{
-		$option	= JRequest::getVar( 'option', '', 'get' );
-		$task	= JRequest::getVar( 'task', '', 'get' );
-
 		// paramters
-		$this->params->def('text', 'Feed Entries');
-		$this->params->def('format', 'rss');
+		$params->def('text', 'Feed Entries');
+		$params->def('format', 'rss');
 		
-		if($link = $this->_getSyndicateLink()) {
-			$this->_outputSyndicateLink( $link );
+		$link = modSyndicate::getLink($params);
+	
+		if(is_null($link)) {
+			return;
 		}
-	}
-
-	function _outputSyndicateLink( $link )
-	{
+		
 		$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
 		?>
 			<a href="<?php echo $link ?>">
-				<?php echo $img ?> <span><?php echo $this->params->get('text') ?></span>
+				<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
 			</a>
 		<?php
 	}
 	
-	function _getSyndicateLink()
+	function getLink(&$params)
 	{
 		global $mainframe;
 	
@@ -50,7 +44,7 @@ class JModSyndicateController extends JController
 	
 		foreach($document->_links as $link)
 		{
-			if(strpos($link, 'application/'.$this->params->get('format').'+xml')) {
+			if(strpos($link, 'application/'.$params->get('format').'+xml')) {
 				preg_match("#href=\"(.*?)\"#s", $link, $matches);
 				return $matches[1];
 			}
