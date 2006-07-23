@@ -368,7 +368,7 @@ function initEditor() {
 function getEditorContents($editorArea, $hiddenField) {
 	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
-	echo $editor->getContent( $hiddenField );
+	echo $editor->save( $hiddenField );
 }
 
 /**
