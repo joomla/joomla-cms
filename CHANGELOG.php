@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Jul-2006 Enno Klasing
+ # Fixed [artf5361] : Legacy menu active on homepage
+
 22-Jul-2006 David Gal
  ^ Replaced most instances of 'content item' to 'article' in code, comments and language files
 

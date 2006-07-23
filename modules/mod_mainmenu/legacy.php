@@ -55,21 +55,23 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null) {
 	}
 
 	// Active Menu highlighting
-	$current_itemid = $Itemid;
+	$current_itemid = intval( $Itemid );
 	if (!$current_itemid) {
 		$id = '';
 	} else {
 		if ($current_itemid == $mitem->id) {
 			$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-		} else
+		} else {
 			if ($params->get('activate_parent') && isset ($open) && in_array($mitem->id, $open)) {
 				$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-			} else
+			} else {
 				if ($mitem->type == 'url' && ItemidContained($mitem->link, $current_itemid)) {
 					$id = 'id="active_menu' . $params->get('class_sfx') . '"';
 				} else {
 					$id = '';
 				}
+			}
+		}
 	}
 
 	if ($params->get('full_active_id')) {
