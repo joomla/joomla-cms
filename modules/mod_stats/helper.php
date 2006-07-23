@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class modStats
+class modStatsHelper
 {
 	function renderServerInfo(&$params) 
 	{

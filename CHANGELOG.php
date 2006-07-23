@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Jul-2006 Alex Kempkens
+ # Fixed wrong class and method names in mod_stats
+
 23-Jul-2006 Enno Klasing
  # Fixed [artf5361] : Legacy menu active on homepage
  + Added custom module to backend and cleanedup functionality.

@@ -21,13 +21,13 @@ $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
 		
 if ($serverinfo) {
-	modStatsHelper::showServerInfo($params);
+	modStatsHelper::renderServerInfo($params);
 }
 		
 if ($siteinfo) {
-	modStatsHelper::showSiteInfo($params);
+	modStatsHelper::renderSiteInfo($params);
 }
 		
 if ($mainframe->getCfg('enable_stats')) {
-	modStatsHelper::showVisitorInfo($params);
+	modStatsHelper::renderVisitorInfo($params);
 }
