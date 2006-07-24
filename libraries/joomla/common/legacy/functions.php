@@ -290,14 +290,15 @@ function mosPathWay() {
 }
 
 /**
- * Legacy function, use JApplication::getBrowser() instead
+ * Legacy function, use JBrowser::getInstance() instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function mosGetBrowser( $agent ) {
-	$browser = JApplication::getBrowser();
-	return $browser->getBrowser();
+	jimport('joomla.application.environment.browser');
+	$instance =& JBrowser::getInstance();
+	return $instance;
 }
 
 /**

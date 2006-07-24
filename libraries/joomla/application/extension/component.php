@@ -105,38 +105,6 @@ class JComponentHelper
 	}
 
 	/**
-	 * Gets the title of the current menu item
-	 * 
-	 * @access public
-	 * @return string
-	 */
-	function getMenuName()
-	{
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		return $menu->name;
-	}
-
-	/**
-	 * Gets the parameter object for the current menu
-	 * 
-	 * @access public
-	 * @return object A JParameter object
-	 */
-	function &getMenuParams()
-	{
-		static $instance;
-
-		if ($instance == null)
-		{
-			$menus		= &JMenu::getInstance();
-			$menu		= &$menus->getCurrent();
-			$instance	= new JParameter( $menu->params );
-		}
-		return $instance;
-	}
-
-	/**
 	 * Gets the control parameters object for the current menu
 	 * 
 	 * @access public
@@ -149,7 +117,7 @@ class JComponentHelper
 		if ($instance == null)
 		{
 			$menus		= &JMenu::getInstance();
-			$menu		= &$menus->getCurrent();
+			$menu		= &$menus->getItem(JRequest::getVar('Itemid'));
 			$instance	= new JParameter( $menu->control );
 		}
 		return $instance;

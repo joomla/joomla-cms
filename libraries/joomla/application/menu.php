@@ -33,15 +33,6 @@ class JMenu extends JObject
 	 */
 	var $_thismenu = array ();
 
-	/**
-	 * Current menu item
-	 */
-	var $_current_id = null;
-
-	/**
-	 * Name of the URI variable for the current menu item
-	 */
-	var $_current_uri_var = 'Itemid';
 
 	/**
 	 * Class constructor
@@ -55,7 +46,8 @@ class JMenu extends JObject
 		$this->_menuitems = $this->_load();
 
 		$home = 0;
-		foreach ($this->_menuitems as $item) {
+		foreach ($this->_menuitems as $item) 
+		{
 			if ($item->menutype == $name || $name == 'all') {
 				$this->_thismenu[] = $item;
 				if ($item->home)
@@ -64,8 +56,6 @@ class JMenu extends JObject
 				}
 			}
 		}
-
-		$this->_current_id = JRequest::getVar( $this->_current_uri_var, $home, '', 'int' );
 	}
 	
 	/**
@@ -96,7 +86,94 @@ class JMenu extends JObject
 	}
 
 	/**
+	 * Get menu item by id
+	 * 
+	 * @access public
+	 * @param int The item id
+	 * @return mixed The item, or false if not found
+	 */
+	function &getItem($id)
+	{
+		if (isset($this->_menuitems[$id])) {
+			return $this->_menuitems[$id];
+		} 
+		
+		return null;
+	}
+
+	/**
+	 * Gets menu items by attribute
+	 * 
+	 * @access public
+	 * @param string The field name
+	 * @param string The value of the field
+	 * @return array
+	 */
+	function getItems($attribute, $value)
+	{
+		$items = array ();
+		foreach ($this->_menuitems as $item)
+		{
+			if ($item->$attribute == $value) {
+				$items[] = $item;
+			}
+		}
+
+		return $items;
+	}
+	
+	/**
+	 * Gets the parameter object for a certain menu item
+	 * 
+	 * @access public
+	 * @param int The item id
+	 * @return object A JParameter object
+	 */
+	function &getParams($id)
+	{
+		if($menu =& $this->getItem($id)) {
+			return new JParameter( $menu->params );
+		} 
+		
+		return null;
+	}
+
+	/**
+	 * Getter for the menu array
+	 * 
+	 * @return array
+	 */
+	function getMenu() {
+		return $this->_thismenu;
+	}
+
+	/**
+	 * Method to check JMenu object authorization against an access control
+	 * object and optionally an access extension object
+	 *
+	 * @access 	public
+	 * @param	integer	$itemid		The itemid
+	 * @param	object	$user		The user object
+	 * @return	boolean	True if authorized
+	 */
+	function authorize($itemid, &$user) 
+	{
+		// Initialize variables
+		$results	= array();
+		$access 	= 0;
+		
+		foreach ($results as $result) {
+			$access = max( $access, $result->access );
+		}
+	
+		return ($access <= $user->get('usertype'));
+	}
+	
+	/**
 	 * Loads the entire menu table into memory
+	 * 
+	 * @access protected
+	 * @return array
 	 */
 	function _load()
 	{
@@ -122,110 +199,6 @@ class JMenu extends JObject
 		}
 
 		return $menus;
-	}
-
-	/**
-	 * Gets the current menu item
-	 */
-	function &getCurrent() 
-	{
-		$result = &$this->getItem( $this->_current_id );
-		if ($result == false)
-		{
-			$db = &JFactory::getDBO();
-			$result = JTable::getInstance( 'menu', $db );
-		}
-		return $result;
-	}
-
-	/**
-	 * Getter for a menu item
-	 * 
-	 * @param int The item id
-	 * @return mixed The item, or false if not found
-	 */
-	function &getItem($id)
-	{
-		if (isset($this->_menuitems[$id])) {
-			return $this->_menuitems[$id];
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Gets items by attribute
-	 * 
-	 * @param string The field name
-	 * @param string The value of the field
-	 * @return array
-	 */
-	function getItems($attribute, $value)
-	{
-		$items = array ();
-		foreach ($this->_menuitems as $item)
-		{
-			if ($item->$attribute == $value) {
-				$items[] = $item;
-			}
-		}
-
-		return $items;
-	}
-
-	/**
-	 * Getter for the menu array
-	 * 
-	 * @return array
-	 */
-	function getMenu()
-	{
-		return $this->_thismenu;
-	}
-
-	/**
-	 * Checks if the current menu, or the passed id, is the current menu
-	 * 
-	 * @param int A menu id (Itemid)
-	 * @return boolean
-	 */
-	function isDefault( $id = 0 )
-	{
-		$menu = &JMenu::getInstance();
-		
-		if ($id) {
-			$item = $menu->getItem( $id );
-		} else {
-			$item = $menu->getCurrent();
-		}
-		
-		if ($item) {
-			return (boolean) $item->home;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Method to check JMenu object authorization against an access control
-	 * object and optionally an access extension object
-	 *
-	 * @access 	public
-	 * @param	integer	$itemid		The itemid
-	 * @param	object	$user		The user object
-	 * @return	boolean	True if authorized
-	 */
-	function authorize($itemid, &$user) 
-	{
-		// Initialize variables
-		$results	= array();
-		$access 	= 0;
-		
-		foreach ($results as $result) {
-			$access = max( $access, $result->access );
-		}
-	
-		return ($access <= $user->get('usertype'));
 	}
 }
 ?>

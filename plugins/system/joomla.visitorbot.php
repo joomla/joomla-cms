@@ -32,17 +32,17 @@ function botDetectVisitor()
 		return;
 	}
 
-	//get JBrowser object
-	$objBrowser = JApplication::getBrowser();
+	jimport('joomla.application.environment.browser');
+	$browser =& JBrowser::getInstance();
 
-	if( $objBrowser->isRobot()) {
+	if( $browser->isRobot()) {
 		return;
 	}
 
 	setcookie( 'mosvisitor', '1' );
 
-	$browser  = $objBrowser->getFeature('parent');
-	$platform = $objBrowser->getPlatform();
+	$browser  = $browser->getFeature('parent');
+	$platform = $browser->getPlatform();
 
 	if (phpversion() <= '4.2.1') {
 		$domain = @gethostbyaddr( getenv( 'REMOTE_ADDR' ) );

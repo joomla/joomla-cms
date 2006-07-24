@@ -21,14 +21,20 @@ defined('_JEXEC') or die('Restricted access');
  * $contact - The current contact
  * $contacts - A list of other contacts in this category
  */
+ 
+$Itemid = JRequest::getVar('Itemid');
 
-	// Set some defaults for the menu item parameters
-	$mParams->def('header', 				JComponentHelper::getMenuName() );
-	$mParams->def('back_button', 			$app->getCfg('back_button'));
-	$mParams->def('print', 					!$app->getCfg('hidePrint'));
-	$mParams->def('email_description_text', JText::_('Send an Email to this Contact:'));
-	// global print|pdf|email
-	$mParams->def('icons', 					$app->getCfg('icons'));
+// Get the active menu item
+$menus =& JMenu::getInstance();
+$menu  = $menus->getItem($Itemid);
+
+// Set some defaults for the menu item parameters
+$mParams->def('header', 				$menu->name );
+$mParams->def('back_button', 			$app->getCfg('back_button'));
+$mParams->def('print', 					!$app->getCfg('hidePrint'));
+$mParams->def('email_description_text', JText::_('Send an Email to this Contact:'));
+// global print|pdf|email
+$mParams->def('icons', 					$app->getCfg('icons'));
 
 	if ($contact->email_to && $mParams->get('email'))
 	{

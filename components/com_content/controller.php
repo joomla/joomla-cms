@@ -33,8 +33,6 @@ class JContentController extends JController
 	{
 		$this->setViewName( 'section', 'com_content', 'JContentView' );
 
-		$mParams = &JComponentHelper::getMenuParams();
-
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
 		$mParams->def('page_title', 			1);
@@ -75,8 +73,6 @@ class JContentController extends JController
 	function category000()
 	{
 		$this->setViewName( 'category', 'com_content', 'JContentView' );
-
-		$mParams = &JComponentHelper::getMenuParams();
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class

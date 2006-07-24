@@ -66,8 +66,12 @@ class NewsfeedsController
 		$option 		= JRequest::getVar('option');
 		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
+		$Itemdid   		= JREquest::getVar('Itemid');
 		$gid			= $user->get('gid');
-		$mParams		= JComponentHelper::getMenuParams();
+		
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
+		
 		$catid 			= JRequest::getVar( 'catid', $mParams->get( 'category_id' ), '', 'int' );
 
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */
@@ -236,9 +240,11 @@ class NewsfeedsController
 		$db		 	= & $mainframe->getDBO();
 		$user 		= & $mainframe->getUser();
 		
+		$Itemid = JRequest::getVar('Itemid');
+		
 		// Get the current menu item
 		$menu =& JMenu::getInstance();
-		$menu = $menu->getCurrent();
+		$menu = $menu->getItem($Itemid);
 
 		require_once( $mainframe->getPath( 'class' ) );
 

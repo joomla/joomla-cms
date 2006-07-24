@@ -64,10 +64,7 @@ class JContentViewSection extends JView
 		$app	= &$this->getApplication();
 		$user	= &$app->getUser();
 		$doc	= &$app->getDocument();
-		$mParams	= &JComponentHelper::getMenuParams();
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		$Itemid = $menu->id;
+		
 		$gid 	= $user->get('gid');
 
 		// Model workaround
@@ -82,6 +79,11 @@ class JContentViewSection extends JView
 		$task 	= JRequest::getVar('task');
 		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
+		$Itemid = JRequest::getVar('Itemid');
+		
+		// Get the menu object of the active menu item
+		$menus	= &JMenu::getInstance();
+		$menu	= &$menus->getItem($Itemid);
 
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
@@ -139,12 +141,6 @@ class JContentViewSection extends JView
 	{
 		$app =& $this->getApplication();
 		$doc = $app->getDocument();
-
-		//Initialize some variables
-		$menus		= &JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
-		$mParams	= &JComponentHelper::getMenuParams();
-		$Itemid		= $menu->id;
 
 		// Lets get our data from the model
 		$rows = & $this->get( 'Section' );

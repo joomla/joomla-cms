@@ -62,16 +62,15 @@ class JContentViewArticle extends JView
 		// Initialize variables
 		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		$Itemid	= $menu->id;
-		$linkOn = null;
+		
+		$linkOn   = null;
 		$linkText = null;
 
 		// At some point in the future this will be in a request object
 		$page	= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
 		$type	= JRequest::getVar('format', 'html');
+		$Itemid	= JRequest::getVar('Itemid');
 
 		// Get the article from the model
 		$article	= & $this->get('Article');
@@ -131,14 +130,14 @@ class JContentViewArticle extends JView
 		$app	= & $this->getApplication();
 		$doc	= & $app->getDocument();
 		$user	= & $app->getUser();
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		$Itemid	= $menu->id;
+		
+		
 
 		// At some point in the future this will come from a request object
 		$page		= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS		= JRequest::getVar('hide_js', 0, '', 'int');
 		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
+		$Itemid		= JRequest::getVar('Itemid');
 
 		// Add the Calendar includes to the document <head> section
 		$doc->addStyleSheet('includes/js/calendar/calendar-mos.css');
@@ -486,10 +485,7 @@ class JContentViewArticle extends JView
 		// Initialize some variables
 		$app		= & $this->getApplication();
 //		$user		= & $app->getUser();
-//		$menus		= &JMenu::getInstance();
-//		$menu		= &$menus->getCurrent();
 		$article	= & $this->get( 'Article' );
-		//$Itemid	= $menu->id;
 		$params 	= & $article->parameters;
 
 		$params->def('introtext', 1);

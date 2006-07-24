@@ -76,7 +76,7 @@ class JModelFrontpage extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function & getMenuParams()
+	function &getMenuParams()
 	{
 		return $this->_mparams;
 	}

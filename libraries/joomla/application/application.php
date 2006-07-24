@@ -111,7 +111,8 @@ class JApplication extends JObject
 	 * @param string 	$varname 	The name of the value to get
 	 * @return The user state
 	 */
-	function getCfg( $varname ) {
+	function getCfg( $varname ) 
+	{
 		$config =& JFactory::getConfig();
 		return $config->getValue('config.'.$varname);
 	}
@@ -548,18 +549,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Return a reference to the JBrowser object
-	 *
-	 * @return jbrowser A JBrowser object holding the browser information
-	 */
-	function &getBrowser()
-	{
-		jimport('joomla.application.environment.browser');
-		$instance =& JBrowser::getInstance();
-		return $instance;
-	}
-
-	/**
 	 * Returns a reference to the JUser object
 	 *
 	 * @return JTableUser A user object with the information from the current session
@@ -762,7 +751,7 @@ class JApplication extends JObject
 	 *
 	 * @access	public
 	 * @return	boolean		True if this application is administrator
-	 * @since		1.0.2
+	 * @since	1.0.2
 	 */
 	function isAdmin() {
 		return ($this->_clientId == 1) ?  true : false;
@@ -773,7 +762,7 @@ class JApplication extends JObject
 	 *
 	 * @access	public
 	 * @return	boolean		True of this application is site
-	 * @since		1.5
+	 * @since	1.5
 	 */
 	function isSite() {
 		return ($this->_clientId == 0) ?  true : false;
@@ -787,8 +776,8 @@ class JApplication extends JObject
 	 * Depreceated, use JPathWay->addItem() method instead
 	 * @since 1.5
 	 */
-	function appendPathWay( $name, $link = null ) {
-
+	function appendPathWay( $name, $link = null ) 
+	{
 		/*
 		 * To provide backward compatability if no second parameter is set
 		 * set it to null
@@ -1077,26 +1066,13 @@ class JApplicationHelper
 				break;
 
 			case 'mod0_xml':
-				// Site modules
-				if ( $user_option == '' ) {
-					$path = DS.'modules'.DS.'custom_legacy.xml';
-				} else if ( $user_option == 'custom' ) {
-					$path = DS.'modules'.DS.'custom.xml';
-				} else {
-					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
-				}
+				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
 				$result = JApplicationHelper::_checkPath( $path );
 				break;
 
 			case 'mod1_xml':
 				// admin modules
-				if ( $user_option == '' ) {
-					$path = DS.'modules'.DS.'custom_legacy.xml';
-				} else if ( $user_option == 'custom' ) {
-					$path = DS.'modules'.DS.'custom.xml';
-				} else {
-					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
-				}
+				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 
@@ -1168,29 +1144,6 @@ class JApplicationHelper
 		return $data;
 	}
 
-	/**
-	 * Tries to find a file in the administrator or site areas
-	 *
-	 * @access private
-	 * @param string 	$parth			A file name
-	 * @param integer 	$checkAdmin		0 to check site only, 1 to check site and admin, -1 to check admin only
-	 * @since 1.5
-	 */
-	function _checkPath( $path, $checkAdmin=1 )
-	{
-		$file = JPATH_SITE . $path;
-		if ($checkAdmin > -1 && file_exists( $file )) {
-			return $file;
-		} else if ($checkAdmin != 0) {
-			$file = JPATH_ADMINISTRATOR . $path;
-			if (file_exists( $file )) {
-				return $file;
-			}
-		}
-
-		return null;
-	}
-
 	function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
@@ -1242,7 +1195,29 @@ class JApplicationHelper
 		$data['group'] = $element ? $element->group() : '';
 		return $data;
 	}
+	
+	/**
+	 * Tries to find a file in the administrator or site areas
+	 *
+	 * @access private
+	 * @param string 	$parth			A file name
+	 * @param integer 	$checkAdmin		0 to check site only, 1 to check site and admin, -1 to check admin only
+	 * @since 1.5
+	 */
+	function _checkPath( $path, $checkAdmin=1 )
+	{
+		$file = JPATH_SITE . $path;
+		if ($checkAdmin > -1 && file_exists( $file )) {
+			return $file;
+		} else if ($checkAdmin != 0) {
+			$file = JPATH_ADMINISTRATOR . $path;
+			if (file_exists( $file )) {
+				return $file;
+			}
+		}
+
+		return null;
+	}
 
 }
-
 ?>

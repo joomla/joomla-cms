@@ -175,6 +175,8 @@ class JRequest
 					$_REQUEST[$name] = $value;
 				break;
 		}
+		
+		return $GLOBALS['JRequest'][$signature];
 	}
 
 }

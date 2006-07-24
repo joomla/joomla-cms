@@ -65,10 +65,17 @@ class JContentModelSection extends JModel
 	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function __construct( &$dbo ) {
+	function __construct( &$dbo ) 
+	{
 		$this->_db = &$dbo;
-		$mParams	= JComponentHelper::getMenuParams();
-		$id 		= JRequest::getVar('id', $mParams->get( 'section_id', 0 ), '', 'int');
+		
+		$Itemid  = JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
+		
+		$id = JRequest::getVar('id', $mParams->get( 'section_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
 
@@ -259,14 +266,20 @@ class JContentModelSection extends JModel
 		/*
 		 * Lets load the siblings if they don't already exist
 		 */
-		if (empty($this->_categories)) {
+		if (empty($this->_categories)) 
+		{
 			$app		= &$this->getApplication();
 			$user		= &$app->getUser();
 			$noauth		= !$app->getCfg('shownoauth');
 			$gid		= $user->get('gid');
 			$now		= $app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-			$params		= &JComponentHelper::getMenuParams();
+			
+			$Itemid    	= JRequest::getVar('Itemid');
+		
+			// Get the paramaters of the active menu item
+			$menu    =& JMenu::getInstance();
+			$mParams =& $menu->getParams($Itemid);
 
 			// Ordering control
 			$orderby = $params->get('orderby', '');
@@ -413,13 +426,17 @@ class JContentModelSection extends JModel
 	{
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
+		$Itemid    			= JRequest::getVar('Itemid');
 
 		$orderby = "\n ORDER BY ";
 		if ($filter_order && $filter_order_Dir) {
 			$orderby .= "$filter_order $filter_order_Dir, ";
 		}
 
-		$params = &JComponentHelper::getMenuParams();
+		// Get the paramaters of the active menu item
+		$menu   =& JMenu::getInstance();
+		$params =& $menu->getParams($Itemid);
+		
 		switch ($state)
 		{
 			case -1:
@@ -450,6 +467,8 @@ class JContentModelSection extends JModel
 		$now		= $app->get('requestTime');
 		$noauth		= !$app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
+		
+		$Itemid    	= JRequest::getVar('Itemid');
 
 		/*
 		 * First thing we need to do is assert that the articles are in
@@ -503,7 +522,11 @@ class JContentModelSection extends JModel
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
-		$params = &JComponentHelper::getMenuParams();
+		 
+		// Get the paramaters of the active menu item
+		$menu   =& JMenu::getInstance();
+		$params =& $menu->getParams($Itemid);
+		
 		if ($params->get('filter')) {
 			$filter = JRequest::getVar('filter', '', 'request');
 			if ($filter) {

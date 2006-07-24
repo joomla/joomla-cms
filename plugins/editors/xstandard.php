@@ -106,7 +106,9 @@ class JEditor_xstandard extends JPlugin {
 	{
 		global $mainframe;
 
- 		$browser   =& $mainframe->getBrowser();
+		jimport('joomla.application.environment.browser');
+		$instance  =& JBrowser::getInstance();
+		
 		$language  =& $mainframe->getLanguage();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();

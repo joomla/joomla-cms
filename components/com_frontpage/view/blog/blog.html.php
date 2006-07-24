@@ -28,7 +28,7 @@ class JViewBlog
 
 	function show(&$model, &$access, &$menu)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		/*
 		 * Initialize variables
@@ -40,8 +40,9 @@ class JViewBlog
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
 		$option		= JRequest::getVar('option');
+		$Itemid		= JRequest::getVar('Itemid');
 		$gid		= $user->get('gid');
-
+	
 		//add alternate feed link
 		$link    = ampReplace($mainframe->getBaseURL() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');

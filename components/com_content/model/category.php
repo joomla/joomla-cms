@@ -65,10 +65,17 @@ class JContentModelCategory extends JModel
 	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function __construct( &$dbo ) {
+	function __construct( &$dbo ) 
+	{
 		$this->_db = &$dbo;
-		$mParams	= JComponentHelper::getMenuParams();
-		$id 		= JRequest::getVar('id', $mParams->get( 'category_id', 0 ), '', 'int');
+		
+		$Itemid    		= JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
+		
+		$id = JRequest::getVar('id', $mParams->get( 'category_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
 
@@ -262,8 +269,13 @@ class JContentModelCategory extends JModel
 			$now		= $app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
-			$params		= &JComponentHelper::getMenuParams();
-
+			
+			$Itemid    		= JRequest::getVar('Itemid');
+		
+			// Get the paramaters of the active menu item
+			$menu    =& JMenu::getInstance();
+			$mParams =& $menu->getParams($Itemid);
+			
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
 				$xwhere = '';
@@ -358,7 +370,12 @@ class JContentModelCategory extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
-		$params				= &JComponentHelper::getMenuParams();
+		$Itemid  = JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$params  =& $menu->getParams($Itemid);
+		
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
@@ -398,8 +415,13 @@ class JContentModelCategory extends JModel
 		$now		= $app->get('requestTime');
 		$noauth		= !$app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-		$params		= &JComponentHelper::getMenuParams();
-
+		
+		$Itemid     = JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$params  =& $menu->getParams($Itemid);
+		
 		/*
 		 * First thing we need to do is assert that the articles are in
 		 * the current category

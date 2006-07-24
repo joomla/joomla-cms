@@ -21,7 +21,12 @@ jimport('joomla.application.extension.component');
 
 require_once( JPATH_COM_MAILTO . '/controller.php' );
 
-$mParams	= JComponentHelper::getMenuParams();
+
+$Itemid = JRequest::getVar('Itemid');
+
+$menu    =& JMenu::getInstance();
+$mParams =& $menu->getParams($Itemid);
+
 $view		= JRequest::getVar( 'view', $mParams->get( 'view', 'default' ) );
 $controller	= new mailtoController( $mainframe, 'display' );
 

@@ -89,8 +89,7 @@ class WeblinksController
 		$gid		= $user->get('gid');
 		$page		= '';
 		$category	= null;
-		$mParams	= JComponentHelper::getMenuParams();
-
+		
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');

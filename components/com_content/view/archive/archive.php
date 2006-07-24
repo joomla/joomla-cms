@@ -40,9 +40,7 @@ class JArchiveViewArchive extends JView
 	function display()
 	{
 		// Initialize some variables
-		$menus		= &JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
-		$Itemid		= $menu->id;
+		$Itemid		= JRequest::getVar('Itemid');
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id', 0, '', 'int');
 
@@ -64,17 +62,20 @@ class JArchiveViewArchive extends JView
 		// Initialize some variables
 		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getCurrent();
-		$params	= &JComponentHelper::getMenuParams();
-		$Itemid	= $menu->id;
+		
 		$gid	= $user->get('gid');
 
 		// At some point this will come from a request object
-		$task		= JRequest::getVar('task');
-		$id			= JRequest::getVar('id');
-		$option	= JRequest::getVar('option');
-		$showAll	= !$id;
+		$task	 = JRequest::getVar('task');
+		$id		 = JRequest::getVar('id');
+		$Itemid	 = JRequest::getVar('Itemid');
+		$option	 = JRequest::getVar('option');
+		$showAll = !$id;
+		
+		// Get the menu object of the active menu
+		$menus	= &JMenu::getInstance();
+		$menu	= &$menus->getItem($Itemid);
+		$params = $menus->getParams($Itemid);
 
 		/*
 		 * Create a user access object for the user
@@ -306,13 +307,11 @@ class JArchiveViewArchive extends JView
 	{
 		// Initialize some variables
 		$app		= & $this->getApplication();
-		$user		= & $app->getUser();
-		$menus		= &JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
-		$Itemid	= $menu->id;
+		$user		= & $app->getUser();		
 
 		// These will come from a request object at some point
 		$task		= JRequest::getVar( 'task' );
+		$Itemid		= JRequest::getVar( 'Itemid' );
 		$noJS 		= JRequest::getVar( 'hide_js', 0, '', 'int' );
 
 		// TODO: clean this part up

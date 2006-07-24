@@ -15,9 +15,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$Itemid = JRequest::getVar('Itemid');
+
+// Get the active menu item
+$menus =& JMenu::getInstance();
+$menu  = $menus->getItem($Itemid);
+
 	// Menu item parameters
 	if ($mParams->get('page_title', 1)) {
-		$header = $mParams->def('header', JComponentHelper::getMenuName());
+		$header = $mParams->def('header', $menu->name);
 	} else {
 		$header = '';
 	}

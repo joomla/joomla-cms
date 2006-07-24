@@ -51,19 +51,23 @@ class JContactViewCategory extends JView
 	{
 		$app		= &$this->getApplication();
 		$user 		= & $app->getUser();
-		$mParams	= JComponentHelper::getMenuParams();
-
+		
 		// Push a model into the view
 		$ctrl	= &$this->getController();
 		$model	= & $ctrl->getModel('category', 'JContactModel');
 		$this->setModel($model, true);
 
 		// Selected Request vars
-		$categoryId		= JRequest::getVar( 'catid', $mParams->get('category_id', 0 ), '', 'int' );
+		$categoryId			= JRequest::getVar( 'catid', $mParams->get('category_id', 0 ), '', 'int' );
 		$limit				= JRequest::getVar('limit', $mParams->get('display_num'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
+		$Itemid    			 = JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
 
 		// query options
 		$qOptions['gid']			= $user->get('gid');
@@ -247,9 +251,6 @@ class JContactViewCategory extends JView
 		</ul>
 		<?php
 	}
-
-
-
 }
 
 ?>

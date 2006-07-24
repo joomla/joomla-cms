@@ -19,17 +19,18 @@ class JContentArticleHelper
 		// Initialize some variables
 		$app		= &$parent->getApplication();
 		$user		= &$app->getUser();
-		$menus		= &JMenu::getInstance();
-		$menu		= &$menus->getCurrent();
-		$Itemid 	= $menu->id;
-		$params		= &JComponentHelper::getMenuParams();
 		$linkOn		= null;
 		$linkText	= null;
 
 		// These will come from a request object at some point
-		$task = JRequest::getVar('task');
-		$noJS = JRequest::getVar('hide_js', 0, '', 'int');
-
+		$task   = JRequest::getVar('task');
+		$noJS   = JRequest::getVar('hide_js', 0, '', 'int');
+		$Itemid = JRequest::getVar('Itemid');
+			
+		// Get the paramaters of the active menu item
+		$menu   =& JMenu::getInstance();
+		$params =& $menu->getParams($Itemid);
+		
 		// TODO: clean this part up
 		$SiteName = $app->getCfg('sitename');
 		$gid = $user->get('gid');

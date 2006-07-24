@@ -232,7 +232,7 @@ class JView extends JObject {
 	function &getCurrentMenu()
 	{
 		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getCurrent();
+		$menu	= $menus->getItem(JRequest::getVar('Itemid'));
 		return $menu;
 	}
 

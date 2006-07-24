@@ -167,7 +167,7 @@ class JSite extends JApplication
 	 * @return string Option
 	 * @since 1.5
 	 */
-	function getItemid() 
+	function findItemid() 
 	{
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$option = strtolower(JRequest::getVar('option', null));
@@ -184,11 +184,20 @@ class JSite extends JApplication
 			else
 			{
 				$menu =& JMenu::getInstance();
-				$itemid = $menu->isDefault();
+				$list =& $menu->getMenu();
+				
+				foreach($list as $item)
+				{
+					if($item->home) {
+						$itemid = $item->id;
+						break;
+					}
+				}
+				
 			}
 		}
 		
-		return $itemid;
+		return JRequest::setVar( 'Itemid', $itemid, '', 'int' );
 	}
 	
 	/**
@@ -205,7 +214,7 @@ class JSite extends JApplication
 		if(empty($option)) 
 		{
 			$menu =& JMenu::getInstance();
-			$item =& $menu->getItem($this->getItemid());
+			$item =& $menu->getItem($this->findItemid());
 		
 			$component = JTable::getInstance( 'component', $this->getDBO() );
 			$component->load($item->componentid);

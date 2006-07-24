@@ -44,10 +44,17 @@ class JContentModelArticle extends JModel
 	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function __construct( &$dbo ) {
+	function __construct( &$dbo ) 
+	{
 		$this->_db = &$dbo;
-		$mParams	= JComponentHelper::getMenuParams();
-		$id 		= JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
+		
+		$Itemid  = JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
+		
+		$id = JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
 

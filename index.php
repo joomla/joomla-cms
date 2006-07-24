@@ -56,7 +56,7 @@ JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
 
 // initialise some common request directives
 $option = $mainframe->getOption();
-$Itemid = $mainframe->getItemid();
+$Itemid = $mainframe->findItemid(); //need to set this in the request again
 
 //TODO :: should we show a login screen here ?
 $menu =& JMenu::getInstance();
