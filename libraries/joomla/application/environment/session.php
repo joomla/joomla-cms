@@ -376,71 +376,6 @@ class JSession
     }
 
     /**
-     * Returns local variable of a script
-     *
-     * Two scripts can have local variables with the same names
-     *
-     * @static
-     * @access public
-     * @param  string $name    Name of a variable
-     * @param  mixed  $default Default value of a variable if not set
-     * @return mixed  Value of a local variable
-     */
-    function &getLocal($name, $default = null)
-    {
-        $local = md5(JSession::localName());
-        if (!is_array($_SESSION[$local])) {
-            $_SESSION[$local] = array();
-        }
-        if (!isset($_SESSION[$local][$name]) && isset($default)) {
-            $_SESSION[$local][$name] = $default;
-        }
-        return $_SESSION[$local][$name];
-    }
-
-    /**
-     * Sets local variable of a script.
-     * Two scripts can have local variables with the same names.
-     *
-     * @static
-     * @access public
-     * @param  string $name  Name of a local variable
-     * @param  mixed  $value Value of a local variable
-     * @return mixed  Old value of a local variable
-     */
-    function setLocal($name, $value)
-    {
-        $local = md5(JSession::localName());
-        if (!is_array($_SESSION[$local])) {
-            $_SESSION[$local] = array();
-        }
-        $return = $_SESSION[$local][$name];
-        if (null === $value) {
-            unset($_SESSION[$local][$name]);
-        } else {
-            $_SESSION[$local][$name] = $value;
-        }
-        return $return;
-    }
-
-    /**
-     * Sets new local name
-     *
-     * @static
-     * @access public
-     * @param  string New local name
-     * @return string Previous local name
-     */
-    function localName($name = null)
-    {
-        $return = @$GLOBALS['__HTTP_Session_Localname'];
-        if (!empty($name)) {
-            $GLOBALS['__HTTP_Session_Localname'] = $name;
-        }
-        return $return;
-    }
-
-    /**
      * If optional parameter is specified it indicates
      * whether the session id will automatically be appended to
      * all links
@@ -539,11 +474,7 @@ class JSession
      */
 	function _createID()
 	{
-		if (phpversion() <= '4.2.1') {
-			$agent = getenv( 'HTTP_USER_AGENT' );
-		} else {
-			$agent = $_SERVER['HTTP_USER_AGENT'];
-		}
+		$agent = $_SERVER['HTTP_USER_AGENT'];
 		return md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
 	}
 }
