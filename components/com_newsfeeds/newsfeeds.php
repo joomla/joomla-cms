@@ -240,8 +240,9 @@ class NewsfeedsController
 		$Itemid = JRequest::getVar('Itemid');
 		
 		// Get the current menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$menu    =& JMenu::getItem($Itemid);
+		$mParams =& $menus->getParams($Itemid);
 		
 		$feedid = JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );
 
