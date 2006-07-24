@@ -131,13 +131,11 @@ class JContentViewArticle extends JView
 		$doc	= & $app->getDocument();
 		$user	= & $app->getUser();
 		
-		
-
 		// At some point in the future this will come from a request object
 		$page		= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS		= JRequest::getVar('hide_js', 0, '', 'int');
-		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 		$Itemid		= JRequest::getVar('Itemid');
+		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
 		$doc->addStyleSheet('includes/js/calendar/calendar-mos.css');

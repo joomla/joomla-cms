@@ -150,7 +150,7 @@ function createTOC( &$row, &$matches, &$page )
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][1] ) {
-		$attrs = josParseAttributes($matches[0][1]);
+		$attrs = JUtility::parseAttributes($matches[0][1]);
 		if ( @$attrs['heading'] ) {
 			$heading = $attrs['heading'];
 			$row->title .= ': '. $heading;

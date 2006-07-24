@@ -58,8 +58,12 @@ class modStatsHelper
 		echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$db->loadResult() . "<br />\n";
 	}
 	
-	function renderVistorInfo(&$params)
+	function renderVisitorInfo(&$params)
 	{
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
+		
 		$counter 	= $params->get( 'counter' );
 		$increase 	= $params->get( 'increase' );
 			
