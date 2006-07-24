@@ -43,11 +43,9 @@ define( 'JPATH_INCLUDES', dirname(__FILE__) );
 //Library imports
 jimport( 'joomla.common.base.object' );
 jimport( 'joomla.common.compat.compat' );
-jimport( 'joomla.version' );
 jimport( 'joomla.utilities.error');
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.database.table' );
@@ -57,9 +55,4 @@ jimport( 'joomla.application.extension.plugin');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.user.user' );
-
-//Support for legacy classes & functions that will be depreciated
-jimport( 'joomla.common.legacy.classes' );
-jimport( 'joomla.common.legacy.functions' );
-jimport( 'joomla.common.legacy.globals' );
 ?>

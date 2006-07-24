@@ -23,10 +23,6 @@ $mainframe = new JXMLRPC(3);
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
-/** get the information about the current user from the sessions table */
-$user	= & $mainframe->getUser();
-$my		= $user->_table;
-
 // Includes the required class file for the XML-RPC Server
 jimport('phpxmlrpc.xmlrpc' );
 jimport('phpxmlrpc.xmlrpcs' );
