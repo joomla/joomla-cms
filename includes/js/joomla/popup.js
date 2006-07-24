@@ -74,15 +74,15 @@ JPopup.prototype = {
 						'<div class="close" onclick="document.popup.hide(null, true);" /></div>' +
 					'</div>' +
 				'</div>' +
-				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%"  onload="document.popup.onload();"></iframe>' +
+				'<iframe style="width:100%;height:100%;background-color:transparent;" scrolling="auto" frameborder="0" allowtransparency="true" id="popup-frame" name="popup-frame" width="100%" height="100%" onload="document.popup.onload()"></iframe>' +
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
 		
 		this.mask      = document.getElementById("popup-overlay");
 		this.container = document.getElementById("popup-container");
-		this.frame     = document.getElementById("popup-frame");	
-	
+		this.frame     = document.getElementById("popup-frame");
+			
 		// check to see if this is IE version 6 or lower. hide select boxes if so
 		var brsVersion = parseInt(window.navigator.appVersion.charAt(0), 10);
 		if (brsVersion <= 6 && window.navigator.userAgent.indexOf("MSIE") > -1) {
@@ -119,7 +119,7 @@ JPopup.prototype = {
 	onload: function(event, args)  {
 		if(!this.visible) 
 			return;
-			
+				
 		this.frame.style.display = 'block';
 		this.setTitle();
 	},
@@ -161,9 +161,15 @@ JPopup.prototype = {
 		this.frame.style.height = (height) + "px";
 	
 		// load the url
-		if(this.URL != url) {
+		if(this.URL != url) 
+		{
 			this.URL = url;
-			this.frame.style.display = 'none';
+			
+			//TODO : Change this to a more clean fix for Safari
+			if(this.frame.contentWindow != undefined) {
+				this.frame.style.display = 'none';
+			}
+			
 			this.frame.src = url;
 		}
 	
