@@ -67,7 +67,7 @@ class modBannersHelper
 		return $model;
 	}
 		
-	function renderBanner(&$item)
+	function renderBanner($params, &$item)
 	{
 		$link = sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
 		

@@ -25,6 +25,7 @@ class modSearchHelper
 		$width				= intval($params->get('width', 20));
 		$text				= $params->get('text', JText::_('search...'));
 		$set_Itemid			= intval($params->get('set_itemid', 0));
+		$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
 		
 		$output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
 		
