@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Jul-2006 Alex Kempkens
+ # [artf5321] Hardcoded strings, custom menus and other static texts - parts of the wizzard still open see artf4940 
+ # added missing language files
+
 23-Jul-2006 Johan Janssens 
  + Added custom module to backend and cleanedup functionality.
 

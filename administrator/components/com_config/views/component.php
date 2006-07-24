@@ -29,7 +29,7 @@ class JConfigComponentEditView extends JView
 		$params	= &$model->getParams();
 		$table	= &$model->getTable();
 		$document = &$this->getDocument();
-		$document->setTitle( 'Edit Configuration' );
+		$document->setTitle( JText::_('Edit Configuration') );
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		mosCommonHTML::loadOverlib();
 ?>

@@ -493,7 +493,7 @@ class JContentController extends JController
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = mosHTML::makeOption('-1', 'Select Category', 'id', 'name');
+		$sectioncategories[-1][] = mosHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = "SELECT id, name, section" .
@@ -528,7 +528,7 @@ class JContentController extends JController
 			$categoriesA[] = $cat;
 		}
 
-		$categories[] = mosHTML::makeOption('-1', 'Select Category', 'id', 'name');
+		$categories[] = mosHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$categories = array_merge($categories, $categoriesA);
 		$lists['catid'] = mosHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
 

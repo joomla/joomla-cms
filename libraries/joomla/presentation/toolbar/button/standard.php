@@ -68,13 +68,13 @@ class JButton_Standard extends JButton
 	{
 		if ($hide) {
 			if ($list) {
-				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $name ."');}else{hideMainMenu();submitbutton('$task')}";
+				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $name, true ) ."');}else{hideMainMenu();submitbutton('$task')}";
 			} else {
 				$cmd = "javascript:hideMainMenu();submitbutton('$task')";
 			}
 		} else {
 			if ($list) {
-				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $name ."');}else{submitbutton('$task')}";
+				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $name, true ) ."');}else{submitbutton('$task')}";
 			} else {
 				$cmd = "javascript:submitbutton('$task')";
 			}

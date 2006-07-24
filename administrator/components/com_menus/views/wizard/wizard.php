@@ -164,7 +164,7 @@ class JMenuViewWizard extends JWizardView
 				<button type="button" onclick="document.getElementById('step').value=<?php echo $nextStep;?>;this.form.submit();">
 					<?php echo JText::_('Next');?></button>
 		    </div>
-			<?php echo $msg; ?>
+			<?php echo JText::_( $msg ); ?>
 		</fieldset>
 
 		<fieldset>
@@ -189,7 +189,7 @@ class JMenuViewWizard extends JWizardView
 		$document = &$this->getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
-		$document->setTitle('New Menu Item Confirmation');
+		$document->setTitle( JText::_('New Menu Item Confirmation') );
 
 		$menuType	= JRequest::getVar( 'menutype' );
 

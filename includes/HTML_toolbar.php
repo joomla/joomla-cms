@@ -52,7 +52,7 @@ class mosToolBar {
 		$image 	= mosAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
 
 		if ($listSelect) {
-			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
+			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $alt, true ). "');}else{submitbutton('$task')}";
 		} else {
 			$onclick = "javascript:submitbutton('$task')";
 		}
