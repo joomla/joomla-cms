@@ -69,6 +69,10 @@ class modPollHelper
 		$cookiename 		= "voted$poll->id";
 		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );
 		
+		$menu 	= &JMenu::getInstance();
+		$items	= $menu->getItems('link', 'index.php?option=com_search');
+		$itemid = isset($items[0]) ? $items[0]->id : '0';
+		
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
@@ -95,7 +99,7 @@ class modPollHelper
 		}
 		//-->
 		</script>
-		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll$_Itemid"); ?>">
+		<form name="form2" method="post" action="index.php">
 
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">
 		<thead>
@@ -143,6 +147,8 @@ class modPollHelper
 		</tr>
 		</table>
 
+		<input type="hidden" name="option" value="com_poll" />
+		<input type="hidden" name="Itemid" value="<?php echo $itemid; ?>" />
 		<input type="hidden" name="id" value="<?php echo $poll->id;?>" />
 		<input type="hidden" name="task" value="vote" />
 		</form>

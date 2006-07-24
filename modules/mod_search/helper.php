@@ -78,15 +78,8 @@ class modSearchHelper
 		else
 		{
 			$menu = &JMenu::getInstance();
-			$items	= $menu->getMenu();
-		
-			$_Itemid = null;
-			foreach ($items as $item)
-			{
-				if ($item->link == "index.php?option=com_search") {
-					$itemid = $item->id;
-				}
-			}
+			$items	= $menu->getItems('link', 'index.php?option=com_search');
+			$itemid = isset($items[0]) ? $items[0]->id : '0';
 		}
 		
 		return $itemid;
