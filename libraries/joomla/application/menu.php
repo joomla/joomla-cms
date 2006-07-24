@@ -93,13 +93,14 @@ class JMenu extends JObject
 	 * @return mixed The item, or false if not found
 	 */
 	function &getItem($id)
-	{
-		if (isset($this->_menuitems[$id])) {
-			return $this->_menuitems[$id];
-		} 
-		
-		return null;
-	}
+  {
+  $result = null;
+  if (isset($this->_menuitems[$id])) {
+   $result = &$this->_menuitems[$id];
+  } 
+  
+  return $result;
+  }
 
 	/**
 	 * Gets menu items by attribute

@@ -38,7 +38,9 @@ Legend:
 ! -> Note
 
 24-Jul- 2006 Robin Muilwijk
- # Fixed bug in \components\com_content\view, metadata files, changed folder= to directory=
+ # Fixed bug in \components\om_content\view, metadata files, changed folder= to directory=
+ # Fixed \libraries\application\menu.php referencing bug
+ # Fixed \joomla\application\extension\component.php, administrator bug
 
 24-Jul-2006 Alex Kempkens
  # [artf5321] Hardcoded strings, custom menus and other static texts - parts of the wizzard still open see artf4940 
