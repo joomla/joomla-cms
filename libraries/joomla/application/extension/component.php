@@ -111,22 +111,22 @@ class JComponentHelper
 	 * @return object A JParameter object
 	 */
 	function &getControlParams()
-      {
+       {
        static $instance;
 
        if ($instance == null)
-        {
+       {
         $menus  = &JMenu::getInstance();
         $menu  = &$menus->getItem(JRequest::getVar('Itemid'));
         if (is_object( $menu ))
         {
-        $instance = new JParameter( $menu->control );
+         $instance = new JParameter( $menu->control );
         }
-       else
+        else
         {
-        $instance = new JParameter( '' );    
+         $instance = new JParameter( '' );    
         }
-        }
+       }
        return $instance;
       }
 	
