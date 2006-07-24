@@ -41,6 +41,7 @@ Legend:
  # Fixed bug in \components\om_content\view, metadata files, changed folder= to directory=
  # Fixed \libraries\application\menu.php referencing bug
  # Fixed \joomla\application\extension\component.php, administrator bug
+ + Support for legacy classes & functions that will be depreciated (\xmlrpc\includes\framework.php)
 
 24-Jul-2006 Alex Kempkens
  # [artf5321] Hardcoded strings, custom menus and other static texts - parts of the wizzard still open see artf4940 

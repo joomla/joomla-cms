@@ -57,4 +57,9 @@ jimport( 'joomla.application.extension.plugin');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.user.user' );
+
+//Support for legacy classes & functions that will be depreciated
+jimport( 'joomla.common.legacy.classes' );
+jimport( 'joomla.common.legacy.functions' );
+jimport( 'joomla.common.legacy.globals' );
 ?>
