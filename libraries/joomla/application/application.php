@@ -247,9 +247,7 @@ class JApplication extends JObject
 
 		if ($authenticated !== false)
 		{
-			/*
-			 * Import the user plugin group
-		 	 */
+			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
@@ -317,9 +315,6 @@ class JApplication extends JObject
 					$session->remember($user->get('username'), $user->get('password'));
 				}
 
-				// Clean the cache for this user
-				//$cache = & JFactory::getCache();
-				//$cache->cleanCache();
 				return true;
 			}
 		}
@@ -345,9 +340,7 @@ class JApplication extends JObject
 		$credentials['username'] 	= $user->get('username');
 		$credentials['id'] 			= $user->get('id');
 
-		/*
-		 * Import the user plugin group
-		 */
+		// Import the user plugin group
 		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event
@@ -361,10 +354,6 @@ class JApplication extends JObject
 		 */
 		if (!in_array(false, $results, true))
 		{
-			// Clean the cache for this user
-			//$cache = & JFactory::getCache();
-			//$cache->cleanCache();
-
 			// TODO: JRegistry will make this unnecessary
 			// Get the session object
 			$session =& $this->_session;
@@ -596,9 +585,7 @@ class JApplication extends JObject
 			$editor = $this->getCfg('editor');
 		}
 
-		/*
-		 * Handle per-user editor options
-		 */
+		// Handle per-user editor options
 		$user =& $this->getUser();
 		if (is_object($user)) {
 			$editor = $user->getParam('editor', $editor);

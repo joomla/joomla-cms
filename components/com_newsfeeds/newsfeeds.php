@@ -224,11 +224,8 @@ class NewsfeedsController
 
 	function showFeed( ) 
 	{
-		global $Itemid, $mainframe;
-
-		$mParams	= JComponentHelper::getMenuParams();
-		$feedid 	= JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );
-
+		global $mainframe;
+		
 		// check if cache directory is writeable
 		$cacheDir = $mainframe->getCfg('cachepath') . DS;
 		if ( !is_writable( $cacheDir ) ) {
@@ -243,8 +240,10 @@ class NewsfeedsController
 		$Itemid = JRequest::getVar('Itemid');
 		
 		// Get the current menu item
-		$menu =& JMenu::getInstance();
-		$menu = $menu->getItem($Itemid);
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
+		
+		$feedid = JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );
 
 		require_once( $mainframe->getPath( 'class' ) );
 

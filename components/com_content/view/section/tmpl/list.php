@@ -15,6 +15,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$Itemid    	= JRequest::getVar('Itemid');
+		
+// Get the paramaters of the active menu item
+$menu   =& JMenu::getInstance();
+$mParams =& $menu->getParams($Itemid);
+
 	// Get some data from the model
 	$categories	= & $this->get( 'Categories' );
 

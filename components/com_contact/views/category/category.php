@@ -56,6 +56,12 @@ class JContactViewCategory extends JView
 		$ctrl	= &$this->getController();
 		$model	= & $ctrl->getModel('category', 'JContactModel');
 		$this->setModel($model, true);
+		
+		$Itemid   = JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar( 'catid', $mParams->get('category_id', 0 ), '', 'int' );
@@ -63,11 +69,6 @@ class JContactViewCategory extends JView
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
-		$Itemid    			 = JRequest::getVar('Itemid');
-		
-		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
 
 		// query options
 		$qOptions['gid']			= $user->get('gid');

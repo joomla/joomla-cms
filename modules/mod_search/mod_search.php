@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 ?>
-<form action="<?php echo $link; ?>" method="get">
+<form action="index.php" method="get">
 	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
 		<?php echo modSearchHelper::renderInputField($params) ?>
 	</div>

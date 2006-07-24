@@ -41,7 +41,7 @@ function botDetectVisitor()
 
 	setcookie( 'mosvisitor', '1' );
 
-	$browser  = $browser->getFeature('parent');
+	$agent    = $browser->getFeature('parent');
 	$platform = $browser->getPlatform();
 
 	if (phpversion() <= '4.2.1') {
@@ -52,20 +52,20 @@ function botDetectVisitor()
 
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__stats_agents"
-	. "\n WHERE agent = '$browser'"
+	. "\n WHERE agent = '$agent'"
 	. "\n AND type = '0'"
 	;
 	$db->setQuery( $query );
 	if ($db->loadResult()) {
 		$query = "UPDATE #__stats_agents"
 		. "\n SET hits = ( hits + 1 )"
-		. "\n WHERE agent = '$browser'"
+		. "\n WHERE agent = '$agent'"
 		. "\n AND type = '0'"
 		;
 		$db->setQuery( $query );
 	} else {
 		$query = "INSERT INTO #__stats_agents"
-		. "\n ( agent, type ) VALUES ( '$browser', '0' )"
+		. "\n ( agent, type ) VALUES ( '$agent', '0' )"
 		;
 		$db->setQuery( $query );
 	}
@@ -73,14 +73,14 @@ function botDetectVisitor()
 
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__stats_agents"
-	. "\n WHERE agent = '$platform'"
+	. "\n WHERE agent = '$agent'"
 	. "\n AND type = '1'"
 	;
 	$db->setQuery( $query );
 	if ($db->loadResult()) {
 		$query = "UPDATE #__stats_agents"
 		. "\n SET hits = ( hits + 1 )"
-		. "\n WHERE agent = '$platform'"
+		. "\n WHERE agent = '$agent'"
 		. "\n AND type = '1'"
 		;
 		$db->setQuery( $query );

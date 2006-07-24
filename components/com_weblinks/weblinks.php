@@ -78,7 +78,7 @@ class WeblinksController
 	 */
 	function showCategory()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize some variables
 		$db			= & $mainframe->getDBO();
@@ -89,6 +89,12 @@ class WeblinksController
 		$gid		= $user->get('gid');
 		$page		= '';
 		$category	= null;
+		
+		$Itemid		= JRequest::getVar('Itemid');
+		
+		// Get the paramaters of the active menu item
+		$menu    =& JMenu::getInstance();
+		$mParams =& $menu->getParams($Itemid);
 		
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
