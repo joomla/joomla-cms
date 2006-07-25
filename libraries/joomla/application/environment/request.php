@@ -63,6 +63,7 @@ class JRequest
 	 *   post       $_POST
 	 *   get        $_GET
 	 *   files      $_FILES
+	 *   cookie     $_COOKIE
 	 *   method     via current $_SERVER['REQUEST_METHOD']
 	 *   default    $_REQUEST
 	 *
@@ -102,6 +103,10 @@ class JRequest
 
 				case 'FILES' :
 					$input  = &$_FILES;
+					break;
+
+				case 'COOKIE' :
+					$input  = &$_COOKIE;
 					break;
 
 				default:
@@ -167,6 +172,10 @@ class JRequest
 				break;
 			case 'FILES' :
 					$_FILES[$name] = $value;
+					$_REQUEST[$name] = $value;
+				break;
+			case 'COOKIE' :
+					$_COOKIE[$name] = $value;
 					$_REQUEST[$name] = $value;
 				break;
 			default:
