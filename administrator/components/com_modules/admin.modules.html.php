@@ -213,13 +213,11 @@ class HTML_modules {
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
 	{
-		global $mainframe;
-
 		// Check for component metadata.xml file
 		$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
 		$params = new JParameter( $row->params, $path );
 
-		$editor 	=& $mainframe->getEditor();
+		$editor 	=& JFactory::getEditor();
 
 		$row->titleA = '';
 		if ( $row->id ) {

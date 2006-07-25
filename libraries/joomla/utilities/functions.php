@@ -71,14 +71,19 @@ function ampReplace( $text ) {
 * @param boolean
 * @since 1.0
 */
-function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSlashes=true ) {
+function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSlashes=true ) 
+{
 	if (!is_array( $array ) || !is_object( $obj )) {
 		return (false);
 	}
 
-	foreach (get_object_vars($obj) as $k => $v) {
-		if( substr( $k, 0, 1 ) != '_' ) {			// internal attributes of an object are ignored
-			if (strpos( $ignore, $k) === false) {
+	foreach (get_object_vars($obj) as $k => $v) 
+	{
+		if( substr( $k, 0, 1 ) != '_' ) 
+		{			
+			// internal attributes of an object are ignored
+			if (strpos( $ignore, $k) === false) 
+			{
 				if ($prefix) {
 					$ak = $prefix . $k;
 				} else {

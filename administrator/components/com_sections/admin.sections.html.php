@@ -193,9 +193,7 @@ class sections_html
 	*/
 	function edit( &$row, $option, &$lists, &$menus )
 	{
-		global $mainframe;
-
-		$editor =& $mainframe->getEditor();
+		$editor =& JFactory::getEditor();
 
 		if ( $row->name != '' ) {
 			$name = $row->name;

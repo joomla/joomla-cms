@@ -26,5 +26,6 @@ class JFrameworkConfig
 	var $cachetime  = '900';
 	var $language  	= 'en-GB'; 
 	var $secret     = null;
+	var $editor     = 'none';
 }
 ?>

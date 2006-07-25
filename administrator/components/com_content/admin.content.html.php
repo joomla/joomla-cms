@@ -445,7 +445,7 @@ class ContentView
 		$db =& $mainframe->getDBO();
 		mosMakeHtmlSafe( $row );
 
-		$editor =& $mainframe->getEditor();
+		$editor =& JFactory::getEditor();
 		$pane   =& JPane::getInstance('sliders');
 
 		mosCommonHTML::loadOverlib();
@@ -684,9 +684,7 @@ class ContentView
 
 	function previewContent()
 	{
-		global $mainframe;
-		
-		$editor =& $mainframe->getEditor();
+		$editor =& JFactory::getEditor();
 
 		?>
 		<script>

@@ -150,7 +150,7 @@ class JContentViewArticle extends JView
 		$lists = $this->_buildEditLists();
 
 		// Load the JEditor object
-		$editor =& $app->getEditor();
+		$editor =& JFactory::getEditor();
 
 		// Load the mosTabs object
 		$tabs = new mosTabs(0);

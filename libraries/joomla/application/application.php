@@ -308,7 +308,7 @@ class JApplication extends JObject
 					setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );
 					setcookie( 'usercookie[password]', $user->get('password'), $lifetime, '/' );
 				}
-
+				
 				return true;
 			}
 		}
@@ -560,32 +560,6 @@ class JApplication extends JObject
 	}
 	
 	/**
-	* Return a reference to the JEditor object
-	*
-	* @return JEditor 	A JEditor object
-	* @since 1.5
-	*/
-	function &getEditor()
-	{
-		jimport( 'joomla.presentation.editor' );
-		
-		if ($this->getCfg('editor') == '') {
-			$editor = 'none';
-		} else {
-			$editor = $this->getCfg('editor');
-		}
-
-		// Handle per-user editor options
-		$user =& JFactory::getUser();
-		if (is_object($user)) {
-			$editor = $user->getParam('editor', $editor);
-		}
-		
-		$instance =& JEditor::getInstance($editor);
-		return $instance;
-	}
-
-	/**
 	 * Create a JPathWay object and set the home/component items of the pathway
 	 *
 	 * @access private
@@ -707,6 +681,13 @@ class JApplication extends JObject
 
 		JSession::setIdle($this->getCfg('lifetime'));
 		JSession::setGcMaxLifetime($this->getCfg('lifetime'));
+		
+		// Set user specific editor
+		$user =& JFactory::getUser();
+		$editor = $user->getParam('editor', $this->getCfg('editor'));
+				
+		$config =& JFactory::getConfig();
+		$config->setValue('config.editor', $editor);
 
 		return true;
 	}

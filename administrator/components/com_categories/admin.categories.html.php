@@ -226,9 +226,7 @@ class categories_html
 	*/
 	function edit( &$row, &$lists, $redirect )
 	{
-		global $mainframe;
-		
-		$editor =& $mainframe->getEditor();
+		$editor =& JFactory::getEditor();
 
 		if ($row->image == '') {
 			$row->image = 'blank.png';

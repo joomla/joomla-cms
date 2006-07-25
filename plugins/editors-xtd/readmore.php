@@ -24,12 +24,14 @@ function pluginReadmoreButton($name)
 {
 	global $mainframe;
 
-	$option = $mainframe->getOption();
-	$doc = & $mainframe->getDocument();
-	$template = $mainframe->getTemplate();
+	$option 	= $mainframe->getOption();
+	$doc 		= & $mainframe->getDocument();
+	$template 	= $mainframe->getTemplate();
+	
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	// button is not active in specific content components
-	switch ( $option ) {
+	switch ( $option ) 
+	{
 		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
@@ -37,7 +39,7 @@ function pluginReadmoreButton($name)
 			break;
 
 		default:
-			$editor =& $mainframe->getEditor();
+			$editor 	=& JFactory::getEditor();
 			$getContent = $editor->getContent($name);
 			$present = "Already Exists";
 			$js = "

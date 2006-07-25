@@ -77,8 +77,10 @@ class JFactory
 	 */
 	function &getUser()
 	{
-		// If there is a userid in the session, load the application user
-		// object with the logged in user.
+		/*
+		 * If there is a userid in the session, load the application user
+		 * object with the logged in user.
+		 */
 		$instance =& JUser::getInstance(JSession::get('userid', 0));
 		return $instance;
 	}
@@ -256,6 +258,24 @@ class JFactory
 		}
 		
 		return $doc;
+	}
+	
+	/**
+	* Get an JEditor object
+	*
+	* @access public
+	* @return object A JEditor object
+	*/
+	function &getEditor()
+	{
+		jimport( 'joomla.presentation.editor' );
+		
+		$conf =& JFactory::getConfig();
+		
+		$editor = $conf->getValue('config.editor');
+		$instance =& JEditor::getInstance($editor);
+		
+		return $instance;
 	}
 	
 	/**

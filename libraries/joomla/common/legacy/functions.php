@@ -355,8 +355,7 @@ function mosLoadComponent( $name ) {
  * @package		Joomla.Legacy
  */
 function initEditor() {
-	global $mainframe;
-	$editor =& $mainframe->getEditor();
+	$editor =& JFactory::getEditor();
 	echo $editor->init();
 }
 
