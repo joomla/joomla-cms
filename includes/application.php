@@ -307,6 +307,71 @@ class JSite extends JApplication
 	}
 }
 
+/**
+ * @package Joomla
+ * @static
+ */
+class JSiteHelper
+{
+	/**
+	 * Gets the current menu item
+	 * 
+	 * @static
+	 * @return	object	Reference to the current menu item, an an empty menu object if none set
+	 * @since	1.5
+	 */
+	function &getCurrentMenuItem()
+	{
+		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
+		$menu	= &JMenu::getInstance();
+	
+		$result = &$menu->getItem( $itemid );
+		if ($result == false)
+		{
+			$db = &JFactory::getDBO();
+			$result = JTable::getInstance( 'menu', $db );
+		}
+		return $result;
+	}
+
+	/**
+	 * Gets the parameter object for the current menu
+	 * 
+	 * @static
+	 * @return	object	A JParameter object
+	 * @since	1.5
+	 */
+	function &getMenuParams()
+	{
+		static $instance;
+
+		if ($instance == null)
+		{
+			$item		= &JSiteHelper::getCurrentMenuItem();
+			$instance	= new JParameter( $item->params );
+		}
+		return $instance;
+	}
+
+	/**
+	 * Gets the control parameters object for the current menu
+	 * 
+	 * @static
+	 * @return	object	A JParameter object
+	 * @since	1.5
+	 */
+	function &getControlParams()
+	{
+		static $instance;
+
+		if ($instance == null)
+		{
+			$item		= &JSiteHelper::getCurrentMenuItem();
+			$instance	= new JParameter( $item->control );
+		}
+		return $instance;
+	}
+}
 
 /**
  * @global $_VERSION

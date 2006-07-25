@@ -49,8 +49,9 @@ class modBreadCrumbsHelper
  	 */
 	function renderBreadCrumbs(& $items, $separator)
 	{
-		$i	   = null;
-		$count = count($items);
+		// Initialize variables
+		$breadcrumbs	= null;
+		$count			= count($items);
 
 		for ($i = 0; $i < $count; $i ++) 
 		{
