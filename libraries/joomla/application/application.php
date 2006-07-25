@@ -960,8 +960,8 @@ class JApplicationHelper
 	 * @since 1.5
 	 */
 	function getItemCount( $type ) {
-		$menu = &JMenu::getInstance();
-		return count($menu->getItems('type', $type));
+		$menus = &JMenu::getInstance();
+		return count($menus->getItems('type', $type));
 	}
 
 	/**

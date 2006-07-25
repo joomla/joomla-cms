@@ -56,10 +56,10 @@ class LoginController
 		global $mainframe, $Itemid;
 
 		// Initialize variables
-		$user		= & $mainframe->getUser();
-		$menu		= &JMenu::getInstance();
-		$menu		= $menu->getItem( $Itemid );
-		$params		= new JParameter( $menu->params );
+		$user		=& $mainframe->getUser();
+		$menus		=& JMenu::getInstance();
+		$menu		=& $menus->getItem( $Itemid );
+		$params		=& $menus->getParams( $Itemid );
 		$loginImage	= null;
 		$logoutImage= null;
 

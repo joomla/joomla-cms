@@ -25,8 +25,8 @@ function showWrap( $option )
 {
 	global $Itemid, $mainframe;
 
-	$menu = &JMenu::getInstance();
-	$menu = $menu->getItem($Itemid);
+	$menus = &JMenu::getInstance();
+	$menu  = $menus->getItem($Itemid);
 
 	$params = new JParameter( $menu->params );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );

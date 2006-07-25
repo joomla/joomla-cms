@@ -72,8 +72,8 @@ class JContentModelCategory extends JModel
 		$Itemid    		= JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 		
 		$id = JRequest::getVar('id', $mParams->get( 'category_id', 0 ), '', 'int');
 		$this->setId($id);
@@ -273,8 +273,8 @@ class JContentModelCategory extends JModel
 			$Itemid    		= JRequest::getVar('Itemid');
 		
 			// Get the paramaters of the active menu item
-			$menu   =& JMenu::getInstance();
-			$params =& $menu->getParams($Itemid);
+			$menus  =& JMenu::getInstance();
+			$params =& $menus->getParams($Itemid);
 			
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
@@ -373,8 +373,8 @@ class JContentModelCategory extends JModel
 		$Itemid  = JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$params  =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$params  =& $menus->getParams($Itemid);
 		
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
@@ -419,8 +419,8 @@ class JContentModelCategory extends JModel
 		$Itemid     = JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$params  =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$params  =& $menus->getParams($Itemid);
 		
 		/*
 		 * First thing we need to do is assert that the articles are in

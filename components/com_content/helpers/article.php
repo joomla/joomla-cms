@@ -28,8 +28,8 @@ class JContentArticleHelper
 		$Itemid = JRequest::getVar('Itemid');
 			
 		// Get the paramaters of the active menu item
-		$menu   =& JMenu::getInstance();
-		$params =& $menu->getParams($Itemid);
+		$menus  =& JMenu::getInstance();
+		$params =& $menus->getParams($Itemid);
 		
 		// TODO: clean this part up
 		$SiteName = $app->getCfg('sitename');

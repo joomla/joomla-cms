@@ -80,8 +80,8 @@ class JContentViewCategory extends JView
 		$Itemid	= JRequest::getVar('Itemid');
 		
 		// Get the menu object of the active menu item
-		$menus	 = &JMenu::getInstance();
-		$menu	 = &$menus->getItem($Itemid);
+		$menus	 =& JMenu::getInstance();
+		$menu	 =& $menus->getItem($Itemid);
 		$mParams =& $menus->getParams($Itemid); 
 
 		//add alternate feed link

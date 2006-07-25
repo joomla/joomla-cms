@@ -183,17 +183,10 @@ class JSite extends JApplication
 			} 
 			else
 			{
-				$menu =& JMenu::getInstance();
-				$list =& $menu->getMenu();
+				$menus =& JMenu::getInstance();
+				$item  =& $menus->getDefault();
 				
-				foreach($list as $item)
-				{
-					if($item->home) {
-						$itemid = $item->id;
-						break;
-					}
-				}
-				
+				$itemid = $item->id;
 			}
 		}
 		

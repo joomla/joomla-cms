@@ -38,8 +38,8 @@ class JContactViewContact extends JView
 		$Itemid    		= JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 
 		// Push a model into the view
 		$ctrl		= &$this->getController();

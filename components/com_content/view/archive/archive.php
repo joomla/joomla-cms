@@ -73,15 +73,15 @@ class JArchiveViewArchive extends JView
 		$showAll = !$id;
 		
 		// Get the menu object of the active menu
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getItem($Itemid);
-		$params = $menus->getParams($Itemid);
+		$menus	=& JMenu::getInstance();
+		$menu	=& $menus->getItem($Itemid);
+		$params =& $menus->getParams($Itemid);
 
 		/*
 		 * Create a user access object for the user
 		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 

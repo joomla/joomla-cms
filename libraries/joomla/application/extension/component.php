@@ -111,7 +111,7 @@ class JComponentHelper
 	 * @return object A JParameter object
 	 */
 	function &getControlParams()
-       {
+    {
        static $instance;
 
        if ($instance == null)

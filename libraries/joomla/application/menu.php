@@ -15,44 +15,45 @@
  * JMenu class
  *
  * @author Louis Landry <louis.landry@joomla.org>
- * @package Joomla.Framework
- * @since 1.5
+ * @author Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla.Framework
+ * @subpackage	Environment
+ * @since		1.5
  */
 class JMenu extends JObject
 {
 	/**
 	 * Array to hold the menu items
+	 * 
 	 * @access private
+	 * @param array
 	 */
-	var $_menuitems = array ();
-
+	var $_items = array ();
+	
 	/**
-	 * Array to hold the menu items
+	 * Identifier of the default menu item
+	 * 
 	 * @access private
+	 * @param integer
 	 */
-	var $_thismenu = array ();
-
+	var $_default = 0;
+	
 
 	/**
 	 * Class constructor
 	 *
-	 * @param string $name The menu name to load
+	 * @access public
 	 * @return boolean True on success
-	 * @since 1.5
 	 */
-	function __construct($name = 'all')
+	function __construct()
 	{
-		$this->_menuitems = $this->_load();
+		$this->_items = $this->_load();
 
 		$home = 0;
-		foreach ($this->_menuitems as $item) 
+		foreach ($this->_items as $item) 
 		{
-			if ($item->menutype == $name || $name == 'all') {
-				$this->_thismenu[] = $item;
-				if ($item->home)
-				{
-					$home = $item->id;
-				}
+			if ($item->home) {
+				$this->_default = $item->id;
 			}
 		}
 	}
@@ -68,19 +69,14 @@ class JMenu extends JObject
 	 * @return	JMenu	The Menu object.
 	 * @since	1.5
 	 */
-	function &getInstance($id = 'all')
+	function &getInstance()
 	{
-		static $instances;
+		static $instance;
 
-		if (!isset ($instances)) {
-			$instances = array ();
+		if (!isset ($instance)) {
+			$instance =& new JMenu();
 		}
-
-		if (empty ($instances[$id])) {
-			$instances[$id] =& new JMenu($id);
-		}
-
-		$instance = $instances[$id];
+		
 		return $instance;
 	}
 
@@ -89,16 +85,29 @@ class JMenu extends JObject
 	 * 
 	 * @access public
 	 * @param int The item id
-	 * @return mixed The item, or false if not found
+	 * @return mixed The item object, or null if not found
 	 */
 	function &getItem($id)
 	{
 		$result = null;
-		if (isset($this->_menuitems[$id])) {
-			$result = &$this->_menuitems[$id];
+		if (isset($this->_items[$id])) {
+			$result = &$this->_items[$id];
 		} 
   
 		return $result;
+	}
+	
+	/**
+	 * Get menu item by id
+	 * 
+	 * @access public
+	 * @param int The item id
+	 * @return object The item object
+	 */
+	function &getDefault()
+	{
+		$item =& $this->_items[$this->_default];
+		return $item;
 	}
 
 	/**
@@ -112,7 +121,7 @@ class JMenu extends JObject
 	function getItems($attribute, $value)
 	{
 		$items = array ();
-		foreach ($this->_menuitems as $item)
+		foreach ($this->_items as $item)
 		{
 			if ($item->$attribute == $value) {
 				$items[] = $item;
@@ -142,10 +151,21 @@ class JMenu extends JObject
 	/**
 	 * Getter for the menu array
 	 * 
+	 * @access public
+	 * @param string $name The menu name
 	 * @return array
 	 */
-	function getMenu() {
-		return $this->_thismenu;
+	function getMenu($name = 'all') 
+	{
+		$menu = array();
+		
+		foreach ($this->_items as $item ) {
+			if ($item->menutype == $name || $name == 'all')  {
+				$menu[] = $item;
+			}
+		}
+		
+		return $menu;
 	}
 
 	/**
@@ -153,11 +173,11 @@ class JMenu extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @access 	public
-	 * @param	integer	$itemid		The itemid
-	 * @param	object	$user		The user object
+	 * @param	integer	$id		The menu id
+	 * @param	object	$user	The user object
 	 * @return	boolean	True if authorized
 	 */
-	function authorize($itemid, &$user) 
+	function authorize($id, &$user) 
 	{
 		// Initialize variables
 		$results	= array();

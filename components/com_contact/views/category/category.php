@@ -60,8 +60,8 @@ class JContactViewCategory extends JView
 		$Itemid   = JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar( 'catid', $mParams->get('category_id', 0 ), '', 'int' );

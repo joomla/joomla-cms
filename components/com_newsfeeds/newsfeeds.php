@@ -69,8 +69,8 @@ class NewsfeedsController
 		$Itemdid   		= JREquest::getVar('Itemid');
 		$gid			= $user->get('gid');
 		
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 		
 		$catid 			= JRequest::getVar( 'catid', $mParams->get( 'category_id' ), '', 'int' );
 
@@ -89,8 +89,8 @@ class NewsfeedsController
 		$categories = $db->loadObjectList();
 		
 		// Load the menu object and parameters
-		$menu = &JMenu::getInstance();
-		$menu = $menu->getItem($Itemid);
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getItem($Itemid);
 
 		// Parameters
 		$mParams->def( 'page_title', 		1 );
@@ -241,7 +241,7 @@ class NewsfeedsController
 		
 		// Get the current menu item
 		$menus   =& JMenu::getInstance();
-		$menu    =& JMenu::getItem($Itemid);
+		$menu    =& $menus->getItem($Itemid);
 		$mParams =& $menus->getParams($Itemid);
 		
 		$feedid = JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );

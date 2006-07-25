@@ -395,8 +395,8 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
 	global $mainframe;
 	$user =& $mainframe->getUser();
-	$menu =& JMenu::getInstance();
-	$menu->authorize($Itemid, $user);
+	$menus =& JMenu::getInstance();
+	$menus->authorize($Itemid, $user);
 }
 
 /**

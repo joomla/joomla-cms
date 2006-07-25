@@ -93,8 +93,8 @@ class WeblinksController
 		$Itemid		= JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 		
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
@@ -114,8 +114,8 @@ class WeblinksController
 		$pathway->setItemName(1, JText::_('Links'));
 
 		// Load the menu object and parameters
-		$menu = &JMenu::getInstance();
-		$menu = $menu->getItem($Itemid);
+		$menus = &JMenu::getInstance();
+		$menu  = $menu->getItem($Itemid);
 
 		$params = new JParameter($menu->params);
 		$params->def('page_title', 1);

@@ -56,9 +56,9 @@ class JFrontpageController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Parameters
-		$menu = &JMenu::getInstance();
-		$menu = $menu->getItem($Itemid);
-		$params = new JParameter($menu->params);
+		$menus   =& JMenu::getInstance();
+		$menu   =& $menus->getItem($Itemid);
+		$params =& $menus->getParams($Itemid);
 
 		require_once (dirname(__FILE__).DS.'model'.DS.'frontpage.php');
 		$model = new JModelFrontpage($db, $params);

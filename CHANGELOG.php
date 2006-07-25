@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Jul-2006 Johan Janssens
+ ^ Refactored JMenu class to remove application state coupling 
+
 24-Jul-2006 Johan Janssens
  ^ Decoupled user object from application class
- ^ Refactored JSession class and improved session handling
+ ^ Refactored JSession class to improved session handling
 
 24-Jul-2006 Alex Kempkens
  # Fixed [artf5321] Hardcoded strings, custom menus and other static texts

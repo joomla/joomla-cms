@@ -51,8 +51,8 @@ class JContentModelArticle extends JModel
 		$Itemid  = JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 		
 		$id = JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
 		$this->setId($id);

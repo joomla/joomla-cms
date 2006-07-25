@@ -72,8 +72,8 @@ class JContentModelSection extends JModel
 		$Itemid  = JRequest::getVar('Itemid');
 		
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$mParams =& $menu->getParams($Itemid);
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
 		
 		$id = JRequest::getVar('id', $mParams->get( 'section_id', 0 ), '', 'int');
 		$this->setId($id);
@@ -278,8 +278,8 @@ class JContentModelSection extends JModel
 			$Itemid    	= JRequest::getVar('Itemid');
 		
 			// Get the paramaters of the active menu item
-			$menu   =& JMenu::getInstance();
-			$params =& $menu->getParams($Itemid);
+			$menus  =& JMenu::getInstance();
+			$params =& $menus->getParams($Itemid);
 
 			// Ordering control
 			$orderby = $params->get('orderby', '');
@@ -434,8 +434,8 @@ class JContentModelSection extends JModel
 		}
 
 		// Get the paramaters of the active menu item
-		$menu   =& JMenu::getInstance();
-		$params =& $menu->getParams($Itemid);
+		$menus  =& JMenu::getInstance();
+		$params =& $menus->getParams($Itemid);
 		
 		switch ($state)
 		{
@@ -524,8 +524,8 @@ class JContentModelSection extends JModel
 		 */
 		 
 		// Get the paramaters of the active menu item
-		$menu   =& JMenu::getInstance();
-		$params =& $menu->getParams($Itemid);
+		$menus  =& JMenu::getInstance();
+		$params =& $menus->getParams($Itemid);
 		
 		if ($params->get('filter')) {
 			$filter = JRequest::getVar('filter', '', 'request');

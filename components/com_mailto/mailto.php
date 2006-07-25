@@ -24,8 +24,8 @@ require_once( JPATH_COM_MAILTO . '/controller.php' );
 
 $Itemid = JRequest::getVar('Itemid');
 
-$menu    =& JMenu::getInstance();
-$mParams =& $menu->getParams($Itemid);
+$menus   =& JMenu::getInstance();
+$mParams =& $menus->getParams($Itemid);
 
 $view		= JRequest::getVar( 'view', $mParams->get( 'view', 'default' ) );
 $controller	= new mailtoController( $mainframe, 'display' );
