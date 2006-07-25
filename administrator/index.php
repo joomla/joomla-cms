@@ -52,9 +52,10 @@ JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
  * 		- $my
  * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
  */
-$GLOBALS['database'] =& $mainframe->getDBO();
-$user =& $mainframe->getUser();
-$GLOBALS['my'] =& $user->getTable();
+global $database, $my;
+$database	=& JFactory::getDBO();
+$user		=& JFactory::getUser();
+$my			=& $user->getTable();
 
 // initialise some common request directives
 $option 	= $mainframe->getOption();

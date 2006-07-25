@@ -60,9 +60,10 @@ if(!$menu->authorize($Itemid, $mainframe->getUser())) {
  * 		- $my
  * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
  */
-$GLOBALS['database'] =& $mainframe->getDBO();
-$user =& $mainframe->getUser();
-$GLOBALS['my'] =& $user->getTable();
+global $database, $my;
+$database	=& JFactory::getDBO();
+$user		=& JFactory::getUser();
+$my			=& $user->getTable();
 
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
