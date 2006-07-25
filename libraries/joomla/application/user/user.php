@@ -66,10 +66,8 @@ class JUser extends JObject
 	*/
 	function __construct($identifier = 0)
 	{
-		global $mainframe;
-
 		// Initialize variables
-		$db	=& $mainframe->getDBO();
+		$db	=& JFactory::getDBO();
 
 		// Create the user table object
 		$this->_table 	=& JTable::getInstance( 'user', $db );
@@ -292,13 +290,14 @@ class JUser extends JObject
 		/*
 		 * Lets check to see if the user is new or not
 		 */
-		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/) {
+		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/) 
+		{
 			/*
 			 * Since we have a new user, and we are going to create it... we
 			 * need to check a few things and set some defaults if we don't
 			 * already have them.
 			 */
-			//die("HERE");
+			
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
@@ -322,7 +321,9 @@ class JUser extends JObject
 				$password = substr( $password, 0, 50 );
 				$this->set( 'password', $password );
 			}
-		} else {
+		} 
+		else 
+		{
 			/*
 			 * We are updating an existing user.. so lets get down to it.
 			 */
@@ -364,9 +365,7 @@ class JUser extends JObject
 		 */
 		$this->_params->loadINI($this->_table->params);
 
-		/*
-		 * If the table user id is set, lets set the id for the JUser object.
-		 */
+		// If the table user id is set, lets set the id for the JUser object.
 		if ($this->get( 'id' )) {
 			$this->_id = $this->get( 'id' );
 		}
@@ -384,14 +383,12 @@ class JUser extends JObject
 	 */
 	function save( $updateOnly = false )
 	{
-		global $mainframe;
-
 		/*
 		 * We need to get the JUser object for the current installed user, but
 		 * might very well be modifying that user... and isn't it ironic...
 		 * don't ya think?
 		 */
-		$me = & $mainframe->getUser();
+		$me = & JFactory::getUser();
 
 		/*
 		 * Now that we have gotten all the field handling out of the way, time
@@ -414,7 +411,8 @@ class JUser extends JObject
 		 * fire the onBeforeStoreUser event.
 		 */
 		JPluginHelper::importPlugin( 'user' );
-		$mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $this->_table ), $this->_table->id ) );
+		$dispatcher =& JEventDispatcher::getInstance();
+		$dispatcher->trigger( 'onBeforeStoreUser', array( get_object_vars( $this->_table ), $this->_table->id ) );
 
 		/*
 		 * Time for the real thing... are you ready for the real thing?  Store
@@ -442,10 +440,8 @@ class JUser extends JObject
 			$this->_id = $this->get( 'id' );
 		}
 
-		/*
-		 * We stored the user... lets tell everyone about it.
-		 */
-		$mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $this->_table ), $this->_table->id, $result, $this->getError() ) );
+		// We stored the user... lets tell everyone about it.
+		$dispatcher->trigger( 'onAfterStoreUser', array( get_object_vars( $this->_table ), $this->_table->id, $result, $this->getError() ) );
 
 		return $result;
 	}
@@ -460,10 +456,11 @@ class JUser extends JObject
 	 */
 	function delete( )
 	{
-		global $mainframe;
-
+		JPluginHelper::importPlugin( 'user' );
+		
 		//trigger the onBeforeDeleteUser event
-		$mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
+		$dispatcher =& JEventDispatcher::getInstance();
+		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
 
 		$result = false;
 		if (!$result = $this->_table->delete($this->_id)) {
@@ -471,7 +468,7 @@ class JUser extends JObject
 		}
 
 		//trigger the onAfterDeleteUser event
-		$mainframe->triggerEvent( 'onAfterDeleteUser', array( array('id' => $this->_id), $result, $this->getError()) );
+		$dispatcher->trigger( 'onAfterDeleteUser', array( array('id' => $this->_id), $result, $this->getError()) );
 		return $result;
 
 	}
@@ -487,9 +484,7 @@ class JUser extends JObject
 	 */
 	function _load($id)
 	{
-		 /*
-		 * Load the JUserModel object based on the user id or throw a warning.
-		 */
+		 // Load the JUserModel object based on the user id or throw a warning.
 		 if(!$this->_table->load($id)) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
@@ -502,9 +497,7 @@ class JUser extends JObject
 		 */
 		$this->_params->loadINI($this->_table->params);
 
-		/*
-		 * Assuming all is well at this point, we set the private id field
-		 */
+		// Assuming all is well at this point, we set the private id field
 		$this->_id = $this->_table->id;
 
 		return true;
@@ -544,15 +537,10 @@ class JUserHelper
 	 */
 	function activateUser($activation)
 	{
-		global $mainframe;
-		/*
-		 * Initialize some variables
-		 */
-		$db = & $mainframe->getDBO();
+		//Initialize some variables
+		$db = & JFactory::getDBO();
 
-		/*
-		 * Lets get the id of the user we want to activate
-		 */
+		// Lets get the id of the user we want to activate
 		$query = "SELECT id"
 		. "\n FROM #__users"
 		. "\n WHERE activation = '$activation'"
@@ -562,16 +550,14 @@ class JUserHelper
 		$id = intval( $db->loadResult() );
 
 		// Is it a valid user to activate?
-		if ($id) {
-
+		if ($id) 
+		{
 			$user = JUser::getInstance( (int) $id );
 
 			$user->set('block', '0');
 			$user->set('activation', '');
 
-			/*
-			 * Time to take care of business.... store the user.
-			 */
+			// Time to take care of business.... store the user.
 			if (!$user->save()) {
 				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".$user->getError() );
 				return false;
@@ -592,11 +578,8 @@ class JUserHelper
 	 */
 	function getUserId($username)
 	{
-		global $mainframe;
-		/*
-		 * Initialize some variables
-		 */
-		$db = & $mainframe->getDBO();
+		// Initialize some variables
+		$db = & JFactory::getDBO();
 		
 		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
 		$db->setQuery($query, 0, 1);

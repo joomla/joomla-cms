@@ -157,11 +157,12 @@ class JPluginHelper
 
 		$result = false;
 
-		if (file_exists( $path )) {
+		if (file_exists( $path )) 
+		{
 			require_once( $path );
 			$result = true;
 
-			$lang =& $mainframe->getLanguage();
+			$lang =& JFactory::getLanguage();
 			$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
 		}
 
@@ -175,16 +176,14 @@ class JPluginHelper
 	 */
 	function _load()
 	{
-		global $mainframe;
-
 		static $plugins;
 
 		if (isset($plugins)) {
 			return $plugins;
 		}
 
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
+		$db		= & JFactory::getDBO();
+		$user	= & JFactory::getUser();
 
 		if (is_object( $user )) {
 			$gid = $user->get('gid');

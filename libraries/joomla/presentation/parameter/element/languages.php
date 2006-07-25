@@ -32,9 +32,7 @@ class JElement_Languages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $mainframe;
-		
-		$user	= & $mainframe->getUser();
+		$user	= & JFactory::getUser();
 
 		/*
 		 * @TODO: change to acl_check method

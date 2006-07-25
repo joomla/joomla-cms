@@ -67,6 +67,23 @@ class JFactory
 	}
 	
 	/**
+	 * Get an framework user object
+	 * 
+	 * Returns a reference to the global JUser object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @return object JUser
+	 */
+	function &getUser()
+	{
+		// If there is a userid in the session, load the application user
+		// object with the logged in user.
+		$instance =& JUser::getInstance(JSession::get('userid', 0));
+		return $instance;
+	}
+	
+	/**
 	 * Get a cache object
 	 * 
 	 * Returns a reference to the global JCache object, only creating it

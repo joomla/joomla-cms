@@ -32,10 +32,8 @@ class JElement_Editors extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $mainframe;
-
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
+		$db		= & JFactory::getDBO();
+		$user	= & JFactory::getUser();
 
 		//TODO: change to acl_check method
 		if(!($user->get('gid') >= 19) ) {

@@ -33,14 +33,13 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	 */
 	function render( $module, $params = array() )
 	{
-		global $mainframe;
-		
-		$user =& $mainframe->getUser();
-		
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
 			if(!is_object($module)) return '';
 		}
+		
+		// get the user object
+		$user =& JFactory::getUser();
 		
 		//get module parameters
 		$mod_params = new JParameter( $module->params );

@@ -25,17 +25,6 @@ $mainframe = new JAdministrator();
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
-/*
- * BACKWARDS COMPATABILITY
- * 	Set globals for:
- * 		- $database
- * 		- $my
- * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
- */
-$GLOBALS['database'] =& $mainframe->getDBO();
-$user =& $mainframe->getUser();
-$GLOBALS['my'] =& $user->getTable();
-
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
@@ -55,6 +44,17 @@ $mainframe->loadStoredUserState();
 $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
+
+/*
+ * BACKWARDS COMPATABILITY
+ * 	Set globals for:
+ * 		- $database
+ * 		- $my
+ * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
+ */
+$GLOBALS['database'] =& $mainframe->getDBO();
+$user =& $mainframe->getUser();
+$GLOBALS['my'] =& $user->getTable();
 
 // initialise some common request directives
 $option 	= $mainframe->getOption();

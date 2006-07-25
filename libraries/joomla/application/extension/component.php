@@ -150,7 +150,7 @@ class JComponentHelper
 		$database	=& JFactory::getDBO();
 		$acl  		=& JFactory::getACL();
 		
-		$user   = & $mainframe->getUser();
+		$user   = & JFActory::getUser();
 		$my		= $user->_table;
 		
 		$task 	= JRequest::getVar( 'task' );
@@ -169,7 +169,7 @@ class JComponentHelper
 		ob_start();
 		
 		//load common language files
-		$lang =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 		$lang->load($component);
 		require_once $path;
 	

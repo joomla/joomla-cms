@@ -283,14 +283,15 @@ class JTableUser extends JTable
 	 */
 	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' )
 	{
-		global $acl;
+		$acl =& JFactory::getACL(); 
 
 		// Change back in
 		$group_id = $acl->get_group_id( $value, $name, $group_type = 'ARO');
 		//$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
 		$objects = $acl->get_group_objects( $group_id, 'ARO', 'RECURSE');
 
-		if (isset( $objects['users'] )) {
+		if (isset( $objects['users'] )) 
+		{
 			$gWhere = '(id =' . implode( ' OR id =', $objects['users'] ) . ')';
 
 			$query = "SELECT id AS value, name AS text"

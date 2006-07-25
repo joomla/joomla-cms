@@ -72,13 +72,10 @@ class JModuleHelper
 	
 	function renderModule($module, $params = array())
 	{
-		jimport('joomla.factory');
-		
-		global $mainframe;
-		global $Itemid, $task, $option;
+		global $mainframe, $Itemid, $task, $option;
 
-		$user 		=& $mainframe->getUser();
-		$db	 	    =& $mainframe->getDBO();
+		$user 		=& JFactory::getUser();
+		$db	 	    =& JFactory::getDBO();
 		$acl  		=& JFactory::getACL();
 
 		//For backwards compatibility extract the config vars as globals
@@ -100,7 +97,7 @@ class JModuleHelper
 		//load the module
 		if (!$module->user && file_exists( $path ))
 		{
-			$lang =& $mainframe->getLanguage();
+			$lang =& JFActory::getLanguage();
 			$lang->load($module->module);
 
 			ob_start();
@@ -127,17 +124,19 @@ class JModuleHelper
 	 */
 	function &_load()
 	{
-		global $mainframe, $Itemid;
-
+		global $mainframe;
+		
 		static $modules;
 
 		if (isset($modules)) {
 			return $modules;
 		}
 
-		$user	=& $mainframe->getUser();
-		$db		=& $mainframe->getDBO();
+		$user	=& JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		
 		$gid	= $user->get('gid');
+		$Itemid = JRequest::getVar('Itemid');
 
 		$modules = array();
 

@@ -112,11 +112,13 @@ class JSession
     {
         session_unset();
         session_destroy();
-
-        // set session handlers again to avoid fatal error in case HTTP_Session::start() will be called afterwards
-        if (isset($GLOBALS['HTTP_Session_Container']) && is_a($GLOBALS['HTTP_Session_Container'], 'HTTP_Session_Container')) {
-            $GLOBALS['HTTP_Session_Container']->set();
-        }
+		
+		// In order to kill the session altogether, like to log the user out, the session id must 
+		// also be unset. If a cookie is used to propagate the session id (default behavior), then 
+		// the session cookie must be deleted.
+		if (isset($_COOKIE[session_name()])) {
+			setcookie(session_name(), '', time()-42000, '/');
+		}
     }
 
 	  /**
@@ -173,7 +175,8 @@ class JSession
      */
     function setExpire($time, $add = false)
     {
-        if ($add) {
+        if ($add) 
+		{
             if (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
                 $_SESSION['__HTTP_Session_Expire_TS'] = time() + $time;
             }
@@ -307,34 +310,6 @@ class JSession
         // So we need to emulate it.
         return !isset($_SESSION['__HTTP_Session_Info']) ||
             $_SESSION['__HTTP_Session_Info'] == HTTP_SESSION_STARTED;
-    }
-
-    /**
-     * Register variable with the current session
-     *
-     * @static
-     * @access public
-     * @param  string $name Name of a global variable
-     * @return void
-     * @see    session_register()
-     */
-    function register($name)
-    {
-        session_register($name);
-    }
-
-    /**
-     * Unregister a variable from the current session
-     *
-     * @static
-     * @access public
-     * @param  string $name Name of a global variable
-     * @return void
-     * @see    session_unregister()
-     */
-    function unregister($name)
-    {
-        session_unregister($name);
     }
 
     /**

@@ -20,7 +20,6 @@
  */
 class JMenu extends JObject
 {
-
 	/**
 	 * Array to hold the menu items
 	 * @access private
@@ -93,14 +92,14 @@ class JMenu extends JObject
 	 * @return mixed The item, or false if not found
 	 */
 	function &getItem($id)
-  {
-  $result = null;
-  if (isset($this->_menuitems[$id])) {
-   $result = &$this->_menuitems[$id];
-  } 
+	{
+		$result = null;
+		if (isset($this->_menuitems[$id])) {
+			$result = &$this->_menuitems[$id];
+		} 
   
-  return $result;
-  }
+		return $result;
+	}
 
 	/**
 	 * Gets menu items by attribute
@@ -179,22 +178,20 @@ class JMenu extends JObject
 	 */
 	function _load()
 	{
-		global $mainframe;
-
 		static $menus;
 
 		if (isset ($menus)) {
 			return $menus;
 		}
 		// Initialize some variables
-		$db = & $mainframe->getDBO();
-		$user = & $mainframe->getUser();
-		$sql = "SELECT *" .
+		$db   = & JFactory::getDBO();
+		$user = & JFactory::getUser();
+		$sql  = "SELECT *" .
 				"\n FROM #__menu" .
 				"\n WHERE published = 1".
 				"\n ORDER BY parent, ordering";
-
 		$db->setQuery($sql);
+		
 		if (!($menus = $db->loadObjectList('id'))) {
 			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;

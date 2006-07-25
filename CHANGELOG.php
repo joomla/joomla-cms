@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Jul-2006 Johan Janssens
+ ^ Decoupled user object from application class
+ ^ Refactored JSession class and improved session handling
+
 24-Jul-2006 Alex Kempkens
  # Fixed [artf5321] Hardcoded strings, custom menus and other static texts
  + Added missing language files
@@ -119,11 +123,7 @@ Legend:
  # Fixed up minor authentication issues
 
 15-Jul-2006 Enno Klasing
- # Fixed [topic,76819] : minor typo
- # Fixed [topic,70004] : 4047 no languagefile loaded for plugins (reply #2)
  ^ Relocated plugin language files to Administrator
- # Fixed [topic,77035] : Article Manager links bugs
- # Fixed [topic,77028] : pagination bug!?
 
 14-Jul-2006 Andy Miller
  ^ Changed overlib css style
@@ -134,11 +134,9 @@ Legend:
  ^ All core database queries changed to use the limit/offset arguments to JDatabase::setQuery instead of hardcoded SQL
 
 13-Jul-2006 Enno Klasing
- # Fixed [topic,70004] : 4047 no languagefile loaded for plugins
  ^ Naming conventions for plugin language files have changed to include the folder name of the plugin
  # Removed double definitions of language strings (en-GB.com_plugins.ini), added missing language strings
  # Labels without a description (tooltip) for parameters were not translated
- # Fixed [topic,70006] : 4047 pagebreak-plugin-issues
  # Fixed [artf4985] : Translate 'Login' in administrator login
 
 12-Jul-2006 Andrew Eddie
@@ -147,7 +145,6 @@ Legend:
 
 11-Jul-2006 Enno Klasing
  # Fixed [artf5246] : Hardcoded strings (could not be localized)
- # Fixed [topic,35325] : Possible error in eng_GB.mod_feed.ini
  # Fixed [artf3900] : Usertype not translated in listings
 
 10-Jul-2006 Louis Landry
@@ -156,9 +153,6 @@ Legend:
 
 10-Jul-2006 Andrew Eddie
  ^ JTable::load sets the internal error message on a fail
-
-10-Jul-2006 Enno Klasing
- # Fixed [topic,75439] : Debug-information don't count/show SQL queries
 
 10-Jul-2006 Andrew Eddie
  # Fixed problem in JTable::isCheckedOut where checked_out doesn't exist
@@ -172,11 +166,6 @@ Legend:
  ^ Installer, admin password input field changed to type: password
  ^ Installer, admin password have to be confirmed
  - Installer, admin password removed from the installation finish screen
-
-09-Jul-2006 Enno Klasing
- # Fixed [topic,70013] : 4047 Some HTML and CSS issues
- # Fixed [topic,70002] : 4047 $editor->setContent and $editor->getContent
- # Fixed [topic,74971] : 4180 Editor broken when in Custom Module
 
 06-Jul-2006 Johan Janssens
  # Fixed [artf5210] : New categories have no entry for component

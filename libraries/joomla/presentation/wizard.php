@@ -38,10 +38,10 @@ class JWizard extends JObject
 
 	function __construct(&$app, $name, $request='wizVal')
 	{
-		$this->_app = &$app;
-		$this->_step = JRequest::getVar('step', 0, '', 'int');
+		$this->_app 	= &$app;
+		$this->_step 	= JRequest::getVar('step', 0, '', 'int');
 		$this->_registry =& new JParameter('');
-		$this->_regPath = 'wizard.'.$name;
+		$this->_regPath  = 'wizard.'.$name;
 
 		// Get the step data from the session
 		$steps =& $app->getUserState($this->_regPath);

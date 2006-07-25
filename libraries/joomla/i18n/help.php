@@ -12,7 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-
 /**
  * Help system class
  *
@@ -33,8 +32,9 @@ class JHelp
 	{
 		global $mainframe, $_VERSION, $option;
 
-		$user			= &$mainframe->getUser();
+		$user			=& JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
+		
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$url 			= $mainframe->getCfg('live_site');
 

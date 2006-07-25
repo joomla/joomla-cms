@@ -28,14 +28,6 @@ jimport( 'joomla.common.base.object' );
 class JApplication extends JObject
 {
 	/**
-	 * The current session
-	 *
-	 * @var JTableSession
-	 * @access protected
-	 */
-	var $_session = null;
-
-	/**
 	 * The pathway store
 	 *
 	 * @var object  JPathWay object
@@ -295,7 +287,8 @@ class JApplication extends JObject
 				JSession::set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
 
 				// Get the session object
-				$session = & $this->_session;
+				$session = & JTable::getInstance('session', $this->getDBO());
+				$session->load( JSession::id());
 
 				$session->guest = 0;
 				$session->username = $user->get('username');
@@ -308,11 +301,12 @@ class JApplication extends JObject
 				// Hit the user last visit field
 				$user->setLastVisit();
 
-				// TODO: If we aren't going to use the database session we need to fix this
 				// Set remember me option
 				$remember = JRequest::getVar( 'remember' );
 				if ($remember == 'yes') {
-					$session->remember($user->get('username'), $user->get('password'));
+					$lifetime = time() + 365*24*60*60;
+					setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );
+					setcookie( 'usercookie[password]', $user->get('password'), $lifetime, '/' );
 				}
 
 				return true;
@@ -334,7 +328,7 @@ class JApplication extends JObject
 		$retval = false;
 
 		// Get a user object from the JApplication
-		$user = $this->getUser();
+		$user = JFactory::getUser();
 
 		// Build the credentials array
 		$credentials['username'] 	= $user->get('username');
@@ -354,16 +348,20 @@ class JApplication extends JObject
 		 */
 		if (!in_array(false, $results, true))
 		{
-			// TODO: JRegistry will make this unnecessary
-			// Get the session object
-			$session =& $this->_session;
+			// Remove the session from the session table
+			$session = & JTable::getInstance('session', $this->getDBO());
+			$session->load( JSession::id());
 			$session->destroy();
-
-			// Destroy the session for this user
+			
+			// Destroy the php session for this user
 			JSession::destroy();
 
 			$retval = true;
 		}
+		
+		// Hit the user last visit field
+		$user->setLastVisit();
+		
 		return $retval;
 	}
 
@@ -544,16 +542,8 @@ class JApplication extends JObject
 	 */
 	function &getUser()
 	{
-		/*
-		 * If there is a userid in the session, load the application user
-		 * object with the logged in user.
-		 */
-		if (JSession::get('userid')){
-			$this->_user = & JUser::getInstance(JSession::get('userid'));
-		} else {
-			$this->_user = & JUser::getInstance();
-		}
-		return $this->_user;
+		$instance =& JFactory::getUser();
+		return $instance;
 	}
 
 	/**
@@ -586,7 +576,7 @@ class JApplication extends JObject
 		}
 
 		// Handle per-user editor options
-		$user =& $this->getUser();
+		$user =& JFactory::getUser();
 		if (is_object($user)) {
 			$editor = $user->getParam('editor', $editor);
 		}
@@ -715,9 +705,8 @@ class JApplication extends JObject
 			//}
 		}
 
-		$this->_session = $session;
-
 		JSession::setIdle($this->getCfg('lifetime'));
+		JSession::setGcMaxLifetime($this->getCfg('lifetime'));
 
 		return true;
 	}

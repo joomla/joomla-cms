@@ -81,39 +81,14 @@ class JTableSession extends JTable
 	}
 
 	/**
-	 * Allows site to remember login
-	 * @param string The username
-	 * @param string The user password
-	 */
-	function remember( $username, $password )
-	{
-		$lifetime = time() + 365*24*60*60;
-		setcookie( 'usercookie[username]', $username, $lifetime, '/' );
-		setcookie( 'usercookie[password]', $password, $lifetime, '/' );
-	}
-
-	/**
 	 * Destroys the pesisting session
 	 */
 	function destroy()
 	{
-		if ($this->userid) {
-			// update the user last visit
-			$query = "UPDATE #__users"
-			. "\n SET lastvisitDate = " . $this->_db->Quote( date( 'Y-m-d\TH:i:s' ) )
-			. "\n WHERE id='". intval( $this->userid ) ."'";
-			$this->_db->setQuery( $query );
-
-			if ( !$this->_db->query() ) {
-		 		$this->_error =  $this->_db->stderr();
-				return false;
-			}
-		}
-
 		$query = "DELETE FROM #__session"
-			. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id )
-			;
+			. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id );
 		$this->_db->setQuery( $query );
+		
 		if ( !$this->_db->query() ) {
 			$this->_error =  $this->_db->stderr();
 			return false;
