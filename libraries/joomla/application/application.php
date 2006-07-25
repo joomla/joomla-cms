@@ -302,7 +302,7 @@ class JApplication extends JObject
 				$user->setLastVisit();
 
 				// Set remember me option
-				$remember = JRequest::getVar( 'remember' );
+				$remember = JRequest::getVar( 'remember' ); //needs to be a paramater
 				if ($remember == 'yes') {
 					$lifetime = time() + 365*24*60*60;
 					setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );

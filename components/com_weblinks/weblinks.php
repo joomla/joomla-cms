@@ -115,7 +115,7 @@ class WeblinksController
 
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
-		$menu  = $menu->getItem($Itemid);
+		$menu  = $menus->getItem($Itemid);
 
 		$params = new JParameter($menu->params);
 		$params->def('page_title', 1);
