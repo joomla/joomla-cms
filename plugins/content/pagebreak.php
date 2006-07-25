@@ -185,7 +185,7 @@ function createTOC( &$row, &$matches, &$page )
 		$link = sefRelToAbs( $link );
 
 		if ( @$bot[1] ) {
-			$attrs2 = josParseAttributes($bot[1]);
+			$attrs2 = JUtility::parseAttributes($bot[1]);
 
 			if ( @$attrs2['title'] ) {
 				$row->toc .= '

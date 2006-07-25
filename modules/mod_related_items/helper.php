@@ -29,7 +29,7 @@ class modRelatedItemsHelper
 		$task				= JRequest::getVar( 'task' );
 		
 		$id					= JRequest::getVar( 'id', 0, '', 'int' );
-		$showDate			= $this->params->get('showDate', 0);
+		$showDate			= $params->get('showDate', 0);
 		
 		$now				= date('Y-m-d H:i:s', time());
 		$nullDate			= $db->getNullDate();
@@ -41,8 +41,9 @@ class modRelatedItemsHelper
 					"\n FROM #__content" .
 					"\n WHERE id = $id";
 			$db->setQuery($query);
+			
 			if ($metakey = trim($db->loadResult()))
-			{
+			{		
 				// explode the meta keys on a comma
 				$keys = explode(',', $metakey);
 				$likes = array ();
