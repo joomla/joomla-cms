@@ -189,7 +189,7 @@ class JConfigGlobalController extends JController
 
 		$lists['frontend_userparams'] 	= mosHTML::yesnoRadioList('frontend_userparams', 'class="inputbox"', $row->frontend_userparams);
 
-		$new_usertype = array (	
+		$new_usertype = array (
 			mosHTML::makeOption('Registered', 	JText::_('Registered')),
 			mosHTML::makeOption('Author', 		JText::_('Author')),
 			mosHTML::makeOption('Editor', 		JText::_('Editor')),
@@ -261,10 +261,10 @@ class JConfigGlobalController extends JController
 	/**
 	 * Save the configuration
 	 */
-	function save() 
+	function save()
 	{
 		global $mainframe;
-		
+
 		echo $_POST['list_limit'];
 
 		$config =& JFactory::getConfig();
@@ -340,14 +340,14 @@ class JConfigGlobalController extends JController
 	{
 		$this->setRedirect( 'index2.php' );
 	}
-	
+
 	function refreshHelp()
 	{
 		jimport('joomla.filesystem.file');
-		
+
 		$data = file_get_contents('http://help.joomla.org/helpsites-15.xml');
 		JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data);
-		
+
 		$msg = JText::_('The help sites list has been refreshed');
 		$this->setRedirect('index2.php?option=com_config', $msg);
 	}

@@ -38,9 +38,9 @@ Legend:
 ! -> Note
 
 25-Jul-2006 Johan Janssens
- ^ Refactored JMenu class to remove application state coupling 
+ ^ Refactored JMenu class to remove application state coupling
  ^ Moved getEditor function from JApplication to JFactory
- 
+
 24-Jul-2006 Johan Janssens
  ^ Decoupled user object from application class
  ^ Refactored JSession class to improved session handling
@@ -49,7 +49,7 @@ Legend:
  # Fixed [artf5321] Hardcoded strings, custom menus and other static texts
  + Added missing language files
 
-23-Jul-2006 Johan Janssens 
+23-Jul-2006 Johan Janssens
  + Added custom module to backend and cleanedup functionality.
 
 23-Jul-2006 Alex Kempkens
@@ -74,16 +74,16 @@ Legend:
  + Added JArrayHelper static class in utilities package
  ^ Moved input filtering on request variables to the correct place
 
-20-Jul-2006 Johan Janssens 
+20-Jul-2006 Johan Janssens
  ^ Refactored frontend mod_login
  + Improved login error reporting on the frontend
  ^ Replaced mosHash by JUtility::getHash
  ^ Deprecated mosBackTrace, use JError->getBackTrace instead
 
-19-Jul-2006 Johan Janssens 
+19-Jul-2006 Johan Janssens
  + Added static JUtility static as container for utility functions
  ^ Implemented JError store to track last error message
- # Fixed login error reporting on both front and backend 
+ # Fixed login error reporting on both front and backend
  ^ Replaced josMail by JUtility::sendMail
  ^ Replaced josSendAdminMail by JUtility::sendAdminMail
 
@@ -93,7 +93,7 @@ Legend:
 
 18-Jul-2006 Marko Schmuck
  ^ updated installation language file for German latest version of the GTT Team
- 
+
 18-Jul-2006 Enno Klasing
  # Fixed [artf3839] : patTemplate Tabs
 
@@ -103,7 +103,7 @@ Legend:
  ^ updated installation language file for German
 
 16-Jul-2006 Wilco Jansen
- ^ Added JTable::addTableDir enabling 3rd party components to make use of the JTable::getInstance method 
+ ^ Added JTable::addTableDir enabling 3rd party components to make use of the JTable::getInstance method
 
 16-Jul-2006 David Gal
  ^ Moved session creation and language setting prior to plugin loading index.php (admin and site)
@@ -133,7 +133,7 @@ Legend:
  ^ Changed overlib css style
  ^ Updated publish/expired/pending 16x16 icons for improved clarity
  ^ Began reworking 'manager' icons
- 
+
 13-Jul-2006 Louis Landry
  ^ All core database queries changed to use the limit/offset arguments to JDatabase::setQuery instead of hardcoded SQL
 
@@ -196,7 +196,7 @@ Legend:
 01-Jul-2006 Louis Landry
  + Added JLog class for logging actions/events
 
-30-Jun-2006 Johan Janssens 
+30-Jun-2006 Johan Janssens
  ^ [task2569] : Revisit the ADODB compatibility
 
 30-Jun-2006 Emir Sakic

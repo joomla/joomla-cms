@@ -14,30 +14,30 @@
 * @version $Id: File.php,v 1.3 2005/12/04 16:03:55 fab Exp $
 * @author Fabien MARTY <fab@php.net>
 */
- 
+
 require_once('Cache/Lite.php');
 
 class Cache_Lite_File extends Cache_Lite
 {
 
     // --- Private properties ---
-    
+
     /**
     * Complete path of the file used for controlling the cache lifetime
     *
     * @var string $_masterFile
     */
     var $_masterFile = '';
-    
+
     /**
     * Masterfile mtime
     *
     * @var int $_masterFile_mtime
     */
     var $_masterFile_mtime = 0;
-    
+
     // --- Public methods ----
-    
+
     /**
     * Constructor
     *
@@ -54,7 +54,7 @@ class Cache_Lite_File extends Cache_Lite
     * @access public
     */
     function Cache_Lite_File($options = array(NULL))
-    {   
+    {
         $options['lifetime'] = 0;
         $this->Cache_Lite($options);
         if (isset($options['masterFile'])) {
@@ -66,7 +66,7 @@ class Cache_Lite_File extends Cache_Lite
             return $this->raiseError('Cache_Lite_File : Unable to read masterFile : '.$this->_masterFile, -3);
         }
     }
-    
+
     /**
     * Test if a cache is available and (if yes) return it
     *
@@ -75,7 +75,7 @@ class Cache_Lite_File extends Cache_Lite
     * @return string data of the cache (or false if no cache available)
     * @access public
     */
-    function get($id, $group = 'default') 
+    function get($id, $group = 'default')
     {
         if ($data = parent::get($id, $group, true)) {
             if ($filemtime = $this->lastModified()) {

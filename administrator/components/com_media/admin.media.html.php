@@ -569,7 +569,7 @@ class JMediaViews
 			var basepath = '".$base.'/images'."';
 			var cStyle = '".$style."';
 		" ;
-		
+
 		$doc =& $mainframe->getDocument();
 		$doc->addScriptDeclaration($js);
 	}

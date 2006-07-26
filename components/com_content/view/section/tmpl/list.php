@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $Itemid    	= JRequest::getVar('Itemid');
-		
+
 // Get the paramaters of the active menu item
 $menus   =& JMenu::getInstance();
 $mParams =& $menus->getParams($Itemid);

@@ -69,7 +69,7 @@ class JModuleHelper
 
 		return $result;
 	}
-	
+
 	function renderModule($module, $params = array())
 	{
 		global $mainframe, $Itemid, $task, $option;
@@ -125,7 +125,7 @@ class JModuleHelper
 	function &_load()
 	{
 		global $mainframe;
-		
+
 		static $modules;
 
 		if (isset($modules)) {
@@ -134,7 +134,7 @@ class JModuleHelper
 
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
-		
+
 		$gid	= $user->get('gid');
 		$Itemid = JRequest::getVar('Itemid');
 

@@ -40,7 +40,7 @@ switch ($task) {
 		break;
 }
 
-function messageForm( $option ) 
+function messageForm( $option )
 {
 	$acl = JFactory::getACL();
 
@@ -56,14 +56,14 @@ function messageForm( $option )
 	HTML_massmail::messageForm( $lists, $option );
 }
 
-function sendMail() 
+function sendMail()
 {
 	global $mainframe;
 
 	$db					=& $mainframe->getDBO();
 	$user 				=& $mainframe->getUser();
 	$acl 				= JFactory::getACL();
-	
+
 	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post' );
 	$gou				= JRequest::getVar( 'mm_group', '', 'post' );

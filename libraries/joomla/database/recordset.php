@@ -34,7 +34,7 @@ class JRecordSet
 	 * Constuctor
 	 * @param array
 	 */
-	function JRecordSet( $data ) 
+	function JRecordSet( $data )
 	{
 		$this->data = $data;
 		$this->pointer = 0;
@@ -49,7 +49,7 @@ class JRecordSet
 	/**
 	 * @return mixed A row from the data array or null
 	 */
-	function FetchRow() 
+	function FetchRow()
 	{
 		if ($this->pointer < $this->count) {
 			$result = $this->data[$this->pointer];

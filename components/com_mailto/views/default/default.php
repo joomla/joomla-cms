@@ -30,8 +30,8 @@ class JViewMailToDefault extends JViewMailTo {
 		global $mainframe;
 
 		$user =& $mainframe->getUser();
-		$data = array(); 
-		
+		$data = array();
+
 		$data['link'] = urldecode( JRequest::getVar( 'link' ) );
 		if ($data['link'] == '') {
 			JError::raiseError( 403, 'Link is missing' );

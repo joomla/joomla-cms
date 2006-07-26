@@ -29,7 +29,7 @@ class JDocumentRenderer extends JObject
 	* @access	protected
 	*/
 	var	$_doc = null;
-	
+
 	/**
      * Renderer mime type
      *
@@ -61,10 +61,10 @@ class JDocumentRenderer extends JObject
 	{
 
 	}
-	
+
 	/**
 	 * Return the content type of the renderer
-	 * 
+	 *
 	 * @return string The contentType
 	 */
 	function getContentType() {

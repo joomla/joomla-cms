@@ -19,10 +19,10 @@ class modPollHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-		
+
 		$Itemid = JRequest::getVar( 'Itemid' );
 		$db		= &$mainframe->getDBO();
-		
+
 		$query = "SELECT p.id, p.title" .
 			"\n FROM #__polls AS p, #__poll_menu AS pm" .
 			"\n WHERE (pm.menuid = ".(int) $Itemid." OR pm.menuid = 0)" .
@@ -30,19 +30,19 @@ class modPollHelper
 			"\n AND p.published = 1";
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		
+
 		if ($db->getErrorNum()) {
 			echo $db->stderr(true);
 			return;
 		}
-		
+
 		return $rows;
 	}
 
 	function getPollOptions($id)
 	{
 		global $mainframe;
-		
+
 		$db	= &$mainframe->getDBO();
 
 		$query = "SELECT id, text" .
@@ -56,11 +56,11 @@ class modPollHelper
 			echo "MD ".$db->stderr(true);
 			return;
 		}
-			
+
 		return $options;
 	}
 
-	function renderPollForm(&$poll, &$params, $options ) 
+	function renderPollForm(&$poll, &$params, $options )
 	{
 		$tabclass_arr 		= array ('sectiontableentry2', 'sectiontableentry1');
 		$tabcnt 			= 0;
@@ -68,15 +68,15 @@ class modPollHelper
 
 		$cookiename 		= "voted$poll->id";
 		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );
-		
+
 		$menu 	= &JMenu::getInstance();
 		$items	= $menu->getItems('link', 'index.php?option=com_search');
 		$itemid = isset($items[0]) ? $items[0]->id : '0';
-		
+
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
-		function submitbutton() 
+		function submitbutton()
 		{
 			var form 		= document.pollxtd;
 			var radio		= form.voteid;

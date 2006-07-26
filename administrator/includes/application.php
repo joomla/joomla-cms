@@ -118,7 +118,7 @@ class JAdministrator extends JApplication
 		$registry =& JFactory::getConfig();
 		$registry->setValue('config.live_site', substr_replace($this->getBaseURL(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
 
@@ -316,10 +316,10 @@ class JAdministrator extends JApplication
 		// No stored user state exists
 		return false;
 	}
-	
+
 	/**
 	* Set the language
-	* 
+	*
 	* @access public
 	* @since 1.5
 	*/

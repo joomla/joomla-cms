@@ -17,7 +17,7 @@
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosStripslashes( &$value ) 
+function mosStripslashes( &$value )
 {
 	$ret = '';
 	if (is_string( $value )) {
@@ -51,7 +51,7 @@ function mosHash( $seed ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
 */
-function mosNotAuth() 
+function mosNotAuth()
 {
 	global $mainframe;
 
@@ -390,7 +390,7 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) 
+function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
 	global $mainframe;
 	$user =& $mainframe->getUser();

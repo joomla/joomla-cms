@@ -72,7 +72,7 @@ class JInstallerExtensionTasks
 						foreach($data as $key => $value) {
 							$row->$key = $value;
 						}
-					}	
+					}
 					$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 				}
 			}
@@ -98,7 +98,7 @@ class JInstallerExtensionTasks
  * @category View
  * @since 1.5
  */
-class JInstallerScreens_component 
+class JInstallerScreens_component
 {
 	/**
 	* @param array An array of records

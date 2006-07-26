@@ -39,7 +39,7 @@ class JContentViewWizard extends JWizardView
 	function doStart()
 	{
 		$document = &$this->getDocument();
-		
+
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('Content Tools'));
 
@@ -48,7 +48,7 @@ class JContentViewWizard extends JWizardView
 		$app		= &$this->getApplication();
 		$model		= &$this->getModel();
 		$items		= $model->getItems( $cid );
-		
+
 		$tmpl	= &$this->getTemplate( 'tmpl/dostart.html' );
 		$tmpl->displayParsedTemplate( 'body' );
 	}

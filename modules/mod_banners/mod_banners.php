@@ -28,11 +28,11 @@ $list = modBannersHelper::getList($params);
 <?php if ($footerText) : ?>
 	<div class="bannerheader"><?php echo $headerText ?></div>
 <?php endif;
- 
+
 foreach($list as $item) :
 
 	?><div class="banneritem<?php echo $params->get( 'moduleclass_sfx' ) ?>"><?php
-	echo modBannersHelper::renderBanner($params, $item);	
+	echo modBannersHelper::renderBanner($params, $item);
 	?><div class="clr"></div>
 	</div>
 <?php endforeach; ?>

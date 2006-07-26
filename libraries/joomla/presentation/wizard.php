@@ -15,7 +15,7 @@
 
 /**
  * Library to support a wizard workflow
- * 
+ *
  * @package Joomla.Framework
  * @subpackage Presentation
  * @author Louis Landry <louis.landry@joomla.org>
@@ -48,7 +48,7 @@ class JWizard extends JObject
 
 		// Get the values from the request and load them into the object
 		$steps[$this->_step] = JRequest::getVar($request, array(), '', 'array');
-		
+
 		// Load all the step data into the registry
 		for ($i=0;$i<=$this->_step;$i++) {
 			if (isset($steps[$i]) && is_array($steps[$i])) {
@@ -132,11 +132,11 @@ class JWizard extends JObject
 			if ($xmlDoc =& $this->_getWizElement()) {
 				if ($steps = $xmlDoc->getElementByPath( 'steps' )) {
 					foreach($steps->children() as $step) {
-						
+
 						/*
 						 * For each child we need to see if it is an include and if so we
 						 * need to get those children and process them as well (break out into
-						 * another method).  Then we need to create the objects in the _steps 
+						 * another method).  Then we need to create the objects in the _steps
 						 * array for each child of type step.  For now we aren't going to handle
 						 * nested includes.
 						 */
@@ -232,7 +232,7 @@ jimport( 'joomla.application.model' );
 
 /**
  * Library to support a wizard workflow
- * 
+ *
  * @package Joomla.Framework
  * @subpackage Presentation
  * @author Louis Landry <louis.landry@joomla.org>
@@ -320,7 +320,7 @@ class JWizardHelper extends JObject
 	var $_helperContext = null;
 
 	var $_helperName = null;
-	
+
 	var $_xmlPath = null;
 
 	var $_parent = null;
@@ -344,7 +344,7 @@ class JWizardHelper extends JObject
 
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
-	 * 
+	 *
 	 * @param object JWizard
 	 */
 	function init(&$wizard)
@@ -362,7 +362,7 @@ class JWizardHelper extends JObject
 
 	/**
 	 * Sets the wizard object for the helper class
-	 * 
+	 *
 	 * @param object JWizard
 	 */
 	function setWizard(&$wizard)

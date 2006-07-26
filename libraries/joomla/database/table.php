@@ -110,7 +110,7 @@ class JTable extends JObject
 	 * @access protected
 	 * @param array List of fields to ignore
 	 */
-	function filter( $ignoreList=null ) 
+	function filter( $ignoreList=null )
 	{
 		$ignore = is_array( $ignoreList );
 
@@ -194,7 +194,7 @@ class JTable extends JObject
 	* @param int $oid optional argument, if not specifed then the value of current key is used
 	* @return boolean True if successful
 	*/
-	function load( $oid=null ) 
+	function load( $oid=null )
 	{
 		$k = $this->_tbl_key;
 
@@ -614,7 +614,7 @@ class JTable extends JObject
 	 * @param
 	 * @param
 	 */
-	function checkin( $oid=null ) 
+	function checkin( $oid=null )
 	{
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
 		{
@@ -622,14 +622,14 @@ class JTable extends JObject
 			return true;
 		}
 		$k = $this->_tbl_key;
-		
+
 		if ($oid !== null)
 		{
 			$this->$k = $oid;
 		}
 		if ($this->$k == NULL) {
 			return false;
-		}			
+		}
 
 		$query = "UPDATE $this->_tbl"
 		. "\n SET checked_out = 0, checked_out_time = '$this->_db->_nullDate'"
@@ -653,7 +653,7 @@ class JTable extends JObject
 	function hit( $oid=null, $log=false )
 	{
 		$k = $this->_tbl_key;
-		
+
 		if ($oid !== null) {
 			$this->$k = intval( $oid );
 		}
@@ -701,7 +701,7 @@ class JTable extends JObject
 	 * @param int A user id
 	 * @return boolean
 	 */
-	function isCheckedOut( $user_id=0 ) 
+	function isCheckedOut( $user_id=0 )
 	{
 		$checkedOut = $this->get( 'checked_out' );
 
@@ -768,7 +768,7 @@ class JTable extends JObject
 	 * @param integer The id of the user performnig the operation
 	 * @since 1.0.4
 	 */
-	function publish( $cid=null, $publish=1, $user_id=0 ) 
+	function publish( $cid=null, $publish=1, $user_id=0 )
 	{
 		mosArrayToInts( $cid, array() );
 		$user_id = (int) $user_id;
@@ -814,7 +814,7 @@ class JTable extends JObject
 	* @access public
 	* @param boolean Map foreign keys to text values
 	*/
-	function toXML( $mapKeysToText=false ) 
+	function toXML( $mapKeysToText=false )
 	{
 		$xml = '<record table="' . $this->_tbl . '"';
 
@@ -855,7 +855,7 @@ class JTable extends JObject
 		// Return collection of static values when no value is passed to
 		// this method, else we skip and add it to the array.
 		if (empty($dir)) {
-			return $elementDirs; 
+			return $elementDirs;
 		}
 
 		// Handle datatype of $dir element (string/array)

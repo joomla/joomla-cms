@@ -60,7 +60,7 @@ class JContentViewCategory extends JView
 		$app		= &$this->getApplication();
 		$user		= &$app->getUser();
 		$doc		= &$app->getDocument();
-			
+
 		$gid 		= $user->get('gid');
 
 		// Model workaround
@@ -72,17 +72,17 @@ class JContentViewCategory extends JView
 		$category			= & $this->get( 'Category' );
 		$other_categories	= & $this->get( 'Siblings' );
 		$items				= & $this->get( 'Content' );
-		
+
 		// Request variables
 		$task 	= JRequest::getVar('task');
 		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
 		$Itemid	= JRequest::getVar('Itemid');
-		
+
 		// Get the menu object of the active menu item
 		$menus	 =& JMenu::getInstance();
 		$menu	 =& $menus->getItem($Itemid);
-		$mParams =& $menus->getParams($Itemid); 
+		$mParams =& $menus->getParams($Itemid);
 
 		//add alternate feed link
 		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
@@ -123,7 +123,7 @@ class JContentViewCategory extends JView
 	{
 		$app		= & $this->getApplication();
 		$user		= & $app->getUser();
-	
+
 		$Itemid	= JRequest::getVar('Itemid');
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$cid.'&amp;Itemid='.$Itemid;

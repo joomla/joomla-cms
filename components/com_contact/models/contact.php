@@ -43,7 +43,7 @@ class JContactModelContact extends JModel
 
 		$select = 'a.*, cc.title as category_name';
 		$from	= '#__contact_details AS a';
-		
+
 		$joins[] = 'INNER JOIN #__categories AS cc on cc.id = a.catid';
 
 		$wheres[] = 'a.id = ' . (int) $id;

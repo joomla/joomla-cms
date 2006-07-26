@@ -220,7 +220,7 @@ class JContentHelper
 		global $mainframe;
 		$db =& $mainframe->getDBO();
 		static $links;
-		
+
 		if (!isset ($links)) {
 			$links = array ();
 		}
@@ -402,7 +402,7 @@ class JContentHelper
 
 				/*
 				 * Once we have exhausted all our options for finding the Itemid in
-				 * the content structure, lets see if maybe we have a global 
+				 * the content structure, lets see if maybe we have a global
 				 * category or section in the menu we can put it under.
 				 */
 

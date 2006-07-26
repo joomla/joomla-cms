@@ -67,7 +67,7 @@ class HTML_trash
 						<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
 					</th>
 				</tr>
-			</thead>			
+			</thead>
 			<?php
 			$k = 0;
 			$i = 0;

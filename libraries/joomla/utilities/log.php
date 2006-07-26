@@ -15,10 +15,10 @@ jimport('joomla.common.base.object');
 
 /**
  * Joomla! Logging class
- * 
- * This class is designed to build log files based on the 
+ *
+ * This class is designed to build log files based on the
  * W3C specification at: http://www.w3.org/TR/WD-logfile.html
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities

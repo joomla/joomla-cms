@@ -382,7 +382,7 @@ function editModule( )
 	$cid 	= JRequest::getVar( 'cid', array( $id ));
 	if (!is_array( $cid )) {
 		$cid = array(0);
-	}	
+	}
 
 	$lists 	= array();
 	$row 	=& JTable::getInstance('module', $db );
@@ -511,7 +511,7 @@ function editModule( )
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 	if ($data)
 	{
-		
+
 		foreach($data as $key => $value) {
 			$row->$key = $value;
 		}

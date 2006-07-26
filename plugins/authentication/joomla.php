@@ -71,7 +71,7 @@ class JAuthenticateJoomla extends JPlugin {
 
 		$db->setQuery( $query );
 		$result = $db->loadResult();
-		$return = new JAuthenticateResponse('Joomla');		
+		$return = new JAuthenticateResponse('Joomla');
 		if($result) {
 			$return->type = 'success';
 		} else {

@@ -18,17 +18,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $link 	 = $params->get( 'link' );
-		
-$folder  = modRandomImageHelper::getFolder($params);	
+
+$folder  = modRandomImageHelper::getFolder($params);
 $images  = modRandomImageHelper::getImages($params, $folder);
-		
+
 if (!count($images)) {
 	echo JText::_( 'No images ');
 	return;
-} 
-		
+}
+
 $image = modRandomImageHelper::getRandomImage($params, $images);
-			
+
 ?><div align="center"><?php
 
 if ($link) : ?>

@@ -25,9 +25,9 @@ class modWrapperHelper
 		$params->def('width', '100%');
 		$params->def('add', '1');
 		$params->def('name', 'wrapper');
-		
+
 		$url = $params->get('url');
-		
+
 		if ($params->get('add'))
 		{
 			// adds 'http://' if none is set
@@ -42,7 +42,7 @@ class modWrapperHelper
 				$url = $url;
 			}
 		}
-		
+
 		// auto height control
 		if ($params->def('height_auto')) {
 			$load = 'onload="iFrameHeight()"';
@@ -50,10 +50,10 @@ class modWrapperHelper
 		else {
 			$load = '';
 		}
-		
+
 		$params->set( 'load', $load );
 		$params->set( 'url', $url );
-		
+
 		return $params;
 	}
 }

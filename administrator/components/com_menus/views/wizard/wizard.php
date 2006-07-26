@@ -29,7 +29,7 @@ class JMenuViewWizard extends JWizardView
 	function doStart()
 	{
 		$document = &$this->getDocument();
-		
+
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('New Menu Item Wizard'));
 
@@ -220,7 +220,7 @@ class JMenuViewWizard extends JWizardView
 			<legend>
 				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
-			<?php 
+			<?php
 //			echo '<pre>';
 //			print_r($item);
 //			echo '</pre>';

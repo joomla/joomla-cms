@@ -21,21 +21,21 @@ class modMostReadHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-		
+
 		$db			=& $mainframe->getDBO();
 		$user		=& $mainframe->getUser();
-		
+
 		$type		= intval($params->get('type', 1));
 		$count		= intval($params->get('count', 5));
 		$catid		= trim($params->get('catid'));
 		$secid		= trim($params->get('secid'));
 		$show_front	= $params->get('show_front', 1);
-	
+
 		$access		= !$mainframe->getCfg('shownoauth');
-		
+
 		$nullDate	= $db->getNullDate();
 		$now		= date('Y-m-d H:i:s', time());
-		
+
 		// select between Content Items, Static Content or both
 		switch ($type)
 		{
@@ -91,20 +91,20 @@ class modMostReadHelper
 				$rows = $db->loadObjectList();
 			break;
 		}
-		
+
 		$i 	   = 0;
 		$lists = array();
-		foreach ( $rows as $row ) 
+		foreach ( $rows as $row )
 		{
 			// get Itemid
-			switch ( $type ) 
+			switch ( $type )
 			{
 				case 2:
 					$Itemid = $row->my_itemid;
 					break;
 
 				case 3:
-					if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('gid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('gid') || $row->sec_access == '' || !$access)) 
+					if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('gid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('gid') || $row->sec_access == '' || !$access))
 					{
 						if ($row->sectionid) {
 							$row->my_itemid = JContentHelper::getItemid($row->id);
@@ -122,7 +122,7 @@ class modMostReadHelper
 
 			// & xhtml compliance conversion
 			$row->title = ampReplace( $row->title );
-			
+
 			$link = sefRelToAbs( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id . '&amp;Itemid='. $row->my_itemid );
 
 			$lists[$i]->link	= $link;

@@ -34,7 +34,7 @@ class JSite extends JApplication
 	*/
 	function __construct() {
 		parent::__construct(0);
-		
+
 		$this->_createPathWay( );
 	}
 
@@ -112,10 +112,10 @@ class JSite extends JApplication
 		$registry =& JFactory::getConfig();
 		$registry->setValue('config.live_site', substr_replace($this->getBaseURL(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
-		
+
 		//Insert configuration values into global scope (for backwards compatibility)
 		foreach (get_object_vars($config) as $k => $v) {
 			$name = 'mosConfig_'.$k;
@@ -159,7 +159,7 @@ class JSite extends JApplication
 
 		return $this->_document;
 	}
-	
+
 	/**
 	 * Return the application itemid
 	 *
@@ -167,32 +167,32 @@ class JSite extends JApplication
 	 * @return string Option
 	 * @since 1.5
 	 */
-	function findItemid() 
+	function findItemid()
 	{
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$option = strtolower(JRequest::getVar('option', null));
-		
-		if ( $itemid === 0 ) 
+
+		if ( $itemid === 0 )
 		{
 			// checking if we can find the Itemid thru the content
-			if($option == 'com_content') 
+			if($option == 'com_content')
 			{
 				require_once (JApplicationHelper::getPath('helper', 'com_content'));
 				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 				$itemid = JContentHelper::getItemid($id);
-			} 
+			}
 			else
 			{
 				$menus =& JMenu::getInstance();
 				$item  =& $menus->getDefault();
-				
+
 				$itemid = $item->id;
 			}
 		}
-		
+
 		return JRequest::setVar( 'Itemid', $itemid, '', 'int' );
 	}
-	
+
 	/**
 	 * Return the application option string [main component]
 	 *
@@ -200,22 +200,22 @@ class JSite extends JApplication
 	 * @return string Option
 	 * @since 1.5
 	 */
-	function getOption() 
-	{	
+	function getOption()
+	{
 		$option = strtolower(JRequest::getVar('option', null));
-		
-		if(empty($option)) 
+
+		if(empty($option))
 		{
 			$menu =& JMenu::getInstance();
 			$item =& $menu->getItem($this->findItemid());
-		
+
 			$component = JTable::getInstance( 'component', $this->getDBO() );
 			$component->load($item->componentid);
-			
+
 			$option = $component->option;
 
 		}
-		
+
 		return $option;
 	}
 
@@ -266,7 +266,7 @@ class JSite extends JApplication
 
 	/**
 	 * Overrides the default template that would be used
-	 * 
+	 *
 	 * @param string The template name
 	 */
 	function setTemplate( $template )
@@ -275,10 +275,10 @@ class JSite extends JApplication
 			$this->setUserState( 'setTemplate', $template );
 		}
 	}
-	
+
 	/**
 	* Get the language
-	* 
+	*
 	* @access public
 	* @since 1.5
 	*/
@@ -308,7 +308,7 @@ class JSiteHelper
 {
 	/**
 	 * Gets the current menu item
-	 * 
+	 *
 	 * @static
 	 * @return	object	Reference to the current menu item, an an empty menu object if none set
 	 * @since	1.5
@@ -317,7 +317,7 @@ class JSiteHelper
 	{
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$menu	= &JMenu::getInstance();
-	
+
 		$result = &$menu->getItem( $itemid );
 		if ($result == false)
 		{
@@ -329,7 +329,7 @@ class JSiteHelper
 
 	/**
 	 * Gets the parameter object for the current menu
-	 * 
+	 *
 	 * @static
 	 * @return	object	A JParameter object
 	 * @since	1.5
@@ -348,7 +348,7 @@ class JSiteHelper
 
 	/**
 	 * Gets the control parameters object for the current menu
-	 * 
+	 *
 	 * @static
 	 * @return	object	A JParameter object
 	 * @since	1.5

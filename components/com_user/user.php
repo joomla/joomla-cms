@@ -37,7 +37,7 @@ $breadcrumbs->setItemName(1, 'User');
  *
  * Each view is determined by the $task variable
  */
-switch( JRequest::getVar( 'task' ) ) 
+switch( JRequest::getVar( 'task' ) )
 {
 	case 'saveUpload':
 		$dbprefix = $mainframe->getCfg( 'dbprefix' );
@@ -76,10 +76,10 @@ switch( JRequest::getVar( 'task' ) )
  */
 class UserController
 {
-	function upload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage ) 
+	function upload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage )
 	{
 		global $mainframe;
-		
+
 		// Initialize some variables
 		$db = & $mainframe->getDBO();
 
@@ -91,26 +91,26 @@ class UserController
 		$base_Dir 	= 'images/stories/';
 		$checksize	= filesize($userfile);
 
-		if ($checksize > 50000) 
+		if ($checksize > 50000)
 		{
 			echo "<script> alert(\"". JText::_( 'UP_SIZE' ) ."\"); window.history.go(-1); </script>\n";
-		} 
-		else 
+		}
+		else
 		{
 			if (file_exists($base_Dir.$userfile_name)) {
 				$message= JText::_( 'UP_EXISTS', true );
 				eval ("\$message = \"$message\";");
 				print "<script> alert('$message'); window.history.go(-1);</script>\n";
-			} 
-			else 
+			}
+			else
 			{
-				if ((!strcasecmp(substr($userfile_name,-4),".gif")) || (!strcasecmp(substr($userfile_name,-4),".jpg"))) 
+				if ((!strcasecmp(substr($userfile_name,-4),".gif")) || (!strcasecmp(substr($userfile_name,-4),".jpg")))
 				{
 					if (!move_uploaded_file($userfile, $base_Dir.$userfile_name))
 					{
 						echo JText::_( 'Failed to copy' ) ." $userfile_name";
-					} 
-					else 
+					}
+					else
 					{
 						echo "<script>window.opener.focus;</script>";
 						if ($type=="news") {
@@ -131,8 +131,8 @@ class UserController
 						echo "<script>window.opener.document.adminForm.imagelib.src='images/stories/$userfile_name';</script>";
 						echo "<script>window.close(); </script>";
 					}
-				} 
-				else 
+				}
+				else
 				{
 					echo "<script> alert(\"". JText::_( 'You may only upload a gif, or jpg image.', true ) ."\"); window.history.go(-1); </script>\n";
 				}
@@ -140,7 +140,7 @@ class UserController
 		}
 	}
 
-	function edit( $option, $submitvalue) 
+	function edit( $option, $submitvalue)
 	{
 		global $mainframe, $Itemid;
 
@@ -174,7 +174,7 @@ class UserController
 		HTML_user::userEdit( $user, $option, $submitvalue );
 	}
 
-	function save( $option, $uid) 
+	function save( $option, $uid)
 	{
 		global $mainframe;
 
@@ -210,7 +210,7 @@ class UserController
 
 
 		// check if username has been changed
-		if ( $orig_username != $user->get('username') ) 
+		if ( $orig_username != $user->get('username') )
 		{
 			// change username value in session table
 			$query = "UPDATE #__session"
@@ -222,7 +222,7 @@ class UserController
 				;
 			$db->setQuery( $query );
 			$db->query();
-			
+
 			JSession::set('username', $user->get('username'));
 		}
 
@@ -279,7 +279,7 @@ class UserController
 				}
 			}
 
-			if ($checked_out) 
+			if ($checked_out)
 			{
 				if ($editor) {
 					$query = "SELECT checked_out, editor"

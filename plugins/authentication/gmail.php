@@ -102,8 +102,8 @@ class JAuthenticateGMail extends JPlugin {
 				$return->type = 'success';
 			}
 		} else {
-			$return->type = 'failure';			
-			$return->error_message = 'Failed to authenticate: ' . $message;			
+			$return->type = 'failure';
+			$return->error_message = 'Failed to authenticate: ' . $message;
 		}
 		return $return;
 	}

@@ -125,13 +125,13 @@ class LoginController
 		$password = JRequest::getVar( 'password' );
 
 		$error = $mainframe->login($username, $password);
-		
-		if(!JError::isError($error)) 
+
+		if(!JError::isError($error))
 		{
 			$return = JRequest::getVar( 'return' );
 
-			/* 
-			 * checks for the presence of a return url and ensures that this url is not 
+			/*
+			 * checks for the presence of a return url and ensures that this url is not
 			 * the registration or login pages
 			 */
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
@@ -147,13 +147,13 @@ class LoginController
 		global $mainframe;
 
 		$error = $mainframe->logout();
-		
-		if(!JError::isError($error)) 
+
+		if(!JError::isError($error))
 		{
 			$return = JRequest::getVar( 'return' );
 
-			/* 
-			 * checks for the presence of a return url and ensures that this url is not 
+			/*
+			 * checks for the presence of a return url and ensures that this url is not
 			 * the registration or login pages
 			 */
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {

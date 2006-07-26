@@ -108,7 +108,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 	{
 		$this->_tmpl = &$tmpl;
 	}
-	
+
 	/**
 	 * Adds a discovered placeholder
 	 *

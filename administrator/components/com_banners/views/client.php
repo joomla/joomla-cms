@@ -188,7 +188,7 @@ class JViewBannerClients {
 					</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Extra Info' ); ?></legend>

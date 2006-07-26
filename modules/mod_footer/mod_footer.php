@@ -30,7 +30,7 @@ if (JString::strpos($line1, '%sitename%')) {
 } else {
 	$lineone = $line1;
 }
-	
+
 ?>
 <div><?php echo $lineone; ?></div>
 <div><?php echo JText::_( 'FOOTER_LINE2' ); ?></div>

@@ -19,15 +19,15 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
-		
+
 if ($serverinfo) {
 	modStatsHelper::renderServerInfo($params);
 }
-		
+
 if ($siteinfo) {
 	modStatsHelper::renderSiteInfo($params);
 }
-		
+
 if ($mainframe->getCfg('enable_stats')) {
 	modStatsHelper::renderVisitorInfo($params);
 }

@@ -52,7 +52,7 @@ class JElement_Article extends JElement
 			document.getElementById('a_name').value = title;
 			document.popup.hide();
 		}";
-	
+
 		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component.html';
 		$doc->addScriptDeclaration($js);
 		$doc->addScript($url.'includes/js/joomla/popup.js');

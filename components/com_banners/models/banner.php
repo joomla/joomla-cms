@@ -37,7 +37,7 @@ class JModelBanner extends JModel
 		$wheres = array();
 		$wheres[] = 'showBanner = 1';
 		$wheres[] = '(imptotal = 0 OR impmade < imptotal)';
-		
+
 		if (@$filters['cid'])
 		{
 			$wheres[] = 'cid = ' . (int) $filters['cid'];
@@ -73,7 +73,7 @@ class JModelBanner extends JModel
 			. "\nORDER BY sticky, ordering ";
 
 		$db->setQuery( $query, 0, $filters['limit'] );
-		
+
 		$result = $db->loadObjectList();
 
 //		if($db->getErrorNum()) {
@@ -97,7 +97,7 @@ class JModelBanner extends JModel
 		// TODO: Change loop single sql with where bid = x OR bid = y format
 		for ($i = 0; $i < $n; $i++) {
 			$item = &$list[$i];
-		
+
 			$item->impmade++;
 			$expire = ($item->imptotal >= $item->impmade);
 
@@ -111,13 +111,13 @@ class JModelBanner extends JModel
 			if(!$db->query()) {
 				JError::raiseError( 500, $db->stderror());
 			}
-			
+
 			if ($trackImpressions)
 			{
 				// TODO: Add impression tracking
 				$query = 'UPDATE #__bannertrack SET' .
 					' track_type = 1,' .
-					' banner_id = ' . $item->bid; 
+					' banner_id = ' . $item->bid;
 			}
 		}
 	}
@@ -137,7 +137,7 @@ class JModelBanner extends JModel
 		$query = 'UPDATE #__banner' .
 			' SET clicks = ( clicks + 1 )' .
 			' WHERE bid = ' . (int)$id;
-	
+
 		$db->setQuery( $query );
 		if(!$db->query()) {
 			JError::raiseError( 500, $db->stderror());
@@ -151,7 +151,7 @@ class JModelBanner extends JModel
 	}
 
 	/**
-	 * Get the URL for a 
+	 * Get the URL for a
 	 */
 	function getUrl( $id = 0 )
 	{
@@ -160,13 +160,13 @@ class JModelBanner extends JModel
 		// redirect to banner url
 		$query = 'SELECT clickurl FROM #__banner' .
 			' WHERE bid = ' . (int) $id;
-	
+
 		$db->setQuery( $query );
 		if(!$db->query()) {
 			JError::raiseError( 500, $db->stderror());
 		}
 		$url = $db->loadResult();
-	
+
 		if (substr( $url, 0, 7 ) != 'http://' &&  substr( $url, 0, 8 ) != 'https://' ) {
 			$url = "http://$url";
 		}
@@ -196,14 +196,14 @@ class JBannerHelper
 		{
 			$config = JComponentHelper::getParams( 'com_banners' );
 			$prefix = $config->get( 'tag_prefix' );
-	
+
 			$instance = array();
 
 			if (!is_array( $keywords ))
 			{
 				$keywords = explode( ',', $keywords );
 			}
-				
+
 			foreach ($keywords as $keyword)
 			{
 				$keyword = trim( $keyword );
@@ -216,10 +216,10 @@ class JBannerHelper
 		}
 		return $instance;
 	}
-	
+
 	/**
 	 * Checks if a URL is an image
-	 * 
+	 *
 	 * @param string
 	 * @return URL
 	 */
@@ -231,7 +231,7 @@ class JBannerHelper
 
 	/**
 	 * Checks if a URL is a Flash file
-	 * 
+	 *
 	 * @param string
 	 * @return URL
 	 */

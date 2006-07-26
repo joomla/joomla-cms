@@ -26,7 +26,7 @@ $mainframe->registerEvent( 'onAfterStart', 'botDetectVisitor' );
 function botDetectVisitor()
 {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	if ( mosGetParam( $_COOKIE, 'mosvisitor', 0 ) || !$mainframe->isSite() ) {
 		return;

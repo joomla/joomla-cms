@@ -240,7 +240,7 @@ function editPlugin( )
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
-	
+
 	$lists 	= array();
 	$row 	=& JTable::getInstance('plugin', $db);
 

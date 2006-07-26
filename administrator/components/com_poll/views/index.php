@@ -200,7 +200,7 @@ class JPollView
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Options' ); ?></legend>

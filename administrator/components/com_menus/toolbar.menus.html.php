@@ -61,7 +61,7 @@ class TOOLBAR_menus {
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		$id = $cid[0];
 		$menutype	= JRequest::getVar( 'menutype', 'mainmenu' );
-		
+
 		if ( !$id ) {
 			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
 		} else {

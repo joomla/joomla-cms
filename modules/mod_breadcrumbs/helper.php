@@ -19,7 +19,7 @@ class modBreadCrumbsHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-		
+
 		// Initialize variables
 		$showHome 		= true;
 		$showComponent  = true;
@@ -38,7 +38,7 @@ class modBreadCrumbsHelper
 		$pathway = & $mainframe->getPathWay();
 		return $pathway->getPathWay($showHome, $showComponent);
 	}
-	
+
 	/**
  	 * Get the breadcrumbs string in XHTML format for output to the page
  	 *
@@ -53,7 +53,7 @@ class modBreadCrumbsHelper
 		$breadcrumbs	= null;
 		$count			= count($items);
 
-		for ($i = 0; $i < $count; $i ++) 
+		for ($i = 0; $i < $count; $i ++)
 		{
 			$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
 
@@ -80,7 +80,7 @@ class modBreadCrumbsHelper
 				}
 			}
 		}
-		
+
 		return $breadcrumbs ;
 	}
 

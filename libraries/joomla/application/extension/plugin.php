@@ -157,7 +157,7 @@ class JPluginHelper
 
 		$result = false;
 
-		if (file_exists( $path )) 
+		if (file_exists( $path ))
 		{
 			require_once( $path );
 			$result = true;

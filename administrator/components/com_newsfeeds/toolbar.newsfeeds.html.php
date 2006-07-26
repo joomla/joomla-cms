@@ -32,7 +32,7 @@ class TOOLBAR_newsfeeds  {
 
 	function _EDIT() {
 		$cid = JRequest::getVar( 'cid', array(0));
-		
+
 		$text 	= ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );

@@ -204,7 +204,7 @@ class ContentView
 						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->title;
 						} else if ($row->state == -1) {
-							echo htmlspecialchars($row->title, ENT_QUOTES); 
+							echo htmlspecialchars($row->title, ENT_QUOTES);
 							echo ' [ '. JText::_( 'Archived' ) .' ]';
 						} else {
 							?>

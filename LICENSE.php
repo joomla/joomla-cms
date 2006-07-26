@@ -348,7 +348,7 @@ give you permission to combine Joomla! with free software programs or
 libraries that are released under the GNU LGPL and with independent
 extensions that communicate with Joomla! solely through the Joomla!
 extension interface.  You may copy and distribute such a system following
-the terms of the GNU GPL for Joomla! and the licenses of the extension, 
+the terms of the GNU GPL for Joomla! and the licenses of the extension,
 even if you do not include the source code of that extension.
 
 Note that people who make modified versions of Joomla! are not

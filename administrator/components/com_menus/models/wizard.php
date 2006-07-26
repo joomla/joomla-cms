@@ -56,7 +56,7 @@ class JMenuModelWizard extends JModel
 		if (isset($this->_helper)) {
 			$this->_helper->init($this->_wizard);
 		}
-		
+
 		// Lets load the defaults if we are at the beginning and have an item to load them from
 		if (!$this->_wizard->isStarted() && $id) {
 			jimport( 'joomla.database.table.menu' );

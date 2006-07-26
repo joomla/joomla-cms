@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * $contact - The current contact
  * $contacts - A list of other contacts in this category
  */
- 
+
 $Itemid = JRequest::getVar('Itemid');
 
 // Get the active menu item

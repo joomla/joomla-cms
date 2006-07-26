@@ -29,7 +29,7 @@ switch ($task) {
 	case 'edit':
 		editCategory( );
 		break;
-		
+
 	case 'moveselect':
 		moveCategorySelect( $option, $cid, $section );
 		break;
@@ -106,7 +106,7 @@ switch ($task) {
 function showCategories( $section, $option )
 {
 	global $mainframe;
-	
+
 	$db                 =& $mainframe->getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
@@ -284,7 +284,7 @@ function editCategory( )
 	$redirect 	= JRequest::getVar( 'section', 'content' );
 	$section 	= JRequest::getVar( 'section', 'content' );
 	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
-	
+
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
@@ -459,7 +459,7 @@ function saveCategory( $task )
 */
 function removeCategories( $section, $cid ) {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 
 	if (count( $cid ) < 1) {
@@ -529,7 +529,7 @@ function removeCategories( $section, $cid ) {
 */
 function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	$user =& $mainframe->getUser();
 
@@ -575,7 +575,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 function cancelCategory()
 {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 
 	$redirect = JRequest::getVar( 'redirect', '', 'post' );

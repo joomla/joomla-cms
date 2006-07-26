@@ -197,8 +197,8 @@ class JMainMenu extends JTree
 			$id = " id=\"current\"";
 		}
 
-		$inBounds = ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0))); 
-		
+		$inBounds = ((($depth >= $start) || ($start == 0)) && (($depth <= $end) || ($end == 0)));
+
 		$parent = & $this->_current->getParent();
 		$inActive = $parent->active;
 		if ($start && ($depth >= $start) && !$inActive) {
@@ -229,7 +229,7 @@ class JMainMenu extends JTree
 						$link = str_replace( 'index.php', 'index2.php', $this->_current->link );
 						echo "<a href=\"javascript:void window.open('".$link."','targetWindow','".$attribs."')\">".$this->_current->title."</a>";
 						break;
-				}				
+				}
 			} else if ($this->_current->title != null) {
 				echo "<a>".$this->_current->title."</a>\n";
 			} else {
@@ -293,7 +293,7 @@ class JMenuNode extends JNode
 	 * Target: 0=_top, 1=_blank, 2=window.open
 	 */
 	var $target = false;
-	
+
 	/**
 	 * Atrributes for window.open
 	 */

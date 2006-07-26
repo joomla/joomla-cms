@@ -18,13 +18,13 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $params->def('greeting', 1);
-		
+
 $type 	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL();
-		
+
 switch($type)
 {
-	case 'login' 	: 
+	case 'login' 	:
 		modLoginHelper::renderLoginForm($params, $return);
 		break;
 	case 'logout'	:

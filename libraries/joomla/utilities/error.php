@@ -23,14 +23,14 @@ jimport('pattemplate.patErrorManager');
  * @subpackage	Utilities
  * @since		1.5
  */
- 
- 
+
+
 /**
  * global definition needed to store the latest raised error
  */
-$GLOBALS['_JError_errorStore'] = null; 
- 
-class JError extends patErrorManager 
+$GLOBALS['_JError_errorStore'] = null;
+
+class JError extends patErrorManager
 {
 	/**
 	* method for checking whether the return value of a pat application method is a pat
@@ -146,7 +146,7 @@ class JError extends patErrorManager
 
 		// see what to do with this kind of error
 		$handling	=	patErrorManager::getErrorHandling( $level );
-		
+
 		//store the error
 		$GLOBALS['_JError_errorStore'] =& $error;
 
@@ -165,7 +165,7 @@ class JError extends patErrorManager
 	* @see raise()
 	*/
     function &handleErrorEcho( &$error, $options )
-    {	
+    {
     	$level_human	=	patErrorManager::translateErrorLevel( $error->getLevel() );
 
 		if( isset( $_SERVER['HTTP_HOST'] ) )

@@ -326,7 +326,7 @@ class WeblinksView {
 					submitform( pressbutton );
 					return;
 				}
-	
+
 				// do field validation
 				if (document.getElementById('jformtitle').value == ""){
 					alert( "<?php echo JText::_( 'Weblink item must have a title', true ); ?>" );

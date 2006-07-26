@@ -65,16 +65,16 @@ class JContentModelSection extends JModel
 	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function __construct( &$dbo ) 
+	function __construct( &$dbo )
 	{
 		$this->_db = &$dbo;
-		
+
 		$Itemid  = JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
-		
+
 		$id = JRequest::getVar('id', $mParams->get( 'section_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
@@ -266,7 +266,7 @@ class JContentModelSection extends JModel
 		/*
 		 * Lets load the siblings if they don't already exist
 		 */
-		if (empty($this->_categories)) 
+		if (empty($this->_categories))
 		{
 			$app		= &$this->getApplication();
 			$user		= &$app->getUser();
@@ -274,9 +274,9 @@ class JContentModelSection extends JModel
 			$gid		= $user->get('gid');
 			$now		= $app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-			
+
 			$Itemid    	= JRequest::getVar('Itemid');
-		
+
 			// Get the paramaters of the active menu item
 			$menus  =& JMenu::getInstance();
 			$params =& $menus->getParams($Itemid);
@@ -436,7 +436,7 @@ class JContentModelSection extends JModel
 		// Get the paramaters of the active menu item
 		$menus  =& JMenu::getInstance();
 		$params =& $menus->getParams($Itemid);
-		
+
 		switch ($state)
 		{
 			case -1:
@@ -467,7 +467,7 @@ class JContentModelSection extends JModel
 		$now		= $app->get('requestTime');
 		$noauth		= !$app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-		
+
 		$Itemid    	= JRequest::getVar('Itemid');
 
 		/*
@@ -522,11 +522,11 @@ class JContentModelSection extends JModel
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
-		 
+
 		// Get the paramaters of the active menu item
 		$menus  =& JMenu::getInstance();
 		$params =& $menus->getParams($Itemid);
-		
+
 		if ($params->get('filter')) {
 			$filter = JRequest::getVar('filter', '', 'request');
 			if ($filter) {

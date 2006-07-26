@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Static XML-RPC Services class
- * 
+ *
  * @static
  * @package	XML-RPC
  * @since	1.5
@@ -28,7 +28,7 @@ class JoomlaXMLRPCServices
 	*
 	* The sql must return the following fields that are used in a common display
 	* routine: href, title, section, created, text, browsernav
-	* 
+	*
 	* @param	string	Target search string
 	* @param	string	mathcing option, exact|any|all
 	* @param	string	ordering option, newest|oldest|popular|alpha|category
@@ -38,11 +38,11 @@ class JoomlaXMLRPCServices
 	function searchSite( $searchword, $phrase='', $order='' )
 	{
 		global $mainframe;
-	
+
 		// Initialize variables
 		$db		=& $mainframe->getDBO();
 		$url	= $mainframe->getSiteURL();
-	
+
 		// Prepare arguments
 		$searchword	= $db->getEscaped( trim( $searchword ) );
 		$phrase		= '';
@@ -51,7 +51,7 @@ class JoomlaXMLRPCServices
 		// Load search plugins and fire the onSearch event
 		JPluginHelper::importPlugin( 'search' );
 		$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
-	
+
 		// Iterate through results building the return array
 		foreach ($results as $i=>$rows) {
 			foreach ($rows as $j=>$row) {

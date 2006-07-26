@@ -19,13 +19,13 @@ class modWhosonlineHelper
 	function render(&$params)
 	{
 		global $mainframe;
-		
+
 		$db		=& $mainframe->getDBO();
 
 		$showmode = $params->get('showmode', 0);
 
 		$output = '';
-		
+
 		// show online count
 		if ($showmode == 0 || $showmode == 2)
 		{
@@ -33,7 +33,7 @@ class modWhosonlineHelper
 					"\n FROM #__session";
 			$db->setQuery($query);
 			$sessions = $db->loadObjectList();
-		
+
 			// calculate number of guests and members
 			$user_array = 0;
 			$guest_array = 0;
@@ -50,13 +50,13 @@ class modWhosonlineHelper
 					$user_array ++;
 				}
 			}
-		
+
 			// check if any guest or member is on the site
 			if ($guest_array != 0 || $user_array != 0)
 			{
 				$output .= JText::_('We have');
 				$output .= '&nbsp;';
-		
+
 				// guest count handling
 				if ($guest_array == 1)
 				{
@@ -69,7 +69,7 @@ class modWhosonlineHelper
 						// more than 1 guest
 						$output .= sprintf(JText::_('guests'), $guest_array);
 					}
-		
+
 				// if there are guests and members online
 				if ($guest_array != 0 && $user_array != 0)
 				{
@@ -77,7 +77,7 @@ class modWhosonlineHelper
 					$output .= JText::_('and');
 					$output .= '&nbsp;';
 				}
-		
+
 				// member count handling
 				if ($user_array == 1)
 				{
@@ -90,12 +90,12 @@ class modWhosonlineHelper
 						// more than 1 member
 						$output .= sprintf(JText::_('members'), $user_array);
 					}
-		
+
 				$output .= '&nbsp;';
 				$output .= JText::_('online');
 			}
 		}
-		
+
 		// show online member names
 		if ($showmode > 0)
 		{
@@ -104,7 +104,7 @@ class modWhosonlineHelper
 					"\n WHERE a.guest = 0";
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
-		
+
 			if (count($rows))
 			{
 				// output
@@ -120,7 +120,7 @@ class modWhosonlineHelper
 				$output .= '</ul>';
 			}
 		}
-		
+
 		echo $output;
 	}
 }

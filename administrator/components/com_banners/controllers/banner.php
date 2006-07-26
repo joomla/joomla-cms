@@ -20,7 +20,7 @@ class JBannerController {
 	function viewBanners( $option )
 	{
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
@@ -110,7 +110,7 @@ class JBannerController {
 		if (!is_array( $cid )) {
 			$cid = array(0);
 		}
-		
+
 		$lists = array();
 
 		$row = new mosBanner($db);
@@ -205,7 +205,7 @@ class JBannerController {
 
 	function cancelEditBanner() {
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 
 		$row = new mosBanner($db);
@@ -217,7 +217,7 @@ class JBannerController {
 
 	function publishBanner( $cid, $publish=1 ) {
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 		$user =& $mainframe->getUser();
 
@@ -250,7 +250,7 @@ class JBannerController {
 
 	function removeBanner( $cid ) {
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 
 		if (count( $cid ) && $cid[0] != 0) {

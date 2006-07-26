@@ -21,18 +21,18 @@ class modSectionsHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-		
+
 		$db		=& $mainframe->getDBO();
 		$user   =& $mainframe->getUser();
-	
+
 		$count	= intval($params->get('count', 20));
 		$access	= !$mainframe->getCfg('shownoauth');
-		
+
 		$gid 		= $user->get('gid');
 		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate	= $db->getNullDate();
-		
-		
+
+
 		$query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt" .
 			"\n FROM #__sections as a" .
 			"\n LEFT JOIN #__content as b ON a.id = b.sectionid" .
@@ -47,7 +47,7 @@ class modSectionsHelper
 			"\n ORDER BY a.ordering";
 		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
-			
+
 		return $rows;
 	}
 }

@@ -64,7 +64,7 @@ class JContentViewSection extends JView
 		$app	= &$this->getApplication();
 		$user	= &$app->getUser();
 		$doc	= &$app->getDocument();
-		
+
 		$gid 	= $user->get('gid');
 
 		// Model workaround
@@ -80,7 +80,7 @@ class JContentViewSection extends JView
 		$id 	= JRequest::getVar('id');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-		
+
 		// Get the menu object of the active menu item
 		$menus	= &JMenu::getInstance();
 		$menu	= &$menus->getItem($Itemid);
@@ -110,7 +110,7 @@ class JContentViewSection extends JView
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'list' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-		
+
 		if (!file_exists( $tmplPath ))
 		{
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/list.php';

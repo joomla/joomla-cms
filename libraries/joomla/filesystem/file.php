@@ -27,7 +27,7 @@ jimport('joomla.filesystem.path');
  * @subpackage 	FileSystem
  * @since		1.5
  */
-class JFile 
+class JFile
 {
 	/**
 	 * Gets the extension of a file name
@@ -73,7 +73,7 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function copy($src, $dest, $path = null) 
+	function copy($src, $dest, $path = null)
 	{
 		// Prepend a base path if it exists
 		if ($path) {
@@ -92,11 +92,11 @@ class JFile
 		}
 
 		$config =& JFactory::getConfig();
-		
-		if ($config->getValue('config.ftp_enable')) 
+
+		if ($config->getValue('config.ftp_enable'))
 		{
 			$ftpRoot = $config->getValue('config.ftp_root');
-			
+
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
@@ -133,7 +133,7 @@ class JFile
 	 * @return boolean  True on success
 	 * @since 1.5
 	 */
-	function delete($file) 
+	function delete($file)
 	{
 		$config =& JFactory::getConfig();
 
@@ -187,10 +187,10 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '') 
+	function move($src, $dest, $path = '')
 	{
 		$config =& JFactory::getConfig();
-		
+
 		// Initialize variables
 		$ftpFlag	= true;
 		$ftpRoot	= $config->getValue('config.ftp_root');
@@ -245,10 +245,10 @@ class JFile
 	 * @return mixed Returns file contents or boolean False if failed
 	 * @since 1.5
 	 */
-	function read($filename, $incpath = false) 
+	function read($filename, $incpath = false)
 	{
 		$config =& JFactory::getConfig();
-		
+
 		// Initialize variables
 		$ftpFlag	= false;
 		$ftpRoot	= $config->getValue('config.ftp_root');
@@ -317,10 +317,10 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function write($file, $buffer) 
+	function write($file, $buffer)
 	{
 		$config =& JFactory::getConfig();
-		
+
 		// Initialize variables
 		$ftpFlag	= true;
 		$ftpRoot	= $config->getValue('config.ftp_root');
@@ -366,7 +366,7 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function upload($src, $dest) 
+	function upload($src, $dest)
 	{
 		$config =& JFactory::getConfig();
 

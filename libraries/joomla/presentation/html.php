@@ -569,14 +569,14 @@ class mosHTML {
 		$mail_parts		= explode( '.', $mail[1] );
 		// random number
 		$rand			= rand( 1, 100000 );
-		
+
 		$replacement 	= "\n <script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
 		$replacement 	.= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement 	.= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement 	.= "\n var addy". $rand ." = '". @$mail[0] ."' + '&#64;';";
 		$replacement 	.= "\n addy". $rand ." = addy". $rand ." + '". implode( "' + '&#46;' + '", $mail_parts ) ."';";
-		
+
 		if ( $mailto ) {
 			// special handling when mail text is different from mail addy
 			if ( $text ) {
@@ -603,7 +603,7 @@ class mosHTML {
 		}
 		$replacement 	.= "\n //-->";
 		$replacement 	.= '\n </script>';
-		
+
 		// XHTML compliance `No Javascript` text handling
 		$replacement 	.= "<script language='JavaScript' type='text/javascript'>";
 		$replacement 	.= "\n <!--";
@@ -617,7 +617,7 @@ class mosHTML {
 		$replacement 	.= "\n document.write( 'span>' );";
 		$replacement 	.= "\n //-->";
 		$replacement 	.= "\n </script>";
-		
+
 		return $replacement;
 	}
 
@@ -795,9 +795,9 @@ class mosCommonHTML {
 		$i = 1;
 		foreach( $menus as $menu ) {
 			?>
-			<fieldset> 
+			<fieldset>
 				<legend align="right"> <?php echo $i; ?>. </legend>
-			
+
 				<table class="admintable">
 				<tr>
 					<td valign="top" class="key">
@@ -974,7 +974,7 @@ class mosCommonHTML {
 		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
 		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
 		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
-		
+
 		if ($archived) {
 			$state[] = mosHTML::makeOption( 'A', JText::_( $archived ) );
 		}
@@ -1284,7 +1284,7 @@ class mosAdminMenus
 	* Select list of active users
 	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
-		
+
 		$db =& JFactory::getDBO();
 
 		$and = '';

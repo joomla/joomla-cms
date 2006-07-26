@@ -31,10 +31,10 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	 * @param array 	$params	Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $component = null, $params = array() ) 
+	function render( $component = null, $params = array() )
 	{
 		jimport('joomla.factory');
-		
+
 		//For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();
 		foreach (get_object_vars($registry->toObject()) as $k => $v) {
@@ -52,18 +52,18 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		if (!empty($msg)) {
 			echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
 		}
-	
+
 		echo JComponentHelper::renderComponent($component);
-		
+
 		$contents = ob_get_contents();
 		ob_end_clean();
-			
-	
+
+
 		/*
 		 * Build the component toolbar
 		 * - This will move to a MVC controller at some point in the future
 		 */
-		if ($path = JApplicationHelper::getPath( 'toolbar' )) 
+		if ($path = JApplicationHelper::getPath( 'toolbar' ))
 		{
 			global $mainframe;
 			$task = JRequest::getVar( 'task' );

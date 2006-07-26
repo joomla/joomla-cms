@@ -86,7 +86,7 @@ class HTML_massmail {
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col70">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Message' ); ?></legend>
@@ -118,7 +118,7 @@ class HTML_massmail {
 				</tr>
 				</table>
 			</fieldset>
-		</div>		
+		</div>
 		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />

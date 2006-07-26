@@ -65,16 +65,16 @@ class JContentModelCategory extends JModel
 	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function __construct( &$dbo ) 
+	function __construct( &$dbo )
 	{
 		$this->_db = &$dbo;
-		
+
 		$Itemid    		= JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
-		
+
 		$id = JRequest::getVar('id', $mParams->get( 'category_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
@@ -269,13 +269,13 @@ class JContentModelCategory extends JModel
 			$now		= $app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
-			
+
 			$Itemid    		= JRequest::getVar('Itemid');
-		
+
 			// Get the paramaters of the active menu item
 			$menus  =& JMenu::getInstance();
 			$params =& $menus->getParams($Itemid);
-			
+
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
 				$xwhere = '';
@@ -371,11 +371,11 @@ class JContentModelCategory extends JModel
 	function _buildContentOrderBy($state = 1)
 	{
 		$Itemid  = JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$params  =& $menus->getParams($Itemid);
-		
+
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
@@ -415,13 +415,13 @@ class JContentModelCategory extends JModel
 		$now		= $app->get('requestTime');
 		$noauth		= !$app->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-		
+
 		$Itemid     = JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$params  =& $menus->getParams($Itemid);
-		
+
 		/*
 		 * First thing we need to do is assert that the articles are in
 		 * the current category

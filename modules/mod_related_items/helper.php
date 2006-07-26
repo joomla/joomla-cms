@@ -21,19 +21,19 @@ class modRelatedItemsHelper
 	function getList($params)
 	{
 		global $mainframe;
-		
+
 		$db					=& $mainframe->getDBO();
 		$user				=& $mainframe->getUser();
-		
+
 		$option				= JRequest::getVar( 'option', '' );
 		$task				= JRequest::getVar( 'task' );
-		
+
 		$id					= JRequest::getVar( 'id', 0, '', 'int' );
 		$showDate			= $params->get('showDate', 0);
-		
+
 		$now				= date('Y-m-d H:i:s', time());
 		$nullDate			= $db->getNullDate();
-		
+
 		if ($option == 'com_content' && $task == 'view' && $id)
 		{
 			// select the meta keywords from the item
@@ -41,13 +41,13 @@ class modRelatedItemsHelper
 					"\n FROM #__content" .
 					"\n WHERE id = $id";
 			$db->setQuery($query);
-			
+
 			if ($metakey = trim($db->loadResult()))
-			{		
+			{
 				// explode the meta keys on a comma
 				$keys = explode(',', $metakey);
 				$likes = array ();
-		
+
 				// assemble any non-blank word(s)
 				foreach ($keys as $key)
 				{
@@ -56,7 +56,7 @@ class modRelatedItemsHelper
 						$likes[] = $db->getEscaped($key);
 					}
 				}
-		
+
 				if (count($likes))
 				{
 					// select other items based on the metakey field 'like' the keys found
@@ -73,7 +73,7 @@ class modRelatedItemsHelper
 							"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
-		
+
 					$related = array ();
 					if (count($temp))
 					{
@@ -90,7 +90,7 @@ class modRelatedItemsHelper
 				}
 			}
 		}
-		
+
 		return $related;
 	}
 }

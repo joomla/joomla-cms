@@ -51,14 +51,14 @@ class JContactViewCategory extends JView
 	{
 		$app		= &$this->getApplication();
 		$user 		= & $app->getUser();
-		
+
 		// Push a model into the view
 		$ctrl	= &$this->getController();
 		$model	= & $ctrl->getModel('category', 'JContactModel');
 		$this->setModel($model, true);
-		
+
 		$Itemid   = JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
@@ -118,7 +118,7 @@ class JContactViewCategory extends JView
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'table' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-		
+
 		if (!file_exists( $tmplPath ))
 		{
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/table.php';

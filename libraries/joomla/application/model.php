@@ -87,7 +87,7 @@ class JModel extends JObject {
 		$db->setQuery( $query, $limitstart, $limit );
 		$result = $db->loadObjectList();
 
-		return $result;		
+		return $result;
 	}
 
 	/**
@@ -103,7 +103,7 @@ class JModel extends JObject {
 		$db->setQuery( $query );
 		$db->query();
 
-		return $db->getNumRows();		
+		return $db->getNumRows();
 	}
 
 	/**

@@ -19,13 +19,13 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $params->def('text', 'Feed Entries');
 $params->def('format', 'rss');
-		
+
 $link = modSyndicateHelper::getLink($params);
-	
+
 if(is_null($link)) {
 	return;
 }
-		
+
 $img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
 ?>
 <a href="<?php echo $link ?>">

@@ -26,7 +26,7 @@ class modFeedHelper
 		$rssitemdesc		= $params->get('rssitemdesc', 1);
 		$words				= $params->def('word_count', 0);
 		$rsstitle			= $params->get('rsstitle', 1);
-		
+
 		//  get RSS parsed object
 		$options = array();
 		$options['rssUrl'] 		= $rssurl;
@@ -45,7 +45,7 @@ class modFeedHelper
 			//image handling
 			$iUrl 	= isset($image['url']) ? $image['url'] : null;
 			$iTitle = isset($image['title']) ? $image['title'] : null;
-			
+
 			?>
 			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php

@@ -224,7 +224,7 @@ function editSection( ) {
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
-	
+
 	$row =& JTable::getInstance('section', $db );
 	// load the row from the db table
 	$row->load( $cid[0] );
@@ -504,7 +504,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 */
 function cancelSection( $option, $scope ) {
 	global $mainframe;
-	
+
 	$db =& $mainframe->getDBO();
 	$row =& JTable::getInstance('section', $db );
 	$row->bind( $_POST );

@@ -32,7 +32,7 @@ class CacheData extends JObject
 	 * @var Array
 	 */
 	var $_items = null;
-	
+
 	/**
 	 * The cache path
 	 *
@@ -40,16 +40,16 @@ class CacheData extends JObject
 	 * @var String
 	 */
 	var $_path = null;
-	
+
 	/**
 	 * Class constructor
-	 * 
+	 *
 	 * @access protected
 	 */
 	function __construct($path)
 	{
 		$this->_path = $path;
-		
+
 		$this->_parse();
 	}
 
@@ -64,8 +64,8 @@ class CacheData extends JObject
 	{
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($this->_path);
-		
-		foreach($files as $file) 
+
+		foreach($files as $file)
 		{
 			$filename = basename( $this->_path."/".$file );
 			$group = null;
@@ -150,7 +150,7 @@ class CacheData extends JObject
 		{
 			jimport('joomla.filesystem.folder');
 			$files = JFolder::files($this->path.DS, '.cache');
-			
+
 			/**
 			* Hack to remove patTemplate cache
 			* as it does not use Cache_Lite groups
@@ -159,7 +159,7 @@ class CacheData extends JObject
 				$file = $this->path.DS . $file;
 				unlink( $file );
 			}
-		} 
+		}
 		else
 		{
 			$cache =& JFactory::getCache();
@@ -175,7 +175,7 @@ class CacheData extends JObject
 		}
 	}
 }
- 
+
  /**
  * This Class is used by CacheData to store group cache data.
  *
@@ -184,7 +184,7 @@ class CacheData extends JObject
  * @subpackage	Cache
  * @since		1.5
  */
-class CacheItem 
+class CacheItem
 {
 	var $group 	= "";
 	var $size 	= 0;

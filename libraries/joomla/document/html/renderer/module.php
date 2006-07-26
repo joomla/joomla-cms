@@ -37,19 +37,19 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 			$module = JModuleHelper::getModule($module);
 			if(!is_object($module)) return '';
 		}
-		
+
 		// get the user object
 		$user =& JFactory::getUser();
-		
+
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
-		
+
 		$cache = JFactory::getCache( $module->module );
-		
+
 		$cache->setCaching($mod_params->get('cache', 0));
 		$cache->setLifeTime($mod_params->get('cache_time', 900));
 		$cache->setCacheValidation(true);
-		
+
 		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('gid') );
 	}
 }

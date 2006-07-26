@@ -26,7 +26,7 @@ class HTML_weblinks
 		global $mainframe;
 
 		$user 	=& $mainframe->getUser();
-		
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 
@@ -266,7 +266,7 @@ class HTML_weblinks
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Description' ); ?></legend>

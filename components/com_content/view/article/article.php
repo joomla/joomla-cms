@@ -62,7 +62,7 @@ class JContentViewArticle extends JView
 		// Initialize variables
 		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		
+
 		$linkOn   = null;
 		$linkText = null;
 
@@ -115,7 +115,7 @@ class JContentViewArticle extends JView
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'article' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-		
+
 		if (!file_exists( $tmplPath ))
 		{
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/article.php';
@@ -130,7 +130,7 @@ class JContentViewArticle extends JView
 		$app	= & $this->getApplication();
 		$doc	= & $app->getDocument();
 		$user	= & $app->getUser();
-		
+
 		// At some point in the future this will come from a request object
 		$page		= JRequest::getVar('limitstart', 0, '', 'int');
 		$noJS		= JRequest::getVar('hide_js', 0, '', 'int');
@@ -479,7 +479,7 @@ class JContentViewArticle extends JView
 	{
 
 		jimport('tcpdf.tcpdf');
-		
+
 		// Initialize some variables
 		$app		= & $this->getApplication();
 //		$user		= & $app->getUser();

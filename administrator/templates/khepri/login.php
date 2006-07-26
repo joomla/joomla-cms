@@ -20,11 +20,11 @@ See COPYRIGHT.php for copyright notices and details.
 			<link href="templates/{TEMPLATE}/css/login.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
-	
+
 	<!--[if lte IE 6]>
   <link href="templates/{TEMPLATE}/css/ie.css" rel="stylesheet" type="text/css" />
-  <![endif]-->	
-	
+  <![endif]-->
+
 	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
 		<jdoc:sub condition="0">
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/norounded.css" />
@@ -33,7 +33,7 @@ See COPYRIGHT.php for copyright notices and details.
 			<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/rounded.css" />
 		</jdoc:sub >
 	</jdoc:tmpl>
-  	
+
 	<script language="javascript" type="text/javascript">
 		function setFocus() {
 			document.loginForm.username.select();
@@ -81,7 +81,7 @@ See COPYRIGHT.php for copyright notices and details.
 						</p>
 						<div id="lock"></div>
 						<div class="clr"></div>
-	
+
           </div>
           <div class="b">
             <div class="b">
@@ -89,7 +89,7 @@ See COPYRIGHT.php for copyright notices and details.
             </div>
           </div>
         </div>
-	
+
 				<noscript>
 					<jdoc:translate key="WARNJAVASCRIPT" />
 				</noscript>

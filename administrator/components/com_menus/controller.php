@@ -64,13 +64,13 @@ class JMenuController extends JController
 		} else {
 			$msg = JText::_( 'Error Saving Menu item' );
 		}
-		
+
 		$item =& $model->getItem();
 		switch ( $this->_task ) {
 			case 'apply':
 				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype.'&task=edit&cid[]='.$item->id.'&hidemainmenu=1' , $msg );
 				break;
-	
+
 			case 'save':
 			default:
 				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype, $msg );
@@ -104,13 +104,13 @@ class JMenuController extends JController
 		$view->setModel( $model, true );
 		$view->copyForm();
 	}
-	
+
 	/**
 	* Save the item(s) to the menu selected
 	*/
 	function doCopy()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menu', '', 'post' );
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
@@ -134,13 +134,13 @@ class JMenuController extends JController
 		$view->setModel( $model, true );
 		$view->moveForm();
 	}
-	
+
 	/**
 	* Save the item(s) to the menu selected
 	*/
 	function doMove()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menu', '', 'post' );
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
@@ -159,7 +159,7 @@ class JMenuController extends JController
 	*/
 	function publish()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
@@ -177,7 +177,7 @@ class JMenuController extends JController
 	*/
 	function unpublish()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
@@ -258,7 +258,7 @@ class JMenuController extends JController
 	*/
 	function accesspublic()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
@@ -276,7 +276,7 @@ class JMenuController extends JController
 	*/
 	function accessregistered()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
@@ -294,7 +294,7 @@ class JMenuController extends JController
 	*/
 	function accessspecial()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
@@ -312,7 +312,7 @@ class JMenuController extends JController
 	*/
 	function setdefault()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
@@ -327,7 +327,7 @@ class JMenuController extends JController
 
 	function remove()
 	{
-		// Get some variables from the request	
+		// Get some variables from the request
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 

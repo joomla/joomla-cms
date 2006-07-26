@@ -28,18 +28,18 @@ $access = new stdClass();
 $access->canEdit = 0;
 $access->canEditOwn = 0;
 $access->canPublish = 0;
-		
+
 $style 			= $params->get('style', 'flash');
 $link_titles 	= $params->get('link_titles', $mainframe->getCfg('link_titles'));
-		
+
 $list = modNewsFlashHelper::getList($params, $access);
-	
+
 // check if any results returned
 $items = count($list);
 if (!$items) {
 	return;
 }
-		
+
 switch ($style)
 {
 	case 'horiz' :
@@ -60,7 +60,7 @@ switch ($style)
 			modNewsFlashHelper::renderItem($row, $params, $access);
 		}
 	break;
-			
+
 	case 'flash' :
 	default :
 		srand((double) microtime() * 1000000);

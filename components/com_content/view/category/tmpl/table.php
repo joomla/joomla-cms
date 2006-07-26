@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 	 */
 	jimport('joomla.presentation.pagination');
 	$pagination = new JPagination($total, $limitstart, $limit);
-	
+
 	if ($mParams->get('page_title'))
 	{
 	?>
@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access');
 	<tr>
 		<td width="60%" valign="top" class="contentdescription<?php echo $mParams->get( 'pageclass_sfx' ); ?>" colspan="2">
 			<?php
-	
+
 	if ($category->image)
 	{
 	?>
@@ -98,7 +98,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php echo JText::_( 'This Category is currently empty' ); ?>
 				<br /><br />
 				<?php
-	
+
 		}
 	// New Content icon
 	if ($hasNewIcon)
@@ -111,7 +111,7 @@ defined('_JEXEC') or die('Restricted access');
 	<tr>
 		<td colspan="2">
 			<?php
-	
+
 	// Displays listing of Categories
 	if ($mParams->get('other_cat'))
 	{

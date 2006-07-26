@@ -18,11 +18,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $list = modRelatedItemsHelper::getList($params);
-		
+
 if (!count($list)) {
 	return;
 }
-		
+
 ?>
 <ul class="relateditems<?php echo $params->get('moduleclass_sfx'); ?>">
 

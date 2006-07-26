@@ -14,7 +14,7 @@
 
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
- * 
+ *
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
@@ -76,7 +76,7 @@ class JArrayHelper
 
 	/**
 	 * Extracts a column from an array of arrays or objects
-	 * 
+	 *
 	 * @static
 	 * @param	array	$array	The source array
 	 * @param	string	$index	The index of the column or name of object property
@@ -106,7 +106,7 @@ class JArrayHelper
 
 	/**
 	 * Utility function to return a value from a named array or a specified default
-	 * 
+	 *
 	 * @static
 	 * @param	array	$array		A named array
 	 * @param	string	$name		The key to search for
@@ -172,7 +172,7 @@ class JArrayHelper
 
 	/**
 	 * Utility function to sort an array of objects on a given field
-	 * 
+	 *
 	 * @static
 	 * @param	array	$arr		An array of objects
 	 * @param	string	$k			The key to sort on
@@ -194,7 +194,7 @@ class JArrayHelper
 
 	/**
 	 * Private callback function for sorting an array of objects on a key
-	 * 
+	 *
 	 * @static
 	 * @param	array	$a	An array of objects
 	 * @param	array	$b	An array of objects
@@ -204,7 +204,7 @@ class JArrayHelper
 	 */
 	function _sortObjects( &$a, &$b )
 	{
-		$params = $GLOBALS['JAH_so'];	
+		$params = $GLOBALS['JAH_so'];
 		if ( $a->$params['key'] > $b->$params['key'] ) {
 			return $params['direction'];
 		}

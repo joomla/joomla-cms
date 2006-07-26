@@ -30,7 +30,7 @@ class JMenuHelperSeparator extends JWizardHelper
 
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
-	 * 
+	 *
 	 * @param object JWizard
 	 */
 	function init(&$wizard)

@@ -23,7 +23,7 @@
  * @author		Andrew Eddie
  * @since		1.5
  */
-class JController extends JObject 
+class JController extends JObject
 {
 	/**
 	 * The Main Application [JApplication]
@@ -108,7 +108,7 @@ class JController extends JObject
 	 * @var	string
 	 */
 	var $_modelPath = null;
-	
+
 	/**
 	 * Internal data to pass to the controller
 	 * @var $array
@@ -183,7 +183,7 @@ class JController extends JObject
 	 */
 	function &_loadModel( $modelName, $prefix )
 	{
-		
+
 		$false = false;
 
 		// Clean the model name

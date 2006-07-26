@@ -62,7 +62,7 @@ class TOOLBAR_content
 
 	function _DEFAULT() {
 		global $filter_state;
-		
+
 		JMenuBar::title( JText::_( 'Article Manager' ), 'addedit.png' );
 		if ($filter_state == 'A' || $filter_state == NULL) {
 			JMenuBar::unarchiveList();

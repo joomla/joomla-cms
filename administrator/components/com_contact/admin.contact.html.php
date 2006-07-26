@@ -279,10 +279,10 @@ class HTML_contact
 				?>
 				</table>
 			</fieldset>
-			
+
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Information' ); ?></legend>
-					
+
 				<table class="admintable">
 				<tr>
 					<td class="key">
@@ -429,7 +429,7 @@ class HTML_contact
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col40">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>

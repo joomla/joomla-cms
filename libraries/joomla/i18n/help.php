@@ -19,12 +19,12 @@
  * @subpackage	I18N
  * @since		1.5
  */
-class JHelp 
+class JHelp
 {
 
 	/**
 	* Create an URL for a giving help file reference
-	* 
+	*
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/
@@ -34,11 +34,11 @@ class JHelp
 
 		$user			=& JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
-		
+
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$url 			= $mainframe->getCfg('live_site');
 
-		if ($com) 
+		if ($com)
 		{
 	   		// help file for 3PD Components
 			$url .= '/components/' . $option. '/help/';
@@ -46,20 +46,20 @@ class JHelp
 				$ref = $ref . '.html';
 			}
 			$url .= $ref;
-		} 
-		else if ( $userHelpUrl ) 
+		}
+		else if ( $userHelpUrl )
 		{
 	   		// Online help site as defined in GC
 			$ref .= $_VERSION->getHelpVersion();
 			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
-		} 
-		else if ( $globalHelpUrl ) 
+		}
+		else if ( $globalHelpUrl )
 		{
 	   		// Online help site as defined in GC
 			$ref .= $_VERSION->getHelpVersion();
 			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
-		} 
-		else 
+		}
+		else
 		{
 	   		// Included html help files
 			$url .= '/administrator/help/en-GB/';
@@ -72,7 +72,7 @@ class JHelp
 
 	/**
 	 * Builds a list of the help sites which can be used in a select option
-	 * 
+	 *
 	 * @param string	Path to an xml file
 	 * @param string	Language tag to select (if exists)
 	 * @param array	An array of arrays ( text, value, selected )

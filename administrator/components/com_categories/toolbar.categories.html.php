@@ -41,7 +41,7 @@ class TOOLBAR_categories {
 		}
 		JMenuBar::help( 'screen.categories.edit' );
 	}
-	
+
 	/**
 	* Draws the menu for Moving existing categories
 	* @param int The published state (to display the inverse button)
@@ -52,7 +52,7 @@ class TOOLBAR_categories {
 		JMenuBar::save( 'movesave' );
 		JMenuBar::cancel();
 	}
-	
+
 	/**
 	* Draws the menu for Copying existing categories
 	* @param int The published state (to display the inverse button)
@@ -63,7 +63,7 @@ class TOOLBAR_categories {
 		JMenuBar::save( 'copysave' );
 		JMenuBar::cancel();
 	}
-	
+
 	/**
 	* Draws the menu for Editing an existing category
 	*/

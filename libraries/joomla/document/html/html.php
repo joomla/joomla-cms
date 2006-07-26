@@ -206,7 +206,7 @@ class JDocumentHTML extends JDocument
 		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
 		header( 'Pragma: no-cache' );										// HTTP/1.0
 		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-		
+
 		//compress
 		if($compress) {
 			$data = $this->compress($data);
@@ -228,10 +228,10 @@ class JDocumentHTML extends JDocument
 	{
 		jimport('joomla.template.template');
 		$instance =& JTemplate::getInstance();
-		
+
 		//set a reference to the document in the engine
 		$instance->doc =& $this;
-		
+
 		//set the caching
 		if($caching) {
 			$instance->enableTemplateCache('File', JPATH_BASE.DS.'cache'.DS);
@@ -310,7 +310,7 @@ class JDocumentHTML extends JDocument
 
 		$db  =& JFactory::getDBO();
 		$acl =& JFactory::getACL();
-		
+
 		//For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();
 		foreach (get_object_vars($registry->toObject()) as $k => $v) {
@@ -355,11 +355,11 @@ class JDocumentHTML extends JDocument
 				foreach($includes as $include)
 				{
 					$result = $this->get($type, $include, $params);
-	
+
 					if(!$result) {
 						$result = " ";
 					}
-	
+
 					$this->set($type, $include, $result);
 				}
 			}

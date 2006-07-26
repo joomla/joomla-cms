@@ -28,21 +28,21 @@ class JPollGlobalController extends JController
 		parent::__construct( $app, $default );
 		$this->registerTask( 'new', 'editPoll' );
 		$this->registerTask( 'edit', 'editPoll' );
-		
+
 		$this->registerTask( 'save', 'savePoll');
 		$this->registerTask( 'apply', 'savePoll');
 
 		$this->registerTask( 'remove', 'removePoll');
 		$this->registerTask( 'publish', 'publishPolls');
 		$this->registerTask( 'unpublish', 'publishPolls');
-		
+
 		$this->registerTask( 'cancel', 'cancelPoll');
 		$this->registerTask( 'preview', 'previewPoll');
 	}
 
 	function showPolls() {
 		global $mainframe, $option;
-	
+
 		$db					=& $mainframe->getDBO();
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.id' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -51,9 +51,9 @@ class JPollGlobalController extends JController
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 		$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 		$where = array();
-	
+
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {
 				$where[] = "m.published = 1";
@@ -64,20 +64,20 @@ class JPollGlobalController extends JController
 		if ($search) {
 			$where[] = "LOWER(m.title) LIKE '%$search%'";
 		}
-	
+
 		$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir";
-	
+
 		$query = "SELECT COUNT(m.id)"
 		. "\n FROM #__polls AS m"
 		. $where
 		;
 		$db->setQuery( $query );
 		$total = $db->loadResult();
-	
+
 		jimport('joomla.presentation.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
-	
+
 		$query = "SELECT m.*, u.name AS editor, COUNT(d.id) AS numoptions"
 		. "\n FROM #__polls AS m"
 		. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
@@ -88,15 +88,15 @@ class JPollGlobalController extends JController
 		;
 		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 		$rows = $db->loadObjectList();
-	
+
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
 			return false;
 		}
-	
+
 		// state filter
 		$lists['state']	= mosCommonHTML::selectState( $filter_state );
-	
+
 		// table ordering
 		if ( $filter_order_Dir == 'DESC' ) {
 			$lists['order_Dir'] = 'ASC';
@@ -104,16 +104,16 @@ class JPollGlobalController extends JController
 			$lists['order_Dir'] = 'DESC';
 		}
 		$lists['order'] = $filter_order;
-	
+
 		// search filter
 		$lists['search']= $search;
-	
+
 		JPollView::showPolls( $rows, $pageNav, $option, $lists );
 	}
-	
+
 	function editPoll( ) {
 		global $mainframe;
-	
+
 		$db		=& $mainframe->getDBO();
 		$user 	=& $mainframe->getUser();
 		$cid 	= JRequest::getVar( 'cid', array(0));
@@ -122,19 +122,19 @@ class JPollGlobalController extends JController
 			$cid = array(0);
 		}
 		$uid 	= $cid[0];
-		
+
 		$row = new mosPoll( $db );
 		// load the row from the db table
 		$row->load( $uid );
-	
+
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $user->get('id') )) {
 	    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The poll' ), $row->title );
 			$this->setRedirect( 'index.php?option='. $option, $msg );
 		}
-	
+
 		$options = array();
-	
+
 		if ($uid) {
 			$row->checkout( $user->get('id') );
 			$query = "SELECT id, text"
@@ -147,7 +147,7 @@ class JPollGlobalController extends JController
 		} else {
 			$row->lag = 3600*24;
 		}
-	
+
 		// get selected pages
 		if ( $uid ) {
 			$query = "SELECT menuid AS value"
@@ -159,16 +159,16 @@ class JPollGlobalController extends JController
 		} else {
 			$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
 		}
-	
+
 		// build the html select list
 		$lists['select'] = mosAdminMenus::MenuLinks( $lookup, 1, 1 );
-	
+
 		JPollView::editPoll($row, $options, $lists );
 	}
-	
+
 	function savePoll() {
 		global $mainframe;
-	
+
 		$db =& $mainframe->getDBO();
 		// save the poll parent information
 		$row = new mosPoll( $db );
@@ -177,12 +177,12 @@ class JPollGlobalController extends JController
 			exit();
 		}
 		$isNew = ($row->id == 0);
-	
+
 		if (!$row->check()) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-	
+
 		if (!$row->store()) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
@@ -190,7 +190,7 @@ class JPollGlobalController extends JController
 		$row->checkin();
 		// save the poll options
 		$options = JRequest::getVar( 'polloption', array(), 'post', 'array' );
-	
+
 		foreach ($options as $i=>$text) {
 			$text = $db->Quote($text);
 			if ($isNew) {
@@ -210,16 +210,16 @@ class JPollGlobalController extends JController
 				$db->query();
 			}
 		}
-	
+
 		// update the menu visibility
 		$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
-	
+
 		$query = "DELETE FROM #__poll_menu"
 		. "\n WHERE pollid = $row->id"
 		;
 		$db->setQuery( $query );
 		$db->query();
-	
+
 		for ($i=0, $n=count($selections); $i < $n; $i++) {
 			$query = "INSERT INTO #__poll_menu"
 			. "\n SET pollid = $row->id, menuid = ". $selections[$i]
@@ -227,25 +227,25 @@ class JPollGlobalController extends JController
 			$db->setQuery( $query );
 			$db->query();
 		}
-	
+
 		switch ($this->_task) {
 			case 'apply':
 				$link = 'index.php?option=com_poll&task=editA&id='. $row->id .'&hidemainmenu=1';
 				break;
-	
+
 			case 'save':
 			default:
 				$link = 'index.php?option=com_poll';
 				break;
 		}
-	
+
 		$this->setRedirect($link);
 	}
-	
+
 	function removePoll()
 	{
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
@@ -268,22 +268,22 @@ class JPollGlobalController extends JController
 	function publishPolls()
 	{
 		global $mainframe;
-	
+
 		$db =& $mainframe->getDBO();
 		$user 	=& $mainframe->getUser();
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$publish = ( $this->_task == 'publish' ? 1 : 0 );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
-	
+
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$action = $publish ? 'publish' : 'unpublish';
 			echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 			exit;
 		}
-	
+
 		$cids = implode( ',', $cid );
-	
+
 		$query = "UPDATE #__polls"
 		. "\n SET published = " . intval( $publish )
 		. "\n WHERE id IN ( $cids )"
@@ -294,42 +294,42 @@ class JPollGlobalController extends JController
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-	
+
 		if (count( $cid ) == 1) {
 			$row = new mosPoll( $db );
 			$row->checkin( $cid[0] );
 		}
 		josRedirect( 'index.php?option='. $option );
 	}
-	
+
 	function cancelPoll()
 	{
 		global $mainframe, $option;
-		
+
 		$db =& $mainframe->getDBO();
 		$row = new mosPoll( $db );
 		$row->bind( $_POST );
 		$row->checkin();
 		$this->setRedirect( 'index.php?option='. $option );
 	}
-	
+
 	function previewPoll()
 	{
 		global $mainframe;
-		
+
 		$mainframe->setPageTitle(JText::_('Poll Preview'));
-	
+
 		$db 	=& $mainframe->getDBO();
 		$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
 		$css = JRequest::getVar( 't', '' );
-	
+
 		$query = "SELECT title"
 			. "\n FROM #__polls"
 			. "\n WHERE id = $pollid"
 		;
 		$db->setQuery( $query );
 		$title = $db->loadResult();
-	
+
 		$query = "SELECT text"
 			. "\n FROM #__poll_data"
 			. "\n WHERE pollid = $pollid"
@@ -337,7 +337,7 @@ class JPollGlobalController extends JController
 		;
 		$db->setQuery( $query );
 		$options = $db->loadResultArray();
-	
+
 		JPollView::previewPoll($title, $options);
 	}
 }

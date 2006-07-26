@@ -42,7 +42,7 @@ switch ($task) {
 	case 'new':
 	case 'edit':
 		JBannerController::edit( );
-		break;	
+		break;
 
 	case 'cancel':
 		JBannerController::cancelEditBanner();

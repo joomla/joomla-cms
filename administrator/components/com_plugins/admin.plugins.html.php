@@ -283,7 +283,7 @@ class HTML_modules {
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col40">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>

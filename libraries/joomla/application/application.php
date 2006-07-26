@@ -90,7 +90,7 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( $clientId = 0 ) 
+	function __construct( $clientId = 0 )
 	{
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
@@ -103,7 +103,7 @@ class JApplication extends JObject
 	 * @param string 	$varname 	The name of the value to get
 	 * @return The user state
 	 */
-	function getCfg( $varname ) 
+	function getCfg( $varname )
 	{
 		$config =& JFactory::getConfig();
 		return $config->getValue('config.'.$varname);
@@ -159,12 +159,12 @@ class JApplication extends JObject
 		$old_state = $this->getUserState( $key );
 		$cur_state = isset( $old_state ) ? $old_state : $default;
 		$new_state = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $cur_state;
-		
+
 		// filter input
 		jimport( 'phpinputfilter.inputfilter' );
-		$iFilter = new InputFilter();			
+		$iFilter = new InputFilter();
 		$new_state = $iFilter->process( $new_state );
-		
+
 		$this->setUserState( $key, $new_state );
 
 		return $new_state;
@@ -217,12 +217,12 @@ class JApplication extends JObject
 	 */
 	function login($username,$password)
 	{
-		if (empty($username))  { 
+		if (empty($username))  {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_USERNAME'));
 		}
-		
+
 		if(empty($password)) {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));	
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));
 		}
 
 		// Get the global database connector object
@@ -308,7 +308,7 @@ class JApplication extends JObject
 					setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );
 					setcookie( 'usercookie[password]', $user->get('password'), $lifetime, '/' );
 				}
-				
+
 				return true;
 			}
 		}
@@ -352,16 +352,16 @@ class JApplication extends JObject
 			$session = & JTable::getInstance('session', $this->getDBO());
 			$session->load( JSession::id());
 			$session->destroy();
-			
+
 			// Destroy the php session for this user
 			JSession::destroy();
 
 			$retval = true;
 		}
-		
+
 		// Hit the user last visit field
 		$user->setLastVisit();
-		
+
 		return $retval;
 	}
 
@@ -431,11 +431,11 @@ class JApplication extends JObject
 		//Set the language in the class
 		$conf =& JFactory::getConfig();
 		$conf->setValue('config.language', $lang);
-		
+
 		//set language debug
 		$lang =& JFactory::getLanguage();
 		$lang->setDebug($this->getCfg('debug_lang'));
-		
+
 		// create the backward compatible language value for old 3PD components
 		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
 	}
@@ -558,7 +558,7 @@ class JApplication extends JObject
 		$instance->setDebug( $this->getCfg('debug'));
 		return $instance;
 	}
-	
+
 	/**
 	 * Create a JPathWay object and set the home/component items of the pathway
 	 *
@@ -620,13 +620,13 @@ class JApplication extends JObject
 		jimport( 'joomla.registry.registry' );
 
 		require_once( $file );
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
-		
-		// Get the global configuration object	
+
+		// Get the global configuration object
 		$registry =& JFactory::getConfig();
-		
+
 		// Load the configuration values into the registry
 		$registry->loadObject($config);
 	}
@@ -681,11 +681,11 @@ class JApplication extends JObject
 
 		JSession::setIdle($this->getCfg('lifetime'));
 		JSession::setGcMaxLifetime($this->getCfg('lifetime'));
-		
+
 		// Set user specific editor
 		$user =& JFactory::getUser();
 		$editor = $user->getParam('editor', $this->getCfg('editor'));
-				
+
 		$config =& JFactory::getConfig();
 		$config->setValue('config.editor', $editor);
 
@@ -733,7 +733,7 @@ class JApplication extends JObject
 	 * Depreceated, use JPathWay->addItem() method instead
 	 * @since 1.5
 	 */
-	function appendPathWay( $name, $link = null ) 
+	function appendPathWay( $name, $link = null )
 	{
 		/*
 		 * To provide backward compatability if no second parameter is set
@@ -1152,7 +1152,7 @@ class JApplicationHelper
 		$data['group'] = $element ? $element->group() : '';
 		return $data;
 	}
-	
+
 	/**
 	 * Tries to find a file in the administrator or site areas
 	 *

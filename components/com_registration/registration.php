@@ -205,7 +205,7 @@ function saveRegistration()
 	if (!$new_usertype) {
 		$new_usertype = 'Registered';
 	}
-	
+
 	$siteURL 		= $mainframe->getBaseURL();
 	$breadcrumbs 	=& $mainframe->getPathWay();
 

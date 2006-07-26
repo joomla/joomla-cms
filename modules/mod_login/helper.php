@@ -19,9 +19,9 @@ class modLoginHelper
 	function renderLogoutForm(&$params, $return)
 	{
 		global $mainframe;
-		
+
 		$user =& $mainframe->getUser();
-		
+
 		?><form action="index.php" method="post" name="login"><?php
 		if ($params->get('greeting')) : ?>
 			<div><?php echo sprintf( JText::_( 'HINAME' ), $user->get('name') ); ?></div>
@@ -36,11 +36,11 @@ class modLoginHelper
 		</form>
 		<?php
 	}
-	
+
 	function renderLoginForm(&$params, $return)
 	{
 		global $mainframe;
-		
+
 		?>
 		<form action="index.php" method="post" name="login" >
 
@@ -90,12 +90,12 @@ class modLoginHelper
 		</form>
 		<?php
 	}
-	
+
 	function getReturnURL()
 	{
 		// url of current page that user will be returned to after login
 		$url = JArrayHelper::getValue($_SERVER, 'REQUEST_URI', null);
-		
+
 		// if return link does not contain https:// & http:// and to url
 		if (strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0)
 		{
@@ -105,7 +105,7 @@ class modLoginHelper
 			if (isset ($_SERVER['HTTPS']) && (!empty ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')) {
 				$return = 'https://'.$url;
 			}
-			else 
+			else
 			{
 				// normal http:// link
 				$return = 'http://'.$url;
@@ -115,11 +115,11 @@ class modLoginHelper
 		{
 			$return = $url;
 		}
-		
+
 		// converts & to &amp; for xtml compliance
 		$return = str_replace('&', '&amp;', $return);
 	}
-	
+
 	function getType()
 	{
 		global $mainframe;

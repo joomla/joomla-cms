@@ -33,7 +33,7 @@ $task	 = JRequest::getVar( 'task', $cParams->get( 'task') );
  *
  * Each view is determined by the $task variable
  */
-switch( $task ) 
+switch( $task )
 {
 	case 'view':
 		NewsfeedsController::showFeed( );
@@ -55,23 +55,23 @@ switch( $task )
  */
 class NewsfeedsController
 {
-	function listFeeds(  ) 
+	function listFeeds(  )
 	{
 		global $mainframe, $Itemid;
 
 		$db		 		= & $mainframe->getDBO();
 		$user 			= & $mainframe->getUser();
 		$breadcrumbs 	= & $mainframe->getPathWay();
-		
+
 		$option 		= JRequest::getVar('option');
 		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
 		$Itemdid   		= JREquest::getVar('Itemid');
 		$gid			= $user->get('gid');
-		
+
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
-		
+
 		$catid 			= JRequest::getVar( 'catid', $mParams->get( 'category_id' ), '', 'int' );
 
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */
@@ -87,7 +87,7 @@ class NewsfeedsController
 		;
 		$db->setQuery( $query );
 		$categories = $db->loadObjectList();
-		
+
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
@@ -196,7 +196,7 @@ class NewsfeedsController
 
 		// page header and settings
 		$currentcat->header = '';
-		if ( @$currentcat->name <> '' ) 
+		if ( @$currentcat->name <> '' )
 		{
 			$currentcat->header = $currentcat->name;
 
@@ -205,8 +205,8 @@ class NewsfeedsController
 
 			// Add breadcrumb item per category
 			$breadcrumbs->addItem($currentcat->header, '');
-		} 
-		else 
+		}
+		else
 		{
 			$currentcat->header = $mParams->get( 'header' );
 
@@ -222,10 +222,10 @@ class NewsfeedsController
 	}
 
 
-	function showFeed( ) 
+	function showFeed( )
 	{
 		global $mainframe;
-		
+
 		// check if cache directory is writeable
 		$cacheDir = $mainframe->getCfg('cachepath') . DS;
 		if ( !is_writable( $cacheDir ) ) {
@@ -236,14 +236,14 @@ class NewsfeedsController
 		// Get some objects from the JApplication
 		$db		 	= & $mainframe->getDBO();
 		$user 		= & $mainframe->getUser();
-		
+
 		$Itemid = JRequest::getVar('Itemid');
-		
+
 		// Get the current menu item
 		$menus   =& JMenu::getInstance();
 		$menu    =& $menus->getItem($Itemid);
 		$mParams =& $menus->getParams($Itemid);
-		
+
 		$feedid = JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );
 
 		require_once( $mainframe->getPath( 'class' ) );

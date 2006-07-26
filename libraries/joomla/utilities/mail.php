@@ -78,7 +78,7 @@ class JMail extends PHPMailer
 	function setSender($from)
 	{
 		// If $from is an array we assume it has an address and a name
-		if (is_array($from)) 
+		if (is_array($from))
 		{
 			$this->From 	= JMailHelper::cleanLine( $from[0] );
 			$this->FromName = JMailHelper::cleanLine( $from[1] );
@@ -283,7 +283,7 @@ class JMail extends PHPMailer
 	 */
 	function useSMTP($auth = null, $host = null, $user = null, $pass = null)
 	{
-		$this->SMTPAuth = $auth; 
+		$this->SMTPAuth = $auth;
 		$this->Host 	= $host;
 		$this->Username = $user;
 		$this->Password = $pass;

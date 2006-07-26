@@ -19,9 +19,9 @@ class modSyndicateHelper
 	function getLink(&$params)
 	{
 		global $mainframe;
-	
+
 		$document =& $mainframe->getDocument();
-	
+
 		foreach($document->_links as $link)
 		{
 			if(strpos($link, 'application/'.$params->get('format').'+xml')) {
@@ -29,6 +29,6 @@ class modSyndicateHelper
 				return $matches[1];
 			}
 		}
-	
+
 	}
 }

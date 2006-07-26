@@ -74,7 +74,7 @@ class JView extends JObject {
 		foreach ($this->_models as $model)
 		{
 			$result .= '&nbsp;'.$model->__toString();
-		} 
+		}
 		return $result;
 	}
 
@@ -148,7 +148,7 @@ class JView extends JObject {
 	 * @return mixed	The return value of the method
 	 * @since	1.5
 	 */
-	function &get( $method, $model = null ) 
+	function &get( $method, $model = null )
 	{
 		$false = false;
 

@@ -26,11 +26,11 @@ class JContentArticleHelper
 		$task   = JRequest::getVar('task');
 		$noJS   = JRequest::getVar('hide_js', 0, '', 'int');
 		$Itemid = JRequest::getVar('Itemid');
-			
+
 		// Get the paramaters of the active menu item
 		$menus  =& JMenu::getInstance();
 		$params =& $menus->getParams($Itemid);
-		
+
 		// TODO: clean this part up
 		$SiteName = $app->getCfg('sitename');
 		$gid = $user->get('gid');

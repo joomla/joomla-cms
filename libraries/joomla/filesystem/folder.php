@@ -39,7 +39,7 @@ class JFolder {
 	function create($path = '', $mode = 0755)
 	{
 		$config =& JFactory::getConfig();
-		
+
 		// Initialize variables
 		$ftpFlag	= true;
 		$ftpRoot	= $config->getValue('config.ftp_root');
@@ -149,7 +149,7 @@ class JFolder {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function delete($path) 
+	function delete($path)
 	{
 		$config =& JFactory::getConfig();
 
@@ -210,7 +210,7 @@ class JFolder {
 	 * @return mixed Error message on false or boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '') 
+	function move($src, $dest, $path = '')
 	{
 		$config =& JFactory::getConfig();
 
@@ -284,7 +284,7 @@ class JFolder {
 	 * @return array Files in the given folder
 	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false) 
+	function files($path, $filter = '.', $recurse = false, $fullpath = false)
 	{
 		$config =& JFactory::getConfig();
 
@@ -390,10 +390,10 @@ class JFolder {
 	 * @return array Folders in the given folder
 	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false) 
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false)
 	{
 		$config =& JFactory::getConfig();
-		
+
 		// Initialize variables
 		$ftpFlag = true;
 		$arr = array ();
@@ -484,7 +484,7 @@ class JFolder {
 	/**
 	 * Lists folder in format suitable for tree display
 	 */
-	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0) 
+	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
 		$dirs = array ();
 		if ($level == 0) {

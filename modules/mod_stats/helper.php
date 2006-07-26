@@ -16,12 +16,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class modStatsHelper
 {
-	function renderServerInfo(&$params) 
+	function renderServerInfo(&$params)
 	{
 		global $mainframe;
-		
+
 		$db = $mainframe->getDBO();
-		
+
 		echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 		echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
 		echo "<strong>MySQL:</strong> " .$db->getVersion() . "<br />\n";
@@ -31,25 +31,25 @@ class modStatsHelper
 		$z = $mainframe->getCfg('gzip') ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		echo "<strong>GZIP:</strong> " . $z . "<br />\n";
 	}
-	
-	function renderSiteInfo(&$params) 
+
+	function renderSiteInfo(&$params)
 	{
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
-		
+
 		$query="SELECT COUNT( id ) AS count_users"
 		. "\n FROM #__users"
 		;
 		$db->setQuery($query);
 		echo "<strong>". JText::_( 'Members' ) .":</strong> " .$db->loadResult() . "<br />\n";
-	
+
 		$query="SELECT COUNT( id ) AS count_items"
 		. "\n FROM #__content"
 		;
 		$db->setQuery($query);
 		echo "<strong>". JText::_( 'News' ) .":</strong> ".$db->loadResult() . "<br />\n";
-	
+
 		$query="SELECT COUNT( id ) AS count_links"
 		. "\n FROM #__weblinks"
 		. "\n WHERE published = 1"
@@ -57,17 +57,17 @@ class modStatsHelper
 		$db->setQuery($query);
 		echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$db->loadResult() . "<br />\n";
 	}
-	
+
 	function renderVisitorInfo(&$params)
 	{
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
-		
+
 		$counter 	= $params->get( 'counter' );
 		$increase 	= $params->get( 'increase' );
-			
-		if ($counter) 
+
+		if ($counter)
 		{
 			$query = "SELECT SUM( hits ) AS count"
 				. "\n FROM #__stats_agents"
@@ -75,9 +75,9 @@ class modStatsHelper
 				;
 			$db->setQuery( $query );
 			$hits = $db->loadResult();
-		
+
 			$hits = $hits + $increase;
-		
+
 			if ($hits == NULL) {
 				echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> 0\n";
 			} else {

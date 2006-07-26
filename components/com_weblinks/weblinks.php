@@ -89,13 +89,13 @@ class WeblinksController
 		$gid		= $user->get('gid');
 		$page		= '';
 		$category	= null;
-		
+
 		$Itemid		= JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
-		
+
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
@@ -109,7 +109,7 @@ class WeblinksController
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
-		
+
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
 
@@ -437,7 +437,7 @@ class WeblinksController
 		if ($row->isCheckedOut($user->get('id'))) {
 			josRedirect("index2.php?option=$option", "The module $row->title is currently being edited by another administrator.");
 		}
-		
+
 		// Edit or Create?
 		if ($id) {
 			/*

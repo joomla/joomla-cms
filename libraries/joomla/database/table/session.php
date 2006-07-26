@@ -88,7 +88,7 @@ class JTableSession extends JTable
 		$query = "DELETE FROM #__session"
 			. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id );
 		$this->_db->setQuery( $query );
-		
+
 		if ( !$this->_db->query() ) {
 			$this->_error =  $this->_db->stderr();
 			return false;

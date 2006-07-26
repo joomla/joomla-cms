@@ -37,7 +37,7 @@ class JContentHelperLinkToMenu extends JWizardHelper
 		$log		= array();
 
 		$db			= &JFactory::getDBO();
-		
+
 		if (is_int( $menuItem ))
 		{
 			// link directly to a menu item
@@ -70,7 +70,7 @@ class JContentHelperLinkToMenu extends JWizardHelper
 					' WHERE id = ' . (int) $id;
 			$db->setQuery( $query );
 			$title = $db->loadResult();
-			
+
 			$menuItem->id			= 0;
 			$menuItem->type			= 'content_item_link';
 			$menuItem->menutype		= $menuType;
@@ -100,7 +100,7 @@ class JContentHelperLinkToMenu extends JWizardHelper
 	 */
 	function &getConfirmation()
 	{
-		$log = $this->doStep1();		
+		$log = $this->doStep1();
 
 		return $log;
 	}

@@ -19,8 +19,8 @@ class modMainMenuHelper
 	function renderMenu(&$params)
 	{
 		global $mainframe;
-		
-		switch ( $params->get( 'menu_style', 'list' ) ) 
+
+		switch ( $params->get( 'menu_style', 'list' ) )
 		{
 			case 'list_flat' :
 				// Include the legacy library file

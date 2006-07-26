@@ -15,54 +15,54 @@
 * @author Sebastian BERGMANN <sb@sebastian-bergmann.de>
 * @author Fabien MARTY <fab@php.net>
 */
- 
+
 require_once('Cache/Lite.php');
 
 class Cache_Lite_Function extends Cache_Lite
 {
 
     // --- Private properties ---
-    
+
     /**
      * Default cache group for function caching
      *
      * @var string $_defaultGroup
      */
     var $_defaultGroup = 'Cache_Lite_Function';
-    
+
     /**
      * Don't cache the method call when its output contains the string "NOCACHE"
-     * 
+     *
      * if set to true, the output of the method will never be displayed (because the output is used
      * to control the cache)
-     * 
+     *
      * @var boolean $_dontCacheWhenTheOutputContainsNOCACHE
      */
     var $_dontCacheWhenTheOutputContainsNOCACHE = false;
-    
+
     /**
      * Don't cache the method call when its result is false
-     * 
+     *
      * @var boolean $_dontCacheWhenTheResultIsFalse
      */
     var $_dontCacheWhenTheResultIsFalse = false;
-    
+
     /**
      * Don't cache the method call when its result is null
-     * 
+     *
      * @var boolean $_dontCacheWhenTheResultIsNull
      */
     var $_dontCacheWhenTheResultIsNull = false;
-    
+
     /**
      * Debug the Cache_Lite_Function caching process
-     * 
+     *
      * @var boolean $_debugCacheLiteFunction
      */
     var $_debugCacheLiteFunction = false;
-    
+
     // --- Public methods ----
-    
+
     /**
     * Constructor
     *
@@ -94,12 +94,12 @@ class Cache_Lite_Function extends Cache_Lite
         reset($options);
         $this->Cache_Lite($options);
     }
-    
+
     /**
     * Calls a cacheable function or method (or not if there is already a cache for it)
     *
     * Arguments of this method are read with func_get_args. So it doesn't appear
-    * in the function definition. Synopsis : 
+    * in the function definition. Synopsis :
     * call('functionName', $arg1, $arg2, ...)
     * (arg1, arg2... are arguments of 'functionName')
     *
@@ -121,7 +121,7 @@ class Cache_Lite_Function extends Cache_Lite
         } else {
             if ($this->_debugCacheLiteFunction) {
                 echo "Cache missed !\n";
-            } 
+            }
             ob_start();
             ob_implicit_flush(false);
             $target = array_shift($arguments);
@@ -170,12 +170,12 @@ class Cache_Lite_Function extends Cache_Lite
         echo($output);
         return $result;
     }
-    
+
     /**
     * Drop a cache file
     *
     * Arguments of this method are read with func_get_args. So it doesn't appear
-    * in the function definition. Synopsis : 
+    * in the function definition. Synopsis :
     * remove('functionName', $arg1, $arg2, ...)
     * (arg1, arg2... are arguments of 'functionName')
     *
@@ -187,7 +187,7 @@ class Cache_Lite_Function extends Cache_Lite
         $id = $this->_makeId(func_get_args());
         $this->remove($id, $this->_defaultGroup);
     }
-    
+
     /**
     * Make an id for the cache
     *
@@ -195,17 +195,17 @@ class Cache_Lite_Function extends Cache_Lite
     * @return string id
     * @access private
     */
-    function _makeId($arguments) 
+    function _makeId($arguments)
     {
         $id = serialize($arguments); // Generate a cache id
         if (!$this->_fileNameProtection) {
             $id = md5($id);
             // if fileNameProtection is set to false, then the id has to be hashed
             // because it's a very bad file name in most cases
-        }    
+        }
         return $id;
     }
-    
+
 }
 
 ?>

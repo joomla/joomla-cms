@@ -190,7 +190,7 @@ function editContact( ) {
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
-	
+
 	$row = new JTableContact( $db );
 	// load the row from the db table
 	$row->load( $cid[0] );

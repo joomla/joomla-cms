@@ -163,7 +163,7 @@ class HTML_statistics
 							<?php echo JText::_( 'NUM' ); ?>
 						</th>
 					</tr>
-				</thead>				
+				</thead>
 				<?php
 				$c = 1;
 				if (is_array($tldomains) && count($tldomains) > 0) {

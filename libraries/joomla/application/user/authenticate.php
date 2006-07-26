@@ -487,7 +487,7 @@ class JAuthenticateHelper
  * @since 1.5
  */
 class JAuthenticateResponse extends JObject {
-	/** @var type string Response Type (success, failure, critical_failure, error, critical_error,autocreate) */ 
+	/** @var type string Response Type (success, failure, critical_failure, error, critical_error,autocreate) */
 	var $type 			= null;
 	/** @var name string Name of Response */
 	var $name 			= '';
@@ -495,7 +495,7 @@ class JAuthenticateResponse extends JObject {
 	var $error_message 	= '';
 	/** @var autocreate int Flag to autocreate a user */
 	var $autocreate		= 0;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -505,7 +505,7 @@ class JAuthenticateResponse extends JObject {
 	function JAuthenticateResponse($name) {
 		$this->name = $name;
 	}
-	
+
 }
 
 ?>

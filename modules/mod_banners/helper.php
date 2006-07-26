@@ -19,7 +19,7 @@ class modBannersHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-		
+
 		$db			= $mainframe->getDBO();
 		$model		= modBannersHelper::getModel($db);
 
@@ -39,10 +39,10 @@ class modBannersHelper
 
 		$banners = $model->getList( $vars );
 		$model->impress( $banners );
-		
+
 		return $banners;
 	}
-	
+
 	function getModel(&$db)
 	{
 		if (!class_exists( 'JBannerModel' ))
@@ -62,15 +62,15 @@ class modBannersHelper
 				return $false;
 			}
 		}
-			
+
 		$model = & new JModelBanner( $db );
 		return $model;
 	}
-		
+
 	function renderBanner($params, &$item)
 	{
 		$link = sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
-		
+
 		$html = '';
 		if (trim($item->custombannercode))
 		{
@@ -83,19 +83,19 @@ class modBannersHelper
 			$image 	= '<img src="images/banners/'.$item->imageurl.'" border="0" alt="'.JText::_('Banner').'" />';
 			if ($item->clickurl)
 			{
-				switch ($params->get( 'target', 1 )) 
+				switch ($params->get( 'target', 1 ))
 				{
 					// cases are slightly different
 					case 1:
 						// open in a new window
 						$a = '<a href="'. $link .'" target="_blank">';
 						break;
-		
+
 					case 2:
 						// open in a popup window
 						$a = "<a href=\"javascript:void window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">";
 						break;
-		
+
 					default:	// formerly case 2
 						// open in parent window
 						$a = '<a href="'. $link .'">';
@@ -106,7 +106,7 @@ class modBannersHelper
 			}
 			else
 			{
-				$html = $image;				
+				$html = $image;
 			}
 		}
 		else if (JBannerHelper::isFlash( $item->imageurl ))
@@ -116,7 +116,7 @@ class modBannersHelper
 						<param name=\"movie\" value=\"$imageurl\"><embed src=\"$imageurl\" loop=\"false\" pluginspage=\"http://www.macromedia.com/go/get/flashplayer\" type=\"application/x-shockwave-flash\"></embed>
 					</object>";
 		}
-		
+
 		return $html;
 	}
 }

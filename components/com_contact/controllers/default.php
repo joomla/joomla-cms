@@ -205,7 +205,7 @@ class JContactControllerDefault extends JController {
 			JError::raiseWarning( 0, $this->getError() );
 			return false;
 		}
-		
+
 		// Prepare email body
 		$prefix = sprintf(JText::_('ENQUIRY_TEXT'), $app->getBaseURL());
 		$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
@@ -234,12 +234,12 @@ class JContactControllerDefault extends JController {
 			$copySubject 	= JText::_('Copy of:')." ".$subject;
 
 			$mail = new JMail();
-	
+
 			$mail->addRecipient( $email );
 			$mail->setSender( array( $MailFrom, $FromName ) );
 			$mail->setSubject( $copySubject );
 			$mail->setBody( $copyText );
-	
+
 			$sent = $mail->Send();
 			echo (int)$sent;
 		}

@@ -42,7 +42,7 @@ class JViewBlog
 		$option		= JRequest::getVar('option');
 		$Itemid		= JRequest::getVar('Itemid');
 		$gid		= $user->get('gid');
-	
+
 		//add alternate feed link
 		$link    = ampReplace($mainframe->getBaseURL() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');

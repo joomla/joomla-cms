@@ -19,23 +19,23 @@
  * @subpackage	Presentation
  * @since		1.5
  */
-class JEditor extends JObservable 
+class JEditor extends JObservable
 {
 	/**
 	 * Editor Plugin object
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	var $_editor = null;
-	
-	
+
+
 	/**
 	 * Editor Plugin name
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	var $_name = null;
-	
+
 	/**
 	* constructor
 	*
@@ -67,7 +67,7 @@ class JEditor extends JObservable
 		}
 
 		$signature = serialize($editor);
-		
+
 		if (empty ($instances[$signature])) {
 			$instances[$signature] = new JEditor($editor);
 		}
@@ -85,7 +85,7 @@ class JEditor extends JObservable
 		if(is_null(($this->_editor))) {
 			return;
 		}
-		
+
 		$args['event'] = 'onInit';
 
 		$return = '';
@@ -254,12 +254,12 @@ class JEditor extends JObservable
 	 * @since 1.5
 	 */
 	function _loadEditor()
-	{	
+	{
 		//check if editor is already loaded
 		if(!is_null(($this->_editor))) {
 			return;
 		}
-		
+
 		// Build the path to the needed editor plugin
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$this->_name.'.php';
 
@@ -271,7 +271,7 @@ class JEditor extends JObservable
 		// Build editor plugin classname
 		$name = 'JEditor_'.$this->_name;
 		$this->_editor = new $name ($this);
-		
+
 		JPluginHelper::importPlugin('editors-xtd');
 	}
 }

@@ -19,11 +19,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Search
 */
-class search_html 
+class search_html
 {
-	function openhtml( $params ) 
+	function openhtml( $params )
 	{
-		if ( $params->get( 'page_title' ) ) 
+		if ( $params->get( 'page_title' ) )
 		{
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -38,7 +38,7 @@ class search_html
 	 * @param object
 	 * @param array Array of the selected areas
 	 */
-	function searchbox( $searchword, &$lists, $params, &$areas ) 
+	function searchbox( $searchword, &$lists, $params, &$areas )
 	{
 		global $Itemid;
 
@@ -103,7 +103,7 @@ class search_html
 		<?php
 	}
 
-	function searchintro( $searchword, $params ) 
+	function searchintro( $searchword, $params )
 	{
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -119,7 +119,7 @@ class search_html
 	 * @static
 	 * @return void
 	 */
-	function displaynoresult() 
+	function displaynoresult()
 	{
 		?>
 		</td>
@@ -142,7 +142,7 @@ class search_html
 	 * @return void
 	 * @since 1.0
 	 */
-	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) 
+	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword )
 	{
 		global $mainframe, $option, $Itemid;
 
@@ -271,7 +271,7 @@ class search_html
 	 * @return void
 	 * @since 1.0
 	 */
-	function conclusion( $searchword, $pageNav ) 
+	function conclusion( $searchword, $pageNav )
 	{
 		global $option, $Itemid;
 
@@ -303,7 +303,7 @@ class search_html
 	 * @since 1.0
 	 * @deprecated 1.5
 	 */
-	function message( $message, $params ) 
+	function message( $message, $params )
 	{
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">

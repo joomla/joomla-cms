@@ -41,7 +41,7 @@ class JMenuModelItem extends JModel
 	function &getItem() {
 
 		static $item;
-		
+
 		if (isset($item)) {
 			return $item;
 		}
@@ -70,7 +70,7 @@ class JMenuModelItem extends JModel
 	function &getItemForEdit()
 	{
 		$item	=& $this->getItem();
-		
+
 		// Run the object through the helper just in case something needs to be handled.
 		if ($helper =& $this->_getHelper()) {
 			$item =& $helper->prepForEdit($item);
@@ -183,7 +183,7 @@ class JMenuModelItem extends JModel
 	function store()
 	{
 		$row =& $this->getItem();
-	
+
 		if ($helper =& $this->_getHelper()) {
 			$values =& $helper->prepForStore($_POST);
 		} else {
@@ -194,9 +194,9 @@ class JMenuModelItem extends JModel
 //			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
-	
+
 		$row->name = ampReplace( $row->name );
-	
+
 		if (!$row->check()) {
 //			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
@@ -227,7 +227,7 @@ class JMenuModelItem extends JModel
 		}
 
 		$db = &$this->getDBO();
-		
+
 		if (count( $ids ))
 		{
 			// Delete associated module and template mappings
@@ -239,7 +239,7 @@ class JMenuModelItem extends JModel
 			if (!$db->query())
 			{
 				$this->setError( $menuTable->getErrorMsg() );
-				return false;				
+				return false;
 			}
 
 			$query = 'DELETE FROM #__templates_menu '
@@ -248,12 +248,12 @@ class JMenuModelItem extends JModel
 			if (!$db->query())
 			{
 				$this->setError( $menuTable->getErrorMsg() );
-				return false;				
+				return false;
 			}
 
 			// Delete the menu items
 			$where = 'WHERE id = ' . implode( ' OR id = ', $ids );
-			
+
 			$query = 'DELETE FROM #__menu ' . $where;
 			$db->setQuery( $query );
 			if (!$db->query())
@@ -271,13 +271,13 @@ class JMenuModelItem extends JModel
 	function deleteByType( $type = '' )
 	{
 		$db = &$this->getDBO();
-		
+
 		$query = 'SELECT id' .
 				' FROM #__menu' .
 				' WHERE menutype = ' . $db->Quote( $type );
 		$db->setQuery( $query );
 		$ids = $db->loadResultArray();
-		
+
 		if ($db->getErrorNum())
 		{
 			$this->setError( $db->getErrorMsg() );
@@ -344,7 +344,7 @@ class JMenuModelItem extends JModel
 	function &_getHelper()
 	{
 		static $helper;
-		
+
 		if (isset($helper)) {
 			return $helper;
 		}
@@ -364,7 +364,7 @@ class JMenuModelItem extends JModel
 	function &_getStateXML()
 	{
 		static $xml;
-		
+
 		if (isset($xml)) {
 			return $xml;
 		}

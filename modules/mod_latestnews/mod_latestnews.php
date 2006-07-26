@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $list = modLatestNewsHelper::getList($params);
-		
+
 ?>
 <ul class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
 <?php foreach ($list as $item) :  ?>

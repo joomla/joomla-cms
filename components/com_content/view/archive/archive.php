@@ -62,7 +62,7 @@ class JArchiveViewArchive extends JView
 		// Initialize some variables
 		$app	= & $this->getApplication();
 		$user	= & $app->getUser();
-		
+
 		$gid	= $user->get('gid');
 
 		// At some point this will come from a request object
@@ -71,7 +71,7 @@ class JArchiveViewArchive extends JView
 		$Itemid	 = JRequest::getVar('Itemid');
 		$option	 = JRequest::getVar('option');
 		$showAll = !$id;
-		
+
 		// Get the menu object of the active menu
 		$menus	=& JMenu::getInstance();
 		$menu	=& $menus->getItem($Itemid);
@@ -307,7 +307,7 @@ class JArchiveViewArchive extends JView
 	{
 		// Initialize some variables
 		$app		= & $this->getApplication();
-		$user		= & $app->getUser();		
+		$user		= & $app->getUser();
 
 		// These will come from a request object at some point
 		$task		= JRequest::getVar( 'task' );

@@ -113,10 +113,10 @@ class JMessage extends JTable
 	function check() {
 		// filter malicious code
 		$this->filter( );
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to send a private message
 	 *

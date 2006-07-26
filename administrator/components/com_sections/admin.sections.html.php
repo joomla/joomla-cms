@@ -335,7 +335,7 @@ class sections_html
 				</tr>
 				</table>
 			</fieldset>
-			
+
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -351,7 +351,7 @@ class sections_html
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col40">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>
@@ -405,11 +405,11 @@ class sections_html
 					</table>
 
 					<?php
-					if ( $menus != NULL ) {						
+					if ( $menus != NULL ) {
 						?>
 						<br />
-						<?php 
-						mosCommonHTML::menuLinksSecCat( $menus ); 
+						<?php
+						mosCommonHTML::menuLinksSecCat( $menus );
 					}
 					?>
 					<?php

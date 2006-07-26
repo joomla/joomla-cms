@@ -40,7 +40,7 @@ class HTML_user
 
 	function userEdit( &$user, $option, $submitvalue ) {
 		global $mainframe;
-		
+
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
 		mosCommonHTML::loadOverlib();
@@ -147,7 +147,7 @@ class HTML_user
 		if ($check == '1' || $check == 1 || $check == NULL) {
 			$params =& $user->getParameters();
 			$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
-			
+
 			// output params
 			echo $params->render( 'params' );
 		}

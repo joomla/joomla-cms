@@ -100,7 +100,7 @@ class JUser extends JObject
 		if (!isset ($instances)) {
 			$instances = array ();
 		}
-		
+
 		// Find the user id
 		if(!is_int($id))
 		{
@@ -110,7 +110,7 @@ class JUser extends JObject
 			}
 		}
 
-		if (empty($instances[$id])) 
+		if (empty($instances[$id]))
 		{
 			$user = new JUser($id);
 			$instances[$id] = $user;
@@ -290,14 +290,14 @@ class JUser extends JObject
 		/*
 		 * Lets check to see if the user is new or not
 		 */
-		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/) 
+		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/)
 		{
 			/*
 			 * Since we have a new user, and we are going to create it... we
 			 * need to check a few things and set some defaults if we don't
 			 * already have them.
 			 */
-			
+
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
@@ -321,8 +321,8 @@ class JUser extends JObject
 				$password = substr( $password, 0, 50 );
 				$this->set( 'password', $password );
 			}
-		} 
-		else 
+		}
+		else
 		{
 			/*
 			 * We are updating an existing user.. so lets get down to it.
@@ -398,7 +398,7 @@ class JUser extends JObject
 			$this->_setError("JUser::save: ".$this->_table->getError());
 			return false;
 		}
-		
+
 		// if user is made a Super Admin group and user is NOT a Super Admin
 		if ( $this->get('gid') == 25 && $me->get('gid') != 25 ) {
 			// disallow creation of Super Admin by non Super Admin users
@@ -457,7 +457,7 @@ class JUser extends JObject
 	function delete( )
 	{
 		JPluginHelper::importPlugin( 'user' );
-		
+
 		//trigger the onBeforeDeleteUser event
 		$dispatcher =& JEventDispatcher::getInstance();
 		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
@@ -526,7 +526,7 @@ class JUser extends JObject
  * @subpackage	Application
  * @since		1.5
  */
-class JUserHelper 
+class JUserHelper
 {
 	/**
 	 * Method to activate a user
@@ -550,7 +550,7 @@ class JUserHelper
 		$id = intval( $db->loadResult() );
 
 		// Is it a valid user to activate?
-		if ($id) 
+		if ($id)
 		{
 			$user = JUser::getInstance( (int) $id );
 
@@ -569,7 +569,7 @@ class JUserHelper
 
 		return true;
 	}
-	
+
 	/**
 	 * Returns userid if a user exists
 	 *
@@ -580,7 +580,7 @@ class JUserHelper
 	{
 		// Initialize some variables
 		$db = & JFactory::getDBO();
-		
+
 		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();

@@ -329,7 +329,7 @@ class JContentController extends JController
 			$row->modified 		= date('Y-m-d H:i:s');
 			$row->modified_by 	= $user->get('id');
 		}
-		
+
 		/*
 		* Append time if not added to publish date
 		*/
@@ -337,7 +337,7 @@ class JContentController extends JController
 			$row->publish_up .= ' 00:00:00';
 		}
 		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
-		
+
 		/*
 		* Handle never unpublish date
 		*/
@@ -348,7 +348,7 @@ class JContentController extends JController
 				$row->publish_down .= ' 00:00:00';
 			}
 			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
-		}		
+		}
 
 		$row->title = ampReplace($row->title);
 

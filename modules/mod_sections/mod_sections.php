@@ -18,13 +18,13 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $list = modSections::getList($params);
-		
+
 if (!count($list)) {
 	return;
 }
 
 ?><ul class="sections<?php echo $params->get('moduleclass_sfx'); ?>"><?php
-foreach ($list as $item) :	
+foreach ($list as $item) :
 	$itemid = JContentHelper::getItemid($item->id);
 ?>
 <li>

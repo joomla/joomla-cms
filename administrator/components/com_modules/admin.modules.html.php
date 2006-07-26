@@ -410,7 +410,7 @@ class HTML_modules {
 		<?php
 	}
 
-	function previewModule() 
+	function previewModule()
 	{
 		?>
 		<script>

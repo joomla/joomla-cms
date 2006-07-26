@@ -24,12 +24,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage 	Cache
  * @since 		1.5
  */
-class CacheView 
+class CacheView
 {
 
 	/**
 	 * Displays the cache
-	 * 
+	 *
 	 * @param array An array of records
 	 * @param string The URL option
 	 */
@@ -93,7 +93,7 @@ class CacheView
 			?>
 			</tbody>
 		</table>
-		
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_cache" />

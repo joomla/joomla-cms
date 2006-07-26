@@ -97,7 +97,7 @@ $menu  = $menus->getItem($Itemid);
 		}
 
 		// Leading story output
-		if ($leading) 
+		if ($leading)
 		{
 		?>
 			<tr>

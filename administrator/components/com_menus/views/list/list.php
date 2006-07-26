@@ -323,10 +323,10 @@ class JMenuViewList extends JView
 
 		// level limit filter
 		$lists['levellist'] = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
-	
+
 		// state filter
 		$lists['state']	= mosCommonHTML::selectState( $filter_state );
-	
+
 		// table ordering
 		if ( $filter_order_Dir == 'DESC' ) {
 			$lists['order_Dir'] = 'ASC';
@@ -334,7 +334,7 @@ class JMenuViewList extends JView
 			$lists['order_Dir'] = 'DESC';
 		}
 		$lists['order'] = $filter_order;
-	
+
 		// search filter
 		$lists['search']= $search;
 

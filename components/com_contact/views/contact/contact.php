@@ -34,9 +34,9 @@ class JContactViewContact extends JView
 	{
 		$app		= &$this->getApplication();
 		$user 		= & $app->getUser();
-		
+
 		$Itemid    		= JRequest::getVar('Itemid');
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
@@ -103,7 +103,7 @@ class JContactViewContact extends JView
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'default' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-		
+
 		if (!file_exists( $tmplPath ))
 		{
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/default.php';

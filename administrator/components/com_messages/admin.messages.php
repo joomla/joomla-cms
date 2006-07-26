@@ -190,13 +190,13 @@ function saveConfig( $option ) {
 	josRedirect( "index2.php?option=$option" );
 }
 
-function newMessage( $option, $user, $subject ) 
+function newMessage( $option, $user, $subject )
 {
 	global $mainframe;
 
 	$db  =& $mainframe->getDBO();
 	$acl =& JFactory::getACL();
-	
+
 	// get available backend user groups
 	$gid 	= $acl->get_group_id( 'Public Backend', '', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
@@ -237,20 +237,20 @@ function saveMessage( $option ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	if (!$row->send()) {
 		josRedirect( "index2.php?option=com_messages&josmsg=" . $row->getError() );
 	}
 	josRedirect( "index2.php?option=com_messages" );
 }
 
-function viewMessage( $uid='0', $option ) 
+function viewMessage( $uid='0', $option )
 {
 	global $mainframe;
 
 	$db  =& $mainframe->getDBO();
 	$acl =& JFactory::getACl();
-	
+
 	$row = null;
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"
@@ -271,7 +271,7 @@ function viewMessage( $uid='0', $option )
 	HTML_messages::viewMessage( $row, $option );
 }
 
-function removeMessage( $cid, $option ) 
+function removeMessage( $cid, $option )
 {
 	global $mainframe;
 

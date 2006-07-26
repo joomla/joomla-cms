@@ -24,20 +24,20 @@ class JMenu extends JObject
 {
 	/**
 	 * Array to hold the menu items
-	 * 
+	 *
 	 * @access private
 	 * @param array
 	 */
 	var $_items = array ();
-	
+
 	/**
 	 * Identifier of the default menu item
-	 * 
+	 *
 	 * @access private
 	 * @param integer
 	 */
 	var $_default = 0;
-	
+
 
 	/**
 	 * Class constructor
@@ -50,14 +50,14 @@ class JMenu extends JObject
 		$this->_items = $this->_load();
 
 		$home = 0;
-		foreach ($this->_items as $item) 
+		foreach ($this->_items as $item)
 		{
 			if ($item->home) {
 				$this->_default = $item->id;
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns a reference to the global JMenu object, only creating it if it
 	 * doesn't already exist.
@@ -76,13 +76,13 @@ class JMenu extends JObject
 		if (!isset ($instance)) {
 			$instance =& new JMenu();
 		}
-		
+
 		return $instance;
 	}
 
 	/**
 	 * Get menu item by id
-	 * 
+	 *
 	 * @access public
 	 * @param int The item id
 	 * @return mixed The item object, or null if not found
@@ -92,14 +92,14 @@ class JMenu extends JObject
 		$result = null;
 		if (isset($this->_items[$id])) {
 			$result = &$this->_items[$id];
-		} 
-  
+		}
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get menu item by id
-	 * 
+	 *
 	 * @access public
 	 * @param int The item id
 	 * @return object The item object
@@ -112,7 +112,7 @@ class JMenu extends JObject
 
 	/**
 	 * Gets menu items by attribute
-	 * 
+	 *
 	 * @access public
 	 * @param string The field name
 	 * @param string The value of the field
@@ -130,41 +130,41 @@ class JMenu extends JObject
 
 		return $items;
 	}
-	
+
 	/**
 	 * Gets the parameter object for a certain menu item
-	 * 
+	 *
 	 * @access public
 	 * @param int The item id
 	 * @return object A JParameter object
 	 */
 	function &getParams($id)
 	{
-		$result = null; 
+		$result = null;
 		if($menu =& $this->getItem($id)) {
 			$result = new JParameter( $menu->params );
-		} 
-		
+		}
+
 		return $result;
 	}
 
 	/**
 	 * Getter for the menu array
-	 * 
+	 *
 	 * @access public
 	 * @param string $name The menu name
 	 * @return array
 	 */
-	function getMenu($name = 'all') 
+	function getMenu($name = 'all')
 	{
 		$menu = array();
-		
+
 		foreach ($this->_items as $item ) {
 			if ($item->menutype == $name || $name == 'all')  {
 				$menu[] = $item;
 			}
 		}
-		
+
 		return $menu;
 	}
 
@@ -177,22 +177,22 @@ class JMenu extends JObject
 	 * @param	object	$user	The user object
 	 * @return	boolean	True if authorized
 	 */
-	function authorize($id, &$user) 
+	function authorize($id, &$user)
 	{
 		// Initialize variables
 		$results	= array();
 		$access 	= 0;
-		
+
 		foreach ($results as $result) {
 			$access = max( $access, $result->access );
 		}
-	
+
 		return ($access <= $user->get('usertype'));
 	}
-	
+
 	/**
 	 * Loads the entire menu table into memory
-	 * 
+	 *
 	 * @access protected
 	 * @return array
 	 */
@@ -211,7 +211,7 @@ class JMenu extends JObject
 				"\n WHERE published = 1".
 				"\n ORDER BY parent, ordering";
 		$db->setQuery($sql);
-		
+
 		if (!($menus = $db->loadObjectList('id'))) {
 			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;

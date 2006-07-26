@@ -35,7 +35,7 @@ class JMenuHelperComponent extends JWizardHelper
 
 	/**
 	 * Initializes the helper class with the wizard object and loads the wizard xml.
-	 * 
+	 *
 	 * @param object JWizard
 	 */
 	function init(&$wizard)
@@ -236,7 +236,7 @@ class JMenuHelperComponent extends JWizardHelper
 					}
 				}
 			}
-			
+
 			$result[] = array(
 				'value' => $file,
 				'text' => $text
@@ -273,7 +273,7 @@ class JMenuHelperComponent extends JWizardHelper
 					}
 				}
 			}
-			
+
 			$result[] = array(
 				'value' => $folder,
 				'text' => $text

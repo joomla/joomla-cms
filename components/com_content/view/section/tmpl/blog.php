@@ -97,7 +97,7 @@ $mParams  =& $menus->getParams($Itemid);
 		}
 
 		// Leading story output
-		if ($leading) 
+		if ($leading)
 		{
 		?>
 			<tr>

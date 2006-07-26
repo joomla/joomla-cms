@@ -24,7 +24,7 @@ class JComponentHelper
 {
 	/**
 	 * Get the component info
-	 * 
+	 *
 	 * @access public
 	 * @param string The component option
 	 * @return object A JComponent object
@@ -62,7 +62,7 @@ class JComponentHelper
 
 	/**
 	 * Checks if the component is enabled
-	 * 
+	 *
 	 * @access public
 	 * @param string The component option
 	 * @return boolean
@@ -70,7 +70,7 @@ class JComponentHelper
 	function isEnabled( $option )
 	{
 		global $mainframe;
-		
+
 		// TODO: In future versions this should be ACL controlled
 		$enabledList = array(
 			'com_login',
@@ -88,7 +88,7 @@ class JComponentHelper
 
 	/**
 	 * Gets the parameter object for the component
-	 * 
+	 *
 	 * @access public
 	 * @param string The component option
 	 * @return object A JParameter object
@@ -106,7 +106,7 @@ class JComponentHelper
 
 	/**
 	 * Gets the control parameters object for the current menu
-	 * 
+	 *
 	 * @access public
 	 * @return object A JParameter object
 	 */
@@ -124,35 +124,35 @@ class JComponentHelper
         }
         else
         {
-         $instance = new JParameter( '' );    
+         $instance = new JParameter( '' );
         }
        }
        return $instance;
       }
-	
+
 	function renderComponent($component = null, $params = array())
 	{
 		global $mainframe;
 		global $Itemid, $id; //for backwards compatibility
-		
+
 		$component = is_null($component) ? $mainframe->getOption() : $component;
-		
+
 		//if no component found return
 		if(empty($component)) {
 			return false;
 		}
- 		
+
 		//if component disabled throw error
 		if (! JComponentHelper::isEnabled( $component ) ) {
 			JError::raiseError( 404, JText::_('Component Not Found') );
 		}
-		
+
 		$database	=& JFactory::getDBO();
 		$acl  		=& JFactory::getACL();
-		
+
 		$user   = & JFActory::getUser();
 		$my		= $user->_table;
-		
+
 		$task 	= JRequest::getVar( 'task' );
 		$option = JRequest::getVar('option');
 
@@ -164,15 +164,15 @@ class JComponentHelper
 		} else {
 			$path = $path.DS.'admin.'.$file.'.php';
 		}
-			
+
 		$contents = '';
 		ob_start();
-		
+
 		//load common language files
 		$lang =& JFactory::getLanguage();
 		$lang->load($component);
 		require_once $path;
-	
+
 		$contents = ob_get_contents();
 		ob_end_clean();
 

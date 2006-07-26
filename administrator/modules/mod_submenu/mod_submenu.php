@@ -132,7 +132,7 @@ class JAdminSubMenu
 
 			case 'com_installer' :
 				$ext	= JRequest::getVar('extension');
-				
+
 				$subMenus = array(
 					'Components' => 'component',
 					'Modules' => 'module',
@@ -146,7 +146,7 @@ class JAdminSubMenu
 				$subMenuItem['img']		= '../includes/js/ThemeOffice/installer.png';
 				$subMenuItem['active']	= !in_array( $ext, $subMenus);
 				$subMenuList[] = $subMenuItem;
-	
+
 				foreach ($subMenus as $name => $extension)
 				{
 					$subMenuItem['title']	= JText::_( $name );

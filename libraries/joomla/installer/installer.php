@@ -287,7 +287,7 @@ class JInstaller extends JObject
 			// None of the xml files found were valid install files
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORJOSXMLSETUP'));
 			return false;
-		} 
+		}
 		else
 		{
 			// No xml files were found in the install folder
@@ -744,7 +744,7 @@ class JInstaller extends JObject
 		 * $p_files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
-		if (is_array($p_files) && count($p_files) > 0) 
+		if (is_array($p_files) && count($p_files) > 0)
 		{
 			foreach ($p_files as $file)
 			{

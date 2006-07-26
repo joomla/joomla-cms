@@ -40,7 +40,7 @@ class JContactModelCategory extends JModel
 
 		$select = 'cc.*, COUNT( a.id ) AS numlinks, a.id as cid';
 		$from	= '#__categories AS cc';
-		
+
 		$joins[] = 'LEFT JOIN #__contact_details AS a ON a.catid = cc.id';
 
 		$wheres[] = 'a.published = 1';
@@ -89,7 +89,7 @@ class JContactModelCategory extends JModel
 		$select = 'cd.*, ' .
 				'cc.name AS category_name, cc.description AS category_description, cc.image AS category_image';
 		$from	= '#__contact_details AS cd';
-		
+
 		$joins[] = 'INNER JOIN #__categories AS cc on cd.catid = cc.id';
 
 		if ($catId)

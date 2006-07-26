@@ -370,7 +370,7 @@ class categories_html
 					</tr>
 				</table>
 			</fieldset>
-			
+
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -386,7 +386,7 @@ class categories_html
 					</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="com_categories" />

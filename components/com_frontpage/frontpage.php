@@ -39,7 +39,7 @@ class JFrontpageController
 	function show()
 	{
 		global $mainframe, $Itemid;
-		
+
 		/*
 		 * Initialize some variables
 		 */

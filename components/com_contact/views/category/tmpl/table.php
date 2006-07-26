@@ -63,7 +63,7 @@ global $hide_js;
 $pageclass_sfx = $mParams->get( 'pageclass_sfx' );
 $hasHeadBlock = ($currentCategory->image || $currentCategory->description);
 
-if ( $mParams->get( 'page_title' ) ) 
+if ( $mParams->get( 'page_title' ) )
 {
 ?>
 <div class="componentheading<?php echo $pageclass_sfx; ?>">
@@ -109,7 +109,7 @@ if ($hasHeadBlock) {
 ?>
 <?php
 $nContacts = count( $contacts );
-if ($nContacts) 
+if ($nContacts)
 {
 ?>
 <script language="javascript" type="text/javascript">
@@ -155,7 +155,7 @@ if ($nContacts)
 	</tfoot>
 	<tbody>
 	<?php
-	if ($mParams->get( 'headings' )) 
+	if ($mParams->get( 'headings' ))
 	{
 		?>
 		<tr>
@@ -206,7 +206,7 @@ if ($nContacts)
 	}
 
 	$k = 0;
-	for ($i = 0; $i < $nContacts; $i++) 
+	for ($i = 0; $i < $nContacts; $i++)
 	{
 		$row = &$contacts[$i];
 		$link = 'index.php?option=com_contact&amp;view=contact&amp;contact_id='. $row->id .'&amp;Itemid='. $Itemid;
@@ -265,14 +265,14 @@ if ($nContacts)
 	?>
 	</tbody>
 	</table>
-	
+
 	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="catid" value="<?php echo $categoryId;?>" />
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 	<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="" />
 	</form>
-	<?php	
+	<?php
 	}
 	?>
 	<div>

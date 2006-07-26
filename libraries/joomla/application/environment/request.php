@@ -127,13 +127,13 @@ class JRequest
 				case 'BOOL' :
 				case 'BOOLEAN' :
 					break;
-	
+
 				default :
 					// Clean the variable given using the given filter mask
 					$result = josFilterValue($result, $mask);
 					break;
 			}
-			
+
 
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($result != $default))
@@ -184,7 +184,7 @@ class JRequest
 					$_REQUEST[$name] = $value;
 				break;
 		}
-		
+
 		return $GLOBALS['JRequest'][$signature];
 	}
 

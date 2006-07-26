@@ -22,7 +22,7 @@ class JFactory
 {
 	/**
 	 * Get an framework configuration object
-	 * 
+	 *
 	 * Returns a reference to the global JRegistry object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -34,7 +34,7 @@ class JFactory
 	function &getConfig($file = null, $type = 'PHP')
 	{
 		static $instance;
-		
+
 		if(is_null($file)) {
 			$file = dirname(__FILE__) .DS. 'config.php';
 		}
@@ -45,10 +45,10 @@ class JFactory
 
 		return $instance;
 	}
-	
+
 	/**
 	 * Get an framework language object
-	 * 
+	 *
 	 * Returns a reference to the global JLanguage object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -58,17 +58,17 @@ class JFactory
 	function &getLanguage()
 	{
 		static $instance;
-		
+
 		if (!is_object($instance)) {
 			$instance = JFactory::_createLanguage();
 		}
-		
+
 		return $instance;
 	}
-	
+
 	/**
 	 * Get an framework user object
-	 * 
+	 *
 	 * Returns a reference to the global JUser object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -84,10 +84,10 @@ class JFactory
 		$instance =& JUser::getInstance(JSession::get('userid', 0));
 		return $instance;
 	}
-	
+
 	/**
 	 * Get a cache object
-	 * 
+	 *
 	 * Returns a reference to the global JCache object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -99,7 +99,7 @@ class JFactory
 	function &getCache($group='', $handler = 'function')
 	{
 		jimport('joomla.cache.cache');
-		
+
 		$conf =& JFactory::getConfig();
 
 		/*
@@ -121,7 +121,7 @@ class JFactory
 
 	/**
 	 * Get the authorization object
-	 * 
+	 *
 	 * Returns a reference to the global JAuthorization object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -138,10 +138,10 @@ class JFactory
 
 		return $instance;
 	}
-	
+
 	/**
 	 * Get the template object
-	 * 
+	 *
 	 * Returns a reference to the global JAuthorization object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -161,20 +161,20 @@ class JFactory
 
 	/**
 	 * Get the database object
-	 * 
+	 *
 	 * Returns a reference to the global JDatabase object, only creating it
 	 * if it doesn't already exist.
-	 * 
+	 *
 	 * @return object JDatabase based object
 	 */
 	function &getDBO()
 	{
 		static $instance;
 
-		if (!is_object($instance)) 
+		if (!is_object($instance))
 		{
 			$conf =& JFactory::getConfig();
-			
+
 			$instance = JFactory::_createDBO();
 			$instance->debug( $conf->getValue('config.debug'));
 		}
@@ -184,7 +184,7 @@ class JFactory
 
 	/**
 	 * Get mailer object
-	 * 
+	 *
 	 * Returns a reference to the global Mailer object, only creating it
 	 * if it doesn't already exist
 	 *
@@ -256,10 +256,10 @@ class JFactory
 			}
 
 		}
-		
+
 		return $doc;
 	}
-	
+
 	/**
 	* Get an JEditor object
 	*
@@ -269,15 +269,15 @@ class JFactory
 	function &getEditor()
 	{
 		jimport( 'joomla.presentation.editor' );
-		
+
 		$conf =& JFactory::getConfig();
-		
+
 		$editor = $conf->getValue('config.editor');
 		$instance =& JEditor::getInstance($editor);
-		
+
 		return $instance;
 	}
-	
+
 	/**
 	 * Create a configuration object
 	 *
@@ -290,18 +290,18 @@ class JFactory
 	function &_createConfig($file, $type = 'PHP')
 	{
 		jimport('joomla.registry.registry');
-		
+
 		require_once( $file );
 
 		// Create the registry with a default namespace of config which is read only
 		$registry = new JRegistry( 'config');
-		
+
 		// Create the JConfig object
 		$config = new JFrameworkConfig();
 
 		// Load the configuration values into the registry
 		$registry->loadObject($config);
-		
+
 		return $registry;
 	}
 
@@ -328,7 +328,7 @@ class JFactory
 
 		return $acl;
 	}
-	
+
 	/**
 	 * Create an database object
 	 *
@@ -339,7 +339,7 @@ class JFactory
 	function &_createDBO()
 	{
 		$conf =& JFactory::getConfig();
-		
+
 		$host 		= $conf->getValue('config.host');
 		$user 		= $conf->getValue('config.user');
 		$password 	= $conf->getValue('config.password');
@@ -368,9 +368,9 @@ class JFactory
 	function &_createMailer()
 	{
 		jimport('joomla.utilities.mail');
-		
+
 		$conf =& JFactory::getConfig();
-		
+
 		$sendmail 	= $conf->getValue('config.sendmail');
 		$smtpauth 	= $conf->getValue('config.smtpauth');
 		$smtpuser 	= $conf->getValue('config.smtpuser');
@@ -385,12 +385,12 @@ class JFactory
 		$mail->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
 		$mail->SetLanguage('en', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
 		$mail->CharSet = 'utf-8';
-	
+
 		// Set default sender
 		$mail->setSender(array ($mailfrom, $fromname));
-		
+
 		// Default mailer is to use PHP's mail function
-		switch ($mailer) 
+		switch ($mailer)
 		{
 			case 'smtp' :
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass);
@@ -402,11 +402,11 @@ class JFactory
 				$mail->IsMail();
 				break;
 		}
-		
+
 		return $mail;
 	}
-	
-	
+
+
 	/**
 	 * Create a mailer object
 	 *
@@ -418,7 +418,7 @@ class JFactory
 	function &_createTemplate($files = array())
 	{
 		jimport('joomla.template.template');
-		
+
 		$conf =& JFactory::getConfig();
 
 		$tmpl = new JTemplate;
@@ -441,7 +441,7 @@ class JFactory
 				$tmpl->readTemplatesFromInput( $file );
 			}
 		}
-	
+
 		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
 		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
 		$tmpl->addGlobalVar( 'uri_query', 			$_SERVER['QUERY_STRING'] );
@@ -450,7 +450,7 @@ class JFactory
 
 		return $tmpl;
 	}
-	
+
 	/**
 	 * Create a language object
 	 *
@@ -461,10 +461,10 @@ class JFactory
 	function &_createLanguage()
 	{
 		$conf =& JFactory::getConfig();
-		
+
 		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
 		$lang->setDebug(true);
-		
+
 		return $lang;
 	}
 }

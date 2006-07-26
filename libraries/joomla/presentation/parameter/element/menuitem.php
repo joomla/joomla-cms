@@ -103,7 +103,7 @@ class JElement_MenuItem extends JElement
 				{
 					$item = &$groupedList[$type->menutype][$i];
 					$options[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
-					
+
 				}
 			}
 		}

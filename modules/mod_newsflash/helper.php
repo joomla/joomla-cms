@@ -67,19 +67,19 @@ class modNewsFlashHelper
 		<span class="article_seperator">&nbsp;</span>
 		<?php
 	}
-	
+
 	function getList(&$params, &$access)
 	{
 		global $mainframe;
 
 		$db 	=& $mainframe->getDBO();
 		$user 	=& $mainframe->getUser();
-	
+
 		$catid 	= intval($params->get('catid'));
 		$items 	= intval($params->get('items', 0));
-		
+
 		$noauth  = !$mainframe->getCfg('shownoauth');
-	
+
 		$now 	 = date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate = $db->getNullDate();
 
@@ -97,7 +97,7 @@ class modNewsFlashHelper
 			"\n ORDER BY a.ordering";
 		$db->setQuery($query, 0, $items);
 		$rows = $db->loadObjectList();
-		
+
 		return $rows;
 	}
 }

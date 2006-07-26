@@ -408,7 +408,7 @@ class JContentController extends JController
 			if ($row->publish_down == $nullDate)
 			{
 				$row->publish_down = JText::_('Never');
-			} else 
+			} else
 			{
 				$row->publish_down	= mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S');
 			}
@@ -604,12 +604,12 @@ class JContentController extends JController
 		}
 
 		$row->created_by 	= $row->created_by ? $row->created_by : $user->get('id');
-		
+
 		if ($row->created && strlen(trim( $row->created )) <= 10) {
 			$row->created 	.= ' 00:00:00';
 		}
 		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset') ) : date( 'Y-m-d H:i:s' );
-		
+
 		/*
 		 * Append time if not added to publish date
 		 */

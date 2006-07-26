@@ -208,14 +208,14 @@ class JMenuViewItem extends JView
 					<?php
 						$pane->startPane("menu-pane");
 						$pane->startPanel( JText::_( 'Menu Item Parameters' ), "param-page" );
-		
+
 						echo $params->render('params');
-		
+
 						$pane->endPanel();
 						$pane->startPanel( JText::_( 'Advanced Parameters' ), "advanced-page" );
-		
+
 						echo $advanced->render('params');
-		
+
 						$pane->endPanel();
 						$pane->endPane();
 					?>

@@ -14,19 +14,19 @@
 
 /**
  * JUtility is a utility functions class
- * 
+ *
  * @static
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
  * @since	1.5
  */
- 
+
 class JUtility
 {
 	/**
  	 * Mail function (uses phpMailer)
- 	 *	
+ 	 *
  	 * @param string $from From e-mail address
  	 * @param string $fromname From name
  	 * @param mixed $recipient Recipient e-mail address(es)
@@ -40,7 +40,7 @@ class JUtility
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
   	 */
-	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) 
+	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
 	{
 		jimport('joomla.utilities.mail');
 
@@ -66,7 +66,7 @@ class JUtility
 		for ($i=0;$i < $numReplyTo; $i++) {
 			$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
 		}
-		
+
 		return  $mail->Send();
 	}
 
@@ -81,7 +81,7 @@ class JUtility
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
  	 */
-	function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) 
+	function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
 	{
 		$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
@@ -89,7 +89,7 @@ class JUtility
 		$message .= JText::_( 'MAIL_MSG') ."\n";
 
 		eval ("\$message = \"$message\";");
-		
+
 		jimport('joomla.utilities.mail');
 
 	 	// Get a JMail instance
@@ -100,19 +100,19 @@ class JUtility
 
 		return  $mail->Send();
 	}
-	
+
 	/**
   	 * Provides a secure hash based on a seed
  	 *
  	 * @param string Seed string
  	 * @return string
  	 */
-	function getHash( $seed ) 
+	function getHash( $seed )
 	{
 		$conf =& JFactory::getConfig();
 		return md5( $conf->getValue('config.secret') . md5( $seed ) );
 	}
-	
+
 	/**
  	 * Method to extract key/value pairs out of a string with xml style attributes
  	 *
@@ -120,12 +120,12 @@ class JUtility
  	 * @return	array	Key/Value pairs for the attributes
  	 * @since	1.5
  	 */
-	function parseAttributes( $string ) 
+	function parseAttributes( $string )
 	{
 	 	//Initialize variables
 		$attr		= array();
 		$retarray	= array();
-	
+
 		// Lets grab all the key/value pairs using a regular expression
 		preg_match_all( '/([\w]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
 

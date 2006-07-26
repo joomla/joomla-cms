@@ -16,17 +16,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 class modRandomImageHelper
-{	
+{
 	function getRandomImage(&$params, $images)
 	{
 		$width 		= $params->get( 'width' );
 		$height 	= $params->get( 'height' );
-		
+
 		$i 				= count($images);
 		$random 		= mt_rand(0, $i - 1);
 		$image 			= $images[$random];
 		$size 			= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
-		
+
 
 		if ($width == '') {
 			($size[0] > 100 ? $width = 100 : $width = $size[0]);
@@ -35,24 +35,24 @@ class modRandomImageHelper
 			$coeff 	= $size[0]/$size[1];
 			$height = (int) ($width/$coeff);
 		}
-		
+
 		$image->width 	= $width;
 		$image->height  = $height;
-		
+
 		return $image;
 	}
-	
+
 	function getImages(&$params, $folder)
 	{
 		$type 		= $params->get( 'type', 'jpg' );
-		
+
 		$files	= array();
 		$imags 	= array();
-		
+
 		$dir = JPATH_BASE.DS.$folder;
-		
+
 		// check if directory exists
-		if (is_dir($dir)) 
+		if (is_dir($dir))
 		{
 			if ($handle = opendir($dir)) {
 				while (false !== ($file = readdir($handle))) {
@@ -62,11 +62,11 @@ class modRandomImageHelper
 				}
 			}
 			closedir($handle);
-		
+
 			$i = 0;
 			foreach ($files as $img)
 			{
-				if (!is_dir($dir .DS. $img)) 
+				if (!is_dir($dir .DS. $img))
 				{
 					if (eregi($type, $img)) {
 						$images[$i]->name 	= $img;
@@ -76,18 +76,18 @@ class modRandomImageHelper
 				}
 			}
 		}
-		
+
 		return $images;
 	}
-	
+
 	function getFolder(&$params)
 	{
 		global $mainframe;
-		
+
 		$folder 	= $params->get( 'folder' );
-		
+
 		$LiveSite 	= $mainframe->getCfg('live_site');
-		
+
 		// if folder includes livesite info, remove
 		if ( JString::strpos($folder, $LiveSite) === 0 ) {
 			$folder = JString::str_replace( $LiveSite, '', $folder );
@@ -98,7 +98,7 @@ class modRandomImageHelper
 		}
 		$folder = str_replace('\\',DS,$folder);
 		$folder = str_replace('/',DS,$folder);
-		
+
 		return $folder;
 	}
 }

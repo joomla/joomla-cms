@@ -78,7 +78,7 @@ class JTemplate extends patTemplate
 	* @return jtemplate A template object
 	* @since 1.5
 	*/
-	function &getInstance( $type = 'html' ) 
+	function &getInstance( $type = 'html' )
 	{
 		static $instances;
 
@@ -178,7 +178,7 @@ class JTemplate extends patTemplate
 		$this->_tmplCache->_params['prefix'] = $prefix;
 		return true;
 	}
-	
+
 	/**
 	* load from template cache
 	*

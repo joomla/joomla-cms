@@ -24,9 +24,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Newsfeeds
  * @since 1.0
  */
-class NewsfeedsView 
+class NewsfeedsView
 {
-	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass, &$page ) 
+	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass, &$page )
 	{
 		global $Itemid, $hide_js;
 
@@ -86,7 +86,7 @@ class NewsfeedsView
 	/**
 	* Display Table of items
 	*/
-	function showTable( &$params, &$rows, $catid, $tabclass, &$page ) 
+	function showTable( &$params, &$rows, $catid, $tabclass, &$page )
 	{
 		global $Itemid;
 
@@ -196,7 +196,7 @@ class NewsfeedsView
 	/**
 	* Display links to categories
 	*/
-	function showCategories( &$params, &$categories, $catid ) 
+	function showCategories( &$params, &$categories, $catid )
 	{
 		global $Itemid;
 
@@ -255,7 +255,7 @@ class NewsfeedsView
 	/**
 	* Display feed header and items
 	*/
-	function showNewsfeeds( &$newsfeed, &$lists, &$params ) 
+	function showNewsfeeds( &$newsfeed, &$lists, &$params )
 	{
 		?>
 		<div style="direction: <?php echo $newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $newsfeed->rtl ? 'right' :'left'; ?>">

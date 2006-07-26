@@ -248,7 +248,7 @@ class JTemplatesView
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<div class="col60">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
@@ -282,7 +282,7 @@ class JTemplatesView
 				</tr>
 				</table>
 			</fieldset>
-			
+
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
@@ -301,7 +301,7 @@ class JTemplatesView
 				</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col40">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
@@ -348,7 +348,7 @@ class JTemplatesView
 		<?php echo JText::_( 'This file is' ); ?>:
 		<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
 		<?php
-			if (mosIsChmodable($template_path)) 
+			if (mosIsChmodable($template_path))
 			{
 				if (is_writable($template_path)) {
 				?>
@@ -363,7 +363,7 @@ class JTemplatesView
 				} // if
 			} // if
 		?>
-	
+
 		<table class="adminform">
 		<tr>
 			<th>

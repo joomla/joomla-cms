@@ -55,20 +55,20 @@ class HTML_admin_misc
 	{
 		global $_VERSION;
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
-		
+
 		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
 		$document =& $mainframe->getDocument();
 		$document->addScript($mainframe->getBaseURL().'components/com_config/assets/switcher.js');
-		
+
 		$contents = '';
 		ob_start();
 		require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'navigation.html');
 		$contents = ob_get_contents();
-		ob_clean();	
-		
+		ob_clean();
+
 		$document->set('module', 'submenu', $contents);
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -83,7 +83,7 @@ class HTML_admin_misc
 				</tr>
 				</table>
 			</div>
-	
+
 			<div id="page-phpsettings">
 				<table class="noshow">
 				<tr>
@@ -93,7 +93,7 @@ class HTML_admin_misc
 				</tr>
 				</table>
 			</div>
-	
+
 			<div id="page-config">
 				<table class="noshow">
 				<tr>
@@ -103,7 +103,7 @@ class HTML_admin_misc
 				</tr>
 				</table>
 			</div>
-	
+
 			<div id="page-directory">
 				<table class="noshow">
 				<tr>
@@ -113,7 +113,7 @@ class HTML_admin_misc
 				</tr>
 				</table>
 			</div>
-	
+
 			<div id="page-phpinfo">
 				<table class="noshow">
 				<tr>
@@ -124,7 +124,7 @@ class HTML_admin_misc
 				</table>
 			</div>
 		</div>
-		
+
 		<div class="clr"></div>
 		<?php
 	}
@@ -132,7 +132,7 @@ class HTML_admin_misc
 	function ListComponents()
 	{
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 
 		$query = "SELECT params"

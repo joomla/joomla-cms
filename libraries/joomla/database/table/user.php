@@ -51,7 +51,7 @@ class JTableUser extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) 
+	function __construct( &$db )
 	{
 		parent::__construct( '#__users', 'id', $db );
 
@@ -103,7 +103,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		
+
 		// check for existing email
 		$query = "SELECT id"
 			. "\n FROM #__users "
@@ -116,7 +116,7 @@ class JTableUser extends JTable
 			$this->_error = JText::_( 'WARNREG_EMAIL_INUSE' );
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -283,14 +283,14 @@ class JTableUser extends JTable
 	 */
 	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' )
 	{
-		$acl =& JFactory::getACL(); 
+		$acl =& JFactory::getACL();
 
 		// Change back in
 		$group_id = $acl->get_group_id( $value, $name, $group_type = 'ARO');
 		//$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
 		$objects = $acl->get_group_objects( $group_id, 'ARO', 'RECURSE');
 
-		if (isset( $objects['users'] )) 
+		if (isset( $objects['users'] ))
 		{
 			$gWhere = '(id =' . implode( ' OR id =', $objects['users'] ) . ')';
 

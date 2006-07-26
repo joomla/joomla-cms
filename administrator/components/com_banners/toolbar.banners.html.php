@@ -25,7 +25,7 @@ class TOOLBAR_banners {
 	*/
 	function _EDIT() {
 		$cid = JRequest::getVar( 'cid', array(0));
-		
+
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Banner' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
@@ -71,7 +71,7 @@ class TOOLBAR_bannerClient {
 	*/
 	function _EDIT() {
 		$cid = JRequest::getVar( 'cid', array(0));
-		
+
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Banner Client' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );

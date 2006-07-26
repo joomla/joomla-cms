@@ -20,17 +20,17 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginReadmoreButton' );
 * readmore button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginReadmoreButton($name) 
+function pluginReadmoreButton($name)
 {
 	global $mainframe;
 
 	$option 	= $mainframe->getOption();
 	$doc 		= & $mainframe->getDocument();
 	$template 	= $mainframe->getTemplate();
-	
+
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	// button is not active in specific content components
-	switch ( $option ) 
+	switch ( $option )
 	{
 		case 'com_sections':
 		case 'com_categories':

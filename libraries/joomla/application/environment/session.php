@@ -112,9 +112,9 @@ class JSession
     {
         session_unset();
         session_destroy();
-		
-		// In order to kill the session altogether, like to log the user out, the session id must 
-		// also be unset. If a cookie is used to propagate the session id (default behavior), then 
+
+		// In order to kill the session altogether, like to log the user out, the session id must
+		// also be unset. If a cookie is used to propagate the session id (default behavior), then
 		// the session cookie must be deleted.
 		if (isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-42000, '/');
@@ -175,7 +175,7 @@ class JSession
      */
     function setExpire($time, $add = false)
     {
-        if ($add) 
+        if ($add)
 		{
             if (!isset($_SESSION['__HTTP_Session_Expire_TS'])) {
                 $_SESSION['__HTTP_Session_Expire_TS'] = time() + $time;

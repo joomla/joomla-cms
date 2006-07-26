@@ -35,12 +35,12 @@ $cid = JRequest::getVar( 'eid', array(0), 'post', 'array' );
  * Each view is determined by the $task variable
  */
 switch ( JRequest::getVar( 'task' ) )
-{	
+{
 	case 'delete':
 		CacheController::deleteCache($cid);
-		CacheController::showCache();	
+		CacheController::showCache();
 		break;
-	
+
 	default :
 		CacheController::showCache();
 		break;
@@ -65,7 +65,7 @@ class CacheController
 	function showCache()
 	{
 		global $mainframe;
-		
+
 		$option = $mainframe->getOption();
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -77,13 +77,13 @@ class CacheController
 		jimport('joomla.presentation.pagination');
 		$pageNav = new JPagination( $cmData->getGroupCount(), $limitstart, $limit );
 
-		CacheView::displayCache( $cmData->getRows( $limitstart, $limit ), $client, $pageNav );		
+		CacheView::displayCache( $cmData->getRows( $limitstart, $limit ), $client, $pageNav );
 	}
-	
+
 	function deleteCache($cid)
 	{
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		
+
 		$cmData = new CacheData($client->path.DS.'cache');
 		$cmData->cleanCacheList( $cid );
 	}

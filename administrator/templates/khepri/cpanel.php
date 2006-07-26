@@ -21,10 +21,10 @@ See COPYRIGHT.php for copyright notices and details.
 			<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
-	
+
 	<!--[if lte IE 6]>
   <link href="templates/{TEMPLATE}/css/ie.css" rel="stylesheet" type="text/css" />
-  <![endif]-->	
+  <![endif]-->
 
 	<jdoc:tmpl name="useRoundedCorners" varscope="document" type="condition" conditionvar="PARAM_USEROUNDEDCORNERS">
 		<jdoc:sub condition="0">

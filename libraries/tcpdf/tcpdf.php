@@ -13,7 +13,7 @@
 //               extensions.
 //
 // IMPORTANT:
-// This class is an extension and improvement of the Public Domain 
+// This class is an extension and improvement of the Public Domain
 // FPDF class by Olivier Plathey (http://www.fpdf.org).
 //
 // Main changes by Nicola Asuni:
@@ -705,28 +705,28 @@ if(!class_exists('TCPDF')) {
 		 * @since 1.53.0.TC017
 		 */
 		var $prevFillColor = array(255,255,255);
-		
+
 		/**
 		 * @var store previous text color as RGB array
 		 * @access private
 		 * @since 1.53.0.TC017
 		 */
 		var $prevTextColor = array(0,0,0);
-		
+
 		/**
 		 * @var store previous font family
 		 * @access private
 		 * @since 1.53.0.TC017
 		 */
 		var $prevFontFamily;
-		
+
 		/**
 		 * @var store previous font style
 		 * @access private
 		 * @since 1.53.0.TC017
 		 */
 		var $prevFontStyle;
-		
+
 
 		//------------------------------------------------------------
 		// Public methods
@@ -923,7 +923,7 @@ if(!class_exists('TCPDF')) {
 			$this->tdheight = 0;
 			$this->tdalign = "L";
 			$this->tdbgcolor = false;
-			
+
 			$this->SetFillColor(200, 200, 200, true);
 			$this->SetTextColor(0, 0, 0, true);
 		}
@@ -1398,7 +1398,7 @@ if(!class_exists('TCPDF')) {
 	 	 * It is automatically called by AddPage() and could be overwritten in your own inherited class.
 		 */
 		function Footer() {
-			
+
 			if ($this->print_footer) {
 
 				if (!isset($this->original_lMargin)) {
@@ -3372,23 +3372,23 @@ if(!class_exists('TCPDF')) {
 			$unicode = array(); // array containing unicode values
 			$bytes  = array(); // array containing single character byte sequences
 			$numbytes  = 1; // number of octetc needed to represent the UTF-8 character
-			
+
 			$str .= ""; // force $str to be a string
 			$length = strlen($str);
-			
+
 			for($i = 0; $i < $length; $i++) {
 				$char = ord($str{$i}); // get one string character at time
 				if(count($bytes) == 0) { // get starting octect
 					if ($char <= 0x7F) {
 						$unicode[] = $char; // use the character "as is" because is ASCII
 					} elseif (($char >> 0x05) == 0x06) { // 2 bytes character (0x06 = 110 BIN)
-						$bytes[] = ($char - 0xC0) << 0x06; 
+						$bytes[] = ($char - 0xC0) << 0x06;
 						$numbytes = 2;
 					} elseif (($char >> 0x04) == 0x0E) { // 3 bytes character (0x0E = 1110 BIN)
-						$bytes[] = ($char - 0xE0) << 0x0C; 
+						$bytes[] = ($char - 0xE0) << 0x0C;
 						$numbytes = 3;
 					} elseif (($char >> 0x03) == 0x1E) { // 4 bytes character (0x1E = 11110 BIN)
-						$bytes[] = ($char - 0xF0) << 0x12; 
+						$bytes[] = ($char - 0xF0) << 0x12;
 						$numbytes = 4;
 					} else {
 						// use replacement character for other invalid sequences
@@ -3415,7 +3415,7 @@ if(!class_exists('TCPDF')) {
 							$unicode[] = $char; // add char to array
 						}
 						// reset data for next char
-						$bytes = array(); 
+						$bytes = array();
 						$numbytes = 1;
 					}
 				} else {
@@ -3556,7 +3556,7 @@ if(!class_exists('TCPDF')) {
 		 * @param int $fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
 		 */
 		function writeHTML($html, $ln=true, $fill=0) {
-						
+
 			// store some variables
 			$html=strip_tags($html,"<h1><h2><h3><h4><h5><h6><b><u><i><a><img><p><br><strong><em><font><blockquote><li><ul><ol><hr><td><th><tr><table><sup><sub><small>"); //remove all unsupported tags
 			//replace carriage returns, newlines and tabs
@@ -3665,7 +3665,7 @@ if(!class_exists('TCPDF')) {
 			$this->writeHTML($html, true, $fill); // write html text
 
 			$currentY =  $this->GetY();
-			
+
 			// check if a new page has been created
 			if ($this->page > $pagenum) {
 				// design a cell around the text on first page

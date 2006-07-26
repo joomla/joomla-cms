@@ -575,23 +575,23 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @param string SQL
 	 * @since 1.5
 	 */
-	function GetCol( $query ) 
+	function GetCol( $query )
 	{
 		$this->setQuery( $query );
 		return $this->loadResultArray();
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @param string SQL
 	 * @return object
 	 * @since 1.5
 	 */
-	function Execute( $query ) 
+	function Execute( $query )
 	{
 		$query = trim( $query );
 		$this->setQuery( $query );
@@ -609,10 +609,10 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
-	function SelectLimit( $query, $count, $offset=0 ) 
+	function SelectLimit( $query, $count, $offset=0 )
 	{
 		$this->setQuery( $query, $offset, $count );
 		$result = $this->loadRowList();
@@ -620,10 +620,10 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
-	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 ) 
+	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 )
 	{
 		$this->setQuery( $sql, $page*$nrows, $nrows );
 		$result = $this->loadRowList();
@@ -631,12 +631,12 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @param string SQL
 	 * @return array
 	 * @since 1.5
 	 */
-	function GetRow( $query ) 
+	function GetRow( $query )
 	{
 		$this->setQuery( $query );
 		$result = $this->loadRowList();
@@ -644,12 +644,12 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @param string SQL
 	 * @return mixed
 	 * @since 1.5
 	 */
-	function GetOne( $query ) 
+	function GetOne( $query )
 	{
 		$this->setQuery( $query );
 		$result = $this->loadResult();
@@ -663,21 +663,21 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function RollbackTrans() {
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function CommitTrans() {
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function ErrorMsg() {
@@ -685,7 +685,7 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function ErrorNo() {
@@ -693,7 +693,7 @@ class JDatabase extends JObject
 	}
 	/**
 	 * ADODB compatability function
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function GenID( $foo1=null, $foo2=null ) {

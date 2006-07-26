@@ -19,7 +19,7 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 // Get the breadcrumbs
 $list = modBreadCrumbsHelper::getList($params);
-		
+
 // Set the default separator
 $separator = modBreadCrumbsHelper::setSeparator( $params->get( 'separator' ));
 ?>
