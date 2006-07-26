@@ -114,7 +114,7 @@ class JContactViewCategory extends JView
 			$app->SetPageTitle(JText::_('Contact'));
 		}
 
-		$cParams = &JComponentHelper::getControlParams();
+		$cParams = &JSiteHelper::getControlParams();
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'table' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';

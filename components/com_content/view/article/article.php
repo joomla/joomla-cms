@@ -111,7 +111,7 @@ class JContentViewArticle extends JView
 			$doc->setTitle($article->title.' '.$article->page_title);
 		}
 
-		$cParams = &JComponentHelper::getControlParams();
+		$cParams = &JSiteHelper::getControlParams();
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'article' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';

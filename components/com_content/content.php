@@ -25,7 +25,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
 jimport('joomla.application.extension.component');
 
 // Create the controller
-$cParams 	= JComponentHelper::getControlParams();
+$cParams 	= JSiteHelper::getControlParams();
 $controller = & new JContentController( $mainframe, 'display' );
 
 // need to tell the controller where to look for views and models

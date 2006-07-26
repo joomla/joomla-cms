@@ -206,7 +206,7 @@ class JContentController extends JController
 		// TODO: What happen if the item doesn't exist?
 
 		// Get control information from the request
-		$cParams	= JComponentHelper::getControlParams();
+		$cParams	= JSiteHelper::getControlParams();
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
 

@@ -99,7 +99,7 @@ class JContactViewContact extends JView
 		$params->def( 'misc', 				1 );
 		$params->def( 'image', 				1 );
 
-		$cParams = &JComponentHelper::getControlParams();
+		$cParams = &JSiteHelper::getControlParams();
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'default' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';

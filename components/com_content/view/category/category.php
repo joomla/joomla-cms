@@ -107,7 +107,7 @@ class JContentViewCategory extends JView
 		$app->SetPageTitle($menu->name);
 
 		// include the template
-		$cParams = &JComponentHelper::getControlParams();
+		$cParams = &JSiteHelper::getControlParams();
 		$template = $cParams->get( 'template_name', 'table' );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';

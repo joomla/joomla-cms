@@ -32,7 +32,7 @@ class JContactView_Error extends JView
 	 */
 	function display()
 	{
-		$cParams = &JComponentHelper::getControlParams();
+		$cParams = &JSiteHelper::getControlParams();
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'default' ) );
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';

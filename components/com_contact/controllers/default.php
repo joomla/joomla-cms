@@ -26,7 +26,7 @@ class JContactControllerDefault extends JController {
 
 	function display()
 	{
-		$cParams	= &JComponentHelper::getControlParams();
+		$cParams	= &JSiteHelper::getControlParams();
 		$task		= $this->getTask();
 
 		// interceptor to support old request formats

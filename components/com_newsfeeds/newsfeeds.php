@@ -25,7 +25,7 @@ $mainframe->setPageTitle(JText::_('Newsfeeds'));
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'News Feeds');
 
-$cParams = JComponentHelper::getControlParams();
+$cParams = JSiteHelper::getControlParams();
 $task	 = JRequest::getVar( 'task', $cParams->get( 'task') );
 
 /*
