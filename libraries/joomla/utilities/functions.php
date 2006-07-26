@@ -61,45 +61,6 @@ function ampReplace( $text ) {
 }
 
 /**
-* Copy the named array content into the object as properties
-* only existing properties of object are filled. when undefined in hash, properties wont be deleted
-*
-* @package Joomla.Framework
-* @param array the input array
-* @param obj byref the object to fill of any class
-* @param string
-* @param boolean
-* @since 1.0
-*/
-function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSlashes=true )
-{
-	if (!is_array( $array ) || !is_object( $obj )) {
-		return (false);
-	}
-
-	foreach (get_object_vars($obj) as $k => $v)
-	{
-		if( substr( $k, 0, 1 ) != '_' )
-		{
-			// internal attributes of an object are ignored
-			if (strpos( $ignore, $k) === false)
-			{
-				if ($prefix) {
-					$ak = $prefix . $k;
-				} else {
-					$ak = $k;
-				}
-				if (isset($array[$ak])) {
-					$obj->$k = ($checkSlashes && get_magic_quotes_gpc()) ? mosStripslashes( $array[$ak] ) : $array[$ak];
-				}
-			}
-		}
-	}
-
-	return true;
-}
-
-/**
  * Maps an object to an array
  * @param object	The source object
  * @param boolean	True to recurve through multi-level objects

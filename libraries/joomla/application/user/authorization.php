@@ -288,8 +288,7 @@ class JAuthorization extends gacl_api
 			. "\nINNER JOIN #__core_acl_{$type} AS ao ON ao.id = gm.{$type}_id"
 			. "\nWHERE ao.value='$value'"
 		);
-		$obj = null;
-		$db->loadObject( $obj );
+		$obj = $db->loadObject(  );
 		return $obj;
 	}
 

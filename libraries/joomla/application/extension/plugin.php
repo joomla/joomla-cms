@@ -184,7 +184,7 @@ class JPluginHelper
 
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
-
+		
 		if (is_object( $user )) {
 			$gid = $user->get('gid');
 		} else {

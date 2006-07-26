@@ -64,6 +64,46 @@ class JObject
 		}
 		return $default;
 	}
+	
+	/**
+	 * Bind an associative array 
+	 * 
+	 * Only existing properties of object are filled. When undefined in hash, properties wont be deleted
+	 *
+	 * @param array The associative array
+	 * @param string
+	 * @param string
+	 * @param boolean
+	 */
+	function bind( $array, $ignore='', $prefix='' )
+	{
+		if (!is_array( $array )) {
+			return (false);
+		}
+
+		foreach (get_object_vars($this) as $k => $v)
+		{
+			// only bind to public variables
+			if( substr( $k, 0, 1 ) != '_' )
+			{
+				// internal attributes of an object are ignored
+				if (strpos( $ignore, $k) === false)
+				{
+					if ($prefix) {
+						$ak = $prefix . $k;
+					} else {
+						$ak = $k;
+					}
+					
+					if (isset($array[$ak])) {
+						$this->set($k, $array[$ak]);
+					}
+				}
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Returns an array of public properties
@@ -73,6 +113,7 @@ class JObject
 	function getPublicProperties()
 	{
 		static $cache = null;
+		
 		if (is_null( $cache )) {
 			$cache = array();
 			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {

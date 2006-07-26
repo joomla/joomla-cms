@@ -183,7 +183,7 @@ class JTable extends JObject
 		}
 		else
 		{
-			return mosBindArrayToObject( $array, $this, $ignore );
+			return parent::bind( $array, $ignore );
 		}
 	}
 
@@ -226,9 +226,10 @@ class JTable extends JObject
 		. "\n WHERE $this->_tbl_key = '$oid'"
 		;
 		$db->setQuery( $query );
-
-		if ($db->loadObject( $this ))
+		
+		if ($result = $db->loadAssoc( ))
 		{
+			$this->bind($result);
 			return true;
 		}
 		else

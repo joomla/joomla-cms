@@ -250,7 +250,7 @@ class JContentModelSection extends JModel
 					"\n FROM #__sections" .
 					$where;
 			$this->_db->setQuery($query, 0, 1);
-			return $this->_db->loadObject($this->_section);
+			$this->_section = $this->_db->loadObject();
 		}
 		return true;
 	}

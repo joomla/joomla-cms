@@ -239,9 +239,9 @@ class JContentModelCategory extends JModel
 					"\n INNER JOIN #__sections AS s ON s.id = c.section" .
 					"\n WHERE c.id = '$this->_id'";
 			$this->_db->setQuery($query, 0, 1);
-			return $this->_db->loadObject($this->_category);
+			$this->_category = $this->_db->loadObject();
 		}
-		return true;
+		return false;
 	}
 
 	/**

@@ -272,8 +272,7 @@ class JAdministrator extends JApplication
 		. "\n AND cfg_name = 'auto_purge'"
 		;
 		$db->setQuery( $query );
-		$user = null;
-		$db->loadObject( $user );
+		$user = $db->loadObject( );
 
 		// check if auto_purge value set
 		if ( $user->cfg_name == 'auto_purge' ) {

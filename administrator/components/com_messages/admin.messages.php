@@ -251,7 +251,6 @@ function viewMessage( $uid='0', $option )
 	$db  =& $mainframe->getDBO();
 	$acl =& JFactory::getACl();
 
-	$row = null;
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"
 	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
@@ -259,7 +258,7 @@ function viewMessage( $uid='0', $option )
 	. "\n ORDER BY date_time DESC"
 	;
 	$db->setQuery( $query );
-	$db->loadObject( $row );
+	$row = $db->loadObject();
 
 	$query = "UPDATE #__messages"
 	. "\n SET state = 1"

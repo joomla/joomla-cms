@@ -251,6 +251,25 @@ class JDatabaseMySQL extends JDatabase
 		mysql_free_result( $cur );
 		return $array;
 	}
+	
+	/**
+	* Fetch a result row as an associative array
+	*
+	* return array
+	*/
+	function loadAssoc()
+	{
+		if (!($cur = $this->query())) {
+			return null;
+		}
+		$ret = null;
+		if ($array = mysql_fetch_array( $cur, MYSQL_ASSOC )) {
+			$ret = $array;
+		}
+		mysql_free_result( $cur );
+		return $ret;
+	}
+	
 	/**
 	* Load a assoc list of database rows
 	* @param string The field name of a primary key
@@ -275,37 +294,19 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	* This global function loads the first row of a query into an object
 	*
-	* If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
-	* If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
-	* @param string The SQL query
-	* @param object The address of variable
+	* return object
 	*/
-	function loadObject( &$object )
+	function loadObject( )
 	{
-		if ($object != null) {
-			if (!($cur = $this->query())) {
-				return false;
-			}
-			if ($array = mysql_fetch_assoc( $cur )) {
-				mysql_free_result( $cur );
-				mosBindArrayToObject( $array, $object, null, null, false );
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if ($cur = $this->query()) {
-				if ($object = mysql_fetch_object( $cur )) {
-					mysql_free_result( $cur );
-					return true;
-				} else {
-					$object = null;
-					return false;
-				}
-			} else {
-				return false;
-			}
+		if (!($cur = $this->query())) {
+			return null;
 		}
+		$ret = null;
+		if ($object = mysql_fetch_object( $cur )) {
+			$ret = $object;
+		}
+		mysql_free_result( $cur );
+		return $ret;
 	}
 	/**
 	* Load a list of database objects

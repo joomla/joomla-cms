@@ -96,7 +96,7 @@ class JUser extends JObject
 	function &getInstance($id = 0)
 	{
 		static $instances;
-
+		
 		if (!isset ($instances)) {
 			$instances = array ();
 		}
@@ -115,7 +115,7 @@ class JUser extends JObject
 			$user = new JUser($id);
 			$instances[$id] = $user;
 		}
-
+		
 		return $instances[$id];
 	}
 
@@ -489,7 +489,7 @@ class JUser extends JObject
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
 		}
-
+		
 		/*
 		 * Set the user parameters using the default xml file.  We might want to
 		 * extend this in the future to allow for the ability to have custom

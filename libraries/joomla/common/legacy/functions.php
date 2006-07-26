@@ -12,7 +12,7 @@
 */
 
 /**
- * Legacy function
+ * Legacy function, always use JRequest::getVar
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
@@ -33,6 +33,40 @@ function mosStripslashes( &$value )
 		}
 	}
 	return $ret;
+}
+
+/**
+ * Legacy function, use JObject->bind instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSlashes=true )
+{
+	if (!is_array( $array ) || !is_object( $obj )) {
+		return (false);
+	}
+
+	foreach (get_object_vars($obj) as $k => $v)
+	{
+		if( substr( $k, 0, 1 ) != '_' )
+		{
+			// internal attributes of an object are ignored
+			if (strpos( $ignore, $k) === false)
+			{
+				if ($prefix) {
+					$ak = $prefix . $k;
+				} else {
+					$ak = $k;
+				}
+				if (isset($array[$ak])) {
+					$obj->$k = ($checkSlashes && get_magic_quotes_gpc()) ? mosStripslashes( $array[$ak] ) : $array[$ak];
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 /**

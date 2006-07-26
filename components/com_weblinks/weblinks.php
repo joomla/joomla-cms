@@ -88,7 +88,6 @@ class WeblinksController
 		$pathway 	= & $mainframe->getPathWay();
 		$gid		= $user->get('gid');
 		$page		= '';
-		$category	= null;
 
 		$Itemid		= JRequest::getVar('Itemid');
 
@@ -176,7 +175,7 @@ class WeblinksController
 					"\n AND published = 1" .
 					"\n AND access <= $gid";
 			$db->setQuery($query);
-			$db->loadObject($category);
+			$category = $db->loadObject();
 
 			/*
 			 * Check if the category is published or if access level allows access

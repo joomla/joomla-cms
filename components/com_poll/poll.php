@@ -112,8 +112,7 @@ function pollresult() {
 		. "\n WHERE poll_id = $poll->id"
 		;
 		$db->setQuery( $query );
-		$dates = null;
-		$db->loadObject( $dates );
+		$dates = $db->loadObject();
 
 		if (isset( $dates->mindate )) {
 			$first_vote = mosFormatDate( $dates->mindate, JText::_( 'DATEFORMATLC2' ) );

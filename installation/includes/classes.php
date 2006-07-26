@@ -1601,12 +1601,11 @@ class JInstallationHelper
 		$nextId = $db->loadResult();
 
 		foreach( $lookup as $module ) {
-			$row = null;
 			$nextId++;
 			$qry = "SELECT * FROM ".$newPrefix."modules_migration WHERE module = '".$module."' AND client_id = 0";
 			$db->setQuery( $qry );
 			JInstallationHelper::getDBErrors($errors, $db );
-			if ( $db->loadObject( $row ) ) {
+			if ( $row = $db->loadObject(  ) ) {
 				$row->id = $nextId;
 				$row->published = 0;
 				$db->insertObject( $newPrefix.'modules', $row );

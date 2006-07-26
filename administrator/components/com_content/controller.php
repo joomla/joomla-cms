@@ -1214,7 +1214,7 @@ class JContentController extends JController
 					"\n FROM #__content AS a" .
 					"\n WHERE a.id = ".$cid[$i];
 			$db->setQuery($query, 0, 1);
-			$db->loadObject($item);
+			$item = loadObject();
 
 			// values loaded into array set for store
 			$row->id							= NULL;
@@ -1230,19 +1230,19 @@ class JContentController extends JController
 			$row->mask						= $item->mask;
 			$row->created					= $item->created;
 			$row->created_by				= $item->created_by;
-			$row->created_by_alias		= $item->created_by_alias;
+			$row->created_by_alias			= $item->created_by_alias;
 			$row->modified					= $item->modified;
-			$row->modified_by			= $item->modified_by;
-			$row->checked_out			= $item->checked_out;
-			$row->checked_out_time	= $item->checked_out_time;
+			$row->modified_by				= $item->modified_by;
+			$row->checked_out				= $item->checked_out;
+			$row->checked_out_time			= $item->checked_out_time;
 			$row->publish_up				= $item->publish_up;
-			$row->publish_down			= $item->publish_down;
+			$row->publish_down				= $item->publish_down;
 			$row->images					= $item->images;
-			$row->attribs						= $item->attribs;
+			$row->attribs					= $item->attribs;
 			$row->version					= $item->parentid;
 			$row->parentid					= $item->parentid;
 			$row->metakey					= $item->metakey;
-			$row->metadesc				= $item->metadesc;
+			$row->metadesc					= $item->metadesc;
 			$row->access					= $item->access;
 
 			if (!$row->check())

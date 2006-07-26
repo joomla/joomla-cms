@@ -99,8 +99,7 @@ function showSummary( $option, $task ) {
 	. "\n WHERE type = 0"
 	;
 	$db->setQuery( $query );
-	$bstats = null;
-	$db->loadObject( $bstats );
+	$bstats = $db->loadObject( );
 
 	// platform statistics
 	$query = "SELECT *"

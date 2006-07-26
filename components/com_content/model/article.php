@@ -263,13 +263,12 @@ class JContentModelArticle extends JModel
 		if ( 1 <= $rating && $rating >= 5)
 		{
 			$userIP 			=  $_SERVER['REMOTE_ADDR'];
-			$articleRatings	= null;
-
+		
 			$query = "SELECT *" .
 					"\n FROM #__content_rating" .
 					"\n WHERE content_id = $this->_id";
 			$this->_db->setQuery($query);
-			if (!($this->_db->loadObject($articleRatings))) {
+			if (!($articleRatings = $this->_db->loadObject())) {
 
 				// There are no ratings yet, so lets insert our rating
 				$query = "INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )" .
@@ -352,9 +351,10 @@ class JContentModelArticle extends JModel
 					$voting['join'].
 					$where;
 			$this->_db->setQuery($query);
-			return $this->_db->loadObject($this->_article);
+			$this->_article = $this->_db->loadObject();
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	/**

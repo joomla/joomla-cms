@@ -116,9 +116,8 @@ class NewsfeedsController
 		$mParams->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 		$rows 		= array();
-		$currentcat = NULL;
-		if ( $catid ) {
-
+		if ( $catid ) 
+		{
 			$query = "SELECT COUNT(id) as numitems"
 				. "\n FROM #__newsfeeds"
 				. "\n WHERE catid = $catid"
@@ -153,7 +152,7 @@ class NewsfeedsController
 				. "\n AND access <= $gid"
 			;
 			$db->setQuery( $query );
-			$db->loadObject( $currentcat );
+			$currentcat = $db->loadObject();
 
 			/*
 			Check if the category is published or if access level allows access

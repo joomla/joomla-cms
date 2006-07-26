@@ -516,6 +516,38 @@ class database extends JDatabaseMySQL
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
 		parent::__construct( $host, $user, $pass, $db, $table_prefix );
 	}
+	
+	/**
+	* This global function loads the first row of a query into an object
+	*
+	* If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
+	* If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
+	*
+	* @param object The address of variable
+	*/
+	function loadObject( &$object )
+	{
+		if ($object != null) 
+		{
+			if (!($cur = $this->query())) {
+				return false;
+			}
+			
+			if ($array = mysql_fetch_assoc( $cur )) 
+			{
+				mysql_free_result( $cur );
+				mosBindArrayToObject( $array, $object, null, null, false );
+				return true;
+			} else {
+				return false;
+			}
+			
+		} 
+		else  
+		{
+			return parent::loadObject();
+		}
+	}
 }
 
  /**
