@@ -104,32 +104,6 @@ class JComponentHelper
 		return $instances[$option];
 	}
 
-	/**
-	 * Gets the control parameters object for the current menu
-	 *
-	 * @access public
-	 * @return object A JParameter object
-	 */
-	function &getControlParams()
-    {
-       static $instance;
-
-       if ($instance == null)
-       {
-        $menus  = &JMenu::getInstance();
-        $menu  = &$menus->getItem(JRequest::getVar('Itemid'));
-        if (is_object( $menu ))
-        {
-         $instance = new JParameter( $menu->control );
-        }
-        else
-        {
-         $instance = new JParameter( '' );
-        }
-       }
-       return $instance;
-      }
-
 	function renderComponent($component = null, $params = array())
 	{
 		global $mainframe;
