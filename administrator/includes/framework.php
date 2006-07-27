@@ -54,18 +54,18 @@ define('JDEBUG', $CONFIG->debug);
 
 unset($CONFIG);
 
+
+/**
+ * Joomla! framework loading
+ */
+ 
+ jimport( 'joomla.common.abstract.object' );
+
 //System profiler
 if(JDEBUG) {
 	jimport('joomla.utilities.profiler');
 	$_PROFILER =& JProfiler::getInstance('Application');
 }
-
-/**
- * Joomla! framework loading
- */
-//Joomla library imports
-jimport( 'joomla.common.abstract.object' );
-jimport( 'joomla.common.compat.compat' );
 
 jimport( 'joomla.version' );
 jimport( 'joomla.factory' );
