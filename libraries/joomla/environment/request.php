@@ -68,13 +68,13 @@ class JRequest
 	 *   default    $_REQUEST
 	 *
 	 * @static
-	 * @param string $name Variable name
-	 * @param string $default Default value if the variable does not exist
-	 * @param string $hash Where the var should come from (POST, GET, FILES, METHOD)
-	 * @param string $type Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
-	 * @param int $mask Filter mask for the variable
-	 * @return mixed Requested variable
-	 * @since 1.5
+	 * @param	string	$name		Variable name
+	 * @param	string	$default	Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, METHOD)
+	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
+	 * @param	int		$mask		Filter mask for the variable
+	 * @return	mixed	Requested variable
+	 * @since	1.5
 	 */
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
@@ -145,6 +145,83 @@ class JRequest
 			$GLOBALS['JRequest'][$signature] = $result;
 		}
 		return $GLOBALS['JRequest'][$signature];
+	}
+
+	/**
+	 * Fetches and returns a request array.
+	 *
+	 * The default behaviour is fetching variables depending on the
+	 * current request method: GET and HEAD will result in returning
+	 * $_GET, POST and PUT will result in returning $_POST.
+	 *
+	 * You can force the source by setting the $hash parameter:
+	 *
+	 *   post       $_POST
+	 *   get        $_GET
+	 *   files      $_FILES
+	 *   cookie     $_COOKIE
+	 *   method     via current $_SERVER['REQUEST_METHOD']
+	 *   default    $_REQUEST
+	 *
+	 * @static
+	 * @param	string	$hash	to get (POST, GET, FILES, METHOD)
+	 * @param	int		$mask	Filter mask for the variable
+	 * @return	mixed	Request hash
+	 * @since	1.5
+	 */
+	function get($hash = 'default', $mask = 0)
+	{
+		static $hashes;
+		
+		if (!isset($hashes)) {
+			$hashes = array();
+		}
+
+		$signature	= $hash.$mask;
+		if (!isset($hashes[$signature])) {
+			$result		= null;
+			$matches	= array();
+
+			$hash = strtoupper( $hash );
+			if ($hash === 'METHOD') {
+				$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
+			}
+
+			switch ($hash)
+			{
+				case 'GET' :
+					$input  = &$_GET;
+					break;
+
+				case 'POST' :
+					$input  = &$_POST;
+					break;
+
+				case 'FILES' :
+					$input  = &$_FILES;
+					break;
+
+				case 'COOKIE' :
+					$input  = &$_COOKIE;
+					break;
+
+				default:
+					$input  = &$_REQUEST;
+					break;
+			}
+
+			$result = josFilterValue($input, $mask);
+
+			// Handle magic quotes compatability
+			if (get_magic_quotes_gpc())
+			{
+				if (!is_array($result) && is_string($result)) {
+					$result = stripslashes($result);
+				}
+			}
+			$hashes[$signature] = &$result;
+		}
+		return $hashes[$signature];
 	}
 
 	function setVar($name, $value = null, $hash = 'default', $type = 'none', $mask = 0)
