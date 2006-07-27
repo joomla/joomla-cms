@@ -130,10 +130,9 @@ class JMail extends PHPMailer
 	 */
 	function addRecipient($recipient)
 	{
-		/*
-		 * If the recipient is an aray, add each recipient... otherwise just add the one
-		 */
-		if (is_array($recipient)) {
+		// If the recipient is an aray, add each recipient... otherwise just add the one
+		if (is_array($recipient)) 
+		{
 			foreach ($recipient as $to) {
 				$to = JMailHelper::cleanLine( $to );
 				$this->AddAddress($to);
@@ -154,10 +153,9 @@ class JMail extends PHPMailer
 	 */
 	function addCC($cc)
 	{
-		/*
-		 * If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
-		 */
-		if (isset ($cc)) {
+		//If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
+		if (isset ($cc)) 
+		{
 			if (is_array($cc)) {
 				foreach ($cc as $to) {
 					$to = JMailHelper::cleanLine( $to );
@@ -180,10 +178,9 @@ class JMail extends PHPMailer
 	 */
 	function addBCC($bcc)
 	{
-		/*
-		 * If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
-		 */
-		if (isset ($bcc)) {
+		// If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
+		if (isset ($bcc)) 
+		{
 			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
 					$to = JMailHelper::cleanLine( $to );
@@ -206,10 +203,9 @@ class JMail extends PHPMailer
 	 */
 	function addAttachment($attachment)
 	{
-		/*
-		 * If the file attachments is an aray, add each file... otherwise just add the one
-		 */
-		if (isset ($attachment)) {
+		// If the file attachments is an aray, add each file... otherwise just add the one
+		if (isset ($attachment)) 
+		{
 			if (is_array($attachment)) {
 				foreach ($attachment as $file) {
 					parent::AddAttachment($file);
@@ -233,10 +229,9 @@ class JMail extends PHPMailer
 	 */
 	function addReplyTo($replyto)
 	{
-		/*
-		 * Take care of reply email addresses
-		 */
-		if (is_array($replyto[0])) {
+		// Take care of reply email addresses
+		if (is_array($replyto[0])) 
+		{
 			foreach ($replyto as $to) {
 				$to0 = JMailHelper::cleanLine( $to[0] );
 				$to1 = JMailHelper::cleanLine( $to[1] );
@@ -317,8 +312,7 @@ class JMailHelper
 	 * @param string
 	 * @return string
 	 */
-	function cleanLine( $value )
-	{
+	function cleanLine( $value ) {
 		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)/i', '', $value ) );
 	}
 
@@ -327,8 +321,7 @@ class JMailHelper
 	 * @param string
 	 * @return string
 	 */
-	function cleanText( $value )
-	{
+	function cleanText( $value ) {
 		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value ) );
 	}
 
@@ -340,8 +333,7 @@ class JMailHelper
 	 * @return string Cleaned E-Mail body string
 	 * @since 1.5
 	 */
-	function cleanBody($body)
-	{
+	function cleanBody($body) {
 		// Strip all E-Mail headers from a string
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
 	}

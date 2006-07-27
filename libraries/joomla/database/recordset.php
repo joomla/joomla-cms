@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.common.base.object' );
-
 /**
  * Simple Record Set object to allow our database connector to be used with
  * ADODB driven 3rd party libraries

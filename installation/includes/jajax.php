@@ -41,7 +41,7 @@ $xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
 $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
-jimport( 'joomla.common.base.object' );
+jimport( 'joomla.common.abstract.object' );
 //jimport( 'joomla.i18n.string' );
 jimport( 'joomla.filesystem.*' );
 

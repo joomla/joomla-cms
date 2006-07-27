@@ -66,6 +66,7 @@ if(JDEBUG) {
 
 
 //Joomla library imports
+jimport( 'joomla.common.abstract.object' );
 jimport( 'joomla.common.compat.compat' );
 
 jimport( 'joomla.version' );

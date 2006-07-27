@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.common.base.object' );
-
 /**
  * Class to maintain a pathway.
  *

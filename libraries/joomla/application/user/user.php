@@ -11,7 +11,6 @@
  * details.
  */
 
-jimport( 'joomla.common.base.object' );
 jimport( 'joomla.presentation.parameter.parameter' );
 
 /**

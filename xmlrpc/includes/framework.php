@@ -41,8 +41,9 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
 //Library imports
-jimport( 'joomla.common.base.object' );
+jimport( 'joomla.common.abstract.object' );
 jimport( 'joomla.common.compat.compat' );
+
 jimport( 'joomla.utilities.error');
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );

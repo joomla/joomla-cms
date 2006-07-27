@@ -64,6 +64,7 @@ if(JDEBUG) {
  * Joomla! framework loading
  */
 //Joomla library imports
+jimport( 'joomla.common.abstract.object' );
 jimport( 'joomla.common.compat.compat' );
 
 jimport( 'joomla.version' );

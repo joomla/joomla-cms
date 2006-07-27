@@ -11,7 +11,7 @@
  * details.
  */
 
-jimport('joomla.common.base.tree');
+jimport('joomla.common.abstract.tree');
 
 class JAdminCSSMenu extends JTree
 {

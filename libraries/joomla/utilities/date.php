@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.common.base.object' );
-
 // your local timezone, set to "" to disable or for GMT
 define("TIME_ZONE","+01:00");
 

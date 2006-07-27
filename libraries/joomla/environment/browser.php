@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.common.base.object' );
-
 /**
  * Browser class, provides capability information about the current web client.
  *
