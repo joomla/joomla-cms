@@ -46,8 +46,8 @@ require_once( JPATH_INCLUDES . DS . 'classes.php' );
 require_once( JPATH_INCLUDES . DS . 'html.php' );
 
 //Library imports
-jimport( 'joomla.common.abstract.object' );
 jimport( 'joomla.common.compat.compat' );
+jimport( 'joomla.common.abstract.object' );
 
 jimport( 'joomla.version' );
 jimport( 'joomla.utilities.error');

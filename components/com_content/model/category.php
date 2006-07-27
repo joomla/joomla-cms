@@ -241,7 +241,7 @@ class JContentModelCategory extends JModel
 			$this->_db->setQuery($query, 0, 1);
 			$this->_category = $this->_db->loadObject();
 		}
-		return false;
+		return true;
 	}
 
 	/**

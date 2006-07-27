@@ -145,7 +145,7 @@ class HTML_user
 		// check to see if Frontend User Params have been enabled
 		$check = $mainframe->getCfg('frontend_userparams');
 		if ($check == '1' || $check == 1 || $check == NULL) {
-			$params =& $user->getParameters();
+			$params = $user->getParameters();
 			$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
 
 			// output params

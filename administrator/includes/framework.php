@@ -58,7 +58,7 @@ unset($CONFIG);
 /**
  * Joomla! framework loading
  */
- 
+ jimport( 'joomla.common.compat.compat' );
  jimport( 'joomla.common.abstract.object' );
 
 //System profiler
