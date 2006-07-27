@@ -57,8 +57,8 @@ jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.application.application');
-jimport( 'joomla.application.environment.request' );
-jimport( 'joomla.application.environment.session' );
+jimport( 'joomla.environment.request' );
+jimport( 'joomla.environment.session' );
 jimport( 'joomla.application.user.user' );
 
 // JString should only be loaded after pre-install checks

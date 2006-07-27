@@ -106,7 +106,7 @@ class JEditor_xstandard extends JPlugin {
 	{
 		global $mainframe;
 
-		jimport('joomla.application.environment.browser');
+		jimport('joomla.environment.browser');
 		$instance  =& JBrowser::getInstance();
 
 		$language  =& $mainframe->getLanguage();

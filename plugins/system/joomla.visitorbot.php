@@ -32,7 +32,7 @@ function botDetectVisitor()
 		return;
 	}
 
-	jimport('joomla.application.environment.browser');
+	jimport('joomla.environment.browser');
 	$browser =& JBrowser::getInstance();
 
 	if( $browser->isRobot()) {

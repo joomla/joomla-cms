@@ -290,7 +290,7 @@ class JFactory
 	 */
 	function &getURI($uri = 'SERVER')
 	{
-		jimport('joomla.application.environment.uri');
+		jimport('joomla.environment.uri');
 		
 		$instance =& JURI::getInstance();
 		return $instance;

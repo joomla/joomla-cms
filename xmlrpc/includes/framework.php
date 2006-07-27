@@ -49,10 +49,10 @@ jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.database.table' );
+jimport( 'joomla.environment.request' );
+jimport( 'joomla.environment.session' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.event');
 jimport( 'joomla.application.extension.plugin');
-jimport( 'joomla.application.environment.request' );
-jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.user.user' );
 ?>

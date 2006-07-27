@@ -41,6 +41,7 @@ Legend:
  ^ Deprecared mosBindArraytoObject, use JObject->bind instead
  + Added JDatabase->loadAssoc, to fetch a result row as an associative array
  ^ Renamed connector package to client
+ ^ Moved environment classes into their own package
 
 25-Jul-2006 Johan Janssens
  ^ Refactored JMenu class to remove application state coupling

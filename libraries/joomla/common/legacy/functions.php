@@ -330,7 +330,7 @@ function mosPathWay() {
  * @package		Joomla.Legacy
  */
 function mosGetBrowser( $agent ) {
-	jimport('joomla.application.environment.browser');
+	jimport('joomla.environment.browser');
 	$instance =& JBrowser::getInstance();
 	return $instance;
 }
