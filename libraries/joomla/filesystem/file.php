@@ -98,7 +98,7 @@ class JFile
 			$ftpRoot = $config->getValue('config.ftp_root');
 
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -152,7 +152,7 @@ class JFile
 			$ftpFlag = false;
 		} else {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 		}
@@ -214,7 +214,7 @@ class JFile
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -278,7 +278,7 @@ class JFile
 		}
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -333,7 +333,7 @@ class JFile
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -393,7 +393,7 @@ class JFile
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 

@@ -13,7 +13,7 @@
 */
 
 jimport('joomla.application.extension.plugin');
-jimport('joomla.connector.ldap');
+jimport('joomla.client.ldap');
 
 /**
  * LDAP JAuthenticate Plugin

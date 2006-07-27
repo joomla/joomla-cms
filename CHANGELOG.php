@@ -40,6 +40,7 @@ Legend:
 26-jul-2006 Johan Janssens
  ^ Deprecared mosBindArraytoObject, use JObject->bind instead
  + Added JDatabase->loadAssoc, to fetch a result row as an associative array
+ ^ Renamed connector package to client
 
 25-Jul-2006 Johan Janssens
  ^ Refactored JMenu class to remove application state coupling

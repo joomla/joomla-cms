@@ -574,7 +574,7 @@ class JInstallationController
 		if ($ftpFlag == true) {
 
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
 
 			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
@@ -898,7 +898,7 @@ class JInstallationHelper
 	 */
 	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21')
 	{
-		jimport('joomla.connector.ftp');
+		jimport('joomla.client.ftp');
 		$ftp = & JFTP::getInstance($host, $port);
 		if (!$ftp->login($user, $pass)) {
 			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
@@ -968,7 +968,7 @@ class JInstallationHelper
 		if ($ftpFlag == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($srv['ftpHost'], $srv['ftpPort']);
 			$ftp->login($srv['ftpUser'],$srv['ftpPassword']);
 
@@ -1680,7 +1680,7 @@ class JInstallationHelper
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
 			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 

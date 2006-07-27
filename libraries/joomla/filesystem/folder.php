@@ -61,7 +61,7 @@ class JFolder {
 		// Check for safe mode
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 			$ret = true;
@@ -186,7 +186,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -239,7 +239,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -310,7 +310,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
@@ -417,7 +417,7 @@ class JFolder {
 		// Are we using FTP?
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connector.ftp');
+			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
