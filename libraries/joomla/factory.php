@@ -173,10 +173,12 @@ class JFactory
 
 		if (!is_object($instance))
 		{
+			//get the debug configuration setting
 			$conf =& JFactory::getConfig();
-
+			$debug = $conf->getValue('config.debug');
+			
 			$instance = JFactory::_createDBO();
-			$instance->debug( $conf->getValue('config.debug'));
+			$instance->debug($debug);
 		}
 
 		return $instance;
@@ -270,11 +272,27 @@ class JFactory
 	{
 		jimport( 'joomla.presentation.editor' );
 
+		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
-
 		$editor = $conf->getValue('config.editor');
+		
 		$instance =& JEditor::getInstance($editor);
 
+		return $instance;
+	}
+	
+	/**
+	 * Return a reference to the JURI object
+	 *
+	 * @access public
+	 * @return juri 	JURI object
+	 * @since 1.5
+	 */
+	function &getURI($uri = 'SERVER')
+	{
+		jimport('joomla.application.environment.uri');
+		
+		$instance =& JURI::getInstance();
 		return $instance;
 	}
 

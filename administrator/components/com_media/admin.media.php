@@ -351,12 +351,12 @@ class JMediaController
 	 */
 	function upload()
 	{
-		global $mainframe, $clearUploads;
+		global $mainframe;
 
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
-		$juri 		= $mainframe->getURI();
 		$err		= null;
+		
 		JRequest::setVar('cFolder', $dirPath);
 
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
@@ -381,8 +381,6 @@ class JMediaController
 				JMediaController::showUpload(JText::_('Upload complete'));
 				return;
 			}
-
-			$clearUploads = true;
 		}
 	}
 

@@ -65,28 +65,20 @@ class JEventDispatcher extends JObservable
 	 */
 	function register($event, $handler)
 	{
-		/*
-		 * Are we dealing with a class or function type handler?
-		 */
+		// Are we dealing with a class or function type handler?
 		if (function_exists($handler))
 		{
-			/*
-			 * Ok, function type event handler... lets attach it.
-			 */
+			// Ok, function type event handler... lets attach it.
 			$method = array ('event' => $event, 'handler' => $handler);
 			$this->attach($method);
-		} elseif (class_exists($handler))
+		} 
+		elseif (class_exists($handler))
 		{
-			/*
-			 * Ok, class type event handler... lets instantiate and attach it.
-			 */
+			 //Ok, class type event handler... lets instantiate and attach it.
 			$this->attach(new $handler($this));
-		} else
+		} 
+		else
 		{
-			/*
-			 * We are obviously not trying to register a function or a class as
-			 * an event handler... throw an error.
-			 */
 			JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
 		}
 	}
@@ -104,9 +96,7 @@ class JEventDispatcher extends JObservable
 	 */
 	function trigger($event, $args = null, $doUnpublished = false)
 	{
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$result = array ();
 
 		/*
@@ -147,10 +137,7 @@ class JEventDispatcher extends JObservable
 				}
 				else
 				{
-					/*
-					 * Handler doesn't handle this event, move on to next
-					 * observer.
-					 */
+					 // Handler doesn't handle this event, move on to next observer.
 					continue;
 				}
 			}

@@ -61,14 +61,6 @@ class JApplication extends JObject
 	var $_document = null;
 
 	/**
-	 * The uri object
-	 *
-	 * @var object
-	 * @access protected
-	 */
-	var $_uri  = null;
-
-	/**
 	 * The active user object
 	 *
 	 * @var object JTableUser
@@ -385,11 +377,7 @@ class JApplication extends JObject
 	 */
 	function getBaseURL()
 	{
-		if(isset($this->_baseURL)) {
-			return $this->_baseURL;
-		}
-
-		$uri =& $this->getURI();
+		$uri =& JFactory::getURI();
 
 		$url  = $uri->getScheme().'://';
 		$url .= $uri->getHost();
@@ -397,8 +385,6 @@ class JApplication extends JObject
 			$url .= ":$port";
 		}
 		$url .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
-
-		$this->_baseURL= $url;
 		return $url;
 	}
 
@@ -459,24 +445,6 @@ class JApplication extends JObject
 	 */
 	function getTemplate() {
 		return '_system';
-	}
-
-	/**
-	 * Return a reference to the JURI object
-	 *
-	 * @access public
-	 * @return juri 	JURI object
-	 * @since 1.5
-	 */
-	function &getURI()
-	{
-		if(is_object($this->_uri)) {
-			return $this->_uri;
-		}
-
-		jimport('joomla.application.environment.uri');
-		$this->_uri =& JURI::getInstance();
-		return $this->_uri;
 	}
 
 	/**
@@ -665,7 +633,7 @@ class JApplication extends JObject
 			}
 
 			//create persistance store in the session
-			JSession::set('registry', new JRegistry('application'));
+			JSession::set('registry', new JRegistry('session'));
 
 			if (!$session->insert( JSession::id(), $this->getClientId())) {
 				die( $session->getError() );
