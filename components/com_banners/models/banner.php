@@ -70,7 +70,7 @@ class JModelBanner extends JModel
 			. ($randomise ? ', RAND() AS ordering' : '')
 			. "\n FROM #__banner"
 			. "\n WHERE " . implode( " AND ", $wheres )
-			. "\nORDER BY sticky, ordering ";
+			. "\nORDER BY sticky DESC, ordering ";
 
 		$db->setQuery( $query, 0, $filters['limit'] );
 
