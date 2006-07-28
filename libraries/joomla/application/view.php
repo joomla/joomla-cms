@@ -224,17 +224,5 @@ class JView extends JObject {
 		$document		= &$application->getDocument();
 		return $document;
 	}
-
-	/**
-	 * Gets the current menu item
-	 * @return JMenu
-	 */
-	function &getCurrentMenu()
-	{
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem(JRequest::getVar('Itemid'));
-		return $menu;
-	}
-
 }
 ?>
