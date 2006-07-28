@@ -1214,7 +1214,7 @@ class JContentController extends JController
 					"\n FROM #__content AS a" .
 					"\n WHERE a.id = ".$cid[$i];
 			$db->setQuery($query, 0, 1);
-			$item = loadObject();
+			$item = $db->loadObject();
 
 			// values loaded into array set for store
 			$row->id							= NULL;
