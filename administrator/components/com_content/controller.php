@@ -72,8 +72,6 @@ class JContentController extends JController
 		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart			= $mainframe->getUserStateFromRequest("$option.viewcontent.limitstart", 'limitstart', 0);
 		$search				= $mainframe->getUserStateFromRequest("$option.viewcontent.search", 'search', '');
-		$search				= $db->getEscaped(trim(JString::strtolower($search)));
-
 
 		//$where[] = "c.state >= 0";
 		$where[] = "c.state != -2";
@@ -121,7 +119,7 @@ class JContentController extends JController
 		}
 		// Keyword filter
 		if ($search) {
-			$where[] = "LOWER( c.title ) LIKE '%$search%'";
+			$where[] = 'LOWER( c.title ) LIKE ' . $db->Quote( "%$search%" );
 		}
 
 		// Build the where clause of the content record query
