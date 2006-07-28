@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.database.recordset' );
-
 /**
  * Database connector class
  *
@@ -688,6 +686,8 @@ class JDatabase extends JObject
 	 */
 	function Execute( $query )
 	{
+		jimport( 'joomla.database.recordset' );
+
 		$query = trim( $query );
 		$this->setQuery( $query );
 		if (eregi( '^select', $query )) {
@@ -711,6 +711,8 @@ class JDatabase extends JObject
 	 */
 	function SelectLimit( $query, $count, $offset=0 )
 	{
+		jimport( 'joomla.database.recordset' );
+
 		$this->setQuery( $query, $offset, $count );
 		$result = $this->loadRowList();
 		return new JRecordSet( $result );
@@ -724,6 +726,8 @@ class JDatabase extends JObject
 	 */
 	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 )
 	{
+		jimport( 'joomla.database.recordset' );
+
 		$this->setQuery( $sql, $page*$nrows, $nrows );
 		$result = $this->loadRowList();
 		return new JRecordSet( $result );
