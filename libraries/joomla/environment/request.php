@@ -190,23 +190,23 @@ class JRequest
 			switch ($hash)
 			{
 				case 'GET' :
-					$input  = &$_GET;
+					$input  = $_GET;
 					break;
 
 				case 'POST' :
-					$input  = &$_POST;
+					$input  = $_POST;
 					break;
 
 				case 'FILES' :
-					$input  = &$_FILES;
+					$input  = $_FILES;
 					break;
 
 				case 'COOKIE' :
-					$input  = &$_COOKIE;
+					$input  = $_COOKIE;
 					break;
 
 				default:
-					$input  = &$_REQUEST;
+					$input  = $_REQUEST;
 					break;
 			}
 
