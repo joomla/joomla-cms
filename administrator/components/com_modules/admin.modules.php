@@ -282,21 +282,25 @@ function copyModule( $option, $uid )
 }
 
 /**
-* Saves the module after an edit form submit
-*/
+ * Saves the module after an edit form submit
+ * @param	string	The url option
+ * @param	string	The task variable
+ */
 function saveModule( $option, $task )
 {
 	global $mainframe;
 
-	/*
-	 * Initialize some variables
-	 */
+	// Initialize some variables
 	$db		=& $mainframe->getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
+	$post	= JRequest::get( 'post' );
+	// fix up special html fields
+	$post['content'] = JRequest::getVar( 'content', '', 'post', 'string', _J_ALLOWRAW );
+
 	$row =& JTable::getInstance('module', $db );
 
-	if (!$row->bind( $_POST, 'selections' )) {
+	if (!$row->bind( $post, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}

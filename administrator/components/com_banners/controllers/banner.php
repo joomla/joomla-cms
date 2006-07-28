@@ -21,16 +21,16 @@ class JBannerController {
 	{
 		global $mainframe;
 
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order_Dir",	'filter_order_Dir',	'' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_catid",'filter_catid','' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 		'filter_state', 	'' );
-		$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
-		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 		'limitstart', 		0 );
-		$search 			= $mainframe->getUserStateFromRequest( "$option.viewbanners.search", 			'search', 			'' );
-		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$context			= "$option.viewbanners";
+		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order", 	'filter_order', 	'b.bid' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
+		$filter_catid		= $mainframe->getUserStateFromRequest( "$context.filter_catid",		'filter_catid','' );
+		$filter_state 		= $mainframe->getUserStateFromRequest( "$context.filter_state", 	'filter_state', 	'' );
+		$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+		$limitstart 		= $mainframe->getUserStateFromRequest( "$context.limitstart", 		'limitstart', 		0 );
+		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
 
 		$where = array();
 
@@ -51,7 +51,7 @@ class JBannerController {
 		}
 		if ($search)
 		{
-			$where[] = "LOWER(b.name) LIKE '%$search%'";
+			$where[] = 'LOWER(b.name) LIKE ' . $db->Quote( "%$search%" );
 		}
 
 		$where 		= count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : '';
@@ -153,13 +153,19 @@ class JBannerController {
 		JViewBanners::edit( $row, $lists, $option );
 	}
 
+	/**
+	 * Save method
+	 */
 	function saveBanner( $task ) {
-		global $mainframe;
+		$db =& JFactory::getDBO();
 
-		$db =& $mainframe->getDBO();
+		$post	= JRequest::get( 'post' );
+		// fix up special html fields
+		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', _J_ALLOWRAW );
+
 		$row = new mosBanner($db);
 
-		if (!$row->bind( $_POST )) {
+		if (!$row->bind( $post )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
