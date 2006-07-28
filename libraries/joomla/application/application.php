@@ -133,14 +133,14 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Gets the value of a user state variable
-	*
-	* @access public
-	* @param string The key of the user state variable
-	* @param string The name of the variable passed in a request
-	* @param string The default value for the variable if not found
-	* @return The request user state
-	*/
+	 * Gets the value of a user state variable
+	 *
+	 * @access public
+	 * @param string The key of the user state variable
+	 * @param string The name of the variable passed in a request
+	 * @param string The default value for the variable if not found
+	 * @return The request user state
+	 */
 	function getUserStateFromRequest( $key, $request, $default=null )
 	{
 		//Force namespace
@@ -148,12 +148,16 @@ class JApplication extends JObject
 
 		$old_state = $this->getUserState( $key );
 		$cur_state = isset( $old_state ) ? $old_state : $default;
+		$new_state = JRequest::getVar( $request, $cur_state );
+
+		/*
 		$new_state = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $cur_state;
 
 		// filter input
 		jimport( 'phpinputfilter.inputfilter' );
 		$iFilter = new InputFilter();
 		$new_state = $iFilter->process( $new_state );
+		*/
 
 		$this->setUserState( $key, $new_state );
 
