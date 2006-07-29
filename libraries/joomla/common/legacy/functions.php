@@ -574,4 +574,60 @@ function mosLoadAdminModule( $name, $style=0 ) {
 function mosShowHead_Admin() {
 	?><jdoc:include type="head" /><?php
 }
+
+/**
+ * Legacy function, use JUtility::spoofCheck() instead.
+ * Note: JUtility::spoofCheck() does not die (like this function does), it rather returns a boolean.
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function josSpoofCheck( $header=false, $alternate=false ) {
+	$check = JUtility::spoofCheck();
+	if (!$check) {
+		header( 'HTTP/1.0 403 Forbidden' );
+		die( JText::_('ALERTNOTAUTH') );
+	}
+
+	/*
+	 * TODO: I guess this can be deleted (copied from 1.0.10). Precautions against email header injections
+	 * have to be taken (and partially are already done) in the JMail class. Enno 2006-07-29.
+	 */
+	if ($header) {
+		// Attempt to defend against header injections:
+		$badStrings = array(
+			'Content-Type:',
+			'MIME-Version:',
+			'Content-Transfer-Encoding:',
+			'bcc:',
+			'cc:'
+		);
+
+		// Loop through each POST'ed value and test if it contains
+		// one of the $badStrings:
+		foreach ($_POST as $k => $v){
+			foreach ($badStrings as $v2) {
+				if (strpos( $v, $v2 ) !== false) {
+					header( 'HTTP/1.0 403 Forbidden' );
+					die( JText::_('ALERTNOTAUTH') );
+				}
+			}
+		}
+
+		// Made it past spammer test, free up some memory
+		// and continue rest of script:
+		unset($k, $v, $v2, $badStrings);
+	}
+}
+
+/**
+ * Legacy function, use JUtility::spoofKey() instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function josSpoofValue( $alternate=false ) {
+	$hash = JUtility::spoofKey();
+	return $hash;
+}
 ?>

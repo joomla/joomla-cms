@@ -22,7 +22,7 @@ $list = modLatestNewsHelper::getList($params);
 ?>
 <ul class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
 <?php foreach ($list as $item) :  ?>
-	<li class="latestnews<?php echo $moduleclass_sfx; ?>">
+	<li class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
 		<a href="<?php echo $item->link; ?>" class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php echo $item->text; ?>
 		</a>

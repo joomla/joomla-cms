@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Jul-2006 Enno Klasing
+ + Introduced josSpoofCheck and josSpoofValue as legacy functions
+ ^ Deprecated josSpoofCheck, use JUtility::spoofCheck instead
+ ^ Deprecated josSpoofValue, use JUtility::spoofKey instead
+
 26-jul-2006 Johan Janssens
  ^ Deprecared mosBindArraytoObject, use JObject->bind instead
  + Added JDatabase->loadAssoc, to fetch a result row as an associative array
