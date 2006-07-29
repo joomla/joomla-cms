@@ -70,36 +70,50 @@ class JObject
 	 * 
 	 * Only existing properties of object are filled. When undefined in hash, properties wont be deleted
 	 *
-	 * @param array The associative array
-	 * @param string
+	 * @param mixed Either and associative array or another object
+	 * @param string A list of attributes to ignore
 	 * @param string
 	 * @param boolean
 	 */
-	function bind( $array, $ignore='', $prefix='' )
+	function bind( $from, $ignore='', $prefix='' )
 	{
-		if (!is_array( $array )) {
-			return (false);
-		}
+		$fromArray = is_array( $from );
+		$fromObject = is_array( $from );
 
-		foreach (get_object_vars($this) as $k => $v)
+		if ($fromArray || $fromObject)
 		{
-			// only bind to public variables
-			if( substr( $k, 0, 1 ) != '_' )
+			foreach (get_object_vars($this) as $k => $v)
 			{
-				// internal attributes of an object are ignored
-				if (strpos( $ignore, $k) === false)
+				// only bind to public variables
+				if( substr( $k, 0, 1 ) != '_' )
 				{
-					if ($prefix) {
-						$ak = $prefix . $k;
-					} else {
-						$ak = $k;
-					}
-					
-					if (isset($array[$ak])) {
-						$this->set($k, $array[$ak]);
+					// internal attributes of an object are ignored
+					if (strpos( $ignore, $k) === false)
+					{
+						if ($prefix)
+						{
+							$ak = $prefix . $k;
+						}
+						else
+						{
+							$ak = $k;
+						}
+						
+						if ($fromArray && isset( $from[$ak] ))
+						{
+							$this->$k = $from[$ak];
+						}
+						else if ($fromObject && isset( $from->$ak ))
+						{
+							$this->$k = $from->$ak;
+						}
 					}
 				}
 			}
+		}
+		else
+		{
+			return (false);
 		}
 
 		return true;
