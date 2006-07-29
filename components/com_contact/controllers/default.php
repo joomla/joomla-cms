@@ -50,40 +50,6 @@ class JContactControllerDefault extends JController {
 	}
 
 	/**
-	 * Some simple validation checks
-	 * @param int 1 is required
-	 * @return boolean
-	 */
-	function validatePost( $validate )
-	{
-		// probably a spoofing attack
-		if (!$validate) {
-			$this->setError( _NOT_AUTH );
-			return false;
-		}
-
-		/*
-		 * This obviously won't catch all attempts, but it does not hurt to make
-		 * sure the request came from a client with a user agent string.
-		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
-			$this->setError( _NOT_AUTH );
-			return false;
-		}
-
-		/*
-		 * This obviously won't catch all attempts either, but we ought to check
-		 * to make sure that the request was posted as well.
-		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			$this->setError( _NOT_AUTH );
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Validates some inputs based on component configuration
 	 * @return boolean
 	 */
@@ -162,10 +128,8 @@ class JContactControllerDefault extends JController {
 		$SiteName 	= $app->getCfg('sitename');
 		$MailFrom 	= $app->getCfg('mailfrom');
 		$FromName 	= $app->getCfg('fromname');
-		$validate 	= JUtility::getHash( $app->getCfg('db') );
 
 		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
-		$validate 	= JRequest::getVar($validate, 		0, 			'post');
 		$contactId 	= JRequest::getVar('contact_id', 	0, 			'post', 'int');
 		$name 		= JRequest::getVar('name', 			'', 		'post');
 		$email 		= JRequest::getVar('email', 		'', 		'post');
@@ -174,8 +138,8 @@ class JContactControllerDefault extends JController {
 		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post', 'int');
 
 		// probably a spoofing attack
-		if (!$this->validatePost( $validate )) {
-			JError::raiseWarning( 0, $this->getError() );
+		if (!JUtility::spoofCheck()) {
+			JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
 			return false;
 		}
 

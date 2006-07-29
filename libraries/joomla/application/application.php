@@ -211,6 +211,12 @@ class JApplication extends JObject
 	 */
 	function login($username,$password)
 	{
+		if (!JUtility::spoofCheck()) {
+			// TODO: Disabled for now, until all login forms have the required JUtility::spoofKey() input field. [WIP]
+			// At least com_login is still missing at the moment
+			//return JError::raiseError( 403, JText::_( 'ALERTNOTAUTH' ) );
+		}
+
 		if (empty($username))  {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_USERNAME'));
 		}

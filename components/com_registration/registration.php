@@ -202,6 +202,11 @@ function saveRegistration()
 		return;
 	}
 
+	if (!JUtility::spoofCheck()) {
+		JError::raiseError( 403, JText::_( 'ALERTNOTAUTH' ) );
+		return;
+	}
+
 	if (!$new_usertype) {
 		$new_usertype = 'Registered';
 	}

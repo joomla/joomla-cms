@@ -106,7 +106,7 @@ if ( ( $params->get( 'address_check' ) > 0 ) &&  ( $contact->address || $contact
 				</td>
 				<td>
 				<?php
-				echo $contact->email;
+				echo $contact->email_to;
 				?>
 				</td>
 			</tr>

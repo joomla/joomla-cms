@@ -221,6 +221,7 @@ class HTML_registration {
 		<input type="hidden" name="id" value="0" />
 		<input type="hidden" name="gid" value="0" />
 		<input type="hidden" name="task" value="saveRegistration" />
+		<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 		</form>
 		<?php
 	}
