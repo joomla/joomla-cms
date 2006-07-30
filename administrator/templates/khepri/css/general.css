@@ -445,7 +445,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 
 .button2-right.off .start { background: url(../images/j_button2_first_off.png) no-repeat; }
 
-.button2-left .page { background: url(../images/j_button2_right_cap.png)  no-repeat; }
+.button2-left .page { background: url(../images/j_button2_right_cap.png) 100% 0 no-repeat; }
 
 .button2-left .next { background: url(../images/j_button2_next.png) 100% 0 no-repeat; }
 
