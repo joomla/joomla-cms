@@ -42,6 +42,7 @@ Legend:
 
 30-Jul-2006 David Gal
  ^ Fixes to RTL in admin
+ + Added RTL to media manager dtree menu
   
 29-Jul-2006 Enno Klasing
  + Introduced josSpoofCheck and josSpoofValue as legacy functions

@@ -428,6 +428,10 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	padding: 0 6px 0 30px;
 }
 
+.button1-left a:hover,
+.button1-right a:hover { text-decoration: none; color: #0B55C4; }
+
+
 .button2-left a,
 .button2-right a,
 .button2-left span,

@@ -541,17 +541,20 @@ class JMediaViews
 	function _buildFolderTree($tree)
 	{
 		global $mainframe;
+		
+		$lang = $mainframe->getLanguage();
 
 		$doc =& $mainframe->getDocument();
 		$doc->addScript('../includes/js/dtree/dtree.js');
-		$doc->addStyleSheet('../includes/js/dtree/dtree.css');
+		$cssfile = $lang->isRTL() ? 'dtree_rtl.css': 'dtree.css';
+		$doc->addStyleSheet('../includes/js/dtree/'.$cssfile);
 		$txt = null;
 		foreach($tree as $node) {
 			$txt .= "d.add(".$node['id'].", ".$node['pid'].", '".$node['name']."', '".$node['url']."', '".$node['title']."', '".$node['target']."', '../includes/js/dtree/img/folder.gif');\n";
 		}
 		?>
 		<script language="JavaScript" type="text/javascript">
-			d = new dTree('d', '../includes/js/dtree/img/');
+			d = new dTree('d', '../includes/js/dtree/<?php echo $lang->isRTL() ? 'rtl_img': 'img'; ?>/');
 			d.config.useCookies = false;
 			<?php echo $txt; ?>
 			document.write(d);
