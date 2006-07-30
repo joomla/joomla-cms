@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Jul-2006 Wilco Jansen
+ + Added error number handling in JTable class.
+
 30-Jul-2006 David Gal
  ^ Fixes to RTL in admin
   

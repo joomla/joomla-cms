@@ -50,6 +50,14 @@ class JTable extends JObject
 	var $_error		= '';
 
 	/**
+	 * Error number
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	var $_errorNum = 0;
+
+	/**
 	 * Database connector
 	 *
 	 * @var JDatabase
@@ -164,6 +172,15 @@ class JTable extends JObject
 	}
 
 	/**
+	 * Returns the error number
+	 * 
+	 * @return int The error number
+	 */
+	function getErrorNum() {
+		return $this->_errorNum;
+	}
+
+	/**
 	* Binds a named array/hash to this object
 	*
 	* can be overloaded/supplemented by the child class
@@ -176,7 +193,8 @@ class JTable extends JObject
 	{
 		if (!is_array( $array ))
 		{
-			$this->_error = strtolower(get_class( $this ))."::bind failed.";
+			$this->setError(strtolower(get_class( $this ))."::bind failed.");
+			$this->setErrorNum(20);
 			return false;
 		}
 		else
@@ -272,7 +290,8 @@ class JTable extends JObject
 		}
 		if( !$ret )
 		{
-			$this->_error = strtolower(get_class( $this ))."::store failed <br />" . $this->_db->getErrorMsg();
+			$this->setError(strtolower(get_class( $this ))."::store failed <br />" . $this->_db->getErrorMsg());
+			$this->setErrorNum($db->getErrorNum());
 			return false;
 		}
 		else
@@ -373,7 +392,8 @@ class JTable extends JObject
 
 		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) ))
 		{
-			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support ordering.";
+			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support ordering.");
+			$this->setErrorNum(21);
 			return false;
 		}
 
@@ -394,7 +414,8 @@ class JTable extends JObject
 		$this->_db->setQuery( $query );
 		if (!($orders = $this->_db->loadObjectList()))
 		{
-			$this->_error = $this->_db->getErrorMsg();
+			$this->setError($this->_db->getErrorMsg());
+			$this->setErrorNum($db->getErrorNum());
 			return false;
 		}
 		// first pass, compact the ordering numbers
@@ -492,7 +513,8 @@ class JTable extends JObject
 
 			if ($obj = $this->_db->loadObject())
 			{
-				$this->_error = $this->_db->getErrorMsg();
+				$this->setError($this->_db->getErrorMsg());
+				$this->setErrorNum($db->getErrorNum());
 				return false;
 			}
 			$msg = array();
@@ -507,7 +529,8 @@ class JTable extends JObject
 
 			if (count( $msg ))
 			{
-				$this->_error = "noDeleteRecord" . ": " . implode( ', ', $msg );
+				$this->setError("noDeleteRecord" . ": " . implode( ', ', $msg ));
+				$this->setErrorNum(22);
 				return false;
 			}
 			else
@@ -550,7 +573,8 @@ class JTable extends JObject
 		}
 		else
 		{
-			$this->_error = $this->_db->getErrorMsg();
+			$this->setError($this->_db->getErrorMsg());
+			$this->setErrorNum($db->getErrorNum());
 			return false;
 		}
 	}
@@ -568,7 +592,8 @@ class JTable extends JObject
 		// $checkedOut = $this->get( 'checked_out' );
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
 		{
-			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkouts.";
+			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support checkouts.");
+			$this->setErrorNum(23);
 			return false;
 		}
 		$k = $this->_tbl_key;
@@ -745,7 +770,8 @@ class JTable extends JObject
 			$filter_value = $this->$order_filter;
 			$this->reorder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
 		}
-		$this->_error = '';
+		$this->setError('');
+		$this->setErrorNum(0);
 		return true;
 	}
 
@@ -757,6 +783,14 @@ class JTable extends JObject
 	function setError( $value )
 	{
 		$this->_error = $value;
+	}
+
+	/**
+	 * Sets the internal error number
+	 * @param int Set the error number with this value
+	 */
+	function setErrorNum( $value ) {
+		$this->_errorNum = $value;
 	}
 
 	/**
@@ -775,7 +809,8 @@ class JTable extends JObject
 
 		if (count( $cid ) < 1)
 		{
-			$this->_error = "No items selected.";
+			$this->setError("No items selected.");
+			$this->setErrorNum(24);
 			return false;
 		}
 
@@ -795,7 +830,8 @@ class JTable extends JObject
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query())
 		{
-			$this->_error = $this->_db->getErrorMsg();
+			$this->setError($this->_db->getErrorMsg());
+			$this->setErrorNum($db->getErrorNum());
 			return false;
 		}
 
@@ -803,7 +839,8 @@ class JTable extends JObject
 		{
 			$this->checkin( $cid[0] );
 		}
-		$this->_error = '';
+		$this->setError('');
+		$this->setErrorNum(0);
 		return true;
 	}
 
