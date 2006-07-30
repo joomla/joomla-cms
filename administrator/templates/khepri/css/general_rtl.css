@@ -270,7 +270,7 @@ div.col30 { float: left; width: 30%; }
 div.col60 { float: left; width: 60%; }
 div.col40 { float: left; width: 40%; }
 
-table.admintable td 					 { padding: 3px; }
+table.admintable td 					 { padding: 3px; text-align: right;}
 table.admintable td.key,
 table.admintable td.paramlist_key {
 	background-color: #f6f6f6;
@@ -504,7 +504,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 }
 
 .button2-left .page {
-	background: url(../images/j_button2_left_cap.png) no-repeat;
+	background: url(../images/j_button2_left.png) 0 no-repeat;
 }
 
 .button2-left .next {

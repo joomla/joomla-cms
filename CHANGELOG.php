@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Jul-2006 David Gal
+ ^ Fixes to RTL in admin
+  
 29-Jul-2006 Enno Klasing
  + Introduced josSpoofCheck and josSpoofValue as legacy functions
  ^ Deprecated josSpoofCheck, use JUtility::spoofCheck instead

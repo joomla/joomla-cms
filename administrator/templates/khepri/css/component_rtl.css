@@ -20,6 +20,18 @@
 
 /* -- General styles ------------------------------ */
 
+div.message {
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 3px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #333;
+	letter-spacing: .1em;
+}
+
 .helpIndex {
 	border: 0px;
 	width: 100%;

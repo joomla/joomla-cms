@@ -101,7 +101,7 @@ See COPYRIGHT.php for copyright notices and details.
 
 		<div id="footer">
 			<p class="copyright">
-				<a href="http://www.joomla.org" target="_blank">Joomla!</a>
+				<a href="http://www.joomla.org" target="_blank"><jdoc:translate>Joomla!</jdoc:translate></a>
 				<jdoc:translate key="ISFREESOFTWARE">is Free Software released under the GNU/GPL License.</jdoc:translate>
 			</p>
 		</div>

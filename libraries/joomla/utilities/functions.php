@@ -386,6 +386,8 @@ function mosCurrentDate( $format="" )
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
 {
 	global $mainframe;
+	
+	$lang = $mainframe->getLanguage();
 
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
@@ -413,8 +415,8 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$href = ampReplace( $href );
 		$style = '';
 	}
-
-	$mousover = 'return overlib(\''. JText::_( $tooltip, true ) .'\''. $title .', BELOW, RIGHT'. $width .');';
+	$pos = $lang->isRTL() ? 'LEFT': 'RIGHT';
+	$mousover = 'return overlib(\''. JText::_( $tooltip, true ) .'\''. $title .', BELOW, '.$pos. $width .');';
 
 	$tip = '<!--'. JText::_( 'Tooltip' ) .'--> \n';
 	if ( $link ) {
