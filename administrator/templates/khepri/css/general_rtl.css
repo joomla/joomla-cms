@@ -54,7 +54,7 @@ fieldset {
 	margin-bottom: 10px;
 	border: 1px #ccc solid;
 	padding: 5px;
-	text-align: left;
+	text-align: right;
 }
 
 fieldset p {  margin: 10px 0px;  }
@@ -81,6 +81,7 @@ textarea:focus { background-color: #ffd }
 
 #border-top .title {
 	font-size: 22px; font-weight: bold; color: #fff; line-height: 44px;
+	float: right;
 	padding-right: 180px;
 }
 
@@ -226,7 +227,7 @@ textarea#mm_message { width: 200px; }
 .pane-sliders .adminlist     { border: 0 none; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
-.moofx-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
+.moofx-toggler  span     { background: transparent url(../images/j_arrow_left.png) right no-repeat; padding-right: 20px;}
 .moofx-toggler-down span { background-image: url(../images/j_arrow_down.png); }
 
 .moofx-toggler-down {  border-bottom: 1px solid #ccc; }
@@ -358,7 +359,7 @@ table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 	line-height: 22px;
 	margin: 0 10px;
 }
-
+#limit {direction: rtl}
 /** stu nicholls solution for centering divs **/
 .container {clear:both; text-decoration:none;}
 * html .container {display:inline-block;}
@@ -369,7 +370,7 @@ table.noshow tr 		 { vertical-align: top; }
 table.noshow td 		 { }
 table.noshow fieldset { margin: 15px 7px 7px 7px; }
 
-#editor-xtd-buttons { padding: 5px; }
+#editor-xtd-buttons { float:right; padding: 5px; }
 
 /* -- buttons */
 
@@ -508,7 +509,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 }
 
 .button2-left .page {
-	background: url(../images/j_button2_left.png) 0 no-repeat;
+	background: url(../images/j_button2_left_cap.png) 0 no-repeat;
 }
 
 .button2-left .next {
@@ -528,14 +529,14 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 }
 
 .button2-left .image {
-	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
+	background: url(../images/j_button2_image_rtl.png) no-repeat;
 }
 
 .button2-left .readmore {
-	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
+	background: url(../images/j_button2_readmore_rtl.png) no-repeat;
 }
 
 .button2-left .pagebreak {
-	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
+	background: url(../images/j_button2_pagebreak_rtl.png) no-repeat;
 }
 

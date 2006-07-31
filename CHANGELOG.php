@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Jul-2006 David Gal
+ ^ More fixes to RTL in admin helped by Mati Kochen
+
 31-Jul-2006 Alex Kempkens
  # [artf5414] Errors on every link to content item, fixed poll other not found
 
