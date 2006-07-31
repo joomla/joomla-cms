@@ -17,8 +17,8 @@ See COPYRIGHT.php for copyright notices and details.
 <!--[if lte IE 6]>
 <link href="templates/{TEMPLATE}/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<jdoc:tmpl name="isRTL" varscope="document" type="condition" conditionvar="LANG_ISRTL">
-	<jdoc:sub condition="1">
+<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
+	<jdoc:sub condition="rtl">
 		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	</jdoc:sub>
 </jdoc:tmpl>

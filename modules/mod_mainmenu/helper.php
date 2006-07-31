@@ -52,12 +52,6 @@ class modMainMenuHelper
 				// Get Menu Items
 				$rows = $items->getItems('menutype', $params->get('menutype'));
 
-				// Handle RTL
-				$lang = $mainframe->getLanguage();
-				if( $lang->isRTL() ) {
-					$rows = array_reverse( $rows );
-				}
-
 				// Build Menu Tree
 				$user =& $mainframe->getUser();
 				foreach ($rows as $row) {
