@@ -37,6 +37,14 @@ function pollAddVote()
 {
 	global $mainframe;
 
+	/*
+	 * Protect against simple spoofing attacks
+	 */
+	if (!JUtility::spoofCheck()) {
+		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		return;
+	}
+
 	$db			= $mainframe->getDBO();
 
 	$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );

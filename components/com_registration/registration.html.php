@@ -100,6 +100,7 @@ class HTML_registration {
 		</table>
 
 		<input type="hidden" name="task" value="sendNewPass" />
+		<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 		</form>
 		<?php
 	}

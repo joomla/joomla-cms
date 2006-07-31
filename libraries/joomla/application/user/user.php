@@ -327,7 +327,7 @@ class JUser extends JObject
 			 * We are updating an existing user.. so lets get down to it.
 			 */
 			if (!empty($array['password'])) {
-				$this->clearPW = josArrayGetValue( $array, 'password', '', 'string' );
+				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
 				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
 			} else {
 				$array['password'] = $this->get('password');

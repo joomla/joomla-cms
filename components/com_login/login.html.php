@@ -139,9 +139,10 @@ class LoginView
 		<input type="hidden" name="option" value="com_login" />
 		<input type="hidden" name="task" value="login" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
+		<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 		</form>
 		<?php
-  	}
+	}
 
 	/**
 	 * Method to show the logout page

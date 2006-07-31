@@ -522,30 +522,12 @@ class WeblinksController
 			return;
 		}
 
-		// Lets make sure they saw the html form
-		$hash 	= JUtility::getHash( JSession::id() );
-		$valid 	= JRequest::getVar($hash, 0, 'post');
-		if (!$valid) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return false;
-		}
-
 		/*
-		 * This obviously won't catch all attempts, but it does not hurt to make
-		 * sure the request came from a client with a user agent string.
+		 * Protect against simple spoofing attacks
 		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return false;
-		}
-
-		/*
-		 * This obviously won't catch all attempts either, but we ought to check
-		 * to make sure that the request was posted as well.
-		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return false;
+		if (!JUtility::spoofCheck()) {
+			JError::raiseError( 403, JText::_( 'ALERTNOTAUTH' ) );
+			return;
 		}
 
 		// Create a web link table

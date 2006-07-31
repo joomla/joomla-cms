@@ -157,6 +157,7 @@ class HTML_user
 		<input type="hidden" name="gid" value="<?php echo $user->get('gid');?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="saveUserEdit" />
+		<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 		</form>
 		<?php
 	}

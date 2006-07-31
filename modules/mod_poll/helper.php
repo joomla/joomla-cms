@@ -151,7 +151,9 @@ class modPollHelper
 		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<input type="hidden" name="id" value="<?php echo $poll->id;?>" />
 		<input type="hidden" name="task" value="vote" />
+		<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 		</form>
 		<?php
 	}
 }
+?>

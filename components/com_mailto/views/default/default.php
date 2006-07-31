@@ -44,6 +44,8 @@ class JViewMailToDefault extends JViewMailTo {
 			$data['from'] = $user->get('email');
 		}
 
+		$data['spoofKey'] = JUtility::spoofKey();
+
 		return $data;
 	}
 

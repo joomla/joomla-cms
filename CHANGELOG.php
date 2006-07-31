@@ -51,7 +51,7 @@ Legend:
  + Introduced josSpoofCheck and josSpoofValue as legacy functions
  ^ Deprecated josSpoofCheck, use JUtility::spoofCheck instead
  ^ Deprecated josSpoofValue, use JUtility::spoofKey instead
- + Added JUtility::spoofCheck to POST forms [WIP, not finished yet]
+ + Added JUtility::spoofCheck to POST forms [WIP, com_content still missing]
 
 26-jul-2006 Johan Janssens
  ^ Deprecared mosBindArraytoObject, use JObject->bind instead

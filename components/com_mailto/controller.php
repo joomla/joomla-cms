@@ -38,30 +38,16 @@ class mailtoController extends JController {
 		if ($hash != JUtility::getHash( $link ))
 		{
 			header("HTTP/1.0 403 Forbidden");
-			die(_NOT_AUTH);
+			die( JText::_( 'ALERTNOTAUTH' ) );
 			exit;
 		}
 
 		/*
-		 * This obviously won't catch all attempts, but it does not hurt to make
-		 * sure the request came from a client with a user agent string.
+		 * Protect against simple spoofing attacks
 		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT']))
-		{
+		if (!JUtility::spoofCheck()) {
 			header("HTTP/1.0 403 Forbidden");
-			die(_NOT_AUTH);
-			exit;
-		}
-
-		/*
-		 * This obviously won't catch all attempts either, but we ought to check
-		 * to make sure that the request was posted as well.
-		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST')
-		{
-			header("HTTP/1.0 403 Forbidden");
-			die(_NOT_AUTH);
-			exit;
+			die( JText::_( 'ALERTNOTAUTH' ) );
 		}
 
 		// An array of e-mail headers we do not want to allow as input
@@ -90,7 +76,7 @@ class mailtoController extends JController {
 				if (strpos($_POST[$field], $header) !== false)
 				{
 					header("HTTP/1.0 403 Forbidden");
-					die(_NOT_AUTH);
+					die( JText::_( 'ALERTNOTAUTH' ) );
 					exit;
 				}
 			}

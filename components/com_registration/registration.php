@@ -72,6 +72,14 @@ function sendNewPass()
 {
 	global $mainframe;
 
+	/*
+	 * Protect against simple spoofing attacks
+	 */
+	if (!JUtility::spoofCheck()) {
+		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		return;
+	}
+
 	$siteURL 	= $mainframe->getBaseURL();
 	$sitename 	= $mainframe->getCfg('sitename');
 	$db 		=& $mainframe->getDBO();
@@ -123,6 +131,14 @@ function sendNewPass()
  */
 function resendUser() {
 	global $mainframe;
+
+	/*
+	 * Protect against simple spoofing attacks
+	 */
+	if (!JUtility::spoofCheck()) {
+		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		return;
+	}
 
 	$siteURL 	= $mainframe->getBaseURL();
 	$sitename 	= $mainframe->getCfg('sitename');
@@ -185,6 +201,14 @@ function registerForm()
 function saveRegistration()
 {
 	global $mainframe;
+
+	/*
+	 * Protect against simple spoofing attacks
+	 */
+	if (!JUtility::spoofCheck()) {
+		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		return;
+	}
 
 	$db 	= $mainframe->getDBO();
 	$user 	= $mainframe->getUser();

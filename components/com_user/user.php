@@ -80,6 +80,14 @@ class UserController
 	{
 		global $mainframe;
 
+		/*
+		 * Protect against simple spoofing attacks
+		 */
+		if (!JUtility::spoofCheck()) {
+			JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+			return;
+		}
+
 		// Initialize some variables
 		$db = & $mainframe->getDBO();
 
@@ -177,6 +185,14 @@ class UserController
 	function save( $option, $uid)
 	{
 		global $mainframe;
+
+		/*
+		 * Protect against simple spoofing attacks
+		 */
+		if (!JUtility::spoofCheck()) {
+			JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+			return;
+		}
 
 		$db 	=& $mainframe->getDBO();
 		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
