@@ -381,9 +381,13 @@ function saveCategory( $task )
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$redirect 	= JRequest::getVar( 'redirect', '', 'post' );
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', 'post' );
+	$post		= JRequest::get( 'post' );
+
+	// fix up special html fields
+	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', _J_ALLOWRAW );
 
 	$row = JTable::getInstance('category', $db );
-	if (!$row->bind( $_POST )) {
+	if (!$row->bind( $post )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
