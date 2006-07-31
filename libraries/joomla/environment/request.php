@@ -215,9 +215,20 @@ class JRequest
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc())
 			{
-				if (!is_array($result) && is_string($result)) {
-					$result = stripslashes($result);
+				/**
+				 * Strips slashes on an array
+				 * @param array
+				 * @access protected
+				 */
+				// TODO: Find a better home for this
+				function _jrequest_array_stripslashes( $value )
+				{
+					$value = is_array( $value ) ?
+						array_map( '_jrequest_array_stripslashes', $value ) :
+						stripslashes( $value );
+					return $value;
 				}
+				$result = _jrequest_array_stripslashes( $result );
 			}
 			$hashes[$signature] = &$result;
 		}
@@ -264,6 +275,5 @@ class JRequest
 
 		return $GLOBALS['JRequest'][$signature];
 	}
-
 }
 ?>
