@@ -49,10 +49,11 @@ class modBannersHelper
 		{
 			// Build the path to the model based upon a supplied base path
 			$path = JPATH_SITE . '/components/com_banners/models/banner.php';
+			$false = false;
 
 			// If the model file exists include it and try to instantiate the object
 			if (file_exists( $path )) {
-				require( $path );
+				require_once( $path );
 				if (!class_exists( 'JModelBanner' )) {
 					JError::raiseWarning( 0, 'Model class JModelBanner not found in file.' );
 					return $false;
