@@ -191,7 +191,7 @@ class JTable extends JObject
 	*/
 	function bind( $array, $ignore="" )
 	{
-		if (!is_array( $array ))
+		if (!is_array( $array ) && !is_object( $array ))
 		{
 			$this->setError(strtolower(get_class( $this ))."::bind failed.");
 			$this->setErrorNum(20);

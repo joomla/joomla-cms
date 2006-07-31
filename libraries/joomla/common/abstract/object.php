@@ -78,7 +78,7 @@ class JObject
 	function bind( $from, $ignore='', $prefix='' )
 	{
 		$fromArray = is_array( $from );
-		$fromObject = is_array( $from );
+		$fromObject = is_object( $from );
 
 		if ($fromArray || $fromObject)
 		{
