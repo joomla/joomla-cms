@@ -305,7 +305,7 @@ class mosHTML {
 			mosHTML::makeOption( 1, JText::_( $yes ) ),
 		);
 
-		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', (int) $selected );
 	}
 
 	/**
@@ -365,7 +365,7 @@ class mosHTML {
 			mosHTML::makeOption( '0', JText::_( $no ) ),
 			mosHTML::makeOption( '1', JText::_( $yes ) )
 		);
-		return mosHTML::radioList( $arr, $tag_name, $tag_attribs, $selected, 'value', 'text', $id );
+		return mosHTML::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
 	}
 
 	/**
