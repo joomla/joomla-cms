@@ -162,12 +162,14 @@ class JModelBanner extends JModel
 			' WHERE bid = ' . (int) $id;
 
 		$db->setQuery( $query );
-		if(!$db->query()) {
+		if(!$db->query())
+		{
 			JError::raiseError( 500, $db->stderror());
 		}
 		$url = $db->loadResult();
 
-		if (substr( $url, 0, 7 ) != 'http://' &&  substr( $url, 0, 8 ) != 'https://' ) {
+		if (!preg_match( '#http[s]?://|index[2]?\.php#', $url ))
+		{
 			$url = "http://$url";
 		}
 		return $url;
