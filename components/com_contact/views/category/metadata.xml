@@ -7,7 +7,7 @@
 					<![CDATA[Choose a template style]]>
 				</message>
 				<params>
-					<param name="template_name" type="filelist" folder="components/com_contact/views/category/tmpl" stripext="1" hide_none="1" filter="\.php$" default="list" label="Template Name" description="The template" />
+					<param name="template_name" type="filelist" directory="components/com_contact/views/category/tmpl" stripext="1" hide_none="1" filter="\.php$" default="list" label="Template Name" description="The template" />
 				</params>
 			</step>
 		</steps>
