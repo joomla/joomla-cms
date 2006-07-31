@@ -71,7 +71,7 @@ class modPollHelper
 
 		$menu 	= &JMenu::getInstance();
 		$items	= $menu->getItems('link', 'index.php?option=com_search');
-		$itemid = isset($items[0]) ? $items[0]->id : '0';
+		$Itemid = isset($items[0]) ? $items[0]->id : '0';
 
 		?>
 		<script language="javascript" type="text/javascript">
@@ -141,14 +141,14 @@ class modPollHelper
 				<div align="center">
 					<input type="submit" name="task_button" class="button" value="<?php echo JText::_('Vote'); ?>" />
 					&nbsp;
-					<input type="button" name="option" class="button" value="<?php echo JText::_('Results'); ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=$poll->id$_Itemid"); ?>';" />
+					<input type="button" name="option" class="button" value="<?php echo JText::_('Results'); ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=$poll->id&amp;=$Itemid"); ?>';" />
 				</div>
 			</td>
 		</tr>
 		</table>
 
 		<input type="hidden" name="option" value="com_poll" />
-		<input type="hidden" name="Itemid" value="<?php echo $itemid; ?>" />
+		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<input type="hidden" name="id" value="<?php echo $poll->id;?>" />
 		<input type="hidden" name="task" value="vote" />
 		</form>

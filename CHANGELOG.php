@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Jul-2006 Alex Kempkens
+ # [artf5414] Errors on every link to content item, fixed poll other not found
+
 30-Jul-2006 Wilco Jansen
  + Added error number handling in JTable class.
 
