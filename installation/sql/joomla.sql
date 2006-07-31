@@ -155,7 +155,7 @@ INSERT INTO `#__components` VALUES (30,'Plugin Manager','',0,0,'','Plugins','com
 INSERT INTO `#__components` VALUES (31,'Statistics','',0,0,'','Statistics','com_statistics',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (32,'Template Manager','',0,0,'','Templates','com_templates',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (33,'User Manager','',0,0,'','Users','com_users',0,'',1,'',1);
-INSERT INTO `#__components` VALUES (34,'Cache Manager','option=com_cache',0,0,'','Cache','com_cache',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (34,'Cache Manager','',0,0,'','Cache','com_cache',0,'',1,'',1);
 
 # --------------------------------------------------------
 
