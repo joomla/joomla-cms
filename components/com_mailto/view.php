@@ -15,8 +15,8 @@
 jimport('joomla.application.view');
 
 /**
- * HTML View class for JamboShop
- * @package JamboShop
+ * HTML View class
+ * @package Joomla
  */
 class JViewMailTo extends JView {
 	/**
