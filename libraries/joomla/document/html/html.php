@@ -271,26 +271,26 @@ class JDocumentHTML extends JDocument
 		$contents = $this->_loadTemplate( $directory, $file);
 		$this->_engine->readTemplatesFromInput( $contents, 'String' );
 
-		/*
-		 * Parse the template INI file if it exists for parameters and insert
-		 * them into the template.
-		 */
-		if (is_readable( $directory.DS.'params.ini' ) ) {
+		// Parse the template INI file if it exists for parameters and insert
+		// them into the template.
+		if (is_readable( $directory.DS.'params.ini' ) )
+		{
 			$content = file_get_contents($directory.DS.'params.ini');
 			$params = new JParameter($content);
 			$this->_engine->addVars( 'document', $params->toArray(), 'param_');
 		}
 
-		/*
-		 * Try to find a favicon by checking the template and root folder
-		 */
-		$path = $directory .'/';
-		$dirs = array( $path, '' );
-		foreach ($dirs as $dir ) {
+		// Try to find a favicon by checking the template and root folder
+		$path = $directory . DS;
+		$dirs = array( $path, JPATH_SITE . DS );
+		foreach ($dirs as $dir )
+		{
 			$icon =   $dir . 'favicon.ico';
-
-			if(file_exists( JPATH_SITE .'/'. $icon )) {
-				$this->addFavicon( $icon);
+			if (file_exists( $icon ))
+			{
+				$url = str_replace( JPATH_SITE . DS, '', $dir );
+				$url = str_replace( '\\', '/', $url );
+				$this->addFavicon( $url . '/favicon.ico' );
 				break;
 			}
 		}
