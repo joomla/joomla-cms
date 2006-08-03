@@ -54,10 +54,10 @@ class JModelFrontpage extends JObject
 	 *
 	 * @access protected
 	 */
-	function __construct( &$db, &$params)
+	function __construct( &$params)
 	{
 		$this->_mparams	= &$params;
-		$this->_db		= & $db;
+		$this->_db		= &JFactory::getDBO();
 	}
 
 	/**

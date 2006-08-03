@@ -49,16 +49,10 @@ class JModel extends JObject {
 
 	/**
 	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT
-	 * references. This causes problems with cross-referencing.
-	 *
-	 * @param object A JDatabase object
 	 * @since 1.5
 	 */
-	function __construct( &$dbo ) {
-		$this->_db = &$dbo;
+	function __construct() {
+		$this->_db = &JFactory::getDBO();
 	}
 
 	/**

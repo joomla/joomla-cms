@@ -76,7 +76,7 @@ function pollAddVote()
 
 	setcookie( $cookieName, '1', time() + $poll->lag );
 
-	$model = new JModelPolls( $db );
+	$model = new JModelPolls();
 	$model->addVote( $poll_id, $option_id );
 
 	josRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );

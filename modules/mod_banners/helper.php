@@ -20,8 +20,7 @@ class modBannersHelper
 	{
 		global $mainframe;
 
-		$db			= $mainframe->getDBO();
-		$model		= modBannersHelper::getModel($db);
+		$model		= modBannersHelper::getModel();
 
 		// Model Variables
 		$vars['cid']		= (int) $params->get( 'cid' );
@@ -43,7 +42,7 @@ class modBannersHelper
 		return $banners;
 	}
 
-	function getModel(&$db)
+	function getModel()
 	{
 		if (!class_exists( 'JBannerModel' ))
 		{
@@ -64,7 +63,7 @@ class modBannersHelper
 			}
 		}
 
-		$model = & new JModelBanner( $db );
+		$model = & new JModelBanner();
 		return $model;
 	}
 

@@ -21,19 +21,8 @@ jimport( 'joomla.application.model' );
 * @package Joomla
 * @subpackage Polls
 */
-class JModelPolls extends JModel  {
-
-	var $dbo = null;
-
-	function JModelPolls( &$dbo )
-	{
-		$this->_db = &$dbo;
-	}
-
-	function getDBO() {
-		return $this->_db;
-	}
-
+class JModelPolls extends JModel
+{
 	/**
 	 * Add vote
 	 * @param int The id of the poll

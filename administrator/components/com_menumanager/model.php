@@ -137,7 +137,7 @@ class JModelMenuType extends JModel
 
 		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-		$menu = new JModelMenu( $db );
+		$menu = new JModelMenu();
 
 			if (!$menu->deleteByType( $table->menutype ))
 			{

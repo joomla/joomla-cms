@@ -40,6 +40,8 @@ Legend:
 09-Aug-2006 Andrew Eddie
  # Fixed bug in JPath::check
  ^ JPath::check returns a clean path
+ # [artf5279] Framwork model.php getController() Reference
+ ^ Removed database argument in JModel constructor
 
 31-Jul-2006 David Gal
  ^ More fixes to RTL in admin helped by Mati Kochen

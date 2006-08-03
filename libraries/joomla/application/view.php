@@ -53,6 +53,18 @@ class JView extends JObject {
 	var $_controller = null;
 
 	/**
+	 * Constructor for PHP 4.x compatibility
+	 *
+	 * @access	protected
+	 * @param	object	$controller	The view's controller
+	 * @since	1.5
+	 */
+	function JView( &$controller )
+	{
+		$this->__construct( $controller );
+	}
+
+	/**
 	 * Constructor
 	 *
 	 * @access	protected

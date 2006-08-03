@@ -122,6 +122,14 @@ class JController extends JObject
 	var $_error;
 
 	/**
+	 * Constructor for PHP 4.x compatibility
+	 */
+	function JController( &$application, $default = '' )
+	{
+		$this->__construct( $application, $default );
+	}
+
+	/**
 	 * Constructor
 	 *
 	 * @access	protected
@@ -144,21 +152,24 @@ class JController extends JObject
 		// Get the methods only for the final controller class
 		$this_methods	= get_class_methods( get_class( $this ) );
 		$parent_methods	= get_class_methods( get_parent_class( $this ) );
-		$methods = array_diff($this_methods, $parent_methods);
+		$methods		= array_diff($this_methods, $parent_methods);
 
 		// Add default display method
 		$methods[] = 'display';
 
 		// Iterate through methods and map tasks
-		foreach ($methods as $method) {
-			if (substr( $method, 0, 1 ) != '_') {
+		foreach ($methods as $method)
+		{
+			if (substr( $method, 0, 1 ) != '_')
+			{
 				$this->_methods[] = strtolower( $method );
 				// auto register public methods as tasks
 				$this->_taskMap[strtolower( $method )] = $method;
 			}
 		}
 		// If the default task is set, register it as such
-		if ($default) {
+		if ($default)
+		{
 			$this->registerDefaultTask( $default );
 		}
 	}
@@ -199,20 +210,23 @@ class JController extends JObject
 			$path = $this->getModelPath().strtolower($modelName).'.php';
 
 			// If the model file exists include it and try to instantiate the object
-			if (file_exists( $path )) {
+			if (file_exists( $path ))
+			{
 				require( $path );
-				if (!class_exists( $modelClass )) {
+				if (!class_exists( $modelClass ))
+				{
 					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
 					return $false;
 				}
-			} else {
+			}
+			else
+			{
 				JError::raiseWarning( 0, 'Model ' . $modelName . ' not supported. File not found.' );
 				return $false;
 			}
 		}
 
-		$db = &$this->getDBO();
-		$model = & new $modelClass( $db );
+		$model = & new $modelClass();
 		$model->setController( $this );
 		return $model;
 	}
@@ -235,42 +249,57 @@ class JController extends JObject
 		$option		= preg_replace( '#\W#', '', $option );
 		$classPrefix= preg_replace( '#\W#', '', $classPrefix );
 
-		if ($option) {
+		if ($option)
+		{
 			// Get the current template name and path
 			$tName = $this->_app->getTemplate();
 			$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.$option.DS.strtolower($viewName).'.php';
-		} else {
+		}
+		else
+		{
 			$tPath = null;
 		}
 
 		// If a matching view exists in the current template folder we use that, otherwise we look for the default one
-		if (file_exists( $tPath )) {
+		if (file_exists( $tPath ))
+		{
 			require( $tPath );
 			// Build the view class name
 			// Alternate view classes must be postfixed with '_alt'
 			$viewClass = $classPrefix.$viewName.'_alt';
-			if (!class_exists( $viewClass )) {
+			if (!class_exists( $viewClass ))
+			{
 				JError::raiseNotice( 0, 'View class '.$viewClass.' not found' );
-			} else {
+			}
+			else
+			{
 				$view = & new $viewClass( $this );
 				return $view;
 			}
-		} else {
+		}
+		else
+		{
 			// Build the path to the default view based upon a supplied base path
 			$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.php';
 
 			// If the default view file exists include it and try to instantiate the object
-			if (file_exists( $path )) {
+			if (file_exists( $path ))
+			{
 				require_once( $path );
 				// Build the view class name
 				$viewClass = $classPrefix.$viewName;
-				if (!class_exists( $viewClass )) {
+				if (!class_exists( $viewClass ))
+				{
 					JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
-				} else {
+				}
+				else
+				{
 					$view = & new $viewClass( $this );
 					return $view;
 				}
-			} else {
+			}
+			else
+			{
 				JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 			}
 		}
@@ -288,16 +317,20 @@ class JController extends JObject
 	function authorize( $task )
 	{
 		// Only do access check if the aco section is set
-		if ($this->_acoSection) {
+		if ($this->_acoSection)
+		{
 			// If we have a section value set that trumps the passed task ???
-			if ($this->_acoSectionValue) {
+			if ($this->_acoSectionValue)
+			{
 				// We have one, so set it and lets do the check
 				$task = $this->_acoSectionValue;
 			}
 			// Get the JUser object for the current user and return the authorization boolean
 			$user = & $this->_app->getUser();
 			return $user->authorize( $this->_acoSection, $task );
-		} else {
+		}
+		else
+		{
 			// Nothing set, nothing to check... so obviously its ok :)
 			return true;
 		}
@@ -325,22 +358,30 @@ class JController extends JObject
 		$this->_task = $task;
 
 		$task = strtolower( $task );
-		if (isset( $this->_taskMap[$task] )) {
+		if (isset( $this->_taskMap[$task] ))
+		{
 			// We have a method in the map to this task
 			$doTask = $this->_taskMap[$task];
-		} else if (isset( $this->_taskMap['__default'] )) {
+		}
+		else if (isset( $this->_taskMap['__default'] ))
+		{
 			// Didn't find the method, but we do have a default method
 			$doTask = $this->_taskMap['__default'];
-		} else {
+		}
+		else
+		{
 			// Don't have a default method either...
-			JError::raiseError( 404, JText::_('Task '.$task.' not found') );
+			JError::raiseError( 404, JText::_('Task ['.$task.'] not found') );
 			return false;
 		}
 		// Time to make sure we have access to do what we want to do...
-		if ($this->authorize( $doTask )) {
+		if ($this->authorize( $doTask ))
+		{
 			// Yep, lets do it already
 			return call_user_func( array( &$this, $doTask ) );
-		} else {
+		}
+		else
+		{
 			// No access... better luck next time
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return false;
@@ -523,9 +564,12 @@ class JController extends JObject
 	 */
 	function registerTask( $task, $method )
 	{
-		if (in_array( strtolower( $method ), $this->_methods )) {
+		if (in_array( strtolower( $method ), $this->_methods ))
+		{
 			$this->_taskMap[strtolower( $task )] = $method;
-		} else {
+		}
+		else
+		{
 			JError::raiseError( 404, JText::_('Method '.$method.' not found') );
 		}
 	}
@@ -604,7 +648,8 @@ class JController extends JObject
 	 * @param string The name of the data variable
 	 * @param mixed The value of the data variable
 	 */
-	function setVar( $name, &$value ) {
+	function setVar( $name, &$value )
+	{
 		$this->_vardata[$name] = &$value;
 	}
 
