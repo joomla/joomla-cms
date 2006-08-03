@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-09-Aug-2006 Andrew Eddie
+03-Aug-2006 Enno Klasing
+ # Added various missing language strings
+
+03-Aug-2006 Andrew Eddie
  # Fixed bug in JPath::check
  ^ JPath::check returns a clean path
  # [artf5279] Framwork model.php getController() Reference

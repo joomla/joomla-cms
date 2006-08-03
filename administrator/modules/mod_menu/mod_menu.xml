@@ -13,6 +13,8 @@
 		<filename module="mod_menu">mod_menu.php</filename>
 	</files>
 	<params>
-		
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+		</param>
 	</params>
 </install>
