@@ -205,7 +205,7 @@ function viewModules()
 
 	// template assignment filter
 	$query = "SELECT DISTINCT(template) AS text, template AS value" .
-			"\nFROM jos_templates_menu" .
+			"\nFROM #__templates_menu" .
 			"\nWHERE client_id = " . $client->id;
 	$db->setQuery( $query );
 	$assigned[]		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Template' ) .' -' );

@@ -13,7 +13,7 @@
 		<filename module="mod_mainmenu">mod_mainmenu.php</filename>
 	</files>
 	<params>
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+		<param name="cache" type="list" default="0" label="Caching" description="PARAMCACHING">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>
 		</param>
@@ -29,13 +29,13 @@
 			<option value="list_flat">Flat List</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="Level to start rendering the menu at." />
-		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="Level to stop rendering the menu at." />
-		<param name="showAllChildren" type="radio" default="0" label="Always show submenu items" description="Display all submenu items regardless of whether parent is active or not.">
+		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
+		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
+		<param name="showAllChildren" type="radio" default="0" label="Always show submenu items" description="PARAMSHOWSUBMENUITEMS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="full_active_id" type="radio" default="0" label="Full Active highlighting" description="Enable full active menu item highlighting, including for `Link - Component Item` and `Link - Url`, which can cause loss of XHTML compliance, if more than one item is active">
+		<param name="full_active_id" type="radio" default="0" label="Full Active highlighting" description="PARAMFULLACTIVEHIGHLIGHTING">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>		
@@ -73,6 +73,6 @@
 		<param name="spacer" type="text" default="" size="5" label="Spacer" description="Spacer for Horizontal menu" />
 		<param name="end_spacer" type="text" default="" size="5" label="End Spacer" description="End Spacer for Horizontal menu" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="window_open" type="text" default="" label="Target Position" description="Javascript values to position a popup window, eg, top=50,left=50,width=200,height=300" />
+		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
 	</params>
 </install>
