@@ -43,13 +43,17 @@ class JPath {
 	 * @return boolean True if path can have mode changed
 	 * @since 1.5
 	 */
-	function canChmod($path) {
+	function canChmod($path)
+	{
 		$perms = fileperms($path);
 		if ($perms !== false)
-			if (@ chmod($path, $perms ^ 0001)) {
+		{
+			if (@ chmod($path, $perms ^ 0001))
+			{
 				@ chmod($path, $perms);
 				return true;
 			}
+		}
 		return false;
 	}
 
@@ -67,18 +71,27 @@ class JPath {
 		// Initialize return value
 		$ret = true;
 
-		if (is_dir($path)) {
+		if (is_dir($path))
+		{
 			$dh = opendir($path);
-			while ($file = readdir($dh)) {
-				if ($file != '.' && $file != '..') {
+			while ($file = readdir($dh))
+			{
+				if ($file != '.' && $file != '..')
+				{
 					$fullpath = $path.'/'.$file;
-					if (is_dir($fullpath)) {
-						if (!JPath::setPermissions($fullpath, $filemode, $foldermode)) {
+					if (is_dir($fullpath))
+					{
+						if (!JPath::setPermissions($fullpath, $filemode, $foldermode))
+						{
 							$ret = false;
 						}
-					} else {
-						if (isset ($filemode)) {
-							if (!@ chmod($fullpath, octdec($filemode))) {
+					}
+					else
+					{
+						if (isset ($filemode))
+						{
+							if (!@ chmod($fullpath, octdec($filemode)))
+							{
 								$ret = false;
 							}
 						}
@@ -87,12 +100,19 @@ class JPath {
 			} // while
 			closedir($dh);
 			if (isset ($foldermode))
-				if (!@ chmod($path, octdec($foldermode))) {
+			{
+				if (!@ chmod($path, octdec($foldermode)))
+				{
 					$ret = false;
 				}
-		} else {
+			}
+		}
+		else
+		{
 			if (isset ($filemode))
+			{
 				$ret = @ chmod($path, octdec($filemode));
+			}
 		} // if
 		return $ret;
 	}
@@ -104,16 +124,19 @@ class JPath {
 	 * @return string Filesystem permissions
 	 * @since 1.5
 	 */
-	function getPermissions($path) {
+	function getPermissions($path)
+	{
 		$path = JPath::clean($path, false);
 		JPath::check($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
-		if (strlen($mode) < 3) {
+		if (strlen($mode) < 3)
+		{
 			return '---------';
 		}
 		$parsed_mode = '';
-		for ($i = 0; $i < 3; $i ++) {
+		for ($i = 0; $i < 3; $i ++)
+		{
 			// read
 			$parsed_mode .= ($mode {
 				$i }
@@ -133,15 +156,22 @@ class JPath {
 	/**
 	 * Checks for snooping outside of the file system root
 	 *
-	 * @param string $path A file system path to check
+	 * @param	string	A file system path to check
+	 * @return	string	A cleaned version of the path	
 	 * @since 1.5
 	 */
-	function check($path) {
-		if (strpos($path, '..') !== false) {
-			JError::raiseError( 20, 'JPath::check use of relative paths not permitted'); // don't translate
+	function check($path)
+	{
+		if (strpos($path, '..') !== false)
+		{
+			JError::raiseError( 20, 'JPath::check Use of relative paths not permitted'); // don't translate
+			die();
 		}
-		if (strpos(JPath::clean($path), JPath::clean(JPATH_ROOT)) != 0) {
-			JError::raiseError( 20, 'JPath::check snooping out of bounds @ '.$path); // don't translate
+		$path = JPath::clean($path);
+		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		{
+			JError::raiseError( 20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
+			die();
 		}
 	}
 
@@ -153,25 +183,34 @@ class JPath {
 	 * @return string The cleaned path
 	 * @since 1.5
 	 */
-	function clean($p_path, $p_addtrailingslash = true) {
+	function clean($p_path, $p_addtrailingslash = true)
+	{
 		$retval = '';
 		$path = trim($p_path);
 
-		if (empty ($p_path)) {
+		if (empty ($p_path))
+		{
 			$retval = JPATH_ROOT;
-		} else {
-			if (JPATH_ISWIN) {
+		}
+		else
+		{
+			if (JPATH_ISWIN)
+			{
 				$retval = str_replace('/', DS, $p_path);
 				// Remove double \\
 				$retval = str_replace('\\\\', DS, $retval);
-			} else {
+			}
+			else
+			{
 				$retval = str_replace('\\', DS, $p_path);
 				// Remove double //
 				$retval = str_replace('//', DS, $retval);
 			}
 		}
-		if ($p_addtrailingslash) {
-			if (substr($retval, -1) != DS) {
+		if ($p_addtrailingslash)
+		{
+			if (substr($retval, -1) != DS)
+			{
 				$retval .= DS;
 			}
 		}
@@ -187,7 +226,8 @@ class JPath {
 	 * @return boolean True if the php script owns the path passed
 	 * @since 1.5
 	 */
-	function isOwner($path) {
+	function isOwner($path)
+	{
 		return (posix_getuid() == fileowner($path));
 	}
 }

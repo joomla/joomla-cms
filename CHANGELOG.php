@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Aug-2006 Andrew Eddie
+ # Fixed bug in JPath::check
+ ^ JPath::check returns a clean path
+
 31-Jul-2006 David Gal
  ^ More fixes to RTL in admin helped by Mati Kochen
 
