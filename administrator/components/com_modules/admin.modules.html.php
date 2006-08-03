@@ -214,8 +214,8 @@ class HTML_modules {
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
 	{
 		// Check for component metadata.xml file
-		$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
-		$params = new JParameter( $row->params, $path );
+		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
+		//$params = new JParameter( $row->params, $path );
 
 		$editor 	=& JFactory::getEditor();
 

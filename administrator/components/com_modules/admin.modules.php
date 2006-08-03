@@ -416,7 +416,6 @@ function editModule( )
 		$row->module 	= $moduleType;
 	}
 
-
 	if ( $client->id == '1' ) {
 		$where 				= 'client_id = 1';
 		$lists['client_id'] = 1;
@@ -510,7 +509,14 @@ function editModule( )
 	}
 
 	// xml file for module
-	$xmlfile = JApplicationHelper::getPath( $path, $row->module );
+	if ($row->module == 'custom')
+	{
+		$xmlfile = JApplicationHelper::getPath( $path, 'mod_custom' );
+	}
+	else
+	{
+		$xmlfile = JApplicationHelper::getPath( $path, $row->module );
+	}
 
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 	if ($data)
