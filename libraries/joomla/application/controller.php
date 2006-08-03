@@ -150,9 +150,9 @@ class JController extends JObject
 		$this->_app			= &$application;
 
 		// Get the methods only for the final controller class
-		$this_methods	= get_class_methods( get_class( $this ) );
-		$parent_methods	= get_class_methods( get_parent_class( $this ) );
-		$methods		= array_diff($this_methods, $parent_methods);
+		$thisMethods	= get_class_methods( get_class( $this ) );
+		$baseMethods	= get_class_methods( 'JController' );
+		$methods		= array_diff( $thisMethods, $baseMethods );
 
 		// Add default display method
 		$methods[] = 'display';

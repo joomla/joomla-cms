@@ -22,8 +22,11 @@ jimport( 'joomla.application.controller' );
  * @subpackage Contact
  * @since 1.5
  */
-class JContactControllerDefault extends JController {
-
+class JContactControllerDefault extends JController
+{
+	/**
+	 * Display the view
+	 */
 	function display()
 	{
 		$cParams	= &JSiteHelper::getControlParams();
