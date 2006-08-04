@@ -54,7 +54,7 @@ class JArrayHelper
 	 *
 	 * @static
 	 * @param	array	$array	The array to map.
-	 * @return	object	The object mapped from the given array.
+	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */
 	function toObject(&$array)
@@ -72,6 +72,47 @@ class JArrayHelper
 			}
 		}
 		return $obj;
+	}
+
+	/**
+	 * Utility function to map an object to an array
+	 *
+	 * @static
+	 * @param	object	The source object
+	 * @param	boolean	True to recurve through multi-level objects
+	 * @param	string	An optional regular expression to match on field names
+	 * @return	array	The array mapped from the given object
+	 * @since	1.5
+	 */
+	function fromObject( $p_obj, $recurse = true, $regex = null )
+	{
+		$result = null;
+		if (is_object( $p_obj ))
+		{
+			$result = array();
+			foreach (get_object_vars($p_obj) as $k => $v)
+			{
+				if ($regex)
+				{
+					if (!preg_match( $regex, $k ))
+					{
+						continue;
+					}
+				}
+				if (is_object( $v ))
+				{
+					if ($recurse)
+					{
+						$result[$k] = mosObjectToArray($v);
+					}
+				}
+				else
+				{
+					$result[$k] = $v;
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**

@@ -61,43 +61,6 @@ function ampReplace( $text ) {
 }
 
 /**
- * Maps an object to an array
- * @param object	The source object
- * @param boolean	True to recurve through multi-level objects
- * @param string	An optional regular expression to match on field names
- */
-function mosObjectToArray($p_obj, $recurse = true, $regex = null)
-{
-	$result = null;
-	if (is_object( $p_obj ))
-	{
-		$result = array();
-		foreach (get_object_vars($p_obj) as $k => $v)
-		{
-			if ($regex)
-			{
-				if (!preg_match( $regex, $k ))
-				{
-					continue;
-				}
-			}
-			if (is_object( $v ))
-			{
-				if ($recurse)
-				{
-					$result[$k] = mosObjectToArray($v);
-				}
-			}
-			else
-			{
-				$result[$k] = $v;
-			}
-		}
-	}
-	return $result;
-}
-
-/**
  * Utility function redirect the browser location to another url
  *
  * @package Joomla.Framework

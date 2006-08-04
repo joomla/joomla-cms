@@ -630,4 +630,16 @@ function josSpoofValue( $alternate=false ) {
 	$hash = JUtility::spoofKey();
 	return $hash;
 }
+
+/**
+ * Legacy function, use JArrayHelper::fromObject instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
+{
+	$result = JArrayHelper::fromObject( $p_obj, $recurse, $regex );
+	return $result;
+}
 ?>
