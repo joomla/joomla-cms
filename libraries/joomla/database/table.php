@@ -225,7 +225,7 @@ class JTable extends JObject
 		{
 			return false;
 		}
-		//Note: Prior to PHP 4.2.0, Uninitialized class variables will not be reported by get_class_vars().
+		
 		$class_vars = get_class_vars(get_class($this));
 		foreach ($class_vars as $name => $value)
 		{
@@ -415,7 +415,7 @@ class JTable extends JObject
 		if (!($orders = $this->_db->loadObjectList()))
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($db->getErrorNum());
+			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 		// first pass, compact the ordering numbers

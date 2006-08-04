@@ -60,7 +60,7 @@ class JContentModelSection extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function __construct( &$dbo )
+	function __construct( )
 	{
 		parent::__construct();
 

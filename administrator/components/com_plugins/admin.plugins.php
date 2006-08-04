@@ -232,8 +232,9 @@ function editPlugin( )
 {
 	global $mainframe;
 
-	$db		= & $mainframe->getDBO();
+	$db		=& $mainframe->getDBO();
 	$user 	=& $mainframe->getUser();
+	
 	$client = JRequest::getVar( 'client', 'site' );
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));

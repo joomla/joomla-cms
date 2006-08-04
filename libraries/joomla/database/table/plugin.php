@@ -121,7 +121,7 @@ class JTablePlugin extends JTable
 	{
 		$params = JRequest::getVar( 'params', array(), 'post', 'array' );
 
-		if (is_array( $array['params'] )) {
+		if (isset( $array['params'] ) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
