@@ -13,11 +13,11 @@
 		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 	</files>
 	<params>
-		 <param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
 			<option value="0">Never</option>
-	  </param>
-	  <param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="showHome" type="radio" default="1" label="Show Home" description="Show/Hide the home element in the pathway">
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="showHome" type="radio" default="1" label="Show Home" description="PARAMSHOWHOME">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

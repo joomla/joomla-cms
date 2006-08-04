@@ -383,7 +383,7 @@ class HTML_modules {
 		<div class="clr"></div>
 
 		<?php
-		if ( !$row->module || $row->module == 'custom' ) {
+		if ( !$row->module || $row->module == 'custom' || $row->module == 'mod_custom' ) {
 			?>
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Custom Output' ); ?></legend>

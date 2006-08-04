@@ -13,10 +13,10 @@
 		<filename module="mod_syndicate">mod_sydicate.php</filename>
 	</files>
 	<params>
-		 <param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
 			<option value="0">Never</option>
-	  </param>
-	  <param name="@spacer" type="spacer" default="" label="" description="" />
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="text" type="text" default="Feed Entries" label="Text" description="PARAMTEXT" />
 		<param name="format" type="list" default="rss" label="Format" description="PARAMFEEDFORMAT">
 			<option value="rss">RSS 2.0</option>
