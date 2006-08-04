@@ -212,7 +212,7 @@ class JApplication extends JObject
 	function login($username,$password)
 	{
 		if (!JUtility::spoofCheck()) {
-			return JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+			return JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		}
 
 		if (empty($username))  {

@@ -586,7 +586,7 @@ function josSpoofCheck( $header=false, $alternate=false ) {
 	$check = JUtility::spoofCheck();
 	if (!$check) {
 		header( 'HTTP/1.0 403 Forbidden' );
-		die( JText::_('ALERTNOTAUTH') );
+		die( JText::_('E_SESSION_TIMEOUT') );
 	}
 
 	/*
@@ -609,7 +609,7 @@ function josSpoofCheck( $header=false, $alternate=false ) {
 			foreach ($badStrings as $v2) {
 				if (strpos( $v, $v2 ) !== false) {
 					header( 'HTTP/1.0 403 Forbidden' );
-					die( JText::_('ALERTNOTAUTH') );
+					die( JText::_('E_SESSION_TIMEOUT') );
 				}
 			}
 		}

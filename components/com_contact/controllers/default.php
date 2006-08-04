@@ -142,7 +142,7 @@ class JContactControllerDefault extends JController
 
 		// probably a spoofing attack
 		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 			return false;
 		}
 

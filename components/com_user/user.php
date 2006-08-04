@@ -84,7 +84,7 @@ class UserController
 		 * Protect against simple spoofing attacks
 		 */
 		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 			return;
 		}
 
@@ -190,7 +190,7 @@ class UserController
 		 * Protect against simple spoofing attacks
 		 */
 		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 			return;
 		}
 

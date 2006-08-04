@@ -76,7 +76,7 @@ function sendNewPass()
 	 * Protect against simple spoofing attacks
 	 */
 	if (!JUtility::spoofCheck()) {
-		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
 	}
 
@@ -136,7 +136,7 @@ function resendUser() {
 	 * Protect against simple spoofing attacks
 	 */
 	if (!JUtility::spoofCheck()) {
-		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
 	}
 
@@ -206,7 +206,7 @@ function saveRegistration()
 	 * Protect against simple spoofing attacks
 	 */
 	if (!JUtility::spoofCheck()) {
-		JError::raiseWarning( 403, JText::_( 'ALERTNOTAUTH' ) );
+		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
 	}
 
@@ -227,7 +227,7 @@ function saveRegistration()
 	}
 
 	if (!JUtility::spoofCheck()) {
-		JError::raiseError( 403, JText::_( 'ALERTNOTAUTH' ) );
+		JError::raiseError( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
 	}
 
