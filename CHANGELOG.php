@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Aug-2006 Enno Klasing
+ # Fixed [artf5509] : com_frontpage xhtml compliance
+
 03-Aug-2006 Enno Klasing
  # Added various missing language strings
 
