@@ -31,6 +31,8 @@ class ContentView
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
+		global $mainframe;
+		
 		$db     =& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 		

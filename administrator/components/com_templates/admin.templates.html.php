@@ -28,6 +28,8 @@ class JTemplatesView
 	*/
 	function showTemplates( &$rows, &$lists, &$page, $option, &$client )
 	{
+		global $mainframe;
+		
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		
 		$user =& JFactory::getUser();
