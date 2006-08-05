@@ -70,7 +70,7 @@ class JRequest
 	 * @static
 	 * @param	string	$name		Variable name
 	 * @param	string	$default	Default value if the variable does not exist
-	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, METHOD)
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
 	 * @param	int		$mask		Filter mask for the variable
 	 * @return	mixed	Requested variable

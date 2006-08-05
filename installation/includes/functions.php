@@ -25,31 +25,6 @@ $steps = array(
 	'finish' => 'off'
 );
 
-/**
-* Utility function to return a value from a named array or a specified default
-*/
-define( "_MOS_NOTRIM", 0x0001 );
-define( "_MOS_ALLOWHTML", 0x0002 );
-function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
-	$return = null;
-	if (isset( $arr[$name] )) {
-		if (is_string( $arr[$name] )) {
-			if (!($mask&_MOS_NOTRIM)) {
-				$arr[$name] = trim( $arr[$name] );
-			}
-			if (!($mask&_MOS_ALLOWHTML)) {
-				$arr[$name] = strip_tags( $arr[$name] );
-			}
-			if (!get_magic_quotes_gpc()) {
-				$arr[$name] = addslashes( $arr[$name] );
-			}
-		}
-		return $arr[$name];
-	} else {
-		return $def;
-	}
-}
-
 function get_php_setting($val) {
 	$r =  (ini_get($val) == '1' ? 1 : 0);
 	return $r ? 'ON' : 'OFF';

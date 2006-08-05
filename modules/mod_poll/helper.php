@@ -65,7 +65,7 @@ class modPollHelper
 		$moduleclass_sfx 	= $params->get('moduleclass_sfx');
 
 		$cookiename 		= "voted$poll->id";
-		$voted 				= mosGetParam( $_COOKIE, $cookiename, 'z' );
+		$voted 				= JRequest::getVar( $cookiename, 'z', 'COOKIE' );
 
 		$menu 	= &JMenu::getInstance();
 		$items	= $menu->getItems('link', 'index.php?option=com_search');

@@ -28,7 +28,7 @@ function botDetectVisitor()
 	global $mainframe;
 	
 	$db =& JFactory::getDBO();
-	if ( mosGetParam( $_COOKIE, 'mosvisitor', 0 ) || !$mainframe->isSite() ) {
+	if ( JRequest::getVar( 'mosvisitor', 0, 'COOKIE' ) || !$mainframe->isSite() ) {
 		return;
 	}
 
@@ -47,7 +47,7 @@ function botDetectVisitor()
 	if (phpversion() <= '4.2.1') {
 		$domain = @gethostbyaddr( getenv( 'REMOTE_ADDR' ) );
 	} else {
-		$domain = @gethostbyaddr( mosGetParam( $_SERVER, 'REMOTE_ADDR', '' ) );
+		$domain = @gethostbyaddr( JArray::getValue( $_SERVER, 'REMOTE_ADDR', '' ) );
 	}
 
 	$query = "SELECT COUNT(*)"

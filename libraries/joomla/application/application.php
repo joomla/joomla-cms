@@ -617,7 +617,7 @@ class JApplication extends JObject
 			}
 
 			//TODO::Fix remember me (harden and move out of function)
-			//$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
+			//$usercookie = JRequest::getVar( 'usercookie', null, 'COOKIE' );
 			//if ($usercookie) {
 				// Remember me cookie exists. Login with usercookie info.
 			//	$this->login( $usercookie['username'], $usercookie['password'] );

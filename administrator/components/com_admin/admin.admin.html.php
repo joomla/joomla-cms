@@ -275,9 +275,11 @@ class HTML_admin_misc
  */
 function getHelpTOC( $helpsearch )
 {
+	global $mainframe;
+	
 	jimport( 'joomla.filesystem.folder' );
 
-	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
+	$helpurl = $mainframe->getCfg('helpurl');
 
 	$files = JFolder::files( JPATH_BASE . '/help/en-GB/', '\.xml$|\.html$' );
 

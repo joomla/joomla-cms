@@ -192,73 +192,6 @@ class JInstallationController
 	}
 
 	/**
-	 * Determines db version (for utf-8 support) and gets desired collation
-	 *
-	 * FUNCTIONALITY MOVED TO JAJAX.PHP
-	 *
-	 * @return boolean True if successful
-	 */
-//	function dbCollation($vars)
-//	{
-//		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
-//
-//		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
-//		$DBhostname = mosGetParam($vars, 'DBhostname', '');
-//		$DBuserName = mosGetParam($vars, 'DBuserName', '');
-//		$DBpassword = mosGetParam($vars, 'DBpassword', '');
-//		$DBname = mosGetParam($vars, 'DBname', '');
-//		$DBPrefix = mosGetParam($vars, 'DBPrefix', 'jos_');
-//		$DBDel = mosGetParam($vars, 'DBDel', 0);
-//		$DBBackup = mosGetParam($vars, 'DBBackup', 0);
-//		$DBSample = mosGetParam($vars, 'DBSample', 1);
-//
-//		$DButfSupport = intval(mosGetParam($vars, 'DButfSupport', 0));
-//		$DBcollation = mosGetParam($vars, 'DBcollation', '');
-//		$DBversion = mosGetParam($vars, 'DBversion', '');
-//
-//		if ($DBtype == '') {
-//			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
-//			return false;
-//		}
-//		if (!$DBhostname || !$DBuserName || !$DBname) {
-//			JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
-//			return false;
-//		}
-//		if ($DBname == '') {
-//			JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
-//			return false;
-//		}
-//
-//		$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
-//
-//		if ($err = $db->getErrorNum()) {
-//			if ($err != 3) {
-//				// connection failed
-//				//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $db->getErrorNum() ), 'dbconfig', $db->getErrorMsg() );
-//				JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
-//				return false;
-//			}
-//		}
-//
-//		$collations = array();
-//
-//		// determine db version, utf support and available collations
-//		$vars['DBversion'] = $db->getVersion();
-//		$verParts = explode( '.', $vars['DBversion'] );
-//		$vars['DButfSupport'] = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
-//		if ($vars['DButfSupport']) {
-//			$query = "SHOW COLLATION LIKE 'utf8%'";
-//			$db->setQuery( $query );
-//			$collations = $db->loadAssocList();
-//		} else {
-//			// backward compatibility - utf-8 data in non-utf database
-//			// collation does not really have effect so default charset and collation is set
-//			$collations[0]['Collation'] = 'latin1';
-//		}
-//		return JInstallationView::dbCollation( $vars, $collations );
-//	}
-
-	/**
 	 * Gets the parameters for database creation
 	 * @return boolean True if successful
 	 */
@@ -267,20 +200,20 @@ class JInstallationController
 		// Initialize variables
 		$errors = null;
 
-		$lang 		= mosGetParam($vars, 'lang', 'en-GB');
-		$DBcreated  = mosGetParam($vars, 'DBcreated', '0');
+		$lang 		= JArray::getValue($vars, 'lang', 'en-GB');
+		$DBcreated  = JArray::getValue($vars, 'DBcreated', '0');
 
-		$DBtype 	= mosGetParam($vars, 'DBtype', 'mysql');
-		$DBhostname = mosGetParam($vars, 'DBhostname', '');
-		$DBuserName = mosGetParam($vars, 'DBuserName', '');
-		$DBpassword = mosGetParam($vars, 'DBpassword', '');
-		$DBname 	= mosGetParam($vars, 'DBname', '');
-		$DBPrefix 	= mosGetParam($vars, 'DBPrefix', 'jos_');
-		$DBOld 		= mosGetParam($vars, 'DBOld', 'bu');
+		$DBtype 	= JArray::getValue($vars, 'DBtype', 'mysql');
+		$DBhostname = JArray::getValue($vars, 'DBhostname', '');
+		$DBuserName = JArray::getValue($vars, 'DBuserName', '');
+		$DBpassword = JArray::getValue($vars, 'DBpassword', '');
+		$DBname 	= JArray::getValue($vars, 'DBname', '');
+		$DBPrefix 	= JArray::getValue($vars, 'DBPrefix', 'jos_');
+		$DBOld 		= JArray::getValue($vars, 'DBOld', 'bu');
 //		$DBSample = mosGetParam($vars, 'DBSample', 1);
-		$DButfSupport 	= intval(mosGetParam($vars, 'DButfSupport', 0));
-		$DBcollation 	= mosGetParam($vars, 'DBcollation', '');
-		$DBversion 		= mosGetParam($vars, 'DBversion', '');
+		$DButfSupport 	= intval(JArray::getValue($vars, 'DButfSupport', 0));
+		$DBcollation 	= JArray::getValue($vars, 'DBcollation', '');
+		$DBversion 		= JArray::getValue($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
 			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
@@ -379,7 +312,7 @@ class JInstallationController
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		//$xajax->debugOn();
 
-		$vars['DBcreated'] = mosGetParam($vars, 'DBcreated', $DBcreated);
+		$vars['DBcreated'] = JArray::getValue($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
 
 		if (!isset ($vars['ftpEnable'])) {
@@ -825,9 +758,9 @@ class JInstallationHelper
 	function getFilePerms($input, $type = 'file')
 	{
 		$perms = '';
-		if (mosGetParam($input, $type.'PermsMode', 0)) {
+		if (JArray::getValue($input, $type.'PermsMode', 0)) {
 			$action = ($type == 'dir') ? 'Search' : 'Execute';
-			$perms = '0'. (mosGetParam($input, $type.'PermsUserRead', 0) * 4 + mosGetParam($input, $type.'PermsUserWrite', 0) * 2 + mosGetParam($input, $type.'PermsUser'.$action, 0)). (mosGetParam($input, $type.'PermsGroupRead', 0) * 4 + mosGetParam($input, $type.'PermsGroupWrite', 0) * 2 + mosGetParam($input, $type.'PermsGroup'.$action, 0)). (mosGetParam($input, $type.'PermsWorldRead', 0) * 4 + mosGetParam($input, $type.'PermsWorldWrite', 0) * 2 + mosGetParam($input, $type.'PermsWorld'.$action, 0));
+			$perms = '0'. (JArray::getValue($input, $type.'PermsUserRead', 0) * 4 + JArray::getValue($input, $type.'PermsUserWrite', 0) * 2 + JArray::getValue($input, $type.'PermsUser'.$action, 0)). (JArray::getValue($input, $type.'PermsGroupRead', 0) * 4 + JArray::getValue($input, $type.'PermsGroupWrite', 0) * 2 + JArray::getValue($input, $type.'PermsGroup'.$action, 0)). (JArray::getValue($input, $type.'PermsWorldRead', 0) * 4 + JArray::getValue($input, $type.'PermsWorldWrite', 0) * 2 + JArray::getValue($input, $type.'PermsWorld'.$action, 0));
 		}
 		return $perms;
 	}
@@ -837,15 +770,15 @@ class JInstallationHelper
 	 */
 	function createAdminUser(& $vars)
 	{
-		$DBtype			= mosGetParam($vars, 'DBtype', 'mysql');
-		$DBhostname	= mosGetParam($vars, 'DBhostname', '');
-		$DBuserName	= mosGetParam($vars, 'DBuserName', '');
-		$DBpassword	= mosGetParam($vars, 'DBpassword', '');
-		$DBname			= mosGetParam($vars, 'DBname', '');
-		$DBPrefix			= mosGetParam($vars, 'DBPrefix', '');
+		$DBtype		= JArray::getValue($vars, 'DBtype', 'mysql');
+		$DBhostname	= JArray::getValue($vars, 'DBhostname', '');
+		$DBuserName	= JArray::getValue($vars, 'DBuserName', '');
+		$DBpassword	= JArray::getValue($vars, 'DBpassword', '');
+		$DBname		= JArray::getValue($vars, 'DBname', '');
+		$DBPrefix	= JArray::getValue($vars, 'DBPrefix', '');
 
-		$adminPassword	= mosGetParam($vars, 'adminPassword', '');
-		$adminEmail			= mosGetParam($vars, 'adminEmail', '');
+		$adminPassword	= JArray::getValue($vars, 'adminPassword', '');
+		$adminEmail		= JArray::getValue($vars, 'adminEmail', '');
 
 		$cryptpass = md5($adminPassword);
 		$vars['adminLogin'] = 'admin';
