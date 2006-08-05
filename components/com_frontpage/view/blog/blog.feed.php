@@ -30,7 +30,7 @@ class JViewBlog
 		global $mainframe, $Itemid;
 
 		// parameters
-		$db       =& $mainframe->getDBO();
+		$db       =& JFactory::getDBO();
 		$document =& $mainframe->getDocument('rss');
 		$limit	  = '10';
 

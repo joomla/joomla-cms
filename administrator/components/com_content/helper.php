@@ -26,21 +26,14 @@ class JContentHelper
 	function saveContentPrep( &$row )
 	{
 
-		/*
-		 * Get submitted text from the request variables
-		 */
-		$text	= JRequest::getVar( 'text', '', 'post', 'string', _J_ALLOWRAW );
+		// Get submitted text from the request variables
+		$text = JRequest::getVar( 'text', '', 'post', 'string', _J_ALLOWRAW );
 
-		/*
-		 * Clean text for xhtml transitional compliance
-		 */
-		$text				= str_replace( '<br>', '<br />', $text );
+		// Clean text for xhtml transitional compliance
+		$text		= str_replace( '<br>', '<br />', $text );
 		$row->title	= ampReplace($row->title);
 
-		/*
-		 * Now we need to search for the {readmore} tag and split the text up
-		 * accordingly.
-		 */
+		// Search for the {readmore} tag and split the text up accordingly.		
 		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );
 
 		if ( $tagPos === false )
@@ -61,16 +54,10 @@ class JContentHelper
 	*/
 	function resetHits($redirect, $id)
 	{
-		global $mainframe;
+		// Initialize variables
+		$db	= & JFactory::getDBO();
 
-		/*
-		 * Initialize variables
-		 */
-		$db	= & $mainframe->getDBO();
-
-		/*
-		 * Instantiate and load an article table
-		 */
+		// Instantiate and load an article table
 		$row = & JTable::getInstance('content', $db);
 		$row->Load($id);
 		$row->hits = 0;
@@ -83,41 +70,31 @@ class JContentHelper
 
 	function menuLink($redirect, $id)
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$db		= & $mainframe->getDBO();
+		// Initialize variables
+		$db		= & JFactory::getDBO();
 		$menu	= JRequest::getVar( 'menuselect', '', 'post' );
 		$link	= JRequest::getVar( 'link_name', '', 'post' );
 
-		$link	= stripslashes( ampReplace($link) );
+		$link	= ampReplace($link);
 
-		/*
-		 * Instantiate a new menu item table
-		 */
+		// Instantiate a new menu item table
 		$row = & JTable::getInstance('menu', $db);
 		$row->menutype		= $menu;
-		$row->name				= $link;
-		$row->type				= 'content_item_link';
+		$row->name			= $link;
+		$row->type			= 'content_item_link';
 		$row->published		= 1;
 		$row->componentid	= $id;
-		$row->link					= 'index.php?option=com_content&task=view&id='.$id;
-		$row->ordering			= 9999;
+		$row->link			= 'index.php?option=com_content&task=view&id='.$id;
+		$row->ordering		= 9999;
 
-		/*
-		 * Make sure table values are valid
-		 */
+		// Make sure table values are valid
 		if (!$row->check())
 		{
 			JError::raiseError( 500, $row->getError() );
 			return false;
 		}
 
-		/*
-		 * Store the menu link
-		 */
+		// Store the menu link
 		if (!$row->store())
 		{
 			JError::raiseError( 500, $row->getError() );
@@ -132,12 +109,8 @@ class JContentHelper
 
 	function filterCategory($query, $active = NULL)
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$db	= & $mainframe->getDBO();
+		// Initialize variables
+		$db	= & JFactory::getDBO();
 
 		$categories[] = mosHTML::makeOption('0', '- '.JText::_('Select Category').' -');
 		$db->setQuery($query);

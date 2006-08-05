@@ -30,7 +30,8 @@ class JInstallerExtensionTasks {
 	/**
 	 * @param string The URL option
 	 */
-	function showInstalled() {
+	function showInstalled() 
+	{
 		global $mainframe;
 
 		$filter 			= JRequest::getVar( 'filter', '' );
@@ -43,10 +44,9 @@ class JInstallerExtensionTasks {
 		} else {
 			$and = "\n WHERE folder = '$filter'";
 		}
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
+
+		// Get a database connector
+		$db = & JFactory::getDBO();
 
 		$query = 	"SELECT id, name, folder, element, client_id, iscore"
 					. "\n FROM #__plugins"

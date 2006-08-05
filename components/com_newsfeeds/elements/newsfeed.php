@@ -32,9 +32,7 @@ class JElement_Newsfeed extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT a.id, c.title, a.name"
 		. "\n FROM #__newsfeeds AS a"

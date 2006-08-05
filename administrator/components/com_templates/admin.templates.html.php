@@ -28,10 +28,9 @@ class JTemplatesView
 	*/
 	function showTemplates( &$rows, &$lists, &$page, $option, &$client )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+		
+		$user =& JFactory::getUser();
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );

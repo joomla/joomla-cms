@@ -37,15 +37,13 @@ function pollAddVote()
 {
 	global $mainframe;
 
-	/*
-	 * Protect against simple spoofing attacks
-	 */
+	// Protect against simple spoofing attacks
 	if (!JUtility::spoofCheck()) {
 		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
 	}
 
-	$db			= $mainframe->getDBO();
+	$db			= JFactory::getDBO();
 
 	$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
 	$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
@@ -85,12 +83,12 @@ function pollAddVote()
 /**
  * Display the poll result
  */
-function pollresult() {
+function pollresult() 
+{
 	global $Itemid;
-	global $mainframe;
 
-	$poll_id 	= JRequest::getVar( 'id', 0, '', 'int' );
-	$db	= $mainframe->getDBO();
+	$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
+	$db		 =& JFactory::getDBO();
 
 	$poll = new mosPoll( $db );
 	$poll->load( $poll_id );

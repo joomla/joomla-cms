@@ -18,9 +18,7 @@ class modWhosonlineHelper
 {
 	function render(&$params)
 	{
-		global $mainframe;
-
-		$db		=& $mainframe->getDBO();
+		$db		=& JFactory::getDBO();
 
 		$showmode = $params->get('showmode', 0);
 

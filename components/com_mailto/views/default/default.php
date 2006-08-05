@@ -26,10 +26,9 @@ class JViewMailToDefault extends JViewMailTo {
 	 * Get the data for the view
 	 * @return array
 	 */
-	function &getData() {
-		global $mainframe;
-
-		$user =& $mainframe->getUser();
+	function &getData() 
+	{
+		$user =& JFactory::getUser();
 		$data = array();
 
 		$data['link'] = urldecode( JRequest::getVar( 'link' ) );

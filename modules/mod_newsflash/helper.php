@@ -72,8 +72,8 @@ class modNewsFlashHelper
 	{
 		global $mainframe;
 
-		$db 	=& $mainframe->getDBO();
-		$user 	=& $mainframe->getUser();
+		$db 	=& JFactory::getDBO();
+		$user 	=& JFactory::getUser();
 
 		$catid 	= intval($params->get('catid'));
 		$items 	= intval($params->get('items', 0));

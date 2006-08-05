@@ -941,10 +941,9 @@ class mosCommonHTML {
 		return $href;
 	}
 
-	function CheckedOutProcessing( &$row, $i ) {
-		global $mainframe;
-
-		$user =& $mainframe->getUser();
+	function CheckedOutProcessing( &$row, $i ) 
+	{
+		$user =& JFactory::getUser();
 		if ( $row->checked_out ) {
 			$checked = mosCommonHTML::checkedOut( $row );
 		} else {

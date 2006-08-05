@@ -29,7 +29,7 @@ $mainframe = new JSite();
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 /** get the information about the current user from the sessions table */
-$user	= & $mainframe->getUser();
+$user	= & JFactory::getUser();
 $my		= $user->_table;
 
 /**

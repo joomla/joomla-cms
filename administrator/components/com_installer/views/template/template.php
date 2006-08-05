@@ -28,15 +28,16 @@ jimport('joomla.filesystem.folder');
  * @category Controller
  * @since 1.5
  */
-class JInstallerExtensionTasks {
-
+class JInstallerExtensionTasks 
+{
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() {
+	function showInstalled() 
+	{
 		global $mainframe;
 
-		$db			= & $mainframe->getDBO();
+		$db			=& JFactory::getDBO();
 		$option		= JRequest::getVar( 'option' );
 		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', -1 );
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );

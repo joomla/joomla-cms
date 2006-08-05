@@ -22,8 +22,8 @@ class modRelatedItemsHelper
 	{
 		global $mainframe;
 
-		$db					=& $mainframe->getDBO();
-		$user				=& $mainframe->getUser();
+		$db					=& JFactory::getDBO();
+		$user				=& JFactory::getUser();
 
 		$option				= JRequest::getVar( 'option', '' );
 		$task				= JRequest::getVar( 'task' );

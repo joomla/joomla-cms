@@ -18,9 +18,7 @@ class modLoginHelper
 {
 	function renderLogoutForm(&$params, $return)
 	{
-		global $mainframe;
-
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
 
 		?><form action="index.php" method="post" name="login"><?php
 		if ($params->get('greeting')) : ?>
@@ -123,8 +121,7 @@ class modLoginHelper
 
 	function getType()
 	{
-		global $mainframe;
-		$user = & $mainframe->getUser();
+		$user = & JFactory::getUser();
 	    return ($user->get('id')) ? 'logout' : 'login';
 	}
 }

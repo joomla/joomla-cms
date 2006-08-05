@@ -56,7 +56,7 @@ class LoginController
 		global $mainframe, $Itemid;
 
 		// Initialize variables
-		$user		=& $mainframe->getUser();
+		$user		=& JFactory::getUser();
 		$menus		=& JMenu::getInstance();
 		$menu		=& $menus->getItem( $Itemid );
 		$params		=& $menus->getParams( $Itemid );

@@ -23,9 +23,8 @@ class HTML_contact
 {
 	function showContacts( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $mainframe;
-
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
+		
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'cd.ordering');
 

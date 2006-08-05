@@ -49,8 +49,8 @@ class JContactViewCategory extends JView
 	 */
 	function displayHtml()
 	{
-		$app		= &$this->getApplication();
-		$user 		= & $app->getUser();
+		$app		=& $this->getApplication();
+		$user 		=& JFactory::getUser();
 
 		// Push a model into the view
 		$ctrl	= &$this->getController();
@@ -131,7 +131,7 @@ class JContactViewCategory extends JView
 	{
 		global $mainframe;
 
-		$db		  =& $mainframe->getDBO();
+		$db		  =& JFactory::getDBO();
 		$document =& $mainframe->getDocument();
 
 		$limit 			= JRequest::getVar('limit', 0, '', 'int');

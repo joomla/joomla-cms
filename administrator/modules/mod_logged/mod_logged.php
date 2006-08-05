@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.presentation.pagination');
 
-$db				=& $mainframe->getDBO();
-$user			= & $mainframe->getUser();
+$db				=& JFactory::getDBO();
+$user			=& JFactory::getUser();
 $limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
 $limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 

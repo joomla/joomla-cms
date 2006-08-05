@@ -26,15 +26,18 @@ switch ( $task ) {
 		break;
 }
 
-function viewSearch() {
+function viewSearch() 
+{
 	global $mainframe;
+	
+	$db 	=& JFactory::getDBO();
+	$lang 	=& $mainframe->getLanguage();
 
 	$restriction = 0;
-	$ignored = 0;
-	$lang = $mainframe->getLanguage();
+	$ignored 	 = 0;
+	
 	$list_limit = $mainframe->getCfg( 'list_limit' );
 	$Itemid = JRequest::getVar( 'Itemid' );
-	$db = $mainframe->getDBO();
 
 	// try to find search component's Itemid
 	$query = "SELECT id"
@@ -246,13 +249,14 @@ function viewSearch() {
 	}
 }
 
-function logSearch( $search_term ) {
+function logSearch( $search_term ) 
+{
 	global $mainframe;
 
 	$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
 
 	if ( @$enable_log_searches ) {
-		$db = $mainframe->getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT hits"
 		. "\n FROM #__core_log_searches"
 		. "\n WHERE LOWER( search_term ) = '$search_term'"

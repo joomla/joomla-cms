@@ -28,9 +28,8 @@ define( 'COM_MENUMANAGER', dirname( __FILE__ ) );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
-if (!$user->authorize( 'com_menumanager', 'manage' ))
-{
+$user = & JFactory::getUser();
+if (!$user->authorize( 'com_menumanager', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 

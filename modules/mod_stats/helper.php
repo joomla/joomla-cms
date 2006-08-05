@@ -20,7 +20,7 @@ class modStatsHelper
 	{
 		global $mainframe;
 
-		$db = $mainframe->getDBO();
+		$db = JFactory::getDBO();
 
 		echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 		echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
@@ -34,9 +34,7 @@ class modStatsHelper
 
 	function renderSiteInfo(&$params)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$query="SELECT COUNT( id ) AS count_users"
 		. "\n FROM #__users"
@@ -60,9 +58,7 @@ class modStatsHelper
 
 	function renderVisitorInfo(&$params)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$counter 	= $params->get( 'counter' );
 		$increase 	= $params->get( 'increase' );

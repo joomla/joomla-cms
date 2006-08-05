@@ -38,10 +38,9 @@ switch ($task) {
 		break;
 }
 
-function showSummary( $option, $task ) {
-	global $mainframe;
-
-	$db	=& $mainframe->getDBO();
+function showSummary( $option, $task ) 
+{
+	$db	=& JFactory::getDBO();
 	// get sort field and check against allowable field names
 	$field = strtolower( JRequest::getVar( 'field' ) );
 	if (!in_array( $field, array( 'agent', 'hits' ) )) {
@@ -138,10 +137,11 @@ function showSummary( $option, $task ) {
 	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option );
 }
 
-function showPageImpressions( $option, $task ) {
+function showPageImpressions( $option, $task ) 
+{
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
+	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'c.hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'DESC' );
 	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.$task.filter_catid", 		'filter_catid', 	'' );
@@ -227,10 +227,11 @@ function showPageImpressions( $option, $task ) {
 	HTML_statistics::pageImpressions( $rows, $pageNav, $lists, $task );
 }
 
-function showSearches( $option, $task, $showResults=null ) {
+function showSearches( $option, $task, $showResults=null ) 
+{
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
+	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mainframe->getCfg('list_limit') );
@@ -303,72 +304,71 @@ function showSearches( $option, $task, $showResults=null ) {
 	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task, $showResults );
 }
 
-function resetStats( $option, $task ) {
-		global $mainframe;
+function resetStats( $option, $task ) 
+{
+	$db =& JFactory::getDBO();
+	$op = JRequest::getVar( 'op' );
 
-		$db =& $mainframe->getDBO();
-		$op = JRequest::getVar( 'op' );
+	switch ($op) {
+		case 'bod':
+			// get the total number of records
+			$query = "SELECT COUNT( * )"
+			. "\n FROM #__stats_agents"
+			;
+			$db->setQuery( $query );
+			$total = $db->loadResult();
 
-		switch ($op) {
-			case 'bod':
-				// get the total number of records
-				$query = "SELECT COUNT( * )"
-				. "\n FROM #__stats_agents"
-				;
-				$db->setQuery( $query );
-				$total = $db->loadResult();
-
-					if ( $total == 0 ) {
-						$msg = JText::_( 'reset statistics failed' );
-						$redirecturl = 'index2.php?option=com_statistics';
-					}
-					else {
-   						$query = "DELETE FROM #__stats_agents";
-						$msg = JText::_( 'reset statistics success' );
-						$redirecturl = 'index2.php?option=com_statistics';
-					}
+			if ( $total == 0 ) {
+				$msg = JText::_( 'reset statistics failed' );
+				$redirecturl = 'index2.php?option=com_statistics';
+			}
+			else {
+   				$query = "DELETE FROM #__stats_agents";
+				$msg = JText::_( 'reset statistics success' );
+				$redirecturl = 'index2.php?option=com_statistics';
+			}
 			break;
 
-			case 'pi':
-				// get the total number of records
-				$query = "SELECT COUNT( * )"
-				. "\n FROM #__content"
+		case 'pi':
+			// get the total number of records
+			$query = "SELECT COUNT( * )"
+			. "\n FROM #__content"
+			. "\n WHERE hits != 0"
+			;
+			$db->setQuery( $query );
+			$total = $db->loadResult();
+			
+			if ( $total == 0 ) {
+				$msg = JText::_( 'reset statistics failed' );
+				$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
+			}
+			else {
+				$query = "UPDATE #__content"
+				. "\n SET hits = 0"
 				. "\n WHERE hits != 0"
 				;
-				$db->setQuery( $query );
-				$total = $db->loadResult();
-
-					if ( $total == 0 ) {
-						$msg = JText::_( 'reset statistics failed' );
-						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
-					}
-					else {
-						$query = "UPDATE #__content"
-						. "\n SET hits = 0"
-						. "\n WHERE hits != 0"
-						;
-						$msg = JText::_( 'reset statistics success' );
-						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
-					}
+				$msg = JText::_( 'reset statistics success' );
+				$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
+			}
 			break;
 
-			case 'set':
-				// get the total number of records
-				$query = "SELECT COUNT( * )"
-				. "\n FROM #__core_log_searches"
-				;
-				$db->setQuery( $query );
-				$total = $db->loadResult();
+		case 'set':
+			// get the total number of records
+			$query = "SELECT COUNT( * )"
+			. "\n FROM #__core_log_searches"
+			;
+			$db->setQuery( $query );
+			$total = $db->loadResult();
 
-					if ( $total == 0 ) {
-						$msg = JText::_( 'reset statistics failed' );
-						$redirecturl = 'index2.php?option=com_statistics&task=searches';
-					}
-					else {
-   						$query = "DELETE FROM #__core_log_searches";
-						$msg = JText::_( 'reset statistics success' );
-						$redirecturl = 'index2.php?option=com_statistics&task=searches';
-					}
+			if ( $total == 0 ) {
+				$msg = JText::_( 'reset statistics failed' );
+				$redirecturl = 'index2.php?option=com_statistics&task=searches';
+			}
+			else {
+   				$query = "DELETE FROM #__core_log_searches";
+				$msg = JText::_( 'reset statistics success' );
+				$redirecturl = 'index2.php?option=com_statistics&task=searches';
+			}
 			break;
 		}
 

@@ -62,11 +62,13 @@ switch ($task) {
 		break;
 }
 
-function showMessages( $option ) {
+function showMessages( $option ) 
+{
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
-	$user 				=& $mainframe->getUser();
+	$db					=& JFactory::getDBO();
+	$user 				=& JFactory::getUser();
+	
 	$context			= 'com_messages.list';
 	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order', 	'filter_order', 	'a.date_time' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC' );
@@ -134,11 +136,11 @@ function showMessages( $option ) {
 	HTML_messages::showMessages( $rows, $pageNav, $option, $lists );
 }
 
-function editConfig( $option ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
-	$user =& $mainframe->getUser();
+function editConfig( $option ) 
+{
+	$db   =& JFactory::getDBO();
+	$user =& JFactory::getUser();
+	
 	$query = "SELECT cfg_name, cfg_value"
 	. "\n FROM #__messages_cfg"
 	. "\n WHERE user_id = " .$user->get('id')
@@ -166,11 +168,11 @@ function editConfig( $option ) {
 
 }
 
-function saveConfig( $option ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
-	$user =& $mainframe->getUser();
+function saveConfig( $option ) 
+{
+	$db   =& JFactory::getDBO();
+	$user =& JFactory::getUser();
+	
 	$query = "DELETE FROM #__messages_cfg"
 	. "\n WHERE user_id = " .$user->get('id')
 	;
@@ -192,9 +194,7 @@ function saveConfig( $option ) {
 
 function newMessage( $option, $user, $subject )
 {
-	global $mainframe;
-
-	$db  =& $mainframe->getDBO();
+	$db  =& JFactory::getDBO();
 	$acl =& JFactory::getACL();
 
 	// get available backend user groups
@@ -223,10 +223,9 @@ function newMessage( $option, $user, $subject )
 	HTML_messages::newMessage($option, $recipientslist, $subject );
 }
 
-function saveMessage( $option ) {
-	global $mainframe, $mainframe;
-
-	$db =& $mainframe->getDBO();
+function saveMessage( $option ) 
+{
+	$db =& JFactory::getDBO();
 	$row = new mosMessage( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -246,10 +245,7 @@ function saveMessage( $option ) {
 
 function viewMessage( $uid='0', $option )
 {
-	global $mainframe;
-
-	$db  =& $mainframe->getDBO();
-	$acl =& JFactory::getACl();
+	$db  =& JFactory::getDBO();
 
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"
@@ -272,14 +268,15 @@ function viewMessage( $uid='0', $option )
 
 function removeMessage( $cid, $option )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
+	
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	if (count( $cid )) {
+	
+	if (count( $cid )) 
+	{
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__messages"
 		. "\n WHERE message_id IN ( $cids )"

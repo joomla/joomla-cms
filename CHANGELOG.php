@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Aug-2006 Johan Janssens
+ - Removed JApplication::getUser, use JFactory::getUser instead
+ - Removed JApplication::getDBO, use JFactory::getDBO instead
+
 04-Aug-2006 Enno Klasing
  # Fixed [artf5509] : com_frontpage xhtml compliance
  ^ Deprecated mosObjectToArray, use JArrayHelper::fromObject instead

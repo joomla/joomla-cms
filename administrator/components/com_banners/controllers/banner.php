@@ -16,7 +16,8 @@
  * @package Joomla
  * @subpackage Banners
  */
-class JBannerController {
+class JBannerController 
+{
 	function viewBanners( $option )
 	{
 		global $mainframe;
@@ -100,11 +101,11 @@ class JBannerController {
 		JViewBanners::showBanners( $rows, $pageNav, $option, $lists );
 	}
 
-	function edit( ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
-		$user =& $mainframe->getUser();
+	function edit( ) 
+	{
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		
 		$cid 	= JRequest::getVar('cid', array(0));
 		$option = JRequest::getVar('option');
 		if (!is_array( $cid )) {
@@ -156,7 +157,8 @@ class JBannerController {
 	/**
 	 * Save method
 	 */
-	function saveBanner( $task ) {
+	function saveBanner( $task ) 
+	{
 		$db =& JFactory::getDBO();
 
 		$post	= JRequest::get( 'post' );
@@ -209,10 +211,9 @@ class JBannerController {
 		josRedirect( $link, $msg );
 	}
 
-	function cancelEditBanner() {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function cancelEditBanner() 
+	{
+		$db =& JFactory::getDBO();
 
 		$row = new mosBanner($db);
 		$row->bind( $_POST );
@@ -221,11 +222,10 @@ class JBannerController {
 		josRedirect( 'index2.php?option=com_banners' );
 	}
 
-	function publishBanner( $cid, $publish=1 ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
-		$user =& $mainframe->getUser();
+	function publishBanner( $cid, $publish=1 ) 
+	{
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$action = $publish ? 'publish' : 'unpublish';
@@ -254,10 +254,9 @@ class JBannerController {
 
 	}
 
-	function removeBanner( $cid ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function removeBanner( $cid ) 
+	{
+		$db =& JFactory::getDBO();
 
 		if (count( $cid ) && $cid[0] != 0) {
 			$cids = implode( ',', $cid );

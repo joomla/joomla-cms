@@ -17,8 +17,8 @@ class JContentArticleHelper
 	function showItem( &$parent, &$article, &$access, $showImages = false)
 	{
 		// Initialize some variables
-		$app		= &$parent->getApplication();
-		$user		= &$app->getUser();
+		$app		=& $parent->getApplication();
+		$user		=& JFactory::getUser();
 		$linkOn		= null;
 		$linkText	= null;
 

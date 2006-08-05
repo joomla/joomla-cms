@@ -29,8 +29,8 @@ class JFullAdminMenu {
 		global $mainframe;
 
 		$lang 			= & $mainframe->getLanguage();
-		$user 			= & $mainframe->getUser();
-		$db 			= & $mainframe->getDBO();
+		$user 			= & JFactory::getUser();
+		$db 			= & JFactory::getDBO();
 		$enableStats 	= $mainframe->getCfg('enable_stats');
 		$enableSearches = $mainframe->getCfg('enable_log_searches');
 		$caching 		= $mainframe->getCfg('caching');
@@ -327,7 +327,7 @@ class JFullAdminMenu {
 		global $mainframe;
 
 		$lang 	= & $mainframe->getLanguage();
-		$user 	= & $mainframe->getUser();
+		$user 	= & JFactory::getUser();
 
 		$canConfig 			= $user->authorize('com_config', 		'manage');
 		$installModules 	= $user->authorize('com_installer', 	'module');
@@ -405,7 +405,7 @@ if ($canConfig)	{
  */
 $lang 	= & $mainframe->getLanguage();
 $doc 	= & $mainframe->getDocument();
-$user 	= & $mainframe->getUser();
+$user 	= & JFactory::getUser();
 $hide 	= JRequest::getVar( 'hidemainmenu', 0 );
 
 /*

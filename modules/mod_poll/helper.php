@@ -21,7 +21,7 @@ class modPollHelper
 		global $mainframe;
 
 		$Itemid = JRequest::getVar( 'Itemid' );
-		$db		= &$mainframe->getDBO();
+		$db		=& JFactory::getDBO();
 
 		$query = "SELECT p.id, p.title" .
 			"\n FROM #__polls AS p, #__poll_menu AS pm" .
@@ -41,9 +41,7 @@ class modPollHelper
 
 	function getPollOptions($id)
 	{
-		global $mainframe;
-
-		$db	= &$mainframe->getDBO();
+		$db	=& JFactory::getDBO();
 
 		$query = "SELECT id, text" .
 			"\n FROM #__poll_data" .

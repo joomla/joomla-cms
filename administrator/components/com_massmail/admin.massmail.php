@@ -18,9 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
-if (!$user->authorize( 'com_massmail', 'manage' ))
-{
+$user = & JFactory::getUser();
+if (!$user->authorize( 'com_massmail', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -60,8 +59,8 @@ function sendMail()
 {
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
-	$user 				=& $mainframe->getUser();
+	$db					=& JFactory::getDBO();
+	$user 				=& JFactory::getUser();
 	$acl 				= JFactory::getACL();
 
 	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );

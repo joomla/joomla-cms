@@ -278,9 +278,7 @@ class JAuthorization extends gacl_api
 
 	function _getGroup( $type, $value )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$db->setQuery( "SELECT g.*"
 			. "\nFROM #__core_acl_{$type}_groups AS g"
@@ -294,9 +292,7 @@ class JAuthorization extends gacl_api
 
 	function _getBelow( $table, $fields, $groupby=null, $root_id=null, $root_name=null, $inclusive=true )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$root = new stdClass();
 		$root->lft = 0;
@@ -338,9 +334,7 @@ class JAuthorization extends gacl_api
 	 */
 	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$tree = $this->_getBelow( '#__core_acl_aro_groups',
 			'g1.id, g1.name, COUNT(g2.name) AS level',
@@ -397,9 +391,7 @@ class JAuthorization extends gacl_api
 	\*======================================================================*/
 	function is_group_child_of( $grp_src, $grp_tgt, $group_type='ARO' )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$this->debug_text("has_group_parent(): Source=$grp_src, Target=$grp_tgt, Type=$group_type");
 

@@ -136,7 +136,7 @@ class JSite extends JApplication
 		}
 
 		$doc  =& parent::getDocument($type);
-		$user =& $this->getUser();
+		$user =& JFactory::getUser();
 
 		//set document description
 		$doc->setDescription( $this->getCfg('MetaDesc') );
@@ -209,7 +209,7 @@ class JSite extends JApplication
 			$menu =& JMenu::getInstance();
 			$item =& $menu->getItem($this->findItemid());
 
-			$component = JTable::getInstance( 'component', $this->getDBO() );
+			$component = JTable::getInstance( 'component', JFactory::getDBO() );
 			$component->load($item->componentid);
 
 			$option = $component->option;
@@ -238,7 +238,7 @@ class JSite extends JApplication
 			/*
 			 * Load template entries for each menuid
 			 */
-			$db = $this->getDBO();
+			$db = JFactory::getDBO();
 			$query = "SELECT template, menuid"
 				. "\n FROM #__templates_menu"
 				. "\n WHERE client_id = 0"
@@ -287,7 +287,7 @@ class JSite extends JApplication
 		// if a language was specified at login it has priority
 		// otherwise use user or default language settings
 		if (empty($lang)) {
-			$user = & $this->getUser();
+			$user = & JFactory::getUser();
 			$lang = $user->getParam( 'language', $this->getCfg('lang_site') );
 		}
 
@@ -319,10 +319,8 @@ class JSiteHelper
 		$menu	= &JMenu::getInstance();
 
 		$result = &$menu->getItem( $itemid );
-		if ($result == false)
-		{
-			$db = &JFactory::getDBO();
-			$result = JTable::getInstance( 'menu', $db );
+		if ($result == false) {
+			$result = JTable::getInstance( 'menu', JFactory::getDBO() );
 		}
 		return $result;
 	}

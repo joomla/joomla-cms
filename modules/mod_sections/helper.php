@@ -22,8 +22,8 @@ class modSectionsHelper
 	{
 		global $mainframe;
 
-		$db		=& $mainframe->getDBO();
-		$user   =& $mainframe->getUser();
+		$db		=& JFactory::getDBO();
+		$user   =& JFactory::getUser();
 
 		$count	= intval($params->get('count', 20));
 		$access	= !$mainframe->getCfg('shownoauth');

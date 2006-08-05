@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize( 'com_modules', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
@@ -100,10 +100,8 @@ function viewModules()
 {
 	global $mainframe;
 
-	/*
-	 * Initialize some variables
-	 */
-	$db		=& $mainframe->getDBO();
+	// Initialize some variables
+	$db		=& JFactory::getDBO();
 	$option = JRequest::getVar('option');
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -233,12 +231,8 @@ function viewModules()
 */
 function copyModule( $option, $uid )
 {
-	global $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db 	=& $mainframe->getDBO();
+	// Initialize some variables
+	$db 	=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row 	=& JTable::getInstance('module', $db );
@@ -288,10 +282,8 @@ function copyModule( $option, $uid )
  */
 function saveModule( $option, $task )
 {
-	global $mainframe;
-
 	// Initialize some variables
-	$db		=& $mainframe->getDBO();
+	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$post	= JRequest::get( 'post' );
@@ -372,13 +364,10 @@ function saveModule( $option, $task )
 */
 function editModule( )
 {
-	global $mainframe, $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db 	=& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+	// Initialize some variables
+	$db 	=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
+	
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$module = JRequest::getVar( 'module' );
 	$option = JRequest::getVar( 'option');
@@ -582,12 +571,8 @@ function selectnew()
 */
 function removeModule( &$cid, $option )
 {
-	global $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db		=& $mainframe->getDBO();
+	// Initialize some variables
+	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	if (count( $cid ) < 1) {
@@ -608,7 +593,8 @@ function removeModule( &$cid, $option )
 
 	$err = array();
 	$cid = array();
-	foreach ($rows as $row) {
+	foreach ($rows as $row) 
+	{
 		if ($row->module == '' || $row->iscore == 0) {
 			$cid[] = $row->id;
 		} else {
@@ -623,7 +609,8 @@ function removeModule( &$cid, $option )
 		}
 	}
 
-	if (count( $cid )) {
+	if (count( $cid )) 
+	{
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__modules"
 		. "\n WHERE id IN ( $cids )"
@@ -662,19 +649,16 @@ function removeModule( &$cid, $option )
 */
 function publishModule( $cid=null, $publish=1, $option )
 {
-	global $mainframe;
-
-	$db 	=& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+	$db 	=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
+	
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
-	/*
-	 * Initialize some variables
-	 */
+	// Initialize some variables
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$cids = implode( ',', $cid );
@@ -703,12 +687,8 @@ function publishModule( $cid=null, $publish=1, $option )
 */
 function cancelModule( $option )
 {
-	global $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db		=& $mainframe->getDBO();
+	// Initialize some variables
+	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row =& JTable::getInstance('module', $db );
@@ -726,12 +706,8 @@ function cancelModule( $option )
 */
 function orderModule( $uid, $inc, $option )
 {
-	global $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db		=& $mainframe->getDBO();
+	// Initialize some variables
+	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row =& JTable::getInstance('module', $db );
@@ -748,12 +724,8 @@ function orderModule( $uid, $inc, $option )
 */
 function accessMenu( $uid, $access, $option )
 {
-	global $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db		=& $mainframe->getDBO();
+	// Initialize some variables
+	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	switch ( $access ) {
@@ -786,12 +758,8 @@ function accessMenu( $uid, $access, $option )
 
 function saveOrder( &$cid )
 {
-	global $mainframe;
-
-	/*
-	 * Initialize some variables
-	 */
-	$db		=& $mainframe->getDBO();
+	// Initialize some variables
+	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$total		= count( $cid );
@@ -800,14 +768,15 @@ function saveOrder( &$cid )
 	$conditions = array();
 
 	// update ordering values
-	for( $i=0; $i < $total; $i++ ) {
+	for( $i=0; $i < $total; $i++ ) 
+	{
 		$row->load( $cid[$i] );
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
-			} // if
+			}
 			// remember to updateOrder this group
 			$condition = "position = '$row->position' AND client_id = $row->client_id";
 			$found = false;
@@ -815,20 +784,20 @@ function saveOrder( &$cid )
 				if ($cond[1]==$condition) {
 					$found = true;
 					break;
-				} // if
+				}
 			if (!$found) $conditions[] = array($row->id, $condition);
-		} // if
-	} // for
+		}
+	}
 
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
 		$row->reorder( $cond[1] );
-	} // foreach
+	}
 
 	$msg 	= JText::_( 'New ordering saved' );
 	josRedirect( 'index2.php?option=com_modules&client='. $client->id, $msg );
-} // saveOrder
+}
 
 function previewModule($id )
 {

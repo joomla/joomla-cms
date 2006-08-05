@@ -20,9 +20,7 @@ class JViewBannerClients {
 
 	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $mainframe;
-
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">

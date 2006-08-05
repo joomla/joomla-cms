@@ -81,8 +81,8 @@ class WeblinksController
 		global $mainframe;
 
 		// Initialize some variables
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
 		$document	= & $mainframe->getDocument();
 		$pathway 	= & $mainframe->getPathWay();
@@ -271,7 +271,7 @@ class WeblinksController
 	{
 		global $mainframe;
 
-		$db		  =& $mainframe->getDBO();
+		$db		  =& JFactory::getDBO();
 		$document =& $mainframe->getDocument();
 
 		// Get some request variables
@@ -343,8 +343,8 @@ class WeblinksController
 		global $mainframe;
 
 		// Initialize variables
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$document	= & $mainframe->getDocument();
 		$id			= JRequest::getVar( 'id', 0, '', 'int' );
 
@@ -396,8 +396,8 @@ class WeblinksController
 		global $mainframe;
 
 		// Get some objects from the JApplication
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
 		$document	= & $mainframe->getDocument();
 
@@ -484,8 +484,8 @@ class WeblinksController
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
+		$db		= & JFactory::getDBO();
+		$user	= & JFactory::getUser();
 
 		// Must be logged in
 		if ($user->get('id') < 1) {
@@ -513,8 +513,8 @@ class WeblinksController
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 
 		// Must be logged in
 		if ($user->get('id') < 1) {

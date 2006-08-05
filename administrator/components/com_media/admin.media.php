@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Make sure the user is authorized to view this page
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if ($mainframe->isAdmin()) {
 	if (!$user->authorize( 'com_media', 'manage' )) {
 		josRedirect('index.php', JText::_('ALERTNOTAUTH'));

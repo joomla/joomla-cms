@@ -31,12 +31,11 @@ class ContentView
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
-		global $mainframe;
-
+		$db     =& JFactory::getDBO();
+		$user	=& JFactory::getUser();
+		
 		// Initialize variables
-		$db =& $mainframe->getDBO();
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user	= & $mainframe->getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
@@ -281,12 +280,8 @@ class ContentView
 	*/
 	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect )
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$user	= & $mainframe->getUser();
+		// Initialize variables
+		$user	= &JFactory::getUser();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -440,11 +435,9 @@ class ContentView
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
 		mosMakeHtmlSafe( $row );
 
+		$db     =& JFactory::getDBO();
 		$editor =& JFactory::getEditor();
 		$pane   =& JPane::getInstance('sliders');
 
@@ -908,9 +901,7 @@ class ContentView
 
 	function _displayArticleStats(&$row, &$lists, &$params)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$create_date 	= null;
 		$nullDate 		= $db->getNullDate();

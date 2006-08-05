@@ -16,10 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once(dirname(__FILE__).DS.'menu.php');
 
-/*
- * Lets get some variables we will need to render the menu
- */
-$user	= & $mainframe->getUser();
+// Lets get some variables we will need to render the menu
+$user	= & JFactory::getUser();
 $hide	= JRequest::getVar('hidemainmenu', 0);
 
 /*
@@ -43,8 +41,8 @@ function & buildMenu($usertype = '')
 	global $mainframe;
 
 	$lang			= & $mainframe->getLanguage();
-	$user			= & $mainframe->getUser();
-	$db				= & $mainframe->getDBO();
+	$user			= & JFactory::getUser();
+	$db				= & JFactory::getDBO();
 	$enableStats	= $mainframe->getCfg('enable_stats');
 	$enableSearches	= $mainframe->getCfg('enable_log_searches');
 	$caching		= $mainframe->getCfg('caching');
@@ -280,7 +278,7 @@ function & buildDisabledMenu($usertype = '')
 	global $mainframe;
 
 	$lang	= & $mainframe->getLanguage();
-	$user	= & $mainframe->getUser();
+	$user	= & JFactory::getUser();
 
 	$canConfig			= $user->authorize('com_config', 'manage');
 	$installModules		= $user->authorize('com_installer', 'module');

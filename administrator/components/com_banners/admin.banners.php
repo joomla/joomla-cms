@@ -20,7 +20,7 @@ define( 'JPATH_COM_BANNERS', dirname( __FILE__ ));
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize( 'com_banners', 'manage' ))
 {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );

@@ -140,9 +140,9 @@ class JContentHelper
 	{
 		global $mainframe;
 
-		$db =& $mainframe->getDBO();
-		$noauth = !$mainframe->getCfg('shownoauth');
-		$nullDate = $db->getNullDate();
+		$db 		=& JFactory::getDBO();
+		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$nullDate 	= $db->getNullDate();
 		$where = array ();
 
 		// normal
@@ -217,8 +217,7 @@ class JContentHelper
 
 	function getSectionLink(& $row)
 	{
-		global $mainframe;
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 		static $links;
 
 		if (!isset ($links)) {
@@ -268,8 +267,7 @@ class JContentHelper
 
 	function getCategoryLink(& $row)
 	{
-		global $mainframe;
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 		static $links;
 
 		if (!isset ($links)) {
@@ -346,9 +344,7 @@ class JContentHelper
 
 		if ($Itemid === false)
 		{
-			global $mainframe;
-
-			$db = & $mainframe->getDBO();
+			$db    = & JFactory::getDBO();
 			$menus =& JMenu::getInstance();
 			$items = $menus->getMenu();
 			$Itemid = null;
@@ -356,9 +352,7 @@ class JContentHelper
 
 			if (count($items))
 			{
-				/*
-				 * Do we have a content item linked to the menu with this id?
-				 */
+				// Do we have a content item linked to the menu with this id?
 				foreach ($items as $item) {
 					$item->cParams = & new JParameter( $item->control );
 					$item->mParams = & new JParameter( $item->params );
@@ -492,7 +486,7 @@ class JContentHTMLHelper {
 	{
 		global $Itemid, $mainframe;
 
-		$user     =& $mainframe->getUser();
+		$user     =& JFactory::getUser();
 		$document =& $mainframe->getDocument();
 
 		if ($params->get('popup')) {
@@ -550,7 +544,7 @@ class JContentHTMLHelper {
 	{
 		global $Itemid, $mainframe;
 
-		$user     =& $mainframe->getUser();
+		$user     =& JFactory::getUser();
 		$document =& $mainframe->getDocument();
 
 		$document->addScript('components/com_content/theme/js/common.js');

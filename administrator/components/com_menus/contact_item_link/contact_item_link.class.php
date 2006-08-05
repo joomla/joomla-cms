@@ -22,11 +22,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class contact_item_link_menu {
 
-	function edit( &$uid, $menutype, $option ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
-		$user =& $mainframe->getUser();
+	function edit( &$uid, $menutype, $option ) 
+	{
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 

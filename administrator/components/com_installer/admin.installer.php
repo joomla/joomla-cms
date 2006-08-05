@@ -21,7 +21,7 @@ require_once ($mainframe->getPath('admin_html'));
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize('com_installer', 'installer')) {
 	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
@@ -45,39 +45,27 @@ class JInstallerController
 	 */
 	function uploadpackage()
 	{
-		global $mainframe;
+		// Get a database connector
+		$db = & JFactory::getDBO();
 
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
+		// Get the uploaded file information
+		$userfile = JRequest::getVar('userfile', '', 'files', 'array' );
 
-		/*
-		 * Get the uploaded file information
-		 */
-		$userfile	= JRequest::getVar('userfile', '', 'files', 'array' );
-
-		/*
-		 * Make sure that file uploads are enabled in php
-		 */
+		// Make sure that file uploads are enabled in php
 		if (!(bool) ini_get('file_uploads')) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('WARNINSTALLFILE'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Make sure that zlib is loaded so that the package can be unpacked
-		 */
+		// Make sure that zlib is loaded so that the package can be unpacked
 		if (!extension_loaded('zlib')) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('WARNINSTALLZLIB'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * If there is no uploaded file, we have a problem...
-		 */
+		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile) || $userfile['size'] < 1) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('No file selected'));
 			JInstallerScreens::showInstallForm();
@@ -88,46 +76,35 @@ class JInstallerController
 		$tmp_dest 	= JPATH_ROOT.DS.'tmp'.DS.$userfile['name'];
 		$tmp_src	= $userfile['tmp_name'];
 
-		/*
-		 * Move uploaded file
-		 */
+		// Move uploaded file
 		jimport('joomla.filesystem.file');
 		$uploaded = JFile::upload($tmp_src, $tmp_dest);
 
-		/*
-		 * Unpack the downloaded package file
-		 */
+		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest);
 
-		/*
-		 * Was the package unpacked?
-		 */
+		// Was the package unpacked?
 		if (!$package) {
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Get an installer instance
-		 */
+		// Get an installer instance
 		$installer = & JInstaller::getInstance($db, $package['type']);
 
-		/*
-		 * Install the package
-		 */
-		if (!$installer->install($package['dir'])) {
-			/*
-			 * There was an error in installing the package
-			 */
+		// Install the package
+		if (!$installer->install($package['dir'])) 
+		{
+			// There was an error in installing the package
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall(JPATH_ROOT.DS.'tmp'.DS.$userfile['name'], $package['extractdir']);
 			JInstallerScreens::showInstallForm();
-		} else {
-			/*
-			 * Package installed sucessfully
-			 */
+		} 
+		else 
+		{
+			// Package installed sucessfully
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
@@ -147,58 +124,43 @@ class JInstallerController
 	{
 		global $mainframe;
 
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
+		// Get a database connector
+		$db = & JFactory::getDBO();
 
-		/*
-		 * Get the path to the package to install
-		 */
+		// Get the path to the package to install
 		$p_dir = JRequest::getVar('userfile');
 
-		/*
-		 * Did you give us a valid directory?
-		 */
+		// Did you give us a valid directory?
 		if (!is_dir($p_dir)) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Please enter a package directory'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Detect the package type
-		 */
+		// Detect the package type
 		$type = JInstallerHelper::detectType($p_dir);
 
-		/*
-		 * Did you give us a valid package?
-		 */
+		// Did you give us a valid package?
 		if (!$type) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Path does not have a valid package'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Get an installer instance
-		 */
+		// Get an installer instance
 		$installer = & JInstaller::getInstance($db, $type);
 
-		/*
-		 * Install the package
-		 */
-		if (!$installer->install($p_dir)) {
-			/*
-			 * There was an error in installing the package
-			 */
+		// Install the package
+		if (!$installer->install($p_dir)) 
+		{
+			// There was an error in installing the package
 			$msg = sprintf(JText::_('INSTALLEXT'), $type, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			JInstallerScreens::showInstallForm();
-		} else {
-			/*
-			 * Package installed sucessfully
-			 */
+		} 
+		else 
+		{
+			// Package installed sucessfully
 			$msg = sprintf(JText::_('INSTALLEXT'), $type, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			JInstallerScreens::showInstallForm();
@@ -214,75 +176,54 @@ class JInstallerController
 	 */
 	function installFromUrl()
 	{
-		global $mainframe;
+		// Get a database connector
+		$db = & JFactory::getDBO();
 
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
-
-		/*
-		 * Get the URL of the package to install
-		 */
+		// Get the URL of the package to install
 		$url = JRequest::getVar('userfile');
 
-		/*
-		 * Did you give us a URL?
-		 */
+		// Did you give us a URL?
 		if (!$url) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Please enter a URL'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Download the package at the URL given
-		 */
+		// Download the package at the URL given
 		$p_file = JInstallerHelper::downloadPackage($url);
 
-		/*
-		 * Was the package downloaded?
-		 */
+		// Was the package downloaded?
 		if (!$p_file) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid URL'));
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Unpack the downloaded package file
-		 */
+		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($p_file);
 
-		/*
-		 * Was the package unpacked?
-		 */
+		// Was the package unpacked?
 		if (!$package) {
 			JInstallerScreens::showInstallForm();
 			return false;
 		}
 
-		/*
-		 * Get an installer instance
-		 */
+		// Get an installer instance
 		$installer = & JInstaller::getInstance($db, $package['type']);
 
-		/*
-		 * Install the package
-		 */
-		if (!$installer->install($package['dir'])) {
-			/*
-			 * There was an error in installing the package
-			 */
+		// Install the package
+		if (!$installer->install($package['dir'])) 
+		{
+			// There was an error in installing the package
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($p_file, $package['extractdir']);
 			JInstallerScreens::showInstallForm();
-		} else {
-			/*
-			 * Package installed sucessfully
-			 */
+		} 
+		else 
+		{
+			// Package installed sucessfully 
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
@@ -300,16 +241,10 @@ class JInstallerController
 	 */
 	function enableextension()
 	{
-		global $mainframe;
+		// Get a database connector
+		$db = & JFactory::getDBO();
 
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
-
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$eid			= JRequest::getVar('eid', array (0), '', 'array');
 		$extension	= JRequest::getVar('extension');
 		$result		= false;
@@ -336,23 +271,17 @@ class JInstallerController
 			$eid = array ($eid);
 		}
 
-		/*
-		 * Get a table object for the extension type
-		 */
+		// Get a table object for the extension type
 		$table = & JTable::getInstance($extension, $db);
 
-		/*
-		 * Disable the extension in the table and store it in the database
-		 */
+		// Disable the extension in the table and store it in the database
 		foreach ($eid as $id) {
 			$table->load($id);
 			$table->enabled = '1';
 			$table->store();
 		}
 
-		/*
-		 * Display the extension management screen
-		 */
+		// Display the extension management screen
 		JInstallerExtensionTasks::showInstalled();
 	}
 
@@ -365,17 +294,11 @@ class JInstallerController
 	 */
 	function disableextension()
 	{
-		global $mainframe;
+		// Get a database connector
+		$db =& JFactory::getDBO();
 
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
-
-		/*
-		 * Initialize variables
-		 */
-		$eid			= JRequest::getVar('eid', array (0), '', 'array');
+		// Initialize variables
+		$eid		= JRequest::getVar('eid', array (0), '', 'array');
 		$extension	= JRequest::getVar('extension');
 		$result		= false;
 
@@ -401,14 +324,10 @@ class JInstallerController
 			$eid = array ($eid);
 		}
 
-		/*
-		 * Get a table object for the extension type
-		 */
+		// Get a table object for the extension type
 		$table = & JTable::getInstance($extension, $db);
 
-		/*
-		 * Disable the extension in the table and store it in the database
-		 */
+		// Disable the extension in the table and store it in the database
 		foreach ($eid as $id) {
 
 			$table->load($id);
@@ -416,9 +335,7 @@ class JInstallerController
 			$table->store();
 		}
 
-		/*
-		 * Display the extension management screen
-		 */
+		// Display the extension management screen
 		JInstallerExtensionTasks::showInstalled();
 	}
 
@@ -431,16 +348,10 @@ class JInstallerController
 	 */
 	function removeextension()
 	{
-		global $mainframe;
+		// Get a database connector
+		$db =& JFactory::getDBO();
 
-		/*
-		 * Get a database connector
-		 */
-		$db = & $mainframe->getDBO();
-
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$eid		= JRequest::getVar('eid', array (0));
 		$eclient	= JRequest::getVar('eclient', array (0));
 		$extension	= JRequest::getVar('extension', '');
@@ -477,16 +388,13 @@ class JInstallerController
 			$eclient = array ($eclient);
 		}
 
-		/*
-		 * Get an installer object for the extension type
-		 */
+		// Get an installer object for the extension type
 		$installer = & JInstaller::getInstance($db, $extension);
 
-		/*
-		 * Uninstall the chosen extensions
-		 */
+		// Uninstall the chosen extensions
 		$i = 0;
-		foreach ($eid as $id) {
+		foreach ($eid as $id) 
+		{
 			$result = $installer->uninstall($id, $eclient[$i++]);
 
 			// Build an array of extensions that failed to uninstall
@@ -495,27 +403,22 @@ class JInstallerController
 			}
 		}
 
-		if (count($failed)) {
-			/*
-			 * There was an error in uninstalling the package
-			 */
+		if (count($failed)) 
+		{
+			// There was an error in uninstalling the package
 			$msg = sprintf(JText::_('UNINSTALLEXT'), $extension, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 
-			/*
-			 * Display the extension management screen
-			 */
+			// Display the extension management screen
 			JInstallerExtensionTasks::showInstalled();
-		} else {
-			/*
-			 * Package uninstalled sucessfully
-			 */
+		} 
+		else 
+		{
+			// Package uninstalled sucessfully
 			$msg = sprintf(JText::_('UNINSTALLEXT'), $extension, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 
-			/*
-			 * Display the extension management screen
-			 */
+			// Display the extension management screen
 			JInstallerExtensionTasks::showInstalled();
 		}
 	}
@@ -525,9 +428,7 @@ class JInstallerController
 	 */
 	function installer()
 	{
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$extension = JRequest::getVar('extension');
 
 		if (!empty($extension)) {

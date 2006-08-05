@@ -23,9 +23,7 @@ class JViewBanners {
 
 	function showBanners( &$rows, &$pageNav, $option, &$lists )
 	{
-		global $mainframe;
-
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_banners" method="post" name="adminForm">

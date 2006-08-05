@@ -25,10 +25,10 @@ class content_blog_category {
 	* @param database A database connector object
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
-	function edit( &$uid, $menutype, $option ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function edit( &$uid, $menutype, $option ) 
+	{
+		$db =& JFactory::getDBO();
+		
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
@@ -99,9 +99,8 @@ class content_blog_category {
 
 	function saveMenu( $option, $task )
 	{
-		global $maiframe;
-
-		$db =& $maiframe->getDBO();
+		$db =& JFactory::getDBO();
+		
 		$params = JRequest::getVar( 'params', '', 'post' );
 		$catids	= JRequest::getVar( 'catid', array(), 'post', 'array' );
 		$catid	= implode( ',', $catids );

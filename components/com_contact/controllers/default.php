@@ -223,37 +223,28 @@ class JContactControllerDefault extends JController
 	 * @static
 	 * @since 1.0
 	 */
-	function vCard() {
+	function vCard() 
+	{
 		global $mainframe;
 
-		/*
-		 * Initialize some variables
-		 */
-		$db = & $mainframe->getDBO();
+		// Initialize some variables
+		$db = & JFactory::getDBO();
 
 		$SiteName = $mainframe->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 
-		/*
-		 * Get a JContact table object and load the selected contact details
-		 */
+		// Get a JContact table object and load the selected contact details
 		$contact = new JTableContact($db);
 		$contact->load($contactId);
 
-		/*
-		 * Get the contact detail parameters
-		 */
+		// Get the contact detail parameters
 		$menuParams = new JParameter($contact->params);
 		$show 	= $menuParams->get('vcard', 0);
 
-		/*
-		 * Should we show the vcard?
-		 */
-		if ($show) {
-			/*
-			 * We need to parse the contact name field and build the name
-			 * information for the vcard.
-			 */
+		// Should we show the vcard?
+		if ($show) 
+		{
+			// Parse the contact name field and build the nam information for the vcard.
 			$firstname 	= null;
 			$middlename = null;
 			$surname 	= null;
@@ -286,9 +277,7 @@ class JContactControllerDefault extends JController
 			// quick cleanup for the middlename value
 			$middlename = trim($middlename);
 
-			/*
-			 * Create a new vcard object and populate the fields
-			 */
+			// Create a new vcard object and populate the fields
 			$v = new JvCard();
 
 			$v->setPhoneNumber($contact->telephone, 'PREF;WORK;VOICE');

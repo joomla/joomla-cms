@@ -18,9 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
-if (!$user->authorize( 'com_weblinks', 'manage' ))
-{
+$user = & JFactory::getUser();
+if (!$user->authorize( 'com_weblinks', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -81,10 +80,11 @@ switch ($task) {
 * Compiles a list of records
 * @param database A database connector object
 */
-function showWeblinks( $option ) {
+function showWeblinks( $option ) 
+{
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
+	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -169,8 +169,8 @@ function editWeblink()
 {
 	global $mainframe;
 
-	$db		=& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+	$db		=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	if (!is_array( $cid )) {
@@ -222,10 +222,9 @@ function editWeblink()
 * Saves the record on an edit form submit
 * @param database A database connector object
 */
-function saveWeblink( $task ) {
-	global $mainframe;
-
-	$db	=& $mainframe->getDBO();
+function saveWeblink( $task ) 
+{
+	$db	=& JFactory::getDBO();
 	$row = new JTableWeblink( $db );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -272,10 +271,9 @@ function saveWeblink( $task ) {
 * @param array An array of unique category id numbers
 * @param string The current url option
 */
-function removeWeblinks( $cid, $option ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function removeWeblinks( $cid, $option ) 
+{
+	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -300,11 +298,12 @@ function removeWeblinks( $cid, $option ) {
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The current url option
 */
-function publishWeblinks( $cid=null, $publish=1,  $option ) {
+function publishWeblinks( $cid=null, $publish=1,  $option ) 
+{
 	global $mainframe;
 
-	$db		=& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+	$db		=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
 	$catid	= JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -336,12 +335,11 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderWeblinks( $uid, $inc ) {
-	global $mainframe;
-
+function orderWeblinks( $uid, $inc ) 
+{	
 	$option = JRequest::getVar( 'option');
 
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	$row = new JTableWeblink( $db );
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
@@ -353,10 +351,9 @@ function orderWeblinks( $uid, $inc ) {
 * Cancels an edit operation
 * @param string The current url option
 */
-function cancelWeblink() {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function cancelWeblink()
+{
+	$db =& JFactory::getDBO();
 	$row = new JTableWeblink( $db );
 	$row->bind( $_POST );
 	$row->checkin();
@@ -364,10 +361,9 @@ function cancelWeblink() {
 	josRedirect( 'index2.php?option=com_weblinks' );
 }
 
-function saveOrder( &$cid ) {
-	global $mainframe;
-
-	$db			=& $mainframe->getDBO();
+function saveOrder( &$cid ) 
+{
+	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 

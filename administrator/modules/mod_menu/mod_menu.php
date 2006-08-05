@@ -17,9 +17,9 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Lets get some variables we will need to render the menu
  */
-$lang 	= & $mainframe->getLanguage();
-$doc 	= & $mainframe->getDocument();
-$user 	= & $mainframe->getUser();
+$lang 	=& $mainframe->getLanguage();
+$doc 	=& $mainframe->getDocument();
+$user 	=& JFactory::getUser();
 $hide 	= JRequest::getVar( 'hidemainmenu', 0 );
 
 // Add the javascript to the page head
@@ -78,9 +78,9 @@ class JAdminMenu {
 		global $mainframe;
 
 		$css			= null;
-		$lang 			= & $mainframe->getLanguage();
-		$user 			= & $mainframe->getUser();
-		$db		 		= & $mainframe->getDBO();
+		$lang 			=& $mainframe->getLanguage();
+		$user 			=& JFactory::getUser();
+		$db		 		=& JFactory::getDBO();
 		$enableStats 	= $mainframe->getCfg('enable_stats');
 		$enableSearches = $mainframe->getCfg('enable_log_searches');
 		$caching 		= $mainframe->getCfg('caching');
@@ -311,11 +311,12 @@ class JAdminMenu {
 	*
 	* @param string The current user type
 	*/
-	function showDisabled($usertype = '') {
+	function showDisabled($usertype = '') 
+	{
 		global $mainframe;
 
 		$lang 	= & $mainframe->getLanguage();
-		$user 	= & $mainframe->getUser();
+		$user 	=& JFactory::getUser();
 
 		$canConfig 			= $user->authorize('com_config', 		'manage');
 		$installModules 	= $user->authorize('com_installer', 	'module');
@@ -332,7 +333,6 @@ class JAdminMenu {
 
 	function buildDiv ( $title, $list, $suffix = '-smenu' )
 	{
-
 		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>\n";
 		$txt .=	"<div class=\"section".$suffix."\">\n<ul>\n";
 

@@ -35,7 +35,7 @@ switch ($task) {
 		$path 	= JPATH_ADMINISTRATOR .'/components/com_menus/';
 
 		if ( $cid[0] ) {
-			$db =& $mainframe->getDBO();
+			$db =& JFactory::getDBO();
 			$query = "SELECT type"
 			. "\n FROM #__menu"
 			. "\n WHERE id = $cid[0]"

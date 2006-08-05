@@ -51,7 +51,7 @@ class JEditor_tinymce extends JPlugin {
 	{
 		global $mainframe;
 
-		$db		  =& $mainframe->getDBO();
+		$db		  =& JFactory::getDBO();
 		$language =& $mainframe->getLanguage();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();

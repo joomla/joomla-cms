@@ -24,10 +24,8 @@ function botJoomlaSEFUrl( )
 {
 	global $mainframe, $task, $sectionid, $id, $Itemid, $limit, $limitstart, $mod_rewrite_off;
 
-	/*
-	 * Initialize some variables
-	 */
-	$db					=& $mainframe->getDBO();
+	// Initialize some variables
+	$db					=& JFactory::getDBO();
 	$mod_rewrite_off 	= 0;
 	$SEF 				= $mainframe->getCfg('sef');
 

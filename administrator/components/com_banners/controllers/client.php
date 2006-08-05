@@ -16,13 +16,16 @@
  * @package Joomla
  * @subpackage Banners
  */
-class JBannerClientController {
+class JBannerClientController 
+{
 
-	function viewBannerClients( $option ) {
+	function viewBannerClients( $option ) 
+	{
 		global $mainframe;
 
-		$db =& $mainframe->getDBO();
-		$user =& $mainframe->getUser();
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
 		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mainframe->getCfg('list_limit') );
@@ -75,11 +78,11 @@ class JBannerClientController {
 		JViewBannerClients::showClients( $rows, $pageNav, $option, $lists );
 	}
 
-	function editBannerClient( ) {
-		global $mainframe;
-
-		$db     =& $mainframe->getDBO();
-		$user =& $mainframe->getUser();
+	function editBannerClient( ) 
+	{
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		
 		$cid 	= JRequest::getVar( 'cid', array(0));
 		$option = JRequest::getVar( 'option');
 		if (!is_array( $cid )) {
@@ -107,10 +110,9 @@ class JBannerClientController {
 		JViewBannerClients::bannerClientForm( $row, $option );
 	}
 
-	function saveBannerClient( $task ) {
-		global $mainframe;
-
-		$db  =& $mainframe->getDBO();
+	function saveBannerClient( $task ) 
+	{
+		$db  =& JFactory::getDBO();
 		$row = new mosBannerClient( $db );
 
 		if (!$row->bind( $_POST )) {
@@ -141,20 +143,19 @@ class JBannerClientController {
 		josRedirect( $link );
 	}
 
-	function cancelEditClient( $option ) {
-		global $mainframe;
-
-		$db  =& $mainframe->getDBO();
+	function cancelEditClient( $option ) 
+	{
+		$db  =& JFactory::getDBO();
 		$row = new mosBannerClient( $db );
 		$row->bind( $_POST );
 		$row->checkin();
+		
 		josRedirect( "index2.php?option=$option&task=listclients" );
 	}
 
-	function removeBannerClients( $cid, $option ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function removeBannerClients( $cid, $option ) 
+	{
+		$db =& JFactory::getDBO();
 		if (!count( $cid ) || $cid[0] == 0) {
 			unset($cid);
 			$cid[0] = JRequest::getVar( 'client_id', 0, 'post' );

@@ -35,7 +35,7 @@ class JInstallerExtensionTasks {
 	{
 		global $mainframe;
 
-		$db					=& $mainframe->getDBO();
+		$db					=& JFactory::getDBO();
 		$filter 			= JRequest::getVar( 'filter' );
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );

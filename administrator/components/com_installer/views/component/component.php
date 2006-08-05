@@ -39,7 +39,7 @@ class JInstallerExtensionTasks
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 		/* Get a database connector */
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$query = 	"SELECT *" .
 					"\n FROM #__components" .

@@ -32,7 +32,7 @@ class MenuTypeController extends JController
 		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 
-		$db	= &$this->getDBO();
+		$db			= &$this->getDBO();
 		$mainframe	= &$this->getApplication();
 
 		$menus		= array();
@@ -105,14 +105,11 @@ class MenuTypeController extends JController
 	/**
 	 * Controller for view to create or edit a menu type
 	 */
-	function edit() {
-		global $mainframe, $task;
-
-		$db =& $mainframe->getDBO();
+	function edit() 
+	{
 		$id	= (int) JRequest::getVar( 'id', 0 );
 
-		if ($this->getTask() == 'new')
-		{
+		if ($this->getTask() == 'new') {
 			$id = 0;
 		}
 
@@ -129,11 +126,10 @@ class MenuTypeController extends JController
 	/**
 	 * Controller for saving a menu type
 	 */
-	function saveMenu() {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
-		$id		= (int) JRequest::getVar( 'id', 0 );
+	function saveMenu() 
+	{
+		$db =& JFactory::getDBO();
+		$id	= (int) JRequest::getVar( 'id', 0 );
 
 		$oldType = new JTableMenuTypes( $db );
 		$oldType->load( $id );
@@ -160,7 +156,8 @@ class MenuTypeController extends JController
 			exit;
 		}
 
-		if ($isNew) {
+		if ($isNew) 
+		{
 			$title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' );
 
 			$module =& JTable::getInstance( 'module', $db );
@@ -243,7 +240,8 @@ class MenuTypeController extends JController
 	/**
 	 * Controller for a view to confirm the deletion of a menu type
 	 */
-	function delete() {
+	function delete() 
+	{
 		$id = (int) JRequest::getVar( 'id', 0 );
 
 		if ($id <= 0)
@@ -294,10 +292,9 @@ class MenuTypeController extends JController
 	/**
 	* Compiles a list of the articles you have selected to Copy
 	*/
-	function copyConfirm( $option, $type ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function copyConfirm( $option, $type ) 
+	{
+		$db =& JFactory::getDBO();
 		// Article Items query
 		$query = 	"SELECT a.name, a.id"
 		. "\n FROM #__menu AS a"
@@ -315,10 +312,9 @@ class MenuTypeController extends JController
 	/**
 	* Copies a complete menu, all its items and creates a new module, using the name speified
 	*/
-	function copyMenu( $option, $cid, $type ) {
-		global $mainframe;
-
-		$db				=& $mainframe->getDBO();
+	function copyMenu( $option, $cid, $type ) 
+	{
+		$db				=& JFactory::getDBO();
 		$menu_name 		= JRequest::getVar( 'menu_name', 'New Menu', 'post' );
 		$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
 

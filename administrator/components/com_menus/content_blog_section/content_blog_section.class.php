@@ -25,11 +25,11 @@ class content_blog_section {
 	* @param database A database connector object
 	* @param integer The unique id of the section to edit (0 if new)
 	*/
-	function edit( $uid, $menutype, $option ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
-		$user =& $mainframe->getUser();
+	function edit( $uid, $menutype, $option ) 
+	{
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 
@@ -97,9 +97,8 @@ class content_blog_section {
 
 	function saveMenu( $option, $task )
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
+		
 		$params =JRequest::getVar( 'params', array(), 'post', 'array' );
 		$secids	= JRequest::getVar( 'secid', array(), 'post', 'array' );
 		$secid	= implode( ',', $secids );

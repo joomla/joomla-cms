@@ -49,7 +49,7 @@ $Itemid = $mainframe->findItemid(); //need to set this in the request again
 
 //TODO :: should we show a login screen here ?
 $menus =& JMenu::getInstance();
-if(!$menus->authorize($Itemid, $mainframe->getUser())) {
+if(!$menus->authorize($Itemid, JFactory::getUser())) {
 	JError::raiseError( 403, JText::_('Not Authorised') );
 }
 

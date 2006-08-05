@@ -206,10 +206,9 @@ class JMenuHelper extends JObject {
 	/**
 	 * Build the select list for parent menu item
 	 */
-	function Parent( &$row ) {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function Parent( &$row ) 
+	{
+		$db =& JFactory::getDBO();
 		$id = '';
 		if ( $row->id ) {
 			$id = "\n AND id != $row->id";

@@ -16,12 +16,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 global $task, $hidemainmenu;
 
-/*
- * Initialize some variables
- */
+// Initialize some variables
 $sid	= JSession::id();
-$user	= $mainframe->getUser();
-$db		=& $mainframe->getDBO();
+$user	=& JFactory::getUser();
+$db		=& JFactory::getDBO();
 $lang   =& $mainframe->getLanguage();
 $output = array();
 

@@ -29,10 +29,8 @@ class categories_html
 	*/
 	function show( &$rows, $section, $section_name, &$page, &$lists, $type )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'c.ordering');

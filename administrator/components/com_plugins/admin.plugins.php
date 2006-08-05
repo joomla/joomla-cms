@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize( 'com_plugins', 'manage' )) {
 		josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
@@ -86,7 +86,7 @@ function viewPlugins( $option, $client )
 {
 	global $mainframe;
 
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'' );
@@ -183,9 +183,7 @@ function viewPlugins( $option, $client )
 */
 function savePlugin( $option, $client, $task )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('plugin', $db);
 
 	if (!$row->bind( $_POST )) {
@@ -230,10 +228,8 @@ function savePlugin( $option, $client, $task )
 */
 function editPlugin( )
 {
-	global $mainframe;
-
-	$db		=& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+	$db		=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
 	
 	$client = JRequest::getVar( 'client', 'site' );
 	$option = JRequest::getVar( 'option');
@@ -320,10 +316,9 @@ function editPlugin( )
 */
 function publishPlugin( $cid=null, $publish=1, $option, $client )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+	$db     =& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
+	
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
 		echo "<script> alert('". JText::_( 'Select a plugin to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -355,9 +350,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 */
 function cancelPlugin( $option, $client )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('plugin', $db);
 	$row->bind( $_POST );
 	$row->checkin();
@@ -372,9 +365,7 @@ function cancelPlugin( $option, $client )
 */
 function orderPlugin( $uid, $inc, $option, $client )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	// Currently Unsupported
 	if ($client == 'admin') {
 		$where = "client_id = 1";
@@ -394,9 +385,7 @@ function orderPlugin( $uid, $inc, $option, $client )
 */
 function accessMenu( $uid, $access, $option, $client )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	switch ( $access ) {
 		case 'accesspublic':
 			$access = 0;
@@ -427,9 +416,7 @@ function accessMenu( $uid, $access, $option, $client )
 
 function saveOrder( &$cid )
 {
-	global $mainframe;
-
-	$db			=& $mainframe->getDBO();
+	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row 		=& JTable::getInstance('plugin', $db);

@@ -53,7 +53,7 @@ class modMainMenuHelper
 				$rows = $items->getItems('menutype', $params->get('menutype'));
 
 				// Build Menu Tree
-				$user =& $mainframe->getUser();
+				$user =& JFactory::getUser();
 				foreach ($rows as $row) {
 					if($row->access <= $user->get('gid')) {
 						$menu->addNode($row);

@@ -215,8 +215,7 @@ class HTML_statistics
 
 	function pageImpressions( &$rows, $pageNav, &$lists, $task )
 	{
-		global $mainframe;
-		$user 	=& $mainframe->getUser();
+		$user 	=& JFactory::>getUser();
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=pageimp" method="post" name="adminForm">
 

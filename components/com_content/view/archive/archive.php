@@ -60,8 +60,8 @@ class JArchiveViewArchive extends JView
 	function showArchive()
 	{
 		// Initialize some variables
-		$app	= & $this->getApplication();
-		$user	= & $app->getUser();
+		$app	=& $this->getApplication();
+		$user	=& JFactory::getUser();
 
 		$gid	= $user->get('gid');
 
@@ -306,8 +306,8 @@ class JArchiveViewArchive extends JView
 	function showItem(&$row, &$params, &$access, $showImages = false)
 	{
 		// Initialize some variables
-		$app		= & $this->getApplication();
-		$user		= & $app->getUser();
+		$app		=& $this->getApplication();
+		$user		=& JFactory::getUser();
 
 		// These will come from a request object at some point
 		$task		= JRequest::getVar( 'task' );

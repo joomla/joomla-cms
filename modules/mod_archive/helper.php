@@ -18,10 +18,8 @@ class modArchiveHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
-
 		//get database
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT MONTH( created ) AS created_month, created, id, sectionid, title, YEAR(created) AS created_year" .
 			"\n FROM #__content" .

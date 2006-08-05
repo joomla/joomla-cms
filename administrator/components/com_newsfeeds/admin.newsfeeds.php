@@ -18,9 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
-if (!$user->authorize( 'com_newsfeeds', 'manage' ))
-{
+$user = & JFactory::getUser();
+if (!$user->authorize( 'com_newsfeeds', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -77,11 +76,12 @@ switch ($task) {
 /**
 * List the records
 */
-function showNewsFeeds(  ) {
+function showNewsFeeds(  ) 
+{
 	global $mainframe;
 
 	$option 			= JRequest::getVar( 'option');
-	$db 				= $mainframe->getDBO();
+	$db 				= JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -160,11 +160,11 @@ function showNewsFeeds(  ) {
 /**
 * Creates a new or edits and existing user record
 */
-function editNewsFeed(  ) {
-	global $mainframe;
-
-	$db 		= $mainframe->getDBO();
-	$user 		= $mainframe->getUser();
+function editNewsFeed(  ) 
+{
+	$db 		=& JFactory::getDBO();
+	$user 		=& JFactory::getUser();
+	
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option 	= JRequest::getVar( 'option');
@@ -205,10 +205,9 @@ function editNewsFeed(  ) {
 /**
 * Saves the record from an edit form submit
 */
-function saveNewsFeed(  ) {
-	global $mainframe;
-
-	$db 		= $mainframe->getDBO();
+function saveNewsFeed(  ) 
+{
+	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
 
 	$row 		= new mosNewsFeed( $db );
@@ -269,11 +268,11 @@ function unPublishNewsFeeds(  ) {
 * Publishes or Unpublishes one or more modules
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function changePublishNewsFeeds( $publish ) {
-	global $mainframe;
-
-	$db 		= $mainframe->getDBO();
-	$user 		= $mainframe->getUser();
+function changePublishNewsFeeds( $publish ) 
+{
+	$db 		=& JFactory::getDBO();
+	$user 		=& JFactory::getUser();
+	
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -310,10 +309,11 @@ function changePublishNewsFeeds( $publish ) {
 /**
 * Removes records
 */
-function removeNewsFeeds( ) {
+function removeNewsFeeds( ) 
+{
 	global $mainframe;
 
-	$db 		= $mainframe->getDBO();
+	$db 		=& JFactory::getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option 	= JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -341,10 +341,9 @@ function removeNewsFeeds( ) {
 /**
 * Cancels an edit operation
 */
-function cancelNewsFeed(  ) {
-	global $mainframe;
-
-	$db 	= $mainframe->getDBO();
+function cancelNewsFeed(  ) 
+{
+	$db 	=& JFactory::getDBO();
 	$option = JRequest::getVar( 'option');
 
 	$row = new mosNewsFeed( $db );
@@ -371,10 +370,9 @@ function moveDownNewsFeed(  ) {
 * Moves the order of a record
 * @param integer The direction to reorder, +1 down, -1 up
 */
-function orderNewsFeed( $inc ) {
-	global $mainframe;
-
-	$db		 	= $mainframe->getDBO();
+function orderNewsFeed( $inc ) 
+{
+	$db		 	= JFactory::getDBO();
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -395,10 +393,9 @@ function orderNewsFeed( $inc ) {
 /**
 * Saves user reordering entry
 */
-function saveOrder(  ) {
-	global $mainframe;
-
-	$db		 	= $mainframe->getDBO();
+function saveOrder(  ) 
+{
+	$db		 	= JFactory::getDBO();
 	$cid 		= JRequest::getVar( 'cid' );
 
 	$total		= count( $cid );

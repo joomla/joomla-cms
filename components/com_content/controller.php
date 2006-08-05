@@ -284,13 +284,11 @@ class JContentController extends JController
 	*/
 	function save()
 	{
-		global $mainframe, $Itemid;
+		global $Itemid;
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		// Initialize variables
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
 		$task		= JRequest::getVar('task');
 
@@ -303,8 +301,7 @@ class JContentController extends JController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		$row = & JTable::getInstance('content', $db);
-		if (!$row->bind($_POST))
-		{
+		if (!$row->bind($_POST)) {
 			JError::raiseError( 500, $row->getError());
 		}
 
@@ -312,8 +309,7 @@ class JContentController extends JController
 		if ($isNew)
 		{
 			// new record
-			if (!($access->canEdit || $access->canEditOwn))
-			{
+			if (!($access->canEdit || $access->canEditOwn)) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->created 		= date('Y-m-d H:i:s');
@@ -322,25 +318,20 @@ class JContentController extends JController
 		else
 		{
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id'))))
-			{
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->modified 		= date('Y-m-d H:i:s');
 			$row->modified_by 	= $user->get('id');
 		}
 
-		/*
-		* Append time if not added to publish date
-		*/
+		// Append time if not added to publish date
 		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
 		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
 
-		/*
-		* Handle never unpublish date
-		*/
+		// Handle never unpublish date
 		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') {
 			$row->publish_down = $nullDate;
 		} else {
@@ -383,13 +374,11 @@ class JContentController extends JController
 		// Prepare content  for save
 		JContentHelper::saveContentPrep($row);
 
-		if (!$row->check())
-		{
+		if (!$row->check()) {
 			JError::raiseError( 500, $row->getError());
 		}
 		$row->version++;
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			JError::raiseError( 500, $row->getError());
 		}
 
@@ -417,8 +406,7 @@ class JContentController extends JController
 		else
 		{
 			// no frontpage mask
-			if (!$fp->delete($row->id))
-			{
+			if (!$fp->delete($row->id)) {
 				$msg .= $fp->stderr();
 			}
 			$fp->ordering = 0;
@@ -541,11 +529,9 @@ class JContentController extends JController
 
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db		= & $mainframe->getDBO();
-		$user	= & $mainframe->getUser();
+		// Initialize variables
+		$db		= & JFactory::getDBO();
+		$user	= & JFactory::getUser();
 		$uid		= JRequest::getVar('id', 0, '', 'int');
 
 		/*
@@ -674,7 +660,7 @@ class JContentController extends JController
 	*/
 	function vote()
 	{
-		$url		= JRequest::getVar('url', '');
+		$url	= JRequest::getVar('url', '');
 		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
@@ -697,10 +683,8 @@ class JContentController extends JController
 	 */
 	function findkey()
 	{
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $this->getDBO();
+		// Initialize variables
+		$db		= & $this->getDBO();
 		$keyref	= $db->getEscaped(JRequest::getVar('keyref'));
 
 		$query = "SELECT id" .

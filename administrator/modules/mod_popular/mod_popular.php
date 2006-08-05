@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$db =& $mainframe->getDBO();
+$db =& JFactory::getDBO();
 $query = "SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name"
 . "\n FROM #__content AS a"
 . "\n LEFT JOIN #__users AS u ON u.id=a.created_by"

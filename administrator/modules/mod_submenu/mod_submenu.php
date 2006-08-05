@@ -14,12 +14,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/*
- * Lets get some variables we will need to render the menu
- */
+// Lets get some variables we will need to render the menu
 $lang	= & $mainframe->getLanguage();
 $doc	= & $mainframe->getDocument();
-$user	= & $mainframe->getUser();
+$user	= & JFactory::getUser();
 
 // If hidemainmenu is true, we don't want to render this module at all
 echo JAdminSubMenu::get();
@@ -36,13 +34,11 @@ class JAdminSubMenu
 	{
 		global $mainframe;
 
-		/*
-		 * Lets get some variables we are going to need
-		 */
+		// Lets get some variables we are going to need
 		$menu 			= false;
-		$db 			= & JFactory::getDBO();
-		$lang 			= & $mainframe->getLanguage();
-		$user			= & $mainframe->getUser();
+		$db 			=& JFactory::getDBO();
+		$lang 			=& $mainframe->getLanguage();
+		$user			=& JFactory::getUser();
 		$enableStats	= $mainframe->getCfg('enable_stats');
 		$enableSearches = $mainframe->getCfg('enable_log_searches');
 		$option 		= JRequest::getVar('option');

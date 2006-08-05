@@ -158,7 +158,7 @@ function mosShowVIMenu(& $params)
 
 	$template = $mainframe->getTemplate();
 	$menu = JMenu :: getInstance();
-	$user = & $mainframe->getUser();
+	$user =& JFactory::getUser();
 
 	// indent icons
 	switch ($params->get('indent_image')) {
@@ -328,7 +328,7 @@ function mosShowHFMenu(& $params, $style = 0)
 	global $mosConfig_shownoauth;
 
 	$menu = JMenu :: getInstance();
-	$user = & $mainframe->getUser();
+	$user =& JFactory::getUser();
 
 	//get menu items
 	$rows = $menu->getItems('menutype', $params->get('menutype'));

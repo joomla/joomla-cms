@@ -132,7 +132,7 @@ function getUserInfo($msg)
 
 function getPost($msg)
 {
-	global $mainframe,  $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
 	$appkey = php_xmlrpc_decode($msg->getParam(0));
 	$postid = php_xmlrpc_decode($msg->getParam(1));
@@ -147,7 +147,7 @@ function getPost($msg)
 	//TODO::implement generic access check
 
 	// load the row from the db table
-	$item =& JTable::getInstance('content', $mainframe->getDBO() );
+	$item =& JTable::getInstance('content', JFactory::getDBO() );
 	$item->load( $postid );
 
 	$content  = '<title>'.$item->title.'</title>';
@@ -167,7 +167,7 @@ function getPost($msg)
 
 function newPost($msg)
 {
-	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
 	$appkey = php_xmlrpc_decode($msg->getParam(0));
 	$blogid = php_xmlrpc_decode($msg->getParam(1));
@@ -183,7 +183,7 @@ function newPost($msg)
 	$user =& JUser::getInstance($username);
 	//TODO::implement generic access check
 
-	$db   =& $mainframe->getDBO();
+	$db   =& JFactory::getDBO();
 
 	// load plugin params info
  	$plugin =& JPluginHelper::getPlugin('xmlrpc','blogger');
@@ -226,7 +226,7 @@ function newPost($msg)
 
 function editPost($msg)
 {
-	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
 	$appkey   = php_xmlrpc_decode($msg->getParam(0));
 	$postid   = php_xmlrpc_decode($msg->getParam(1));
@@ -243,7 +243,7 @@ function editPost($msg)
 	//TODO::implement generic access check
 
 	// load the row from the db table
-	$item =& JTable::getInstance('content', $mainframe->getDBO() );
+	$item =& JTable::getInstance('content', JFactory::getDBO() );
 	if(!$item->load( $postid )) {
 		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 	}
@@ -279,7 +279,7 @@ function editPost($msg)
 
 function deletePost($msg)
 {
-	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
 	$appkey = php_xmlrpc_decode($msg->getParam(0));
 	$postid = php_xmlrpc_decode($msg->getParam(1));
@@ -295,7 +295,7 @@ function deletePost($msg)
 	//TODO::implement generic access check
 
 	// load the row from the db table
-	$item =& JTable::getInstance('content', $mainframe->getDBO() );
+	$item =& JTable::getInstance('content', JFactory::getDBO() );
 	if(!$item->load( $postid )) {
 		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 	}
@@ -328,7 +328,7 @@ function deletePost($msg)
  */
 function getRecentPosts($msg)
 {
-	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
 	$appkey = php_xmlrpc_decode($msg->getParam(0));
 	$blogid = php_xmlrpc_decode($msg->getParam(1));
@@ -347,7 +347,7 @@ function getRecentPosts($msg)
  	$plugin =& JPluginHelper::getPlugin('xmlrpc','blogger');
  	$params = new JParameter( $plugin->params );
 
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 
 	// Lets get a list of the recents articles
 	$where = '';

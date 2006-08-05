@@ -59,8 +59,8 @@ class NewsfeedsController
 	{
 		global $mainframe, $Itemid;
 
-		$db		 		= & $mainframe->getDBO();
-		$user 			= & $mainframe->getUser();
+		$db		 		= & JFactory::getDBO();
+		$user 			= & JFactory::getUser();
 		$breadcrumbs 	= & $mainframe->getPathWay();
 
 		$option 		= JRequest::getVar('option');
@@ -233,8 +233,8 @@ class NewsfeedsController
 		}
 
 		// Get some objects from the JApplication
-		$db		 	= & $mainframe->getDBO();
-		$user 		= & $mainframe->getUser();
+		$db		 	= & JFactory::getDBO();
+		$user 		= & JFactory::getUser();
 
 		$Itemid = JRequest::getVar('Itemid');
 

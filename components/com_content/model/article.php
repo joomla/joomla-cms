@@ -117,7 +117,7 @@ class JContentModelArticle extends JModel
 		if ($this->_loadArticle())
 		{
 			$app	= &$this->getApplication();
-			$user	= & $app->getUser();
+			$user	= & JFactory::getUser();
 
 			// Is the category published?
 			if (!$this->_article->cat_pub && $this->_article->catid) {
@@ -235,7 +235,7 @@ class JContentModelArticle extends JModel
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
 				$app	= &$this->getApplication();
-				$user	= &$app->getUser();
+				$user	=& JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
@@ -362,7 +362,7 @@ class JContentModelArticle extends JModel
 	function _loadArticleParams()
 	{
 		$app	= &$this->getApplication();
-		$user	= &$app->getUser();
+		$user	=& JFactory::getUser();
 		$pop	= JRequest::getVar('pop', 0, '', 'int');
 
 		// Create a new parameters object for the article
@@ -444,7 +444,7 @@ class JContentModelArticle extends JModel
 	function _buildContentWhere()
 	{
 		$app		= &$this->getApplication();
-		$user		= &$app->getUser();
+		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $app->get('requestTime');
 		$nullDate	= $this->_db->getNullDate();

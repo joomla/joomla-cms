@@ -61,7 +61,7 @@ class JContentViewArticle extends JView
 	{
 		// Initialize variables
 		$app	= & $this->getApplication();
-		$user	= & $app->getUser();
+		$user	= & JFactory::getUser();
 
 		$linkOn   = null;
 		$linkText = null;
@@ -129,7 +129,7 @@ class JContentViewArticle extends JView
 		// Initialize variables
 		$app	= & $this->getApplication();
 		$doc	= & $app->getDocument();
-		$user	= & $app->getUser();
+		$user	= & JFactory::getUser();
 
 		// At some point in the future this will come from a request object
 		$page		= JRequest::getVar('limitstart', 0, '', 'int');
@@ -482,7 +482,7 @@ class JContentViewArticle extends JView
 
 		// Initialize some variables
 		$app		= & $this->getApplication();
-//		$user		= & $app->getUser();
+//		$user		= & JFactory::getUser();
 		$article	= & $this->get( 'Article' );
 		$params 	= & $article->parameters;
 

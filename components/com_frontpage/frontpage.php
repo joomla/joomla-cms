@@ -40,16 +40,12 @@ class JFrontpageController
 	{
 		global $mainframe, $Itemid;
 
-		/*
-		 * Initialize some variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		// Initialize some variables
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$gid		= $user->get('gid');
 
-		/*
-		 * Create a user access object for the user
-		 */
+		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');

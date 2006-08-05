@@ -165,10 +165,8 @@ class HTML_menusections {
 
 	function showMenusections( &$rows, &$page, $menutype, $option, &$lists )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');

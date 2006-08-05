@@ -18,9 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
-if (!$user->authorize( 'com_frontpage', 'manage' ))
-{
+$user = & JFactory::getUser();
+if (!$user->authorize( 'com_frontpage', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -84,10 +83,11 @@ switch ($task) {
 /**
 * Compiles a list of frontpage items
 */
-function viewFrontPage( $option ) {
+function viewFrontPage( $option ) 
+{
 	global $mainframe;
 
-	$db 				=& $mainframe->getDBO();
+	$db 				=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'fpordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -212,11 +212,11 @@ function viewFrontPage( $option ) {
 * @param array An array of unique category id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function changeFrontPage( $cid=null, $state=0, $option ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
-	$user 	=& $mainframe->getUser();
+function changeFrontPage( $cid=null, $state=0, $option ) 
+{
+	$db 	=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
+	
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -247,10 +247,9 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 	josRedirect( "index2.php?option=$option" );
 }
 
-function removeFrontPage( &$cid, $option ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function removeFrontPage( &$cid, $option ) 
+{
+	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -281,10 +280,10 @@ function removeFrontPage( &$cid, $option ) {
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderFrontPage( $uid, $inc, $option ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function orderFrontPage( $uid, $inc, $option ) 
+{
+	$db =& JFactory::getDBO();
+	
 	$fp = new JTableFrontPage( $db );
 	$fp->load( $uid );
 	$fp->move( $inc );
@@ -300,10 +299,9 @@ function orderFrontPage( $uid, $inc, $option ) {
 * @param integer The new access level
 * @param string The URL option
 */
-function accessMenu( $uid, $access ) {
-	global $mainframe;
-
-	$db = & $mainframe->getDBO();
+function accessMenu( $uid, $access ) 
+{	
+	$db = & JFactory::getDBO();
 	$row =& JTable::getInstance('content', $db );
 	$row->load( $uid );
 	$row->access = $access;
@@ -321,14 +319,14 @@ function accessMenu( $uid, $access ) {
 	josRedirect( 'index2.php?option=com_frontpage' );
 }
 
-function saveOrder( &$cid ) {
-	global $mainframe;
+function saveOrder( &$cid ) 
+{
+	$db 	=& JFactory::getDBO();
+	$total	= count( $cid );
+	$order 	= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
-	$db =& $mainframe->getDBO();
-	$total		= count( $cid );
-	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-
-	for( $i=0; $i < $total; $i++ ) {
+	for( $i=0; $i < $total; $i++ ) 
+	{
 		$query = "UPDATE #__content_frontpage"
 		. "\n SET ordering = $order[$i]"
 		. "\n WHERE content_id = $cid[$i]";

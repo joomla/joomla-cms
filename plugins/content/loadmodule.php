@@ -21,9 +21,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginLoadModule' );
 */
 function pluginLoadModule( &$row, &$params, $page=0 )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, 'loadposition' ) === false ) {
 		return true;
@@ -60,9 +58,7 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 
 function processPositions ( &$row, &$matches, $count, $regex, $style )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 
 	$query = "SELECT position"
 	. "\n FROM #__template_positions"

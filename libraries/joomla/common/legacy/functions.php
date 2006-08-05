@@ -87,9 +87,7 @@ function mosHash( $seed ) {
 */
 function mosNotAuth()
 {
-	global $mainframe;
-
-	$user =& $mainframe->getUser();
+	$user =& JFactory::getUser();
 	echo JText::_('ALERTNOTAUTH');
 	if ($user->get('id') < 1) {
 		echo "<br />" . JText::_( 'You need to login.' );
@@ -426,8 +424,7 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
  */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
-	global $mainframe;
-	$user =& $mainframe->getUser();
+	$user =& JFactory::getUser();
 	$menus =& JMenu::getInstance();
 	$menus->authorize($Itemid, $user);
 }

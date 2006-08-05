@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize('com_templates', 'manage')) {
 	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
@@ -51,7 +51,7 @@ switch ($task)
 
 	case 'save_source'  :
 	case 'apply_source' :
-		JTemplatesController::saveTemplateSource();
+		JTemplatesController::saveTemplateSource($task);
 		break;
 
 	case 'choose_css' :
@@ -64,7 +64,7 @@ switch ($task)
 
 	case 'save_css'  :
 	case 'apply_css' :
-		JTemplatesController::saveTemplateCSS();
+		JTemplatesController::saveTemplateCSS($task);
 		break;
 
 	case 'publish' :
@@ -103,12 +103,8 @@ class JTemplatesController
 	*/
 	function viewTemplates()
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db		= & $mainframe->getDBO();
+		// Initialize some variables
+		$db		=& JFactory::getDBO();
 		$option = JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -156,12 +152,8 @@ class JTemplatesController
 	*/
 	function publishTemplate($template)
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db		= & $mainframe->getDBO();
+		// Initialize some variables
+		$db		= & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -184,12 +176,8 @@ class JTemplatesController
 	*/
 	function removeTemplate($cid)
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db		= & $mainframe->getDBO();
+		// Initialize some variables
+		$db		= & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -218,12 +206,8 @@ class JTemplatesController
 
 	function editTemplate($template)
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db	    = & $mainframe->getDBO();
+		// Initialize some variables
+		$db	    = & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -263,12 +247,8 @@ class JTemplatesController
 
 	function saveTemplate($task)
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db	   		 = & $mainframe->getDBO();
+		// Initialize some variables
+		$db	   		 = & JFactory::getDBO();
 
 		$template	= JRequest::getVar('template');
 		$option		= JRequest::getVar('option');
@@ -334,11 +314,7 @@ class JTemplatesController
 
 	function cancelTemplate()
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$option	= JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -347,11 +323,7 @@ class JTemplatesController
 
 	function editTemplateSource()
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('template');
@@ -373,13 +345,9 @@ class JTemplatesController
 		}
 	}
 
-	function saveTemplateSource()
+	function saveTemplateSource($task)
 	{
-		global $mainframe, $task;
-
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('template');
@@ -395,13 +363,6 @@ class JTemplatesController
 		}
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'index.php';
-
-		/*
-		 * Remove any slashes added by magic quotes
-		 */
-		if (get_magic_quotes_gpc()) {
-			$filecontent = stripslashes($filecontent);
-		}
 
 		jimport('joomla.filesystem.file');
 		if (JFile::write($file, $filecontent))
@@ -486,13 +447,9 @@ class JTemplatesController
 		}
 	}
 
-	function saveTemplateCSS( )
+	function saveTemplateCSS( $task )
 	{
-		global $mainframe, $task;
-
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('template');
@@ -531,12 +488,8 @@ class JTemplatesController
 	*/
 	function editPositions()
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db		= & $mainframe->getDBO();
+		// Initialize some variables
+		$db		= & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
 
 		$query = "SELECT *" .
@@ -551,12 +504,8 @@ class JTemplatesController
 	*/
 	function savePositions()
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db					= & $mainframe->getDBO();
+		// Initialize some variables
+		$db					= & JFactory::getDBO();
 		$option				= JRequest::getVar('option');
 		$positions			= JRequest::getVar('position', array (), 'post', 'array');
 		$descriptions		= JRequest::getVar('description', array (), 'post', 'array');
@@ -589,9 +538,7 @@ class JTemplatesHelper
 {
 	function isTemplateDefault($template, $clientId)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		// Get the current default template
 		$query = "SELECT template" .
@@ -606,9 +553,7 @@ class JTemplatesHelper
 
 	function isTemplateAssigned($template)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		// check if template is assigned
 		$query = "SELECT COUNT(*)" .
@@ -669,9 +614,7 @@ class JTemplatesHelper
 
 	function createMenuList($template)
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		// get selected pages for $menulist
 		$query = "SELECT menuid AS value" .

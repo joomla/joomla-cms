@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$db =& $mainframe->getDBO();
+$db =& JFactory::getDBO();
 $query = "SELECT COUNT(*)"
 . "\n FROM #__messages"
 . "\n WHERE state = 0"

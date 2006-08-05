@@ -27,10 +27,9 @@ class HTML_modules {
 	*/
 	function showPlugins( &$rows, $client, &$page, $option, &$lists )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+		
+		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'p.folder');

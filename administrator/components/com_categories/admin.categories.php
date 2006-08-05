@@ -107,7 +107,7 @@ function showCategories( $section, $option )
 {
 	global $mainframe;
 
-	$db                 =& $mainframe->getDBO();
+	$db                 =& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 	'filter_state', 	'' );
@@ -276,10 +276,9 @@ function showCategories( $section, $option )
 */
 function editCategory( )
 {
-	global $mainframe;
-
-	$db         =& $mainframe->getDBO();
-	$user 		=& $mainframe->getUser();
+	$db         =& JFactory::getDBO();
+	$user 		=& JFactory::getUser();
+	
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
 	$section 	= JRequest::getVar( 'section', 'content' );
@@ -374,9 +373,7 @@ function editCategory( )
 */
 function saveCategory( $task )
 {
-	global $mainframe;
-
-	$db         =& $mainframe->getDBO();
+	$db         =& JFactory::getDBO();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$redirect 	= JRequest::getVar( 'redirect', '', 'post' );
@@ -461,10 +458,9 @@ function saveCategory( $task )
 * @param string The name of the category section
 * @param array An array of unique category id numbers
 */
-function removeCategories( $section, $cid ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function removeCategories( $section, $cid ) 
+{
+	$db =& JFactory::getDBO();
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a category to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -531,11 +527,10 @@ function removeCategories( $section, $cid ) {
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The name of the current user
 */
-function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
-	$user =& $mainframe->getUser();
+function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
+{
+	$db   =& JFactory::getDBO();
+	$user =& JFactory::getUser();
 
 	if (!is_array( $cid )) {
 		$cid = array();
@@ -578,9 +573,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 */
 function cancelCategory()
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 
 	$redirect = JRequest::getVar( 'redirect', '', 'post' );
 
@@ -595,10 +588,9 @@ function cancelCategory()
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderCategory( $uid, $inc ) {
-	global $mainframe;
-
-	$db  =& $mainframe->getDBO();
+function orderCategory( $uid, $inc ) 
+{
+	$db  =& JFactory::getDBO();
 	$row =& JTable::getInstance('category', $db );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
@@ -609,10 +601,9 @@ function orderCategory( $uid, $inc ) {
 /**
 * Form for moving item(s) to a specific menu
 */
-function moveCategorySelect( $option, $cid, $sectionOld ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function moveCategorySelect( $option, $cid, $sectionOld ) 
+{
+	$db =& JFactory::getDBO();
 	$redirect = JRequest::getVar( 'section', 'content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -657,10 +648,9 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 /**
 * Save the item(s) to the menu selected
 */
-function moveCategorySave( $cid, $sectionOld ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function moveCategorySave( $cid, $sectionOld ) 
+{
+	$db =& JFactory::getDBO();
 	$sectionMove = JRequest::getVar( 'sectionmove' );
 
 	$cids = implode( ',', $cid );
@@ -694,10 +684,9 @@ function moveCategorySave( $cid, $sectionOld ) {
 /**
 * Form for copying item(s) to a specific menu
 */
-function copyCategorySelect( $option, $cid, $sectionOld ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function copyCategorySelect( $option, $cid, $sectionOld ) 
+{
+	$db =& JFactory::getDBO();
 	$redirect = JRequest::getVar( 'section', 'content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -742,17 +731,18 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 /**
 * Save the item(s) to the menu selected
 */
-function copyCategorySave( $cid, $sectionOld ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function copyCategorySave( $cid, $sectionOld ) 
+{
+	$db =& JFactory::getDBO();
+	
 	$sectionMove 	= JRequest::getVar( 'sectionmove' );
 	$contentid 		= JRequest::getVar( 'item' );
 	$total 			= count( $contentid  );
 
 	$category =& JTable::getInstance('category', $db );
 
-	foreach( $cid as $id ) {
+	foreach( $cid as $id ) 
+	{
 		$category->load( $id );
 		$category->id 		= NULL;
 		$category->title 	= sprintf( JText::_( 'Copy of' ), $category->title );
@@ -808,10 +798,10 @@ function copyCategorySave( $cid, $sectionOld ) {
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $section ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function accessMenu( $uid, $access, $section ) 
+{
+	$db =& JFactory::getDBO();
+	
 	$row =& JTable::getInstance('category', $db );
 	$row->load( $uid );
 	$row->access = $access;
@@ -826,10 +816,10 @@ function accessMenu( $uid, $access, $section ) {
 	josRedirect( 'index2.php?option=com_categories&section='. $section );
 }
 
-function menuLink( $id ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function menuLink( $id ) 
+{
+	$db =& JFactory::getDBO();
+	
 	$category =& JTable::getInstance('category', $db );
 	$category->bind( $_POST );
 	$category->checkin();
@@ -840,9 +830,10 @@ function menuLink( $id ) {
 	$sectionid	= JRequest::getVar( 'sectionid', '', 'post', 'int' );
 	$type 		= JRequest::getVar( 'link_type', '', 'post' );
 
-	$name		= stripslashes( ampReplace($name) );
+	$name		= ampReplace($name);
 
-	switch ( $type ) {
+	switch ( $type ) 
+	{
 		case 'content_category':
 			$link 		= 'index.php?option=com_content&task=category&sectionid='. $sectionid .'&id='. $id;
 			$menutype	= JText::_( 'Content Category Table' );
@@ -902,10 +893,10 @@ function menuLink( $id ) {
 	josRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
 }
 
-function saveOrder( &$cid, $section ) {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+function saveOrder( &$cid, $section ) 
+{
+	$db =& JFactory::getDBO();
+	
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row		=& JTable::getInstance('category', $db );
@@ -919,7 +910,7 @@ function saveOrder( &$cid, $section ) {
 			if (!$row->store()) {
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
-			} // if
+			}
 			// remember to updateOrder this group
 			$condition = "section='$row->section'";
 			$found = false;
@@ -927,18 +918,18 @@ function saveOrder( &$cid, $section ) {
 				if ($cond[1]==$condition) {
 					$found = true;
 					break;
-				} // if
+				}
 			if (!$found) $conditions[] = array($row->id, $condition);
-		} // if
-	} // for
+		}
+	}
 
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
 		$row->reorder( $cond[1] );
-	} // foreach
+	}
 
 	$msg 	= JText::_( 'New ordering saved' );
 	josRedirect( 'index2.php?option=com_categories&section='. $section, $msg );
-} // saveOrder
+}
 ?>

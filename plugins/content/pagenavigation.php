@@ -21,12 +21,13 @@ function pluginNavigation( &$row, &$params, $page=0 )
 	global $Itemid, $access, $mainframe;
 
 	$task 		= JRequest::getVar( 'task' );
-	$user		=& $mainframe->getUser();
+	$user		=& JFactory::getUser();
 
-	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) {
+	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) 
+	{
 		$html 		= '';
-		$db 		= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		$db 		= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
 		$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$uid 		= $row->id;

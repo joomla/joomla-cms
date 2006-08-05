@@ -20,9 +20,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginImage' );
 */
 function pluginImage( &$row, &$params, $page=0 )
 {
-	global $mainframe;
-
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
  	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '{image' ) === false ) {
 		return true;
@@ -85,8 +83,6 @@ function pluginImage( &$row, &$params, $page=0 )
 
 function processImages ( &$row, &$params, &$introCount )
 {
-	global $mainframe;
-
 	$images 		= array();
 
 	// split on \n the images fields into an array

@@ -22,8 +22,8 @@ class modMostReadHelper
 	{
 		global $mainframe;
 
-		$db			=& $mainframe->getDBO();
-		$user		=& $mainframe->getUser();
+		$db			=& JFactory::getDBO();
+		$user		=& JFactory::getUser();
 
 		$type		= intval($params->get('type', 1));
 		$count		= intval($params->get('count', 5));

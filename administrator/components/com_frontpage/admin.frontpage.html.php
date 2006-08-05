@@ -26,11 +26,10 @@ class HTML_content {
 	*/
 	function showList( &$rows, $page, $option, $lists )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user 		=& $mainframe->getUser();
-		$db 		= & $mainframe->getDBO();
+		
+		$user 		=& JFactory::getUser();
+		$db 		=& JFactory::getDBO();
 		$nullDate 	= $db->getNullDate();
 
 		//Ordering allowed ?

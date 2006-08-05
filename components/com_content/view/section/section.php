@@ -61,8 +61,8 @@ class JContentViewSection extends JView
 	function displayHtml()
 	{
 		// Initialize some variables
-		$app	= &$this->getApplication();
-		$user	= &$app->getUser();
+		$app	=& $this->getApplication();
+		$user	=& JFactory::getUser();
 		$doc	= &$app->getDocument();
 
 		$gid 	= $user->get('gid');

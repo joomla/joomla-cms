@@ -14,11 +14,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Get the user object for the logged in user
- */
-$user	= & $mainframe->getUser();
-$db		=& $mainframe->getDBO();
+// Get the user object for the logged in user
+$user	=& JFactory::getUser();
+$db		=& JFactory::getDBO();
 
 $query = "SELECT a.id, a.sectionid, a.title, a.created, u.name, a.created_by_alias, a.created_by"
 . "\n FROM #__content AS a"

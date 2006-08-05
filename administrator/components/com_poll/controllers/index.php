@@ -40,10 +40,11 @@ class JPollGlobalController extends JController
 		$this->registerTask( 'preview', 'previewPoll');
 	}
 
-	function showPolls() {
+	function showPolls() 
+	{
 		global $mainframe, $option;
 
-		$db					=& $mainframe->getDBO();
+		$db					=& JFactory::getDBO();
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.id' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -111,11 +112,11 @@ class JPollGlobalController extends JController
 		JPollView::showPolls( $rows, $pageNav, $option, $lists );
 	}
 
-	function editPoll( ) {
-		global $mainframe;
-
-		$db		=& $mainframe->getDBO();
-		$user 	=& $mainframe->getUser();
+	function editPoll( ) 
+	{
+		$db		=& JFactory::getDBO();
+		$user 	=& JFactory::getUser();
+		
 		$cid 	= JRequest::getVar( 'cid', array(0));
 		$option = JRequest::getVar( 'option');
 		if (!is_array( $cid )) {
@@ -166,10 +167,9 @@ class JPollGlobalController extends JController
 		JPollView::editPoll($row, $options, $lists );
 	}
 
-	function savePoll() {
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+	function savePoll() 
+	{
+		$db =& JFactory::getDBO();
 		// save the poll parent information
 		$row = new mosPoll( $db );
 		if (!$row->bind( $_POST )) {
@@ -244,9 +244,8 @@ class JPollGlobalController extends JController
 
 	function removePoll()
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
+		
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$msg = '';
@@ -269,8 +268,9 @@ class JPollGlobalController extends JController
 	{
 		global $mainframe;
 
-		$db =& $mainframe->getDBO();
-		$user 	=& $mainframe->getUser();
+		$db 	=& JFactory::getDBO();
+		$user 	=& JFactory::getUser();
+		
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$publish = ( $this->_task == 'publish' ? 1 : 0 );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
@@ -304,9 +304,9 @@ class JPollGlobalController extends JController
 
 	function cancelPoll()
 	{
-		global $mainframe, $option;
+		global $option;
 
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 		$row = new mosPoll( $db );
 		$row->bind( $_POST );
 		$row->checkin();
@@ -319,7 +319,7 @@ class JPollGlobalController extends JController
 
 		$mainframe->setPageTitle(JText::_('Poll Preview'));
 
-		$db 	=& $mainframe->getDBO();
+		$db 	=& JFactory::getDBO();
 		$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
 		$css = JRequest::getVar( 't', '' );
 

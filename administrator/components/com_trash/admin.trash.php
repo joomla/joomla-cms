@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize( 'com_trash', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
@@ -77,7 +77,7 @@ function viewTrashContent( $option )
 {
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
+	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	'sectname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
@@ -147,7 +147,7 @@ function viewTrashMenu( $option )
 {
 	global $mainframe;
 
-	$db					=& $mainframe->getDBO();
+	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order", 	'filter_order', 	'm.menutype' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );

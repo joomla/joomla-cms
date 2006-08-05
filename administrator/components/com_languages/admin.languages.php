@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize( 'com_languages', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
@@ -51,10 +51,8 @@ function viewLanguages()
 {
 	global $mainframe;
 
-	/*
-	 * Initialize some variables
-	 */
-	$db		= & $mainframe->getDBO();
+	// Initialize some variables
+	$db		= & JFactory::getDBO();
 	$option = JRequest::getVar('option');
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$rows	= array ();

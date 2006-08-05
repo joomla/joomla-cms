@@ -30,11 +30,9 @@ class JViewBlog
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
+		// Initialize variables
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$document	= & $mainframe->getDocument();
 
 		$task		= JRequest::getVar('task');
@@ -283,10 +281,8 @@ class JViewBlog
 	{
 		global $mainframe, $hide_js;
 
-		/*
-		 * Initialize some variables
-		 */
-		$user		= & $mainframe->getUser();
+		// Initialize some variables
+		$user		=& JFactory::getUser();
 		$SiteName	= $mainframe->getCfg('sitename');
 		$gid		= $user->get('gid');
 		$task		= JRequest::getVar( 'task' );
@@ -294,9 +290,7 @@ class JViewBlog
 		$linkOn		= null;
 		$linkText	= null;
 
-		/*
-		 * Get some parameters from global configuration
-		 */
+		// Get some parameters from global configuration
 		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
 		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
 		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
@@ -310,9 +304,7 @@ class JViewBlog
 		$params->def('back_button', $mainframe->getCfg('back_button'));
 		$params->set('intro_only', 1);
 
-		/*
-		 * Get some item specific parameters
-		 */
+		// Get some item specific parameters
 		$params->def('image',					1);
 		$params->def('section',				0);
 		$params->def('section_link',		0);
@@ -323,21 +315,16 @@ class JViewBlog
 		$params->def('item_title',			1);
 		$params->def('url',						1);
 
-		if (!$showImages)
-		{
+		if (!$showImages) {
 			$params->set('image',	0);
 		}
 
-		/*
-		 * Process the content preparation plugins
-		 */
+		// Process the content preparation plugins
 		$row->text	= $row->introtext;
 		JPluginHelper::importPlugin('content');
 		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
 
-		/*
-		 * Build the link and text of the readmore button
-		 */
+		// Build the link and text of the readmore button
 		if (($params->get('readmore') && @ $row->readmore) || $params->get('link_titles'))
 		{
 			if ($params->get('intro_only'))
@@ -360,9 +347,7 @@ class JViewBlog
 			}
 		}
 
-		/*
-		 * Print the edit icon if appropriate
-		 */
+		// Print the edit icon if appropriate
 		if ($access->canEdit)
 		{
 			?>

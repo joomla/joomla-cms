@@ -151,8 +151,8 @@ class JAdministrator extends JApplication
 			$state->request	= $_REQUEST;
 
 			// Store the user state
-			$cache = & JFactory::getCache();
-			$user = $this->getUser();
+			$cache =& JFactory::getCache();
+			$user  =& JFactory::getUser();
 			$cache->save(serialize($state), md5($user->get('id')), 'autoLogoutState');
 
 			$this->logout();
@@ -174,7 +174,7 @@ class JAdministrator extends JApplication
 		}
 
 		$doc  =& parent::getDocument($type);
-		$user =& $this->getUser();
+		$user =& JFactory::getUser();
 
 		//set document description
 		$doc->setDescription( $this->getCfg('MetaDesc') );
@@ -211,10 +211,8 @@ class JAdministrator extends JApplication
 		{
 			$templates = array();
 
-			/*
-			 * Load template entries for each menuid
-			 */
-			$db = $this->getDBO();
+			// Load template entries for each menuid
+			$db = JFactory::getDBO();
 			$query = "SELECT template"
 				. "\n FROM #__templates_menu"
 				. "\n WHERE client_id = 1"
@@ -262,7 +260,7 @@ class JAdministrator extends JApplication
 	*/
 	function purgeMessages()
 	{
-		$db = $this->getDBO();
+		$db = JFactory::getDBO();
 
 		$userid = JSession::get('userid');
 
@@ -300,7 +298,7 @@ class JAdministrator extends JApplication
 	{
 		// Get the stored the user state if it exists
 		$cache	= & JFactory::getCache();
-		$user	= & $this->getUser();
+		$user	= & JFactory::getUser();
 		$state	= $cache->get(md5($user->get('id')), 'autoLogoutState');
 		$cache->remove(md5($user->get('id')), 'autoLogoutState');
 
@@ -327,7 +325,7 @@ class JAdministrator extends JApplication
 		// if a language was specified at login it has priority
 		// otherwise use user or default language settings
 		if (empty($lang)) {
-			$user = & $this->getUser();
+			$user =& JFactory::getUser();
 			$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
 		}
 

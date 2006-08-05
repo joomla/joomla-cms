@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$db =& $mainframe->getDBO();
+$db =& JFactory::getDBO();
 $query = "SELECT menutype, COUNT(id) AS numitems"
 . "\n FROM #__menu"
 . "\n WHERE published = 1"

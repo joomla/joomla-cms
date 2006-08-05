@@ -28,10 +28,9 @@ class sections_html
 	*/
 	function show( &$rows, $scope, $myid, &$page, $option, &$lists )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+		
+		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 's.ordering');

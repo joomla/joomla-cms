@@ -57,8 +57,8 @@ class JContentViewCategory extends JView
 	function displayHtml()
 	{
 		// Initialize some variables
-		$app		= &$this->getApplication();
-		$user		= &$app->getUser();
+		$app		=& $this->getApplication();
+		$user		=& JFactory::getUser();
 		$doc		= &$app->getDocument();
 
 		$gid 		= $user->get('gid');
@@ -122,7 +122,7 @@ class JContentViewCategory extends JView
 	function buildItemTable(& $items, & $pagination, & $params, & $lists, & $access, $cid, $sid, $order)
 	{
 		$app		= & $this->getApplication();
-		$user		= & $app->getUser();
+		$user		= & JFactory::getUser();
 
 		$Itemid	= JRequest::getVar('Itemid');
 

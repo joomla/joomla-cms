@@ -40,7 +40,7 @@ class JoomlaXMLRPCServices
 		global $mainframe;
 
 		// Initialize variables
-		$db		=& $mainframe->getDBO();
+		$db		=& JFactory::getDBO();
 		$url	= $mainframe->getSiteURL();
 
 		// Prepare arguments

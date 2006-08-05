@@ -104,31 +104,20 @@ class JModelFrontpage extends JObject
 	 */
 	function _loadContent()
 	{
-		/*
-		 * Lets load the content if it doesn't already exist
-		 */
+		// Lets load the content if it doesn't already exist
 		if (empty($this->_content))
 		{
-			global $mainframe;
-
-			$user		= & $mainframe->getUser();
+			$user		= & JFactory::getUser();
 			$gid		= $user->get('gid');
 
-			/*
-			 * Get the pagination request variables
-			 */
+			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-			/*
-			 * If voting is turned on, get voting data as well for the content
-			 * items
-			 */
+			// Voting is turned on, get voting data as well for the content items
 			$voting	= JContentHelper::buildVotingQuery();
 
-			/*
-			 * Get the WHERE and ORDER BY clauses for the query
-			 */
+			// Get the WHERE and ORDER BY clauses for the query
 			$where		= $this->_buildContentWhere();
 			$orderby	= $this->_buildContentOrderBy();
 
@@ -177,7 +166,7 @@ class JModelFrontpage extends JObject
 	{
 		global $mainframe;
 
-		$user		= & $mainframe->getUser();
+		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');
 		$noauth		= !$mainframe->getCfg('shownoauth');

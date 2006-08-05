@@ -56,7 +56,7 @@ class JAuthenticateLdap extends JPlugin {
 		$conditions = '';
 
 		// Get a database connector
-		$db = $mainframe->getDBO();
+		$db = JFactory::getDBO();
 
 		// If we are in the admin panel, make sure we have access to it
 		if ($mainframe->isAdmin()) {

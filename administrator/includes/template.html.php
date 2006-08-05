@@ -75,21 +75,17 @@ class modules_html
 	*/
 	function modoutput_sliders( $module, $params  )
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$user	=& $mainframe->getUser();
+		// Initialize variables
+		$user	=& JFactory::getUser();
 		$tabs	=& JPane::getInstance('sliders');
 
 		$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
 		// special handling for components module
 
 		if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-				$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
-				echo $module->content;
-				$tabs->endPanel();
+			$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
+			echo $module->content;
+			$tabs->endPanel();
 		}
 	}
 
@@ -98,12 +94,8 @@ class modules_html
 	*/
 	function modoutput_tabs( $module, $params  )
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$user	=& $mainframe->getUser();
+		// Initialize variables
+		$user	=& JFactory::getUser();
 		$tabs	=& JPane::getInstance('tabs');
 
 		$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );

@@ -224,7 +224,7 @@ class JApplication extends JObject
 		}
 
 		// Get the global database connector object
-		$db = $this->getDBO();
+		$db = JFactory::getDBO();
 
 		// Build the credentials array
 		$credentials['username'] = $username;
@@ -285,7 +285,7 @@ class JApplication extends JObject
 				JSession::set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
 
 				// Get the session object
-				$session = & JTable::getInstance('session', $this->getDBO());
+				$session = & JTable::getInstance('session', JFactory::getDBO());
 				$session->load( JSession::id());
 
 				$session->guest = 0;
@@ -347,7 +347,7 @@ class JApplication extends JObject
 		if (!in_array(false, $results, true))
 		{
 			// Remove the session from the session table
-			$session = & JTable::getInstance('session', $this->getDBO());
+			$session = & JTable::getInstance('session', JFactory::getDBO());
 			$session->load( JSession::id());
 			$session->destroy();
 
@@ -440,8 +440,13 @@ class JApplication extends JObject
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file, $type = 'config') {
+	function setConfiguration($file, $type = 'config') 
+	{
 		$this->_createConfiguration($file, $type);
+		
+		// Set the database debug 
+		$db =& JFactory::getDBO();
+		$db->debug( $this->getCfg('debug_db'));
 	}
 
 	/**
@@ -493,31 +498,6 @@ class JApplication extends JObject
 		$this->_document =& $doc;
 
 		return $this->_document;
-	}
-
-	/**
-	 * Return a reference to a JDatabase instance
-	 *
-	 * @access public
-	 * @return jdatabase A JDatabase object
-	 * @since 1.5
-	 */
-	function &getDBO()
-	{
-		$instance =& JFactory::getDBO();
-		$instance->debug( $this->getCfg('debug_db'));
-		return $instance;
-	}
-
-	/**
-	 * Returns a reference to the JUser object
-	 *
-	 * @return JTableUser A user object with the information from the current session
-	 */
-	function &getUser()
-	{
-		$instance =& JFactory::getUser();
-		return $instance;
 	}
 
 	/**
@@ -600,9 +580,9 @@ class JApplication extends JObject
 
 		// Get the global configuration object
 		$registry =& JFactory::getConfig();
-
+		
 		// Load the configuration values into the registry
-		$registry->loadObject($config);
+		$registry->loadObject($config);	
 	}
 
 	/**
@@ -624,7 +604,7 @@ class JApplication extends JObject
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
 
-		$session = & JTable::getInstance('session', $this->getDBO());
+		$session = & JTable::getInstance('session', JFactory::getDBO());
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( JSession::id())) {

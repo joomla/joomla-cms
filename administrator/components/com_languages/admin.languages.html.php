@@ -23,10 +23,8 @@ class HTML_languages {
 
 	function showLanguages( &$rows, &$page, $option, &$client )
 	{
-		global $mainframe;
-
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		$user =& $mainframe->getUser();
+		$user =& JFactory::getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>

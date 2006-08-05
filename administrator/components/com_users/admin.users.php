@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & $mainframe->getUser();
+$user = & JFactory::getUser();
 if (!$user->authorize( 'com_users', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
@@ -77,11 +77,9 @@ switch ($task) {
  */
 function showUsers( )
 {
-	global $mainframe;
-
-	$db = $mainframe->getDBO();
-	$currentUser = $mainframe->getUser();
-	$acl =& JFactory::getACL();
+	$db          =& JFactory::getDBO();
+	$currentUser =& JFactory::getUser();
+	$acl         =& JFactory::getACL();
 
 	$option 	= JRequest::getVar( 'option');
 
@@ -198,15 +196,13 @@ function showUsers( )
  */
 function editUser( )
 {
-	global $mainframe;
-
 	$cid 		= JRequest::getVar( 'cid', array(0) );
 	$option 	= JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
 
-	$db 		=& $mainframe->getDBO();
+	$db 		=& JFactory::getDBO();
 	$user 	  	=& JUser::getInstance(intval($cid[0]));
 	$acl      	=& JFactory::getACL();
 
@@ -285,11 +281,9 @@ function saveUser(  )
 	$task 	= JRequest::getVar( 'task' );
 	$option = JRequest::getVar( 'option');
 
-	/*
-	 * Initialize some variables
-	 */
-	$db			= & $mainframe->getDBO();
-	$me			= & $mainframe->getUser();
+	// Initialize some variables
+	$db			= & JFactory::getDBO();
+	$me			= & JFactory::getUser();
 	$MailFrom	= $mainframe->getCfg('mailfrom');
 	$FromName	= $mainframe->getCfg('fromname');
 	$SiteName	= $mainframe->getCfg('sitename');
@@ -382,10 +376,8 @@ function cancelUser( )
 */
 function removeUsers(  )
 {
-	global $mainframe;
-
-	$db 			= $mainframe->getDBO();
-	$currentUser 	= $mainframe->getUser();
+	$db 			=& JFactory::getDBO();
+	$currentUser 	=& JFactory::getUser();
 
 	$acl      		=& JFactory::getACL();
 
@@ -395,8 +387,10 @@ function removeUsers(  )
 		exit;
 	}
 
-	if (count( $cid )) {
-		foreach ($cid as $id) {
+	if (count( $cid )) 
+	{
+		foreach ($cid as $id) 
+		{
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
 			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
@@ -463,10 +457,9 @@ function blockUser( ) {
 * Blocks or Unblocks one or more user records
 * @param integer 0 if unblock, 1 if blocking
 */
-function changeUserBlock( $block=1 ) {
-	global $mainframe;
-
-	$db = $mainframe->getDBO();
+function changeUserBlock( $block=1 ) 
+{
+	$db = JFactory::getDBO();
 
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
@@ -510,9 +503,11 @@ function changeUserBlock( $block=1 ) {
 /**
  * logout selected users
 */
-function logoutUser( ) {
-	global $mainframe, $currentUser;
-	$db		=& $mainframe->getDBO();
+function logoutUser( ) 
+{
+	global $currentUser;
+	
+	$db		=& JFactory::getDBO();
 	$task 	= JRequest::getVar( 'task' );
 	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );

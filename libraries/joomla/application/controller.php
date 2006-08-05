@@ -409,7 +409,7 @@ class JController extends JObject
 	 */
 	function &getDBO()
 	{
-		return $this->_app->getDBO();
+		return JFactory::getDBO();
 	}
 
 	/**

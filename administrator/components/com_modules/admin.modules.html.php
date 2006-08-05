@@ -27,11 +27,9 @@ class HTML_modules {
 	*/
 	function showModules( &$rows, &$client, &$page, $option, &$lists )
 	{
-		global $mainframe;
+		$user =& JFactory::getUser();
 
-		$user =& $mainframe->getUser();
-
-			//Ordering allowed ?
+		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'm.position'));
 
 		mosCommonHTML::loadOverlib();

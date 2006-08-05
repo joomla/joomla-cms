@@ -56,7 +56,7 @@ class HTML_admin_misc
 		global $_VERSION;
 		global $mainframe;
 
-		$db =& $mainframe->getDBO();
+		$db =& JFActory::getDBO();
 
 		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
@@ -131,9 +131,7 @@ class HTML_admin_misc
 
 	function ListComponents()
 	{
-		global $mainframe;
-
-		$db =& $mainframe->getDBO();
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT params"
 		. "\n FROM #__modules "

@@ -32,14 +32,14 @@ $mainframe->registerEvent( 'onPrepareContent', 'convertPagebreak' );
 */
 function convertPagebreak( &$row, &$params, $page=0 )
 {
-	global $mainframe, $Itemid;
+	global $Itemid;
 
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '<hr class="system-pagebreak' ) === false ) {
 		return true;
 	}
 
-	$db		=& $mainframe->getDBO();
+	$db		=& JFactory::getDBO();
 	$full 	= JRequest::getVar('fullview', 0, '', 'int');
 
 	if(!$page) {

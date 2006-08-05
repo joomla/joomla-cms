@@ -23,9 +23,7 @@ class HTML_weblinks
 {
 	function showWeblinks( $option, &$rows, &$lists, &$pageNav )
 	{
-		global $mainframe;
-
-		$user 	=& $mainframe->getUser();
+		$user 	=& JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');

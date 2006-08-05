@@ -70,11 +70,7 @@ function lostPassForm()
  */
 function sendNewPass()
 {
-	global $mainframe;
-
-	/*
-	 * Protect against simple spoofing attacks
-	 */
+	// Protect against simple spoofing attacks
 	if (!JUtility::spoofCheck()) {
 		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
@@ -82,7 +78,7 @@ function sendNewPass()
 
 	$siteURL 	= $mainframe->getBaseURL();
 	$sitename 	= $mainframe->getCfg('sitename');
-	$db 		=& $mainframe->getDBO();
+	$db 		=& JFactory::getDBO();
 
 	// ensure no malicous sql gets past
 	$checkusername	= JRequest::getVar( 'checkusername', '', 'post' );
@@ -142,7 +138,7 @@ function resendUser() {
 
 	$siteURL 	= $mainframe->getBaseURL();
 	$sitename 	= $mainframe->getCfg('sitename');
-	$db 		=& $mainframe->getDBO();
+	$db 		=& JFactory::getDBO();
 
 	// ensure no malicous sql gets past
 	$confirmEmail	= JRequest::getVar( 'confirmEmail', '', 'post' );
@@ -176,8 +172,7 @@ function resendUser() {
  */
 function registerForm()
 {
-	global $mainframe;
-	$user = $mainframe->getUser();
+	$user = JFactory::getUser();
 
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
 		JError::raiseError( 403, JText::_( 'Access Forbidden' ));
@@ -202,16 +197,14 @@ function saveRegistration()
 {
 	global $mainframe;
 
-	/*
-	 * Protect against simple spoofing attacks
-	 */
+	// Protect against simple spoofing attacks
 	if (!JUtility::spoofCheck()) {
 		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 		return;
 	}
 
-	$db 	= $mainframe->getDBO();
-	$user 	= $mainframe->getUser();
+	$db 	=& JFactory::getDBO();
+	$user 	=& JFactory::getUser();
 	$acl 	= &JFactory::getACL();
 
 	$allowUserRegistration 	= $mainframe->getCfg( 'allowUserRegistration' );
@@ -348,21 +341,16 @@ function saveRegistration()
 
 function activate()
 {
-	global $mainframe;
-
-	$user =& $mainframe->getUser();
-	/*
-	 * Check to see if they're logged in, because they don't need activating!
-	 */
+	$user =& JFactory::getUser();
+	
+	// Check to see if they're logged in, because they don't need activating!
 	if($user->get('id')) {
 		// They're already logged in, so redirect them to the home page
 		josRedirect( 'index.php' );
 	}
 
-	/*
-	 * Initialize some variables
-	 */
-	$db						=& $mainframe->getDBO();
+	// Initialize some variables
+	$db						=& JFactory::getDBO();
 	$userActivation			= $mainframe->getCfg('useractivation');
 	$allowUserRegistration	= $mainframe->getCfg('allowUserRegistration');
 	$breadcrumbs 			=& $mainframe->getPathWay();
@@ -372,9 +360,7 @@ function activate()
 		return;
 	}
 
-	/*
-	 * Do we even have an activation string?
-	 */
+	// Do we even have an activation string?
 	$activation = JRequest::getVar( 'activation', '' );
 	$activation = $db->getEscaped( $activation );
 
@@ -389,9 +375,7 @@ function activate()
 		return;
 	}
 
-	/*
-	 * Lets activate this user.
-	 */
+	// Lets activate this user.
 	if (JUserHelper::activateUser($activation))
 	{
 		// Page Title

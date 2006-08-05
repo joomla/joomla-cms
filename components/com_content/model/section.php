@@ -96,28 +96,20 @@ class JContentModelSection extends JModel
 	 */
 	function getSection()
 	{
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$app	= &$this->getApplication();
-		$user	= &$app->getUser();
+		$user	=& JFactory::getUser();
 
-		/*
-		 * Load the Category data
-		 */
+		// Load the Category data
 		if ($this->_loadSection())
 		{
-			/*
-			 * Make sure the category is published
-			 */
+			// Make sure the category is published
 			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
 
-			/*
-			 * check whether category access level allows access
-			 */
+			// check whether category access level allows access
 			if ($this->_section->access > $user->get('gid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -133,27 +125,20 @@ class JContentModelSection extends JModel
 	 */
 	function getCategories()
 	{
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$app	= &$this->getApplication();
-		$user	= &$app->getUser();
+		$user	=& JFactory::getUser();
 
-		/*
-		 * Load the Category data
-		 */
-		if ($this->_loadSection() && $this->_loadCategories()) {
-			/*
-			 * Make sure the category is published
-			 */
+		// Load the Category data
+		if ($this->_loadSection() && $this->_loadCategories()) 
+		{
+			// Make sure the category is published
 			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
 
-			/*
-			 * check whether category access level allows access
-			 */
+			// check whether category access level allows access
 			if ($this->_section->access > $user->get('gid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -171,27 +156,20 @@ class JContentModelSection extends JModel
 	 */
 	function getContent($state = 1)
 	{
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$app	= &$this->getApplication();
-		$user	= &$app->getUser();
+		$user	=& JFactory::getUser();
 
-		/*
-		 * Load the Category data
-		 */
-		if ($this->_loadSection() && $this->_loadContent($state)) {
-			/*
-			 * Make sure the category is published
-			 */
+		// Load the Category data
+		if ($this->_loadSection() && $this->_loadContent($state)) 
+		{
+			// Make sure the category is published
 			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
 
-			/*
-			 * check whether category access level allows access
-			 */
+			// check whether category access level allows access
 			if ($this->_section->access > $user->get('gid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -232,9 +210,7 @@ class JContentModelSection extends JModel
 	{
 		if (empty($this->_section))
 		{
-			/*
-			* Lets get the information for the current section
-			*/
+			// Lets get the information for the current section
 			if ($this->_id) {
 				$where = "\n WHERE id = '$this->_id'";
 			} else {
@@ -258,13 +234,11 @@ class JContentModelSection extends JModel
 	 */
 	function _loadCategories()
 	{
-		/*
-		 * Lets load the siblings if they don't already exist
-		 */
+		// Lets load the siblings if they don't already exist
 		if (empty($this->_categories))
 		{
 			$app		= &$this->getApplication();
-			$user		= &$app->getUser();
+			$user		=& JFactory::getUser();
 			$noauth		= !$app->getCfg('shownoauth');
 			$gid		= $user->get('gid');
 			$now		= $app->get('requestTime');
@@ -335,25 +309,17 @@ class JContentModelSection extends JModel
 			return false; // TODO: set error -- can't get siblings when we don't know the category
 		}
 
-		/*
-		 * Lets load the content if it doesn't already exist
-		 */
-		if (empty($this->_content[$state])) {
-			/*
-			 * Get the pagination request variables
-			 */
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_content[$state])) 
+		{
+			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-			/*
-			 * If voting is turned on, get voting data as well for the content
-			 * items
-			 */
+			// If voting is turned on, get voting data as well for the content items
 			$voting	= JContentHelper::buildVotingQuery();
 
-			/*
-			 * Get the WHERE and ORDER BY clauses for the query
-			 */
+			// Get the WHERE and ORDER BY clauses for the query
 			$where		= $this->_buildContentWhere($state);
 			$orderby	= $this->_buildContentOrderBy($state);
 
@@ -383,12 +349,11 @@ class JContentModelSection extends JModel
 	 */
 	function _loadTree()
 	{
-		/*
-		 * Lets load the content if it doesn't already exist
-		 */
-		if (empty($this->_tree)) {
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_tree)) 
+		{
 			$app		= &$this->getApplication();
-			$user		= &$app->getUser();
+			$user		=& JFactory::getUser();
 			$gid		= $user->get('gid');
 			$now		=$app->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
@@ -435,9 +400,7 @@ class JContentModelSection extends JModel
 		switch ($state)
 		{
 			case -1:
-				/*
-				 * Special ordering for archive articles
-				 */
+				// Special ordering for archive articles
 				$orderby_sec	= $params->def('orderby', 'rdate');
 				$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
 				break;
@@ -457,7 +420,7 @@ class JContentModelSection extends JModel
 	function _buildContentWhere($state = 1)
 	{
 		$app		= &$this->getApplication();
-		$user		= &$app->getUser();
+		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $app->get('requestTime');
 		$noauth		= !$app->getCfg('shownoauth');
@@ -465,10 +428,7 @@ class JContentModelSection extends JModel
 
 		$Itemid    	= JRequest::getVar('Itemid');
 
-		/*
-		 * First thing we need to do is assert that the articles are in
-		 * the current category
-		 */
+		// First thing we need to do is assert that the articles are in the current category
 		$where = "\n WHERE a.access <= $gid";
 		if ($this->_id) {
 			$where .= "\n AND a.sectionid = $this->_id";
@@ -479,9 +439,7 @@ class JContentModelSection extends JModel
 		$where .= "\n AND s.published = 1";
 		$where .= "\n AND cc.published = 1";
 
-		/*
-		 * Regular Published Content
-		 */
+		// Regular Published Content
 		switch ($state)
 		{
 			case 1:
@@ -494,13 +452,9 @@ class JContentModelSection extends JModel
 				}
 				break;
 
-			/*
-			 * Archive Content
-			 */
+			// Archive Content
 			case -1:
-				/*
-				 * Get some request vars specific to this state
-				 */
+				// Get some request vars specific to this state
 				$year	= JRequest::getVar( 'year', date('Y') );
 				$month	= JRequest::getVar( 'month', date('m') );
 

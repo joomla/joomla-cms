@@ -43,11 +43,10 @@ class JSearchContent extends JPlugin {
 	/**
 	 * @param JSearch The search object
 	 */
-	function onSearch( &$oSearch ) {
-		global $mainframe;
-
-		$db 		=& $mainframe->getDBO();
-		$user		=& $mainframe->getUser();
+	function onSearch( &$oSearch ) 
+	{
+		$db 		=& JFactory::getDBO();
+		$user		=& JFactory::getUser();
 
 		if (!JSearchHelper::inArea( $oSearch->getAreas(), JSearchContent::onSearchAreas() )) {
 			// this bot is not in the search areas to be searched

@@ -15,10 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Get user object for current logged in user
- */
-$user	= & $mainframe->getUser();
+// Get user object for current logged in user
+$user	= & JFactory::getUser();
 
 // Editor usertype check
 $access = new stdClass();
@@ -78,18 +76,14 @@ class UserController
 {
 	function upload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage )
 	{
-		global $mainframe;
-
-		/*
-		 * Protect against simple spoofing attacks
-		 */
+		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
 			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 			return;
 		}
 
 		// Initialize some variables
-		$db = & $mainframe->getDBO();
+		$db = & JFactory::getDBO();
 
 		if ($uid == 0) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
@@ -152,9 +146,9 @@ class UserController
 	{
 		global $mainframe, $Itemid;
 
-		$db 		=& $mainframe->getDBO();
-		$breadcrumbs 	=& $mainframe->getPathWay();
-		$user			=& $mainframe->getUser();
+		$db 		 =& JFactory::getDBO();
+		$breadcrumbs =& $mainframe->getPathWay();
+		$user		 =& JFactory::getUser();
 
 		// security check to see if link exists in a menu
 		$link = 'index.php?option=com_user&task=CheckIn';
@@ -186,15 +180,13 @@ class UserController
 	{
 		global $mainframe;
 
-		/*
-		 * Protect against simple spoofing attacks
-		 */
+		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
 			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 			return;
 		}
 
-		$db 	=& $mainframe->getDBO();
+		$db 	=& JFactory::getDBO();
 		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
 
 		// do some security checks
@@ -248,9 +240,7 @@ class UserController
 
 	function checkin( $userid, $access, $option )
 	{
-		global $mainframe;
-
-		$db 	=& $mainframe->getDBO();
+		$db 	=& JFactory::getDBO();
 
 		$nullDate = $db->getNullDate();
 		if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {

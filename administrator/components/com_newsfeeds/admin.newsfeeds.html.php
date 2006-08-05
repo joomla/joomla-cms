@@ -23,9 +23,7 @@ class HTML_newsfeeds
 {
 	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option )
 	{
-		global $mainframe;
-
-		$user = $mainframe->getUser();
+		$user = JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');

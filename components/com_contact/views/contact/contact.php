@@ -32,8 +32,8 @@ class JContactViewContact extends JView
 	 */
 	function display()
 	{
-		$app		= &$this->getApplication();
-		$user 		= & $app->getUser();
+		$app		=& $this->getApplication();
+		$user 		=& JFactory::getUser();
 
 		$Itemid    		= JRequest::getVar('Itemid');
 
