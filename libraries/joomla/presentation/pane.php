@@ -180,7 +180,7 @@ class JPaneTabs extends JPane
 		global $mainframe;
 
 		$document =& $mainframe->getDocument();
-		$lang     =& $mainframe->getLanguage();
+		$lang     =& JFactory::getLanguage();
 
 		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
@@ -268,7 +268,7 @@ class JPaneSliders extends JPane
 		global $mainframe;
 
 		$document =& $mainframe->getDocument();
-		$lang     =& $mainframe->getLanguage();
+		$lang     =& JFactory::getLanguage();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 

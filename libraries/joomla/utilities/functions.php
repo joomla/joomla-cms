@@ -297,7 +297,7 @@ function mosFormatDate( $date, $format="", $offset="" )
 {
 	global $mainframe;
 
-	$lang = $mainframe->getLanguage();
+	$lang = JFactory::getLanguage();
 	if ( $format == '' ) {
 		// %Y-%m-%d %H:%M:%S
 		$format = JText::_( 'DATE_FORMAT_LC' );
@@ -350,7 +350,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 {
 	global $mainframe;
 	
-	$lang = $mainframe->getLanguage();
+	$lang = JFactory::getLanguage();
 
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));

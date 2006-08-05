@@ -447,6 +447,10 @@ class JApplication extends JObject
 		// Set the database debug 
 		$db =& JFactory::getDBO();
 		$db->debug( $this->getCfg('debug_db'));
+		
+		// Set the language debug
+		$lang =& JFactory::getLanguage();
+		$lang->setDebug( $this->getCfg('debug'));
 	}
 
 	/**
@@ -483,7 +487,7 @@ class JApplication extends JObject
 
 		jimport('joomla.document.document');
 
-		$lang  =& $this->getLanguage();
+		$lang  =& JFactory::getLanguage();
 
 		$attributes = array (
             'charset'  => 'utf-8',
@@ -498,19 +502,6 @@ class JApplication extends JObject
 		$this->_document =& $doc;
 
 		return $this->_document;
-	}
-
-	/**
-	* Return a reference to the JLanguage object
-	*
-	* @return jlanguage 	A JLanguage object
-	* @since 1.5
-	*/
-	function &getLanguage( )
-	{
-		$instance =& JFactory::getLanguage();
-		$instance->setDebug( $this->getCfg('debug'));
-		return $instance;
 	}
 
 	/**

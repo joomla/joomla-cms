@@ -20,17 +20,13 @@ global $task, $hidemainmenu;
 $sid	= JSession::id();
 $user	=& JFactory::getUser();
 $db		=& JFactory::getDBO();
-$lang   =& $mainframe->getLanguage();
+$lang   =& JFactory::getLanguage();
 $output = array();
 
-/*
- * Print the preview button
- */
+// Print the preview button
 $output[] = "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
-/*
- * Get the number of unread messages in your inbox
- */
+// Get the number of unread messages in your inbox
 $query = "SELECT COUNT(*)"
 . "\n FROM #__messages"
 . "\n WHERE state = 0"
@@ -38,18 +34,14 @@ $query = "SELECT COUNT(*)"
 $db->setQuery( $query );
 $unread = $db->loadResult();
 
-/*
- * Print the inbox message
- */
+// Print the inbox message
 if ($unread) {
 	$output[] = "<span class=\"unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
 } else {
 	$output[] = "<span class=\"no-unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
 }
 
-/*
- * Get the number of logged in users
- */
+// Get the number of logged in users
 $query = "SELECT COUNT( session_id )"
 . "\n FROM #__session"
 . "\n WHERE guest <> '1'"
@@ -57,34 +49,24 @@ $query = "SELECT COUNT( session_id )"
 $db->setQuery($query);
 $online_num = intval( $db->loadResult() );
 
-/*
- * Print the logged in users message
- */
+//Print the logged in users message
 $output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
 
 if ($task == 'edit' || $task == 'editA' || $hidemainmenu ) {
-	/*
-	 * Print the logout message
-	 */
+	 // Print the logout message
 	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
 } else {
-	/*
-	* Print the logout message
-	*/
+	// Print the logout message
 	$output[] = "<span class=\"logout\"><a href=\"index2.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
 }
 
- /*
-  * reverse rendering order for rtl display
-  */
- if ( $lang->isRTL() ) {
- 	$output = array_reverse( $output );
- }
+// reverse rendering order for rtl display
+if ( $lang->isRTL() ) {
+	$output = array_reverse( $output );
+}
 
- /*
-  * output the module
-  */
- foreach ($output as $item){
- 	echo $item;
- }
+// output the module
+foreach ($output as $item){
+	echo $item;
+}
  ?>

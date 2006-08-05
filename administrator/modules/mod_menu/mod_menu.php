@@ -14,10 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/*
- * Lets get some variables we will need to render the menu
- */
-$lang 	=& $mainframe->getLanguage();
+// Lets get some variables we will need to render the menu
+$lang 	=& JFactory::getLanguage();
 $doc 	=& $mainframe->getDocument();
 $user 	=& JFactory::getUser();
 $hide 	= JRequest::getVar( 'hidemainmenu', 0 );
@@ -78,7 +76,7 @@ class JAdminMenu {
 		global $mainframe;
 
 		$css			= null;
-		$lang 			=& $mainframe->getLanguage();
+		$lang 			=& JFactory::getLanguage();
 		$user 			=& JFactory::getUser();
 		$db		 		=& JFactory::getDBO();
 		$enableStats 	= $mainframe->getCfg('enable_stats');
@@ -315,7 +313,7 @@ class JAdminMenu {
 	{
 		global $mainframe;
 
-		$lang 	= & $mainframe->getLanguage();
+		$lang 	=& JFactory::getLanguage();
 		$user 	=& JFactory::getUser();
 
 		$canConfig 			= $user->authorize('com_config', 		'manage');

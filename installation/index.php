@@ -32,7 +32,7 @@ $configLang = $mainframe->getUserState('application.lang');
 $mainframe->setLanguage($configLang);
 
 // load the language
-$lang =& $mainframe->getLanguage();
+$lang =& JFactory::getLanguage();
 $lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
 
 $task = JRequest::getVar( 'task' );

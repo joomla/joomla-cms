@@ -264,7 +264,8 @@ function editPlugin( )
 		$lists['access'] = mosAdminMenus::Access( $row );
 	}
 
-	if ($cid[0]) {
+	if ($cid[0]) 
+	{
 		$row->checkout( $user->get('id') );
 
 		if ( $row->ordering > -10000 && $row->ordering < 10000 ) {
@@ -284,7 +285,7 @@ function editPlugin( )
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
 
-		$lang =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 		$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
 
 		$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');

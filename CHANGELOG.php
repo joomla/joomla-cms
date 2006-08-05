@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Aug-2006 Johan Janssens
+ - Removed JApplication::getLanguage, use JFactory::getLanguage instead
+
 04-Aug-2006 Johan Janssens
  - Removed JApplication::getUser, use JFactory::getUser instead
  - Removed JApplication::getDBO, use JFactory::getDBO instead

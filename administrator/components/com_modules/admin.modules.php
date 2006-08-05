@@ -490,7 +490,7 @@ function editModule( )
 
 	$row->description = '';
 
-    $lang =& $mainframe->getLanguage();
+    $lang =& JFactory::getLanguage();
 	if ( $client->id != '1' ) {
         $lang->load( trim($row->module), JPATH_SITE );
 	} else {
@@ -498,19 +498,15 @@ function editModule( )
 	}
 
 	// xml file for module
-	if ($row->module == 'custom')
-	{
+	if ($row->module == 'custom') {
 		$xmlfile = JApplicationHelper::getPath( $path, 'mod_custom' );
-	}
-	else
-	{
+	} else {
 		$xmlfile = JApplicationHelper::getPath( $path, $row->module );
 	}
 
 	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
 	if ($data)
 	{
-
 		foreach($data as $key => $value) {
 			$row->$key = $value;
 		}

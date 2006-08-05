@@ -15,9 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-global $mainframe;
-
-$lang =& $mainframe->getLanguage();
+$lang =& JFactory::getLanguage();
 $lang->load('com_content');
 
 // require the frontpage html view

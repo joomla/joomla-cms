@@ -542,9 +542,8 @@ class JMediaViews
 	{
 		global $mainframe;
 		
-		$lang = $mainframe->getLanguage();
-
-		$doc =& $mainframe->getDocument();
+		$lang =& JFactory::getLanguage();
+		$doc  =& $mainframe->getDocument();
 		$doc->addScript('../includes/js/dtree/dtree.js');
 		$cssfile = $lang->isRTL() ? 'dtree_rtl.css': 'dtree.css';
 		$doc->addStyleSheet('../includes/js/dtree/'.$cssfile);

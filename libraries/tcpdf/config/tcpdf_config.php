@@ -18,9 +18,8 @@
 //============================================================+
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-global $mainframe;
 
-$lang =& $mainframe->getLanguage();
+$lang =& JFactory::getLanguage();
 
 /**
  * Congiguration file for TCPDF.

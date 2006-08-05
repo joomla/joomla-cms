@@ -40,7 +40,7 @@ function & buildMenu($usertype = '')
 {
 	global $mainframe;
 
-	$lang			= & $mainframe->getLanguage();
+	$lang			= & JFactory::getLanguage();
 	$user			= & JFactory::getUser();
 	$db				= & JFactory::getDBO();
 	$enableStats	= $mainframe->getCfg('enable_stats');
@@ -275,10 +275,8 @@ function & buildMenu($usertype = '')
 */
 function & buildDisabledMenu($usertype = '')
 {
-	global $mainframe;
-
-	$lang	= & $mainframe->getLanguage();
-	$user	= & JFactory::getUser();
+	$lang	=& JFactory::getLanguage();
+	$user	=& JFactory::getUser();
 
 	$canConfig			= $user->authorize('com_config', 'manage');
 	$installModules		= $user->authorize('com_installer', 'module');
@@ -292,52 +290,34 @@ function & buildDisabledMenu($usertype = '')
 
 	$text = JText::_('Menu inactive for this Page', true);
 
-	/*
-	 * Get the menu object
-	 */
+	// Get the menu object
 	$menu = new JAdminCSSMenu();
 
-	/*
-	 * Site SubMenu
-	 */
+	// Site SubMenu
 	$menu->addChild(new JMenuNode(JText::_('Site'), null, 'disabled'));
 
-	/*
-	 * Menus SubMenu
-	 */
+	// Menus SubMenu
 	$menu->addChild(new JMenuNode(JText::_('Menus'), null, 'disabled'));
 
-	/*
-	 * Content SubMenu
-	 */
+	// Content SubMenu
 	$menu->addChild(new JMenuNode(JText::_('Content'), null, 'disabled'));
 
-	/*
-	 * Components SubMenu
-	 */
+	// Components SubMenu
 	if ($installComponents) {
 		$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
 	}
 
-	/*
-	 * Extensions SubMenu
-	 */
-	if ($installModules)
-	{
+	// Extensions SubMenu
+	if ($installModules) {
 		$menu->addChild(new JMenuNode(JText::_('Extensions'), null, 'disabled'));
 	}
 
-	/*
-	 * System SubMenu
-	 */
-	if ($canConfig)
-	{
+	// System SubMenu
+	if ($canConfig) {
 		$menu->addChild(new JMenuNode(JText::_('Tools'), null, 'disabled'));
 	}
 
-	/*
-	 * Help SubMenu
-	 */
+	// Help SubMenu
 	$menu->addChild(new JMenuNode(JText::_('Help'), null, 'disabled'));
 
 	return $menu;

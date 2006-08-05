@@ -236,8 +236,8 @@ class JPagination extends JObject
 	function getPagesLinks($link = null)
 	{
 		global $mainframe;
-
-		$lang = $mainframe->getLanguage();
+		
+		$lang =& JFactory::getLanguage();
 
 		// Build the page navigation list
 		$list = $this->getPagesList($link);
@@ -362,9 +362,7 @@ class JPagination extends JObject
 	 */
 	function getListFooter()
 	{
-		global $mainframe;
-
-		$lang = $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 		$buff = array();
 
 		$html = "<del class=\"container\"><div class=\"pagination\">\n";

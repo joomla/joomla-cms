@@ -31,7 +31,7 @@ function viewSearch()
 	global $mainframe;
 	
 	$db 	=& JFactory::getDBO();
-	$lang 	=& $mainframe->getLanguage();
+	$lang 	=& JFactory::getLanguage();
 
 	$restriction = 0;
 	$ignored 	 = 0;

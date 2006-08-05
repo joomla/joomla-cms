@@ -28,7 +28,7 @@ class JFullAdminMenu {
 	{
 		global $mainframe;
 
-		$lang 			= & $mainframe->getLanguage();
+		$lang 			= & JFactory::getLanguage();
 		$user 			= & JFactory::getUser();
 		$db 			= & JFactory::getDBO();
 		$enableStats 	= $mainframe->getCfg('enable_stats');
@@ -324,10 +324,8 @@ class JFullAdminMenu {
 	*/
 	function showDisabled($usertype = '')
 	{
-		global $mainframe;
-
-		$lang 	= & $mainframe->getLanguage();
-		$user 	= & JFactory::getUser();
+		$lang 	=& JFactory::getLanguage();
+		$user 	=& JFactory::getUser();
 
 		$canConfig 			= $user->authorize('com_config', 		'manage');
 		$installModules 	= $user->authorize('com_installer', 	'module');
@@ -403,7 +401,7 @@ if ($canConfig)	{
 /*
  * Lets get some variables we will need to render the menu
  */
-$lang 	= & $mainframe->getLanguage();
+$lang 	= & JFactory::getLanguage();
 $doc 	= & $mainframe->getDocument();
 $user 	= & JFactory::getUser();
 $hide 	= JRequest::getVar( 'hidemainmenu', 0 );

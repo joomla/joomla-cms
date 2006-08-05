@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Lets get some variables we will need to render the menu
-$lang	= & $mainframe->getLanguage();
+$lang	= & JFactory::getLanguage();
 $doc	= & $mainframe->getDocument();
 $user	= & JFactory::getUser();
 
@@ -37,7 +37,7 @@ class JAdminSubMenu
 		// Lets get some variables we are going to need
 		$menu 			= false;
 		$db 			=& JFactory::getDBO();
-		$lang 			=& $mainframe->getLanguage();
+		$lang 			=& JFactory::getLanguage();
 		$user			=& JFactory::getUser();
 		$enableStats	= $mainframe->getCfg('enable_stats');
 		$enableSearches = $mainframe->getCfg('enable_log_searches');

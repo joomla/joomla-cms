@@ -75,9 +75,9 @@ class JInstallationView
 	 */
 	function chooseLanguage( &$lists )
 	{
-		global $steps, $mainframe;
+		global $steps;
 
-		$lang    =& $mainframe->getLanguage();
+		$lang    =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'language.html' );
 
@@ -97,9 +97,9 @@ class JInstallationView
 	 */
 	function preInstall( $vars, &$lists )
 	{
-		global $steps, $_VERSION, $mainframe;
+		global $steps, $_VERSION;
 
-		$lang    =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'preinstall.html' );
 
@@ -124,9 +124,9 @@ class JInstallationView
 	 */
 	function license( &$vars )
 	{
-		global $steps, $mainframe;
+		global $steps;
 
-		$lang    =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'license.html' );
 
@@ -145,9 +145,9 @@ class JInstallationView
 	 */
 	function dbConfig( &$vars, &$lists )
 	{
-		global $steps, $mainframe;
+		global $steps;
 
-		$lang    =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'dbconfig.html' );
 
@@ -193,9 +193,9 @@ class JInstallationView
 	 */
 	function ftpConfig( &$vars )
 	{
-		global $steps, $mainframe;
+		global $steps;
 
-		$lang    =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'ftpconfig.html' );
 
@@ -214,9 +214,9 @@ class JInstallationView
 	 */
 	function mainConfig( &$vars )
 	{
-		global $steps, $mainframe;
+		global $steps;
 
-		$lang    =& $mainframe->getLanguage();
+		$lang =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'mainconfig.html' );
 
@@ -242,9 +242,9 @@ class JInstallationView
 	 */
 	function finish( &$vars, $buffer )
 	{
-		global $steps, $mainframe;
-
-		$lang    =& $mainframe->getLanguage();
+		global $steps;
+		
+		$lang  =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'finish.html' );
 
