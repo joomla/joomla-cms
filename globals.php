@@ -10,7 +10,7 @@
  */
 
 /**
- * Use 1 to emulate register_globals = on
+ * Use 1 to emulate register_globals = on [DEPRECATED!]
  *
  * Use 0 to emulate regsiter_globals = off
  */
@@ -83,48 +83,6 @@ function unregisterGlobals () {
 	$_SERVER = $SERVER;
 }
 
-/**
- * Emulates register globals = on
- */
-function registerGlobals() {
-	checkInputArray( $_FILES, true );
-	checkInputArray( $_ENV, true );
-	checkInputArray( $_GET, true );
-	checkInputArray( $_POST, true );
-	checkInputArray( $_COOKIE, true );
-	checkInputArray( $_SERVER, true );
-
-	if (isset( $_SESSION )) {
-		checkInputArray( $_SESSION, true );
-	}
-
-	foreach ($_FILES as $key => $value){
-		$GLOBALS[$key] = $_FILES[$key]['tmp_name'];
-		foreach ($value as $ext => $value2){
-			$key2 = $key . '_' . $ext;
-			$GLOBALS[$key2] = $value2;
-		}
-	}
-}
-
-if (RG_EMULATION == 0) {
-	// force register_globals = off
-	unregisterGlobals();
-} else if (ini_get('register_globals') == 0) {
-	// php.ini has register_globals = off and emulate = on
-	registerGlobals();
-} else {
-	// php.ini has register_globals = on and emulate = on
-	// just check for spoofing
-	checkInputArray( $_FILES );
-	checkInputArray( $_ENV );
-	checkInputArray( $_GET );
-	checkInputArray( $_POST );
-	checkInputArray( $_COOKIE );
-	checkInputArray( $_SERVER );
-
-	if (isset( $_SESSION )) {
-		checkInputArray( $_SESSION );
-	}
-}
+// force register_globals = off
+unregisterGlobals();
 ?>
