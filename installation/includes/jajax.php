@@ -418,5 +418,6 @@ class JAJAXLang extends JObject
 /*
  * Process the AJAX requests
  */
+$xajax->cleanBufferOff(); //Needed for suPHP compilance
 $xajax->processRequests();
 ?>

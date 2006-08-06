@@ -29,7 +29,8 @@ require_once( JApplicationHelper::getPath( 'class' ) );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 
-switch ($task) {
+switch ($task) 
+{
 	case 'new':
 	case 'edit':
 		editWeblink();

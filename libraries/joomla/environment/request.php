@@ -134,7 +134,6 @@ class JRequest
 					break;
 			}
 
-
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($result != $default))
 			{
@@ -213,8 +212,7 @@ class JRequest
 			$result = josFilterValue($input, $mask);
 
 			// Handle magic quotes compatability
-			if (get_magic_quotes_gpc())
-			{
+			if (get_magic_quotes_gpc()) {
 				$result = JRequest::_stripSlashesRecursive( $result );
 			}
 			$hashes[$signature] = &$result;
@@ -270,14 +268,9 @@ class JRequest
 	 * @param	array	$array		Array of (nested arrays of) strings
 	 * @return	array	The input array with stripshlashes applied to it
 	 */
-	// TODO: Find a better home for this
 	function _stripSlashesRecursive( $value )
 	{
-		if (is_array( $value )) {
-			$array = array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value );
-		} else {
-			$array = stripslashes( $value );
-		}
+		$value = is_array( $value ) ? array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value ) : stripslashes( $value );
 		return $value;
 	}
 }

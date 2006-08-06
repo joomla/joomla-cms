@@ -504,7 +504,7 @@ class JFactory
 		$conf =& JFactory::getConfig();
 
 		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
-		$lang->setDebug(true);
+		$lang->setDebug($conf->getValue('config.debug'));
 
 		return $lang;
 	}

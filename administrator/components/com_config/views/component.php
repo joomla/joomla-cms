@@ -33,7 +33,7 @@ class JConfigComponentEditView extends JView
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		mosCommonHTML::loadOverlib();
 ?>
-	<form action="index3.php" method="post" name="adminForm">
+	<form action="index3.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>
 			<div style="float: right">
 				<button type="button" onclick="submitbutton('save');window.top.document.popup.hide();">
