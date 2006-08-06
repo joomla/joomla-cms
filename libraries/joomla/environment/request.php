@@ -215,20 +215,7 @@ class JRequest
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc())
 			{
-				/**
-				 * Strips slashes on an array
-				 * @param array
-				 * @access protected
-				 */
-				// TODO: Find a better home for this
-				function _jrequest_array_stripslashes( $value )
-				{
-					$value = is_array( $value ) ?
-						array_map( '_jrequest_array_stripslashes', $value ) :
-						stripslashes( $value );
-					return $value;
-				}
-				$result = _jrequest_array_stripslashes( $result );
+				$result = JRequest::_stripSlashesRecursive( $result );
 			}
 			$hashes[$signature] = &$result;
 		}
@@ -274,6 +261,24 @@ class JRequest
 		}
 
 		return $GLOBALS['JRequest'][$signature];
+	}
+
+	/**
+	 * Strips slashes recursively on an array
+	 *
+	 * @access	protected
+	 * @param	array	$array		Array of (nested arrays of) strings
+	 * @return	array	The input array with stripshlashes applied to it
+	 */
+	// TODO: Find a better home for this
+	function _stripSlashesRecursive( $value )
+	{
+		if (is_array( $value )) {
+			$array = array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value );
+		} else {
+			$array = stripslashes( $value );
+		}
+		return $value;
 	}
 }
 ?>
