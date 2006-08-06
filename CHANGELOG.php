@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Aug-2006 Enno Klasing
+ # Fixed [artf5526] : Install fails: "Fatal error: Class 'JArray' not found" with makeDB()
+
 05-Aug-2006 Johan Janssens
  - Removed JApplication::getLanguage, use JFactory::getLanguage instead
 

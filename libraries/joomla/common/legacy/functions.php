@@ -213,7 +213,7 @@ function mosMakePath($base, $path='', $mode = NULL) {
 }
 
 /**
- * Legacy function, use JArray::toInteger instead
+ * Legacy function, use JArrayHelper::toInteger instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy

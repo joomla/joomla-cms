@@ -47,7 +47,7 @@ function botDetectVisitor()
 	if (phpversion() <= '4.2.1') {
 		$domain = @gethostbyaddr( getenv( 'REMOTE_ADDR' ) );
 	} else {
-		$domain = @gethostbyaddr( JArray::getValue( $_SERVER, 'REMOTE_ADDR', '' ) );
+		$domain = @gethostbyaddr( JArrayHelper::getValue( $_SERVER, 'REMOTE_ADDR', '' ) );
 	}
 
 	$query = "SELECT COUNT(*)"

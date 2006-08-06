@@ -200,20 +200,20 @@ class JInstallationController
 		// Initialize variables
 		$errors = null;
 
-		$lang 		= JArray::getValue($vars, 'lang', 'en-GB');
-		$DBcreated  = JArray::getValue($vars, 'DBcreated', '0');
+		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
+		$DBcreated  = JArrayHelper::getValue($vars, 'DBcreated', '0');
 
-		$DBtype 	= JArray::getValue($vars, 'DBtype', 'mysql');
-		$DBhostname = JArray::getValue($vars, 'DBhostname', '');
-		$DBuserName = JArray::getValue($vars, 'DBuserName', '');
-		$DBpassword = JArray::getValue($vars, 'DBpassword', '');
-		$DBname 	= JArray::getValue($vars, 'DBname', '');
-		$DBPrefix 	= JArray::getValue($vars, 'DBPrefix', 'jos_');
-		$DBOld 		= JArray::getValue($vars, 'DBOld', 'bu');
+		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
+		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
+		$DBuserName = JArrayHelper::getValue($vars, 'DBuserName', '');
+		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
+		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
+		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
+		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
 //		$DBSample = mosGetParam($vars, 'DBSample', 1);
-		$DButfSupport 	= intval(JArray::getValue($vars, 'DButfSupport', 0));
-		$DBcollation 	= JArray::getValue($vars, 'DBcollation', '');
-		$DBversion 		= JArray::getValue($vars, 'DBversion', '');
+		$DButfSupport 	= intval(JArrayHelper::getValue($vars, 'DButfSupport', 0));
+		$DBcollation 	= JArrayHelper::getValue($vars, 'DBcollation', '');
+		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
 			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
@@ -312,7 +312,7 @@ class JInstallationController
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		//$xajax->debugOn();
 
-		$vars['DBcreated'] = JArray::getValue($vars, 'DBcreated', $DBcreated);
+		$vars['DBcreated'] = JArrayHelper::getValue($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
 
 		if (!isset ($vars['ftpEnable'])) {
@@ -758,9 +758,9 @@ class JInstallationHelper
 	function getFilePerms($input, $type = 'file')
 	{
 		$perms = '';
-		if (JArray::getValue($input, $type.'PermsMode', 0)) {
+		if (JArrayHelper::getValue($input, $type.'PermsMode', 0)) {
 			$action = ($type == 'dir') ? 'Search' : 'Execute';
-			$perms = '0'. (JArray::getValue($input, $type.'PermsUserRead', 0) * 4 + JArray::getValue($input, $type.'PermsUserWrite', 0) * 2 + JArray::getValue($input, $type.'PermsUser'.$action, 0)). (JArray::getValue($input, $type.'PermsGroupRead', 0) * 4 + JArray::getValue($input, $type.'PermsGroupWrite', 0) * 2 + JArray::getValue($input, $type.'PermsGroup'.$action, 0)). (JArray::getValue($input, $type.'PermsWorldRead', 0) * 4 + JArray::getValue($input, $type.'PermsWorldWrite', 0) * 2 + JArray::getValue($input, $type.'PermsWorld'.$action, 0));
+			$perms = '0'. (JArrayHelper::getValue($input, $type.'PermsUserRead', 0) * 4 + JArrayHelper::getValue($input, $type.'PermsUserWrite', 0) * 2 + JArrayHelper::getValue($input, $type.'PermsUser'.$action, 0)). (JArrayHelper::getValue($input, $type.'PermsGroupRead', 0) * 4 + JArrayHelper::getValue($input, $type.'PermsGroupWrite', 0) * 2 + JArrayHelper::getValue($input, $type.'PermsGroup'.$action, 0)). (JArrayHelper::getValue($input, $type.'PermsWorldRead', 0) * 4 + JArrayHelper::getValue($input, $type.'PermsWorldWrite', 0) * 2 + JArrayHelper::getValue($input, $type.'PermsWorld'.$action, 0));
 		}
 		return $perms;
 	}
@@ -770,15 +770,15 @@ class JInstallationHelper
 	 */
 	function createAdminUser(& $vars)
 	{
-		$DBtype		= JArray::getValue($vars, 'DBtype', 'mysql');
-		$DBhostname	= JArray::getValue($vars, 'DBhostname', '');
-		$DBuserName	= JArray::getValue($vars, 'DBuserName', '');
-		$DBpassword	= JArray::getValue($vars, 'DBpassword', '');
-		$DBname		= JArray::getValue($vars, 'DBname', '');
-		$DBPrefix	= JArray::getValue($vars, 'DBPrefix', '');
+		$DBtype		= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
+		$DBhostname	= JArrayHelper::getValue($vars, 'DBhostname', '');
+		$DBuserName	= JArrayHelper::getValue($vars, 'DBuserName', '');
+		$DBpassword	= JArrayHelper::getValue($vars, 'DBpassword', '');
+		$DBname		= JArrayHelper::getValue($vars, 'DBname', '');
+		$DBPrefix	= JArrayHelper::getValue($vars, 'DBPrefix', '');
 
-		$adminPassword	= JArray::getValue($vars, 'adminPassword', '');
-		$adminEmail		= JArray::getValue($vars, 'adminEmail', '');
+		$adminPassword	= JArrayHelper::getValue($vars, 'adminPassword', '');
+		$adminEmail		= JArrayHelper::getValue($vars, 'adminEmail', '');
 
 		$cryptpass = md5($adminPassword);
 		$vars['adminLogin'] = 'admin';
