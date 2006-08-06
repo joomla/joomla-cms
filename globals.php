@@ -27,7 +27,12 @@ function checkInputArray( &$array, $globalise=false ) {
 
 	foreach ($array as $key => $value) {
 		$key = urldecode( $key );
-		if (in_array( strtolower( $key ), $banned ) || intval( $key ) < 0) {
+		$intval = intval( $key );
+		// PHP GLOBALS injection bug 
+		$failed = in_array( strtolower( $key ), $banned );
+		// PHP Zend_Hash_Del_Key_Or_Index bug
+		$failed |= ((string)$intval == (string)$key && $intval != 0);
+		if ($failed) {
 			die( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
 		}
 		if ($globalise) {
