@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Aug-2006 Rey Gigataras
+ # Fixed Zend Hash Del Key Or Index Vulnerability
+
 06-Aug-2006 Enno Klasing
  # Fixed [artf5526] : Install fails: "Fatal error: Class 'JArray' not found" with makeDB()
  # Fixed [artf5531] : Missing "global $mainframe;" in com_users/admin.users.php
