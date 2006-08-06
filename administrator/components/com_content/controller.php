@@ -343,6 +343,8 @@ class JContentController extends JController
 	*/
 	function editContent() 
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db				= & JFactory::getDBO();
 		$user			= & JFactory::getUser();
@@ -563,6 +565,8 @@ class JContentController extends JController
 	*/
 	function saveContent()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();

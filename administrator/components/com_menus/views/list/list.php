@@ -37,7 +37,7 @@ class JMenuViewList extends JView
 
 		$app		= &$this->get('Application');
 		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
-		$user		= &$app->getUser();
+		$user		= &JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');

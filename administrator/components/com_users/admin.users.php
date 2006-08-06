@@ -77,9 +77,11 @@ switch ($task) {
  */
 function showUsers( )
 {
-	$db          =& JFactory::getDBO();
-	$currentUser =& JFactory::getUser();
-	$acl         =& JFactory::getACL();
+	global $mainframe;
+
+	$db				=& JFactory::getDBO();
+	$currentUser	=& JFactory::getUser();
+	$acl			=& JFactory::getACL();
 
 	$option 	= JRequest::getVar( 'option');
 
