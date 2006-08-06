@@ -42,7 +42,7 @@ class ContentView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
-		$document = &$mainframe->getDocument();
+		$document =& JFactory::getDocument();
 		$document->addScript('../includes/js/joomla/popup.js');
 		$document->addStyleSheet('../includes/js/joomla/popup.css');
 

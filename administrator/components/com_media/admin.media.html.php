@@ -46,7 +46,7 @@ class JMediaViews
 			</ul>
 		";
 
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 		$document->set('module', 'submenu', $listStyle);
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
@@ -115,7 +115,7 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$doc =& $mainframe->getDocument();
+		$doc   =& JFactory::getDocument();
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
@@ -540,13 +540,13 @@ class JMediaViews
 
 	function _buildFolderTree($tree)
 	{
-		global $mainframe;
-		
 		$lang =& JFactory::getLanguage();
-		$doc  =& $mainframe->getDocument();
+		$doc  =& JFactory::getDocument();
+		
 		$doc->addScript('../includes/js/dtree/dtree.js');
 		$cssfile = $lang->isRTL() ? 'dtree_rtl.css': 'dtree.css';
 		$doc->addStyleSheet('../includes/js/dtree/'.$cssfile);
+		
 		$txt = null;
 		foreach($tree as $node) {
 			$txt .= "d.add(".$node['id'].", ".$node['pid'].", '".$node['name']."', '".$node['url']."', '".$node['title']."', '".$node['target']."', '../includes/js/dtree/img/folder.gif');\n";
@@ -572,7 +572,7 @@ class JMediaViews
 			var cStyle = '".$style."';
 		" ;
 
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addScriptDeclaration($js);
 	}
 }

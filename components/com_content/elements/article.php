@@ -34,8 +34,8 @@ class JElement_Article extends JElement
 	{
 		global $mainframe;
 
-		$db			= &JFactory::getDBO();
-		$doc 		= & $mainframe->getDocument();
+		$db			=& JFactory::getDBO();
+		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		$fieldName	= $control_name.'['.$name.']';

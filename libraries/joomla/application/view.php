@@ -231,9 +231,9 @@ class JView extends JObject {
 	 */
 	function &getDocument()
 	{
-		$controller		= &$this->getController();
-		$application	= &$controller->getApplication();
-		$document		= &$application->getDocument();
+		$controller		=& $this->getController();
+		$application	=& $controller->getApplication();
+		$document		=& JFactory::getDocument();
 		return $document;
 	}
 }

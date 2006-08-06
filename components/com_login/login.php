@@ -94,7 +94,7 @@ class LoginController
 
 		// Get some page variables
 		$breadcrumbs = & $mainframe->getPathway();
-		$document	 = & $mainframe->getDocument();
+		$document	 = & JFactory::getDocument();
 
 		if ( $user->get('id') ) {
 			$title = JText::_( 'Logout');

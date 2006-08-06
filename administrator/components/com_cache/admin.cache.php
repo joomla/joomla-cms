@@ -64,9 +64,8 @@ class CacheController
 	 */
 	function showCache()
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
-		$option = $mainframe->getOption();
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$limit 			= $mainframe->getUserStateFromRequest( "limit"							 , 'limit'		, $mainframe->getCfg('list_limit') );

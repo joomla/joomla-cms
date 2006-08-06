@@ -171,7 +171,7 @@ class HTML_menusections {
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 
-		$document	= &$mainframe->getDocument();
+		$document	=& JFactory::getDocument();
 
 		mosCommonHTML::loadOverlib();
 		?>

@@ -402,7 +402,7 @@ if ($canConfig)	{
  * Lets get some variables we will need to render the menu
  */
 $lang 	= & JFactory::getLanguage();
-$doc 	= & $mainframe->getDocument();
+$doc 	= & JFactory::getDocument();
 $user 	= & JFactory::getUser();
 $hide 	= JRequest::getVar( 'hidemainmenu', 0 );
 

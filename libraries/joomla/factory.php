@@ -21,7 +21,7 @@
 class JFactory
 {
 	/**
-	 * Get an framework configuration object
+	 * Get a configuration object
 	 *
 	 * Returns a reference to the global JRegistry object, only creating it
 	 * if it doesn't already exist.
@@ -47,7 +47,7 @@ class JFactory
 	}
 
 	/**
-	 * Get an framework language object
+	 * Get a language object
 	 *
 	 * Returns a reference to the global JLanguage object, only creating it
 	 * if it doesn't already exist.
@@ -65,9 +65,33 @@ class JFactory
 
 		return $instance;
 	}
+	
+	/**
+	 * Get a document object
+	 *
+	 * Returns a reference to the global JDocument object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @return object JLanguage
+	 */
+	function &getDocument($type = 'html')
+	{
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		if (empty($instances[$type])) {
+			$instances[$type] =& JFactory::_createDocument($type);
+		}
+
+		return $instances[$type];
+	}
 
 	/**
-	 * Get an framework user object
+	 * Get an user object
 	 *
 	 * Returns a reference to the global JUser object, only creating it
 	 * if it doesn't already exist.
@@ -77,10 +101,8 @@ class JFactory
 	 */
 	function &getUser()
 	{
-		/*
-		 * If there is a userid in the session, load the application user
-		 * object with the logged in user.
-		 */
+		// If there is a userid in the session, load the application user
+		// object with the logged in user.
 		$instance =& JUser::getInstance(JSession::get('userid', 0));
 		return $instance;
 	}
@@ -102,10 +124,8 @@ class JFactory
 
 		$conf =& JFactory::getConfig();
 
-		/*
-		 * If we are in the installation application, we don't need to be
-		 * creating any directories or have caching on
-		 */
+		// If we are in the installation application, we don't need to be
+		// creating any directories or have caching on
 		$options = array(
 			'cacheDir' 		=> JPATH_BASE.DS.'cache'.DS,
 			'caching' 		=> $conf->getValue('config.caching'),
@@ -120,7 +140,7 @@ class JFactory
 	}
 
 	/**
-	 * Get the authorization object
+	 * Get an authorization object
 	 *
 	 * Returns a reference to the global JAuthorization object, only creating it
 	 * if it doesn't already exist.
@@ -140,7 +160,7 @@ class JFactory
 	}
 
 	/**
-	 * Get the template object
+	 * Get an template object
 	 *
 	 * Returns a reference to the global JAuthorization object, only creating it
 	 * if it doesn't already exist.
@@ -160,7 +180,7 @@ class JFactory
 	}
 
 	/**
-	 * Get the database object
+	 * Get th database object
 	 *
 	 * Returns a reference to the global JDatabase object, only creating it
 	 * if it doesn't already exist.
@@ -356,6 +376,8 @@ class JFactory
 	 */
 	function &_createDBO()
 	{
+		jimport('joomla.database.database');
+		
 		$conf =& JFactory::getConfig();
 
 		$host 		= $conf->getValue('config.host');
@@ -366,7 +388,6 @@ class JFactory
 		$dbtype 	= $conf->getValue('config.dbtype');
 		$debug 		= $conf->getValue('config.debug');
 
-		jimport('joomla.database.database');
 		$db =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
 		if ($db->getErrorNum() > 2) {
@@ -478,12 +499,39 @@ class JFactory
 	 */
 	function &_createLanguage()
 	{
+		jimport('joomla.i18n.language');
+		
 		$conf =& JFactory::getConfig();
 
 		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
 		$lang->setDebug(true);
 
 		return $lang;
+	}
+	
+	/**
+	 * Create a document object
+	 *
+	 * @access private
+	 * @return object
+	 * @since 1.5
+	 */
+	function &_createDocument($type)
+	{
+		jimport('joomla.document.document');
+
+		$lang  =& JFactory::getLanguage();
+
+		$attributes = array (
+            'charset'  => 'utf-8',
+           	'lineend'  => 'unix',
+            'tab'  => '  ',
+          	'language'  => $lang->getTag(),
+			'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+		);
+
+		$doc =& JDocument::getInstance($type, $attributes);
+		return $doc;
 	}
 }
 ?>

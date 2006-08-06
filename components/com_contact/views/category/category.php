@@ -132,7 +132,7 @@ class JContactViewCategory extends JView
 		global $mainframe;
 
 		$db		  =& JFactory::getDBO();
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 
 		$limit 			= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');

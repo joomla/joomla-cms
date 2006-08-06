@@ -22,10 +22,9 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginReadmoreButton' );
 */
 function pluginReadmoreButton($name)
 {
-	global $mainframe;
+	global $mainframe, $option;
 
-	$option 	= $mainframe->getOption();
-	$doc 		= & $mainframe->getDocument();
+	$doc 		=& JFactory::getDocument();
 	$template 	= $mainframe->getTemplate();
 
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();

@@ -63,7 +63,7 @@ class JContentViewSection extends JView
 		// Initialize some variables
 		$app	=& $this->getApplication();
 		$user	=& JFactory::getUser();
-		$doc	= &$app->getDocument();
+		$doc	=& JFactory::getDocument();
 
 		$gid 	= $user->get('gid');
 
@@ -140,7 +140,7 @@ class JContentViewSection extends JView
 	function displayFeed()
 	{
 		$app =& $this->getApplication();
-		$doc = $app->getDocument();
+		$doc =& JFactory::getDocument();
 
 		// Lets get our data from the model
 		$rows = & $this->get( 'Section' );

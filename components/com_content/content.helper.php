@@ -487,7 +487,7 @@ class JContentHTMLHelper {
 		global $Itemid, $mainframe;
 
 		$user     =& JFactory::getUser();
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 
 		if ($params->get('popup')) {
 			return;
@@ -545,7 +545,7 @@ class JContentHTMLHelper {
 		global $Itemid, $mainframe;
 
 		$user     =& JFactory::getUser();
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 
 		$document->addScript('components/com_content/theme/js/common.js');
 		$document->addScript('components/com_content/theme/js/subModal.js');

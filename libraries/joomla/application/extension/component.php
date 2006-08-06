@@ -106,10 +106,10 @@ class JComponentHelper
 
 	function renderComponent($component = null, $params = array())
 	{
-		global $mainframe;
+		global $mainframe, $option;
 		global $Itemid, $id; //for backwards compatibility
 
-		$component = is_null($component) ? $mainframe->getOption() : $component;
+		$component = is_null($component) ? $option : $component;
 
 		//if no component found return
 		if(empty($component)) {

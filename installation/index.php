@@ -90,7 +90,7 @@ $params = array(
 	'directory' => JPATH_BASE
 );
 
-$document =& $mainframe->getDocument();
+$document =& JFactory::getDocument();
 $document->set('installation', '' , $result);
 $document->setTitle( 'Joomla! - Web Installer' );
 $document->display( false, false, $params);

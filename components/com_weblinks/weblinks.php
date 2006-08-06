@@ -50,7 +50,7 @@ switch ( JRequest::getVar( 'task' ) )
 		break;
 
 	default :
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 		if($document->getType() == 'feed') {
 			WeblinksController::showCategoryFeed();
 		} else {
@@ -84,8 +84,7 @@ class WeblinksController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
-		$document	= & $mainframe->getDocument();
-		$pathway 	= & $mainframe->getPathWay();
+		$document	= & JFactory::getDocument();
 		$gid		= $user->get('gid');
 		$page		= '';
 
@@ -269,10 +268,8 @@ class WeblinksController
 
 	function showCategoryFeed()
 	{
-		global $mainframe;
-
 		$db		  =& JFactory::getDBO();
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 
 		// Get some request variables
 		$limit		= 10;
@@ -340,12 +337,10 @@ class WeblinksController
 	 */
 	function showItem()
 	{
-		global $mainframe;
-
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
-		$document	= & $mainframe->getDocument();
+		$document	= & JFactory::getDocument();
 		$id			= JRequest::getVar( 'id', 0, '', 'int' );
 
 		// Get the weblink table object and load it
@@ -399,7 +394,7 @@ class WeblinksController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
-		$document	= & $mainframe->getDocument();
+		$document	= & JFactory::getDocument();
 
 		// Make sure you are logged in
 		if ($user->get('gid') < 1) {

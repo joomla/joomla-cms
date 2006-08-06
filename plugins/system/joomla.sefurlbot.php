@@ -33,7 +33,7 @@ function botJoomlaSEFUrl( )
 	if ($SEF && !$mainframe->isAdmin())
 	{
 		//set document link
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->setLink( $mainframe->getBaseURL() );
 
 		// load plugin params info

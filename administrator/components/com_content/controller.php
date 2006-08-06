@@ -1331,10 +1331,8 @@ class JContentController extends JController
 
 	function previewContent()
 	{
-		global $mainframe;
-
 		// Initialize variables
-		$document		=& $mainframe->getDocument();
+		$document		=& JFactory::getDocument();
 		$db 			=& JFactory::getDBO();
 		$id				= JRequest::getVar( 'id', 0, '', 'int' );
 		$option			= JRequest::getVar( 'option' );

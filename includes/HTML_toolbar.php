@@ -20,17 +20,14 @@ class mosToolBar {
 	/**
 	* Writes the start of the button bar table
 	*/
-	function startTable() {
+	function startTable() 
+	{
 		global $mainframe;
 
-		/*
-		* Initialize some variables
-		*/
-		$document = & $mainframe->getDocument();
+		// Initialize some variables
+		$document = & JFactory::getDocument();
 
-		/*
-		* load toolbar css
-		*/
+		// load toolbar css
 		$document->addStyleSheet( 'templates/_system/css/toolbar.css' );
 		?>
 		<table cellpadding="0" cellspacing="3" border="0" id="toolbar">

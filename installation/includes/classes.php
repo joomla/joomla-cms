@@ -185,7 +185,7 @@ class JInstallationController
 			$lists['dbTypes'][] = $option;
 		}
 
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
 		return JInstallationView::dbConfig($vars, $lists);
@@ -331,7 +331,7 @@ class JInstallationController
 			$vars['ftpPassword'] = '';
 		}
 
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
 		return JInstallationView::ftpConfig($vars);
@@ -357,7 +357,7 @@ class JInstallationController
 		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 //		$xajax->debugOn();
 		$xajax->errorHandlerOn();
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
 

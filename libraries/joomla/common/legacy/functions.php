@@ -526,8 +526,7 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 ) {
  * @package		Joomla.Legacy
  */
 function mosCountAdminModules(  $position='left' ) {
-	global $mainframe;
-	$document =& $mainframe->getDocument();
+	$document =& JFactory::getDocument();
 	return count($document->getModules($position));
 }
 

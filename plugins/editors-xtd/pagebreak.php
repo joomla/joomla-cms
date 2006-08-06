@@ -20,11 +20,11 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginPagebreakButton' );
 * mospage button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginPagebreakButton() {
-	global $mainframe;
+function pluginPagebreakButton() 
+{
+	global $mainframe, $option;
 
-	$option = $mainframe->getOption();
-	$doc = & $mainframe->getDocument();
+	$doc = & JFactory::getDocument();
 	$template = $mainframe->getTemplate();
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	// button is not active in specific content components

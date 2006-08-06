@@ -351,9 +351,7 @@ class JEditor_tinymce extends JPlugin {
 
 	function onGetInsertMethod($name)
 	{
-		global $mainframe;
-
-		$doc = & $mainframe->getDocument();
+		$doc = & JFactory::getDocument();
 
 		$js= "function jInsertEditorText( text ) {
 			tinyMCE.execCommand('mceInsertContent',false,text);

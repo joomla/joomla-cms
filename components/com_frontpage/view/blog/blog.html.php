@@ -33,7 +33,7 @@ class JViewBlog
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
-		$document	= & $mainframe->getDocument();
+		$document	= & JFactory::getDocument();
 
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');

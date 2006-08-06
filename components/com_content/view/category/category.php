@@ -59,7 +59,7 @@ class JContentViewCategory extends JView
 		// Initialize some variables
 		$app		=& $this->getApplication();
 		$user		=& JFactory::getUser();
-		$doc		= &$app->getDocument();
+		$doc		=& JFactory::getDocument();
 
 		$gid 		= $user->get('gid');
 
@@ -410,7 +410,7 @@ class JContentViewCategory extends JView
 	function displayFeed()
 	{
 		$app =& $this->getApplication();
-		$doc =& $app->getDocument();
+		$doc =& JFactory::getDocument();
 
 		// Get some data from the model
 		$rows  = & $this->get( 'Content' );

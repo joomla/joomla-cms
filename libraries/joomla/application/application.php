@@ -43,30 +43,6 @@ class JApplication extends JObject
 	var $_clientId = null;
 
 	/**
-	 * The database object
-	 *
-	 * @var object
-	 * @access protected
-	 */
-	var $_dbo  = null;
-
-	/**
-	 * The document object
-	 *
-	 * @var object
-	 * @access protected
-	 */
-	var $_document = null;
-
-	/**
-	 * The active user object
-	 *
-	 * @var object JTableUser
-	 * @access protected
-	 */
-	var $_user = null;
-
-	/**
 	 * The url of the application
 	 *
 	 * @var string
@@ -84,6 +60,16 @@ class JApplication extends JObject
 	{
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
+	}
+	
+	/**
+	* Execute the application
+	*
+	* @access public
+	*/
+	function execute($option, $tmpl)
+	{
+	
 	}
 
 	 /**
@@ -364,17 +350,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Return the application option string [main component]
-	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
-	 */
-	function getOption() {
-		return strtolower(JRequest::getVar('option', null));
-	}
-
-	/**
 	 * Return the application url
 	 *
 	 * @access public
@@ -471,37 +446,6 @@ class JApplication extends JObject
 	 */
 	function &getPathWay() {
 		return $this->_pathway;
-	}
-
-	/**
-	 * Return a reference to the JDocument object
-	 *
-	 * @access public
-	 * @since 1.5
-	 */
-	function &getDocument($type = 'html')
-	{
-		if(is_object($this->_document)) {
-			return $this->_document;
-		}
-
-		jimport('joomla.document.document');
-
-		$lang  =& JFactory::getLanguage();
-
-		$attributes = array (
-            'charset'  => 'utf-8',
-           	'lineend'  => 'unix',
-            'tab'  => '  ',
-          	'language'  => $lang->getTag(),
-			'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
-		);
-
-		$doc  =& JDocument::getInstance($type, $attributes);
-
-		$this->_document =& $doc;
-
-		return $this->_document;
 	}
 
 	/**
@@ -709,7 +653,7 @@ class JApplication extends JObject
 	* @since 1.5
 	*/
 	 function getHead() {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		return $document->get('head');
 	 }
 
@@ -718,7 +662,7 @@ class JApplication extends JObject
 	* @since 1.5
 	*/
 	function addMetaTag( $name, $content, $prepend='', $append='' ) {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		$document->setMetadata($name, $content);
 	}
 
@@ -743,7 +687,7 @@ class JApplication extends JObject
 	* @since 1.5
 	*/
 	function addCustomHeadTag( $html ) {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		return $document->addCustomTag($html);
 	}
 

@@ -195,13 +195,12 @@ class JDocumentFeed extends JDocument
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
 		$format     = isset($params['format']) ? $params['format'] : 'RSS';
 		$cache      = 0;
 		$cache_time = 3600;
 		$cache_path = $mainframe->getCfg('cachepath');
-		$option 	= $mainframe->getOption();
 
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $format ) );

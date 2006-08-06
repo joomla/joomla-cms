@@ -28,16 +28,12 @@ class JViewFrontpage
 
 	function show(&$model, &$access, &$menu)
 	{
-		global $mainframe;
-
-		$doc  =& $mainframe->getDocument();
+		$doc  =& JFactory::getDocument();
 		$type = $doc->getType();
 
 		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.'.$type.'.php');
 
-		/*
-		 * Need to cache this for speed
-		 */
+		// Need to cache this for speed
 		JViewBlog::show($model, $access, $menu);
 	}
 

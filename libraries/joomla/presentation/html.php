@@ -638,7 +638,6 @@ class mosHTML {
 
 	function keepAlive()
 	{
-		global $mainframe;
 		$js = "
 				function keepAlive() {
 					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component.html&task=keepalive\';', 60000);
@@ -649,7 +648,7 @@ class mosHTML {
 				"src=\"index.php?option=com_admin&tmpl=component.html&task=keepalive\" " .
 				"onload=\"keepAlive();\"></iframe>";
 
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addScriptDeclaration($js);
 		echo $html;
 	}
@@ -884,14 +883,15 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Overlib tooltips
 	*/
-	function loadOverlib() {
+	function loadOverlib() 
+	{
 		global $mainframe;
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
-			$doc =& $mainframe->getDocument();
+			$doc =& JFactory::getDocument();
 			$doc->addScript($url.'includes/js/overlib_mini.js');
 			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
 			?>
@@ -905,10 +905,11 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Calendar
 	*/
-	function loadCalendar() {
+	function loadCalendar() 
+	{
 		global $mainframe;
 
-		$doc =& $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => JText::_( 'green' ) ,' media' => 'all' ));

@@ -31,7 +31,7 @@ class JViewBlog
 
 		// parameters
 		$db       =& JFactory::getDBO();
-		$document =& $mainframe->getDocument('rss');
+		$document =& JFactory::getDocument('rss');
 		$limit	  = '10';
 
 		JRequest::setVar('limit', $limit);

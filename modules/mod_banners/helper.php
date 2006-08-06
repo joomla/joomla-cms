@@ -18,8 +18,6 @@ class modBannersHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
-
 		$model		= modBannersHelper::getModel();
 
 		// Model Variables
@@ -30,8 +28,8 @@ class modBannersHelper
 
 		if ($params->get( 'tag_search' ))
 		{
-			$document		= &$mainframe->getDocument();
-			$keywords		= &$document->getMetaData( 'keywords' );
+			$document		=& JFactory::getDocument();
+			$keywords		=& $document->getMetaData( 'keywords' );
 
 			$vars['tag_search'] = JBannerHelper::getKeywords( $keywords );
 		}

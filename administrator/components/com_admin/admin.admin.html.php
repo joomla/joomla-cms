@@ -60,7 +60,7 @@ class HTML_admin_misc
 
 		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 		$document->addScript($mainframe->getBaseURL().'components/com_config/assets/switcher.js');
 
 		$contents = '';

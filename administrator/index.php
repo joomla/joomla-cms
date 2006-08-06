@@ -20,15 +20,18 @@ require_once(  JPATH_BASE.'/includes/defines.php'       );
 require_once ( JPATH_BASE.'/includes/application.php'   );
 require_once ( JPATH_BASE.'/includes/template.html.php' );
 
-// create the mainframe object
+/**
+ * CREATE THE APPLICATION
+ */
 $mainframe = new JAdministrator();
-// set the configuration
+
+// load the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
-// set language
+// set the language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 
 // load system plugin group
@@ -45,20 +48,20 @@ $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
 
-/*
+/**
  * BACKWARDS COMPATABILITY
  * 	Set globals for:
  * 		- $database
  * 		- $my
  * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
  */
-global $database, $my;
+global $database, $my, $_VERSION;
 $database	=& JFactory::getDBO();
 $user		=& JFactory::getUser();
 $my			=& $user->getTable();
+$_VERSION   = new JVersion();
 
 // initialise some common request directives
-$option 	= $mainframe->getOption();
 $task 		= JRequest::getVar( 'task' );
 $section 	= JRequest::getVar( 'section' );
 $id         = JRequest::getVar( 'id', 0, '', 'int' );
@@ -67,32 +70,20 @@ $cid		= JRequest::getVar( 'cid', null, 'post' );
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
-$no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
-$format 	= JRequest::getVar( 'format', $no_html ? 'raw' : 'html',  '', 'string'  );
-$tmpl 	 	= JRequest::getVar( 'tmpl', isset($tmpl) ? $tmpl : 'index.php',  '', 'string'  );
+// trigger the onBeforeDisplay events
+$mainframe->triggerEvent( 'onBeforeDisplay' );
 
-if(empty($option)) {
-	$tmpl = 'cpanel.php';
-}
+/** 
+ * EXECUTE THE APPLICATION
+ * 
+ * Note: This section of initialization must be performed last.
+ */
+$option = JAdministratorHelper::findOption();
+$mainframe->execute($option, isset($tmpl) ? $tmpl : 'index.php');
 
-if (is_null(JSession::get('guest')) || JSession::get('guest')) {
-	$tmpl = 'login.php';
-}
-
-// loads template file
-$cur_template = $mainframe->getTemplate();
-
-$params = array(
-	'template' 	=> $cur_template,
-	'file'		=> $tmpl,
-	'directory'	=> JPATH_BASE.DS.'templates'
-);
-
-$document =& $mainframe->getDocument($format);
-$document->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-$document->display($mainframe->getCfg('caching_tmpl'), $mainframe->getCfg('gzip'), $params );
+// trigger the onAfterDisplay events
+$mainframe->triggerEvent( 'onAfterDisplay' );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
-
 JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
 ?>

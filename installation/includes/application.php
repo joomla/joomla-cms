@@ -100,23 +100,6 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * Return a reference to the JDocument object
-	 *
-	 * @access public
-	 * @since 1.5
-	 */
-	function &getDocument($type = 'html')
-	{
-		if(is_object($this->_document)) {
-			return $this->_document;
-		}
-
-		$doc  =& parent::getDocument($type);
-
-		return $this->_document;
-	}
-
-	/**
 	 * Create the user session
 	 *
 	 * @access private

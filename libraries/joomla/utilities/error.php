@@ -373,29 +373,19 @@ class JErrorHandler
 	*/
 	function &handleError( &$error )
 	{
-		global $mainframe;
+		// Initialize variables
+		$document =& JFactory::getDocument();
 
-		/*
-		 * Initialize variables
-		 */
-		$document =& $mainframe->getDocument();
-
-		/*
-		 * Send the error header for the appropriate error code
-		 */
+		// Send the error header for the appropriate error code
 		$this->_sendErrorHeader( $error );
 
-		/*
-		 * Get the current template from the application and the appropriate
-		 * error file to parse and display
-		 */
+		// Get the current template from the application and the appropriate
+		// error file to parse and display
 		$template = $mainframe->getTemplate();
 		$file	  = $this->getErrorDocument( $error );
 
-		/*
-		 * Need to clear the renderers array so we don't have a bad case of
-		 * infinite recursion on a database error among other things.
-		 */
+		// Need to clear the renderers array so we don't have a bad case of
+		// infinite recursion on a database error among other things.
 		$document->_renderers = array ();
 
 		$document->setTitle( 'Joomla! - Error: '.$error->code );
@@ -404,10 +394,8 @@ class JErrorHandler
 
 		$document->display( false, false, array('template' => $template, 'file' => $file));
 
-		/*
-		 * If error level is less than E_ERROR, return the object and
-		 * continue... otherwise exit
-		 */
+		// If error level is less than E_ERROR, return the object and
+		// continue... otherwise exit
 		$level =	$error->getLevel();
 		if( $level != E_ERROR ) {
 			return	$error;

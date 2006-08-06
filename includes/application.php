@@ -37,7 +37,42 @@ class JSite extends JApplication
 
 		$this->_createPathWay( );
 	}
+	
+	/**
+	* Check if the user can access the application
+	*
+	* @access public
+	*/
+	function authorize($itemid)
+	{
+		//TODO :: should we show a login screen here ?
+		$menus =& JMenu::getInstance();
+		if(!$menus->authorize($itemid, JFactory::getUser())) {
+			JError::raiseError( 403, JText::_('Not Authorised') );
+		}
+	}
+	
+	/**
+	* Execute the application
+	*
+	* @access public
+	*/
+	function execute($option, $file)
+	{
+		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
+		$raw  	  = JRequest::getVar( 'no_html', 0, '', 'int' );
+		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
+		$file 	  = JRequest::getVar( 'tmpl', $file,  '', 'string'  );
+		
+		$user     =& JFactory::getUser();
 
+		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
+			$file = 'offline.php';
+		}
+
+		$this->_display($format, $template, $file);
+	}
+	
 	/**
 	* Login authentication function
 	*
@@ -82,7 +117,7 @@ class JSite extends JApplication
 
 		$title = stripslashes($title);
 
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		$document->setTitle( $site.' - '.$title);
 	}
 
@@ -93,7 +128,7 @@ class JSite extends JApplication
 	* @since 1.5
 	*/
 	function getPageTitle() {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
 
@@ -121,102 +156,6 @@ class JSite extends JApplication
 			$name = 'mosConfig_'.$k;
 			$GLOBALS[$name] = $v;
 		}
-	}
-
-	/**
-	 * Return a reference to the JDocument object
-	 *
-	 * @access public
-	 * @since 1.5
-	 */
-	function &getDocument($type = 'html')
-	{
-		if(is_object($this->_document)) {
-			return $this->_document;
-		}
-
-		$doc  =& parent::getDocument($type);
-		$user =& JFactory::getUser();
-
-		//set document description
-		$doc->setDescription( $this->getCfg('MetaDesc') );
-
-		switch($type)
-		{
-			case 'html':
-				//set metadata
-				$doc->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
-
-				if ( $user->get('id') ) {
-					$doc->addScript( 'includes/js/joomla/common.js');
-					$doc->addScript( 'includes/js/joomla.javascript.js');
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		return $this->_document;
-	}
-
-	/**
-	 * Return the application itemid
-	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
-	 */
-	function findItemid()
-	{
-		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-		$option = strtolower(JRequest::getVar('option', null));
-
-		if ( $itemid === 0 )
-		{
-			// checking if we can find the Itemid thru the content
-			if($option == 'com_content')
-			{
-				require_once (JApplicationHelper::getPath('helper', 'com_content'));
-				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
-				$itemid = JContentHelper::getItemid($id);
-			}
-			else
-			{
-				$menus =& JMenu::getInstance();
-				$item  =& $menus->getDefault();
-
-				$itemid = $item->id;
-			}
-		}
-
-		return JRequest::setVar( 'Itemid', $itemid, '', 'int' );
-	}
-
-	/**
-	 * Return the application option string [main component]
-	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
-	 */
-	function getOption()
-	{
-		$option = strtolower(JRequest::getVar('option', null));
-
-		if(empty($option))
-		{
-			$menu =& JMenu::getInstance();
-			$item =& $menu->getItem($this->findItemid());
-
-			$component = JTable::getInstance( 'component', JFactory::getDBO() );
-			$component->load($item->componentid);
-
-			$option = $component->option;
-
-		}
-
-		return $option;
 	}
 
 	/**
@@ -252,12 +191,9 @@ class JSite extends JApplication
 			// ok, allows for an override of the template from a component
 			// eg, $mainframe->setTemplate( 'solar-flare-ii' );
 		}
-		else if (!empty($Itemid) && (isset($templates[$Itemid])))
-		{
+		else if (!empty($Itemid) && (isset($templates[$Itemid]))) {
 			$template = $templates[$Itemid];
-		}
-		else
-		{
+		} else {
 			$template = $templates[0];
 		}
 
@@ -297,6 +233,46 @@ class JSite extends JApplication
 		}
 
 		parent::setLanguage($lang);
+	}
+	
+	/**
+	* Display the application
+	*
+	* @access protected
+	* @since 1.5
+	*/
+	function _display($format, $template, $file)
+	{
+		$user     =& JFactory::getUser();
+		$document =& JFactory::getDocument($format);
+
+		switch($format)
+		{
+			case 'html':
+				//set metadata
+				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
+
+				if ( $user->get('id') ) {
+					$document->addScript( 'includes/js/joomla/common.js');
+					$document->addScript( 'includes/js/joomla.javascript.js');
+				}
+				break;
+
+			default: break;
+		}
+
+	
+		$document->setTitle( $this->getCfg('sitename' ));
+		$document->setDescription( $this->getCfg('MetaDesc') );
+		
+		$params = array(
+			'outline'   => JRequest::getVar('tp', 0 ),
+			'template' 	=> $template,
+			'file'		=> $file,
+			'directory'	=> JPATH_BASE.DS.'templates'
+		);
+		
+		$document->display( $this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params);
 	}
 }
 
@@ -362,10 +338,64 @@ class JSiteHelper
 		}
 		return $instance;
 	}
-}
+	
+	/**
+	 * Return the application itemid
+	 *
+	 * @access public
+	 * @return string Option
+	 * @since 1.5
+	 */
+	function findItemid()
+	{
+		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
+		$option = strtolower(JRequest::getVar('option', null));
 
-/**
- * @global $_VERSION
- */
-$_VERSION = new JVersion();
+		if ( $itemid === 0 )
+		{
+			// checking if we can find the Itemid thru the content
+			if($option == 'com_content')
+			{
+				require_once (JApplicationHelper::getPath('helper', 'com_content'));
+				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+				$itemid = JContentHelper::getItemid($id);
+			}
+			else
+			{
+				$menus =& JMenu::getInstance();
+				$item  =& $menus->getDefault();
+
+				$itemid = $item->id;
+			}
+		}
+
+		return JRequest::setVar( 'Itemid', $itemid, '', 'int' );
+	}
+
+	/**
+	 * Return the application option string [main component]
+	 *
+	 * @access public
+	 * @return string Option
+	 * @since 1.5
+	 */
+	function findOption()
+	{
+		$option = strtolower(JRequest::getVar('option', null));
+
+		if(empty($option))
+		{
+			$menu =& JMenu::getInstance();
+			$item =& $menu->getItem(JSiteHelper::findItemid());
+
+			$component = JTable::getInstance( 'component', JFactory::getDBO() );
+			$component->load($item->componentid);
+
+			$option = $component->option;
+
+		}
+
+		return $option;
+	}
+}
 ?>

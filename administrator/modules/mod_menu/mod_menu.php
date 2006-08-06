@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Lets get some variables we will need to render the menu
 $lang 	=& JFactory::getLanguage();
-$doc 	=& $mainframe->getDocument();
+$doc 	=& JFactory::getDocument();
 $user 	=& JFactory::getUser();
 $hide 	= JRequest::getVar( 'hidemainmenu', 0 );
 
@@ -299,7 +299,7 @@ class JAdminMenu {
 		if ($css)
 		{
 			// Add style to document head
-			$doc = & $mainframe->getDocument();
+			$doc =& JFactory::getDocument();
 			$doc->addStyleDeclaration($css);
 		}
 	}

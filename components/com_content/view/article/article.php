@@ -99,7 +99,7 @@ class JContentViewArticle extends JView
 		// Item
 		$breadcrumbs->addItem($article->title, '');
 		// Handle Page Title
-		$doc = & $app->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->setTitle($article->title);
 
 		// Handle metadata
@@ -127,9 +127,9 @@ class JContentViewArticle extends JView
 	function edit()
 	{
 		// Initialize variables
-		$app	= & $this->getApplication();
-		$doc	= & $app->getDocument();
-		$user	= & JFactory::getUser();
+		$app	=& $this->getApplication();
+		$doc	=& JFactory::getDocument();
+		$user	=& JFactory::getUser();
 
 		// At some point in the future this will come from a request object
 		$page		= JRequest::getVar('limitstart', 0, '', 'int');
@@ -143,7 +143,7 @@ class JContentViewArticle extends JView
 		$doc->addScript('includes/js/calendar/lang/calendar-en.js');
 
 		// Get the article from the model
-		$article	= & $this->get('Article');
+		$article	=& $this->get('Article');
 		$params		= $article->parameters;
 
 		// Get the lists

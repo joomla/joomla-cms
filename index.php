@@ -20,16 +20,18 @@ require_once ( JPATH_BASE .'/includes/defines.php' );
 require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'  );
 
-// create the mainframe object
+/**
+ * CREATE THE APPLICATION
+ */
 $mainframe = new JSite();
 
-// set the configuration
+// looad the configuration settings
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
-// set language
+// set the language
 $mainframe->setLanguage();
 
 // load system plugin group
@@ -43,55 +45,36 @@ $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
 
-// initialise some common request directives
-$option = $mainframe->getOption();
-$Itemid = $mainframe->findItemid(); //need to set this in the request again
+// authorization
+$Itemid = JSiteHelper::findItemid();
+$mainframe->authorize($Itemid);
 
-//TODO :: should we show a login screen here ?
-$menus =& JMenu::getInstance();
-if(!$menus->authorize($Itemid, JFactory::getUser())) {
-	JError::raiseError( 403, JText::_('Not Authorised') );
-}
-
-/*
+/**
  * BACKWARDS COMPATABILITY
  * 	Set globals for:
  * 		- $database
  * 		- $my
  * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
  */
-global $database, $my;
+global $database, $my, $_VERSION;
 $database	=& JFactory::getDBO();
 $user		=& JFactory::getUser();
 $my			=& $user->getTable();
+$_VERSION   = new JVersion();
 
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
-$cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
-$no_html 	  = JRequest::getVar( 'no_html', 0, '', 'int' );
-$format 	  = JRequest::getVar( 'format', $no_html ? 'raw' : 'html',  '', 'string'  );
-$tmpl 	 	  = JRequest::getVar( 'tmpl', isset($tmpl) ? $tmpl : 'index.php',  '', 'string'  );
-
-
-if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
-	$tmpl = 'offline.php';
-}
-
-$params = array(
-	'outline'   => JRequest::getVar('tp', 0 ),
-	'template' 	=> $cur_template,
-	'file'		=> $tmpl,
-	'directory'	=> JPATH_BASE.DS.'templates'
-);
-
-$document =& $mainframe->getDocument($format);
-$document->setTitle( $mainframe->getCfg('sitename' ));
-
 // trigger the onBeforeDisplay events
 $mainframe->triggerEvent( 'onBeforeDisplay' );
 
-$document->display( $mainframe->getCfg('caching_tmpl'), $mainframe->getCfg('gzip'), $params);
+/** 
+ * EXECUTE THE APPLICATION
+ * 
+ * Note: This section of initialization must be performed last.
+ */
+$option = JSiteHelper::findOption();
+$mainframe->execute($option, isset($tmpl) ? $tmpl : 'index.php');
 
 // trigger the onAfterDisplay events
 $mainframe->triggerEvent( 'onAfterDisplay' );
@@ -99,5 +82,4 @@ $mainframe->triggerEvent( 'onAfterDisplay' );
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 
 JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
-
 ?>

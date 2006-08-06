@@ -43,6 +43,30 @@ class JAdministrator extends JApplication
 	function __construct() {
 		parent::__construct(1);
 	}
+	
+	/**
+	* Execute the application
+	*
+	* @access public
+	*/
+	function execute($option, $file)
+	{
+		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
+		$raw      = strtolower( JRequest::getVar( 'no_html', 0 ) );
+		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
+		$file 	  = JRequest::getVar( 'tmpl', $file,  '', 'string'  );
+
+		//TODO :: put cpanel in a component
+		if(empty($option)) {
+			$file = 'cpanel.php';
+		}
+
+		if (is_null(JSession::get('guest')) || JSession::get('guest')) {
+			$file = 'login.php';
+		}
+		
+		$this->_display($format, $template, $file);
+	}
 
 	/**
 	* Login authentication function
@@ -87,7 +111,7 @@ class JAdministrator extends JApplication
 	*/
 	function setPageTitle( $title=null )
 	{
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		$document->setTitle($title);
 	}
 
@@ -99,7 +123,7 @@ class JAdministrator extends JApplication
 	*/
 	function getPageTitle()
 	{
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
 
@@ -138,7 +162,8 @@ class JAdministrator extends JApplication
 	function setSession($name)
 	{
 		$this->_createSession($name);
-		if (JSession::isIdle()) {
+		if (JSession::isIdle()) 
+		{
 			// Build the URL
 			$uri = JURI::getInstance();
 			$url = basename($uri->getPath());
@@ -162,42 +187,6 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	 * Return a reference to the JDocument object
-	 *
-	 * @access public
-	 * @since 1.5
-	 */
-	function &getDocument($type = 'html')
-	{
-		if(is_object($this->_document)) {
-			return $this->_document;
-		}
-
-		$doc  =& parent::getDocument($type);
-		$user =& JFactory::getUser();
-
-		//set document description
-		$doc->setDescription( $this->getCfg('MetaDesc') );
-
-		switch($type)
-		{
-			case 'html' :
-			{
-				$doc->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
-
-				if ( $user->get('id') ) {
-					$doc->addScript( '../includes/js/joomla/common.js');
-					$doc->addScript( '../includes/js/joomla.javascript.js');
-				}
-			} break;
-
-			default : break;
-		}
-
-		return $this->_document;
-	}
-
-	/**
 	* Get the template
 	*
 	* @return string The template name
@@ -212,7 +201,7 @@ class JAdministrator extends JApplication
 			$templates = array();
 
 			// Load template entries for each menuid
-			$db = JFactory::getDBO();
+			$db =& JFactory::getDBO();
 			$query = "SELECT template"
 				. "\n FROM #__templates_menu"
 				. "\n WHERE client_id = 1"
@@ -336,12 +325,62 @@ class JAdministrator extends JApplication
 
 		parent::setLanguage($lang);
 	}
+	
+	/**
+	* Display the application
+	*
+	* @access protected
+	* @since 1.5
+	*/
+	function _display($format, $template, $file)
+	{
+		$document =& JFactory::getDocument($format);
+		$user     =& JFactory::getUser();
+
+		switch($format)
+		{
+			case 'html' :
+			{
+				$document->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
+
+				if ( $user->get('id') ) {
+					$document->addScript( '../includes/js/joomla/common.js');
+					$document->addScript( '../includes/js/joomla.javascript.js');
+				}
+			} break;
+
+			default : break;
+		}
+
+		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+		$document->setDescription( $this->getCfg('MetaDesc') );
+		
+		$params = array(
+			'template' 	=> $template,
+			'file'		=> $file,
+			'directory'	=> JPATH_BASE.DS.'templates'
+		);
+		
+		$document->display($this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params );
+	}
 }
 
 /**
- * @global $_VERSION
+ * @package Joomla
+ * @static
  */
-$_VERSION = new JVersion();
-
-
-?>
+class JAdministratorHelper
+{
+	/**
+	 * Return the application option string [main component]
+	 *
+	 * @access public
+	 * @return string Option
+	 * @since 1.5
+	 */
+	function findOption()
+	{
+		$option = strtolower(JRequest::getVar('option', null));
+		return $option;
+	}
+}

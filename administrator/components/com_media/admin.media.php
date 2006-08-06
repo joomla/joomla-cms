@@ -209,15 +209,13 @@ class JMediaController
 	 */
 	function showUpload($msg = '')
 	{
-		global $mainframe;
-
 		$dirPath = JRequest::getVar( 'dirPath', '/' );
 
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 
 		//attach stylesheet to document
-		$doc = & $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet('components/com_media/assets/popup-imageupload.css');
 		$doc->addScript('components/com_media/assets/popup-imageupload.js');
 
@@ -277,7 +275,7 @@ class JMediaController
 		//attach stylesheet to document
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$doc = & $mainframe->getDocument();
+		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');
 		$doc->addScript('components/com_media/assets/popup-imagemanager.js');
 		$doc->addScript( $url. 'includes/js/moofx/moo.fx.js' );
@@ -333,7 +331,7 @@ class JMediaController
 		}
 
 		//attach stylesheet to document
-		$doc = & $mainframe->getDocument();
+		$doc = & JFactory::getDocument();
 		$doc->addStyleSheet('components/com_media/assets/popup-imagelist.css');
 
 		// If there are no errors then lets list the media

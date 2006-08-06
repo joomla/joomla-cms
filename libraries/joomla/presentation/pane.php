@@ -131,9 +131,7 @@ class JPaneTabs extends JPane
 	*/
 	function startPane( $id )
 	{
-		global $mainframe;
-
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 
 		echo "<div class=\"tab-page\" id=\"".$id."\">";
 		echo "<script type=\"text/javascript\">\n";
@@ -179,7 +177,7 @@ class JPaneTabs extends JPane
 	{
 		global $mainframe;
 
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 		$lang     =& JFactory::getLanguage();
 
 		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
@@ -267,7 +265,7 @@ class JPaneSliders extends JPane
 	{
 		global $mainframe;
 
-		$document =& $mainframe->getDocument();
+		$document =& JFactory::getDocument();
 		$lang     =& JFactory::getLanguage();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();

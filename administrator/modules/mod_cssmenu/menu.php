@@ -63,7 +63,7 @@ class JAdminCSSMenu extends JTree
 
 		if ($this->_css) {
 			// Add style to document head
-			$doc = & $mainframe->getDocument();
+			$doc = & JFactory::getDocument();
 			$doc->addStyleDeclaration($this->_css);
 		}
 	}

@@ -47,7 +47,7 @@ $params = array(
 	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
 );
 
-$document =& $mainframe->getDocument('feed');
+$document =& JFactory::getDocument('feed');
 $document->setTitle( $mainframe->getCfg('sitename' ));
 $document->display( false, $mainframe->getCfg('gzip'), $params);
 
