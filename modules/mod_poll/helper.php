@@ -72,31 +72,6 @@ class modPollHelper
 		$Itemid = isset($items[0]) ? $items[0]->id : '0';
 
 		?>
-		<script language="javascript" type="text/javascript">
-		<!--
-		function submitbutton()
-		{
-			var form 		= document.pollxtd;
-			var radio		= form.voteid;
-			var radioLength = radio.length;
-			var check 		= 0;
-
-			if ( '<?php echo $voted; ?>' != 'z' ) {
-				alert('<?php echo JText::_( 'You already voted for this poll today!' ); ?>');
-				return;
-			}
-			for(var i = 0; i < radioLength; i++) {
-				if(radio[i].checked) {
-					form.submit();
-					check = 1;
-				}
-			}
-			if (check == 0) {
-				alert('<?php echo JText::_( 'WARNSELECT' ); ?>');
-			}
-		}
-		//-->
-		</script>
 		<form name="form2" method="post" action="index.php">
 
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">

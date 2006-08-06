@@ -240,6 +240,8 @@ class UserController
 
 	function checkin( $userid, $access, $option )
 	{
+		global $mainframe;
+
 		$db 	=& JFactory::getDBO();
 
 		$nullDate = $db->getNullDate();
