@@ -56,7 +56,7 @@ class HTML_admin_misc
 		global $_VERSION;
 		global $mainframe;
 
-		$db =& JFActory::getDBO();
+		$db =& JFactory::getDBO();
 
 		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
