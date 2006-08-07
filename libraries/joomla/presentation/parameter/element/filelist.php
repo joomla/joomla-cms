@@ -47,22 +47,33 @@ class JElement_FileList extends JElement
 		// path to images directory
 		$path		= JPATH_ROOT.DS.$node->attributes('directory');
 		$filter		= $node->attributes('filter');
+		$exclude	= $node->attributes('exclude');
 		$stripExt	= $node->attributes('stripext');
 		$files		= JFolder::files($path, $filter);
 
 		$options = array ();
 
-		if (!$node->attributes('hide_none')) {
+		if (!$node->attributes('hide_none'))
+		{
 			$options[] = mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -');
 		}
 
-		if (!$node->attributes('hide_default')) {
+		if (!$node->attributes('hide_default'))
+		{
 			$options[] = mosHTML::makeOption('', '- '.JText::_('Use default').' -');
 		}
 
 		foreach ($files as $file)
 		{
-			if ($stripExt) {
+			if ($exclude)
+			{
+				if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $file ))
+				{
+					continue;
+				}
+			}
+			if ($stripExt)
+			{
 				$file = JFile::stripExt( $file );
 			}
 			$options[] = mosHTML::makeOption($file, $file);

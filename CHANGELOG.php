@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Aug-2006 Andrew Eddie
+ + Added 'exclude' attribute to filelist parameter tag
+ + Added 'exclude' attribute to folderlist parameter tag
+
 07-Aug-2006 Andrew Eddie
  # Fixed Zend Hash Del Key Or Index Vulnerability
  ^ globals.php now forces emulation to register_globals = off 
