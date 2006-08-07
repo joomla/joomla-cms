@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/**
+/*
  * Joomla! system checks
  */
 
@@ -25,14 +25,7 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 	exit();
 }
 
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
-
-/**
+/*
  * Joomla! system startup
  */
 
@@ -54,7 +47,7 @@ define('JDEBUG', $CONFIG->debug);
 
 unset($CONFIG);
 
-/**
+/*
  * Joomla! framework loading
  */
 
