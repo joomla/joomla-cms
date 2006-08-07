@@ -18,12 +18,9 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 // Get the breadcrumbs
-$list = modBreadCrumbsHelper::getList($params);
+$list  = modBreadCrumbsHelper::getList($params);
+$count = count($list);
 
 // Set the default separator
 $separator = modBreadCrumbsHelper::setSeparator( $params->get( 'separator' ));
-?>
-
-<span class="breadcrumbs pathway">
-<?php echo modBreadCrumbsHelper::renderBreadCrumbs($list, $separator); ?>
-</span>
+require(dirname(__FILE__).'/templates/module.html');

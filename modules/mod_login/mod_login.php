@@ -25,9 +25,13 @@ $return	= modLoginHelper::getReturnURL();
 switch($type)
 {
 	case 'login' 	:
-		modLoginHelper::renderLoginForm($params, $return);
-		break;
-	case 'logout'	:
-		modLoginHelper::renderLogoutForm($params, $return);
-		break;
+	{
+		global $mainframe;
+		require(dirname(__FILE__).'/templates/login.html');
+	} break;
+	case 'logout'	: 
+	{
+		$user =& JFactory::getUser();
+		require(dirname(__FILE__).'/templates/logout.html');
+	} break;
 }

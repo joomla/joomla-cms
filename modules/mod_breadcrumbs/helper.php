@@ -36,21 +36,8 @@ class modBreadCrumbsHelper
 
 		// Get the PathWay object from the application
 		$pathway = & $mainframe->getPathWay();
-		return $pathway->getPathWay($showHome, $showComponent);
-	}
-
-	/**
- 	 * Get the breadcrumbs string in XHTML format for output to the page
- 	 *
- 	 * @param	array	$items		Pathway items to build a BreadCrumbs string
- 	 * @param	string	$separator	BreadCrumbs separator string [XHTML]
- 	 * @return	string	XHTML Compliant breadcrumbs string
- 	 * @since	1.5
- 	 */
-	function renderBreadCrumbs(& $items, $separator)
-	{
-		// Initialize variables
-		$breadcrumbs	= null;
+		$items = $pathway->getPathWay($showHome, $showComponent);
+		
 		$count			= count($items);
 
 		for ($i = 0; $i < $count; $i ++)
@@ -58,30 +45,14 @@ class modBreadCrumbsHelper
 			$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
 
 			// If a link is present create an html link, if not just use the name
-			if (empty ($items[$i]->link) || $count == $i +1)
-			{
-				$link = $items[$i]->name;
-			}
-			else
-			{
-				$link = '<a href="'.sefRelToAbs($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
-			}
-
-			$link = ampReplace($link);
-
-			// Add the link if it exists
-			if (trim($link) != '')
-			{
-				$breadcrumbs .= $link;
-				// If not the last item in the breadcrumbs add the separator
-				if ($i < $count -1)
-				{
-					$breadcrumbs .= ' '.$separator.' ';
-				}
+			if (empty ($items[$i]->link) || $count == $i +1) {
+				$items[$i]->link = $items[$i]->name;
+			} else {
+				$items[$i]->link = '<a href="'.sefRelToAbs($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
 			}
 		}
 
-		return $breadcrumbs ;
+		return $items;
 	}
 
 	/**

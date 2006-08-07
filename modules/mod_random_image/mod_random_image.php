@@ -28,17 +28,4 @@ if (!count($images)) {
 }
 
 $image = modRandomImageHelper::getRandomImage($params, $images);
-
-?><div align="center"><?php
-
-if ($link) : ?>
-	<a href="<?php echo $link; ?>" target="_self">
-<?php endif; ?>
-
-<img src="<?php echo $image->folder.'/'.$image->name; ?>" border="0" width="<?php echo $image->width; ?>" height="<?php echo $image->height; ?>" alt="<?php echo $image->name; ?>" /><br />
-
-<?php if ($link) : ?>
-	</a>
-<?php endif; ?>
-
-</div>
+require(dirname(__FILE__).'/templates/module.html');

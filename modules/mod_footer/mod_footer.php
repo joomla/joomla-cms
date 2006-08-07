@@ -31,6 +31,4 @@ if (JString::strpos($line1, '%sitename%')) {
 	$lineone = $line1;
 }
 
-?>
-<div><?php echo $lineone; ?></div>
-<div><?php echo JText::_( 'FOOTER_LINE2' ); ?></div>
+require(dirname(__FILE__).'/templates/module.html');

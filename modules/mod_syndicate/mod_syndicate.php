@@ -27,7 +27,4 @@ if(is_null($link)) {
 }
 
 $img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
-?>
-<a href="<?php echo $link ?>">
-	<?php echo $img ?> <span><?php echo $params->get('text') ?></span>
-</a>
+require(dirname(__FILE__).'/templates/module.html');

@@ -21,25 +21,4 @@ $headerText	= trim( $params->get( 'header_text' ) );
 $footerText	= trim( $params->get( 'footer_text' ) );
 
 $list = modBannersHelper::getList($params);
-?>
-
-<div class="bannergroup<?php echo $params->get( 'moduleclass_sfx' ) ?>">
-
-<?php if ($footerText) : ?>
-	<div class="bannerheader"><?php echo $headerText ?></div>
-<?php endif;
-
-foreach($list as $item) :
-
-	?><div class="banneritem<?php echo $params->get( 'moduleclass_sfx' ) ?>"><?php
-	echo modBannersHelper::renderBanner($params, $item);
-	?><div class="clr"></div>
-	</div>
-<?php endforeach; ?>
-
-<?php if ($footerText) : ?>
-	<div class="bannerfooter<?php echo $params->get( 'moduleclass_sfx' ) ?>">
-		 <?php echo $footerText ?>
-	</div>
-<?php endif; ?>
-</div>
+require(dirname(__FILE__).'/templates/module.html');

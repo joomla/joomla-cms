@@ -18,16 +18,8 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $params->def('count', 10);
-
 $list = modArchiveHelper::getList($params);
-?>
 
-<ul>
-<?php foreach ($list as $item) : ?>
-<li>
-	<a href="<?php echo $item->link; ?>">
-		<?php echo $item->text; ?>
-	</a>
-</li>
-<?php endforeach; ?>
-</ul>
+require(dirname(__FILE__).'/templates/module.html');
+
+?>

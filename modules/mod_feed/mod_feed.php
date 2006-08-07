@@ -39,8 +39,4 @@ if (empty ($rssurl))
 	return;
 }
 
-?>
-
-<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
-<?php echo modFeedHelper::renderFeed($params); ?>
-</div>
+require(dirname(__FILE__).'/templates/module.html');
