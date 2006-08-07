@@ -26,7 +26,6 @@ function checkInputArray( &$array, $globalise=false ) {
 	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
 
 	foreach ($array as $key => $value) {
-		$key = urldecode( $key );
 		$intval = intval( $key );
 		// PHP GLOBALS injection bug 
 		$failed = in_array( strtolower( $key ), $banned );
