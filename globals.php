@@ -30,7 +30,7 @@ function checkInputArray( &$array, $globalise=false ) {
 		// PHP GLOBALS injection bug 
 		$failed = in_array( strtolower( $key ), $banned );
 		// PHP Zend_Hash_Del_Key_Or_Index bug
-		$failed |= ((string)$intval == (string)$key && $intval != 0);
+		$failed |= is_numeric( $key );
 		if ($failed) {
 			die( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
 		}
