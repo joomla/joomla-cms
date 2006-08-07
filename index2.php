@@ -11,6 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-$tmpl = 'component.html';
+$_REQUEST['tmpl'] = 'component.html';
 include('index.php');
 ?>

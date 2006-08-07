@@ -87,6 +87,7 @@ class JMenuManagerListView extends JView
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th width="20">
+						&nbsp;
 					</th>
 					<th class="title" nowrap="nowrap">
 						<?php echo JText::_( 'Title' ); ?>
