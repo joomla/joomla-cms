@@ -40,6 +40,7 @@ Legend:
 07-Aug-2006 Rey Gigataras
  # Fixed Zend Hash Del Key Or Index Vulnerability
  ^ globals.php now forces emulation to register_globals = off 
+ # Fixed JUtility::spoofKey method to ensure the hash is a string
 
 06-Aug-2006 Enno Klasing
  # Fixed [artf5526] : Install fails: "Fatal error: Class 'JArray' not found" with makeDB()

@@ -181,8 +181,12 @@ class JUtility
 	 *
 	 * @return	string	Hashed var name
 	 * @since	1.5
+	 * @static	 
 	 */
 	function spoofKey() {
+		// the prefix ensures that the hash is non-numeric
+		// otherwise it will be intercepted by globals.php
+		$hash = 'j' . JUtility::getHash( JSession::id() );
 		$hash = JUtility::getHash( JSession::id() );
 		return $hash;
 	}
