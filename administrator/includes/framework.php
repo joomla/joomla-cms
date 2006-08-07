@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/**
+/*
  * Joomla! system checks
  */
 
@@ -25,23 +25,16 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 	exit();
 }
 
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
-
-/**
+/*
  * Joomla! system startup
  */
 
-//System includes
-require_once( JPATH_SITE      		. DS .'globals.php' );
-require_once( JPATH_CONFIGURATION   . DS .'configuration.php' );
-require_once( JPATH_LIBRARIES 		. DS .'loader.php' );
+// System includes
+require_once( JPATH_SITE			. DS . 'globals.php' );
+require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
+require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
-//System configuration
+// System configuration
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
@@ -50,47 +43,49 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( $CONFIG->error_reporting );
 }
 
-define('JDEBUG', $CONFIG->debug);
+define( 'JDEBUG', $CONFIG->debug );
 
-unset($CONFIG);
+unset( $CONFIG );
 
-
-/**
+/*
  * Joomla! framework loading
  */
- jimport( 'joomla.common.compat.compat' );
- jimport( 'joomla.common.abstract.object' );
 
-//System profiler
-if(JDEBUG) {
-	jimport('joomla.utilities.profiler');
-	$_PROFILER =& JProfiler::getInstance('Application');
+// Include object abstract class
+jimport( 'joomla.common.compat.compat' );
+jimport( 'joomla.common.abstract.object' );
+
+// System profiler
+if (JDEBUG) {
+	jimport( 'joomla.utilities.profiler' );
+	$_PROFILER =& JProfiler::getInstance( 'Application' );
 }
 
-jimport( 'joomla.version' );
-jimport( 'joomla.factory' );
-jimport( 'joomla.utilities.utility' );
-jimport( 'joomla.utilities.array' );
-jimport( 'joomla.utilities.functions' );
-jimport( 'joomla.utilities.error');
-jimport( 'joomla.application.user.authenticate');
-jimport( 'joomla.application.user.user' );
-jimport( 'joomla.environment.session' );
-jimport( 'joomla.environment.request' );
-jimport( 'joomla.database.table' );
-jimport( 'joomla.presentation.html' );
-jimport( 'joomla.presentation.parameter.parameter' );
-jimport( 'joomla.i18n.language' );
-jimport( 'joomla.i18n.string' );
-jimport( 'joomla.application.menu');
+// Joomla! library imports
+jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
-jimport( 'joomla.application.application');
+jimport( 'joomla.application.menu' );
+jimport( 'joomla.application.user.authenticate' );
+jimport( 'joomla.application.user.user' );
+jimport( 'joomla.database.table' );
+jimport( 'joomla.environment.request' );
+jimport( 'joomla.environment.session' );
+jimport( 'joomla.factory' );
+jimport( 'joomla.i18n.language' );
+jimport( 'joomla.i18n.string' );
+jimport( 'joomla.presentation.html' );
+jimport( 'joomla.presentation.parameter.parameter' );
+jimport( 'joomla.utilities.array' );
+jimport( 'joomla.utilities.error' );
+jimport( 'joomla.utilities.functions' );
+jimport( 'joomla.utilities.utility' );
+jimport( 'joomla.version' );
 
 // support for legacy classes & functions that will be depreciated
 jimport( 'joomla.common.legacy.classes' );
 jimport( 'joomla.common.legacy.functions' );
 jimport( 'joomla.common.legacy.globals' );
 
-JDEBUG ?  $_PROFILER->mark('afterLoadFramework') : null;
+JDEBUG ? $_PROFILER->mark( 'afterLoadFramework' ) : null;
 ?>

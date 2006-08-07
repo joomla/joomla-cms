@@ -15,45 +15,51 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+/*
+ * Joomla! system checks
+ */
+
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 
-if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php')) {
+if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10)) {
 	// TODO: Throw 500 error
 	header( 'Location: ../installation/index.php' );
 	exit();
 }
 
-//Globals
-$GLOBALS['mosConfig_absolute_path'] = JPATH_SITE.DIRECTORY_SEPARATOR;
-$GLOBALS['mosConfig_sitename']      = 'Joomla! - XML-RPC';
+/*
+ * Joomla! system startup
+ */
 
-require_once( JPATH_LIBRARIES.DS.'loader.php');
+// System includes
+// globals.php disabled for now as it breaks xmlrpcs.php
+// TODO: We need to make sure to enable it prior to release!
+//require_once( JPATH_SITE			. DS . 'globals.php' );
+require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
-
-//File includes
+// File includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
-//Library imports
+/*
+ * Joomla! framework loading
+ */
+
+// Include object abstract class
 jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.common.abstract.object' );
 
-jimport( 'joomla.utilities.error');
+// Joomla! library imports
+jimport( 'joomla.application.application' );
+jimport( 'joomla.application.event' );
+jimport( 'joomla.application.extension.plugin' );
+jimport( 'joomla.application.user.user' );
+jimport( 'joomla.database.table' );
+jimport( 'joomla.environment.request' );
+jimport( 'joomla.environment.session' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
-jimport( 'joomla.database.table' );
-jimport( 'joomla.environment.request' );
-jimport( 'joomla.environment.session' );
-jimport( 'joomla.application.application');
-jimport( 'joomla.application.event');
-jimport( 'joomla.application.extension.plugin');
-jimport( 'joomla.application.user.user' );
+jimport( 'joomla.utilities.error' );
 ?>

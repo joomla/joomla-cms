@@ -29,12 +29,12 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  * Joomla! system startup
  */
 
-//System includes
-require_once( JPATH_SITE      	  . DS . 'globals.php' );
-require_once( JPATH_CONFIGURATION . DS . 'configuration.php' );
-require_once( JPATH_LIBRARIES 	  . DS . 'loader.php' );
+// System includes
+require_once( JPATH_SITE			. DS . 'globals.php' );
+require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
+require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
-//System configuration
+// System configuration
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
@@ -43,9 +43,9 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( $CONFIG->error_reporting );
 }
 
-define('JDEBUG', $CONFIG->debug);
+define( 'JDEBUG', $CONFIG->debug );
 
-unset($CONFIG);
+unset( $CONFIG );
 
 /*
  * Joomla! framework loading
@@ -55,35 +55,35 @@ unset($CONFIG);
 jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.common.abstract.object' );
 
-//System profiler
-if(JDEBUG) {
-	jimport('joomla.utilities.profiler');
-	$_PROFILER =& JProfiler::getInstance('Application');
+// System profiler
+if (JDEBUG) {
+	jimport( 'joomla.utilities.profiler' );
+	$_PROFILER =& JProfiler::getInstance( 'Application' );
 }
 
-//Joomla library imports
-jimport( 'joomla.version' );
-jimport( 'joomla.factory' );
-jimport( 'joomla.utilities.functions' );
-jimport( 'joomla.utilities.utility' );
-jimport( 'joomla.utilities.array' );
-jimport( 'joomla.utilities.error');
-jimport( 'joomla.application.user.user' );
-jimport( 'joomla.environment.session' );
-jimport( 'joomla.environment.request' );
-jimport( 'joomla.database.table' );
-jimport( 'joomla.presentation.html' );
-jimport( 'joomla.i18n.language' );
-jimport( 'joomla.i18n.string' );
+// Joomla! library imports
+jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
-jimport( 'joomla.application.application');
 jimport( 'joomla.application.menu' );
+jimport( 'joomla.application.user.user' );
+jimport( 'joomla.database.table' );
+jimport( 'joomla.environment.request' );
+jimport( 'joomla.environment.session' );
+jimport( 'joomla.factory' );
+jimport( 'joomla.i18n.language' );
+jimport( 'joomla.i18n.string' );
+jimport( 'joomla.presentation.html' );
+jimport( 'joomla.utilities.array' );
+jimport( 'joomla.utilities.error' );
+jimport( 'joomla.utilities.functions' );
+jimport( 'joomla.utilities.utility' );
+jimport( 'joomla.version' );
 
 // support for legacy classes & functions that will be depreciated
 jimport( 'joomla.common.legacy.classes' );
 jimport( 'joomla.common.legacy.functions' );
 jimport( 'joomla.common.legacy.globals' );
 
-JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
+JDEBUG ? $_PROFILER->mark( 'afterLoadFramework' ) : null;
 ?>

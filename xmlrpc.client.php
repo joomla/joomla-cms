@@ -159,20 +159,20 @@ if ($task)
 					<tr>
 						<td>XML-RPC Host</td>
 						<td>
-							<input name="host" type="text" size="50" value="<?= $host ?>" />
+							<input name="host" type="text" size="50" value="<?php echo $host; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td>Server File</td>
 						<td>
-							<input name="path" type="text" size="50" value="<?= $path ?>" />
+							<input name="path" type="text" size="50" value="<?php echo $path; ?>" />
 							<input name="task" type="submit" value="list_methods" />
 							Debug:
-							<input name="debug" type="checkbox" value="1" <?= $debug ? 'checked="yes"' : '' ?>/>
+							<input name="debug" type="checkbox" value="1" <?php echo $debug ? 'checked="yes"' : ''; ?> />
 						</td>
 					</tr>
 				</table>
-				<?= $output ?>
+				<?php echo $output; ?>
 			</div>
 		</div>
 		</form>
