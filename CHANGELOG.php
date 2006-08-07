@@ -40,6 +40,8 @@ Legend:
 08-Aug-2006 Andrew Eddie
  + Added 'exclude' attribute to filelist parameter tag
  + Added 'exclude' attribute to folderlist parameter tag
+ ^ Reconfigured mod_search to support selectable module templates
+ + Added example.html template to mod_search
 
 07-Aug-2006 Andrew Eddie
  # Fixed Zend Hash Del Key Or Index Vulnerability

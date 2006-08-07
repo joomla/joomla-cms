@@ -1,0 +1,43 @@
+<!--<?php
+/**
+ * @version $Id: mod_search.php 4418 2006-08-07 01:40:04Z Jinx $
+ * @package Joomla
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+
+/*
+ * This is an example of how to create a customised template for a module 
+ */
+	$searchphrase		= JRequest::getVar( 'searchphrase', 'any' );
+	$searchphrases 		= array();
+	$searchphrases[] 	= mosHTML::makeOption( 'any', JText::_( 'Any words' ) );
+	$searchphrases[] 	= mosHTML::makeOption( 'all', JText::_( 'All words' ) );
+	$searchphrases[] 	= mosHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
+
+	// TODO: In future these values would be already loaded as template vars
+	$text				= JRequest::getVar( 'searchword', $params->get('text' ) );
+	$button_text		= $params->get('button_text', 'Go' );
+	$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
+	$button_text		= $params->get('button_text', JText::_('Search'));
+	$width				= intval($params->get('width', 20));
+?>-->
+<form action="index.php" method="get">
+	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="Itemid" value="<?php echo $itemid ?>" />
+	<div class="search<?php echo $moduleclass_sfx?>">
+		<label>
+			<?php echo JText::_( 'Search' );?>
+			<input name="searchword" id="mod_search_searchword" maxlength="20" title="<?php echo JText::_( 'Search' );?>" class="inputbox" type="text" size="<?php echo (int)$width;?>" value="<?php echo $text;?>" />
+		</label>
+		<button type="submit" class="button"><?php echo JText::_( $button_text );?></button>
+		<div>
+			<?php echo mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );?>
+		</div>
+	</div>
+</form>

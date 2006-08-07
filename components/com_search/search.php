@@ -104,22 +104,11 @@ function viewSearch()
 	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
 	$searchphrase 		= JRequest::getVar( 'searchphrase', 'any' );
+
 	$searchphrases 		= array();
-
-	$phrase 			= new stdClass();
-	$phrase->value 		= 'any';
-	$phrase->text 		= JText::_( 'Any words' );
-	$searchphrases[] 	= $phrase;
-
-	$phrase 			= new stdClass();
-	$phrase->value 		= 'all';
-	$phrase->text 		= JText::_( 'All words' );
-	$searchphrases[] 	= $phrase;
-
-	$phrase 			= new stdClass();
-	$phrase->value 		= 'exact';
-	$phrase->text 		= JText::_( 'Exact phrase' );
-	$searchphrases[] 	= $phrase;
+	$searchphrases[] 	= mosHTML::makeOption( 'any', JText::_( 'Any words' ) );
+	$searchphrases[] 	= mosHTML::makeOption( 'all', JText::_( 'All words' ) );
+	$searchphrases[] 	= mosHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
 
 	$lists['searchphrase' ]= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
