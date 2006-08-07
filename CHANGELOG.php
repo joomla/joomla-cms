@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-07-Aug-2006 Rey Gigataras
+07-Aug-2006 Andrew Eddie
  # Fixed Zend Hash Del Key Or Index Vulnerability
  ^ globals.php now forces emulation to register_globals = off 
  # Fixed JUtility::spoofKey method to ensure the hash is a string
