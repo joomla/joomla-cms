@@ -97,8 +97,14 @@ textarea:focus { background-color: #ffd }
 
 #footer .copyright { margin: 10px; text-align: center; }
 
-#header-box  { border: 1px solid #ccc; background: #f0f0f0; }
-
+#header-box  { border: 1px solid #ccc; 
+	background: #f0f0f0; 
+	direction: ltr;
+}
+#module-menu {
+	display: inline-block;
+	width: 100%;
+}
 #content-box {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
@@ -112,8 +118,14 @@ textarea:focus { background-color: #ffd }
 #submenu-box .padding { padding: 0px;}
 
 
+
 /* -- status layout */
-#module-status      { float: left; }
+#module-status { 
+	float: left; 
+	position: absolute;
+	display: inline-block;
+}
+
 #module-status span {
 	display: block;
 	float: left;
