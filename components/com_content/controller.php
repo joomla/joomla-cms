@@ -487,7 +487,7 @@ class JContentController extends JController
 	{
 		// Initialize some variables
 		$db		= & $this->getDBO();
-		$user	= & $this->_app->getUser();
+		$user	= & JFactory::getUser();
 
 		// At some point in the future these will be in a request object
 		$Itemid	= JRequest::getVar('Returnid', '0', 'post');
