@@ -211,7 +211,7 @@ function savePlugin( $option, $client, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
-			josRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
 
 		case 'save':
 		default:
