@@ -25,9 +25,9 @@ class JBannerController
 		$db =& JFactory::getDBO();
 
 		$context			= "$option.viewbanners";
-		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order", 	'filter_order', 	'b.bid' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order", 	'filter_order', 	'cc.name' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( "$context.filter_catid",		'filter_catid','' );
+		$filter_catid		= $mainframe->getUserStateFromRequest( "$context.filter_catid",		'filter_catid',		'' );
 		$filter_state 		= $mainframe->getUserStateFromRequest( "$context.filter_state", 	'filter_state', 	'' );
 		$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$context.limitstart", 		'limitstart', 		0 );
@@ -56,7 +56,7 @@ class JBannerController
 		}
 
 		$where 		= count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : '';
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, b.bid";
+		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, b.ordering";
 
 		// get the total number of records
 		$query = "SELECT COUNT(*)"
@@ -194,6 +194,7 @@ class JBannerController
 			exit();
 		}
 		$row->checkin();
+		$row->reorder( 'catid = ' . intval( $post['catid'] ) );
 
 		switch ($task) {
 			case 'apply':
@@ -275,6 +276,55 @@ class JBannerController
 		}
 
 		josRedirect( 'index2.php?option=com_banners' );
+	}
+
+	/**
+	 * Save the new order given by user
+	 */
+	function saveOrder( $cid )
+	{
+		$db			=& JFactory::getDBO();
+
+		$total		= count( $cid );
+		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+		$row		= new mosBanner($db);
+		$conditions	= array();
+
+		// update ordering values
+		for( $i=0; $i < $total; $i++ ) {
+			$row->load( $cid[$i] );
+			if ($row->ordering != $order[$i]) {
+				$row->ordering = $order[$i];
+				if (!$row->store()) {
+					JError::raiseError( 500, $db->getErrorMsg() );
+					return false;
+				}
+				// remember to reorder this category
+				$condition = "catid = $row->catid";
+				$found = false;
+				foreach ($conditions as $cond)
+					if ($cond[1] == $condition) {
+						$found = true;
+						break;
+					}
+				if (!$found) {
+					$conditions[] = array ( $row->bid, $condition );
+				}
+			}
+		}
+
+		// execute reorder for each category
+		foreach ($conditions as $cond) {
+			$row->load( $cond[0] );
+			$row->reorder( $cond[1] );
+		}
+
+		// Clear the component's cache
+		$cache =& JFactory::getCache( 'com_banners' );
+		$cache->cleanCache();
+
+		$msg = JText::_('New ordering saved');
+		josRedirect( 'index2.php?option=com_banners', $msg );
 	}
 }
 ?>

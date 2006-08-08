@@ -48,7 +48,7 @@ class JViewBanners {
 			<thead>
 				<tr>
 					<th width="20">
-		            	<?php echo JText::_( 'Num' ); ?>
+						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th width="20">
 						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
@@ -65,8 +65,10 @@ class JViewBanners {
 					<th width="7%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo JText::_( 'Order' );?>
+					<th width="80" nowrap="nowrap">
+						<?php mosCommonHTML::tableOrdering( 'Order', 'b.ordering', $lists );?>
+					</th>
+					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%">
@@ -137,7 +139,7 @@ class JViewBanners {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td class="order">
+					<td class="order" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
@@ -162,7 +164,7 @@ class JViewBanners {
 			}
 			?>
 			<tfoot>
-				<td colspan="12">
+				<td colspan="13">
 					<?php echo $pageNav->getListFooter(); ?>
 				</td>
 			</tfoot>

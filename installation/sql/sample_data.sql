@@ -4,11 +4,11 @@
 # Dumping data for table `#__banner`
 #
 
-INSERT INTO `#__banner`  VALUES (1,1,'banner','OSM 1',0,43,0,'osmbanner1.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'0000-00-00 00:00:00','','',0,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
-INSERT INTO `#__banner`  VALUES (2,1,'banner','OSM 2',0,49,0,'osmbanner2.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'0000-00-00 00:00:00','','',0,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
-INSERT INTO `#__banner`  VALUES (3,1,'','Joomla',0,11,0,'','http://www.joomla.org','2006-05-29 14:21:28',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! The most popular and widely used Open Source CMS Project in the world.',14,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
-INSERT INTO `#__banner`  VALUES (4,1,'','Joomla Forge',0,11,0,'','http://forge.joomla.org','2006-05-29 14:19:26',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! Forge, development and distribution made easy.',14,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
-INSERT INTO `#__banner`  VALUES (5,1,'','Joomla Extensions',0,6,0,'','http://extensions.joomla.org','2006-05-29 14:23:21',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! components, modules, plugins and languages by the bucket load.',14,'',0,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (1,1,'banner','OSM 1',0,43,0,'osmbanner1.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'0000-00-00 00:00:00','','',13,'',0,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (2,1,'banner','OSM 2',0,49,0,'osmbanner2.png','http://www.opensourcematters.org','2004-07-07 15:31:29',1,0,'0000-00-00 00:00:00','','',13,'',0,2,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (3,1,'','Joomla!',0,11,0,'','http://www.joomla.org','2006-05-29 14:21:28',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! The most popular and widely used Open Source CMS Project in the world.',14,'',0,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (4,1,'','Joomla! Forge',0,11,0,'','http://forge.joomla.org','2006-05-29 14:19:26',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! Forge, development and distribution made easy.',14,'',0,2,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
+INSERT INTO `#__banner`  VALUES (5,1,'','Joomla! Extensions',0,6,0,'','http://extensions.joomla.org','2006-05-29 14:23:21',1,0,'0000-00-00 00:00:00','','<a href=\"{CLICKURL}\" target=\"_blank\">{NAME}</a>\r\n<br/>\r\nJoomla! components, modules, plugins and languages by the bucket load.',14,'',0,3,'0000-00-00 00:00:00','0000-00-00 00:00:00','','');
 
 #
 # Dumping data for table `#__bannerclient`

@@ -291,7 +291,7 @@ class JTable extends JObject
 		if( !$ret )
 		{
 			$this->setError(strtolower(get_class( $this ))."::store failed <br />" . $this->_db->getErrorMsg());
-			$this->setErrorNum($db->getErrorNum());
+			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 		else

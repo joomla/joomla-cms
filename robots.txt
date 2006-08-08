@@ -1,16 +1,15 @@
-User-agent: * 
+User-agent: *
 Disallow: /administrator/
 Disallow: /cache/
 Disallow: /components/
-Disallow: /editor/
-Disallow: /help/
 Disallow: /images/
 Disallow: /includes/
+Disallow: /installation/
 Disallow: /language/
-Disallow: /mambots/
+Disallow: /libraries/
 Disallow: /media/
 Disallow: /modules/
+Disallow: /plugins/
 Disallow: /templates/
-Disallow: /installation/
-
- 
+Disallow: /tmp/
+Disallow: /xmlrpc/

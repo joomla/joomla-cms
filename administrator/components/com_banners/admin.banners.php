@@ -66,6 +66,10 @@ switch ($task) {
 		JBannerController::publishBanner( $cid, 0 );
 		break;
 
+	case 'saveorder':
+		JBannerController::saveOrder( $cid );
+		break;
+
 // Clients
 
 	case 'newclient':

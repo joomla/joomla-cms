@@ -23,7 +23,7 @@ jimport('joomla.application.extension.module');
  */
 class JDocumentRenderer_Module extends JDocumentRenderer
 {
-   /**
+	/**
 	 * Renders a module script and returns the results as a string
 	 *
 	 * @access public
@@ -38,16 +38,17 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 			if(!is_object($module)) return '';
 		}
 
-		// get the user object
+		// get the user and configuration object
 		$user =& JFactory::getUser();
+		$conf =& JFactory::getConfig();
 
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
 
 		$cache = JFactory::getCache( $module->module );
 
-		$cache->setCaching($mod_params->get('cache', 0));
-		$cache->setLifeTime($mod_params->get('cache_time', 900));
+		$cache->setCaching( $mod_params->get( 'cache', 0 ) && $conf->getValue( 'config.caching' ) );
+		$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) ) );
 		$cache->setCacheValidation(true);
 
 		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('gid') );

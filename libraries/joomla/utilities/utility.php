@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
+ * @version $Id$
  * @package		Joomla.Framework
  * @subpackage	Utilities
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -187,7 +187,6 @@ class JUtility
 		// the prefix ensures that the hash is non-numeric
 		// otherwise it will be intercepted by globals.php
 		$hash = 'j' . JUtility::getHash( JSession::id() );
-		$hash = JUtility::getHash( JSession::id() );
 		return $hash;
 	}
 }

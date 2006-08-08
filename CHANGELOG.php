@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Aug-2006 Enno Klasing
+ + [topic,83203] : Added Banner ordering based on Josselin's initial patch
+
 08-Aug-2006 Andrew Eddie
  + Added 'exclude' attribute to filelist parameter tag
  + Added 'exclude' attribute to folderlist parameter tag
