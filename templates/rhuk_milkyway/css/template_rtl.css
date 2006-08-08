@@ -50,22 +50,9 @@ div#newsflash {
 
 /* horizontal pill menu */
 
-/*td.pill_l {
-	background: url(../images/mw_menu_cap_l_rtl.png) no-repeat;
-}
-
-td.pill_r {
-	background: url(../images/mw_menu_cap_r_rtl.png) no-repeat;
-}
-
-#pillmenu li {
-	background: url(../images/mw_menu_seperator.png) top left no-repeat;
-} */
 div#header { direction: ltr;}
 div#header_r .moduletable{ direction: rtl;}
-table.pill {
-  direction: ltr;
-}
+table.pill { direction: ltr; }
 
 /*END*/
 
