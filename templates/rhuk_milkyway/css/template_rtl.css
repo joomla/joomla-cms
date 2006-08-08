@@ -6,43 +6,28 @@ html {
   direction: rtl;
 }
 
+/*****************************************/
+/*** Template specific layout elements ***/
+/*****************************************/
+
+
+
 div#header_r {
-	text-align: right;
-	padding-left: 30px;
 	padding-right: 370px;
+	padding-left: 30px;
+	text-align: right;
 }
 
 div#logo {
-	position: absolute;
 	left: auto;
 	right: 0;
-	top: 0;
 	float: right;
-	background: url(../images/mw_joomla_logo.png) 0 0 no-repeat;
 	margin-right: 30px;
 }
 
-td.pill_l {
-	background: url(../images/mw_menu_cap_r.png) no-repeat;
-}
-
-td.pill_m {
-
-}
-td.pill_r {
-	background: url(../images/mw_menu_cap_l.png) no-repeat;
-}
-
-#pillmenu {
-	float: none;
-}
-
-#pillmenu li {
-	float: left;
-}
-
-#pillmenu a {
-	float: none;
+div#newsflash {
+	margin-right: 350px;
+	margin-left: 30px;
 }
 
 #pathway {
@@ -54,33 +39,51 @@ td.pill_r {
 
 #search {
 	float: left;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 #whitebox div {
 	text-align: right;
 }
 
+/*START*/
+
+/* horizontal pill menu */
+
+td.pill_l {
+	background: url(../images/mw_menu_cap_l_rtl.png) no-repeat;
+}
+
+td.pill_r {
+	background: url(../images/mw_menu_cap_r_rtl.png) no-repeat;
+}
+
+#pillmenu li {
+	background: url(../images/mw_menu_seperator.png) top left no-repeat;
+}
+
+
+/*END*/
+
 #leftcolumn {
 	float: right;
-
-
 }
+
 #maincolumn {
 	margin-right: 20%;
 	margin-left: 0%;
-	padding-left: 0;
 	padding-right: 15px;
+	padding-left: 0px;
 }
 
-span.pathway {
-  margin: 0 0 0 20px;
-}
+/*****************************************/
+/*** Joomla! specific content elements ***/
+/*****************************************/
 
+/* headers */
 div.componentheading {
   padding-right: 0px;
 }
-
 
 h1 {
 	text-align: right;
@@ -91,12 +94,13 @@ h2, .contentheading {
 }
 
 h3, .componentheading, table.moduletable th {
+	padding-right: 0px;
 	text-align: right;
-  padding-right: 0px;
 }
 
+/* small text */
 .small {
-	text-align: right;
+	text-align:right;
 }
 
 .modifydate {
@@ -105,52 +109,58 @@ h3, .componentheading, table.moduletable th {
 
 a.readon {
 	float: right;
-	background: url(../images/mw_readon.png) top left no-repeat;
+	background: url(../images/mw_readon_rtl.png) top left no-repeat;
 	padding-left: 20px;
+	padding-right: 0px;
 }
 
-/** overlib **/
-
-.ol-foreground {
-	background-color: #f6f6f6;
-}
-
-.ol-background {
-	background-color: #666;
-}
-
-.ol-textfont {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10px;
-}
-
-.ol-captionfont {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #f6f6f6;
-	font-weight: bold;
-}
-.ol-captionfont a {
-	color: #0B55C4;
-	text-decoration: none;
-	font-size: 12px;
-}
-
-.ol-closefont {}
-
+/* menu links */
 a.mainlevel:link, a.mainlevel:visited {
 	padding-right: 5px;
+	padding-left: 0px;
 }
 
+.column_seperator {
+	border-left: 0px dashed #e0e0e0;
+	padding-left: 0px;
+	border-right: 1px dashed #e0e0e0;
+	padding-right: 10px;
+}
+
+/* content tables */
 td.sectiontableheader {
-  border-left: 1px solid #fff;
+	border-left: 0px solid #fff;
+	border-right: 1px solid #fff;
 }
 
 div.module_menu h3 {
 	margin: -23px -5px 5px -4px;
 	padding-right: 10px;
+	padding-left: 0px;
 }
 
 div.module_menu ul {
+	margin: 10px 0 0 0;
 	padding-right: 20px;
+	padding-left: 0px;
 }
+
+#leftcolumn div.module {
+	padding: 0 0 0 10px;
+}
+
+table.paramlist td.paramlist_key {
+	text-align: right;
+}
+
+div.message {
+	margin: 3px 0px 10px 0px;
+	padding: 3px 0px 0px 20px;
+}
+
+/* Text advert style */
+
+.bannerfooter_text {
+	text-align: left;
+}
+	
