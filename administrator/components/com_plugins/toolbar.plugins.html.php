@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.plugin.html.php 1541 2005-12-22 21:22:26Z Jinx $
+* @version $Id$
 * @package Joomla
 * @subpackage Plugins
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
