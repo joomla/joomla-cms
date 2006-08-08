@@ -326,7 +326,7 @@ class JController extends JObject
 				$task = $this->_acoSectionValue;
 			}
 			// Get the JUser object for the current user and return the authorization boolean
-			$user = & $this->_app->getUser();
+			$user = & JFactory::getUser();
 			return $user->authorize( $this->_acoSection, $task );
 		}
 		else
