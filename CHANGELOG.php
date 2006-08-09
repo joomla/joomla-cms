@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Aug-2006 Louis Landry
+ + Added filter library for input and output filtering
+
 08-Aug-2006 Enno Klasing
  + [topic,83203] : Added Banner ordering based on Josselin's initial patch
 
