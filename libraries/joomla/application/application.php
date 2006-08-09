@@ -423,9 +423,6 @@ class JApplication extends JObject
 		$db =& JFactory::getDBO();
 		$db->debug( $this->getCfg('debug_db'));
 		
-		// Set the language debug
-		$lang =& JFactory::getLanguage();
-		$lang->setDebug( $this->getCfg('debug'));
 	}
 
 	/**
