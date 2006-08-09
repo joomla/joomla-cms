@@ -72,6 +72,56 @@ class JApplication extends JObject
 	
 	}
 
+	/**
+	 * Redirect to another URL
+	 *
+	 * @access	public
+	 * @param	string	$url	The URL to redirect to
+	 * @param	string	$msg	A message to display on redirect
+	 * @since	1.5
+	 */
+	function redirect( $url, $msg='' )
+	{
+		// Instantiate an input filter and process the URL and message
+		jimport( 'joomla.utilities.filter' );
+		$filter = & JInputFilter::getInstance();
+		$url = $filter->process( $url );
+		if (!empty($msg)) {
+			$msg = $filter->process( $msg );
+		}
+
+		if ($filter->badAttributeValue( array( 'href', $url ))) {
+			$url = $this->getBasePath();
+		}
+
+		// If the message exists, prepare it (url encoding)
+		if (trim( $msg )) {
+		 	if (strpos( $url, '?' )) {
+				$url .= '&josmsg=' . urlencode( $msg );
+			} else {
+				$url .= '?josmsg=' . urlencode( $msg );
+			}
+		}
+
+		// Persist errors if they exist
+		if (count($GLOBALS['_JError_errorStore'])) {
+			JSession::set('_JError_errorStore', $GLOBALS['_JError_errorStore']);
+		}
+
+		/*
+		 * If the headers have been sent, then we cannot send an additional location header
+		 * so we will output a javascript redirect statement.
+		 */
+		if (headers_sent()) {
+			echo "<script>document.location.href='$url';</script>\n";
+		} else {
+			//@ob_end_clean(); // clear output buffer
+			header( 'HTTP/1.1 301 Moved Permanently' );
+			header( "Location: ". $url );
+		}
+		exit();
+	}
+
 	 /**
 	 * Gets a configuration value
 	 *
