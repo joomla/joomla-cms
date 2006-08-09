@@ -87,5 +87,10 @@ class JRecordSet
 	function lastpageno() {
 		return 1;
 	}
+	/**
+	 * TODO: No working
+	 */
+	function Close() {
+	}
 }
 ?>
