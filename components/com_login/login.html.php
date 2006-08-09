@@ -38,12 +38,14 @@ class LoginView
 	{
 		$return = $params->get('login');
 
-		$error =& JError::getError();
-		if(JError::isError($error)) {
+		$errors =& JError::getErrors();
+		
+		if(JError::isError($errors[0])) {
 			echo '<div class="system-error">';
 			echo '<span>ERROR</span><br />';
-			echo  $error->getMessage();
+			echo  $errors[0]->getMessage();
 			echo  '</div>';
+			array_shift($errors);
 		}
 		?>
 

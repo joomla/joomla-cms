@@ -203,7 +203,7 @@ class JDocumentHTML extends JDocument
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
+		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.1
 		header( 'Pragma: no-cache' );										// HTTP/1.0
 		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
@@ -365,9 +365,15 @@ class JDocumentHTML extends JDocument
 			}
 		}
 
+		// Render the document head
 		$renderer = $this->loadRenderer( 'head' );
 		$result   = $renderer->render();
 		$this->set('head', null, $result);
+
+		// Render the errors
+		$renderer = $this->loadRenderer( 'error' );
+		$result   = $renderer->render();
+		$this->set('error', null, $result);
 	}
 
 	/**

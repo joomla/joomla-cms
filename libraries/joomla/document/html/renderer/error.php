@@ -35,39 +35,35 @@ class JDocumentRenderer_Error extends JDocumentRenderer
 		$contents = null;
 
 		// Get the error queue
-		$errors = $GLOBALS['_JError_errorStore'];
+		$errors = JError::getErrors();
 
 		// If there is a persisted error queue, merge it with our existing error queue
-		$oldErrors = JSession::get('_JError_errorStore');
-		if ($oldErrors) {
-			if (is_array($oldErrors)) {
-				$errors = array_merge($oldErrors, $errors);
+		$oldErrors = JSession::get('_JError_queue');
+		if (is_array($oldErrors)) {
+			// Import library dependencies
+			jimport('pattemplate.patError');
+			$oe = array();
+			foreach ($oldErrors as $e)
+			{
+				$oe[] = new patError($e['level'], $e['code'], $e['message'], $e['info']);
 			}
-			JSession::set('_JError_errorStore', null);
+			$errors = array_merge($oe, $errors);
+			JSession::set('_JError_queue', null);
 		}
 
-		// Build the system error div
-		$contents .= "\n<div id=\"system-error\">" .
-				"\n<ul>";
-		foreach ($errors as $error)
-		{
-			$contents .= $this->fetchError($error);
+		// If errors exist render them
+		if (count($errors)) {
+			// Build the system error div
+			$contents .= "\n<div id=\"system-error\">" .
+					"\n<ul>";
+			for ($i=0;$i<count($errors);$i++)
+			{
+				$contents .= "\n<li>".$errors[$i]->getMessage()."</li>";
+			}
+			$contents .= "\n</ul>" .
+					"\n</div>";
 		}
-		$contents .= "\n</ul>" .
-				"\n</div>";
-
 		return $contents;
-	}
-
-	/**
-	 * Fetches the error message in a list element
-	 *
-	 * @access public
-	 * @return string
-	 */
-	function fetchError(& $error)
-	{
-		return "\n<li>".$error->getMessage()."</li>";
 	}
 }
 ?>

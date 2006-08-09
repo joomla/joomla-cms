@@ -164,5 +164,4 @@ class LoginController
 		}
 	}
 }
-
 ?>

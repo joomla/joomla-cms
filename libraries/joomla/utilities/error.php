@@ -11,7 +11,13 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Import library dependencies
 jimport('pattemplate.patErrorManager');
+
+/**
+ * global definition needed to store the raised errors
+ */
+$GLOBALS['_JError_errorStore'] = array();
 
 /**
  * Error Handling Class
@@ -23,13 +29,6 @@ jimport('pattemplate.patErrorManager');
  * @subpackage	Utilities
  * @since		1.5
  */
-
-
-/**
- * global definition needed to store the latest raised error
- */
-$GLOBALS['_JError_errorStore'] = null;
-
 class JError extends patErrorManager
 {
 	/**
@@ -46,13 +45,24 @@ class JError extends patErrorManager
 	}
 
 	/**
-	* method for for retrieving the errors that are stored
+	* method for retrieving the last error stored
 	*
 	* @static
 	* @access	public
 	* @return	array 	$result	Chronological array of errors that have been stored during script execution
 	*/
     function &getError( ) {
+		return $GLOBALS['_JError_errorStore'][0];
+    }
+
+	/**
+	* method for for retrieving the errors that are stored
+	*
+	* @static
+	* @access	public
+	* @return	array 	$result	Chronological array of errors that have been stored during script execution
+	*/
+    function &getErrors( ) {
 		return $GLOBALS['_JError_errorStore'];
     }
 
@@ -148,7 +158,7 @@ class JError extends patErrorManager
 		$handling	=	patErrorManager::getErrorHandling( $level );
 
 		//store the error
-		$GLOBALS['_JError_errorStore'] =& $error;
+		$GLOBALS['_JError_errorStore'][] =& $error;
 
 		$function	=	'handleError' . ucfirst( $handling['mode'] );
 		return JError::$function( $error, $handling );

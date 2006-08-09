@@ -104,8 +104,13 @@ class JApplication extends JObject
 		}
 
 		// Persist errors if they exist
-		if (count($GLOBALS['_JError_errorStore'])) {
-			JSession::set('_JError_errorStore', $GLOBALS['_JError_errorStore']);
+		$errors = JError::getErrors();
+		if (count($errors)) {
+			foreach ($errors as $error)
+			{
+				$ref[] = get_object_vars($error);
+			}
+			JSession::set('_JError_queue', $ref);
 		}
 
 		/*
