@@ -249,6 +249,7 @@ class JController extends JObject
 		$option		= preg_replace( '#\W#', '', $option );
 		$classPrefix= preg_replace( '#\W#', '', $classPrefix );
 
+		$result		= false;
 		if ($option)
 		{
 			// Get the current template name and path
@@ -273,8 +274,8 @@ class JController extends JObject
 			}
 			else
 			{
-				$view = & new $viewClass( $this );
-				return $view;
+				$result = & new $viewClass( $this );
+				return $result;
 			}
 		}
 		else
@@ -294,8 +295,8 @@ class JController extends JObject
 				}
 				else
 				{
-					$view = & new $viewClass( $this );
-					return $view;
+					$result = & new $viewClass( $this );
+					return $result;
 				}
 			}
 			else
@@ -303,7 +304,7 @@ class JController extends JObject
 				JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 			}
 		}
-		return false;
+		return $result;
 	}
 
 	/**
