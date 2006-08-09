@@ -101,10 +101,13 @@ textarea:focus { background-color: #ffd }
 	background: #f0f0f0; 
 	direction: ltr;
 }
+
 #module-menu {
 	display: inline-block;
 	width: 100%;
+	direction: rtl;
 }
+
 #content-box {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
