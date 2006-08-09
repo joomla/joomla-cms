@@ -692,8 +692,9 @@ class patErrorManager
 	*/
     function &handleErrorCallback( &$error, $options )
     {
-		$opt	=	$options['options'];
-		return call_user_func( $opt, $error );
+		$opt	= $options['options'];
+		$result = &call_user_func( $opt, $error );
+		return $result;
     }
 }
 ?>
