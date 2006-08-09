@@ -52,7 +52,8 @@ class JDocumentRenderer_Error extends JDocumentRenderer
 		}
 
 		// If errors exist render them
-		if (count($errors)) {
+		if (count($errors)) 
+		{
 			// Build the system error div
 			$contents .= "\n<div id=\"system-error\">" .
 					"\n<ul>";

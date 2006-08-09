@@ -49,12 +49,12 @@ class JAdministrator extends JApplication
 	*
 	* @access public
 	*/
-	function execute($option, $file)
+	function execute( $option )
 	{
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$raw      = strtolower( JRequest::getVar( 'no_html', 0 ) );
 		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
-		$file 	  = JRequest::getVar( 'tmpl', $file,  '', 'string'  );
+		$file 	  = JRequest::getVar( 'tmpl', 'index.php',  '', 'string'  );
 
 		//TODO :: put cpanel in a component
 		if(empty($option)) {

@@ -22,7 +22,7 @@ class modNewsFlashHelper
 	{
 		global $mainframe;
 
-		$item->text 	= $item->introtext;
+		$item->text 	= ampReplace($item->introtext);
 		$item->groups 	= '';
 		$item->readmore = (trim($item->fulltext) != '');
 		$item->metadesc = '';
@@ -31,41 +31,13 @@ class modNewsFlashHelper
 		$item->created 	= '';
 		$item->modified = '';
 
-		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
-		{
-			?>
-			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<tr>
-			<?php
-				// displays Item Title
-				JContentHTMLHelper::title($item, $params, 0, $access);
-			?>
-			</tr>
-			</table>
-			<?php
-		}
-
-		if (!$params->get('intro_only'))
-		{
-			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
-			echo trim(implode("\n", $results));
-		}
-
-		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
-		echo trim(implode("\n", $onBeforeDisplayContent));
-		?>
-
-		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<td valign="top" colspan="2">
-		<?php
-		// displays Item Text
-		echo ampReplace($item->text);
-		?>
-			</td>
-		</tr>
-		</table>
-		<span class="article_seperator">&nbsp;</span>
-		<?php
+		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
+		$item->afterDisplayTitle = trim(implode("\n", $results));
+		
+		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
+		$item->beforeDisplayContent = trim(implode("\n", $results));
+		
+		require(dirname(__FILE__).DS.'tmpl'.DS.'item.html');
 	}
 
 	function getList(&$params, &$access)

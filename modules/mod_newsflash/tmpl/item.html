@@ -1,0 +1,20 @@
+<?php if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) : ?>
+<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+	<tr>
+		<td><?php JContentHTMLHelper::title($item, $params, 0, $access); ?></td>
+	</tr>
+</table>
+<?php endif; ?>
+
+<?php if (!$params->get('intro_only')) : 
+	echo $item->afterDisplayTitle;
+endif; ?>
+	
+<?php echo $item->beforeDisplayContent; ?>
+
+<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+	<tr>
+		<td valign="top" colspan="2"><?php echo $item->text; ?></td>
+	</tr>
+</table>
+<span class="article_seperator">&nbsp;</span>

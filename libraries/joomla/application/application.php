@@ -67,7 +67,7 @@ class JApplication extends JObject
 	*
 	* @access public
 	*/
-	function execute($option, $tmpl)
+	function execute( $option )
 	{
 	
 	}

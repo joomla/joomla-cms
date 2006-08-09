@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Aug-2006 Johan Janssens
+ ^ Seperated logic and presentation in site modules
+
 08-Aug-2006 Louis Landry
  + Added filter library for input and output filtering
 

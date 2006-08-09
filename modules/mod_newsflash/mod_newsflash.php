@@ -40,33 +40,4 @@ if (!$items) {
 	return;
 }
 
-switch ($style)
-{
-	case 'horiz' :
-		echo '<table class="moduletable'.$params->get('moduleclass_sfx').'">';
-		echo '<tr>';
-		foreach ($list as $item)
-		{
-			echo '<td>';
-			modNewsFlashHelper::renderItem($item, $params, $access);
-			echo '</td>';
-		}
-		echo '</tr></table>';
-	break;
-
-	case 'vert' :
-		foreach ($list as $item)
-		{
-			modNewsFlashHelper::renderItem($row, $params, $access);
-		}
-	break;
-
-	case 'flash' :
-	default :
-		srand((double) microtime() * 1000000);
-		$flashnum = rand(0, $items -1);
-		$item = $list[$flashnum];
-		modNewsFlashHelper::renderItem($item, $params, $access);
-	break;
-}
-?>
+require(dirname(__FILE__).DS.'tmpl'.DS.$style.'.html');

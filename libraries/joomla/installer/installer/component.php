@@ -420,7 +420,6 @@ class JInstallerComponent extends JInstaller
 	 *
 	 * @access	public
 	 * @param	int		$cid	The id of the component to uninstall
-	 * @param	string	$option	The URL option
 	 * @param	int		$client	The client id
 	 * @return	mixed	Return value for uninstall method in component uninstall
 	 * file

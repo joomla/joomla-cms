@@ -1,5 +1,5 @@
 ##
-# @version $Id$
+# @version $Id: htaccess.txt 4094 2006-06-21 18:35:46Z stingrey $
 # @package Joomla
 # @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 # @license GNU/GPL
