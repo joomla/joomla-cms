@@ -56,9 +56,9 @@ class JDocumentRenderer_Error extends JDocumentRenderer
 			// Build the system error div
 			$contents .= "\n<div id=\"system-error\">" .
 					"\n<ul>";
-			for ($i=0;$i<count($errors);$i++)
+			foreach ($errors as $error)
 			{
-				$contents .= "\n<li>".$errors[$i]->getMessage()."</li>";
+				$contents .= "\n<li>".$error->getMessage()."</li>";
 			}
 			$contents .= "\n</ul>" .
 					"\n</div>";
