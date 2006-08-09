@@ -39,5 +39,5 @@ $params->def('startLevel', 			0);
 $params->def('endLevel', 			0);
 $params->def('showAllChildren', 	0);
 
-modMainMenuHelper::renderMenu($params);
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
 ?>

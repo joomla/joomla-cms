@@ -27,4 +27,4 @@ if(is_null($link)) {
 }
 
 $img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
-require(dirname(__FILE__).'/templates/module.html');
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');

@@ -39,4 +39,4 @@ if (empty ($rssurl))
 	return;
 }
 
-require(dirname(__FILE__).'/templates/module.html');
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');

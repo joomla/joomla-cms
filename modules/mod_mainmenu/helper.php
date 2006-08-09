@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class modMainMenuHelper
 {
-	function renderMenu(&$params)
+	function render(&$params)
 	{
 		global $mainframe;
 

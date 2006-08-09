@@ -20,6 +20,4 @@ require_once (dirname(__FILE__).DS.'helper.php');
 $params->def('count', 10);
 $list = modArchiveHelper::getList($params);
 
-require(dirname(__FILE__).'/templates/module.html');
-
-?>
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');

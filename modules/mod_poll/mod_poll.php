@@ -17,14 +17,22 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
+$tabclass_arr = array ('sectiontableentry2', 'sectiontableentry1');
+
+$menu 	= &JMenu::getInstance();
+$items	= $menu->getItems('link', 'index.php?option=com_poll');
+$Itemid = isset($items[0]) ? $items[0]->id : '0';
+
 $list = modPollHelper::getList($params);
 
 foreach ($list as $item)
 {
+	$tabcnt 			= 0;
+	$voted 				= JRequest::getVar( "voted$item->id", 'z', 'COOKIE' );
+	
 	if ($item->id && $item->title)  {
 		$options = modPollHelper::getPollOptions($item->id);
-		modPollHelper::renderPollForm($item, $params, $options);
 	}
+	
+	require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
 }
-
-?>

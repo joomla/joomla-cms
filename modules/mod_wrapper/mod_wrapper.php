@@ -27,4 +27,4 @@ $height = $params->get( 'height');
 $scroll = $params->get( 'scrolling' );
 $class  = $params->get( 'moduleclass_sfx' );
 
-require(dirname(__FILE__).'/templates/module.html');
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');

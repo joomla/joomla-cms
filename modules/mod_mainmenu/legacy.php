@@ -23,7 +23,8 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	$txt = '';
 
 	// Menu Link is a special type that is a link to another item
-	if ($mitem->type == 'menulink') {
+	if ($mitem->type == 'menulink') 
+	{
 		$menu = &JMenu::getInstance();
 		if ($tmp = $menu->getItem($mitem->link)) {
 				$name = $mitem->name;
@@ -38,7 +39,8 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		}
 	}
 
-	switch ($mitem->type) {
+	switch ($mitem->type) 
+	{
 		case 'separator' :
 			break;
 
@@ -75,7 +77,8 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		}
 	}
 
-	if ($params->get('full_active_id')) {
+	if ($params->get('full_active_id')) 
+	{
 		// support for `active_menu` of 'Link - Url' if link is relative
 		if ($id == '' && $mitem->type == 'url' && strpos('http', $mitem->link) === false) {
 			$url = array();
@@ -108,7 +111,8 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	// remove slashes from excaped characters
 	$mitem->name = stripslashes(ampReplace($mitem->name));
 
-	switch ($mitem->browserNav) {
+	switch ($mitem->browserNav) 
+	{
 		// cases are slightly different
 		case 1 :
 			// open in a new window
@@ -131,9 +135,11 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 			break;
 	}
 
-	if ($params->get('menu_images')) {
+	if ($params->get('menu_images')) 
+	{
 		$menu_params = new stdClass();
 		$menu_params = new JParameter($mitem->params);
+
 		$menu_image = $menu_params->def('menu_image', -1);
 		if (($menu_image <> '-1') && $menu_image) {
 			$image = '<img src="images/stories/' . $menu_image . '" border="0" alt="' . $mitem->name . '"/>';
@@ -327,7 +333,7 @@ function mosShowHFMenu(& $params, $style = 0)
 	global $database, $mainframe, $Itemid;
 	global $mosConfig_shownoauth;
 
-	$menu = JMenu :: getInstance();
+	$menu = JMenu::getInstance();
 	$user =& JFactory::getUser();
 
 	//get menu items
@@ -343,8 +349,10 @@ function mosShowHFMenu(& $params, $style = 0)
 	$menuclass = 'mainlevel' . $params->get('class_sfx');
 	$lang = JFactory::getLanguage();
 
-	if (count($links)) {
-		switch ($style) {
+	if (count($links)) 
+	{
+		switch ($style) 
+		{
 			case 1 :
 				if ($lang->isRTL()) {
 					$links = array_reverse($links);

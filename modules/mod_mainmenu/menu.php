@@ -76,7 +76,8 @@ class JMainMenu extends JTree
 			}
 		}
 
-		switch ($item->type) {
+		switch ($item->type) 
+		{
 			case 'separator' :
 				$node = & new JMenuNode(null, $item->name, 'seperator', false);
 				if (isset($item->mid)) {

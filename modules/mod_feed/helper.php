@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 class modFeedHelper
 {
-	function renderFeed($params)
+	function render($params)
 	{
 		// module params
 		$rssurl				= $params->get('rssurl', '');

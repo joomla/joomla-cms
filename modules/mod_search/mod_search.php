@@ -14,23 +14,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!defined( 'JPATH_MOD_SEARCH' ))
-{
-	define( 'JPATH_MOD_SEARCH', dirname(__FILE__) );
-}
-
 // Include the syndicate functions only once
-require_once( JPATH_MOD_SEARCH.DS.'helper.php' );
+require_once( dirname(__FILE__).DS.'helper.php' );
 
 $inputfield = modSearchHelper::renderInputField($params);
 $itemid     = modSearchHelper::getItemid($params);
 
-$template	= $params->get( 'template_name' );
-$template	= preg_replace( '#\W#', '', $template );
-
-if (!file_exists( JPATH_MOD_SEARCH . '/templates/' . $template . '.html' ))
-{
-	$template = 'module';
-}
-// TODO: We could look in a template folder as well for a variation??
-require( JPATH_MOD_SEARCH.'/templates/' . $template . '.html' );
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html' );

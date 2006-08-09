@@ -17,5 +17,4 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 
-modWhosonlineHelper::render($params);
-?>
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');

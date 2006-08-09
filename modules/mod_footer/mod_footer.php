@@ -31,4 +31,4 @@ if (JString::strpos($line1, '%sitename%')) {
 	$lineone = $line1;
 }
 
-require(dirname(__FILE__).'/templates/module.html');
+require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
