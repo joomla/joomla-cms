@@ -97,7 +97,7 @@ class JMenuViewItem extends JView
 							<?php echo JText::_( 'Menu Item Type' ); ?>
 						</legend>
 						<div style="float:right">
-							<button onclick="document.popup.show('index.php?option=com_menus&amp;task=wizard&amp;tmpl=component.html&amp;id=<?php echo $item->id; ?>', 700, 500, null);return false;">
+							<button onclick="document.popup.show('index.php?option=com_menus&amp;task=wizard&amp;menutype=<?php echo $menutype;?>&amp;tmpl=component.html&amp;id=<?php echo $item->id; ?>', 700, 500, null);return false;">
 								<?php echo JText::_( 'Change Type' ); ?></button>
 						</div>
 						<h2><?php echo $name; ?></h2>

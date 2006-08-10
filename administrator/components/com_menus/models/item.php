@@ -41,10 +41,10 @@ class JMenuModelItem extends JModel
 	function &getItem() {
 
 		static $item;
-
 		if (isset($item)) {
 			return $item;
 		}
+
 		$table =& $this->getTable();
 
 		// Load the current item if it has been defined
@@ -62,6 +62,7 @@ class JMenuModelItem extends JModel
 		if ($menu_type = JRequest::getVar('menu_type', false)) {
 			$table->menutype = $menu_type;
 		}
+
 
 		$item = clone($table);
 		return $item;
@@ -317,10 +318,10 @@ class JMenuModelItem extends JModel
 	function &getComponent()
 	{
 		jimport( 'joomla.database.table.component' );
-		$db = $this->getDBO();
-		$item =& $this->getItem();
-		$id = $item->componentid;
-		$component = new JTableComponent( $db );
+		$db			= $this->getDBO();
+		$item		=& $this->getItem();
+		$id			= $item->componentid;
+		$component	= new JTableComponent( $db );
 		$component->load( $id );
 		return $component;
 	}

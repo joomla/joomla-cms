@@ -90,12 +90,13 @@ class JMenuModelList extends JModel
 			$search_rows = $db->loadResultArray();
 		}
 
-		$query = "SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down, com.name AS com_name"
+		$query = "SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down," .
+				" com.name AS com_name"
 		. "\n FROM #__menu AS m"
 		. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 		. "\n LEFT JOIN #__groups AS g ON g.id = m.access"
 		. "\n LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = 'content_typed'"
-		. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'"
+		. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'component'"
 		. "\n WHERE m.menutype = '$menutype'"
 		. "\n AND m.published != -2"
 		. $and

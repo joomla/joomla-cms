@@ -188,13 +188,20 @@ class JMenuHelperComponent extends JWizardHelper
 		return array('path' => $path, 'xpath' => $xpath);
 	}
 
-	function prepForStore(&$values) {
-		$values['link'] = 'index.php?option=com_'.$values['component'];
-		return $values;
+	function &prepForEdit(&$item)
+	{
+		return $item;
 	}
 
-	function &prepForEdit(&$item) {
-		return $item;
+	/**
+	 * Prepares data before saving
+	 * @param	array	A named array of values
+	 * @return	array	The prepared array
+	 */
+	function prepForStore(&$values)
+	{
+		$values['link'] = 'index.php?option=com_'.$values['component'];
+		return $values;
 	}
 
 	function getControllersFolder()
@@ -210,7 +217,8 @@ class JMenuHelperComponent extends JWizardHelper
 	/**
 	 * Gets a list of the available views
 	 */
-	function getControllerList() {
+	function getControllerList()
+	{
 		jimport( 'joomla.filesystem.folder');
 
 		$folderName = $this->getControllersFolder();
@@ -249,7 +257,8 @@ class JMenuHelperComponent extends JWizardHelper
 	/**
 	 * Gets a list of the available views
 	 */
-	function getViewList() {
+	function getViewList()
+	{
 		jimport( 'joomla.filesystem.folder');
 
 		$folderName = $this->getViewsFolder();
@@ -288,9 +297,12 @@ class JMenuHelperComponent extends JWizardHelper
 		$folderName = $this->getControllersFolder();
 		$fileName = $folderName.$controller_name.'.xml';
 
-		if (file_exists( $fileName )) {
+		if (file_exists( $fileName ))
+		{
 			$result = new JParameter( $paramValues, $fileName );
-		} else {
+		}
+		else
+		{
 			$result = new JParameter( $paramValues );
 		}
 		return $result;

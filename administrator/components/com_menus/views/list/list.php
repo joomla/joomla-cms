@@ -158,8 +158,7 @@ class JMenuViewList extends JView
 					<td>
 						<span class="editlinktip" style="text-transform:capitalize">
 							<?php
-							//echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit, !empty($row->edit) );
-							echo $row->type
+							echo ($row->type == 'component') ? $row->com_name : $row->type;
 							?>
 						</span>
 					</td>

@@ -231,10 +231,10 @@ class JMenuViewWizard extends JWizardView
 		foreach ($item as $k => $v) {
 			if (is_array($v)) {
 				foreach ($v as $sk => $sv) {
-					echo '<input type="hidden" name="'.$k.'['.$sk.']" value="'.$sv.'" />';
+					echo "\n".'<input type="hidden" name="'.$k.'['.$sk.']" value="'.$sv.'" />';
 				}
 			} else {
-				echo '<input type="hidden" name="'.$k.'" value="'.$v.'" />';
+				echo "\n".'<input type="hidden" name="'.$k.'" value="'.$v.'" />';
 			}
 		}
 		?>

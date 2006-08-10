@@ -79,12 +79,21 @@ class JMenuHelperSeparator extends JWizardHelper
 		return array('path' => $src, 'xpath' => $path);
 	}
 
-	function prepForStore(&$values) {
-		return $values;
+	function &prepForEdit(&$item)
+	{
+		return $item;
 	}
 
-	function &prepForEdit(&$item) {
-		return $item;
+	/**
+	 * Prepares data before saving
+	 * @param	array	A named array of values
+	 * @return	array	The prepared array
+	 */
+	function prepForStore(&$values)
+	{
+		$values['componentid']	= 0;
+		$values['control']		= '';
+		return $values;
 	}
 }
 ?>
