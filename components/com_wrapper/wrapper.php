@@ -18,7 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /** load the html drawing class */
 require_once( JApplicationHelper::getPath( 'front_html' ) );
 
-
 showWrap( $option );
 
 function showWrap( $option )

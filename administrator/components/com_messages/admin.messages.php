@@ -16,15 +16,16 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class' ) );
 
 $task	= JRequest::getVar( 'task' );
 $cid	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+
 if (!is_array( $cid )) {
 	$cid = array ( 0 );
 }
 
-switch ($task) {
+switch ($task) 
+{
 	case 'view':
 		viewMessage( $cid[0], $option );
 		break;
@@ -225,8 +226,11 @@ function newMessage( $option, $user, $subject )
 
 function saveMessage( $option ) 
 {
+	require_once(dirname(__FILE__).DS.'tables'.DS.'message.php');
+	
 	$db =& JFactory::getDBO();
-	$row = new mosMessage( $db );
+	$row = new JMessage( $db );
+	
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

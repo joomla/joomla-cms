@@ -12,9 +12,9 @@
 */
 
 /**
- * Abstract Model class
+ * Abstract Table class
  *
- * Parent classes to all tables.  Customisation will generally not involve tampering with this object.
+ * Parent classes to all tables.
  *
  * @abstract
  * @author		Andrew Eddie <eddieajau@users.sourceforge.net>

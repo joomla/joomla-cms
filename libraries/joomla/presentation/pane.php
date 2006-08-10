@@ -115,9 +115,9 @@ class JPaneTabs extends JPane
 	*/
 	function __construct( $params = array() )
 	{
-		parent::__construct($params);
-
 		global $mainframe;
+		
+		parent::__construct($params);
 
 		if(!$mainframe->get( 'JPanelTabs_loaded')) {
 			$this->_loadBehavior($params);

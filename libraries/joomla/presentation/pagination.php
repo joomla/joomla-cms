@@ -57,17 +57,10 @@ class JPagination extends JObject
 		$this->limitstart = max($limitstart, 0);
 		$this->limit = max($limit, 1);
 
-		/*
-		 * If we have less items then the limit set, then the start we always
-		 * start from the beginning
-		 */
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
 
-		/*
-		 *
-		 */
 		if (($this->limit - 1) * $this->limitstart > $this->total) {
 			$this->limitstart -= $this->limitstart % $this->limit;
 		}
@@ -178,8 +171,6 @@ class JPagination extends JObject
 	 */
 	function getPagesList($link = null)
 	{
-		global $mainframe;
-
 		// Initialize variables
 		$list = array();
 		$link .= '&amp;limit='.$this->limit;
