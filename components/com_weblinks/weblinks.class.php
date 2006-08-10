@@ -16,13 +16,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
-* JWeblink Model class
+* JWeblink Table class
 *
 * @package Joomla
 * @subpackage Weblinks
 * @since 1.0
 */
-class JTableWeblink extends JTable {
+class JTableWeblink extends JTable 
+{
 	/**
 	 * Primary Key
 	 *

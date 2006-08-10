@@ -230,7 +230,9 @@ class WeblinksController
 
 			// Set page title
 			$document->setTitle($menu->name);
-		} else {
+		} 
+		else 
+		{
 			/*
 			 * A name is set for the current category so let's use it.
 			 */
@@ -517,9 +519,7 @@ class WeblinksController
 			return;
 		}
 
-		/*
-		 * Protect against simple spoofing attacks
-		 */
+		//Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
 			JError::raiseError( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
 			return;

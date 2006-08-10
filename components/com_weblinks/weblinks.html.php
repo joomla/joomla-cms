@@ -23,7 +23,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Weblinks
  * @since 1.0
  */
-class WeblinksView {
+class WeblinksView 
+{
 
 	/**
 	 * Displays a web link category
