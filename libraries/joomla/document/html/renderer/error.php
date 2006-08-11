@@ -59,7 +59,7 @@ class JDocumentRenderer_Error extends JDocumentRenderer
 					"\n<ul>";
 			foreach ($errors as $error)
 			{
-				$contents .= "\n<li>".$error->getMessage()."</li>";
+				$contents .= "\n<li>".JText::_( $error->getMessage() )."</li>";
 			}
 			$contents .= "\n</ul>" .
 					"\n</div>";
