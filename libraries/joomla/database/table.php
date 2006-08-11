@@ -96,7 +96,7 @@ class JTable extends JObject
 		if (!class_exists( $adapter ))
 		{
 			$dirs = JTable::addTableDir();
-			array_push( $dirs, JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table');
+			array_push( $dirs, JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'tables');
 
 			foreach( $dirs as $dir ) {
 				$tableFile = $dir.DS.strtolower($type).'.php';
