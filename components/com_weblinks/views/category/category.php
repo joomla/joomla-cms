@@ -36,7 +36,7 @@ class WeblinksViewCategory
 	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
 	 */
 	function show( &$rows, $catid, &$category, &$params, &$lists, &$page ) {
-		require(dirname(__FILE__).DS.'tmpl'.DS.'category.php');
+		require(dirname(__FILE__).DS.'tmpl'.DS.'table.php');
 	}
 
 	/**
