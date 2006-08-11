@@ -118,9 +118,9 @@ class JModuleHelper
 
 	/**
 	 * Load published modules
-	 *
-	 * @access private
-	 * @return array
+	 * 
+	 * @access	private
+	 * @return	array
 	 */
 	function &_load()
 	{
@@ -128,7 +128,8 @@ class JModuleHelper
 
 		static $modules;
 
-		if (isset($modules)) {
+		if (isset($modules))
+		{
 			return $modules;
 		}
 
@@ -136,18 +137,18 @@ class JModuleHelper
 		$db		=& JFactory::getDBO();
 
 		$gid	= $user->get('gid');
-		$Itemid = JRequest::getVar('Itemid');
+		$Itemid = JRequest::getVar('Itemid', 0, '', 'int');
 
-		$modules = array();
+		$modules	= array();
 
-		$wheremenu = isset($Itemid)? "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )" : "";
+		$wheremenu = $Itemid ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';
 
 		$query = "SELECT id, title, module, position, content, showtitle, control, params"
 			. "\n FROM #__modules AS m"
 			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 			. "\n WHERE m.published = 1"
-			. "\n AND m.access <= '". $gid ."'"
-			. "\n AND m.client_id = '". $mainframe->getClientId() ."'"
+			. "\n AND m.access <= ". (int)$gid
+			. "\n AND m.client_id = ". (int)$mainframe->getClientId()
 			. $wheremenu
 			. "\n ORDER BY position, ordering";
 
@@ -155,7 +156,8 @@ class JModuleHelper
 		$modules = $db->loadObjectList();
 
 		$total = count($modules);
-		for($i = 0; $i < $total; $i++) {
+		for($i = 0; $i < $total; $i++)
+		{
 			//determine if this is a user module
 			$file = $modules[$i]->module;
 			$user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
@@ -167,6 +169,5 @@ class JModuleHelper
 
 		return $modules;
 	}
-
 }
 ?>

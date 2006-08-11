@@ -33,9 +33,13 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	 */
 	function render( $module, $params = array() )
 	{
-		if(!is_object($module)) {
+		if (!is_object($module))
+		{
 			$module = JModuleHelper::getModule($module);
-			if(!is_object($module)) return '';
+			if (!is_object($module))
+			{
+				return '';
+			}
 		}
 
 		// get the user and configuration object
