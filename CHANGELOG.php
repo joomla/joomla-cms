@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Aug-2006 Louis Landry
+ + Added error stack for error handling and error renderer for JDocument
+ # Unable to change component in menu type
+ # Strings from component xml file not translated
+
 09-Aug-2006 Johan Janssens
  ^ Seperated logic and presentation in site modules
 

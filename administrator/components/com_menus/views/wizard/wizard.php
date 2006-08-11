@@ -220,11 +220,6 @@ class JMenuViewWizard extends JWizardView
 			<legend>
 				<?php echo JText::_('Menu Item Confirmation');?>
 			</legend>
-			<?php
-//			echo '<pre>';
-//			print_r($item);
-//			echo '</pre>';
-			?>
 			<?php echo JText::_('DESCWIZARDFINISHING');?>
 		</fieldset>
 		<?php

@@ -116,10 +116,6 @@ class JMenuHelperComponent extends JWizardHelper
 
 		if (isset($_POST['component'])) {
 			$fields['component'] = $_POST['component'];
-		}
-
-		$item =& $this->_parent->getItem();
-		if (!$item->componentid) {
 			$query = "SELECT `id`" .
 					"\n FROM `#__components`" .
 					"\n WHERE `link` <> ''" .
@@ -128,6 +124,7 @@ class JMenuHelperComponent extends JWizardHelper
 			$db->setQuery($query);
 			$fields['componentid'] = $db->loadResult();
 		} else {
+			$item =& $this->_parent->getItem();
 			$fields['componentid'] = $item->componentid;
 		}
 
@@ -136,19 +133,19 @@ class JMenuHelperComponent extends JWizardHelper
 
 	function getDetails()
 	{
-		$item =& $this->_parent->getItem();
-		if ($cid = $item->componentid) {
+		if (isset($_POST['component'])) {
+			$name	= ucfirst(JRequest::getVar('component', 'content'));
+			$option = 'com_'.JRequest::getVar('component', 'content');
+		} else {
+			$item =& $this->_parent->getItem();
 			$db =& JFactory::getDBO();
 			$query = "SELECT `name`, `option`" .
 					"\n FROM `#__components`" .
-					"\n WHERE `id` = $cid";
+					"\n WHERE `id` = $item->componentid";
 			$db->setQuery($query);
 			$result = $db->loadRow();
 			$name	= $result[0];
 			$option = $result[1];
-		} else {
-			$name	= ucfirst(JRequest::getVar('component', 'content'));
-			$option = 'com_'.JRequest::getVar('component', 'content');
 		}
 
 		$details[] = array('label' => JText::_('Type'), 'name' => JText::_('Component'), 'key' => 'type', 'value' => 'component');
@@ -159,18 +156,21 @@ class JMenuHelperComponent extends JWizardHelper
 
 	function getStateXML()
 	{
-		$item =& $this->_parent->getItem();
-
-		if ($cid = $item->componentid) {
+		if (isset($_POST['component'])) {
+			$option = 'com_'.JRequest::getVar('component', 'content');
+		} else {
+			$item =& $this->_parent->getItem();
 			$db =& $this->_parent->getDBO();
 			$query = "SELECT `option`" .
 					"\n FROM `#__components`" .
-					"\n WHERE `id` = $cid";
+					"\n WHERE `id` = $item->componentid";
 			$db->setQuery($query);
 			$option = $db->loadResult();
-		} else {
-			$option = 'com_'.JRequest::getVar('component', 'content');
 		}
+
+		// Load the appropriate language file for the component
+		$lang =& JFActory::getLanguage();
+		$lang->load($option);
 
 		// load the xml metadata
 		$path = JPATH_ROOT.'/components/'.$option.'/metadata.xml';
