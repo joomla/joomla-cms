@@ -37,9 +37,6 @@ Legend:
 - -> Removed
 ! -> Note
 
-11-Aug-2006 Johan Janssens
- ^ Refactored banner component to use new naming conventions and directory structure
-
 10-Aug-2006 Louis Landry
  + Added error stack for error handling and error renderer for JDocument
  # Unable to change component in menu type

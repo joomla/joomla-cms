@@ -15,19 +15,15 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// load the html view class
-require_once( JApplicationHelper::getPath( 'front_html' ) );
-
-// Get the task variable from the page request variables
-$task = strtolower(JRequest::getVar('task'));
+define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
 
 /*
  * This is our main control structure for the component
  *
  * Each view is determined by the $task variable
  */
-switch ($task) {
-
+switch ( JRequest::getVar('task')) 
+{
 	case 'login' :
 		LoginController::login();
 		break;
@@ -104,8 +100,11 @@ class LoginController
 			// Set page title
 			$document->setTitle( $title );
 
-			LoginView::logout( $params, $logoutImage );
-		} else {
+			require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'login'.DS.'login.php');
+			LoginView::showLogout( $params, $logoutImage );
+		} 
+		else 
+		{
 			$title = JText::_( 'Login');
 
 			// pathway item
@@ -113,7 +112,8 @@ class LoginController
 			// Set page title
 			$document->setTitle( $title );
 
-			LoginView::login( $params, $loginImage );
+			require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'login'.DS.'login.php');
+			LoginView::showLogin( $params, $loginImage );
 		}
 	}
 
