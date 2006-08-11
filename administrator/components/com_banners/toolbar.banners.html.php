@@ -19,11 +19,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Banners
 */
-class TOOLBAR_banners {
+class TOOLBAR_banners 
+{
 	/**
 	* Draws the menu for to Edit a banner
 	*/
-	function _EDIT() {
+	function _EDIT() 
+	{
 		$cid = JRequest::getVar( 'cid', array(0));
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
@@ -44,8 +46,8 @@ class TOOLBAR_banners {
 		JMenuBar::help( 'screen.banners.edit' );
 	}
 
-	function _DEFAULT() {
-
+	function _DEFAULT() 
+	{
 		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
@@ -65,11 +67,13 @@ class TOOLBAR_banners {
 /**
 * @package Joomla
 */
-class TOOLBAR_bannerClient {
+class TOOLBAR_bannerClient 
+{
 	/**
 	* Draws the menu for to Edit a client
 	*/
-	function _EDIT() {
+	function _EDIT() 
+	{
 		$cid = JRequest::getVar( 'cid', array(0));
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
@@ -92,7 +96,8 @@ class TOOLBAR_bannerClient {
 	/**
 	* Draws the default menu
 	*/
-	function _DEFAULT() {
+	function _DEFAULT() 
+	{
 		JMenuBar::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
 		JMenuBar::deleteList( '', 'removeclients' );
 		JMenuBar::editListX( 'editclient' );

@@ -16,8 +16,8 @@
 * Banner clients
 * @package Joomla
 */
-class JViewBannerClients {
-
+class JViewBannerClients 
+{
 	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
 		$user =& JFactory::getUser();
@@ -121,7 +121,8 @@ class JViewBannerClients {
 		<?php
 	}
 
-	function bannerClientForm( &$row, $option ) {
+	function bannerClientForm( &$row, $option ) 
+	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
 		<script language="javascript" type="text/javascript">

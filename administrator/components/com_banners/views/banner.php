@@ -19,8 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Banners
 */
-class JViewBanners {
-
+class JViewBanners 
+{
 	function showBanners( &$rows, &$pageNav, $option, &$lists )
 	{
 		$user =& JFactory::getUser();

@@ -98,6 +98,7 @@ class JBannerController
 		// search filter
 		$lists['search']= $search;
 
+		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'banner.php');
 		JViewBanners::showBanners( $rows, $pageNav, $option, $lists );
 	}
 
@@ -114,7 +115,7 @@ class JBannerController
 
 		$lists = array();
 
-		$row = new mosBanner($db);
+		$row =& JTable::getInstance('banner', $db, 'Table');
 		$row->load( $cid[0] );
 
 		if ($cid[0]){
@@ -151,6 +152,7 @@ class JBannerController
 		// published
 		$lists['showBanner'] = mosHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
 
+		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'banner.php');
 		JViewBanners::edit( $row, $lists, $option );
 	}
 
@@ -165,7 +167,7 @@ class JBannerController
 		// fix up special html fields
 		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', _J_ALLOWRAW );
 
-		$row = new mosBanner($db);
+		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 
 		if (!$row->bind( $post )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -216,7 +218,7 @@ class JBannerController
 	{
 		$db =& JFactory::getDBO();
 
-		$row = new mosBanner($db);
+		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 		$row->bind( $_POST );
 		$row->checkin();
 
@@ -248,7 +250,7 @@ class JBannerController
 		}
 
 		if (count( $cid ) == 1) {
-			$row = new mosBanner( $db );
+			$row =& JTable::getInstance('bannerclient', $db, 'Table');
 			$row->checkin( $cid[0] );
 		}
 		josRedirect( 'index2.php?option=com_banners' );
@@ -287,7 +289,7 @@ class JBannerController
 
 		$total		= count( $cid );
 		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-		$row		= new mosBanner($db);
+		$row		=& JTable::getInstance('bannerclient', $db, 'Table');
 		$conditions	= array();
 
 		// update ordering values

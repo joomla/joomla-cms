@@ -17,49 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
 * @package Joomla
-* @subpackage Banners
 */
-class mosBannerClient extends JTable {
-	var	$cid 				= null;
-	var $name 				= '';
-	var $contact 			= '';
-	var $email 				= '';
-	var $extrainfo 			= '';
-	var $checked_out 		= 0;
-	var $checked_out_time 	= 0;
-	var $editor				= '';
-
-	function __construct( &$_db ) {
-		parent::__construct( '#__bannerclient', 'cid', $_db );
-	}
-
-	function check() {
-		// check for valid client name
-		if (trim($this->name == '')) {
-			$this->_error = JText::_( 'BNR_CLIENT_NAME' );
-			return false;
-		}
-
-		// check for valid client contact
-		if (trim($this->contact == '')) {
-			$this->_error = JText::_( 'BNR_CONTACT' );
-			return false;
-		}
-
-		// check for valid client email
-		if ((trim($this->email == '')) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
-			$this->_error = JText::_( 'BNR_VALID_EMAIL' );
-			return false;
-		}
-
-		return true;
-	}
-}
-
-/**
-* @package Joomla
-*/
-class mosBanner extends JTable {
+class TableBanner extends JTable 
+{
 	/** @var int */
 	var $bid				= null;
 	/** @var int */

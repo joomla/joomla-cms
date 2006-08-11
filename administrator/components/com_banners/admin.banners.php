@@ -17,28 +17,26 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 define( 'JPATH_COM_BANNERS', dirname( __FILE__ ));
 
-/*
- * Make sure the user is authorized to view this page
- */
+// Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
-if (!$user->authorize( 'com_banners', 'manage' ))
-{
+if (!$user->authorize( 'com_banners', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( JPATH_COM_BANNERS . '/controllers/banner.php' );
-require_once( JPATH_COM_BANNERS . '/controllers/client.php' );
-require_once( JPATH_COM_BANNERS . '/views/banner.php' );
-require_once( JPATH_COM_BANNERS . '/views/client.php' );
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
 
-require_once( JApplicationHelper::getPath( 'class' ) );
+require_once( JPATH_COM_BANNERS . '/controllers/banner.php' );
+require_once( JPATH_COM_BANNERS . '/controllers/bannerclient.php' );
 
 $cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) {
+switch ($task) 
+{
+	// Banners
 	case 'new':
 	case 'edit':
 		JBannerController::edit( );
@@ -70,8 +68,7 @@ switch ($task) {
 		JBannerController::saveOrder( $cid );
 		break;
 
-// Clients
-
+	// Clients
 	case 'newclient':
 	case 'editclient':
 		JBannerClientController::editBannerClient( );
@@ -94,8 +91,7 @@ switch ($task) {
 		JBannerClientController::viewBannerClients( $option );
 		break;
 
-// Default
-
+	// Default
 	default:
 		JBannerController::viewBanners( $option );
 		break;

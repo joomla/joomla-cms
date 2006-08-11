@@ -75,6 +75,7 @@ class JBannerClientController
 		// search filter
 		$lists['search']= $search;
 
+		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
 		JViewBannerClients::showClients( $rows, $pageNav, $option, $lists );
 	}
 
@@ -89,7 +90,7 @@ class JBannerClientController
 			$cid = array(0);
 		}
 
-		$row = new mosBannerClient($db);
+		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 		$row->load($cid[0]);
 
 		// fail if checked out not by 'me'
@@ -107,13 +108,14 @@ class JBannerClientController
 			$row->approved = 0;
 		}
 
+		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
 		JViewBannerClients::bannerClientForm( $row, $option );
 	}
 
 	function saveBannerClient( $task ) 
 	{
 		$db  =& JFactory::getDBO();
-		$row = new mosBannerClient( $db );
+		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -146,7 +148,7 @@ class JBannerClientController
 	function cancelEditClient( $option ) 
 	{
 		$db  =& JFactory::getDBO();
-		$row = new mosBannerClient( $db );
+		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 		$row->bind( $_POST );
 		$row->checkin();
 		
@@ -161,7 +163,8 @@ class JBannerClientController
 			$cid[0] = JRequest::getVar( 'client_id', 0, 'post' );
 		}
 
-		for ($i = 0; $i < count($cid); $i++) {
+		for ($i = 0; $i < count($cid); $i++) 
+		{
 			$query = "SELECT COUNT( bid )"
 			. "\n FROM #__banner"
 			. "\n WHERE cid = ".$cid[$i]
