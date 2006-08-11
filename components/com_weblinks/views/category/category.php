@@ -96,7 +96,7 @@ class WeblinksViewCategory
 			$k = 1 - $k;
 		}
 
-		require(dirname(__FILE__).DS.'tmpl'.DS.'table.php');	
+		require(dirname(__FILE__).DS.'tmpl'.DS.'table_items.php');	
 	}
 }
 ?>
