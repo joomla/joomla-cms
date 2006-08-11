@@ -12,14 +12,14 @@
  */
 
 /**
- * JDocument error renderer
+ * JDocument system message renderer
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentRenderer_Error extends JDocumentRenderer
+class JDocumentRenderer_Message extends JDocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string
@@ -31,38 +31,45 @@ class JDocumentRenderer_Error extends JDocumentRenderer
 	 */
 	function render($name = null, $params = array ())
 	{
+		global $mainframe;
+
 		// Initialize variables
-		$contents = null;
+		$contents	= null;
+		$lists		= null;
 
-		// Get the error queue
-		$errors = JError::getErrors();
+		// Get the message queue
+		$messages = $mainframe->getMessageQueue();
 
-		// If there is a persisted error queue, merge it with our existing error queue
-		$oldErrors = JSession::get('_JError_queue');
-		if (is_array($oldErrors)) {
-			// Import library dependencies
-			jimport('pattemplate.patError');
-			$oe = array();
-			foreach ($oldErrors as $e)
+		// Build the sorted message list
+		if (is_array($messages) && count($messages)) {
+			foreach ($messages as $msg)
 			{
-				$oe[] = new patError($e['level'], $e['code'], $e['message'], $e['info']);
+				if (isset($msg['type']) && isset($msg['message'])) {
+					$lists[$msg['type']][] = $msg['message'];
+				}
 			}
-			$errors = array_merge($oe, $errors);
-			JSession::set('_JError_queue', null);
 		}
 
-		// If errors exist render them
-		if (count($errors)) 
+		// If messages exist render them
+		if (count($lists)) 
 		{
-			// Build the system error div
-			$contents .= "\n<div id=\"system-error\">" .
-					"\n<ul>";
-			foreach ($errors as $error)
+			// Build the return string
+			$contents .= "\n<dl id=\"system-message\">";
+			foreach ($lists as $type => $msgs)
 			{
-				$contents .= "\n<li>".JText::_( $error->getMessage() )."</li>";
+				if (count($msgs)) {
+					$contents .= "\n<dt class=\"".strtolower($type)."\">".JText::_( $type )."</dt>";
+					$contents .= "\n<dd class=\"".strtolower($type)."\">";
+					$contents .= "\n\t<ul>";
+					foreach ($msgs as $msg)
+					{
+						$contents .="\n\t\t<li>".$msg."</li>";
+					}					
+					$contents .= "\n\t</ul>";
+					$contents .= "\n</dd>";
+				}
 			}
-			$contents .= "\n</ul>" .
-					"\n</div>";
+			$contents .= "\n</dl>";
 		}
 		return $contents;
 	}

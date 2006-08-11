@@ -51,6 +51,14 @@ class JApplication extends JObject
 	var $_baseURL = null;
 
 	/**
+	 * The application message queue
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	var $_messageQueue = array();
+
+	/**
 	* Class constructor
 	*
 	* @param string 	The URL option passed in
@@ -80,7 +88,7 @@ class JApplication extends JObject
 	 * @param	string	$msg	A message to display on redirect
 	 * @since	1.5
 	 */
-	function redirect( $url, $msg='' )
+	function redirect( $url, $msg='', $msgType='message' )
 	{
 		// Instantiate an input filter and process the URL and message
 		jimport( 'joomla.utilities.filter' );
@@ -94,23 +102,14 @@ class JApplication extends JObject
 			$url = $this->getBasePath();
 		}
 
-		// If the message exists, prepare it (url encoding)
+		// If the message exists, enqueue it
 		if (trim( $msg )) {
-		 	if (strpos( $url, '?' )) {
-				$url .= '&josmsg=' . urlencode( $msg );
-			} else {
-				$url .= '?josmsg=' . urlencode( $msg );
-			}
+			$this->enqueueMessage($msg, $msgType);
 		}
 
-		// Persist errors if they exist
-		$errors = JError::getErrors();
-		if (count($errors)) {
-			foreach ($errors as $error)
-			{
-				$ref[] = get_object_vars($error);
-			}
-			JSession::set('_JError_queue', $ref);
+		// Persist messages if they exist
+		if (count($this->_messageQueue)) {
+			JSession::set('_JApplication_queue', $this->_messageQueue);
 		}
 
 		/*
@@ -125,6 +124,49 @@ class JApplication extends JObject
 			header( "Location: ". $url );
 		}
 		exit();
+	}
+
+	/**
+	 * Enqueue a system message
+	 *
+	 * @access	public
+	 * @param	string 	$msg 	The message to enqueue
+	 * @param	string	$type	The message type
+	 * @return	void
+	 * @since	1.5
+	 */
+	function enqueueMessage( $msg, $type="message" )
+	{
+		// For empty queue, if messages exists in the session, enqueue them first
+		if (!count($this->_messageQueue)) {
+			$sessionQueue = JSession::get('_JApplication_queue');
+			if (count($sessionQueue)) {
+				$this->_messageQueue = $sessionQueue;
+				JSession::set('_JApplication_queue', null);
+			}
+		}
+		// Enqueue the message
+		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+	}
+
+	/**
+	 * Get the system message queue
+	 *
+	 * @access	public
+	 * @return	The system message queue
+	 * @since	1.5
+	 */
+	function getMessageQueue()
+	{
+		// For empty queue, if messages exists in the session, enqueue them
+		if (!count($this->_messageQueue)) {
+			$sessionQueue = JSession::get('_JApplication_queue');
+			if (count($sessionQueue)) {
+				$this->_messageQueue = $sessionQueue;
+				JSession::set('_JApplication_queue', null);
+			}
+		}
+		return $this->_messageQueue;
 	}
 
 	 /**

@@ -27,7 +27,7 @@ See COPYRIGHT.php for copyright notices and details.
 
 <a name="up" id="up"></a>
 
-<jdoc:include type="error" />
+<jdoc:include type="message" />
 
 <div class="center" align="center">
 	<div id="wrapper">

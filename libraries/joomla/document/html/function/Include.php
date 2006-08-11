@@ -86,7 +86,7 @@ class patTemplate_Function_Include extends patTemplate_Function
 				$this->_addPlaceholder($type, $name);
 			} break;
 
-			case 'error'		:
+			case 'message'		:
 			case 'head'         :
 			case 'component'	:
 			{

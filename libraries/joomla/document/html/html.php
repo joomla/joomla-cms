@@ -371,9 +371,9 @@ class JDocumentHTML extends JDocument
 		$this->set('head', null, $result);
 
 		// Render the errors
-		$renderer = $this->loadRenderer( 'error' );
+		$renderer = $this->loadRenderer( 'message' );
 		$result   = $renderer->render();
-		$this->set('error', null, $result);
+		$this->set('message', null, $result);
 	}
 
 	/**
