@@ -43,9 +43,8 @@ class WeblinksViewWeblink
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
 		$Returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
-		?>
 		
-		<?php
+		require(dirname(__FILE__).DS.'tmpl'.DS.'edit.php');	
 	}
 }
 ?>
