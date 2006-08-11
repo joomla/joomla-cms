@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * HTML Blog View class for the Frontpage component
+ * Frontpage View class
  *
  * @static
  * @package Joomla
@@ -34,6 +34,10 @@ class FrontpageView
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$document	= & JFactory::getDocument();
+		$lang 		=& JFactory::getLanguage();
+		
+		//we also need the content language file
+		$lang->load('com_content');
 
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
@@ -75,9 +79,7 @@ class FrontpageView
 
 		$rows = $model->getContentData();
 
-		/*
-		 * Pagination support
-		 */
+		// Pagination support
 		$total = count($rows);
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit = $intro + $leading + $links;
@@ -114,16 +116,12 @@ class FrontpageView
 			}
 		}
 
-		/*
-		 * Header output
-		 */
+		// Header output
 		if ($header) {
 			echo '<div class="componentheading'.$params->get('pageclass_sfx').'">'.$header.'</div>';
 		}
 
-		/*
-		 * Do we have any items to display?
-		 */
+		//Do we have any items to display?
 		if ($total)
 		{
 			$col_width = 100 / $columns; // width of each column
@@ -150,9 +148,7 @@ class FrontpageView
 				echo '</tr>';
 			}
 
-			/*
-			 * Leading story output
-			 */
+			// Leading story output
 			if ($leading)
 			{
 				echo '<tr>';
@@ -176,9 +172,7 @@ class FrontpageView
 				$i = 0;
 			}
 
-			/*
-			 * Newspaper style vertical layout
-			 */
+			// Newspaper style vertical layout
 			if ($intro && ($i < $total))
 			{
 				echo '<tr>';
@@ -210,9 +204,7 @@ class FrontpageView
 
 			}
 
-			/*
-			 * Links output
-			 */
+			// Links output
 			if ($links && ($i < $total))
 			{
 				echo '<tr>';
@@ -224,9 +216,7 @@ class FrontpageView
 				echo '</tr>';
 			}
 
-			/*
-			 * Pagination output
-			 */
+			// Pagination output
 			if ($usePagination)
 			{
 				if (($usePagination == 2) && ($total <= $limit))
@@ -501,14 +491,11 @@ class FrontpageView
 		<?php
 		for ($j = 0; $j < $links; $j ++)
 		{
-			if ($i >= $total)
-			{
-				/*
-				 * Stop the loop if the total number of items is less than the
-				 * number of items set to display
-				 */
+			//Stop the loop if the total number of items is less than the number of items set to display
+			if ($i >= $total) {
 				break;
 			}
+			
 			$Itemid	= JContentHelper::getItemid($rows[$i]->id);
 			$link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$Itemid)
 			?>

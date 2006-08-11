@@ -17,9 +17,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
 
-$lang =& JFactory::getLanguage();
-$lang->load('com_content');
-
 // require the content helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
@@ -62,7 +59,7 @@ class FrontpageController
 		$doc  =& JFactory::getDocument();
 		$function = 'show'.$doc->getType();
 		
-		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'blog'.DS.'blog.php');
+		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'default'.DS.'default.php');
 		FrontpageView::$function($model, $access, $menu);
 	}
 }
