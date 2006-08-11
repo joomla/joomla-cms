@@ -137,11 +137,11 @@ class JModuleHelper
 		$db		=& JFactory::getDBO();
 
 		$gid	= $user->get('gid');
-		$Itemid = JRequest::getVar('Itemid', 0, '', 'int');
+		$Itemid = JRequest::getVar('Itemid');
 
 		$modules	= array();
 
-		$wheremenu = $Itemid ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';
+		$wheremenu = isset( $Itemid ) ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';
 
 		$query = "SELECT id, title, module, position, content, showtitle, control, params"
 			. "\n FROM #__modules AS m"
