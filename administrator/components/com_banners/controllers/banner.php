@@ -16,7 +16,7 @@
  * @package Joomla
  * @subpackage Banners
  */
-class JBannerController 
+class BannerController 
 {
 	function viewBanners( $option )
 	{
@@ -99,7 +99,7 @@ class JBannerController
 		$lists['search']= $search;
 
 		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'banner.php');
-		JViewBanners::showBanners( $rows, $pageNav, $option, $lists );
+		BannersView::showBanners( $rows, $pageNav, $option, $lists );
 	}
 
 	function edit( ) 
@@ -153,7 +153,7 @@ class JBannerController
 		$lists['showBanner'] = mosHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
 
 		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'banner.php');
-		JViewBanners::edit( $row, $lists, $option );
+		BannersView::edit( $row, $lists, $option );
 	}
 
 	/**

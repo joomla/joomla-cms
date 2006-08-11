@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Banners
 */
-class JViewBanners 
+class BannersView 
 {
 	function showBanners( &$rows, &$pageNav, $option, &$lists )
 	{

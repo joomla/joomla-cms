@@ -34,66 +34,66 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) 
+switch (JRequest::getVar( 'task' )) 
 {
 	// Banners
 	case 'new':
 	case 'edit':
-		JBannerController::edit( );
+		BannerController::edit( );
 		break;
 
 	case 'cancel':
-		JBannerController::cancelEditBanner();
+		BannerController::cancelEditBanner();
 		break;
 
 	case 'save':
 	case 'resethits':
 	case 'apply':
-		JBannerController::saveBanner( $task );
+		BannerController::saveBanner( $task );
 		break;
 
 	case 'remove':
-		JBannerController::removeBanner( $cid );
+		BannerController::removeBanner( $cid );
 		break;
 
 	case 'publish':
-		JBannerController::publishBanner( $cid,1 );
+		BannerController::publishBanner( $cid,1 );
 		break;
 
 	case 'unpublish':
-		JBannerController::publishBanner( $cid, 0 );
+		BannerController::publishBanner( $cid, 0 );
 		break;
 
 	case 'saveorder':
-		JBannerController::saveOrder( $cid );
+		BannerController::saveOrder( $cid );
 		break;
 
 	// Clients
 	case 'newclient':
 	case 'editclient':
-		JBannerClientController::editBannerClient( );
+		BannerClientController::editBannerClient( );
 		break;
 
 	case 'saveclient':
 	case 'applyclient':
-		JBannerClientController::saveBannerClient( $task );
+		BannerClientController::saveBannerClient( $task );
 		break;
 
 	case 'removeclients':
-		JBannerClientController::removeBannerClients( $cid, $option );
+		BannerClientController::removeBannerClients( $cid, $option );
 		break;
 
 	case 'cancelclient':
-		JBannerClientController::cancelEditClient( $option );
+		BannerClientController::cancelEditClient( $option );
 		break;
 
 	case 'listclients':
-		JBannerClientController::viewBannerClients( $option );
+		BannerClientController::viewBannerClients( $option );
 		break;
 
 	// Default
 	default:
-		JBannerController::viewBanners( $option );
+		BannerController::viewBanners( $option );
 		break;
 }
 ?>

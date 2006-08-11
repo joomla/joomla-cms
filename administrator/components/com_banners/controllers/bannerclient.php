@@ -16,9 +16,8 @@
  * @package Joomla
  * @subpackage Banners
  */
-class JBannerClientController 
+class BannerClientController 
 {
-
 	function viewBannerClients( $option ) 
 	{
 		global $mainframe;
@@ -76,7 +75,7 @@ class JBannerClientController
 		$lists['search']= $search;
 
 		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
-		JViewBannerClients::showClients( $rows, $pageNav, $option, $lists );
+		BannersViewClients::showClients( $rows, $pageNav, $option, $lists );
 	}
 
 	function editBannerClient( ) 
@@ -109,7 +108,7 @@ class JBannerClientController
 		}
 
 		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
-		JViewBannerClients::bannerClientForm( $row, $option );
+		BannersViewClients::bannerClientForm( $row, $option );
 	}
 
 	function saveBannerClient( $task ) 

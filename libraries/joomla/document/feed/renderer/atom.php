@@ -36,7 +36,9 @@
      * @var      string
      * @access   private
      */
-	 var $_mime = "application/atom+xml";
+	 //var $_mime = "application/atom+xml";
+	 var $_mime = "text/xml";
+
 
 	/**
 	 * Render the feed

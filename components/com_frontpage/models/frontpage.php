@@ -26,7 +26,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @subpackage Content
  * @since 1.5
  */
-class JModelFrontpage extends JObject
+class ModelFrontpage extends JObject
 {
 	/**
 	 * Database Connector

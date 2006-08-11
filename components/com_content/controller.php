@@ -383,12 +383,12 @@ class JContentController extends JController
 		}
 
 		// manage frontpage items
-		require_once (JApplicationHelper::getPath('class', 'com_frontpage'));
+		//TODO : Move this into a frontpage model
+		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
 		$fp = new JTableFrontPage($db);
 
 		if (JRequest::getVar('frontpage', false, '', 'boolean'))
 		{
-
 			// toggles go to first place
 			if (!$fp->load($row->id))
 			{
@@ -396,8 +396,7 @@ class JContentController extends JController
 				$query = "INSERT INTO #__content_frontpage" .
 						"\n VALUES ( $row->id, 1 )";
 				$db->setQuery($query);
-				if (!$db->query())
-				{
+				if (!$db->query()) {
 					JError::raiseError( 500, $db->stderror());
 				}
 				$fp->ordering = 1;

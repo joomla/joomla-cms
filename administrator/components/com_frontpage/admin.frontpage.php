@@ -15,25 +15,24 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Make sure the user is authorized to view this page
- */
+define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
+
+// Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_frontpage', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-// call
-require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class' ) );
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
 
-$task 	= JRequest::getVar( 'task' );
-$cid 	= JRequest::getVar( 'cid', array(0), 'post' );
+$cid = JRequest::getVar( 'cid', array(0), 'post' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) {
+switch ( JRequest::getVar( 'task' ) ) 
+{
 	case 'publish':
 		changeFrontPage( $cid, 1, $option );
 		break;
@@ -204,7 +203,8 @@ function viewFrontPage( $option )
 	// search filter
 	$lists['search']= $search;
 
-	HTML_content::showList( $rows, $pageNav, $option, $lists );
+	require_once(JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage.php');
+	FrontpageView::showList( $rows, $pageNav, $option, $lists );
 }
 
 /**
@@ -254,7 +254,7 @@ function removeFrontPage( &$cid, $option )
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp = new JTableFrontPage( $db );
+	$fp =& JTable::getInstance('frontpage', $db, 'Table'); 
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
@@ -284,7 +284,7 @@ function orderFrontPage( $uid, $inc, $option )
 {
 	$db =& JFactory::getDBO();
 	
-	$fp = new JTableFrontPage( $db );
+	$fp =& JTable::getInstance('frontpage', $db, 'Table'); 
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -337,7 +337,7 @@ function saveOrder( &$cid )
 		}
 
 		// update ordering
-		$row = new JTableFrontPage( $db );
+		$row =& JTable::getInstance('frontpage', $db, 'Table'); 
 		$row->load( $cid[$i] );
 		$row->reorder();
 	}

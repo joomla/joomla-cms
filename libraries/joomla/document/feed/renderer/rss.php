@@ -32,7 +32,9 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
      * @var      string
      * @access   private
      */
-	 var $_mime = "application/rss+xml";
+	// var $_mime = "application/rss+xml";
+	 var $_mime = "text/xml";
+
 
 	/**
 	 * Render the feed

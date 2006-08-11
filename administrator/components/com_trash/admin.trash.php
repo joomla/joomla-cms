@@ -24,7 +24,6 @@ if (!$user->authorize( 'com_trash', 'manage' )) {
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
@@ -257,8 +256,11 @@ function deleteTrash( $cid, $option )
 
 	$total = count( $cid );
 
-	if ( $type == 'content' ) {
+	if ( $type == 'content' ) 
+	{
 		$obj =& JTable::getInstance('content', $db );
+		
+		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
 		$fp = new JTableFrontPage( $db );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );

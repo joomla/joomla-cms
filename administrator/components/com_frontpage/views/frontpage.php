@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Content
 */
-class HTML_content {
+class FrontpageView 
+{
 	/**
 	* Writes a list of the articles
 	* @param array An array of content objects

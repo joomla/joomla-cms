@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Content
 */
-class TOOLBAR_FrontPage {
+class TOOLBAR_FrontPage 
+{
 	function _DEFAULT() {
 
 		JMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );

@@ -15,11 +15,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
+
 $lang =& JFactory::getLanguage();
 $lang->load('com_content');
-
-// require the frontpage html view
-require_once (JApplicationHelper::getPath('front_html', 'com_frontpage'));
 
 // require the content helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
@@ -32,7 +31,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  * @subpackage Frontpage
  * @since 1.5
  */
-class JFrontpageController
+class FrontpageController
 {
 	function show()
 	{
@@ -54,23 +53,22 @@ class JFrontpageController
 		$menu   =& $menus->getItem($Itemid);
 		$params =& $menus->getParams($Itemid);
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'frontpage.php');
-		$model = new JModelFrontpage( $params);
+		require_once (dirname(__FILE__).DS.'models'.DS.'frontpage.php');
+		$model = new ModelFrontpage( $params);
 
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-//		$cache = & JFactory::getCache('com_frontpage', 'output');
-//		if (!$cache->start('theData', 'com_frontpage')) {
-//			JViewFrontpageHTML::show( $model, $access, $menu );
-//			$cache->end();
-//		}
-		JViewFrontpage::show( $model, $access, $menu );
+		$doc  =& JFactory::getDocument();
+		$function = 'show'.$doc->getType();
+		
+		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'blog'.DS.'blog.php');
+		FrontpageView::$function($model, $access, $menu);
 	}
 }
 
 /*
  * Show the frontpage
  */
-JFrontpageController::show();
+FrontpageController::show();
 ?>

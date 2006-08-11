@@ -586,9 +586,7 @@ class JContentController extends JController
 			return false;
 		}
 
-		/*
-		* Are we saving from an item edit?
-		*/
+		// Are we saving from an item edit?
 		if ($row->id) {
 			$row->modified 		= date( 'Y-m-d H:i:s' );
 			$row->modified_by 	= $user->get('id');
@@ -601,17 +599,13 @@ class JContentController extends JController
 		}
 		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset') ) : date( 'Y-m-d H:i:s' );
 
-		/*
-		 * Append time if not added to publish date
-		 */
+		// Append time if not added to publish date
 		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
 		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
 
-		/*
-		 * Handle never unpublish date
-		 */
+		// Handle never unpublish date
 		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') {
 			$row->publish_down = $nullDate;
 		} else {
@@ -621,15 +615,11 @@ class JContentController extends JController
 			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
 		}
 
-		/*
-		 * Get a state and parameter variables from the request
-		 */
+		// Get a state and parameter variables from the request
 		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
 		$params		= JRequest::getVar( 'params', '', 'post' );
 
-		/*
-		 * Build parameter INI string
-		 */
+		// Build parameter INI string
 		if (is_array($params))
 		{
 			$txt = array ();
@@ -639,55 +629,40 @@ class JContentController extends JController
 			$row->attribs = implode("\n", $txt);
 		}
 
-		/*
-		 * Prepare the content for saving to the database
-		 */
+		// Prepare the content for saving to the database
 		JContentHelper::saveContentPrep( $row );
 
-		/*
-		 * Make sure the data is valid
-		 */
+		// Make sure the data is valid
 		if (!$row->check()) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
 
-		/*
-		 * Increment the content version number
-		 */
+		// Increment the content version number
 		$row->version++;
 
-		/*
-		 * Store the content to the database
-		 */
+		// Store the content to the database
 		if (!$row->store()) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
 
-		/*
-		 * Check the article and update item order
-		 */
+		// Check the article and update item order
 		$row->checkin();
 		$row->reorder("catid = $row->catid AND state >= 0");
 
 		/*
 		 * We need to update frontpage status for the article.
 		 *
-		 * First we include the frontpage table and instantiate an instance of
-		 * it.
+		 * First we include the frontpage table and instantiate an instance of it.
 		 */
-		require_once (JApplicationHelper::getPath('class', 'com_frontpage'));
+		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
 		$fp = new JTableFrontPage($db);
 
-		/*
-		 * Is the article viewable on the frontpage?
-		 */
+		// Is the article viewable on the frontpage?
 		if (JRequest::getVar( 'frontpage', 0, '', 'int' ))
 		{
-			/*
-			 * Is the item already viewable on the frontpage?
-			 */
+			// Is the item already viewable on the frontpage?
 			if (!$fp->load($row->id))
 			{
 				// Insert the new entry
@@ -705,8 +680,7 @@ class JContentController extends JController
 		else
 		{
 			// Delete the item from frontpage if it exists
-			if (!$fp->delete($row->id))
-			{
+			if (!$fp->delete($row->id)) {
 				$msg .= $fp->stderr();
 			}
 			$fp->ordering = 0;
@@ -817,9 +791,7 @@ class JContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		/*
-		 * Get some return/redirect information from the request
-		 */
+		// Get some return/redirect information from the request
 		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post' );
 		$rtask		= JRequest::getVar( 'returntask', '', 'post' );
 		if ($rtask) {
@@ -855,7 +827,7 @@ class JContentController extends JController
 		 * First we include the frontpage table and instantiate an instance of
 		 * it.
 		 */
-		require_once (JApplicationHelper::getPath('class', 'com_frontpage'));
+		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
 		$fp = new JTableFrontPage($db);
 
 		foreach ($cid as $id)
@@ -902,21 +874,14 @@ class JContentController extends JController
 			return false;
 		}
 
-		/*
-		 * Removed content gets put in the trash [state = -2] and ordering is
-		 * always set to 0
-		 */
+		// Removed content gets put in the trash [state = -2] and ordering is always set to 0
 		$state		= '-2';
 		$ordering	= '0';
 
-		/*
-		 * Get the list of content id numbers to send to trash.
-		 */
+		// Get the list of content id numbers to send to trash.
 		$cids = implode(',', $cid);
 
-		/*
-		 * Update articles in the database
-		 */
+		// Update articles in the database
 		$query = "UPDATE #__content" .
 				"\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '$nullDate'"."\n WHERE id IN ( $cids )";
 		$db->setQuery($query);
@@ -1030,8 +995,7 @@ class JContentController extends JController
 		$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
 		list ($newsect, $newcat) = explode(',', $sectcat);
 
-		if (!$newsect && !$newcat)
-		{
+		if (!$newsect && !$newcat) {
 			josRedirect("index2.php?option=com_content&sectionid=$sectionid&josmsg=".JText::_('An error has occurred'));
 		}
 
@@ -1082,12 +1046,9 @@ class JContentController extends JController
 			$row->reorder("catid = $row->catid AND state >= 0");
 		}
 
-		if ($section && $category)
-		{
+		if ($section && $category) {
 			$msg = sprintf(JText::_('Item(s) successfully moved to Section'), $total, $section, $category);
-		}
-		else
-		{
+		} else {
 			$msg = JText::_('Item(s) successfully moved to Static Content');
 		}
 
@@ -1106,8 +1067,7 @@ class JContentController extends JController
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 		$option		= JRequest::getVar( 'option' );
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
+		if (!is_array($cid) || count($cid) < 1) {
 			JViewContent::displayError( JText::_('Select an item to move') );
 			return false;
 		}
@@ -1154,8 +1114,7 @@ class JContentController extends JController
 		$sectcat = explode(',', $sectcat);
 		list ($newsect, $newcat) = $sectcat;
 
-		if (!$newsect && !$newcat)
-		{
+		if (!$newsect && !$newcat) {
 			josRedirect('index.php?option=com_content&sectionid='.$sectionid.'&josmsg='.JText::_('An error has occurred'));
 		}
 
@@ -1214,13 +1173,12 @@ class JContentController extends JController
 			$row->metadesc					= $item->metadesc;
 			$row->access					= $item->access;
 
-			if (!$row->check())
-			{
+			if (!$row->check()) {
 				JError::raiseError( 500, $row->getError() );
 				return false;
 			}
-			if (!$row->store())
-			{
+			
+			if (!$row->store()) {
 				JError::raiseError( 500, $row->getError() );
 				return false;
 			}

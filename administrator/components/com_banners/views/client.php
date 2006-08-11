@@ -16,7 +16,7 @@
 * Banner clients
 * @package Joomla
 */
-class JViewBannerClients 
+class BannersViewClients 
 {
 	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
