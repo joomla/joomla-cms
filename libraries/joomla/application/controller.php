@@ -62,6 +62,12 @@ class JController extends JObject
 	var $_message 	= null;
 
 	/**
+	 * Redirect message type
+	 * @var	string
+	 */
+	var $_messageType 	= null;
+
+	/**
 	 * ACO Section for the controller
 	 * @var	string
 	 */
@@ -537,7 +543,8 @@ class JController extends JObject
 	function redirect()
 	{
 		if ($this->_redirect) {
-			josRedirect( $this->_redirect, $this->_message );
+			//josRedirect( $this->_redirect, $this->_message );
+			$this->_app->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
 	}
 
@@ -620,15 +627,15 @@ class JController extends JObject
 	 * @access	public
 	 * @param	string	$url	URL to redirect to
 	 * @param	string	$msg	Message to display on redirect
+	 * @param	string	$type	Message type
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setRedirect( $url, $msg = null )
+	function setRedirect( $url, $msg = null, $type = null )
 	{
-		$this->_redirect = $url;
-		if ($msg !== null) {
-			$this->_message = $msg;
-		}
+		$this->_redirect	= $url;
+		$this->_message		= $msg;
+		$this->_messageType	= $type;
 	}
 
 	/**
