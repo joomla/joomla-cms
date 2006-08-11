@@ -15,9 +15,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Load the html output class and the model class
-require_once (JApplicationHelper::getPath('front_html'));
-require_once (JApplicationHelper::getPath('class'));
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'tables');
 
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Web Links'));
@@ -48,14 +47,18 @@ switch ( JRequest::getVar( 'task' ) )
 	case 'view' :
 		WeblinksController::showItem();
 		break;
-
-	default :
+		
+	case 'category' :
 		$document =& JFactory::getDocument();
 		if($document->getType() == 'feed') {
 			WeblinksController::showCategoryFeed();
 		} else {
 			WeblinksController::showCategory();
 		}
+		break;
+
+	default :
+		WeblinksController::showCategories();
 		break;
 }
 
@@ -76,9 +79,75 @@ class WeblinksController
 	 * @param	int	$catid	Web Link category id
 	 * @since	1.0
 	 */
+	function showCategories()
+	{
+		global $mainframe, $Itemid;
+
+		// Initialize some variables
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
+		$pathway	= & $mainframe->getPathWay();
+		$gid		= $user->get('gid');
+		$page		= '';
+
+		// Get the paramaters of the active menu item
+		$menus   =& JMenu::getInstance();
+		$mParams =& $menus->getParams($Itemid);
+
+		// Set the component name in the pathway
+		$pathway->setItemName(1, JText::_('Links'));
+
+		// Load the menu object and parameters
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getItem($Itemid);
+
+		$params = new JParameter($menu->params);
+		$params->def('page_title', 1);
+		$params->def('header', $menu->name);
+		$params->def('pageclass_sfx', '');
+		$params->def('headings', 1);
+		$params->def('hits', $mainframe->getCfg('hits'));
+		$params->def('item_description', 1);
+		$params->def('other_cat_section', 1);
+		$params->def('other_cat', 1);
+		$params->def('description', 1);
+		$params->def('description_text', JText::_('WEBLINKS_DESC'));
+		$params->def('image', -1);
+		$params->def('weblink_icons', '');
+		$params->def('image_align', 'right');
+		$params->def('back_button', $mainframe->getCfg('back_button'));
+
+		// Handle the type
+		$params->set('type', 'section');
+
+		/*
+		* Query to retrieve all categories that belong under the web links section
+		* and that are published.
+		*/
+		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
+				"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
+				"\n WHERE a.published = 1" .
+				"\n AND section = 'com_weblinks'" .
+				"\n AND cc.published = 1" .
+				"\n AND cc.access <= $gid" .
+				"\n GROUP BY cc.id" .
+				"\n ORDER BY cc.ordering";
+		$db->setQuery($query);
+		$categories = $db->loadObjectList();
+
+		require_once (dirname(__FILE__).DS.'views'.DS.'categories'.DS.'categories.php');
+		WeblinksViewCategories::show($params, $categories );
+	}
+	
+	/**
+	 * Show a web link category
+	 *
+	 * @param	int	$catid	Web Link category id
+	 * @since	1.0
+	 */
 	function showCategory()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
@@ -87,8 +156,6 @@ class WeblinksController
 		$document	= & JFactory::getDocument();
 		$gid		= $user->get('gid');
 		$page		= '';
-
-		$Itemid		= JRequest::getVar('Itemid');
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
@@ -102,7 +169,7 @@ class WeblinksController
 		$catid				= JRequest::getVar( 'catid', (int) $mParams->get('category_id'), '', 'int' );
 
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;catid='.$catid.'&Itemid='.$Itemid;
+		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$catid.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -135,115 +202,63 @@ class WeblinksController
 		$params->def('display', 1);
 		$params->def('display_num', $mainframe->getCfg('list_limit'));
 
-		if ($catid) {
-			// Initialize variables
-			$rows = array ();
+		
+		// Initialize variables
+		$rows = array ();
 
-			// Ordering control
-			$orderby = "\n ORDER BY $filter_order $filter_order_Dir, ordering";
+		// Ordering control
+		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, ordering";
 
-			$query = "SELECT COUNT(id) as numitems" .
-					"\n FROM #__weblinks" .
-					"\n WHERE catid = $catid" .
-					"\n AND published = 1";
-			$db->setQuery($query);
-			$counter = $db->loadObjectList();
-			$total = $counter[0]->numitems;
-			$limit = $limit ? $limit : $params->get('display_num');
-			if ($total <= $limit) {
-				$limitstart = 0;
-			}
-
-			jimport('joomla.presentation.pagination');
-			$page = new JPagination($total, $limitstart, $limit);
-
-			// We need to get a list of all weblinks in the given category
-			$query = "SELECT id, url, title, description, date, hits, params" .
-					"\n FROM #__weblinks" .
-					"\n WHERE catid = $catid" .
-					"\n AND published = 1" .
-					"\n AND archived = 0".$orderby;
-			$db->setQuery($query, $limitstart, $limit);
-			$rows = $db->loadObjectList();
-
-			// current category info
-			$query = "SELECT id, name, description, image, image_position" .
-					"\n FROM #__categories" .
-					"\n WHERE id = $catid" .
-					"\n AND section = 'com_weblinks'" .
-					"\n AND published = 1" .
-					"\n AND access <= $gid";
-			$db->setQuery($query);
-			$category = $db->loadObject();
-
-			/*
-			 * Check if the category is published or if access level allows access
-			 */
-			// Check to see if the category is published or if access level allows access
-			if (!$category->name) {
-				JError::raiseError( 404, JText::_( 'You need to login.' ));
-				return;
-			}
-		} else {
-			/*
-			 * If we are at the WebLink component root (no category id set) certain
-			 * defaults need to be set based on parameter values.
-			 */
-
-			// Handle the type
-			$params->set('type', 'section');
-
-			// Handle the page description
-			if ($params->get('description')) {
-				$category->description = $params->get('description_text');
-			}
-
-			// Handle the page image
-			if ($params->get('image') != -1) {
-				$category->image = $params->get('image');
-				$category->image_position = $params->get('image_align');
-			}
+		$query = "SELECT COUNT(id) as numitems" .
+				"\n FROM #__weblinks" .
+				"\n WHERE catid = $catid" .
+				"\n AND published = 1";
+		$db->setQuery($query);
+		$counter = $db->loadObjectList();
+		$total = $counter[0]->numitems;
+		$limit = $limit ? $limit : $params->get('display_num');
+		if ($total <= $limit) {
+			$limitstart = 0;
 		}
+
+		jimport('joomla.presentation.pagination');
+		$page = new JPagination($total, $limitstart, $limit);
+
+		// We need to get a list of all weblinks in the given category
+		$query = "SELECT id, url, title, description, date, hits, params" .
+				"\n FROM #__weblinks" .
+				"\n WHERE catid = $catid" .
+				"\n AND published = 1" .
+				"\n AND archived = 0".$orderby;
+		$db->setQuery($query, $limitstart, $limit);
+		$rows = $db->loadObjectList();
+
+		// current category info
+		$query = "SELECT id, name, description, image, image_position" .
+				"\n FROM #__categories" .
+				"\n WHERE id = $catid" .
+				"\n AND section = 'com_weblinks'" .
+				"\n AND published = 1" .
+				"\n AND access <= $gid";
+		$db->setQuery($query);
+		$category = $db->loadObject();
 
 		/*
-		* Query to retrieve all categories that belong under the web links section
-		* and that are published.
-		*/
-		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
-				"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
-				"\n WHERE a.published = 1" .
-				"\n AND section = 'com_weblinks'" .
-				"\n AND cc.published = 1" .
-				"\n AND cc.access <= $gid" .
-				"\n GROUP BY cc.id" .
-				"\n ORDER BY cc.ordering";
-		$db->setQuery($query);
-		$categories = $db->loadObjectList();
-
-		// Handle page header, page title, and pathway
-		if (empty ($category->name)) {
-			/*
-			 * We do not have a name set for the category, so we should get the default
-			 * information from the parameters.
-			 */
-			$category->name = $params->get('header');
-
-			// Set page title
-			$document->setTitle($menu->name);
-		} 
-		else 
-		{
-			/*
-			 * A name is set for the current category so let's use it.
-			 */
-
-			// Set page title based on category name
-			$document->setTitle($menu->name.' - '.$category->name);
-
-			// Add pathway item based on category name
-			$pathway->addItem($category->name, '');
+		 * Check if the category is published or if access level allows access
+		 */
+		// Check to see if the category is published or if access level allows access
+		if (!$category->name) {
+			JError::raiseError( 404, JText::_( 'You need to login.' ));
+			return;
 		}
+		
+		
+		// Set page title based on category name
+		$document->setTitle($menu->name.' - '.$category->name);
 
+		// Add pathway item based on category name
+		$pathway->addItem($category->name, '');
+		
 		// Define image tag attributes
 		if (isset ($category->image)) {
 			$imgAttribs['align'] = '"'.$category->image_position.'"';
@@ -253,8 +268,6 @@ class WeblinksController
 			$category->imgTag = mosHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $imgAttribs);
 		}
 
-		// used to show table rows in alternating colours
-		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
 
 		// table ordering
 		if ($filter_order_Dir == 'DESC') {
@@ -265,7 +278,8 @@ class WeblinksController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass, $lists, $page);
+		require_once (dirname(__FILE__).DS.'views'.DS.'category'.DS.'category.php');
+		WeblinksViewCategory::show( $rows, $catid, $category, $params, $lists, $page);
 	}
 
 	function showCategoryFeed()
@@ -339,6 +353,8 @@ class WeblinksController
 	 */
 	function showItem()
 	{
+		global $mainframe;
+		
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
@@ -346,7 +362,7 @@ class WeblinksController
 		$id			= JRequest::getVar( 'id', 0, '', 'int' );
 
 		// Get the weblink table object and load it
-		$weblink = & new JTableWeblink($db);
+		$weblink =& JTable::getInstance('weblink', $db, 'Table');
 		$weblink->load($id);
 
 		// Check if link is published
@@ -426,7 +442,7 @@ class WeblinksController
 
 
 		// Create and load a weblink table object
-		$row = & new JTableWeblink($db);
+		$row =& JTable::getInstance('weblink', $db, 'Table');
 		$row->load($id);
 
 		// Is this link checked out?  If not by me fail
@@ -468,6 +484,8 @@ class WeblinksController
 		// build list of categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
+		
+		require_once (dirname(__FILE__).DS.'views'.DS.'weblink'.DS.'weblink.php');
 		WeblinksView::editWeblink($row, $lists);
 	}
 
@@ -491,7 +509,7 @@ class WeblinksController
 		}
 
 		// Create and load a web link table
-		$row = new JTableWeblink($db);
+		$row =& JTable::getInstance('weblink', $db, 'Table');
 		$row->load(JRequest::getVar( 'id', 0, 'post', 'int' ));
 
 		// Checkin the weblink
@@ -526,7 +544,7 @@ class WeblinksController
 		}
 
 		// Create a web link table
-		$row = new JTableWeblink($db);
+		$row =& JTable::getInstance('weblink', $db, 'Table');
 
 		// Get the form fields.
 		$fields = JRequest::getVar('jform', array(), 'post', 'array');

@@ -23,8 +23,11 @@ if (!$user->authorize( 'com_weblinks', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
+// Load the html class
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class' ) );
+
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'tables');
 
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
@@ -180,7 +183,7 @@ function editWeblink()
 
 	$lists = array();
 
-	$row = new JTableWeblink( $db );
+	$row =& JTable::getInstance('weblink', $db, 'Table');
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -226,7 +229,7 @@ function editWeblink()
 function saveWeblink( $task ) 
 {
 	$db	=& JFactory::getDBO();
-	$row = new JTableWeblink( $db );
+	$row =& JTable::getInstance('weblink', $db, 'Table');
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -327,7 +330,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option )
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JTableWeblink( $db );
+		$row =& JTable::getInstance('weblink', $db, 'Table');
 		$row->checkin( $cid[0] );
 	}
 	josRedirect( "index2.php?option=". $option );
@@ -341,7 +344,7 @@ function orderWeblinks( $uid, $inc )
 	$option = JRequest::getVar( 'option');
 
 	$db =& JFactory::getDBO();
-	$row = new JTableWeblink( $db );
+	$row =& JTable::getInstance('weblink', $db, 'Table');
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
@@ -355,7 +358,7 @@ function orderWeblinks( $uid, $inc )
 function cancelWeblink()
 {
 	$db =& JFactory::getDBO();
-	$row = new JTableWeblink( $db );
+	$row =& JTable::getInstance('weblink', $db, 'Table');
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -379,12 +382,12 @@ function saveOrder( &$cid )
 		}
 
 		// update ordering
-		$row = new JTableWeblink( $db );
+		$row =& JTable::getInstance('weblink', $db, 'Table');
 		$row->load( $cid[$i] );
 		$row->reorder();
 	}
 
-	$msg 	= 'New ordering saved';
+	$msg = 'New ordering saved';
 	josRedirect( 'index2.php?option=com_weblinks', $msg );
 }
 ?>
