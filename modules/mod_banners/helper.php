@@ -33,7 +33,7 @@ class modBannersHelper
 			$document		=& JFactory::getDocument();
 			$keywords		=& $document->getMetaData( 'keywords' );
 
-			$vars['tag_search'] = JBannerHelper::getKeywords( $keywords );
+			$vars['tag_search'] = BannerHelper::getKeywords( $keywords );
 		}
 
 		$banners = $model->getList( $vars );
@@ -44,7 +44,7 @@ class modBannersHelper
 
 	function getModel()
 	{
-		if (!class_exists( 'JBannerModel' ))
+		if (!class_exists( 'BannerModel' ))
 		{
 			// Build the path to the model based upon a supplied base path
 			$path = JPATH_SITE . '/components/com_banners/models/banner.php';
@@ -53,17 +53,17 @@ class modBannersHelper
 			// If the model file exists include it and try to instantiate the object
 			if (file_exists( $path )) {
 				require_once( $path );
-				if (!class_exists( 'JModelBanner' )) {
-					JError::raiseWarning( 0, 'Model class JModelBanner not found in file.' );
+				if (!class_exists( 'ModelBanner' )) {
+					JError::raiseWarning( 0, 'Model class ModelBanner not found in file.' );
 					return $false;
 				}
 			} else {
-				JError::raiseWarning( 0, 'Model JModelBanner not supported. File not found.' );
+				JError::raiseWarning( 0, 'Model ModelBanner not supported. File not found.' );
 				return $false;
 			}
 		}
 
-		$model = & new JModelBanner();
+		$model = & new ModelBanner();
 		return $model;
 	}
 
@@ -78,7 +78,7 @@ class modBannersHelper
 			$html = str_replace( '{CLICKURL}', $link, $item->custombannercode );
 			$html = str_replace( '{NAME}', $item->name, $html );
 		}
-		else if (JBannerHelper::isImage( $item->imageurl ))
+		else if (BannerHelper::isImage( $item->imageurl ))
 		{
 			$image 	= '<img src="images/banners/'.$item->imageurl.'" border="0" alt="'.JText::_('Banner').'" />';
 			if ($item->clickurl)
@@ -109,7 +109,7 @@ class modBannersHelper
 				$html = $image;
 			}
 		}
-		else if (JBannerHelper::isFlash( $item->imageurl ))
+		else if (BannerHelper::isFlash( $item->imageurl ))
 		{
 			$imageurl = "images/banners/".$item->imageurl;
 			$html =	"<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">

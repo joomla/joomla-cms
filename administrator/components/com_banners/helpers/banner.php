@@ -17,7 +17,7 @@
  * @package Joomla
  * @subpackage Banners
  */
-class JBannerHelper
+class BannerHelper
 {
 	/**
 	 * Returns a list of valid keywords based on the prefix in banner

@@ -20,7 +20,7 @@ jimport( 'joomla.application.extension.component' );
  * @package Joomla
  * @subpackage Banners
  */
-class JModelBanner extends JModel
+class ModelBanner extends JModel
 {
 	/**
 	 * Gets a list of banners

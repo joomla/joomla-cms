@@ -31,9 +31,9 @@ class FrontpageView
 		global $mainframe;
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
-		$user		= & JFactory::getUser();
-		$document	= & JFactory::getDocument();
+		$db			=& JFactory::getDBO();
+		$user		=& JFactory::getUser();
+		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
 		
 		//we also need the content language file
