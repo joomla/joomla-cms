@@ -59,7 +59,7 @@ class FrontpageController
 		$doc  =& JFactory::getDocument();
 		$function = 'show'.$doc->getType();
 		
-		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'default'.DS.'default.php');
+		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'frontpage.php');
 		FrontpageView::$function($model, $access, $menu);
 	}
 }

@@ -88,9 +88,6 @@ class ModelFrontpage extends JObject
 	 */
 	function getContentData()
 	{
-		/*
-		 * Load the Category data
-		 */
 		$this->_loadContent();
 		return $this->_content;
 	}
@@ -178,20 +175,14 @@ class ModelFrontpage extends JObject
 		 */
 		$where = "\n WHERE 1";
 
-		/*
-		 * Does the user have access to view the items?
-		 */
-		if ($noauth)
-		{
+		// Does the user have access to view the items?
+		if ($noauth) {
 			$where .= "\n AND a.access <= $gid";
 		}
 
-		if ($user->authorize('action', 'edit', 'content', 'all'))
-		{
+		if ($user->authorize('action', 'edit', 'content', 'all')) {
 			$where .= "\n AND a.state >= 0";
-		}
-		else
-		{
+		} else {
 			$where .= "\n AND a.state = 1" .
 					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
