@@ -215,17 +215,15 @@ class JInstallationController
 		$DBcollation 	= JArrayHelper::getValue($vars, 'DBcollation', '');
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
+		// these 3 errors should be caught by the javascript in dbConfig
 		if ($DBtype == '') {
-			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
-			return false;
+			return JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
-			return false;
+			return JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
 		}
 		if ($DBname == '') {
-			JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
-			return false;
+			return JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 		}
 
 		if (!$DBcreated) {
@@ -242,14 +240,12 @@ class JInstallationController
 						$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					} else {
 						$error = $db->getErrorMsg();
-						JInstallationView::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
-						return false;
+						return JInstallationView::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
 					}
 				} else {
 					// connection failed
 					//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $db->getErrorNum() ), 'dbconfig', $db->getErrorMsg() );
-					JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
-					return false;
+					return JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
 				}
 			} else {
 				// pre-existing database - need to set character set to utf8
@@ -261,8 +257,7 @@ class JInstallationController
 
 			if ($DBOld == 'rm') {
 				if (JInstallationHelper::deleteDatabase($db, $DBname, $DBPrefix, $errors)) {
-					JInstallationView::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
-					return false;
+					return JInstallationView::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				}
 			}
 			else
@@ -272,8 +267,7 @@ class JInstallationController
 				 * to back it up :)
 				 */
 				if (JInstallationHelper::backupDatabase($db, $DBname, $DBPrefix, $errors)) {
-					JInstallationView::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
-					return false;
+					return JInstallationView::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				}
 			}
 
@@ -286,13 +280,12 @@ class JInstallationController
 
 			if (JInstallationHelper::populateDatabase($db, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0)
 			{
-				JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
-				return false;
+				return JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 			}
 
 		}
-
-		return true;
+		// notice - on no error we return false
+		return false;
 	}
 
 	/**

@@ -53,7 +53,6 @@ class JInstallationView
 	function error( &$vars, $msg, $back, $xmsg='' )
 	{
 		global $steps;
-
 		$tmpl =& JInstallationView::createTemplate( 'error.html' );
 
 		$tmpl->addVars( 'stepbar', $steps, 		'step_' );
@@ -66,7 +65,8 @@ class JInstallationView
 		$tmpl->addVar( 'body', 'back', $back );
 		$tmpl->addVars( 'body', $vars, 'var_' );
 
-		return $tmpl->fetch( 'page' );
+		$retval = $tmpl->fetch( 'page' );
+		return $retval;
 	}
 
 	/**

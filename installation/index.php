@@ -60,7 +60,9 @@ switch ($task)
 		break;
 
 	case 'makedb':
-		if (JInstallationController::makeDB($vars)) {
+		$result = JInstallationController::makeDB($vars);
+		// continue to ftpConfig only on false otherwise display messages
+		if (!$result) {
 			$result = JInstallationController::ftpConfig( $vars, 1 );
 		}
 		break;

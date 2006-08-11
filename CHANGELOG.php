@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Aug-2006 David Gal
+ # Fixed installation db error messaging during db creation
+
 10-Aug-2006 Louis Landry
  + Added error stack for error handling and error renderer for JDocument
  # Unable to change component in menu type
