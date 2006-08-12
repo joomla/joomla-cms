@@ -171,6 +171,8 @@ function editConfig( $option )
 
 function saveConfig( $option ) 
 {
+	global $mainframe;
+
 	$db   =& JFactory::getDBO();
 	$user =& JFactory::getUser();
 	
@@ -190,7 +192,7 @@ function saveConfig( $option )
 		$db->setQuery( $query );
 		$db->query();
 	}
-	josRedirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index2.php?option=$option" );
 }
 
 function newMessage( $option, $user, $subject )
@@ -226,6 +228,8 @@ function newMessage( $option, $user, $subject )
 
 function saveMessage( $option ) 
 {
+	global $mainframe;
+
 	require_once(dirname(__FILE__).DS.'tables'.DS.'message.php');
 	
 	$db =& JFactory::getDBO();
@@ -242,9 +246,9 @@ function saveMessage( $option )
 	}
 
 	if (!$row->send()) {
-		josRedirect( "index2.php?option=com_messages&josmsg=" . $row->getError() );
+		$mainframe->redirect( "index2.php?option=com_messages&josmsg=" . $row->getError() );
 	}
-	josRedirect( "index2.php?option=com_messages" );
+	$mainframe->redirect( "index2.php?option=com_messages" );
 }
 
 function viewMessage( $uid='0', $option )
@@ -272,6 +276,8 @@ function viewMessage( $uid='0', $option )
 
 function removeMessage( $cid, $option )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -294,6 +300,6 @@ function removeMessage( $cid, $option )
 	$limit 		= JRequest::getVar( 'limit', 10, '', 'int' );
 	$limitstart	= JRequest::getVar( 'limitstart', 0, '', 'int' );
 
-	josRedirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
+	$mainframe->redirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
 }
 ?>

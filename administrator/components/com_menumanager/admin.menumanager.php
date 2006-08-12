@@ -30,7 +30,7 @@ define( 'COM_MENUMANAGER', dirname( __FILE__ ) );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_menumanager', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( COM_MENUMANAGER . '/controller.php' );

@@ -285,7 +285,7 @@ class NewsfeedsController
 
 		if ( $rssDoc == false ) {
 			$msg = JText::_('Error: Feed not retrieved');
-			josRedirect('index.php?option=com_newsfeeds&catid='. $newsfeed->catid .'&Itemid=' . $Itemid, $msg);
+			$mainframe->redirect('index.php?option=com_newsfeeds&catid='. $newsfeed->catid .'&Itemid=' . $Itemid, $msg);
 			return;
 		}
 		$lists = array();

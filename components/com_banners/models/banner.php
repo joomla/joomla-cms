@@ -155,6 +155,8 @@ class ModelBanner extends JModel
 	 */
 	function getUrl( $id = 0 )
 	{
+		global $mainframe;
+
 		$db = &$this->getDBO();
 
 		// redirect to banner url
@@ -173,7 +175,7 @@ class ModelBanner extends JModel
 			$url = "http://$url";
 		}
 		return $url;
-		josRedirect( $url );
+		$mainframe->redirect( $url );
 	}
 }
 ?>

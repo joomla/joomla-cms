@@ -363,7 +363,7 @@ class JContentController extends JController
 		if ($id) {
 			$sectionid = $row->sectionid;
 			if ($row->state < 0) {
-				josRedirect('index2.php?option=com_content', JText::_('You cannot edit an archived item'));
+				$mainframe->redirect('index2.php?option=com_content', JText::_('You cannot edit an archived item'));
 			}
 		}
 
@@ -382,7 +382,7 @@ class JContentController extends JController
 		if ($row->checked_out && ($row->checked_out != $user->get('id')))
 		{
 			$msg = sprintf(JText::_('DESCBEINGEDITTED'), JText::_('The module'), $row->title);
-			josRedirect('index2.php?option=com_content', $msg);
+			$mainframe->redirect('index2.php?option=com_content', $msg);
 		}
 
 		if ($id) {
@@ -693,11 +693,11 @@ class JContentController extends JController
 		switch ($task)
 		{
 			case 'go2menu' :
-				josRedirect('index2.php?option=com_menus&menutype='.$menu);
+				$mainframe->redirect('index2.php?option=com_menus&menutype='.$menu);
 				break;
 
 			case 'go2menuitem' :
-				josRedirect('index2.php?option=com_menus&menutype='.$menu.'&task=edit&hidemainmenu=1&id='.$menuid);
+				$mainframe->redirect('index2.php?option=com_menus&menutype='.$menu.'&task=edit&hidemainmenu=1&id='.$menuid);
 				break;
 
 			case 'menulink' :
@@ -710,13 +710,13 @@ class JContentController extends JController
 
 			case 'apply' :
 				$msg = sprintf(JText::_('Successfully Saved changes to Item'), $row->title);
-				josRedirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&cid[]='.$row->id, $msg);
+				$mainframe->redirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&cid[]='.$row->id, $msg);
 				break;
 
 			case 'save' :
 			default :
 				$msg = sprintf(JText::_('Successfully Saved Item'), $row->title);
-				josRedirect('index2.php?option=com_content&sectionid='.$redirect, $msg);
+				$mainframe->redirect('index2.php?option=com_content&sectionid='.$redirect, $msg);
 				break;
 		}
 	}
@@ -732,6 +732,8 @@ class JContentController extends JController
 	*/
 	function changeContent( $state = 0 )
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
@@ -777,12 +779,9 @@ class JContentController extends JController
 
 			case 0 :
 			default :
-				if ($task == 'unarchive')
-				{
+				if ($task == 'unarchive') {
 					$msg = sprintf(JText::_('Item(s) successfully Unarchived'), $total);
-				}
-				else
-				{
+				} else {
 					$msg = sprintf(JText::_('Item(s) successfully Unpublished'), $total);
 				}
 				break;
@@ -800,7 +799,7 @@ class JContentController extends JController
 			$rtask = '';
 		}
 
-		josRedirect('index2.php?option='.$option.$rtask.'&sectionid='.$redirect.'&josmsg='.$msg);
+		$mainframe->redirect('index2.php?option='.$option.$rtask.'&sectionid='.$redirect.'&josmsg='.$msg);
 	}
 
 	/**
@@ -809,6 +808,8 @@ class JContentController extends JController
 	*/
 	function toggleFrontPage()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 		
@@ -855,11 +856,13 @@ class JContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		josRedirect('index2.php?option='.$option, $msg);
+		$mainframe->redirect('index2.php?option='.$option, $msg);
 	}
 
 	function removeContent()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		
@@ -895,7 +898,7 @@ class JContentController extends JController
 		$cache->cleanCache();
 
 		$msg = sprintf(JText::_('Item(s) sent to the Trash'), count($cid));
-		josRedirect('index2.php?option='.$option.'&task='.$return, $msg);
+		$mainframe->redirect('index2.php?option='.$option.'&task='.$return, $msg);
 	}
 
 	/**
@@ -903,6 +906,8 @@ class JContentController extends JController
 	*/
 	function cancelContent()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db	= & JFactory::getDBO();
 
@@ -911,7 +916,7 @@ class JContentController extends JController
 		$row->bind($_POST);
 		$row->checkin();
 
-		josRedirect('index2.php?option=com_content');
+		$mainframe->redirect('index2.php?option=com_content');
 	}
 
 	/**
@@ -920,6 +925,8 @@ class JContentController extends JController
 	*/
 	function orderContent($direction)
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		
@@ -934,7 +941,7 @@ class JContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		josRedirect('index2.php?option='.$option);
+		$mainframe->redirect('index2.php?option='.$option);
 	}
 
 	/**
@@ -984,6 +991,8 @@ class JContentController extends JController
 	*/
 	function moveSectionSave()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
@@ -996,7 +1005,7 @@ class JContentController extends JController
 		list ($newsect, $newcat) = explode(',', $sectcat);
 
 		if (!$newsect && !$newcat) {
-			josRedirect("index2.php?option=com_content&sectionid=$sectionid&josmsg=".JText::_('An error has occurred'));
+			$mainframe->redirect("index2.php?option=com_content&sectionid=$sectionid&josmsg=".JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1052,7 +1061,7 @@ class JContentController extends JController
 			$msg = JText::_('Item(s) successfully moved to Static Content');
 		}
 
-		josRedirect('index2.php?option='.$option.'&sectionid='.$sectionid, $msg);
+		$mainframe->redirect('index2.php?option='.$option.'&sectionid='.$sectionid, $msg);
 	}
 
 	/**
@@ -1101,6 +1110,8 @@ class JContentController extends JController
 	**/
 	function copyItemSave()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		
@@ -1115,7 +1126,7 @@ class JContentController extends JController
 		list ($newsect, $newcat) = $sectcat;
 
 		if (!$newsect && !$newcat) {
-			josRedirect('index.php?option=com_content&sectionid='.$sectionid.'&josmsg='.JText::_('An error has occurred'));
+			$mainframe->redirect('index.php?option=com_content&sectionid='.$sectionid.'&josmsg='.JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1186,7 +1197,7 @@ class JContentController extends JController
 		}
 
 		$msg = sprintf(JText::_('Item(s) successfully copied to Section'), $total, $section, $category);
-		josRedirect('index2.php?option='.$option.'&sectionid='.$sectionid.'&josmsg='.$msg);
+		$mainframe->redirect('index2.php?option='.$option.'&sectionid='.$sectionid.'&josmsg='.$msg);
 	}
 
 	/**
@@ -1196,6 +1207,8 @@ class JContentController extends JController
 	*/
 	function accessMenu($access)
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 		
@@ -1223,11 +1236,13 @@ class JContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		josRedirect('index2.php?option='.$option);
+		$mainframe->redirect('index2.php?option='.$option);
 	}
 
 	function saveOrder()
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		
@@ -1278,11 +1293,11 @@ class JContentController extends JController
 		switch ($rettask)
 		{
 			case 'showarchive' :
-				josRedirect('index2.php?option=com_content&task=showarchive&sectionid='.$redirect, $msg);
+				$mainframe->redirect('index2.php?option=com_content&task=showarchive&sectionid='.$redirect, $msg);
 				break;
 
 			default :
-				josRedirect('index2.php?option=com_content&sectionid='.$redirect, $msg);
+				$mainframe->redirect('index2.php?option=com_content&sectionid='.$redirect, $msg);
 				break;
 		} 
 	}

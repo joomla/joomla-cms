@@ -97,7 +97,7 @@ class JApplication extends JObject
 		$filter = & JInputFilter::getInstance();
 		$url = $filter->clean( $url );
 		if (!empty($msg)) {
-			$msg = $filter->process( $msg );
+			$msg = $filter->clean( $msg );
 		}
 
 		if (JInputFilter::isAttributeInvalid( array( 'href', $url ))) {

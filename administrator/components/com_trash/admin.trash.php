@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_trash', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -276,7 +276,7 @@ function deleteTrash( $cid, $option )
 	}
 
 	$msg = sprintf( JText::_( 'Item(s) successfully Deleted' ), $total );
-	josRedirect( "index2.php?option=$option&task=$return&josmsg=$msg" );
+	$mainframe->redirect( "index2.php?option=$option&task=$return&josmsg=$msg" );
 }
 
 
@@ -395,7 +395,7 @@ function restoreTrash( $cid, $option ) {
 	}
 
 	$msg = sprintf( JText::_( 'Item(s) successfully Restored' ), $total );
-	josRedirect( "index2.php?option=$option&task=$return&josmsg=$msg" );
+	$mainframe->redirect( "index2.php?option=$option&task=$return&josmsg=$msg" );
 }
 
 function ReadMenuXML( $type, $component=-1 ) {

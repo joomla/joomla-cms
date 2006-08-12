@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_newsfeeds', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -207,6 +207,8 @@ function editNewsFeed(  )
 */
 function saveNewsFeed(  ) 
 {
+	global $mainframe;
+
 	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
 
@@ -247,7 +249,7 @@ function saveNewsFeed(  )
 			break;
 	}
 
-	josRedirect( $link );
+	$mainframe->redirect( $link );
 }
 
 /**
@@ -270,6 +272,8 @@ function unPublishNewsFeeds(  ) {
 */
 function changePublishNewsFeeds( $publish ) 
 {
+	global $mainframe;
+
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
 	
@@ -303,7 +307,7 @@ function changePublishNewsFeeds( $publish )
 		$row->checkin( $cid[0] );
 	}
 
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -335,7 +339,7 @@ function removeNewsFeeds( )
 		}
 	}
 
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -343,13 +347,15 @@ function removeNewsFeeds( )
 */
 function cancelNewsFeed(  ) 
 {
+	global $mainframe;
+
 	$db 	=& JFactory::getDBO();
 	$option = JRequest::getVar( 'option');
 
 	$row = new mosNewsFeed( $db );
 	$row->bind( $_POST );
 	$row->checkin();
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -372,8 +378,10 @@ function moveDownNewsFeed(  ) {
 */
 function orderNewsFeed( $inc ) 
 {
-	$db		 	= JFactory::getDBO();
-	$cid 		= JRequest::getVar( 'cid', array(0));
+	global $mainframe;
+
+	$db		= JFactory::getDBO();
+	$cid 	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
 		$cid = array(0);
@@ -387,7 +395,7 @@ function orderNewsFeed( $inc )
 	$row->load( $cid[0] );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -395,6 +403,8 @@ function orderNewsFeed( $inc )
 */
 function saveOrder(  ) 
 {
+	global $mainframe;
+
 	$db		 	= JFactory::getDBO();
 	$cid 		= JRequest::getVar( 'cid' );
 
@@ -418,6 +428,6 @@ function saveOrder(  )
 	}
 
 	$msg 	= 'New ordering saved';
-	josRedirect( 'index2.php?option=com_newsfeeds', $msg );
+	$mainframe->redirect( 'index2.php?option=com_newsfeeds', $msg );
 }
 ?>

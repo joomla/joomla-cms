@@ -193,7 +193,8 @@ function mosMakePassword() {
  * @package		Joomla.Legacy
  */
 function mosRedirect( $url, $msg='' ) {
-	josRedirect( $url, $msg );
+	global $mainframe;
+	$mainframe->redirect( $url, $msg );
 }
 
 /**

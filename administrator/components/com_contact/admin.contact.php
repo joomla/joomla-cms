@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_contact', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -241,6 +241,9 @@ function editContact( )
 */
 function saveContact( $task ) 
 {
+	global $mainframe;
+
+	// Initialize variables
 	$db  =& JFactory::getDBO();
 	$row = new JTableContact( $db );
 	if (!$row->bind( $_POST )) {
@@ -303,7 +306,7 @@ function saveContact( $task )
 			break;
 	}
 
-	josRedirect( $link );
+	$mainframe->redirect( $link );
 }
 
 /**
@@ -313,6 +316,9 @@ function saveContact( $task )
 */
 function removeContacts( &$cid ) 
 {
+	global $mainframe;
+
+	// Initialize variables
 	$db =& JFactory::getDBO();
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
@@ -325,7 +331,7 @@ function removeContacts( &$cid )
 		}
 	}
 
-	josRedirect( "index2.php?option=com_contact" );
+	$mainframe->redirect( "index2.php?option=com_contact" );
 }
 
 /**
@@ -336,6 +342,9 @@ function removeContacts( &$cid )
 */
 function changeContact( $cid=null, $state=0 ) 
 {
+	global $mainframe;
+
+	// Initialize variables
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 	
@@ -363,7 +372,7 @@ function changeContact( $cid=null, $state=0 )
 		$row->checkin( intval( $cid[0] ) );
 	}
 
-	josRedirect( "index2.php?option=com_contact" );
+	$mainframe->redirect( "index2.php?option=com_contact" );
 }
 
 /** JJC
@@ -372,13 +381,16 @@ function changeContact( $cid=null, $state=0 )
 */
 function orderContacts( $uid, $inc ) 
 {	
+	global $mainframe;
+
+	// Initialize variables
 	$db =& JFactory::getDBO();
 	
 	$row = new JTableContact( $db );
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	josRedirect( "index2.php?option=com_contact" );
+	$mainframe->redirect( "index2.php?option=com_contact" );
 }
 
 /** PT
@@ -386,12 +398,15 @@ function orderContacts( $uid, $inc )
 */
 function cancelContact() 
 {
+	global $mainframe;
+
+	// Initialize variables
 	$db =& JFactory::getDBO();
 	$row = new JTableContact( $db );
 	$row->bind( $_POST );
 	$row->checkin();
 
-	josRedirect('index2.php?option=com_contact');
+	$mainframe->redirect('index2.php?option=com_contact');
 }
 
 /**
@@ -400,6 +415,9 @@ function cancelContact()
 */
 function changeAccess( $id, $access  ) 
 {
+	global $mainframe;
+
+	// Initialize variables
 	$db =& JFactory::getDBO();
 	
 	$row = new JTableContact( $db );
@@ -413,11 +431,14 @@ function changeAccess( $id, $access  )
 		return $row->getError();
 	}
 
-	josRedirect( 'index2.php?option=com_contact' );
+	$mainframe->redirect( 'index2.php?option=com_contact' );
 }
 
 function saveOrder( &$cid ) 
 {
+	global $mainframe;
+
+	// Initialize variables
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
@@ -441,6 +462,6 @@ function saveOrder( &$cid )
 	}
 
 	$msg 	= 'New ordering saved';
-	josRedirect( 'index2.php?option=com_contact', $msg );
+	$mainframe->redirect( 'index2.php?option=com_contact', $msg );
 }
 ?>

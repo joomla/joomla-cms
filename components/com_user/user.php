@@ -55,7 +55,7 @@ switch( JRequest::getVar( 'task' ) )
 		break;
 
 	case 'cancel':
-		josRedirect( 'index.php' );
+		$mainframe->redirect( 'index.php' );
 		break;
 
 	default:
@@ -235,7 +235,7 @@ class UserController
 		}
 
 		$link = $_SERVER['HTTP_REFERER'];
-		josRedirect( $link, JText::_( 'Your settings have been saved.' ) );
+		$mainframe->redirect( $link, JText::_( 'Your settings have been saved.' ) );
 	}
 
 	function checkin( $userid, $access, $option )

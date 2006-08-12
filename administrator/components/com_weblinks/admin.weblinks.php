@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_weblinks', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Load the html class
@@ -190,7 +190,7 @@ function editWeblink()
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
-		josRedirect( 'index2.php?option='. $option, $msg );
+		$mainframe->redirect( 'index2.php?option='. $option, $msg );
 	}
 
 	if ($cid[0]) {
@@ -228,6 +228,8 @@ function editWeblink()
 */
 function saveWeblink( $task ) 
 {
+	global $mainframe;
+
 	$db	=& JFactory::getDBO();
 	$row =& JTable::getInstance('weblink', $db, 'Table');
 	if (!$row->bind( $_POST )) {
@@ -267,7 +269,7 @@ function saveWeblink( $task )
 			break;
 	}
 
-	josRedirect($link);
+	$mainframe->redirect($link);
 }
 
 /**
@@ -277,6 +279,8 @@ function saveWeblink( $task )
 */
 function removeWeblinks( $cid, $option ) 
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
@@ -293,7 +297,7 @@ function removeWeblinks( $cid, $option )
 		}
 	}
 
-	josRedirect( 'index2.php?option=com_weblinks' );
+	$mainframe->redirect( 'index2.php?option=com_weblinks' );
 }
 
 /**
@@ -333,7 +337,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option )
 		$row =& JTable::getInstance('weblink', $db, 'Table');
 		$row->checkin( $cid[0] );
 	}
-	josRedirect( "index2.php?option=". $option );
+	$mainframe->redirect( "index2.php?option=". $option );
 }
 /**
 * Moves the order of a record
@@ -341,6 +345,8 @@ function publishWeblinks( $cid=null, $publish=1,  $option )
 */
 function orderWeblinks( $uid, $inc ) 
 {	
+	global $mainframe;
+
 	$option = JRequest::getVar( 'option');
 
 	$db =& JFactory::getDBO();
@@ -348,7 +354,7 @@ function orderWeblinks( $uid, $inc )
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
-	josRedirect( 'index.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -357,16 +363,20 @@ function orderWeblinks( $uid, $inc )
 */
 function cancelWeblink()
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('weblink', $db, 'Table');
 	$row->bind( $_POST );
 	$row->checkin();
 
-	josRedirect( 'index2.php?option=com_weblinks' );
+	$mainframe->redirect( 'index2.php?option=com_weblinks' );
 }
 
 function saveOrder( &$cid ) 
 {
+	global $mainframe;
+
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
@@ -388,6 +398,6 @@ function saveOrder( &$cid )
 	}
 
 	$msg = 'New ordering saved';
-	josRedirect( 'index2.php?option=com_weblinks', $msg );
+	$mainframe->redirect( 'index2.php?option=com_weblinks', $msg );
 }
 ?>

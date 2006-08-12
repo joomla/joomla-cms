@@ -306,6 +306,8 @@ function showSearches( $option, $task, $showResults=null )
 
 function resetStats( $option, $task ) 
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$op = JRequest::getVar( 'op' );
 
@@ -375,6 +377,6 @@ function resetStats( $option, $task )
 		$db->setQuery( $query );
 		$db->query();
 
-		josRedirect( $redirecturl, $msg );
+		$mainframe->redirect( $redirecturl, $msg );
 }
 ?>

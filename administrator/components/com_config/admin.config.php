@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_config', 'manage' )) {
-	josRedirect('index2.php?', JText::_('ALERTNOTAUTH'));
+	$mainframe->redirect('index2.php?', JText::_('ALERTNOTAUTH'));
 }
 
 define( 'JPATH_COM_CONFIG', dirname( __FILE__ ));

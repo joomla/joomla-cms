@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_languages', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 
@@ -138,9 +138,9 @@ function publishLanguage( $language )
 	 */
     jimport('joomla.filesystem.file');
 	if (JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')))) {
-		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
+		$mainframe->redirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
 	} else {
-		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
+		$mainframe->redirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
 }
 ?>

@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_users', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -64,7 +64,7 @@ switch ($task) {
 
 	case 'contact':
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		josRedirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
+		$mainframe->redirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
 		break;
 
 	default:
@@ -238,7 +238,7 @@ function editUser( )
 
 	if ( in_array( $userGroups[0], $excludeGroups ) ) {
 		echo 'not auth';
-		josRedirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
+		$mainframe->redirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
 	}
 	*/
 
@@ -297,7 +297,7 @@ function saveUser(  )
 	$original_gid = $user->get('gid');
 
 	if (!$user->bind( $_POST )) {
-		josRedirect( 'index2.php?option=com_users', $user->getError() );
+		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
 		return false;
 	}
 
@@ -328,7 +328,7 @@ function saveUser(  )
 	 * Lets save the JUser object
 	 */
 	if (!$user->save()) {
-		josRedirect( 'index2.php?option=com_users', $user->getError() );
+		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
 		return false;
 	}
 
@@ -353,13 +353,13 @@ function saveUser(  )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to User' ), $user->get('name') );
-			josRedirect( 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $user->get('id'), $msg );
+			$mainframe->redirect( 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $user->get('id'), $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved User' ), $user->get('name') );
-			josRedirect( 'index2.php?option=com_users', $msg );
+			$mainframe->redirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
 }
@@ -369,8 +369,10 @@ function saveUser(  )
 */
 function cancelUser( )
 {
-	$option 	= JRequest::getVar( 'option');
-	josRedirect( 'index2.php?option='. $option .'&task=view' );
+	global $mainframe;
+
+	$option = JRequest::getVar( 'option');
+	$mainframe->redirect( 'index2.php?option='. $option .'&task=view' );
 }
 
 /**
@@ -378,6 +380,8 @@ function cancelUser( )
 */
 function removeUsers(  )
 {
+	global $mainframe;
+
 	$db 			=& JFactory::getDBO();
 	$currentUser 	=& JFactory::getUser();
 
@@ -438,7 +442,7 @@ function removeUsers(  )
 		}
 	}
 
-	josRedirect( 'index2.php?option=com_users', $msg);
+	$mainframe->redirect( 'index2.php?option=com_users', $msg);
 }
 
 /**
@@ -461,6 +465,8 @@ function blockUser( ) {
 */
 function changeUserBlock( $block=1 ) 
 {
+	global $mainframe;
+
 	$db = JFactory::getDBO();
 
 	$option = JRequest::getVar( 'option');
@@ -499,7 +505,7 @@ function changeUserBlock( $block=1 )
 		}
 	}
 
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -507,7 +513,7 @@ function changeUserBlock( $block=1 )
 */
 function logoutUser( ) 
 {
-	global $currentUser;
+	global $currentUser, $mainframe;
 	
 	$db		=& JFactory::getDBO();
 	$task 	= JRequest::getVar( 'task' );
@@ -517,7 +523,7 @@ function logoutUser( )
 
 	if ( is_array( $cids ) ) {
 		if ( count( $cids ) < 1 ) {
-			josRedirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
+			$mainframe->redirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
 		}
 		$cids = implode( ',', $cids );
 	}
@@ -541,7 +547,7 @@ function logoutUser( )
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {
 		case 'flogout':
-			josRedirect( 'index2.php', $msg );
+			$mainframe->redirect( 'index2.php', $msg );
 			break;
 
 		case 'remove':
@@ -550,7 +556,7 @@ function logoutUser( )
 			break;
 
 		default:
-			josRedirect( 'index2.php?option=com_users', $msg );
+			$mainframe->redirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
 }

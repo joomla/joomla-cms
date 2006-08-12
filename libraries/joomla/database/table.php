@@ -129,7 +129,7 @@ class JTable extends JObject
 			if ($ignore && in_array( $k, $ignoreList ) ) {
 				continue;
 			}
-			$this->$k = $iFilter->clean( $this->$k );
+			$this->$k = $filter->clean( $this->$k );
 		}
 	}
 

@@ -63,58 +63,6 @@ function ampReplace( $text ) {
 	return $text;
 }
 
-/**
- * Utility function redirect the browser location to another url
- *
- * @package Joomla.Framework
- * Can optionally provide a message.
- * @param string $url The URL to redirect to
- * @param string $msg A message to display on redirect
- * @since 1.0
- */
-function josRedirect( $url, $msg='' )
-{
-   global $mainframe;
-
-    /*
-     * Instantiate an input filter and process the URL and message
-     */
-	jimport( 'phpinputfilter.inputfilter' );
-	$iFilter = new InputFilter();
-	$url = $iFilter->process( $url );
-	if (!empty($msg)) {
-		$msg = $iFilter->process( $msg );
-	}
-
-	if ($iFilter->isAttributeInvalid( array( 'href', $url ))) {
-		$url = $mainframe->getBasePath();
-	}
-
-	/*
-	 * If the message exists, prepare it (url encoding)
-	 */
-	if (trim( $msg )) {
-	 	if (strpos( $url, '?' )) {
-			$url .= '&josmsg=' . urlencode( $msg );
-		} else {
-			$url .= '?josmsg=' . urlencode( $msg );
-		}
-	}
-
-	/*
-	 * If the headers have been sent, then we cannot send an additional location header
-	 * so we will output a javascript redirect statement.
-	 */
-	if (headers_sent()) {
-		echo "<script>document.location.href='$url';</script>\n";
-	} else {
-		//@ob_end_clean(); // clear output buffer
-		header( 'HTTP/1.1 301 Moved Permanently' );
-		header( "Location: ". $url );
-	}
-	exit();
-}
-
 function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 	$text = nl2br( $text );
 	$text = addslashes( $text );

@@ -20,7 +20,7 @@ define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_frontpage', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Set the table directory
@@ -214,6 +214,8 @@ function viewFrontPage( $option )
 */
 function changeFrontPage( $cid=null, $state=0, $option ) 
 {
+	global $mainframe;
+
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 	
@@ -244,11 +246,13 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	josRedirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index2.php?option=$option" );
 }
 
 function removeFrontPage( &$cid, $option ) 
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -273,7 +277,7 @@ function removeFrontPage( &$cid, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	josRedirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index2.php?option=$option" );
 }
 
 /**
@@ -282,6 +286,8 @@ function removeFrontPage( &$cid, $option )
 */
 function orderFrontPage( $uid, $inc, $option ) 
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	
 	$fp =& JTable::getInstance('frontpage', $db, 'Table'); 
@@ -291,7 +297,7 @@ function orderFrontPage( $uid, $inc, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	josRedirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index2.php?option=$option" );
 }
 
 /**
@@ -300,7 +306,9 @@ function orderFrontPage( $uid, $inc, $option )
 * @param string The URL option
 */
 function accessMenu( $uid, $access ) 
-{	
+{
+	global $mainframe;
+
 	$db = & JFactory::getDBO();
 	$row =& JTable::getInstance('content', $db );
 	$row->load( $uid );
@@ -316,11 +324,13 @@ function accessMenu( $uid, $access )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	josRedirect( 'index2.php?option=com_frontpage' );
+	$mainframe->redirect( 'index2.php?option=com_frontpage' );
 }
 
 function saveOrder( &$cid ) 
 {
+	global $mainframe;
+
 	$db 	=& JFactory::getDBO();
 	$total	= count( $cid );
 	$order 	= JRequest::getVar( 'order', array(0), 'post', 'array' );
@@ -346,6 +356,6 @@ function saveOrder( &$cid )
 	$cache->cleanCache();
 
 	$msg 	= JText::_( 'New ordering saved' );
-	josRedirect( 'index2.php?option=com_frontpage', $msg );
+	$mainframe->redirect( 'index2.php?option=com_frontpage', $msg );
 }
 ?>

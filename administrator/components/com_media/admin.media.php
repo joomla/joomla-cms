@@ -19,11 +19,11 @@ defined('_JEXEC') or die('Restricted access');
 $user = & JFactory::getUser();
 if ($mainframe->isAdmin()) {
 	if (!$user->authorize( 'com_media', 'manage' )) {
-		josRedirect('index.php', JText::_('ALERTNOTAUTH'));
+		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
 } else {
 	if (!$user->authorize( 'com_media', 'popup' )) {
-		josRedirect('index.php', JText::_('ALERTNOTAUTH'));
+		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
 }
 
@@ -34,7 +34,7 @@ if (!is_array($cid)) {
 
 $folder = JRequest::getVar( 'folder', '');
 if (is_int(strpos($folder, "..")) && $folder != '') {
-	josRedirect("index2.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
+	$mainframe->redirect("index2.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
 }
 
 define( 'JPATH_COM_MEDIA', dirname( __FILE__ ));
@@ -384,6 +384,8 @@ class JMediaController
 
 	function batchUpload()
 	{
+		global $mainframe;
+
 		$files 			= JRequest::getVar( 'uploads', array(), 'files', 'array' );
 		$dirPath 		= JRequest::getVar( 'dirpath', '' );
 		$err			= null;
@@ -404,12 +406,12 @@ class JMediaController
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
 				if (!JMediaHelper::canUpload( $file, $err )) {
-					josRedirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
+					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
 					return;
 				}
 
 				if (!JFile::upload($files['tmp_name'][$i], $destDir.strtolower($files['name'][$i]))) {
-					josRedirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
+					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
 				}
 			}
 		}
@@ -423,13 +425,15 @@ class JMediaController
 	 */
 	function createFolder()
 	{
+		global $mainframe;
+
 		$folderName = JRequest::getVar( 'foldername', '');
 		$dirPath 	= JRequest::getVar( 'dirpath', '' );
 		JRequest::setVar('cFolder', $dirPath);
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
-				josRedirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('WARNDIRNAME'));
+				$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('WARNDIRNAME'));
 			}
 			$folder = COM_MEDIA_BASE.$dirPath.DS.$folderName;
 			if (!is_dir($folder) && !is_file($folder))

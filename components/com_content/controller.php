@@ -284,7 +284,7 @@ class JContentController extends JController
 	*/
 	function save()
 	{
-		global $Itemid;
+		global $Itemid, $mainframe;
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -473,7 +473,7 @@ class JContentController extends JController
 				}
 				break;
 		}
-		josRedirect($link, $msg);
+		$mainframe->redirect($link, $msg);
 	}
 
 	/**

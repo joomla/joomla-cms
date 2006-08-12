@@ -22,11 +22,11 @@ switch ($task) {
 		$goto = trim( JString::strtolower( JRequest::getVar( 'link' ) ) );
 		if ($goto == 'null') {
 			$msg = JText::_( 'There is no link associated with this item' );
-			josRedirect( 'index2.php?option=com_admin&task=listcomponents', $msg );
+			$mainframe->redirect( 'index2.php?option=com_admin&task=listcomponents', $msg );
 			exit();
 		}
 		$goto = str_replace( "'", '', $goto );
-		josRedirect( $goto );
+		$mainframe->redirect( $goto );
 		break;
 
 	case 'listcomponents':

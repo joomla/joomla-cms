@@ -161,6 +161,9 @@ class BannerController
 	 */
 	function saveBanner( $task ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db =& JFactory::getDBO();
 
 		$post	= JRequest::get( 'post' );
@@ -211,22 +214,28 @@ class BannerController
 
 		$msg = JText::_( 'Saved Banner info' );
 
-		josRedirect( $link, $msg );
+		$mainframe->redirect( $link, $msg );
 	}
 
 	function cancelEditBanner() 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db =& JFactory::getDBO();
 
 		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 		$row->bind( $_POST );
 		$row->checkin();
 
-		josRedirect( 'index2.php?option=com_banners' );
+		$mainframe->redirect( 'index2.php?option=com_banners' );
 	}
 
 	function publishBanner( $cid, $publish=1 ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 
@@ -253,12 +262,15 @@ class BannerController
 			$row =& JTable::getInstance('bannerclient', $db, 'Table');
 			$row->checkin( $cid[0] );
 		}
-		josRedirect( 'index2.php?option=com_banners' );
+		$mainframe->redirect( 'index2.php?option=com_banners' );
 
 	}
 
 	function removeBanner( $cid ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db =& JFactory::getDBO();
 
 		if (count( $cid ) && $cid[0] != 0) {
@@ -277,7 +289,7 @@ class BannerController
 			}
 		}
 
-		josRedirect( 'index2.php?option=com_banners' );
+		$mainframe->redirect( 'index2.php?option=com_banners' );
 	}
 
 	/**
@@ -285,8 +297,10 @@ class BannerController
 	 */
 	function saveOrder( $cid )
 	{
-		$db			=& JFactory::getDBO();
+		global $mainframe;
 
+		// Initialize variables
+		$db			=& JFactory::getDBO();
 		$total		= count( $cid );
 		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 		$row		=& JTable::getInstance('bannerclient', $db, 'Table');
@@ -326,7 +340,7 @@ class BannerController
 		$cache->cleanCache();
 
 		$msg = JText::_('New ordering saved');
-		josRedirect( 'index2.php?option=com_banners', $msg );
+		$mainframe->redirect( 'index2.php?option=com_banners', $msg );
 	}
 }
 ?>

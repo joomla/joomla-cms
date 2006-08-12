@@ -216,6 +216,8 @@ function showSections( $scope, $option )
 */
 function editSection( ) 
 {
+	global $mainframe;
+
 	$db			=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
 	
@@ -233,7 +235,7 @@ function editSection( )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
-		josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&josmsg='. $msg );
+		$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&josmsg='. $msg );
 	}
 
 	if ( $cid[0] ) {
@@ -307,6 +309,8 @@ function editSection( )
 */
 function saveSection( $option, $scope, $task ) 
 {
+	global $mainframe;
+
 	$db			=& JFactory::getDBO();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
@@ -342,11 +346,11 @@ function saveSection( $option, $scope, $task )
 
 	switch ( $task ) {
 		case 'go2menu':
-			josRedirect( 'index2.php?option=com_menus&menutype='. $menu );
+			$mainframe->redirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			josRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			$mainframe->redirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -355,13 +359,13 @@ function saveSection( $option, $scope, $task )
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Section saved' );
-			josRedirect( 'index2.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = JText::_( 'Section saved' );
-			josRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
+			$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 			break;
 	}
 }
@@ -373,6 +377,8 @@ function saveSection( $option, $scope, $task )
 */
 function removeSections( $cid, $scope, $option ) 
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a section to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -417,12 +423,12 @@ function removeSections( $cid, $scope, $option )
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
     	$msg = sprintf( JText::_( 'DESCCANNOTBEREMOVED' ), $cids );
-		josRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
+		$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
 	$msg = sprintf( JText::_( 'Sections successfully deleted' ), $names );
-	josRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
+	$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 }
 
 /**
@@ -436,6 +442,8 @@ function removeSections( $cid, $scope, $option )
 */
 function publishSections( $scope, $cid=null, $publish=1, $option ) 
 {
+	global $mainframe;
+
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 	
@@ -492,7 +500,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 		}
 	}
 
-	josRedirect( 'index2.php?option='. $option .'&scope='. $scope );
+	$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -503,12 +511,14 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 */
 function cancelSection( $option, $scope ) 
 {	
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section', $db );
 	$row->bind( $_POST );
 	$row->checkin();
 
-	josRedirect( 'index2.php?option='. $option .'&scope='. $scope );
+	$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -517,12 +527,14 @@ function cancelSection( $option, $scope )
 */
 function orderSection( $uid, $inc, $option, $scope ) 
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section', $db );
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
-	josRedirect( 'index2.php?option='. $option .'&scope='. $scope );
+	$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope );
 }
 
 
@@ -563,7 +575,9 @@ function copySectionSelect( $option, $cid, $section )
 * Save the item(s) to the menu selected
 */
 function copySectionSave( $sectionid ) 
-{	
+{
+	global $mainframe;
+
 	$db			=& JFactory::getDBO();
 	$title 		= JRequest::getVar( 'title' );
 	$contentid 	= JRequest::getVar( 'content' );
@@ -652,7 +666,7 @@ function copySectionSave( $sectionid )
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
-	josRedirect( 'index2.php?option=com_sections&scope=content&josmsg='. $msg );
+	$mainframe->redirect( 'index2.php?option=com_sections&scope=content&josmsg='. $msg );
 }
 
 /**
@@ -661,6 +675,8 @@ function copySectionSave( $sectionid )
 */
 function accessMenu( $uid, $access, $option ) 
 {
+	global $mainframe;
+
 	$db	=& JFactory::getDBO();
 	$row =& JTable::getInstance('section', $db );
 	$row->load( $uid );
@@ -673,11 +689,13 @@ function accessMenu( $uid, $access, $option )
 		return $row->getError();
 	}
 
-	josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope );
+	$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $row->scope );
 }
 
 function menuLink( $id ) 
 {
+	global $mainframe;
+
 	$db		 =& JFactory::getDBO();
 	
 	$section =& JTable::getInstance('section', $db );
@@ -732,11 +750,13 @@ function menuLink( $id )
 	$row->reorder( "menutype = '$menu'" );
 
 	$msg = sprintf( JText::_( 'menutype successfully created' ), $name, $menutype, $menu );
-	josRedirect( 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
+	$mainframe->redirect( 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
 }
 
 function saveOrder( &$cid ) 
 {
+	global $mainframe;
+
 	$db			=& JFactory::getDBO();
 	
 	$total		= count( $cid );
@@ -773,6 +793,6 @@ function saveOrder( &$cid )
 	}
 
 	$msg 	= JText::_( 'New ordering saved' );
-	josRedirect( 'index2.php?option=com_sections&scope=content', $msg );
+	$mainframe->redirect( 'index2.php?option=com_sections&scope=content', $msg );
 }
 ?>

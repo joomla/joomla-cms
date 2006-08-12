@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 $user = & JFactory::getUser();
 if (!$user->authorize('com_templates', 'manage')) {
-	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
+	$mainframe->redirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
 
 require_once (dirname(__FILE__).'/admin.templates.html.php');
@@ -154,6 +154,8 @@ class JTemplatesController
 	*/
 	function publishTemplate($template)
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
@@ -170,7 +172,7 @@ class JTemplatesController
 		$db->setQuery($query);
 		$db->query();
 
-		josRedirect('index2.php?option='.$option.'&client='.$client->id);
+		$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id);
 	}
 
 	/**
@@ -178,6 +180,8 @@ class JTemplatesController
 	*/
 	function removeTemplate($cid)
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
@@ -203,7 +207,7 @@ class JTemplatesController
 		$db->setQuery($query);
 		$db->query();
 
-		josRedirect('index2.php?option=com_installer&type=template&client='.$client->id.'&task=remove&eid[]='.$cid);
+		$mainframe->redirect('index2.php?option=com_installer&type=template&client='.$client->id.'&task=remove&eid[]='.$cid);
 	}
 
 	function editTemplate($template)
@@ -249,6 +253,8 @@ class JTemplatesController
 
 	function saveTemplate($task)
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$db	   		 = & JFactory::getDBO();
 
@@ -259,7 +265,7 @@ class JTemplatesController
 		$params		= JRequest::getVar('params', array (), '', 'array');
 
 		if (!$template) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
@@ -273,7 +279,7 @@ class JTemplatesController
 			}
 
 			if (!JFile::write($file, $txt)) {
-				josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+				$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 			}
 		}
 
@@ -308,23 +314,27 @@ class JTemplatesController
 		}
 
 		if($task == 'apply') {
-			josRedirect('index2.php?option='.$option.'&task=edit&id='.$template.'&client='.$client->id);
+			$mainframe->redirect('index2.php?option='.$option.'&task=edit&id='.$template.'&client='.$client->id);
 		} else {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id);
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id);
 		}
 	}
 
 	function cancelTemplate()
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$option	= JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		josRedirect('index2.php?option='.$option.'&client='.$client->id);
+		$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id);
 	}
 
 	function editTemplateSource()
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -343,12 +353,14 @@ class JTemplatesController
 		else
 		{
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $file);
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, $msg);
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, $msg);
 		}
 	}
 
 	function saveTemplateSource($task)
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -357,11 +369,11 @@ class JTemplatesController
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWRAW);
 
 		if (!$template) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		if (!$filecontent) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'index.php';
@@ -372,17 +384,17 @@ class JTemplatesController
 			switch($task)
 			{
 				case 'apply_source' :
-					josRedirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_source&template='.$template);
+					$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_source&template='.$template);
 					break;
 
 				case 'save_source'  :
 				default          :
-					josRedirect('index2.php?option='.$option.'&client='.$client->id);
+					$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id);
 					break;
 			}
 		}
 		else {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
 
@@ -445,12 +457,14 @@ class JTemplatesController
 		}
 		else {
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $client->path.$filename);
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, $msg);
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, $msg);
 		}
 	}
 
 	function saveTemplateCSS( $task )
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -459,11 +473,11 @@ class JTemplatesController
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWRAW);
 
 		if (!$template) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		if (!$filecontent) {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
 		jimport('joomla.filesystem.file');
@@ -472,17 +486,17 @@ class JTemplatesController
 			switch($task)
 			{
 				case 'apply_css' :
-					josRedirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_css&template='.$template.'&filename='.$filename);
+					$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id.'&task=edit_css&template='.$template.'&filename='.$filename);
 					break;
 
 				case 'save_css'  :
 				default          :
-					josRedirect('index2.php?option='.$option.'&client='.$client->id);
+					$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id);
 					break;
 			}
 		}
 		else {
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
 
@@ -506,6 +520,8 @@ class JTemplatesController
 	*/
 	function savePositions()
 	{
+		global $mainframe;
+
 		// Initialize some variables
 		$db					= & JFactory::getDBO();
 		$option				= JRequest::getVar('option');
@@ -529,7 +545,7 @@ class JTemplatesController
 				$db->query();
 			}
 		}
-		josRedirect('index2.php?option='.$option.'&task=positions', JText::_('Positions saved'));
+		$mainframe->redirect('index2.php?option='.$option.'&task=positions', JText::_('Positions saved'));
 	}
 }
 

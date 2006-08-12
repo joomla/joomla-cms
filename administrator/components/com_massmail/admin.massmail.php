@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_massmail', 'manage' )) {
-	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -31,7 +31,7 @@ switch ($task) {
 		break;
 
 	case 'cancel':
-		josRedirect( 'index2.php' );
+		$mainframe->redirect( 'index2.php' );
 		break;
 
 	default:
@@ -77,7 +77,7 @@ function sendMail()
 	$message_body 		= stripslashes( $message_body );
 
 	if (!$message_body || !$subject || $gou === null) {
-		josRedirect( 'index2.php?option=com_massmail&josmsg='. JText::_( 'Please fill in the form correctly' ) );
+		$mainframe->redirect( 'index2.php?option=com_massmail&josmsg='. JText::_( 'Please fill in the form correctly' ) );
 	}
 
 	// get users in the group out of the acl
@@ -114,6 +114,6 @@ function sendMail()
 	}
 
 	$msg = sprintf( JText::_( 'E-mail sent to' ), count( $rows ) );
-	josRedirect( 'index2.php?option=com_massmail', $msg );
+	$mainframe->redirect( 'index2.php?option=com_massmail', $msg );
 }
 ?>

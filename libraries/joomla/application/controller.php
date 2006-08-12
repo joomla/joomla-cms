@@ -543,7 +543,6 @@ class JController extends JObject
 	function redirect()
 	{
 		if ($this->_redirect) {
-			//josRedirect( $this->_redirect, $this->_message );
 			$this->_app->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
 	}

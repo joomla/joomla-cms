@@ -1339,6 +1339,8 @@ class mosAdminMenus
 	* Select list of active categories for components
 	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
+		global $mainframe;
+
 		$db =& JFactory::getDBO();
 
 		$query = "SELECT id AS value, name AS text"
@@ -1356,7 +1358,7 @@ class mosAdminMenus
 		}
 
 		if ( count( $categories ) < 1 ) {
-			josRedirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
+			$mainframe->redirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
 
 		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );

@@ -299,7 +299,7 @@ class JPollGlobalController extends JController
 			$row = new mosPoll( $db );
 			$row->checkin( $cid[0] );
 		}
-		josRedirect( 'index.php?option='. $option );
+		$mainframe->redirect( 'index.php?option='. $option );
 	}
 
 	function cancelPoll()

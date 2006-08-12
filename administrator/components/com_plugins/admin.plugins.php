@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_plugins', 'manage' )) {
-		josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+		$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -183,6 +183,8 @@ function viewPlugins( $option, $client )
 */
 function savePlugin( $option, $client, $task )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('plugin', $db);
 
@@ -211,12 +213,12 @@ function savePlugin( $option, $client, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
-			josRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Plugin' ), $row->name );
-			josRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+			$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
 }
@@ -317,6 +319,8 @@ function editPlugin( )
 */
 function publishPlugin( $cid=null, $publish=1, $option, $client )
 {
+	global $mainframe;
+
 	$db     =& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 	
@@ -343,7 +347,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 		$row->checkin( $cid[0] );
 	}
 
-	josRedirect( 'index2.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -351,12 +355,14 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 */
 function cancelPlugin( $option, $client )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('plugin', $db);
 	$row->bind( $_POST );
 	$row->checkin();
 
-	josRedirect( 'index2.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -366,6 +372,8 @@ function cancelPlugin( $option, $client )
 */
 function orderPlugin( $uid, $inc, $option, $client )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	// Currently Unsupported
 	if ($client == 'admin') {
@@ -377,7 +385,7 @@ function orderPlugin( $uid, $inc, $option, $client )
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -386,6 +394,8 @@ function orderPlugin( $uid, $inc, $option, $client )
 */
 function accessMenu( $uid, $access, $option, $client )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	switch ( $access ) {
 		case 'accesspublic':
@@ -412,11 +422,13 @@ function accessMenu( $uid, $access, $option, $client )
 		return $row->getError();
 	}
 
-	josRedirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index2.php?option='. $option );
 }
 
 function saveOrder( &$cid )
 {
+	global $mainframe;
+
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
@@ -451,6 +463,6 @@ function saveOrder( &$cid )
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	josRedirect( 'index2.php?option=com_plugins', $msg );
+	$mainframe->redirect( 'index2.php?option=com_plugins', $msg );
 } // saveOrder
 ?>

@@ -135,7 +135,7 @@ class LoginController
 			 * the registration or login pages
 			 */
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-				josRedirect( $return );
+				$mainframe->redirect( $return );
 			}
 		} else {
 			LoginController::showLogin();
@@ -157,7 +157,7 @@ class LoginController
 			 * the registration or login pages
 			 */
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-				josRedirect( $return );
+				$mainframe->redirect( $return );
 			}
 		} else {
 			LoginController::showLogin();

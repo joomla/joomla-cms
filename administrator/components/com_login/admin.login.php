@@ -24,12 +24,12 @@ switch ($task) {
 
 	case 'login' :
 		if(!JError::isError($mainframe->login())) {
-			josRedirect('index.php');
+			$mainframe->redirect('index.php');
 		}
 		break;
 	case 'logout' :
 		if(!JError::isError($mainframe->logout())) {
-			josRedirect('index.php');
+			$mainframe->redirect('index.php');
 		}
 		break;
 	default : break;

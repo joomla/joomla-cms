@@ -47,7 +47,7 @@ switch( $task )
 		break;
 
 	case 'cancel':
-		josRedirect( 'index.php' );
+		$mainframe->redirect( 'index.php' );
 		break;
 }
 
@@ -70,6 +70,8 @@ function lostPassForm()
  */
 function sendNewPass()
 {
+	global $mainframe;
+
 	// Protect against simple spoofing attacks
 	if (!JUtility::spoofCheck()) {
 		JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
@@ -93,7 +95,7 @@ function sendNewPass()
 	;
 	$db->setQuery( $query );
 	if (!($user_id = $db->loadResult()) || !$checkusername || !$confirmEmail) {
-		josRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+		$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 	}
 
 	jimport('joomla.application.user.authenticate');
@@ -118,7 +120,7 @@ function sendNewPass()
 		JError::raiseError( 404, JText::_('SQL error' ) . $db->stderr(true));
 	}
 
-	josRedirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
+	$mainframe->redirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
 }
 
 /**
@@ -150,7 +152,7 @@ function resendUser() {
 	;
 	$db->setQuery( $query );
 	if (!($username = $db->loadResult()) || !$confirmEmail) {
-		josRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+		$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 	}
 
 	$message = sprintf( JText::_( 'RESEND_MAIL_MSG' ), $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
@@ -163,7 +165,7 @@ function resendUser() {
 	$fromname = $mainframe->getCfg( 'fromname' );
 	mosMail($mailfrom, $fromname, $confirmEmail, $subject, $message);
 
-	josRedirect( 'index.php?option=com_registration', JText::_( 'Username resend' ) );
+	$mainframe->redirect( 'index.php?option=com_registration', JText::_( 'Username resend' ) );
 }
 
 /**
@@ -172,6 +174,8 @@ function resendUser() {
  */
 function registerForm()
 {
+	global $mainframe;
+
 	$user = JFactory::getUser();
 
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
@@ -341,12 +345,14 @@ function saveRegistration()
 
 function activate()
 {
+	global $mainframe;
+
 	$user =& JFactory::getUser();
 	
 	// Check to see if they're logged in, because they don't need activating!
 	if($user->get('id')) {
 		// They're already logged in, so redirect them to the home page
-		josRedirect( 'index.php' );
+		$mainframe->redirect( 'index.php' );
 	}
 
 	// Initialize some variables

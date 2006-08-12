@@ -80,6 +80,9 @@ class BannerClientController
 
 	function editBannerClient( ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 		
@@ -95,7 +98,7 @@ class BannerClientController
 		// fail if checked out not by 'me'
 		if ($row->checked_out && $row->checked_out <> $user->get ( 'id' )) {
 	    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
-			josRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
+			$mainframe->redirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 		}
 
 		if ($cid[0]) {
@@ -113,6 +116,9 @@ class BannerClientController
 
 	function saveBannerClient( $task ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db  =& JFactory::getDBO();
 		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 
@@ -141,21 +147,27 @@ class BannerClientController
 				break;
 		}
 
-		josRedirect( $link );
+		$mainframe->redirect( $link );
 	}
 
 	function cancelEditClient( $option ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db  =& JFactory::getDBO();
 		$row =& JTable::getInstance('bannerclient', $db, 'Table');
 		$row->bind( $_POST );
 		$row->checkin();
 		
-		josRedirect( "index2.php?option=$option&task=listclients" );
+		$mainframe->redirect( "index2.php?option=$option&task=listclients" );
 	}
 
 	function removeBannerClients( $cid, $option ) 
 	{
+		global $mainframe;
+
+		// Initialize variables
 		$db =& JFactory::getDBO();
 		if (!count( $cid ) || $cid[0] == 0) {
 			unset($cid);
@@ -174,7 +186,7 @@ class BannerClientController
 			}
 
 			if ($count != 0) {
-				josRedirect( "index2.php?option=$option&task=listclients", JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
+				$mainframe->redirect( "index2.php?option=$option&task=listclients", JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
 			} else {
 				$query="DELETE FROM #__bannerfinish"
 				. "\n WHERE cid = ". $cid[$i]
@@ -189,7 +201,7 @@ class BannerClientController
 				$db->query();
 			}
 		}
-		josRedirect("index2.php?option=$option&task=listclients");
+		$mainframe->redirect("index2.php?option=$option&task=listclients");
 	}
 }
 ?>

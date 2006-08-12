@@ -381,7 +381,7 @@ class WeblinksController
 
 		if ($weblink->url) {
 			// redirects to url if matching id found
-			josRedirect($weblink->url);
+			$mainframe->redirect($weblink->url);
 		} else {
 			// redirects to weblink category page if no matching id found
 			WeblinksController::showCategory($cat->id);
@@ -436,7 +436,7 @@ class WeblinksController
 
 		// Is this link checked out?  If not by me fail
 		if ($row->isCheckedOut($user->get('id'))) {
-			josRedirect("index2.php?option=$option", "The module $row->title is currently being edited by another administrator.");
+			$mainframe->redirect("index2.php?option=$option", "The module $row->title is currently being edited by another administrator.");
 		}
 
 		// Edit or Create?
@@ -504,7 +504,7 @@ class WeblinksController
 		// Checkin the weblink
 		$row->checkin();
 
-		josRedirect('index.php');
+		$mainframe->redirect('index.php');
 	}
 
 	/**
@@ -589,7 +589,7 @@ class WeblinksController
 		}
 
 		$msg = $isNew ? JText::_('THANK_SUB') : '';
-		josRedirect('index.php?option=com_weblinks&task=new&Itemid='.$Itemid, $msg);
+		$mainframe->redirect('index.php?option=com_weblinks&task=new&Itemid='.$Itemid, $msg);
 	}
 }
 ?>

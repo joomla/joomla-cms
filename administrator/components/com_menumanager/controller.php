@@ -314,6 +314,8 @@ class MenuTypeController extends JController
 	*/
 	function copyMenu( $option, $cid, $type ) 
 	{
+		global $mainframe;
+
 		$db				=& JFactory::getDBO();
 		$menu_name 		= JRequest::getVar( 'menu_name', 'New Menu', 'post' );
 		$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
@@ -389,7 +391,7 @@ class MenuTypeController extends JController
 		}
 
 		$msg = sprintf( JText::_( 'Copy of Menu created' ), $type, $total );
-		josRedirect( 'index2.php?option=' . $option, $msg );
+		$mainframe->redirect( 'index2.php?option=' . $option, $msg );
 	}
 
 	/**

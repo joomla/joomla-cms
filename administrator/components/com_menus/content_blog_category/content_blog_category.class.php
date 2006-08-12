@@ -99,6 +99,8 @@ class content_blog_category {
 
 	function saveMenu( $option, $task )
 	{
+		global $mainframe;
+
 		$db =& JFactory::getDBO();
 		
 		$params = JRequest::getVar( 'params', '', 'post' );
@@ -133,12 +135,12 @@ class content_blog_category {
 		$msg = JText::_( 'Menu item Saved' );
 		switch ( $task ) {
 			case 'apply':
-				josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );
+				$mainframe->redirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );
 				break;
 
 			case 'save':
 			default:
-				josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
+				$mainframe->redirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
 			break;
 		}
 	}
