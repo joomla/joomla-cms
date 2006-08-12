@@ -410,8 +410,7 @@ class JInputFilter extends JObject
 	{
 		// entity decode
 		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-		foreach($trans_tbl as $k => $v)
-		{
+		foreach($trans_tbl as $k => $v) {
 			$ttr[$v] = utf8_encode($k);
 		}
 		$source = strtr($source, $ttr);
