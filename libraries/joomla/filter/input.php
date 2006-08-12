@@ -408,8 +408,13 @@ class JInputFilter extends JObject
 	 */
 	function _decode($source)
 	{
-		// url decode
-		$source = html_entity_decode($source, ENT_QUOTES, "UTF-8");
+		// entity decode
+		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+		foreach($trans_tbl as $k => $v)
+		{
+			$ttr[$v] = utf8_encode($k);
+		}
+		$source = strtr($source, $ttr);
 		// convert decimal
 		$source = preg_replace('/&#(\d+);/me', "chr(\\1)", $source); // decimal notation
 		// convert hex
