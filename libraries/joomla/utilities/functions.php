@@ -83,7 +83,7 @@ function josRedirect( $url, $msg='' )
 		$msg = $iFilter->process( $msg );
 	}
 
-	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
+	if ($iFilter->isAttributeInvalid( array( 'href', $url ))) {
 		$url = $mainframe->getBasePath();
 	}
 

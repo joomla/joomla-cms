@@ -98,7 +98,7 @@ class JApplication extends JObject
 			$msg = $filter->process( $msg );
 		}
 
-		if ($filter->badAttributeValue( array( 'href', $url ))) {
+		if ($filter->isAttributeInvalid( array( 'href', $url ))) {
 			$url = $this->getBasePath();
 		}
 
