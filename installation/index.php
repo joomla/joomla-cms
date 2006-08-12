@@ -61,8 +61,8 @@ switch ($task)
 
 	case 'makedb':
 		$result = JInstallationController::makeDB($vars);
-		// continue to ftpConfig only on false otherwise display messages
-		if (!$result) {
+		// continue to ftpConfig only on true token otherwise display messages
+		if ($result === true) {
 			$result = JInstallationController::ftpConfig( $vars, 1 );
 		}
 		break;

@@ -53,6 +53,9 @@ class JInstallationView
 	function error( &$vars, $msg, $back, $xmsg='' )
 	{
 		global $steps;
+
+		$lang =& JFactory::getLanguage();
+
 		$tmpl =& JInstallationView::createTemplate( 'error.html' );
 
 		$tmpl->addVars( 'stepbar', $steps, 		'step_' );
@@ -62,8 +65,10 @@ class JInstallationView
 			$tmpl->addVar( 'xmessages', 'xmessage', $xmsg );
 		}
 
-		$tmpl->addVar( 'body', 'back', $back );
+		$tmpl->addVar( 'buttons', 'back', $back );
 		$tmpl->addVars( 'body', $vars, 'var_' );
+
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		$retval = $tmpl->fetch( 'page' );
 		return $retval;
