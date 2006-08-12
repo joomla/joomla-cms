@@ -302,7 +302,7 @@ class JError extends patErrorManager
 
 		if ($log == null) {
 			jimport( 'joomla.utilities.log' );
-			$fileName = 'ivivio/'.date( 'Y-m-d' ).'.error.log';
+			$fileName = date( 'Y-m-d' ).'.error.log';
 			$options['format']	= "{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}";
 			$log = &JLog::getInstance( $fileName, $options );
 		}
