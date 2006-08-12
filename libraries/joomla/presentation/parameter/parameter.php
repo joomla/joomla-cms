@@ -115,9 +115,8 @@ class JParameter extends JRegistry
 		if (is_object( $xml ))
 		{
 			$this->_xml = $xml;
-			if ($dir = $xml->attributes( 'addparameterdir' ))
-			{
-				$this->addParameterDir( JPATH_SITE . $dir );
+			if ($dir = $xml->attributes( 'addparameterdir' )) {
+				$this->addParameterDir( JPATH_BASE . $dir );
 			}
 		}
 	}

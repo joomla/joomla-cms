@@ -90,10 +90,6 @@ class WeblinksController
 		$gid		= $user->get('gid');
 		$page		= '';
 
-		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$mParams =& $menus->getParams($Itemid);
-
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
 
@@ -120,10 +116,7 @@ class WeblinksController
 		// Handle the type
 		$params->set('type', 'section');
 
-		/*
-		* Query to retrieve all categories that belong under the web links section
-		* and that are published.
-		*/
+		//Query to retrieve all categories that belong under the web links section and that are published.
 		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
 				"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
 				"\n WHERE a.published = 1" .
@@ -159,14 +152,15 @@ class WeblinksController
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
-		$mParams =& $menus->getParams($Itemid);
+		$menu    = $menus->getItem($Itemid);
+		$params  =& $menus->getParams($Itemid);
 
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
-		$catid				= JRequest::getVar( 'catid', (int) $mParams->get('category_id'), '', 'int' );
+		$catid				= JRequest::getVar( 'catid', (int) $params->get('category_id'), '', 'int' );
 
 		//add alternate feed link
 		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$catid.'&Itemid='.$Itemid;
@@ -178,11 +172,6 @@ class WeblinksController
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
 
-		// Load the menu object and parameters
-		$menus = &JMenu::getInstance();
-		$menu  = $menus->getItem($Itemid);
-
-		$params = new JParameter($menu->params);
 		$params->def('page_title', 1);
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
@@ -202,6 +191,7 @@ class WeblinksController
 		$params->def('display', 1);
 		$params->def('display_num', $mainframe->getCfg('list_limit'));
 
+		$params->set( 'type', 'category' );
 		
 		// Initialize variables
 		$rows = array ();
@@ -214,15 +204,17 @@ class WeblinksController
 				"\n WHERE catid = $catid" .
 				"\n AND published = 1";
 		$db->setQuery($query);
+		
 		$counter = $db->loadObjectList();
 		$total = $counter[0]->numitems;
 		$limit = $limit ? $limit : $params->get('display_num');
+		
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
 
 		jimport('joomla.presentation.pagination');
-		$page = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// We need to get a list of all weblinks in the given category
 		$query = "SELECT id, url, title, description, date, hits, params" .
@@ -243,15 +235,12 @@ class WeblinksController
 		$db->setQuery($query);
 		$category = $db->loadObject();
 
-		/*
-		 * Check if the category is published or if access level allows access
-		 */
+		
 		// Check to see if the category is published or if access level allows access
 		if (!$category->name) {
 			JError::raiseError( 404, JText::_( 'You need to login.' ));
 			return;
 		}
-		
 		
 		// Set page title based on category name
 		$document->setTitle($menu->name.' - '.$category->name);
@@ -279,7 +268,7 @@ class WeblinksController
 		$selected = '';
 
 		require_once (dirname(__FILE__).DS.'views'.DS.'category'.DS.'category.php');
-		WeblinksViewCategory::show( $rows, $catid, $category, $params, $lists, $page);
+		WeblinksViewCategory::show( $rows, $catid, $category, $params, $lists, $pagination);
 	}
 
 	function showCategoryFeed()

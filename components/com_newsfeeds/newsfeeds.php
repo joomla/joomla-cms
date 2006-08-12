@@ -15,9 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// Load the html output class
-require_once( JApplicationHelper::getPath( 'front_html' ) );
-
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Newsfeeds'));
 
@@ -36,11 +33,15 @@ $task	 = JRequest::getVar( 'task', $cParams->get( 'task') );
 switch( $task )
 {
 	case 'view':
-		NewsfeedsController::showFeed( );
+		NewsfeedsController::showNewsFeed( );
+		break;
+	
+	case 'category' :
+		NewsfeedsController::showCategory();
 		break;
 
 	default:
-		NewsfeedsController::listFeeds( );
+		NewsfeedsController::showCategories( );
 		break;
 }
 
@@ -55,25 +56,49 @@ switch( $task )
  */
 class NewsfeedsController
 {
-	function listFeeds(  )
+	function showCategories(  )
 	{
-		global $mainframe, $Itemid;
+		global $mainframe, $Itemid, $option;
 
-		$db		 		= & JFactory::getDBO();
-		$user 			= & JFactory::getUser();
-		$breadcrumbs 	= & $mainframe->getPathWay();
+		$db		 	= & JFactory::getDBO();
+		$user 		= & JFactory::getUser();
+		$pathway 	= & $mainframe->getPathWay();
+		$gid		= $user->get('gid');
+		
+		// Set the component name in the pathway
+		$pathway->setItemName(1, JText::_('News Feeds'));
+		
+		// Load the menu object and parameters
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getItem($Itemid);
 
-		$option 		= JRequest::getVar('option');
-		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
-		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
-		$Itemdid   		= JREquest::getVar('Itemid');
-		$gid			= $user->get('gid');
+		// Parameters
+		$params = new JParameter($menu->params);
+		$params->def( 'page_title', 		1 );
+		$params->def( 'header', 			$menu->name );
+		$params->def( 'pageclass_sfx', 		'' );
+		$params->def( 'headings', 			1 );
+		$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+		$params->def( 'description_text', 	'' );
+		$params->def( 'image', 				-1 );
+		$params->def( 'image_align', 		'right' );
+		$params->def( 'other_cat_section', 	1 );
+		// Category List Display control
+		$params->def( 'other_cat', 			1 );
+		$params->def( 'cat_description', 	1 );
+		$params->def( 'cat_items', 			1 );
+		// Table Display control
+		$params->def( 'headings', 			1 );
+		$params->def( 'name',				1 );
+		$params->def( 'articles', 			1 );
+		$params->def( 'link', 				1 );
+		// pagination parameters
+		$params->def('display', 			1 );
+		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
-		$menus   =& JMenu::getInstance();
-		$mParams =& $menus->getParams($Itemid);
-
-		$catid 			= JRequest::getVar( 'catid', $mParams->get( 'category_id' ), '', 'int' );
-
+		// Handle the type
+		$params->set( 'type', 'section' );
+		
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */
 		$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
 			. "\n FROM #__categories AS cc"
@@ -86,144 +111,125 @@ class NewsfeedsController
 			. "\n ORDER BY cc.ordering"
 		;
 		$db->setQuery( $query );
-		$categories = $db->loadObjectList();
+		$categories = $db->loadObjectList();	
 
-		// Load the menu object and parameters
-		$menus = &JMenu::getInstance();
-		$menu  = $menus->getItem($Itemid);
+		require_once (dirname(__FILE__).DS.'views'.DS.'categories'.DS.'categories.php');
+		NewsfeedsViewCategories::show( $params, $categories );
+	}
+	
+	function showCategory(  )
+	{
+		global $mainframe, $Itemid;
 
+		$db		 	= & JFactory::getDBO();
+		$user 		= & JFactory::getUser();
+		$pathway 	= & $mainframe->getPathWay();
+		$document	= & JFactory::getDocument();
+		
+		// Get the paramaters of the active menu item
+		$menus   =& JMenu::getInstance();
+		$menu    = $menus->getItem($Itemid);
+		$params  =& $menus->getParams($Itemid);
+
+		$option 		= JRequest::getVar('option');
+		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
+		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
+		$catid 			= JRequest::getVar( 'catid', (int) $params->get( 'category_id' ), '', 'int' );
+		$gid			= $user->get('gid');
+		
 		// Parameters
-		$mParams->def( 'page_title', 		1 );
-		$mParams->def( 'header', 			$menu->name );
-		$mParams->def( 'pageclass_sfx', 		'' );
-		$mParams->def( 'headings', 			1 );
-		$mParams->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
-		$mParams->def( 'description_text', 	'' );
-		$mParams->def( 'image', 				-1 );
-		$mParams->def( 'image_align', 		'right' );
-		$mParams->def( 'other_cat_section', 	1 );
+		$params->def( 'page_title', 		1 );
+		$params->def( 'header', 			$menu->name );
+		$params->def( 'pageclass_sfx', 		'' );
+		$params->def( 'headings', 			1 );
+		$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+		$params->def( 'description_text', 	'' );
+		$params->def( 'image', 				-1 );
+		$params->def( 'image_align', 		'right' );
+		$params->def( 'other_cat_section', 	1 );
 		// Category List Display control
-		$mParams->def( 'other_cat', 			1 );
-		$mParams->def( 'cat_description', 	1 );
-		$mParams->def( 'cat_items', 			1 );
+		$params->def( 'other_cat', 			1 );
+		$params->def( 'cat_description', 	1 );
+		$params->def( 'cat_items', 			1 );
 		// Table Display control
-		$mParams->def( 'headings', 			1 );
-		$mParams->def( 'name',				1 );
-		$mParams->def( 'articles', 			1 );
-		$mParams->def( 'link', 				1 );
+		$params->def( 'headings', 			1 );
+		$params->def( 'name',				1 );
+		$params->def( 'articles', 			1 );
+		$params->def( 'link', 				1 );
 		// pagination parameters
-		$mParams->def('display', 			1 );
-		$mParams->def('display_num', 		$mainframe->getCfg('list_limit'));
+		$params->def('display', 			1 );
+		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+		
+		$params->set( 'type', 'category' );
 
-		$rows 		= array();
-		if ( $catid ) 
-		{
-			$query = "SELECT COUNT(id) as numitems"
-				. "\n FROM #__newsfeeds"
-				. "\n WHERE catid = $catid"
-				. "\n AND published = 1"
-			;
-			$db->setQuery($query);
-			$counter = $db->loadObjectList();
-			$total = $counter[0]->numitems;
-			$limit = $limit ? $limit : $mParams->get('display_num');
-			if ($total <= $limit) {
-				$limitstart = 0;
-			}
-
-			jimport('joomla.presentation.pagination');
-			$page = new JPagination($total, $limitstart, $limit);
-
-			// url links info for category
-			$query = "SELECT *"
-				. "\n FROM #__newsfeeds"
-				. "\n WHERE catid = $catid"
-				. "\n AND published = 1"
-				. "\n ORDER BY ordering"
-			;
-			$db->setQuery( $query );
-			$rows = $db->loadObjectList();
-
-			// current category info
-			$query = "SELECT id, name, description, image, image_position"
-				. "\n FROM #__categories"
-				. "\n WHERE id = $catid"
-				. "\n AND published = 1"
-				. "\n AND access <= $gid"
-			;
-			$db->setQuery( $query );
-			$currentcat = $db->loadObject();
-
-			/*
-			Check if the category is published or if access level allows access
-			*/
-			if (!$currentcat->name) {
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-				return;
-			}
+		$query = "SELECT COUNT(id) as numitems"
+			. "\n FROM #__newsfeeds"
+			. "\n WHERE catid = $catid"
+			. "\n AND published = 1"
+		;
+		$db->setQuery($query);
+		
+		$counter = $db->loadObjectList();
+		$total  = $counter[0]->numitems;
+		
+		$limit = $limit ? $limit : $params->get('display_num');
+		
+		if ($total <= $limit) {
+			$limitstart = 0;
 		}
 
-		if ( $catid ) {
-			$mParams->set( 'type', 'category' );
-		} else {
-			$mParams->set( 'type', 'section' );
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination($total, $limitstart, $limit);
+
+		// We need to get a list of all newsfeeds in the given category
+		$query = "SELECT *"
+			. "\n FROM #__newsfeeds"
+			. "\n WHERE catid = $catid"
+			. "\n AND published = 1"
+			. "\n ORDER BY ordering"
+		;
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
+
+		// current category info
+		$query = "SELECT id, name, description, image, image_position"
+			. "\n FROM #__categories"
+			. "\n WHERE id = $catid"
+			. "\n AND published = 1"
+			. "\n AND access <= $gid"
+		;
+		$db->setQuery( $query );
+		$category = $db->loadObject();
+
+		// Check if the category is published or if access level allows access
+		if (!$category->name) {
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return;
 		}
 
-		// page description
-		$currentcat->descrip = '';
-		if( ( @$currentcat->description ) <> '' ) {
-			$currentcat->descrip = $currentcat->description;
-		} else if ( !$catid ) {
-			// show description
-			if ( $mParams->get( 'description' ) ) {
-				$currentcat->descrip = $mParams->get( 'description_text' );
-			}
+		// Set page title per category
+		$document->setTitle( $menu->name. ' - ' .$category->name );
+
+		// Add breadcrumb item per category
+		$pathway->addItem($category->name, '');
+
+		// Define image tag attributes
+		if (isset ($category->image)) {
+			$imgAttribs['align'] = '"'.$category->image_position.'"';
+			$imgAttribs['hspace'] = '"6"';
+
+			// Use the static HTML library to build the image tag
+			$category->imageTag = mosHTML::Image('/images/stories/'.$category->image, JText::_('News Feeds'), $imgAttribs);
 		}
-
-		// page image
-		$currentcat->img = '';
-		$path = 'images/stories/';
-		if ( ( @$currentcat->image ) <> '' ) {
-			$currentcat->img = $path . $currentcat->image;
-			$currentcat->align = $currentcat->image_position;
-		} else if ( !$catid ) {
-			if ( $mParams->get( 'image' ) <> -1 ) {
-				$currentcat->img = $path . $mParams->get( 'image' );
-				$currentcat->align = $mParams->get( 'image_align' );
-			}
-		}
-
-		// page header and settings
-		$currentcat->header = '';
-		if ( @$currentcat->name <> '' )
-		{
-			$currentcat->header = $currentcat->name;
-
-			// Set page title per category
-			$mainframe->setPageTitle( $menu->name. ' - ' .$currentcat->header );
-
-			// Add breadcrumb item per category
-			$breadcrumbs->addItem($currentcat->header, '');
-		}
-		else
-		{
-			$currentcat->header = $mParams->get( 'header' );
-
-			// Set page title
-			$mainframe->SetPageTitle( $menu->name );
-		}
-
-		// used to show table rows in alternating colours
-		$tabclass = array( 'sectiontableentry1', 'sectiontableentry2' );
-
-
-		NewsfeedsView::displaylist( $categories, $rows, $catid, $currentcat, $mParams, $tabclass, $page );
+		
+		require_once (dirname(__FILE__).DS.'views'.DS.'category'.DS.'category.php');
+		NewsfeedsViewCategory::show( $rows, $catid, $category, $params, $pagination );
 	}
 
 
-	function showFeed( )
+	function showNewsFeed( )
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		// check if cache directory is writeable
 		$cacheDir = $mainframe->getCfg('cachepath') . DS;
@@ -233,26 +239,23 @@ class NewsfeedsController
 		}
 
 		// Get some objects from the JApplication
-		$db		 	= & JFactory::getDBO();
-		$user 		= & JFactory::getUser();
-
-		$Itemid = JRequest::getVar('Itemid');
+		$db		 = & JFactory::getDBO();
+		$user 	 = & JFactory::getUser();
+		$pathway =& $mainframe->getPathWay();
 
 		// Get the current menu item
 		$menus   =& JMenu::getInstance();
 		$menu    =& $menus->getItem($Itemid);
-		$mParams =& $menus->getParams($Itemid);
+		$params =& $menus->getParams($Itemid);
 
-		$feedid = JRequest::getVar( 'feedid', $mParams->get( 'feed_id' ), '', 'int' );
+		$feedid = JRequest::getVar( 'feedid', $params->get( 'feed_id' ), '', 'int' );
 
 		require_once( $mainframe->getPath( 'class' ) );
 
 		$newsfeed = new mosNewsFeed($db);
 		$newsfeed->load($feedid);
 
-		/*
-		* Check if newsfeed is published
-		*/
+		// Check if newsfeed is published
 		if(!$newsfeed->published) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 			return;
@@ -261,16 +264,13 @@ class NewsfeedsController
 		$category = new JTableCategory($db);
 		$category->load($newsfeed->catid);
 
-		/*
-		* Check if newsfeed category is published
-		*/
+		// Check if newsfeed category is published
 		if(!$category->published) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
-		/*
-		* check whether category access level allows access
-		*/
+
+		// check whether category access level allows access
 		if ( $category->access > $user->get('gid') ) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
 			return;
@@ -278,7 +278,7 @@ class NewsfeedsController
 
 		//  get RSS parsed object
 		$options = array();
-		$options['rssUrl'] = $newsfeed->link;
+		$options['rssUrl']      = $newsfeed->link;
 		$options['cache_time'] = $newsfeed->cache_time;
 
 		$rssDoc = JFactory::getXMLparser('RSS', $options);
@@ -299,28 +299,27 @@ class NewsfeedsController
 		$lists['items'] = $rssDoc->items;
 
 		// Adds parameter handling
-		$mParams->def( 'page_title', 1 );
-		$mParams->def( 'header', $menu->name );
-		$mParams->def( 'pageclass_sfx', '' );
-		$mParams->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+		$params->def( 'page_title', 1 );
+		$params->def( 'header', $menu->name );
+		$params->def( 'pageclass_sfx', '' );
 		// Feed Display control
-		$mParams->def( 'feed_image', 1 );
-		$mParams->def( 'feed_descr', 1 );
-		$mParams->def( 'item_descr', 1 );
-		$mParams->def( 'word_count', 0 );
+		$params->def( 'feed_image', 1 );
+		$params->def( 'feed_descr', 1 );
+		$params->def( 'item_descr', 1 );
+		$params->def( 'word_count', 0 );
 
-		if ( !$mParams->get( 'page_title' ) ) {
-			$mParams->set( 'header', '' );
+		if ( !$params->get( 'page_title' ) ) {
+			$params->set( 'header', '' );
 		}
 
 		// Set page title per category
 		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeed->name );
 
 		// Add breadcrumb item per category
-		$breadcrumbs =& $mainframe->getPathWay();
-		$breadcrumbs->addItem($newsfeed->name, '');
+		$pathway->addItem($newsfeed->name, '');
 
-		NewsfeedsView::showNewsfeeds( $newsfeed, $lists, $mParams );
+		require_once (dirname(__FILE__).DS.'views'.DS.'newsfeed'.DS.'newsfeed.php');
+		NewsfeedsViewNewsfeed::show( $newsfeed, $lists, $params );
 	}
 }
 ?>

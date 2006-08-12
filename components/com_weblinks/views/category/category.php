@@ -59,10 +59,8 @@ class WeblinksViewCategory
 			$image = NULL;
 		}
 		
-		$count = count($rows);
-		
 		$k = 0;		
-		for($i=0; $i<$count; $i++) 
+		for($i = 0; $i < count($rows); $i++) 
 		{
 			$iparams = new JParameter( $rows[$i]->params );
 
