@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Aug-2006 Louis Landry
+ ^ Deprecated InputFilter library, use JInputFilter instead
+ ^ Removed josRedirect, use JApplication::redirect() instead
+ + Added system message queue that persists redirects
+
 12-Aug-2006 David Gal
  # Fixed installation db error messaging during db creation
 

@@ -269,6 +269,51 @@ class JError extends patErrorManager
 		}
 		return $error;
     }
+   /**
+	* handleError: Message
+	* enqueue error message in system queue
+	*
+	* @access private
+	* @param object $error patError-Object
+	* @param array $options options for handler
+	* @return object $error error-object
+	* @see raise()
+	*/
+    function &handleErrorMessage( &$error, $options )
+    {
+		global $mainframe;
+ 		$mainframe->enqueueMessage(JText::_($error->getMessage()), 'error');
+		return $error;
+    }
+
+   /**
+	* handleError: Log
+	* log error message
+	*
+	* @access private
+	* @param object $error patError-Object
+	* @param array $options options for handler
+	* @return object $error error-object
+	* @see raise()
+	*/
+    function &handleErrorLog( &$error, $options )
+    {
+		static $log;
+
+		if ($log == null) {
+			jimport( 'joomla.utilities.log' );
+			$fileName = 'ivivio/'.date( 'Y-m-d' ).'.error.log';
+			$options['format']	= "{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}";
+			$log = &JLog::getInstance( $fileName, $options );
+		}
+
+		$entry['level']	= $error->getLevel();
+		$entry['code']	= $error->getCode();
+		$entry['message']	= str_replace( array( "\r", "\n" ), array( '', '\\n' ), $error->getMessage() );
+		$log->addEntry( $entry );
+
+		return $error;
+    }
 
 	/**
 	* sets the way the patErrorManager will handle teh different error levels. Use this
@@ -581,6 +626,6 @@ class JErrorHandler
 //JError::setErrorHandling( E_NOTICE , 'echo' );
 
 JError::setErrorHandling( E_ERROR  , 'echo' );
-JError::setErrorHandling( E_WARNING, 'echo' );
-JError::setErrorHandling( E_NOTICE , 'echo' );
+JError::setErrorHandling( E_WARNING, 'message' );
+JError::setErrorHandling( E_NOTICE , 'message' );
 ?>
