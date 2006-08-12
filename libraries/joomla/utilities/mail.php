@@ -27,10 +27,11 @@ class JMail extends PHPMailer
 	/**
 	 * Constructor
 	 *
-	 * @param
 	 */
 	function JMail()
 	{
+		 // phpmailer has an issue using the relative path for it's language files
+		 $this->SetLanguage('en', JPATH_LIBRARIES . '/phpmailer/language/');		
 	}
 
 	/**
@@ -62,6 +63,20 @@ class JMail extends PHPMailer
 		}
 
 		return $instances[$id];
+	}
+
+	/**
+	 * @return mixed True if successful, a JError object otherwise
+	 */	
+	function &Send()
+	{
+		$result = parent::Send();
+		if ($result == false)
+		{
+			// TODO: Set an appropriate error number
+			$result =& JError::raiseNotice( 500, $this->ErrorInfo );
+		}
+		return $result;
 	}
 
 	/**

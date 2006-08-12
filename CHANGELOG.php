@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Aug-2006 Andrew Eddie
+ ^ JMail::Send now returns a JError object on a failed send
+ # Set the language path in the JMail constructor as relative path in phpMailer is causing problems
+
 12-Aug-2006 Louis Landry
  ^ Deprecated InputFilter library, use JInputFilter instead
  ^ Removed josRedirect, use JApplication::redirect() instead
