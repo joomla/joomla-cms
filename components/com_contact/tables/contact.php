@@ -12,6 +12,9 @@
  * details.
  */
 
+// Include library dependencies
+jimport('joomla.filter.input');
+
 /**
  * @package Joomla
  * @subpackage Contact
@@ -71,17 +74,16 @@ class JTableContact extends JTable {
 	/**
 	* @param database A database connector object
 	*/
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( '#__contact_details', 'id', $db );
 	}
 
-	function check() {
+	function check()
+	{
 		$this->default_con = intval( $this->default_con );
 
-		// Create specific filters
-		$iFilter = new InputFilter();
-
-		if ($iFilter->badAttributeValue(array ('href', $this->webpage))) {
+		if (JInputFilter::isAttributeInvalid(array ('href', $this->webpage))) {
 			$this->_error = JText::_('Please provide a valid URL');
 			return false;
 		}

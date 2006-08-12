@@ -11,6 +11,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Include library dependencies
+jimport('joomla.filter.input');
+
 /**
  * Abstract Table class
  *
@@ -120,15 +123,13 @@ class JTable extends JObject
 	{
 		$ignore = is_array( $ignoreList );
 
-		jimport('phpinputfilter.inputfilter');
-		$iFilter = new InputFilter();
+		$filter = & JInputFilter::getInstance();
 		foreach ($this->getPublicProperties() as $k)
 		{
-			if ($ignore && in_array( $k, $ignoreList ) )
-			{
+			if ($ignore && in_array( $k, $ignoreList ) ) {
 				continue;
 			}
-			$this->$k = $iFilter->process( $this->$k );
+			$this->$k = $iFilter->clean( $this->$k );
 		}
 	}
 

@@ -15,6 +15,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Include library dependencies
+jimport('joomla.filter.input');
+
 /**
 * Weblink Table class
 *
@@ -124,10 +127,7 @@ class TableWeblink extends JTable
 		$ignoreList = array ('params');
 		$this->filter($ignoreList);
 
-		// Create specific filters
-		$iFilter = new InputFilter();
-
-		if ($iFilter->badAttributeValue(array ('href', $this->url))) {
+		if (JInputFilter::isAttributeInvalid(array ('href', $this->url))) {
 			$this->_error = JText::_('Please provide a valid URL');
 			return false;
 		}

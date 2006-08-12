@@ -11,6 +11,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Include library dependencies
+jimport('joomla.filter.input');
+
 /**
 * Base class for a Joomla! application
 *
@@ -91,14 +94,13 @@ class JApplication extends JObject
 	function redirect( $url, $msg='', $msgType='message' )
 	{
 		// Instantiate an input filter and process the URL and message
-		jimport( 'joomla.utilities.filter' );
 		$filter = & JInputFilter::getInstance();
-		$url = $filter->process( $url );
+		$url = $filter->clean( $url );
 		if (!empty($msg)) {
 			$msg = $filter->process( $msg );
 		}
 
-		if ($filter->isAttributeInvalid( array( 'href', $url ))) {
+		if (JInputFilter::isAttributeInvalid( array( 'href', $url ))) {
 			$url = $this->getBasePath();
 		}
 

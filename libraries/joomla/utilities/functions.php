@@ -12,6 +12,9 @@
  * details.
  */
 
+// Include library dependencies
+jimport('joomla.filter.input');
+
 /**
 * Makes a variable safe to display in forms
 *
@@ -166,40 +169,28 @@ function josFilterValue( &$var, $mask = 0 )
 	$return = null;
 
 	// Ensure the variable to clean is a string
-	if (is_string($var))
-	{
+	if (is_string($var)) {
 		// If the no trim flag is not set, trim the variable
-		if (!($mask & 1))
-		{
+		if (!($mask & 1)) {
 			$var = trim($var);
 		}
 
 		// Now we handle input filtering
-		if ($mask & 2)
-		{
+		if ($mask & 2) {
 			// If the allow raw flag is set, do not modify the variable
 			$return = $var;
-		}
-		elseif ($mask & 4)
-		{
+		} elseif ($mask & 4) {
 			// If the allow html flag is set, apply a safe html filter to the variable
-			if (is_null($safeHtmlFilter))
-			{
-				jimport( 'phpinputfilter.inputfilter' );
-				$safeHtmlFilter = new InputFilter(null, null, 1, 1);
+			if (is_null($safeHtmlFilter)) {
+				$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
 			}
-			$return = $safeHtmlFilter->process($var);
-		}
-		else
-		{
+			$return = $safeHtmlFilter->clean($var);
+		} else {
 			// Since no allow flags were set, we will apply the most strict filter to the variable
-			if (is_null($noHtmlFilter))
-			{
-				jimport( 'phpinputfilter.inputfilter' );
-				$noHtmlFilter = new InputFilter(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */
-				);
+			if (is_null($noHtmlFilter)) {
+				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
 			}
-			$return = $noHtmlFilter->process($var);
+			$return = $noHtmlFilter->clean($var);
 		}
 	}
 	elseif (is_array($var))

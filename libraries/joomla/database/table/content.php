@@ -12,6 +12,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Include library dependencies
+jimport('joomla.filter.input');
+
 /**
  * Content table
  *
@@ -102,9 +105,9 @@ class JTableContent extends JTable
 		TODO: This filter is too rigorous,
 		need to implement more configurable solution
 		// specific filters
-		$iFilter = new InputFilter( null, null, 1, 1 );
-		$this->introtext = trim( $iFilter->process( $this->introtext ) );
-		$this->fulltext =  trim( $iFilter->process( $this->fulltext ) );
+		$filter = & JInputFilter::getInstance( null, null, 1, 1 );
+		$this->introtext = trim( $filter->clean( $this->introtext ) );
+		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
 		*/
 
 		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
