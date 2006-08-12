@@ -70,5 +70,33 @@ class JOutputFilter
 
 		return $text;
 	}
+
+	/**
+	 * This method processes a string and replaces all instances of & with &amp; in links only
+	 * 
+	 * @static
+	 * @param	string	$input	String to process
+	 * @return	string	Processed string
+	 * @since	1.5
+	 */
+	function linkXHTMLSafe($input)
+	{
+		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
+		return preg_replace_callback( "#$regex#i", array('JOutputFilter', '_ampReplaceCallback'), $input );
+	}
+
+	/**
+	 * Callback method for replacing & with &amp; in a string
+	 * 
+	 * @static
+	 * @param	string	$m	String to process
+	 * @return	string	Replaced string
+	 * @since	1.5
+	 */
+	function _ampReplaceCallback( $m )
+	{
+		 $rx = '&(?!amp;)';
+		 return preg_replace( '#'.$rx.'#', '&amp;', $m[0] );
+	}
 }
 ?>
