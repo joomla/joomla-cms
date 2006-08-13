@@ -15,7 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
+if ( $contact->email_to && !$pop && $params->get( 'email_form' ) ) {
 	?>
 	<tr>
 		<td colspan="2">
