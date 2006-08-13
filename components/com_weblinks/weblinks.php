@@ -544,14 +544,16 @@ class WeblinksController
 			return;
 		}
 
+		// sanitise id field
+		// $row->id = (int) $row->id;
+		// until full edit capabilities are given for weblinks - limit saving to new weblinks only
+		$row->id = 0;
+
 		// Is the web link a new one?
 		$isNew = $row->id < 1;
 
 		// Create the timestamp for the date
 		$row->date = date('Y-m-d H:i:s');
-
-		// until full edit capabilities are given for weblinks - limit saving to new weblinks only
-		$row->id = 0;
 
 		// Make sure the web link table is valid
 		if (!$row->check()) {
