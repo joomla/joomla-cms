@@ -53,9 +53,9 @@ class JPagination extends JObject
 	function __construct($total, $limitstart, $limit)
 	{
 		// Value/Type checking
-		$this->total = intval($total);
-		$this->limitstart = max($limitstart, 0);
-		$this->limit = max($limit, 1);
+		$this->total		= (int) $total;
+		$this->limitstart	= (int) max($limitstart, 0);
+		$this->limit		= (int) max($limit, 1);
 
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
