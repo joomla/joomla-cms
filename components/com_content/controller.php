@@ -305,6 +305,9 @@ class JContentController extends JController
 			JError::raiseError( 500, $row->getError());
 		}
 
+		// sanitise id field
+		$row->id = (int) $row->id;
+
 		$isNew = ($row->id < 1);
 		if ($isNew)
 		{

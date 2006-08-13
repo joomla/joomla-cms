@@ -586,6 +586,9 @@ class JContentController extends JController
 			return false;
 		}
 
+		// sanitise id field
+		$row->id = (int) $row->id;
+
 		// Are we saving from an item edit?
 		if ($row->id) {
 			$row->modified 		= date( 'Y-m-d H:i:s' );
