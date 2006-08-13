@@ -15,6 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+print_r($contact);
 if ( $contact->email_to && !$pop && $params->get( 'email_form' ) ) {
 	?>
 	<tr>
