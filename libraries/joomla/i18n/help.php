@@ -37,6 +37,7 @@ class JHelp
 
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$url 			= $mainframe->getCfg('live_site');
+		$lang			= JFactory::getLanguage();
 
 		if ($com)
 		{
@@ -62,7 +63,8 @@ class JHelp
 		else
 		{
 	   		// Included html help files
-			$url .= '/administrator/help/en-GB/';
+			$url .= '/help/';
+			$url .= $lang->getTag() .'/';
 			$ref = $ref . '.html';
 			$url .= $ref;
 		}

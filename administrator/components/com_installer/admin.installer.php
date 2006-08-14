@@ -450,7 +450,7 @@ switch ($task) {
 		JInstallerController::uploadpackage();
 		break;
 	case 'installfromdirectory' :
-		JInstallerController::installfromdir();
+		JInstallerController::installFromDirectory();
 		break;
 	case 'installfromurl' :
 		JInstallerController::installfromurl();

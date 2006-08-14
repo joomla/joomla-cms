@@ -275,7 +275,7 @@ class JInstaller extends JObject
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid joomla install file?
-				$packagefile = & $this->_isPackageFile($file);
+				$packagefile = $this->_isPackageFile($file);
 				if (!is_null($packagefile)) {
 					$this->_xmldoc = & $packagefile;
 					$this->_installFile = $file;
@@ -303,17 +303,17 @@ class JInstaller extends JObject
 	 * @return mixed A DOMIT XML document, or null if the file failed to parse
 	 * @since 1.0
 	 */
-	function _isPackageFile($p_file)
+	function & _isPackageFile($p_file)
 	{
 		// Get an xml parser object
 		$xmlDoc = & JFactory::getXMLParser();
 		$xmlDoc->resolveErrors(true);
-
+		
 		// If we cannot load the xml file return null
 		if (!$xmlDoc->loadXML($p_file, false, true)) {
 			// Free up xml parser memory and return null
 			unset ($xmlDoc);
-			return null;
+			return $xmlDoc;			// returning null, but to avoid an notice the var
 		}
 
 		// Get the root node of the xml document
@@ -327,14 +327,14 @@ class JInstaller extends JObject
 		if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall') {
 			// Free up xml parser memory and return null
 			unset ($xmlDoc);
-			return null;
+			return $xmlDoc;			// returning null, but to avoid an notice the var
 		}
 
 		// Set the installation type and filename
 		$this->_installType = $root->getAttribute('type');
 		$this->_installFile = JPath::clean($p_file);
 
-		return $xmlDoc;
+		return $xmlDoc;				// returning null, but to avoid an notice the var
 	}
 
 	/**
@@ -461,9 +461,9 @@ class JInstaller extends JObject
 				break;
 			default :
 				if ($admin) {
-					$installTo = $this->_extensionAdminDir;
+					$installTo = JPath::clean($this->_extensionAdminDir);
 				} else {
-					$installTo = $this->_extensionDir;
+					$installTo = JPath::clean($this->_extensionDir);
 				}
 				break;
 		}
@@ -480,7 +480,7 @@ class JInstaller extends JObject
 		if ($folder = $filesElement->getAttribute('folder')) {
 			$installFrom = JPath::clean($this->_installDir.DS.$folder);
 		} else {
-			$installFrom = $this->_installDir;
+			$installFrom = JPath::clean($this->_installDir);
 		}
 
 		// Process each file in the $files array (children of $tagName).
@@ -1221,7 +1221,7 @@ class JInstallerHelper
 				{
 					// Free up memory from DOMIT parser
 					unset ($xmlDoc);
-					return false;
+					continue;
 				}
 				$root = & $xmlDoc->documentElement;
 

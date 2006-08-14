@@ -94,7 +94,7 @@ class JInstallerScreens
 			</tr>
 			</table>
 
-			<input type="hidden" name="task" value="installfromdir" />
+			<input type="hidden" name="task" value="installfromdirectory" />
 			<input type="hidden" name="option" value="com_installer" />
 			</form>
 
