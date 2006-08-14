@@ -146,20 +146,28 @@ class HTML_admin_misc
 
 	/**
 	 * Display Help Page
+	 * 
+	 * For this method the important two scenarios are locale or remote help files.
+	 * In the case of locale help files the language tag will be added in order to
+	 * allow different languages of help.<br />
+	 * In case of the remote server it is assumed that this server provide one specific
+	 * help set of files in one particular language.
 	 */
 	function help()
 	{
-		$helpurl 	= JArrayHelper::getValue( $GLOBALS, 'mosConfig_helpurl', '' );
-
+		global $mainframe;
+		// Get Help URL - an empty helpurl is interpreted as locale help files!
+		$helpurl 		= $mainframe->getCfg('helpurl');
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
-
 		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
 
 		$helpsearch = JRequest::getVar( 'helpsearch' );
 		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
 		$toc 		= getHelpToc( $helpsearch );
+		$lang		= JFactory::getLanguage();
+
 		if (!eregi( '\.html$', $page )) {
 			$page .= '.xml';
 		}
@@ -190,11 +198,11 @@ class HTML_admin_misc
 							<?php
 							} else {
 							?>
-							<?php echo mosHTML::Link('/help/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('/help/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('/help/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							}
 							?>
@@ -229,7 +237,7 @@ class HTML_admin_misc
 								echo '</li>';
 							} else {
 								echo '<li>';
-								echo mosHTML::Link('/help/'.$k, $v, array('target' => "'helpFrame'"));
+								echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/'.$k, $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							}
 						}
@@ -244,8 +252,17 @@ class HTML_admin_misc
 				<legend>
 					<?php echo JText::_( 'Details' ); ?>
 				</legend>
-
-				<iframe name="helpFrame" src="<?php echo 'help/en-GB/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
+				<?php
+				if ($helpurl && $page != 'joomla.whatsnew15.html') {
+					?>
+					<iframe name="helpFrame" src="<?php echo $fullhelpurl .preg_replace( '#\.xml$|\.html$#', '', $page );?>" class="helpFrame" frameborder="0"></iframe>
+					<?php
+				} else {
+					?>
+					<iframe name="helpFrame" src="<?php echo $mainframe->getBaseURL() .'/help/' .$lang->getTag(). '/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
+					<?php
+				}
+				?>
 			</fieldset>
 		</div>
 
@@ -277,15 +294,19 @@ function getHelpTOC( $helpsearch )
 {
 	global $mainframe;
 	
+	$lang =& JFactory::getLanguage();
 	jimport( 'joomla.filesystem.folder' );
 
-	$helpurl = $mainframe->getCfg('helpurl');
+	$helpurl 		= $mainframe->getCfg('helpurl');
+	if( empty($helpurl) ) {
+		$helpurl = $mainframe->getCfg('live_site');
+	}
 
-	$files = JFolder::files( JPATH_BASE . '/help/en-GB/', '\.xml$|\.html$' );
+	$files = JFolder::files( JPATH_BASE . '/help/' .$lang->getTag(). '/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( JPATH_BASE . '/help/en-GB/' . $file );
+		$buffer = file_get_contents( JPATH_BASE . '/help/' .$lang->getTag(). '/' . $file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {

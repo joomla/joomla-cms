@@ -41,6 +41,7 @@ Legend:
  # [artf5604] Install from dir does not work
  # Fixed issues with the installer and cleaned pathes
  # Fixed help integration and made it language aware
+ # Language awareness of the system help screens
 
 14-Aug-2006 David Gal
  # Fixed broken pdf generation 
