@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Aug-2006 David Gal
+ # Fixed broken pdf generation 
+ # Fixed NBSP artifacts in generated pdf
+ 
 14-Aug-2006
  # Fixed Injection attack on content submissions where frontpage is selected
  # Fixed possible injection attack thru JPagination constructor

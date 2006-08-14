@@ -37,10 +37,11 @@ class JContentViewArticle extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function display()
+	function display($type='html')
 	{
-		$document	= &$this->getDocument();
-		switch ($document->getType())
+//		$document	= &$this->getDocument();
+
+		switch ($type)
 		{
 			case 'pdf':
 				$this->displayPdf();

@@ -250,6 +250,7 @@ function mosFormatDate( $date, $format="", $offset="" )
 	}
 
 	// for Windows there is a need to convert the date string to utf-8.
+	// and then replace NBSP characters with regular spaces (pdf generator hates NBSPs)
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && function_exists('iconv')) {
 		return iconv($lang->getWinCP(), "UTF-8", $date);
 	}

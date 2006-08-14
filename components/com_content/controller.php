@@ -209,6 +209,7 @@ class JContentController extends JController
 		$cParams	= JSiteHelper::getControlParams();
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
+		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
@@ -247,7 +248,7 @@ class JContentController extends JController
 		$view->setModel($model, true);
 
 		// Display the view
-		$view->display();
+		$view->display($format);
 	}
 
 	/**

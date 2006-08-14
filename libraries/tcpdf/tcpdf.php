@@ -1318,8 +1318,8 @@ if(!class_exists('TCPDF')) {
 		function setHeaderData($ln="", $lw=0, $ht="", $hs="") {
 			$this->header_logo = $ln;
 			$this->header_logo_width = $lw;
-			$this->header_title = $ht;
-			$this->header_string = $hs;
+			$this->header_title = $this->unNbsp($ht);
+			$this->header_string = $this->unNbsp($hs);
 		}
 
 		/**
@@ -3559,9 +3559,10 @@ if(!class_exists('TCPDF')) {
 
 			// store some variables
 			$html=strip_tags($html,"<h1><h2><h3><h4><h5><h6><b><u><i><a><img><p><br><strong><em><font><blockquote><li><ul><ol><hr><td><th><tr><table><sup><sub><small>"); //remove all unsupported tags
-			//replace carriage returns, newlines and tabs
+			//replace carriage returns, newlines and tabs and nbsp
 			$repTable = array("\t" => " ", "\n" => " ", "\r" => " ", "\0" => " ", "\x0B" => " ");
 			$html = strtr($html, $repTable);
+			$html = $this->unNbsp($html);
 			$pattern = '/(<[^>]+>)/Uu';
 			$a = preg_split($pattern, $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY); //explodes the string
 
@@ -4096,6 +4097,12 @@ if(!class_exists('TCPDF')) {
 
 	       $text = strtr($text, $ttr);
 	       return $text;
+		}
+		/*
+		 * replace utf-8 non breaking spaces with regular spaces
+		 */
+		function unNbsp($str){
+			return str_replace("\xC2\xA0"," ", $str);
 		}
 
 //--------------------------------------------------------------------
