@@ -298,9 +298,6 @@ function getHelpTOC( $helpsearch )
 	jimport( 'joomla.filesystem.folder' );
 
 	$helpurl 		= $mainframe->getCfg('helpurl');
-	if( empty($helpurl) ) {
-		$helpurl = $mainframe->getCfg('live_site');
-	}
 
 	$files = JFolder::files( JPATH_BASE . '/help/' .$lang->getTag(). '/', '\.xml$|\.html$' );
 
