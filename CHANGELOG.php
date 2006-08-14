@@ -46,6 +46,7 @@ Legend:
 14-Aug-2006 David Gal
  # Fixed broken pdf generation 
  # Fixed NBSP artifacts in generated pdf
+ + Added db user privilege checking during dbConfig in installation
  
 14-Aug-2006 Andrew Eddie
  # Fixed Injection attack on content submissions where frontpage is selected

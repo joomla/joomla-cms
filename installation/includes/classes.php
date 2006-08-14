@@ -163,11 +163,12 @@ class JInstallationController
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
 		/*
-		 * Instantiate the xajax object and register the function
+		 * Instantiate the xajax object and register the functions
 		 */
 		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
 		$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
-		//$xajax->debugOn();
+		$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
+//		$xajax->debugOn();
 
 		if (!isset ($vars['DBPrefix'])) {
 			$vars['DBPrefix'] = 'jos_';

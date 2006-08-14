@@ -40,7 +40,7 @@ function validateForm( frm, task ) {
 	}
 }
 
-function JProcess() {
+function JProcess( action ) {
 
 	if ( document.getElementById("vars_dbtype").selectedIndex == 0 ) {
 		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
@@ -52,9 +52,14 @@ function JProcess() {
 		alert( '<jtmpl:translate key="validUser" escape="yes">Please enter a database username</jtmpl:translate>' );
 		return;
 	} else {
-		xajax_getCollations(xajax.getFormValues('adminForm'));
+		if ( action == 'collation' ) {
+			xajax_getCollations(xajax.getFormValues('adminForm'));
+		} else if ( action == 'privs' ) {
+			xajax_getPrivileges(xajax.getFormValues('adminForm'));
+		} 
 	}
 }
+
 </script>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm" autocomplete="off">
@@ -184,11 +189,25 @@ function JProcess() {
 								</tr>
 						  		<tr>
 						  		    <td colspan="2" valign="top">
+					    				<label for="dbprivs">
+						  		    		<jtmpl:translate>Check user's create privileges</jtmpl:translate>
+										</label>
+						  		    	<br/>
+						  		    	<span id="thePrivileges"><input type="button" id="privbutton" class="button" value="<jtmpl:translate>Get Privileges</jtmpl:translate>" onclick="JProcess('privs');" /></span>
+						  		    </td>
+						  		    <td>
+						  		    	<em>
+						  		    	<span id="collationMessage"><jtmpl:translate key="PRIVILEGEDESC">Once you have filled in the database information, click the Get Privileges button to get the create privileges of the given user on the database system</jtmpl:translate></span>
+						  		    	</em>
+						  		    </td>
+								</tr>
+						  		<tr>
+						  		    <td colspan="2" valign="top">
 					    				<label for="vars_dbcollation">
 						  		    		<jtmpl:translate>Available collations</jtmpl:translate>
 										</label>
 						  		    	<br/>
-						  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess();" /></span>
+						  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess('collation');" /></span>
 						  		    </td>
 						  		    <td>
 						  		    	<em>
@@ -289,6 +308,7 @@ function JProcess() {
 
 <div class="clr"></div>
 <input type="hidden" id="utfsupport" name="vars[DButfSupport]" value="" />
+<input type="hidden" id="vars_lang" name="vars[lang]" value="{VAR_LANG}" />
 <input type="hidden" name="task" value="" />
 </form>
 
