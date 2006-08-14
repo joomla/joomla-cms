@@ -416,20 +416,20 @@ class JContentController extends JController
 		$fp->reorder();
 
 		$row->checkin();
-		$row->reorder("catid = $row->catid");
+		$row->reorder("catid = " . (int) $row->catid );
 
 		// gets section name of item
 		$query = "SELECT s.title" .
 				"\n FROM #__sections AS s" .
 				"\n WHERE s.scope = 'content'" .
-				"\n AND s.id = $row->sectionid";
+				"\n AND s.id = " . (int) $row->sectionid;
 		$db->setQuery($query);
 		// gets category name of item
 		$section = $db->loadResult();
 
 		$query = "SELECT c.title" .
 				"\n FROM #__categories AS c" .
-				"\n WHERE c.id = $row->catid";
+				"\n WHERE c.id = " . (int) $row->catid;
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
