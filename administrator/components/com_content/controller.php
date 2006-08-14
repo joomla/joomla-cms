@@ -660,7 +660,7 @@ class JContentController extends JController
 		 * First we include the frontpage table and instantiate an instance of it.
 		 */
 		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
-		$fp = new JTableFrontPage($db);
+		$fp = new TableFrontPage($db);
 
 		// Is the article viewable on the frontpage?
 		if (JRequest::getVar( 'frontpage', 0, '', 'int' ))

@@ -163,13 +163,11 @@ JPopup.prototype = {
 		// load the url
 		if(this.URL != url) 
 		{
-			this.URL = url;
-			
+			this.URL = url;			
 			//TODO : Change this to a more clean fix for Safari
 			if(this.frame.contentWindow != undefined) {
 				this.frame.style.display = 'none';
 			}
-			
 			this.frame.src = url;
 		}
 	

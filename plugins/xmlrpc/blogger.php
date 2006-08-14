@@ -67,8 +67,18 @@ function wsGetBloggerWebServices()
 			'function' => 'editPost',
 			'docstring' => 'Updates the information about an existing post.',
 			'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
+		),
+		'blogger.helloworld' => array(
+			'function' => 'helloworld',
+			'docstring' => 'Updates the information about an existing post.',
+			'signature' => array(array($xmlrpcBoolean))
 		)
 	);
+}
+
+function helloworld($msg)
+{
+	
 }
 
 /*
