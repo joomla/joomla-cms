@@ -446,8 +446,8 @@ function saveOrder( &$cid )
 	for( $i=0; $i < $total; $i++ ) 
 	{
 		$query = "UPDATE #__contact_details"
-		. "\n SET ordering = $order[$i]"
-		. "\n WHERE id = $cid[$i]";
+		. "\n SET ordering = " . (int) $order[$i]
+		. "\n WHERE id = " . (int) $cid[$i];
 		$db->setQuery( $query );
 		
 		if (!$db->query()) {

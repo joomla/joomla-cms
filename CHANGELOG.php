@@ -40,6 +40,7 @@ Legend:
 14-Aug-2006
  # Fixed Injection attack on content submissions where frontpage is selected
  # Fixed possible injection attack thru JPagination constructor
+ # Fixed possible injection attack thru saveOrder functions
 
 12-Aug-2006 Andrew Eddie
  ^ JMail::Send now returns a JError object on a failed send
