@@ -527,7 +527,7 @@ class JContentController extends JController
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text" .
 				"\n FROM #__content" .
-				"\n WHERE catid = $row->catid" .
+				"\n WHERE catid = " . (int) $row->catid .
 				"\n AND state >= 0" .
 				"\n ORDER BY ordering";
 		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $id, $query, 1);

@@ -117,7 +117,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		// array of articles in same category corretly ordered
 		$query = "SELECT a.id"
 		. "\n FROM #__content AS a"
-		. "\n WHERE a.catid = $row->catid"
+		. "\n WHERE a.catid = " . (int) $row->catid
 		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= " .$user->get('gid'))
 		. $xwhere
 		. "\n ORDER BY $orderby";

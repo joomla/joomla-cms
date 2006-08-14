@@ -316,7 +316,7 @@ class BannerController
 					return false;
 				}
 				// remember to reorder this category
-				$condition = "catid = $row->catid";
+				$condition = "catid = " . (int) $row->catid;
 				$found = false;
 				foreach ($conditions as $cond)
 					if ($cond[1] == $condition) {

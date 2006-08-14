@@ -280,7 +280,7 @@ class JContentHelper
 					"\n FROM #__menu" .
 					"\n WHERE published = 1" .
 					"\n AND (type = 'content_category' OR type = 'content_blog_category' )" .
-					"\n AND componentid = $row->catid" .
+					"\n AND componentid = " . (int) $row->catid .
 					"\n ORDER BY type DESC, ordering";
 			$db->setQuery($query);
 			$result = $db->loadRow();

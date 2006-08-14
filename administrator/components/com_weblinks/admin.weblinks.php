@@ -206,7 +206,7 @@ function editWeblink()
 	// build the html select list for ordering
 	$query = "SELECT ordering AS value, title AS text"
 	. "\n FROM #__weblinks"
-	. "\n WHERE catid = $row->catid"
+	. "\n WHERE catid = " . (int) $row->catid
 	. "\n ORDER BY ordering"
 	;
 	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
@@ -256,7 +256,7 @@ function saveWeblink( $task )
 		exit();
 	}
 	$row->checkin();
-	$row->reorder( "catid = $row->catid" );
+	$row->reorder( "catid = " . (int) $row->catid );
 
 	switch ($task) {
 		case 'apply':
