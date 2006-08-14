@@ -51,7 +51,7 @@ class JDocumentRenderer_Message extends JDocumentRenderer
 		}
 
 		// If messages exist render them
-		if (count($lists)) 
+		if (is_array($lists)) 
 		{
 			// Build the return string
 			$contents .= "\n<dl id=\"system-message\">";
