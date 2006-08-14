@@ -166,7 +166,7 @@ class ModelBanner extends JModel
 		$db->setQuery( $query );
 		if(!$db->query())
 		{
-			JError::raiseError( 500, $db->stderror());
+			JError::raiseError( 500, $db->stderr());
 		}
 		$url = $db->loadResult();
 

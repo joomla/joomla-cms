@@ -170,7 +170,7 @@ class BannerController
 		// fix up special html fields
 		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', _J_ALLOWRAW );
 
-		$row =& JTable::getInstance('bannerclient', $db, 'Table');
+		$row =& JTable::getInstance('banner', $db, 'Table');
 
 		if (!$row->bind( $post )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -222,10 +222,10 @@ class BannerController
 		global $mainframe;
 
 		// Initialize variables
-		$db =& JFactory::getDBO();
-
-		$row =& JTable::getInstance('bannerclient', $db, 'Table');
-		$row->bind( $_POST );
+		$db		=& JFactory::getDBO();
+		$post	= JRequest::get( 'post' );
+		$row	=& JTable::getInstance('banner', $db, 'Table');
+		$row->bind( $post );
 		$row->checkin();
 
 		$mainframe->redirect( 'index2.php?option=com_banners' );
@@ -259,37 +259,35 @@ class BannerController
 		}
 
 		if (count( $cid ) == 1) {
-			$row =& JTable::getInstance('bannerclient', $db, 'Table');
-			$row->checkin( $cid[0] );
+			$row =& JTable::getInstance('banner', $db, 'Table');
+			$row->checkin( (int) $cid[0] );
 		}
 		$mainframe->redirect( 'index2.php?option=com_banners' );
 
 	}
 
-	function removeBanner( $cid ) 
+	function removeBanner() 
 	{
 		global $mainframe;
 
 		// Initialize variables
-		$db =& JFactory::getDBO();
+		$db		=& JFactory::getDBO();
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger( $cid );
 
-		if (count( $cid ) && $cid[0] != 0) {
-			$cids = implode( ',', $cid );
-		} else {
-			$cids = JRequest::getVar( 'banner_id', 0, 'post' );
-		}
-
-		if ($cids) {
+		if (count( $cid ))
+		{
 			$query = "DELETE FROM #__banner"
-			. "\n WHERE bid IN ( $cids )"
+			. "\n WHERE bid = " . implode( ' OR bid = ', $cid )
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				JError::raiseError( 1001, $db->getErrorMsg() );
+				//echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			}
 		}
 
-		$mainframe->redirect( 'index2.php?option=com_banners' );
+		$mainframe->redirect( 'index2.php?option=com_banners', $db->getErrorMsg(), 'error' );
 	}
 
 	/**
@@ -303,7 +301,7 @@ class BannerController
 		$db			=& JFactory::getDBO();
 		$total		= count( $cid );
 		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-		$row		=& JTable::getInstance('bannerclient', $db, 'Table');
+		$row		=& JTable::getInstance('banner', $db, 'Table');
 		$conditions	= array();
 
 		// update ordering values

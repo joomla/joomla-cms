@@ -56,34 +56,32 @@ class BannersView
 					<th nowrap="nowrap" class="title">
 						<?php mosCommonHTML::tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
 					</th>
-					<th width="15%" nowrap="nowrap">
+					<th width="10%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Client', 'c.name', $lists ); ?>
 					</th>
-					<th width="7%" nowrap="nowrap">
+					<th width="10%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 					</th>
-					<th width="7%" nowrap="nowrap">
+					<th width="5%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 					</th>
-					<th width="80" nowrap="nowrap">
+					<th width="5%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Order', 'b.ordering', $lists );?>
-					</th>
-					<th width="1%">
 						<?php mosCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%">
 						<?php echo JText::_( 'Sticky' ); ?>
 					</th>
-					<th width="8%" nowrap="nowrap">
+					<th width="5%" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
 					</th>
-					<th width="8%" nowrap="nowrap">
+					<th width="5%" nowrap="nowrap">
 						<?php echo JText::_( 'Impressions Left' ); ?>
 					</th>
-					<th width="7%">
+					<th width="80">
 						<?php mosCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
 					</th>
-					<th width="3%" nowrap="nowrap">
+					<th width="50" nowrap="nowrap">
 						<?php mosCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
 					</th>
 				</tr>
@@ -139,7 +137,7 @@ class BannersView
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td class="order" colspan="2">
+					<td class="order">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
@@ -394,7 +392,6 @@ class BannersView
 
 		<input type="hidden" name="option" value="<?php echo $_option; ?>" />
 		<input type="hidden" name="bid" value="<?php echo $row->bid; ?>" />
-		<input type="hidden" name="banner_id" value="<?php echo $row->bid; ?>" />
 		<input type="hidden" name="clicks" value="<?php echo $row->clicks; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="impmade" value="<?php echo $row->impmade; ?>" />

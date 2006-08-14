@@ -32,9 +32,6 @@ class TOOLBAR_banners
 
 		JMenuBar::title( JText::_( 'Banner' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
 		JMenuBar::media_manager( 'banners' );
-		if ($cid[0]) {
-			JMenuBar::trash('remove', 'Delete', false);
-		}
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ($cid[0]) {

@@ -25,7 +25,7 @@ class JBannerController extends JController
 		$bid = JRequest::getVar( 'bid', 0, '', 'int' );
 		if ($bid)
 		{
-			$model = &$this->getModel( 'Banner', 'JModel' );
+			$model = &$this->getModel( 'Banner', 'Model' );
 			$model->click( $bid );
 			$this->setRedirect( $model->getUrl( $bid ) );
 		}

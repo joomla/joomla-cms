@@ -53,7 +53,7 @@ switch (JRequest::getVar( 'task' ))
 		break;
 
 	case 'remove':
-		BannerController::removeBanner( $cid );
+		BannerController::removeBanner();
 		break;
 
 	case 'publish':
