@@ -20,7 +20,8 @@ define( 'JPATH_COM_CONTACT', dirname( __FILE__ ) );
 jimport('joomla.application.extension.component');
 
 // Load controller class
-$controllerType = JRequest::getVar( 'c', 'default', 'post', 'string' );
+$cParams		=& JSiteHelper::getControlParams();
+$controllerType = JRequest::getVar( 'c', $cParams->get( 'controller_name', 'default' ), 'post', 'string' );
 $controllerType = preg_replace( '#\W#', '', $controllerType );
 $controllerPath = JPATH_COM_CONTACT . '/controllers/' . $controllerType . '.php';
 
