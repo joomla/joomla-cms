@@ -75,6 +75,7 @@ class modules_html
 	*/
 	function modoutput_sliders( $module, $params  )
 	{
+		jimport('joomla.presentation.pane');
 		// Initialize variables
 		$user	=& JFactory::getUser();
 		$tabs	=& JPane::getInstance('sliders');
