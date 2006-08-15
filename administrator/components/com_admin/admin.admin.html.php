@@ -156,6 +156,8 @@ class HTML_admin_misc
 	function help()
 	{
 		global $mainframe;
+		jimport( 'joomla.filesystem.folder' );
+		
 		// Get Help URL - an empty helpurl is interpreted as locale help files!
 		$helpurl 		= $mainframe->getCfg('helpurl');
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -167,6 +169,10 @@ class HTML_admin_misc
 		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
 		$toc 		= getHelpToc( $helpsearch );
 		$lang		= JFactory::getLanguage();
+		$langTag = $lang->getTag();
+		if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
+			$langTag = 'en-GB';		// use english as fallback
+		}		
 
 		if (!eregi( '\.html$', $page )) {
 			$page .= '.xml';
@@ -198,11 +204,11 @@ class HTML_admin_misc
 							<?php
 							} else {
 							?>
-							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							}
 							?>
@@ -237,7 +243,7 @@ class HTML_admin_misc
 								echo '</li>';
 							} else {
 								echo '<li>';
-								echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$lang->getTag().'/'.$k, $v, array('target' => "'helpFrame'"));
+								echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							}
 						}
@@ -299,11 +305,16 @@ function getHelpTOC( $helpsearch )
 
 	$helpurl 		= $mainframe->getCfg('helpurl');
 
-	$files = JFolder::files( JPATH_BASE . '/help/' .$lang->getTag(). '/', '\.xml$|\.html$' );
+	// Check for files in the actual language
+	$langTag = $lang->getTag();
+	if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
+		$langTag = 'en-GB';		// use english as fallback
+	}
+	$files = JFolder::files( JPATH_BASE . '/help/' .$langTag. '/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( JPATH_BASE . '/help/' .$lang->getTag(). '/' . $file );
+		$buffer = file_get_contents( JPATH_BASE . '/help/' .$langTag. '/' . $file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {

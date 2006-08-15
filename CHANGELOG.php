@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Aug-2006 Alex Kempkens
+  ^ Handling to allow that help files do not exists. Now fall back to English help
+
 15-Aug-2006
  # Fixed remote execution issue in PEAR.php
  + Added copy task for banners
