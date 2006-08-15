@@ -185,10 +185,12 @@ class JMenuModelItem extends JModel
 	{
 		$row =& $this->getItem();
 
+		$post	= JRequest::get( 'post' );
+
 		if ($helper =& $this->_getHelper()) {
-			$values =& $helper->prepForStore($_POST);
+			$values = $helper->prepForStore($post);
 		} else {
-			$values =& $_POST;
+			$values = $post;
 		}
 
 		if (!$row->bind( $values )) {
