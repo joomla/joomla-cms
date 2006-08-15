@@ -48,6 +48,7 @@ class TOOLBAR_banners
 		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
+		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();

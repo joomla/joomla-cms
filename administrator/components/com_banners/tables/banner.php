@@ -75,7 +75,7 @@ class TableBanner extends JTable
 	function clicks() {
 		$query = "UPDATE #__banner"
 		. "\n SET clicks = ( clicks + 1 )"
-		. "\n WHERE bid = $this->bid"
+		. "\n WHERE bid = " . (int) $this->bid
 		;
 		$this->_db->setQuery( $query );
 		$this->_db->query();

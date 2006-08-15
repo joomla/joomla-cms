@@ -39,7 +39,11 @@ switch (JRequest::getVar( 'task' ))
 	// Banners
 	case 'new':
 	case 'edit':
-		BannerController::edit( );
+		BannerController::edit();
+		break;
+
+	case 'copy':
+		BannerController::copy();
 		break;
 
 	case 'cancel':
@@ -71,7 +75,7 @@ switch (JRequest::getVar( 'task' ))
 	// Clients
 	case 'newclient':
 	case 'editclient':
-		BannerClientController::editBannerClient( );
+		BannerClientController::editBannerClient();
 		break;
 
 	case 'saveclient':
@@ -93,7 +97,7 @@ switch (JRequest::getVar( 'task' ))
 
 	// Default
 	default:
-		BannerController::viewBanners( $option );
+		BannerController::viewBanners();
 		break;
 }
 ?>

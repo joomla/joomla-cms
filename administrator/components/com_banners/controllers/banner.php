@@ -18,9 +18,12 @@
  */
 class BannerController 
 {
-	function viewBanners( $option )
+	/**
+	 * Display the list of banners
+	 */
+	function viewBanners()
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
 		$db =& JFactory::getDBO();
 
@@ -109,7 +112,9 @@ class BannerController
 		
 		$cid 	= JRequest::getVar('cid', array(0));
 		$option = JRequest::getVar('option');
-		if (!is_array( $cid )) {
+
+		if (!is_array( $cid ))
+		{
 			$cid = array(0);
 		}
 
@@ -129,7 +134,8 @@ class BannerController
 		. "\n FROM #__bannerclient"
 		;
 		$db->setQuery($sql);
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			echo $db->stderr();
 			return;
 		}
@@ -172,36 +178,42 @@ class BannerController
 
 		$row =& JTable::getInstance('banner', $db, 'Table');
 
-		if (!$row->bind( $post )) {
+		if (!$row->bind( $post ))
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
 		// Resets clicks when `Reset Clicks` button is used instead of `Save` button
-		if ( $task == 'resethits' ) {
+		if ( $task == 'resethits' )
+		{
 			$row->clicks = 0;
 			$msg = JText::_( 'Reset Banner clicks' );
 		}
 
 		// Sets impressions to unlimited when `unlimited` checkbox ticked
 		$unlimited = JRequest::getVar( 'unlimited', 0 );
-		if ( $unlimited ) {
+		if ($unlimited)
+		{
 			$row->imptotal = 0;
 		}
 
-		if (!$row->check()) {
+		if (!$row->check())
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 		$row->checkin();
 		$row->reorder( 'catid = ' . intval( $post['catid'] ) );
 
-		switch ($task) {
+		switch ($task)
+		{
 			case 'apply':
 				$link = 'index2.php?option=com_banners&task=edit&cid[]='. $row->bid .'&hidemainmenu=1';
 				break;
@@ -231,6 +243,53 @@ class BannerController
 		$mainframe->redirect( 'index2.php?option=com_banners' );
 	}
 
+	/**
+	 * Copies one or more banners
+	 */
+	function copy()
+	{
+		$cid	= JRequest::getVar( 'cid', null, 'post', 'array' );
+
+		$db		=& JFactory::getDBO();
+		$table	=& JTable::getInstance('banner', $db, 'Table');
+		$user	= &JFactory::getUser();
+
+		$msg = '';
+		if (count( $cid ) > 0)
+		{
+			foreach ($cid as $id)
+			{
+				if ($table->load( (int)$id ))
+				{
+					$table->bid				= 0;
+					$table->name			= 'Copy of ' . $table->name;
+					$table->impmade			= 0;
+					$table->clicks			= 0;
+					$table->showBanner		= 0;
+					$table->date			= $db->getNullDate();
+					
+					if (!$table->store())
+					{
+						$msg = $table->getError();
+						break;
+					}
+				}
+				else
+				{
+					$msg = $table->getError();
+					break;
+				}
+			}
+		}
+		else
+		{
+			$msg = JText::_( 'No items selected' );
+		}
+
+		$this->setRedirect( 'index2.php?option=com_banners', $msg );
+
+	}
+
 	function publishBanner( $cid, $publish=1 ) 
 	{
 		global $mainframe;
@@ -239,26 +298,30 @@ class BannerController
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+		if (!is_array( $cid ) || count( $cid ) < 1)
+		{
 			$action = $publish ? 'publish' : 'unpublish';
 			echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 			exit();
 		}
 
+		JArray::toInteger( $cid );
 		$cids = implode( ',', $cid );
 
 		$query = "UPDATE #__banner"
-		. "\n SET showBanner = " . intval( $publish )
+		. "\n SET showBanner = " . (int) $publish
 		. "\n WHERE bid IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
+		. "\n AND ( checked_out = 0 OR ( checked_out = " .(int) $user->get('id'). " ) )"
 		;
 		$db->setQuery( $query );
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
-		if (count( $cid ) == 1) {
+		if (count( $cid ) == 1)
+		{
 			$row =& JTable::getInstance('banner', $db, 'Table');
 			$row->checkin( (int) $cid[0] );
 		}
@@ -305,11 +368,14 @@ class BannerController
 		$conditions	= array();
 
 		// update ordering values
-		for( $i=0; $i < $total; $i++ ) {
+		for( $i=0; $i < $total; $i++ )
+		{
 			$row->load( (int) $cid[$i] );
-			if ($row->ordering != $order[$i]) {
+			if ($row->ordering != $order[$i])
+			{
 				$row->ordering = $order[$i];
-				if (!$row->store()) {
+				if (!$row->store())
+				{
 					JError::raiseError( 500, $db->getErrorMsg() );
 					return false;
 				}
@@ -317,18 +383,21 @@ class BannerController
 				$condition = "catid = " . (int) $row->catid;
 				$found = false;
 				foreach ($conditions as $cond)
-					if ($cond[1] == $condition) {
+					if ($cond[1] == $condition)
+					{
 						$found = true;
 						break;
 					}
-				if (!$found) {
+				if (!$found)
+				{
 					$conditions[] = array ( $row->bid, $condition );
 				}
 			}
 		}
 
 		// execute reorder for each category
-		foreach ($conditions as $cond) {
+		foreach ($conditions as $cond)
+		{
 			$row->load( $cond[0] );
 			$row->reorder( $cond[1] );
 		}
