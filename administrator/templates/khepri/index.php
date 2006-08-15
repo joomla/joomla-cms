@@ -42,7 +42,6 @@ See COPYRIGHT.php for copyright notices and details.
 
 	</head>
 	<body>
-		<jdoc:include type="message" />
 		<div id="border-top">
 			<div>
 				<div>
@@ -105,6 +104,7 @@ See COPYRIGHT.php for copyright notices and details.
                 <div class="t"></div>
               </div>
             </div>
+			<jdoc:include type="message" />
             <div class="m">
 							<jdoc:include type="component" />
 							<div class="clr"></div>

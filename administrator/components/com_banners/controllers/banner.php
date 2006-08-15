@@ -248,6 +248,8 @@ class BannerController
 	 */
 	function copy()
 	{
+		global $mainframe;
+
 		$cid	= JRequest::getVar( 'cid', null, 'post', 'array' );
 
 		$db		=& JFactory::getDBO();
@@ -286,7 +288,7 @@ class BannerController
 			$msg = JText::_( 'No items selected' );
 		}
 
-		$this->setRedirect( 'index2.php?option=com_banners', $msg );
+		$mainframe->redirect( 'index2.php?option=com_banners', $msg );
 
 	}
 
@@ -305,7 +307,7 @@ class BannerController
 			exit();
 		}
 
-		JArray::toInteger( $cid );
+		JArrayHelper::toInteger( $cid );
 		$cids = implode( ',', $cid );
 
 		$query = "UPDATE #__banner"
