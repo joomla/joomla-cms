@@ -42,6 +42,7 @@ See COPYRIGHT.php for copyright notices and details.
 
 	</head>
 	<body>
+		<jdoc:include type="message" />
 		<div id="border-top">
 			<div>
 				<div>
