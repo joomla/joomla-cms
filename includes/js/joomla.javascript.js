@@ -564,3 +564,14 @@ function go2( pressbutton, menu, id ) {
 		return;
 	}
 }
+/**
+ * Verifies if the string is in a valid email format
+ * @param	string
+ * @return	boolean
+ */
+function isEmail( text )
+{
+	var pattern = "^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$";
+	var regex = new RegExp( pattern );
+	return regex.test( text );
+}
