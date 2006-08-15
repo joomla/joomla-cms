@@ -65,7 +65,8 @@ switch ( $task )
 
 	case 'publish':
 	case 'unpublish':
-		mosCache::cleanCache( 'com_content' );
+		$cache = & JFactory::getCache();
+		$cache->cleanCache( 'com_content' );
 		publishModule( $cid, ($task == 'publish'), $option );
 		break;
 
