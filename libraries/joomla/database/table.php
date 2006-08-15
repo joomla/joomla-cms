@@ -802,7 +802,7 @@ class JTable extends JObject
 	 */
 	function publish( $cid=null, $publish=1, $user_id=0 )
 	{
-		mosArrayToInts( $cid, array() );
+		JArrayHelper::toInteger( $cid, array() );
 		$user_id = (int) $user_id;
 		$publish = (int) $publish;
 
