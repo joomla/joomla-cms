@@ -203,7 +203,7 @@ class BannerController
 
 		switch ($task) {
 			case 'apply':
-				$link = 'index2.php?option=com_banners&task=editA&id='. $row->bid .'&hidemainmenu=1';
+				$link = 'index2.php?option=com_banners&task=edit&cid[]='. $row->bid .'&hidemainmenu=1';
 				break;
 
 			case 'save':
