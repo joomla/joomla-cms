@@ -82,10 +82,5 @@ jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.version' );
 
-// support for legacy classes & functions that will be depreciated
-jimport( 'joomla.common.legacy.classes' );
-jimport( 'joomla.common.legacy.functions' );
-jimport( 'joomla.common.legacy.globals' );
-
 JDEBUG ? $_PROFILER->mark( 'afterLoadFramework' ) : null;
 ?>

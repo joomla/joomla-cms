@@ -95,22 +95,22 @@ class JTable extends JObject
 	*/
 	function &getInstance( $type, &$db, $prefix='JTable' )
 	{
-		$adapter = $prefix.$type;
+		$adapter = $prefix.ucfirst($type);
 		if (!class_exists( $adapter ))
 		{
 			$dirs = JTable::addTableDir();
-			array_push( $dirs, JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table');
-
 			foreach( $dirs as $dir ) {
 				$tableFile = $dir.DS.strtolower($type).'.php';
-				// TODO: PLEASE REMOVE THE @! IT HIDES ERRORS!
 				if (@include_once $tableFile) {
 					break;
 				}
 			}
 		}
-
-		$m = new $adapter($db);
+		if (!class_exists( $adapter )) {
+			return JError::raiseError(20, JText::_('Database Table Object Does Not Exist'));			
+		} else {
+			$m = new $adapter($db);
+		}
 		return $m;
 	}
 
@@ -590,10 +590,7 @@ class JTable extends JObject
 	 */
 	function checkout( $who, $oid=null )
 	{
-		// TODO: Can following be safely replaced with
-		// $checkedOut = $this->get( 'checked_out' );
-		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
-		{
+		if (!isset($this->checked_out)) {
 			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support checkouts.");
 			$this->setErrorNum(23);
 			return false;
@@ -888,20 +885,22 @@ class JTable extends JObject
 	*/
 	function addTableDir( $dir = '' )
 	{
-		static $elementDirs = Array ();
+		static $directories;
 
-		// Return collection of static values when no value is passed to
-		// this method, else we skip and add it to the array.
-		if (empty($dir)) {
-			return $elementDirs;
+		if (!isset($directories)) {
+			$directories = array(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table');
 		}
 
 		// Handle datatype of $dir element (string/array)
 		if( is_array( $dir ) ) {
-			$elementDirs = array_merge( $elementDirs, $dir );
+			$directories = array_merge( $directories, $dir );
 		} else {
-			array_push( $elementDirs, $dir );
+			if (!empty($dir)) {
+				array_push( $directories, $dir );
+			}
 		}
+
+		return $directories;
 	}
 }
 ?>

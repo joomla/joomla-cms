@@ -31,12 +31,8 @@ class JModelMenu extends JModel
 	 */
 	function &getTable()
 	{
-		if ($this->_table == null)
-		{
-			jimport( 'joomla.database.table.menu' );
-
-			$db = &$this->getDBO();
-			$this->_table = new JTableMenu( $db );
+		if ($this->_table == null) {
+			$this->_table = & JTable::getInstance('menu', $this->getDBO());
 		}
 		return $this->_table;
 	}
@@ -142,10 +138,8 @@ class JModelMenu extends JModel
 	 */
 	function &getComponent()
 	{
-		jimport( 'joomla.database.table.component' );
-		$db = $this->getDBO();
 		$id = $this->_table->componentid;
-		$component = new JTableComponent( $db );
+		$component	= & JTable::getInstance( 'component', $this->getDBO() );
 		$component->load( $id );
 		return $component;
 	}

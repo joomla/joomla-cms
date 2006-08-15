@@ -28,6 +28,9 @@ $mainframe = new JAdministrator();
 // load the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
+// load the legacy libraries if enabled
+$mainframe->setLegacy();
+
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
@@ -49,17 +52,9 @@ $mainframe->triggerEvent( 'onAfterStart' );
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
 
 /**
- * BACKWARDS COMPATABILITY
- * 	Set globals for:
- * 		- $database
- * 		- $my
- * ## THESE ARE DEPRECATED AND WILL BE REMOVED ##
+ * Set the version variable as a global
  */
-global $database, $my, $_VERSION;
-$database	=& JFactory::getDBO();
-$user		=& JFactory::getUser();
-$my			=& $user->getTable();
-$_VERSION   = new JVersion();
+$GLOBALS['_VERSION'] = new JVersion();
 
 // initialise some common request directives
 $task 		= JRequest::getVar( 'task' );

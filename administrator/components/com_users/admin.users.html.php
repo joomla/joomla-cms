@@ -162,8 +162,7 @@ class HTML_users {
 		/*
 		 * Initialize variables
 		 */
-		$acl	= & JFactory::getACL();
-		$tabs	= new mosTabs( 0 );
+		$acl = & JFactory::getACL();
 
 		mosCommonHTML::loadOverlib();
 		$canBlockUser 	= $user->authorize( 'com_user', 'block user' );

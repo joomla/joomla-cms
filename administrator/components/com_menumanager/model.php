@@ -33,12 +33,8 @@ class JModelMenuType extends JModel
 	 */
 	function &getTable()
 	{
-		if ($this->_table == null)
-		{
-			jimport( 'joomla.database.table.menutypes' );
-
-			$db = &$this->getDBO();
-			$this->_table = new JTableMenuTypes( $db );
+		if ($this->_table == null) {
+			$this->_table = & JTable::getInstance('menuTypes', $this->getDBO());
 		}
 		return $this->_table;
 	}

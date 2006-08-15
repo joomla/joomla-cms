@@ -565,10 +565,8 @@ class JMenuModelList extends JModel
 	 */
 	function &getComponent()
 	{
-		jimport( 'joomla.database.table.component' );
-		$db = $this->getDBO();
 		$id = $this->_table->componentid;
-		$component = new JTableComponent( $db );
+		$component	= & JTable::getInstance( 'component', $this->getDBO() );
 		$component->load( $id );
 		return $component;
 	}

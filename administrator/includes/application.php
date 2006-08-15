@@ -187,6 +187,21 @@ class JAdministrator extends JApplication
 	}
 
 	/**
+	* Set the legacy state of the application
+	*
+	* @access	public
+	* @param	boolean	$force	Force loading of the legacy libraries
+	* @since	1.5
+	*/
+	function setLegacy($force = false)
+	{
+		$config = & JFactory::getConfig();
+		if ($config->getValue('config.legacy') || $force) {
+			jimport('joomla.common.legacy');
+		}
+	}
+	
+	/**
 	* Get the template
 	*
 	* @return string The template name

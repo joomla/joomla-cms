@@ -40,6 +40,11 @@ Legend:
 15-Aug-2006
  # Fixed remote execution issue in PEAR.php
 
+14-Aug-2006 Louis Landry
+ # Fixed Broken getDBO() calls
+ # Fixed JTable inclusion issues
+ ^ Added global legacy setting for enabling 'legacy mode'
+
 14-Aug-2006 Alex Kempkens
  # [artf5604] Install from dir does not work
  # Fixed issues with the installer and cleaned pathes

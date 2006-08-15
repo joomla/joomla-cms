@@ -35,8 +35,6 @@ class JComponentHelper
 
 		if (!isset( $instances[$option] ))
 		{
-			jimport( 'joomla.database.table.component' );
-
 			$db = &JFactory::getDBO();
 
 			$query = 'SELECT *' .

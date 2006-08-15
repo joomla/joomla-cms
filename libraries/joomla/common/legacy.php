@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: globals.php 3996 2006-06-12 03:44:31Z spacemonkey $
 * @package Joomla.Legacy
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -11,7 +11,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Import library dependencies
 jimport( 'joomla.common.legacy.classes' );
+jimport( 'joomla.common.legacy.functions' );
 
 /**
  * Legacy define, _ISO defined not used anymore. All output is forced as utf-8
@@ -49,6 +51,27 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 . $_VERSION->DEV_STATUS
 .' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '
 . $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
+
+/**
+ * Legacy global, use JFactory::getDBO() instead
+ *
+ * @name $database
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+$conf =& JFactory::getConfig();
+$GLOBALS['database'] = new database($conf->getValue('config.host'), $conf->getValue('config.user'), $conf->getValue('config.password'), $conf->getValue('config.db'), $conf->getValue('config.dbprefix'));
+$GLOBALS['database']->debug($conf->getValue('config.debug'));
+
+/**
+ * Legacy global, use JFactory::getUser() [JUser object] instead
+ *
+ * @name $my
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+$user			= & JFactory::getUser();
+$GLOBALS['my']	= $user->getTable();
 
 /**
  * Load the site language file (the old way - to be deprecated)

@@ -126,7 +126,7 @@ class JContactControllerDefault extends JController
 
 		// Initialize some variables
 		$app		= &$this->getApplication();
-		$db			= & $app->getDBO();
+		$db			= & JFactory::getDBO();
 
 		$SiteName 	= $app->getCfg('sitename');
 		$MailFrom 	= $app->getCfg('mailfrom');

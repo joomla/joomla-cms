@@ -208,7 +208,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 {
 	global $mainframe;
 
-	$db =& $mainframe->getDBO();
+	$db =& JFactory::getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
@@ -250,7 +250,7 @@ function deleteTrash( $cid, $option )
 {
 	global $mainframe;
 
-	$db		=& $mainframe->getDBO();
+	$db		=& JFactory::getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 
@@ -286,7 +286,7 @@ function deleteTrash( $cid, $option )
 function viewrestoreTrash( $cid, $mid, $option ) {
 	global $mainframe;
 
-	$db		=& $mainframe->getDBO();
+	$db		=& JFactory::getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
@@ -327,7 +327,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 function restoreTrash( $cid, $option ) {
 	global $mainframe;
 
-	$db		= & $mainframe->getDBO();
+	$db		= & JFactory::getDBO();
 	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 

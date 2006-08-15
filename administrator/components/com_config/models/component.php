@@ -29,12 +29,8 @@ class JConfigComponentModel extends JModel
 	 */
 	function &getTable()
 	{
-		if ($this->_table == null)
-		{
-			jimport( 'joomla.database.table.component' );
-
-			$db = &$this->getDBO();
-			$this->_table = new JTableComponent( $db );
+		if ($this->_table == null) {
+			$this->_table = JTable::getInstance('component', $this->getDBO() );
 		}
 		return $this->_table;
 	}

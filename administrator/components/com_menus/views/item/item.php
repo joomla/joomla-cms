@@ -16,6 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.view');
+jimport('joomla.presentation.pane');
 
 /**
  * @package Joomla

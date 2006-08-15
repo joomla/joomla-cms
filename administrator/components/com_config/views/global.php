@@ -37,8 +37,6 @@ class JConfigView
 		$document->set('module', 'submenu', $contents);
 		require_once(JPATH_COM_CONFIG.DS.'tmpl'.DS.'writeable.html');
 		mosCommonHTML::loadOverlib();
-
-		$tabs = new mosTabs(1);
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
