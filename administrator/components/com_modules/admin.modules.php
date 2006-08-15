@@ -558,7 +558,7 @@ function selectnew()
 	ReadModuleXML( $modules, $client );
 
 	// sort array of objects alphabetically by name
-	SortArrayObjects( $modules, 'name' );
+	JArrayHelper::sortObjects( $modules, 'name' );
 
 	HTML_modules::addModule( $modules, $client );
 }
