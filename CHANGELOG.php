@@ -43,6 +43,7 @@ Legend:
 15-Aug-2006
  # Fixed remote execution issue in PEAR.php
  + Added copy task for banners
+ + Added human readable alias's to the module styles -3=rounded, -2=xhtml, -1=raw, 1=horiz
 
 14-Aug-2006 Louis Landry
  # Fixed Broken getDBO() calls

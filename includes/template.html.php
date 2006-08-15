@@ -42,21 +42,25 @@ class modules_html {
 
 		switch ( $style )
 		{
+			case 'rounded':
 			case -3:
 			// allows for rounded corners
 				modules_html::modoutput_rounded( $module, $params );
 				break;
 
+			case 'xhtml':
 			case -2:
 			// xhtml (divs and font headder tags)
 				modules_html::modoutput_xhtml( $module, $params );
 				break;
 
+			case 'raw':
 			case -1:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_naked( $module, $params );
 				break;
 
+			case 'horiz':
 			case 1:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_horz( $module, $params );
