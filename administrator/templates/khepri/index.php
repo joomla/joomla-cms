@@ -98,13 +98,13 @@ See COPYRIGHT.php for copyright notices and details.
               </div>
 						</div>
 					</jdoc:empty>
+			<jdoc:include type="message" />
 					<div id="element-box">
       			<div class="t">
               <div class="t">
                 <div class="t"></div>
               </div>
             </div>
-			<jdoc:include type="message" />
             <div class="m">
 							<jdoc:include type="component" />
 							<div class="clr"></div>
