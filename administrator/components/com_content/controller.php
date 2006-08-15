@@ -832,7 +832,7 @@ class JContentController extends JController
 		 * it.
 		 */
 		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
-		$fp = new JTableFrontPage($db);
+		$fp = new TableFrontPage($db);
 
 		foreach ($cid as $id)
 		{

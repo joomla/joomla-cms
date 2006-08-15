@@ -261,7 +261,7 @@ function deleteTrash( $cid, $option )
 		$obj =& JTable::getInstance('content', $db );
 		
 		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
-		$fp = new JTableFrontPage( $db );
+		$fp = new TableFrontPage( $db );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );
