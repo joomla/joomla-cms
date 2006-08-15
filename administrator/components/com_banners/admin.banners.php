@@ -80,19 +80,19 @@ switch (JRequest::getVar( 'task' ))
 
 	case 'saveclient':
 	case 'applyclient':
-		BannerClientController::saveBannerClient( $task );
+		BannerClientController::saveBannerClient();
 		break;
 
 	case 'removeclients':
-		BannerClientController::removeBannerClients( $cid, $option );
+		BannerClientController::removeBannerClients();
 		break;
 
 	case 'cancelclient':
-		BannerClientController::cancelEditClient( $option );
+		BannerClientController::cancelEditClient();
 		break;
 
 	case 'listclients':
-		BannerClientController::viewBannerClients( $option );
+		BannerClientController::viewBannerClients();
 		break;
 
 	// Default

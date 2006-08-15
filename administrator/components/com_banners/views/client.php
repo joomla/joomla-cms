@@ -23,7 +23,7 @@ class BannersViewClients
 		$user =& JFactory::getUser();
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
+		<form action="index2.php" method="post" name="adminForm">
 
 			<table>
 			<tr>
@@ -112,7 +112,7 @@ class BannersViewClients
 			</table>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
-		<input type="hidden" name="task" value="listclients" />
+		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
@@ -127,20 +127,33 @@ class BannersViewClients
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
-		function submitbutton(pressbutton) {
+		function submitbutton(pressbutton)
+		{
 			var form = document.adminForm;
-			if (pressbutton == 'cancelclient') {
+			if (pressbutton == 'cancelclient')
+			{
 				submitform( pressbutton );
 				return;
 			}
 			// do field validation
-			if (form.name.value == "") {
+			if (form.name.value == "")
+			{
 				alert( "<?php echo JText::_( 'Please fill in the Client Name.', true ); ?>" );
-			} else if (form.contact.value == "") {
+			}
+			else if (form.contact.value == "")
+			{
 				alert( "<?php echo JText::_( 'Please fill in the Contact Name.', true ); ?>" );
-			} else if (form.email.value == "") {
+			}
+			else if (form.email.value == "")
+			{
 				alert( "<?php echo JText::_( 'Please fill in the Contact Email.', true ); ?>" );
-			} else {
+			}
+			else if (!isEmail( form.email.value ))
+			{
+				alert( "<?php echo JText::_( 'Please provide a valid Contact Email.', true ); ?>" );
+			}
+			else
+			{
 				submitform( pressbutton );
 			}
 		}
@@ -194,8 +207,8 @@ class BannersViewClients
 
 				<table class="admintable">
 				<tr>
-					<td valign="top">
-						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
+					<td width="100%" valign="top">
+						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="40" rows="10" style="width:90%"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
 					</td>
 				</tr>
 				</table>

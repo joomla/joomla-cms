@@ -48,7 +48,8 @@ class TableBannerClient extends JTable
 		}
 
 		// check for valid client email
-		if ((trim($this->email == '')) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
+		jimport( 'joomla.utilities.mail' );
+		if (!JMailHelper::isEmailAddress( $this->email )) {
 			$this->_error = JText::_( 'BNR_VALID_EMAIL' );
 			return false;
 		}

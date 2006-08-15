@@ -77,9 +77,6 @@ class TOOLBAR_bannerClient
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Banner Client' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
-		if ($cid[0]) {
-			JMenuBar::trash('removeclients', 'Delete', false);
-		}
 		JMenuBar::save( 'saveclient' );
 		JMenuBar::apply('applyclient');
 		if ($cid[0]) {

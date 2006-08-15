@@ -18,19 +18,19 @@
  */
 class BannerClientController 
 {
-	function viewBannerClients( $option ) 
+	function viewBannerClients() 
 	{
 		global $mainframe;
 
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
-		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mainframe->getCfg('list_limit') );
-		$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
-		$search 			= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.search", 			'search', 			'' );
-		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$context			= "com_banners.viewbannerclient";
+		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order",		'filter_order', 	'a.cid' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
+		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart 		= $mainframe->getUserStateFromRequest( "$context.limitstart", 	'limitstart', 		0 );
+		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
+		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
 		$where = array();
 
@@ -42,16 +42,6 @@ class BannerClientController
 		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.cid";
 
 		// get the total number of records
-		$query = "SELECT COUNT(*)"
-		. "\n FROM #__bannerclient"
-		. $where
-		;
-		$db->setQuery( $query );
-		$total = $db->loadResult();
-
-		jimport('joomla.presentation.pagination');
-		$pageNav = new JPagination( $total, $limitstart, $limit );
-
 		$query = "SELECT a.*, count(b.bid) AS bid, u.name AS editor"
 		. "\n FROM #__bannerclient AS a"
 		. "\n LEFT JOIN #__banner AS b ON a.cid = b.cid"
@@ -60,6 +50,14 @@ class BannerClientController
 		. "\n GROUP BY a.cid"
 		. $orderby
 		;
+
+		$db->setQuery( $query );
+		$db->query();
+		$total = $db->getNumRows();
+
+		jimport('joomla.presentation.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+
 		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 		$rows = $db->loadObjectList();
 
@@ -75,10 +73,13 @@ class BannerClientController
 		$lists['search']= $search;
 
 		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
-		BannersViewClients::showClients( $rows, $pageNav, $option, $lists );
+		BannersViewClients::showClients( $rows, $pageNav, 'com_banners', $lists );
 	}
 
-	function editBannerClient( ) 
+	/**
+	 * Edit a banner client record
+	 */
+	function editBannerClient() 
 	{
 		global $mainframe;
 
@@ -86,24 +87,21 @@ class BannerClientController
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 		
-		$cid 	= JRequest::getVar( 'cid', array(0));
-		$option = JRequest::getVar( 'option');
-		if (!is_array( $cid )) {
-			$cid = array(0);
-		}
+		$userId	= $user->get ( 'id' );
+		$cid 	= JRequest::getVar( 'cid', array(0), 'method', 'array' );
 
 		$row =& JTable::getInstance('bannerclient', $db, 'Table');
-		$row->load($cid[0]);
+		$row->load( (int) $cid[0] );
 
 		// fail if checked out not by 'me'
-		if ($row->checked_out && $row->checked_out <> $user->get ( 'id' )) {
+		if ($row->isCheckedOut( $userId )) {
 	    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
-			$mainframe->redirect( 'index2.php?option='. $option .'&task=listclients', $msg );
+			$mainframe->redirect( 'index2.php?option=com_banners&task=listclients', $msg );
 		}
 
-		if ($cid[0]) {
+		if ($row->id) {
 			// do stuff for existing record
-			$row->checkout( $user->get('id') );
+			$row->checkout( $userId );
 		} else {
 			// do stuff for new record
 			$row->published = 0;
@@ -111,34 +109,36 @@ class BannerClientController
 		}
 
 		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
-		BannersViewClients::bannerClientForm( $row, $option );
+		BannersViewClients::bannerClientForm( $row, 'com_banners' );
 	}
 
-	function saveBannerClient( $task ) 
+	function saveBannerClient() 
 	{
 		global $mainframe;
 
 		// Initialize variables
-		$db  =& JFactory::getDBO();
-		$row =& JTable::getInstance('bannerclient', $db, 'Table');
+		$db		=& JFactory::getDBO();
+		$table	=& JTable::getInstance('bannerclient', $db, 'Table');
+		$post	= JRequest::get( 'post' );
 
-		if (!$row->bind( $_POST )) {
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		if (!$table->bind( $post )) {
+			echo "<script> alert('".$table->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-		if (!$row->check()) {
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		if (!$table->check()) {
+			echo "<script> alert('".$table->getError()."'); window.history.go(-1); </script>\n";
 		}
 
-		if (!$row->store()) {
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		if (!$table->store()) {
+			echo "<script> alert('".$table->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-		$row->checkin();
+		$table->checkin();
 
+		$task = JRequest::getVar( 'task' );
 		switch ($task) {
 			case 'applyclient':
-				$link = 'index2.php?option=com_banners&task=editclientA&id='. $row->cid .'&hidemainmenu=1';
+				$link = 'index2.php?option=com_banners&task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';
 				break;
 
 			case 'saveclient':
@@ -150,58 +150,50 @@ class BannerClientController
 		$mainframe->redirect( $link );
 	}
 
-	function cancelEditClient( $option ) 
+	function cancelEditClient() 
 	{
 		global $mainframe;
 
 		// Initialize variables
-		$db  =& JFactory::getDBO();
-		$row =& JTable::getInstance('bannerclient', $db, 'Table');
-		$row->bind( $_POST );
-		$row->checkin();
+		$db			=& JFactory::getDBO();
+		$table		=& JTable::getInstance('bannerclient', $db, 'Table');
+		$table->id	= JRequest::getVar( 'cid', 0, 'post', 'int' );
+		$table->checkin();
 		
-		$mainframe->redirect( "index2.php?option=$option&task=listclients" );
+		$mainframe->redirect( "index2.php?option=com_banners&task=listclients" );
 	}
 
-	function removeBannerClients( $cid, $option ) 
+	function removeBannerClients() 
 	{
 		global $mainframe;
 
 		// Initialize variables
-		$db =& JFactory::getDBO();
-		if (!count( $cid ) || $cid[0] == 0) {
-			unset($cid);
-			$cid[0] = JRequest::getVar( 'client_id', 0, 'post' );
-		}
-
-		for ($i = 0; $i < count($cid); $i++) 
+		$db		=& JFactory::getDBO();
+		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$table	=& JTable::getInstance('bannerclient', $db, 'Table');
+		$msg	= '';
+		
+		for ($i = 0, $n = count( $cid ); $i < $n; $i++) 
 		{
 			$query = "SELECT COUNT( bid )"
 			. "\n FROM #__banner"
-			. "\n WHERE cid = ".$cid[$i]
+			. "\n WHERE cid = ". (int) $cid[$i]
 			;
 			$db->setQuery($query);
-			if(($count = $db->loadResult()) == null) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			if (($count = $db->loadResult()) === null)
+			{
+				$msg = $db->getErrorMsg();
 			}
-
-			if ($count != 0) {
-				$mainframe->redirect( "index2.php?option=$option&task=listclients", JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
-			} else {
-				$query="DELETE FROM #__bannerfinish"
-				. "\n WHERE cid = ". $cid[$i]
-				;
-				$db->setQuery($query);
-				$db->query();
-
-				$query = "DELETE FROM #__bannerclient"
-				. "\n WHERE cid = ". $cid[$i]
-				;
-				$db->setQuery($query);
-				$db->query();
+			else if ($count > 0)
+			{
+				$msg = JText::_( 'WARNCANNOTDELCLIENTBANNER' );
+			}
+			else
+			{
+				$table->delete( (int) $cid[$i] );
 			}
 		}
-		$mainframe->redirect("index2.php?option=$option&task=listclients");
+		$mainframe->redirect( 'index2.php?option=com_banners&task=listclients', $msg, 'error' );
 	}
 }
 ?>
