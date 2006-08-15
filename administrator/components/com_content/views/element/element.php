@@ -45,7 +45,7 @@ class JContentViewElement extends JView
 		// Initialize variables
 		$app		= &$this->get('Application');
 		$url 		= $app->isAdmin() ? $app->getSiteURL() : $app->getBaseURL();
-		$db			= &$app->getDBO();
+		$db			= &JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
 		$document	= &$this->getDocument();
