@@ -122,6 +122,7 @@ class JApplication extends JObject
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
 			//@ob_end_clean(); // clear output buffer
+			session_write_close();
 			header( 'HTTP/1.1 301 Moved Permanently' );
 			header( "Location: ". $url );
 		}

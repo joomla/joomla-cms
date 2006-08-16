@@ -61,6 +61,9 @@ class JSession
         }
 		session_cache_limiter('none');
         session_start();
+		// Send modified header for IE 6.0 Security Policy
+		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+
         if (!isset($_SESSION['__HTTP_SESSION_INFO'])) {
             $_SESSION['__HTTP_SESSION_INFO'] = HTTP_SESSION_STARTED;
         } else {
