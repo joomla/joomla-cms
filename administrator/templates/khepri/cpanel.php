@@ -68,10 +68,19 @@ See COPYRIGHT.php for copyright notices and details.
                 <div class="t"></div>
               </div>
             </div>
-            <div class="m">
-							<jdoc:include type="modules" name="icon" />
-							<div class="clr"></div>
-						</div>
+            <div class="m" >
+				<table class="adminform">
+				<tr>
+					<td width="55%" valign="top">
+						<jdoc:include type="modules" name="icon" />
+					</td>
+					<td width="45%" valign="top">
+						<jdoc:include type="modules" name="cp_shell" />
+					</td>
+				</tr>
+				</table>							
+				<div class="clr"></div>
+			</div>
             <div class="b">
               <div class="b">
                 <div class="b"></div>

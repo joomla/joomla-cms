@@ -18,8 +18,10 @@ jimport('joomla.presentation.pagination');
 
 $db				=& JFactory::getDBO();
 $user			=& JFactory::getUser();
+
+// TODO -  pagination needs to be completed in module
 $limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+$limitstart 	= $mainframe->getUserStateFromRequest( 'limitstart', 'limitstart', 0 );
 
 // hides Administrator or Super Administrator from list depending on usertype
 $and = '';

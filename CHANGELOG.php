@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Aug-2006 David Gal
+ + Added cpanel module sliders in admin. Needs re-install for db changes to apply 
+
 15-Aug-2006 Alex Kempkens
   ^ Handling to allow that help files do not exists. Now fall back to English help
 

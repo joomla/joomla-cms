@@ -107,7 +107,7 @@ INSERT INTO `#__menu_types` VALUES (4, 'othermenu', 'Other Menu', 'Additional li
 # Dumping data for table `#__modules`
 #
 
-INSERT INTO #__modules  VALUES (40,'Advertisement','',3,'right',0,'0000-00-00 00:00:00',1,'mod_banners',0,0,1,'count=4\r\nrandomise=0\r\ncid=0\r\ncatid=14\r\nheader_text=Featured Links:\r\nfooter_text=<a href=\"http://www.joomla.org\">Ads by Joomla!</a>\r\nmoduleclass_sfx=_text\r\ncache=0\r\n\r\n',0,0,'');
+INSERT INTO #__modules  VALUES (41,'Advertisement','',3,'right',0,'0000-00-00 00:00:00',1,'mod_banners',0,0,1,'count=4\r\nrandomise=0\r\ncid=0\r\ncatid=14\r\nheader_text=Featured Links:\r\nfooter_text=<a href=\"http://www.joomla.org\">Ads by Joomla!</a>\r\nmoduleclass_sfx=_text\r\ncache=0\r\n\r\n',0,0,'');
 
 
 #

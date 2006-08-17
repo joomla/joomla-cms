@@ -286,4 +286,7 @@ CREATE TABLE  `jos_bannertrack` (
 ALTER TABLE `jos_content`
   ADD COLUMN `metadata` TEXT NOT NULL DEFAULT '';
 
+# 18-Aug-2006
+INSERT INTO `#__modules` VALUES (40, 'Cpanel Shell', '', 1, 'cp_shell', 0, '0000-00-00 00:00:00', 1, 'mod_cpanel', 0, 23, 1, '', 1, 1, '');
+INSERT INTO `#__template_positions` VALUES (0, 'cp_shell', '');
 
