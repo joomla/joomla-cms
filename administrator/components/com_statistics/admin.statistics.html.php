@@ -26,7 +26,8 @@ class HTML_statistics
 		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
 
-		$tabs 	= new mosTabs(1);
+		jimport( 'joomla.presentation.pane' );
+		$tabs 	=& JPane::getInstance();
 		?>
 		<form action="index2.php?option=com_statistics" method="post" name="adminForm">
 
@@ -34,7 +35,7 @@ class HTML_statistics
 			<?php
 			$title = JText::_( 'Browsers' );
 			$tabs->startPane("statsPane");
-			$tabs->startTab( $title, "browsers-page" );
+			$tabs->startPanel( $title, "browsers-page" );
 			?>
 
 			<table class="adminlist">
@@ -89,8 +90,8 @@ class HTML_statistics
 
 			<?php
 			$title = JText::_( 'OS Stats' );
-			$tabs->endTab();
-			$tabs->startTab( $title, "os-page" );
+			$tabs->endPanel();
+			$tabs->startPanel( $title, "os-page" );
 			?>
 
 				<table class="adminlist">
@@ -145,8 +146,8 @@ class HTML_statistics
 
 			<?php
 			$title = JText::_( 'Domain Stats' );
-			$tabs->endTab();
-			$tabs->startTab( $title, "domain-page" );
+			$tabs->endPanel();
+			$tabs->startPanel( $title, "domain-page" );
 			?>
 
 				<table class="adminlist">
@@ -200,7 +201,7 @@ class HTML_statistics
 				</table>
 
 			<?php
-			$tabs->endTab();
+			$tabs->endPanel();
 			$tabs->endPane();
 			?>
 		</div>

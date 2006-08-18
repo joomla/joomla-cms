@@ -127,7 +127,6 @@ class HTML_messages
 	}
 
 	function editConfig( &$vars, $option) {
-		$tabs = new mosTabs(0);
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

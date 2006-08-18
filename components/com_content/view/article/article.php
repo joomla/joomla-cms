@@ -153,8 +153,9 @@ class JContentViewArticle extends JView
 		// Load the JEditor object
 		$editor =& JFactory::getEditor();
 
-		// Load the mosTabs object
-		$tabs = new mosTabs(0);
+		// Load the JPaneTabs object
+		jimport( 'joomla.presentation.pane' );
+		$tabs =& JPane::getInstance();
 
 		// Load the Overlib library
 		mosCommonHTML::loadOverlib();
@@ -260,7 +261,7 @@ class JContentViewArticle extends JView
 		<?php
 		$title = JText::_('Editor');
 		$tabs->startPane('content-pane');
-		$tabs->startTab($title, 'editor-page');
+		$tabs->startPanel($title, 'editor-page');
 
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
@@ -280,8 +281,8 @@ class JContentViewArticle extends JView
 		<!-- Publishing Tab -->
 		<?php
 		$title = JText::_('Publishing');
-		$tabs->endTab();
-		$tabs->startTab($title, 'publish-page');
+		$tabs->endPanel();
+		$tabs->startPanel($title, 'publish-page');
 		?>
 
 			<table class="adminform">
@@ -397,8 +398,8 @@ class JContentViewArticle extends JView
 		<!-- Metadata Tab -->
 		<?php
 		$title = JText::_('Metadata');
-		$tabs->endTab();
-		$tabs->startTab($title, 'meta-page');
+		$tabs->endPanel();
+		$tabs->startPanel($title, 'meta-page');
 		?>
 			<table class="adminform">
 			<tr>
@@ -425,7 +426,7 @@ class JContentViewArticle extends JView
 
 		<!-- End Article Parameters Section -->
 		<?php
-		$tabs->endTab();
+		$tabs->endPanel();
 		$tabs->endPane();
 		?>
 
