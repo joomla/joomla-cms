@@ -77,16 +77,29 @@ class JCacheFunction extends JCache
 			ob_implicit_flush( false );
 
 			//$target = array_shift($arguments);
-			if (strstr( $target, '::' )) { // classname::staticMethod
+			if (is_array( $target ))
+			{
+				// using built in php notation
+				$result = call_user_func_array( $target, $arguments );
+			}
+			else if (strstr( $target, '::' ))
+			{
+				// shorthand classname::staticMethod
 				list( $class, $method ) = explode( '::', $target );
 				$result = call_user_func_array( array( trim($class), trim($method) ), $arguments );
-			} else if (strstr( $target, '->' )) { // object->method
+			}
+			else if (strstr( $target, '->' ))
+			{ 
+				// shorthand object->method ... NOT RECOMMENDED - UNRELIABLE - USE PHP ARRAY SYNTAX!
 				// use a stupid name ($objet_123456789 because) of problems when the object
 				// name is the same as this var name
 				list( $object_123456789, $method ) = explode('->', $target);
 				global $$object_123456789;
 				$result = call_user_func_array( array( $$object_123456789, $method ), $arguments );
-			} else { // function
+			}
+			else
+			{
+				// function
 				$result = call_user_func_array( $target, $arguments );
 			}
 

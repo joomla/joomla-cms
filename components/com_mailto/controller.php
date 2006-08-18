@@ -33,13 +33,11 @@ class mailtoController extends JController {
 		$FromName 	= $mainframe->getCfg('fromname');
 
 		$link 		= urldecode( JRequest::getVar( 'link', '', 'post' ) );
-		$hash 		= JRequest::getVar( 'hash', '', 'post' );
 
-		if ($hash != JUtility::getHash( $link ))
-		{
-			header("HTTP/1.0 403 Forbidden");
-			die( JText::_( 'ALERTNOTAUTH' ) );
-			exit;
+		// probably a spoofing attack
+		if (!JUtility::spoofCheck()) {
+			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
+			return false;
 		}
 
 		/*
