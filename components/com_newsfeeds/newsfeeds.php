@@ -201,7 +201,7 @@ class NewsfeedsController
 		$db->setQuery( $query );
 		$category = $db->loadObject();
 
-		// Check if the category is published or if access level allows access
+		// Check if the category is published and if access level allows access
 		if (!$category->name) {
 			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			return;

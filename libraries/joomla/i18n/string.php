@@ -379,7 +379,7 @@ class JString
 	 * @see http://www.php.net/ucwords
 	*/
 	function ucwords($str) {
-		jimport('phputf8.native.utf8_ucwords');
+		jimport('phputf8.ucwords');
 		return utf8_ucwords($str);
 	}
 
