@@ -401,10 +401,10 @@ function mosShowHFMenu(& $params, $style = 0)
 function ItemidContained($link, $Itemid)
 {
 	$link = str_replace('&amp;', '&', $link);
-	$temp = split("&", $link);
+	$temp = explode("&", $link);
 	$linkItemid = "";
 	foreach ($temp as $value) {
-		$temp2 = split("=", $value);
+		$temp2 = explode("=", $value);
 		if ($temp2[0] == "Itemid") {
 			$linkItemid = $temp2[1];
 			break;

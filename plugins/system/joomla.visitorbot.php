@@ -93,7 +93,7 @@ function botDetectVisitor()
 	$db->query();
 
 	// tease out the last element of the domain
-	$tldomain = split( "\.", $domain );
+	$tldomain = explode( "\.", $domain );
 	$tldomain = $tldomain[count( $tldomain )-1];
 
 	if (is_numeric( $tldomain )) {

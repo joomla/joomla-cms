@@ -1259,7 +1259,7 @@ class JInstallerHelper
 	{
 		if (is_string($url))
 		{
-			$parts = split('/', $url);
+			$parts = explode('/', $url);
 			return $parts[count($parts) - 1];
 		}
 		return false;

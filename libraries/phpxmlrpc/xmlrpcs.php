@@ -757,7 +757,7 @@
 					// here we should check if we can match the client-requested encoding
 					// with the encodings we know we can generate.
 					/// @todo we should parse q=0.x preferences instead of getting first charset specified...
-					$client_accepted_charsets = split(',', strtoupper($_SERVER['HTTP_ACCEPT_CHARSET']));
+					$client_accepted_charsets = explode(',', strtoupper($_SERVER['HTTP_ACCEPT_CHARSET']));
 					// Give preference to internal encoding
 					$known_charsets = array($this->internal_encoding, 'UTF-8', 'ISO-8859-1', 'US-ASCII');
 					foreach ($known_charsets as $charset)

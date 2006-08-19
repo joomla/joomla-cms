@@ -170,7 +170,7 @@ class JMenuHelper extends JObject {
 					if ( $params->get( 'unique_itemid' ) ) {
 						$row->link .= '&Itemid='. $row->id;
 					} else {
-						$temp = split( '&task=view&id=', $row->link);
+						$temp = explode( '&task=view&id=', $row->link);
 						require_once( JPATH_SITE . '/components/com_content/content.helper.php' );
 						$row->link .= '&Itemid='. JContentHelper::getItemid($temp[1], 0, 0);
 					}

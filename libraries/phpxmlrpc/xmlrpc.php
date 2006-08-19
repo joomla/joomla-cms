@@ -2129,7 +2129,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					}
 				}
 				// be tolerant to line endings, and extra empty lines
-				$ar = split("\r?\n", trim(substr($data, 0, $pos)));
+				$ar = explode("\r?\n", trim(substr($data, 0, $pos)));
 				while(list(,$line) = @each($ar))
 				{
 					// take care of multi-line headers and cookies
@@ -3707,7 +3707,7 @@ function is_valid_charset($encoding, $validlist)
                          'EUC-JP', 'EUC-', 'EUC-KR', 'EUC-CN')
 	);
 	if (is_string($validlist))
-		$validlist = split(',', $validlist);
+		$validlist = explode(',', $validlist);
 	if (@in_array(strtoupper($encoding), $validlist))
 		return true;
 	else

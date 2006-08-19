@@ -78,7 +78,7 @@ function xs_is_accepted_file_type($file_name) {
 		$ext = strtolower(substr($file_name, $pos + 1));
 	}
 
-	$accepted_file_types = split(" ", strtolower(XS_ACCEPTED_FILE_TYPES));
+	$accepted_file_types = explode(" ", strtolower(XS_ACCEPTED_FILE_TYPES));
 	foreach ($accepted_file_types as $accepted_file_type) {
 		if ($accepted_file_type == $ext or $accepted_file_type == "*") {
 			return true;
@@ -125,8 +125,8 @@ if (isset($_SERVER["HTTP_X_CMS_LIBRARY_PATH"])) {
 }
 
 
-$hidden_folders = split(",", XS_HIDDEN_FOLDERS);
-$hidden_files = split(",", XS_HIDDEN_FILES);
+$hidden_folders = explode(",", XS_HIDDEN_FOLDERS);
+$hidden_files = explode(",", XS_HIDDEN_FILES);
 
 
 
