@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Aug-2006 Andrew Eddie
+ + Added new sort and filter options to admin/mod_latest
+
 18-Aug-2006 David Gal
  + Added cpanel module sliders in admin. Needs re-install for db changes to apply 
 
