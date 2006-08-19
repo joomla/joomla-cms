@@ -405,44 +405,4 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 	return $url;
 }
 
-/**
-* Prepares results from search for display
-*
-* @package Joomla.Framework
-* @param string The source string
-* @param int Number of chars to trim
-* @param string The searchword to select around
-* @return string
-* @since 1.5
-*/
-function mosPrepareSearchContent( $text, $length=200, $searchword ) {
-	// strips tags won't remove the actual jscript
-	$text = preg_replace( "'<script[^>]*>.*?</script>'si", "", $text );
-	$text = preg_replace( '/{.+?}/', '', $text);
-	//$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text );
-	// replace line breaking tags with whitespace
-	$text = preg_replace( "'<(br[^/>]*?/|hr[^/>]*?/|/(div|h[1-6]|li|p|td))>'si", ' ', $text );
-
-	return mosSmartSubstr( strip_tags( $text ), $length, $searchword );
-}
-
-/**
-* returns substring of characters around a searchword
-*
-* @package Joomla.Framework
-* @param string The source string
-* @param int Number of chars to return
-* @param string The searchword to select around
-* @return string
-* @since 1.0
-*/
-function mosSmartSubstr($text, $length=200, $searchword) {
-  $wordpos = JString::strpos(JString::strtolower($text), JString::strtolower($searchword));
-  $halfside = intval($wordpos - $length/2 - JString::strlen($searchword));
-  if ($wordpos && $halfside > 0) {
-	return '...' . JString::substr($text, $halfside, $length) . '...';
-  } else {
-	return JString::substr( $text, 0, $length);
-  }
-}
 ?>

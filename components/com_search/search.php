@@ -15,170 +15,177 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'front_html' ) );
+$pathway =& $mainframe->getPathWay();
+$pathway->setItemName(1, JText::_( 'Search' ) );
 
-$breadcrumbs =& $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, JText::_( 'Search' ) );
+// First thing we want to do is set the page title
+$mainframe->setPageTitle(JText::_('Search'));
 
-switch ( $task ) {
+/*
+ * This is our main control structure for the component
+ *
+ * Each view is determined by the $task variable
+ */
+switch ( JRequest::getVar( 'task' ) ) 
+{
 	default:
-		viewSearch();
+		SearchController::display();
 		break;
 }
 
-function viewSearch() 
+/**
+ * Static class to hold controller functions for the Search component
+ *
+ * @static
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @subpackage	Search
+ * @since		1.5
+ */
+class SearchController
 {
-	global $mainframe;
+	function display() 
+	{
+		global $mainframe, $Itemid;
 	
-	$db 	=& JFactory::getDBO();
-	$lang 	=& JFactory::getLanguage();
+		// Initialize some variables
+		$db 	=& JFactory::getDBO();
 
-	$restriction = 0;
-	$ignored 	 = 0;
-	
-	$list_limit = $mainframe->getCfg( 'list_limit' );
-	$Itemid = JRequest::getVar( 'Itemid' );
-
-	// try to find search component's Itemid
-	$query = "SELECT id"
-		. "\n FROM #__menu"
-		. "\n WHERE type = 'components'"
-		. "\n AND published = 1"
-		. "\n AND link = 'index.php?option=com_search'"
-		;
-	$db->setQuery( $query );
-	$_Itemid = $db->loadResult();
-
-	if ($_Itemid != '') {
-		$Itemid = $_Itemid;
-	}
-
-	// Adds parameter handling
-	if( $Itemid > 0 && $Itemid != 99999999 ) {
-		$menu =& JTable::getInstance('menu', $db );
-		$menu->load( $Itemid );
-		$params = new JParameter( $menu->params );
+		$error = '';
+		$rows  = null;
+		
+		// Get some request variables
+		$searchword 	= JRequest::getVar( 'searchword' );
+		$phrase 		= JRequest::getVar( 'searchphrase' );
+		$searchphrase 	= JRequest::getVar( 'searchphrase', 'any' );
+		$ordering 		= JRequest::getVar( 'ordering', 'newest' );
+		$areas 			= JRequest::getVar( 'areas' );
+		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
+		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
+		
+		// Get the paramaters of the active menu item
+		$menus   =& JMenu::getInstance();
+		$menu    = $menus->getItem($Itemid);
+		$params  =& $menus->getParams($Itemid);
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	} else {
-		$params = new JParameter('');
-		$params->def( 'page_title', 1 );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'header', JText::_( 'Search' ) );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	}
+	
+		// built select lists
+		$orders = array();
+		$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
+		$orders[] = mosHTML::makeOption( 'oldest', JText::_( 'Oldest first' ) );
+		$orders[] = mosHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
+		$orders[] = mosHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
+		$orders[] = mosHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
+		$ordering = JRequest::getVar( 'ordering', 'newest');
+		$lists = array();
+		$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
-	// html output
-	search_html::openhtml( $params );
+		$searchphrases 		= array();
+		$searchphrases[] 	= mosHTML::makeOption( 'any', JText::_( 'Any words' ) );
+		$searchphrases[] 	= mosHTML::makeOption( 'all', JText::_( 'All words' ) );
+		$searchphrases[] 	= mosHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
+		$lists['searchphrase' ]= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
-	$searchword = JRequest::getVar( 'searchword' );
-	$searchword = $db->getEscaped( trim( $searchword ) );
+		JPluginHelper::importPlugin( 'search' );
+		$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
+		
+		// log the search
+		SearchController::logSearch( $searchword );
 
-	// limit searchword to 20 characters
-	if ( JString::strlen( $searchword ) > 20 ) {
-		$searchword 	= JString::substr( $searchword, 0, 19 );
-		$restriction 	= 1;
-	}
-
-	// searchword must contain a minimum of 3 characters
-	if ( $searchword && JString::strlen( $searchword ) < 3 ) {
-		$searchword 	= '';
-		$restriction 	= 1;
-	}
-
-	$search_ignore = array();
-	$tag = $lang->getTag();
-	@include $lang->getLanguagePath().$tag.DS.$tag.'.ignore.php' ;
-
-
-	$orders = array();
-	$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
-	$orders[] = mosHTML::makeOption( 'oldest', JText::_( 'Oldest first' ) );
-	$orders[] = mosHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
-	$orders[] = mosHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
-	$orders[] = mosHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
-	$ordering = JRequest::getVar( 'ordering', 'newest');
-	$lists = array();
-	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
-
-	$searchphrase 		= JRequest::getVar( 'searchphrase', 'any' );
-
-	$searchphrases 		= array();
-	$searchphrases[] 	= mosHTML::makeOption( 'any', JText::_( 'Any words' ) );
-	$searchphrases[] 	= mosHTML::makeOption( 'all', JText::_( 'All words' ) );
-	$searchphrases[] 	= mosHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
-
-	$lists['searchphrase' ]= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
-
-	JPluginHelper::importPlugin( 'search' );
-	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
-	$areas 			= JRequest::getVar( 'areas' );
-
-	// html output
-	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
-
-	// meta pagetitle
-	$mainframe->setPageTitle( JText::_( 'Search' ) );
-
-	/*
-	 * check for words to ignore
-	 */
-	$aterms = explode( ' ', JString::strtolower( $searchword ) );
-
-	// first case is single ignored word
-	if ( count( $aterms ) == 1 && in_array( JString::strtolower( $searchword ), $search_ignore ) ) {
-		$ignored = 1;
-	}
-	// next is to remove ignored words from type 'all' searches with multiple words
-	if ( count( $aterms ) > 1 && $searchphrase == 'any' ) {
-		$pruned = array_diff( $aterms, $search_ignore );
-		$searchword = implode( ' ', $pruned );
-	}
-
-
-	if (!$searchword) {
-		if ( count( $_POST ) ) {
-			// html output
-			// no matches found
-			search_html::emptyContainer( JText::_( 'No results were found' ) );
-		} else if ( $restriction ) {
-				// html output
-				search_html::emptyContainer( JText::_( 'SEARCH_MESSAGE' ) );
+		//limit searchword
+		if(SearchController::limitSearchWord($searchword)) {
+			$error = JText::_( 'SEARCH_MESSAGE' );
 		}
-	} else if ( $ignored ) {
-		// html output
-		search_html::emptyContainer( JText::_( 'IGNOREKEYWORD' ) );
-	} else {
-		// html output
-
-		if ( $restriction ) {
-			// html output
-			search_html::emptyContainer( JText::_( 'SEARCH_MESSAGE' ) );
+		
+		//sanatise searchword
+		if(SearchController::santiseSearchWord($searchword)) {
+			$error = JText::_( 'IGNOREKEYWORD' );
 		}
+		
+		if (!$searchword && count( $_POST ) ) {
+			$error = JText::_( 'No results were found' ); 
+		} 
+		
+		if(!$error) {
+			$rows  = SearchController::getResults($searchword, $phrase, $ordering, $areas);
+			$total = count($rows);
+			$rows  = array_splice($rows, $limitstart, $limit);
+		}
+		 
+		//compile request array
+		$request = new stdClass();
+		$request->areas      = $areas;
+		$request->searchword = $searchword;
+		$request->limitstart = $limitstart;
+		$request->limit      = $limit;
+		
+		$data = new stdClass();
+		$data->error = $error;
+		$data->rows  = $rows;
+		$data->total = $total;
+		
+		require_once (dirname(__FILE__).DS.'views'.DS.'search'.DS.'search.php');
 
-		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );
+		$view = new SearchViewSearch();
+		$view->set('lists'   , $lists);
+		$view->set('params'  , $params);
+		$view->set('request' , $request);
+		$view->set('data'    , $data);
+		$view->display();
+	}
+	
+	function logSearch( $search_term ) 
+	{
+		global $mainframe;
+		
+		$db =& JFactory::getDBO();
 
-		search_html::searchintro( $searchword_clean, $params );
+		$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
+		
+		$search_term = $db->getEscaped( trim( $search_term) );
 
-		logSearch( $searchword );
-
-		$phrase 	= JRequest::getVar( 'searchphrase' );
-		$ordering 	= JRequest::getVar( 'ordering' );
-
+		if ( @$enable_log_searches ) 
+		{
+			$db = JFactory::getDBO();
+			$query = "SELECT hits"
+			. "\n FROM #__core_log_searches"
+			. "\n WHERE LOWER( search_term ) = '$search_term'"
+			;
+			$db->setQuery( $query );
+			$hits = intval( $db->loadResult() );
+			if ( $hits ) {
+				$query = "UPDATE #__core_log_searches"
+				. "\n SET hits = ( hits + 1 )"
+				. "\n WHERE LOWER( search_term ) = '$search_term'"
+				;
+				$db->setQuery( $query );
+				$db->query();
+			} else {
+				$query = "INSERT INTO #__core_log_searches VALUES ( '$search_term', 1 )";
+				$db->setQuery( $query );
+				$db->query();
+			}
+		}
+	}
+	
+	function getResults($searchword, $phrase, $ordering, $areas)
+	{
+		global $mainframe;
+		
 		$results 	= $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering, $areas ) );
-		$totalRows 	= 0;
-
+		
 		$rows = array();
 		for ($i = 0, $n = count( $results); $i < $n; $i++) {
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
 
 		require_once (JApplicationHelper::getPath('helper', 'com_content'));
-		$totalRows = count( $rows );
+		$total = count( $rows );
 
-		for ($i=0; $i < $totalRows; $i++) {
+		for ($i=0; $i < $total; $i++) 
+		{
 			$row = &$rows[$i]->text;
 			if ($phrase == 'exact') {
 				$searchwords = array($searchword);
@@ -188,14 +195,16 @@ function viewSearch()
 				$needle = $searchwords[0];
 			}
 
-			$row = mosPrepareSearchContent( $row, 200, $needle );
+			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php' );
+			$row = SearchHelper::prepareSearchContent( $row, 200, $needle );
 
 		  	foreach ($searchwords as $hlword) {
 				$hlword = htmlspecialchars( stripslashes( $hlword ) );
 				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );
 			}
 
-			if ( strpos( $rows[$i]->href, 'http' ) == false ) {
+			if ( strpos( $rows[$i]->href, 'http' ) == false ) 
+			{
 				$url = parse_url( $rows[$i]->href );
 				if( !empty( $url['query'] ) ) {
 					$link = null;
@@ -214,57 +223,54 @@ function viewSearch()
 				}
 			}
 		}
-
-		$total 		= $totalRows;
-		$limit		= JRequest::getVar( 'limit', $list_limit, 'get', 'int' );
-		$limitstart = JRequest::getVar( 'limitstart', 0, 'get', 'int' );
-		jimport('joomla.presentation.pagination');
-		$page = new JPagination( $total, $limitstart, $limit );
-
-		// prepares searchword for proper display in url
-//		$searchword_clean = urlencode(stripslashes($searchword_clean));
-		$searchword_clean = stripslashes($searchword_clean);
-
-		if ( $n ) {
-		// html output
-			search_html::display( $rows, $params, $page, $limitstart, $limit, $total, $totalRows, $searchword_clean );
-		} else {
-		// html output
-			search_html::displaynoresult();
-		}
-
-		// html output
-		search_html::conclusion( $searchword_clean, $page );
+		
+		return $rows;
 	}
-}
+	
+	function santiseSearchWord(&$searchword)
+	{
+		$ignored = false;
+		
+		$lang =& JFactory::getLanguage();
 
-function logSearch( $search_term ) 
-{
-	global $mainframe;
+		$search_ignore = array();
+		$tag           = $lang->getTag();
+		@include $lang->getLanguagePath().$tag.DS.$tag.'.ignore.php' ;
 
-	$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
+	 	// check for words to ignore
+		$aterms = explode( ' ', JString::strtolower( $searchword ) );
 
-	if ( @$enable_log_searches ) {
-		$db = JFactory::getDBO();
-		$query = "SELECT hits"
-		. "\n FROM #__core_log_searches"
-		. "\n WHERE LOWER( search_term ) = '$search_term'"
-		;
-		$db->setQuery( $query );
-		$hits = intval( $db->loadResult() );
-		if ( $hits ) {
-			$query = "UPDATE #__core_log_searches"
-			. "\n SET hits = ( hits + 1 )"
-			. "\n WHERE LOWER( search_term ) = '$search_term'"
-			;
-			$db->setQuery( $query );
-			$db->query();
-		} else {
-			$query = "INSERT INTO #__core_log_searches VALUES ( '$search_term', 1 )"
-			;
-			$db->setQuery( $query );
-			$db->query();
+		// first case is single ignored word
+		if ( count( $aterms ) == 1 && in_array( JString::strtolower( $searchword ), $search_ignore ) ) {
+			$ignored = true;
 		}
+		
+		// next is to remove ignored words from type 'all' searches with multiple words
+		if ( count( $aterms ) > 1 && $searchphrase == 'any' ) {
+			$pruned = array_diff( $aterms, $search_ignore );
+			$searchword = implode( ' ', $pruned );
+		}
+		
+		return $ignored;
+	}
+	
+	function limitSearchWord(&$searchword) 
+	{
+		$restriction = false;
+		
+		// limit searchword to 20 characters
+		if ( JString::strlen( $searchword ) > 20 ) {
+			$searchword 	= JString::substr( $searchword, 0, 19 );
+			$restriction 	= true;
+		}
+
+		// searchword must contain a minimum of 3 characters
+		if ( $searchword && JString::strlen( $searchword ) < 3 ) {
+			$searchword 	= '';
+			$restriction 	= true;
+		}
+		
+		return $restriction;
 	}
 }
 ?>
