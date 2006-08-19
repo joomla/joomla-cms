@@ -37,7 +37,7 @@ switch ($params->get( 'user_id' ))
 switch ($params->get( 'ordering' ))
 {
 	case 'm_dsc':
-		$ordering		= 'modified DESC';
+		$ordering		= 'modified DESC, created DESC';
 		$dateProperty	= 'modified';
 		break;
 	case 'c_dsc':
