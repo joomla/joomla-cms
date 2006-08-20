@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  * for each given modChrome function.
  * 
  * eg.  To render a module mod_test in the sliders style, you would use the following include:
- * <jdoc:include type="module" name="test" style="sliders" />
+ * <jdoc:include type="module" name="test" style="slider" />
  * 
  * This gives template designers ultimate control over how modules are rendered.
  * 
@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Module chrome for rendering the module in a slider
  */
-function modChrome_sliders($module, & $params)
+function modChrome_slider($module, & $params)
 {
 	jimport('joomla.presentation.pane');
 	// Initialize variables

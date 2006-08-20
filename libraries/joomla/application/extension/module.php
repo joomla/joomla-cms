@@ -114,27 +114,29 @@ class JModuleHelper
 		}
 
 		// Select the module chrome function
-		switch ( $style )
-		{
-			case -3:
-				$style = 'rounded';
-				break;
-
-			case -2:
-				$style = 'xhtml';
-				break;
-
-			case -1:
-				$style = 'raw';
-				break;
-
-			case 1:
-				$style = 'horiz';
-				break;
-
-			case 0:
-				$style = 'table';
-				break;
+		if (is_numeric($style)) {
+			switch ( $style )
+			{
+				case -3:
+					$style = 'rounded';
+					break;
+	
+				case -2:
+					$style = 'xhtml';
+					break;
+	
+				case -1:
+					$style = 'raw';
+					break;
+	
+				case 1:
+					$style = 'horiz';
+					break;
+	
+				case 0:
+					$style = 'table';
+					break;
+			}
 		}
 		$chromeMethod = 'modChrome_'.$style;
 

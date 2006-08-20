@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Aug-2006 Louis
+ + Added ability for template designers to add template specific module chrome to a rendered module
+
 19-Aug-2006 Andrew Eddie
  + Added new sort and filter options to admin/mod_latest
 

@@ -1,15 +1,66 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Legacy
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version $Id$
+ * @package Joomla.Legacy
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+
+/**
+ * Legacy function, use <jdoc:exists type="modules" condition="{POSITION}" /> instead
+ * 
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosCountModules( $position='left' ) {
+	jimport('joomla.application.extension.module');
+	return count(JModuleHelper::getModules($position));
+}
+
+/**
+ * Legacy function, use <jdoc:include type="component" /> instead
+ * 
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosMainBody() {
+	?><jdoc:include type="component" /><?php
+}
+
+/**
+ * Legacy function, use <jdoc:include type="modules" /> instead
+ * 
+ * @deprecated		As of version 1.5
+ * @package			Joomla.Legacy
+ */
+function mosLoadModules( $position='left', $style=0 ) {
+	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>"/><?php
+}
+
+/**
+ * Legacy function, use <jdoc:include type="module" /> instead
+ * 
+ * @deprecated		As of version 1.5
+ * @package			Joomla.Legacy
+ */
+function mosLoadModule( $name, $style=-1 ) {
+	?><jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" /><?php
+}
+
+/**
+ * Legacy function, use <jdoc:include type="head" /> instead
+ * 
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosShowHead() {
+	?><jdoc:include type="head" /><?php
+}
 
 /**
  * Legacy function, always use JRequest::getVar

@@ -80,17 +80,13 @@ class JConfigGlobalController extends JController
 		$menuitems = array_merge($menuitems, $db->loadObjectList());
 
 		// SITE SETTINGS
-
 		$lists['offline'] = mosHTML::yesnoRadioList('offline', 'class="inputbox"', $row->offline);
-
 		if (!$row->editor) {
 			$row->editor = '';
 		}
 		// build the html select list
 		$lists['editor'] 		= mosHTML::selectList($edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
-
 		$listLimit 				= array (mosHTML::makeOption(5, 5), mosHTML::makeOption(10, 10), mosHTML::makeOption(15, 15), mosHTML::makeOption(20, 20), mosHTML::makeOption(25, 25), mosHTML::makeOption(30, 30), mosHTML::makeOption(50, 50), mosHTML::makeOption(100, 100),);
-
 		$lists['list_limit'] 	= mosHTML::selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
 		jimport('joomla.i18n.help');
@@ -100,7 +96,6 @@ class JConfigGlobalController extends JController
 		$lists['helpsites'] 	= mosHTML::selectList($helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
 
 		// DEBUG
-
 		$lists['debug'] 		= mosHTML::yesnoRadioList('debug', 'class="inputbox"', $row->debug);
 		$lists['debug_db'] 		= mosHTML::yesnoRadioList('debug_db', 'class="inputbox"', $row->debug_db);
 		$lists['debug_lang'] 	= mosHTML::yesnoRadioList('debug_lang', 'class="inputbox"', $row->debug_lang);
@@ -108,20 +103,14 @@ class JConfigGlobalController extends JController
 		// DATABASE SETTINGS
 
 		// SERVER SETTINGS
-
 		$lists['gzip'] 			= mosHTML::yesnoRadioList('gzip', 'class="inputbox"', $row->gzip);
-
 		$errors 				= array (mosHTML::makeOption(-1, JText::_('System Default')), mosHTML::makeOption(0, JText::_('None')), mosHTML::makeOption(E_ERROR | E_WARNING | E_PARSE, JText::_('Simple')), mosHTML::makeOption(E_ALL, JText::_('Maximum')));
-
 		$lists['xmlrpc_server'] = mosHTML::yesnoRadioList('xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
-
 		$lists['error_reporting'] = mosHTML::selectList($errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
-
 		$lists['enable_ftp'] 	= mosHTML::yesnoRadioList('ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
-
+		$lists['legacy']		= mosHTML::yesnoRadioList('legacy', 'class="inputbox"', $row->legacy);
 
 		// LOCALE SETTINGS
-
 		$timeoffset = array (	mosHTML::makeOption(-12, JText::_('(UTC -12:00) International Date Line West')),
 								mosHTML::makeOption(-11, JText::_('(UTC -11:00) Midway Island, Samoa')),
 								mosHTML::makeOption(-10, JText::_('(UTC -10:00) Hawaii')),
@@ -161,34 +150,23 @@ class JConfigGlobalController extends JController
 								mosHTML::makeOption(12.75, JText::_('(UTC +12:45) Chatham Island')),
 								mosHTML::makeOption(13, JText::_('(UTC +13:00) Tonga')),
 								mosHTML::makeOption(14, JText::_('(UTC +14:00) Kiribati')),);
-
 		$lists['offset'] 		= mosHTML::selectList($timeoffset, 'offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->offset_user);
 
 		// MAIL SETTINGS
-
 		$mailer 				= array (mosHTML::makeOption('mail', JText::_('PHP mail function')), mosHTML::makeOption('sendmail', JText::_('Sendmail')), mosHTML::makeOption('smtp', JText::_('SMTP Server')));
 		$lists['mailer'] 		= mosHTML::selectList($mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
-
 		$lists['smtpauth'] 		= mosHTML::yesnoRadioList('smtpauth', 'class="inputbox"', $row->smtpauth);
 
 		// CACHE SETTINGS
-
 		$lists['caching'] 		= mosHTML::yesnoRadioList('caching', 'class="inputbox"', $row->caching);
-
 		$lists['caching_tmpl'] 		= mosHTML::yesnoRadioList('caching_tmpl', 'class="inputbox"', $row->caching_tmpl);
-
 		$lists['caching_page'] 		= mosHTML::yesnoRadioList('caching_page', 'class="inputbox"', $row->caching_page);
 
 		// USER SETTINGS
-
 		$lists['allowUserRegistration'] = mosHTML::yesnoRadioList('allowUserRegistration', 'class="inputbox"', $row->allowUserRegistration);
-
 		$lists['useractivation'] 		= mosHTML::yesnoRadioList('useractivation', 'class="inputbox"', $row->useractivation);
-
 		$lists['shownoauth'] 			= mosHTML::yesnoRadioList('shownoauth', 'class="inputbox"', $row->shownoauth);
-
 		$lists['frontend_userparams'] 	= mosHTML::yesnoRadioList('frontend_userparams', 'class="inputbox"', $row->frontend_userparams);
-
 		$new_usertype = array (
 			mosHTML::makeOption('Registered', 	JText::_('Registered')),
 			mosHTML::makeOption('Author', 		JText::_('Author')),
@@ -198,63 +176,42 @@ class JConfigGlobalController extends JController
 		$lists['new_usertype']			= mosHTML::selectList($new_usertype, 'new_usertype', 'class="inputbox" size="1"', 'value', 'text', $row->new_usertype);
 
 		// META SETTINGS
-
 		$lists['MetaAuthor'] 	= mosHTML::yesnoRadioList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
-
 		$lists['MetaTitle'] 	= mosHTML::yesnoRadioList('MetaTitle', 'class="inputbox"', $row->MetaTitle);
 
 		// STATISTICS SETTINGS
-
 		$lists['log_searches'] 	= mosHTML::yesnoRadioList('enable_log_searches', 'class="inputbox"', $row->enable_log_searches);
-
 		$lists['enable_stats'] 	= mosHTML::yesnoRadioList('enable_stats', 'class="inputbox"', $row->enable_stats);
-
 		$lists['log_items'] 	= mosHTML::yesnoRadioList('enable_log_items', 'class="inputbox"', $row->enable_log_items);
 
 		// SEO SETTINGS
-
 		$lists['sef'] 			= mosHTML::yesnoRadioList('sef', 'class="inputbox" onclick="javascript: if (document.adminForm.sef[1].checked) { alert(\''.JText::_('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
 
 		// CONTENT SETTINGS
-
 		$lists['link_titles'] 	= mosHTML::yesnoRadioList('link_titles', 'class="inputbox"', $row->link_titles);
-
 		$lists['readmore'] 		= mosHTML::RadioList($show_hide_r, 'readmore', 'class="inputbox"', $row->readmore, 'value', 'text');
-
 		$lists['vote'] 			= mosHTML::RadioList($show_hide_r, 'vote', 'class="inputbox"', $row->vote, 'value', 'text');
-
 		$lists['hideAuthor'] 	= mosHTML::RadioList($show_hide, 'hideAuthor', 'class="inputbox"', $row->hideAuthor, 'value', 'text');
-
 		$lists['hideCreateDate'] = mosHTML::RadioList($show_hide, 'hideCreateDate', 'class="inputbox"', $row->hideCreateDate, 'value', 'text');
-
 		$lists['hideModifyDate'] = mosHTML::RadioList($show_hide, 'hideModifyDate', 'class="inputbox"', $row->hideModifyDate, 'value', 'text');
-
 		$lists['hits'] 			= mosHTML::RadioList($show_hide_r, 'hits', 'class="inputbox"', $row->hits, 'value', 'text');
-
 		if (is_writable(JPATH_SITE.DS.'tmp'.DS)) {
 			$lists['hidePdf'] = mosHTML::RadioList($show_hide, 'hidePdf', 'class="inputbox"', $row->hidePdf, 'value', 'text');
 		} else {
 			$lists['hidePdf'] = '<input type="hidden" name="hidePdf" value="1" /><strong>Hide</strong>';
 		}
-
 		$lists['hidePrint'] 	= mosHTML::RadioList($show_hide, 'hidePrint', 'class="inputbox"', $row->hidePrint, 'value', 'text');
-
 		$lists['hideEmail'] 	= mosHTML::RadioList($show_hide, 'hideEmail', 'class="inputbox"', $row->hideEmail, 'value', 'text');
-
 		$lists['icons'] 		= mosHTML::yesnoRadioList('icons', 'class="inputbox"', $row->icons, 'icons', 'text');
-
 		$lists['ml_support'] 	= mosHTML::yesnoRadioList('multilingual_support', 'class="inputbox" onclick="javascript: if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
 
 		// FEED SETTINGS
 		$formats  = array (mosHTML::makeOption('RSS2.0', JText::_('RSS')), mosHTML::makeOption('Atom', JText::_('Atom')));
 		$summary = array (mosHTML::makeOption(1, JText::_('Full Text')), mosHTML::makeOption(0, JText::_('Intro Text')),);
-
 		$lists['feed_limit']   = mosHTML::selectList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-
 		$lists['feed_excerpt'] = mosHTML::RadioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_excerpt);
 
 		// SHOW EDIT FORM
-
 		JConfigView::showConfig($row, $lists);
 	}
 
