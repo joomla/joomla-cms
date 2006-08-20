@@ -30,11 +30,11 @@ $menu  = $menus->getItem($Itemid);
 
 // Set some defaults for the menu item parameters
 $mParams->def('header', 				$menu->name );
-$mParams->def('back_button', 			$app->getCfg('back_button'));
-$mParams->def('print', 					!$app->getCfg('hidePrint'));
+$mParams->def('back_button', 			$mainframe->getCfg('back_button'));
+$mParams->def('print', 					!$mainframe->getCfg('hidePrint'));
 $mParams->def('email_description_text', JText::_('Send an Email to this Contact:'));
 // global print|pdf|email
-$mParams->def('icons', 					$app->getCfg('icons'));
+$mParams->def('icons', 					$mainframe->getCfg('icons'));
 
 	if ($contact->email_to && $mParams->get('email'))
 	{

@@ -15,9 +15,29 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+		// Initialize variables
+		$article	= & $this->get('Article');
+		$user		= & JFactory::getUser();
+		$params		= & $article->parameters;
+		$dispatcher	= & JEventDispatcher::getInstance();
+
+		// At some point in the future this will be in a request object
+		$page	= JRequest::getVar('limitstart', 0, '', 'int');
+		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
+		$type	= JRequest::getVar('format', 'html');
+
+		$linkOn   = null;
+		$linkText = null;
+
+		// Create a user access object for the current user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
+
 		// Process the content plugins
 		JPluginHelper::importPlugin('content');
-		$results = $mainframe->triggerEvent('onPrepareContent', array (& $article, & $params, $page));
+		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $page));
 
 		// Build the link and text of the readmore button
 		if ($params->get('readmore') || $params->get('link_titles')) {
@@ -132,7 +152,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php
 
 		// Fire the after display content event
-		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $article, & $params, $page));
+		$onAfterDisplayContent = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $page));
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays close button in pop-up window

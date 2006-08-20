@@ -60,33 +60,13 @@ class JContentViewArticle extends JView
 	 */
 	function displayHtml()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		// Initialize variables
-		$user = & JFactory::getUser();
-
-		$linkOn   = null;
-		$linkText = null;
-
-		// At some point in the future this will be in a request object
-		$page	= JRequest::getVar('limitstart', 0, '', 'int');
-		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
-		$type	= JRequest::getVar('format', 'html');
-		$Itemid	= JRequest::getVar('Itemid');
-
-		// Get the article from the model
-		$article	= & $this->get('Article');
-		$params		= & $article->parameters;
-
-		// Create a user access object for the current user
-		$access = new stdClass();
-		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
+		$article = & $this->get('Article');
 
 		// Handle BreadCrumbs
 		$breadcrumbs = & $mainframe->getPathWay();
-
 		if (!empty ($Itemid)) {
 			// Section
 			if (!empty ($article->section)) {
@@ -97,9 +77,9 @@ class JContentViewArticle extends JView
 				$breadcrumbs->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$article->sectionid.'&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
 			}
 		}
-
-		// Item
+		// Article
 		$breadcrumbs->addItem($article->title, '');
+
 		// Handle Page Title
 		$doc =& JFactory::getDocument();
 		$doc->setTitle($article->title);
@@ -116,14 +96,9 @@ class JContentViewArticle extends JView
 		$cParams = &JSiteHelper::getControlParams();
 		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'article' ) );
 		$template = preg_replace( '#\W#', '', $template );
-		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
+		$this->setTemplatePath(dirname(__FILE__).'/tmpl');
 
-		if (!file_exists( $tmplPath ))
-		{
-			$tmplPath = dirname( __FILE__ ) . '/tmpl/article.php';
-		}
-
-		require($tmplPath);
+		$this->_loadTemplate($template);
 	}
 
 	function edit()

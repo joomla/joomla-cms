@@ -41,7 +41,7 @@ $mParams->def('email', 				1);
 $mParams->def('telephone', 			1);
 $mParams->def('fax', 				1);
 $mParams->def('page_title',			1);
-$mParams->def('back_button', 		$app->getCfg('back_button'));
+$mParams->def('back_button', 		$mainframe->getCfg('back_button'));
 $mParams->def('description_text', 	JText::_('The Contact list for this Website.'));
 $mParams->def('image_align', 		'right');
 

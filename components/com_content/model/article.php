@@ -347,9 +347,9 @@ class JContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-			return true;
+			return (boolean) $this->_article;
 		}
-		return false;
+		return true;
 	}
 
 	/**

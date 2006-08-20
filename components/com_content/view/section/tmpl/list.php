@@ -31,7 +31,7 @@ $mParams =& $menus->getParams($Itemid);
 	$mParams->def('empty_cat', 			0);
 	$mParams->def('cat_items', 			1);
 	$mParams->def('cat_description', 	1);
-	$mParams->def('back_button', 		$app->getCfg('back_button'));
+	$mParams->def('back_button', 		$mainframe->getCfg('back_button'));
 	$mParams->def('pageclass_sfx', 		'');
 
 	$total = count($categories);
