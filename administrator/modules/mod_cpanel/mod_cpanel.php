@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_cpanel.php 4394 2006-08-05 03:03:55Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
