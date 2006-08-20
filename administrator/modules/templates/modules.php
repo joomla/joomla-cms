@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * show a naked module - no wrapper and no title
  */
-function modChrome_naked($module, & $params)
+function modChrome_raw($module, & $params)
 {
 	echo $module->content;
 }
