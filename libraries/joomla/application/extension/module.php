@@ -74,29 +74,29 @@ class JModuleHelper
 	{
 		global $mainframe, $Itemid, $task, $option;
 
+		// Initialize variables
 		$user 		=& JFactory::getUser();
 		$db	 	    =& JFactory::getDBO();
 		$acl  		=& JFactory::getACL();
+		$style		= isset($params['style']) ? $params['style'] : $module->style;
+		$outline	= isset($params['outline']) ? $params['outline'] : false;
 
-		//For backwards compatibility extract the config vars as globals
+		// For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();
-		foreach (get_object_vars($registry->toObject()) as $k => $v) {
+		foreach (get_object_vars($registry->toObject()) as $k => $v)
+		{
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
 
-		$style   = isset($params['style']) ? $params['style'] : $module->style;
-		$outline = isset($params['outline']) ? $params['outline'] : false;
-
-		//get module parameters
+		// Get module parameters
 		$params = new JParameter( $module->params );
 
-		//get module path
-		$path = JPATH_BASE . '/modules/'.$module->module.'/'.$module->module.'.php';
+		// Get module path
+		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
-		//load the module
-		if (!$module->user && file_exists( $path ))
-		{
+		// Load the module
+		if (!$module->user && file_exists( $path )) {
 			$lang =& JFActory::getLanguage();
 			$lang->load($module->module);
 
@@ -106,11 +106,66 @@ class JModuleHelper
 			ob_end_clean();
 		}
 
-		$contents = '';
+		// Load the module chrome functions
+		require_once (JPATH_BASE.'/modules/templates/modules.php');
+		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/modules.php';
+		if (file_exists($chromePath)) {
+			require_once ($chromePath);
+		}
+
+		// Select the module chrome function
+		switch ( $style )
+		{
+			case -3:
+				$style = 'rounded';
+				break;
+
+			case -2:
+				$style = 'xhtml';
+				break;
+
+			case -1:
+				$style = 'raw';
+				break;
+
+			case 1:
+				$style = 'horiz';
+				break;
+
+			case 0:
+				$style = 'table';
+				break;
+		}
+		$chromeMethod = 'modChrome_'.$style;
+
+		// Handle template preview outlining
+		$contents = null;
+		if($outline && !$mainframe->isAdmin()) {
+			$doc =& JFactory::getDocument();
+			$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
+			$css .= ".mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
+			$doc->addStyleDeclaration($css);
+
+			$contents .= "
+			<div class=\"mod-preview\">
+			<div class=\"mod-preview-info\">".$module->position."[".$style."]</div>
+			<div class=\"mod-preview-wrapper\">";
+		}
+
+		// Apply chrome and render module
 		ob_start();
-			modules_html::module( $module, $params, $style, $outline);
-		$contents = ob_get_contents();
+			if (!function_exists($chromeMethod)) {
+				echo $module->content;
+			} else {
+				$chromeMethod($module, $params);
+			}
+		$contents .= ob_get_contents();
 		ob_end_clean();
+
+		// Close template preview outlining if enabled
+		if($outline && !$mainframe->isAdmin()) {
+			$contents .= "</div></div>";
+		}
 
 		return $contents;
 	}

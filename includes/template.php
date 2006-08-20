@@ -13,8 +13,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_BASE . '/includes/template.html.php' );
-
 /**
  * Get the number of modules loaded for a particular template position
  *
