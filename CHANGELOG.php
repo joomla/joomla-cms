@@ -41,9 +41,8 @@ Legend:
  + JError:isError will also recongnise PHP 5 Exception objects as errors
  ^ JDatabase __construct sets human readable error message
  ^ JCache::setCaching now returns the old value before it was set with the new value
- 
-=======
-19-Aug-2006 Louis
+
+19-Aug-2006 Louis Landry
  + Added ability for template designers to add template specific module chrome to a rendered module
 
 19-Aug-2006 Andrew Eddie
