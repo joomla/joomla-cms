@@ -38,14 +38,17 @@ class JDatabaseMySQLi extends JDatabase
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysqli_connect' )) {
 			$this->_errorNum = 1;
+			$this->_errorMsg = 'The MySQL adapter "mysqli" is not available.';
 			return;
 		}
 		if (!($this->_resource = @mysqli_connect( $host, $user, $pass ))) {
 			$this->_errorNum = 2;
+			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
 		}
 		if ($db != '' && !mysqli_select_db($this->_resource, $db)) {
 			$this->_errorNum = 3;
+			$this->_errorMsg = 'Could not connect to database';
 			return;
 		}
 

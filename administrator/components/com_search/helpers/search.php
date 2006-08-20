@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: banner.php 4467 2006-08-11 17:07:32Z Jinx $
+ * @version $Id$
  * @package  Joomla
  * @subpackage Search
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights

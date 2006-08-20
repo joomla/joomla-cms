@@ -38,21 +38,25 @@ class JDatabaseMySQL extends JDatabase
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysql_connect' )) {
 			$this->_errorNum = 1;
+			$this->_errorMsg = 'The MySQL adapter "mysqli" is not available.';
 			return;
 		}
 		if (phpversion() < '4.2.0') {
 			if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) {
 				$this->_errorNum = 2;
+				$this->_errorMsg = 'Could not connect to MySQL';
 				return;
 			}
 		} else {
 			if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) { // true forces a new connection even if the same username and password
 				$this->_errorNum = 2;
+				$this->_errorMsg = 'Could not connect to MySQL';
 				return;
 			}
 		}
 		if ($db != '' && !mysql_select_db( $db, $this->_resource )) {
 			$this->_errorNum = 3;
+			$this->_errorMsg = 'Could not connect to database';
 			return;
 		}
 

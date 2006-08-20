@@ -101,10 +101,13 @@ class JCache extends Cache_Lite
     * Enable/disbale caching
     *
     * @access public
-    * @param boolean $enable If true enable caching.
+    * @param	boolean	$enable If true enable caching.
+    * @return	boolean The current setting (allows for a temporal change of the setting)
     */
 	function setCaching($enable = false)  {
+		$oldValue = $this->_caching;
 		$this->_caching = $enable;
+		return $oldValue;
 	}
 
 	/**
