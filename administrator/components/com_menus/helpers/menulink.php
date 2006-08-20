@@ -35,10 +35,10 @@ class JMenuHelperMenulink extends JWizardHelper
 	 */
 	function init(&$wizard)
 	{
+		global $mainframe;
 		parent::init( $wizard );
-		$app =& $this->_parent->getApplication();
-		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$this->_wizard->_registry->set('menu_type', $app->getUserStateFromRequest('menuwizard.menulink.menu', 'menu'));
+		$this->_type = $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$this->_wizard->_registry->set('menu_type', $mainframe->getUserStateFromRequest('menuwizard.menulink.menu', 'menu'));
 	}
 
 	/**

@@ -40,9 +40,9 @@ class JMenuHelperComponent extends JWizardHelper
 	 */
 	function init(&$wizard)
 	{
-		$app =& $this->_parent->getApplication();
-		$option = $app->getUserStateFromRequest('menuwizard.component', 'component', 'content');
-		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		global $mainframe;
+		$option			= $mainframe->getUserStateFromRequest('menuwizard.component', 'component', 'content');
+		$this->_type	= $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$this->setOption($option);
 		// init last because of special option handling
 		parent::init( $wizard );

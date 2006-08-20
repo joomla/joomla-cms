@@ -23,8 +23,9 @@ class mailtoController extends JController {
 	 * Mail the link
 	 */
 	function send() {
+		global $mainframe;
+
 		$db			= &$this->getDBO();
-		$mainframe	= &$this->getApplication();
 
 		jimport( 'joomla.utilities.mail' );
 

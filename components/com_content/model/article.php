@@ -116,7 +116,6 @@ class JContentModelArticle extends JModel
 		 */
 		if ($this->_loadArticle())
 		{
-			$app	= &$this->getApplication();
 			$user	= & JFactory::getUser();
 
 			// Is the category published?
@@ -234,7 +233,6 @@ class JContentModelArticle extends JModel
 		{
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$app	= &$this->getApplication();
 				$user	=& JFactory::getUser();
 				$uid	= $user->get('id');
 			}
@@ -298,13 +296,13 @@ class JContentModelArticle extends JModel
 
 	function sendEmail($to, $from, $fromname = null, $subject = null)
 	{
+		global $mainframe;
 		// Build the link to send in the E-Mail
 		$_Itemid	= JContentHelper::getItemid($this->_id);
 		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$this->_id.'&Itemid='.$_Itemid);
 
 		// Build the message body to send in the E-Mail
-		$app		= &$this->getApplication();
-		$SiteName	= $app->getCfg('sitename');
+		$SiteName	= $mainframe->getCfg('sitename');
 		$body = sprintf(JText::_('EMAIL_MSG'), $SiteName, $fromname, $from, $link);
 
 		// Clean the email data
@@ -361,7 +359,7 @@ class JContentModelArticle extends JModel
 	 */
 	function _loadArticleParams()
 	{
-		$app	= &$this->getApplication();
+		global $mainframe;
 		$user	=& JFactory::getUser();
 		$pop	= JRequest::getVar('pop', 0, '', 'int');
 
@@ -375,30 +373,30 @@ class JContentModelArticle extends JModel
 		if ($this->_article->sectionid == 0) {
 			$params->set('item_navigation', 0);
 		} else {
-			$params->set('item_navigation', $app->getCfg('item_navigation'));
+			$params->set('item_navigation', $mainframe->getCfg('item_navigation'));
 		}
 
 		// Set some metatag information if needed
-		if ($app->getCfg('MetaTitle') == '1') {
-			$app->addMetaTag('title', $this->_article->title);
+		if ($mainframe->getCfg('MetaTitle') == '1') {
+			$mainframe->addMetaTag('title', $this->_article->title);
 		}
-		if ($app->getCfg('MetaAuthor') == '1') {
-			$app->addMetaTag('author', $this->_article->author);
+		if ($mainframe->getCfg('MetaAuthor') == '1') {
+			$mainframe->addMetaTag('author', $this->_article->author);
 		}
 
 		// Handle global overides for some article parameters if set
-		$params->def('link_titles',	$app->getCfg('link_titles'));
-		$params->def('author',		!$app->getCfg('hideAuthor'));
-		$params->def('createdate',	!$app->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$app->getCfg('hideModifyDate'));
-		$params->def('print',		!$app->getCfg('hidePrint'));
-		$params->def('pdf',			!$app->getCfg('hidePdf'));
-		$params->def('email',		!$app->getCfg('hideEmail'));
-		$params->def('rating',		$app->getCfg('vote'));
+		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
+		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
+		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
+		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
+		$params->def('print',		!$mainframe->getCfg('hidePrint'));
+		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
+		$params->def('email',		!$mainframe->getCfg('hideEmail'));
+		$params->def('rating',		$mainframe->getCfg('vote'));
 
-		$params->def('back_button', $app->getCfg('back_button'));
-		$params->def('icons',		$app->getCfg('icons'));
-		$params->def('readmore',	$app->getCfg('readmore'));
+		$params->def('back_button', $mainframe->getCfg('back_button'));
+		$params->def('icons',		$mainframe->getCfg('icons'));
+		$params->def('readmore',	$mainframe->getCfg('readmore'));
 
 		// Get some article specific parameter defaults
 		$params->def('image',			1);
@@ -443,10 +441,10 @@ class JContentModelArticle extends JModel
 	 */
 	function _buildContentWhere()
 	{
-		$app		= &$this->getApplication();
+		global $mainframe;
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
-		$now		= $app->get('requestTime');
+		$now		= $mainframe->get('requestTime');
 		$nullDate	= $this->_db->getNullDate();
 
 		/*

@@ -97,8 +97,7 @@ class JContentModelCategory extends JModel
 	function getCategory()
 	{
 		 // Initialize some variables
-		$app	=& $this->getApplication();
-		$user	=&JFactory::getUser();
+		$user	= &JFactory::getUser();
 
 		// Load the Category data
 		if ($this->_loadCategory())
@@ -125,7 +124,6 @@ class JContentModelCategory extends JModel
 	function getSiblings()
 	{
 		// Initialize some variables
-		$app	= &$this->getApplication();
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
@@ -169,7 +167,6 @@ class JContentModelCategory extends JModel
 	function getContent($state = 1)
 	{
 		// Initialize some variables
-		$app	=& $this->getApplication();
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
@@ -221,6 +218,8 @@ class JContentModelCategory extends JModel
 	 */
 	function _loadSiblings()
 	{
+		global $mainframe;
+
 		if (empty($this->_category))
 		{
 			return false; // TODO: set error -- can't get siblings when we don't know the category
@@ -229,11 +228,10 @@ class JContentModelCategory extends JModel
 		// Lets load the siblings if they don't already exist
 		if (empty($this->_siblings))
 		{
-			$app		= &$this->getApplication();
 			$user		=& JFactory::getUser();
-			$noauth		= !$app->getCfg('shownoauth');
+			$noauth		= !$mainframe->getCfg('shownoauth');
 			$gid		= $user->get('gid');
-			$now		= $app->get('requestTime');
+			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
 
@@ -362,11 +360,11 @@ class JContentModelCategory extends JModel
 
 	function _buildContentWhere($state = 1)
 	{
-		$app		= &$this->getApplication();
+		global $mainframe;
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
-		$now		= $app->get('requestTime');
-		$noauth		= !$app->getCfg('shownoauth');
+		$now		= $mainframe->get('requestTime');
+		$noauth		= !$mainframe->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		$Itemid     = JRequest::getVar('Itemid');

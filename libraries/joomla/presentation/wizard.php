@@ -36,15 +36,15 @@ class JWizard extends JObject
 	/** @var object JRegistry object */
 	var $_registry = null;
 
-	function __construct(&$app, $name, $request='wizVal')
+	function __construct($name, $request='wizVal')
 	{
-		$this->_app 	= &$app;
+		global $mainframe;
 		$this->_step 	= JRequest::getVar('step', 0, '', 'int');
 		$this->_registry =& new JParameter('');
 		$this->_regPath  = 'wizard.'.$name;
 
 		// Get the step data from the session
-		$steps =& $app->getUserState($this->_regPath);
+		$steps =& $mainframe->getUserState($this->_regPath);
 
 		// Get the values from the request and load them into the object
 		$steps[$this->_step] = JRequest::getVar($request, array(), '', 'array');
@@ -57,7 +57,7 @@ class JWizard extends JObject
 		}
 
 		// Save the step data in the session
-		$app->setUserState($this->_regPath, $steps);
+		$mainframe->setUserState($this->_regPath, $steps);
 	}
 
 	function loadXML($path, $xpath='')
@@ -97,13 +97,16 @@ class JWizard extends JObject
 
 	function &getConfirmation()
 	{
+		global $mainframe;
 		// Get the step data from the session
-		$steps =& $this->_app->getUserState($this->_regPath);
+		$steps =& $mainframe->getUserState($this->_regPath);
 		$vals = array();
 
 		// Load all the step data into the registry
-		for ($i=1;$i<=$this->_step;$i++) {
-			if (is_array($steps[$i])) {
+		for ($i=1;$i<=$this->_step;$i++)
+		{
+			if (is_array($steps[$i]))
+			{
 				$vals = array_merge($vals, $steps[$i]);
 			}
 		}
@@ -175,7 +178,8 @@ class JWizard extends JObject
 
 	function clear()
 	{
-		$this->_app->setUserState($this->_regPath, array());
+		global $mainframe;
+		$mainframe->setUserState($this->_regPath, array());
 	}
 
 	function _getIncludedSteps($include)

@@ -23,9 +23,9 @@ class JPollGlobalController extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __construct( &$app, $default )
+	function __construct( $default )
 	{
-		parent::__construct( $app, $default );
+		parent::__construct( $default );
 		$this->registerTask( 'new', 'editPoll' );
 		$this->registerTask( 'edit', 'editPoll' );
 

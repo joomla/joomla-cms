@@ -30,7 +30,7 @@ require_once( JPATH_COM_POLL . '/views/index.php' );
 
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$controller = new JPollGlobalController( $mainframe, 'showPolls' );
+$controller = new JPollGlobalController( 'showPolls' );
 
 $controller->performTask( JRequest::getVar( 'task' ) );
 $controller->redirect();

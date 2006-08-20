@@ -35,9 +35,9 @@ class JMenuHelperSeparator extends JWizardHelper
 	 */
 	function init(&$wizard)
 	{
+		global $mainframe;
 		parent::init( $wizard );
-		$app =& $this->_parent->getApplication();
-		$this->_type = $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$this->_type = $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 	}
 
 	/**

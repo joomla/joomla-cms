@@ -97,7 +97,6 @@ class JContentModelSection extends JModel
 	function getSection()
 	{
 		// Initialize some variables
-		$app	= &$this->getApplication();
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
@@ -126,7 +125,6 @@ class JContentModelSection extends JModel
 	function getCategories()
 	{
 		// Initialize some variables
-		$app	= &$this->getApplication();
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
@@ -157,7 +155,6 @@ class JContentModelSection extends JModel
 	function getContent($state = 1)
 	{
 		// Initialize some variables
-		$app	= &$this->getApplication();
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
@@ -234,14 +231,14 @@ class JContentModelSection extends JModel
 	 */
 	function _loadCategories()
 	{
+		global $mainframe;
 		// Lets load the siblings if they don't already exist
 		if (empty($this->_categories))
 		{
-			$app		= &$this->getApplication();
 			$user		=& JFactory::getUser();
-			$noauth		= !$app->getCfg('shownoauth');
+			$noauth		= !$mainframe->getCfg('shownoauth');
 			$gid		= $user->get('gid');
-			$now		= $app->get('requestTime');
+			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
 			$Itemid    	= JRequest::getVar('Itemid');
@@ -349,13 +346,13 @@ class JContentModelSection extends JModel
 	 */
 	function _loadTree()
 	{
+		global $mainframe;
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_tree)) 
 		{
-			$app		= &$this->getApplication();
 			$user		=& JFactory::getUser();
 			$gid		= $user->get('gid');
-			$now		=$app->get('requestTime');
+			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
 			// Get the information for the current section
@@ -419,11 +416,11 @@ class JContentModelSection extends JModel
 
 	function _buildContentWhere($state = 1)
 	{
-		$app		= &$this->getApplication();
+		global $mainframe;
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
-		$now		= $app->get('requestTime');
-		$noauth		= !$app->getCfg('shownoauth');
+		$now		= $mainframe->get('requestTime');
+		$noauth		= !$mainframe->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		$Itemid    	= JRequest::getVar('Itemid');

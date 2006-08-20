@@ -122,15 +122,14 @@ class JContactControllerDefault extends JController
 	 */
 	function sendmail()
 	{
-		global $Itemid;
+		global $mainframe, $Itemid;
 
 		// Initialize some variables
-		$app		= &$this->getApplication();
 		$db			= & JFactory::getDBO();
 
-		$SiteName 	= $app->getCfg('sitename');
-		$MailFrom 	= $app->getCfg('mailfrom');
-		$FromName 	= $app->getCfg('fromname');
+		$SiteName 	= $mainframe->getCfg('sitename');
+		$MailFrom 	= $mainframe->getCfg('mailfrom');
+		$FromName 	= $mainframe->getCfg('fromname');
 
 		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
 		$contactId 	= JRequest::getVar('contact_id', 	0, 			'post', 'int');
@@ -174,7 +173,7 @@ class JContactControllerDefault extends JController
 		}
 
 		// Prepare email body
-		$prefix = sprintf(JText::_('ENQUIRY_TEXT'), $app->getBaseURL());
+		$prefix = sprintf(JText::_('ENQUIRY_TEXT'), $mainframe->getBaseURL());
 		$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 		$mail = new JMail();

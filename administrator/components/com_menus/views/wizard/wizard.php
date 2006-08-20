@@ -28,15 +28,15 @@ class JMenuViewWizard extends JWizardView
 
 	function doStart()
 	{
+		global $mainframe;
 		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('New Menu Item Wizard'));
 
-		$app		= &$this->get('Application');
-		$type		= $app->getUserStateFromRequest('menuwizard.type', 'type', 'component');
-		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$option		= $app->getUserStateFromRequest('menuwizard.component', 'component', 'com_content');
+		$type		= $mainframe->getUserStateFromRequest('menuwizard.type', 'type', 'component');
+		$menuType	= $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$option		= $mainframe->getUserStateFromRequest('menuwizard.component', 'component', 'com_content');
 		$menuTypes 	= $this->get('MenuTypelist');
 		$components	= $this->get('ComponentList');
 ?>
@@ -132,12 +132,12 @@ class JMenuViewWizard extends JWizardView
 
 	function doNext()
 	{
+		global $mainframe;
 		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 
-		$app		= &$this->get('Application');
-		$menuType	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$menuType	= $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 
 		$steps = $this->get('steps');
 		$numSteps = count($steps);

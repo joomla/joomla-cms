@@ -28,10 +28,9 @@ class JMenuViewItem extends JView
 
 	function edit()
 	{
-
-		$app		= &$this->get('Application');
-		$url 		= $app->isAdmin() ? $app->getSiteURL() : $app->getBaseURL();
-		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		global $mainframe;
+		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		$document	= & JFactory::getDocument();
 		$document->addScript($url.'includes/js/joomla/popup.js');

@@ -423,7 +423,7 @@ class JContentViewArticle extends JView
 	{
 		// Get the article and database connector from the model
 		$article = & $this->get('Article');
-		$db 	 = & $this->get('DBO');
+		$db 	 = & JFactory::getDBO();
 
 		// Select List: Categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
@@ -518,7 +518,7 @@ class JContentViewArticle extends JView
 	function _getHeaderText(& $article, & $params)
 	{
 		// Initialize some variables
-		$db = & $this->get('DBO');
+		$db = & JFactory::getDBO();
 		$text = '';
 
 		if ($params->get('author')) {

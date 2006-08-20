@@ -28,9 +28,9 @@ class JConfigComponentController extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __constuct( &$app, $default )
+	function __constuct( $default )
 	{
-		parent::__construct( $app, $default );
+		parent::__construct( $default );
 		$this->registerTask( 'apply', 'save' );
 	}
 

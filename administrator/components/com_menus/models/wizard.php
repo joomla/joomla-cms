@@ -31,12 +31,12 @@ class JMenuModelWizard extends JModel
 
 	function init($type='component')
 	{
+		global $mainframe;
 		// Create the JWizard object
 		jimport('joomla.presentation.wizard');
-		$app		=& $this->getApplication();
-		$type		= $app->getUserStateFromRequest('menuwizard.type', 'type', $type);
-		$menutype	= $app->getUserStateFromRequest('menuwizard.menutype', 'menutype');
-		$id			= $app->getUserStateFromRequest('menuwizard.id', 'id', false);
+		$type		= $mainframe->getUserStateFromRequest('menuwizard.type', 'type', $type);
+		$menutype	= $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
+		$id			= $mainframe->getUserStateFromRequest('menuwizard.id', 'id', false);
 
 		// Include and create the helper object
 		if ($type) {
@@ -50,7 +50,7 @@ class JMenuModelWizard extends JModel
 		}
 
 		// Instantiate wizard
-		$this->_wizard =& new JWizard($app, $name);
+		$this->_wizard =& new JWizard($mainframe, $name);
 
 		// Load the XML if helper is set
 		if (isset($this->_helper)) {
@@ -73,8 +73,8 @@ class JMenuModelWizard extends JModel
 				$option = 'com_content';
 			}
 
-			$app->setUserState('request.menuwizard.type', $item->type);
-			$app->setUserState('request.menuwizard.component', $option);
+			$mainframe->setUserState('request.menuwizard.type', $item->type);
+			$mainframe->setUserState('request.menuwizard.component', $option);
 
 			// Clear the wizard and load the default values
 			$this->_wizard->clear();
@@ -94,9 +94,9 @@ class JMenuModelWizard extends JModel
 
 	function &getConfirmation()
 	{
+		global $mainframe;
 		$return = &$this->_helper->getConfirmation();
-		$app =& $this->getApplication();
-		$id	 = $app->getUserStateFromRequest('menuwizard.id', 'id', false);
+		$id	 = $mainframe->getUserStateFromRequest('menuwizard.id', 'id', false);
 		if ($id) {
 			$return['cid'] = array($id);
 		}

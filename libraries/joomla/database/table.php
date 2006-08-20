@@ -525,7 +525,7 @@ class JTable extends JObject
 				$k = $table['idfield'];
 				if ($obj->$k)
 				{
-					$msg[] = $AppUI->_( $table['label'] );
+					$msg[] = JText::_( $table['label'] );
 				}
 			}
 

@@ -31,6 +31,7 @@ class JContentController extends JController
 	 */
 	function section000()
 	{
+		global $mainframe;
 		$this->setViewName( 'section', 'com_content', 'JContentView' );
 
 		// Set some parameter defaults
@@ -43,7 +44,7 @@ class JContentController extends JController
 		$mParams->def('empty_cat', 			0);
 		$mParams->def('cat_items', 			1);
 		$mParams->def('cat_description', 	1);
-		$mParams->def('back_button', 		$this->_app->getCfg('back_button'));
+		$mParams->def('back_button', 		$mainframe->getCfg('back_button'));
 		$mParams->def('pageclass_sfx', 		'');
 
 		// Get the view
@@ -72,24 +73,25 @@ class JContentController extends JController
 	 */
 	function category000()
 	{
+		global $mainframe;
 		$this->setViewName( 'category', 'com_content', 'JContentView' );
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
 		$mParams->def('page_title',		1);
 		$mParams->def('title',			1);
-		$mParams->def('hits',			$this->_app->getCfg('hits'));
-		$mParams->def('author',			!$this->_app->getCfg('hideAuthor'));
-		$mParams->def('date',			!$this->_app->getCfg('hideCreateDate'));
+		$mParams->def('hits',			$mainframe->getCfg('hits'));
+		$mParams->def('author',			!$mainframe->getCfg('hideAuthor'));
+		$mParams->def('date',			!$mainframe->getCfg('hideCreateDate'));
 		$mParams->def('date_format',		JText::_('DATE_FORMAT_LC'));
 		$mParams->def('navigation',		2);
 		$mParams->def('display',			1);
-		$mParams->def('display_num',		$this->_app->getCfg('list_limit'));
+		$mParams->def('display_num',		$mainframe->getCfg('list_limit'));
 		$mParams->def('other_cat',		1);
 		$mParams->def('empty_cat',		0);
 		$mParams->def('cat_items',		1);
 		$mParams->def('cat_description',	0);
-		$mParams->def('back_button',		$this->_app->getCfg('back_button'));
+		$mParams->def('back_button',		$mainframe->getCfg('back_button'));
 		$mParams->def('pageclass_sfx',	'');
 		$mParams->def('headings',		1);
 		$mParams->def('filter',			1);
@@ -209,7 +211,7 @@ class JContentController extends JController
 		$cParams	= JSiteHelper::getControlParams();
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
-		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
+		$format   = JRequest::getVar( 'format', 'html',  '', 'string'  );
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
@@ -573,6 +575,7 @@ class JContentController extends JController
 	 */
 	function emailsend000()	// replace by com_mailto
 	{
+		global $mainframe;
 		// Check to make sure that the validation variable was posted back
 		$validate	= JRequest::getVar(JUtility::getHash('validate'), 0, 'post');
 		if (!$validate) {
@@ -618,11 +621,11 @@ class JContentController extends JController
 		unset ($headers, $fields);
 
 		// At some point tihs will all be in a request object
-		$id				= JRequest::getVar('id', 0, '', 'int');
-		$to				= JRequest::getVar('email', '', 'post');
-		$from			= JRequest::getVar('youremail', $this->_app->getCfg('mailfrom'), 'post');
-		$fromname	= JRequest::getVar('yourname', $this->_app->getCfg('fromname'), 'post');
-		$subject		= JRequest::getVar('subject', sprintf(JText::_('Item sent by'), $fromname), 'post');
+		$id			= JRequest::getVar('id', 0, '', 'int');
+		$to			= JRequest::getVar('email', '', 'post');
+		$from		= JRequest::getVar('youremail', $mainframe->getCfg('mailfrom'), 'post');
+		$fromname	= JRequest::getVar('yourname', $mainframe->getCfg('fromname'), 'post');
+		$subject	= JRequest::getVar('subject', sprintf(JText::_('Item sent by'), $fromname), 'post');
 
 		jimport('joomla.utilities.mail');
 		if (!JMailHelper::isEmailAddress($to) || !JMailHelper::isEmailAddress($from)) {

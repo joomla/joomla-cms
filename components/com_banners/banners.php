@@ -32,7 +32,7 @@ class JBannerController extends JController
 	}
 }
 
-$controller = new JBannerController( $mainframe, 'click' );
+$controller = new JBannerController( 'click' );
 $controller->setModelPath( dirname( __FILE__ ) . '/models' );
 $controller->execute( $task );
 $controller->redirect();

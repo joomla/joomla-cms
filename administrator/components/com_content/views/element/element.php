@@ -42,9 +42,10 @@ class JContentViewElement extends JView
 	 */
 	function display()
 	{
+		global $mainframe;
+
 		// Initialize variables
-		$app		= &$this->get('Application');
-		$url 		= $app->isAdmin() ? $app->getSiteURL() : $app->getBaseURL();
+		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		$db			= &JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
@@ -53,7 +54,7 @@ class JContentViewElement extends JView
 		$document->addScript($url.'includes/js/joomla/popup.js');
 		$document->addStyleSheet($url.'includes/js/joomla/popup.css');
 
-		$template = $app->getTemplate();
+		$template = $mainframe->getTemplate();
 		$document->addStyleSheet("templates/$template/css/general.css");
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
@@ -179,24 +180,25 @@ class JContentViewElement extends JView
 
 	function _getLists()
 	{
+		global $mainframe;
+
 		// Initialize variables
-		$app	= &$this->get('Application');
-		$db		= &$this->get('DBO');
+		$db		= &JFactory::getDBO();
 		$filter	= null;
 
 		// Get some variables from the request
 		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
 		$option				= JRequest::getVar( 'option' );
-		$filter_order		= $app->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
-		$filter_order_Dir	= $app->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $app->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '');
-		$catid				= $app->getUserStateFromRequest("articleelement.catid", 'catid', 0);
-		$filter_authorid	= $app->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid	= $app->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
-		$limit				= $app->getUserStateFromRequest('limit', 'limit', $app->getCfg('list_limit'));
-		$limitstart			= $app->getUserStateFromRequest("articleelement.limitstart", 'limitstart', 0);
-		$search				= $app->getUserStateFromRequest("articleelement.search", 'search', '');
+		$filter_order		= $mainframe->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
+		$filter_state		= $mainframe->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '');
+		$catid				= $mainframe->getUserStateFromRequest("articleelement.catid", 'catid', 0);
+		$filter_authorid	= $mainframe->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
+		$filter_sectionid	= $mainframe->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
+		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
+		$limitstart			= $mainframe->getUserStateFromRequest("articleelement.limitstart", 'limitstart', 0);
+		$search				= $mainframe->getUserStateFromRequest("articleelement.search", 'search', '');
 		$search				= $db->getEscaped(trim(JString::strtolower($search)));
 
 		// get list of categories for dropdown filter

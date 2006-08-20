@@ -28,7 +28,7 @@ $menus   =& JMenu::getInstance();
 $mParams =& $menus->getParams($Itemid);
 
 $view		= JRequest::getVar( 'view', $mParams->get( 'view', 'default' ) );
-$controller	= new mailtoController( $mainframe, 'display' );
+$controller	= new mailtoController( 'display' );
 
 $controller->setViewPath( JPATH_COM_MAILTO . '/views' );
 

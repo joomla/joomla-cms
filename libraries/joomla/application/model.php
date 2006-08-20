@@ -101,15 +101,6 @@ class JModel extends JObject {
 	}
 
 	/**
-	 * Gets the application
-	 * @return object A JApplication based object
-	 */
-	function &getApplication()
-	{
-		return $this->_controller->getApplication();
-	}
-
-	/**
 	 * Get instance
 	 * @return JModelMenu
 	 */

@@ -26,6 +26,7 @@ class JMenuViewList extends JView
 {
 	function display()
 	{
+		global $mainframe;
 		$document = & JFactory::getDocument();
 		$document->setTitle('View Menu Items');
 
@@ -35,8 +36,7 @@ class JMenuViewList extends JView
 		$pagination	= &$this->get('Pagination');
 		$lists		= &$this->_getViewLists();
 
-		$app		= &$this->get('Application');
-		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 		$user		= &JFactory::getUser();
 
 		//Ordering allowed ?
@@ -187,11 +187,11 @@ class JMenuViewList extends JView
 
 	function copyForm()
 	{
+		global $mainframe;
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
-		$app		= &$this->get('Application');
-		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		// Build the menutypes select list
 		$menuTypes 	= $this->get('MenuTypes');
@@ -249,11 +249,11 @@ class JMenuViewList extends JView
 
 	function moveForm()
 	{
+		global $mainframe;
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
-		$app		= &$this->get('Application');
-		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		// Build the menutypes select list
 		$menuTypes 	= $this->get('MenuTypes');
@@ -309,16 +309,16 @@ class JMenuViewList extends JView
 
 	function &_getViewLists()
 	{
-		$app	=& $this->get('Application');
-		$db		=& $this->get('DBO');
+		global $mainframe;
+		$db		=& JFactory::getDBO();
 
-		$menutype 			= $app->getUserStateFromRequest( "com_menus.menutype",				 		'menutype', 		'mainmenu' );
-		$filter_order		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
-		$filter_order_Dir	= $app->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
-		$filter_state		= $app->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'' );
-		$levellimit 		= $app->getUserStateFromRequest( "com_menus.$menutype.levellimit", 			'levellimit', 		10 );
-		$search 			= $app->getUserStateFromRequest( "com_menus.$menutype.search", 				'search', 			'' );
-		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$menutype 			= $mainframe->getUserStateFromRequest( "com_menus.menutype",				 	'menutype', 		'mainmenu' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
+		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'' );
+		$levellimit 		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.levellimit", 		'levellimit', 		10 );
+		$search 			= $mainframe->getUserStateFromRequest( "com_menus.$menutype.search", 			'search', 			'' );
+		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
 		// level limit filter
 		$lists['levellist'] = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );

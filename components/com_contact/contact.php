@@ -42,7 +42,7 @@ if (!class_exists( $controllerName ))
 }
 
 // Create the controller
-$controller = & new $controllerName( $mainframe, 'display' );
+$controller = & new $controllerName( 'display' );
 
 // need to tell the controller where to look for views and models
 $controller->setViewPath( JPATH_COM_CONTACT . '/views' );

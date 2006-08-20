@@ -24,7 +24,7 @@ require_once( COM_MENUS . 'helper.php' );
 
 $task = JRequest::getVar( 'task' );
 
-$controller = new JMenuController( $mainframe, 'viewList' );
+$controller = new JMenuController( 'viewList' );
 $controller->setModelPath( COM_MENUS.'models'.DS );
 $controller->setViewPath( COM_MENUS.'views'.DS );
 $controller->registerTask('apply', 'save');

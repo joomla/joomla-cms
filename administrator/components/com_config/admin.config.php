@@ -34,7 +34,7 @@ switch ($controllerName)
 		require_once( JPATH_COM_CONFIG . '/controllers/global.php' );
 		require_once( JPATH_COM_CONFIG . '/views/global.php' );
 
-		$controller = new JConfigGlobalController( $mainframe, 'showConfig' );
+		$controller = new JConfigGlobalController( 'showConfig' );
 		break;
 
 	default:
@@ -43,7 +43,7 @@ switch ($controllerName)
 		require_once( JPATH_COM_CONFIG . '/models/component.php' );
 		require_once( JPATH_COM_CONFIG . '/views/component.php' );
 
-		$controller = new JConfigComponentController( $mainframe, 'edit' );
+		$controller = new JConfigComponentController( 'edit' );
 		break;
 }
 

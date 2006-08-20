@@ -183,6 +183,8 @@ class JMenuModelItem extends JModel
 
 	function store()
 	{
+		global $mainframe;
+
 		$row =& $this->getItem();
 
 		$post	= JRequest::get( 'post' );
@@ -212,8 +214,7 @@ class JMenuModelItem extends JModel
 		$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
 		// Reset the wizard
-		$app =& $this->getApplication();
-		$app->setUserState('request.menuwizard', null);
+		$mainframe->setUserState('request.menuwizard', null);
 
 		return true;
 	}
