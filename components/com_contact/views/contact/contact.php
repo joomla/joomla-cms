@@ -32,19 +32,17 @@ class JContactViewContact extends JView
 	 */
 	function display()
 	{
-		$app		=& $this->getApplication();
-		$user 		=& JFactory::getUser();
+		global $mainframe, $Itemid;
 
-		$Itemid    		= JRequest::getVar('Itemid');
+		$user =& JFactory::getUser();
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$mParams =& $menus->getParams($Itemid);
 
 		// Push a model into the view
-		$ctrl		= &$this->getController();
-		$model		= & $ctrl->getModel('contact', 'JContactModel');
-		$modelCat	= & $ctrl->getModel('category', 'JContactModel');
+		$model		= & $this->_controller->getModel('contact', 'JContactModel');
+		$modelCat	= & $this->_controller->getModel('category', 'JContactModel');
 		//$this->setModel($model, true);
 
 		// Selected Request vars
@@ -62,22 +60,21 @@ class JContactViewContact extends JView
 		$contacts = $modelCat->getContacts( $qOptions );
 
 		// check if we have a contact
-		if (!is_object( $contact ))
-		{
-			$mParams->def('back_button', $app->getCfg('back_button'));
+		if (!is_object( $contact )) {
+			$mParams->def('back_button', $mainframe->getCfg('back_button'));
 			$this->noContact($mParams);
 			return;
 		}
 
 		// Set the document page title
-		$app->setPageTitle(JText::_('Contact').' - '.$contact->name);
+		$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
 
 		/*
 		 * Add the breadcrumbs items
 		 * 	- Category item if the parameter is set
 		 * 	- Contact item always
 		 */
-		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs = & $mainframe->getPathWay();
 		if (!$mParams->get('hideCatCrumbs')) {
 			global $Itemid;
 			$breadcrumbs->addItem($contact->category_name, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
@@ -104,8 +101,7 @@ class JContactViewContact extends JView
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
 
-		if (!file_exists( $tmplPath ))
-		{
+		if (!file_exists( $tmplPath )) {
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/default.php';
 		}
 

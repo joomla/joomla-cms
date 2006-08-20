@@ -92,7 +92,7 @@ class mosMainFrame extends JApplication
 	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		$document->setTitle($title);
 	}
 
@@ -101,7 +101,7 @@ class mosMainFrame extends JApplication
 	* @since 1.5
 	*/
 	function getPageTitle() {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
 	

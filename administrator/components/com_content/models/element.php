@@ -44,12 +44,13 @@ class JContentModelElement extends JModel
 	 */
 	function getList()
 	{
+		global $mainframe;
+
 		if (!empty($this->_list)) {
 			return $this->_list;
 		}
 
 		// Initialize variables
-		$app	= &$this->getApplication();
 		$db		= &$this->getDBO();
 		$filter	= null;
 
@@ -57,15 +58,15 @@ class JContentModelElement extends JModel
 		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
 		$option				= JRequest::getVar( 'option' );
-		$filter_order		= $app->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
-		$filter_order_Dir	= $app->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $app->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '');
-		$catid				= $app->getUserStateFromRequest("articleelement.catid", 'catid', 0);
-		$filter_authorid	= $app->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid	= $app->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
-		$limit				= $app->getUserStateFromRequest('limit', 'limit', $app->getCfg('list_limit'));
-		$limitstart			= $app->getUserStateFromRequest("articleelement.limitstart", 'limitstart', 0);
-		$search				= $app->getUserStateFromRequest("articleelement.search", 'search', '');
+		$filter_order		= $mainframe->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
+		$filter_state		= $mainframe->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '');
+		$catid				= $mainframe->getUserStateFromRequest("articleelement.catid", 'catid', 0);
+		$filter_authorid	= $mainframe->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
+		$filter_sectionid	= $mainframe->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
+		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
+		$limitstart			= $mainframe->getUserStateFromRequest("articleelement.limitstart", 'limitstart', 0);
+		$search				= $mainframe->getUserStateFromRequest("articleelement.search", 'search', '');
 		$search				= $db->getEscaped(trim(JString::strtolower($search)));
 
 

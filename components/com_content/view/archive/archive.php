@@ -59,9 +59,10 @@ class JArchiveViewArchive extends JView
 
 	function showArchive()
 	{
+		global $mainframe;
+
 		// Initialize some variables
-		$app	=& $this->getApplication();
-		$user	=& JFactory::getUser();
+		$user =& JFactory::getUser();
 
 		$gid	= $user->get('gid');
 
@@ -86,11 +87,11 @@ class JArchiveViewArchive extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Append Archives to BreadCrumbs
-		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem('Archives', '');
 
 		// Page Title
-		$app->SetPageTitle($menu->name);
+		$mainframe->SetPageTitle($menu->name);
 
 		/*
 		 * Menu item parameters
@@ -305,9 +306,10 @@ class JArchiveViewArchive extends JView
 
 	function showItem(&$row, &$params, &$access, $showImages = false)
 	{
+		global $mainframe;
+
 		// Initialize some variables
-		$app		=& $this->getApplication();
-		$user		=& JFactory::getUser();
+		$user =& JFactory::getUser();
 
 		// These will come from a request object at some point
 		$task		= JRequest::getVar( 'task' );
@@ -315,7 +317,7 @@ class JArchiveViewArchive extends JView
 		$noJS 		= JRequest::getVar( 'hide_js', 0, '', 'int' );
 
 		// TODO: clean this part up
-		$SiteName	= $app->getCfg('sitename');
+		$SiteName	= $mainframe->getCfg('sitename');
 		$gid		= $user->get('gid');
 
 		$linkOn		= null;
@@ -324,17 +326,17 @@ class JArchiveViewArchive extends JView
 		/*
 		 * Get some parameters from global configuration
 		 */
-		$params->def('link_titles',	$app->getCfg('link_titles'));
-		$params->def('author',		!$app->getCfg('hideAuthor'));
-		$params->def('createdate',	!$app->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$app->getCfg('hideModifyDate'));
-		$params->def('print',		!$app->getCfg('hidePrint'));
-		$params->def('pdf',			!$app->getCfg('hidePdf'));
-		$params->def('email',		!$app->getCfg('hideEmail'));
-		$params->def('rating',		$app->getCfg('vote'));
-		$params->def('icons',		$app->getCfg('icons'));
-		$params->def('readmore',	$app->getCfg('readmore'));
-		$params->def('back_button', $app->getCfg('back_button'));
+		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
+		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
+		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
+		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
+		$params->def('print',		!$mainframe->getCfg('hidePrint'));
+		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
+		$params->def('email',		!$mainframe->getCfg('hideEmail'));
+		$params->def('rating',		$mainframe->getCfg('vote'));
+		$params->def('icons',		$mainframe->getCfg('icons'));
+		$params->def('readmore',	$mainframe->getCfg('readmore'));
+		$params->def('back_button', $mainframe->getCfg('back_button'));
 		$params->set('intro_only', 1);
 
 		/*
@@ -359,12 +361,12 @@ class JArchiveViewArchive extends JView
 		 */
 		$row->text	= $row->introtext;
 		JPluginHelper::importPlugin('content');
-		$results = $app->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
+		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
 
 		// adds mospagebreak heading or title to <site> Title
 		if (isset ($row->page_title))
 		{
-			$app->setPageTitle($row->title.' '.$row->page_title);
+			$mainframe->setPageTitle($row->title.' '.$row->page_title);
 		}
 
 		// determines the link and link text of the readmore button
@@ -404,7 +406,7 @@ class JArchiveViewArchive extends JView
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
 		{
 			// link used by print button
-			$print_link = $app->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+			$print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -431,11 +433,11 @@ class JArchiveViewArchive extends JView
 
 		if (!$params->get('intro_only'))
 		{
-			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
+			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
 			echo trim(implode("\n", $results));
 		}
 
-		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
+		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
 		echo trim(implode("\n", $onBeforeDisplayContent));
 		?>
 
@@ -482,7 +484,7 @@ class JArchiveViewArchive extends JView
 		<?php
 
 		// Fire the after display content event
-		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
+		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons

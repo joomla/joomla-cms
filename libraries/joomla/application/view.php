@@ -1,15 +1,15 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version $Id$
+ * @package Joomla
+ * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 /**
  * Base class for a Joomla View
@@ -39,10 +39,10 @@ class JView extends JObject {
 	var $_models = null;
 
 	/**
-	 * The model for this view
+	 * The template path
+	 * @var	string
 	 */
-	// TODO: I don't think this is needed
-	//var $model = null;
+	var $_templatePath = null;
 
 	/**
 	 * Registered controller
@@ -73,82 +73,6 @@ class JView extends JObject {
 	 */
 	function __construct( &$controller ) {
 		$this->_controller = &$controller;
-	}
-
-	/**
-	 * String representation
-	 * @return string
-	 */
-	function __toString()
-	{
-		$result = get_class( $this );
-		$result .= "\nModels:";
-		foreach ($this->_models as $model)
-		{
-			$result .= '&nbsp;'.$model->__toString();
-		}
-		return $result;
-	}
-
-	/**
-	 * Method to set the name of the view.  Usually not be used, but is provided
-	 * as a public method for flexibility.
-	 *
-	 * @access	public
-	 * @param	string	$name	New view name
-	 * @return	string	New view name
-	 * @since	1.5
-	 */
-	function setViewName( $name ) {
-		// Clean and set the view name
-		$this->_viewName = preg_replace( '#\W#', '', $name );
-		return $this->_viewName;
-	}
-
-	/**
-	 * Gets the application object associated with the controller
-	 * @return object JApplication
-	 */
-	function &getApplication()
-	{
-		return $this->_controller->getApplication();
-	}
-
-	/**
-	 * Method to get the name of the view.
-	 *
-	 * @access	public
-	 * @return	string	The name of the view
-	 * @since	1.5
-	 */
-	function getViewName() {
-		return $this->_viewName;
-	}
-
-	/**
-	 * Method to set the controller object for the view.  In most cases this
-	 * will only be used by the constructor, but is provided as a public method
-	 * for flexibility.
-	 *
-	 * @access	public
-	 * @param	object	$controller	The view's controller
-	 * @return	object	The controller
-	 * @since	1.5
-	 */
-	function &setController( &$controller ) {
-		$this->_controller = &$controller;
-		return $controller;
-	}
-
-	/**
-	 * Method to get the view's controller object.
-	 *
-	 * @access	public
-	 * @return	object	The controller
-	 * @since	1.5
-	 */
-	function &getController() {
-		return $this->_controller;
 	}
 
 	/**
@@ -198,9 +122,9 @@ class JView extends JObject {
 	 * Category.
 	 *
 	 * @access	public
-	 * @param	object		$model		The model to add to the view.
+	 * @param	object	$model		The model to add to the view.
 	 * @param	boolean	$default	Is this the default model?
-	 * @return	object		The added model
+	 * @return	object				The added model
 	 * @since	1.5
 	 */
 	function &setModel( &$model, $default = false ) {
@@ -214,8 +138,12 @@ class JView extends JObject {
 	}
 
 	/**
-	 * Method to get the model
-	 * @param string The name of the model (optional)
+	 * Method to get the model object
+	 * 
+	 * @access	public
+	 * @param	string	$name	The name of the model (optional)
+	 * @return	mixed			JModel object
+	 * @since	1.5
 	 */
 	function &getModel( $name = null ) {
 		if ($name === null)
@@ -226,15 +154,107 @@ class JView extends JObject {
 	}
 
 	/**
-	 * Gets the application document
-	 * @return object JDocument based object
+	 * Method to set the current template path
+	 *
+	 * @access	public
+	 * @param	string	$path	Template file base directory
+	 * @return	string	Template file base directory
+	 * @since	1.5
 	 */
-	function &getDocument()
+	function setTemplatePath( $path )
 	{
-		$controller		=& $this->getController();
-		$application	=& $controller->getApplication();
-		$document		=& JFactory::getDocument();
-		return $document;
+		$this->_templatePath = $path.DS;
+		return $this->_templatePath;
+	}
+
+	/**
+	 * Method to get the current template path
+	 *
+	 * @access	public
+	 * @return	string	Template file base directory
+	 * @since	1.5
+	 */
+	function getTemplatePath()
+	{
+		return $this->_templatePath;
+	}
+
+
+	/**
+	 * Method to set the name of the view.  Usually not be used, but is provided
+	 * as a public method for flexibility.
+	 *
+	 * @access	public
+	 * @param	string	$name	New view name
+	 * @return	string	New view name
+	 * @since	1.5
+	 */
+	function setViewName( $name ) {
+		// Clean and set the view name
+		$this->_viewName = preg_replace( '#\W#', '', $name );
+		return $this->_viewName;
+	}
+
+	/**
+	 * Method to get the name of the view.
+	 *
+	 * @access	public
+	 * @return	string	The name of the view
+	 * @since	1.5
+	 */
+	function getViewName() {
+		return $this->_viewName;
+	}
+
+	/**
+	 * Load a template file -- first look in the templates folder for an override
+	 * 
+	 * @access	protected
+	 * @param	string		$template	Template file name to load
+	 * @return	mixed		Boolean true on success or JError object on fail
+	 * @since	1.5
+	 */
+	function _loadTemplate( $template )
+	{
+		global $mainframe, $Itemid, $option;
+
+		// Initialize variables
+		$return = true;
+
+		// If a template override exists in the theme folder, then we include it, otherwise we use the base.
+		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_viewName.DS.strtolower($template).'.php';
+		if (file_exists( $tPath )) {
+			require( $tPath );
+		} else {
+			// Build the path to the default view based upon a supplied base path
+			$path = $this->_templatePath.strtolower($template).'.php';
+
+			// If the default view file exists include it and try to instantiate the object
+			if (file_exists( $path )) {
+				require( $path );
+			} else {
+				$return = JError::raiseWarning( 500, 'Template '.$template.' not supported. File not found.' );
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * String representation
+	 * 
+	 * @access	public
+	 * @return	string
+	 * @since	1.5
+	 */
+	function __toString()
+	{
+		$result = get_class( $this );
+		$result .= "\nModels:";
+		foreach ($this->_models as $model)
+		{
+			$result .= '&nbsp;'.$model->__toString();
+		}
+		return $result;
 	}
 }
 ?>

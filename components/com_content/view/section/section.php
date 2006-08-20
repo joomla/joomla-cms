@@ -40,7 +40,7 @@ class JContentViewSection extends JView
 	 */
 	function display()
 	{
-		$document	= &$this->getDocument();
+		$document	= & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':
@@ -60,16 +60,16 @@ class JContentViewSection extends JView
 	 */
 	function displayHtml()
 	{
+		global $mainframe;
+
 		// Initialize some variables
-		$app	=& $this->getApplication();
 		$user	=& JFactory::getUser();
 		$doc	=& JFactory::getDocument();
 
 		$gid 	= $user->get('gid');
 
 		// Model workaround
-		$ctrl	= &$this->getController();
-		$model	= & $ctrl->getModel('section', 'JContentModel');
+		$model = & $this->_controller->getModel('section', 'JContentModel');
 		$this->setModel($model, true);
 
 		// Get some data from the model
@@ -86,7 +86,7 @@ class JContentViewSection extends JView
 		$menu	= &$menus->getItem($Itemid);
 
 		//add alternate feed link
-		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
+		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$doc->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -99,11 +99,11 @@ class JContentViewSection extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Set the page title and breadcrumbs
-		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
 		if (!empty ($menu->name)) {
-			$app->setPageTitle($menu->name);
+			$mainframe->setPageTitle($menu->name);
 		}
 
 		$cParams = &JSiteHelper::getControlParams();
@@ -139,7 +139,6 @@ class JContentViewSection extends JView
 	 */
 	function displayFeed()
 	{
-		$app =& $this->getApplication();
 		$doc =& JFactory::getDocument();
 
 		// Lets get our data from the model

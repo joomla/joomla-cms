@@ -38,14 +38,12 @@ class JContentViewWizard extends JWizardView
 
 	function doStart()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('Content Tools'));
 
 		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-
-		$app		= &$this->getApplication();
 		$model		= &$this->getModel();
 		$items		= $model->getItems( $cid );
 
@@ -55,11 +53,10 @@ class JContentViewWizard extends JWizardView
 
 	function doNext()
 	{
-		$document = &$this->getDocument();
+		global $mainfame;
 
+		$document = & JFactory::getDocument();
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
-
-		$app		= &$this->getApplication();
 
 		$steps		= $this->get('steps');
 		$numSteps	= count($steps);
@@ -84,7 +81,7 @@ class JContentViewWizard extends JWizardView
 
 	function doFinished()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('Content Tools Wizard').' : '.JText::_('Finished'));

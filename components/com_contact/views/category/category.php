@@ -32,7 +32,7 @@ class JContactViewCategory extends JView
 	 */
 	function display()
 	{
-		$document	= &$this->getDocument();
+		$document	= & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':
@@ -49,12 +49,12 @@ class JContactViewCategory extends JView
 	 */
 	function displayHtml()
 	{
-		$app		=& $this->getApplication();
-		$user 		=& JFactory::getUser();
+		global $mainframe;
+
+		$user =& JFactory::getUser();
 
 		// Push a model into the view
-		$ctrl	= &$this->getController();
-		$model	= & $ctrl->getModel('category', 'JContactModel');
+		$model	= & $this->_controller->getModel('category', 'JContactModel');
 		$this->setModel($model, true);
 
 		$Itemid   = JRequest::getVar('Itemid');
@@ -88,30 +88,25 @@ class JContactViewCategory extends JView
 		$currentCategory = null;
 		foreach ($categories as $i => $_cat)
 		{
-			if ($_cat->id == $categoryId)
-			{
+			if ($_cat->id == $categoryId) {
 				$currentCategory = &$categories[$i];
 				break;
 			}
 		}
-		if ($currentCategory == null)
-		{
+		if ($currentCategory == null) {
 			$db = &JFactory::getDBO();
 			$currentCategory = JTable::getInstance( 'category', $db );
 		}
 
 		// Set the page title and breadcrumbs
-		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs = & $mainframe->getPathWay();
 
-		if ($currentCategory->name)
-		{
+		if ($currentCategory->name) {
 			// Add the category breadcrumbs item
 			$breadcrumbs->addItem($currentCategory->name, '');
-			$app->setPageTitle(JText::_('Contact').' - '.$currentCategory->name);
-		}
-		else
-		{
-			$app->SetPageTitle(JText::_('Contact'));
+			$mainframe->setPageTitle(JText::_('Contact').' - '.$currentCategory->name);
+		} else {
+			$mainframe->SetPageTitle(JText::_('Contact'));
 		}
 
 		$cParams = &JSiteHelper::getControlParams();
@@ -119,8 +114,7 @@ class JContactViewCategory extends JView
 		$template = preg_replace( '#\W#', '', $template );
 		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
 
-		if (!file_exists( $tmplPath ))
-		{
+		if (!file_exists( $tmplPath )) {
 			$tmplPath = dirname( __FILE__ ) . '/tmpl/table.php';
 		}
 

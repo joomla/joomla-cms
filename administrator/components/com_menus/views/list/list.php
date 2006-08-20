@@ -26,7 +26,7 @@ class JMenuViewList extends JView
 {
 	function display()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 		$document->setTitle('View Menu Items');
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
@@ -187,7 +187,7 @@ class JMenuViewList extends JView
 
 	function copyForm()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
 		$app		= &$this->get('Application');
@@ -249,7 +249,7 @@ class JMenuViewList extends JView
 
 	function moveForm()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
 		$app		= &$this->get('Application');

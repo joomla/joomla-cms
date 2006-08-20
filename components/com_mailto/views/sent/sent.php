@@ -26,12 +26,11 @@ class JViewMailToSent extends JViewMailTo {
 	 * Display the view
 	 */
 	function display() {
-		$controller = &$this->getController();
 
 		$tmpl = $this->createTemplate( 'sent/tmpl/sent.html' );
 
 		// Menu Parameters
-		$mParams= $controller->getVar( 'mParams' );
+		$mParams= $this->_controller->getVar( 'mParams' );
 
 		//$tmpl->addObject( 'body', $mParams->toObject(), 'param_' );
 		//$tmpl->addVars( 'body', $data );

@@ -28,7 +28,7 @@ class JMenuViewWizard extends JWizardView
 
 	function doStart()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle(JText::_('New Menu Item Wizard'));
@@ -132,7 +132,7 @@ class JMenuViewWizard extends JWizardView
 
 	function doNext()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 
@@ -186,7 +186,7 @@ class JMenuViewWizard extends JWizardView
 
 	function doFinished()
 	{
-		$document = &$this->getDocument();
+		$document = & JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle( JText::_('New Menu Item Confirmation') );

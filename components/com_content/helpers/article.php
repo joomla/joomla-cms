@@ -16,8 +16,9 @@ class JContentArticleHelper
 {
 	function showItem( &$parent, &$article, &$access, $showImages = false)
 	{
+		global $mainframe;
+
 		// Initialize some variables
-		$app		=& $parent->getApplication();
 		$user		=& JFactory::getUser();
 		$linkOn		= null;
 		$linkText	= null;
@@ -32,21 +33,21 @@ class JContentArticleHelper
 		$params =& $menus->getParams($Itemid);
 
 		// TODO: clean this part up
-		$SiteName = $app->getCfg('sitename');
+		$SiteName = $mainframe->getCfg('sitename');
 		$gid = $user->get('gid');
 
 		// Get some global parameters
-		$params->def('link_titles', $app->getCfg('link_titles'));
-		$params->def('author', !$app->getCfg('hideAuthor'));
-		$params->def('createdate', !$app->getCfg('hideCreateDate'));
-		$params->def('modifydate', !$app->getCfg('hideModifyDate'));
-		$params->def('print', !$app->getCfg('hidePrint'));
-		$params->def('pdf', !$app->getCfg('hidePdf'));
-		$params->def('email', !$app->getCfg('hideEmail'));
-		$params->def('rating', $app->getCfg('vote'));
-		$params->def('icons', $app->getCfg('icons'));
-		$params->def('readmore', $app->getCfg('readmore'));
-		$params->def('back_button', $app->getCfg('back_button'));
+		$params->def('link_titles', $mainframe->getCfg('link_titles'));
+		$params->def('author', !$mainframe->getCfg('hideAuthor'));
+		$params->def('createdate', !$mainframe->getCfg('hideCreateDate'));
+		$params->def('modifydate', !$mainframe->getCfg('hideModifyDate'));
+		$params->def('print', !$mainframe->getCfg('hidePrint'));
+		$params->def('pdf', !$mainframe->getCfg('hidePdf'));
+		$params->def('email', !$mainframe->getCfg('hideEmail'));
+		$params->def('rating', $mainframe->getCfg('vote'));
+		$params->def('icons', $mainframe->getCfg('icons'));
+		$params->def('readmore', $mainframe->getCfg('readmore'));
+		$params->def('back_button', $mainframe->getCfg('back_button'));
 		$params->set('intro_only', 1);
 
 		// Get some article specific parameters
@@ -67,7 +68,7 @@ class JContentArticleHelper
 		// Process the content plugins
 		$article->text = $article->introtext;
 		JPluginHelper::importPlugin('content');
-		$results = $app->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
+		$results = $mainframe->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
 
 		// Build the link and text of the readmore button
 		if (($params->get('readmore') && @ $article->readmore) || $params->get('link_titles')) {
@@ -95,7 +96,7 @@ class JContentArticleHelper
 
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
 			// link used by print button
-			$printLink = $app->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+			$printLink = $mainframe->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -120,12 +121,12 @@ class JContentArticleHelper
 
 		// If only displaying intro, display the output from the onAfterDisplayTitle event
 		if (!$params->get('intro_only')) {
-			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, 0));
+			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, 0));
 			echo trim(implode("\n", $results));
 		}
 
 		// Display the output from the onBeforeDisplayContent event
-		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
+		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, 0));
 		echo trim(implode("\n", $onBeforeDisplayContent));
 		?>
 
@@ -169,7 +170,7 @@ class JContentArticleHelper
 
 		<?php
 		// Fire the after display content event
-		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $article, & $params, 0));
+		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $article, & $params, 0));
 		echo trim(implode("\n", $onAfterDisplayContent));
 	}
 

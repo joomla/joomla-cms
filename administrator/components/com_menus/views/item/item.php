@@ -33,7 +33,7 @@ class JMenuViewItem extends JView
 		$url 		= $app->isAdmin() ? $app->getSiteURL() : $app->getBaseURL();
 		$menutype 	= $app->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
-		$document	= &$this->getDocument();
+		$document	= & JFactory::getDocument();
 		$document->addScript($url.'includes/js/joomla/popup.js');
 		$document->addStyleSheet($url.'includes/js/joomla/popup.css');
 

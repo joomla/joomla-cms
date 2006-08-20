@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 		// Process the content plugins
 		JPluginHelper::importPlugin('content');
-		$results = $app->triggerEvent('onPrepareContent', array (& $article, & $params, $page));
+		$results = $mainframe->triggerEvent('onPrepareContent', array (& $article, & $params, $page));
 
 		// Build the link and text of the readmore button
 		if ($params->get('readmore') || $params->get('link_titles')) {
@@ -44,7 +44,7 @@ defined('_JEXEC') or die('Restricted access');
 
 		// Popup pages get special treatment for page titles
 		if ($params->get('popup') && $type =! 'html') {
-			$doc->setTitle($app->getCfg('sitename').' - '.$article->title);
+			$doc->setTitle($mainframe->getCfg('sitename').' - '.$article->title);
 		}
 
 		// If the user can edit the article, display the edit icon
@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access');
 		// Time to build the title bar... this may also include the pdf/print/email buttons if enabled
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
 			// Build the link for the print button
-			$printLink = $app->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
+			$printLink = $mainframe->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -84,12 +84,12 @@ defined('_JEXEC') or die('Restricted access');
 
 		// If only displaying intro, display the output from the onAfterDisplayTitle event
 		if (!$params->get('intro_only')) {
-			$results = $app->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
+			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
 			echo trim(implode("\n", $results));
 		}
 
 		// Display the output from the onBeforeDisplayContent event
-		$onBeforeDisplayContent = $app->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, $page));
+		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, $page));
 		echo trim(implode("\n", $onBeforeDisplayContent));
 		?>
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -132,7 +132,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php
 
 		// Fire the after display content event
-		$onAfterDisplayContent = $app->triggerEvent('onAfterDisplayContent', array (& $article, & $params, $page));
+		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $article, & $params, $page));
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays close button in pop-up window

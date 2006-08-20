@@ -24,8 +24,9 @@ class JContentModelWizard extends JWizardModel
 {
 	function init($type='')
 	{
-		$app = &$this->getApplication();
-		$type = $app->getUserStateFromRequest('contentwizard.tool', 'tool', $type );
+		global $mainframe;
+
+		$type = $mainframe->getUserStateFromRequest('contentwizard.tool', 'tool', $type );
 		// Create the JWizard object
 
 		// Include and create the helper object
@@ -40,7 +41,7 @@ class JContentModelWizard extends JWizardModel
 		}
 
 		// Instantiate wizard
-		$this->_wizard =& new JWizard($app, $name);
+		$this->_wizard =& new JWizard($mainframe, $name);
 
 		// Load the XML if helper is set
 		if (isset($this->_helper)) {
@@ -55,12 +56,9 @@ class JContentModelWizard extends JWizardModel
 		{
 			$ids[$i] = (int) $ids[$i];
 		}
-		if ($n < 1)
-		{
+		if ($n < 1) {
 			$result = array();
-		}
-		else
-		{
+		} else {
 			$query = 'SELECT id, title' .
 					' FROM #__content' .
 					' WHERE id = ' . implode( ' OR id = ', $ids );

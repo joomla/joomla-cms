@@ -52,8 +52,6 @@ class JViewMailToDefault extends JViewMailTo {
 	 * Display the view
 	 */
 	function display() {
-		$controller = &$this->getController();
-
 		$data = $this->getData();
 		if ($data === false) {
 			return false;
@@ -62,7 +60,7 @@ class JViewMailToDefault extends JViewMailTo {
 		$tmpl = $this->createTemplate( 'default/tmpl/default.html' );
 
 		// Menu Parameters
-		$mParams= $controller->getVar( 'mParams' );
+		$mParams = $this->_controller->getVar( 'mParams' );
 
 		$tmpl->addObject( 'body', $mParams->toObject(), 'param_' );
 		$tmpl->addVars( 'body', $data );

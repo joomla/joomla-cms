@@ -39,7 +39,7 @@ class JContentViewArticle extends JView
 	 */
 	function display($type='html')
 	{
-//		$document	= &$this->getDocument();
+//		$document	= & JFactory::getDocument();
 
 		switch ($type)
 		{
@@ -60,9 +60,10 @@ class JContentViewArticle extends JView
 	 */
 	function displayHtml()
 	{
+		global $mainframe;
+
 		// Initialize variables
-		$app	= & $this->getApplication();
-		$user	= & JFactory::getUser();
+		$user = & JFactory::getUser();
 
 		$linkOn   = null;
 		$linkText = null;
@@ -84,7 +85,7 @@ class JContentViewArticle extends JView
 		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Handle BreadCrumbs
-		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs = & $mainframe->getPathWay();
 
 		if (!empty ($Itemid)) {
 			// Section
@@ -127,8 +128,9 @@ class JContentViewArticle extends JView
 
 	function edit()
 	{
+		global $mainframe;
+
 		// Initialize variables
-		$app	=& $this->getApplication();
 		$doc	=& JFactory::getDocument();
 		$user	=& JFactory::getUser();
 
@@ -170,7 +172,7 @@ class JContentViewArticle extends JView
 		$doc->setTitle($title);
 
 		// Add pathway item
-		$breadcrumbs = & $app->getPathway();
+		$breadcrumbs = & $mainframe->getPathway();
 		$breadcrumbs->addItem($title, '');
 
 		?>
@@ -479,11 +481,11 @@ class JContentViewArticle extends JView
 	 */
 	function displayPdf()
 	{
+		global $mainframe;
 
 		jimport('tcpdf.tcpdf');
 
 		// Initialize some variables
-		$app		= & $this->getApplication();
 //		$user		= & JFactory::getUser();
 		$article	= & $this->get( 'Article' );
 		$params 	= & $article->parameters;
@@ -500,7 +502,7 @@ class JContentViewArticle extends JView
 
 		// process the new plugins
 		JPluginHelper::importPlugin('content');
-		$app->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
+		$mainframe->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
 
 		//create new PDF document (document units are set by default to millimeters)
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);

@@ -48,7 +48,7 @@ class JContentViewElement extends JView
 		$db			= &JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
-		$document	= &$this->getDocument();
+		$document	= & JFactory::getDocument();
 		$document->setTitle('Article Selection');
 		$document->addScript($url.'includes/js/joomla/popup.js');
 		$document->addStyleSheet($url.'includes/js/joomla/popup.css');

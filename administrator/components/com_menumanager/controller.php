@@ -29,12 +29,12 @@ class MenuTypeController extends JController
 	 */
 	function listItems()
 	{
+		global $mainframe;
+
 		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 
 		$db			= &$this->getDBO();
-		$mainframe	= &$this->getApplication();
-
 		$menus		= array();
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit',  $mainframe->getCfg('list_limit') );
 		$limitstart = $mainframe->getUserStateFromRequest( $this->_option . '.limitstart', 'limitstart', 0 );

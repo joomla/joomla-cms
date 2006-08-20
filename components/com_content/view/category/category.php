@@ -36,7 +36,7 @@ class JContentViewCategory extends JView
 	 */
 	function display()
 	{
-		$document	= &$this->getDocument();
+		$document	= & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':
@@ -56,16 +56,16 @@ class JContentViewCategory extends JView
 	 */
 	function displayHtml()
 	{
+		global $mainframe;
+
 		// Initialize some variables
-		$app		=& $this->getApplication();
 		$user		=& JFactory::getUser();
 		$doc		=& JFactory::getDocument();
 
 		$gid 		= $user->get('gid');
 
 		// Model workaround
-		$ctrl		= &$this->getController();
-		$section 	= &$ctrl->getModel('category', 'JContentModel');
+		$section = &$this->_controller->getModel('category', 'JContentModel');
 		$this->setModel($section, true);
 
 		// Get some data from the model
@@ -85,7 +85,7 @@ class JContentViewCategory extends JView
 		$mParams =& $menus->getParams($Itemid);
 
 		//add alternate feed link
-		$link    = $app->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
+		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$doc->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -98,13 +98,13 @@ class JContentViewCategory extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Set the page title and breadcrumbs
-		$breadcrumbs = & $app->getPathWay();
+		$breadcrumbs = & $mainframe->getPathWay();
 		// Section
 		$breadcrumbs->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
 		// Category
 		$breadcrumbs->addItem($category->title, '');
 
-		$app->SetPageTitle($menu->name);
+		$mainframe->SetPageTitle($menu->name);
 
 		// include the template
 		$cParams = &JSiteHelper::getControlParams();
@@ -121,7 +121,8 @@ class JContentViewCategory extends JView
 
 	function buildItemTable(& $items, & $pagination, & $params, & $lists, & $access, $cid, $sid, $order)
 	{
-		$app		= & $this->getApplication();
+		global $mainframe;
+
 		$user		= & JFactory::getUser();
 
 		$Itemid	= JRequest::getVar('Itemid');
@@ -409,7 +410,8 @@ class JContentViewCategory extends JView
 	 */
 	function displayFeed()
 	{
-		$app =& $this->getApplication();
+		global $mainframe;
+
 		$doc =& JFactory::getDocument();
 
 		// Get some data from the model

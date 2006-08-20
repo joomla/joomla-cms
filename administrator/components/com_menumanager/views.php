@@ -39,14 +39,12 @@ class JMenuManagerListView extends JView
 	 */
 	function display( $menus, $page )
 	{
-		$this->setToolbar();
+		global $mainframe;
 
+		$this->setToolbar();
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 
-		$controller	= &$this->getController();
-		$mainframe	= &$controller->getApplication();
-		$document	= &$this->getDocument();
-
+		$document	= & JFactory::getDocument();
 		$document->addScript('../includes/js/joomla/popup.js');
 		$document->addStyleSheet('../includes/js/joomla/popup.css');
 
@@ -357,7 +355,7 @@ class JMenuManagerConfirmDeleteView extends JView
 	 */
 	function display()
 	{
-		$document	= &$this->getDocument();
+		$document	= & JFactory::getDocument();
 		$model		= &$this->getModel();
 		$table		= $model->getTable();
 
