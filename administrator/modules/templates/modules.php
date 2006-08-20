@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: template.html.php 4539 2006-08-15 10:31:22Z eddiea $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
