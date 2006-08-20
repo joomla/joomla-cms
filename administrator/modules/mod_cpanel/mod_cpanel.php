@@ -23,7 +23,7 @@ $pane   =& JPane::getInstance('sliders');
 $pane->startPane("content-pane");
 
 foreach ($modules as $module) {
-	$title = JText::_( $module->title );
+	$title = $module->title ;
 	$pane->startPanel( $title, "cpanel-panel" );
 	echo JModuleHelper::renderModule($module);
 	$pane->endPanel();
