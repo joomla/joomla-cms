@@ -63,18 +63,19 @@ class JContentController extends JController
 		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
 		$option				= JRequest::getVar( 'option' );
-		$filter_order		= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_order", 'filter_order', '');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_state", 'filter_state', '');
-		$catid				= $mainframe->getUserStateFromRequest("$option.viewcontent.catid", 'catid', 0);
-		$filter_authorid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid	= $mainframe->getUserStateFromRequest("$option.viewcontent.filter_sectionid", 'filter_sectionid', -1);
+		$context			= 'com_content.viewcontent';
+		$filter_order		= $mainframe->getUserStateFromRequest("$context.filter_order", 'filter_order', '');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest("$context.filter_order_Dir", 'filter_order_Dir', '');
+		$filter_state		= $mainframe->getUserStateFromRequest("$context.filter_state", 'filter_state', '');
+		$catid				= $mainframe->getUserStateFromRequest("$context.catid", 'catid', 0);
+		$filter_authorid	= $mainframe->getUserStateFromRequest("$context.filter_authorid", 'filter_authorid', 0);
+		$filter_sectionid	= $mainframe->getUserStateFromRequest("$context.filter_sectionid", 'filter_sectionid', -1);
 		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart			= $mainframe->getUserStateFromRequest("$option.viewcontent.limitstart", 'limitstart', 0);
-		$search				= $mainframe->getUserStateFromRequest("$option.viewcontent.search", 'search', '');
+		$limitstart			= $mainframe->getUserStateFromRequest("$context.limitstart", 'limitstart', 0);
+		$search				= $mainframe->getUserStateFromRequest("$context.search", 'search', '');
 
 		//$where[] = "c.state >= 0";
-		$where[] = "c.state != -2";
+		$where[] = 'c.state != -2';
 
 		if (!$filter_order) {
 			$filter_order = 'section_name';
@@ -93,27 +94,27 @@ class JContentController extends JController
 		 */
 		// Section filter
 		if ($filter_sectionid >= 0) {
-			$where[] = "c.sectionid = $filter_sectionid";
+			$where[] = 'c.sectionid = ' . (int) $filter_sectionid;
 		}
 		// Category filter
 		if ($catid > 0) {
-			$where[] = "c.catid = $catid";
+			$where[] = 'c.catid = ' . (int) $catid;
 		}
 		// Author filter
 		if ($filter_authorid > 0) {
-			$where[] = "c.created_by = $filter_authorid";
+			$where[] = 'c.created_by = ' . (int) $filter_authorid;
 		}
 		// Content state filter
 		if ($filter_state) {
 			if ($filter_state == 'P') {
-				$where[] = "c.state = 1";
+				$where[] = 'c.state = 1';
 			} else {
 				if ($filter_state == 'U') {
-					$where[] = "c.state = 0";
+					$where[] = 'c.state = 0';
 				} else if ($filter_state == 'A') {
-					$where[] = "c.state = -1";
+					$where[] = 'c.state = -1';
 				} else {
-					$where[] = "c.state != -2";
+					$where[] = 'c.state != -2';
 				}
 			}
 		}
@@ -222,7 +223,7 @@ class JContentController extends JController
 		$filter_authorid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_sectionid", 'filter_sectionid', 0);
 		$search					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.search", 'search', '');
-		$search					= $db->getEscaped(trim(JString::strtolower($search)));
+		$search					= $db->getEscaped(JString::strtolower($search));
 		$redirect				= $sectionid;
 
 		// A section id of zero means view all articles [all sections]
@@ -243,17 +244,17 @@ class JContentController extends JController
 		// Section filter
 		if ($filter_sectionid > 0)
 		{
-			$where[] = "c.sectionid = $filter_sectionid";
+			$where[] = 'c.sectionid = ' . (int) $filter_sectionid;
 		}
 		// Author filter
 		if ($filter_authorid > 0)
 		{
-			$where[] = "c.created_by = $filter_authorid";
+			$where[] = 'c.created_by = ' . (int) $filter_authorid;
 		}
 		// Category filter
 		if ($catid > 0)
 		{
-			$where[] = "c.catid = $catid";
+			$where[] = 'c.catid = ' . (int) $catid;
 		}
 		// Keyword filter
 		if ($search)
@@ -261,6 +262,8 @@ class JContentController extends JController
 			$where[] = "LOWER( c.title ) LIKE '%$search%'";
 		}
 
+		// TODO: Sanitise $filter_order
+		$filter_order_Dir = ($filter_order_Dir == 'ASC' ? 'ASC' : 'DESC');
 		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, sectname, cc.name, c.ordering";
 		$where = (count($where) ? "\n WHERE ".implode(' AND ', $where) : '');
 
@@ -372,7 +375,7 @@ class JContentController extends JController
 			$where = "\n WHERE section NOT LIKE '%com_%'";
 		} else {
 			// Grab from the specific section
-			$where = "\n WHERE section = '$sectionid'";
+			$where = "\n WHERE section = ". $db->Quote( $sectionid );
 		}
 
 		/*
@@ -931,20 +934,21 @@ class JContentController extends JController
 		global $mainframe;
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
+		$db		= & JFactory::getDBO();
 		
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$option		= JRequest::getVar( 'option' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 
+		if (isset( $cid[0] ))
+		{
+			$row = & JTable::getInstance('content', $db);
+			$row->load( (int) $cid[0] );
+			$row->move($direction, 'catid = ' . (int) $row->catid . ' AND state >= 0' );
+	
+			$cache = & JFactory::getCache('com_content');
+			$cache->cleanCache();
+		}
 
-		$row = & JTable::getInstance('content', $db);
-		$row->load($cid[0]);
-		$row->move($direction, "catid = $row->catid AND state >= 0");
-
-		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
-
-		$mainframe->redirect('index2.php?option='.$option);
+		$mainframe->redirect('index2.php?option=com_content');
 	}
 
 	/**
@@ -955,17 +959,17 @@ class JContentController extends JController
 		// Initialize variables
 		$db			=& JFactory::getDBO();
 		
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getVar( 'option' );
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (count($cid) < 1)
 		{
 			JViewContent::displayError( JText::_('Select an item to move') );
 			return false;
 		}
 
 		//seperate contentids
+		JArrayHelper::toInteger( $cid );
 		$cids = implode(',', $cid);
 		// Articles query
 		$query = "SELECT a.title" .
@@ -986,7 +990,7 @@ class JContentController extends JController
 		// build the html select list
 		$sectCatList = mosHTML::selectList($rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null);
 
-		ContentView::moveSection($cid, $sectCatList, $option, $sectionid, $items);
+		ContentView::moveSection($cid, $sectCatList, 'com_content', $sectionid, $items);
 	}
 
 	/**
