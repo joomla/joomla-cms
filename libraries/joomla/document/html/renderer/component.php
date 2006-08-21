@@ -33,15 +33,6 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	 */
 	function render( $component = null, $params = array() )
 	{
-		jimport('joomla.factory');
-
-		//For backwards compatibility extract the config vars as globals
-		$registry =& JFactory::getConfig();
-		foreach (get_object_vars($registry->toObject()) as $k => $v) {
-			$name = 'mosConfig_'.$k;
-			$$name = $v;
-		}
-
 		// preload toolbar in case component handles it manually
 		require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 
@@ -53,7 +44,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 			echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
 		}
 
-		echo JComponentHelper::renderComponent($component);
+		echo JComponentHelper::renderComponent($component, $params);
 
 		$contents = ob_get_contents();
 		ob_end_clean();
@@ -63,8 +54,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		 * Build the component toolbar
 		 * - This will move to a MVC controller at some point in the future
 		 */
-		if ($path = JApplicationHelper::getPath( 'toolbar' ))
-		{
+		if ($path = JApplicationHelper::getPath( 'toolbar' )) {
 			global $mainframe;
 			$task = JRequest::getVar( 'task' );
 			include_once( $path );

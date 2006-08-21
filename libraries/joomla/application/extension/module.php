@@ -72,21 +72,30 @@ class JModuleHelper
 
 	function renderModule($module, $params = array())
 	{
-		global $mainframe, $Itemid, $task, $option;
+		global $mainframe, $Itemid, $option;
 
 		// Initialize variables
-		$user 		=& JFactory::getUser();
-		$db	 	    =& JFactory::getDBO();
-		$acl  		=& JFactory::getACL();
 		$style		= isset($params['style']) ? $params['style'] : $module->style;
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 
-		// For backwards compatibility extract the config vars as globals
-		$registry =& JFactory::getConfig();
-		foreach (get_object_vars($registry->toObject()) as $k => $v)
-		{
-			$name = 'mosConfig_'.$k;
-			$$name = $v;
+		// Handle legacy globals if enabled
+		if ($mainframe->getCfg('legacy')) {
+			// Include legacy globals
+			global $my, $database;
+
+			// Get an ACL object for local scope
+			$acl =& JFactory::getACL();
+
+			// Get the task variable for local scope
+			$task = JRequest::getVar( 'task' );
+
+			// For backwards compatibility extract the config vars as globals
+			$registry =& JFactory::getConfig();
+			foreach (get_object_vars($registry->toObject()) as $k => $v)
+			{
+				$name = 'mosConfig_'.$k;
+				$$name = $v;
+			}
 		}
 
 		// Get module parameters
@@ -97,7 +106,7 @@ class JModuleHelper
 
 		// Load the module
 		if (!$module->user && file_exists( $path )) {
-			$lang =& JFActory::getLanguage();
+			$lang =& JFactory::getLanguage();
 			$lang->load($module->module);
 
 			ob_start();

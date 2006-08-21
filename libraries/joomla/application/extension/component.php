@@ -104,49 +104,76 @@ class JComponentHelper
 
 	function renderComponent($component = null, $params = array())
 	{
-		global $mainframe, $option;
-		global $Itemid, $id; //for backwards compatibility
+		global $mainframe, $option, $Itemid;
 
-		$component = is_null($component) ? $option : $component;
+		$component	= is_null($component) ? $option : $component;
+		$outline	= isset($params['outline']) ? $params['outline'] : false;
+		$task		= JRequest::getVar( 'task' );
 
 		//if no component found return
 		if(empty($component)) {
 			return false;
 		}
 
-		//if component disabled throw error
-		if (! JComponentHelper::isEnabled( $component ) ) {
-			JError::raiseError( 404, JText::_('Component Not Found') );
-		}
-
-		$database	=& JFactory::getDBO();
-		$acl  		=& JFactory::getACL();
-
-		$user   = & JFActory::getUser();
-		$my		= $user->_table;
-
-		$task 	= JRequest::getVar( 'task' );
-		$option = JRequest::getVar('option');
-
+		// Build the component path
 		$file = substr( $component, 4 );
 		$path = JPATH_BASE.DS.'components'.DS.$component;
-
 		if(is_file($path.DS.$file.'.php')) {
 			$path = $path.DS.$file.'.php';
 		} else {
 			$path = $path.DS.'admin.'.$file.'.php';
 		}
 
-		$contents = '';
-		ob_start();
+		// If component disabled throw error
+		if (!JComponentHelper::isEnabled( $component ) || !file_exists($path)) {
+			JError::raiseError( 404, JText::_('Component Not Found') );
+		}
 
-		//load common language files
+		// Handle legacy globals if enabled
+		if ($mainframe->getCfg('legacy')) {
+			// Include legacy globals
+			global $my, $database, $id;
+
+			// Get an ACL object for local scope
+			$acl =& JFactory::getACL();
+
+			// For backwards compatibility extract the config vars as globals
+			$registry =& JFactory::getConfig();
+			foreach (get_object_vars($registry->toObject()) as $k => $v)
+			{
+				$name = 'mosConfig_'.$k;
+				$$name = $v;
+			}
+		}
+
+		// Load common language files
 		$lang =& JFactory::getLanguage();
 		$lang->load($component);
-		require_once $path;
 
+		// Handle template preview outlining
+		$contents = null;
+		if($outline && !$mainframe->isAdmin()) {
+			$doc =& JFactory::getDocument();
+			$css  = ".com-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
+			$css .= ".com-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
+			$doc->addStyleDeclaration($css);
+
+			$contents .= "
+			<div class=\"com-preview\">
+			<div class=\"com-preview-info\">Component[".$component."]</div>
+			<div class=\"com-preview-wrapper\">";
+		}
+
+		// Execute the component
+		ob_start();
+		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
+
+		// Close template preview outlining if enabled
+		if($outline && !$mainframe->isAdmin()) {
+			$contents .= "</div></div>";
+		}
 
 		return $contents;
 	}

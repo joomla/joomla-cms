@@ -29,17 +29,17 @@ $cParams 	= JSiteHelper::getControlParams();
 $controller = & new JContentController( 'display' );
 
 // need to tell the controller where to look for views and models
-$controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
-$controller->setModelPath( dirname( __FILE__ ) . DS . 'model' );
+$controller->setViewPath( dirname( __FILE__ ).DS.'views' );
+$controller->setModelPath( dirname( __FILE__ ).DS.'models' );
 
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
 
 $controller->setViewName( $viewName, 'com_content', 'JContentView' );
 // Register Extra tasks
-$controller->registerTask( 'new', 				'edit' );
-$controller->registerTask( 'apply', 			'save' );
-$controller->registerTask( 'apply_new', 		'save' );
+$controller->registerTask( 'new', 		'edit' );
+$controller->registerTask( 'apply', 	'save' );
+$controller->registerTask( 'apply_new', 'save' );
 
 // Perform the Request task
 $controller->execute( $task );

@@ -56,6 +56,9 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		$link = 'index2.php?option=com_media';
 		quickiconButton( $link, 'icon-48-media.png', JText::_( 'Media Manager' ) );
 
+		// Get the current JUser object
+		$user = &JFactory::getUser();
+
 		if ( $user->get('gid') > 23 ) {
 			$link = 'index2.php?option=com_trash';
 			quickiconButton( $link, 'icon-48-trash.png', JText::_( 'Trash Manager' ) );
