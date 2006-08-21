@@ -68,10 +68,6 @@ class JContentViewSection extends JView
 
 		$gid 	= $user->get('gid');
 
-		// Model workaround
-		$model = & $this->_controller->getModel('section', 'JContentModel');
-		$this->setModel($model, true);
-
 		// Get some data from the model
 		$section	= & $this->get( 'Section' );
 

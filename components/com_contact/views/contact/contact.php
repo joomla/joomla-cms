@@ -34,19 +34,18 @@ class JContactViewContact extends JView
 	{
 		global $mainframe, $Itemid;
 
-		$user =& JFactory::getUser();
+		$user		= &JFactory::getUser();
+		$model		= &$this->getModel();
+		$mParams	= &JSiteHelper::getMenuParams();
 
-		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$mParams =& $menus->getParams($Itemid);
 
 		// Push a model into the view
-		$model		= & $this->_controller->getModel('contact', 'JContactModel');
-		$modelCat	= & $this->_controller->getModel('category', 'JContactModel');
+		$model		= &$this->getModel();
+		$modelCat	= &$this->getModel( 'JContactModelCategory' );
 		//$this->setModel($model, true);
 
 		// Selected Request vars
-		$contactId		= JRequest::getVar( 'contact_id', $mParams->get('contact_id', 0 ), '', 'int' );
+		$contactId	= JRequest::getVar( 'contact_id', $mParams->get('contact_id', 0 ), '', 'int' );
 
 		// query options
 		$qOptions['id']			= $contactId;

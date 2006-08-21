@@ -45,34 +45,19 @@ class JView extends JObject {
 	var $_templatePath = null;
 
 	/**
-	 * Registered controller
-	 *
-	 * @access	private
-	 * @var		object
+	 * Internal data array
+	 * @var $array
 	 */
-	var $_controller = null;
-
-	/**
-	 * Constructor for PHP 4.x compatibility
-	 *
-	 * @access	protected
-	 * @param	object	$controller	The view's controller
-	 * @since	1.5
-	 */
-	function JView( &$controller )
-	{
-		$this->__construct( $controller );
-	}
+	var $_vardata = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @access	protected
-	 * @param	object	$controller	The view's controller
 	 * @since	1.5
 	 */
-	function __construct( &$controller ) {
-		$this->_controller = &$controller;
+	function __construct() {
+		$this->_vardata = array();
 	}
 
 	/**
@@ -89,25 +74,32 @@ class JView extends JObject {
 		$false = false;
 
 		// If $model is null we use the default model
-		if (is_null($model)) {
+		if (is_null($model))
+		{
 			$model = $this->_defaultModel;
 		}
 		// First check to make sure the model requested exists
-		if (isset( $this->_models[$model] )) {
+		if (isset( $this->_models[$model] ))
+		{
 			// Model exists, lets build the method name
 			$method = 'get'.ucfirst($method);
 
 			// Does the method exist?
-			if (method_exists($this->_models[$model], $method)) {
+			if (method_exists($this->_models[$model], $method))
+			{
 				// The method exists, lets call it and return what we get
 				$data = $this->_models[$model]->$method();
 				return $data;
-			} else {
+			}
+			else
+			{
 				// Method wasn't found... throw a warning and return false
-				JError::raiseWarning( 0, 'Unknown Method', "$model::$method() was not found");
+				JError::raiseWarning( 0, "Unknown Method $model::$method() was not found");
 				return $false;
 			}
-		} else {
+		}
+		else
+		{
 			// Model wasn't found, return throw a warning and return false
 			JError::raiseWarning( 0, 'Unknown Model', "$model model was not found");
 			return $false;
@@ -127,7 +119,8 @@ class JView extends JObject {
 	 * @return	object				The added model
 	 * @since	1.5
 	 */
-	function &setModel( &$model, $default = false ) {
+	function &setModel( &$model, $default = false )
+	{
 		$name = strtolower(get_class($model));
 		$this->_models[$name] = &$model;
 		if ($default)
@@ -145,12 +138,13 @@ class JView extends JObject {
 	 * @return	mixed			JModel object
 	 * @since	1.5
 	 */
-	function &getModel( $name = null ) {
+	function &getModel( $name = null )
+	{
 		if ($name === null)
 		{
 			$name = $this->_defaultModel;
 		}
-		return $this->_models[$name];
+		return $this->_models[strtolower( $name )];
 	}
 
 	/**
@@ -179,6 +173,33 @@ class JView extends JObject {
 		return $this->_templatePath;
 	}
 
+	/**
+	 * Data getter
+	 * @param string The name of the data variable
+	 * @return mixed The value of the data variable
+	 */
+	function &getVar( $name )
+	{
+		if (isset( $this->_vardata[$name] ))
+		{
+			return $this->_vardata[$name];
+		}
+		else
+		{
+			$null = null;
+			return $null;
+		}
+	}
+
+	/**
+	 * Data setter
+	 * @param string The name of the data variable
+	 * @param mixed The value of the data variable
+	 */
+	function setVar( $name, &$value )
+	{
+		$this->_vardata[$name] = &$value;
+	}
 
 	/**
 	 * Method to set the name of the view.  Usually not be used, but is provided
@@ -189,7 +210,8 @@ class JView extends JObject {
 	 * @return	string	New view name
 	 * @since	1.5
 	 */
-	function setViewName( $name ) {
+	function setViewName( $name )
+	{
 		// Clean and set the view name
 		$this->_viewName = preg_replace( '#\W#', '', $name );
 		return $this->_viewName;
@@ -202,7 +224,8 @@ class JView extends JObject {
 	 * @return	string	The name of the view
 	 * @since	1.5
 	 */
-	function getViewName() {
+	function getViewName()
+	{
 		return $this->_viewName;
 	}
 
@@ -223,16 +246,22 @@ class JView extends JObject {
 
 		// If a template override exists in the theme folder, then we include it, otherwise we use the base.
 		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_viewName.DS.strtolower($template).'.php';
-		if (file_exists( $tPath )) {
+		if (file_exists( $tPath ))
+		{
 			require( $tPath );
-		} else {
+		}
+		else
+		{
 			// Build the path to the default view based upon a supplied base path
 			$path = $this->_templatePath.strtolower($template).'.php';
 
 			// If the default view file exists include it and try to instantiate the object
-			if (file_exists( $path )) {
+			if (file_exists( $path ))
+			{
 				require( $path );
-			} else {
+			}
+			else
+			{
 				$return = JError::raiseWarning( 500, 'Template '.$template.' not supported. File not found.' );
 			}
 		}

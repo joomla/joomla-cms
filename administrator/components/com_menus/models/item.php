@@ -454,6 +454,7 @@ class JMenuModelItem extends JModel
 					}
 				}
 			}
+
 		return $xml;
 		}
 	}

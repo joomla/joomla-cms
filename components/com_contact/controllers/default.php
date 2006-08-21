@@ -48,6 +48,20 @@ class JContactControllerDefault extends JController
 		$this->setViewName( $viewName, 'com_contact', 'JContactView' );
 		$view = &$this->getView();
 
+		// Push a model into the view
+		$model	= &$this->getModel( $viewName, 'JContactModel' );
+		if (!JError::isError( $model ))
+		{
+			$view->setModel( $model, true );
+		}
+
+		// Workaround for the item view
+		if ($viewName == 'contact')
+		{
+			$modelCat	= &$this->getModel( 'category', 'JContactModel' );
+			$view->setModel( $modelCat );
+		}
+
 		// Display the view
 		$view->display();
 	}

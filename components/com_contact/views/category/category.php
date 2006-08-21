@@ -51,11 +51,8 @@ class JContactViewCategory extends JView
 	{
 		global $mainframe;
 
-		$user =& JFactory::getUser();
-
-		// Push a model into the view
-		$model	= & $this->_controller->getModel('category', 'JContactModel');
-		$this->setModel($model, true);
+		$user	= &JFactory::getUser();
+		$model	= &$this->getModel();
 
 		$Itemid   = JRequest::getVar('Itemid');
 

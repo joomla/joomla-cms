@@ -225,7 +225,6 @@ class JController extends JObject
 		}
 
 		$model = & new $modelClass();
-		$model->setController( $this );
 		return $model;
 	}
 

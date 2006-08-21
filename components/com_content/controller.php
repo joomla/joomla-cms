@@ -210,31 +210,36 @@ class JContentController extends JController
 		// Get control information from the request
 		$cParams	= JSiteHelper::getControlParams();
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
-		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', 'article' ));
-		$format   = JRequest::getVar( 'format', 'html',  '', 'string'  );
+		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
+		$format		= JRequest::getVar( 'format', 'html',  '', 'string'  );
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
 			//index.php?option=com_content&task=blogsection&id=0&Itemid=4
 			case 'blogsection':
-				$viewName = 'section';
+				$viewName	= 'section';
+				$modelName	= 'section';
 				JRequest::setVar( 'tpl', 'blog' );
 				break;
 			case 'section':
-				$viewName = 'section';
+				$viewName	= 'section';
+				$modelName	= 'section';
 				JRequest::setVar( 'tpl', 'list' );
 				break;
 			case 'category':
-				$viewName = 'category';
+				$viewName	= 'category';
+				$modelName	= 'category';
 				JRequest::setVar( 'tpl', 'table' );
 				break;
 			case 'blogcategory':
-				$viewName = 'section';
+				$viewName	= 'section';
+				$modelName	= 'section';
 				JRequest::setVar( 'tpl', 'blog' );
 				break;
 			case 'view':
-				$viewName = 'article';
+				$viewName	= 'article';
+				$modelName	= 'article';
 				JRequest::setVar( 'tpl', 'article' );
 				break;
 		}
