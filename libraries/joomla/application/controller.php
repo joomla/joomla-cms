@@ -110,12 +110,6 @@ class JController extends JObject
 	var $_modelPath = null;
 
 	/**
-	 * Internal data to pass to the controller
-	 * @var $array
-	 */
-	var $_data;
-
-	/**
 	 * An error message
 	 * @var string
 	 */
@@ -449,20 +443,6 @@ class JController extends JObject
 	}
 
 	/**
-	 * Data getter
-	 * @param string The name of the data variable
-	 * @return mixed The value of the data variable
-	 */
-	function &getVar( $name ) {
-		if (isset( $this->_vardata[$name] )) {
-			return $this->_vardata[$name];
-		} else {
-			$null = null;
-			return $null;
-		}
-	}
-
-	/**
 	 * Method to get the current view and load it if necessary..
 	 *
 	 * @access	public
@@ -630,16 +610,6 @@ class JController extends JObject
 	{
 		$this->_viewPath = $path.DS;
 		return $this->_viewPath;
-	}
-
-	/**
-	 * Data setter
-	 * @param string The name of the data variable
-	 * @param mixed The value of the data variable
-	 */
-	function setVar( $name, &$value )
-	{
-		$this->_vardata[$name] = &$value;
 	}
 
 	/**
