@@ -2,7 +2,7 @@
 /**
  * Generic highlighting function using PEAR::Text_Highlighter
  *
- * $Id: Highlight.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Highlight.php 391 2005-04-12 18:09:45Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -12,7 +12,7 @@
 /**
  * patTemplate function that highlights PHP code in your templates
  *
- * $Id: Highlight.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Highlight.php 391 2005-04-12 18:09:45Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions

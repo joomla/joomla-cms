@@ -2,7 +2,7 @@
 /**
  * patTemplate function that highlights PHP code in your templates
  *
- * $Id: Phphighlight.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Phphighlight.php 214 2004-05-18 20:10:45Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -12,7 +12,7 @@
 /**
  * patTemplate function that highlights PHP code in your templates
  *
- * $Id: Phphighlight.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Phphighlight.php 214 2004-05-18 20:10:45Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions

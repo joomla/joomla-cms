@@ -2,7 +2,7 @@
 /**
  * Dumps templates as XUL
  *
- * $Id: XUL.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: XUL.php 361 2005-02-18 19:06:41Z schst $
  *
  * @package		patTemplate
  * @subpackage	Dump

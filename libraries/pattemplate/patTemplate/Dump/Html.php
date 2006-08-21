@@ -2,7 +2,7 @@
 /**
  * Dumps templates as HTML
  *
- * $Id: Html.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Html.php 356 2005-01-04 19:30:59Z schst $
  *
  * @package		patTemplate
  * @subpackage	Dump

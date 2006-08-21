@@ -203,9 +203,9 @@ function savePlugin( $option, $client, $task )
 	$row->checkin();
 
 	if ($client == 'admin') {
-		$where = "client_id='1'";
+		$where = "client_id=1";
 	} else {
-		$where = "client_id='0'";
+		$where = "client_id=0";
 	}
 
 	$row->reorder( "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND ( $where )" );

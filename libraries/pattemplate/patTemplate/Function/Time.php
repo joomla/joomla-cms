@@ -3,7 +3,7 @@
  * patTemplate function that calculates the current time
  * or any other time and returns it in the specified format.
  *
- * $Id: Time.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Time.php 95 2004-04-06 18:50:25Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -14,7 +14,7 @@
  * patTemplate function that calculates the current time
  * or any other time and returns it in the specified format.
  *
- * $Id: Time.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Time.php 95 2004-04-06 18:50:25Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions
