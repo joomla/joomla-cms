@@ -46,7 +46,7 @@ class JError extends patErrorManager
 		if (JERR_PHP5)
 		{
 			// supports PHP 5 exception handling
-			return patErrorManager::isError($object) | ($object instanceof Exception);
+			return patErrorManager::isError($object) | is_a($object, 'Exception');
 		}
 		else
 		{
