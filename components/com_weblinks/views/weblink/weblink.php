@@ -32,7 +32,7 @@ class WeblinksViewWeblink extends JView
 	
 	function display() 
 	{
-		$option = JRequest::getVar('option');
+		global $option;
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
 		$this->_loadTemplate('edit');

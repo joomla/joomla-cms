@@ -17,11 +17,9 @@
 <?php endif; ?>
 </table>
 <ul>
-<?php foreach ( $this->data->categories as $category ) : 
-	$link = 'index.php?option=com_weblinks&amp;task=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid;
-	?>
+<?php foreach ( $this->categories as $category ) : ?>
 	<li>
-		<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $category->name;?>
 		</a>
 		&nbsp;

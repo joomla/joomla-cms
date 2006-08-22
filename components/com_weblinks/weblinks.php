@@ -48,12 +48,7 @@ switch ( JRequest::getVar( 'task' ) )
 		break;
 		
 	case 'category' :
-		$document =& JFactory::getDocument();
-		if($document->getType() == 'feed') {
-			WeblinksController::displayCategoryFeed();
-		} else {
-			WeblinksController::displayCategory();
-		}
+		WeblinksController::displayCategory();
 		break;
 
 	default :
@@ -131,12 +126,12 @@ class WeblinksController
 		$view = new WeblinksViewCategories();
 		
 		$data = new stdClass();
-		$data->error      = null;
-		$data->categories = $categories;
-		$data->total      = count($categories);
+		$data->error  = null;
+		$data->total  = count($categories);
 		
-		$view->set('params'  , $params);
-		$view->set('data'    , $data);
+		$view->set('params'    , $params);
+		$view->set('data'      , $data);
+		$view->set('categories', $categories);
 		$view->display();
 	}
 	
@@ -170,39 +165,8 @@ class WeblinksController
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 		$catid				= JRequest::getVar( 'catid', (int) $params->get('category_id'), '', 'int' );
 
-		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$catid.'&Itemid='.$Itemid;
-		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
-		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
-
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
-
-		$params->def('page_title', 1);
-		$params->def('header', $menu->name);
-		$params->def('pageclass_sfx', '');
-		$params->def('headings', 1);
-		$params->def('hits', $mainframe->getCfg('hits'));
-		$params->def('item_description', 1);
-		$params->def('other_cat_section', 1);
-		$params->def('other_cat', 1);
-		$params->def('description', 1);
-		$params->def('description_text', JText::_('WEBLINKS_DESC'));
-		$params->def('image', -1);
-		$params->def('weblink_icons', '');
-		$params->def('image_align', 'right');
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-
-		// pagination parameters
-		$params->def('display', 1);
-		$params->def('display_num', $mainframe->getCfg('list_limit'));
-
-		$params->set( 'type', 'category' );
-		
-		// Initialize variables
-		$rows = array ();
 
 		// Ordering control
 		$orderby = "\n ORDER BY $filter_order $filter_order_dir, ordering";
@@ -212,8 +176,8 @@ class WeblinksController
 				"\n WHERE catid = $catid" .
 				"\n AND published = 1";
 		$db->setQuery($query);
-		
 		$counter = $db->loadObjectList();
+		
 		$total = $counter[0]->numitems;
 		$limit = $limit ? $limit : $params->get('display_num');
 		
@@ -266,83 +230,21 @@ class WeblinksController
 		$view = new WeblinksViewCategory();
 		
 		$request = new stdClass();
-		$request->limitstart        = $limitstart;
-		$request->limit             = $limit;
-		$request->catid		        = $catid;
+		$request->limitstart  = $limitstart;
+		$request->limit       = $limit;
+		$request->catid		  = $catid;
 		
 		$data = new stdClass();
 		$data->error    = null;
-		$data->items    = $rows;
 		$data->total    = $total;
-		$data->category = $category;
 		
 		$view->set('lists'   , $lists);
 		$view->set('params'  , $params);
 		$view->set('request' , $request);
 		$view->set('data'    , $data);
+		$view->set('category', $category);
+		$view->set('items'   , $rows);
 		$view->display();
-	}
-
-	function displayCategoryFeed()
-	{
-		$db		  =& JFactory::getDBO();
-		$document =& JFactory::getDocument();
-
-		// Get some request variables
-		$limit		= 10;
-
-		$where  = "\n WHERE published = 1";
-        $catid  = JRequest::getVar('catid', 0);
-
-        if ( $catid ) {
-            $where .= "\n AND catid = $catid";
-        }
-
-    	$query = "SELECT *,"
-    	. "\n title AS title,"
-    	. "\n url AS link,"
-    	. "\n description AS description,"
-    	. "\n date AS date"
-    	. "\n FROM #__weblinks"
-    	. $where
-    	. "\n ORDER BY ordering"
-     	;
-		$db->setQuery( $query, 0, $limit );
-    	$rows = $db->loadObjectList();
-
-		echo $db->getErrorMsg();
-
-		foreach ( $rows as $row )
-		{
-			// strip html from feed item title
-			$title = htmlspecialchars( $row->title );
-			$title = html_entity_decode( $title );
-
-			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$itemid = JApplicationHelper::getItemid( $row->id );
-			if ($itemid) {
-				$_Itemid = '&Itemid='. $itemid;
-			}
-
-			$link = 'index.php?option=com_weblinks&task=view&id='. $row->id . '&catid='.$row->catid.$_Itemid;
-			$link = sefRelToAbs( $link );
-
-			// strip html from feed item description text
-			$description = $row->description;
-			$date = ( $row->date ? date( 'r', $row->date ) : '' );
-
-			// load individual item creator class
-			$item = new JFeedItem();
-			$item->title 		= $title;
-			$item->link 		= $link;
-			$item->description 	= $description;
-			$item->date			= $date;
-			$item->category   	= 'Weblinks';
-
-			// loads item info into rss array
-			$document->addItem( $item );
-		}
 	}
 
 	/**
@@ -496,11 +398,11 @@ class WeblinksController
 			
 		$data = new stdClass();
 		$data->error    = null;
-		$data->weblink  = $row;
 		
 		$view->set('lists'   , $lists);
 		$view->set('data'    , $data);
 		$view->set('request' , $request);
+		$view->set('weblink' , $row);
 		$view->display();
 	}
 

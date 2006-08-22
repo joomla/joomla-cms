@@ -38,7 +38,7 @@
 	<?php endif; ?>
 </tr>
 <?php endif; ?>
-<?php foreach ($this->data->items as $item) : ?>
+<?php foreach ($this->items as $item) : ?>
 <tr class="sectiontableentry<?php echo $item->odd + 1; ?>">
 	<td align="center">
 		<?php echo $this->pagination->rowNumber( $item->count ); ?>

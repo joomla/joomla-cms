@@ -44,6 +44,12 @@ class WeblinksViewCategories extends JView
 			$this->data->image = mosHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('Web Links'), $attribs);
 		}
 		
+		for($i = 0; $i < count($this->categories); $i++)
+		{
+			$category =& $this->categories[$i];
+			$category->link = sefRelToAbs('index.php?option=com_weblinks&amp;task=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
+		}
+		
 		$this->_loadTemplate('list');
 	}
 }

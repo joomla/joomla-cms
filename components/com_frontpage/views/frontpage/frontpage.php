@@ -47,25 +47,17 @@ class FrontpageViewFrontpage extends JView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
+		$gid		= $user->get('gid');
 		
 		//we also need the content language file
 		$lang->load('com_content');
 
-		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
-		$gid		= $user->get('gid');
-
-		//add alternate feed link
-		$link    = ampReplace($mainframe->getBaseURL() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
-		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
-		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 		
 		// get menu
 		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
-
+		
 		$intro				= $this->params->def('intro', 4);
 		$leading			= $this->params->def('leading', 1);
 		$links				= $this->params->def('link', 4);
@@ -77,6 +69,13 @@ class FrontpageViewFrontpage extends JView
 		$this->params->def('pagination_results', 1);
 		$this->params->def('pageclass_sfx', '');
 		$this->params->set('intro_only', 1);
+
+		//add alternate feed link
+		$link    = ampReplace($mainframe->getBaseURL() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
+		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 		
 		// parameters
 		if ($this->params->get('page_title', 1) && $menu) {
