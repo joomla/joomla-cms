@@ -448,15 +448,7 @@ class JApplication extends JObject
 	 */
 	function getBaseURL()
 	{
-		$uri =& JFactory::getURI();
-
-		$url  = $uri->getScheme().'://';
-		$url .= $uri->getHost();
-		if ($port = $uri->getPort()) {
-			$url .= ":$port";
-		}
-		$url .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
-		return $url;
+		return JURI::resolve('/');
 	}
 
 	/**

@@ -199,32 +199,37 @@ class JURI extends JObject
 	 */
 	function resolve( $url, $ssl=0, $sef=1 )
 	{
-		static $RURL;
+		static $BASE;
 
 		// Get the base request URL if not set
-		if (!isset($RURL)) {
+		if (!isset($BASE)) {
 			$uri =& JFactory::getURI();
-			$RURL  = $uri->getScheme().'://';
-			$RURL .= $uri->getHost();
+			$BASE  = $uri->getScheme().'://';
+			$BASE .= $uri->getHost();
 			if ($port = $uri->getPort()) {
-				$RURL .= ":$port";
+				$BASE .= ":$port";
 			}
-			$RURL .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
+			$BASE .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
 		}
 
 		/*
 		 * First we need to get the secure/unsecure URLs.  If the first 5
-		 * characters of the RURL are 'https', then we are on an ssl connection over
+		 * characters of the BASE are 'https', then we are on an ssl connection over
 		 * https and need to set our secure URL to the current request URL, if not,
 		 * and the scheme is 'http', then we need to do a quick string manipulation
 		 * to switch schemes.
 		 */
-		if ( substr( $RURL, 0, 5 ) == 'https' ) {
-			$secure 	= $RURL;
-			$unsecure	= 'http'.substr( $RURL, 5 );
-		} elseif ( substr( $RURL, 0, 4 ) == 'http' ) {
-			$secure		= 'https'.substr( $RURL, 4 );
-			$unsecure	= $RURL;
+		if ( substr( $BASE, 0, 5 ) == 'https' ) {
+			$secure 	= $BASE;
+			$unsecure	= 'http'.substr( $BASE, 5 );
+		} elseif ( substr( $BASE, 0, 4 ) == 'http' ) {
+			$secure		= 'https'.substr( $BASE, 4 );
+			$unsecure	= $BASE;
+		}
+
+		// If $url is / the we set the base url as the given one
+		if ($url == '/') {
+			$url = $BASE;
 		}
 
 		/*
@@ -237,7 +242,7 @@ class JURI extends JObject
 
 		// Were we fed a relative URL?
 		if ( substr( $url,0,4 ) != 'http' ) {
-			$url = $RURL . $url;
+			$url = $BASE . $url;
 		}
 
 		/*

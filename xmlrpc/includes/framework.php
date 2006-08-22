@@ -57,6 +57,7 @@ jimport( 'joomla.application.user.user' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.environment.request' );
 jimport( 'joomla.environment.session' );
+jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.i18n.language' );
