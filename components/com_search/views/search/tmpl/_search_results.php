@@ -34,7 +34,7 @@
 		<fieldset>
 			<div>
 				<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-					<?php echo $i.'. ';?>
+					<?php echo $row->count.'. ';?>
 				</span>
 				<?php if ( $row->href ) : 
 					$row->href = ampReplace( $row->href );

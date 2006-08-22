@@ -53,6 +53,7 @@ class SearchController
 
 		$error = '';
 		$rows  = null;
+		$total = 0;
 		
 		// Get some request variables
 		$searchword 	= JRequest::getVar( 'searchword' );
@@ -116,10 +117,12 @@ class SearchController
 		 
 		//compile request array
 		$request = new stdClass();
-		$request->areas      = $areas;
-		$request->searchword = $searchword;
-		$request->limitstart = $limitstart;
-		$request->limit      = $limit;
+		$request->areas        = $areas;
+		$request->searchword   = $searchword;
+		$request->searchphrase = $searchphrase;
+		$request->ordering     = $ordering;
+		$request->limitstart   = $limitstart;
+		$request->limit        = $limit;
 		
 		$data = new stdClass();
 		$data->error = $error;

@@ -12,8 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -23,15 +22,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Weblinks
  * @since 1.0
  */
-class SearchViewSearch extends JObject
+class SearchViewSearch extends JView
 {
-	/**
-	 * @param string
-	 * @param array
-	 * @param object
-	 * @param array Array of the selected areas
-	 */
-	function display() 
+	function __construct()
+	{
+		$this->setViewName('search');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display()  
 	{	
 		$this->_loadTemplate('search');
 	}
@@ -68,7 +67,7 @@ class SearchViewSearch extends JObject
 			
 		for($i = 0; $i < count($this->data->rows); $i++ ) 
 		{
-			$rows =& $this->data->rows[$i];
+			$row =& $this->data->rows[$i];
 			if ($row->created) {
 				$created = mosFormatDate ( $row->created, JText::_( 'DATE_FORMAT_LC' ) );
 			}
@@ -77,6 +76,7 @@ class SearchViewSearch extends JObject
 			}
 	 		
 			$row->created = $created;
+			$row->count   = $i + 1;
 		}
 		
 		$this->_loadTemplate('_search_results');
@@ -85,13 +85,6 @@ class SearchViewSearch extends JObject
 	function error()
 	{
 		$this->_loadTemplate('_search_error');
-	}
-	
-	function _loadTemplate( $template )
-	{
-		global $mainframe, $Itemid, $option;
-		
-		require(dirname(__FILE__).DS.'tmpl'.DS.$template.'.php');	
 	}
 }
 ?>
