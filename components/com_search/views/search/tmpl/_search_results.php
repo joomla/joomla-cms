@@ -30,39 +30,39 @@
 <tr>
 	<td>
 	<?php
-	foreach( $this->data->rows as $row ) : ?>
+	foreach( $this->data->results as $result ) : ?>
 		<fieldset>
 			<div>
 				<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-					<?php echo $row->count.'. ';?>
+					<?php echo $result->count.'. ';?>
 				</span>
-				<?php if ( $row->href ) : 
-					$row->href = ampReplace( $row->href );
-					if ($row->browsernav == 1 ) : ?>
-						<a href="<?php echo sefRelToAbs($row->href); ?>" target="_blank">
+				<?php if ( $result->href ) : 
+					$result->href = ampReplace( $result->href );
+					if ($result->browsernav == 1 ) : ?>
+						<a href="<?php echo sefRelToAbs($result->href); ?>" target="_blank">
 					<?php else : ?>
-						<a href="<?php echo sefRelToAbs($row->href); ?>">
+						<a href="<?php echo sefRelToAbs($result->href); ?>">
 					<?php endif; 
 
-					echo $row->title;
+					echo $result->title;
 
-					if ( $row->href ) : ?>
+					if ( $result->href ) : ?>
 						</a>
 					<?php endif; 
-					if ( $row->section ) : ?>
+					if ( $result->section ) : ?>
 						<br />
 						<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-							(<?php echo $row->section; ?>)
+							(<?php echo $result->section; ?>)
 						</span>
 					<?php endif; ?>
 				<?php endif; ?>
 			</div>
 			<div>
-				<?php echo ampReplace( $row->text );?>
+				<?php echo ampReplace( $result->text );?>
 			</div>
 			<?php if ( !$mainframe->getCfg( 'hideCreateDate' )) : ?>
 			<div class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $row->created; ?>
+				<?php echo $result->created; ?>
 			</div>
 			<?php endif; ?>
 		</fieldset>	

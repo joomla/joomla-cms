@@ -12,8 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -23,78 +22,86 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Weblinks
  * @since 1.0
  */
-class WeblinksViewCategory 
+class WeblinksViewCategory extends JView
 {
-
-	/**
-	 * Displays a web link category
-	 *
-	 * @param array $rows An array of weblinks to display
-	 * @param int $catid Category id of the current category
-	 * @param object $category Category model of the current category
-	 * @param object $params Parameters object for the current category
-	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
-	 */
-	function show( &$rows, $catid, &$category, &$params, &$lists, &$page ) {
-		require(dirname(__FILE__).DS.'tmpl'.DS.'table.php');
-	}
-
-	/**
-	 * Helper function to display a table of web link items
-	 *
-	 * @param object $params Parameters object
-	 * @param array $rows Array of web link objects to show
-	 * @param int $catid Category id of the web link category to show
-	 * @param array $tabclass Two element array with the CSS classnames of the alternating table rows
-	 * @since 1.0
-	 */
-	function showItems( &$params, &$rows, $catid, &$lists, &$page  ) 
+	function __construct()
 	{
-		global $Itemid;
+		$this->setViewName('category');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display() 
+	{	
+		// Define image tag attributes
+		if (isset ($this->data->category->image)) {
+			$attribs['align'] = '"'.$this->data->category->image_position.'"';
+			$attribs['hspace'] = '"6"';
 
-		// icon in table display
-		if ( $params->get( 'weblink_icons' ) <> -1 ) {
-			$image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
-		} else {
-			$image = NULL;
+			// Use the static HTML library to build the image tag
+			$this->data->image = mosHTML::Image('/images/stories/'.$this->data->category->image, JText::_('Web Links'), $attribs);
 		}
 		
-		$k = 0;		
-		for($i = 0; $i < count($rows); $i++) 
-		{
-			$iparams = new JParameter( $rows[$i]->params );
+		$this->_loadTemplate('table');
+	}
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $rows[$i]->id );
+	function items( ) 
+	{
+		global $Itemid;
+		
+		if (!count( $this->data->items ) ) {
+			return;
+		}
+		
+		$catid = $this->request->catid;
+		
+		//create pagination
+		jimport('joomla.presentation.pagination');
+		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+		
+		$this->data->link = "index.php?option=com_weblinks&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
+		
+		// icon in table display
+		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
+			$this->data->image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
+		} 
+		
+		$k = 0;		
+		for($i = 0; $i < count($this->data->items); $i++) 
+		{
+			$item =& $this->data->items[$i];
+			$params = new JParameter( $item->params );
+
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $item->id );
 			$link = ampReplace( $link );
 
-			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
+			$menuclass = 'category'.$this->params->get( 'pageclass_sfx' );
 
-			switch ($iparams->get( 'target' )) 
+			switch ($params->get( 'target' )) 
 			{
 				// cases are slightly different
 				case 1:
 					// open in a new window
-					$rows[$i]->link = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $rows[$i]->title .'</a>';
+					$item->link = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $item->title .'</a>';
 					break;
 
 				case 2:
 					// open in a popup window
-					$rows[$i]->link  = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $rows[$i]->title ."</a>\n";
+					$item->link  = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
 					break;
 
 				default:	
 					// formerly case 2
 					// open in parent window
-					$rows[$i]->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $rows[$i]->title .'</a>';
+					$item->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
 					break;
 			}
 			
-			$rows[$i]->odd   = $k;
-			$rows[$i]->count = $i;
+			$item->odd   = $k;
+			$item->count = $i;
 			$k = 1 - $k;
 		}
 
-		require(dirname(__FILE__).DS.'tmpl'.DS.'table_items.php');	
+		$this->_loadTemplate('_table_items');
 	}
 }
 ?>

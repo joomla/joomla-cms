@@ -20,7 +20,8 @@
  * @author		Louis Landry, Andrew Eddie
  * @since		1.5
  */
-class JView extends JObject {
+class JView extends JObject 
+{
 
 	/**
 	 * Name of the view.  Defined in subclasses

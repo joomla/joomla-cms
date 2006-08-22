@@ -65,18 +65,18 @@ class SearchViewSearch extends JView
 		$this->data->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->data->total, $this->request->searchword );
 		$this->data->image 	= mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 			
-		for($i = 0; $i < count($this->data->rows); $i++ ) 
+		for($i = 0; $i < count($this->data->results); $i++ ) 
 		{
-			$row =& $this->data->rows[$i];
-			if ($row->created) {
-				$created = mosFormatDate ( $row->created, JText::_( 'DATE_FORMAT_LC' ) );
+			$result =& $this->data->results[$i];
+			if ($result->created) {
+				$created = mosFormatDate ( $result->created, JText::_( 'DATE_FORMAT_LC' ) );
 			}
 			else { 
 				$created = '';
 			}
 	 		
-			$row->created = $created;
-			$row->count   = $i + 1;
+			$result->created = $created;
+			$result->count   = $i + 1;
 		}
 		
 		$this->_loadTemplate('_search_results');

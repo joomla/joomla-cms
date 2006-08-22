@@ -15,9 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$pathway =& $mainframe->getPathWay();
-$pathway->setItemName(1, JText::_( 'Search' ) );
-
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Search'));
 
@@ -50,6 +47,7 @@ class SearchController
 	
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
+		$pathway =& $mainframe->getPathWay();
 
 		$error = '';
 		$rows  = null;
@@ -63,6 +61,10 @@ class SearchController
 		$areas 			= JRequest::getVar( 'areas' );
 		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
 		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
+		
+	
+		// Set the component name in the pathway
+		$pathway->setItemName(1, JText::_( 'Search' ) );
 		
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
@@ -115,7 +117,9 @@ class SearchController
 			$rows  = array_splice($rows, $limitstart, $limit);
 		}
 		 
-		//compile request array
+		require_once (dirname(__FILE__).DS.'views'.DS.'search'.DS.'search.php');
+		$view = new SearchViewSearch();
+		
 		$request = new stdClass();
 		$request->areas        = $areas;
 		$request->searchword   = $searchword;
@@ -125,13 +129,10 @@ class SearchController
 		$request->limit        = $limit;
 		
 		$data = new stdClass();
-		$data->error = $error;
-		$data->rows  = $rows;
-		$data->total = $total;
+		$data->error   = $error;
+		$data->results = $rows;
+		$data->total   = $total;
 		
-		require_once (dirname(__FILE__).DS.'views'.DS.'search'.DS.'search.php');
-
-		$view = new SearchViewSearch();
 		$view->set('lists'   , $lists);
 		$view->set('params'  , $params);
 		$view->set('request' , $request);

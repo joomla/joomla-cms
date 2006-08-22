@@ -12,8 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -23,28 +22,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Weblinks
  * @since 1.0
  */
-class WeblinksViewWeblink 
+class WeblinksViewWeblink extends JView
 {
-	/**
-	 * Displays the edit form for new and existing web links (FRONTEND)
-	 *
-	 * A new record is defined when <var>$row</var> is passed with the <var>id</var>
-	 * property set to 0.
-	 *
-	 * @param object $row The JWeblinkModel object to edit
-	 * @param string $categories The html for the categories select list
-	 * @since 1.0
-	 */
-	function editWeblink( &$row, &$categories ) 
+	function __construct()
 	{
-		global $mainframe;
-
+		$this->setViewName('weblink');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display() 
+	{
 		$option = JRequest::getVar('option');
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
-		$Returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
-		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'edit.php');	
+		$this->_loadTemplate('edit');
 	}
 }
 ?>

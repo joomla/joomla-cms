@@ -12,8 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -23,31 +22,29 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Weblinks
  * @since 1.0
  */
-class WeblinksViewCategories 
+class WeblinksViewCategories extends JView
 {
-	/**
-	 * Helper function to display a list of categories
-	 *
-	 * @param object $params Parameters object for the current category
-	 * @param array $categories Array of categories to display
-	 * @param int $catid Category id of current category
-	 * @since 1.0
-	 */
-	function show( &$params, &$categories  )
+	function __construct()
+	{
+		$this->setViewName('categories');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display( )
 	{
 		global $Itemid;
 		
 		// Define image tag attributes
-		if ($params->get('image') != -1)
+		if ($this->params->get('image') != -1)
 		{
-			$imgAttribs['align'] = '"'. $params->get('image_align').'"';
-			$imgAttribs['hspace'] = '"6"';
+			$attribs['align'] = '"'. $this->params->get('image_align').'"';
+			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$image = mosHTML::Image('/images/stories/'.$params->get('image'), JText::_('Web Links'), $imgAttribs);
+			$this->data->image = mosHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('Web Links'), $attribs);
 		}
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'list.php');	
+		$this->_loadTemplate('list');
 	}
 }
 ?>

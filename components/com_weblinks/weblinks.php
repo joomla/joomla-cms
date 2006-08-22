@@ -30,9 +30,6 @@ switch ( JRequest::getVar( 'task' ) )
 {
 	case 'new' :
 		WeblinksController::editWebLink();
-		break;
-
-	case 'edit' :
 		WeblinksController::editWebLink();
 		break;
 
@@ -45,20 +42,20 @@ switch ( JRequest::getVar( 'task' ) )
 		break;
 
 	case 'view' :
-		WeblinksController::showItem();
+		WeblinksController::displayWeblink();
 		break;
 		
 	case 'category' :
 		$document =& JFactory::getDocument();
 		if($document->getType() == 'feed') {
-			WeblinksController::showCategoryFeed();
+			WeblinksController::displayCategoryFeed();
 		} else {
-			WeblinksController::showCategory();
+			WeblinksController::displayCategory();
 		}
 		break;
 
 	default :
-		WeblinksController::showCategories();
+		WeblinksController::display();
 		break;
 }
 
@@ -79,7 +76,7 @@ class WeblinksController
 	 * @param	int	$catid	Web Link category id
 	 * @since	1.0
 	 */
-	function showCategories()
+	function display()
 	{
 		global $mainframe, $Itemid;
 
@@ -129,7 +126,16 @@ class WeblinksController
 		$categories = $db->loadObjectList();
 
 		require_once (dirname(__FILE__).DS.'views'.DS.'categories'.DS.'categories.php');
-		WeblinksViewCategories::show($params, $categories );
+		$view = new WeblinksViewCategories();
+		
+		$data = new stdClass();
+		$data->error      = null;
+		$data->categories = $categories;
+		$data->total      = count($categories);
+		
+		$view->set('params'  , $params);
+		$view->set('data'    , $data);
+		$view->display();
 	}
 	
 	/**
@@ -138,7 +144,7 @@ class WeblinksController
 	 * @param	int	$catid	Web Link category id
 	 * @since	1.0
 	 */
-	function showCategory()
+	function displayCategory()
 	{
 		global $mainframe, $Itemid;
 
@@ -159,7 +165,7 @@ class WeblinksController
 		$limit				= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
+		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 		$catid				= JRequest::getVar( 'catid', (int) $params->get('category_id'), '', 'int' );
 
 		//add alternate feed link
@@ -197,7 +203,7 @@ class WeblinksController
 		$rows = array ();
 
 		// Ordering control
-		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, ordering";
+		$orderby = "\n ORDER BY $filter_order $filter_order_dir, ordering";
 
 		$query = "SELECT COUNT(id) as numitems" .
 				"\n FROM #__weblinks" .
@@ -212,9 +218,6 @@ class WeblinksController
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
-
-		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// We need to get a list of all weblinks in the given category
 		$query = "SELECT id, url, title, description, date, hits, params" .
@@ -248,18 +251,8 @@ class WeblinksController
 		// Add pathway item based on category name
 		$pathway->addItem($category->name, '');
 		
-		// Define image tag attributes
-		if (isset ($category->image)) {
-			$imgAttribs['align'] = '"'.$category->image_position.'"';
-			$imgAttribs['hspace'] = '"6"';
-
-			// Use the static HTML library to build the image tag
-			$category->imgTag = mosHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $imgAttribs);
-		}
-
-
 		// table ordering
-		if ($filter_order_Dir == 'DESC') {
+		if ($filter_order_dir == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
 		} else {
 			$lists['order_Dir'] = 'DESC';
@@ -267,11 +260,28 @@ class WeblinksController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		require_once (dirname(__FILE__).DS.'views'.DS.'category'.DS.'category.php');
-		WeblinksViewCategory::show( $rows, $catid, $category, $params, $lists, $pagination);
+		require_once (dirname(__FILE__).DS.'views'.DS.'category'.DS.'category.php');		
+		$view = new WeblinksViewCategory();
+		
+		$request = new stdClass();
+		$request->limitstart        = $limitstart;
+		$request->limit             = $limit;
+		$request->catid		        = $catid;
+		
+		$data = new stdClass();
+		$data->error    = null;
+		$data->items    = $rows;
+		$data->total    = $total;
+		$data->category = $category;
+		
+		$view->set('lists'   , $lists);
+		$view->set('params'  , $params);
+		$view->set('request' , $request);
+		$view->set('data'    , $data);
+		$view->display();
 	}
 
-	function showCategoryFeed()
+	function displayCategoryFeed()
 	{
 		$db		  =& JFactory::getDBO();
 		$document =& JFactory::getDocument();
@@ -340,7 +350,7 @@ class WeblinksController
 	 * @param	int		$catid	Web Link category id
 	 * @since 1.0
 	 */
-	function showItem()
+	function displayWeblink()
 	{
 		global $mainframe;
 		
@@ -361,7 +371,7 @@ class WeblinksController
 		}
 
 		// Get the category table object and load it
-		$cat = & new JTableCategory($db);
+		$cat =& JTable::getInstance('category', $db);
 		$cat->load($weblink->catid);
 
 		// Check to see if the category is published
@@ -427,8 +437,8 @@ class WeblinksController
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be used instead of a 0
 		 */
-		$id = JRequest::getVar( 'id', 0, '', 'int' );
-
+		$id 	  = JRequest::getVar( 'id', 0, '', 'int' );
+		$returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 
 		// Create and load a weblink table object
 		$row =& JTable::getInstance('weblink', $db, 'Table');
@@ -440,7 +450,8 @@ class WeblinksController
 		}
 
 		// Edit or Create?
-		if ($id) {
+		if ($id) 
+		{
 			/*
 			 * The web link already exists so we are editing it.  Here we want to
 			 * manipulate the pathway and pagetitle to indicate this, plus we want
@@ -453,7 +464,9 @@ class WeblinksController
 
 			// Add pathway item
 			$pathway->addItem(JText::_('Edit'), '');
-		} else {
+		} 
+		else 
+		{
 			/*
 			 * The web link does not already exist so we are creating a new one.  Here
 			 * we want to manipulate the pathway and pagetitle to indicate this.  Also,
@@ -473,9 +486,20 @@ class WeblinksController
 		// build list of categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
-		
 		require_once (dirname(__FILE__).DS.'views'.DS.'weblink'.DS.'weblink.php');
-		WeblinksView::editWeblink($row, $lists);
+		$view = new WeblinksView();
+		
+		$request = new stdClass();
+		$request->returnid  = $returnid;
+			
+		$data = new stdClass();
+		$data->error    = null;
+		$data->weblink  = $row;
+		
+		$view->set('lists'   , $lists);
+		$view->set('data'    , $data);
+		$view->set('request' , $request);
+		$view->display();
 	}
 
 	/**
