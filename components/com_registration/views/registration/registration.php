@@ -30,25 +30,26 @@ class RegistrationViewRegistration extends JView
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 	
-	function errorMessage()  
+	function displayPasswordForm()  
 	{	
-		$this->_loadTemplate('errormessage');		
+		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
+		
+		$this->_loadTemplate('lostpass');		
 	}
 	
-	function lostPassForm()  
+	function displayRegisterForm()  
 	{	
-		$this->_loadTemplate('lostpassform');		
+		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
+		
+		$this->_loadTemplate('register');		
 	}
 	
-	function message()  
+	function displayMessage()  
 	{	
 		$this->_loadTemplate('message');		
 	}
 	
-	function registerForm()  
-	{	
-		$this->_loadTemplate('registerform');		
-	}
+
 	
 }
 ?>

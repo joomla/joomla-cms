@@ -13,6 +13,7 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
 define( 'JPATH_COM_REGISTRATION', dirname( __FILE__ ));
 
 $breadcrumbs =& $mainframe->getPathWay();
@@ -26,7 +27,11 @@ $breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
 switch( JRequest::getVar( 'task' ) )
 {
 	case 'lostPassword':
-		RegistrationController::lostPassForm();
+		RegistrationController::displayPasswordForm();
+		break;
+		
+	case 'register':
+		RegistrationController::displayRegisterForm();
 		break;
 
 	case 'sendNewPass':
@@ -38,12 +43,8 @@ switch( JRequest::getVar( 'task' ) )
 		}
 		break;
 
-	case 'register':
-		RegistrationController::registerForm();
-		break;
-
-	case 'saveRegistration':
-		RegistrationController::saveRegistration();
+	case 'save':
+		RegistrationController::save();
 		break;
 
 	case 'activate':
@@ -66,8 +67,36 @@ switch( JRequest::getVar( 'task' ) )
  */
 class RegistrationController
 {
-
-	function lostPassForm()
+	/**
+	 * Prepares the registration form
+	 * @return void
+	 */
+	function displayRegisterForm()
+	{
+		global $mainframe;
+	
+		if (!$mainframe->getCfg( 'allowUserRegistration' )) {
+			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+			return;
+		}
+	
+		$pathway =& $mainframe->getPathWay();
+	
+	 	// Page Title
+	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
+		// Breadcrumb
+	  	$pathway->addItem( JText::_( 'New' ));
+	
+		// create the view
+		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		$view = new RegistrationViewRegistration();
+		$view->user = JFactory::getUser();
+		
+		$view->displayRegisterForm();
+	}
+	
+	
+	function displayPasswordForm()
 	{
 		global $mainframe;
 	
@@ -79,7 +108,7 @@ class RegistrationController
 		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
 		$view = new RegistrationViewRegistration();
 	
-		$view->lostPassForm();
+		$view->displayPasswordForm();
 	}
 	
 	/**
@@ -146,7 +175,8 @@ class RegistrationController
 	 * Resends the user details if a user with the email adress can be found
 	 * @return void
 	 */
-	function resendUser() {
+	function resendUser() 
+	{
 		global $mainframe;
 	
 		/*
@@ -187,39 +217,12 @@ class RegistrationController
 		$mainframe->redirect( 'index.php?option=com_registration', JText::_( 'Username resend' ) );
 	}
 	
-	/**
-	 * Prepares the registration form
-	 * @return void
-	 */
-	function registerForm()
-	{
-		global $mainframe;
-	
-		if (!$mainframe->getCfg( 'allowUserRegistration' )) {
-			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
-			return;
-		}
-	
-		$breadcrumbs =& $mainframe->getPathWay();
-	
-	 	// Page Title
-	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
-		// Breadcrumb
-	  	$breadcrumbs->addItem( JText::_( 'New' ));
-	
-		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
-		$view = new RegistrationViewRegistration();
-		$view->user = JFactory::getUser();
-		
-		$view->registerForm();
-	}
 	
 	/**
 	 * Save user registration and notify users and admins if required
 	 * @return void
 	 */
-	function saveRegistration()
+	function save()
 	{
 		global $mainframe;
 	
@@ -229,16 +232,15 @@ class RegistrationController
 			return;
 		}
 	
-		$db 	=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
-		$acl 	= &JFactory::getACL();
+		$user 		=& JFactory::getUser();
+		$pathway 	=& $mainframe->getPathWay();
 	
 		$allowUserRegistration 	= $mainframe->getCfg( 'allowUserRegistration' );
 		$useractivation 		= $mainframe->getCfg( 'useractivation' );
-		$sitename 				= $mainframe->getCfg( 'sitename' );
-		$mailfrom 				= $mainframe->getCfg( 'mailfrom' );
-		$fromname 				= $mainframe->getCfg( 'fromname' );
+		
 		$new_usertype			= $mainframe->getCfg( 'new_usertype' );
+		
+		$password = JRequest::getVar( 'password' );
 	
 		if ($allowUserRegistration=='0') {
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
@@ -254,17 +256,8 @@ class RegistrationController
 			$new_usertype = 'Registered';
 		}
 	
-		$siteURL 		= $mainframe->getBaseURL();
-		$breadcrumbs 	=& $mainframe->getPathWay();
-	
 		$user =& JUser::getInstance();
 		
-		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
-		$view = new RegistrationViewRegistration();
-		$view->user = $user;
-		
-	
 		if (!$user->bind( $_POST, 'usertype' )) {
 			JError::raiseError( 500, $row->getError());
 			exit();
@@ -274,51 +267,171 @@ class RegistrationController
 		$user->set('id', 0);
 		$user->set('usertype', '');
 		$user->set('gid', $acl->get_group_id( $new_usertype, 'ARO' ));
+		$user->set('registerDate', date('Y-m-d H:i:s'));
 	
-		if ($useractivation == '1') {
+		if ($useractivation == '1') 
+		{
 			jimport('joomla.application.user.authenticate');
 			$user->set('activation', md5( JAuthenticateHelper::genRandomPassword()) );
 			$user->set('block', '1');
 		}
 	
-		// retrieving the uncrypted password for notification
-		$pwd = JRequest::getVar( 'password' );
-		$user->set('registerDate', date('Y-m-d H:i:s'));
+		// create the view
+		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		$view = new RegistrationViewRegistration();
+		$view->set('user', $user);
+		$message = new stdClass();
 	
-		if (!$user->save()) {
-			$breadcrumbs =& $mainframe->getPathWay();
-	
+		if (!$user->save()) 
+		{
 		 	// Page Title
 		 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 			// Breadcrumb
-		  	$breadcrumbs->addItem( JText::_( 'New' ));
+		  	$pathway->addItem( JText::_( 'New' ));
 	
-			$view->messageTitle = JText::_( 'REGERROR' );
-			$view->messageText = $user->getError();
-			$view->errorMessage();
-			$view->registerForm();
+			$message->title = JText::_( 'REGERROR' );
+			$message->text = $user->getError();
+			$view->set('message', $message);
+			$view->displayMessage();
+			$view->displayRegisterForm();
 			
 			return false;
 		}
 	
+		RegistrationController::_sendMail($user, $password);
+	
+		if ( $useractivation == 1 )
+		{
+			// Page Title
+			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
+			// Breadcrumb
+			$pathway->addItem( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ));
+	
+			$message->title = JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' );
+			$message->text = JText::_( 'REG_COMPLETE_ACTIVATE' );
+		} 
+		else 
+		{
+			// Page Title
+			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
+			// Breadcrumb
+			$pathway->addItem( JText::_( 'REG_COMPLETE_TITLE' ));
+	
+			$message->title = JText::_( 'REG_COMPLETE_TITLE' );
+			$message->text = JText::_( 'REG_COMPLETE' );
+		}
+		
+		$view->set('message', $message);
+		$view->displayMessage();
+	}
+	
+	function activate()
+	{
+		global $mainframe;
+		
+		// Initialize some variables
+		$db			=& JFactory::getDBO();
+		$user 		=& JFactory::getUser();
+		$pathway 	=& $mainframe->getPathWay();
+		
+		$userActivation			= $mainframe->getCfg('useractivation');
+		$allowUserRegistration	= $mainframe->getCfg('allowUserRegistration');
+		
+		// Check to see if they're logged in, because they don't need activating!
+		if($user->get('id')) {
+			// They're already logged in, so redirect them to the home page
+			$mainframe->redirect( 'index.php' );
+		}
+	
+		if ($allowUserRegistration == '0' || $userActivation == '0') {
+			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+			return;
+		}
+		
+		// create the view
+		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		$view = new RegistrationViewRegistration();
+		
+		$message = new stdClass();
+	
+		// Do we even have an activation string?
+		$activation = JRequest::getVar( 'activation', '' );
+		$activation = $db->getEscaped( $activation );
+	
+		if (empty( $activation ))
+		{
+			// Page Title
+			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+			// Breadcrumb
+			$pathway->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
+
+			$message->title = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
+			$message->text = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
+			$view->displayMessage();
+			return;
+		}
+	
+		// Lets activate this user.
+		if (JUserHelper::activateUser($activation))
+		{
+			// Page Title
+			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
+			// Breadcrumb
+			$pathway->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
+	
+			$message->title = JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' );
+			$message->text = JText::_( 'REG_ACTIVATE_COMPLETE' );
+		}
+		else
+		{
+			// Page Title
+			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+			// Breadcrumb
+			$pathway->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
+	
+			$message->title = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
+			$message->text = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
+		}
+		
+		$view->set('message', $message);
+		$view->displayMessage();
+	}
+	
+	function _sendMail(&$user, $password)
+	{
+		global $mainframe;
+		
+		$db		=& JFactory::getDBO();
+		$acl 	=& JFactory::getACL();
+		
 		$name 		= $user->get('name');
 		$email 		= $user->get('email');
 		$username 	= $user->get('username');
-	
+		
+		$sitename 		= $mainframe->getCfg( 'sitename' );
+		$useractivation = $mainframe->getCfg( 'useractivation' );
+		$mailfrom 		= $mainframe->getCfg( 'mailfrom' );
+		$fromname 		= $mainframe->getCfg( 'fromname' );
+		$siteURL		= $mainframe->getBaseURL();
+		
 		$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $sitename);
 		$subject 	= html_entity_decode($subject, ENT_QUOTES);
+		
 		if ( $useractivation == 1 ){
-			$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$user->get('activation'), $siteURL, $username, $pwd);
+			$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
 		} else {
 			$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $sitename, $siteURL);
 		}
 	
 		$message = html_entity_decode($message, ENT_QUOTES);
 		// Send email to user
-		if ($mailfrom != "" && $fromname != "") {
+		if ($mailfrom != "" && $fromname != "") 
+		{
 			$adminName2 = $fromname;
 			$adminEmail2 = $mailfrom;
-		} else {
+		} 
+		else 
+		{
 			$query = "SELECT name, email"
 			. "\n FROM #__users"
 			. "\n WHERE LOWER( usertype ) = 'superadministrator'"
@@ -326,6 +439,7 @@ class RegistrationController
 			;
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
+			
 			$row2 			= $rows[0];
 			$adminName2 	= $row2->name;
 			$adminEmail2 	= $row2->email;
@@ -342,7 +456,8 @@ class RegistrationController
 		// get superadministrators id
 		$admins = $acl->get_group_objects( 25, 'ARO' );
 	
-		foreach ( $admins['users'] AS $id ) {
+		foreach ( $admins['users'] AS $id ) 
+		{
 			$query = "SELECT email, sendEmail"
 			. "\n FROM #__users"
 			."\n WHERE id = $id"
@@ -355,97 +470,6 @@ class RegistrationController
 			if ($row->sendEmail) {
 				JUtility::sendMail($adminEmail2, $adminName2, $row->email, $subject2, $message2);
 			}
-		}
-	
-		if ( $useractivation == 1 ){
-			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
-			// Breadcrumb
-			$breadcrumbs->addItem( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ));
-	
-			$view->messageTitle = JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' );
-			$view->messageText = JText::_( 'REG_COMPLETE_ACTIVATE' );
-			$view->message();
-		} else {
-			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
-			// Breadcrumb
-			$breadcrumbs->addItem( JText::_( 'REG_COMPLETE_TITLE' ));
-	
-			$view->messageTitle = JText::_( 'REG_COMPLETE_TITLE' );
-			$view->messageText = JText::_( 'REG_COMPLETE' );
-			$view->message();
-		}
-	}
-	
-	function activate()
-	{
-		global $mainframe;
-	
-		$user =& JFactory::getUser();
-		
-		// Check to see if they're logged in, because they don't need activating!
-		if($user->get('id')) {
-			// They're already logged in, so redirect them to the home page
-			$mainframe->redirect( 'index.php' );
-		}
-	
-		// Initialize some variables
-		$db						=& JFactory::getDBO();
-		$userActivation			= $mainframe->getCfg('useractivation');
-		$allowUserRegistration	= $mainframe->getCfg('allowUserRegistration');
-		$breadcrumbs 			=& $mainframe->getPathWay();
-	
-		if ($allowUserRegistration == '0' || $userActivation == '0') {
-			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
-			return;
-		}
-		
-		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
-		$view = new RegistrationViewRegistration();
-	
-	
-		// Do we even have an activation string?
-		$activation = JRequest::getVar( 'activation', '' );
-		$activation = $db->getEscaped( $activation );
-	
-		if (empty( $activation ))
-		{
-			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
-			// Breadcrumb
-			$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
-
-			$view->messageTitle = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
-			$view->messageText = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
-			$view->message();
-	
-			return;
-		}
-	
-		// Lets activate this user.
-		if (JUserHelper::activateUser($activation))
-		{
-			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
-			// Breadcrumb
-			$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
-	
-			$view->messageTitle = JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' );
-			$view->messageText = JText::_( 'REG_ACTIVATE_COMPLETE' );
-			$view->message();
-		}
-		else
-		{
-			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
-			// Breadcrumb
-			$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
-	
-			$view->messageTitle = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
-			$view->messageText = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
-			$view->message();
 		}
 	}
 }

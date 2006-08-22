@@ -1,6 +1,3 @@
-<?php 		
-require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
-?>
 <script language="javascript" type="text/javascript">
 function submitbutton( pressbutton ) {
 	var form = document.josForm;
@@ -74,5 +71,3 @@ function submitbutton( pressbutton ) {
 
 <input type="hidden" name="task" value="sendNewPass" />
 <input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
-
-

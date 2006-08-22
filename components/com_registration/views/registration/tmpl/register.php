@@ -1,6 +1,3 @@
-<?php
-require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
-?>
 <script language="javascript" type="text/javascript">
 function submitbutton( pressbutton ) {
 	var form = document.josForm;
@@ -44,7 +41,7 @@ function submitbutton( pressbutton ) {
 	<?php
 	mosToolBar::startTable();
 	mosToolBar::spacer();
-	mosToolBar::save('saveRegistration');
+	mosToolBar::save('save');
 	mosToolBar::cancel();
 	mosToolBar::endtable();
 	?>
