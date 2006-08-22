@@ -31,7 +31,8 @@ jimport('phpxmlrpc.xmlrpc');
 $uri 	= dirname( $_SERVER['PHP_SELF'] );
 
 $host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
-$path 	= JRequest::getVar( 'path', $uri . '/xmlrpc/', 'post' );
+//$path 	= JRequest::getVar( 'path', $uri . '/xmlrpc/', 'post' );
+$path 	= JRequest::getVar( 'path', '', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post' );
 
@@ -40,7 +41,14 @@ $array  = array();
 
 if ($task)
 {
-	$client = new xmlrpc_client($path, $host, 80);
+	if ($path)
+	{
+		$client = new xmlrpc_client($path, $host, 80);
+	}
+	else
+	{
+		$client = new xmlrpc_client($host);
+	}
 	$client->setDebug($debug);
 
 	switch ($task)
@@ -160,6 +168,7 @@ if ($task)
 						<td>XML-RPC Host</td>
 						<td>
 							<input name="host" type="text" size="50" value="<?php echo $host; ?>" />
+							<small>Eg: www.test.com or http://james:bond@www.test.com/xmlrpc</small>
 						</td>
 					</tr>
 					<tr>
