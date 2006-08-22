@@ -99,7 +99,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	$menu_secure = $menu_params->def('secure', 0);
 
 	if (strcasecmp(substr($mitem->link, 0, 4), 'http')) {
-		$mitem->link = josURL($mitem->link, $menu_secure);
+		$mitem->link = JURI::resolve($mitem->link, $menu_secure);
 	}
 
 	$menuclass = 'mainlevel' . $params->get('class_sfx');

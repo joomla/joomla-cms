@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Aug-2006 Louis Landry
+ ^ josURL changed to JURI::resolve
+
 20-Aug-2006 Andrew Eddie
  + JError:isError will also recongnise PHP 5 Exception objects as errors
  ^ JDatabase __construct sets human readable error message

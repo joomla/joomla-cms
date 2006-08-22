@@ -31,7 +31,7 @@ $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 $mainframe->setLegacy();
 
 // create the session
-$mainframe->setSession( josURL('index.php', -1).$mainframe->getClientId() );
+$mainframe->setSession( JURI::resolve('index.php', -1).$mainframe->getClientId() );
 
 // set the language
 $mainframe->setLanguage();

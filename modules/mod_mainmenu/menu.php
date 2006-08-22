@@ -112,7 +112,7 @@ class JMainMenu extends JTree
 		$iParams = & new JParameter($item->params);
 		$iSecure = $iParams->def('secure', 0);
 		if (strcasecmp(substr($item->link, 0, 4), 'http')) {
-			$item->link = josURL($item->link, $iSecure);
+			$item->link = JURI::resolve($item->link, $iSecure);
 		}
 
 		// Create the node and add it

@@ -33,7 +33,7 @@ class mosHTML {
 	function Link($url, $text, $attribs = null, $ssl = 0) {
 		global $mainframe;
 
-		$href = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
+		$href = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
@@ -95,7 +95,7 @@ class mosHTML {
 	function Iframe($url, $name, $attribs = null, $ssl = 0)	{
 		global $mainframe;
 
-		$src = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
+		$src = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		 if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
