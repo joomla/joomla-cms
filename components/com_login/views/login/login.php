@@ -12,8 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * Login component HTML view class
@@ -22,22 +21,27 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Users
  * @since	1.0
  */
-class LoginView
+class LoginViewLogin extends JView
 {
-	/**
-	 * Method to show the login page
-	 *
-	 * @static
-	 * @access	public
-	 * @param	object	$params	Page parameters
-	 * @param	string	$image	Display image
-	 * @return	void
-	 * @since	1.0
-	 */
-	function showLogin( &$params, $image )
+	function __construct()
 	{
-		$return = $params->get('login');
-
+		$this->setViewName('login');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display()
+	{
+		$user =& JFactory::getUser();
+		
+		if ( $user->get('id') ) {
+			$this->_displayLogoutForm();
+		} else {
+			$this->_displayLoginForm();
+		}
+	}
+	
+	function _displayLoginForm( )
+	{
 		$errors =& JError::getErrors();
 		
 		if(JError::isError($errors[0])) {
@@ -48,24 +52,24 @@ class LoginView
 			array_shift($errors);
 		}
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'login.php');
+		// Build login image if enabled
+		if ( $this->params->get( 'image_login' ) != -1 ) {
+			$image = 'images/stories/'. $this->params->get( 'image_login' );
+			$this->image = '<img src="'. $image  .'" align="'. $this->params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
+		}
+		
+		$this->_loadTemplate('login');
 	}
 
-	/**
-	 * Method to show the logout page
-	 *
-	 * @static
-	 * @access	public
-	 * @param	object	$params	Page parameters
-	 * @param	string	$image	Display image
-	 * @return	void
-	 * @since	1.0
-	 */
-	function showLogout( &$params, $image )
+	function _displayLogoutForm( )
 	{
-		$return = $params->get('logout');
+		// Build logout image if enabled
+		if ( $this->params->get( 'image_logout' ) != -1 ) {
+			$image = 'images/stories/'. $this->params->get( 'image_logout' );
+			$this->image = '<img src="'. $image .'" align="'. $this->params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
+		}
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'logout.php');
+		$this->_loadTemplate('logout');
 	}
 }
 ?>

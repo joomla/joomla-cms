@@ -1,16 +1,16 @@
 <form action="index.php" method="post" name="login" id="login">
-<?php if ( $params->get( 'page_title' ) ) : ?>
-<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $params->get( 'header_logout' ); ?>
+<?php if ( $this->params->get( 'page_title' ) ) : ?>
+<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<?php echo $this->params->get( 'header_logout' ); ?>
 </div>
 <?php endif; ?>
-<table border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
+<table border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="100%">
 <tr>
 	<td valign="top">
 		<div>
-		<?php echo $image; ?>
-		<? if ( $params->get( 'description_logout' ) ) : 
-			echo $params->get( 'description_logout_text' );
+		<?php echo $this->image; ?>
+		<? if ( $this->params->get( 'description_logout' ) ) : 
+			echo $this->params->get( 'description_logout_text' );
 		endif; ?>
 		</div>
 	</td>
@@ -28,5 +28,5 @@
 
 <input type="hidden" name="option" value="com_login" />
 <input type="hidden" name="task" value="logout" />
-<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
+<input type="hidden" name="return" value="<?php echo sefRelToAbs( $this->params->get('logout') ); ?>" />
 </form>

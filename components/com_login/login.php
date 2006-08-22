@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
+define( 'JPATH_COM_LOGIN', dirname( __FILE__ ));
 
 /*
  * This is our main control structure for the component
@@ -31,7 +31,7 @@ switch ( JRequest::getVar('task'))
 		LoginController::logout();
 		break;
 	default :
-		LoginController::showLogin();
+		LoginController::display();
 		break;
 }
 
@@ -47,18 +47,19 @@ switch ( JRequest::getVar('task'))
 
 class LoginController
 {
-	function showLogin()
+	function display()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe, $Itemid, $option;
 
 		// Initialize variables
-		$user		=& JFactory::getUser();
+		$document	= & JFactory::getDocument();
+		$user 		=& JFactory::getUser();
+		$pathway	= & $mainframe->getPathway();
+		
 		$menus		=& JMenu::getInstance();
 		$menu		=& $menus->getItem( $Itemid );
 		$params		=& $menus->getParams( $Itemid );
-		$loginImage	= null;
-		$logoutImage= null;
-
+		
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );
 		$params->def( 'header_login', 				$menu->name );
@@ -77,44 +78,30 @@ class LoginController
 		$params->def( 'image_logout_align', 		'right' );
 		$params->def( 'registration', 				$mainframe->getCfg( 'allowUserRegistration' ) );
 
-		// Build login image if enabled
-		if ( $params->get( 'image_login' ) != -1 ) {
-			$image = 'images/stories/'. $params->get( 'image_login' );
-			$loginImage = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
-		}
-		// Build logout image if enabled
-		if ( $params->get( 'image_logout' ) != -1 ) {
-			$image = 'images/stories/'. $params->get( 'image_logout' );
-			$logoutImage = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
-		}
-
-		// Get some page variables
-		$breadcrumbs = & $mainframe->getPathway();
-		$document	 = & JFactory::getDocument();
-
-		if ( $user->get('id') ) {
+		if ( $user->get('id') ) 
+		{
 			$title = JText::_( 'Logout');
 
 			// pathway item
-			$breadcrumbs->setItemName(1, $title );
+			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-
-			require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'login'.DS.'login.php');
-			LoginView::showLogout( $params, $logoutImage );
 		} 
 		else 
 		{
 			$title = JText::_( 'Login');
 
 			// pathway item
-			$breadcrumbs->setItemName(1, $title );
+			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-
-			require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'login'.DS.'login.php');
-			LoginView::showLogin( $params, $loginImage );
 		}
+		
+		require_once (JPATH_COM_LOGIN.DS.'views'.DS.'login'.DS.'login.php');
+		$view = new LoginViewLogin();
+		
+		$view->set('params', $params);
+		$view->display();
 	}
 
 	function login()

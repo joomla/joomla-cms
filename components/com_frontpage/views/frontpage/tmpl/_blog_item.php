@@ -1,6 +1,6 @@
 <?php if ($this->data->access->canEdit) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php JContentHTMLHelper::editIcon($this->data->item, $this->params, $this->data->access); ?>
+		<?php JContentHTMLHelper::editIcon($this->item, $this->params, $this->data->access); ?>
 	</div>
 <?php endif; ?>
 
