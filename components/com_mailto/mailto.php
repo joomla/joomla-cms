@@ -21,20 +21,15 @@ jimport('joomla.application.extension.component');
 
 require_once( JPATH_COM_MAILTO . '/controller.php' );
 
+$mParams =& JSiteHelper::getMenuParams();
 
-$Itemid = JRequest::getVar('Itemid');
-
-$menus   =& JMenu::getInstance();
-$mParams =& $menus->getParams($Itemid);
-
-$view		= JRequest::getVar( 'view', $mParams->get( 'view', 'default' ) );
+$viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'default' ) );
 $controller	= new mailtoController( 'display' );
 
 $controller->setViewPath( JPATH_COM_MAILTO . '/views' );
 
 // get view name from URL or menu params
-$controller->setViewName( $view, 'com_mailto', 'JViewMailTo' );
-$controller->setVar( 'mParams', $mParams );
+$controller->setViewName( $viewName, 'com_mailto', 'JViewMailTo' );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();

@@ -107,10 +107,8 @@ class mailtoController extends JController {
 		 */
 		$msg = sprintf(JText :: _('_EMAIL_MSG'), $SiteName, $sender, $from, $link);
 
-		/*
-		 * Send the email
-		 */
-		mosMail($from, $sender, $email, $subject, $msg);
+		// Send the email
+		JUtility::sendMail($from, $sender, $email, $subject, $msg);
 
 		$this->setViewName( 'sent' );
 		$this->display();
