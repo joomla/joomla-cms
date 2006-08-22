@@ -345,12 +345,11 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
  *    0: Leave URL in the same sef state as it was passed to the function
  * @since 1.5
  */
-function josURL( $url, $ssl=0, $sef=1 ) {
+function josURL( $url, $ssl=0, $sef=1 )
+{
 	global $mainframe;
 
-	/*
-	 * Get the base request URL from the JApplication object
-	 */
+	// Get the base request URL from the JApplication object
 	$RURL = $mainframe->getBaseURL();
 
 	/*
@@ -361,12 +360,10 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 	 * and the scheme is 'http', then we need to do a quick string manipulation
 	 * to switch schemes.
 	 */
-	if ( substr( $RURL, 0, 5 ) == 'https' )
-	{
+	if ( substr( $RURL, 0, 5 ) == 'https' ) {
 		$secure 	= $RURL;
 		$unsecure	= 'http'.substr( $RURL, 5 );
-	} elseif ( substr( $RURL, 0, 4 ) == 'http' )
-	{
+	} elseif ( substr( $RURL, 0, 4 ) == 'http' ) {
 		$secure		= 'https'.substr( $RURL, 4 );
 		$unsecure	= $RURL;
 	}

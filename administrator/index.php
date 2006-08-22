@@ -31,7 +31,7 @@ $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 $mainframe->setLegacy();
 
 // create the session
-$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
+$mainframe->setSession( josURL('index.php', -1).$mainframe->getClientId() );
 
 // set the language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));

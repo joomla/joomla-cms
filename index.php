@@ -31,8 +31,7 @@ $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 $mainframe->setLegacy();
 
 // create the session
-// TODO: Quick fix to preserve session when going to https
-$mainframe->setSession( str_replace( 'https:', 'http:', $mainframe->getCfg('live_site') ).$mainframe->getClientId() );
+$mainframe->setSession( josURL('index.php', -1).$mainframe->getClientId() );
 
 // set the language
 $mainframe->setLanguage();
