@@ -20,6 +20,18 @@ define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
 // require the content helper
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
+/*
+ * This is our main control structure for the component
+ *
+ * Each view is determined by the $task variable
+ */
+switch ( JRequest::getVar( 'task' ) ) 
+{
+	default:
+		FrontpageController::display();
+		break;
+}
+
 /**
  * Frontpage Component Controller
  *
@@ -30,14 +42,18 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  */
 class FrontpageController
 {
-	function show()
+	function display()
 	{
 		global $mainframe, $Itemid;
 
 		// Initialize some variables
-		$db			= & JFactory::getDBO();
-		$user		= & JFactory::getUser();
-		$gid		= $user->get('gid');
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
+		$doc  	=& JFactory::getDocument();
+		$gid	= $user->get('gid');
+		
+		// get request variables
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Create a user access object for the user
 		$access					= new stdClass();
@@ -50,22 +66,28 @@ class FrontpageController
 		$menu   =& $menus->getItem($Itemid);
 		$params =& $menus->getParams($Itemid);
 
-		require_once (dirname(__FILE__).DS.'models'.DS.'frontpage.php');
-		$model = new ModelFrontpage( $params);
+		require_once (JPATH_COM_FRONTPAGE.DS.'models'.DS.'frontpage.php');
+		$model = new ModelFrontpage($params);
 
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		$doc  =& JFactory::getDocument();
-		$function = 'show'.$doc->getType();
+		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'frontpage.php');	
+		$view = new FrontpageViewFrontpage();
 		
-		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'frontpage.php');
-		FrontpageView::$function($model, $access, $menu);
+		$view->setModel($model, true);
+		
+		$request = new stdClass();
+		$request->limitstart = $limitstart;
+		
+		$data = new stdClass();
+		$data->error  = null;
+		$data->access = $access;
+		
+		$view->set('data'   , $data);
+		$view->set('params' , $params);
+		$view->set('request', $request);
+		$view->display();
 	}
 }
-
-/*
- * Show the frontpage
- */
-FrontpageController::show();
 ?>

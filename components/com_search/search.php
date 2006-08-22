@@ -15,6 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+define( 'JPATH_COM_SEARCH', dirname( __FILE__ ));
+
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Search'));
 
@@ -117,7 +119,7 @@ class SearchController
 			$rows  = array_splice($rows, $limitstart, $limit);
 		}
 		 
-		require_once (dirname(__FILE__).DS.'views'.DS.'search'.DS.'search.php');
+		require_once (JPATH_COM_SEARCH.DS.'views'.DS.'search'.DS.'search.php');
 		$view = new SearchViewSearch();
 		
 		$request = new stdClass();

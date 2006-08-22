@@ -36,11 +36,11 @@ class ModelFrontpage extends JObject
 	var $_db;
 
 	/**
-	 * Menu Itemid parameters
+	 * Menu Parameters
 	 *
 	 * @var object
 	 */
-	var $_mparams = null;
+	var $_params = null;
 
 	/**
 	 * Content data in category array
@@ -56,7 +56,7 @@ class ModelFrontpage extends JObject
 	 */
 	function __construct( &$params)
 	{
-		$this->_mparams	= &$params;
+		$this->_params	= &$params;
 		$this->_db		= &JFactory::getDBO();
 	}
 
@@ -69,16 +69,6 @@ class ModelFrontpage extends JObject
 	function setId($id)
 	{
 		$this->_content	= null;
-	}
-
-	/**
-	 * Method to get current menu parameters
-	 *
-	 * @since 1.5
-	 */
-	function &getMenuParams()
-	{
-		return $this->_mparams;
 	}
 
 	/**
@@ -149,8 +139,8 @@ class ModelFrontpage extends JObject
 
 	function _buildContentOrderBy()
 	{
-		$orderby_sec	= $this->_mparams->def('orderby_sec', '');
-		$orderby_pri	= $this->_mparams->def('orderby_pri', '');
+		$orderby_sec	= $this->_params->def('orderby_sec', '');
+		$orderby_pri	= $this->_params->def('orderby_pri', '');
 		$secondary		= JContentHelper::orderbySecondary($orderby_sec);
 		$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 

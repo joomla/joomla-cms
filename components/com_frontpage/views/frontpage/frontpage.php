@@ -11,9 +11,8 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
-
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+ 
+ jimport( 'joomla.application.view');
 
 /**
  * Frontpage View class
@@ -23,10 +22,23 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.5
  */
-class FrontpageView
+class FrontpageViewFrontpage extends JView
 {
-
-	function showHTML(&$model, &$access, &$menu)
+	function __construct()
+	{
+		$this->setViewName('frontpage');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display()
+	{
+		$document	=& JFactory::getDocument();
+		
+		$function = '_display'.$document->getType();
+		$this->$function();
+	}
+	
+	function _displayHTML()
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -49,59 +61,63 @@ class FrontpageView
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
+		
+		// get menu
+		$menus  =& JMenu::getInstance();
+		$menu   =& $menus->getItem($Itemid);
 
+		$intro				= $this->params->def('intro', 4);
+		$leading			= $this->params->def('leading', 1);
+		$links				= $this->params->def('link', 4);
+		$descrip			= $this->params->def('description', 1);
+		$descrip_image		= $this->params->def('description_image', 1);
+		$columns 			= $this->params->def('columns', 2);
+		
+		$this->params->def('pagination', 2);
+		$this->params->def('pagination_results', 1);
+		$this->params->def('pageclass_sfx', '');
+		$this->params->set('intro_only', 1);
+		
 		// parameters
-		$params = & $model->getMenuParams();
-		if ($params->get('page_title', 1) && $menu) {
-			$header = $params->def('header', $menu->name);
-		} else {
-			$header = '';
-		}
-
-		$intro					= $params->def('intro', 4);
-		$leading				= $params->def('leading', 1);
-		$links					= $params->def('link', 4);
-		$usePagination			= $params->def('pagination', 2);
-		$showPaginationResults	= $params->def('pagination_results', 1);
-		$descrip				= $params->def('description', 1);
-		$descrip_image			= $params->def('description_image', 1);
-
-		$params->def('pageclass_sfx', '');
-		$params->set('intro_only', 1);
-
+		if ($this->params->get('page_title', 1) && $menu) {
+			$this->data->header = $this->params->def('header', $menu->name);
+		} 
+		
 		// Set section/category description text and images for 
 		if ($menu && $menu->componentid && ($descrip || $descrip_image))
 		{
 			switch ($menu->type)
 			{
 				case 'content_blog_section' :
-					$description = & JTable::getInstance('section', $db);
-					$description->load($menu->componentid);
-					$description->link = 'images/stories/'.$description->image;
+					$section = & JTable::getInstance('section', $db);
+					$section->load($menu->componentid);
+					
+					$description = new stdClass();
+					$description->text = $section->description;
+					$description->link = 'images/stories/'.$section->image;
+					
+					$this->data->description = $description;
 					break;
 
 				case 'content_blog_category' :
-					$description = & JTable::getInstance('category', $db);
-					$description->load($menu->componentid);
+					$category = & JTable::getInstance('category', $db);
+					$category->load($menu->componentid);
+					
+					$description = new stdClass();
+					$description->text = $category->description;
 					$description->link = 'images/stories/'.$description->image;
-					break;
-
-				default :
-					$menu->componentid = 0;
+					
+					$this->data->description = $description;
 					break;
 			}
 		}
 		
-		$rows = $model->getContentData();
+		$rows = $this->get('ContentData');
 		
 		$total 		= count($rows);
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit 		= $intro + $leading + $links;
+		$limitstart = $this->request->limitstart;
 		
-		if (!$limitstart) {
-			$limitstart = 0;
-		}
-
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
@@ -111,23 +127,27 @@ class FrontpageView
 			return;
 		}
 		
+		$this->data->total = $total;
+		$this->items = $rows;
+		
 		$limitstart = $limitstart ? $limitstart : 0;
 		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$this->pagination = new JPagination($total, $limitstart, $limit);
 		
-		$columns = $params->def('columns', 2);
-
 		if ($columns == 0) {
 			$columns = 1;
 		}
-
+		
 		$column_width = 100 / $columns; // width of each column
 		$column_width = 'width="'.intval($column_width).'%"';
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'blog.php');
+		$this->params->set('column_width', $column_width);
+		$this->params->set('columns', $columns);
+		
+		$this->_loadTemplate('blog');
 	}
 	
-	function showFeed(&$model, &$access, &$menu)
+	function _displayFeed()
 	{
 		global $mainframe, $Itemid;
 
@@ -137,7 +157,7 @@ class FrontpageView
 		$limit	  = '10';
 
 		JRequest::setVar('limit', $limit);
-		$rows = $model->getContentData();
+		$rows = $this->get('ContentData');
 
 		foreach ( $rows as $row )
 		{
@@ -172,66 +192,63 @@ class FrontpageView
 		}
 	}
 
-	function showItem(&$row, &$params, &$access, $showImages = false)
+	function item($index = 0)
 	{
-		global $mainframe, $hide_js;
+		global $mainframe, $Itemid;
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$SiteName	= $mainframe->getCfg('sitename');
 		$gid		= $user->get('gid');
 		$task		= JRequest::getVar( 'task' );
-		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
 		$linkOn		= null;
 		$linkText	= null;
 
 		// Get some parameters from global configuration
-		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
-		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',		!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
-		$params->def('email',		!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',		$mainframe->getCfg('vote'));
-		$params->def('icons',		$mainframe->getCfg('icons'));
-		$params->def('readmore',	$mainframe->getCfg('readmore'));
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-		$params->set('intro_only', 1);
+		$this->params->def('link_titles',	$mainframe->getCfg('link_titles'));
+		$this->params->def('author',		!$mainframe->getCfg('hideAuthor'));
+		$this->params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
+		$this->params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
+		$this->params->def('print',			!$mainframe->getCfg('hidePrint'));
+		$this->params->def('pdf',			!$mainframe->getCfg('hidePdf'));
+		$this->params->def('email',			!$mainframe->getCfg('hideEmail'));
+		$this->params->def('rating',		$mainframe->getCfg('vote'));
+		$this->params->def('icons',			$mainframe->getCfg('icons'));
+		$this->params->def('readmore',		$mainframe->getCfg('readmore'));
+		$this->params->def('back_button', 	$mainframe->getCfg('back_button'));
+		$this->params->set('intro_only', 	1);
 
 		// Get some item specific parameters
-		$params->def('image',					1);
-		$params->def('section',				0);
-		$params->def('section_link',		0);
-		$params->def('category',			0);
-		$params->def('category_link',	0);
-		$params->def('introtext',			1);
-		$params->def('pageclass_sfx',	'');
-		$params->def('item_title',			1);
-		$params->def('url',						1);
-
-		if (!$showImages) {
-			$params->set('image',	0);
-		}
-
+		$this->params->def('image',				1);
+		$this->params->def('section',			0);
+		$this->params->def('section_link',		0);
+		$this->params->def('category',			0);
+		$this->params->def('category_link',		0);
+		$this->params->def('introtext',			1);
+		$this->params->def('pageclass_sfx',		'');
+		$this->params->def('item_title',		1);
+		$this->params->def('url',				1);
+		$this->params->set('image',				1);
+		
+		$this->item =& $this->items[$index];
+			
 		// Process the content preparation plugins
-		$row->text	= ampReplace($row->introtext);
+		$this->item->text	= ampReplace($this->item->introtext);
 		JPluginHelper::importPlugin('content');
-		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
+		$results = $mainframe->triggerEvent('onPrepareContent', array (& $this->item, & $this->params, 0));
 
 		// Build the link and text of the readmore button
-		if (($params->get('readmore') && @ $row->readmore) || $params->get('link_titles'))
+		if (($this->params->get('readmore') && @ $this->item->readmore) || $this->params->get('link_titles'))
 		{
-			if ($params->get('intro_only'))
+			if ($this->params->get('intro_only'))
 			{
 				// checks if the item is a public or registered/special item
-				if ($row->access <= $gid)
+				if ($this->item->access <= $gid)
 				{
-					if ($task != 'view')
-					{
-						$Itemid = JContentHelper::getItemid($row->id);
+					if ($task != 'view') {
+						$Itemid = JContentHelper::getItemid($this->item->id);
 					}
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$this->item->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
 				else
@@ -242,23 +259,40 @@ class FrontpageView
 			}
 		}
 		
-		$print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+		$this->item->readmore_link = $linkOn;
+		$this->item->readmore_text = $linkText;
+		
+		$this->item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$this->item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 
-		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));
-		$row->afterDisplayTitle = trim(implode("\n", $results));
+		$this->item->event = new stdClass();
+		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $this->item, & $this->params,0));
+		$this->item->event->afterDisplayTitle = trim(implode("\n", $results));
 		
-		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
-		$row->beforeDisplayContent = trim(implode("\n", $results));
+		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $this->item, & $this->params, 0));
+		$this->item->event->beforeDisplayContent = trim(implode("\n", $results));
 		
-		$results = $mainframe->triggerEvent('onAfterDisplayContent', array (& $row, & $params, 0));
-		$row->afterDisplayContent = trim(implode("\n", $results));
+		$results = $mainframe->triggerEvent('onAfterDisplayContent', array (& $this->item, & $this->params, 0));
+		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'blog_item.php');
+		$this->_loadTemplate('_blog_item');
 	}
 
-	function showLinks(& $rows, $links, $total, $i = 0)
+	function links($index = 0)
 	{
-		require(dirname(__FILE__).DS.'tmpl'.DS.'blog_links.php');
+		global $Itemid;
+			
+		$this->links = array_splice($this->items, $index);
+			
+		for($i = 0; $i < count($this->links); $i++) 
+		{
+			$link =& $this->links[$i];
+			
+			$Itemid	    = JContentHelper::getItemid($link->id);
+			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
+		}
+		
+		
+		$this->_loadTemplate('_blog_links');
 	}
 }
 ?>
