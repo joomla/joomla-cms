@@ -15,12 +15,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+define( 'JPATH_COM_NEWSFEEDS', dirname( __FILE__ ));
+
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS.'tables');
+
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Newsfeeds'));
-
-// Set the component name in the pathway
-$breadcrumbs =& $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, 'News Feeds');
 
 $cParams = JSiteHelper::getControlParams();
 $task	 = JRequest::getVar( 'task', $cParams->get( 'task') );
@@ -33,15 +34,15 @@ $task	 = JRequest::getVar( 'task', $cParams->get( 'task') );
 switch( $task )
 {
 	case 'view':
-		NewsfeedsController::showNewsFeed( );
+		NewsfeedsController::displayNewsFeed( );
 		break;
 	
 	case 'category' :
-		NewsfeedsController::showCategory();
+		NewsfeedsController::displayCategory();
 		break;
 
 	default:
-		NewsfeedsController::showCategories( );
+		NewsfeedsController::display();
 		break;
 }
 
@@ -56,7 +57,7 @@ switch( $task )
  */
 class NewsfeedsController
 {
-	function showCategories(  )
+	function display()
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -113,13 +114,22 @@ class NewsfeedsController
 		$db->setQuery( $query );
 		$categories = $db->loadObjectList();	
 
-		require_once (dirname(__FILE__).DS.'views'.DS.'categories'.DS.'categories.php');
-		NewsfeedsViewCategories::show( $params, $categories );
+		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'categories'.DS.'categories.php');
+		
+		$view = new NewsfeedsViewCategories();
+			
+		$data = new stdClass();
+		$data->error   = null;
+		
+		$view->set('params'    , $params);
+		$view->set('data'      , $data);
+		$view->set('categories', $categories);
+		$view->display();
 	}
 	
-	function showCategory(  )
+	function displayCategory(  )
 	{
-		global $mainframe, $Itemid;
+		global $mainframe, $Itemid, $option;
 
 		$db		 	= & JFactory::getDBO();
 		$user 		= & JFactory::getUser();
@@ -131,7 +141,6 @@ class NewsfeedsController
 		$menu    = $menus->getItem($Itemid);
 		$params  =& $menus->getParams($Itemid);
 
-		$option 		= JRequest::getVar('option');
 		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
 		$catid 			= JRequest::getVar( 'catid', (int) $params->get( 'category_id' ), '', 'int' );
@@ -178,9 +187,6 @@ class NewsfeedsController
 			$limitstart = 0;
 		}
 
-		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
-
 		// We need to get a list of all newsfeeds in the given category
 		$query = "SELECT *"
 			. "\n FROM #__newsfeeds"
@@ -213,21 +219,28 @@ class NewsfeedsController
 		// Add breadcrumb item per category
 		$pathway->addItem($category->name, '');
 
-		// Define image tag attributes
-		if (isset ($category->image)) {
-			$imgAttribs['align'] = '"'.$category->image_position.'"';
-			$imgAttribs['hspace'] = '"6"';
-
-			// Use the static HTML library to build the image tag
-			$category->imageTag = mosHTML::Image('/images/stories/'.$category->image, JText::_('News Feeds'), $imgAttribs);
-		}
+		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'category'.DS.'category.php');
+		$view = new NewsfeedsViewCategory();
 		
-		require_once (dirname(__FILE__).DS.'views'.DS.'category'.DS.'category.php');
-		NewsfeedsViewCategory::show( $rows, $catid, $category, $params, $pagination );
+		$request = new stdClass();
+		$request->catid  		= $catid;
+		$request->limit	 		= $limit;
+		$request->limitstart	= $limitstart;	
+		
+		$data = new stdClass();
+		$data->error   = null;
+		$data->results = $rows;
+		$data->total   = $total;
+		
+		$view->set('params'  , $params);
+		$view->set('request' , $request);
+		$view->set('data'    , $data);
+		$view->set('items'   , $rows);
+		$view->set('category', $category);
+		$view->display();
 	}
 
-
-	function showNewsFeed( )
+	function displayNewsFeed( )
 	{
 		global $mainframe, $Itemid;
 
@@ -250,9 +263,7 @@ class NewsfeedsController
 
 		$feedid = JRequest::getVar( 'feedid', $params->get( 'feed_id' ), '', 'int' );
 
-		require_once( $mainframe->getPath( 'class' ) );
-
-		$newsfeed = new mosNewsFeed($db);
+		$newsfeed =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 		$newsfeed->load($feedid);
 
 		// Check if newsfeed is published
@@ -261,7 +272,7 @@ class NewsfeedsController
 			return;
 		}
 
-		$category = new JTableCategory($db);
+		$category =& JTable::getInstance('category', $db);
 		$category->load($newsfeed->catid);
 
 		// Check if newsfeed category is published
@@ -278,7 +289,7 @@ class NewsfeedsController
 
 		//  get RSS parsed object
 		$options = array();
-		$options['rssUrl']      = $newsfeed->link;
+		$options['rssUrl']     = $newsfeed->link;
 		$options['cache_time'] = $newsfeed->cache_time;
 
 		$rssDoc = JFactory::getXMLparser('RSS', $options);
@@ -289,15 +300,16 @@ class NewsfeedsController
 			return;
 		}
 		$lists = array();
+		
 		// channel header and link
-		$lists['channel'] = $rssDoc->channel;
+		$newsfeed->channel = $rssDoc->channel;
 
 		// channel image if exists
-		$lists['image'] = $rssDoc->image;
+		$newsfeed->image = $rssDoc->image;
 
 		// items
-		$lists['items'] = $rssDoc->items;
-
+		$newsfeed->items = $rssDoc->items;
+	
 		// Adds parameter handling
 		$params->def( 'page_title', 1 );
 		$params->def( 'header', $menu->name );
@@ -318,8 +330,20 @@ class NewsfeedsController
 		// Add breadcrumb item per category
 		$pathway->addItem($newsfeed->name, '');
 
-		require_once (dirname(__FILE__).DS.'views'.DS.'newsfeed'.DS.'newsfeed.php');
-		NewsfeedsViewNewsfeed::show( $newsfeed, $lists, $params );
+		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'newsfeed'.DS.'newsfeed.php');
+		$view = new NewsfeedsViewNewsfeed();
+		
+		$request = new stdClass();
+		$request->feedid  = $feedid;
+		
+		$data = new stdClass();
+		$data->error   = null;
+		
+		$view->set('params'  , $params   );
+		$view->set('data'    , $data     );
+		$view->set('newsfeed', $newsfeed );
+		$view->set('category', $category );
+		$view->display();
 	}
 }
 ?>

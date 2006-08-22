@@ -13,8 +13,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -24,23 +23,35 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Newsfeeds
  * @since 1.0
  */
-class NewsfeedsViewCategories
+class NewsfeedsViewCategories extends JView
 {
-	function show( &$params, &$categories )
+	function __construct()
+	{
+		$this->setViewName('categories');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display()
 	{
 		global $Itemid;
 		
-		// Define image tag attributes
-		if ($params->get('image') != -1)
+		for($i = 0; $i < count($this->categories); $i++) 
 		{
-			$imgAttribs['align'] = '"'. $params->get('image_align').'"';
-			$imgAttribs['hspace'] = '"6"';
+			$category =& $this->categories[$i];
+			$category->link = sefRelToAbs('index.php?option=com_newsfeeds&amp;task=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
+		}
+		
+		// Define image tag attributes
+		if ($this->params->get('image') != -1)
+		{
+			$attribs['align'] = '"'. $this->params->get('image_align').'"';
+			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$image = mosHTML::Image('/images/stories/'.$params->get('image'), JText::_('News Feeds'), $imgAttribs);
+			$this->data->image = mosHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('News Feeds'), $attribs);
 		}
 
-		require(dirname(__FILE__).DS.'tmpl'.DS.'list.php');	
+		$this->_loadTemplate('list');	
 	}
 }
 ?>

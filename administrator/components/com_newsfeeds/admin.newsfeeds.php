@@ -23,8 +23,10 @@ if (!$user->authorize( 'com_newsfeeds', 'manage' )) {
 	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS.'tables');
+
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class' ) );
 
 $task 	= JRequest::getVar( 'task');
 
@@ -82,6 +84,7 @@ function showNewsFeeds(  )
 
 	$option 			= JRequest::getVar( 'option');
 	$db 				= JFactory::getDBO();
+	
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -172,7 +175,7 @@ function editNewsFeed(  )
 		$cid = array(0);
 	}
 
-	$row 		= new mosNewsFeed( $db );
+	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -212,7 +215,7 @@ function saveNewsFeed(  )
 	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
 
-	$row 		= new mosNewsFeed( $db );
+	$row 		=& JTable::getInstance( 'newsfeed', $db, 'Table' );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -303,7 +306,7 @@ function changePublishNewsFeeds( $publish )
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosNewsFeed( $db );
+		$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 		$row->checkin( $cid[0] );
 	}
 
@@ -352,7 +355,7 @@ function cancelNewsFeed(  )
 	$db 	=& JFactory::getDBO();
 	$option = JRequest::getVar( 'option');
 
-	$row = new mosNewsFeed( $db );
+	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 	$row->bind( $_POST );
 	$row->checkin();
 	$mainframe->redirect( 'index2.php?option='. $option );
@@ -391,7 +394,7 @@ function orderNewsFeed( $inc )
 	$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 
-	$row = new mosNewsFeed( $db );
+	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 	$row->load( $cid[0] );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -422,7 +425,7 @@ function saveOrder(  )
 		}
 
 		// update ordering
-		$row = new mosNewsFeed( $db );
+		$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 		$row->load( $cid[$i] );
 		$row->reorder( "catid = $row->catid AND published != 0" );
 	}

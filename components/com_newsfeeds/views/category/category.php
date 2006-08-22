@@ -13,8 +13,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -24,30 +23,58 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Newsfeeds
  * @since 1.0
  */
-class NewsfeedsViewCategory
+class NewsfeedsViewCategory extends JView
 {
-	function show( &$rows, $catid, $category, &$params, &$pagination ) {
-		require(dirname(__FILE__).DS.'tmpl'.DS.'table.php');		
+	function __construct()
+	{
+		$this->setViewName('category');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display() 
+	{
+		$this->_loadTemplate('table');		
 	}
 
-	/**
-	* Display Table of items
-	*/
-	function showItems( &$params, &$rows, $catid, &$pagination )
+	function items( )
 	{
 		global $Itemid;
+		
+		if (!count( $this->items ) ) {
+			return;
+		}
+		
+		$catid = $this->request->catid;
+		
+		//create pagination
+		jimport('joomla.presentation.pagination');
+		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+		
+		$this->data->link = "index.php?option=com_newsfeeds&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
 	
 		$k = 0;		
-		for($i = 0; $i <  count($rows); $i++) 
+		for($i = 0; $i <  count($this->items); $i++) 
 		{
-			$rows[$i]->link =  sefRelToAbs('index.php?option=com_newsfeeds&amp;task=view&amp;feedid='. $rows[$i]->id .'&amp;Itemid='. $Itemid);
+			$item =& $this->items[$i]; 
 			
-			$rows[$i]->odd   = $k;
-			$rows[$i]->count = $i;
+			$item->link =  sefRelToAbs('index.php?option=com_newsfeeds&amp;task=view&amp;feedid='. $item->id .'&amp;Itemid='. $Itemid);
+			
+			$item->odd   = $k;
+			$item->count = $i;
 			$k = 1 - $k;
 		}
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'table_items.php');		
+		// Define image tag attributes
+		if (isset ($this->category->image)) 
+		{
+			$attribs['align'] = '"'.$this->category->image_position.'"';
+			$attribs['hspace'] = '"6"';
+
+			// Use the static HTML library to build the image tag
+			$this->data->image = mosHTML::Image('/images/stories/'.$this->category->image, JText::_('News Feeds'), $attribs);
+		}
+		
+		$this->_loadTemplate('_table_items');
 	}
 }
 ?>

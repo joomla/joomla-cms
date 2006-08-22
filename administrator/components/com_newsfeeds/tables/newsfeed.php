@@ -12,42 +12,40 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
 /**
 * @package Joomla
 * @subpackage Newsfeeds
 */
-class mosNewsFeed extends JTable {
-/** @var int Primary key */
+class TableNewsFeed extends JTable 
+{
+	/** @var int Primary key */
 	var $id					= null;
-/** @var int */
+	/** @var int */
 	var $catid				= null;
-/** @var string */
+	/** @var string */
 	var $name				= null;
-/** @var string */
+	/** @var string */
 	var $link				= null;
-/** @var string */
+	/** @var string */
 	var $filename			= null;
-/** @var int */
+	/** @var int */
 	var $published			= null;
-/** @var int */
+	/** @var int */
 	var $numarticles		= null;
-/** @var int */
+	/** @var int */
 	var $cache_time			= null;
-/** @var int */
+	/** @var int */
 	var $checked_out		= null;
-/** @var time */
+	/** @var time */
 	var $checked_out_time	= null;
-/** @var int */
+	/** @var int */
 	var $ordering			= null;
-/** @var int */
+	/** @var int */
 	var $rtl				= 0;
 
-/**
-* @param database A database connector object
-*/
+	/**
+	 * @param database A database connector object
+	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__newsfeeds', 'id', $db );
 	}

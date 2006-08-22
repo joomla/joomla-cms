@@ -13,8 +13,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport( 'joomla.application.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -24,16 +23,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage Newsfeeds
  * @since 1.0
  */
-class NewsfeedsViewNewsfeed
+class NewsfeedsViewNewsfeed extends JView
 {
-	function show( &$newsfeed, &$lists, &$params )
+	function __construct()
+	{
+		$this->setViewName('newsfeed');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display( )
 	{
 		// feed elements
-		$channel	= $lists['channel'];
-		$image		= $lists['image'];
-		$items 		= array_slice($lists['items'], 0, $newsfeed->numarticles);
+		$this->newsfeed->items = array_slice($this->newsfeed->items, 0, $this->newsfeed->numarticles);
 		
-		require(dirname(__FILE__).DS.'tmpl'.DS.'table.php');	
+		$this->_loadTemplate('table');	
 	}
 	
 	function limitText($text, $wordcount)

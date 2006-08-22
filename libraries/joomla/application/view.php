@@ -280,8 +280,7 @@ class JView extends JObject
 	{
 		$result = get_class( $this );
 		$result .= "\nModels:";
-		foreach ($this->_models as $model)
-		{
+		foreach ($this->_models as $model) {
 			$result .= '&nbsp;'.$model->__toString();
 		}
 		return $result;
