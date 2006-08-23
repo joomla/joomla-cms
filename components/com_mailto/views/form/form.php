@@ -14,7 +14,7 @@
  
 jimport('joomla.application.view');
 
-class MailtoViewDefault extends JView
+class MailtoViewForm extends JView
 {
 	function __construct()
 	{
@@ -34,7 +34,7 @@ class MailtoViewDefault extends JView
 		$this->set('params', $params);
 		$this->set('data'  , $data);
 
-		$this->_loadTemplate('default');
+		$this->_loadTemplate('form');
 	}
 	
 	function &getData() 
