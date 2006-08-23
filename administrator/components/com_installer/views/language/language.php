@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: language.php 4008 2006-06-13 01:49:41Z webImagery $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
