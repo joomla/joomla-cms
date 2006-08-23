@@ -23,7 +23,7 @@
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Application
+ * @subpackage	Environment
  * @since		1.5
  */
 class JURI extends JObject

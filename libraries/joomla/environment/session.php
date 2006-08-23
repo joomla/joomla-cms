@@ -31,7 +31,7 @@ define("HTTP_SESSION_CONTINUED",    2);
 * @static
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
-* @subpackage	Application
+* @subpackage	Environment
 * @since		1.5
 */
 class JSession
