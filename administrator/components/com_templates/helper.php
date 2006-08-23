@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: admin.templates.php 4482 2006-08-12 05:40:08Z webImagery $
+ * @version $Id$
  * @package Joomla
  * @subpackage Templates
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
