@@ -23,10 +23,11 @@ if (!$user->authorize('com_templates', 'manage')) {
 	$mainframe->redirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
 
+// Import file dependencies
+require_once (dirname(__FILE__).DS.'helper.php');
 require_once (dirname(__FILE__).'/admin.templates.html.php');
 require_once (dirname(__FILE__).'/admin.templates.class.php');
 
-$task	= JRequest::getVar('task');
 $id		= JRequest::getVar('id');
 $cid	= JRequest::getVar('cid', array (), '', 'array');
 
@@ -34,6 +35,7 @@ if (!isset($cid[0])) {
 	$cid[0] = $id;
 }
 
+$task = JRequest::getVar('task');
 switch ($task)
 {
 	case 'edit' :
@@ -338,20 +340,17 @@ class JTemplatesController
 		// Initialize some variables
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template	= JRequest::getVar('template');
+		$template	= JRequest::getVar('id');
 		$file		= $client->path.DS.'templates'.DS.$template.DS.'index.php';
 
 		// Read the source file
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
 
-		if ($content !== false)
-		{
+		if ($content !== false) {
 			$content = htmlspecialchars($content);
 			JTemplatesView::editTemplateSource($template, $content, $option, $client);
-		}
-		else
-		{
+		} else {
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $file);
 			$mainframe->redirect('index2.php?option='.$option.'&client='.$client->id, $msg);
 		}
@@ -364,7 +363,7 @@ class JTemplatesController
 		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template		= JRequest::getVar('template');
+		$template		= JRequest::getVar('id');
 		$enableWrite	= JRequest::getVar('enable_write', 0, '', 'int');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWRAW);
 
@@ -406,7 +405,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option 	= JRequest::getVar('option');
-		$template	= JRequest::getVar('template');
+		$template	= JRequest::getVar('id');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if ($client->id == 1)
@@ -445,7 +444,7 @@ class JTemplatesController
 		 */
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template	= JRequest::getVar('template');
+		$template	= JRequest::getVar('id');
 		$filename	= JRequest::getVar('filename');
 
 		jimport('joomla.filesystem.file');
@@ -468,7 +467,7 @@ class JTemplatesController
 		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template		= JRequest::getVar('template');
+		$template		= JRequest::getVar('id');
 		$filename		= JRequest::getVar('filename');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWRAW);
 
@@ -546,104 +545,6 @@ class JTemplatesController
 			}
 		}
 		$mainframe->redirect('index2.php?option='.$option.'&task=positions', JText::_('Positions saved'));
-	}
-}
-
-/**
- *
- */
-class JTemplatesHelper
-{
-	function isTemplateDefault($template, $clientId)
-	{
-		$db =& JFactory::getDBO();
-
-		// Get the current default template
-		$query = "SELECT template" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = $clientId" .
-				"\n AND menuid = 0";
-		$db->setQuery($query);
-		$defaultemplate = $db->loadResult();
-
-		return $defaultemplate == $template ? 1 : 0;
-	}
-
-	function isTemplateAssigned($template)
-	{
-		$db =& JFactory::getDBO();
-
-		// check if template is assigned
-		$query = "SELECT COUNT(*)" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND template = '$template'" .
-				"\n AND menuid <> 0";
-		$db->setQuery($query);
-		return $db->loadResult() ? 1 : 0;
-	}
-
-	function parseXMLTemplateFiles($templateBaseDir)
-	{
-		// Read the template folder to find templates
-		jimport('joomla.filesystem.folder');
-		$templateDirs = JFolder::folders($templateBaseDir);
-
-		$rows = array();
-
-		// Check that the directory contains an xml file
-		foreach ($templateDirs as $templateDir)
-		{
-			if(!$data = JTemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
-				continue;
-			} else {
-				$rows[]  = $data;
-			}
-		}
-
-		return $rows;
-	}
-
-	function parseXMLTemplateFile($templateBaseDir, $templateDir)
-	{
-		// Check of the xml file exists
-		if(!is_file($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml')) {
-			return false;
-		}
-
-		$xml = JApplicationHelper::parseXMLInstallFile($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml');
-
-		if ($xml['type'] != 'template') {
-			return false;
-		}
-
-		$data = new StdClass();
-		$data->directory = $templateDir;
-
-		foreach($xml as $key => $value) {
-			$data->$key = $value;
-		}
-
-		$data->checked_out = 0;
-		$data->mosname = JString::strtolower(str_replace(' ', '_', $data->name));
-
-		return $data;
-	}
-
-	function createMenuList($template)
-	{
-		$db =& JFactory::getDBO();
-
-		// get selected pages for $menulist
-		$query = "SELECT menuid AS value" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND template = '$template'";
-		$db->setQuery($query);
-		$lookup = $db->loadObjectList();
-
-		// build the html select list
-		return mosAdminMenus::MenuLinks($lookup, 0, 1);
 	}
 }
 ?>

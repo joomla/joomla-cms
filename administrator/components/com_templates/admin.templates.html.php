@@ -13,33 +13,31 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
 * @package Joomla
 * @subpackage Templates
 */
-class JTemplatesView
-{
+class JTemplatesView {
 	/**
 	* @param array An array of data objects
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates( &$rows, &$lists, &$page, $option, &$client )
-	{
+	function showTemplates(& $rows, & $lists, & $page, $option, & $client) {
 		global $mainframe;
-		
-		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		
-		$user =& JFactory::getUser();
 
-		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
-			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );
+		$limitstart = JRequest :: getVar('limitstart', '0', '', 'int');
+
+		$user = & JFactory :: getUser();
+
+		if (isset ($row->authorUrl) && $row->authorUrl != '') {
+			$row->authorUrl = str_replace('http://', '', $row->authorUrl);
 		}
 
-		mosCommonHTML::loadOverlib();
-		?>
+		mosCommonHTML :: loadOverlib();
+?>
 		<script language="javascript" type="text/javascript">
 		<!--
 		function showInfo(name, dir) {
@@ -66,14 +64,16 @@ class JTemplatesView
 						<?php echo JText::_( 'Name' ); ?>
 					</th>
 					<?php
-					if ( $client->id == 1 ) {
-						?>
+
+		if ($client->id == 1) {
+?>
 						<th width="5%">
 							<?php echo JText::_( 'Default' ); ?>
 						</th>
 						<?php
-					} else {
-						?>
+
+		} else {
+?>
 						<th width="5%">
 							<?php echo JText::_( 'Default' ); ?>
 						</th>
@@ -81,8 +81,9 @@ class JTemplatesView
 							<?php echo JText::_( 'Assigned' ); ?>
 						</th>
 						<?php
-					}
-					?>
+
+		}
+?>
 					<th width="10%" align="center">
 						<?php echo JText::_( 'Version' ); ?>
 					</th>
@@ -101,81 +102,97 @@ class JTemplatesView
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
-			for ( $i=0, $n = count( $rows ); $i < $n; $i++ ) {
-				$row = &$rows[$i];
 
-				$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-				?>
+		$k = 0;
+		for ($i = 0, $n = count($rows); $i < $n; $i++) {
+			$row = & $rows[$i];
+
+			$author_info = @ $row->authorEmail . '<br />' . @ $row->authorUrl;
+?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td>
 						<?php echo $page->rowNumber( $i ); ?>
 					</td>
 					<td width="5">
 					<?php
-						if ( $row->checked_out && $row->checked_out != $user->get('id') ) {
-							?>
+
+			if ($row->checked_out && $row->checked_out != $user->get('id')) {
+?>
 							&nbsp;
 							<?php
-						} else {
-							?>
+
+			} else {
+?>
 							<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);" />
 							<?php
-						}
-						?>
+
+			}
+?>
 					</td>
 					<td>
 						<a href="index2.php?option=com_templates&amp;task=edit&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>&amp;hidemainmenu=1" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
-					if ( $client->id == 1 ) {
-						?>
+
+			if ($client->id == 1) {
+?>
 						<td align="center">
 							<?php
-							if ( $row->published == 1 ) {
-								?>
+
+				if ($row->published == 1) {
+?>
 							<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Published' ); ?>" />
 								<?php
-							} else {
-								?>
+
+				} else {
+?>
 								&nbsp;
 								<?php
-							}
-							?>
+
+				}
+?>
 						</td>
 						<?php
-					} else {
-						?>
+
+			} else {
+?>
 						<td align="center">
 							<?php
-							if ( $row->published == 1 ) {
-								?>
+
+				if ($row->published == 1) {
+?>
 								<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
 								<?php
-							} else {
-								?>
+
+				} else {
+?>
 								&nbsp;
 								<?php
-							}
-							?>
+
+				}
+?>
 						</td>
 						<td align="center">
 							<?php
-							if ( $row->assigned == 1 ) {
-								?>
+
+				if ($row->assigned == 1) {
+?>
 								<img src="images/tick.png" alt="<?php echo JText::_( 'Assigned' ); ?>" />
 								<?php
-							} else {
-								?>
+
+				} else {
+?>
 								&nbsp;
 								<?php
-							}
-							?>
+
+				}
+?>
 						</td>
 						<?php
-					}
-					?>
+
+			}
+?>
 					<td align="center">
 						<?php echo $row->version; ?>
 					</td>
@@ -189,8 +206,9 @@ class JTemplatesView
 					</td>
 				</tr>
 				<?php
-			}
-			?>
+
+		}
+?>
 			</tbody>
 			</table>
 
@@ -201,16 +219,15 @@ class JTemplatesView
 	<input type="hidden" name="hidemainmenu" value="0" />
 	</form>
 	<?php
+
 	}
 
-	function previewTemplate($template, $showPositions, $client, $option)
-	{
+	function previewTemplate($template, $showPositions, $client, $option) {
 		global $mainframe;
 
-		$tp 	= intval( $showPositions );
-		$url 	= $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
-
-		?>
+		$tp = intval($showPositions);
+		$url = $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
+?>
 		<style type="text/css">
 		.previewFrame {
 			border: none;
@@ -236,18 +253,17 @@ class JTemplatesView
 			</tr>
 		</table>
 		<?php
-	}
 
+	}
 
 	/**
 	* @param string Template name
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplate( $row, $lists, &$params, $option, &$client )
-	{
-		mosCommonHTML::loadOverlib();
-		?>
+	function editTemplate($row, $lists, & $params, $option, & $client) {
+		mosCommonHTML :: loadOverlib();
+?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<div class="col60">
@@ -291,12 +307,13 @@ class JTemplatesView
 				<tr>
 					<td>
 						<?php
-						if ( !is_null($params) ) {
-							echo $params->render();
-						} else {
-							echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
-						}
-						?>
+
+		if (!is_null($params)) {
+			echo $params->render();
+		} else {
+			echo '<i>' . JText :: _('No Parameters') . '</i>';
+		}
+?>
 					</td>
 				</tr>
 				</table>
@@ -331,40 +348,42 @@ class JTemplatesView
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="template" value="<?php echo $row->directory; ?>" />
+		<input type="hidden" name="id" value="<?php echo $row->directory; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
+
 	}
 
-	function editTemplateSource( $template, &$content, $option, &$client )
-	{
+	function editTemplateSource($template, & $content, $option, & $client) {
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
-		?>
+?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<?php echo JText::_( 'This file is' ); ?>:
 		<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
 		<?php
-			jimport('joomla.filesystem.path');
-			if (JPath::canCHMOD($template_path))
-			{
-				if (is_writable($template_path)) {
-				?>
+
+		jimport('joomla.filesystem.path');
+		if (JPath::canCHMOD($template_path)) {
+			if (is_writable($template_path)) {
+?>
 					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
 					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
 				<?php
+
 			} else {
-				?>
+?>
 					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
 					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
 				<?php
-				} // if
+
 			} // if
-		?>
+		} // if
+?>
 
 		<table class="adminform">
 		<tr>
@@ -381,7 +400,7 @@ class JTemplatesView
 
 		<div class="clr"></div>
 
-		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="id" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
@@ -389,8 +408,8 @@ class JTemplatesView
 		<?php
 	}
 
-	function chooseCSSFiles ( $template, $t_dir, $t_files, $option, &$client ) {
-	?>
+	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client) {
+?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
@@ -413,9 +432,11 @@ class JTemplatesView
 			</th>
 		</tr>
 		<?php
+
 		$k = 0;
-		for ( $i=0, $n = count( $t_files ); $i < $n; $i++ ) {
-			$file = &$t_files[$i]; ?>
+		for ($i = 0, $n = count($t_files); $i < $n; $i++) {
+			$file = & $t_files[$i];
+?>
 			<tr class="<?php echo 'row'. $k; ?>">
 				<td width="5%">
 					<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo '/templates/'. $template .'/css/'. $file; ?>" onClick="isChecked(this.checked);" />
@@ -428,10 +449,12 @@ class JTemplatesView
 				</td>
 			</tr>
 		<?php
-		$k = 1 - $k; }
-		?>
+
+			$k = 1 - $k;
+		}
+?>
 		</table>
-		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="id" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="1" />
@@ -439,6 +462,7 @@ class JTemplatesView
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
+
 	}
 
 	/**
@@ -446,10 +470,9 @@ class JTemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource( $template, $filename, &$content, $option, &$client )
-	{
+	function editCSSSource($template, $filename, & $content, $option, & $client) {
 		$css_path = $client->path . $filename;
-		?>
+?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
@@ -460,24 +483,28 @@ class JTemplatesView
 				</span>
 			</td>
 			<?php
-			if (mosIsChmodable($css_path)) {
-				if (is_writable($css_path)) {
-				?>
+
+		jimport('joomla.filesystem.path');
+		if (JPath::canCHMOD($css_path)) {
+			if (is_writable($css_path)) {
+?>
 				<td>
 					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
 					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
 				</td>
 				<?php
+
 			} else {
-				?>
+?>
 				<td>
 					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
 					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
 				</td>
 				<?php
-				} // if
+
 			} // if
-		?>
+		} // if
+?>
 		</tr>
 		</table>
 
@@ -494,34 +521,35 @@ class JTemplatesView
 		</tr>
 		</table>
 
-		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="id" value="<?php echo $template; ?>" />
 		<input type="hidden" name="filename" value="<?php echo $filename; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
+
 	}
 
 	/**
 	* @param array
 	* @param string The option
 	*/
-	function editPositions( &$positions, $option )
-	{
+	function editPositions(& $positions, $option) {
 
 		$rows = 25;
 		$cols = 2;
 		$n = $rows * $cols;
-		?>
+?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<div id="pane-document">
 			<table class="adminform">
 			<tr>
 			<?php
-			for ( $c = 0; $c < $cols; $c++ ) {
-				?>
+
+		for ($c = 0; $c < $cols; $c++) {
+?>
 				<th width="25">
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
@@ -532,8 +560,9 @@ class JTemplatesView
 					<?php echo JText::_( 'Description' ); ?>
 				</th>
 				<?php
-			}
-			?>
+
+		}
+?>
 			</tr>
 			<tfoot>
 			<tr>
@@ -543,14 +572,16 @@ class JTemplatesView
 			</tr>
 			</tfoot>
 			<?php
-			$i = 1;
-			$k = 0;
-			for ( $r = 0; $r < $rows; $r++ ) {
-				?>
+
+		$i = 1;
+		$k = 0;
+		for ($r = 0; $r < $rows; $r++) {
+?>
 				<tr class="<?php echo "row$k"; ?>">
 				<?php
-				for ( $c = 0; $c < $cols; $c++ ) {
-					?>
+
+			for ($c = 0; $c < $cols; $c++) {
+?>
 					<td align="center">
 						<label for="position<?php echo $i; ?>">
 							<?php echo $i; ?>.
@@ -563,14 +594,16 @@ class JTemplatesView
 						<input type="text" name="description[<?php echo $i; ?>]" value="<?php echo htmlspecialchars( @$positions[$i-1]->description ); ?>" size="40" maxlength="255" />
 					</td>
 					<?php
-					$i++;
-					$k = 1 - $k;
-				}
-				?>
+
+				$i++;
+				$k = 1 - $k;
+			}
+?>
 				</tr>
 				<?php
-			}
-			?>
+
+		}
+?>
 			</table>
 		</div>
 
@@ -578,6 +611,7 @@ class JTemplatesView
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
+
 	}
 }
 ?>
