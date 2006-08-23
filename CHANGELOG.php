@@ -39,6 +39,13 @@ Legend:
 
 23-Aug-2006 Johan Janssens
  # Fixed [artf5594] : Error saving Articles (non-existent class: jtablefrontpage)
+ # Fixed [artf5350] : error when click on 'Tools>New Messages'
+ # Fixed [artf5354] : Publishing the 'Statistics' module kills the frontend
+ # Fixed [artf5223] : [com_categories] Toolbar malfunction
+ # Fixed [artf5243] : Call to a member function on a non-object
+ # Fixed [artf4932] : Component files in template issue
+ # Fixed [artf5241] : Error after logging in
+ # Fixed [artf5423] : JLoader::_requireOnce incorrectly named
 
 20-Aug-2006 Louis Landry
  ^ josURL changed to JURI::resolve

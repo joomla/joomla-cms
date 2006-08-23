@@ -138,7 +138,7 @@ INSERT INTO `#__components` VALUES (13, 'Feeds', '', 0, 12, 'option=com_newsfeed
 INSERT INTO `#__components` VALUES (14, 'Categories', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Search', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (17, 'Banner Categories','',0,1,'option=com_categories&section=com_banner', 'Banner Categories','',3,'',1,'',1);
+INSERT INTO `#__components` VALUES (17, 'Categories','',0,1,'option=com_categories&section=com_banner', 'Categories','',3,'',1,'',1);
 INSERT INTO `#__components` VALUES (18,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (19,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (20,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
