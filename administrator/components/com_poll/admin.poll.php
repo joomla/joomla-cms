@@ -33,7 +33,7 @@ JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_poll'.DS.'tables
 
 $controller = new JPollGlobalController( 'showPolls' );
 
-$controller->performTask( JRequest::getVar( 'task' ) );
+$controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
 
 ?>

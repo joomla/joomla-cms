@@ -47,6 +47,6 @@ switch ($controllerName)
 		break;
 }
 
-$controller->performTask( JRequest::getVar( 'task' ) );
+$controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
 ?>

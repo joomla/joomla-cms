@@ -31,7 +31,7 @@ class JContentController extends JController
 	{
 		$model	= &$this->getModel( 'Wizard', 'JContentModel' );
 		$model->init();
-		$view = &$this->getView( 'Wizard', 'com_content', 'JContentView' );
+		$view = &$this->getView( 'Wizard', 'JContentView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -42,7 +42,7 @@ class JContentController extends JController
 	function element()
 	{
 		$model	= &$this->getModel( 'Element', 'JContentModel' );
-		$view = &$this->getView( 'Element', 'com_content', 'JContentView' );
+		$view = &$this->getView( 'Element', 'JContentView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}

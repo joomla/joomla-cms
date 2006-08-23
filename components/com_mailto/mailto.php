@@ -24,13 +24,12 @@ require_once( JPATH_COM_MAILTO . '/controller.php' );
 $mParams =& JSiteHelper::getMenuParams();
 
 $viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'default' ) );
-$controller	= new mailtoController( 'display' );
+$controller	= new MailtoController( 'display' );
 
 $controller->setViewPath( JPATH_COM_MAILTO . '/views' );
 
 // get view name from URL or menu params
-$controller->setViewName( $viewName, 'com_mailto', 'JViewMailTo' );
+$controller->setViewName( $viewName, 'MailtoView' );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
-?>

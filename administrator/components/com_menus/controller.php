@@ -30,7 +30,7 @@ class JMenuController extends JController
 		jimport('joomla.application.view');
 		$model	= &$this->getModel( 'Wizard', 'JMenuModel' );
 		$model->init();
-		$view = &$this->getView( 'Wizard', 'com_menus', 'JMenuView' );
+		$view = &$this->getView( 'Wizard', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -45,7 +45,7 @@ class JMenuController extends JController
 		$mainframe->setUserState('request.menuwizard', '');
 
 		$model	=& $this->getModel( 'Item', 'JMenuModel' );
-		$view =& $this->getView( 'Item', 'com_menus', 'JMenuView' );
+		$view =& $this->getView( 'Item', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->edit();
 	}

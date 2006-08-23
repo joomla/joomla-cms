@@ -11,31 +11,19 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
+ 
+jimport('joomla.application.view');
 
-require_once( JPATH_COM_MAILTO . '/view.php' );
-
-/**
- * @package Joomla
- * @subpackage MailTo
- */
-class JViewMailToSent extends JViewMailTo {
-	/** @var string The view name */
-	var $_viewName = 'sent';
-
-	/**
-	 * Display the view
-	 */
-	function display() {
-
-		$tmpl = $this->createTemplate( 'sent/tmpl/sent.html' );
-
-		// Menu Parameters
-		$mParams= &JSiteHelper::getMenuParams();
-
-		//$tmpl->addObject( 'body', $mParams->toObject(), 'param_' );
-		//$tmpl->addVars( 'body', $data );
-
-		$tmpl->displayParsedTemplate( 'body' );
+class MailtoViewSent extends JView
+{
+	function __construct()
+	{
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display() 
+	{
+		$this->_loadTemplate('sent');
 	}
 }
 ?>

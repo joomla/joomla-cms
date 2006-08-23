@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: controller.php 4645 2006-08-22 10:23:04Z eddiea $
  * @package Joomla
  * @subpackage MailTo
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -18,11 +18,10 @@ jimport('joomla.application.controller');
  * @package Joomla
  * @subpackage MailTo
  */
-class mailtoController extends JController {
-	/**
-	 * Mail the link
-	 */
-	function send() {
+class MailtoController extends JController 
+{
+	function send() 
+	{
 		global $mainframe;
 
 		$db			= &$this->getDBO();
@@ -97,14 +96,10 @@ class mailtoController extends JController {
 			JContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
 		}
 
-		/*
-		 * Build the link to send in the email
-		 */
+		// Build the link to send in the email
 		$link = sefRelToAbs($link);
 
-		/*
-		 * Build the message to send
-		 */
+		// Build the message to send
 		$msg = sprintf(JText :: _('_EMAIL_MSG'), $SiteName, $sender, $from, $link);
 
 		// Send the email

@@ -45,7 +45,7 @@ class JContactControllerDefault extends JController
 		// Set the default view name from the Request
 		$viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'category' ) );
 
-		$this->setViewName( $viewName, 'com_contact', 'JContactView' );
+		$this->setViewName( $viewName, 'JContactView' );
 		$view = &$this->getView();
 
 		// Push a model into the view

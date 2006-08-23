@@ -35,7 +35,7 @@ $controller->setModelPath( dirname( __FILE__ ).DS.'models' );
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
 
-$controller->setViewName( $viewName, 'com_content', 'JContentView' );
+$controller->setViewName( $viewName, 'JContentView' );
 // Register Extra tasks
 $controller->registerTask( 'new', 		'edit' );
 $controller->registerTask( 'apply', 	'save' );

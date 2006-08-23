@@ -11,61 +11,50 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
+ 
+jimport('joomla.application.view');
 
-require_once( JPATH_COM_MAILTO . '/view.php' );
+class MailtoViewDefault extends JView
+{
+	function __construct()
+	{
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display() 
+	{
+		$data = $this->getData();
+		if ($data === false) {
+			return false;
+		}
 
-/**
- * @package Joomla
- * @subpackage MailTo
- */
-class JViewMailToDefault extends JViewMailTo {
-	/** @var string The view name */
-	var $_viewName = 'default';
+		// Menu Parameters
+		$params = &JSiteHelper::getMenuParams();
+		
+		$this->set('params', $params);
+		$this->set('data'  , $data);
 
-	/**
-	 * Get the data for the view
-	 * @return array
-	 */
+		$this->_loadTemplate('default');
+	}
+	
 	function &getData() 
 	{
 		$user =& JFactory::getUser();
-		$data = array();
+		$data = new stdClass();
 
-		$data['link'] = urldecode( JRequest::getVar( 'link' ) );
-		if ($data['link'] == '') {
+		$data->link = urldecode( JRequest::getVar( 'link' ) );
+		if ($data->link == '') {
 			JError::raiseError( 403, 'Link is missing' );
 			$false = false;
 			return $false;
 		}
 
 		if ($user->get('id') > 0) {
-			$data['sender'] = $user->get('name');
-			$data['from'] = $user->get('email');
+			$data->sender = $user->get('name');
+			$data->from   = $user->get('email');
 		}
-
-		$data['spoofKey'] = JUtility::spoofKey();
 
 		return $data;
-	}
-
-	/**
-	 * Display the view
-	 */
-	function display() {
-		$data = $this->getData();
-		if ($data === false) {
-			return false;
-		}
-
-		$tmpl = $this->createTemplate( 'default/tmpl/default.html' );
-
-		// Menu Parameters
-		$mParams = &JSiteHelper::getMenuParams();
-
-		$tmpl->addObject( 'body', $mParams->toObject(), 'param_' );
-		$tmpl->addVars( 'body', $data );
-
-		$tmpl->displayParsedTemplate( 'form' );
 	}
 }
 ?>

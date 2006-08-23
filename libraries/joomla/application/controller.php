@@ -92,12 +92,6 @@ class JController extends JObject
 	var $_viewName = null;
 
 	/**
-	 * Request option
-	 * @var	string
-	 */
-	var $_viewOption = null;
-
-	/**
 	 * View name prefix
 	 * @var	string
 	 */
@@ -114,14 +108,6 @@ class JController extends JObject
 	 * @var string
 	 */
 	var $_error;
-
-	/**
-	 * Constructor for PHP 4.x compatibility
-	 */
-	function JController( $default = '' )
-	{
-		$this->__construct( $default );
-	}
 
 	/**
 	 * Constructor
@@ -160,8 +146,7 @@ class JController extends JObject
 			}
 		}
 		// If the default task is set, register it as such
-		if ($default)
-		{
+		if ($default) {
 			$this->registerDefaultTask( $default );
 		}
 	}
@@ -228,42 +213,32 @@ class JController extends JObject
 	 *
 	 * @access	private
 	 * @param	string	The name of the view
-	 * @param	string	The component folder name
 	 * @param	string	Optional prefix for the view class name
 	 * @return	mixed	View object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_loadView( $viewName, $option='', $classPrefix='' )
+	function &_loadView( $viewName, $classPrefix='' )
 	{
 		global $mainframe;
 		// Clean the view name
 		$viewName	= preg_replace( '#\W#', '', $viewName );
-		$option		= preg_replace( '#\W#', '', $option );
 		$classPrefix= preg_replace( '#\W#', '', $classPrefix );
 
 		$result		= false;
-		if ($option)
-		{
-			// Get the current template name and path
-			$tName = $mainframe->getTemplate();
-			$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.$option.DS.strtolower($viewName).'.php';
-		}
-		else
-		{
-			$tPath = null;
-		}
+	
+		// Build the path to the default view based upon a supplied base path
+		$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.php';
 
-		// If a matching view exists in the current template folder we use that, otherwise we look for the default one
-		if (file_exists( $tPath ))
+		// If the default view file exists include it and try to instantiate the object
+		if (file_exists( $path ))
 		{
-			require( $tPath );
+			require_once( $path );
 			// Build the view class name
-			// Alternate view classes must be postfixed with '_alt'
-			$viewClass = $classPrefix.$viewName.'_alt';
-			if (!class_exists( $viewClass ))
+			$viewClass = $classPrefix.$viewName;
+			if (!class_exists( $viewClass )) 
 			{
-				JError::raiseNotice( 0, 'View class '.$viewClass.' not found' );
-			}
+				JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
+			} 
 			else
 			{
 				$result = & new $viewClass( $this );
@@ -272,29 +247,7 @@ class JController extends JObject
 		}
 		else
 		{
-			// Build the path to the default view based upon a supplied base path
-			$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.php';
-
-			// If the default view file exists include it and try to instantiate the object
-			if (file_exists( $path ))
-			{
-				require_once( $path );
-				// Build the view class name
-				$viewClass = $classPrefix.$viewName;
-				if (!class_exists( $viewClass ))
-				{
-					JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
-				}
-				else
-				{
-					$result = & new $viewClass( $this );
-					return $result;
-				}
-			}
-			else
-			{
-				JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
-			}
+			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 		}
 		return $result;
 	}
@@ -449,7 +402,7 @@ class JController extends JObject
 	 * @return	object	The view
 	 * @since	1.5
 	 */
-	function &getView($name='', $option='', $prefix='')
+	function &getView($name='', $prefix='')
 	{
 		if (is_null( $this->_view ))
 		{
@@ -457,15 +410,11 @@ class JController extends JObject
 			{
 				$name = $this->_viewName;
 			}
-			if ($option == '')
-			{
-				$option = $this->_viewOption;
-			}
 			if ($prefix == '')
 			{
 				$prefix = $this->_viewClassPrefix;
 			}
-			$view = $this->_loadView( $name, $option, $prefix );
+			$view = $this->_loadView( $name, $prefix );
 			$this->setView( $view );
 		}
 		return $this->_view;
@@ -482,15 +431,6 @@ class JController extends JObject
 	function getViewPath()
 	{
 		return $this->_viewPath;
-	}
-
-	/**
-	 * Alias for execute
-	 * @deprecated Use execute method instead
-	 */
-	function performTask( $task )
-	{
-		return $this->execute( $task );
 	}
 
 	/**
@@ -637,15 +577,11 @@ class JController extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setViewName( $viewName, $option=null, $prefix=null )
+	function setViewName( $viewName, $prefix = null )
 	{
 		$this->_viewName = $viewName;
-		if ($option !== null)
-		{
-			$this->_viewOption = $option;
-		}
-		if ($prefix !== null)
-		{
+		
+		if ($prefix !== null) {
 			$this->_viewClassPrefix = $prefix;
 		}
 	}

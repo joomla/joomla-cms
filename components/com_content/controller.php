@@ -32,7 +32,7 @@ class JContentController extends JController
 	function section000()
 	{
 		global $mainframe;
-		$this->setViewName( 'section', 'com_content', 'JContentView' );
+		$this->setViewName( 'section', 'JContentView' );
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
@@ -74,7 +74,7 @@ class JContentController extends JController
 	function category000()
 	{
 		global $mainframe;
-		$this->setViewName( 'category', 'com_content', 'JContentView' );
+		$this->setViewName( 'category', 'JContentView' );
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
@@ -117,7 +117,7 @@ class JContentController extends JController
 	 */
 	function blogsection000()	// view=section&tpl=blog
 	{
-		$this->setViewName( 'blog', 'com_content', 'JContentView' );
+		$this->setViewName( 'blog', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
@@ -139,7 +139,7 @@ class JContentController extends JController
 	 */
 	function blogcategory000()	// view=category&tpl=blog
 	{
-		$this->setViewName( 'blog', 'com_content', 'JContentView' );
+		$this->setViewName( 'blog', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
@@ -161,7 +161,7 @@ class JContentController extends JController
 	 */
 	function archivesection()
 	{
-		$this->setViewName( 'archive', 'com_content', 'JContentView' );
+		$this->setViewName( 'archive', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
@@ -183,7 +183,7 @@ class JContentController extends JController
 	 */
 	function archivecategory()
 	{
-		$this->setViewName( 'archive', 'com_content', 'JContentView' );
+		$this->setViewName( 'archive', 'JContentView' );
 
 		// Get the view
 		$view = & $this->getView();
@@ -245,7 +245,7 @@ class JContentController extends JController
 		}
 
 		// Create the view
-		$this->setViewName( $viewName, 'com_content', 'JContentView' );
+		$this->setViewName( $viewName, 'JContentView' );
 		$view = & $this->getView();
 
 		// Get/Create the model
@@ -267,7 +267,7 @@ class JContentController extends JController
 	function edit()
 	{
 		// Set the view name to article view
-		$this->setViewName( 'article', 'com_content', 'JContentView' );
+		$this->setViewName( 'article', 'JContentView' );
 
 		// Create the view
 		$view = & $this->getView();
@@ -705,7 +705,7 @@ class JContentController extends JController
 		$id = $db->loadResult();
 		if ($id > 0) {
 			// Set the view name to article view
-			$this->setViewName( 'article', 'com_content', 'JContentView' );
+			$this->setViewName( 'article', 'JContentView' );
 
 			// Create the view
 			$view = & $this->getView();
