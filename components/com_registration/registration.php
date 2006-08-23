@@ -88,7 +88,7 @@ class RegistrationController
 	  	$pathway->addItem( JText::_( 'New' ));
 	
 		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'view.php');
 		$view = new RegistrationViewRegistration();
 		$view->user = JFactory::getUser();
 		
@@ -105,7 +105,7 @@ class RegistrationController
 		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
 
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'view.php');
 		$view = new RegistrationViewRegistration();
 	
 		$view->displayPasswordForm();

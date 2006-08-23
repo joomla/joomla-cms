@@ -95,7 +95,7 @@ class WrapperController
 			$row->load = '';
 		}
 
-		require_once (JPATH_COM_WRAPPER.DS.'views'.DS.'wrapper'.DS.'wrapper.php');
+		require_once (JPATH_COM_WRAPPER.DS.'views'.DS.'wrapper'.DS.'view.php');
 		$view = new WrapperViewWrapper();
 		
 		$view->set('params'  , $params);

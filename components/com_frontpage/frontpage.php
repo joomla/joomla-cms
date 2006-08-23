@@ -72,7 +72,7 @@ class FrontpageController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'frontpage.php');	
+		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'view.php');	
 		$view = new FrontpageViewFrontpage();
 		
 		$view->setModel($model, true);

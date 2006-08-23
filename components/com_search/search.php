@@ -119,7 +119,7 @@ class SearchController
 			$rows  = array_splice($rows, $limitstart, $limit);
 		}
 		 
-		require_once (JPATH_COM_SEARCH.DS.'views'.DS.'search'.DS.'search.php');
+		require_once (JPATH_COM_SEARCH.DS.'views'.DS.'search'.DS.'view.php');
 		$view = new SearchViewSearch();
 		
 		$request = new stdClass();
