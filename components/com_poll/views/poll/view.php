@@ -1,0 +1,93 @@
+<?php
+/**
+* @version $Id: search.php 4646 2006-08-22 10:53:21Z Jinx $
+* @package Joomla
+* @subpackage Poll
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+jimport( 'joomla.application.view');
+
+/**
+ * HTML View class for the Poll component
+ *
+ * @static
+ * @package Joomla
+ * @subpackage Poll
+ * @since 1.0
+ */
+class PollViewPoll extends JView
+{
+	function __construct()
+	{
+		$this->setViewName('poll');
+		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
+	}
+	
+	function display()  
+	{			
+		$this->_loadTemplate('poll');
+	}
+	
+	function graph()
+	{
+		if (!count( $this->votes )) {
+			return;
+		}
+		
+		$graphwidth = 200;
+		$barheight 	= 4;
+		$maxcolors 	= 5;
+		$barcolor 	= 0;
+		$tabcnt 	= 0;
+		$colorx 	= 0;
+		
+		$maxval		= $this->votes[0]->hits;
+		$sumval		= $this->votes[0]->voters;
+	
+		$k = 0;
+		for ($i = 0; $i < count( $this->votes ); $i++) 
+		{
+			$vote =& $this->votes[$i];
+			
+			if ($maxval > 0 && $sumval > 0) 
+			{
+				$vote->width	= ceil( $vote->hits * $graphwidth / $maxval );
+				$vote->percent = round( 100 * $vote->hits / $sumval, 1 );
+			} 
+			else 
+			{
+				$vote->width   = 0;
+				$vote->percent = 0;
+			}
+			
+			$vote->class = '';
+			if ($barcolor == 0) 
+			{
+				if ($colorx < $maxcolors) {
+					$colorx = ++$colorx;
+				} else {
+					$colorx = 1;
+				}
+				$vote->class = "polls_color_".$colorx;
+			} else {
+				$vote->class = "polls_color_".$barcolor;
+			}
+			
+			$vote->barheight = $barheight;
+
+			$vote->odd   = $k;
+			$vote->count = $i;
+			$k = 1 - $k;
+		}
+		
+		$this->_loadTemplate('_poll_graph');
+	}
+}
+?>

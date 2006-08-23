@@ -28,7 +28,8 @@ define( 'JPATH_COM_POLL', dirname( __FILE__ ));
 require_once( JPATH_COM_POLL . '/controllers/index.php' );
 require_once( JPATH_COM_POLL . '/views/index.php' );
 
-require_once( JApplicationHelper::getPath( 'class' ) );
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_poll'.DS.'tables');
 
 $controller = new JPollGlobalController( 'showPolls' );
 

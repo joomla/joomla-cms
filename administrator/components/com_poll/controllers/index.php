@@ -124,7 +124,7 @@ class JPollGlobalController extends JController
 		}
 		$uid 	= $cid[0];
 
-		$row = new mosPoll( $db );
+		$row =& JTable::getInstance('poll', $db, 'Table');
 		// load the row from the db table
 		$row->load( $uid );
 
@@ -171,7 +171,7 @@ class JPollGlobalController extends JController
 	{
 		$db =& JFactory::getDBO();
 		// save the poll parent information
-		$row = new mosPoll( $db );
+		$row =& JTable::getInstance('poll', $db, 'Table');
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
@@ -250,7 +250,7 @@ class JPollGlobalController extends JController
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$msg = '';
 		for ($i=0, $n=count($cid); $i < $n; $i++) {
-			$poll = new mosPoll( $db );
+			$poll =& JTable::getInstance('poll', $db, 'Table');
 			if (!$poll->delete( $cid[$i] )) {
 				$msg .= $poll->getError();
 			}
@@ -296,7 +296,7 @@ class JPollGlobalController extends JController
 		}
 
 		if (count( $cid ) == 1) {
-			$row = new mosPoll( $db );
+			$row =& JTable::getInstance('poll', $db, 'Table');
 			$row->checkin( $cid[0] );
 		}
 		$mainframe->redirect( 'index.php?option='. $option );
@@ -307,7 +307,7 @@ class JPollGlobalController extends JController
 		global $option;
 
 		$db =& JFactory::getDBO();
-		$row = new mosPoll( $db );
+		$row =& JTable::getInstance('poll', $db, 'Table');
 		$row->bind( $_POST );
 		$row->checkin();
 		$this->setRedirect( 'index.php?option='. $option );
