@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: search.php 4646 2006-08-22 10:53:21Z Jinx $
+* @version $Id$
 * @package Joomla
 * @subpackage Registration
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

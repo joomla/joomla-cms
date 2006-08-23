@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: weblinks.html.php 4452 2006-08-10 01:03:39Z Jinx $
+* @version $Id$
 * @package Joomla
 * @subpackage Weblinks
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
