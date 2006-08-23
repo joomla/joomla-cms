@@ -125,7 +125,7 @@ class JInstallerScreens_plugin {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_installer&amp;extension=plugin" method="post" name="adminForm">
+		<form action="index.php?option=com_installer&amp;extension=plugin" method="post" name="adminForm">
 
 				<table class="adminform">
 				<tr>

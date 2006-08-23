@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Aug-2006 Alex Kempkens
+ ^ Refactoring of database layer
+ # Plugin installer error messages changed to plugins
+ ^ Refactored administrative forms to use index.php instead of index2.php (correct debuggin in Zend)
+ # application::setLanguage allows to really set a new language
+ # removed duplicate instance management for databases in factory class
+ # incorrect folder in content  metafile
+
 23-Aug-2006 Johan Janssens
  # Fixed [artf5594] : Error saving Articles (non-existent class: jtablefrontpage)
  # Fixed [artf5350] : error when click on 'Tools>New Messages'

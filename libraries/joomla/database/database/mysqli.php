@@ -18,7 +18,7 @@
  * @subpackage	Database
  * @since		1.0
  */
-class JDatabaseMySQLi extends JDatabase
+class JDBDriverMySQLi extends JDBDriver
 {
 	/** @var string The null/zero date string */
 	var $_nullDate		= '0000-00-00 00:00:00';

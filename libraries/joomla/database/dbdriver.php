@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: database.php 4350 2006-07-28 03:34:45Z eddiea $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -12,33 +12,65 @@
 */
 
 /**
- * Application layer database connector class
+ * A datasource driver
  * 
- * This class represents the application layer to all database requests.
- * In future a generic JDatasource class may allow requests to other
- * datasources such as content repositories.
- * If a change in the behavior of the application layer e.g. for specific
- * manipulation of data during the access is needed inherit from this class.
- * Do not change or inherit from any of the driver classes in the subfolder.
- * 
- * The class use an apdater patter in order to agregate the connection to the drivers.
+ * This class is an abstract representative for a specifc database driver 
+ * to one datasource based on the DAO patterns. In general it could be that
+ * a generic JDriver class will handle requests to other datasources such as
+ * content repositories or similar in future
  *
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Database
- * @since		1.0
+ * @author 		Alex Kempkens
+ * @since		1.5
  */
-class JDatabase extends JObject
+class JDBDriver extends JObject
 {
-	/** @var object	adapter to the JDBDriver instance */
-	var $_dbdriver		= null;
+	/** @var string Internal variable to hold the query sql */
+	var $_sql			= '';
 	/** @var int Internal variable to hold the database error number */
 	var $_errorNum		= 0;
 	/** @var string Internal variable to hold the database error message */
 	var $_errorMsg		= '';
-	
+	/** @var string Internal variable to hold the prefix used on all database tables */
+	var $_table_prefix	= '';
+	/** @var Internal variable to hold the connector resource */
+	var $_resource		= '';
+	/** @var Internal variable to hold the last query cursor */
+	var $_cursor		= null;
+	/** @var boolean Debug option */
+	var $_debug			= 0;
+	/** @var int The limit for the query */
+	var $_limit			= 0;
+	/** @var int The for offset for the limit */
+	var $_offset		= 0;
+	/** @var int A counter for the number of queries performed by the object instance */
+	var $_ticker		= 0;
+	/** @var array A log of queries */
+	var $_log			= null;
+	/** @var string The null/zero date string */
+	var $_nullDate		= null;
+	/** @var string Quote for named objects */
+	var $_nameQuote		= null;
 	/**
-	* Database object constructor
+	 * @var boolean UTF-8 support
+	 * @since    1.5
+	 */
+	var $_utf			= 0;
+	/**
+	 * @var array The fields that are to be quote
+	 * @since    1.5
+	 */
+	var $_quoted	= null;
+	/**
+	 * @var bool Legacy compatibility
+	 * @since    1.5
+	 */
+	var $_hasQuoted	= null;
+
+	/**
+	* Database driver object constructor
 	*
 	* @param string Database host
 	* @param string Database user name
@@ -46,18 +78,29 @@ class JDatabase extends JObject
 	* @param string Database name
 	* @param string Common prefix for all tables
 	*/
-	function __construct( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='')
+	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
 	{
-		// load and set the related database driver
-		jimport('joomla.database.dbdriver');
-		$this->_dbdriver = JDBDriver::getInstance($driver, $host, $user, $pass, $db, $table_prefix);
-		
+		// Determine utf-8 support
+		$this->_utf = $this->hasUTF();
+
+		//Set charactersets (needed for MySQL 4.1.2+)
+		if ($this->_utf){
+			$this->setUTF();
+		}
+
+		$this->_table_prefix = $table_prefix;
+		$this->_ticker   = 0;
+		$this->_errorNum = 0;
+		$this->_log = array();
+		$this->_quoted = array();
+		$this->_hasQuoted = false;
+
 		// If we opened the connection lets make sure we close it
 		register_shutdown_function(array(&$this,'__destruct'));
 	}
 
 	/**
-	 * Database object destructor
+	 * Database driver object destructor
 	 *
      * @abstract
      * @access private
@@ -70,13 +113,30 @@ class JDatabase extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global Database object, only creating it
-	 * if it doesn't already exist. And keeps sure that there is only one
-	 * instace for a specific combination of the JDatabase signature
+	 * Determines UTF support
 	 * 
-	 * The reason that the static management is realized within a generic method
-	 * and not in this method has to do with the var scops. Only with this generic
-	 * method a unique var scope for the static var can be achieved.
+     * @abstract
+     * @access public
+     * @return boolean
+     * @since 1.5
+	 */
+	function hasUTF() {
+		return false;
+	}
+
+	/**
+	 * Custom settings for UTF support
+     *
+     * @abstract
+     * @access public
+     * @since 1.5
+	 */
+	function setUTF() {
+	}
+
+	/**
+	 * Returns a reference to the global Database object, only creating it
+	 * if it doesn't already exist.
 	 *
 	 * @param string  Database driver
 	 * @param string Database host
@@ -89,60 +149,23 @@ class JDatabase extends JObject
 	*/
 	function &getInstance( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='' )
 	{
-		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
-		$database = JDatabase::_getStaticInstance($signature,'JDatabase',false);
-
-		return $database;
-	}
-
-	/**
-	 * This method manages the static instances for a defined JDatabase signature
-	 * It is the purpose of this method to allow replacement of the static instances in the
-	 * singelton by extended instances for the same signature. It is in the responsiblity of
-	 * the extended class to create those different versions.
-	 * 
-	 * @param string		representing the signature
-	 * @param string		class name for the create method
-	 * @param boolean		flag to define that the instance shall be created new in any case
-	 * @return database		the static database object
-	 */
-	function &_getStaticInstance( $signature, $factoryClass='JDatabase', $createNew=false ) {
 		static $instances;
-		
+
 		if (!isset( $instances )) {
 			$instances = array();
 		}
 
-		if (empty($instances[$signature]) || $createNew) {
-			$dbProperties = unserialize( $signature);
-			$instances[$signature] = new $factoryClass($dbProperties[0],$dbProperties[1], $dbProperties[2], $dbProperties[3], $dbProperties[4], $dbProperties[5]);
+		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
+
+		if (empty($instances[$signature])) {
+			jimport('joomla.database.database.'.$driver);
+			$adapter = 'JDBDriver'.$driver;
+			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
 		}
+
 		return $instances[$signature];
 	}
-	
-	/**
-	 * Determines UTF support
-	 * 
-     * @abstract
-     * @access public
-     * @return boolean
-     * @since 1.5
-	 */
-	function hasUTF() {
-		return $this->_dbdriver->hasUTF();
-	}
 
-	/**
-	 * Custom settings for UTF support
-     *
-     * @abstract
-     * @access public
-     * @since 1.5
-	 */
-	function setUTF() {
-		$this->_dbdriver->setUTF();
-	}
-	
 	/**
 	 * Adds a field or array of field names to the list that are to be quoted
 	 * 
@@ -150,9 +173,14 @@ class JDatabase extends JObject
 	 * @param mixed Field name or array of names
 	 * @since 1.5
 	 */
-	function addQuoted( $fieldName ) 
+	function addQuoted( $quoted ) 
 	{
-		$this->_dbdriver->addQuoted( $fieldName );
+		if (is_string( $quoted )) {
+			$this->_quoted[] = $quoted;
+		} else {
+			$this->_quoted = array_merge( $this->_quoted, (array)$quoted );
+		}
+		$this->_hasQuoted = true;
 	}
 	
 	/**
@@ -164,7 +192,11 @@ class JDatabase extends JObject
 	 */
 	function isQuoted( $fieldName ) 
 	{
-		return $this->_dbdriver->isQuoted( $fieldName );
+		if ($this->_hasQuoted) {
+			return in_array( $fieldName, $this->_quoted );
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -174,7 +206,7 @@ class JDatabase extends JObject
 	 * @param int 0 = off, 1 = on
 	 */
 	function debug( $level ) {
-		$this->_dbdriver->debug( $level );
+		$this->_debug = intval( $level );
 	}
 
 	/**
@@ -185,7 +217,7 @@ class JDatabase extends JObject
 	 * @since 1.5
 	 */
 	function getUtfSupport() {
-		return $this->_dbdriver->getUtfSupport();
+		return $this->_utf;
 	}
 
 	/**
@@ -195,7 +227,7 @@ class JDatabase extends JObject
 	 * @return int The error number for the most recent query
 	 */
 	function getErrorNum() {
-		return $this->_dbdriver->getErrorNum();
+		return $this->_errorNum;
 	}
 	
 	
@@ -206,7 +238,7 @@ class JDatabase extends JObject
 	 * @return string The error message for the most recent query
 	 */
 	function getErrorMsg() {
-		return $this->_dbdriver->getErrorMsg();
+		return $this->_errorMsg;
 	}
 	
 	/**
@@ -217,7 +249,7 @@ class JDatabase extends JObject
 	 * @return string
 	 */
 	function getEscaped( $text ) {
-		return $this->_dbdriver->getEscaped( $text );
+		return;
 	}
 	
 	/**
@@ -228,7 +260,12 @@ class JDatabase extends JObject
 	 * @return string The quoted name
 	 */
 	function NameQuote( $s ) {
-		return $this->_dbdriver->NameQuote( $s );
+		$q = $this->_nameQuote;
+		if (strlen( $q ) == 1) {
+			return $q . $s . $q;
+		} else {
+			return $q{0} . $s . $q{1};
+		}
 	}
 	/**
 	 * Get the database table prefix
@@ -237,7 +274,7 @@ class JDatabase extends JObject
 	 * @return string The database prefix
 	 */
 	function getPrefix() {
-		return $this->_dbdriver->getPrefix();
+		return $this->_table_prefix;
 	}
 	
 	/**
@@ -247,7 +284,7 @@ class JDatabase extends JObject
 	 * @return string Quoted null/zero date string
 	 */
 	function getNullDate() {
-		return $this->_dbdriver->getNullDate();
+		return $this->_nullDate;
 	}
 	
 	/**
@@ -264,7 +301,9 @@ class JDatabase extends JObject
 	 */
 	function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' ) 
 	{
-		 $this->_dbdriver->setQuery( $sql, $offset, $limit, $prefix );
+		$this->_sql		= $this->replacePrefix( $sql, $prefix );
+		$this->_limit	= (int) $limit;
+		$this->_offset	= (int) $offset;
 	}
 
 	/**
@@ -274,11 +313,75 @@ class JDatabase extends JObject
 	 * @access public
 	 * @param string The SQL query
 	 * @param string The common table prefix
-	 * @return string
 	 */
 	function replacePrefix( $sql, $prefix='#__' ) 
 	{
-		return $this->_dbdriver->replacePrefix( $sql, $prefix );
+		$sql = trim( $sql );
+
+		$escaped = false;
+		$quoteChar = '';
+
+		$n = strlen( $sql );
+
+		$startPos = 0;
+		$literal = '';
+		while ($startPos < $n) {
+			$ip = strpos($sql, $prefix, $startPos);
+			if ($ip === false) {
+				break;
+			}
+
+			$j = strpos( $sql, "'", $startPos );
+			$k = strpos( $sql, '"', $startPos );
+			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
+				$quoteChar	= '"';
+				$j			= $k;
+			} else {
+				$quoteChar	= "'";
+			}
+
+			if ($j === false) {
+				$j = $n;
+			}
+
+			$literal .= str_replace( $prefix, $this->_table_prefix,substr( $sql, $startPos, $j - $startPos ) );
+			$startPos = $j;
+
+			$j = $startPos + 1;
+
+			if ($j >= $n) {
+				break;
+			}
+
+			// quote comes first, find end of quote
+			while (TRUE) {
+				$k = strpos( $sql, $quoteChar, $j );
+				$escaped = false;
+				if ($k === false) {
+					break;
+				}
+				$l = $k - 1;
+				while ($l >= 0 && $sql{$l} == '\\') {
+					$l--;
+					$escaped = !$escaped;
+				}
+				if ($escaped) {
+					$j	= $k+1;
+					continue;
+				}
+				break;
+			}
+			if ($k === FALSE) {
+				// error in the query - no end quote; ignore it
+				break;
+			}
+			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
+			$startPos = $k+1;
+		}
+		if ($startPos < $n) {
+			$literal .= substr( $sql, $startPos, $n - $startPos );
+		}
+		return $literal;
 	}
 	
 	/**
@@ -288,7 +391,7 @@ class JDatabase extends JObject
 	 * @return string The current value of the internal SQL vairable
 	 */
 	function getQuery() {
-		return $this->_dbdriver->getQuery();
+		return "<pre>" . htmlspecialchars( $this->_sql ) . "</pre>";
 	}
 	
 	/**
@@ -299,7 +402,7 @@ class JDatabase extends JObject
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
 	function query() {
-		return $this->_dbdriver->query();
+		return;
 	}
 
 	/**
@@ -311,7 +414,7 @@ class JDatabase extends JObject
 	 * @since 1.0.5
 	 */
 	function getAffectedRows() {
-		return $this->_dbdriver->getAffectedRows();
+		return;
 	}
 
    /**
@@ -322,7 +425,7 @@ class JDatabase extends JObject
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
 	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
-		return $this->_dbdriver->query_batch( $abort_on_error, $p_transaction_safe );
+		return false;
 	}
 
 	/**
@@ -332,7 +435,7 @@ class JDatabase extends JObject
      * @access public
 	 */
 	function explain() {
-		return $this->_dbdriver->explain();
+		return;
 	}
 
 	/**
@@ -344,7 +447,7 @@ class JDatabase extends JObject
 	 * @return int The number of rows
      */
 	function getNumRows( $cur=null ) {
-		return $this->_dbdriver->getNumRows( $cur );
+		return;
 	}
 
 	/**
@@ -355,7 +458,7 @@ class JDatabase extends JObject
 	 * @return The value returned in the query or null if the query failed.
 	 */
 	function loadResult() {
-		return $this->_dbdriver->loadResult();
+		return;
 	}
 
 	/**
@@ -364,7 +467,7 @@ class JDatabase extends JObject
      * @abstract
 	 */
 	function loadResultArray($numinarray = 0) {
-		return $this->_dbdriver->loadResultArray($numinarray);
+		return;
 	}
 	
 	/**
@@ -374,7 +477,7 @@ class JDatabase extends JObject
 	*/
 	function loadAssoc()
 	{
-		return $this->_dbdriver->loadAssoc();
+		return;
 	}
 
 	/**
@@ -386,7 +489,7 @@ class JDatabase extends JObject
 	 * @return array If key is empty as sequential list of returned records.
 	 */
 	function loadAssocList( $key='' ) {
-		return $this->_dbdriver->loadAssocList( $key );
+		return;
 	}
 	
 	/**
@@ -398,7 +501,7 @@ class JDatabase extends JObject
 	 * @param object
 	 */
 	function loadObject( ) {
-		return $this->_dbdriver->loadObject() ;
+		return;
 	}
 
 	/**
@@ -413,7 +516,7 @@ class JDatabase extends JObject
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
 	function loadObjectList( $key='' ) {
-		return $this->_dbdriver->loadObjectList( $key );
+		return;
 	}
 	
 	/**
@@ -424,7 +527,7 @@ class JDatabase extends JObject
      * @return The first row of the query.
 	 */
 	function loadRow() {
-		return $this->_dbdriver->loadRow();
+		return;
 	}
 	
 	/**
@@ -439,7 +542,7 @@ class JDatabase extends JObject
 	* @return array
 	*/
 	function loadRowList( $key='' ) {
-		return $this->_dbdriver->loadRowList( $key );
+		return;
 	}
 	
 	/**
@@ -453,7 +556,7 @@ class JDatabase extends JObject
 	 * @param boolean
 	 */
 	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) {
-		return $this->_dbdriver->insertObject( $table, $object, $keyName, $verbose );
+		return;
 	}
 
 	/**
@@ -467,7 +570,7 @@ class JDatabase extends JObject
 	 * @param boolean
 	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true ) {
-		return $this->_dbdriver->updateObject( $table, $object, $keyName, $updateNulls );
+		return;
 	}
 
 	/**
@@ -477,7 +580,13 @@ class JDatabase extends JObject
 	 * @return string A standised error message
 	 */
 	function stderr( $showSQL = false ) {
-		return $this->_dbdriver->stderr( $showSQL );
+		if ( $this->_errorNum != 0 ) {
+			return "DB function failed with error number $this->_errorNum"
+			."<br /><font color=\"red\">$this->_errorMsg</font>"
+			.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
+		} else {
+			return "DB function reports no errors";
+		}
 	}
 
 	/**
@@ -488,7 +597,7 @@ class JDatabase extends JObject
      * @return mixed
 	 */
     function insertid() {
-		return $this->_dbdriver->insertid();
+		return;
 	}
 	
 	/**
@@ -499,7 +608,7 @@ class JDatabase extends JObject
      * @return string Collation in use
 	 */
 	function getCollation() {
-		return$this->_dbdriver->getCollation();
+		return;
 	}
 
     /**
@@ -508,7 +617,7 @@ class JDatabase extends JObject
      * @abstract
 	 */
 	function getVersion() {
-		return $this->_dbdriver->getVersion();
+		return 'Not available for this connector';
 	}
 
 	/**
@@ -519,7 +628,7 @@ class JDatabase extends JObject
      * @return array A list of all the tables in the database
 	 */
 	function getTableList() {
-		return $this->_dbdriver->getTableList();
+		return;
 	}
 	
 	/**
@@ -531,7 +640,7 @@ class JDatabase extends JObject
 	 * @return array A list the create SQL for the tables
 	 */
 	function getTableCreate( $tables ) {
-		return $this->_dbdriver->getTableCreate( $tables );
+		return;
 	}
 	
 	/**
@@ -543,7 +652,7 @@ class JDatabase extends JObject
 	 * @return array An array of fields by table
 	 */
 	function getTableFields( $tables ) {
-		return $this->_dbdriver->getTableFields( $tables );
+		return;
 	}
 
 	// ----

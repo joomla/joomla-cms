@@ -71,7 +71,7 @@ class HTML_admin_misc
 
 		$document->set('module', 'submenu', $contents);
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div id="config-document">
 			<div id="page-site">
@@ -163,7 +163,7 @@ class HTML_admin_misc
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
-		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
+		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&pop=1&keyref=';
 
 		$helpsearch = JRequest::getVar( 'helpsearch' );
 		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
@@ -178,7 +178,7 @@ class HTML_admin_misc
 			$page .= '.xml';
 		}
 		?>
-		<form action="index2.php?option=com_admin&amp;task=help" method="post" name="adminForm">
+		<form action="index.php?option=com_admin&amp;task=help" method="post" name="adminForm">
 
 		<table class="adminform" border="1">
 		<tr>
@@ -217,7 +217,7 @@ class HTML_admin_misc
 							|
 							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo mosHTML::Link('index2.php?option=com_admin&task=changelog&file=component.html', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link('index.php?option=com_admin&task=changelog&file=component.html', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
 							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>

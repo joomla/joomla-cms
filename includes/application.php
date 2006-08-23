@@ -213,12 +213,12 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Get the language
+	* Set the language
 	*
 	* @access public
 	* @since 1.5
 	*/
-	function setLanguage()
+	function setLanguage($lang='')
 	{
 		// if a language was specified at login it has priority
 		// otherwise use user or default language settings

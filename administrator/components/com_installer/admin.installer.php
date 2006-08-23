@@ -23,7 +23,7 @@ require_once ($mainframe->getPath('admin_html'));
  */
 $user = & JFactory::getUser();
 if (!$user->authorize('com_installer', 'installer')) {
-	$mainframe->redirect('index2.php', JText::_('ALERTNOTAUTH'));
+	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 /*

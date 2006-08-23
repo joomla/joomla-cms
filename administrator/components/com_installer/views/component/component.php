@@ -108,7 +108,7 @@ class JInstallerScreens_component
 	{
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
+		<form action="index.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
 
 			<?php
 				if (count($rows)) {
@@ -151,7 +151,7 @@ class JInstallerScreens_component
 					$task 	= $row->enabled ? 'disable' : 'enable';
 					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 					$action	= $row->enabled ? JText::_( 'disable' ) : JText::_( 'enable' );
-					$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=".$task."&amp;eid[]=".$row->id."\"><img src=\"images/".$img."\" border=\"0\" title=\"".$action."\" alt=\"".$alt."\" /></a>";
+					$href 	= "<a href=\"index.php?option=com_installer&amp;extension=component&amp;task=".$task."&amp;eid[]=".$row->id."\"><img src=\"images/".$img."\" border=\"0\" title=\"".$action."\" alt=\"".$alt."\" /></a>";
 
 					if (!$row->option) {
 						$href = '<strong>X</strong>';

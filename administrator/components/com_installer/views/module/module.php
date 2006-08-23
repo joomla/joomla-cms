@@ -120,7 +120,7 @@ class JInstallerScreens_module {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_installer&amp;extension=module" method="post" name="adminForm">
+		<form action="index.php?option=com_installer&amp;extension=module" method="post" name="adminForm">
 
 				<table class="adminform">
 				<tr>

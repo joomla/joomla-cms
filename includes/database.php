@@ -11,9 +11,9 @@ jimport( 'joomla.database.database.mysql' );
  * @package Joomla
  * @deprecated As of version 1.5
  */
-class database extends JDatabaseMySQL {
+class database extends JDatabase {
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
-		parent::__construct( $host, $user, $pass, $db, $table_prefix );
+		parent::__construct( 'mysql', $host, $user, $pass, $db, $table_prefix );
 	}
 }
 ?>

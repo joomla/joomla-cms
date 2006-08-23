@@ -49,7 +49,7 @@ class JInstallerScreens
 
 		</script>
 
-		<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
+		<form enctype="multipart/form-data" action="index.php" method="post" name="filename">
 
 			<table class="adminform">
 			<tr>
@@ -74,7 +74,7 @@ class JInstallerScreens
 			<input type="hidden" name="option" value="com_installer" />
 			</form>
 
-			<form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_dir">
+			<form enctype="multipart/form-data" action="index.php" method="post" name="adminForm_dir">
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
@@ -98,7 +98,7 @@ class JInstallerScreens
 			<input type="hidden" name="option" value="com_installer" />
 			</form>
 
-         	<form enctype="multipart/form-data" action="index2.php" method="post" name="webinstall">
+         	<form enctype="multipart/form-data" action="index.php" method="post" name="webinstall">
 
            	<table class="adminform">
            	<tr>
