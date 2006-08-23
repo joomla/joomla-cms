@@ -305,8 +305,8 @@ class JDocumentHTML extends JDocument
 	 */
 	function _loadTemplate($directory, $filename)
 	{
-		global $mainframe;
-		global $Itemid, $task, $option, $_VERSION;
+		global $mainframe, $Itemid, $option;
+		global $task, $_VERSION, $my, $cur_template;
 
 		$db  =& JFactory::getDBO();
 		$acl =& JFactory::getACL();
@@ -317,7 +317,7 @@ class JDocumentHTML extends JDocument
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-
+		
 		$contents = '';
 		//Check to see if we have a valid template file
 		if ( file_exists( $directory.DS.$filename ) )

@@ -152,7 +152,8 @@ class JComponentHelper
 
 		// Handle template preview outlining
 		$contents = null;
-		if($outline && !$mainframe->isAdmin()) {
+		if($outline && !$mainframe->isAdmin()) 
+		{
 			$doc =& JFactory::getDocument();
 			$css  = ".com-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
 			$css .= ".com-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";

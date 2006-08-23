@@ -349,7 +349,8 @@ class JTemplatesView
 		<?php echo JText::_( 'This file is' ); ?>:
 		<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
 		<?php
-			if (mosIsChmodable($template_path))
+			jimport('joomla.filesystem.path');
+			if (JPath::canCHMOD($template_path))
 			{
 				if (is_writable($template_path)) {
 				?>

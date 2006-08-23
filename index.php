@@ -68,7 +68,7 @@ $mainframe->triggerEvent( 'onBeforeDisplay' );
  * Note: This section of initialization must be performed last.
  */
 $option = JSiteHelper::findOption();
-$mainframe->execute($option, isset($tmpl) ? $tmpl : 'index.php');
+$mainframe->execute( $option );
 
 // trigger the onAfterDisplay events
 $mainframe->triggerEvent( 'onAfterDisplay' );

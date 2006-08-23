@@ -157,7 +157,6 @@ Legend:
  + Added RTL to media manager dtree menu
   
 29-Jul-2006 Enno Klasing
- + Introduced josSpoofCheck and josSpoofValue as legacy functions
  ^ Deprecated josSpoofCheck, use JUtility::spoofCheck instead
  ^ Deprecated josSpoofValue, use JUtility::spoofKey instead
  + Added JUtility::spoofCheck to POST forms [WIP, com_content still missing]

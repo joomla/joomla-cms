@@ -30,7 +30,7 @@
 <?php foreach ($this->items as $item) : ?>
 <tr class="sectiontableentry<?php echo $item->odd + 1; ?>">
 	<td align="center" width="5">
-		<?php echo $item->count; ?>
+		<?php echo $item->count + 1; ?>
 	</td>
 	<?php if ( $this->params->get( 'name' ) ) : ?>
 	<td height="20" width="90%">

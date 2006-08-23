@@ -669,17 +669,6 @@ function josSpoofCheck( $header=false, $alternate=false ) {
 }
 
 /**
- * Legacy function, use JUtility::spoofKey() instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-function josSpoofValue( $alternate=false ) {
-	$hash = JUtility::spoofKey();
-	return $hash;
-}
-
-/**
  * Legacy function, use JArrayHelper::fromObject instead
  *
  * @deprecated	As of version 1.5

@@ -50,7 +50,7 @@ class JPath {
 		{
 			if (@ chmod($path, $perms ^ 0001))
 			{
-				@ chmod($path, $perms);
+				@chmod($path, $perms);
 				return true;
 			}
 		}

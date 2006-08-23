@@ -74,6 +74,16 @@ $user			= & JFactory::getUser();
 $GLOBALS['my']	= $user->getTable();
 
 /**
+ * Legacy global, use JApplication::getTemplate() instead
+ *
+ * @name $cur_template
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+global $mainframe;
+$GLOBALS['cur_template']	= $mainframe->getTemplate();
+
+/**
  * Load the site language file (the old way - to be deprecated)
  *
  * @deprecated	As of version 1.5
