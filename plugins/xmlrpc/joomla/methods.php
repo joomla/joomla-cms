@@ -53,10 +53,13 @@ class JoomlaXMLRPCServices
 		$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
 
 		// Iterate through results building the return array
-		foreach ($results as $i=>$rows) {
+		require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
+		
+		foreach ($results as $i=>$rows) 
+		{
 			foreach ($rows as $j=>$row) {
 				$results[$i][$j]->href = $url.'/'.$row->href;
-				$results[$i][$j]->text = mosPrepareSearchContent( $row->text, 200, $searchword);
+				$results[$i][$j]->text = SearchHelper::prepareSearchContent( $row->text, 200, $searchword);
 			}
 		}
 		return $results;
