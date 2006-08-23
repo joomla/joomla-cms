@@ -448,7 +448,7 @@ class JApplication extends JObject
 	 */
 	function getBaseURL()
 	{
-		return JURI::resolve('/');
+		return JURI::base();
 	}
 
 	/**

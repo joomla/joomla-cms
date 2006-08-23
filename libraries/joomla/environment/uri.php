@@ -183,6 +183,36 @@ class JURI extends JObject
 	}
 
 	/**
+	 * Returns the base URI for the request.
+	 *
+	 * @access	public
+	 * @return	string	The base URI string
+	 * @since	1.5
+	 */
+	function base()
+	{
+		static $BASE;
+
+		// Get the base request URL if not set
+		if (!isset($BASE)) {
+			$uri =& JFactory::getURI();
+			$BASE  = $uri->getScheme().'://';
+			$BASE .= $uri->getHost();
+			if ($port = $uri->getPort()) {
+				$BASE .= ":$port";
+			}
+			if (empty($_SERVER['REQUEST_URI'])) {
+				// IIS
+				$BASE .=  rtrim(dirname($_SERVER['SCRIPT_FILENAME']), '/\\').'/';
+			} else {
+				// Sane
+				$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
+			}
+		}
+		return $BASE;
+	}
+
+	/**
 	 * Method to resolve a URI internally if possible
 	 *
 	 * @access	public
@@ -199,18 +229,8 @@ class JURI extends JObject
 	 */
 	function resolve( $url, $ssl=0, $sef=1 )
 	{
-		static $BASE;
-
-		// Get the base request URL if not set
-		if (!isset($BASE)) {
-			$uri =& JFactory::getURI();
-			$BASE  = $uri->getScheme().'://';
-			$BASE .= $uri->getHost();
-			if ($port = $uri->getPort()) {
-				$BASE .= ":$port";
-			}
-			$BASE .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
-		}
+		// Initialize variables
+		$BASE = JURI::base();
 
 		/*
 		 * First we need to get the secure/unsecure URLs.  If the first 5
