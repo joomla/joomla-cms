@@ -238,7 +238,7 @@ function mosMakePassword() {
 }
 
 /**
- * Legacy function, use josRedirect instead
+ * Legacy function, use JApplication->redirect instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy

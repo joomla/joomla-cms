@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Aug-2006 Johan Janssens
+ # Fixed [artf5594] : Error saving Articles (non-existent class: jtablefrontpage)
+
 20-Aug-2006 Louis Landry
  ^ josURL changed to JURI::resolve
  # Fixed artf5539 : com_uninstall() function never called
@@ -71,7 +74,7 @@ Legend:
  ^ Added global legacy setting for enabling 'legacy mode'
 
 14-Aug-2006 Alex Kempkens
- # [artf5604] Install from dir does not work
+ # Fixed [artf5604] Install from dir does not work
  # Fixed issues with the installer and cleaned pathes
  # Fixed help integration and made it language aware
  # Language awareness of the system help screens
