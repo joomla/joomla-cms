@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.controller' );
 
-class JBannerController extends JController
+class BannerController extends JController
 {
 	function click()
 	{
@@ -32,7 +32,7 @@ class JBannerController extends JController
 	}
 }
 
-$controller = new JBannerController( 'click' );
+$controller = new BannerController( 'click' );
 $controller->setModelPath( dirname( __FILE__ ) . '/models' );
 $controller->execute( $task );
 $controller->redirect();
