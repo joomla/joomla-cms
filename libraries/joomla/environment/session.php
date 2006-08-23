@@ -212,7 +212,7 @@ class JSession
      */
     function sessionValidThru()
     {
-		if (!isset($_SESSION['__HTTP_SESSION_IDLE_TS']) || !isset($GLOBALS['__HTTP_SESSION_IDLE'])) {
+		if (!isset($_SESSION['__HTTP_SESSION_IDLE_TS']) || !isset($_SESSION['__HTTP_SESSION_IDLE'])) {
             return 0;
         } else {
             return $_SESSION['__HTTP_SESSION_IDLE_TS'] + $_SESSION['__HTTP_SESSION_IDLE'];

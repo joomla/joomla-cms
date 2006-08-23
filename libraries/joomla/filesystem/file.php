@@ -347,11 +347,8 @@ class JFile
 			$file = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false);
 
 			// Use FTP write buffer to file
-			if (!$ftp->write($file, $buffer)) {
-				$ret = false;
-			}
+			$ret = $ftp->write($file, $buffer);
 			$ftp->quit();
-			$ret = true;
 		} else {
 			$ret = file_put_contents($file, $buffer);
 		}

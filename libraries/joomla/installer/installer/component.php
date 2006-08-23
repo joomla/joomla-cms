@@ -484,7 +484,7 @@ class JInstallerComponent extends JInstaller
 			/*
 			 * Element exists, does the file exist?
 			 */
-			if (!file_exists($this->_extensionAdminDir.$uninstallfileElement->getText()))
+			if (file_exists($this->_extensionAdminDir.$uninstallfileElement->getText()))
 			{
 				ob_start();
 				ob_implicit_flush(false);

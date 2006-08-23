@@ -39,6 +39,9 @@ Legend:
 
 20-Aug-2006 Louis Landry
  ^ josURL changed to JURI::resolve
+ # Fixed artf5539 : com_uninstall() function never called
+ # Fixed artf5536 : __HTTP_SESSION_IDLE issues in libraries/joomla/environment/session.php
+ # Fixed artf5427 : JFile::write always return true with ftp flag
 
 20-Aug-2006 Andrew Eddie
  + JError:isError will also recongnise PHP 5 Exception objects as errors
