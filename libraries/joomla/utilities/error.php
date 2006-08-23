@@ -172,7 +172,20 @@ class JError extends patErrorManager
 		$GLOBALS['_JError_errorStore'][] = & $error;
 
 		$function = 'handleError'.ucfirst($handling['mode']);
-		return JError::$function ($error, $handling);
+		if (function_exists( $function ))
+		{
+			return JError::$function ($error, $handling);
+		}
+		else
+		{
+			// This is required to prevent a very unhelpful white-screen-of-death
+			die(
+				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
+				' Contact a developer to debug' .
+				'<br/><strong>Error was</strong> ' .
+				'<br/>' . $error->getMessage()
+			);
+		}
 	}
 
 	/**
