@@ -16,11 +16,6 @@ jimport('joomla.application.view');
 
 class MailtoViewForm extends JView
 {
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-	
 	function display() 
 	{
 		$data = $this->getData();

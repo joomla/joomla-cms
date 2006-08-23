@@ -224,15 +224,15 @@ class JController extends JObject
 		$viewName	= preg_replace( '#\W#', '', $viewName );
 		$classPrefix= preg_replace( '#\W#', '', $classPrefix );
 
-		$result		= false;
+		$view = null;
 	
 		// Build the path to the default view based upon a supplied base path
-		$path = $this->getViewPath().strtolower($viewName.DS.$viewName).'.php';
+		$path = $this->getViewPath().strtolower($viewName);
 
 		// If the default view file exists include it and try to instantiate the object
-		if (file_exists( $path ))
+		if (file_exists( $path.DS.'view.php' ))
 		{
-			require_once( $path );
+			require_once( $path.DS.'view.php' );
 			// Build the view class name
 			$viewClass = $classPrefix.$viewName;
 			if (!class_exists( $viewClass )) 
@@ -241,15 +241,16 @@ class JController extends JObject
 			} 
 			else
 			{
-				$result = & new $viewClass( $this );
-				return $result;
+				$view = & new $viewClass( $this );
+				$view->setTemplatePath($path.DS.'tmpl');
+				return $view;
 			}
 		}
 		else
 		{
 			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 		}
-		return $result;
+		return $view;
 	}
 
 	/**
@@ -341,8 +342,7 @@ class JController extends JObject
 	 * @return object
 	 * @since	1.5
 	 */
-	function &getDBO()
-	{
+	function &getDBO() {
 		return JFactory::getDBO();
 	}
 
@@ -378,8 +378,7 @@ class JController extends JObject
 	 * @return	string	The path
 	 * @since	1.5
 	 */
-	function getModelPath()
-	{
+	function getModelPath() {
 		return $this->_modelPath;
 	}
 
@@ -390,8 +389,7 @@ class JController extends JObject
 	 * @return	string	The task that was or is being performed
 	 * @since	1.5
 	 */
-	function getTask()
-	{
+	function getTask() {
 		return $this->_task;
 	}
 
@@ -428,8 +426,7 @@ class JController extends JObject
 	 * @return	string	The path
 	 * @since	1.5
 	 */
-	function getViewPath()
-	{
+	function getViewPath() {
 		return $this->_viewPath;
 	}
 
