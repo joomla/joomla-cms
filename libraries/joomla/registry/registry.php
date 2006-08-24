@@ -101,53 +101,31 @@ class JRegistry extends JObject
 	 */
 	function getValue($regpath)
 	{
-		/*// Explode the registry path into an array
-		$nodes = explode('.', $regpath);
-
-		$n = count( $nodes );
-
 		$result = null;
-		if ($n > 1)
+
+		// Explode the registry path into an array
+		if ($nodes = explode('.', $regpath))
 		{
 			// Get the namespace
+			//$namespace = array_shift($nodes);
 			$namespace = $nodes[0];
-
+	
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
-				$pathNodes = $n - 2;
-
+				//$pathNodes = count($nodes) - 1;
+				$pathNodes = count($nodes) - 2;
+		
+				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
 					$ns =& $ns->$nodes[$i];
 				}
+		
 				if(isset($ns->$nodes[$i])) {
 					$result = $ns->$nodes[$i];
 				}
 			}
 		}
-		return $result;*/
-		// Explode the registry path into an array
-		$nodes = explode('.', $regpath);
-
-		// Get the namespace
-		$namespace = array_shift($nodes);
-
-		if (!isset($this->_registry[$namespace])) {
-			return null;
-		}
-
-		$ns = & $this->_registry[$namespace]['data'];
-		$pathNodes = count($nodes) - 1;
-
-		for ($i = 0; $i < $pathNodes; $i ++) {
-			$ns =& $ns->$nodes[$i];
-		}
-
-		if(!isset($ns->$nodes[$i])) {
-			return null;
-		}
-
-		return $ns->$nodes[$i++];
-
+		return $result;
 	}
 
 	/**
