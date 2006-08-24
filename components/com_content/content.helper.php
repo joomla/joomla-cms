@@ -339,6 +339,15 @@ class JContentHelper
 	function getItemid($id)
 	{
 
+		static $cParams;
+		static $mParams;
+
+		if (!isset($cParams) || !isset($mParams)) {
+			$cParams = new JParameter('');
+			$mParams = new JParameter('');
+			
+		}
+
 		$cache = & JFactory::getCache();
 		$Itemid = $cache->get( md5($id), 'getItemid' );
 
@@ -354,10 +363,10 @@ class JContentHelper
 			{
 				// Do we have a content item linked to the menu with this id?
 				foreach ($items as $item) {
-					$item->cParams = & new JParameter( $item->control );
-					$item->mParams = & new JParameter( $item->params );
+					$cParams->loadINI($item->control);
+					$mParams->loadINI($item->params);
 
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
+					if (($item->componentid == $component->id) && ($item->published) && ($cParams->get('view_name') == "article") && ($mParams->get('article_id') == $id)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}
@@ -374,10 +383,10 @@ class JContentHelper
 
 				// Check to see if it is in a published category
 				foreach ($items as $item) {
-					$item->cParams = & new JParameter( $item->control );
-					$item->mParams = & new JParameter( $item->params );
+					$cParams->loadINI($item->control);
+					$mParams->loadINI($item->params);
 
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == $article->catid)) {
+					if (($item->componentid == $component->id) && ($item->published) && ($cParams->get('view_name') == "category") && ($mParams->get('category_id') == $article->catid)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}
@@ -385,10 +394,10 @@ class JContentHelper
 
 				// Check to see if it is in a published section
 				foreach ($items as $item) {
-					$item->cParams = & new JParameter( $item->control );
-					$item->mParams = & new JParameter( $item->params );
+					$cParams->loadINI($item->control);
+					$mParams->loadINI($item->params);
 
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('section_id') == $article->sectionid)) {
+					if (($item->componentid == $component->id) && ($item->published) && ($cParams->get('view_name') == "section") && ($mParams->get('section_id') == $article->sectionid)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}
@@ -402,20 +411,20 @@ class JContentHelper
 
 				// Category
 				foreach ($items as $item) {
-					$item->cParams = & new JParameter( $item->control );
-					$item->mParams = & new JParameter( $item->params );
+					$cParams->loadINI($item->control);
+					$mParams->loadINI($item->params);
 
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == 0)) {
+					if (($item->componentid == $component->id) && ($item->published) && ($cParams->get('view_name') == "category") && ($mParams->get('category_id') == 0)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}
 				}
 				// Section
 				foreach ($items as $item) {
-					$item->cParams = & new JParameter( $item->control );
-					$item->mParams = & new JParameter( $item->params );
+					$cParams->loadINI($item->control);
+					$mParams->loadINI($item->params);
 
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('category_id') == 0)) {
+					if (($item->componentid == $component->id) && ($item->published) && ($cParams->get('view_name') == "section") && ($mParams->get('category_id') == 0)) {
 						$cache->save( $item->id, md5($id), 'getItemid' );
 						return $item->id;
 					}
