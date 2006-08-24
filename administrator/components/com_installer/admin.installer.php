@@ -38,6 +38,36 @@ if ($extension != '') {
 	}
 }
 
+/*
+ * Get the task variable from the page request variables
+ */
+
+switch (JRequest::getVar('task')) 
+{
+	case 'uploadpackage' :
+		JInstallerController::uploadpackage();
+		break;
+	case 'installfromdirectory' :
+		JInstallerController::installFromDirectory();
+		break;
+	case 'installfromurl' :
+		JInstallerController::installfromurl();
+		break;
+	case 'enable' :
+		JInstallerController::enableextension();
+		break;
+	case 'disable' :
+		JInstallerController::disableextension();
+		break;
+	case 'remove' :
+	case 'removeextension' :
+		JInstallerController::removeextension();
+		break;
+	default :
+		JInstallerController::installer();
+		break;
+}
+
 class JInstallerController
 {
 	/**
@@ -437,36 +467,5 @@ class JInstallerController
 			JInstallerScreens::showInstallForm();
 		}
 	}
-}
-
-/*
- * Get the task variable from the page request variables
- */
-$task = strtolower(JRequest::getVar('task', 'installer'));
-
-switch ($task) {
-
-	case 'uploadpackage' :
-		JInstallerController::uploadpackage();
-		break;
-	case 'installfromdirectory' :
-		JInstallerController::installFromDirectory();
-		break;
-	case 'installfromurl' :
-		JInstallerController::installfromurl();
-		break;
-	case 'enable' :
-		JInstallerController::enableextension();
-		break;
-	case 'disable' :
-		JInstallerController::disableextension();
-		break;
-	case 'remove' :
-	case 'removeextension' :
-		JInstallerController::removeextension();
-		break;
-	default :
-		JInstallerController::installer();
-		break;
 }
 ?>

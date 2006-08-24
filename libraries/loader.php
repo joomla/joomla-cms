@@ -26,45 +26,34 @@ class JLoader
     * @return void
     * @since 1.5
     */
-   function import( $filePath )
+    function import( $filePath )
    {
-		static $paths;
+		$parts = explode( '.', $filePath );
 
-		if (!isset($paths))
+		$base =  dirname( __FILE__ );
+
+		if(array_pop( $parts ) == '*')
 		{
-			$paths = array();
-		}
+			$path = $base . DS . implode( DS, $parts );
 
-	   if (!isset($paths[$filePath]))
-	   {
-			$paths[$filePath] = true;
-
-			$parts = explode( '.', $filePath );
-
-			$base =  dirname( __FILE__ );
-
-			if(array_pop( $parts ) == '*')
-			{
-				$path = $base . DS . implode( DS, $parts );
-
-				if (!is_dir( $path )) {
-					return false;
-				}
-
-				$dir = dir( $path );
-				while ($file = $dir->read()) {
-					if (ereg( '\.php$', $file )) {
-						require ($path . DS . $file);
-					}
-				}
-				$dir->close();
-			} else {
-				$path = str_replace( '.', DS, $filePath );
-				require($base . DS . $path . '.php');
+			if (!is_dir( $path )) {
+				return false;
 			}
+
+			$dir = dir( $path );
+			while ($file = $dir->read()) {
+				if (ereg( '\.php$', $file )) {
+					JLoader::_requireOnce($path . DS . $file);
+				}
+			}
+			$dir->close();
+		} else {
+			$path = str_replace( '.', DS, $filePath );
+			JLoader::_requireOnce($base . DS . $path . '.php');
 		}
 		return true;
 	}
+
 
    /**
     * A common object factory.

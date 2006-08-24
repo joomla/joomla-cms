@@ -27,7 +27,8 @@ jimport('joomla.filesystem.path');
  * @subpackage 	FileSystem
  * @since		1.5
  */
-class JFolder {
+class JFolder 
+{
 	/**
 	 * Create a folder -- and all necessary parent folders
 	 *

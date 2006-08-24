@@ -26,6 +26,7 @@ if (!defined('JPATH_ROOT')) {
 	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
 }
 
+
 /**
  * A Path handling class
  *

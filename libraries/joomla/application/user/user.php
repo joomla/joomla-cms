@@ -88,7 +88,7 @@ class JUser extends JObject
 	 * 		<pre>  $user = JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
-	 * @param 	int 	$id 	The user id to load - if int then the id field is referend, for strings the username!
+	 * @param 	int 	$id 	The user id to load - if integer then the id field is referend, for strings the username!
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
@@ -101,7 +101,7 @@ class JUser extends JObject
 		}
 
 		// Find the user id
-		if(!is_int($id))
+		if(!is_numeric($id))
 		{
 			if (!$id =  JUserHelper::getUserId($id)) {
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
