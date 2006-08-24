@@ -50,11 +50,15 @@ class JMenu extends JObject
 		$this->_items = $this->_load();
 
 		$home = 0;
-		foreach ($this->_items as $item)
+		$n = count($this->_items );
+		foreach ($this->_items as $k => $item)
 		{
-			if ($item->home) {
-				$this->_default = $item->id;
+			$temp = &$this->_items[$k];
+			if ($temp->home) {
+				$this->_default = $temp->id;
 			}
+			$temp->cParams = new JParameter( $temp->control );
+			$temp->mParams = new JParameter( $temp->params );
 		}
 	}
 
