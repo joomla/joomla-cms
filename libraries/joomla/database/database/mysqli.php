@@ -348,14 +348,14 @@ class JDatabaseMySQLi extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadRowList( $key='' )
+	function loadRowList( $key=null )
 	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
 		$array = array();
-		while ($row = mysqli_fetch_array( $cur )) {
-			if ($key) {
+		while ($row = mysqli_fetch_row( $cur )) {
+			if ($key !== null) {
 				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;

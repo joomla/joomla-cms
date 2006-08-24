@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Aug-2006 Alex Kempkens
+ # Fixed bug in JDatabase::loadRowList where passed key is zero 
+ # JDatabase::loadRowList changed to use mysql*_get_row instead of mysql*_get_assoc
+
 23-Aug-2006 Alex Kempkens
  # Fixed : Plugin installer error messages changed to plugins
  ^ Refactored administrative forms to use index.php instead of index2.php (correct debuggin in Zend)
