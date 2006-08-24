@@ -101,11 +101,12 @@ class JRegistry extends JObject
 	 */
 	function getValue($regpath)
 	{
-		// Explode the registry path into an array
+		/*// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
 
 		$n = count( $nodes );
 
+		$result = null;
 		if ($n > 1)
 		{
 			// Get the namespace
@@ -119,11 +120,34 @@ class JRegistry extends JObject
 					$ns =& $ns->$nodes[$i];
 				}
 				if(isset($ns->$nodes[$i])) {
-					return $ns->$nodes[$i];
+					$result = $ns->$nodes[$i];
 				}
 			}
 		}
-		return null;
+		return $result;*/
+		// Explode the registry path into an array
+		$nodes = explode('.', $regpath);
+
+		// Get the namespace
+		$namespace = array_shift($nodes);
+
+		if (!isset($this->_registry[$namespace])) {
+			return null;
+		}
+
+		$ns = & $this->_registry[$namespace]['data'];
+		$pathNodes = count($nodes) - 1;
+
+		for ($i = 0; $i < $pathNodes; $i ++) {
+			$ns =& $ns->$nodes[$i];
+		}
+
+		if(!isset($ns->$nodes[$i])) {
+			return null;
+		}
+
+		return $ns->$nodes[$i++];
+
 	}
 
 	/**

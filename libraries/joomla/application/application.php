@@ -232,11 +232,10 @@ class JApplication extends JObject
 		//Force namespace
 		$key = 'request.'.$key;
 
-		//TODO : FIX THIS !
-		//$old_state = $this->getUserState( $key );
-		//$cur_state = isset( $old_state ) ? $old_state : $default;
-		$new_state = JRequest::getVar( $request, $default );
-		//$this->setUserState( $key, $new_state );
+		$old_state = $this->getUserState( $key );
+		$cur_state = isset( $old_state ) ? $old_state : $default;
+		$new_state = JRequest::getVar( $request, $cur_state );
+		$this->setUserState( $key, $new_state );
 
 		return $new_state;
 	}
