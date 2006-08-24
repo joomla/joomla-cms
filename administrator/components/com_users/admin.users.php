@@ -293,7 +293,7 @@ function saveUser(  )
 	/*
 	 * Lets create a new JUser object
 	 */
-	$user = & new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
+	$user = new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
 	$original_gid = $user->get('gid');
 
 	if (!$user->bind( $_POST )) {

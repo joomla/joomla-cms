@@ -71,7 +71,7 @@ class JRegistry extends JObject
 		}
 
 		if (empty ($instances[$id])) {
-			$instances[$id] = & new JRegistry($namespace);
+			$instances[$id] = new JRegistry($namespace);
 		}
 
 		return $instances[$id];
@@ -441,7 +441,7 @@ class JRegistry extends JObject
 		$lformat = strtolower($format);
 		if(jimport('joomla.registry.format.'.$lformat)) {
 			$return = null;
-			eval('$return =& new JRegistryFormat'.$format.'();');
+			eval('$return = new JRegistryFormat'.$format.'();');
 			return $return;
 		} else {
 			die('Unable to load format');

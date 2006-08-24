@@ -42,7 +42,7 @@ class JMenuModelWizard extends JModel
 		if ($type) {
 			require_once(COM_MENUS.'helpers'.DS.$type.'.php');
 			$class = 'JMenuHelper'.ucfirst($type);
-			$this->_helper =& new $class($this);
+			$this->_helper = new $class($this);
 			$this->_helper->setXmlPath( COM_MENUS.'helpers'.DS.'xml' );
 			$name = $this->_helper->getWizardName();
 		} else {
@@ -50,7 +50,7 @@ class JMenuModelWizard extends JModel
 		}
 
 		// Instantiate wizard
-		$this->_wizard =& new JWizard($mainframe, $name);
+		$this->_wizard = new JWizard($mainframe, $name);
 
 		// Load the XML if helper is set
 		if (isset($this->_helper)) {

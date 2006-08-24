@@ -142,7 +142,7 @@ class JDocumentError extends JDocument
 	function _initEngine($template)
 	{
 		jimport('joomla.template.template');
-		$instance =& new JTemplate();
+		$instance = new JTemplate();
 
 		//set a reference to the document in the engine
 		$instance->doc =& $this;

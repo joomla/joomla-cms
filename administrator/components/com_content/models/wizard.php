@@ -33,7 +33,7 @@ class JContentModelWizard extends JWizardModel
 		if ($type) {
 			require_once(JPATH_COM_CONTENT.'helpers'.DS.$type.'.php');
 			$class = 'JContentHelper'.ucfirst($type);
-			$this->_helper =& new $class($this);
+			$this->_helper = new $class($this);
 			$this->_helper->setXmlPath( JPATH_COM_CONTENT.'helpers'.DS.'xml' );
 			$name = $this->_helper->getWizardName();
 		} else {
@@ -41,7 +41,7 @@ class JContentModelWizard extends JWizardModel
 		}
 
 		// Instantiate wizard
-		$this->_wizard =& new JWizard($mainframe, $name);
+		$this->_wizard = new JWizard($mainframe, $name);
 
 		// Load the XML if helper is set
 		if (isset($this->_helper)) {

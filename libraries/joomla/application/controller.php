@@ -203,7 +203,7 @@ class JController extends JObject
 			}
 		}
 
-		$model = & new $modelClass();
+		$model = new $modelClass();
 		return $model;
 	}
 
@@ -241,7 +241,7 @@ class JController extends JObject
 			} 
 			else
 			{
-				$view = & new $viewClass( $this );
+				$view = new $viewClass( $this );
 				$view->setTemplatePath($path.DS.'tmpl');
 				return $view;
 			}

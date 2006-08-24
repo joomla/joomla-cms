@@ -40,7 +40,7 @@ class JWizard extends JObject
 	{
 		global $mainframe;
 		$this->_step 	= JRequest::getVar('step', 0, '', 'int');
-		$this->_registry =& new JParameter('');
+		$this->_registry = new JParameter('');
 		$this->_regPath  = 'wizard.'.$name;
 
 		// Get the step data from the session

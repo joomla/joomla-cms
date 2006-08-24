@@ -33,7 +33,7 @@ class JTree extends JObject
 
 	function __construct()
 	{
-		$this->_root =  & new JNode('ROOT');
+		$this->_root = new JNode('ROOT');
 		$this->_current = & $this->_root;
 	}
 

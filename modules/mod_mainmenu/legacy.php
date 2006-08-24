@@ -95,7 +95,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	$mitem->link = ampReplace($mitem->link);
 
 	$menu_params = new stdClass();
-	$menu_params = & new JParameter($mitem->params);
+	$menu_params = new JParameter($mitem->params);
 	$menu_secure = $menu_params->def('secure', 0);
 
 	if (strcasecmp(substr($mitem->link, 0, 4), 'http')) {

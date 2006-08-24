@@ -592,7 +592,7 @@ $cp1252_to_htmlent =
 					if ($rebuild_xmlrpcvals)
 					{
 						// build the xmlrpc val out of the data received, and substitute it
-						$temp =& new xmlrpcval($GLOBALS['_xh']['value'], $GLOBALS['_xh']['vt']);
+						$temp = new xmlrpcval($GLOBALS['_xh']['value'], $GLOBALS['_xh']['vt']);
 						// in case we got info about underlying php class, save it
 						// in the object we're rebuilding
 						if (isset($GLOBALS['_xh']['php_class']))
@@ -1036,7 +1036,7 @@ $cp1252_to_htmlent =
 			}
 			elseif(is_string($msg))
 			{
-				$n =& new xmlrpcmsg('');
+				$n = new xmlrpcmsg('');
 				$n->payload = $msg;
 				$msg = $n;
 			}
@@ -1605,7 +1605,7 @@ $cp1252_to_htmlent =
 						}
 						else
 						{
-							$result =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['multicall_error'], $GLOBALS['xmlrpcstr']['multicall_error']);
+							$result = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['multicall_error'], $GLOBALS['xmlrpcstr']['multicall_error']);
 						}
 					}
 				}
@@ -1652,17 +1652,17 @@ $cp1252_to_htmlent =
 			$calls = array();
 			foreach($msgs as $msg)
 			{
-				$call['methodName'] =& new xmlrpcval($msg->method(),'string');
+				$call['methodName'] = new xmlrpcval($msg->method(),'string');
 				$numParams = $msg->getNumParams();
 				$params = array();
 				for($i = 0; $i < $numParams; $i++)
 				{
 					$params[$i] = $msg->getParam($i);
 				}
-				$call['params'] =& new xmlrpcval($params, 'array');
-				$calls[] =& new xmlrpcval($call, 'struct');
+				$call['params'] = new xmlrpcval($params, 'array');
+				$calls[] = new xmlrpcval($call, 'struct');
 			}
-			$multicall =& new xmlrpcmsg('system.multicall');
+			$multicall = new xmlrpcmsg('system.multicall');
 			$multicall->addParam(new xmlrpcval($calls, 'array'));
 
 			// Attempt RPC call
@@ -1714,7 +1714,7 @@ $cp1252_to_htmlent =
 								return false;		// Bad value
 							}
 							// Normal return value
-							$response[$i] =& new xmlrpcresp($val[0], 0, '', 'phpvals');
+							$response[$i] = new xmlrpcresp($val[0], 0, '', 'phpvals');
 							break;
 						case 2:
 							///	@todo remove usage of @: it is apparently quite slow
@@ -1728,7 +1728,7 @@ $cp1252_to_htmlent =
 							{
 								return false;
 							}
-							$response[$i] =& new xmlrpcresp(0, $code, $str);
+							$response[$i] = new xmlrpcresp(0, $code, $str);
 							break;
 						default:
 							return false;
@@ -1761,7 +1761,7 @@ $cp1252_to_htmlent =
 								return false;		// Bad value
 							}
 							// Normal return value
-							$response[$i] =& new xmlrpcresp($val->arraymem(0));
+							$response[$i] = new xmlrpcresp($val->arraymem(0));
 							break;
 						case 'struct':
 							$code = $val->structmem('faultCode');
@@ -1774,7 +1774,7 @@ $cp1252_to_htmlent =
 							{
 								return false;
 							}
-							$response[$i] =& new xmlrpcresp(0, $code->scalarval(), $str->scalarval());
+							$response[$i] = new xmlrpcresp(0, $code->scalarval(), $str->scalarval());
 							break;
 						default:
 							return false;
@@ -2238,7 +2238,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 						if(!$data = decode_chunked($data))
 						{
 							error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to rebuild the chunked data received from server');
-							$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['dechunk_fail'], $GLOBALS['xmlrpcstr']['dechunk_fail']);
+							$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['dechunk_fail'], $GLOBALS['xmlrpcstr']['dechunk_fail']);
 							return $r;
 						}
 					}
@@ -2267,14 +2267,14 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 								else
 								{
 									error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to decode the deflated data received from server');
-									$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
+									$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
 									return $r;
 								}
 							}
 							else
 							{
 								error_log('XML-RPC: xmlrpcmsg::parseResponse: the server sent deflated data. Your php install must have the Zlib extension compiled in to support this.');
-								$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['cannot_decompress'], $GLOBALS['xmlrpcstr']['cannot_decompress']);
+								$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['cannot_decompress'], $GLOBALS['xmlrpcstr']['cannot_decompress']);
 								return $r;
 							}
 						}
@@ -2313,7 +2313,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			if($data == '')
 			{
 				error_log('XML-RPC: xmlrpcmsg::parseResponse: no response received from server.');
-				$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['no_data'], $GLOBALS['xmlrpcstr']['no_data']);
+				$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['no_data'], $GLOBALS['xmlrpcstr']['no_data']);
 				return $r;
 			}
 
@@ -2358,7 +2358,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			// if user wants back raw xml, give it to him
 			if ($return_type == 'xml')
 			{
-				$r =& new xmlrpcresp($data, 0, '', 'xml');
+				$r = new xmlrpcresp($data, 0, '', 'xml');
 				$r->hdrs = $GLOBALS['_xh']['headers'];
 				$r->_cookies = $GLOBALS['_xh']['cookies'];
 				return $r;
@@ -2436,7 +2436,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					/// @todo echo something for user?
 				}
 
-				$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'],
+				$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'],
 				$GLOBALS['xmlrpcstr']['invalid_return'] . ' ' . $GLOBALS['_xh']['isf_reason']);
 			}
 			// third error check: parsing of the response has somehow gone boink.
@@ -2482,7 +2482,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 						$errno = -1;
 					}
 
-					$r =& new xmlrpcresp(0, $errno, $errstr);
+					$r = new xmlrpcresp(0, $errno, $errstr);
 				}
 				else
 				{
@@ -3013,7 +3013,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 	function &php_xmlrpc_encode($php_val, $options=array())
 	{
 		$type = gettype($php_val);
-		$xmlrpc_val =& new xmlrpcval;
+		$xmlrpc_val = new xmlrpcval;
 
 		switch($type)
 		{
@@ -3272,7 +3272,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			$code = "function $xmlrpcfuncname(\$msg) {\n";
 
 			// start to introspect PHP code
-			$func =& new ReflectionFunction($funcname);
+			$func = new ReflectionFunction($funcname);
 			if($func->isInternal())
 			{
 				// Note: from PHP 5.1.0 onward, we will possibly be able to use invokeargs
@@ -3480,7 +3480,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 	*/
 	function wrap_xmlrpc_method($client, $methodname, $signum=0, $timeout=0, $protocol='', $newfuncname='')
 	{
-		$msg =& new xmlrpcmsg('system.methodSignature');
+		$msg = new xmlrpcmsg('system.methodSignature');
 		$msg->addparam(new xmlrpcval($methodname));
 		$response =& $client->send($msg, $timeout, $protocol);
 		if(!$response || $response->faultCode())
@@ -3518,7 +3518,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					$desc = $desc->arraymem($signum);
 				}
 				$code = "function $xmlrpcfuncname (";
-				$innercode = "\$client =& new xmlrpc_client('$client->path', '$client->server');\n";
+				$innercode = "\$client = new xmlrpc_client('$client->path', '$client->server');\n";
 				// copy all client fields to the client that will be generated runtime
 				// (this provides for future expansion of client obj)
 				foreach($client as $fld => $val)
@@ -3531,7 +3531,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				}
 				$innercode .= "\$client->setDebug(\$debug);\n";
 				$innercode .= "\$client->return_type = 'xmlrpcvals';\n";
-				$innercode .= "\$msg =& new xmlrpcmsg('$methodname');\n";
+				$innercode .= "\$msg = new xmlrpcmsg('$methodname');\n";
 
 				// param parsing
 				$plist = array();
@@ -3557,7 +3557,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					}
 					if($ptype == 'dateTime.iso8601' || $ptype == 'base64')
 					{
-						$innercode .= "\$p$i =& new xmlrpcval(\$p$i, '$ptype');\n";
+						$innercode .= "\$p$i = new xmlrpcval(\$p$i, '$ptype');\n";
 					}
 					else
 					{

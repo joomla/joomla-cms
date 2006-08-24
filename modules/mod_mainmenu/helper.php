@@ -46,7 +46,7 @@ class modMainMenuHelper
 
 				// Initialize some variables
 				$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-				$menu = & new JMainMenu($params, $Itemid);
+				$menu = new JMainMenu($params, $Itemid);
 				$items = &JMenu::getInstance();
 
 				// Get Menu Items

@@ -63,7 +63,7 @@ class modBannersHelper
 			}
 		}
 
-		$model = & new ModelBanner();
+		$model = new ModelBanner();
 		return $model;
 	}
 

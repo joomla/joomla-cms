@@ -95,7 +95,7 @@ class JMenuModelItem extends JModel
 	{
 		// Get the control parameters
 		$item	=& $this->getItem();
-		$params	=& new JParameter($item->control);
+		$params	= new JParameter($item->control);
 
 		// Override params with request params if they are present.
 		if ($control = JRequest::getVar('control', false, '', 'array')) {
@@ -125,7 +125,7 @@ class JMenuModelItem extends JModel
 	{
 		// Get the state parameters
 		$item	=& $this->getItem();
-		$params	=& new JParameter($item->params);
+		$params	= new JParameter($item->params);
 
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
@@ -140,7 +140,7 @@ class JMenuModelItem extends JModel
 	{
 		// Get the state parameters
 		$item	=& $this->getItem();
-		$params	=& new JParameter($item->params);
+		$params	= new JParameter($item->params);
 
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
@@ -356,7 +356,7 @@ class JMenuModelItem extends JModel
 		if ($item->type && file_exists(COM_MENUS.'helpers'.DS.$item->type.'.php')) {
 			require_once(COM_MENUS.'helpers'.DS.$item->type.'.php');
 			$class = 'JMenuHelper'.ucfirst($item->type);
-			$helper =& new $class($this);
+			$helper = new $class($this);
 		} else {
 			$helper = false;
 		}

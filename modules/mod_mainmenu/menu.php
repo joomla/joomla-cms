@@ -79,7 +79,7 @@ class JMainMenu extends JTree
 		switch ($item->type) 
 		{
 			case 'separator' :
-				$node = & new JMenuNode(null, $item->name, 'seperator', false);
+				$node =& new JMenuNode(null, $item->name, 'seperator', false);
 				if (isset($item->mid)) {
 					$nid = $item->mid;
 				} else {
@@ -109,7 +109,7 @@ class JMainMenu extends JTree
 		$item->link = ampReplace( $item->link );
 
 		// Handle SSL links
-		$iParams = & new JParameter($item->params);
+		$iParams =& new JParameter($item->params);
 		$iSecure = $iParams->def('secure', 0);
 		if (strcasecmp(substr($item->link, 0, 4), 'http')) {
 			$item->link = JURI::resolve($item->link, $iSecure);
