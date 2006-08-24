@@ -71,8 +71,12 @@ class JParameter extends JRegistry
 
 		parent::__construct('parameter');
 
-		$this->loadINI($data);
-		$this->loadSetupFile($path);
+		if (trim($data)) {
+			$this->loadINI($data);
+		}
+		if (trim($path)) {
+			$this->loadSetupFile($path);
+		}
 
 		$this->_raw = $data;
 	}
