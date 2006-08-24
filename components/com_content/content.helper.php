@@ -336,6 +336,9 @@ class JContentHelper
 		return $links[$row->catid];
 	}
 
+	/**
+	 * @param	int	The id of the content item
+	 */
 	function getItemid($id)
 	{
 		$cache	= & JFactory::getCache();
@@ -356,8 +359,6 @@ class JContentHelper
 				// Do we have a content item linked to the menu with this id?
 				for ($i = 0; $i < $n; $i++) {
 					$item = &$items[$i];
-					$item->cParams = new JParameter( $item->control );
-					$item->mParams = new JParameter( $item->params );
 
 					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
 						$cache->save( $item->id, $md5id, 'getItemid' );
