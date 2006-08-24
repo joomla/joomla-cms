@@ -90,8 +90,8 @@ INSERT INTO `#__menu` VALUES (16, 'topmenu',   'Home',                  'index.p
 INSERT INTO `#__menu` VALUES (17, 'topmenu',   'Contact Us',            '6',                                'menulink',  1, 0,  0, 0,  2, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (18, 'topmenu',   'News',                  '3',                                'menulink',  1, 0,  0, 0,  3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (19, 'topmenu',   'Links',                 '5',                                'menulink',  1, 0,  0, 0,  4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1', '', 0, 0, 0);
-INSERT INTO `#__menu` VALUES (20, 'usermenu',  'Your Details',          'index.php?option=com_user&task=UserDetails', 'url', 1, 0, 0, 0,  1, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '', '', 0, 0, 0);
-INSERT INTO `#__menu` VALUES (23, 'usermenu',  'Check-In My Items',     'index.php?option=com_user&task=CheckIn', 'url', 1, 0,  0, 0,  5, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, '', '', 0, 0, 0);
+INSERT INTO `#__menu` VALUES (20, 'usermenu',  'Your Details',          'index.php?option=com_user&task=edit', 'url', 1, 0, 0, 0,  1, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '', '', 0, 0, 0);
+INSERT INTO `#__menu` VALUES (23, 'usermenu',  'Check-In My Items',     'index.php?option=com_user&task=checkin', 'url', 1, 0,  0, 0,  5, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (24, 'usermenu',  'Logout',                'index.php?option=com_login',       'component', 1, 0, 15, 0,  5, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (25, 'mainmenu',  '1.5 Development Cycle', 'index.php?option=com_content',     'component', 1, 0, 21, 0,  3, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'article_id=12\nmenu_image=-1\nsecure=0\n\n', 'view_name=article\ntemplate_name=article', 0, 0, 0);
 

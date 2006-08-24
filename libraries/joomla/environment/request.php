@@ -42,6 +42,7 @@ class JRequest
 
 	/**
 	 * Gets the full request path
+	 * 
 	 * @return string
 	 */
 	function getUrl()

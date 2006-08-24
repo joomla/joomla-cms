@@ -15,20 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// Get user object for current logged in user
-$user	= & JFactory::getUser();
-
-// Editor usertype check
-$access = new stdClass();
-$access->canEdit = $user->authorize( 'action', 'edit', 'content', 'all' );
-$access->canEditOwn = $user->authorize( 'action', 'edit', 'content', 'own' );
-
-// Load the html output class
-require_once ( JApplicationHelper::getPath( 'front_html' ) );
-
-// Set the component name in the pathway
-$breadcrumbs =& $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, 'User');
+define( 'JPATH_COM_USER', dirname( __FILE__ ));
 
 /*
  * This is our main control structure for the component
@@ -37,21 +24,20 @@ $breadcrumbs->setItemName(1, 'User');
  */
 switch( JRequest::getVar( 'task' ) )
 {
-	case 'saveUpload':
-		$dbprefix = $mainframe->getCfg( 'dbprefix' );
-		UserController::upload( $dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage );
+	case 'upload':
+		UserController::upload( $uid, $userfile, $userfile_name, $type, $existingImage );
 		break;
 
-	case 'UserDetails':
-		UserController::edit( $option, JText::_( 'Update' ) );
+	case 'edit':
+		UserController::edit( );
 		break;
 
-	case 'saveUserEdit':
-		UserController::save( $option, $user->get('id') );
+	case 'save':
+		UserController::save();
 		break;
 
-	case 'CheckIn':
-		UserController::checkin( $user->get('id'), $access, $option );
+	case 'checkin':
+		UserController::checkin();
 		break;
 
 	case 'cancel':
@@ -59,7 +45,7 @@ switch( JRequest::getVar( 'task' ) )
 		break;
 
 	default:
-		HTML_user::frontpage();
+		UserController::display();
 		break;
 }
 
@@ -74,8 +60,132 @@ switch( JRequest::getVar( 'task' ) )
  */
 class UserController
 {
-	function upload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage )
+	function display()
 	{
+		$user =& JFactory::getUser();
+		
+		$pathway =& $mainframe->getPathWay();
+		$pathway->setItemName(1, 'User');
+		
+		require_once (JPATH_COM_USER.DS.'views'.DS.'user'.DS.'view.php');
+		$view = new UserViewUser();
+		
+		$request = new stdClass();
+		$request->task = 'display';
+		
+		$view->set('request', $request);
+		$view->set('user'   , $user);
+		$view->display();
+	}
+	
+	function edit()
+	{
+		global $mainframe, $Itemid, $option;
+
+		$db      =& JFactory::getDBO();
+		$pathway =& $mainframe->getPathWay();
+		$user	 =& JFactory::getUser();
+
+		if ( $user->get('id') == 0 ) {
+			JError::raiseError( 403, JText::_('Access Forbidden') );
+			return;
+		}
+
+		$menu =& JTable::getInstance('menu', $db );
+		$menu->load( $Itemid );
+
+		// Set page title
+		$mainframe->setPageTitle( $menu->name );
+		
+		// Add breadcrumb
+		$pathway->setItemName(1, 'User');
+		$pathway->addItem( $menu->name, '' );
+
+		require_once (JPATH_COM_USER.DS.'views'.DS.'user'.DS.'view.php');
+		$view = new UserViewUser();
+		
+		$request = new stdClass();
+		$request->task = 'edit';
+		
+		$view->set('request', $request);
+		$view->set('user'   , $user);
+		$view->display();
+	}
+	
+	function save( )
+	{
+		global $mainframe, $option;
+		
+		$user =& JFactory::getUser();
+		
+		// Protect against simple spoofing attacks
+		if (!JUtility::spoofCheck()) {
+			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
+			return;
+		}
+
+		$db 	=& JFactory::getDBO();
+		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
+
+		// do some security checks
+		if ($user->get('id') == 0 || $user_id == 0 || $user_id <> $user->get('id')) {
+			JError::raiseError( 403, JText::_('Access Forbidden') );
+			return;
+		}
+		
+		$post = JRequest::get( 'post' );
+		
+		$post['password'] = JRequest::getVar('password', '', 'post', 'string');
+		$post['verify']   = JRequest::getVar('verify', '', 'post', 'string');
+
+		// do a password safety check
+		if($password != "") {
+			if($verify == $password) {
+				echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
+				exit();
+			}
+		}
+
+		$user = JUser::getInstance($user_id);
+		$orig_username = $user->get('username');
+
+		if (!$user->bind( $post )) {
+			echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		if (!$user->save()) {
+			echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		// check if username has been changed
+		if ( $orig_username != $user->get('username') )
+		{
+			// change username value in session table
+			$query = "UPDATE #__session"
+				. "\n SET username = '$user->get('username')"
+				. "\n WHERE username = '$orig_username'"
+				. "\n AND userid = $user->get('id')"
+				. "\n AND gid = $user->get('gid')"
+				. "\n AND guest = 0"
+				;
+			$db->setQuery( $query );
+			$db->query();
+
+			JSession::set('username', $user->get('username'));
+		}
+
+		$link = $_SERVER['HTTP_REFERER'];
+		$mainframe->redirect( $link, JText::_( 'Your settings have been saved.' ) );
+	}
+	
+	function upload( $uid, $userfile, $userfile_name, $type, $existingImage )
+	{
+		global $mainframe, $option;
+		
+		$dbprefix = $mainframe->getCfg( 'dbprefix' );
+		
 		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
 			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
@@ -142,107 +252,18 @@ class UserController
 		}
 	}
 
-	function edit( $option, $submitvalue)
+	function checkin( )
 	{
-		global $mainframe, $Itemid;
+		global $mainframe, $option;
 
-		$db 		 =& JFactory::getDBO();
-		$breadcrumbs =& $mainframe->getPathWay();
-		$user		 =& JFactory::getUser();
+		$db      =& JFactory::getDBO();
+		$user    =& JFactory::getUser();
+		$userid  = $user->get('id');
 
-		// security check to see if link exists in a menu
-		$link = 'index.php?option=com_user&task=CheckIn';
-		$query = "SELECT id"
-			. "\n FROM #__menu"
-			. "\n WHERE link LIKE '%$link%'"
-			. "\n AND published = 1"
-			;
-		$db->setQuery( $query );
-		$exists = $db->loadResult();
-		if ( !$exists ) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
-			return;
-		}
-
-		$menu =& JTable::getInstance('menu', $db );
-		$menu->load( $Itemid );
-
-		// Set page title
-		$mainframe->setPageTitle( $menu->name );
-
-		// Add breadcrumb
-		$breadcrumbs->addItem( $menu->name, '' );
-
-		HTML_user::userEdit( $user, $option, $submitvalue );
-	}
-
-	function save( $option, $uid)
-	{
-		global $mainframe;
-
-		// Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
-
-		$db 	=& JFactory::getDBO();
-		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
-
-		// do some security checks
-		if ($uid == 0 || $user_id == 0 || $user_id <> $uid) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
-			return;
-		}
-
-		// do a password safety check
-		if(isset($_POST["password"]) && $_POST["password"] != "") {
-			if(!isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
-				echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
-				exit();
-			}
-		}
-
-		$user = JUser::getInstance($user_id);
-		$orig_username = $user->get('username');
-
-		if (!$user->bind( $_POST )) {
-			echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		if (!$user->save()) {
-			echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-
-		// check if username has been changed
-		if ( $orig_username != $user->get('username') )
-		{
-			// change username value in session table
-			$query = "UPDATE #__session"
-				. "\n SET username = '$user->get('username')"
-				. "\n WHERE username = '$orig_username'"
-				. "\n AND userid = $user->get('id')"
-				. "\n AND gid = $user->get('gid')"
-				. "\n AND guest = 0"
-				;
-			$db->setQuery( $query );
-			$db->query();
-
-			JSession::set('username', $user->get('username'));
-		}
-
-		$link = $_SERVER['HTTP_REFERER'];
-		$mainframe->redirect( $link, JText::_( 'Your settings have been saved.' ) );
-	}
-
-	function checkin( $userid, $access, $option )
-	{
-		global $mainframe;
-
-		$db 	=& JFactory::getDBO();
+		// Editor usertype check
+		$access = new stdClass();
+		$access->canEdit    = $user->authorize( 'action', 'edit', 'content', 'all' );
+		$access->canEditOwn = $user->authorize( 'action', 'edit', 'content', 'own' );
 
 		$nullDate = $db->getNullDate();
 		if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
