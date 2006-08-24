@@ -333,8 +333,8 @@ function mosShowHFMenu(& $params, $style = 0)
 	global $database, $mainframe, $Itemid;
 	global $mosConfig_shownoauth;
 
-	$menu = JMenu::getInstance();
-	$user =& JFactory::getUser();
+	$menu = & JMenu::getInstance();
+	$user = & JFactory::getUser();
 
 	//get menu items
 	$rows = $menu->getItems('menutype', $params->get('menutype'));

@@ -77,8 +77,8 @@ class JMenu extends JObject
 	{
 		static $instance;
 
-		if (!isset ($instance)) {
-			$instance =& new JMenu();
+		if (!$instance) {
+			$instance = new JMenu();
 		}
 
 		return $instance;
