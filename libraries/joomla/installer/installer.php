@@ -897,7 +897,7 @@ class JInstaller extends JObject
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 			if ($file->getTagName() == 'language' && $file->getAttribute('tag') != '') {
-				$path = $removeFrom.$file->getAttribute('tag').DS.$file->getText();
+				$path = $removeFrom.$file->getAttribute('tag').DS.basename($file->getText());
 			} else {
 				$path = $removeFrom.$file->getText();
 			}
