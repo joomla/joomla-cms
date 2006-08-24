@@ -346,7 +346,7 @@ class JMenuController extends JController
 	function viewList()
 	{
 		$model	=& $this->getModel( 'List', 'JMenuModel' );
-		$view =& $this->getView( 'List', 'com_menus', 'JMenuView' );
+		$view =& $this->getView( 'List', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}

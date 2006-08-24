@@ -224,15 +224,30 @@ class JController extends JObject
 		$viewName	= preg_replace( '#\W#', '', $viewName );
 		$classPrefix= preg_replace( '#\W#', '', $classPrefix );
 
-		$view = null;
+		$view		= null;
 	
 		// Build the path to the default view based upon a supplied base path
-		$path = $this->getViewPath().strtolower($viewName);
+		$path		= $this->getViewPath().strtolower($viewName);
+		$viewPath	= '';
 
-		// If the default view file exists include it and try to instantiate the object
 		if (file_exists( $path.DS.'view.php' ))
 		{
-			require_once( $path.DS.'view.php' );
+			// default setting, /views/viewName/view.php
+			$viewPath = $path.DS.'view.php';
+		}
+		else
+		{
+			if (file_exists( $path.DS.$viewName.'.php' ))
+			{
+				// alternative file name, /views/viewName/viewName.php
+				$viewPath = $path.DS.$viewName.'.php';
+			}
+		}
+
+		// If the default view file exists include it and try to instantiate the object
+		if ($viewPath)
+		{
+			require_once( $viewPath );
 			// Build the view class name
 			$viewClass = $classPrefix.$viewName;
 			if (!class_exists( $viewClass )) 
