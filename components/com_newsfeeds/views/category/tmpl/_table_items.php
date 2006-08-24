@@ -46,10 +46,10 @@
 	<?php endif; ?>
 </tr>
 <?php endforeach; ?>
-<tr>	
+<tr>
 	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php
-		
+
 		echo $this->pagination->writePagesLinks($this->data->link);
 	?>
 	</td>

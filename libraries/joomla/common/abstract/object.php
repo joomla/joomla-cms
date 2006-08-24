@@ -64,10 +64,10 @@ class JObject
 		}
 		return $default;
 	}
-	
+
 	/**
-	 * Bind an associative array 
-	 * 
+	 * Bind an associative array
+	 *
 	 * Only existing properties of object are filled. When undefined in hash, properties wont be deleted
 	 *
 	 * @param mixed Either and associative array or another object
@@ -98,7 +98,7 @@ class JObject
 						{
 							$ak = $k;
 						}
-						
+
 						if ($fromArray && isset( $from[$ak] ))
 						{
 							$this->$k = $from[$ak];
@@ -127,7 +127,7 @@ class JObject
 	function getPublicProperties()
 	{
 		static $cache = null;
-		
+
 		if (is_null( $cache )) {
 			$cache = array();
 			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {

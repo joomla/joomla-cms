@@ -47,7 +47,7 @@ class JEditor_none extends JPlugin {
 	 * @return string JavaScript Initialization string
 	 * @since 1.5
 	 */
-	function onInit() 
+	function onInit()
 	{
 		$txt =	"<script type=\"text/javascript\">
 					function insertAtCursor(myField, myValue) {
@@ -109,7 +109,7 @@ class JEditor_none extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row ) 
+	function onDisplay( $name, $content, $width, $height, $col, $row )
 	{
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
@@ -122,8 +122,8 @@ class JEditor_none extends JPlugin {
 		return "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>";
 	}
 
-	function onGetInsertMethod($name) 
-	{	
+	function onGetInsertMethod($name)
+	{
 		$doc = & JFactory::getDocument();
 
 		$js= "\tfunction jInsertEditorText( text ) {

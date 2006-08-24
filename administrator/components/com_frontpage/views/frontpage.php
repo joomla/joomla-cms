@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Content
 */
-class FrontpageView 
+class FrontpageView
 {
 	/**
 	* Writes a list of the articles
@@ -28,7 +28,7 @@ class FrontpageView
 	function showList( &$rows, $page, $option, $lists )
 	{
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		
+
 		$user 		=& JFactory::getUser();
 		$db 		=& JFactory::getDBO();
 		$nullDate 	= $db->getNullDate();

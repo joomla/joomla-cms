@@ -289,7 +289,7 @@ function mosCurrentDate( $format="" )
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
 {
 	global $mainframe;
-	
+
 	$lang = JFactory::getLanguage();
 
 	$tooltip = addslashes(htmlspecialchars($tooltip));

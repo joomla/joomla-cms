@@ -28,7 +28,7 @@ class HTML_modules {
 	function showPlugins( &$rows, $client, &$page, $option, &$lists )
 	{
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		
+
 		$user =& JFactory::getUser();
 
 		//Ordering allowed ?

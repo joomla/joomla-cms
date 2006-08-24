@@ -128,7 +128,7 @@ class JContentModelSection extends JModel
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
-		if ($this->_loadSection() && $this->_loadCategories()) 
+		if ($this->_loadSection() && $this->_loadCategories())
 		{
 			// Make sure the category is published
 			if (!$this->_section->published) {
@@ -158,7 +158,7 @@ class JContentModelSection extends JModel
 		$user	=& JFactory::getUser();
 
 		// Load the Category data
-		if ($this->_loadSection() && $this->_loadContent($state)) 
+		if ($this->_loadSection() && $this->_loadContent($state))
 		{
 			// Make sure the category is published
 			if (!$this->_section->published) {
@@ -307,7 +307,7 @@ class JContentModelSection extends JModel
 		}
 
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_content[$state])) 
+		if (empty($this->_content[$state]))
 		{
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
@@ -348,7 +348,7 @@ class JContentModelSection extends JModel
 	{
 		global $mainframe;
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_tree)) 
+		if (empty($this->_tree))
 		{
 			$user		=& JFactory::getUser();
 			$gid		= $user->get('gid');

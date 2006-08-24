@@ -63,21 +63,21 @@ class UserController
 	function display()
 	{
 		$user =& JFactory::getUser();
-		
+
 		$pathway =& $mainframe->getPathWay();
 		$pathway->setItemName(1, 'User');
-		
+
 		require_once (JPATH_COM_USER.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
-		
+
 		$request = new stdClass();
 		$request->task = 'display';
-		
+
 		$view->set('request', $request);
 		$view->set('user'   , $user);
 		$view->display();
 	}
-	
+
 	function edit()
 	{
 		global $mainframe, $Itemid, $option;
@@ -96,28 +96,28 @@ class UserController
 
 		// Set page title
 		$mainframe->setPageTitle( $menu->name );
-		
+
 		// Add breadcrumb
 		$pathway->setItemName(1, 'User');
 		$pathway->addItem( $menu->name, '' );
 
 		require_once (JPATH_COM_USER.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
-		
+
 		$request = new stdClass();
 		$request->task = 'edit';
-		
+
 		$view->set('request', $request);
 		$view->set('user'   , $user);
 		$view->display();
 	}
-	
+
 	function save( )
 	{
 		global $mainframe, $option;
-		
+
 		$user =& JFactory::getUser();
-		
+
 		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
 			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
@@ -132,9 +132,9 @@ class UserController
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
-		
+
 		$post = JRequest::get( 'post' );
-		
+
 		$post['password'] = JRequest::getVar('password', '', 'post', 'string');
 		$post['verify']   = JRequest::getVar('verify', '', 'post', 'string');
 
@@ -179,13 +179,13 @@ class UserController
 		$link = $_SERVER['HTTP_REFERER'];
 		$mainframe->redirect( $link, JText::_( 'Your settings have been saved.' ) );
 	}
-	
+
 	function upload( $uid, $userfile, $userfile_name, $type, $existingImage )
 	{
 		global $mainframe, $option;
-		
+
 		$dbprefix = $mainframe->getCfg( 'dbprefix' );
-		
+
 		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
 			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );

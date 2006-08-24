@@ -29,7 +29,7 @@
 </table>
 <?php if ($this->params->get( 'search_areas', 1 )) : ?>
 	<?php echo JText::_( 'Search Only' );?>:
-	<?php foreach ($this->data->areas as $val => $txt) : 
+	<?php foreach ($this->data->areas as $val => $txt) :
 		$checked = is_array( $this->request->areas ) && in_array( $val, $this->request->areas ) ? 'checked="true"' : '';
 	?>
 	<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />

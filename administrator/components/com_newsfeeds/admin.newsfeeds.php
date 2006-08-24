@@ -78,13 +78,13 @@ switch ($task) {
 /**
 * List the records
 */
-function showNewsFeeds(  ) 
+function showNewsFeeds(  )
 {
 	global $mainframe;
 
 	$option 			= JRequest::getVar( 'option');
 	$db 				= JFactory::getDBO();
-	
+
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
@@ -163,11 +163,11 @@ function showNewsFeeds(  )
 /**
 * Creates a new or edits and existing user record
 */
-function editNewsFeed(  ) 
+function editNewsFeed(  )
 {
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
-	
+
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option 	= JRequest::getVar( 'option');
@@ -208,7 +208,7 @@ function editNewsFeed(  )
 /**
 * Saves the record from an edit form submit
 */
-function saveNewsFeed(  ) 
+function saveNewsFeed(  )
 {
 	global $mainframe;
 
@@ -273,13 +273,13 @@ function unPublishNewsFeeds(  ) {
 * Publishes or Unpublishes one or more modules
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function changePublishNewsFeeds( $publish ) 
+function changePublishNewsFeeds( $publish )
 {
 	global $mainframe;
 
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
-	
+
 	$cid 		= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
@@ -316,7 +316,7 @@ function changePublishNewsFeeds( $publish )
 /**
 * Removes records
 */
-function removeNewsFeeds( ) 
+function removeNewsFeeds( )
 {
 	global $mainframe;
 
@@ -348,7 +348,7 @@ function removeNewsFeeds( )
 /**
 * Cancels an edit operation
 */
-function cancelNewsFeed(  ) 
+function cancelNewsFeed(  )
 {
 	global $mainframe;
 
@@ -379,7 +379,7 @@ function moveDownNewsFeed(  ) {
 * Moves the order of a record
 * @param integer The direction to reorder, +1 down, -1 up
 */
-function orderNewsFeed( $inc ) 
+function orderNewsFeed( $inc )
 {
 	global $mainframe;
 
@@ -404,7 +404,7 @@ function orderNewsFeed( $inc )
 /**
 * Saves user reordering entry
 */
-function saveOrder(  ) 
+function saveOrder(  )
 {
 	global $mainframe;
 

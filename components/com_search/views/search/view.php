@@ -29,59 +29,59 @@ class SearchViewSearch extends JView
 		$this->setViewName('search');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
-	function display()  
-	{	
+
+	function display()
+	{
 		$this->_loadTemplate('search');
 	}
-	
+
 	function form()
 	{
 		$showAreas = JArrayHelper::getValue( $this->lists, 'areas', array() );
-	
+
 		$areas  = array();
 		foreach ($showAreas as $area) {
 			$areas = array_merge( $areas, $area );
 		}
-		
+
 		$this->data->areas = $areas;
 		$this->_loadTemplate('_search_form');
 	}
-	
+
 	function results()
 	{
 		global $option, $Itemid;
-		
+
 		$searchword   = $this->request->searchword;
 		$searchphrase = $this->request->searchphrase;
-		$ordering     = $this->request->ordering; 
-		
+		$ordering     = $this->request->ordering;
+
 		//create pagination
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
-		
+
 		$this->data->link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
-		
+
 		$this->data->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->data->total, $this->request->searchword );
 		$this->data->image 	= mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
-			
-		for($i = 0; $i < count($this->data->results); $i++ ) 
+
+		for($i = 0; $i < count($this->data->results); $i++ )
 		{
 			$result =& $this->data->results[$i];
 			if ($result->created) {
 				$created = mosFormatDate ( $result->created, JText::_( 'DATE_FORMAT_LC' ) );
 			}
-			else { 
+			else {
 				$created = '';
 			}
-	 		
+
 			$result->created = $created;
 			$result->count   = $i + 1;
 		}
-		
+
 		$this->_loadTemplate('_search_results');
 	}
-	
+
 	function error()
 	{
 		$this->_loadTemplate('_search_error');

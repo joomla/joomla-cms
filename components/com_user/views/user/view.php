@@ -29,39 +29,39 @@ class UserViewUser extends JView
 		$this->setViewName('user');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
-	function display()  
-	{	
+
+	function display()
+	{
 		switch($this->request->task)
 		{
-			case 'edit' : 
+			case 'edit' :
 				$this->_displayEdit();
 				break;
-			default     : 
+			default     :
 				$this->_displayUser();
 		}
 	}
-	
+
 	function _displayUser()
 	{
 		$this->_loadTemplate('user');
 	}
-	
+
 	function _displayEdit()
 	{
 		global $mainframe;
-		
+
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
 		mosCommonHTML::loadOverlib();
-		
+
 		// check to see if Frontend User Params have been enabled
 		$check = $mainframe->getCfg('frontend_userparams');
 		if ($check == '1' || $check == 1 || $check == NULL) {
 			$params = $this->user->getParameters();
 			$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
 		}
-		
+
 		$this->_loadTemplate('edit');
 	}
 }

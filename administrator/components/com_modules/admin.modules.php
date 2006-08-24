@@ -372,7 +372,7 @@ function editModule( )
 	// Initialize some variables
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$module = JRequest::getVar( 'module' );
 	$option = JRequest::getVar( 'option');
@@ -596,7 +596,7 @@ function removeModule( &$cid, $option )
 
 	$err = array();
 	$cid = array();
-	foreach ($rows as $row) 
+	foreach ($rows as $row)
 	{
 		if ($row->module == '' || $row->iscore == 0) {
 			$cid[] = $row->id;
@@ -612,7 +612,7 @@ function removeModule( &$cid, $option )
 		}
 	}
 
-	if (count( $cid )) 
+	if (count( $cid ))
 	{
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__modules"
@@ -656,7 +656,7 @@ function publishModule( $cid=null, $publish=1, $option )
 
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -781,7 +781,7 @@ function saveOrder( &$cid )
 	$conditions = array();
 
 	// update ordering values
-	for( $i=0; $i < $total; $i++ ) 
+	for( $i=0; $i < $total; $i++ )
 	{
 		$row->load( (int) $cid[$i] );
 		if ($row->ordering != $order[$i]) {

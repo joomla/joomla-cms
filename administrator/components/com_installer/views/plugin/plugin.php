@@ -30,7 +30,7 @@ class JInstallerExtensionTasks {
 	/**
 	 * @param string The URL option
 	 */
-	function showInstalled() 
+	function showInstalled()
 	{
 		global $mainframe;
 

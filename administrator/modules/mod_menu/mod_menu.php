@@ -309,7 +309,7 @@ class JAdminMenu {
 	*
 	* @param string The current user type
 	*/
-	function showDisabled($usertype = '') 
+	function showDisabled($usertype = '')
 	{
 		global $mainframe;
 

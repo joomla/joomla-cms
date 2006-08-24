@@ -16,9 +16,9 @@
  * @package Joomla
  * @subpackage Banners
  */
-class BannerClientController 
+class BannerClientController
 {
-	function viewBannerClients() 
+	function viewBannerClients()
 	{
 		global $mainframe;
 
@@ -79,14 +79,14 @@ class BannerClientController
 	/**
 	 * Edit a banner client record
 	 */
-	function editBannerClient() 
+	function editBannerClient()
 	{
 		global $mainframe;
 
 		// Initialize variables
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		
+
 		$userId	= $user->get ( 'id' );
 		$cid 	= JRequest::getVar( 'cid', array(0), 'method', 'array' );
 
@@ -112,7 +112,7 @@ class BannerClientController
 		BannersViewClients::bannerClientForm( $row, 'com_banners' );
 	}
 
-	function saveBannerClient() 
+	function saveBannerClient()
 	{
 		global $mainframe;
 
@@ -150,7 +150,7 @@ class BannerClientController
 		$mainframe->redirect( $link );
 	}
 
-	function cancelEditClient() 
+	function cancelEditClient()
 	{
 		global $mainframe;
 
@@ -159,11 +159,11 @@ class BannerClientController
 		$table		=& JTable::getInstance('bannerclient', $db, 'Table');
 		$table->id	= JRequest::getVar( 'cid', 0, 'post', 'int' );
 		$table->checkin();
-		
+
 		$mainframe->redirect( "index2.php?option=com_banners&task=listclients" );
 	}
 
-	function removeBannerClients() 
+	function removeBannerClients()
 	{
 		global $mainframe;
 
@@ -172,8 +172,8 @@ class BannerClientController
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$table	=& JTable::getInstance('bannerclient', $db, 'Table');
 		$msg	= '';
-		
-		for ($i = 0, $n = count( $cid ); $i < $n; $i++) 
+
+		for ($i = 0, $n = count( $cid ); $i < $n; $i++)
 		{
 			$query = "SELECT COUNT( bid )"
 			. "\n FROM #__banner"

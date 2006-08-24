@@ -29,10 +29,10 @@ foreach ($list as $item)
 {
 	$tabcnt 			= 0;
 	$voted 				= JRequest::getVar( "voted$item->id", 'z', 'COOKIE' );
-	
+
 	if ($item->id && $item->title)  {
 		$options = modPollHelper::getPollOptions($item->id);
 	}
-	
+
 	require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
 }

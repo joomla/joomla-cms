@@ -106,7 +106,7 @@ class JTemplatesController
 	function viewTemplates()
 	{
 		global $mainframe;
-		
+
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
 		$option = JRequest::getVar('option');

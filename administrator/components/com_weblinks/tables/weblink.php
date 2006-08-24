@@ -25,7 +25,7 @@ jimport('joomla.filter.input');
 * @subpackage Weblinks
 * @since 1.0
 */
-class TableWeblink extends JTable 
+class TableWeblink extends JTable
 {
 	/**
 	 * Primary Key

@@ -71,12 +71,12 @@ class JEventDispatcher extends JObservable
 			// Ok, function type event handler... lets attach it.
 			$method = array ('event' => $event, 'handler' => $handler);
 			$this->attach($method);
-		} 
+		}
 		elseif (class_exists($handler))
 		{
 			 //Ok, class type event handler... lets instantiate and attach it.
 			$this->attach(new $handler($this));
-		} 
+		}
 		else
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );

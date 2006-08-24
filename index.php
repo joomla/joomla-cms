@@ -62,9 +62,9 @@ $mainframe->set( 'loadOverlib', false );
 // trigger the onBeforeDisplay events
 $mainframe->triggerEvent( 'onBeforeDisplay' );
 
-/** 
+/**
  * EXECUTE THE APPLICATION
- * 
+ *
  * Note: This section of initialization must be performed last.
  */
 $option = JSiteHelper::findOption();

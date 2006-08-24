@@ -30,17 +30,17 @@ class NewsfeedsViewCategories extends JView
 		$this->setViewName('categories');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display()
 	{
 		global $Itemid;
-		
-		for($i = 0; $i < count($this->categories); $i++) 
+
+		for($i = 0; $i < count($this->categories); $i++)
 		{
 			$category =& $this->categories[$i];
 			$category->link = sefRelToAbs('index.php?option=com_newsfeeds&amp;task=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
 		}
-		
+
 		// Define image tag attributes
 		if ($this->params->get('image') != -1)
 		{
@@ -51,7 +51,7 @@ class NewsfeedsViewCategories extends JView
 			$this->data->image = mosHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('News Feeds'), $attribs);
 		}
 
-		$this->_loadTemplate('list');	
+		$this->_loadTemplate('list');
 	}
 }
 ?>

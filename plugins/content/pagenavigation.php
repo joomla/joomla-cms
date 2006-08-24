@@ -23,7 +23,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 	$task 		= JRequest::getVar( 'task' );
 	$user		=& JFactory::getUser();
 
-	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) 
+	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup'))
 	{
 		$html 		= '';
 		$db 		= & JFactory::getDBO();

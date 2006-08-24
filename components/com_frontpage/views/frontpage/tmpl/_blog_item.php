@@ -24,9 +24,9 @@
 </table>
 <?php endif; ?>
 <?php  if (!$this->params->get('intro_only')) :
-	echo $this->item->event->afterDisplayTitle;   
+	echo $this->item->event->afterDisplayTitle;
 endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?>		
+<?php echo $this->item->event->beforeDisplayContent; ?>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php
 	// displays Section & Category
@@ -44,7 +44,7 @@ endif; ?>
 <tr>
 	<td valign="top" colspan="2">
 	<?php
-	
+
 	// displays Table of Contents
 	JContentHTMLHelper::toc($this->item);
 

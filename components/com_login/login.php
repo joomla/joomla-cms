@@ -22,7 +22,7 @@ define( 'JPATH_COM_LOGIN', dirname( __FILE__ ));
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar('task')) 
+switch ( JRequest::getVar('task'))
 {
 	case 'login' :
 		LoginController::login();
@@ -55,11 +55,11 @@ class LoginController
 		$document	= & JFactory::getDocument();
 		$user 		=& JFactory::getUser();
 		$pathway	= & $mainframe->getPathway();
-		
+
 		$menus		=& JMenu::getInstance();
 		$menu		=& $menus->getItem( $Itemid );
 		$params		=& $menus->getParams( $Itemid );
-		
+
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );
 		$params->def( 'header_login', 				$menu->name );
@@ -78,7 +78,7 @@ class LoginController
 		$params->def( 'image_logout_align', 		'right' );
 		$params->def( 'registration', 				$mainframe->getCfg( 'allowUserRegistration' ) );
 
-		if ( $user->get('id') ) 
+		if ( $user->get('id') )
 		{
 			$title = JText::_( 'Logout');
 
@@ -86,8 +86,8 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-		} 
-		else 
+		}
+		else
 		{
 			$title = JText::_( 'Login');
 
@@ -96,10 +96,10 @@ class LoginController
 			// Set page title
 			$document->setTitle( $title );
 		}
-		
+
 		require_once (JPATH_COM_LOGIN.DS.'views'.DS.'login'.DS.'view.php');
 		$view = new LoginViewLogin();
-		
+
 		$view->set('params', $params);
 		$view->display();
 	}

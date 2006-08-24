@@ -285,7 +285,7 @@ class JInstallationController
 			}
 
 		}
-		
+
 		return true;
 	}
 

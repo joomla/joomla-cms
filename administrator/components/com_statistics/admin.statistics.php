@@ -38,7 +38,7 @@ switch ($task) {
 		break;
 }
 
-function showSummary( $option, $task ) 
+function showSummary( $option, $task )
 {
 	$db	=& JFactory::getDBO();
 	// get sort field and check against allowable field names
@@ -137,7 +137,7 @@ function showSummary( $option, $task )
 	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option );
 }
 
-function showPageImpressions( $option, $task ) 
+function showPageImpressions( $option, $task )
 {
 	global $mainframe;
 
@@ -227,7 +227,7 @@ function showPageImpressions( $option, $task )
 	HTML_statistics::pageImpressions( $rows, $pageNav, $lists, $task );
 }
 
-function showSearches( $option, $task, $showResults=null ) 
+function showSearches( $option, $task, $showResults=null )
 {
 	global $mainframe;
 
@@ -304,7 +304,7 @@ function showSearches( $option, $task, $showResults=null )
 	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task, $showResults );
 }
 
-function resetStats( $option, $task ) 
+function resetStats( $option, $task )
 {
 	global $mainframe;
 
@@ -339,7 +339,7 @@ function resetStats( $option, $task )
 			;
 			$db->setQuery( $query );
 			$total = $db->loadResult();
-			
+
 			if ( $total == 0 ) {
 				$msg = JText::_( 'reset statistics failed' );
 				$redirecturl = 'index2.php?option=com_statistics&task=pageimp';

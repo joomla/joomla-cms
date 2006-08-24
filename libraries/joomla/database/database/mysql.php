@@ -255,7 +255,7 @@ class JDatabaseMySQL extends JDatabase
 		mysql_free_result( $cur );
 		return $array;
 	}
-	
+
 	/**
 	* Fetch a result row as an associative array
 	*
@@ -273,7 +273,7 @@ class JDatabaseMySQL extends JDatabase
 		mysql_free_result( $cur );
 		return $ret;
 	}
-	
+
 	/**
 	* Load a assoc list of database rows
 	* @param string The field name of a primary key

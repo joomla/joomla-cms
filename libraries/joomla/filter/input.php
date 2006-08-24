@@ -17,7 +17,7 @@
  *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Filter
@@ -113,7 +113,7 @@ class JInputFilter extends JObject
 				}
 			}
 			return $source;
-		} else 
+		} else
 			// Or a string?
 			if (is_string($source) && !empty ($source)) {
 				// filter source for XSS and other 'bad' code etc.

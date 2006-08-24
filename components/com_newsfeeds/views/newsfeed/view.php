@@ -30,25 +30,25 @@ class NewsfeedsViewNewsfeed extends JView
 		$this->setViewName('newsfeed');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display( )
 	{
 		// feed elements
 		$this->newsfeed->items = array_slice($this->newsfeed->items, 0, $this->newsfeed->numarticles);
-		
-		$this->_loadTemplate('table');	
+
+		$this->_loadTemplate('table');
 	}
-	
+
 	function limitText($text, $wordcount)
 	{
 		if(!$wordcount) {
 			return $text;
 		}
-		
+
 		$texts = explode( ' ', $text );
 		$count = count( $texts );
-	
-		if ( $count > $wordcount ) 
+
+		if ( $count > $wordcount )
 		{
 			$text = '';
 			for( $i=0; $i < $wordcount; $i++ ) {
@@ -56,7 +56,7 @@ class NewsfeedsViewNewsfeed extends JView
 			}
 			$text .= '...';
 		}
-		
+
 		return $text;
 	}
 }

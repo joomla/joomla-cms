@@ -42,7 +42,7 @@ class JRequest
 
 	/**
 	 * Gets the full request path
-	 * 
+	 *
 	 * @return string
 	 */
 	function getUrl()
@@ -172,7 +172,7 @@ class JRequest
 	function get($hash = 'default', $mask = 0)
 	{
 		static $hashes;
-		
+
 		if (!isset($hashes)) {
 			$hashes = array();
 		}

@@ -59,7 +59,7 @@ class JModelPolls extends JModel
 * @package Joomla
 * @subpackage Polls
 */
-class TablePoll extends JTable 
+class TablePoll extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -84,7 +84,7 @@ class TablePoll extends JTable
 	}
 
 	// overloaded check function
-	function check() 
+	function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
@@ -114,7 +114,7 @@ class TablePoll extends JTable
 	}
 
 	// overloaded delete function
-	function delete( $oid=null ) 
+	function delete( $oid=null )
 	{
 		$k = $this->_tbl_key;
 		if ( $oid ) {

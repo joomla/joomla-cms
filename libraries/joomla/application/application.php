@@ -72,7 +72,7 @@ class JApplication extends JObject
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
 	}
-	
+
 	/**
 	* Execute the application
 	*
@@ -80,7 +80,7 @@ class JApplication extends JObject
 	*/
 	function execute( $option )
 	{
-	
+
 	}
 
 	/**
@@ -497,14 +497,14 @@ class JApplication extends JObject
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file, $type = 'config') 
+	function setConfiguration($file, $type = 'config')
 	{
 		$this->_createConfiguration($file, $type);
-		
-		// Set the database debug 
+
+		// Set the database debug
 		$db =& JFactory::getDBO();
 		$db->debug( $this->getCfg('debug_db'));
-		
+
 	}
 
 	/**
@@ -594,9 +594,9 @@ class JApplication extends JObject
 
 		// Get the global configuration object
 		$registry =& JFactory::getConfig();
-		
+
 		// Load the configuration values into the registry
-		$registry->loadObject($config);	
+		$registry->loadObject($config);
 	}
 
 	/**

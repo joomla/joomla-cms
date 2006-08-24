@@ -9,7 +9,7 @@
 	<td valign="top">
 		<div>
 		<?php echo $this->image; ?>
-		<? if ( $this->params->get( 'description_logout' ) ) : 
+		<? if ( $this->params->get( 'description_logout' ) ) :
 			echo $this->params->get( 'description_logout_text' );
 		endif; ?>
 		</div>

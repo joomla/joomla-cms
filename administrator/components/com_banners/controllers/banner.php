@@ -16,7 +16,7 @@
  * @package Joomla
  * @subpackage Banners
  */
-class BannerController 
+class BannerController
 {
 	/**
 	 * Display the list of banners
@@ -105,11 +105,11 @@ class BannerController
 		BannersView::showBanners( $rows, $pageNav, $option, $lists );
 	}
 
-	function edit( ) 
+	function edit( )
 	{
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		
+
 		$cid 	= JRequest::getVar('cid', array(0));
 		$option = JRequest::getVar('option');
 
@@ -165,7 +165,7 @@ class BannerController
 	/**
 	 * Save method
 	 */
-	function saveBanner( $task ) 
+	function saveBanner( $task )
 	{
 		global $mainframe;
 
@@ -229,7 +229,7 @@ class BannerController
 		$mainframe->redirect( $link, $msg );
 	}
 
-	function cancelEditBanner() 
+	function cancelEditBanner()
 	{
 		global $mainframe;
 
@@ -269,7 +269,7 @@ class BannerController
 					$table->clicks			= 0;
 					$table->showBanner		= 0;
 					$table->date			= $db->getNullDate();
-					
+
 					if (!$table->store())
 					{
 						$msg = $table->getError();
@@ -292,7 +292,7 @@ class BannerController
 
 	}
 
-	function publishBanner( $cid, $publish=1 ) 
+	function publishBanner( $cid, $publish=1 )
 	{
 		global $mainframe;
 
@@ -331,7 +331,7 @@ class BannerController
 
 	}
 
-	function removeBanner() 
+	function removeBanner()
 	{
 		global $mainframe;
 

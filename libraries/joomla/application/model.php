@@ -22,11 +22,11 @@
 * @subpackage	Application
 * @since		1.5
 */
-class JModel extends JObject 
+class JModel extends JObject
 {
 	/**
 	 * The model (base) name
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_modelName;
@@ -40,14 +40,14 @@ class JModel extends JObject
 
 	/**
 	 * An error message
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_error;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	function __construct()

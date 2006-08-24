@@ -16,7 +16,7 @@
 * @package Joomla
 * @subpackage Newsfeeds
 */
-class TableNewsFeed extends JTable 
+class TableNewsFeed extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;

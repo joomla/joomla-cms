@@ -64,7 +64,7 @@ if (count( $rows ))
 	foreach ($rows as $row)
 	{
 		$link = 'index2.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
-	
+
 		if ( $user->authorize( 'administration', 'manage', 'components', 'com_users' ) ) {
 			if ( $row->created_by_alias )
 			{

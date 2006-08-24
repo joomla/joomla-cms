@@ -29,46 +29,46 @@ class PollViewPoll extends JView
 		$this->setViewName('poll');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
-	function display()  
-	{			
+
+	function display()
+	{
 		$this->_loadTemplate('poll');
 	}
-	
+
 	function graph()
 	{
 		if (!count( $this->votes )) {
 			return;
 		}
-		
+
 		$graphwidth = 200;
 		$barheight 	= 4;
 		$maxcolors 	= 5;
 		$barcolor 	= 0;
 		$tabcnt 	= 0;
 		$colorx 	= 0;
-		
+
 		$maxval		= $this->votes[0]->hits;
 		$sumval		= $this->votes[0]->voters;
-	
+
 		$k = 0;
-		for ($i = 0; $i < count( $this->votes ); $i++) 
+		for ($i = 0; $i < count( $this->votes ); $i++)
 		{
 			$vote =& $this->votes[$i];
-			
-			if ($maxval > 0 && $sumval > 0) 
+
+			if ($maxval > 0 && $sumval > 0)
 			{
 				$vote->width	= ceil( $vote->hits * $graphwidth / $maxval );
 				$vote->percent = round( 100 * $vote->hits / $sumval, 1 );
-			} 
-			else 
+			}
+			else
 			{
 				$vote->width   = 0;
 				$vote->percent = 0;
 			}
-			
+
 			$vote->class = '';
-			if ($barcolor == 0) 
+			if ($barcolor == 0)
 			{
 				if ($colorx < $maxcolors) {
 					$colorx = ++$colorx;
@@ -79,14 +79,14 @@ class PollViewPoll extends JView
 			} else {
 				$vote->class = "polls_color_".$barcolor;
 			}
-			
+
 			$vote->barheight = $barheight;
 
 			$vote->odd   = $k;
 			$vote->count = $i;
 			$k = 1 - $k;
 		}
-		
+
 		$this->_loadTemplate('_poll_graph');
 	}
 }

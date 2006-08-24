@@ -43,7 +43,7 @@ class JAdministrator extends JApplication
 	function __construct() {
 		parent::__construct(1);
 	}
-	
+
 	/**
 	* Execute the application
 	*
@@ -64,7 +64,7 @@ class JAdministrator extends JApplication
 		if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 			$file = 'login.php';
 		}
-		
+
 		$this->_display($format, $template, $file);
 	}
 
@@ -162,7 +162,7 @@ class JAdministrator extends JApplication
 	function setSession($name)
 	{
 		$this->_createSession($name);
-		if (JSession::isIdle()) 
+		if (JSession::isIdle())
 		{
 			// Build the URL
 			$uri = JURI::getInstance();
@@ -200,7 +200,7 @@ class JAdministrator extends JApplication
 			jimport('joomla.common.legacy');
 		}
 	}
-	
+
 	/**
 	* Get the template
 	*
@@ -340,7 +340,7 @@ class JAdministrator extends JApplication
 
 		parent::setLanguage($lang);
 	}
-	
+
 	/**
 	* Display the application
 	*
@@ -369,13 +369,13 @@ class JAdministrator extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-		
+
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file,
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
-		
+
 		$document->display($this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params );
 	}
 }

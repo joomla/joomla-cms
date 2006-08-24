@@ -43,7 +43,7 @@ class JSearchContent extends JPlugin {
 	/**
 	 * @param JSearch The search object
 	 */
-	function onSearch( &$oSearch ) 
+	function onSearch( &$oSearch )
 	{
 		$db 		=& JFactory::getDBO();
 		$user		=& JFactory::getUser();

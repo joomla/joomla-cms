@@ -256,10 +256,10 @@ function deleteTrash( $cid, $option )
 
 	$total = count( $cid );
 
-	if ( $type == 'content' ) 
+	if ( $type == 'content' )
 	{
 		$obj =& JTable::getInstance('content', $db );
-		
+
 		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
 		$fp = new TableFrontPage( $db );
 		foreach ( $cid as $id ) {

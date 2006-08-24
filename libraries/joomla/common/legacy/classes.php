@@ -104,7 +104,7 @@ class mosMainFrame extends JApplication
 		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
-	
+
 	/**
 	* Depreacted, use JFactory::getUser instead
 	* @since 1.5
@@ -527,7 +527,7 @@ class database extends JDatabaseMySQL
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
 		parent::__construct( $host, $user, $pass, $db, $table_prefix );
 	}
-	
+
 	/**
 	* This global function loads the first row of a query into an object
 	*
@@ -538,13 +538,13 @@ class database extends JDatabaseMySQL
 	*/
 	function loadObject( &$object )
 	{
-		if ($object != null) 
+		if ($object != null)
 		{
 			if (!($cur = $this->query())) {
 				return false;
 			}
-			
-			if ($array = mysql_fetch_assoc( $cur )) 
+
+			if ($array = mysql_fetch_assoc( $cur ))
 			{
 				mysql_free_result( $cur );
 				mosBindArrayToObject( $array, $object, null, null, false );
@@ -552,9 +552,9 @@ class database extends JDatabaseMySQL
 			} else {
 				return false;
 			}
-			
-		} 
-		else  
+
+		}
+		else
 		{
 			return parent::loadObject();
 		}

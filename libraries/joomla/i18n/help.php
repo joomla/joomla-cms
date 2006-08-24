@@ -65,7 +65,7 @@ class JHelp
 	   		// Included html help files
 			$helpURL = '/help/' .$lang->getTag() .'/';
 			$ref = $ref . '.html';
-			
+
 			// Check if the file exists within a different language!
 			if( $lang->getTag() != 'en-GB' ) {
 				$localeURL = JPATH_BASE . $helpURL .$ref;

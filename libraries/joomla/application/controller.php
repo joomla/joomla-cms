@@ -225,7 +225,7 @@ class JController extends JObject
 		$classPrefix= preg_replace( '#\W#', '', $classPrefix );
 
 		$view		= null;
-	
+
 		// Build the path to the default view based upon a supplied base path
 		$path		= $this->getViewPath().strtolower($viewName);
 		$viewPath	= '';
@@ -250,10 +250,10 @@ class JController extends JObject
 			require_once( $viewPath );
 			// Build the view class name
 			$viewClass = $classPrefix.$viewName;
-			if (!class_exists( $viewClass )) 
+			if (!class_exists( $viewClass ))
 			{
 				JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
-			} 
+			}
 			else
 			{
 				$view = new $viewClass( $this );
@@ -592,7 +592,7 @@ class JController extends JObject
 	function setViewName( $viewName, $prefix = null )
 	{
 		$this->_viewName = $viewName;
-		
+
 		if ($prefix !== null) {
 			$this->_viewClassPrefix = $prefix;
 		}

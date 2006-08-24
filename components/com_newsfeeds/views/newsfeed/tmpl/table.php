@@ -42,7 +42,7 @@
 			<?php endif; ?>
 			<?php if ( $this->params->get( 'item_descr' ) && isset($item['description'])) : ?>
 				<br />
-				<?php $text = $this->limitText($item['description'], $this->params->get( 'word_count' )); 
+				<?php $text = $this->limitText($item['description'], $this->params->get( 'word_count' ));
 					echo str_replace('&apos;', "'", $text);
 				?>
 				<br />
@@ -54,4 +54,4 @@
 	</td>
 </tr>
 </table>
-</div>		
+</div>

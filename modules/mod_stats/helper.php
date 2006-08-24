@@ -19,16 +19,16 @@ class modStatsHelper
 	function &getList( &$params )
 	{
 		global $mainframe;
-		
+
 		$db =& JFactory::getDBO();
-		
+
 		$serverinfo 		= $params->get( 'serverinfo' );
 		$siteinfo 			= $params->get( 'siteinfo' );
 		$counter 			= $params->get( 'counter' );
 		$increase 			= $params->get( 'increase' );
 
 		$i = 0;
-		if ( $serverinfo ) 
+		if ( $serverinfo )
 		{
 			$rows[$i]->title 	= JText::_( 'OS' );
 			$rows[$i]->data 	= substr( php_uname(), 0, 7 );
@@ -50,7 +50,7 @@ class modStatsHelper
 			$i++;
 		}
 
-		if ( $siteinfo ) 
+		if ( $siteinfo )
 		{
 			$query = "SELECT COUNT( id ) AS count_users"
 			. "\n FROM #__users"
@@ -91,7 +91,7 @@ class modStatsHelper
 			}
 		}
 
-		if ( $mainframe->getCfg('enable_stats') && $counter ) 
+		if ( $mainframe->getCfg('enable_stats') && $counter )
 		{
 			$query = "SELECT SUM( hits ) AS count"
 			. "\n FROM #__stats_agents"

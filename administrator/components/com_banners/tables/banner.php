@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 * @package Joomla
 */
-class TableBanner extends JTable 
+class TableBanner extends JTable
 {
 	/** @var int */
 	var $bid				= null;

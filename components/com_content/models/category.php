@@ -135,7 +135,7 @@ class JContentModelCategory extends JModel
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
-			
+
 			// check whether category access level allows access
 			if ($this->_category->access > $user->get('gid'))
 			{
@@ -171,7 +171,7 @@ class JContentModelCategory extends JModel
 
 		// Load the Category data
 		if ($this->_loadCategory() && $this->_loadContent($state))
-		{ 
+		{
 			// Make sure the category is published
 			if (!$this->_category->published)
 			{

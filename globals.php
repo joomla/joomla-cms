@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id:$
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
@@ -26,7 +26,7 @@ function checkInputArray( &$array, $globalise=false ) {
 	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
 
 	foreach ($array as $key => $value) {
-		// PHP GLOBALS injection bug 
+		// PHP GLOBALS injection bug
 		$failed = in_array( strtolower( $key ), $banned );
 		// PHP Zend_Hash_Del_Key_Or_Index bug
 		$failed |= is_numeric( $key );

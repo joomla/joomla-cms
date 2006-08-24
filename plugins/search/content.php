@@ -39,7 +39,7 @@ function &botSearchContentAreas() {
 function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
-	
+
 	$db	  =& JFactory::getDBO();
 	$user =& JFactory::getUser();
 

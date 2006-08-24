@@ -37,7 +37,7 @@ class JSite extends JApplication
 
 		$this->_createPathWay( );
 	}
-	
+
 	/**
 	* Check if the user can access the application
 	*
@@ -51,7 +51,7 @@ class JSite extends JApplication
 			JError::raiseError( 403, JText::_('Not Authorised') );
 		}
 	}
-	
+
 	/**
 	* Execute the application
 	*
@@ -63,7 +63,7 @@ class JSite extends JApplication
 		$raw  	  = JRequest::getVar( 'no_html', 0, '', 'int' );
 		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 		$file 	  = JRequest::getVar( 'tmpl', 'index.php', '', 'string'  );
-		
+
 		$user     =& JFactory::getUser();
 
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
@@ -72,7 +72,7 @@ class JSite extends JApplication
 
 		$this->_display($format, $template, $file);
 	}
-	
+
 	/**
 	* Login authentication function
 	*
@@ -234,7 +234,7 @@ class JSite extends JApplication
 
 		parent::setLanguage($lang);
 	}
-	
+
 	/**
 	* Set the legacy state of the application
 	*
@@ -249,7 +249,7 @@ class JSite extends JApplication
 			jimport('joomla.common.legacy');
 		}
 	}
-	
+
 	/**
 	* Display the application
 	*
@@ -276,17 +276,17 @@ class JSite extends JApplication
 			default: break;
 		}
 
-	
+
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-		
+
 		$params = array(
 			'outline'   => JRequest::getVar('tp', 0 ),
 			'template' 	=> $template,
 			'file'		=> $file,
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
-		
+
 		$document->display( $this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params);
 	}
 }
@@ -343,7 +343,7 @@ class JSiteHelper
 		$item = &JSiteHelper::getCurrentMenuItem();
 		return $item->cParams;
 	}
-	
+
 	/**
 	 * Return the application itemid
 	 *

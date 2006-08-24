@@ -8,7 +8,7 @@
 <?php if ( ($this->params->get('image') != -1) || $this->params->get('description') ) : ?>
 <tr>
 	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php 
+	<?php
 		if ( isset($this->data->image) ) :  echo $this->data->image; endif;
 		echo $this->params->get('description_text');
 	?>

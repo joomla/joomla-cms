@@ -33,7 +33,7 @@ class JContentHelper
 		$text		= str_replace( '<br>', '<br />', $text );
 		$row->title	= ampReplace($row->title);
 
-		// Search for the {readmore} tag and split the text up accordingly.		
+		// Search for the {readmore} tag and split the text up accordingly.
 		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );
 
 		if ( $tagPos === false )

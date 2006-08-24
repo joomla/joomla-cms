@@ -31,7 +31,7 @@ class JMail extends PHPMailer
 	function JMail()
 	{
 		 // phpmailer has an issue using the relative path for it's language files
-		 $this->SetLanguage('en', JPATH_LIBRARIES . '/phpmailer/language/');		
+		 $this->SetLanguage('en', JPATH_LIBRARIES . '/phpmailer/language/');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class JMail extends PHPMailer
 
 	/**
 	 * @return mixed True if successful, a JError object otherwise
-	 */	
+	 */
 	function &Send()
 	{
 		$result = parent::Send();
@@ -146,7 +146,7 @@ class JMail extends PHPMailer
 	function addRecipient($recipient)
 	{
 		// If the recipient is an aray, add each recipient... otherwise just add the one
-		if (is_array($recipient)) 
+		if (is_array($recipient))
 		{
 			foreach ($recipient as $to) {
 				$to = JMailHelper::cleanLine( $to );
@@ -169,7 +169,7 @@ class JMail extends PHPMailer
 	function addCC($cc)
 	{
 		//If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
-		if (isset ($cc)) 
+		if (isset ($cc))
 		{
 			if (is_array($cc)) {
 				foreach ($cc as $to) {
@@ -194,7 +194,7 @@ class JMail extends PHPMailer
 	function addBCC($bcc)
 	{
 		// If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
-		if (isset ($bcc)) 
+		if (isset ($bcc))
 		{
 			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
@@ -219,7 +219,7 @@ class JMail extends PHPMailer
 	function addAttachment($attachment)
 	{
 		// If the file attachments is an aray, add each file... otherwise just add the one
-		if (isset ($attachment)) 
+		if (isset ($attachment))
 		{
 			if (is_array($attachment)) {
 				foreach ($attachment as $file) {
@@ -245,7 +245,7 @@ class JMail extends PHPMailer
 	function addReplyTo($replyto)
 	{
 		// Take care of reply email addresses
-		if (is_array($replyto[0])) 
+		if (is_array($replyto[0]))
 		{
 			foreach ($replyto as $to) {
 				$to0 = JMailHelper::cleanLine( $to[0] );

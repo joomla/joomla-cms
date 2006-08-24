@@ -73,7 +73,7 @@ class JOutputFilter
 
 	/**
 	 * This method processes a string and replaces all instances of & with &amp; in links only
-	 * 
+	 *
 	 * @static
 	 * @param	string	$input	String to process
 	 * @return	string	Processed string
@@ -87,7 +87,7 @@ class JOutputFilter
 
 	/**
 	 * Callback method for replacing & with &amp; in a string
-	 * 
+	 *
 	 * @static
 	 * @param	string	$m	String to process
 	 * @return	string	Replaced string

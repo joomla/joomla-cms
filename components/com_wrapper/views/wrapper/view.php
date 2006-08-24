@@ -25,7 +25,7 @@ class WrapperViewWrapper extends JView
 		$this->setViewName('wrapper');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display( )
 	{
 		$this->_loadTemplate('wrapper');

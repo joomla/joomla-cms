@@ -11,7 +11,7 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
- 
+
 jimport('joomla.application.view');
 
 class MailtoViewSent extends JView
@@ -20,8 +20,8 @@ class MailtoViewSent extends JView
 	{
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
-	function display() 
+
+	function display()
 	{
 		$this->_loadTemplate('sent');
 	}

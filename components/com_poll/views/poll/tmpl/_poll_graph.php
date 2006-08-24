@@ -9,7 +9,7 @@
 	</tr>
 </thead>
 <tbody>
-<?php foreach($this->votes as $vote) : ?> 
+<?php foreach($this->votes as $vote) : ?>
 	<tr class="sectiontableentry<?php echo $vote->odd; ?>">
 		<td width="100%" colspan="3">
 			<?php echo $vote->text; ?>

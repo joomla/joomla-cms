@@ -36,19 +36,19 @@
 				<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 					<?php echo $result->count.'. ';?>
 				</span>
-				<?php if ( $result->href ) : 
+				<?php if ( $result->href ) :
 					$result->href = ampReplace( $result->href );
 					if ($result->browsernav == 1 ) : ?>
 						<a href="<?php echo sefRelToAbs($result->href); ?>" target="_blank">
 					<?php else : ?>
 						<a href="<?php echo sefRelToAbs($result->href); ?>">
-					<?php endif; 
+					<?php endif;
 
 					echo $result->title;
 
 					if ( $result->href ) : ?>
 						</a>
-					<?php endif; 
+					<?php endif;
 					if ( $result->section ) : ?>
 						<br />
 						<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -65,10 +65,10 @@
 				<?php echo $result->created; ?>
 			</div>
 			<?php endif; ?>
-		</fieldset>	
+		</fieldset>
 	<?php endforeach; ?>
 	</td>
-</tr>		
+</tr>
 <tr>
 	<td colspan="3">
 		<div align="center">
@@ -76,4 +76,4 @@
 		</div>
 	</td>
 </tr>
-</table>				
+</table>

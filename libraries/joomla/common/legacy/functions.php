@@ -13,7 +13,7 @@
 
 /**
  * Legacy function, use <jdoc:exists type="modules" condition="{POSITION}" /> instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -24,7 +24,7 @@ function mosCountModules( $position='left' ) {
 
 /**
  * Legacy function, use <jdoc:include type="component" /> instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
@@ -34,7 +34,7 @@ function mosMainBody() {
 
 /**
  * Legacy function, use <jdoc:include type="modules" /> instead
- * 
+ *
  * @deprecated		As of version 1.5
  * @package			Joomla.Legacy
  */
@@ -44,7 +44,7 @@ function mosLoadModules( $position='left', $style=0 ) {
 
 /**
  * Legacy function, use <jdoc:include type="module" /> instead
- * 
+ *
  * @deprecated		As of version 1.5
  * @package			Joomla.Legacy
  */
@@ -54,7 +54,7 @@ function mosLoadModule( $name, $style=-1 ) {
 
 /**
  * Legacy function, use <jdoc:include type="head" /> instead
- * 
+ *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */

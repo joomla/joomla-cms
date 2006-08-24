@@ -22,7 +22,7 @@ class SearchHelper
 	function santiseSearchWord(&$searchword)
 	{
 		$ignored = false;
-		
+
 		$lang =& JFactory::getLanguage();
 
 		$search_ignore = array();
@@ -36,20 +36,20 @@ class SearchHelper
 		if ( count( $aterms ) == 1 && in_array( JString::strtolower( $searchword ), $search_ignore ) ) {
 			$ignored = true;
 		}
-		
+
 		// next is to remove ignored words from type 'all' searches with multiple words
 		if ( count( $aterms ) > 1 && $searchphrase == 'any' ) {
 			$pruned = array_diff( $aterms, $search_ignore );
 			$searchword = implode( ' ', $pruned );
 		}
-		
+
 		return $ignored;
 	}
-	
-	function limitSearchWord(&$searchword) 
+
+	function limitSearchWord(&$searchword)
 	{
 		$restriction = false;
-		
+
 		// limit searchword to 20 characters
 		if ( JString::strlen( $searchword ) > 20 ) {
 			$searchword 	= JString::substr( $searchword, 0, 19 );
@@ -61,21 +61,21 @@ class SearchHelper
 			$searchword 	= '';
 			$restriction 	= true;
 		}
-		
+
 		return $restriction;
 	}
-	
-	function logSearch( $search_term ) 
+
+	function logSearch( $search_term )
 	{
 		global $mainframe;
-		
+
 		$db =& JFactory::getDBO();
 
 		$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
-		
+
 		$search_term = $db->getEscaped( trim( $search_term) );
 
-		if ( @$enable_log_searches ) 
+		if ( @$enable_log_searches )
 		{
 			$db = JFactory::getDBO();
 			$query = "SELECT hits"
@@ -98,16 +98,16 @@ class SearchHelper
 			}
 		}
 	}
-	
+
 	/**
 	 * Prepares results from search for display
 	 *
 	 * @param string The source string
 	 * @param int Number of chars to trim
 	 * @param string The searchword to select around
-	 * @return string	
+	 * @return string
 	 */
-	function prepareSearchContent( $text, $length = 200, $searchword ) 
+	function prepareSearchContent( $text, $length = 200, $searchword )
 	{
 		// strips tags won't remove the actual jscript
 		$text = preg_replace( "'<script[^>]*>.*?</script>'si", "", $text );
@@ -127,7 +127,7 @@ class SearchHelper
 	 * @param string The searchword to select around
 	 * @return string
 	 */
-	function _smartSubstr($text, $length = 200, $searchword) 
+	function _smartSubstr($text, $length = 200, $searchword)
 	{
   		$wordpos = JString::strpos(JString::strtolower($text), JString::strtolower($searchword));
   		$halfside = intval($wordpos - $length/2 - JString::strlen($searchword));

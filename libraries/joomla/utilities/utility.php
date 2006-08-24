@@ -181,7 +181,7 @@ class JUtility
 	 *
 	 * @return	string	Hashed var name
 	 * @since	1.5
-	 * @static	 
+	 * @static
 	 */
 	function spoofKey() {
 		// the prefix ensures that the hash is non-numeric

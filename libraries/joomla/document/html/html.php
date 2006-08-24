@@ -317,7 +317,7 @@ class JDocumentHTML extends JDocument
 			$name = 'mosConfig_'.$k;
 			$$name = $v;
 		}
-		
+
 		$contents = '';
 		//Check to see if we have a valid template file
 		if ( file_exists( $directory.DS.$filename ) )

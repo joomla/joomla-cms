@@ -23,7 +23,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	$txt = '';
 
 	// Menu Link is a special type that is a link to another item
-	if ($mitem->type == 'menulink') 
+	if ($mitem->type == 'menulink')
 	{
 		$menu = &JMenu::getInstance();
 		if ($tmp = $menu->getItem($mitem->link)) {
@@ -39,7 +39,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		}
 	}
 
-	switch ($mitem->type) 
+	switch ($mitem->type)
 	{
 		case 'separator' :
 			break;
@@ -77,7 +77,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		}
 	}
 
-	if ($params->get('full_active_id')) 
+	if ($params->get('full_active_id'))
 	{
 		// support for `active_menu` of 'Link - Url' if link is relative
 		if ($id == '' && $mitem->type == 'url' && strpos('http', $mitem->link) === false) {
@@ -111,7 +111,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	// remove slashes from excaped characters
 	$mitem->name = stripslashes(ampReplace($mitem->name));
 
-	switch ($mitem->browserNav) 
+	switch ($mitem->browserNav)
 	{
 		// cases are slightly different
 		case 1 :
@@ -135,7 +135,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 			break;
 	}
 
-	if ($params->get('menu_images')) 
+	if ($params->get('menu_images'))
 	{
 		$menu_params = new stdClass();
 		$menu_params = new JParameter($mitem->params);
@@ -349,9 +349,9 @@ function mosShowHFMenu(& $params, $style = 0)
 	$menuclass = 'mainlevel' . $params->get('class_sfx');
 	$lang = JFactory::getLanguage();
 
-	if (count($links)) 
+	if (count($links))
 	{
-		switch ($style) 
+		switch ($style)
 		{
 			case 1 :
 				if ($lang->isRTL()) {

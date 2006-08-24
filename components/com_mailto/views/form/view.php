@@ -11,12 +11,12 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
- 
+
 jimport('joomla.application.view');
 
 class MailtoViewForm extends JView
 {
-	function display() 
+	function display()
 	{
 		$data = $this->getData();
 		if ($data === false) {
@@ -25,14 +25,14 @@ class MailtoViewForm extends JView
 
 		// Menu Parameters
 		$params = &JSiteHelper::getMenuParams();
-		
+
 		$this->set('params', $params);
 		$this->set('data'  , $data);
 
 		$this->_loadTemplate('form');
 	}
-	
-	function &getData() 
+
+	function &getData()
 	{
 		$user =& JFactory::getUser();
 		$data = new stdClass();

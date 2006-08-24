@@ -354,7 +354,7 @@ class JMediaController
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
 		$err		= null;
-		
+
 		JRequest::setVar('cFolder', $dirPath);
 
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {

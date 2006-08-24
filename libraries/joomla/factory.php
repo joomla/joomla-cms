@@ -65,7 +65,7 @@ class JFactory
 
 		return $instance;
 	}
-	
+
 	/**
 	 * Get a document object
 	 *
@@ -196,7 +196,7 @@ class JFactory
 			//get the debug configuration setting
 			$conf =& JFactory::getConfig();
 			$debug = $conf->getValue('config.debug');
-			
+
 			$instance = JFactory::_createDBO();
 			$instance->debug($debug);
 		}
@@ -295,12 +295,12 @@ class JFactory
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
 		$editor = $conf->getValue('config.editor');
-		
+
 		$instance =& JEditor::getInstance($editor);
 
 		return $instance;
 	}
-	
+
 	/**
 	 * Return a reference to the JURI object
 	 *
@@ -311,7 +311,7 @@ class JFactory
 	function &getURI($uri = 'SERVER')
 	{
 		jimport('joomla.environment.uri');
-		
+
 		$instance =& JURI::getInstance();
 		return $instance;
 	}
@@ -377,7 +377,7 @@ class JFactory
 	function &_createDBO()
 	{
 		jimport('joomla.database.database');
-		
+
 		$conf =& JFactory::getConfig();
 
 		$host 		= $conf->getValue('config.host');
@@ -500,7 +500,7 @@ class JFactory
 	function &_createLanguage()
 	{
 		jimport('joomla.i18n.language');
-		
+
 		$conf =& JFactory::getConfig();
 
 		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
@@ -508,7 +508,7 @@ class JFactory
 
 		return $lang;
 	}
-	
+
 	/**
 	 * Create a document object
 	 *

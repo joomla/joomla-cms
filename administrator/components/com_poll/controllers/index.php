@@ -40,7 +40,7 @@ class JPollGlobalController extends JController
 		$this->registerTask( 'preview', 'previewPoll');
 	}
 
-	function showPolls() 
+	function showPolls()
 	{
 		global $mainframe, $option;
 
@@ -112,11 +112,11 @@ class JPollGlobalController extends JController
 		JPollView::showPolls( $rows, $pageNav, $option, $lists );
 	}
 
-	function editPoll( ) 
+	function editPoll( )
 	{
 		$db		=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
-		
+
 		$cid 	= JRequest::getVar( 'cid', array(0));
 		$option = JRequest::getVar( 'option');
 		if (!is_array( $cid )) {
@@ -167,7 +167,7 @@ class JPollGlobalController extends JController
 		JPollView::editPoll($row, $options, $lists );
 	}
 
-	function savePoll() 
+	function savePoll()
 	{
 		$db =& JFactory::getDBO();
 		// save the poll parent information
@@ -245,7 +245,7 @@ class JPollGlobalController extends JController
 	function removePoll()
 	{
 		$db =& JFactory::getDBO();
-		
+
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$msg = '';
@@ -270,7 +270,7 @@ class JPollGlobalController extends JController
 
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
-		
+
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$publish = ( $this->_task == 'publish' ? 1 : 0 );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );

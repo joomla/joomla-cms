@@ -308,7 +308,7 @@ class JInstaller extends JObject
 		// Get an xml parser object
 		$xmlDoc = & JFactory::getXMLParser();
 		$xmlDoc->resolveErrors(true);
-		
+
 		// If we cannot load the xml file return null
 		if (!$xmlDoc->loadXML($p_file, false, true)) {
 			// Free up xml parser memory and return null

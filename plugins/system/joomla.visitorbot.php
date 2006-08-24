@@ -26,7 +26,7 @@ $mainframe->registerEvent( 'onAfterStart', 'botDetectVisitor' );
 function botDetectVisitor()
 {
 	global $mainframe;
-	
+
 	$db =& JFactory::getDBO();
 	if ( JRequest::getVar( 'mosvisitor', 0, 'COOKIE' ) || !$mainframe->isSite() ) {
 		return;

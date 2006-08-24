@@ -20,7 +20,7 @@
  * @author		Louis Landry, Andrew Eddie
  * @since		1.5
  */
-class JView extends JObject 
+class JView extends JObject
 {
 
 	/**
@@ -133,7 +133,7 @@ class JView extends JObject
 
 	/**
 	 * Method to get the model object
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$name	The name of the model (optional)
 	 * @return	mixed			JModel object
@@ -232,7 +232,7 @@ class JView extends JObject
 
 	/**
 	 * Load a template file -- first look in the templates folder for an override
-	 * 
+	 *
 	 * @access	protected
 	 * @param	string		$template	Template file name to load
 	 * @return	mixed		Boolean true on success or JError object on fail
@@ -271,7 +271,7 @@ class JView extends JObject
 
 	/**
 	 * String representation
-	 * 
+	 *
 	 * @access	public
 	 * @return	string
 	 * @since	1.5

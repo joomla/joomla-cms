@@ -39,8 +39,8 @@ class JSession
 	/**
      * Initializes session data
      *
-     * Creates a session (or resumes the current one based on the session id being 
-     * passed via a GET variable or a cookie). You can provide your own name and/or 
+     * Creates a session (or resumes the current one based on the session id being
+     * passed via a GET variable or a cookie). You can provide your own name and/or
      * id for a session.
      *
      * @static
@@ -74,12 +74,12 @@ class JSession
 	 /**
      * Writes session data and ends session
      *
-     * Session data is usually stored after your script terminated without the need 
+     * Session data is usually stored after your script terminated without the need
      * to call JSession::stop(),but as session data is locked to prevent concurrent
-     * writes only one script may operate on a session at any time. When using 
-     * framesets together with sessions you will experience the frames loading one 
+     * writes only one script may operate on a session at any time. When using
+     * framesets together with sessions you will experience the frames loading one
      * by one due to this locking. You can reduce the time needed to load all the
-     * frames by ending the session as soon as all changes to session variables are 
+     * frames by ending the session as soon as all changes to session variables are
      * done.
      *
      * @static
@@ -96,7 +96,7 @@ class JSession
      * Frees all session variables and destroys all data registered to a session
      *
      * This method resets the $_SESSION variable and destroys all of the data associated
-     * with the current session in its storage (file or DB). It forces new session to be 
+     * with the current session in its storage (file or DB). It forces new session to be
      * started after this method is called. It does not unset the session cookie.
      *
      * @static
@@ -110,8 +110,8 @@ class JSession
         session_unset();
         session_destroy();
 
-		// In order to kill the session altogether, like to log the user out, the session id 
-		// must also be unset. If a cookie is used to propagate the session id (default behavior), 
+		// In order to kill the session altogether, like to log the user out, the session id
+		// must also be unset. If a cookie is used to propagate the session id (default behavior),
 		// then the session cookie must be deleted.
 		if (isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-42000, '/');
@@ -264,7 +264,7 @@ class JSession
     }
 
     /**
-     * If optional parameter is specified it indicates whether the module will use 
+     * If optional parameter is specified it indicates whether the module will use
      * cookies to store the session id on the client side
      *
      * It returns the previous value of this property
@@ -287,7 +287,7 @@ class JSession
     /**
      * Gets a value indicating whether the session was created with the current request
      *
-     * You MUST call this method only after you have started the session with the 
+     * You MUST call this method only after you have started the session with the
      * JSession::start() method.
      *
      * @static
@@ -297,7 +297,7 @@ class JSession
      */
     function isNew()
     {
-        // The best way to check if a session is new is to check for existence of a 
+        // The best way to check if a session is new is to check for existence of a
         // session data storage with the current session id, but this is impossible
         // with the default PHP module wich is 'files'. So we need to emulate it.
         return !isset($_SESSION['__HTTP_SESSION_INFO']) ||
@@ -341,7 +341,7 @@ class JSession
 
         return $old;
     }
-	
+
     /**
      * If optional parameter is specified it determines the number of seconds
      * after which session data will be seen as 'garbage' and cleaned up

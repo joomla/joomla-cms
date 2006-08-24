@@ -54,8 +54,8 @@ class JoomlaXMLRPCServices
 
 		// Iterate through results building the return array
 		require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
-		
-		foreach ($results as $i=>$rows) 
+
+		foreach ($results as $i=>$rows)
 		{
 			foreach ($rows as $j=>$row) {
 				$results[$i][$j]->href = $url.'/'.$row->href;

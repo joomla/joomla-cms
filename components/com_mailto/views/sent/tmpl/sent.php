@@ -17,7 +17,7 @@
 			<?php echo JText::_('Close Window'); ?> <img src="components/com_mailto/assets/close-x.png" border="0" alt="" title="" />
 		</a>
 	</div>
-	
+
 	<div class="componentheading">
 		<?php echo JText::_('Email Sent'); ?>
 	</div>

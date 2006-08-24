@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class mosTemplatePosition extends JTable 
+class mosTemplatePosition extends JTable
 {
 	var $id				= null;
 	var $position		= null;

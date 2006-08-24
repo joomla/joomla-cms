@@ -18,7 +18,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	/** ensure that functions are declared only once */
 	define( '_JOS_QUICKICON_MODULE', 1 );
 
-	function quickiconButton( $link, $image, $text ) 
+	function quickiconButton( $link, $image, $text )
 	{
 		global $mainframe;
 		$lang 		= JFactory::getLanguage();

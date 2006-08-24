@@ -107,7 +107,7 @@ class JTable extends JObject
 			}
 		}
 		if (!class_exists( $adapter )) {
-			return JError::raiseError(20, JText::_('Database Table Object Does Not Exist'));			
+			return JError::raiseError(20, JText::_('Database Table Object Does Not Exist'));
 		} else {
 			$m = new $adapter($db);
 		}
@@ -175,7 +175,7 @@ class JTable extends JObject
 
 	/**
 	 * Returns the error number
-	 * 
+	 *
 	 * @return int The error number
 	 */
 	function getErrorNum() {
@@ -227,7 +227,7 @@ class JTable extends JObject
 		{
 			return false;
 		}
-		
+
 		$class_vars = get_class_vars(get_class($this));
 		foreach ($class_vars as $name => $value)
 		{
@@ -244,7 +244,7 @@ class JTable extends JObject
 		. "\n WHERE $this->_tbl_key = '$oid'"
 		;
 		$db->setQuery( $query );
-		
+
 		if ($result = $db->loadAssoc( ))
 		{
 			$this->bind($result);

@@ -105,7 +105,7 @@ class MenuTypeController extends JController
 	/**
 	 * Controller for view to create or edit a menu type
 	 */
-	function edit() 
+	function edit()
 	{
 		$id	= (int) JRequest::getVar( 'id', 0 );
 
@@ -126,7 +126,7 @@ class MenuTypeController extends JController
 	/**
 	 * Controller for saving a menu type
 	 */
-	function saveMenu() 
+	function saveMenu()
 	{
 		$db =& JFactory::getDBO();
 		$id	= (int) JRequest::getVar( 'id', 0 );
@@ -156,7 +156,7 @@ class MenuTypeController extends JController
 			exit;
 		}
 
-		if ($isNew) 
+		if ($isNew)
 		{
 			$title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' );
 
@@ -240,7 +240,7 @@ class MenuTypeController extends JController
 	/**
 	 * Controller for a view to confirm the deletion of a menu type
 	 */
-	function delete() 
+	function delete()
 	{
 		$id = (int) JRequest::getVar( 'id', 0 );
 
@@ -292,7 +292,7 @@ class MenuTypeController extends JController
 	/**
 	* Compiles a list of the articles you have selected to Copy
 	*/
-	function copyConfirm( $option, $type ) 
+	function copyConfirm( $option, $type )
 	{
 		$db =& JFactory::getDBO();
 		// Article Items query
@@ -312,7 +312,7 @@ class MenuTypeController extends JController
 	/**
 	* Copies a complete menu, all its items and creates a new module, using the name speified
 	*/
-	function copyMenu( $option, $cid, $type ) 
+	function copyMenu( $option, $cid, $type )
 	{
 		global $mainframe;
 

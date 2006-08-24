@@ -129,19 +129,19 @@ class JModuleHelper
 				case -3:
 					$style = 'rounded';
 					break;
-	
+
 				case -2:
 					$style = 'xhtml';
 					break;
-	
+
 				case -1:
 					$style = 'raw';
 					break;
-	
+
 				case 1:
 					$style = 'horiz';
 					break;
-	
+
 				case 0:
 					$style = 'table';
 					break;
@@ -184,7 +184,7 @@ class JModuleHelper
 
 	/**
 	 * Load published modules
-	 * 
+	 *
 	 * @access	private
 	 * @return	array
 	 */

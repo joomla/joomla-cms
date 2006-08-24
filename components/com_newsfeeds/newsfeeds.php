@@ -36,7 +36,7 @@ switch( $task )
 	case 'view':
 		NewsfeedsController::displayNewsFeed( );
 		break;
-	
+
 	case 'category' :
 		NewsfeedsController::displayCategory();
 		break;
@@ -65,10 +65,10 @@ class NewsfeedsController
 		$user 		= & JFactory::getUser();
 		$pathway 	= & $mainframe->getPathWay();
 		$gid		= $user->get('gid');
-		
+
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('News Feeds'));
-		
+
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
@@ -99,7 +99,7 @@ class NewsfeedsController
 
 		// Handle the type
 		$params->set( 'type', 'section' );
-		
+
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */
 		$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
 			. "\n FROM #__categories AS cc"
@@ -112,21 +112,21 @@ class NewsfeedsController
 			. "\n ORDER BY cc.ordering"
 		;
 		$db->setQuery( $query );
-		$categories = $db->loadObjectList();	
+		$categories = $db->loadObjectList();
 
 		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'categories'.DS.'view.php');
-		
+
 		$view = new NewsfeedsViewCategories();
-			
+
 		$data = new stdClass();
 		$data->error   = null;
-		
+
 		$view->set('params'    , $params);
 		$view->set('data'      , $data);
 		$view->set('categories', $categories);
 		$view->display();
 	}
-	
+
 	function displayCategory(  )
 	{
 		global $mainframe, $Itemid, $option;
@@ -135,7 +135,7 @@ class NewsfeedsController
 		$user 		= & JFactory::getUser();
 		$pathway 	= & $mainframe->getPathWay();
 		$document	= & JFactory::getDocument();
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$menu    = $menus->getItem($Itemid);
@@ -145,7 +145,7 @@ class NewsfeedsController
 		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
 		$catid 			= JRequest::getVar( 'catid', (int) $params->get( 'category_id' ), '', 'int' );
 		$gid			= $user->get('gid');
-		
+
 		// Parameters
 		$params->def( 'page_title', 		1 );
 		$params->def( 'header', 			$menu->name );
@@ -168,7 +168,7 @@ class NewsfeedsController
 		// pagination parameters
 		$params->def('display', 			1 );
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
-		
+
 		$params->set( 'type', 'category' );
 
 		$query = "SELECT COUNT(id) as numitems"
@@ -177,12 +177,12 @@ class NewsfeedsController
 			. "\n AND published = 1"
 		;
 		$db->setQuery($query);
-		
+
 		$counter = $db->loadObjectList();
 		$total  = $counter[0]->numitems;
-		
+
 		$limit = $limit ? $limit : $params->get('display_num');
-		
+
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
@@ -221,17 +221,17 @@ class NewsfeedsController
 
 		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'category'.DS.'view.php');
 		$view = new NewsfeedsViewCategory();
-		
+
 		$request = new stdClass();
 		$request->catid  		= $catid;
 		$request->limit	 		= $limit;
-		$request->limitstart	= $limitstart;	
-		
+		$request->limitstart	= $limitstart;
+
 		$data = new stdClass();
 		$data->error   = null;
 		$data->results = $rows;
 		$data->total   = $total;
-		
+
 		$view->set('params'  , $params);
 		$view->set('request' , $request);
 		$view->set('data'    , $data);
@@ -300,7 +300,7 @@ class NewsfeedsController
 			return;
 		}
 		$lists = array();
-		
+
 		// channel header and link
 		$newsfeed->channel = $rssDoc->channel;
 
@@ -309,7 +309,7 @@ class NewsfeedsController
 
 		// items
 		$newsfeed->items = $rssDoc->items;
-	
+
 		// Adds parameter handling
 		$params->def( 'page_title', 1 );
 		$params->def( 'header', $menu->name );
@@ -332,13 +332,13 @@ class NewsfeedsController
 
 		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'newsfeed'.DS.'view.php');
 		$view = new NewsfeedsViewNewsfeed();
-		
+
 		$request = new stdClass();
 		$request->feedid  = $feedid;
-		
+
 		$data = new stdClass();
 		$data->error   = null;
-		
+
 		$view->set('params'  , $params   );
 		$view->set('data'    , $data     );
 		$view->set('newsfeed', $newsfeed );

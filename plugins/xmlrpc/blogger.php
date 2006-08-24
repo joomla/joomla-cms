@@ -78,7 +78,7 @@ function wsGetBloggerWebServices()
 
 function helloworld($msg)
 {
-	
+
 }
 
 /*

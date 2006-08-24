@@ -29,8 +29,8 @@ class WeblinksViewWeblink extends JView
 		$this->setViewName('weblink');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
-	function display() 
+
+	function display()
 	{
 		global $option;
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );

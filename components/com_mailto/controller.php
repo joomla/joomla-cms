@@ -18,9 +18,9 @@ jimport('joomla.application.controller');
  * @package Joomla
  * @subpackage MailTo
  */
-class MailtoController extends JController 
+class MailtoController extends JController
 {
-	function send() 
+	function send()
 	{
 		global $mainframe;
 

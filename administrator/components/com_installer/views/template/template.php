@@ -28,12 +28,12 @@ jimport('joomla.filesystem.folder');
  * @category Controller
  * @since 1.5
  */
-class JInstallerExtensionTasks 
+class JInstallerExtensionTasks
 {
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() 
+	function showInstalled()
 	{
 		global $mainframe;
 

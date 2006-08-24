@@ -232,7 +232,7 @@ function editPlugin( )
 {
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	$client = JRequest::getVar( 'client', 'site' );
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
@@ -266,7 +266,7 @@ function editPlugin( )
 		$lists['access'] = mosAdminMenus::Access( $row );
 	}
 
-	if ($cid[0]) 
+	if ($cid[0])
 	{
 		$row->checkout( $user->get('id') );
 
@@ -323,7 +323,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	$db     =& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
 		echo "<script> alert('". JText::_( 'Select a plugin to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";

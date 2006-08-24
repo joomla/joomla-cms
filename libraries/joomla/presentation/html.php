@@ -883,7 +883,7 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Overlib tooltips
 	*/
-	function loadOverlib() 
+	function loadOverlib()
 	{
 		global $mainframe;
 
@@ -905,7 +905,7 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Calendar
 	*/
-	function loadCalendar() 
+	function loadCalendar()
 	{
 		global $mainframe;
 
@@ -942,7 +942,7 @@ class mosCommonHTML {
 		return $href;
 	}
 
-	function CheckedOutProcessing( &$row, $i ) 
+	function CheckedOutProcessing( &$row, $i )
 	{
 		$user =& JFactory::getUser();
 		if ( $row->checked_out ) {

@@ -146,7 +146,7 @@ class HTML_admin_misc
 
 	/**
 	 * Display Help Page
-	 * 
+	 *
 	 * For this method the important two scenarios are locale or remote help files.
 	 * In the case of locale help files the language tag will be added in order to
 	 * allow different languages of help.<br />
@@ -157,7 +157,7 @@ class HTML_admin_misc
 	{
 		global $mainframe;
 		jimport( 'joomla.filesystem.folder' );
-		
+
 		// Get Help URL - an empty helpurl is interpreted as locale help files!
 		$helpurl 		= $mainframe->getCfg('helpurl');
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -172,7 +172,7 @@ class HTML_admin_misc
 		$langTag = $lang->getTag();
 		if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
 			$langTag = 'en-GB';		// use english as fallback
-		}		
+		}
 
 		if (!eregi( '\.html$', $page )) {
 			$page .= '.xml';
@@ -299,7 +299,7 @@ class HTML_admin_misc
 function getHelpTOC( $helpsearch )
 {
 	global $mainframe;
-	
+
 	$lang =& JFactory::getLanguage();
 	jimport( 'joomla.filesystem.folder' );
 

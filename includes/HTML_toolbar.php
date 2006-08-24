@@ -20,7 +20,7 @@ class mosToolBar {
 	/**
 	* Writes the start of the button bar table
 	*/
-	function startTable() 
+	function startTable()
 	{
 		global $mainframe;
 

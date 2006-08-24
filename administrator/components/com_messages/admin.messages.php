@@ -24,7 +24,7 @@ if (!is_array( $cid )) {
 	$cid = array ( 0 );
 }
 
-switch ($task) 
+switch ($task)
 {
 	case 'view':
 		viewMessage( $cid[0], $option );
@@ -63,13 +63,13 @@ switch ($task)
 		break;
 }
 
-function showMessages( $option ) 
+function showMessages( $option )
 {
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
 	$user 				=& JFactory::getUser();
-	
+
 	$context			= 'com_messages.list';
 	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order', 	'filter_order', 	'a.date_time' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC' );
@@ -137,11 +137,11 @@ function showMessages( $option )
 	HTML_messages::showMessages( $rows, $pageNav, $option, $lists );
 }
 
-function editConfig( $option ) 
+function editConfig( $option )
 {
 	$db   =& JFactory::getDBO();
 	$user =& JFactory::getUser();
-	
+
 	$query = "SELECT cfg_name, cfg_value"
 	. "\n FROM #__messages_cfg"
 	. "\n WHERE user_id = " .$user->get('id')
@@ -169,13 +169,13 @@ function editConfig( $option )
 
 }
 
-function saveConfig( $option ) 
+function saveConfig( $option )
 {
 	global $mainframe;
 
 	$db   =& JFactory::getDBO();
 	$user =& JFactory::getUser();
-	
+
 	$query = "DELETE FROM #__messages_cfg"
 	. "\n WHERE user_id = " .$user->get('id')
 	;
@@ -226,15 +226,15 @@ function newMessage( $option, $user, $subject )
 	HTML_messages::newMessage($option, $recipientslist, $subject );
 }
 
-function saveMessage( $option ) 
+function saveMessage( $option )
 {
 	global $mainframe;
 
 	require_once(dirname(__FILE__).DS.'tables'.DS.'message.php');
-	
+
 	$db =& JFactory::getDBO();
 	$row = new JMessage( $db );
-	
+
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -279,13 +279,13 @@ function removeMessage( $cid, $option )
 	global $mainframe;
 
 	$db =& JFactory::getDBO();
-	
+
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	
-	if (count( $cid )) 
+
+	if (count( $cid ))
 	{
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__messages"

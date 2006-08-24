@@ -29,7 +29,7 @@ switch($type)
 		global $mainframe;
 		require(dirname(__FILE__).DS.'tmpl'.DS.'login.html');
 	} break;
-	case 'logout'	: 
+	case 'logout'	:
 	{
 		$user =& JFactory::getUser();
 		require(dirname(__FILE__).DS.'tmpl'.DS.'logout.html');

@@ -206,7 +206,7 @@ class JMenuHelper extends JObject {
 	/**
 	 * Build the select list for parent menu item
 	 */
-	function Parent( &$row ) 
+	function Parent( &$row )
 	{
 		$db =& JFactory::getDBO();
 		$id = '';

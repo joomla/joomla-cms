@@ -3,12 +3,12 @@
 		<?php echo $this->params->get('header'); ?>
 	</div>
 <?php endif; ?>
-	
+
 <table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php if ( ($this->params->get('image') != -1) || $this->params->get('description') ) : ?>
 <tr>
 	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php 
+	<?php
 		if ( isset($this->data->image) ) :  echo $this->data->image; endif;
 		echo $this->params->get('description_text');
 	?>

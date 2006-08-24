@@ -11,7 +11,7 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
- 
+
  jimport( 'joomla.application.view');
 
 /**
@@ -29,15 +29,15 @@ class FrontpageViewFrontpage extends JView
 		$this->setViewName('frontpage');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display()
 	{
 		$document	=& JFactory::getDocument();
-		
+
 		$function = '_display'.$document->getType();
 		$this->$function();
 	}
-	
+
 	function _displayHTML()
 	{
 		global $mainframe, $Itemid, $option;
@@ -48,23 +48,23 @@ class FrontpageViewFrontpage extends JView
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
 		$gid		= $user->get('gid');
-		
+
 		//we also need the content language file
 		$lang->load('com_content');
 
 		$id			= JRequest::getVar('id');
-		
+
 		// get menu
 		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
-		
+
 		$intro				= $this->params->def('intro', 4);
 		$leading			= $this->params->def('leading', 1);
 		$links				= $this->params->def('link', 4);
 		$descrip			= $this->params->def('description', 1);
 		$descrip_image		= $this->params->def('description_image', 1);
 		$columns 			= $this->params->def('columns', 2);
-		
+
 		$this->params->def('pagination', 2);
 		$this->params->def('pagination_results', 1);
 		$this->params->def('pageclass_sfx', '');
@@ -76,13 +76,13 @@ class FrontpageViewFrontpage extends JView
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
-		
+
 		// parameters
 		if ($this->params->get('page_title', 1) && $menu) {
 			$this->data->header = $this->params->def('header', $menu->name);
-		} 
-		
-		// Set section/category description text and images for 
+		}
+
+		// Set section/category description text and images for
 		if ($menu && $menu->componentid && ($descrip || $descrip_image))
 		{
 			switch ($menu->type)
@@ -90,62 +90,62 @@ class FrontpageViewFrontpage extends JView
 				case 'content_blog_section' :
 					$section = & JTable::getInstance('section', $db);
 					$section->load($menu->componentid);
-					
+
 					$description = new stdClass();
 					$description->text = $section->description;
 					$description->link = 'images/stories/'.$section->image;
-					
+
 					$this->data->description = $description;
 					break;
 
 				case 'content_blog_category' :
 					$category = & JTable::getInstance('category', $db);
 					$category->load($menu->componentid);
-					
+
 					$description = new stdClass();
 					$description->text = $category->description;
 					$description->link = 'images/stories/'.$description->image;
-					
+
 					$this->data->description = $description;
 					break;
 			}
 		}
-		
+
 		$rows = $this->get('ContentData');
-		
+
 		$total 		= count($rows);
 		$limit 		= $intro + $leading + $links;
 		$limitstart = $this->request->limitstart;
-		
+
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
 		$i = $limitstart;
-		
+
 		if (!$total) {
 			return;
 		}
-		
+
 		$this->data->total = $total;
 		$this->items = $rows;
-		
+
 		$limitstart = $limitstart ? $limitstart : 0;
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
-		
+
 		if ($columns == 0) {
 			$columns = 1;
 		}
-		
+
 		$column_width = 100 / $columns; // width of each column
 		$column_width = 'width="'.intval($column_width).'%"';
-		
+
 		$this->params->set('column_width', $column_width);
 		$this->params->set('columns', $columns);
-		
+
 		$this->_loadTemplate('blog');
 	}
-	
+
 	function _displayFeed()
 	{
 		global $mainframe, $Itemid;
@@ -228,9 +228,9 @@ class FrontpageViewFrontpage extends JView
 		$this->params->def('item_title',		1);
 		$this->params->def('url',				1);
 		$this->params->set('image',				1);
-		
+
 		$this->item =& $this->items[$index];
-			
+
 		// Process the content preparation plugins
 		$this->item->text	= ampReplace($this->item->introtext);
 		JPluginHelper::importPlugin('content');
@@ -257,40 +257,40 @@ class FrontpageViewFrontpage extends JView
 				}
 			}
 		}
-		
+
 		$this->item->readmore_link = $linkOn;
 		$this->item->readmore_text = $linkText;
-		
+
 		$this->item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$this->item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 
 		$this->item->event = new stdClass();
 		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $this->item, & $this->params,0));
 		$this->item->event->afterDisplayTitle = trim(implode("\n", $results));
-		
+
 		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $this->item, & $this->params, 0));
 		$this->item->event->beforeDisplayContent = trim(implode("\n", $results));
-		
+
 		$results = $mainframe->triggerEvent('onAfterDisplayContent', array (& $this->item, & $this->params, 0));
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
-		
+
 		$this->_loadTemplate('_blog_item');
 	}
 
 	function links($index = 0)
 	{
 		global $Itemid;
-			
+
 		$this->links = array_splice($this->items, $index);
-			
-		for($i = 0; $i < count($this->links); $i++) 
+
+		for($i = 0; $i < count($this->links); $i++)
 		{
 			$link =& $this->links[$i];
-			
+
 			$Itemid	    = JContentHelper::getItemid($link->id);
 			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
 		}
-		
-		
+
+
 		$this->_loadTemplate('_blog_links');
 	}
 }

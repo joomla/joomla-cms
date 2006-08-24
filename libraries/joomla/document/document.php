@@ -233,7 +233,7 @@ class JDocument extends JObject
 
 		if (empty($instances[$signature])) {
 			jimport('joomla.document.'.$type.'.'.$type);
-			$class = 'JDocument'.$type;		
+			$class = 'JDocument'.$type;
 			$instances[$signature] = new $class($attributes);
 		}
 

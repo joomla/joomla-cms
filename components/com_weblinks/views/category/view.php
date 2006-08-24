@@ -29,26 +29,26 @@ class WeblinksViewCategory extends JView
 		$this->setViewName('category');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display()
 	{
 		$document	=& JFactory::getDocument();
-		
+
 		$function = '_display'.$document->getType();
 		$this->$function();
 	}
-	
-	function _displayHTML() 
-	{	
+
+	function _displayHTML()
+	{
 		global $mainframe, $Itemid, $option;
-		
+
 		// Initialize some variables
 		$document	= & JFactory::getDocument();
-		
+
 		// get menu
 		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
-		
+
 		$this->params->def('page_title', 1);
 		$this->params->def('header', $menu->name);
 		$this->params->def('pageclass_sfx', '');
@@ -68,16 +68,16 @@ class WeblinksViewCategory extends JView
 		$this->params->def('display_num', $mainframe->getCfg('list_limit'));
 
 		$this->params->set( 'type', 'category' );
-		
+
 		//add alternate feed link
 		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$this->request->catid.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
-		
+
 		// Define image tag attributes
-		if (isset ($this->category->image)) 
+		if (isset ($this->category->image))
 		{
 			$attribs['align'] = '"'.$this->category->image_position.'"';
 			$attribs['hspace'] = '"6"';
@@ -85,14 +85,14 @@ class WeblinksViewCategory extends JView
 			// Use the static HTML library to build the image tag
 			$this->data->image = mosHTML::Image('/images/stories/'.$this->category->image, JText::_('Web Links'), $attribs);
 		}
-		
+
 		$this->_loadTemplate('table');
 	}
-	
+
 	function _displayFeed()
 	{
 		global $mainframe, $Itemid, $option;
-		
+
 		$document =& JFactory::getDocument();
 
 		foreach ( $this->items as $item )
@@ -128,29 +128,29 @@ class WeblinksViewCategory extends JView
 		}
 	}
 
-	function items( ) 
+	function items( )
 	{
 		global $Itemid;
-		
+
 		if (!count( $this->items ) ) {
 			return;
 		}
-		
+
 		$catid = $this->request->catid;
-		
+
 		//create pagination
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
-		
+
 		$this->data->link = "index.php?option=com_weblinks&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
-		
+
 		// icon in table display
 		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
 			$this->data->image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
-		} 
-		
-		$k = 0;		
-		for($i = 0; $i < count($this->items); $i++) 
+		}
+
+		$k = 0;
+		for($i = 0; $i < count($this->items); $i++)
 		{
 			$item =& $this->items[$i];
 			$params = new JParameter( $item->params );
@@ -160,7 +160,7 @@ class WeblinksViewCategory extends JView
 
 			$menuclass = 'category'.$this->params->get( 'pageclass_sfx' );
 
-			switch ($params->get( 'target' )) 
+			switch ($params->get( 'target' ))
 			{
 				// cases are slightly different
 				case 1:
@@ -173,13 +173,13 @@ class WeblinksViewCategory extends JView
 					$item->link  = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
 					break;
 
-				default:	
+				default:
 					// formerly case 2
 					// open in parent window
 					$item->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
 					break;
 			}
-			
+
 			$item->odd   = $k;
 			$item->count = $i;
 			$k = 1 - $k;

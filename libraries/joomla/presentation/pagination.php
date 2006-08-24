@@ -227,7 +227,7 @@ class JPagination extends JObject
 	function getPagesLinks($link = null)
 	{
 		global $mainframe;
-		
+
 		$lang =& JFactory::getLanguage();
 
 		// Build the page navigation list

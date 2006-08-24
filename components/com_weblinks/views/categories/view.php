@@ -29,11 +29,11 @@ class WeblinksViewCategories extends JView
 		$this->setViewName('categories');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display( )
 	{
 		global $Itemid;
-		
+
 		// Define image tag attributes
 		if ($this->params->get('image') != -1)
 		{
@@ -43,13 +43,13 @@ class WeblinksViewCategories extends JView
 			// Use the static HTML library to build the image tag
 			$this->data->image = mosHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('Web Links'), $attribs);
 		}
-		
+
 		for($i = 0; $i < count($this->categories); $i++)
 		{
 			$category =& $this->categories[$i];
 			$category->link = sefRelToAbs('index.php?option=com_weblinks&amp;task=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
 		}
-		
+
 		$this->_loadTemplate('list');
 	}
 }

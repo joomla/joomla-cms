@@ -148,12 +148,12 @@ class JAJAXHandler {
 		 */
 		$query = "FLUSH PRVILEGES";
 		$db->setQuery( $query );
-		
+
 		$query = "SHOW GRANTS FOR '".$args['DBuserName']."'@'".$args['DBhostname']."'";
 		$db->setQuery( $query );
 		$privs = $db->loadResultArray();
 		$errMsg = $db->getErrorMsg();
-		
+
 		$privNotes = array();
 		if ( strpos($privs[0], '*.*') && ( strpos($privs[0], 'ALL') || strpos($privs[0], 'CREATE')) ) {
 			$privNotes[] = $lang->_('PRIVGLOBALCREATEOK');
@@ -166,8 +166,8 @@ class JAJAXHandler {
 			$objResponse->addAlert(implode(chr(10).chr(13), $outmsgs));
 		} else {
 			$objResponse->addAlert($errMsg);
-			
-		}		
+
+		}
 		return $objResponse;
 	}
 

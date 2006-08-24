@@ -38,7 +38,7 @@ Legend:
 ! -> Note
 
 24-Aug-2006 Alex Kempkens
- # Fixed bug in JDatabase::loadRowList where passed key is zero 
+ # Fixed bug in JDatabase::loadRowList where passed key is zero
  # JDatabase::loadRowList changed to use mysql*_get_row instead of mysql*_get_assoc
 
 23-Aug-2006 Alex Kempkens
@@ -75,7 +75,7 @@ Legend:
  + Added new sort and filter options to admin/mod_latest
 
 18-Aug-2006 David Gal
- + Added cpanel module sliders in admin. Needs re-install for db changes to apply 
+ + Added cpanel module sliders in admin. Needs re-install for db changes to apply
 
 15-Aug-2006 Alex Kempkens
   ^ Handling to allow that help files do not exists. Now fall back to English help
@@ -97,10 +97,10 @@ Legend:
  # Language awareness of the system help screens
 
 14-Aug-2006 David Gal
- # Fixed broken pdf generation 
+ # Fixed broken pdf generation
  # Fixed NBSP artifacts in generated pdf
  + Added db user privilege checking during dbConfig in installation
- 
+
 14-Aug-2006 Andrew Eddie
  # Fixed Injection attack on content submissions where frontpage is selected
  # Fixed possible injection attack thru JPagination constructor
@@ -139,7 +139,7 @@ Legend:
 
 07-Aug-2006 Andrew Eddie
  # Fixed Zend Hash Del Key Or Index Vulnerability
- ^ globals.php now forces emulation to register_globals = off 
+ ^ globals.php now forces emulation to register_globals = off
  # Fixed JUtility::spoofKey method to ensure the hash is a string
 
 06-Aug-2006 Enno Klasing
@@ -178,7 +178,7 @@ Legend:
 30-Jul-2006 David Gal
  ^ Fixes to RTL in admin
  + Added RTL to media manager dtree menu
-  
+
 29-Jul-2006 Enno Klasing
  ^ Deprecated josSpoofCheck, use JUtility::spoofCheck instead
  ^ Deprecated josSpoofValue, use JUtility::spoofKey instead

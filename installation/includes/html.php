@@ -248,7 +248,7 @@ class JInstallationView
 	function finish( &$vars, $buffer )
 	{
 		global $steps;
-		
+
 		$lang  =& JFactory::getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'finish.html' );

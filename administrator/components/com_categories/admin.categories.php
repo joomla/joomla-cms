@@ -281,7 +281,7 @@ function editCategory( )
 	// Initialize variables
 	$db         =& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
-	
+
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
 	$section 	= JRequest::getVar( 'section', 'content' );
@@ -464,7 +464,7 @@ function saveCategory( $task )
 * @param string The name of the category section
 * @param array An array of unique category id numbers
 */
-function removeCategories( $section, $cid ) 
+function removeCategories( $section, $cid )
 {
 	global $mainframe;
 
@@ -536,7 +536,7 @@ function removeCategories( $section, $cid )
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The name of the current user
 */
-function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
+function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
 {
 	global $mainframe;
 
@@ -603,7 +603,7 @@ function cancelCategory()
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderCategory( $uid, $inc ) 
+function orderCategory( $uid, $inc )
 {
 	global $mainframe;
 
@@ -619,7 +619,7 @@ function orderCategory( $uid, $inc )
 /**
 * Form for moving item(s) to a specific menu
 */
-function moveCategorySelect( $option, $cid, $sectionOld ) 
+function moveCategorySelect( $option, $cid, $sectionOld )
 {
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getVar( 'section', 'content', 'post' );;
@@ -666,7 +666,7 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 /**
 * Save the item(s) to the menu selected
 */
-function moveCategorySave( $cid, $sectionOld ) 
+function moveCategorySave( $cid, $sectionOld )
 {
 	global $mainframe;
 
@@ -704,7 +704,7 @@ function moveCategorySave( $cid, $sectionOld )
 /**
 * Form for copying item(s) to a specific menu
 */
-function copyCategorySelect( $option, $cid, $sectionOld ) 
+function copyCategorySelect( $option, $cid, $sectionOld )
 {
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getVar( 'section', 'content', 'post' );
@@ -751,20 +751,20 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 /**
 * Save the item(s) to the menu selected
 */
-function copyCategorySave( $cid, $sectionOld ) 
+function copyCategorySave( $cid, $sectionOld )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	
+
 	$sectionMove 	= JRequest::getVar( 'sectionmove' );
 	$contentid 		= JRequest::getVar( 'item' );
 	$total 			= count( $contentid  );
 
 	$category =& JTable::getInstance('category', $db );
 
-	foreach( $cid as $id ) 
+	foreach( $cid as $id )
 	{
 		$category->load( $id );
 		$category->id 		= NULL;
@@ -821,13 +821,13 @@ function copyCategorySave( $cid, $sectionOld )
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $section ) 
+function accessMenu( $uid, $access, $section )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	
+
 	$row =& JTable::getInstance('category', $db );
 	$row->load( $uid );
 	$row->access = $access;
@@ -842,13 +842,13 @@ function accessMenu( $uid, $access, $section )
 	$mainframe->redirect( 'index2.php?option=com_categories&section='. $section );
 }
 
-function menuLink( $id ) 
+function menuLink( $id )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	
+
 	$category =& JTable::getInstance('category', $db );
 	$category->bind( $_POST );
 	$category->checkin();
@@ -861,7 +861,7 @@ function menuLink( $id )
 
 	$name		= ampReplace($name);
 
-	switch ( $type ) 
+	switch ( $type )
 	{
 		case 'content_category':
 			$link 		= 'index.php?option=com_content&task=category&sectionid='. $sectionid .'&id='. $id;
@@ -922,13 +922,13 @@ function menuLink( $id )
 	$mainframe->redirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
 }
 
-function saveOrder( &$cid, $section ) 
+function saveOrder( &$cid, $section )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	
+
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row		=& JTable::getInstance('category', $db );

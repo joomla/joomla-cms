@@ -157,7 +157,7 @@ class JPath {
 	 * Checks for snooping outside of the file system root
 	 *
 	 * @param	string	A file system path to check
-	 * @return	string	A cleaned version of the path	
+	 * @return	string	A cleaned version of the path
 	 * @since 1.5
 	 */
 	function check($path)

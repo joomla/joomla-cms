@@ -179,14 +179,14 @@ function showContacts( $option )
 * @param int The id of the record, 0 if a new entry
 * @param string The current GET/POST option
 */
-function editContact( ) 
+function editContact( )
 {
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
-	
+
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
@@ -239,7 +239,7 @@ function editContact( )
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveContact( $task ) 
+function saveContact( $task )
 {
 	global $mainframe;
 
@@ -289,7 +289,7 @@ function saveContact( $task )
 		$db->query();
 	}
 
-	switch ($task) 
+	switch ($task)
 	{
 		case 'apply':
 		case 'save2copy':
@@ -314,7 +314,7 @@ function saveContact( $task )
 * @param array An array of id keys to remove
 * @param string The current GET/POST option
 */
-function removeContacts( &$cid ) 
+function removeContacts( &$cid )
 {
 	global $mainframe;
 
@@ -340,14 +340,14 @@ function removeContacts( &$cid )
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The current option
 */
-function changeContact( $cid=null, $state=0 ) 
+function changeContact( $cid=null, $state=0 )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $state ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -379,13 +379,13 @@ function changeContact( $cid=null, $state=0 )
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderContacts( $uid, $inc ) 
-{	
+function orderContacts( $uid, $inc )
+{
 	global $mainframe;
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	
+
 	$row = new JTableContact( $db );
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
@@ -396,7 +396,7 @@ function orderContacts( $uid, $inc )
 /** PT
 * Cancels editing and checks in the record
 */
-function cancelContact() 
+function cancelContact()
 {
 	global $mainframe;
 
@@ -413,13 +413,13 @@ function cancelContact()
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function changeAccess( $id, $access  ) 
+function changeAccess( $id, $access  )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	
+
 	$row = new JTableContact( $db );
 	$row->load( $id );
 	$row->access = $access;
@@ -434,7 +434,7 @@ function changeAccess( $id, $access  )
 	$mainframe->redirect( 'index2.php?option=com_contact' );
 }
 
-function saveOrder( &$cid ) 
+function saveOrder( &$cid )
 {
 	global $mainframe;
 
@@ -443,13 +443,13 @@ function saveOrder( &$cid )
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
-	for( $i=0; $i < $total; $i++ ) 
+	for( $i=0; $i < $total; $i++ )
 	{
 		$query = "UPDATE #__contact_details"
 		. "\n SET ordering = " . (int) $order[$i]
 		. "\n WHERE id = " . (int) $cid[$i];
 		$db->setQuery( $query );
-		
+
 		if (!$db->query()) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();

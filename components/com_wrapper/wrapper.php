@@ -22,7 +22,7 @@ define( 'JPATH_COM_WRAPPER', dirname( __FILE__ ));
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar( 'task' ) ) 
+switch ( JRequest::getVar( 'task' ) )
 {
 	default:
 		WrapperController::display();
@@ -40,13 +40,13 @@ switch ( JRequest::getVar( 'task' ) )
  */
 class WrapperController
 {
-	function display() 
+	function display()
 	{
 		global $Itemid, $mainframe, $option;
 
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
-		
+
 		//set page title
 		$mainframe->SetPageTitle($menu->name);
 
@@ -69,21 +69,21 @@ class WrapperController
 		if ( $params->get( 'add' ) )
 		{
 			// adds 'http://' if none is set
-			if ( substr( $url, 0, 1 ) == '/' ) 
+			if ( substr( $url, 0, 1 ) == '/' )
 			{
 				// relative url in component. use server http_host.
 				$row->url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
-			} 
-			elseif ( !strstr( $url, 'http' ) && !strstr( $url, 'https' ) ) 
+			}
+			elseif ( !strstr( $url, 'http' ) && !strstr( $url, 'https' ) )
 			{
 				$row->url = 'http://'. $url;
-			} 
-			else 
+			}
+			else
 			{
 				$row->url = $url;
 			}
-		} 
-		else 
+		}
+		else
 		{
 			$row->url = $url;
 		}
@@ -97,7 +97,7 @@ class WrapperController
 
 		require_once (JPATH_COM_WRAPPER.DS.'views'.DS.'wrapper'.DS.'view.php');
 		$view = new WrapperViewWrapper();
-		
+
 		$view->set('params'  , $params);
 		$view->set('wrapper' , $row);
 		$view->display();

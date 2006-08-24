@@ -19,11 +19,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Messages
 */
-class HTML_messages 
+class HTML_messages
 {
-	function showMessages( &$rows, &$pageNav, $option, &$lists ) 
+	function showMessages( &$rows, &$pageNav, $option, &$lists )
 	{
-		// Initialize variables 
+		// Initialize variables
 		$user	=& JFactory::getUser();
 		?>
 		<form action="index2.php?option=com_messages" method="post" name="adminForm">
@@ -228,8 +228,8 @@ class HTML_messages
 		<?php
 	}
 
-	function newMessage($option, $recipientslist, $subject ) 
-	{	
+	function newMessage($option, $recipientslist, $subject )
+	{
 		$user =& JFactory::getUser();
 		?>
 		<script language="javascript" type="text/javascript">

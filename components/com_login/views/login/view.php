@@ -28,22 +28,22 @@ class LoginViewLogin extends JView
 		$this->setViewName('login');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-	
+
 	function display()
 	{
 		$user =& JFactory::getUser();
-		
+
 		if ( $user->get('id') ) {
 			$this->_displayLogoutForm();
 		} else {
 			$this->_displayLoginForm();
 		}
 	}
-	
+
 	function _displayLoginForm( )
 	{
 		$errors =& JError::getErrors();
-		
+
 		if(JError::isError($errors[0])) {
 			echo '<div class="system-error">';
 			echo '<span>ERROR</span><br />';
@@ -51,13 +51,13 @@ class LoginViewLogin extends JView
 			echo  '</div>';
 			array_shift($errors);
 		}
-		
+
 		// Build login image if enabled
 		if ( $this->params->get( 'image_login' ) != -1 ) {
 			$image = 'images/stories/'. $this->params->get( 'image_login' );
 			$this->image = '<img src="'. $image  .'" align="'. $this->params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
 		}
-		
+
 		$this->_loadTemplate('login');
 	}
 
@@ -68,7 +68,7 @@ class LoginViewLogin extends JView
 			$image = 'images/stories/'. $this->params->get( 'image_logout' );
 			$this->image = '<img src="'. $image .'" align="'. $this->params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
 		}
-		
+
 		$this->_loadTemplate('logout');
 	}
 }

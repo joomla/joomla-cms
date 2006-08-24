@@ -29,7 +29,7 @@ class sections_html
 	function show( &$rows, $scope, $myid, &$page, $option, &$lists )
 	{
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		
+
 		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
@@ -193,7 +193,7 @@ class sections_html
 	function edit( &$row, $option, &$lists, &$menus )
 	{
 		global $mainframe;
-		
+
 		$editor =& JFactory::getEditor();
 
 		if ( $row->name != '' ) {

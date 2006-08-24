@@ -24,10 +24,10 @@ class HTML_users {
 	/**
 	 * Display list of users
 	 */
-	function showUsers( &$rows, &$page, $option, &$lists ) 
-	{	
+	function showUsers( &$rows, &$page, $option, &$lists )
+	{
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-		
+
 		$user =& JFactory::getUser();
 
 		mosCommonHTML::loadOverlib();

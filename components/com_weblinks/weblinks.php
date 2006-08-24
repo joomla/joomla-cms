@@ -46,7 +46,7 @@ switch ( JRequest::getVar( 'task' ) )
 	case 'view' :
 		WeblinksController::displayWeblink();
 		break;
-		
+
 	case 'category' :
 		WeblinksController::displayCategory();
 		break;
@@ -124,17 +124,17 @@ class WeblinksController
 
 		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'categories'.DS.'view.php');
 		$view = new WeblinksViewCategories();
-		
+
 		$data = new stdClass();
 		$data->error  = null;
 		$data->total  = count($categories);
-		
+
 		$view->set('params'    , $params);
 		$view->set('data'      , $data);
 		$view->set('categories', $categories);
 		$view->display();
 	}
-	
+
 	/**
 	 * Show a web link category
 	 *
@@ -177,10 +177,10 @@ class WeblinksController
 				"\n AND published = 1";
 		$db->setQuery($query);
 		$counter = $db->loadObjectList();
-		
+
 		$total = $counter[0]->numitems;
 		$limit = $limit ? $limit : $params->get('display_num');
-		
+
 		if ($total <= $limit) {
 			$limitstart = 0;
 		}
@@ -204,19 +204,19 @@ class WeblinksController
 		$db->setQuery($query);
 		$category = $db->loadObject();
 
-		
+
 		// Check to see if the category is published or if access level allows access
 		if (!$category->name) {
 			JError::raiseError( 404, JText::_( 'You need to login.' ));
 			return;
 		}
-		
+
 		// Set page title based on category name
 		$document->setTitle($menu->name.' - '.$category->name);
 
 		// Add pathway item based on category name
 		$pathway->addItem($category->name, '');
-		
+
 		// table ordering
 		if ($filter_order_dir == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
@@ -226,18 +226,18 @@ class WeblinksController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'category'.DS.'view.php');		
+		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'category'.DS.'view.php');
 		$view = new WeblinksViewCategory();
-		
+
 		$request = new stdClass();
 		$request->limitstart  = $limitstart;
 		$request->limit       = $limit;
 		$request->catid		  = $catid;
-		
+
 		$data = new stdClass();
 		$data->error    = null;
 		$data->total    = $total;
-		
+
 		$view->set('lists'   , $lists);
 		$view->set('params'  , $params);
 		$view->set('request' , $request);
@@ -257,7 +257,7 @@ class WeblinksController
 	function displayWeblink()
 	{
 		global $mainframe;
-		
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
@@ -354,7 +354,7 @@ class WeblinksController
 		}
 
 		// Edit or Create?
-		if ($id) 
+		if ($id)
 		{
 			/*
 			 * The web link already exists so we are editing it.  Here we want to
@@ -368,8 +368,8 @@ class WeblinksController
 
 			// Add pathway item
 			$pathway->addItem(JText::_('Edit'), '');
-		} 
-		else 
+		}
+		else
 		{
 			/*
 			 * The web link does not already exist so we are creating a new one.  Here
@@ -392,13 +392,13 @@ class WeblinksController
 
 		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'weblink'.DS.'view.php');
 		$view = new WeblinksView();
-		
+
 		$request = new stdClass();
 		$request->returnid  = $returnid;
-			
+
 		$data = new stdClass();
 		$data->error    = null;
-		
+
 		$view->set('lists'   , $lists);
 		$view->set('data'    , $data);
 		$view->set('request' , $request);

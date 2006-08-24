@@ -25,13 +25,13 @@ class content_category_menu {
 	* @param database A database connector object
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
-	function editCategory( $uid, $menutype, $option ) 
+	function editCategory( $uid, $menutype, $option )
 	{
 		global $mainframe;
 
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		
+
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 

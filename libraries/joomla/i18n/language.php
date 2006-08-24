@@ -222,7 +222,7 @@ class JLanguage extends JObject
 		{
 			$paths[$filename] = true;
 			$newStrings = $this->_load( $filename );
-	
+
 			if (is_array($newStrings)) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
 				$result = true;

@@ -32,7 +32,7 @@ JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'ta
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 
-switch ($task) 
+switch ($task)
 {
 	case 'new':
 	case 'edit':
@@ -84,7 +84,7 @@ switch ($task)
 * Compiles a list of records
 * @param database A database connector object
 */
-function showWeblinks( $option ) 
+function showWeblinks( $option )
 {
 	global $mainframe;
 
@@ -226,7 +226,7 @@ function editWeblink()
 * Saves the record on an edit form submit
 * @param database A database connector object
 */
-function saveWeblink( $task ) 
+function saveWeblink( $task )
 {
 	global $mainframe;
 
@@ -277,7 +277,7 @@ function saveWeblink( $task )
 * @param array An array of unique category id numbers
 * @param string The current url option
 */
-function removeWeblinks( $cid, $option ) 
+function removeWeblinks( $cid, $option )
 {
 	global $mainframe;
 
@@ -306,7 +306,7 @@ function removeWeblinks( $cid, $option )
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The current url option
 */
-function publishWeblinks( $cid=null, $publish=1,  $option ) 
+function publishWeblinks( $cid=null, $publish=1,  $option )
 {
 	global $mainframe;
 
@@ -343,8 +343,8 @@ function publishWeblinks( $cid=null, $publish=1,  $option )
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderWeblinks( $uid, $inc ) 
-{	
+function orderWeblinks( $uid, $inc )
+{
 	global $mainframe;
 
 	$option = JRequest::getVar( 'option');
@@ -373,7 +373,7 @@ function cancelWeblink()
 	$mainframe->redirect( 'index2.php?option=com_weblinks' );
 }
 
-function saveOrder( &$cid ) 
+function saveOrder( &$cid )
 {
 	global $mainframe;
 

@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Banners
 */
-class TableBannerClient extends JTable 
+class TableBannerClient extends JTable
 {
 	var	$cid 				= null;
 	var $name 				= '';

@@ -393,9 +393,9 @@ function removeUsers(  )
 		exit;
 	}
 
-	if (count( $cid )) 
+	if (count( $cid ))
 	{
-		foreach ($cid as $id) 
+		foreach ($cid as $id)
 		{
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
@@ -463,7 +463,7 @@ function blockUser( ) {
 * Blocks or Unblocks one or more user records
 * @param integer 0 if unblock, 1 if blocking
 */
-function changeUserBlock( $block=1 ) 
+function changeUserBlock( $block=1 )
 {
 	global $mainframe;
 
@@ -511,10 +511,10 @@ function changeUserBlock( $block=1 )
 /**
  * logout selected users
 */
-function logoutUser( ) 
+function logoutUser( )
 {
 	global $currentUser, $mainframe;
-	
+
 	$db		=& JFactory::getDBO();
 	$task 	= JRequest::getVar( 'task' );
 	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );

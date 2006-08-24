@@ -25,7 +25,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar( 'task' ) ) 
+switch ( JRequest::getVar( 'task' ) )
 {
 	default:
 		FrontpageController::display();
@@ -51,7 +51,7 @@ class FrontpageController
 		$user	=& JFactory::getUser();
 		$doc  	=& JFactory::getDocument();
 		$gid	= $user->get('gid');
-		
+
 		// get request variables
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -72,18 +72,18 @@ class FrontpageController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'view.php');	
+		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'view.php');
 		$view = new FrontpageViewFrontpage();
-		
+
 		$view->setModel($model, true);
-		
+
 		$request = new stdClass();
 		$request->limitstart = $limitstart;
-		
+
 		$data = new stdClass();
 		$data->error  = null;
 		$data->access = $access;
-		
+
 		$view->set('data'   , $data);
 		$view->set('params' , $params);
 		$view->set('request', $request);

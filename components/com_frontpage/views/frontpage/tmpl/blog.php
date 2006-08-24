@@ -34,7 +34,7 @@
 		<table width="100%"  cellpadding="0" cellspacing="0">
 		<tr>
 			<td>
-			<?php 
+			<?php
 				$divider = '';
 				for ($z = 0; $z < $this->params->get('columns'); $z ++) :
 					if ($z > 0) : $divider = " column_seperator"; endif; ?>
@@ -60,7 +60,7 @@
 		</div>
 	</td>
 </tr>
-<?php endif; ?>		
+<?php endif; ?>
 
 <?php if ($this->params->get('pagination')) : ?>
 <tr>

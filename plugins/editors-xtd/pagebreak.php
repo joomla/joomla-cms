@@ -20,7 +20,7 @@ $mainframe->registerEvent( 'onCustomEditorButton', 'pluginPagebreakButton' );
 * mospage button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginPagebreakButton() 
+function pluginPagebreakButton()
 {
 	global $mainframe, $option;
 

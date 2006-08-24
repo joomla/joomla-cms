@@ -16,7 +16,7 @@
 * Banner clients
 * @package Joomla
 */
-class BannersViewClients 
+class BannersViewClients
 {
 	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
@@ -121,7 +121,7 @@ class BannersViewClients
 		<?php
 	}
 
-	function bannerClientForm( &$row, $option ) 
+	function bannerClientForm( &$row, $option )
 	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>

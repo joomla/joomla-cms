@@ -105,16 +105,16 @@ class JRegistry extends JObject
 		$nodes = explode('.', $regpath);
 
 		$n = count( $nodes );
-		
+
 		if ($n > 1)
 		{
 			// Get the namespace
 			$namespace = $nodes[0];
-			
+
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
 				$pathNodes = $n - 2;
-		
+
 				for ($i = 1; $i < $pathNodes; $i ++) {
 					$ns =& $ns->$nodes[$i];
 				}
@@ -192,7 +192,7 @@ class JRegistry extends JObject
 			$this->makeNameSpace($namespace);
 		}
 
-		
+
 		// Load the variables into the registry's default namespace.
 		foreach ($array as $k => $v) {
 			$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;

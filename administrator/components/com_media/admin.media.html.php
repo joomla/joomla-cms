@@ -542,11 +542,11 @@ class JMediaViews
 	{
 		$lang =& JFactory::getLanguage();
 		$doc  =& JFactory::getDocument();
-		
+
 		$doc->addScript('../includes/js/dtree/dtree.js');
 		$cssfile = $lang->isRTL() ? 'dtree_rtl.css': 'dtree.css';
 		$doc->addStyleSheet('../includes/js/dtree/'.$cssfile);
-		
+
 		$txt = null;
 		foreach($tree as $node) {
 			$txt .= "d.add(".$node['id'].", ".$node['pid'].", '".$node['name']."', '".$node['url']."', '".$node['title']."', '".$node['target']."', '../includes/js/dtree/img/folder.gif');\n";

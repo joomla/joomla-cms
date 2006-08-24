@@ -47,15 +47,15 @@ switch ( JRequest::getVar( 'task' ) )
  */
 class PollController
 {
-	function display() 
+	function display()
 	{
 		global $mainframe, $Itemid;
-		
+
 		$db 	=& JFactory::getDBO();
 		$pathway =& $mainframe->getPathWay();
 
 		$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
-		
+
 		$poll =& JTable::getInstance('poll', $db, 'Table');
 		$poll->load( $poll_id );
 
@@ -64,18 +64,18 @@ class PollController
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}
-		
+
 		// Adds parameter handling
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $Itemid );
-		
+
 		$params = new JParameter( $menu->params );
-		
+
 		$mainframe->SetPageTitle($poll->title);
 
 		$pathway->setItemName(1, 'Polls');
 		$pathway->addItem($poll->title, '');
-		
+
 		$params->def( 'page_title',	1 );
 		$params->def( 'header', $menu->name );
 
@@ -84,7 +84,7 @@ class PollController
 		$votes		= '';
 
 		// Check if there is a poll corresponding to id and if poll is published
-		if ($poll->id > 0) 
+		if ($poll->id > 0)
 		{
 			if (empty( $poll->title )) {
 				$poll->id = 0;
@@ -144,12 +144,12 @@ class PollController
 
 		require_once (JPATH_COM_POLL.DS.'views'.DS.'poll'.DS.'view.php');
 		$view = new PollViewPoll();
-		
+
 		$data = new stdClass();
 		$data->error = null;
 		$data->first_vote = $first_vote;
 		$data->last_vote  = $last_vote;
-		
+
 		$view->set('lists'   , $lists);
 		$view->set('params'  , $params);
 		$view->set('data'    , $data);

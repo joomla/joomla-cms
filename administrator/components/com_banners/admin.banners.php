@@ -34,7 +34,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch (JRequest::getVar( 'task' )) 
+switch (JRequest::getVar( 'task' ))
 {
 	// Banners
 	case 'new':

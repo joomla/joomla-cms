@@ -78,7 +78,7 @@ See COPYRIGHT.php for copyright notices and details.
 						<jdoc:include type="modules" name="cp_shell" />
 					</td>
 				</tr>
-				</table>							
+				</table>
 				<div class="clr"></div>
 			</div>
             <div class="b">

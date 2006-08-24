@@ -25,13 +25,13 @@ class submit_content_menu {
 	* @param database A database connector object
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
-	function edit( &$uid, $menutype, $option ) 
+	function edit( &$uid, $menutype, $option )
 	{
 		global $mainframe;
 
 		$db   =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		
+
 		$menu =& JTable::getInstance('menu', $db );
 		$menu->load( $uid );
 

@@ -31,7 +31,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ( JRequest::getVar( 'task' ) ) 
+switch ( JRequest::getVar( 'task' ) )
 {
 	case 'publish':
 		changeFrontPage( $cid, 1, $option );
@@ -82,7 +82,7 @@ switch ( JRequest::getVar( 'task' ) )
 /**
 * Compiles a list of frontpage items
 */
-function viewFrontPage( $option ) 
+function viewFrontPage( $option )
 {
 	global $mainframe;
 
@@ -212,13 +212,13 @@ function viewFrontPage( $option )
 * @param array An array of unique category id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function changeFrontPage( $cid=null, $state=0, $option ) 
+function changeFrontPage( $cid=null, $state=0, $option )
 {
 	global $mainframe;
 
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	
+
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
@@ -249,7 +249,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$mainframe->redirect( "index2.php?option=$option" );
 }
 
-function removeFrontPage( &$cid, $option ) 
+function removeFrontPage( &$cid, $option )
 {
 	global $mainframe;
 
@@ -258,7 +258,7 @@ function removeFrontPage( &$cid, $option )
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp =& JTable::getInstance('frontpage', $db, 'Table'); 
+	$fp =& JTable::getInstance('frontpage', $db, 'Table');
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
@@ -284,13 +284,13 @@ function removeFrontPage( &$cid, $option )
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderFrontPage( $uid, $inc, $option ) 
+function orderFrontPage( $uid, $inc, $option )
 {
 	global $mainframe;
 
 	$db =& JFactory::getDBO();
-	
-	$fp =& JTable::getInstance('frontpage', $db, 'Table'); 
+
+	$fp =& JTable::getInstance('frontpage', $db, 'Table');
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -305,7 +305,7 @@ function orderFrontPage( $uid, $inc, $option )
 * @param integer The new access level
 * @param string The URL option
 */
-function accessMenu( $uid, $access ) 
+function accessMenu( $uid, $access )
 {
 	global $mainframe;
 
@@ -327,7 +327,7 @@ function accessMenu( $uid, $access )
 	$mainframe->redirect( 'index2.php?option=com_frontpage' );
 }
 
-function saveOrder( &$cid ) 
+function saveOrder( &$cid )
 {
 	global $mainframe;
 
@@ -335,7 +335,7 @@ function saveOrder( &$cid )
 	$total	= count( $cid );
 	$order 	= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
-	for( $i=0; $i < $total; $i++ ) 
+	for( $i=0; $i < $total; $i++ )
 	{
 		$query = "UPDATE #__content_frontpage"
 		. "\n SET ordering = " . (int) $order[$i]
@@ -347,7 +347,7 @@ function saveOrder( &$cid )
 		}
 
 		// update ordering
-		$row =& JTable::getInstance('frontpage', $db, 'Table'); 
+		$row =& JTable::getInstance('frontpage', $db, 'Table');
 		$row->load( $cid[$i] );
 		$row->reorder();
 	}

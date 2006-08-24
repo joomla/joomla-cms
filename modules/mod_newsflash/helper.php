@@ -33,10 +33,10 @@ class modNewsFlashHelper
 
 		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
 		$item->afterDisplayTitle = trim(implode("\n", $results));
-		
+
 		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
 		$item->beforeDisplayContent = trim(implode("\n", $results));
-		
+
 		require(dirname(__FILE__).DS.'tmpl'.DS.'item.html');
 	}
 

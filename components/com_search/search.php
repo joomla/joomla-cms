@@ -27,7 +27,7 @@ $mainframe->setPageTitle(JText::_('Search'));
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar( 'task' ) ) 
+switch ( JRequest::getVar( 'task' ) )
 {
 	default:
 		SearchController::display();
@@ -45,10 +45,10 @@ switch ( JRequest::getVar( 'task' ) )
  */
 class SearchController
 {
-	function display() 
+	function display()
 	{
 		global $mainframe, $Itemid;
-	
+
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
 		$pathway =& $mainframe->getPathWay();
@@ -56,7 +56,7 @@ class SearchController
 		$error = '';
 		$rows  = null;
 		$total = 0;
-		
+
 		// Get some request variables
 		$searchword 	= JRequest::getVar( 'searchword' );
 		$phrase 		= JRequest::getVar( 'searchphrase' );
@@ -65,11 +65,11 @@ class SearchController
 		$areas 			= JRequest::getVar( 'areas' );
 		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
 		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
-		
-	
+
+
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_( 'Search' ) );
-		
+
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
 		$menu    = $menus->getItem($Itemid);
@@ -77,7 +77,7 @@ class SearchController
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
-	
+
 		// built select lists
 		$orders = array();
 		$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
@@ -97,7 +97,7 @@ class SearchController
 
 		JPluginHelper::importPlugin( 'search' );
 		$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
-		
+
 		// log the search
 		SearchHelper::logSearch( $searchword );
 
@@ -105,25 +105,25 @@ class SearchController
 		if(SearchHelper::limitSearchWord($searchword)) {
 			$error = JText::_( 'SEARCH_MESSAGE' );
 		}
-		
+
 		//sanatise searchword
 		if(SearchHelper::santiseSearchWord($searchword)) {
 			$error = JText::_( 'IGNOREKEYWORD' );
 		}
-		
+
 		if (!$searchword && count( $_POST ) ) {
-			$error = JText::_( 'No results were found' ); 
-		} 
-		
+			$error = JText::_( 'No results were found' );
+		}
+
 		if(!$error) {
 			$rows  = SearchController::getResults($searchword, $phrase, $ordering, $areas);
 			$total = count($rows);
 			$rows  = array_splice($rows, $limitstart, $limit);
 		}
-		 
+
 		require_once (JPATH_COM_SEARCH.DS.'views'.DS.'search'.DS.'view.php');
 		$view = new SearchViewSearch();
-		
+
 		$request = new stdClass();
 		$request->areas        = $areas;
 		$request->searchword   = $searchword;
@@ -131,25 +131,25 @@ class SearchController
 		$request->ordering     = $ordering;
 		$request->limitstart   = $limitstart;
 		$request->limit        = $limit;
-		
+
 		$data = new stdClass();
 		$data->error   = $error;
 		$data->results = $rows;
 		$data->total   = $total;
-		
+
 		$view->set('lists'   , $lists);
 		$view->set('params'  , $params);
 		$view->set('request' , $request);
 		$view->set('data'    , $data);
 		$view->display();
 	}
-	
+
 	function getResults($searchword, $phrase, $ordering, $areas)
 	{
 		global $mainframe;
-		
+
 		$results 	= $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering, $areas ) );
-		
+
 		$rows = array();
 		for ($i = 0, $n = count( $results); $i < $n; $i++) {
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
@@ -158,7 +158,7 @@ class SearchController
 		require_once (JApplicationHelper::getPath('helper', 'com_content'));
 		$total = count( $rows );
 
-		for ($i=0; $i < $total; $i++) 
+		for ($i=0; $i < $total; $i++)
 		{
 			$row = &$rows[$i]->text;
 			if ($phrase == 'exact') {
@@ -176,7 +176,7 @@ class SearchController
 				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );
 			}
 
-			if ( strpos( $rows[$i]->href, 'http' ) == false ) 
+			if ( strpos( $rows[$i]->href, 'http' ) == false )
 			{
 				$url = parse_url( $rows[$i]->href );
 				if( !empty( $url['query'] ) ) {
@@ -196,7 +196,7 @@ class SearchController
 				}
 			}
 		}
-		
+
 		return $rows;
 	}
 }

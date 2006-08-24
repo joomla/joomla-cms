@@ -236,7 +236,7 @@ class JContactControllerDefault extends JController
 	 * @static
 	 * @since 1.0
 	 */
-	function vCard() 
+	function vCard()
 	{
 		global $mainframe;
 
@@ -255,7 +255,7 @@ class JContactControllerDefault extends JController
 		$show 	= $menuParams->get('vcard', 0);
 
 		// Should we show the vcard?
-		if ($show) 
+		if ($show)
 		{
 			// Parse the contact name field and build the nam information for the vcard.
 			$firstname 	= null;

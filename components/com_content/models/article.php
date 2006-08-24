@@ -256,7 +256,7 @@ class JContentModelArticle extends JModel
 		if ( 1 <= $rating && $rating >= 5)
 		{
 			$userIP 			=  $_SERVER['REMOTE_ADDR'];
-		
+
 			$query = "SELECT *" .
 					"\n FROM #__content_rating" .
 					"\n WHERE content_id = $this->_id";

@@ -89,7 +89,7 @@ class JCacheFunction extends JCache
 				$result = call_user_func_array( array( trim($class), trim($method) ), $arguments );
 			}
 			else if (strstr( $target, '->' ))
-			{ 
+			{
 				// shorthand object->method ... NOT RECOMMENDED - UNRELIABLE - USE PHP ARRAY SYNTAX!
 				// use a stupid name ($objet_123456789 because) of problems when the object
 				// name is the same as this var name
