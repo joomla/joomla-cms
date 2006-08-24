@@ -72,10 +72,10 @@ class JButton_Popup extends JButton
 		global $mainframe;
 
 		if (substr($url, 0, 4) !== 'http') {
-			$url = $mainframe->getBaseURL().$url;
+			$url = JURI::base().$url;
 		}
 
-		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$doc =& JFactory::getDocument();
 		$doc->addScript($baseurl.'includes/js/joomla/popup.js');

@@ -51,7 +51,7 @@ class JEditor_xstandard extends JPlugin {
 	{
 		global $mainframe;
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$html = '';
 		ob_start();
@@ -111,7 +111,7 @@ class JEditor_xstandard extends JPlugin {
 
 		$language  =& JFactory::getLanguage();
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';

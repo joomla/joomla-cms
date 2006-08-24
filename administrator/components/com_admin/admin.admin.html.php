@@ -61,7 +61,7 @@ class HTML_admin_misc
 		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
 
 		$document =& JFactory::getDocument();
-		$document->addScript($mainframe->getBaseURL().'components/com_config/assets/switcher.js');
+		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
 
 		$contents = '';
 		ob_start();
@@ -204,11 +204,11 @@ class HTML_admin_misc
 							<?php
 							} else {
 							?>
-							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							}
 							?>
@@ -243,7 +243,7 @@ class HTML_admin_misc
 								echo '</li>';
 							} else {
 								echo '<li>';
-								echo mosHTML::Link($mainframe->getBaseURL() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
+								echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							}
 						}
@@ -265,7 +265,7 @@ class HTML_admin_misc
 					<?php
 				} else {
 					?>
-					<iframe name="helpFrame" src="<?php echo $mainframe->getBaseURL() .'/help/' .$lang->getTag(). '/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
+					<iframe name="helpFrame" src="<?php echo JURI::base() .'/help/' .$lang->getTag(). '/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
 					<?php
 				}
 				?>

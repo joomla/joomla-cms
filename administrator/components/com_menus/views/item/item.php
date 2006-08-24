@@ -29,7 +29,7 @@ class JMenuViewItem extends JView
 	function edit()
 	{
 		global $mainframe;
-		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		$document	= & JFactory::getDocument();

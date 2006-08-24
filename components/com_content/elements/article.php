@@ -37,7 +37,7 @@ class JElement_Article extends JElement
 		$db			=& JFactory::getDBO();
 		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
-		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$fieldName	= $control_name.'['.$name.']';
 		$article =& JTable::getInstance('content', $db);
 		if ($value) {

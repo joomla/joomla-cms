@@ -45,7 +45,7 @@ class JContentViewElement extends JView
 		global $mainframe;
 
 		// Initialize variables
-		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$db			= &JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 

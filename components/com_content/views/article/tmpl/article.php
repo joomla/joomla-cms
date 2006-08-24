@@ -79,7 +79,7 @@ defined('_JEXEC') or die('Restricted access');
 		// Time to build the title bar... this may also include the pdf/print/email buttons if enabled
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
 			// Build the link for the print button
-			$printLink = $mainframe->getBaseURL().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
+			$printLink = JURI::base().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>

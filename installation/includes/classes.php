@@ -165,7 +165,7 @@ class JInstallationController
 		/*
 		 * Instantiate the xajax object and register the functions
 		 */
-		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
+		$xajax = new xajax(JURI::base().'includes/jajax.php');
 		$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
 		$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
 //		$xajax->debugOn();
@@ -302,7 +302,7 @@ class JInstallationController
 		/*
 		 * Instantiate the xajax object and register the function
 		 */
-		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
+		$xajax = new xajax(JURI::base().'includes/jajax.php');
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		//$xajax->debugOn();
 
@@ -347,7 +347,7 @@ class JInstallationController
 		/*
 		 * Instantiate the xajax object and register the function
 		 */
-		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
+		$xajax = new xajax(JURI::base().'includes/jajax.php');
 		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 //		$xajax->debugOn();
 		$xajax->errorHandlerOn();

@@ -126,7 +126,7 @@ class RegistrationController
 			return;
 		}
 	
-		$siteURL 	= $mainframe->getBaseURL();
+		$siteURL 	= JURI::base();
 		$sitename 	= $mainframe->getCfg('sitename');
 		$db 		=& JFactory::getDBO();
 	
@@ -187,7 +187,7 @@ class RegistrationController
 			return;
 		}
 	
-		$siteURL 	= $mainframe->getBaseURL();
+		$siteURL 	= JURI::base();
 		$sitename 	= $mainframe->getCfg('sitename');
 		$db 		=& JFactory::getDBO();
 	
@@ -412,7 +412,7 @@ class RegistrationController
 		$useractivation = $mainframe->getCfg( 'useractivation' );
 		$mailfrom 		= $mainframe->getCfg( 'mailfrom' );
 		$fromname 		= $mainframe->getCfg( 'fromname' );
-		$siteURL		= $mainframe->getBaseURL();
+		$siteURL		= JURI::base();
 		
 		$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $sitename);
 		$subject 	= html_entity_decode($subject, ENT_QUOTES);

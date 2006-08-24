@@ -226,7 +226,7 @@ class JTemplatesView {
 		global $mainframe;
 
 		$tp = intval($showPositions);
-		$url = $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
+		$url = $client->id ? JURI::base() : $mainframe->getSiteURL();
 ?>
 		<style type="text/css">
 		.previewFrame {

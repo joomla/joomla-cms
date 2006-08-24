@@ -26,7 +26,7 @@ function pluginPagebreakButton()
 
 	$doc = & JFactory::getDocument();
 	$template = $mainframe->getTemplate();
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 	// button is not active in specific content components
 	switch ( $option ) {
 		case 'com_sections':

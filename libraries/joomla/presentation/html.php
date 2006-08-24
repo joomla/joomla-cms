@@ -426,7 +426,7 @@ class mosHTML {
 
 		$title 		= JText::_( 'Joomla Warning' );
 		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
-		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$tip 		 = '<!--'. $title .'-->';
 		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
@@ -887,7 +887,7 @@ class mosCommonHTML {
 	{
 		global $mainframe;
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
@@ -910,7 +910,7 @@ class mosCommonHTML {
 		global $mainframe;
 
 		$doc =& JFactory::getDocument();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
 		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );

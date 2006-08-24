@@ -295,7 +295,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
 
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';

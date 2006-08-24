@@ -187,7 +187,7 @@ class JContactControllerDefault extends JController
 		}
 
 		// Prepare email body
-		$prefix = sprintf(JText::_('ENQUIRY_TEXT'), $mainframe->getBaseURL());
+		$prefix = sprintf(JText::_('ENQUIRY_TEXT'), JURI::base());
 		$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 		$mail = new JMail();
@@ -299,7 +299,7 @@ class JContactControllerDefault extends JController
 			$v->setAddress('', '', $contact->address, $contact->suburb, $contact->state, $contact->postcode, $contact->country, 'WORK;POSTAL');
 			$v->setEmail($contact->email_to);
 			$v->setNote($contact->misc);
-			$v->setURL( $mainframe->getBaseURL(), 'WORK');
+			$v->setURL( JURI::base(), 'WORK');
 			$v->setTitle($contact->con_position);
 			$v->setOrg($SiteName);
 

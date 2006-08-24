@@ -39,7 +39,7 @@ if (is_int(strpos($folder, "..")) && $folder != '') {
 
 define( 'JPATH_COM_MEDIA', dirname( __FILE__ ));
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
-define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : $mainframe->getBaseURL().'images');
+define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : JURI::base().'images');
 
 require_once( JPATH_COM_MEDIA . '/media.helper.php' );
 
@@ -273,7 +273,7 @@ class JMediaController
 		$folderSelect = mosHTML::selectList($folders, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"document.imagemanager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $listFolder);
 
 		//attach stylesheet to document
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');

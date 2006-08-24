@@ -70,7 +70,7 @@ class WeblinksViewCategory extends JView
 		$this->params->set( 'type', 'category' );
 		
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$this->request->catid.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$this->request->catid.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

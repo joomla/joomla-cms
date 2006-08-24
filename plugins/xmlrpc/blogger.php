@@ -102,7 +102,7 @@ function getUserBlogs($msg)
 	$structarray = array();
 
 	$blog = new xmlrpcval(array(
-	    'url'      => new xmlrpcval($mainframe->getBaseURL(), $xmlrpcString),
+	    'url'      => new xmlrpcval(JURI::base(), $xmlrpcString),
 	    'blogid'   => new xmlrpcval('1', $xmlrpcString),
 	    'blogName' => new xmlrpcval('Joomla Articles', $xmlrpcString)
 	  ), 'struct');

@@ -54,7 +54,7 @@ class JEditor_tinymce extends JPlugin {
 		$db		  =& JFactory::getDBO();
 		$language =& JFactory::getLanguage();
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
 		$id		= $plugin->id;

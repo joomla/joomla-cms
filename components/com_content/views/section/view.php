@@ -82,7 +82,7 @@ class JContentViewSection extends JView
 		$menu	= &$menus->getItem($Itemid);
 
 		//add alternate feed link
-		$link    = $mainframe->getBaseURL() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$doc->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
