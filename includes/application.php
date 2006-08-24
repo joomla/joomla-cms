@@ -312,6 +312,8 @@ class JSiteHelper
 		$result = &$menu->getItem( $itemid );
 		if ($result == false) {
 			$result = JTable::getInstance( 'menu', JFactory::getDBO() );
+			$result->cParams = new JParameter( '' );
+			$result->mParams = new JParameter( '' );
 		}
 		return $result;
 	}
