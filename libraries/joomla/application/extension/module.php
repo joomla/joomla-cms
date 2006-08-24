@@ -72,6 +72,7 @@ class JModuleHelper
 
 	function renderModule($module, $params = array())
 	{
+		static $chrome;
 		global $mainframe, $Itemid, $option;
 
 		// Initialize variables
@@ -105,7 +106,7 @@ class JModuleHelper
 		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists( $path )) {
+		if (!$module->user /*&& file_exists( $path ) TODO: move path checks to admin, this is expensive*/) {
 			$lang =& JFactory::getLanguage();
 			$lang->load($module->module);
 
@@ -116,10 +117,17 @@ class JModuleHelper
 		}
 
 		// Load the module chrome functions
+		if (!$chrome) {
+			$chrome = array();
+		}
 		require_once (JPATH_BASE.'/modules/templates/modules.php');
 		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/modules.php';
-		if (file_exists($chromePath)) {
-			require_once ($chromePath);
+		if (!isset( $chrome[$chromePath]))
+		{
+			if (file_exists($chromePath)) {
+				require_once ($chromePath);
+			}
+			$chrome[$chromePath] = true;
 		}
 
 		// Select the module chrome function

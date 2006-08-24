@@ -444,7 +444,7 @@ class JContentController extends JController
 		if ($isNew)
 		{
 			// messaging for new items
-			require_once (JApplicationHelper::getPath('class', 'com_messages'));
+			require_once (JPATH_ADMINISTRATOR.'/components/com_messages/tables/message.php');
 			$query = "SELECT id" .
 					"\n FROM #__users" .
 					"\n WHERE sendEmail = 1";
@@ -533,7 +533,7 @@ class JContentController extends JController
 	 */
 	function emailform000()	// replaced by com_mailto
 	{
-		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+		require_once (JPATH_COM_CONTENT . '/views/archive/view.php');
 		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
 		return true;
 

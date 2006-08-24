@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // require the component helper
-require_once (JApplicationHelper::getPath('helper', 'com_content'));
+require_once (JPATH_SITE . '/components/com_content/content.helper.php');
 
 /**
  * Frontpage Component Model

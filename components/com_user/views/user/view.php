@@ -59,7 +59,7 @@ class UserViewUser extends JView
 		$check = $mainframe->getCfg('frontend_userparams');
 		if ($check == '1' || $check == 1 || $check == NULL) {
 			$params = $this->user->getParameters();
-			$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
+			$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users.xml');
 		}
 
 		$this->_loadTemplate('edit');

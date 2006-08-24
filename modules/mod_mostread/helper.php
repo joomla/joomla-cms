@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JApplicationHelper::getPath('helper', 'com_content'));
+require_once (JPATH_SITE . '/components/com_content/content.helper.php');
 
 class modMostReadHelper
 {

@@ -240,14 +240,24 @@ class JView extends JObject
 	 */
 	function _loadTemplate( $template )
 	{
+		static $paths;
 		global $mainframe, $Itemid, $option;
+
+		if (!$paths)
+		{
+			$paths = array();
+		}
 
 		// Initialize variables
 		$return = true;
 
 		// If a template override exists in the theme folder, then we include it, otherwise we use the base.
 		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_viewName.DS.strtolower($template).'.php';
-		if (file_exists( $tPath ))
+		if (!isset( $paths[$tPath] ))
+		{
+			$paths[$tPath] = file_exists( $tPath );
+		}
+		if ($paths[$tPath])
 		{
 			require( $tPath );
 		}
@@ -257,7 +267,11 @@ class JView extends JObject
 			$path = $this->_templatePath.strtolower($template).'.php';
 
 			// If the default view file exists include it and try to instantiate the object
-			if (file_exists( $path ))
+			if (!isset( $paths[$path] ))
+			{
+				$paths[$path] = file_exists( $path );
+			}
+			if ($paths[$path])
 			{
 				require( $path );
 			}

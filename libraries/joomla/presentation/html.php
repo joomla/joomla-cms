@@ -1506,7 +1506,13 @@ class mosAdminMenus
 	* load the default or use no image
 	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
+		static $paths;
 		global $mainframe;
+
+		if (!$paths)
+		{
+			$paths = array();
+		}
 
 		$cur_template = $mainframe->getTemplate();
 
@@ -1521,12 +1527,17 @@ class mosAdminMenus
 		} else if ( $param == -1 ) {
 			$image = '';
 		} else {
-			if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = 'templates/'. $cur_template .'/images/'. $file;
-			} else {
-				// outputs only path to image
-				$image = $directory . $file;
+			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
+			if (!isset( $paths[$path] ))
+			{
+				if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
+					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
+				} else {
+					// outputs only path to image
+					$paths[$path] = $directory . $file;
+				}
 			}
+			$image = $paths[$path];
 		}
 
 		if (substr($image, 0, 1 ) == "/") {

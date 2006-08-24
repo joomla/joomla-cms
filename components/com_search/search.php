@@ -155,7 +155,7 @@ class SearchController
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
 
-		require_once (JApplicationHelper::getPath('helper', 'com_content'));
+		require_once (JPATH_SITE . '/components/com_content/content.helper.php');
 		$total = count( $rows );
 
 		for ($i=0; $i < $total; $i++)

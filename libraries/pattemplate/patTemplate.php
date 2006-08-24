@@ -1450,6 +1450,15 @@ class patTemplate
 	*/
 	function moduleExists( $moduleType, $moduleName )
 	{
+		// !!!JOOMLA VARIATION!!!
+		// cache checks on files
+		static $paths;
+
+		if (!$paths)
+		{
+			$paths = array();
+		}
+
 		if (isset($this->_moduleDirs[$moduleType])) {
 			$dirs = $this->_moduleDirs[$moduleType];
 		} else {
@@ -1459,10 +1468,21 @@ class patTemplate
 
 		foreach ($dirs as $dir) {
 			$moduleFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $moduleName ) );
-			if (!file_exists($moduleFile)) {
-				continue;
+			if (!isset( $paths[$moduleFile] ))
+			{
+				if (!file_exists($moduleFile)) {
+					$paths[$moduleFile] = false;
+				}
+				else if (!is_readable($moduleFile)) {
+					$paths[$moduleFile] = false;
+				}
+				else
+				{
+					$paths[$moduleFile] = true;
+				}
 			}
-			if (!is_readable($moduleFile)) {
+			
+			if (!$paths[$moduleFile]) {
 				continue;
 			}
 			return true;
