@@ -201,17 +201,32 @@ class JLanguage extends JObject
 	 */
 	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
+		static $paths;
+
+		if (!isset($paths))
+		{
+			$paths = array();
+		}
+
         $path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
+		$filename = $path . $filename .'.ini';
 
 		$result = false;
-
-		$newStrings = $this->_load( $path . $filename .'.ini' );
-
-		if (is_array($newStrings)) {
-			$this->_strings = array_merge( $this->_strings, $newStrings);
+		if (isset( $paths[$filename] ))
+		{
 			$result = true;
+		}
+		else
+		{
+			$paths[$filename] = true;
+			$newStrings = $this->_load( $filename );
+	
+			if (is_array($newStrings)) {
+				$this->_strings = array_merge( $this->_strings, $newStrings);
+				$result = true;
+			}
 		}
 
 		return $result;
