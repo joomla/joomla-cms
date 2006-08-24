@@ -151,22 +151,40 @@ class JPluginHelper
 	 */
 	function _import( $folder, $element, $published, $params='' )
 	{
-		global $_MAMBOTS, $mainframe; //needed for backwards compatibility
+		static $paths;
 
-		$path = JPATH_ROOT.DS.'plugins'.DS.$folder.DS.$element.'.php';
-
-		$result = false;
-
-		if (file_exists( $path ))
+		if (!$paths)
 		{
-			require_once( $path );
-			$result = true;
-
-			$lang =& JFactory::getLanguage();
-			$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
+			$paths = array();
 		}
 
-		return $result;
+		$result	= false;
+		$path	= JPATH_ROOT.DS.'plugins'.DS.$folder.DS.$element.'.php';
+
+		if (isset( $paths[$path] ))
+		{
+			$result = $paths[$path];
+		}
+		else
+		{
+			if (file_exists( $path ))
+			{
+				//needed for backwards compatibility
+				global $_MAMBOTS, $mainframe; 
+
+				require $path;
+
+				$lang =& JFactory::getLanguage();
+				$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
+
+				$paths[$path] = true;
+			}
+			else
+			{
+				$paths[$path] = false;
+			}
+		}
+		return $paths[$path];
 	}
 
 	/**
