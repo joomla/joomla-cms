@@ -18,16 +18,16 @@ if(!defined('DS')) {
 
 class JLoader
 {
-    /**
-    * Loads a class from specified directories.
-    *
-    * @param string $name The class name to look for.
-    * @param string|array $dirs Search these directories for the class.
-    * @return void
-    * @since 1.5
-    */
-    function import( $filePath )
-   {
+	 /**
+	 * Loads a class from specified directories.
+	 *
+	 * @param string $name The class name to look for.
+	 * @param string|array $dirs Search these directories for the class.
+	 * @return void
+	 * @since 1.5
+	 */
+	function import( $filePath )
+	{
 		static $paths;
 
 		if (!isset($paths))
@@ -66,47 +66,46 @@ class JLoader
 		return true;
 	}
 
+	/**
+	 * A common object factory.
+	 *
+	 * Assumes that the class constructor takes only one parameter, an associative array of
+	 * construction options. Attempts to load the class automatically.
+	 *
+	 * @access public
+	 * @param string $class The class name to instantiate.
+	 * @param array $options An associative array of options (default null).
+	 * @return object An object instance.
+	 */
+	function &factory($class, $options = null)
+	{
+		JLoader::import($class);
+		$obj = new $class($options);
+		return $obj;
+	}
 
-   /**
-    * A common object factory.
-    *
-    * Assumes that the class constructor takes only one parameter, an associative array of
-    * construction options. Attempts to load the class automatically.
-    *
-    * @access public
-    * @param string $class The class name to instantiate.
-    * @param array $options An associative array of options (default null).
-    * @return object An object instance.
-    */
-   function &factory($class, $options = null)
-   {
-       JLoader::import($class);
-       $obj = new $class($options);
-       return $obj;
-   }
-
-   /**
-    * Custom require_once function to improve preformance
-    *
-    * @access private
-    * @param string $file The path to the file to include
-    * @since 1.5
-    * @see require_once
-    *
-    */
-   function _requireOnce( $file )
-   {
+	/**
+	 * Custom require_once function to improve preformance
+	 *
+	 * @access private
+	 * @param string $file The path to the file to include
+	 * @since 1.5
+	 * @see require_once
+	 *
+	 */
+	function _requireOnce( $file )
+	{
 		static $paths;
 
 		if (!isset($paths)) {
 			$paths = array();
 		}
 
-	   if(!isset($paths[$file])) {
-            require($file);
+		if(!isset($paths[$file])) {
+				require($file);
 			$paths[$file] = true;
-	   }
-   }
+		}
+	}
 }
 
 /**
