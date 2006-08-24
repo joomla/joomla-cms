@@ -28,28 +28,40 @@ class JLoader
     */
     function import( $filePath )
    {
-		$parts = explode( '.', $filePath );
+		static $paths;
 
-		$base =  dirname( __FILE__ );
-
-		if(array_pop( $parts ) == '*')
+		if (!isset($paths))
 		{
-			$path = $base . DS . implode( DS, $parts );
+			$paths = array();
+		}
 
-			if (!is_dir( $path )) {
-				return false;
-			}
+		if (!isset($paths[$filePath]))
+		{
+			$paths[$filePath] = true;
 
-			$dir = dir( $path );
-			while ($file = $dir->read()) {
-				if (ereg( '\.php$', $file )) {
-					JLoader::_requireOnce($path . DS . $file);
+			$parts = explode( '.', $filePath );
+
+			$base =  dirname( __FILE__ );
+
+			if(array_pop( $parts ) == '*')
+			{
+				$path = $base . DS . implode( DS, $parts );
+
+				if (!is_dir( $path )) {
+					return false;
 				}
+
+				$dir = dir( $path );
+				while ($file = $dir->read()) {
+					if (ereg( '\.php$', $file )) {
+						require $path . DS . $file;
+					}
+				}
+				$dir->close();
+			} else {
+				$path = str_replace( '.', DS, $filePath );
+				require $base . DS . $path . '.php';
 			}
-			$dir->close();
-		} else {
-			$path = str_replace( '.', DS, $filePath );
-			JLoader::_requireOnce($base . DS . $path . '.php');
 		}
 		return true;
 	}
