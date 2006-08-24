@@ -104,25 +104,26 @@ class JRegistry extends JObject
 		// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
 
-		// Get the namespace
-		$namespace = array_shift($nodes);
-
-		if (!isset($this->_registry[$namespace])) {
-			return null;
+		$n = count( $nodes );
+		
+		if ($n > 1)
+		{
+			// Get the namespace
+			$namespace = $nodes[0];
+			
+			if (isset($this->_registry[$namespace])) {
+				$ns = & $this->_registry[$namespace]['data'];
+				$pathNodes = $n - 2;
+		
+				for ($i = 1; $i < $pathNodes; $i ++) {
+					$ns =& $ns->$nodes[$i];
+				}
+				if(isset($ns->$nodes[$i])) {
+					return $ns->$nodes[$i];
+				}
+			}
 		}
-
-		$ns = & $this->_registry[$namespace]['data'];
-		$pathNodes = count($nodes) - 1;
-
-		for ($i = 0; $i < $pathNodes; $i ++) {
-			$ns =& $ns->$nodes[$i];
-		}
-
-		if(!isset($ns->$nodes[$i])) {
-			return null;
-		}
-
-		return $ns->$nodes[$i++];
+		return null;
 	}
 
 	/**
