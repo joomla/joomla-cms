@@ -325,14 +325,8 @@ class JSiteHelper
 	 */
 	function &getMenuParams()
 	{
-		static $instance;
-
-		if ($instance == null)
-		{
-			$item		= &JSiteHelper::getCurrentMenuItem();
-			$instance	= new JParameter( $item->params );
-		}
-		return $instance;
+		$item = &JSiteHelper::getCurrentMenuItem();
+		return $item->mParams;
 	}
 
 	/**
@@ -344,14 +338,8 @@ class JSiteHelper
 	 */
 	function &getControlParams()
 	{
-		static $instance;
-
-		if ($instance == null)
-		{
-			$item		= &JSiteHelper::getCurrentMenuItem();
-			$instance	= new JParameter( $item->control );
-		}
-		return $instance;
+		$item = &JSiteHelper::getCurrentMenuItem();
+		return $item->cParams;
 	}
 	
 	/**
