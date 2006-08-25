@@ -1,4 +1,4 @@
-<form action="<?php echo JURI::base('index.php'); ?>" method="post" name="josForm">
+<form action="<?php echo JURI::resolve('index.php'); ?>" method="post" name="josForm">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Lost your Password?' ); ?>
@@ -41,3 +41,4 @@
 <input type="hidden" name="task" value="sendreminder" />
 <input type="hidden" name="option" value="com_registration" />
 <input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
+</form>

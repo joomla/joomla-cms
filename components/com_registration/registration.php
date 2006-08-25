@@ -161,7 +161,7 @@ class RegistrationController
 			// Send the new password email
 			JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $user->email, $subject, $message);
 
-			$mainframe->redirect( 'index.php?option=com_registration&Itemid='.$Itemid, JText::_( 'New User Password created and sent!' ) );
+			$mainframe->redirect( 'index.php', JText::_( 'New User Password created and sent!' ) );
 		} else {
 			// No username... do we have an email address?
 			if ($email) {
@@ -183,7 +183,7 @@ class RegistrationController
 				// Send the username reminder email
 				JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $email, $subject, $message);
 		
-				$mainframe->redirect( 'index.php?option=com_registration&Itemid='.$Itemid, JText::_( 'Username resent' ) );
+				$mainframe->redirect( 'index.php', JText::_( 'Username resent' ) );
 			} else {
 				// We have nothing ... send fail
 				$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
