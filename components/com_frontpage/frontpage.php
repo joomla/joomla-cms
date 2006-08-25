@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
-
 // require the content helper
 require_once (JPATH_SITE . '/components/com_content/content.helper.php');
 
@@ -66,13 +64,13 @@ class FrontpageController
 		$menu   =& $menus->getItem($Itemid);
 		$params =& $menus->getParams($Itemid);
 
-		require_once (JPATH_COM_FRONTPAGE.DS.'models'.DS.'frontpage.php');
+		require_once (JPATH_COMPONENT.DS.'models'.DS.'frontpage.php');
 		$model = new ModelFrontpage($params);
 
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		require_once (JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'frontpage'.DS.'view.php');
 		$view = new FrontpageViewFrontpage();
 
 		$view->setModel($model, true);

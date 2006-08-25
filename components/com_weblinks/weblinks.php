@@ -15,8 +15,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-define( 'JPATH_COM_WEBLINKS', dirname( __FILE__ ));
-
 // Set the table directory
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'tables');
 
@@ -122,7 +120,7 @@ class WeblinksController
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
-		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'categories'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'view.php');
 		$view = new WeblinksViewCategories();
 
 		$data = new stdClass();
@@ -226,7 +224,7 @@ class WeblinksController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'category'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'view.php');
 		$view = new WeblinksViewCategory();
 
 		$request = new stdClass();
@@ -390,7 +388,7 @@ class WeblinksController
 		// build list of categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
-		require_once (JPATH_COM_WEBLINKS.DS.'views'.DS.'weblink'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.php');
 		$view = new WeblinksView();
 
 		$request = new stdClass();

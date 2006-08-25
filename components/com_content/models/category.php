@@ -15,7 +15,7 @@
 jimport('joomla.application.model');
 
 // Article helper
-require_once (JPATH_COM_CONTENT . '/helpers/article.php');
+require_once (JPATH_COMPONENT . '/helpers/article.php');
 
 /**
  * Content Component Category Model

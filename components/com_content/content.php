@@ -15,10 +15,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-define( 'JPATH_COM_CONTENT', dirname( __FILE__ ) );
-
 // Require the com_content helper library
-require_once (JPATH_COM_CONTENT . '/controller.php');
+require_once (JPATH_COMPONENT . '/controller.php');
 require_once (JPATH_SITE . '/components/com_content/content.helper.php');
 
 // Component Helper

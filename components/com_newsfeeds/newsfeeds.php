@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_NEWSFEEDS', dirname( __FILE__ ));
-
 // Set the table directory
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS.'tables');
 
@@ -114,7 +112,7 @@ class NewsfeedsController
 		$db->setQuery( $query );
 		$categories = $db->loadObjectList();
 
-		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'categories'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'view.php');
 
 		$view = new NewsfeedsViewCategories();
 
@@ -219,7 +217,7 @@ class NewsfeedsController
 		// Add breadcrumb item per category
 		$pathway->addItem($category->name, '');
 
-		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'category'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'view.php');
 		$view = new NewsfeedsViewCategory();
 
 		$request = new stdClass();
@@ -330,7 +328,7 @@ class NewsfeedsController
 		// Add breadcrumb item per category
 		$pathway->addItem($newsfeed->name, '');
 
-		require_once (JPATH_COM_NEWSFEEDS.DS.'views'.DS.'newsfeed'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'newsfeed'.DS.'view.php');
 		$view = new NewsfeedsViewNewsfeed();
 
 		$request = new stdClass();

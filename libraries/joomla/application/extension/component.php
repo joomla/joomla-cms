@@ -114,10 +114,14 @@ class JComponentHelper
 		if(empty($component)) {
 			return false;
 		}
-
+		
 		// Build the component path
 		$file = substr( $component, 4 );
 		$path = JPATH_BASE.DS.'components'.DS.$component;
+		
+		// Define component path
+		define( 'JPATH_COMPONENT', $path);
+
 		if(is_file($path.DS.$file.'.php')) {
 			$path = $path.DS.$file.'.php';
 		} else {

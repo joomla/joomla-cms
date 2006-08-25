@@ -33,7 +33,7 @@ class BannerController extends JController
 }
 
 $controller = new BannerController( 'click' );
-$controller->setModelPath( dirname( __FILE__ ) . '/models' );
+$controller->setModelPath( JPATH_COMPONENT . '/models' );
 $controller->execute( $task );
 $controller->redirect();
 ?>

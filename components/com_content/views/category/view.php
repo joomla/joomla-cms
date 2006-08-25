@@ -388,13 +388,13 @@ class JContentViewCategory extends JView
 
 	function showItem( &$row, &$access, $showImages = false )
 	{
-		require_once( JPATH_COM_CONTENT . '/helpers/article.php' );
+		require_once( JPATH_COMPONENT . '/helpers/article.php' );
 		JContentArticleHelper::showItem( $this, $row, $access, $showImages );
 	}
 
 	function showLinks(& $rows, $links, $total, $i = 0)
 	{
-		require_once( JPATH_COM_CONTENT . '/helpers/article.php' );
+		require_once( JPATH_COMPONENT . '/helpers/article.php' );
 		JContentArticleHelper::showLinks( $rows, $links, $total, $i );
 	}
 

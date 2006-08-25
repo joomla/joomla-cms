@@ -15,18 +15,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('JPATH_COM_MAILTO', dirname( __FILE__ ));
-
 jimport('joomla.application.extension.component');
 
-require_once( JPATH_COM_MAILTO . '/controller.php' );
+require_once( JPATH_COMPONENT . '/controller.php' );
 
 $mParams =& JSiteHelper::getMenuParams();
 
 $viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'form' ) );
 $controller	= new MailtoController( 'display' );
 
-$controller->setViewPath( JPATH_COM_MAILTO . '/views' );
+$controller->setViewPath( JPATH_COMPONENT. '/views' );
 
 // get view name from URL or menu params
 $controller->setViewName( $viewName, 'MailtoView' );

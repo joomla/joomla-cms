@@ -533,7 +533,7 @@ class JContentController extends JController
 	 */
 	function emailform000()	// replaced by com_mailto
 	{
-		require_once (JPATH_COM_CONTENT . '/views/archive/view.php');
+		require_once (JPATH_COMPONENT . '/views/archive/view.php');
 		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
 		return true;
 

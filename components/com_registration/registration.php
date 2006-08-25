@@ -14,8 +14,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_REGISTRATION', dirname( __FILE__ ));
-
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
 
@@ -88,7 +86,7 @@ class RegistrationController
 	  	$pathway->addItem( JText::_( 'New' ));
 
 		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
 		$view = new RegistrationViewRegistration();
 		$view->user = JFactory::getUser();
 
@@ -105,7 +103,7 @@ class RegistrationController
 		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
 
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
 		$view = new RegistrationViewRegistration();
 
 		$view->displayPasswordForm();
@@ -277,7 +275,7 @@ class RegistrationController
 		}
 
 		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'registration.php');
 		$view = new RegistrationViewRegistration();
 		$view->set('user', $user);
 		$message = new stdClass();
@@ -349,7 +347,7 @@ class RegistrationController
 		}
 
 		// create the view
-		require_once (JPATH_COM_REGISTRATION.DS.'views'.DS.'registration'.DS.'registration.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'registration.php');
 		$view = new RegistrationViewRegistration();
 
 		$message = new stdClass();

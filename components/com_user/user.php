@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_USER', dirname( __FILE__ ));
-
 /*
  * This is our main control structure for the component
  *
@@ -67,7 +65,7 @@ class UserController
 		$pathway =& $mainframe->getPathWay();
 		$pathway->setItemName(1, 'User');
 
-		require_once (JPATH_COM_USER.DS.'views'.DS.'user'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
 
 		$request = new stdClass();
@@ -101,7 +99,7 @@ class UserController
 		$pathway->setItemName(1, 'User');
 		$pathway->addItem( $menu->name, '' );
 
-		require_once (JPATH_COM_USER.DS.'views'.DS.'user'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
 
 		$request = new stdClass();

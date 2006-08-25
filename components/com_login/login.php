@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_LOGIN', dirname( __FILE__ ));
-
 /*
  * This is our main control structure for the component
  *
@@ -97,7 +95,7 @@ class LoginController
 			$document->setTitle( $title );
 		}
 
-		require_once (JPATH_COM_LOGIN.DS.'views'.DS.'login'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'login'.DS.'view.php');
 		$view = new LoginViewLogin();
 
 		$view->set('params', $params);

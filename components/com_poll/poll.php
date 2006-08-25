@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_POLL', dirname( __FILE__ ));
-
 // Set the table directory
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_poll'.DS.'tables');
 
@@ -142,7 +140,7 @@ class PollController
 			$poll->id
 			);
 
-		require_once (JPATH_COM_POLL.DS.'views'.DS.'poll'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php');
 		$view = new PollViewPoll();
 
 		$data = new stdClass();
@@ -199,7 +197,7 @@ class PollController
 
 		setcookie( $cookieName, '1', time() + $poll->lag );
 
-		require_once(JPATH_COM_POLL.DS.'models'.DS.'poll.php');
+		require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
 		$model = new ModelPolls();
 		$model->addVote( $poll_id, $option_id );
 

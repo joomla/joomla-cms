@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_WRAPPER', dirname( __FILE__ ));
-
 /*
  * This is our main control structure for the component
  *
@@ -95,7 +93,7 @@ class WrapperController
 			$row->load = '';
 		}
 
-		require_once (JPATH_COM_WRAPPER.DS.'views'.DS.'wrapper'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'view.php');
 		$view = new WrapperViewWrapper();
 
 		$view->set('params'  , $params);
