@@ -32,8 +32,6 @@ class RegistrationViewRegistration extends JView
 
 	function displayPasswordForm()
 	{
-		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
-
 		$this->_loadTemplate('lostpass');
 	}
 
@@ -43,8 +41,6 @@ class RegistrationViewRegistration extends JView
 		$doc->addScript('includes/js/joomla/common.js');
 		$doc->addScript('includes/js/joomla/validation.js');
 
-		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
-
 		$this->_loadTemplate('register');
 	}
 
@@ -52,8 +48,5 @@ class RegistrationViewRegistration extends JView
 	{
 		$this->_loadTemplate('message');
 	}
-
-
-
 }
 ?>

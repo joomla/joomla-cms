@@ -22,7 +22,7 @@ $breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
  *
  * Each view is determined by the $task variable
  */
-switch( JRequest::getVar( 'task' ) )
+switch( JRequest::getVar('task') )
 {
 	case 'lostPassword':
 		RegistrationController::displayPasswordForm();
@@ -32,13 +32,8 @@ switch( JRequest::getVar( 'task' ) )
 		RegistrationController::displayRegisterForm();
 		break;
 
-	case 'sendNewPass':
-		$userunknown	= JRequest::getVar( 'userunkown', 0, 'post', 'integer' );
-		if( $userunknown == 1 ) {
-			RegistrationController::resendUser();
-		} else {
-			RegistrationController::sendNewPass();
-		}
+	case 'sendreminder':
+		RegistrationController::sendReminder();
 		break;
 
 	case 'save':
@@ -110,13 +105,14 @@ class RegistrationController
 	}
 
 	/**
-	 * Sends a new password to the email adress
-	 * @return void
-	 *
+	 * Sends a new password or username reminder to a verified user
+	 * 
+	 * @return	void
+	 * @since	1.5
 	 */
-	function sendNewPass()
+	function sendReminder()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
@@ -124,97 +120,76 @@ class RegistrationController
 			return;
 		}
 
+		// Initialize variables
 		$siteURL 	= JURI::base();
-		$sitename 	= $mainframe->getCfg('sitename');
+		$config		=& JFactory::getConfig();
 		$db 		=& JFactory::getDBO();
 
-		// ensure no malicous sql gets past
-		$checkusername	= JRequest::getVar( 'checkusername', '', 'post' );
-		$checkusername	= $db->getEscaped( $checkusername );
-		$confirmEmail	= JRequest::getVar( 'confirmEmail', '', 'post' );
-		$confirmEmail	= $db->getEscaped( $confirmEmail );
+		// Get the request variables from the post
+		$username	= JRequest::getVar( 'jusername', '', 'post' );
+		$email		= JRequest::getVar( 'jemail', '', 'post' );
 
-		$query = "SELECT id"
-		. "\n FROM #__users"
-		. "\n WHERE username = '$checkusername'"
-		. "\n AND email = '$confirmEmail'"
-		;
-		$db->setQuery( $query );
-		if (!($user_id = $db->loadResult()) || !$checkusername || !$confirmEmail) {
-			$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+		if ($username) {
+			// We have a username ... send a new password
+			$query = "SELECT id, email" .
+					"\n FROM #__users" .
+					"\n WHERE username = '".$db->getEscaped($username)."'";
+			$db->setQuery( $query );
+			if (!($user = $db->loadObject()) || !$username) {
+				$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
+			}
+
+			// Generate new password
+			jimport('joomla.application.user.authenticate');
+			$newpass = JAuthenticateHelper::genRandomPassword();
+
+			// Set new password for the user
+			$query = "UPDATE #__users" .
+					"\n SET password = '".md5($newpass)."'" .
+					"\n WHERE id = ".$user->id;
+			$db->setQuery( $query );
+			if (!$db->query()) {
+				JError::raiseError( 404, JText::_('SQL error' ) . $db->stderr(true));
+			}
+
+			// Build the email body and subject
+			$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $username, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
+			eval ("\$message = \"$message\";");
+			$subject = sprintf( JText::_( 'New password for' ), $config->getValue('config.sitename'), $username );
+			eval ("\$subject = \"$subject\";");
+
+			// Send the new password email
+			JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $user->email, $subject, $message);
+
+			$mainframe->redirect( 'index.php?option=com_registration&Itemid='.$Itemid, JText::_( 'New User Password created and sent!' ) );
+		} else {
+			// No username... do we have an email address?
+			if ($email) {
+				// We have an email address ... is it a valid one?
+				$query = "SELECT username" .
+						"\n FROM #__users" .
+						"\n WHERE email = '".$db->getEscaped($email)."'";
+				$db->setQuery( $query );
+				if (!($username = $db->loadResult()) || !$email) {
+					$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
+				}
+
+				// Build the email body and subject
+				$message = sprintf( JText::_( 'RESEND_MAIL_MSG' ), $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
+				eval ("\$message = \"$message\";");
+				$subject = sprintf( JText::_( 'Resend username for' ), $config->getValue('config.sitename') );
+				eval ("\$subject = \"$subject\";");
+
+				// Send the username reminder email
+				JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $email, $subject, $message);
+		
+				$mainframe->redirect( 'index.php?option=com_registration&Itemid='.$Itemid, JText::_( 'Username resent' ) );
+			} else {
+				// We have nothing ... send fail
+				$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
+			}
 		}
-
-		jimport('joomla.application.user.authenticate');
-		$newpass = JAuthenticateHelper::genRandomPassword();
-		$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
-
-		eval ("\$message = \"$message\";");
-		$subject = sprintf( JText::_( 'New password for' ), $sitename, $checkusername );
-		eval ("\$subject = \"$subject\";");
-
-		$mailfrom = $mainframe->getCfg( 'mailfrom' );
-		$fromname = $mainframe->getCfg( 'fromname' );
-		JUtility::sendMail($mailfrom, $fromname, $confirmEmail, $subject, $message);
-
-		$newpass = md5( $newpass );
-		$sql = "UPDATE #__users"
-		. "\n SET password = '$newpass'"
-		. "\n WHERE id = $user_id"
-		;
-		$db->setQuery( $sql );
-		if (!$db->query()) {
-			JError::raiseError( 404, JText::_('SQL error' ) . $db->stderr(true));
-		}
-
-		$mainframe->redirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
 	}
-
-	/**
-	 * Resends the user details if a user with the email adress can be found
-	 * @return void
-	 */
-	function resendUser()
-	{
-		global $mainframe;
-
-		/*
-		 * Protect against simple spoofing attacks
-		 */
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
-
-		$siteURL 	= JURI::base();
-		$sitename 	= $mainframe->getCfg('sitename');
-		$db 		=& JFactory::getDBO();
-
-		// ensure no malicous sql gets past
-		$confirmEmail	= JRequest::getVar( 'confirmEmail', '', 'post' );
-		$confirmEmail	= $db->getEscaped( $confirmEmail );
-
-		$query = "SELECT username"
-		. "\n FROM #__users"
-		. "\n WHERE email = '$confirmEmail'"
-		;
-		$db->setQuery( $query );
-		if (!($username = $db->loadResult()) || !$confirmEmail) {
-			$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
-		}
-
-		$message = sprintf( JText::_( 'RESEND_MAIL_MSG' ), $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
-
-		eval ("\$message = \"$message\";");
-		$subject = sprintf( JText::_( 'Resend username for' ), $sitename );
-		eval ("\$subject = \"$subject\";");
-
-		$mailfrom = $mainframe->getCfg( 'mailfrom' );
-		$fromname = $mainframe->getCfg( 'fromname' );
-		JUtility::sendMail($mailfrom, $fromname, $confirmEmail, $subject, $message);
-
-		$mainframe->redirect( 'index.php?option=com_registration', JText::_( 'Username resend' ) );
-	}
-
 
 	/**
 	 * Save user registration and notify users and admins if required
@@ -395,7 +370,6 @@ class RegistrationController
 		global $mainframe;
 
 		$db		=& JFactory::getDBO();
-		$acl 	=& JFactory::getACL();
 
 		$name 		= $user->get('name');
 		$email 		= $user->get('email');
@@ -418,18 +392,14 @@ class RegistrationController
 
 		$message = html_entity_decode($message, ENT_QUOTES);
 		// Send email to user
-		if ($mailfrom != "" && $fromname != "")
-		{
+		if ($mailfrom != "" && $fromname != "") {
 			$adminName2 = $fromname;
 			$adminEmail2 = $mailfrom;
-		}
-		else
-		{
-			$query = "SELECT name, email"
-			. "\n FROM #__users"
-			. "\n WHERE LOWER( usertype ) = 'superadministrator'"
-			. "\n OR LOWER( usertype ) = 'super administrator'"
-			;
+		} else {
+			$query = "SELECT name, email" .
+					"\n FROM #__users" .
+					"\n WHERE LOWER( usertype ) = 'superadministrator'" .
+					"\n OR LOWER( usertype ) = 'super administrator'";
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 
@@ -447,14 +417,14 @@ class RegistrationController
 		$message2 = html_entity_decode($message2, ENT_QUOTES);
 
 		// get superadministrators id
-		$admins = $acl->get_group_objects( 25, 'ARO' );
+		$authorize =& JFactory::getACL();
+		$admins = $authorize->get_group_objects( 25, 'ARO' );
 
 		foreach ( $admins['users'] AS $id )
 		{
-			$query = "SELECT email, sendEmail"
-			. "\n FROM #__users"
-			."\n WHERE id = $id"
-			;
+			$query = "SELECT email, sendEmail" .
+					"\n FROM #__users" .
+					"\n WHERE id = $id";
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 
