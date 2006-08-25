@@ -18,107 +18,149 @@ jimport('joomla.application.view');
  * @pacakge Joomla
  * @subpackage Contacts
  */
-class JContactViewCategory extends JView
+class ContactViewCategory extends JView
 {
 	/**
 	 * Name of the view.
+	 * 
 	 * @access	private
 	 * @var		string
 	 */
 	var $_viewName = 'Category';
 
-	/**
-	 * Display the document
-	 */
 	function display()
 	{
 		$document	= & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':
-				$this->displayFeed();
+				$this->_displayFeed();
 				break;
 			default:
-				$this->displayHtml();
+				$this->_displayHTML();
 				break;
 		}
 	}
-
-	/**
-	 * Display an HTML document
-	 */
-	function displayHtml()
+	
+	function items()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
+		
+		$k = 0;
+		for($i = 0; $i <  count($this->items); $i++)
+		{
+			$item =& $this->items[$i];
 
-		$user	= &JFactory::getUser();
-		$model	= &$this->getModel();
+			$item->link =  sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;contact_id='. $item->id .'&amp;Itemid='. $Itemid);
 
-		$Itemid   = JRequest::getVar('Itemid');
+			if ( $item->email_to ) {
+				$item->email_to = mosHTML::emailCloaking( $item->email_to, 1 );
+			}
+			
+			$item->odd   = $k;
+			$item->count = $i;
+			$k = 1 - $k;
+		}
+		
+		$this->_loadTemplate('_table_items');
+	}
+
+	function _displayHTML()
+	{
+		global $mainframe, $Itemid, $option;
+
+		$user	 = &JFactory::getUser();
+		$pathway = & $mainframe->getPathWay();
+		$model	 = &$this->getModel();
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
-		$mParams =& $menus->getParams($Itemid);
+		$menu    = $menus->getItem($Itemid);
+		$params  =& $menus->getParams($Itemid);
 
 		// Selected Request vars
-		$categoryId			= JRequest::getVar( 'catid', $mParams->get('category_id', 0 ), '', 'int' );
-		$limit				= JRequest::getVar('limit', $mParams->get('display_num'), '', 'int');
+		$categoryId			= JRequest::getVar( 'catid', $params->get('category_id', 0 ), '', 'int' );
+		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
+		
+		// Set some defaults against system variables
+		$params->def('header', 				$menu->name);
+		$params->def('headings', 			1);
+		$params->def('position', 			1);
+		$params->def('email', 				1);
+		$params->def('telephone', 			1);
+		$params->def('fax', 				1);
+		$params->def('page_title',			1);
+		$params->def('back_button', 		$mainframe->getCfg('back_button'));
+		$params->def('description_text', 	JText::_('The Contact list for this Website.'));
+		$params->def('image_align', 		'right');
+		$params->def('display_num', 		$limit);
 
 		// query options
-		$qOptions['gid']			= $user->get('gid');
+		$pptions['gid'] 		= $user->get('gid');
+		$options['category_id']	= $categoryId;
+		$options['limit']		= $limit;
+		$options['limitstart']	= $limitstart;
+		$options['order by']	= "$filter_order $filter_order_Dir, cd.ordering";
 
-		$categories = $model->getCategories( $qOptions );
-
-		$qOptions['category_id']	= $categoryId;
-		$qOptions['limit']			= $limit;
-		$qOptions['limitstart']		= $limitstart;
-		$qOptions['order by']		= "$filter_order $filter_order_Dir, cd.ordering";
-
-		$contacts = $model->getContacts( $qOptions );
-		$contactCount = $model->getContactCount( $qOptions );
+		$categories   = $model->getCategories( $options );
+		$contacts     = $model->getContacts( $options );
+		$total 		  = $model->getContactCount( $options );
 
 		// find current category
 		// TODO: Move to model
-		$currentCategory = null;
+		$category = null;
 		foreach ($categories as $i => $_cat)
 		{
 			if ($_cat->id == $categoryId) {
-				$currentCategory = &$categories[$i];
+				$category = &$categories[$i];
 				break;
 			}
 		}
-		if ($currentCategory == null) {
+		if ($category == null) {
 			$db = &JFactory::getDBO();
-			$currentCategory = JTable::getInstance( 'category', $db );
+			$category = JTable::getInstance( 'category', $db );
 		}
 
-		// Set the page title and breadcrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-
-		if ($currentCategory->name) {
+		// Set the page title and pathway
+		if ($category->name) 
+		{
 			// Add the category breadcrumbs item
-			$breadcrumbs->addItem($currentCategory->name, '');
-			$mainframe->setPageTitle(JText::_('Contact').' - '.$currentCategory->name);
+			$pathway->addItem($category->name, '');
+			$mainframe->setPageTitle(JText::_('Contact').' - '.$category->name);
 		} else {
 			$mainframe->SetPageTitle(JText::_('Contact'));
 		}
 
-		$cParams = &JSiteHelper::getControlParams();
-		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'table' ) );
-		$template = preg_replace( '#\W#', '', $template );
-		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-
-		if (!file_exists( $tmplPath )) {
-			$tmplPath = dirname( __FILE__ ) . '/tmpl/table.php';
+		// table ordering
+		if ( $filter_order_Dir == 'DESC' ) {
+			$lists['order_Dir'] = 'ASC';
+		} else {
+			$lists['order_Dir'] = 'DESC';
 		}
+		$lists['order'] = $filter_order;
+		$selected = '';
+		
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination($total, $limitstart, $limit);
+		$link 		= "index.php?option=com_contact&amp;catid=$categoryId&amp;Itemid=$Itemid";
+		
+		$data = new stdClass();
+		$data->link = $link;
+			
+		$this->set('items'     , $contacts);
+		$this->set('lists'     , $lists);
+		$this->set('pagination', $pagination);
+		$this->set('data'      , $data);
+		$this->set('category'  , $category);
+		$this->set('params'    , $params);
 
-		require($tmplPath);
+		$this->_loadTemplate('table');
 	}
 
-	function displayFeed()
+	function _displayFeed()
 	{
 		global $mainframe;
 
@@ -181,68 +223,6 @@ class JContactViewCategory extends JView
 			// loads item info into rss array
 			$document->addItem( $item );
 		}
-
-	}
-
-	//
-	// Helper functions
-	//
-
-	/**
-	 * Method to output a contact categories view
-	 *
-	 * @since 1.0
-	 */
-	function showCategories( &$params, &$categories, $catid )
-	{
-		global $Itemid;
-		?>
-		<ul>
-		<?php
-		foreach ( $categories as $cat ) {
-			if ( $catid == $cat->catid ) {
-				?>
-				<li>
-					<b>
-					<?php echo $cat->title;?>
-					</b>
-					&nbsp;
-					<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					(<?php echo $cat->numlinks;?>)
-					</span>
-				</li>
-				<?php
-			} else {
-				$link = 'index.php?option=com_contact&amp;catid='. $cat->catid .'&amp;Itemid='. $Itemid;
-				?>
-				<li>
-					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo $cat->title;?></a>
-					<?php
-					if ( $params->get( 'cat_items' ) ) {
-						?>
-						&nbsp;
-						<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
-							(<?php echo $cat->numlinks;?>)
-						</span>
-						<?php
-					}
-					?>
-					<?php
-					// Writes Category Description
-					if ( $params->get( 'cat_description' ) ) {
-						echo '<br />';
-						echo $cat->description;
-					}
-					?>
-				</li>
-				<?php
-			}
-		}
-		?>
-		</ul>
-		<?php
 	}
 }
-
 ?>

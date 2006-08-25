@@ -32,10 +32,76 @@ class WeblinksViewCategory extends JView
 
 	function display()
 	{
-		$document	=& JFactory::getDocument();
+		$document	= & JFactory::getDocument();
+		switch ($document->getType())
+		{
+			case 'feed':
+				$this->_displayFeed();
+				break;
+			default:
+				$this->_displayHTML();
+				break;
+		}
+	}
+	
+	function items( )
+	{
+		global $Itemid;
 
-		$function = '_display'.$document->getType();
-		$this->$function();
+		if (!count( $this->items ) ) {
+			return;
+		}
+
+		$catid = $this->request->catid;
+
+		//create pagination
+		jimport('joomla.presentation.pagination');
+		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+
+		$this->data->link = "index.php?option=com_weblinks&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
+
+		// icon in table display
+		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
+			$this->data->image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
+		}
+
+		$k = 0;
+		for($i = 0; $i < count($this->items); $i++)
+		{
+			$item =& $this->items[$i];
+			$params = new JParameter( $item->params );
+
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $item->id );
+			$link = ampReplace( $link );
+
+			$menuclass = 'category'.$this->params->get( 'pageclass_sfx' );
+
+			switch ($params->get( 'target' ))
+			{
+				// cases are slightly different
+				case 1:
+					// open in a new window
+					$item->link = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $item->title .'</a>';
+					break;
+
+				case 2:
+					// open in a popup window
+					$item->link  = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
+					break;
+
+				default:
+					// formerly case 2
+					// open in parent window
+					$item->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
+					break;
+			}
+
+			$item->odd   = $k;
+			$item->count = $i;
+			$k = 1 - $k;
+		}
+
+		$this->_loadTemplate('_table_items');
 	}
 
 	function _displayHTML()
@@ -126,66 +192,6 @@ class WeblinksViewCategory extends JView
 			// loads item info into rss array
 			$document->addItem( $feeditem );
 		}
-	}
-
-	function items( )
-	{
-		global $Itemid;
-
-		if (!count( $this->items ) ) {
-			return;
-		}
-
-		$catid = $this->request->catid;
-
-		//create pagination
-		jimport('joomla.presentation.pagination');
-		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
-
-		$this->data->link = "index.php?option=com_weblinks&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
-
-		// icon in table display
-		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
-			$this->data->image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
-		}
-
-		$k = 0;
-		for($i = 0; $i < count($this->items); $i++)
-		{
-			$item =& $this->items[$i];
-			$params = new JParameter( $item->params );
-
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $item->id );
-			$link = ampReplace( $link );
-
-			$menuclass = 'category'.$this->params->get( 'pageclass_sfx' );
-
-			switch ($params->get( 'target' ))
-			{
-				// cases are slightly different
-				case 1:
-					// open in a new window
-					$item->link = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $item->title .'</a>';
-					break;
-
-				case 2:
-					// open in a popup window
-					$item->link  = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
-					break;
-
-				default:
-					// formerly case 2
-					// open in parent window
-					$item->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
-					break;
-			}
-
-			$item->odd   = $k;
-			$item->count = $i;
-			$k = 1 - $k;
-		}
-
-		$this->_loadTemplate('_table_items');
 	}
 }
 ?>

@@ -19,40 +19,21 @@ define( 'JPATH_COM_CONTACT', dirname( __FILE__ ) );
 
 jimport('joomla.application.extension.component');
 
-// Load controller class
-$cParams		=& JSiteHelper::getControlParams();
-$controllerType = JRequest::getVar( 'c', $cParams->get( 'controller_name', 'default' ), 'post', 'string' );
-$controllerType = preg_replace( '#\W#', '', $controllerType );
-$controllerPath = JPATH_COM_CONTACT . '/controllers/' . $controllerType . '.php';
+require_once( JPATH_COM_CONTACT . '/controller.php' );
 
-if (file_exists( $controllerPath ))
-{
-	require_once( $controllerPath );
-}
-else
-{
-	require_once( JPATH_COM_CONTACT . '/controllers/default.php' );
-}
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
-$controllerName = 'JContactController' . $controllerType;
-if (!class_exists( $controllerName ))
-{
-	require_once( JPATH_COM_CONTACT . '/controllers/default.php' );
-	$controllerName = 'JContactControllerDefault';
-}
+$mParams =& JSiteHelper::getMenuParams();
 
-// Create the controller
-$controller = new $controllerName( 'display' );
+$viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'category' ) );
+$controller	= new ContactController( 'display' );
 
-// need to tell the controller where to look for views and models
-$controller->setViewPath( JPATH_COM_CONTACT . '/views' );
+$controller->setViewPath ( JPATH_COM_CONTACT . '/views'  );
 $controller->setModelPath( JPATH_COM_CONTACT . '/models' );
 
-// Register Extra tasks
+// get view name from URL or menu params
+$controller->setViewName( $viewName, 'ContactView' );
 
-// Perform the Request task
-$controller->execute( $task );
-
-// Redirect if set by the controller
+$controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
-?>

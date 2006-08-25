@@ -18,7 +18,7 @@ jimport('joomla.application.model');
  * @package Joomla
  * @subpackage Contact
  */
-class JContactModelContact extends JModel
+class ContactModelContact extends JModel
 {
 	/**
 	 * Model Name

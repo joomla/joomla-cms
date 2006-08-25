@@ -24,9 +24,8 @@ if (!$user->authorize( 'com_contact', 'manage' )) {
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JPATH_SITE . '/components/com_contact/tables/contact.php' );
-//require_once( JApplicationHelper::getPath( 'class' ) );
-
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
 $id 	= JRequest::getVar(  'id', 0, 'get', 'int' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -191,7 +190,7 @@ function editContact( )
 		$cid = array(0);
 	}
 
-	$row = new JTableContact( $db );
+	$row =& JTable::getInstance('contact', $db, 'Table');
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -245,7 +244,7 @@ function saveContact( $task )
 
 	// Initialize variables
 	$db  =& JFactory::getDBO();
-	$row = new JTableContact( $db );
+	$row =& JTable::getInstance('contact', $db, 'Table');
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -368,7 +367,7 @@ function changeContact( $cid=null, $state=0 )
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JTableContact( $db );
+		$row =& JTable::getInstance('contact', $db, 'Table');
 		$row->checkin( intval( $cid[0] ) );
 	}
 
@@ -386,7 +385,7 @@ function orderContacts( $uid, $inc )
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
-	$row = new JTableContact( $db );
+	$row =& JTable::getInstance('contact', $db, 'Table');
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -402,7 +401,7 @@ function cancelContact()
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	$row = new JTableContact( $db );
+	$row =& JTable::getInstance('contact', $db, 'Table');
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -420,7 +419,7 @@ function changeAccess( $id, $access  )
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
-	$row = new JTableContact( $db );
+	$row =& JTable::getInstance('contact', $db, 'Table');
 	$row->load( $id );
 	$row->access = $access;
 
@@ -456,7 +455,7 @@ function saveOrder( &$cid )
 		}
 
 		// update ordering
-		$row = new JTableContact( $db );
+		$row =& JTable::getInstance('contact', $db, 'Table');
 		$row->load( $cid[$i] );
 		$row->reorder( "catid = $row->catid AND published != 0" );
 	}

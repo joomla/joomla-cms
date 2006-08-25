@@ -19,7 +19,8 @@ jimport('joomla.filter.input');
  * @package Joomla
  * @subpackage Contact
  */
-class JTableContact extends JTable {
+class TableContact extends JTable 
+{
 	/** @var int Primary key */
 	var $id 				= null;
 	/** @var string */

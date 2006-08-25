@@ -18,7 +18,7 @@ jimport('joomla.application.view');
  * @pacakge Joomla
  * @subpackage Contacts
  */
-class JContactViewContact extends JView
+class ContactViewContact extends JView
 {
 	/**
 	 * Name of the view.
@@ -34,95 +34,140 @@ class JContactViewContact extends JView
 	{
 		global $mainframe, $Itemid;
 
-		$user		= &JFactory::getUser();
-		$model		= &$this->getModel();
-		$mParams	= &JSiteHelper::getMenuParams();
-
-
+		$user	 = &JFactory::getUser();
+		$pathway = & $mainframe->getPathWay();
+		$model	 = &$this->getModel();
+		
+		// Get the paramaters of the active menu item
+		$menus   =& JMenu::getInstance();
+		$menu    = $menus->getItem($Itemid);
+		$params  =& $menus->getParams($Itemid);
+		
+		$params->def('header', 					$menu->name );
+		$params->def('print', 					!$mainframe->getCfg('hidePrint'));	
+		$params->def('email_description_text', JText::_('Send an Email to this Contact:'));
+		$params->def('icons', 					$mainframe->getCfg('icons'));
+		
 		// Push a model into the view
 		$model		= &$this->getModel();
-		$modelCat	= &$this->getModel( 'JContactModelCategory' );
-		//$this->setModel($model, true);
+		$modelCat	= &$this->getModel( 'ContactModelCategory' );
 
 		// Selected Request vars
-		$contactId	= JRequest::getVar( 'contact_id', $mParams->get('contact_id', 0 ), '', 'int' );
-
+		$contactId	= JRequest::getVar( 'contact_id', $params->get('contact_id', 0 ), '', 'int' );
+			
 		// query options
-		$qOptions['id']			= $contactId;
-		$qOptions['gid']		= $user->get('gid');
+		$options['id']	= $contactId;
+		$options['gid']	= $user->get('gid');
+		
+		$contact  = $model->getContact( $options );
+		
+		$options['category_id']  = $contact->catid;
+		$options['order by']	 = 'a.default_con DESC, a.ordering ASC';
 
-		$contact = $model->getContact( $qOptions );
-
-		$qOptions['category_id']	= $contact->catid;
-		$qOptions['order by']		= 'a.default_con DESC, a.ordering ASC';
-
-		$contacts = $modelCat->getContacts( $qOptions );
+		$contacts = $modelCat->getContacts( $options );
 
 		// check if we have a contact
 		if (!is_object( $contact )) {
-			$mParams->def('back_button', $mainframe->getCfg('back_button'));
-			$this->noContact($mParams);
 			return;
 		}
 
 		// Set the document page title
 		$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
 
-		/*
-		 * Add the breadcrumbs items
-		 * 	- Category item if the parameter is set
-		 * 	- Contact item always
-		 */
-		$breadcrumbs = & $mainframe->getPathWay();
-		if (!$mParams->get('hideCatCrumbs')) {
-			global $Itemid;
-			$breadcrumbs->addItem($contact->category_name, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
+		// Add the breadcrumbs items
+		if (!$params->get('hideCatCrumbs')) {
+			$pathway->addItem($contact->category_name, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
 		}
-		$breadcrumbs->addItem($contact->name, '');
+		$pathway->addItem($contact->name, '');
 
 		// Adds parameter handling
-		$params = new JParameter($contact->params);
-
-		$params->def( 'name', 				1 );
-		$params->def( 'email', 				0 );
-		$params->def( 'street_address', 	1 );
-		$params->def( 'suburb', 			1 );
-		$params->def( 'state', 				1 );
-		$params->def( 'country', 			1 );
-		$params->def( 'postcode', 			1 );
-		$params->def( 'telephone', 			1 );
-		$params->def( 'fax', 				1 );
-		$params->def( 'misc', 				1 );
-		$params->def( 'image', 				1 );
-
-		$cParams = &JSiteHelper::getControlParams();
-		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'default' ) );
-		$template = preg_replace( '#\W#', '', $template );
-		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-
-		if (!file_exists( $tmplPath )) {
-			$tmplPath = dirname( __FILE__ ) . '/tmpl/default.php';
+		$contact->params = new JParameter($contact->params);
+		
+		$contact->params->def( 'name', 				1 );
+		$contact->params->def( 'email', 			0 );
+		$contact->params->def( 'street_address', 	1 );
+		$contact->params->def( 'suburb', 			1 );
+		$contact->params->def( 'state', 			1 );
+		$contact->params->def( 'country', 			1 );
+		$contact->params->def( 'postcode', 			1 );
+		$contact->params->def( 'telephone', 		1 );
+		$contact->params->def( 'fax', 				1 );
+		$contact->params->def( 'misc', 				1 );
+		$contact->params->def( 'image', 			1 );
+		
+		$contact->print_link = 'index2.php?option=com_contact&amp;view=contact&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
+		
+		if ($contact->email_to && $params->get('email')) {
+			$contact->email = mosHTML::emailCloaking($contact->email_to);
 		}
 
-		require($tmplPath);
-	}
+		if ($contact->params->get('email_description')) {
+			$contact->params->set('email_description', $params->get('email_description_text'));
+		} else {
+			$contact->params->set('email_description', '');
+		}
 
-	//
-	// Helper methods
-	//
-	/**
-	 * Method to output an error condition where there was no contact view
-	 * @since 1.5
-	 */
-	function noContact( &$params )
+		if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode)) {
+			$contact->params->set('address_check', 1);
+		} else {
+			$contact->params->set('address_check', 0);
+		}
+
+		 // Manage the display mode for contact detail groups
+		switch ($contact->params->get('contact_icons')) 
+		{
+			case 1 :
+				// text
+				$contact->params->set('marker_address', 	JText::_('Address').": ");
+				$contact->params->set('marker_email', 		JText::_('Email').": ");
+				$contact->params->set('marker_telephone', 	JText::_('Telephone').": ");
+				$contact->params->set('marker_fax', 		JText::_('Fax').": ");
+				$contact->params->set('marker_misc', 		JText::_('Information').": ");
+				$contact->params->set('column_width', 		'100');
+				break;
+
+			case 2 :
+				// none
+				$contact->params->set('marker_address', 	'');
+				$contact->params->set('marker_email', 		'');
+				$contact->params->set('marker_telephone', 	'');
+				$contact->params->set('marker_fax', 		'');
+				$contact->params->set('marker_misc', 		'');
+				$contact->params->set('column_width', 		'0');
+				break;
+
+			default :
+				// icons
+				$image1 = mosAdminMenus::ImageCheck('con_address.png', 	'/images/M_images/', $contact->params->get('icon_address'), 	'/images/M_images/', JText::_('Address').": ", 		JText::_('Address').": ");
+				$image2 = mosAdminMenus::ImageCheck('emailButton.png', 	'/images/M_images/', $contact->params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ", 		JText::_('Email').": ");
+				$image3 = mosAdminMenus::ImageCheck('con_tel.png', 		'/images/M_images/', $contact->params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ", 	JText::_('Telephone').": ");
+				$image4 = mosAdminMenus::ImageCheck('con_fax.png', 		'/images/M_images/', $contact->params->get('icon_fax'), 		'/images/M_images/', JText::_('Fax').": ", 			JText::_('Fax').": ");
+				$image5 = mosAdminMenus::ImageCheck('con_info.png', 	'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ", 	JText::_('Information').": ");
+				$contact->params->set('marker_address', 	$image1);
+				$contact->params->set('marker_email', 		$image2);
+				$contact->params->set('marker_telephone', 	$image3);
+				$contact->params->set('marker_fax', 		$image4);
+				$contact->params->set('marker_misc',		$image5);
+				$contact->params->set('column_width', 		'40');
+				break;
+		}
+		
+		$this->set('contacts'  , $contacts);	
+		$this->set('contact'   , $contact);
+		$this->set('params'    , $params);
+
+		$this->_loadTemplate('table');
+	}
+	
+	function adress()
 	{
-		?>
-		<br />
-		<br />
-			<?php echo JText::_( 'There are no Contact Details listed.' );?>
-		<br />
-		<br />
-		<?php
+		$this->_loadTemplate('_table_address');
+	}
+	
+		
+	function form()
+	{
+		$this->_loadTemplate('_table_form');
 	}
 }
 ?>
