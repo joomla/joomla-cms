@@ -125,7 +125,7 @@ class LoginController
 				$mainframe->redirect( $return );
 			}
 		} else {
-			LoginController::showLogin();
+			LoginController::display();
 		}
 	}
 
@@ -147,7 +147,7 @@ class LoginController
 				$mainframe->redirect( $return );
 			}
 		} else {
-			LoginController::showLogin();
+			LoginController::display();
 		}
 	}
 }
