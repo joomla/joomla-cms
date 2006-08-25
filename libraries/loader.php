@@ -16,6 +16,10 @@ if(!defined('DS')) {
 	define( 'DS', DIRECTORY_SEPARATOR );
 }
 
+/**
+ * @package		Joomla
+ * @subpackage	Libraries
+ */
 class JLoader
 {
 	 /**
@@ -53,8 +57,14 @@ class JLoader
 
 				$dir = dir( $path );
 				while ($file = $dir->read()) {
-					if (ereg( '\.php$', $file )) {
-						require $path . DS . $file;
+					if (preg_match( '#(.*?)\.php$#', $file, $m )) {
+						$nPath = str_replace( '*', $m[1], $filePath );
+						// we need to check each file again incase one has a jimport
+						if (!isset($paths[$nPath]))
+						{
+							require $path . DS . $file;
+							$paths[$nPath] = true;
+						}
 					}
 				}
 				$dir->close();
