@@ -1,4 +1,4 @@
-<form action="<?php echo JURI::base(); ?>" method="post" name="josForm">
+<form action="<?php echo JURI::base('index.php'); ?>" method="post" name="josForm">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Lost your Password?' ); ?>
