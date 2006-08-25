@@ -39,6 +39,10 @@ class RegistrationViewRegistration extends JView
 
 	function displayRegisterForm()
 	{
+		$doc = & JFactory::getDocument();
+		$doc->addScript('includes/js/joomla/common.js');
+		$doc->addScript('includes/js/joomla/validation.js');
+
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
 		$this->_loadTemplate('register');

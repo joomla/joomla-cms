@@ -1,100 +1,89 @@
-<script language="javascript" type="text/javascript">
-function submitbutton( pressbutton ) {
-	var form = document.josForm;
-	var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
+<script type="text/javascript">
+	document.addLoadEvent(function() {
+ 	document.formvalidator.attachToForm(document.getElementById('josForm'));
+ 	document.formvalidator.handlers['passverify'] = { enabled : true,
+									exec : function (value) {
+										return (document.getElementById('password').value == value);
+									}
+								  }
+});
 
-	if (pressbutton == 'cancel') {
-		form.task.value = 'cancel';
-		form.submit();
-		return;
-	}
-
-	// do field validation
-	if (form.name.value == "") {
-		alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
-	} else if (form.username.value == "") {
-		alert( "<?php echo JText::_( 'Please enter a user name.', true );?>" );
-	} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Username', true ), 2 );?>" );
-	} else if (form.email.value == "") {
-		alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
-	} else if (form.password.value.length < 6) {
-		alert( "<?php echo JText::_( 'REGWARN_PASS', true );?>" );
-	} else if (form.password2.value == "") {
-		alert( "<?php echo JText::_( 'Please verify the password.', true );?>" );
-	} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
-		alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
-	} else if (r.exec(form.password.value)) {
-		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Password', true ), 6 );?>" );
+function validateForm( frm ) {
+	var valid = document.formvalidator.isValid(frm);
+	if (valid == false) {
+		// do field validation
+		if (frm.name.invalid) {
+			alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
+		} else if (frm.username.invalid) {
+			alert( "<?php echo JText::_( 'Please enter a user name.', true );?>" );
+		} else if (frm.email.invalid) {
+			alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
+		} else if (frm.password.invalid) {
+			alert( "<?php echo JText::_( 'REGWARN_PASS', true );?>" );
+		} else if (frm.password2.invalid) {
+			alert( "<?php echo JText::_( 'Please verify the password.', true );?>" );
+		}
+		return false;
 	} else {
-		form.submit();
+		frm.submit();
 	}
 }
 </script>
-<form action="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" name="josForm">
+
+<form action="<?php echo JURI::resolve( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" id="josForm" name="josForm">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Registration' ); ?>
 </div>
 
-<div style="float: right;">
-	<?php
-	mosToolBar::startTable();
-	mosToolBar::spacer();
-	mosToolBar::save('save');
-	mosToolBar::cancel();
-	mosToolBar::endtable();
-	?>
-</div>
-
 <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 <tr>
 	<td width="30%" height="40">
-		<label for="name">
+		<label id="namemsg" for="name">
 			<?php echo JText::_( 'Name' ); ?>:
 		</label>
 	</td>
   	<td>
-  		<input type="text" name="name" id="name" size="40" value="<?php echo $this->user->get( 'name' );?>" class="inputbox" maxlength="50" /> *
+  		<input type="text" name="name" id="name" size="40" value="<?php echo $this->user->get( 'name' );?>" class="inputbox validate required none namemsg" maxlength="50" /> *
   	</td>
 </tr>
 <tr>
 	<td height="40">
-		<label for="username">
+		<label id="usernamemsg" for="username">
 			<?php echo JText::_( 'Username' ); ?>:
 		</label>
 	</td>
 	<td>
-		<input type="text" id="username" name="username" size="40" value="<?php echo $this->user->get( 'username' );?>" class="inputbox" maxlength="25" /> *
+		<input type="text" id="username" name="username" size="40" value="<?php echo $this->user->get( 'username' );?>" class="inputbox validate required username usernamemsg" maxlength="25" /> *
 	</td>
 <tr>
 	<td height="40">
-		<label for="email">
+		<label id="emailmsg" for="email">
 			<?php echo JText::_( 'Email' ); ?>:
 		</label>
 	</td>
 	<td>
-		<input type="text" id="email" name="email" size="40" value="<?php echo $this->user->get( 'email' );?>" class="inputbox" maxlength="100" /> *
+		<input type="text" id="email" name="email" size="40" value="<?php echo $this->user->get( 'email' );?>" class="inputbox validate required email emailmsg" maxlength="100" /> *
 	</td>
 </tr>
 <tr>
 	<td height="40">
-		<label for="password">
+		<label id="pwmsg" for="password">
 			<?php echo JText::_( 'Password' ); ?>:
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox" type="password" id="password" name="password" size="40" value="" /> *
+  		<input class="inputbox validate required password pwmsg" type="password" id="password" name="password" size="40" value="" /> *
   	</td>
 </tr>
 <tr>
 	<td height="40">
-		<label for="password2">
+		<label id="pw2msg" for="password2">
 			<?php echo JText::_( 'Verify Password' ); ?>:
 		</label>
 	</td>
 	<td>
-		<input class="inputbox" type="password" id="password2" name="password2" size="40" value="" /> *
+		<input class="inputbox validate required passverify pw2msg" type="password" id="password2" name="password2" size="40" value="" /> *
 	</td>
 </tr>
 <tr>
@@ -103,9 +92,9 @@ function submitbutton( pressbutton ) {
 	</td>
 </tr>
 </table>
-
+<button type="submit" onclick="validateForm( this.form );return false;"><?php echo JText::_('Register'); ?></button>
+<input type="hidden" name="task" value="save" />
 <input type="hidden" name="id" value="0" />
 <input type="hidden" name="gid" value="0" />
-<input type="hidden" name="task" value="saveRegistration" />
 <input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 </form>

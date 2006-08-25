@@ -230,60 +230,55 @@ class RegistrationController
 			return;
 		}
 
+		// Get required system objects
 		$user 		=& JFactory::getUser();
 		$pathway 	=& $mainframe->getPathWay();
+		$config		=& JFactory::getConfig();
+		$authorize	=& JFactory::getACL();
 
-		$allowUserRegistration 	= $mainframe->getCfg( 'allowUserRegistration' );
-		$useractivation 		= $mainframe->getCfg( 'useractivation' );
-
-		$new_usertype			= $mainframe->getCfg( 'new_usertype' );
-
-		$password = JRequest::getVar( 'password' );
-
+		// If user registration is not allowed, show 403 not authorized.
+		$allowUserRegistration = $config->getValue( 'config.allowUserRegistration' );
 		if ($allowUserRegistration=='0') {
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 			return;
 		}
 
-		if (!JUtility::spoofCheck()) {
-			JError::raiseError( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
+		// Initialize new usertype setting
+		$newUsertype = $config->getValue( 'config.new_usertype' );
+		if (!$newUsertype) {
+			$newUsertype = 'Registered';
 		}
 
-		if (!$new_usertype) {
-			$new_usertype = 'Registered';
-		}
-
-		$user =& JUser::getInstance();
-
-		if (!$user->bind( $_POST, 'usertype' )) {
-			JError::raiseError( 500, $row->getError());
+		// Bind the post array to the user object
+		if (!$user->bind( JRequest::get('post'), 'usertype' )) {
+			JError::raiseError( 500, $user->getError());
 			exit();
 		}
 
-		// setup new user
+		// Set some initial user values
 		$user->set('id', 0);
 		$user->set('usertype', '');
-		$user->set('gid', $acl->get_group_id( $new_usertype, 'ARO' ));
+		$user->set('gid', $authorize->get_group_id( $newUsertype, 'ARO' ));
 		$user->set('registerDate', date('Y-m-d H:i:s'));
 
-		if ($useractivation == '1')
-		{
+		// If user activation is turned on, we need to set the activation information
+		$useractivation = $config->getValue( 'config.useractivation' );
+		if ($useractivation == '1') {
 			jimport('joomla.application.user.authenticate');
 			$user->set('activation', md5( JAuthenticateHelper::genRandomPassword()) );
 			$user->set('block', '1');
 		}
 
 		// create the view
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'registration.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
 		$view = new RegistrationViewRegistration();
 		$view->set('user', $user);
 		$message = new stdClass();
 
-		if (!$user->save())
-		{
+		// If there was an error with registration, set the message and display form
+		if (!$user->save()) {
 		 	// Page Title
-		 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
+		 	$mainframe->setPageTitle( JText::_( 'Registration' ) );
 			// Breadcrumb
 		  	$pathway->addItem( JText::_( 'New' ));
 
@@ -296,10 +291,12 @@ class RegistrationController
 			return false;
 		}
 
+		// Send registration confirmation mail
+		$password = JRequest::getVar( 'password' );
 		RegistrationController::_sendMail($user, $password);
 
-		if ( $useractivation == 1 )
-		{
+		// Everything went fine, set relevant message depending upon user activation state and display message
+		if ( $useractivation == 1 ) {
 			// Page Title
 			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
 			// Breadcrumb
@@ -307,9 +304,7 @@ class RegistrationController
 
 			$message->title = JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' );
 			$message->text = JText::_( 'REG_COMPLETE_ACTIVATE' );
-		}
-		else
-		{
+		} else {
 			// Page Title
 			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
 			// Breadcrumb
@@ -347,7 +342,7 @@ class RegistrationController
 		}
 
 		// create the view
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'registration.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
 		$view = new RegistrationViewRegistration();
 
 		$message = new stdClass();
