@@ -259,12 +259,11 @@ class UserController
 		$userid  = $user->get('id');
 
 		// Editor usertype check
-		$access = new stdClass();
-		$access->canEdit    = $user->authorize( 'action', 'edit', 'content', 'all' );
-		$access->canEditOwn = $user->authorize( 'action', 'edit', 'content', 'own' );
+		$canEdit    = $user->authorize( 'action', 'edit', 'content', 'all' );
+		$canEditOwn = $user->authorize( 'action', 'edit', 'content', 'own' );
 
 		$nullDate = $db->getNullDate();
-		if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
+		if (!($canEdit || $canEditOwn || $userid > 0)) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}

@@ -21,8 +21,69 @@ jimport('joomla.application.controller');
  * @subpackage Content
  * @since 1.5
  */
-class JContentController extends JController
+class ContentController extends JController
 {
+	/**
+	 * Method to show an article as the main page display
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
+	function display()
+	{
+		// TODO: What happen if the item doesn't exist?
+
+		// Get control information from the request
+		$cParams	= JSiteHelper::getControlParams();
+		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
+		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
+		$layout     = '';
+
+		// interceptors to support legacy urls
+		switch( $this->getTask())
+		{
+			//index.php?option=com_content&task=blogsection&id=0&Itemid=4
+			case 'blogsection':
+				$viewName	= 'section';
+				$modelName	= 'section';
+				$layout = 'blog';
+				break;
+			case 'section':
+				$viewName	= 'section';
+				$modelName	= 'section';
+				$layout = 'list';
+				break;
+			case 'category':
+				$viewName	= 'category';
+				$modelName	= 'category';
+				$layout = 'table';
+				break;
+			case 'blogcategory':
+				$viewName	= 'section';
+				$modelName	= 'section';
+				$layout = 'blog';
+				break;
+			case 'view':
+				$viewName	= 'article';
+				$modelName	= 'article';
+				$layout = 'article';
+				break;
+		}
+
+		// Create the view
+		$this->setViewName( $viewName, 'ContentView' );
+		$view = & $this->getView();
+
+		// Get/Create the model
+		$model = & $this->getModel($modelName, 'JContentModel');
+
+		// Push the model into the view (as default)
+		$view->setModel($model, true);
+
+		// Display the view
+		$view->display($layout);
+	}
+	
 	/**
 	 * Method to show a section in list format
 	 *
@@ -32,7 +93,7 @@ class JContentController extends JController
 	function section000()
 	{
 		global $mainframe;
-		$this->setViewName( 'section', 'JContentView' );
+		$this->setViewName( 'section', 'ContentView' );
 
 		// Set some parameter defaults
 		// TODO: probably this needs to move into the view class
@@ -57,205 +118,6 @@ class JContentController extends JController
 		$view->setModel($model, true);
 		// Display the view
 		$view->display();
-
-//		$cache = & JFactory::getCache('com_content', 'output');
-//		if (!$cache->start(md5($id.'section'.$Itemid), 'com_content')) {
-//			JViewContentHTML::showSection( $model );
-//			$cache->end();
-//		}
-	}
-
-	/**
-	 * Method to show a category in table format
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function category000()
-	{
-		global $mainframe;
-		$this->setViewName( 'category', 'JContentView' );
-
-		// Set some parameter defaults
-		// TODO: probably this needs to move into the view class
-		$mParams->def('page_title',		1);
-		$mParams->def('title',			1);
-		$mParams->def('hits',			$mainframe->getCfg('hits'));
-		$mParams->def('author',			!$mainframe->getCfg('hideAuthor'));
-		$mParams->def('date',			!$mainframe->getCfg('hideCreateDate'));
-		$mParams->def('date_format',		JText::_('DATE_FORMAT_LC'));
-		$mParams->def('navigation',		2);
-		$mParams->def('display',			1);
-		$mParams->def('display_num',		$mainframe->getCfg('list_limit'));
-		$mParams->def('other_cat',		1);
-		$mParams->def('empty_cat',		0);
-		$mParams->def('cat_items',		1);
-		$mParams->def('cat_description',	0);
-		$mParams->def('back_button',		$mainframe->getCfg('back_button'));
-		$mParams->def('pageclass_sfx',	'');
-		$mParams->def('headings',		1);
-		$mParams->def('filter',			1);
-		$mParams->def('filter_type',		'title');
-
-		// Get the view
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel('Category', 'JContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
-	/**
-	 * Method to show a section as a blog
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function blogsection000()	// view=section&tpl=blog
-	{
-		$this->setViewName( 'blog', 'JContentView' );
-
-		// Get the view
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel('Section', 'JContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
-	/**
-	 * Method to show a category as a blog
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function blogcategory000()	// view=category&tpl=blog
-	{
-		$this->setViewName( 'blog', 'JContentView' );
-
-		// Get the view
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel('Category', 'JContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
-	/**
-	 * Method to show a section as an archive
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function archivesection()
-	{
-		$this->setViewName( 'archive', 'JContentView' );
-
-		// Get the view
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel('Section', 'JContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
-	/**
-	 * Method to show a category as an archive
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function archivecategory()
-	{
-		$this->setViewName( 'archive', 'JContentView' );
-
-		// Get the view
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel('Category', 'JContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
-	/**
-	 * Method to show an article as the main page display
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function display()
-	{
-		// TODO: What happen if the item doesn't exist?
-
-		// Get control information from the request
-		$cParams	= JSiteHelper::getControlParams();
-		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
-		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
-		$format		= JRequest::getVar( 'format', 'html',  '', 'string'  );
-
-		// interceptors to support legacy urls
-		switch( $this->getTask())
-		{
-			//index.php?option=com_content&task=blogsection&id=0&Itemid=4
-			case 'blogsection':
-				$viewName	= 'section';
-				$modelName	= 'section';
-				JRequest::setVar( 'tpl', 'blog' );
-				break;
-			case 'section':
-				$viewName	= 'section';
-				$modelName	= 'section';
-				JRequest::setVar( 'tpl', 'list' );
-				break;
-			case 'category':
-				$viewName	= 'category';
-				$modelName	= 'category';
-				JRequest::setVar( 'tpl', 'table' );
-				break;
-			case 'blogcategory':
-				$viewName	= 'section';
-				$modelName	= 'section';
-				JRequest::setVar( 'tpl', 'blog' );
-				break;
-			case 'view':
-				$viewName	= 'article';
-				$modelName	= 'article';
-				JRequest::setVar( 'tpl', 'article' );
-				break;
-		}
-
-		// Create the view
-		$this->setViewName( $viewName, 'JContentView' );
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel($modelName, 'JContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-
-		// Display the view
-		$view->display($format);
 	}
 
 	/**
@@ -267,7 +129,7 @@ class JContentController extends JController
 	function edit()
 	{
 		// Set the view name to article view
-		$this->setViewName( 'article', 'JContentView' );
+		$this->setViewName( 'article', 'ContentView' );
 
 		// Create the view
 		$view = & $this->getView();
@@ -526,144 +388,6 @@ class JContentController extends JController
 	}
 
 	/**
-	 * Shows the send email form for a content item
-	 *
-	 * @todo
-	 * @since 1.0
-	 */
-	function emailform000()	// replaced by com_mailto
-	{
-		require_once (JPATH_COMPONENT . '/views/archive/view.php');
-		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
-		return true;
-
-		global $mainframe;
-
-		// Initialize variables
-		$db		= & JFactory::getDBO();
-		$user	= & JFactory::getUser();
-		$uid		= JRequest::getVar('id', 0, '', 'int');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		$row = & JTable::getInstance('content', $db);
-		$row->load($uid);
-
-		if ($row->id === null || $row->access > $user->get('gid'))
-		{
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-		}
-		else
-		{
-			$query = "SELECT template" .
-					"\n FROM #__templates_menu" .
-					"\n WHERE client_id = 0" .
-					"\n AND menuid = 0";
-			$db->setQuery($query);
-			$template = $db->loadResult();
-			JViewContentHTML::emailForm($row->id, $row->title, $template);
-		}
-
-	}
-
-	/**
-	 * Builds and sends an email to a content item
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function emailsend000()	// replace by com_mailto
-	{
-		global $mainframe;
-		// Check to make sure that the validation variable was posted back
-		$validate	= JRequest::getVar(JUtility::getHash('validate'), 0, 'post');
-		if (!$validate) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-		}
-
-		/*
-		 * This obviously won't catch all attempts, but it does not hurt to make
-		 * sure the request came from a client with a user agent string.
-		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-		}
-
-		/*
-		 * This obviously won't catch all attempts either, but we ought to check
-		 * to make sure that the request was posted as well.
-		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-		}
-
-		// An array of e-mail headers we do not want to allow as input
-		$headers = array ('Content-Type:', 'MIME-Version:', 'Content-Transfer-Encoding:', 'bcc:', 'cc:');
-
-		// An array of the input fields to scan for injected headers
-		$fields = array ('email', 'yourname', 'youremail', 'subject',);
-
-		/*
-		 * Here is the meat and potatoes of the header injection test.  We
-		 * iterate over the array of form input and check for header strings.
-		 * If we fine one, send an unauthorized header and die.
-		 */
-		foreach ($fields as $field) {
-			foreach ($headers as $header) {
-				if (strpos($_POST[$field], $header) !== false) {
-					JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-				}
-			}
-		}
-
-		// Free up memory
-		unset ($headers, $fields);
-
-		// At some point tihs will all be in a request object
-		$id			= JRequest::getVar('id', 0, '', 'int');
-		$to			= JRequest::getVar('email', '', 'post');
-		$from		= JRequest::getVar('youremail', $mainframe->getCfg('mailfrom'), 'post');
-		$fromname	= JRequest::getVar('yourname', $mainframe->getCfg('fromname'), 'post');
-		$subject	= JRequest::getVar('subject', sprintf(JText::_('Item sent by'), $fromname), 'post');
-
-		jimport('joomla.utilities.mail');
-		if (!JMailHelper::isEmailAddress($to) || !JMailHelper::isEmailAddress($from)) {
-			JViewContentHTML::userInputError(JText::_('INALID_EMAIL_ADDRESS'));
-			return false;
-		}
-		if (!JMailHelper::cleanAddress($to) || !JMailHelper::cleanAddress($from)) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-			return false;
-		}
-
-		$db = & $this->getDBO();
-		$query = "SELECT template" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND menuid = 0";
-		$db->setQuery($query);
-		$template = $db->loadResult();
-
-		// Get/Create the model
-		$model = & $this->getModel('Article', 'JContentModel');
-
-		// Send mail via the model
-		$email = $model->sendEmail($to, $from, $fromname, $subject);
-
-		if (!$email) {
-			JViewContentHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
-		} else {
-			JViewContentHTML::emailSent($email, $template);
-		}
-	}
-
-	/**
 	* Rates an article
 	*
 	* @access	public
@@ -705,7 +429,7 @@ class JContentController extends JController
 		$id = $db->loadResult();
 		if ($id > 0) {
 			// Set the view name to article view
-			$this->setViewName( 'article', 'JContentView' );
+			$this->setViewName( 'article', 'ContentView' );
 
 			// Create the view
 			$view = & $this->getView();

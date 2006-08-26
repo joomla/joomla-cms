@@ -21,7 +21,7 @@ jimport( 'joomla.application.view');
  * @subpackage Content
  * @since 1.5
  */
-class JContentViewCategory extends JView
+class ContentViewCategory extends JView
 {
 	/**
 	 * Name of the view.

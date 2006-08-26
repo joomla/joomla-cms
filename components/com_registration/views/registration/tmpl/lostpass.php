@@ -11,11 +11,6 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" height="40">
-		<?php echo JText::_( 'USER_UNKNOWN_DESC' ); ?>
-	</td>
-</tr>
-<tr>
 	<td height="40">
 		<label for="jusername">
 			<?php echo JText::_( 'Username' ); ?>:

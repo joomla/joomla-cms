@@ -24,16 +24,17 @@ jimport('joomla.application.extension.component');
 
 // Create the controller
 $cParams 	= JSiteHelper::getControlParams();
-$controller = new JContentController( 'display' );
+$controller = new ContentController( 'display' );
 
 // need to tell the controller where to look for views and models
-$controller->setViewPath( dirname( __FILE__ ).DS.'views' );
-$controller->setModelPath( dirname( __FILE__ ).DS.'models' );
+$controller->setViewPath( JPATH_COMPONENT.DS.'views' );
+$controller->setModelPath( JPATH_COMPONENT.DS.'models' );
 
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
 
-$controller->setViewName( $viewName, 'JContentView' );
+$controller->setViewName( $viewName, 'ContentView' );
+
 // Register Extra tasks
 $controller->registerTask( 'new', 		'edit' );
 $controller->registerTask( 'apply', 	'save' );

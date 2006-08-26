@@ -197,9 +197,12 @@ class FrontpageViewFrontpage extends JView
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
+		$dispatcher	=& JEventDispatcher::getInstance();
+		
 		$SiteName	= $mainframe->getCfg('sitename');
-		$gid		= $user->get('gid');
+		
 		$task		= JRequest::getVar( 'task' );
+		
 		$linkOn		= null;
 		$linkText	= null;
 
@@ -234,7 +237,7 @@ class FrontpageViewFrontpage extends JView
 		// Process the content preparation plugins
 		$this->item->text	= ampReplace($this->item->introtext);
 		JPluginHelper::importPlugin('content');
-		$results = $mainframe->triggerEvent('onPrepareContent', array (& $this->item, & $this->params, 0));
+		$results = $dispatcher->trigger('onPrepareContent', array (& $this->item, & $this->params, 0));
 
 		// Build the link and text of the readmore button
 		if (($this->params->get('readmore') && @ $this->item->readmore) || $this->params->get('link_titles'))
@@ -242,7 +245,7 @@ class FrontpageViewFrontpage extends JView
 			if ($this->params->get('intro_only'))
 			{
 				// checks if the item is a public or registered/special item
-				if ($this->item->access <= $gid)
+				if ($this->item->access <= $user->get('gid'))
 				{
 					if ($task != 'view') {
 						$Itemid = JContentHelper::getItemid($this->item->id);
@@ -264,13 +267,13 @@ class FrontpageViewFrontpage extends JView
 		$this->item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$this->item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 
 		$this->item->event = new stdClass();
-		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $this->item, & $this->params,0));
+		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $this->item, & $this->params,0));
 		$this->item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $this->item, & $this->params, 0));
+		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $this->item, & $this->params, 0));
 		$this->item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $mainframe->triggerEvent('onAfterDisplayContent', array (& $this->item, & $this->params, 0));
+		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $this->item, & $this->params, 0));
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		$this->_loadTemplate('_blog_item');

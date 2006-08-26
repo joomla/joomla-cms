@@ -21,7 +21,7 @@ jimport( 'joomla.application.view');
  * @subpackage Content
  * @since 1.5
  */
-class JContentViewArticle extends JView
+class ContentViewArticle extends JView
 {
 	/**
 	 * Name of the view.
@@ -37,17 +37,17 @@ class JContentViewArticle extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function display($type='html')
+	function display($layout)
 	{
-//		$document	= & JFactory::getDocument();
-
-		switch ($type)
+		$document =& JFactory::getDocument();
+		
+		switch ($document->getType())
 		{
 			case 'pdf':
-				$this->displayPdf();
+				$this->_displayPDF();
 				break;
 			default:
-				$this->displayHtml();
+				$this->_displayHTML();
 				break;
 		}
 	}
@@ -58,67 +58,133 @@ class JContentViewArticle extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function displayHtml()
+	function _displayHTML()
 	{
 		global $mainframe, $Itemid;
+		
+		$user		=& JFactory::getUser();
+		$document   =& JFactory::getDocument();
+		$dispatcher	=& JEventDispatcher::getInstance();
+		$pathway    =& $mainframe->getPathWay();
 
 		// Initialize variables
-		$article = & $this->get('Article');
+		$article	=& $this->get('Article');
+		$params		=& $article->parameters;
+	
+		$linkOn   = null;
+		$linkText = null;
+		
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Handle BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		if (!empty ($Itemid)) {
+		
+		if (!empty ($Itemid)) 
+		{
 			// Section
 			if (!empty ($article->section)) {
-				$breadcrumbs->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
+				$pathway->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
 			}
 			// Category
 			if (!empty ($article->category)) {
-				$breadcrumbs->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$article->sectionid.'&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
+				$pathway->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$article->sectionid.'&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
 			}
 		}
 		// Article
-		$breadcrumbs->addItem($article->title, '');
+		$pathway->addItem($article->title, '');
 
 		// Handle Page Title
-		$doc =& JFactory::getDocument();
-		$doc->setTitle($article->title);
+		$document->setTitle($article->title);
 
 		// Handle metadata
-		$doc->setDescription( $article->metadesc );
-		$doc->setMetadata('keywords', $article->metakey);
+		$document->setDescription( $article->metadesc );
+		$document->setMetadata('keywords', $article->metakey);
 
 		// If there is a pagebreak heading or title, add it to the page title
 		if (isset ($article->page_title)) {
-			$doc->setTitle($article->title.' '.$article->page_title);
+			$document->setTitle($article->title.' '.$article->page_title);
 		}
+		
+		// Create a user access object for the current user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
 
-		$cParams = &JSiteHelper::getControlParams();
-		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'article' ) );
-		$template = preg_replace( '#\W#', '', $template );
-		$this->setTemplatePath(dirname(__FILE__).'/tmpl');
+		// Process the content plugins
+		JPluginHelper::importPlugin('content');
+		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
+		
+		if ($params->get('readmore') || $params->get('link_titles')) 
+		{
+			if ($params->get('intro_only')) 
+			{
+				// Check to see if the user has access to view the full article
+				if ($article->access <= $user->get('gid')) 
+				{
+					$Itemid = JContentHelper::getItemid($article->id);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
 
-		$this->_loadTemplate($template);
+					if (@$article->readmore) {
+						// text for the readmore link
+						$linkText = JText::_('Read more...');
+					}
+				} 
+				else 
+				{
+					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+
+					if (@$article->readmore) {
+						// text for the readmore link if accessible only if registered
+						$linkText = JText::_('Register to read more...');
+					}
+				}
+			}
+		}
+		
+		$data = new stdClass();
+		$data->access = $access;
+	
+		$article->readmore_link = $linkOn;
+		$article->readmore_text = $linkText;
+		
+		$article->print_link = JURI::base().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $limitstart;
+
+		$article->event = new stdClass();
+		$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
+		$article->event->afterDisplayTitle = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $article, & $params, $limitstart));
+		$article->event->beforeDisplayContent = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
+		$article->event->afterDisplayContent = trim(implode("\n", $results));
+		
+		$this->set('article', $article);
+		$this->set('params' , $params);
+		$this->set('data'   , $data);
+		$this->set('user'   , $user);
+		
+		$this->_loadTemplate('article');
 	}
 
 	function edit()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		// Initialize variables
-		$doc	=& JFactory::getDocument();
-		$user	=& JFactory::getUser();
+		$document =& JFactory::getDocument();
+		$user	  =& JFactory::getUser();
+		
+		$pathway =& $mainframe->getPathWay();
 
 		// At some point in the future this will come from a request object
-		$page		= JRequest::getVar('limitstart', 0, '', 'int');
-		$noJS		= JRequest::getVar('hide_js', 0, '', 'int');
-		$Itemid		= JRequest::getVar('Itemid');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
-		$doc->addStyleSheet('includes/js/calendar/calendar-mos.css');
-		$doc->addScript('includes/js/calendar/calendar_mini.js');
-		$doc->addScript('includes/js/calendar/lang/calendar-en.js');
+		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
+		$document->addScript('includes/js/calendar/calendar_mini.js');
+		$document->addScript('includes/js/calendar/lang/calendar-en.js');
 
 		// Get the article from the model
 		$article	=& $this->get('Article');
@@ -130,13 +196,6 @@ class JContentViewArticle extends JView
 		// Load the JEditor object
 		$editor =& JFactory::getEditor();
 
-		// Load the JPaneTabs object
-		jimport( 'joomla.presentation.pane' );
-		$tabs =& JPane::getInstance();
-
-		// Load the Overlib library
-		mosCommonHTML::loadOverlib();
-
 		// Ensure the row data is safe html
 		mosMakeHtmlSafe($article);
 
@@ -144,279 +203,25 @@ class JContentViewArticle extends JView
 		$title = $article->id ? JText::_('Edit') : JText::_('New');
 
 		// Set page title
-		$doc->setTitle($title);
+		$document->setTitle($title);
 
 		// Add pathway item
-		$breadcrumbs = & $mainframe->getPathway();
-		$breadcrumbs->addItem($title, '');
-
-		?>
-	  	<script language="javascript" type="text/javascript">
-		function submitbutton(pressbutton) {
-			var form = document.adminForm;
-			if (pressbutton == 'cancel') {
-				submitform( pressbutton );
-				window.top.document.popup.hide();
-				return;
-			}
-
-			try {
-				form.onsubmit();
-			}
-			catch(e){}
-			// do field validation
-			if (form.title.value == "") {
-				alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
-			} else if (parseInt('<?php echo $article->sectionid;?>')) {
-				// for articles
-				if (getSelectedValue('adminForm','catid') < 1) {
-					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
-				} else {
-		<?php
-		// JavaScript for extracting editor text
-		echo $editor->save( 'text' );
-		?>
-					submitform(pressbutton);
-					window.top.document.popup.hide();
-					delay(750);
-					window.top.location.reload(true);
-				}
-			}
-		}
-		</script>
-		<?php
-		// Build overlib text
-		$docinfo = '<table><tr><td>';
-		$docinfo .= '<strong>'.JText::_('Expiry Date').':</strong> ';
-		$docinfo .= '</td><td>';
-		$docinfo .= $article->publish_down;
-		$docinfo .= '</td></tr><tr><td>';
-		$docinfo .= '<strong>'.JText::_('Version').':</strong> ';
-		$docinfo .= '</td><td>';
-		$docinfo .= $article->version;
-		$docinfo .= '</td></tr><tr><td>';
-		$docinfo .= '<strong>'.JText::_('Created').':</strong> ';
-		$docinfo .= '</td><td>';
-		$docinfo .= $article->created;
-		$docinfo .= '</td></tr><tr><td>';
-		$docinfo .= '<strong>'.JText::_('Last Modified').':</strong> ';
-		$docinfo .= '</td><td>';
-		$docinfo .= $article->modified;
-		$docinfo .= '</td></tr><tr><td>';
-		$docinfo .= '<strong>'.JText::_('Hits').':</strong> ';
-		$docinfo .= '</td><td>';
-		$docinfo .= $article->hits;
-		$docinfo .= '</td></tr></table>';
-		?>
-		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
-
-		<table class="adminform" width="100%">
-		<tr>
-			<td>
-				<div style="float: left;">
-					<label for="title">
-						<?php echo JText::_( 'Title' ); ?>:
-					</label>
-					<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $article->title; ?>" />
-					&nbsp;&nbsp;&nbsp;
-					<?php /*echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>');*/ ?>
-				</div>
-				<div style="float: right;">
-				<button type="button" onclick="javascript:submitbutton('save')">
-					<?php echo JText::_('Save') ?>
-				</button>
-				<button type="button" onclick="javascript:submitbutton('cancel')" />
-					<?php echo JText::_('Cancel') ?>
-				</button>
-				</div>
-			</td>
-		</tr>
-		</table>
-
-		<!-- Begin Article Parameters Section -->
-		<!-- Images Tab -->
-		<?php
-		$title = JText::_('Editor');
-		$tabs->startPane('content-pane');
-		$tabs->startPanel($title, 'editor-page');
-
-		/*
-		 * We need to unify the introtext and fulltext fields and have the
-		 * fields separated by the {readmore} tag, so lets do that now.
-		 */
+		$pathway->addItem($title, '');
+		
+		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
 		if (JString::strlen($article->fulltext) > 1) {
 			$article->text = $article->introtext."<hr id=\"system-readmore\" />".$article->fulltext;
 		} else {
 			$article->text = $article->introtext;
 		}
-		// Display the editor
-		// arguments (areaname, content, width, height, cols, rows)
-		echo $editor->display('text', $article->text, '655', '400', '70', '15');
-		echo $editor->getButtons('text');
-		?>
-
-		<!-- Publishing Tab -->
-		<?php
-		$title = JText::_('Publishing');
-		$tabs->endPanel();
-		$tabs->startPanel($title, 'publish-page');
-		?>
-
-			<table class="adminform">
-		<?php
-
-		// If the document is in a section display the section and category dropdown
-		if ($article->sectionid) {
-		?>
-			<tr>
-				<td>
-					<label for="catid">
-						<?php echo JText::_( 'Section' ); ?>:
-					</label>
-				</td>
-				<td>
-					<strong>
-						<?php echo $article->section;?>
-					</strong>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="catid">
-						<?php echo JText::_( 'Category' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['catid']; ?>
-				</td>
-			</tr>
-			<?php
-		}
-
-		if ($user->authorize('action', 'publish', 'content', 'all')) {
-		?>
-				<tr>
-					<td >
-						<label for="state">
-							<?php echo JText::_( 'Published' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php echo $lists['state']; ?>
-					</td>
-				</tr>
-				<?php
-		}
-		?>
-			<tr>
-				<td width="120">
-					<label for="frontpage">
-						<?php echo JText::_( 'Show on Front Page' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['frontpage']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="created_by_alias">
-						<?php echo JText::_( 'Author Alias' ); ?>:
-					</label>
-				</td>
-				<td>
-					<input type="text" id="created_by_alias" name="created_by_alias" size="50" maxlength="100" value="<?php echo $article->created_by_alias; ?>" class="inputbox" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="publish_up">
-						<?php echo JText::_( 'Start Publishing' ); ?>:
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $article->publish_up; ?>" />
-					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="publish_down">
-						<?php echo JText::_( 'Finish Publishing' ); ?>:
-					</label>
-				</td>
-				<td>
-					<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $article->publish_down; ?>" />
-					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<label for="access">
-						<?php echo JText::_( 'Access Level' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['access']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="ordering">
-						<?php echo JText::_( 'Ordering' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['ordering']; ?>
-				</td>
-			</tr>
-			</table>
-
-		<!-- Metadata Tab -->
-		<?php
-		$title = JText::_('Metadata');
-		$tabs->endPanel();
-		$tabs->startPanel($title, 'meta-page');
-		?>
-			<table class="adminform">
-			<tr>
-				<td  valign="top">
-					<label for="metadesc">
-						<?php echo JText::_( 'Description' ); ?>:
-					</label>
-				</td>
-				<td>
-					<textarea rows="5" cols="50" style="width:500px; height:120px" class="inputbox" id="metadesc" name="metadesc"><?php echo str_replace('&','&amp;',$article->metadesc); ?></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td  valign="top">
-					<label for="metakey">
-						<?php echo JText::_( 'Keywords' ); ?>:
-					</label>
-				</td>
-				<td>
-					<textarea rows="5" cols="50" style="width:500px; height:50px" class="inputbox" id="metakey" name="metakey"><?php echo str_replace('&','&amp;',$article->metakey); ?></textarea>
-				</td>
-			</tr>
-			</table>
-
-		<!-- End Article Parameters Section -->
-		<?php
-		$tabs->endPanel();
-		$tabs->endPane();
-		?>
-
-		<input type="hidden" name="option" value="com_content" />
-		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
-		<input type="hidden" name="id" value="<?php echo $article->id; ?>" />
-		<input type="hidden" name="version" value="<?php echo $article->version; ?>" />
-		<input type="hidden" name="sectionid" value="<?php echo $article->sectionid; ?>" />
-		<input type="hidden" name="created_by" value="<?php echo $article->created_by; ?>" />
-		<input type="hidden" name="referer" value="<?php echo ampReplace( @$_SERVER['HTTP_REFERER'] ); ?>" />
-		<input type="hidden" name="task" value="" />
-		</form>
-		<?php
+		
+		$this->set('article', $article);
+		$this->set('params' , $params);
+		$this->set('lists'  , $lists);
+		$this->set('editor' , $editor);
+		$this->set('user'   , $user);
+		
+		$this->_loadTemplate('edit');
 	}
 
 	function _buildEditLists()
@@ -454,14 +259,15 @@ class JContentViewArticle extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function displayPdf()
+	function _displayPDF()
 	{
 		global $mainframe;
 
 		jimport('tcpdf.tcpdf');
+		
+		$dispatcher	=& JEventDispatcher::getInstance();
 
 		// Initialize some variables
-//		$user		= & JFactory::getUser();
 		$article	= & $this->get( 'Article' );
 		$params 	= & $article->parameters;
 
@@ -477,7 +283,7 @@ class JContentViewArticle extends JView
 
 		// process the new plugins
 		JPluginHelper::importPlugin('content');
-		$mainframe->triggerEvent('onPrepareContent', array (& $article, & $params, 0));
+		$dispatcher->trigger('onPrepareContent', array (& $article, & $params, 0));
 
 		//create new PDF document (document units are set by default to millimeters)
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);

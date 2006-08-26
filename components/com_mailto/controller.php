@@ -93,7 +93,7 @@ class MailtoController extends JController
 
 		if (!$email || !$from || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($from) == false))
 		{
-			JContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
+			ContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
 		}
 
 		// Build the link to send in the email

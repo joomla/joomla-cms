@@ -63,7 +63,7 @@ class JSite extends JApplication
 		$raw  	  = JRequest::getVar( 'no_html', 0, '', 'int' );
 		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 		$file 	  = JRequest::getVar( 'tmpl', 'index.php', '', 'string'  );
-
+		
 		$user     =& JFactory::getUser();
 
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
@@ -260,7 +260,7 @@ class JSite extends JApplication
 	{
 		$user     =& JFactory::getUser();
 		$document =& JFactory::getDocument($format);
-
+		
 		switch($format)
 		{
 			case 'html':

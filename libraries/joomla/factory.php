@@ -77,17 +77,13 @@ class JFactory
 	 */
 	function &getDocument($type = 'html')
 	{
-		static $instances;
+		static $instance;
 
-		if (!isset( $instances )) {
-			$instances = array();
+		if (!is_object( $instance )) {
+			$instance = JFactory::_createDocument($type);
 		}
 
-		if (empty($instances[$type])) {
-			$instances[$type] =& JFactory::_createDocument($type);
-		}
-
-		return $instances[$type];
+		return $instance;
 	}
 
 	/**

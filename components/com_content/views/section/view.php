@@ -22,7 +22,7 @@ jimport( 'joomla.application.view');
  * @subpackage Content
  * @since 1.5
  */
-class JContentViewSection extends JView
+class ContentViewSection extends JView
 {
 	/**
 	 * Name of the view.

@@ -500,10 +500,7 @@ class JContentHTMLHelper {
 
 		mosCommonHTML::loadOverlib();
 
-		$document->addScript('includes/js/joomla/popup.js');
-		$document->addStyleSheet('includes/js/joomla/popup.css');
-
-		$link = 'index2.php?option=com_content&amp;task=edit&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 		$image = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $item->id );
 
 		if ($item->state == 0) {
@@ -521,7 +518,7 @@ class JContentHTMLHelper {
 		$overlib .= '<br />';
 		$overlib .= $author;
 		?>
-		<a href="javascript:document.popup.show('<?php echo $link ?>', 700, 500, null);" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
+		<a href="<?php echo $link ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 			<?php echo $image; ?></a>
 		<?php
 	}

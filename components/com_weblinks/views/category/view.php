@@ -32,7 +32,7 @@ class WeblinksViewCategory extends JView
 
 	function display()
 	{
-		$document	= & JFactory::getDocument();
+		$document = & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':

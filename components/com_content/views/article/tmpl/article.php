@@ -1,161 +1,66 @@
+<?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
+	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
+		<?php JContentHTMLHelper::editIcon($this->article, $this->params, $this->data->access); ?>
+	</div>
+<?php endif; ?>
+<?php if ($this->params->get('item_title') || $this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) : ?>
+<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<tr>
 <?php
-/**
- * @version $Id$
- * @package Joomla
- * @subpackage Content
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
- */
+	// displays Item Title
+	JContentHTMLHelper::title($this->article, $this->params, $this->article->readmore_link, $this->data->access);
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+	// displays PDF Icon
+	JContentHTMLHelper::pdfIcon($this->article, $this->params, $this->article->readmore_link, false);
 
-		// Initialize variables
-		$article	= & $this->get('Article');
-		$user		= & JFactory::getUser();
-		$params		= & $article->parameters;
-		$dispatcher	= & JEventDispatcher::getInstance();
+	// displays Print Icon
+	mosHTML::PrintIcon($this->article, $this->params, false, $this->article->print_link);
 
-		// At some point in the future this will be in a request object
-		$page	= JRequest::getVar('limitstart', 0, '', 'int');
-		$noJS	= JRequest::getVar('hide_js', 0, '', 'int');
-		$type	= JRequest::getVar('format', 'html');
-
-		$linkOn   = null;
-		$linkText = null;
-
-		// Create a user access object for the current user
-		$access = new stdClass();
-		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
-
-		// Process the content plugins
-		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $page));
-
-		// Build the link and text of the readmore button
-		if ($params->get('readmore') || $params->get('link_titles')) {
-			if ($params->get('intro_only')) {
-				// Check to see if the user has access to view the full article
-				if ($article->access <= $user->get('gid')) {
-					$Itemid = JContentHelper::getItemid($article->id);
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
-
-					if (@$article->readmore) {
-					// text for the readmore link
-						$linkText = JText::_('Read more...');
-					}
-				} else {
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-
-					if (@$article->readmore) {
-					// text for the readmore link if accessible only if registered
-						$linkText = JText::_('Register to read more...');
-					}
-				}
-			}
-		}
-
-		// Popup pages get special treatment for page titles
-		if ($params->get('popup') && $type =! 'html') {
-			$doc->setTitle($mainframe->getCfg('sitename').' - '.$article->title);
-		}
-
-		// If the user can edit the article, display the edit icon
-		if ($access->canEdit) {
-			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-				<?php JContentHTMLHelper::editIcon($article, $params, $access); ?>
-			</div>
-			<?php
-		}
-
-		// Time to build the title bar... this may also include the pdf/print/email buttons if enabled
-		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
-			// Build the link for the print button
-			$printLink = JURI::base().'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
-			?>
-			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<tr>
-			<?php
-
-			// displays Item Title
-			JContentHTMLHelper::title($article, $params, $linkOn, $access);
-
-			// displays PDF Icon
-			JContentHTMLHelper::pdfIcon($article, $params, $linkOn, $noJS);
-
-			// displays Print Icon
-			mosHTML::PrintIcon($article, $params, $noJS, $printLink);
-
-			// displays Email Icon
-			JContentHTMLHelper::emailIcon($article, $params, $noJS);
-			?>
-			</tr>
-			</table>
-			<?php
-		}
-
-		// If only displaying intro, display the output from the onAfterDisplayTitle event
-		if (!$params->get('intro_only')) {
-			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $article, & $params, $page));
-			echo trim(implode("\n", $results));
-		}
-
-		// Display the output from the onBeforeDisplayContent event
-		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $article, & $params, $page));
-		echo trim(implode("\n", $onBeforeDisplayContent));
-		?>
-		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php
-
-		// displays Section & Category
-		JContentHTMLHelper::sectionCategory($article, $params);
-
-		// displays Author Name
-		JContentHTMLHelper::author($article, $params);
-
-		// displays Created Date
-		JContentHTMLHelper::createDate($article, $params);
-
-		// displays Urls
-		JContentHTMLHelper::url($article, $params);
-		?>
-		<tr>
-			<td valign="top" colspan="2">
-		<?php
-
-		// displays Table of Contents
-		JContentHTMLHelper::toc($article);
-
-		// displays Item Text
-		echo ampReplace($article->text);
-		?>
-			</td>
-		</tr>
-		<?php
-
-		// displays Modified Date
-		JContentHTMLHelper::modifiedDate($article, $params);
-
-		// displays Readmore button
-		JContentHTMLHelper::readMore($params, $linkOn, $linkText);
-		?>
-		</table>
-		<span class="article_seperator">&nbsp;</span>
-		<?php
-
-		// Fire the after display content event
-		$onAfterDisplayContent = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $page));
-		echo trim(implode("\n", $onAfterDisplayContent));
-
-		// displays close button in pop-up window
-		mosHTML::CloseButton($params, $noJS);
-
+	// displays Email Icon
+	JContentHTMLHelper::emailIcon($this->article, $this->params, false);
 ?>
+</tr>
+</table>
+<?php endif; ?>
+<?php  if (!$this->params->get('intro_only')) :
+	echo $this->article->event->afterDisplayTitle;
+endif; ?>
+<?php echo $this->article->event->beforeDisplayContent; ?>
+<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">	
+<?php
+
+	// displays Section & Category
+	JContentHTMLHelper::sectionCategory($this->article, $this->params);
+
+	// displays Author Name
+	JContentHTMLHelper::author($this->article, $this->params);
+
+	// displays Created Date
+	JContentHTMLHelper::createDate($this->article, $this->params);
+
+	// displays Urls
+	JContentHTMLHelper::url($this->article, $this->params);
+?>
+<tr>
+<td valign="top" colspan="2">
+<?php
+
+	// displays Table of Contents
+	JContentHTMLHelper::toc($this->article);
+
+	// displays Item Text
+	echo ampReplace($this->article->text);
+?>
+</td>
+</tr>
+<?php
+
+	// displays Modified Date
+	JContentHTMLHelper::modifiedDate($this->article, $this->params);
+
+	// displays Readmore button
+	JContentHTMLHelper::readMore($this->params, $this->article->readmore_link, $this->article->readmore_text);
+?>
+</table>
+<span class="article_seperator">&nbsp;</span>
+<?php echo $this->article->event->afterDisplayContent; ?>
