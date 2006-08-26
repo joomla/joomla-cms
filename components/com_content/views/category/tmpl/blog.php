@@ -30,7 +30,6 @@
 	</td>
 </tr>
 <?php else : $i = 0; endif; ?>
-
 <?php if ($this->params->def('intro', 4) && ($i < $this->category->total)) : ?>
 <tr>
 	<td valign="top">

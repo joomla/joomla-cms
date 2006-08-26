@@ -70,7 +70,6 @@ class ContentViewCategory extends JView
 		
 		// Request variables
 		$task 	    = JRequest::getVar('task');
-		$id 	    = JRequest::getVar('id');
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		
@@ -120,7 +119,7 @@ class ContentViewCategory extends JView
 		$params->def('filter_type',		'title');
 		$params->set('intro_only', 		1);
 		
-		if ($params->get('page_title')) {
+		if ($params->def('page_title', 1)) {
 			$params->def('header', $menu->name);
 		}
 		

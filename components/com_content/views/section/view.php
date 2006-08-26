@@ -38,16 +38,16 @@ class ContentViewSection extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function display()
+	function display($layout)
 	{
 		$document	= & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':
-				$this->displayFeed();
+				$this->_displayFeed();
 				break;
 			default:
-				$this->displayHtml();
+				$this->_displayHTML($layout);
 				break;
 		}
 	}
@@ -58,35 +58,37 @@ class ContentViewSection extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function displayHtml()
+	function _displayHTML($layout)
 	{
-		global $mainframe;
+		global $mainframe, $Itemid, $option;
 
 		// Initialize some variables
-		$user	=& JFactory::getUser();
-		$doc	=& JFactory::getDocument();
-
-		$gid 	= $user->get('gid');
+		$user	  =& JFactory::getUser();
+		$document =& JFactory::getDocument();
+		$pathway  = & $mainframe->getPathWay();
 
 		// Get some data from the model
-		$section	= & $this->get( 'Section' );
-
-		// Request variables
-		$task 	= JRequest::getVar('task');
-		$id 	= JRequest::getVar('id');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-
+		$categories	= & $this->get( 'Categories' );
+		$items      = & $this->get( 'Content');
+		$section    = & $this->get( 'Section' );
+		$section->total = count($items);
+		
 		// Get the menu object of the active menu item
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getItem($Itemid);
-
+		$menus	=& JMenu::getInstance();
+		$menu	=& $menus->getItem($Itemid);
+		$params =& $menus->getParams($Itemid);
+		
+		// Request variables
+		$task 	    = JRequest::getVar('task');
+		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$section->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$doc->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$doc->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access					= new stdClass();
@@ -95,36 +97,74 @@ class ContentViewSection extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Set the page title and breadcrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		$breadcrumbs->addItem($section->title, '');
+		$pathway->addItem($section->title, '');
 
 		if (!empty ($menu->name)) {
 			$mainframe->setPageTitle($menu->name);
 		}
-
-		$cParams = &JSiteHelper::getControlParams();
-		$template = JRequest::getVar( 'tpl', $cParams->get( 'template_name', 'list' ) );
-		$template = preg_replace( '#\W#', '', $template );
-		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-
-		if (!file_exists( $tmplPath ))
-		{
-			$tmplPath = dirname( __FILE__ ) . '/tmpl/list.php';
+		
+		$intro		= $params->def('intro', 	4);
+		$leading	= $params->def('leading', 	1);
+		$links		= $params->def('link', 		4);
+		
+		$params->def('empty_cat_section', 	0);
+		$params->def('other_cat', 			1);
+		$params->def('empty_cat', 			0);
+		$params->def('cat_items', 			1);
+		$params->def('pageclass_sfx', 		'');
+		$params->set('intro_only', 			1);
+		
+		if ($section->total == 0) {
+			$params->set('other_cat_section', false);
 		}
-
-		require($tmplPath);
+		
+		if ($params->def('page_title', 1)) {
+			$params->def('header', $menu->name);
+		}
+		
+		for($i = 0; $i < count($categories); $i++)
+		{
+			$category =& $categories[$i];
+			$category->link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$section->id.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
+		}
+		
+		$limit	= $intro + $leading + $links;
+		$i		= $limitstart;
+		
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination(count($items), $limitstart, $limit);
+		$link = 'index.php?option=com_content&amp;task=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
+		
+		$request = new stdClass();
+		$request->limit	 		= $limit;
+		$request->limitstart	= $limitstart;
+		
+		$data = new stdClass();
+		$data->link = $link;
+		
+		$this->set('data'      , $data);
+		$this->set('items'     , $items);
+		$this->set('request'   , $request);
+		$this->set('section'   , $section);
+		$this->set('categories', $categories);
+		$this->set('params'    , $params);
+		$this->set('user'      , $user);
+		$this->set('access'    , $access);
+		$this->set('pagination', $pagination);
+		
+		$this->_loadTemplate($layout);
 	}
 
-	function showItem( &$row, &$access, $showImages = false )
+	function item( $i )
 	{
 		require_once( JPATH_COMPONENT . '/helpers/article.php' );
-		JContentArticleHelper::showItem( $this, $row, $access, $showImages );
+		JContentArticleHelper::showItem( $this, $this->items[$i], $this->access, true );
 	}
 
-	function showLinks(& $rows, $links, $total, $i = 0)
+	function links( $i )
 	{
 		require_once( JPATH_COMPONENT . '/helpers/article.php' );
-		JContentArticleHelper::showLinks( $rows, $links, $total, $i );
+		JContentArticleHelper::showLinks( $this->items[$i], $this->params->get('link'), $this->section->total, $i );
 	}
 
 	/**
@@ -133,7 +173,7 @@ class ContentViewSection extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function displayFeed()
+	function _displayFeed()
 	{
 		$doc =& JFactory::getDocument();
 
