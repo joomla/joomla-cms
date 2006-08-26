@@ -47,7 +47,7 @@ class ContentViewArticle extends JView
 				$this->_displayPDF();
 				break;
 			default:
-				$this->_displayHTML();
+				$this->_displayHTML($layout);
 				break;
 		}
 	}
@@ -58,7 +58,7 @@ class ContentViewArticle extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function _displayHTML()
+	function _displayHTML($layout)
 	{
 		global $mainframe, $Itemid;
 		
@@ -141,9 +141,6 @@ class ContentViewArticle extends JView
 			}
 		}
 		
-		$data = new stdClass();
-		$data->access = $access;
-	
 		$article->readmore_link = $linkOn;
 		$article->readmore_text = $linkText;
 		
@@ -161,10 +158,10 @@ class ContentViewArticle extends JView
 		
 		$this->set('article', $article);
 		$this->set('params' , $params);
-		$this->set('data'   , $data);
 		$this->set('user'   , $user);
+		$this->set('access' , $access);
 		
-		$this->_loadTemplate('article');
+		$this->_loadTemplate($layout);
 	}
 
 	function edit()

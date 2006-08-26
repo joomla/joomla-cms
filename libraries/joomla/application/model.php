@@ -54,52 +54,7 @@ class JModel extends JObject
 	{
 		$this->_db = &JFactory::getDBO();
 	}
-
-	/**
-	 * String representation
-	 * @return string
-	 * @since 1.5
-	 */
-	function __toString()
-	{
-		$result = get_class( $this );
-		return $result;
-	}
-
-	/**
-	 * Returns an object list
-	 * @param string The query
-	 * @param int Offset
-	 * @param int The number of records
-	 * @return array
-	 * @access protected
-	 * @since 1.5
-	 */
-	function &_getList( $query, $limitstart=0, $limit=0 )
-	{
-		$db = JFactory::getDBO();
-		$db->setQuery( $query, $limitstart, $limit );
-		$result = $db->loadObjectList();
-
-		return $result;
-	}
-
-	/**
-	 * Returns a record count for the query
-	 * @param string The query
-	 * @return int
-	 * @access protected
-	 * @since 1.5
-	 */
-	function _getListCount( $query )
-	{
-		$db = JFactory::getDBO();
-		$db->setQuery( $query );
-		$db->query();
-
-		return $db->getNumRows();
-	}
-
+	
 	/**
 	 * Get instance
 	 * @return JModelMenu
@@ -154,6 +109,51 @@ class JModel extends JObject
 	function setError( $value ) {
 		$this->_error = $value;
 		return $this->_error;
+	}
+	
+	/**
+	 * String representation
+	 * @return string
+	 * @since 1.5
+	 */
+	function __toString()
+	{
+		$result = get_class( $this );
+		return $result;
+	}
+	
+	/**
+	 * Returns an object list
+	 * @param string The query
+	 * @param int Offset
+	 * @param int The number of records
+	 * @return array
+	 * @access protected
+	 * @since 1.5
+	 */
+	function &_getList( $query, $limitstart=0, $limit=0 )
+	{
+		$db = JFactory::getDBO();
+		$db->setQuery( $query, $limitstart, $limit );
+		$result = $db->loadObjectList();
+
+		return $result;
+	}
+
+	/**
+	 * Returns a record count for the query
+	 * @param string The query
+	 * @return int
+	 * @access protected
+	 * @since 1.5
+	 */
+	function _getListCount( $query )
+	{
+		$db = JFactory::getDBO();
+		$db->setQuery( $query );
+		$db->query();
+
+		return $db->getNumRows();
 	}
 }
 ?>

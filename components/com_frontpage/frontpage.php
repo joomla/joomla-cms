@@ -45,10 +45,7 @@ class FrontpageController
 		global $mainframe, $Itemid;
 
 		// Initialize some variables
-		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
-		$doc  	=& JFactory::getDocument();
-		$gid	= $user->get('gid');
 
 		// get request variables
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -60,7 +57,7 @@ class FrontpageController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Parameters
-		$menus   =& JMenu::getInstance();
+		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
 		$params =& $menus->getParams($Itemid);
 
@@ -78,13 +75,10 @@ class FrontpageController
 		$request = new stdClass();
 		$request->limitstart = $limitstart;
 
-		$data = new stdClass();
-		$data->error  = null;
-		$data->access = $access;
-
-		$view->set('data'   , $data);
-		$view->set('params' , $params);
-		$view->set('request', $request);
+		$view->set('user'      , $user);
+		$view->set('access'    , $access);
+		$view->set('params'    , $params);
+		$view->set('request'   , $request);
 		$view->display();
 	}
 }

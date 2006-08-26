@@ -34,16 +34,16 @@ class ContentViewCategory extends JView
 	/**
 	 * Display the document
 	 */
-	function display()
+	function display($layout)
 	{
 		$document	= & JFactory::getDocument();
 		switch ($document->getType())
 		{
 			case 'feed':
-				$this->displayFeed();
+				$this->_displayFeed();
 				break;
 			default:
-				$this->displayHtml();
+				$this->_displayHTML($layout);
 				break;
 		}
 	}
@@ -54,313 +54,134 @@ class ContentViewCategory extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function displayHtml()
+	function _displayHTML($layout)
 	{
-		global $mainframe;
+		global $mainframe, $option, $Itemid;
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$doc		=& JFactory::getDocument();
-
-		$gid 		= $user->get('gid');
-
-		// Get some data from the model
-		$category			= & $this->get( 'Category' );
-		$other_categories	= & $this->get( 'Siblings' );
-		$items				= & $this->get( 'Content' );
-
-		// Request variables
-		$task 	= JRequest::getVar('task');
-		$id 	= JRequest::getVar('id');
-		$option = JRequest::getVar('option');
-		$Itemid	= JRequest::getVar('Itemid');
+		$user	  =& JFactory::getUser();
+		$document =& JFactory::getDocument();
+		$pathway  = & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
 		$menus	 =& JMenu::getInstance();
 		$menu	 =& $menus->getItem($Itemid);
-		$mParams =& $menus->getParams($Itemid);
+		$params  =& $menus->getParams($Itemid);
+		
+		// Request variables
+		$task 	    = JRequest::getVar('task');
+		$id 	    = JRequest::getVar('id');
+		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		
+		// Get some data from the model
+		$items	  = & $this->get( 'Content' );
+		$category = & $this->get( 'Category' );
+		$category->total = count($items);
 
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$category->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$doc->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$doc->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		// Set the page title and breadcrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
+		
 		// Section
-		$breadcrumbs->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
+		$pathway->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
 		// Category
-		$breadcrumbs->addItem($category->title, '');
+		$pathway->addItem($category->title, '');
 
-		$mainframe->SetPageTitle($menu->name);
-
-		// include the template
-		$cParams = &JSiteHelper::getControlParams();
-		$template = $cParams->get( 'template_name', 'table' );
-		$template = preg_replace( '#\W#', '', $template );
-		$tmplPath = dirname( __FILE__ ) . '/tmpl/' . $template . '.php';
-		if (!file_exists( $tmplPath ))
-		{
-			$tmplPath = dirname( __FILE__ ) . '/tmpl/table.php';
+		$mainframe->setPageTitle($menu->name);
+		
+		$intro		= $params->def('intro', 	4);
+		$leading	= $params->def('leading', 	1);
+		$links		= $params->def('link', 		4);
+		
+		$params->def('title',			1);
+		$params->def('hits',			$mainframe->getCfg('hits'));
+		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
+		$params->def('date',			!$mainframe->getCfg('hideCreateDate'));
+		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
+		$params->def('navigation',		2);
+		$params->def('display',			1);
+		$params->def('display_num',		$mainframe->getCfg('list_limit'));
+		$params->def('empty_cat',		0);
+		$params->def('cat_items',		1);
+		$params->def('cat_description',0);
+		$params->def('pageclass_sfx',	'');
+		$params->def('headings',		1);
+		$params->def('filter',			1);
+		$params->def('filter_type',		'title');
+		$params->set('intro_only', 		1);
+		
+		if ($params->get('page_title')) {
+			$params->def('header', $menu->name);
 		}
+		
+		$limit	= $intro + $leading + $links;
+		$i		= $limitstart;
+		
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination(count($items), $limitstart, $limit);
+		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$category->sectionid.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid;
+		
+		$request = new stdClass();
+		$request->limit	 		= $limit;
+		$request->limitstart	= $limitstart;
+		
+		$data = new stdClass();
+		$data->link = $link;
+		
+		$this->set('data'      , $data);
+		$this->set('items'     , $items);
+		$this->set('request'   , $request);
+		$this->set('category'  , $category);
+		$this->set('params'    , $params);
+		$this->set('user'      , $user);
+		$this->set('access'    , $access);
+		$this->set('pagination', $pagination);
 
-		require($tmplPath);
+		$this->_loadTemplate($layout);
 	}
 
-	function buildItemTable(& $items, & $pagination, & $params, & $lists, & $access, $cid, $sid, $order)
+	function items()
 	{
-		global $mainframe;
-
-		$user		= & JFactory::getUser();
-
-		$Itemid	= JRequest::getVar('Itemid');
-
-		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$cid.'&amp;Itemid='.$Itemid;
-		?>
-		<script language="javascript" type="text/javascript">
-		function tableOrdering( order, dir, task ) {
-			var form = document.adminForm;
-
-			form.filter_order.value 	= order;
-			form.filter_order_Dir.value	= dir;
-			document.adminForm.submit( task );
+		global $mainframe, $Itemid;
+		
+		if (!count( $this->items ) ) {
+			return;
 		}
-		</script>
+		
+		//create select lists
+		$lists	= $this->_buildSortLists();
 
-		<form action="<?php echo sefRelToAbs($link); ?>" method="post" name="adminForm">
-
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<?php
-
-		if ($params->get('filter') || $params->get('display'))
-		{
-		?>
-			<tr>
-				<td colspan="5">
-					<table>
-					<tr>
-					<?php
-
-			if ($params->get('filter'))
-			{
-		?>
-						<td align="left" width="100%" nowrap="nowrap">
-							<?php
-
-				echo JText::_('Filter').'&nbsp;';
-		?>
-							<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
-						</td>
-					<?php
-
-			}
-			if ($params->get('display'))
-			{
-		?>
-						<td align="right" width="100%" nowrap="nowrap">
-							<?php
-
-				$filter = '';
-				if ($lists['filter'])
-				{
-					$filter = '&amp;filter='.$lists['filter'];
-				}
-
-				$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$cid.'&amp;Itemid='.$Itemid.$filter;
-
-				echo '&nbsp;&nbsp;&nbsp;'.JText::_('Display Num').'&nbsp;';
-				echo $pagination->getLimitBox($link);
-		?>
-						</td>
-						<?php
-
-			}
-		?>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<?php
-
+		//create paginatiion
+		if ($lists['filter']) {
+			$this->data->link .= '&amp;filter='.$lists['filter'];
 		}
-		if ($params->get('headings'))
-		{
-		?>
-			<tr>
-				<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5">
-					<?php echo JText::_('Num'); ?>
-				</td>
-				<?php
-
-			if ($params->get('title'))
-			{
-		?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
-						<?php mosCommonHTML::tableOrdering( 'Item Title', 'a.title', $lists ); ?>
-					</td>
-					<?php
-
-			}
-			if ($params->get('date'))
-			{
-		?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="25%">
-						<?php mosCommonHTML::tableOrdering( 'Date', 'a.created', $lists ); ?>
-					</td>
-					<?php
-
-			}
-			if ($params->get('author'))
-			{
-		?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="20%">
-						<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
-					</td>
-					<?php
-
-			}
-			if ($params->get('hits'))
-			{
-		?>
-					<td align="center" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
-					</td>
-					<?php
-
-			}
-		?>
-			</tr>
-			<?php
-
-		}
-
+	
 		$k = 0;
-		$i = 0;
-		foreach ($items as $row)
+		for($i = 0; $i <  count($this->items); $i++)
 		{
-			$row->created = mosFormatDate($row->created, $params->get('date_format'));
-		?>
-			<tr class="sectiontableentry<?php echo ($k+1) . $params->get( 'pageclass_sfx' ); ?>" >
-				<td align="center">
-					<?php echo $pagination->rowNumber( $i ); ?>
-				</td>
-				<?php
+			$item =& $this->items[$i];
 
-			if ($params->get('title'))
-			{
-				if ($row->access <= $user->get('gid'))
-				{
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
-		?>
-						<td>
-							<a href="<?php echo $link; ?>">
-								<?php echo $row->title; ?></a>
-							<?php
-
-					JContentHTMLHelper::editIcon($row, $params, $access);
-		?>
-						</td>
-						<?php
-
-				}
-				else
-				{
-		?>
-						<td>
-							<?php
-
-					echo $row->title.' : ';
-					$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
-		?>
-							<a href="<?php echo $link; ?>">
-								<?php echo JText::_( 'Register to read more...' ); ?></a>
-						</td>
-					<?php
-
-				}
-			}
-			if ($params->get('date'))
-			{
-		?>
-					<td>
-						<?php echo $row->created; ?>
-					</td>
-					<?php
-
-			}
-			if ($params->get('author'))
-			{
-		?>
-					<td >
-						<?php echo $row->created_by_alias ? $row->created_by_alias : $row->author; ?>
-					</td>
-					<?php
-
-			}
-			if ($params->get('hits'))
-			{
-		?>
-					<td align="center">
-						<?php echo $row->hits ? $row->hits : '-'; ?>
-					</td>
-					<?php
-
-			}
-		?>
-			</tr>
-			<?php
-
+			$item->link    = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$item->id.'&amp;Itemid='.$Itemid);
+			$item->created = mosFormatDate($item->created, $this->params->get('date_format'));
+			
+			$item->odd   = $k;
+			$item->count = $i;
 			$k = 1 - $k;
-			$i ++;
 		}
-		if ($params->get('navigation'))
-		{
-		?>
-			<tr>
-				<td colspan="5">&nbsp;</td>
-			</tr>
-			<tr>
-				<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php
-
-			$filter = '';
-			if ($lists['filter'])
-			{
-				$filter = '&amp;filter='.$lists['filter'];
-			}
-
-			$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sid.'&amp;id='.$cid.'&amp;Itemid='.$Itemid.$filter;
-			echo $pagination->writePagesLinks($link);
-		?>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="5" align="right">
-					<?php echo $pagination->writePagesCounter(); ?>
-				</td>
-			</tr>
-			<?php
-
-		}
-		?>
-		</table>
-
-		<input type="hidden" name="id" value="<?php echo $cid; ?>" />
-		<input type="hidden" name="sectionid" value="<?php echo $sid; ?>" />
-		<input type="hidden" name="task" value="<?php echo $lists['task']; ?>" />
-		<input type="hidden" name="option" value="com_content" />
-		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		</form>
-		<?php
+		
+		$this->set('lists'     , $lists);
+		
+		$this->_loadTemplate('_table_items');
 	}
 
 	function _buildSortLists()
@@ -368,7 +189,7 @@ class ContentViewCategory extends JView
 		/*
 		 * Table ordering values
 		 */
-		$filter					= JRequest::getVar('filter');
+		$filter				= JRequest::getVar('filter');
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 		$lists['task'] = 'category';
@@ -386,16 +207,16 @@ class ContentViewCategory extends JView
 		return $lists;
 	}
 
-	function showItem( &$row, &$access, $showImages = false )
+	function item( $i )
 	{
 		require_once( JPATH_COMPONENT . '/helpers/article.php' );
-		JContentArticleHelper::showItem( $this, $row, $access, $showImages );
+		JContentArticleHelper::showItem( $this, $this->items[$i], $this->access, true );
 	}
 
-	function showLinks(& $rows, $links, $total, $i = 0)
+	function links( $i )
 	{
 		require_once( JPATH_COMPONENT . '/helpers/article.php' );
-		JContentArticleHelper::showLinks( $rows, $links, $total, $i );
+		JContentArticleHelper::showLinks( $this->items[$i], $this->params->get('link'), $this->category->total, $i );
 	}
 
 	/**
@@ -404,7 +225,7 @@ class ContentViewCategory extends JView
 	 * @access	private
 	 * @var		string
 	 */
-	function displayFeed()
+	function _displayFeed()
 	{
 		global $mainframe;
 

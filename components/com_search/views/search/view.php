@@ -58,7 +58,7 @@ class SearchViewSearch extends JView
 
 		//create pagination
 		jimport('joomla.presentation.pagination');
-		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+		$pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
 
 		$this->data->link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
 
@@ -78,6 +78,8 @@ class SearchViewSearch extends JView
 			$result->created = $created;
 			$result->count   = $i + 1;
 		}
+		
+		$this->set('pagination', $pagination);
 
 		$this->_loadTemplate('_search_results');
 	}

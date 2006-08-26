@@ -37,7 +37,7 @@ class ContentController extends JController
 		$cParams	= JSiteHelper::getControlParams();
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
-		$layout     = '';
+		$layout     = $cParams->get( 'template_name' );
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
@@ -69,7 +69,7 @@ class ContentController extends JController
 				$layout = 'article';
 				break;
 		}
-
+		
 		// Create the view
 		$this->setViewName( $viewName, 'ContentView' );
 		$view = & $this->getView();

@@ -48,7 +48,7 @@ class NewsfeedsViewCategory extends JView
 
 		//create pagination
 		jimport('joomla.presentation.pagination');
-		$this->pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+		$pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
 
 		$this->data->link = "index.php?option=com_newsfeeds&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
 
@@ -73,6 +73,8 @@ class NewsfeedsViewCategory extends JView
 			// Use the static HTML library to build the image tag
 			$this->data->image = mosHTML::Image('/images/stories/'.$this->category->image, JText::_('News Feeds'), $attribs);
 		}
+		
+		$this->set('pagination', $pagination);
 
 		$this->_loadTemplate('_table_items');
 	}

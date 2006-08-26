@@ -83,9 +83,9 @@ class JContentModelCategory extends JModel
 	function setId($id)
 	{
 		// Set category ID and wipe data
-		$this->_id				= $id;
+		$this->_id			= $id;
 		$this->_category	= null;
-		$this->_siblings		= null;
+		$this->_siblings	= null;
 		$this->_content		= array();
 	}
 

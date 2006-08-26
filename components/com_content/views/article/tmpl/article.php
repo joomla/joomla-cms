@@ -1,6 +1,6 @@
 <?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php JContentHTMLHelper::editIcon($this->article, $this->params, $this->data->access); ?>
+		<?php JContentHTMLHelper::editIcon($this->article, $this->params, $this->access); ?>
 	</div>
 <?php endif; ?>
 <?php if ($this->params->get('item_title') || $this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) : ?>
@@ -8,7 +8,7 @@
 <tr>
 <?php
 	// displays Item Title
-	JContentHTMLHelper::title($this->article, $this->params, $this->article->readmore_link, $this->data->access);
+	JContentHTMLHelper::title($this->article, $this->params, $this->article->readmore_link, $this->access);
 
 	// displays PDF Icon
 	JContentHTMLHelper::pdfIcon($this->article, $this->params, $this->article->readmore_link, false);

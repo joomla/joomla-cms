@@ -32,10 +32,16 @@ class FrontpageViewFrontpage extends JView
 
 	function display()
 	{
-		$document	=& JFactory::getDocument();
-
-		$function = '_display'.$document->getType();
-		$this->$function();
+		$document	= & JFactory::getDocument();
+		switch ($document->getType())
+		{
+			case 'feed':
+				$this->_displayFeed();
+				break;
+			default:
+				$this->_displayHTML();
+				break;
+		}
 	}
 
 	function _displayHTML()
@@ -47,28 +53,35 @@ class FrontpageViewFrontpage extends JView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
-		$gid		= $user->get('gid');
 
 		//we also need the content language file
 		$lang->load('com_content');
 
-		$id			= JRequest::getVar('id');
+		$id	= JRequest::getVar('id');
+		
+		//set data model
+		$items 		= $this->get('ContentData');
+		$frontpage  = new stdClass();
+		$frontpage->total = count($items);
 
 		// get menu
 		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
 
-		$intro				= $this->params->def('intro', 4);
-		$leading			= $this->params->def('leading', 1);
-		$links				= $this->params->def('link', 4);
-		$descrip			= $this->params->def('description', 1);
-		$descrip_image		= $this->params->def('description_image', 1);
-		$columns 			= $this->params->def('columns', 2);
+		// parameters
+		$intro				= $this->params->def('intro', 				4);
+		$leading			= $this->params->def('leading', 			1);
+		$links				= $this->params->def('link', 				4);
+		$descrip			= $this->params->def('description', 		1);
+		$descrip_image		= $this->params->def('description_image', 	1);
 
-		$this->params->def('pagination', 2);
-		$this->params->def('pagination_results', 1);
 		$this->params->def('pageclass_sfx', '');
-		$this->params->set('intro_only', 1);
+		$this->params->set('intro_only', 	1);
+		$this->params->def('page_title', 	1);
+		
+		if ($this->params->get('page_title')) {
+			$this->params->def('header', $menu->name);
+		}
 
 		//add alternate feed link
 		$link    = ampReplace(JURI::base() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
@@ -77,12 +90,8 @@ class FrontpageViewFrontpage extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 
-		// parameters
-		if ($this->params->get('page_title', 1) && $menu) {
-			$this->data->header = $this->params->def('header', $menu->name);
-		}
-
 		// Set section/category description text and images for
+		//TODO :: Fix this !
 		if ($menu && $menu->componentid && ($descrip || $descrip_image))
 		{
 			switch ($menu->type)
@@ -95,7 +104,7 @@ class FrontpageViewFrontpage extends JView
 					$description->text = $section->description;
 					$description->link = 'images/stories/'.$section->image;
 
-					$this->data->description = $description;
+					$frontpage->description = $description;
 					break;
 
 				case 'content_blog_category' :
@@ -106,42 +115,24 @@ class FrontpageViewFrontpage extends JView
 					$description->text = $category->description;
 					$description->link = 'images/stories/'.$description->image;
 
-					$this->data->description = $description;
+					$frontpage->description = $description;
 					break;
 			}
 		}
 
-		$rows = $this->get('ContentData');
-
-		$total 		= count($rows);
 		$limit 		= $intro + $leading + $links;
 		$limitstart = $this->request->limitstart;
 
-		if ($total <= $limit) {
+		if ($frontpage->total <= $limit) {
 			$limitstart = 0;
 		}
 		$i = $limitstart;
 
-		if (!$total) {
-			return;
-		}
-
-		$this->data->total = $total;
-		$this->items = $rows;
-
-		$limitstart = $limitstart ? $limitstart : 0;
 		jimport('joomla.presentation.pagination');
-		$this->pagination = new JPagination($total, $limitstart, $limit);
+		$this->pagination = new JPagination($frontpage->total, $limitstart, $limit);
 
-		if ($columns == 0) {
-			$columns = 1;
-		}
-
-		$column_width = 100 / $columns; // width of each column
-		$column_width = 'width="'.intval($column_width).'%"';
-
-		$this->params->set('column_width', $column_width);
-		$this->params->set('columns', $columns);
+		$this->set('items'     , $items);
+		$this->set('frontpage' , $frontpage);
 
 		$this->_loadTemplate('blog');
 	}
@@ -218,7 +209,6 @@ class FrontpageViewFrontpage extends JView
 		$this->params->def('icons',			$mainframe->getCfg('icons'));
 		$this->params->def('readmore',		$mainframe->getCfg('readmore'));
 		$this->params->def('back_button', 	$mainframe->getCfg('back_button'));
-		$this->params->set('intro_only', 	1);
 
 		// Get some item specific parameters
 		$this->params->def('image',				1);
