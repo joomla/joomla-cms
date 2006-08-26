@@ -79,13 +79,7 @@ class JButton_Help extends JButton
 			$url = JURI::base().$url;
 		}
 
-		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc =& JFactory::getDocument();
-		$doc->addScript($baseurl.'includes/js/joomla/popup.js');
-		$doc->addStyleSheet($baseurl.'includes/js/joomla/popup.css');
-
-		$cmd = "document.popup.show('$url', 640, 480, null)";
+		$cmd = "popupWindow('$url', '".JText::_('Help')."', 640, 480, 1)";
 
 		return $cmd;
 	}
