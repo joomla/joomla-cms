@@ -21,7 +21,7 @@ jimport( 'joomla.application.view');
  * @subpackage Content
  * @since 1.5
  */
-class JArchiveViewArchive extends JView
+class ContentViewArchive extends JView
 {
 	/**
 	 * Name of the view.
@@ -32,29 +32,86 @@ class JArchiveViewArchive extends JView
 	var $_viewName = 'Archive';
 
 	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
+	 * Display the document
 	 */
-	function display()
+	function display($layout)
 	{
+		global $mainframe, $option, $Itemid;
+
 		// Initialize some variables
-		$Itemid		= JRequest::getVar('Itemid');
-		$task		= JRequest::getVar('task');
-		$id			= JRequest::getVar('id', 0, '', 'int');
+		$user	  =& JFactory::getUser();
+		$document =& JFactory::getDocument();
+		$pathway  = & $mainframe->getPathWay();
 
-		// initiate form
-		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
-		echo '<form action="'.sefRelToAbs($link).'" method="post">';
+		// Get the menu object of the active menu item
+		$menus	 =& JMenu::getInstance();
+		$menu	 =& $menus->getItem($Itemid);
+		$params  =& $menus->getParams($Itemid);
+		
+		// Request variables
+		$task 	    = JRequest::getVar('task');
+		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		
+		// Get some data from the model
+		$items	  = & $this->get( 'List' );
 
-		$this->showArchive();
+		// Add item to pathway
+		$pathway->addItem(JText::_('Archive'), '');
 
-		echo '<input type="hidden" name="id" value="'.$id.'" />';
-		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
-		echo '<input type="hidden" name="task" value="'.$task.'" />';
-		echo '<input type="hidden" name="option" value="com_content" />';
-		echo '</form>';
+		$mainframe->setPageTitle($menu->name);
+		
+		$intro		= $params->def('intro', 	4);
+		$leading	= $params->def('leading', 	1);
+		$links		= $params->def('link', 		4);
+		
+		$params->def('title',			1);
+		$params->def('hits',			$mainframe->getCfg('hits'));
+		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
+		$params->def('date',			!$mainframe->getCfg('hideCreateDate'));
+		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
+		$params->def('navigation',		2);
+		$params->def('display',			1);
+		$params->def('display_num',		$mainframe->getCfg('list_limit'));
+		$params->def('empty_cat',		0);
+		$params->def('cat_items',		1);
+		$params->def('cat_description',0);
+		$params->def('pageclass_sfx',	'');
+		$params->def('headings',		1);
+		$params->def('filter',			1);
+		$params->def('filter_type',		'title');
+		$params->set('intro_only', 		1);
+		
+		if ($params->def('page_title', 1)) {
+			$params->def('header', $menu->name);
+		}
+		
+		$limit	= $intro + $leading + $links;
+		$i		= $limitstart;
+		
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination(count($items), $limitstart, $limit);
+		
+		$request = new stdClass();
+		// Get some request vars specific to this state
+		$request->year			= JRequest::getVar( 'year', date('Y') );
+		$request->month			= JRequest::getVar( 'month', date('m') );
+		$request->limit	 		= $limit;
+		$request->limitstart	= $limitstart;
+		
+		$form = new stdClass();
+		$form->monthField	= mosHTML::monthSelectList('month', 'size="1" class="inputbox"', $request->month);
+		$form->yearField	= mosHTML::integerSelectList(2000, 2010, 1, 'year', 'size="1" class="inputbox"', $request->year, "%04d");
+		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$request->month.'&amp;year='.$request->year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);		
+		
+		$this->set('form'      , $form);
+		$this->set('items'     , $items);
+		$this->set('request'   , $request);
+		$this->set('params'    , $params);
+		$this->set('user'      , $user);
+		$this->set('pagination', $pagination);
+
+		$this->_loadTemplate('list');
 	}
 
 	function showArchive()
@@ -69,29 +126,7 @@ class JArchiveViewArchive extends JView
 		// At some point this will come from a request object
 		$task	 = JRequest::getVar('task');
 		$id		 = JRequest::getVar('id');
-		$Itemid	 = JRequest::getVar('Itemid');
-		$option	 = JRequest::getVar('option');
 		$showAll = !$id;
-
-		// Get the menu object of the active menu
-		$menus	=& JMenu::getInstance();
-		$menu	=& $menus->getItem($Itemid);
-		$params =& $menus->getParams($Itemid);
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		// Append Archives to BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		$breadcrumbs->addItem('Archives', '');
-
-		// Page Title
-		$mainframe->SetPageTitle($menu->name);
 
 		/*
 		 * Menu item parameters
