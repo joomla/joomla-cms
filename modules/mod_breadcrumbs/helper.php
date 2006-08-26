@@ -18,7 +18,7 @@ class modBreadCrumbsHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
 		// Initialize variables
 		$showHome 		= true;
@@ -29,8 +29,13 @@ class modBreadCrumbsHelper
 			$showHome = false;
 		}
 
+		// Show the component link in the breadcrumbs
+		if ($params->get('showComponent') == false) {
+			$showComponent = false;
+		}
+
 		// Do not show the content component item in the BreadCrumbs list
-		if (JRequest::getVar('option') == 'com_content') {
+		if ($option == 'com_content') {
 			$showComponent = false;
 		}
 
@@ -38,8 +43,7 @@ class modBreadCrumbsHelper
 		$pathway = & $mainframe->getPathWay();
 		$items = $pathway->getPathWay($showHome, $showComponent);
 
-		$count			= count($items);
-
+		$count = count($items);
 		for ($i = 0; $i < $count; $i ++)
 		{
 			$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
@@ -48,7 +52,7 @@ class modBreadCrumbsHelper
 			if (empty ($items[$i]->link) || $count == $i +1) {
 				$items[$i]->link = $items[$i]->name;
 			} else {
-				$items[$i]->link = '<a href="'.sefRelToAbs($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
+				$items[$i]->link = '<a href="'.JURI::resolve($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
 			}
 		}
 

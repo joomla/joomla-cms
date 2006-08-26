@@ -21,6 +21,10 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="showComponent" type="radio" default="1" label="Show Component" description="PARAMSHOWCOMPONENT">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="separator" type="text" default="" label="Text Separator" description="A text separator" />
 	</params>
 </install>
