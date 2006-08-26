@@ -24,6 +24,7 @@ $items	= $menu->getItems('link', 'index.php?option=com_poll');
 $Itemid = isset($items[0]) ? $items[0]->id : '0';
 
 $list = modPollHelper::getList($params);
+$layout = JModuleHelper::getLayoutPath('mod_poll', 'module');
 
 foreach ($list as $item)
 {
@@ -34,5 +35,5 @@ foreach ($list as $item)
 		$options = modPollHelper::getPollOptions($item->id);
 	}
 
-	require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
+	require($layout);
 }

@@ -27,11 +27,11 @@ switch($type)
 	case 'login' 	:
 	{
 		global $mainframe;
-		require(dirname(__FILE__).DS.'tmpl'.DS.'login.html');
+		require(JModuleHelper::getLayoutPath('mod_login', 'login'));
 	} break;
 	case 'logout'	:
 	{
 		$user =& JFactory::getUser();
-		require(dirname(__FILE__).DS.'tmpl'.DS.'logout.html');
+		require(JModuleHelper::getLayoutPath('mod_login', 'logout'));
 	} break;
 }

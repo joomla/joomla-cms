@@ -40,4 +40,4 @@ if (!$items) {
 	return;
 }
 
-require(dirname(__FILE__).DS.'tmpl'.DS.$style.'.html');
+require(JModuleHelper::getLayoutPath('mod_newsflash', $style));

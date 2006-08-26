@@ -28,4 +28,4 @@ if (!count($images)) {
 }
 
 $image = modRandomImageHelper::getRandomImage($params, $images);
-require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
+require(JModuleHelper::getLayoutPath('mod_random_image', 'module'));

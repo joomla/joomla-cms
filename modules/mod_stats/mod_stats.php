@@ -21,4 +21,4 @@ $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
 
 $list = modStatsHelper::getList($params);
-require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
+require(JModuleHelper::getLayoutPath('mod_stats', 'module'));

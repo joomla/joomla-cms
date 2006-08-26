@@ -23,4 +23,4 @@ if (!count($list)) {
 	return;
 }
 
-require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
+require(JModuleHelper::getLayoutPath('mod_related_items', 'module'));

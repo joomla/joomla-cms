@@ -21,4 +21,4 @@ $headerText	= trim( $params->get( 'header_text' ) );
 $footerText	= trim( $params->get( 'footer_text' ) );
 
 $list = modBannersHelper::getList($params);
-require(dirname(__FILE__).DS.'tmpl'.DS.'module.html');
+require(JModuleHelper::getLayoutPath('mod_banners', 'module'));
