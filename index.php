@@ -74,7 +74,5 @@ $mainframe->execute( $option );
 $mainframe->triggerEvent( 'onAfterDisplay' );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
-echo '<div style="background-color:white">';
 JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
-echo '</div>';
 ?>
