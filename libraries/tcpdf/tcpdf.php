@@ -1971,7 +1971,7 @@ if(!class_exists('TCPDF')) {
 		function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=0, $link='') {
 			// added BiDi support
 			if ( function_exists('fribidi_log2vis') ) {
-				$txt = fribidi_log2vis($txt,'',FRIBIDI_CHARSET_UTF8);
+				$txt = fribidi_log2vis($txt,FRIBIDI_AUTO,FRIBIDI_CHARSET_UTF8);
 			}
 			//Output a cell
 			$k=$this->k;
@@ -3789,7 +3789,7 @@ if(!class_exists('TCPDF')) {
 					break;
 				}
 				case 'a': {
-					$this->HREF = $attr['href'];
+					$this->HREF = @$attr['href'];
 					break;
 				}
 				case 'img': {
