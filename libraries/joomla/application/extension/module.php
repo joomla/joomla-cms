@@ -189,6 +189,30 @@ class JModuleHelper
 		return $contents;
 	}
 
+	/**
+	 * Get the path to a layout for a module
+	 *
+	 * @static
+	 * @param	string	$module	The name of the module
+	 * @param	string	$layout	The name of the module layout
+	 * @return	string	The path to the module layout
+	 * @since	1.5
+	 */
+	function getLayoutPath($module, $layout)
+	{
+		global $mainframe;
+		
+		// Build the template and base path for the layout
+		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.$module.DS.$layout.'.html';
+		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.html';
+
+		// If the template has a layout override use it
+		if (file_exists($tPath)) {
+			return $tPath;
+		} else {
+			return $bPath;
+		}
+	}
 
 	/**
 	 * Load published modules
