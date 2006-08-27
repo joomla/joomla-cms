@@ -429,7 +429,7 @@ class JInstallationController
 	function saveConfig(&$vars)
 	{
 		global $mainframe;
-
+		
 		/*
 		 * Import authentication library
 		 */
@@ -469,6 +469,8 @@ class JInstallationController
 		$tmpl = & JInstallationView::createTemplate();
 		$tmpl->readTemplatesFromFile('configuration.html');
 		$tmpl->addVars('configuration', $vars, 'var_');
+		$tmpl->addVar('configuration', 'offline', JText::_( 'STDOFFLINEMSG' ));
+		$tmpl->addVar('configuration', 'errormsg', JText::_( 'STDERRORMSG' ));
 
 		$buffer = $tmpl->getParsedTemplate('configuration');
 		$path = JPATH_CONFIGURATION.DS.'configuration.php';
