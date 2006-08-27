@@ -10,7 +10,7 @@
 		<?php echo $this->form->monthField; ?>
 		<?php echo $this->form->yearField; ?>
 		<?php echo $this->form->limitField; ?>
-		<input type="submit" class="button" />
+		<button type="submit" class="button"><?php echo JText::_('Filter'); ?></button>
 	</p>
 
 <?php $this->_loadTemplate('_list_items'); ?>

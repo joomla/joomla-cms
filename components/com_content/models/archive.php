@@ -56,7 +56,7 @@ class JContentModelArchive extends JModel
 		if (empty($this->_list))
 		{
 			// Get the pagination request variables
-			$limit		= JRequest::getVar('limit', 0, '', 'int');
+			$limit		= JRequest::getVar('limit', 20, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 			// If voting is turned on, get voting data as well for the content items
@@ -109,56 +109,53 @@ class JContentModelArchive extends JModel
 	function _buildContentWhere()
 	{
 		global $mainframe, $Itemid;
-		$user		=& JFactory::getUser();
-		$gid		= $user->get('gid');
-		$now		= $mainframe->get('requestTime');
-		$noauth		= !$mainframe->getCfg('shownoauth');
-		$nullDate	= $this->_db->getNullDate();
 
-		// First thing we need to do is assert that the articles are in the current category
+		// Initialize some variables
+		$user	=& JFactory::getUser();
+		$gid	= $user->get('gid');
+
+		// First thing we need to do is build the access section of the clause
 		$where = "\n WHERE a.access <= $gid";
 		$where .= "\n AND s.access <= $gid";
 		$where .= "\n AND cc.access <= $gid";
 		$where .= "\n AND s.published = 1";
 		$where .= "\n AND cc.published = 1";
 
-		// Get some request vars specific to this state
-		$year	= JRequest::getVar( 'year', date('Y') );
-		$month	= JRequest::getVar( 'month', date('m') );
-
 		$where .= "\n AND a.state = '-1'";
-		$where .= "\n AND YEAR( a.created ) = '$year'";
-		$where .= "\n AND MONTH( a.created ) = '$month'";
+		$year	= JRequest::getVar( 'year' );
+		if ($year) {
+			$where .= "\n AND YEAR( a.created ) = '$year'";
+		}
+		$month	= JRequest::getVar( 'month' );
+		if ($month) {
+			$where .= "\n AND MONTH( a.created ) = '$month'";
+		}
 
 		/*
-		 * If we have a filter, and this is enabled... lets tack the AND clause
-		 * for the filter onto the WHERE clause of the content item query.
+		 * If we have a filter... lets tack the AND clause
+		 * for the filter onto the WHERE clause of the archive query.
 		 */
+		$filter = JRequest::getVar('filter', '', 'post');
+		if ($filter) {
+			// clean filter variable
+			$filter = JString::strtolower($filter);
 
-		// Get the paramaters of the active menu item
-		$menus  =& JMenu::getInstance();
-		$params =& $menus->getParams($Itemid);
+			// Get the paramaters of the active menu item
+			$menus  =& JMenu::getInstance();
+			$params =& $menus->getParams($Itemid);
+			switch ($params->get('filter_type', 'title'))
+			{
+				case 'title' :
+					$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";
+					break;
 
-		if ($params->get('filter')) {
-			$filter = JRequest::getVar('filter', '', 'request');
-			if ($filter) {
-				// clean filter variable
-				$filter = JString::strtolower($filter);
+				case 'author' :
+					$where .= "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
+					break;
 
-				switch ($params->get('filter_type'))
-				{
-					case 'title' :
-						$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";
-						break;
-
-					case 'author' :
-						$where .= "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
-						break;
-
-					case 'hits' :
-						$where .= "\n AND a.hits LIKE '%$filter%'";
-						break;
-				}
+				case 'hits' :
+					$where .= "\n AND a.hits LIKE '%$filter%'";
+					break;
 			}
 		}
 		return $where;
