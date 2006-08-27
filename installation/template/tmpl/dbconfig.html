@@ -26,15 +26,18 @@ function validateForm( frm, task ) {
 	} else if (DBhostname.value == '') {
 		alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
 		return;
-	} else if (!document.getElementById('vars_dbcollation')) {
-		alert( '<jtmpl:translate key="validCollation" escape="yes">Please choose a database collation</jtmpl:translate>' );
-		return;
 	} else if (DBname.value == '') {
 		alert( '<jtmpl:translate key="validName" escape="yes">Please enter a database name</jtmpl:translate>' );
 		return;
 	} else if (DBPrefix.value == '') {
 		alert('<jtmpl:translate key="validPrefix" escape="yes">You must enter a MySQL Table Prefix for Joomla to operate correctly</jtmpl:translate>');
 		return;
+	} else if (!document.getElementById('vars_dbcollation')) {
+		if (confirm( '<jtmpl:translate key="validCollation" escape="yes"></jtmpl:translate>' )) {
+			submitForm( frm, task);
+		} else {
+			return;
+		}
 	} else {
 		submitForm( frm, task );
 	}
@@ -190,7 +193,7 @@ function JProcess( action ) {
 						  		<tr>
 						  		    <td colspan="2" valign="top">
 					    				<label for="dbprivs">
-						  		    		<jtmpl:translate>Check user's create privileges</jtmpl:translate>
+						  		    		<jtmpl:translate>CHKUSRCREATEPRIV</jtmpl:translate>
 										</label>
 						  		    	<br/>
 						  		    	<span id="thePrivileges"><input type="button" id="privbutton" class="button" value="<jtmpl:translate>Get Privileges</jtmpl:translate>" onclick="JProcess('privs');" /></span>

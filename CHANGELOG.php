@@ -40,6 +40,8 @@ Legend:
 27-Aug-2006 David Gal
  + Added missing localisation of 'site offline' and 'site error' messages 
    (there are changes to installation language files)
+ ^ Changed alert on no collation selection to a confirm dialog
+ # Fixed missing localisations in installation
 
 24-Aug-2006 Alex Kempkens
  # Fixed bug in JDatabase::loadRowList where passed key is zero
