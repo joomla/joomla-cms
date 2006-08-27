@@ -574,7 +574,7 @@ class JLanguageHelper
 		foreach ($langs as $lang => $metadata) {
 			$option = array ();
 
-			$option['text'] = JText::_( $metadata['name'] );
+			$option['text'] = $metadata['name'];
 			$option['value'] = $lang;
 			if ($lang == $actualLanguage) {
 				$option['selected'] = 'selected="true"';
