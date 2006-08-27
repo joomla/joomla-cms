@@ -63,6 +63,12 @@ class ContentController extends JController
 				$modelName	= 'section';
 				$layout = 'blog';
 				break;
+			case 'archivesection':
+			case 'archivecategory':
+				$viewName	= 'archive';
+				$modelName	= 'archive';
+				$layout = 'list';
+				break;
 			case 'view':
 				$viewName	= 'article';
 				$modelName	= 'article';
