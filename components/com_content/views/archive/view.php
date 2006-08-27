@@ -50,7 +50,7 @@ class ContentViewArchive extends JView
 		
 		// Request variables
 		$task 	    = JRequest::getVar('task');
-		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		
 		// Get some data from the model

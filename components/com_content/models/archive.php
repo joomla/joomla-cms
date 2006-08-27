@@ -55,8 +55,15 @@ class JContentModelArchive extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_list))
 		{
+			global $Itemid;
+
+			// Get the menu object of the active menu item
+			$menus	 =& JMenu::getInstance();
+			$menu	 =& $menus->getItem($Itemid);
+			$params  =& $menus->getParams($Itemid);
+
 			// Get the pagination request variables
-			$limit		= JRequest::getVar('limit', 20, '', 'int');
+			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 			// If voting is turned on, get voting data as well for the content items
