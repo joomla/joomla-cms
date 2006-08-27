@@ -77,7 +77,7 @@ class ContactController extends JController
 		$name 		= JRequest::getVar('name', 			'', 		'post');
 		$email 		= JRequest::getVar('email', 		'', 		'post');
 		$subject 	= JRequest::getVar('subject', 		$default, 	'post');
-		$body 		= JRequest::getVar('body', 			'', 		'post');
+		$body 		= JRequest::getVar('text', 			'', 		'post');
 		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post', 'int');
 
 		// probably a spoofing attack
@@ -123,7 +123,6 @@ class ContactController extends JController
 		$mail->setBody( $body );
 
 		$sent = $mail->Send();
-		echo (int)$sent;
 
 		/*
 		 * If we are supposed to copy the admin, do so.
@@ -147,7 +146,6 @@ class ContactController extends JController
 			$mail->setBody( $copyText );
 
 			$sent = $mail->Send();
-			echo (int)$sent;
 		}
 
 		$this->setError( JText::_( 'Thank you for your e-mail'));

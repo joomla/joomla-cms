@@ -54,7 +54,7 @@ function validateForm( frm ) {
 				&nbsp;<?php echo JText::_( 'Enter your message' );?>:
 			</label>
 			<br />
-			<textarea cols="50" rows="10" name="text" id="body" class="inputbox validate required none contact_textmsg"></textarea>
+			<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox validate required none contact_textmsg"></textarea>
 			<?php if ($this->contact->params->get( 'email_copy' )) : ?>
 			<br />
 				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
