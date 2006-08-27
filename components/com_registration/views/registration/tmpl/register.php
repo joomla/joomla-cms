@@ -1,4 +1,5 @@
 <script type="text/javascript">
+<!--
 	document.addLoadEvent(function() {
  	document.formvalidator.attachToForm(document.getElementById('josForm'));
  	document.formvalidator.handlers['passverify'] = { enabled : true,
@@ -6,7 +7,7 @@
 										return (document.getElementById('password').value == value);
 									}
 								  }
-});
+	});
 
 function validateForm( frm ) {
 	var valid = document.formvalidator.isValid(frm);
@@ -28,6 +29,7 @@ function validateForm( frm ) {
 		frm.submit();
 	}
 }
+// -->
 </script>
 
 <form action="<?php echo JURI::resolve( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" id="josForm" name="josForm">
@@ -92,7 +94,7 @@ function validateForm( frm ) {
 	</td>
 </tr>
 </table>
-<button type="submit" onclick="validateForm( this.form );return false;"><?php echo JText::_('Register'); ?></button>
+<button class="button" type="submit" onclick="validateForm( this.form );return false;"><?php echo JText::_('Register'); ?></button>
 <input type="hidden" name="task" value="save" />
 <input type="hidden" name="id" value="0" />
 <input type="hidden" name="gid" value="0" />

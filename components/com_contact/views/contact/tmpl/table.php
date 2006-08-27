@@ -1,16 +1,3 @@
-<script language="JavaScript" type="text/javascript">
-<!--
-function validate(){
-	if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
-		alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
-	} else if ( ( document.emailForm.email.value.search(";") != -1 ) || ( document.emailForm.email.value.search(",") != -1 ) || ( document.emailForm.email.value.search(" ") != -1 ) ) {
-		alert( "<?php echo JText::_( 'You cannot enter more than one email address', true ); ?>" );
-	} else {
-		document.emailForm.submit();
-	}
-}
-//-->
-</script>
 <?php if ( $this->params->get( 'page_title' ) && !$this->contact->params->get( 'popup' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->params->get( 'header' ); ?>

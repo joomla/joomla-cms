@@ -167,6 +167,10 @@ class ContactViewContact extends JView
 		
 	function form()
 	{
+		$doc = & JFactory::getDocument();
+		$doc->addScript('includes/js/joomla/common.js');
+		$doc->addScript('includes/js/joomla/validation.js');
+
 		$this->_loadTemplate('_table_form');
 	}
 }

@@ -1,3 +1,25 @@
+<script type="text/javascript">
+<!--
+	document.addLoadEvent(function() {
+ 	document.formvalidator.attachToForm(document.getElementById('emailForm'));
+	});
+
+function validateForm( frm ) {
+	var valid = document.formvalidator.isValid(frm);
+	if (valid == false) {
+		// do field validation
+		if (frm.email.invalid) {
+			alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
+		} else if (frm.text.invalid) {
+			alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
+		}
+		return false;
+	} else {
+		frm.submit();
+	}
+}
+// -->
+</script>
 <?php if(isset($this->error)) : ?>
 <tr>
 	<p><?php echo $this->error; ?></p>
@@ -16,11 +38,11 @@
 			<br />
 			<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
 			<br />
-			<label for="contact_email">
+			<label id="contact_emailmsg" for="contact_email">
 				&nbsp;<?php echo JText::_( 'Email address' );?>:
 			</label>
 			<br />
-			<input type="text" name="email" id="contact_email" size="30" class="inputbox" value="" />
+			<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox validate required email contact_emailmsg" maxlength="100" />
 			<br />
 			<label for="contact_subject">
 				&nbsp;<?php echo JText::_( 'Message subject' );?>:
@@ -28,11 +50,11 @@
 			<br />
 			<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
 			<br /><br />
-			<label for="contact_text">
+			<label id="contact_textmsg" for="contact_text">
 				&nbsp;<?php echo JText::_( 'Enter your message' );?>:
 			</label>
 			<br />
-			<textarea cols="50" rows="10" name="text" id="body" class="inputbox"></textarea>
+			<textarea cols="50" rows="10" name="text" id="body" class="inputbox validate required none contact_textmsg"></textarea>
 			<?php if ($this->contact->params->get( 'email_copy' )) : ?>
 			<br />
 				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
@@ -42,7 +64,7 @@
 			<?php endif; ?>
 			<br />
 			<br />
-			<input type="button" name="send" value="<?php echo JText::_( 'Send' ); ?>" class="button" onclick="validate()" />
+			<button class="button" type="submit" onclick="validateForm( this.form );return false;"><?php echo JText::_('Send'); ?></button>
 		</div>
 
 	<input type="hidden" name="option" value="com_contact" />
