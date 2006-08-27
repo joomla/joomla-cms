@@ -19,11 +19,6 @@
 			<?php echo JText::_('Author').': '; echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 		</span>
 		<?php endif; ?>
-		<?php if ($this->params->get('hits')) : ?>
-		<span class="hits">
-			<?php echo JText::_('Hits').': '; echo $item->hits ? $item->hits : '-'; ?>
-		</span>
-		<?php endif; ?>
 	</h5>
 	<div class="intro">
 		<?php echo substr($item->introtext, 0, 255); ?>...
@@ -31,9 +26,7 @@
 </li>
 <?php endforeach; ?>
 </ul>
-<?php if ($this->params->get('navigation')) : ?>
 <div id="navigation">
 	<span><?php echo $this->pagination->writePagesLinks($this->data->link); ?></span>
 	<span><?php echo $this->pagination->writePagesCounter(); ?></span>
 </div>
-<?php endif; ?>
