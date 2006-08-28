@@ -341,11 +341,10 @@ class JUser extends JObject
 		 */
 		$query = "SELECT name"
 		. "\n FROM #__core_acl_aro_groups"
-		. "\n WHERE id = " . $array['gid']
+		. "\n WHERE id = " . (int) $array['gid']
 		;
 		$this->_table->_db->setQuery( $query );
 		$this->set( 'usertype', $this->_table->_db->loadResult());
-
 
 		/*
 		 * Lets first try to bind the array to the user table... if that fails
@@ -366,7 +365,7 @@ class JUser extends JObject
 
 		// If the table user id is set, lets set the id for the JUser object.
 		if ($this->get( 'id' )) {
-			$this->_id = $this->get( 'id' );
+			$this->_id = (int) $this->get( 'id' );
 		}
 
 		return true;
