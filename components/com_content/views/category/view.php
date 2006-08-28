@@ -277,10 +277,22 @@ class ContentViewCategory extends JView
 		JContentArticleHelper::showItem( $this, $this->items[$i], $this->access, true );
 	}
 
-	function links( $i )
+	function links( $index )
 	{
-		require_once( JPATH_COMPONENT . '/helpers/article.php' );
-		JContentArticleHelper::showLinks( $this->items[$i], $this->params->get('link'), $this->category->total, $i );
+		global $Itemid;
+
+		$this->links = array_splice($this->items, $index);
+
+		for($i = 0; $i < count($this->links); $i++)
+		{
+			$link =& $this->links[$i];
+
+			$Itemid	    = JContentHelper::getItemid($link->id);
+			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
+		}
+
+
+		$this->_loadTemplate('blog_links');
 	}
 
 	/**

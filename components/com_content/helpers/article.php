@@ -173,42 +173,5 @@ class JContentArticleHelper
 		$onAfterDisplayContent = $mainframe->triggerEvent('onAfterDisplayContent', array (& $article, & $params, 0));
 		echo trim(implode("\n", $onAfterDisplayContent));
 	}
-
-	function showLinks(& $articles, $links, $total, $i = 0)
-	{
-		?>
-			<div>
-				<strong>
-				<?php echo JText::_( 'Read more...' ); ?>
-				</strong>
-			</div>
-
-			<ul>
-		<?php
-
-		for ($j = 0; $j < $links; $j ++)
-		{
-			if ($i >= $total) {
-				/*
-				 * Stop the loop if the total number of items is less than the
-				 * number of items set to display
-				 */
-				break;
-			}
-			$Itemid = JContentHelper::getItemid($articles[$i]->id);
-			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$articles[$i]->id.'&amp;Itemid='.$Itemid)
-			?>
-			<li>
-				<a class="blogsection" href="<?php echo $link; ?>">
-				<?php echo $articles[$i]->title; ?>
-				</a>
-			</li>
-			<?php
-			$i ++;
-		}
-		?>
-		</ul>
-		<?php
-	}
 }
 ?>

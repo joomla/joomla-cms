@@ -266,7 +266,7 @@ class FrontpageViewFrontpage extends JView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $this->item, & $this->params, 0));
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$this->_loadTemplate('_blog_item');
+		$this->_loadTemplate('blog_item');
 	}
 
 	function links($index = 0)
@@ -284,7 +284,7 @@ class FrontpageViewFrontpage extends JView
 		}
 
 
-		$this->_loadTemplate('_blog_links');
+		$this->_loadTemplate('blog_links');
 	}
 }
 ?>
