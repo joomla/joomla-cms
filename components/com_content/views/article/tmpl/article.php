@@ -15,7 +15,7 @@
 		</a>
 		<?php else : ?>
 			<?php echo $this->article->title; ?>
-		<?php endif ?>
+		<?php endif; ?>
 	</td>
 	<?php endif; ?>
 	
