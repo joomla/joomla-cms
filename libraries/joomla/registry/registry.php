@@ -112,8 +112,7 @@ class JRegistry extends JObject
 	
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
-				//$pathNodes = count($nodes) - 1;
-				$pathNodes = count($nodes) - 2;
+				$pathNodes = count($nodes) - 1;
 		
 				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
