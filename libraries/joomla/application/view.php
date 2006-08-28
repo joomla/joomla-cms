@@ -277,7 +277,7 @@ class JView extends JObject
 			}
 			else
 			{
-				$return = JError::raiseWarning( 500, 'Template '.$template.' not supported. File not found.' );
+				$return = JError::raiseWarning( 500, 'Template '.$template.' not supported in '.get_class( $this ).'. File not found.' );
 			}
 		}
 		return $return;

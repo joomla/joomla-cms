@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: content.helper.php 4769 2006-08-26 02:28:51Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
