@@ -17,9 +17,8 @@
 	<?php $this->items(); ?>
 	
 	<?php if ($this->access->canEdit || $this->access->canEditOwn) :
-		JContentHTMLHelper::newIcon($this->category, $this->params, $this->access);
+		$this->icon($this->items[1], 'new');
 	endif; ?>
 	</td>
 </tr>
 </table>
-

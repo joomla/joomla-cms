@@ -127,23 +127,6 @@ class ContentCategoryViewCommon
 	{
 		global $Itemid, $mainframe;
 
-		$user     =& JFactory::getUser();
-		$document =& JFactory::getDocument();
-
-		$document->addScript('components/com_content/theme/js/common.js');
-		$document->addScript('components/com_content/theme/js/subModal.js');
-
-		$document->addStyleSheet('components/com_content/theme/css/subModal.css');
-
-		$link = 'index2.php?option=com_content&amp;task=new&amp;sectionid='.$item->sectionid.'&amp;Itemid='.$Itemid;
-		$image = mosAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $item->id );
-
-		?>
-		<a href="javascript:document.popup.show('<?php echo $link ?>', 700, 500, null);">
-			<?php echo $image; ?>
-			&nbsp;<?php echo JText::_( 'New' );?>...
-		</a>
-		<?php
 	}
 
 	/**

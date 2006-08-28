@@ -166,7 +166,7 @@ class ContentViewArticle extends JView
 		$this->set('params' , $params);
 		$this->set('user'   , $user);
 		$this->set('access' , $access);
-		
+		 
 		$this->_loadTemplate($layout);
 	}
 	

@@ -148,6 +148,71 @@ class ContentViewCategory extends JView
 
 		$this->_loadTemplate($layout);
 	}
+	
+	function icon(&$article, $type, $attribs = array())
+	{	
+		global $Itemid, $mainframe;
+		 
+		$url  = '';
+		$text = '';
+		
+		switch($type)
+		{
+			case 'new' : 
+			{
+				$url = 'index.php?option=com_content&amp;task=new&amp;sectionid='.$article->sectionid.'&amp;Itemid='.$Itemid;
+
+				if ($this->params->get('icons')) {
+					$text = mosAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );
+				} else {
+					$text = JText::_('New').'&nbsp;';
+				}
+				
+				$attribs['title']   = JText::_( 'New' );
+				
+			} break;
+			
+			case 'edit' :
+			{
+				if ($this->params->get('popup')) {
+					return;
+				}
+				if ($article->state < 0) {
+					return;
+				}
+				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
+					return;
+				}
+
+				mosCommonHTML::loadOverlib();
+
+				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
+
+				if ($item->state == 0) {
+					$overlib = JText::_('Unpublished');
+				} else {
+					$overlib = JText::_('Published');
+				}
+				$date = mosFormatDate($article->created);
+				$author = $item->created_by_alias ? $article->created_by_alias : $article->author;
+
+				$overlib .= '<br />';
+				$overlib .= $article->groups;
+				$overlib .= '<br />';
+				$overlib .= $date;
+				$overlib .= '<br />';
+				$overlib .= $author;
+				
+				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
+				$attribs['onmouseover'] = "return nd();";		
+				
+			} break;
+		}
+		
+		
+		echo mosHTML::Link($url, $text, $attribs);
+	}
 
 	function items()
 	{
@@ -180,7 +245,7 @@ class ContentViewCategory extends JView
 		
 		$this->set('lists'     , $lists);
 		
-		$this->_loadTemplate('_table_items');
+		$this->_loadTemplate('table_items');
 	}
 
 	function _buildSortLists()
