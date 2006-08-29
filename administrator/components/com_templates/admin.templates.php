@@ -29,13 +29,6 @@ require_once (JPATH_COMPONENT.'/admin.templates.html.php');
 require_once (JPATH_COMPONENT.'/tables/template_positions.php');
 require_once (JPATH_COMPONENT.'/controller.php');
 
-$id		= JRequest::getVar('id');
-$cid	= JRequest::getVar('cid', array (), '', 'array');
-
-if (!isset($cid[0])) {
-	$cid[0] = $id;
-}
-
 $task = JRequest::getVar('task');
 switch ($task)
 {
