@@ -120,6 +120,8 @@ class JDocumentError extends JDocument
 			ob_end_clean();
 			$this->_engine->readTemplatesFromInput( $contents, 'String' );
 		}
+		// set the base href message
+		$this->_engine->addVar('document', 'base_href', JURI::base());
 		// set the error message
 		$this->_engine->addVar('document', 'message', JText::_($this->_error->message));
 
