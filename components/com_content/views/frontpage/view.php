@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: view.php 4814 2006-08-28 19:35:16Z Jinx $
  * @package Joomla
  * @subpackage Content
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -22,14 +22,16 @@
  * @subpackage Content
  * @since 1.5
  */
-class FrontpageViewFrontpage extends JView
-{
-	function __construct()
-	{
-		$this->setViewName('frontpage');
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
+class ContentViewFrontpage extends JView
+{ 
+	/**
+	 * Name of the view.
+	 *
+	 * @access	private
+	 * @var		string
+	 */
+	var $_viewName = 'Frontpage';
+	
 	function display()
 	{
 		$document	= & JFactory::getDocument();
@@ -67,20 +69,27 @@ class FrontpageViewFrontpage extends JView
 		// get menu
 		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
+		$params =& $menus->getParams($Itemid);
+		
+		// Create a user access object for the user
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// parameters
-		$intro				= $this->params->def('intro', 				4);
-		$leading			= $this->params->def('leading', 			1);
-		$links				= $this->params->def('link', 				4);
-		$descrip			= $this->params->def('description', 		1);
-		$descrip_image		= $this->params->def('description_image', 	1);
+		$intro				= $params->def('intro', 				4);
+		$leading			= $params->def('leading', 			1);
+		$links				= $params->def('link', 				4);
+		$descrip			= $params->def('description', 		1);
+		$descrip_image		= $params->def('description_image', 	1);
 
-		$this->params->def('pageclass_sfx', '');
-		$this->params->set('intro_only', 	1);
-		$this->params->def('page_title', 	1);
+		$params->def('pageclass_sfx', '');
+		$params->set('intro_only', 	1);
+		$params->def('page_title', 	1);
 		
-		if ($this->params->get('page_title')) {
-			$this->params->def('header', $menu->name);
+		if ($params->get('page_title')) {
+			$params->def('header', $menu->name);
 		}
 
 		//add alternate feed link
@@ -131,9 +140,17 @@ class FrontpageViewFrontpage extends JView
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($frontpage->total, $limitstart, $limit);
 
+		$request = new stdClass();
+		$request->limit      = $limit;
+		$request->limitstart = $limitstart;
+
+		$this->set('user'      , $user);
+		$this->set('access'    , $access);
+		$this->set('params'    , $params);
+		$this->set('request'   , $request);
 		$this->set('items'     , $items);
 		$this->set('frontpage' , $frontpage);
-
+		
 		$this->_loadTemplate('blog');
 	}
 
