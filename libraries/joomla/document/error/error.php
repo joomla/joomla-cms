@@ -111,9 +111,11 @@ class JDocumentError extends JDocument
 		if (file_exists($directory.DS.$template.DS.$file)) {
 			//get the file content
 			ob_start();
-			?><jdoc:tmpl name="document" autoclear="yes"><?php
-				require_once($directory.DS.$template.DS.$file);
-			?></jdoc:tmpl><?php
+			?>
+			<jdoc:tmpl name="document" autoclear="yes">
+			<?php require_once($directory.DS.$template.DS.$file); ?>
+			</jdoc:tmpl>
+			<?php
 			$contents = ob_get_contents();
 			ob_end_clean();
 			$this->_engine->readTemplatesFromInput( $contents, 'String' );
