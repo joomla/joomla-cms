@@ -152,7 +152,7 @@ class JArrayHelper
 	 * @param	array	$array		A named array
 	 * @param	string	$name		The key to search for
 	 * @param	mixed	$default	The default value to give if no key found
-	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
+	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
 	 * @return	mixed	The value from the source array
 	 * @since	1.5
 	 */
@@ -201,6 +201,10 @@ class JArrayHelper
 
 			case 'STRING' :
 				$result = (string) $result;
+				break;
+
+			case 'WORD' :
+				$result = (string) preg_replace( '#\W#', '', $result );;
 				break;
 
 			case 'NONE' :
