@@ -78,7 +78,7 @@ class JRequest
 	 */
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-		$signature	= $name.$mask;
+		$signature	= $name.$type.$mask;
 
 		if (!isset($GLOBALS['JRequest'][$signature])) {
 			$result		= null;
@@ -223,7 +223,7 @@ class JRequest
 		// Initialize variables
 		$hash		= strtoupper($hash);
 		$type		= strtoupper($type);
-		$signature	= $name.$mask;
+		$signature	= $name.$type.$mask;
 
 		// Set global request var
 		$GLOBALS['JRequest'][$signature] = $value;
