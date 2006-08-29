@@ -153,7 +153,7 @@ class SearchController
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
 
-		require_once (JPATH_SITE . '/components/com_content/content.helper.php');
+		require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
 		$total = count( $rows );
 
 		for ($i=0; $i < $total; $i++)

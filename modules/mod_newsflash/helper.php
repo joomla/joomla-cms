@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE . '/components/com_content/content.helper.php');
+require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
 
 class modNewsFlashHelper
 {
@@ -30,6 +30,23 @@ class modNewsFlashHelper
 		$item->access 	= '';
 		$item->created 	= '';
 		$item->modified = '';
+		
+		if ($params->get('readmore') || $params->get('link_titles')) 
+		{
+			if ($params->get('intro_only')) 
+			{
+				// Check to see if the user has access to view the full article
+				if ($item->access <= $user->get('gid')) 
+				{
+					$Itemid = JContentHelper::getItemid($item->id);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
+				} 
+				else 
+				{
+					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+				}
+			}
+		}
 
 		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
 		$item->afterDisplayTitle = trim(implode("\n", $results));

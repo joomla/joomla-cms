@@ -362,7 +362,7 @@ class JSiteHelper
 			// checking if we can find the Itemid thru the content
 			if($option == 'com_content')
 			{
-				require_once (JApplicationHelper::getPath('helper', 'com_content'));
+				require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
 				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 				$itemid = JContentHelper::getItemid($id);
 			}

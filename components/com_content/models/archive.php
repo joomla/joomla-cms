@@ -14,9 +14,6 @@
 
 jimport('joomla.application.model');
 
-// Content helper
-//require_once (JPATH_COMPONENT . '/helpers/content.php');
-
 /**
  * Content Component Archive Model
  *

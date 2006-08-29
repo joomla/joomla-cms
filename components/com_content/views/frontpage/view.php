@@ -152,6 +152,108 @@ class ContentViewFrontpage extends JView
 		
 		$this->_loadTemplate('blog');
 	}
+	
+	function icon($type, $attribs = array())
+	{	
+		 global $Itemid, $mainframe;
+		
+		$url  = '';
+		$text = '';
+		
+		$article = $this->item;
+		
+		switch($type)
+		{
+			case 'pdf' :
+			{
+				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+				
+				// checks template image directory for image, if non found default are loaded
+				if ($this->params->get('icons')) {
+					$text = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
+				} else {
+					$text = JText::_('PDF').'&nbsp;';
+				}
+				
+				$attribs['title']   = JText::_( 'PDF' );
+				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				
+			} break;
+			
+			case 'print' : 
+			{
+				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
+				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+						
+				// checks template image directory for image, if non found default are loaded
+				if ( $this->params->get( 'icons' ) ) {
+					$text = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
+				} else {
+					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
+				}
+				
+				$attribs['title']   = JText::_( 'Print' );
+				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				
+			} break;
+			
+			case 'email' :
+			{
+				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
+				$status = 'width=400,height=300,menubar=yes,resizable=yes';
+				
+				$attribs['title']   = JText::_( 'Email ' );
+				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				
+				if ($this->params->get('icons')) 	{
+					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
+				} else {
+					$text = '&nbsp;'.JText::_('Email');
+				}		
+			} break;
+			
+			case 'edit' :
+			{
+				if ($this->params->get('popup')) {
+					return;
+				}
+				if ($article->state < 0) {
+					return;
+				}
+				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
+					return;
+				}
+
+				mosCommonHTML::loadOverlib();
+
+				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
+
+				if ($article->state == 0) {
+					$overlib = JText::_('Unpublished');
+				} else {
+					$overlib = JText::_('Published');
+				}
+				$date = mosFormatDate($article->created);
+				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+
+				$overlib .= '<br />';
+				$overlib .= $article->groups;
+				$overlib .= '<br />';
+				$overlib .= $date;
+				$overlib .= '<br />';
+				$overlib .= $author;
+				
+				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
+				$attribs['onmouseover'] = "return nd();";		
+				
+			} break;
+		}
+		
+		
+		echo mosHTML::Link($url, $text, $attribs);
+	}
 
 	function _displayFeed()
 	{

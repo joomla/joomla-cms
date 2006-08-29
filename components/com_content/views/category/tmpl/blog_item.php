@@ -1,6 +1,6 @@
 <?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php $this->icon('edit'); ?>
+		<?php $this->icon($this->item, 'edit'); ?>
 	</div>
 <?php endif; ?>
 
@@ -21,19 +21,19 @@
 	
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon('pdf'); ?>
+	<?php $this->icon($this->item, 'pdf'); ?>
 	</td>
 	<?php endif; ?>
 	
 	<?php if ( $this->params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon('print'); ?>
+	<?php $this->icon($this->item, 'print'); ?>
 	</td>
 	<?php endif; ?>
 	
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon('email'); ?>
+	<?php $this->icon($this->item, 'email'); ?>
 	</td>
 	<?php endif; ?>
 </tr>

@@ -897,7 +897,7 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getItemid( $id ) {
-		require_once (JApplicationHelper::getPath('helper', 'com_content'));
+		require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
 		return JContentHelper::getItemid($id);
 	}
 

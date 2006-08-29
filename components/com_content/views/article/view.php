@@ -166,7 +166,7 @@ class ContentViewArticle extends JView
 		$this->set('params' , $params);
 		$this->set('user'   , $user);
 		$this->set('access' , $access);
-		 
+		
 		$this->_loadTemplate($layout);
 	}
 	
@@ -177,11 +177,13 @@ class ContentViewArticle extends JView
 		$url  = '';
 		$text = '';
 		
+		$article = &$this->article;
+		
 		switch($type)
 		{
 			case 'pdf' :
 			{
-				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$this->article->id.'&amp;format=pdf';
+				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 				
 				// checks template image directory for image, if non found default are loaded
@@ -198,7 +200,7 @@ class ContentViewArticle extends JView
 			
 			case 'print' : 
 			{
-				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$this->article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
+				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 						
 				// checks template image directory for image, if non found default are loaded
@@ -233,28 +235,28 @@ class ContentViewArticle extends JView
 				if ($this->params->get('popup')) {
 					return;
 				}
-				if ($this->article->state < 0) {
+				if ($article->state < 0) {
 					return;
 				}
-				if (!$this->access->canEdit && !($this->access->canEditOwn && $this->article->created_by == $this->user->get('id'))) {
+				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
 					return;
 				}
 
 				mosCommonHTML::loadOverlib();
 
-				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$this->article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
-				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $this->article->id );
+				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
-				if ($this->article->state == 0) {
+				if ($article->state == 0) {
 					$overlib = JText::_('Unpublished');
 				} else {
 					$overlib = JText::_('Published');
 				}
-				$date = mosFormatDate($item->created);
-				$author = $item->created_by_alias ? $item->created_by_alias : $item->author;
+				$date = mosFormatDate($article->created);
+				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';
-				$overlib .= $item->groups;
+				$overlib .= $article->groups;
 				$overlib .= '<br />';
 				$overlib .= $date;
 				$overlib .= '<br />';
