@@ -32,9 +32,10 @@ class JSite extends JApplication
 	* @access protected
 	* @param integer A client id
 	*/
-	function __construct() {
+	function __construct() 
+	{
 		parent::__construct(0);
-
+		
 		$this->_createPathWay( );
 	}
 
@@ -399,8 +400,14 @@ class JSiteHelper
 			$option = $component->option;
 
 		}
+		
+		//provide backwards compatibility for frontpage component
+		if($option == 'com_frontpage') {
+			$option = 'com_content';
+			JRequest::setVar('task', 'frontpage');
+		}
 
-		return $option;
+		return JRequest::setVar('option', $option);
 	}
 }
 ?>

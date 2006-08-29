@@ -14,8 +14,8 @@
 
 jimport('joomla.application.model');
 
-// Article helper
-require_once (JPATH_COMPONENT . '/helpers/article.php');
+// Content helper
+//require_once (JPATH_COMPONENT . '/helpers/content.php');
 
 /**
  * Content Component Section Model
@@ -25,7 +25,7 @@ require_once (JPATH_COMPONENT . '/helpers/article.php');
  * @subpackage Content
  * @since 1.5
  */
-class JContentModelSection extends JModel
+class ContentModelSection extends JModel
 {
 	/**
 	 * Category id

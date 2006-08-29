@@ -14,8 +14,8 @@
 
 jimport('joomla.application.model');
 
-// Article helper
-require_once (JPATH_COMPONENT . '/helpers/article.php');
+// Content helper
+//require_once (JPATH_COMPONENT . '/helpers/content.php');
 
 /**
  * Content Component Category Model
@@ -25,7 +25,7 @@ require_once (JPATH_COMPONENT . '/helpers/article.php');
  * @subpackage Content
  * @since 1.5
  */
-class JContentModelCategory extends JModel
+class ContentModelCategory extends JModel
 {
 	/**
 	 * Category id
@@ -64,7 +64,7 @@ class JContentModelCategory extends JModel
 	{
 		parent::__construct();
 
-		$Itemid    		= JRequest::getVar('Itemid');
+		global $Itemid;
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
@@ -218,7 +218,7 @@ class JContentModelCategory extends JModel
 	 */
 	function _loadSiblings()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		if (empty($this->_category))
 		{
@@ -234,8 +234,6 @@ class JContentModelCategory extends JModel
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
-
-			$Itemid    		= JRequest::getVar('Itemid');
 
 			// Get the paramaters of the active menu item
 			$menus  =& JMenu::getInstance();
@@ -323,7 +321,7 @@ class JContentModelCategory extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
-		$Itemid  = JRequest::getVar('Itemid');
+		global $Itemid;
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
@@ -360,14 +358,13 @@ class JContentModelCategory extends JModel
 
 	function _buildContentWhere($state = 1)
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
+		
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');
 		$noauth		= !$mainframe->getCfg('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-
-		$Itemid     = JRequest::getVar('Itemid');
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();

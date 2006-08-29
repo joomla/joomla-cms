@@ -27,7 +27,7 @@ jimport('joomla.utilities.functions');
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Environment
+ * @subpackage	Application
  * @since		1.5
  */
 class JRequest
@@ -42,7 +42,6 @@ class JRequest
 
 	/**
 	 * Gets the full request path
-	 *
 	 * @return string
 	 */
 	function getUrl()
@@ -79,9 +78,7 @@ class JRequest
 	 */
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-		// TODO: Louis, had to add $default otherwise it doesn't always work
-		// Must be a way to cache the actual request value, and the processes default value?
-		$signature	= $name.$default.$hash.$type.$mask;
+		$signature	= $name.$mask;
 
 		if (!isset($GLOBALS['JRequest'][$signature])) {
 			$result		= null;
@@ -172,7 +169,7 @@ class JRequest
 	function get($hash = 'default', $mask = 0)
 	{
 		static $hashes;
-
+		
 		if (!isset($hashes)) {
 			$hashes = array();
 		}
@@ -226,7 +223,7 @@ class JRequest
 		// Initialize variables
 		$hash		= strtoupper($hash);
 		$type		= strtoupper($type);
-		$signature	= $name.$hash.$type.$mask;
+		$signature	= $name.$mask;
 
 		// Set global request var
 		$GLOBALS['JRequest'][$signature] = $value;

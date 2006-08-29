@@ -39,6 +39,7 @@ class ContentController extends JController
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
 		$layout     = $cParams->get( 'template_name' );
 
+
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -69,6 +70,11 @@ class ContentController extends JController
 				$modelName	= 'archive';
 				$layout = 'list';
 				break;
+			case 'frontpage' :
+				$viewName = 'frontpage';
+				$modelName = 'frontpage';
+				$layout = 'blog';
+				break;
 			case 'view':
 				$viewName	= 'article';
 				$modelName	= 'article';
@@ -81,7 +87,7 @@ class ContentController extends JController
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel($modelName, 'JContentModel');
+		$model = & $this->getModel($modelName, 'ContentModel');
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
@@ -118,7 +124,7 @@ class ContentController extends JController
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Section', 'JContentModel');
+		$model = & $this->getModel('Section', 'ContentModel');
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
@@ -141,7 +147,7 @@ class ContentController extends JController
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Article', 'JContentModel');
+		$model = & $this->getModel('Article', 'ContentModel');
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -406,7 +412,7 @@ class ContentController extends JController
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
 		// Get/Create the model
-		$model = & $this->getModel('Article', 'JContentModel');
+		$model = & $this->getModel('Article', 'ContentModel');
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
@@ -441,7 +447,7 @@ class ContentController extends JController
 			$view = & $this->getView();
 
 			// Get/Create the model
-			$model = & $this->getModel('Article', 'JContentModel');
+			$model = & $this->getModel('Article', 'ContentModel');
 
 			// Get the id of the article to display and set the model
 			$id = JRequest::getVar('id', 0, '', 'int');

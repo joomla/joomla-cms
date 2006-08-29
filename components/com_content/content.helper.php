@@ -484,22 +484,24 @@ class JContentHTMLHelper {
 	function editIcon($item, $params, $access)
 	{
 		global $Itemid, $mainframe;
-
+		
 		$user     =& JFactory::getUser();
 		$document =& JFactory::getDocument();
 
 		if ($params->get('popup')) {
 			return;
 		}
+		
 		if ($item->state < 0) {
 			return;
 		}
+
 		if (!$access->canEdit && !($access->canEditOwn && $item->created_by == $user->get('id'))) {
 			return;
 		}
 
 		mosCommonHTML::loadOverlib();
-
+		
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 		$image = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $item->id );
 

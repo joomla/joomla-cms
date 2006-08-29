@@ -14,6 +14,9 @@
 
 jimport('joomla.application.model');
 
+// Content helper
+//require_once (JPATH_COMPONENT . '/helpers/content.php');
+
 /**
  * Content Component Article Model
  *
@@ -22,7 +25,7 @@ jimport('joomla.application.model');
  * @subpackage Content
  * @since 1.5
  */
-class JContentModelArticle extends JModel
+class ContentModelArticle extends JModel
 {
 	/**
 	 * Content data in category array
@@ -40,7 +43,7 @@ class JContentModelArticle extends JModel
 	{
 		parent::__construct();
 
-		$Itemid  = JRequest::getVar('Itemid');
+		global $Itemid;
 
 		// Get the paramaters of the active menu item
 		$menus   =& JMenu::getInstance();
@@ -294,6 +297,7 @@ class JContentModelArticle extends JModel
 	function sendEmail($to, $from, $fromname = null, $subject = null)
 	{
 		global $mainframe;
+		
 		// Build the link to send in the E-Mail
 		$_Itemid	= JContentHelper::getItemid($this->_id);
 		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$this->_id.'&Itemid='.$_Itemid);
@@ -357,6 +361,7 @@ class JContentModelArticle extends JModel
 	function _loadArticleParams()
 	{
 		global $mainframe;
+		
 		$user	=& JFactory::getUser();
 		$pop	= JRequest::getVar('pop', 0, '', 'int');
 
@@ -439,6 +444,7 @@ class JContentModelArticle extends JModel
 	function _buildContentWhere()
 	{
 		global $mainframe;
+		
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');

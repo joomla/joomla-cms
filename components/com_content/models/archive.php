@@ -14,6 +14,9 @@
 
 jimport('joomla.application.model');
 
+// Content helper
+//require_once (JPATH_COMPONENT . '/helpers/content.php');
+
 /**
  * Content Component Archive Model
  *
@@ -22,7 +25,7 @@ jimport('joomla.application.model');
  * @subpackage	Content
  * @since		1.5
  */
-class JContentModelArchive extends JModel
+class ContentModelArchive extends JModel
 {
 	/**
 	 * Article list array
@@ -52,11 +55,11 @@ class JContentModelArchive extends JModel
 	 */
 	function _loadList()
 	{
+		global $Itemid;
+		
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_list))
 		{
-			global $Itemid;
-
 			// Get the menu object of the active menu item
 			$menus	 =& JMenu::getInstance();
 			$menu	 =& $menus->getItem($Itemid);
