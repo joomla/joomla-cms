@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
+ * @version $Id$
  * @package		Joomla.Framework
  * @subpackage	Utilities
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
