@@ -56,21 +56,21 @@ class ContentViewFrontpage extends JView
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
 
-		//we also need the content language file
-		$lang->load('com_content');
+		// get menu
+		$menus  =& JMenu::getInstance();
+		$menu   =& $menus->getItem($Itemid);
+		$params =& $menus->getParams($Itemid);
 
-		$id	= JRequest::getVar('id');
+		// Request variables
+		$id			= JRequest::getVar('id');
+		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		
 		//set data model
 		$items 		= $this->get('ContentData');
 		$frontpage  = new stdClass();
 		$frontpage->total = count($items);
 
-		// get menu
-		$menus  =& JMenu::getInstance();
-		$menu   =& $menus->getItem($Itemid);
-		$params =& $menus->getParams($Itemid);
-		
 		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
@@ -78,11 +78,11 @@ class ContentViewFrontpage extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// parameters
-		$intro				= $params->def('intro', 				4);
+		$intro				= $params->def('intro', 			4);
 		$leading			= $params->def('leading', 			1);
 		$links				= $params->def('link', 				4);
 		$descrip			= $params->def('description', 		1);
-		$descrip_image		= $params->def('description_image', 	1);
+		$descrip_image		= $params->def('description_image', 1);
 
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 	1);
@@ -130,7 +130,6 @@ class ContentViewFrontpage extends JView
 		}
 
 		$limit 		= $intro + $leading + $links;
-		$limitstart = $this->request->limitstart;
 
 		if ($frontpage->total <= $limit) {
 			$limitstart = 0;
