@@ -170,12 +170,12 @@ class ModelBanner extends JModel
 		}
 		$url = $db->loadResult();
 
+		// check for links
 		if (!preg_match( '#http[s]?://|index[2]?\.php#', $url ))
 		{
 			$url = "http://$url";
 		}
 		return $url;
-		$mainframe->redirect( $url );
 	}
 }
 ?>

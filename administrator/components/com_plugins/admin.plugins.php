@@ -91,7 +91,7 @@ function viewPlugins( $option, $client )
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 				'limitstart', 		0 );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$client.limitstart",		'limitstart', 		0 );
 	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		1 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
