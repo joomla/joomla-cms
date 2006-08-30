@@ -99,7 +99,7 @@ class BannerClientController
 			$mainframe->redirect( 'index2.php?option=com_banners&task=listclients', $msg );
 		}
 
-		if ($row->id) {
+		if ($row->cid) {
 			// do stuff for existing record
 			$row->checkout( $userId );
 		} else {

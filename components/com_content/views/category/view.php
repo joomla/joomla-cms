@@ -189,13 +189,13 @@ class ContentViewCategory extends JView
 				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
-				if ($item->state == 0) {
+				if ($article->state == 0) {
 					$overlib = JText::_('Unpublished');
 				} else {
 					$overlib = JText::_('Published');
 				}
 				$date = mosFormatDate($article->created);
-				$author = $item->created_by_alias ? $article->created_by_alias : $article->author;
+				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';
 				$overlib .= $article->groups;

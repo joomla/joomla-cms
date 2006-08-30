@@ -284,7 +284,7 @@ class ContentViewArticle extends JView
 
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$Returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
+		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
 		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
@@ -320,11 +320,12 @@ class ContentViewArticle extends JView
 			$article->text = $article->introtext;
 		}
 		
-		$this->set('article', $article);
-		$this->set('params' , $params);
-		$this->set('lists'  , $lists);
-		$this->set('editor' , $editor);
-		$this->set('user'   , $user);
+		$this->set('returnid', $returnid);
+		$this->set('article' , $article);
+		$this->set('params'  , $params);
+		$this->set('lists'   , $lists);
+		$this->set('editor'  , $editor);
+		$this->set('user'    , $user);
 		
 		$this->_loadTemplate('edit');
 	}

@@ -171,7 +171,7 @@ class JMenuHelper extends JObject {
 						$row->link .= '&Itemid='. $row->id;
 					} else {
 						$temp = explode( '&task=view&id=', $row->link);
-						require_once( JPATH_SITE . '/components/com_content/content.helper.php' );
+						require_once( JPATH_SITE . '/components/com_content/helpers/content.php' );
 						$row->link .= '&Itemid='. JContentHelper::getItemid($temp[1], 0, 0);
 					}
 

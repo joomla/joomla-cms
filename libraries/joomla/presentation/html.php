@@ -1428,7 +1428,7 @@ class mosAdminMenus
 			$menuselect[$i]->text 	= $params->menutype;
 		}
 		// sort array of objects
-		SortArrayObjects( $menuselect, 'text', 1 );
+		JArray::sortObjects( $menuselect, 'text', 1 );
 
 		$menus = mosHTML::selectList( $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
 
