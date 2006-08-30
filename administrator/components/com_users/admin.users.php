@@ -171,7 +171,9 @@ function showUsers( )
 	;
 	$db->setQuery( $query );
 	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
-	$types 			= array_merge( $types, $db->loadObjectList() );
+	foreach( $db->loadObjectList() as $obj ) {
+		$types[] = mosHTML::makeOption( $obj->value, JText::_( $obj->text ) );
+	}
 	$lists['type'] 	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
