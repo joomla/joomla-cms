@@ -169,12 +169,7 @@ class WeblinksViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$itemid = JApplicationHelper::getItemid( $item->id );
-			if ($itemid) {
-				$_Itemid = '&Itemid='. $itemid;
-			}
-
-			$link = 'index.php?option=com_weblinks&task=view&id='. $item->id . '&catid='.$item->catid.$_Itemid;
+			$link = 'index.php?option=com_weblinks&task=view&id='. $item->id . '&catid='.$item->catid.$Itemid;
 			$link = sefRelToAbs( $link );
 
 			// strip html from feed item description text

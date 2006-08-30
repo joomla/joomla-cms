@@ -374,9 +374,6 @@ class ContentViewCategory extends JView
 				// checks if the item is a public or registered/special item
 				if ($this->item->access <= $user->get('gid'))
 				{
-					if ($task != 'view') {
-						$Itemid = JContentHelper::getItemid($this->item->id);
-					}
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$this->item->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
@@ -417,7 +414,6 @@ class ContentViewCategory extends JView
 		{
 			$link =& $this->links[$i];
 
-			$Itemid	    = JContentHelper::getItemid($link->id);
 			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
 		}
 
@@ -433,7 +429,7 @@ class ContentViewCategory extends JView
 	 */
 	function _displayFeed()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		$doc =& JFactory::getDocument();
 
@@ -453,12 +449,7 @@ class ContentViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$itemid = JContentHelper::getItemid( $row->id );
-			if ($itemid) {
-				$_Itemid = '&Itemid='. $itemid;
-			}
-
-			$link = 'index.php?option=com_content&task=view&id='. $row->id . $_Itemid;
+			$link = 'index.php?option=com_content&task=view&id='. $row->id . $Itemid;
 			$link = sefRelToAbs( $link );
 
 			// strip html from feed item description text

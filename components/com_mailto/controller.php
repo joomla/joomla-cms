@@ -91,8 +91,7 @@ class MailtoController extends JController
 		$subject_default 	= sprintf(JText::_('Item sent by'), $sender);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
-		if (!$email || !$from || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($from) == false))
-		{
+		if (!$email || !$from || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($from) == false)) {
 			ContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
 		}
 
@@ -100,10 +99,15 @@ class MailtoController extends JController
 		$link = sefRelToAbs($link);
 
 		// Build the message to send
-		$msg = sprintf(JText :: _('_EMAIL_MSG'), $SiteName, $sender, $from, $link);
+		$body = sprintf(JText :: _('_EMAIL_MSG'), $SiteName, $sender, $from, $link);
+		
+		// Clean the email data
+		$subject = JMailHelper::cleanSubject($subject);
+		$body	 = JMailHelper::cleanBody($body);
+		$sender	 = JMailHelper::cleanAddress($sender);
 
 		// Send the email
-		JUtility::sendMail($from, $sender, $email, $subject, $msg);
+		JUtility::sendMail($from, $sender, $email, $subject, $body);
 
 		$this->setViewName( 'sent' );
 		$this->display();

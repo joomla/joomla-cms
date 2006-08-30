@@ -291,27 +291,6 @@ class ContentModelArticle extends JModel
 		return false;
 	}
 
-	function sendEmail($to, $from, $fromname = null, $subject = null)
-	{
-		global $mainframe;
-		
-		// Build the link to send in the E-Mail
-		$_Itemid	= JContentHelper::getItemid($this->_id);
-		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$this->_id.'&Itemid='.$_Itemid);
-
-		// Build the message body to send in the E-Mail
-		$SiteName	= $mainframe->getCfg('sitename');
-		$body = sprintf(JText::_('EMAIL_MSG'), $SiteName, $fromname, $from, $link);
-
-		// Clean the email data
-		$subject	= JMailHelper::cleanSubject($subject);
-		$body		= JMailHelper::cleanBody($body);
-		$yourename	= JMailHelper::cleanAddress($fromname);
-
-		// Send the email
-		JUtility::sendMail($from, $fromname, $to, $subject, $body);
-	}
-
 	/**
 	 * Method to load content article data
 	 *

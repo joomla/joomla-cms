@@ -341,93 +341,76 @@ class JContentHelper
 	 */
 	function getItemid($id)
 	{
-		$cache	= & JFactory::getCache();
-		$Itemid	= $cache->get( md5($id), 'getItemid' );
-		$md5id	= md5($id);
+		$db    = & JFactory::getDBO();
+		$menus =& JMenu::getInstance();
+		$items = $menus->getMenu();
+		$Itemid = null;
+		$component = JComponentHelper::getInfo('com_content');
 
-		if ($Itemid === false)
+		$n = count( $items );
+		if ($n)
 		{
-			$db    = & JFactory::getDBO();
-			$menus =& JMenu::getInstance();
-			$items = $menus->getMenu();
-			$Itemid = null;
-			$component = JComponentHelper::getInfo('com_content');
+			// Do we have a content item linked to the menu with this id?
+			for ($i = 0; $i < $n; $i++) {
+				$item = &$items[$i];
 
-			$n = count( $items );
-			if ($n)
-			{
-				// Do we have a content item linked to the menu with this id?
-				for ($i = 0; $i < $n; $i++) {
-					$item = &$items[$i];
-
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
-						$cache->save( $item->id, $md5id, 'getItemid' );
-						return $item->id;
-					}
-				}
-
-				/*
-				 * Not a linked as an article, so perhaps is it in a category or section that is linked
-				 * to the menu?
-				 */
-
-				// First we must load the article data to know what section/category it is in.
-				$article = JTable::getInstance('content', $db);
-				$article->load($id);
-
-				// Check to see if it is in a published category
-				for ($i = 0; $i < $n; $i++) {
-					$item = &$items[$i];
-
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == $article->catid)) {
-						$cache->save( $item->id, $md5id, 'getItemid' );
-						return $item->id;
-					}
-				}
-
-				// Check to see if it is in a published section
-				for ($i = 0; $i < $n; $i++) {
-					$item = &$items[$i];
-
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('section_id') == $article->sectionid)) {
-						$cache->save( $item->id, $md5id, 'getItemid' );
-						return $item->id;
-					}
-				}
-
-				/*
-				 * Once we have exhausted all our options for finding the Itemid in
-				 * the content structure, lets see if maybe we have a global
-				 * category or section in the menu we can put it under.
-				 */
-
-				// Category
-				for ($i = 0; $i < $n; $i++) {
-					$item = &$items[$i];
-
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == 0)) {
-						$cache->save( $item->id, $md5id, 'getItemid' );
-						return $item->id;
-					}
-				}
-				// Section
-				for ($i = 0; $i < $n; $i++) {
-					$item = &$items[$i];
-
-					if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('category_id') == 0)) {
-						$cache->save( $item->id, $md5id, 'getItemid' );
-						return $item->id;
-					}
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
+					return $item->id;
 				}
 			}
 
-			if ($Itemid != '') {
-				$cache->save( $Itemid, $md5id, 'getItemid' );
-				return $Itemid;
-			} else {
-				return JRequest::getVar('Itemid', 9999, '', 'int');
+			/*
+			 * Not a linked as an article, so perhaps is it in a category or section that is linked
+			 * to the menu?
+			 */
+
+			// First we must load the article data to know what section/category it is in.
+			$article = JTable::getInstance('content', $db);
+			$article->load($id);
+
+			// Check to see if it is in a published category
+			for ($i = 0; $i < $n; $i++) {
+				$item = &$items[$i];
+
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == $article->catid)) {
+					return $item->id;
+				}
+			}
+
+			// Check to see if it is in a published section
+			for ($i = 0; $i < $n; $i++) {
+				$item = &$items[$i];
+
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('section_id') == $article->sectionid)) {
+					return $item->id;
+				}
+			}
+
+			/*
+			 * Once we have exhausted all our options for finding the Itemid in
+			 * the content structure, lets see if maybe we have a global
+			 * category or section in the menu we can put it under.
+			 */
+
+			// Category
+			for ($i = 0; $i < $n; $i++) {
+				$item = &$items[$i];
+
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == 0)) {
+					return $item->id;
+				}
+			}
+			// Section
+			for ($i = 0; $i < $n; $i++) {
+				$item = &$items[$i];
+
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('category_id') == 0)) {
+					return $item->id;
+				}
 			}
 		}
+
+			
 		return $Itemid;
 	}
 }

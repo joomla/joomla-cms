@@ -359,20 +359,10 @@ class JSiteHelper
 
 		if ( $itemid === 0 )
 		{
-			// checking if we can find the Itemid thru the content
-			if($option == 'com_content')
-			{
-				require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
-				$id 	= JRequest::getVar( 'id', 0, '', 'int' );
-				$itemid = JContentHelper::getItemid($id);
-			}
-			else
-			{
-				$menus =& JMenu::getInstance();
-				$item  =& $menus->getDefault();
+			$menus =& JMenu::getInstance();
+			$item  =& $menus->getDefault();
 
-				$itemid = $item->id;
-			}
+			$itemid = $item->id;
 		}
 
 		return JRequest::setVar( 'Itemid', $itemid, '', 'int' );

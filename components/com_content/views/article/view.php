@@ -121,7 +121,6 @@ class ContentViewArticle extends JView
 				// Check to see if the user has access to view the full article
 				if ($article->access <= $user->get('gid')) 
 				{
-					$Itemid = JContentHelper::getItemid($article->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
 
 					if (@$article->readmore) {
