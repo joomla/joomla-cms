@@ -3,18 +3,18 @@
     <name>German (Germany)</name>
     <version>1.5.0</version>
     <creationDate>Nov 2005</creationDate>
-    <author>Antonio Cambule</author>
-    <authorEmail>info@joomlagtt.de</authorEmail>
-    <authorUrl>hilfe.joomla.de</authorUrl>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <description>German language file for web installer, provided by joomla!GTT</description>
+    <description>Deutsche Sprachdatei für den Web Installer</description>
     <metadata>
     	<name>German (Deutschland)</name>
     	<tag>de-DE</tag>
     	<rtl>0</rtl>
-    	<locale>ge, de, de_DE@euro, de_DE, deu, german, germany</locale>
-    	<winCodePage>iso-8859-1</winCodePage>
+    	<locale>ger, de, ger_DE, de_DE, german, german-de, germany</locale>
+     	<winCodePage>iso-8859-1</winCodePage>
     	<backwardLang>german</backwardLang>
     </metadata>
     <params />
