@@ -203,8 +203,8 @@ class JModuleHelper
 		global $mainframe;
 		
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.$module.DS.$layout.'.html';
-		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.html';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.$module.DS.$layout.'.php';
+		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath)) {
