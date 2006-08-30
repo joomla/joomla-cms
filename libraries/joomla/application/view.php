@@ -46,12 +46,6 @@ class JView extends JObject
 	var $_templatePath = null;
 
 	/**
-	 * Internal data array
-	 * @var $array
-	 */
-	var $_vardata = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @access	protected
@@ -172,34 +166,6 @@ class JView extends JObject
 	function getTemplatePath()
 	{
 		return $this->_templatePath;
-	}
-
-	/**
-	 * Data getter
-	 * @param string The name of the data variable
-	 * @return mixed The value of the data variable
-	 */
-	function &getVar( $name )
-	{
-		if (isset( $this->_vardata[$name] ))
-		{
-			return $this->_vardata[$name];
-		}
-		else
-		{
-			$null = null;
-			return $null;
-		}
-	}
-
-	/**
-	 * Data setter
-	 * @param string The name of the data variable
-	 * @param mixed The value of the data variable
-	 */
-	function setVar( $name, &$value )
-	{
-		$this->_vardata[$name] = &$value;
 	}
 
 	/**
