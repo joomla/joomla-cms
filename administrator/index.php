@@ -55,12 +55,6 @@ JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
  */
 $GLOBALS['_VERSION'] = new JVersion();
 
-// initialise some common request directives
-$task 		= JRequest::getVar( 'task' );
-$section 	= JRequest::getVar( 'section' );
-$id         = JRequest::getVar( 'id', 0, '', 'int' );
-$cid		= JRequest::getVar( 'cid', null, 'post' );
-
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 

@@ -120,7 +120,8 @@ class JContentController extends JController
 		}
 		// Keyword filter
 		if ($search) {
-			$where[] = 'LOWER( c.title ) LIKE ' . $db->Quote( "%$search%" );
+			$where[] = '(LOWER( c.title ) LIKE ' . $db->Quote( "%$search%" ) .
+				' OR c.id = ' . (int) $search . ')';
 		}
 
 		// Build the where clause of the content record query

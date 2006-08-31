@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Aug-2006 Andrew Eddie
+ + Admin content list - Added ability to search for ID in filter box
+ ^ JRegistryFormatINI::stringToObject - remove option to return as an array and optimised string handling 
+
 27-Aug-2006 David Gal
  + Added missing localisation of 'site offline' and 'site error' messages 
    (there are changes to installation language files)

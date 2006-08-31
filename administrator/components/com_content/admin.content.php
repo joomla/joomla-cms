@@ -26,18 +26,6 @@ $controller = new JContentController();
 $controller->setModelPath( JPATH_COM_CONTENT.'models'.DS );
 $controller->setViewPath( JPATH_COM_CONTENT.'views'.DS );
 
-/*
- * Get some variables from the page request
- */
-$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-$id			= JRequest::getVar( 'id', 0, '', 'int' );
-$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-$task		= JRequest::getVar( 'task' );
-
-if (!is_array($cid)) {
-	$cid = array (0);
-}
-
 switch (strtolower($task))
 {
 	case 'element':

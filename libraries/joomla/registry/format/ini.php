@@ -65,17 +65,18 @@ class JRegistryFormatINI extends JRegistryFormat {
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object Data Object
 	 */
-	function stringToObject( $data, $process_sections = false, $asArray = false )
+	function stringToObject( $data, $process_sections = false )
 	{
 		if (is_string($data)) {
 			$lines = explode("\n", $data);
-		} else
+		} else {
 			if (is_array($data)) {
 				$lines = $data;
 			} else {
 				$lines = array ();
 			}
-		$obj = $asArray ? array () : new stdClass();
+		}
+		$obj = new stdClass();
 
 		$sec_name = '';
 		$unparsed = 0;
@@ -84,7 +85,7 @@ class JRegistryFormatINI extends JRegistryFormat {
 		}
 		foreach ($lines as $line) {
 			// ignore comments
-			if ($line && $line[0] == ';') {
+			if ($line && $line{0} == ';') {
 				continue;
 			}
 			$line = trim($line);
@@ -92,83 +93,61 @@ class JRegistryFormatINI extends JRegistryFormat {
 			if ($line == '') {
 				continue;
 			}
-			if ($line && $line[0] == '[' && $line[strlen($line) - 1] == ']') {
-				$sec_name = substr($line, 1, strlen($line) - 2);
+			$lineLen = strlen($line);
+			if ($line && $line{0} == '[' && $line{$lineLen-1} == ']') {
+				$sec_name = substr($line, 1, $lineLen - 2);
 				if ($process_sections) {
-					if ($asArray) {
-						$obj[$sec_name] = array ();
-					} else {
-						$obj-> $sec_name = new stdClass();
-					}
+					$obj-> $sec_name = new stdClass();
 				}
 			} else {
 				if ($pos = strpos($line, '=')) {
 					$property = trim(substr($line, 0, $pos));
 
 					// property is assumed to be ascii
-					if (substr($property, 0, 1) == '"' && substr($property, -1) == '"') {
-						$property = stripcslashes(substr($property, 1, count($property) - 2));
+					if ($property && $property{0} == '"') {
+						$propLen = strlen( $property );
+						if ($property{$propLen-1} == '"') {
+							$property = stripcslashes(substr($property, 1, $propLen - 2));
+						}
 					}
 					$value = trim(substr($line, $pos +1));
 					if ($value == 'false') {
 						$value = false;
 					}
-					if ($value == 'true') {
+					else if ($value == 'true') {
 						$value = true;
 					}
-					if (substr($value, 0, 1) == '"' && substr($value, -1) == '"') {
-						$value = stripcslashes(substr($value, 1, strlen($value) - 2));
+					else if ($value && $value{0} == '"') {
+						$valueLen = strlen( $value );	
+						if ($value{$valueLen-1} == '"') {
+							$value = stripcslashes(substr($value, 1, $valueLen - 2));
+						}
 					}
 
 					if ($process_sections) {
 						$value = str_replace('\n', "\n", $value);
 						if ($sec_name != '') {
-							if ($asArray) {
-								$obj[$sec_name][$property] = $value;
-							} else {
-								$obj-> $sec_name-> $property = $value;
-							}
+							$obj->$sec_name-> $property = $value;
 						} else {
-							if ($asArray) {
-								$obj[$property] = $value;
-							} else {
-								$obj-> $property = $value;
-							}
+							$obj->$property = $value;
 						}
 					} else {
-						$value = str_replace('\n', "\n", $value);
-						if ($asArray) {
-							$obj[$property] = $value;
-						} else {
-							$obj-> $property = $value;
-						}
+						$obj->$property = str_replace('\n', "\n", $value);
 					}
 				} else {
-					if ($line && trim($line[0]) == ';') {
+					if ($line && $line{0} == ';') {
 						continue;
 					}
 					if ($process_sections) {
 						$property = '__invalid'.$unparsed ++.'__';
 						if ($process_sections) {
 							if ($sec_name != '') {
-								if ($asArray) {
-									$obj[$sec_name][$property] = trim($line);
-								} else {
-									$obj-> $sec_name-> $property = trim($line);
-								}
+								$obj->$sec_name-> $property = trim($line);
 							} else {
-								if ($asArray) {
-									$obj[$property] = trim($line);
-								} else {
-									$obj-> $property = trim($line);
-								}
+								$obj->$property = trim($line);
 							}
 						} else {
-							if ($asArray) {
-								$obj[$property] = trim($line);
-							} else {
-								$obj-> $property = trim($line);
-							}
+							$obj->$property = trim($line);
 						}
 					}
 				}
