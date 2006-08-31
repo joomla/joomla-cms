@@ -10,26 +10,31 @@ See COPYRIGHT.php for copyright notices and details.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}">
 <head>
+	<title>500 - {SITENAME}</title>
 	<base href="{BASE_HREF}" />
 	<link rel="stylesheet" href="templates/_system/css/error.css" type="text/css" />
 </head>
 <body>
-	<table width="550" align="center" class="outline">
-	<tr>
-		<td align="center">
-			<h1>
-				<jdoc:Translate>An error has occurred</jdoc:Translate>
-			</h1>
-		</td>
-	</tr>
-	<tr>
-		<td width="39%" align="center">
-			{MESSAGE}
-		</td>
-	</tr>
-	</table>
-	<div id="backtrace">
-		{BACKTRACE}
+	<div align="center">
+		<div id="outline">
+		<div id="errorboxoutline">
+			<div id="errorboxheader">500 - An error has occured</div>
+			<div id="errorboxbody">
+			<p>An error has occurred while processing your request.</p>
+			<p><strong>Please try one of the following pages:</strong></p>
+			<p>
+				<ul>
+					<li><a href="index.php" title="Go to the home page">Home Page</a></li>
+				</ul>
+			</p>
+			<p>If difficulties persist, please contact the system administrator of this site.</p>
+			<div id="techinfo">
+			<p>{MESSAGE}</p>
+			<p>{BACKTRACE}</p>
+			</div>
+			</div>
+		</div>
+		</div>
 	</div>
 </body>
 </html>
