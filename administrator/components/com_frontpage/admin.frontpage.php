@@ -24,7 +24,7 @@ if (!$user->authorize( 'com_frontpage', 'manage' )) {
 }
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables');
 
 $cid = JRequest::getVar( 'cid', array(0), 'post' );
 if (!is_array( $cid )) {
