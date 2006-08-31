@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 31-Aug-2006 Andrew Eddie
+ ^ Spruced up 403, 404 and 500 (designs by Arno Zijlstra)
+ ^ If a content item is not found, site will throw a 404 error
  + Admin content list - Added ability to search for ID in filter box
  ^ JRegistryFormatINI::stringToObject - remove option to return as an array and optimised string handling 
 
