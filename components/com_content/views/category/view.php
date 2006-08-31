@@ -58,6 +58,12 @@ class ContentViewCategory extends JView
 	{
 		global $mainframe, $option, $Itemid;
 
+		if (empty( $layout ))
+		{
+			// degrade to default 
+			$layout = 'table';
+		}
+
 		// Initialize some variables
 		$user	  =& JFactory::getUser();
 		$document =& JFactory::getDocument();

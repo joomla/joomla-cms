@@ -62,6 +62,12 @@ class ContentViewArticle extends JView
 	{
 		global $mainframe, $Itemid;
 		
+		if (empty( $layout ))
+		{
+			// degrade to default 
+			$layout = 'article';
+		}
+
 		$user		=& JFactory::getUser();
 		$document   =& JFactory::getDocument();
 		$dispatcher	=& JEventDispatcher::getInstance();
@@ -70,7 +76,13 @@ class ContentViewArticle extends JView
 		// Initialize variables
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
-	
+
+		if ($article->id == 0)
+		{
+			$id = JRequest::getVar( 'id' );
+			return JError::raiseError( 404, JText::sprintf( 'Article #%d not found', $id ) );
+		}
+
 		$linkOn   = null;
 		$linkText = null;
 		

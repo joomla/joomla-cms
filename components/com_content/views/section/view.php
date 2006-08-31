@@ -62,6 +62,12 @@ class ContentViewSection extends JView
 	{
 		global $mainframe, $Itemid, $option;
 
+		if (empty( $layout ))
+		{
+			// degrade to default 
+			$layout = 'list';
+		}
+
 		// Initialize some variables
 		$user	  =& JFactory::getUser();
 		$document =& JFactory::getDocument();

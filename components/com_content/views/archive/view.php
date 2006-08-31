@@ -38,6 +38,12 @@ class ContentViewArchive extends JView
 	{
 		global $mainframe, $option, $Itemid;
 
+		if (empty( $layout ))
+		{
+			// degrade to default 
+			$layout = 'list';
+		}
+
 		// Initialize some variables
 		$user	  =& JFactory::getUser();
 		$document =& JFactory::getDocument();

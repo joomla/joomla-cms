@@ -46,9 +46,15 @@ class ContentViewFrontpage extends JView
 		}
 	}
 
-	function _displayHTML()
+	function _displayHTML($layout='')
 	{
 		global $mainframe, $Itemid, $option;
+
+		if (empty( $layout ))
+		{
+			// degrade to default 
+			$layout = 'blog';
+		}
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
@@ -150,7 +156,7 @@ class ContentViewFrontpage extends JView
 		$this->set('items'     , $items);
 		$this->set('frontpage' , $frontpage);
 		
-		$this->_loadTemplate('blog');
+		$this->_loadTemplate($layout);
 	}
 	
 	function icon($type, $attribs = array())
