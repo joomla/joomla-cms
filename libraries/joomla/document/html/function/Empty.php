@@ -26,7 +26,7 @@ class patTemplate_Function_Empty extends patTemplate_Function
 	* @access	private
 	* @var		string
 	*/
-	var $_name	=	'exists';
+	var $_name	=	'empty';
 
 	/**
 	* function type
@@ -60,7 +60,7 @@ class patTemplate_Function_Empty extends patTemplate_Function
 		$result = '';
 		switch($type)
 		{
-			case 'module'			:
+			case 'module':
 			{
 				if( $this->_tmpl->doc->get($type, $params['name'])) {
 					return $content;
