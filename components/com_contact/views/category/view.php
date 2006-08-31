@@ -62,7 +62,7 @@ class ContactViewCategory extends JView
 			$k = 1 - $k;
 		}
 		
-		$this->_loadTemplate('_table_items');
+		$this->_loadTemplate('table_items');
 	}
 
 	function _displayHTML()

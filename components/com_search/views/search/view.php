@@ -45,7 +45,7 @@ class SearchViewSearch extends JView
 		}
 
 		$this->data->areas = $areas;
-		$this->_loadTemplate('_search_form');
+		$this->_loadTemplate('search_form');
 	}
 
 	function results()
@@ -81,12 +81,12 @@ class SearchViewSearch extends JView
 		
 		$this->set('pagination', $pagination);
 
-		$this->_loadTemplate('_search_results');
+		$this->_loadTemplate('search_results');
 	}
 
 	function error()
 	{
-		$this->_loadTemplate('_search_error');
+		$this->_loadTemplate('search_error');
 	}
 }
 ?>

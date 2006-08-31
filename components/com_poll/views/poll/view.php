@@ -87,7 +87,7 @@ class PollViewPoll extends JView
 			$k = 1 - $k;
 		}
 
-		$this->_loadTemplate('_poll_graph');
+		$this->_loadTemplate('poll_graph');
 	}
 }
 ?>

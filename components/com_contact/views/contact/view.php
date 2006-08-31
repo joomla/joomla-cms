@@ -161,7 +161,7 @@ class ContactViewContact extends JView
 	
 	function adress()
 	{
-		$this->_loadTemplate('_table_address');
+		$this->_loadTemplate('table_address');
 	}
 	
 		
@@ -171,7 +171,7 @@ class ContactViewContact extends JView
 		$doc->addScript('includes/js/joomla/common.js');
 		$doc->addScript('includes/js/joomla/validation.js');
 
-		$this->_loadTemplate('_table_form');
+		$this->_loadTemplate('table_form');
 	}
 }
 ?>

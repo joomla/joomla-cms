@@ -76,7 +76,7 @@ class NewsfeedsViewCategory extends JView
 		
 		$this->set('pagination', $pagination);
 
-		$this->_loadTemplate('_table_items');
+		$this->_loadTemplate('table_items');
 	}
 }
 ?>
