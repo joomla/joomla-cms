@@ -78,13 +78,14 @@ class JRequest
 	 */
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
+		$hash		= strtoupper( $hash );
+		$type		= strtoupper( $type );
 		$signature	= $name.$type.$mask;
 
 		if (!isset($GLOBALS['JRequest'][$signature])) {
 			$result		= null;
 			$matches	= array();
 
-			$hash = strtoupper( $hash );
 			if ($hash === 'METHOD') {
 				$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
 			}
@@ -116,7 +117,7 @@ class JRequest
 			$result = JArrayHelper::getValue( $input, $name, $default, $type );
 
 			// Run through input filter if necessary
-			switch (strtoupper($type))
+			switch ($type)
 			{
 				case 'INT' :
 				case 'INTEGER' :
