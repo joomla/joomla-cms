@@ -73,6 +73,7 @@ class JDocumentError extends JDocument
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
+		global $mainframe;
 
 		// If no error object is set return null
 		if (!isset($this->_error)) {
@@ -122,6 +123,9 @@ class JDocumentError extends JDocument
 		}
 		// set the base href message
 		$this->_engine->addVar('document', 'base_href', JURI::base());
+
+		$this->_engine->addVar('document', 'sitename', $mainframe->getCfg( 'sitename' ));
+
 		// set the error message
 		$this->_engine->addVar('document', 'message', JText::_($this->_error->message));
 
