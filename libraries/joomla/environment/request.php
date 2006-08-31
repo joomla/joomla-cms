@@ -169,7 +169,7 @@ class JRequest
 	function get($hash = 'default', $mask = 0)
 	{
 		static $hashes;
-		
+
 		if (!isset($hashes)) {
 			$hashes = array();
 		}

@@ -101,7 +101,12 @@ class JApplication extends JObject
 		}
 
 		if (JInputFilter::isAttributeInvalid( array( 'href', $url ))) {
-			$url = $this->getBasePath();
+			$url = JURI::base();
+		}
+		// check for relative internal links
+		if (preg_match( '#^index[2]?.php#', $url ))
+		{
+			$url = JURI::base() . $url;
 		}
 
 		// If the message exists, enqueue it
@@ -124,7 +129,7 @@ class JApplication extends JObject
 			//@ob_end_clean(); // clear output buffer
 			session_write_close();
 			header( 'HTTP/1.1 301 Moved Permanently' );
-			header( "Location: ".$url );
+			header( "Location: ". $url );
 		}
 		exit();
 	}
