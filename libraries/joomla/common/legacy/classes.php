@@ -14,7 +14,13 @@
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
-jimport( 'joomla.database.table.*' );
+jimport( 'joomla.database.table.category'  );
+jimport( 'joomla.database.table.component' );
+jimport( 'joomla.database.table.content'   );
+jimport( 'joomla.database.table.plugin'    );
+jimport( 'joomla.database.table.menu'      );
+jimport( 'joomla.database.table.module'    );
+jimport( 'joomla.database.table.section'   );
 
 /**
  * Legacy class, derive from JApplication instead

@@ -27,14 +27,14 @@ $mainframe = new JAdministrator();
 // load the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
-// load the legacy libraries if enabled
-$mainframe->setLegacy();
-
 // create the session
 $mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId() );
 
 // set the language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
+
+// load the legacy libraries if enabled
+$mainframe->setLegacy();
 
 // load system plugin group
 JPluginHelper::importPlugin( 'system' );

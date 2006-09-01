@@ -137,9 +137,9 @@ class JComponentHelper
 		if ($mainframe->getCfg('legacy')) {
 			// Include legacy globals
 			global $my, $database, $id;
-
+			
 			// Get an ACL object for local scope
-			$acl =& JFactory::getACL();
+			$GLOBALS['acl'] =& JFactory::getACL();
 
 			// For backwards compatibility extract the config vars as globals
 			$registry =& JFactory::getConfig();
