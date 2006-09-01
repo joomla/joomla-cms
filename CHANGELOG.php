@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Sep-2006 Johan Janssens
+ + Added isCompatible version check to JVersion (Suggested by CirTap)
+
 31-Aug-2006 Andrew Eddie
  ^ Spruced up 403, 404 and 500 (designs by Arno Zijlstra)
  ^ If a content item is not found, site will throw a 404 error
