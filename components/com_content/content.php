@@ -42,7 +42,7 @@ $controller->registerTask( 'apply', 	'save' );
 $controller->registerTask( 'apply_new', 'save' );
 
 // Perform the Request task
-$controller->execute( $task );
+$controller->execute( JRequest::getVar('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
