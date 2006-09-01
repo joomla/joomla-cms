@@ -136,7 +136,7 @@ class JComponentHelper
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy')) {
 			// Include legacy globals
-			global $my, $database, $id, $acl;
+			global $my, $database, $id, $acl, $task;
 			
 			// For backwards compatibility extract the config vars as globals
 			$registry =& JFactory::getConfig();

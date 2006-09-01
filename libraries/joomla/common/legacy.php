@@ -94,6 +94,15 @@ $GLOBALS['cur_template']	= $mainframe->getTemplate();
 $GLOBALS['acl'] =& JFactory::getACL();
 
 /**
+ * Legacy global
+ *
+ * @name $task
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+$GLOBALS['task'] = JRequest::getVar('task');
+
+/**
  * Load the site language file (the old way - to be deprecated)
  *
  * @deprecated	As of version 1.5
