@@ -140,9 +140,9 @@ class JAdministrator extends JApplication
 		parent::setConfiguration($file, $type);
 
 		$registry =& JFactory::getConfig();
-		$registry->setValue('config.live_site', substr_replace($this->getBaseURL(), '', -1, 1));
+		$registry->setValue('config.live_site', substr_replace($this->getSiteURL(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
-
+		
 		// Create the JConfig object
 		$config = new JConfig();
 

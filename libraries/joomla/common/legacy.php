@@ -83,6 +83,16 @@ $GLOBALS['my']	= $user->getTable();
 global $mainframe;
 $GLOBALS['cur_template']	= $mainframe->getTemplate();
 
+
+/**
+ * Legacy global, use JFactory::getUser() instead
+ *
+ * @name $acl
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+$GLOBALS['acl'] =& JFactory::getACL();
+
 /**
  * Load the site language file (the old way - to be deprecated)
  *
