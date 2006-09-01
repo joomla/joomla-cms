@@ -162,7 +162,7 @@ class JComponentHelper
 
 			$contents .= "
 			<div class=\"com-preview\">
-			<div class=\"com-preview-info\">Component[".$component."]</div>
+			<div class=\"com-preview-info\">".JText::_('Component')."[".$component."]</div>
 			<div class=\"com-preview-wrapper\">";
 		}
 

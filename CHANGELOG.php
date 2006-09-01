@@ -39,6 +39,11 @@ Legend:
 
 01-Sep-2006 Johan Janssens
  + Added isCompatible version check to JVersion (Suggested by CirTap)
+ # Fixed [artf5705] : jimport() and * wildcard
+ # Fixed [artf4720] : Content item editing bug
+ # Fixed [artf5784] : L10N: term "Component" in /application/extension/component.php
+ # Fixed [artf5433] : Replace the old Save and Cancel button on front-end
+ # Fixed [artf4794] : URL of non-existent item gives no feedback
 
 31-Aug-2006 Andrew Eddie
  ^ Spruced up 403, 404 and 500 (designs by Arno Zijlstra)

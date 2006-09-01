@@ -60,6 +60,8 @@ class UserController
 {
 	function display()
 	{
+		global $mainframe;
+		
 		$user =& JFactory::getUser();
 
 		$pathway =& $mainframe->getPathWay();

@@ -31,15 +31,6 @@ function submitbutton( pressbutton ) {
 <div class="componentheading">
 	<?php echo JText::_( 'Edit Your Details' ); ?>
 </div>
-<div style="float: right;">
-	<?php
-		mosToolBar::startTable();
-		mosToolBar::spacer();
-		mosToolBar::save();
-		mosToolBar::cancel();
-		mosToolBar::endtable();
-	?>
-</div>
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
 <tr>
 	<td width="120">
@@ -91,6 +82,7 @@ function submitbutton( pressbutton ) {
 	</td>
 </tr>
 </table>
+<button class="button" type="submit" onclick="submitForm( this.form );return false;"><?php echo JText::_('Save'); ?></button>
 <?php if(isset($this->params)) :  $this->params->render( 'params' ); endif;?>
 
 <input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />
