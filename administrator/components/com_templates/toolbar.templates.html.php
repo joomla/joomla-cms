@@ -54,10 +54,10 @@ class TOOLBAR_templates
 		JMenuBar::title( JText::_( 'Template Parameters' ), 'thememanager' );
 		JMenuBar::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
 		JMenuBar::custom( 'edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false );
-		JMenuBar::custom( 'choose_css', 'css.png', 'css_f2.png', JText::_( 'Edit CSS' ), false, false );
+		JMenuBar::custom( 'choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false );
 		JMenuBar::save( 'save' );
 		JMenuBar::apply();
-		JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+		JMenuBar::cancel( 'cancel', 'Close' );
 		JMenuBar::help( 'screen.templates' );
 	}
 

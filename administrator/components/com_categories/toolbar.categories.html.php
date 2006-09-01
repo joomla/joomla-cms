@@ -35,7 +35,7 @@ class TOOLBAR_categories {
 		JMenuBar::apply();
 		if ($cid[0]) {
 			// for existing articles the button is renamed `close`
-			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', 'Close' );
 		} else {
 			JMenuBar::cancel();
 		}

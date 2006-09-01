@@ -32,7 +32,7 @@ class TOOLBAR_messages
 	function _EDIT() {
 
 		JMenuBar::title(  JText::_( 'New Private Message' ), 'inbox.png' );
-		JMenuBar::save( 'save', JText::_( 'Send' ) );
+		JMenuBar::save( 'save', 'Send' );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.messages.edit' );
 	}

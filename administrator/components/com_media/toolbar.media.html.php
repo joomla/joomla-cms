@@ -26,7 +26,7 @@ class TOOLBAR_media {
 	*/
 	function _upload() {
 		JMenuBar::title( JText::_( 'Media Manager' ) . '- <span>' . JText::_( 'Upload' ) . '</span' , 'mediamanager.png');
-		JMenuBar::cancel('cancel', JText::_( 'Close' ));
+		JMenuBar::cancel('cancel', 'Close' );
 		JMenuBar::help( 'screen.mediamanager' );
 	}
 
