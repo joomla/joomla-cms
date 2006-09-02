@@ -102,7 +102,7 @@ class JDocumentError extends JDocument
 
 		// check template
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		$template  = $params['template'];
+		$template  = isset($params['template']) ? $params['template'] : '_system';
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}

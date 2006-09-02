@@ -386,7 +386,7 @@ class JFactory
 
 		$db =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
-		if ($db->getErrorNum() > 2) {
+		if ($db->getErrorNum() > 0) {
 			JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
 		}
 		$db->debug( $debug );

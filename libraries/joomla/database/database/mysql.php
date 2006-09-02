@@ -38,7 +38,7 @@ class JDatabaseMySQL extends JDatabase
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysql_connect' )) {
 			$this->_errorNum = 1;
-			$this->_errorMsg = 'The MySQL adapter "mysqli" is not available.';
+			$this->_errorMsg = 'The MySQL adapter "mysql" is not available.';
 			return;
 		}
 		if (phpversion() < '4.2.0') {
