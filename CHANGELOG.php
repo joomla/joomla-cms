@@ -44,6 +44,8 @@ Legend:
  # Fixed [artf5784] : L10N: term "Component" in /application/extension/component.php
  # Fixed [artf5433] : Replace the old Save and Cancel button on front-end
  # Fixed [artf4794] : URL of non-existent item gives no feedback
+ # Fixed [artf3522] : "Database down" error message missing in backend.
+ # Fixed [artf4299] : When MySQL not started, backend doesn't detect correctly
 
 31-Aug-2006 Andrew Eddie
  ^ Spruced up 403, 404 and 500 (designs by Arno Zijlstra)
