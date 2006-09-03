@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Sep-2006
+ # Fixed [artf5805] : non-existent class: jtablemenutypes
+
 01-Sep-2006 Johan Janssens
  + Added isCompatible version check to JVersion (Suggested by CirTap)
  # Fixed [artf5705] : jimport() and * wildcard

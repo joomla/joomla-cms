@@ -128,14 +128,15 @@ class MenuTypeController extends JController
 	 */
 	function saveMenu()
 	{
-		$db =& JFactory::getDBO();
-		$id	= (int) JRequest::getVar( 'id', 0 );
+		$db		=& JFactory::getDBO();
+		$id		= JRequest::getVar( 'id', 0, '', 'int' );
+		$post	= JRequest::get( 'post' );
 
-		$oldType = new JTableMenuTypes( $db );
+		$oldType =& JTable::getInstance('menutypes', $db, 'JTable');
 		$oldType->load( $id );
 
-		$menuType = new JTableMenuTypes( $db );
-		$menuType->bind( $_POST );
+		$menuType =& JTable::getInstance('menutypes', $db, 'JTable');
+		$menuType->bind( $post );
 
 		$isNew		= ($menuType->id == 0);
 		$isChanged	= ($oldType->menutype != $menuType->menutype);

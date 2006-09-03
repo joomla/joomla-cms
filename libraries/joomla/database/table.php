@@ -107,7 +107,7 @@ class JTable extends JObject
 			}
 		}
 		if (!class_exists( $adapter )) {
-			return JError::raiseError(20, JText::_('Database Table Object Does Not Exist'));
+			return JError::raiseError(20, JText::sprintf('Database Table object [%s] does not exist', $prefix.$type));
 		} else {
 			$m = new $adapter($db);
 		}
