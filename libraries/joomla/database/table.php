@@ -136,30 +136,30 @@ class JTable extends JObject
 
 	/**
 	 * Get the internal database object
+	 * 
 	 * @return object A JDatabase based object
 	 */
-	function &getDBO()
-	{
+	function &getDBO() {
 		return $this->_db;
 	}
 
 	/**
 	 * Gets the internal table name for the object
+	 * 
 	 * @return string
 	 * @since 1.5
 	 */
-	function getTableName()
-	{
+	function getTableName() {
 		return $this->_tbl;
 	}
 
 	/**
 	 * Gets the internal primary key name
+	 * 
 	 * @return string
 	 * @since 1.5
 	 */
-	function getKeyName()
-	{
+	function getKeyName() {
 		return $this->_tbl_key;
 	}
 
@@ -786,6 +786,7 @@ class JTable extends JObject
 
 	/**
 	 * Sets the internal error number
+	 * 
 	 * @param int Set the error number with this value
 	 */
 	function setErrorNum( $value ) {
@@ -794,6 +795,7 @@ class JTable extends JObject
 
 	/**
 	 * Generic Publish/Unpublish function
+	 * 
 	 * @access public
 	 * @param array An array of id numbers
 	 * @param integer 0 if unpublishing, 1 if publishing

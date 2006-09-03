@@ -24,7 +24,7 @@ class MailtoController extends JController
 	{
 		global $mainframe;
 
-		$db			= &$this->getDBO();
+		$db			=& JFactory::getDBO();
 
 		jimport( 'joomla.utilities.mail' );
 

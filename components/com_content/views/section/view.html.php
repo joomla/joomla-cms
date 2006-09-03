@@ -40,33 +40,7 @@ class ContentViewSection extends JView
 	 */
 	function display($layout)
 	{
-		$document	= & JFactory::getDocument();
-		switch ($document->getType())
-		{
-			case 'feed':
-				$this->_displayFeed();
-				break;
-			default:
-				$this->_displayHTML($layout);
-				break;
-		}
-	}
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	function _displayHTML($layout)
-	{
 		global $mainframe, $Itemid, $option;
-
-		if (empty( $layout ))
-		{
-			// degrade to default 
-			$layout = 'list';
-		}
 
 		// Initialize some variables
 		$user	  =& JFactory::getUser();
@@ -90,7 +64,7 @@ class ContentViewSection extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$section->id.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_content&task=section&id='.$section->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

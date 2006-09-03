@@ -109,7 +109,7 @@ class JComponentHelper
 		$component	= is_null($component) ? $option : $component;
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
-
+		
 		//if no component found return
 		if(empty($component)) {
 			return false;

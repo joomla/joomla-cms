@@ -32,29 +32,9 @@ class ContentViewFrontpage extends JView
 	 */
 	var $_viewName = 'Frontpage';
 	
-	function display()
-	{
-		$document	= & JFactory::getDocument();
-		switch ($document->getType())
-		{
-			case 'feed':
-				$this->_displayFeed();
-				break;
-			default:
-				$this->_displayHTML();
-				break;
-		}
-	}
-
-	function _displayHTML($layout='')
+	function display($layout = 'blog')
 	{
 		global $mainframe, $Itemid, $option;
-
-		if (empty( $layout ))
-		{
-			// degrade to default 
-			$layout = 'blog';
-		}
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
@@ -158,7 +138,7 @@ class ContentViewFrontpage extends JView
 		
 		$this->_loadTemplate($layout);
 	}
-	
+
 	function icon($type, $attribs = array())
 	{	
 		 global $Itemid, $mainframe;
@@ -259,46 +239,6 @@ class ContentViewFrontpage extends JView
 		
 		
 		echo mosHTML::Link($url, $text, $attribs);
-	}
-
-	function _displayFeed()
-	{
-		global $mainframe, $Itemid;
-
-		// parameters
-		$db       =& JFactory::getDBO();
-		$document =& JFactory::getDocument('rss');
-		$limit	  = '10';
-
-		JRequest::setVar('limit', $limit);
-		$rows = $this->get('ContentData');
-
-		foreach ( $rows as $row )
-		{
-			// strip html from feed item title
-			$title = htmlspecialchars( $row->title );
-			$title = html_entity_decode( $title );
-
-			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_content&task=view&id='. $row->id . $Itemid;
-			$link = sefRelToAbs( $link );
-
-			// strip html from feed item description text
-			$description = $row->introtext;
-			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
-
-			// load individual item creator class
-			$item = new JFeedItem();
-			$item->title 		= $title;
-			$item->link 		= $link;
-			$item->description 	= $description;
-			$item->date			= $date;
-			$item->category   	= 'frontpage';
-
-			// loads item info into rss array
-			$document->addItem( $item );
-		}
 	}
 
 	function item($index = 0)

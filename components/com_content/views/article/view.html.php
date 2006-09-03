@@ -39,27 +39,6 @@ class ContentViewArticle extends JView
 	 */
 	function display($layout)
 	{
-		$document =& JFactory::getDocument();
-		
-		switch ($document->getType())
-		{
-			case 'pdf':
-				$this->_displayPDF();
-				break;
-			default:
-				$this->_displayHTML($layout);
-				break;
-		}
-	}
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	function _displayHTML($layout)
-	{
 		global $mainframe, $Itemid;
 		
 		if (empty( $layout ))
@@ -180,7 +159,7 @@ class ContentViewArticle extends JView
 		
 		$this->_loadTemplate($layout);
 	}
-	
+		
 	function icon($type, $attribs = array())
 	{	
 		 global $Itemid, $mainframe;

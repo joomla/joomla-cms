@@ -18,23 +18,25 @@ defined('_JEXEC') or die('Restricted access');
 // Require the com_content helper library
 require_once (JPATH_COMPONENT . '/controller.php');
 require_once (JPATH_COMPONENT . '/helpers/content.php');
-//require_once (JPATH_COMPONENT . '/content.helper.php');
 
 // Component Helper
 jimport('joomla.application.extension.component');
 
+$document =& JFactory::getDocument();
+$cParams  = JSiteHelper::getControlParams();
+
 // Create the controller
-$cParams 	= JSiteHelper::getControlParams();
 $controller = new ContentController( 'display' );
 
 // need to tell the controller where to look for views and models
-$controller->setViewPath( JPATH_COMPONENT.DS.'views' );
+$controller->setViewPath ( JPATH_COMPONENT.DS.'views'  );
 $controller->setModelPath( JPATH_COMPONENT.DS.'models' );
 
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
+$viewType = $document->getType();
 
-$controller->setViewName( $viewName, 'ContentView' );
+$controller->setViewName( $viewName, 'ContentView', $viewType );
 
 // Register Extra tasks
 $controller->registerTask( 'new', 		'edit' );

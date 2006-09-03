@@ -41,6 +41,7 @@ class JMenuHelperComponent extends JWizardHelper
 	function init(&$wizard)
 	{
 		global $mainframe;
+		
 		$option			= $mainframe->getUserStateFromRequest('menuwizard.component', 'component', 'content');
 		$this->_type	= $mainframe->getUserStateFromRequest('menuwizard.menutype', 'menutype');
 		$this->setOption($option);

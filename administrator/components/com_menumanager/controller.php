@@ -34,7 +34,7 @@ class MenuTypeController extends JController
 		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
 		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 
-		$db			= &$this->getDBO();
+		$db			=& JFactory::getDBO();
 		$menus		= array();
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit',  $mainframe->getCfg('list_limit') );
 		$limitstart = $mainframe->getUserStateFromRequest( $this->_option . '.limitstart', 'limitstart', 0 );

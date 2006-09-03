@@ -120,7 +120,7 @@ class WeblinksController
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'view.html.php');
 		$view = new WeblinksViewCategories();
 
 		$data = new stdClass();
@@ -184,7 +184,7 @@ class WeblinksController
 		}
 
 		// We need to get a list of all weblinks in the given category
-		$query = "SELECT id, url, title, description, date, hits, params" .
+		$query = "SELECT id, url, title, description, date, hits, params, catid" .
 				"\n FROM #__weblinks" .
 				"\n WHERE catid = $catid" .
 				"\n AND published = 1" .
@@ -224,7 +224,8 @@ class WeblinksController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'view.php');
+		$type = $document->getType();
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'view.'.$type.'.php');
 		$view = new WeblinksViewCategory();
 
 		$request = new stdClass();
@@ -388,7 +389,7 @@ class WeblinksController
 		// build list of categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.php');
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.html.php');
 		$view = new WeblinksView();
 
 		$request = new stdClass();

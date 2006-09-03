@@ -35,12 +35,8 @@ class JConfigGlobalController extends JController
 	 */
 	function showConfig()
 	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db = & $this->getDBO();
+		// Initialize some variables
+		$db =& JFactory::getDBO();
 		$row = new JConfig();
 
 		// compile list of the languages

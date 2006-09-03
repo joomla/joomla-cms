@@ -26,22 +26,24 @@ class JView extends JObject
 	/**
 	 * Name of the view.  Defined in subclasses
 	 *
-	 * @access	private
-	 * @var		string
+	 * @var	string
+	 * @access protected
 	 */
 	var $_viewName = null;
 
 	/**
 	 * Registered models
 	 *
-	 * @access	private
 	 * @var		array
+	 * @access protected
 	 */
 	var $_models = null;
 
 	/**
 	 * The template path
+	 * 
 	 * @var	string
+	 * @access protected
 	 */
 	var $_templatePath = null;
 

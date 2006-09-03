@@ -51,7 +51,7 @@ class JContentModelElement extends JModel
 		}
 
 		// Initialize variables
-		$db		= &$this->getDBO();
+		$db		=& $this->getDBO();
 		$filter	= null;
 
 		// Get some variables from the request

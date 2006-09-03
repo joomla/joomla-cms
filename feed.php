@@ -39,10 +39,15 @@ $mainframe->triggerEvent( 'onAfterStart' );
 
 JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
 
+// authorization
+$Itemid = JSiteHelper::findItemid();
+$mainframe->authorize($Itemid);
+
 //if ($mainframe->getCfg('offline') && $user->get('gid') < '23' ) {
 //	$file = 'offline.php';
 //}
 
+$option = JSiteHelper::findOption(); 
 $params = array(
 	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
 );

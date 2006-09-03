@@ -34,35 +34,9 @@ class ContentViewCategory extends JView
 	/**
 	 * Display the document
 	 */
-	function display($layout)
-	{
-		$document	= & JFactory::getDocument();
-		switch ($document->getType())
-		{
-			case 'feed':
-				$this->_displayFeed();
-				break;
-			default:
-				$this->_displayHTML($layout);
-				break;
-		}
-	}
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	function _displayHTML($layout)
+	function display($layout = 'table')
 	{
 		global $mainframe, $option, $Itemid;
-
-		if (empty( $layout ))
-		{
-			// degrade to default 
-			$layout = 'table';
-		}
 
 		// Initialize some variables
 		$user	  =& JFactory::getUser();
@@ -154,7 +128,7 @@ class ContentViewCategory extends JView
 
 		$this->_loadTemplate($layout);
 	}
-	
+
 	function icon(&$article, $type, $attribs = array())
 	{	
 		global $Itemid, $mainframe;
@@ -425,54 +399,6 @@ class ContentViewCategory extends JView
 
 
 		$this->_loadTemplate('blog_links');
-	}
-	
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	function _displayFeed()
-	{
-		global $mainframe, $Itemid;
-
-		$doc =& JFactory::getDocument();
-
-		// Get some data from the model
-		$rows  = & $this->get( 'Content' );
-		$limit = '10';
-
-		JRequest::setVar('limit', $limit);
-		$category = & $this->get( 'Category' );
-		$rows 	  = & $this->get( 'Content' );
-
-		foreach ( $rows as $row )
-		{
-			// strip html from feed item title
-			$title = htmlspecialchars( $row->title );
-			$title = html_entity_decode( $title );
-
-			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_content&task=view&id='. $row->id . $Itemid;
-			$link = sefRelToAbs( $link );
-
-			// strip html from feed item description text
-			$description = $row->introtext;
-			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
-
-			// load individual item creator class
-			$item = new JFeedItem();
-			$item->title 		= $title;
-			$item->link 		= $link;
-			$item->description 	= $description;
-			$item->date			= $date;
-			$item->category   	= $category->title;
-
-			// loads item info into rss array
-			$doc->addItem( $item );
-		}
 	}
 }
 ?>

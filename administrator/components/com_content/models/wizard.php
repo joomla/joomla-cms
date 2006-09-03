@@ -62,7 +62,7 @@ class JContentModelWizard extends JWizardModel
 			$query = 'SELECT id, title' .
 					' FROM #__content' .
 					' WHERE id = ' . implode( ' OR id = ', $ids );
-			$db = $this->getDBO();
+			$db =& $this->getDBO();
 			$db->setQuery( $query );
 			$result = $db->loadObjectList();
 		}

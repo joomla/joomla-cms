@@ -28,6 +28,7 @@ class JModel extends JObject
 	 * The model (base) name
 	 *
 	 * @var string
+	 * @access protected
 	 */
 	var $_modelName;
 
@@ -35,6 +36,7 @@ class JModel extends JObject
 	 * Database Connector
 	 *
 	 * @var object
+	 * @access protected
 	 */
 	var $_db;
 
@@ -42,6 +44,7 @@ class JModel extends JObject
 	 * An error message
 	 *
 	 * @var string
+	 * @access protected
 	 */
 	var $_error;
 
@@ -57,6 +60,7 @@ class JModel extends JObject
 	
 	/**
 	 * Get instance
+	 * 
 	 * @return JModelMenu
 	 */
 	function &getInstance( $modelName )
@@ -72,6 +76,8 @@ class JModel extends JObject
 	}
 
 	/**
+	 * Method to get the model name
+	 * 
 	 * @return string The model name
 	 */
 	function getModelName()
@@ -93,6 +99,7 @@ class JModel extends JObject
 
 	/**
 	 * Get the error message
+	 * 
 	 * @return string The error message
 	 * @since 1.5
 	 */
@@ -102,6 +109,7 @@ class JModel extends JObject
 
 	/**
 	 * Sets the error message
+	 * 
 	 * @param string The error message
 	 * @return string The new error message
 	 * @since 1.5
@@ -113,6 +121,7 @@ class JModel extends JObject
 	
 	/**
 	 * String representation
+	 * 
 	 * @return string
 	 * @since 1.5
 	 */
@@ -124,6 +133,7 @@ class JModel extends JObject
 	
 	/**
 	 * Returns an object list
+	 * 
 	 * @param string The query
 	 * @param int Offset
 	 * @param int The number of records
@@ -142,6 +152,7 @@ class JModel extends JObject
 
 	/**
 	 * Returns a record count for the query
+	 * 
 	 * @param string The query
 	 * @return int
 	 * @access protected

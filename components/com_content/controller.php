@@ -31,15 +31,14 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		// TODO: What happen if the item doesn't exist?
+		$document =& JFactory::getDocument();
+		$cParams= JSiteHelper::getControlParams();
 
-		// Get control information from the request
-		$cParams	= JSiteHelper::getControlParams();
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
+		$viewType   = $document->getType();
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
 		$layout     = $cParams->get( 'template_name' );
-
-
+		
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -81,9 +80,9 @@ class ContentController extends JController
 				$layout = 'article';
 				break;
 		}
-		
+			
 		// Create the view
-		$this->setViewName( $viewName, 'ContentView' );
+		$this->setViewName( $viewName, 'ContentView', $viewType );
 		$view = & $this->getView();
 
 		// Get/Create the model
@@ -96,42 +95,6 @@ class ContentController extends JController
 		$view->display($layout);
 	}
 	
-	/**
-	 * Method to show a section in list format
-	 *
-	 * @access	public
-	 * @since	1.5
-	 */
-	function section000()
-	{
-		global $mainframe;
-		$this->setViewName( 'section', 'ContentView' );
-
-		// Set some parameter defaults
-		// TODO: probably this needs to move into the view class
-		$mParams->def('page_title', 			1);
-		$mParams->def('pageclass_sfx', 		'');
-		$mParams->def('other_cat_section', 	1);
-		$mParams->def('empty_cat_section', 	0);
-		$mParams->def('other_cat', 			1);
-		$mParams->def('empty_cat', 			0);
-		$mParams->def('cat_items', 			1);
-		$mParams->def('cat_description', 	1);
-		$mParams->def('back_button', 		$mainframe->getCfg('back_button'));
-		$mParams->def('pageclass_sfx', 		'');
-
-		// Get the view
-		$view = & $this->getView();
-
-		// Get/Create the model
-		$model = & $this->getModel('Section', 'ContentModel');
-
-		// Push the model into the view (as default)
-		$view->setModel($model, true);
-		// Display the view
-		$view->display();
-	}
-
 	/**
 	* Edits an article
 	*
@@ -370,11 +333,11 @@ class ContentController extends JController
 	function cancel()
 	{
 		// Initialize some variables
-		$db		= & $this->getDBO();
+		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
 		// At some point in the future these will be in a request object
-		$Itemid	= JRequest::getVar('Returnid', '0', 'post');
+		$Itemid		= JRequest::getVar('Returnid', '0', 'post');
 		$referer	= JRequest::getVar('referer', '', 'post');
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
@@ -431,7 +394,7 @@ class ContentController extends JController
 	function findkey()
 	{
 		// Initialize variables
-		$db		= & $this->getDBO();
+		$db		= & JFactory::getDBO();
 		$keyref	= $db->getEscaped(JRequest::getVar('keyref'));
 
 		$query = "SELECT id" .

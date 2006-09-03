@@ -22,16 +22,19 @@ require_once( JPATH_COMPONENT . '/controller.php' );
 // Set the table directory
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
+$document =& JFactory::getDocument();
 $mParams =& JSiteHelper::getMenuParams();
 
-$viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'category' ) );
 $controller	= new ContactController( 'display' );
 
 $controller->setViewPath ( JPATH_COMPONENT. '/views'  );
 $controller->setModelPath( JPATH_COMPONENT . '/models' );
 
+$viewName = JRequest::getVar( 'view', $mParams->get( 'view', 'category' ) );
+$viewType = $document->getType();
+
 // get view name from URL or menu params
-$controller->setViewName( $viewName, 'ContactView' );
+$controller->setViewName( $viewName, 'ContactView', $viewType );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();

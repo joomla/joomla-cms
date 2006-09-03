@@ -29,12 +29,14 @@ class ContactController extends JController
 	 */
 	function display()
 	{
-		$cParams	= &JSiteHelper::getControlParams();
+		$document =& JFactory::getDocument();
+		$cParams  = &JSiteHelper::getControlParams();
 		
 		// Set the default view name from the Request
 		$viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'category' ) );
+		$viewType = $document->getType();
 
-		$this->setViewName( $viewName, 'ContactView' );
+		$this->setViewName( $viewName, 'ContactView', $viewType );
 		$view = &$this->getView();
 
 		// Push a model into the view

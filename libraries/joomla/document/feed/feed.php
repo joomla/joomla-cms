@@ -207,7 +207,7 @@ class JDocumentFeed extends JDocument
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 
 		$renderer = $this->loadRenderer($format);
-
+		
 		echo JComponentHelper::renderComponent();
 
 		//output
