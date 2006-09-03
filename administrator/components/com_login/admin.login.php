@@ -15,23 +15,26 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Get the task variable from the page request variables
- */
-$task = strtolower(JRequest::getVar('task'));
+// Get the task variable from the page request variables
+$task = JRequest::getVar('task');
 
-switch ($task) {
+switch (strtolower( $task )) {
 
 	case 'login' :
-		if(!JError::isError($mainframe->login())) {
+		if (!JError::isError($mainframe->login()))
+		{
 			$mainframe->redirect('index.php');
 		}
 		break;
+
 	case 'logout' :
-		if(!JError::isError($mainframe->logout())) {
+		if (!JError::isError($mainframe->logout()))
+		{
 			$mainframe->redirect('index.php');
 		}
 		break;
-	default : break;
+
+	default :
+		break;
 }
 ?>
