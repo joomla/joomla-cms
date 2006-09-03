@@ -27,7 +27,7 @@ class JController extends JObject
 {
 	/**
 	 * Array of class methods
-	 * 
+	 *
 	 * @var	array
 	 * @access protected
 	 */
@@ -35,7 +35,7 @@ class JController extends JObject
 
 	/**
 	 * Array of class methods to call for a given task
-	 * 
+	 *
 	 * @var	array
 	 * @access protected
 	 */
@@ -43,7 +43,7 @@ class JController extends JObject
 
 	/**
 	 * Task to be preformed
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -51,7 +51,7 @@ class JController extends JObject
 
 	/**
 	 * URL for redirection
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -59,7 +59,7 @@ class JController extends JObject
 
 	/**
 	 * Redirect message
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -67,7 +67,7 @@ class JController extends JObject
 
 	/**
 	 * Redirect message type
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -75,7 +75,7 @@ class JController extends JObject
 
 	/**
 	 * ACO Section for the controller
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -83,7 +83,7 @@ class JController extends JObject
 
 	/**
 	 * Default ACO Section value for the controller
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -91,7 +91,7 @@ class JController extends JObject
 
 	/**
 	 * View object
-	 * 
+	 *
 	 * @var	object
 	 * @access protected
 	 */
@@ -99,7 +99,7 @@ class JController extends JObject
 
 	/**
 	 * View file base path
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -107,15 +107,15 @@ class JController extends JObject
 
 	/**
 	 * Name of the current view
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
 	var $_viewName = null;
-	
+
 	/**
 	 * Type of the current view
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -123,7 +123,7 @@ class JController extends JObject
 
 	/**
 	 * View name prefix
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -131,7 +131,7 @@ class JController extends JObject
 
 	/**
 	 * Model file base path
-	 * 
+	 *
 	 * @var	string
 	 * @access protected
 	 */
@@ -139,7 +139,7 @@ class JController extends JObject
 
 	/**
 	 * An error message
-	 * 
+	 *
 	 * @var string
 	 * @access protected
 	 */
@@ -186,7 +186,7 @@ class JController extends JObject
 			$this->registerDefaultTask( $default );
 		}
 	}
-	
+
 	/**
 	 * Execute a task by triggering a method in the derived class
 	 *
@@ -262,14 +262,14 @@ class JController extends JObject
 
 	/**
 	 * Typical view method for MVC based architecture
-	 * 
+	 *
 	 */
 	function display()
 	{
 		$view = &$this->getView();
 		$view->display();
 	}
-	
+
 	/**
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
@@ -312,7 +312,7 @@ class JController extends JObject
 	function getModelPath() {
 		return $this->_modelPath;
 	}
-	
+
 	/**
 	 * Method to set the current model path
 	 *
@@ -351,21 +351,21 @@ class JController extends JObject
 			if (empty($name)) {
 				$name = $this->_viewName;
 			}
-			
+
 			if (empty($prefix)) {
 				$prefix = $this->_viewPrefix;
 			}
-			
+
 			if (empty($type)) {
 				$type = $this->_viewType;
 			}
-			
+
 			$view = $this->_loadView( $name, $prefix, $type );
 			$this->setView( $view );
 		}
 		return $this->_view;
 	}
-	
+
 	/**
 	 * Method to set the current view.  Normally this would be done automatically, but this method is provided
 	 * for maximum flexibility
@@ -380,7 +380,7 @@ class JController extends JObject
 		$this->_view = &$view;
 		return $view;
 	}
-	
+
 	/**
 	 * Method to get the current view path
 	 *
@@ -405,7 +405,7 @@ class JController extends JObject
 		$this->_viewPath = $path.DS;
 		return $this->_viewPath;
 	}
-	
+
 	/**
 	 * Method to set the view name and options for loading the view class.
 	 *
@@ -422,12 +422,12 @@ class JController extends JObject
 		if ($prefix !== null) {
 			$this->_viewPrefix = $prefix;
 		}
-		
+
 		if ($prefix !== null) {
 			$this->_viewType = $type;
 		}
 	}
-	
+
 	/**
 	 * Register (map) a task to a method in the class
 	 *
@@ -445,8 +445,8 @@ class JController extends JObject
 			JError::raiseError( 404, JText::_('Method '.$method.' not found') );
 		}
 	}
-	
-	
+
+
 	/**
 	 * Register the default task to perfrom if a mapping is not found
 	 *
@@ -496,7 +496,7 @@ class JController extends JObject
 		$this->_message		= $msg;
 		$this->_messageType	= $type;
 	}
-	
+
 		/**
 	 * Sets the access control levels
 	 *
@@ -571,17 +571,20 @@ class JController extends JObject
 	{
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
-		$viewType	 = preg_replace( '#\W#', '', $type );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
+		$viewType	 = preg_replace( '#\W#', '', $type );
 
 		$view		= null;
 
 		// Build the path to the default view based upon a supplied base path
 		$basePath	= $this->getViewPath().strtolower($viewName);
 		$viewPath	= '';
-		
-		if(!empty($type)) $type = '.'.$type; 
-		
+
+		if (!empty($type))
+		{
+			$type = '.'.$type;
+		}
+
 		if (file_exists( $basePath.DS.'view'.$type.'.php' ))
 		{
 			// default setting, /views/viewName/view.type.php
@@ -589,13 +592,12 @@ class JController extends JObject
 		}
 		else
 		{
-			//TODO:: this needs to be removed
 			// alternative file name, /views/viewName/viewName.php
 			if (file_exists( $basePath.DS.$viewName.'.php' )) {
 				$viewPath = $basePath.DS.$viewName.'.php';
 			}
 		}
-		
+
 		// If the default view file exists include it and try to instantiate the object
 		if ($viewPath)
 		{
@@ -616,10 +618,10 @@ class JController extends JObject
 		{
 			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 		}
-		
+
 		return $view;
 	}
-	
+
 	/**
 	 * String representation
 	 * @return string
