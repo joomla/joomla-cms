@@ -38,7 +38,7 @@ class ContentController extends JController
 		$viewType   = $document->getType();
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
 		$layout     = $cParams->get( 'template_name' );
-		
+
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -80,12 +80,12 @@ class ContentController extends JController
 				$layout = 'article';
 				break;
 		}
-			
-	
+
+
 		// Create the view
 		$this->setViewName( $viewName, 'ContentView', $viewType );
 		$view = & $this->getView();
-	
+
 		// Get/Create the model
 		$model = & $this->getModel($modelName, 'ContentModel');
 
@@ -95,7 +95,7 @@ class ContentController extends JController
 		// Display the view
 		$view->display($layout);
 	}
-	
+
 	/**
 	* Edits an article
 	*
@@ -105,7 +105,7 @@ class ContentController extends JController
 	function edit()
 	{
 		// Set the view name to article view
-		$this->setViewName( 'article', 'ContentView' );
+		$this->setViewName( 'article', 'ContentView', 'html' );
 
 		// Create the view
 		$view = & $this->getView();
@@ -405,7 +405,7 @@ class ContentController extends JController
 		$id = $db->loadResult();
 		if ($id > 0) {
 			// Set the view name to article view
-			$this->setViewName( 'article', 'ContentView' );
+			$this->setViewName( 'article', 'ContentView', 'html' );
 
 			// Create the view
 			$view = & $this->getView();
