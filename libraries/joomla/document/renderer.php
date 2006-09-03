@@ -45,7 +45,7 @@ class JDocumentRenderer extends JObject
 	* @param object A reference to the JDocument object that instantiated the renderer
 	*/
 	function __construct(&$doc) {
-		$this->_doc = $doc;
+		$this->_doc =& $doc;
 	}
 
     /**

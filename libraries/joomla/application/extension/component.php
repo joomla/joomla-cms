@@ -171,7 +171,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
-
+		
 		// Close template preview outlining if enabled
 		if($outline && !$mainframe->isAdmin()) {
 			$contents .= "</div></div>";

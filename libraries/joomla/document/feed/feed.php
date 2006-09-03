@@ -189,7 +189,7 @@ class JDocumentFeed extends JDocument
 	 * Outputs the document to the browser.
 	 *
 	 * @access public
-	  * @param boolean 	$cache		If true, cache the output
+	 * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
@@ -205,10 +205,10 @@ class JDocumentFeed extends JDocument
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
-
-		$renderer = $this->loadRenderer($format);
 		
 		echo JComponentHelper::renderComponent();
+		
+		$renderer = $this->loadRenderer($format);
 
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );

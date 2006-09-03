@@ -580,10 +580,12 @@ class JController extends JObject
 		$basePath	= $this->getViewPath().strtolower($viewName);
 		$viewPath	= '';
 		
-		if (file_exists( $basePath.DS.'view.'.$type.'.php' ))
+		if(!empty($type)) $type = '.'.$type; 
+		
+		if (file_exists( $basePath.DS.'view'.$type.'.php' ))
 		{
 			// default setting, /views/viewName/view.type.php
-			$viewPath = $basePath.DS.'view.'.$type.'.php';
+			$viewPath = $basePath.DS.'view'.$type.'.php';
 		}
 		else
 		{
@@ -593,7 +595,7 @@ class JController extends JObject
 				$viewPath = $basePath.DS.$viewName.'.php';
 			}
 		}
-
+		
 		// If the default view file exists include it and try to instantiate the object
 		if ($viewPath)
 		{
@@ -608,13 +610,13 @@ class JController extends JObject
 			{
 				$view = new $viewClass( $this );
 				$view->setTemplatePath($basePath.DS.'tmpl');
-				return $view;
 			}
 		}
 		else
 		{
 			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 		}
+		
 		return $view;
 	}
 	

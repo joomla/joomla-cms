@@ -81,10 +81,11 @@ class ContentController extends JController
 				break;
 		}
 			
+	
 		// Create the view
 		$this->setViewName( $viewName, 'ContentView', $viewType );
 		$view = & $this->getView();
-
+	
 		// Get/Create the model
 		$model = & $this->getModel($modelName, 'ContentModel');
 

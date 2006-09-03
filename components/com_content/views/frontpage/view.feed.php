@@ -32,18 +32,18 @@ class ContentViewFrontpage extends JView
 	 */
 	var $_viewName = 'Frontpage';
 	
-	function display()
+	function display($layout)
 	{
 		global $mainframe, $Itemid;
-
+			
 		// parameters
 		$db       =& JFactory::getDBO();
-		$document =& JFactory::getDocument('rss');
+		$document =& JFactory::getDocument();
 		$limit	  = '10';
 
 		JRequest::setVar('limit', $limit);
 		$rows = $this->get('ContentData');
-
+		
 		foreach ( $rows as $row )
 		{
 			// strip html from feed item title
