@@ -82,10 +82,7 @@ class JModuleHelper
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy')) {
 			// Include legacy globals
-			global $my, $database;
-
-			// Get an ACL object for local scope
-			$acl =& JFactory::getACL();
+			global $my, $database, $acl;
 
 			// Get the task variable for local scope
 			$task = JRequest::getVar( 'task' );
@@ -203,7 +200,7 @@ class JModuleHelper
 		global $mainframe;
 		
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.$module.DS.$layout.'.php';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
 		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
 
 		// If the template has a layout override use it
