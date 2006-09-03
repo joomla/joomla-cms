@@ -17,7 +17,7 @@
 	<?php $this->items(); ?>
 	
 	<?php if ($this->access->canEdit || $this->access->canEditOwn) :
-		$this->icon($this->items[1], 'new');
+		$this->icon($this->items[0], 'new');
 	endif; ?>
 	</td>
 </tr>
