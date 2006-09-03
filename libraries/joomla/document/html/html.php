@@ -270,7 +270,7 @@ class JDocumentHTML extends JDocument
 	{
 		$contents = $this->_loadTemplate( $directory, $file);
 		$this->_engine->readTemplatesFromInput( $contents, 'String' );
-
+		
 		// Parse the template INI file if it exists for parameters and insert
 		// them into the template.
 		if (is_readable( $directory.DS.'params.ini' ) )
@@ -304,13 +304,10 @@ class JDocumentHTML extends JDocument
 	 * @return string The contents of the template
 	 */
 	function _loadTemplate($directory, $filename)
-	{
+	{	
 		global $mainframe, $Itemid, $option;
-		global $task, $_VERSION, $my, $cur_template;
-
-		$db  =& JFactory::getDBO();
-		$acl =& JFactory::getACL();
-
+		global $task, $_VERSION, $my, $cur_template, $database, $acl;
+		
 		//For backwards compatibility extract the config vars as globals
 		$registry =& JFactory::getConfig();
 		foreach (get_object_vars($registry->toObject()) as $k => $v) {
@@ -319,6 +316,7 @@ class JDocumentHTML extends JDocument
 		}
 
 		$contents = '';
+		
 		//Check to see if we have a valid template file
 		if ( file_exists( $directory.DS.$filename ) )
 		{

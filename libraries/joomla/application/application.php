@@ -93,6 +93,7 @@ class JApplication extends JObject
 	 */
 	function redirect( $url, $msg='', $msgType='message' )
 	{
+		//TODO :: does this needs to be filtered here ?
 		// Instantiate an input filter and process the URL and message
 		$filter = & JInputFilter::getInstance();
 		$url = $filter->clean( $url );
