@@ -181,7 +181,7 @@ class JConfigGlobalController extends JController
 		$lists['log_items'] 	= mosHTML::yesnoRadioList('enable_log_items', 'class="inputbox"', $row->enable_log_items);
 
 		// SEO SETTINGS
-		$lists['sef'] 			= mosHTML::yesnoRadioList('sef', 'class="inputbox" onclick="javascript: if (document.adminForm.sef[1].checked) { alert(\''.JText::_('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
+		$lists['sef'] 			= mosHTML::yesnoRadioList('sef', 'class="inputbox" onclick="if (document.adminForm.sef[1].checked) { alert(\''.JText::_('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
 
 		// CONTENT SETTINGS
 		$lists['link_titles'] 	= mosHTML::yesnoRadioList('link_titles', 'class="inputbox"', $row->link_titles);
@@ -199,7 +199,7 @@ class JConfigGlobalController extends JController
 		$lists['hidePrint'] 	= mosHTML::RadioList($show_hide, 'hidePrint', 'class="inputbox"', $row->hidePrint, 'value', 'text');
 		$lists['hideEmail'] 	= mosHTML::RadioList($show_hide, 'hideEmail', 'class="inputbox"', $row->hideEmail, 'value', 'text');
 		$lists['icons'] 		= mosHTML::yesnoRadioList('icons', 'class="inputbox"', $row->icons, 'icons', 'text');
-		$lists['ml_support'] 	= mosHTML::yesnoRadioList('multilingual_support', 'class="inputbox" onclick="javascript: if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
+		$lists['ml_support'] 	= mosHTML::yesnoRadioList('multilingual_support', 'class="inputbox" onclick="if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
 
 		// FEED SETTINGS
 		$formats  = array (mosHTML::makeOption('RSS2.0', JText::_('RSS')), mosHTML::makeOption('Atom', JText::_('Atom')));
