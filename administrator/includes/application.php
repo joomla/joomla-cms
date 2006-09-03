@@ -270,28 +270,34 @@ class JAdministrator extends JApplication
 
 		$query = "SELECT *"
 		. "\n FROM #__messages_cfg"
-		. "\n WHERE user_id = $userid"
+		. "\n WHERE user_id = " . (int) $userid
 		. "\n AND cfg_name = 'auto_purge'"
 		;
 		$db->setQuery( $query );
 		$user = $db->loadObject( );
 
 		// check if auto_purge value set
-		if ( $user->cfg_name == 'auto_purge' ) {
+		if (is_object( $user ) and $user->cfg_name == 'auto_purge' )
+		{
 			$purge 	= $user->cfg_value;
-		} else {
+		}
+		else
+		{
 			// if no value set, default is 7 days
 			$purge 	= 7;
 		}
 		// calculation of past date
-		$past = date( 'Y-m-d H:i:s', time() - $purge * 60 * 60 * 24 );
 
 		// if purge value is not 0, then allow purging of old messages
-		if ($purge != 0) {
+		if ($purge > 0)
+		{
 			// purge old messages at day set in message configuration
+
+			$past = date( 'Y-m-d H:i:s', time() - $purge * 86400 );
+
 			$query = "DELETE FROM #__messages"
-			. "\n WHERE date_time < '$past'"
-			. "\n AND user_id_to = $userid"
+			. "\n WHERE date_time < " . $db->Quote( $past )
+			. "\n AND user_id_to = " . (int) $userid
 			;
 			$db->setQuery( $query );
 			$db->query();
