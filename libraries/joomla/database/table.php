@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: table.php 4607 2006-08-20 23:37:02Z eddiea $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
