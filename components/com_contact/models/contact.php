@@ -79,8 +79,5 @@ class ContactModelContact extends JModel
 		$result = $this->_getList( $query );
 		return @$result[0];
 	}
-
-
-
 }
 ?>

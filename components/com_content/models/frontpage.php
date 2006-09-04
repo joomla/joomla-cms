@@ -113,8 +113,7 @@ class ContentModelFrontpage extends JModel
 		global $Itemid;
 		
 		// Get the menu object of the active menu item
-		$menus	 =& JMenu::getInstance();
-		$params  =& $menus->getParams($Itemid);
+		$params  =& JSiteHelper::getMenuParams();
 		
 		
 		$orderby_sec	= $params->def('orderby_sec', '');

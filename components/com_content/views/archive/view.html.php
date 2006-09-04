@@ -32,7 +32,7 @@ class ContentViewArchive extends JView
 
 		if (empty( $layout ))
 		{
-			// degrade to default 
+			// degrade to default
 			$layout = 'list';
 		}
 
@@ -42,15 +42,14 @@ class ContentViewArchive extends JView
 		$pathway  = & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menus	 =& JMenu::getInstance();
-		$menu	 =& $menus->getItem($Itemid);
-		$params  =& $menus->getParams($Itemid);
-		
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
+
 		// Request variables
 		$task 	    = JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// Get some data from the model
 		$items	  = & $this->get( 'List' );
 
@@ -58,11 +57,11 @@ class ContentViewArchive extends JView
 		$pathway->addItem(JText::_('Archive'), '');
 
 		$mainframe->setPageTitle($menu->name);
-		
+
 		$intro		= $params->def('intro', 	4);
 		$leading	= $params->def('leading', 	1);
 		$links		= $params->def('link', 		4);
-		
+
 		$params->def('title',			1);
 		$params->def('hits',			$mainframe->getCfg('hits'));
 		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
@@ -79,24 +78,24 @@ class ContentViewArchive extends JView
 		$params->def('filter',			1);
 		$params->def('filter_type',		'title');
 		$params->set('intro_only', 		1);
-		
+
 		if ($params->def('page_title', 1)) {
 			$params->def('header', $menu->name);
 		}
-		
+
 		$limit	= $intro + $leading + $links;
 		$i		= $limitstart;
-		
+
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination(count($items), $limitstart, $limit);
-		
+
 		$request = new stdClass();
 		// Get some request vars specific to this state
 		$request->year			= JRequest::getVar( 'year' );
 		$request->month			= JRequest::getVar( 'month' );
 		$request->limit	 		= $limit;
 		$request->limitstart	= $limitstart;
-		
+
 		$form = new stdClass();
 		// Month Field
 		$months = array(
@@ -122,8 +121,8 @@ class ContentViewArchive extends JView
 			$years[] = mosHTML::makeOption( $i, $i );
 		}
 		$form->yearField	= mosHTML::selectList( $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $request->year );
-		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$request->month.'&amp;year='.$request->year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);		
-		
+		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$request->month.'&amp;year='.$request->year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);
+
 		$this->set('form'      , $form);
 		$this->set('items'     , $items);
 		$this->set('request'   , $request);

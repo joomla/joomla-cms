@@ -143,10 +143,12 @@ class JMenu extends JObject
 	 */
 	function &getParams($id)
 	{
-		$result = null;
-		if($menu =& $this->getItem($id)) {
-			$result = new JParameter( $menu->params );
+		$ini = '';
+		if ($menu =& $this->getItem($id))
+		{
+			$ini = new JParameter( $menu->params );
 		}
+		$result = new JParameter( $ini );
 
 		return $result;
 	}

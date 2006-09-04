@@ -152,9 +152,8 @@ class WeblinksController
 		$page		= '';
 
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$menu    = $menus->getItem($Itemid);
-		$params  =& $menus->getParams($Itemid);
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
 
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', 0, '', 'int');

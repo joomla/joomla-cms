@@ -33,15 +33,14 @@ class ContentViewCategory extends JView
 		$pathway  = & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menus	 =& JMenu::getInstance();
-		$menu	 =& $menus->getItem($Itemid);
-		$params  =& $menus->getParams($Itemid);
-		
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
+
 		// Request variables
 		$task 	    = JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// Get some data from the model
 		$items	  = & $this->get( 'Content' );
 		$category = & $this->get( 'Category' );
@@ -59,18 +58,18 @@ class ContentViewCategory extends JView
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-		
+
 		// Section
 		$pathway->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
 		// Category
 		$pathway->addItem($category->title, '');
 
 		$mainframe->setPageTitle($menu->name);
-		
+
 		$intro		= $params->def('intro', 	4);
 		$leading	= $params->def('leading', 	1);
 		$links		= $params->def('link', 		4);
-		
+
 		$params->def('title',			1);
 		$params->def('hits',			$mainframe->getCfg('hits'));
 		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
@@ -87,25 +86,25 @@ class ContentViewCategory extends JView
 		$params->def('filter',			1);
 		$params->def('filter_type',		'title');
 		$params->set('intro_only', 		1);
-		
+
 		if ($params->def('page_title', 1)) {
 			$params->def('header', $menu->name);
 		}
-		
+
 		$limit	= $intro + $leading + $links;
 		$i		= $limitstart;
-		
+
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination(count($items), $limitstart, $limit);
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$category->sectionid.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid;
-		
+
 		$request = new stdClass();
 		$request->limit	 		= $limit;
 		$request->limitstart	= $limitstart;
-		
+
 		$data = new stdClass();
 		$data->link = $link;
-		
+
 		$this->set('data'      , $data);
 		$this->set('items'     , $items);
 		$this->set('request'   , $request);
@@ -119,15 +118,15 @@ class ContentViewCategory extends JView
 	}
 
 	function icon(&$article, $type, $attribs = array())
-	{	
+	{
 		global $Itemid, $mainframe;
-		 
+
 		$url  = '';
 		$text = '';
-		
+
 		switch($type)
 		{
-			case 'new' : 
+			case 'new' :
 			{
 				$url = 'index.php?option=com_content&amp;task=new&amp;sectionid='.$article->sectionid.'&amp;Itemid='.$Itemid;
 
@@ -136,11 +135,11 @@ class ContentViewCategory extends JView
 				} else {
 					$text = JText::_('New').'&nbsp;';
 				}
-				
+
 				$attribs['title']   = JText::_( 'New' );
-				
+
 			} break;
-			
+
 			case 'edit' :
 			{
 				if ($this->params->get('popup')) {
@@ -172,73 +171,73 @@ class ContentViewCategory extends JView
 				$overlib .= $date;
 				$overlib .= '<br />';
 				$overlib .= $author;
-				
+
 				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
-				$attribs['onmouseover'] = "return nd();";		
-				
+				$attribs['onmouseover'] = "return nd();";
+
 			} break;
-			
+
 			case 'pdf' :
 			{
 				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-				
+
 				// checks template image directory for image, if non found default are loaded
 				if ($this->params->get('icons')) {
 					$text = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 				} else {
 					$text = JText::_('PDF').'&nbsp;';
 				}
-				
+
 				$attribs['title']   = JText::_( 'PDF' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 			} break;
-			
-			case 'print' : 
+
+			case 'print' :
 			{
 				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-						
+
 				// checks template image directory for image, if non found default are loaded
 				if ( $this->params->get( 'icons' ) ) {
 					$text = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
-				
+
 				$attribs['title']   = JText::_( 'Print' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 			} break;
-			
+
 			case 'email' :
 			{
 				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
-				
+
 				$attribs['title']   = JText::_( 'Email ' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 				if ($this->params->get('icons')) 	{
 					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
-				}		
+				}
 			} break;
 		}
-		
+
 		echo mosHTML::Link($url, $text, $attribs);
 	}
-	
+
 	function items()
 	{
 		global $mainframe, $Itemid;
-		
+
 		if (!count( $this->items ) ) {
 			return;
 		}
-		
+
 		//create select lists
 		$lists	= $this->_buildSortLists();
 
@@ -246,7 +245,7 @@ class ContentViewCategory extends JView
 		if ($lists['filter']) {
 			$this->data->link .= '&amp;filter='.$lists['filter'];
 		}
-	
+
 		$k = 0;
 		for($i = 0; $i <  count($this->items); $i++)
 		{
@@ -254,14 +253,14 @@ class ContentViewCategory extends JView
 
 			$item->link    = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$item->id.'&amp;Itemid='.$Itemid);
 			$item->created = mosFormatDate($item->created, $this->params->get('date_format'));
-			
+
 			$item->odd   = $k;
 			$item->count = $i;
 			$k = 1 - $k;
 		}
-		
+
 		$this->set('lists'     , $lists);
-		
+
 		$this->_loadTemplate('table_items');
 	}
 
@@ -295,11 +294,11 @@ class ContentViewCategory extends JView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$dispatcher	=& JEventDispatcher::getInstance();
-		
+
 		$SiteName	= $mainframe->getCfg('sitename');
-		
+
 		$task		= JRequest::getVar( 'task' );
-		
+
 		$linkOn		= null;
 		$linkText	= null;
 
@@ -370,7 +369,6 @@ class ContentViewCategory extends JView
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		$this->_loadTemplate('blog_item');
-	
 	}
 
 	function links( $index )
@@ -385,7 +383,6 @@ class ContentViewCategory extends JView
 
 			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
 		}
-
 
 		$this->_loadTemplate('blog_links');
 	}

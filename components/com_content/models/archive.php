@@ -59,8 +59,7 @@ class ContentModelArchive extends JModel
 		{
 			// Get the menu object of the active menu item
 			$menus	 =& JMenu::getInstance();
-			$menu	 =& $menus->getItem($Itemid);
-			$params  =& $menus->getParams($Itemid);
+			$params  =& JSiteHelper::getMenuParams();
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
@@ -102,8 +101,7 @@ class ContentModelArchive extends JModel
 		}
 
 		// Get the paramaters of the active menu item
-		$menus  =& JMenu::getInstance();
-		$params =& $menus->getParams($Itemid);
+		$params =& JSiteHelper::getMenuParams();
 
 		// Special ordering for archive articles
 		$orderby_sec	= $params->def('orderby', 'rdate');
@@ -148,8 +146,7 @@ class ContentModelArchive extends JModel
 			$filter = JString::strtolower($filter);
 
 			// Get the paramaters of the active menu item
-			$menus  =& JMenu::getInstance();
-			$params =& $menus->getParams($Itemid);
+			$params =& JSiteHelper::getMenuParams();
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :

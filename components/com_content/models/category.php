@@ -64,8 +64,7 @@ class ContentModelCategory extends JModel
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$mParams =& $menus->getParams($Itemid);
+		$mParams =& JSiteHelper::getMenuParams();
 
 		$id = JRequest::getVar('id', $mParams->get( 'category_id', 0 ), '', 'int');
 		$this->setId($id);
@@ -233,8 +232,7 @@ class ContentModelCategory extends JModel
 			$section	= $this->_category->section;
 
 			// Get the paramaters of the active menu item
-			$menus  =& JMenu::getInstance();
-			$params =& $menus->getParams($Itemid);
+			$params =& JSiteHelper::getMenuParams();
 
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
@@ -321,8 +319,7 @@ class ContentModelCategory extends JModel
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$params  =& $menus->getParams($Itemid);
+		$params  =& JSiteHelper::getMenuParams();
 
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
@@ -364,8 +361,7 @@ class ContentModelCategory extends JModel
 		$nullDate	= $this->_db->getNullDate();
 
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$params  =& $menus->getParams($Itemid);
+		$params  =& JSiteHelper::getMenuParams();
 
 		// First thing we need to do is assert that the articles are in the current category
 		$where = "\n WHERE a.access <= $gid";

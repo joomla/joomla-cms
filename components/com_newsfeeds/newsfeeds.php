@@ -135,9 +135,8 @@ class NewsfeedsController
 		$document	= & JFactory::getDocument();
 
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$menu    = $menus->getItem($Itemid);
-		$params  =& $menus->getParams($Itemid);
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
 
 		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
@@ -255,9 +254,8 @@ class NewsfeedsController
 		$pathway =& $mainframe->getPathWay();
 
 		// Get the current menu item
-		$menus   =& JMenu::getInstance();
-		$menu    =& $menus->getItem($Itemid);
-		$params =& $menus->getParams($Itemid);
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
 
 		$feedid = JRequest::getVar( 'feedid', $params->get( 'feed_id' ), '', 'int' );
 

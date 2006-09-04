@@ -54,9 +54,8 @@ class LoginController
 		$user 		=& JFactory::getUser();
 		$pathway	= & $mainframe->getPathway();
 
-		$menus		=& JMenu::getInstance();
-		$menu		=& $menus->getItem( $Itemid );
-		$params		=& $menus->getParams( $Itemid );
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
 
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );

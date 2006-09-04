@@ -30,39 +30,39 @@ class ContactViewContact extends JView
 		$user	 = &JFactory::getUser();
 		$pathway = & $mainframe->getPathWay();
 		$model	 = &$this->getModel();
-		
+
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$menu    = $menus->getItem($Itemid);
-		$params  =& $menus->getParams($Itemid);
-		
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
+
 		$params->def('header', 					$menu->name );
-		$params->def('print', 					!$mainframe->getCfg('hidePrint'));	
+		$params->def('print', 					!$mainframe->getCfg('hidePrint'));
 		$params->def('email_description_text', JText::_('Send an Email to this Contact:'));
 		$params->def('icons', 					$mainframe->getCfg('icons'));
-		
+
 		// Push a model into the view
 		$model		= &$this->getModel();
 		$modelCat	= &$this->getModel( 'ContactModelCategory' );
 
 		// Selected Request vars
 		$contactId	= JRequest::getVar( 'contact_id', $params->get('contact_id', 0 ), '', 'int' );
-			
+
 		// query options
 		$options['id']	= $contactId;
 		$options['gid']	= $user->get('gid');
-		
+
 		$contact  = $model->getContact( $options );
-		
+
+		// check if we have a contact
+		if (!is_object( $contact )) {
+			JError::raiseError( 404, 'Contact not found' );
+			return;
+		}
+
 		$options['category_id']  = $contact->catid;
 		$options['order by']	 = 'a.default_con DESC, a.ordering ASC';
 
 		$contacts = $modelCat->getContacts( $options );
-
-		// check if we have a contact
-		if (!is_object( $contact )) {
-			return;
-		}
 
 		// Set the document page title
 		$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
@@ -75,7 +75,7 @@ class ContactViewContact extends JView
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
-		
+
 		$contact->params->def( 'name', 				1 );
 		$contact->params->def( 'email', 			0 );
 		$contact->params->def( 'street_address', 	1 );
@@ -87,9 +87,9 @@ class ContactViewContact extends JView
 		$contact->params->def( 'fax', 				1 );
 		$contact->params->def( 'misc', 				1 );
 		$contact->params->def( 'image', 			1 );
-		
+
 		$contact->print_link = 'index2.php?option=com_contact&amp;view=contact&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
-		
+
 		if ($contact->email_to && $params->get('email')) {
 			$contact->email = mosHTML::emailCloaking($contact->email_to);
 		}
@@ -107,7 +107,7 @@ class ContactViewContact extends JView
 		}
 
 		 // Manage the display mode for contact detail groups
-		switch ($contact->params->get('contact_icons')) 
+		switch ($contact->params->get('contact_icons'))
 		{
 			case 1 :
 				// text
@@ -144,20 +144,19 @@ class ContactViewContact extends JView
 				$contact->params->set('column_width', 		'40');
 				break;
 		}
-		
-		$this->set('contacts'  , $contacts);	
+
+		$this->set('contacts'  , $contacts);
 		$this->set('contact'   , $contact);
 		$this->set('params'    , $params);
 
 		$this->_loadTemplate('table');
 	}
-	
-	function adress()
+
+	function address()
 	{
 		$this->_loadTemplate('table_address');
 	}
-	
-		
+
 	function form()
 	{
 		$doc = & JFactory::getDocument();

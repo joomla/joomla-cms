@@ -29,9 +29,8 @@ class ContactViewCategory extends JView
 		$model	 = &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menus   =& JMenu::getInstance();
-		$menu    = $menus->getItem($Itemid);
-		$params  =& $menus->getParams($Itemid);
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar( 'catid', $params->get('category_id', 0 ), '', 'int' );
@@ -113,6 +112,31 @@ class ContactViewCategory extends JView
 		$this->set('params'    , $params);
 
 		$this->_loadTemplate('table');
+	}
+
+	function items()
+	{
+		global $mainframe, $Itemid;
+
+		$n = count( $this->items );
+
+		if ($n < 1) {
+			return;
+		}
+
+		$k = 0;
+		for($i = 0; $i <  $n; $i++)
+		{
+			$item =& $this->items[$i];
+
+			$item->link    = sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;contact_id='.$item->id.'&amp;Itemid='.$Itemid);
+
+			$item->odd   = $k;
+			$item->count = $i;
+			$k = 1 - $k;
+		}
+
+		$this->_loadTemplate('table_items');
 	}
 }
 ?>

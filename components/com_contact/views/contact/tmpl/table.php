@@ -42,14 +42,14 @@
 			<td rowspan="2" align="right" valign="top">
 			<?php if ( $this->contact->image && $this->contact->params->get( 'image' ) ) : ?>
 				<div style="float: right;">
-					<img src="images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+					<img src="images/stories/<?php echo $this->contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 				</div>
 			<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<?php $this->adress(); ?>
+				<?php $this->address(); ?>
 			</td>
 		</tr>
 		</table>

@@ -23,7 +23,7 @@
  * @since 1.5
  */
 class ContentViewFrontpage extends JView
-{ 
+{
 	function display($layout = 'blog')
 	{
 		global $mainframe, $Itemid, $option;
@@ -35,15 +35,14 @@ class ContentViewFrontpage extends JView
 		$lang 		=& JFactory::getLanguage();
 
 		// get menu
-		$menus  =& JMenu::getInstance();
-		$menu   =& $menus->getItem($Itemid);
-		$params =& $menus->getParams($Itemid);
+		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$params  =& JSiteHelper::getMenuParams();
 
 		// Request variables
 		$id			= JRequest::getVar('id');
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		//set data model
 		$items 		= $this->get('ContentData');
 		$frontpage  = new stdClass();
@@ -65,7 +64,7 @@ class ContentViewFrontpage extends JView
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 	1);
 		$params->def('page_title', 	1);
-		
+
 		if ($params->get('page_title')) {
 			$params->def('header', $menu->name);
 		}
@@ -127,70 +126,70 @@ class ContentViewFrontpage extends JView
 		$this->set('request'   , $request);
 		$this->set('items'     , $items);
 		$this->set('frontpage' , $frontpage);
-		
+
 		$this->_loadTemplate($layout);
 	}
 
 	function icon($type, $attribs = array())
-	{	
+	{
 		 global $Itemid, $mainframe;
-		
+
 		$url  = '';
 		$text = '';
-		
+
 		$article = $this->item;
-		
+
 		switch($type)
 		{
 			case 'pdf' :
 			{
 				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-				
+
 				// checks template image directory for image, if non found default are loaded
 				if ($this->params->get('icons')) {
 					$text = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 				} else {
 					$text = JText::_('PDF').'&nbsp;';
 				}
-				
+
 				$attribs['title']   = JText::_( 'PDF' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 			} break;
-			
-			case 'print' : 
+
+			case 'print' :
 			{
 				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-						
+
 				// checks template image directory for image, if non found default are loaded
 				if ( $this->params->get( 'icons' ) ) {
 					$text = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
-				
+
 				$attribs['title']   = JText::_( 'Print' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 			} break;
-			
+
 			case 'email' :
 			{
 				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
-				
+
 				$attribs['title']   = JText::_( 'Email ' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 				if ($this->params->get('icons')) 	{
 					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
-				}		
+				}
 			} break;
-			
+
 			case 'edit' :
 			{
 				if ($this->params->get('popup')) {
@@ -222,14 +221,14 @@ class ContentViewFrontpage extends JView
 				$overlib .= $date;
 				$overlib .= '<br />';
 				$overlib .= $author;
-				
+
 				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
-				$attribs['onmouseover'] = "return nd();";		
-				
+				$attribs['onmouseover'] = "return nd();";
+
 			} break;
 		}
-		
-		
+
+
 		echo mosHTML::Link($url, $text, $attribs);
 	}
 
@@ -240,11 +239,11 @@ class ContentViewFrontpage extends JView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$dispatcher	=& JEventDispatcher::getInstance();
-		
+
 		$SiteName	= $mainframe->getCfg('sitename');
-		
+
 		$task		= JRequest::getVar( 'task' );
-		
+
 		$linkOn		= null;
 		$linkText	= null;
 
