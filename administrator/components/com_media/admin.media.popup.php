@@ -147,7 +147,7 @@ class JMediaViews
 
 		?>
 		<div class="item">
-			<a href="javascript::return(void)" onclick="javascript:window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
+			<a href="javascript::return(void)" onclick="window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
 				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" />
 				<span><?php echo $file; ?></span>
 			</a>
@@ -169,7 +169,7 @@ class JMediaViews
 
 		?>
 		<div class="item">
-			<a href="<?php echo $link; ?>" onclick="javascript:window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
+			<a href="<?php echo $link; ?>" onclick="window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
 				<img src="components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
 				<span><?php echo $dir; ?></span>
 			</a>
@@ -267,11 +267,11 @@ class JMediaViews
 		</tr>
 		<tr>
 			<td>
-				<input class="button" type="button" value="<?php echo JText::_( 'Create' ); ?>" onclick="javascript:submitbutton('newdir')" />
+				<input class="button" type="button" value="<?php echo JText::_( 'Create' ); ?>" onclick="submitbutton('newdir')" />
 			</td>
 			<td>
 				<div align="right">
-					<input class="button" type="button" value="<?php echo JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+					<input class="button" type="button" value="<?php echo JText::_( 'Close' ); ?>" onclick="window.close();" align="right" />
 				</div>
 			</td>
 		</tr>
