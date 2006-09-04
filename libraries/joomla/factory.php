@@ -236,43 +236,42 @@ class JFactory
 	 {
 		$doc = null;
 
-		switch($type)
+		switch ($type)
 		{
 			case 'RSS' :
-			{
-				if( is_null( $options['rssUrl']) ) {
-					return false;
-				}
-				define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
-				define('MAGPIE_CACHE_ON', true);
-				define('MAGPIE_CACHE_DIR',JPATH_BASE.DS.'cache');
-				if( !is_null( $options['cache_time'])){
-					define('MAGPIE_CACHE_AGE', $options['cache_time']);
-				}
+				if (!is_null( $options['rssUrl'] ))
+				{
+					define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+					define('MAGPIE_CACHE_ON', true);
+					define('MAGPIE_CACHE_DIR',JPATH_BASE.DS.'cache');
 
-				jimport('magpierss.rss_fetch');
-				$doc = fetch_rss( $options['rssUrl'] );
-
-			} break;
+					if( !is_null( $options['cache_time']))
+					{
+						define('MAGPIE_CACHE_AGE', $options['cache_time']);
+					}
+	
+					jimport('magpierss.rss_fetch');
+					$doc = fetch_rss( $options['rssUrl'] );
+				}
+				break;
 
 			case 'Simple' :
-			{
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
-			} break;
+				break;
 
 			case 'DOM'  :
 			default :
-			{
-				if( !isset($options['lite']) || $options['lite']) {
+				if (!isset($options['lite']) || $options['lite'])
+				{
 					jimport('domit.xml_domit_lite_include');
 					$doc = new DOMIT_Lite_Document();
-				} else {
+				}
+				else
+				{
 					jimport('domit.xml_domit_include');
 					$doc = new DOMIT_Document();
 				}
-			}
-
 		}
 
 		return $doc;
