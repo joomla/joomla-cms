@@ -16,9 +16,9 @@
 /**
  * Library to support a wizard workflow
  *
- * @package Joomla.Framework
- * @subpackage Presentation
- * @author Louis Landry <louis.landry@joomla.org>
+ * @package		Joomla.Framework
+ * @subpackage	Presentation
+ * @author		Louis Landry <louis.landry@joomla.org>
  */
 class JWizard extends JObject
 {
@@ -237,8 +237,8 @@ jimport( 'joomla.application.model' );
 /**
  * Library to support a wizard workflow
  *
- * @package Joomla.Framework
- * @subpackage Presentation
+ * @package		Joomla.Framework
+ * @subpackage	Presentation
  * @author Louis Landry <louis.landry@joomla.org>
  */
 class JWizardModel extends JModel
@@ -285,6 +285,8 @@ jimport( 'joomla.application.view' );
 
 /**
  * Wizard View
+ * @package		Joomla.Framework
+ * @subpackage	Presentation
  * @abstract
  */
 class JWizardView extends JView
@@ -317,6 +319,8 @@ class JWizardView extends JView
 
 /**
  * Wizard Helper
+ * @package		Joomla.Framework
+ * @subpackage	Presentation
  * @abstract
  */
 class JWizardHelper extends JObject
