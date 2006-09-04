@@ -359,7 +359,7 @@ class JURI extends JObject
 	 */
 	function setVar($name, $value)
 	{
-		$tmp = $this->_vars[$name];
+		$tmp = @$this->_vars[$name];
 		$this->_vars[$name] = is_array($value) ? array_map('urlencode', $value) : urlencode($value);
 		return $tmp;
 	}

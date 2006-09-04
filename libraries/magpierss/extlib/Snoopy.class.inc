@@ -423,7 +423,7 @@ class Snoopy
 		if($this->use_gzip) {
 			// make sure PHP was built with --with-zlib
 			// and we can handle gzipp'ed data
-			if ( function_exists(gzinflate) ) {
+			if ( function_exists('gzinflate') ) {
 			   $headers .= "Accept-encoding: gzip\r\n";
 			}
 			else {
