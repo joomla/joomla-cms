@@ -24,9 +24,13 @@ jimport( 'joomla.application.view');
  */
 class WeblinksViewWeblink extends JView
 {
+	var $_viewName = 'weblink';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('weblink');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 
