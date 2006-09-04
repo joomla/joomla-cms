@@ -99,16 +99,21 @@ class JTable extends JObject
 		if (!class_exists( $adapter ))
 		{
 			$dirs = JTable::addTableDir();
-			foreach( $dirs as $dir ) {
+			foreach( $dirs as $dir )
+			{
 				$tableFile = $dir.DS.strtolower($type).'.php';
-				if (@include_once $tableFile) {
+				if (@include_once $tableFile)
+				{
 					break;
 				}
 			}
 		}
-		if (!class_exists( $adapter )) {
+		if (!class_exists( $adapter ))
+		{
 			return JError::raiseError(20, JText::sprintf('Database Table object [%s] does not exist', $prefix.$type));
-		} else {
+		}
+		else
+		{
 			$m = new $adapter($db);
 		}
 		return $m;
@@ -127,7 +132,8 @@ class JTable extends JObject
 		$filter = & JInputFilter::getInstance();
 		foreach ($this->getPublicProperties() as $k)
 		{
-			if ($ignore && in_array( $k, $ignoreList ) ) {
+			if ($ignore && in_array( $k, $ignoreList ) )
+			{
 				continue;
 			}
 			$this->$k = $filter->clean( $this->$k );
