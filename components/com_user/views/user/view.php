@@ -24,9 +24,13 @@ jimport( 'joomla.application.view');
  */
 class UserViewUser extends JView
 {
+	var $_viewName = 'user';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('user');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 

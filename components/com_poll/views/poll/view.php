@@ -24,9 +24,13 @@ jimport( 'joomla.application.view');
  */
 class PollViewPoll extends JView
 {
+	var $_viewName = 'poll';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('poll');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 

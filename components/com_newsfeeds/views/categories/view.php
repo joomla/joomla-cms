@@ -25,9 +25,13 @@ jimport( 'joomla.application.view');
  */
 class NewsfeedsViewCategories extends JView
 {
+	var $_viewName = 'categories';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('categories');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 

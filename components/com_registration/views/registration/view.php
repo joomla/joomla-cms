@@ -24,9 +24,13 @@ jimport( 'joomla.application.view');
  */
 class RegistrationViewRegistration extends JView
 {
+	var $_viewName = 'registration';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('registration');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 

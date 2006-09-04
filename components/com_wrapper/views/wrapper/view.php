@@ -20,9 +20,13 @@ jimport( 'joomla.application.view');
 */
 class WrapperViewWrapper extends JView
 {
+	var $_viewName = 'wrapper';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('wrapper');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 

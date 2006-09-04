@@ -24,9 +24,13 @@ jimport( 'joomla.application.view');
  */
 class SearchViewSearch extends JView
 {
+	var $_viewName = 'search';
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		$this->setViewName('search');
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
 
