@@ -145,7 +145,8 @@ class JTable extends JObject
 	 * 
 	 * @return object A JDatabase based object
 	 */
-	function &getDBO() {
+	function &getDBO()
+	{
 		return $this->_db;
 	}
 
@@ -155,7 +156,8 @@ class JTable extends JObject
 	 * @return string
 	 * @since 1.5
 	 */
-	function getTableName() {
+	function getTableName()
+	{
 		return $this->_tbl;
 	}
 
@@ -165,7 +167,8 @@ class JTable extends JObject
 	 * @return string
 	 * @since 1.5
 	 */
-	function getKeyName() {
+	function getKeyName()
+	{
 		return $this->_tbl_key;
 	}
 
@@ -175,7 +178,8 @@ class JTable extends JObject
 	 *
 	 * @return string
 	 */
-	function getError() {
+	function getError()
+	{
 		return $this->_error;
 	}
 
@@ -184,7 +188,8 @@ class JTable extends JObject
 	 *
 	 * @return int The error number
 	 */
-	function getErrorNum() {
+	function getErrorNum()
+	{
 		return $this->_errorNum;
 	}
 
@@ -271,7 +276,8 @@ class JTable extends JObject
 	* @access public
 	* @return boolean True if the object is ok
 	*/
-	function check() {
+	function check()
+	{
 		return true;
 	}
 
@@ -287,8 +293,8 @@ class JTable extends JObject
 	function store( $updateNulls=false )
 	{
 		$k = $this->_tbl_key;
-		global $migrate;
-		if( $this->$k && !$migrate)
+
+		if( $this->$k)
 		{
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
 		}
@@ -321,15 +327,20 @@ class JTable extends JObject
 
 		$sql = "SELECT $this->_tbl_key, ordering FROM $this->_tbl";
 
-		if ($dirn < 0) {
+		if ($dirn < 0)
+		{
 			$sql .= "\n WHERE ordering < $this->ordering";
 			$sql .= ($where ? "\n	AND $where" : '');
 			$sql .= "\n ORDER BY ordering DESC";
-		} else if ($dirn > 0) {
+		}
+		else if ($dirn > 0)
+		{
 			$sql .= "\n WHERE ordering > $this->ordering";
 			$sql .= ($where ? "\n	AND $where" : '');
 			$sql .= "\n ORDER BY ordering";
-		} else {
+		}
+		else
+		{
 			$sql .= "\nWHERE ordering = $this->ordering";
 			$sql .= ($where ? "\n AND $where" : '');
 			$sql .= "\n ORDER BY ordering";
@@ -560,7 +571,8 @@ class JTable extends JObject
 	*/
 	function delete( $oid=null )
 	{
-		//if (!$this->canDelete( $msg )) {
+		//if (!$this->canDelete( $msg ))
+		//{
 		//	return $msg;
 		//}
 
@@ -596,7 +608,8 @@ class JTable extends JObject
 	 */
 	function checkout( $who, $oid=null )
 	{
-		if (!isset($this->checked_out)) {
+		if (!isset($this->checked_out))
+		{
 			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support checkouts.");
 			$this->setErrorNum(23);
 			return false;
@@ -656,7 +669,8 @@ class JTable extends JObject
 		{
 			$this->$k = $oid;
 		}
-		if ($this->$k == NULL) {
+		if ($this->$k == NULL)
+		{
 			return false;
 		}
 
@@ -683,7 +697,8 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if ($oid !== null) {
+		if ($oid !== null)
+		{
 			$this->$k = intval( $oid );
 		}
 
@@ -694,7 +709,8 @@ class JTable extends JObject
 		$this->_db->setQuery( $query );
 		$this->_db->query();
 
-		if ($log) {
+		if ($log)
+		{
 			$now = date( 'Y-m-d' );
 			$query = "SELECT hits"
 			. "\n FROM #__core_log_items"
@@ -704,7 +720,8 @@ class JTable extends JObject
 			;
 			$this->_db->setQuery( $query );
 			$hits = intval( $this->_db->loadResult() );
-			if ($hits) {
+			if ($hits)
+			{
 				$query = "UPDATE #__core_log_items"
 				. "\n SET hits = ( hits + 1 )"
 				. "\n WHERE time_stamp = '$now'"
@@ -795,7 +812,8 @@ class JTable extends JObject
 	 * 
 	 * @param int Set the error number with this value
 	 */
-	function setErrorNum( $value ) {
+	function setErrorNum( $value )
+	{
 		$this->_errorNum = $value;
 	}
 
@@ -861,7 +879,8 @@ class JTable extends JObject
 	{
 		$xml = '<record table="' . $this->_tbl . '"';
 
-		if ($mapKeysToText) {
+		if ($mapKeysToText)
+		{
 			$xml .= ' mapkeystotext="true"';
 		}
 		$xml .= '>';
@@ -895,15 +914,18 @@ class JTable extends JObject
 	{
 		static $directories;
 
-		if (!isset($directories)) {
+		if (!isset($directories))
+		{
 			$directories = array(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table');
 		}
 
 		// Handle datatype of $dir element (string/array)
-		if( is_array( $dir ) ) {
+		if( is_array( $dir ) )
+		{
 			$directories = array_merge( $directories, $dir );
 		} else {
-			if (!empty($dir)) {
+			if (!empty($dir))
+			{
 				array_push( $directories, $dir );
 			}
 		}
