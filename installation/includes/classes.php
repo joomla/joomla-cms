@@ -132,7 +132,8 @@ class JInstallationController
 			),
 		);
 
-		foreach ($phpRecommended as $setting) {
+		foreach ($phpRecommended as $setting)
+		{
 			$lists['phpSettings'][] = array (
 				'label' => $setting[0],
 				'setting' => $setting[2],
@@ -177,10 +178,12 @@ class JInstallationController
 		$lists = array ();
 		$files = array ('mysql', 'mysqli',);
 		$db = JInstallationHelper::detectDB();
-		foreach ($files as $file) {
+		foreach ($files as $file)
+		{
 			$option = array ();
 			$option['text'] = $file;
-			if (strcasecmp($option['text'], $db) == 0) {
+			if (strcasecmp($option['text'], $db) == 0)
+			{
 				$option['selected'] = 'selected="true"';
 			}
 			$lists['dbTypes'][] = $option;
@@ -202,7 +205,7 @@ class JInstallationController
 		$errors = null;
 
 		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
-		$DBcreated  = JArrayHelper::getValue($vars, 'DBcreated', '0');
+		$DBcreated	= JArrayHelper::getValue($vars, 'DBcreated', '0');
 
 		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
 		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
@@ -217,18 +220,21 @@ class JInstallationController
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		// these 3 errors should be caught by the javascript in dbConfig
-		if ($DBtype == '') {
+		if ($DBtype == '')
+		{
 			return JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
 		}
-		if (!$DBhostname || !$DBuserName || !$DBname) {
+		if (!$DBhostname || !$DBuserName || !$DBname)
+		{
 			return JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
 		}
-		if ($DBname == '') {
+		if ($DBname == '')
+		{
 			return JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 		}
 
-		if (!$DBcreated) {
-
+		if (!$DBcreated)
+		{
 			jimport('joomla.database.database');
 			$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
@@ -309,19 +315,24 @@ class JInstallationController
 		$vars['DBcreated'] = JArrayHelper::getValue($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
 
-		if (!isset ($vars['ftpEnable'])) {
+		if (!isset ($vars['ftpEnable']))
+		{
 			$vars['ftpEnable'] = '1';
 		}
-		if (!isset ($vars['ftpHost'])) {
+		if (!isset ($vars['ftpHost']))
+		{
 			$vars['ftpHost'] = '127.0.0.1';
 		}
-		if (!isset ($vars['ftpPort'])) {
+		if (!isset ($vars['ftpPort']))
+		{
 			$vars['ftpPort'] = '21';
 		}
-		if (!isset ($vars['ftpUser'])) {
+		if (!isset ($vars['ftpUser']))
+		{
 			$vars['ftpUser'] = '';
 		}
-		if (!isset ($vars['ftpPassword'])) {
+		if (!isset ($vars['ftpPassword']))
+		{
 			$vars['ftpPassword'] = '';
 		}
 
@@ -359,12 +370,14 @@ class JInstallationController
 		 * Deal with possible sql script uploads from this stage
 		 */
 		$vars['loadchecked'] = 0;
-		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1) {
+		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1)
+		{
 			$vars['sqlresponse'] = JInstallationHelper::uploadSql( $vars );
 			$vars['dataloaded'] = '1';
 			$vars['loadchecked'] = 1;
 		}
-		if (JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) {
+		if (JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1)
+		{
 			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
 			$vars['dataloaded'] = '1';
 			$vars['loadchecked'] = 2;
@@ -373,7 +386,8 @@ class JInstallationController
 
 //		$strip = get_magic_quotes_gpc();
 
-		if (isset ($vars['siteName'])) {
+		if (isset ($vars['siteName']))
+		{
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 
@@ -456,9 +470,11 @@ class JInstallationController
 		}
 
 		switch ($vars['DBtype']) {
+
 			case 'mssql' :
 				$vars['ZERO_DATE'] = '1/01/1990';
 				break;
+
 			default :
 				$vars['ZERO_DATE'] = '0000-00-00 00:00:00';
 				break;
@@ -475,9 +491,12 @@ class JInstallationController
 		$buffer = $tmpl->getParsedTemplate('configuration');
 		$path = JPATH_CONFIGURATION.DS.'configuration.php';
 
-		if (file_exists($path)) {
+		if (file_exists($path))
+		{
 			$canWrite = is_writable($path);
-		} else {
+		}
+		else
+		{
 			$canWrite = is_writable(JPATH_SITE);
 		}
 
@@ -486,22 +505,25 @@ class JInstallationController
 		 * is not writable we need to use FTP
 		 */
 		 $ftpFlag = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path))))
+		{
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_get('safe_mode')) {
+		if (ini_get('safe_mode'))
+		{
 			$ftpFlag = true;
 		}
 
 		// Enable/Disable override
-		if (!isset($vars['ftpEnable']) || ($vars['ftpEnable'] != 1)) {
+		if (!isset($vars['ftpEnable']) || ($vars['ftpEnable'] != 1))
+		{
 			$ftpFlag = false;
 		}
 
-		if ($ftpFlag == true) {
-
+		if ($ftpFlag == true)
+		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
@@ -513,18 +535,24 @@ class JInstallationController
 			$file = JPath::clean(str_replace(JPATH_SITE, $vars['ftpRoot'], $path), false);
 
 			// Use FTP write buffer to file
-			if (!$ftp->write($file, $buffer)) {
+			if (!$ftp->write($file, $buffer))
+			{
 				return $buffer;
 			}
 
 			$ftp->quit();
 			return '';
 
-		} else {
-			if ($canWrite) {
+		}
+		else
+		{
+			if ($canWrite)
+			{
 				file_put_contents($path, $buffer);
 				return '';
-			} else {
+			}
+			else
+			{
 				return $buffer;
 			}
 		}
@@ -556,8 +584,10 @@ class JInstallationHelper
 	function detectDB()
 	{
 		$map = array ('mysql_connect' => 'mysql', 'mysqli_connect' => 'mysqli', 'mssql_connect' => 'mssql');
-		foreach ($map as $f => $db) {
-			if (function_exists($f)) {
+		foreach ($map as $f => $db)
+		{
+			if (function_exists($f))
+			{
 				return $db;
 			}
 		}
@@ -571,7 +601,8 @@ class JInstallationHelper
 	function errors2string(& $errors)
 	{
 		$buffer = '';
-		foreach ($errors as $error) {
+		foreach ($errors as $error)
+		{
 			$buffer .= 'SQL='.$error['msg'].":\n- - - - - - - - - -\n".$error['sql']."\n= = = = = = = = = =\n\n";
 		}
 		return $buffer;
@@ -586,9 +617,12 @@ class JInstallationHelper
 	 */
 	function createDatabase(& $db, $DBname, $DButfSupport, $DBcollation)
 	{
-		if ($DButfSupport) {
+		if ($DButfSupport)
+		{
 			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
-		} else {
+		}
+		else
+		{
 			$sql = "CREATE DATABASE `$DBname`";
 		}
 
@@ -596,7 +630,8 @@ class JInstallationHelper
 		$db->query();
 		$result = $db->getErrorNum();
 
-		if ($result != 0) {
+		if ($result != 0)
+		{
 			return false;
 		}
 
@@ -613,7 +648,8 @@ class JInstallationHelper
 	 */
 	function setDBCharset(& $db, $DBname, $DBcollation)
 	{
-		if ($db->hasUTF()){
+		if ($db->hasUTF())
+		{
 			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
 			$db->setQuery($sql);
 			$db->query();
@@ -639,20 +675,25 @@ class JInstallationHelper
 		$query = "SHOW TABLES FROM `$DBname`";
 		$db->setQuery($query);
 		$errors = array ();
-		if ($tables = $db->loadResultArray()) {
-			foreach ($tables as $table) {
-				if (strpos($table, $DBPrefix) === 0) {
+		if ($tables = $db->loadResultArray())
+		{
+			foreach ($tables as $table)
+			{
+				if (strpos($table, $DBPrefix) === 0)
+				{
 					$butable = str_replace($DBPrefix, $BUPrefix, $table);
 					$query = "DROP TABLE IF EXISTS `$butable`";
 					$db->setQuery($query);
 					$db->query();
-					if ($db->getErrorNum()) {
+					if ($db->getErrorNum())
+					{
 						$errors[$db->getQuery()] = $db->getErrorMsg();
 					}
 					$query = "RENAME TABLE `$table` TO `$butable`";
 					$db->setQuery($query);
 					$db->query();
-					if ($db->getErrorNum()) {
+					if ($db->getErrorNum())
+					{
 						$errors[$db->getQuery()] = $db->getErrorMsg();
 					}
 				}
@@ -671,13 +712,17 @@ class JInstallationHelper
 		$query = "SHOW TABLES FROM `$DBname`";
 		$db->setQuery($query);
 		$errors = array ();
-		if ($tables = $db->loadResultArray()) {
-			foreach ($tables as $table) {
-				if (strpos($table, $DBPrefix) === 0) {
+		if ($tables = $db->loadResultArray())
+		{
+			foreach ($tables as $table)
+			{
+				if (strpos($table, $DBPrefix) === 0)
+				{
 					$query = "DROP TABLE IF EXISTS `$table`";
 					$db->setQuery($query);
 					$db->query();
-					if ($db->getErrorNum()) {
+					if ($db->getErrorNum())
+					{
 						$errors[$db->getQuery()] = $db->getErrorMsg();
 					}
 				}
@@ -692,14 +737,17 @@ class JInstallationHelper
 	 */
 	function populateDatabase(& $db, $sqlfile, & $errors, $collation = '')
 	{
-		if( !($buffer = file_get_contents($sqlfile)) ){
+		if( !($buffer = file_get_contents($sqlfile)) )
+		{
 			return -1;
 		}
 		$queries = JInstallationHelper::splitSql($buffer, $collation);
 
-		foreach ($queries as $query) {
+		foreach ($queries as $query)
+		{
 			$query = trim($query);
-			if ($query != '' && $query {0} != '#') {
+			if ($query != '' && $query {0} != '#')
+			{
 				$db->setQuery($query);
 				$db->query();
 				JInstallationHelper::getDBErrors($errors, $db );
@@ -716,7 +764,8 @@ class JInstallationHelper
 	{
 		$sql = trim($sql);
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
-		if ($collation != '') {
+		if ($collation != '')
+		{
 			$sql = str_replace("utf8_general_ci", $collation, $sql);
 		}
 		$buffer = array ();
@@ -724,25 +773,30 @@ class JInstallationHelper
 		$in_string = false;
 
 		for ($i = 0; $i < strlen($sql) - 1; $i ++) {
-			if ($sql[$i] == ";" && !$in_string) {
+			if ($sql[$i] == ";" && !$in_string)
+			{
 				$ret[] = substr($sql, 0, $i);
 				$sql = substr($sql, $i +1);
 				$i = 0;
 			}
 
-			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\") {
+			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\")
+			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\")) {
+			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			{
 				$in_string = $sql[$i];
 			}
-			if (isset ($buffer[1])) {
+			if (isset ($buffer[1]))
+			{
 				$buffer[0] = $buffer[1];
 			}
 			$buffer[1] = $sql[$i];
 		}
 
-		if (!empty ($sql)) {
+		if (!empty ($sql))
+		{
 			$ret[] = $sql;
 		}
 		return ($ret);
@@ -754,7 +808,8 @@ class JInstallationHelper
 	function getFilePerms($input, $type = 'file')
 	{
 		$perms = '';
-		if (JArrayHelper::getValue($input, $type.'PermsMode', 0)) {
+		if (JArrayHelper::getValue($input, $type.'PermsMode', 0))
+		{
 			$action = ($type == 'dir') ? 'Search' : 'Execute';
 			$perms = '0'. (JArrayHelper::getValue($input, $type.'PermsUserRead', 0) * 4 + JArrayHelper::getValue($input, $type.'PermsUserWrite', 0) * 2 + JArrayHelper::getValue($input, $type.'PermsUser'.$action, 0)). (JArrayHelper::getValue($input, $type.'PermsGroupRead', 0) * 4 + JArrayHelper::getValue($input, $type.'PermsGroupWrite', 0) * 2 + JArrayHelper::getValue($input, $type.'PermsGroup'.$action, 0)). (JArrayHelper::getValue($input, $type.'PermsWorldRead', 0) * 4 + JArrayHelper::getValue($input, $type.'PermsWorldWrite', 0) * 2 + JArrayHelper::getValue($input, $type.'PermsWorld'.$action, 0));
 		}
@@ -787,13 +842,17 @@ class JInstallationHelper
 		$nullDate 		= $db->getNullDate();
 		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 		$db->setQuery($query);
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			// is there already and existing admin in migrated data
-			if ( $db->getErrorNum() == 1062 ) {
+			if ( $db->getErrorNum() == 1062 )
+			{
 				$vars['adminLogin'] = JText::_('Admin login in migrated content was kept');
 				$vars['adminPassword'] = JText::_('Admin password in migrated content was kept');
 				return;
-			} else {
+			}
+			else
+			{
 				echo $db->getErrorMsg();
 				return;
 			}
@@ -802,7 +861,8 @@ class JInstallationHelper
 		// add the ARO (Access Request Object)
 		$query = "INSERT INTO #__core_acl_aro VALUES (10,'users','62',0,'Administrator',0)";
 		$db->setQuery($query);
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			echo $db->getErrorMsg();
 			return;
 		}
@@ -810,7 +870,8 @@ class JInstallationHelper
 		// add the map between the ARO and the Group
 		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
 		$db->setQuery($query);
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			echo $db->getErrorMsg();
 			return;
 		}
@@ -849,8 +910,10 @@ class JInstallationHelper
 		$ftpPath = $parts[0];
 		$thePath = JPATH_SITE;
 
-		for ($i = 1; $i < $numParts; $i ++) {
-			if (in_array(strtolower($parts[$i]), $ftpList)) {
+		for ($i = 1; $i < $numParts; $i ++)
+		{
+			if (in_array(strtolower($parts[$i]), $ftpList))
+			{
 
 				$thePath = $ftpPath;
 			}
@@ -914,7 +977,8 @@ class JInstallationHelper
 
 			$ftp->quit();
 			$ret = true;
-		} else
+		}
+		else
 		{
 
 			$path = JPath::clean(JPATH_SITE.DS.$dir, false);
@@ -922,7 +986,8 @@ class JInstallationHelper
 			if (!@ chmod($path, octdec('0755')))
 			{
 				$ret = false;
-			} else
+			}
+			else
 			{
 				$ret = true;
 			}
@@ -956,30 +1021,36 @@ class JInstallationHelper
 		/*
 		 * Get the uploaded file information
 		 */
-		if( $migration ) {
+		if( $migration )
+		{
 			$sqlFile	= JRequest::getVar('migrationFile', '', 'files', 'array');
-		} else {
+		}
+		else
+		{
 			$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
 		}
 
 		/*
 		 * Make sure that file uploads are enabled in php
 		 */
-		if (!(bool) ini_get('file_uploads')) {
+		if (!(bool) ini_get('file_uploads'))
+		{
 			return JText::_('WARNINSTALLFILE');
 		}
 
 		/*
 		 * Make sure that zlib is loaded so that the package can be unpacked
 		 */
-		if (!extension_loaded('zlib')) {
+		if (!extension_loaded('zlib'))
+		{
 			return JText::_('WARNINSTALLZLIB');
 		}
 
 		/*
 		 * If there is no uploaded file, we have a problem...
 		 */
-		if (!is_array($sqlFile) || $sqlFile['size'] < 1) {
+		if (!is_array($sqlFile) || $sqlFile['size'] < 1)
+		{
 			return JText::_('WARNNOFILE');
 		}
 
@@ -991,16 +1062,21 @@ class JInstallationHelper
 		// Set permissions for tmp dir
 		JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
 
-		if( !eregi('.sql$', $sqlFile['name']) ){
+		if( !eregi('.sql$', $sqlFile['name']) )
+		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
-		} else {
+		}
+		else
+		{
 			$script = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 		}
 
 		// unpack archived sql files
-		if ($archive ){
+		if ($archive )
+		{
 			$package = JInstallationHelper::unpack( $archive );
-			if ( $package === false ) {
+			if ( $package === false )
+			{
 				return JText::_('WARNUNPACK');
 			}
 			$script = $package['folder'].$package['script'];
@@ -1012,9 +1088,11 @@ class JInstallationHelper
 		/*
 		 * If migration perform manipulations on script file before population
 		 */
-		if ( $migration ) {
+		if ( $migration )
+		{
 			$script = JInstallationHelper::preMigrate($script, $args, $db);
-			if ( $script == false ) {
+			if ( $script == false )
+			{
 				return JText::_( 'Script operations failed' );
 			}
 		}
@@ -1027,17 +1105,22 @@ class JInstallationHelper
 		 * If migration, perform post population manipulations (menu table construction)
 		 */
 		$migErrors = null;
-		if ( $migration ) {
+		if ( $migration )
+		{
 			$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
 
-			if ( $migResult != 0 ) {
+			if ( $migResult != 0 )
+			{
 				/*
 				 * Merge populate and migrate processing errors
 				 */
-				if( $result == 0 ){
+				if( $result == 0 )
+				{
 					$result = $migResult;
 					$errors = $migErrors;
-				} else {
+				}
+				else
+				{
 					$result += $migResult;
 					$errors = array_merge( $errors, $migErrors );
 				}
@@ -1048,13 +1131,17 @@ class JInstallationHelper
 		/*
 		 * prepare sql error messages if returned from populate and migrate
 		 */
-		if (!is_null($errors)){
-			foreach($errors as $error){
+		if (!is_null($errors))
+		{
+			foreach($errors as $error)
+			{
 				$msg .= stripslashes( $error['msg'] );
 				$msg .= chr(13)."-------------".chr(13);
 				$txt = '<textarea cols="40" rows="4" name="instDefault" readonly="readonly" >'.JText::_("Database Errors Reported").chr(13).$msg.'</textarea>';
 			}
-		} else {
+		}
+		else
+		{
 			// consider other possible errors from populate
 			$msg = $result == 0 ? JText::_('SQL script installed successfully') : JText::_('Error installing SQL script') ;
 			$txt = '<input size="50" value="'.$msg.'" readonly="readonly" />';
@@ -1063,10 +1150,13 @@ class JInstallationHelper
 		/*
 		 * Clean up
 		 */
-		if ($archive){
+		if ($archive)
+		{
 			JFile::delete( $archive );
 			JFolder::delete( $package['folder'] );
-		} else {
+		}
+		else
+		{
 			JFile::delete( $script );
 		}
 
@@ -1098,8 +1188,8 @@ class JInstallationHelper
 		/*
 		 * Are we working with a zipfile?
 		 */
-		if (eregi('.zip$', $archivename)) {
-
+		if (eregi('.zip$', $archivename))
+		{
 			/*
 			 * Import the zipfile libraries
 			 */
@@ -1113,9 +1203,12 @@ class JInstallationHelper
 			$zipfile = new PclZip($archivename);
 
 			// Constants used by the zip library
-			if (JPATH_ISWIN) {
+			if (JPATH_ISWIN)
+			{
 				define('OS_WINDOWS', 1);
-			} else {
+			}
+			else
+			{
 				define('OS_WINDOWS', 0);
 			}
 
@@ -1133,7 +1226,9 @@ class JInstallationHelper
 
 			// Free up PCLZIP memory
 			unset ($zipfile);
-		} else if( eregi('.gz$', $archivename) ){
+		}
+		else if( eregi('.gz$', $archivename) )
+		{
 			//TODO add error handling
 			/*
 			 * Create the folder
@@ -1145,20 +1240,22 @@ class JInstallationHelper
 			/*
 			 * read the gz file and write content to regular file
 			 */
-			 $gzFile = @gzopen( $archivename, 'rb' );
-			 $unpacked = fopen( $extractdir.'sqldata.sql', 'w');
-			 if ( $gzFile ) {
-			     $data = '';
-			     while ( !gzeof( $gzFile ) ) {
-			         $data = gzread( $gzFile, 1024 );
-			         $ret = fwrite( $unpacked, $data, 1024 );
-			     }
-			     gzclose( $gzFile );
-			     fclose( $unpacked );
-			 }
-
-
-		} else {
+			$gzFile = @gzopen( $archivename, 'rb' );
+			$unpacked = fopen( $extractdir.'sqldata.sql', 'w');
+			if ( $gzFile )
+			{
+				$data = '';
+				while ( !gzeof( $gzFile ) )
+				{
+					$data = gzread( $gzFile, 1024 );
+					$ret = fwrite( $unpacked, $data, 1024 );
+				}
+				gzclose( $gzFile );
+				fclose( $unpacked );
+			}
+		}
+		else
+		{
 			/*
 			 * not an archive we handle
 			 */
@@ -1168,12 +1265,15 @@ class JInstallationHelper
 		/*
 		 * return the file found in the extract folder and also folder name
 		 */
-		if ($handle = opendir( $extractdir )) {
-   			while (false !== ($file = readdir($handle))) {
-       			if ($file != "." && $file != "..") {
-          			 $script = $file;
-          			 continue;
-       			}
+		if ($handle = opendir( $extractdir ))
+		{
+   			while (false !== ($file = readdir($handle)))
+   			{
+	   			if ($file != "." && $file != "..")
+	   			{
+		  			 $script = $file;
+		  			 continue;
+	   			}
    			}
    			closedir($handle);
 		}
@@ -1192,7 +1292,8 @@ class JInstallationHelper
 	 * @return converted filename on success, False on error
 	 * @since 1.5
 	 */
-	function preMigrate( $scriptName, &$args, $db ) {
+	function preMigrate( $scriptName, &$args, $db )
+	{
 		//TODO add error handling
 		$buffer = '';
 		$newPrefix = $args['DBPrefix'];
@@ -1200,7 +1301,8 @@ class JInstallationHelper
 		 * read script file into buffer
 		 */
 		$buffer = file_get_contents( $scriptName );
-		if(  $buffer == false ) {
+		if(  $buffer == false )
+		{
 			return false;
 		}
 
@@ -1273,7 +1375,6 @@ class JInstallationHelper
 
 		$newPrefix = $args['DBPrefix'];
 
-
 		/*
 		 * Check to see if migration is from 4.5.1
 		 */
@@ -1284,7 +1385,8 @@ class JInstallationHelper
 		/*
 		 * if it is, then fill usertype field with correct values from aro_group
 		 */
-		if ( $row[1] == 'superadministrator' ){
+		if ( $row[1] == 'superadministrator' )
+		{
 			$query = "UPDATE ".$newPrefix."users AS u, ".$newPrefix."core_acl_aro_groups AS g" .
 					"\n SET u.usertype = g.value" .
 					"\n WHERE u.gid = g.id";
@@ -1452,7 +1554,6 @@ class JInstallationHelper
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
-
 		$query = "SELECT DISTINCT `option` FROM ".$newPrefix."components WHERE `option` != ''";
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1476,16 +1577,21 @@ class JInstallationHelper
 		$newMenuItems = $db->loadObjectList();
 
 		// filter out url links to 3pd components
-		foreach( $oldMenuItems as $item ) {
-			if ( $item->type == 'url' && JInstallationHelper::isValidItem( $item->link, $lookup ) ) {
+		foreach( $oldMenuItems as $item )
+		{
+			if ( $item->type == 'url' && JInstallationHelper::isValidItem( $item->link, $lookup ) )
+			{
 				$newMenuItems[] = $item;
-			} else if ( $item->type == 'component' ) {
+			}
+			else if ( $item->type == 'component' ) 
+			{
 				$newMenuItems[] = $item;
 			}
 		}
 
 		// build the menu table
-		foreach ( $newMenuItems as $item ) {
+		foreach ( $newMenuItems as $item )
+		{
 			$db->insertObject( $newPrefix.'menu', $item );
 			JInstallationHelper::getDBErrors($errors, $db );
 		}
@@ -1509,7 +1615,8 @@ class JInstallationHelper
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
-		foreach( $menuTypes as $mType ) {
+		foreach( $menuTypes as $mType )
+		{
 			$query = "INSERT INTO ".$newPrefix."menu_types ( menutype, title ) VALUES ('".$mType."', '".$mType."');";
 			$db->setQuery($query);
 			$db->query();
@@ -1529,12 +1636,14 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 		$nextId = $db->loadResult();
 
-		foreach( $lookup as $module ) {
+		foreach( $lookup as $module )
+		{
 			$nextId++;
 			$qry = "SELECT * FROM ".$newPrefix."modules_migration WHERE module = '".$module."' AND client_id = 0";
 			$db->setQuery( $qry );
 			JInstallationHelper::getDBErrors($errors, $db );
-			if ( $row = $db->loadObject(  ) ) {
+			if ( $row = $db->loadObject() )
+			{
 				$row->id = $nextId;
 				$row->published = 0;
 				$db->insertObject( $newPrefix.'modules', $row );
@@ -1560,17 +1669,22 @@ class JInstallationHelper
 		return count( $errors );
 	}
 
-	function isValidItem ( $link, $lookup ){
-		foreach( $lookup as $component ) {
-			if ( strpos( $link, $component ) != false ) {
+	function isValidItem ( $link, $lookup )
+	{
+		foreach( $lookup as $component )
+		{
+			if ( strpos( $link, $component ) != false )
+			{
 				return true;
 			}
 		}
 		return false;
 	}
 
-	function getDBErrors( & $errors, $db ) {
-		if ($db->getErrorNum() > 0) {
+	function getDBErrors( & $errors, $db )
+	{
+		if ($db->getErrorNum() > 0)
+		{
 			$errors[] = array('msg' => $db->getErrorMsg(), 'sql' => $db->_sql);
 		}
 	}
@@ -1581,7 +1695,8 @@ class JInstallationHelper
 	 *
 	 * @param array The post values
 	 */
-	function setFTPCfg( $vars ) {
+	function setFTPCfg( $vars )
+	{
 		global $mainframe;
 		$arr = array();
 		$arr['ftp_enable'] = $vars['ftpEnable'];
@@ -1594,9 +1709,10 @@ class JInstallationHelper
 		$mainframe->setCfg( $arr, 'config' );
 	}
 
-	function _chmod( $path, $mode ){
-    global $mainframe;
-    $ret = false;
+	function _chmod( $path, $mode )
+	{
+		global $mainframe;
+   		$ret = false;
 
 		// Initialize variables
 		$ftpFlag	= true;
@@ -1607,7 +1723,8 @@ class JInstallationHelper
 			$ftpFlag = false;
 		}
 
-		if ($ftpFlag == true) {
+		if ($ftpFlag == true)
+		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
@@ -1615,19 +1732,23 @@ class JInstallationHelper
 
 			//Translate the destination path for the FTP account
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+
 			// do the ftp chmod
-			if (!$ftp->chmod($path, $mode)) {
+			if (!$ftp->chmod($path, $mode))
+			{
 				// FTP connector throws an error
 				return false;
 			}
 			$ftp->quit();
 			$ret = true;
-    } else {
-      $ret = @ chmod($path, $mode);
-    }
+		}
+		else
+		{
+			$ret = @ chmod($path, $mode);
+		}
 
-  return $ret;
-  }
+		return $ret;
+	}
 
 
 }

@@ -31,6 +31,7 @@ class JInstallationView
 		jimport('joomla.template.template');
 
 		$tmpl = new JTemplate();
+		$tmpl->applyInputFilter('ShortModifiers');
 
 		// load the wrapper and common templates
 		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );

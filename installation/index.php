@@ -23,8 +23,14 @@ $mainframe = new JInstallation();
 // create the session
 $mainframe->setSession('installation');
 
+// get a recursively slash stripped version of post
+$post		= (array) JRequest::get( 'post' );
+$postVars	= JArrayHelper::getValue( $post, 'vars', array(), 'array' );
 $registry =& JSession::get('registry');
-$registry->loadArray(JRequest::getVar( 'vars', array(), 'post', 'array' ), 'application');
+
+// TODO: Louis, loadArray only ever goes into the default namespace??
+//$registry->loadArray($postVars, 'application');
+$registry->loadArray($postVars);
 
 $configLang = $mainframe->getUserState('application.lang');
 
@@ -35,11 +41,10 @@ $mainframe->setLanguage($configLang);
 $lang =& JFactory::getLanguage();
 $lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
 
-$task = JRequest::getVar( 'task' );
-
-$vars = $registry->toArray('application');
-
-$result = '';
+$task	= JRequest::getVar( 'task' );
+//$vars	= $registry->toArray('application');
+$vars	= $registry->toArray();
+$result	= '';
 
 switch ($task)
 {
