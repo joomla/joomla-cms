@@ -175,12 +175,12 @@ class JRequest
 			$hashes = array();
 		}
 
+		$hash		= strtoupper( $hash );
 		$signature	= $hash.$mask;
 		if (!isset($hashes[$signature])) {
 			$result		= null;
 			$matches	= array();
 
-			$hash = strtoupper( $hash );
 			if ($hash === 'METHOD') {
 				$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
 			}
