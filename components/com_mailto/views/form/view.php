@@ -16,6 +16,8 @@ jimport('joomla.application.view');
 
 class MailtoViewForm extends JView
 {
+	var $_viewName = 'form';
+	
 	function display()
 	{
 		$data = $this->getData();

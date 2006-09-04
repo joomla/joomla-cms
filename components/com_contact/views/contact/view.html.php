@@ -20,9 +20,8 @@ jimport('joomla.application.view');
  */
 class ContactViewContact extends JView
 {
-	/**
-	 * Display the document
-	 */
+	var $_viewName = 'contact';
+	
 	function display()
 	{
 		global $mainframe, $Itemid;

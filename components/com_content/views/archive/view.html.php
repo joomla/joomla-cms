@@ -23,9 +23,8 @@ jimport( 'joomla.application.view');
  */
 class ContentViewArchive extends JView
 {
-	/**
-	 * Display the document
-	 */
+	var $_viewName = 'archive';
+	
 	function display($layout)
 	{
 		global $mainframe, $option, $Itemid;

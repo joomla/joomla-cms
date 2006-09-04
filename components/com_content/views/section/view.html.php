@@ -24,6 +24,8 @@ jimport( 'joomla.application.view');
  */
 class ContentViewSection extends JView
 {
+	var $_viewName = 'section';
+	
 	function display($layout)
 	{
 		global $mainframe, $Itemid, $option;

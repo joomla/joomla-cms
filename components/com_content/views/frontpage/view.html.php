@@ -24,6 +24,8 @@
  */
 class ContentViewFrontpage extends JView
 {
+	var $_viewName = 'frontpage';
+	
 	function display($layout = 'blog')
 	{
 		global $mainframe, $Itemid, $option;

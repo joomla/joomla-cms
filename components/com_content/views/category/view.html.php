@@ -23,6 +23,8 @@ jimport( 'joomla.application.view');
  */
 class ContentViewCategory extends JView
 {
+	var $_viewName = 'category';
+	
 	function display($layout = 'table')
 	{
 		global $mainframe, $option, $Itemid;

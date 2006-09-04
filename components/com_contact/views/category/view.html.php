@@ -20,6 +20,8 @@ jimport('joomla.application.view');
  */
 class ContactViewCategory extends JView
 {
+	var $_viewName = 'category';
+	
 	function display()
 	{
 		global $mainframe, $Itemid, $option;
