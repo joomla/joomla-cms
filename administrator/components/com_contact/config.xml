@@ -3,16 +3,16 @@
 	<params>
 		<param name="bannedEmail" type="textarea" default=""
 			label="Banned Email" rows="3" cols="50"
-			description="Emails containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+			description="DESCBANMAIL" />
 		<param name="bannedSubject" type="textarea" default=""
 			label="Banned Subject" rows="3" cols="50"
-			description="Subjects containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+			description="DESCBANSUBJ" />
 		<param name="bannedText" type="textarea" default=""
 			label="Banned Text" rows="3" cols="50"
-			description="Text containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+			description="DESCBANTEXT" />
 		<param name="session" type="radio" default="1"
 			label="Session Check"
-			description="Check for existance of session cookie, this means that users without cookies will not be able to send emails">
+			description="DESCSESSCHK">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

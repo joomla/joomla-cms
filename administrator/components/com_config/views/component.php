@@ -25,6 +25,10 @@ class JConfigComponentEditView extends JView
 	 */
 	function display()
 	{
+		// load the component's language file
+		$lang = & JFactory::getLanguage();
+		$lang->load(JRequest::getVar( 'component' ));
+		
 		$model	= &$this->getModel();
 		$params	= &$model->getParams();
 		$table	= &$model->getTable();

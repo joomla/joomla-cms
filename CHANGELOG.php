@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Sep-2006 David Gal
+ # Fixed [artf5822] : Configuration popups are not translated
+ 
 04-Sep-2006
  # Fixed [artf5805] : non-existent class: jtablemenutypes
  # Fixed [artf3499] : error while creating configuration.php
