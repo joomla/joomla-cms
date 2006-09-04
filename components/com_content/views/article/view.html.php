@@ -26,10 +26,10 @@ class ContentViewArticle extends JView
 	function display($layout)
 	{
 		global $mainframe, $Itemid;
-		
+
 		if (empty( $layout ))
 		{
-			// degrade to default 
+			// degrade to default
 			$layout = 'article';
 		}
 
@@ -50,12 +50,12 @@ class ContentViewArticle extends JView
 
 		$linkOn   = null;
 		$linkText = null;
-		
+
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Handle BreadCrumbs
-		
-		if (!empty ($Itemid)) 
+
+		if (!empty ($Itemid))
 		{
 			// Section
 			if (!empty ($article->section)) {
@@ -80,7 +80,7 @@ class ContentViewArticle extends JView
 		if (isset ($article->page_title)) {
 			$document->setTitle($article->title.' '.$article->page_title);
 		}
-		
+
 		// Create a user access object for the current user
 		$access = new stdClass();
 		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
@@ -90,13 +90,13 @@ class ContentViewArticle extends JView
 		// Process the content plugins
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
-		
-		if ($params->get('readmore') || $params->get('link_titles')) 
+
+		if ($params->get('readmore') || $params->get('link_titles'))
 		{
-			if ($params->get('intro_only')) 
+			if ($params->get('intro_only'))
 			{
 				// Check to see if the user has access to view the full article
-				if ($article->access <= $user->get('gid')) 
+				if ($article->access <= $user->get('gid'))
 				{
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
 
@@ -104,8 +104,8 @@ class ContentViewArticle extends JView
 						// text for the readmore link
 						$linkText = JText::_('Read more...');
 					}
-				} 
-				else 
+				}
+				else
 				{
 					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 
@@ -116,18 +116,18 @@ class ContentViewArticle extends JView
 				}
 			}
 		}
-		
+
 		if (intval($article->modified) != 0) {
 			$article->modified = mosFormatDate($article->modified);
 		}
-		
+
 		if (intval($article->created) != 0) {
 			$article->created = mosFormatDate($article->created);
 		}
-		
+
 		$article->readmore_link = $linkOn;
 		$article->readmore_text = $linkText;
-		
+
 		$article->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
 		$article->event->afterDisplayTitle = trim(implode("\n", $results));
@@ -137,75 +137,75 @@ class ContentViewArticle extends JView
 
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
-		
+
 		$this->set('article', $article);
 		$this->set('params' , $params);
 		$this->set('user'   , $user);
 		$this->set('access' , $access);
-		
+
 		$this->_loadTemplate($layout);
 	}
-		
+
 	function icon($type, $attribs = array())
-	{	
+	{
 		 global $Itemid, $mainframe;
-		
+
 		$url  = '';
 		$text = '';
-		
+
 		$article = &$this->article;
-		
+
 		switch($type)
 		{
 			case 'pdf' :
 			{
 				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-				
+
 				// checks template image directory for image, if non found default are loaded
 				if ($this->params->get('icons')) {
 					$text = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 				} else {
 					$text = JText::_('PDF').'&nbsp;';
 				}
-				
+
 				$attribs['title']   = JText::_( 'PDF' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 			} break;
-			
-			case 'print' : 
+
+			case 'print' :
 			{
 				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-						
+
 				// checks template image directory for image, if non found default are loaded
 				if ( $this->params->get( 'icons' ) ) {
 					$text = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
-				
+
 				$attribs['title']   = JText::_( 'Print' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 			} break;
-			
+
 			case 'email' :
 			{
 				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
-				
+
 				$attribs['title']   = JText::_( 'Email ' );
 				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-				
+
 				if ($this->params->get('icons')) 	{
 					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
-				}		
+				}
 			} break;
-			
+
 			case 'edit' :
 			{
 				if ($this->params->get('popup')) {
@@ -237,14 +237,14 @@ class ContentViewArticle extends JView
 				$overlib .= $date;
 				$overlib .= '<br />';
 				$overlib .= $author;
-				
+
 				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
-				$attribs['onmouseover'] = "return nd();";		
-				
+				$attribs['onmouseover'] = "return nd();";
+
 			} break;
 		}
-		
-		
+
+
 		echo mosHTML::Link($url, $text, $attribs);
 	}
 
@@ -255,7 +255,7 @@ class ContentViewArticle extends JView
 		// Initialize variables
 		$document =& JFactory::getDocument();
 		$user	  =& JFactory::getUser();
-		
+
 		$pathway =& $mainframe->getPathWay();
 
 		// At some point in the future this will come from a request object
@@ -270,6 +270,14 @@ class ContentViewArticle extends JView
 		// Get the article from the model
 		$article	=& $this->get('Article');
 		$params		= $article->parameters;
+
+		$isNew = ($article->id < 1);
+
+		if ($isNew)
+		{
+			// TODO: Do we allow non-sectioned articles from the frontend??
+			$article->sectionid = JRequest::getVar('sectionid', 0, '', 'int');
+		}
 
 		// Get the lists
 		$lists = $this->_buildEditLists();
@@ -288,21 +296,21 @@ class ContentViewArticle extends JView
 
 		// Add pathway item
 		$pathway->addItem($title, '');
-		
+
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
 		if (JString::strlen($article->fulltext) > 1) {
 			$article->text = $article->introtext."<hr id=\"system-readmore\" />".$article->fulltext;
 		} else {
 			$article->text = $article->introtext;
 		}
-		
+
 		$this->set('returnid', $returnid);
 		$this->set('article' , $article);
 		$this->set('params'  , $params);
 		$this->set('lists'   , $lists);
 		$this->set('editor'  , $editor);
 		$this->set('user'    , $user);
-		
+
 		$this->_loadTemplate('edit');
 	}
 
@@ -346,7 +354,7 @@ class ContentViewArticle extends JView
 		global $mainframe;
 
 		jimport('tcpdf.tcpdf');
-		
+
 		$dispatcher	=& JEventDispatcher::getInstance();
 
 		// Initialize some variables
