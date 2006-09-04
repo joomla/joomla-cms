@@ -147,7 +147,8 @@ class ContentController extends JController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		$row = & JTable::getInstance('content', $db);
-		if (!$row->bind($_POST)) {
+		if (!$row->bind($_POST))
+		{
 			JError::raiseError( 500, $row->getError());
 		}
 
@@ -158,7 +159,8 @@ class ContentController extends JController
 		if ($isNew)
 		{
 			// new record
-			if (!($access->canEdit || $access->canEditOwn)) {
+			if (!($access->canEdit || $access->canEditOwn))
+			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->created 		= date('Y-m-d H:i:s');
@@ -167,7 +169,8 @@ class ContentController extends JController
 		else
 		{
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))) {
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id'))))
+			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->modified 		= date('Y-m-d H:i:s');
@@ -175,16 +178,21 @@ class ContentController extends JController
 		}
 
 		// Append time if not added to publish date
-		if (strlen(trim($row->publish_up)) <= 10) {
+		if (strlen(trim($row->publish_up)) <= 10)
+		{
 			$row->publish_up .= ' 00:00:00';
 		}
 		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') {
+		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '')
+		{
 			$row->publish_down = $nullDate;
-		} else {
-			if (strlen(trim( $row->publish_down )) <= 10) {
+		}
+		else
+		{
+			if (strlen(trim( $row->publish_down )) <= 10)
+			{
 				$row->publish_down .= ' 00:00:00';
 			}
 			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
@@ -223,11 +231,13 @@ class ContentController extends JController
 		// Prepare content  for save
 		JContentHelper::saveContentPrep($row);
 
-		if (!$row->check()) {
+		if (!$row->check())
+		{
 			JError::raiseError( 500, $row->getError());
 		}
 		$row->version++;
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			JError::raiseError( 500, $row->getError());
 		}
 
@@ -245,7 +255,8 @@ class ContentController extends JController
 				$query = "INSERT INTO #__content_frontpage" .
 						"\n VALUES ( $row->id, 1 )";
 				$db->setQuery($query);
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					JError::raiseError( 500, $db->stderror());
 				}
 				$fp->ordering = 1;
@@ -290,14 +301,21 @@ class ContentController extends JController
 			$users = $db->loadResultArray();
 			foreach ($users as $user_id)
 			{
-				jimport('joomla.utilities.message');
 				$msg = new JMessage($db);
 				$msg->send($user->get('id'), $user_id, "New Item", sprintf(JText::_('ON_NEW_CONTENT'), $user->get('username'), $row->title, $section, $category));
 			}
 		}
 
-		$msg = $isNew ? JText::_('THANK_SUB') : JText::_('Item successfully saved.');
-		$msg = $user->get('usertype') == 'Publisher' ? JText::_('THANK_SUB') : $msg;
+		if ($access->canPublish)
+		{
+			// Publishers, admins, etc just get the stock msg 
+			$msg = JText::_('Item successfully saved.');
+		}
+		else
+		{
+			$msg = $isNew ? JText::_('THANK_SUB') : JText::_('Item successfully saved.');
+		}
+
 		switch ($task)
 		{
 			case 'apply' :
