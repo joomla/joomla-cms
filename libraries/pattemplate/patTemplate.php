@@ -1379,7 +1379,7 @@ class patTemplate
 		if( !class_exists( 'patTemplate_Module' ) )
 		{
 			$file	=	sprintf( "%s/Module.php", $this->getIncludePath() );
-			if( !@include_once $file )
+			if( !file_exists( $file ) or !include_once $file )
 				return	patErrorManager::raiseError( PATTEMPLATE_ERROR_BASECLASS_NOT_FOUND, 'Could not load module base class.' );
 		}
 
@@ -1387,7 +1387,7 @@ class patTemplate
 		if( !class_exists( $baseClass ) )
 		{
 			$baseFile	=	sprintf( "%s/%s.php", $this->getIncludePath(), $moduleType );
-			if( !@include_once $baseFile )
+			if( !file_exists( $baseFile ) or !include_once $baseFile )
 				return	patErrorManager::raiseError( PATTEMPLATE_ERROR_BASECLASS_NOT_FOUND, "Could not load base class for $moduleType ($baseFile)." );
 		}
 
@@ -1405,7 +1405,7 @@ class patTemplate
 			{
 				$moduleFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $moduleName ) );
 
-				if (@include_once $moduleFile) {
+				if ( file_exists( $moduleFile ) and include_once $moduleFile) {
 					$found = true;
 					break;
 				}
