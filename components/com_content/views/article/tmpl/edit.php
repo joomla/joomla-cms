@@ -38,10 +38,10 @@ function submitbutton(pressbutton) {
 			<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $this->article->title; ?>" />
 		</div>
 		<div style="float: right;">
-			<button type="button" onclick="javascript:submitbutton('save')">
+			<button type="button" onclick="submitbutton('save')">
 				<?php echo JText::_('Save') ?>
 			</button>
-			<button type="button" onclick="javascript:submitbutton('cancel')" />
+			<button type="button" onclick="submitbutton('cancel')" />
 				<?php echo JText::_('Cancel') ?>
 			</button>
 		</div>
@@ -66,7 +66,7 @@ echo $this->editor->getButtons('text');
 	</td>
 	<td>
 		<strong>
-			<?php echo $this->article->section;?>
+			<?php echo $this->article->sectionid;?>
 		</strong>
 	</td>
 </tr>
