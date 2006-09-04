@@ -18,8 +18,10 @@ jimport('joomla.presentation.parameter.parameter');
  * Legacy class, use JParameter instead
  * @deprecated As of version 1.5
  */
-class mosUserParameters extends JParameter {
-	function __construct($text, $file = '', $type = 'component') {
+class mosUserParameters extends JParameter
+{
+	function __construct($text, $file = '', $type = 'component')
+	{
 		parent::__construct($text, $file);
 	}
 }

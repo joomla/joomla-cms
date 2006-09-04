@@ -23,11 +23,11 @@ if (!$user->authorize( 'com_users', 'manage' )) {
 	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JApplicationHelper::getPath( 'class' ) );
+require_once( JPATH_COMPONENT . '/admin.users.html.php' );
+require_once( JPATH_COMPONENT . '/users.class.php' );
 
-
-switch ($task) {
+switch ($task)
+{
 	case 'new':
 	case 'edit':
 		editUser( );
@@ -43,11 +43,11 @@ switch ($task) {
 		break;
 
 	case 'block':
-		blockUser( );
+		changeUserBlock( 1 );
 		break;
 
 	case 'unblock':
-		unBlockUser( );
+		changeUserBlock( 0 );
 		break;
 
 	case 'logout':
@@ -95,32 +95,44 @@ function showUsers( )
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where 				= array();
 
-	if (isset( $search ) && $search!= '') {
+	if (isset( $search ) && $search!= '')
+	{
 		$where[] = "(a.username LIKE '%$search%' OR a.email LIKE '%$search%' OR a.name LIKE '%$search%')";
 	}
-	if ( $filter_type ) {
-		if ( $filter_type == 'Public Frontend' ) {
+	if ( $filter_type )
+	{
+		if ( $filter_type == 'Public Frontend' )
+		{
 			$where[] = "a.usertype = 'Registered' OR a.usertype = 'Author' OR a.usertype = 'Editor' OR a.usertype = 'Publisher'";
-		} else if ( $filter_type == 'Public Backend' ) {
+		}
+		else if ( $filter_type == 'Public Backend' )
+		{
 			$where[] = "a.usertype = 'Manager' OR a.usertype = 'Administrator' OR a.usertype = 'Super Administrator'";
-		} else {
+		}
+		else
+		{
 			$where[] = "a.usertype = LOWER( '$filter_type' )";
 		}
 	}
-	if ( $filter_logged == 1 ) {
+	if ( $filter_logged == 1 )
+	{
 		$where[] = "s.userid = a.id";
-	} else if ($filter_logged == 2) {
+	}
+	else if ($filter_logged == 2)
+	{
 		$where[] = "s.userid IS NULL";
 	}
 
 	// exclude any child group id's for this user
 	$pgids = $acl->get_group_children( $currentUser->get('gid'), 'ARO', 'RECURSE' );
 
-	if (is_array( $pgids ) && count( $pgids ) > 0) {
+	if (is_array( $pgids ) && count( $pgids ) > 0)
+	{
 		$where[] = "(a.gid NOT IN (" . implode( ',', $pgids ) . "))";
 	}
 	$filter = '';
-	if ($filter_logged == 1 || $filter_logged == 2) {
+	if ($filter_logged == 1 || $filter_logged == 2)
+	{
 		$filter = "\n INNER JOIN #__session AS s ON s.userid = a.id";
 	}
 
@@ -156,7 +168,8 @@ function showUsers( )
 	. "\n FROM #__session AS s"
 	. "\n WHERE s.userid = %d"
 	;
-	for ($i = 0; $i < $n; $i++) {
+	for ($i = 0; $i < $n; $i++)
+	{
 		$row = &$rows[$i];
 		$query = sprintf( $template, intval( $row->id ) );
 		$db->setQuery( $query );
@@ -171,7 +184,8 @@ function showUsers( )
 	;
 	$db->setQuery( $query );
 	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
-	foreach( $db->loadObjectList() as $obj ) {
+	foreach( $db->loadObjectList() as $obj )
+	{
 		$types[] = mosHTML::makeOption( $obj->value, JText::_( $obj->text ) );
 	}
 	$lists['type'] 	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
@@ -182,9 +196,12 @@ function showUsers( )
 	$lists['logged'] = mosHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
 
 	// table ordering
-	if ( $filter_order_Dir == 'DESC' ) {
+	if ( $filter_order_Dir == 'DESC' )
+	{
 		$lists['order_Dir'] = 'ASC';
-	} else {
+	}
+	else
+	{
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
@@ -200,24 +217,25 @@ function showUsers( )
  */
 function editUser( )
 {
-	$cid 		= JRequest::getVar( 'cid', array(0) );
 	$option 	= JRequest::getVar( 'option');
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	$cid 		= JRequest::getVar( 'cid', array(), '', 'array' );
+	$userId		= (int) @$cid[0];
 
 	$db 		=& JFactory::getDBO();
-	$user 	  	=& JUser::getInstance(intval($cid[0]));
+	$user 	  	=& JUser::getInstance( $userId );
 	$acl      	=& JFactory::getACL();
 
-	if ( $user->get('id') ) {
+	if ( $user->get('id') )
+	{
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
-		. "\n WHERE user_id =". $user->get('id')
+		. "\n WHERE user_id =". $userId
 		;
 		$db->setQuery( $query );
 		$contact = $db->loadObjectList();
-	} else {
+	}
+	else
+	{
 		$contact 	= NULL;
 		$row->block = 0;
 	}
@@ -232,26 +250,38 @@ function editUser( )
 
 	// ensure user can't add/edit group higher than themselves
 	/* NOTE : This check doesn't work commented out for the time being
-	if ( is_array( $myGroups ) && count( $myGroups ) > 0 ) {
+	if ( is_array( $myGroups ) && count( $myGroups ) > 0 )
+	{
 		$excludeGroups = (array) $acl->get_group_children( $myGroups[0], 'ARO', 'RECURSE' );
-	} else {
+	}
+	else
+	{
 		$excludeGroups = array();
 	}
 
-	if ( in_array( $userGroups[0], $excludeGroups ) ) {
+	if ( in_array( $userGroups[0], $excludeGroups ) )
+	{
 		echo 'not auth';
 		$mainframe->redirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
 	}
 	*/
 
-	//if ( $userGroupName == 'super administrator' ) {
+	/*
+	if ( $userGroupName == 'super administrator' )
+	{
 		// super administrators can't change
-	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $currentUser->gid .'" /><strong>'. JText::_( 'Super Administrator' ) .'</strong>';
-	//} else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
-	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
+	 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $currentUser->gid .'" /><strong>'. JText::_( 'Super Administrator' ) .'</strong>';
+	}
+	else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
+	*/
+
+	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' )
+	{
 		// administrators can't change each other
 		$lists['gid'] = '<input type="hidden" name="gid" value="'. $user->get('gid') .'" /><strong>'. JText::_( 'Administrator' ) .'</strong>';
-	} else {
+	}
+	else
+	{
 		$gtree = $acl->get_group_children_tree( null, 'USERS', false );
 
 		// remove users 'above' me
@@ -298,17 +328,19 @@ function saveUser(  )
 	$user = new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
 	$original_gid = $user->get('gid');
 
-	if (!$user->bind( $_POST )) {
+	if (!$user->bind( $_POST ))
+	{
 		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
 		return false;
 	}
 
 	// Are we dealing with a new user which we need to create?
-	$isNew 	= !$user->get('id');
+	$isNew 	= ($user->get('id') < 1);
 	if (!$isNew)
 	{
 		// if group has been changed and where original group was a Super Admin
-		if ( $user->get('gid') != $original_gid && $original_gid == 25 ) {
+		if ( $user->get('gid') != $original_gid && $original_gid == 25 )
+		{
 			// count number of active super admins
 			$query = "SELECT COUNT( id )"
 			. "\n FROM #__users"
@@ -318,9 +350,10 @@ function saveUser(  )
 			$db->setQuery( $query );
 			$count = $db->loadResult();
 
-			if ( $count <= 1 ) {
-			// disallow change if only one Super Admin exists
-				$user->_error = JText::_( 'WARN_ONLY_SUPER' );
+			if ( $count <= 1 )
+			{
+				// disallow change if only one Super Admin exists
+				$mainframe->redirect( 'index2.php?option=com_users', 'L10N:WARN_ONLY_SUPER' );
 				return false;
 			}
 		}
@@ -329,23 +362,25 @@ function saveUser(  )
 	/*
 	 * Lets save the JUser object
 	 */
-	if (!$user->save()) {
+	if (!$user->save())
+	{
 		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
 		return false;
 	}
 
-
 	/*
 	 * Time for the email magic so get ready to sprinkle the magic dust...
 	 */
-	if ($isNew) {
+	if ($isNew)
+	{
 		$adminEmail = $me->get('email');
 		$adminName	= $me->get('name');
 
 		$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
 		$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, $mainframe->getSiteURL(), $user->get('username'), $user->clearPW );
 
-		if ($MailFrom != "" && $FromName != "") {
+		if ($MailFrom != '' && $FromName != '')
+		{
 			$adminName 	= $FromName;
 			$adminEmail = $MailFrom;
 		}
@@ -386,79 +421,74 @@ function removeUsers(  )
 
 	$db 			=& JFactory::getDBO();
 	$currentUser 	=& JFactory::getUser();
-
 	$acl      		=& JFactory::getACL();
-
 	$cid 			= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
-	if (!is_array( $cid ) || count( $cid ) < 1) {
+
+	JArrayHelper::toInteger( $cid );
+
+	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
-	if (count( $cid ))
+	foreach ($cid as $id)
 	{
-		foreach ($cid as $id)
+		// check for a super admin ... can't delete them
+		$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
+		$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
+		$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
+
+		$success = false;
+		if ( $this_group == 'super administrator' )
 		{
-			// check for a super admin ... can't delete them
-			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
-			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
-			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
+			$msg = JText::_( 'You cannot delete a Super Administrator' );
+		}
+		else if ( $id == $currentUser->get( 'id' ) )
+		{
+			$msg = JText::_( 'You cannot delete Yourself!' );
+		}
+		else if ( ( $this_group == 'administrator' ) && ( $currentUser->get( 'gid' ) == 24 ) )
+		{
+			$msg = JText::_( 'WARNDELETE' );
+		}
+		else
+		{
+			$user =& JUser::getInstance((int)$id);
+			$count = 2;
 
-			$success = false;
-			if ( $this_group == 'super administrator' ) {
-				$msg = JText::_( 'You cannot delete a Super Administrator' );
- 			} else if ( $id == $currentUser->get( 'id' ) ) {
- 				$msg = JText::_( 'You cannot delete Yourself!' );
- 			} else if ( ( $this_group == 'administrator' ) && ( $currentUser->get( 'gid' ) == 24 ) ) {
- 				$msg = JText::_( 'WARNDELETE' );
-			} else {
-				$user =& JUser::getInstance((int)$id);
-				$count = 2;
+			if ( $user->get( 'gid' ) == 25 )
+			{
+				// count number of active super admins
+				$query = "SELECT COUNT( id )"
+				. "\n FROM #__users"
+				. "\n WHERE gid = 25"
+				. "\n AND block = 0"
+				;
+				$db->setQuery( $query );
+				$count = $db->loadResult();
+			}
 
-				if ( $user->get( 'gid' ) == 25 ) {
-					// count number of active super admins
-					$query = "SELECT COUNT( id )"
-					. "\n FROM #__users"
-					. "\n WHERE gid = 25"
-					. "\n AND block = 0"
-					;
-					$db->setQuery( $query );
-					$count = $db->loadResult();
-				}
+			if ( $count <= 1 && $user->get( 'gid' ) == 25 )
+			{
+			// cannot delete Super Admin where it is the only one that exists
+				$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
+			}
+			else
+			{
+				// delete user
+				$user->delete();
+				$msg = '';
 
-				if ( $count <= 1 && $user->get( 'gid' ) == 25 ) {
-				// cannot delete Super Admin where it is the only one that exists
-					$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
-				} else {
-					// delete user
-					$user->delete();
-					$msg = '';
+				JRequest::setVar( 'task', 'remove' );
+				JRequest::setVar( 'cid', $id );
 
-					JRequest::setVar( 'task', 'remove' );
-					JRequest::setVar( 'cid', $id );
-
-					// delete user acounts active sessions
-					logoutUser();
-				}
+				// delete user acounts active sessions
+				logoutUser();
 			}
 		}
 	}
 
 	$mainframe->redirect( 'index2.php?option=com_users', $msg);
-}
-
-/**
-* Unblocks one or more user records
-*/
-function unBlockUser( ) {
-	changeUserBlock( 0 );
-}
-
-/**
-* Blocks one or more user records
-*/
-function blockUser( ) {
-	changeUserBlock( 1 );
 }
 
 /**
@@ -472,12 +502,12 @@ function changeUserBlock( $block=1 )
 	$db = JFactory::getDBO();
 
 	$option = JRequest::getVar( 'option');
-	$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
-	if (!is_array( $cid )) {
-		$cid = array ( 0 );
-	}
+	$cid 	= JRequest::getVar( 'cid', array(), '', 'array' );
 
-	if (count( $cid ) < 1) {
+	JArrayHelper::toInteger( $cid );
+
+	if (count( $cid ) < 1)
+	{
 		$action = $block ? 'block' : 'unblock';
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
@@ -491,14 +521,17 @@ function changeUserBlock( $block=1 )
 	;
 	$db->setQuery( $query );
 
-	if (!$db->query()) {
+	if (!$db->query())
+	{
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	// if action is to block a user
-	if ( $block == 1 ) {
-		foreach( $cid as $id ) {
+	if ( $block == 1 )
+	{
+		foreach( $cid as $id )
+		{
 			JRequest::setVar( 'task', 'block' );
 			JRequest::setVar( 'cid', $id );
 
@@ -519,35 +552,39 @@ function logoutUser( )
 
 	$db		=& JFactory::getDBO();
 	$task 	= JRequest::getVar( 'task' );
-	$cids 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+	$cids 	= JRequest::getVar( 'cid', array(), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );
 	$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 
-	if ( is_array( $cids ) ) {
-		if ( count( $cids ) < 1 ) {
-			$mainframe->redirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
-		}
-		$cids = implode( ',', $cids );
+	if ( count( $cids ) < 1 )
+	{
+		$mainframe->redirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
 	}
+	$cids = implode( ',', $cids );
 
-	if ($task == 'logout'){
+	if ($task == 'logout')
+	{
 		$query = "DELETE FROM #__session"
 		. "\n WHERE userid IN ( $cids )"
 		;
-	} else if ($task == 'flogout'){
+	}
+	else if ($task == 'flogout')
+	{
 		$query = "DELETE FROM #__session"
 		. "\n WHERE userid = $id"
 		. "\n AND client_id = $client"
 		;
 	}
 
-	if (isset( $query ) ) {
+	if (isset( $query ))
+	{
 		$db->setQuery( $query );
 		$db->query();
 	}
 
 	$msg = JText::_( 'User Sesssion ended' );
-	switch ( $task ) {
+	switch ( $task )
+	{
 		case 'flogout':
 			$mainframe->redirect( 'index2.php', $msg );
 			break;

@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: gacl.class.php,v 1.51 2005/09/03 22:01:25 ipso Exp $
 
 /**
  * phpGACL - Generic Access Control List
@@ -54,6 +54,11 @@ class gacl {
 	*/
 	/** @var boolean Enables Debug output if true */
 	var $_debug = FALSE;
+
+	/**
+	 * Joomla usage
+	 */
+	var $_debugLog = null;
 
 	/*
 	--- Database configuration. ---
@@ -169,7 +174,12 @@ class gacl {
 	* @return boolean Always returns true
 	*/
 	function debug_text($text) {
+		if (!$this->_debugLog)
+		{
+			$this->_debugLog = array();
+		}
 
+		$this->_debugLog[] = $text; 
 		if ($this->_debug) {
 			echo "$text<br>\n";
 		}
@@ -202,7 +212,7 @@ class gacl {
 	* @param string The AXO section value (optional)
 	* @param integer The group id of the ARO ??Mike?? (optional)
 	* @param integer The group id of the AXO ??Mike?? (optional)
-	* @return mixed Generally a zero (0) or (1) or the extended return value of the ACL
+	* @return boolean TRUE if the check succeeds, false if not.
 	*/
 	function acl_check($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $root_aro_group=NULL, $root_axo_group=NULL) {
 		$acl_result = $this->acl_query($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $root_aro_group, $root_axo_group);
@@ -220,9 +230,9 @@ class gacl {
 	* @param string The ARO section
 	* @param string The AXO section value (optional)
 	* @param string The AXO section value (optional)
-	* @param integer The group id of the ARO ??Mike?? (optional)
-	* @param integer The group id of the AXO ??Mike?? (optional)
-	* @return mixed Generally a zero (0) or (1) or the extended return value of the ACL
+	* @param integer The group id of the ARO (optional)
+	* @param integer The group id of the AXO (optional)
+	* @return string The return value of the ACL
 	*/
 	function acl_return_value($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $root_aro_group=NULL, $root_axo_group=NULL) {
 		$acl_result = $this->acl_query($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $root_aro_group, $root_axo_group);
@@ -234,8 +244,7 @@ class gacl {
 	 * Handles ACL lookups over arrays of AROs
 	 * @param string The ACO section value
 	 * @param string The ACO value
-	 * @param array An named array of arrays, each element in the format
-	 * aro_section_value=>array(aro_value1,aro_value1,...)
+	* @param array An named array of arrays, each element in the format aro_section_value=>array(aro_value1,aro_value1,...)
 	 * @return mixed The same data format as inputted.
 	 */
 	function acl_check_array($aco_section_value, $aco_value, $aro_array) {
@@ -276,8 +285,8 @@ class gacl {
 	* @param string The ARO section
 	* @param string The AXO section value (optional)
 	* @param string The AXO section value (optional)
-	* @param integer The group id of the ARO ??Mike?? (optional)
-	* @param integer The group id of the AXO ??Mike?? (optional)
+	* @param string The value of the ARO group (optional)
+	* @param string The value of the AXO group (optional)
 	* @param boolean Debug the operation if true (optional)
 	* @return array Returns as much information as possible about the ACL so other functions can trim it down and omit unwanted data.
 	*/

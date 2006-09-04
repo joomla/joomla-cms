@@ -212,9 +212,6 @@ class HTML_users {
 				<legend><?php echo JText::_( 'User Details' ); ?></legend>
 
 				<table class="admintable" cellspacing="1">
-
-
-
 					<tr>
 						<td width="150" class="key">
 							<label for="name">
@@ -232,7 +229,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" maxlength="25" />
+							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" maxlength="25"  autocomplete="off" />
 						</td>
 					</tr>
 					<tr>

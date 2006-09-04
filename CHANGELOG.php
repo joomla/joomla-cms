@@ -39,6 +39,10 @@ Legend:
 
 04-Sep-2006
  # Fixed [artf5805] : non-existent class: jtablemenutypes
+ # Fixed [artf3499] : error while creating configuration.php
+ # Fixed [artf5806] : non-existent class: jtablemenutypes
+ # Fixed [artf5533] : Backend errors (with maximum Server error reporting)
+ # Fixed [artf1994] : User mgmt: Bug or feature?
 
 01-Sep-2006 Johan Janssens
  + Added isCompatible version check to JVersion (Suggested by CirTap)

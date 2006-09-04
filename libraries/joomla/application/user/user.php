@@ -75,7 +75,8 @@ class JUser extends JObject
 		$this->_params = new JParameter( '' );
 
 		// Load the user if it exists
-		if (!empty($identifier)) {
+		if (!empty($identifier))
+		{
 			$this->_load($identifier);
 		}
 	}
@@ -103,7 +104,8 @@ class JUser extends JObject
 		// Find the user id
 		if(!is_numeric($id))
 		{
-			if (!$id =  JUserHelper::getUserId($id)) {
+			if (!$id =  JUserHelper::getUserId($id))
+			{
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
 				return false;
 			}
@@ -143,7 +145,8 @@ class JUser extends JObject
 	 */
 	function get($property, $default=null)
 	{
-		if(isset($this->_table->$property)) {
+		if(isset($this->_table->$property))
+		{
 			return $this->_table->$property;
 		}
 		return $default;
@@ -158,7 +161,8 @@ class JUser extends JObject
 	 * @return	mixed				The value or the default if it did not exist
 	 * @since	1.5
 	 */
-	function getParam( $key, $default = null ) {
+	function getParam( $key, $default = null )
+	{
 		return $this->_params->get( $key, $default );
 	}
 
@@ -171,7 +175,8 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.5
 	 */
-	function setParam( $key, $value ) {
+	function setParam( $key, $value )
+	{
 		return $this->_params->set( $key, $value );
 	}
 
@@ -184,7 +189,8 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.5
 	 */
-	function defParam( $key, $value ) {
+	function defParam( $key, $value )
+	{
 		return $this->_params->def( $key, $value );
 	}
 
@@ -214,7 +220,8 @@ class JUser extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function setLastVisit($timestamp=null) {
+	function setLastVisit($timestamp=null)
+	{
 		return $this->_table->setLastVisit($timestamp);
 	}
 
@@ -225,7 +232,8 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function getParameters() {
+	function getParameters()
+	{
 		return $this->_params;
 	}
 
@@ -236,7 +244,8 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable() {
+	function &getTable()
+	{
 		return $this->_table;
 	}
 
@@ -255,7 +264,8 @@ class JUser extends JObject
 		 * If we are not fed a path of an xml file for parameters then we should
 		 * assume we are using the xml file from com_users.
 		 */
-		if (is_null($path)) {
+		if (is_null($path))
+		{
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		}
 
@@ -298,7 +308,8 @@ class JUser extends JObject
 			 */
 
 			// First the password
-			if (empty($array['password'])) {
+			if (empty($array['password']))
+			{
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
 			}
 			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
@@ -309,14 +320,16 @@ class JUser extends JObject
 
 			// check that username is not greater than 25 characters
 			$username = $this->get( 'username' );
-			if ( strlen($username) > 25 ) {
+			if ( strlen($username) > 25 )
+			{
 				$username = substr( $username, 0, 25 );
 				$this->set( 'username', $username );
 			}
 
 			// check that password is not greater than 50 characters
 			$password = $this->get( 'password' );
-			if ( strlen($password) > 50 ) {
+			if ( strlen($password) > 50 )
+			{
 				$password = substr( $password, 0, 50 );
 				$this->set( 'password', $password );
 			}
@@ -326,10 +339,13 @@ class JUser extends JObject
 			/*
 			 * We are updating an existing user.. so lets get down to it.
 			 */
-			if (!empty($array['password'])) {
+			if (!empty($array['password']))
+			{
 				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
 				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
-			} else {
+			}
+			else
+			{
 				$array['password'] = $this->get('password');
 			}
 		}
@@ -351,10 +367,13 @@ class JUser extends JObject
 		 * then we can certainly fail the whole method as we've done absolutely
 		 * no good :)
 		 */
-		if (!$this->_table->bind($array)) {
+		if (!$this->_table->bind($array))
+		{
 			$this->_setError("JUser::bind: Unable to bind array to user object");
 			return false;
 		}
+
+		$this->_table->id = (int) $this->_table->id;
 
 		/*
 		 * We were able to bind the array to the object, so now lets run
@@ -364,8 +383,9 @@ class JUser extends JObject
 		$this->_params->loadINI($this->_table->params);
 
 		// If the table user id is set, lets set the id for the JUser object.
-		if ($this->get( 'id' )) {
-			$this->_id = (int) $this->get( 'id' );
+		if ($this->get( 'id' ))
+		{
+			$this->_id = $this->get( 'id' );
 		}
 
 		return true;
@@ -392,13 +412,15 @@ class JUser extends JObject
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
 		 */
-		if (!$this->_table->check()) {
+		if (!$this->_table->check())
+		{
 			$this->_setError("JUser::save: ".$this->_table->getError());
 			return false;
 		}
 
 		// if user is made a Super Admin group and user is NOT a Super Admin
-		if ( $this->get('gid') == 25 && $me->get('gid') != 25 ) {
+		if ( $this->get('gid') == 25 && $me->get('gid') != 25 )
+		{
 			// disallow creation of Super Admin by non Super Admin users
 			$this->_setError("JUser::save: ".JText::_( 'WARNSUPERADMINCREATE' ));
 			return false;
@@ -417,7 +439,8 @@ class JUser extends JObject
 		 * the JUserModel ... if a fail condition exists throw a warning
 		 */
 		$result = false;
-		if (!$result = $this->_table->store()) {
+		if (!$result = $this->_table->store())
+		{
 			$this->_setError("JUser::save: ".$this->_table->getError());
 		}
 
@@ -425,7 +448,8 @@ class JUser extends JObject
 		 * If we have just updated ourselves, lets modify our session
 		 * parameters... i know a little too "inside the matrix" for some...
 		 */
-		if ( $me->get('id') == $this->get('id') ) {
+		if ( $me->get('id') == $this->get('id') )
+		{
 			JSession::set('session_user_params', $this->get( 'params' ));
 		}
 
@@ -434,7 +458,8 @@ class JUser extends JObject
 		 * might happen if we just inserted a new user... and need to update
 		 * this objects id value with the inserted id.
 		 */
-		if (empty($this->_id)) {
+		if (empty($this->_id))
+		{
 			$this->_id = $this->get( 'id' );
 		}
 
@@ -461,7 +486,8 @@ class JUser extends JObject
 		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
 
 		$result = false;
-		if (!$result = $this->_table->delete($this->_id)) {
+		if (!$result = $this->_table->delete($this->_id))
+		{
 			$this->_setError("JUser::delete: ".$this->_table->getError());
 		}
 
@@ -483,7 +509,8 @@ class JUser extends JObject
 	function _load($id)
 	{
 		 // Load the JUserModel object based on the user id or throw a warning.
-		 if(!$this->_table->load($id)) {
+		 if(!$this->_table->load($id))
+		 {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
 		}
@@ -509,7 +536,8 @@ class JUser extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _setError( $msg ) {
+	function _setError( $msg )
+	{
 		$this->_errorMsg .= $msg."\n";
 	}
 }
@@ -556,11 +584,14 @@ class JUserHelper
 			$user->set('activation', '');
 
 			// Time to take care of business.... store the user.
-			if (!$user->save()) {
+			if (!$user->save())
+			{
 				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".$user->getError() );
 				return false;
 			}
-		} else {
+		}
+		else
+		{
 			JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".JText::_('Unable to find a user with given activation string.') );
 			return false;
 		}

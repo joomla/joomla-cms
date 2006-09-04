@@ -122,14 +122,14 @@ class JTableUser extends JTable
 
 	function store( $updateNulls=false )
 	{
-		global $migrate;
 		$acl =& JFactory::getACL();
 
 		$section_value = 'users';
-
 		$k = $this->_tbl_key;
 		$key =  $this->$k;
-		if( $key && !$migrate) {
+
+		if ($key)
+		{
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
 
@@ -143,17 +143,23 @@ class JTableUser extends JTable
 			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
 
 			$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
-		} else {
+		}
+		else
+		{
 			// new record
 			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
 			// syncronise ACL
-			$acl->add_object( $section_value, $this->_db->getEscaped( $this->name ), $this->$k, null, null, 'ARO' );
+			$acl->add_object( $section_value, $this->name, $this->$k, null, null, 'ARO' );
 			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
 		}
-		if( !$ret ) {
+
+		if( !$ret )
+		{
 			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg();
 			return false;
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -167,7 +173,7 @@ class JTableUser extends JTable
 			$this->$k = intval( $oid );
 		}
 		$aro_id = $acl->get_object_id( 'users', $this->$k, 'ARO' );
-		//$acl->del_object( $aro_id, 'ARO', true );
+		$acl->del_object( $aro_id, 'ARO', true );
 
 		$query = "DELETE FROM $this->_tbl"
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
