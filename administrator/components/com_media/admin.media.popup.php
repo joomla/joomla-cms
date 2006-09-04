@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.media.html.php 3402 2006-05-06 02:38:08Z webImagery $
+* @version $Id$
 * @package Joomla
 * @subpackage Media
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
