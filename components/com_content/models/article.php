@@ -106,7 +106,7 @@ class ContentModelArticle extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function getArticle()
+	function &getArticle()
 	{
 		/*
 		 * Load the Category data
@@ -116,19 +116,37 @@ class ContentModelArticle extends JModel
 			$user	= & JFactory::getUser();
 
 			// Is the category published?
-			if (!$this->_article->cat_pub && $this->_article->catid) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
+			if (!$this->_article->cat_pub && $this->_article->catid)
+			{
+				JError::raiseError( 404, JText::_("L10N:Article category not published") );
 			}
 			// Is the section published?
-			if (!$this->_article->sec_pub && $this->_article->sectionid) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
+			if ($this->_article->sectionid)
+			{
+				if ($this->_article->sec_pub === null)
+				{
+					// probably a new item
+					// check the sectionid probably passed in the request
+					$db =& $this->getDBO();
+					$query = 'SELECT published' .
+							' FROM #__sections' .
+							' WHERE id = ' . (int) $this->_article->sectionid;
+					$db->setQuery( $query );
+					$this->_article->sec_pub = $db->loadResult();
+				}
+				if (!$this->_article->sec_pub)
+				{
+					JError::raiseError( 404, JText::_("L10N:Article section not published") );
+				}
 			}
 			// Do we have access to the category?
-			if (($this->_article->cat_access > $user->get('gid')) && $this->_article->catid) {
+			if (($this->_article->cat_access > $user->get('gid')) && $this->_article->catid)
+			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			// Do we have access to the section?
-			if (($this->_article->sec_access > $user->get('gid')) && $this->_article->sectionid) {
+			if (($this->_article->sec_access > $user->get('gid')) && $this->_article->sectionid)
+			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 
@@ -138,11 +156,14 @@ class ContentModelArticle extends JModel
 			 * Record the hit on the article if necessary
 			 */
 			$limitstart	= JRequest::getVar('limitstart',	0, '', 'int');
-			if (!$this->_article->parameters->get('intro_only') && ($limitstart == 0)) {
+			if (!$this->_article->parameters->get('intro_only') && ($limitstart == 0))
+			{
 				$this->incrementHit();
 			}
 
-		} else {
+		}
+		else
+		{
 			$article =& JTable::getInstance('content', $this->_db);
 			$article->state			= 1;
 			$article->cat_pub		= null;
