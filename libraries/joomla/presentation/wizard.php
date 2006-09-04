@@ -32,6 +32,8 @@ class JWizard extends JObject
 	var $_xpath = null;
 
 	var $_regPath = null;
+	
+	var $_reqVar = null;
 
 	/** @var object JRegistry object */
 	var $_registry = null;
@@ -39,19 +41,25 @@ class JWizard extends JObject
 	function __construct($name, $request='wizVal')
 	{
 		global $mainframe;
-		$this->_step 	= JRequest::getVar('step', 0, '', 'int');
-		$this->_registry = new JParameter('');
-		$this->_regPath  = 'wizard.'.$name;
+		$this->_step		= JRequest::getVar('step', 0, '', 'int');
+		$this->_registry	= new JParameter('');
+		$this->_regPath		= 'wizard.'.$name;
+		$this->_reqVar		= $request;
 
 		// Get the step data from the session
 		$steps =& $mainframe->getUserState($this->_regPath);
+
+		// server will replace dots with underscores
+		$request = str_replace( '.', '_', $request );
 
 		// Get the values from the request and load them into the object
 		$steps[$this->_step] = JRequest::getVar($request, array(), '', 'array');
 
 		// Load all the step data into the registry
-		for ($i=0;$i<=$this->_step;$i++) {
-			if (isset($steps[$i]) && is_array($steps[$i])) {
+		for ($i=0;$i<=$this->_step;$i++)
+		{
+			if (isset($steps[$i]) && is_array($steps[$i]))
+			{
 				$this->_registry->loadArray($steps[$i]);
 			}
 		}
@@ -131,11 +139,14 @@ class JWizard extends JObject
 
 	function getSteps()
 	{
-		if (empty($this->_steps)) {
-			if ($xmlDoc =& $this->_getWizElement()) {
-				if ($steps = $xmlDoc->getElementByPath( 'steps' )) {
-					foreach($steps->children() as $step) {
-
+		if (empty($this->_steps))
+		{
+			if ($xmlDoc =& $this->_getWizElement())
+			{
+				if ($steps = $xmlDoc->getElementByPath( 'steps' ))
+				{
+					foreach ($steps->children() as $step) 
+					{
 						/*
 						 * For each child we need to see if it is an include and if so we
 						 * need to get those children and process them as well (break out into
@@ -143,13 +154,18 @@ class JWizard extends JObject
 						 * array for each child of type step.  For now we aren't going to handle
 						 * nested includes.
 						 */
-						if ($step->name() == 'include') {
+						if ($step->name() == 'include')
+						{
 							// Handle include
 							$this->_getIncludedSteps($step);
-						} elseif ($step->name() == 'step') {
+						}
+						elseif ($step->name() == 'step')
+						{
 							// Include step to array
 							$this->_steps[] = $step;
-						} else {
+						}
+						else
+						{
 							// Do nothing
 							continue;
 						}
@@ -189,28 +205,38 @@ class JWizard extends JObject
 		$path	= $include->attributes('path');
 
 		preg_match_all( "/{([A-Za-z\-_]+)}/", $source, $tags);
-		if (isset($tags[1])) {
-			for ($i=0;$i<count($tags[1]);$i++) {
+		if (isset( $tags[1] ))
+		{
+			$n = count( $tags[1] );
+			for ($i=0; $i < $n; $i++)
+			{
 				$source = str_replace($tags[0][$i], $this->_registry->get($tags[1][$i]), $source);
 			}
 		}
 
 		// load the source xml file
-		if (file_exists( JPATH_ROOT.$source )) {
+		if (file_exists( JPATH_ROOT.$source ))
+		{
 			$xml = & JFactory::getXMLParser('Simple');
 
-			if ($xml->loadFile(JPATH_ROOT.$source)) {
-				$document = &$xml->document;
+			if ($xml->loadFile(JPATH_ROOT.$source))
+			{
+				$document	= &$xml->document;
+				$steps		= $document->getElementByPath($path);
 
-				$steps = $document->getElementByPath($path);
-
-				foreach($steps->children() as $step) {
-					if ($step->name() == 'include') {
+				foreach($steps->children() as $step)
+				{
+					if ($step->name() == 'include')
+					{
 						// Handle include
-					} elseif ($step->name() == 'step') {
+					}
+					elseif ($step->name() == 'step')
+					{
 						// Include step to array
 						$this->_steps[] = $step;
-					} else {
+					}
+					else
+					{
 						// Do nothing
 						continue;
 					}

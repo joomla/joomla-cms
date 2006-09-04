@@ -87,6 +87,14 @@ class JMenuModelWizard extends JModel
 		return $this->_wizard->getForm();
 	}
 
+	/**
+	 * @return	string	The name of the wizard request
+	 */
+	function getRequestVar()
+	{
+		return $this->_wizard->_reqVar;
+	}
+
 	function getMessage()
 	{
 		return $this->_wizard->getMessage();

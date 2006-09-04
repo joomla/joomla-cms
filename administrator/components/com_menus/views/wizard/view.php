@@ -150,6 +150,9 @@ class JMenuViewWizard extends JWizardView
 
 		$item	=& $this->get('form');
 		$msg	= $this->get('message');
+
+		$helper	=& $this->get('helper');
+		$reqVar	= $this->get('requestVar');
 	?>
 	<style type="text/css">
 	._type {
@@ -171,7 +174,8 @@ class JMenuViewWizard extends JWizardView
 			<legend>
 				<?php echo JText::_('New Menu Item');?>
 			</legend>
-			<?php echo $item->render('wizVal'); ?>
+			<?php // echo $item->render('wizVal'); ?>
+			<?php echo $item->render($reqVar); ?>
 		</fieldset>
 
 		<input type="hidden" name="option" value="com_menus" />
