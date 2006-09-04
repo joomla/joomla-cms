@@ -171,34 +171,6 @@ class JView extends JObject
 	}
 
 	/**
-	 * Method to set the name of the view.  Usually not be used, but is provided
-	 * as a public method for flexibility.
-	 *
-	 * @access	public
-	 * @param	string	$name	New view name
-	 * @return	string	New view name
-	 * @since	1.5
-	 */
-	function setViewName( $name )
-	{
-		// Clean and set the view name
-		$this->_viewName = preg_replace( '#\W#', '', $name );
-		return $this->_viewName;
-	}
-
-	/**
-	 * Method to get the name of the view.
-	 *
-	 * @access	public
-	 * @return	string	The name of the view
-	 * @since	1.5
-	 */
-	function getViewName()
-	{
-		return $this->_viewName;
-	}
-
-	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
 	 * @access	protected

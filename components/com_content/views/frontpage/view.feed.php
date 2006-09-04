@@ -24,14 +24,6 @@
  */
 class ContentViewFrontpage extends JView
 { 
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Frontpage';
-	
 	function display($layout)
 	{
 		global $mainframe, $Itemid;

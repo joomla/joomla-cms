@@ -24,14 +24,6 @@ jimport( 'joomla.application.view');
 class ContentViewArchive extends JView
 {
 	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Archive';
-
-	/**
 	 * Display the document
 	 */
 	function display($layout)

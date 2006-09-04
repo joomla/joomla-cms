@@ -20,52 +20,7 @@ jimport('joomla.application.view');
  */
 class ContactViewCategory extends JView
 {
-	/**
-	 * Name of the view.
-	 * 
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Category';
-
 	function display()
-	{
-		$document	= & JFactory::getDocument();
-		switch ($document->getType())
-		{
-			case 'feed':
-				$this->_displayFeed();
-				break;
-			default:
-				$this->_displayHTML();
-				break;
-		}
-	}
-	
-	function items()
-	{
-		global $mainframe, $Itemid;
-		
-		$k = 0;
-		for($i = 0; $i <  count($this->items); $i++)
-		{
-			$item =& $this->items[$i];
-
-			$item->link =  sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;contact_id='. $item->id .'&amp;Itemid='. $Itemid);
-
-			if ( $item->email_to ) {
-				$item->email_to = mosHTML::emailCloaking( $item->email_to, 1 );
-			}
-			
-			$item->odd   = $k;
-			$item->count = $i;
-			$k = 1 - $k;
-		}
-		
-		$this->_loadTemplate('table_items');
-	}
-
-	function _displayHTML()
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -158,66 +113,6 @@ class ContactViewCategory extends JView
 		$this->set('params'    , $params);
 
 		$this->_loadTemplate('table');
-	}
-
-	function _displayFeed()
-	{
-		global $mainframe, $Itemid;
-
-		$db		  =& JFactory::getDBO();
-		$document =& JFactory::getDocument();
-
-		$limit 			= JRequest::getVar('limit', 0, '', 'int');
-		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
-		$catid  		= JRequest::getVar('catid', 0);
-
-		$where  = "\n WHERE a.published = 1";
-
-		if ( $catid ) {
-			$where .= "\n AND a.catid = $catid";
-		}
-
-    	$query = "SELECT"
-    	. "\n a.name AS title,"
-    	. "\n CONCAT( '$link', a.catid, '&id=', a.id ) AS link,"
-    	. "\n CONCAT( a.con_position, ' - ',a.misc ) AS description,"
-    	. "\n '' AS date,"
-		. "\n c.title AS category,"
-    	. "\n a.id AS id"
-    	. "\n FROM #__contact_details AS a"
-		. "\n LEFT JOIN #__categories AS c ON c.id = a.catid"
-    	. $where
-    	. "\n ORDER BY a.catid, a.ordering"
-    	;
-		$db->setQuery( $query, 0, $limit );
-    	$rows = $db->loadObjectList();
-
-		foreach ( $rows as $row )
-		{
-			// strip html from feed item title
-			$title = htmlspecialchars( $row->title );
-			$title = html_entity_decode( $title );
-
-			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_contact&task=view&id='. $row->id . '&catid='.$row->catid. '&Itemid='. $Itemid;;
-			$link = sefRelToAbs( $link );
-
-			// strip html from feed item description text
-			$description = $row->description;
-			$date = ( $row->date ? date( 'r', $row->date ) : '' );
-
-			// load individual item creator class
-			$item = new JFeedItem();
-			$item->title 		= $title;
-			$item->link 		= $link;
-			$item->description 	= $description;
-			$item->date			= $date;
-			$item->category   	= $row->category;
-
-			// loads item info into rss array
-			$document->addItem( $item );
-		}
 	}
 }
 ?>

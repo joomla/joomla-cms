@@ -21,13 +21,6 @@ jimport('joomla.application.view');
 class ContactViewContact extends JView
 {
 	/**
-	 * Name of the view.
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Contact';
-
-	/**
 	 * Display the document
 	 */
 	function display()

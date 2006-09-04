@@ -24,20 +24,6 @@ jimport( 'joomla.application.view');
  */
 class ContentViewSection extends JView
 {
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Section';
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
 	function display($layout)
 	{
 		global $mainframe, $Itemid, $option;

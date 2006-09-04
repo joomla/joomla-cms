@@ -47,8 +47,7 @@ class JObject
 	* @param string The name of the property
 	* @param mixed The value of the property to set
 	*/
-	function set( $property, $value=null )
-	{
+	function set( $property, $value=null ) {
 		$this->$property = $value;
 	}
 

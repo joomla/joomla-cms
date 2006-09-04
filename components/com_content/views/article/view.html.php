@@ -23,20 +23,6 @@ jimport( 'joomla.application.view');
  */
 class ContentViewArticle extends JView
 {
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Article';
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
 	function display($layout)
 	{
 		global $mainframe, $Itemid;

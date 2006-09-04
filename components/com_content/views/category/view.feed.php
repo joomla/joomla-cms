@@ -23,17 +23,6 @@ jimport( 'joomla.application.view');
  */
 class ContentViewCategory extends JView
 {
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Category';
-
-	/**
-	 * Display the document
-	 */
 	function display($layout)
 	{
 		global $mainframe, $Itemid;

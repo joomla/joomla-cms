@@ -26,20 +26,6 @@ jimport('joomla.application.view');
  */
 class JContentViewElement extends JView
 {
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	var $_viewName = 'Element';
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
 	function display()
 	{
 		global $mainframe;
