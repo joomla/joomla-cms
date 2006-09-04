@@ -427,7 +427,7 @@ class HTML_users {
 							<td>
 								<div >
 									<br />
-									<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )" />
+									<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="gotocontact( '<?php echo $contact[0]->id; ?>' )" />
 									<i>
 									<br /><br />
 									'<?php echo JText::_( 'Components -> Contact -> Manage Contacts' ); ?>'
