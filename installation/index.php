@@ -28,9 +28,7 @@ $post		= (array) JRequest::get( 'post' );
 $postVars	= JArrayHelper::getValue( $post, 'vars', array(), 'array' );
 $registry =& JSession::get('registry');
 
-// TODO: Louis, loadArray only ever goes into the default namespace??
-//$registry->loadArray($postVars, 'application');
-$registry->loadArray($postVars);
+$registry->loadArray($postVars, 'application');
 
 $configLang = $mainframe->getUserState('application.lang');
 
@@ -42,8 +40,7 @@ $lang =& JFactory::getLanguage();
 $lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
 
 $task	= JRequest::getVar( 'task' );
-//$vars	= $registry->toArray('application');
-$vars	= $registry->toArray();
+$vars	= $registry->toArray('application');
 $result	= '';
 
 switch ($task)
