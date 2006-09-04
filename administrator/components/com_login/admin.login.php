@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: login.php 3222 2006-04-24 01:49:01Z webImagery $
+* @version $Id$
 * @package Joomla
 * @subpackage Joomla.Extensions
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
