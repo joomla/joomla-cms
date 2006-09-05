@@ -10,8 +10,8 @@
 class JConfig {
 /* Site Settings */
 var $offline = '0';
-var $offline_message = '{OFFLINE|addslashes}';
-var $error_message = '{ERRORMSG|addslashes}';
+var $offline_message = '{VAR_OFFLINE|addslashes}';
+var $error_message = '{VAR_ERRORMSG|addslashes}';
 var $sitename = '{VAR_SITENAME|addslashes}';
 var $editor = 'tinymce';
 var $list_limit = '20';
@@ -67,8 +67,8 @@ var $useractivation = '1';
 var $shownoauth = '0';
 var $frontend_userparams = '1';	
 /* Meta Settings */
-var $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-var $MetaKeys = 'joomla, Joomla';
+var $MetaDesc = '{VAR_METADESC|addslashes}';
+var $MetaKeys = '{VAR_METAKEYS|addslashes}';
 var $MetaTitle = '1';
 var $MetaAuthor = '1';
 /* Statistics Settings */

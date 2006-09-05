@@ -455,6 +455,11 @@ class JInstallationController
 		$vars['siteUrl']		= $mainframe->getSiteURL();
 		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
 		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
+		
+		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );
+		$vars['errormsg']		= JText::_( 'STDERRORMSG' );
+		$vars['metadesc']		= JText::_( 'STDMETADESC' );
+		$vars['metakeys']		= JText::_( 'STDMETAKEYS' );
 
 		/*
 		 * If FTP has not been enabled, set the value to 0
@@ -479,14 +484,13 @@ class JInstallationController
 				$vars['ZERO_DATE'] = '0000-00-00 00:00:00';
 				break;
 		}
-
+		
+		
 		JInstallationHelper::createAdminUser($vars);
 
 		$tmpl = & JInstallationView::createTemplate();
 		$tmpl->readTemplatesFromFile('configuration.html');
 		$tmpl->addVars('configuration', $vars, 'var_');
-		$tmpl->addVar('configuration', 'offline', JText::_( 'STDOFFLINEMSG' ));
-		$tmpl->addVar('configuration', 'errormsg', JText::_( 'STDERRORMSG' ));
 
 		$buffer = $tmpl->getParsedTemplate('configuration');
 		$path = JPATH_CONFIGURATION.DS.'configuration.php';
