@@ -103,7 +103,7 @@ class JArrayHelper
 				{
 					if ($recurse)
 					{
-						$result[$k] = mosObjectToArray($v);
+						$result[$k] = JArrayHelper::fromObject( $v, $recurse, $regex );
 					}
 				}
 				else
