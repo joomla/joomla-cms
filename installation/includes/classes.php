@@ -106,11 +106,6 @@ class JInstallationController
 				'ON'
 			),
 			array (
-				JText::_('Magic Quotes GPC'),
-				'magic_quotes_gpc',
-				'ON'
-			),
-			array (
 				JText::_('Magic Quotes Runtime'),
 				'magic_quotes_runtime',
 				'OFF'

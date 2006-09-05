@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Sep-2006 Enno Klasing
+ - Removed recommended setting for "magic_quotes_gpc" from installation
+
 05-Sep-2006 David Gal
  # Fixed [artf5822] : Configuration popups are not translated
  # Fixed [artf5711] : Vars in configuration.html (installation) are not translated
