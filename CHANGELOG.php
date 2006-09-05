@@ -42,6 +42,7 @@ Legend:
  # Fixed [artf5711] : Vars in configuration.html (installation) are not translated
                       This resulted in an update to en-GB.ini in installation
  # Fixed [artf4940] : Localisations in menu wizard
+ # Fixed "L10n tagged" untranslated strings
  
 04-Sep-2006
  # Fixed [artf5805] : non-existent class: jtablemenutypes

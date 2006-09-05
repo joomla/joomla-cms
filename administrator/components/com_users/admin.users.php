@@ -353,7 +353,7 @@ function saveUser(  )
 			if ( $count <= 1 )
 			{
 				// disallow change if only one Super Admin exists
-				$mainframe->redirect( 'index2.php?option=com_users', 'L10N:WARN_ONLY_SUPER' );
+				$mainframe->redirect( 'index2.php?option=com_users', JText::_('WARN_ONLY_SUPER') );
 				return false;
 			}
 		}

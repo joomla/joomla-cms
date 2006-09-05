@@ -117,7 +117,7 @@ class ContentModelArticle extends JModel
 			// Is the category published?
 			if (!$this->_article->cat_pub && $this->_article->catid)
 			{
-				JError::raiseError( 404, JText::_("L10N:Article category not published") );
+				JError::raiseError( 404, JText::_("Article category not published") );
 			}
 			// Is the section published?
 			if ($this->_article->sectionid)
@@ -135,7 +135,7 @@ class ContentModelArticle extends JModel
 				}
 				if (!$this->_article->sec_pub)
 				{
-					JError::raiseError( 404, JText::_("L10N:Article section not published") );
+					JError::raiseError( 404, JText::_("Article section not published") );
 				}
 			}
 			// Do we have access to the category?
