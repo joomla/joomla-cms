@@ -199,10 +199,11 @@ class JTable extends JObject
 	* can be overloaded/supplemented by the child class
 	*
 	* @acces public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
+	* @param 	array	$hash named array
+	* @param 	string	Space separated list of fields not to bind
+	* @return	boolean
 	*/
-	function bind( $array, $ignore="" )
+	function bind( $array, $ignore='' )
 	{
 		if (!is_array( $array ) && !is_object( $array ))
 		{
