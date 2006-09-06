@@ -15,6 +15,11 @@ jimport('joomla.utilities.array');
 jimport('joomla.utilities.functions');
 
 /**
+ * Make sure the request hash is clean on file inclusion
+ */
+$GLOBALS['JRequest'] = array();
+
+/**
  * JRequest Class
  *
  * This class serves to provide the Joomla Framework with a common interface to access
