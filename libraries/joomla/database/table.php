@@ -830,8 +830,9 @@ class JTable extends JObject
 	function publish( $cid=null, $publish=1, $user_id=0 )
 	{
 		JArrayHelper::toInteger( $cid, array() );
-		$user_id = (int) $user_id;
-		$publish = (int) $publish;
+		$user_id	= (int) $user_id;
+		$publish	= (int) $publish;
+		$k			= $this->_tbl_key;
 
 		if (count( $cid ) < 1)
 		{
@@ -840,7 +841,7 @@ class JTable extends JObject
 			return false;
 		}
 
-		$cids = 'id=' . implode( ' OR id=', $cid );
+		$cids = $this->$k . '=' . implode( ' OR ' . $this->$k . '=', $cid );
 
 		$query = "UPDATE $this->_tbl"
 		. "\n SET published = " . intval( $publish )
