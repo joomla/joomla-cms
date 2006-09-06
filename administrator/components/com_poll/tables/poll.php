@@ -79,21 +79,39 @@ class TablePoll extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
+	function __construct( &$db )
+	{
 		parent::__construct( '#__polls', 'id', $db );
+	}
+
+	/**
+	 * Binds an array to the object
+	 * @param 	array	Named array
+	 * @param 	string	Space separated list of fields not to bind
+	 * @return	boolean
+	 */
+	function bind( $array, $ignore='' )
+	{
+		$result = parent::bind( $array );
+		// cast properties
+		$this->id	= (int) $this->id;
+
+		return $result;
 	}
 
 	// overloaded check function
 	function check()
 	{
 		// check for valid name
-		if (trim( $this->title ) == '') {
+		if (trim( $this->title ) == '')
+		{
 			$this->_error = JText::_( 'Your Poll must contain a title.' );
 			return false;
 		}
 		// check for valid lag
 		$this->lag = intval( $this->lag );
-		if ($this->lag == 0) {
+		if ($this->lag == 0)
+		{
 			$this->_error = JText::_( 'Your Poll must have a non-zero lag time.' );
 			return false;
 		}
@@ -105,7 +123,8 @@ class TablePoll extends JTable
 		$this->_db->setQuery( $query );
 
 		$xid = intval( $this->_db->loadResult() );
-		if ( $xid && $xid != intval( $this->id ) ) {
+		if ( $xid && $xid != intval( $this->id ) )
+		{
 			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Module') );
 			return false;
 		}

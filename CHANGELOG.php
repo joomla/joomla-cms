@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Sep-2006 Andrew Eddie
+ # Fixed [artf5852] : escaped character '
+
 06-Sep-2006 Enno Klasing
  - Removed recommended setting for "magic_quotes_gpc" from installation
 
@@ -47,7 +50,7 @@ Legend:
  # Fixed [artf4940] : Localisations in menu wizard
  # Fixed "L10n tagged" untranslated strings
  
-04-Sep-2006
+04-Sep-2006 Andrew Eddie
  # Fixed [artf5805] : non-existent class: jtablemenutypes
  # Fixed [artf3499] : error while creating configuration.php
  # Fixed [artf5806] : non-existent class: jtablemenutypes

@@ -55,14 +55,19 @@ class JPollGlobalController extends JController
 
 		$where = array();
 
-		if ( $filter_state ) {
-			if ( $filter_state == 'P' ) {
+		if ( $filter_state )
+		{
+			if ( $filter_state == 'P' )
+			{
 				$where[] = "m.published = 1";
-			} else if ($filter_state == 'U' ) {
+			}
+			else if ($filter_state == 'U' )
+			{
 				$where[] = "m.published = 0";
 			}
 		}
-		if ($search) {
+		if ($search)
+		{
 			$where[] = "LOWER(m.title) LIKE '%$search%'";
 		}
 
@@ -90,7 +95,8 @@ class JPollGlobalController extends JController
 		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 		$rows = $db->loadObjectList();
 
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			echo $db->stderr();
 			return false;
 		}
@@ -99,9 +105,12 @@ class JPollGlobalController extends JController
 		$lists['state']	= mosCommonHTML::selectState( $filter_state );
 
 		// table ordering
-		if ( $filter_order_Dir == 'DESC' ) {
+		if ( $filter_order_Dir == 'DESC' )
+		{
 			$lists['order_Dir'] = 'ASC';
-		} else {
+		}
+		else
+		{
 			$lists['order_Dir'] = 'DESC';
 		}
 		$lists['order'] = $filter_order;
@@ -117,26 +126,25 @@ class JPollGlobalController extends JController
 		$db		=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
 
-		$cid 	= JRequest::getVar( 'cid', array(0));
+		$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
 		$option = JRequest::getVar( 'option');
-		if (!is_array( $cid )) {
-			$cid = array(0);
-		}
-		$uid 	= $cid[0];
+		$uid 	= (int) @$cid[0];
 
 		$row =& JTable::getInstance('poll', $db, 'Table');
 		// load the row from the db table
 		$row->load( $uid );
 
 		// fail if checked out not by 'me'
-		if ($row->isCheckedOut( $user->get('id') )) {
+		if ($row->isCheckedOut( $user->get('id') ))
+		{
 	    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The poll' ), $row->title );
 			$this->setRedirect( 'index.php?option='. $option, $msg );
 		}
 
 		$options = array();
 
-		if ($uid) {
+		if ($uid)
+		{
 			$row->checkout( $user->get('id') );
 			$query = "SELECT id, text"
 			. "\n FROM #__poll_data"
@@ -145,19 +153,24 @@ class JPollGlobalController extends JController
 			;
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
-		} else {
+		}
+		else
+		{
 			$row->lag = 3600*24;
 		}
 
 		// get selected pages
-		if ( $uid ) {
+		if ($uid)
+		{
 			$query = "SELECT menuid AS value"
 			. "\n FROM #__poll_menu"
 			. "\n WHERE pollid = $row->id"
 			;
 			$db->setQuery( $query );
 			$lookup = $db->loadObjectList();
-		} else {
+		}
+		else
+		{
 			$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
 		}
 
@@ -169,21 +182,27 @@ class JPollGlobalController extends JController
 
 	function savePoll()
 	{
-		$db =& JFactory::getDBO();
+		$db		=& JFactory::getDBO();
+		$post	= JRequest::get( 'post' );
+
 		// save the poll parent information
 		$row =& JTable::getInstance('poll', $db, 'Table');
-		if (!$row->bind( $_POST )) {
+
+		if (!$row->bind( $post ))
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 		$isNew = ($row->id == 0);
 
-		if (!$row->check()) {
+		if (!$row->check())
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
@@ -191,16 +210,20 @@ class JPollGlobalController extends JController
 		// save the poll options
 		$options = JRequest::getVar( 'polloption', array(), 'post', 'array' );
 
-		foreach ($options as $i=>$text) {
+		foreach ($options as $i=>$text)
+		{
 			$text = $db->Quote($text);
-			if ($isNew) {
+			if ($isNew)
+			{
 				$query = "INSERT INTO #__poll_data"
 				. "\n ( pollid, text )"
 				. "\n VALUES ( $row->id, $text )"
 				;
 				$db->setQuery( $query );
 				$db->query();
-			} else {
+			}
+			else
+			{
 				$query = "UPDATE #__poll_data"
 				. "\n SET text = $text"
 				. "\n WHERE id = $i"
@@ -220,7 +243,8 @@ class JPollGlobalController extends JController
 		$db->setQuery( $query );
 		$db->query();
 
-		for ($i=0, $n=count($selections); $i < $n; $i++) {
+		for ($i=0, $n=count($selections); $i < $n; $i++)
+		{
 			$query = "INSERT INTO #__poll_menu"
 			. "\n SET pollid = $row->id, menuid = ". $selections[$i]
 			;
@@ -228,9 +252,10 @@ class JPollGlobalController extends JController
 			$db->query();
 		}
 
-		switch ($this->_task) {
+		switch ($this->_task)
+		{
 			case 'apply':
-				$link = 'index.php?option=com_poll&task=editA&id='. $row->id .'&hidemainmenu=1';
+				$link = 'index.php?option=com_poll&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 				break;
 
 			case 'save':
@@ -249,9 +274,12 @@ class JPollGlobalController extends JController
 		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$msg = '';
-		for ($i=0, $n=count($cid); $i < $n; $i++) {
+
+		for ($i=0, $n=count($cid); $i < $n; $i++)
+		{
 			$poll =& JTable::getInstance('poll', $db, 'Table');
-			if (!$poll->delete( $cid[$i] )) {
+			if (!$poll->delete( $cid[$i] ))
+			{
 				$msg .= $poll->getError();
 			}
 		}
@@ -271,17 +299,19 @@ class JPollGlobalController extends JController
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
 
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
-		$publish = ( $this->_task == 'publish' ? 1 : 0 );
-		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
-		$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
+		$cid		= JRequest::getVar( 'cid', array(), '', 'array' );
+		$publish	= ( $this->_task == 'publish' ? 1 : 0 );
+		$option		= JRequest::getVar( 'option', 'com_poll', '', 'string' );
+		$catid		= JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+		if (count( $cid ) < 1)
+		{
 			$action = $publish ? 'publish' : 'unpublish';
 			echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 			exit;
 		}
 
+		JArrayHelper::toInteger( $cid );
 		$cids = implode( ',', $cid );
 
 		$query = "UPDATE #__polls"
@@ -290,12 +320,14 @@ class JPollGlobalController extends JController
 		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
 		;
 		$db->setQuery( $query );
-		if (!$db->query()) {
+		if (!$db->query())
+		{
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
-		if (count( $cid ) == 1) {
+		if (count( $cid ) == 1)
+		{
 			$row =& JTable::getInstance('poll', $db, 'Table');
 			$row->checkin( $cid[0] );
 		}
@@ -306,10 +338,11 @@ class JPollGlobalController extends JController
 	{
 		global $option;
 
-		$db =& JFactory::getDBO();
-		$row =& JTable::getInstance('poll', $db, 'Table');
-		$row->bind( $_POST );
-		$row->checkin();
+		$id		= JRequest::getVar( 'id', 0, '', 'int' );
+		$db		=& JFactory::getDBO();
+		$row	=& JTable::getInstance('poll', $db, 'Table');
+
+		$row->checkin( $id );
 		$this->setRedirect( 'index.php?option='. $option );
 	}
 
@@ -321,7 +354,7 @@ class JPollGlobalController extends JController
 
 		$db 	=& JFactory::getDBO();
 		$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
-		$css = JRequest::getVar( 't', '' );
+		$css	= JRequest::getVar( 't', '' );
 
 		$query = "SELECT title"
 			. "\n FROM #__polls"

@@ -23,17 +23,14 @@ if (!$user->authorize( 'com_poll', 'manage' )) {
 	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-define( 'JPATH_COM_POLL', dirname( __FILE__ ));
-
-require_once( JPATH_COM_POLL . '/controllers/index.php' );
-require_once( JPATH_COM_POLL . '/views/index.php' );
+require_once( JPATH_COMPONENT . '/controllers/index.php' );
+require_once( JPATH_COMPONENT . '/views/index.php' );
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_poll'.DS.'tables');
+JTable::addTableDir( JPATH_COMPONENT.DS.'tables' );
 
 $controller = new JPollGlobalController( 'showPolls' );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
-
 ?>
