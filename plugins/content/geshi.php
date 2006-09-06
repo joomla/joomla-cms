@@ -83,7 +83,7 @@ function contentGeshi_replacer( &$matches )
 	//$text = str_replace("\t", "&nbsp; &nbsp;", $text);
 	$text = str_replace( "\t", '  ', $text );
 
-	$geshi = new GeSHi( $text, $lang, dirname( __FILE__ ) . '/geshi/geshi' );
+	$geshi = new GeSHi( $text, $lang );
 	if ($lines == 'true') {
 		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
 	}
