@@ -22,76 +22,112 @@ class modLatestNewsHelper
 	{
 		global $mainframe;
 
-		$db				=& JFactory::getDBO();
-		$user			=& JFactory::getUser();
+		$db			=& JFactory::getDBO();
+		$user		=& JFactory::getUser();
+		$userId		= (int) $user->get('id');
 
-		$type			= intval($params->get('type', 1));
-		$count			= intval($params->get('count', 5));
-		$catid			= trim($params->get('catid'));
-		$secid			= trim($params->get('secid'));
-		$show_front		= $params->get('show_front', 1);
+		$type		= (int) $params->get('type', 1);
+		$count		= (int) $params->get('count', 5);
+		$catid		= trim( $params->get('catid') );
+		$secid		= trim( $params->get('secid') );
+		$show_front	= $params->get('show_front', 1);
 
-		$access			= !$mainframe->getCfg('shownoauth');
+		$access		= !$mainframe->getCfg('shownoauth');
 
-		$nullDate		= $db->getNullDate();
-		$now			= date('Y-m-d H:i:s', time());
+		$nullDate	= $db->getNullDate();
+		$now		= date('Y-m-d H:i:s', time());
+
+		$where		= 'a.state = 1'
+			. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
+			. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
+			;
+
+		// User Filter
+		switch ($params->get( 'user_id' ))
+		{
+			case 'by_me':
+				$where .= ' AND (created_by = ' . $userId . ' OR modified_by = ' . $userId . ')';
+				break;
+			case 'not_me':
+				$where .= ' AND (created_by <> ' . $userId . ' AND modified_by <> ' . $userId . ')';
+				break;
+		}
+		
+		// Ordering
+		switch ($params->get( 'ordering' ))
+		{
+			case 'm_dsc':
+				$ordering		= 'a.modified DESC, a.created DESC';
+				break;
+			case 'c_dsc':
+			default:
+				$ordering		= 'a.created DESC';
+				break;
+		}
 
 		// select between Content Items, Static Content or both
 		switch ($type)
 		{
 			case 2 :
-			//Static Content only
-			$query = "SELECT a.id, a.title, m.id AS my_itemid " .
-				"\n FROM #__content AS a " .
-				"\n LEFT OUTER JOIN #__menu AS m ON m.componentid = a.id " .
-				"\n WHERE ( a.state = 1 AND a.sectionid = 0 )" .
-				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-				"\n AND m.type = 'content_typed' ".
-				($access ? "\n AND a.access <= " .$user->get('gid') : '').
-				"\n ORDER BY a.created DESC";
-
-			$db->setQuery($query, 0, $count);
-			$rows = $db->loadObjectList();
-			break;
+				//Static Content only
+				$query = "SELECT a.id, a.title, m.id AS my_itemid " .
+					"\n FROM #__content AS a " .
+					"\n LEFT OUTER JOIN #__menu AS m ON m.componentid = a.id " .
+					"\n WHERE $where AND a.sectionid = 0" .
+					"\n AND m.type = 'content_typed' ".
+					($access ? "\n AND a.access <= " .$user->get('gid') : '').
+					"\n ORDER BY $ordering";
+	
+				$db->setQuery($query, 0, $count);
+				$rows = $db->loadObjectList();
+				break;
 
 			case 3 :
-			//Both
-			$query = "SELECT a.id, a.title, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
-				"\n WHERE a.state = 1" .
-				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-				($access ? "\n AND a.access <= " .$user->get('gid') : '') .
-				"\n ORDER BY a.created DESC";
+				// Both
+				$query = "SELECT a.id, a.title, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state" .
+					"\n FROM #__content AS a" .
+					"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
+					"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
+					"\n WHERE $where" .
+					($access ? "\n AND a.access <= " .$user->get('gid') : '') .
+					"\n ORDER BY $ordering";
 
-			$db->setQuery( $query, 0, $count );
-			$rows = $db->loadObjectList();
-			break;
+				$db->setQuery( $query, 0, $count );
+				$rows = $db->loadObjectList();
+				break;
 
 			case 1 :
 			default :
-			//Content Items only
-			$query = "SELECT a.id, a.title, a.sectionid, a.catid" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-				"\n WHERE ( a.state = 1 AND a.sectionid > 0 )" .
-				"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-				"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-				($access ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
-				($catid ? "\n AND ( a.catid IN ( $catid ) )" : '').
-				($secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '').
-				($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
-				"\n AND s.published = 1" .
-				"\n AND cc.published = 1" .
-				"\n ORDER BY a.created DESC";
-			$db->setQuery($query, 0, $count);
-			$rows = $db->loadObjectList();
-			break;
+				if ($catid)
+				{
+					$ids = explode( ',', $catid );
+					JArrayHelper::toInteger( $ids );
+					$catCondition = ' AND (a.catid=' . implode( ' OR a.catid=', $ids ) . ')';
+				}
+				if ($secid)
+				{
+					$ids = explode( ',', $secid );
+					JArrayHelper::toInteger( $ids );
+					$secCondition = ' AND (a.sectionid=' . implode( ' OR a.sectionid=', $ids ) . ')';
+				}
+
+				// Content Items only
+				$query = "SELECT a.id, a.title, a.sectionid, a.catid" .
+					"\n FROM #__content AS a" .
+					($show_front == '0' ? "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" : '') .
+					"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
+					"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
+					"\n WHERE $where AND a.sectionid > 0" .
+					($access ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
+					($catid ? "\n $catCondition" : '').
+					($secid ? "\n $secCondition" : '').
+					($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
+					"\n AND s.published = 1" .
+					"\n AND cc.published = 1" .
+					"\n ORDER BY $ordering";
+				$db->setQuery($query, 0, $count);
+				$rows = $db->loadObjectList();
+				break;
 		}
 
 		$i 	   = 0;

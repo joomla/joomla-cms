@@ -39,6 +39,7 @@ Legend:
 
 06-Sep-2006 Andrew Eddie
  # Fixed [artf5852] : escaped character '
+ + Added ordering and user filters to Latest News module
 
 06-Sep-2006 Enno Klasing
  - Removed recommended setting for "magic_quotes_gpc" from installation
