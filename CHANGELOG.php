@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Sep-2006 Louis Landry
+ - Removed globals.php
+ + Added JRequest::clean() to replace globals.php include
+
 06-Sep-2006 Andrew Eddie
  # Fixed [artf5852] : escaped character '
  + Added ordering and user filters to Latest News module

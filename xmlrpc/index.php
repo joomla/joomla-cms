@@ -22,6 +22,10 @@ error_reporting( E_ALL );
 // create the mainframe object
 $mainframe = new JXMLRPC(3);
 
+// JRequest::clean() disabled for now as it breaks xmlrpcs.php
+// TODO: We need to make sure to enable it prior to release!
+//JRequest::clean();
+
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 

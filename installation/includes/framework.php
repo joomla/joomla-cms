@@ -32,7 +32,6 @@ if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( 
  */
 
 // System includes
-require_once( JPATH_SITE			. DS . 'globals.php' );
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
 // Installation file includes

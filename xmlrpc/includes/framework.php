@@ -33,9 +33,6 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-// globals.php disabled for now as it breaks xmlrpcs.php
-// TODO: We need to make sure to enable it prior to release!
-//require_once( JPATH_SITE			. DS . 'globals.php' );
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
 // File includes
