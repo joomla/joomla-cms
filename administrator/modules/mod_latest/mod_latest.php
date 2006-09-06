@@ -25,7 +25,6 @@ $where	= 'WHERE a.state <> -2';
 switch ($params->get( 'user_id' ))
 {
 	case 'by_me':
-		$userId = (int) $user->get('id');
 		$where .= ' AND (created_by = ' . $userId . ' OR modified_by = ' . $userId . ')';
 		break;
 	case 'not_me':
