@@ -1,31 +1,35 @@
 <script language="javascript" type="text/javascript">
+function setgood() {
+	// TODO: Put setGood back
+	return true;
+}
+
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
 		submitform( pressbutton );
 		return;
 	}
-
 	try {
 		form.onsubmit();
+	} catch(e) {
+		alert(e);	
 	}
-	catch(e){}
-		
+
 	// do field validation
-	if (form.title.value == "") {
-		alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
+	if (form.title.value == '') {
+		return alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
 		// for articles
-		if (getSelectedValue('adminForm','catid') < 1) {
-			alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
-		} else {
-			<?php echo $this->editor->save( 'text' ); ?>
-			submitform(pressbutton);
+		if (adminForm.catid && getSelectedValue('adminForm','catid') < 1) {
+			return alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 		}
 	}
+	<?php echo $this->editor->save( 'text' ); ?>
+	submitform(pressbutton);
 }
 </script>
-<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
+<form action="index.php" method="post" name="adminForm" onSubmit="setgood();">
 <fieldset>
 <legend><?php echo JText::_('Editor'); ?></legend>
 <table class="adminform" width="100%">
