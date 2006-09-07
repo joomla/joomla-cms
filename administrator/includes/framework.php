@@ -30,8 +30,15 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
+
+// Clean the request before anything else is loaded
+jimport( 'joomla.common.abstract.object' );
+jimport( 'joomla.environment.request' );
+JRequest::clean();
+
+// System includes
+require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
 
 // System configuration
 $CONFIG = new JConfig();
@@ -52,7 +59,6 @@ unset( $CONFIG );
 
 // Include object abstract class
 jimport( 'joomla.common.compat.compat' );
-jimport( 'joomla.common.abstract.object' );
 
 // System profiler
 if (JDEBUG) {
@@ -68,7 +74,6 @@ jimport( 'joomla.application.menu' );
 jimport( 'joomla.application.user.authenticate' );
 jimport( 'joomla.application.user.user' );
 jimport( 'joomla.database.table' );
-jimport( 'joomla.environment.request' );
 jimport( 'joomla.environment.session' );
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );

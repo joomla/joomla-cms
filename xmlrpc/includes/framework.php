@@ -35,6 +35,14 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 // System includes
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
+// Clean the request before anything else is loaded
+jimport( 'joomla.common.abstract.object' );
+jimport( 'joomla.environment.request' );
+// TODO: Check why there is a problem here
+//JRequest::clean();
+
+require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
+
 // File includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
@@ -44,7 +52,6 @@ define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
 // Include object abstract class
 jimport( 'joomla.common.compat.compat' );
-jimport( 'joomla.common.abstract.object' );
 
 // Joomla! library imports
 jimport( 'joomla.application.application' );
@@ -52,7 +59,6 @@ jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.application.user.user' );
 jimport( 'joomla.database.table' );
-jimport( 'joomla.environment.request' );
 jimport( 'joomla.environment.session' );
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );

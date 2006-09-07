@@ -258,6 +258,12 @@ class ContentViewArticle extends JView
 		$document =& JFactory::getDocument();
 		$user	  =& JFactory::getUser();
 
+		// Make sure you are logged in
+		if ($user->get('gid') < 1) {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return;
+		}
+
 		$pathway =& $mainframe->getPathWay();
 
 		// At some point in the future this will come from a request object
