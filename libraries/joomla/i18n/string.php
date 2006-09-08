@@ -143,7 +143,7 @@ class JString
 	 * @see http://www.php.net/str_ireplace
 	*/
 	function str_ireplace($search, $replace, $str, $count = NULL){
-		jimport('phputf8.native.utf8_str_ireplace');
+		jimport('phputf8.str_ireplace');
 	    if ( $count === FALSE ) {
 	        return utf8_ireplace($search, $replace, $str);
 	    } else {
@@ -163,7 +163,7 @@ class JString
 	 * @see http://www.php.net/str_split
 	*/
 	function str_split($str, $split_len = 1) {
-		jimport('phputf8.native.utf8_str_split');
+		jimport('phputf8.str_split');
 		return utf8_str_split($str, $split_len);
 	}
 
@@ -179,7 +179,7 @@ class JString
 	 * @see http://www.php.net/strcasecmp
 	*/
 	function strcasecmp($str1, $str2) {
-		jimport('phputf8.native.utf8_strcasecmp');
+		jimport('phputf8.strcasecmp');
 		return utf8_strcasecmp($str1, $str2);
 	}
 
@@ -197,7 +197,7 @@ class JString
 	 * @see http://www.php.net/strcspn
 	*/
 	function strcspn($str, $mask, $start = NULL, $length = NULL) {
-		jimport('phputf8.native.utf8_strcspn');
+		jimport('phputf8.strcspn');
 	    if ( $start === FALSE && $length === FALSE ) {
 	    	return utf8_strcspn($str, $mask);
 	    } else if ( $length === FALSE ) {
@@ -221,7 +221,7 @@ class JString
 	 * @see http://www.php.net/stristr
 	*/
 	function stristr($str, $search) {
-		jimport('phputf8.native.utf8_stristr');
+		jimport('phputf8.stristr');
 		return utf8_stristr($str, $search);
 	}
 
@@ -236,7 +236,7 @@ class JString
 	 * @see http://www.php.net/strrev
 	*/
 	function strrev($str){
-		jimport('phputf8.native.utf8_strrev');
+		jimport('phputf8.strrev');
 		return utf8_strrev($str);
 	}
 
@@ -299,7 +299,7 @@ class JString
 	 * @see http://www.php.net/ltrim
 	*/
 	function ltrim( $str, $charlist = FALSE ) {
-		jimport('phputf8.native.utf8_trim');
+		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
 	    	return utf8_ltrim( $str );
 	    } else {
@@ -322,7 +322,7 @@ class JString
 	 * @see http://www.php.net/rtrim
 	*/
 	function rtrim( $str, $charlist = FALSE ) {
-		jimport('phputf8.native.utf8_trim');
+		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
 	    	return utf8_rltrim( $str );
 	    } else {
@@ -345,7 +345,7 @@ class JString
 	 * @see http://www.php.net/trim
 	*/
 	function trim( $str, $charlist = FALSE ) {
-		jimport('phputf8.native.utf8_trim');
+		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
 	    	return utf8_trim( $str );
 	    } else {
@@ -364,7 +364,7 @@ class JString
 	 * @see http://www.php.net/ucfirst
 	*/
 	function ucfirst($str){
-		jimport('phputf8.native.utf8_ucfirst');
+		jimport('phputf8.ucfirst');
 		return utf8_ucfirst($str);
 	}
 
