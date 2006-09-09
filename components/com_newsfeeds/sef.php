@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: sef.php 4969 2006-09-09 06:56:50Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function weblinks_buildURL($ARRAY, &$params)
+function newsfeeds_buildURL($ARRAY, &$params)
 {
 	static $categories;
 	$resolveNames = $params->get('realnames',0);
@@ -21,18 +21,9 @@ function weblinks_buildURL($ARRAY, &$params)
 	$parts = array();
 	switch (@$ARRAY['task'])
 	{
-		case 'new':
-			$parts[]	= 'new';
-			break;
-		case 'save':
-			$parts[]	= 'save';
-			break;
-		case 'cancel':
-			$parts[]	= 'cancel';
-			break;
 		case 'view':
-			$parts[]	= 'link';
-			$id			= @$ARRAY['id'];
+			$parts[]	= 'feed';
+			$id			= @$ARRAY['feedid'];
 			$parts[]	= $id;
 			break;
 		case 'category':
@@ -61,7 +52,7 @@ function weblinks_buildURL($ARRAY, &$params)
 	return ($string)?$string.'/':null;
 }
 
-function weblinks_parseURL($ARRAY, &$params)
+function newsfeeds_parseURL($ARRAY, &$params)
 {
 	// view is always the first element of the array
 	$task	= array_shift($ARRAY);
@@ -69,20 +60,11 @@ function weblinks_parseURL($ARRAY, &$params)
 
 	switch ($task)
 	{
-		case 'new':
-			JRequest::setVar('task', 'new', 'get');
-			break;
-		case 'save':
-			JRequest::setVar('task', 'save', 'get');
-			break;
-		case 'cancel':
-			JRequest::setVar('task', 'cancel', 'get');
-			break;
-		case 'link':
+		case 'feed':
 			JRequest::setVar('task', 'view', 'get');
 			if (count($ARRAY)) {
  				$id = array_shift($ARRAY);
-				JRequest::setVar('id', $id, 'get');
+				JRequest::setVar('feedid', $id, 'get');
 			}
 			break;
 		case 'category':
