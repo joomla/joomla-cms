@@ -156,7 +156,7 @@ class WeblinksController
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Get some request variables
-		$limit				= JRequest::getVar('limit', 0, '', 'int');
+		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
@@ -176,7 +176,8 @@ class WeblinksController
 		$counter = $db->loadObjectList();
 
 		$total = $counter[0]->numitems;
-		$limit = $limit ? $limit : $params->get('display_num');
+		// Always set at least a default of viewing 5 at a time
+		$limit = $limit ? $limit : 5;
 
 		if ($total <= $limit) {
 			$limitstart = 0;

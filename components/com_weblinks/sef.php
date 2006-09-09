@@ -54,7 +54,7 @@ function weblinks_buildURL($ARRAY, &$params)
 			$limit		= (int) $ARRAY['limit'];
 			$limitstart	= (int) @$ARRAY['limitstart'];
 			$page		= floor( $limitstart / $limit ) + 1;
-			$parts[]	= 'page'.$page.'-'.$limit;
+			$parts[]	= 'page'.$page.':'.$limit;
 		}
 	}
 	$string = implode('/', $parts);
@@ -99,7 +99,7 @@ function weblinks_parseURL($ARRAY, &$params)
 			} elseif (strpos( $last, 'page' ) === 0) {
 				array_pop( $ARRAY );
 				$nArray--;
-				$pts		= explode( '-', $last );
+				$pts		= explode( ':', $last );
 				$limit		= @$pts[1];
 				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
 				JRequest::setVar('limit',$limit, 'get');
