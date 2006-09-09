@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: sef.php 4969 2006-09-09 06:56:50Z webImagery $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
