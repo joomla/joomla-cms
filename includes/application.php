@@ -35,8 +35,6 @@ class JSite extends JApplication
 	function __construct() 
 	{
 		parent::__construct(0);
-		
-		$this->_createPathWay( );
 	}
 
 	/**
@@ -60,6 +58,9 @@ class JSite extends JApplication
 	*/
 	function execute($option)
 	{
+		// Build the application pathway
+		$this->_createPathWay();
+
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$raw  	  = JRequest::getVar( 'no_html', 0, '', 'int' );
 		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
