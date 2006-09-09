@@ -170,7 +170,7 @@ class WeblinksController
 
 		$query = "SELECT COUNT(id) as numitems" .
 				"\n FROM #__weblinks" .
-				"\n WHERE catid = $catid" .
+				"\n WHERE catid = ". (int)$catid .
 				"\n AND published = 1";
 		$db->setQuery($query);
 		$counter = $db->loadObjectList();
@@ -200,7 +200,6 @@ class WeblinksController
 				"\n AND access <= $gid";
 		$db->setQuery($query);
 		$category = $db->loadObject();
-
 
 		// Check to see if the category is published or if access level allows access
 		if (!$category->name) {

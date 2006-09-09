@@ -112,7 +112,7 @@ class WeblinksViewCategory extends JView
 			$item =& $this->items[$i];
 			$params = new JParameter( $item->params );
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $item->id );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $item->id.'&Itemid='.$Itemid );
 			$link = ampReplace( $link );
 
 			$menuclass = 'category'.$this->params->get( 'pageclass_sfx' );
