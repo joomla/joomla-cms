@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.sefurlbot.php 4704 2006-08-24 04:16:59Z webImagery $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
