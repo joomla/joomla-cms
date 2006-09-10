@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Sep-2006 David Gal
+ ^ FTP configuration step in Installation is skipped for Windows host.
+ ^ FTP configuration pane is disabled in global configuration for Windows hosts
+
 10-Sep-2006 Emir sakic
  # Fixed number of links displayed on frontpage to be in accordance with parameters settings
 
