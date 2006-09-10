@@ -24,27 +24,8 @@ jimport( 'joomla.application.view');
  */
 class PollViewPoll extends JView
 {
-	var $_viewName = 'poll';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
+	function display($tpl = null)
 	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display()
-	{
-		$this->_loadTemplate('poll');
-	}
-
-	function graph()
-	{
-		if (!count( $this->votes )) {
-			return;
-		}
-
 		$graphwidth = 200;
 		$barheight 	= 4;
 		$maxcolors 	= 5;
@@ -91,7 +72,7 @@ class PollViewPoll extends JView
 			$k = 1 - $k;
 		}
 
-		$this->_loadTemplate('poll_graph');
+		parent::display($tpl);
 	}
 }
 ?>

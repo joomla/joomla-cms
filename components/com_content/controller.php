@@ -91,9 +91,12 @@ class ContentController extends JController
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
+		
+		// Set the layout
+		$view->setLayout($layout);
 
 		// Display the view
-		$view->display($layout);
+		$view->display();
 	}
 
 	/**
@@ -119,6 +122,10 @@ class ContentController extends JController
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
+		
+		// Set the layout
+		$view->setLayout('form');
+		
 		// Display the view
 		$view->edit();
 	}

@@ -116,12 +116,12 @@ class NewsfeedsController
 
 		$view = new NewsfeedsViewCategories();
 
-		$data = new stdClass();
-		$data->error   = null;
-
-		$view->set('params'    , $params);
-		$view->set('data'      , $data);
-		$view->set('categories', $categories);
+		$view->assignRef('params'    , $params);
+		$view->assignRef('data'      , $data);
+		$view->assignRef('categories', $categories);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'tmpl');
+		$view->setLayout('list');
 		$view->display();
 	}
 
@@ -219,21 +219,18 @@ class NewsfeedsController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'view.php');
 		$view = new NewsfeedsViewCategory();
 
-		$request = new stdClass();
-		$request->catid  		= $catid;
-		$request->limit	 		= $limit;
-		$request->limitstart	= $limitstart;
+		$view->assign('catid'		, $catid);
+		$view->assign('limit'		, $limit);
+		$view->assign('limitstart'  , $limitstart);
+		$view->assign('total'		, $total);
 
-		$data = new stdClass();
-		$data->error   = null;
-		$data->results = $rows;
-		$data->total   = $total;
-
-		$view->set('params'  , $params);
-		$view->set('request' , $request);
-		$view->set('data'    , $data);
-		$view->set('items'   , $rows);
-		$view->set('category', $category);
+		$view->assignRef('results' , $rows);
+		$view->assignRef('params'  , $params);
+		$view->assignRef('items'   , $rows);
+		$view->assignRef('category', $category);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'tmpl');
+		$view->setLayout('table');
 		$view->display();
 	}
 
@@ -329,16 +326,15 @@ class NewsfeedsController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'newsfeed'.DS.'view.php');
 		$view = new NewsfeedsViewNewsfeed();
 
-		$request = new stdClass();
-		$request->feedid  = $feedid;
+		$view->assign('feedid', $feedid);
 
-		$data = new stdClass();
-		$data->error   = null;
-
-		$view->set('params'  , $params   );
-		$view->set('data'    , $data     );
-		$view->set('newsfeed', $newsfeed );
-		$view->set('category', $category );
+		$view->assignRef('params'  , $params   );
+		$view->assignRef('data'    , $data     );
+		$view->assignRef('newsfeed', $newsfeed );
+		$view->assignRef('category', $category );
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'newsfeed'.DS.'tmpl');
+		$view->setLayout('table');
 		$view->display();
 	}
 }

@@ -23,17 +23,9 @@ jimport( 'joomla.application.view');
  */
 class ContentViewArticle extends JView
 {
-	var $_viewName = 'article';
-	
-	function display($layout)
+	function display($tpl = null)
 	{
 		global $mainframe, $Itemid;
-
-		if (empty( $layout ))
-		{
-			// degrade to default
-			$layout = 'article';
-		}
 
 		$user		=& JFactory::getUser();
 		$document   =& JFactory::getDocument();
@@ -140,15 +132,15 @@ class ContentViewArticle extends JView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$this->set('article', $article);
-		$this->set('params' , $params);
-		$this->set('user'   , $user);
-		$this->set('access' , $access);
+		$this->assignRef('article', $article);
+		$this->assignRef('params' , $params);
+		$this->assignRef('user'   , $user);
+		$this->assignRef('access' , $access);
 
-		$this->_loadTemplate($layout);
+		parent::display($tpl);
 	}
 
-	function icon($type, $attribs = array())
+	function getIcon($type, $attribs = array())
 	{
 		 global $Itemid, $mainframe;
 
@@ -171,8 +163,8 @@ class ContentViewArticle extends JView
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']   = JText::_( 'PDF' );
-				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				$attribs['title']   = '"'.JText::_( 'PDF' ).'"';
+				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
@@ -188,8 +180,8 @@ class ContentViewArticle extends JView
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']   = JText::_( 'Print' );
-				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				$attribs['title']   = '"'.JText::_( 'Print' ).'"';
+				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
@@ -198,14 +190,15 @@ class ContentViewArticle extends JView
 				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
-				$attribs['title']   = JText::_( 'Email ' );
-				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-
 				if ($this->params->get('icons')) 	{
 					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
+				
+				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
+				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				
 			} break;
 
 			case 'edit' :
@@ -240,14 +233,14 @@ class ContentViewArticle extends JView
 				$overlib .= '<br />';
 				$overlib .= $author;
 
-				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
-				$attribs['onmouseover'] = "return nd();";
+				$attribs['onmouseover'] = "\"return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)\"";
+				$attribs['onmouseover'] = "\"return nd();\"";
 
 			} break;
 		}
 
 
-		echo mosHTML::Link($url, $text, $attribs);
+		return mosHTML::Link($url, $text, $attribs);
 	}
 
 	function edit()
@@ -319,7 +312,7 @@ class ContentViewArticle extends JView
 		$this->set('editor'  , $editor);
 		$this->set('user'    , $user);
 
-		$this->_loadTemplate('edit');
+		$this->display();
 	}
 
 	function _buildEditLists()
@@ -349,119 +342,6 @@ class ContentViewArticle extends JView
 		$lists['access'] = mosAdminMenus::Access($article);
 
 		return $lists;
-	}
-
-	/**
-	 * Name of the view.
-	 *
-	 * @access	private
-	 * @var		string
-	 */
-	function _displayPDF()
-	{
-		global $mainframe;
-
-		jimport('tcpdf.tcpdf');
-
-		$dispatcher	=& JEventDispatcher::getInstance();
-
-		// Initialize some variables
-		$article	= & $this->get( 'Article' );
-		$params 	= & $article->parameters;
-
-		$params->def('introtext', 1);
-		$params->set('intro_only', 0);
-
-		// show/hides the intro text
-		if ($params->get('introtext')) {
-			$article->text = $article->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$article->fulltext);
-		} else {
-			$article->text = $article->fulltext;
-		}
-
-		// process the new plugins
-		JPluginHelper::importPlugin('content');
-		$dispatcher->trigger('onPrepareContent', array (& $article, & $params, 0));
-
-		//create new PDF document (document units are set by default to millimeters)
-		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);
-
-		// set document information
-		$pdf->SetCreator("Joomla!");
-		$pdf->SetTitle("Joomla generated PDF");
-		$pdf->SetSubject($article->title);
-		$pdf->SetKeywords($article->metakey);
-
-		// prepare header lines
-		$headerText = $this->_getHeaderText($article, $params);
-
-		$pdf->SetHeaderData('', 0, $article->title, $headerText);
-
-		//set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-		//set auto page breaks
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
-
-		$pdf->setHeaderFont(Array (PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->setFooterFont(Array (PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-		//initialize document
-		$pdf->AliasNbPages();
-
-		$pdf->AddPage();
-
-		$pdf->WriteHTML($article->text, true);
-
-		//Close and output PDF document
-		$pdf->Output("joomla.pdf", "I");
-	}
-
-	function _getHeaderText(& $article, & $params)
-	{
-		// Initialize some variables
-		$db = & JFactory::getDBO();
-		$text = '';
-
-		if ($params->get('author')) {
-			// Display Author name
-			if ($article->usertype == 'administrator' || $article->usertype == 'superadministrator') {
-				$text .= "\n";
-				$text .= JText::_('Written by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
-			} else {
-				$text .= "\n";
-				$text .= JText::_('Contributed by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
-			}
-		}
-
-		if ($params->get('createdate') && $params->get('author')) {
-			// Display Separator
-			$text .= "\n";
-		}
-
-		if ($params->get('createdate')) {
-			// Display Created Date
-			if (intval($article->created)) {
-				$create_date = mosFormatDate($article->created);
-				$text .= $create_date;
-			}
-		}
-
-		if ($params->get('modifydate') && ($params->get('author') || $params->get('createdate'))) {
-			// Display Separator
-			$text .= " - ";
-		}
-
-		if ($params->get('modifydate')) {
-			// Display Modified Date
-			if (intval($article->modified)) {
-				$mod_date = mosFormatDate($article->modified);
-				$text .= JText::_('Last Updated').' '.$mod_date;
-			}
-		}
-		return $text;
 	}
 }
 ?>

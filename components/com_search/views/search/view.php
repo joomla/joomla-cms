@@ -24,23 +24,10 @@ jimport( 'joomla.application.view');
  */
 class SearchViewSearch extends JView
 {
-	var $_viewName = 'search';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
+	function display($tpl = null)
 	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display()
-	{
-		$this->_loadTemplate('search');
-	}
-
-	function form()
-	{
+		global $option, $Itemid;
+		
 		$showAreas = JArrayHelper::getValue( $this->lists, 'areas', array() );
 
 		$areas  = array();
@@ -48,30 +35,24 @@ class SearchViewSearch extends JView
 			$areas = array_merge( $areas, $area );
 		}
 
-		$this->data->areas = $areas;
-		$this->_loadTemplate('search_form');
-	}
+		$this->areas = $areas;
 
-	function results()
-	{
-		global $option, $Itemid;
-
-		$searchword   = $this->request->searchword;
-		$searchphrase = $this->request->searchphrase;
-		$ordering     = $this->request->ordering;
+		$searchword   = $this->searchword;
+		$searchphrase = $this->searchphrase;
+		$ordering     = $this->ordering;
 
 		//create pagination
 		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->data->link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
+		$this->link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
 
-		$this->data->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->data->total, $this->request->searchword );
-		$this->data->image 	= mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
+		$this->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->total, $this->searchword );
+		$this->image  = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 
-		for($i = 0; $i < count($this->data->results); $i++ )
+		for($i = 0; $i < count($this->results); $i++ )
 		{
-			$result =& $this->data->results[$i];
+			$result =& $this->results[$i];
 			if ($result->created) {
 				$created = mosFormatDate ( $result->created, JText::_( 'DATE_FORMAT_LC' ) );
 			}
@@ -83,14 +64,9 @@ class SearchViewSearch extends JView
 			$result->count   = $i + 1;
 		}
 		
-		$this->set('pagination', $pagination);
+		$this->assign('pagination', $pagination);
 
-		$this->_loadTemplate('search_results');
-	}
-
-	function error()
-	{
-		$this->_loadTemplate('search_error');
+		parent::display($tpl);
 	}
 }
 ?>

@@ -20,19 +20,32 @@ jimport( 'joomla.application.view');
 */
 class WrapperViewWrapper extends JView
 {
-	var $_viewName = 'wrapper';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display( )
-	{
-		$this->_loadTemplate('wrapper');
+	function display( $tpl = null ) 
+	{	
+		global $Itemid;
+		
+		// get menu
+		$menus  =& JMenu::getInstance();
+		$menu   =& $menus->getItem($Itemid);
+		
+		$this->params->def( 'header', $menu->name );
+		$this->params->def( 'scrolling', 'auto' );
+		$this->params->def( 'page_title', '1' );
+		$this->params->def( 'pageclass_sfx', '' );
+		$this->params->def( 'height', '500' );
+		$this->params->def( 'height_auto', '0' );
+		$this->params->def( 'width', '100%' );
+		$this->params->def( 'add', '1' );
+		
+		
+		// auto height control
+		if ( $this->params->def( 'height_auto' ) ) {
+			$this->wrapper->load = 'onload="iFrameHeight()"';
+		} else {
+			$this->wrapper->load = '';
+		}
+		
+		parent::display($tpl);
 	}
 }
 ?>

@@ -25,22 +25,12 @@ jimport( 'joomla.application.view');
  */
 class NewsfeedsViewNewsfeed extends JView
 {
-	var $_viewName = 'newsfeed';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display( )
+	function display( $tpl = null)
 	{
 		// feed elements
 		$this->newsfeed->items = array_slice($this->newsfeed->items, 0, $this->newsfeed->numarticles);
 
-		$this->_loadTemplate('table');
+		parent::display($tpl);
 	}
 
 	function limitText($text, $wordcount)

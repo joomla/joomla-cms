@@ -14,8 +14,8 @@
 /**
  * Base class for a Joomla Controller
  *
- * Acts as a Factory class for application specific objects and provides many
- * supporting API functions.
+ * Controller (controllers are where you put all the actual code) Provides basic 
+ * functionality, such as rendering views (aka displaying templates).
  *
  * @abstract
  * @package		Joomla.Framework
@@ -297,7 +297,7 @@ class JController extends JObject
 	 */
 	function &getModel($name, $prefix='')
 	{
-		$model = & $this->_loadModel( $name, $prefix );
+		$model = & $this->_createModel( $name, $prefix );
 		return $model;
 	}
 
@@ -360,7 +360,7 @@ class JController extends JObject
 				$type = $this->_viewType;
 			}
 
-			$view = $this->_loadView( $name, $prefix, $type );
+			$view = $this->_createView( $name, $prefix, $type );
 			$this->setView( $view );
 		}
 		return $this->_view;
@@ -520,7 +520,7 @@ class JController extends JObject
 	 * @return	mixed	Model object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_loadModel( $name, $prefix = '')
+	function &_createModel( $name, $prefix = '')
 	{
 		$false = false;
 
@@ -567,7 +567,7 @@ class JController extends JObject
 	 * @return	mixed	View object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_loadView( $name, $prefix = '', $type = '' )
+	function &_createView( $name, $prefix = '', $type = '' )
 	{
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
@@ -580,56 +580,33 @@ class JController extends JObject
 		$basePath	= $this->getViewPath().strtolower($viewName);
 		$viewPath	= '';
 
-		if (!empty($type))
-		{
+		if (!empty($type)) {
 			$type = '.'.$type;
 		}
 
-		if (file_exists( $basePath.DS.'view'.$type.'.php' ))
-		{
-			// default setting, /views/viewName/view.type.php
+		if (file_exists( $basePath.DS.'view'.$type.'.php' )) {
 			$viewPath = $basePath.DS.'view'.$type.'.php';
-		}
-		else
-		{
-			// alternative file name, /views/viewName/viewName.php
-			if (file_exists( $basePath.DS.$viewName.'.php' )) {
-				$viewPath = $basePath.DS.$viewName.'.php';
-			}
-		}
-
-		// If the default view file exists include it and try to instantiate the object
-		if ($viewPath)
-		{
-			require_once( $viewPath );
-			// Build the view class name
-			$viewClass = $classPrefix.$viewName;
-			if (!class_exists( $viewClass ))
-			{
-				JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
-			}
-			else
-			{
-				$view = new $viewClass( $this );
-				$view->setTemplatePath($basePath.DS.'tmpl');
-			}
-		}
-		else
-		{
+		} else {
 			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 		}
 
-		return $view;
-	}
+		// If the default view file exists include it and try to instantiate the object
+		require_once( $viewPath );
+		
+		// Build the view class name
+		$viewClass = $classPrefix.$viewName;
+		
+		if (!class_exists( $viewClass ))
+		{
+			JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
+		}
+		else
+		{
+			$view = new $viewClass( );
+			$view->setPath('template', $basePath.DS.'tmpl');
+		}
 
-	/**
-	 * String representation
-	 * @return string
-	 */
-	function __toString()
-	{
-		$result = get_class( $this );
-		return $result;
+		return $view;
 	}
 }
 ?>

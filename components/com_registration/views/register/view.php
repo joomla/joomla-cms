@@ -2,7 +2,7 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage Weblinks
+* @subpackage Registration
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,29 +15,21 @@
 jimport( 'joomla.application.view');
 
 /**
- * HTML View class for the WebLinks component
+ * HTML View class for the Registration component
  *
- * @static
+ * @author		David Gal <david.gal@joomla.org>
  * @package Joomla
- * @subpackage Weblinks
+ * @subpackage Registration
  * @since 1.0
  */
-class UserViewUser extends JView
+class RegistrationViewRegister extends JView
 {
-	function display( $tpl = null)
+	function display($tpl = null)
 	{
-		global $mainframe, $Itemid;
-		
-		$pathway =& $mainframe->getPathWay();
-		
-		// Get the paramaters of the active menu item
-		$menus  = &JMenu::getInstance();
-		$menu   = $menus->getItem($Itemid);
-		
-		// Add breadcrumb
-		$pathway->setItemName(1, 'User');
-		$pathway->addItem( $menu->name, '' );
-		
+		$doc = & JFactory::getDocument();
+		$doc->addScript('includes/js/joomla/common.js');
+		$doc->addScript('includes/js/joomla/validation.js');
+
 		parent::display($tpl);
 	}
 }

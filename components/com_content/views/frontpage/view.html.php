@@ -24,9 +24,8 @@
  */
 class ContentViewFrontpage extends JView
 {
-	var $_viewName = 'frontpage';
 
-	function display($layout = 'blog')
+	function display($tpl = null)
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -36,9 +35,10 @@ class ContentViewFrontpage extends JView
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
 
-		// get menu
-		$menu    =& JSiteHelper::getCurrentMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		// Load the menu object and parameters
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getItem($Itemid);
+		$params = new JParameter($menu->params);
 
 		// Request variables
 		$id			= JRequest::getVar('id');
@@ -70,7 +70,7 @@ class ContentViewFrontpage extends JView
 		if ($params->get('page_title')) {
 			$params->def('header', $menu->name);
 		}
-
+		
 		//add alternate feed link
 		$link    = ampReplace(JURI::base() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -117,22 +117,22 @@ class ContentViewFrontpage extends JView
 
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($frontpage->total, $limitstart, $limit);
+		
 
-		$request = new stdClass();
-		$request->limit      = $limit;
-		$request->limitstart = $limitstart;
+		// prepare links
+		$this->assign('limit'     , $limit);
+		$this->assign('limitstart', $limitstart);
 
-		$this->set('user'      , $user);
-		$this->set('access'    , $access);
-		$this->set('params'    , $params);
-		$this->set('request'   , $request);
-		$this->set('items'     , $items);
-		$this->set('frontpage' , $frontpage);
-
-		$this->_loadTemplate($layout);
+		$this->assignRef('user'      , $user);
+		$this->assignRef('access'    , $access);
+		$this->assignRef('params'    , $params);
+		$this->assignRef('items'     , $items);
+		$this->assignRef('frontpage' , $frontpage);
+		
+		parent::display($tpl);
 	}
 
-	function icon($type, $attribs = array())
+	function getIcon($type, $attribs = array())
 	{
 		 global $Itemid, $mainframe;
 
@@ -155,8 +155,8 @@ class ContentViewFrontpage extends JView
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']   = JText::_( 'PDF' );
-				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				$attribs['title']   = '"'.JText::_( 'PDF' ).'"';
+				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
@@ -172,8 +172,8 @@ class ContentViewFrontpage extends JView
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']   = JText::_( 'Print' );
-				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
+				$attribs['title']   = '"'.JText::_( 'Print' ).'"';
+				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
@@ -182,14 +182,15 @@ class ContentViewFrontpage extends JView
 				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
-				$attribs['title']   = JText::_( 'Email ' );
-				$attribs['onclick'] = "window.open('".$url."','win2','".$status."'); return false;";
-
 				if ($this->params->get('icons')) 	{
 					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
+				
+				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
+				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				
 			} break;
 
 			case 'edit' :
@@ -224,20 +225,20 @@ class ContentViewFrontpage extends JView
 				$overlib .= '<br />';
 				$overlib .= $author;
 
-				$attribs['onmouseover'] = "return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)";
-				$attribs['onmouseover'] = "return nd();";
+				$attribs['onmouseover'] = "\"return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)\"";
+				$attribs['onmouseover'] = "\"return nd();\"";
 
 			} break;
 		}
 
 
-		echo mosHTML::Link($url, $text, $attribs);
+		return mosHTML::Link($url, $text, $attribs);
 	}
 
-	function item($index = 0)
+	function &getItem($index = 0, &$params)
 	{
 		global $mainframe, $Itemid;
-
+		
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$dispatcher	=& JEventDispatcher::getInstance();
@@ -250,46 +251,46 @@ class ContentViewFrontpage extends JView
 		$linkText	= null;
 
 		// Get some parameters from global configuration
-		$this->params->def('link_titles',	$mainframe->getCfg('link_titles'));
-		$this->params->def('author',		!$mainframe->getCfg('hideAuthor'));
-		$this->params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$this->params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$this->params->def('print',			!$mainframe->getCfg('hidePrint'));
-		$this->params->def('pdf',			!$mainframe->getCfg('hidePdf'));
-		$this->params->def('email',			!$mainframe->getCfg('hideEmail'));
-		$this->params->def('rating',		$mainframe->getCfg('vote'));
-		$this->params->def('icons',			$mainframe->getCfg('icons'));
-		$this->params->def('readmore',		$mainframe->getCfg('readmore'));
-		$this->params->def('back_button', 	$mainframe->getCfg('back_button'));
+		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
+		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
+		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
+		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
+		$params->def('print',		!$mainframe->getCfg('hidePrint'));
+		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
+		$params->def('email',		!$mainframe->getCfg('hideEmail'));
+		$params->def('rating',		$mainframe->getCfg('vote'));
+		$params->def('icons',		$mainframe->getCfg('icons'));
+		$params->def('readmore',	$mainframe->getCfg('readmore'));
+		$params->def('back_button', $mainframe->getCfg('back_button'));
 
 		// Get some item specific parameters
-		$this->params->def('image',				1);
-		$this->params->def('section',			0);
-		$this->params->def('section_link',		0);
-		$this->params->def('category',			0);
-		$this->params->def('category_link',		0);
-		$this->params->def('introtext',			1);
-		$this->params->def('pageclass_sfx',		'');
-		$this->params->def('item_title',		1);
-		$this->params->def('url',				1);
-		$this->params->set('image',				1);
+		$params->def('image',			1);
+		$params->def('section',			0);
+		$params->def('section_link',	0);
+		$params->def('category',		0);
+		$params->def('category_link',	0);
+		$params->def('introtext',		1);
+		$params->def('pageclass_sfx',	'');
+		$params->def('item_title',		1);
+		$params->def('url',				1);
+		$params->set('image',			1);
 
-		$this->item =& $this->items[$index];
+		$item =& $this->items[$index];
 
 		// Process the content preparation plugins
-		$this->item->text	= ampReplace($this->item->introtext);
+		$item->text	= ampReplace($item->introtext);
 		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onPrepareContent', array (& $this->item, & $this->params, 0));
+		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
 
 		// Build the link and text of the readmore button
-		if (($this->params->get('readmore') && @ $this->item->readmore) || $this->params->get('link_titles'))
+		if (($params->get('readmore') && @ $item->readmore) || $params->get('link_titles'))
 		{
-			if ($this->params->get('intro_only'))
+			if ($params->get('intro_only'))
 			{
 				// checks if the item is a public or registered/special item
-				if ($this->item->access <= $user->get('gid'))
+				if ($item->access <= $user->get('gid'))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$this->item->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$item->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
 				else
@@ -300,40 +301,22 @@ class ContentViewFrontpage extends JView
 			}
 		}
 
-		$this->item->readmore_link = $linkOn;
-		$this->item->readmore_text = $linkText;
+		$item->readmore_link = $linkOn;
+		$item->readmore_text = $linkText;
 
-		$this->item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$this->item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+		$item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 
-		$this->item->event = new stdClass();
-		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $this->item, & $this->params,0));
-		$this->item->event->afterDisplayTitle = trim(implode("\n", $results));
+		$item->event = new stdClass();
+		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));
+		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $this->item, & $this->params, 0));
-		$this->item->event->beforeDisplayContent = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $item, & $params, 0));
+		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $this->item, & $this->params, 0));
-		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $item, & $params, 0));
+		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$this->_loadTemplate('blog_item');
-	}
-
-	function links($index = 0)
-	{
-		global $Itemid;
-
-		$params  =& JSiteHelper::getMenuParams();
-		$links = $params->def('link', 4);
-
-		$this->links = array_splice($this->items, $index, $links);
-
-		for($i = 0; $i < count($this->links); $i++)
-		{
-			$link =& $this->links[$i];
-			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
-		}
-
-		$this->_loadTemplate('blog_links');
+		return $item;
 	}
 }
 ?>

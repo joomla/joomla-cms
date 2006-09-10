@@ -53,7 +53,8 @@ class ContactController extends JController
 		}
 
 		// Display the view
-		$view->set('error', $this->getError());
+		$view->assign('error', $this->getError());
+		$view->setLayout('table');
 		$view->display();
 	}
 

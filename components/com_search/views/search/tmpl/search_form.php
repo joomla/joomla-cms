@@ -1,5 +1,5 @@
 <form action="index.php" method="get">
-<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td nowrap="nowrap">
 		<label for="search_searchword">
@@ -7,7 +7,7 @@
 		</label>
 	</td>
 	<td nowrap="nowrap">
-		<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->request->searchword; ?>" class="inputbox" />
+		<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $searchword; ?>" class="inputbox" />
 	</td>
 	<td width="100%" nowrap="nowrap">
 		<input type="submit" name="submit" value="<?php echo JText::_( 'Search' );?>" class="button" />
@@ -15,7 +15,7 @@
 </tr>
 <tr>
 	<td colspan="3">
-		<?php echo $this->lists['searchphrase']; ?>
+		<?php echo $lists['searchphrase']; ?>
 	</td>
 </tr>
 <tr>
@@ -23,14 +23,14 @@
 		<label for="ordering">
 			<?php echo JText::_( 'Ordering' );?>:
 		</label>
-		<?php echo $this->lists['ordering'];?>
+		<?php echo $lists['ordering'];?>
 	</td>
 </tr>
 </table>
-<?php if ($this->params->get( 'search_areas', 1 )) : ?>
+<?php if ($params->get( 'search_areas', 1 )) : ?>
 	<?php echo JText::_( 'Search Only' );?>:
-	<?php foreach ($this->data->areas as $val => $txt) :
-		$checked = is_array( $this->request->areas ) && in_array( $val, $this->request->areas ) ? 'checked="true"' : '';
+	<?php foreach ($areas as $val => $txt) :
+		$checked = is_array( $areas ) && in_array( $val, $areas ) ? 'checked="true"' : '';
 	?>
 	<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
 		<label for="area_<?php echo $val;?>">

@@ -23,9 +23,7 @@ jimport( 'joomla.application.view');
  */
 class ContentViewArchive extends JView
 {
-	var $_viewName = 'archive';
-	
-	function display($layout)
+	function display($tpl = null)
 	{
 		global $mainframe, $option, $Itemid;
 
@@ -88,13 +86,6 @@ class ContentViewArchive extends JView
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination(count($items), $limitstart, $limit);
 
-		$request = new stdClass();
-		// Get some request vars specific to this state
-		$request->year			= JRequest::getVar( 'year' );
-		$request->month			= JRequest::getVar( 'month' );
-		$request->limit	 		= $limit;
-		$request->limitstart	= $limitstart;
-
 		$form = new stdClass();
 		// Month Field
 		$months = array(
@@ -122,14 +113,18 @@ class ContentViewArchive extends JView
 		$form->yearField	= mosHTML::selectList( $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $request->year );
 		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$request->month.'&amp;year='.$request->year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);
 
-		$this->set('form'      , $form);
-		$this->set('items'     , $items);
-		$this->set('request'   , $request);
-		$this->set('params'    , $params);
-		$this->set('user'      , $user);
-		$this->set('pagination', $pagination);
+		$this->assign('year'  , JRequest::getVar( 'year' ));
+		$this->assign('month' , JRequest::getVar( 'month' ));
+		$this->assign('limit' 		, $limit);
+		$this->assign('limitstart' 	, $limitstart);
+		
+		$this->assignRef('form'      , $form);
+		$this->assignRef('items'     , $items);
+		$this->assignRef('params'    , $params);
+		$this->assignRef('user'      , $user);
+		$this->assignRef('pagination', $pagination);
 
-		$this->_loadTemplate('list');
+		parent::display($tpl);
 	}
 }
 ?>

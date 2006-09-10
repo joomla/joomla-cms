@@ -1,82 +1,82 @@
-<?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
-	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php $this->icon('edit'); ?>
+<?php if ($user->authorize('action', 'edit', 'content', 'all')) : ?>
+	<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
+		<?php echo $this->getIcon('edit'); ?>
 	</div>
 <?php endif; ?>
 
-<?php if ($this->params->get('item_title') || $this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) : ?>
-<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<?php if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) : ?>
+<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 <tr>
-	<?php if ($this->params->get('item_title')) : ?>
-	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="100%">
-		<?php if ($this->params->get('link_titles') && $this->item->readmore_link != '') : ?>
-		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->item->title; ?>
+	<?php if ($params->get('item_title')) : ?>
+	<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
+		<?php if ($params->get('link_titles') && $this->item->readmore_link != '') : ?>
+		<a href="<?php echo $item->readmore_link; ?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $item->title; ?>
 		</a>
 		<?php else : ?>
-			<?php echo $this->item->title; ?>
+			<?php echo $item->title; ?>
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>
 	
-	<?php if ($this->params->get('pdf')) : ?>
+	<?php if ($params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon('pdf'); ?>
+	<?php echo $this->getIcon('pdf'); ?>
 	</td>
 	<?php endif; ?>
 	
-	<?php if ( $this->params->get( 'print' )) : ?>
+	<?php if ( $params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon('print'); ?>
+	<?php echo $this->getIcon('print'); ?>
 	</td>
 	<?php endif; ?>
 	
-	<?php if ($this->params->get('email')) : ?>
+	<?php if ($params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon('email'); ?>
+	<?php echo $this->getIcon('email'); ?>
 	</td>
 	<?php endif; ?>
 </tr>
 </table>
 <?php endif; ?>
-<?php  if (!$this->params->get('intro_only')) :
-	echo $this->item->event->afterDisplayTitle;
+<?php  if (!$params->get('intro_only')) :
+	echo $item->event->afterDisplayTitle;
 endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?>
-<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if (($this->params->get('section') && $this->item->sectionid) || ($this->params->get('category') && $this->item->catid)) : ?>
+<?php echo $item->event->beforeDisplayContent; ?>
+<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<?php if (($params->get('section') && $item->sectionid) || ($params->get('category') && $item->catid)) : ?>
 <tr>
 	<td>
-		<?php if ($this->params->get('section') && $this->item->sectionid) : ?>
+		<?php if ($params->get('section') && $item->sectionid) : ?>
 		<span>
-			<?php echo $this->item->section; ?>
-			<?php if ($this->params->get('category')) : ?>
+			<?php echo $item->section; ?>
+			<?php if ($params->get('category')) : ?>
 				<?php echo ' - '; ?>
 			<?php endif; ?>
 		</span>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('category') && $this->item->catid) : ?>
+		<?php if ($params->get('category') && $item->catid) : ?>
 		<span>
-			<?php echo $this->item->category; ?>
+			<?php echo $item->category; ?>
 		</span>
 		<?php endif; ?>
 	</td>
 </tr>
 <?php endif; ?>
 
-<?php if (($this->params->get('author')) && ($this->item->author != "")) : ?>
+<?php if (($params->get('author')) && ($item->author != "")) : ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
 		<span class="small">
-			<?php JText::printf( 'Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author) ); ?>
+			<?php JText::printf( 'Written by', ($item->created_by_alias ? $item->created_by_alias : $item->author) ); ?>
 		</span>
 		&nbsp;&nbsp;
 	</td>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('createdate')) : ?>
+<?php if ($params->get('createdate')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
 		<?php echo $this->item->created; ?>
@@ -84,37 +84,37 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('url') && $this->item->urls) : ?>
+<?php if ($params->get('url') && $item->urls) : ?>
 <tr>
 	<td valign="top" colspan="2">
-		<a href="http://<?php echo $this->item->urls ; ?>" target="_blank">
-			<?php echo $this->item->urls; ?></a>
+		<a href="http://<?php echo $item->urls ; ?>" target="_blank">
+			<?php echo $item->urls; ?></a>
 	</td>
 </tr>
 <?php endif; ?>
 
 <tr>
 <td valign="top" colspan="2">
-<?php if (isset ($this->item->toc)) : ?>
-	<?php echo $this->item->toc; ?>
+<?php if (isset ($item->toc)) : ?>
+	<?php echo $item->toc; ?>
 <?php endif; ?>
-<?php echo ampReplace($this->item->text); ?>
+<?php echo ampReplace($item->text); ?>
 </td>
 </tr>
 
-<?php if (!empty($this->item->modified) && $this->params->get('modifydate')) : ?>
+<?php if (!empty($item->modified) && $params->get('modifydate')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $this->item->modified; ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $item->modified; ?> )
 	</td>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->item->readmore_text) : ?>
+<?php if ($params->get('readmore') && $params->get('intro_only') && $item->readmore_text) : ?>
 <tr>
 	<td  colspan="2">
-		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->item->readmore_text; ?>
+		<a href="<?php echo $item->readmore_link; ?>" class="readon<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $item->readmore_text; ?>
 		</a>
 	</td>
 </tr>
@@ -122,4 +122,4 @@ endif; ?>
 
 </table>
 <span class="article_seperator">&nbsp;</span>
-<?php echo $this->item->event->afterDisplayContent; ?>
+<?php echo $item->event->afterDisplayContent; ?>

@@ -20,16 +20,15 @@ jimport('joomla.application.view');
  */
 class ContactViewContact extends JView
 {
-	var $_viewName = 'contact';
-	
-	function display()
+	function display($tpl = null)
 	{
 		global $mainframe, $Itemid;
 
-		$user	 = &JFactory::getUser();
-		$pathway = & $mainframe->getPathWay();
-		$model	 = &$this->getModel();
-
+		$user	  = &JFactory::getUser();
+		$pathway  = & $mainframe->getPathWay();
+		$document = & JFactory::getDocument();
+		$model	  = &$this->getModel();
+		
 		// Get the paramaters of the active menu item
 		$menu    =& JSiteHelper::getCurrentMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
@@ -143,26 +142,15 @@ class ContactViewContact extends JView
 				$contact->params->set('column_width', 		'40');
 				break;
 		}
+		
+		$document->addScript('includes/js/joomla/common.js');
+		$document->addScript('includes/js/joomla/validation.js');
 
-		$this->set('contacts'  , $contacts);
-		$this->set('contact'   , $contact);
-		$this->set('params'    , $params);
+		$this->assignRef('contacts' , $contacts);
+		$this->assignRef('contact'  , $contact);
+		$this->assignRef('params'   , $params);
 
-		$this->_loadTemplate('table');
-	}
-
-	function address()
-	{
-		$this->_loadTemplate('table_address');
-	}
-
-	function form()
-	{
-		$doc = & JFactory::getDocument();
-		$doc->addScript('includes/js/joomla/common.js');
-		$doc->addScript('includes/js/joomla/validation.js');
-
-		$this->_loadTemplate('table_form');
+		parent::display($tpl);
 	}
 }
 ?>

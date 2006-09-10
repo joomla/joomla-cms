@@ -83,6 +83,8 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
+			
+			$viewname = 'logout';
 		}
 		else
 		{
@@ -92,12 +94,18 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
+			
+			$viewname = 'login';
 		}
-
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'login'.DS.'view.php');
-		$view = new LoginViewLogin();
-
-		$view->set('params', $params);
+		
+		require_once (JPATH_COMPONENT.DS.'views'.DS.$viewname.DS.'view.php');
+		$classname = 'LoginView'.$viewname;
+		$view = new $classname();
+		
+		$view->assignRef('params', $params);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.$viewname.DS.'tmpl');
+		$view->setLayout($viewname);
 		$view->display();
 	}
 

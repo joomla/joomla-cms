@@ -23,7 +23,7 @@ jimport( 'joomla.application.view');
  */
 class ContentViewArticle extends JView
 {
-	function display()
+	function display($tpl = null)
 	{
 		global $mainframe;
 

@@ -1,48 +1,52 @@
-<?php if ($this->params->get('page_title')) : ?>
-<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-	<?php echo $this->params->get('header'); ?>
+<?php if ($params->get('page_title')) : ?>
+<div class="componentheading<?php echo $params->get('pageclass_sfx') ?>">
+	<?php echo $params->get('header'); ?>
 </div>
 <?php endif; ?>
-<table class="blog<?php echo $this->params->get('pageclass_sfx') ?>" cellpadding="0" cellspacing="0">
-<?php if (isset($this->frontpage->description)) : ?>
+<table class="blog<?php echo $params->get('pageclass_sfx') ?>" cellpadding="0" cellspacing="0">
+<?php if (isset($frontpage->description)) : ?>
 <tr>
 	<td valign="top">
-	<?php if ($this->params->get('descrip_image') && $this->frontpage->description->image) : ?>
-		<img src="<?php echo $this->frontpage->description->link ?>" align="<?php echo $this->frontpage->description->image_position ?>" hspace="6" alt="" />
+	<?php if ($params->get('descrip_image') && $frontpage->description->image) : ?>
+		<img src="<?php echo $this->frontpage->description->link ?>" align="<?php echo $frontpage->description->image_position ?>" hspace="6" alt="" />
 	<?php endif; ?>
-	<?php if ($this->params->get('description') && $this->frontpage->description->text) : ?>
-		<?php echo $this->frontpage->description->text; ?>
+	<?php if ($params->get('description') && $frontpage->description->text) : ?>
+		<?php echo $frontpage->description->text; ?>
 	<?php endif; ?>
 	<br/><br/>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('leading', 1)) : ?>
+<?php if ($params->def('leading', 1)) : ?>
 <tr>
 	<td valign="top">
-	<?php for ($i = 0; $i < $this->params->get('leading'); $i++) : ?>
-		<?php if ($i >= $this->frontpage->total) : break; endif; ?>
+	<?php for ($i = 0; $i < $params->get('leading'); $i++) : ?>
+		<?php if ($i >= $frontpage->total) : break; endif; ?>
 		<div>
-		<?php $this->item($i); ?>
+		<?php 
+			$this->item =& $this->getItem($i, $params);
+			echo $this->loadTemplate('item'); 
+		?>
 		</div>
 	<?php endfor; ?>
 	</td>
 </tr>
 <?php else : $i = 0; endif; ?>
 
-<?php if ($this->params->def('intro', 4) && ($i < $this->frontpage->total)) : ?>
+<?php if ($params->def('intro', 4) && ($i < $frontpage->total)) : ?>
 <tr>
 	<td valign="top">
 		<table width="100%"  cellpadding="0" cellspacing="0">
 		<tr>
 		<?php
 			$divider = '';
-			for ($z = 0; $z < $this->params->def('columns', 2); $z ++) :
+			for ($z = 0; $z < $params->def('columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_seperator"; endif; ?>
-				<td valign="top" width="<?php echo intval(100 / $this->params->get('columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php for ($y = 0; $y < $this->params->get('intro') / $this->params->get('columns'); $y ++) :
-					if ($i <= $this->params->get('intro') && ($i < $this->frontpage->total)) :
-						$this->item($i);
+				<td valign="top" width="<?php echo intval(100 / $params->get('columns')) ?>%" class="article_column<?php echo $divider ?>">
+				<?php for ($y = 0; $y < $params->get('intro') / $params->get('columns'); $y ++) :
+					if ($i <= $params->get('intro') && ($i < $frontpage->total)) :
+						$this->item =& $this->getItem($i, $params);
+						echo $this->loadTemplate('item');
 						$i ++;
 					endif;
 				endfor; ?>
@@ -53,28 +57,31 @@
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('link', 4) && ($i < $this->frontpage->total)) : ?>
+<?php if ($params->def('link', 4) && ($i < $frontpage->total)) : ?>
 <tr>
 	<td valign="top">
-		<div class="blog_more<?php echo $this->params->get('pageclass_sfx') ?>">
-			<?php $this->links($i); ?>
+		<div class="blog_more<?php echo $params->get('pageclass_sfx') ?>">
+			<?php 
+				$this->links = array_splice($items, $i);
+				echo $this->loadTemplate('links'); 
+			?>
 		</div>
 	</td>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->def('pagination', 2)) : ?>
+<?php if ($params->def('pagination', 2)) : ?>
 <tr>
 	<td valign="top" align="center">
-		<?php echo $this->pagination->getPagesLinks('index.php?option=com_frontpage&amp;Itemid='.$Itemid); ?>
+		<?php echo $pagination->getPagesLinks('index.php?option=com_frontpage&amp;Itemid='.$Itemid); ?>
 		<br /><br />
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('pagination_results', 1)) : ?>
+<?php if ($params->def('pagination_results', 1)) : ?>
 <tr>
 	<td valign="top" align="center">
-		<?php echo $this->pagination->getPagesCounter(); ?>
+		<?php echo $pagination->getPagesCounter(); ?>
 	</td>
 </tr>
 <?php endif; ?>

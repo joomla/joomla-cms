@@ -38,7 +38,7 @@ class mosHTML {
 		if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
 		 }
-
+		 
 		return '<a href="'.$href.'" '.$attribs.'>'.$text.'</a>';
 	}
 
@@ -667,16 +667,16 @@ class mosHTML {
 	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
     {
         $output = array();
-
+		
         foreach($array as $key => $item)
         if (is_array ($item)) {
             if ($keepOuterKey)
                 $output[] = $key;
             // This is value is an array, go and do it again!
-            $output[] = implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+            $output[] = mosHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
         } else
             $output[] = $key . $inner_glue . $item;
-
+				
         return implode($outer_glue, $output);
     }
 }

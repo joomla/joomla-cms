@@ -14,11 +14,9 @@
 
 jimport('joomla.application.view');
 
-class MailtoViewForm extends JView
+class MailtoViewMailto extends JView
 {
-	var $_viewName = 'form';
-	
-	function display()
+	function display($tpl = null)
 	{
 		$data = $this->getData();
 		if ($data === false) {
@@ -31,7 +29,7 @@ class MailtoViewForm extends JView
 		$this->set('params', $params);
 		$this->set('data'  , $data);
 
-		$this->_loadTemplate('form');
+		parent::display($tpl);
 	}
 
 	function &getData()

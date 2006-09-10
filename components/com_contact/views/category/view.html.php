@@ -20,9 +20,7 @@ jimport('joomla.application.view');
  */
 class ContactViewCategory extends JView
 {
-	var $_viewName = 'category';
-	
-	function display()
+	function display($tpl = null)
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -64,6 +62,19 @@ class ContactViewCategory extends JView
 		$categories   = $model->getCategories( $options );
 		$contacts     = $model->getContacts( $options );
 		$total 		  = $model->getContactCount( $options );
+		
+		//prepare contacts
+		$k = 0;
+		for($i = 0; $i <  count( $contacts ); $i++)
+		{
+			$contact =& $contacts[$i];
+
+			$contact->link    = sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;contact_id='.$contact->id.'&amp;Itemid='.$Itemid);
+
+			$contact->odd   = $k;
+			$contact->count = $i;
+			$k = 1 - $k;
+		}
 
 		// find current category
 		// TODO: Move to model
@@ -103,42 +114,21 @@ class ContactViewCategory extends JView
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$link 		= "index.php?option=com_contact&amp;catid=$categoryId&amp;Itemid=$Itemid";
 		
-		$data = new stdClass();
-		$data->link = $link;
+		$this->assign('link',   $link);
 			
-		$this->set('items'     , $contacts);
-		$this->set('lists'     , $lists);
-		$this->set('pagination', $pagination);
-		$this->set('data'      , $data);
-		$this->set('category'  , $category);
-		$this->set('params'    , $params);
+		$this->assignRef('items'     , $contacts);
+		$this->assignRef('lists'     , $lists);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('data'      , $data);
+		$this->assignRef('category'  , $category);
+		$this->assignRef('params'    , $params);
 
-		$this->_loadTemplate('table');
+		parent::display($tpl);
 	}
 
-	function items()
+	function getItems()
 	{
-		global $mainframe, $Itemid;
-
-		$n = count( $this->items );
-
-		if ($n < 1) {
-			return;
-		}
-
-		$k = 0;
-		for($i = 0; $i <  $n; $i++)
-		{
-			$item =& $this->items[$i];
-
-			$item->link    = sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;contact_id='.$item->id.'&amp;Itemid='.$Itemid);
-
-			$item->odd   = $k;
-			$item->count = $i;
-			$k = 1 - $k;
-		}
-
-		$this->_loadTemplate('table_items');
+		
 	}
 }
 ?>

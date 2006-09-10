@@ -120,18 +120,6 @@ class JModel extends JObject
 	}
 	
 	/**
-	 * String representation
-	 * 
-	 * @return string
-	 * @since 1.5
-	 */
-	function __toString()
-	{
-		$result = get_class( $this );
-		return $result;
-	}
-	
-	/**
 	 * Returns an object list
 	 * 
 	 * @param string The query

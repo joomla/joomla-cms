@@ -64,17 +64,13 @@ class UserController
 		
 		$user =& JFactory::getUser();
 
-		$pathway =& $mainframe->getPathWay();
-		$pathway->setItemName(1, 'User');
-
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
 
-		$request = new stdClass();
-		$request->task = 'display';
-
-		$view->set('request', $request);
-		$view->set('user'   , $user);
+		$view->assignRef('user'   , $user);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'tmpl');
+		$view->setLayout('table');
 		$view->display();
 	}
 
@@ -83,7 +79,6 @@ class UserController
 		global $mainframe, $Itemid, $option;
 
 		$db      =& JFactory::getDBO();
-		$pathway =& $mainframe->getPathWay();
 		$user	 =& JFactory::getUser();
 
 		if ( $user->get('id') == 0 ) {
@@ -91,24 +86,28 @@ class UserController
 			return;
 		}
 
-		$menu =& JTable::getInstance('menu', $db );
-		$menu->load( $Itemid );
+		// Get the paramaters of the active menu item
+		$menus  = &JMenu::getInstance();
+		$menu   = $menus->getItem($Itemid);
 
 		// Set page title
 		$mainframe->setPageTitle( $menu->name );
-
-		// Add breadcrumb
-		$pathway->setItemName(1, 'User');
-		$pathway->addItem( $menu->name, '' );
-
+		
+		// check to see if Frontend User Params have been enabled
+		$check = $mainframe->getCfg('frontend_userparams');
+		if ($check == '1' || $check == 1 || $check == NULL) {
+			$params = $user->getParameters();
+			$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users.xml');
+		}
+		
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
+		
+		$view->assignRef('user'  , $user);
+		$view->assignRef('params', $params);
 
-		$request = new stdClass();
-		$request->task = 'edit';
-
-		$view->set('request', $request);
-		$view->set('user'   , $user);
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'tmpl');
+		$view->setLayout('form');
 		$view->display();
 	}
 

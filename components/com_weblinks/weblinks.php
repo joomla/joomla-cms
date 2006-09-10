@@ -86,27 +86,9 @@ class WeblinksController
 		$pathway->setItemName(1, JText::_('Links'));
 
 		// Load the menu object and parameters
-		$menus = &JMenu::getInstance();
-		$menu  = $menus->getItem($Itemid);
-
+		$menus  = &JMenu::getInstance();
+		$menu   = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
-		$params->def('page_title', 1);
-		$params->def('header', $menu->name);
-		$params->def('pageclass_sfx', '');
-		$params->def('headings', 1);
-		$params->def('hits', $mainframe->getCfg('hits'));
-		$params->def('item_description', 1);
-		$params->def('other_cat_section', 1);
-		$params->def('other_cat', 1);
-		$params->def('description', 1);
-		$params->def('description_text', JText::_('WEBLINKS_DESC'));
-		$params->def('image', -1);
-		$params->def('weblink_icons', '');
-		$params->def('image_align', 'right');
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-
-		// Handle the type
-		$params->set('type', 'section');
 
 		//Query to retrieve all categories that belong under the web links section and that are published.
 		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
@@ -123,13 +105,11 @@ class WeblinksController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'view.html.php');
 		$view = new WeblinksViewCategories();
 
-		$data = new stdClass();
-		$data->error  = null;
-		$data->total  = count($categories);
-
-		$view->set('params'    , $params);
-		$view->set('data'      , $data);
-		$view->set('categories', $categories);
+		$view->assignRef('params'    , $params);
+		$view->assignRef('categories', $categories);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'tmpl');
+		$view->setLayout('list');
 		$view->display();
 	}
 
@@ -146,14 +126,14 @@ class WeblinksController
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
-		$pathway	= & $mainframe->getPathWay();
 		$document	= & JFactory::getDocument();
 		$gid		= $user->get('gid');
 		$page		= '';
 
 		// Get the paramaters of the active menu item
-		$menu    =& JSiteHelper::getCurrentMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menus  = &JMenu::getInstance();
+		$menu   = $menus->getItem($Itemid);
+		$params = new JParameter($menu->params);
 
 		// Get some request variables
 		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
@@ -161,9 +141,6 @@ class WeblinksController
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 		$catid				= JRequest::getVar( 'catid', (int) $params->get('category_id'), '', 'int' );
-
-		// Set the component name in the pathway
-		$pathway->setItemName(1, JText::_('Links'));
 
 		// Ordering control
 		$orderby = "\n ORDER BY $filter_order $filter_order_dir, ordering";
@@ -208,12 +185,6 @@ class WeblinksController
 			return;
 		}
 
-		// Set page title based on category name
-		$document->setTitle($menu->name.' - '.$category->name);
-
-		// Add pathway item based on category name
-		$pathway->addItem($category->name, '');
-
 		// table ordering
 		if ($filter_order_dir == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
@@ -227,21 +198,18 @@ class WeblinksController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'view.'.$type.'.php');
 		$view = new WeblinksViewCategory();
 
-		$request = new stdClass();
-		$request->limitstart  = $limitstart;
-		$request->limit       = $limit;
-		$request->catid		  = $catid;
+		$view->assign('total', $total);
+		$view->assign('catid', $catid);
+		$view->assign('limit', $limit);
+		$view->assign('limitstart', $limitstart);
 
-		$data = new stdClass();
-		$data->error    = null;
-		$data->total    = $total;
-
-		$view->set('lists'   , $lists);
-		$view->set('params'  , $params);
-		$view->set('request' , $request);
-		$view->set('data'    , $data);
-		$view->set('category', $category);
-		$view->set('items'   , $rows);
+		$view->assignRef('lists'   , $lists);
+		$view->assignRef('params'  , $params);
+		$view->assignRef('category', $category);
+		$view->assignRef('items'   , $rows);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'tmpl');
+		$view->setLayout('table');
 		$view->display();
 	}
 
@@ -391,16 +359,15 @@ class WeblinksController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.html.php');
 		$view = new WeblinksView();
 
-		$request = new stdClass();
-		$request->returnid  = $returnid;
+		
+		$view->assign('returnid', $returnid);
 
-		$data = new stdClass();
-		$data->error    = null;
-
-		$view->set('lists'   , $lists);
-		$view->set('data'    , $data);
-		$view->set('request' , $request);
-		$view->set('weblink' , $row);
+		$view->assignRef('lists'   , $lists);
+		$view->assignRef('data'    , $data);
+		$view->assignRef('weblink' , $row);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'tmpl');
+		$view->setLayout('form');
 		$view->display();
 	}
 

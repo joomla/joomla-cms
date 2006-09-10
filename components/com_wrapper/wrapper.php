@@ -28,12 +28,12 @@ switch ( JRequest::getVar( 'task' ) )
 }
 
 /**
- * Static class to hold controller functions for the Search component
+ * Static class to hold controller functions for the Wrapper component
  *
  * @static
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
- * @subpackage	Search
+ * @subpackage	Wrapper
  * @since		1.5
  */
 class WrapperController
@@ -42,9 +42,10 @@ class WrapperController
 	{
 		global $Itemid, $mainframe, $option;
 
-		$menus = &JMenu::getInstance();
-		$menu  = $menus->getItem($Itemid);
-
+		$menus  = &JMenu::getInstance();
+		$menu   = $menus->getItem($Itemid);
+		$params = new JParameter( $menu->params );
+	
 		//set page title
 		$mainframe->SetPageTitle($menu->name);
 
@@ -52,19 +53,10 @@ class WrapperController
 		$pathway =& $mainframe->getPathWay();
 		$pathway->setItemName(1, $menu->name);
 
-		$params = new JParameter( $menu->params );
-		$params->def( 'scrolling', 'auto' );
-		$params->def( 'page_title', '1' );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'header', $menu->name );
-		$params->def( 'height', '500' );
-		$params->def( 'height_auto', '0' );
-		$params->def( 'width', '100%' );
-		$params->def( 'add', '1' );
 		$url = $params->def( 'url', '' );
-
+		
 		$row = new stdClass();
-		if ( $params->get( 'add' ) )
+		if ( $params->def( 'add', 1 ) )
 		{
 			// adds 'http://' if none is set
 			if ( substr( $url, 0, 1 ) == '/' )
@@ -86,18 +78,13 @@ class WrapperController
 			$row->url = $url;
 		}
 
-		// auto height control
-		if ( $params->def( 'height_auto' ) ) {
-			$row->load = 'onload="iFrameHeight()"';
-		} else {
-			$row->load = '';
-		}
-
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'view.php');
 		$view = new WrapperViewWrapper();
 
-		$view->set('params'  , $params);
-		$view->set('wrapper' , $row);
+		$view->assignRef('params'  , $params);
+		$view->assignRef('wrapper' , $row);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'tmpl');
 		$view->display();
 	}
 }

@@ -21,18 +21,16 @@ jimport( 'joomla.application.view');
  * @subpackage Users
  * @since	1.0
  */
-class LoginViewLogin extends JView
+class LoginViewLogout extends JView
 {
 	function display($tpl = null)
 	{
-		$errors =& JError::getErrors();
-
-		// Build login image if enabled
-		if ( $this->params->get( 'image_login' ) != -1 ) {
-			$image = 'images/stories/'. $this->params->get( 'image_login' );
-			$this->image = '<img src="'. $image  .'" align="'. $this->params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
+		// Build logout image if enabled
+		if ( $this->params->get( 'image_logout' ) != -1 ) {
+			$image = 'images/stories/'. $this->params->get( 'image_logout' );
+			$this->image = '<img src="'. $image .'" align="'. $this->params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
 		}
-
+		
 		parent::display($tpl);
 	}
 }

@@ -25,17 +25,7 @@ jimport( 'joomla.application.view');
  */
 class NewsfeedsViewCategories extends JView
 {
-	var $_viewName = 'categories';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display()
+	function display($tpl = null)
 	{
 		global $Itemid;
 
@@ -55,7 +45,7 @@ class NewsfeedsViewCategories extends JView
 			$this->data->image = mosHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('News Feeds'), $attribs);
 		}
 
-		$this->_loadTemplate('list');
+		parent::display($tpl);
 	}
 }
 ?>

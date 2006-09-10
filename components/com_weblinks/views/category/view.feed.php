@@ -24,17 +24,7 @@ jimport( 'joomla.application.view');
  */
 class WeblinksViewCategory extends JView
 {
-	var $_viewName = 'category';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display()
+	function display($tpl = null)
 	{
 		global $mainframe, $Itemid, $option;
 

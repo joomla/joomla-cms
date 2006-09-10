@@ -1,11 +1,12 @@
-<?php if ( $this->params->get( 'page_title' ) ) : ?>
-<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $this->params->get( 'header' ); ?>
+<?php if ( $params->get( 'page_title' ) ) : ?>
+<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+	<?php echo $params->get( 'header' ); ?>
 </div>
 <?php endif; ?>
-<?php $this->form();    ?>
-<?php if(!$this->data->error) :
-	$this->results();
+
+<?php echo $this->loadTemplate('form'); ?>
+<?php if(!$error) :
+	echo $this->loadTemplate('results');
 else :
-	$this->error();
+	echo $this->loadTemplate('error');
 endif; ?>

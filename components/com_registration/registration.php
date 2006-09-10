@@ -81,11 +81,13 @@ class RegistrationController
 	  	$pathway->addItem( JText::_( 'New' ));
 
 		// create the view
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
-		$view = new RegistrationViewRegistration();
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
+		$view = new RegistrationViewRegister();
 		$view->user = JFactory::getUser();
 
-		$view->displayRegisterForm();
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
+		$view->setLayout('register');
+		$view->display();
 	}
 
 
@@ -98,10 +100,12 @@ class RegistrationController
 		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
 
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
-		$view = new RegistrationViewRegistration();
-
-		$view->displayPasswordForm();
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'lostpass'.DS.'view.php');
+		$view = new RegistrationViewLostpass();
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'lostpass'.DS.'tmpl');
+		$view->setLayout('lostpass');
+		$view->display();
 	}
 
 	/**
@@ -245,9 +249,13 @@ class RegistrationController
 		}
 
 		// create the view
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
-		$view = new RegistrationViewRegistration();
-		$view->set('user', $user);
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
+		$view = new RegistrationViewRegister();
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
+		$view->setLayout('register');
+		
+		$view->assignRef('user', $user);
 		$message = new stdClass();
 
 		// If there was an error with registration, set the message and display form
@@ -259,9 +267,8 @@ class RegistrationController
 
 			$message->title = JText::_( 'REGERROR' );
 			$message->text = $user->getError();
-			$view->set('message', $message);
-			$view->displayMessage();
-			$view->displayRegisterForm();
+			$view->assign('message', $message);
+			$view->display();
 
 			return false;
 		}
@@ -289,8 +296,8 @@ class RegistrationController
 			$message->text = JText::_( 'REG_COMPLETE' );
 		}
 
-		$view->set('message', $message);
-		$view->displayMessage();
+		$view->assign('message', $message);
+		$view->display('message');
 	}
 
 	function activate()
@@ -317,8 +324,11 @@ class RegistrationController
 		}
 
 		// create the view
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'registration'.DS.'view.php');
-		$view = new RegistrationViewRegistration();
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
+		$view = new RegistrationViewRegister();
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
+		$view->setLayout('register');
 
 		$message = new stdClass();
 
@@ -361,8 +371,8 @@ class RegistrationController
 			$message->text = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
 		}
 
-		$view->set('message', $message);
-		$view->displayMessage();
+		$view->assign('message', $message);
+		$view->display('message');
 	}
 
 	function _sendMail(&$user, $password)

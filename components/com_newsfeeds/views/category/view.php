@@ -25,36 +25,17 @@ jimport( 'joomla.application.view');
  */
 class NewsfeedsViewCategory extends JView
 {
-	var $_viewName = 'category';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display()
-	{
-		$this->_loadTemplate('table');
-	}
-
-	function items( )
+	function display($tpl = null)
 	{
 		global $Itemid;
-
-		if (!count( $this->items ) ) {
-			return;
-		}
-
-		$catid = $this->request->catid;
+		
+		$catid = $this->catid;
 
 		//create pagination
 		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination($this->data->total, $this->request->limitstart, $this->request->limit);
+		$this->pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->data->link = "index.php?option=com_newsfeeds&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
+		$this->link = "index.php?option=com_newsfeeds&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
 
 		$k = 0;
 		for($i = 0; $i <  count($this->items); $i++)
@@ -75,12 +56,10 @@ class NewsfeedsViewCategory extends JView
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$this->data->image = mosHTML::Image('/images/stories/'.$this->category->image, JText::_('News Feeds'), $attribs);
+			$this->image = mosHTML::Image('/images/stories/'.$this->category->image, JText::_('News Feeds'), $attribs);
 		}
 		
-		$this->set('pagination', $pagination);
-
-		$this->_loadTemplate('table_items');
+		parent::display($tpl);
 	}
 }
 ?>

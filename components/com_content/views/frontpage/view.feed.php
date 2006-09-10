@@ -24,7 +24,7 @@
  */
 class ContentViewFrontpage extends JView
 { 
-	function display($layout)
+	function display($tpl = null)
 	{
 		global $mainframe, $Itemid;
 			

@@ -9,18 +9,18 @@
 //-->
 </script>
 <form action="index.php" method="post" name="poll" id="poll">
-<?php if ($this->params->get( 'page_title')) : ?>
+<?php if ($params->get( 'page_title')) : ?>
 <div class="componentheading<?php echo $params->get( 'pageclass_sfx' ) ?>">
 	<?php echo $params->get( 'header') ?>
 </div>
 <?php endif; ?>
-<div class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
+<div class="contentpane<?php echo $params->get( 'pageclass_sfx' ) ?>">
 	<label for="id">
 		<?php echo JText::_('Select Poll'); ?>
-		<?php echo $this->lists['polls']; ?>
+		<?php echo $lists['polls']; ?>
 	</label>
 </div>
-<div class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
-<?php  $this->graph(); ?>
+<div class="contentpane<?php echo $params->get( 'pageclass_sfx' ) ?>">
+<?php echo $this->loadTemplate('graph'); ?>
 </div>
 </form>

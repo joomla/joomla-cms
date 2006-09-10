@@ -24,22 +24,12 @@ jimport( 'joomla.application.view');
  */
 class WeblinksViewWeblink extends JView
 {
-	var $_viewName = 'weblink';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function display()
+	function display($tpl = null)
 	{
 		global $option;
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
-		$this->_loadTemplate('edit');
+		$this->loadTemplate($tpl);
 	}
 }
 ?>

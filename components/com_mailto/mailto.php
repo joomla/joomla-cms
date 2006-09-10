@@ -21,7 +21,7 @@ require_once( JPATH_COMPONENT . '/controller.php' );
 
 $mParams =& JSiteHelper::getMenuParams();
 
-$viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'form' ) );
+$viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'mailto' ) );
 $controller	= new MailtoController( 'display' );
 
 $controller->setViewPath( JPATH_COMPONENT. '/views' );

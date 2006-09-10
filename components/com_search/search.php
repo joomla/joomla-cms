@@ -121,23 +121,22 @@ class SearchController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'search'.DS.'view.php');
 		$view = new SearchViewSearch();
 
-		$request = new stdClass();
-		$request->areas        = $areas;
-		$request->searchword   = $searchword;
-		$request->searchphrase = $searchphrase;
-		$request->ordering     = $ordering;
-		$request->limitstart   = $limitstart;
-		$request->limit        = $limit;
-
-		$data = new stdClass();
-		$data->error   = $error;
-		$data->results = $rows;
-		$data->total   = $total;
-
-		$view->set('lists'   , $lists);
-		$view->set('params'  , $params);
-		$view->set('request' , $request);
-		$view->set('data'    , $data);
+		$view->assign('limit'       , $limit);
+		$view->assign('limitstart'  , $limitstart);
+		$view->assign('ordering'    , $ordering);
+		$view->assign('searchword'  , $searchword);
+		$view->assign('searchphrase', $searchphrase);
+		
+		$view->assign('total', $total);
+		$view->assign('error', $error);
+		
+		$view->assignRef('results' , $rows);
+		$view->assignRef('lists'   , $lists);
+		$view->assignRef('params'  , $params);
+		$view->assignRef('request' , $request);
+		$view->assignRef('data'    , $data);
+		
+		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'search'.DS.'tmpl');
 		$view->display();
 	}
 

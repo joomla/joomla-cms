@@ -22,35 +22,11 @@ jimport( 'joomla.application.view');
  * @subpackage Registration
  * @since 1.0
  */
-class RegistrationViewRegistration extends JView
+class RegistrationViewLostpass extends JView
 {
-	var $_viewName = 'registration';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
+	function display($tpl = null)
 	{
-		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
-	}
-
-	function displayPasswordForm()
-	{
-		$this->_loadTemplate('lostpass');
-	}
-
-	function displayRegisterForm()
-	{
-		$doc = & JFactory::getDocument();
-		$doc->addScript('includes/js/joomla/common.js');
-		$doc->addScript('includes/js/joomla/validation.js');
-
-		$this->_loadTemplate('register');
-	}
-
-	function displayMessage()
-	{
-		$this->_loadTemplate('message');
+		parent::display($tpl);
 	}
 }
 ?>

@@ -14,7 +14,7 @@
 /**
  * JMenu class
  *
- * @author Louis Landry <louis.landry@joomla.org>
+ * @author Louis Landry   <louis.landry@joomla.org>
  * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
@@ -144,8 +144,7 @@ class JMenu extends JObject
 	function &getParams($id)
 	{
 		$ini = '';
-		if ($menu =& $this->getItem($id))
-		{
+		if ($menu =& $this->getItem($id)) {
 			$ini = new JParameter( $menu->params );
 		}
 		$result = new JParameter( $ini );
