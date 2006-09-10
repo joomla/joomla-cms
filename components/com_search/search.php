@@ -136,7 +136,6 @@ class SearchController
 		$view->assignRef('request' , $request);
 		$view->assignRef('data'    , $data);
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'search'.DS.'tmpl');
 		$view->display();
 	}
 

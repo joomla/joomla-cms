@@ -331,7 +331,6 @@ class NewsfeedsController
 		$view->assignRef('newsfeed', $newsfeed );
 		$view->assignRef('category', $category );
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'newsfeed'.DS.'tmpl');
 		$view->display();
 	}
 }

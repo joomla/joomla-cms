@@ -107,8 +107,7 @@ class WeblinksController
 
 		$view->assignRef('params'    , $params);
 		$view->assignRef('categories', $categories);
-		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'tmpl');
+	
 		$view->display();
 	}
 
@@ -207,7 +206,6 @@ class WeblinksController
 		$view->assignRef('category', $category);
 		$view->assignRef('items'   , $rows);
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'tmpl');
 		$view->display();
 	}
 
@@ -357,14 +355,12 @@ class WeblinksController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.html.php');
 		$view = new WeblinksView();
 
-		
 		$view->assign('returnid', $returnid);
 
 		$view->assignRef('lists'   , $lists);
 		$view->assignRef('data'    , $data);
 		$view->assignRef('weblink' , $row);
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'tmpl');
 		$view->setLayout('form');
 		$view->display();
 	}

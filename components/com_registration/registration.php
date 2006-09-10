@@ -85,7 +85,6 @@ class RegistrationController
 		$view = new RegistrationViewRegister();
 		$view->user = JFactory::getUser();
 
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
 		$view->display();
 	}
 
@@ -102,7 +101,6 @@ class RegistrationController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'lostpass'.DS.'view.php');
 		$view = new RegistrationViewLostpass();
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'lostpass'.DS.'tmpl');
 		$view->display();
 	}
 
@@ -249,10 +247,7 @@ class RegistrationController
 		// create the view
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
 		$view = new RegistrationViewRegister();
-		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
-		$view->setLayout('register');
-		
+			
 		$view->assignRef('user', $user);
 		$message = new stdClass();
 

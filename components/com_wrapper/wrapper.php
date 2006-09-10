@@ -84,7 +84,6 @@ class WrapperController
 		$view->assignRef('params'  , $params);
 		$view->assignRef('wrapper' , $row);
 		
-		//$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'tmpl');
 		$view->display();
 	}
 }

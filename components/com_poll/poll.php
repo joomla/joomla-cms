@@ -152,7 +152,6 @@ class PollController
 		$view->assignRef('poll'    , $poll);
 		$view->assignRef('votes'   , $votes);
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'tmpl');
 		$view->display();
 	}
 

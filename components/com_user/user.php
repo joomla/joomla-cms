@@ -68,8 +68,6 @@ class UserController
 		$view = new UserViewUser();
 
 		$view->assignRef('user'   , $user);
-		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'tmpl');
 		$view->display();
 	}
 
@@ -105,7 +103,6 @@ class UserController
 		$view->assignRef('user'  , $user);
 		$view->assignRef('params', $params);
 
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'tmpl');
 		$view->setLayout('form');
 		$view->display();
 	}
