@@ -70,7 +70,6 @@ class UserController
 		$view->assignRef('user'   , $user);
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'tmpl');
-		$view->setLayout('table');
 		$view->display();
 	}
 

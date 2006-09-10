@@ -105,7 +105,6 @@ class LoginController
 		$view->assignRef('params', $params);
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.$viewname.DS.'tmpl');
-		$view->setLayout($viewname);
 		$view->display();
 	}
 

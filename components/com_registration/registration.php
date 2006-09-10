@@ -86,7 +86,6 @@ class RegistrationController
 		$view->user = JFactory::getUser();
 
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
-		$view->setLayout('register');
 		$view->display();
 	}
 
@@ -104,7 +103,6 @@ class RegistrationController
 		$view = new RegistrationViewLostpass();
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'lostpass'.DS.'tmpl');
-		$view->setLayout('lostpass');
 		$view->display();
 	}
 

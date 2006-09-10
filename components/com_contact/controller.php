@@ -54,7 +54,6 @@ class ContactController extends JController
 
 		// Display the view
 		$view->assign('error', $this->getError());
-		$view->setLayout('table');
 		$view->display();
 	}
 

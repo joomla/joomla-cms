@@ -109,7 +109,6 @@ class WeblinksController
 		$view->assignRef('categories', $categories);
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'tmpl');
-		$view->setLayout('list');
 		$view->display();
 	}
 
@@ -209,7 +208,6 @@ class WeblinksController
 		$view->assignRef('items'   , $rows);
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'tmpl');
-		$view->setLayout('table');
 		$view->display();
 	}
 

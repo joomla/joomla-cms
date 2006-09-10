@@ -121,7 +121,6 @@ class NewsfeedsController
 		$view->assignRef('categories', $categories);
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'tmpl');
-		$view->setLayout('list');
 		$view->display();
 	}
 
@@ -230,7 +229,6 @@ class NewsfeedsController
 		$view->assignRef('category', $category);
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'tmpl');
-		$view->setLayout('table');
 		$view->display();
 	}
 
@@ -334,7 +332,6 @@ class NewsfeedsController
 		$view->assignRef('category', $category );
 		
 		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'newsfeed'.DS.'tmpl');
-		$view->setLayout('table');
 		$view->display();
 	}
 }

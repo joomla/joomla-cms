@@ -46,7 +46,7 @@ class JView extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_layout = null;
+	var $_layout = 'default';
 	
 	/**
 	* The set of search directories for resources (templates) 
@@ -84,8 +84,10 @@ class JView extends JObject
 	{
 		global $mainframe, $option, $Itemid;
 		
-		//set the view name based on the classname
-		if ($this->_name === null)  {
+		//set the view name
+		if (isset($conf['name']))  {
+			$this->_name = $conf['name'];
+		} else {
 			$r = null;
 			if (!preg_match('/View(.*)/i', get_class($this), $r)) {
 				JError::raiseError (500, "JView::__construct() : Can't get or parse my own class name, exiting.");
@@ -93,11 +95,12 @@ class JView extends JObject
 			$this->_name = $r[1];
 		}
 		
-		// set the default template search dirs
+		// set the default template search path
 		if (isset($conf['template_path'])) {
 			// user-defined dirs
 			$this->setPath('template', $conf['template_path']);
 		} else {
+			// no directories set, use the
 			// default directory only
 			$this->setPath('template', null);
 		}
@@ -105,10 +108,14 @@ class JView extends JObject
 		// set the layout
 		if (isset($conf['layout'])) {
 			$this->setLayout($conf['layout']);
-		} else {
-			$this->setLayout($this->_name);
+		} 
+		
+		// set the alternative template searh dir
+		if(isset($mainframe)) {
+			$path = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
+			$this->addPath('template', $path);
 		}
-			
+		
 		$this->assignRef('mainframe', $mainframe);
 		$this->assignRef('option'   , $option);
 		$this->assignRef('Itemid'   , $Itemid);
@@ -363,6 +370,15 @@ class JView extends JObject
 	{
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
+		
+		// always add the fallback directories as last resort
+		switch (strtolower($type)) 
+		{
+			case 'template':
+				// the current directory
+				$this->addPath($type, JPATH_COMPONENT.DS.'views'.DS.$this->_name.DS.'tmpl');
+				break;
+		}
 			
 		// actually add the user-specified directories
 		$this->addPath($type, $path);
@@ -501,13 +517,13 @@ class JView extends JObject
 	{
 		// get the set of paths
 		$set = $this->_path[$type];
-		
+			
 		// start looping through the path set
 		foreach ($set as $path) 
 		{	
 			// get the path to the file
 			$fullname = $path . $file;
-			
+				
 			// is the path based on a stream?
 			if (strpos($path, '://') === false) {
 				// not a stream, so do a realpath() to avoid directory 

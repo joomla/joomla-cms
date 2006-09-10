@@ -38,7 +38,7 @@ class ContentController extends JController
 		$viewType   = $document->getType();
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
 		$layout     = $cParams->get( 'template_name' );
-
+		
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -51,12 +51,12 @@ class ContentController extends JController
 			case 'section':
 				$viewName	= 'section';
 				$modelName	= 'section';
-				$layout = 'list';
+				$layout = 'default';
 				break;
 			case 'category':
 				$viewName	= 'category';
 				$modelName	= 'category';
-				$layout = 'table';
+				$layout = 'default';
 				break;
 			case 'blogcategory':
 				$viewName	= 'section';
@@ -67,17 +67,17 @@ class ContentController extends JController
 			case 'archivecategory':
 				$viewName	= 'archive';
 				$modelName	= 'archive';
-				$layout = 'list';
+				$layout = 'default';
 				break;
 			case 'frontpage' :
 				$viewName = 'frontpage';
 				$modelName = 'frontpage';
-				$layout = 'blog';
+				$layout = 'default';
 				break;
 			case 'view':
 				$viewName	= 'article';
 				$modelName	= 'article';
-				$layout = 'article';
+				$layout = 'default';
 				break;
 		}
 
