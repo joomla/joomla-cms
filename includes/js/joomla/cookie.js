@@ -18,8 +18,6 @@
  * @since		1.5
  */
 JCookie = function() { this.constructor.apply(this, arguments);}
-
-// JCookie prototype
 JCookie.prototype = {
 
 	constructor: function() 
