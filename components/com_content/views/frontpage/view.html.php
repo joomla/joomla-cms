@@ -25,7 +25,7 @@
 class ContentViewFrontpage extends JView
 {
 	var $_viewName = 'frontpage';
-	
+
 	function display($layout = 'blog')
 	{
 		global $mainframe, $Itemid, $option;
@@ -322,14 +322,16 @@ class ContentViewFrontpage extends JView
 	{
 		global $Itemid;
 
-		$this->links = array_splice($this->items, $index);
+		$params  =& JSiteHelper::getMenuParams();
+		$links = $params->def('link', 4);
+
+		$this->links = array_splice($this->items, $index, $links);
 
 		for($i = 0; $i < count($this->links); $i++)
 		{
 			$link =& $this->links[$i];
 			$link->link	= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid);
 		}
-
 
 		$this->_loadTemplate('blog_links');
 	}

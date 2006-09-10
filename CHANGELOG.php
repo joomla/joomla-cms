@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Sep-2006 Emir sakic
+ # Fixed number of links displayed on frontpage to be in accordance with parameters settings
+
 06-Sep-2006 Louis Landry
  - Removed globals.php
  + Added JRequest::clean() to replace globals.php include
@@ -54,7 +57,7 @@ Legend:
                       This resulted in an update to en-GB.ini in installation
  # Fixed [artf4940] : Localisations in menu wizard
  # Fixed "L10n tagged" untranslated strings
- 
+
 04-Sep-2006 Andrew Eddie
  # Fixed [artf5805] : non-existent class: jtablemenutypes
  # Fixed [artf3499] : error while creating configuration.php
@@ -76,10 +79,10 @@ Legend:
  ^ Spruced up 403, 404 and 500 (designs by Arno Zijlstra)
  ^ If a content item is not found, site will throw a 404 error
  + Admin content list - Added ability to search for ID in filter box
- ^ JRegistryFormatINI::stringToObject - remove option to return as an array and optimised string handling 
+ ^ JRegistryFormatINI::stringToObject - remove option to return as an array and optimised string handling
 
 27-Aug-2006 David Gal
- + Added missing localisation of 'site offline' and 'site error' messages 
+ + Added missing localisation of 'site offline' and 'site error' messages
    (there are changes to installation language files)
  ^ Changed alert on no collation selection to a confirm dialog
  # Fixed missing localisations in installation
