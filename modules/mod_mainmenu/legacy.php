@@ -99,7 +99,9 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	$menu_secure = $menu_params->def('secure', 0);
 
 	if (strcasecmp(substr($mitem->link, 0, 4), 'http')) {
-		$mitem->link = JURI::resolve($mitem->link, $menu_secure);
+		$mitem->url = JURI::resolve($mitem->link, $menu_secure);
+	} else {
+		$mitem->url = $mitem->link;
 	}
 
 	$menuclass = 'mainlevel' . $params->get('class_sfx');
@@ -116,12 +118,12 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		// cases are slightly different
 		case 1 :
 			// open in a new window
-			$txt = '<a href="' . $mitem->link . '" target="_blank" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
+			$txt = '<a href="' . $mitem->url . '" target="_blank" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
 			break;
 
 		case 2 :
 			// open in a popup window
-			$txt = "<a href=\"#\" onclick=\"javascript: window.open('" . $mitem->link . "', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\" " . $id . ">" . $mitem->name . "</a>\n";
+			$txt = "<a href=\"#\" onclick=\"javascript: window.open('" . $mitem->url . "', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\" " . $id . ">" . $mitem->name . "</a>\n";
 			break;
 
 		case 3 :
@@ -131,7 +133,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 
 		default : // formerly case 2
 			// open in parent window
-			$txt = '<a href="' . $mitem->link . '" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
+			$txt = '<a href="' . $mitem->url . '" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
 			break;
 	}
 

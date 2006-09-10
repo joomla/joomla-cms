@@ -113,11 +113,13 @@ class JMainMenu extends JTree
 		$iParams =& $item->mParams;
 		$iSecure = $iParams->def('secure', 0);
 		if (strcasecmp(substr($item->link, 0, 4), 'http')) {
-			$item->link = JURI::resolve($item->link, $iSecure);
+			$item->url = JURI::resolve($item->link, $iSecure);
+		} else {
+			$item->url = $item->link;
 		}
 
 		// Create the node and add it
-		$node =& new JMenuNode($item->id, $item->name, $item->link);
+		$node =& new JMenuNode($item->id, $item->name, $item->url);
 		$node->target = $item->browserNav;
 		$node->window = $this->_params->get('window_open');
 
