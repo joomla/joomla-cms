@@ -171,27 +171,27 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function dbCollation( &$vars, &$collations )
-	{
-		global $steps;
-
-		$tmpl =& JInstallationView::createTemplate( 'dbcollation.html' );
-
-		$steps['dbcollation'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-		$tmpl->addVars( 'body', 	$vars, 'var_' );
-
-		if ($vars['DButfSupport']){
-			$tmpl->addVar( 'utf_text', 'utfsupport', 'true');
-		} else {
-			$tmpl->addVar( 'utf_text', 'utfsupport', 'false');
-		}
-
-		$tmpl->addRows( 'collation-options', $collations );
-
-		return $tmpl->fetch( 'page' );
-	}
+//	function dbCollation( &$vars, &$collations )
+//	{
+//		global $steps;
+//
+//		$tmpl =& JInstallationView::createTemplate( 'dbcollation.html' );
+//
+//		$steps['dbcollation'] = 'on';
+//
+//		$tmpl->addVars( 'stepbar', $steps, 'step_' );
+//		$tmpl->addVars( 'body', 	$vars, 'var_' );
+//
+//		if ($vars['DButfSupport']){
+//			$tmpl->addVar( 'utf_text', 'utfsupport', 'true');
+//		} else {
+//			$tmpl->addVar( 'utf_text', 'utfsupport', 'false');
+//		}
+//
+//		$tmpl->addRows( 'collation-options', $collations );
+//
+//		return $tmpl->fetch( 'page' );
+//	}
 
 	/**
 	 * The index page
@@ -231,6 +231,7 @@ class JInstallationView
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
 		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
+		$tmpl->addVar( 'buttons', 'previous', JUtility::isWinOS() ? 'dbconfig' : 'ftpconfig');
 //		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
 		/*

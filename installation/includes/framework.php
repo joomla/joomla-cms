@@ -42,6 +42,7 @@ JRequest::clean();
 // Installation file includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
+jimport( 'joomla.utilities.utility' ); // needed for functions.php
 require_once( JPATH_INCLUDES . DS . 'functions.php' );
 require_once( JPATH_INCLUDES . DS . 'classes.php' );
 require_once( JPATH_INCLUDES . DS . 'html.php' );

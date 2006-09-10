@@ -65,7 +65,14 @@ switch ($task)
 		$result = JInstallationController::makeDB($vars);
 		// continue to ftpConfig only on true token otherwise display messages
 		if ($result === true) {
-			$result = JInstallationController::ftpConfig( $vars, 1 );
+//			$result = JInstallationController::ftpConfig( $vars, 1 );
+			// if on Windows OS skip ftpconfig
+			if ( JUtility::isWinOS() ) {
+				$vars['ftpEnable'] = '0';
+				$result = JInstallationController::mainConfig($vars);
+			} else {
+				$result = JInstallationController::ftpConfig($vars);
+			}
 		}
 		break;
 

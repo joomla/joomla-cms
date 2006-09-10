@@ -27,7 +27,7 @@ a:hover {
 
 h1, h2, h3, h4, h5,
 #header3 span,
-.step-on, .step-off,
+.step-on, .step-off, .step-grey
 .step,
 .button1-left a,
 .button1-right a {
@@ -120,7 +120,7 @@ form {
 	background: url(../images/j_divider.png) 0 100% repeat-x;
 }
 
-.step-on, .step-off {
+.step-on, .step-off, .step-grey {
 	padding-top: 10px;
 	padding-bottom: 12px;
 	font-size: 12px;
@@ -134,6 +134,10 @@ form {
 
 .step-on {
 	color: #0B55C4;
+}
+
+.step-grey {
+  color: #a7a7a7
 }
 
 #right {

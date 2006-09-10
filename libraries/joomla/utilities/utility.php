@@ -189,5 +189,15 @@ class JUtility
 		$hash = 'j' . JUtility::getHash( JSession::id() );
 		return $hash;
 	}
+	/**
+	 * Method to determine if the host OS is  Windows
+	 *
+	 * @return	true if Windows OS
+	 * @since	1.5
+	 * @static
+	 */
+	function isWinOS() {
+		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+	}
 }
 ?>
