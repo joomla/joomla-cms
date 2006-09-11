@@ -3,7 +3,7 @@
 	function submitbutton(frm) {
 		// do field validation
 		if (frm.mailto.value == "" || frm.from.value == "") {
-			alert( '<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>
+			alert( '<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>' );
 			return false;
 		}
 		return true;
@@ -47,7 +47,7 @@
 	<p>
 		<?php echo JText::_('Subject'); ?>:
 		<br/>
-		<input type="text" name="subject" class="inputbox" value="<?php echo $this->data->subject ?>" size="25" />
+		<input type="text" name="subject" class="inputbox" value="" size="25" />
 	</p>
 
 	<p>

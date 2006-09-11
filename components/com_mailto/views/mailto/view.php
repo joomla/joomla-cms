@@ -48,6 +48,11 @@ class MailtoViewMailto extends JView
 			$data->sender = $user->get('name');
 			$data->from   = $user->get('email');
 		}
+		else
+		{
+			$data->sender = '';
+			$data->from   = '';			
+		}
 
 		return $data;
 	}
