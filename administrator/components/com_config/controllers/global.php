@@ -181,7 +181,7 @@ class JConfigGlobalController extends JController
 		$lists['log_items'] 	= mosHTML::yesnoRadioList('enable_log_items', 'class="inputbox"', $row->enable_log_items);
 
 		// SEO SETTINGS
-		$lists['sef'] 			= mosHTML::yesnoRadioList('sef', 'class="inputbox" onclick="if (document.adminForm.sef[1].checked) { alert(\''.JText::_('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
+		$lists['sef'] 			= mosHTML::yesnoRadioList('sef', 'class="inputbox"', $row->sef);
 
 		// CONTENT SETTINGS
 		$lists['link_titles'] 	= mosHTML::yesnoRadioList('link_titles', 'class="inputbox"', $row->link_titles);
