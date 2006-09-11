@@ -1,4 +1,4 @@
-<?php foreach($items as $item) : ?>
+<?php foreach($this->items as $item) : ?>
 <tr>
 	<td align="center" width="5">
 		<?php echo $item->count +1; ?>
@@ -8,22 +8,22 @@
 			<?php echo $item->name; ?>
 		</a>
 	</td>
-	<?php if ( $params->get( 'position' ) ) : ?>
+	<?php if ( $this->params->get( 'position' ) ) : ?>
 	<td class="sectiontableentry<?php echo $item->odd; ?>">
 		<?php echo $item->con_position; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ( $params->get( 'email' ) ) : ?>
+	<?php if ( $this->params->get( 'email' ) ) : ?>
 	<td width="20%" class="sectiontableentry<?php echo $item->odd; ?>">
 		<?php echo $item->email_to; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ( $params->get( 'telephone' ) ) : ?>
+	<?php if ( $this->params->get( 'telephone' ) ) : ?>
 	<td width="15%" class="sectiontableentry<?php echo $item->odd; ?>">
 		<?php echo $item->telephone; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ( $params->get( 'fax' ) ) : ?>
+	<?php if ( $this->params->get( 'fax' ) ) : ?>
 	<td width="15%" class="sectiontableentry<?php echo $item->odd; ?>">
 		<?php echo $item->fax; ?>
 	</td>

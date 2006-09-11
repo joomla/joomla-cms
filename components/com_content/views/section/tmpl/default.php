@@ -1,33 +1,33 @@
-<?php if ($params->get('page_title')) : ?>
-<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $section->name; ?>
+<?php if ($this->params->get('page_title')) : ?>
+<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<?php echo $this->section->name; ?>
 </div>
 <?php endif; ?>
-<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
-	<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-	<?php if ($section->image) : ?>
-		<img src="images/stories/<?php echo $section->image;?>" align="<?php echo $section->image_position;?>" hspace="6" alt="<?php echo $section->image;?>" />
+	<td width="60%" valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>" colspan="2">
+	<?php if ($this->section->image) : ?>
+		<img src="images/stories/<?php echo $this->section->image;?>" align="<?php echo $this->section->image_position;?>" hspace="6" alt="<?php echo $this->section->image;?>" />
 	<?php endif; ?>
-	<?php echo $section->description; ?>
+	<?php echo $this->section->description; ?>
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
-	<?php if ($params->def('other_cat_section', 1)) : ?>
+	<?php if ($this->params->def('other_cat_section', 1)) : ?>
 	<ul>
-	<?php foreach ($categories as $category) : ?>
+	<?php foreach ($this->categories as $category) : ?>
 		<li>
 			<a href="<?php echo $category->link; ?>" class="category">
 				<?php echo $category->name;?>
 			</a>
-			<?php if ($params->get('cat_items')) : ?>
+			<?php if ($this->params->get('cat_items')) : ?>
 			&nbsp;
 			<span class="small">
 				( <?php echo $category->numitems ." ". JText::_( 'items' );?> )
 			</span>
 			<?php endif; ?>
-			<?php if ($params->def('cat_description', 1) && $category->description) : ?>
+			<?php if ($this->params->def('cat_description', 1) && $category->description) : ?>
 			<br />
 			<?php echo $category->description; ?>
 			<?php else : echo $category->name; ?>

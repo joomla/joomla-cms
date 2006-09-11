@@ -43,7 +43,7 @@ function submitbutton(pressbutton)
 		</label>
 	</td>
 	<td width="80%">
-		<input class="inputbox" type="text" id="jformtitle" name="jform[title]" size="50" maxlength="250" value="<?php echo htmlspecialchars( $weblink->title, ENT_QUOTES );?>" />
+		<input class="inputbox" type="text" id="jformtitle" name="jform[title]" size="50" maxlength="250" value="<?php echo htmlspecialchars( $this->weblink->title, ENT_QUOTES );?>" />
 	</td>
 </tr>
 <tr>
@@ -53,7 +53,7 @@ function submitbutton(pressbutton)
 		</label>
 	</td>
 	<td>
-		<?php echo $lists['catid']; ?>
+		<?php echo $this->lists['catid']; ?>
 	</td>
 </tr>
 <tr>
@@ -63,7 +63,7 @@ function submitbutton(pressbutton)
 		</label>
 	</td>
 	<td>
-		<input class="inputbox" type="text" id="jformurl" name="jform[url]" value="<?php echo $weblink->url; ?>" size="50" maxlength="250" />
+		<input class="inputbox" type="text" id="jformurl" name="jform[url]" value="<?php echo $this->weblink->url; ?>" size="50" maxlength="250" />
 	</td>
 </tr>
 <tr>
@@ -73,16 +73,16 @@ function submitbutton(pressbutton)
 		</label>
 	</td>
 	<td>
-		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo htmlspecialchars( $weblink->description, ENT_QUOTES );?></textarea>
+		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo htmlspecialchars( $this->weblink->description, ENT_QUOTES );?></textarea>
 	</td>
 </tr>
 </table>
 
-<input type="hidden" name="jform[id]" value="<?php echo $weblink->id; ?>" />
-<input type="hidden" name="jform[ordering]" value="<?php echo $weblink->ordering; ?>" />
-<input type="hidden" name="jform[approved]" value="<?php echo $weblink->approved; ?>" />
+<input type="hidden" name="jform[id]" value="<?php echo $this->weblink->id; ?>" />
+<input type="hidden" name="jform[ordering]" value="<?php echo $this->weblink->ordering; ?>" />
+<input type="hidden" name="jform[approved]" value="<?php echo $this->weblink->approved; ?>" />
 <input type="hidden" name="option" value="<?php echo $option;?>" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="Returnid" value="<?php echo $returnid; ?>" />
+<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
 <input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 </form>

@@ -10,22 +10,22 @@ function iFrameHeight() {
 	}
 }
 </script>
-<div class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-<?php if ( $params->get( 'page_title' ) ) : ?>
-	<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<div class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<?php if ( $this->params->get( 'page_title' ) ) : ?>
+	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->params->get( 'header' ); ?>
 	</div>
 <?php endif; ?>
-<iframe <?php echo $wrapper->load; ?>
+<iframe <?php echo $this->wrapper->load; ?>
 	id="blockrandom"
 	name="iframe"
-	src="<?php echo $wrapper->url; ?>"
-	width="<?php echo $params->get( 'width' ); ?>"
-	height="<?php echo $params->get( 'height' ); ?>"
-	scrolling="<?php echo $params->get( 'scrolling' ); ?>"
+	src="<?php echo $this->wrapper->url; ?>"
+	width="<?php echo $this->params->get( 'width' ); ?>"
+	height="<?php echo $this->params->get( 'height' ); ?>"
+	scrolling="<?php echo $this->params->get( 'scrolling' ); ?>"
 	align="top"
 	frameborder="0"
-	class="wrapper<?php echo $params->get( 'pageclass_sfx' ); ?>">
+	class="wrapper<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo JText::_( 'NO_IFRAMES' ); ?>
 </iframe>
 </div>

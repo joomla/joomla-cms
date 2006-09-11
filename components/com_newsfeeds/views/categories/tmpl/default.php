@@ -1,34 +1,34 @@
-<?php if ( $params->get( 'page_title' ) ) : ?>
-	<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $params->get('header'); ?>
+<?php if ( $this->params->get( 'page_title' ) ) : ?>
+	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo $this->params->get('header'); ?>
 	</div>
 <?php endif; ?>
 
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-<?php if ( ($params->get('image') != -1) || $params->get('description') ) : ?>
+<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<?php if ( ($this->params->get('image') != -1) || $this->params->get('description') ) : ?>
 <tr>
-	<td valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>">
+	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php
-		if ( isset($data->image) ) :  echo $data->image; endif;
-		echo $params->get('description_text');
+		if ( isset($this->image) ) :  echo $this->image; endif;
+		echo $this->params->get('description_text');
 	?>
 	</td>
 </tr>
 <?php endif; ?>
 </table>
 <ul>
-<?php foreach ( $categories as $category ) : ?>
+<?php foreach ( $this->categories as $category ) : ?>
 	<li>
-		<a href="<?php echo $category->link ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $category->title;?>
 		</a>
-		<?php if ( $params->get( 'cat_items' ) ) : ?>
+		<?php if ( $this->params->get( 'cat_items' ) ) : ?>
 		&nbsp;
 		<span class="small">
 			(<?php echo $category->numlinks;?>)
 		</span>
 		<?php endif; ?>
-		<?php if ( $params->get( 'cat_description' ) && $category->description ) : ?>
+		<?php if ( $this->params->get( 'cat_description' ) && $category->description ) : ?>
 		<br />
 		<?php echo $category->description; ?>
 		<?php endif; ?>

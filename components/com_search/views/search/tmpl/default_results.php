@@ -1,15 +1,15 @@
-<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<table class="searchintro<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td colspan="3" >
-		<?php echo JText::_( 'Search Keyword' ) .' <b>'. stripslashes($searchword) .'</b>'; ?>
+		<?php echo JText::_( 'Search Keyword' ) .' <b>'. stripslashes($this->searchword) .'</b>'; ?>
 	</td>
 </tr>
 <tr>
 	<td>
 		<br />
-		<?php eval ('echo "'. $result .'";'); ?>
-		<a href="http://www.google.com/search?q=<?php echo $searchword; ?>" target="_blank">
-			<?php echo $image; ?>
+		<?php eval ('echo "'. $this->result .'";'); ?>
+		<a href="http://www.google.com/search?q=<?php echo $this->searchword; ?>" target="_blank">
+			<?php echo $this->image; ?>
 		</a>
 	</td>
 </tr>
@@ -20,20 +20,20 @@
 		<label for="limit">
 			<?php echo JText::_( 'Display Num' ); ?>
 		</label>
-		<?php echo $pagination->getLimitBox( $link ); ?>
+		<?php echo $this->pagination->getLimitBox( $link ); ?>
 	</div>
 	<div>
-		<?php echo $pagination->writePagesCounter(); ?>
+		<?php echo $this->pagination->writePagesCounter(); ?>
 	</div>
 </div>
-<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td>
 	<?php
-	foreach( $results as $result ) : ?>
+	foreach( $this->results as $result ) : ?>
 		<fieldset>
 			<div>
-				<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 					<?php echo $result->count.'. ';?>
 				</span>
 				<?php if ( $result->href ) :
@@ -51,7 +51,7 @@
 					<?php endif;
 					if ( $result->section ) : ?>
 						<br />
-						<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 							(<?php echo $result->section; ?>)
 						</span>
 					<?php endif; ?>
@@ -61,7 +61,7 @@
 				<?php echo ampReplace( $result->text );?>
 			</div>
 			<?php if ( !$mainframe->getCfg( 'hideCreateDate' )) : ?>
-			<div class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<div class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo $result->created; ?>
 			</div>
 			<?php endif; ?>
@@ -72,7 +72,7 @@
 <tr>
 	<td colspan="3">
 		<div align="center">
-			<?php $pagination->writePagesLinks( $link ); ?>
+			<?php $this->pagination->writePagesLinks( $this->link ); ?>
 		</div>
 	</td>
 </tr>

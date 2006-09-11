@@ -32,7 +32,7 @@ function validateForm( frm ) {
 // -->
 </script>
 
-<?php if(isset($message)) : ?>
+<?php if(isset($this->message)) : ?>
 	<?php $this->loadTemplate('message'); ?>
 <?php endif; ?>
 
@@ -50,7 +50,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
   	<td>
-  		<input type="text" name="name" id="name" size="40" value="<?php echo $user->get( 'name' );?>" class="inputbox validate required none namemsg" maxlength="50" /> *
+  		<input type="text" name="name" id="name" size="40" value="<?php echo $this->user->get( 'name' );?>" class="inputbox validate required none namemsg" maxlength="50" /> *
   	</td>
 </tr>
 <tr>
@@ -60,7 +60,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
 	<td>
-		<input type="text" id="username" name="username" size="40" value="<?php echo $user->get( 'username' );?>" class="inputbox validate required username usernamemsg" maxlength="25" /> *
+		<input type="text" id="username" name="username" size="40" value="<?php echo $this->user->get( 'username' );?>" class="inputbox validate required username usernamemsg" maxlength="25" /> *
 	</td>
 <tr>
 	<td height="40">
@@ -69,7 +69,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
 	<td>
-		<input type="text" id="email" name="email" size="40" value="<?php echo $user->get( 'email' );?>" class="inputbox validate required email emailmsg" maxlength="100" /> *
+		<input type="text" id="email" name="email" size="40" value="<?php echo $this->user->get( 'email' );?>" class="inputbox validate required email emailmsg" maxlength="100" /> *
 	</td>
 </tr>
 <tr>

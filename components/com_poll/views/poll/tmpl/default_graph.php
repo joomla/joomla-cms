@@ -4,12 +4,12 @@
 	<tr>
 		<th colspan="3" class="sectiontableheader">
 			<img src="components/com_poll/assets/poll.png" align="middle" border="0" width="12" height="14" alt="" />
-			<?php echo $poll->title; ?>
+			<?php echo $this->poll->title; ?>
 		</th>
 	</tr>
 </thead>
 <tbody>
-<?php foreach($votes as $vote) : ?>
+<?php foreach($this->votes as $vote) : ?>
 	<tr class="sectiontableentry<?php echo $vote->odd; ?>">
 		<td width="100%" colspan="3">
 			<?php echo $vote->text; ?>
@@ -38,7 +38,7 @@
 		</td>
 		<td class="smalldark">
 			&nbsp;:&nbsp;
-			<?php echo $votes[0]->voters; ?>
+			<?php echo $this->votes[0]->voters; ?>
 		</td>
 	</tr>
 	<tr>
@@ -47,7 +47,7 @@
 		</td>
 		<td class="smalldark">
 			&nbsp;:&nbsp;
-			<?php echo $first_vote; ?>
+			<?php echo $this->first_vote; ?>
 		</td>
 	</tr>
 	<tr>
@@ -56,7 +56,7 @@
 		</td>
 		<td class="smalldark">
 			&nbsp;:&nbsp;
-			<?php echo $last_vote; ?>
+			<?php echo $this->last_vote; ?>
 		</td>
 	</tr>
 </tbody>

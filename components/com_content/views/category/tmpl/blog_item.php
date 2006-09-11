@@ -1,6 +1,6 @@
 <?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php $this->icon($this->item, 'edit'); ?>
+		<?php echo $this->getIcon($this->item, 'edit'); ?>
 	</div>
 <?php endif; ?>
 

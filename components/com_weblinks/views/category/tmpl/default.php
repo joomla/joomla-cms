@@ -1,16 +1,16 @@
-<?php if ( $params->def( 'page_title', 1 ) ) : ?>
-	<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $category->name; ?>
+<?php if ( $this->params->def( 'page_title', 1 ) ) : ?>
+	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo $this->category->name; ?>
 	</div>
 <?php endif; ?>
 
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-<?php if ( @$category->image || @$category->description ) : ?>
+<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<?php if ( @$this->category->image || @$this->category->description ) : ?>
 <tr>
 	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php
-		if ( isset($category->image) ) :  echo $category->image; endif;
-		echo $category->description;
+		if ( isset($this->category->image) ) :  echo $this->category->image; endif;
+		echo $this->category->description;
 	?>
 	</td>
 </tr>

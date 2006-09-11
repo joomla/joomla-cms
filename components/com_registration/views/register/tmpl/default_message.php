@@ -1,7 +1,7 @@
 <div class="componentheading">
-	<?php echo $message->title ; ?>
+	<?php echo $this->message->title ; ?>
 </div>
 
 <div class="message">
-	<?php echo  $message->text ; ?>
+	<?php echo  $this->message->text ; ?>
 </div>

@@ -2,15 +2,15 @@
 <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td colspan="2">
-		<?php if ( $params->get( 'page_title' ) ) : ?>
-		<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $params->get( 'header_login' ); ?>
+		<?php if ( $this->params->get( 'page_title' ) ) : ?>
+		<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $this->params->get( 'header_login' ); ?>
 		</div>
 		<?php endif; ?>
 		<div>
-			<?php echo $image; ?>
-			<?php if ( $params->get( 'description_login' ) ) : ?>
-				<?php echo $params->get( 'description_login_text' ); ?>
+			<?php echo $this->image; ?>
+			<?php if ( $this->params->get( 'description_login' ) ) : ?>
+				<?php echo $this->params->get( 'description_login_text' ); ?>
 				<br/><br/>
 			<?php endif; ?>
 		</div>
@@ -45,7 +45,7 @@
 				<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
 					<?php echo JText::_( 'Lost Password?' ); ?>
 				</a>
-				<?php if ( $params->get( 'registration' ) ) : ?>
+				<?php if ( $this->params->get( 'registration' ) ) : ?>
 				<br/>
 				<?php echo JText::_( 'No account yet?' ); ?>
 				<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
@@ -74,6 +74,6 @@
 
 <input type="hidden" name="option" value="com_login" />
 <input type="hidden" name="task" value="login" />
-<input type="hidden" name="return" value="<?php echo sefRelToAbs( $params->get('login') ); ?>" />
+<input type="hidden" name="return" value="<?php echo sefRelToAbs( $this->params->get('login') ); ?>" />
 <input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
 </form>

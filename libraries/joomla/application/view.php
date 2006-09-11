@@ -80,13 +80,13 @@ class JView extends JObject
 	 *
 	 * @access	protected
 	 */
-	function __construct($conf = array()) 
+	function __construct($config = array()) 
 	{
-		global $mainframe, $option, $Itemid;
+		global $mainframe, $option;
 		
 		//set the view name
-		if (isset($conf['name']))  {
-			$this->_name = $conf['name'];
+		if (isset($config['name']))  {
+			$this->_name = $config['name'];
 		} else {
 			$r = null;
 			if (!preg_match('/View(.*)/i', get_class($this), $r)) {
@@ -96,9 +96,9 @@ class JView extends JObject
 		}
 		
 		// set the default template search path
-		if (isset($conf['template_path'])) {
+		if (isset($config['template_path'])) {
 			// user-defined dirs
-			$this->setPath('template', $conf['template_path']);
+			$this->setPath('template', $config['template_path']);
 		} else {
 			// no directories set, use the
 			// default directory only
@@ -106,8 +106,8 @@ class JView extends JObject
 		}
 		
 		// set the layout
-		if (isset($conf['layout'])) {
-			$this->setLayout($conf['layout']);
+		if (isset($config['layout'])) {
+			$this->setLayout($config['layout']);
 		} 
 		
 		// set the alternative template searh dir
@@ -115,10 +115,6 @@ class JView extends JObject
 			$path = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
 			$this->addPath('template', $path);
 		}
-		
-		$this->assignRef('mainframe', $mainframe);
-		$this->assignRef('option'   , $option);
-		$this->assignRef('Itemid'   , $Itemid);
 	}
 	
    /**
@@ -141,7 +137,7 @@ class JView extends JObject
 	}
 	
 	/**
-	* Sets variables for the view.
+	* Assigns variables to the view script via differing strategies.
 	* 
 	* This method is overloaded; you can assign all the properties of
 	* an object, an associative array, or a single value by name.
@@ -219,7 +215,7 @@ class JView extends JObject
 	
 	
 	/**
-	* Sets variables for the view (by reference).
+	* Assign variable for the view (by reference).
 	* 
 	* You are not allowed to set variables that begin with an underscore;
 	* these are either private properties for JView or private variables
@@ -456,6 +452,8 @@ class JView extends JObject
 	 */
 	function loadTemplate( $tpl = null)
 	{
+		global $mainframe, $option, $Itemid;
+		
 		// clear prior output
 		$this->_output = null;
 		
@@ -473,21 +471,6 @@ class JView extends JObject
 		if (isset($this->this)) {
 			unset($this->this);
 		}
-		
-		// extract references to this object's public properties.
-		// this allows variables assigned by-reference to refer all
-		// the way back to the model logic.  variables assigned
-		// by-copy only refer back to the property.
-		foreach (array_keys(get_object_vars($this)) as $_prop) {
-			if (substr($_prop, 0, 1) != '_') {
-				// set a variable-variable to an object property
-				// reference
-				$$_prop =& $this->$_prop;
-			}
-		}
-		
-		// unset private loop vars
-		unset($_prop);
 		
 		// start capturing output into a buffer
 		ob_start();
