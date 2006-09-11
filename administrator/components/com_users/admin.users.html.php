@@ -205,7 +205,7 @@ class HTML_users {
 			submitform( 'contact' );
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php" method="post" name="adminForm" autocomplete="off">
 
 		<div class="col50">
 			<fieldset class="adminform">

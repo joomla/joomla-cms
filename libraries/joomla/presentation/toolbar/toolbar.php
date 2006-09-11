@@ -67,7 +67,7 @@ class JToolBar extends JObject
 		jimport('joomla.presentation.toolbar.button');
 		if (!defined('JBUTTON_INCLUDE_PATH'))
 		{
-			define('JBUTTON_INCLUDE_PATH', dirname(__FILE__).'/button');
+			define('JBUTTON_INCLUDE_PATH', dirname(__FILE__).DS.'button');
 		}
 	}
 

@@ -27,7 +27,7 @@ function submitbutton( pressbutton ) {
 	}
 }
 </script>
-<form action="index.php" method="post" name="userform">
+<form action="index.php" method="post" name="userform" autocomplete="off">
 <div class="componentheading">
 	<?php echo JText::_( 'Edit Your Details' ); ?>
 </div>
