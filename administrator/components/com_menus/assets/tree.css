@@ -10,7 +10,6 @@
 .jtree li{	/* Nodes */
 	list-style-type:none;
 	vertical-align:middle;
-	
 }
 .jtree li a{	/* Node links */
 	color:#000;
@@ -18,4 +17,10 @@
 	font-family:arial;
 	font-size:0.8em;
 	padding-left:2px;
+}
+.jtree li.node{	/* Nodes */
+	background: #ccc;
+}
+.jtree li.leaf{	/* Leafs */
+	background: #ddd;
 }

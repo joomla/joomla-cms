@@ -74,7 +74,7 @@ JTreeManager.prototype = {
 		for(var no=0;no<nodes.length;no++){
 			var subTrees = nodes[no].getElementsByTagName('UL');
 			if(subTrees.length>0 && subTrees[0].style.display!='block'){
-				this.showHideNode(false,nodes[no].id.replace(/[^0-9]/g,''));
+				this.toggleNode(false,nodes[no].id.replace(/[^0-9]/g,''));
 			}			
 		}
 	},
@@ -85,12 +85,12 @@ JTreeManager.prototype = {
 		for(var no=0;no<nodes.length;no++){
 			var subTrees = nodes[no].getElementsByTagName('UL');
 			if(subTrees.length>0 && subTrees[0].style.display=='block'){
-				this.showHideNode(false,nodes[no].id.replace(/[^0-9]/g,''));
+				this.toggleNode(false,nodes[no].id.replace(/[^0-9]/g,''));
 			}			
 		}		
 	},
 
-	showHideNode: function(e,inputId)
+	toggleNode: function(e,inputId)
 	{
 		if(inputId){
 			if(!document.getElementById('node'+inputId))return;
@@ -181,36 +181,31 @@ JTreeManager.prototype = {
 		$c(this.trees).each(function(tree){
 			// Get an array of all tree nodes
 			var nodes = tree.getElementsByTagName('LI');
-			tree.subcounter	= 0;
+			this.subcounter	= 0;
 			for(var no=0;no<nodes.length;no++){					
 				self.nodeId++;
 				var subTrees = nodes[no].getElementsByTagName('UL');
 				var img = document.createElement('IMG');
 				img.src = self.imageFolder + self.plusImage;
-				img.onclick = function(){return document.treemanager.showHideNode(this);}
+				img.onclick = function(){return document.treemanager.toggleNode(this);}
 				if(subTrees.length==0) {
+					nodes[no].className = 'leaf';
 					img.style.visibility='hidden';
 				} else {
-					subTrees[0].id = 'subtree_' + tree.subcounter;
-					tree.subcounter++;
+					nodes[no].className = 'node';
+					subTrees[0].id = 'subtree_' + this.subcounter;
+					this.subcounter++;
 				}
 				var aTag = nodes[no].getElementsByTagName('A')[0];
-				aTag.onclick = function(){return document.treemanager.showHideNode(this);}
+				aTag.onclick = function(){return document.treemanager.toggleNode(this);}
 				nodes[no].insertBefore(img,aTag);
 				if(!nodes[no].id) nodes[no].id = 'node' + self.nodeId;
-				var folderImg = document.createElement('IMG');
-				if(nodes[no].className) {
-					folderImg.src = self.imageFolder + nodes[no].className;
-				} else {
-					folderImg.src = self.imageFolder + self.folderImage;
-				}
-				nodes[no].insertBefore(folderImg,aTag);
 			}	
 		});  
 		if(this.initExpandedNodes){
 			var nodes = this.initExpandedNodes.split(',');
 			for(var no=0;no<nodes.length;no++){
-				if(nodes[no]) this.showHideNode(false,nodes[no]);	
+				if(nodes[no]) this.toggleNode(false,nodes[no]);	
 			}			
 		}	
 	}
