@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: content.php 2503 2006-02-20 14:04:42Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
