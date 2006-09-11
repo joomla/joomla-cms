@@ -56,32 +56,47 @@ function pluginSEF( &$row, &$params, $page=0 )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function contentSEF_replacer( &$matches ) {
+function contentSEF_replacer( &$matches )
+{
 	// original text that might be replaced
 	$original = 'href="'. $matches[1] .'"';
 
 	// array list of non http/https	URL schemes
 	$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:' );
 
-	foreach ( $url_schemes as $url ) {
+	foreach ( $url_schemes as $url )
+	{
 		// disable bot from being applied to specific URL Scheme tag
-		if ( JString::strpos($matches[1], $url) !== false ) {
+		if ( JString::strpos($matches[1], $url) !== false )
+		{
 			return $original;
 		}
 	}
 
 	// will only process links containing 'index.php?option
-	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false ) {
+	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false )
+	{
 		$uriLocal =& JURI::getInstance();
 		$uriHREF  =& JURI::getInstance($matches[1]);
 
 		//disbale bot from being applied to external links
-		if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost())) {
+		if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost()))
+		{
 			return $original;
 		}
 
-		return 'href="'. sefRelToAbs( 'index.php' . $uriHREF->getQueryString() ) . $uriHREF->getAnchor() .'"';
-	} else {
+		if ($qstring = $uriHREF->getQueryString())
+		{
+			$qstring = '?' . $qstring;
+		}
+		if ($anchor = $uriHREF->getAnchor())
+		{
+			$anchor = '#' . $anchor;
+		}
+		return 'href="'. JURI::resolve( 'index.php' . $qstring ) . $uriHREF->getAnchor() .'"';
+	}
+	else
+	{
 		return $original;
 	}
 }
