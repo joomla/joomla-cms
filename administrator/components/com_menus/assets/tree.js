@@ -31,9 +31,10 @@ JTreeManager.prototype = {
 		this.cookie = new JCookie();
 		this.ajaxObjectArray = new Array();
 		this.nodeId = 1;
+		this.guid = 1;
 
 		// Path to images
-		this.imageFolder	= 'images/';
+		this.imageFolder	= 'assets/images/';
 
 		// Image files
 		this.folderImage	= 'folder.gif';
@@ -50,22 +51,36 @@ JTreeManager.prototype = {
 		this.initTree();
 	},
 	
-	registerEvent: function(target,type,args) 
-	{
-		//use a closure to keep scope
-		var self = this;
-			
-		if (target.addEventListener)   { 
-    		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
-	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
-		function onEvent(e)	{
-			e = e||window.event;
-			e.element = target;
-			return self["on"+type](e, args);
-		}
+	addEvent: function(element, type, handler) {
+	    // assign each event handler a unique ID
+	    if (!handler.$$guid) handler.$$guid = this.guid++;
+	    // create a hash table of event types for the element
+	    if (!element.events) element.events = {};
+	    // create a hash table of event handlers for each element/event pair
+	    var handlers = element.events[type];
+	    if (!handlers) {
+	        handlers = element.events[type] = {};
+	        // store the existing event handler (if there is one)
+	        if (element["on" + type]) {
+	            handlers[0] = element["on" + type];
+	        }
+	    }
+	    // store the event handler in the hash table
+	    handlers[handler.$$guid] = handler;
+	    // assign a global event handler to do all the work
+	    element["on" + type] = this.handleEvent;
+	},
+
+	handleEvent: function(event) {
+	    // grab the event object (IE uses a global event object)
+	    event = event || window.event;
+	    // get a reference to the hash table of event handlers
+	    var handlers = this.events[event.type];
+	    // execute each event handler
+	    for (var i in handlers) {
+	        this.$$handleEvent = handlers[i];
+	        this.$$handleEvent(event);
+	    }
 	},
 
 	expandAll: function(treeId)
@@ -130,47 +145,46 @@ JTreeManager.prototype = {
 		return false;
 	},
 
-	addNewNode: function(e)
+	addChildNode: function(e,title,url,onclick)
 	{
-		if(!okToCreateSubNode)return;
-		setTimeout('okToCreateSubNode=true',200);
-		contextMenuObj.style.display='none';
-		okToCreateSubNode = false;
-		source = contextMenuSource;
-		while(source.tagName.toLowerCase()!='li')source = source.parentNode;
-		
-	
-		/*
-		if (e.target) source = e.target;
-			else if (e.srcElement) source = e.srcElement;
-			if (source.nodeType == 3) // defeat Safari bug
-				source = source.parentNode; */
-		//while(source.tagName.toLowerCase()!='li')source = source.parentNode;
-		var nameOfNewNode = prompt('Name of new node');
-		if(!nameOfNewNode)return;
+		var self = this;
 
-		uls = source.getElementsByTagName('UL');
+		// Get child list if it exists or create if it doesn't
+		uls = e.getElementsByTagName('UL');
 		if(uls.length==0){
 			var ul = document.createElement('UL');
-			source.appendChild(ul);
-			
+			e.appendChild(ul);
 		}else{
 			ul = uls[0];
 			ul.style.display='block';
 		}
-		var img = source.getElementsByTagName('IMG');
+		// Set plus image visible
+		var img = e.getElementsByTagName('IMG');
 		img[0].style.visibility='visible';
+		// Create child element
 		var li = document.createElement('LI');
-		li.className='dhtmlgoodies_sheet.gif';
-		var a = document.createElement('A');
-		a.href = '#';
-		a.innerHTML = nameOfNewNode;
+		li.className='leaf';
+		li.id = 'node' + self.nodeId++;
+		// Create child anchor tag
+		var a  = document.createElement('A');
+		a.id = url;
+		a.innerHTML = title;
+		if (onclick) {
+			a.onclick = onclick;
+		}
+		// Create the new img tag
+		var i = document.createElement('IMG');
+		i.src = self.imageFolder + self.plusImage;
+		i.style.visibility = 'hidden';
+		i.onclick = function(){return document.treemanager.toggleNode(false,li.id);}
+		li.appendChild(i);
 		li.appendChild(a);
+		li.id = 'node' + self.nodeId++;
 		ul.id = 'newNode' + Math.round(Math.random()*1000000);
 		ul.appendChild(li);
-		parseSubItems(ul.id);
-		saveNewNode(nameOfNewNode,source.getElementsByTagName('A')[0].id);
-		
+		as = e.getElementsByTagName('A');
+		as[0].onclick = img[0].onclick;
+		self.toggleNode(as[0]);
 	},
 
 	initTree: function()
@@ -197,7 +211,7 @@ JTreeManager.prototype = {
 					this.subcounter++;
 				}
 				var aTag = nodes[no].getElementsByTagName('A')[0];
-				aTag.onclick = function(){return document.treemanager.toggleNode(this);}
+				self.addEvent(aTag,'click',function(){return document.treemanager.toggleNode(this);});
 				nodes[no].insertBefore(img,aTag);
 				if(!nodes[no].id) nodes[no].id = 'node' + self.nodeId;
 			}	
