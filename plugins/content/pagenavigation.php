@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mosvote.php 1991 2006-01-27 02:07:34Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php

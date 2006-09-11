@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mosloadposition.php 2412 2006-02-16 17:24:10Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
