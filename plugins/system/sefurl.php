@@ -232,11 +232,11 @@ function sefRelToAbs($string)
 					// Use the custom sef handler if it exists
 					if (file_exists($path)) {
 						require_once $path;
-						$function = $component.'_buildURL';
-						$sefstring .= $component.'/';
+						$function	= $component.'_buildURL';
+						$sefstring	.= $component.'/';
 						unset($parts['option']);
-						$sefstring .= $function($parts,$params);
-						$string = $sefstring.$parts['Itemid'].'/';
+						$sefstring	.= $function($parts,$params);
+						$string		= $sefstring.intval( @$parts['Itemid'] ) .'/';
 					} else {
 						// Components with no custom handler
 						foreach ($parts as $key => $value)
@@ -257,7 +257,7 @@ function sefRelToAbs($string)
 					$fragment = '#'.$url['fragment'];
 				}
 			}
-	
+
 			// Prepend the base URI
 			if ($rewrite) {
 				return $LiveSite.'/index.php/'.$string;
