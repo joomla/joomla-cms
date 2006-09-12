@@ -37,7 +37,7 @@ class ContentController extends JController
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$viewType   = $document->getType();
 		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
-		$layout     = $cParams->get( 'template_name' );
+		$layout     = JRequest::getVar('layout', $cParams->get( 'template_name', 'default' ), '', 'word');
 		
 		// interceptors to support legacy urls
 		switch( $this->getTask())

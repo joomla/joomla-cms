@@ -584,26 +584,38 @@ class JController extends JObject
 			$type = '.'.$type;
 		}
 
-		if (file_exists( $basePath.DS.'view'.$type.'.php' )) {
-			$viewPath = $basePath.DS.'view'.$type.'.php';
-		} else {
-			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
-		}
-
-		// If the default view file exists include it and try to instantiate the object
-		require_once( $viewPath );
-		
-		// Build the view class name
-		$viewClass = $classPrefix.$viewName;
-		
-		if (!class_exists( $viewClass ))
+		if (file_exists( $basePath.DS.'view'.$type.'.php' ))
 		{
-			JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
+			// default setting, /views/viewName/view.type.php
+			$viewPath = $basePath.DS.'view'.$type.'.php';
 		}
 		else
 		{
-			$view = new $viewClass( );
-			$view->setPath('template', $basePath.DS.'tmpl');
+			// alternative file name, /views/viewName/viewName.php
+			if (file_exists( $basePath.DS.$viewName.'.php' )) {
+				$viewPath = $basePath.DS.$viewName.'.php';
+			}
+		}
+
+		// If the default view file exists include it and try to instantiate the object
+		if ($viewPath)
+		{
+			require_once( $viewPath );
+			// Build the view class name
+			$viewClass = $classPrefix.$viewName;
+			if (!class_exists( $viewClass ))
+			{
+				JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
+			}
+			else
+			{
+				$view = new $viewClass();
+				//$view->setTemplatePath($basePath.DS.'tmpl');
+			}
+		}
+		else
+		{
+			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
 		}
 
 		return $view;

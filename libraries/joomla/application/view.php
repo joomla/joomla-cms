@@ -41,6 +41,14 @@ class JView extends JObject
 	var $_models = array();
 	
 	/**
+	 * The default model
+	 * 
+	 * @var	string
+	 * @access protected
+	 */
+	var $_defaultModel = null;
+
+	/**
 	 * Layout name
 	 *
 	 * @var		string
@@ -85,14 +93,19 @@ class JView extends JObject
 		global $mainframe, $option;
 		
 		//set the view name
-		if (isset($config['name']))  {
-			$this->_name = $config['name'];
-		} else {
-			$r = null;
-			if (!preg_match('/View(.*)/i', get_class($this), $r)) {
-				JError::raiseError (500, "JView::__construct() : Can't get or parse my own class name, exiting.");
+		if (empty( $this->_name ))
+		{
+			if (isset($config['name']))  {
+				$this->_name = $config['name'];
 			}
-			$this->_name = $r[1];
+			else
+			{
+				$r = null;
+				if (!preg_match('/View(.*)/i', get_class($this), $r)) {
+					JError::raiseError (500, "JView::__construct() : Can't get or parse my own class name, exiting.");
+				}
+				$this->_name = $r[1];
+			}
 		}
 		
 		// set the default template search path
@@ -111,7 +124,7 @@ class JView extends JObject
 		} 
 		
 		// set the alternative template searh dir
-		if(isset($mainframe)) {
+		if (isset($mainframe)) {
 			$path = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
 			$this->addPath('template', $path);
 		}
@@ -182,7 +195,8 @@ class JView extends JObject
 		if (is_object($arg0)) 
 		{
 			// assign public properties
-			foreach (get_object_vars($arg0) as $key => $val) {
+			foreach (get_object_vars($arg0) as $key => $val)
+			{
 				if (substr($key, 0, 1) != '_') {
 					$this->$key = $val;
 				}
@@ -191,8 +205,10 @@ class JView extends JObject
 		}
 		
 		// assign by associative array
-		if (is_array($arg0)) {
-			foreach ($arg0 as $key => $val) {
+		if (is_array($arg0))
+		{
+			foreach ($arg0 as $key => $val)
+			{
 				if (substr($key, 0, 1) != '_') {
 					$this->$key = $val;
 				}
@@ -204,7 +220,8 @@ class JView extends JObject
 		
 		// we use array_key_exists() instead of isset() becuase isset()
 		// fails if the value is set to null.
-		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) {
+		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
+		{
 			$this->$arg0 = $arg1;
 			return true;
 		} 
@@ -241,7 +258,8 @@ class JView extends JObject
 	
 	function assignRef($key, &$val)
 	{
-		if (is_string($key) && substr($key, 0, 1) != '_') {
+		if (is_string($key) && substr($key, 0, 1) != '_')
+		{
 			$this->$key =& $val;
 			return true;
 		} 
@@ -259,7 +277,7 @@ class JView extends JObject
 	 */
 	function &get( $method, $model = null )
 	{
-		$false = false;
+		$result = false;
 
 		// If $model is null we use the default model
 		if (is_null($model))
@@ -276,22 +294,27 @@ class JView extends JObject
 			if (method_exists($this->_models[$model], $method))
 			{
 				// The method exists, lets call it and return what we get
-				$data = $this->_models[$model]->$method();
-				return $data;
+				$result =& $this->_models[$model]->$method();
 			}
 			else
 			{
 				// Method wasn't found... throw a warning and return false
 				JError::raiseWarning( 0, "Unknown Method $model::$method() was not found");
-				return $false;
+				$result = false;
 			}
 		}
 		else
 		{
+			/*
 			// Model wasn't found, return throw a warning and return false
 			JError::raiseWarning( 0, 'Unknown Model', "$model model was not found");
-			return $false;
+			$result = false;
+			*/
+			// degrade to JObject::get
+			$result = parent::get( $method, $model );
 		}
+
+		return $result;
 	}
 
 	/**
@@ -339,7 +362,8 @@ class JView extends JObject
 	* @param string $template The template name.
 	*/
 	
-	function setLayout($layout) {
+	function setLayout($layout)
+	{
 		$this->_layout = $layout;
 	}
 	
@@ -350,7 +374,8 @@ class JView extends JObject
 	* @return string The layout name
 	*/
 	
-	function getLayout() {
+	function getLayout()
+	{
 		return $this->_layout;
 	}
 	
@@ -459,31 +484,37 @@ class JView extends JObject
 		
 		//create the template file name based on the layout
 		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
-		
+		// clean the file name
+		$file = preg_replace( '#\W#', '', $file );
+
 		// load the template script
-		$this->_template = $this->_findFile('template', $file.'.php');
-		
-		// unset so as not to introduce into template scope
-		unset($tpl);
-		unset($file);
-		
-		// never allow a 'this' property
-		if (isset($this->this)) {
-			unset($this->this);
+		if ($this->_template = $this->_findFile('template', $file.'.php'))
+		{
+			// unset so as not to introduce into template scope
+			unset($tpl);
+			unset($file);
+			
+			// never allow a 'this' property
+			if (isset($this->this)) {
+				unset($this->this);
+			}
+			
+			// start capturing output into a buffer
+			ob_start();
+			// include the requested template filename in the local scope
+			// (this will execute the view logic).
+			include $this->_template;
+			
+			// done with the requested template; get the buffer and 
+			// clear it.
+			$this->_output = ob_get_contents();
+			ob_end_clean();
+			
+			return $this->_output;
 		}
-		
-		// start capturing output into a buffer
-		ob_start();
-		// include the requested template filename in the local scope
-		// (this will execute the view logic).
-		include $this->_template;
-		
-		// done with the requested template; get the buffer and 
-		// clear it.
-		$this->_output = ob_get_contents();
-		ob_end_clean();
-		
-		return $this->_output;
+		else {
+			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
+		}
 	}
 	
    /**
@@ -508,7 +539,8 @@ class JView extends JObject
 			$fullname = $path . $file;
 				
 			// is the path based on a stream?
-			if (strpos($path, '://') === false) {
+			if (strpos($path, '://') === false)
+			{
 				// not a stream, so do a realpath() to avoid directory 
 				// traversal attempts on the local file system.
 				$path = realpath($path); // needed for substr() later
@@ -520,7 +552,8 @@ class JView extends JObject
 			// non-registered directores are not accessible via directory 
 			// traversal attempts.
 			if (file_exists($fullname) && is_readable($fullname) &&
-				substr($fullname, 0, strlen($path)) == $path) {
+				substr($fullname, 0, strlen($path)) == $path)
+			{
 				return $fullname;
 			}
 		}

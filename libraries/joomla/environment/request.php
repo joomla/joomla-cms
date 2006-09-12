@@ -279,7 +279,9 @@ class JRequest
 		$signature	= $name.$type.$mask;
 
 		// Set global request var
-		$GLOBALS['JRequest'][$signature] = $value;
+		// $GLOBALS['JRequest'][$signature] = $value;
+		// Note: caching is causing issues, and there is nothing to say
+		// that the setVar is not injecting a bad value
 
 		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -287,29 +289,30 @@ class JRequest
 		switch ($hash)
 		{
 			case 'GET' :
-					$_GET[$name] = $value;
-					$_REQUEST[$name] = $value;
+				$_GET[$name] = $value;
+				$_REQUEST[$name] = $value;
 				break;
 			case 'POST' :
-					$_POST[$name] = $value;
-					$_REQUEST[$name] = $value;
+				$_POST[$name] = $value;
+				$_REQUEST[$name] = $value;
 				break;
 			case 'FILES' :
-					$_FILES[$name] = $value;
-					$_REQUEST[$name] = $value;
+				$_FILES[$name] = $value;
+				$_REQUEST[$name] = $value;
 				break;
 			case 'COOKIE' :
-					$_COOKIE[$name] = $value;
-					$_REQUEST[$name] = $value;
+				$_COOKIE[$name] = $value;
+				$_REQUEST[$name] = $value;
 				break;
 			default:
-					$_GET[$name] = $value;
-					$_POST[$name] = $value;
-					$_REQUEST[$name] = $value;
+				$_GET[$name] = $value;
+				$_POST[$name] = $value;
+				$_REQUEST[$name] = $value;
 				break;
 		}
 
-		return $GLOBALS['JRequest'][$signature];
+		//return $GLOBALS['JRequest'][$signature];
+		return $value;
 	}
 
 	/**
