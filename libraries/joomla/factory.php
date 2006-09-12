@@ -480,7 +480,7 @@ class JFactory
 		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
 		$tmpl->addGlobalVar( 'uri_query', 			$_SERVER['QUERY_STRING'] );
 		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
-		$tmpl->addGlobalVar( 'REQUEST_URL',			JRequest::getUrl() );
+		$tmpl->addGlobalVar( 'REQUEST_URI',			JRequest::getURI() );
 
 		return $tmpl;
 	}

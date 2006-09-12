@@ -38,18 +38,10 @@ $GLOBALS['JRequest'] = array();
 class JRequest
 {
 	/**
-	 * Gets the query part of the URL
-	 */
-	function getQuery()
-	{
-		return $_SERVER['QUERY_STRING'];
-	}
-
-	/**
 	 * Gets the full request path
 	 * @return string
 	 */
-	function getUrl()
+	function getURI()
 	{
 		$uri = &JURI::getInstance();
 		return $uri->toString();

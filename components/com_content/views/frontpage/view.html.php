@@ -179,7 +179,7 @@ class ContentViewFrontpage extends JView
 
 			case 'email' :
 			{
-				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getUrl());
+				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
