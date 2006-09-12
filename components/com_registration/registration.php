@@ -320,7 +320,6 @@ class RegistrationController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
 		$view = new RegistrationViewRegister();
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'tmpl');
 		$view->setLayout('register');
 
 		$message = new stdClass();

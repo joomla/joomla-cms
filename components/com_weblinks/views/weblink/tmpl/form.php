@@ -43,7 +43,7 @@ function submitbutton(pressbutton)
 		</label>
 	</td>
 	<td width="80%">
-		<input class="inputbox" type="text" id="jformtitle" name="jform[title]" size="50" maxlength="250" value="<?php echo htmlspecialchars( $this->weblink->title, ENT_QUOTES );?>" />
+		<input class="inputbox" type="text" id="jformtitle" name="jform[title]" size="50" maxlength="250" value="<?php echo $this->escape($this->weblink->title);?>" />
 	</td>
 </tr>
 <tr>

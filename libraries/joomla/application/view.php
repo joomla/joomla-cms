@@ -82,6 +82,14 @@ class JView extends JObject
 	* @access private
 	*/
 	var $_output = null;
+	
+	/**
+	* Array of callbacks used to escape output.
+	* 
+	* @var array
+	* @access private
+	*/
+	var $_escape = array('htmlspecialchars');
 
 	/**
 	 * Constructor
@@ -90,8 +98,6 @@ class JView extends JObject
 	 */
 	function __construct($config = array()) 
 	{
-		global $mainframe, $option;
-		
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -113,20 +119,12 @@ class JView extends JObject
 			// user-defined dirs
 			$this->setPath('template', $config['template_path']);
 		} else {
-			// no directories set, use the
-			// default directory only
-			$this->setPath('template', null);
+			$this->setTemplatePath(null);
 		}
 		
 		// set the layout
 		if (isset($config['layout'])) {
 			$this->setLayout($config['layout']);
-		} 
-		
-		// set the alternative template searh dir
-		if (isset($mainframe)) {
-			$path = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
-			$this->addPath('template', $path);
 		}
 	}
 	
@@ -266,6 +264,71 @@ class JView extends JObject
 		
 		return false;
 	}
+	
+	/**
+	* Applies escaping to a value.
+	* 
+	* You can override the predefined escaping callbacks by passing
+	* added parameters as replacement callbacks.
+	* 
+	* <code>
+	* // use predefined callbacks
+	* $result = $view->escape($value);
+	* 
+	* // use replacement callbacks
+	* $result = $view->escape(
+	*     $value,
+	*     'stripslashes',
+	*     'htmlspecialchars',
+	*     array('StaticClass', 'method'),
+	*     array($object, $method)
+	* );
+	* </code>
+	* 
+	* @access public
+	* @param mixed $value The value to be escaped.
+	* @return mixed
+	*/
+	function escape($value)
+	{
+		// were custom callbacks passed?
+		if (func_num_args() == 1) 
+		{
+			// no, only a value was passed.
+			// loop through the predefined callbacks.
+			foreach ($this->_escape as $func) 
+			{
+				// this if() shaves 0.001sec off of 300 calls.
+				if (is_string($func)) {
+					$value = $func($value);
+				} else {
+					$value = call_user_func($func, $value);
+				}
+			}	
+		} 
+		else 
+		{
+			// yes, use the custom callbacks
+			$callbacks = func_get_args();
+			
+			// drop $value
+			array_shift($callbacks);
+			
+			// loop through custom callbacks.
+			foreach ($callbacks as $func) 
+			{
+				// this if() shaves 0.001sec off of 300 calls.
+				if (is_string($func)) {
+					$value = $func($value);
+				} else {
+					$value = call_user_func($func, $value);
+				}
+			}
+			
+		}
+		
+		return $value;
+	}
 
 	/**
 	 * Method to get data from a registered model
@@ -294,7 +357,7 @@ class JView extends JObject
 			if (method_exists($this->_models[$model], $method))
 			{
 				// The method exists, lets call it and return what we get
-				$result =& $this->_models[$model]->$method();
+				$result = $this->_models[$model]->$method();
 			}
 			else
 			{
@@ -379,92 +442,77 @@ class JView extends JObject
 		return $this->_layout;
 	}
 	
+	 /**
+     * Adds to the stack of view script paths in LIFO order.
+     *
+     * @param string|array The directory (-ies) to add.
+     * @return void
+     */
+    function addTemplatePath($path)
+    {
+        $this->_addPath('template', $path);
+    }
+
+    /**
+     * Resets the stack of view template paths.
+     *
+     * To clear all paths, use JView::setTemplatePath(null).
+     *
+     * @param string|array The directory (-ies) to set as the path.
+     * @return void
+     */
+    function setTemplatePath($path)
+    {
+        $this->_setPath('template', $path);
+    }
+	
 	/**
-	* Sets an entire array of search paths for templates or resources.
-	*
+	* Clears then sets the callbacks to use when calling JView::escape().
+	* 
+	* Each parameter passed to this function is treated as a separate
+	* callback.  For example:
+	* 
+	* <code>
+	* $view->setEscape(
+	*     'stripslashes',
+	*     'htmlspecialchars',
+	*     array('StaticClass', 'method'),
+	*     array($object, $method)
+	* );
+	* </code>
+	* 
 	* @access public
-	* @param string $type The type of path to set, typically 'template'.
-	* @param string|array $path The new set of search paths.  If null or
-	* false, resets to the current directory only.
 	*/
-	function setPath($type, $path)
+	function setEscape()
 	{
-		// clear out the prior search dirs
-		$this->_path[$type] = array();
-		
-		// always add the fallback directories as last resort
-		switch (strtolower($type)) 
-		{
-			case 'template':
-				// the current directory
-				$this->addPath($type, JPATH_COMPONENT.DS.'views'.DS.$this->_name.DS.'tmpl');
-				break;
-		}
-			
-		// actually add the user-specified directories
-		$this->addPath($type, $path);
+		$this->_escape = (array) @func_get_args();
 	}
 	
-   /**
-	* Gets the array of search directories for template sources.
-	*
-	* @access public
-	* @return array The array of search directories for view sources.
-	*/
-	function getPath($type = null)
-	{
-		if (! $type) {
-			return $this->_path;
-		} else {
-			return $this->_path[$type];
-		}
-	}
 	
-   /**
-	* Adds to the search path for templates and resources.
-	*
+	/**
+	* Adds to the callbacks used when calling JView::escape().
+	* 
+	* Each parameter passed to this function is treated as a separate
+	* callback.  For example:
+	* 
+	* <code>
+	* $savant->addEscape(
+	*     'stripslashes',
+	*     'htmlspecialchars',
+	*     array('StaticClass', 'method'),
+	*     array($object, $method)
+	* );
+	* </code>
+	* 
 	* @access public
-	* @param string|array $path The directory or stream to search.
+	*
+	* @return void
+	*
 	*/
-	function addPath($type, $path)
+	function addEscape()
 	{
-		// convert from path string to array of directories
-		if (is_string($path) && ! strpos($path, '://')) 
-		{
-			// the path config is a string, and it's not a stream
-			// identifier (the "://" piece). add it as a path string.
-			$path = explode(PATH_SEPARATOR, $path);
-			
-			// typically in path strings, the first one is expected
-			// to be searched first. however, JView uses a stack,
-			// so the first would be last.  reverse the path string
-			// so that it behaves as expected with path strings.
-			$path = array_reverse($path);
-		} 
-		else 
-		{
-			// just force to array
-			settype($path, 'array');	
-		}
-		
-		// loop through the path directories
-		foreach ($path as $dir) 
-		{
-			// no surrounding spaces allowed!
-			$dir = trim($dir);
-			
-			// add trailing separators as needed
-			if (strpos($dir, '://') && substr($dir, -1) != '/') {
-				// stream
-				$dir .= '/';
-			} elseif (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
-			}
-			
-			// add to the top of the search dirs
-			array_unshift($this->_path[$type], $dir);
-		}
+		$args = (array) @func_get_args();
+		$this->_escape = array_merge($this->_escape, $args);
 	}
 	
 	/**
@@ -517,6 +565,87 @@ class JView extends JObject
 		}
 	}
 	
+		/**
+	* Sets an entire array of search paths for templates or resources.
+	*
+	* @access protected
+	* @param string $type The type of path to set, typically 'template'.
+	* @param string|array $path The new set of search paths.  If null or
+	* false, resets to the current directory only.
+	*/
+	function _setPath($type, $path)
+	{
+		global $mainframe, $option;
+			
+		// clear out the prior search dirs
+		$this->_path[$type] = array();
+		
+		// always add the fallback directories as last resort
+		switch (strtolower($type)) 
+		{
+			case 'template':
+				// the current directory
+				$this->_addPath($type, JPATH_COMPONENT.DS.'views'.DS.$this->_name.DS.'tmpl');
+				
+				// set the alternative template searh dir
+				if (isset($mainframe)) {
+					$path = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
+					$this->_addPath('template', $path);
+				}
+				break;
+		}
+			
+		// actually add the user-specified directories
+		$this->_addPath($type, $path);
+	}
+	
+   /**
+	* Adds to the search path for templates and resources.
+	*
+	* @access protected
+	* @param string|array $path The directory or stream to search.
+	*/
+	function _addPath($type, $path)
+	{
+		// convert from path string to array of directories
+		if (is_string($path) && ! strpos($path, '://')) 
+		{
+			// the path config is a string, and it's not a stream
+			// identifier (the "://" piece). add it as a path string.
+			$path = explode(PATH_SEPARATOR, $path);
+			
+			// typically in path strings, the first one is expected
+			// to be searched first. however, JView uses a stack,
+			// so the first would be last.  reverse the path string
+			// so that it behaves as expected with path strings.
+			$path = array_reverse($path);
+		} 
+		else 
+		{
+			// just force to array
+			settype($path, 'array');	
+		}
+		
+		// loop through the path directories
+		foreach ($path as $dir) 
+		{
+			// no surrounding spaces allowed!
+			$dir = trim($dir);
+			
+			// add trailing separators as needed
+			if (strpos($dir, '://') && substr($dir, -1) != '/') {
+				// stream
+				$dir .= '/';
+			} elseif (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+				// directory
+				$dir .= DIRECTORY_SEPARATOR;
+			}
+			
+			// add to the top of the search dirs
+			array_unshift($this->_path[$type], $dir);
+		}
+	}
+	
    /**
 	* Searches the directory paths for a given file.
 	* 
@@ -531,7 +660,7 @@ class JView extends JObject
 	{
 		// get the set of paths
 		$set = $this->_path[$type];
-			
+		
 		// start looping through the path set
 		foreach ($set as $path) 
 		{	

@@ -120,7 +120,6 @@ class NewsfeedsController
 		$view->assignRef('data'      , $data);
 		$view->assignRef('categories', $categories);
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'categories'.DS.'tmpl');
 		$view->display();
 	}
 

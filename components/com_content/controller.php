@@ -32,7 +32,7 @@ class ContentController extends JController
 	function display()
 	{
 		$document =& JFactory::getDocument();
-		$cParams= JSiteHelper::getControlParams();
+		$cParams  = JSiteHelper::getControlParams();
 
 		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
 		$viewType   = $document->getType();
