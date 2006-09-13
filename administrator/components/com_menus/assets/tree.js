@@ -145,7 +145,7 @@ JTreeManager.prototype = {
 		return false;
 	},
 
-	addChildNode: function(e,title,url,onclick)
+	addChildNode: function(e,title,url,click)
 	{
 		var self = this;
 
@@ -166,11 +166,11 @@ JTreeManager.prototype = {
 		li.className='leaf';
 		li.id = 'node' + self.nodeId++;
 		// Create child anchor tag
-		var a  = document.createElement('A');
+		var a = document.createElement('A');
 		a.id = url;
 		a.innerHTML = title;
-		if (onclick) {
-			a.onclick = onclick;
+		if (click) {
+			self.addEvent(a,'click', function(){eval(click);});
 		}
 		// Create the new img tag
 		var i = document.createElement('IMG');

@@ -62,7 +62,7 @@ class JAJAXHandler {
 		jimport( 'joomla.application.application' );
 
 		$objResponse = new xajaxResponse();
-		$onclick = "xajax_test(this.parentNode.id,this.id);return false;";
+		$onclick = "xajax_test(this.parentNode.id,this.id);";
 		$objResponse->addScript("document.treemanager.addChildNode(document.getElementById('".$id."'),'Name','URL','".$onclick."')");
 		return $objResponse;
 	}
