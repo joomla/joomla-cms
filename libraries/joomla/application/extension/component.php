@@ -51,7 +51,7 @@ class JComponentHelper
 		else
 		{
 			$result				= new stdClass();
-			$result->enabled	= false;
+			$result->enabled	= true;
 			$result->params		= null;
 		}
 
@@ -69,19 +69,8 @@ class JComponentHelper
 	{
 		global $mainframe;
 
-		// TODO: In future versions this should be ACL controlled
-		$enabledList = array(
-			'com_login',
-			'com_content',
-			'com_categories',
-			'com_media',
-			'com_frontpage',
-			'com_user',
-			'com_wrapper',
-			'com_registration'
-		);
 		$component = &JComponentHelper::getInfo( $option );
-		return ($component->enabled | in_array($option, $enabledList) | $mainframe->isAdmin());
+		return ($component->enabled | $mainframe->isAdmin());
 	}
 
 	/**
