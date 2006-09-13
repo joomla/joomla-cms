@@ -86,13 +86,6 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 }
 
 /**
- * Set the available masks for cleaning variables
- */
-define("_J_NOTRIM"   , 1);
-define("_J_ALLOWRAW" , 2);
-define("_J_ALLOWHTML", 4);
-
-/**
  * Utility method to clean a string variable using input filters
  *
  * Available Options masks:

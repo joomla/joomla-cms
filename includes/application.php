@@ -366,7 +366,7 @@ class JSiteHelper
 			$itemid = $item->id;
 		}
 
-		return JRequest::setVar( 'Itemid', $itemid, '', 'int' );
+		return JRequest::setVar( 'Itemid', $itemid );
 	}
 
 	/**

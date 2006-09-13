@@ -15,9 +15,11 @@ jimport('joomla.utilities.array');
 jimport('joomla.utilities.functions');
 
 /**
- * Make sure the request hash is clean on file inclusion
+ * Set the available masks for cleaning variables
  */
-$GLOBALS['JRequest'] = array();
+define("_J_NOTRIM"   , 1);
+define("_J_ALLOWRAW" , 2);
+define("_J_ALLOWHTML", 4);
 
 /**
  * JRequest Class
@@ -92,6 +94,11 @@ class JRequest
 		$_FILES = $FILES;
 		$_ENV = $ENV;
 		$_SERVER = $SERVER;
+
+		/**
+		 * Make sure the request hash is clean on file inclusion
+		 */
+		$GLOBALS['JRequest'] = array();
 	}
 
 	/**
@@ -122,71 +129,121 @@ class JRequest
 	 */
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-		$hash		= strtoupper( $hash );
-		$type		= strtoupper( $type );
-		$signature	= $name.$type.$mask;
+		// Static input filters for specific settings
+		static $noHtmlFilter	= null;
+		static $safeHtmlFilter	= null;
 
-		if (!isset($GLOBALS['JRequest'][$signature])) {
-			$result		= null;
-			$matches	= array();
+		// Ensure hash and type are uppercase
+		$hash = strtoupper( $hash );
+		if ($hash === 'METHOD') {
+			$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
+		}
+		$type = strtoupper( $type );
+		$sig  = $hash.$mask;
 
-			if ($hash === 'METHOD') {
-				$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
+		// Get the input hash
+		switch ($hash)
+		{
+			case 'GET' :
+				$input  = &$_GET;
+				break;
+			case 'POST' :
+				$input  = &$_POST;
+				break;
+			case 'FILES' :
+				$input  = &$_FILES;
+				break;
+			case 'COOKIE' :
+				$input  = &$_COOKIE;
+				break;
+			default:
+				$input  = &$_REQUEST;
+				break;
+		}
+
+		if (@$GLOBALS['JRequest'][$name] == 'SET') {
+			// Get the variable from the input hash
+			$var = ($input[$name]) ? $input[$name] : $default;
+		} elseif (!isset($GLOBALS['JRequest'][$name][$sig])) {
+			// Get the variable from the input hash
+			$var = @$input[$name];
+
+			// If the no trim flag is not set, trim the variable
+			if (!($mask & 1)) {
+				$var = trim($var);
 			}
 
-			switch ($hash)
-			{
-				case 'GET' :
-					$input  = &$_GET;
-					break;
-
-				case 'POST' :
-					$input  = &$_POST;
-					break;
-
-				case 'FILES' :
-					$input  = &$_FILES;
-					break;
-
-				case 'COOKIE' :
-					$input  = &$_COOKIE;
-					break;
-
-				default:
-					$input  = &$_REQUEST;
-					break;
-			}
-
-			// Get the casted value
-			$result = JArrayHelper::getValue( $input, $name, $default, $type );
-
-			// Run through input filter if necessary
-			switch ($type)
-			{
-				case 'INT' :
-				case 'INTEGER' :
-				case 'FLOAT' :
-				case 'DOUBLE' :
-				case 'BOOL' :
-				case 'BOOLEAN' :
-					break;
-
-				default :
-					// Clean the variable given using the given filter mask
-					$result = josFilterValue($result, $mask);
-					break;
+			// Now we handle input filtering
+			if ($mask & 2) {
+				// If the allow raw flag is set, do not modify the variable
+				$var = $var;
+			} elseif ($mask & 4) {
+				// If the allow html flag is set, apply a safe html filter to the variable
+				if (is_null($safeHtmlFilter)) {
+					$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
+				}
+				$var = $safeHtmlFilter->clean($var, $type);
+			} else {
+				// Since no allow flags were set, we will apply the most strict filter to the variable
+				if (is_null($noHtmlFilter)) {
+					$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+				}
+				$var = $noHtmlFilter->clean($var, $type);
 			}
 
 			// Handle magic quotes compatability
-			if (get_magic_quotes_gpc() && ($result != $default))
+			if (get_magic_quotes_gpc() && ($var != $default))
 			{
-				if (!is_array($result) && is_string($result)) {
-					$result = stripslashes($result);
+				if (!is_array($var) && is_string($var)) {
+					$var = stripslashes($var);
 				}
 			}
-			$GLOBALS['JRequest'][$signature] = $result;
+			if (!is_null($var)) {
+				$GLOBALS['JRequest'][$name][$sig] = $var;
+			}
+			$var = ($var) ? $var : $default;
+		} else {
+			$var = $GLOBALS['JRequest'][$name][$sig];
 		}
-		return $GLOBALS['JRequest'][$signature];
+		return $var;
+	}
+
+	function setVar($name, $value = null, $hash = 'default')
+	{
+		// Clean global request var
+		$GLOBALS['JRequest'][$name] = 'SET';
+
+		// Get the request hash value
+		$hash = strtoupper($hash);
+		if ($hash === 'METHOD') {
+			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
+		}
+		switch ($hash)
+		{
+			case 'GET' :
+				$_GET[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+			case 'POST' :
+				$_POST[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+			case 'FILES' :
+				$_FILES[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+			case 'COOKIE' :
+				$_COOKIE[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+			default:
+				$_GET[$name] = $value;
+				$_POST[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+		}
+
+		return $value;
 	}
 
 	/**
@@ -261,50 +318,6 @@ class JRequest
 			$hashes[$signature] = &$result;
 		}
 		return $hashes[$signature];
-	}
-
-	function setVar($name, $value = null, $hash = 'default', $type = 'none', $mask = 0)
-	{
-		// Initialize variables
-		$hash		= strtoupper($hash);
-		$type		= strtoupper($type);
-		$signature	= $name.$type.$mask;
-
-		// Set global request var
-		// $GLOBALS['JRequest'][$signature] = $value;
-		// Note: caching is causing issues, and there is nothing to say
-		// that the setVar is not injecting a bad value
-
-		if ($hash === 'METHOD') {
-			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
-		}
-		switch ($hash)
-		{
-			case 'GET' :
-				$_GET[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-			case 'POST' :
-				$_POST[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-			case 'FILES' :
-				$_FILES[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-			case 'COOKIE' :
-				$_COOKIE[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-			default:
-				$_GET[$name] = $value;
-				$_POST[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-		}
-
-		//return $GLOBALS['JRequest'][$signature];
-		return $value;
 	}
 
 	/**

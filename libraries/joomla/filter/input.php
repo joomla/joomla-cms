@@ -98,30 +98,62 @@ class JInputFilter extends JObject
 	 *
 	 * @access	public
 	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
+	 * @param	string	$type	Return type for the variable (INT, FLOAT, WORD, BOOLEAN, STRING)
 	 * @return	mixed	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
-	function clean($source)
+	function clean($source, $type='string')
 	{
-		// Are we dealing with an array?
-		if (is_array($source)) {
-			foreach ($source as $key => $value)
-			{
-				// filter element for XSS and other 'bad' code etc.
-				if (is_string($value)) {
-					$source[$key] = $this->_remove($this->_decode($value));
+		// Handle the type constraint
+		switch (strtoupper($type))
+		{
+			case 'INT' :
+			case 'INTEGER' :
+				// Only use the first integer value
+				@ preg_match('/-?[0-9]+/', $source, $matches);
+				$result = @ (int) $matches[0];
+				break;
+
+			case 'FLOAT' :
+			case 'DOUBLE' :
+				// Only use the first floating point value
+				@ preg_match('/-?[0-9]+(\.[0-9]+)?/', $source, $matches);
+				$result = @ (float) $matches[0];
+				break;
+
+			case 'BOOL' :
+			case 'BOOLEAN' :
+				$result = (bool) $source;
+				break;
+
+			case 'WORD' :
+				$result = (string) preg_replace( '#\W#', '', $source );
+				break;
+
+			default :
+				// Are we dealing with an array?
+				if (is_array($source)) {
+					foreach ($source as $key => $value)
+					{
+						// filter element for XSS and other 'bad' code etc.
+						if (is_string($value)) {
+							$source[$key] = $this->_remove($this->_decode($value));
+						}
+					}
+					$result = $source;
+				} else {
+					// Or a string?
+					if (is_string($source) && !empty ($source)) {
+						// filter source for XSS and other 'bad' code etc.
+						$result = $this->_remove($this->_decode($source));
+					} else {
+						// Not an array or string.. return the passed parameter
+						$result = $source;
+					}
 				}
-			}
-			return $source;
-		} else
-			// Or a string?
-			if (is_string($source) && !empty ($source)) {
-				// filter source for XSS and other 'bad' code etc.
-				return $this->_remove($this->_decode($source));
-			} else {
-				// Not an array or string.. return the passed parameter
-				return $source;
-			}
+				break;
+		}
+		return $result;
 	}
 
 	/**
