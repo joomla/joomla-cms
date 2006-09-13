@@ -46,9 +46,8 @@ class ContentViewFrontpage extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//set data model
-		$items 		= $this->get('ContentData');
-		$frontpage  = new stdClass();
-		$frontpage->total = count($items);
+		$items =& $this->get('data' );
+		$total =& $this->get('total');
 
 		// Create a user access object for the user
 		$access					= new stdClass();
@@ -80,6 +79,7 @@ class ContentViewFrontpage extends JView
 
 		// Set section/category description text and images for
 		//TODO :: Fix this !
+		$frontpage  = new stdClass();
 		if ($menu && $menu->componentid && ($descrip || $descrip_image))
 		{
 			switch ($menu->type)
@@ -108,18 +108,18 @@ class ContentViewFrontpage extends JView
 			}
 		}
 
-		$limit 		= $intro + $leading + $links;
+		$limit = $intro + $leading + $links;
 
-		if ($frontpage->total <= $limit) {
+		if ($total <= $limit) {
 			$limitstart = 0;
 		}
-		$i = $limitstart;
 
 		jimport('joomla.presentation.pagination');
-		$this->pagination = new JPagination($frontpage->total, $limitstart, $limit);
+		$this->pagination = new JPagination($total, $limitstart, $limit);
 		
 
 		// prepare links
+		$this->assign('total'     , $total);
 		$this->assign('limit'     , $limit);
 		$this->assign('limitstart', $limitstart);
 
@@ -276,6 +276,7 @@ class ContentViewFrontpage extends JView
 		$params->set('image',			1);
 
 		$item =& $this->items[$index];
+
 
 		// Process the content preparation plugins
 		$item->text	= ampReplace($item->introtext);

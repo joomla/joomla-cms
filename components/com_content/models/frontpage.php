@@ -25,11 +25,18 @@ jimport('joomla.application.model');
 class ContentModelFrontpage extends JModel
 {
 	/**
-	 * Content data in category array
+	 * Frontpage data array
 	 *
 	 * @var array
 	 */
-	var $_content = null;
+	var $_data = null;
+	
+	/**
+	 * Frontpage total
+	 *
+	 * @var integer
+	 */
+	var $_total = null;
 
 	/**
 	 * Method to set the section id
@@ -44,58 +51,24 @@ class ContentModelFrontpage extends JModel
 
 	/**
 	 * Method to get content item data for the frontpage
-	 *
-	 * @since 1.5
+	 * 
+	 * @access public
+	 * @return array
 	 */
-	function getContentData()
-	{
-		$this->_loadContent();
-		return $this->_content;
-	}
-
-	/**
-	 * Method to load content item data for items in the category if they don't
-	 * exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadContent()
+	function getData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_content))
+		if (empty($this->_data))
 		{
-			$user		= & JFactory::getUser();
-			$gid		= $user->get('gid');
-
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
-			// Voting is turned on, get voting data as well for the content items
-			$voting	= JContentHelper::buildVotingQuery();
-
-			// Get the WHERE and ORDER BY clauses for the query
-			$where		= $this->_buildContentWhere();
-			$orderby	= $this->_buildContentOrderBy();
-
-			$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-					"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-					"\n CHAR_LENGTH( a.`fulltext` ) AS readmore," .
-					"\n u.name AS author, u.usertype, g.name AS groups".
-					$voting['select'] .
-					"\n FROM #__content AS a" .
-					"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-					"\n LEFT JOIN #__groups AS g ON a.access = g.id".
-					$voting['join'].
-					$where.
-					$orderby;
-			$this->_db->setQuery($query, $limitstart, $limit);
-			$Arows = $this->_db->loadObjectList();
-
+	
+			$query = $this->_buildQuery();
+			$Arows = $this->_getList($query, $limitstart, $limit);
+		
 			// special handling required as static content does not have a section / category id linkage
-			$i = 0;
+			$i = $limitstart;
 			$rows = array();
 			foreach ($Arows as $row)
 			{
@@ -103,9 +76,55 @@ class ContentModelFrontpage extends JModel
 				$rows[$i] = $row;
 				$i ++;
 			}
-			$this->_content = $rows;
+			$this->_data = $rows;
 		}
-		return true;
+		
+		return $this->_data;
+	}
+
+	/**
+	 * Method to get the total number of content items for the frontpage
+	 * 
+	 * @access public
+	 * @return integer
+	 */
+	function getTotal()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$total = $this->_getListCount($query);
+
+			$this->_total = $total;
+		}
+		
+		return $this->_total;
+	}
+	
+	function _buildQuery()
+	{
+		// Voting is turned on, get voting data as well for the content items
+		$voting	= JContentHelper::buildVotingQuery();
+
+		// Get the WHERE and ORDER BY clauses for the query
+		$where	 = $this->_buildContentWhere();
+		$orderby = $this->_buildContentOrderBy();
+		
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
+			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore," .
+			"\n u.name AS author, u.usertype, g.name AS groups".
+			$voting['select'] .
+			"\n FROM #__content AS a" .
+			"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .
+			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
+			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+			$voting['join'].
+			$where.
+			$orderby;
+			
+		return $query;
 	}
 
 	function _buildContentOrderBy()
@@ -114,8 +133,7 @@ class ContentModelFrontpage extends JModel
 		
 		// Get the menu object of the active menu item
 		$params  =& JSiteHelper::getMenuParams();
-		
-		
+	
 		$orderby_sec	= $params->def('orderby_sec', '');
 		$orderby_pri	= $params->def('orderby_pri', '');
 		$secondary		= JContentHelper::orderbySecondary($orderby_sec);

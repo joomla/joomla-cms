@@ -34,7 +34,7 @@ class ContentViewFrontpage extends JView
 		$limit	  = '10';
 
 		JRequest::setVar('limit', $limit);
-		$rows = $this->get('ContentData');
+		$rows = $this->get('data');
 		
 		foreach ( $rows as $row )
 		{
