@@ -23,25 +23,23 @@ if (!$user->authorize( 'com_config', 'manage' )) {
 	$mainframe->redirect('index2.php?', JText::_('ALERTNOTAUTH'));
 }
 
-define( 'JPATH_COM_CONFIG', dirname( __FILE__ ));
-
 
 $controllerName = JRequest::getVar( 'c', 'global' );
 
 switch ($controllerName)
 {
 	case 'global':
-		require_once( JPATH_COM_CONFIG . '/controllers/global.php' );
-		require_once( JPATH_COM_CONFIG . '/views/global.php' );
+		require_once( JPATH_COMPONENT . '/controllers/global.php' );
+		require_once( JPATH_COMPONENT . '/views/global.php' );
 
 		$controller = new JConfigGlobalController( 'showConfig' );
 		break;
 
 	default:
 		// TODO: Lock down access to config changes
-		require_once( JPATH_COM_CONFIG . '/controllers/component.php' );
-		require_once( JPATH_COM_CONFIG . '/models/component.php' );
-		require_once( JPATH_COM_CONFIG . '/views/component.php' );
+		require_once( JPATH_COMPONENT . '/controllers/component.php' );
+		require_once( JPATH_COMPONENT . '/models/component.php' );
+		require_once( JPATH_COMPONENT . '/views/component.php' );
 
 		$controller = new JConfigComponentController( 'edit' );
 		break;
