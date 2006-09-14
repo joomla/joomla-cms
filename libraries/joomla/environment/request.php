@@ -129,10 +129,6 @@ class JRequest
 	 */
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-		// Static input filters for specific settings
-		static $noHtmlFilter	= null;
-		static $safeHtmlFilter	= null;
-
 		// Ensure hash and type are uppercase
 		$hash = strtoupper( $hash );
 		if ($hash === 'METHOD') {
@@ -166,30 +162,7 @@ class JRequest
 			$var = ($input[$name]) ? $input[$name] : $default;
 		} elseif (!isset($GLOBALS['JRequest'][$name][$sig])) {
 			// Get the variable from the input hash
-			$var = @$input[$name];
-
-			// If the no trim flag is not set, trim the variable
-			if (!($mask & 1)) {
-				$var = trim($var);
-			}
-
-			// Now we handle input filtering
-			if ($mask & 2) {
-				// If the allow raw flag is set, do not modify the variable
-				$var = $var;
-			} elseif ($mask & 4) {
-				// If the allow html flag is set, apply a safe html filter to the variable
-				if (is_null($safeHtmlFilter)) {
-					$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
-				}
-				$var = $safeHtmlFilter->clean($var, $type);
-			} else {
-				// Since no allow flags were set, we will apply the most strict filter to the variable
-				if (is_null($noHtmlFilter)) {
-					$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
-				}
-				$var = $noHtmlFilter->clean($var, $type);
-			}
+			$var = JRequest::_cleanVar(@$input[$name], $type, $mask);
 
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($var != $default))
@@ -198,9 +171,7 @@ class JRequest
 					$var = stripslashes($var);
 				}
 			}
-			if (!is_null($var)) {
-				$GLOBALS['JRequest'][$name][$sig] = $var;
-			}
+			$GLOBALS['JRequest'][$name][$sig] = $var;
 			$var = ($var) ? $var : $default;
 		} else {
 			$var = $GLOBALS['JRequest'][$name][$sig];
@@ -345,6 +316,35 @@ class JRequest
 		}
 	}
 
+	function _cleanVar($var, $type, $mask) {
+		// Static input filters for specific settings
+		static $noHtmlFilter	= null;
+		static $safeHtmlFilter	= null;
+
+		// If the no trim flag is not set, trim the variable
+		if (!($mask & 1)) {
+			$var = trim($var);
+		}
+
+		// Now we handle input filtering
+		if ($mask & 2) {
+			// If the allow raw flag is set, do not modify the variable
+			$var = $var;
+		} elseif ($mask & 4) {
+			// If the allow html flag is set, apply a safe html filter to the variable
+			if (is_null($safeHtmlFilter)) {
+				$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
+			}
+			$var = $safeHtmlFilter->clean($var, $type);
+		} else {
+			// Since no allow flags were set, we will apply the most strict filter to the variable
+			if (is_null($noHtmlFilter)) {
+				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+			}
+			$var = $noHtmlFilter->clean($var, $type);
+		}
+		return $var;
+	}
 	/**
 	 * Strips slashes recursively on an array
 	 *
