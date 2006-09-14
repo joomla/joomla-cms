@@ -300,9 +300,7 @@ class JInstallationController
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
-		/*
-		 * Instantiate the xajax object and register the function
-		 */
+		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'includes/jajax.php');
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		//$xajax->debugOn();
@@ -345,14 +343,14 @@ class JInstallationController
 		global $mainframe;
 
 		// get ftp configuration into registry for use in case of safe mode
-		JInstallationHelper::setFTPCfg( $vars );
+		if($vars['ftpEnable']) {
+			JInstallationHelper::setFTPCfg( $vars );
+		}
 
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
-		/*
-		 * Instantiate the xajax object and register the function
-		 */
+		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'includes/jajax.php');
 		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 //		$xajax->debugOn();
@@ -360,10 +358,7 @@ class JInstallationController
 		$doc =& JFactory::getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
-
-		/*
-		 * Deal with possible sql script uploads from this stage
-		 */
+		// Deal with possible sql script uploads from this stage
 		$vars['loadchecked'] = 0;
 		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1)
 		{
@@ -386,14 +381,10 @@ class JInstallationController
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 
-		/*
-		 * Import the authentication library
-		 */
+		 // mport the authentication library
 		jimport('joomla.application.user.authenticate');
 
-		/*
-		 * Generate a random admin password
-		 */
+		// Generate a random admin password
 		$vars['adminPassword'] = JAuthenticateHelper::genRandomPassword(8);
 
 		$folders = array (
@@ -419,11 +410,7 @@ class JInstallationController
 			'templates',
 		);
 
-
-
-		/*
-		 * Now lets make sure we have permissions set on the appropriate folders
-		 */
+		// Now lets make sure we have permissions set on the appropriate folders
 //		foreach ($folders as $folder)
 //		{
 //			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
@@ -439,14 +426,10 @@ class JInstallationController
 	{
 		global $mainframe;
 		
-		/*
-		 * Import authentication library
-		 */
+		// Import authentication library
 		jimport( 'joomla.application.user.authenticate' );
 
-		/*
-		 * Set some needed variables
-		 */
+		// Set some needed variables
 		$vars['siteUrl']		= $mainframe->getSiteURL();
 		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
 		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
@@ -456,9 +439,8 @@ class JInstallationController
 		$vars['metadesc']		= JText::_( 'STDMETADESC' );
 		$vars['metakeys']		= JText::_( 'STDMETAKEYS' );
 
-		/*
-		 * If FTP has not been enabled, set the value to 0
-		 */
+		
+		// If FTP has not been enabled, set the value to 0
 		if (!isset($vars['ftpEnable']))
 		{
 			$vars['ftpEnable'] = 0;
@@ -1004,7 +986,8 @@ class JInstallationHelper
 	 * @return string Success or error messages
 	 * @since 1.5
 	 */
-	function uploadSql( &$args, $migration = false ) {
+	function uploadSql( &$args, $migration = false ) 
+	{
 		global $mainframe;
 		$archive = '';
 		$script = '';

@@ -418,7 +418,9 @@ class JSimpleXMLElement extends JObject
 	}
 
 	/**
-	 * Get the name of the element
+	 * Get the an attribute of the element
+	 * 
+	 * @param string $attribute 	The name of the attribute
 	 *
 	 * @access public
 	 * @return string
@@ -456,9 +458,21 @@ class JSimpleXMLElement extends JObject
 	function level() {
 		return $this->_level;
 	}
+	
+	 /**
+     * AAdds an attribute to the element
+     *
+     * @param string $name
+     * @param array  $attrs
+     */
+    function addAttribute($name, $value)
+    {
+		//add the attribute to the element, override if it already exists
+        $this->_attributes[$name] = $value;
+    }
 
     /**
-     * Adds a direct child to this object
+     * Adds a direct child to the element
      *
      * @param string $name
      * @param array  $attrs

@@ -35,7 +35,7 @@ class JElement_FolderList extends JElement
 		jimport( 'joomla.filesystem.folder' );
 
 		// path to images directory
-		$path		= JPATH_SITE.$node->attributes('directory');
+		$path		= JPATH_ROOT.$node->attributes('folder');
 		$filter		= $node->attributes('filter');
 		$exclude	= $node->attributes('exclude');
 		$folders	= JFolder::folders($path, $filter);

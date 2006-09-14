@@ -40,8 +40,8 @@ class JElement_ImageList extends JElement {
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$filter = $node->attributes('filter');
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
+		$node->addAttribute('filter', $filter);
 
 		$parameter =& $this->_parent->loadElement('filelist');
 

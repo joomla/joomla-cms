@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Sep-2006 Johan Janssens
+ # Fixed [artf5942] : Undefined index: ftpUser
+ # Fixed [artf5939] : "Step 6" throws notices on missing FTP vars
+
 10-Sep-2006 David Gal
  ^ FTP configuration step in Installation is skipped for Windows host.
  ^ FTP configuration pane is disabled in global configuration for Windows hosts

@@ -115,12 +115,13 @@ class JPaneTabs extends JPane
 	*/
 	function __construct( $params = array() )
 	{
-		global $mainframe;
+		static $loaded = false;
 
 		parent::__construct($params);
 
-		if(!$mainframe->get( 'JPanelTabs_loaded')) {
+		if(!$loaded) {
 			$this->_loadBehavior($params);
+			$loaded = true;
 		}
 	}
 
@@ -185,8 +186,6 @@ class JPaneTabs extends JPane
 
 		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css, 'text/css', null, array(' id' => 'luna-tab-style-sheet' ));
 		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
-
-		$mainframe->set( 'JPanelTabs_loaded', true );
 	}
 }
 
@@ -207,12 +206,13 @@ class JPaneSliders extends JPane
 	*/
 	function __construct( $params = array() )
 	{
+		static $loaded = false;
+		
 		parent::__construct($params);
 
-		global $mainframe;
-
-		if(!$mainframe->get( 'JPanelSliders_loaded')) {
+		if(!$loaded) {
 			$this->_loadBehavior($params);
+			$loaded = true;
 		}
 	}
 
@@ -273,8 +273,6 @@ class JPaneSliders extends JPane
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );
-
-		$mainframe->set( 'JPanelSliders_loaded', true );
 	}
 }
 ?>

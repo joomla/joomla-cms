@@ -34,7 +34,7 @@ class JElement_Menu extends JElement
 	{
 		$db =& JFactory::getDBO();
 
-		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
+		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'model.php' );
 		$model		= &JModel::getInstance( 'JModelMenu' );
 		$menuTypes 	= $model->getMenuTypes();
 

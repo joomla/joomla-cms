@@ -23,7 +23,8 @@
  * @since		1.5
  */
 
-class JElement extends JObject {
+class JElement extends JObject 
+{
    /**
 	* element name
 	*
