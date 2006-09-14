@@ -841,10 +841,10 @@ class JTable extends JObject
 			return false;
 		}
 
-		$cids = $this->$k . '=' . implode( ' OR ' . $this->$k . '=', $cid );
+		$cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
 
 		$query = "UPDATE $this->_tbl"
-		. "\n SET published = " . intval( $publish )
+		. "\n SET published = " . (int) $publish
 		. "\n WHERE ($cids)"
 		;
 
@@ -858,7 +858,7 @@ class JTable extends JObject
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($db->getErrorNum());
+			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 
