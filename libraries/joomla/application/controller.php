@@ -573,7 +573,7 @@ class JController extends JObject
 		$viewName	 = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
 		$viewType	 = preg_replace( '#\W#', '', $type );
-
+		
 		$view		= null;
 
 		// Build the path to the default view based upon a supplied base path
@@ -596,7 +596,7 @@ class JController extends JObject
 				$viewPath = $basePath.DS.$viewName.'.php';
 			}
 		}
-
+		
 		// If the default view file exists include it and try to instantiate the object
 		if ($viewPath)
 		{

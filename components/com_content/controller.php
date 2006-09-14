@@ -32,12 +32,10 @@ class ContentController extends JController
 	function display()
 	{
 		$document =& JFactory::getDocument();
-		$cParams  = JSiteHelper::getControlParams();
-
-		$viewName	= JRequest::getVar('view', $cParams->get( 'view_name' ));
-		$viewType   = $document->getType();
-		$modelName	= JRequest::getVar('model', $cParams->get( 'model_name', $viewName ));
-		$layout     = JRequest::getVar('layout', $cParams->get( 'template_name', 'default' ), '', 'word');
+		
+		$viewName  = null;
+		$viewType  = $document->getType();
+		$modelName = null;
 		
 		// interceptors to support legacy urls
 		switch( $this->getTask())
@@ -80,8 +78,7 @@ class ContentController extends JController
 				$layout = 'default';
 				break;
 		}
-
-
+		
 		// Create the view
 		$this->setViewName( $viewName, 'ContentView', $viewType );
 		$view = & $this->getView();

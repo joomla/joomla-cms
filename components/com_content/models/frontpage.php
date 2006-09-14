@@ -94,9 +94,7 @@ class ContentModelFrontpage extends JModel
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
-			$total = $this->_getListCount($query);
-
-			$this->_total = $total;
+			$this->_total = $this->_getListCount($query);
 		}
 		
 		return $this->_total;

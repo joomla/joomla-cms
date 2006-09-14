@@ -48,7 +48,8 @@ class ContentViewArchive extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Get some data from the model
-		$items	  = & $this->get( 'List' );
+		$items = & $this->get( 'data'  );
+		$total = & $this->get( 'total' );
 
 		// Add item to pathway
 		$pathway->addItem(JText::_('Archive'), '');
@@ -84,7 +85,7 @@ class ContentViewArchive extends JView
 		$i		= $limitstart;
 
 		jimport('joomla.presentation.pagination');
-		$pagination = new JPagination(count($items), $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$form = new stdClass();
 		// Month Field

@@ -107,9 +107,7 @@ class ContentModelArticle extends JModel
 	 */
 	function &getArticle()
 	{
-		/*
-		 * Load the Category data
-		 */
+		// Load the Category data
 		if ($this->_loadArticle())
 		{
 			$user	= & JFactory::getUser();

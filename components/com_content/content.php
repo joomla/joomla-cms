@@ -23,7 +23,6 @@ require_once (JPATH_COMPONENT . '/helpers/content.php');
 jimport('joomla.application.extension.component');
 
 $document =& JFactory::getDocument();
-$cParams  = JSiteHelper::getControlParams();
 
 // Create the controller
 $controller = new ContentController( 'display' );
@@ -33,7 +32,7 @@ $controller->setViewPath ( JPATH_COMPONENT.DS.'views'  );
 $controller->setModelPath( JPATH_COMPONENT.DS.'models' );
 
 // Set the default view name from the Request
-$viewName = JRequest::getVar( 'view', $cParams->get( 'view_name', 'article' ) );
+$viewName = JRequest::getVar( 'view' );
 $viewType = $document->getType();
 
 $controller->setViewName( $viewName, 'ContentView', $viewType );

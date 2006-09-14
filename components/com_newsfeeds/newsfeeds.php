@@ -21,15 +21,12 @@ JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS.'t
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Newsfeeds'));
 
-$cParams = JSiteHelper::getControlParams();
-$task	 = JRequest::getVar( 'task', $cParams->get( 'task') );
-
 /*
  * This is our main control structure for the component
  *
  * Each view is determined by the $task variable
  */
-switch( $task )
+switch( JRequest::getVar( 'task' ) )
 {
 	case 'view':
 		NewsfeedsController::displayNewsFeed( );
@@ -227,7 +224,6 @@ class NewsfeedsController
 		$view->assignRef('items'   , $rows);
 		$view->assignRef('category', $category);
 		
-		$view->setPath('template', JPATH_COMPONENT.DS.'views'.DS.'category'.DS.'tmpl');
 		$view->display();
 	}
 

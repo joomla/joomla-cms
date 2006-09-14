@@ -29,33 +29,27 @@ class ContentModelArchive extends JModel
 	 *
 	 * @var array
 	 */
-	var $_list = array();
+	var $_data = array();
+	
+	/**
+	 * Article total
+	 *
+	 * @var integer
+	 */
+	var $_total = array();
 
 	/**
 	 * Method to get the archived article list
 	 *
-	 * @since 1.5
+	 * @access public
+	 * @return array
 	 */
-	function getList()
-	{
-		// Load the archived data
-		$this->_loadList();
-		return $this->_list;
-	}
-
-	/**
-	 * Method to load content item data for items in the category if they don't
-	 * exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadList()
+	function getData()
 	{
 		global $Itemid;
 		
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_list))
+		if (empty($this->_data))
 		{
 			// Get the menu object of the active menu item
 			$menus	 =& JMenu::getInstance();
@@ -64,29 +58,55 @@ class ContentModelArchive extends JModel
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+			
+			$query = $this->_buildQuery();
 
-			// If voting is turned on, get voting data as well for the content items
-			$voting	= JContentHelper::buildVotingQuery();
-
-			// Get the WHERE and ORDER BY clauses for the query
-			$where		= $this->_buildContentWhere();
-			$orderby	= $this->_buildContentOrderBy();
-
-			$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-					"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-					"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups".$voting['select'] .
-					"\n FROM #__content AS a" .
-					"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-					"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
-					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-					"\n LEFT JOIN #__groups AS g ON a.access = g.id".
-					$voting['join'].
-					$where.
-					$orderby;
-			$this->_db->setQuery($query, $limitstart, $limit);
-			$this->_list = $this->_db->loadObjectList();
+			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
-		return true;
+		
+		return $this->_data;
+	}
+	
+	/**
+	 * Method to get the total number of content items for the frontpage
+	 * 
+	 * @access public
+	 * @return integer
+	 */
+	function getTotal()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+		
+		return $this->_total;
+	}
+	
+	function _buildQuery()
+	{
+		// If voting is turned on, get voting data as well for the content items
+		$voting	= JContentHelper::buildVotingQuery();
+
+		// Get the WHERE and ORDER BY clauses for the query
+		$where		= $this->_buildContentWhere();
+		$orderby	= $this->_buildContentOrderBy();
+		
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
+			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups".$voting['select'] .
+			"\n FROM #__content AS a" .
+			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
+			"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
+			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
+			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+			$voting['join'].
+			$where.
+			$orderby;
+			
+		return $query;
 	}
 
 	function _buildContentOrderBy()
