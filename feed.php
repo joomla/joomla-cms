@@ -58,5 +58,5 @@ $document->display( false, $mainframe->getCfg('gzip'), $params);
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
 
-JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
+//TODO :: log debug information to file
 ?>
