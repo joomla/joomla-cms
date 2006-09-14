@@ -101,7 +101,7 @@ class ContentController extends JController
 		}
 		else
 		{
-			return JError::raiseError( 500, 'The view ['.$viewName.'] could not be found]' );
+			return JError::raiseError( 500, 'The view ['.$viewName.'] could not be found' );
 		}
 	}
 
