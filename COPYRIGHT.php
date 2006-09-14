@@ -20,12 +20,15 @@ Public License.  This version has been modified pursuant to the
 GNU General Public License as of September 15, 2005, and as distributed,
 it includes or is derivative of works licensed under the GNU General
 Public License or other free or open source software licenses, including
-works copyrighted by any or all of the following, from 2000 through 2005:
+works copyrighted by any or all of the following, from 2000 through 2006:
+
 Nick Anies, Brad Baker, Ron Bakker, Shayne Bartlett, Tim Broeker, Levis
 Bisson, Michelle Bisson, Robert Castley, Andrew Eddie, Rey Gigataras,
 Johan Janssens, Alex Kempkens, Peter Koch, James Logan, Andy Miller,
 Mitch Pirtle, Steen Rabol, Peter Russel, Phil Taylor, Brian Teeman, Emir
 Sakic, Jean-Marie Simonet, Andy Stewart, Trijnie Wanders, Arno Zijlstra,
+David Gal, Louis Landry, Marko Schmuck, Mateusz Kreszowiec, Richard Allinson,
+Rob Schley, Tonie deWilde, Samuel Moffatt
 or Miro International Pty Ltd.
 
 Joomla! includes or is derivative of works distributed under the following copyright notices:
