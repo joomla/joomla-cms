@@ -157,7 +157,7 @@ class JRequest
 				break;
 		}
 
-		if (@$GLOBALS['JRequest'][$name] == 'SET') {
+		if (isset($GLOBALS['JRequest'][$name]) && ($GLOBALS['JRequest'][$name] == 'SET')) {
 			// Get the variable from the input hash
 			$var = ($input[$name]) ? $input[$name] : $default;
 		} elseif (!isset($GLOBALS['JRequest'][$name][$sig])) {
@@ -322,7 +322,7 @@ class JRequest
 		static $safeHtmlFilter	= null;
 
 		// If the no trim flag is not set, trim the variable
-		if (!($mask & 1)) {
+		if (!($mask & 1) && is_string($var)) {
 			$var = trim($var);
 		}
 
