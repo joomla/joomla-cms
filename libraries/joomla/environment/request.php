@@ -159,7 +159,7 @@ class JRequest
 
 		if (isset($GLOBALS['JRequest'][$name]) && ($GLOBALS['JRequest'][$name] == 'SET')) {
 			// Get the variable from the input hash
-			$var = ($input[$name]) ? $input[$name] : $default;
+			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 		} elseif (!isset($GLOBALS['JRequest'][$name][$sig])) {
 			// Get the variable from the input hash
 			$var = JRequest::_cleanVar(@$input[$name], $type, $mask);
@@ -175,7 +175,7 @@ class JRequest
 		} else {
 			$var = $GLOBALS['JRequest'][$name][$sig];
 		}
-		return $var = ($var) ? $var : $default;
+		return $var = (isset($var) && $var !== null) ? $var : $default;
 	}
 
 	function setVar($name, $value = null, $hash = 'default')
