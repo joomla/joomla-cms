@@ -36,12 +36,11 @@ class JInstallerExtensionTasks {
 	*/
 	function showInstalled()
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
-		$option		= JRequest::getVar( 'option' );
 		$filter 	= $mainframe->getUserStateFromRequest( "$option.language.filter", 'filter', '-1' );
-		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		$select[] 			= mosHTML::makeOption('-1', JText::_('All'));
 		$select[] 			= mosHTML::makeOption('0', JText::_('Site Languages'));

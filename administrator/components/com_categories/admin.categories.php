@@ -112,11 +112,12 @@ function showCategories( $section, $option )
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 	'filter_state', 	'' );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
 	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	
+	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 	$section_name 	= '';
 	$content_add 	= '';

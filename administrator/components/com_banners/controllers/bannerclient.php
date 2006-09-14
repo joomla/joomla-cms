@@ -27,10 +27,11 @@ class BannerClientController
 		$context			= "com_banners.viewbannerclient";
 		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order",		'filter_order', 	'a.cid' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
-		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart 		= $mainframe->getUserStateFromRequest( "$context.limitstart", 	'limitstart', 		0 );
 		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
+		
+		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		$where = array();
 

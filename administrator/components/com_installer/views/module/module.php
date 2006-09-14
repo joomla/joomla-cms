@@ -33,13 +33,12 @@ class JInstallerExtensionTasks {
 	*/
 	function showInstalled()
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
-		$db					=& JFactory::getDBO();
-		$filter 			= JRequest::getVar( 'filter' );
-		$option				= JRequest::getVar( 'option' );
-		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+		$db			=& JFactory::getDBO();
+		$filter 	= JRequest::getVar( 'filter' );
+		$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		$select[] 			= mosHTML::makeOption('', JText::_('All'));
 		$select[] 			= mosHTML::makeOption('0', JText::_('Site Modules'));

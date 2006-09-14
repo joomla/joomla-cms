@@ -26,16 +26,15 @@ class JTemplatesController
 	*/
 	function viewTemplates()
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$option = JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Initialize the pagination variables
-		$limit		= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart	= $mainframe->getUserStateFromRequest("$option.limitstart", 'limitstart', 0);
+		$limit		= $mainframe->getUserStateFromRequest("$option.$client.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		$select[] 			= mosHTML::makeOption('0', JText::_('Site'));
 		$select[] 			= mosHTML::makeOption('1', JText::_('Administrator'));

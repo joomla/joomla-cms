@@ -49,16 +49,15 @@ switch ($task)
 */
 function viewLanguages()
 {
-	global $mainframe;
+	global $mainframe, $option;
 
 	// Initialize some variables
 	$db		= & JFactory::getDBO();
-	$option = JRequest::getVar('option');
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$rows	= array ();
 
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 	$rowid = 0;
 

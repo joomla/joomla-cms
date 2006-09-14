@@ -48,10 +48,11 @@ class JPollGlobalController extends JController
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.id' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
-		$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
-		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 		$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		
+		$limit		= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		$where = array();
 

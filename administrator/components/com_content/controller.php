@@ -70,9 +70,10 @@ class JContentController extends JController
 		$catid				= $mainframe->getUserStateFromRequest("$context.catid", 'catid', 0);
 		$filter_authorid	= $mainframe->getUserStateFromRequest("$context.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid	= $mainframe->getUserStateFromRequest("$context.filter_sectionid", 'filter_sectionid', -1);
-		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart			= $mainframe->getUserStateFromRequest("$context.limitstart", 'limitstart', 0);
 		$search				= $mainframe->getUserStateFromRequest("$context.search", 'search', '');
+		
+		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//$where[] = "c.state >= 0";
 		$where[] = 'c.state != -2';

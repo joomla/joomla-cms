@@ -99,11 +99,10 @@ switch ( $task )
 */
 function viewModules()
 {
-	global $mainframe;
+	global $mainframe, $option;
 
 	// Initialize some variables
 	$db		=& JFactory::getDBO();
-	$option = JRequest::getVar('option');
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.position' );
@@ -112,11 +111,12 @@ function viewModules()
 	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.filter_position", 	'filter_position', 	0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
 	$filter_assigned 	= $mainframe->getUserStateFromRequest( "$option.filter_assigned",	'filter_assigned',	0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-
+	
+	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+	
 	$where[] = "m.client_id = ".$client->id;
 
 	$joins[] = 'LEFT JOIN #__users AS u ON u.id = m.checked_out';

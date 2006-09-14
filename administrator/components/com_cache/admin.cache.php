@@ -68,8 +68,8 @@ class CacheController
 
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		$limit 			= $mainframe->getUserStateFromRequest( "limit"							 , 'limit'		, $mainframe->getCfg('list_limit') );
-		$limitstart 	= $mainframe->getUserStateFromRequest( "$option.view.limitstart", 'limitstart'	, 0 );
+		$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		$cmData = new CacheData($client->path.DS.'cache');
 

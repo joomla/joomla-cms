@@ -77,23 +77,22 @@ switch ($task)
  */
 function showUsers( )
 {
-	global $mainframe;
+	global $mainframe, $option;
 
 	$db				=& JFactory::getDBO();
 	$currentUser	=& JFactory::getUser();
 	$acl			=& JFactory::getACL();
 
-	$option 	= JRequest::getVar( 'option');
-
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.name' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
 	$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged", 	'filter_logged', 	0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where 				= array();
+	
+	$limit		= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int');
+	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 	if (isset( $search ) && $search!= '')
 	{
