@@ -29,17 +29,17 @@ $controllerName = JRequest::getVar( 'c', 'global' );
 switch ($controllerName)
 {
 	case 'global':
-		require_once( JPATH_COMPONENT . '/controllers/global.php' );
-		require_once( JPATH_COMPONENT . '/views/global.php' );
+		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'global.php' );
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'global.php' );
 
 		$controller = new JConfigGlobalController( 'showConfig' );
 		break;
 
 	default:
 		// TODO: Lock down access to config changes
-		require_once( JPATH_COMPONENT . '/controllers/component.php' );
-		require_once( JPATH_COMPONENT . '/models/component.php' );
-		require_once( JPATH_COMPONENT . '/views/component.php' );
+		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'component.php' );
+		require_once( JPATH_COMPONENT.DS.'models'.DS.'component.php' );
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'component.php' );
 
 		$controller = new JConfigComponentController( 'edit' );
 		break;

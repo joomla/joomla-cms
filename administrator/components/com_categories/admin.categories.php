@@ -24,7 +24,8 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) {
+switch (JRequest::getVar('task')) 
+{
 	case 'new':
 	case 'edit':
 		editCategory( );
@@ -51,7 +52,7 @@ switch ($task) {
 	case 'menulink':
 	case 'save':
 	case 'apply':
-		saveCategory( $task );
+		saveCategory( );
 		break;
 
 	case 'remove':
@@ -374,7 +375,7 @@ function editCategory( )
 * Saves the catefory after an edit form submit
 * @param string The name of the category section
 */
-function saveCategory( $task )
+function saveCategory()
 {
 	global $mainframe;
 
@@ -433,7 +434,8 @@ function saveCategory( $task )
 		exit();
 	}
 
-	switch ( $task ) {
+	switch ( JRequest::getVar('task') ) 
+	{
 		case 'go2menu':
 			$mainframe->redirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;
@@ -448,7 +450,7 @@ function saveCategory( $task )
 
 		case 'apply':
         	$msg = JText::_( 'Changes to Category saved' );
-			$mainframe->redirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			$mainframe->redirect( 'index2.php?option=com_categories&section='. $redirect .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
 			break;
 
 		case 'save':

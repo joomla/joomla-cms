@@ -21,7 +21,7 @@ class BannerController
 	/**
 	 * Display the list of banners
 	 */
-	function viewBanners()
+	function display()
 	{
 		global $mainframe, $option;
 
@@ -101,7 +101,7 @@ class BannerController
 		// search filter
 		$lists['search']= $search;
 
-		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'banner.php');
+		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
 		BannersView::showBanners( $rows, $pageNav, $option, $lists );
 	}
 
@@ -158,14 +158,14 @@ class BannerController
 		// published
 		$lists['showBanner'] = mosHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
 
-		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'banner.php');
+		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
 		BannersView::edit( $row, $lists, $option );
 	}
 
 	/**
 	 * Save method
 	 */
-	function saveBanner( $task )
+	function save( $task )
 	{
 		global $mainframe;
 
@@ -229,7 +229,7 @@ class BannerController
 		$mainframe->redirect( $link, $msg );
 	}
 
-	function cancelEditBanner()
+	function cancel()
 	{
 		global $mainframe;
 
@@ -292,7 +292,7 @@ class BannerController
 
 	}
 
-	function publishBanner( $cid, $publish=1 )
+	function publish( $cid, $publish=1 )
 	{
 		global $mainframe;
 
@@ -331,7 +331,7 @@ class BannerController
 
 	}
 
-	function removeBanner()
+	function remove()
 	{
 		global $mainframe;
 

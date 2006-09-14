@@ -31,10 +31,10 @@ class JContentModelWizard extends JWizardModel
 
 		// Include and create the helper object
 		if ($type) {
-			require_once(JPATH_COM_CONTENT.'helpers'.DS.$type.'.php');
+			require_once(JPATH_COMPONENT.DS.'helpers'.DS.$type.'.php');
 			$class = 'JContentHelper'.ucfirst($type);
 			$this->_helper = new $class($this);
-			$this->_helper->setXmlPath( JPATH_COM_CONTENT.'helpers'.DS.'xml' );
+			$this->_helper->setXmlPath( JPATH_COMPONENT.DS.'helpers'.DS.'xml' );
 			$name = $this->_helper->getWizardName();
 		} else {
 			$name = 'content';

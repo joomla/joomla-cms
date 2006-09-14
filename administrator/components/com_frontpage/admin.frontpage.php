@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_FRONTPAGE', dirname( __FILE__ ));
-
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_frontpage', 'manage' )) {
@@ -203,7 +201,7 @@ function viewFrontPage( $option )
 	// search filter
 	$lists['search']= $search;
 
-	require_once(JPATH_COM_FRONTPAGE.DS.'views'.DS.'frontpage.php');
+	require_once(JPATH_COMPONENT.DS.'views'.DS.'frontpage.php');
 	FrontpageView::showList( $rows, $pageNav, $option, $lists );
 }
 

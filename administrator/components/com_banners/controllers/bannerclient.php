@@ -18,7 +18,7 @@
  */
 class BannerClientController
 {
-	function viewBannerClients()
+	function display()
 	{
 		global $mainframe;
 
@@ -72,14 +72,14 @@ class BannerClientController
 		// search filter
 		$lists['search']= $search;
 
-		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
+		require_once(JPATH_COMPONENT.DS.'views'.DS.'client.php');
 		BannersViewClients::showClients( $rows, $pageNav, 'com_banners', $lists );
 	}
 
 	/**
 	 * Edit a banner client record
 	 */
-	function editBannerClient()
+	function edit()
 	{
 		global $mainframe;
 
@@ -96,7 +96,7 @@ class BannerClientController
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $userId )) {
 	    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
-			$mainframe->redirect( 'index2.php?option=com_banners&task=listclients', $msg );
+			$mainframe->redirect( 'index.php?option=com_banners&task=listclients', $msg );
 		}
 
 		if ($row->cid) {
@@ -108,11 +108,11 @@ class BannerClientController
 			$row->approved = 0;
 		}
 
-		require_once(JPATH_COM_BANNERS.DS.'views'.DS.'client.php');
+		require_once(JPATH_COMPONENT.DS.'views'.DS.'client.php');
 		BannersViewClients::bannerClientForm( $row, 'com_banners' );
 	}
 
-	function saveBannerClient()
+	function save()
 	{
 		global $mainframe;
 
@@ -138,32 +138,32 @@ class BannerClientController
 		$task = JRequest::getVar( 'task' );
 		switch ($task) {
 			case 'applyclient':
-				$link = 'index2.php?option=com_banners&task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';
+				$link = 'index.php?option=com_banners&task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';
 				break;
 
 			case 'saveclient':
 			default:
-				$link = 'index2.php?option=com_banners&task=listclients';
+				$link = 'index.php?option=com_banners&task=listclients';
 				break;
 		}
 
 		$mainframe->redirect( $link );
 	}
 
-	function cancelEditClient()
+	function cancel()
 	{
 		global $mainframe;
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
 		$table		=& JTable::getInstance('bannerclient', $db, 'Table');
-		$table->id	= JRequest::getVar( 'cid', 0, 'post', 'int' );
+		$table->cid	= JRequest::getVar( 'cid', 0, 'post', 'int' );
 		$table->checkin();
 
-		$mainframe->redirect( "index2.php?option=com_banners&task=listclients" );
+		$mainframe->redirect( "index.php?option=com_banners&task=listclients" );
 	}
 
-	function removeBannerClients()
+	function remove()
 	{
 		global $mainframe;
 
@@ -193,7 +193,7 @@ class BannerClientController
 				$table->delete( (int) $cid[$i] );
 			}
 		}
-		$mainframe->redirect( 'index2.php?option=com_banners&task=listclients', $msg, 'error' );
+		$mainframe->redirect( 'index.php?option=com_banners&task=listclients', $msg, 'error' );
 	}
 }
 ?>

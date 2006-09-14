@@ -58,14 +58,12 @@ class HTML_admin_misc
 
 		$db =& JFactory::getDBO();
 
-		define( 'JPATH_COM_ADMIN', dirname( __FILE__ ));
-
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
 
 		$contents = '';
 		ob_start();
-		require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'navigation.html');
+		require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'navigation.html');
 		$contents = ob_get_contents();
 		ob_clean();
 
@@ -78,7 +76,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_system.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_system.html'); ?>
 					</td>
 				</tr>
 				</table>
@@ -88,7 +86,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_phpsettings.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_phpsettings.html'); ?>
 					</td>
 				</tr>
 				</table>
@@ -98,7 +96,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_config.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_config.html'); ?>
 					</td>
 				</tr>
 				</table>
@@ -108,7 +106,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_directory.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_directory.html'); ?>
 					</td>
 				</tr>
 				</table>
@@ -118,7 +116,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COM_ADMIN.DS.'tmpl'.DS.'sysinfo_phpinfo.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_phpinfo.html'); ?>
 					</td>
 				</tr>
 				</table>

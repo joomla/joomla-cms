@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'JPATH_COM_BANNERS', dirname( __FILE__ ));
-
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_banners', 'manage' )) {
@@ -26,8 +24,8 @@ if (!$user->authorize( 'com_banners', 'manage' )) {
 // Set the table directory
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
 
-require_once( JPATH_COM_BANNERS . '/controllers/banner.php' );
-require_once( JPATH_COM_BANNERS . '/controllers/bannerclient.php' );
+require_once( JPATH_COMPONENT.DS.'controllers'.DS.'banner.php' );
+require_once( JPATH_COMPONENT.DS.'controllers'.DS.'bannerclient.php' );
 
 $cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
@@ -47,25 +45,25 @@ switch (JRequest::getVar( 'task' ))
 		break;
 
 	case 'cancel':
-		BannerController::cancelEditBanner();
+		BannerController::cancel();
 		break;
 
 	case 'save':
 	case 'resethits':
 	case 'apply':
-		BannerController::saveBanner( $task );
+		BannerController::save( $task );
 		break;
 
 	case 'remove':
-		BannerController::removeBanner();
+		BannerController::remove();
 		break;
 
 	case 'publish':
-		BannerController::publishBanner( $cid,1 );
+		BannerController::publish( $cid,1 );
 		break;
 
 	case 'unpublish':
-		BannerController::publishBanner( $cid, 0 );
+		BannerController::publish( $cid, 0 );
 		break;
 
 	case 'saveorder':
@@ -75,29 +73,29 @@ switch (JRequest::getVar( 'task' ))
 	// Clients
 	case 'newclient':
 	case 'editclient':
-		BannerClientController::editBannerClient();
+		BannerClientController::edit();
 		break;
 
 	case 'saveclient':
 	case 'applyclient':
-		BannerClientController::saveBannerClient();
+		BannerClientController::save();
 		break;
 
 	case 'removeclients':
-		BannerClientController::removeBannerClients();
+		BannerClientController::remove();
 		break;
 
 	case 'cancelclient':
-		BannerClientController::cancelEditClient();
+		BannerClientController::cancel();
 		break;
 
 	case 'listclients':
-		BannerClientController::viewBannerClients();
+		BannerClientController::display();
 		break;
 
 	// Default
 	default:
-		BannerController::viewBanners();
+		BannerController::display();
 		break;
 }
 ?>

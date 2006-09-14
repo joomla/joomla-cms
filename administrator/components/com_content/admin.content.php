@@ -16,15 +16,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-define( 'JPATH_COM_CONTENT', dirname( __FILE__ ) . DS );
-
-require_once( JPATH_COM_CONTENT . 'controller.php' );
-require_once( JPATH_COM_CONTENT . 'helper.php' );
+require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once( JPATH_COMPONENT.DS.'helper.php' );
 require_once (JApplicationHelper::getPath('admin_html'));
 
 $controller = new JContentController();
-$controller->setModelPath( JPATH_COM_CONTENT.'models'.DS );
-$controller->setViewPath( JPATH_COM_CONTENT.'views'.DS );
+$controller->setModelPath( JPATH_COMPONENT.DS.'models'.DS );
+$controller->setViewPath( JPATH_COMPONENT.DS.'views'.DS );
 
 switch (strtolower($task))
 {

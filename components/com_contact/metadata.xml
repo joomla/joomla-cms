@@ -7,7 +7,7 @@
 					<![CDATA[Choose the contact component view.]]>
 				</message>
 				<params>
-					<param name="view_name" type="folderlist" folder="/components/com_contact/views" filter="^[^_]" hide_none="1" label="View Style" />
+					<param name="view_name" type="folderlist" directory="/components/com_contact/views" filter="^[^_]" hide_none="1" label="View Style" />
 				</params>
 			</step>
 			<include source="/components/com_contact/views/{view_name}/metadata.xml" path="control/steps" />

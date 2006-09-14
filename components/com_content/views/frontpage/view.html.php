@@ -34,16 +34,35 @@ class ContentViewFrontpage extends JView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
+		
+		// Request variables
+		$id			= JRequest::getVar('id');
+		$limit		= JRequest::getVar('limit', 5, '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
+		
+		// parameters
+		$intro				= $params->def('intro', 			4);
+		$leading			= $params->def('leading', 			1);
+		$links				= $params->def('link', 				4);
+		$descrip			= $params->def('description', 		1);
+		$descrip_image		= $params->def('description_image', 1);
+		
+		$params->def('pageclass_sfx', '');
+		$params->set('intro_only', 	1);
+		$params->def('page_title', 	1);
 
-		// Request variables
-		$id			= JRequest::getVar('id');
-		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		if ($params->get('page_title')) {
+			$params->def('header', $menu->name);
+		}
+		
+		$limit = $intro + $leading + $links;
+		
+		JRequest::setVar('limit', $limit);
 
 		//set data model
 		$items =& $this->get('data' );
@@ -54,22 +73,7 @@ class ContentViewFrontpage extends JView
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		// parameters
-		$intro				= $params->def('intro', 			4);
-		$leading			= $params->def('leading', 			1);
-		$links				= $params->def('link', 				4);
-		$descrip			= $params->def('description', 		1);
-		$descrip_image		= $params->def('description_image', 1);
-
-		$params->def('pageclass_sfx', '');
-		$params->set('intro_only', 	1);
-		$params->def('page_title', 	1);
-
-		if ($params->get('page_title')) {
-			$params->def('header', $menu->name);
-		}
-		
+	
 		//add alternate feed link
 		$link    = ampReplace(JURI::base() .'feed.php?option=com_frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -108,16 +112,9 @@ class ContentViewFrontpage extends JView
 			}
 		}
 
-		$limit = $intro + $leading + $links;
-
-		if ($total <= $limit) {
-			$limitstart = 0;
-		}
-
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
 		
-
 		// prepare links
 		$this->assign('total'     , $total);
 		$this->assign('limit'     , $limit);
