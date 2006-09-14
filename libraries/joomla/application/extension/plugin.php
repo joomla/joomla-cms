@@ -172,7 +172,7 @@ class JPluginHelper
 				//needed for backwards compatibility
 				global $_MAMBOTS, $mainframe; 
 
-				require $path;
+				require_once( $path );
 
 				$lang =& JFactory::getLanguage();
 				$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
