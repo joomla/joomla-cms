@@ -116,8 +116,7 @@ class JMediaViews
 		global $mainframe;
 
 		$doc   =& JFactory::getDocument();
-		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
-
+		$style = $mainframe->getUserStateFromRequest('com_media.list.style', 'listStyle', 'thumbs');
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
 
 		$style = ucfirst($style);
@@ -565,7 +564,7 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
+		$style = $mainframe->getUserStateFromRequest('com_media.list.style', 'listStyle', 'thumbs');
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
 			var basepath = '".$base.'/images'."';
