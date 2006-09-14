@@ -653,6 +653,11 @@ class JApplication extends JObject
 			//}
 		}
 
+		if (!is_a(JSession::get('registry'), 'JRegistry')) {
+			// Registry has been corrupted somehow
+			JSession::set('registry', new JRegistry('session'));
+		}
+		
 		JSession::setIdle($this->getCfg('lifetime'));
 		JSession::setGcMaxLifetime($this->getCfg('lifetime'));
 
