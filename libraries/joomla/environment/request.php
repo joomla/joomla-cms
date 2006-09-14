@@ -172,11 +172,10 @@ class JRequest
 				}
 			}
 			$GLOBALS['JRequest'][$name][$sig] = $var;
-			$var = ($var) ? $var : $default;
 		} else {
 			$var = $GLOBALS['JRequest'][$name][$sig];
 		}
-		return $var;
+		return $var = ($var) ? $var : $default;
 	}
 
 	function setVar($name, $value = null, $hash = 'default')
