@@ -679,4 +679,14 @@ function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
 	$result = JArrayHelper::fromObject( $p_obj, $recurse, $regex );
 	return $result;
 }
+
+/**
+ * Legacy function, use JUtility::spoofKey() instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function josSpoofValue($alt = NULL) {
+	return JUtility::spoofKey();
+}
 ?>

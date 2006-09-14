@@ -23,8 +23,8 @@ jimport( 'joomla.application.extension.plugin' );
  * @package Editors
  * @since 1.5
  */
-class JEditor_tinymce extends JPlugin {
-
+class JEditor_tinymce extends JPlugin 
+{
 	/**
 	 * Constructor
 	 *

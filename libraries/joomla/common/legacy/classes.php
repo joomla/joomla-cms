@@ -562,7 +562,8 @@ class database extends JDatabaseMySQL
 		}
 		else
 		{
-			return parent::loadObject();
+			$object = parent::loadObject();
+			return $object;
 		}
 	}
 }
