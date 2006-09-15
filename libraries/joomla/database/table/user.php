@@ -65,9 +65,6 @@ class JTableUser extends JTable
 	 */
 	function check()
 	{
-		// filter malicious code
-		//$this->filter();
-
 		// Validate user information
 		if (trim( $this->name ) == '') {
 			$this->_error = JText::_( 'Please enter your name.' );

@@ -11,9 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// Include library dependencies
-jimport('joomla.filter.input');
-
 /**
  * Abstract Table class
  *
@@ -117,27 +114,6 @@ class JTable extends JObject
 			$m = new $adapter($db);
 		}
 		return $m;
-	}
-
-	/**
-	 * Filters public properties
-	 *
-	 * @access protected
-	 * @param array List of fields to ignore
-	 */
-	function filter( $ignoreList=null )
-	{
-		$ignore = is_array( $ignoreList );
-
-		$filter = & JInputFilter::getInstance();
-		foreach ($this->getPublicProperties() as $k)
-		{
-			if ($ignore && in_array( $k, $ignoreList ) )
-			{
-				continue;
-			}
-			$this->$k = $filter->clean( $this->$k );
-		}
 	}
 
 	/**

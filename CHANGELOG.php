@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 14-Sep-2006 Johan Janssens
+ ^ Deprecated JTable::filter function, always use JRequest to filter input data
  # Fixed [artf5942] : Undefined index: ftpUser
  # Fixed [artf5939] : "Step 6" throws notices on missing FTP vars
 

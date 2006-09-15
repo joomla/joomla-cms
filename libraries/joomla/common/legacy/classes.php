@@ -156,6 +156,26 @@ class mosDBTable extends JTable
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
 	}
+	
+	/**
+	 * Legacy Method, make sure u use JRequest::get or JRequest::getVar
+	 * @deprecated As of 1.5
+	 */
+	function filter( $ignoreList=null )
+	{
+		$ignore = is_array( $ignoreList );
+
+		jimport('joomla.filter.input');
+		$filter = & JInputFilter::getInstance();
+		foreach ($this->getPublicProperties() as $k)
+		{
+			if ($ignore && in_array( $k, $ignoreList ) )
+			{
+				continue;
+			}
+			$this->$k = $filter->clean( $this->$k );
+		}
+	}
 }
 
 /**

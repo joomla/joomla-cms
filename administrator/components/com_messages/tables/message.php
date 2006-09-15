@@ -111,8 +111,6 @@ class JMessage extends JTable
 	* Validation and filtering
 	*/
 	function check() {
-		// filter malicious code
-		$this->filter( );
 		return true;
 	}
 

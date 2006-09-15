@@ -97,10 +97,6 @@ class JTableContent extends JTable
 	 */
 	function check()
 	{
-		// filter malicious code
-		$ignoreList = array( 'introtext', 'fulltext' );
-		$this->filter( $ignoreList );
-
 		/*
 		TODO: This filter is too rigorous,
 		need to implement more configurable solution

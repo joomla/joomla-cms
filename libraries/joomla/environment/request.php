@@ -302,7 +302,8 @@ class JRequest
 	 * @param	boolean	True if the array is to be added to the GLOBALS
 	 * @since	1.5
 	 */
-	function _cleanArray( &$array, $globalise=false ) {
+	function _cleanArray( &$array, $globalise=false ) 
+	{
 		static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
 	
 		foreach ($array as $key => $value) {
@@ -319,7 +320,8 @@ class JRequest
 		}
 	}
 
-	function _cleanVar($var, $type, $mask) {
+	function _cleanVar($var, $type, $mask) 
+	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
 		static $safeHtmlFilter	= null;
