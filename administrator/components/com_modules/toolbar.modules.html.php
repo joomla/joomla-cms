@@ -39,9 +39,7 @@ class TOOLBAR_modules {
 		if($moduleType == 'custom') {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$cid[0]);
 		}
-		if ($cid[0]) {
-			JMenuBar::trash('remove', 'Delete', false);
-		}
+
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ( $cid[0] ) {

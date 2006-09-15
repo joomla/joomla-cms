@@ -28,9 +28,6 @@ class TOOLBAR_users {
 		$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
 		JMenuBar::title( JText::_( 'User Manager' ) .' - <span>'. $text.'</span>', 'user.png' );
-		if ($cid[0]) {
-			JMenuBar::trash('remove', 'Delete', false);
-		}
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ( $cid[0] ) {

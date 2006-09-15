@@ -30,9 +30,6 @@ class TOOLBAR_poll {
 
 		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
 		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
-		if ($cid[0]) {
-			JMenuBar::trash('remove', 'Delete', false);
-		}
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ($cid[0]) {

@@ -26,9 +26,6 @@ class TOOLBAR_weblinks {
 		$text = $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' );
 
 		JMenuBar::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		if ($cid[0]) {
-			JMenuBar::trash('remove', 'Delete', false);
-		}
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ($cid[0]) {

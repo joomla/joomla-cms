@@ -30,9 +30,6 @@ class TOOLBAR_sections {
 
 		JMenuBar::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
 		JMenuBar::media_manager();
-		if ($cid[0]) {
-			JMenuBar::trash('remove', 'Delete', false);
-		}
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ( $cid[0] ) {

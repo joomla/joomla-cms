@@ -68,7 +68,6 @@ class TOOLBAR_menus {
 			JMenuBar::title( JText::_( 'Edit Menu Item' ), 'menu.png' );
 		}
 
-		JMenuBar::trash('remove', 'Trash', false);
 		JMenuBar::save();
 		JMenuBar::apply();
 
