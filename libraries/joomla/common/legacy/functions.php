@@ -403,8 +403,35 @@ function mosGetOS( $agent ) {
  * @package		Joomla.Legacy
  */
 function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
-	$value = JArrayHelper::getValue( $arr, $name, $def, '' );
-	return josFilterValue($value, $mask);
+	// Static input filters for specific settings
+	static $noHtmlFilter	= null;
+	static $safeHtmlFilter	= null;
+
+	$var = JArrayHelper::getValue( $arr, $name, $def, '' );
+
+	// If the no trim flag is not set, trim the variable
+	if (!($mask & 1) && is_string($var)) {
+		$var = trim($var);
+	}
+
+	// Now we handle input filtering
+	if ($mask & 2) {
+		// If the allow raw flag is set, do not modify the variable
+		$var = $var;
+	} elseif ($mask & 4) {
+		// If the allow html flag is set, apply a safe html filter to the variable
+		if (is_null($safeHtmlFilter)) {
+			$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
+		}
+		$var = $safeHtmlFilter->clean($var);
+	} else {
+		// Since no allow flags were set, we will apply the most strict filter to the variable
+		if (is_null($noHtmlFilter)) {
+			$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+		}
+		$var = $noHtmlFilter->clean($var);
+	}
+	return $var;
 }
 
 /**

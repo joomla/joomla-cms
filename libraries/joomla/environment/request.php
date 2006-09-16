@@ -165,7 +165,7 @@ class JRequest
 		{
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			// Get the variable from the input hash
-			$var = JRequest::_cleanVar($var, $type, $mask);
+			$var = JRequest::_cleanVar($var, $mask, $type);
 
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($var != $default))
@@ -283,7 +283,7 @@ class JRequest
 					break;
 			}
 
-			$result = josFilterValue($input, $mask);
+			$result = JRequest::_cleanVar($input, $mask);
 
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc()) {
@@ -320,7 +320,7 @@ class JRequest
 		}
 	}
 
-	function _cleanVar($var, $type, $mask) 
+	function _cleanVar($var, $mask=0, $type=null) 
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
@@ -350,6 +350,7 @@ class JRequest
 		}
 		return $var;
 	}
+
 	/**
 	 * Strips slashes recursively on an array
 	 *
