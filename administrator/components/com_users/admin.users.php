@@ -26,7 +26,7 @@ if (!$user->authorize( 'com_users', 'manage' )) {
 require_once( JPATH_COMPONENT.DS.'admin.users.html.php' );
 require_once( JPATH_COMPONENT.DS.'users.class.php' );
 
-switch ($task)
+switch (JRequest::getVar('task'))
 {
 	case 'new':
 	case 'edit':

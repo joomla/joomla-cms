@@ -64,7 +64,7 @@ foreach ( $rows as $row )
 {
 	if ( $user->authorize( 'com_users', 'manage' ) )
 	{
-		$link 	= 'index2.php?option=com_users&amp;task=editA&amp;hidemainmenu=1&amp;id='. $row->userid;
+		$link 	= 'index2.php?option=com_users&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
 		$name 	= $row->username;
@@ -86,7 +86,7 @@ foreach ( $rows as $row )
 		<?php echo $clientInfo->name;?>
 		</td>
 		<?php
-		if ( $user->authorize( 'com_users', 'manage' ) && $user->get('gid') != 25) {
+		if ( $user->authorize( 'com_users', 'manage' ) && $user->get('gid') > 24) {
 			?>
 			<td>
 			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">
