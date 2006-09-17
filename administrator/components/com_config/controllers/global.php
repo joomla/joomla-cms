@@ -146,7 +146,7 @@ class JConfigGlobalController extends JController
 								mosHTML::makeOption(12.75, JText::_('(UTC +12:45) Chatham Island')),
 								mosHTML::makeOption(13, JText::_('(UTC +13:00) Tonga')),
 								mosHTML::makeOption(14, JText::_('(UTC +14:00) Kiribati')),);
-		$lists['offset'] 		= mosHTML::selectList($timeoffset, 'offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->offset_user);
+		$lists['offset'] 		= mosHTML::selectList($timeoffset, 'offset', 'class="inputbox" size="1"', 'value', 'text', $row->offset);
 
 		// MAIL SETTINGS
 		$mailer 				= array (mosHTML::makeOption('mail', JText::_('PHP mail function')), mosHTML::makeOption('sendmail', JText::_('Sendmail')), mosHTML::makeOption('smtp', JText::_('SMTP Server')));
@@ -218,17 +218,9 @@ class JConfigGlobalController extends JController
 	{
 		global $mainframe;
 
-		echo $_POST['list_limit'];
-
 		$config =& JFactory::getConfig();
 		$config->loadArray($_POST);
-		/*
-		 * Handle the server time offset
-		 */
-		$server_time 		= date('O') / 100;
-		$offset 			= JRequest::getVar( 'offset_user', 0, 'post', 'int' ) - $server_time;
-		$config->setValue('config.offset', $offset);
-
+		
 		//override any possible database password change
 		$config->setValue('config.password', $mainframe->getCfg('password'));
 

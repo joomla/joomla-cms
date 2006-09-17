@@ -14,6 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+jimport('joomla.utilities.date');
+
 class modArchiveHelper
 {
 	function getList(&$params)
@@ -30,10 +32,13 @@ class modArchiveHelper
 
 		$i 	   = 0;
 		$lists = array();
-		foreach ( $rows as $row ) {
-			$created_month	= mosFormatDate($row->created, "%m");
-			$month_name		= mosFormatDate($row->created, "%B");
-			$created_year	= mosFormatDate($row->created, "%Y");
+		foreach ( $rows as $row ) 
+		{
+			$date = new JDate($row->created);
+			
+			$created_month	= $date->toFormat("%m");
+			$month_name		= $date->toFormat("%B");
+			$created_year	= $date->toFormat("%Y");
 
 			$lists[$i]->link	= sefRelToAbs('index.php?option=com_content&amp;task=archivecategory&amp;year='.$created_year.'&amp;month='.$created_month.'&amp;module=1');
 			$lists[$i]->text	= $month_name.', '.$created_year;

@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Sep-2006 Johan Janssens
+ ^ Deprecated mosFormatDate function, use mosHTML::Date instead
+ ^ Deprecated mosCurrentDate function, use mosHTML::Date instead
+
 14-Sep-2006 Johan Janssens
  ^ Deprecated JTable::filter function, always use JRequest to filter input data
  # Fixed [artf5942] : Undefined index: ftpUser

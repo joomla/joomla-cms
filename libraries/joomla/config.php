@@ -27,5 +27,6 @@ class JFrameworkConfig
 	var $language  	= 'en-GB';
 	var $secret     = null;
 	var $editor     = 'none';
+	var $offset     = 0;
 }
 ?>

@@ -129,7 +129,7 @@ class HTML_users {
 							<?php echo $row->email; ?></a>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo mosFormatDate( $row->lastvisitDate, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
+						<?php echo mosHTML::Date( $row->lastvisitDate, DATE_FORMAT_LC4 ); ?>
 					</td>
 					<td>
 						<?php echo $row->id; ?>

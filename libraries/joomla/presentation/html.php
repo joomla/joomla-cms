@@ -19,10 +19,12 @@
  * @subpackage	Presentation
  * @since		1.0
  */
-class mosHTML {
+class mosHTML 
+{
 	/**
 	 * Write a <a></a> element
 	 *
+	 *  @access public
 	 * @param string 	The relative URL to use for the href attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
@@ -30,7 +32,8 @@ class mosHTML {
 	 * @since 1.5
 	 */
 
-	function Link($url, $text, $attribs = null, $ssl = 0) {
+	function Link($url, $text, $attribs = null, $ssl = 0) 
+	{
 		global $mainframe;
 
 		$href = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
@@ -45,12 +48,14 @@ class mosHTML {
 	/**
 	 * Write a <img></amg> element
 	 *
+	 * @access public
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @since 1.5
 	 */
-	function Image($url, $alt, $attribs = null) {
+	function Image($url, $alt, $attribs = null) 
+	{
 		global $mainframe;
 
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
@@ -66,12 +71,14 @@ class mosHTML {
 	/**
 	 * Write a <script></script> element
 	 *
+	 * @access public
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @since 1.5
 	 */
-	function Script($url, $attribs = null) {
+	function Script($url, $attribs = null) 
+	{
 		global $mainframe;
 
 		$src = $mainframe->getCfg('live_site') . $url;
@@ -86,13 +93,15 @@ class mosHTML {
 	/**
 	 * Write a <iframe></iframe> element
 	 *
+	 * @access public
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @param integer	Set the SSL functionality
 	 * @since 1.5
 	 */
-	function Iframe($url, $name, $attribs = null, $ssl = 0)	{
+	function Iframe($url, $name, $attribs = null, $ssl = 0)	
+	{
 		global $mainframe;
 
 		$src = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
@@ -103,6 +112,36 @@ class mosHTML {
 
 		return '<iframe src="'.$src.'" '.$attribs.' />';
 
+	}
+	
+	/**
+	 * Returns formated date according to current local and adds time offset
+	 *
+	 * @access public
+	 * @param string date in an US English date format
+	 * @param string format optional format for strftime
+	 * @returns formated date
+	 * @see strftime
+	 * @since 1.5
+	 */
+	function Date($date, $format = DATE_FORMAT_LC, $offset = NULL)
+	{
+		jimport('joomla.utilities.date');
+		
+		if($date != 'now') {
+			$date = strtotime($date);
+		}
+		
+		if(is_null($offset)) 
+		{
+			$config =& JFactory::getConfig();
+			$offset = $config->getValue('config.offset');
+		}
+		
+		$instance = new JDate($date);
+		$instance->setOffset($offset);
+		
+		return $instance->toFormat($format);
 	}
 
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
@@ -858,15 +897,15 @@ class mosCommonHTML {
 		<?php
 	}
 
-	function checkedOut( &$row, $overlib=1 ) {
-
+	function checkedOut( &$row, $overlib=1 ) 
+	{
 		$hover = '';
 		if ( $overlib ) {
 
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 				= mosFormatDate( $row->checked_out_time, '%A, %d %B %Y' );
-			$time				= mosFormatDate( $row->checked_out_time, '%H:%M' );
+			$date 				= mosHTML::Date( $row->checked_out_time, '%A, %d %B %Y' );
+			$time				= mosHTML::Date( $row->checked_out_time, '%H:%M' );
 			$checked_out_text 	= '<table>';
 			$checked_out_text 	.= '<tr><td>'. $text .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';

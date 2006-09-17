@@ -79,7 +79,7 @@ endif; ?>
 <?php if ($this->params->get('createdate')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo $this->item->created; ?>
+		<?php echo mosHTML::Date($this->item->created, DATE_FORMAT_LC2); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -105,7 +105,7 @@ endif; ?>
 <?php if (!empty($this->item->modified) && $this->params->get('modifydate')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $this->item->modified; ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo mosHTML::Date($this->item->modified, DATE_FORMAT_LC2); ?> )
 	</td>
 </tr>
 <?php endif; ?>

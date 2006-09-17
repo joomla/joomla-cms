@@ -11,8 +11,21 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// your local timezone, set to "" to disable or for GMT
-define("TIME_ZONE","+01:00");
+if(!defined('DATE_FORMAT_LC')) {
+	define('DATE_FORMAT_LC', '%A, %d %B %Y');
+}
+
+if(!defined('DATE_FORMAT_LC2')) {
+	define('DATE_FORMAT_LC2', '%A, %d %B %Y %H:%M');
+}
+
+if(!defined('DATE_FORMAT_LC3')) {
+	define('DATE_FORMAT_LC3', '%d %B %Y');
+}
+
+if(!defined('DATE_FORMAT_LC4')) {
+	define('DATE_FORMAT_LC4', '%d.%m.%y');
+}
 
 /**
  * JDate is a class that stores a date
@@ -26,23 +39,35 @@ define("TIME_ZONE","+01:00");
 class JDate extends JObject
 {
 	/**
-	 * Date in unix format
+	 * Unix timestamp
 	 *
 	 * @var		string
 	 * @access	protected
 	 */
-	var $_date = "";
+	var $_date   = 0;
+	
+	/**
+	 * Timeoffset (in hours)
+	 *
+	 * @var		string
+	 * @access	protected
+	 */
+	var $_offset = 0;
 
 	/**
 	 * Creates a new instance of JDate representing a given date.
-	 * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps.
+	 * 
+	 * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps. 
+	 * If not specified, the current date and time is used.
 	 *
-	 * @param mixed $date optional the date this FeedDate will represent. If not specified, the current date and time is used.
+	 * @param mixed $date optional the date this JDate will represent. 
 	 */
-	function __construct($date = "")
+	function __construct($date = 'now')
 	{
-		if ($date == "") {
-			$date = date("r");
+		if ($date == 'now' || empty($date)) 
+		{
+			$this->_date = gmdate('U');
+			return;
 		}
 
 		if (is_numeric($date))
@@ -88,22 +113,41 @@ class JDate extends JObject
 					$tzOffset = 0;
 				}
 			}
-			$this->unix += $tzOffset;
+			$this->_date += $tzOffset;
 			return;
 		}
 
 		$this->_date = 0;
 	}
+	
+	/**
+	 * Set the date offset (in hours)
+	 * 
+	 * @access public
+	 * @param integer $offset The offset in hours
+	 */
+	function setOffset($offset) {
+		$this->_offset = $offset;
+	}
+	
+	/**
+	 * Get the date offset (in hours)
+	 * 
+	 * @access public
+	 * @return integer 
+	 */
+	function getOffset() {
+		return $this->_offset;
+	}
 
 	/**
-	 * Gets the date stored in this FeedDate as an RFC 822 date.
+	 * Gets the date as an RFC 822 date.
 	 *
 	 * @return a date in RFC 822 format
 	 */
 	function toRFC822()
 	{
-		$date = gmdate("D, d M Y H:i:s", $this->_date);
-		if (TIME_ZONE!="") $date .= " ".str_replace(":","",TIME_ZONE);
+		$date = date("D, d M Y H:i:s", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
 
@@ -114,19 +158,55 @@ class JDate extends JObject
 	 */
 	function toISO8601()
 	{
-		$date = gmdate("Y-m-d\TH:i:sO",$this->_date);
-		$date = substr($date,0,22) . ':' . substr($date,-2);
-		if (TIME_ZONE!="") $date = str_replace("+00:00",TIME_ZONE,$date);
+		$date = gmdate("Y-m-d\TH:i:sO", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
-
+	
 	/**
-	 * Gets the date as unix time stamp.
+	 * Gets the date as in MySQL datetime format
+	 *
+	 * @return a date in MySQL datetime format 
+	 */
+	function toMySQL()
+	{
+		$date = gmdate("Y-m-d H:i:s", $this->_date + ($this->_offset * 3600));
+		return $date;
+	}
+	
+	/**
+	 * Gets the date as UNIX time stamp.
 	 *
 	 * @return a date as a unix time stamp
 	 */
-	function toUnix() {
-		return $this->_date;
+	function toUnix()  
+	{
+		$date =  $this->_date + ($this->_offset * 3600);
+		return $date;
+	}
+	
+	/**
+	 * Gets the date in a specific format
+	 * 
+	 * Returns a string formatted according to the given format. Month and weekday names and 
+	 * other language dependent strings respect the current locale
+	 *
+	 * @params string $format  The date format
+	 * @param boolean $useOffset  Use the offset to calculate the date
+	 * @return a date in a specific format
+	 * @see strftime
+	 */
+	function toFormat($format = '%Y-%m-%d %H:%M:%S')
+	{
+		$date = gmstrftime($format, $this->_date + ($this->_offset * 3600));
+		
+		// for Windows there is a need to convert the date string to utf-8.
+		// and then replace NBSP characters with regular spaces (pdf generator hates NBSPs)
+		//$lang = JFactory::getLanguage();
+		//if ( JUtility::isWinOS() && function_exists('iconv') ) {
+		//	return iconv($lang->getWinCP(), "UTF-8", $date);
+		//}
+		
+		return $date;
 	}
 }
 

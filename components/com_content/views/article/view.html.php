@@ -112,11 +112,11 @@ class ContentViewArticle extends JView
 		}
 
 		if (intval($article->modified) != 0) {
-			$article->modified = mosFormatDate($article->modified);
+			$article->modified = mosHTML::Date($article->modified);
 		}
 
 		if (intval($article->created) != 0) {
-			$article->created = mosFormatDate($article->created);
+			$article->created = mosHTML::Date($article->created);
 		}
 
 		$article->readmore_link = $linkOn;
@@ -223,7 +223,7 @@ class ContentViewArticle extends JView
 				} else {
 					$overlib = JText::_('Published');
 				}
-				$date = mosFormatDate($article->created);
+				$date = mosHTML::Date($article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';

@@ -16,7 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 
 global $mainframe;
 
-$cur_year	= mosCurrentDate('%Y');
+$date 		= new JDate('now');
+$cur_year	= $date->toFormat('%Y');
 $csite_name	= $mainframe->getCfg('sitename');
 
 if (JString::strpos(JText :: _('FOOTER_LINE1'), '%date%')) {

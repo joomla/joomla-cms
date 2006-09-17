@@ -63,6 +63,58 @@ function mosShowHead() {
 }
 
 /**
+ * Legacy function, using <jdoc:exists> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosCountAdminModules(  $position='left' ) {
+	$document =& JFactory::getDocument();
+	return count($document->getModules($position));
+}
+
+/**
+ * Legacy function, using <jdoc:include type="component" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosMainBody_Admin() {
+	?><jdoc:include type="component" /><?php
+}
+
+/**
+ * Legacy function, using <jdoc:include type="modules" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+
+function mosLoadAdminModules( $position='left', $style=0 ) {
+	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" /><?php
+}
+
+/**
+ * Legacy function, using <jdoc:include type="module" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosLoadAdminModule( $name, $style=0 ) {
+	?><jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" /><?php
+}
+
+/**
+ * Legacy function, using <jdoc:include type="head" /> instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosShowHead_Admin() {
+	?><jdoc:include type="head" /><?php
+}
+
+/**
  * Legacy function, always use JRequest::getVar
  *
  * @deprecated	As of version 1.5
@@ -402,7 +454,8 @@ function mosGetOS( $agent ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
+function mosGetParam( &$arr, $name, $def=null, $mask=0 ) 
+{
 	// Static input filters for specific settings
 	static $noHtmlFilter	= null;
 	static $safeHtmlFilter	= null;
@@ -453,7 +506,8 @@ function mosParseParams( $txt ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosLoadComponent( $name ) {
+function mosLoadComponent( $name ) 
+{
 	// set up some global variables for use by the frontend component
 	global $mainframe, $database;
 	include( $mainframe->getCfg( 'absolute_path' )."/components/com_$name/$name.php" );
@@ -465,7 +519,8 @@ function mosLoadComponent( $name ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function initEditor() {
+function initEditor() 
+{
 	$editor =& JFactory::getEditor();
 	echo $editor->init();
 }
@@ -476,7 +531,8 @@ function initEditor() {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function getEditorContents($editorArea, $hiddenField) {
+function getEditorContents($editorArea, $hiddenField) 
+{
 	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
 	echo $editor->save( $hiddenField );
@@ -488,7 +544,8 @@ function getEditorContents($editorArea, $hiddenField) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
+function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
+{
 	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
 	echo $editor->display($hiddenField, $content, $width, $height, $col, $row);
@@ -509,12 +566,50 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 }
 
 /**
+ * Legacy function, use JArrayHelper::fromObject instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
+{
+	$result = JArrayHelper::fromObject( $p_obj, $recurse, $regex );
+	return $result;
+}
+
+/**
+* Legacy function, use mosHTML::Date instead
+*
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+*/
+function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null )  {
+	return mosHTML::Date($date, $format, $offset);
+}
+
+/**
+* Legacy function, use mosHTML::Date instead
+*
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+*/
+function mosCurrentDate( $format="" )
+{
+	if ($format=="") {
+		$format = JText::_( 'DATE_FORMAT_LC' );
+	}
+	
+	return mosHTML::Date('now', $format);
+}
+
+/**
  * Legacy function, handled by JDocument Zlib outputfilter
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function initGzip() {
+function initGzip() 
+{
 	global $mainframe, $do_gzip_compress;
 
 
@@ -564,7 +659,8 @@ function initGzip() {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function doGzip() {
+function doGzip() 
+{
 	global $do_gzip_compress;
 	if ( $do_gzip_compress ) {
 		/**
@@ -594,60 +690,9 @@ function doGzip() {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function SortArrayObjects( &$a, $k, $sort_direction=1 ) {
+function SortArrayObjects( &$a, $k, $sort_direction=1 ) 
+{
 	JArrayHelper::sortObjects($a, $k, $sort_direction);
-}
-
-/**
- * Legacy function, using <jdoc:exists> instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-function mosCountAdminModules(  $position='left' ) {
-	$document =& JFactory::getDocument();
-	return count($document->getModules($position));
-}
-
-/**
- * Legacy function, using <jdoc:include type="component" /> instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-function mosMainBody_Admin() {
-	?><jdoc:include type="component" /><?php
-}
-
-/**
- * Legacy function, using <jdoc:include type="modules" /> instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-
-function mosLoadAdminModules( $position='left', $style=0 ) {
-	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" /><?php
-}
-
-/**
- * Legacy function, using <jdoc:include type="module" /> instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-function mosLoadAdminModule( $name, $style=0 ) {
-	?><jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" /><?php
-}
-
-/**
- * Legacy function, using <jdoc:include type="head" /> instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-function mosShowHead_Admin() {
-	?><jdoc:include type="head" /><?php
 }
 
 /**
@@ -657,7 +702,8 @@ function mosShowHead_Admin() {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function josSpoofCheck( $header=false, $alternate=false ) {
+function josSpoofCheck( $header=false, $alternate=false ) 
+{
 	$check = JUtility::spoofCheck();
 	if (!$check) {
 		header( 'HTTP/1.0 403 Forbidden' );
@@ -693,18 +739,6 @@ function josSpoofCheck( $header=false, $alternate=false ) {
 		// and continue rest of script:
 		unset($k, $v, $v2, $badStrings);
 	}
-}
-
-/**
- * Legacy function, use JArrayHelper::fromObject instead
- *
- * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
- */
-function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
-{
-	$result = JArrayHelper::fromObject( $p_obj, $recurse, $regex );
-	return $result;
 }
 
 /**

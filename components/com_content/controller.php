@@ -191,24 +191,28 @@ class ContentController extends JController
 		}
 
 		// Append time if not added to publish date
-		if (strlen(trim($row->publish_up)) <= 10)
-		{
+		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
-		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
+		
+		$date = new JDate($row->publish_up);
+		$date->setOffset( -$mainframe->getCfg('offset'));
+		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '')
+		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') 
 		{
 			$row->publish_down = $nullDate;
 		}
 		else
 		{
-			if (strlen(trim( $row->publish_down )) <= 10)
-			{
+			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
+			
+			$date = new JDate($row->publish_down);
+			$date->setOffset( -$mainframe->getCfg('offset'));
+			$row->publish_down = $date->toMySQL();
 		}
 
 		$row->title = ampReplace($row->title);

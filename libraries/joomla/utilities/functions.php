@@ -150,61 +150,6 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 }
 
 /**
-* Returns formated date according to current local and adds time offset
-*
-* @package Joomla.Framework
-* @param string date in datetime format
-* @param string format optional format for strftime
-* @param offset time offset if different than global one
-* @returns formated date
-* @since 1.0
-*/
-function mosFormatDate( $date, $format="", $offset="" )
-{
-	global $mainframe;
-
-	$lang = JFactory::getLanguage();
-	if ( $format == '' ) {
-		// %Y-%m-%d %H:%M:%S
-		$format = JText::_( 'DATE_FORMAT_LC' );
-	}
-	if ( $offset == '' ) {
-		$offset = $mainframe->getCfg('offset');
-	}
-	if ( $date && ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})", $date, $regs ) ) {
-		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
-		$date = $date > -1 ? strftime( $format, $date + ($offset*60*60) ) : '-';
-	}
-
-	// for Windows there is a need to convert the date string to utf-8.
-	// and then replace NBSP characters with regular spaces (pdf generator hates NBSPs)
-	if ( JUtility::isWinOS() && function_exists('iconv') ) {
-		return iconv($lang->getWinCP(), "UTF-8", $date);
-	}
-
-	return $date;
-}
-
-/**
-* Returns current date according to current local and time offset
-*
-* @package Joomla.Framework
-* @param string format optional format for strftime
-* @returns current date
-* @since 1.0
-*/
-function mosCurrentDate( $format="" )
-{
-	global $mainframe;
-
-	if ($format=="") {
-		$format = JText::_( 'DATE_FORMAT_LC' );
-	}
-	$date = strftime( $format, time() + ($mainframe->getCfg('offset')*60*60) );
-	return $date;
-}
-
-/**
 * Utility function to provide ToolTips
 *
 * @package Joomla.Framework

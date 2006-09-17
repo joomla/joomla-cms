@@ -182,8 +182,6 @@ class ContentView
 					}
 				}
 
-				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
-
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i, $row->state );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
@@ -254,7 +252,7 @@ class ContentView
 						<?php echo $author; ?>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo $date; ?>
+						<?php echo mosHTML::Date( $row->created, DATE_FORMAT_LC4 ); ?>
 					</td>
 				</tr>
 				<?php
@@ -372,7 +370,6 @@ class ContentView
 					}
 				}
 
-				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -399,7 +396,7 @@ class ContentView
 						<?php echo $author; ?>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo $date; ?>
+						<?php echo mosHTML::Date( $row->created, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
 					</td>
 				</tr>
 				<?php
@@ -910,14 +907,6 @@ class ContentView
 		$create_date 	= null;
 		$nullDate 		= $db->getNullDate();
 
-		if ( $row->created != $nullDate ) {
-			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
-		}
-		$mod_date = null;
-		if ( $row->modified != $nullDate ) {
-			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
-		}
-
 		// used to hide "Reset Hits" when hits = 0
 		if ( !$row->hits ) {
 			$visibility = 'style="display: none; visibility: hidden;"';
@@ -974,10 +963,10 @@ class ContentView
 			</td>
 			<td>
 				<?php
-				if ( !$create_date ) {
+				if ( $row->created == $nullDate ) {
 					echo JText::_( 'New document' );
 				} else {
-					echo $create_date;
+					echo mosHTML::Date( $row->modified,  DATE_FORMAT_LC2);
 				}
 				?>
 			</td>
@@ -988,10 +977,10 @@ class ContentView
 			</td>
 			<td>
 				<?php
-					if ( !$mod_date ) {
+					if ( $row->modified == $nullDate ) {
 						echo JText::_( 'Not modified' );
 					} else {
-						echo $mod_date;
+						echo mosHTML::Date( $row->created, DATE_FORMAT_LC2);
 					}
 				?>
 			</td>

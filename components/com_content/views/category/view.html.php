@@ -157,7 +157,7 @@ class ContentViewCategory extends JView
 				} else {
 					$overlib = JText::_('Published');
 				}
-				$date = mosFormatDate($article->created);
+				$date = mosHTML::Date($article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';
@@ -248,7 +248,7 @@ class ContentViewCategory extends JView
 			$item =& $this->items[$i];
 
 			$item->link    = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$item->id.'&amp;Itemid='.$Itemid);
-			$item->created = mosFormatDate($item->created, $this->params->get('date_format'));
+			$item->created = mosHTML::Date($item->created, $this->params->get('date_format'));
 
 			$item->odd   = $k;
 			$item->count = $i;

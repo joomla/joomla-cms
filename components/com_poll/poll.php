@@ -96,8 +96,8 @@ class PollController
 			$dates = $db->loadObject();
 
 			if (isset( $dates->mindate )) {
-				$first_vote = mosFormatDate( $dates->mindate, JText::_( 'DATEFORMATLC2' ) );
-				$last_vote 	= mosFormatDate( $dates->maxdate, JText::_( 'DATEFORMATLC2' ) );
+				$first_vote = mosHTML::Date( $dates->mindate, DATE_FORMAT_LC2 );
+				$last_vote 	= mosHTML::Date( $dates->maxdate, DATE_FORMAT_LC2 );
 			}
 
 			$query = "SELECT a.id, a.text, a.hits, b.voters"

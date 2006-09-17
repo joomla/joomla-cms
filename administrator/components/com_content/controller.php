@@ -390,24 +390,23 @@ class JContentController extends JController
 			$mainframe->redirect('index2.php?option=com_content', $msg);
 		}
 
-		if ($id) {
+		if ($id) 
+		{
 			$row->checkout($user->get('id'));
+			
 			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
 			} else {
 				$row->images = array ();
 			}
 
-			$row->created		= mosFormatDate($row->created, '%Y-%m-%d %H:%M:%S');
-			$row->modified		= $row->modified == $nullDate ? '' : mosFormatDate($row->modified, '%Y-%m-%d %H:%M:%S');
-			$row->publish_up	= mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S');
+			$row->created  = mosHTML::Date($row->created, '%Y-%m-%d %H:%M:%S');
+			$row->modified = $row->modified == $nullDate ? '' :  mosHTML::Date($row->modified, '%Y-%m-%d %H:%M:%S');
 
-			if ($row->publish_down == $nullDate)
-			{
+			if ($row->publish_down == $nullDate) {
 				$row->publish_down = JText::_('Never');
-			} else
-			{
-				$row->publish_down	= mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S');
+			} else {
+				$row->publish_down =  mosHTML::Date($row->publised_down, '%Y-%m-%d %H:%M:%S');
 			}
 
 			$query = "SELECT name" .
@@ -605,22 +604,33 @@ class JContentController extends JController
 		if ($row->created && strlen(trim( $row->created )) <= 10) {
 			$row->created 	.= ' 00:00:00';
 		}
-		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset') ) : date( 'Y-m-d H:i:s' );
+		
+		$date = new JDate($row->created);
+		$date->setOffset( -$mainframe->getCfg('offset'));
+		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
 		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
-		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
+		
+		$date = new JDate($row->publish_up);
+		$date->setOffset( -$mainframe->getCfg('offset'));
+		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') {
+		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') 
+		{
 			$row->publish_down = $nullDate;
-		} else {
+		} 
+		else 
+		{
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$row->publish_down = mosFormatDate($row->publish_down, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
+			$date = new JDate($row->publish_down);
+			$date->setOffset( -$mainframe->getCfg('offset'));
+			$row->publish_down = $date->toMySQL();
 		}
 
 		// Get a state and parameter variables from the request

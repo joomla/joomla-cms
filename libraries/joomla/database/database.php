@@ -469,8 +469,7 @@ class JDatabase extends JObject
 	*
 	* @abstract
 	*/
-	function loadAssoc()
-	{
+	function loadAssoc() {
 		return;
 	}
 

@@ -334,7 +334,7 @@ class JFactory
 
 		// Load the configuration values into the registry
 		$registry->loadObject($config);
-
+		
 		return $registry;
 	}
 

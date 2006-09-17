@@ -292,7 +292,6 @@ class HTML_statistics
 
 				$img			= ( $row->state	? 'tick.png' : 'publish_x.png' );
 				$alt			= ( $row->state	? JText::_( 'Published' ) : JText::_( 'Unpublished' ) );
-				$date 			= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
 				<tr class="row<?php echo $k;?>">
 					<td>
@@ -325,7 +324,7 @@ class HTML_statistics
 							<?php echo $row->cat_title; ?></a>
 					</td>
 					<td>
-						<?php echo $date; ?>
+						<?php echo mosHTML::Date( $row->created, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
 					</td>
 				</tr>
 				<?php
