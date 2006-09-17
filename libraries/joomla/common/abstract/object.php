@@ -65,60 +65,6 @@ class JObject
 	}
 
 	/**
-	 * Bind an associative array
-	 *
-	 * Only existing properties of object are filled. When undefined in hash, properties wont be deleted
-	 *
-	 * @param mixed Either and associative array or another object
-	 * @param string A list of attributes to ignore
-	 * @param string
-	 * @param boolean
-	 */
-	function bind( $from, $ignore='', $prefix='' )
-	{
-		$fromArray = is_array( $from );
-		$fromObject = is_object( $from );
-
-		if ($fromArray || $fromObject)
-		{
-			foreach (get_object_vars($this) as $k => $v)
-			{
-				// only bind to public variables
-				if( substr( $k, 0, 1 ) != '_' )
-				{
-					// internal attributes of an object are ignored
-					if (strpos( $ignore, $k) === false)
-					{
-						if ($prefix)
-						{
-							$ak = $prefix . $k;
-						}
-						else
-						{
-							$ak = $k;
-						}
-
-						if ($fromArray && isset( $from[$ak] ))
-						{
-							$this->$k = $from[$ak];
-						}
-						else if ($fromObject && isset( $from->$ak ))
-						{
-							$this->$k = $from->$ak;
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			return (false);
-		}
-
-		return true;
-	}
-
-	/**
 	 * Returns an array of public properties
 	 *
 	 * @return array

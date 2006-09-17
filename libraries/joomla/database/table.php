@@ -121,7 +121,7 @@ class JTable extends JObject
 	 * 
 	 * @return object A JDatabase based object
 	 */
-	function &getDBO()
+	function &getDBO() 
 	{
 		return $this->_db;
 	}
@@ -175,24 +175,51 @@ class JTable extends JObject
 	* can be overloaded/supplemented by the child class
 	*
 	* @acces public
-	* @param 	array	$hash named array
-	* @param 	string	Space separated list of fields not to bind
+	* @param $array  mixed Either and associative array or another object
+	* @param $ignore string	Space separated list of fields not to bind
 	* @return	boolean
 	*/
-	function bind( $array, $ignore='' )
+	function bind( $from, $ignore='' )
 	{
-		if (!is_array( $array ) && !is_object( $array ))
+		if (!is_array( $from ) && !is_object( $from ))
 		{
 			$this->setError(strtolower(get_class( $this ))."::bind failed.");
 			$this->setErrorNum(20);
 			return false;
 		}
+		
+		$fromArray = is_array( $from );
+		$fromObject = is_object( $from );
+
+		if ($fromArray || $fromObject)
+		{
+			foreach (get_object_vars($this) as $k => $v)
+			{
+				// only bind to public variables
+				if( substr( $k, 0, 1 ) != '_' )
+				{
+					// internal attributes of an object are ignored
+					if (strpos( $ignore, $k) === false)
+					{
+						$ak = $k;
+				
+						if ($fromArray && isset( $from[$ak] )) {
+							$this->$k = $from[$ak];
+						} else if ($fromObject && isset( $from->$ak )) {
+							$this->$k = $from->$ak;
+						}
+					}
+				}
+			}
+		}
 		else
 		{
-			return parent::bind( $array, $ignore );
+			return false;
 		}
-	}
 
+		return true;
+	}
+	
 	/**
 	* Binds an array/hash to this object
 	*

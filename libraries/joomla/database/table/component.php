@@ -99,8 +99,6 @@ class JTableComponent extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		$params = JRequest::getVar( 'params', array(), 'post', 'array' );
-
 		if (is_array( $array['params'] )) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
