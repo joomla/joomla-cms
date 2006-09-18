@@ -108,7 +108,12 @@ class JRegistry extends JObject
 		{
 			// Get the namespace
 			//$namespace = array_shift($nodes);
-			$namespace = $nodes[0];
+			if (count($nodes)<2) {
+				$namespace	= $this->_defaultNameSpace;
+				$nodes[1]	= $nodes[0];
+			} else {
+				$namespace = $nodes[0];
+			}
 	
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
