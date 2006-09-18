@@ -24,15 +24,15 @@ class JMenuController extends JController
 	/**
 	 * New menu item wizard
 	 */
-	function wizard()
+	function type()
 	{
-		// odd workaround to solve inheritance problem
-		jimport('joomla.application.view');
-		$model	= &$this->getModel( 'Wizard', 'JMenuModel' );
-		$model->init();
-		$view = &$this->getView( 'Wizard', 'JMenuView' );
+		$model	=& $this->getModel( 'Item', 'JMenuModel' );
+		$view =& $this->getView( 'Item', 'JMenuView' );
 		$view->setModel( $model, true );
-		$view->display();
+
+		// Set the layout and display
+		$view->setLayout('type');
+		$view->type();
 	}
 
 	/**
@@ -40,13 +40,12 @@ class JMenuController extends JController
 	 */
 	function edit()
 	{
-		global $mainframe;
-		// Lets clear the wizard information from the session.
-		$mainframe->setUserState('request.menuwizard', '');
-
 		$model	=& $this->getModel( 'Item', 'JMenuModel' );
 		$view =& $this->getView( 'Item', 'JMenuView' );
 		$view->setModel( $model, true );
+
+		// Set the layout and display
+		$view->setLayout('form');
 		$view->edit();
 	}
 

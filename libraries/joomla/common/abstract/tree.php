@@ -49,6 +49,11 @@ class JTree extends JObject
 	{
 		$this->_current =& $this->_current->getParent();
 	}
+
+	function reset()
+	{
+		$this->_current =& $this->_root;
+	}
 }
 
 /**

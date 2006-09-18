@@ -13,11 +13,9 @@
  */
 
 define( '_JEXEC', 1 );
-
 define( 'JXPATH_BASE', dirname( __FILE__ ) );
-
-//Global definitions
 define( 'DS', DIRECTORY_SEPARATOR );
+define( 'COM_MENUS', JXPATH_BASE.DS );
 
 //Joomla framework path definitions
 $parts = explode( DS, JXPATH_BASE );
@@ -29,19 +27,30 @@ array_pop( $parts );
 
 define( 'JPATH_ROOT',			implode( DS, $parts ) );
 define( 'JPATH_SITE',			JPATH_ROOT );
+define( 'JPATH_ADMINISTRATOR',	JPATH_ROOT.DS.'administrator' );
 define( 'JPATH_CONFIGURATION',	JPATH_ROOT );
-define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
+define( 'JPATH_LIBRARIES',		JPATH_ROOT.DS.'libraries' );
 
 // Require the library loader
 require_once(JPATH_LIBRARIES.DS.'loader.php');
+require_once(JPATH_ADMINISTRATOR.'/includes/application.php');
+
+/**
+ * CREATE THE APPLICATION
+ */
+$mainframe = new JAdministrator();
+
+// load the configuration settings
+$mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
+
+// create the session
+$mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId() );
+
 // Require the xajax library
-require_once (JXPATH_BASE.DS.'assets'.DS.'xajax'.DS.'xajax.inc.php');
+require_once (COM_MENUS.DS.'assets'.DS.'xajax'.DS.'xajax.inc.php');
 $xajax = new xajax();
 $xajax->errorHandlerOn();
-
-$xajax->registerFunction(array('test', 'JAJAXHandler', 'test'));
-
-jimport( 'joomla.common.abstract.object' );
+$xajax->registerFunction(array('tree', 'JAJAXHandler', 'getTree'));
 
 /**
  * AJAX Task handler class
@@ -51,36 +60,23 @@ jimport( 'joomla.common.abstract.object' );
  * @subpackage Installer
  * @since 1.5
  */
-class JAJAXHandler {
-
+class JAJAXHandler
+{
 	/**
-	 * Method to get the path from the FTP root to the Joomla root directory
+	 * Get the Component Tree
 	 */
-	function test($id, $url) {
+	function getTree($id, $request)
+	{
+		require_once(COM_MENUS.DS.'models'.DS.'ilink.php');
+		$objResponse	= new xajaxResponse();
+		$handler		= new iLink($request);
 
-		jimport( 'joomla.utilities.error' );
-		jimport( 'joomla.application.application' );
-
-		$objResponse = new xajaxResponse();
-		$onclick = "xajax_test(this.parentNode.id,this.id);";
-		$objResponse->addScript("document.treemanager.addChildNode(document.getElementById('".$id."'),'Name','URL','".$onclick."')");
-		return $objResponse;
-	}
-
-	/**
-	 * Method to get the path from the FTP root to the Joomla root directory
-	 */
-	function getNodes($id, $url) {
-
-		jimport( 'joomla.utilities.error' );
-		jimport( 'joomla.application.application' );
-
-		$objResponse = new xajaxResponse();
-		$objResponse->addAlert($url);
+		$html = $handler->getTree();
+//		$objResponse->addAssign($id, "innerHTML", $html);
+		$objResponse->addScript("document.treemanager.addTreeHTML(document.getElementById('".$id."'),'".$html."')");
 		return $objResponse;
 	}
 }
-
 
 /**
  * Languages/translation handler class
@@ -98,7 +94,6 @@ class JAJAXLang extends JObject
 	 * @access protected
 	 */
 	var $_debug 	= false;
-
 
 	/**
 	 * Identifying string of the language
@@ -132,16 +127,12 @@ class JAJAXLang extends JObject
 	function __construct($lang = null)
 	{
 		$this->_strings = array ();
-
 		if ($lang == null) {
 			$lang = 'en-GB';
 		}
-
-		$this->_lang= $lang;
-
+		$this->_lang = $lang;
 		$this->load();
 	}
-
 
 	/**
 	* Translator function, mimics the php gettext (alias _) function
@@ -181,21 +172,16 @@ class JAJAXLang extends JObject
 	 */
 	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
-        $path = JAJAXLang::getLanguagePath( $basePath, $this->_lang);
-
-		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
-
-		$result = false;
-
-		$newStrings = $this->_load( $path . $filename .'.ini' );
+        $path		= JAJAXLang::getLanguagePath( $basePath, $this->_lang);
+		$filename	= empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
+		$result		= false;
+		$newStrings	= $this->_load( $path . $filename .'.ini' );
 
 		if (is_array($newStrings)) {
 			$this->_strings = array_merge( $this->_strings, $newStrings);
 			$result = true;
 		}
-
 		return $result;
-
 	}
 
 	/**
@@ -211,15 +197,12 @@ class JAJAXLang extends JObject
 			if( $this->_identifyer === null ) {
 				$this->_identifyer = basename( $filename, '.ini' );
 			}
-
 			$registry = new JRegistry();
 			$registry->loadINI($content);
 			return $registry->toArray( );
 		}
-
 		return false;
 	}
-
 
 	/**
 	* Set the Debug property
@@ -229,7 +212,6 @@ class JAJAXLang extends JObject
 	function setDebug($debug) {
 		$this->_debug = $debug;
 	}
-
 
 	/**
 	 * Determines is a key exists
@@ -241,7 +223,6 @@ class JAJAXLang extends JObject
 	function hasKey($key) {
 		return isset ($this->_strings[strtoupper($key)]);
 	}
-
 
 	/**
 	 * Get the path to a language
@@ -260,8 +241,6 @@ class JAJAXLang extends JObject
 		return $dir;
 	}
 
-
-
 	/**
 	 * Parses XML files for language information
 	 *
@@ -274,7 +253,6 @@ class JAJAXLang extends JObject
 		if ($dir == null) {
 			return null;
 		}
-
 		$languages = array ();
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
@@ -300,7 +278,6 @@ class JAJAXLang extends JObject
 	{
 		jimport('joomla.utilities.simplexml');
 		$xml = new JSimpleXML();
-
 		if (!$xml->loadFile($path)) {
 			return null;
 		}
@@ -311,16 +288,14 @@ class JAJAXLang extends JObject
 		}
 
 		$metadata = array ();
-
-			foreach ($xml->document->metadata[0]->children() as $child) {
-				$metadata[$child->name()] = $child->data();
-			}
-		//}
+		foreach ($xml->document->metadata[0]->children() as $child) {
+			$metadata[$child->name()] = $child->data();
+		}
 		return $metadata;
 	}
 }
 
-
+//JAJAXHandler::getTree('2','content');
 
 /*
  * Process the AJAX requests

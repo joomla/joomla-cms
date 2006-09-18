@@ -25,17 +25,27 @@ class JMenuModelItem extends JModel
 	/** @var object JTable object */
 	var $_table = null;
 
+	/** @var object JTable object */
+	var $_url = null;
+
 	/**
-	 * Returns the internal table object
-	 * @return JTable
+	 * Overridden constructor
+	 * @access	protected
 	 */
-	function &getTable()
+	function __construct()
 	{
-		if ($this->_table == null)
-		{
-			$this->_table =& JTable::getInstance( 'menu', $this->getDBO() );
+		parent::__construct();
+		$url = JRequest::getVar('url', array(), '', 'array');
+		if (isset($url['option'])) {
+			$this->_url = 'index.php?option='.$url['option'];
+			unset($url['option']);
+			if (count($url)) {
+				foreach ($url as $k => $v)
+				{
+					$this->_url .= '&amp;'.$k.'='.$v;
+				}
+			}
 		}
-		return $this->_table;
 	}
 
 	function &getItem() {
@@ -45,7 +55,7 @@ class JMenuModelItem extends JModel
 			return $item;
 		}
 
-		$table =& $this->getTable();
+		$table =& $this->_getTable();
 
 		// Load the current item if it has been defined
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -63,19 +73,17 @@ class JMenuModelItem extends JModel
 			$table->menutype = $menu_type;
 		}
 
+		// Override the current item's link field if defined in the request
+		if ($this->_url) {
+			$table->link = $this->_url;
+		}
+
+		$url = str_replace('index.php?', '', $table->link);
+		$url = str_replace('&amp;', '&', $url);
+		$table->linkparts = null;
+		parse_str($url, $table->linkparts);
 
 		$item = clone($table);
-		return $item;
-	}
-
-	function &getItemForEdit()
-	{
-		$item	=& $this->getItem();
-
-		// Run the object through the helper just in case something needs to be handled.
-		if ($helper =& $this->_getHelper()) {
-			$item =& $helper->prepForEdit($item);
-		}
 		return $item;
 	}
 
@@ -91,34 +99,19 @@ class JMenuModelItem extends JModel
 		return $details;
 	}
 
-	function &getControlParams()
+	function &getExpansion()
 	{
-		// Get the control parameters
-		$item	=& $this->getItem();
-		$params	= new JParameter($item->control);
-
-		// Override params with request params if they are present.
-		if ($control = JRequest::getVar('control', false, '', 'array')) {
-			$params->loadArray($control);
+		$item = &$this->getItem();
+		$return['option'] = JRequest::getVar('expand');
+		if ($return['option']) {
+			require_once(COM_MENUS.DS.'models'.DS.'ilink.php');
+			$handler		= new iLink($return['option'], $item->id);
+			$return['html'] = $handler->getTree();
+			return $return;			
+		} else {
+			$return['html'] = null;
 		}
-		return $params;
-	}
-
-	function &getControlFields()
-	{
-		if ($helper =& $this->_getHelper()) {
-			foreach($helper->getEditFields() as $k => $v) {
-				$fields[] = "<input type=\"hidden\" name=\"$k\" value=\"$v\" />";
-			}
-		}
-		$params =& $this->getControlParams();
-		$array = $params->toArray();
-
-		foreach($array as $k => $v) {
-			$fields[] = "<input type=\"hidden\" name=\"control[$k]\" value=\"$v\" />";
-		}
-
-		return $fields;
+		return $return;
 	}
 
 	function &getStateParams()
@@ -153,13 +146,12 @@ class JMenuModelItem extends JModel
 
 	function getStateName()
 	{
+		$name = null;
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
 				$sn =& $state->getElementByPath('name');
 				if ($sn) {
 					$name = $sn->data();
-				} else {
-					$name = null;
 				}
 			}
 		}
@@ -168,13 +160,12 @@ class JMenuModelItem extends JModel
 
 	function getStateDescription()
 	{
+		$description = null;
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
 				$sd =& $state->getElementByPath('description');
 				if ($sd) {
 					$description = $sd->data();
-				} else {
-					$description = null;
 				}
 			}
 		}
@@ -343,6 +334,18 @@ class JMenuModelItem extends JModel
 		return $result;
 	}
 
+	/**
+	 * Returns the internal table object
+	 * @return JTable
+	 */
+	function &_getTable()
+	{
+		if ($this->_table == null) {
+			$this->_table =& JTable::getInstance( 'menu', $this->getDBO() );
+		}
+		return $this->_table;
+	}
+
 	function &_getHelper()
 	{
 		static $helper;
@@ -370,19 +373,34 @@ class JMenuModelItem extends JModel
 		if (isset($xml)) {
 			return $xml;
 		}
-
-		// Get the helper object and then get the State XML object
-		if ($helper =& $this->_getHelper()) {
-			$xmlInfo =& $helper->getStateXML();
+		$xml = null;
+		$xmlpath = null;
+		$item 	= &$this->getItem();
+		if (isset($item->linkparts['view'])) {
+			// View is set... so we konw to look in view file
+			if (isset($item->linkparts['layout'])) {
+				$layout = $item->linkparts['layout'];
+			} else {
+				$layout = 'default';
+			}
+			$lpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'views'.DS.$item->linkparts['view'].DS.'tmpl'.DS.$layout.'.xml';
+			$vpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'views'.DS.$item->linkparts['view'].DS.'metadata.xml';
+			if (file_exists($lpath)) {
+				$xmlpath = $lpath;
+			} elseif (file_exists($vpath)) {
+				$xmlpath = $vpath;
+			}
+		}
+		if (!$xmlpath && isset($item->linkparts['option'])) {
+			$xmlpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'metadata.xml';
 		}
 
-		if (file_exists( $xmlInfo['path'] )) {
-
+		if (file_exists($xmlpath)) {
 			$xml =& JFactory::getXMLParser('Simple');
-			if ($xml->loadFile($xmlInfo['path'])) {
+			if ($xml->loadFile($xmlpath)) {
 				$this->_xml = &$xml;
 				$document =& $xml->document;
-				$xml =& $document->getElementByPath($xmlInfo['xpath']);
+				$xml =& $document->getElementByPath('state');
 
 				if (!is_a($xml, 'JSimpleXMLElement')) {
 					return $document;
@@ -394,8 +412,7 @@ class JMenuModelItem extends JModel
 				if ($switch = $xml->attributes('switch')) {
 					$default = $xml->attributes('default');
 					// Handle switch
-					$control =& $this->getControlParams();
-					$switchVal = $control->get($switch, 'default');
+					$switchVal = ($item->linkparts[$switch])? $item->linkparts[$switch] : 'default';
 					$found = false;
 
 					foreach ($xml->children() as $child) {
@@ -432,8 +449,7 @@ class JMenuModelItem extends JModel
 				if ($switch = $xml->attributes('switch')) {
 					$default = $xml->attributes('default');
 					// Handle switch
-					$control =& $this->getControlParams();
-					$switchVal = $control->get($switch, 'default');
+					$switchVal = ($item->linkparts[$switch])? $item->linkparts[$switch] : 'default';
 					$found = false;
 
 					foreach ($xml->children() as $child) {
@@ -454,9 +470,8 @@ class JMenuModelItem extends JModel
 					}
 				}
 			}
-
-		return $xml;
 		}
+		return $xml;
 	}
 
 	function &_getIncludedParams($include)
@@ -465,12 +480,12 @@ class JMenuModelItem extends JModel
 		$state	= null;
 		$source	= $include->attributes('source');
 		$path	= $include->attributes('path');
-		$control =& $this->getControlParams();
+		$item 	= &$this->getItem();
 
 		preg_match_all( "/{([A-Za-z\-_]+)}/", $source, $tags);
 		if (isset($tags[1])) {
 			for ($i=0;$i<count($tags[1]);$i++) {
-				$source = str_replace($tags[0][$i], $control->get($tags[1][$i]), $source);
+				$source = str_replace($tags[0][$i], @$item->linkparts[$tags[1][$i]], $source);
 			}
 		}
 

@@ -6,7 +6,6 @@
 	<script type="text/javascript" src="../../../includes/js/joomla/common.js"></script>
 	<script type="text/javascript" src="../../../includes/js/joomla/cookie.js"></script>
 	<script type="text/javascript" src="assets/tree.js"></script>
-
 <?php
 	// Require the xajax library
 	require_once('assets/xajax/xajax.inc.php');
@@ -15,8 +14,8 @@
 	 * Instantiate the xajax object and register the functions
 	 */
 	$xajax = new xajax('http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/jajax.php');
-	$xajax->registerFunction(array('test', 'JAJAXHandler', 'test'));
-	//$xajax->debugOn();
+	$xajax->registerFunction(array('tree', 'JAJAXHandler', 'getTree'));
+	$xajax->debugOn();
 	echo $xajax->getJavascript('', 'assets/xajax.js', 'assets/xajax.js');
 ?>
 </head>
@@ -25,9 +24,9 @@
 	<ul id="tree2" class="jtree">
 		<li><a href="#" id="node_com">Component</a>
 			<ul>
-				<li><a id="#" onclick="xajax_test(this.parentNode.id,this.id);return false;">Articles</a></li>
-				<li><a id="#" onclick="xajax_test(this.parentNode.id,this.id);return false;">Contact</a></li>
-				<li><a id="woot" onclick="xajax_test(this.parentNode.id,this.id);return false;">Weblinks</a></li>
+				<li><a href="index.php?option=com_menus&task=type&menutype=mainmenu&cid[]=<?php echo $this->item->id; ?>&amp;expand=content" id="content" onclick="xajax_tree(this.parentNode.id,this.id);">Articles</a></li>
+				<li><a href="contact" id="contact" onclick="xajax_tree(this.parentNode.id,this.id);">Contact</a></li>
+				<li><a href="weblinks" id="weblinks" onclick="xajax_tree(this.parentNode.id,this.id);">Weblinks</a></li>
 			</ul>
 		</li>
 		<li><a href="#" id="node_url">URL</a></li>

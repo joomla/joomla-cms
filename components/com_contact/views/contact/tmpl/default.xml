@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<control>
-		<steps />
-	</control>
+	<layout title="Contact">
+		<message>
+			<![CDATA[Default contact layout.]]>
+		</message>
+	</layout>
 	<state>
 		<name>Contact</name>
 		<description>An all singing, all dancing parameterised template</description>

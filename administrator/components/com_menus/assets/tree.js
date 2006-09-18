@@ -34,7 +34,7 @@ JTreeManager.prototype = {
 		this.guid = 1;
 
 		// Path to images
-		this.imageFolder	= 'assets/images/';
+		this.imageFolder	= 'components/com_menus/assets/images/';
 
 		// Image files
 		this.folderImage	= 'folder.gif';
@@ -48,7 +48,16 @@ JTreeManager.prototype = {
 		this.useAjaxToLoadNodesDynamically = false;
 		this.ajaxRequestFile = 'writeNodes.php';
 
-		this.initTree();
+		// Build the tree
+		$c(this.trees).each(function(tree){
+			self.initTree(tree);
+		});
+		if(this.initExpandedNodes){
+			var nodes = this.initExpandedNodes.split(',');
+			for(var no=0;no<nodes.length;no++){
+				if(nodes[no]) this.toggleNode(false,nodes[no]);	
+			}			
+		}	
 	},
 	
 	addEvent: function(element, type, handler) {
@@ -145,6 +154,16 @@ JTreeManager.prototype = {
 		return false;
 	},
 
+	addTreeHTML: function(parent, html)
+	{
+		// Create a new div tag as a placeholder
+		var tmp = document.createElement('UL');
+		tmp.id = 'tree'+Math.round(Math.random()*1000000);
+		tmp.innerHTML = html;
+		parent.appendChild(tmp);
+//		this.initTree(tmp);
+	},
+
 	addChildNode: function(e,title,url,click)
 	{
 		var self = this;
@@ -167,19 +186,19 @@ JTreeManager.prototype = {
 		li.id = 'node' + self.nodeId++;
 		// Create child anchor tag
 		var a = document.createElement('A');
-		a.id = url;
+		a.path = url;
+		a.href = '#';
 		a.innerHTML = title;
 		if (click) {
-			self.addEvent(a,'click', function(){eval(click);});
+			self.addEvent(a,'click', function(){eval(click);return false;});
 		}
 		// Create the new img tag
 		var i = document.createElement('IMG');
 		i.src = self.imageFolder + self.plusImage;
 		i.style.visibility = 'hidden';
-		i.onclick = function(){return document.treemanager.toggleNode(false,li.id);}
+		i.onclick = function(){return document.treemanager.toggleNode(this);}
 		li.appendChild(i);
 		li.appendChild(a);
-		li.id = 'node' + self.nodeId++;
 		ul.id = 'newNode' + Math.round(Math.random()*1000000);
 		ul.appendChild(li);
 		as = e.getElementsByTagName('A');
@@ -187,40 +206,35 @@ JTreeManager.prototype = {
 		self.toggleNode(as[0]);
 	},
 
-	initTree: function()
+	initTree: function(tree)
 	{
 		var self = this;
 
-		// Build the tree
-		$c(this.trees).each(function(tree){
-			// Get an array of all tree nodes
-			var nodes = tree.getElementsByTagName('LI');
-			this.subcounter	= 0;
-			for(var no=0;no<nodes.length;no++){					
-				self.nodeId++;
-				var subTrees = nodes[no].getElementsByTagName('UL');
-				var img = document.createElement('IMG');
-				img.src = self.imageFolder + self.plusImage;
-				img.onclick = function(){return document.treemanager.toggleNode(this);}
-				if(subTrees.length==0) {
-					nodes[no].className = 'leaf';
-					img.style.visibility='hidden';
-				} else {
-					nodes[no].className = 'node';
-					subTrees[0].id = 'subtree_' + this.subcounter;
-					this.subcounter++;
-				}
-				var aTag = nodes[no].getElementsByTagName('A')[0];
-				self.addEvent(aTag,'click',function(){return document.treemanager.toggleNode(this);});
-				nodes[no].insertBefore(img,aTag);
-				if(!nodes[no].id) nodes[no].id = 'node' + self.nodeId;
-			}	
-		});  
-		if(this.initExpandedNodes){
-			var nodes = this.initExpandedNodes.split(',');
-			for(var no=0;no<nodes.length;no++){
-				if(nodes[no]) this.toggleNode(false,nodes[no]);	
-			}			
+		// Get an array of all tree nodes
+		var nodes = tree.getElementsByTagName('LI');
+		this.subcounter	= 0;
+		for(var no=0;no<nodes.length;no++){					
+			self.nodeId++;
+			var subTrees = nodes[no].getElementsByTagName('UL');
+			var img = document.createElement('IMG');
+			img.src = self.imageFolder + self.plusImage;
+			img.onclick = function(){return document.treemanager.toggleNode(this);}
+			if(subTrees.length==0) {
+				nodes[no].className = 'leaf';
+				img.style.visibility='hidden';
+			} else {
+				nodes[no].className = 'node';
+				subTrees[0].id = 'subtree_' + this.subcounter;
+				this.subcounter++;
+			}
+			var aTag = nodes[no].getElementsByTagName('A')[0];
+			aTag.path = aTag.href;
+			if (this.useAjaxToLoadNodesDynamically) {
+				aTag.href = '#';
+			}
+			self.addEvent(aTag,'click',function(){return document.treemanager.toggleNode(this);});
+			nodes[no].insertBefore(img,aTag);
+			if(!nodes[no].id) nodes[no].id = 'node' + self.nodeId;
 		}	
 	}
 }

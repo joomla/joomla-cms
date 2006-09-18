@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<control>
-		<steps />
-	</control>
+	<layout title="Default">
+		<message>
+			<![CDATA[Default article layout.]]>
+		</message>
+	</layout>
 	<state>
 		<name>Article View</name>
 		<description>Article view parameters...</description>

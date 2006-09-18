@@ -7,13 +7,13 @@
 					<![CDATA[Choose the content component view.]]>
 				</message>
 				<params>
-					<param name="view_name" type="folderlist" directory="/components/com_content/views" hide_none="1" label="View Style" />
+					<views name="view" directory="/components/com_content/views" />
 				</params>
 			</step>
-			<include source="/components/com_content/views/{view_name}/metadata.xml" path="control/steps" />
+			<include source="/components/com_content/views/{view}/metadata.xml" path="control/steps" />
 		</steps>
 	</control>
 	<state>
-		<include source="/components/com_content/views/{view_name}/tmpl/{template_name}.xml" path="state" />
+		<include source="/components/com_content/views/{view}/tmpl/{template}.xml" path="state" />
 	</state>
 </metadata>
