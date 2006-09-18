@@ -17,7 +17,7 @@
 				<div>
 					<!-- xajax_tree(this.parentNode.id,this.id) //-->
 					<ul id="tree2" class="jtree">
-						<li><a href="#" id="node_com">Component</a>
+						<li><a href="#" id="node_com">Internal Link</a>
 							<ul>
 								<?php foreach ($this->components as $component) : ?>
 								<li><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>" onclick="xajax_tree(this.parentNode.id,this.id);"><?php echo $component->name; ?></a>
@@ -28,9 +28,9 @@
 								<?php endforeach; ?>
 							</ul>
 						</li>
-						<li><a href="#" id="node_url">URL</a></li>
+						<li><a href="#" id="node_url">External Link</a></li>
 						<li><a href="#" id="node_sep">Separator</a></li>
-						<li><a href="#" id="node_link">Menulink</a></li>	
+						<li><a href="#" id="node_link">Menu Item Link</a></li>	
 					</ul>
 				</div>
 			</fieldset>
