@@ -69,7 +69,7 @@ class JMenuModelItem extends JModel
 		}
 
 		// Override the current item's menutype field if defined in the request
-		if ($menu_type = JRequest::getVar('menu_type', false)) {
+		if ($menu_type = JRequest::getVar('menutype', false)) {
 			$table->menutype = $menu_type;
 		}
 
@@ -103,9 +103,10 @@ class JMenuModelItem extends JModel
 	{
 		$item = &$this->getItem();
 		$return['option'] = JRequest::getVar('expand');
+		$menutype = JRequest::getVar('menutype');
 		if ($return['option']) {
 			require_once(COM_MENUS.DS.'models'.DS.'ilink.php');
-			$handler		= new iLink($return['option'], $item->id);
+			$handler		= new iLink($return['option'], $item->id, $menutype);
 			$return['html'] = $handler->getTree();
 			return $return;			
 		} else {

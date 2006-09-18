@@ -32,13 +32,18 @@ class iLink extends JTree
 	var $_output	= null;
 	var $_nodes		= array();
 
-	function __construct($component, $id=null)
+	function __construct($component, $id=null, $menutype=null)
 	{
 		parent::__construct();
 		if ($id) {
 			$this->_cid = "&amp;cid[]=".$id;
 		} else {
 			$this->_cid = null;
+		}
+		if ($menutype) {
+			$this->_menutype = "&amp;menutype=".$menutype;
+		} else {
+			$this->_menutype = null;
 		}
 		$this->_com = preg_replace( '#\W#', '', $component );;
 		// Build the tree
@@ -100,7 +105,7 @@ class iLink extends JTree
 		if ($this->_current->hasChildren()) {
 			$this->_output .= "<a description=\"".$this->_current->msg."\">".$this->_current->title."</a>";
 		} else {
-			$this->_output .= "<a href=\"index.php?option=com_menus&amp;task=edit&amp;type=internal&amp;".$this->_current->url.$this->_cid."\" description=\"".$this->_current->msg."\">".$this->_current->title."</a>";
+			$this->_output .= "<a href=\"index.php?option=com_menus&amp;task=edit&amp;type=internal&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" description=\"".$this->_current->msg."\">".$this->_current->title."</a>";
 		}
 
 		// Recurse through children if they exist
