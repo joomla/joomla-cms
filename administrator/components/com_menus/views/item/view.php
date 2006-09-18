@@ -92,6 +92,7 @@ class JMenuViewItem extends JView
 		$document->addScript($url.'includes/js/joomla/common.js');
 		$document->addScript($url.'includes/js/joomla/cookie.js');
 		$document->addScript('components/com_menus/assets/tree.js');
+		$document->addScript('components/com_menus/assets/description.js');
 		$document->addStyleSheet('components/com_menus/assets/tree.css');
 
 		mosCommonHTML::loadOverlib();

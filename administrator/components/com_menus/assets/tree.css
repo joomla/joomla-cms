@@ -1,6 +1,7 @@
 .jtree{
 	margin:0px;
 	padding:0px;
+	font-size: 140%;
 }
 .jtree ul{	/* Sub menu groups */
 	margin-left:20px;	/* Left spacing */
@@ -10,6 +11,7 @@
 .jtree li{	/* Nodes */
 	list-style-type:none;
 	vertical-align:middle;
+	padding-left:16px;
 }
 .jtree li a{	/* Node links */
 	color:#000;
@@ -19,8 +21,11 @@
 	padding-left:2px;
 }
 .jtree li.node{	/* Nodes */
-	background: #ccc;
 }
 .jtree li.leaf{	/* Leafs */
-	background: #ddd;
+	color:#666;
+	font-size: 110%;
+}
+.jtree li.leaf a{
+	color:#666;
 }

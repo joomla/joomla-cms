@@ -7,7 +7,7 @@
 </script>
 <table class="admintable" width="100%">
 	<tr valign="top">
-		<td width="60%">
+		<td width="70%">
 			<!-- Menu Item Type Section -->
 			<fieldset>
 				<legend>
@@ -33,6 +33,15 @@
 						<li><a href="#" id="node_link">Menulink</a></li>	
 					</ul>
 				</div>
+			</fieldset>
+		</td>
+		<td width="30%">
+			<!-- Menu Item Type Description -->
+			<fieldset>
+				<legend>
+					<?php echo JText::_( 'Description' ); ?>
+				</legend>
+				<div id="jdescription"></div>
 			</fieldset>
 		</td>
 	</tr>
