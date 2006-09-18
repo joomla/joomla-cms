@@ -93,7 +93,7 @@ class JMenuViewItem extends JView
 		$document->addScript($url.'includes/js/joomla/cookie.js');
 		$document->addScript('components/com_menus/assets/tree.js');
 		$document->addScript('components/com_menus/assets/description.js');
-		$document->addStyleSheet('components/com_menus/assets/tree.css');
+		$document->addStyleSheet('components/com_menus/assets/type.css');
 
 		mosCommonHTML::loadOverlib();
 
@@ -113,18 +113,6 @@ class JMenuViewItem extends JView
 		} else {
 			$document->setTitle('New Menu Item Type');
 		}
-
-		// Build the state list options
-		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
-		$put[] = mosHTML::makeOption( '1', JText::_( 'Yes' ));
-		$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
-
-		// Was showing up null in some cases....
-		if (!$item->published) {
-			$item->published = 0;
-		}
-		$disabled = ($item->type != 'url' ? 'disabled="true"' : '');
-
 
 		$this->assignRef('item', $item);
 		$this->assignRef('components', $components);

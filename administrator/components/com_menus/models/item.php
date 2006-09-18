@@ -77,6 +77,9 @@ class JMenuModelItem extends JModel
 		if ($this->_url) {
 			$table->link = $this->_url;
 		}
+		if ($table->type == 'separator') {
+			$table->link = null;
+		}
 
 		$url = str_replace('index.php?', '', $table->link);
 		$url = str_replace('&amp;', '&', $url);

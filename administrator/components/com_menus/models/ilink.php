@@ -105,7 +105,7 @@ class iLink extends JTree
 		if ($this->_current->hasChildren()) {
 			$this->_output .= "<a title=\"".$this->_current->msg."\">".$this->_current->title."</a>";
 		} else {
-			$this->_output .= "<a href=\"index.php?option=com_menus&amp;task=edit&amp;type=internal&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"".$this->_current->msg."\">".$this->_current->title."</a>";
+			$this->_output .= "<a href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"".$this->_current->msg."\">".$this->_current->title."</a>";
 		}
 
 		// Recurse through children if they exist
@@ -152,7 +152,12 @@ class iLink extends JTree
 	{
 		$return = false;
 		$path = JPATH_SITE.DS.'components'.DS.'com_'.$this->_com.DS.'views';
-		$views = JFolder::folders($path);
+		if (JFolder::exists($path)) {
+			$views = JFolder::folders($path);
+		} else {
+			return $return;
+		}
+
 		if (is_array($views) && count($views)) {
 			//$this->addChild(new iLinkNode('Views', null, 'Select the view'), true);
 			$return = true;
@@ -224,7 +229,7 @@ class iLink extends JTree
 						$node->addChild($child);
 					} else {
 						// Add default info for the layout
-						$child =& new iLinkNode(ucfirst($layout), $url);
+						$child =& new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
 						$node->addChild($child);
 					}
 				}

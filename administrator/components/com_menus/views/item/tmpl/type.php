@@ -11,27 +11,27 @@
 			<!-- Menu Item Type Section -->
 			<fieldset>
 				<legend>
-					<?php echo JText::_( 'Menu Item Type' ); ?>
+					<?php echo JText::_( 'Select Menu Item Type' ); ?>
 				</legend>
-				<h2><?php echo JText::_( 'Select Type' ); ?></h2>
 				<div>
 					<!-- xajax_tree(this.parentNode.id,this.id) //-->
-					<ul id="tree2" class="jtree">
-						<li><a href="#" id="node_com">Internal Link</a>
-							<ul>
-								<?php foreach ($this->components as $component) : ?>
-								<li><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>" onclick="xajax_tree(this.parentNode.id,this.id);"><?php echo $component->name; ?></a>
-								<?php if ($this->expansion['option'] == str_replace('com_', '', $component->option)) : ?>
-								<?php echo $this->expansion['html']; ?>
-								<?php endif; ?>
-								</li>
-								<?php endforeach; ?>
-							</ul>
-						</li>
-						<li><a href="#" id="node_url">External Link</a></li>
-						<li><a href="#" id="node_sep">Separator</a></li>
-						<li><a href="#" id="node_link">Menu Item Link</a></li>	
-					</ul>
+					<div id="internal-node"><a href="#">Internal Link</a>
+						<ul id="tree2" class="jtree">
+							<?php foreach ($this->components as $component) : ?>
+							<li><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>" onclick="xajax_tree(this.parentNode.id,this.id);"><?php echo $component->name; ?></a>
+							<?php if ($this->expansion['option'] == str_replace('com_', '', $component->option)) : ?>
+							<?php echo $this->expansion['html']; ?>
+							<?php endif; ?>
+							</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<div id="external-node"><a href="index.php?option=com_menus&amp;task=edit&amp;type=url&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>">External Link</a>
+					</div>
+					<div id="separator-node"><a href="index.php?option=com_menus&amp;task=edit&amp;type=separator&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>">Separator</a>
+					</div>
+					<div id="link-node"><a href="index.php?option=com_menus&amp;task=edit&amp;type=link&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>">Menu Item Link</a>
+					</div>
 				</div>
 			</fieldset>
 		</td>

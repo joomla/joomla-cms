@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Default">
+	<layout title="Standard Article Layout">
 		<message>
-			<![CDATA[Default article layout.]]>
+			<![CDATA[The standard article layout displays a single article.]]>
 		</message>
 	</layout>
 	<state>
-		<name>Article View</name>
-		<description>Article view parameters...</description>
+		<name>Standard Article Layout</name>
+		<description>The standard article layout displays a single article.</description>
 		<params addParameterDir="administrator/components/com_content/elements">
 			<param name="article_id" type="article" default="0" label="Select Article" description="An article" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />

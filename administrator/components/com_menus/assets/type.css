@@ -1,0 +1,60 @@
+#internal-node a{
+	color:#000;
+	text-decoration:none;
+	font-family:arial;
+	font-size:150%;
+	padding-left:8px;
+}
+#external-node a{
+	color:#000;
+	text-decoration:none;
+	font-family:arial;
+	font-size:150%;
+	padding-left:8px;
+}
+#separator-node a{
+	color:#000;
+	text-decoration:none;
+	font-family:arial;
+	font-size:150%;
+	padding-left:8px;
+}
+#link-node a{
+	color:#000;
+	text-decoration:none;
+	font-family:arial;
+	font-size:150%;
+	padding-left:8px;
+}
+
+.jtree{
+	color:#000;
+	text-decoration:none;
+	font-family:arial;
+	font-size:75%;
+	margin:0px;
+	padding:0px;
+}
+.jtree ul{	/* Sub menu groups */
+	margin-left:20px;	/* Left spacing */
+	padding-left:0px;
+	display:none;	/* Initially hide sub nodes */
+}
+.jtree li{	/* Nodes */
+	list-style-type:none;
+	vertical-align:middle;
+	padding-left:0px;
+}
+.jtree li a{	/* Node links */
+}
+.jtree li.node{	/* Nodes */
+	font-weight: bold;
+}
+.jtree li.leaf{	/* Leafs */
+	color:#666;
+	font-weight: normal;
+	padding-left:2px;
+}
+.jtree li.leaf a{
+	color:#666;
+}
