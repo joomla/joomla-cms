@@ -154,7 +154,7 @@ class iLink extends JTree
 		$path = JPATH_SITE.DS.'components'.DS.'com_'.$this->_com.DS.'views';
 		$views = JFolder::folders($path);
 		if (is_array($views) && count($views)) {
-			$this->addChild(new iLinkNode('Views', null, 'Select the view'), true);
+			//$this->addChild(new iLinkNode('Views', null, 'Select the view'), true);
 			$return = true;
 			foreach ($views as $view)
 			{
