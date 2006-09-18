@@ -147,7 +147,12 @@ class JRegistry extends JObject
 		$nodes = explode('.', $regpath);
 
 		// Get the namespace
-		$namespace = array_shift($nodes);
+		if (count($nodes)<2) {
+			$namespace = $this->_defaultNameSpace;
+		} else {
+			$namespace = array_shift($nodes);
+		}
+
 		if (!isset($this->_registry[$namespace])) {
 			$this->makeNameSpace($namespace);
 		}
