@@ -27,6 +27,10 @@ switch ($task) {
 		TOOLBAR_menus::_COPYMENU();
 		break;
 
+	case 'type':
+		TOOLBAR_menus::_TYPE();
+		break;
+
 	case 'edit':
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		if (!is_array( $cid )) {

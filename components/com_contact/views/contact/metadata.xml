@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<control>
-		<steps>
-			<step id="2" name="Template">
-				<message>
-					<![CDATA[Choose a template style]]>
-				</message>
-				<params>
-					<param name="template_name" type="filelist" directory="components/com_contact/views/contact/tmpl" stripext="1" filter="^[^_].*\.php$" hide_none="1" default="list" label="Template Name" description="The template" />
-				</params>
-			</step>
-		</steps>
-	</control>
+	<view title="Contact">
+		<message>
+			<![CDATA[Choose a contact layout.]]>
+		</message>
+	</view>
 </metadata>

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<control>
-		<steps />
-	</control>
+	<layout title="Contact Category Layout">
+		<message>
+			<![CDATA[The contact category layout displays all the published contacts in a given category.]]>
+		</message>
+	</layout>
 	<state>
-		<name>Contacts Table</name>
-		<description>Cleaner version with divs</description>
-		<params addParameterDir="administrator/components/com_contact/elements">
+		<name>Contacts Category Layout</name>
+		<description>The contact category layout displays all the published contacts in a given category.</description>
+		<params addParameterDir="/administrator/components/com_contact/elements">
 			<param name="category_id" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />

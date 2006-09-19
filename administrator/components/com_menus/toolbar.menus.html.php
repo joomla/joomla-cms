@@ -23,6 +23,16 @@ class TOOLBAR_menus {
 	/**
 	* Draws the menu for a New top menu item
 	*/
+	function _TYPE() {
+
+		JMenuBar::title(  JText::_( 'Edit Menu Item Type' ), 'menu.png' );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.menus.type' );
+	}
+
+	/**
+	* Draws the menu for a New top menu item
+	*/
 	function _NEW()	{
 
 		JMenuBar::title(  JText::_( 'New Menu Item' ), 'menu.png' );
