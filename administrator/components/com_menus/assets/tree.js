@@ -21,8 +21,8 @@
  * @since		1.5
  */
 JTreeManager = function() { this.constructor.apply(this, arguments);}
-JTreeManager.prototype = {
-
+JTreeManager.prototype =
+{
 	constructor: function() 
 	{	
 		var self = this;
@@ -46,7 +46,6 @@ JTreeManager.prototype = {
 
 		// AJAX Specific
 		this.useAjaxToLoadNodesDynamically = false;
-		this.ajaxRequestFile = 'writeNodes.php';
 
 		// Build the tree
 		$c(this.trees).each(function(tree){
@@ -224,7 +223,7 @@ JTreeManager.prototype = {
 				img.style.visibility='hidden';
 			} else {
 				nodes[no].className = 'node';
-				subTrees[0].id = 'subtree_' + this.subcounter;
+				subTrees[0].id = 'subtree_'+this.subcounter;
 				this.subcounter++;
 			}
 			var aTag = nodes[no].getElementsByTagName('A')[0];

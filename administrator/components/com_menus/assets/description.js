@@ -19,8 +19,8 @@
  * @since		1.5
  */
 JDescriptionSwitcher = function() { this.constructor.apply(this, arguments);}
-JDescriptionSwitcher.prototype = {
-
+JDescriptionSwitcher.prototype =
+{
 	constructor: function() 
 	{	
 		var self = this;
