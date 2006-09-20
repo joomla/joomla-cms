@@ -38,7 +38,6 @@ class JMenuViewItem extends JView
 		$advanced		= $this->get( 'AdvancedParams' );
 		$menuTypes 		= $this->get('MenuTypelist');
 		$components		= $this->get('ComponentList');
-		$details		= $this->get( 'Details' );
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
 
@@ -69,7 +68,6 @@ class JMenuViewItem extends JView
 		$this->assignRef('params', $params);
 		$this->assignRef('advanced', $advanced);
 		$this->assignRef('menutypes', $menuTypes);
-		$this->assignRef('details', $details);
 		$this->assignRef('name', $name);
 		$this->assignRef('description', $description);
 
@@ -103,7 +101,6 @@ class JMenuViewItem extends JView
 		$component		= &$this->get('Component');
 		$menuTypes 		= $this->get('MenuTypelist');
 		$components		= $this->get('ComponentList');
-		$details		= $this->get( 'Details' );
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
 

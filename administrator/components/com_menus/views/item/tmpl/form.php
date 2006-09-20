@@ -32,22 +32,6 @@ function submitbutton(pressbutton) {
 					<div>
 						<?php echo $this->description; ?>
 					</div>
-					<table width="100%">
-						</tr>
-							<td align="right"  colspan="2">
-							</td>
-						</tr>
-						<?php foreach($this->details as $detail) { ?>
-						</tr>
-							<td class="key"  width="20%">
-								<?php echo $detail['label']; ?>:
-							</td>
-							<td width="80%">
-								<?php echo $detail['name']; ?>
-							</td>
-						</tr>
-						<?php } ?>
-					</table>
 				</fieldset>
 				<!-- Menu Item Details Section -->
 				<fieldset>
@@ -149,6 +133,7 @@ function submitbutton(pressbutton) {
 	</table>
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="id" value="<?php echo $this->item->id; ?>" />
+	<input type="hidden" name="componentid" value="<?php echo $this->item->componentid; ?>" />
 	<input type="hidden" name="menutype" value="<?php echo $this->item->menutype; ?>" />
 	<input type="hidden" name="type" value="<?php echo $this->item->type; ?>" />
 	<input type="hidden" name="task" value="" />

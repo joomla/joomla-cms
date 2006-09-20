@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <metadata>
-	<control>
-		<steps />
-		<confirmation>
-			<![CDATA[You have successfully created a menu item separator.  Click the "Finish" button to finish the wizard
-			and add the menu item.]]>
-		</confirmation>
-	</control>
 	<state>
 		<name>Separator</name>
 		<description>Separator parameters...</description>
