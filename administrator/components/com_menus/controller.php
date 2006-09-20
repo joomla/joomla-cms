@@ -513,15 +513,13 @@ class JMenuController extends JController
 			return false;
 		}
 
-		$model	=& $this->getModel( 'Menutype', 'JMenuModel' );
-		$table = &$model->getTable();
-
+		$model =& $this->getModel( 'Menutype', 'JMenuModel' );
 		if (!$model->canDelete()) {
 			JError::raiseError( 500, $model->getError() );
 			return false;
 		}
 
-		$err = '';
+		$err = null;
 		if (!$model->delete()) {
 			 $err = $model->getError();
 		}

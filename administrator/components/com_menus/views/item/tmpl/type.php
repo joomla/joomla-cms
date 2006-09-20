@@ -14,11 +14,10 @@
 					<?php echo JText::_( 'Select Menu Item Type' ); ?>
 				</legend>
 				<div>
-					<!-- xajax_tree(this.parentNode.id,this.id) //-->
 					<div id="internal-node"><a href="#">Internal Link</a>
 						<ul id="tree2" class="jtree">
 							<?php foreach ($this->components as $component) : ?>
-							<li><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>" onclick="xajax_tree(this.parentNode.id,this.id);"><?php echo $component->name; ?></a>
+							<li><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>"><?php echo $component->name; ?></a>
 							<?php if ($this->expansion['option'] == str_replace('com_', '', $component->option)) : ?>
 							<?php echo $this->expansion['html']; ?>
 							<?php endif; ?>

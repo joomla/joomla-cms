@@ -70,8 +70,8 @@ class JMenuViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title(  JText::_( 'Copy Menu Items' ) );
-		JMenuBar::custom( 'copymenu', 'copy.png', 'copy_f2.png', 'Copy', false );
+		JMenuBar::title(  JText::_( 'Copy Menu' ) );
+		JMenuBar::custom( 'doCopyMenu', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.menumanager.copy' );
 
@@ -89,6 +89,14 @@ class JMenuViewMenus extends JView
 		global $mainframe;
 
 		$this->_layout = 'delete';
+
+		/*
+		 * Set toolbar items for the page
+		 */
+		JMenuBar::title(  JText::_( 'Delete Menu' ) );
+		JMenuBar::custom( 'doDeleteMenu', 'delete.png', 'delete_f2.png', 'Delete', false );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.menumanager.delete' );
 
 		// view data
 		$table		= $this->get('Table');

@@ -1,14 +1,4 @@
 <form action="index.php" method="post" name="adminForm">
-	<fieldset>
-		<div style="float: right">
-			<button type="button" onclick="if (confirm('<?php echo str_replace( "\n", '\n', JText::_( 'WARNWANTDELTHISMENU' ) ); ?>')){ submitbutton('delete');};window.top.document.popup.hide();">
-				Delete</button>
-			<button type="button" onclick="window.top.document.popup.hide();">
-				<?php echo JText::_( 'Cancel' );?></button>
-	    </div>
-		<?php echo JText::_( '* This will Delete this Menu,' ); ?> <?php echo JText::_( 'DESCALLMENUITEMS' ); ?>
-	</fieldset>
-
 	<div>
 		<div style="width:30%;float:left">
 			<?php if ( $this->modules ) : ?>
