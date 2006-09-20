@@ -92,7 +92,7 @@ class JConfigView
 							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_server.html'); ?>
 							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_locale.html'); ?>
 							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_cache.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS. (JUtility::isWinOS() ? 'config_ftp.html':'config_noftp.html')); ?>
+							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS. (JUtility::isWinOS() ? 'config_noftp.html':'config_ftp.html')); ?>
 						</td>
 						<td width="40%">
 							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_database.html'); ?>
