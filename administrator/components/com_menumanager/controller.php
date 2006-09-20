@@ -68,9 +68,7 @@ class MenuTypeController extends JController
 		$db->setQuery( $query );
 		$trash = $db->loadObjectList( 'menutype' );
 
-		$model		= &JModel::getInstance( 'JModelMenu' );
-		$menuTypes 	= $model->getMenuTypeList();
-
+		$menuTypes 	= JMenuHelper::getMenuTypeList();
 		$total		= count( $menuTypes );
 		$i			= 0;
 		for ($i = 0;  $i < $total; $i++) {

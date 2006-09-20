@@ -117,9 +117,8 @@ class JAdminMenu {
 			}
 		}
 		// Menu Types
-		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-		$menuModel	= &JModel::getInstance( 'JModelMenu' );
-		$menuTypes 	= $menuModel->getMenuTypes();
+		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/helper.php' );
+		$menuTypes 	= JMenuHelper::getMenuTypes();
 
 	/*
 	 * Home SubMenu

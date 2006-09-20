@@ -18,8 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 define( 'COM_MENUS', dirname( __FILE__ ) . DS );
 require_once( COM_MENUS . 'controller.php' );
-require_once( COM_MENUS . 'model.php' );
-//require_once( COM_MENUS . 'views.php' );
 require_once( COM_MENUS . 'helper.php' );
 
 $task = JRequest::getVar( 'task' );

@@ -52,9 +52,8 @@ class JFullAdminMenu {
 		$canManageUsers 	= $user->authorize('com_users', 		'manage');
 
 		// Menu Types
-		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
-		$menuModel	= &JModel::getInstance( 'JModelMenu' );
-		$menuTypes 	= $menuModel->getMenuTypes();
+		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/helper.php' );
+		$menuTypes 	= JMenuHelper::getMenuTypes();
 		?>
 		<div id="myMenuID"></div>
 		<script language="JavaScript" type="text/javascript">

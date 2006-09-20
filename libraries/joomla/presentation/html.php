@@ -1635,7 +1635,7 @@ class mosAdminMenus
 	}
 
 	/**
-	 * @deprecated Use getMenuTypes in JModelMenu class instead
+	 * @deprecated Use getMenuTypes in JMenuHelper class instead
 	 */
 	function menutypes() {
 		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );

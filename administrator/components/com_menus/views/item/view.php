@@ -36,10 +36,10 @@ class JMenuViewItem extends JView
 		$component		= &$this->get('Component');
 		$params			= $this->get( 'StateParams' );
 		$advanced		= $this->get( 'AdvancedParams' );
-		$menuTypes 		= $this->get('MenuTypelist');
-		$components		= $this->get('ComponentList');
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
+		$menuTypes 		= JMenuHelper::getMenuTypeList();
+		$components		= JMenuHelper::getComponentList();
 
 		mosCommonHTML::loadOverlib();
 
@@ -56,11 +56,7 @@ class JMenuViewItem extends JView
 		}
 
 		$lists = new stdClass();
-		// Build the state list options
-		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
-		$put[] = mosHTML::makeOption( '1', JText::_( 'Yes' ));
-		$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
-		$lists->published = mosHTML::radioList( $put, 'published', '', $item->published );
+		$lists->published = JMenuHelper::Published($item);
 		$lists->disabled = ($item->type != 'url' ? 'disabled="true"' : '');
 		if ($item->type != 'url') {
 			$lists->disabled = 'disabled="true"';
@@ -106,10 +102,10 @@ class JMenuViewItem extends JView
 		$item			= &$this->get('Item');
 		$expansion		= &$this->get('Expansion');
 		$component		= &$this->get('Component');
-		$menuTypes 		= $this->get('MenuTypelist');
-		$components		= $this->get('ComponentList');
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
+		$menuTypes 		= JMenuHelper::getMenuTypeList();
+		$components		= JMenuHelper::getComponentList();
 
 		// Set document title
 		if ($item->id) {

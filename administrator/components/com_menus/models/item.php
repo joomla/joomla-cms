@@ -187,32 +187,6 @@ class JMenuModelItem extends JModel
 	}
 
 	/**
-	 * Get a list of the menu_types records
-	 * @return array An array of records as objects
-	 */
-	function getMenuTypeList()
-	{
-		$db = $this->getDBO();
-		$query = "SELECT *" .
-				"\n FROM #__menu_types";
-		$db->setQuery( $query );
-		return $db->loadObjectList();
-	}
-
-	/**
-	 * Get a list of the menutypes
-	 * @return array An array of menu type names
-	 */
-	function getMenuTypes()
-	{
-		$db = &$this->getDBO();
-		$query = "SELECT menutype" .
-				"\n FROM #__menu_types";
-		$db->setQuery( $query );
-		return $db->loadResultArray();
-	}
-
-	/**
 	 * Gets the componet table object related to this menu item
 	 */
 	function &getComponent()
@@ -222,21 +196,6 @@ class JMenuModelItem extends JModel
 		$component	= & JTable::getInstance( 'component', $this->getDBO() );
 		$component->load( $id );
 		return $component;
-	}
-
-	/**
-	 * Gets a list of components that can link to the menu
-	 */
-	function getComponentList()
-	{
-		$db = $this->getDBO();
-		$query = "SELECT c.id, c.name, c.link, c.option" .
-				"\n FROM #__components AS c" .
-				"\n WHERE c.link <> '' AND parent = 0" .
-				"\n ORDER BY c.name";
-		$db->setQuery( $query );
-		$result = $db->loadObjectList( );
-		return $result;
 	}
 
 	function store()

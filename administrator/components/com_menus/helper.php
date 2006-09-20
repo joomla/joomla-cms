@@ -18,189 +18,47 @@
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JMenuHelper extends JObject {
-	// TODO: Move to library, derive similar class for module support
-
+class JMenuHelper
+{
 	/**
-	 * @var string The component file name
+	 * Get a list of the menu_types records
+	 * @return array An array of records as objects
 	 */
-	var $_option = null;
-
-	var $_metadata;
-
-	/**
-	 * Constructor
-	 */
-	function __construct( $option )
+	function getMenuTypeList()
 	{
-		// clean the option
-		$option = preg_replace( '#\W#', '', $option );
-		$option = str_replace( 'com_', '', $option );
-
-		$this->_option = $option;
-
-		// load the xml metadata
-		$this->_metadata = null;
-
-		$path = JPATH_SITE . '/components/com_' . $this->_option . '/metadata.xml';
-
-		if (file_exists( $path ))
-		{
-			$xml = & JFactory::getXMLParser('Simple');
-
-			if ($xml->loadFile($path))
-			{
-				$this->_metadata = &$xml;
-			}
-		}
+		$db = &JFactory::getDBO();
+		$query = "SELECT *" .
+				"\n FROM #__menu_types";
+		$db->setQuery( $query );
+		return $db->loadObjectList();
 	}
 
 	/**
-	 * @access private
+	 * Get a list of the menutypes
+	 * @return array An array of menu type names
 	 */
-	function &_getMetadataDoc()
+	function getMenuTypes()
 	{
-		$result = null;
-		if (isset( $this->_metadata->document ))
-		{
-			$result = &$this->_metadata->document;
-		}
+		$db = &JFactory::getDBO();
+		$query = "SELECT menutype" .
+				"\n FROM #__menu_types";
+		$db->setQuery( $query );
+		return $db->loadResultArray();
+	}
+
+	/**
+	 * Gets a list of components that can link to the menu
+	 */
+	function getComponentList()
+	{
+		$db = &JFactory::getDBO();
+		$query = "SELECT c.id, c.name, c.link, c.option" .
+				"\n FROM #__components AS c" .
+				"\n WHERE c.link <> '' AND parent = 0" .
+				"\n ORDER BY c.name";
+		$db->setQuery( $query );
+		$result = $db->loadObjectList( );
 		return $result;
-	}
-
-	function hasControlParams()
-	{
-		return (boolean) $this->_getMetadataDoc();
-	}
-
-	/**
-	 * @param string A params string
-	 * @param string The option
-	 */
-	function &getControlParams( $params, $path='' )
-	{
-		$params = new JParameter( $params );
-
-		if ($xmlDoc =& $this->_getMetadataDoc())
-		{
-			if (isset( $xmlDoc->control[0] ))
-			{
-				if (isset( $xmlDoc->control[0]->params[0] ))
-				{
-					$params->setXML( $xmlDoc->control[0]->params[0] );
-				}
-			}
-		}
-		return $params;
-	}
-
-	function prepForStore(&$values) {
-		return $values;
-	}
-
-	/**
-	 * Allows for the parameter handling to be overridden
-	 * if the component supports new parameter types
-	 * @param string A params string
-	 * @param string The option
-	 * @return object A
-	 */
-	function &getViewParams( $ini, $control )
-	{
-		if ($this->_metadata == null)
-		{
-			// Check for component metadata.xml file
-			$path = JApplicationHelper::getPath( 'com_xml', 'com_' . $this->_option );
-			$params = new JParameter( $ini, $path );
-		}
-		else
-		{
-			$params = new JParameter( $ini );
-
-			$viewName = $control->get( 'view_name' );
-			if ($viewName && $xmlDoc =& $this->_getMetadataDoc())
-			{
-				$eViews = &$xmlDoc->getElementByPath( 'control/views' );
-				if ($eViews)
-				{
-					// we have a views element
-					$eParams = &$eViews->getElementByPath( $viewName . '/params' );
-					if ($eParams)
-					{
-						// we have a params element in the metadata
-						$params->setXML( $eParams );
-					}
-					else
-					{
-						// check for a different source
-						$source = $eViews->attributes( 'source' );
-						if ($source)
-						{
-							// TODO: check for injection
-							$path = JPATH_SITE . str_replace( '{VIEW_NAME}', $viewName, $source );
-							if (file_exists( $path ))
-							{
-								// load the metadata file local to the view
-								$xml = & JFactory::getXMLParser('Simple');
-								if ($xml->loadFile($path))
-								{
-									$eParams = &$xml->document->getElementByPath( 'params' );
-									$params->setXML( $eParams );
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return $params;
-	}
-
-	/**
-	* build the link/url of a menu item
-	*/
-	function Link( &$row, $id, $link=NULL ) {
-		if ( $id ) {
-			switch ($row->type) {
-				case 'content_item_link':
-				case 'content_typed':
-					// load menu params
-					$params = new JParameter( $row->params, JApplicationHelper::getPath( 'menu_xml', $row->type ), 'menu' );
-
-					if ( $params->get( 'unique_itemid' ) ) {
-						$row->link .= '&Itemid='. $row->id;
-					} else {
-						$temp = explode( '&task=view&id=', $row->link);
-						require_once( JPATH_SITE . '/components/com_content/helpers/content.php' );
-						$row->link .= '&Itemid='. JContentHelper::getItemid($temp[1], 0, 0);
-					}
-
-					$link = $row->link;
-					break;
-
-				default:
-					if ( $link ) {
-						$link = $row->link;
-					} else {
-						$link = $row->link .'&amp;Itemid='. $row->id;
-					}
-					break;
-			}
-		} else {
-			$link = NULL;
-		}
-
-		return $link;
-	}
-
-	/**
-	 * Loads files required for menu items
-	 * @param string Item type
-	 */
-	function menuItem( $item ) {
-		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
-		include_once( $path . $item .'.class.php' );
-		include_once( $path . $item .'.menu.html.php' );
 	}
 
 	/**
@@ -209,25 +67,27 @@ class JMenuHelper extends JObject {
 	function Parent( &$row )
 	{
 		$db =& JFactory::getDBO();
-		$id = '';
+
+		// If a not a new item, lets set the menu item id
 		if ( $row->id ) {
 			$id = "\n AND id != $row->id";
+		} else {
+			$id = null;
 		}
 
-		// In case it was null...
+		// In case the parent was null
 		if (!$row->parent) {
 			$row->parent = 0;
 		}
 
 		// get a list of the menu items
 		// excluding the current menu item and its child elements
-		$query = "SELECT m.*"
-		. "\n FROM #__menu m"
-		. "\n WHERE menutype = '$row->menutype'"
-		. "\n AND published != -2"
-		. $id
-		. "\n ORDER BY parent, ordering"
-		;
+		$query = "SELECT m.*" .
+				"\n FROM #__menu m" .
+				"\n WHERE menutype = '$row->menutype'" .
+				"\n AND published != -2" .
+				$id .
+				"\n ORDER BY parent, ordering";
 		$db->setQuery( $query );
 		$mitems = $db->loadObjectList();
 
@@ -236,7 +96,8 @@ class JMenuHelper extends JObject {
 
 		if ( $mitems ) {
 			// first pass - collect children
-			foreach ( $mitems as $v ) {
+			foreach ( $mitems as $v )
+			{
 				$pt 	= $v->parent;
 				$list 	= @$children[$pt] ? $children[$pt] : array();
 				array_push( $list, $v );
@@ -251,7 +112,8 @@ class JMenuHelper extends JObject {
 		$mitems 	= array();
 		$mitems[] 	= mosHTML::makeOption( '0', JText::_( 'Top' ) );
 
-		foreach ( $list as $item ) {
+		foreach ( $list as $item )
+		{
 			$mitems[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
 		}
 
@@ -269,6 +131,20 @@ class JMenuHelper extends JObject {
 		$click[] = mosHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
 		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
 		return $target;
+	}
+
+	/**
+	* build the select list for target window
+	*/
+	function Published( &$row ) {
+		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
+		$put[] = mosHTML::makeOption( '1', JText::_( 'Yes' ));
+		// If not a new item, trash is not an option
+		if ( $row->id ) {
+			$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
+		}
+		$published = mosHTML::radioList( $put, 'published', '', $row->published );
+		return $published;
 	}
 }
 ?>

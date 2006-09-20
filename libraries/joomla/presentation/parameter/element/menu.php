@@ -34,9 +34,8 @@ class JElement_Menu extends JElement
 	{
 		$db =& JFactory::getDBO();
 
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'model.php' );
-		$model		= &JModel::getInstance( 'JModelMenu' );
-		$menuTypes 	= $model->getMenuTypes();
+		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helper.php' );
+		$menuTypes 	= JMenuHelper::getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {
 			$options[] = mosHTML::makeOption($menutype, $menutype);
