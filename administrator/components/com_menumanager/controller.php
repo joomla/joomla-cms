@@ -14,6 +14,7 @@
  */
 
 jimport( 'joomla.application.controller' );
+require_once( JPATH_ADMINISTRATOR . '/components/com_menus/helper.php' );
 
 /**
  * @package  Joomla
@@ -30,9 +31,6 @@ class MenuTypeController extends JController
 	function listItems()
 	{
 		global $mainframe, $option;
-
-		// TODO: following line will eventually be jimport( 'application.model.menu' ); or similar
-		require_once( JPATH_ADMINISTRATOR . '/components/com_menus/model.php' );
 
 		$db			=& JFactory::getDBO();
 		$menus		= array();
@@ -95,7 +93,7 @@ class MenuTypeController extends JController
 		jimport('joomla.presentation.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
-		$view = new JMenuManagerListView( $this );
+		$view = new JMenuManagerListView();
 		$view->display( $menuTypes, $pageNav );
 	}
 
@@ -116,7 +114,7 @@ class MenuTypeController extends JController
 
 		$table->load( $id );
 
-		$view = new JMenuManagerEditView( $this );
+		$view = new JMenuManagerEditView();
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -282,7 +280,7 @@ class MenuTypeController extends JController
 			// list of modules to delete
 			$modules = $model->getModules();
 
-			$view = new JMenuManagerConfirmDeleteView( $this );
+			$view = new JMenuManagerConfirmDeleteView();
 			$view->setModel( $model, true );
 			$view->display();
 		}
@@ -303,7 +301,7 @@ class MenuTypeController extends JController
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
 
-		$view = new JMenuManagerConfirmCopyView( $this );
+		$view = new JMenuManagerConfirmCopyView();
 		$view->display( $type, $items );
 	}
 

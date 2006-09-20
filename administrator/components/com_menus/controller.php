@@ -82,6 +82,7 @@ class JMenuController extends JController
 	*/
 	function cancel()
 	{
+		global $mainframe;
 //		$menu =& JTable::getInstance('menu', $this->getDBO() );
 //		$menu->bind( $_POST );
 //		$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
@@ -89,7 +90,7 @@ class JMenuController extends JController
 //			$menu->id = $menuid;
 //		}
 //		$menu->checkin();
-		$menutype = JRequest::getVar('menutype');
+		$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype);
 	}
 
