@@ -20,7 +20,7 @@ jimport( 'joomla.application.model' );
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JModelMenuType extends JModel
+class JMenuModelMenutype extends JModel
 {
 	var $_modelName = 'menutype';
 
@@ -35,8 +35,96 @@ class JModelMenuType extends JModel
 	{
 		if ($this->_table == null) {
 			$this->_table = & JTable::getInstance('menuTypes', $this->getDBO());
+			if ($id = JRequest::getVar('id', false, '', 'int')) {
+				$this->_table->load($id);
+			}
 		}
 		return $this->_table;
+	}
+
+	/**
+	 * Get a list of the menu records associated with the type
+	 * 
+	 * @param string The menu type
+	 * @return array An array of records as objects
+	 */
+	function getMenus()
+	{
+		global $mainframe;
+
+		$menus= array();
+		$db = &$this->getDBO();
+
+		// Preselect some aggregate data
+
+		// Query to get published menu item counts
+		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num" .
+				"\n FROM #__menu AS a" .
+				"\n WHERE a.published = 1" .
+				"\n GROUP BY a.menutype";
+		$db->setQuery( $query );
+		$published = $db->loadObjectList( 'menutype' );
+
+		// Query to get unpublished menu item counts
+		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num" .
+				"\n FROM #__menu AS a" .
+				"\n WHERE a.published = 0" .
+				"\n GROUP BY a.menutype";
+		$db->setQuery( $query );
+		$unpublished = $db->loadObjectList( 'menutype' );
+
+		// Query to get trash menu item counts
+		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num" .
+				"\n FROM #__menu AS a" .
+				"\n WHERE a.published = -2" .
+				"\n GROUP BY a.menutype";
+		$db->setQuery( $query );
+		$trash = $db->loadObjectList( 'menutype' );
+
+		$menuTypes 	= JMenuHelper::getMenuTypeList();
+		$total		= count( $menuTypes );
+		$i			= 0;
+		for ($i = 0;  $i < $total; $i++) {
+			$row = &$menuTypes[$i];
+
+			// query to get number of modules for menutype
+			$query = "SELECT count( id )" .
+					"\n FROM #__modules" .
+					"\n WHERE module = 'mod_mainmenu'" .
+					"\n AND params LIKE '%" . $row->menutype . "%'";
+			$db->setQuery( $query );
+			$modules = $db->loadResult();
+
+			if ( !$modules ) {
+				$modules = '-';
+			}
+			$row->modules		= $modules;
+			$row->published		= @$published[$row->menutype]->num ? $published[$row->menutype]->num : '-' ;
+			$row->unpublished	= @$unpublished[$row->menutype]->num ? $unpublished[$row->menutype]->num : '-';
+			$row->trash			= @$trash[$row->menutype]->num ? $trash[$row->menutype]->num : '-';
+			$menus[] = $row;
+		}
+		return $menus;
+	}
+
+	/**
+	 * Get a list of the menu records associated with the type
+	 * 
+	 * @param string The menu type
+	 * @return array An array of records as objects
+	 */
+	function getPagination()
+	{
+		global $mainframe;
+
+		$menutypes 	= JMenuHelper::getMenuTypeList();
+		$total		= count( $menutypes );
+		$limit		= $mainframe->getUserStateFromRequest("com_menus.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination( $total, $limitstart, $limit );
+		return $pagination;
 	}
 
 	/**
@@ -44,19 +132,18 @@ class JModelMenuType extends JModel
 	 * @param string The menu type
 	 * @return array An array of records as objects
 	 */
-	function getMenuItems( $type='' )
+	function getMenuItems()
 	{
-		if ($type == '')
-		{
-			$type = $this->_table->menutype;
+		$table = & $this->getTable();
+		if ($table->menutype == '') {
+			$table->menutype = JRequest::getVar('menutype');
 		}
 
 		$db = &$this->getDBO();
-		$query = "SELECT a.name, a.id"
-		. "\n FROM #__menu AS a"
-		. "\n WHERE a.menutype = " . $db->Quote( $type )
-		. "\n ORDER BY a.name"
-		;
+		$query = "SELECT a.name, a.id" .
+				"\n FROM #__menu AS a" .
+				"\n WHERE a.menutype = " . $db->Quote( $table->menutype ) .
+				"\n ORDER BY a.name";
 		$db->setQuery( $query );
 		$result = $db->loadObjectList();
 		return $result;
@@ -69,17 +156,15 @@ class JModelMenuType extends JModel
 	 */
 	function getModules( $type='' )
 	{
-		if ($type == '')
-		{
+		if ($type == '') {
 			$type = $this->_table->menutype;
 		}
 
 		$db = &$this->getDBO();
-		$query = "SELECT id, title, params"
-		. "\n FROM #__modules"
-		. "\n WHERE module = 'mod_mainmenu'"
-		. "\n AND params LIKE " . $db->Quote( '%menutype=' . $type . '%' )
-		;
+		$query = "SELECT id, title, params" .
+				"\n FROM #__modules" .
+				"\n WHERE module = 'mod_mainmenu'" .
+				"\n AND params LIKE " . $db->Quote( '%menutype=' . $type . '%' );
 		$db->setQuery( $query );
 		$temp = $db->loadObjectList();
 
@@ -88,8 +173,7 @@ class JModelMenuType extends JModel
 		for ($i = 0; $i < $n; $i++)
 		{
 			$params = new JParameter( $temp[$i]->params );
-			if ($params->get( 'menutype' ) == $type)
-			{
+			if ($params->get( 'menutype' ) == $type) {
 				 $result[] = $temp[$i];
 			}
 		}
@@ -147,8 +231,8 @@ class JModelMenuType extends JModel
 		}
 
 		if (count( $modulesIds )) {
-			$query = 'DELETE FROM #__modules_menu'
-				. ' WHERE menuid = ' . implode( ' OR moduleid = ', $modulesIds );
+			$query = "DELETE FROM #__modules_menu" .
+					"\n WHERE menuid = ".implode( ' OR moduleid = ', $modulesIds );
 			$db->setQuery( $query );
 			if (!$db->query()) {
 				$this->setError( $menuTable->getErrorMsg() );
@@ -168,9 +252,9 @@ class JModelMenuType extends JModel
 	{
 		$db = &$this->getDBO();
 
-		$query = 'SELECT id' .
-				' FROM #__menu' .
-				' WHERE menutype = ' . $db->Quote( $type );
+		$query = "SELECT id" .
+				"\n FROM #__menu" .
+				"\n WHERE menutype = ".$db->Quote( $type );
 		$db->setQuery( $query );
 		$ids = $db->loadResultArray();
 
@@ -181,6 +265,5 @@ class JModelMenuType extends JModel
 
 		return $this->delete( $ids );
 	}
-
 }
 ?>

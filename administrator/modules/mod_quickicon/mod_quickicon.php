@@ -65,7 +65,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		}
 
 		if ( $user->get('gid') > 23 ) {
-			$link = 'index2.php?option=com_menumanager';
+			$link = 'index2.php?option=com_menus';
 			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
 		}
 

@@ -122,7 +122,7 @@ class JFullAdminMenu {
 		<?php
 		if ($manageMenuMan) {
 			?>
-				['<img src="../includes/js/ThemeOffice/menus.png" />','<?php echo JText::_( 'Menu Manager', true ); ?>','index2.php?option=com_menumanager',null,'<?php echo JText::_( 'Manage menu', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/menus.png" />','<?php echo JText::_( 'Menu Manager', true ); ?>','index2.php?option=com_menus',null,'<?php echo JText::_( 'Manage menu', true ); ?>'],
 			<?php
 		}
 
@@ -136,7 +136,7 @@ class JFullAdminMenu {
 		<?php
 		foreach ($menuTypes as $menuType) {
 			?>
-				['<img src="../includes/js/ThemeOffice/menus.png" />','<?php echo $menuType;?>','index2.php?option=com_menus&menutype=<?php echo $menuType;?>',null,''],
+				['<img src="../includes/js/ThemeOffice/menus.png" />','<?php echo $menuType;?>','index2.php?option=com_menus&task=view&menutype=<?php echo $menuType;?>',null,''],
 			<?php
 		}
 		?>

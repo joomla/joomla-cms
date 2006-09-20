@@ -30,16 +30,28 @@ class JMenuViewList extends JView
 
 		$this->_layout = 'default';
 
+		/*
+		 * Set toolbar items for the page
+		 */
+		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JMenuBar::makeDefault( 'setdefault' );
+		JMenuBar::publishList();
+		JMenuBar::unpublishList();
+		JMenuBar::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );
+		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JMenuBar::trash();
+		JMenuBar::editListX();
+		JMenuBar::addNewX('type');
+		JMenuBar::help( 'screen.menus' );
+
 		$document = & JFactory::getDocument();
 		$document->setTitle('View Menu Items');
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
-
 		$items		= &$this->get('Items');
 		$pagination	= &$this->get('Pagination');
 		$lists		= &$this->_getViewLists();
-
-		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 		$user		= &JFactory::getUser();
 
 		//Ordering allowed ?
@@ -63,6 +75,14 @@ class JMenuViewList extends JView
 		global $mainframe;
 
 		$this->_layout = 'copy';
+
+		/*
+		 * Set toolbar items for the page
+		 */
+		JMenuBar::title( JText::_( 'Copy Menu Items' ) );
+		JMenuBar::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.menus.copy' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
@@ -90,6 +110,14 @@ class JMenuViewList extends JView
 		global $mainframe;
 
 		$this->_layout = 'move';
+
+		/*
+		 * Set toolbar items for the page
+		 */
+		JMenuBar::title( JText::_( 'Move Menu Items' ) );
+		JMenuBar::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.menus.move' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');

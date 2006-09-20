@@ -32,7 +32,26 @@ class JMenuViewItem extends JView
 
 		$this->_layout = 'form';
 
-		$item			= &$this->get('Item');
+		$item = &$this->get('Item');
+
+		/*
+		 * Set toolbar items for the page
+		 */
+		if (!$item->id) {
+			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
+		} else {
+			JMenuBar::title( JText::_( 'Edit Menu Item' ), 'menu.png' );
+		}
+		JMenuBar::save();
+		JMenuBar::apply();
+		if ($item->id) {
+			// for existing items the button is renamed `close`
+			JMenuBar::cancel( 'cancel', 'Close' );
+		} else {
+			JMenuBar::cancel();
+		}
+		JMenuBar::help( 'screen.menus.edit' );
+
 		$component		= &$this->get('Component');
 		$params			= $this->get( 'StateParams' );
 		$advanced		= $this->get( 'AdvancedParams' );
@@ -86,6 +105,13 @@ class JMenuViewItem extends JView
 		global $mainframe;
 
 		$this->_layout = 'type';
+
+		/*
+		 * Set toolbar items for the page
+		 */
+		JMenuBar::title(  JText::_( 'Edit Menu Item Type' ), 'menu.png' );
+		JMenuBar::cancel();
+		JMenuBar::help( 'screen.menus.type' );
 
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();

@@ -119,7 +119,7 @@ function & buildMenu($usertype = '')
 	 */
 	$menu->addChild(new JMenuNode(JText::_('Menus')), true);
 	if ($manageMenuMan) {
-		$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menumanager', 'class:menu'));
+		$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
 	}
 	if ($manageTrash) {
 		$menu->addChild(new JMenuNode(JText::_('Trash Manager'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
@@ -133,7 +133,7 @@ function & buildMenu($usertype = '')
 	 */
 	if (count($menuTypes)) {
 		foreach ($menuTypes as $menuType) {
-			$menu->addChild(new JMenuNode($menuType->title, 'index.php?option=com_menus&menutype='.$menuType->menutype, 'class:menu'));
+			$menu->addChild(new JMenuNode($menuType->title, 'index.php?option=com_menus&task=view&menutype='.$menuType->menutype, 'class:menu'));
 		}
 	}
 
