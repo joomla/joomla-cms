@@ -99,7 +99,7 @@ class JMenuController extends JController
 	function copy()
 	{
 		$model	=& $this->getModel( 'List', 'JMenuModel' );
-		$view =& $this->getView( 'List', 'com_menus', 'JMenuView' );
+		$view =& $this->getView( 'List', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->copyForm();
 	}
@@ -129,7 +129,7 @@ class JMenuController extends JController
 	function move()
 	{
 		$model	=& $this->getModel( 'List', 'JMenuModel' );
-		$view =& $this->getView( 'List', 'com_menus', 'JMenuView' );
+		$view =& $this->getView( 'List', 'JMenuView' );
 		$view->setModel( $model, true );
 		$view->moveForm();
 	}

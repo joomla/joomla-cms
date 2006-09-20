@@ -43,14 +43,14 @@ class JMenuModelList extends JModel
 	function &getItems()
 	{
 		global $mainframe;
+
 		static $items;
 
-		if (isset($items))
-		{
+		if (isset($items)) {
 			return $items;
 		}
 
-		$db		=& $this->getDBO();
+		$db =& $this->getDBO();
 
 		$menutype 			= $mainframe->getUserStateFromRequest( "com_menus.menutype",				 		'menutype', 		'mainmenu' );
 		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
@@ -65,52 +65,42 @@ class JMenuModelList extends JModel
 		$and = '';
 		if ( $filter_state )
 		{
-			if ( $filter_state == 'P' )
-			{
+			if ( $filter_state == 'P' ) {
 				$and = "\n AND m.published = 1";
-			}
-			else if ($filter_state == 'U' )
-			{
+			} else if ($filter_state == 'U' ) {
 				$and = "\n AND m.published = 0";
 			}
 		}
 
 		// just in case filter_order get's messed up
-		if ($filter_order)
-		{
+		if ($filter_order) {
 			$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.parent, m.ordering";
-		}
-		else
-		{
+		} else {
 			$orderby = "\n ORDER BY m.parent, m.ordering";
 		}
 
 		// select the records
 		// note, since this is a tree we have to do the limits code-side
-		if ($search)
-		{
-			$query = "SELECT m.id"
-			. "\n FROM #__menu AS m"
-			. "\n WHERE menutype = '$menutype'"
-			. "\n AND LOWER( m.name ) LIKE '%" . JString::strtolower( $search ) . "%'"
-			. $and
-			;
+		if ($search) {
+			$query = "SELECT m.id" .
+					"\n FROM #__menu AS m" .
+					"\n WHERE menutype = '$menutype'" .
+					"\n AND LOWER( m.name ) LIKE '%".JString::strtolower( $search )."%'" .
+					$and;
 			$db->setQuery( $query );
 			$search_rows = $db->loadResultArray();
 		}
 
-		$query = "SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down," .
-				" com.name AS com_name"
-		. "\n FROM #__menu AS m"
-		. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-		. "\n LEFT JOIN #__groups AS g ON g.id = m.access"
-		. "\n LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = 'content_typed'"
-		. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'component'"
-		. "\n WHERE m.menutype = '$menutype'"
-		. "\n AND m.published != -2"
-		. $and
-		. $orderby
-		;
+		$query = "SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down, com.name AS com_name" .
+				"\n FROM #__menu AS m" .
+				"\n LEFT JOIN #__users AS u ON u.id = m.checked_out" .
+				"\n LEFT JOIN #__groups AS g ON g.id = m.access" .
+				"\n LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = 'content_typed'" .
+				"\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'component'" .
+				"\n WHERE m.menutype = '$menutype'" .
+				"\n AND m.published != -2" .
+				$and .
+				$orderby;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 
@@ -127,16 +117,14 @@ class JMenuModelList extends JModel
 		// second pass - get an indent list of the items
 		$list = mosTreeRecurse( 0, '', array(), $children, max( 0, $levellimit-1 ) );
 		// eventually only pick out the searched items.
-		if ($search)
-		{
+		if ($search) {
 			$list1 = array();
 
 			foreach ($search_rows as $sid )
 			{
 				foreach ($list as $item)
 				{
-					if ($item->id == $sid)
-					{
+					if ($item->id == $sid) {
 						$list1[] = $item;
 					}
 				}
@@ -206,8 +194,7 @@ class JMenuModelList extends JModel
 		}
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		if (!is_array( $cid ) || count( $cid ) < 1)
-		{
+		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$this->setError(JText::_( 'Select an item to move'));
 			return false;
 		}
@@ -247,8 +234,7 @@ class JMenuModelList extends JModel
 		{
 			$curr->load( $id );
 			$curr->id = NULL;
-			if ( !$curr->store() )
-			{
+			if ( !$curr->store() ) {
 				$this->setError($row->getError());
 				return false;
 			}
@@ -257,27 +243,23 @@ class JMenuModelList extends JModel
 		foreach ( $itemref as $ref )
 		{
 			$curr->load( $ref[1] );
-			if ($curr->parent!=0)
-			{
+			if ($curr->parent!=0) {
 				$found = false;
 				foreach ( $itemref as $ref2 )
 				{
-					if ($curr->parent == $ref2[0])
-					{
+					if ($curr->parent == $ref2[0]) {
 						$curr->parent = $ref2[1];
 						$found = true;
 						break;
 					} // if
 				}
-				if (!$found && $curr->menutype!=$menu)
-				{
+				if (!$found && $curr->menutype!=$menu) {
 					$curr->parent = 0;
 				}
 			} // if
 			$curr->menutype = $menu;
 			$curr->ordering = '9999';
-			if ( !$curr->store() )
-			{
+			if ( !$curr->store() ) {
 				$this->setError($row->getError());
 				return false;
 			}
@@ -302,34 +284,29 @@ class JMenuModelList extends JModel
 
 			// is it moved together with his parent?
 			$found = false;
-			if ($row->parent != 0)
-			{
+			if ($row->parent != 0) {
 				foreach ($items as $idx)
 				{
-					if ($idx == $row->parent)
-					{
+					if ($idx == $row->parent) {
 						$found = true;
 						break;
 					} // if
 				}
 			}
-			if (!$found)
-			{
+			if (!$found) {
 				$row->parent = 0;
 				$row->ordering = $ordering++;
 				if (!$firstroot) $firstroot = $row->id;
 			} // if
 
 			$row->menutype = $menu;
-			if ( !$row->store() )
-			{
+			if ( !$row->store() ) {
 				$this->setError($row->getError());
 				return false;
 			} // if
 		} // foreach
 
-		if ($firstroot)
-		{
+		if ($firstroot) {
 			$row->load( $firstroot );
 			$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
 		} // if
@@ -356,8 +333,7 @@ class JMenuModelList extends JModel
 		{
 			foreach ( $mitems as $item )
 			{
-				if ( $item->parent == $id )
-				{
+				if ( $item->parent == $id ) {
 					$children[] = $item->id;
 				}
 			}
@@ -371,8 +347,7 @@ class JMenuModelList extends JModel
 				"\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '$nd'" .
 				"\n WHERE id IN ( $ids )";
 		$db->setQuery( $query );
-		if ( !$db->query() )
-		{
+		if ( !$db->query() ) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -396,8 +371,7 @@ class JMenuModelList extends JModel
 				"\n SET home = 0" .
 				"\n WHERE 1";
 		$db->setQuery( $query );
-		if ( !$db->query() )
-		{
+		if ( !$db->query() ) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -407,8 +381,7 @@ class JMenuModelList extends JModel
 				"\n SET home = 1" .
 				"\n WHERE id = $item";
 		$db->setQuery( $query );
-		if ( !$db->query() )
-		{
+		if ( !$db->query() ) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -427,13 +400,11 @@ class JMenuModelList extends JModel
 			$row->load( $id );
 			$row->published = $state;
 
-			if (!$row->check())
-			{
+			if (!$row->check()) {
 				$this->setError($row->getError());
 				return false;
 			}
-			if (!$row->store())
-			{
+			if (!$row->store()) {
 				$this->setError($row->getError());
 				return false;
 			}
@@ -456,13 +427,11 @@ class JMenuModelList extends JModel
 			$row->load( $id );
 			$row->access = $access;
 
-			if (!$row->check())
-			{
+			if (!$row->check()) {
 				$this->setError($row->getError());
 				return false;
 			}
-			if (!$row->store())
-			{
+			if (!$row->store()) {
 				$this->setError($row->getError());
 				return false;
 			}
@@ -478,8 +447,7 @@ class JMenuModelList extends JModel
 	{
 		$row =& $this->getTable();
 		$row->load( $item );
-		if (!$row->move( $movement, "menutype = '$row->menutype' AND parent = $row->parent" ))
-		{
+		if (!$row->move( $movement, "menutype = '$row->menutype' AND parent = $row->parent" )) {
 			$this->setError($row->getError());
 			return false;
 		}
@@ -500,11 +468,9 @@ class JMenuModelList extends JModel
 		// update ordering values
 		for( $i=0; $i < $total; $i++ ) {
 			$row->load( $items[$i] );
-			if ($row->ordering != $order[$i])
-			{
+			if ($row->ordering != $order[$i]) {
 				$row->ordering = $order[$i];
-				if (!$row->store())
-				{
+				if (!$row->store()) {
 					$this->setError($row->getError());
 					return false;
 				}
@@ -518,8 +484,7 @@ class JMenuModelList extends JModel
 						break;
 					} // if
 				}
-				if (!$found)
-				{
+				if (!$found) {
 					$conditions[] = array($row->id, $condition);
 				}
 			} // for
@@ -596,8 +561,7 @@ class JMenuModelList extends JModel
 		$db->setQuery( $query );
 		$ids = $db->loadResultArray();
 
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			$this->setError( $db->getErrorMsg() );
 			return false;
 		}
@@ -619,8 +583,7 @@ class JMenuModelList extends JModel
 		$rows = $db->loadObjectList();
 
 		// Make sure there aren't any errors
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -632,14 +595,12 @@ class JMenuModelList extends JModel
 			$found = false;
 			foreach ($list as $idx)
 			{
-				if ($idx == $row->id)
-				{
+				if ($idx == $row->id) {
 					$found = true;
 					break;
 				}
 			}
-			if (!$found)
-			{
+			if (!$found) {
 				$list[] = $row->id;
 			}
 			$return = $this->_addChildren($row->id, $list);
@@ -659,22 +620,18 @@ class JMenuModelList extends JModel
 			{
 				foreach ( $mitems as $item )
 				{
-					if ( $item->parent == $id )
-					{
+					if ( $item->parent == $id ) {
 						$children[] = $item->id;
 					}
 				}
 			}
 
 			// check to reduce recursive processing
-			if ( count( $children ) )
-			{
-				$list = josMenuChildrenRecurse( $mitems, $children, $list, $maxlevel, $level+1 );
-
+			if ( count( $children ) ) {
+				$list = $this->_josMenuChildrenRecurse( $mitems, $children, $list, $maxlevel, $level+1 );
 				$list = array_merge( $list, $children );
 			}
 		}
-
 		return $list;
 	}
 }

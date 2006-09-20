@@ -174,7 +174,11 @@ class JRequest
 					$var = stripslashes($var);
 				}
 			}
-			$GLOBALS['JRequest'][$name][$sig] = $var;
+			if ($var != null) {
+				$GLOBALS['JRequest'][$name][$sig] = $var;
+			} else {
+				$var = $default;
+			}
 		} else {
 			$var = $GLOBALS['JRequest'][$name][$sig];
 		}
