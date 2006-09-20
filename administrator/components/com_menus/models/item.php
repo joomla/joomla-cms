@@ -73,10 +73,6 @@ class JMenuModelItem extends JModel
 			$table->menutype = $menu_type;
 		}
 
-		// Override the current item's link field if defined in the request
-		if ($this->_url) {
-			$table->link = $this->_url;
-		}
 		switch ($table->type)
 		{
 			case 'separator':
@@ -90,20 +86,25 @@ class JMenuModelItem extends JModel
 				$table->componentid = 0;
 				break;
 			case 'component':
+				// Override the current item's link field if defined in the request
+				if (!is_null($this->_url)) {
+					$table->link = $this->_url;
+				}
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
 				parse_str($url, $table->linkparts);
 
 				$db = &$this->getDBO();
-				$component = $table->linkparts['option'];
-				$query = "SELECT `id`" .
-						"\n FROM `#__components`" .
-						"\n WHERE `link` <> ''" .
-						"\n AND `parent` = 0" .
-						"\n AND `option` = '".$db->getEscaped($component)."'";
-				$db->setQuery( $query );
-				$table->componentid = $db->loadResult();
+				if ($component = $table->linkparts['option']) {
+					$query = "SELECT `id`" .
+							"\n FROM `#__components`" .
+							"\n WHERE `link` <> ''" .
+							"\n AND `parent` = 0" .
+							"\n AND `option` = '".$db->getEscaped($component)."'";
+					$db->setQuery( $query );
+					$table->componentid = $db->loadResult();
+				}
 				break;
 		}
 
@@ -258,18 +259,19 @@ class JMenuModelItem extends JModel
 		}
 
 		if (!$row->bind( $post )) {
-//			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
 
 		$row->name = ampReplace( $row->name );
 
 		if (!$row->check()) {
-//			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
+
 		if (!$row->store()) {
-//			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
 		$row->checkin();

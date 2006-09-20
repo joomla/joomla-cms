@@ -62,6 +62,13 @@ class JMenuViewItem extends JView
 		$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
 		$lists->published = mosHTML::radioList( $put, 'published', '', $item->published );
 		$lists->disabled = ($item->type != 'url' ? 'disabled="true"' : '');
+		if ($item->type != 'url') {
+			$lists->disabled = 'disabled="true"';
+			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
+		} else {
+			$lists->disabled = null;
+			$item->linkfield = null;
+		}
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('item', $item);
