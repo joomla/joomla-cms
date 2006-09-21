@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
+	<layout title="Standard Category Layout">
+		<message>
+			<![CDATA[This layout displays articles in a category.]]>
+		</message>
+	</layout>
 	<state>
-		<name>Category Articles</name>
-		<description>Displays a list of articles in a category in a table format</description>
+		<name>Standard Category Layout</name>
+		<description>This layout displays articles in a category.</description>
 		<params>
 			<param name="category_id" type="category" label="Category" description="Choose a category..." />
 			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">

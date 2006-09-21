@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
+	<layout title="Frontpage Blog Layout">
+		<message>
+			<![CDATA[The standard frontpage layout displays articles that have been set as frontpage articles in a blog format.]]>
+		</message>
+	</layout>
 	<state>
-		<name>Blog View</name>
-		<description>Frontpage blog parameters...</description>
+		<name>Frontpage Blog Layout</name>
+		<description>The standard frontpage layout displays articles that have been set as frontpage articles in a blog format.</description>
 		<params>
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 	

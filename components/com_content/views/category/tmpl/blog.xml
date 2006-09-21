@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
+	<layout title="Category Blog Layout">
+		<message>
+			<![CDATA[This layout displays an article category in blog format.]]>
+		</message>
+	</layout>
 	<state>
-		<name>Section Blog</name>
-		<description>Displays a list of articles in a section in a blog format</description>
+		<name>Category Blog Layout</name>
+		<description>This layout displays an article category in blog format.</description>
 		<params>
 			<param name="category_id" type="category" label="Category" description="Choose a category..." />
 			<param name="@spacer" type="spacer" default="" label="" description="" />

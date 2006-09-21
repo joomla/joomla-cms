@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
+	<layout title="Standard Section Layout">
+		<message>
+			<![CDATA[The standard article section layout displays a list of categories under a given section.]]>
+		</message>
+	</layout>
 	<state>
-		<name>Section List</name>
+		<name>Standard Section Layout</name>
 		<description>Displays a list of categories in a section</description>
 		<params>
 			<param name="section_id" type="section" label="Section" description="Choose a section..." />

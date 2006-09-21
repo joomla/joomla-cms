@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<control>
-		<steps>
-			<step id="2" name="Model">
-				<message>
-					<![CDATA[Choose a template style]]>
-				</message>
-				<params>
-					<param name="template_name" type="filelist" directory="components/com_content/views/frontpage/tmpl" stripext="1" filter="\.php$" hide_none="1" default="blog" label="Template Name" description="The template" />
-				</params>
-			</step>
-		</steps>
-	</control>
+	<view title="Frontpage">
+		<message>
+			<![CDATA[Frontpage is a specialized view of the articles component that shows specially selected articles that have been set to show on the "Frontpage".]]>
+		</message>
+	</view>
 </metadata>

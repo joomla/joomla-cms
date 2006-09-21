@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
+	<layout title="Section Blog Layout">
+		<message>
+			<![CDATA[The section blog layout displays articles from a given section in blog format.]]>
+		</message>
+	</layout>
 	<state>
-		<name>Section Blog</name>
+		<name>Section Blog Layout</name>
 		<description>Displays a list of articles in a section in a blog format</description>
 		<params>
 			<param name="section_id" type="section" label="Section" description="Choose a section..." />

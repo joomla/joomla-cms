@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf8"?>
+<metadata>
+	<layout title="Single Feed Layout">
+		<message>
+			<![CDATA[This layout shows a single newsfeed.]]>
+		</message>
+	</layout>
+	<state>
+		<name>Newsfeed  Layout</name>
+		<description>This layout shows a single newsfeed.</description>
+		<params addparameterdir="/administrator/components/com_newsfeeds/elements">
+			<param name="feed_id" type="newsfeed" default="0" label="Feed" description="A feed" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+				<option value="-1">Off</option>
+				<option value="0">Ignore</option>
+				<option value="1">On</option>
+			</param>	
+			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="feed_image" type="radio" default="1" label="Feed Image" description="Show/Hide the image of the feed">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="feed_descr" type="radio" default="1" label="Feed Description" description="PARAMFEEDDESC">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="item_descr" type="radio" default="1" label="Item Description" description="PARAMITEMDESC">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
+		</params>
+		<advanced>
+		</advanced>
+	</state>
+</metadata>

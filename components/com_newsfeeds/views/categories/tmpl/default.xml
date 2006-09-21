@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf8"?>
+<metadata>
+	<layout title="Category List Layout">
+		<message>
+			<![CDATA[This layout shows a list of all newsfeed categories.]]>
+		</message>
+	</layout>
+	<state>
+		<name>Newsfeed category List Layout</name>
+		<description>This layout shows a list of all newsfeed categories.</description>
+		<params>
+		</params>
+		<advanced>
+		</advanced>
+	</state>
+</metadata>
