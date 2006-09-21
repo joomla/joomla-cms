@@ -114,7 +114,6 @@ class NewsfeedsController
 		$view = new NewsfeedsViewCategories();
 
 		$view->assignRef('params'    , $params);
-		$view->assignRef('data'      , $data);
 		$view->assignRef('categories', $categories);
 		
 		$view->display();
@@ -322,7 +321,6 @@ class NewsfeedsController
 		$view->assign('feedid', $feedid);
 
 		$view->assignRef('params'  , $params   );
-		$view->assignRef('data'    , $data     );
 		$view->assignRef('newsfeed', $newsfeed );
 		$view->assignRef('category', $category );
 		
