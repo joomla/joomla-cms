@@ -1,3 +1,15 @@
+<script language="javascript" type="text/javascript">
+<!--
+	function submitbutton(pressbutton) {
+		if (pressbutton == 'doDeleteMenu') {
+
+			submitform( pressbutton );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+//-->
+</script>
 <form action="index.php" method="post" name="adminForm">
 	<div>
 		<div style="width:30%;float:left">

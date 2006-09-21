@@ -104,7 +104,6 @@ class JMenuViewMenus extends JView
 		$menuItems	= $this->get('MenuItems');
 
 		$document = & JFactory::getDocument();
-		$document->addStyleSheet('components/com_menumanager/includes/popup.css');
 		$document->setTitle('Confirm Delete Menu Type: ' . $table->menutype );
 
 
@@ -126,7 +125,7 @@ class JMenuViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		$text = ( ($table->id == 0) ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( ($table->id != 0) ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		JMenuBar::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menumgr.png' );
 		JMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', 'Save', false );
 		JMenuBar::cancel();

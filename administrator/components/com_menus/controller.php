@@ -518,7 +518,6 @@ class JMenuController extends JController
 			JError::raiseError( 500, $model->getError() );
 			return false;
 		}
-
 		$err = null;
 		if (!$model->delete()) {
 			 $err = $model->getError();
@@ -540,25 +539,25 @@ class JMenuController extends JController
 	/**
 	* Copies a complete menu, all its items and creates a new module, using the name speified
 	*/
-	function doCopyMenu( $option, $cid, $type )
+	function doCopyMenu()
 	{
 		global $mainframe;
 
 		$db				=& JFactory::getDBO();
+		$type	 		= JRequest::getVar( 'type', null, 'post' );
 		$menu_name 		= JRequest::getVar( 'menu_name', 'New Menu', 'post' );
 		$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
 
 		// check for unique menutype for new menu copy
-		$query = "SELECT params"
-		. "\n FROM #__modules"
-		. "\n WHERE module = 'mod_mainmenu'"
-		;
+		$query = "SELECT params" .
+				"\n FROM #__modules" .
+				"\n WHERE module = 'mod_mainmenu'";
 		$db->setQuery( $query );
 		$menus = $db->loadResultArray();
 		foreach ( $menus as $menu ) {
-			$params = mosParseParams( $menu );
-			if ( $params->menutype == $menu_name ) {
-				josErrorAlert( JText::_( 'ERRORMENUNAMEEXISTS', true ) );
+			$params = new JParameter( $menu );
+			if ( $params->get('menutype') == $menu_name ) {
+				JError::raiseError( 500, JText::_( 'ERRORMENUNAMEEXISTS' ) );
 				exit;
 			}
 		}
@@ -611,7 +610,17 @@ class JMenuController extends JController
 		$row->reorder( "position='$row->position'" );
 		// module assigned to show on All pages by default
 		// ToDO: Changed to become a Joomla! db-object
-		$query = "INSERT INTO #__modules_menu VALUES ( $row->id, 0 )";
+		$query = "INSERT INTO #__modules_menu" .
+				"\n VALUES ( ".$row->id.", 0 )";
+		$db->setQuery( $query );
+		if ( !$db->query() ) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		// Insert the menu type
+		$query = "INSERT INTO `#__menu_types`  ( `menutype` , `title` , `description` ) " .
+				"\n VALUES ( ".$db->Quote($menu_name).", ".$db->Quote(JText::_('New Menu')).", '')";
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
@@ -619,7 +628,7 @@ class JMenuController extends JController
 		}
 
 		$msg = sprintf( JText::_( 'Copy of Menu created' ), $type, $total );
-		$mainframe->redirect( 'index2.php?option=' . $option, $msg );
+		$mainframe->redirect( 'index2.php?option=com_menus', $msg );
 	}
 }
 ?>

@@ -1,7 +1,7 @@
 <script language="javascript" type="text/javascript">
 <!--
 	function submitbutton(pressbutton) {
-		if (pressbutton == 'copymenu') {
+		if (pressbutton == 'doCopyMenu') {
 			if ( document.adminForm.menu_name.value == '' ) {
 				alert( "<?php echo JText::_( 'Please enter a name for the copy of the Menu', true ); ?>" );
 				return;
@@ -9,7 +9,7 @@
 				alert( "<?php echo JText::_( 'Please enter a name for the new Module', true ); ?>" );
 				return;
 			} else {
-				submitform( 'copymenu' );
+				submitform( 'doCopyMenu' );
 			}
 		} else {
 			submitform( pressbutton );

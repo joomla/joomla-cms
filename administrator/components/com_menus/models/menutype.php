@@ -250,20 +250,18 @@ class JMenuModelMenutype extends JModel
 	 */
 	function deleteByType( $type = '' )
 	{
-		$db = &$this->getDBO();
-
-		$query = "SELECT id" .
-				"\n FROM #__menu" .
-				"\n WHERE menutype = ".$db->Quote( $type );
-		$db->setQuery( $query );
-		$ids = $db->loadResultArray();
-
-		if ($db->getErrorNum()) {
-			$this->setError( $db->getErrorMsg() );
+		if (!$type) {
 			return false;
 		}
-
-		return $this->delete( $ids );
+		$db = &$this->getDBO();
+		$query = "DELETE FROM #__menu" .
+				"\n WHERE menutype = ".$db->Quote( $type );
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			$this->setError( $menuTable->getErrorMsg() );
+			return false;
+		}
+		return true;
 	}
 }
 ?>
