@@ -232,7 +232,7 @@ class NewsfeedsController
 		global $mainframe, $Itemid;
 
 		// check if cache directory is writeable
-		$cacheDir = $mainframe->getCfg('cachepath') . DS;
+		$cacheDir = JPATH_BASE.DS.'cache'.DS;
 		if ( !is_writable( $cacheDir ) ) {
 			echo JText::_( 'Cache Directory Unwriteable' );
 			return;
