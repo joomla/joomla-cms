@@ -92,6 +92,39 @@ class JDatabase extends JObject
 		// If we opened the connection lets make sure we close it
 		register_shutdown_function(array(&$this,'__destruct'));
 	}
+	
+	/**
+	 * Returns a reference to the global Database object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @param string  Database driver
+	 * @param string Database host
+	 * @param string Database user name
+	 * @param string Database user password
+	 * @param string Database name
+	 * @param string Common prefix for all tables
+	 * @return database A database object
+	 * @since 1.5
+	*/
+	function &getInstance( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='' )
+	{
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
+
+		if (empty($instances[$signature])) {
+			jimport('joomla.database.database.'.$driver);
+			$adapter = 'JDatabase'.$driver;
+			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
+		}
+
+		return $instances[$signature];
+	}
+
 
 	/**
 	 * Database object destructor
@@ -126,38 +159,6 @@ class JDatabase extends JObject
      * @since 1.5
 	 */
 	function setUTF() {
-	}
-
-	/**
-	 * Returns a reference to the global Database object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @param string  Database driver
-	 * @param string Database host
-	 * @param string Database user name
-	 * @param string Database user password
-	 * @param string Database name
-	 * @param string Common prefix for all tables
-	 * @return database A database object
-	 * @since 1.5
-	*/
-	function &getInstance( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='' )
-	{
-		static $instances;
-
-		if (!isset( $instances )) {
-			$instances = array();
-		}
-
-		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
-
-		if (empty($instances[$signature])) {
-			jimport('joomla.database.database.'.$driver);
-			$adapter = 'JDatabase'.$driver;
-			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
-		}
-
-		return $instances[$signature];
 	}
 
 	/**

@@ -384,7 +384,8 @@ class JAuthenticateHelper
 		 * If the session 'guest' variable is zero and the session 'userid' variable
 		 * is set, we would assume that a valid user is logged in
 		 */
-		if (JSession::get('guest') == 0 && !JSession::get('userid') != null) {
+		$session =& JFactory::getSession();
+		if ($session->get('session.user.id') != 0) {
 			$ret = true;
 		}
 
@@ -420,7 +421,8 @@ class JAuthenticateHelper
 	 * @since 1.5
 	 */
 	function _checkRemoteAddr() {
-		return (JSession::get('JAuthenticate_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
+		$session =& JFactory::getSession();
+		return ($session->get('JAuthenticate_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
 	}
 
 	/**
@@ -432,7 +434,8 @@ class JAuthenticateHelper
 	 * @since 1.5
 	 */
 	function _checkUserAgent() {
-		return (JSession::get('JAuthenticate_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
+		$session =& JFactory::getSession();
+		return ($session->get('JAuthenticate_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
 	}
 
 	/**

@@ -269,15 +269,18 @@ class ContactController extends JController
 	 */
 	function _validateInputs( $email, $subject, $body )
 	{
+		$session =& JFactory::getSession();
+		
 		$config 		= &JComponentHelper::getParams( 'com_contact' );
 		$bannedEmail 	= $config->get( 'bannedEmail', 	'' );
 		$bannedSubject 	= $config->get( 'bannedSubject', 	'' );
 		$bannedText 	= $config->get( 'bannedText', 		'' );
 		$sessionCheck 	= $config->get( 'sessionCheck', 	1 );
+		$sessionName    = $session->getName();
 
 		// check for session cookie
 		if  ( $sessionCheck ) {
-			if ( !isset($_COOKIE[JSession::name()]) ) {
+			if ( !isset($_COOKIE[$sessionName]) ) {
 				$this->setError( _NOT_AUTH );
 				return false;
 			}

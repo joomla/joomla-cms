@@ -12,85 +12,216 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/** @const HTTP_SESSION_STARTED - The session was started with the current request */
-define("HTTP_SESSION_STARTED",      1);
-/** @const HTTP_SESSION_STARTED - No new session was started with the current request */
-define("HTTP_SESSION_CONTINUED",    2);
-
 /**
 * Class for managing HTTP sessions
 *
 * Provides access to session-state values as well as session-level
 * settings and lifetime management methods.
-* Based on the standart PHP session handling mechanism
-* it provides for you more advanced features such as
-* database container, idle and expire timeouts, etc.
+* Based on the standart PHP session handling mechanism it provides 
+* for you more advanced features such as expire timeouts.
 *
-* This class has many influences from the PEAR HTTP_Session module
-*
-* @static
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Environment
 * @since		1.5
 */
-class JSession
+class JSession extends JObject
 {
 	/**
-     * Initializes session data
-     *
-     * Creates a session (or resumes the current one based on the session id being
-     * passed via a GET variable or a cookie). You can provide your own name and/or
-     * id for a session.
+	 * internal state
+	 * 
+	 * @access protected
+	 * @var	string $_state one of 'active'|'expired'|'destroyed'
+     * @see getState()
+	 */
+	var	$_state	=	'active';
+	
+	/**
+	 * Maximum age of unused session 
+	 * 
+	 * @access protected
+	 * @var	string $_expire minutes 
+	 */
+	var	$_expire	=	null;
+	
+	/**
+	* Constructor
+	*
+	* @access protected
+	* @param string $id name-prefix used for internal storage of session-data
+	* @param array $options optional parameters
+	*/
+	function __construct( $options = array() )
+	{
+		$this->_setOptions( $options );
+		
+		//load the session
+		$this->start();
+		
+		//initialise the session
+		$this->_setCounter();
+		$this->_setTimers();
+		
+		$this->_state =	'active';
+		
+		// perform security checks
+		$this->_validate();
+	}
+	
+	/**
+	 * Get current state of session
+	 *
+	 * @access public
+	 * @return string The session state
+	 */
+    function getState()
+    {
+		return $this->_state;
+    }
+	
+
+	/**
+	 * Get session name
+	 *
+	 * @access public
+	 * @return string The session name
+	 */
+    function getId()
+    {
+		if( $this->_state === 'destroyed' ) {
+			// @TODO : raise error
+			return null;
+		}
+		return session_name();
+    }
+	
+   /**
+    * Check whether this session is currently created
+	*
+	* @access public
+	* @return boolean $result true on success
+	*/
+    function isNew()
+    {
+	    $counter = $this->get( 'session.counter' );
+		if( $counter === 1 ) {
+			return true;
+		}
+        return false;
+    }
+	
+	 /**
+     * Get date from session
      *
      * @static
      * @access public
-     * @param  $name  string Name of a session, default is 'SessionID'
-     * @param  $id    string Id of a session which will be used
-     *                       only when the session is new
-     * @return void
-     * @see    session_name()
-     * @see    session_id()
-     * @see    session_start()
-  	 */
-	function start($name = 'SessionID', $id = null)
+     * @param  string $name    Name of a variable
+     * @param  mixed  $default Default value of a variable if not set
+     * @return mixed  Value of a variable
+     */
+    function get($name, $default = null)
     {
-        JSession::name($name);
-        if (is_null(JSession::_detectID())) {
-            JSession::id($id ? $id : JSession::_createID());
+        if($this->_state !== 'active') {
+			// @TODO :: generated error here
+			return null;
+		}
+		
+		if (isset($_SESSION[$name])) {
+            return $_SESSION[$name];
         }
+        return $default;
+    }
+
+    /**
+     * Save date into session
+     *
+     * @access public
+     * @param  string $name  Name of a variable
+     * @param  mixed  $value Value of a variable
+     * @return mixed  Old value of a variable
+     */
+    function set($name, $value)
+    {
+         if($this->_state !== 'active') {
+			// @TODO :: generated error here
+			return null;
+		}
+		
+		$old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
+
+		if (null === $value) {
+            unset($_SESSION[$name]);
+        } else {
+            $_SESSION[$name] = $value;
+        }
+
+        return $old;
+    }
+	
+	/**
+	* Check wheter a session value exists
+	*
+	* @access public
+	* @param string $name name of variable
+	* @return boolean $result true if the variable exists
+	*/ 
+	function has( $name )
+	{
+		if( $this->_state !== 'active' ) {
+			// @TODO :: generated error here
+			return null;
+		}
+		
+		return isset( $_SESSION[$name] );
+	}
+	
+	/**
+	* Unset data from session
+	* 
+	* @access public
+	* @param string $name name of variable
+	* @return mixed $value the value from session or NULL if not set
+	*/ 
+	function clear( $name )
+	{
+		if( $this->_state !== 'active' ) {
+			// @TODO :: generated error here
+			return null;
+		}
+		
+		$value	=	null;
+		if( isset( $_SESSION[$name] ) ) {
+			$value	=	$_SESSION[$name];
+			unset( $_SESSION[$name] );
+		}
+	
+		return $value;
+	}
+	
+	/**
+    * Start a session 
+    * 
+    * Creates a session (or resumes the current one based on the state of the session)
+ 	*
+	* @access public
+	* @return boolean $result true on success
+	*/
+    function start()
+    {
+		//  start session if not startet
+		if( $this->_state == 'restart' ) {
+            session_id( $this->_createId() );
+        }
+		
 		session_cache_limiter('none');
         session_start();
+		
 		// Send modified header for IE 6.0 Security Policy
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
-        if (!isset($_SESSION['__HTTP_SESSION_INFO'])) {
-            $_SESSION['__HTTP_SESSION_INFO'] = HTTP_SESSION_STARTED;
-        } else {
-            $_SESSION['__HTTP_SESSION_INFO'] = HTTP_SESSION_CONTINUED;
-        }
+        return true;
     }
-
-	 /**
-     * Writes session data and ends session
-     *
-     * Session data is usually stored after your script terminated without the need
-     * to call JSession::stop(),but as session data is locked to prevent concurrent
-     * writes only one script may operate on a session at any time. When using
-     * framesets together with sessions you will experience the frames loading one
-     * by one due to this locking. You can reduce the time needed to load all the
-     * frames by ending the session as soon as all changes to session variables are
-     * done.
-     *
-     * @static
-     * @access public
-     * @return void
-     * @see    session_write_close()
-     */
-    function pause()
-    {
-        session_write_close();
-    }
+	
 
 	/**
      * Frees all session variables and destroys all data registered to a session
@@ -105,8 +236,13 @@ class JSession
      * @see    session_unset()
      * @see    session_destroy()
      */
-    function destroy()
+	function destroy()
     {
+        // session was already destroyed
+		if( $this->_state === 'destroyed' ) {
+            return true;
+		}
+	 
         session_unset();
         session_destroy();
 
@@ -116,300 +252,96 @@ class JSession
 		if (isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-42000, '/');
 		}
-    }
-
-	  /**
-     * Free all session variables
-     *
-     * @todo   TODO Save expire and idle timestamps?
-     * @static
-     * @access public
-     * @return void
-     */
-    function clear()
-    {
-		$info = $_SESSION['__HTTP_SESSION_INFO'];
-        session_unset();
-		$_SESSION['__HTTP_SESSION_INFO'] = $info;
-    }
-
+   
+		$this->_state = 'destroyed';
+		return true;
+	}
+	
 	 /**
-     * Sets new name of a session
-     *
-     * @static
-     * @access public
-     * @param  string $name New name of a sesion
-     * @return string Previous name of a session
-     * @see    session_name()
-     */
-    function name($name = null)
+    * restart a destroyed or locked sessionb
+	*
+	* @final
+	* @access public
+	* @return boolean $result true on success
+	* @see destroy
+	*/
+    function restart()
     {
-        return isset($name) ? session_name($name) : session_name();
-    }
-
-    /**
-     * Sets new ID of a session
-     *
-     * @static
-     * @access public
-     * @param  string $id New ID of a sesion
-     * @return string Previous ID of a session
-     * @see    session_id()
-     */
-    function id($id = null)
-    {
-        return isset($id) ? session_id($id) : session_id();
-    }
-
-    /**
-     * Sets the maximum expire time
-     *
-     * @static
-     * @access public
-     * @param  integer $time Time in seconds
-     * @param  bool    $add  Add time to current expire time or not
-     * @return void
-     */
-    function setExpire($time, $add = false)
-    {
-        if ($add)
-		{
-            if (!isset($_SESSION['__HTTP_SESSION_EXPIRE_TS'])) {
-                $_SESSION['__HTTP_SESSION_EXPIRE_TS'] = time() + $time;
-            }
-
-            // update session.gc_maxlifetime
-            $currentGcMaxLifetime = JSession::setGcMaxLifetime(null);
-            JSession::setGcMaxLifetime($currentGcMaxLifetime + $time);
-
-        } elseif (!isset($_SESSION['__HTTP_SESSION_EXPIRE_TS'])) {
-                $_SESSION['__HTTP_SESSION_EXPIRE_TS'] = $time;
-        }
-    }
-
-    /**
-     * Sets the maximum idle time
-     *
-     * Sets the time-out period allowed between requests before the session-state
-     * provider terminates the session.
-     *
-     * @static
-     * @access public
-     * @param  integer $time Time in seconds
-     * @return void
-     */
-    function setIdle($time)
-    {
-        $_SESSION['__HTTP_SESSION_IDLE'] = $time;
-    }
-
-    /**
-     * Returns the time up to the session is valid
-     *
-     * @static
-     * @access public
-     * @return integer Time when the session idles
-     */
-    function sessionValidThru()
-    {
-		if (!isset($_SESSION['__HTTP_SESSION_IDLE_TS']) || !isset($_SESSION['__HTTP_SESSION_IDLE'])) {
-            return 0;
-        } else {
-            return $_SESSION['__HTTP_SESSION_IDLE_TS'] + $_SESSION['__HTTP_SESSION_IDLE'];
-        }
-    }
-
-    /**
-     * Check if session is expired
-     *
-     * @static
-     * @access public
-     * @return boolean
-     */
-    function isExpired()
-    {
-        if (isset($_SESSION['__HTTP_SESSION_EXPIRE_TS']) && $_SESSION['__HTTP_SESSION_EXPIRE_TS'] < time()) {
-            return true;
-        } else {
+        $this->destroy();
+        if( $this->_state !==  'destroyed' ) {
+           // @TODO :: generated error here
             return false;
         }
+        
+        $this->_state   =   'restart';
+		$this->_start();
+		$this->_state	=	'active';
+		
+		$this->_setCounter();
+		
+        return true;
     }
-
-    /**
-     * Check if session is idle
-     *
-     * @static
-     * @access public
-     * @return boolean
-     */
-    function isIdle()
+	
+	/**
+	* Create a new session and copy variables from the old one
+	*
+	* @abstract
+	* @access public
+	* @return boolean $result true on success
+	*/
+    function fork()
     {
-		if (isset($_SESSION['__HTTP_SESSION_IDLE_TS']) && (($_SESSION['__HTTP_SESSION_IDLE_TS'] + $_SESSION['__HTTP_SESSION_IDLE']) < time())) {
-            return true;
-        } else {
-            return false;
-        }
+		if( $this->_state !== 'active' ) {
+			// @TODO :: generated error here
+			return false;
+		}
+		
+		// save values
+		$values			=	$_SESSION;
+
+		// keep session config		
+		$trans	=	ini_get( 'session.use_trans_sid' );
+		if( $trans ) {
+			ini_set( 'session.use_trans_sid', 0 );
+		}
+		$cookie	=	session_get_cookie_params();
+
+		// create new session id		
+		$id	=	$this->_createId( strlen( $this->_sessAttributes['id'] ) );
+		
+		// kill session
+		session_destroy();
+		
+		// restore config		
+		ini_set( 'session.use_trans_sid', $trans );
+		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
+		
+		// restart session with new id
+		session_id( $id );
+		session_start();
+
+		return true;
     }
-
-    /**
-     * Updates the idletime
-     *
-     * @static
-     * @access public
-     * @return void
-     */
-    function updateIdle()
-    {
-        $_SESSION['__HTTP_SESSION_IDLE_TS'] = time();
-    }
-
-    /**
-     * If optional parameter is specified it indicates whether the module will use
-     * cookies to store the session id on the client side
-     *
-     * It returns the previous value of this property
-     *
-     * @static
-     * @access public
-     * @param  boolean $useCookies If specified it will replace the previous value
-     *                             of this property
-     * @return boolean The previous value of the property
-     */
-    function useCookies($useCookies = null)
-    {
-        $return = ini_get('session.use_cookies') ? true : false;
-        if (isset($useCookies)) {
-            ini_set('session.use_cookies', $useCookies ? 1 : 0);
-        }
-        return $return;
-    }
-
-    /**
-     * Gets a value indicating whether the session was created with the current request
-     *
-     * You MUST call this method only after you have started the session with the
-     * JSession::start() method.
-     *
-     * @static
-     * @access public
-     * @return boolean true if the session was created
-     *                 with the current request, false otherwise
-     */
-    function isNew()
-    {
-        // The best way to check if a session is new is to check for existence of a
-        // session data storage with the current session id, but this is impossible
-        // with the default PHP module wich is 'files'. So we need to emulate it.
-        return !isset($_SESSION['__HTTP_SESSION_INFO']) ||
-            $_SESSION['__HTTP_SESSION_INFO'] == HTTP_SESSION_STARTED;
-    }
-
-    /**
-     * Returns session variable
-     *
-     * @static
-     * @access public
-     * @param  string $name    Name of a variable
-     * @param  mixed  $default Default value of a variable if not set
-     * @return mixed  Value of a variable
-     */
-    function &get($name, $default = null)
-    {
-        if (!isset($_SESSION[$name]) && isset($default)) {
-            $_SESSION[$name] = $default;
-        }
-        return $_SESSION[$name];
-    }
-
-    /**
-     * Sets session variable
-     *
-     * @access public
-     * @param  string $name  Name of a variable
-     * @param  mixed  $value Value of a variable
-     * @return mixed  Old value of a variable
-     */
-    function set($name, $value)
-    {
-        $old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
-
-		if (null === $value) {
-            unset($_SESSION[$name]);
-        } else {
-            $_SESSION[$name] = $value;
-        }
-
-        return $old;
-    }
-
-    /**
-     * If optional parameter is specified it determines the number of seconds
-     * after which session data will be seen as 'garbage' and cleaned up
-     *
-     * It returns the previous value of this property
-     *
-     * @static
-     * @access public
-     * @param  boolean $gcMaxLifetime If specified it will replace the previous value
-     *                                of this property
-     * @return boolean The previous value of the property
-     */
-    function setGcMaxLifetime($gcMaxLifetime = null)
-    {
-        $return = ini_get('session.gc_maxlifetime');
-
-        if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
-            ini_set('session.gc_maxlifetime', $gcMaxLifetime);
-        }
-        return $return;
-    }
-
-    /**
-     * If optional parameter is specified it determines the
-     * probability that the gc (garbage collection) routine is started
-     * and session data is cleaned up
-     *
-     * It returns the previous value of this property
-     *
-     * @static
-     * @access public
-     * @param  boolean $gcProbability If specified it will replace the previous value
-     *                                of this property
-     * @return boolean The previous value of the property
-     */
-    function setGcProbability($gcProbability = null)
-    {
-        $return = ini_get('session.gc_probability');
-        if (isset($gcProbability) && is_int($gcProbability) && $gcProbability >= 1 && $gcProbability <= 100) {
-            ini_set('session.gc_probability', $gcProbability);
-        }
-        return $return;
-    }
-
+	
 	 /**
-     * Tries to find any session id in $_GET, $_POST or $_COOKIE
+     * Writes session data and ends session
      *
-     * @static
-     * @access private
-     * @return string Session ID (if exists) or null
+     * Session data is usually stored after your script terminated without the need
+     * to call JSession::pauze(),but as session data is locked to prevent concurrent
+     * writes only one script may operate on a session at any time. When using
+     * framesets together with sessions you will experience the frames loading one
+     * by one due to this locking. You can reduce the time needed to load all the
+     * frames by ending the session as soon as all changes to session variables are
+     * done.
+     *
+     * @access public
+     * @see    session_write_close()
      */
-    function _detectID()
+    function pause()
     {
-        if (JSession::useCookies()) {
-            if (isset($_COOKIE[JSession::name()])) {
-                return $_COOKIE[JSession::name()];
-            }
-        } else {
-            if (isset($_GET[JSession::name()])) {
-                return $_GET[JSession::name()];
-            }
-            if (isset($_POST[JSession::name()])) {
-                return $_POST[JSession::name()];
-            }
-        }
-        return null;
+        session_write_close();
     }
-
+	
 	 /**
      * Create a session id
      *
@@ -417,10 +349,112 @@ class JSession
      * @access private
      * @return string Session ID
      */
-	function _createID()
+	function _createId( )
 	{
 		$agent = $_SERVER['HTTP_USER_AGENT'];
-		return md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
+		$id    = md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
+		return $id;
+	}
+	
+	/**
+    * Set counter of session usage
+	*
+	* @access protected
+	* @return boolean $result true on success
+	*/
+    function _setCounter()
+    {
+		$counter = $this->get( 'session.counter', 0 );
+		++$counter;
+		
+		$this->set( 'session.counter', $counter );
+    	return true;
+    }
+	
+   /**
+    * Set the session timers
+	*
+	* @access protected
+	* @return boolean $result true on success
+	*/
+    function _setTimers()
+    {
+		if( !$this->has( 'session.timer.start' ) ) 
+		{
+            $start	=	time();
+            
+        	$this->set( 'session.timer.start' , $start );
+        	$this->set( 'session.timer.last'  , $start );
+        	$this->set( 'session.timer.now'   , $start );
+        }
+        
+        $this->set( 'session.timer.last', $this->get( 'session.timer.now' ) );
+        $this->set( 'session.timer.now', time() );
+        
+    	return true;
+    }
+	
+	/**
+	* set additional session options
+	*
+	* @access protected
+	* @param array $options list of parameter
+	* @return boolean $result true on success
+	*/
+    function _setOptions( &$options )
+    {
+		// set name
+		if( isset( $options['name'] ) ) {
+			session_name( $options['name'] );
+		}
+		
+		// set id
+		if( isset( $options['id'] ) ) {
+			session_id( $options['id'] );
+		}
+		
+		// set expire time
+		if( isset( $options['expire'] ) ) {
+			$this->_expire	=	$options['expire'];
+		}
+		
+		return true;
+    }
+	
+	/**
+	* Do some checks for security reason
+	* 
+	* - timeout check (expire)
+	* - ip-fixiation (
+	* - referer-fixiation 
+	* 
+	* If one check failed, session data has to be cleaned.
+	*
+	* @access protected
+    * @param boolean $restart reactivate session
+	* @return boolean $result true on success
+	*/
+	function _validate( $restart = false )
+	{
+		// allow to restsart a session
+		if( $restart ) {
+			$this->_state	=	'active';
+		}
+		
+		// check if session has expired
+		if( $this->_expire ) 
+		{
+			$curTime =	$this->get( 'session.timer.now' , 0  );
+			$maxTime =	$this->get( 'session.timer.last', 0 ) + (60 * $this->_expire);
+			
+			// empty session variables
+			if( $maxTime < $curTime ) {
+				$this->_state	=	'expired';
+				return false;
+			}
+		}
+				
+		return true;
 	}
 }
 

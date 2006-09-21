@@ -28,5 +28,6 @@ class JFrameworkConfig
 	var $secret     = null;
 	var $editor     = 'none';
 	var $offset     = 0;
+	var $lifetime   = 15;
 }
 ?>

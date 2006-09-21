@@ -14,8 +14,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$session_id = JSession::id();
 $db			=& JFactory::getDBO();
+$session    =& JFactory::getSession();
+
+$session_id = $session->getId();
 
 // Get no. of users online not including current session
 $query = "SELECT COUNT( session_id )"

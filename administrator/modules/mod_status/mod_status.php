@@ -17,10 +17,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $task, $hidemainmenu;
 
 // Initialize some variables
-$sid	= JSession::id();
-$user	=& JFactory::getUser();
-$db		=& JFactory::getDBO();
-$lang   =& JFactory::getLanguage();
+$user	 =& JFactory::getUser();
+$db		 =& JFactory::getDBO();
+$lang    =& JFactory::getLanguage();
+$session =& JFactory::getSession();
+
+$sid	= $session->getId();
 $output = array();
 
 // Print the preview button

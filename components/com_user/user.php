@@ -111,7 +111,8 @@ class UserController
 	{
 		global $mainframe, $option;
 
-		$user =& JFactory::getUser();
+		$user    =& JFactory::getUser();
+		$session =& JFactory::getSession();
 
 		// Protect against simple spoofing attacks
 		if (!JUtility::spoofCheck()) {
@@ -168,7 +169,7 @@ class UserController
 			$db->setQuery( $query );
 			$db->query();
 
-			JSession::set('username', $user->get('username'));
+			$ession->set('username', $user->get('username'));
 		}
 
 		$link = $_SERVER['HTTP_REFERER'];

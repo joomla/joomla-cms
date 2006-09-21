@@ -45,6 +45,26 @@ class JFactory
 
 		return $instance;
 	}
+	
+	/**
+	 * Get a session object
+	 *
+	 * Returns a reference to the global JSession object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @return object JSession
+	 */
+	function &getSession($options = array())
+	{
+		static $instance;
+
+		if (!is_object($instance)) {
+			$instance = JFactory::_createSession($options);
+		}
+
+		return $instance;
+	}
 
 	/**
 	 * Get a language object
@@ -99,7 +119,9 @@ class JFactory
 	{
 		// If there is a userid in the session, load the application user
 		// object with the logged in user.
-		$instance =& JUser::getInstance(JSession::get('userid', 0));
+		$session  =& JFactory::getSession();
+		$instance =& JUser::getInstance((int)$session->get('session.user.id', 0));
+		
 		return $instance;
 	}
 
@@ -336,6 +358,26 @@ class JFactory
 		$registry->loadObject($config);
 		
 		return $registry;
+	}
+	
+	/**
+	 * Create a session object
+	 *
+	 * @access private
+	 * @return object
+	 * @since 1.5
+	 */
+	function &_createSession($options = array())
+	{
+		jimport('joomla.environment.session');
+		
+		//get the editor configuration setting
+		$conf =& JFactory::getConfig();
+		$options['expire'] = $conf->getValue('config.lifetime');
+
+		$session = new JSession($options);
+	
+		return $session;
 	}
 
 	/**

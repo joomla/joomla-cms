@@ -61,7 +61,8 @@ class JAdministrator extends JApplication
 			$file = 'cpanel.php';
 		}
 
-		if (is_null(JSession::get('guest')) || JSession::get('guest')) {
+		$session =& JFactory::getSession();
+		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
 			$file = 'login.php';
 		}
 
@@ -82,10 +83,13 @@ class JAdministrator extends JApplication
 		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
 
 		$result = parent::login($username, $password);
-		if(!JError::isError($result)){
+		if(!JError::isError($result))
+		{
 			$lang = JRequest::getVar( 'lang' );
 			$this->setUserState( 'application.lang', $lang  );
-			JSession::pause();
+			
+			$session =& JFactory::getSession();
+			$session->pause();
 
 			JAdministrator::purgeMessages();
 		}
@@ -161,8 +165,9 @@ class JAdministrator extends JApplication
 	 */
 	function setSession($name)
 	{
-		$this->_createSession($name);
-		if (JSession::isIdle())
+		$session =& $this->_createSession($name);
+		
+		if ($session->getState() == 'expired')
 		{
 			// Build the URL
 			$uri = JURI::getInstance();
@@ -182,8 +187,6 @@ class JAdministrator extends JApplication
 
 			$this->logout();
 		}
-
-		JSession::updateIdle();
 	}
 
 	/**
@@ -264,9 +267,10 @@ class JAdministrator extends JApplication
 	*/
 	function purgeMessages()
 	{
-		$db = JFactory::getDBO();
+		$db   =& JFactory::getDBO();
+		$user =& JFactory::getUser();
 
-		$userid = JSession::get('userid');
+		$userid = $user->get('id');
 
 		$query = "SELECT *"
 		. "\n FROM #__messages_cfg"

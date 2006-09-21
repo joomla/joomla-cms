@@ -73,7 +73,7 @@ class JUser extends JObject
 
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
-
+		
 		// Load the user if it exists
 		if (!empty($identifier))
 		{
@@ -103,7 +103,7 @@ class JUser extends JObject
 
 		// Find the user id
 		if(!is_numeric($id))
-		{
+		{		
 			if (!$id =  JUserHelper::getUserId($id))
 			{
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
@@ -113,6 +113,7 @@ class JUser extends JObject
 
 		if (empty($instances[$id]))
 		{
+			
 			$user = new JUser($id);
 			$instances[$id] = $user;
 		}
@@ -442,15 +443,6 @@ class JUser extends JObject
 		if (!$result = $this->_table->store())
 		{
 			$this->_setError("JUser::save: ".$this->_table->getError());
-		}
-
-		/*
-		 * If we have just updated ourselves, lets modify our session
-		 * parameters... i know a little too "inside the matrix" for some...
-		 */
-		if ( $me->get('id') == $this->get('id') )
-		{
-			JSession::set('session_user_params', $this->get( 'params' ));
 		}
 
 		/*

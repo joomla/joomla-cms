@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Sep-2006 Johan Janssens
+ ^ Refactored JSession class to improve session handling
+ + Added JFactory::getSession to return a session object
+
 17-Sep-2006 Johan Janssens
  ^ Deprecated mosFormatDate function, use mosHTML::Date instead
  ^ Deprecated mosCurrentDate function, use mosHTML::Date instead

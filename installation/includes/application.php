@@ -38,7 +38,8 @@ class JInstallation extends JApplication
 	/**
 	* Class constructor
 	*/
-	function __construct( ) {
+	function __construct( ) 
+	{
 		parent::__construct(2);
 		$this->_createConfiguration();
 	}
@@ -107,18 +108,13 @@ class JInstallation extends JApplication
 	 */
 	function _createSession( $name )
 	{
-		JSession::useCookies(true);
-		JSession::start(md5( $name ));
+		$options = array();
+		$options['name'] = $name;
+		
+		$session = JFactory::getSession($options);
+		$session->start();
 
-		JSession::get('registry', new JRegistry('application'));
-
-		JSession::setIdle(900);
-
-		if (JSession::isIdle()) {
-			JSession::destroy();
-		}
-
-		JSession::updateIdle();
+		$session->get('registry', new JRegistry('application'));
 	}
 
 	/**

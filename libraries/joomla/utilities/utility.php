@@ -146,28 +146,21 @@ class JUtility
 	 * @return	boolean		True on success, false if a spoofing attack has been identified
 	 * @since	1.5
 	 */
-	function spoofCheck() {
-		/*
-		 * Lets make sure they saw the html form
-		 */
+	function spoofCheck() 
+	{
+		// Lets make sure they saw the html form
 		$hash	= JUtility::spoofKey();
 		$valid	= JRequest::getVar( $hash, 0, 'post' );
 		if (!$valid) {
 			return false;
 		}
 
-		/*
-		 * This obviously won't catch all attempts, but it does not hurt to make
-		 * sure the request came from a client with a user agent string.
-		 */
+		// Make sure request came from a client with a user agent string.
 		if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
 			return false;
 		}
 
-		/*
-		 * This obviously won't catch all attempts either, but we ought to check
-		 * to make sure that the request was posted as well.
-		 */
+		// Check to make sure that the request was posted as well.
 		$requestMethod = JArrayHelper::getValue( $_SERVER, 'REQUEST_METHOD' );
 		if ($requestMethod != 'POST') {
 			return false;
@@ -183,10 +176,12 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function spoofKey() {
+	function spoofKey() 
+	{
 		// the prefix ensures that the hash is non-numeric
 		// otherwise it will be intercepted by JRequest::clean()
-		$hash = 'j' . JUtility::getHash( JSession::id() );
+		$session =& JFactory::getSession();
+		$hash = 'j' . JUtility::getHash( $session->getId() );
 		return $hash;
 	}
 	/**

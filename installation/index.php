@@ -26,8 +26,9 @@ $mainframe->setSession('installation');
 // get a recursively slash stripped version of post
 $post		= (array) JRequest::get( 'post' );
 $postVars	= JArrayHelper::getValue( $post, 'vars', array(), 'array' );
-$registry =& JSession::get('registry');
 
+$session  =& JFactory::getSession();
+$registry =& $session->get('registry');
 $registry->loadArray($postVars, 'application');
 
 $configLang = $mainframe->getUserState('application.lang');
