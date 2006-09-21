@@ -197,7 +197,6 @@ class JMainMenu extends JTree
 		}
 
 		if ($this->_active == $this->_current->id) {
-			$classes .= ' current';
 			$id = " id=\"current\"";
 		}
 
