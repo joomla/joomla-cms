@@ -46,9 +46,9 @@ class JMenuViewItem extends JView
 		JMenuBar::apply();
 		if ($item->id) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JMenuBar::cancel( 'cancelItem', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JMenuBar::cancel('cancelItem');
 		}
 		JMenuBar::help( 'screen.menus.edit' );
 

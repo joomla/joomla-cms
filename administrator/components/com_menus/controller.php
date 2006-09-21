@@ -80,6 +80,23 @@ class JMenuController extends JController
 	/**
 	* Cancels an edit operation
 	*/
+	function cancelItem()
+	{
+		global $mainframe;
+//		$menu =& JTable::getInstance('menu', $this->getDBO() );
+//		$menu->bind( $_POST );
+//		$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
+//		if ( $menuid ) {
+//			$menu->id = $menuid;
+//		}
+//		$menu->checkin();
+		$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
+	}
+
+	/**
+	* Cancels an edit operation
+	*/
 	function cancel()
 	{
 		global $mainframe;
