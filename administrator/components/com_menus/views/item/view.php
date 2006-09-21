@@ -80,6 +80,11 @@ class JMenuViewItem extends JView
 		if ($item->type != 'url') {
 			$lists->disabled = 'disabled="true"';
 			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
+			if (($item->id) && ($item->type == 'component')) {
+				$item->expansion = '&amp;expand='.str_replace('com_', '', $item->linkparts['option']);
+			} else {
+				$item->expansion = null;
+			}
 		} else {
 			$lists->disabled = null;
 			$item->linkfield = null;
@@ -110,7 +115,7 @@ class JMenuViewItem extends JView
 		 * Set toolbar items for the page
 		 */
 		JMenuBar::title(  JText::_( 'Edit Menu Item Type' ), 'menu.png' );
-		JMenuBar::cancel();
+		JMenuBar::cancel('view');
 		JMenuBar::help( 'screen.menus.type' );
 
 		// Add scripts and stylesheets to the document
