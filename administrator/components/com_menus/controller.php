@@ -72,7 +72,7 @@ class JMenuController extends JController
 
 			case 'save':
 			default:
-				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype, $msg );
+				$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$item->menutype, $msg );
 				break;
 		}
 	}
