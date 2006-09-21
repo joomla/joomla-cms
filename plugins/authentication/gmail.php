@@ -65,6 +65,7 @@ class JAuthenticateGMail extends JPlugin {
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail');
 	 	$pluginParams = new JParameter( $plugin->params );
+		$return = new JAuthenticateResponse('gmail');
 
 		$curl = curl_init("https://mail.google.com/gmail/feed/atom");
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
