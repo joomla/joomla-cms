@@ -35,6 +35,8 @@ class JMenuViewList extends JView
 		 */
 		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		$bar = & JToolBar::getInstance('JComponent');
+		$bar->appendButton( 'Link', 'menus', JText::_('Menus'), "index.php?option=com_menus" );
 		JMenuBar::makeDefault( 'setdefault' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
