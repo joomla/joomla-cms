@@ -399,11 +399,13 @@ function getRecentPosts($msg)
 
 function getTemplate($appkey, $blogid, $username, $password, $templateType)
 {
+	global $xmlrpcerruser;
 	return new xmlrpcresp(0, $xmlrpcerruser+1, 'Method not implemented' );
 }
 
 function setTemplate($appkey, $blogid, $username, $password, $template, $templateType)
 {
+	global $xmlrpcerruser;
 	return new xmlrpcresp(0, $xmlrpcerruser+1, 'Method not implemented' );
 }
 
