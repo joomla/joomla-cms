@@ -505,8 +505,8 @@ class JSession extends JObject
 				
 				if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false) 
 				{
-					$adress	= explode('.',$ip);
-					$ip	   = $remote_addr[0] .'.'. $remote_addr[1] .'.'. $remote_addr[2];
+					$address	= explode('.',$ip);
+					$ip	   = $address[0] .'.'. $address[1] .'.'. $address[2];
 				}
 				$this->set( 'session.client.address', $ip );
 			}
