@@ -38,7 +38,7 @@ class JInstallation extends JApplication
 	/**
 	* Class constructor
 	*/
-	function __construct( ) 
+	function __construct( )
 	{
 		parent::__construct(2);
 		$this->_createConfiguration();
@@ -110,9 +110,8 @@ class JInstallation extends JApplication
 	{
 		$options = array();
 		$options['name'] = $name;
-		
+
 		$session = JFactory::getSession($options);
-		$session->start();
 
 		$session->get('registry', new JRegistry('application'));
 	}
