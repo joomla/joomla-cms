@@ -219,7 +219,7 @@ class JConfigGlobalController extends JController
 		global $mainframe;
 
 		$config =& JFactory::getConfig();
-		$config->loadArray($_POST);
+		$config->loadArray(JRequest::get( 'post' ));
 		
 		//override any possible database password change
 		$config->setValue('config.password', $mainframe->getCfg('password'));

@@ -108,7 +108,7 @@ class SearchController
 			$error = JText::_( 'IGNOREKEYWORD' );
 		}
 
-		if (!$searchword && count( $_POST ) ) {
+		if (!$searchword && count( JRequest::get('post') ) ) {
 			$error = JText::_( 'No results were found' );
 		}
 

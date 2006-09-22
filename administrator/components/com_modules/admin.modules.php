@@ -700,7 +700,7 @@ function cancelModule( $option )
 
 	$row =& JTable::getInstance('module', $db );
 	// ignore array elements
-	$row->bind( $_POST, 'selections params' );
+	$row->bind(JRequest::get('post'), 'selections params' );
 	$row->checkin();
 
 	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id );

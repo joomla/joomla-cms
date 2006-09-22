@@ -596,7 +596,7 @@ function cancelCategory()
 	$redirect = JRequest::getVar( 'redirect', '', 'post' );
 
 	$row =& JTable::getInstance('category', $db );
-	$row->bind( $_POST );
+	$row->bind( JRequest::get( 'post' ));
 	$row->checkin();
 
 	$mainframe->redirect( 'index2.php?option=com_categories&section='. $redirect );
@@ -853,7 +853,7 @@ function menuLink( $id )
 	$db =& JFactory::getDBO();
 
 	$category =& JTable::getInstance('category', $db );
-	$category->bind( $_POST );
+	$category->bind( JRequest::get( 'post' ) );
 	$category->checkin();
 
 	$redirect	= JRequest::getVar( 'redirect', '', 'post' );

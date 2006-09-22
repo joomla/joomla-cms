@@ -235,7 +235,7 @@ function saveMessage( $option )
 	$db =& JFactory::getDBO();
 	$row = new JMessage( $db );
 
-	if (!$row->bind( $_POST )) {
+	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}

@@ -400,13 +400,12 @@ class JMenuController extends JController
 	{
 		$db		=& JFactory::getDBO();
 		$id		= JRequest::getVar( 'id', 0, '', 'int' );
-		$post	= JRequest::get( 'post' );
 
 		$oldType =& JTable::getInstance('menutypes', $db, 'JTable');
 		$oldType->load( $id );
 
 		$menuType =& JTable::getInstance('menutypes', $db, 'JTable');
-		$menuType->bind( $post );
+		$menuType->bind( JRequest::get( 'post' ) );
 
 		$isNew		= ($menuType->id == 0);
 		$isChanged	= ($oldType->menutype != $menuType->menutype);

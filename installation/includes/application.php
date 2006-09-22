@@ -104,9 +104,10 @@ class JInstallation extends JApplication
 	 * Create the user session
 	 *
 	 * @access private
-	 * @param string	The sessions name
+	 * @param string		The sessions name
+	 * @return	object 		JSession 
 	 */
-	function _createSession( $name )
+	function &_createSession( $name )
 	{
 		$options = array();
 		$options['name'] = $name;
@@ -118,6 +119,8 @@ class JInstallation extends JApplication
 		}
 
 		return $session;
+		
+		return $session
 	}
 
 	/**

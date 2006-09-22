@@ -233,7 +233,7 @@ function saveWeblink( $task )
 
 	$db	=& JFactory::getDBO();
 	$row =& JTable::getInstance('weblink', $db, 'Table');
-	if (!$row->bind( $_POST )) {
+	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -368,7 +368,7 @@ function cancelWeblink()
 
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('weblink', $db, 'Table');
-	$row->bind( $_POST );
+	$row->bind(JRequest::getVar());
 	$row->checkin();
 
 	$mainframe->redirect( 'index2.php?option=com_weblinks' );

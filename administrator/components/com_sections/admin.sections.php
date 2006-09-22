@@ -318,7 +318,7 @@ function saveSection( $option, $scope, $task )
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
 
 	$row =& JTable::getInstance('section', $db );
-	if (!$row->bind( $_POST )) {
+	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index2.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
 	}
@@ -516,7 +516,7 @@ function cancelSection( $option, $scope )
 
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section', $db );
-	$row->bind( $_POST );
+	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
 	$mainframe->redirect( 'index2.php?option='. $option .'&scope='. $scope );
@@ -700,7 +700,7 @@ function menuLink( $id )
 	$db		 =& JFactory::getDBO();
 
 	$section =& JTable::getInstance('section', $db );
-	$section->bind( $_POST );
+	$section->bind( JRequest::get('post') );
 	$section->checkin();
 
 	$menu 		= JRequest::getVar( 'menuselect', '', 'post' );

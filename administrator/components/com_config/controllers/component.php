@@ -63,11 +63,12 @@ class JConfigComponentController extends JController
 	/**
 	 * Save the configuration
 	 */
-	function save() {
+	function save() 
+	{
 		$model = &JModel::getInstance( 'JConfigComponentModel' );
 		$table = &$model->getTable();
 
-		$table->bind( $_POST );
+		$table->bind( JRequest::get( 'post' ) );
 		// reset the option
 		$table->option = null;
 

@@ -184,12 +184,11 @@ class JPollGlobalController extends JController
 	function savePoll()
 	{
 		$db		=& JFactory::getDBO();
-		$post	= JRequest::get( 'post' );
 
 		// save the poll parent information
 		$row =& JTable::getInstance('poll', $db, 'Table');
 
-		if (!$row->bind( $post ))
+		if (!$row->bind( JRequest::get( 'post' ) ))
 		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();

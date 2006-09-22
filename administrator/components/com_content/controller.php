@@ -435,14 +435,15 @@ class JContentController extends JController
 				$row->frontpage = 0;
 			}
 		} else {
-			if (!$sectionid && @ $_POST['filter_sectionid']) {
-				$sectionid = $_POST['filter_sectionid'];
+			if (!$sectionid && @ JRequest::getVar('filter_sectionid')) {
+				$sectionid =JRequest::getVar('filter_sectionid');
 			}
 
-			if (@ $_POST['catid']) {
-				$row->catid = $_POST['catid'];
-				$category = & JTable::getInstance('category', $db);
-				$category->load($_POST['catid']);
+			if (@JRequest::getVar('catid')) 
+			{
+				$row->catid	 = JRequest::getVar('catid');
+				$category 	 = & JTable::getInstance('category', $db);
+				$category->load(JRequest::getVar('catid'));
 				$sectionid = $category->section;
 			} else {
 				$row->catid = NULL;
@@ -583,9 +584,8 @@ class JContentController extends JController
 		$menuid		= JRequest::getVar( 'menuid', 0, 'post' );
 		$nullDate	= $db->getNullDate();
 
-
 		$row = & JTable::getInstance('content', $db);
-		if (!$row->bind($_POST)) {
+		if (!$row->bind(JRequest::get('post'))) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
@@ -932,7 +932,7 @@ class JContentController extends JController
 
 		// Check the article in if checked out
 		$row = & JTable::getInstance('content', $db);
-		$row->bind($_POST);
+		$row->bind(JRequest::get('post'));
 		$row->checkin();
 
 		$mainframe->redirect('index2.php?option=com_content');

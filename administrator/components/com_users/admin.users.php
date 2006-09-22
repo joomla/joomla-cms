@@ -321,13 +321,11 @@ function saveUser(  )
 	$FromName	= $mainframe->getCfg('fromname');
 	$SiteName	= $mainframe->getCfg('sitename');
 
-	/*
-	 * Lets create a new JUser object
-	 */
+ 	// Create a new JUser object
 	$user = new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
 	$original_gid = $user->get('gid');
 
-	if (!$user->bind( $_POST ))
+	if (!$user->bind(JRequest::get('post')))
 	{
 		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
 		return false;

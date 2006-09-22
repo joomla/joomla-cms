@@ -120,9 +120,8 @@ class BannerClientController
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 		$table	=& JTable::getInstance('bannerclient', $db, 'Table');
-		$post	= JRequest::get( 'post' );
-
-		if (!$table->bind( $post )) {
+		
+		if (!$table->bind( JRequest::get( 'post' ) )) {
 			echo "<script> alert('".$table->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
@@ -136,8 +135,8 @@ class BannerClientController
 		}
 		$table->checkin();
 
-		$task = JRequest::getVar( 'task' );
-		switch ($task) {
+		switch (JRequest::getVar( 'task' )) 
+		{
 			case 'applyclient':
 				$link = 'index.php?option=com_banners&task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';
 				break;

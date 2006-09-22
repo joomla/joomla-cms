@@ -216,7 +216,7 @@ function saveNewsFeed(  )
 	$task 		= JRequest::getVar( 'task');
 
 	$row 		=& JTable::getInstance( 'newsfeed', $db, 'Table' );
-	if (!$row->bind( $_POST )) {
+	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -356,7 +356,7 @@ function cancelNewsFeed(  )
 	$option = JRequest::getVar( 'option');
 
 	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
-	$row->bind( $_POST );
+	$row->bind(JRequest::get('post'));
 	$row->checkin();
 	$mainframe->redirect( 'index2.php?option='. $option );
 }

@@ -190,7 +190,7 @@ function savePlugin( $option, $client, $task )
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('plugin', $db);
 
-	if (!$row->bind( $_POST )) {
+	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -361,7 +361,7 @@ function cancelPlugin( $option, $client )
 
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('plugin', $db);
-	$row->bind( $_POST );
+	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
 	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client );

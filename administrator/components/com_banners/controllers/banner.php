@@ -194,8 +194,7 @@ class BannerController
 
 		// Sets impressions to unlimited when `unlimited` checkbox ticked
 		$unlimited = JRequest::getVar( 'unlimited', 0 );
-		if ($unlimited)
-		{
+		if ($unlimited) {
 			$row->imptotal = 0;
 		}
 

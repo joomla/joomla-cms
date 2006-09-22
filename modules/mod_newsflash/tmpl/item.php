@@ -1,9 +1,9 @@
 <?php if ($params->get('item_title')) : ?>
-<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 <tr>
-	<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
+	<td class="contentheading<?php echo $params->get( 'moduleclass_sfx' ); ?>" width="100%">
 	<?php if ($params->get('link_titles') && $linkOn != '') : ?>
-		<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 			<?php echo $item->title;?>
 		</a>
 	<?php else : ?>
@@ -20,7 +20,7 @@ endif; ?>
 	
 <?php echo $item->beforeDisplayContent; ?>
 
-<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 	<tr>
 		<td valign="top" colspan="2"><?php echo $item->text; ?></td>
 	</tr>
