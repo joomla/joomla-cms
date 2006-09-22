@@ -605,6 +605,7 @@ class JContentController extends JController
 			$row->created 	.= ' 00:00:00';
 		}
 		
+		jimport('joomla.utilities.date');
 		$date = new JDate($row->created);
 		$date->setOffset( -$mainframe->getCfg('offset'));
 		$row->created = $date->toMySQL();

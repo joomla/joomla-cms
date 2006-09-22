@@ -42,6 +42,8 @@ Legend:
  + Added JFactory::getSession to return a session object
  - Removed JUtility::spookCheck, JSessions checks for spoofing attacks transparently
  ^ Added security measures to prevent session hijacking
+ # Fixed [artf6051] : Fatal error when trying to save a new article!
+ # Fixed [artf5240] : feed.php download instead of feed display
 
 17-Sep-2006 Johan Janssens
  ^ Deprecated mosFormatDate function, use mosHTML::Date instead

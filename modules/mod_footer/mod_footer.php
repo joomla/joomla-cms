@@ -16,7 +16,9 @@ defined('_JEXEC') or die('Restricted access');
 
 global $mainframe;
 
+jimport('joomla.utilities.date');
 $date 		= new JDate('now');
+
 $cur_year	= $date->toFormat('%Y');
 $csite_name	= $mainframe->getCfg('sitename');
 
