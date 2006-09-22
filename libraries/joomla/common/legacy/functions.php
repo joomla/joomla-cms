@@ -662,10 +662,8 @@ function initGzip()
 function doGzip() 
 {
 	global $do_gzip_compress;
-	if ( $do_gzip_compress ) {
-		/**
-		*Borrowed from php.net!
-		*/
+	if ( $do_gzip_compress ) 
+	{
 		$gzip_contents = ob_get_contents();
 		ob_end_clean();
 
@@ -696,58 +694,46 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 )
 }
 
 /**
- * Legacy function, use JUtility::spoofCheck() instead.
- * Note: JUtility::spoofCheck() does not die (like this function does), it rather returns a boolean.
+ * Legacy function, JSession transparently checks for spoofing attacks
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function josSpoofCheck( $header=false, $alternate=false ) 
 {
-	$check = JUtility::spoofCheck();
-	if (!$check) {
-		header( 'HTTP/1.0 403 Forbidden' );
-		die( JText::_('E_SESSION_TIMEOUT') );
+	// Lets make sure they saw the html form
+	$check = true;
+	$hash	= JUtility::getToken();
+	$valid	= JRequest::getVar( $hash, 0, 'post' );
+	if (!$valid) {
+		$check = false;
 	}
 
-	/*
-	 * TODO: I guess this can be deleted (copied from 1.0.10). Precautions against email header injections
-	 * have to be taken (and partially are already done) in the JMail class. Enno 2006-07-29.
-	 */
-	if ($header) {
-		// Attempt to defend against header injections:
-		$badStrings = array(
-			'Content-Type:',
-			'MIME-Version:',
-			'Content-Transfer-Encoding:',
-			'bcc:',
-			'cc:'
-		);
+	// Make sure request came from a client with a user agent string.
+	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
+		$check = false;
+	}
 
-		// Loop through each POST'ed value and test if it contains
-		// one of the $badStrings:
-		foreach ($_POST as $k => $v){
-			foreach ($badStrings as $v2) {
-				if (strpos( $v, $v2 ) !== false) {
-					header( 'HTTP/1.0 403 Forbidden' );
-					die( JText::_('E_SESSION_TIMEOUT') );
-				}
-			}
-		}
-
-		// Made it past spammer test, free up some memory
-		// and continue rest of script:
-		unset($k, $v, $v2, $badStrings);
+	// Check to make sure that the request was posted as well.
+	$requestMethod = JArrayHelper::getValue( $_SERVER, 'REQUEST_METHOD' );
+	if ($requestMethod != 'POST') {
+		$check = false;
+	}
+	
+	if (!$check) 
+	{
+		header( 'HTTP/1.0 403 Forbidden' );
+		die( JText::_('E_SESSION_TIMEOUT') );
 	}
 }
 
 /**
- * Legacy function, use JUtility::spoofKey() instead
+ * Legacy function, use JUtility::getToken() instead
  *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
 function josSpoofValue($alt = NULL) {
-	return JUtility::spoofKey();
+	return JUtility::getToken();
 }
 ?>

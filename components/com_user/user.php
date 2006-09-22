@@ -114,12 +114,6 @@ class UserController
 		$user    =& JFactory::getUser();
 		$session =& JFactory::getSession();
 
-		// Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
-
 		$db 	=& JFactory::getDBO();
 		$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
 
@@ -181,12 +175,6 @@ class UserController
 		global $mainframe, $option;
 
 		$dbprefix = $mainframe->getCfg( 'dbprefix' );
-
-		// Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
 
 		// Initialize some variables
 		$db = & JFactory::getDBO();

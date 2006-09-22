@@ -303,10 +303,6 @@ class JApplication extends JObject
 	 */
 	function login($username,$password)
 	{
-		if (!JUtility::spoofCheck()) {
-			return JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-		}
-
 		if (empty($username))  {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_USERNAME'));
 		}
@@ -368,10 +364,6 @@ class JApplication extends JObject
 				// Register the needed session variables
 				$session =& JFactory::getSession();
 				$session->set('session.user.id', intval($user->get('id')));
-
-				// Register session variables to prevent spoofing
-				$session->set('JAuthenticate_RemoteAddr', $_SERVER['REMOTE_ADDR']);
-				$session->set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
 
 				// Get the session object
 				$table = & JTable::getInstance('session', JFactory::getDBO());

@@ -84,5 +84,5 @@ function submitbutton(pressbutton)
 <input type="hidden" name="option" value="<?php echo $option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
-<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

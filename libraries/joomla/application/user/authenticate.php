@@ -367,78 +367,6 @@ class JAuthenticateHelper
 	}
 
 	/**
-	 * Is there an authenticated user in the current session
-	 *
-	 * @access public
-	 * @return boolean True of authenticated user exists.
-	 * @since 1.5
-	 */
-	function isAuthenticated()
-	{
-		// Initialize variables
-		$ret = false;
-
-		// TODO: Check logic on this... i assume this will work for an authentication check
-
-		/*
-		 * If the session 'guest' variable is zero and the session 'userid' variable
-		 * is set, we would assume that a valid user is logged in
-		 */
-		$session =& JFactory::getSession();
-		if ($session->get('session.user.id') != 0) {
-			$ret = true;
-		}
-
-		/*
-		 * This ensures that the IP of the client does not change from page request to
-		 * page request while the user is authenticated.
-		 *
-		 * Useful to protect against spoofing
-		 */
-		if (!JAuthenticateHelper::_checkRemoteAddr()) {
-			$ret = false;
-		}
-
-		/*
-		 * This ensures that the User Agent string of the client does not change from page request to
-		 * page request while the user is authenticated.
-		 *
-		 * Useful to protect against spoofing
-		 */
-		if (!JAuthenticateHelper::_checkUserAgent()) {
-			$ret = false;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Performs check on session to see if IP Address has changed since the
-	 * last access.
-	 *
-	 * @access private
-	 * @return boolean  True if IP Address is the same as the last access.
-	 * @since 1.5
-	 */
-	function _checkRemoteAddr() {
-		$session =& JFactory::getSession();
-		return ($session->get('JAuthenticate_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
-	}
-
-	/**
-	 * Performs check on session to see if user agent has changed since
-	 * the last access.
-	 *
-	 * @access private
-	 * @return boolean  True if browser user agent is the same as the last access.
-	 * @since 1.5
-	 */
-	function _checkUserAgent() {
-		$session =& JFactory::getSession();
-		return ($session->get('JAuthenticate_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
-	}
-
-	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
 	 * @access private
@@ -447,7 +375,8 @@ class JAuthenticateHelper
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since 1.5
 	 */
-	function _toAPRMD5($value, $count) {
+	function _toAPRMD5($value, $count) 
+	{
 		/* 64 characters that are valid for APRMD5 passwords. */
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
@@ -468,7 +397,8 @@ class JAuthenticateHelper
 	 * @return string  Binary data.
 	 * @since 1.5
 	 */
-	function _bin($hex) {
+	function _bin($hex) 
+	{
 		$bin = '';
 		$length = strlen($hex);
 		for ($i = 0; $i < $length; $i += 2) {
@@ -482,12 +412,13 @@ class JAuthenticateHelper
 /**
  * Authorization response class, provides an object for storing error details
  *
- * @author 		Samuel Moffatt <pasamio@gmail.com>
+ * @author 		Samuel Moffatt <sam.moffatt@joomla.org>
  * @package 	Joomla.Framework
  * @static
  * @since 1.5
  */
-class JAuthenticateResponse extends JObject {
+class JAuthenticateResponse extends JObject 
+{
 	/** @var type string Response Type (success, failure, critical_failure, error, critical_error,autocreate) */
 	var $type 			= null;
 	/** @var name string Name of Response */

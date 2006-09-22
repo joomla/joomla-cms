@@ -413,12 +413,6 @@ class WeblinksController
 			return;
 		}
 
-		//Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseError( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
-
 		// Create a web link table
 		$row =& JTable::getInstance('weblink', $db, 'Table');
 

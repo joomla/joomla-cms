@@ -162,12 +162,6 @@ class PollController
 	{
 		global $mainframe;
 
-		// Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
-
 		$db			= JFactory::getDBO();
 
 		$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );

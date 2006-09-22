@@ -114,12 +114,6 @@ class RegistrationController
 	{
 		global $mainframe, $Itemid;
 
-		// Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
-
 		// Initialize variables
 		$siteURL 	= JURI::base();
 		$config		=& JFactory::getConfig();
@@ -198,12 +192,6 @@ class RegistrationController
 	function save()
 	{
 		global $mainframe;
-
-		// Protect against simple spoofing attacks
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return;
-		}
 
 		// Get required system objects
 		$user 		=& JFactory::getUser();

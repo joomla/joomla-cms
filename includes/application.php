@@ -129,7 +129,8 @@ class JSite extends JApplication
 	* @return string The page title
 	* @since 1.5
 	*/
-	function getPageTitle() {
+	function getPageTitle() 
+	{
 		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}

@@ -112,6 +112,19 @@ class JUtility
 		$conf =& JFactory::getConfig();
 		return md5( $conf->getValue('config.secret') . md5( $seed ) );
 	}
+	
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @return	string	Hashed var name
+	 * @since	1.5
+	 * @static
+	 */
+	function getToken() 
+	{
+		$session =& JFactory::getSession();
+		return $session->get('session.token');
+	}
 
 	/**
  	 * Method to extract key/value pairs out of a string with xml style attributes
@@ -140,50 +153,6 @@ class JUtility
 		return $retarray;
 	}
 
-	/**
-	 * Method to protect against spoofing attacks
-	 *
-	 * @return	boolean		True on success, false if a spoofing attack has been identified
-	 * @since	1.5
-	 */
-	function spoofCheck() 
-	{
-		// Lets make sure they saw the html form
-		$hash	= JUtility::spoofKey();
-		$valid	= JRequest::getVar( $hash, 0, 'post' );
-		if (!$valid) {
-			return false;
-		}
-
-		// Make sure request came from a client with a user agent string.
-		if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
-			return false;
-		}
-
-		// Check to make sure that the request was posted as well.
-		$requestMethod = JArrayHelper::getValue( $_SERVER, 'REQUEST_METHOD' );
-		if ($requestMethod != 'POST') {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to determine a hash for anti-spoofing variable names
-	 *
-	 * @return	string	Hashed var name
-	 * @since	1.5
-	 * @static
-	 */
-	function spoofKey() 
-	{
-		// the prefix ensures that the hash is non-numeric
-		// otherwise it will be intercepted by JRequest::clean()
-		$session =& JFactory::getSession();
-		$hash = 'j' . JUtility::getHash( $session->getId() );
-		return $hash;
-	}
 	/**
 	 * Method to determine if the host OS is  Windows
 	 *

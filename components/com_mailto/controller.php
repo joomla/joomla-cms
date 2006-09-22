@@ -34,20 +34,6 @@ class MailtoController extends JController
 
 		$link 		= urldecode( JRequest::getVar( 'link', '', 'post' ) );
 
-		// probably a spoofing attack
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return false;
-		}
-
-		/*
-		 * Protect against simple spoofing attacks
-		 */
-		if (!JUtility::spoofCheck()) {
-			header("HTTP/1.0 403 Forbidden");
-			die( JText::_( 'E_SESSION_TIMEOUT' ) );
-		}
-
 		// An array of e-mail headers we do not want to allow as input
 		$headers = array ('Content-Type:',
 						  'MIME-Version:',

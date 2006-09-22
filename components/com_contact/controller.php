@@ -95,12 +95,6 @@ class ContactController extends JController
 		$body 		= JRequest::getVar('text', 			'', 		'post');
 		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post', 'int');
 
-		// probably a spoofing attack
-		if (!JUtility::spoofCheck()) {
-			JError::raiseWarning( 403, JText::_( 'E_SESSION_TIMEOUT' ) );
-			return false;
-		}
-
 		 // load the contact details
 		$model		= &$this->getModel('contact', 'ContactModel');
 

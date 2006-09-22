@@ -31,7 +31,7 @@ class JSession extends JObject
 	 * internal state
 	 * 
 	 * @access protected
-	 * @var	string $_state one of 'active'|'expired'|'destroyed'
+	 * @var	string $_state one of 'active'|'expired'|'destroyed|'error'
      * @see getState()
 	 */
 	var	$_state	=	'active';
@@ -56,7 +56,7 @@ class JSession extends JObject
 		$this->_setOptions( $options );
 		
 		//load the session
-		$this->start();
+		$this->_start();
 		
 		//initialise the session
 		$this->_setCounter();
@@ -86,13 +86,28 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session name
 	 */
-    function getId()
+    function getName()
     {
 		if( $this->_state === 'destroyed' ) {
 			// @TODO : raise error
 			return null;
 		}
 		return session_name();
+    }
+	
+	/**
+	 * Get session id
+	 *
+	 * @access public
+	 * @return string The session name
+	 */
+    function getId()
+    {
+		if( $this->_state === 'destroyed' ) {
+			// @TODO : raise error
+			return null;
+		}
+		return session_id();
     }
 	
    /**
@@ -121,7 +136,7 @@ class JSession extends JObject
      */
     function get($name, $default = null)
     {
-        if($this->_state !== 'active') {
+		if($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
 		}
@@ -206,7 +221,7 @@ class JSession extends JObject
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function start()
+    function _start()
     {
 		//  start session if not startet
 		if( $this->_state == 'restart' ) {
@@ -242,25 +257,24 @@ class JSession extends JObject
 		if( $this->_state === 'destroyed' ) {
             return true;
 		}
-	 
-        session_unset();
-        session_destroy();
-
+		
 		// In order to kill the session altogether, like to log the user out, the session id
 		// must also be unset. If a cookie is used to propagate the session id (default behavior),
 		// then the session cookie must be deleted.
 		if (isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-42000, '/');
 		}
+	 
+        session_unset();
+        session_destroy();
    
 		$this->_state = 'destroyed';
 		return true;
 	}
 	
-	 /**
-    * restart a destroyed or locked sessionb
+   /**
+    * restart a destroyed or locked session
 	*
-	* @final
 	* @access public
 	* @return boolean $result true on success
 	* @see destroy
@@ -277,6 +291,7 @@ class JSession extends JObject
 		$this->_start();
 		$this->_state	=	'active';
 		
+		$this->_validate();
 		$this->_setCounter();
 		
         return true;
@@ -297,7 +312,7 @@ class JSession extends JObject
 		}
 		
 		// save values
-		$values			=	$_SESSION;
+		$values	= $_SESSION;
 
 		// keep session config		
 		$trans	=	ini_get( 'session.use_trans_sid' );
@@ -307,7 +322,7 @@ class JSession extends JObject
 		$cookie	=	session_get_cookie_params();
 
 		// create new session id		
-		$id	=	$this->_createId( strlen( $this->_sessAttributes['id'] ) );
+		$id	=	$this->_createId( strlen( $this->getId() ) );
 		
 		// kill session
 		session_destroy();
@@ -354,6 +369,25 @@ class JSession extends JObject
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 		$id    = md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
 		return $id;
+	}
+	
+	/**
+	* Create a token-string
+	*
+	* @access protected
+	* @param int $length lenght of string
+	* @return string $id generated token
+	*/
+	function _createToken( $length = 32 )
+	{
+		static $chars	=	'0123456789abcdef';
+		$max			=	strlen( $chars ) - 1;
+		$token				=	'';
+		for( $i = 0; $i < $length; ++$i ) {
+			$token .=	$chars[ (rand( 0, $max )) ];
+		}
+
+		return 'token_'.$token;		
 	}
 	
 	/**
@@ -425,8 +459,8 @@ class JSession extends JObject
 	* Do some checks for security reason
 	* 
 	* - timeout check (expire)
-	* - ip-fixiation (
-	* - referer-fixiation 
+	* - ip-fixiation
+	* - browser-fixiation 
 	* 
 	* If one check failed, session data has to be cleaned.
 	*
@@ -437,8 +471,14 @@ class JSession extends JObject
 	function _validate( $restart = false )
 	{
 		// allow to restsart a session
-		if( $restart ) {
+		if( $restart ) 
+		{
 			$this->_state	=	'active';
+		
+			$this->set( 'session.client.address'		, null );
+			$this->set( 'session.client.forwarded'	, null );
+			$this->set( 'session.client.browser'	, null );
+			$this->set( 'session.token'				, null );
 		}
 		
 		// check if session has expired
@@ -453,6 +493,79 @@ class JSession extends JObject
 				return false;
 			}
 		}
+		
+		// check for client-ip
+		if( isset( $_SERVER['REMOTE_ADDR'] ) ) 
+		{
+			$ip	=	$this->get( 'session.client.address' );
+			
+			if( $ip === null ) 
+			{
+				$ip = $_SERVER['REMOTE_ADDR'];
+				
+				if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false) 
+				{
+					$adress	= explode('.',$ip);
+					$ip	   = $remote_addr[0] .'.'. $remote_addr[1] .'.'. $remote_addr[2];
+				}
+				$this->set( 'session.client.address', $ip );
+			}
+			else if( $_SERVER['REMOTE_ADDR'] !== $ip ) 
+			{
+				$this->_state	=	'error';
+				return false;
+			}
+			
+			// some polite proxy server tell, for whom they forward the request for
+			if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) 
+			{
+				$forwarded	=	$this->get( 'session.client.forwarded' );
+				
+				if( $forwarded === null ) {
+					$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+				}
+				else if( $_SERVER['HTTP_X_FORWARDED_FOR'] !== $forwarded ) 
+				{
+					$this->_state = 'error';
+					return false;
+				}
+			}
+		}
+		
+		// check for clients browser
+		if( isset( $_SERVER['HTTP_USER_AGENT'] ) ) 
+		{
+			$browser = $this->get( 'session.client.browser' );
+			
+			if( $browser === null ) {
+				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT'] );
+			}
+			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser ) {
+				$this->_state	=	'error';
+				return false;
+			}
+		}
+		
+		// check token!
+		$token = $this->get( 'session.token' );
+			
+		// check if token is valid! 
+		if( $token !== null ) 
+		{
+			$match	=	false;
+			// check token from request
+			if( is_null(JRequest::getVar($token)) ) {
+				$this->_state = 'error';
+				return false;
+			}
+		}
+			
+		// save new token
+		$token	=	$this->_createToken( 12 );
+		$this->set( 'session.token', $token );
+			
+		// try to set a cookie			
+		setcookie( $token, 1 );
 				
 		return true;
 	}

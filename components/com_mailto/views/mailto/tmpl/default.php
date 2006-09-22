@@ -63,4 +63,4 @@
 <input type="hidden" name="option" value="com_mailto" />
 <input type="hidden" name="task" value="send" />
 <input type="hidden" name="link" value="{LINK|urlencode}" />
-<input type="hidden" name="<?php echo JUtility::spoofKey(); ?>" value="1" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />

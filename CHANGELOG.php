@@ -40,6 +40,8 @@ Legend:
 22-Sep-2006 Johan Janssens
  ^ Refactored JSession class to improve session handling
  + Added JFactory::getSession to return a session object
+ - Removed JUtility::spookCheck, JSessions checks for spoofing attacks transparently
+ ^ Added security measures to prevent session hijacking
 
 17-Sep-2006 Johan Janssens
  ^ Deprecated mosFormatDate function, use mosHTML::Date instead

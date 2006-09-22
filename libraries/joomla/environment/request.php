@@ -50,58 +50,6 @@ class JRequest
 	}
 
 	/**
-	 * Cleans the request from script injection.
-	 * 
-	 * @static 
-	 * @return	void
-	 * @since	1.5
-	 */
-	function clean()
-	{
-		JRequest::_cleanArray( $_FILES );
-		JRequest::_cleanArray( $_ENV );
-		JRequest::_cleanArray( $_GET );
-		JRequest::_cleanArray( $_POST );
-		JRequest::_cleanArray( $_COOKIE );
-		JRequest::_cleanArray( $_SERVER );
-	
-		if (isset( $_SESSION )) {
-			JRequest::_cleanArray( $_SESSION );
-		}
-
-		$REQUEST = $_REQUEST;
-		$GET = $_GET;
-		$POST = $_POST;
-		$COOKIE = $_COOKIE;
-		if (isset ( $_SESSION )) {
-			$SESSION = $_SESSION;
-		}
-		$FILES = $_FILES;
-		$ENV = $_ENV;
-		$SERVER = $_SERVER;
-		foreach ($GLOBALS as $key => $value) {
-			if ( $key != 'GLOBALS' ) {
-				unset ( $GLOBALS [ $key ] );
-			}
-		}
-		$_REQUEST = $REQUEST;
-		$_GET = $GET;
-		$_POST = $POST;
-		$_COOKIE = $COOKIE;
-		if (isset ( $SESSION )) {
-			$_SESSION = $SESSION;
-		}
-		$_FILES = $FILES;
-		$_ENV = $ENV;
-		$_SERVER = $SERVER;
-
-		/**
-		 * Make sure the request hash is clean on file inclusion
-		 */
-		$GLOBALS['JRequest'] = array();
-	}
-
-	/**
 	 * Fetches and returns a given variable.
 	 *
 	 * The default behaviour is fetching variables depending on the
@@ -297,6 +245,59 @@ class JRequest
 		}
 		return $hashes[$signature];
 	}
+	
+	/**
+	 * Cleans the request from script injection.
+	 * 
+	 * @static 
+	 * @return	void
+	 * @since	1.5
+	 */
+	function clean()
+	{
+		JRequest::_cleanArray( $_FILES );
+		JRequest::_cleanArray( $_ENV );
+		JRequest::_cleanArray( $_GET );
+		JRequest::_cleanArray( $_POST );
+		JRequest::_cleanArray( $_COOKIE );
+		JRequest::_cleanArray( $_SERVER );
+	
+		if (isset( $_SESSION )) {
+			JRequest::_cleanArray( $_SESSION );
+		}
+
+		$REQUEST = $_REQUEST;
+		$GET 	 = $_GET;
+		$POST 	 = $_POST;
+		$COOKIE  = $_COOKIE;
+		$FILES   = $_FILES;
+		$ENV     = $_ENV;
+		$SERVER  = $_SERVER;
+		
+		if (isset ( $_SESSION )) {
+			$SESSION = $_SESSION;
+		}
+		
+		foreach ($GLOBALS as $key => $value) {
+			if ( $key != 'GLOBALS' ) {
+				unset ( $GLOBALS [ $key ] );
+			}
+		}
+		$_REQUEST 	= $REQUEST;
+		$_GET 		= $GET;
+		$_POST 		= $POST;
+		$_COOKIE 	= $COOKIE;
+		$_FILES 	= $FILES;
+		$_ENV 		= $ENV;
+		$_SERVER 	= $SERVER;
+		
+		if (isset ( $SESSION )) {
+			$_SESSION = $SESSION;
+		}
+
+		// Make sure the request hash is clean on file inclusion
+		$GLOBALS['JRequest'] = array();
+	}
 
 	/**
 	 * Adds an array to the GLOBALS array and checks that the GLOBALS variable is not being attacked
@@ -310,9 +311,11 @@ class JRequest
 	{
 		static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
 	
-		foreach ($array as $key => $value) {
+		foreach ($array as $key => $value) 
+		{
 			// PHP GLOBALS injection bug
 			$failed = in_array( strtolower( $key ), $banned );
+			
 			// PHP Zend_Hash_Del_Key_Or_Index bug
 			$failed |= is_numeric( $key );
 			if ($failed) {
@@ -336,10 +339,13 @@ class JRequest
 		}
 
 		// Now we handle input filtering
-		if ($mask & 2) {
+		if ($mask & 2) 
+		{
 			// If the allow raw flag is set, do not modify the variable
 			$var = $var;
-		} elseif ($mask & 4) {
+		} 
+		elseif ($mask & 4) 
+		{
 			// If the allow html flag is set, apply a safe html filter to the variable
 			if (is_null($safeHtmlFilter)) {
 				$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
