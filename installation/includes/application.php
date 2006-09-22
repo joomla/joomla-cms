@@ -119,8 +119,6 @@ class JInstallation extends JApplication
 		}
 
 		return $session;
-		
-		return $session
 	}
 
 	/**
