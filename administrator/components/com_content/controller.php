@@ -29,9 +29,9 @@ class JContentController extends JController
 	 */
 	function wizard()
 	{
-		$model	= &$this->getModel( 'Wizard', 'JContentModel' );
+		$model	= &$this->getModel( 'wizard', 'JContentModel' );
 		$model->init();
-		$view = &$this->getView( 'Wizard', 'JContentView' );
+		$view = &$this->getView( 'wizard', 'JContentView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -41,8 +41,8 @@ class JContentController extends JController
 	 */
 	function element()
 	{
-		$model	= &$this->getModel( 'Element', 'JContentModel' );
-		$view = &$this->getView( 'Element', 'JContentView' );
+		$model	= &$this->getModel( 'element', 'JContentModel' );
+		$view = &$this->getView( 'element', 'JContentView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
