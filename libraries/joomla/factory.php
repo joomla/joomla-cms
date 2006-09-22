@@ -373,7 +373,7 @@ class JFactory
 		
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
-		$options['expire'] = $conf->getValue('config.lifetime');
+		$options['expire'] = $conf->getValue('config.lifetime', 900);
 
 		$session = new JSession($options);
 	
