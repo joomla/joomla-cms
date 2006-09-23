@@ -550,7 +550,7 @@ class JSession extends JObject
 		
 		// check token!
 		$token = $this->get( 'session.token' );
-			
+				
 		// check if token is valid! 
 		if( $token !== null ) 
 		{

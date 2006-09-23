@@ -345,7 +345,8 @@ function saveSection( $option, $scope, $task )
 	$row->checkin();
 	$row->reorder( "scope='$row->scope'" );
 
-	switch ( $task ) {
+	switch ( $task ) 
+	{
 		case 'go2menu':
 			$mainframe->redirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;

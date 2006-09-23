@@ -3,7 +3,8 @@
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	var type = form.type.value;
-	if (pressbutton == 'cancel') {
+	if (pressbutton == 'cancelItem') {
+	
 		submitform( pressbutton );
 		return;
 	}

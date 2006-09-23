@@ -163,7 +163,7 @@ class UserController
 			$db->setQuery( $query );
 			$db->query();
 
-			$ession->set('username', $user->get('username'));
+			$session->set('username', $user->get('username'));
 		}
 
 		$link = $_SERVER['HTTP_REFERER'];

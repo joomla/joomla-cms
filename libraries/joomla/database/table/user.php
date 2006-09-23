@@ -288,8 +288,7 @@ class JTableUser extends JTable
 		$acl =& JFactory::getACL();
 
 		// Change back in
-		$group_id = $acl->get_group_id( $value, $name, $group_type = 'ARO');
-		//$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
+		$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
 		$objects = $acl->get_group_objects( $group_id, 'ARO', 'RECURSE');
 
 		if (isset( $objects['users'] ))
