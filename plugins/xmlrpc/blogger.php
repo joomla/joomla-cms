@@ -22,6 +22,7 @@ $mainframe->registerEvent( 'onGetWebServices', 'wsGetBloggerWebServices' );
 function wsGetBloggerWebServices()
 {
 	global $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	
 	return array(
 			'blogger.getUsersBlogs' => array(
 			'function' => 'getUserBlogs',
@@ -74,11 +75,6 @@ function wsGetBloggerWebServices()
 			'signature' => array(array($xmlrpcBoolean))
 		)
 	);
-}
-
-function helloworld($msg)
-{
-
 }
 
 /*
