@@ -134,11 +134,12 @@ class JSession extends JObject
      * @param  mixed  $default Default value of a variable if not set
      * @return mixed  Value of a variable
      */
-    function get($name, $default = null)
+    function &get($name, $default = null)
     {
 		if($this->_state !== 'active') {
 			// @TODO :: generated error here
-			return null;
+			$error = null;
+			return $error;
 		}
 		
 		if (isset($_SESSION[$name])) {
@@ -382,12 +383,13 @@ class JSession extends JObject
 	{
 		static $chars	=	'0123456789abcdef';
 		$max			=	strlen( $chars ) - 1;
-		$token				=	'';
+		$token			=	'';
+		$name 			=  session_name();
 		for( $i = 0; $i < $length; ++$i ) {
 			$token .=	$chars[ (rand( 0, $max )) ];
 		}
-
-		return 'token_'.$token;		
+		
+		return 'token_'.md5($token.$name);		
 	}
 	
 	/**
