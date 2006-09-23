@@ -282,15 +282,15 @@ class JDocumentHTML extends JDocument
 
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . DS;
-		$dirs = array( $path, JPATH_SITE . DS );
+		$dirs = array( $path, JPATH_BASE . DS );
 		foreach ($dirs as $dir )
 		{
 			$icon =   $dir . 'favicon.ico';
 			if (file_exists( $icon ))
 			{
-				$url = str_replace( JPATH_SITE . DS, '', $dir );
-				$url = str_replace( '\\', '/', $url );
-				$this->addFavicon( $url . '/favicon.ico' );
+				$path = str_replace( JPATH_BASE . DS, '', $dir );
+				$path = str_replace( '\\', '/', $path );
+				$this->addFavicon( JURI::base() . $path . 'favicon.ico' );
 				break;
 			}
 		}

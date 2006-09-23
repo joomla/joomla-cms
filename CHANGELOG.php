@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Sep-2006 Johan Janssens
+ # Fixed [artf4085] : install components fail with a create directory failure notice
+ # Fixed [artf5430] : joomla not working with Opera
+ # Fixed [artf4440] : icons missing
+ # Fixed multiple bugs - Contributed by Hannes Papenberg
+
 22-Sep-2006 Johan Janssens
  ^ Refactored JSession class to improve session handling
  + Added JFactory::getSession to return a session object

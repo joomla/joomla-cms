@@ -34,17 +34,17 @@ jimport('phpxmlrpc.xmlrpc' );
 jimport('phpxmlrpc.xmlrpcs' );
 
 // load all available remote calls
-JPluginHelper::importPlugin( 'xmlrpc' );
-$allCalls = $mainframe->triggerEvent( 'onGetWebServices' );
+JPluginHelper::importPlugin('xmlrpc');
+$allCalls = $mainframe->triggerEvent('onGetWebServices');
 $methodsArray = array();
 
-foreach($allCalls as $calls) {
+foreach ($allCalls as $calls) {
 	$methodsArray = array_merge($methodsArray, $calls);
 }
 
 $xmlrpcServer = new xmlrpc_server($methodsArray, false);
 // allow casting to be defined by that actual values passed
-//$xmlrpcServer->functions_parameters_type = 'phpvals';
+$xmlrpcServer->functions_parameters_type = 'phpvals';
 // debug level
 $xmlrpcServer->setDebug(0);
 // start the service
