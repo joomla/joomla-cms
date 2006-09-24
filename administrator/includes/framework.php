@@ -72,6 +72,7 @@ jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.database.table' );
+jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.i18n.language' );
