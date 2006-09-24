@@ -20,13 +20,6 @@
 # (and thus used) have only one #.  Lines with two #'s should not be uncommented
 # In the section that you don't use, all lines should start with #
 #
-# For Standard SEF, use the standard SEF section.  You can comment out
-# all of the RewriteCond lines and reduce your server's load if you
-# don't have directories in your root named 'component' or 'content'
-#
-# If you are using a 3rd Party SEF or the Core SEF solution
-# uncomment all of the lines in the '3rd Party or Core SEF' section
-#
 #####################################################
 
 #####  SOLVING PROBLEMS WITH COMPONENT URL's that don't work #####
@@ -63,28 +56,12 @@ RewriteEngine On
 
 
 ########## Begin - Joomla! core SEF Section
-############# Use this section if using ONLY Joomla! core SEF
-## ALL (RewriteCond) lines in this section are only required if you actually
-## have directories named 'content' or 'component' on your server
-## If you do not have directories with these names, comment them out.
-#
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 		##optional - see notes##
-RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|/[^.]*)$  [NC]
-RewriteRule ^(content/|component/) index.php
-#
-########## End - Joomla! core SEF Section
-
-
-
-########## Begin - 3rd Party SEF Section
 ############# Use this section if you are using a 3rd party (Non Joomla! core) SEF extension - e.g. OpenSEF, 404_SEF, 404SEFx, SEF Advance, etc
 #
 #RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 		##optional - see notes##
-#RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|/[^.]*)$  [NC]
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule (.*) index.php
+RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|/[^.]*)$  [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) index.php
 #
-########## End - 3rd Party SEF Section
+########## End - Joomla! core SEF Section
