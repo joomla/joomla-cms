@@ -53,6 +53,8 @@ class JSession extends JObject
 	*/
 	function __construct( $options = array() )
 	{
+		session_write_close();
+		
 		$this->_setOptions( $options );
 		
 		//load the session
@@ -230,7 +232,7 @@ class JSession extends JObject
         }
 		
 		session_cache_limiter('none');
-        session_start();
+		session_start();
 		
 		// Send modified header for IE 6.0 Security Policy
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');

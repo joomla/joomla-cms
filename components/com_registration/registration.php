@@ -134,7 +134,7 @@ class RegistrationController
 			}
 
 			// Generate new password
-			jimport('joomla.application.user.authenticate');
+			jimport('joomla.user.authenticate');
 			$newpass = JAuthenticateHelper::genRandomPassword();
 
 			// Set new password for the user
@@ -227,7 +227,7 @@ class RegistrationController
 		// If user activation is turned on, we need to set the activation information
 		$useractivation = $config->getValue( 'config.useractivation' );
 		if ($useractivation == '1') {
-			jimport('joomla.application.user.authenticate');
+			jimport('joomla.user.authenticate');
 			$user->set('activation', md5( JAuthenticateHelper::genRandomPassword()) );
 			$user->set('block', '1');
 		}

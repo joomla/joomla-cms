@@ -21,15 +21,13 @@ $task = JRequest::getVar('task');
 switch (strtolower( $task )) {
 
 	case 'login' :
-		if (!JError::isError($mainframe->login()))
-		{
+		if (!JError::isError($mainframe->login())) {
 			$mainframe->redirect('index.php');
 		}
 		break;
 
 	case 'logout' :
-		if (!JError::isError($mainframe->logout()))
-		{
+		if (!JError::isError($mainframe->logout())) {
 			$mainframe->redirect('index.php');
 		}
 		break;

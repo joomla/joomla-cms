@@ -86,6 +86,7 @@ function getUserBlogs($msg)
 	$appkey   = php_xmlrpc_decode($msg->getParam(0));
 	$username = php_xmlrpc_decode($msg->getParam(1));
 	$password = php_xmlrpc_decode($msg->getParam(2));
+	
 	global $mainframe;
 
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
@@ -414,7 +415,7 @@ class JBloggerHelper
 		$credentials['password'] = $password;
 
 		// Get the global JAuthenticate object
-		jimport( 'joomla.application.user.authenticate');
+		jimport( 'joomla.user.authenticate');
 		$auth = & JAuthenticate::getInstance();
 
 		return $auth->authenticate($credentials);

@@ -390,7 +390,7 @@ class JFactory
 	function &_createACL()
 	{
 		//TODO :: take the authorization class out of the application package
-		jimport( 'joomla.application.user.authorization' );
+		jimport( 'joomla.user.authorization' );
 
 		$db =&  JFactory::getDBO();
 

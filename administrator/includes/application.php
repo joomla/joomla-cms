@@ -60,7 +60,7 @@ class JAdministrator extends JApplication
 		if(empty($option)) {
 			$file = 'cpanel.php';
 		}
-
+		
 		$session =& JFactory::getSession();
 		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
 			$file = 'login.php';
@@ -93,7 +93,7 @@ class JAdministrator extends JApplication
 
 			JAdministrator::purgeMessages();
 		}
-
+		
 		return $result;
 	}
 

@@ -295,7 +295,7 @@ class JUser extends JObject
 	 */
 	function bind(& $array)
 	{
-		jimport('joomla.application.user.authenticate');
+		jimport('joomla.user.authenticate');
 
 		/*
 		 * Lets check to see if the user is new or not

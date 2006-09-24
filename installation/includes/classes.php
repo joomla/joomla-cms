@@ -382,7 +382,7 @@ class JInstallationController
 		}
 
 		 // mport the authentication library
-		jimport('joomla.application.user.authenticate');
+		jimport('joomla.user.authenticate');
 
 		// Generate a random admin password
 		$vars['adminPassword'] = JAuthenticateHelper::genRandomPassword(8);
@@ -427,7 +427,7 @@ class JInstallationController
 		global $mainframe;
 		
 		// Import authentication library
-		jimport( 'joomla.application.user.authenticate' );
+		jimport( 'joomla.user.authenticate' );
 
 		// Set some needed variables
 		$vars['siteUrl']		= $mainframe->getSiteURL();

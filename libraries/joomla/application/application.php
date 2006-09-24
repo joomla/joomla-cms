@@ -319,7 +319,7 @@ class JApplication extends JObject
 		$credentials['password'] = $password;
 
 		// Get the global JAuthenticate object
-		jimport( 'joomla.application.user.authenticate');
+		jimport( 'joomla.user.authenticate');
 		$auth = & JAuthenticate::getInstance();
 		$authenticated = $auth->authenticate($credentials);
 
@@ -364,7 +364,7 @@ class JApplication extends JObject
 				// Register the needed session variables
 				$session =& JFactory::getSession();
 				$session->set('session.user.id', intval($user->get('id')));
-
+				
 				// Get the session object
 				$table = & JTable::getInstance('session', JFactory::getDBO());
 				$table->load( $session->getId());
