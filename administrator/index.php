@@ -28,7 +28,7 @@ $mainframe = new JAdministrator();
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 // create the session
-$mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId() );
+$mainframe->setSession( md5(JURI::resolve('/', -1).$mainframe->getClientId()) );
 
 // set the language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
