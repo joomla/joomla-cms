@@ -21,7 +21,7 @@ function submitbutton(pressbutton) {
 		return alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
 		// for articles
-		if (adminForm.catid && getSelectedValue('adminForm','catid') < 1) {
+		if (form.catid && getSelectedValue('adminForm','catid') < 1) {
 			return alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 		}
 	}
