@@ -17,7 +17,7 @@
 *
 * Provides access to session-state values as well as session-level
 * settings and lifetime management methods.
-* Based on the standart PHP session handling mechanism it provides 
+* Based on the standart PHP session handling mechanism it provides
 * for you more advanced features such as expire timeouts.
 *
 * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -29,21 +29,21 @@ class JSession extends JObject
 {
 	/**
 	 * internal state
-	 * 
+	 *
 	 * @access protected
 	 * @var	string $_state one of 'active'|'expired'|'destroyed|'error'
      * @see getState()
 	 */
 	var	$_state	=	'active';
-	
+
 	/**
-	 * Maximum age of unused session 
-	 * 
+	 * Maximum age of unused session
+	 *
 	 * @access protected
-	 * @var	string $_expire minutes 
+	 * @var	string $_expire minutes
 	 */
 	var	$_expire	=	null;
-	
+
 	/**
 	* Constructor
 	*
@@ -54,22 +54,22 @@ class JSession extends JObject
 	function __construct( $options = array() )
 	{
 		session_write_close();
-		
+
 		$this->_setOptions( $options );
-		
+
 		//load the session
 		$this->_start();
-		
+
 		//initialise the session
 		$this->_setCounter();
 		$this->_setTimers();
-		
+
 		$this->_state =	'active';
-		
+
 		// perform security checks
 		$this->_validate();
 	}
-	
+
 	/**
 	 * Get current state of session
 	 *
@@ -80,7 +80,7 @@ class JSession extends JObject
     {
 		return $this->_state;
     }
-	
+
 
 	/**
 	 * Get session name
@@ -96,7 +96,7 @@ class JSession extends JObject
 		}
 		return session_name();
     }
-	
+
 	/**
 	 * Get session id
 	 *
@@ -111,7 +111,7 @@ class JSession extends JObject
 		}
 		return session_id();
     }
-	
+
    /**
     * Check whether this session is currently created
 	*
@@ -126,7 +126,7 @@ class JSession extends JObject
 		}
         return false;
     }
-	
+
 	 /**
      * Get date from session
      *
@@ -143,7 +143,7 @@ class JSession extends JObject
 			$error = null;
 			return $error;
 		}
-		
+
 		if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
         }
@@ -164,7 +164,7 @@ class JSession extends JObject
 			// @TODO :: generated error here
 			return null;
 		}
-		
+
 		$old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
 
 		if (null === $value) {
@@ -175,50 +175,50 @@ class JSession extends JObject
 
         return $old;
     }
-	
+
 	/**
 	* Check wheter a session value exists
 	*
 	* @access public
 	* @param string $name name of variable
 	* @return boolean $result true if the variable exists
-	*/ 
+	*/
 	function has( $name )
 	{
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return null;
 		}
-		
+
 		return isset( $_SESSION[$name] );
 	}
-	
+
 	/**
 	* Unset data from session
-	* 
+	*
 	* @access public
 	* @param string $name name of variable
 	* @return mixed $value the value from session or NULL if not set
-	*/ 
+	*/
 	function clear( $name )
 	{
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return null;
 		}
-		
+
 		$value	=	null;
 		if( isset( $_SESSION[$name] ) ) {
 			$value	=	$_SESSION[$name];
 			unset( $_SESSION[$name] );
 		}
-	
+
 		return $value;
 	}
-	
+
 	/**
-    * Start a session 
-    * 
+    * Start a session
+    *
     * Creates a session (or resumes the current one based on the state of the session)
  	*
 	* @access public
@@ -230,16 +230,16 @@ class JSession extends JObject
 		if( $this->_state == 'restart' ) {
             session_id( $this->_createId() );
         }
-		
+
 		session_cache_limiter('none');
 		session_start();
-		
+
 		// Send modified header for IE 6.0 Security Policy
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
         return true;
     }
-	
+
 
 	/**
      * Frees all session variables and destroys all data registered to a session
@@ -260,21 +260,21 @@ class JSession extends JObject
 		if( $this->_state === 'destroyed' ) {
             return true;
 		}
-		
+
 		// In order to kill the session altogether, like to log the user out, the session id
 		// must also be unset. If a cookie is used to propagate the session id (default behavior),
 		// then the session cookie must be deleted.
 		if (isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-42000, '/');
 		}
-	 
+
         session_unset();
         session_destroy();
-   
+
 		$this->_state = 'destroyed';
 		return true;
 	}
-	
+
    /**
     * restart a destroyed or locked session
 	*
@@ -289,17 +289,17 @@ class JSession extends JObject
            // @TODO :: generated error here
             return false;
         }
-        
+
         $this->_state   =   'restart';
 		$this->_start();
 		$this->_state	=	'active';
-		
+
 		$this->_validate();
 		$this->_setCounter();
-		
+
         return true;
     }
-	
+
 	/**
 	* Create a new session and copy variables from the old one
 	*
@@ -313,34 +313,34 @@ class JSession extends JObject
 			// @TODO :: generated error here
 			return false;
 		}
-		
+
 		// save values
 		$values	= $_SESSION;
 
-		// keep session config		
+		// keep session config
 		$trans	=	ini_get( 'session.use_trans_sid' );
 		if( $trans ) {
 			ini_set( 'session.use_trans_sid', 0 );
 		}
 		$cookie	=	session_get_cookie_params();
 
-		// create new session id		
+		// create new session id
 		$id	=	$this->_createId( strlen( $this->getId() ) );
-		
+
 		// kill session
 		session_destroy();
-		
-		// restore config		
+
+		// restore config
 		ini_set( 'session.use_trans_sid', $trans );
 		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
-		
+
 		// restart session with new id
 		session_id( $id );
 		session_start();
 
 		return true;
     }
-	
+
 	 /**
      * Writes session data and ends session
      *
@@ -359,7 +359,7 @@ class JSession extends JObject
     {
         session_write_close();
     }
-	
+
 	 /**
      * Create a session id
      *
@@ -373,7 +373,7 @@ class JSession extends JObject
 		$id    = md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
 		return $id;
 	}
-	
+
 	/**
 	* Create a token-string
 	*
@@ -390,10 +390,10 @@ class JSession extends JObject
 		for( $i = 0; $i < $length; ++$i ) {
 			$token .=	$chars[ (rand( 0, $max )) ];
 		}
-		
-		return 'token_'.md5($token.$name);		
+
+		return 'token_'.md5($token.$name);
 	}
-	
+
 	/**
     * Set counter of session usage
 	*
@@ -404,11 +404,11 @@ class JSession extends JObject
     {
 		$counter = $this->get( 'session.counter', 0 );
 		++$counter;
-		
+
 		$this->set( 'session.counter', $counter );
     	return true;
     }
-	
+
    /**
     * Set the session timers
 	*
@@ -417,21 +417,21 @@ class JSession extends JObject
 	*/
     function _setTimers()
     {
-		if( !$this->has( 'session.timer.start' ) ) 
+		if( !$this->has( 'session.timer.start' ) )
 		{
             $start	=	time();
-            
+
         	$this->set( 'session.timer.start' , $start );
         	$this->set( 'session.timer.last'  , $start );
         	$this->set( 'session.timer.now'   , $start );
         }
-        
+
         $this->set( 'session.timer.last', $this->get( 'session.timer.now' ) );
         $this->set( 'session.timer.now', time() );
-        
+
     	return true;
     }
-	
+
 	/**
 	* set additional session options
 	*
@@ -445,27 +445,27 @@ class JSession extends JObject
 		if( isset( $options['name'] ) ) {
 			session_name( $options['name'] );
 		}
-		
+
 		// set id
 		if( isset( $options['id'] ) ) {
 			session_id( $options['id'] );
 		}
-		
+
 		// set expire time
 		if( isset( $options['expire'] ) ) {
 			$this->_expire	=	$options['expire'];
 		}
-		
+
 		return true;
     }
-	
+
 	/**
 	* Do some checks for security reason
-	* 
+	*
 	* - timeout check (expire)
 	* - ip-fixiation
-	* - browser-fixiation 
-	* 
+	* - browser-fixiation
+	*
 	* If one check failed, session data has to be cleaned.
 	*
 	* @access protected
@@ -475,72 +475,72 @@ class JSession extends JObject
 	function _validate( $restart = false )
 	{
 		// allow to restsart a session
-		if( $restart ) 
+		if( $restart )
 		{
 			$this->_state	=	'active';
-		
+
 			$this->set( 'session.client.address'		, null );
 			$this->set( 'session.client.forwarded'	, null );
 			$this->set( 'session.client.browser'	, null );
 			$this->set( 'session.token'				, null );
 		}
-		
+
 		// check if session has expired
-		if( $this->_expire ) 
+		if( $this->_expire )
 		{
 			$curTime =	$this->get( 'session.timer.now' , 0  );
 			$maxTime =	$this->get( 'session.timer.last', 0 ) + (60 * $this->_expire);
-			
+
 			// empty session variables
 			if( $maxTime < $curTime ) {
 				$this->_state	=	'expired';
 				return false;
 			}
 		}
-		
+
 		// check for client-ip
-		if( isset( $_SERVER['REMOTE_ADDR'] ) ) 
+		if( isset( $_SERVER['REMOTE_ADDR'] ) )
 		{
 			$ip	=	$this->get( 'session.client.address' );
-			
-			if( $ip === null ) 
+
+			if( $ip === null )
 			{
 				$ip = $_SERVER['REMOTE_ADDR'];
-				
-				if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false) 
+
+				if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false)
 				{
 					$address	= explode('.',$ip);
 					$ip	   = $address[0] .'.'. $address[1] .'.'. $address[2];
 				}
 				$this->set( 'session.client.address', $ip );
 			}
-			else if( $_SERVER['REMOTE_ADDR'] !== $ip ) 
+			else if( $_SERVER['REMOTE_ADDR'] !== $ip )
 			{
 				$this->_state	=	'error';
 				return false;
 			}
-			
+
 			// some polite proxy server tell, for whom they forward the request for
-			if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) 
+			if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
 			{
 				$forwarded	=	$this->get( 'session.client.forwarded' );
-				
+
 				if( $forwarded === null ) {
 					$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR'] );
 				}
-				else if( $_SERVER['HTTP_X_FORWARDED_FOR'] !== $forwarded ) 
+				else if( $_SERVER['HTTP_X_FORWARDED_FOR'] !== $forwarded )
 				{
 					$this->_state = 'error';
 					return false;
 				}
 			}
 		}
-		
+
 		// check for clients browser
-		if( isset( $_SERVER['HTTP_USER_AGENT'] ) ) 
+		if( isset( $_SERVER['HTTP_USER_AGENT'] ) )
 		{
 			$browser = $this->get( 'session.client.browser' );
-			
+
 			if( $browser === null ) {
 				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT'] );
 			}
@@ -549,12 +549,12 @@ class JSession extends JObject
 				return false;
 			}
 		}
-		
+
 		// check token!
 		$token = $this->get( 'session.token' );
-				
-		// check if token is valid! 
-		if( $token !== null ) 
+
+		// check if token is valid!
+		if( $token !== null )
 		{
 			$match	=	false;
 			// check token from request
@@ -563,14 +563,14 @@ class JSession extends JObject
 				return false;
 			}
 		}
-			
+
 		// save new token
 		$token	=	$this->_createToken( 12 );
 		$this->set( 'session.token', $token );
-			
-		// try to set a cookie			
+
+		// try to set a cookie
 		setcookie( $token, 1 );
-				
+
 		return true;
 	}
 }

@@ -74,4 +74,5 @@ $mainframe->triggerEvent( 'onAfterDisplay' );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
 JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
+
 ?>

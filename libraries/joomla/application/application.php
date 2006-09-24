@@ -98,7 +98,7 @@ class JApplication extends JObject
 		// Instantiate an input filter and process the URL and message
 		$filter = & JInputFilter::getInstance();
 		$url    = $filter->clean( $url );
-		
+
 		if (!empty($msg)) {
 			$msg = $filter->clean( $msg );
 		}
@@ -106,7 +106,7 @@ class JApplication extends JObject
 		if (JInputFilter::isAttributeInvalid( array( 'href', $url ))) {
 			$url = JURI::base();
 		}
-		
+
 		// check for relative internal links
 		if (preg_match( '#^index[2]?.php#', $url )) {
 			$url = JURI::base() . $url;
@@ -118,7 +118,7 @@ class JApplication extends JObject
 		}
 
 		// Persist messages if they exist
-		if (count($this->_messageQueue)) 
+		if (count($this->_messageQueue))
 		{
 			$session =& JFactory::getSession();
 			$session->set('_JApplication_queue', $this->_messageQueue);
@@ -151,7 +151,7 @@ class JApplication extends JObject
 	function enqueueMessage( $msg, $type="message" )
 	{
 		// For empty queue, if messages exists in the session, enqueue them first
-		if (!count($this->_messageQueue)) 
+		if (!count($this->_messageQueue))
 		{
 			$session =& JFactory::getSession();
 			$sessionQueue = $session->get('_JApplication_queue');
@@ -174,7 +174,7 @@ class JApplication extends JObject
 	function getMessageQueue()
 	{
 		// For empty queue, if messages exists in the session, enqueue them
-		if (!count($this->_messageQueue)) 
+		if (!count($this->_messageQueue))
 		{
 			$session =& JFactory::getSession();
 			$sessionQueue = $session->get('_JApplication_queue');
@@ -363,8 +363,8 @@ class JApplication extends JObject
 
 				// Register the needed session variables
 				$session =& JFactory::getSession();
-				$session->set('session.user.id', intval($user->get('id')));
-				
+				$session->set('session.user.id', $user->get('id'));
+
 				// Get the session object
 				$table = & JTable::getInstance('session', JFactory::getDBO());
 				$table->load( $session->getId());
@@ -428,7 +428,7 @@ class JApplication extends JObject
 		if (!in_array(false, $results, true))
 		{
 			$session =& JFactory::getSession();
-			
+
 			// Remove the session from the session table
 			$table = & JTable::getInstance('session', JFactory::getDBO());
 			$table->load( $session->getId());
@@ -465,7 +465,7 @@ class JApplication extends JObject
 	 * @param string	The sessions name
 	 */
 	function setSession($name)
-	{	
+	{
 		$session =& $this->_createSession($name);
 
 		if ($session->getState() == 'expired') {
@@ -489,7 +489,7 @@ class JApplication extends JObject
 		//set language debug
 		$lang =& JFactory::getLanguage();
 		$lang->setDebug($this->getCfg('debug_lang'));
-		
+
 		//define date formats
 		define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
 		define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
@@ -609,7 +609,7 @@ class JApplication extends JObject
 
 		// Load the configuration values into the registry
 		$registry->loadObject($config);
-		
+
 		return $config;
 	}
 
@@ -623,16 +623,16 @@ class JApplication extends JObject
 	 *
 	 * @access	private
 	 * @param	string		The sessions name
-	 * @return	object 		JSession 
+	 * @return	object 		JSession
 	 * @since	1.5
 	 */
 	function &_createSession( $name )
 	{
 		$options = array();
 		$options['name'] = $name;
-		
+
 		$session =& JFactory::getSession($options);
-	
+
 		$storage = & JTable::getInstance('session', JFactory::getDBO());
 		$storage->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
@@ -640,7 +640,7 @@ class JApplication extends JObject
 			// Session cookie exists, update time in session table
 			$storage->update();
 		}
-		else 
+		else
 		{
 			//create persistance store in the session
 			$session->set('registry', new JRegistry('session'));
@@ -661,7 +661,7 @@ class JApplication extends JObject
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}
-		
+
 		// Set user specific editor
 		//$user    =& JFactory::getUser();
 		//$editor = $user->getParam('editor', $this->getCfg('editor'));

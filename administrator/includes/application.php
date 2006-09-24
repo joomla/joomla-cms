@@ -60,7 +60,7 @@ class JAdministrator extends JApplication
 		if(empty($option)) {
 			$file = 'cpanel.php';
 		}
-		
+
 		$session =& JFactory::getSession();
 		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
 			$file = 'login.php';
@@ -87,13 +87,13 @@ class JAdministrator extends JApplication
 		{
 			$lang = JRequest::getVar( 'lang' );
 			$this->setUserState( 'application.lang', $lang  );
-			
+
 			$session =& JFactory::getSession();
 			$session->pause();
 
 			JAdministrator::purgeMessages();
 		}
-		
+
 		return $result;
 	}
 
@@ -146,7 +146,7 @@ class JAdministrator extends JApplication
 		$registry =& JFactory::getConfig();
 		$registry->setValue('config.live_site', substr_replace($this->getSiteURL(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
 
@@ -166,7 +166,7 @@ class JAdministrator extends JApplication
 	function setSession($name)
 	{
 		$session =& $this->_createSession($name);
-		
+
 		if ($session->getState() == 'expired')
 		{
 			// Build the URL
