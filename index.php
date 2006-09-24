@@ -28,7 +28,7 @@ $mainframe = new JSite();
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 // create the session
-$mainframe->setSession( md5(JURI::resolve('/', -1).$mainframe->getClientId()) );
+$mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId() );
 
 // set the language
 $mainframe->setLanguage();
