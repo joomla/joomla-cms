@@ -25,7 +25,6 @@ class JPagination extends JObject
 
 	/**
 	 * The record number to start dislpaying from
-	 *
 	 * @access public
 	 * @var int
 	 */
@@ -33,7 +32,6 @@ class JPagination extends JObject
 
 	/**
 	 * Number of rows to display per page
-	 *
 	 * @access public
 	 * @var int
 	 */
@@ -41,16 +39,29 @@ class JPagination extends JObject
 
 	/**
 	 * Total number of rows
-	 *
 	 * @access public
 	 * @var int
 	 */
 	var $total = null;
 
 	/**
+	 * Base URL for pagination output
+	 * @access protected
+	 * @var string
+	 */
+	var $_link = null;
+
+	/**
+	 * View all flag
+	 * @access protected
+	 * @var boolean
+	 */
+	var $_viewall = false;
+
+	/**
 	 * Constructor
 	 */
-	function __construct($total, $limitstart, $limit)
+	function __construct($total, $limitstart, $limit, $link=null)
 	{
 		// Value/Type checking
 		$this->total		= (int) $total;
@@ -60,10 +71,64 @@ class JPagination extends JObject
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
-
 		if (($this->limit - 1) * $this->limitstart > $this->total) {
 			$this->limitstart -= $this->limitstart % $this->limit;
 		}
+
+		// Set the total pages and current page values
+		$this->set( 'pages.total', ceil($this->total / $this->limit));
+		$this->set( 'pages.current', ceil(($this->limitstart + 1) / $this->limit));
+
+		// Set the pagination iteration loop values
+		$displayedPages	= 10;
+		$this->set( 'pages.start', (floor(($this->get('pages.current') -1) / $displayedPages)) * $displayedPages +1);
+		if ($this->get('pages.start') + $displayedPages -1 < $this->get('pages.total')) {
+			$this->set( 'pages.stop', $this->get('pages.start') + $displayedPages -1);
+		} else {
+			$this->set( 'pages.stop', $this->get('pages.total'));
+		}
+
+		// Set the base link for the object
+		if ($link) {
+			$this->_link = $link;
+		} else {
+			$this->_link = JRequest::getURI();
+		}
+
+		// If we are viewing all records set the view all flag to true
+		if ($this->limit == 0 && $this->limitstart == 0) {
+			$this->_viewall = true;
+			$this->set( 'pages.current', null);
+		}
+	}
+
+	/**
+	 * Return the rationalised offset for a row with a given index.
+	 *
+	 * @access	public
+	 * @param	int	$index The row index
+	 * @return	int Rationalised offset for a row with a given index
+	 * @since	1.5
+	 */
+	function getRowOffset($index) {
+		return $index +1 + $this->limitstart;
+	}
+
+	/**
+	 * Return the pagination data object, only creating it if it doesn't already exist
+	 *
+	 * @access	public
+	 * @return	object Pagination data object
+	 * @since	1.5
+	 */
+	function getData() {
+		static $data;
+
+		if (!is_object($data)) {
+			$data = $this->_buildDataObject();
+		}
+
+		return $data;
 	}
 
 	/**
@@ -163,61 +228,6 @@ class JPagination extends JObject
 	}
 
 	/**
-	 * Create and return the pagination page list array
-	 *
-	 * @access public
-	 * @return array Pagination page list array
-	 * @since 1.5
-	 */
-	function getPagesList($link = null)
-	{
-		// Initialize variables
-		$list = array();
-		$link .= '&amp;limit='.$this->limit;
-
-		$displayed_pages = 10;
-		$total_pages = ceil($this->total / $this->limit);
-		$this_page = ceil(($this->limitstart + 1) / $this->limit);
-		$start_loop = (floor(($this_page -1) / $displayed_pages)) * $displayed_pages +1;
-
-		if ($start_loop + $displayed_pages -1 < $total_pages) {
-			$stop_loop = $start_loop + $displayed_pages -1;
-		} else {
-			$stop_loop = $total_pages;
-		}
-
-		if ($this_page > 1) {
-			$page = ($this_page -2) * $this->limit;
-			$list['first'] = array( 'start' => "0", 'url' => JURI::resolve("$link&amp;limitstart=0"), 'txt' => JText::_('Start') );
-			$list['prev'] = array( 'start' => "$page", 'url' => JURI::resolve("$link&amp;limitstart=$page"), 'txt' => JText::_('Prev') );
-		} else {
-			$list['first'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Start') );
-			$list['prev'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Prev') );
-		}
-
-		if ($this_page < $total_pages) {
-			$page = $this_page * $this->limit;
-			$end_page = ($total_pages -1) * $this->limit;
-			$list['next'] = array( 'start' => "$page", 'url' => JURI::resolve("$link&amp;limitstart=$page"), 'txt' => JText::_('Next') );
-			$list['end'] = array( 'start' => "$end_page", 'url' => JURI::resolve("$link&amp;limitstart=$end_page"), 'txt' => JText::_('End') );
-		} else {
-			$list['next'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('Next') );
-			$list['end'] = array( 'start' => null, 'url' => null, 'txt' => JText::_('End') );
-		}
-
-		$list['pages'] = array();
-		for ($i = $start_loop; $i <= $stop_loop; $i ++) {
-			$page = ($i -1) * $this->limit;
-			if ($i == $this_page) {
-				$list['pages'][$i] = array( 'start' => null, 'url' => null, 'txt' => "$i" );
-			} else {
-				$list['pages'][$i] = array( 'start' => "$page", 'url' => JURI::resolve("$link&amp;limitstart=$page"), 'txt' => "$i" );
-			}
-		}
-		return $list;
-	}
-
-	/**
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x
 	 *
 	 * @access public
@@ -231,7 +241,7 @@ class JPagination extends JObject
 		$lang =& JFactory::getLanguage();
 
 		// Build the page navigation list
-		$list = $this->getPagesList($link);
+		$data = $this->_buildDataObject($link);
 		$html = null;
 		$buff1 = array();
 		$buff2 = array();
@@ -239,41 +249,42 @@ class JPagination extends JObject
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			if ($list['first']['start'] !== null) {
-				$buff1[] = "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$list['first']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['first']['start']."; document.adminForm.submit();return false;\">".$list['first']['txt']."</a></div></div>";
+			if ($data->start->base !== null) {
+				$buff1[] = "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$data->start->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->start->base."; document.adminForm.submit();return false;\">".$data->start->text."</a></div></div>";
 			} else {
-				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$list['first']['txt']."</span></div></div>";
+				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$data->start->text."</span></div></div>";
 			}
-			if ($list['prev']['start'] !== null) {
-				$buff1[] = "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$list['prev']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['prev']['start']."; document.adminForm.submit();return false;\">".$list['prev']['txt']."</a></div></div>";
+			if ($data->previous->base !== null) {
+				$buff1[] = "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$data->previous->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->previous->base."; document.adminForm.submit();return false;\">".$data->previous->text."</a></div></div>";
 			} else {
-				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$list['prev']['txt']."</span></div></div>";
+				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$data->previous->text."</span></div></div>";
 			}
 
 
 			$openList = "\n<div class=\"button2-left\"><div class=\"page\">";
 			$i = 1;
-			while (isset($list['pages'][$i])) {
-				if ($list['pages'][$i]['start'] !== null) {
-					$buff2[] = "\n<a title=\"".$list['pages'][$i]['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['pages'][$i]['start']."; document.adminForm.submit();return false;\">".$list['pages'][$i]['txt']."</a>";
+			while (isset($data->pages[$i])) {
+				if ($data->pages[$i]->base !== null) {
+					$buff2[] = "\n<a title=\"".$data->pages[$i]->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->pages[$i]->base."; document.adminForm.submit();return false;\">".$data->pages[$i]->text."</a>";
 				} else {
-					$buff2[] = "\n<span>".$list['pages'][$i]['txt']."</span>";
+					$buff2[] = "\n<span>".$data->pages[$i]->text."</span>";
 				}
 				$i++;
 			}
 			$closeList = "\n</div></div>";
 
 
-			if ($list['next']['start'] !== null) {
-				$buff3[] = "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$list['next']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['next']['start']."; document.adminForm.submit();return false;\">".$list['next']['txt']."</a></div></div>";
+			if ($data->next->base !== null) {
+				$buff3[] = "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$data->next->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->next->base."; document.adminForm.submit();return false;\">".$data->next->text."</a></div></div>";
 			} else {
-				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$list['next']['txt']."</span></div></div>";
+				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$data->next->text."</span></div></div>";
 			}
-			if ($list['end']['start'] !== null) {
-				$buff3[] = "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$list['end']['txt']."\" onclick=\"javascript: document.adminForm.limitstart.value=".$list['end']['start']."; document.adminForm.submit();return false;\">".$list['end']['txt']."</a></div></div>";
+			if ($data->end->base !== null) {
+				$buff3[] = "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$data->end->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->end->base."; document.adminForm.submit();return false;\">".$data->end->text."</a></div></div>";
 			} else {
-				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$list['end']['txt']."</span></div></div>";
+				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$data->end->text."</span></div></div>";
 			}
+
 			/*
 			 * reverse output rendering for rtl display else normal rendering sequence
 			 */
@@ -309,36 +320,36 @@ class JPagination extends JObject
 			/*
 			 * This is for page navigation if not in the administration section
 			 */
-			if ($list['first']['start'] !== null) {
-				$html .= '<a href="'.$list['first']['url'].'" class="pagenav" title="first page">'.$list['first']['txt'].'</a> ';
+			if ($data->start->base !== null) {
+				$html .= '<a href="'.$data->start->link.'" class="pagenav" title="first page">'.$data->start->text.'</a> ';
 			} else {
-				$html .= '<span class="pagenav">'.$list['first']['txt'].'</span> ';
+				$html .= '<span class="pagenav">'.$data->start->text.'</span> ';
 			}
-			if ($list['prev']['start'] !== null) {
-				$html .= '<a href="'.$list['prev']['url'].'" class="pagenav" title="previous page">'.$list['prev']['txt'].'</a> ';
+			if ($data->previous->base !== null) {
+				$html .= '<a href="'.$data->previous->link.'" class="pagenav" title="previous page">'.$data->previous->text.'</a> ';
 			} else {
-				$html .= '<span class="pagenav">'.$list['prev']['txt'].'</span> ';
+				$html .= '<span class="pagenav">'.$data->previous->text.'</span> ';
 			}
 
 			$i = 1;
-			while (isset($list['pages'][$i])) {
-				if ($list['pages'][$i]['start'] !== null) {
-					$html .= '<a href="'.$list['pages'][$i]['url'].'" class="pagenav"><strong>'.$list['pages'][$i]['txt'].'</strong></a> ';
+			while (isset($data->pages[$i])) {
+				if ($data->pages[$i]->base !== null) {
+					$html .= '<a href="'.$data->pages[$i]->link.'" class="pagenav"><strong>'.$data->pages[$i]->text.'</strong></a> ';
 				} else {
-					$html .= '<span class="pagenav">'.$list['pages'][$i]['txt'].'</span> ';
+					$html .= '<span class="pagenav">'.$data->pages[$i]->text.'</span> ';
 				}
 				$i++;
 			}
 
-			if ($list['next']['start'] !== null) {
-				$html .= '<a href="'.$list['next']['url'].' " class="pagenav" title="next page">'.$list['next']['txt'].'</a> ';
+			if ($data->next->base !== null) {
+				$html .= '<a href="'.$data->next->link.' " class="pagenav" title="next page">'.$data->next->text.'</a> ';
 			} else {
-				$html .= '<span class="pagenav">'.$list['next']['txt'].'</span> ';
+				$html .= '<span class="pagenav">'.$data->next->text.'</span> ';
 			}
-			if ($list['end']['start'] !== null) {
-				$html .= '<a href="'.$list['end']['url'].' " class="pagenav" title="end page">'.$list['end']['txt'].'</a>';
+			if ($data->end->base !== null) {
+				$html .= '<a href="'.$data->end->link.' " class="pagenav" title="end page">'.$data->end->text.'</a>';
 			} else {
-				$html .= '<span class="pagenav">'.$list['end']['txt'].'</span>';
+				$html .= '<span class="pagenav">'.$data->end->text.'</span>';
 			}
 		}
 		return $html;
@@ -375,18 +386,6 @@ class JPagination extends JObject
 	}
 
 	/**
-	 * Return the row number
-	 *
-	 * @access public
-	 * @param int $index The row index
-	 * @return int Row number for given index
-	 * @since 1.0
-	 */
-	function rowNumber($index) {
-		return $index +1 + $this->limitstart;
-	}
-
-	/**
 	 * Return the icon to move an item UP
 	 *
 	 * @access public
@@ -404,14 +403,11 @@ class JPagination extends JObject
 		$html = '&nbsp;';
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			if($enabled)
-			{
+			if($enabled) {
 				$html  = '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
 				$html .= '   <img src="images/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html .= '</a>';
-			}
-			else
-			{
+			} else {
 				$html  = '<img src="images/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 			}
 		}
@@ -438,14 +434,11 @@ class JPagination extends JObject
 		$html = '&nbsp;';
 		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			if($enabled)
-			{
+			if($enabled) {
 				$html  = '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
 				$html .= '  <img src="images/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html .= '</a>';
-			}
-			else
-			{
+			} else {
 				$html = '<img src="images/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 			}
 		}
@@ -534,6 +527,66 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Create and return the pagination data object
+	 *
+	 * @access	public
+	 * @return	object	Pagination data object
+	 * @since	1.5
+	 */
+	function _buildDataObject($base=null)
+	{
+		// Initialize variables
+		$data = new stdClass();
+		if ($base) {
+			$link = $base.'$amp;limit='.$this->limit;
+		} else {
+			$base = $this->_link;
+			$link = $this->_link.'&amp;limit='.$this->limit;
+		}
+
+		$data->all	= new JPaginationObject(JText::_('View All'));
+		if (!$this->_viewall) {
+			$data->all->base	= '0';
+			$data->all->link	= JURI::resolve($base."&amp;limit=0&amp;limitstart=0");
+		}
+
+		// Set the start and previous data objects
+		$data->start	= new JPaginationObject(JText::_('Start'));
+		$data->previous	= new JPaginationObject(JText::_('Prev'));
+		if ($this->get('pages.current') > 1) {
+			$page = ($this->get('pages.current') -2) * $this->limit;
+			$data->start->base	= '0';
+			$data->start->link	= JURI::resolve($link."&amp;limitstart=0");
+			$data->previous->base	= $page;
+			$data->previous->link	= JURI::resolve($link."&amp;limitstart=".$page);
+		}
+
+		// Set the next and end data objects
+		$data->next	= new JPaginationObject(JText::_('Next'));
+		$data->end	= new JPaginationObject(JText::_('End'));
+		if ($this->get('pages.current') < $this->get('pages.total')) {
+			$page = $this->get('pages.current') * $this->limit;
+			$endPage = ($this->get('pages.total') -1) * $this->limit;
+			$data->next->base	= $page;
+			$data->next->link	= JURI::resolve($link."&amp;limitstart=".$page);
+			$data->end->base	= $endPage;
+			$data->end->link	= JURI::resolve($link."&amp;limitstart=".$endPage);
+		}
+
+		$data->pages = array();
+		$stop = $this->get('pages.stop');
+		for ($i = $this->get('pages.start'); $i <= $stop; $i ++) {
+			$page = ($i -1) * $this->limit;
+			$data->pages[$i] = new JPaginationObject($i);
+			if ($i != $this->get('pages.current')) {
+				$data->pages[$i]->base	= $page;
+				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$page);
+			}
+		}
+		return $data;
+	}
+
+	/**
 	 * Writes the dropdown select list for number of rows to show per page
 	 * Use: print $pagination->getLimitBox();
 	 *
@@ -562,5 +615,29 @@ class JPagination extends JObject
 	function writePagesLinks($link = null) {
 		echo $this->getPagesLinks($link);
 	}
+
+	/**
+	 * Returns the pagination offset at an index
+	 * Use: $pagination->getRowOffset($index); instead
+	 *
+	 * @deprecated as of 1.5
+	 */
+	function rowNumber($index) {
+		return $index +1 + $this->limitstart;
+	}
+}
+
+class JPaginationObject extends JObject
+{
+	var $text;
+	var $base;
+	var $link;
+	
+	function __construct($text, $base=null, $link=null)
+	{
+		$this->text = $text;
+		$this->base = $base;
+		$this->link = $link;
+	}	
 }
 ?>
