@@ -558,7 +558,8 @@ class JSession extends JObject
 		{
 			$match	=	false;
 			// check token from request
-			if( is_null(JRequest::getVar($token)) ) {
+			$var = JRequest::getVar( 'token', '', 'post' );
+			if(!empty($var) && ($var != $token)) {
 				$this->_state = 'error';
 				return false;
 			}
@@ -567,9 +568,6 @@ class JSession extends JObject
 		// save new token
 		$token	=	$this->_createToken( 12 );
 		$this->set( 'session.token', $token );
-
-		// try to set a cookie
-		setcookie( $token, 1 );
 
 		return true;
 	}

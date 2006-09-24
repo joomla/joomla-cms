@@ -62,5 +62,5 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 	<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
 </form>

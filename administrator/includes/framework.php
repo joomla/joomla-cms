@@ -74,6 +74,7 @@ jimport( 'joomla.application.menu' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
+jimport( 'joomla.user.user');
 jimport( 'joomla.factory' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );

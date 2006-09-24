@@ -66,7 +66,7 @@ class JParameter extends JRegistry
 	function __construct($data, $path = '')
 	{
 		if( !defined( 'JPARAMETER_INCLUDE_PATH' ) ) {
-			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ).DS.'element' );
+			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ).DS.'parameter'.DS.'element' );
 		}
 
 		parent::__construct('parameter');

@@ -35,5 +35,5 @@
 <input type="submit" value="<?php echo JText::_('Send'); ?>" />
 <input type="hidden" name="task" value="sendreminder" />
 <input type="hidden" name="option" value="com_registration" />
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
 </form>

@@ -72,7 +72,7 @@ function validateForm( frm ) {
 	<input type="hidden" name="contact_id" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="sendmail" />
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
 	</form>
 	<br />
 	</td>
