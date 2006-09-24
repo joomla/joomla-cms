@@ -78,7 +78,6 @@ jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.presentation.html' );
 jimport( 'joomla.utilities.array' );
-jimport( 'joomla.utilities.date' );
 jimport( 'joomla.utilities.error' );
 jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.utility' );
