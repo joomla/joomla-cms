@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id: content.php 4481 2006-08-12 04:07:07Z webImagery $
 * @package Joomla

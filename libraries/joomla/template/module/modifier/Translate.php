@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 * patTemplate modfifier for Search Engine Friendly URL's
 * @version $Id$

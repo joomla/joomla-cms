@@ -437,6 +437,5 @@ class JAuthenticateResponse extends JObject
 	function JAuthenticateResponse($name) {
 		$this->name = $name;
 	}
-
 }
 ?>

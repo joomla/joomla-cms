@@ -409,3 +409,4 @@ class JAdministratorHelper
 		return $option;
 	}
 }
+?>

@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id: session.php 4330 2006-07-26 06:24:14Z webImagery $
 * @package Joomla

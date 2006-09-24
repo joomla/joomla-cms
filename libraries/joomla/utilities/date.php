@@ -208,5 +208,4 @@ class JDate extends JObject
 		return $date;
 	}
 }
-
 ?>

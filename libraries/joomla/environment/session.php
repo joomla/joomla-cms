@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla
@@ -572,5 +571,4 @@ class JSession extends JObject
 		return true;
 	}
 }
-
 ?>

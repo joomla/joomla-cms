@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla
@@ -812,5 +811,4 @@ class JBrowser extends JObject
 			getenv('SSL_PROTOCOL_VERSION'));
 	}
 }
-
 ?>

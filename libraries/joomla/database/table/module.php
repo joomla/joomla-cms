@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id: module.php 3996 2006-06-12 03:44:31Z spacemonkey $
 * @package Joomla
