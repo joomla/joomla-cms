@@ -11,7 +11,7 @@
  * details.
  */
 
-jimport( 'joomla.presentation.parameter.parameter' );
+jimport( 'joomla.presentation.parameter' );
 
 /**
  * User class.  Handles all application interaction with a user

@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Import the JToolBar library
  */
-jimport('joomla.presentation.toolbar.toolbar');
+jimport('joomla.presentation.toolbar');
 
 /*
  * Get the JComponent instance of JToolBar

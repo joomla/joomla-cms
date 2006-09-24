@@ -61,7 +61,7 @@ jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.i18n.language' );
-jimport( 'joomla.presentation.parameter.parameter' );
+jimport( 'joomla.presentation.parameter' );
 jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.error' );
 jimport( 'joomla.version' );
