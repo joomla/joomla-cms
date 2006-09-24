@@ -439,5 +439,4 @@ class JAuthenticateResponse extends JObject
 	}
 
 }
-
 ?>
