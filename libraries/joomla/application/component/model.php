@@ -90,10 +90,10 @@ class JModel extends JObject
 	 * Method to set model state variables
 	 *
 	 * @access	public
-	 * @param string The name of the property
-	 * @param mixed The value of the property to set
-	 * @return mixed The previous value of the property
-	 * @since 1.5
+	 * @param	string	The name of the property
+	 * @param	mixed	The value of the property to set
+	 * @return	mixed	The previous value of the property
+	 * @since	1.5
 	 */
 	function setState( $property, $value=null )
 	{
@@ -104,14 +104,12 @@ class JModel extends JObject
 	 * Method to get model state variables
 	 *
 	 * @access	public
-	 * @param string The name of the property
-	 * @param mixed  The default value
-	 * @return mixed The value of the property
-	 * @since 1.5
+	 * @return	object	The model state object
+	 * @since	1.5
 	 */
-	function getState($property, $default=null)
+	function getState()
 	{
-		return $this->_state->get($property, $default);
+		return $this->_state;
 	}
 
 	/**
