@@ -638,12 +638,7 @@ class JPagination extends JObject
 	 */
 	function writeLeafsCounter()
 	{
-		$html = null;
-		$page = $this->limitstart + 1;
-		if ($this->total > 0) {
-			$html .= JText::_('Page')." ".$page." ".JText::_('of')." ".$this->total;
-		}
-		return $html;
+		echo $this->getPagesCounter();
 	}
 
 	/**
