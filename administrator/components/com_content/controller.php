@@ -25,18 +25,6 @@ jimport('joomla.application.component.controller');
 class JContentController extends JController
 {
 	/**
-	 * Tools wizard
-	 */
-	function wizard()
-	{
-		$model	= &$this->getModel( 'wizard', 'JContentModel' );
-		$model->init();
-		$view = &$this->getView( 'wizard', 'JContentView' );
-		$view->setModel( $model, true );
-		$view->display();
-	}
-
-	/**
 	 * Articles element
 	 */
 	function element()
