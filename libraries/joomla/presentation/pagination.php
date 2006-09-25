@@ -402,23 +402,17 @@ class JPagination extends JObject
 
 		if ($order == 0) {
 			$img = 'uparrow0.png';
-			$show = true;
-		} else
+		} else {
 			if ($order < 0) {
 				$img = 'uparrow-1.png';
-				$show = true;
 			} else {
 				$img = 'uparrow.png';
-				$show = true;
-			};
-		if ($show) {
-			$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderup\')" title="'.$alt.'">';
-			$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
-
-			return $output;
-		} else {
-			return '&nbsp;';
+			}
 		}
+		$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderup\')" title="'.$alt.'">';
+		$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
+
+		return $output;
 	}
 
 	/**
@@ -442,23 +436,17 @@ class JPagination extends JObject
 
 		if ($order == 0) {
 			$img = 'downarrow0.png';
-			$show = true;
-		} else
+		} else {
 			if ($order < 0) {
 				$img = 'downarrow-1.png';
-				$show = true;
 			} else {
 				$img = 'downarrow.png';
-				$show = true;
-			};
-		if ($show) {
-			$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'.$alt.'">';
-			$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
-
-			return $output;
-		} else {
-			return '&nbsp;';
+			}
 		}
+		$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'.$alt.'">';
+		$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
+
+		return $output;
 	}
 
 	/**
