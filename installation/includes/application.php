@@ -140,9 +140,4 @@ class JInstallation extends JApplication
 	}
 }
 
-/**
- * @global $_VERSION
- */
-$_VERSION = new JVersion();
-
 ?>

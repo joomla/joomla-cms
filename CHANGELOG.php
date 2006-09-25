@@ -53,6 +53,7 @@ Legend:
  # Fixed [artf2771] : css needs hover on input buttons for default template
  # Fixed [artf5424] : PHP5 passed by reference error
  # Fixed [artf5239] : RSS: Cannot modify header information
+ # Fixed [artf6089] : Installer title is not included in the language file
 
 23-Sep-2006 Johan Janssens
  # Fixed [artf4085] : install components fail with a create directory failure notice

@@ -103,16 +103,17 @@ class JInstallationView
 	 */
 	function preInstall( $vars, &$lists )
 	{
-		global $steps, $_VERSION;
+		global $steps;
 
-		$lang =& JFactory::getLanguage();
+		$lang    =& JFactory::getLanguage();
+		$version = new JVersion();
 
 		$tmpl =& JInstallationView::createTemplate( 'preinstall.html' );
 
 		$steps['preinstall'] = 'on';
 
 		$tmpl->addVars( 'stepbar', 	$steps, 	'step_' );
-		$tmpl->addVar( 'body', 		'version', 	$_VERSION->getLongVersion() );
+		$tmpl->addVar( 'body', 		'version', 	$version->getLongVersion() );
 		$tmpl->addVars( 'body', 	$vars, 		'var_' );
 
 		$tmpl->addVar( 'php-options', 'align', $lang->isRTL() ? 'right' : 'left');

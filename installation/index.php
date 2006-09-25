@@ -103,6 +103,6 @@ $params = array(
 
 $document =& JFactory::getDocument();
 $document->set('installation', '' , $result);
-$document->setTitle( 'Joomla! - Web Installer' );
+$document->setTitle(JText::_('PAGE_TITLE'));
 $document->display( false, false, $params);
 ?>
