@@ -38,7 +38,8 @@ Legend:
 ! -> Note
 
 25-Sep-2006 David Gal
- ^ Removed Tar and PCL archive libraries (GPL) and implemented pear.File_Archive (LGPL) instead
+ ^ Removed Tar and PCL archive libraries (GPL) from the framework and implemented pear.File_Archive (LGPL) instead
+   The PCL and Tar libraries are maintained for BC
  + Installer and data migration can now unpack .zip .gz .tar and .tar.gz archives
 
 25-Sep-2006 Johan Janssens
