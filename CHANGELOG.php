@@ -40,6 +40,9 @@ Legend:
 25-Sep-2006 Johan Janssens
  ^ Created application subpackages for component, plugin and module
  ^ Moved MVC classes into application component specific subpackage
+ # Fixed [artf5801] : Edit Menu Item will download PHP File
+ # Fixed [artf6078] : Admin Login Broken
+ # Fixed [artf6091] : error when make an article
 
 23-Sep-2006 Johan Janssens
  # Fixed [artf4085] : install components fail with a create directory failure notice
