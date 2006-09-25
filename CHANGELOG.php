@@ -44,6 +44,10 @@ Legend:
  # Fixed [artf6078] : Admin Login Broken
  # Fixed [artf6091] : error when make an article
  # Fixed [artf6082] : Offline Message
+ # Fixed [artf5449] : Notice and error messages during install
+ # Fixed [artf2771] : css needs hover on input buttons for default template
+ # Fixed [artf5424] : PHP5 passed by reference error
+ # Fixed [artf5239] : RSS: Cannot modify header information
 
 23-Sep-2006 Johan Janssens
  # Fixed [artf4085] : install components fail with a create directory failure notice
