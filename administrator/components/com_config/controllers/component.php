@@ -12,7 +12,7 @@
  * details.
  */
 
-jimport( 'joomla.application.controller' );
+jimport( 'joomla.application.component.controller' );
 
 /**
  * Note: this view is intended only to be opened in a popup

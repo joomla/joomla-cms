@@ -12,7 +12,7 @@
  * details.
  */
 
-jimport('joomla.application.view');
+jimport('joomla.application.component.view');
 
 /**
  * @pacakge Joomla

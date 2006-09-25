@@ -120,7 +120,8 @@ class JPagination extends JObject
 	 * @return	object Pagination data object
 	 * @since	1.5
 	 */
-	function getData() {
+	function getData() 
+	{
 		static $data;
 		if (!is_object($data)) {
 			$data = $this->_buildDataObject();

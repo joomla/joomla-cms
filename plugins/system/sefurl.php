@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Import library dependencies
-jimport('joomla.application.extension.plugin');
+jimport('joomla.application.plugin.helper');
 jimport('joomla.environment.request');
 jimport('joomla.environment.uri');
 

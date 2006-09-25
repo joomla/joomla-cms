@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.application.view');
+jimport( 'joomla.application.component.view');
 
 /**
  * HTML View class for the Poll component

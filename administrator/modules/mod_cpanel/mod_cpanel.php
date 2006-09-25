@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.presentation.pane');
-jimport('joomla.application.extension.module');
+jimport('joomla.application.module.helper');
 
 $modules = JModuleHelper::getModules('cpanel');
 

@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.extension.component');
+jimport('joomla.application.component.helper');
 
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document

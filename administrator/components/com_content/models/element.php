@@ -15,8 +15,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.extension.component');
-jimport( 'joomla.application.model');
+jimport( 'joomla.application.component.helper');
+jimport( 'joomla.application.component.model');
 
 /**
  * Content Component Article Model

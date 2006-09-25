@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Sep-2006 Johan Janssens
+ ^ Created application subpackages for component, plugin and module
+ ^ Moved MVC classes into application component specific subpackage
+
 23-Sep-2006 Johan Janssens
  # Fixed [artf4085] : install components fail with a create directory failure notice
  # Fixed [artf5430] : joomla not working with Opera

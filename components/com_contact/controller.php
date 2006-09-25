@@ -12,7 +12,7 @@
  * details.
  */
 
-jimport( 'joomla.application.controller' );
+jimport( 'joomla.application.component.controller' );
 
 /**
  * Contact Component Controller

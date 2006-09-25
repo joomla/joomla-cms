@@ -20,7 +20,7 @@ require_once (JPATH_COMPONENT . '/controller.php');
 require_once (JPATH_COMPONENT . '/helpers/content.php');
 
 // Component Helper
-jimport('joomla.application.extension.component');
+jimport('joomla.application.component.helper');
 
 $document =& JFactory::getDocument();
 

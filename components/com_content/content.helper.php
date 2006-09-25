@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Component Helper
-jimport('joomla.application.extension.component');
+jimport('joomla.application.component.helper');
 
 /**
  * Content Component Helper

@@ -56,7 +56,7 @@ jimport( 'joomla.common.compat.compat' );
 // Joomla! library imports
 jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
-jimport( 'joomla.application.extension.plugin' );
+jimport( 'joomla.application.plugin.helper' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );

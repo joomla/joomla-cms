@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.extension.module');
+jimport('joomla.application.module.helper');
 
 /**
  * JDocument Module renderer

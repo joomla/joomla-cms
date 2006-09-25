@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: plugin.php 5044 2006-09-14 12:49:35Z eddiea $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -153,8 +153,7 @@ class JPluginHelper
 	{
 		static $paths;
 
-		if (!$paths)
-		{
+		if (!$paths) {
 			$paths = array();
 		}
 

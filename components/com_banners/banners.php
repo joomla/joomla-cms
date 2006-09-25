@@ -16,7 +16,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.controller' );
+jimport( 'joomla.application.component.controller' );
 
 class BannerController extends JController
 {

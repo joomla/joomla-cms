@@ -18,7 +18,7 @@
  * @package		Joomla.Legacy
  */
 function mosCountModules( $position='left' ) {
-	jimport('joomla.application.extension.module');
+	jimport('joomla.application.module.helper');
 	return count(JModuleHelper::getModules($position));
 }
 

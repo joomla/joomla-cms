@@ -177,9 +177,7 @@ class JSite extends JApplication
 		{
 			$templates = array();
 
-			/*
-			 * Load template entries for each menuid
-			 */
+			// Load template entries for each menuid
 			$db = JFactory::getDBO();
 			$query = "SELECT template, menuid"
 				. "\n FROM #__templates_menu"

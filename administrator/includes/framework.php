@@ -69,7 +69,7 @@ if (JDEBUG) {
 // Joomla! library imports
 jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
-jimport( 'joomla.application.extension.plugin' );
+jimport( 'joomla.application.plugin.helper' );
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');

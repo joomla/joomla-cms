@@ -13,7 +13,7 @@
  * details.
  */
 
-jimport('joomla.application.controller');
+jimport('joomla.application.component.controller');
 
 /**
  * @package Joomla

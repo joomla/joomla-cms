@@ -13,8 +13,8 @@
  * details.
  */
 
-jimport( 'joomla.application.model' );
-jimport( 'joomla.application.extension.component' );
+jimport( 'joomla.application.component.model' );
+jimport( 'joomla.application.component.helper' );
 
 /**
  * @package Joomla

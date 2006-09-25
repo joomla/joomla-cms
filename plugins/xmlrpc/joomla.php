@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.extension.plugin' );
+jimport( 'joomla.application.plugin.helper' );
 
 $dispatcher =& JEventDispatcher::getInstance();
 $dispatcher->attach(new JoomlaXMLRPC($dispatcher));
