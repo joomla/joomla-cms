@@ -56,6 +56,7 @@ class JModel extends JObject
 	function __construct()
 	{
 		$this->_db = &JFactory::getDBO();
+		$this->_state = new JObject();
 	}
 	
 	/**
@@ -86,7 +87,35 @@ class JModel extends JObject
 	}
 
 	/**
-	 * Method to get current menu parameters
+	 * Method to set model state variables
+	 *
+	 * @access	public
+	 * @param string The name of the property
+	 * @param mixed The value of the property to set
+	 * @return mixed The previous value of the property
+	 * @since 1.5
+	 */
+	function setState( $property, $value=null )
+	{
+		return $this->_state->set($property, $value);
+	}
+
+	/**
+	 * Method to get model state variables
+	 *
+	 * @access	public
+	 * @param string The name of the property
+	 * @param mixed  The default value
+	 * @return mixed The value of the property
+	 * @since 1.5
+	 */
+	function getState($property, $default=null)
+	{
+		return $this->_state->get($property, $default);
+	}
+
+	/**
+	 * Method to get the database connector object
 	 *
 	 * @access	public
 	 * @return	object JDatabase connector object
