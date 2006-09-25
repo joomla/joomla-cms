@@ -60,6 +60,8 @@ defined('_JEXEC') or die('Restricted access');
  * 		$item->text	: string
  *
  * This gives template designers ultimate control over how pagination is rendered.
+ * 
+ * NOTE: If you override pagination_item_active OR pagination_item_inactive you MUST override them both
  */
 
 function pagination_list_footer($list)
