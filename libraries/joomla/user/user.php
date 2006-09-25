@@ -18,7 +18,7 @@ jimport( 'joomla.presentation.parameter' );
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Application
+ * @subpackage	User
  * @since		1.5
  */
 class JUser extends JObject
@@ -541,7 +541,7 @@ class JUser extends JObject
  * @static
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Application
+ * @subpackage	User
  * @since		1.5
  */
 class JUserHelper

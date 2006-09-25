@@ -16,7 +16,7 @@
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Application
+ * @subpackage	User
  * @since		1.5
  */
 class JAuthenticate extends JObject
@@ -164,7 +164,7 @@ class JAuthenticate extends JObject
  * @static
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Application
+ * @subpackage	User
  * @since		1.5
  */
 class JAuthenticateHelper
@@ -414,8 +414,8 @@ class JAuthenticateHelper
  *
  * @author 		Samuel Moffatt <sam.moffatt@joomla.org>
  * @package 	Joomla.Framework
- * @static
- * @since 1.5
+ * @subpackage	User
+ * @since		1.5
  */
 class JAuthenticateResponse extends JObject 
 {
@@ -434,7 +434,7 @@ class JAuthenticateResponse extends JObject
 	 * @param string $name The name of the response
 	 * @since 1.5
 	 */
-	function JAuthenticateResponse($name) {
+	function __construct($name) {
 		$this->name = $name;
 	}
 }
