@@ -1062,6 +1062,7 @@ class JInstallerHelper
 
 	/**
 	 * Unpacks a file and verifies it as a Joomla element package
+	 * Supports .gz .tar .tar.gz and .zip
 	 *
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
@@ -1082,76 +1083,13 @@ class JInstallerHelper
 		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
 		$archivename = JPath::clean($archivename, false);
 
-		/*
-		 * Are we working with a zipfile?
-		 */
-		if (eregi('.zip$', $archivename))
-		{
-
-			/*
-			 * Import the zipfile libraries
-			 */
-			jimport('pcl.pclzip');
-			jimport('pcl.pclerror');
-			//jimport('pcl.pcltrace');
-
-			/*
-			 * Create a zipfile object
-			 */
-			$zipfile = new PclZip($archivename);
-
-			// Constants used by the zip library
-			if (JPATH_ISWIN) {
-				define('OS_WINDOWS', 1);
-			} else {
-				define('OS_WINDOWS', 0);
-			}
-
-			/*
-			 * Now its time to extract the archive
-			 */
-			if ($zipfile->extract(PCLZIP_OPT_PATH, $extractdir) == 0)
-			{
-				// Unable to extract the archive, set an error and fail
-				JError::raiseWarning(1, JText::_('Unrecoverable error').' "'.$zipfile->errorName(true).'"');
-				return false;
-			}
-			// Set permissions for extracted dir
-			JPath::setPermissions($extractdir, '0666', '0777');
-
-			// Free up PCLZIP memory
-			unset ($zipfile);
-		} else
-		{
-
-			/*
-			 * Not a zipfile, must be a tarball.  Lets import that library.
-			 */
-			jimport('archive.Tar');
-
-			/*
-			 * Create a tarball object
-			 */
-			$archive = new Archive_Tar($archivename);
-
-			// Set the tar error handling
-			$archive->setErrorHandling(PEAR_ERROR_PRINT);
-
-			/*
-			 * Now its time to extract the archive
-			 */
-			if (!$archive->extractModify($extractdir, '')) {
-				// Unable to extract the archive, set an error and fail
-				JError::raiseWarning(1, JText::_('Extract Error'));
-				return false;
-			}
-
-			// Set permissions for extracted dir
-			JPath::setPermissions($extractdir, '0666', '0777');
-
-			// Free up PCLTAR memory
-			unset ($archive);
+		// do the unpacking of the archive
+		$result = JArchive::extract( $archivename, $extractdir);
+		
+		if ( $result === false ) {
+			return false;
 		}
+
 
 		/*
 		 * Lets set the extraction directory in the result array so we can

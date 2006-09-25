@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Sep-2006 David Gal
+ ^ Removed Tar and PCL archive libraries (GPL) and implemented pear.File_Archive (LGPL) instead
+ + Installer and data migration can now unpack .zip .gz .tar and .tar.gz archives
+
 25-Sep-2006 Johan Janssens
  ^ Created application subpackages for component, plugin and module
  ^ Moved MVC classes into application component specific subpackage

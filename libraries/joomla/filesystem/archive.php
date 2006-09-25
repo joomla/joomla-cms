@@ -11,11 +11,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-if (!defined('DS')) {
-	/** string Shortcut for the DIRECTORY_SEPERATOR define */
-	define('DS', DIRECTORY_SEPERATOR);
-}
-
 /**
  * An Archive handling class
  *
@@ -26,33 +21,41 @@ if (!defined('DS')) {
  */
 class JArchive {
 	/**
-	 * @param string The name of the archive
-	 * @param mixed The name of a single file or an array of files
-	 * @param string The compression for the archive
-	 * @param string Path to add within the archive
-	 * @param string Path to remove within the archive
-	 * @param boolean Automatically append the extension for the archive
-	 * @param boolean Remove for source files
+	 * @param string The name of the archive including path and one of the following
+	 *               extenstions: .gz, .tar., .zip
+	 * @param array of path to the files that must be added to the archive
+	 * $return boolean for success
 	 */
-	function create($archive, $files, $compress = 'none', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false) {
+	function create($archive, $files ) {
+		jimport('pear.File.Archive');
 
-		jimport('archive.Tar');
-
-		if (is_string($files)) {
-			$files = array ($files);
-		}
-		if ($autoExt) {
-			$archive .= '.'.$compress;
-		}
-
-		$tar = new Archive_Tar($archive, $compress);
-		$tar->setErrorHandling(PEAR_ERROR_PRINT);
-		$tar->createModify($files, $addPath, $removePath);
-
-		if ($cleanUp) {
-			JFile::delete($files);
-		}
-		return $tar;
+		// $files is an array of path to the files that must be added to the archive
+		
+		$r = File_Archive::extract(
+		    $files,
+		    File_Archive::toArchive($archive, File_Archive::toOutput())
+		); 	
+		
+		if (PEAR::isError($r)) {
+			return false;
+		} 
+		return true;
+	}
+	
+	/**
+	 * @param string The name of the archive file
+	 * @param string Directory to unpack into
+	 * $return boolean for success
+	 */
+	function extract( $archivename, $extractdir){
+		jimport( 'pear.File.Archive' );
+		
+		$r = File_Archive::extract( File_Archive::read($archivename.'/'), File_Archive::toFiles($extractdir) );
+		
+		if (PEAR::isError($r)) {
+			return false;
+		} 
+	return true;
 	}
 }
 ?>

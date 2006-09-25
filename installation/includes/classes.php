@@ -1056,7 +1056,7 @@ class JInstallationHelper
 		// unpack archived sql files
 		if ($archive )
 		{
-			$package = JInstallationHelper::unpack( $archive );
+			$package = JInstallationHelper::unpack( $archive, $args );
 			if ( $package === false )
 			{
 				return JText::_('WARNUNPACK');
@@ -1153,7 +1153,8 @@ class JInstallationHelper
 	 * @return unpacked filename on success, False on error
 	 * @since 1.5
 	 */
-	function unpack($p_filename) {
+	function unpack($p_filename, &$vars) {
+		
 		/*
 		 * Initialize variables
 		 */
@@ -1166,83 +1167,13 @@ class JInstallationHelper
 		// Clean the paths to use for archive extraction
 		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
 		$archivename = JPath::clean($archivename, false);
-
-		/*
-		 * Are we working with a zipfile?
-		 */
-		if (eregi('.zip$', $archivename))
-		{
-			/*
-			 * Import the zipfile libraries
-			 */
-			jimport('pcl.pclzip');
-			jimport('pcl.pclerror');
-			//jimport('pcl.pcltrace');
-
-			/*
-			 * Create a zipfile object
-			 */
-			$zipfile = new PclZip($archivename);
-
-			// Constants used by the zip library
-			if (JPATH_ISWIN)
-			{
-				define('OS_WINDOWS', 1);
-			}
-			else
-			{
-				define('OS_WINDOWS', 0);
-			}
-
-			/*
-			 * Now its time to extract the archive
-			 */
-			if ($zipfile->extract(PCLZIP_OPT_PATH, $extractdir) == 0)
-			{
-				// Unable to extract the archive, set an error and fail
-				JError::raiseWarning(1, JText::_('Extract Error').' "'.$zipfile->errorName(true).'"');
-				return false;
-			}
-			// Set permissions for extracted dir
-			//JPath::setPermissions($extractdir, '0666', '0777');
-
-			// Free up PCLZIP memory
-			unset ($zipfile);
+		
+		$result = JArchive::extract( $archivename, $extractdir);
+		
+		if ( $result === false ) {
+			return false;
 		}
-		else if( eregi('.gz$', $archivename) )
-		{
-			//TODO add error handling
-			/*
-			 * Create the folder
-			 */
-			JFolder::create( $extractdir, 0777 );
-			// Set permissions for extracted dir
-			//JPath::setPermissions(JPath::clean(dirname($p_filename)), '0666', '0777');
 
-			/*
-			 * read the gz file and write content to regular file
-			 */
-			$gzFile = @gzopen( $archivename, 'rb' );
-			$unpacked = fopen( $extractdir.'sqldata.sql', 'w');
-			if ( $gzFile )
-			{
-				$data = '';
-				while ( !gzeof( $gzFile ) )
-				{
-					$data = gzread( $gzFile, 1024 );
-					$ret = fwrite( $unpacked, $data, 1024 );
-				}
-				gzclose( $gzFile );
-				fclose( $unpacked );
-			}
-		}
-		else
-		{
-			/*
-			 * not an archive we handle
-			 */
-			 return false;
-		}
 
 		/*
 		 * return the file found in the extract folder and also folder name
