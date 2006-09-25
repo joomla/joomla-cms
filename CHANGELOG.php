@@ -43,6 +43,7 @@ Legend:
  # Fixed [artf5801] : Edit Menu Item will download PHP File
  # Fixed [artf6078] : Admin Login Broken
  # Fixed [artf6091] : error when make an article
+ # Fixed [artf6082] : Offline Message
 
 23-Sep-2006 Johan Janssens
  # Fixed [artf4085] : install components fail with a create directory failure notice
