@@ -22,7 +22,6 @@
  */
 class JPagination extends JObject
 {
-
 	/**
 	 * The record number to start dislpaying from
 	 * @access public
@@ -123,46 +122,171 @@ class JPagination extends JObject
 	 */
 	function getData() {
 		static $data;
-
 		if (!is_object($data)) {
 			$data = $this->_buildDataObject();
 		}
-
 		return $data;
 	}
 
 	/**
-	 * Sets the vars for the page navigation template
+	 * Create and return the pagination pages counter string, ie. Page 2 of 4
 	 *
 	 * @access public
-	 * @param object $tmpl PatTemplate Object to add the pagination footer template to
-	 * @param string $name Name of the pagination footer template to add
-	 * @return boolean True if successful
+	 * @return string Pagination pages counter string
 	 * @since 1.5
 	 */
-	function setTemplateVars(& $tmpl, $name = 'admin-list-footer', $link = null)
+	function getPagesCounter()
 	{
-		// Set the template variables
-		$tmpl->addVar($name, 'PAGE_LINKS', $this->getPagesLinks($link));
-		$tmpl->addVar($name, 'PAGE_LIST_OPTIONS', $this->getLimitBox($link));
-		$tmpl->addVar($name, 'PAGE_COUNTER', $this->getPagesCounter());
-
-		return true;
+		// Initialize variables
+		$html = null;
+		if ($this->get('pages.total') > 0) {
+			$html .= JText::_('Page')." ".$this->get('pages.current')." ".JText::_('of')." ".$this->get('pages.total');
+		}
+		return $html;
 	}
 
 	/**
-	 * Writes the html for the leafs counter, eg, Page 1 of x
+	 * Create and return the pagination result set counter string, ie. Results 1-10 of 42
 	 *
 	 * @access public
+	 * @return string Pagination result set counter string
+	 * @since 1.5
 	 */
-	function writeLeafsCounter()
+	function getResultsCounter()
 	{
+		// Initialize variables
 		$html = null;
-		$page = $this->limitstart + 1;
-		if ($this->total > 0) {
-			$html .= JText::_('Page')." ".$page." ".JText::_('of')." ".$this->total;
+		$fromResult = $this->limitstart + 1;
+
+		// If the limit is reached before the end of the list
+		if ($this->limitstart + $this->limit < $this->total) {
+			$toResult = $this->limitstart + $this->limit;
+		} else {
+			$toResult = $this->total;
 		}
+
+		// If there are results found
+		if ($this->total > 0) {
+			$msg = sprintf(JText::_('Results of'), $fromResult, $toResult, $this->total);
+			$html .= "\n".$msg;
+		} else {
+			$html .= "\n".JText::_('No records found');
+		}
+
 		return $html;
+	}
+
+	/**
+	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x
+	 *
+	 * @access public
+	 * @return string Pagination page list string
+	 * @since 1.0
+	 */
+	function getPagesLinks($link = null)
+	{
+		global $mainframe;
+
+		$lang =& JFactory::getLanguage();
+
+		// Build the page navigation list
+		$data = $this->_buildDataObject($link);
+		$list = array();
+		$itemOverride = false;
+		$listOverride = false;
+
+		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/pagination.php';
+		if (file_exists($chromePath)) {
+			require_once ($chromePath);
+			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive')) {
+				$itemOverride = true;
+			}
+			if (function_exists('pagination_list_render')) {
+				$listOverride = true;
+			}
+		}
+
+		// Build the select list
+		if ($data->all->base !== null) {
+			$list['all']['active'] = true;
+			$list['all']['data'] = ($itemOverride) ? pagination_item_active($data->all) : $this->_item_active($data->all);
+		} else {
+			$list['all']['active'] = false;
+			$list['all']['data'] = ($itemOverride) ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
+		}
+
+		if ($data->start->base !== null) {
+			$list['start']['active'] = true;
+			$list['start']['data'] = ($itemOverride) ? pagination_item_active($data->start) : $this->_item_active($data->start);
+		} else {
+			$list['start']['active'] = false;
+			$list['start']['data'] = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
+		}
+		if ($data->previous->base !== null) {
+			$list['previous']['active'] = true;
+			$list['previous']['data'] = ($itemOverride) ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
+		} else {
+			$list['previous']['active'] = false;
+			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
+		}
+
+		$i = 1;
+		while (isset($data->pages[$i])) {
+			if ($data->pages[$i]->base !== null) {
+			$list['pages'][$i]['active'] = true;
+			$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($data->pages[$i]) : $this->_item_active($data->pages[$i]);
+		} else {
+			$list['pages'][$i]['active'] = false;
+			$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($data->pages[$i]) : $this->_item_inactive($data->pages[$i]);
+			}
+			$i++;
+		}
+
+		if ($data->next->base !== null) {
+			$list['next']['active'] = true;
+			$list['next']['data'] = ($itemOverride) ? pagination_item_active($data->next) : $this->_item_active($data->next);
+		} else {
+			$list['next']['active'] = false;
+			$list['next']['data'] = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
+		}
+		if ($data->end->base !== null) {
+			$list['end']['active'] = true;
+			$list['end']['data'] = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
+		} else {
+			$list['end']['active'] = false;
+			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
+		}
+
+		return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
+	}
+
+	/**
+	 * Return the pagination footer
+	 *
+	 * @access public
+	 * @return string Pagination footer
+	 * @since 1.0
+	 */
+	function getListFooter()
+	{
+		global $mainframe;
+
+		$list = array();
+		$list['limit']			= $this->limit;
+		$list['limitstart']		= $this->limitstart;
+		$list['total']			= $this->total;
+		$list['limitfield']		= $this->getLimitBox();
+		$list['pagescounter']	= $this->getPagesCounter();
+		$list['pageslinks']		= $this->getPagesLinks();
+
+		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/pagination.php';
+		if (file_exists($chromePath)) {
+			require_once ($chromePath);
+			if (function_exists('pagination_list_footer')) {
+				$listOverride = true;
+			}
+		}
+		return ($listOverride) ? pagination_list_footer($list) : $this->_list_footer($list);
 	}
 
 	/**
@@ -193,195 +317,6 @@ class JPagination extends JObject
 			$link = JURI::resolve($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
 			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
 		}
-		return $html;
-	}
-
-	/**
-	 * Create and return the pagination counter string, ie. Results 1-10 of 42
-	 *
-	 * @access public
-	 * @return string Pagination counter string
-	 * @since 1.0
-	 */
-	function getPagesCounter()
-	{
-		// Initialize variables
-		$html = null;
-
-		$from_result = $this->limitstart + 1;
-
-		// If the limit is reached before the end of the list
-		if ($this->limitstart + $this->limit < $this->total) {
-			$to_result = $this->limitstart + $this->limit;
-		} else {
-			$to_result = $this->total;
-		}
-		// If there are results found
-		if ($this->total > 0) {
-			$msg = sprintf(JText::_('Results of'), $from_result, $to_result, $this->total);
-			$html .= "\n".$msg;
-		} else {
-			$html .= "\n".JText::_('No records found');
-		}
-
-		return $html;
-	}
-
-	/**
-	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x
-	 *
-	 * @access public
-	 * @return string Pagination page list string
-	 * @since 1.0
-	 */
-	function getPagesLinks($link = null)
-	{
-		global $mainframe;
-
-		$lang =& JFactory::getLanguage();
-
-		// Build the page navigation list
-		$data = $this->_buildDataObject($link);
-		$html = null;
-		$buff1 = array();
-		$buff2 = array();
-		$buff3 = array();
-
-		// Build the select list
-		if ($mainframe->isAdmin()) {
-			if ($data->start->base !== null) {
-				$buff1[] = "\n<div class=\"button2-right\"><div class=\"start\"><a title=\"".$data->start->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->start->base."; document.adminForm.submit();return false;\">".$data->start->text."</a></div></div>";
-			} else {
-				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"start\"><span>".$data->start->text."</span></div></div>";
-			}
-			if ($data->previous->base !== null) {
-				$buff1[] = "\n<div class=\"button2-right\"><div class=\"prev\"><a title=\"".$data->previous->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->previous->base."; document.adminForm.submit();return false;\">".$data->previous->text."</a></div></div>";
-			} else {
-				$buff1[] = "\n<div class=\"button2-right off\"><div class=\"prev\"><span>".$data->previous->text."</span></div></div>";
-			}
-
-
-			$openList = "\n<div class=\"button2-left\"><div class=\"page\">";
-			$i = 1;
-			while (isset($data->pages[$i])) {
-				if ($data->pages[$i]->base !== null) {
-					$buff2[] = "\n<a title=\"".$data->pages[$i]->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->pages[$i]->base."; document.adminForm.submit();return false;\">".$data->pages[$i]->text."</a>";
-				} else {
-					$buff2[] = "\n<span>".$data->pages[$i]->text."</span>";
-				}
-				$i++;
-			}
-			$closeList = "\n</div></div>";
-
-
-			if ($data->next->base !== null) {
-				$buff3[] = "\n<div class=\"button2-left\"><div class=\"next\"><a title=\"".$data->next->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->next->base."; document.adminForm.submit();return false;\">".$data->next->text."</a></div></div>";
-			} else {
-				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"next\"><span>".$data->next->text."</span></div></div>";
-			}
-			if ($data->end->base !== null) {
-				$buff3[] = "\n<div class=\"button2-left\"><div class=\"end\"><a title=\"".$data->end->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$data->end->base."; document.adminForm.submit();return false;\">".$data->end->text."</a></div></div>";
-			} else {
-				$buff3[] = "\n<div class=\"button2-left off\"><div class=\"end\"><span>".$data->end->text."</span></div></div>";
-			}
-
-			/*
-			 * reverse output rendering for rtl display else normal rendering sequence
-			 */
-			if( $lang->isRTL() ){
-				$buff1 = array_reverse( $buff1 );
-				$buff2 = array_reverse( $buff2 );
-				$buff3 = array_reverse( $buff3 );
-				foreach( $buff3 as $line ) {
-					$html .= $line;
-				}
-				$html .= $openList;
-				foreach( $buff2 as $line ) {
-					$html .= $line;
-				}
-				$html .= $closeList;
-				foreach( $buff1 as $line ) {
-					$html .= $line;
-				}
-			} else {
-				foreach( $buff1 as $line ) {
-					$html .= $line;
-				}
-				$html .= $openList;
-				foreach( $buff2 as $line ) {
-					$html .= $line;
-				}
-				$html .= $closeList;
-				foreach( $buff3 as $line ) {
-					$html .= $line;
-				}
-			}
-		} else {
-			/*
-			 * This is for page navigation if not in the administration section
-			 */
-			if ($data->start->base !== null) {
-				$html .= '<a href="'.$data->start->link.'" class="pagenav" title="first page">'.$data->start->text.'</a> ';
-			} else {
-				$html .= '<span class="pagenav">'.$data->start->text.'</span> ';
-			}
-			if ($data->previous->base !== null) {
-				$html .= '<a href="'.$data->previous->link.'" class="pagenav" title="previous page">'.$data->previous->text.'</a> ';
-			} else {
-				$html .= '<span class="pagenav">'.$data->previous->text.'</span> ';
-			}
-
-			$i = 1;
-			while (isset($data->pages[$i])) {
-				if ($data->pages[$i]->base !== null) {
-					$html .= '<a href="'.$data->pages[$i]->link.'" class="pagenav"><strong>'.$data->pages[$i]->text.'</strong></a> ';
-				} else {
-					$html .= '<span class="pagenav">'.$data->pages[$i]->text.'</span> ';
-				}
-				$i++;
-			}
-
-			if ($data->next->base !== null) {
-				$html .= '<a href="'.$data->next->link.' " class="pagenav" title="next page">'.$data->next->text.'</a> ';
-			} else {
-				$html .= '<span class="pagenav">'.$data->next->text.'</span> ';
-			}
-			if ($data->end->base !== null) {
-				$html .= '<a href="'.$data->end->link.' " class="pagenav" title="end page">'.$data->end->text.'</a>';
-			} else {
-				$html .= '<span class="pagenav">'.$data->end->text.'</span>';
-			}
-		}
-		return $html;
-	}
-
-	/**
-	 * Return the pagination footer
-	 *
-	 * @access public
-	 * @return string Pagination footer
-	 * @since 1.0
-	 */
-	function getListFooter()
-	{
-		$lang =& JFactory::getLanguage();
-		$buff = array();
-
-		$html = "<del class=\"container\"><div class=\"pagination\">\n";
-
-		$buff[] = "\n<div class=\"limit\">".JText::_('Display Num').$this->getLimitBox()."</div>";
-		$buff[] = $this->getPagesLinks();
-		$buff[] = "\n<div class=\"limit\">".$this->getPagesCounter()."</div>";
-
-		if( $lang->isRTL() ){
-			$buff = array_reverse( $buff );
-		}
-		foreach( $buff as $line ) {
-			$html .= $line;
-		}
-		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
-//		$html .= "\n</div>";
-		$html .= "\n</div></del>";
 		return $html;
 	}
 
@@ -527,6 +462,97 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Sets the vars for the page navigation template
+	 *
+	 * @access public
+	 * @param object $tmpl PatTemplate Object to add the pagination footer template to
+	 * @param string $name Name of the pagination footer template to add
+	 * @return boolean True if successful
+	 * @since 1.5
+	 */
+	function setTemplateVars(& $tmpl, $name = 'admin-list-footer', $link = null)
+	{
+		// Set the template variables
+		$tmpl->addVar($name, 'PAGE_LINKS', $this->getPagesLinks($link));
+		$tmpl->addVar($name, 'PAGE_LIST_OPTIONS', $this->getLimitBox($link));
+		$tmpl->addVar($name, 'PAGE_COUNTER', $this->getPagesCounter());
+
+		return true;
+	}
+
+	function _list_footer($list)
+	{
+		// Initialize variables
+		$lang =& JFactory::getLanguage();
+		$html = "<div class=\"list-footer\">\n";
+
+		if ($lang->isRTL()) {
+			$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
+			$html .= $list['pageslinks'];
+			$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
+		} else {
+			$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
+			$html .= $list['pageslinks'];
+			$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
+		}
+
+		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"".$list['limitstart']."\" />";
+		$html .= "\n</div>";
+
+		return $html;
+	}
+
+	function _list_render($list)
+	{
+		global $mainframe;
+
+		// Initialize variables
+		$lang =& JFactory::getLanguage();
+		$html = null;
+	
+		// Reverse output rendering for right-to-left display
+		if($lang->isRTL()) {
+			$html .= $list['previous']['data'];
+			$html .= $list['start']['data'];
+			$list['pages'] = array_reverse( $list['pages'] );
+			foreach( $list['pages'] as $page ) {
+				$html .= $page['data'];
+			}
+			$html .= $list['end']['data'];
+			$html .= $list['next']['data'];
+		} else {
+			$html .= $list['start']['data'];
+			$html .= $list['previous']['data'];
+			foreach( $list['pages'] as $page ) {
+				$html .= $page['data'];
+			}
+			$html .= $list['next']['data'];
+			$html .= $list['end']['data'];
+		}
+		return $html;
+	}
+
+	function _item_active(&$item)
+	{
+		global $mainframe;
+		if ($mainframe->isAdmin()) {
+			return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; document.adminForm.submit();return false;\">".$item->text."</a>";
+		} else {
+			return "<a title=\"".$item->text."\" href=\"".$item->link."\" class=\"pagination\">".$item->text."</a>";
+		}
+	}
+
+	function _item_inactive(&$item)
+	{
+		global $mainframe;
+		if ($mainframe->isAdmin()) {
+			return "<span>".$item->text."</span>";
+		} else {
+			return "<span class=\"pagination\">".$item->text."</span>";
+		}
+	}
+
+	/**
 	 * Create and return the pagination data object
 	 *
 	 * @access	public
@@ -617,6 +643,22 @@ class JPagination extends JObject
 	}
 
 	/**
+	 * Writes the html for the leafs counter, eg, Page 1 of x
+	 * Use: print $pagination->getPagesCounter();
+	 *
+	 * @deprecated as of 1.5
+	 */
+	function writeLeafsCounter()
+	{
+		$html = null;
+		$page = $this->limitstart + 1;
+		if ($this->total > 0) {
+			$html .= JText::_('Page')." ".$page." ".JText::_('of')." ".$this->total;
+		}
+		return $html;
+	}
+
+	/**
 	 * Returns the pagination offset at an index
 	 * Use: $pagination->getRowOffset($index); instead
 	 *
@@ -627,6 +669,14 @@ class JPagination extends JObject
 	}
 }
 
+/**
+ * Pagination object representing a particular item in the pagination lists
+ *
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @package 	Joomla.Framework
+ * @subpackage	Presentation
+ * @since		1.5
+ */
 class JPaginationObject extends JObject
 {
 	var $text;
