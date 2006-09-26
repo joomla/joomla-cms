@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: global.php 5104 2006-09-20 18:28:54Z davidgal $
 * @package Joomla
 * @subpackage Config
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Config
 */
-class JConfigView
+class ConfigApplicationView
 {
 	function showConfig( &$row, &$lists )
 	{
@@ -30,12 +30,12 @@ class JConfigView
 
 		$contents = '';
 		ob_start();
-			require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'navigation.html');
+			require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html');
 		$contents = ob_get_contents();
 		ob_end_clean();
 
 		$document->set('module', 'submenu', $contents);
-		require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'writeable.html');
+		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.html');
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -45,13 +45,13 @@ class JConfigView
 				<table class="noshow">
 					<tr>
 						<td with="65%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_site.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_metadata.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_site.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.html'); ?>
 						</td>
 						<td width="35%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_debug.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_statistics.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_seo.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.html'); ?>
 						</td>
 					</tr>
 				</table>
@@ -61,10 +61,10 @@ class JConfigView
 				<table class="noshow">
 					<tr>
 						<td with="50%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_register.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_register.html'); ?>
 						</td>
 						<td with="50%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_user.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_user.html'); ?>
 						</td>
 					</tr>
 				</table>
@@ -75,11 +75,11 @@ class JConfigView
 				<table class="noshow">
 					<tr>
 						<td with="50%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_content.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_feeds.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.html'); ?>
 						</td>
 						<td width="50%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_content2.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content2.html'); ?>
 						</td>
 					</tr>
 				</table>
@@ -89,15 +89,15 @@ class JConfigView
 				<table class="noshow">
 					<tr>
 						<td with="60%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_server.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_locale.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_cache.html'); ?>
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS. (JUtility::isWinOS() ? 'config_noftp.html':'config_ftp.html')); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS. (JUtility::isWinOS() ? 'config_noftp.html':'config_ftp.html')); ?>
 						</td>
 						<td width="40%">
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_database.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_database.html'); ?>
 
-							<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'config_mail.html'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_mail.html'); ?>
 						</td>
 					</tr>
 				</table>

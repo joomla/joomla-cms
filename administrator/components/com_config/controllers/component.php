@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.controller' );
  * @package Joomla
  * @subpackage Config
  */
-class JConfigComponentController extends JController
+class ConfigComponentController extends JController
 {
 	var $_name		= 'component';
 
@@ -48,14 +48,14 @@ class JConfigComponentController extends JController
 			return false;
 		}
 
-		$model = &JModel::getInstance( 'JConfigComponentModel' );
+		$model = &JModel::getInstance( 'ConfigComponentModel' );
 		$table = &$model->getTable();
 		if (!$table->loadByOption( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );
 			return false;
 		}
-		$view = new JConfigComponentEditView( $this );
+		$view = new ConfigComponentView( );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -65,7 +65,7 @@ class JConfigComponentController extends JController
 	 */
 	function save() 
 	{
-		$model = &JModel::getInstance( 'JConfigComponentModel' );
+		$model = &JModel::getInstance( 'ConfigComponentModel' );
 		$table = &$model->getTable();
 
 		$table->bind( JRequest::get( 'post' ) );

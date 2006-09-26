@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: component.php 5173 2006-09-25 18:12:39Z Jinx $
  * @package Joomla
  * @subpackage Config
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.view' );
  * @package Joomla
  * @subpackage Config
  */
-class JConfigComponentEditView extends JView
+class ConfigComponentView extends JView
 {
 	/**
 	 * Display the view
@@ -32,6 +32,7 @@ class JConfigComponentEditView extends JView
 		$model	= &$this->getModel();
 		$params	= &$model->getParams();
 		$table	= &$model->getTable();
+		
 		$document = & JFactory::getDocument();
 		$document->setTitle( JText::_('Edit Configuration') );
 		$document->addStyleSheet('components/com_menumanager/includes/popup.css');

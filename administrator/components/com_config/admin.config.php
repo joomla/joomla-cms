@@ -15,33 +15,28 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/*
- * Make sure the user is authorized to view this page
- */
+// Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_config', 'manage' )) {
 	$mainframe->redirect('index2.php?', JText::_('ALERTNOTAUTH'));
 }
 
-
-$controllerName = JRequest::getVar( 'c', 'global' );
-
-switch ($controllerName)
+switch (JRequest::getVar( 'c', 'global' ))
 {
 	case 'global':
-		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'global.php' );
-		require_once( JPATH_COMPONENT.DS.'views'.DS.'global.php' );
+		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'application.php' );
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'application'.DS.'view.php' );
 
-		$controller = new JConfigGlobalController( 'showConfig' );
+		$controller = new ConfigApplicationController( 'showConfig' );
 		break;
 
 	default:
 		// TODO: Lock down access to config changes
 		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'component.php' );
 		require_once( JPATH_COMPONENT.DS.'models'.DS.'component.php' );
-		require_once( JPATH_COMPONENT.DS.'views'.DS.'component.php' );
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
 
-		$controller = new JConfigComponentController( 'edit' );
+		$controller = new ConfigComponentController( 'edit' );
 		break;
 }
 

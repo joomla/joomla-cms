@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.controller' );
  * @package Joomla
  * @subpackage Config
  */
-class JConfigGlobalController extends JController
+class ConfigApplicationController extends JController
 {
 	/**
 	 * Custom Constructor
@@ -208,7 +208,7 @@ class JConfigGlobalController extends JController
 		$lists['feed_excerpt'] = mosHTML::RadioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_excerpt);
 
 		// SHOW EDIT FORM
-		JConfigView::showConfig($row, $lists);
+		ConfigApplicationView::showConfig($row, $lists);
 	}
 
 	/**
