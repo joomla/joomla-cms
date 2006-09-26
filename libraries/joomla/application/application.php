@@ -13,6 +13,7 @@
 
 // Include library dependencies
 jimport('joomla.filter.input');
+jimport('joomla.application.plugin.helper');
 
 /**
 * Base class for a Joomla! application
