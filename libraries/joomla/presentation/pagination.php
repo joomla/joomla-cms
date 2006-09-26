@@ -593,7 +593,7 @@ class JPagination extends JObject
 		for ($i = $this->get('pages.start'); $i <= $stop; $i ++) {
 			$page = ($i -1) * $this->limit;
 			$data->pages[$i] = new JPaginationObject($i);
-			if ($i != $this->get('pages.current')) {
+			if ($i != $this->get('pages.current') || $this->_viewall) {
 				$data->pages[$i]->base	= $page;
 				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$page);
 			}
