@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Sep-2006 David Gal
+ + Added RTL parameter to TinyMCE xml file
+ 
 25-Sep-2006 David Gal
  ^ Removed Tar and PCL archive libraries (GPL) from the framework and implemented pear.File_Archive (LGPL) instead
    The PCL and Tar libraries are maintained for BC
