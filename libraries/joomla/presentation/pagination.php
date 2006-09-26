@@ -70,7 +70,8 @@ class JPagination extends JObject
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
-		if (($this->limit - 1) * $this->limitstart > $this->total) {
+
+		if ($this->limitstart > $this->total) {
 			$this->limitstart -= $this->limitstart % $this->limit;
 		}
 
