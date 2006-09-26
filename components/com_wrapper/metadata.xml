@@ -1,39 +1,3 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <metadata>
-	<control>
-		<steps />
-	</control>
-	<state>
-		<name>Wrapper</name>
-		<description>Wrapper parameters...</description>
-		<params>
-			<param name="url" type="text" size="30" default="" label="Wrapper URL" description="URL to open in an IFRAME" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the Page title">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="PARAMHORIVERT">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-				<option value="auto">Auto</option>
-			</param>
-			<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
-			<param name="height" type="text" size="5" default="500" label="Height" description="PARAMHEIGHT" />
-			<param name="height_auto" type="radio" default="0" label="Auto Height" description="PARAMHEIGHTAUTO">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-			<param name="add" type="radio" default="1" label="Auto Add" description="PARAMADD">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-		</params>
-		<advanced>
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-		</advanced>
-	</state>
 </metadata>

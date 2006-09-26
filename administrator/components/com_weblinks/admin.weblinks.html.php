@@ -98,7 +98,7 @@ class HTML_weblinks
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
 					<td>
 						<?php echo $checked; ?>

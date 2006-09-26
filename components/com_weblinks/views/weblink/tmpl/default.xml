@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf8"?>
+<metadata>
+	<layout title="Single Feed Layout">
+		<message>
+			<![CDATA[This layout shows a single weblink.]]>
+		</message>
+	</layout>
+	<state>
+		<name>Weblink Layout</name>
+		<description>This layout shows a single weblink.</description>
+		<params>
+			<param name="target" type="list" default="0" label="Target" description="Target window when the link is clicked">
+				<option value="0">Parent Window With Browser Navigation</option>
+				<option value="1">New Window With Browser Navigation</option>
+				<option value="2">New Window Without Browser Navigation</option>
+			</param>
+		</params>
+		<advanced>
+		</advanced>
+	</state>
+</metadata>

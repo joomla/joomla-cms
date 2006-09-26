@@ -111,7 +111,7 @@ class BannersView
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $pageNav->getRowOffset($i); ?>
 					</td>
 					<td align="center">
 						<?php echo $checked; ?>

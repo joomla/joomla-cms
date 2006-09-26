@@ -1,18 +1,3 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<control>
-		<steps>
-			<step id="1" name="View">
-				<message>
-					<![CDATA[Choose the frontpage componenent view.]]>
-				</message>
-				<params>
-					<param name="view_name" type="folderlist" directory="/components/com_frontpage/views" hide_none="1" label="View Style" />
-				</params>
-			</step>
-		</steps>
-	</control>
-	<state>
-		<include source="/components/com_frontpage/views/{view_name}/metadata.xml" path="state" />
-	</state>
 </metadata>

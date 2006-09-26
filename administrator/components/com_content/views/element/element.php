@@ -117,7 +117,7 @@ class JContentViewElement extends JView
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $page->rowNumber( $i ); ?>
+						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 		    			<?php
 		    			if ( $row->title_alias ) {

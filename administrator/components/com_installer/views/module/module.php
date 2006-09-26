@@ -184,7 +184,7 @@ class JInstallerScreens_module {
 					?>
 					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 						<td>
-							<?php echo $page->rowNumber( $i ); ?>
+							<?php echo $page->getRowOffset( $i ); ?>
 						</td>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />

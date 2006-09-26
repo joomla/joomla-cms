@@ -187,7 +187,7 @@ class ContentView
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $page->rowNumber( $i ); ?>
+						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 					<td align="center">
 						<?php echo $checked; ?>
@@ -373,7 +373,7 @@ class ContentView
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $pageNav->rowNumber( $i ); ?>
+						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
 					<td width="20">
 						<?php echo mosHTML::idBox( $i, $row->id ); ?>

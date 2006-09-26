@@ -72,7 +72,7 @@ class HTML_languages {
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td width="20">
-						<?php echo $page->rowNumber( $i ); ?>
+						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 					<td width="20">
 						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" />

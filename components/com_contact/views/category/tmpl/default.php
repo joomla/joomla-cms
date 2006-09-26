@@ -42,12 +42,12 @@ endif; ?>
 	<tfoot>
 		<tr>
 			<td align="center" colspan="6" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $this->pagination->writePagesLinks($this->link); ?>
+				<?php echo $this->pagination->getPagesLinks($this->link); ?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="6" align="right">
-				<?php echo $this->pagination->writePagesCounter(); ?>
+				<?php echo $this->pagination->getPagesCounter(); ?>
 			</td>
 		</tr>
 	</tfoot>

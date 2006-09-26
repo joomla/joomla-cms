@@ -133,7 +133,7 @@ class categories_html
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-					<?php echo $page->rowNumber( $i ); ?>
+					<?php echo $page->getRowOffset( $i ); ?>
 				</td>
 				<td>
 					<?php echo $checked; ?>

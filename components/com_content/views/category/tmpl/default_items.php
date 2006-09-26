@@ -63,7 +63,7 @@
 <?php foreach ($this->items as $item) : ?>
 <tr class="sectiontableentry<?php echo ($item->odd +1 ) . $this->params->get( 'pageclass_sfx' ); ?>" >
 	<td align="center">
-		<?php echo $this->pagination->rowNumber( $item->count ); ?>
+		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
 	</td>
 	<?php if ($this->params->get('title'))              : ?>    
 	<?php if ($item->access <= $this->user->get('gid')) : ?>
@@ -107,12 +107,12 @@
 </tr>
 <tr>
 	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $this->pagination->writePagesLinks($this->link); ?>
+		<?php echo $this->pagination->getPagesLinks($this->link); ?>
 	</td>
 </tr>
 <tr>
 	<td colspan="5" align="right">
-		<?php echo $this->pagination->writePagesCounter(); ?>
+		<?php echo $this->pagination->getPagesCounter(); ?>
 	</td>
 </tr>
 <?php endif; ?>

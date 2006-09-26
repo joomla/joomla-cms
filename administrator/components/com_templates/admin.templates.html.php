@@ -111,7 +111,7 @@ class JTemplatesView {
 ?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td>
-						<?php echo $page->rowNumber( $i ); ?>
+						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 					<td width="5">
 					<?php

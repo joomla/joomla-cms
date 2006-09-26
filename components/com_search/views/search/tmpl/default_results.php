@@ -23,7 +23,7 @@
 		<?php echo $this->pagination->getLimitBox( $link ); ?>
 	</div>
 	<div>
-		<?php echo $this->pagination->writePagesCounter(); ?>
+		<?php echo $this->pagination->getPagesCounter(); ?>
 	</div>
 </div>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -72,7 +72,7 @@
 <tr>
 	<td colspan="3">
 		<div align="center">
-			<?php $this->pagination->writePagesLinks( $this->link ); ?>
+			<?php $this->pagination->getPagesLinks( $this->link ); ?>
 		</div>
 	</td>
 </tr>

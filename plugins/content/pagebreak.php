@@ -113,7 +113,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 
 		// page counter
 		$row->text .= '<div class="pagenavcounter">';
-		$row->text .= $pageNav->writeLeafsCounter();
+		$row->text .= $pageNav->getPagesCounter();
 		$row->text .= '</div>';
 
 		// page text
@@ -130,7 +130,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 
 		// page links shown at bottom of page if TOC disabled
 		if (!$hasToc) {
-			$row->text .= $pageNav->writePagesLinks( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid );
+			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid );
 		}
 
 		$row->text .= '</div><br />';

@@ -74,7 +74,7 @@ foreach ( $rows as $row )
 	?>
 	<tr>
 		<td width="5%">
-		<?php echo $pageNav->rowNumber( $i ); ?>
+		<?php echo $pageNav->getRowOffset( $i ); ?>
 		</td>
 		<td>
 		<?php echo $name;?>

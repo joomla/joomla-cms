@@ -114,7 +114,7 @@ class sections_html
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center">
-					<?php echo $page->rowNumber( $i ); ?>
+					<?php echo $page->getRowOffset( $i ); ?>
 				</td>
 				<td>
 					<?php echo $checked; ?>
