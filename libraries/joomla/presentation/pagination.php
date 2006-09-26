@@ -98,7 +98,6 @@ class JPagination extends JObject
 		// If we are viewing all records set the view all flag to true
 		if (JRequest::getVar('limit', 0, '', 'int') == 0 && $this->limitstart == 0) {
 			$this->_viewall = true;
-			$this->set( 'pages.current', null);
 		}
 	}
 
@@ -232,16 +231,15 @@ class JPagination extends JObject
 			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
-		$i = 1;
-		while (isset($data->pages[$i])) {
-			if ($data->pages[$i]->base !== null) {
-			$list['pages'][$i]['active'] = true;
-			$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($data->pages[$i]) : $this->_item_active($data->pages[$i]);
-		} else {
-			$list['pages'][$i]['active'] = false;
-			$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($data->pages[$i]) : $this->_item_inactive($data->pages[$i]);
+		foreach ($data->pages as $i => $page)
+		{
+			if ($page->base !== null) {
+				$list['pages'][$i]['active'] = true;
+				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($page) : $this->_item_active($page);
+			} else {
+				$list['pages'][$i]['active'] = false;
+				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($page) : $this->_item_inactive($page);
 			}
-			$i++;
 		}
 
 		if ($data->next->base !== null) {
@@ -592,11 +590,11 @@ class JPagination extends JObject
 		$data->pages = array();
 		$stop = $this->get('pages.stop');
 		for ($i = $this->get('pages.start'); $i <= $stop; $i ++) {
-			$page = ($i -1) * $this->limit;
+			$offset = ($i -1) * $this->limit;
 			$data->pages[$i] = new JPaginationObject($i);
 			if ($i != $this->get('pages.current') || $this->_viewall) {
-				$data->pages[$i]->base	= $page;
-				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$page);
+				$data->pages[$i]->base	= $offset;
+				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$offset);
 			}
 		}
 		return $data;
