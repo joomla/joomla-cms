@@ -90,30 +90,30 @@ function pagination_list_render($list)
 {
 	// Initialize variables
 	$lang =& JFactory::getLanguage();
-	$html = "<div class=\"pagination\"";
+	$html = "<div class=\"pagination\">";
 
 	// Reverse output rendering for right-to-left display
 	if($lang->isRTL()) {
-		$html .= $list['previous'];
-		$html .= $list['start'];
+		$html .= $list['previous']['data'];
+		$html .= $list['start']['data'];
 
 		$list['pages'] = array_reverse( $list['pages'] );
 		foreach( $list['pages'] as $page ) {
-			$html .= $page;
+			$html .= $page['data'];
 		}
 
-		$html .= $list['end'];
-		$html .= $list['next'];
+		$html .= $list['end']['data'];
+		$html .= $list['next']['data'];
 	} else {
-		$html .= $list['start'];
-		$html .= $list['previous'];
+		$html .= $list['start']['data'];
+		$html .= $list['previous']['data'];
 
 		foreach( $list['pages'] as $page ) {
-			$html .= $page;
+			$html .= $page['data'];
 		}
 
-		$html .= $list['next'];
-		$html .= $list['end'];
+		$html .= $list['next']['data'];
+		$html .= $list['end']['data'];
 	}
 
 	$html .= "</div>";
@@ -122,11 +122,11 @@ function pagination_list_render($list)
 
 function pagination_item_active(&$item)
 {
-	return "<span>".$item->text."</span>";
+	return "<a href=\"".$item->link."\" title=\"".$item->text."\">".$item->text."</a>";
 }
 
 function pagination_item_inactive(&$item)
 {
-	return "<a href=\"".$item->link."\" title=\"".$item->text."\">".$item->text."</a>";
+	return "<span>".$item->text."</span>";
 }
 ?>
