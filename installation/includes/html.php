@@ -76,7 +76,7 @@ class JInstallationView
 	}
 
 	/**
-	 * The index page
+	 * The language selection page
 	 * @param array An array of lists
 	 */
 	function chooseLanguage( &$lists )
@@ -98,7 +98,7 @@ class JInstallationView
 	}
 
 	/**
-	 * The index page
+	 * The the pre-install info page
 	 * @param array An array of lists
 	 */
 	function preInstall( $vars, &$lists )
@@ -126,7 +126,7 @@ class JInstallationView
 	}
 
 	/**
-	 * The index page
+	 * The license page
 	 * @param array An array of lists
 	 */
 	function license( &$vars )
@@ -147,7 +147,7 @@ class JInstallationView
 	}
 
 	/**
-	 * The index page
+	 * The database configuration page
 	 * @param array An array of lists
 	 */
 	function dbConfig( &$vars, &$lists )
@@ -168,34 +168,9 @@ class JInstallationView
 		return $tmpl->fetch( 'page' );
 	}
 
-	/**
-	 * The index page
-	 * @param array An array of lists
-	 */
-//	function dbCollation( &$vars, &$collations )
-//	{
-//		global $steps;
-//
-//		$tmpl =& JInstallationView::createTemplate( 'dbcollation.html' );
-//
-//		$steps['dbcollation'] = 'on';
-//
-//		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-//		$tmpl->addVars( 'body', 	$vars, 'var_' );
-//
-//		if ($vars['DButfSupport']){
-//			$tmpl->addVar( 'utf_text', 'utfsupport', 'true');
-//		} else {
-//			$tmpl->addVar( 'utf_text', 'utfsupport', 'false');
-//		}
-//
-//		$tmpl->addRows( 'collation-options', $collations );
-//
-//		return $tmpl->fetch( 'page' );
-//	}
 
 	/**
-	 * The index page
+	 * The ftp configuration page
 	 * @param array An array of lists
 	 */
 	function ftpConfig( &$vars )
@@ -216,7 +191,7 @@ class JInstallationView
 	}
 
 	/**
-	 * The index page
+	 * The main configuration page
 	 * @param array An array of lists
 	 */
 	function mainConfig( &$vars )
