@@ -533,7 +533,7 @@ class JView extends JObject
 		//create the template file name based on the layout
 		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
 		// clean the file name
-		$file = preg_replace( '#\W#', '', $file );
+		$file = preg_replace( '#[^\w_\.]#', '', $file );
 
 		// load the template script
 		if ($this->_template = $this->_findFile('template', $file.'.php'))
