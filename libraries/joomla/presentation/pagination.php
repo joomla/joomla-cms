@@ -95,7 +95,7 @@ class JPagination extends JObject
 		}
 
 		// If we are viewing all records set the view all flag to true
-		if ($this->limit == 0 && $this->limitstart == 0) {
+		if (JRequest::getVar('limit', 0, '', 'int') == 0 && $this->limitstart == 0) {
 			$this->_viewall = true;
 			$this->set( 'pages.current', null);
 		}
@@ -593,7 +593,7 @@ class JPagination extends JObject
 		for ($i = $this->get('pages.start'); $i <= $stop; $i ++) {
 			$page = ($i -1) * $this->limit;
 			$data->pages[$i] = new JPaginationObject($i);
-			if ($i != $this->get('pages.current') && !($this->_viewall && $i == 1)) {
+			if ($i != $this->get('pages.current') || $this->_viewall) {
 				$data->pages[$i]->base	= $page;
 				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$page);
 			}
