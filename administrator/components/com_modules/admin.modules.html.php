@@ -410,32 +410,22 @@ class HTML_modules {
 
 	function previewModule()
 	{
+		$editor =& JFactory::getEditor();
+
 		?>
 		<script>
-		var content = window.opener.document.adminForm.content.value;
-		var title = window.opener.document.adminForm.title.value;
+		var form = window.top.document.adminForm
+		var title = form.title.value;
 
-		content = content.replace('#', '');
-		title = title.replace('#', '');
-		content = content.replace('src=images', 'src=../../images');
-		content = content.replace('src=images', 'src=../../images');
-		title = title.replace('src=images', 'src=../../images');
-		content = content.replace('src=images', 'src=../../images');
-		title = title.replace('src=\"images', 'src=\"../../images');
-		content = content.replace('src=\"images', 'src=\"../../images');
-		title = title.replace('src=\"images', 'src=\"../../images');
-		content = content.replace('src=\"images', 'src=\"../../images');
+		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
 		</script>
 
-		<table align="center" width="160" cellspacing="2" cellpadding="2" border="0" height="100%">
+		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
+			<tr>
+				<td class="contentheading" colspan="2"><script>document.write(title);</script></td>
+			</tr>
 		<tr>
-			<td class="moduleheading"><script>document.write(title);</script></td>
-		</tr>
-		<tr>
-			<td valign="top" height="90%"><script>document.write(content);</script></td>
-		</tr>
-		<tr>
-			<td align="center"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
+			<script>document.write("<td valign=\"top\" height=\"90%\" colspan=\"2\">" + alltext + "</td>");</script>
 		</tr>
 		</table>
 		<?php
