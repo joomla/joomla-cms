@@ -166,7 +166,7 @@ class iLink extends JTree
 				// Load view metadata if it exists
 				$xmlpath = $path.DS.$view.DS.'metadata.xml';
 				if (JFile::exists($xmlpath)) {
-					$data = &$this->_getXML($xmlpath, 'view');
+					$data = $this->_getXML($xmlpath, 'view');
 				} else {
 					$data = null;
 				}
@@ -210,7 +210,7 @@ class iLink extends JTree
 					$layout = JFile::stripext($file);
 					$xmlpath = $path.DS.'tmpl'.DS.$layout.'.xml';
 					if (JFile::exists($xmlpath)) {
-						$data = &$this->_getXML($xmlpath, 'layout');
+						$data = $this->_getXML($xmlpath, 'layout');
 					} else {
 						$data = null;
 					}

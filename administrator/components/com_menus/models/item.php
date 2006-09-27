@@ -405,7 +405,7 @@ class JMenuModelItem extends JModel
 				/*
 				 * HANDLE INCLUDED PARAMS
 				 */
-				$children =& $xml->children();
+				$children = $xml->children();
 				if (count($children) == 1) {
 					if ($children[0]->name() == 'include') {
 						$ret =& $this->_getIncludedParams($children[0]);
