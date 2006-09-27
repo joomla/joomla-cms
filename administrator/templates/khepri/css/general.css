@@ -279,6 +279,16 @@ table.admintable td.paramlist_key {
 	border-right: 1px solid #e9e9e9;
 }
 
+table.paramlist td.paramlist_description {
+	background-color: #f6f6f6;
+	text-align: left;
+	width: 170px;
+	color: #333;
+	font-weight: normal;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+}
+
 table.admintable td.key.vtop { vertical-align: top; }
 
 table.adminform {
