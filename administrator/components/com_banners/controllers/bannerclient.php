@@ -56,7 +56,7 @@ class BannerClientController
 		$db->query();
 		$total = $db->getNumRows();
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );

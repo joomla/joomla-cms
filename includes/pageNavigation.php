@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.presentation.pagination');
+jimport('joomla.html.pagination');
 
 /**
 * Legacy class, derive from JPagination instead

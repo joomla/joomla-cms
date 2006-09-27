@@ -73,7 +73,7 @@ class CacheController
 
 		$cmData = new CacheData($client->path.DS.'cache');
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $cmData->getGroupCount(), $limitstart, $limit );
 
 		CacheView::displayCache( $cmData->getRows( $limitstart, $limit ), $client, $pageNav );

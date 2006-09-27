@@ -12,14 +12,14 @@
 */
 
 /**
- * Renders a custom button
+ * Renders a link button
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Presentation
+ * @subpackage 	HTML
  * @since		1.5
  */
-class JButton_Custom extends JButton
+class JButton_Link extends JButton
 {
 	/**
 	 * Button type
@@ -27,10 +27,20 @@ class JButton_Custom extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Custom';
+	var $_name = 'Link';
 
-	function fetchButton( $type='Custom', $html = '', $id = 'custom' )
+	function fetchButton( $type='Link', $name = '', $text = '', $url = null )
 	{
+		$text	= JText::_($text);
+		$class	= $this->fetchIconClass('back');
+		$doTask	= $this->_getCommand($url);
+
+		$html  = "<a href=\"$doTask\">\n";
+		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
+		$html .= "</div>\n";
+		$html .= "$text\n";
+		$html .= "</a>\n";
+
 		return $html;
 	}
 
@@ -41,9 +51,21 @@ class JButton_Custom extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	function fetchId( $type='Custom', $html = '', $id = 'custom' )
+	function fetchId($name)
 	{
-		return $this->_parent->_name.'-'.$id;
+		return $this->_parent->_name.'-'.$name;
+	}
+
+	/**
+	 * Get the JavaScript command for the button
+	 *
+	 * @access	private
+	 * @param	object	$definition	Button definition
+	 * @return	string	JavaScript command string
+	 * @since	1.5
+	 */
+	function _getCommand($url) {
+		return $url;
 	}
 }
 ?>

@@ -96,7 +96,7 @@ class ContentViewSection extends JView
 		$limit	= $intro + $leading + $links;
 		$i		= $limitstart;
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination(count($items), $limitstart, $limit);
 
 		$this->assignRef('items'     , $items);

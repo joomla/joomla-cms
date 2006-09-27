@@ -102,7 +102,7 @@ function viewLanguages()
 	}
 
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $rowid, $limitstart, $limit );
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );

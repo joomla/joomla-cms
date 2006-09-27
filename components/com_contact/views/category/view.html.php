@@ -110,7 +110,7 @@ class ContactViewCategory extends JView
 		$lists['order'] = $filter_order;
 		$selected = '';
 		
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 				
 		$this->assignRef('items'     , $contacts);

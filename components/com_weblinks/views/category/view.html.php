@@ -80,7 +80,7 @@ class WeblinksViewCategory extends JView
 		}
 		
 		//create pagination
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
 		// icon in table display

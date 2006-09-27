@@ -302,7 +302,7 @@ class JParameter extends JRegistry
 		}
 
 		if( !class_exists( 'JElement' ) ) {
-			jimport('joomla.presentation.parameter.element');
+			jimport('joomla.html.parameter.element');
 		}
 
 		$elementClass	=	'JElement_' . $type;

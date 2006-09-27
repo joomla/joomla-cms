@@ -122,7 +122,7 @@ class JMenuModelMenutype extends JModel
 		$limit		= $mainframe->getUserStateFromRequest("com_menus.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination( $total, $limitstart, $limit );
 		return $pagination;
 	}

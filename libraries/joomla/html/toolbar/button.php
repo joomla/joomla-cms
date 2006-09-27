@@ -19,7 +19,7 @@
  * @abstract
  * @author 		Louis Landry <louis.landry@joomla.org
  * @package 	Joomla.Framework
- * @subpackage 	Presentation
+ * @subpackage 	HTML
  * @since		1.5
  */
 class JButton extends JObject

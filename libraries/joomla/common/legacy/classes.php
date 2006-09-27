@@ -816,7 +816,7 @@ class MENU_Default
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-jimport('joomla.presentation.pane');
+jimport('joomla.html.pane');
 class mosTabs extends JPaneTabs
 {
 	var $useCookies = false;

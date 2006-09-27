@@ -146,7 +146,7 @@ function showUsers( )
 	$db->setQuery( $query );
 	$total = $db->loadResult();
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT a.*, g.name AS groupname"

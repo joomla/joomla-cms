@@ -26,7 +26,7 @@ class HTML_statistics
 		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
 
-		jimport( 'joomla.presentation.pane' );
+		jimport( 'joomla.html.pane' );
 		$tabs 	=& JPane::getInstance();
 		?>
 		<form action="index2.php?option=com_statistics" method="post" name="adminForm">

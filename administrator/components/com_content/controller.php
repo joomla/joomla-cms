@@ -126,7 +126,7 @@ class JContentController extends JController
 		$total = $db->loadResult();
 
 		// Create the pagination object
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
@@ -265,7 +265,7 @@ class JContentController extends JController
 		$db->setQuery($query);
 		$total = $db->loadResult();
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$query = "SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.name AS sectname" .

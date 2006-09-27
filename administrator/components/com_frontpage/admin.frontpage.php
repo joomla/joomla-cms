@@ -137,7 +137,7 @@ function viewFrontPage( $option )
 	$db->setQuery( $query );
 	$total = $db->loadResult();
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT c.*, g.name AS groupname, cc.name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author"

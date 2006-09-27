@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.presentation.pane');
+jimport('joomla.html.pane');
 jimport('joomla.application.module.helper');
 
 $modules = JModuleHelper::getModules('cpanel');

@@ -202,7 +202,7 @@ function showCategories( $section, $option )
 		$filter .= "\n AND LOWER(c.name) LIKE '%$search%'";
 	}
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out"

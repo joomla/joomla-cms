@@ -82,7 +82,7 @@ class PollController extends JController
 		$db->setQuery( $query );
 		$total = $db->loadResult();
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		$query = "SELECT m.*, u.name AS editor, COUNT(d.id) AS numoptions"

@@ -183,7 +183,7 @@ function showPageImpressions( $option, $task )
 	$db->setQuery($query);
 	$total = $db->loadResult();
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT c.id, c.title, c.created, c.hits, c.state, c.sectionid, c.catid, c.checked_out, cc.title AS cat_title, s.title AS sec_title"
@@ -256,7 +256,7 @@ function showSearches( $option, $task, $showResults=null )
 	$db->setQuery( $query );
 	$total = $db->loadResult();
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT *"

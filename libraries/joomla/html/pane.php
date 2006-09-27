@@ -17,7 +17,7 @@
  * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.5
  */
 class JPane extends JObject
@@ -103,7 +103,7 @@ class JPane extends JObject
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.5
  */
 class JPaneTabs extends JPane
@@ -194,7 +194,7 @@ class JPaneTabs extends JPane
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.5
  */
 class JPaneSliders extends JPane

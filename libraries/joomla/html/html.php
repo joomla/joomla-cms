@@ -16,7 +16,7 @@
  *
  * @static
  * @package 	Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.0
  */
 class mosHTML 
@@ -725,7 +725,7 @@ class mosHTML
  *
  * @static
  * @package 	Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.0
  */
 class mosCommonHTML {
@@ -1054,7 +1054,7 @@ class mosCommonHTML {
  *
  * @static
  * @package 	Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.0
  */
 class mosAdminMenus

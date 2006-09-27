@@ -32,7 +32,7 @@ class NewsfeedsViewCategory extends JView
 		$catid = $this->catid;
 
 		//create pagination
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
 		$k = 0;

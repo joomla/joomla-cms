@@ -76,7 +76,7 @@ jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
-jimport( 'joomla.presentation.html' );
+jimport( 'joomla.html.html' );
 jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.error' );
 jimport( 'joomla.utilities.functions' );

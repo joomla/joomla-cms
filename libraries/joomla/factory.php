@@ -307,7 +307,7 @@ class JFactory
 	*/
 	function &getEditor()
 	{
-		jimport( 'joomla.presentation.editor' );
+		jimport( 'joomla.html.editor' );
 
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();

@@ -42,7 +42,7 @@ function modChrome_xhtml($module, & $params)
  */
 function modChrome_sliders($module, & $params)
 {
-	jimport('joomla.presentation.pane');
+	jimport('joomla.html.pane');
 	// Initialize variables
 	$user		=& JFactory::getUser();
 	$sliders	=& JPane::getInstance('sliders');
@@ -62,7 +62,7 @@ function modChrome_sliders($module, & $params)
  */
 function modChrome_tabs($module, & $params)
 {
-	jimport('joomla.presentation.pane');
+	jimport('joomla.html.pane');
 	// Initialize variables
 	$user	=& JFactory::getUser();
 	$tabs	=& JPane::getInstance('tabs');

@@ -16,7 +16,7 @@
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Presentation
+ * @subpackage 	HTML
  * @since		1.5
  */
 class JToolBar extends JObject
@@ -64,7 +64,7 @@ class JToolBar extends JObject
 	{
 		$this->_name = $name;
 
-		jimport('joomla.presentation.toolbar.button');
+		jimport('joomla.html.toolbar.button');
 		if (!defined('JBUTTON_INCLUDE_PATH')) {
 			define('JBUTTON_INCLUDE_PATH', dirname(__FILE__).DS.'toolbar'.DS.'button');
 		}

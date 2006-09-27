@@ -149,7 +149,7 @@ class JInstallerExtensionTasks {
 		/*
 		 * Take care of the pagination
 		 */
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 

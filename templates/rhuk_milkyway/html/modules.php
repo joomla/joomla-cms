@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 function modChrome_slider($module, & $params)
 {
-	jimport('joomla.presentation.pane');
+	jimport('joomla.html.pane');
 	// Initialize variables
 	$sliders = & JPane::getInstance('sliders');
 	$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );

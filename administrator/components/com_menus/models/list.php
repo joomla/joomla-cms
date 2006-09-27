@@ -135,7 +135,7 @@ class JMenuModelList extends JModel
 
 		$total = count( $list );
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$this->_pagination = new JPagination( $total, $limitstart, $limit );
 
 		// slice out elements based on limits

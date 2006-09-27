@@ -84,7 +84,7 @@ class ContentViewArchive extends JView
 		$limit	= $intro + $leading + $links;
 		$i		= $limitstart;
 
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$form = new stdClass();

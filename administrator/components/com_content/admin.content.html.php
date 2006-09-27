@@ -435,7 +435,7 @@ class ContentView
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option )
 	{
-		jimport('joomla.presentation.pane');
+		jimport('joomla.html.pane');
 		mosMakeHtmlSafe( $row );
 
 		$db     =& JFactory::getDBO();

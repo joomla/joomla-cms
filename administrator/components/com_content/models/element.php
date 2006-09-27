@@ -132,7 +132,7 @@ class JContentModelElement extends JModel
 		$total = $db->loadResult();
 
 		// Create the pagination object
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$this->_page = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles

@@ -138,7 +138,7 @@ function showSections( $scope, $option )
 	$db->setQuery( $query );
 	$total = $db->loadResult();
 
-	jimport('joomla.presentation.pagination');
+	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT s.*, g.name AS groupname, u.name AS editor"

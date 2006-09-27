@@ -42,7 +42,7 @@ class SearchViewSearch extends JView
 		$ordering     = $this->ordering;
 
 		//create pagination
-		jimport('joomla.presentation.pagination');
+		jimport('joomla.html.pagination');
 		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
 		$this->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->total, $this->searchword );

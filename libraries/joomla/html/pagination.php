@@ -17,7 +17,7 @@
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.5
  */
 class JPagination extends JObject
@@ -622,7 +622,7 @@ class JPagination extends JObject
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Presentation
+ * @subpackage	HTML
  * @since		1.5
  */
 class JPaginationObject extends JObject

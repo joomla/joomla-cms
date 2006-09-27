@@ -12,14 +12,14 @@
 */
 
 /**
- * Renders a link button
+ * Renders a help popup window button
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Presentation
+ * @subpackage 	HTML
  * @since		1.5
  */
-class JButton_Link extends JButton
+class JButton_Help extends JButton
 {
 	/**
 	 * Button type
@@ -27,15 +27,15 @@ class JButton_Link extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Link';
+	var $_name = 'Help';
 
-	function fetchButton( $type='Link', $name = '', $text = '', $url = null )
+	function fetchButton( $type='Help', $ref = '', $com = false )
 	{
-		$text	= JText::_($text);
-		$class	= $this->fetchIconClass('back');
-		$doTask	= $this->_getCommand($url);
+		$text	= JText::_('Help');
+		$class	= $this->fetchIconClass('help');
+		$doTask	= $this->_getCommand($ref, $com);
 
-		$html  = "<a href=\"$doTask\">\n";
+		$html  = "<a href=\"Javascript:void\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";
@@ -45,15 +45,18 @@ class JButton_Link extends JButton
 	}
 
 	/**
-	 * Get the button CSS Id
+	 * Get the button id
 	 *
-	 * @access	public
-	 * @return	string	Button CSS Id
-	 * @since	1.5
+	 * Redefined from JButton class
+	 *
+	 * @access		public
+	 * @param		string	$name	Button name
+	 * @return		string	Button CSS Id
+	 * @since		1.5
 	 */
 	function fetchId($name)
 	{
-		return $this->_parent->_name.'-'.$name;
+		return $this->_parent->_name.'-'."help";
 	}
 
 	/**
@@ -64,8 +67,21 @@ class JButton_Link extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	function _getCommand($url) {
-		return $url;
+	function _getCommand($ref, $com)
+	{
+		global $mainframe;
+
+		// Get Help URL
+		jimport('joomla.i18n.help');
+		$url = JHelp::createURL($ref, $com);
+
+		if (substr($url, 0, 4) !== 'http') {
+			$url = JURI::base().$url;
+		}
+
+		$cmd = "popupWindow('$url', '".JText::_('Help')."', 640, 480, 1)";
+
+		return $cmd;
 	}
 }
 ?>
