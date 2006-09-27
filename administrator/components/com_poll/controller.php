@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: index.php 5201 2006-09-27 01:40:52Z Jinx $
  * @package Joomla
  * @subpackage Config
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.controller' );
  * @package Joomla
  * @subpackage Config
  */
-class JPollGlobalController extends JController
+class PollController extends JController
 {
 	/**
 	 * Custom Constructor
@@ -119,7 +119,8 @@ class JPollGlobalController extends JController
 		// search filter
 		$lists['search']= $search;
 
-		JPollView::showPolls( $rows, $pageNav, $option, $lists );
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php' );
+		PollView::showPolls( $rows, $pageNav, $option, $lists );
 	}
 
 	function editPoll( )
@@ -178,7 +179,8 @@ class JPollGlobalController extends JController
 		// build the html select list
 		$lists['select'] = mosAdminMenus::MenuLinks( $lookup, 1, 1 );
 
-		JPollView::editPoll($row, $options, $lists );
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php' );
+		PollView::editPoll($row, $options, $lists );
 	}
 
 	function savePoll()
@@ -271,7 +273,7 @@ class JPollGlobalController extends JController
 	{
 		$db =& JFactory::getDBO();
 
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
+		$cid    = JRequest::getVar( 'cid', array(), '', 'array' );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$msg = '';
 
@@ -371,7 +373,8 @@ class JPollGlobalController extends JController
 		$db->setQuery( $query );
 		$options = $db->loadResultArray();
 
-		JPollView::previewPoll($title, $options);
+		require_once( JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php' );
+		PollView::previewPoll($title, $options);
 	}
 }
 ?>

@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Config
 */
-class JPollView
+class PollView
 {
 	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
@@ -75,7 +75,8 @@ class JPollView
 			</thead>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) 
+			{
 				$row = &$rows[$i];
 
 				$link 		= ampReplace( 'index2.php?option=com_poll&task=edit&hidemainmenu=1&cid[]='. $row->id );
@@ -270,9 +271,6 @@ class JPollView
 		} ?>
 		<tr>
 			<td valign="middle" height="50" colspan="2" align="center"><input type="button" name="submit" value="<?php echo JText::_( 'Vote' ); ?>">&nbsp;&nbsp;<input type="button" name="result" value="<?php echo JText::_( 'Results' ); ?>"></td>
-		</tr>
-		<tr>
-			<td align="center" colspan="2"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
 		</tr>
 		</table>
 		</form>

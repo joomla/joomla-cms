@@ -23,7 +23,8 @@ class TOOLBAR_poll {
 	/**
 	* Draws the menu for Editing an existing category
 	*/
-	function _EDIT( $pollid ) {
+	function _EDIT( $pollid ) 
+	{
 		$cid = JRequest::getVar( 'cid', array(0));
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );

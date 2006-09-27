@@ -15,21 +15,18 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Make sure the user is authorized to view this page
- */
+// Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_poll', 'manage' )) {
 	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( JPATH_COMPONENT . '/controllers/index.php' );
-require_once( JPATH_COMPONENT . '/views/index.php' );
+require_once( JPATH_COMPONENT.DS.'controller.php' );
 
 // Set the table directory
 JTable::addTableDir( JPATH_COMPONENT.DS.'tables' );
 
-$controller = new JPollGlobalController( 'showPolls' );
+$controller = new PollController( 'showPolls' );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
