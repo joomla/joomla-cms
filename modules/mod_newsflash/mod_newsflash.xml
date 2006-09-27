@@ -20,8 +20,8 @@
 		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="catid" type="category" default="0" label="Category" description="A content category" />
-		<param name="style" type="list" default="random" label="Style" description="The style to display the category">
-			<option value="random">Randomly choose one at a time</option>
+		<param name="layout" type="list" default="random" label="Layout" description="The layout to display the category">
+			<option value="default">Randomly choose one at a time</option>
 			<option value="horiz">Horizontal</option>
 			<option value="vert">Vertical</option>
 		</param>

@@ -54,7 +54,7 @@ class modNewsFlashHelper
 		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
 		$item->beforeDisplayContent = trim(implode("\n", $results));
 
-		require(JModuleHelper::getLayoutPath('mod_newsflash', 'item'));
+		require(JModuleHelper::getLayoutPath('mod_newsflash', '_item'));
 	}
 
 	function getList(&$params, &$access)

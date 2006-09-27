@@ -29,7 +29,7 @@ $access->canEdit    = 0;
 $access->canEditOwn = 0;
 $access->canPublish = 0;
 
-$style 			= $params->get('style', 'flash');
+$layout 		= $params->get('layout', 'default');
 $link_titles 	= $params->get('link_titles', $mainframe->getCfg('link_titles'));
 
 $list = modNewsFlashHelper::getList($params, $access);
@@ -40,4 +40,4 @@ if (!$items) {
 	return;
 }
 
-require(JModuleHelper::getLayoutPath('mod_newsflash', $style));
+require(JModuleHelper::getLayoutPath('mod_newsflash', $layout));
