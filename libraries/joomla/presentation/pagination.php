@@ -60,7 +60,7 @@ class JPagination extends JObject
 	/**
 	 * Constructor
 	 */
-	function __construct($total, $limitstart, $limit, $link=null)
+	function __construct($total, $limitstart, $limit, $link = null)
 	{
 		// Value/Type checking
 		$this->total		= (int) $total;

@@ -20,7 +20,7 @@
 <?php if ($this->params->def('leading', 1)) : ?>
 <tr>
 	<td valign="top">
-	<?php for ($i = $this->limitstart; $i < $this->params->get('leading'); $i++) : ?>
+	<?php for ($i = $this->pagination->limitstart; $i < $this->params->get('leading'); $i++) : ?>
 		<?php if ($i >= $this->total) : break; endif; ?>
 		<div>
 		<?php 
@@ -73,7 +73,7 @@
 <?php if ($this->params->def('pagination', 2)) : ?>
 <tr>
 	<td valign="top" align="center">
-		<?php echo $this->pagination->getPagesLinks('index.php?option=com_frontpage&amp;Itemid='.$Itemid); ?>
+		<?php echo $this->pagination->getPagesLinks(); ?>
 		<br /><br />
 	</td>
 </tr>

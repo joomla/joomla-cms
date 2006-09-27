@@ -112,10 +112,7 @@ class ContactViewCategory extends JView
 		
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
-		$link 		= "index.php?option=com_contact&amp;catid=$categoryId&amp;Itemid=$Itemid";
-		
-		$this->assign('link',   $link);
-			
+				
 		$this->assignRef('items'     , $contacts);
 		$this->assignRef('lists'     , $lists);
 		$this->assignRef('pagination', $pagination);

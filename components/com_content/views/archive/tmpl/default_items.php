@@ -27,6 +27,6 @@
 <?php endforeach; ?>
 </ul>
 <div id="navigation">
-	<span><?php echo $this->pagination->getPagesLinks($this->link); ?></span>
+	<span><?php echo $this->pagination->getPagesLinks(); ?></span>
 	<span><?php echo $this->pagination->getPagesCounter(); ?></span>
 </div>

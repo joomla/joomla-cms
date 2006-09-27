@@ -61,13 +61,14 @@ class JModel extends JObject
 		$this->_state = new JObject();
 
 		// Get menu item information if Itemid exists (wrapping it this way allows for JModel usage outside of Joomla! CMS Scope)
-		if ($Itemid) {
+		if (isset($Itemid)) 
+		{
 			$menu		= &JMenu::getInstance();
 			$item		= &$menu->getItem( $Itemid );
-			$mParams	= &$item->mParams;
+			$params	    = &$item->mParams;
 
 			// Set Default State Data
-			$this->_state->set( 'menu.parameters', $menu->mParams);
+			$this->_state->set( 'menu.parameters', $params);
 
 		}
 	}

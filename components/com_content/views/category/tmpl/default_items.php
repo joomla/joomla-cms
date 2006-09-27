@@ -24,7 +24,7 @@
 			<td align="right" width="100%" nowrap="nowrap">
 			<?php
 				echo '&nbsp;&nbsp;&nbsp;'.JText::_('Display Num').'&nbsp;';
-				echo $this->pagination->getLimitBox($this->link);
+				echo $this->pagination->getLimitBox();
 			?>
 			</td>
 		<?php endif; ?>
@@ -107,7 +107,7 @@
 </tr>
 <tr>
 	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $this->pagination->getPagesLinks($this->link); ?>
+		<?php echo $this->pagination->getPagesLinks(); ?>
 	</td>
 </tr>
 <tr>

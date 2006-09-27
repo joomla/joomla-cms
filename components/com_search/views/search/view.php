@@ -45,8 +45,6 @@ class SearchViewSearch extends JView
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
-
 		$this->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->total, $this->searchword );
 		$this->image  = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 

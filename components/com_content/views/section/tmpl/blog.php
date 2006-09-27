@@ -72,7 +72,7 @@
 <?php if ($this->params->def('pagination', 2)) : ?>
 <tr>
 	<td valign="top" align="center">
-		<?php echo $this->pagination->getPagesLinks($this->link); ?>
+		<?php echo $this->pagination->getPagesLinks(); ?>
 		<br /><br />
 	</td>
 </tr>

@@ -115,11 +115,8 @@ class ContentViewFrontpage extends JView
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
 		
-		// prepare links
-		$this->assign('total'     , $total);
-		$this->assign('limit'     , $limit);
-		$this->assign('limitstart', $limitstart);
-
+		$this->assign('total'        , $total);
+		
 		$this->assignRef('user'      , $user);
 		$this->assignRef('access'    , $access);
 		$this->assignRef('params'    , $params);

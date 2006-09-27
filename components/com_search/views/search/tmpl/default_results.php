@@ -72,7 +72,7 @@
 <tr>
 	<td colspan="3">
 		<div align="center">
-			<?php $this->pagination->getPagesLinks( $this->link ); ?>
+			<?php $this->pagination->getPagesLinks( ); ?>
 		</div>
 	</td>
 </tr>

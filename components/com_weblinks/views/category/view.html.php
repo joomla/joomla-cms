@@ -83,8 +83,6 @@ class WeblinksViewCategory extends JView
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->link = "index.php?option=com_weblinks&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
-
 		// icon in table display
 		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
 			$image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );

@@ -96,11 +96,6 @@ class ContentViewCategory extends JView
 
 		jimport('joomla.presentation.pagination');
 		$pagination = new JPagination(count($items), $limitstart, $limit);
-		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$category->sectionid.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid;
-
-		$this->assign('limit'	  , $limit);
-		$this->assign('limitstart',	$limitstart);
-		$this->assign('link'	  , $link);
 
 		$this->assignRef('items'     , $items);
 		$this->assignRef('category'  , $category);

@@ -35,8 +35,6 @@ class NewsfeedsViewCategory extends JView
 		jimport('joomla.presentation.pagination');
 		$this->pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->link = "index.php?option=com_newsfeeds&amp;task=category&amp;catid=$catid&amp;Itemid=$Itemid";
-
 		$k = 0;
 		for($i = 0; $i <  count($this->items); $i++)
 		{
