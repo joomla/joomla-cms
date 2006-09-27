@@ -195,11 +195,10 @@ class JInstallerPlugin extends JInstaller
 	 *
 	 * @access	public
 	 * @param	int		$cid	The id of the plugin to uninstall
-	 * @param	int		$client	The client id
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $client = 0)
+	function uninstall($id )
 	{
 
 		/*

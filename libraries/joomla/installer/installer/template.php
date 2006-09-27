@@ -187,11 +187,10 @@ class JInstallerTemplate extends JInstaller
 	 *
 	 * @access	public
 	 * @param	int		$path	The path of the template to uninstall
-	 * @param	int		$client	The client id (unused)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($path, $client)
+	function uninstall($path )
 	{
 
 		// Initialize variables

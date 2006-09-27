@@ -289,17 +289,16 @@ class JInstallerModule extends JInstaller
 	 *
 	 * @access public
 	 * @param int $cid The id of the module to uninstall
-	 * @param int $client The client id
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function uninstall($id, $client = 0)
+	function uninstall($id )
 	{
 
 		/*
 		 * Initialize variables
 		 */
-		$row = null;
+		$row    = null;
 		$retval = true;
 
 		// Get database connector object

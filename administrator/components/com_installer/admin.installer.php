@@ -383,43 +383,16 @@ class JInstallerController
 
 		// Initialize variables
 		$eid		= JRequest::getVar('eid', array (0));
-		$eclient	= JRequest::getVar('eclient', array (0));
 		$extension	= JRequest::getVar('extension', '');
 		$result		= false;
 		$failed		= array ();
 		
-		echo var_dump($eid);
-		echo var_dump($eclient);
-		die();
-
-//		/*
-//		 * Get the extension client
-//		 *
-//		 * Defaults to 'site'
-//		 * Set 'admin' to 'administrator'
-//		 */
-//		$client = JRequest::getVar('client', 'site');
-//		if ($client == '') {
-//			$client = 'site';
-//		}
-//		if ($client == 'admin') {
-//			$client = 'administrator';
-//		}
-
 		/*
 		 * Ensure eid is an array of extension ids
 		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid)) {
 			$eid = array ($eid);
-		}
-
-		/*
-		 * Ensure eclient is an array of extension clients
-		 * TODO: If it isn't an array do we want to set an error and fail?
-		 */
-		if (!is_array($eclient)) {
-			$eclient = array ($eclient);
 		}
 
 		// Get an installer object for the extension type
@@ -429,7 +402,7 @@ class JInstallerController
 		$i = 0;
 		foreach ($eid as $id)
 		{
-			$result = $installer->uninstall($id, $eclient[$i++]);
+			$result = $installer->uninstall( $id );
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {

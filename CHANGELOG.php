@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Sep-2006 Johan Janssens
+ # Fixed [artf4427] : Language uninstallation problems
+
 26-Sep-2006 David Gal
  + Added RTL parameter to TinyMCE xml file
  

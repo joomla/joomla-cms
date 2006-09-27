@@ -158,32 +158,18 @@ class JInstallerLanguage extends JInstaller
 	 * Custom uninstall method
 	 *
 	 * @access public
-	 * @param int $id The id of the language to uninstall [ISO Tag]
-	 * @param int $client The client id
+	 * @param int $id The path of the language to uninstall
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function uninstall($id, $client = 0)
+	function uninstall($path)
 	{
-		/*
-		 * For a language the id will be an RFC 3066 code, eg. en-GB which represents the
-		 * subfolder of the languages folder that the language resides in.
-		 */
-		$id = trim($id);
-		if (!$id) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: '.JText::_('Language id is empty, cannot uninstall files'));
+		$path = trim($path);
+		if (!$path) {
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: '.JText::_('Language path is empty, cannot uninstall files'));
 			return false;
 		}
 
-		// Get some information about the client
-		$clientVals = JApplicationHelper::getClientInfo($client, false);
-		if ($clientVals === false) {
-			JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Unknown client type').' ['.$client.']');
-			return false;
-		}
-
-		// Create the full path to languages for the given client and remove the folder
-		$path = JPath::clean($clientVals->path.DS.'language'.DS.$id);
 		if (!JFolder::delete($path)) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: '.JText::_('Unable to remove language directory'));
 			return false;

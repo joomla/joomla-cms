@@ -110,7 +110,7 @@ class JInstallerExtensionTasks {
 		$rowid = 0;
 		foreach ($languages as $language)
 		{
-			$files = JFolder::files( $language->baseDir .DS. $language->folder, '^([-_A-Za-z]*)\.xml$' );
+			$files = JFolder::files( $language->baseDir . $language->folder, '^([-_A-Za-z]*)\.xml$' );
 			foreach ($files as $file)
 			{
 				$data = JApplicationHelper::parseXMLLangMetaFile($language->baseDir .DS. $language->folder . DS . $file);
@@ -118,8 +118,8 @@ class JInstallerExtensionTasks {
 				$row 			= new StdClass();
 				$row->id 		= $rowid;
 				$row->client_id = $language->client;
-				$row->language 	= substr($file,0,-4);
-
+				$row->language 	= $language->baseDir . $language->folder;
+				
 				// If we didn't get valid data from the xml file, move on...
 				if (!is_array($data)) {
 					continue;
@@ -247,7 +247,6 @@ class JInstallerScreens_language {
 						</td>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
-							<input type="hidden" name="eclient[]" value="<?php echo $row->client_id; ?>" />
 							<span class="bold"><?php echo $row->name; ?></span>
 						</td>
 						<td align="center">
