@@ -195,7 +195,7 @@ class JModuleHelper
 	 * @return	string	The path to the module layout
 	 * @since	1.5
 	 */
-	function getLayoutPath($module, $layout)
+	function getLayoutPath($module, $layout = 'default')
 	{
 		global $mainframe;
 		

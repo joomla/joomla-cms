@@ -18,4 +18,4 @@ defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 
 $list = modMostReadHelper::getList($params);
-require(JModuleHelper::getLayoutPath('mod_mostread', 'module'));
+require(JModuleHelper::getLayoutPath('mod_mostread'));

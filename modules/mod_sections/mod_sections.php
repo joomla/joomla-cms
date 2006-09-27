@@ -23,4 +23,4 @@ if (!count($list)) {
 	return;
 }
 
-require(JModuleHelper::getLayoutPath('mod_sections', 'module'));
+require(JModuleHelper::getLayoutPath('mod_sections'));

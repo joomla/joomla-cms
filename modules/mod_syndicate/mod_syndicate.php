@@ -27,4 +27,4 @@ if(is_null($link)) {
 }
 
 $img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
-require(JModuleHelper::getLayoutPath('mod_syndicate', 'module'));
+require(JModuleHelper::getLayoutPath('mod_syndicate'));

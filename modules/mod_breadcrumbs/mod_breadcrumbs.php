@@ -24,4 +24,4 @@ $count = count($list);
 // Set the default separator
 $separator = modBreadCrumbsHelper::setSeparator( $params->get( 'separator' ));
 
-require(JModuleHelper::getLayoutPath('mod_breadcrumbs', 'module'));
+require(JModuleHelper::getLayoutPath('mod_breadcrumbs'));

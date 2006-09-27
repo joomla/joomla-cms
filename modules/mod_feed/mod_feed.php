@@ -39,4 +39,4 @@ if (empty ($rssurl))
 	return;
 }
 
-require(JModuleHelper::getLayoutPath('mod_feed', 'module'));
+require(JModuleHelper::getLayoutPath('mod_feed'));

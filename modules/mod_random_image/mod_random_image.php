@@ -28,4 +28,4 @@ if (!count($images)) {
 }
 
 $image = modRandomImageHelper::getRandomImage($params, $images);
-require(JModuleHelper::getLayoutPath('mod_random_image', 'module'));
+require(JModuleHelper::getLayoutPath('mod_random_image'));

@@ -34,4 +34,4 @@ if (JString::strpos($line1, '%sitename%')) {
 	$lineone = $line1;
 }
 
-require(JModuleHelper::getLayoutPath('mod_footer', 'module'));
+require(JModuleHelper::getLayoutPath('mod_footer'));

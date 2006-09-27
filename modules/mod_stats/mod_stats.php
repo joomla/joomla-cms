@@ -21,4 +21,4 @@ $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
 
 $list = modStatsHelper::getList($params);
-require(JModuleHelper::getLayoutPath('mod_stats', 'module'));
+require(JModuleHelper::getLayoutPath('mod_stats'));

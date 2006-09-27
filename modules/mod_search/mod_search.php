@@ -20,4 +20,4 @@ require_once( dirname(__FILE__).DS.'helper.php' );
 $inputfield = modSearchHelper::renderInputField($params);
 $itemid     = modSearchHelper::getItemid($params);
 
-require(JModuleHelper::getLayoutPath('mod_search', 'module'));
+require(JModuleHelper::getLayoutPath('mod_search'));
