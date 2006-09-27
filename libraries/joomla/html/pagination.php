@@ -562,7 +562,7 @@ class JPagination extends JObject
 		// Initialize variables
 		$data = new stdClass();
 		if ($base) {
-			$link = $base.'$amp;limit='.$this->limit;
+			$link = $base.'&amp;limit='.$this->limit;
 		} else {
 			$base = $this->_link;
 			$link = $this->_link.'&amp;limit='.$this->limit;
