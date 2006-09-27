@@ -515,7 +515,7 @@ class JPagination extends JObject
 		} 
 		else 
 		{
-			$html .= '&lt&lt; ';
+			$html .= '&lt;&lt; ';
 			$html .= $list['start']['data'];
 			$html .= ' &lt ';
 			$html .= $list['previous']['data'];
