@@ -387,6 +387,10 @@ class JInstallerController
 		$extension	= JRequest::getVar('extension', '');
 		$result		= false;
 		$failed		= array ();
+		
+		echo var_dump($eid);
+		echo var_dump($eclient);
+		die();
 
 //		/*
 //		 * Get the extension client

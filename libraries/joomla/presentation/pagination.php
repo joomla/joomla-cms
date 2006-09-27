@@ -502,8 +502,9 @@ class JPagination extends JObject
 		$html = null;
 	
 		// Reverse output rendering for right-to-left display
-		if($lang->isRTL()) {
-			$html .= $list['previous']['data'];
+		if($lang->isRTL()) 
+		{
+			$html .=  $list['previous']['data'];
 			$html .= $list['start']['data'];
 			$list['pages'] = array_reverse( $list['pages'] );
 			foreach( $list['pages'] as $page ) {
@@ -511,14 +512,20 @@ class JPagination extends JObject
 			}
 			$html .= $list['end']['data'];
 			$html .= $list['next']['data'];
-		} else {
+		} 
+		else 
+		{
+			$html .= '&lt&lt; ';
 			$html .= $list['start']['data'];
+			$html .= ' &lt ';
 			$html .= $list['previous']['data'];
 			foreach( $list['pages'] as $page ) {
-				$html .= $page['data'];
+				$html .= ' '.$page['data'];
 			}
-			$html .= $list['next']['data'];
-			$html .= $list['end']['data'];
+			$html .= ' '. $list['next']['data'];
+			$html .= ' &gt;';
+			$html .= ' '. $list['end']['data'];
+			$html .= ' &gt;&gt;';
 		}
 		return $html;
 	}
@@ -529,7 +536,7 @@ class JPagination extends JObject
 		if ($mainframe->isAdmin()) {
 			return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; document.adminForm.submit();return false;\">".$item->text."</a>";
 		} else {
-			return "<a title=\"".$item->text."\" href=\"".$item->link."\" class=\"pagination\">".$item->text."</a>";
+			return "<a title=\"".$item->text."\" href=\"".$item->link."\" class=\"pagenav\">".$item->text."</a>";
 		}
 	}
 
@@ -539,7 +546,7 @@ class JPagination extends JObject
 		if ($mainframe->isAdmin()) {
 			return "<span>".$item->text."</span>";
 		} else {
-			return "<span class=\"pagination\">".$item->text."</span>";
+			return "<span class=\"pagenav\">".$item->text."</span>";
 		}
 	}
 
@@ -570,7 +577,9 @@ class JPagination extends JObject
 		// Set the start and previous data objects
 		$data->start	= new JPaginationObject(JText::_('Start'));
 		$data->previous	= new JPaginationObject(JText::_('Prev'));
-		if ($this->get('pages.current') > 1) {
+		
+		if ($this->get('pages.current') > 1) 
+		{
 			$page = ($this->get('pages.current') -2) * $this->limit;
 			$data->start->base	= '0';
 			$data->start->link	= JURI::resolve($link."&amp;limitstart=0");
@@ -581,7 +590,9 @@ class JPagination extends JObject
 		// Set the next and end data objects
 		$data->next	= new JPaginationObject(JText::_('Next'));
 		$data->end	= new JPaginationObject(JText::_('End'));
-		if ($this->get('pages.current') < $this->get('pages.total')) {
+		
+		if ($this->get('pages.current') < $this->get('pages.total')) 
+		{
 			$page = $this->get('pages.current') * $this->limit;
 			$endPage = ($this->get('pages.total') -1) * $this->limit;
 			$data->next->base	= $page;
@@ -592,10 +603,12 @@ class JPagination extends JObject
 
 		$data->pages = array();
 		$stop = $this->get('pages.stop');
-		for ($i = $this->get('pages.start'); $i <= $stop; $i ++) {
+		for ($i = $this->get('pages.start'); $i <= $stop; $i ++) 
+		{
 			$offset = ($i -1) * $this->limit;
 			$data->pages[$i] = new JPaginationObject($i);
-			if ($i != $this->get('pages.current') || $this->_viewall) {
+			if ($i != $this->get('pages.current') || $this->_viewall) 
+			{
 				$data->pages[$i]->base	= $offset;
 				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$offset);
 			}

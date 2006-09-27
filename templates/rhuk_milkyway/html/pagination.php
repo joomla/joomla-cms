@@ -70,11 +70,14 @@ function pagination_list_footer($list)
 	$lang =& JFactory::getLanguage();
 	$html = "<div class=\"list-footer\">\n";
 
-	if ($lang->isRTL()) {
+	if ($lang->isRTL()) 
+	{
 		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
-	} else {
+	} 
+	else 
+	{
 		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
@@ -90,10 +93,11 @@ function pagination_list_render($list)
 {
 	// Initialize variables
 	$lang =& JFactory::getLanguage();
-	$html = "<div class=\"pagination\">";
+	$html = "<span class=\"pagination\">";
 
 	// Reverse output rendering for right-to-left display
-	if($lang->isRTL()) {
+	if($lang->isRTL()) 
+	{
 		$html .= $list['previous']['data'];
 		$html .= $list['start']['data'];
 
@@ -104,29 +108,39 @@ function pagination_list_render($list)
 
 		$html .= $list['end']['data'];
 		$html .= $list['next']['data'];
-	} else {
-		$html .= $list['start']['data'];
+	} 
+	else 
+	{
+		$html .= '&laquo; '.$list['start']['data'];
 		$html .= $list['previous']['data'];
 
-		foreach( $list['pages'] as $page ) {
+		foreach( $list['pages'] as $page ) 
+		{
+			if($page['data']['active']) {
+				$html .= '<strong>';
+			}
+			
 			$html .= $page['data'];
+			
+			if($page['data']['active']) {
+				$html .= '</strong>';
+			}
 		}
 
 		$html .= $list['next']['data'];
 		$html .= $list['end']['data'];
+		$html .= ' &raquo';
 	}
 
-	$html .= "</div>";
+	$html .= "</span>";
 	return $html;
 }
 
-function pagination_item_active(&$item)
-{
+function pagination_item_active(&$item) {
 	return "<a href=\"".$item->link."\" title=\"".$item->text."\">".$item->text."</a>";
 }
 
-function pagination_item_inactive(&$item)
-{
+function pagination_item_inactive(&$item) {
 	return "<span>".$item->text."</span>";
 }
 ?>

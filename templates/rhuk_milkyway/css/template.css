@@ -727,3 +727,6 @@ dl#system-message { margin: 0; padding: 0; }
 #system-message dt.error { display: none; }
 #system-message dd.error { background: #f00; }
 #system-message dd.error ul { list-style: none; background: url(../../../images/M_images/icon_error.gif) no-repeat 10px 10px; color: white; padding: 10px 10px 10px 40px;}
+
+.pagination span { padding: 2px; }
+.pagination a    { padding: 2px; }
