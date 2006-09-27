@@ -80,11 +80,6 @@ class JAdminSubMenu
 					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
 				}
 
-				if ($task == 'preview') {
-					$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_templates&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png', 'active' => 1);
-				} else {
-					$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_templates&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png');
-				}
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
 
