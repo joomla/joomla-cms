@@ -129,7 +129,7 @@ function pagination_list_render($list)
 
 		$html .= $list['next']['data'];
 		$html .= $list['end']['data'];
-		$html .= ' &raquo';
+		$html .= ' &raquo;';
 	}
 
 	$html .= "</span>";
