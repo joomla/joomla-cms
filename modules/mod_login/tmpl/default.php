@@ -1,3 +1,17 @@
+<?php if($type == 'logout') : ?>
+<form action="index.php" method="post" name="login">
+<?php if ($params->get('greeting')) : ?>
+	<div><?php echo sprintf( JText::_( 'HINAME' ), $user->get('name') ); ?></div>
+<?php endif; ?>
+	<div align="center">
+		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
+	</div>
+
+	<input type="hidden" name="option" value="com_login" />
+	<input type="hidden" name="task" value="logout" />
+	<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return); ?>" />
+</form>
+<?php else : ?>
 <form action="index.php" method="post" name="login" >
 	<?php echo $params->get('pretext'); ?>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -42,3 +56,4 @@
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs($return ); ?>" />
 	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
 </form>
+<?php endif; ?>

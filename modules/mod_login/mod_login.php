@@ -22,16 +22,6 @@ $params->def('greeting', 1);
 $type 	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL();
 
-switch($type)
-{
-	case 'login' 	:
-	{
-		global $mainframe;
-		require(JModuleHelper::getLayoutPath('mod_login', 'login'));
-	} break;
-	case 'logout'	:
-	{
-		$user =& JFactory::getUser();
-		require(JModuleHelper::getLayoutPath('mod_login', 'logout'));
-	} break;
-}
+$user =& JFactory::getUser();
+
+require(JModuleHelper::getLayoutPath('mod_login'));
