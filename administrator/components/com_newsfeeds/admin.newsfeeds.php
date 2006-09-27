@@ -32,7 +32,7 @@ $task 	= JRequest::getVar( 'task');
 
 switch ($task) {
 
-	case 'new':
+	case 'add' :
 	case 'edit':
 		editNewsFeed( );
 		break;

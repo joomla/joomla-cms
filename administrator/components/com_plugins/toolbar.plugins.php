@@ -16,10 +16,10 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
-switch ($task) {
-
-	case 'new':
-	case 'edit':
+switch ($task) 
+{
+	case 'add'  :
+	case 'edit' :
 	case 'editA':
 		TOOLBAR_modules::_EDIT();
 		break;

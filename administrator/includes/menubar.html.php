@@ -38,22 +38,6 @@ class JMenuBar
 	}
 
 	/**
-	* @deprecated As of Version 1.5
-	*/
-	function startTable()
-	{
-		return;
-	}
-
-	/**
-	* @deprecated As of Version 1.5
-	*/
-	function endTable()
-	{
-		return;
-	}
-
-	/**
 	* Writes a spacer cell
 	* @param string The width for the cell
 	* @since 1.0
@@ -174,7 +158,7 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function addNew($task = 'new', $alt = 'New')
+	function addNew($task = 'add', $alt = 'New')
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a new button
@@ -188,7 +172,7 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function addNewX($task = 'new', $alt = 'New')
+	function addNewX($task = 'add', $alt = 'New')
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a new button (hide menu)
@@ -467,5 +451,39 @@ class JMenuBar
  * Legacy class, use JMenuBar instead
  * @deprecated As of version 1.5
  */
-class mosMenuBar extends JMenuBar { }
+class mosMenuBar extends JMenuBar 
+{
+	/**
+	* @deprecated As of Version 1.5
+	*/
+	function startTable() {
+		return;
+	}
+
+	/**
+	* @deprecated As of Version 1.5
+	*/
+	function endTable() {
+		return;
+	}
+	
+	/**
+	 * Default $task has been changed to edit instead of new
+	 * 
+	 * @deprecated As of Version 1.5
+	 */
+	function addNew($task = 'new', $alt = 'New') {
+		parent::addNew($task, $alt);
+	}
+
+	/**
+	 * Default $task has been changed to edit instead of new
+	 * 
+	 * @deprecated As of Version 1.5
+	 */
+	function addNewX($task = 'new', $alt = 'New') {
+		parent::addNew($task, $alt);
+	} 
+
+}
 ?>

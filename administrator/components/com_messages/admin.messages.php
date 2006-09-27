@@ -30,7 +30,7 @@ switch ($task)
 		viewMessage( $cid[0], $option );
 		break;
 
-	case 'new':
+	case 'add':
 		newMessage( $option, NULL, NULL );
 		break;
 

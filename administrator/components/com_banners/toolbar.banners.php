@@ -19,8 +19,9 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ($task)
 {
-	case 'newclient':
-	case 'editclient':
+	case 'add'        :
+	case 'newclient'  :
+	case 'editclient' :
 	case 'editclientA':
 		TOOLBAR_bannerClient::_EDIT();
 		break;
@@ -29,7 +30,6 @@ switch ($task)
 		TOOLBAR_bannerClient::_DEFAULT();
 		break;
 
-	case 'new':
 	case 'edit':
 	case 'editA':
 		TOOLBAR_banners::_EDIT();

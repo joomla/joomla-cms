@@ -17,11 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'toolbar_html' ) );
 
-switch ($task){
-	case 'new':
-		TOOLBAR_installer::_NEW();
-		break;
-
+switch ($task)
+{
 	default:
 		$extension = JRequest::getVar( 'extension' );
 		if ($extension == 'component' || $extension == 'module' || $extension == 'plugin' || $extension == 'language' || $extension == 'template') {

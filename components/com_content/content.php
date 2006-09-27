@@ -38,7 +38,7 @@ $viewType = $document->getType();
 $controller->setViewName( $viewName, 'ContentView', $viewType );
 
 // Register Extra tasks
-$controller->registerTask( 'new', 		'edit' );
+$controller->registerTask( 'add'  , 	'edit' );
 $controller->registerTask( 'apply', 	'save' );
 $controller->registerTask( 'apply_new', 'save' );
 

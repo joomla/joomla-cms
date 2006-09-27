@@ -26,7 +26,7 @@ if (!is_array( $cid )) {
 
 switch (JRequest::getVar('task')) 
 {
-	case 'new':
+	case 'add' : 
 	case 'edit':
 		editCategory( );
 		break;

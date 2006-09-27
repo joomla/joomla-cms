@@ -25,8 +25,9 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) {
-	case 'new':
+switch ($task) 
+{
+	case 'add' :
 	case 'edit':
 		editSection( );
 		break;

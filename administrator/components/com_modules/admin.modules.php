@@ -40,7 +40,7 @@ switch ( $task )
 		copyModule( $option, intval( $cid[0] ));
 		break;
 
-	case 'new':
+	case 'add' :
 		selectnew( );
 		break;
 

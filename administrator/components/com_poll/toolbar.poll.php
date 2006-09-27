@@ -17,7 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-switch ($task) {
+switch ($task) 
+{
 	case 'edit':
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		if (!is_array( $cid )) {
@@ -27,7 +28,7 @@ switch ($task) {
 		TOOLBAR_poll::_EDIT( $cid[0] );
 		break;
 
-	case 'new':
+	case 'add'  :
 	case 'editA':
 		$id = JRequest::getVar( 'id', 0, '', 'int' );
 

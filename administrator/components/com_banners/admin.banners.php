@@ -35,7 +35,7 @@ if (!is_array( $cid )) {
 switch (JRequest::getVar( 'task' ))
 {
 	// Banners
-	case 'new':
+	case 'add' :
 	case 'edit':
 		BannerController::edit();
 		break;

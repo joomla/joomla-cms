@@ -31,10 +31,5 @@ class TOOLBAR_installer
 		JMenuBar::deleteList( '', 'remove', 'Uninstall' );
 		JMenuBar::help( 'screen.installer2' );
 	}
-
-	function _NEW()	{
-		JMenuBar::save();
-		JMenuBar::cancel();
-	}
 }
 ?>

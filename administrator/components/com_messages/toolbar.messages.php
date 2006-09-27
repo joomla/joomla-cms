@@ -23,8 +23,8 @@ switch ( $task ) {
 		TOOLBAR_messages::_VIEW();
 		break;
 
-	case 'new':
-	case 'edit':
+	case 'add'  :
+	case 'edit' :
 	case 'reply':
 		TOOLBAR_messages::_EDIT();
 		break;

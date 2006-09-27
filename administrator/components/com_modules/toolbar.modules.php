@@ -26,7 +26,7 @@ switch ($task) {
 		TOOLBAR_modules::_EDIT( $client );
 		break;
 
-	case 'new':
+	case 'add':
 		TOOLBAR_modules::_NEW($client);
 		break;
 

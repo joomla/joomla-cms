@@ -28,7 +28,7 @@ require_once( JPATH_COMPONENT.DS.'users.class.php' );
 
 switch (JRequest::getVar('task'))
 {
-	case 'new':
+	case 'add' :
 	case 'edit':
 		editUser( );
 		break;

@@ -36,7 +36,7 @@ if (!is_array( $cid )) {
 
 switch ( $task )
 {
-	case 'new':
+	case 'add' :
 	case 'edit':
 		editPlugin( );
 		break;

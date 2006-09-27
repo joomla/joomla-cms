@@ -34,7 +34,7 @@ $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 
 switch ($task)
 {
-	case 'new':
+	case 'add' :
 	case 'edit':
 		editWeblink();
 		break;

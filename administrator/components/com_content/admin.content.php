@@ -32,7 +32,7 @@ switch (strtolower($task))
 		$controller->redirect();
 		break;
 
-	case 'new' :
+	case 'add'  : 
 	case 'edit' :
 		JContentController::editContent();
 		break;
