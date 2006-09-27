@@ -192,7 +192,9 @@ class JPagination extends JObject
 
 		// Build the page navigation list
 		$data = $this->_buildDataObject($link);
+		
 		$list = array();
+		
 		$itemOverride = false;
 		$listOverride = false;
 
@@ -231,6 +233,7 @@ class JPagination extends JObject
 			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
+		$list['pages'] = array(); //make sure it exists
 		foreach ($data->pages as $i => $page)
 		{
 			if ($page->base !== null) {

@@ -93,7 +93,8 @@ function pagination_list_render($list)
 	$html = null;
 
 	// Reverse output rendering for right-to-left display
-	if($lang->isRTL()) {
+	if($lang->isRTL())
+	{
 		if ($list['previous']['active']) {
 			$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
 		} else {
@@ -122,7 +123,9 @@ function pagination_list_render($list)
 		} else {
 			$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
 		}
-	} else {
+	} 
+	else 
+	{
 		if ($list['start']['active']) {
 			$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
 		} else {
