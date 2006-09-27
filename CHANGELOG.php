@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Sep-2006 Hannes Papenberg
+ # Fixed [artf6006] : Removed the broken Preview button in Template Manager and fixed the template preview
+
 27-Sep-2006 Johan Janssens
  # Fixed [artf4427] : Language uninstallation problems
  ^ Renamed presenation framework package to html
