@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Sep-2006 Johan Janssens
+ ^ Update XStandard plugin to version 1.7.1
+
 28-Sep-2006 Hannes Papenberg
  # Fixed [artf6006] : Removed the broken Preview button in Template Manager and fixed the template preview
 

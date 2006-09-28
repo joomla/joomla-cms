@@ -11,31 +11,6 @@
  */
 
 
-// -- Events handling ---------------------------
-
-var JEvents = { 
-	//cross-browser event handling by Scott Andrew
-	addEvent : function (elm, evType, fn, useCapture) {
-		if (elm.addEventListener)   { 	//EOMB
-    		elm.addEventListener(evType, fn, useCapture);
-			return true;
-		} else if (elm.attachEvent) { 	// IE
-	  		var r = elm.attachEvent('on' + evType, fn);
-		} else { 								// IE 5 Mac and some others
-	   	 elm['on' + evType] = fn;
-		}
-	},
-	removeEvent : function (elm, evType, fn, useCapture) {
-		if (elm.removeEventListener)   { //EOMB
-    		elm.removeEventListener(evType, fn, useCapture);
-		} else if (elm.detachEvent)    { // IE
-	  		elm.detachEvent('on' + evType, fn);
-		} else { 								// IE 5 Mac and some others
-	   	 target['on' + evType] = undefined;
-		}
-	}
-}
-
 // -- XStandard Lite prototype -------------------
 
 function XStandardLite ()
@@ -68,7 +43,8 @@ XStandardLite.prototype.getInstances = function()
 
 XStandardLite.prototype.save = function() 
 {
-	for(var instance in this.instances) {
+	for(var instance in this.instances) 
+	{
 		var object = this.instances[instance];
 		object.EscapeUnicode = false;
 		
@@ -77,18 +53,14 @@ XStandardLite.prototype.save = function()
 		contents = contents.replace(/<joomla:image\s*.*?\/>/gi, '{image}');
 		contents = contents.replace(/<joomla:pagebreak\s*.*?\/>/gi, '{pagebreak}');
 		contents = contents.replace(/<joomla:readmore\s*.*?\/>/gi, '{readmore}');
-		
+	
 		document.getElementById(object.className).value = contents;
 	}
 }
 
 // -- Loader-----------------------------------
 
-function onLoad() {
-	xstandard_lite = new XStandardLite();
+document.addLoadEvent(function() {
+ 	xstandard_lite = new XStandardLite();
 	xstandard_lite.init();
-} 
-
-JEvents.addEvent(window, 'load', onLoad, true);
-
-
+});
