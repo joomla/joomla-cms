@@ -128,10 +128,6 @@ class mosHTML
 	{
 		jimport('joomla.utilities.date');
 		
-		if($date != 'now') {
-			$date = strtotime($date);
-		}
-		
 		if(is_null($offset)) 
 		{
 			$config =& JFactory::getConfig();

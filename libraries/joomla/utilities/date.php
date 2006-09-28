@@ -117,7 +117,7 @@ class JDate extends JObject
 			return;
 		}
 
-		$this->_date = 0;
+		$this->_date = strtotime($date);;
 	}
 	
 	/**

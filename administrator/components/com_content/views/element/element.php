@@ -24,7 +24,7 @@ jimport('joomla.application.component.view');
  * @subpackage Content
  * @since 1.5
  */
-class JContentViewElement extends JView
+class ContentViewElement extends JView
 {
 	function display()
 	{

@@ -26,7 +26,7 @@ jimport( 'joomla.application.component.model');
  * @subpackage Content
  * @since 1.5
  */
-class JContentModelElement extends JModel
+class ContentModelElement extends JModel
 {
 	/**
 	 * Content data in category array

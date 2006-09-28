@@ -20,7 +20,7 @@ require_once( JPATH_COMPONENT.DS.'controller.php' );
 require_once( JPATH_COMPONENT.DS.'helper.php' );
 require_once (JApplicationHelper::getPath('admin_html'));
 
-$controller = new JContentController();
+$controller = new ContentController();
 $controller->setModelPath( JPATH_COMPONENT.DS.'models'.DS );
 $controller->setViewPath( JPATH_COMPONENT.DS.'views'.DS );
 
@@ -34,7 +34,7 @@ switch (strtolower($task))
 
 	case 'add'  : 
 	case 'edit' :
-		JContentController::editContent();
+		ContentController::editContent();
 		break;
 
 	case 'go2menu' :
@@ -43,43 +43,43 @@ switch (strtolower($task))
 	case 'menulink' :
 	case 'apply' :
 	case 'save' :
-		JContentController::saveContent();
+		ContentController::saveContent();
 		break;
 
 	case 'remove' :
-		JContentController::removeContent();
+		ContentController::removeContent();
 		break;
 
 	case 'publish' :
-		JContentController::changeContent(1);
+		ContentController::changeContent(1);
 		break;
 
 	case 'unpublish' :
-		JContentController::changeContent(0);
+		ContentController::changeContent(0);
 		break;
 
 	case 'toggle_frontpage' :
-		JContentController::toggleFrontPage();
+		ContentController::toggleFrontPage();
 		break;
 
 	case 'archive' :
-		JContentController::changeContent(-1);
+		ContentController::changeContent(-1);
 		break;
 
 	case 'unarchive' :
-		JContentController::changeContent(0);
+		ContentController::changeContent(0);
 		break;
 
 	case 'cancel' :
-		JContentController::cancelContent();
+		ContentController::cancelContent();
 		break;
 
 	case 'orderup' :
-		JContentController::orderContent(-1);
+		ContentController::orderContent(-1);
 		break;
 
 	case 'orderdown' :
-		JContentController::orderContent(1);
+		ContentController::orderContent(1);
 		break;
 
 	//case 'showarchive' :
@@ -87,43 +87,43 @@ switch (strtolower($task))
 	//	break;
 
 	case 'movesect' :
-		JContentController::moveSection();
+		ContentController::moveSection();
 		break;
 
 	case 'movesectsave' :
-		JContentController::moveSectionSave();
+		ContentController::moveSectionSave();
 		break;
 
 	case 'copy' :
-		JContentController::copyItem();
+		ContentController::copyItem();
 		break;
 
 	case 'copysave' :
-		JContentController::copyItemSave();
+		ContentController::copyItemSave();
 		break;
 
 	case 'accesspublic' :
-		JContentController::accessMenu(0);
+		ContentController::accessMenu(0);
 		break;
 
 	case 'accessregistered' :
-		JContentController::accessMenu(1);
+		ContentController::accessMenu(1);
 		break;
 
 	case 'accessspecial' :
-		JContentController::accessMenu(2);
+		ContentController::accessMenu(2);
 		break;
 
 	case 'saveorder' :
-		JContentController::saveOrder();
+		ContentController::saveOrder();
 		break;
 
 	case 'preview' :
-		JContentController::previewContent();
+		ContentController::previewContent();
 		break;
 
 	default :
-		JContentController::viewContent();
+		ContentController::viewContent();
 		break;
 }
 

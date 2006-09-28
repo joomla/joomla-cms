@@ -22,15 +22,15 @@ jimport('joomla.application.component.controller');
  * @subpackage Content
  * @since 1.5
  */
-class JContentController extends JController
+class ContentController extends JController
 {
 	/**
 	 * Articles element
 	 */
 	function element()
 	{
-		$model	= &$this->getModel( 'element', 'JContentModel' );
-		$view = &$this->getView( 'element', 'JContentView' );
+		$model	= &$this->getModel( 'element', 'ContentModel' );
+		$view   = &$this->getView( 'element', 'ContentView' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -597,7 +597,7 @@ class JContentController extends JController
 		$date = new JDate($row->created);
 		$date->setOffset( -$mainframe->getCfg('offset'));
 		$row->created = $date->toMySQL();
-
+	
 		// Append time if not added to publish date
 		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
@@ -625,6 +625,7 @@ class JContentController extends JController
 		// Get a state and parameter variables from the request
 		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
 		$params		= JRequest::getVar( 'params', '', 'post' );
+		
 
 		// Build parameter INI string
 		if (is_array($params))
@@ -880,7 +881,7 @@ class JContentController extends JController
 
 		if (count($cid) < 1)
 		{
-			JViewContent::displayError( JText::_('Select an item to delete') );
+			ContentView::displayError( JText::_('Select an item to delete') );
 			return false;
 		}
 
@@ -965,7 +966,7 @@ class JContentController extends JController
 
 		if (count($cid) < 1)
 		{
-			JViewContent::displayError( JText::_('Select an item to move') );
+			ContentView::displayError( JText::_('Select an item to move') );
 			return false;
 		}
 
@@ -1085,7 +1086,7 @@ class JContentController extends JController
 		$option		= JRequest::getVar( 'option' );
 
 		if (!is_array($cid) || count($cid) < 1) {
-			JViewContent::displayError( JText::_('Select an item to move') );
+			ContentView::displayError( JText::_('Select an item to move') );
 			return false;
 		}
 
