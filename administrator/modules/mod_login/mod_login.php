@@ -48,18 +48,12 @@ $langs = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 
 		<label for="lang"><?php echo JText::_('Language'); ?></label>
 		<?php echo $langs; ?>
 	</p>
-	<p>
-	<label></label>
-	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
-		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
-			<a onclick="loginForm.submit();">
-				<?php echo JText::_( 'Login' ); ?>
-			</a>
-		</div>
-	</div>
-	<div class="clr"></div>
+	<p class="button">
+		<button type="submit" class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
+			<a class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>"><?php echo JText::_( 'Login' ); ?></a>
+		</button>
+		<div class="clr"></div>
 	</p>
-	<input type="submit" name="dosubmit" value="submit" style="visibility:hidden;" />
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />

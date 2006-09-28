@@ -43,6 +43,7 @@ Legend:
 27-Sep-2006 Johan Janssens
  # Fixed [artf4427] : Language uninstallation problems
  ^ Renamed presenation framework package to html
+ # Fixed [artf6059] : Pressing enter doesn't submit admin login form
 
 26-Sep-2006 David Gal
  + Added RTL parameter to TinyMCE xml file
