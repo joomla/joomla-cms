@@ -67,7 +67,7 @@
 		</td>
 	</tfoot>
 	<tbody>
-	<?php $i = 0; ?>
+	<?php $i = 0; $k = 0; ?>
 	<?php foreach ($this->menus as $menu) : ?>
 		<?php
 			// Get the current iteration and set a few values
@@ -118,7 +118,7 @@
 				?>
 			</td>
 		</tr>
-		<?php $i++; ?>
+		<?php $i++; $k = 1 - $k; ?>
 	<?php endforeach; ?>
 	</tbody>
 	</table>

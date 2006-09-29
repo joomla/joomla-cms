@@ -4,7 +4,7 @@
 <tr>
 	<td align="left" width="100%">
 		<?php echo JText::_( 'Filter' ); ?>:
-		<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+		<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 		<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 		<button onclick="getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 	</td>
@@ -25,7 +25,7 @@
 				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($items); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title" width="30%">
 				<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $this->lists ); ?>
