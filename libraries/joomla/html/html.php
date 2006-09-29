@@ -1007,6 +1007,7 @@ class mosCommonHTML {
 
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
 		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
+		$state[] = mosHTML::makeOption( '*', JText::_( 'Any' ) );
 		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
 		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
 
