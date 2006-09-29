@@ -90,18 +90,8 @@ class JAuthenticateGMail extends JPlugin {
 				break;
 		}
 		if ($success) {
-			$query = 	"SELECT `id`".
-						"\nFROM `#__users`".
-						"\nWHERE username=".$db->Quote($username).
-						$conditions;
-
-			$db->setQuery($query);
-			$userId = $db->loadResult();
-			if($userId !== false) {
-				$return->type = 'autocreate';
-			} else {
-				$return->type = 'success';
-			}
+			$return->type = 'autocreate';		// Autocreate is the default, the system will create as needed
+			$return->email = $username;
 		} else {
 			$return->type = 'failure';
 			$return->error_message = 'Failed to authenticate: ' . $message;

@@ -77,15 +77,26 @@ class JAuthenticateLdap extends JPlugin {
 			return $result;
 		}
 		$success = $ldap->bind($username, $password);
-
-		$ldap->close();
-
 		if(!$success) {
 			$result->type = 'error';
 			$result->error_message = 'Failed to bind to LDAP server';
 		} else {
-			$result->type = 'success';
+			$result->type = 'success';	// By default autocreate is disabled.
+			if (intval($pluginParams->get('autocreate'))) {
+				$userdetails = $ldap->search(Array('(cn='.$username.')')); // Grab the email
+				if (isset($userdetails[0]['mail'][0])) {
+					$result->type = 'autocreate';
+					$result->email = $userdetails[0]['mail'][0];
+					if(isset($userdetails[0]['fullName'][0])) {
+						$result->fullname = $userdetails[0]['fullName'][0];
+					} else { 
+						$result->fullname = $username;
+					}
+					$result->autocreate = 1;		// May change the handling of this in the future
+				}
+			} 
 		}
+		$ldap->close();
 		return $result;
 	}
 }

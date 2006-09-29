@@ -13,6 +13,10 @@
         <filename plugin="ldap">ldap.php</filename>
     </files>
     <params>
+		<param name="autocreate" type="radio" default="0" label="Auto Create Users" description="Automatically created registered users where possible">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>			
         <param name="host" type="text" size="20" default="" label="Host" description="For example, openldap.mycompany.org" />
         <param name="port" type="text" size="20" default="389" label="Port" description="Default port is 389" />
         <param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="PARAMLDAPV3">

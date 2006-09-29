@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Sep-2006 Sam Moffatt
+ # Fixed up default DN setting in LDAP Library
+ + Added LDAP user autocreation as an option
+ + Extended JAuthenticateResponse to include more information for user autocreation
+ ^ Cleaned up some of the autocreation detection system
+ ^ Enabled more advanced autocreation
+
 28-Sep-2006 Johan Janssens
  ^ Update XStandard plugin to version 1.7.1
 

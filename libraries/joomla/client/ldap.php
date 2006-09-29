@@ -170,14 +170,14 @@ class JLDAP
 		if($dnoverride) {
 			$dn = $dnoverride;
 		} else {
-			$dn = $this->getDN();
+			$dn = $this->base_dn;
 		}
-
+		
 		$resource = $this->_resource;
 
 		foreach ($filters as $search_filter) {
 			$search_result = ldap_search( $resource, $dn , $search_filter);
-			if (($count = ldap_count_entries( $resource, $search_result )) > 0 ) {
+			if ($search_result && ($count = ldap_count_entries( $resource, $search_result )) > 0 ) {
 				for($i = 0; $i < $count; $i++) {
 					$attributes[$i] = Array();
 					if(!$i) {

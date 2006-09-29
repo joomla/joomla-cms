@@ -100,19 +100,28 @@ class JAuthenticate extends JObject
 		{
 			switch($result->type) {
 				case 'success':
-					return true;
+					if(JUserHelper::getUserId( $credentials['username'] )) {
+						// Whilst a plugin may validate the login, it might not actually exist
+						return true;
+					} else {
+						return false;
+					}
 					break;
 				case 'autocreate':
-					// We need to create the user
+					// We need to create the user if they don't exist
+					if(intval(JUserHelper::getUserId($credentials['username']))) { return true; }
 					$user = new JUser();
 					$user->set( 'id', 0 );
-					$user->set( 'name', $credentials['username'] );
+					$user->set( 'name', $result->fullname );
 					$user->set( 'username', $credentials['username'] );
-					$user->set( 'gid', 18 );
-					$user->set( 'usertype', 'Registered' );
-					$user->set( 'email', $credentials['username'] );
-					$user->save();
-					return true;
+					$user->set( 'gid', $result->gid );
+					$user->set( 'usertype', $result->usertype );
+					$user->set( 'email', $result->email );	// Result should contain an email
+					if($user->save()) {
+						return true;
+					} else {
+						return false;
+					}
 					break;
 			}
 		}
@@ -427,6 +436,15 @@ class JAuthenticateResponse extends JObject
 	var $error_message 	= '';
 	/** @var autocreate int Flag to autocreate a user */
 	var $autocreate		= 0;
+	
+	/** @var fullname string The fullname of the user (JUser->name) */
+	var $fullname 		= '';
+	/** @var gid int The group id to use (default should be fine for most uses) */
+	var $gid 			= 18;
+	/** @var usertype string The usertype to use (default should be fine for most uses) */
+	var $usertype 		= 'Registered';
+	/** @var email string The email to use */
+	var $email			= '';
 
 	/**
 	 * Constructor
