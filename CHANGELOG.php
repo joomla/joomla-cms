@@ -80,6 +80,7 @@ Legend:
  # Fixed [artf4085] : install components fail with a create directory failure notice
  # Fixed [artf5430] : joomla not working with Opera
  # Fixed [artf4440] : icons missing
+ # Fixed [artf5834] : inconsistency with module suffix
  # Fixed multiple bugs - Contributed by Hannes Papenberg
  ^ Moved user classes into it's own package
 
