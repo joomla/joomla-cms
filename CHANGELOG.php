@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Sep-2006 Louis Landry
+ # [artf6161] Menu Item "Separator": Wrong Link in Frontend
+ ^ Removed level number class from main menu rendering -- redundant classitis --
+
 29-Sep-2006 Sam Moffatt
  # Fixed up default DN setting in LDAP Library
  + Added LDAP user autocreation as an option
@@ -1372,7 +1376,7 @@ Legend:
 
 22-Dec-2005 Andy Miller
  ^ Changed multi column content to display vertical like a newspaper
- + Added padding and seperator styles to multi column layout
+ + Added padding and separator styles to multi column layout
 
 21-Dec-2005 Johan Janssens
  + Added JTemplate Zlib outputfilter for transparent gzip compression

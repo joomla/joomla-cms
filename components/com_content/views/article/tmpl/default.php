@@ -123,5 +123,5 @@ endif; ?>
 <?php endif; ?>
 
 </table>
-<span class="article_seperator">&nbsp;</span>
+<span class="article_separator">&nbsp;</span>
 <?php echo $this->article->event->afterDisplayContent; ?>
