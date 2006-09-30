@@ -1,7 +1,6 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 /**
+ * @version $Id: CHANGELOG.php 5243 2006-09-30 19:03:32Z davidgal $
  * Writer to files
  *
  * PHP versions 4 and 5
@@ -23,10 +22,13 @@
  * @category   File Formats
  * @package    File_Archive
  * @author     Vincent Lascaux <vincentlascaux@php.net>
+ * 			   Modified by David Gal <david.gal@joomla.org>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL
  * @version    CVS: $Id: Files.php,v 1.21 2005/06/18 23:08:16 vincentlascaux Exp $
  * @link       http://pear.php.net/package/File_Archive
+ * 
+ * NOTE: modified for use with Joomla! 
  */
 
 require_once "File/Archive/Writer.php";
@@ -89,7 +91,11 @@ class File_Archive_Writer_Files extends File_Archive_Writer
         if (PEAR::isError($error)) {
             return $error;
         }
-        if (!@mkdir($pathname)) {
+        
+        //Following change made by david.gal@joomla.org
+        //to allow use with Joomla! in safe mode
+//      if (!@mkdir($pathname)) {
+        if (!JFolder::create($pathname, 0777)) {
             return PEAR::raiseError("Unable to create directory $pathname");
         }
     }

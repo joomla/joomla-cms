@@ -39,6 +39,7 @@ Legend:
 
 30-Sep-2006 David Gal
  # Fixed JFile and JFolder delete functions for restrictive persmissions
+ ^ Made changes to Pear/Archive library to support use with safe mode on
 
 30-Sep-2006 Sam Moffatt
  # Fixed up GMail plugin not setting fullName in JAuthenticateResponse causing JUser to fail on autocreate

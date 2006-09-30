@@ -1,7 +1,6 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 /**
+ * @version $Id: CHANGELOG.php 5243 2006-09-30 19:03:32Z davidgal $
  * Factory to access the most common File_Archive features
  * It uses lazy include, so you dont have to include the files from
  * File/Archive/* directories
@@ -25,10 +24,13 @@
  * @category   File Formats
  * @package    File_Archive
  * @author     Vincent Lascaux <vincentlascaux@php.net>
+ *             Modified by David Gal <david.gal@joomla.org>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL
  * @version    CVS: $Id: Archive.php,v 1.85 2005/08/16 08:48:59 vincentlascaux Exp $
  * @link       http://pear.php.net/package/File_Archive
+ * 
+ * NOTE:   Archive/Writer/Files.php has been modified for use with Joomla!
  */
 
 
