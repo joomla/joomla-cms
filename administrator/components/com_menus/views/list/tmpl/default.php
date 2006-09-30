@@ -118,7 +118,7 @@
 
 <input type="hidden" name="option" value="com_menus" />
 <input type="hidden" name="menutype" value="<?php echo $this->menutype; ?>" />
-<input type="hidden" name="task" value="" />
+<input type="hidden" name="task" value="view" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="hidemainmenu" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />

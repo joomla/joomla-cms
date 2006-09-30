@@ -186,7 +186,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -204,7 +204,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class JMenuController extends JController
 		if ($cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, JText::_('No Items Selected') );
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, JText::_('No Items Selected') );
 			return false;
 		}
 
@@ -227,7 +227,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -240,7 +240,7 @@ class JMenuController extends JController
 		if ($cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, JText::_('No Items Selected') );
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, JText::_('No Items Selected') );
 			return false;
 		}
 
@@ -250,7 +250,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -267,7 +267,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -285,7 +285,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -303,7 +303,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -321,7 +321,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -339,7 +339,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	function remove()
@@ -354,7 +354,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
 	}
 
 	/**
