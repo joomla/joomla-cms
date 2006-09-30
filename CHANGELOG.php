@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2006 Sam Moffatt
+ # Fixed up GMail plugin not setting fullName in JAuthenticateResponse causing JUser to fail on autocreate
+
 29-Sep-2006 Louis Landry
  # [artf6161] Menu Item "Separator": Wrong Link in Frontend
  ^ Removed level number class from main menu rendering -- redundant classitis --

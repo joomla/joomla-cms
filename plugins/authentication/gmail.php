@@ -92,6 +92,7 @@ class JAuthenticateGMail extends JPlugin {
 		if ($success) {
 			$return->type = 'autocreate';		// Autocreate is the default, the system will create as needed
 			$return->email = $username;
+			$return->fullname = $username;
 		} else {
 			$return->type = 'failure';
 			$return->error_message = 'Failed to authenticate: ' . $message;
