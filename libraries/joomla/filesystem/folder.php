@@ -191,13 +191,18 @@ class JFolder
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
+	    }
+	    // In case of restricted permissions we zap it one way or the other
+	    // as long as the owner is either the webserver or the ftp
+	    if(@rmdir($path)){
+	    	$ret = true;
+	    } else {
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
 			$ret = $ftp->delete($path);
+	    }
+	    if($ftpFlag){
 			$ftp->quit();
-		} else {
-			// Do it the regular way
-			$ret = rmdir($path);
 		}
 		return $ret;
 	}

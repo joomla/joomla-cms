@@ -161,14 +161,16 @@ class JFile
 		foreach ($files as $file) {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
-			if ($ftpFlag) {
-				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false));
-			} else {
-				$fail = !unlink($file);
-			}
-			if ($fail) {
-				$retval = false;
-			}
+			
+		    // In case of restricted permissions we zap it one way or the other
+		    // as long as the owner is either the webserver or the ftp
+			if(@unlink($file)){
+	        	$retval = true;
+	      	} else {
+	        	if($ftpFlag){
+	          		$retval = $ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false));
+	        	}
+	      	}
 		}
 
 		// Close FTP connection if connected

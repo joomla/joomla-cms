@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2006 David Gal
+ # Fixed JFile and JFolder delete functions for restrictive persmissions
+
 30-Sep-2006 Sam Moffatt
  # Fixed up GMail plugin not setting fullName in JAuthenticateResponse causing JUser to fail on autocreate
 
