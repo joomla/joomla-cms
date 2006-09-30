@@ -383,6 +383,16 @@ class JSiteHelper
 
 			$option = $component->option;
 
+			// Lets set any request variables from the menu item url
+			$parts = parse_url($item->link);
+			if ($parts['query']) {
+				$vars = array();
+				parse_str($parts['query'], $vars);
+				foreach ($vars as $k => $v)
+				{
+					JRequest::setVar($k, $v);
+				}
+			}
 		}
 		
 		//provide backwards compatibility for frontpage component

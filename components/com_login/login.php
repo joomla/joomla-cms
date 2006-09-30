@@ -113,13 +113,12 @@ class LoginController
 
 		$username = JRequest::getVar( 'username' );
 		$password = JRequest::getVar( 'password' );
+		$return = JRequest::getVar('return', false);
 
 		$error = $mainframe->login($username, $password);
 
 		if(!JError::isError($error))
 		{
-			$return = JRequest::getVar( 'return' );
-
 			/*
 			 * checks for the presence of a return url and ensures that this url is not
 			 * the registration or login pages
@@ -128,7 +127,12 @@ class LoginController
 				$mainframe->redirect( $return );
 			}
 		} else {
-			LoginController::display();
+			// Facilitate third party login forms
+			if ( $return ) {
+				$mainframe->redirect( $return );
+			} else {
+				LoginController::display();
+			}
 		}
 	}
 
