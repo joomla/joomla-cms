@@ -27,5 +27,5 @@ define( 'JPATH_SITE',			JPATH_ROOT );
 define( 'JPATH_CONFIGURATION',	JPATH_ROOT );
 define( 'JPATH_ADMINISTRATOR',	JPATH_ROOT . DS . 'administrator' );
 define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
-set_include_path( JPATH_LIBRARIES . DS . 'pear');
+set_include_path( '.' . PATH_SEPARATOR . JPATH_LIBRARIES . DS . 'pear');
 ?>
