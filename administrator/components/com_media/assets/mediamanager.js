@@ -62,7 +62,7 @@ JMediaManager.prototype = {
 	oncreatefolder: function()
 	{
 		var dirpath = document.getElementById('dirpath');
-		if (dirpath.value) {
+		if (document.getElementById('foldername').value.length) {
 			dirpath.value = '/'+this.getFolder()
 			submitbutton('createfolder');
 		}
