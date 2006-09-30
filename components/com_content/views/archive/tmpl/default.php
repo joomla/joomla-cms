@@ -1,11 +1,11 @@
 <form id="jForm" action="<?php JURI::resolve('index.php')?>" method="post">
-<?php if ($this->header) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->header; ?></div>
+<?php if ($this->params->get('header')) : ?>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->params->get('header'); ?></div>
 <?php endif; ?>
 	<p>
 		<?php if ($this->params->get('filter')) : ?>
 		<?php echo JText::_('Filter').'&nbsp;'; ?>
-		<input type="text" name="filter" value="<?php echo $this->lists['filter'];?>" class="inputbox" onchange="document.jForm.submit();" />
+		<input type="text" name="filter" value="<?php echo $this->filter;?>" class="inputbox" onchange="document.jForm.submit();" />
 		<?php endif; ?>
 		<?php echo $this->form->monthField; ?>
 		<?php echo $this->form->yearField; ?>

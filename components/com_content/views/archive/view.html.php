@@ -46,6 +46,9 @@ class ContentViewArchive extends JView
 		$task 	    = JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		$month		= JRequest::getVar( 'month' );
+		$year		= JRequest::getVar( 'year' );
+		$filter		= JRequest::getVar( 'filter' );
 
 		// Get some data from the model
 		$items = & $this->get( 'data'  );
@@ -104,21 +107,22 @@ class ContentViewArchive extends JView
 			mosHTML::makeOption( '11', JText::_( 'NOV' ) ),
 			mosHTML::makeOption( '12', JText::_( 'DEC' ) )
 		);
-		$form->monthField	= mosHTML::selectList( $months, 'month', 'size="1" class="inputbox"', 'value', 'text', $request->month );
+		$form->monthField	= mosHTML::selectList( $months, 'month', 'size="1" class="inputbox"', 'value', 'text', $month );
 		// Year Field
 		$years = array();
 		$years[] = mosHTML::makeOption( null, JText::_( 'Year' ) );
 		for ($i=2000; $i <= 2010; $i++) {
 			$years[] = mosHTML::makeOption( $i, $i );
 		}
-		$form->yearField	= mosHTML::selectList( $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $request->year );
-		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$request->month.'&amp;year='.$request->year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);
+		$form->yearField	= mosHTML::selectList( $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $year );
+		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$month.'&amp;year='.$year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);
 
-		$this->assign('year'  , JRequest::getVar( 'year' ));
-		$this->assign('month' , JRequest::getVar( 'month' ));
+		$this->assign('filter' 		, $filter);
+		$this->assign('year'  		, $year);
+		$this->assign('month' 		, $month);
 		$this->assign('limit' 		, $limit);
 		$this->assign('limitstart' 	, $limitstart);
-		
+
 		$this->assignRef('form'      , $form);
 		$this->assignRef('items'     , $items);
 		$this->assignRef('params'    , $params);
