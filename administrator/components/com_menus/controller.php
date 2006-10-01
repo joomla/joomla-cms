@@ -108,7 +108,7 @@ class JMenuController extends JController
 //		}
 //		$menu->checkin();
 		$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menutype);
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
 	}
 
 	/**
@@ -138,7 +138,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menu, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class JMenuController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&menutype='.$menu, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -504,7 +504,7 @@ class JMenuController extends JController
 			$msg = JText::_( 'Menu Items & Modules updated' );
 		}
 
-		$this->setRedirect( 'index2.php?option=com_menumanager', $msg );
+		$this->setRedirect( 'index2.php?option=com_menus', $msg );
 	}
 
 	/**

@@ -28,28 +28,28 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title" width="30%">
-				<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $this->lists ); ?>
+				<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $this->lists, 'view' ); ?>
 			</th>
 			<th width="5%">
 				<?php echo JText::_( 'Default' ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $this->lists ); ?>
+				<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $this->lists, 'view' ); ?>
 			</th>
 			<th width="80" nowrap="nowrap">
-				<a href="javascript:tableOrdering('m.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>"><?php echo JText::_( 'Order' ); ?></a>
+				<a href="javascript:tableOrdering('m.ordering','ASC', 'view');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>"><?php echo JText::_( 'Order' ); ?></a>
 			</th>
 			<th width="1%">
 				<?php mosCommonHTML::saveorderButton( $this->items ); ?>
 			</th>
 			<th width="10%">
-				<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $this->lists ); ?>
+				<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $this->lists, 'view' ); ?>
 			</th>
 			<th width="10%" class="title">
-				<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $this->lists ); ?>
+				<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $this->lists, 'view' ); ?>
 			</th>
 			<th nowrap="nowrap">
-				<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $this->lists ); ?>
+				<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $this->lists, 'view' ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -107,7 +107,7 @@
 			<td align="center">
 				<?php echo $row->id; ?>
 			</td>
-		</tr>
+		</tr>	
 		<?php
 		$k = 1 - $k;
 		$i++; 
