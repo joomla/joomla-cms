@@ -122,7 +122,7 @@ class JRequest
 					$var = stripslashes($var);
 				}
 			}
-			if ($var != null) {
+			if ($var !== null) {
 				$GLOBALS['JRequest'][$name][$sig] = $var;
 			} else {
 				$var = $default;
