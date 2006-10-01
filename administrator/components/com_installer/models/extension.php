@@ -97,6 +97,7 @@ class ExtensionManagerModel extends JModel
 		$db =& JFactory::getDBO();
 
 		// Get an installer object for the extension type
+		jimport('joomla.installer.installer');
 		$installer = & JInstaller::getInstance($db, $this->_type);
 
 		// Uninstall the chosen extensions

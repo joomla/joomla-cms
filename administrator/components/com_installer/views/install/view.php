@@ -73,7 +73,7 @@ class ExtensionManagerViewInstall extends JView
 		$install->message = $state->get('extension.message');
 		$install->description = $state->get('extension.description');
 
-		if ($install->message) {
+		if ($install->message || $install->description) {
 			$showMessage = true;
 		} else {
 			$showMessage = false;
