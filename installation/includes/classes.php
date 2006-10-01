@@ -893,17 +893,14 @@ class JInstallationHelper
 
 		for ($i = 1; $i < $numParts; $i ++)
 		{
-			if (in_array(strtolower($parts[$i]), $ftpList))
-			{
-
+			if (in_array(strtolower($parts[$i]), $ftpList)) {
 				$thePath = $ftpPath;
 			}
 			$ftpPath .= $parts[$i]."/";
 		}
-
 		$thePath = str_replace($thePath, '', JPATH_SITE);
 
-		return ($thePath == '') ? "/" : $thePath."/";
+		return ($thePath == '') ? null : $thePath."/";
 	}
 
 	/**
