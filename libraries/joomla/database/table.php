@@ -351,11 +351,11 @@ class JTable extends JObject
 		}
 
 		$this->_db->setQuery( $sql, 0, 1 );
-//echo 'A: ' . $this->_db->getQuery();
 
 
 		$row = null;
-		if ($this->_db->loadObject( $row ))
+		$row = $this->_db->loadObject();
+		if (isset($row))
 		{
 			$query = "UPDATE $this->_tbl"
 			. "\n SET ordering = '$row->ordering'"
@@ -368,14 +368,12 @@ class JTable extends JObject
 				$err = $this->_db->getErrorMsg();
 				die( $err );
 			}
-//echo 'B: ' . $this->_db->getQuery();
 
 			$query = "UPDATE $this->_tbl"
 			. "\n SET ordering = '$this->ordering'"
 			. "\n WHERE $this->_tbl_key = '". $row->$k. "'"
 			;
 			$this->_db->setQuery( $query );
-//echo 'C: ' . $this->_db->getQuery();
 
 			if (!$this->_db->query())
 			{
@@ -392,8 +390,6 @@ class JTable extends JObject
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
-//echo 'D: ' . $this->_db->getQuery();
-
 
 			if (!$this->_db->query())
 			{
