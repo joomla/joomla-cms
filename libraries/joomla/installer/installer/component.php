@@ -53,7 +53,7 @@ class JInstallerComponent extends JInstaller
 		$version	= $root->getAttribute('version');
 		$rootName	= $root->getTagName();
 		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5.0', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
+		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
 			JError::raiseWarning(1, JText::_('MUSTENABLELEGACY'));
 			return false;
 		}
