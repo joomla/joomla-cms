@@ -46,6 +46,7 @@ class ExtensionManagerViewInstall extends JView
 		$paths = new stdClass();
 		$paths->first = '';
 
+		$this->assign('message', false);
 		$this->assignRef('paths', $paths);
 		$this->assignRef('state', $state);
 
