@@ -474,8 +474,35 @@ class JInstallerComponent extends JInstaller
 		 * Find and load the XML install file for the component
 		 */
 		$this->_installDir = $this->_extensionAdminDir;
+
+		/*
+		 * Next, lets delete the submenus for the component.
+		 */
+		$sql = "DELETE " .
+				"\nFROM #__components " .
+				"\nWHERE parent = ".(int)$row->id;
+
+		$db->setQuery($sql);
+		if (!$db->query())
+		{
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.$db->stderr(true));
+			$retval = false;
+		}
+
+		/*
+		 * Next, we will delete the component object
+		 */
+		if (!$row->delete($row->id))
+		{
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.JText::_('Unable to delete the component from the database'));
+			$retval = false;
+		}
+
 		if (!$this->_findInstallFile())
 		{
+			// Make sure we delete the folders 
+			JFolder::delete($this->_extensionAdminDir);
+			JFolder::delete($this->_extensionDir);
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: XML File invalid or not found');
 			return false;
 		}
@@ -567,28 +594,6 @@ class JInstallerComponent extends JInstaller
 				}
 			}
 
-			/*
-			 * Next, lets delete the submenus for the component.
-			 */
-			$sql = "DELETE " .
-					"\nFROM #__components " .
-					"\nWHERE parent = '".$row->id."'";
-
-			$db->setQuery($sql);
-			if (!$db->query())
-			{
-				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.$db->stderr(true));
-				$retval = false;
-			}
-
-			/*
-			 * Lastly, we will delete the component object
-			 */
-			if (!$row->delete($row->id))
-			{
-				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.JText::_('Unable to delete the component from the database'));
-				$retval = false;
-			}
 			return $retval;
 		} else
 		{
