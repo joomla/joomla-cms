@@ -48,6 +48,17 @@ class JInstallerPlugin extends JInstaller
 		$root = & $this->_xmldoc->documentElement;
 
 		/*
+		 * LEGACY CHECK
+		 */
+		$version	= $root->getAttribute('version');
+		$rootName	= $root->getTagName();
+		$config		= &JFactory::getConfig();
+		if ((version_compare($version, '1.5.0', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
+			JError::raiseWarning(1, JText::_('MUSTENABLELEGACY'));
+			return false;
+		}
+
+		/*
 		 * Set the component name
 		 */
 		$e = & $root->getElementsByPath('name', 1);
@@ -239,13 +250,8 @@ class JInstallerPlugin extends JInstaller
 		/*
 		 * Use the client id to determine which plugin path to use for the xml install file
 		 */
-		if (!$row->client_id)
-		{
-			$basepath = JPATH_SITE.DS.'plugins'.DS.$row->folder.DS;
-		} else
-		{
-			$basepath = JPATH_ADMINISTRATOR.DS.'plugins'.DS.$row->folder.DS;
-		}
+		$basepath = JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS;
+
 		$this->_extensionDir = $basepath;
 		$xmlfile = $basepath.$row->element.'.xml';
 		$folder = $row->folder;
@@ -289,6 +295,9 @@ class JInstallerPlugin extends JInstaller
 				JError::raiseWarning(1, 'JInstallerPlugin::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
 				$retval = false;
 			}
+			
+			// Remove the installation file if it exists
+			JFile::delete($xmlfile);
 		} else
 		{
 			JError::raiseWarning(1, 'JInstallerPlugin::uninstall: '.JText::_('File does not exist').' '.$xmlfile);

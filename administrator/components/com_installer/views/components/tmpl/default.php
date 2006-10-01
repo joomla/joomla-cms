@@ -1,4 +1,7 @@
 <form action="index.php?option=com_installer&amp;task=manage&amp;type=components" method="post" name="adminForm">
+	<?php if ($this->state->get('message')) : ?>
+		<?php echo $this->loadTemplate('message'); ?>
+	<?php endif; ?>
 	<?php if (count($this->items)) : ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>

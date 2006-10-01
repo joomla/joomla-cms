@@ -82,6 +82,8 @@ class ExtensionManagerModel extends JModel
 	 */
 	function remove($eid=array())
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$failed = array ();
 		
@@ -121,10 +123,10 @@ class ExtensionManagerModel extends JModel
 			$result = true;
 		}
 
+		$mainframe->enqueueMessage($msg);
 		$this->setState('action', 'remove');
-		$this->setState('message', $msg);
-		$this->setState('extension.description', $installer->description);
-		$this->setState('extension.message', $installer->message);
+		$this->setState('message', $installer->message);
+
 		return $result;
 	}
 
