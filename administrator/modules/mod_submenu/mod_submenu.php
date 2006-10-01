@@ -122,14 +122,14 @@ class JAdminSubMenu
 				break;
 
 			case 'com_installer' :
-				$ext	= JRequest::getVar('extension');
+				$ext	= JRequest::getVar('type');
 
 				$subMenus = array(
-					'Components' => 'component',
-					'Modules' => 'module',
-					'Plugins' => 'plugin',
-					'Languages' => 'language',
-					'Templates' => 'template',
+					'Components' => 'components',
+					'Modules' => 'modules',
+					'Plugins' => 'plugins',
+					'Languages' => 'languages',
+					'Templates' => 'templates',
 				);
 
 				$subMenuItem['title']	= JText::_( 'Install' );
@@ -141,7 +141,7 @@ class JAdminSubMenu
 				foreach ($subMenus as $name => $extension)
 				{
 					$subMenuItem['title']	= JText::_( $name );
-					$subMenuItem['link']	= 'index.php?option=com_installer&extension=' . $extension;
+					$subMenuItem['link']	= 'index.php?option=com_installer&amp;task=manage&amp;type=' . $extension;
 					$subMenuItem['img']		= '../includes/js/ThemeOffice/installer.png';
 					$subMenuItem['active']	= ($extension == $ext);
 					$subMenuList[] = $subMenuItem;

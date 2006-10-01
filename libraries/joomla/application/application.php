@@ -250,7 +250,7 @@ class JApplication extends JObject
 		$key = 'request.'.$key;
 
 		$old_state = $this->getUserState( $key );
-		$cur_state = ($old_state) ? $old_state : $default;
+		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = JRequest::getVar( $request, $cur_state );
 		$this->setUserState( $key, $new_state );
 

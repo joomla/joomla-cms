@@ -1071,11 +1071,9 @@ class JInstallerHelper
 	 */
 	function unpack($p_filename)
 	{
-		/*
-		 * Initialize variables
-		 */
 		// Path to the archive
 		$archivename = $p_filename;
+
 		// Temporary folder to extract the archive into
 		$tmpdir = uniqid('install_');
 
@@ -1092,10 +1090,11 @@ class JInstallerHelper
 
 
 		/*
-		 * Lets set the extraction directory in the result array so we can
+		 * Lets set the extraction directory and package file in the result array so we can
 		 * cleanup everything properly later on.
 		 */
 		$retval['extractdir'] = $extractdir;
+		$retval['packagefile'] = $archivename;
 
 		/*
 		 * Try to find the correct install directory.  In case the package is inside a
@@ -1229,12 +1228,12 @@ class JInstallerHelper
 		{
 			JFile::delete($p_file);
 		}
-		elseif (is_file(JPath::clean(JPATH_SITE.DS.'tmp'.DS.$p_file, false)))
+		elseif (is_file(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false)))
 		{
 			/*
 			 * It might also be just a base filename
 			 */
-			JFile::delete(JPath::clean(JPATH_SITE.DS.'tmp'.DS.$p_file, false));
+			JFile::delete(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false));
 		}
 	}
 
