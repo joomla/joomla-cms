@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Oct-2006 Sam Moffatt
+ + Added networkAddress translation function to JLDAP care of Jay Burrell, Mississippi State University 
+
 30-Sep-2006 David Gal
  # Fixed JFile and JFolder delete functions for restrictive persmissions
  ^ Made changes to Pear/Archive library to support use with safe mode on

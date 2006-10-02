@@ -1,4 +1,5 @@
 <?php
+
 /**
 * @version $Id$
 * @package Joomla
@@ -17,8 +18,7 @@
  * @subpackage 	Connector
  * @since		1.5
  */
-class JLDAP
-{
+class JLDAP {
 	/** @var string Hostname of LDAP server
 	    @access public */
 	var $host = null;
@@ -53,7 +53,7 @@ class JLDAP
 
 	/** @var mixed LDAP Resource Identifier
 	    @access private */
-	var $_resource =  null;
+	var $_resource = null;
 	/** @var string Current DN
 	    @access private */
 	var $_dn = null;
@@ -63,13 +63,13 @@ class JLDAP
 	 * @param object An object of configuration variables
 	 * @access public
 	 */
-	function JLDAP( $configObj=null ) {
-		if (is_object( $configObj )) {
-			$vars = get_class_vars( get_class( $this ) );
-			foreach (array_keys( $vars ) as $var) {
-				if (substr( $var, 0, 1 ) != '_') {
-					if ($param = $configObj->get( $var )) {
-						$this->$var = $param;
+	function JLDAP($configObj = null) {
+		if (is_object($configObj)) {
+			$vars = get_class_vars(get_class($this));
+			foreach (array_keys($vars) as $var) {
+				if (substr($var, 0, 1) != '_') {
+					if ($param = $configObj->get($var)) {
+						$this-> $var = $param;
 					}
 				}
 			}
@@ -85,22 +85,22 @@ class JLDAP
 		if ($this->host == '') {
 			return false;
 		}
-		$this->_resource = @ldap_connect( $this->host, $this->port );
+		$this->_resource = @ ldap_connect($this->host, $this->port);
 		if ($this->_resource) {
 			if ($this->use_ldapV3) {
-				if (!ldap_set_option( $this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3 )) {
+				if (!ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					return false;
-					echo "<script> alert(\"". JText::_( 'failed to set LDAP protocol V3', true ) ."\"); </script>\n";
+					echo "<script> alert(\"" . JText :: _('failed to set LDAP protocol V3', true) . "\"); </script>\n";
 				}
 			}
-			if (!ldap_set_option( $this->_resource, LDAP_OPT_REFERRALS, intval( $this->no_referrals ))) {
+			if (!ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals))) {
 				return false;
-				echo "<script> alert(\"". JText::_( 'failed to set LDAP_OPT_REFERRALS option', true ) ."\"); </script>\n";
+				echo "<script> alert(\"" . JText :: _('failed to set LDAP_OPT_REFERRALS option', true) . "\"); </script>\n";
 			}
 			if ($this->negotiate_tls) {
-				if (!ldap_start_tls( $this->_resource )) {
+				if (!ldap_start_tls($this->_resource)) {
 					return false;
-					echo "<script> alert(\"". JText::_( 'ldap_start_tls failed', true ) ."\"); </script>\n";
+					echo "<script> alert(\"" . JText :: _('ldap_start_tls failed', true) . "\"); </script>\n";
 				}
 			}
 			return true;
@@ -114,7 +114,7 @@ class JLDAP
 	 * @access public
 	 */
 	function close() {
-		@ldap_close( $this->_resource );
+		@ ldap_close($this->_resource);
 	}
 
 	/**
@@ -122,11 +122,11 @@ class JLDAP
 	 * @param string The username
 	 * @access public
 	 */
-	function setDN( $username ) {
+	function setDN($username) {
 		if ($this->users_dn == '') {
 			$this->_dn = $username;
 		} else {
-			$this->_dn = str_replace( '[username]', $username, $this->users_dn );
+			$this->_dn = str_replace('[username]', $username, $this->users_dn);
 		}
 	}
 
@@ -145,15 +145,15 @@ class JLDAP
 	 * @return boolean Result
 	 * @access public
 	 */
-	function bind( $username=null, $password=null ) {
-		if (is_null( $username )) {
+	function bind($username = null, $password = null) {
+		if (is_null($username)) {
 			$username = $this->username;
 		}
-		if (is_null( $password )) {
+		if (is_null($password)) {
 			$username = $this->password;
 		}
-		$this->setDN( $username );
-		$bindResult = @ldap_bind( $this->_resource, $this->getDN(), $password );
+		$this->setDN($username);
+		$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
 
 		return $bindResult;
 	}
@@ -165,38 +165,38 @@ class JLDAP
 	 * @return array Multidimensional array of results
 	 * @access public
 	 */
-	function search( $filters, $dnoverride=null ) {
-		$attributes = array();
-		if($dnoverride) {
+	function search($filters, $dnoverride = null) {
+		$attributes = array ();
+		if ($dnoverride) {
 			$dn = $dnoverride;
 		} else {
 			$dn = $this->base_dn;
 		}
-		
+
 		$resource = $this->_resource;
 
 		foreach ($filters as $search_filter) {
-			$search_result = ldap_search( $resource, $dn , $search_filter);
-			if ($search_result && ($count = ldap_count_entries( $resource, $search_result )) > 0 ) {
-				for($i = 0; $i < $count; $i++) {
-					$attributes[$i] = Array();
-					if(!$i) {
-						$firstentry = ldap_first_entry( $resource, $search_result );
+			$search_result = ldap_search($resource, $dn, $search_filter);
+			if ($search_result && ($count = ldap_count_entries($resource, $search_result)) > 0) {
+				for ($i = 0; $i < $count; $i++) {
+					$attributes[$i] = Array ();
+					if (!$i) {
+						$firstentry = ldap_first_entry($resource, $search_result);
 					} else {
-						$firstentry = ldap_next_entry ( $resource, $firstentry );
+						$firstentry = ldap_next_entry($resource, $firstentry);
 					}
-					$attributes_array = ldap_get_attributes( $resource,  $firstentry ); // load user-specified attributes
+					$attributes_array = ldap_get_attributes($resource, $firstentry); // load user-specified attributes
 					// ldap returns an array of arrays, fit this into attributes result array
-					foreach($attributes_array as $ki=>$ai) {
-						if(is_array($ai)) {
+					foreach ($attributes_array as $ki => $ai) {
+						if (is_array($ai)) {
 							$subcount = $ai['count'];
-							$attributes[$i][$ki] = Array();
-							for($k = 0; $k < $subcount; $k++) {
+							$attributes[$i][$ki] = Array ();
+							for ($k = 0; $k < $subcount; $k++) {
 								$attributes[$i][$ki][$k] = $ai[$k];
 							}
 						}
 					}
-					$attributes[$i]['dn'] = ldap_get_dn( $resource, $firstentry );
+					$attributes[$i]['dn'] = ldap_get_dn($resource, $firstentry);
 				}
 			}
 		}
@@ -210,17 +210,72 @@ class JLDAP
 	 * @access public
 	 */
 	function ipToNetAddress($ip) {
-		$parts = explode('.',$ip);
+		$parts = explode('.', $ip);
 		$address = '1#';
 
-		foreach($parts as $int) {
+		foreach ($parts as $int) {
 			$tmp = dechex($int);
-			if(strlen($tmp) != 2) {
-				$tmp = '0'.$tmp;
+			if (strlen($tmp) != 2) {
+				$tmp = '0' . $tmp;
 			}
 			$address .= '\\' . $tmp;
 		}
 		return $address;
 	}
+
+	/** 
+	  * extract readable network address from the LDAP encoded networkAddress attribute. 
+	  * @author Jay Burrell, Systems & Networks, Mississippi State University
+	  * Please keep this document block and author attribution in place. 
+	  *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624 
+	  *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html 
+	  *  LDAP Format, String: 
+	  *     taggedData = uint32String "#" octetstring 
+	  *     byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address 
+	  *     byte 1 = char = "#" - separator 
+	  *     byte 2+ = octetstring - the ordinal value of the address 
+	  *   Note: with eDirectory 8.6.2, the IP address (type 1) returns 
+	  *                 correctly, however, an IPX address does not seem to.  eDir 8.7 may 
+	  *                correct this. 
+	  */
+	function LDAPNetAddr($networkaddress) {
+		$addr = "";
+		$addrtype = intval(substr($networkaddress, 0, 1));
+		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator 
+		$addrtypes = array (
+			'IPX',
+			'IP',
+			'SDLC',
+			'Token Ring',
+			'OSI',
+			'AppleTalk',
+			'NetBEUI',
+			'Socket',
+			'UDP',
+			'TCP',
+			'UDP6',
+			'TCP6',
+			'Reserved (12)',
+			'URL',
+			'Count'
+		);
+		$len = strlen($networkaddress);
+		if ($len > 0) {
+			for ($i = 0; $i < $len; $i += 1) {
+				$byte = substr($networkaddress, $i, 1);
+				$addr .= ord($byte);
+				if ($addrtype == 1) { // dot separate IP addresses... 
+					$addr .= ".";
+				}
+			}
+			if ($addrtype == 1) { // strip last period from end of $addr 
+				$addr = substr($addr, 0, strlen($addr) - 1);
+			}
+		} else {
+			$addr .= "address not available.";
+		}
+		return ($addrtypes[$addrtype] . ": " . $addr);
+	}
+
 }
 ?>
