@@ -18,7 +18,8 @@
 //
 // $Id: Type.php,v 1.2 2004/08/07 22:19:04 ieure Exp $
 
-require_once 'PEAR.php';
+//require_once 'PEAR.php';
+jimport( 'pear.PEAR');
 
 $_fileCmd = &PEAR::getStaticProperty('MIME_Type', 'fileCmd');
 $_fileCmd = 'file';

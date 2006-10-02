@@ -38,7 +38,8 @@
  * To have access to PEAR::isError and PEAR::raiseError
  * We should probably use lazy include and remove this inclusion...
  */
-require_once "PEAR.php";
+//require_once "PEAR.php";
+jimport( 'pear.PEAR');
 
 function File_Archive_cleanCache($file, $group)
 {
