@@ -25,4 +25,4 @@ endif; ?>
 		<td valign="top" colspan="2"><?php echo $item->text; ?></td>
 	</tr>
 </table>
-<span class="article_seperator">&nbsp;</span>
+<span class="article_separator">&nbsp;</span>

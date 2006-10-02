@@ -261,7 +261,7 @@ td.pill_r {
 
 #pillmenu li {
 	float: left;
-	background: url(../images/mw_menu_seperator.png) top right no-repeat;
+	background: url(../images/mw_menu_separator.png) top right no-repeat;
 	margin: 0;
 	padding: 0;
 }
@@ -473,7 +473,7 @@ a.mainlevel-nav#active_menu-nav {
 }
 
 /* spacers */
-span.article_seperator {
+span.article_separator {
 	display: block;
 	height: 20px;
 }
@@ -482,7 +482,7 @@ span.article_seperator {
 	padding-right: 5px;
 }
 
-.column_seperator {
+.column_separator {
 	border-left: 1px dashed #e0e0e0;
 	padding-left: 10px;
 }
@@ -507,7 +507,7 @@ div#maindivider {
   height: 1px;
 }
 
-table.blog span.article_seperator {
+table.blog span.article_separator {
 	display: block;
 	height: 20px;
 }
