@@ -75,7 +75,9 @@ class JHelp
 			}
 			$url .= $helpURL . $ref;
 		}
-
+		
+		// TODO - re-implement in Beta 2
+		$url = '/help/en-GB/screen.temp_notice.html';
 		return $url;
 	}
 

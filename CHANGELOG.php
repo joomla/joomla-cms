@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Oct-2006 David Gal
+ - Disabled the entire help system for Beta 1. Will be reimplemented in Beta 2 when pages are updated. 
+
 02-Oct-2006 Sam Moffatt
  + Added networkAddress translation function to JLDAP care of Jay Burrell, Mississippi State University 
 
