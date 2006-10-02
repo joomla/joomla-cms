@@ -2,19 +2,19 @@
 <config>
 	<params>
 		<param name="bannedEmail" type="textarea" default=""
-			label="Banned Email" rows="3" cols="50"
-			description="DESCBANMAIL" />
+			label="BANNED EMAIL LABEL" rows="3" cols="50"
+			description="BANNED EMAIL DESC" />
 		<param name="bannedSubject" type="textarea" default=""
-			label="Banned Subject" rows="3" cols="50"
-			description="DESCBANSUBJ" />
+			label="BANNED SUBJECT LABEL" rows="3" cols="50"
+			description="BANNED SUBJECT DESC" />
 		<param name="bannedText" type="textarea" default=""
-			label="Banned Text" rows="3" cols="50"
-			description="DESCBANTEXT" />
+			label="BANNED TEXT LABEL" rows="3" cols="50"
+			description="BANNED TEXT DESC" />
 		<param name="session" type="radio" default="1"
-			label="Session Check"
-			description="DESCSESSCHK">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			label="SESSION CHECK LABEL"
+			description="SESSION CHECK DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
 		</param>
 	</params>
 </config>
