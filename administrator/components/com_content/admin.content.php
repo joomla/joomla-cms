@@ -33,6 +33,7 @@ switch (strtolower($task))
 		break;
 
 	case 'add'  : 
+	case 'new'  : 
 	case 'edit' :
 		ContentController::editContent();
 		break;
