@@ -142,6 +142,8 @@ class JMenuHelper
 		// If not a new item, trash is not an option
 		if ( $row->id ) {
 			$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
+		} else {
+			$row->published = 1;
 		}
 		$published = mosHTML::radioList( $put, 'published', '', $row->published );
 		return $published;
