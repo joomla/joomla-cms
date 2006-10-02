@@ -55,8 +55,8 @@ class JElement_Article extends JElement
 
 		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component.html';
 		$doc->addScriptDeclaration($js);
-		$doc->addScript($url.'includes/js/joomla/popup.js');
-		$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
+		$doc->addScript($url.'includes/js/joomla/modal.js');
+		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
 		$html = "\n<div style=\"float: left;\"><input style=\"background: #ffffff;\" type=\"text\" id=\"a_name\" value=\"$article->title\" disabled=\"disabled\" /></div>";
 		$html .= "\n &nbsp; <input class=\"inputbox\" type=\"button\" onclick=\"document.popup.show('$link', 650, 375, null);\" value=\"".JText::_('Select')."\" />";
 //		$html .= "<div class=\"button2-left\"><div class=\"blank\"><a title=\"".JText::_('Select an Article')."\" onclick=\"javascript: document.popup.show('$link', 650, 375, null);\">...</a></div></div>\n";

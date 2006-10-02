@@ -42,8 +42,8 @@ function pluginPagebreakButton()
 
 			$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$doc->addScript($url.'includes/js/joomla/popup.js');
-			$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
+			$doc->addScript($url.'includes/js/joomla/modal.js');
+			$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
 			$button = array( "document.popup.show('$link', 400, 150, null)", JText::_('Pagebreak'), 'pagebreak' );
 			break;
 	}

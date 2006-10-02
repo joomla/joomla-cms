@@ -78,8 +78,8 @@ class JButton_Popup extends JButton
 		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$doc =& JFactory::getDocument();
-		$doc->addScript($baseurl.'includes/js/joomla/popup.js');
-		$doc->addStyleSheet($baseurl.'includes/js/joomla/popup.css');
+		$doc->addScript($baseurl.'includes/js/joomla/modal.js');
+		$doc->addStyleSheet($baseurl.'includes/js/joomla/modal.css');
 
 		$cmd = "document.popup.show('$url', $width, $height, null)";
 

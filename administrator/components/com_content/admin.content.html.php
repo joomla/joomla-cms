@@ -44,8 +44,8 @@ class ContentView
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
 		$document =& JFactory::getDocument();
-		$document->addScript('../includes/js/joomla/popup.js');
-		$document->addStyleSheet('../includes/js/joomla/popup.css');
+		$document->addScript('../includes/js/joomla/modal.js');
+		$document->addStyleSheet('../includes/js/joomla/modal.css');
 
 		mosCommonHTML::loadOverlib();
 		?>

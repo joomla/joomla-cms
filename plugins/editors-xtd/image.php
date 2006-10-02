@@ -43,8 +43,8 @@ function pluginImageButton()
 			$link = 'index.php?option=com_media&amp;task=imgManager&amp;tmpl=component.html';
 			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
-			$doc->addScript($url.'includes/js/joomla/popup.js');
-			$doc->addStyleSheet($url.'includes/js/joomla/popup.css');
+			$doc->addScript($url.'includes/js/joomla/modal.js');
+			$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
 			$button = array( "document.popup.show('$link', 570, 345, null)", JText::_('Image'), 'image' );
 			break;
 	}

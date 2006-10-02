@@ -40,6 +40,9 @@ Legend:
 02-Oct-2006 Sam Moffatt
  + Added networkAddress translation function to JLDAP care of Jay Burrell, Mississippi State University 
 
+01-Oct-2006 Louis Landry
+ # Fixed artf5535 : popup.js gets blocked by Adblock filters
+
 30-Sep-2006 David Gal
  # Fixed JFile and JFolder delete functions for restrictive persmissions
  ^ Made changes to Pear/Archive library to support use with safe mode on
