@@ -150,6 +150,9 @@ class JProfiler extends JObject
 				$output = array();
 				$pid = getmypid();
 				exec( 'tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output );
+				if (!isset($output[5])) { 
+					$output[5] = null;
+				}
 				return substr( $output[5], strpos( $output[5], ':' ) + 1 );
 			} else {
 				return 0;
