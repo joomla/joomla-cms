@@ -63,7 +63,7 @@ CREATE TABLE  `#__bannertrack` (
   `track_date` date NOT NULL,
   `track_type` int(10) unsigned NOT NULL,
   `banner_id` int(10) unsigned NOT NULL
-) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
 # --------------------------------------------------------
 
