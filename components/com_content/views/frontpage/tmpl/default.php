@@ -31,7 +31,7 @@
 	<?php endfor; ?>
 	</td>
 </tr>
-<?php else : $i = $this->limitstart; endif; ?>
+<?php else : $i = $this->pagination->limitstart; endif; ?>
 
 <?php if ($this->params->def('intro', 4) && ($i < $this->total)) : ?>
 <tr>
