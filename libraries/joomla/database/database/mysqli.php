@@ -35,13 +35,33 @@ class JDatabaseMySQLi extends JDatabase
 	*/
 	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
 	{
+		// Unlike mysql_connect(), mysqli_connect() takes the port and socket
+		// as separate arguments. Therefore, we have to extract them from the
+		// host string.
+		$port	= NULL;
+		$socket	= NULL;
+		$targetSlot = substr( strstr( $host, ":" ), 1 );
+		if (!empty( $targetSlot )) {
+			// Get the port number or socket name
+			if (is_numeric( $targetSlot ))
+				$port	= $targetSlot;
+			else
+				$socket	= $targetSlot;
+				
+			// Extract the host name only
+			$host = substr( $host, 0, strlen( $host ) - (strlen( $targetSlot ) + 1) );
+			// This will take care of the following notation: ":3306" 
+			if($host == '')
+				$host = 'localhost';
+		}
+
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysqli_connect' )) {
 			$this->_errorNum = 1;
 			$this->_errorMsg = 'The MySQL adapter "mysqli" is not available.';
 			return;
 		}
-		if (!($this->_resource = @mysqli_connect( $host, $user, $pass ))) {
+		if (!($this->_resource = @mysqli_connect($host, $user, $pass, NULL, $port, $socket))) {
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
@@ -74,6 +94,11 @@ class JDatabaseMySQLi extends JDatabase
 			$return = mysqli_close($this->_resource);
 		}
 		return $return;
+	}
+	
+	function _parseHost( $host )
+	{
+		
 	}
 
 	/**
