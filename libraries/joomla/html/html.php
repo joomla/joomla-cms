@@ -1276,7 +1276,7 @@ class mosAdminMenus
 	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		if ( !$directory ) {
-			$directory = '/images/stories';
+			$directory = '/images/stories/';
 		}
 
 		if ( !$javascript ) {

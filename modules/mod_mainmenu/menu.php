@@ -79,7 +79,7 @@ class JMainMenu extends JTree
 		switch ($item->type)
 		{
 			case 'separator' :
-				$node =& new JMenuNode($item->id, $item->name, null, 'separator', false);
+				$node =& new JMenuNode(null, $item->name, 'seperator', false);
 				if (isset($item->mid)) {
 					$nid = $item->mid;
 				} else {
@@ -143,8 +143,6 @@ class JMainMenu extends JTree
 
 	function render($type, $suffix = null)
 	{
-		global $mainframe;
-
 		$depth = 0;
 		$this->_current =& $this->_root;
 		$class = $type.$suffix;
@@ -181,7 +179,7 @@ class JMainMenu extends JTree
 		}
 
 		// Build the CSS class selectors
-		$classes = "item".$this->_depthHash[$depth];
+		$classes = "level$depth item".$this->_depthHash[$depth];
 		$id = "";
 
 		if ($this->_current->hasChildren() && (($depth < $end) || ($end == 0))) {
@@ -204,7 +202,24 @@ class JMainMenu extends JTree
 
 		$parent = & $this->_current->getParent();
 		$inActive = $parent->active;
-		if ($start && ($depth >= $start) && !$inActive) {
+		if ($start && ($depth <= $start) && !$inActive) {
+			if ((($depth < $end) || ($end == 0)) && $showChildren) {
+				// Recurse through children if they exist
+				while ($this->_current->hasChildren())
+				{
+					if (($depth >= $start) || ($start == 0)) {
+						echo "\n<ul>\n";
+					}
+					foreach ($this->_current->getChildren() as $child)
+					{
+						$this->_current = & $child;
+						$this->renderLevel($suffix, $depth);
+					}
+					if (($depth >= $start) || ($start == 0)) {
+						echo "</ul>\n";
+					}
+				}
+			}
 			return;
 		}
 		if ($inBounds) {
@@ -233,10 +248,10 @@ class JMainMenu extends JTree
 						echo "<a href=\"javascript:void window.open('".$link."','targetWindow','".$attribs."')\">".$this->_current->title."</a>";
 						break;
 				}
-			} else if ($this->_current->title != null && $this->_current->class != 'separator') {
+			} else if ($this->_current->title != null) {
 				echo "<a>".$this->_current->title."</a>\n";
 			} else {
-				echo "<span>".$this->_current->title."</span>";
+				echo "<span></span>";
 			}
 		}
 

@@ -18,8 +18,6 @@ class modMainMenuHelper
 {
 	function render(&$params)
 	{
-		global $mainframe;
-
 		switch ( $params->get( 'menu_style', 'list' ) )
 		{
 			case 'list_flat' :

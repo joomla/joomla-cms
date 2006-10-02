@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 */
 function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 {
-	global $Itemid, $mainframe;
+	global $Itemid;
 	$txt = '';
 
 	// Menu Link is a special type that is a link to another item
@@ -161,8 +161,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 */
 function mosShowVIMenu(& $params)
 {
-	global $database, $mainframe, $Itemid;
-	global $mosConfig_shownoauth;
+	global $mainframe, $Itemid;
 
 	$template = $mainframe->getTemplate();
 	$menu = JMenu :: getInstance();
@@ -301,8 +300,6 @@ function mosShowVIMenu(& $params)
 */
 function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $params)
 {
-	global $Itemid;
-
 	if (@ $children[$id]) {
 		$n = min($level, count($indents) - 1);
 
@@ -332,9 +329,6 @@ function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $para
 */
 function mosShowHFMenu(& $params, $style = 0)
 {
-	global $database, $mainframe, $Itemid;
-	global $mosConfig_shownoauth;
-
 	$menu = & JMenu::getInstance();
 	$user = & JFactory::getUser();
 
