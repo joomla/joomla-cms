@@ -92,7 +92,24 @@ class JPagination extends JObject
 		if ($link) {
 			$this->_link = $link;
 		} else {
-			$this->_link = JRequest::getURI();
+			$config = &JFactory::getConfig();
+			if ($config->getValue('config.sef')) {
+				$this->_link = 'index.php?';
+				$get = JRequest::get('get');
+				$this->_link .= '&amp;option='.$get['option'];
+				foreach ($get as $k => $v)
+				{
+					if ($k != 'option' && $k != 'Itemid') {
+						$this->_link .= '&amp;'.$k.'='.$v;
+					}
+				}
+				$this->_link .= '&amp;Itemid='.$get['Itemid'];
+			} else {
+				$this->_link = JRequest::getURI();
+				if ((strpos($this->_link, 'index.php?') === false) && (strpos($this->_link, '&') === false)) {
+					$this->_link .= 'index.php?';
+				}
+			}
 		}
 
 		// If we are viewing all records set the view all flag to true
