@@ -26,17 +26,15 @@ jimport('joomla.html.pane');
 class JMenuViewItem extends JView
 {
 
-	function edit($tpl=null)
+	function edit($tpl = null)
 	{
 		global $mainframe;
 
 		$this->_layout = 'form';
 
 		$item = &$this->get('Item');
-
-		/*
-		 * Set toolbar items for the page
-		 */
+		
+		// Set toolbar items for the page
 		if (!$item->id) {
 			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
 		} else {
@@ -107,16 +105,22 @@ class JMenuViewItem extends JView
 		parent::display($tpl);
 	}
 
-	function type($tpl=null)
+	function type($tpl = null)
 	{
 		global $mainframe;
-
+		
 		$this->_layout = 'type';
+		
+		$item = &$this->get('Item');
+		
+		// Set toolbar items for the page
+		if (!$item->id) {
+			JMenuBar::title(  JText::_( 'Add Menu Item' ), 'menu.png' );
+		} else {
+			JMenuBar::title(  JText::_( 'Change Menu Item' ), 'menu.png' );
+		}
 
-		/*
-		 * Set toolbar items for the page
-		 */
-		JMenuBar::title(  JText::_( 'Edit Menu Item Type' ), 'menu.png' );
+		// Set toolbar items for the page
 		JMenuBar::cancel('view');
 		JMenuBar::help( 'screen.menus.type' );
 
