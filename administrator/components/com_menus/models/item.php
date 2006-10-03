@@ -241,8 +241,21 @@ class JMenuModelItem extends JModel
 		$row->name = ampReplace( $row->name );
 
 		if (is_array($post['urlparams'])) {
+			
+			//echo $row->link;
+			// Quick and dirty
+			parse_str( str_replace( 'index.php?', '', $row->link ), $temp );
+			$temp2 = array_merge( $temp, $post['urlparams'] );
+
+			$temp3 = array();
+			foreach ($temp2 as $k => $v)
+			{
+				$temp3[] = $k.'='.$v;
+			}
 			$url = null;
-			foreach ($post['urlparams'] as $k => $v)
+			$row->link = 'index.php?' . implode( '&', $temp3 );
+
+			/*foreach ($post['urlparams'] as $k => $v)
 			{
 				if (strpos($row->link, $k.'=') === false) {
 					$row->link .= "&".$k."=".$v;
@@ -250,7 +263,7 @@ class JMenuModelItem extends JModel
 					// regex match
 					$row->link = preg_replace("/$k=(.*)?&/", "&".$k."=".$v."&", $row->link);
 				}
-			}
+			}*/
 		}
 
 		if (!$row->check()) {
