@@ -11,7 +11,7 @@
 */
 
 /**
- * JImageManager behavior for media component
+ * ImageManager behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
@@ -19,8 +19,8 @@
  * @since		1.5
  */
  
-JImageManager = function() { this.constructor.apply(this, arguments);}
-JImageManager.prototype = {
+ImageManager = function() { this.constructor.apply(this, arguments);}
+ImageManager.prototype = {
 
 	constructor: function() 
 	{	
@@ -167,5 +167,5 @@ JImageManager.prototype = {
 
 document.imagemanager = null;
 document.addLoadEvent(function() {
- 	document.imagemanager = new JImageManager();
+ 	document.imagemanager = new ImageManager();
 });

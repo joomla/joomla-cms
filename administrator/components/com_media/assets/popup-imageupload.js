@@ -11,7 +11,7 @@
 */
 
 /**
- * JImageUpload behavior for media component
+ * ImageUpload behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
@@ -19,8 +19,8 @@
  * @since		1.5
  */
  
-JImageUpload = function() { this.constructor.apply(this, arguments);}
-JImageUpload.prototype = {
+ImageUpload = function() { this.constructor.apply(this, arguments);}
+ImageUpload.prototype = {
 
 	constructor: function() 
 	{	
@@ -58,8 +58,10 @@ JImageUpload.prototype = {
 	
 	onupload: function() 
 	{
-		var folder = window.parent.document.imagemanager.getFolder();
-		document.adminForm.dirPath.value=folder;
+		if(window.parent.document.imagemanager) {
+			var folder = window.parent.document.imagemanager.getFolder();
+			document.adminForm.dirPath.value=folder;
+		}
 		
 		submitform('upload');
 		
@@ -70,5 +72,5 @@ JImageUpload.prototype = {
 
 document.imageupload = null;
 document.addLoadEvent(function() {
- 	document.imageupload = new JImageUpload();
+ 	document.imageupload = new ImageUpload();
 });

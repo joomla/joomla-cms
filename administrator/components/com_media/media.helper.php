@@ -16,7 +16,7 @@
  * @package    Joomla
  * @subpackage Media
  */
-class JMediaHelper
+class MediaHelper
 {
 	/**
 	 * Checks if the file is an image

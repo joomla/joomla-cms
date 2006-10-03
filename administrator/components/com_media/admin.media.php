@@ -46,54 +46,54 @@ $task = JRequest::getVar( 'task', '');
 switch ($task) {
 
 	case 'upload' :
-		JMediaController::upload();
+		MediaController::upload();
 		break;
 
 	case 'uploadbatch' :
-		JMediaController::batchUpload();
-		JMediaController::showMedia();
+		MediaController::batchUpload();
+		MediaController::showMedia();
 		break;
 
 	case 'createfolder' :
-		JMediaController::createFolder();
-		JMediaController::showMedia();
+		MediaController::createFolder();
+		MediaController::showMedia();
 		break;
 
 	case 'delete' :
-		JMediaController::deleteFile($folder);
-		JMediaController::showMedia();
+		MediaController::deleteFile($folder);
+		MediaController::showMedia();
 		break;
 
 	case 'deletefolder' :
-		JMediaController::deleteFolder($folder);
-		JMediaController::showMedia();
+		MediaController::deleteFolder($folder);
+		MediaController::showMedia();
 		break;
 
 	case 'list' :
-		JMediaController::listMedia();
+		MediaController::listMedia();
 		break;
 
 		// popup directory creation interface for use by components
 	case 'popupDirectory' :
-		JMediaController::showFolder();
+		MediaController::showFolder();
 		break;
 
 		// popup upload interface for use by components
 	case 'popupUpload' :
-		JMediaController::showUpload();
+		MediaController::showUpload();
 		break;
 
 		// popup upload interface for use by components
 	case 'imgManager' :
-		JMediaController::imgManager(COM_MEDIA_BASE);
+		MediaController::imgManager(COM_MEDIA_BASE);
 		break;
 
 	case 'imgManagerList' :
-		JMediaController::imgManagerList($folder);
+		MediaController::imgManagerList($folder);
 		break;
 
 	default :
-		JMediaController::showMedia();
+		MediaController::showMedia();
 		break;
 }
 
@@ -105,7 +105,7 @@ switch ($task) {
  * @subpackage Media
  * @since 1.5
  */
-class JMediaController
+class MediaController
 {
 	/**
 	 * Show media manager
@@ -133,9 +133,9 @@ class JMediaController
 			$folder 	= str_replace(DS, "/", $folder);
 			$nodes[] 	= $folder;
 		}
-		$tree = JMediaController::_buildFolderTree($nodes);
+		$tree = MediaController::_buildFolderTree($nodes);
 
-		JMediaViews::showMedia($tree);
+		MediaViews::showMedia($tree);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class JMediaController
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					if (JMediaHelper::isImage($file)) {
+					if (MediaHelper::isImage($file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
 						$fileDetails['name'] = $file;
 						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
@@ -195,9 +195,9 @@ class JMediaController
 
 		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {
-			JMediaViews::listMedia($current, $folders, $docs, $images);
+			MediaViews::listMedia($current, $folders, $docs, $images);
 		} else {
-			JMediaViews::listError();
+			MediaViews::listError();
 		}
 	}
 
@@ -208,7 +208,7 @@ class JMediaController
 	 */
 	function showUpload($msg = '')
 	{
-		$dirPath = JRequest::getVar( 'dirPath', '/' );
+		$directory = JRequest::getVar( 'directory', '' );
 
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
@@ -218,7 +218,7 @@ class JMediaController
 		$doc->addStyleSheet('components/com_media/assets/popup-imageupload.css');
 		$doc->addScript('components/com_media/assets/popup-imageupload.js');
 
-		JMediaViews::popupUpload($dirPath, $msg);
+		MediaViews::popupUpload($directory, $msg);
 	}
 
 	/**
@@ -233,7 +233,7 @@ class JMediaController
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 
-		JMediaViews::popupDirectory(COM_MEDIA_BASEURL);
+		MediaViews::popupDirectory(COM_MEDIA_BASEURL);
 	}
 
 	/**
@@ -280,7 +280,7 @@ class JMediaController
 		$doc->addScript( $url. 'includes/js/moofx/moo.fx.js' );
 		$doc->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 
-		JMediaViews::imgManager($folderSelect, null);
+		MediaViews::imgManager($folderSelect, null);
 	}
 
 	function imgManagerList($listFolder)
@@ -306,7 +306,7 @@ class JMediaController
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					if (JMediaHelper::isImage($file)) {
+					if (MediaHelper::isImage($file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
 						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
 						$fileDetails['imgInfo'] = $imageInfo;
@@ -335,9 +335,9 @@ class JMediaController
 
 		// If there are no errors then lets list the media
 		if ($folderList !== false && $fileList !== false) {
-			JMediaViews::imgManagerList($listFolder, $folders, $images);
+			MediaViews::imgManagerList($listFolder, $folders, $images);
 		} else {
-			JMediaViews::listError();
+			MediaViews::listError();
 		}
 	}
 
@@ -361,21 +361,21 @@ class JMediaController
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 
 			if (file_exists($destDir.$file['name'])) {
-				JMediaController::showUpload(JText::_('Upload FAILED.File allready exists'));
+				MediaController::showUpload(JText::_('Upload FAILED.File allready exists'));
 				return;
 			}
 
-			if (!JMediaHelper::canUpload( $file, $err )) {
-				JMediaController::showUpload(JText::_($err));
+			if (!MediaHelper::canUpload( $file, $err )) {
+				MediaController::showUpload(JText::_($err));
 				return;
 			}
 
 			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
-				JMediaController::showUpload(JText::_('Upload FAILED'));
+				MediaController::showUpload(JText::_('Upload FAILED'));
 				return;
 
 			} else {
-				JMediaController::showUpload(JText::_('Upload complete'));
+				MediaController::showUpload(JText::_('Upload complete'));
 				return;
 			}
 		}
@@ -404,7 +404,7 @@ class JMediaController
 
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
-				if (!JMediaHelper::canUpload( $file, $err )) {
+				if (!MediaHelper::canUpload( $file, $err )) {
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
 					return;
 				}

@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Media
  * @since 1.5
  */
-class JMediaViews
+class MediaViews
 {
 	function imgManager($dirPath, $listFolder)
 	{
@@ -103,14 +103,14 @@ class JMediaViews
 			// Handle the folders
 			if (count($folders)) {
 				foreach ($folders as $folder => $folderName) {
-					JMediaViews::renderFolder('/' . $folderName, $folder, $listFolder);
+					MediaViews::renderFolder('/' . $folderName, $folder, $listFolder);
 				}
 			}
 
 			// Handle the images
 			if (count($images)) {
 				foreach ($images as $image => $imageDetails) {
-					JMediaViews::renderImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
+					MediaViews::renderImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
 				}
 			}
 
@@ -137,10 +137,10 @@ class JMediaViews
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
 		$insert_url = $listdir.'/'.rawurlencode($img_file);
-		$filesize	= JMediaHelper::parseSize($size);
+		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
-			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 80);
+			$img_dimensions = MediaHelper::imageResize($info[0], $info[1], 80);
 		} else {
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
@@ -157,7 +157,7 @@ class JMediaViews
 
 	function renderFolder($path, $dir, $listdir)
 	{
-		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -215,7 +215,7 @@ class JMediaViews
 		</table>
 
 		<input type="hidden" name="tmpl" value="component.html" />
-		<input type="hidden" name="dirPath" value="<?php echo $dirPath ?>" />
+		<input type="hidden" name="dirPath" value="/<?php echo $dirPath ?>" />
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="popupUpload" />
 		</form>

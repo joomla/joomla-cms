@@ -11,7 +11,7 @@
 */
 
 /**
- * JMediaManager behavior for media component
+ * MediaManager behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
@@ -19,8 +19,8 @@
  * @since		1.5
  */
  
-JMediaManager = function() { this.constructor.apply(this, arguments);}
-JMediaManager.prototype = {
+MediaManager = function() { this.constructor.apply(this, arguments);}
+MediaManager.prototype = {
 
 	constructor: function() 
 	{	
@@ -124,7 +124,7 @@ JMediaManager.prototype = {
 
 document.mediamanager = null;
 document.addLoadEvent(function() {
- 	document.mediamanager = new JMediaManager();
+ 	document.mediamanager = new MediaManager();
  	// Added to populate data on initial page load
  	document.mediamanager.onloadframe();
 });

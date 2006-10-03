@@ -149,7 +149,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add an upload button
-		$bar->appendButton( 'Popup', 'upload', $alt, "index3.php?option=com_media&task=popupUpload&directory=$directory", 550, 200 );
+		$bar->appendButton( 'Popup', 'upload', $alt, "index3.php?option=com_media&task=popupUpload&directory=$directory", 550, 80 );
 	}
 
 	/**

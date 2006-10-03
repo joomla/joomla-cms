@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Media
  * @since 1.5
  */
-class JMediaViews
+class MediaViews
 {
 	/**
 	 * Method to show the standard Media Manager view
@@ -51,7 +51,7 @@ class JMediaViews
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 
-		JMediaViews::_loadJS();
+		MediaViews::_loadJS();
 		?>
 		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
 		<table width="100%" cellspacing="0">
@@ -59,7 +59,7 @@ class JMediaViews
 			<td width="150px">
 				<fieldset id="treeview">
 					<legend><?php echo JText::_( 'Folders' ); ?></legend>
-					<?php JMediaViews::_buildFolderTree($tree); ?>
+					<?php MediaViews::_buildFolderTree($tree); ?>
 				</fieldset>
 			</td>
 			<td>
@@ -120,7 +120,7 @@ class JMediaViews
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
 
 		$style = ucfirst($style);
-		JMediaViews::imageStyle($current);
+		MediaViews::imageStyle($current);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0)
 		{
@@ -130,16 +130,16 @@ class JMediaViews
 			ksort($docs);
 
 			$method = 'draw'.$style.'Header';
-			JMediaViews::$method();
+			MediaViews::$method();
 
 			$method = 'showUp'.$style;
-			JMediaViews::$method($current);
+			MediaViews::$method($current);
 
 			// Handle the folders
 			if (count($folders)) {
 				$method = 'showFolder'.$style;
 				foreach ($folders as $folder => $folderName) {
-					JMediaViews::$method('/' . $folderName, $folder, $current);
+					MediaViews::$method('/' . $folderName, $folder, $current);
 				}
 			}
 
@@ -147,8 +147,8 @@ class JMediaViews
 			if ($numDocs = count($docs)) {
 				$method = 'showDoc'.$style;
 				for($i=0;$i<$numDocs;$i++) {
-					$extfile = JMediaHelper::getTypeIcon($docs[$i]['name']);
-					JMediaViews::$method($docs[$i]['name'], $docs[$i]['size'], $current, $extfile);
+					$extfile = MediaHelper::getTypeIcon($docs[$i]['name']);
+					MediaViews::$method($docs[$i]['name'], $docs[$i]['size'], $current, $extfile);
 				}
 			}
 
@@ -156,14 +156,14 @@ class JMediaViews
 			if ($numImages = count($images)) {
 				$method = 'showImg'.$style;
 				for($i=0;$i<$numImages;$i++) {
-					JMediaViews::$method($images[$i]['file'], $images[$i]['name'], $images[$i]['imgInfo'], $images[$i]['size'], $current);
+					MediaViews::$method($images[$i]['file'], $images[$i]['name'], $images[$i]['imgInfo'], $images[$i]['size'], $current);
 				}
 			}
 
 			$method = 'draw'.$style.'Footer';
-			JMediaViews::$method();
+			MediaViews::$method();
 		} else {
-			JMediaViews::drawNoResults();
+			MediaViews::drawNoResults();
 		}
 	}
 
@@ -227,10 +227,10 @@ class JMediaViews
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
-		$filesize	= JMediaHelper::parseSize($size);
+		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
-			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 80);
+			$img_dimensions = MediaHelper::imageResize($info[0], $info[1], 80);
 		} else {
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
@@ -255,7 +255,7 @@ class JMediaViews
 
 	function showFolderThumbs($path, $dir, $listdir)
 	{
-		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -283,7 +283,7 @@ class JMediaViews
 
 	function showUpThumbs($path)
 	{
-		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$path);
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -315,7 +315,7 @@ class JMediaViews
 	{
 		global $mainframe;
 
-		$size = JMediaHelper::parseSize($size);
+		$size = MediaHelper::parseSize($size);
 		$base = "/images/";
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
 
@@ -350,10 +350,10 @@ class JMediaViews
 	{
 		$img_file	= basename($img);
 		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
-		$filesize	= JMediaHelper::parseSize($size);
+		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 16) || ($info[0] > 16)) {
-			$img_dimensions = JMediaHelper::imageResize($info[0], $info[1], 16);
+			$img_dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
 		} else {
 			$img_dimensions = 'width="' . $info[0] . '" height="' . $info[1] . '"';
 		}
@@ -383,7 +383,7 @@ class JMediaViews
 
 	function showFolderDetails($path, $dir, $listdir)
 	{
-		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -419,7 +419,7 @@ class JMediaViews
 
 	function showUpDetails($path)
 	{
-		$count		= JMediaHelper::countFiles(COM_MEDIA_BASE.$path);
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
@@ -457,7 +457,7 @@ class JMediaViews
 		} else {
 			$icon = "components/com_media/images/con_info.png";
 		}
-		$size = JMediaHelper::parseSize($size);
+		$size = MediaHelper::parseSize($size);
 		$base = "/images/";
 		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
 		?>
