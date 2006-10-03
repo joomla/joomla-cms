@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Oct-2006 Louis Landry
+ ^ Consolidated admin mod_cssmenu into mod_menu
+ - Removed mod_fullmenu 
+
 02-Oct-2006 Hannes Papenberg
  # Fixed artf6207 : image preview error when editing a contact
  # Fixed artf6193 : mod_mainmenu: child nodes don't render correcty

@@ -2,7 +2,7 @@
 <install type="module" version="1.5.0" client="administrator">
 	<name>Admin Menu</name>
 	<author>Joomla! Project</author>
-	<creationDate>Feb 2006</creationDate>
+	<creationDate>March 2006</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,6 +11,7 @@
 	<description>This module shows the main admin navigation module</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
+		<filename>menu.php</filename>
 	</files>
 	<params>
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">

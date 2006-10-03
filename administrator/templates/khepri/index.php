@@ -55,7 +55,7 @@ See COPYRIGHT.php for copyright notices and details.
 				<jdoc:include type="modules" name="status"  />
 			</div>
 			<div id="module-menu">
-				<jdoc:include type="module" name="cssmenu" />
+				<jdoc:include type="module" name="menu" />
 			</div>
 			<div class="clr"></div>
 		</div>
