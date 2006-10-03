@@ -133,8 +133,8 @@ INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact
 INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&section=com_contact_details', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, '', 1);
 INSERT INTO `#__components` VALUES (10, 'Polls', 'option=com_poll', 0, 0, 'option=com_poll', 'Manage Polls', 'com_poll', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 12, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (14, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Categories','',0,1,'option=com_categories&section=com_banner', 'Categories','',3,'',1,'',1);
@@ -393,7 +393,7 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', 'view_name=', 0, 0, 1);
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'component', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', 'view_name=', 0, 0, 1);
 
 # --------------------------------------------------------
 
@@ -440,7 +440,7 @@ CREATE TABLE `#__messages_cfg` (
   `user_id` int(10) unsigned NOT NULL default '0',
   `cfg_name` TEXT NOT NULL default '',
   `cfg_value` TEXT NOT NULL default '',
-  UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
+  UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`(100))
 ) TYPE=MyISAM;
 # --------------------------------------------------------
 
@@ -705,7 +705,7 @@ CREATE TABLE `#__templates_menu` (
   `template` TEXT NOT NULL default '',
   `menuid` int(11) NOT NULL default '0',
   `client_id` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`template`,`menuid`)
+  PRIMARY KEY  (`template`(255),`menuid`)
 ) TYPE=MyISAM;
 
 # Dumping data for table `#__templates_menu`
@@ -787,7 +787,7 @@ CREATE TABLE `#__users` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `usertype` (`usertype`),
-  KEY `idx_name` (`name`)
+  KEY `idx_name` (`name`(255))
 ) TYPE=MyISAM;
 
 # --------------------------------------------------------
