@@ -106,7 +106,8 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return boolean True - UTF is supported
 	 */
 	function hasUTF() {
-		return true;
+		$verParts = explode( '.', $this->getVersion() );
+		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
 	}
 
 	/**
