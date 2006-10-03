@@ -40,9 +40,12 @@ fx.Slide.prototype = {
 			 Element.removeClassName(el, 'moofx-toggler-down');
 		}.bind(this));
 		
-		slider.style.display = 'block';
 		setTimeout(function(){this.clear(slider);}.bind(this), this.options.delay);
-		Element.addClassName(toggler, 'moofx-toggler-down');
+		
+		slider.style.display = 'block';
+		if (slider.offsetHeight <= 0) {
+			Element.addClassName(toggler, 'moofx-toggler-down');
+		}
 	},
 
 	clear: function(slider){
