@@ -138,7 +138,9 @@ class JMenuModelItem extends JModel
 			if (is_a($state, 'JSimpleXMLElement')) {
 				$sp =& $state->getElementByPath('url');
 				$params->setXML($sp);
-				$params->loadArray($item->linkparts);
+				if (is_array($item->linkparts)) {
+					$params->loadArray($item->linkparts);
+				}
 			}
 		}
 		return $params;
