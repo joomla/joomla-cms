@@ -42,7 +42,7 @@ class JMenuModelItem extends JModel
 			if (count($url)) {
 				foreach ($url as $k => $v)
 				{
-					$this->_url .= '&amp;'.$k.'='.$v;
+					$this->_url .= '&'.$k.'='.$v;
 				}
 			}
 		}
@@ -132,7 +132,7 @@ class JMenuModelItem extends JModel
 	{
 		// Get the state parameters
 		$item	=& $this->getItem();
-		$params	= new JParameter($item->params);
+		$params	= new JParameter('');
 
 		if ($state =& $this->_getStateXML()) {
 			if (is_a($state, 'JSimpleXMLElement')) {
