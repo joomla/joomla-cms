@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Oct-2006 Hannes Papenberg
+ # Fixed artf6199 : Missing image on Edit Category page
+ ^ Removed all references to index2.php out of core components and modules
+
 02-Oct-2006 Louis Landry
  ^ Consolidated admin mod_cssmenu into mod_menu
  - Removed mod_fullmenu 
