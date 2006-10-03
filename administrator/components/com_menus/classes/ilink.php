@@ -137,6 +137,9 @@ class iLink extends JTree
 					$url = $purl.'&amp;url['.$e->attributes('var').']='.$child->attributes('value');
 					$node =& new iLinkNode($child->attributes('name'), $url, $child->attributes('msg'));
 					$parent->addChild($node);
+				} elseif ($child->name() == 'default') {
+					$node =& new iLinkNode($child->attributes('name'), $purl, $child->attributes('msg'));
+					$parent->addChild($node);
 				}
 			}
 			return true;
