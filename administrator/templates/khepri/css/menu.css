@@ -59,9 +59,7 @@
 	background-repeat: no-repeat; background-position: left 50%
 }
 
-#menu li.disabled a {
-	color: grey;
-}
+#menu li.disabled a { color: grey; }
 
 #menu ul a {
 	font-size: 11px;

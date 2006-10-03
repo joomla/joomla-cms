@@ -11,7 +11,7 @@
 */
 
 /**
- * ImageManager behavior for media component
+ * JImageManager behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
@@ -19,8 +19,8 @@
  * @since		1.5
  */
  
-ImageManager = function() { this.constructor.apply(this, arguments);}
-ImageManager.prototype = {
+JImageManager = function() { this.constructor.apply(this, arguments);}
+JImageManager.prototype = {
 
 	constructor: function() 
 	{	

@@ -32,19 +32,18 @@ class JAdminCSSMenu extends JTree
 		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
-	function renderMenu($suffix = '-smenu')
+	function renderMenu($id = 'menu', $class = '')
 	{
 		global $mainframe;
 
 		$depth = 1;
-
-		/*
-		 * Build the CSS class suffix
-		 */
-		if ($this->_current->active) {
-			$sfx = $suffix.'_active';
-		} else {
-			$sfx = $suffix;
+	
+		if(!empty($id)) {
+			$id='id="'.$id.'"';
+		}
+		
+		if(!empty($class)) {
+			$class='class="'.$class.'"';
 		}
 
 		/*
@@ -52,11 +51,11 @@ class JAdminCSSMenu extends JTree
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id=\"menu\">\n";
+			echo "<ul ".$id." ".$class.">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
-				$this->renderLevel($suffix, $depth++);
+				$this->renderLevel($depth++);
 			}
 			echo "</ul>\n";
 		}
@@ -68,7 +67,7 @@ class JAdminCSSMenu extends JTree
 		}
 	}
 
-	function renderLevel($suffix = '-smenu', $depth)
+	function renderLevel($depth)
 	{
 		/*
 		 * Build the CSS class suffix
@@ -98,7 +97,7 @@ class JAdminCSSMenu extends JTree
 		if ($this->_current->link != null) {
 			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
 		} elseif ($this->_current->title != null) {
-			echo "<a $class>".$this->_current->title."</a>\n";
+			echo "<a>".$this->_current->title."</a>\n";
 		} else {
 			echo "<span></span>";
 		}
@@ -112,7 +111,7 @@ class JAdminCSSMenu extends JTree
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
-				$this->renderLevel($suffix, $depth++);
+				$this->renderLevel($depth++);
 			}
 			echo "</ul>\n";
 		}

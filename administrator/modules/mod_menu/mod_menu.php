@@ -30,7 +30,7 @@ if ($hide) {
 	$menu = & buildMenu($user->get('usertype'));
 }
 
-$menu->renderMenu();
+$menu->renderMenu('menu', $hide ? 'disabled' : '');
 
 /**
 * Show the menu
@@ -313,11 +313,11 @@ function & buildDisabledMenu($usertype = '')
 
 	// System SubMenu
 	if ($canConfig) {
-		$menu->addChild(new JMenuNode(JText::_('Tools'), null, 'disabled'));
+		$menu->addChild(new JMenuNode(JText::_('Tools'),  null, 'disabled'));
 	}
 
 	// Help SubMenu
-	$menu->addChild(new JMenuNode(JText::_('Help'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('Help'),  null, 'disabled'));
 
 	return $menu;
 }

@@ -21,8 +21,11 @@
 document.menu = null
 document.addLoadEvent(function() {
   element = document.getElementById('menu')
-  var menu = new JMenu(element)
-  document.menu = menu
+  
+  if(element.className != 'disabled') {
+	var menu = new JMenu(element)
+  	document.menu = menu
+  }
 });
 
 document.addLoadEvent(function() { 

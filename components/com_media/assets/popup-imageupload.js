@@ -11,7 +11,7 @@
 */
 
 /**
- * ImageUpload behavior for media component
+ * JImageUpload behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
@@ -19,8 +19,8 @@
  * @since		1.5
  */
  
-ImageUpload = function() { this.constructor.apply(this, arguments);}
-ImageUpload.prototype = {
+JImageUpload = function() { this.constructor.apply(this, arguments);}
+JImageUpload.prototype = {
 
 	constructor: function() 
 	{	
@@ -72,5 +72,5 @@ ImageUpload.prototype = {
 
 document.imageupload = null;
 document.addLoadEvent(function() {
- 	document.imageupload = new ImageUpload();
+ 	document.imageupload = new JImageUpload();
 });
