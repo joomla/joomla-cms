@@ -17,6 +17,11 @@
  * @since		1.5
  * @version  	1.0
  */
+
+//For IE6 - Background flicker fix
+try {
+  document.execCommand('BackgroundImageCache', false, true);
+} catch(e) {}
   
 document.menu = null
 document.addLoadEvent(function() {
