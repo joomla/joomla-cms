@@ -26,7 +26,7 @@ class HTML_messages
 		// Initialize variables
 		$user	=& JFactory::getUser();
 		?>
-		<form action="index2.php?option=com_messages" method="post" name="adminForm">
+		<form action="index.php?option=com_messages" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -76,7 +76,7 @@ class HTML_messages
 				$alt = $row->state ? JText::_( 'Read' ) : JText::_( 'Read' );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
-					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id_from;
+					$linkA 	= 'index.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id_from;
 					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->user_from .'</a>';
 				} else {
 					$author = $row->user_from;
@@ -136,11 +136,11 @@ class HTML_messages
 					submitform( pressbutton );
 				}
 			} else {
-				document.location.href = 'index2.php?option=<?php echo $option;?>';
+				document.location.href = 'index.php?option=<?php echo $option;?>';
 			}
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div id="editcell">
 			<table class="adminform">
@@ -180,7 +180,7 @@ class HTML_messages
 
 	function viewMessage( &$row, $option ) {
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminform">
 			<tr>
@@ -252,7 +252,7 @@ class HTML_messages
 			}
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>

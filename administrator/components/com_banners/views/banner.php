@@ -26,7 +26,7 @@ class BannersView
 		$user =& JFactory::getUser();
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_banners" method="post" name="adminForm">
+		<form action="index.php?option=com_banners" method="post" name="adminForm">
 		<table>
 		<tr>
 			<td align="left" width="100%">
@@ -92,7 +92,7 @@ class BannersView
 				$row = &$rows[$i];
 
 				$row->id 	= $row->bid;
-				$link 		= ampReplace( 'index2.php?option=com_banners&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link 		= ampReplace( 'index.php?option=com_banners&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$impleft 	= $row->imptotal - $row->impmade;
 				if( $impleft < 0 ) {
@@ -212,7 +212,7 @@ class BannersView
 		}
 		//-->
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col100">
 			<fieldset class="adminform">

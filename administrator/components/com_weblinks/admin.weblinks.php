@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_weblinks', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Load the html class
@@ -191,7 +191,7 @@ function editWeblink()
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
-		$mainframe->redirect( 'index2.php?option='. $option, $msg );
+		$mainframe->redirect( 'index.php?option='. $option, $msg );
 	}
 
 	if ($cid[0]) {
@@ -261,12 +261,12 @@ function saveWeblink( $task )
 
 	switch ($task) {
 		case 'apply':
-			$link = 'index2.php?option=com_weblinks&task=editA&id='. $row->id .'&hidemainmenu=1';
+			$link = 'index.php?option=com_weblinks&task=editA&id='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save':
 		default:
-			$link = 'index2.php?option=com_weblinks';
+			$link = 'index.php?option=com_weblinks';
 			break;
 	}
 
@@ -298,7 +298,7 @@ function removeWeblinks( $cid, $option )
 		}
 	}
 
-	$mainframe->redirect( 'index2.php?option=com_weblinks' );
+	$mainframe->redirect( 'index.php?option=com_weblinks' );
 }
 
 /**
@@ -338,7 +338,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option )
 		$row =& JTable::getInstance('weblink', $db, 'Table');
 		$row->checkin( $cid[0] );
 	}
-	$mainframe->redirect( "index2.php?option=". $option );
+	$mainframe->redirect( "index.php?option=". $option );
 }
 /**
 * Moves the order of a record
@@ -371,7 +371,7 @@ function cancelWeblink()
 	$row->bind(JRequest::getVar());
 	$row->checkin();
 
-	$mainframe->redirect( 'index2.php?option=com_weblinks' );
+	$mainframe->redirect( 'index.php?option=com_weblinks' );
 }
 
 function saveOrder( &$cid )
@@ -399,6 +399,6 @@ function saveOrder( &$cid )
 	}
 
 	$msg = 'New ordering saved';
-	$mainframe->redirect( 'index2.php?option=com_weblinks', $msg );
+	$mainframe->redirect( 'index.php?option=com_weblinks', $msg );
 }
 ?>

@@ -265,16 +265,16 @@ class ConfigApplicationController extends JController
 			$task = $this->getTask();
 			switch ($task) {
 				case 'apply' :
-					$this->setRedirect('index2.php?option=com_config', $msg);
+					$this->setRedirect('index.php?option=com_config', $msg);
 					break;
 
 				case 'save' :
 				default :
-					$this->setRedirect('index2.php', $msg);
+					$this->setRedirect('index.php', $msg);
 					break;
 			}
 		} else {
-			$this->setRedirect('index2.php', JText::_('ERRORCONFIGFILE'));
+			$this->setRedirect('index.php', JText::_('ERRORCONFIGFILE'));
 		}
 	}
 
@@ -283,7 +283,7 @@ class ConfigApplicationController extends JController
 	 */
 	function cancel()
 	{
-		$this->setRedirect( 'index2.php' );
+		$this->setRedirect( 'index.php' );
 	}
 
 	function refreshHelp()
@@ -294,7 +294,7 @@ class ConfigApplicationController extends JController
 		JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data);
 
 		$msg = JText::_('The help sites list has been refreshed');
-		$this->setRedirect('index2.php?option=com_config', $msg);
+		$this->setRedirect('index.php?option=com_config', $msg);
 	}
 }
 ?>

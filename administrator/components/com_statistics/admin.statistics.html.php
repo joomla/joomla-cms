@@ -29,7 +29,7 @@ class HTML_statistics
 		jimport( 'joomla.html.pane' );
 		$tabs 	=& JPane::getInstance();
 		?>
-		<form action="index2.php?option=com_statistics" method="post" name="adminForm">
+		<form action="index.php?option=com_statistics" method="post" name="adminForm">
 
 		<div id="tablecell">
 			<?php
@@ -218,7 +218,7 @@ class HTML_statistics
 	{
 		$user 	=& JFactory::getUser();
 		?>
-		<form action="index2.php?option=com_statistics&amp;task=pageimp" method="post" name="adminForm">
+		<form action="index.php?option=com_statistics&amp;task=pageimp" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -269,24 +269,24 @@ class HTML_statistics
 			$i = $pageNav->limitstart;
 			$k = 0;
 			foreach ($rows as $row) {
-				$link = ampReplace( 'index2.php?option=com_content&sectionid=0&task=edit&hidemainmenu=1&id='. $row->id );
+				$link = ampReplace( 'index.php?option=com_content&sectionid=0&task=edit&hidemainmenu=1&id='. $row->id );
 
 				// section handling
 				if ($row->sectionid) {
-					$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
 				} else {
 					$row->sec_title = JText::_( 'Static Content' );
-					$row->sect_link = ampReplace( 'index2.php?option=com_typedcontent' );
+					$row->sect_link = ampReplace( 'index.php?option=com_typedcontent' );
 					$title_sec		= JText::_( 'View Static Content Manager' );
 				}
 				// category handling
 				if ($row->catid) {
-					$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
 				} else {
 					$row->cat_title = JText::_( 'Static Content' );
-					$row->cat_link = ampReplace( 'index2.php?option=com_typedcontent' );
+					$row->cat_link = ampReplace( 'index.php?option=com_typedcontent' );
 					$title_cat		= JText::_( 'View Static Content Manager' );
 				}
 
@@ -354,7 +354,7 @@ class HTML_statistics
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
+		<form action="index.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
 
 		<table>
 		<tr>

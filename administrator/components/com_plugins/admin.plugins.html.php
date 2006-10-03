@@ -36,7 +36,7 @@ class HTML_modules {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_plugins" method="post" name="adminForm">
+		<form action="index.php?option=com_plugins" method="post" name="adminForm">
 			<table>
 			<tr>
 				<td align="left" width="100%">
@@ -102,7 +102,7 @@ class HTML_modules {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
-				$link = ampReplace( 'index2.php?option=com_plugins&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link = ampReplace( 'index.php?option=com_plugins&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -208,7 +208,7 @@ class HTML_modules {
 		}
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col60">
 			<fieldset class="adminform">

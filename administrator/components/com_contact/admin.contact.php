@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_contact', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -294,16 +294,16 @@ function saveContact( $task )
 	{
 		case 'apply':
 		case 'save2copy':
-			$link = 'index2.php?option=com_contact&task=edit&id='. $row->id .'&hidemainmenu=1';
+			$link = 'index.php?option=com_contact&task=edit&id='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save2new':
-			$link = 'index2.php?option=com_contact&task=edit&hidemainmenu=1';
+			$link = 'index.php?option=com_contact&task=edit&hidemainmenu=1';
 			break;
 
 		case 'save':
 		default:
-			$link = 'index2.php?option=com_contact';
+			$link = 'index.php?option=com_contact';
 			break;
 	}
 
@@ -332,7 +332,7 @@ function removeContacts( &$cid )
 		}
 	}
 
-	$mainframe->redirect( "index2.php?option=com_contact" );
+	$mainframe->redirect( "index.php?option=com_contact" );
 }
 
 /**
@@ -373,7 +373,7 @@ function changeContact( $cid=null, $state=0 )
 		$row->checkin( intval( $cid[0] ) );
 	}
 
-	$mainframe->redirect( "index2.php?option=com_contact" );
+	$mainframe->redirect( "index.php?option=com_contact" );
 }
 
 /** JJC
@@ -391,7 +391,7 @@ function orderContacts( $uid, $inc )
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	$mainframe->redirect( "index2.php?option=com_contact" );
+	$mainframe->redirect( "index.php?option=com_contact" );
 }
 
 /** PT
@@ -407,7 +407,7 @@ function cancelContact()
 	$row->bind( JRequest::get( 'post' ));
 	$row->checkin();
 
-	$mainframe->redirect('index2.php?option=com_contact');
+	$mainframe->redirect('index.php?option=com_contact');
 }
 
 /**
@@ -432,7 +432,7 @@ function changeAccess( $id, $access  )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index2.php?option=com_contact' );
+	$mainframe->redirect( 'index.php?option=com_contact' );
 }
 
 function saveOrder( &$cid )
@@ -463,6 +463,6 @@ function saveOrder( &$cid )
 	}
 
 	$msg 	= 'New ordering saved';
-	$mainframe->redirect( 'index2.php?option=com_contact', $msg );
+	$mainframe->redirect( 'index.php?option=com_contact', $msg );
 }
 ?>

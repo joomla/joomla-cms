@@ -30,7 +30,7 @@ class HTML_weblinks
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_weblinks" method="post" name="adminForm">
+		<form action="index.php?option=com_weblinks" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -89,12 +89,12 @@ class HTML_weblinks
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link 	= ampReplace( 'index2.php?option=com_weblinks&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link 	= ampReplace( 'index.php?option=com_weblinks&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
+				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -201,7 +201,7 @@ class HTML_weblinks
 		}
 		</style>
 
-		<form action="index2.php" method="post" name="adminForm" id="adminForm">
+		<form action="index.php" method="post" name="adminForm" id="adminForm">
 
 		<div class="col50">
 			<fieldset class="adminform">

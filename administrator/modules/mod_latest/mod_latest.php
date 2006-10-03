@@ -62,7 +62,7 @@ if (count( $rows ))
 {
 	foreach ($rows as $row)
 	{
-		$link = 'index2.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
+		$link = 'index.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 
 		if ( $user->authorize( 'administration', 'manage', 'components', 'com_users' ) ) {
 			if ( $row->created_by_alias )
@@ -71,7 +71,7 @@ if (count( $rows ))
 			}
 			else
 			{
-				$linkA 	= 'index2.php?option=com_users&task=editA&amp;hidemainmenu=1&id='. $row->created_by;
+				$linkA 	= 'index.php?option=com_users&task=editA&amp;hidemainmenu=1&id='. $row->created_by;
 				$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. htmlspecialchars( $row->name, ENT_QUOTES ) .'</a>';
 			}
 		}

@@ -67,7 +67,7 @@ class JContentHelper
 		$row->checkin();
 
 		$msg = JText::_('Successfully Reset Hit count');
-		$mainframe->redirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
+		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
 	}
 
 	function menuLink($redirect, $id)
@@ -108,7 +108,7 @@ class JContentHelper
 		$row->reorder("menutype = '$row->menutype' AND parent = $row->parent");
 
 		$msg = sprintf(JText::_('LINKITEMINMENUCREATED'), $link, $menu);
-		$mainframe->redirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
+		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
 	}
 
 	function filterCategory($query, $active = NULL)

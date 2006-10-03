@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_poll', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JPATH_COMPONENT.DS.'controller.php' );

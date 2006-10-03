@@ -60,7 +60,7 @@ function showSummary( $option, $task )
 	$order_by = '';
 	$sorts = array();
 	$tab = JRequest::getVar( 'tab', 'tab1' );
-	$sort_base = "index2.php?option=$option&task=$task";
+	$sort_base = "index.php?option=$option&task=$task";
 
 	switch ($field) {
 		case 'hits':
@@ -323,12 +323,12 @@ function resetStats( $option, $task )
 
 			if ( $total == 0 ) {
 				$msg = JText::_( 'reset statistics failed' );
-				$redirecturl = 'index2.php?option=com_statistics';
+				$redirecturl = 'index.php?option=com_statistics';
 			}
 			else {
    				$query = "DELETE FROM #__stats_agents";
 				$msg = JText::_( 'reset statistics success' );
-				$redirecturl = 'index2.php?option=com_statistics';
+				$redirecturl = 'index.php?option=com_statistics';
 			}
 			break;
 
@@ -343,7 +343,7 @@ function resetStats( $option, $task )
 
 			if ( $total == 0 ) {
 				$msg = JText::_( 'reset statistics failed' );
-				$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
+				$redirecturl = 'index.php?option=com_statistics&task=pageimp';
 			}
 			else {
 				$query = "UPDATE #__content"
@@ -351,7 +351,7 @@ function resetStats( $option, $task )
 				. "\n WHERE hits != 0"
 				;
 				$msg = JText::_( 'reset statistics success' );
-				$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
+				$redirecturl = 'index.php?option=com_statistics&task=pageimp';
 			}
 			break;
 
@@ -365,12 +365,12 @@ function resetStats( $option, $task )
 
 			if ( $total == 0 ) {
 				$msg = JText::_( 'reset statistics failed' );
-				$redirecturl = 'index2.php?option=com_statistics&task=searches';
+				$redirecturl = 'index.php?option=com_statistics&task=searches';
 			}
 			else {
    				$query = "DELETE FROM #__core_log_searches";
 				$msg = JText::_( 'reset statistics success' );
-				$redirecturl = 'index2.php?option=com_statistics&task=searches';
+				$redirecturl = 'index.php?option=com_statistics&task=searches';
 			}
 			break;
 		}

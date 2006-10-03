@@ -24,7 +24,7 @@
 //-->
 </script>
 
-<form action="index2.php" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm">
 
 	<table class="adminlist">
 	<thead>
@@ -71,8 +71,8 @@
 	<?php foreach ($this->menus as $menu) : ?>
 		<?php
 			// Get the current iteration and set a few values
-			$link 	= 'index2.php?option=com_menus&amp;task=editMenu&amp;hidemainmenu=1&amp;id='. $menu->id;
-			$linkA 	= 'index2.php?option=com_menus&amp;task=view&amp;menutype='. $menu->menutype;
+			$link 	= 'index.php?option=com_menus&amp;task=editMenu&amp;hidemainmenu=1&amp;id='. $menu->id;
+			$linkA 	= 'index.php?option=com_menus&amp;task=view&amp;menutype='. $menu->menutype;
 		?>
 		<tr class="<?php echo "row". $k; ?>">
 			<td align="center" width="30">

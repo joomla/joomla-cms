@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_modules', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -275,7 +275,7 @@ function copyModule( $option, $uid )
 	}
 
 	$msg = sprintf( JText::_( 'Module Copied' ), $row->title );
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client, $msg );
 }
 
 /**
@@ -351,13 +351,13 @@ function saveModule( $option, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
-			$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Module' ), $row->title );
-			$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id, $msg );
 			break;
 	}
 }
@@ -389,7 +389,7 @@ function editModule( )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
-		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option" );
+		mosErrorAlert( $msg, "document.location.href='index.php?option=$option" );
 	}
 
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
@@ -642,7 +642,7 @@ function removeModule( &$cid, $option )
 		echo "<script>alert('". JText::_( 'Module(s)', true ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES', true ) ."');</script>\n";
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -684,7 +684,7 @@ function publishModule( $cid=null, $publish=1, $option )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -703,7 +703,7 @@ function cancelModule( $option )
 	$row->bind(JRequest::get('post'), 'selections params' );
 	$row->checkin();
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -724,7 +724,7 @@ function orderModule( $uid, $inc, $option )
 
 	$row->move( $inc, "position = '".$row->position."' AND client_id=".$client->id  );
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -764,7 +764,7 @@ function accessMenu( $uid, $access, $option )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
 }
 
 function saveOrder( &$cid )
@@ -809,7 +809,7 @@ function saveOrder( &$cid )
 	}
 
 	$msg 	= JText::_( 'New ordering saved' );
-	$mainframe->redirect( 'index2.php?option=com_modules&client='. $client->id, $msg );
+	$mainframe->redirect( 'index.php?option=com_modules&client='. $client->id, $msg );
 }
 
 function previewModule($id )

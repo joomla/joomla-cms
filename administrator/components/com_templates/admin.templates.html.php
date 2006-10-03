@@ -52,7 +52,7 @@ class JTemplatesView {
 		-->
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 			<table class="adminlist">
 			<thead>
@@ -130,7 +130,7 @@ class JTemplatesView {
 ?>
 					</td>
 					<td>
-						<a href="index2.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>&amp;hidemainmenu=1" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
+						<a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>&amp;hidemainmenu=1" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
@@ -264,7 +264,7 @@ class JTemplatesView {
 	function editTemplate($row, $lists, & $params, $option, & $client) {
 		mosCommonHTML :: loadOverlib();
 ?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col60">
 			<fieldset class="adminform">
@@ -361,7 +361,7 @@ class JTemplatesView {
 	function editTemplateSource($template, & $content, $option, & $client) {
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
 ?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<?php echo JText::_( 'This file is' ); ?>:
 		<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
@@ -410,7 +410,7 @@ class JTemplatesView {
 
 	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client) {
 ?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
@@ -473,7 +473,7 @@ class JTemplatesView {
 	function editCSSSource($template, $filename, & $content, $option, & $client) {
 		$css_path = $client->path . $filename;
 ?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
@@ -541,7 +541,7 @@ class JTemplatesView {
 		$cols = 2;
 		$n = $rows * $cols;
 ?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div id="pane-document">
 			<table class="adminform">

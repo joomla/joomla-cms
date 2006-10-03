@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_plugins', 'manage' )) {
-		$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+		$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -215,12 +215,12 @@ function savePlugin( $option, $client, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
-			$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Plugin' ), $row->name );
-			$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
 }
@@ -251,7 +251,7 @@ function editPlugin( )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
-		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option'" );
+		mosErrorAlert( $msg, "document.location.href='index.php?option=$option'" );
 	}
 
 	if ($client == 'admin') {
@@ -349,7 +349,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -364,7 +364,7 @@ function cancelPlugin( $option, $client )
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
-	$mainframe->redirect( 'index2.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -387,7 +387,7 @@ function orderPlugin( $uid, $inc, $option, $client )
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -424,7 +424,7 @@ function accessMenu( $uid, $access, $option, $client )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 function saveOrder( &$cid )
@@ -465,6 +465,6 @@ function saveOrder( &$cid )
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	$mainframe->redirect( 'index2.php?option=com_plugins', $msg );
+	$mainframe->redirect( 'index.php?option=com_plugins', $msg );
 } // saveOrder
 ?>

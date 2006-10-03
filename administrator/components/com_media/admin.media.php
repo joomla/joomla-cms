@@ -34,7 +34,7 @@ if (!is_array($cid)) {
 
 $folder = JRequest::getVar( 'folder', '');
 if (is_int(strpos($folder, "..")) && $folder != '') {
-	$mainframe->redirect("index2.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
+	$mainframe->redirect("index.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');

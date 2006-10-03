@@ -38,9 +38,9 @@ $unread = $db->loadResult();
 
 // Print the inbox message
 if ($unread) {
-	$output[] = "<span class=\"unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
+	$output[] = "<span class=\"unread-messages\"><a href=\"index.php?option=com_messages\">$unread</a></span>";
 } else {
-	$output[] = "<span class=\"no-unread-messages\"><a href=\"index2.php?option=com_messages\">$unread</a></span>";
+	$output[] = "<span class=\"no-unread-messages\"><a href=\"index.php?option=com_messages\">$unread</a></span>";
 }
 
 // Get the number of logged in users
@@ -59,7 +59,7 @@ if ($task == 'edit' || $task == 'editA' || $hidemainmenu ) {
 	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
 } else {
 	// Print the logout message
-	$output[] = "<span class=\"logout\"><a href=\"index2.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
+	$output[] = "<span class=\"logout\"><a href=\"index.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
 }
 
 // reverse rendering order for rtl display

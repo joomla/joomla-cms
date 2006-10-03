@@ -84,7 +84,7 @@ class ConfigComponentController extends JController
 			return false;
 		}
 
-		//$this->setRedirect( 'index2.php?option=com_config', $msg );
+		//$this->setRedirect( 'index.php?option=com_config', $msg );
 		$this->edit();
 	}
 
@@ -93,7 +93,7 @@ class ConfigComponentController extends JController
 	 */
 	function cancel()
 	{
-		$this->setRedirect( 'index2.php' );
+		$this->setRedirect( 'index.php' );
 	}
 }
 ?>

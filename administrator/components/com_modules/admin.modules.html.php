@@ -34,7 +34,7 @@ class HTML_modules {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_modules" method="post" name="adminForm">
+		<form action="index.php?option=com_modules" method="post" name="adminForm">
 
 			<table>
 			<tr>
@@ -112,7 +112,7 @@ class HTML_modules {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
-				$link 		= ampReplace( 'index2.php?option=com_modules&client='. $client->id .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link 		= ampReplace( 'index.php?option=com_modules&client='. $client->id .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -250,7 +250,7 @@ class HTML_modules {
 		?>
 		//-->
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 		<div class="col60">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
@@ -440,7 +440,7 @@ class HTML_modules {
  		mosCommonHTML::loadOverlib();
 
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminlist" cellpadding="1">
 		<thead>
@@ -465,7 +465,7 @@ class HTML_modules {
 		for ( $i=0; $i < $count; $i++ ) {
 			$row = &$modules[$i];
 
-			$link = 'index2.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
+			$link = 'index.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
 			if ( !$k ) {
 				?>
 				<tr class="<?php echo "row$x"; ?>" valign="top">

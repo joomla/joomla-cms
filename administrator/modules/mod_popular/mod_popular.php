@@ -40,9 +40,9 @@ $rows = $db->loadObjectList();
 <?php
 foreach ($rows as $row) {
 	if ( $row->sectionid == 0 ) {
-		$link = 'index2.php?option=com_typedcontent&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
+		$link = 'index.php?option=com_typedcontent&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 	} else {
-		$link = 'index2.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
+		$link = 'index.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 	}
 	?>
 	<tr>

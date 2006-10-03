@@ -38,7 +38,7 @@ class FrontpageView
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
+		<form action="index.php?option=com_frontpage" method="post" name="adminForm">
 
 			<table>
 				<tr>
@@ -110,7 +110,7 @@ class FrontpageView
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link = ampReplace( 'index2.php?option=com_content&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link = ampReplace( 'index.php?option=com_content&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == '1' ) {
@@ -150,7 +150,7 @@ class FrontpageView
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= ampReplace( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by );
+						$linkA 	= ampReplace( 'index.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by );
 						$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
@@ -163,20 +163,20 @@ class FrontpageView
 
 				// section handling
 				if ($row->sectionid) {
-					$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
 				} else {
 					$row->sect_name = JText::_( 'Static Content' );
-					$row->sect_link = ampReplace( 'index2.php?option=com_typedcontent' );
+					$row->sect_link = ampReplace( 'index.php?option=com_typedcontent' );
 					$title_sec		= JText::_( 'View Static Content Manager' );
 				}
 				// category handling
 				if ($row->catid) {
-					$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
 				} else {
 					$row->name 		= JText::_( 'Static Content' );
-					$row->cat_link 	= ampReplace( 'index2.php?option=com_typedcontent' );
+					$row->cat_link 	= ampReplace( 'index.php?option=com_typedcontent' );
 					$title_cat		= JText::_( 'View Static Content Manager' );
 				}
 				?>

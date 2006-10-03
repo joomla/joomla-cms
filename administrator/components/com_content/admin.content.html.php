@@ -49,7 +49,7 @@ class ContentView
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_content" method="post" name="adminForm">
+		<form action="index.php?option=com_content" method="post" name="adminForm">
 
 			<table>
 				<tr>
@@ -129,10 +129,10 @@ class ContentView
 			{
 				$row = &$rows[$i];
 
-				$link 	= 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
+				$link 	= 'index.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
-				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=edit&hidemainmenu=1&cid[]='. $row->sectionid );
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=edit&hidemainmenu=1&cid[]='. $row->catid );
+				$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&cid[]='. $row->sectionid );
+				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&hidemainmenu=1&cid[]='. $row->catid );
 
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == 1 ) {
@@ -171,7 +171,7 @@ class ContentView
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $row->created_by;
+						$linkA 	= 'index.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $row->created_by;
 						$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
@@ -297,7 +297,7 @@ class ContentView
 			}
 		}
 		</script>
-		<form action="index2.php?option=com_content&amp;task=showarchive&amp;sectionid=0" method="post" name="adminForm">
+		<form action="index.php?option=com_content&amp;task=showarchive&amp;sectionid=0" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -352,14 +352,14 @@ class ContentView
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=edit&hidemainmenu=1&cid[]='. $row->catid );
-				$row->sec_link 	= ampReplace( 'index2.php?option=com_sections&task=edit&hidemainmenu=1&cid[]='. $row->sectionid );
+				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&hidemainmenu=1&cid[]='. $row->catid );
+				$row->sec_link 	= ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&cid[]='. $row->sectionid );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= ampReplace( 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $row->created_by );
+						$linkA 	= ampReplace( 'index.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $row->created_by );
 						$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
@@ -494,7 +494,7 @@ class ContentView
 		//-->
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
@@ -578,7 +578,7 @@ class ContentView
 		}
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>
@@ -639,7 +639,7 @@ class ContentView
 			}
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>

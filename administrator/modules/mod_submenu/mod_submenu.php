@@ -64,20 +64,20 @@ class JAdminSubMenu
 				$client	= JRequest::getVar('client', 0, '', 'int');
 
 				if ($client == 1) {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
 				} elseif ($client == 0 && !$task) {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
 				} else {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
 				}
 
 				if ($task == 'positions') {
-					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
 				} else {
-					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
+					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
 				}
 
 				$menu = JAdminSubMenu::_buildList($subMenuList);
@@ -86,11 +86,11 @@ class JAdminSubMenu
 			case 'com_languages' :
 				$client	= JRequest::getVar('client', 0, '', 'int');
 				if ($client == 1) {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
 				} else {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png');
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png');
 				}
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
@@ -98,24 +98,24 @@ class JAdminSubMenu
 			case 'com_modules' :
 				$client	= JRequest::getVar('client', 0, '', 'int');
 				if ($client == 1) {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
 				} else {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_modules&client=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
 				}
-				//$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
+				//$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
 
 			case 'com_cache' :
 				$client	= JRequest::getVar('client', 0, '', 'int');
 				if ($client == 1) {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_cache&client=0', 'img' => '../includes/js/ThemeOffice/cache.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_cache&client=1', 'img' => '../includes/js/ThemeOffice/cache.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_cache&client=0', 'img' => '../includes/js/ThemeOffice/cache.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_cache&client=1', 'img' => '../includes/js/ThemeOffice/cache.png', 'active' => 1);
 				} else {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index2.php?option=com_cache&client=0', 'img' => '../includes/js/ThemeOffice/cache.png', 'active' => 1);
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index2.php?option=com_cache&client=1', 'img' => '../includes/js/ThemeOffice/cache.png');
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_cache&client=0', 'img' => '../includes/js/ThemeOffice/cache.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_cache&client=1', 'img' => '../includes/js/ThemeOffice/cache.png');
 				}
 				//$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::_buildList($subMenuList);

@@ -37,7 +37,7 @@ class sections_html
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
+		<form action="index.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -106,7 +106,7 @@ class sections_html
 		for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
 			$row = &$rows[$i];
 
-			$link 		= 'index2.php?option=com_sections&scope=content&task=edit&hidemainmenu=1&cid[]='. $row->id;
+			$link 		= 'index.php?option=com_sections&scope=content&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -240,7 +240,7 @@ class sections_html
 		}
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col60">
 			<fieldset class="adminform">
@@ -446,7 +446,7 @@ class sections_html
 	*/
 	function copySectionSelect( $option, $cid, $categories, $contents, $section ) {
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>

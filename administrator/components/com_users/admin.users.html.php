@@ -32,7 +32,7 @@ class HTML_users {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_users" method="post" name="adminForm">
+		<form action="index.php?option=com_users" method="post" name="adminForm">
 
 		<table>
 			<tr>
@@ -98,7 +98,7 @@ class HTML_users {
 				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 				$task 	= $row->block ? 'unblock' : 'block';
 				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
-				$link 	= 'index2.php?option=com_users&amp;task=edit&amp;cid[]='. $row->id. '&amp;hidemainmenu=1';
+				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->id. '&amp;hidemainmenu=1';
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -205,7 +205,7 @@ class HTML_users {
 			submitform( 'contact' );
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm" autocomplete="off">
+		<form action="index.php" method="post" name="adminForm" autocomplete="off">
 
 		<div class="col50">
 			<fieldset class="adminform">

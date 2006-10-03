@@ -504,7 +504,7 @@ class JMenuController extends JController
 			$msg = JText::_( 'Menu Items & Modules updated' );
 		}
 
-		$this->setRedirect( 'index2.php?option=com_menus', $msg );
+		$this->setRedirect( 'index.php?option=com_menus', $msg );
 	}
 
 	/**
@@ -644,7 +644,7 @@ class JMenuController extends JController
 		}
 
 		$msg = sprintf( JText::_( 'Copy of Menu created' ), $type, $total );
-		$mainframe->redirect( 'index2.php?option=com_menus', $msg );
+		$mainframe->redirect( 'index.php?option=com_menus', $msg );
 	}
 }
 ?>

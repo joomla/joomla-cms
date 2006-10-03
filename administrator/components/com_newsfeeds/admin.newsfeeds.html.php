@@ -32,7 +32,7 @@ class HTML_newsfeeds
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_newsfeeds" method="post" name="adminForm">
+		<form action="index.php?option=com_newsfeeds" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -93,12 +93,12 @@ class HTML_newsfeeds
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link 		= ampReplace( 'index2.php?option=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link 		= ampReplace( 'index.php?option=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->catid );
+				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->catid );
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td align="center">
@@ -214,7 +214,7 @@ class HTML_newsfeeds
 		}
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col100">
 			<fieldset class="adminform">

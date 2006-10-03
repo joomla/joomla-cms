@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_users', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JPATH_COMPONENT.DS.'admin.users.html.php' );
@@ -64,7 +64,7 @@ switch (JRequest::getVar('task'))
 
 	case 'contact':
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		$mainframe->redirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
+		$mainframe->redirect( 'index.php?option=com_contact&task=editA&id='. $contact_id );
 		break;
 
 	default:
@@ -261,7 +261,7 @@ function editUser( )
 	if ( in_array( $userGroups[0], $excludeGroups ) )
 	{
 		echo 'not auth';
-		$mainframe->redirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
+		$mainframe->redirect( 'index.php?option=com_users', JText::_('NOT_AUTH') );
 	}
 	*/
 
@@ -327,7 +327,7 @@ function saveUser(  )
 
 	if (!$user->bind(JRequest::get('post')))
 	{
-		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
+		$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
 		return false;
 	}
 
@@ -350,7 +350,7 @@ function saveUser(  )
 			if ( $count <= 1 )
 			{
 				// disallow change if only one Super Admin exists
-				$mainframe->redirect( 'index2.php?option=com_users', JText::_('WARN_ONLY_SUPER') );
+				$mainframe->redirect( 'index.php?option=com_users', JText::_('WARN_ONLY_SUPER') );
 				return false;
 			}
 		}
@@ -361,7 +361,7 @@ function saveUser(  )
 	 */
 	if (!$user->save())
 	{
-		$mainframe->redirect( 'index2.php?option=com_users', $user->getError() );
+		$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
 		return false;
 	}
 
@@ -387,13 +387,13 @@ function saveUser(  )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to User' ), $user->get('name') );
-			$mainframe->redirect( 'index2.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $user->get('id'), $msg );
+			$mainframe->redirect( 'index.php?option=com_users&task=edit&hidemainmenu=1&cid[]='. $user->get('id'), $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved User' ), $user->get('name') );
-			$mainframe->redirect( 'index2.php?option=com_users', $msg );
+			$mainframe->redirect( 'index.php?option=com_users', $msg );
 			break;
 	}
 }
@@ -406,7 +406,7 @@ function cancelUser( )
 	global $mainframe;
 
 	$option = JRequest::getVar( 'option');
-	$mainframe->redirect( 'index2.php?option='. $option .'&task=view' );
+	$mainframe->redirect( 'index.php?option='. $option .'&task=view' );
 }
 
 /**
@@ -485,7 +485,7 @@ function removeUsers(  )
 		}
 	}
 
-	$mainframe->redirect( 'index2.php?option=com_users', $msg);
+	$mainframe->redirect( 'index.php?option=com_users', $msg);
 }
 
 /**
@@ -537,7 +537,7 @@ function changeUserBlock( $block=1 )
 		}
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -555,7 +555,7 @@ function logoutUser( )
 
 	if ( count( $cids ) < 1 )
 	{
-		$mainframe->redirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
+		$mainframe->redirect( 'index.php?option=com_users', JText::_( 'Please select a user' ) );
 	}
 	$cids = implode( ',', $cids );
 
@@ -583,7 +583,7 @@ function logoutUser( )
 	switch ( $task )
 	{
 		case 'flogout':
-			$mainframe->redirect( 'index2.php', $msg );
+			$mainframe->redirect( 'index.php', $msg );
 			break;
 
 		case 'remove':
@@ -592,7 +592,7 @@ function logoutUser( )
 			break;
 
 		default:
-			$mainframe->redirect( 'index2.php?option=com_users', $msg );
+			$mainframe->redirect( 'index.php?option=com_users', $msg );
 			break;
 	}
 }

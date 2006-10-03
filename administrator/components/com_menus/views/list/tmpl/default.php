@@ -1,4 +1,4 @@
-<form action="index2.php?option=com_menus&amp;menutype=<?php echo $this->menutype; ?>" method="post" name="adminForm">
+<form action="index.php?option=com_menus&amp;menutype=<?php echo $this->menutype; ?>" method="post" name="adminForm">
 
 <table>
 <tr>
@@ -79,7 +79,7 @@
 				<?php if ( $row->checked_out && ( $row->checked_out != $this->user->get('id') ) ) : ?>
 				<?php echo $row->treename; ?>
 				<?php else : ?>
-				<a href="<?php echo ampReplace( 'index2.php?option=com_menus&menutype='.$row->menutype.'&task=edit&cid[]='.$row->id.'&hidemainmenu=1' ); ?>"><?php echo $row->treename; ?></a>
+				<a href="<?php echo ampReplace( 'index.php?option=com_menus&menutype='.$row->menutype.'&task=edit&cid[]='.$row->id.'&hidemainmenu=1' ); ?>"><?php echo $row->treename; ?></a>
 				<?php endif; ?>
 			</td>
 			<td align="center">

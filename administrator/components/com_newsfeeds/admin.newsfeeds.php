@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_newsfeeds', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Set the table directory
@@ -243,12 +243,12 @@ function saveNewsFeed(  )
 
 	switch ($task) {
 		case 'apply':
-			$link = 'index2.php?option=com_newsfeeds&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
+			$link = 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save':
 		default:
-			$link = 'index2.php?option=com_newsfeeds';
+			$link = 'index.php?option=com_newsfeeds';
 			break;
 	}
 
@@ -310,7 +310,7 @@ function changePublishNewsFeeds( $publish )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -342,7 +342,7 @@ function removeNewsFeeds( )
 		}
 	}
 
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -358,7 +358,7 @@ function cancelNewsFeed(  )
 	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -398,7 +398,7 @@ function orderNewsFeed( $inc )
 	$row->load( $cid[0] );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	$mainframe->redirect( 'index2.php?option='. $option );
+	$mainframe->redirect( 'index.php?option='. $option );
 }
 
 /**
@@ -431,6 +431,6 @@ function saveOrder(  )
 	}
 
 	$msg 	= 'New ordering saved';
-	$mainframe->redirect( 'index2.php?option=com_newsfeeds', $msg );
+	$mainframe->redirect( 'index.php?option=com_newsfeeds', $msg );
 }
 ?>

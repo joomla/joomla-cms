@@ -38,7 +38,7 @@ class ConfigApplicationView
 		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.html');
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div id="config-document">
 			<div id="page-site">

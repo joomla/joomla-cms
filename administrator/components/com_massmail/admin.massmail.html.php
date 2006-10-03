@@ -42,7 +42,7 @@ class HTML_massmail {
 			}
 		</script>
 
-		<form action="index2.php" name="adminForm" method="post">
+		<form action="index.php" name="adminForm" method="post">
 
 		<div class="col30">
 			<fieldset class="adminform">

@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_frontpage', 'manage' )) {
-	$mainframe->redirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Set the table directory
@@ -245,7 +245,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	$mainframe->redirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index.php?option=$option" );
 }
 
 function removeFrontPage( &$cid, $option )
@@ -276,7 +276,7 @@ function removeFrontPage( &$cid, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	$mainframe->redirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index.php?option=$option" );
 }
 
 /**
@@ -296,7 +296,7 @@ function orderFrontPage( $uid, $inc, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	$mainframe->redirect( "index2.php?option=$option" );
+	$mainframe->redirect( "index.php?option=$option" );
 }
 
 /**
@@ -323,7 +323,7 @@ function accessMenu( $uid, $access )
 	$cache = & JFactory::getCache('com_content');
 	$cache->cleanCache();
 
-	$mainframe->redirect( 'index2.php?option=com_frontpage' );
+	$mainframe->redirect( 'index.php?option=com_frontpage' );
 }
 
 function saveOrder( &$cid )
@@ -355,6 +355,6 @@ function saveOrder( &$cid )
 	$cache->cleanCache();
 
 	$msg 	= JText::_( 'New ordering saved' );
-	$mainframe->redirect( 'index2.php?option=com_frontpage', $msg );
+	$mainframe->redirect( 'index.php?option=com_frontpage', $msg );
 }
 ?>

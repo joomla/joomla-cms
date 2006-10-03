@@ -37,7 +37,7 @@ class categories_html
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
+		<form action="index.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
 
 		<table>
 			<tr>
@@ -123,9 +123,9 @@ class categories_html
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
+			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
 
-			$link = 'index2.php?option=com_categories&section='. $section .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
+			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -271,7 +271,7 @@ class categories_html
 		}
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col60">
 			<fieldset class="adminform">
@@ -404,7 +404,7 @@ class categories_html
 	*/
 	function moveCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<br />
 		<table class="adminform">
@@ -469,7 +469,7 @@ class categories_html
 	*/
 	function copyCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<br />
 		<table class="adminform">

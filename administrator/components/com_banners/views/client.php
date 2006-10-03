@@ -23,7 +23,7 @@ class BannersViewClients
 		$user =& JFactory::getUser();
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 			<table>
 			<tr>
@@ -67,7 +67,7 @@ class BannersViewClients
 				$row = &$rows[$i];
 
 				$row->id 		= $row->cid;
-				$link 			= ampReplace( 'index2.php?option=com_banners&task=editclient&hidemainmenu=1&cid[]='. $row->id );
+				$link 			= ampReplace( 'index.php?option=com_banners&task=editclient&hidemainmenu=1&cid[]='. $row->id );
 
 				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
@@ -160,7 +160,7 @@ class BannersViewClients
 		//-->
 		</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<div class="col50">
 			<fieldset class="adminform">

@@ -215,12 +215,12 @@ class BannerController
 		switch ($task)
 		{
 			case 'apply':
-				$link = 'index2.php?option=com_banners&task=edit&cid[]='. $row->bid .'&hidemainmenu=1';
+				$link = 'index.php?option=com_banners&task=edit&cid[]='. $row->bid .'&hidemainmenu=1';
 				break;
 
 			case 'save':
 			default:
-				$link = 'index2.php?option=com_banners';
+				$link = 'index.php?option=com_banners';
 				break;
 		}
 
@@ -240,7 +240,7 @@ class BannerController
 		$row->bind( $post );
 		$row->checkin();
 
-		$mainframe->redirect( 'index2.php?option=com_banners' );
+		$mainframe->redirect( 'index.php?option=com_banners' );
 	}
 
 	/**
@@ -288,7 +288,7 @@ class BannerController
 			$msg = JText::_( 'No items selected' );
 		}
 
-		$mainframe->redirect( 'index2.php?option=com_banners', $msg );
+		$mainframe->redirect( 'index.php?option=com_banners', $msg );
 
 	}
 
@@ -327,7 +327,7 @@ class BannerController
 			$row =& JTable::getInstance('banner', $db, 'Table');
 			$row->checkin( (int) $cid[0] );
 		}
-		$mainframe->redirect( 'index2.php?option=com_banners' );
+		$mainframe->redirect( 'index.php?option=com_banners' );
 
 	}
 
@@ -352,7 +352,7 @@ class BannerController
 			}
 		}
 
-		$mainframe->redirect( 'index2.php?option=com_banners', $db->getErrorMsg(), 'error' );
+		$mainframe->redirect( 'index.php?option=com_banners', $db->getErrorMsg(), 'error' );
 	}
 
 	/**
@@ -409,7 +409,7 @@ class BannerController
 		$cache->cleanCache();
 
 		$msg = JText::_('New ordering saved');
-		$mainframe->redirect( 'index2.php?option=com_banners', $msg );
+		$mainframe->redirect( 'index.php?option=com_banners', $msg );
 	}
 }
 ?>

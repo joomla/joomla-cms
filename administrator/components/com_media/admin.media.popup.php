@@ -239,7 +239,7 @@ class JMediaViews
 		// create folder selectlist
 		$dirPath = mosHTML::selectList($folders, 'dirPath', 'class="inputbox" size="1"', 'value', 'text', '.');
 		?>
-		<form action="index2.php" name="adminForm" method="post">
+		<form action="index.php" name="adminForm" method="post">
 
 		<table id="toolbar">
 		<tr>

@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 $user = & JFactory::getUser();
 if (!$user->authorize('com_templates', 'manage')) {
-	$mainframe->redirect('index2.php', JText::_('ALERTNOTAUTH'));
+	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Import file dependencies

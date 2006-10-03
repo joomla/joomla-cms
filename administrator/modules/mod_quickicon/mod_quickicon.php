@@ -38,49 +38,49 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	?>
 	<div id="cpanel">
 		<?php
-		$link = 'index2.php?option=com_content&amp;task=new';
+		$link = 'index.php?option=com_content&amp;task=new';
 		quickiconButton( $link, 'icon-48-article-add.png', JText::_( 'Add New Article' ) );
 
-		$link = 'index2.php?option=com_content';
+		$link = 'index.php?option=com_content';
 		quickiconButton( $link, 'icon-48-article.png', JText::_( 'Article Manager' ) );
 
-		$link = 'index2.php?option=com_frontpage';
+		$link = 'index.php?option=com_frontpage';
 		quickiconButton( $link, 'icon-48-frontpage.png', JText::_( 'Frontpage Manager' ) );
 
-		$link = 'index2.php?option=com_sections&amp;scope=content';
+		$link = 'index.php?option=com_sections&amp;scope=content';
 		quickiconButton( $link, 'icon-48-section.png', JText::_( 'Section Manager' ) );
 
-		$link = 'index2.php?option=com_categories&amp;section=content';
+		$link = 'index.php?option=com_categories&amp;section=content';
 		quickiconButton( $link, 'icon-48-category.png', JText::_( 'Category Manager' ) );
 
-		$link = 'index2.php?option=com_media';
+		$link = 'index.php?option=com_media';
 		quickiconButton( $link, 'icon-48-media.png', JText::_( 'Media Manager' ) );
 
 		// Get the current JUser object
 		$user = &JFactory::getUser();
 
 		if ( $user->get('gid') > 23 ) {
-			$link = 'index2.php?option=com_trash';
+			$link = 'index.php?option=com_trash';
 			quickiconButton( $link, 'icon-48-trash.png', JText::_( 'Trash Manager' ) );
 		}
 
 		if ( $user->get('gid') > 23 ) {
-			$link = 'index2.php?option=com_menus';
+			$link = 'index.php?option=com_menus';
 			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
 		}
 
 		if ( $user->get('gid') > 24 ) {
-			$link = 'index2.php?option=com_languages&amp;client=0';
+			$link = 'index.php?option=com_languages&amp;client=0';
 			quickiconButton( $link, 'icon-48-language.png', JText::_( 'Language Manager' ) );
 		}
 
 		if ( $user->get('gid') > 23 ) {
-			$link = 'index2.php?option=com_users';
+			$link = 'index.php?option=com_users';
 			quickiconButton( $link, 'icon-48-user.png', JText::_( 'User Manager' ) );
 		}
 
 		if ( $user->get('gid') > 24 ) {
-			$link = 'index2.php?option=com_config';
+			$link = 'index.php?option=com_config';
 			quickiconButton( $link, 'icon-48-config.png', JText::_( 'Global Configuration' ) );
 		}
 		?>
