@@ -53,6 +53,7 @@ class JMenuViewItem extends JView
 		JMenuBar::help( 'screen.menus.edit' );
 
 		$component		= &$this->get('Component');
+		$urlparams		= $this->get( 'UrlParams' );
 		$params			= $this->get( 'StateParams' );
 		$advanced		= $this->get( 'AdvancedParams' );
 		$name			= $this->get( 'StateName' );
@@ -92,6 +93,7 @@ class JMenuViewItem extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('item', $item);
+		$this->assignRef('urlparams', $urlparams);
 		$this->assignRef('params', $params);
 		$this->assignRef('advanced', $advanced);
 		$this->assignRef('menutypes', $menuTypes);

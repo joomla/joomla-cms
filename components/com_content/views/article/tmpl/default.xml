@@ -8,8 +8,10 @@
 	<state>
 		<name>Standard Article Layout</name>
 		<description>The standard article layout displays a single article.</description>
-		<params addParameterDir="/administrator/components/com_content/elements">
-			<param name="article_id" type="article" default="0" label="Select Article" description="An article" />
+		<url addParameterDir="/administrator/components/com_content/elements">
+			<param name="id" type="article" default="0" label="Select Article" description="An article" />
+		</url>
+		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="unique_itemid" type="radio" default="0" label="Unique Itemid" description="Use a unique Itemid for the link">
 				<option value="0">No</option>

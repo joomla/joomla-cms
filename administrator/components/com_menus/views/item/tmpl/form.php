@@ -122,6 +122,7 @@ function submitbutton(pressbutton) {
 				<?php	
 					$this->pane->startPane("menu-pane");
 					$this->pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
+					echo $this->urlparams->render('urlparams');
 					echo $this->params->render('params');
 					$this->pane->endPanel();
 					$this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");

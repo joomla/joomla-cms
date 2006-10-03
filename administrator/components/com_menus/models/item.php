@@ -128,6 +128,22 @@ class JMenuModelItem extends JModel
 		return $return;
 	}
 
+	function &getUrlParams()
+	{
+		// Get the state parameters
+		$item	=& $this->getItem();
+		$params	= new JParameter($item->params);
+
+		if ($state =& $this->_getStateXML()) {
+			if (is_a($state, 'JSimpleXMLElement')) {
+				$sp =& $state->getElementByPath('url');
+				$params->setXML($sp);
+				$params->loadArray($item->linkparts);
+			}
+		}
+		return $params;
+	}
+
 	function &getStateParams()
 	{
 		// Get the state parameters
@@ -223,6 +239,19 @@ class JMenuModelItem extends JModel
 		}
 
 		$row->name = ampReplace( $row->name );
+
+		if (is_array($post['urlparams'])) {
+			$url = null;
+			foreach ($post['urlparams'] as $k => $v)
+			{
+				if (strpos($row->link, $k.'=') === false) {
+					$row->link .= "&".$k."=".$v;
+				} else {
+					// regex match
+					$row->link = preg_replace("/$k=(.*)?&/", "&".$k."=".$v."&", $row->link);
+				}
+			}
+		}
 
 		if (!$row->check()) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
