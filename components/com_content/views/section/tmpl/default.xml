@@ -8,8 +8,10 @@
 	<state>
 		<name>Standard Section Layout</name>
 		<description>Displays a list of categories in a section</description>
+		<url>
+			<param name="id" type="section" label="Section" description="Choose a section..." />
+		</url>
 		<params>
-			<param name="section_id" type="section" label="Section" description="Choose a section..." />
 			<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
 				<option value="">Default</option>
 				<option value="alpha">Title Alphabetical</option>

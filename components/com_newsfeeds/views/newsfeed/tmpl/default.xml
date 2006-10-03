@@ -8,8 +8,10 @@
 	<state>
 		<name>Newsfeed  Layout</name>
 		<description>This layout shows a single newsfeed.</description>
-		<params addparameterdir="/administrator/components/com_newsfeeds/elements">
-			<param name="feed_id" type="newsfeed" default="0" label="Feed" description="A feed" />
+		<url addParameterDir="/administrator/components/com_newsfeeds/elements">
+			<param name="id" type="newsfeed" default="0" label="Feed" description="A feed" />
+		</url>
+		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">

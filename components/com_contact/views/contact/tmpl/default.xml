@@ -8,8 +8,10 @@
 	<state>
 		<name>Standard Contact Layout</name>
 		<description>The standard contact layout displays a single contact's details.</description>
-		<params addParameterDir="/administrator/components/com_contact/elements">
-			<param name="contact_id" type="contact" default="" label="Select Contact" description="The contact to link to" />
+		<url addParameterDir="/administrator/components/com_contact/elements">
+			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
+		</url>
+		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
 				<option value="0">Hide</option>

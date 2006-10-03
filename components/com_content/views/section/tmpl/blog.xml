@@ -8,8 +8,10 @@
 	<state>
 		<name>Section Blog Layout</name>
 		<description>Displays a list of articles in a section in a blog format</description>
+		<url>
+			<param name="id" type="section" label="Section" description="Choose a section..." />
+		</url>
 		<params>
-			<param name="section_id" type="section" label="Section" description="Choose a section..." />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
 			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
