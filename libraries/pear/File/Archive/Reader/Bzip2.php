@@ -29,8 +29,10 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader/Archive.php";
-require_once "File/Archive/Writer/Files.php";
+//require_once "File/Archive/Reader/Archive.php";
+jimport('pear.File.Archive.Reader.Archive');
+//require_once "File/Archive/Writer/Files.php";
+jimport('pear.File.Archive.Writer.Files');
 
 /**
  * Uncompress a file that was compressed in the Bzip2 format
@@ -192,7 +194,8 @@ class File_Archive_Reader_Bzip2 extends File_Archive_Reader_Archive
      */
     function makeWriterRemoveBlocks($blocks, $seek = 0)
     {
-        require_once "File/Archive/Writer/Bzip2.php";
+//        require_once "File/Archive/Writer/Bzip2.php";
+        jimport('pear.File.Archive.Writer.Bzip2');
 
         if ($this->nbRead == 0) {
             return PEAR::raiseError('No file selected');

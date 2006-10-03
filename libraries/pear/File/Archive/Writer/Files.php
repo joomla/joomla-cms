@@ -31,7 +31,8 @@
  * NOTE: modified for use with Joomla! 
  */
 
-require_once "File/Archive/Writer.php";
+//require_once "File/Archive/Writer.php";
+jimport('pear.File.Archive.Writer');
 
 /**
   * Writer to files

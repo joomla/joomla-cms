@@ -30,8 +30,10 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Writer/Archive.php";
-require_once "File/Archive/Writer/Memory.php";
+//require_once "File/Archive/Writer/Archive.php";
+jimport('pear.File.Archive.Writer.Archive');
+//require_once "File/Archive/Writer/Memory.php";
+jimport('pear.File.Archive.Writer.Memory');
 
 /**
  * Base class for all the archiveWriters that can only work on complete files

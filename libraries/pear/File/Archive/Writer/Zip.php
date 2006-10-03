@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Writer/MemoryArchive.php";
+//require_once "File/Archive/Writer/MemoryArchive.php";
+jimport('pear.File.Archive.Writer.MemoryArchive');
 
 /**
  * ZIP archive writer

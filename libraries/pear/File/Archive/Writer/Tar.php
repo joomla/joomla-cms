@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Writer/Archive.php";
+//require_once "File/Archive/Writer/Archive.php";
+jimport('pear.File.Archive.Writer.Archive');
 
 /**
  * Write the files as a TAR archive
@@ -212,7 +213,8 @@ class File_Archive_Writer_Tar extends File_Archive_Writer_Archive
  *
  * @see File_Archive_Predicate, File_Archive_Reader_Filter
  */
-require_once "File/Archive/Predicate.php";
+//require_once "File/Archive/Predicate.php";
+jimport('pear.File.Archive.Predicate');
 class File_Archive_Predicate_TARCompatible extends File_Archive_Predicate
 {
     function isTrue($source)

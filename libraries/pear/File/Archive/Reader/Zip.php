@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader/Archive.php";
+//require_once "File/Archive/Reader/Archive.php";
+jimport('pear.File.Archive.Reader.Archive');
 
 /**
  * ZIP archive reader
@@ -282,7 +283,8 @@ class File_Archive_Reader_Zip extends File_Archive_Reader_Archive
      */
     function makeWriterRemoveFiles($pred)
     {
-        require_once "File/Archive/Writer/Zip.php";
+//        require_once "File/Archive/Writer/Zip.php";
+        jimport('pear.File.Archive.Writer.Zip');
 
         $blocks = array();
         $seek = null;
@@ -391,7 +393,8 @@ class File_Archive_Reader_Zip extends File_Archive_Reader_Archive
      */
     function makeAppendWriter()
     {
-        require_once "File/Archive/Writer/Zip.php";
+//        require_once "File/Archive/Writer/Zip.php";
+        jimport('pear.File.Archive.Writer.Zip');
 
         while (($error = $this->next()) === true) { }
         if (PEAR::isError($error)) {

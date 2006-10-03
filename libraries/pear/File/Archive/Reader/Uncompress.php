@@ -29,8 +29,10 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader.php";
-require_once "File/Archive/Reader/ChangeName.php";
+//require_once "File/Archive/Reader.php";
+jimport('pear.File.Archive.Reader');
+//require_once "File/Archive/Reader/ChangeName.php";
+jimport('pear.File.Archive.Reader.ChangeName');
 
 /**
  * Recursively uncompress every file it finds

@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader.php";
+//require_once "File/Archive/Reader.php";
+jimport('pear.File.Archive.Reader');
 
 /**
  * Base class for all the archive readers (that read from a single file)

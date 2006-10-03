@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader.php";
+//require_once "File/Archive/Reader.php";
+jimport('pear.File.Archive.Reader');
 
 /**
  * A reader that takes its input from a memory buffer
@@ -202,7 +203,8 @@ class File_Archive_Reader_Memory extends File_Archive_Reader
      */
     function makeWriterRemoveBlocks($blocks, $seek = 0)
     {
-        require_once "File/Archive/Writer/Memory.php";
+//        require_once "File/Archive/Writer/Memory.php";
+        jimport('pear.File.Archive.Writer.Memory');
         $data = substr($this->memory, 0, $this->offset + $seek);
         $this->memory = substr($this->memory, $this->offset + $seek);
 

@@ -30,7 +30,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Predicate.php";
+//require_once "File/Archive/Predicate.php";
+jimport('pear.File.Archive.Predicate');
 
 /**
  * Keep only the files modified after a given date (or with unknown modification

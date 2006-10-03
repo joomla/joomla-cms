@@ -31,7 +31,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader.php";
+//require_once "File/Archive/Reader.php";
+jimport('pear.File.Archive.Reader');
 
 /**
  * This reader caches the files of another reader

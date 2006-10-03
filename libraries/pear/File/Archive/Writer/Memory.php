@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Writer.php";
+//require_once "File/Archive/Writer.php";
+jimport('pear.File.Archive.Writer');
 
 /**
  * Write the concatenation of the files in a buffer
@@ -115,7 +116,8 @@ class File_Archive_Writer_Memory extends File_Archive_Writer
      */
     function makeReader($filename = null, $stat = null, $mime = null)
     {
-        require_once "File/Archive/Reader/Memory.php";
+//        require_once "File/Archive/Reader/Memory.php";
+        jimport('pear.File.Archive.Reader.Memory');
         return new File_Archive_Reader_Memory(
             $this->data,
             $filename === null ? $this->filename : $filename,

@@ -31,7 +31,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "PEAR.php";
+//require_once "PEAR.php";
+jimport('pear.PEAR');
 
 /**
  * Abstract base class for all the readers
@@ -157,7 +158,8 @@ class File_Archive_Reader
      */
     function getMime()
     {
-        require_once "File/Archive/Reader/MimeList.php";
+//        require_once "File/Archive/Reader/MimeList.php";
+        jimport('pear.File.Archive.Reader.MimeList');
         return File_Archive_Reader_GetMime($this->getFilename());
     }
 
@@ -354,7 +356,8 @@ class File_Archive_Reader
      */
     function makeAppendWriter()
     {
-        require_once "File/Archive/Predicate/False.php";
+//        require_once "File/Archive/Predicate/False.php";
+        jimport('pear.File.Archive.Predicate.False');
         return $this->makeWriterRemoveFiles(new File_Archive_Predicate_False());
     }
 
@@ -379,7 +382,8 @@ class File_Archive_Reader
      */
     function makeWriterRemove()
     {
-        require_once "File/Archive/Predicate/Current.php";
+//        require_once "File/Archive/Predicate/Current.php";
+        jimport('pear.File.Archive.Predicate.Current');
         return $this->makeWriterRemoveFiles(new File_Archive_Predicate_Current());
     }
 

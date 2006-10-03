@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "PEAR.php";
+//require_once "PEAR.php";
+jimport('pear.PEAR');
 
 /**
  * Base class for any writer

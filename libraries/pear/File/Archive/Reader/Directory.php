@@ -29,8 +29,10 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader/Relay.php";
-require_once "File/Archive/Reader/File.php";
+//require_once "File/Archive/Reader/Relay.php";
+jimport('pear.File.Archive.Reader.Relay');
+//require_once "File/Archive/Reader/File.php";
+jimport('pear.File.Archive.Reader.File');
 
 /**
  * Recursively reads a directory
@@ -159,7 +161,8 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay
             return PEAR::raiseError($pred);
         }
 
-        require_once "File/Archive/Writer/Files.php";
+//        require_once "File/Archive/Writer/Files.php";
+        jimport('pear.File.Archive.Writer.Files');
 
         $writer = new File_Archive_Writer_Files($this->directory);
         $this->close();
@@ -186,7 +189,8 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay
             return PEAR::raiseError('No file selected');
         }
 
-        require_once "File/Archive/Writer/Files.php";
+//        require_once "File/Archive/Writer/Files.php";
+        jimport('pear.File.Archive.Writer.Files');
 
         $writer = $lastSource->makeWriterRemoveBlocks($blocks, $seek);
         if (!PEAR::isError($writer)) {
@@ -202,7 +206,8 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay
      */
     function makeAppendWriter()
     {
-        require_once "File/Archive/Writer/Files.php";
+//        require_once "File/Archive/Writer/Files.php";
+        jimport('pear.File.Archive.Writer.Files');
 
         if ($this->source === null ||
             is_a($this->source, 'File_Archive_Reader_File') ) {

@@ -30,7 +30,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Writer.php";
+//require_once "File/Archive/Writer.php";
+jimport('pear.File.Archive.Writer');
 
 /**
  * Base class for all the transformation writers that will generate one single

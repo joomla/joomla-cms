@@ -11,7 +11,8 @@
 * @author Fabien MARTY <fab@php.net>
 */
 
-require_once('Cache/Lite.php');
+//require_once('Cache/Lite.php');
+jimport('pear.cache.Lite');
 
 class Cache_Lite_Output extends Cache_Lite
 {

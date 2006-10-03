@@ -29,8 +29,10 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Reader/Archive.php";
-require_once "File/Archive/Writer/Files.php";
+//require_once "File/Archive/Reader/Archive.php";
+jimport('pear.File.Archive.Reader.Archive');
+//require_once "File/Archive/Writer/Files.php";
+jimport('pear.File.Archive.Writer.Files');
 
 /**
  * Uncompress a file that was compressed in the Gzip format
@@ -214,7 +216,8 @@ class File_Archive_Reader_Gzip extends File_Archive_Reader_Archive
      */
     function makeWriterRemoveBlocks($blocks, $seek = 0)
     {
-        require_once "File/Archive/Writer/Gzip.php";
+//        require_once "File/Archive/Writer/Gzip.php";
+        jimport('pear.File.Archive.Writer.Gzip');
 
         if ($this->nbRead == 0) {
             return PEAR::raiseError('No file selected');

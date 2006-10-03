@@ -29,8 +29,10 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Predicate.php";
-require_once "MIME/Type.php";
+//require_once "File/Archive/Predicate.php";
+jimport('pear.File.Archive.Predicate');
+//require_once "MIME/Type.php";
+jimport('pear.MIME.Type');
 
 /**
  * Keep only the files that have a specific MIME type

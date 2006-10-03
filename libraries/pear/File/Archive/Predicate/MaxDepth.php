@@ -29,7 +29,8 @@
  * @link       http://pear.php.net/package/File_Archive
  */
 
-require_once "File/Archive/Predicate.php";
+//require_once "File/Archive/Predicate.php";
+jimport('pear.File.Archive.Predicate');
 
 /**
  * Remove the URLs with a too high number of nested directories

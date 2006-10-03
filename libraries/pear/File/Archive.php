@@ -296,7 +296,8 @@ class File_Archive
             $uncompressionLevel = $uncompression;
         }
 
-        require_once 'File/Archive/Reader.php';
+//        require_once 'File/Archive/Reader.php';
+		jimport( 'pear.File.Archive.Reader');
         $std = File_Archive_Reader::getStandardURL($URL);
 
         //Modify the symbolic name if necessary
@@ -336,11 +337,14 @@ class File_Archive
 
         //If the URL can be interpreted as a directory, and we are reading from the file system
         if ((empty($URL) || is_dir($URL)) && $source === null) {
-            require_once "File/Archive/Reader/Directory.php";
-            require_once "File/Archive/Reader/ChangeName.php";
+//            require_once "File/Archive/Reader/Directory.php";
+			jimport( 'pear.File.Archive.Reader.Directory' );
+//            require_once "File/Archive/Reader/ChangeName.php";
+			jimport( 'pear.File.Archive.Reader.ChangeName' );
 
             if ($uncompressionLevel != 0) {
-                require_once "File/Archive/Reader/Uncompress.php";
+//                require_once "File/Archive/Reader/Uncompress.php";
+                jimport( 'pear.File.Archive.Reader.Uncompress' );
                 $result = new File_Archive_Reader_Uncompress(
                     new File_Archive_Reader_Directory($std, '', $directoryDepth),
                     $uncompressionLevel
@@ -350,8 +354,10 @@ class File_Archive
             }
 
             if ($directoryDepth >= 0) {
-                require_once 'File/Archive/Reader/Filter.php';
-                require_once 'File/Archive/Predicate/MaxDepth.php';
+//                require_once 'File/Archive/Reader/Filter.php';
+                jimport( 'pear.File.Archive.Reader.Filter' );
+//                require_once 'File/Archive/Predicate/MaxDepth.php';
+                jimport( 'pear.File.Archive.Predicate.MaxDepth' );
 
                 $tmp =& File_Archive::filter(
                     new File_Archive_Predicate_MaxDepth($directoryDepth),
@@ -374,12 +380,14 @@ class File_Archive
 
         //If the URL can be interpreted as a file, and we are reading from the file system
         } else if (is_file($URL) && substr($URL, -1)!='/' && $source === null) {
-            require_once "File/Archive/Reader/File.php";
+//            require_once "File/Archive/Reader/File.php";
+            jimport( 'pear.File.Archive.Reader.File' );
             $result = new File_Archive_Reader_File($URL, $realSymbolic);
 
         //Else, we will have to build a complex reader
         } else {
-            require_once "File/Archive/Reader/File.php";
+//            require_once "File/Archive/Reader/File.php";
+            jimport( 'pear.File.Archive.Reader.File' );
 
             $realPath = $std;
 
@@ -416,11 +424,13 @@ class File_Archive
             } else {
                 //Select in the source the file $file
 
-                require_once "File/Archive/Reader/Select.php";
+//                require_once "File/Archive/Reader/Select.php";
+                jimport( 'pear.File.Archive.Reader.Select' );
                 $result = new File_Archive_Reader_Select($file, $source);
             }
 
-            require_once "File/Archive/Reader/Uncompress.php";
+//            require_once "File/Archive/Reader/Uncompress.php";
+            jimport( 'pear.File.Archive.Reader.Uncompress' );
             $tmp = new File_Archive_Reader_Uncompress($result, $uncompressionLevel);
             unset($result);
             $result = $tmp;
@@ -437,7 +447,8 @@ class File_Archive
 
             if ($directoryDepth >= 0) {
                 //Limit the maximum depth if necessary
-                require_once "File/Archive/Predicate/MaxDepth.php";
+//                require_once "File/Archive/Predicate/MaxDepth.php";
+                jimport('pear.File.Archive.Predicate.MaxDepth');
 
                 $tmp = new File_Archive_Reader_Filter(
                     new File_Archive_Predicate(
@@ -451,7 +462,8 @@ class File_Archive
             }
 
             if ($std != $realSymbolic) {
-                require_once "File/Archive/Reader/ChangeName.php";
+//                require_once "File/Archive/Reader/ChangeName.php";
+                jimport('pear.File.Archive.Reader.ChangeName');
 
                 //Change the base name to the symbolic one if necessary
                 $tmp = new File_Archive_Reader_ChangeBaseName(
@@ -531,7 +543,8 @@ class File_Archive
             return PEAR::raiseError("The file is not an uploaded file");
         }
 
-        require_once "File/Archive/Reader/File.php";
+//        require_once "File/Archive/Reader/File.php";
+        jimport('pear.File.Archive.Reader.File');
         return new File_Archive_Reader_File(
                     $_FILES[$name]['tmp_name'],
                     $_FILES[$name]['name'],
@@ -556,7 +569,8 @@ class File_Archive
             return $source;
         }
 
-        require_once 'File/Archive/Reader/Cache.php';
+//        require_once 'File/Archive/Reader/Cache.php';
+        jimport('pear.File.Archive.Reader.Cache');
         return new File_Archive_Reader_Cache($source);
     }
 
@@ -596,7 +610,8 @@ class File_Archive
         if (is_string($dest)) {
             return File_Archive::appender($dest);
         } else if (is_array($dest)) {
-            require_once 'File/Archive/Writer/Multi.php';
+//            require_once 'File/Archive/Writer/Multi.php';
+            jimport('pear.File.Archive.Writer.Multi');
             $writer = new File_Archive_Writer_Multi();
             foreach($dest as $key => $foo) {
                 $writer->addWriter($dest[$key]);
@@ -663,26 +678,31 @@ class File_Archive
                     File_Archive::readArchive('bz2', $source, $sourceOpened)
                     );
         case 'tar':
-            require_once 'File/Archive/Reader/Tar.php';
+//            require_once 'File/Archive/Reader/Tar.php';
+            jimport('pear.File.Archive.Reader.Tar');
             return new File_Archive_Reader_Tar($source, $sourceOpened);
 
         case 'gz':
         case 'gzip':
-            require_once 'File/Archive/Reader/Gzip.php';
+//            require_once 'File/Archive/Reader/Gzip.php';
+            jimport('pear.File.Archive.Reader.Gzip');
             return new File_Archive_Reader_Gzip($source, $sourceOpened);
 
         case 'zip':
-            require_once 'File/Archive/Reader/Zip.php';
+//            require_once 'File/Archive/Reader/Zip.php';
+            jimport('pear.File.Archive.Reader.Zip');
             return new File_Archive_Reader_Zip($source, $sourceOpened);
 
         case 'bz2':
         case 'bzip2':
-            require_once 'File/Archive/Reader/Bzip2.php';
+//            require_once 'File/Archive/Reader/Bzip2.php';
+            jimport('pear.File.Archive.Reader.Bzip2');
             return new File_Archive_Reader_Bzip2($source, $sourceOpened);
 
         case 'deb':
         case 'ar':
-            require_once 'File/Archive/Reader/Ar.php';
+//            require_once 'File/Archive/Reader/Ar.php';
+            jimport('pear.File.Archive.Reader.Ar');
             return new File_Archive_Reader_Ar($source, $sourceOpened);
 
 /*        case 'cab':
@@ -712,7 +732,8 @@ class File_Archive
      */
     function readMemory($memory, $filename, $stat=array(), $mime=null)
     {
-        require_once "File/Archive/Reader/Memory.php";
+//        require_once "File/Archive/Reader/Memory.php";
+        jimport('pear.File.Archive.Reader.Memory');
         return new File_Archive_Reader_Memory($memory, $filename, $stat, $mime);
     }
 
@@ -728,7 +749,8 @@ class File_Archive
      */
     function readMulti($sources = array())
     {
-        require_once "File/Archive/Reader/Multi.php";
+//        require_once "File/Archive/Reader/Multi.php";
+        jimport('pear.File.Archive.Reader.Multi');
         $result = new File_Archive_Reader_Multi();
         foreach ($sources as $index => $foo) {
             $s =& File_Archive::_convertToReader($sources[$index]);
@@ -760,7 +782,8 @@ class File_Archive
             return $source;
         }
 
-        require_once "File/Archive/Reader/Concat.php";
+//        require_once "File/Archive/Reader/Concat.php";
+        jimport('pear.File.Archive.Reader.Concat');
         return new File_Archive_Reader_Concat($source, $filename, $stat, $mime);
     }
 
@@ -779,7 +802,8 @@ class File_Archive
             return $source;
         }
 
-        require_once "File/Archive/Reader/Filter.php";
+//        require_once "File/Archive/Reader/Filter.php";
+        jimport('pear.File.Archive.Reader.Filter');
         return new File_Archive_Reader_Filter($predicate, $source);
     }
     /**
@@ -789,7 +813,8 @@ class File_Archive
      */
     function predTrue()
     {
-        require_once "File/Archive/Predicate/True.php";
+//        require_once "File/Archive/Predicate/True.php";
+        jimport('pear.File.Archive.Predicate.True');
         return new File_Archive_Predicate_True();
     }
     /**
@@ -799,7 +824,8 @@ class File_Archive
      */
     function predFalse()
     {
-        require_once "File/Archive/Predicate/False.php";
+//        require_once "File/Archive/Predicate/False.php";
+        jimport('pear.File.Archive.Predicate.False');
         return new File_Archive_Predicate_False();
     }
     /**
@@ -812,7 +838,8 @@ class File_Archive
      */
     function predAnd()
     {
-        require_once "File/Archive/Predicate/And.php";
+//        require_once "File/Archive/Predicate/And.php";
+        jimport('pear.File.Archive.Predicate.And');
         $pred = new File_Archive_Predicate_And();
         $args = func_get_args();
         foreach ($args as $p) {
@@ -830,7 +857,8 @@ class File_Archive
      */
     function predOr()
     {
-        require_once "File/Archive/Predicate/Or.php";
+//        require_once "File/Archive/Predicate/Or.php";
+        jimport('pear.File.Archive.Predicate.Or');
         $pred = new File_Archive_Predicate_Or();
         $args = func_get_args();
         foreach ($args as $p) {
@@ -846,7 +874,8 @@ class File_Archive
      */
     function predNot($pred)
     {
-        require_once "File/Archive/Predicate/Not.php";
+//        require_once "File/Archive/Predicate/Not.php";
+        jimport('pear.File.Archive.Predicate.Not');
         return new File_Archive_Predicate_Not($pred);
     }
     /**
@@ -857,7 +886,8 @@ class File_Archive
      */
     function predMinSize($size)
     {
-        require_once "File/Archive/Predicate/MinSize.php";
+//        require_once "File/Archive/Predicate/MinSize.php";
+        jimport('pear.File.Archive.Predicate.MinSize');
         return new File_Archive_Predicate_MinSize($size);
     }
     /**
@@ -869,7 +899,8 @@ class File_Archive
      */
     function predMinTime($time)
     {
-        require_once "File/Archive/Predicate/MinTime.php";
+//        require_once "File/Archive/Predicate/MinTime.php";
+        jimport('pear.File.Archive.Predicate.MinTime');
         return new File_Archive_Predicate_MinTime($time);
     }
     /**
@@ -881,7 +912,8 @@ class File_Archive
      */
     function predMaxDepth($depth)
     {
-        require_once "File/Archive/Predicate/MaxDepth.php";
+//        require_once "File/Archive/Predicate/MaxDepth.php";
+        jimport('pear.File.Archive.Predicate.MaxDepth');
         return new File_Archive_Predicate_MaxDepth($depth);
     }
     /**
@@ -893,7 +925,8 @@ class File_Archive
      */
     function predExtension($list)
     {
-        require_once "File/Archive/Predicate/Extension.php";
+//        require_once "File/Archive/Predicate/Extension.php";
+        jimport('pear.File.Archive.Predicate.Extension');
         return new File_Archive_Predicate_Extension($list);
     }
     /**
@@ -906,7 +939,8 @@ class File_Archive
      */
     function predMIME($list)
     {
-        require_once "File/Archive/Predicate/MIME.php";
+//        require_once "File/Archive/Predicate/MIME.php";
+        jimport('pear.File.Archive.Predicate.MIME');
         return new File_Archive_Predicate_MIME($list);
     }
     /**
@@ -918,7 +952,8 @@ class File_Archive
      */
     function predEreg($ereg)
     {
-        require_once "File/Archive/Predicate/Ereg.php";
+//        require_once "File/Archive/Predicate/Ereg.php";
+        jimport('pear.File.Archive.Predicate.Ereg');
         return new File_Archive_Predicate_Ereg($ereg);
     }
     /**
@@ -930,7 +965,8 @@ class File_Archive
      */
     function predEregi($ereg)
     {
-        require_once "File/Archive/Predicate/Eregi.php";
+//        require_once "File/Archive/Predicate/Eregi.php";
+        jimport('pear.File.Archive.Predicate.Eregi');
         return new File_Archive_Predicate_Eregi($ereg);
     }
     /**
@@ -944,7 +980,8 @@ class File_Archive
      */
     function predIndex($indexes)
     {
-        require_once "File/Archive/Predicate/Index.php";
+//        require_once "File/Archive/Predicate/Index.php";
+        jimport('pear.File.Archive.Predicate.Index');
         return new File_Archive_Predicate_Index($indexes);
     }
     /**
@@ -971,7 +1008,8 @@ class File_Archive
      */
     function predCustom($expression)
     {
-        require_once "File/Archive/Predicate/Custom.php";
+//        require_once "File/Archive/Predicate/Custom.php";
+        jimport('pear.File.Archive.Predicate.Custom');
         return new File_Archive_Predicate_Custom($expression);
     }
 
@@ -988,7 +1026,8 @@ class File_Archive
      */
     function toMail($to, $headers, $message, $mail = null)
     {
-        require_once "File/Archive/Writer/Mail.php";
+//        require_once "File/Archive/Writer/Mail.php";
+        jimport('pear.File.Archive.Writer.Mail');
         return new File_Archive_Writer_Mail($to, $headers, $message, $mail);
     }
     /**
@@ -1001,7 +1040,8 @@ class File_Archive
      */
     function toFiles($baseDir = "")
     {
-        require_once "File/Archive/Writer/Files.php";
+//        require_once "File/Archive/Writer/Files.php";
+        jimport('pear.File.Archive.Writer.Files');
         return new File_Archive_Writer_Files($baseDir);
     }
     /**
@@ -1025,7 +1065,8 @@ class File_Archive
     }
     function toVariable(&$v)
     {
-        require_once "File/Archive/Writer/Memory.php";
+//        require_once "File/Archive/Writer/Memory.php";
+        jimport('pear.File.Archive.Writer.Memory');
         return new File_Archive_Writer_Memory($v);
     }
     /**
@@ -1046,7 +1087,8 @@ class File_Archive
             return $b;
         }
 
-        require_once "File/Archive/Writer/Multi.php";
+//        require_once "File/Archive/Writer/Multi.php";
+        jimport('pear.File.Archive.Writer.Multi');
         $writer = new File_Archive_Writer_Multi();
         $writer->addWriter($a);
         $writer->addWriter($b);
@@ -1062,7 +1104,8 @@ class File_Archive
      */
     function toOutput($sendHeaders = true)
     {
-        require_once "File/Archive/Writer/Output.php";
+//        require_once "File/Archive/Writer/Output.php";
+        jimport('pear.File.Archive.Writer.Output');
         return new File_Archive_Writer_Output($sendHeaders);
     }
     /**
@@ -1106,14 +1149,16 @@ class File_Archive
             unset($next);
             switch($extension) {
             case "tar":
-                require_once "File/Archive/Writer/Tar.php";
+//                require_once "File/Archive/Writer/Tar.php";
+                jimport('pear.File.Archive.Writer.Tar');
                 $next = new File_Archive_Writer_Tar(
                     $currentFilename, $writer, $stat, $autoClose
                 );
                 unset($writer); $writer =& $next;
                 break;
             case "zip":
-                require_once "File/Archive/Writer/Zip.php";
+//                require_once "File/Archive/Writer/Zip.php";
+                jimport('pear.File.Archive.Writer.Zip');
                 $next = new File_Archive_Writer_Zip(
                     $currentFilename, $writer, $stat, $autoClose
                 );
@@ -1121,7 +1166,8 @@ class File_Archive
                 break;
             case "gz":
             case "gzip":
-                require_once "File/Archive/Writer/Gzip.php";
+//                require_once "File/Archive/Writer/Gzip.php";
+                jimport('pear.File.Archive.Writer.Gzip');
                 $next = new File_Archive_Writer_Gzip(
                     $currentFilename, $writer, $stat, $autoClose
                 );
@@ -1129,7 +1175,8 @@ class File_Archive
                 break;
             case "bz2":
             case "bzip2":
-                require_once "File/Archive/Writer/Bzip2.php";
+//                require_once "File/Archive/Writer/Bzip2.php";
+                jimport('pear.File.Archive.Writer.Bzip2');
                 $next = new File_Archive_Writer_Bzip2(
                     $currentFilename, $writer, $stat, $autoClose
                 );
@@ -1137,7 +1184,8 @@ class File_Archive
                 break;
             case "deb":
             case "ar":
-                require_once "File/Archive/Writer/Ar.php";
+//                require_once "File/Archive/Writer/Ar.php";
+                jimport('pear.File.Archive.Writer.Ar');
                 $next = new File_Archive_Writer_Ar(
                     $currentFilename, $writer, $stat, $autoClose
                 );
@@ -1254,7 +1302,8 @@ class File_Archive
 
         if (!PEAR::isError($result)) {
             if ($unique) {
-                require_once "File/Archive/Writer/UniqueAppender.php";
+//                require_once "File/Archive/Writer/UniqueAppender.php";
+                jimport('pear.File.Archive.Writer.UniqueAppender');
                 return new File_Archive_Writer_UniqueAppender($result);
             } else {
                 return $result->makeAppendWriter();
@@ -1296,7 +1345,8 @@ class File_Archive
             PEAR::popErrorHandling();
 
             if (PEAR::isError($result)) {
-                require_once "File/Archive/Writer/AddBaseName.php";
+//                require_once "File/Archive/Writer/AddBaseName.php";
+                jimport('pear.File.Archive.Writer.AddBaseName');
                 $result = new File_Archive_Writer_AddBaseName(
                                        $baseDir, $writer);
                 if (PEAR::isError($result)) {
@@ -1384,7 +1434,8 @@ class File_Archive
             $source = File_Archive::read($URL);
         }
 
-        require_once "File/Archive/Predicate/Duplicate.php";
+//        require_once "File/Archive/Predicate/Duplicate.php";
+        jimport('pear.File.Archive.Predicate.Duplicate');
         $pred = new File_Archive_Predicate_Duplicate($source);
         $source->close();
         return File_Archive::removeFromSource(
