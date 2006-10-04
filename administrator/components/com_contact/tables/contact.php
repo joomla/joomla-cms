@@ -19,7 +19,7 @@ jimport('joomla.filter.input');
  * @package Joomla
  * @subpackage Contact
  */
-class TableContact extends JTable 
+class TableContact extends JTable
 {
 	/** @var int Primary key */
 	var $id 				= null;
@@ -90,7 +90,7 @@ class TableContact extends JTable
 		}
 
 		// check for http on webpage
-		if (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage)))) {
+		if (strlen($this->webpage) > 0 && (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage))))) {
 			$this->webpage = 'http://'.$this->webpage;
 		}
 
