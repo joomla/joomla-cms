@@ -39,6 +39,7 @@ Legend:
 
 03-Oct-2006 Johan Janssens
  + Added new javascript driven image caption solution
+ # Fixed [artf6226] : Mini green arrows stay turned down on right panel tabs.
 
 03-Oct-2006 Hannes Papenberg
  # Fixed artf6199 : Missing image on Edit Category page
