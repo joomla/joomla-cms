@@ -495,7 +495,6 @@ INSERT INTO `#__modules` VALUES (20, 'Recent added Articles','',4,'cpanel',0,'00
 INSERT INTO `#__modules` VALUES (21, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:00:00',1,'mod_stats',0,23,1,'',0, 1, '');
 INSERT INTO `#__modules` VALUES (22, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',0,23,1,'',1, 1, '');
 INSERT INTO `#__modules` VALUES (23, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',0,23,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (24, 'Full Menu','',1,'top',0,'0000-00-00 00:00:00',1,'mod_fullmenu',0,23,1,'',1, 1, '');
 INSERT INTO `#__modules` VALUES (25, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,23,1,'',1, 1, '');
 INSERT INTO `#__modules` VALUES (26, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,23,1,'',1,1, '');
 INSERT INTO `#__modules` VALUES (27, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0, '');
@@ -510,7 +509,6 @@ INSERT INTO `#__modules` VALUES (35, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00
 INSERT INTO `#__modules` VALUES (36, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (37, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (38, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (39, 'CSS Admin Menu','',1,'top',0,'0000-00-00 00:00:00',1,'mod_cssmenu',0,23,1,'',1, 1, '');
 INSERT INTO `#__modules` VALUES (40, 'Cpanel Shell', '', 1, 'cp_shell', 0, '0000-00-00 00:00:00', 1, 'mod_cpanel', 0, 23, 1, '', 1, 1, '');
 
 # --------------------------------------------------------
