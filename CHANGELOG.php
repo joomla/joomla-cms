@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Oct-2006 Hannes Papenberg
+ # Fixed artf6246 : [5297] Calling frontend component includes toolbar...
+
 04-Oct-2006 Laurens vandeput
-# Fixed XML-RPC plugins (Joomla, Blogger, MetaWeblog) to fit in the new API.
-# Fixed [artf5320] : if URL is missing, http:// will not be attached (com_content -> ContactTable).
+ # Fixed XML-RPC plugins (Joomla, Blogger, MetaWeblog) to fit in the new API.
+ # Fixed [artf5320] : if URL is missing, http:// will not be attached (com_content -> ContactTable).
 
 03-Oct-2006 Johan Janssens
  + Added new javascript driven image caption solution

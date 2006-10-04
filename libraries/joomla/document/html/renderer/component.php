@@ -54,8 +54,8 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		 * Build the component toolbar
 		 * - This will move to a MVC controller at some point in the future
 		 */
-		if ($path = JApplicationHelper::getPath( 'toolbar' )) {
-			global $mainframe;
+		global $mainframe;
+		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
 			$task = JRequest::getVar( 'task' );
 			include_once( $path );
 		}
