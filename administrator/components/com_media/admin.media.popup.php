@@ -46,33 +46,40 @@ class MediaViews
 		<table class="properties">
 			<tr>
 				<td>
-					<label for="f_url">Image Path</label>
+					<label for="f_url"><?php echo JText::_('Image URL') ?></label>
 				</td>
 				<td>
 					<input type="text" id="f_url" value="" />
 				</td>
-				<td><label for="f_align">Align</label></td>
+				<td><label for="f_align"><?php echo JText::_('Align') ?></label></td>
 				<td>
 					<select size="1" id="f_align"  title="Positioning of this image">
-						<option value=""                             >Not Set</option>
-						<option value="left"                         >Left</option>
-						<option value="right"                        >Right</option>
-						<option value="texttop"                      >Texttop</option>
-						<option value="absmiddle"                    >Absmiddle</option>
-						<option value="baseline" selected="selected" >Baseline</option>
-						<option value="absbottom"                    >Absbottom</option>
-						<option value="bottom"                       >Bottom</option>
-						<option value="middle"                       >Middle</option>
-						<option value="top"                          >Top</option>
+						<option value="" selected="selected" >Not Set</option>
+						<option value="left"                 >Left</option>
+						<option value="right"                >Right</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<label for="f_alt">Image Description</label>
+					<label for="f_alt"><?php echo JText::_('Image description') ?></label>
 				</td>
 				<td>
 					<input type="text" id="f_alt" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="f_title"><?php echo JText::_('Title') ?></label>
+				</td>
+				<td>
+					<input type="text" id="f_title" value="" />
+				</td>
+				<td>
+					<label for="f_caption"><?php echo JText::_('Caption') ?></label>
+				</td>
+				<td>
+					<input type="checkbox" id="f_caption" />
 				</td>
 			</tr>
 			</table>

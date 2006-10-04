@@ -678,8 +678,11 @@ class ContentView
 
 	function previewContent()
 	{
-		$editor =& JFactory::getEditor();
-
+		$document =& JFactory::getDocument();
+		$editor   =& JFactory::getEditor();
+		
+		$document->addScript('../includes/js/joomla/caption.js');
+		
 		?>
 		<script>
 		var form = window.top.document.adminForm
@@ -688,6 +691,8 @@ class ContentView
 		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
 		alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
 		</script>
+		
+		
 
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
 			<tr>

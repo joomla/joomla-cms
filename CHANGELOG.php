@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Oct-2006 Johan Janssens
+ + Added new javascript driven image caption solution
+
 03-Oct-2006 Hannes Papenberg
  # Fixed artf6199 : Missing image on Edit Category page
  ^ Removed all references to index2.php out of core components and modules

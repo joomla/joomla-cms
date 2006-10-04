@@ -43,7 +43,7 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 
 .buttons { width: 70px; text-align: center; }
 
-#f_alt, #f_url { width: 22em; }
+#f_alt, #f_url, #f_title { width: 22em; }
 
 #messages {
 	position: relative;

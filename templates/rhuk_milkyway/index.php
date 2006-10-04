@@ -22,6 +22,9 @@ See COPYRIGHT.php for copyright notices and details.
 		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	</jdoc:sub>
 </jdoc:tmpl>
+
+<script type="text/javascript" src="includes/js/joomla/common.js"></script>
+<script type="text/javascript" src="includes/js/joomla/caption.js"></script>
 </head>
 <body id="page_bg">
 

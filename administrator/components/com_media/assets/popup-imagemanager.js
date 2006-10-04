@@ -20,7 +20,7 @@
  */
  
 JImageManager = function() { this.constructor.apply(this, arguments);}
-ImageManager.prototype = {
+JImageManager.prototype = {
 
 	constructor: function() 
 	{	
@@ -78,6 +78,8 @@ ImageManager.prototype = {
 		var url		= document.getElementById("f_url").value;
 		var alt		= document.getElementById("f_alt").value;
 		var align	= document.getElementById("f_align").value;
+		var title	= document.getElementById("f_title").value;
+		var caption	= document.getElementById("f_caption").value;
 
 		if (url != '') {
 			// Set alt attribute
@@ -88,8 +90,18 @@ ImageManager.prototype = {
 			if (align != '') {
 				align = "align='"+align+"' ";
 			}
+			
+			// Set align attribute
+			if (title != '') {
+				title = "title='"+title+"' ";
+			}
+			
+			// Set align attribute
+			if (caption != '') {
+				caption = 'class="caption"';
+			}
 
-			var tag = "<img src='"+url+"' "+alt+align+"/>";
+			var tag = "<img src='"+url+"' "+alt+align+title+caption+" />";
 		}
 		
 		window.parent.jInsertEditorText(tag);
@@ -167,5 +179,5 @@ ImageManager.prototype = {
 
 document.imagemanager = null;
 document.addLoadEvent(function() {
- 	document.imagemanager = new ImageManager();
+ 	document.imagemanager = new JImageManager();
 });

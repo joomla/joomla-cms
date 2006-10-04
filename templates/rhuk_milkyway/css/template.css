@@ -650,15 +650,12 @@ div.search input {
 }
 
 /* thumbnails */
-div.mosimage {
-  margin: 5px;
-}
+div.mosimage         {  margin: 5px; }
+div.mosimage_caption {  font-size: .90em; color: #666; }
 
-div.mosimage_caption {
-  font-size: .90em;
-  color: #666;
-}
-
+div.caption       { padding: 0 10px 0 10px; }
+div.caption img   { border: 1px solid #CCC; }
+div.caption p     { font-size: .90em; color: #666; text-align: center; }
 
 /* Parameter Table */
 table.paramlist {

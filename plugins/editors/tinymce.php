@@ -76,9 +76,7 @@ class JEditor_tinymce extends JPlugin
 		$cleanup			= $params->def( 'cleanup', 1 );
 		$cleanup_startup	= $params->def( 'cleanup_startup', 0 );
 		$compressed			= $params->def( 'compressed', 0 );
-		$relative_urls		= $params->def( 'relative_urls', 0 );
-
-
+	
 		// Plugins
 		// insert date
 		$insertdate			= $params->def( 'insertdate', 1 );
@@ -105,12 +103,6 @@ class JEditor_tinymce extends JPlugin
 		// style
 		$style				= $params->def( 'style', 1 );
 
-		if ( $relative_urls ) {
-			$relative_urls = 'true';
-		} else {
-			$relative_urls = 'false';
-		}
-
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';
 		} else {
@@ -133,19 +125,17 @@ class JEditor_tinymce extends JPlugin
 			$db->setQuery( $query );
 			$template = $db->loadResult();
 
-			$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
-			if ( $content_css ) {
-				$file = 'template.css';
-			} else {
-				$file = 'editor_content.css';
-			}
-
-			$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
-
-			if ( file_exists( $file_path .DS. $file ) ) {
-				$content_css = $content_css . $file .'", ';
-			} else {
-				$content_css = $content_css . 'template_css.css", ';
+			
+			if($content_css) 
+			{
+				$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
+			
+				$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
+				if ( file_exists( $file_path .DS. 'editor.css' ) ) {
+					$content_css = $content_css . 'editor.css' .'", ';
+				} else {
+					$content_css = $content_css . 'template_css.css", ';
+				}			
 			}
 		}
 
@@ -256,7 +246,7 @@ class JEditor_tinymce extends JPlugin
 			mode : \"specific_textareas\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",
-			relative_urls : $relative_urls,
+			relative_urls : false,
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",
