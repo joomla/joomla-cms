@@ -82,8 +82,8 @@ function submitbutton( pressbutton ) {
 	</td>
 </tr>
 </table>
+<?php if(isset($this->params)) :  echo $this->params->render( 'params' ); endif; ?>
 <button class="button" type="submit" onclick="submitForm( this.form );return false;"><?php echo JText::_('Save'); ?></button>
-<?php if(isset($this->params)) :  $this->params->render( 'params' ); endif;?>
 
 <input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />
 <input type="hidden" name="gid" value="<?php echo $this->user->get('gid');?>" />
