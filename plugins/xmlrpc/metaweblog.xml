@@ -3,7 +3,9 @@
 	<name>XML-RPC - MetaWeblog API</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<copyright>
+		(C) 2005 Open Source Matters. All rights reserved.
+	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -12,5 +14,5 @@
 	<files>
 		<filename plugin="metaweblog">metaweblog.php</filename>
 	</files>
-	<params/>
+	<params />
 </install>
