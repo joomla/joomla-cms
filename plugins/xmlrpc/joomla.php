@@ -51,59 +51,63 @@ class JoomlaXMLRPC extends JPlugin {
 	 */
 	function onGetWebServices()
 	{
+		global $xmlrpcString;
+
 		// Initialize variables
 		$services = array();
 
 		// Site search service
 		$services['joomla.searchSite'] = array(
-			'function' => 'searchSite',
+			'function' => 'JoomlaXMLRPCServices::searchSite',
 			'docstring' => 'Searches a remote site.',
-			'signature' => array(array('string', 'string', 'string'))
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString))
 			);
 
 		return $services;
 	}
 }
 
-/**
- * Remote Search method
- *
- * The sql must return the following fields that are used in a common display
- * routine: href, title, section, created, text, browsernav
- *
- * @param	string	Target search string
- * @param	string	mathcing option, exact|any|all
- * @param	string	ordering option, newest|oldest|popular|alpha|category
- * @return	array	Search Results
- * @since	1.5
-*/
-function searchSite( $searchword, $phrase='', $order='' )
-{
-	global $mainframe;
-
-	// Initialize variables
-	$db		=& JFactory::getDBO();
-	$url	= $mainframe->getSiteURL();
-
-	// Prepare arguments
-	$searchword	= $db->getEscaped( trim( $searchword ) );
-	$phrase		= '';
-	$ordering	= '';
-
-	// Load search plugins and fire the onSearch event
-	JPluginHelper::importPlugin( 'search' );
-	$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
-
-	// Iterate through results building the return array
-	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
-
-	foreach ($results as $i=>$rows)
+class JoomlaXMLRPCServices {
+	/**
+	 * Remote Search method
+	 *
+	 * The sql must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav
+	 *
+	 * @param	string	Target search string
+	 * @param	string	mathcing option, exact|any|all
+	 * @param	string	ordering option, newest|oldest|popular|alpha|category
+	 * @return	array	Search Results
+	 * @since	1.5
+	 */
+	function searchSite($searchword, $phrase='', $order='')
 	{
-		foreach ($rows as $j=>$row) {
-			$results[$i][$j]->href = $url.'/'.$row->href;
-			$results[$i][$j]->text = SearchHelper::prepareSearchContent( $row->text, 200, $searchword);
+		global $mainframe;
+
+		// Initialize variables
+		$db		=& JFactory::getDBO();
+		$url	= $mainframe->getSiteURL();
+
+		// Prepare arguments
+		$searchword	= $db->getEscaped( trim( $searchword ) );
+		$phrase		= '';
+		$ordering	= '';
+
+		// Load search plugins and fire the onSearch event
+		JPluginHelper::importPlugin( 'search' );
+		$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
+
+		// Iterate through results building the return array
+		require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
+
+		foreach ($results as $i=>$rows)
+		{
+			foreach ($rows as $j=>$row) {
+				$results[$i][$j]->href = $url.'/'.$row->href;
+				$results[$i][$j]->text = SearchHelper::prepareSearchContent( $row->text, 200, $searchword);
+			}
 		}
+		return $results;
 	}
-	return $results;
 }
 ?>
