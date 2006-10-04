@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Oct-2006 Laurens vandeput
+# Fixed XML-RPC plugins (Joomla, Blogger, MetaWeblog) to fit in the new API.
+
 03-Oct-2006 Johan Janssens
  + Added new javascript driven image caption solution
  # Fixed [artf6226] : Mini green arrows stay turned down on right panel tabs.
@@ -47,7 +50,7 @@ Legend:
 
 02-Oct-2006 Louis Landry
  ^ Consolidated admin mod_cssmenu into mod_menu
- - Removed mod_fullmenu 
+ - Removed mod_fullmenu
 
 02-Oct-2006 Hannes Papenberg
  # Fixed artf6207 : image preview error when editing a contact
@@ -55,10 +58,10 @@ Legend:
  # Fixed artf6212 : Trash Managers should be differentiated
 
 02-Oct-2006 David Gal
- - Disabled the entire help system for Beta 1. Will be reimplemented in Beta 2 when pages are updated. 
+ - Disabled the entire help system for Beta 1. Will be reimplemented in Beta 2 when pages are updated.
 
 02-Oct-2006 Sam Moffatt
- + Added networkAddress translation function to JLDAP care of Jay Burrell, Mississippi State University 
+ + Added networkAddress translation function to JLDAP care of Jay Burrell, Mississippi State University
 
 01-Oct-2006 Louis Landry
  # Fixed artf5535 : popup.js gets blocked by Adblock filters
@@ -94,7 +97,7 @@ Legend:
 
 26-Sep-2006 David Gal
  + Added RTL parameter to TinyMCE xml file
- 
+
 25-Sep-2006 David Gal
  ^ Removed Tar and PCL archive libraries (GPL) from the framework and implemented pear.File_Archive (LGPL) instead
    The PCL and Tar libraries are maintained for BC
@@ -1935,4 +1938,6 @@ Legend:
 
 12-Oct-2005 Andy Miller
  + Added advanced SSL support plus new mosLink method
+
+
 
