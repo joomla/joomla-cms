@@ -294,7 +294,7 @@ function saveContact( $task )
 	{
 		case 'apply':
 		case 'save2copy':
-			$link = 'index.php?option=com_contact&task=edit&id='. $row->id .'&hidemainmenu=1';
+			$link = 'index.php?option=com_contact&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save2new':

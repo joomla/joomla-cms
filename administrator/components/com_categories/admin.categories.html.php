@@ -49,7 +49,7 @@ class categories_html
 				</td>
 				<td nowrap="nowrap">
 					<?php
-					if ( $section == 'content') {
+					if ( $section == 'com_content') {
 						echo $lists['sectionid'];
 					}
 					?>
@@ -90,7 +90,7 @@ class categories_html
 					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<?php
-				if ( $section == 'content') {
+				if ( $section == 'com_content') {
 					?>
 					<th width="20%"  class="title">
 						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
@@ -155,7 +155,7 @@ class categories_html
 				</td>
 				<td class="order" colspan="2">
 				<?php
-				if ( $section <> 'content' ) {
+				if ( $section <> 'com_content' ) {
 					?>
 					<span><?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?></span>
 					<span><?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?></span>
@@ -172,7 +172,7 @@ class categories_html
 					<?php echo $row->id; ?>
 				</td>
 				<?php
-				if ( $section == 'content' ) {
+				if ( $section == 'com_content' ) {
 					?>
 					<td>
 						<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">

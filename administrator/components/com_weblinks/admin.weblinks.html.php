@@ -168,7 +168,8 @@ class HTML_weblinks
 	* @param object Parameters
 	* @param string The option
 	*/
-	function editWeblink( &$row, &$lists, &$params, $option ) {
+	function editWeblink( &$row, &$lists, &$params, $option ) 
+	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
 
 		mosCommonHTML::loadOverlib();
@@ -256,6 +257,16 @@ class HTML_weblinks
 						<?php echo $lists['ordering']; ?>
 					</td>
 				</tr>
+				
+				</table>
+			</fieldset>
+		</div>
+		
+		<div class="col50">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+
+				<table class="admintable">
 				<tr>
 					<td colspan="2">
 						<?php echo $params->render();?>

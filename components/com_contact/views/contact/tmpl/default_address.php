@@ -77,7 +77,7 @@
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->mobile ) :?>
+<?php if ( $this->contact->mobile && $this->contact->params->get( 'mobile' ) ) :?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 	</td>
@@ -86,7 +86,7 @@
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->webpage ) : ?>
+<?php if ( $this->contact->webpage && $this->contact->params->get( 'webpage' )) : ?>
 <tr>
 	<td width="<?php echo $this->params->get( 'column_width' ); ?>" >
 	</td>

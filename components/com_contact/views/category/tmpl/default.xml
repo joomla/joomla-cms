@@ -9,7 +9,7 @@
 		<name>Contacts Category Layout</name>
 		<description>The contact category layout displays all the published contacts in a given category.</description>
 		<url addParameterDir="/administrator/components/com_contact/elements">
-			<param name="id" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
+			<param name="catid" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 		</url>
 		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />

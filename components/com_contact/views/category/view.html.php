@@ -33,7 +33,7 @@ class ContactViewCategory extends JView
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Selected Request vars
-		$categoryId			= JRequest::getVar( 'catid', $params->get('category_id', 0 ), '', 'int' );
+		$categoryId			= JRequest::getVar( 'catid', 0, '', 'int' );
 		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');

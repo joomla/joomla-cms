@@ -45,11 +45,19 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="mobile" type="radio" default="1" label="Mobile Column" description="Show/Hide the Mobile column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="fax" type="radio" default="1" label="Fax" description="Show/Hide the fax info">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="misc" type="radio" default="1" label="Misc Info" description="Show/Hide the misc info">
+		<param name="webpage" type="radio" default="1" label="Webpage" description="Show/Hide the webpage">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="misc" type="radio" default="1" label="Misc Info" description="Show/Hide the miscellaneous info">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

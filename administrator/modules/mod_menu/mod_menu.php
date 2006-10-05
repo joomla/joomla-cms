@@ -149,7 +149,7 @@ function & buildMenu($usertype = '')
 	}
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Section Manager'), 'index.php?option=com_sections&scope=content', 'class:section'));
-	$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=content', 'class:category'));
+	$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=com_content', 'class:category'));
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
 	$menu->addChild(new JMenuNode(JText::_('Article Statistics'), 'index.php?option=com_statistics&task=pageimp', 'class:stats'));

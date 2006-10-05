@@ -172,12 +172,12 @@ function showWeblinks( $option )
 */
 function editWeblink()
 {
-	global $mainframe;
+	global $mainframe, $option;
 
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
-	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
+	
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}

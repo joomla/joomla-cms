@@ -165,7 +165,7 @@ function showCategories( $section, $option )
 	$total = $db->loadResult();
 
 	// allows for viweing of all content categories
-	if ( $section == 'content' ) {
+	if ( $section == 'com_content' ) {
 		$table 			= 'content';
 		$content_add 	= "\n , z.title AS section_name";
 		$content_join 	= "\n LEFT JOIN #__sections AS z ON z.id = c.section";
