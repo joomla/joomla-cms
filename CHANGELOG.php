@@ -41,8 +41,8 @@ Legend:
  ^ Updated on mod_menu tree css and images
  
 05-Oct-2006 Hannes Papenberg
- # Fixed artf6246 : [5297] Calling frontend component includes toolbar...
- # Fixed artf6233 : Blog view does not show any content
+ # Fixed [artf6246] : [5297] Calling frontend component includes toolbar...
+ # Fixed [artf6233] : Blog view does not show any content
 
 04-Oct-2006 Laurens vandeput
  # Fixed XML-RPC plugins (Joomla, Blogger, MetaWeblog) to fit in the new API.
@@ -53,7 +53,7 @@ Legend:
  # Fixed [artf6226] : Mini green arrows stay turned down on right panel tabs.
 
 03-Oct-2006 Hannes Papenberg
- # Fixed artf6199 : Missing image on Edit Category page
+ # Fixed [artf6199] : Missing image on Edit Category page
  ^ Removed all references to index2.php out of core components and modules
 
 02-Oct-2006 Louis Landry
@@ -61,9 +61,9 @@ Legend:
  - Removed mod_fullmenu
 
 02-Oct-2006 Hannes Papenberg
- # Fixed artf6207 : image preview error when editing a contact
- # Fixed artf6193 : mod_mainmenu: child nodes don't render correcty
- # Fixed artf6212 : Trash Managers should be differentiated
+ # Fixed [artf6207] : image preview error when editing a contact
+ # Fixed [artf6193] : mod_mainmenu: child nodes don't render correcty
+ # Fixed [artf6212] : Trash Managers should be differentiated
 
 02-Oct-2006 David Gal
  - Disabled the entire help system for Beta 1. Will be reimplemented in Beta 2 when pages are updated.
