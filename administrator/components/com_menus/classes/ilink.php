@@ -73,17 +73,18 @@ class iLink extends JTree
 		while ($this->_current->hasChildren())
 		{
 			$this->_output .= '<ul>';
-			foreach ($this->_current->getChildren() as $child)
+			$children = $this->_current->getChildren();
+			for ($i=0,$n=count($children);$i<$n;$i++)
 			{
-				$this->_current = & $child;
-				$this->renderLevel($depth);
+				$this->_current = & $children[$i];
+				$this->renderLevel($depth,($i==$n-1)?1:0);
 			}
 			$this->_output .= '</ul>';
 		}
 		return $this->_output;
 	}
 
-	function renderLevel($depth)
+	function renderLevel($depth, $isLast=0)
 	{
 		$depth++;
 		if (!isset($this->_depthHash[$depth])) {
@@ -97,31 +98,38 @@ class iLink extends JTree
 			$classes = 'leaf';
 		}
 
+		if ($isLast) {
+			$last = ' class="last"';
+		} else {
+			$last = '';
+		}
+
 		$parent = & $this->_current->getParent();
 		// Print the item
-		$this->_output .= "<li class=\"".$classes."\">";
+		$this->_output .= "<li".$last.">\n";
 
 		// Print the url
 		if ($this->_current->hasChildren()) {
-			$this->_output .= "<a title=\"".$this->_current->msg."\">".$this->_current->title."</a>";
+			$this->_output .= "<div class=\"".$classes."\"><span></span><a title=\"".$this->_current->msg."\">".$this->_current->title."</a></div>";
 		} else {
-			$this->_output .= "<a href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"".$this->_current->msg."\">".$this->_current->title."</a>";
+			$this->_output .= "<div class=\"".$classes."\"><span></span><a href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"".$this->_current->msg."\">".$this->_current->title."</a></div>";
 		}
 
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			$this->_output .= "<ul>";
-			foreach ($this->_current->getChildren() as $child)
+			$this->_output .= "<ul>\n";
+			$children = $this->_current->getChildren();
+			for ($i=0,$n=count($children);$i<$n;$i++)
 			{
-				$this->_current = & $child;
-				$this->renderLevel($depth);
+				$this->_current = & $children[$i];
+				$this->renderLevel($depth,($i==$n-1)?1:0);
 			}
-			$this->_output .= "</ul>";
+			$this->_output .= "</ul>\n";
 		}
 
 		// Close item
-		$this->_output .= "</li>";
+		$this->_output .= "</li>\n";
 	}
 
 	function _getOptions($e, &$parent, $purl=null)

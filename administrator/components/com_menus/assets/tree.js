@@ -49,7 +49,7 @@ JTreeManager.prototype =
 
 		// Build the tree
 		$c(this.trees).each(function(tree){
-			self.initTree(tree);
+			//self.initTree(tree);
 		});
 		if(this.initExpandedNodes){
 			var nodes = this.initExpandedNodes.split(',');
@@ -232,7 +232,7 @@ JTreeManager.prototype =
 				aTag.href = '#';
 			}
 			self.addEvent(aTag,'click',function(){return document.treemanager.toggleNode(this);});
-			nodes[no].insertBefore(img,aTag);
+			nodes[no].insertBefore(aTag);
 			if(!nodes[no].id) nodes[no].id = 'node' + self.nodeId;
 		}	
 	}

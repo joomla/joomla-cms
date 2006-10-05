@@ -1,3 +1,4 @@
+/*
 #internal-node a{
 	text-decoration:none;
 	font-family:arial;
@@ -25,6 +26,7 @@
 	font-size:140%;
 	padding-left:8px;
 }
+
 .jtree{
 	color:#000;
 	text-decoration:none;
@@ -38,16 +40,45 @@
 	padding-left:0px;
 	display:none;
 }
+*/
 
-/* Nodes */
-.jtree li{list-style-type:none;vertical-align:middle;padding-left:0px;}
-.jtree li.node{font-weight: bold;}
+/* ---- Basic tree styles ------------------- */
 
-/* Leafs */
-.jtree li.leaf{color:#666;font-weight: normal;padding-left:2px;}
-.jtree li.leaf a{color:#000;}
-.jtree li.leaf a:hover {color:#333;}
-.jtree ul#subtree_0 {border:1px solid #ccc;padding:5px;width:95%;background:#f7f7f7;}
-.jtree ul#subtree_0 li.leaf a {color:#58962A;}
-.jtree ul#subtree_0 li.leaf a:hover {color:#000;}
-.jtree li.node img {padding:0px; margin:0; position:relative; left:7px; top:1px;}
+.jtree ul, .jtree li { margin: 0; padding: 0; list-style: none; }
+
+/* ---- Tree layout ------------------------- */
+
+.jtree ul { margin-left: 20px; }
+
+.jtree li      { background: url(images/line.gif) repeat-y; }
+.jtree li.last { background-image: none; }
+
+.jtree div { 
+	height: 100%; padding: 4px 0 4px 40px; 
+	background-repeat: no-repeat; background-position: left bottom; 
+}
+.jtree span { 
+	display: block; position: absolute; width: 18px; height: 18px;  margin: 0 0 0 -20px; 
+	background-repeat: no-repeat; border: 0 none;
+}
+
+.jtree a {}
+
+.jtree .root { padding-left: 20px;}
+.jtree .root span { background: url(images/base.gif) no-repeat left bottom;  }
+
+.jtree .node { background-image: url(images/minus.gif); }
+.jtree .node span { background-image: url(images/folder.gif); }
+.jtree li.last .node { background-image: url(images/minusbottom.gif); }
+.jtree li.last .node span { background-image: url(images/folder.gif); }
+
+.jtree .leaf { background-image: url(images/join.gif);  }
+.jtree .leaf span { background-image: url(images/page.gif); }
+.jtree li.last .leaf { background-image: url(images/joinbottom.gif); }
+.jtree li.last .leaf span { background-image: url(images/page.gif); }
+
+/* ---- Specific layout ------------------------- */
+#internal-node {}
+#external-node {}
+#separator-node {}
+#link-node {}
