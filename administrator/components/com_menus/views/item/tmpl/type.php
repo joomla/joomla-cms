@@ -15,15 +15,15 @@
 					<ul id="menu-item" class="jtree">
 						<li id="internal-node"><div class="node"><span></span><a href="#"><?php echo JText::_('Internal Link'); ?></a></div>
 							<ul>
-								<?php foreach ($this->components as $component) : ?>
-								<?php if ($this->expansion['option'] == str_replace('com_', '', $component->option)) : ?>
-								<li><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>"><?php echo $component->name; ?></a></div>
+								<?php for ($i=0,$n=count($this->components);$i<$n;$i++) : ?>
+								<?php if ($this->expansion['option'] == str_replace('com_', '', $this->components[$i]->option)) : ?>
+								<li<?php echo ($i == $n-1)? 'class="last"' : '' ?>><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $this->components[$i]->option); ?>" id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo $this->components[$i]->name; ?></a></div>
 								<?php echo $this->expansion['html']; ?>
 								<?php else : ?>
-								<li><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>"><?php echo $component->name; ?></a></div>
+								<li<?php echo ($i == $n-1)? 'class="last"' : '' ?>><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $this->components[$i]->option); ?>" id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo $this->components[$i]->name; ?></a></div>
 								<?php endif; ?>
 								</li>
-								<?php endforeach; ?>
+								<?php endfor; ?>
 							</ul>
 						</li>
 						<li id="external-node"><div class="leaf"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=url&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('External Link'); ?></a></div></li>
