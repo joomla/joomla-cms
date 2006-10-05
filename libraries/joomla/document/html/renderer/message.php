@@ -54,7 +54,7 @@ class JDocumentRenderer_Message extends JDocumentRenderer
 		if (is_array($lists))
 		{
 			// Build the return string
-			$contents .= "\n<dl id=\"system-message\">";
+			$contents .= "\n<dl id=\"system-message\" class=\"message fade\">";
 			foreach ($lists as $type => $msgs)
 			{
 				if (count($msgs)) {
