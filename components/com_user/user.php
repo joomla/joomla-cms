@@ -94,7 +94,13 @@ class UserController
 		$check = $mainframe->getCfg('frontend_userparams');
 		if ($check == '1' || $check == 1 || $check == NULL) {
 			$params = $user->getParameters();
-			$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users.xml');
+			if( $user->authorize( 'mydetails', 'manage' ) ){
+				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users.xml');
+			} else if ( $user->authorize( 'mydetails', 'author' ) ){
+				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users_author.xml');
+			} else if ( $user->authorize( 'mydetails', 'registered' ) ){
+				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users_registered.xml');
+			}
 		}
 		
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
