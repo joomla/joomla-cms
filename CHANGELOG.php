@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Oct-2006 David Gal
+ ^ Fixed front end user parameter editing in "My Details" and added access level filtering of parameters
+ 
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images
  
