@@ -138,7 +138,7 @@ class JMenuModelItem extends JModel
 			if (is_a($state, 'JSimpleXMLElement')) {
 				$sp =& $state->getElementByPath('url');
 				$params->setXML($sp);
-				if (is_array($item->linkparts)) {
+				if (isset($item->linkparts) && is_array($item->linkparts)) {
 					$params->loadArray($item->linkparts);
 				}
 			}
@@ -250,6 +250,7 @@ class JMenuModelItem extends JModel
 				$prefix = substr( $row->link, 0, $pos );
 				$query	= substr( $row->link, $pos+1 );
 
+				$temp = array();
 				parse_str( $query, $temp );
 				$temp2 = array_merge( $temp, $post['urlparams'] );
 	

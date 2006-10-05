@@ -1,47 +1,3 @@
-/*
-#internal-node a{
-	text-decoration:none;
-	font-family:arial;
-	font-size:150%;
-	padding-left:8px;
-}
-#external-node a{
-	color:#000;
-	text-decoration:none;
-	font-family:arial;
-	font-size:140%;
-	padding-left:8px;
-}
-#separator-node a{
-	color:#000;
-	text-decoration:none;
-	font-family:arial;
-	font-size:140%;
-	padding-left:8px;
-}
-#link-node a:link, #link-node a:visited{
-	color:#000;
-	text-decoration:none;
-	font-family:arial;
-	font-size:140%;
-	padding-left:8px;
-}
-
-.jtree{
-	color:#000;
-	text-decoration:none;
-	font-family:arial;
-	font-size:75%;
-	margin:0px;
-	padding:0px;
-}
-.jtree ul{
-	margin-left:20px;
-	padding-left:0px;
-	display:none;
-}
-*/
-
 /* ---- Basic tree styles ------------------- */
 
 .jtree ul, .jtree li { margin: 0; padding: 0; list-style: none; }
@@ -76,6 +32,11 @@
 .jtree .leaf span { background-image: url(images/page.gif); }
 .jtree li.last .leaf { background-image: url(images/joinbottom.gif); }
 .jtree li.last .leaf span { background-image: url(images/page.gif); }
+
+.jtree ul .node { padding: 4px 0 4px 20px; }
+.jtree ul .node span { display: none; }
+.jtree ul li.last .node span { display: none; }
+.jtree ul li.last .node span { padding: 4px 0 4px 20px; }
 
 /* ---- Specific layout ------------------------- */
 #internal-node {}
