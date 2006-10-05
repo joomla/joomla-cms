@@ -39,6 +39,7 @@ Legend:
 
 05-Oct-2006 Hannes Papenberg
  # Fixed artf6246 : [5297] Calling frontend component includes toolbar...
+ # Fixed artf6233 : Blog view does not show any content
 
 04-Oct-2006 Laurens vandeput
  # Fixed XML-RPC plugins (Joomla, Blogger, MetaWeblog) to fit in the new API.

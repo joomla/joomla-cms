@@ -80,7 +80,7 @@ class ContentController extends JController
 			default:
 				$viewName	= JRequest::getVar( 'view', 'article' );
 				$modelName	= $viewName;
-				$layout = 'default';
+				$layout = JRequest::getVar( 'layout', 'default' );
 		}
 
 		// Create the view
