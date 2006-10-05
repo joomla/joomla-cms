@@ -20,7 +20,7 @@
 								<li><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>"><?php echo $component->name; ?></a></div>
 								<?php echo $this->expansion['html']; ?>
 								<?php else : ?>
-								<li><div class="leaf"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>"><?php echo $component->name; ?></a></div>
+								<li><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $component->option); ?>" id="<?php echo str_replace('com_', '', $component->option); ?>"><?php echo $component->name; ?></a></div>
 								<?php endif; ?>
 								</li>
 								<?php endforeach; ?>
