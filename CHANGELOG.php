@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Oct-2006 Andy Miller
+ ^ Updated on mod_menu tree css and images
+ 
 05-Oct-2006 Hannes Papenberg
  # Fixed artf6246 : [5297] Calling frontend component includes toolbar...
  # Fixed artf6233 : Blog view does not show any content
