@@ -49,6 +49,10 @@ class JElement_MenuItem extends JElement
 		$db->setQuery( $query );
 		$menuTypes = $db->loadObjectList();
 
+		if ($state = $node->attributes('state')) {
+			$where .= "\n AND published = '$state'";
+		}
+
 		// load the list of menu items
 		// TODO: move query to model
 		$query = "SELECT id, parent, name, menutype" .
