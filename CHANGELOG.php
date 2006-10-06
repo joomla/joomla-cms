@@ -38,9 +38,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-07-Oct-2006 Johan Janssens
+06-Oct-2006 Johan Janssens
  - Removed offline message from configuration and moved into main language file 
  - Removed system error message from configuration, unused in 1.5
+ # Fixed [artf6254] : Launching search from the menu
 
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images

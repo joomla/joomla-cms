@@ -39,5 +39,5 @@
 	<?php endforeach; ?>
 <?php endif; ?>
 <input type="hidden" name="option" value="com_search" />
-<input type="hidden" name="Itemid" value="<?php echo $this->Itemid; ?>" />
+<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 </form>
