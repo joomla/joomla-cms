@@ -109,7 +109,7 @@ class SearchController
 		}
 
 		if (!$searchword && count( JRequest::get('post') ) ) {
-			$error = JText::_( 'No results were found' );
+			//$error = JText::_( 'Enter a search keyword' );
 		}
 
 		if(!$error) {

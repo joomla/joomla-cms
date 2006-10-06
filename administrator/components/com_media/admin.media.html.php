@@ -41,8 +41,8 @@ class MediaViews
 
 		$listStyle = "
 			<ul id=\"submenu\">
-				<li class=\"item-smenu\"><a id=\"thumbs\" onclick=\"document.mediamanager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
-				<li class=\"item-smenu\"><a id=\"details\" onclick=\"document.mediamanager.setViewType('details')\">".JText::_('Detail View')."</a></li>
+				<li><a id=\"thumbs\" onclick=\"document.mediamanager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
+				<li><a id=\"details\" onclick=\"document.mediamanager.setViewType('details')\">".JText::_('Detail View')."</a></li>
 			</ul>
 		";
 

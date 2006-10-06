@@ -236,11 +236,10 @@ class JAdminSubMenu
 	/**
 	 * Builds the submenu list
 	 * @param array		An array of menu items
-	 * @param string	Suffix for the menu
 	 * @return string	The HTML for the submenu
 	 * @access protected
 	 */
-	function _buildList($list, $suffix = '-smenu')
+	function _buildList($list)
 	{
 		if (!is_array($list) || !count($list)) {
 			return null;
@@ -254,7 +253,7 @@ class JAdminSubMenu
 		 */
 		foreach ($list as $item)
 		{
-			$txt .= "<li class=\"item".$suffix."\">\n";
+			$txt .= "<li>\n";
 			if ($hide)
 			{
 				if (isset ($item['active']) && $item['active'] == 1)

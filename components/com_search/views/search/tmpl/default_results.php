@@ -20,7 +20,7 @@
 		<label for="limit">
 			<?php echo JText::_( 'Display Num' ); ?>
 		</label>
-		<?php echo $this->pagination->getLimitBox( $link ); ?>
+		<?php echo $this->pagination->getLimitBox( ); ?>
 	</div>
 	<div>
 		<?php echo $this->pagination->getPagesCounter(); ?>

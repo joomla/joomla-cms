@@ -589,8 +589,8 @@ class JView extends JObject
 				
 				// set the alternative template searh dir
 				if (isset($mainframe)) {
-					$path = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
-					$this->_addPath('template', $path);
+					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
+					$this->_addPath('template', $fallback);
 				}
 				break;
 		}

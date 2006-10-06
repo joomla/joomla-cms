@@ -47,7 +47,7 @@ class JXMLRPC extends JApplication
 			return $this->_siteURL;
 		}
 
-		$url = $this->getBaseURL();
+		$url = JURI::base();
 		$url = str_replace('xmlrpc/', '', $url);
 		$this->_siteURL = $url;
 		return $url;

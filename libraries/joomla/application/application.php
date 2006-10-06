@@ -448,18 +448,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Return the application url
-	 *
-	 * @access public
-	 * @return string The url of the application
-	 * @since 1.5
-	 */
-	function getBaseURL()
-	{
-		return JURI::base();
-	}
-
-	/**
 	 * Set the user session
 	 *
 	 * @access public

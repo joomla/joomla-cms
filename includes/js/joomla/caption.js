@@ -63,7 +63,7 @@ JCaption.prototype = {
 	}
 }
 
-document.popup = null
+document.caption = null
 document.addLoadEvent(function() {
   var caption = new JCaption('caption')
   document.caption = caption

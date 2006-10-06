@@ -133,7 +133,7 @@ class JInstallation extends JApplication
 			return $this->_siteURL;
 		}
 
-		$url = $this->getBaseURL();
+		$url = JURI::base();
 		$url = str_replace('installation/', '', $url);
 		$this->_siteURL = $url;
 		return $url;

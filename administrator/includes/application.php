@@ -52,8 +52,6 @@ class JAdministrator extends JApplication
 	function execute( $option )
 	{
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$raw      = strtolower( JRequest::getVar( 'no_html', 0 ) );
-		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 		$file 	  = JRequest::getVar( 'tmpl', 'index.php',  '', 'string'  );
 
 		//TODO :: put cpanel in a component
@@ -66,7 +64,7 @@ class JAdministrator extends JApplication
 			$file = 'login.php';
 		}
 
-		$this->_display($format, $template, $file);
+		$this->_display($template, $file);
 	}
 
 	/**
@@ -252,7 +250,7 @@ class JAdministrator extends JApplication
 			return $this->_siteURL;
 		}
 
-		$url = $this->getBaseURL();
+		$url = JURI::base();
 		$url = str_replace('administrator/', '', $url);
 
 		$this->_siteURL = $url;
@@ -357,12 +355,12 @@ class JAdministrator extends JApplication
 	* @access protected
 	* @since 1.5
 	*/
-	function _display($format, $template, $file)
+	function _display($template, $file)
 	{
-		$document =& JFactory::getDocument($format);
+		$document =& JFactory::getDocument();
 		$user     =& JFactory::getUser();
 
-		switch($format)
+		switch($document->getType())
 		{
 			case 'html' :
 			{

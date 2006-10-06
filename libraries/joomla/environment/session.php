@@ -220,7 +220,7 @@ class JSession extends JObject
     *
     * Creates a session (or resumes the current one based on the state of the session)
  	*
-	* @access public
+	* @access private
 	* @return boolean $result true on success
 	*/
     function _start()

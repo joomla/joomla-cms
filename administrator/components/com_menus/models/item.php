@@ -48,8 +48,8 @@ class JMenuModelItem extends JModel
 		}
 	}
 
-	function &getItem() {
-
+	function &getItem() 
+	{
 		static $item;
 		if (isset($item)) {
 			return $item;

@@ -95,12 +95,12 @@ class JFactory
 	 * @access public
 	 * @return object JLanguage
 	 */
-	function &getDocument($type = 'html')
+	function &getDocument()
 	{
 		static $instance;
 
 		if (!is_object( $instance )) {
-			$instance = JFactory::_createDocument($type);
+			$instance = JFactory::_createDocument();
 		}
 
 		return $instance;
@@ -553,11 +553,15 @@ class JFactory
 	 * @return object
 	 * @since 1.5
 	 */
-	function &_createDocument($type)
+	function &_createDocument()
 	{
 		jimport('joomla.document.document');
 
 		$lang  =& JFactory::getLanguage();
+		
+		//Keep backwards compatibility with Joomla! 1.0
+		$raw  = JRequest::getVar( 'no_html', 0, '', 'int' );
+		$type = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 
 		$attributes = array (
             'charset'  => 'utf-8',

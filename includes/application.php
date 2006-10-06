@@ -62,8 +62,6 @@ class JSite extends JApplication
 		$this->_createPathWay();
 
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$raw  	  = JRequest::getVar( 'no_html', 0, '', 'int' );
-		$format   = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 		$file 	  = JRequest::getVar( 'tmpl', 'index.php', '', 'string'  );
 		
 		$user     =& JFactory::getUser();
@@ -72,7 +70,7 @@ class JSite extends JApplication
 			$file = 'offline.php';
 		}
 
-		$this->_display($format, $template, $file);
+		$this->_display($template, $file);
 	}
 
 	/**
@@ -148,7 +146,7 @@ class JSite extends JApplication
 		parent::setConfiguration($file, $type);
 
 		$registry =& JFactory::getConfig();
-		$registry->setValue('config.live_site', substr_replace($this->getBaseURL(), '', -1, 1));
+		$registry->setValue('config.live_site', substr_replace(JURI::base(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
 
 		// Create the JConfig object
@@ -257,12 +255,12 @@ class JSite extends JApplication
 	* @access protected
 	* @since 1.5
 	*/
-	function _display($format, $template, $file)
+	function _display($template, $file)
 	{
 		$user     =& JFactory::getUser();
-		$document =& JFactory::getDocument($format);
+		$document =& JFactory::getDocument();
 		
-		switch($format)
+		switch($document->getType())
 		{
 			case 'html':
 				//set metadata
