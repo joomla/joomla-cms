@@ -44,6 +44,9 @@ Legend:
 05-Oct-2006 Hannes Papenberg
  # Fixed [artf6246] : [5297] Calling frontend component includes toolbar...
  # Fixed [artf6233] : Blog view does not show any content
+ # Fixed [artf6159] : rev. 5220 : "Blog" link displays nothing
+ # Fixed [artf6252] : Editor cannot be called on FAQ and Latest News
+ # Fixed [artf6247] : clicking submit menu link creates error
 
 04-Oct-2006 Laurens vandeput
  # Fixed XML-RPC plugins (Joomla, Blogger, MetaWeblog) to fit in the new API.

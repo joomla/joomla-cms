@@ -36,7 +36,7 @@ class ContentViewArticle extends JView
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
 
-		if ($article->id == 0)
+		if (($article->id == 0) && (!$this->getLayout() == 'form'))
 		{
 			$id = JRequest::getVar( 'id' );
 			return JError::raiseError( 404, JText::sprintf( 'Article #%d not found', $id ) );
