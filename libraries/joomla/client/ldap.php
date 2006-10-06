@@ -15,7 +15,7 @@
  *
  * @author		Samuel Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
- * @subpackage 	Connector
+ * @subpackage 	Client
  * @since		1.5
  */
 class JLDAP {

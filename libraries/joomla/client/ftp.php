@@ -39,7 +39,7 @@ if (!defined("FTP_ASCII")) {
  *
  * @author		Louis Landry  <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Connector
+ * @subpackage	Client
  * @since		1.5
  */
 class JFTP extends JObject {
