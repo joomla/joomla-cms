@@ -13,11 +13,11 @@
 				<fieldset>
 					<legend><?php echo JText::_( 'Select Menu Item Type' ); ?></legend>
 					<ul id="menu-item" class="jtree">
-						<li id="internal-node"><div class="node"><span></span><a href="#"><?php echo JText::_('Internal Link'); ?></a></div>
+						<li id="internal-node"><div class="node-open"><span></span><a href="#"><?php echo JText::_('Internal Link'); ?></a></div>
 							<ul>
 								<?php for ($i=0,$n=count($this->components);$i<$n;$i++) : ?>
 								<?php if ($this->expansion['option'] == str_replace('com_', '', $this->components[$i]->option)) : ?>
-								<li<?php echo ($i == $n-1)? 'class="last"' : '' ?>><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $this->components[$i]->option); ?>" id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo $this->components[$i]->name; ?></a></div>
+								<li<?php echo ($i == $n-1)? 'class="last"' : '' ?>><div class="node-open"><span></span><a id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo $this->components[$i]->name; ?></a></div>
 								<?php echo $this->expansion['html']; ?>
 								<?php else : ?>
 								<li<?php echo ($i == $n-1)? 'class="last"' : '' ?>><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>&amp;expand=<?php echo str_replace('com_', '', $this->components[$i]->option); ?>" id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo $this->components[$i]->name; ?></a></div>
@@ -26,9 +26,9 @@
 								<?php endfor; ?>
 							</ul>
 						</li>
-						<li id="external-node"><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=url&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('External Link'); ?></a></div></li>
-						<li id="separator-node"><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=separator&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('Separator'); ?></a></div></li>
-						<li id="link-node" class="last"><div class="node"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=menulink&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('Alias'); ?></a></div></li>
+						<li id="external-node"><div class="base"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=url&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('External Link'); ?></a></div></li>
+						<li id="separator-node"><div class="base"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=separator&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('Separator'); ?></a></div></li>
+						<li id="link-node" class="last"><div class="base"><span></span><a href="index.php?option=com_menus&amp;task=edit&amp;type=menulink&amp;menutype=<?php echo $this->item->menutype; ?>&amp;cid[]=<?php echo $this->item->id; ?>"><?php echo JText::_('Alias'); ?></a></div></li>
 					</ul>
 				</fieldset>
 			</td>

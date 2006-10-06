@@ -23,20 +23,34 @@
 .jtree .root { padding-left: 20px;}
 .jtree .root span { background: url(images/base.gif) no-repeat left bottom;  }
 
-.jtree .node { background-image: url(images/minus.gif); }
+.jtree .node { background-image: url(images/plus.gif); }
 .jtree .node span { background-image: url(images/folder.gif); }
-.jtree li.last .node { background-image: url(images/minusbottom.gif); }
+.jtree li.last .node { background-image: url(images/plusbottom.gif); }
 .jtree li.last .node span { background-image: url(images/folder.gif); }
+
+.jtree .node-open { background-image: url(images/minus.gif); }
+.jtree .node-open span { background-image: url(images/folderopen.gif); }
+.jtree li.last .node-open { background-image: url(images/minusbottom.gif); }
+.jtree li.last .node-open span { background-image: url(images/folderopen.gif); }
 
 .jtree .leaf { background-image: url(images/join.gif);  }
 .jtree .leaf span { background-image: url(images/page.gif); }
 .jtree li.last .leaf { background-image: url(images/joinbottom.gif); }
 .jtree li.last .leaf span { background-image: url(images/page.gif); }
 
+.jtree .base { background-image: url(images/blank.gif);  }
+.jtree .base span { background-image: url(images/folder.gif); }
+.jtree li.last .base { background-image: url(images/blankbottom.gif); }
+.jtree li.last .base span { background-image: url(images/folder.gif); }
+
 .jtree ul .node { padding: 4px 0 4px 20px; }
 .jtree ul .node span { display: none; }
+.jtree ul .node-open { padding: 4px 0 4px 20px; }
+.jtree ul .node-open span { display: none; }
 .jtree ul li.last .node span { display: none; }
 .jtree ul li.last .node span { padding: 4px 0 4px 20px; }
+.jtree ul li.last .node-open span { display: none; }
+.jtree ul li.last .node-open span { padding: 4px 0 4px 20px; }
 
 /* ---- Specific layout ------------------------- */
 #internal-node {}

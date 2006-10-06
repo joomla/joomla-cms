@@ -93,7 +93,7 @@ class iLink extends JTree
 		$this->_depthHash[$depth]++;
 
 		if ($this->_current->hasChildren()) {
-			$classes = 'node';
+			$classes = 'node-open';
 		} else {
 			$classes = 'leaf';
 		}
