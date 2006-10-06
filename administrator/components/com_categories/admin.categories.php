@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // get parameters from the URL or submitted form
-$section 	= JRequest::getVar( 'section', 'content' );
+$section 	= JRequest::getVar( 'section', 'com_content' );
 $cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
@@ -285,8 +285,8 @@ function editCategory( )
 	$user 		=& JFactory::getUser();
 
 	$type 		= JRequest::getVar( 'type' );
-	$redirect 	= JRequest::getVar( 'section', 'content' );
-	$section 	= JRequest::getVar( 'section', 'content' );
+	$redirect 	= JRequest::getVar( 'section', 'com_content' );
+	$section 	= JRequest::getVar( 'section', 'com_content' );
 	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 
 	if (!is_array( $cid )) {
@@ -330,7 +330,7 @@ function editCategory( )
 	}
 
 	// build the html select list for sections
-	if ( $section == 'content' ) {
+	if ( $section == 'com_content' ) {
 		$query = "SELECT s.id AS value, s.title AS text"
 		. "\n FROM #__sections AS s"
 		. "\n ORDER BY s.ordering"
@@ -625,7 +625,7 @@ function orderCategory( $uid, $inc )
 function moveCategorySelect( $option, $cid, $sectionOld )
 {
 	$db =& JFactory::getDBO();
-	$redirect = JRequest::getVar( 'section', 'content', 'post' );;
+	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
@@ -710,7 +710,7 @@ function moveCategorySave( $cid, $sectionOld )
 function copyCategorySelect( $option, $cid, $sectionOld )
 {
 	$db =& JFactory::getDBO();
-	$redirect = JRequest::getVar( 'section', 'content', 'post' );
+	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";

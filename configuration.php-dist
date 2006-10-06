@@ -28,7 +28,6 @@ class JConfig {
 	*/
 	/* Site Settings */
 	var $offline = '0';
-	var $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
 	var $error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';
 	var $sitename = 'Joomla!';			// Name of Joomla site
 	var $editor = 'tinymce';

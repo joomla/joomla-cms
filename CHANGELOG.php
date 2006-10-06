@@ -38,6 +38,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Oct-2006 Johan Janssens
+ - Removed offline_message from configuration and moved into main language file 
+
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images
  

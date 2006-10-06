@@ -19,7 +19,8 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginEmailCloak' );
 /**
 * Plugin that Cloaks all emails in content from spambots via javascript
 */
-function pluginEmailCloak( &$row, &$params, $page=0 ) {
+function pluginEmailCloak( &$row, &$params, $page=0 ) 
+{
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '@' ) === false ) {
 		return true;

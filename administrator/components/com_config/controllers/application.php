@@ -234,22 +234,6 @@ class ConfigApplicationController extends JController
 		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post' ) );
 		$config->setValue('config.MetaKeys', $MetaKeys);
 
-		// handling of quotes (double and single) and amp characters
-		// htmlspecialchars not used to preserve ability to insert other html characters
-		$offline_message	= JRequest::getVar( 'offline_message', '', 'post' );
-		$offline_message	= ampReplace( $offline_message );
-		$offline_message	= str_replace( '"', '&quot;', $offline_message );
-		$offline_message	= str_replace( "'", '&#039;', $offline_message );
-		$config->setValue('config.offline_message', $offline_message);
-
-		// handling of quotes (double and single) and amp characters
-		// htmlspecialchars not used to preserve ability to insert other html characters
-		$error_message		= JRequest::getVar( 'error_message', '', 'post' );
-		$error_message		= ampReplace( $error_message );
-		$error_message		= str_replace( '"', '&quot;', $error_message );
-		$error_message		= str_replace( "'", '&#039;', $error_message );
-		$config->setValue('config.error_message', $error_message);
-
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';
 
