@@ -28,7 +28,6 @@ class JConfig {
 	*/
 	/* Site Settings */
 	var $offline = '0';
-	var $error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';
 	var $sitename = 'Joomla!';			// Name of Joomla site
 	var $editor = 'tinymce';
 	var $list_limit = '20';

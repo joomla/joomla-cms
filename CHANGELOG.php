@@ -39,7 +39,8 @@ Legend:
 ! -> Note
 
 07-Oct-2006 Johan Janssens
- - Removed offline_message from configuration and moved into main language file 
+ - Removed offline message from configuration and moved into main language file 
+ - Removed system error message from configuration, unused in 1.5
 
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images
