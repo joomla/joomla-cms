@@ -30,7 +30,6 @@ switch ( JRequest::getVar( 'task' ) )
 {
 	case 'new' :
 		WeblinksController::editWebLink();
-		WeblinksController::editWebLink();
 		break;
 
 	case 'save' :
@@ -353,7 +352,7 @@ class WeblinksController
 		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.html.php');
-		$view = new WeblinksView();
+		$view = new WeblinksViewWeblink();
 
 		$view->assign('returnid', $returnid);
 

@@ -26,10 +26,9 @@ class WeblinksViewWeblink extends JView
 {
 	function display($tpl = null)
 	{
-		global $option;
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
-		$this->loadTemplate($tpl);
+		parent::display($tpl);
 	}
 }
 ?>
