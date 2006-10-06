@@ -41,7 +41,7 @@ class ExtensionManagerViewInstall extends JView
 		mosCommonHTML::loadOverlib();
 
 		$document = & JFactory::getDocument();
-		$document->setTitle('Extension Manager');
+		$document->setTitle(JText::_( 'Extension Manager' ));
 
 		$paths = new stdClass();
 		$paths->first = '';
