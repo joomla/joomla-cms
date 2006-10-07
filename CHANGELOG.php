@@ -38,6 +38,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Oct-2006 Johan Janssens
+ ^ Deprecated mosHTML class, use JHTML instead
+
 07-Oct-2006 David Gal
  + Added provisions for localisation of TinyMCE and JS Calendar (to be included only in localised releases)
  + Added provisions for defaulting installation, site and admin languages in localised packages of Joomla!
@@ -778,9 +781,6 @@ Legend:
 
 27-Apr-2006 Johan Janssens
  + Implemented hybrid javascript modal popup library
-
-27-Apr-2006 Alex Kempkens
- + added mosHTML::formatMessage for generic message output
 
 26-Apr-2006 Louis Landry
  ^ Refactored editors-xtd plugins and separated rendering from editor

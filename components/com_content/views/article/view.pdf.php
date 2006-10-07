@@ -109,7 +109,7 @@ class ContentViewArticle extends JView
 		if ($params->get('createdate')) {
 			// Display Created Date
 			if (intval($article->created)) {
-				$create_date = mosHTML::Date($article->created);
+				$create_date = JHTML::Date($article->created);
 				$text .= $create_date;
 			}
 		}
@@ -122,7 +122,7 @@ class ContentViewArticle extends JView
 		if ($params->get('modifydate')) {
 			// Display Modified Date
 			if (intval($article->modified)) {
-				$mod_date = mosHTML::Date($article->modified);
+				$mod_date = JHTML::Date($article->modified);
 				$text .= JText::_('Last Updated').' '.$mod_date;
 			}
 		}

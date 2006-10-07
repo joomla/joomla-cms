@@ -76,7 +76,7 @@ class WeblinksViewCategory extends JView
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$this->category->image = mosHTML::Image('/images/stories/'.$this->category->image, JText::_('Web Links'), $attribs);
+			$this->category->image = JHTML::Image('/images/stories/'.$this->category->image, JText::_('Web Links'), $attribs);
 		}
 		
 		//create pagination

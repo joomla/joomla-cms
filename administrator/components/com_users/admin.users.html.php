@@ -105,7 +105,7 @@ class HTML_users {
 						<?php echo $i+1+$page->limitstart;?>
 					</td>
 					<td>
-						<?php echo mosHTML::idBox( $i, $row->id ); ?>
+						<?php echo JHTML::idBox( $i, $row->id ); ?>
 					</td>
 					<td>
 						<a href="<?php echo $link; ?>">
@@ -129,7 +129,7 @@ class HTML_users {
 							<?php echo $row->email; ?></a>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo mosHTML::Date( $row->lastvisitDate, DATE_FORMAT_LC4 ); ?>
+						<?php echo JHTML::Date( $row->lastvisitDate, DATE_FORMAT_LC4 ); ?>
 					</td>
 					<td>
 						<?php echo $row->id; ?>

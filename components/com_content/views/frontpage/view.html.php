@@ -209,7 +209,7 @@ class ContentViewFrontpage extends JView
 				} else {
 					$overlib = JText::_('Published');
 				}
-				$date = mosHTML::Date($article->created);
+				$date = JHTML::Date($article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';
@@ -226,7 +226,7 @@ class ContentViewFrontpage extends JView
 		}
 
 
-		return mosHTML::Link($url, $text, $attribs);
+		return JHTML::Link($url, $text, $attribs);
 	}
 
 	function &getItem($index = 0, &$params)

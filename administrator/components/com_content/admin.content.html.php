@@ -252,7 +252,7 @@ class ContentView
 						<?php echo $author; ?>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo mosHTML::Date( $row->created, DATE_FORMAT_LC4 ); ?>
+						<?php echo JHTML::Date( $row->created, DATE_FORMAT_LC4 ); ?>
 					</td>
 				</tr>
 				<?php
@@ -376,7 +376,7 @@ class ContentView
 						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
 					<td width="20">
-						<?php echo mosHTML::idBox( $i, $row->id ); ?>
+						<?php echo JHTML::idBox( $i, $row->id ); ?>
 					</td>
 					<td>
 						<?php echo $row->title; ?>
@@ -396,7 +396,7 @@ class ContentView
 						<?php echo $author; ?>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo mosHTML::Date( $row->created, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
+						<?php echo JHTML::Date( $row->created, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
 					</td>
 				</tr>
 				<?php
@@ -548,7 +548,7 @@ class ContentView
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
-		mosHTML::keepAlive();
+		JHTML::keepAlive();
 	}
 
 
@@ -971,7 +971,7 @@ class ContentView
 				if ( $row->created == $nullDate ) {
 					echo JText::_( 'New document' );
 				} else {
-					echo mosHTML::Date( $row->modified,  DATE_FORMAT_LC2);
+					echo JHTML::Date( $row->modified,  DATE_FORMAT_LC2);
 				}
 				?>
 			</td>
@@ -985,7 +985,7 @@ class ContentView
 					if ( $row->modified == $nullDate ) {
 						echo JText::_( 'Not modified' );
 					} else {
-						echo mosHTML::Date( $row->created, DATE_FORMAT_LC2);
+						echo JHTML::Date( $row->created, DATE_FORMAT_LC2);
 					}
 				?>
 			</td>

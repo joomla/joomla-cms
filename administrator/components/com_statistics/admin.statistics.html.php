@@ -324,7 +324,7 @@ class HTML_statistics
 							<?php echo $row->cat_title; ?></a>
 					</td>
 					<td>
-						<?php echo mosHTML::Date( $row->created, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
+						<?php echo JHTML::Date( $row->created, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
 					</td>
 				</tr>
 				<?php

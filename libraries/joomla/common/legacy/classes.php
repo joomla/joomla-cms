@@ -702,7 +702,7 @@ class mosParameters extends JParameter
 }
 
 /**
- * Legacy class, will be replaced by full MVC implementation in 1.2
+ * Legacy class, replaced by full MVC implementation
  *
  * @deprecated	As of version 1.5, use JController instead
  * @package		Joomla.Legacy
@@ -787,6 +787,346 @@ class mosEmpty
 	}
 }
 
+/**
+ * Legacy class, use JHTML instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ * @subpackage	1.5
+ */
+class mosHTML 
+{
+	/**
+ 	 * Legacy function, JHTML::makeOption instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
+		JHTML::makeOption($value, $text, $value_name, $text_name);
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function writableCell( $folder, $relative=1, $text='', $visible=1 ) 
+	{
+		$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
+		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+
+		echo '<tr>';
+		echo '<td class="item">';
+		echo $text;
+		if ( $visible ) {
+			echo $folder . '/';
+		}
+		echo '</td>';
+		echo '<td >';
+		if ( $relative ) {
+			echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
+		} else {
+			echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
+		}
+		echo '</td>';
+		echo '</tr>';
+	}
+
+	/**
+ 	 * Legacy function, JHTML::selectList instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
+		JHTML::selectList($arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag);
+	}
+
+	/**
+ 	 * Legacy function, JHTML::integerSelectList instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) {
+		JHTML::integerSelectList($start, $end, $inc, $tag_name, $tag_attribs, $selected, $format);
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
+		$arr = array(
+			mosHTML::makeOption( '01', JText::_( 'JAN' ) ),
+			mosHTML::makeOption( '02', JText::_( 'FEB' ) ),
+			mosHTML::makeOption( '03', JText::_( 'MAR' ) ),
+			mosHTML::makeOption( '04', JText::_( 'APR' ) ),
+			mosHTML::makeOption( '05', JText::_( 'MAY' ) ),
+			mosHTML::makeOption( '06', JText::_( 'JUN' ) ),
+			mosHTML::makeOption( '07', JText::_( 'JUL' ) ),
+			mosHTML::makeOption( '08', JText::_( 'AUG' ) ),
+			mosHTML::makeOption( '09', JText::_( 'SEP' ) ),
+			mosHTML::makeOption( '10', JText::_( 'OCT' ) ),
+			mosHTML::makeOption( '11', JText::_( 'NOV' ) ),
+			mosHTML::makeOption( '12', JText::_( 'DEC' ) )
+		);
+
+		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function treeSelectList( &$src_list, $src_id, $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected ) {
+
+		// establish the hierarchy of the menu
+		$children = array();
+		// first pass - collect children
+		foreach ($src_list as $v ) {
+			$pt = $v->parent;
+			$list = @$children[$pt] ? $children[$pt] : array();
+			array_push( $list, $v );
+			$children[$pt] = $list;
+		}
+		// second pass - get an indent list of the items
+		$ilist = mosTreeRecurse( 0, '', array(), $children );
+
+		// assemble menu items to the array
+		$this_treename = '';
+		foreach ($ilist as $item) {
+			if ($this_treename) {
+				if ($item->id != $src_id && strpos( $item->treename, $this_treename ) === false) {
+					$tgt_list[] = mosHTML::makeOption( $item->id, $item->treename );
+				}
+			} else {
+				if ($item->id != $src_id) {
+					$tgt_list[] = mosHTML::makeOption( $item->id, $item->treename );
+				} else {
+					$this_treename = "$item->treename/";
+				}
+			}
+		}
+		// build the html select list
+		return mosHTML::selectList( $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected );
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
+		$arr = array(
+			mosHTML::makeOption( 0, JText::_( $no ) ),
+			mosHTML::makeOption( 1, JText::_( $yes ) ),
+		);
+
+		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', (int) $selected );
+	}
+
+	/**
+ 	 * Legacy function, JHTML::radioList instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) {
+		JHTML::radioList($arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag);
+	}
+
+	/**
+ 	 * Legacy function, JHTML::yesnoRadioList instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
+		JHTML::yesnoRadioList($tag_name, $tag_attribs, $selected, $yes, $no, $id);
+	}
+
+	/**
+ 	 * Legacy function, use JHTML::idBox instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
+		JHTML::idBox($rowNum, $recId, $checkedOut, $name);
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function sortIcon( $text, $base_href, $field, $state='none' ) 
+	{
+		$alts = array(
+			'none' 	=> JText::_( 'No Sorting' ),
+			'asc' 	=> JText::_( 'Sort Ascending' ),
+			'desc' 	=> JText::_( 'Sort Descending' ),
+		);
+
+		$next_state = 'asc';
+		if ($state == 'asc') {
+			$next_state = 'desc';
+		} else if ($state == 'desc') {
+			$next_state = 'none';
+		}
+
+		if ($state == 'none') {
+			$img = '';
+		} else {
+			$img = "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />";
+		}
+
+		$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
+		. JText::_( $text )
+		. '&nbsp;&nbsp;'
+		. $img
+		. "</a>";
+
+		return $html;
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function CloseButton ( &$params, $hide_js=NULL ) {
+
+		// displays close button in Pop-up window
+		if ( $params->get( 'popup' ) && !$hide_js ) {
+			?>
+			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
+				<script type="text/javascript">
+					document.write('<a href="#" onclick="javascript:window.close();"><span class="small"><?php echo JText::_( 'Close Window' );?></span></a>');
+				</script>
+				<?php
+				if ( $_SERVER['HTTP_REFERER'] != "") {
+					echo '<noscript>';
+					echo '<a href="'. $_SERVER['HTTP_REFERER'] .'"><span class="small">'. JText::_( 'BACK' ) .'</span></a>';
+					echo '</noscript>';
+				}
+				?>
+			</div>
+			<?php
+		}
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function BackButton ( &$params, $hide_js=NULL ) {
+
+		// Back Button
+		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
+			?>
+			<div class="back_button">
+				<a href='javascript:history.go(-1)'>
+					<?php echo JText::_( 'BACK' ); ?></a>
+			</div>
+			<?php
+		}
+	}
+
+	/**
+ 	 * Legacy function, use JOutputFilter::cleanText instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function cleanText ( &$text ) {
+		jimport('joomla.filter.output');
+		JOutputFilter::cleanText($text);
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
+
+    	if ( $params->get( 'print' )  && !$hide_js ) {
+			// use default settings if none declared
+			if ( !$status ) {
+				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+			}
+
+			// checks template image directory for image, if non found default are loaded
+			if ( $params->get( 'icons' ) ) {
+				$image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
+			} else {
+				$image = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
+			}
+
+			if ( $params->get( 'popup' ) && !$hide_js ) {
+				// Print Preview button - used when viewing page
+				?>
+				<script type="text/javascript">
+					document.write('<td align="right" width="100%" class="buttonheading">');
+					document.write('<a href="#" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">');
+					document.write('<?php echo $image;?>');
+					document.write('</a>');
+					document.write('</td>');
+				</script>
+				<?php
+			} else {
+				// Print Button - used in pop-up window
+				?>
+				<td align="right" width="100%" class="buttonheading">
+				<a href="<?php echo $link; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'Print' );?>">
+				<?php echo $image;?>
+				</a>
+				</td>
+				<?php
+			}
+		}
+	}
+
+	/**
+	* simple Javascript Cloaking
+	* email cloacking
+ 	* by default replaces an email with a mailto link with email cloacked
+	*/
+	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
+		JHTML::emailCloaking($mail, $mailto, $text, $email);
+	}
+
+	function keepAlive()
+	{
+		$js = "
+				function keepAlive() {
+					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component.html&task=keepalive\';', 60000);
+				}";
+
+		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
+				"style=\"width:0px; height:0px; border: 0px\" " .
+				"src=\"index.php?option=com_admin&tmpl=component.html&task=keepalive\" " .
+				"onload=\"keepAlive();\"></iframe>";
+
+		$doc =& JFactory::getDocument();
+		$doc->addScriptDeclaration($js);
+		echo $html;
+	}
+}
 
 /**
  * Legacy class, removed

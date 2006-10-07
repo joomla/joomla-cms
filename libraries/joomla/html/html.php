@@ -19,7 +19,7 @@
  * @subpackage	HTML
  * @since		1.0
  */
-class mosHTML 
+class JHTML 
 {
 	/**
 	 * Write a <a></a> element
@@ -39,7 +39,7 @@ class mosHTML
 		$href = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		if (is_array($attribs)) {
-            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 		 
 		return '<a href="'.$href.'" '.$attribs.'>'.$text.'</a>';
@@ -61,7 +61,7 @@ class mosHTML
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
 
 		 if (is_array($attribs)) {
-            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
@@ -84,7 +84,7 @@ class mosHTML
 		$src = $mainframe->getCfg('live_site') . $url;
 
 		 if (is_array($attribs)) {
-            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
@@ -107,7 +107,7 @@ class mosHTML
 		$src = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		 if (is_array($attribs)) {
-            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<iframe src="'.$src.'" '.$attribs.' />';
@@ -145,27 +145,6 @@ class mosHTML
 		$obj->$value_name = $value;
 		$obj->$text_name = trim( $text ) ? $text : $value;
 		return $obj;
-	}
-
-	function writableCell( $folder, $relative=1, $text='', $visible=1 ) {
-		$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
-		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
-
-		echo '<tr>';
-		echo '<td class="item">';
-		echo $text;
-		if ( $visible ) {
-			echo $folder . '/';
-		}
-		echo '</td>';
-		echo '<td >';
-		if ( $relative ) {
-			echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
-		} else {
-			echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
-		}
-		echo '</td>';
-		echo '</tr>';
 	}
 
 	/**
@@ -249,98 +228,10 @@ class mosHTML
 
 		for ($i=$start; $i <= $end; $i+=$inc) {
 			$fi = $format ? sprintf( "$format", $i ) : "$i";
-			$arr[] = mosHTML::makeOption( $fi, $fi );
+			$arr[] = JHTML::makeOption( $fi, $fi );
 		}
 
-		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
-	}
-
-	/**
-	* Writes a select list of month names based on Language settings
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param mixed The key that is selected
-	* @returns string HTML for the select list values
-	*/
-	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
-		$arr = array(
-			mosHTML::makeOption( '01', JText::_( 'JAN' ) ),
-			mosHTML::makeOption( '02', JText::_( 'FEB' ) ),
-			mosHTML::makeOption( '03', JText::_( 'MAR' ) ),
-			mosHTML::makeOption( '04', JText::_( 'APR' ) ),
-			mosHTML::makeOption( '05', JText::_( 'MAY' ) ),
-			mosHTML::makeOption( '06', JText::_( 'JUN' ) ),
-			mosHTML::makeOption( '07', JText::_( 'JUL' ) ),
-			mosHTML::makeOption( '08', JText::_( 'AUG' ) ),
-			mosHTML::makeOption( '09', JText::_( 'SEP' ) ),
-			mosHTML::makeOption( '10', JText::_( 'OCT' ) ),
-			mosHTML::makeOption( '11', JText::_( 'NOV' ) ),
-			mosHTML::makeOption( '12', JText::_( 'DEC' ) )
-		);
-
-		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
-	}
-
-	/**
-	* Generates an HTML select list from a tree based query list
-	* @param array Source array with id and parent fields
-	* @param array The id of the current list item
-	* @param array Target array.  May be an empty array.
-	* @param array An array of objects
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param string The name of the object variable for the option value
-	* @param string The name of the object variable for the option text
-	* @param mixed The key that is selected
-	* @returns string HTML for the select list
-	*/
-	function treeSelectList( &$src_list, $src_id, $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected ) {
-
-		// establish the hierarchy of the menu
-		$children = array();
-		// first pass - collect children
-		foreach ($src_list as $v ) {
-			$pt = $v->parent;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push( $list, $v );
-			$children[$pt] = $list;
-		}
-		// second pass - get an indent list of the items
-		$ilist = mosTreeRecurse( 0, '', array(), $children );
-
-		// assemble menu items to the array
-		$this_treename = '';
-		foreach ($ilist as $item) {
-			if ($this_treename) {
-				if ($item->id != $src_id && strpos( $item->treename, $this_treename ) === false) {
-					$tgt_list[] = mosHTML::makeOption( $item->id, $item->treename );
-				}
-			} else {
-				if ($item->id != $src_id) {
-					$tgt_list[] = mosHTML::makeOption( $item->id, $item->treename );
-				} else {
-					$this_treename = "$item->treename/";
-				}
-			}
-		}
-		// build the html select list
-		return mosHTML::selectList( $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected );
-	}
-
-	/**
-	* Writes a yes/no select list
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param mixed The key that is selected
-	* @returns string HTML for the select list values
-	*/
-	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
-		$arr = array(
-			mosHTML::makeOption( 0, JText::_( $no ) ),
-			mosHTML::makeOption( 1, JText::_( $yes ) ),
-		);
-
-		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', (int) $selected );
+		return JHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
 	}
 
 	/**
@@ -397,10 +288,10 @@ class mosHTML
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
 
 		$arr = array(
-			mosHTML::makeOption( '0', JText::_( $no ) ),
-			mosHTML::makeOption( '1', JText::_( $yes ) )
+			JHTML::makeOption( '0', JText::_( $no ) ),
+			JHTML::makeOption( '1', JText::_( $yes ) )
 		);
-		return mosHTML::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
+		return JHTML::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
 	}
 
 	/**
@@ -418,179 +309,6 @@ class mosHTML
 		}
 	}
 
-	function sortIcon( $text, $base_href, $field, $state='none' ) {
-		$alts = array(
-			'none' 	=> JText::_( 'No Sorting' ),
-			'asc' 	=> JText::_( 'Sort Ascending' ),
-			'desc' 	=> JText::_( 'Sort Descending' ),
-		);
-
-		$next_state = 'asc';
-		if ($state == 'asc') {
-			$next_state = 'desc';
-		} else if ($state == 'desc') {
-			$next_state = 'none';
-		}
-
-		if ($state == 'none') {
-			$img = '';
-		} else {
-			$img = "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />";
-		}
-
-		$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
-		. JText::_( $text )
-		. '&nbsp;&nbsp;'
-		. $img
-		. "</a>";
-
-		return $html;
-	}
-
-	/**
-	 * Utility function to provide Warning Icons
-	 *
-	 * @package Joomla.Framework
-	 * @param string Warning text
-	 * @param string Box title
-	 * @returns HTML code for Warning
-	 * @since 1.5
-	 */
-	function WarningIcon($warning, $title='Joomla Warning')	{
-		global $mainframe;
-
-		$title 		= JText::_( 'Joomla Warning' );
-		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
-		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$tip 		 = '<!--'. $title .'-->';
-		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
-		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" /></a>';
-
-		return $tip;
-	}
-
-	/**
-	* Writes Close Button
-	*/
-	function CloseButton ( &$params, $hide_js=NULL ) {
-
-		// displays close button in Pop-up window
-		if ( $params->get( 'popup' ) && !$hide_js ) {
-			?>
-			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
-				<script type="text/javascript">
-					document.write('<a href="#" onclick="javascript:window.close();"><span class="small"><?php echo JText::_( 'Close Window' );?></span></a>');
-				</script>
-				<?php
-				if ( $_SERVER['HTTP_REFERER'] != "") {
-					echo '<noscript>';
-					echo '<a href="'. $_SERVER['HTTP_REFERER'] .'"><span class="small">'. JText::_( 'BACK' ) .'</span></a>';
-					echo '</noscript>';
-				}
-				?>
-			</div>
-			<?php
-		}
-	}
-
-	/**
-	* Writes Back Button - Deprecated in 1.5
-	* TODO : move to legacy classes
-	*/
-	function BackButton ( &$params, $hide_js=NULL ) {
-
-		// Back Button
-		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
-			?>
-			<div class="back_button">
-				<a href='javascript:history.go(-1)'>
-					<?php echo JText::_( 'BACK' ); ?></a>
-			</div>
-			<?php
-		}
-	}
-
-	/**
-	* Cleans text of all formating and scripting code
-	*/
-	function cleanText ( &$text ) {
-		$text = preg_replace( "'<script[^>]*>.*?</script>'si", '', $text );
-		$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text );
-		$text = preg_replace( '/<!--.+?-->/', '', $text );
-		$text = preg_replace( '/{.+?}/', '', $text );
-		$text = preg_replace( '/&nbsp;/', ' ', $text );
-		$text = preg_replace( '/&amp;/', ' ', $text );
-		$text = preg_replace( '/&quot;/', ' ', $text );
-		$text = strip_tags( $text );
-		$text = htmlspecialchars( $text );
-		return $text;
-	}
-
-	/**
-	* Writes Print icon
-	*/
-	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
-
-    	if ( $params->get( 'print' )  && !$hide_js ) {
-			// use default settings if none declared
-			if ( !$status ) {
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			}
-
-			// checks template image directory for image, if non found default are loaded
-			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
-			} else {
-				$image = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
-			}
-
-			if ( $params->get( 'popup' ) && !$hide_js ) {
-				// Print Preview button - used when viewing page
-				?>
-				<script type="text/javascript">
-					document.write('<td align="right" width="100%" class="buttonheading">');
-					document.write('<a href="#" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">');
-					document.write('<?php echo $image;?>');
-					document.write('</a>');
-					document.write('</td>');
-				</script>
-				<?php
-			} else {
-				// Print Button - used in pop-up window
-				?>
-				<td align="right" width="100%" class="buttonheading">
-				<a href="<?php echo $link; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'Print' );?>">
-				<?php echo $image;?>
-				</a>
-				</td>
-				<?php
-			}
-		}
-	}
-
-	/**
-	 * Write a page header block
-	 *
-	 * @param string 	The relative URL to use for the src attribute
-	 * @param string	The target attribute to use
-	 * @param array		An associative array of attributes to add
-	 * @param integer	Set the SSL functionality
-	 * @since 1.5
-	 */
-	function Header($text, $iconClass)
-	{
-		//strip the extension
-		$iconClass	= preg_replace('#\.[^.]*$#', '', $iconClass);
-		$html		= null;
-
-		$html	.= "<div class=\"header icon-48-$iconClass\">\n";
-		$html	.= "$text\n";
-		$html	.= "</div>\n";
-
-		return $html;
-	}
-
 	/**
 	* simple Javascript Cloaking
 	* email cloacking
@@ -598,7 +316,7 @@ class mosHTML
 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 		// convert text
-		$mail 			= mosHTML::_encoding_converter( $mail );
+		$mail 			= JHTML::_encoding_converter( $mail );
 		// split email by @ symbol
 		$mail			= explode( '@', $mail );
 		$mail_parts		= explode( '.', $mail[1] );
@@ -617,7 +335,7 @@ class mosHTML
 			if ( $text ) {
 				if ( $email ) {
 					// convert text
-					$text 			= mosHTML::_encoding_converter( $text );
+					$text 			= JHTML::_encoding_converter( $text );
 					// split email by @ symbol
 					$text 			= explode( '@', $text );
 					$text_parts		= explode( '.', $text[1] );
@@ -654,21 +372,6 @@ class mosHTML
 		$replacement 	.= "\n </script>";
 
 		return $replacement;
-	}
-
-	/**
-	 * allows to print out a formated message based on a standard type to style mapping
-	 *
-	 * @param string $type
-	 * @param string $msg
-	 * @return void
-	 * @since 1.5
-	 */
-	function formatMessage ($msg, $type = 'message fade' )
-	{
-		?>
-		<div id="system-message" class="<?php echo $type;?>"><?php echo $msg;?></div>
-		<?php
 	}
 
 	function keepAlive()
@@ -708,7 +411,7 @@ class mosHTML
             if ($keepOuterKey)
                 $output[] = $key;
             // This is value is an array, go and do it again!
-            $output[] = mosHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+            $output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
         } else
             $output[] = $key . $inner_glue . $item;
 				
@@ -900,8 +603,8 @@ class mosCommonHTML {
 
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 				= mosHTML::Date( $row->checked_out_time, '%A, %d %B %Y' );
-			$time				= mosHTML::Date( $row->checked_out_time, '%H:%M' );
+			$date 				= JHTML::Date( $row->checked_out_time, '%A, %d %B %Y' );
+			$time				= JHTML::Date( $row->checked_out_time, '%H:%M' );
 			$checked_out_text 	= '<table>';
 			$checked_out_text 	.= '<tr><td>'. $text .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
@@ -989,7 +692,7 @@ class mosCommonHTML {
 		if ( $row->checked_out ) {
 			$checked = mosCommonHTML::checkedOut( $row );
 		} else {
-			$checked = mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $user->get('id') ) );
+			$checked = JHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $user->get('id') ) );
 		}
 
 		return $checked;
@@ -1012,16 +715,16 @@ class mosCommonHTML {
 	}
 
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
-		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = mosHTML::makeOption( '*', JText::_( 'Any' ) );
-		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
-		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
+		$state[] = JHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
+		$state[] = JHTML::makeOption( '*', JText::_( 'Any' ) );
+		$state[] = JHTML::makeOption( 'P', JText::_( $published ) );
+		$state[] = JHTML::makeOption( 'U', JText::_( $unpublished ) );
 
 		if ($archived) {
-			$state[] = mosHTML::makeOption( 'A', JText::_( $archived ) );
+			$state[] = JHTML::makeOption( 'A', JText::_( $archived ) );
 		}
 
-		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
+		return JHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}
 
 	function saveorderButton( $rows, $image='filesave.png' ) {
@@ -1077,7 +780,7 @@ class mosAdminMenus
 			. "\n ORDER BY ordering"
 			;
 			$order = mosGetOrderingList( $query );
-			$ordering = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
 		}
@@ -1096,7 +799,7 @@ class mosAdminMenus
 		;
 		$db->setQuery( $query );
 		$groups = $db->loadObjectList();
-		$access = mosHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = JHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}
@@ -1105,7 +808,7 @@ class mosAdminMenus
 	* build a radio button option for published state
 	*/
 	function Published( &$row ) {
-		$published = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+		$published = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 		return $published;
 	}
 
@@ -1146,11 +849,11 @@ class mosAdminMenus
 				if ($mitems_a->id == $list_a->id) {
 					// Code that inserts the blank line that seperates different menus
 					if ($mitems_a->menutype <> $mitems_spacer) {
-						$list_temp[] 	= mosHTML::makeOption( -999, '----' );
+						$list_temp[] 	= JHTML::makeOption( -999, '----' );
 						$mitems_spacer 	= $mitems_a->menutype;
 					}
 					$text = $mitems_a->menutype." | ".$list_a->treename;
-					$list_temp[] = mosHTML::makeOption( $list_a->id, $text );
+					$list_temp[] = JHTML::makeOption( $list_a->id, $text );
 					if ( JString::strlen($text) > $text_count) {
 						$text_count = JString::strlen($text);
 					}
@@ -1162,27 +865,27 @@ class mosAdminMenus
 		$mitems = array();
 		if ( $all ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( 0, JText::_( 'All' ) );
+			$mitems[] = JHTML::makeOption( 0, JText::_( 'All' ) );
 			// adds space, in select box which is not saved
-			$mitems[] = mosHTML::makeOption( -999, '----' );
+			$mitems[] = JHTML::makeOption( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( -999, JText::_( 'None' ) );
+			$mitems[] = JHTML::makeOption( -999, JText::_( 'None' ) );
 			// adds space, in select box which is not saved
-			$mitems[] = mosHTML::makeOption( -999, '----' );
+			$mitems[] = JHTML::makeOption( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( 99999999, JText::_( 'Unassigned' ) );
+			$mitems[] = JHTML::makeOption( 99999999, JText::_( 'Unassigned' ) );
 			// adds space, in select box which is not saved
-			$mitems[] = mosHTML::makeOption( -999, '----' );
+			$mitems[] = JHTML::makeOption( -999, '----' );
 		}
 		// append the rest of the menu items to the array
 		foreach ($list as $item) {
-			$mitems[] = mosHTML::makeOption( $item->value, $item->text );
+			$mitems[] = JHTML::makeOption( $item->value, $item->text );
 		}
-		$pages = mosHTML::selectList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		$pages = JHTML::selectList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $pages;
 	}
 
@@ -1203,7 +906,7 @@ class mosAdminMenus
 		$rows = $db->loadObjectList();
 		$category = '';
 
-		$category .= mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
+		$category .= JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
 		$category .= '<input type="hidden" name="link" value="" />';
 
 		return $category;
@@ -1222,13 +925,13 @@ class mosAdminMenus
 		;
 		$db->setQuery( $query );
 		if ( $all ) {
-			$rows[] = mosHTML::makeOption( 0, '- '. JText::_( 'All Sections' ) .' -' );
+			$rows[] = JHTML::makeOption( 0, '- '. JText::_( 'All Sections' ) .' -' );
 			$rows = array_merge( $rows, $db->loadObjectList() );
 		} else {
 			$rows = $db->loadObjectList();
 		}
 
-		$section = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
+		$section = JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
 		$section .= '<input type="hidden" name="link" value="" />';
 
 		return $section;
@@ -1248,7 +951,7 @@ class mosAdminMenus
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList( );
 
-		$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
+		$component = JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
 
 		return $component;
 	}
@@ -1291,13 +994,13 @@ class mosAdminMenus
 
 		jimport( 'joomla.filesystem.folder' );
 		$imageFiles = JFolder::files( JPATH_SITE . $directory );
-		$images 	= array(  mosHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
+		$images 	= array(  JHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
-				$images[] = mosHTML::makeOption( $file );
+				$images[] = JHTML::makeOption( $file );
 			}
 		}
-		$images = mosHTML::selectList( $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$images = JHTML::selectList( $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $images;
 	}
@@ -1310,7 +1013,7 @@ class mosAdminMenus
 
 		if ( $id ) {
 			$order = mosGetOrderingList( $query );
-			$ordering = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
     		if ( $neworder ) {
     			$text = JText::_( 'descNewItemsFirst' );
@@ -1343,13 +1046,13 @@ class mosAdminMenus
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = mosHTML::makeOption( '0', '- '. JText::_( 'No User' ) .' -' );
+			$users[] = JHTML::makeOption( '0', '- '. JText::_( 'No User' ) .' -' );
 			$users = array_merge( $users, $db->loadObjectList() );
 		} else {
 			$users = $db->loadObjectList();
 		}
 
-		$users = mosHTML::selectList( $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$users = JHTML::selectList( $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $users;
 	}
@@ -1360,19 +1063,19 @@ class mosAdminMenus
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
 
 		if ( $none ) {
-			$pos[] = mosHTML::makeOption( '', JText::_( 'None' ) );
+			$pos[] = JHTML::makeOption( '', JText::_( 'None' ) );
 		}
 		if ( $center ) {
-			$pos[] = mosHTML::makeOption( 'center', JText::_( 'Center' ) );
+			$pos[] = JHTML::makeOption( 'center', JText::_( 'Center' ) );
 		}
 		if ( $left ) {
-			$pos[] = mosHTML::makeOption( 'left', JText::_( 'Left' ) );
+			$pos[] = JHTML::makeOption( 'left', JText::_( 'Left' ) );
 		}
 		if ( $right ) {
-			$pos[] = mosHTML::makeOption( 'right', JText::_( 'Right' ) );
+			$pos[] = JHTML::makeOption( 'right', JText::_( 'Right' ) );
 		}
 
-		$positions = mosHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
+		$positions = JHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
 
 		return $positions;
 	}
@@ -1393,7 +1096,7 @@ class mosAdminMenus
 		;
 		$db->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select a Category' ) .' -' );
+			$categories[] = JHTML::makeOption( '0', '- '. JText::_( 'Select a Category' ) .' -' );
 			$categories = array_merge( $categories, $db->loadObjectList() );
 		} else {
 			$categories = $db->loadObjectList();
@@ -1403,7 +1106,7 @@ class mosAdminMenus
 			$mainframe->redirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
 
-		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
+		$category = JHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}
@@ -1414,8 +1117,8 @@ class mosAdminMenus
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		$db =& JFactory::getDBO();
 
-		$categories[] = mosHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -' );
-		$categories[] = mosHTML::makeOption( '0', JText::_( 'Uncategorized' ) );
+		$categories[] = JHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = JHTML::makeOption( '0', JText::_( 'Uncategorized' ) );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"
@@ -1424,7 +1127,7 @@ class mosAdminMenus
 		$db->setQuery( $query );
 		$sections = array_merge( $categories, $db->loadObjectList() );
 
-		$category = mosHTML::selectList( $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$category = JHTML::selectList( $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}
@@ -1472,7 +1175,7 @@ class mosAdminMenus
 		// sort array of objects
 		JArrayHelper::sortObjects( $menuselect, 'text', 1 );
 
-		$menus = mosHTML::selectList( $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
+		$menus = JHTML::selectList( $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
 
 		return $menus;
 	}
@@ -1495,30 +1198,30 @@ class mosAdminMenus
 			$i_f 	= $imagePath .'/'. $file;
 
 			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
-				$folders[] = mosHTML::makeOption( $ff_ );
+				$folders[] = JHTML::makeOption( $ff_ );
 				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
 			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
 				// leading / we don't need
 				$imageFile = substr( $ff, 1 );
-				$images[$folderPath][] = mosHTML::makeOption( $imageFile, $file );
+				$images[$folderPath][] = JHTML::makeOption( $imageFile, $file );
 			}
 		}
 	}
 	/* TODO : move to legacy file, deprecated function unused by 1.5 */
 	function GetImageFolders( &$folders, $path ) {
 		$javascript 	= "onchange=\"changeDynaList( 'imagefiles', folderimages, document.adminForm.folders.options[document.adminForm.folders.selectedIndex].value, 0, 0);  previewImage( 'imagefiles', 'view_imagefiles', '$path/' );\"";
-		$getfolders 	= mosHTML::selectList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
+		$getfolders 	= JHTML::selectList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
 		return $getfolders;
 	}
 
 	function GetImages( &$images, $path ) {
 		if ( !isset($images['/'] ) ) {
-			$images['/'][] = mosHTML::makeOption( '' );
+			$images['/'][] = JHTML::makeOption( '' );
 		}
 
 		//$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\" onfocus=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
 		$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
-		$getimages	= mosHTML::selectList( $images['/'], 'imagefiles', 'class="inputbox" size="10" multiple="multiple" '. $javascript , 'value', 'text', null );
+		$getimages	= JHTML::selectList( $images['/'], 'imagefiles', 'class="inputbox" size="10" multiple="multiple" '. $javascript , 'value', 'text', null );
 
 		return $getimages;
 	}
@@ -1532,11 +1235,11 @@ class mosAdminMenus
 			} else {
 				$filename = $temp[0];
 			}
-			$images2[] = mosHTML::makeOption( $file, $filename );
+			$images2[] = JHTML::makeOption( $file, $filename );
 		}
 		//$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \" onfocus=\"previewImage( 'imagelist', 'view_imagelist', '$path/' )\"";
 		$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \"";
-		$imagelist 	= mosHTML::selectList( $images2, 'imagelist', 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
+		$imagelist 	= JHTML::selectList( $images2, 'imagelist', 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
 
 		return $imagelist;
 	}

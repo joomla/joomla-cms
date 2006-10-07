@@ -165,9 +165,9 @@ function viewFrontPage( $option )
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
 	$db->setQuery( $query );
-	$categories[] 	= mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
+	$categories[] 	= JHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$categories 	= array_merge( $categories, $db->loadObjectList() );
-	$lists['catid'] = mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
+	$lists['catid'] = JHTML::selectList( $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
 
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';
@@ -184,9 +184,9 @@ function viewFrontPage( $option )
 	. "\n ORDER BY u.name"
 	;
 	$db->setQuery( $query );
-	$authors[] 			= mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors[] 			= JHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$authors 			= array_merge( $authors, $db->loadObjectList() );
-	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
+	$lists['authorid']	= JHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 
 	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );

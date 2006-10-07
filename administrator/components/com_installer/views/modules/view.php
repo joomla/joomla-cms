@@ -46,10 +46,10 @@ class ExtensionManagerViewModules extends JView
 		$pagination	= &$this->get('Pagination');
 
 		$lists = new stdClass();
-		$select[] = mosHTML::makeOption('-1', JText::_('All'));
-		$select[] = mosHTML::makeOption('0', JText::_('Site Modules'));
-		$select[] = mosHTML::makeOption('1', JText::_('Admin Modules'));
-		$lists->client = mosHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
+		$select[] = JHTML::makeOption('-1', JText::_('All'));
+		$select[] = JHTML::makeOption('0', JText::_('Site Modules'));
+		$select[] = JHTML::makeOption('1', JText::_('Admin Modules'));
+		$lists->client = JHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);

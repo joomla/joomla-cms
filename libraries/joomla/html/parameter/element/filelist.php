@@ -55,12 +55,12 @@ class JElement_FileList extends JElement
 
 		if (!$node->attributes('hide_none'))
 		{
-			$options[] = mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -');
+			$options[] = JHTML::makeOption('-1', '- '.JText::_('Do not use').' -');
 		}
 
 		if (!$node->attributes('hide_default'))
 		{
-			$options[] = mosHTML::makeOption('', '- '.JText::_('Use default').' -');
+			$options[] = JHTML::makeOption('', '- '.JText::_('Use default').' -');
 		}
 
 		foreach ($files as $file)
@@ -76,10 +76,10 @@ class JElement_FileList extends JElement
 			{
 				$file = JFile::stripExt( $file );
 			}
-			$options[] = mosHTML::makeOption($file, $file);
+			$options[] = JHTML::makeOption($file, $file);
 		}
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 }
 ?>

@@ -129,11 +129,11 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 			echo $db->stderr();
 			return false;
 		} else {
-			$order[] = mosHTML::makeOption( 1, JText::_( 'first' ) );
+			$order[] = JHTML::makeOption( 1, JText::_( 'first' ) );
 			return $order;
 		}
 	}
-	$order[] = mosHTML::makeOption( 0, '0 '. JText::_( 'first' ) );
+	$order[] = JHTML::makeOption( 0, '0 '. JText::_( 'first' ) );
 	for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
 		if (JString::strlen($orders[$i]->text) > $chop) {
@@ -142,9 +142,9 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 			$text = $orders[$i]->text;
 		}
 
-		$order[] = mosHTML::makeOption( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
+		$order[] = JHTML::makeOption( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
 	}
-	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
+	$order[] = JHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
 
 	return $order;
 }

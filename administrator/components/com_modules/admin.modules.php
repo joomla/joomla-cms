@@ -182,10 +182,10 @@ function viewModules()
 	. "\n GROUP BY t.position"
 	. "\n ORDER BY t.position"
 	;
-	$positions[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Position' ) .' -' );
+	$positions[] = JHTML::makeOption( '0', '- '. JText::_( 'Select Position' ) .' -' );
 	$db->setQuery( $query );
 	$positions = array_merge( $positions, $db->loadObjectList() );
-	$lists['position']	= mosHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
+	$lists['position']	= JHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
 
 	// get list of Positions for dropdown filter
 	$query = "SELECT module AS value, module AS text"
@@ -195,9 +195,9 @@ function viewModules()
 	. "\n ORDER BY module"
 	;
 	$db->setQuery( $query );
-	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
+	$types[] 		= JHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
 	$types 			= array_merge( $types, $db->loadObjectList() );
-	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
+	$lists['type']	= JHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
 
 	// state filter
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
@@ -207,9 +207,9 @@ function viewModules()
 			"\nFROM #__templates_menu" .
 			"\nWHERE client_id = " . $client->id;
 	$db->setQuery( $query );
-	$assigned[]		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Template' ) .' -' );
+	$assigned[]		= JHTML::makeOption( '0', '- '. JText::_( 'Select Template' ) .' -' );
 	$assigned 		= array_merge( $assigned, $db->loadObjectList() );
-	$lists['assigned']	= mosHTML::selectList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
+	$lists['assigned']	= JHTML::selectList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
@@ -444,7 +444,7 @@ function editModule( )
 	$pos 		= array();
 	foreach ($positions as $position) {
 		$orders2[$position->position] = array();
-		$pos[] = mosHTML::makeOption( $position->position, $position->description );
+		$pos[] = JHTML::makeOption( $position->position, $position->description );
 	}
 
 	$l = 0;
@@ -455,13 +455,13 @@ function editModule( )
 			$ord =count( array_keys( $orders2[$orders[$i]->position] ) ) + 1;
 		}
 
-		$orders2[$orders[$i]->position][] = mosHTML::makeOption( $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
+		$orders2[$orders[$i]->position][] = JHTML::makeOption( $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
 	}
 
 	// build the html select list
 	$pos_select 		= 'onchange="changeDynaList(\'ordering\',orders,document.adminForm.position.options[document.adminForm.position.selectedIndex].value, originalPos, originalOrder)"';
 	$active 			= ( $row->position ? $row->position : 'left' );
-	$lists['position'] 	= mosHTML::selectList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
+	$lists['position'] 	= JHTML::selectList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
 
 	// get selected pages for $lists['selections']
 	if ( $cid[0] ) {
@@ -472,7 +472,7 @@ function editModule( )
 		$db->setQuery( $query );
 		$lookup = $db->loadObjectList();
 	} else {
-		$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
+		$lookup = array( JHTML::makeOption( 0, JText::_( 'All' ) ) );
 	}
 
 	if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {
@@ -487,7 +487,7 @@ function editModule( )
 			$lists['access'] 		= mosAdminMenus::Access( $row );
 			$lists['selections'] 	= mosAdminMenus::MenuLinks( $lookup, 1, 1 );
 		}
-		$lists['showtitle'] = mosHTML::yesnoRadioList( 'showtitle', 'class="inputbox"', $row->showtitle );
+		$lists['showtitle'] = JHTML::yesnoRadioList( 'showtitle', 'class="inputbox"', $row->showtitle );
 	}
 
 	// build the html select list for published

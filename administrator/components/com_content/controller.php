@@ -169,10 +169,10 @@ class ContentController extends JController
 				"\n AND c.state <> -2" .
 				"\n GROUP BY u.name" .
 				"\n ORDER BY u.name";
-		$authors[] = mosHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
+		$authors[] = JHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
-		$lists['authorid'] = mosHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		$lists['authorid'] = JHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// state filter
 		$lists['state'] = mosCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
@@ -306,9 +306,9 @@ class ContentController extends JController
 				"\n GROUP BY u.name" .
 				"\n ORDER BY u.name";
 		$db->setQuery($query);
-		$authors[] = mosHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
+		$authors[] = JHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$authors = array_merge($authors, $db->loadObjectList());
-		$lists['authorid'] = mosHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		$lists['authorid'] = JHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// table ordering
 		if ($filter_order_Dir == 'DESC')
@@ -388,13 +388,13 @@ class ContentController extends JController
 				$row->images = array ();
 			}
 
-			$row->created  = mosHTML::Date($row->created, '%Y-%m-%d %H:%M:%S');
-			$row->modified = $row->modified == $nullDate ? '' :  mosHTML::Date($row->modified, '%Y-%m-%d %H:%M:%S');
+			$row->created  = JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S');
+			$row->modified = $row->modified == $nullDate ? '' :  JHTML::Date($row->modified, '%Y-%m-%d %H:%M:%S');
 
 			if ($row->publish_down == $nullDate) {
 				$row->publish_down = JText::_('Never');
 			} else {
-				$row->publish_down =  mosHTML::Date($row->publised_down, '%Y-%m-%d %H:%M:%S');
+				$row->publish_down =  JHTML::Date($row->publised_down, '%Y-%m-%d %H:%M:%S');
 			}
 
 			$query = "SELECT name" .
@@ -456,10 +456,10 @@ class ContentController extends JController
 				"\n ORDER BY s.ordering";
 		$db->setQuery($query);
 
-		$sections[] = mosHTML::makeOption('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = mosHTML::makeOption('0', JText::_('Uncategorized'), 'id', 'title');
+		$sections[] = JHTML::makeOption('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = JHTML::makeOption('0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = mosHTML::selectList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
+		$lists['sectionid'] = JHTML::selectList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
 
 		foreach ($sections as $section)
 		{
@@ -478,7 +478,7 @@ class ContentController extends JController
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = mosHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
+		$sectioncategories[-1][] = JHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = "SELECT id, name, section" .
@@ -505,7 +505,7 @@ class ContentController extends JController
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = mosHTML::makeOption($row2->id, $row2->name, 'id', 'name');
+				$sectioncategories[$section->id][] = JHTML::makeOption($row2->id, $row2->name, 'id', 'name');
 			}
 		}
 
@@ -513,9 +513,9 @@ class ContentController extends JController
 			$categoriesA[] = $cat;
 		}
 
-		$categories[] = mosHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
+		$categories[] = JHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$categories = array_merge($categories, $categoriesA);
-		$lists['catid'] = mosHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
+		$lists['catid'] = JHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
 
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text" .
@@ -526,9 +526,9 @@ class ContentController extends JController
 		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $id, $query, 1);
 
 		// build the html radio buttons for frontpage
-		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', $row->frontpage);
+		$lists['frontpage'] = JHTML::yesnoradioList('frontpage', '', $row->frontpage);
 		// build the html radio buttons for published
-		$lists['state'] = mosHTML::yesnoradioList('state', '', $row->state);
+		$lists['state'] = JHTML::yesnoradioList('state', '', $row->state);
 		// build list of users
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$lists['created_by'] = mosAdminMenus::UserSelect('created_by', $active);
@@ -987,10 +987,10 @@ class ContentController extends JController
 				"\n WHERE s.scope = 'content'" .
 				"\n ORDER BY s.name, c.name";
 		$db->setQuery($query);
-		$rows[] = mosHTML::makeOption("0, 0", 'Static Content');
+		$rows[] = JHTML::makeOption("0, 0", 'Static Content');
 		$rows = array_merge($rows, $db->loadObjectList());
 		// build the html select list
-		$sectCatList = mosHTML::selectList($rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null);
+		$sectCatList = JHTML::selectList($rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null);
 
 		ContentView::moveSection($cid, $sectCatList, 'com_content', $sectionid, $items);
 	}
@@ -1109,7 +1109,7 @@ class ContentController extends JController
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		// build the html select list
-		$sectCatList = mosHTML::selectList($rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
+		$sectCatList = JHTML::selectList($rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
 
 		ContentView::copySection($option, $cid, $sectCatList, $sectionid, $items);
 	}

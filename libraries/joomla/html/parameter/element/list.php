@@ -40,10 +40,10 @@ class JElement_List extends JElement
 		{
 			$val  = $option->attributes('value');
 			$text = $option->data();
-			$options[] = mosHTML::makeOption($val, JText::_($text));
+			$options[] = JHTML::makeOption($val, JText::_($text));
 		}
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);
+		return JHTML::selectList($options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);
 	}
 }
 ?>

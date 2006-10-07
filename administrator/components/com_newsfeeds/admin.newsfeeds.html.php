@@ -166,7 +166,7 @@ class HTML_newsfeeds
 					if ( $user->get('gid') == 25 ) {
 						$visible = 1;
 					}
-					mosHTML::writableCell( $mainframe->getCfg('cachepath'), 0, '<strong>Cache Directory</strong> ', $visible );
+					JHTML::writableCell( $mainframe->getCfg('cachepath'), 0, '<strong>Cache Directory</strong> ', $visible );
 					?>
 					</table>
 				</td>

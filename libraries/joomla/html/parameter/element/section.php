@@ -37,9 +37,9 @@ class JElement_Section extends JElement
 		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Section').' -', 'id', 'title'));
+		array_unshift($options, JHTML::makeOption('0', '- '.JText::_('Select Section').' -', 'id', 'title'));
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name);
+		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name);
 	}
 }
 ?>

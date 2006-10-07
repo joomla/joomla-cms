@@ -77,20 +77,20 @@ class SearchController
 
 		// built select lists
 		$orders = array();
-		$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
-		$orders[] = mosHTML::makeOption( 'oldest', JText::_( 'Oldest first' ) );
-		$orders[] = mosHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
-		$orders[] = mosHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
-		$orders[] = mosHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
+		$orders[] = JHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
+		$orders[] = JHTML::makeOption( 'oldest', JText::_( 'Oldest first' ) );
+		$orders[] = JHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
+		$orders[] = JHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
+		$orders[] = JHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
 		$ordering = JRequest::getVar( 'ordering', 'newest');
 		$lists = array();
-		$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
+		$lists['ordering'] = JHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
 		$searchphrases 		= array();
-		$searchphrases[] 	= mosHTML::makeOption( 'any', JText::_( 'Any words' ) );
-		$searchphrases[] 	= mosHTML::makeOption( 'all', JText::_( 'All words' ) );
-		$searchphrases[] 	= mosHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
+		$searchphrases[] 	= JHTML::makeOption( 'any', JText::_( 'Any words' ) );
+		$searchphrases[] 	= JHTML::makeOption( 'all', JText::_( 'All words' ) );
+		$searchphrases[] 	= JHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
+		$lists['searchphrase' ]= JHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
 		JPluginHelper::importPlugin( 'search' );
 		$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );

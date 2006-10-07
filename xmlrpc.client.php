@@ -69,11 +69,11 @@ if ($task)
 				$var = new xmlrpcval($array[$i]);
 				$array_method = $var->scalarval();
 
-				$methods[$i] = mosHTML::makeOption($array_method->scalarval());
+				$methods[$i] = JHTML::makeOption($array_method->scalarval());
 			}
 
 			$output = 'Methods<br />';
-			$output .= mosHTML::selectList( $methods, 'method', 'size="10"', 'value', 'text' );
+			$output .= JHTML::selectList( $methods, 'method', 'size="10"', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 

@@ -52,7 +52,7 @@ class SearchViewSearch extends JView
 		{
 			$result =& $this->results[$i];
 			if ($result->created) {
-				$created = mosHTML::Date ( $result->created );
+				$created = JHTML::Date ( $result->created );
 			}
 			else {
 				$created = '';

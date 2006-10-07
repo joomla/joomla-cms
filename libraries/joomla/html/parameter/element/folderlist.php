@@ -50,18 +50,18 @@ class JElement_FolderList extends JElement
 					continue;
 				}
 			}
-			$options[] = mosHTML::makeOption($folder, $folder);
+			$options[] = JHTML::makeOption($folder, $folder);
 		}
 		if (!$node->attributes('hide_none'))
 		{
-			array_unshift($options, mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -'));
+			array_unshift($options, JHTML::makeOption('-1', '- '.JText::_('Do not use').' -'));
 		}
 		if (!$node->attributes('hide_default'))
 		{
-			array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Use default').' -'));
+			array_unshift($options, JHTML::makeOption('', '- '.JText::_('Use default').' -'));
 		}
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 }
 ?>

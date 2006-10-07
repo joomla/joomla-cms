@@ -80,7 +80,7 @@ class HTML_trash
 							<?php echo $i + 1 + $pageNav->limitstart;?>
 						</td>
 						<td align="center">
-							<?php echo mosHTML::idBox( $i, $row->id ); ?>
+							<?php echo JHTML::idBox( $i, $row->id ); ?>
 						</td>
 						<td nowrap="nowrap">
 							<?php echo $row->title; ?>

@@ -200,7 +200,7 @@ function editNewsFeed(  )
 	// build list of categories
 	$lists['category'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
 	// build the html select list
-	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	HTML_newsfeeds::editNewsFeed( $row, $lists, $option );
 }

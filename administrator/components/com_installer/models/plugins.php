@@ -60,7 +60,7 @@ class ExtensionManagerModelPlugins extends ExtensionManagerModel
 				"\n ORDER BY folder";
 		$db->setQuery( $query );
 
-		$types[] = mosHTML::makeOption( '', JText::_( 'All' ) );
+		$types[] = JHTML::makeOption( '', JText::_( 'All' ) );
 		$types = array_merge( $types, $db->loadObjectList() );
 
 		return $types;

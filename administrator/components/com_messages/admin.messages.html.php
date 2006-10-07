@@ -88,7 +88,7 @@ class HTML_messages
 						<?php echo $i+1+$pageNav->limitstart;?>
 					</td>
 					<td>
-						<?php echo mosHTML::idBox( $i, $row->message_id ); ?>
+						<?php echo JHTML::idBox( $i, $row->message_id ); ?>
 					</td>
 					<td>
 						<?php echo $author; ?>

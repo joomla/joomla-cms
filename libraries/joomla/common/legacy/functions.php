@@ -578,17 +578,17 @@ function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
 }
 
 /**
-* Legacy function, use mosHTML::Date instead
+* Legacy function, use JHTML::Date instead
 *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
 */
 function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null )  {
-	return mosHTML::Date($date, $format, $offset);
+	return JHTML::Date($date, $format, $offset);
 }
 
 /**
-* Legacy function, use mosHTML::Date instead
+* Legacy function, use JHTML::Date instead
 *
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
@@ -599,7 +599,7 @@ function mosCurrentDate( $format="" )
 		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
 	
-	return mosHTML::Date('now', $format);
+	return JHTML::Date('now', $format);
 }
 
 /**

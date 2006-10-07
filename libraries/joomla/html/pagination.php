@@ -333,17 +333,17 @@ class JPagination extends JObject
 
 		// Make the option list
 		for ($i = 5; $i <= 30; $i += 5) {
-			$limits[] = mosHTML::makeOption("$i");
+			$limits[] = JHTML::makeOption("$i");
 		}
-		$limits[] = mosHTML::makeOption('50');
-		$limits[] = mosHTML::makeOption('100');
+		$limits[] = JHTML::makeOption('50');
+		$limits[] = JHTML::makeOption('100');
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
+			$html = JHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
 		} else {
 			$link = JURI::resolve($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
-			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
+			$html = JHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
 		}
 		return $html;
 	}

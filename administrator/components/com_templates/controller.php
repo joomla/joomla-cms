@@ -36,9 +36,9 @@ class JTemplatesController
 		$limit		= $mainframe->getUserStateFromRequest("$option.$client.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		$select[] 			= mosHTML::makeOption('0', JText::_('Site'));
-		$select[] 			= mosHTML::makeOption('1', JText::_('Administrator'));
-		$lists['client'] 	= mosHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
+		$select[] 			= JHTML::makeOption('0', JText::_('Site'));
+		$select[] 			= JHTML::makeOption('1', JText::_('Administrator'));
+		$lists['client'] 	= JHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
 
 		$tBaseDir = $client->path.DS.'templates';
 
@@ -149,7 +149,7 @@ class JTemplatesController
 
 		$params = new JParameter($content, $xml, 'template');
 
-		$lists['published']  = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published);
+		$lists['published']  = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published);
 
 		$lists['selections'] = '';
 		if($client->id == '1')  {

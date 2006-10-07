@@ -65,9 +65,9 @@ class JElement_Category extends JElement
 		}
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
+		array_unshift($options, JHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
+		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
 	}
 }
 ?>

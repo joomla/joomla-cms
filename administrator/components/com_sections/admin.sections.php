@@ -276,11 +276,11 @@ function editSection( )
 	}
 
 	// build the html select list for section types
-	$types[] = mosHTML::makeOption( '', JText::_( 'Select Type' ) );
-	$types[] = mosHTML::makeOption( 'content_section', JText::_( 'Section List' ) );
-	$types[] = mosHTML::makeOption( 'content_blog_section', JText::_( 'Section Blog' ) );
-	$types[] = mosHTML::makeOption( 'content_archive_section', JText::_( 'Section Archive Blog' ) );
-	$lists['link_type'] 		= mosHTML::selectList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );;
+	$types[] = JHTML::makeOption( '', JText::_( 'Select Type' ) );
+	$types[] = JHTML::makeOption( 'content_section', JText::_( 'Section List' ) );
+	$types[] = JHTML::makeOption( 'content_blog_section', JText::_( 'Section Blog' ) );
+	$types[] = JHTML::makeOption( 'content_archive_section', JText::_( 'Section Archive Blog' ) );
+	$lists['link_type'] 		= JHTML::selectList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );;
 
 	// build the html select list for ordering
 	$query = "SELECT ordering AS value, title AS text"
@@ -297,7 +297,7 @@ function editSection( )
 	// build the html select list for the group access
 	$lists['access'] 			= mosAdminMenus::Access( $row );
 	// build the html radio buttons for published
-	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 	// build the html select list for menu selection
 	$lists['menuselect']		= mosAdminMenus::MenuSelect( );
 

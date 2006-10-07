@@ -57,9 +57,9 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 
 		// check to see if mail text is different from mail addy
 		if ( $mail_text ) {
-			$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text );
+			$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text );
 		} else {
-			$replacement = mosHTML::emailCloaking( $mail, $mode );
+			$replacement = JHTML::emailCloaking( $mail, $mode );
 		}
 
 		// replace the found address with the js cloacked email
@@ -72,7 +72,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5];
 
-		$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
+		$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
 
 		// replace the found address with the js cloacked email
 		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
@@ -88,9 +88,9 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 
 		// check to see if mail text is different from mail addy
 		if ( $mail_text ) {
-			$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text );
+			$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text );
 		} else {
-			$replacement = mosHTML::emailCloaking( $mail, $mode );
+			$replacement = JHTML::emailCloaking( $mail, $mode );
 		}
 
 
@@ -106,7 +106,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 		//needed for handling of Body parameter
 		$mail 		= str_replace( '&amp;', '&', $mail );
 
-		$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
+		$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
 
 		// replace the found address with the js cloacked email
 		$row->text     = str_replace( $regs[0], $replacement, $row->text );
@@ -116,7 +116,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	while( eregi( $search_email, $row->text, $regs ) ) {
 		$mail = $regs[0];
 
-		$replacement = mosHTML::emailCloaking( $mail, $mode );
+		$replacement = JHTML::emailCloaking( $mail, $mode );
 
 		// replace the found address with the js cloacked email
 		$row->text = str_replace( $regs[0], $replacement, $row->text );

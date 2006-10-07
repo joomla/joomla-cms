@@ -173,7 +173,7 @@ class PollController extends JController
 		}
 		else
 		{
-			$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
+			$lookup = array( JHTML::makeOption( 0, JText::_( 'All' ) ) );
 		}
 
 		// build the html select list

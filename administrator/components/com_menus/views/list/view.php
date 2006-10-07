@@ -94,9 +94,9 @@ class JMenuViewList extends JView
 		// Build the menutypes select list
 		$menuTypes 	= JMenuHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
-			$menu[] = mosHTML::makeOption( $menuType, $menuType );
+			$menu[] = JHTML::makeOption( $menuType, $menuType );
 		}
-		$MenuList = mosHTML::selectList( $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
+		$MenuList = JHTML::selectList( $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
 
 		$items = &$this->get('ItemsFromRequest');
 
@@ -129,9 +129,9 @@ class JMenuViewList extends JView
 		// Build the menutypes select list
 		$menuTypes 	= JMenuHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
-			$menu[] = mosHTML::makeOption( $menuType, $menuType );
+			$menu[] = JHTML::makeOption( $menuType, $menuType );
 		}
-		$MenuList = mosHTML::selectList( $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
+		$MenuList = JHTML::selectList( $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
 
 		$items = &$this->get('ItemsFromRequest');
 
@@ -156,7 +156,7 @@ class JMenuViewList extends JView
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
 		// level limit filter
-		$lists['levellist'] = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
+		$lists['levellist'] = JHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
 
 		// state filter
 		$lists['state']	= mosCommonHTML::selectState( $filter_state );

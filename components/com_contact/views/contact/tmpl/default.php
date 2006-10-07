@@ -11,7 +11,7 @@
 		<form method="post" name="selectForm" target="_top" id="selectForm">
 		<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
-			<?php echo mosHTML::selectList($this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
+			<?php echo JHTML::selectList($this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
 			<option type="hidden" name="option" value="com_contact" />
 			<option type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 		</form>
@@ -23,7 +23,6 @@
 	<td width="100%" class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo $this->contact->name; ?>
 	</td>
-	<?php mosHTML::PrintIcon( $this->contact, $this->contact->params, false, $this->contact->print_link ); ?>
 </tr>
 <?php endif; ?>
 <?php if ( $this->contact->con_position && $this->contact->params->get( 'position' ) ) : ?>

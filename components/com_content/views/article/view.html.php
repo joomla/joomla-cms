@@ -112,11 +112,11 @@ class ContentViewArticle extends JView
 		}
 
 		if (intval($article->modified) != 0) {
-			$article->modified = mosHTML::Date($article->modified);
+			$article->modified = JHTML::Date($article->modified);
 		}
 
 		if (intval($article->created) != 0) {
-			$article->created = mosHTML::Date($article->created);
+			$article->created = JHTML::Date($article->created);
 		}
 
 		$article->readmore_link = $linkOn;
@@ -223,7 +223,7 @@ class ContentViewArticle extends JView
 				} else {
 					$overlib = JText::_('Published');
 				}
-				$date = mosHTML::Date($article->created);
+				$date = JHTML::Date($article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';
@@ -240,7 +240,7 @@ class ContentViewArticle extends JView
 		}
 
 
-		return mosHTML::Link($url, $text, $attribs);
+		return JHTML::Link($url, $text, $attribs);
 	}
 
 	function edit()
@@ -327,14 +327,14 @@ class ContentViewArticle extends JView
 		$lists['ordering'] = mosAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
-		$lists['state'] = mosHTML::yesnoradioList('state', '', $article->state);
+		$lists['state'] = JHTML::yesnoradioList('state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
 		$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
 		$db->setQuery($query);
 		$article->frontpage = $db->loadResult();
 
-		$lists['frontpage'] = mosHTML::yesnoradioList('frontpage', '', (boolean) $article->frontpage);
+		$lists['frontpage'] = JHTML::yesnoradioList('frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
 		$lists['access'] = mosAdminMenus::Access($article);

@@ -115,5 +115,20 @@ class ConfigApplicationView
 		</form>
 		<?php
 	}
+	
+	function WarningIcon($warning, $title='Joomla Warning')	
+	{
+		global $mainframe;
+
+		$title 		= JText::_( 'Joomla Warning' );
+		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
+		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$tip 		 = '<!--'. $title .'-->';
+		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" /></a>';
+
+		return $tip;
+	}
 }
 ?>

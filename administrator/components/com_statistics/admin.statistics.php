@@ -62,26 +62,27 @@ function showSummary( $option, $task )
 	$tab = JRequest::getVar( 'tab', 'tab1' );
 	$sort_base = "index.php?option=$option&task=$task";
 
-	switch ($field) {
+	switch ($field) 
+	{
 		case 'hits':
 			$order_by = "hits $order";
-			$sorts['b_agent'] 	= mosHTML::sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent' );
-			$sorts['b_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab1", 'hits', $order );
-			$sorts['o_agent'] 	= mosHTML::sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent' );
-			$sorts['o_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab2", 'hits', $order );
-			$sorts['d_agent'] 	= mosHTML::sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent' );
-			$sorts['d_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab3", 'hits', $order );
+			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent' );
+			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab1", 'hits', $order );
+			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent' );
+			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab2", 'hits', $order );
+			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent' );
+			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab3", 'hits', $order );
 			break;
 
 		case 'agent':
 		default:
 			$order_by = "agent $order";
-			$sorts['b_agent'] 	= mosHTML::sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent', $order );
-			$sorts['b_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab1", 'hits' );
-			$sorts['o_agent'] 	= mosHTML::sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent', $order );
-			$sorts['o_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab2", 'hits' );
-			$sorts['d_agent'] 	= mosHTML::sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent', $order );
-			$sorts['d_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab3", 'hits' );
+			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent', $order );
+			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab1", 'hits' );
+			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent', $order );
+			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab2", 'hits' );
+			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent', $order );
+			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab3", 'hits' );
 			break;
 	}
 
@@ -203,9 +204,9 @@ function showPageImpressions( $option, $task )
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
 	$db->setQuery( $query );
-	$categories[] 	= mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
+	$categories[] 	= JHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$categories 	= array_merge( $categories, $db->loadObjectList() );
-	$lists['catid'] = mosHTML::selectList( $categories, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid );
+	$lists['catid'] = JHTML::selectList( $categories, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid );
 
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';
@@ -379,5 +380,35 @@ function resetStats( $option, $task )
 		$db->query();
 
 		$mainframe->redirect( $redirecturl, $msg );
+}
+
+function sortIcon( $text, $base_href, $field, $state='none' ) 
+{
+	$alts = array(
+		'none' 	=> JText::_( 'No Sorting' ),
+		'asc' 	=> JText::_( 'Sort Ascending' ),
+		'desc' 	=> JText::_( 'Sort Descending' ),
+	);
+
+	$next_state = 'asc';
+	if ($state == 'asc') {
+		$next_state = 'desc';
+	} else if ($state == 'desc') {
+		$next_state = 'none';
+	}
+
+	if ($state == 'none') {
+		$img = '';
+	} else {
+		$img = "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />";
+	}
+
+	$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
+	. JText::_( $text )
+	. '&nbsp;&nbsp;'
+	. $img
+	. "</a>";
+
+	return $html;
 }
 ?>

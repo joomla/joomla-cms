@@ -141,9 +141,9 @@ class BannerController
 			return;
 		}
 
-		$clientlist[] 		= mosHTML::makeOption( '0', JText::_( 'Select Client' ), 'cid', 'name' );
+		$clientlist[] 		= JHTML::makeOption( '0', JText::_( 'Select Client' ), 'cid', 'name' );
 		$clientlist 		= array_merge( $clientlist, $db->loadObjectList() );
-		$lists['cid'] 		= mosHTML::selectList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
+		$lists['cid'] 		= JHTML::selectList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
 
 		// Imagelist
 		$javascript 		= 'onchange="changeDisplayImage();"';
@@ -154,10 +154,10 @@ class BannerController
 		$lists['catid']		= mosAdminMenus::ComponentCategory( 'catid', 'com_banner', intval( $row->catid ) );
 
 		// sticky
-		$lists['sticky']	= mosHTML::yesnoRadioList( 'sticky', 'class="inputbox"', $row->sticky );
+		$lists['sticky']	= JHTML::yesnoRadioList( 'sticky', 'class="inputbox"', $row->sticky );
 
 		// published
-		$lists['showBanner'] = mosHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
+		$lists['showBanner'] = JHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
 
 		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
 		BannersView::edit( $row, $lists, $option );

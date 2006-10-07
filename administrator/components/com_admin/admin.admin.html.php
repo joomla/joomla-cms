@@ -241,30 +241,30 @@ class HTML_admin_misc
 							<?php
 							if ($helpurl) {
 							?>
-							<?php echo mosHTML::Link($fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => '"helpFrame"')) ?>
+							<?php echo JHTML::Link($fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => '"helpFrame"')) ?>
 							|
-							<?php echo mosHTML::Link($fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link($fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link($fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link($fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							} else {
 							?>
-							<?php echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							}
 							?>
 							|
-							<?php echo mosHTML::Link('http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link('http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
+							<?php echo JHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo mosHTML::Link('index.php?option=com_admin&task=changelog&file=component.html', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link('index.php?option=com_admin&task=changelog&file=component.html', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
+							<?php echo JHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>
 					</tr>
 				</table>
@@ -284,11 +284,11 @@ class HTML_admin_misc
 						foreach ($toc as $k=>$v) {
 							if ($helpurl) {
 								echo '<li>';
-								echo mosHTML::Link($fullhelpurl . urlencode( $k ), $v, array('target' => "'helpFrame'"));
+								echo JHTML::Link($fullhelpurl . urlencode( $k ), $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							} else {
 								echo '<li>';
-								echo mosHTML::Link(JURI::base() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
+								echo JHTML::Link(JURI::base() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							}
 						}
@@ -336,6 +336,28 @@ class HTML_admin_misc
 		</pre>
 		<?php
 	}
+}
+
+function writableCell( $folder, $relative=1, $text='', $visible=1 ) 
+{
+	$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
+	$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+
+	echo '<tr>';
+	echo '<td class="item">';
+	echo $text;
+	if ( $visible ) {
+		echo $folder . '/';
+	}
+	echo '</td>';
+	echo '<td >';
+	if ( $relative ) {
+		echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
+	} else {
+		echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
+	}
+	echo '</td>';
+	echo '</tr>';
 }
 
 /**

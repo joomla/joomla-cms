@@ -96,8 +96,8 @@ class PollController
 			$dates = $db->loadObject();
 
 			if (isset( $dates->mindate )) {
-				$first_vote = mosHTML::Date( $dates->mindate, DATE_FORMAT_LC2 );
-				$last_vote 	= mosHTML::Date( $dates->maxdate, DATE_FORMAT_LC2 );
+				$first_vote = JHTML::Date( $dates->mindate, DATE_FORMAT_LC2 );
+				$last_vote 	= JHTML::Date( $dates->maxdate, DATE_FORMAT_LC2 );
 			}
 
 			$query = "SELECT a.id, a.text, a.hits, b.voters"
@@ -132,9 +132,9 @@ class PollController
 		// dropdown output
 		$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
 
-		array_unshift( $polls, mosHTML::makeOption( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
+		array_unshift( $polls, JHTML::makeOption( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
 
-		$lists['polls'] = mosHTML::selectList( $polls, 'id',
+		$lists['polls'] = JHTML::selectList( $polls, 'id',
 			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}"',
 			'id', 'title',
 			$poll->id

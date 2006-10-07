@@ -47,7 +47,7 @@ class ExtensionManagerViewPlugins extends JView
 		$groups		= &$this->get('Groups');
 
 		$fields = new stdClass();
-		$fields->groups = mosHTML::selectList( $groups, 'group', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $state->get('filter.group') );
+		$fields->groups = JHTML::selectList( $groups, 'group', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $state->get('filter.group') );
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);

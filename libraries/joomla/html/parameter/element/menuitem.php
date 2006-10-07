@@ -91,14 +91,14 @@ class JElement_MenuItem extends JElement
 
 		// assemble menu items to the array
 		$options 	= array();
-		$options[]	= mosHTML::makeOption('', '- '.JText::_('Select Item').' -');
+		$options[]	= JHTML::makeOption('', '- '.JText::_('Select Item').' -');
 
 		foreach ($menuTypes as $type)
 		{
 			if ($menuType == '')
 			{
-				$options[]	= mosHTML::makeOption( '0', '&nbsp;' );
-				$options[]	= mosHTML::makeOption( $type->menutype, $type->title . ' - ' . JText::_( 'Top' ) );
+				$options[]	= JHTML::makeOption( '0', '&nbsp;' );
+				$options[]	= JHTML::makeOption( $type->menutype, $type->title . ' - ' . JText::_( 'Top' ) );
 			}
 			if (isset( $groupedList[$type->menutype] ))
 			{
@@ -106,13 +106,13 @@ class JElement_MenuItem extends JElement
 				for ($i = 0; $i < $n; $i++)
 				{
 					$item = &$groupedList[$type->menutype][$i];
-					$options[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
+					$options[] = JHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
 
 				}
 			}
 		}
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }
 ?>

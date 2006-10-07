@@ -86,10 +86,8 @@ class ContactViewContact extends JView
 		$contact->params->def( 'misc', 				1 );
 		$contact->params->def( 'image', 			1 );
 
-		$contact->print_link = 'index2.php?option=com_contact&amp;view=contact&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
-
 		if ($contact->email_to && $params->get('email')) {
-			$contact->email = mosHTML::emailCloaking($contact->email_to);
+			$contact->email = JHTML::emailCloaking($contact->email_to);
 		}
 
 		if ($contact->params->get('email_description')) {

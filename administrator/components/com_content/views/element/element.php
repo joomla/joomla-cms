@@ -112,7 +112,7 @@ class ContentViewElement extends JView
 				$row = &$rows[$i];
 
 				$link 	= '';
-				$date	= mosHTML::Date( $row->created, DATE_FORMAT_LC4 );
+				$date	= JHTML::Date( $row->created, DATE_FORMAT_LC4 );
 				$access	= mosCommonHTML::AccessProcessing( $row, $i, $row->state );
 				?>
 				<tr class="<?php echo "row$k"; ?>">

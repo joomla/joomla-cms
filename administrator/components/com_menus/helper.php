@@ -110,14 +110,14 @@ class JMenuHelper
 
 		// assemble menu items to the array
 		$mitems 	= array();
-		$mitems[] 	= mosHTML::makeOption( '0', JText::_( 'Top' ) );
+		$mitems[] 	= JHTML::makeOption( '0', JText::_( 'Top' ) );
 
 		foreach ( $list as $item )
 		{
-			$mitems[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
+			$mitems[] = JHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
 		}
 
-		$output = mosHTML::selectList( $mitems, 'parent', 'class="inputbox" size="10"', 'value', 'text', $row->parent );
+		$output = JHTML::selectList( $mitems, 'parent', 'class="inputbox" size="10"', 'value', 'text', $row->parent );
 
 		return $output;
 	}
@@ -127,10 +127,10 @@ class JMenuHelper
 	*/
 	function Target( &$row ) 
 	{
-		$click[] = mosHTML::makeOption( '0', JText::_( 'Parent Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '1', JText::_( 'New Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
-		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
+		$click[] = JHTML::makeOption( '0', JText::_( 'Parent Window With Browser Navigation' ) );
+		$click[] = JHTML::makeOption( '1', JText::_( 'New Window With Browser Navigation' ) );
+		$click[] = JHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
+		$target = JHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
 		
 		return $target;
 	}
@@ -140,16 +140,16 @@ class JMenuHelper
 	*/
 	function Published( &$row ) 
 	{
-		$put[] = mosHTML::makeOption( '0', JText::_( 'No' ));
-		$put[] = mosHTML::makeOption( '1', JText::_( 'Yes' ));
+		$put[] = JHTML::makeOption( '0', JText::_( 'No' ));
+		$put[] = JHTML::makeOption( '1', JText::_( 'Yes' ));
 		
 		// If not a new item, trash is not an option
 		if ( $row->id ) {
-			$put[] = mosHTML::makeOption( '-1', JText::_( 'Trash' ));
+			$put[] = JHTML::makeOption( '-1', JText::_( 'Trash' ));
 		} else {
 			$row->published = 1;
 		}
-		$published = mosHTML::radioList( $put, 'published', '', $row->published );
+		$published = JHTML::radioList( $put, 'published', '', $row->published );
 		return $published;
 	}
 }
