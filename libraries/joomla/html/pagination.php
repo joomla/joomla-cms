@@ -62,6 +62,8 @@ class JPagination extends JObject
 	 */
 	function __construct($total, $limitstart, $limit, $link = null)
 	{
+		global $mainframe;
+		
 		// Value/Type checking
 		$this->total		= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
@@ -91,12 +93,16 @@ class JPagination extends JObject
 		// Set the base link for the object
 		if ($link) {
 			$this->_link = $link;
-		} else {
+		} 
+		else 
+		{
 			$config = &JFactory::getConfig();
-			if ($config->getValue('config.sef')) {
+			if ($config->getValue('config.sef') && !$mainframe->isAdmin()) 
+			{
 				$this->_link = 'index.php?';
 				$get = JRequest::get('get');
 				$this->_link .= '&amp;option='.$get['option'];
+				
 				foreach ($get as $k => $v)
 				{
 					if ($k != 'option' && $k != 'Itemid') {
@@ -104,7 +110,9 @@ class JPagination extends JObject
 					}
 				}
 				$this->_link .= '&amp;Itemid='.$get['Itemid'];
-			} else {
+			} 
+			else 
+			{
 				$this->_link = JRequest::getURI();
 				if ((strpos($this->_link, 'index.php?') === false) && (strpos($this->_link, '&') === false)) {
 					$this->_link .= 'index.php?';
