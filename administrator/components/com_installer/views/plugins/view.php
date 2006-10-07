@@ -54,7 +54,7 @@ class ExtensionManagerViewPlugins extends JView
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('fields',		$fields);
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		parent::display($tpl);
 	}
 

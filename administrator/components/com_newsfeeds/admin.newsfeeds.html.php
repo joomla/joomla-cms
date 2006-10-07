@@ -30,7 +30,7 @@ class HTML_newsfeeds
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_newsfeeds" method="post" name="adminForm">
 
@@ -61,10 +61,10 @@ class HTML_newsfeeds
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'News Feed', 'a.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'News Feed', 'a.name', $lists ); ?>
 					</th>
 					<th width="7%">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -72,19 +72,19 @@ class HTML_newsfeeds
 						</a>
 		 			</th>
 					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
 					</th>
 					<th class="title" width="17%">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
 					</th>
 					<th width="10%">
-						<?php mosCommonHTML::tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -95,8 +95,8 @@ class HTML_newsfeeds
 
 				$link 		= ampReplace( 'index.php?option=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
 				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&hidemainmenu=1&cid[]='. $row->catid );
 				?>
@@ -166,7 +166,7 @@ class HTML_newsfeeds
 					if ( $user->get('gid') == 25 ) {
 						$visible = 1;
 					}
-					JHTML::writableCell( $mainframe->getCfg('cachepath'), 0, '<strong>Cache Directory</strong> ', $visible );
+					HTML_newsfeeds::writableCell( $mainframe->getCfg('cachepath'), 0, '<strong>Cache Directory</strong> ', $visible );
 					?>
 					</table>
 				</td>
@@ -184,7 +184,8 @@ class HTML_newsfeeds
 	}
 
 
-	function editNewsFeed( &$row, &$lists, $option ) {
+	function editNewsFeed( &$row, &$lists, $option ) 
+	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -320,6 +321,28 @@ class HTML_newsfeeds
 		<input type="hidden" name="task" value="" />
 		</form>
 	<?php
+	}
+	
+	function writableCell( $folder, $relative=1, $text='', $visible=1 ) 
+	{
+		$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
+		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+
+		echo '<tr>';
+		echo '<td class="item">';
+		echo $text;
+		if ( $visible ) {
+			echo $folder . '/';
+		}
+		echo '</td>';
+		echo '<td >';
+		if ( $relative ) {
+			echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
+		} else {
+			echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
+		}
+		echo '</td>';
+		echo '</tr>';
 	}
 }
 ?>

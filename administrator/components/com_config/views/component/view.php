@@ -36,7 +36,7 @@ class ConfigComponentView extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle( JText::_('Edit Configuration') );
 		$document->addStyleSheet('../includes/js/joomla/modal.css');
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 ?>
 	<form action="index3.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>

@@ -47,7 +47,7 @@ class ContentView
 		$document->addScript('../includes/js/joomla/modal.js');
 		$document->addStyleSheet('../includes/js/joomla/modal.css');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
 
@@ -80,13 +80,13 @@ class ContentView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
 					</th>
 					<th nowrap="nowrap" width="1%">
-						<?php mosCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
 					</th>
 					<th width="80">
 						<a href="javascript:tableOrdering('section_name','DESC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -94,25 +94,25 @@ class ContentView
 						</a>
 					</th>
 					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="7%">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 					</th>
 					<th class="title" width="8%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -182,8 +182,8 @@ class ContentView
 					}
 				}
 
-				$access 	= mosCommonHTML::AccessProcessing( $row, $i, $row->state );
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$access 	= JCommonHTML::AccessProcessing( $row, $i, $row->state );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -261,7 +261,7 @@ class ContentView
 			?>
 			</tbody>
 			</table>
-			<?php mosCommonHTML::ContentLegend(); ?>
+			<?php JCommonHTML::ContentLegend(); ?>
 
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
@@ -329,22 +329,22 @@ class ContentView
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="3%"  class="title">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists, 'showarchive' ); ?>
+					<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML::tableOrdering( 'Section', 'sectname', $lists, 'showarchive' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Section', 'sectname', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists, 'showarchive' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Author', 'author', $lists, 'showarchive' ); ?>
 				</th>
 				<th align="center" width="10">
-					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists, 'showarchive' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists, 'showarchive' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -442,8 +442,8 @@ class ContentView
 		$editor =& JFactory::getEditor();
 		$pane   =& JPane::getInstance('sliders');
 
-		mosCommonHTML::loadOverlib();
-		mosCommonHTML::loadCalendar();
+		JCommonHTML::loadOverlib();
+		JCommonHTML::loadCalendar();
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--

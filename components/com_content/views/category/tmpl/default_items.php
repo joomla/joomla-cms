@@ -40,22 +40,22 @@
 	</td>
 	<?php if ($this->params->get('title')) : ?>
  	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="45%">
-		<?php mosCommonHTML::tableOrdering( 'Item Title', 'a.title', $lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Item Title', 'a.title', $lists ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('date')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="25%">
-		<?php mosCommonHTML::tableOrdering( 'Date', 'a.created', $lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Date', 'a.created', $lists ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('author')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>"  width="20%">
-		<?php mosCommonHTML::tableOrdering( 'Author', 'author', $this->lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Author', 'author', $this->lists ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('hits')) : ?>
 	<td align="center" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
-		<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $this->lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Hits', 'a.hits', $this->lists ); ?>
 	</td>
 	<?php endif; ?>
 </tr>

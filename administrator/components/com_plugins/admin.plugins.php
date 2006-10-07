@@ -163,7 +163,7 @@ function viewPlugins( $option, $client )
 	$lists['type']	= JHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 
 	// table ordering

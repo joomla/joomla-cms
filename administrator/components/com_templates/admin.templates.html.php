@@ -36,7 +36,7 @@ class JTemplatesView {
 			$row->authorUrl = str_replace('http://', '', $row->authorUrl);
 		}
 
-		mosCommonHTML :: loadOverlib();
+		JCommonHTML :: loadOverlib();
 ?>
 		<script language="javascript" type="text/javascript">
 		<!--
@@ -262,7 +262,7 @@ class JTemplatesView {
 	* @param string The option
 	*/
 	function editTemplate($row, $lists, & $params, $option, & $client) {
-		mosCommonHTML :: loadOverlib();
+		JCommonHTML :: loadOverlib();
 ?>
 		<form action="index.php" method="post" name="adminForm">
 

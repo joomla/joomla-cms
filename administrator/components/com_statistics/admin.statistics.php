@@ -213,7 +213,7 @@ function showPageImpressions( $option, $task )
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {

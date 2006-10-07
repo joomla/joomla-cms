@@ -246,22 +246,22 @@ class HTML_statistics
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists, $task ); ?>
 					</th>
 					<th width="80" align="center" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists, $task ); ?>
 					</th>
 					<th width="50" align="center" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'State', 'c.state', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'State', 'c.state', $lists, $task ); ?>
 					</th>
 					<th class="title" width="17%">
-						<?php mosCommonHTML::tableOrdering( 'Section', 'sec_title', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Section', 'sec_title', $lists, $task ); ?>
 					</th>
 					<th class="title" width="17%">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'cat_title', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'cat_title', $lists, $task ); ?>
 					</th>
 					<th class="title" width="10%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists, $task ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -352,7 +352,7 @@ class HTML_statistics
 	{
 		global $mainframe;
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
 
@@ -400,10 +400,10 @@ class HTML_statistics
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
 					</th>
 					<th nowrap="nowrap" width="20%">
-						<?php mosCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
 					</th>
 					<?php
 					if ( $showResults ) {

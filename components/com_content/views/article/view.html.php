@@ -213,7 +213,7 @@ class ContentViewArticle extends JView
 					return;
 				}
 
-				mosCommonHTML::loadOverlib();
+				JCommonHTML::loadOverlib();
 
 				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
@@ -264,7 +264,7 @@ class ContentViewArticle extends JView
 		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
-		mosCommonHTML::loadCalendar();
+		JCommonHTML::loadCalendar();
 
 		// Get the article from the model
 		$article	=& $this->get('Article');

@@ -103,7 +103,7 @@ class PollController extends JController
 		}
 
 		// state filter
-		$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 		// table ordering
 		if ( $filter_order_Dir == 'DESC' )

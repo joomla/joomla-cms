@@ -58,11 +58,11 @@ endif; ?>
 				<?php echo JText::_('Num'); ?>
 			</td>
 			<td height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php mosCommonHTML::tableOrdering( 'Name', 'cd.name', $this->lists ); ?>
+				<?php JCommonHTML::tableOrdering( 'Name', 'cd.name', $this->lists ); ?>
 			</td>
 			<?php if ( $this->params->get( 'position' ) ) : ?>
 			<td height="20" class="sectiontableheader<?php echo  $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php mosCommonHTML::tableOrdering( 'Position', 'cd.con_position', $this->lists ); ?>
+				<?php JCommonHTML::tableOrdering( 'Position', 'cd.con_position', $this->lists ); ?>
 			</td>
 			<?php endif; ?>
 			<?php if ( $this->params->get( 'email' ) ) : ?>

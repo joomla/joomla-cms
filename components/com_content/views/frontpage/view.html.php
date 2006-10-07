@@ -199,7 +199,7 @@ class ContentViewFrontpage extends JView
 					return;
 				}
 
-				mosCommonHTML::loadOverlib();
+				JCommonHTML::loadOverlib();
 
 				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );

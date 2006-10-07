@@ -34,7 +34,7 @@ class HTML_modules {
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'p.folder');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_plugins" method="post" name="adminForm">
 			<table>
@@ -64,10 +64,10 @@ class HTML_modules {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>
 					</th>
 					<th nowrap="nowrap" width="5%">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('p.folder','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -75,19 +75,19 @@ class HTML_modules {
 						</a>
 					</th>
 					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th nowrap="nowrap" width="7%">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<th nowrap="nowrap"  width="3%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -104,9 +104,9 @@ class HTML_modules {
 
 				$link = ampReplace( 'index.php?option=com_plugins&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
-				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				$access 	= JCommonHTML::AccessProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="right">
@@ -183,7 +183,7 @@ class HTML_modules {
 	*/
 	function editPlugin( &$row, &$lists, &$params, $option )
 	{
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		$row->nameA = '';
 		if ( $row->id ) {

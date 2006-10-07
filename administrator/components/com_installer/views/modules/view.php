@@ -56,7 +56,7 @@ class ExtensionManagerViewModules extends JView
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('lists',		$lists);
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		parent::display($tpl);
 	}
 

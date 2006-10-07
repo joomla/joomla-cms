@@ -21,7 +21,7 @@ class BannersViewClients
 	function showClients( &$rows, &$pageNav, $option, &$lists )
 	{
 		$user =& JFactory::getUser();
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -48,16 +48,16 @@ class BannersViewClients
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th nowrap="nowrap" class="title">
-					<?php mosCommonHTML::tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
 				</th>
 				<th width="3%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
 				</th>
 				<th nowrap="nowrap" class="title" width="35%">
-					<?php mosCommonHTML::tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
 				</th>
 				<th align="center" nowrap="nowrap" width="5%">
-					<?php mosCommonHTML::tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
 				</th>
 			</tr>
 			</thead>
@@ -69,7 +69,7 @@ class BannersViewClients
 				$row->id 		= $row->cid;
 				$link 			= ampReplace( 'index.php?option=com_banners&task=editclient&hidemainmenu=1&cid[]='. $row->id );
 
-				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$checked 		= JCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">

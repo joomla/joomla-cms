@@ -193,7 +193,7 @@ function showSections( $scope, $option )
 	}
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
@@ -242,45 +242,10 @@ function editSection( )
 
 	if ( $cid[0] ) {
 		$row->checkout( $user->get('id') );
-		if ( $row->id > 0 ) {
-			$query = "SELECT *"
-			. "\n FROM #__menu"
-			. "\n WHERE componentid = '". $row->id ."'"
-			. "\n AND ( type = 'content_archive_section' OR type = 'content_blog_section' OR type = 'content_section' )"
-			;
-			$db->setQuery( $query );
-			$menus = $db->loadObjectList();
-			$count = count( $menus );
-			for( $i = 0; $i < $count; $i++ ) {
-				switch ( $menus[$i]->type ) {
-					case 'content_section':
-						$menus[$i]->type = JText::_( 'Section Table' );
-						break;
-
-					case 'content_blog_section':
-						$menus[$i]->type = JText::_( 'Section Blog' );
-						break;
-
-					case 'content_archive_section':
-						$menus[$i]->type = JText::_( 'Section Blog Archive' );
-						break;
-				}
-			}
-		} else {
-			$menus = array();
-		}
 	} else {
 		$row->scope 		= $scope;
 		$row->published 	= 1;
-		$menus 			= array();
 	}
-
-	// build the html select list for section types
-	$types[] = JHTML::makeOption( '', JText::_( 'Select Type' ) );
-	$types[] = JHTML::makeOption( 'content_section', JText::_( 'Section List' ) );
-	$types[] = JHTML::makeOption( 'content_blog_section', JText::_( 'Section Blog' ) );
-	$types[] = JHTML::makeOption( 'content_archive_section', JText::_( 'Section Archive Blog' ) );
-	$lists['link_type'] 		= JHTML::selectList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );;
 
 	// build the html select list for ordering
 	$query = "SELECT ordering AS value, title AS text"
@@ -298,8 +263,6 @@ function editSection( )
 	$lists['access'] 			= mosAdminMenus::Access( $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
-	// build the html select list for menu selection
-	$lists['menuselect']		= mosAdminMenus::MenuSelect( );
 
 	sections_html::edit( $row, $option, $lists, $menus );
 }

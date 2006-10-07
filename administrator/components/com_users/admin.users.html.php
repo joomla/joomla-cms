@@ -30,7 +30,7 @@ class HTML_users {
 
 		$user =& JFactory::getUser();
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_users" method="post" name="adminForm">
 
@@ -59,28 +59,28 @@ class HTML_users {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Name', 'a.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Name', 'a.name', $lists ); ?>
 					</th>
 					<th width="15%" class="title" >
-						<?php mosCommonHTML::tableOrdering( 'Username', 'a.username', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Username', 'a.username', $lists ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
 						<?php echo JText::_( 'Logged In' ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Enabled', 'a.block', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Enabled', 'a.block', $lists ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Group', 'groupname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Group', 'groupname', $lists ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
 					</th>
 					<th width="1%" class="title" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -164,7 +164,7 @@ class HTML_users {
 		 */
 		$acl = & JFactory::getACL();
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		$canBlockUser 	= $user->authorize( 'com_user', 'block user' );
 		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $user->get('gid'), 'ARO' ) );
 		?>

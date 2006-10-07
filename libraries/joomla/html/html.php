@@ -17,7 +17,7 @@
  * @static
  * @package 	Joomla.Framework
  * @subpackage	HTML
- * @since		1.0
+ * @since		1.5
  */
 class JHTML 
 {
@@ -140,7 +140,8 @@ class JHTML
 		return $instance->toFormat($format);
 	}
 
-	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
+	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) 
+	{
 		$obj = new stdClass;
 		$obj->$value_name = $value;
 		$obj->$text_name = trim( $text ) ? $text : $value;
@@ -157,7 +158,8 @@ class JHTML
 	* @param mixed The key that is selected
 	* @returns string HTML for the select list
 	*/
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) 
+	{
 		// check if array
 		if ( is_array( $arr ) ) {
 			reset( $arr );
@@ -220,7 +222,8 @@ class JHTML
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) {
+	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) 
+	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
 		$inc 	= intval( $inc );
@@ -244,7 +247,8 @@ class JHTML
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) {
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) 
+	{
 		reset( $arr );
 		$html = '';
 
@@ -425,11 +429,12 @@ class JHTML
  * @static
  * @package 	Joomla.Framework
  * @subpackage	HTML
- * @since		1.0
+ * @since		1.5
  */
-class mosCommonHTML {
+class JCommonHTML {
 
-	function ContentLegend( ) {
+	function ContentLegend( ) 
+	{
 		?>
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
 		<tr align="center">
@@ -464,135 +469,6 @@ class mosCommonHTML {
 			</td>
 		</tr>
 		</table>
-		<?php
-	}
-
-	function menuLinksContent( &$menus ) {
-		foreach( $menus as $menu ) {
-			?>
-			<tr>
-				<td colspan="2">
-					<hr />
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-					<?php echo JText::_( 'Menu' ); ?>
-				</td>
-				<td>
-					<a href="javascript:go2('go2menu','<?php echo $menu->menutype; ?>');" title="<?php echo JText::_( 'Go to Menu' ); ?>">
-						<?php echo $menu->menutype; ?></a>
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-				<?php echo JText::_( 'Link Name' ); ?>
-				</td>
-				<td>
-					<strong>
-					<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
-						<?php echo $menu->name; ?></a>
-					</strong>
-				</td>
-			</tr>
-			<tr>
-				<td width="90" valign="top">
-					<?php echo JText::_( 'State' ); ?>
-				</td>
-				<td>
-					<?php
-					switch ( $menu->published ) {
-						case -2:
-							echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
-							break;
-						case 0:
-							echo JText::_( 'UnPublished' );
-							break;
-						case 1:
-						default:
-							echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
-							break;
-					}
-					?>
-				</td>
-			</tr>
-			<?php
-		}
-		?>
-		<tr>
-			<td colspan="2">
-				<input type="hidden" name="menu" value="" />
-				<input type="hidden" name="menuid" value="" />
-			</td>
-		</tr>
-		<?php
-	}
-
-	function menuLinksSecCat( &$menus ) {
-		$i = 1;
-		foreach( $menus as $menu ) {
-			?>
-			<fieldset>
-				<legend align="right"> <?php echo $i; ?>. </legend>
-
-				<table class="admintable">
-				<tr>
-					<td valign="top" class="key">
-						<?php echo JText::_( 'Menu' ); ?>
-					</td>
-					<td>
-						<a href="javascript:go2('go2menu','<?php echo $menu->menutype; ?>');" title="<?php echo JText::_( 'Go to Menu' ); ?>">
-							<?php echo $menu->menutype; ?></a>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<?php echo JText::_( 'Type' ); ?>
-					</td>
-					<td>
-						<?php echo $menu->type; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<?php echo JText::_( 'Item Name' ); ?>
-					</td>
-					<td>
-						<strong>
-						<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
-							<?php echo $menu->name; ?></a>
-						</strong>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<?php echo JText::_( 'State' ); ?>
-					</td>
-					<td>
-						<?php
-						switch ( $menu->published ) {
-							case -2:
-								echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
-								break;
-							case 0:
-								echo JText::_( 'UnPublished' );
-								break;
-							case 1:
-							default:
-								echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
-								break;
-						}
-						?>
-					</td>
-				</tr>
-				</table>
-			</fieldset>
-			<?php
-			$i++;
-		}
-		?>
-		<input type="hidden" name="menu" value="" />
-		<input type="hidden" name="menuid" value="" />
 		<?php
 	}
 
@@ -661,7 +537,8 @@ class mosCommonHTML {
 		}
 	}
 
-	function AccessProcessing( &$row, $i, $archived=NULL ) {
+	function AccessProcessing( &$row, $i, $archived=NULL ) 
+	{
 		if ( !$row->access ) {
 			$color_access = 'style="color: green;"';
 			$task_access = 'accessregistered';
@@ -690,7 +567,7 @@ class mosCommonHTML {
 	{
 		$user =& JFactory::getUser();
 		if ( $row->checked_out ) {
-			$checked = mosCommonHTML::checkedOut( $row );
+			$checked = JCommonHTML::checkedOut( $row );
 		} else {
 			$checked = JHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $user->get('id') ) );
 		}
@@ -735,15 +612,17 @@ class mosCommonHTML {
 		<?php
 	}
 
-	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
+	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) 
+	{
 		?>
 		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
 			<?php echo JText::_( $text ); ?>
-			<?php mosCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
+			<?php JCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
 		<?php
 	}
 
-	function tableOrdering_img( $current, &$lists ) {
+	function tableOrdering_img( $current, &$lists ) 
+	{
 		if ( $current == $lists['order']) {
 			if ( $lists['order_Dir'] == 'ASC' ) {
 				$image = 'sort_desc.png';

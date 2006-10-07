@@ -52,7 +52,7 @@ class ContentViewElement extends JView
 
 		$rows = &$this->get('List');
 		$page = &$this->get('Pagination');
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component.html" method="post" name="adminForm">
 
@@ -80,22 +80,22 @@ class ContentViewElement extends JView
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 					</th>
 					<th width="7%">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 					</th>
 					<th class="title" width="15%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -113,7 +113,7 @@ class ContentViewElement extends JView
 
 				$link 	= '';
 				$date	= JHTML::Date( $row->created, DATE_FORMAT_LC4 );
-				$access	= mosCommonHTML::AccessProcessing( $row, $i, $row->state );
+				$access	= JCommonHTML::AccessProcessing( $row, $i, $row->state );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

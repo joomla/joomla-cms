@@ -1102,29 +1102,281 @@ class mosHTML
 	}
 
 	/**
-	* simple Javascript Cloaking
-	* email cloacking
- 	* by default replaces an email with a mailto link with email cloacked
-	*/
+ 	 * Legacy function, use JHTML::emailCloaking instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 		JHTML::emailCloaking($mail, $mailto, $text, $email);
 	}
 
-	function keepAlive()
+	/**
+ 	 * Legacy function, use JHTML::keepAlive instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function keepAlive() {
+		JHTML::keepAlive();
+	}
+}
+
+/**
+ * Legacy class, use JCommonHTML instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ * @subpackage	1.5
+ */
+class mosCommonHTML 
+{
+	/**
+ 	 * Legacy function, use JHTML::keepAlive instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function ContentLegend( ) 
 	{
-		$js = "
-				function keepAlive() {
-					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component.html&task=keepalive\';', 60000);
-				}";
+		JCommonHTML::ContentLegend();
+	}
 
-		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
-				"style=\"width:0px; height:0px; border: 0px\" " .
-				"src=\"index.php?option=com_admin&tmpl=component.html&task=keepalive\" " .
-				"onload=\"keepAlive();\"></iframe>";
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function menuLinksContent( &$menus ) 
+	{
+		foreach( $menus as $menu ) {
+			?>
+			<tr>
+				<td colspan="2">
+					<hr />
+				</td>
+			</tr>
+			<tr>
+				<td width="90" valign="top">
+					<?php echo JText::_( 'Menu' ); ?>
+				</td>
+				<td>
+					<a href="javascript:go2('go2menu','<?php echo $menu->menutype; ?>');" title="<?php echo JText::_( 'Go to Menu' ); ?>">
+						<?php echo $menu->menutype; ?></a>
+				</td>
+			</tr>
+			<tr>
+				<td width="90" valign="top">
+				<?php echo JText::_( 'Link Name' ); ?>
+				</td>
+				<td>
+					<strong>
+					<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
+						<?php echo $menu->name; ?></a>
+					</strong>
+				</td>
+			</tr>
+			<tr>
+				<td width="90" valign="top">
+					<?php echo JText::_( 'State' ); ?>
+				</td>
+				<td>
+					<?php
+					switch ( $menu->published ) {
+						case -2:
+							echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
+							break;
+						case 0:
+							echo JText::_( 'UnPublished' );
+							break;
+						case 1:
+						default:
+							echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
+							break;
+					}
+					?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
+		<tr>
+			<td colspan="2">
+				<input type="hidden" name="menu" value="" />
+				<input type="hidden" name="menuid" value="" />
+			</td>
+		</tr>
+		<?php
+	}
 
-		$doc =& JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-		echo $html;
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function menuLinksSecCat( &$menus ) 
+	{
+		$i = 1;
+		foreach( $menus as $menu ) {
+			?>
+			<fieldset>
+				<legend align="right"> <?php echo $i; ?>. </legend>
+
+				<table class="admintable">
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Menu' ); ?>
+					</td>
+					<td>
+						<a href="javascript:go2('go2menu','<?php echo $menu->menutype; ?>');" title="<?php echo JText::_( 'Go to Menu' ); ?>">
+							<?php echo $menu->menutype; ?></a>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Type' ); ?>
+					</td>
+					<td>
+						<?php echo $menu->type; ?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'Item Name' ); ?>
+					</td>
+					<td>
+						<strong>
+						<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
+							<?php echo $menu->name; ?></a>
+						</strong>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" class="key">
+						<?php echo JText::_( 'State' ); ?>
+					</td>
+					<td>
+						<?php
+						switch ( $menu->published ) {
+							case -2:
+								echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
+								break;
+							case 0:
+								echo JText::_( 'UnPublished' );
+								break;
+							case 1:
+							default:
+								echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
+								break;
+						}
+						?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+			<?php
+			$i++;
+		}
+		?>
+		<input type="hidden" name="menu" value="" />
+		<input type="hidden" name="menuid" value="" />
+		<?php
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::checkedOut
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function checkedOut( &$row, $overlib=1 ) {
+		JCommonHTML::checkedOut($row, $overlib);
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::loadOverlib
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function loadOverlib() {
+		JCommonHTML::loadOverlib();
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::loadCalendar
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function loadCalendar() {
+		JCommonHTML::loadCalendar();
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::AccessProcessing
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function AccessProcessing( &$row, $i, $archived=NULL ) {
+		JCommonHTML::AccessProcessing($orw, $i, $archived);
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::CheckedOutProcessing
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function CheckedOutProcessing( &$row, $i ) {
+		JCommonHTML::CheckedOutProcessing($row, $i);
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::PublishedProcessing
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
+		JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::selectState
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
+		JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::saveorderButton
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function saveorderButton( $rows, $image='filesave.png' ) {
+		JCommonHTML::saveorderButton($rows, $image);
+	}
+
+	/**
+ 	 * Legacy function, use JCommonHTML::tableOrdering
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
+		?>
+		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
+			<?php echo JText::_( $text ); ?>
+			<?php JCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
+		<?php
 	}
 }
 

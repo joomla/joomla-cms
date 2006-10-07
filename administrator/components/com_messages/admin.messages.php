@@ -121,7 +121,7 @@ function showMessages( $option )
 	}
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state, 'Read', 'Unread' );
+	$lists['state']	= JCommonHTML::selectState( $filter_state, 'Read', 'Unread' );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {

@@ -59,7 +59,7 @@ class JMenuViewList extends JView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);
@@ -159,7 +159,7 @@ class JMenuViewList extends JView
 		$lists['levellist'] = JHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
 
 		// state filter
-		$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 		// table ordering
 		if ( $filter_order_Dir == 'DESC' ) {

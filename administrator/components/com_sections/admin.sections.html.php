@@ -35,7 +35,7 @@ class sections_html
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 's.ordering');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
 
@@ -65,10 +65,10 @@ class sections_html
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Section Name', 's.name', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Section Name', 's.name', $lists ); ?>
 				</th>
 				<th width="10%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('s.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -76,13 +76,13 @@ class sections_html
 					</a>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					<?php JCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="8%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 's.id', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'ID', 's.id', $lists ); ?>
 				</th>
 				<th width="9%" nowrap="nowrap">
 					<?php echo JText::_( 'Num Categories' ); ?>
@@ -108,9 +108,9 @@ class sections_html
 
 			$link 		= 'index.php?option=com_sections&scope=content&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
-			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+			$access 	= JCommonHTML::AccessProcessing( $row, $i );
+			$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+			$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center">
@@ -357,75 +357,6 @@ class sections_html
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>
 
-				<?php
-				if ( $row->id > 0 ) {
-					?>
-					<table class="admintable">
-					<tr>
-						<td colspan="2">
-							<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" class="key">
-							<label for="menuselect">
-								<?php echo JText::_( 'Select a Menu' ); ?>
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['menuselect']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" class="key">
-							<label for="link_type">
-								<?php echo JText::_( 'Select Menu Type' ); ?>
-							</label>
-						</td>
-						<td>
-							<?php echo $lists['link_type']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" class="key">
-							<label for="link_name">
-								<?php echo JText::_( 'Menu Item Name' ); ?>
-							</label>
-						</td>
-						<td>
-							<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="25" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-						</td>
-						<td>
-							<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
-						</td>
-					</tr>
-					</table>
-
-					<?php
-					if ( $menus != NULL ) {
-						?>
-						<br />
-						<?php
-						mosCommonHTML::menuLinksSecCat( $menus );
-					}
-					?>
-					<?php
-				} else {
-					?>
-					<table class="adminform">
-					<tr>
-						<td>
-							<?php echo JText::_( 'Menu links available when saved' ); ?>
-						</td>
-					</tr>
-					</table>
-					<?php
-				}
-				?>
 			</fieldset>
 		</div>
 		<div class="clr"></div>
@@ -444,7 +375,8 @@ class sections_html
 	/**
 	* Form to select Section to copy Category to
 	*/
-	function copySectionSelect( $option, $cid, $categories, $contents, $section ) {
+	function copySectionSelect( $option, $cid, $categories, $contents, $section ) 
+	{
 		?>
 		<form action="index.php" method="post" name="adminForm">
 

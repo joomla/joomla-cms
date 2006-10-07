@@ -36,7 +36,7 @@ class ConfigApplicationView
 
 		$document->set('module', 'submenu', $contents);
 		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.html');
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php" method="post" name="adminForm">
 

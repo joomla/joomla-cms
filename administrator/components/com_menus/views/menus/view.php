@@ -52,7 +52,7 @@ class JMenuViewMenus extends JView
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('limitstart', $limitstart);
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		parent::display($tpl);
 	}
@@ -134,7 +134,7 @@ class JMenuViewMenus extends JView
 		$this->assignRef('row', $table);
 		$this->assign('isnew', ($table->id == 0));
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		parent::display($tpl);
 	}

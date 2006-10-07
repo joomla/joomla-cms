@@ -32,7 +32,7 @@ class HTML_modules {
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'm.position'));
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_modules" method="post" name="adminForm">
 
@@ -65,10 +65,10 @@ class HTML_modules {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Module Name', 'm.title', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Module Name', 'm.title', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('m.position','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -76,28 +76,28 @@ class HTML_modules {
 					</a>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					<?php JCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<?php
 				if ( $client->id == 0 ) {
 					?>
 					<th nowrap="nowrap" width="7%">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<?php
 				}
 				?>
 				<th nowrap="nowrap" width="3%">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Position', 'm.position', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Position', 'm.position', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="5%">
-					<?php mosCommonHTML::tableOrdering( 'Pages', 'pages', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Pages', 'pages', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="10%"  class="title">
-					<?php mosCommonHTML::tableOrdering( 'Type', 'm.module', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Type', 'm.module', $lists ); ?>
 				</th>
 			</tr>
 			</thead>
@@ -114,9 +114,9 @@ class HTML_modules {
 
 				$link 		= ampReplace( 'index.php?option=com_modules&client='. $client->id .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
-				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				$access 	= JCommonHTML::AccessProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="right">
@@ -222,7 +222,7 @@ class HTML_modules {
 			$row->titleA = '<small><small>[ '. $row->title .' ]</small></small>';
 		}
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -437,7 +437,7 @@ class HTML_modules {
 	*/
 	function addModule( &$modules, $client )
 	{
- 		mosCommonHTML::loadOverlib();
+ 		JCommonHTML::loadOverlib();
 
 		?>
 		<form action="index.php" method="post" name="adminForm">

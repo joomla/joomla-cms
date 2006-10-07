@@ -59,7 +59,7 @@ class JMenuViewItem extends JView
 		$menuTypes 		= JMenuHelper::getMenuTypeList();
 		$components		= JMenuHelper::getComponentList();
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		$document = & JFactory::getDocument();
 		if ($item->id) {
@@ -133,7 +133,7 @@ class JMenuViewItem extends JView
 		$document->addScript('components/com_menus/assets/description.js');
 		$document->addStyleSheet('components/com_menus/assets/type.css');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		// Initialize variables
 		$item			= &$this->get('Item');

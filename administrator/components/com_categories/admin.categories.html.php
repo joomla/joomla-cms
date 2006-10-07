@@ -35,7 +35,7 @@ class categories_html
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'c.ordering');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
 
@@ -70,10 +70,10 @@ class categories_html
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML::tableOrdering( 'Category Name', 'c.name', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Category Name', 'c.name', $lists ); ?>
 				</th>
 				<th width="10%">
-					<?php mosCommonHTML::tableOrdering( 'Published', 'c.published', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Published', 'c.published', $lists ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
 					<a href="javascript:tableOrdering('c.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -81,19 +81,19 @@ class categories_html
 					</a>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML::saveorderButton( $rows ); ?>
+					<?php JCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="7%">
-					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<?php
 				if ( $section == 'com_content') {
 					?>
 					<th width="20%"  class="title">
-						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
 					<?php
 				}
@@ -127,9 +127,9 @@ class categories_html
 
 			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 
-			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+			$access 	= JCommonHTML::AccessProcessing( $row, $i );
+			$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+			$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
@@ -372,7 +372,7 @@ class categories_html
 
 				</table>
 			</fieldset>
-
+			
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -386,6 +386,13 @@ class categories_html
 						</td>
 					</tr>
 					</table>
+			</fieldset>
+		</div>
+		
+		<div class="col40">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>
+
 			</fieldset>
 		</div>
 

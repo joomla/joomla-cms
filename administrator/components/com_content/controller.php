@@ -175,7 +175,7 @@ class ContentController extends JController
 		$lists['authorid'] = JHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// state filter
-		$lists['state'] = mosCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
+		$lists['state'] = JCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
 
 		// table ordering
 		if ($filter_order_Dir == 'DESC') {

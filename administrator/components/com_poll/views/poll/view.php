@@ -23,7 +23,7 @@ class PollView
 {
 	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_poll" method="post" name="adminForm">
 
@@ -54,22 +54,22 @@ class PollView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th  class="title">
-						<?php mosCommonHTML::tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 					</th>
 					<th width="3%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php mosCommonHTML::tableOrdering( 'Votes', 'm.voters', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Votes', 'm.voters', $lists ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php mosCommonHTML::tableOrdering( 'Options', 'numoptions', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Options', 'numoptions', $lists ); ?>
 					</th>
 					<th width="10%" align="center">
-						<?php mosCommonHTML::tableOrdering( 'Lag', 'm.lag', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Lag', 'm.lag', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -81,8 +81,8 @@ class PollView
 
 				$link 		= ampReplace( 'index.php?option=com_poll&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

@@ -24,7 +24,7 @@ class BannersView
 	function showBanners( &$rows, &$pageNav, $option, &$lists )
 	{
 		$user =& JFactory::getUser();
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_banners" method="post" name="adminForm">
 		<table>
@@ -54,35 +54,35 @@ class BannersView
 						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th nowrap="nowrap" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Client', 'c.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Client', 'c.name', $lists ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Order', 'b.ordering', $lists );?>
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::tableOrdering( 'Order', 'b.ordering', $lists );?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%">
 						<?php echo JText::_( 'Sticky' ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php echo JText::_( 'Impressions Left' ); ?>
 					</th>
 					<th width="80">
-						<?php mosCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
 					</th>
 					<th width="50" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -106,8 +106,8 @@ class BannersView
 				}
 
 				$row->published = $row->showBanner;
-				$published 		= mosCommonHTML::PublishedProcessing( $row, $i );
-				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 		= JCommonHTML::PublishedProcessing( $row, $i );
+				$checked 		= JCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">

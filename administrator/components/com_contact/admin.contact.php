@@ -159,7 +159,7 @@ function showContacts( $option )
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {

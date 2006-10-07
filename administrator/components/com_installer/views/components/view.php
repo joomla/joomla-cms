@@ -49,7 +49,7 @@ class ExtensionManagerViewComponents extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		parent::display($tpl);
 	}
 

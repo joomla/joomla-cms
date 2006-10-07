@@ -200,7 +200,7 @@ function viewModules()
 	$lists['type']	= JHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 	// template assignment filter
 	$query = "SELECT DISTINCT(template) AS text, template AS value" .

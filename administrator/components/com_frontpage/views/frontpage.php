@@ -36,7 +36,7 @@ class FrontpageView
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'fpordering'));
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_frontpage" method="post" name="adminForm">
 
@@ -69,10 +69,10 @@ class FrontpageView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('fpordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -80,22 +80,22 @@ class FrontpageView
 						</a>
 		 			</th>
 					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="8%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<th width="2%" class="title" align="center" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Section', 'sect_name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Section', 'sect_name', $lists ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -143,8 +143,8 @@ class FrontpageView
 					  }
 				}
 
-				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$access 	= JCommonHTML::AccessProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
@@ -240,7 +240,7 @@ class FrontpageView
 			</tbody>
 			</table>
 			<?php
-			mosCommonHTML::ContentLegend();
+			JCommonHTML::ContentLegend();
 			?>
 		</div>
 

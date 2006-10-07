@@ -38,7 +38,7 @@ class ExtensionManagerViewInstall extends JView
 		// Get data from the model
 		$state = &$this->get('State');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_( 'Extension Manager' ));
@@ -64,7 +64,7 @@ class ExtensionManagerViewInstall extends JView
 		// Get data from the model
 		$state = &$this->get('State');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		$document = & JFactory::getDocument();
 		$document->setTitle($state->get('message'));

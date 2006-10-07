@@ -28,7 +28,7 @@ class HTML_contact
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'cd.ordering');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_contact" method="post" name="adminForm">
 
@@ -59,10 +59,10 @@ class HTML_contact
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Name', 'cd.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Name', 'cd.name', $lists ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'cd.published', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'cd.published', $lists ); ?>
 					</th>
 					<th nowrap="nowrap" width="80">
 						<a href="javascript:tableOrdering('cd.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -70,19 +70,19 @@ class HTML_contact
 						</a>
 		 			</th>
 					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="7%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Access', 'cd.access', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Access', 'cd.access', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'cd.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'cd.id', $lists ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
 					</th>
 					<th class="title" nowrap="nowrap" width="15%">
-						<?php mosCommonHTML::tableOrdering( 'Linked to User', 'user', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Linked to User', 'user', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -93,9 +93,9 @@ class HTML_contact
 
 				$link 		= ampReplace( 'index.php?option=com_contact&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$access 	= JCommonHTML::AccessProcessing( $row, $i );
+				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
 				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&id='. $row->catid );
 				$row->user_link	= ampReplace( 'index.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id );
@@ -170,7 +170,7 @@ class HTML_contact
 			$row->image = 'blank.png';
 		}
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'misc' );
 		?>

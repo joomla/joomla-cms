@@ -26,7 +26,7 @@ class HTML_languages {
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& JFactory::getUser();
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php" method="post" name="adminForm">
 

@@ -28,7 +28,7 @@ class HTML_weblinks
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_weblinks" method="post" name="adminForm">
 
@@ -60,10 +60,10 @@ class HTML_weblinks
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php mosCommonHTML::tableOrdering( 'Title', 'a.title', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Title', 'a.title', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
 						<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -71,16 +71,16 @@ class HTML_weblinks
 						</a>
 		 			</th>
 					<th width="1%">
-						<?php mosCommonHTML::saveorderButton( $rows ); ?>
+						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
 					</th>
 					<th width="25%"  class="title">
-						<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
 					</th>
 					<th width="5%">
-						<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -91,8 +91,8 @@ class HTML_weblinks
 
 				$link 	= ampReplace( 'index.php?option=com_weblinks&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
 				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
 				?>
@@ -172,7 +172,7 @@ class HTML_weblinks
 	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
 
-		mosCommonHTML::loadOverlib();
+		JCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

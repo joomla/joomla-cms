@@ -189,7 +189,7 @@ function viewFrontPage( $option )
 	$lists['authorid']	= JHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 
 	// state filter
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {

@@ -24,11 +24,11 @@
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<td width="90%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php mosCommonHTML::tableOrdering( 'Web Link', 'title', $this->lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Web Link', 'title', $this->lists ); ?>
 	</td>
 	<?php if ( $this->params->get( 'hits' ) ) : ?>
 	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
-		<?php mosCommonHTML::tableOrdering( 'Hits', 'hits', $this->lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Hits', 'hits', $this->lists ); ?>
 	</td>
 	<?php endif; ?>
 </tr>
