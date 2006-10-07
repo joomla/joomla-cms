@@ -53,7 +53,12 @@ class JInstallation extends JApplication
 	function setLanguage($lang = null)
 	{
 		if(empty($lang)) {
-			$lang = JLanguageHelper::detectLanguage();
+			$forced = JInstallationHelper::getLocalise();
+			if ( $forced == null) {
+				$lang = JLanguageHelper::detectLanguage();
+			} else {
+				$lang = $forced;
+			}
 		}
 
 		// One last check to make sure we have something

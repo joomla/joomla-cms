@@ -27,7 +27,10 @@ class JInstallationController
 	function chooseLanguage($vars)
 	{
 		$native = JLanguageHelper::detectLanguage();
-
+		$forced = JInstallationHelper::getLocalise();
+		if ( $forced != null ){
+			$native = $forced;
+		}
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
@@ -426,6 +429,8 @@ class JInstallationController
 	{
 		global $mainframe;
 		
+		$lang =& JFactory::getLanguage();
+		
 		// Import authentication library
 		jimport( 'joomla.user.authenticate' );
 
@@ -439,6 +444,15 @@ class JInstallationController
 		$vars['metadesc']		= JText::_( 'STDMETADESC' );
 		$vars['metakeys']		= JText::_( 'STDMETAKEYS' );
 
+		// set default language
+		$forced = JInstallationHelper::getLocalise();
+		if ( $forced == null ) {
+			$vars['deflang'] = 'en-GB';
+			$vars['bclang'] = 'english';
+		} else {
+			$vars['deflang'] = $forced;
+			$vars['bclang'] = $lang->getBackwardLang();
+		}
 		
 		// If FTP has not been enabled, set the value to 0
 		if (!isset($vars['ftpEnable']))
@@ -1658,6 +1672,26 @@ class JInstallationHelper
 		}
 
 		return $ret;
+	}
+	
+	/**
+	 * returns the langauge code set in the localise.xml file
+	 * 				for forcing a particular language in localised releases
+	 */
+	function getLocalise(){
+		jimport('joomla.factory');
+		$xml = & JFactory::getXMLParser('Simple');
+		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
+			return 'no file'; //null;
+		}
+
+		// Check that it's a localise file
+		if ($xml->document->name() != 'localise') {
+			return 'not a localise'; //null;
+		}
+		$tags =  $xml->document->children();
+		return  $tags[0]->data();
+		
 	}
 
 

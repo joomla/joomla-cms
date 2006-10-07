@@ -40,6 +40,7 @@ Legend:
 
 07-Oct-2006 David Gal
  + Added provisions for localisation of TinyMCE and JS Calendar (to be included only in localised releases)
+ + Added provisions for defaulting installation, site and admin languages in localised packages of Joomla!
   
 06-Oct-2006 Johan Janssens
  - Removed system error message from configuration, unused in 1.5
