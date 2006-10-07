@@ -43,6 +43,7 @@ Legend:
  - Removed system error message from configuration, unused in 1.5
  # Fixed [artf6254] : Launching search from the menuµ
  # Fixed [artf6269] : Extension Manager Page Title is not translated
+ # Fixed [artf6268] : Extension types remain English in install message
 
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images

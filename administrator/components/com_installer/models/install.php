@@ -81,11 +81,11 @@ class ExtensionManagerModelInstall extends JModel
 		// Install the package
 		if (!$installer->install($package['dir'])) {
 			// There was an error installing the package
-			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
+			$msg = sprintf(JText::_('INSTALLEXT'), JText::_($package['type']), JText::_('Error'));
 			$result = false;
 		} else {
 			// Package installed sucessfully
-			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
+			$msg = sprintf(JText::_('INSTALLEXT'), JText::_($package['type']), JText::_('Success'));
 			$result = true;
 		}
 
