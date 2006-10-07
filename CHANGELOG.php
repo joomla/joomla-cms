@@ -45,6 +45,7 @@ Legend:
  # Fixed [artf6269] : Extension Manager Page Title is not translated
  # Fixed [artf6268] : Extension types remain English in install message
  # Fixed [artf6231] : Frontend: Register button not translated
+ # Fixed [artf6232] : Frontend: Send button not translated
 
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images
