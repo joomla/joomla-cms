@@ -54,10 +54,10 @@ class JInstallation extends JApplication
 	{
 		if(empty($lang)) {
 			$forced = JInstallationHelper::getLocalise();
-			if ( $forced == null) {
+			if ( empty($forced['lang'])) {
 				$lang = JLanguageHelper::detectLanguage();
 			} else {
-				$lang = $forced;
+				$lang = $forced['lang'];
 			}
 		}
 

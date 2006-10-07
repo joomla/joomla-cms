@@ -28,8 +28,8 @@ class JInstallationController
 	{
 		$native = JLanguageHelper::detectLanguage();
 		$forced = JInstallationHelper::getLocalise();
-		if ( $forced != null ){
-			$native = $forced;
+		if ( !empty( $forced['lang'] ) ){
+			$native = $forced['lang'];
 		}
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
@@ -446,12 +446,18 @@ class JInstallationController
 
 		// set default language
 		$forced = JInstallationHelper::getLocalise();
-		if ( $forced == null ) {
+		if ( empty($forced['lang']) ) {
 			$vars['deflang'] = 'en-GB';
 			$vars['bclang'] = 'english';
 		} else {
-			$vars['deflang'] = $forced;
+			$vars['deflang'] = $forced['lang'];
 			$vars['bclang'] = $lang->getBackwardLang();
+		}
+		
+		if ( empty( $forced['helpurl'] ) ) {
+			$vars['helpurl'] = 'http://help.joomla.org';
+		} else {
+			$vars['helpurl'] = $forced['helpurl'];
 		}
 		
 		// If FTP has not been enabled, set the value to 0
@@ -1675,8 +1681,8 @@ class JInstallationHelper
 	}
 	
 	/**
-	 * returns the langauge code set in the localise.xml file
-	 * 				for forcing a particular language in localised releases
+	 * returns the langauge code and help url set in the localise.xml file.
+	 * 		   Used for forcing a particular language in localised releases
 	 */
 	function getLocalise(){
 		jimport('joomla.factory');
@@ -1690,7 +1696,10 @@ class JInstallationHelper
 			return 'not a localise'; //null;
 		}
 		$tags =  $xml->document->children();
-		return  $tags[0]->data();
+		$ret = array();
+		$ret['lang'] = $tags[0]->data();
+		$ret['helpurl'] = $tags[1]->data();
+		return  $ret;
 		
 	}
 
