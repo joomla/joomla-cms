@@ -230,7 +230,7 @@ class categories_html
 			$row->image = 'blank.png';
 		}
 
-		if ( $redirect == 'com_content' ) {
+		if ( $redirect == 'content' ) {
 			$component = 'Content';
 		} else {
 			$component = ucfirst( substr( $redirect, 4 ) );

@@ -14,13 +14,13 @@
 			<td valign="top" class="key">
 				<span class="editlinktip">
 				<?php
-				$tip = 'TIPCOULDNOTCONNECTDB';
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', 'System Error Message', '', 0 );
+				$tip = 'TIPIFYOURSITEISOFFLINE';
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Offline Message', '', 0 );
 				?>
 				</span>
 			</td>
 			<td>
-				<textarea class="text_area" cols="60" rows="2" style="width:400px; height:40px" name="error_message"><?php echo $row->error_message; ?></textarea>
+				<textarea class="text_area" cols="60" rows="2" style="width:400px; height:40px" name="offline_message"><?php echo $row->offline_message; ?></textarea>
 			</td>
 		</tr>
 		<tr>

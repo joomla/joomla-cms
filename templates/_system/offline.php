@@ -20,7 +20,7 @@ See COPYRIGHT.php for copyright notices and details.
 			<?php echo $mainframe->getCfg('sitename'); ?>
 		</h1>
 	<p>
-		<jdoc:translate>OFFLINE_MESSAGE</jdoc:translate>
+		<?php echo $mainframe->getCfg('offline_message'); ?>
 	</p>
 	<form action="index.php" method="post" name="login" id="frmlogin">
 	<fieldset class="input">

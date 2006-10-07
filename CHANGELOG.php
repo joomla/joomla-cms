@@ -42,9 +42,8 @@ Legend:
  + Added provisions for localisation of TinyMCE and JS Calendar (to be included only in localised releases)
   
 06-Oct-2006 Johan Janssens
- - Removed offline message from configuration and moved into main language file 
  - Removed system error message from configuration, unused in 1.5
- # Fixed [artf6254] : Launching search from the menu�
+ # Fixed [artf6254] : Launching search from the menu
  # Fixed [artf6269] : Extension Manager Page Title is not translated
  # Fixed [artf6268] : Extension types remain English in install message
  # Fixed [artf6231] : Frontend: Register button not translated

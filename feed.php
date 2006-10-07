@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: feed.php 5061 2006-09-14 21:23:40Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
