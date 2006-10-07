@@ -264,9 +264,7 @@ class ContentViewArticle extends JView
 		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
-		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
-		$document->addScript('includes/js/calendar/calendar_mini.js');
-		$document->addScript('includes/js/calendar/lang/calendar-en.js');
+		mosCommonHTML::loadCalendar();
 
 		// Get the article from the model
 		$article	=& $this->get('Article');

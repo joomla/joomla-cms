@@ -36,6 +36,7 @@
  			<option value="ltr">Left to Right</option>
  			<option value="rtl">Right to Left</option>
  		</param>
+ 		<param name="lang_code" type="text" default="en" label="Language Code" description="Editor UI language. Should be installed as utf-8 files."/>
  		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
   		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="PARAMTEMPLATECSS">
  			<option value="0">No</option>

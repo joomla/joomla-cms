@@ -945,11 +945,17 @@ class mosCommonHTML {
 		global $mainframe;
 
 		$doc =& JFactory::getDocument();
+		$lang =& JFactory::getLanguage();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
 		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );
-		$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en.js' );
+		$langScript = JPATH_SITE.DS.'includes'.DS.'js'.DS.'calendar'.DS.'lang'.DS.'calendar-'.$lang->getTag().'.js';
+		if( file_exists( $langScript ) ){
+			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-'.$lang->getTag().'.js' );
+		} else {
+			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en-GB.js' );
+		}
 	}
 
 	function AccessProcessing( &$row, $i, $archived=NULL ) {

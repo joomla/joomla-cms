@@ -76,6 +76,7 @@ class JEditor_tinymce extends JPlugin
 		$cleanup			= $params->def( 'cleanup', 1 );
 		$cleanup_startup	= $params->def( 'cleanup_startup', 0 );
 		$compressed			= $params->def( 'compressed', 0 );
+		$langPrefix			= $params->def( 'lang_code', 'en' );
 	
 		// Plugins
 		// insert date
@@ -242,7 +243,7 @@ class JEditor_tinymce extends JPlugin
 			"\t<script type=\"text/javascript\">
 			tinyMCE.init({
 			theme : \"$theme\",
-			language : \"en\",
+			language : \"". $langPrefix . "\",
 			mode : \"specific_textareas\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",
