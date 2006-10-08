@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Section Blog Layout">
 		<message>
-			<![CDATA[The section blog layout displays articles from a given section in blog format.]]>
+			<![CDATA[SECTION BLOG LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Section Blog Layout</name>
-		<description>Displays a list of articles in a section in a blog format</description>
+		<description>SECTION BLOG LAYOUT DESC</description>
 		<url>
 			<param name="id" type="section" label="Section" description="Choose a section..." />
 		</url>

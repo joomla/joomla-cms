@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Category Blog Layout">
 		<message>
-			<![CDATA[This layout displays an article category in blog format.]]>
+			<![CDATA[CATEGORY BLOG LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Category Blog Layout</name>
-		<description>This layout displays an article category in blog format.</description>
+		<description>CATEGORY BLOG LAYOUT DESC</description>
 		<url>
 			<param name="id" type="category" label="Category" description="Choose a category..." />
 		</url>

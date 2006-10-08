@@ -2,7 +2,7 @@
 <metadata>
 	<view title="Frontpage">
 		<message>
-			<![CDATA[Frontpage is a specialized view of the articles component that shows specially selected articles that have been set to show on the "Frontpage".]]>
+			<![CDATA[TYPEFRONTLAYDESC]]>
 		</message>
 	</view>
 </metadata>

@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Standard Section Layout">
 		<message>
-			<![CDATA[The standard article section layout displays a list of categories under a given section.]]>
+			<![CDATA[STANDARD SECTION LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Standard Section Layout</name>
-		<description>Displays a list of categories in a section</description>
+		<description>STANDARD SECTION LAYOUT DESC</description>
 		<url>
 			<param name="id" type="section" label="Section" description="Choose a section..." />
 		</url>

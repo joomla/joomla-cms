@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Standard Category Layout">
 		<message>
-			<![CDATA[This layout displays articles in a category.]]>
+			<![CDATA[STANDARD CATEGORY LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Standard Category Layout</name>
-		<description>This layout displays articles in a category.</description>
+		<description>STANDARD CATEGORY LAYOUT DESC</description>
 		<url>
 			<param name="id" type="category" label="Category" description="Choose a category..." />
 		</url>

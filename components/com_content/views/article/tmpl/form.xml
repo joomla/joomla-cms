@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Article Submission Layout">
 		<message>
-			<![CDATA[Allow users to submit an article using this layout.]]>
+			<![CDATA[ARTICLE SUBMISSION LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Article Submission Layout</name>
-		<description>Allow users to submit an article using this layout.</description>
+		<description>ARTICLE SUBMISSION LAYOUT DESC</description>
 		<params>
 		</params>
 		<advanced>

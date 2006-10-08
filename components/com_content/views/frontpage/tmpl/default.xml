@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Frontpage Blog Layout">
 		<message>
-			<![CDATA[The standard frontpage layout displays articles that have been set as frontpage articles in a blog format.]]>
+			<![CDATA[CATEGORY BLOG LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Frontpage Blog Layout</name>
-		<description>The standard frontpage layout displays articles that have been set as frontpage articles in a blog format.</description>
+		<description>CATEGORY BLOG LAYOUT DESC</description>
 		<params>
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 	
