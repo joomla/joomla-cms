@@ -624,7 +624,7 @@ class JApplication extends JObject
 		$session =& JFactory::getSession($options);
 
 		$storage = & JTable::getInstance('session', JFactory::getDBO());
-		$storage->purge( intval( $this->getCfg( 'lifetime' ) ) );
+		$storage->purge( intval( $this->getCfg( 'lifetime' ) * 60) );
 
 		if ($storage->load( $session->getId())) {
 			// Session cookie exists, update time in session table

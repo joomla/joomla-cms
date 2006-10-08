@@ -803,7 +803,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
-		JHTML::makeOption($value, $text, $value_name, $text_name);
+		return JHTML::makeOption($value, $text, $value_name, $text_name);
 	}
 
 	/**
@@ -841,7 +841,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
-		JHTML::selectList($arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag);
+		return JHTML::selectList($arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag);
 	}
 
 	/**
@@ -851,7 +851,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) {
-		JHTML::integerSelectList($start, $end, $inc, $tag_name, $tag_attribs, $selected, $format);
+		return JHTML::integerSelectList($start, $end, $inc, $tag_name, $tag_attribs, $selected, $format);
 	}
 
 	/**
@@ -940,7 +940,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) {
-		JHTML::radioList($arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag);
+		return JHTML::radioList($arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag);
 	}
 
 	/**
@@ -950,7 +950,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
-		JHTML::yesnoRadioList($tag_name, $tag_attribs, $selected, $yes, $no, $id);
+		return JHTML::yesnoRadioList($tag_name, $tag_attribs, $selected, $yes, $no, $id);
 	}
 
 	/**
@@ -960,7 +960,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
-		JHTML::idBox($rowNum, $recId, $checkedOut, $name);
+		return JHTML::idBox($rowNum, $recId, $checkedOut, $name);
 	}
 
 	/**
@@ -1053,7 +1053,7 @@ class mosHTML
  	*/
 	function cleanText ( &$text ) {
 		jimport('joomla.filter.output');
-		JOutputFilter::cleanText($text);
+		return JOutputFilter::cleanText($text);
 	}
 
 	/**
@@ -1108,7 +1108,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
-		JHTML::emailCloaking($mail, $mailto, $text, $email);
+		return JHTML::emailCloaking($mail, $mailto, $text, $email);
 	}
 
 	/**

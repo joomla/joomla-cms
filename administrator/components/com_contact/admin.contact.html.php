@@ -97,8 +97,8 @@ class HTML_contact
 				$access 	= JCommonHTML::AccessProcessing( $row, $i );
 				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
-				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&id='. $row->catid );
-				$row->user_link	= ampReplace( 'index.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id );
+				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&cid[]='. $row->catid );
+				$row->user_link	= ampReplace( 'index.php?option=com_users&task=editA&hidemainmenu=1&cid[]='. $row->user_id );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

@@ -33,8 +33,9 @@ $rows = $db->loadObjectList();
 		</td>
 	</tr>
 <?php
-foreach ($rows as $row) {
-	$link = 'index.php?option=com_menus&amp;menutype='. $row->menutype;
+foreach ($rows as $row) 
+{
+	$link = 'index.php?option=com_menus&task=view&menutype'. $row->menutype;
 	?>
 	<tr>
 		<td>

@@ -42,6 +42,12 @@ Legend:
  ^ Deprecated mosHTML class, use JHTML instead
  ^ Deprecated mosCommonHTML class, use JCommonHTML instead
  ^ Deprecated mosAdminMenus class, use JAdminMenus instead
+ # Fixed [artf6312] : Wrong link on Categories Quick Icon
+ # Fixed [artf6311] : com_contact (backend): old-style links
+ # Fixed [artf6248] : Logged in users from backend are not shown in cpanel
+ # Fixed [artf6309] : mod_latest(backend)
+ # Fixed [artf6308] : mod_popular (backend): Still linked on com_typedcontent
+ # Fixed [artf6310] : mod_stats (backend): old-style link
 
 07-Oct-2006 David Gal
  + Added provisions for localisation of TinyMCE and JS Calendar (to be included only in localised releases)

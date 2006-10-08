@@ -71,7 +71,7 @@ if (count( $rows ))
 			}
 			else
 			{
-				$linkA 	= 'index.php?option=com_users&task=editA&amp;hidemainmenu=1&id='. $row->created_by;
+				$linkA 	= 'index.php?option=com_users&task=edit&amp;hidemainmenu=1&cid[]='. $row->created_by;
 				$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. htmlspecialchars( $row->name, ENT_QUOTES ) .'</a>';
 			}
 		}

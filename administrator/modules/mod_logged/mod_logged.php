@@ -58,6 +58,23 @@ $db->setQuery( $query );
 $rows = $db->loadObjectList();
 ?>
 <table class="adminlist">
+<tr>
+	<td class="title">
+		<strong><?php echo '#' ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Name' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Group' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Client' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Logout' ); ?></strong>
+	</td>
+</tr>
 <?php
 $i = 0;
 foreach ( $rows as $row )
@@ -89,7 +106,7 @@ foreach ( $rows as $row )
 		if ( $user->authorize( 'com_users', 'manage' ) && $user->get('gid') > 24) {
 			?>
 			<td>
-			<a href="index.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">
+			<a href="index.php?option=com_users&amp;task=flogout&amp;cid[]=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">
 			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" title="<?php echo JText::_( 'Force Logout User' ); ?>" />
 			</a>
 			</td>
