@@ -158,7 +158,7 @@ class ContentController extends JController
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = mosAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
+		$lists['sectionid'] = JAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
 		// get list of Authors for dropdown filter
 		$query = "SELECT c.created_by, u.name" .
@@ -292,7 +292,7 @@ class ContentController extends JController
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = mosAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
+		$lists['sectionid'] = JAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
 		$section = & JTable::getInstance('section', $db);
 		$section->load($sectionid);
@@ -523,7 +523,7 @@ class ContentController extends JController
 				"\n WHERE catid = " . (int) $row->catid .
 				"\n AND state >= 0" .
 				"\n ORDER BY ordering";
-		$lists['ordering'] = mosAdminMenus::SpecificOrdering($row, $id, $query, 1);
+		$lists['ordering'] = JAdminMenus::SpecificOrdering($row, $id, $query, 1);
 
 		// build the html radio buttons for frontpage
 		$lists['frontpage'] = JHTML::yesnoradioList('frontpage', '', $row->frontpage);
@@ -531,10 +531,10 @@ class ContentController extends JController
 		$lists['state'] = JHTML::yesnoradioList('state', '', $row->state);
 		// build list of users
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
-		$lists['created_by'] = mosAdminMenus::UserSelect('created_by', $active);
+		$lists['created_by'] = JAdminMenus::UserSelect('created_by', $active);
 
 		// build the html select list for the group access
-		$lists['access'] = mosAdminMenus::Access($row);
+		$lists['access'] = JAdminMenus::Access($row);
 
 		// get params definitions
 		$params = new JParameter($row->attribs, JApplicationHelper::getPath('com_xml', 'com_content'), 'component');

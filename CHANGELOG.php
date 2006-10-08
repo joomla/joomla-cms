@@ -41,6 +41,7 @@ Legend:
 07-Oct-2006 Johan Janssens
  ^ Deprecated mosHTML class, use JHTML instead
  ^ Deprecated mosCommonHTML class, use JCommonHTML instead
+ ^ Deprecated mosAdminMenus class, use JAdminMenus instead
 
 07-Oct-2006 David Gal
  + Added provisions for localisation of TinyMCE and JS Calendar (to be included only in localised releases)

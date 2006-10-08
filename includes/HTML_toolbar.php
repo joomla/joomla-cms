@@ -46,7 +46,7 @@ class mosToolBar {
 	function custom( $task='', $icon=NULL, $iconOver='', $alt='', $listSelect=true ) {
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
-		$image 	= mosAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
+		$image 	= JAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
 
 		if ($listSelect) {
 			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $alt, true ). "');}else{submitbutton('$task')}";
@@ -231,7 +231,7 @@ class mosToolBar {
 		$cur_template = $db->loadResult();
 
 		$alt	= JText::_( 'Preview' );
-		$image 	= mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
+		$image 	= JAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
 		?>
 		<td>
 			<a class="toolbar" onclick="window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" >
@@ -246,7 +246,7 @@ class mosToolBar {
 	*/
 	function back() {
         $alt= JText::_( 'back' );
-		$image = mosAdminMenus::ImageCheck( 'back_f2.png', '/images/', NULL, NULL, $alt, 'cancel', 1 );
+		$image = JAdminMenus::ImageCheck( 'back_f2.png', '/images/', NULL, NULL, $alt, 'cancel', 1 );
 		?>
 		<td>
 			<a class="toolbar" href="javascript:window.history.back();" >
@@ -259,7 +259,7 @@ class mosToolBar {
 	* Write a divider between menu buttons
 	*/
 	function divider() {
-		$image = mosAdminMenus::ImageCheck( 'menu_divider.png', '/images/' );
+		$image = JAdminMenus::ImageCheck( 'menu_divider.png', '/images/' );
 		?>
 		<td>
 			<?php echo $image; ?>
@@ -273,7 +273,7 @@ class mosToolBar {
 	*/
 	function media_manager( $directory = '' ) {
         $alt= JText::_( 'Upload Image' );
-		$image = mosAdminMenus::ImageCheck( 'upload_f2.png', '/images/', NULL, NULL, $alt, 'uploadPic', 1 );
+		$image = JAdminMenus::ImageCheck( 'upload_f2.png', '/images/', NULL, NULL, $alt, 'uploadPic', 1 );
 		?>
 		<td>
 			<a class="toolbar" onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>','win1',250,100,'no');">

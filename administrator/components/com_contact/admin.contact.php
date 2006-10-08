@@ -156,7 +156,7 @@ function showContacts( $option )
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
+	$lists['catid'] = JAdminMenus::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -214,16 +214,16 @@ function editContact( )
 	. "\n AND catid = '$row->catid'"
 	. "\n ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
+	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
 	// build list of users
-	$lists['user_id'] 			= mosAdminMenus::UserSelect( 'user_id', $row->user_id, 1, NULL, 'name', 0 );
+	$lists['user_id'] 			= JAdminMenus::UserSelect( 'user_id', $row->user_id, 1, NULL, 'name', 0 );
 	// build list of categories
-	$lists['catid'] 			= mosAdminMenus::ComponentCategory( 'catid', 'com_contact_details', intval( $row->catid ) );
+	$lists['catid'] 			= JAdminMenus::ComponentCategory( 'catid', 'com_contact_details', intval( $row->catid ) );
 	// build the html select list for images
-	$lists['image'] 			= mosAdminMenus::Images( 'image', $row->image );
+	$lists['image'] 			= JAdminMenus::Images( 'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= mosAdminMenus::Access( $row );
+	$lists['access'] 			= JAdminMenus::Access( $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::yesnoradioList( 'published', '', $row->published );
 	// build the html radio buttons for default

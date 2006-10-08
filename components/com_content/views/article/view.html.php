@@ -158,7 +158,7 @@ class ContentViewArticle extends JView
 
 				// checks template image directory for image, if non found default are loaded
 				if ($this->params->get('icons')) {
-					$text = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
+					$text = JAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 				} else {
 					$text = JText::_('PDF').'&nbsp;';
 				}
@@ -175,7 +175,7 @@ class ContentViewArticle extends JView
 
 				// checks template image directory for image, if non found default are loaded
 				if ( $this->params->get( 'icons' ) ) {
-					$text = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
+					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
@@ -191,7 +191,7 @@ class ContentViewArticle extends JView
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
-					$text = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
+					$text = JAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
@@ -216,7 +216,7 @@ class ContentViewArticle extends JView
 				JCommonHTML::loadOverlib();
 
 				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
-				$text = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
+				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
 					$overlib = JText::_('Unpublished');
@@ -320,11 +320,11 @@ class ContentViewArticle extends JView
 		$db 	 = & JFactory::getDBO();
 
 		// Select List: Categories
-		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
+		$lists['catid'] = JAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
 
 		// Select List: Category Ordering
 		$query = "SELECT ordering AS value, title AS text"."\n FROM #__content"."\n WHERE catid = $article->catid"."\n ORDER BY ordering";
-		$lists['ordering'] = mosAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
+		$lists['ordering'] = JAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
 		$lists['state'] = JHTML::yesnoradioList('state', '', $article->state);
@@ -337,7 +337,7 @@ class ContentViewArticle extends JView
 		$lists['frontpage'] = JHTML::yesnoradioList('frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
-		$lists['access'] = mosAdminMenus::Access($article);
+		$lists['access'] = JAdminMenus::Access($article);
 
 		return $lists;
 	}

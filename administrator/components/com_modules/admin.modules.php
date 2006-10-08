@@ -484,14 +484,14 @@ function editModule( )
 			$lists['access'] 		= 'N/A';
 			$lists['selections'] 	= 'N/A';
 		} else {
-			$lists['access'] 		= mosAdminMenus::Access( $row );
-			$lists['selections'] 	= mosAdminMenus::MenuLinks( $lookup, 1, 1 );
+			$lists['access'] 		= JAdminMenus::Access( $row );
+			$lists['selections'] 	= JAdminMenus::MenuLinks( $lookup, 1, 1 );
 		}
 		$lists['showtitle'] = JHTML::yesnoRadioList( 'showtitle', 'class="inputbox"', $row->showtitle );
 	}
 
 	// build the html select list for published
-	$lists['published'] 			= mosAdminMenus::Published( $row );
+	$lists['published'] = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	$row->description = '';
 

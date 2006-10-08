@@ -177,7 +177,7 @@ class PollController extends JController
 		}
 
 		// build the html select list
-		$lists['select'] = mosAdminMenus::MenuLinks( $lookup, 1, 1 );
+		$lists['select'] = JAdminMenus::MenuLinks( $lookup, 1, 1 );
 
 		require_once( JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php' );
 		PollView::editPoll($row, $options, $lists );

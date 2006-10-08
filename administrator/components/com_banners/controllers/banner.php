@@ -86,7 +86,7 @@ class BannerController
 
 		// build list of categories
 		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_banner', (int) $filter_catid, $javascript );
+		$lists['catid'] = JAdminMenus::ComponentCategory( 'filter_catid', 'com_banner', (int) $filter_catid, $javascript );
 
 		// state filter
 		$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -148,10 +148,10 @@ class BannerController
 		// Imagelist
 		$javascript 		= 'onchange="changeDisplayImage();"';
 		$directory 			= '/images/banners';
-		$lists['imageurl'] 	= mosAdminMenus::Images( 'imageurl', $row->imageurl, $javascript, $directory );
+		$lists['imageurl'] 	= JAdminMenus::Images( 'imageurl', $row->imageurl, $javascript, $directory );
 
 		// build list of categories
-		$lists['catid']		= mosAdminMenus::ComponentCategory( 'catid', 'com_banner', intval( $row->catid ) );
+		$lists['catid']		= JAdminMenus::ComponentCategory( 'catid', 'com_banner', intval( $row->catid ) );
 
 		// sticky
 		$lists['sticky']	= JHTML::yesnoRadioList( 'sticky', 'class="inputbox"', $row->sticky );

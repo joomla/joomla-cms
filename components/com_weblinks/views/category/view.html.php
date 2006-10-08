@@ -85,7 +85,7 @@ class WeblinksViewCategory extends JView
 
 		// icon in table display
 		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
-			$image = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
+			$image = JAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
 		}
 
 		$k = 0;

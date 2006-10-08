@@ -252,15 +252,15 @@ function editSection( )
 	. "\n FROM #__sections"
 	. "\n WHERE scope='$row->scope' ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query );
+	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query );
 
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );
-	$lists['image_position'] 	= mosAdminMenus::Positions( 'image_position', $active, NULL, 0 );
+	$lists['image_position'] 	= JAdminMenus::Positions( 'image_position', $active, NULL, 0 );
 	// build the html select list for images
-	$lists['image'] 			= mosAdminMenus::Images( 'image', $row->image );
+	$lists['image'] 			= JAdminMenus::Images( 'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= mosAdminMenus::Access( $row );
+	$lists['access'] 			= JAdminMenus::Access( $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 

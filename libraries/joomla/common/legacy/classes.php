@@ -1137,8 +1137,7 @@ class mosCommonHTML
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function ContentLegend( ) 
-	{
+	function ContentLegend( ) {
 		JCommonHTML::ContentLegend();
 	}
 
@@ -1286,17 +1285,17 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::checkedOut
+ 	 * Legacy function, use JCommonHTML::checkedOut instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
 	function checkedOut( &$row, $overlib=1 ) {
-		JCommonHTML::checkedOut($row, $overlib);
+		return JCommonHTML::checkedOut($row, $overlib);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::loadOverlib
+ 	 * Legacy function, use JCommonHTML::loadOverlib instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
@@ -1306,7 +1305,7 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::loadCalendar
+ 	 * Legacy function, use JCommonHTML::loadCalendar instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
@@ -1316,13 +1315,13 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::AccessProcessing
+ 	 * Legacy function, use JCommonHTML::AccessProcessing instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
 	function AccessProcessing( &$row, $i, $archived=NULL ) {
-		JCommonHTML::AccessProcessing($orw, $i, $archived);
+		return JCommonHTML::AccessProcessing($orw, $i, $archived);
 	}
 
 	/**
@@ -1332,31 +1331,31 @@ class mosCommonHTML
  	 * @package		Joomla.Legacy
  	*/
 	function CheckedOutProcessing( &$row, $i ) {
-		JCommonHTML::CheckedOutProcessing($row, $i);
+		return JCommonHTML::CheckedOutProcessing($row, $i);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::PublishedProcessing
+ 	 * Legacy function, use JCommonHTML::PublishedProcessing instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
 	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
-		JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
+		return JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::selectState
+ 	 * Legacy function, use JCommonHTML::selectState instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
-		JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
+		return JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::saveorderButton
+ 	 * Legacy function, use JCommonHTML::saveorderButton instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
@@ -1366,17 +1365,409 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::tableOrdering
+ 	 * Legacy function, use JCommonHTML::tableOrdering instead
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
-		?>
-		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
-			<?php echo JText::_( $text ); ?>
-			<?php JCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
-		<?php
+		JCommonHTML::tableOrdering($text, $ordering, $lists, $task);
+	}
+}
+
+/**
+ * Utility class for drawing admin menu HTML elements
+ *
+ * @static
+ * @package 	Joomla.Framework
+ * @subpackage	HTML
+ * @since		1.0
+ */
+class mosAdminMenus
+{
+	/**
+ 	 * Legacy function, use JAdminMenus::Ordering instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Ordering( &$row, $id ) {
+		return JAdminMenus::Ordering($row, $id);
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::Access instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Access( &$row ) {
+		return JAdminMenus::Access($row);
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Published( &$row ) {
+		$published = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+		return $published;
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::MenuLinks instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
+		return JAdminMenus::MenuLinks($lookup, $all, $none, $unassigned);
+	}
+
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Category( &$menu, $id, $javascript='' ) 
+	{
+		$db =& JFactory::getDBO();
+
+		$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
+		. "\n FROM #__sections AS s"
+		. "\n INNER JOIN #__categories AS c ON c.section = s.id"
+		. "\n WHERE s.scope = 'content'"
+		. "\n ORDER BY s.name, c.name"
+		;
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
+		$category = '';
+
+		$category .= JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
+		$category .= '<input type="hidden" name="link" value="" />';
+
+		return $category;
+	}
+
+	
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Section( &$menu, $id, $all=0 ) 
+	{
+		$db =& JFactory::getDBO();
+
+		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
+		. "\n FROM #__sections AS s"
+		. "\n WHERE s.scope = 'content'"
+		. "\n ORDER BY s.name"
+		;
+		$db->setQuery( $query );
+		if ( $all ) {
+			$rows[] = JHTML::makeOption( 0, '- '. JText::_( 'All Sections' ) .' -' );
+			$rows = array_merge( $rows, $db->loadObjectList() );
+		} else {
+			$rows = $db->loadObjectList();
+		}
+
+		$section = JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
+		$section .= '<input type="hidden" name="link" value="" />';
+
+		return $section;
+	}
+
+	
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Component( &$menu, $id ) 
+	{
+		$db =& JFactory::getDBO();
+
+		$query = "SELECT c.id AS value, c.name AS text, c.link"
+		. "\n FROM #__components AS c"
+		. "\n WHERE c.link <> ''"
+		. "\n ORDER BY c.name"
+		;
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList( );
+
+		$component = JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
+
+		return $component;
+	}
+
+	
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function ComponentName( &$menu, $id ) 
+	{
+		$db =& JFactory::getDBO();
+
+		$query = "SELECT c.id AS value, c.name AS text, c.link"
+		. "\n FROM #__components AS c"
+		. "\n WHERE c.link <> ''"
+		. "\n ORDER BY c.name"
+		;
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList( );
+
+		$component = 'Component';
+		foreach ( $rows as $row ) {
+			if ( $row->value == $menu->componentid ) {
+				$component = JText::_( $row->text );
+			}
+		}
+
+		return $component;
+	}
+
+	
+	/**
+ 	 * Legacy function, use JAdminMenus::Images instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
+		return JAdminMenus::Images($name, $active, $javascript, $directory);
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::SpecificOrdering instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
+		return JAdminMenus::SpecificOrdering($row, $id, $query, $neworder);
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::UserSelect instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
+		return JAdminMenus::UserSelect($name, $actove, $nouser, $javascript, $order, $reg);
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::Positions instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
+		return JAdminMenus::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::ComponentCategry instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
+		return JAdminMenus::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
+	}
+
+	/**
+ 	 * Legacy function, use JAdminMenus::SelectSection instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
+		return JAdminMenus::SelectSection($name, $active, $javascript, $order);
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function Links2Menu( $type, $and ) {
+		$db =& JFactory::getDBO();
+
+		$query = "SELECT *"
+		. "\n FROM #__menu"
+		. "\n WHERE type = '$type'"
+		. "\n AND published = 1"
+		. $and
+		;
+		$db->setQuery( $query );
+		$menus = $db->loadObjectList();
+
+		return $menus;
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function MenuSelect( $name='menuselect', $javascript=NULL ) 
+	{
+		$db =& JFactory::getDBO();
+
+		$query = "SELECT params"
+		. "\n FROM #__modules"
+		. "\n WHERE module = 'mod_mainmenu'"
+		;
+		$db->setQuery( $query );
+		$menus = $db->loadObjectList();
+		$total = count( $menus );
+		$menuselect = array();
+		for( $i = 0; $i < $total; $i++ ) {
+			$registry = new JRegistry();
+			$registry->loadINI($menus[$i]->params);
+			$params = $registry->toObject( );
+
+			$menuselect[$i]->value 	= $params->menutype;
+			$menuselect[$i]->text 	= $params->menutype;
+		}
+		// sort array of objects
+		JArrayHelper::sortObjects( $menuselect, 'text', 1 );
+
+		$menus = JHTML::selectList( $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
+
+		return $menus;
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function ReadImages( $imagePath, $folderPath, &$folders, &$images ) 
+	{
+		jimport( 'joomla.filesystem.folder' );
+		$imgFiles = JFolder::files( $imagePath );
+
+		foreach ($imgFiles as $file) {
+			$ff_ 	= $folderPath . $file .'/';
+			$ff 	= $folderPath . $file;
+			$i_f 	= $imagePath .'/'. $file;
+
+			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
+				$folders[] = JHTML::makeOption( $ff_ );
+				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
+			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
+				// leading / we don't need
+				$imageFile = substr( $ff, 1 );
+				$images[$folderPath][] = JHTML::makeOption( $imageFile, $file );
+			}
+		}
+	}
+
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function GetImageFolders( &$folders, $path ) 
+	{
+		$javascript 	= "onchange=\"changeDynaList( 'imagefiles', folderimages, document.adminForm.folders.options[document.adminForm.folders.selectedIndex].value, 0, 0);  previewImage( 'imagefiles', 'view_imagefiles', '$path/' );\"";
+		$getfolders 	= JHTML::selectList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
+		return $getfolders;
+	}
+
+	function GetImages( &$images, $path ) 
+	{
+		if ( !isset($images['/'] ) ) {
+			$images['/'][] = JHTML::makeOption( '' );
+		}
+
+		//$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\" onfocus=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
+		$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
+		$getimages	= JHTML::selectList( $images['/'], 'imagefiles', 'class="inputbox" size="10" multiple="multiple" '. $javascript , 'value', 'text', null );
+
+		return $getimages;
+	}
+	
+	/**
+ 	 * Legacy function, deprecated
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function GetSavedImages( &$row, $path ) 
+	{
+		$images2 = array();
+		foreach( $row->images as $file ) {
+			$temp = explode( '|', $file );
+			if( strrchr($temp[0], '/') ) {
+				$filename = substr( strrchr($temp[0], '/' ), 1 );
+			} else {
+				$filename = $temp[0];
+			}
+			$images2[] = JHTML::makeOption( $file, $filename );
+		}
+		//$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \" onfocus=\"previewImage( 'imagelist', 'view_imagelist', '$path/' )\"";
+		$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \"";
+		$imagelist 	= JHTML::selectList( $images2, 'imagelist', 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
+
+		return $imagelist;
+	}
+
+	/**
+ 	 * Legacy function, use ImageCheck instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
+		return JAdminMenus::ImageCheck($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
+	}
+
+	/**
+ 	 * Legacy function, use ImageCheckAdmin instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
+		return JAdminMenus::ImageCheckAdmin($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
+	}
+
+	/**
+ 	 * Legacy function, use JMenuHelper::getMenuTypes instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function menutypes() {
+		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
+	}
+
+	/**
+ 	 * Legacy function, use JMenuHelper::menuItem instead
+ 	 *
+ 	 * @deprecated	As of version 1.5
+ 	 * @package		Joomla.Legacy
+ 	*/
+	function menuItem( $item ) {
+		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );
 	}
 }
 

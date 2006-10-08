@@ -146,7 +146,7 @@ function showWeblinks( $option )
 
 	// build list of categories
 	$javascript 	= 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', $option, intval( $filter_catid ), $javascript );
+	$lists['catid'] = JAdminMenus::ComponentCategory( 'filter_catid', $option, intval( $filter_catid ), $javascript );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -210,10 +210,10 @@ function editWeblink()
 	. "\n WHERE catid = " . (int) $row->catid
 	. "\n ORDER BY ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
+	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
 	// build list of categories
-	$lists['catid'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
+	$lists['catid'] 			= JAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
 	// build the html select list
 	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 

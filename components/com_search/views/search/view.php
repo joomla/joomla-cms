@@ -46,7 +46,7 @@ class SearchViewSearch extends JView
 		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
 		$this->result = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $this->total, $this->searchword );
-		$this->image  = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
+		$this->image  = JAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 
 		for($i = 0; $i < count($this->results); $i++ )
 		{

@@ -210,7 +210,7 @@ function showPageImpressions( $option, $task )
 
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']	= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
+	$lists['sectionid']	= JAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );

@@ -196,7 +196,7 @@ class ContentViewElement extends JView
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = mosAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
+		$lists['sectionid'] = JAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
 		// table ordering
 		if ($filter_order_Dir == 'DESC') {

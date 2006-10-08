@@ -141,7 +141,7 @@ function showNewsFeeds(  )
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
+	$lists['catid'] = JAdminMenus::ComponentCategory( 'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -195,10 +195,10 @@ function editNewsFeed(  )
 	. "\n FROM #__newsfeeds AS a"
 	. "\n ORDER BY a.ordering"
 	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
+	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
 	// build list of categories
-	$lists['category'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
+	$lists['category'] 			= JAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
 	// build the html select list
 	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 

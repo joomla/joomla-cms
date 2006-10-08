@@ -26,5 +26,5 @@ if(is_null($link)) {
 	return;
 }
 
-$img = mosAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
+$img = JAdminMenus::ImageCheck('livemarks.png', '/images/M_images/');
 require(JModuleHelper::getLayoutPath('mod_syndicate'));

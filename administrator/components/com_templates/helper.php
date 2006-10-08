@@ -109,7 +109,7 @@ class JTemplatesHelper
 		$lookup = $db->loadObjectList();
 
 		// build the html select list
-		return mosAdminMenus::MenuLinks($lookup, 0, 1);
+		return JAdminMenus::MenuLinks($lookup, 0, 1);
 	}
 }
 ?>

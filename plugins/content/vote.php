@@ -31,8 +31,8 @@ function pluginVote( &$row, &$params, $page=0 )
 		$img = '';
 
 		// look for images in template if available
-		$starImageOn 	= mosAdminMenus::ImageCheck( 'rating_star.png', '/images/M_images/' );
-		$starImageOff 	= mosAdminMenus::ImageCheck( 'rating_star_blank.png', '/images/M_images/' );
+		$starImageOn 	= JAdminMenus::ImageCheck( 'rating_star.png', '/images/M_images/' );
+		$starImageOff 	= JAdminMenus::ImageCheck( 'rating_star_blank.png', '/images/M_images/' );
 
 		for ($i=0; $i < $row->rating; $i++) {
 			$img .= $starImageOn;

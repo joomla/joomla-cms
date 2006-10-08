@@ -605,7 +605,7 @@ class JCommonHTML {
 	}
 
 	function saveorderButton( $rows, $image='filesave.png' ) {
-		$image = mosAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
+		$image = JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
 		?>
 		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>)" title="<?php echo JText::_( 'Save Order' ); ?>">
 			<?php echo $image; ?></a>
@@ -629,7 +629,7 @@ class JCommonHTML {
 			} else {
 				$image = 'sort_asc.png';
 			}
-			echo mosAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, '', '', 1 );
+			echo JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, '', '', 1 );
 		}
 	}
 }
@@ -642,12 +642,13 @@ class JCommonHTML {
  * @subpackage	HTML
  * @since		1.0
  */
-class mosAdminMenus
+class JAdminMenus
 {
 	/**
 	* build the select list for Menu Ordering
 	*/
-	function Ordering( &$row, $id ) {
+	function Ordering( &$row, $id ) 
+	{
 		$db =& JFactory::getDBO();
 
 		if ( $id ) {
@@ -669,7 +670,8 @@ class mosAdminMenus
 	/**
 	* build the select list for access level
 	*/
-	function Access( &$row ) {
+	function Access( &$row ) 
+	{
 		$db =& JFactory::getDBO();
 
 		$query = "SELECT id AS value, name AS text"
@@ -684,17 +686,10 @@ class mosAdminMenus
 	}
 
 	/**
-	* build a radio button option for published state
-	*/
-	function Published( &$row ) {
-		$published = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
-		return $published;
-	}
-
-	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
-	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
+	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) 
+	{
 		$db =& JFactory::getDBO();
 
 		// get a list of the menu items
@@ -768,101 +763,11 @@ class mosAdminMenus
 		return $pages;
 	}
 
-
-	/**
-	* build the select list to choose a category
-	*/
-	function Category( &$menu, $id, $javascript='' ) {
-		$db =& JFactory::getDBO();
-
-		$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
-		. "\n FROM #__sections AS s"
-		. "\n INNER JOIN #__categories AS c ON c.section = s.id"
-		. "\n WHERE s.scope = 'content'"
-		. "\n ORDER BY s.name, c.name"
-		;
-		$db->setQuery( $query );
-		$rows = $db->loadObjectList();
-		$category = '';
-
-		$category .= JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
-		$category .= '<input type="hidden" name="link" value="" />';
-
-		return $category;
-	}
-
-	/**
-	* build the select list to choose a section
-	*/
-	function Section( &$menu, $id, $all=0 ) {
-		$db =& JFactory::getDBO();
-
-		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
-		. "\n FROM #__sections AS s"
-		. "\n WHERE s.scope = 'content'"
-		. "\n ORDER BY s.name"
-		;
-		$db->setQuery( $query );
-		if ( $all ) {
-			$rows[] = JHTML::makeOption( 0, '- '. JText::_( 'All Sections' ) .' -' );
-			$rows = array_merge( $rows, $db->loadObjectList() );
-		} else {
-			$rows = $db->loadObjectList();
-		}
-
-		$section = JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
-		$section .= '<input type="hidden" name="link" value="" />';
-
-		return $section;
-	}
-
-	/**
-	* build the select list to choose a component
-	*/
-	function Component( &$menu, $id ) {
-		$db =& JFactory::getDBO();
-
-		$query = "SELECT c.id AS value, c.name AS text, c.link"
-		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
-		. "\n ORDER BY c.name"
-		;
-		$db->setQuery( $query );
-		$rows = $db->loadObjectList( );
-
-		$component = JHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
-
-		return $component;
-	}
-
-	/**
-	* build the select list to choose a component
-	*/
-	function ComponentName( &$menu, $id ) {
-		$db =& JFactory::getDBO();
-
-		$query = "SELECT c.id AS value, c.name AS text, c.link"
-		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
-		. "\n ORDER BY c.name"
-		;
-		$db->setQuery( $query );
-		$rows = $db->loadObjectList( );
-
-		$component = 'Component';
-		foreach ( $rows as $row ) {
-			if ( $row->value == $menu->componentid ) {
-				$component = JText::_( $row->text );
-			}
-		}
-
-		return $component;
-	}
-
 	/**
 	* build the select list to choose an image
 	*/
-	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
+	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) 
+	{
 		if ( !$directory ) {
 			$directory = '/images/stories/';
 		}
@@ -887,7 +792,8 @@ class mosAdminMenus
 	/**
 	* build the select list for Ordering of a specified Table
 	*/
-	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
+	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) 
+	{
 		$db =& JFactory::getDBO();
 
 		if ( $id ) {
@@ -907,8 +813,8 @@ class mosAdminMenus
 	/**
 	* Select list of active users
 	*/
-	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
-
+	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) 
+	{
 		$db =& JFactory::getDBO();
 
 		$and = '';
@@ -962,7 +868,8 @@ class mosAdminMenus
 	/**
 	* Select list of active categories for components
 	*/
-	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
+	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) 
+	{
 		global $mainframe;
 
 		$db =& JFactory::getDBO();
@@ -993,7 +900,8 @@ class mosAdminMenus
 	/**
 	* Select list of active sections
 	*/
-	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
+	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) 
+	{
 		$db =& JFactory::getDBO();
 
 		$categories[] = JHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -' );
@@ -1012,124 +920,13 @@ class mosAdminMenus
 	}
 
 	/**
-	* Select list of menu items for a specific menu
-	*/
-	function Links2Menu( $type, $and ) {
-		$db =& JFactory::getDBO();
-
-		$query = "SELECT *"
-		. "\n FROM #__menu"
-		. "\n WHERE type = '$type'"
-		. "\n AND published = 1"
-		. $and
-		;
-		$db->setQuery( $query );
-		$menus = $db->loadObjectList();
-
-		return $menus;
-	}
-
-	/**
-	* Select list of menus
-	*/
-	function MenuSelect( $name='menuselect', $javascript=NULL ) {
-		$db =& JFactory::getDBO();
-
-		$query = "SELECT params"
-		. "\n FROM #__modules"
-		. "\n WHERE module = 'mod_mainmenu'"
-		;
-		$db->setQuery( $query );
-		$menus = $db->loadObjectList();
-		$total = count( $menus );
-		$menuselect = array();
-		for( $i = 0; $i < $total; $i++ ) {
-			$registry = new JRegistry();
-			$registry->loadINI($menus[$i]->params);
-			$params = $registry->toObject( );
-
-			$menuselect[$i]->value 	= $params->menutype;
-			$menuselect[$i]->text 	= $params->menutype;
-		}
-		// sort array of objects
-		JArrayHelper::sortObjects( $menuselect, 'text', 1 );
-
-		$menus = JHTML::selectList( $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
-
-		return $menus;
-	}
-
-	/**
-	* Internal function to recursive scan the media manager directories
-	* @param string Path to scan
-	* @param string root path of this folder
-	* @param array  Value array of all existing folders
-	* @param array  Value array of all existing images
-	*/
-	/* TODO : move to legacy file, deprecated function unused by 1.5 */
-	function ReadImages( $imagePath, $folderPath, &$folders, &$images ) {
-		jimport( 'joomla.filesystem.folder' );
-		$imgFiles = JFolder::files( $imagePath );
-
-		foreach ($imgFiles as $file) {
-			$ff_ 	= $folderPath . $file .'/';
-			$ff 	= $folderPath . $file;
-			$i_f 	= $imagePath .'/'. $file;
-
-			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
-				$folders[] = JHTML::makeOption( $ff_ );
-				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
-			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
-				// leading / we don't need
-				$imageFile = substr( $ff, 1 );
-				$images[$folderPath][] = JHTML::makeOption( $imageFile, $file );
-			}
-		}
-	}
-	/* TODO : move to legacy file, deprecated function unused by 1.5 */
-	function GetImageFolders( &$folders, $path ) {
-		$javascript 	= "onchange=\"changeDynaList( 'imagefiles', folderimages, document.adminForm.folders.options[document.adminForm.folders.selectedIndex].value, 0, 0);  previewImage( 'imagefiles', 'view_imagefiles', '$path/' );\"";
-		$getfolders 	= JHTML::selectList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
-		return $getfolders;
-	}
-
-	function GetImages( &$images, $path ) {
-		if ( !isset($images['/'] ) ) {
-			$images['/'][] = JHTML::makeOption( '' );
-		}
-
-		//$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\" onfocus=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
-		$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
-		$getimages	= JHTML::selectList( $images['/'], 'imagefiles', 'class="inputbox" size="10" multiple="multiple" '. $javascript , 'value', 'text', null );
-
-		return $getimages;
-	}
-	/* TODO : move to legacy file, deprecated function unused by 1.5 */
-	function GetSavedImages( &$row, $path ) {
-		$images2 = array();
-		foreach( $row->images as $file ) {
-			$temp = explode( '|', $file );
-			if( strrchr($temp[0], '/') ) {
-				$filename = substr( strrchr($temp[0], '/' ), 1 );
-			} else {
-				$filename = $temp[0];
-			}
-			$images2[] = JHTML::makeOption( $file, $filename );
-		}
-		//$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \" onfocus=\"previewImage( 'imagelist', 'view_imagelist', '$path/' )\"";
-		$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \"";
-		$imagelist 	= JHTML::selectList( $images2, 'imagelist', 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
-
-		return $imagelist;
-	}
-
-	/**
 	* Checks to see if an image exists in the current templates image directory
  	* if it does it loads this image.  Otherwise the default image is loaded.
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) 
+	{
 		static $paths;
 		global $mainframe;
 
@@ -1182,7 +979,8 @@ class mosAdminMenus
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	
+	{
 		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
@@ -1217,21 +1015,6 @@ class mosAdminMenus
 		}
 
 		return $image;
-	}
-
-	/**
-	 * @deprecated Use getMenuTypes in JMenuHelper class instead
-	 */
-	function menutypes() {
-		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
-	}
-
-	/**
-	 * @deprecated Use menuItem in JMenuHelper class instead
-	 */
-	function menuItem( $item )
-	{
-		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );
 	}
 }
 ?>

@@ -349,7 +349,7 @@ class WeblinksController
 		}
 
 		// build list of categories
-		$lists['catid'] = mosAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
+		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'weblink'.DS.'view.html.php');
 		$view = new WeblinksViewWeblink();
