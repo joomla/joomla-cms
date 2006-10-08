@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Wrapper">
 		<message>
-			<![CDATA[Displays an IFrame that will wrap an external page/site into Joomla.]]>
+			<![CDATA[WRAPPER DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Wrapper</name>
-		<description>Displays an IFrame that will wrap an external page/site into Joomla</description>
+		<description>WRAPPER DESC</description>
 		<params>
 			<param name="url" type="text" size="30" default="" label="Wrapper URL" description="URL to open in an IFRAME" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />

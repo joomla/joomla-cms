@@ -110,9 +110,9 @@ class iLink extends JTree
 
 		// Print the url
 		if ($this->_current->hasChildren()) {
-			$this->_output .= "<div class=\"".$classes."\"><span></span><a title=\"".$this->_current->msg."\">".$this->_current->title."</a></div>";
+			$this->_output .= "<div class=\"".$classes."\"><span></span><a title=\"". JText::_( $this->_current->msg ) ."\">". JText::_( $this->_current->title ) ."</a></div>";
 		} else {
-			$this->_output .= "<div class=\"".$classes."\"><span></span><a href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"".$this->_current->msg."\">".$this->_current->title."</a></div>";
+			$this->_output .= "<div class=\"".$classes."\"><span></span><a href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"". JText::_( $this->_current->msg ) ."\">". JText::_( $this->_current->title ) ."</a></div>";
 		}
 
 		// Recurse through children if they exist
