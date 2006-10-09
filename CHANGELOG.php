@@ -38,6 +38,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Oct-2006 David Gal
+ # Fixed presentation of languages in extension manager. Only default language are disabled now
+
 07-Oct-2006 Johan Janssens
  ^ Deprecated mosHTML class, use JHTML instead
  ^ Deprecated mosCommonHTML class, use JCommonHTML instead

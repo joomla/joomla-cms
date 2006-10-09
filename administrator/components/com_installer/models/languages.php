@@ -131,7 +131,7 @@ class ExtensionManagerModelLanguages extends ExtensionManagerModel
 				// if current than set published
 				$clientVals = JApplicationHelper::getClientInfo($row->client_id);
 				$lang = 'lang_'.$clientVals->name;
-				if ( $mainframe->getCfg($lang) == $row->language) {
+				if ( $mainframe->getCfg($lang) == basename( $row->language ) ) {
 					$row->published	= 1;
 				} else {
 					$row->published = 0;

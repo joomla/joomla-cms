@@ -65,7 +65,7 @@ class ExtensionManagerViewLanguages extends JView
 		$item =& $this->items[$index];
 		$item->index	= $index;
 
-		if (!$item->published) {
+		if ($item->published) {
 			$item->cbd		= 'disabled';
 			$item->style	= 'style="color:#999999;"';
 		} else {
