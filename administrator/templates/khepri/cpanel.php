@@ -63,6 +63,7 @@ See COPYRIGHT.php for copyright notices and details.
 			<div class="border">
 				<div class="padding">
 					<div id="element-box">
+					<jdoc:include type="message" />
       			<div class="t">
               <div class="t">
                 <div class="t"></div>

@@ -29,7 +29,7 @@ div.message {
 	margin-bottom: 10px;
 	font-weight: bold;
 	color: #333;
-	letter-spacing: .1em;
+	/*letter-spacing: .1em;*/  /* letter spacing doesn't work for all languages */
 }
 
 .helpIndex {
