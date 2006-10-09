@@ -146,5 +146,68 @@ class ExtensionManagerModelLanguages extends ExtensionManagerModel
 		$this->setState('pagination.total', count($rows));
 		$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
 	}
+	
+	/**
+	 * Remove (uninstall) an extension
+	 *
+	 * @static
+	 * @return boolean True on success
+	 * @since 1.0
+	 */
+	function remove($eid=array())
+	{
+		global $mainframe;
+
+		// Initialize variables
+		$failed = array ();
+		
+		/*
+		 * Ensure eid is an array of extension ids
+		 * TODO: If it isn't an array do we want to set an error and fail?
+		 */
+		if (!is_array($eid)) {
+			$eid = array ($eid);
+		}
+		// construct the list of all language
+		$this->_loadItems();
+
+		// Get a database connector
+		$db =& JFactory::getDBO();
+
+		// Get an installer object for the extension type
+		jimport('joomla.installer.installer');
+		$installer = & JInstaller::getInstance($db, $this->_type);
+
+		// Uninstall the chosen extensions
+		foreach ($eid as $id)
+		{
+			$item = $this->_items[$id];
+			$result = $installer->uninstall( $item->language );
+
+			// Build an array of extensions that failed to uninstall
+			if ($result === false) {
+				$failed[] = $id;
+			}
+		}
+
+		if (count($failed)) {
+			// There was an error in uninstalling the package
+			$msg = sprintf(JText::_('UNINSTALLEXT'), $this->_type, JText::_('Error'));
+			$result = false;
+		} else {
+			// Package uninstalled sucessfully
+			$msg = sprintf(JText::_('UNINSTALLEXT'), $this->_type, JText::_('Success'));
+			$result = true;
+		}
+
+		$mainframe->enqueueMessage($msg);
+		$this->setState('action', 'remove');
+		$this->setState('message', $installer->message);
+		// re-construct the list of all language
+		$this->_loadItems();
+
+		return $result;
+	}
+
 }
 ?>

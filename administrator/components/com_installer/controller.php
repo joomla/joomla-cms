@@ -134,7 +134,7 @@ class ExtensionManagerController extends JController
 		$view	= &$this->getView( $type, 'ExtensionManagerView' );
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
-		$model->remove($eid);
+		$result = $model->remove($eid);
 
 		$view->setModel( $model, true );
 		$view->display();
