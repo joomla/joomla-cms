@@ -77,6 +77,7 @@ class JEditor_tinymce extends JPlugin
 		$cleanup_startup	= $params->def( 'cleanup_startup', 0 );
 		$compressed			= $params->def( 'compressed', 0 );
 		$langPrefix			= $params->def( 'lang_code', 'en' );
+		$langMode			= $params->def( 'lang_mode', 0 );
 	
 		// Plugins
 		// insert date
@@ -110,6 +111,9 @@ class JEditor_tinymce extends JPlugin
 			$text_direction = 'ltr';
 		}
 
+		if ( $langMode ) {
+			$langPrefix = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
+		}
 		// loading of css file for `styles` dropdown
 		if ( $content_css_custom ) {
 			$content_css = 'content_css : "'. $content_css_custom .'", ';
