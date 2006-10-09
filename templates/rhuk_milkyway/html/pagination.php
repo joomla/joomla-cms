@@ -99,7 +99,7 @@ function pagination_list_render($list)
 	if($lang->isRTL()) 
 	{
 		$html .= '&laquo; '.$list['start']['data'];
-		$html .= $list['previous']['data'];
+		$html .= '&nbsp;'.$list['previous']['data'];
 
 		$list['pages'] = array_reverse( $list['pages'] );
 		
@@ -108,7 +108,7 @@ function pagination_list_render($list)
 				$html .= '<strong>';
 			}
 			
-			$html .= $page['data'];
+			$html .= '&nbsp;'.$page['data'];
 			
 			if($page['data']['active']) {
 				$html .= '</strong>';
@@ -116,7 +116,7 @@ function pagination_list_render($list)
 		}
 
 		$html .= '&nbsp;'.$list['next']['data'];
-		$html .= $list['end']['data'];
+		$html .= '&nbsp;'.$list['end']['data'];
 		$html .= ' &raquo;';
 	} 
 	else 
