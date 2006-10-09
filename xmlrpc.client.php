@@ -41,15 +41,14 @@ $array  = array();
 
 if ($task)
 {
-//	if ($path)
-//	{
-//		$client = new xmlrpc_client($path, $host, 80);
-//	}
-//	else
-//	{
-//		$client = new xmlrpc_client($host);
-//	}
-	$client = new xmlrpc_client("http://localhost/xmlrpc/");
+	if ($path)
+	{
+		$client = new xmlrpc_client($path, $host, 80);
+	}
+	else
+	{
+		$client = new xmlrpc_client($host);
+	}
 	$client->setDebug($debug);
 
 	switch ($task)
