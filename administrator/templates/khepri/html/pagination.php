@@ -95,6 +95,24 @@ function pagination_list_render($list)
 	// Reverse output rendering for right-to-left display
 	if($lang->isRTL())
 	{
+		if ($list['end']['active']) {
+			$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
+		} else {
+			$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
+		}
+		if ($list['next']['active']) {
+			$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
+		} else {
+			$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
+		}
+
+		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
+		$list['pages'] = array_reverse( $list['pages'] );
+		foreach( $list['pages'] as $page ) {
+			$html .= $page['data'];
+		}
+		$html .= "\n</div></div>";
+
 		if ($list['previous']['active']) {
 			$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
 		} else {
@@ -106,23 +124,8 @@ function pagination_list_render($list)
 			$html .= "<div class=\"button2-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
 		}
 
-		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-		$list['pages'] = array_reverse( $list['pages'] );
-		foreach( $list['pages'] as $page ) {
-			$html .= $page['data'];
-		}
-		$html .= "\n</div></div>";
 
-		if ($list['end']['active']) {
-			$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		}
-		if ($list['next']['active']) {
-			$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		}
+
 	} 
 	else 
 	{

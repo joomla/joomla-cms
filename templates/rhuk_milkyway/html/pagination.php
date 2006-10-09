@@ -98,16 +98,26 @@ function pagination_list_render($list)
 	// Reverse output rendering for right-to-left display
 	if($lang->isRTL()) 
 	{
+		$html .= '&laquo; '.$list['start']['data'];
 		$html .= $list['previous']['data'];
-		$html .= $list['start']['data'];
 
 		$list['pages'] = array_reverse( $list['pages'] );
+		
 		foreach( $list['pages'] as $page ) {
+			if($page['data']['active']) {
+				$html .= '<strong>';
+			}
+			
 			$html .= $page['data'];
+			
+			if($page['data']['active']) {
+				$html .= '</strong>';
+			}
 		}
 
+		$html .= '&nbsp;'.$list['next']['data'];
 		$html .= $list['end']['data'];
-		$html .= $list['next']['data'];
+		$html .= ' &raquo;';
 	} 
 	else 
 	{
