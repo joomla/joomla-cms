@@ -109,6 +109,7 @@ class JMenuViewItem extends JView
 	{
 		global $mainframe;
 		
+		$lang = JFactory::getLanguage();
 		$this->_layout = 'type';
 		
 		$item = &$this->get('Item');
@@ -131,8 +132,11 @@ class JMenuViewItem extends JView
 		$document->addScript($url.'includes/js/joomla/cookie.js');
 		$document->addScript('components/com_menus/assets/tree.js');
 		$document->addScript('components/com_menus/assets/description.js');
-		$document->addStyleSheet('components/com_menus/assets/type.css');
-
+		if($lang->isRTL()){
+			$document->addStyleSheet('components/com_menus/assets/type_rtl.css');
+		} else {
+			$document->addStyleSheet('components/com_menus/assets/type.css');
+		}
 		JCommonHTML::loadOverlib();
 
 		// Initialize variables

@@ -40,6 +40,7 @@ Legend:
 09-Oct-2006 David Gal
  # Fixed presentation of languages in extension manager. Only default language are disabled now
  # Fixed language pack removal
+ + Added RTL support for com_menu 'new menu' tree structure
 
 07-Oct-2006 Johan Janssens
  ^ Deprecated mosHTML class, use JHTML instead
