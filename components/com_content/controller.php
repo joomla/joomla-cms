@@ -415,9 +415,9 @@ class ContentController extends JController
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
-			$this->setRedirect($url, JText::_('Thanks for your vote!'));
+			$this->setRedirect($url, JText::_('Thanks for rating!'));
 		} else {
-			$this->setRedirect($url, JText::_('You already voted for this poll today!'));
+			$this->setRedirect($url, JText::_('You already rated this article today!'));
 		}
 	}
 

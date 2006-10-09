@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // get parameters from the URL or submitted form
-$section 	= JRequest::getVar( 'section', 'content' );
+$section 	= JRequest::getVar( 'section', 'com_content' );
 $cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
@@ -49,7 +49,6 @@ switch (JRequest::getVar('task'))
 
 	case 'go2menu':
 	case 'go2menuitem':
-	case 'menulink':
 	case 'save':
 	case 'apply':
 		saveCategory( );
@@ -286,7 +285,7 @@ function editCategory( )
 
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
-	$section 	= JRequest::getVar( 'section', 'content' );
+	$section 	= JRequest::getVar( 'section', 'com_content' );
 	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 
 	if (!is_array( $cid )) {
@@ -330,7 +329,7 @@ function editCategory( )
 	}
 
 	// build the html select list for sections
-	if ( $section == 'content' ) {
+	if ( $section == 'com_content' ) {
 		$query = "SELECT s.id AS value, s.title AS text"
 		. "\n FROM #__sections AS s"
 		. "\n ORDER BY s.ordering"
@@ -443,10 +442,6 @@ function saveCategory()
 
 		case 'go2menuitem':
 			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
-			break;
-
-		case 'menulink':
-			menuLink( $row->id );
 			break;
 
 		case 'apply':
@@ -625,7 +620,7 @@ function orderCategory( $uid, $inc )
 function moveCategorySelect( $option, $cid, $sectionOld )
 {
 	$db =& JFactory::getDBO();
-	$redirect = JRequest::getVar( 'section', 'content', 'post' );;
+	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
@@ -710,7 +705,7 @@ function moveCategorySave( $cid, $sectionOld )
 function copyCategorySelect( $option, $cid, $sectionOld )
 {
 	$db =& JFactory::getDBO();
-	$redirect = JRequest::getVar( 'section', 'content', 'post' );
+	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
@@ -843,86 +838,6 @@ function accessMenu( $uid, $access, $section )
 	}
 
 	$mainframe->redirect( 'index.php?option=com_categories&section='. $section );
-}
-
-function menuLink( $id )
-{
-	global $mainframe;
-
-	// Initialize variables
-	$db =& JFactory::getDBO();
-
-	$category =& JTable::getInstance('category', $db );
-	$category->bind( JRequest::get( 'post' ) );
-	$category->checkin();
-
-	$redirect	= JRequest::getVar( 'redirect', '', 'post' );
-	$menu 		= JRequest::getVar( 'menuselect', '', 'post' );
-	$name 		= JRequest::getVar( 'link_name', '', 'post' );
-	$sectionid	= JRequest::getVar( 'sectionid', '', 'post', 'int' );
-	$type 		= JRequest::getVar( 'link_type', '', 'post' );
-
-	$name		= ampReplace($name);
-
-	switch ( $type )
-	{
-		case 'content_category':
-			$link 		= 'index.php?option=com_content&task=category&sectionid='. $sectionid .'&id='. $id;
-			$menutype	= JText::_( 'Content Category Table' );
-			break;
-
-		case 'content_blog_category':
-			$link 		= 'index.php?option=com_content&task=blogcategory&id='. $id;
-			$menutype	= JText::_( 'Content Category Blog' );
-			break;
-
-		case 'content_archive_category':
-			$link 		= 'index.php?option=com_content&task=archivecategory&id='. $id;
-			$menutype	= JText::_( 'Content Category Blog Archive' );
-			break;
-
-		case 'contact_category_table':
-			$link 		= 'index.php?option=com_contact&catid='. $id;
-			$menutype	= JText::_( 'Contact Category Table' );
-			break;
-
-		case 'newsfeed_category_table':
-			$link 		= 'index.php?option=com_newsfeeds&catid='. $id;
-			$menutype	= JText::_( 'Newsfeed Category Table' );
-			break;
-
-		case 'weblink_category_table':
-			$link 		= 'index.php?option=com_weblinks&catid='. $id;
-			$menutype	= JText::_( 'Weblink Category Table' );
-			break;
-	}
-
-	$row 				=& JTable::getInstance('menu', $db );
-	$row->menutype 		= $menu;
-	$row->name 			= $name;
-	$row->type 			= $type;
-	$row->published		= 1;
-	$row->componentid	= $id;
-	$row->link			= $link;
-	$row->ordering		= 9999;
-
-	if ( $type == 'content_blog_category' ) {
-		$row->params = 'categoryid='. $id;
-	}
-
-	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-	$row->checkin();
-	$row->reorder( "menutype = '$menu'" );
-
-	$msg = sprintf( JText::_( 'CATSUCCESSCREATED' ), $name, $menutype, $menu );
-	$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
 }
 
 function saveOrder( &$cid, $section )

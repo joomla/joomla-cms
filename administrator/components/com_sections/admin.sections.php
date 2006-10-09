@@ -34,7 +34,6 @@ switch ($task)
 
 	case 'go2menu':
 	case 'go2menuitem':
-	case 'menulink':
 	case 'save':
 	case 'apply':
 		saveSection( $option, $scope, $task );
@@ -317,10 +316,6 @@ function saveSection( $option, $scope, $task )
 
 		case 'go2menuitem':
 			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
-			break;
-
-		case 'menulink':
-			menuLink( $row->id );
 			break;
 
 		case 'apply':
@@ -656,67 +651,6 @@ function accessMenu( $uid, $access, $option )
 	}
 
 	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $row->scope );
-}
-
-function menuLink( $id )
-{
-	global $mainframe;
-
-	$db		 =& JFactory::getDBO();
-
-	$section =& JTable::getInstance('section', $db );
-	$section->bind( JRequest::get('post') );
-	$section->checkin();
-
-	$menu 		= JRequest::getVar( 'menuselect', '', 'post' );
-	$name 		= JRequest::getVar( 'link_name', '', 'post' );
-	$type 		= JRequest::getVar( 'link_type', '', 'post' );
-
-	$name		= ampReplace($name);
-
-	switch ( $type ) {
-		case 'content_section':
-			$link 		= 'index.php?option=com_content&task=section&id='. $id;
-			$menutype	= 'Section Table';
-			break;
-
-		case 'content_blog_section':
-			$link 		= 'index.php?option=com_content&task=blogsection&id='. $id;
-			$menutype	= 'Section Blog';
-			break;
-
-		case 'content_archive_section':
-			$link 		= 'index.php?option=com_content&task=archivesection&id='. $id;
-			$menutype	= 'Section Blog Archive';
-			break;
-	}
-
-	$row 				=& JTable::getInstance('menu', $db );
-	$row->menutype 		= $menu;
-	$row->name 			= $name;
-	$row->type 			= $type;
-	$row->published		= 1;
-	$row->componentid	= $id;
-	$row->link			= $link;
-	$row->ordering		= 9999;
-
-	if ( $type == 'content_blog_section' ) {
-		$row->params = 'sectionid='. $id;
-	}
-
-	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-	$row->checkin();
-	$row->reorder( "menutype = '$menu'" );
-
-	$msg = sprintf( JText::_( 'menutype successfully created' ), $name, $menutype, $menu );
-	$mainframe->redirect( 'index.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
 }
 
 function saveOrder( &$cid )

@@ -70,47 +70,6 @@ class JContentHelper
 		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
 	}
 
-	function menuLink($redirect, $id)
-	{
-		global $mainframe;
-
-		// Initialize variables
-		$db		= & JFactory::getDBO();
-		$menu	= JRequest::getVar( 'menuselect', '', 'post' );
-		$link	= JRequest::getVar( 'link_name', '', 'post' );
-
-		$link	= ampReplace($link);
-
-		// Instantiate a new menu item table
-		$row = & JTable::getInstance('menu', $db);
-		$row->menutype		= $menu;
-		$row->name			= $link;
-		$row->type			= 'content_item_link';
-		$row->published		= 1;
-		$row->componentid	= $id;
-		$row->link			= 'index.php?option=com_content&task=view&id='.$id;
-		$row->ordering		= 9999;
-
-		// Make sure table values are valid
-		if (!$row->check())
-		{
-			JError::raiseError( 500, $row->getError() );
-			return false;
-		}
-
-		// Store the menu link
-		if (!$row->store())
-		{
-			JError::raiseError( 500, $row->getError() );
-			return false;
-		}
-		$row->checkin();
-		$row->reorder("menutype = '$row->menutype' AND parent = $row->parent");
-
-		$msg = sprintf(JText::_('LINKITEMINMENUCREATED'), $link, $menu);
-		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
-	}
-
 	function filterCategory($query, $active = NULL)
 	{
 		// Initialize variables

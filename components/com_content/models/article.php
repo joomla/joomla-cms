@@ -266,46 +266,49 @@ class ContentModelArticle extends JModel
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function storeVote($rating)
+	function storeVote($rate)
 	{
-		if ( 1 <= $rating && $rating >= 5)
+		if ( $rate >= 1 && $rate <= 5)
 		{
-			$userIP 			=  $_SERVER['REMOTE_ADDR'];
+			$userIP =  $_SERVER['REMOTE_ADDR'];
 
 			$query = "SELECT *" .
 					"\n FROM #__content_rating" .
 					"\n WHERE content_id = $this->_id";
 			$this->_db->setQuery($query);
-			if (!($articleRatings = $this->_db->loadObject())) {
-
+			$rating = $this->_db->loadObject();
+			
+			if (!$rating) 
+			{
 				// There are no ratings yet, so lets insert our rating
 				$query = "INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )" .
-						"\n VALUES ( $this->_id, '$userIP', $rating, 1 )";
+						"\n VALUES ( $this->_id, '$userIP', $rate, 1 )";
 				$this->_db->setQuery($query);
-					if (!$this->_db->query()) {
-						JError::raiseError( 500, $this->_db->stderr());
-					}
+				if (!$this->_db->query()) {
+					JError::raiseError( 500, $this->_db->stderr());
+				}
 			}
-			else {
-				if ($userIP != ($votesdb->lastip)) {
-
+			else 
+			{
+				if ($userIP != ($rating->lastip)) 
+				{
 					// We weren't the last voter so lets add our vote to the ratings totals for the article
 					$query = "UPDATE #__content_rating" .
-							"\n SET rating_count = rating_count + 1, rating_sum = rating_sum + $rating, lastip = '$userIP'" .
+							"\n SET rating_count = rating_count + 1, rating_sum = rating_sum + $rate, lastip = '$userIP'" .
 							"\n WHERE content_id = $this->_id";
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						JError::raiseError( 500, $this->_db->stderr());
 					}
 				}
-				else {
-					// Cannot vote for the same article twice (at least in a row... this could probably be better)
+				else 
+				{
 					return false;
 				}
 			}
 			return true;
 		}
-		JError::raiseWarning( 'SOME_ERROR_CODE', 'Article Rating:: Invalid Rating: '.$rating, "JModelArticle::storeVote($rating)");
+		JError::raiseWarning( 'SOME_ERROR_CODE', 'Article Rating:: Invalid Rating: '.$rate, "JModelArticle::storeVote($rate)");
 		return false;
 	}
 

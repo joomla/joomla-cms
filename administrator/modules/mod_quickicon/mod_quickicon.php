@@ -38,7 +38,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	?>
 	<div id="cpanel">
 		<?php
-		$link = 'index.php?option=com_content&amp;task=new';
+		$link = 'index.php?option=com_content&amp;task=add';
 		quickiconButton( $link, 'icon-48-article-add.png', JText::_( 'Add New Article' ) );
 
 		$link = 'index.php?option=com_content';
