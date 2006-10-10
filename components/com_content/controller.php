@@ -40,7 +40,7 @@ class ContentController extends JController
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
-			//index.php?option=com_content&task=blogsection&id=0&Itemid=4
+			//index.php?option=com_content&task=x&id=x&Itemid=x
 			case 'blogsection':
 				$viewName	= 'section';
 				$modelName	= 'section';
@@ -79,7 +79,7 @@ class ContentController extends JController
 				break;
 			default:
 				$viewName	= JRequest::getVar( 'view', 'article' );
-				$modelName	= $viewName;
+				$modelName	= JRequest::getVar( 'view', 'article' );
 				$layout = JRequest::getVar( 'layout', 'default' );
 		}
 

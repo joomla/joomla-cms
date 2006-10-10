@@ -36,7 +36,12 @@ class ContentViewArticle extends JView
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
 
-		if (($article->id == 0) && (!$this->getLayout() == 'form'))
+		if($this->getLayout() == 'form') {
+			$this->_displayForm($tpl);
+			return;
+		}
+		
+		if (($article->id == 0))
 		{
 			$id = JRequest::getVar( 'id' );
 			return JError::raiseError( 404, JText::sprintf( 'Article #%d not found', $id ) );
@@ -215,7 +220,7 @@ class ContentViewArticle extends JView
 
 				JCommonHTML::loadOverlib();
 
-				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
@@ -243,7 +248,7 @@ class ContentViewArticle extends JView
 		return JHTML::Link($url, $text, $attribs);
 	}
 
-	function edit()
+	function _displayForm($tpl)
 	{
 		global $mainframe, $Itemid;
 
@@ -256,21 +261,26 @@ class ContentViewArticle extends JView
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-
-		$pathway =& $mainframe->getPathWay();
-
+		
+		// Initialize variables
+		$article	=& $this->get('Article');
+		$params		=& $article->parameters;
+		$isNew      = ($article->id < 1);
+		
+		// security check to see if link exists in a menu
+		$menus =& JMenu::getInstance();
+		$exists = $menus->getItems('link', 'index.php?option=com_content&view=article&layout=form'); 
+		if ( !count($exists) && $isNew) {
+		    JError::raiseError( 403, JText::_('Access Forbidden') );
+			return;
+		}
+		
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
 		JCommonHTML::loadCalendar();
-
-		// Get the article from the model
-		$article	=& $this->get('Article');
-		$params		= $article->parameters;
-
-		$isNew = ($article->id < 1);
 
 		if ($isNew)
 		{
@@ -292,8 +302,9 @@ class ContentViewArticle extends JView
 
 		// Set page title
 		$document->setTitle($title);
-
-		// Add pathway item
+		
+		// get pathway
+		$pathway =& $mainframe->getPathWay();
 		$pathway->addItem($title, '');
 
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
@@ -310,7 +321,7 @@ class ContentViewArticle extends JView
 		$this->set('editor'  , $editor);
 		$this->set('user'    , $user);
 
-		$this->display();
+		parent::display($tpl);
 	}
 
 	function _buildEditLists()
