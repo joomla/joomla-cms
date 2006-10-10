@@ -28,41 +28,66 @@ class WeblinksViewCategories extends JView
 	{
 		global $Itemid, $mainframe;
 		
+		// Initialize some variables
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
+		$pathway	= & $mainframe->getPathWay();
+		$gid		= $user->get('gid');
+		$page		= '';
+
+		// Set the component name in the pathway
+		$pathway->setItemName(1, JText::_('Links'));
+
+		// Load the menu object and parameters
 		$menus  = &JMenu::getInstance();
 		$menu   = $menus->getItem($Itemid);
-		
-		$this->params->def('header', $menu->name);
-		$this->params->def('pageclass_sfx', '');
-		$this->params->def('headings', 1);
-		$this->params->def('hits', $mainframe->getCfg('hits'));
-		$this->params->def('item_description', 1);
-		$this->params->def('other_cat_section', 1);
-		$this->params->def('other_cat', 1);
-		$this->params->def('description', 1);
-		$this->params->def('description_text', JText::_('WEBLINKS_DESC'));
-		$this->params->def('image', -1);
-		$this->params->def('weblink_icons', '');
-		$this->params->def('image_align', 'right');
+		$params = new JParameter($menu->params);
 
-		// Handle the type
-		$this->params->set('type', 'section');
-		
+		//Query to retrieve all categories that belong under the web links section and that are published.
+		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
+				"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
+				"\n WHERE a.published = 1" .
+				"\n AND section = 'com_weblinks'" .
+				"\n AND cc.published = 1" .
+				"\n AND cc.access <= $gid" .
+				"\n GROUP BY cc.id" .
+				"\n ORDER BY cc.ordering";
+		$db->setQuery($query);
+		$categories = $db->loadObjectList();
+
+		$params->def('header', $menu->name);
+		$params->def('pageclass_sfx', '');
+		$params->def('headings', 1);
+		$params->def('hits', $mainframe->getCfg('hits'));
+		$params->def('item_description', 1);
+		$params->def('other_cat_section', 1);
+		$params->def('other_cat', 1);
+		$params->def('description', 1);
+		$params->def('description_text', JText::_('WEBLINKS_DESC'));
+		$params->def('image', -1);
+		$params->def('weblink_icons', '');
+		$params->def('image_align', 'right');
+	
 		// Define image tag attributes
-		if ($this->params->get('image') != -1)
+		if ($params->get('image') != -1)
 		{
 			$attribs['align'] = '"'. $this->params->get('image_align').'"';
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$this->image = JHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('Web Links'), $attribs);
+			$image = JHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('Web Links'), $attribs);
 		}
 
-		for($i = 0; $i < count($this->categories); $i++)
+		for($i = 0; $i < count($categories); $i++)
 		{
-			$category =& $this->categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_weblinks&amp;task=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
+			$category =& $categories[$i];
+			$category->link = sefRelToAbs('index.php?option=com_weblinks&amp;view=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
 		}
 
+		$this->assignRef('image'     , $image);
+		$this->assignRef('params'    , $params);
+		$this->assignRef('categories', $categories);
+		
 		parent::display($tpl);
 	}
 }

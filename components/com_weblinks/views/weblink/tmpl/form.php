@@ -24,17 +24,6 @@ function submitbutton(pressbutton)
 <div class="componentheading">
 	<?php echo JText::_( 'Submit A Web Link' );?>
 </div>
-
-<div style="float: right;">
-	<?php
-	mosToolBar::startTable();
-	mosToolBar::spacer();
-	mosToolBar::save();
-	mosToolBar::cancel();
-	mosToolBar::endtable();
-	?>
-</div>
-
 <table cellpadding="4" cellspacing="1" border="0" width="100%">
 <tr>
 	<td width="10%">
@@ -76,6 +65,16 @@ function submitbutton(pressbutton)
 		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo htmlspecialchars( $this->weblink->description, ENT_QUOTES );?></textarea>
 	</td>
 </tr>
+</table>
+
+<div>
+	<button type="button" onclick="submitbutton('save')">
+		<?php echo JText::_('Save') ?>
+	</button>
+	<button type="button" onclick="submitbutton('cancel')" />
+		<?php echo JText::_('Cancel') ?>
+	</button>
+</div>
 </table>
 
 <input type="hidden" name="jform[id]" value="<?php echo $this->weblink->id; ?>" />

@@ -8,7 +8,7 @@
 }
 </script>
 
-<form action="index.php?option=com_weblinks&amp;task=category&amp;catid=<?php echo $this->catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td align="right" colspan="4">
@@ -27,6 +27,7 @@
 		<?php JCommonHTML::tableOrdering( 'Web Link', 'title', $this->lists ); ?>
 	</td>
 	<?php if ( $this->params->get( 'hits' ) ) : ?>
+	
 	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
 		<?php JCommonHTML::tableOrdering( 'Hits', 'hits', $this->lists ); ?>
 	</td>
@@ -66,7 +67,10 @@
 	</td>
 </tr>
 </table>
-
+<input type="hidden" name="option" value="com_weblinks" />
+<input type="hidden" name="view" value="weblink" />
+<input type="hidden" name="catid" value="<?php echo $this->catid;?>" />
+<input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_dir" value="" />
 </form>

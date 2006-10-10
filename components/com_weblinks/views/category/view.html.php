@@ -29,32 +29,93 @@ class WeblinksViewCategory extends JView
 		global $mainframe, $Itemid, $option;
 
 		// Initialize some variables
+		$db			= & JFactory::getDBO();
+		$user		= & JFactory::getUser();
 		$document	= & JFactory::getDocument();
-		$pathway	= & $mainframe->getPathWay();
+		$gid		= $user->get('gid');
+		$page		= '';
 
-		// get menu
-		$menus  =& JMenu::getInstance();
-		$menu   =& $menus->getItem($Itemid);
+		// Get the paramaters of the active menu item
+		$menus  = &JMenu::getInstance();
+		$menu   = $menus->getItem($Itemid);
+		$params = new JParameter($menu->params);
 		
-		$catid = $this->catid;
+		// Get some request variables
+		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
+		$filter_order		= JRequest::getVar('filter_order', 'ordering');
+		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
+		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
 
-		$this->params->def('header', $menu->name);
-		$this->params->def('pageclass_sfx', '');
-		$this->params->def('hits', $mainframe->getCfg('hits'));
-		$this->params->def('item_description', 1);
-		$this->params->def('other_cat_section', 1);
-		$this->params->def('other_cat', 1);
-		$this->params->def('description', 1);
-		$this->params->def('description_text', JText::_('WEBLINKS_DESC'));
-		$this->params->def('image', -1);
-		$this->params->def('weblink_icons', '');
-		$this->params->def('image_align', 'right');
+		// Ordering control
+		$orderby = "\n ORDER BY $filter_order $filter_order_dir, ordering";
+
+		$query = "SELECT COUNT(id) as numitems" .
+				"\n FROM #__weblinks" .
+				"\n WHERE catid = ". (int)$catid .
+				"\n AND published = 1";
+		$db->setQuery($query);
+		$counter = $db->loadObjectList();
+
+		$total = $counter[0]->numitems;
+		// Always set at least a default of viewing 5 at a time
+		$limit = $limit ? $limit : 5;
+
+		if ($total <= $limit) {
+			$limitstart = 0;
+		}
+
+		// We need to get a list of all weblinks in the given category
+		$query = "SELECT id, url, title, description, date, hits, params, catid" .
+				"\n FROM #__weblinks" .
+				"\n WHERE catid = $catid" .
+				"\n AND published = 1" .
+				"\n AND archived = 0".$orderby;
+		$db->setQuery($query, $limitstart, $limit);
+		$weblinks = $db->loadObjectList();
+
+		// current category info
+		$query = "SELECT id, name, description, image, image_position" .
+				"\n FROM #__categories" .
+				"\n WHERE id = $catid" .
+				"\n AND section = 'com_weblinks'" .
+				"\n AND published = 1" .
+				"\n AND access <= $gid";
+		$db->setQuery($query);
+		$category = $db->loadObject();
+
+		// Check to see if the category is published or if access level allows access
+		if (!$category->name) {
+			JError::raiseError( 404, JText::_( 'You need to login.' ));
+			return;
+		}
+
+		// table ordering
+		if ($filter_order_dir == 'DESC') {
+			$lists['order_Dir'] = 'ASC';
+		} else {
+			$lists['order_Dir'] = 'DESC';
+		}
+		$lists['order'] = $filter_order;
+		$selected = '';
+
+		$params->def('header', $menu->name);
+		$params->def('pageclass_sfx', '');
+		$params->def('hits', $mainframe->getCfg('hits'));
+		$params->def('item_description', 1);
+		$params->def('other_cat_section', 1);
+		$params->def('other_cat', 1);
+		$params->def('description', 1);
+		$params->def('description_text', JText::_('WEBLINKS_DESC'));
+		$params->def('image', -1);
+		$params->def('weblink_icons', '');
+		$params->def('image_align', 'right');
 
 		// pagination parameters
-		$this->params->def('display', 1);
-		$this->params->def('display_num', $mainframe->getCfg('list_limit'));
+		$params->def('display', 1);
+		$params->def('display_num', $mainframe->getCfg('list_limit'));
 
-		$this->params->set( 'type', 'category' );
+		$params->set( 'type', 'category' );
 
 		//add alternate feed link
 		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$catid.'&Itemid='.$Itemid;
@@ -63,41 +124,42 @@ class WeblinksViewCategory extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
 		
+		$pathway = & $mainframe->getPathWay();
+		
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
 		
 		// Add pathway item based on category name
-		$pathway->addItem($this->category->name, '');
+		$pathway->addItem($category->name, '');
 
 		// Define image tag attributes
-		if (isset ($this->category->image))
+		if (isset ($category->image))
 		{
-			$attribs['align'] = '"'.$this->category->image_position.'"';
+			$attribs['align'] = '"'.$category->image_position.'"';
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$this->category->image = JHTML::Image('/images/stories/'.$this->category->image, JText::_('Web Links'), $attribs);
+			$category->image = JHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $attribs);
 		}
 		
 		//create pagination
 		jimport('joomla.html.pagination');
-		$this->pagination = new JPagination($this->total, $this->limitstart, $this->limit);
+		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// icon in table display
-		if ( $this->params->get( 'weblink_icons' ) <> -1 ) {
-			$image = JAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $this->params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
+		if ( $params->get( 'weblink_icons' ) <> -1 ) {
+			$image = JAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
 		}
 
 		$k = 0;
-		for($i = 0; $i < count($this->items); $i++)
+		for($i = 0; $i < count($weblinks); $i++)
 		{
-			$item =& $this->items[$i];
-			$params = new JParameter( $item->params );
+			$item =& $weblinks[$i];
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $item->id.'&Itemid='.$Itemid );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
 			$link = ampReplace( $link );
 
-			$menuclass = 'category'.$this->params->get( 'pageclass_sfx' );
+			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 
 			switch ($params->get( 'target' ))
 			{
@@ -125,6 +187,17 @@ class WeblinksViewCategory extends JView
 			$item->count = $i;
 			$k = 1 - $k;
 		}
+		
+		$this->assign('total', count($weblinks));
+		$this->assign('catid', $catid);
+		$this->assign('limit', $limit);
+		$this->assign('limitstart', $limitstart);
+
+		$this->assignRef('lists'     , $lists);
+		$this->assignRef('params'    , $params);
+		$this->assignRef('category'  , $category);
+		$this->assignRef('items'     , $weblinks);
+		$this->assignRef('pagination', $pagination);
 
 		parent::display($tpl);
 	}
