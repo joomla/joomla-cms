@@ -21,19 +21,19 @@
 	
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon($this->item, 'pdf'); ?>
+	<?php $this->getIcon($this->item, 'pdf'); ?>
 	</td>
 	<?php endif; ?>
 	
 	<?php if ( $this->params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon($this->item, 'print'); ?>
+	<?php $this->getIcon($this->item, 'print'); ?>
 	</td>
 	<?php endif; ?>
 	
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->icon($this->item, 'email'); ?>
+	<?php $this->getIcon($this->item, 'email'); ?>
 	</td>
 	<?php endif; ?>
 </tr>
