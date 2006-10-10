@@ -154,14 +154,8 @@ class categories_html
 					<?php echo $published;?>
 				</td>
 				<td class="order" colspan="2">
-				<?php
-				if ( $section <> 'com_content' ) {
-					?>
-					<span><?php echo $page->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?></span>
-					<span><?php echo $page->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering ); ?></span>
-					<?php
-				}
-				?>
+					<span><?php echo $page->orderUpIcon( $i, ($row->section == @$rows[$i-1]->section), 'orderup', 'Move Up', $ordering ); ?></span>
+					<span><?php echo $page->orderDownIcon( $i, $n, ($row->section == @$rows[$i+1]->section), 'orderdown', 'Move Down', $ordering ); ?></span>
 					<?php $disabled = $ordering ?  '' : '"disabled=disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>

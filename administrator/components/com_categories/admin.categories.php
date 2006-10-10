@@ -610,8 +610,11 @@ function orderCategory( $uid, $inc )
 	$row =& JTable::getInstance('category', $db );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
-
-	$mainframe->redirect( 'index.php?option=com_categories&section='. $row->section );
+	$section = JRequest::getVar('section');
+	if($section) {
+		$section = '&section='. $section;
+	}
+	$mainframe->redirect( 'index.php?option=com_categories'. $section );
 }
 
 /**
