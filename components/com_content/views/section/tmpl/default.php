@@ -6,10 +6,12 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td width="60%" valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>" colspan="2">
-	<?php if ($this->section->image) : ?>
+	<?php if ($this->params->get('description_image') && $this->section->image) : ?>
 		<img src="images/stories/<?php echo $this->section->image;?>" align="<?php echo $this->section->image_position;?>" hspace="6" alt="<?php echo $this->section->image;?>" />
 	<?php endif; ?>
-	<?php echo $this->section->description; ?>
+	<?php if ($this->params->get('description') && $this->section->description) : ?>
+		<?php echo $this->section->description; ?>
+	<?php endif; ?>
 	</td>
 </tr>
 <tr>

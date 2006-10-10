@@ -18,8 +18,8 @@
 */
 class TOOLBAR_content
 {
-	function _EDIT() {
-
+	function _EDIT() 
+	{
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		$cid = intval($cid[0]);
 

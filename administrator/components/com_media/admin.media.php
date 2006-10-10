@@ -40,7 +40,7 @@ if (is_int(strpos($folder, "..")) && $folder != '') {
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
 define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : JURI::base().'images');
 
-require_once( JPATH_COMPONENT.DS.'media.helper.php' );
+require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 
 $task = JRequest::getVar( 'task', '');
 switch ($task) {

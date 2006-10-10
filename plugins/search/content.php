@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onSearchAreas', 'botSearchContentAreas' );
  */
 function &botSearchContentAreas() {
 	static $areas = array(
-		'content' => 'Content'
+		'content' => 'Articles'
 	);
 	return $areas;
 }

@@ -32,11 +32,11 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
+			<param name="description" type="radio" default="0" label="Description" description="Show/Hide the Section Description">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category Description Image">
+			<param name="description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Section Description Image">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>

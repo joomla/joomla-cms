@@ -19,19 +19,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Statistics
 */
-class TOOLBAR_statistics {
-	function _SEARCHES() {
+class TOOLBAR_statistics 
+{
+	function _SEARCHES() 
+	{
 		JMenuBar::title( JText::_( 'Search Engine Text' ), 'searchtext.png' );
 		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', 'Reset', false );
 		JMenuBar::help( 'screen.stats.searches' );
 	}
 
-	function _PAGEIMP() {
+	function _PAGEIMP() 
+	{
 		JMenuBar::title( JText::_( 'Article Impression Statistics' ), 'impressions.png' );
 		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', 'Reset', false );
 	}
 
-	function _DEFAULT() {
+	function _DEFAULT() 
+	{
 		JMenuBar::title( JText::_( 'Browser, OS, Domain Statistics' ), 'browser.png' );
 		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', 'Reset', false );
 	}
