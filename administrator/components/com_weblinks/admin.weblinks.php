@@ -259,18 +259,21 @@ function saveWeblink( $task )
 	$row->checkin();
 	$row->reorder( "catid = " . (int) $row->catid );
 
-	switch ($task) {
+	switch ($task) 
+	{
 		case 'apply':
-			$link = 'index.php?option=com_weblinks&task=editA&id='. $row->id .'&hidemainmenu=1';
+			$msg = JText::_( 'Changes to Weblink saved' );
+			$link = 'index.php?option=com_weblinks&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save':
 		default:
+			$msg = JText::_( 'Weblink saved' );
 			$link = 'index.php?option=com_weblinks';
 			break;
 	}
 
-	$mainframe->redirect($link);
+	$mainframe->redirect($link, $msg);
 }
 
 /**

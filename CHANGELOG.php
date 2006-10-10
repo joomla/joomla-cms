@@ -37,8 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Oct-2006 Johan Janssens
+ # Fixed [artf6326] : legacy mosConfig missing as GLOBALS in legacy mode
+
 10-Oct-2006 Rastin Mehr
-# Fixed [art6319] : Cannot select section for Category
+ # Fixed [art6319] : Cannot select section for Category
 
 10-Oct-2006 Andy Miller
  # Fixed system-message styling

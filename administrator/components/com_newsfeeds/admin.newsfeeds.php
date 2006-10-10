@@ -241,18 +241,21 @@ function saveNewsFeed(  )
 	$row->checkin();
 	$row->reorder();
 
-	switch ($task) {
+	switch ($task) 
+	{
 		case 'apply':
+			$msg = JText::_( 'Changes to Newsfeed saved' );
 			$link = 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save':
 		default:
+			$msg = JText::_( 'Newsfeed saved' );
 			$link = 'index.php?option=com_newsfeeds';
 			break;
 	}
 
-	$mainframe->redirect( $link );
+	$mainframe->redirect( $link, $msg );
 }
 
 /**

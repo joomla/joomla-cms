@@ -257,11 +257,13 @@ class PollController extends JController
 		switch ($this->_task)
 		{
 			case 'apply':
+				$msg = JText::_( 'Changes to Poll saved' );
 				$link = 'index.php?option=com_poll&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 				break;
 
 			case 'save':
 			default:
+				$msg = JText::_( 'Poll saved' );
 				$link = 'index.php?option=com_poll';
 				break;
 		}

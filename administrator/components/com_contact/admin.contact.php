@@ -294,20 +294,23 @@ function saveContact( $task )
 	{
 		case 'apply':
 		case 'save2copy':
+			$msg = JText::_( 'Changes to Contact saved' );
 			$link = 'index.php?option=com_contact&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
 			break;
 
 		case 'save2new':
+			$msg = JText::_( 'Changes to Contact saved' );
 			$link = 'index.php?option=com_contact&task=edit&hidemainmenu=1';
 			break;
 
 		case 'save':
 		default:
+			$msg = JText::_( 'Contact saved' );
 			$link = 'index.php?option=com_contact';
 			break;
 	}
 
-	$mainframe->redirect( $link );
+	$mainframe->redirect( $link, $msg );
 }
 
 /**

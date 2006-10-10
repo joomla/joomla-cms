@@ -320,7 +320,7 @@ function saveSection( $option, $scope, $task )
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Section saved' );
-			$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
 			break;
 
 		case 'save':
