@@ -574,4 +574,4 @@ dl#system-message { margin-bottom: 10px; padding: 5px; border: 1px dashed #ccc;}
 /* System Error Messages */
 #system-message dt.error { display: none; }
 #system-message dd.error {  }
-#system-message dd.error ul { line-height: 16px;color: #f00;list-style: none; background: url(../../../../images/M_images/icon_error.gif) no-repeat; padding: 0;}
+#system-message dd.error ul { line-height: 16px;color: #f00;list-style: none; background: url(../images/icon_error.png) no-repeat; padding: 0;}
