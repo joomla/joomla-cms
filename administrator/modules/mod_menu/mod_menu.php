@@ -143,7 +143,7 @@ function & buildMenu($usertype = '')
 	 * Content SubMenu
 	 */
 	$menu->addChild(new JMenuNode(JText::_('Content')), true);
-	$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content&sectionid=0', 'class:article'));
+	$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content', 'class:article'));
 	if ($manageTrash) {
 		$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
 	}
