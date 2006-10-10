@@ -369,10 +369,10 @@ function cancelWeblink()
 {
 	global $mainframe;
 
+	$id	= JRequest::getVar( 'id', 0, '', 'int' );
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('weblink', $db, 'Table');
-	$row->bind(JRequest::getVar());
-	$row->checkin();
+	$row->checkin($id);
 
 	$mainframe->redirect( 'index.php?option=com_weblinks' );
 }

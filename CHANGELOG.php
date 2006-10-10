@@ -39,6 +39,7 @@ Legend:
 
 10-Oct-2006 Johan Janssens
  # Fixed [artf6326] : legacy mosConfig missing as GLOBALS in legacy mode
+ # Fixed [artf6320] : web-link is locked after close
 
 10-Oct-2006 Rastin Mehr
  # Fixed [art6319] : Cannot select section for Category
