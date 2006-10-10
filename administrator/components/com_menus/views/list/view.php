@@ -48,7 +48,7 @@ class JMenuViewList extends JView
 		JMenuBar::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
-		$document->setTitle('View Menu Items');
+		$document->setTitle(JText::_('View Menu Items'));
 
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$items		= &$this->get('Items');
