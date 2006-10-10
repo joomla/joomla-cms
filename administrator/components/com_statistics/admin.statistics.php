@@ -116,7 +116,7 @@ function showSummary( $option, $task )
 	;
 	$db->setQuery( $query );
 	$pstats = null;
-	$db->loadObject( $pstats );
+	$pstats = $db->loadObject();
 
 	// domain statistics
 	$query = "SELECT *"
@@ -133,7 +133,7 @@ function showSummary( $option, $task )
 	;
 	$db->setQuery( $query );
 	$dstats = null;
-	$db->loadObject( $dstats );
+	$dstats = $db->loadObject();
 
 	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option );
 }
