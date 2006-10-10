@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Archived Article List">
+	<layout title="Archived Article List Layout">
 		<message>
-			<![CDATA[ARCHIVED ARTICLE LIST DESC]]>
+			<![CDATA[ARCHIVED ARTICLE LIST LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Archived Article List</name>
-		<description>ARCHIVED ARTICLE LIST DESC</description>
+		<name>Archived Article List Layout</name>
+		<description>ARCHIVED ARTICLE LIST LAYOUT DESC</description>
 		<params>
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
