@@ -56,7 +56,6 @@ class JMenuViewItem extends JView
 		$lang->load($component->option, JPATH_ADMINISTRATOR);
 		
 		// Initialize variables
-		$component		= &$this->get('Component');
 		$urlparams		= $this->get( 'UrlParams' );
 		$params			= $this->get( 'StateParams' );
 		$advanced		= $this->get( 'AdvancedParams' );
