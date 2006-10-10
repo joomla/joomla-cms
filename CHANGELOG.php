@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Oct-2006 Andy Miller
+ # Fixed system-message styling
+
 10-Oct-2006 Hannes Papenberg
  # Fixed [artf6259] : Untranslated strings on Cache page
  # Fixed [artf6235] : Untranslated strings in mod_latestnews

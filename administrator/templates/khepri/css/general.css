@@ -478,9 +478,9 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
 
 /* System Messages */
-dl#system-message { margin: 0; padding: 0; }
+dl#system-message { margin-bottom: 10px; padding: 5px; border: 1px dashed #ccc;}
 #system-message dt { font-weight: bold; }
-#system-message dd { margin: 0; font-size: 14px; }
+#system-message dd { margin: 0; font-size: 12px; font-weight: bold;text-align: center; }
 
 /* System Standard Messages */
 #system-message dt.message { display: none; }
