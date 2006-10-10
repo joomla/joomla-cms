@@ -486,8 +486,10 @@ class JApplication extends JObject
 		define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
 		jimport('joomla.utilities.date');
 
-		// create the backward compatible language value for old 3PD components
-		$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+		if($conf->legacy) {
+			// create the backward compatible language value for old 3PD components
+			$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+		}
 	}
 
 	/**

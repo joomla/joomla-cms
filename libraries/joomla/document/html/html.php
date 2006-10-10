@@ -306,15 +306,19 @@ class JDocumentHTML extends JDocument
 	function _loadTemplate($directory, $filename)
 	{	
 		global $mainframe, $Itemid, $option;
-		global $task, $_VERSION, $my, $cur_template, $database, $acl;
 		
-		//For backwards compatibility extract the config vars as globals
-		$registry =& JFactory::getConfig();
-		foreach (get_object_vars($registry->toObject()) as $k => $v) {
-			$name = 'mosConfig_'.$k;
-			$$name = $v;
+		if ($mainframe->getCfg('legacy')) 
+		{
+			global $task, $_VERSION, $my, $cur_template, $database, $acl;
+		
+			//For backwards compatibility extract the config vars as globals
+			$registry =& JFactory::getConfig();
+			foreach (get_object_vars($registry->toObject()) as $k => $v) {
+				$name = 'mosConfig_'.$k;
+				$$name = $v;
+			}
 		}
-
+		
 		$contents = '';
 		
 		//Check to see if we have a valid template file

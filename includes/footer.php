@@ -19,7 +19,7 @@ global $_VERSION;
 // NOTE - You may change this file to suit your site needs
 ?>
 <div align="center">
-	&copy; <?php echo JHTML::Date( 'now', '%Y' ) . ' ' . $GLOBALS['mosConfig_sitename'];?>
+	&copy; <?php echo JHTML::Date( 'now', '%Y' ) . ' ' . $mainframe->getCfg('sitename'); ?>
 </div>
 
 <div align="center">
