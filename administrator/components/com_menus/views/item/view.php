@@ -30,6 +30,7 @@ class JMenuViewItem extends JView
 	{
 		global $mainframe;
 
+		$lang =& JFactory::getLanguage();
 		$this->_layout = 'form';
 
 		$item = &$this->get('Item');
@@ -50,6 +51,11 @@ class JMenuViewItem extends JView
 		}
 		JMenuBar::help( 'screen.menus.edit' );
 
+		// Load component language files
+		$component		= &$this->get('Component');
+		$lang->load($component->option, JPATH_ADMINISTRATOR);
+		
+		// Initialize variables
 		$component		= &$this->get('Component');
 		$urlparams		= $this->get( 'UrlParams' );
 		$params			= $this->get( 'StateParams' );
@@ -109,7 +115,7 @@ class JMenuViewItem extends JView
 	{
 		global $mainframe;
 		
-		$lang = JFactory::getLanguage();
+		$lang =& JFactory::getLanguage();
 		$this->_layout = 'type';
 		
 		$item = &$this->get('Item');
@@ -139,6 +145,12 @@ class JMenuViewItem extends JView
 		}
 		JCommonHTML::loadOverlib();
 
+		// Load component language files
+		$components		= JMenuHelper::getComponentList();
+		for($i = 0; $i < count($components); $i++) {
+			$lang->load($components[$i]->option, JPATH_ADMINISTRATOR);
+		}
+		
 		// Initialize variables
 		$item			= &$this->get('Item');
 		$expansion		= &$this->get('Expansion');
@@ -146,7 +158,6 @@ class JMenuViewItem extends JView
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
 		$menuTypes 		= JMenuHelper::getMenuTypeList();
-		$components		= JMenuHelper::getComponentList();
 
 		// Set document title
 		if ($item->id) {
