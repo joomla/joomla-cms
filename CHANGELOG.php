@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Oct-2006 Rastin Mehr
+# Fixed [art6319] : Cannot select section for Category
+
 10-Oct-2006 Andy Miller
  # Fixed system-message styling
 
