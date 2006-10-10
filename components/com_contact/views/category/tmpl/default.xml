@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Contact Category Layout">
 		<message>
-			<![CDATA[The contact category layout displays all the published contacts in a given category.]]>
+			<![CDATA[CONTACT CATEGORY LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Contacts Category Layout</name>
-		<description>The contact category layout displays all the published contacts in a given category.</description>
+		<description>CONTACT CATEGORY LAYOUT DESC</description>
 		<url addParameterDir="/administrator/components/com_contact/elements">
 			<param name="catid" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 		</url>

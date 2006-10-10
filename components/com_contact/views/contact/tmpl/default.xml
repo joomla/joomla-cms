@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Standard Contact Layout">
 		<message>
-			<![CDATA[The standard contact layout displays a single contact's details.]]>
+			<![CDATA[STANDARD CONTACT LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Standard Contact Layout</name>
-		<description>The standard contact layout displays a single contact's details.</description>
+		<description>STANDARD CONTACT LAYOUT DESC</description>
 		<url addParameterDir="/administrator/components/com_contact/elements">
 			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
 		</url>
