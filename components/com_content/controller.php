@@ -133,7 +133,7 @@ class ContentController extends JController
 		$view->setLayout('form');
 		
 		// Display the view
-		$view->edit();
+		$view->display();
 	}
 
 	/**

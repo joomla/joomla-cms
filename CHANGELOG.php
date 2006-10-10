@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Oct-2006 Hannes Papenberg
+ # Fixed [artf6259] : Untranslated strings on Cache page
+ # Fixed [artf6235] : Untranslated strings in mod_latestnews
+ # Fixed [artf6338] : Untranslated string in Write Message
+ # Fixed [artf6245] : Untranslated string in Newsfeed Manager
+ # Fixed [artf6277] : Untranslated button captions
+ # Fixed [artf6332] : Unlocalized strings in Statistics
+
 09-Oct-2006 David Gal
  # Fixed presentation of languages in extension manager. Only default language are disabled now
  # Fixed language pack removal

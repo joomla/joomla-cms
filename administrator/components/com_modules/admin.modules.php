@@ -147,7 +147,7 @@ function viewModules()
 
 	$where 		= "\n WHERE " . implode( ' AND ', $where );
 	$join 		= "\n " . implode( "\n ", $joins );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.position ASC";
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.ordering ASC";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
