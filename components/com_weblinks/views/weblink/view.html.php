@@ -96,12 +96,12 @@ class WeblinksViewWeblink extends JView
 		}
 
 		// security check to see if link exists in a menu
-		$menus =& JMenu::getInstance();
+		/*$menus =& JMenu::getInstance();
 		$exists = $menus->getItems('link', 'index.php?option=com_weblinks&view=weblink&layout=form'); 
 		if ( !count($exists) ) {
 		    JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
-		}
+		}*/
 
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable

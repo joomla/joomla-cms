@@ -268,12 +268,12 @@ class ContentViewArticle extends JView
 		$isNew      = ($article->id < 1);
 		
 		// security check to see if link exists in a menu
-		$menus =& JMenu::getInstance();
+		/*$menus =& JMenu::getInstance();
 		$exists = $menus->getItems('link', 'index.php?option=com_content&view=article&layout=form'); 
 		if ( !count($exists) && $isNew) {
 		    JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
-		}
+		}*/
 		
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
