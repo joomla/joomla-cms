@@ -480,15 +480,15 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 /* System Messages */
 dl#system-message { margin-bottom: 10px; padding: 5px; border: 1px dashed #ccc;}
 #system-message dt { font-weight: bold; }
-#system-message dd { margin: 0; font-size: 12px; font-weight: bold;text-align: center; }
+#system-message dd { margin: 0; font-size: 12px; font-weight: bold; text-indent: 30px; }
 
 /* System Standard Messages */
 #system-message dt.message { display: none; }
-#system-message dd.message { background: #fff; }
-#system-message dd.message ul { list-style: none; color: black; padding: 10px 10px 10px 40px;}
+#system-message dd.message {  }
+#system-message dd.message ul { line-height: 16px;color: #333;list-style: none; background: url(../images/icon_info.png) no-repeat; padding: 0;}
 
 /* System Error Messages */
 #system-message dt.error { display: none; }
-#system-message dd.error { background: #f00; }
-#system-message dd.error ul { list-style: none; background: url(../../../../images/M_images/icon_error.gif) no-repeat 10px 10px; color: white; padding: 10px 10px 10px 40px;}
+#system-message dd.error {  }
+#system-message dd.error ul { line-height: 16px;color: #f00;list-style: none; background: url(../../../../images/M_images/icon_error.gif) no-repeat; padding: 0;}
 
