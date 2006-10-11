@@ -221,7 +221,7 @@ class JMenuModelItem extends JModel
 		// Initialize variables
 		$row	=& $this->getItem();
 		$post	= JRequest::get('post');
-
+	
 		switch ($post['type'])
 		{
 			case 'separator':
@@ -260,8 +260,6 @@ class JMenuModelItem extends JModel
 				}
 				$url = null;
 				$row->link = $prefix . '?' . implode( '&', $temp3 );
-var_dump($row->link);
-die('at the end');
 			}
 		}
 

@@ -226,7 +226,8 @@ class ContentViewCategory extends JView
 		global $mainframe, $Itemid;
 
 		if (!count( $this->items ) ) {
-			return;
+			$return = array();
+			return $return;
 		}
 
 		//create select lists

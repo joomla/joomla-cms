@@ -90,11 +90,6 @@ class JTableMenu extends JTable
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-		if (is_array( $array['control'] )) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['control']);
-			$array['control'] = $registry->toString();
-		}
 
 		return parent::bind($array, $ignore);
 	}
