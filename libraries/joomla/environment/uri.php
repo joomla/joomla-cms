@@ -193,10 +193,8 @@ class JURI extends JObject
 			if ($port = $uri->getPort()) {
 				$BASE .= ":$port";
 			}
-			if (empty($_SERVER['REQUEST_URI'])) {
-				// IIS
-				$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
-			}
+			
+			$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
 		}
 		return $BASE;
 	}
