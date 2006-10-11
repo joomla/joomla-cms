@@ -733,7 +733,23 @@ function josSpoofCheck( $header=false, $alternate=false )
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function josSpoofValue($alt = NULL) {
-	return JUtility::getToken();
+function josSpoofValue($alt = NULL) 
+{
+	global $mainframe;
+	
+	if ($alt) {
+		if ( $alt == 1 ) {
+			$random		= date( 'Ymd' );
+		} else {
+			$random		= $alt . date( 'Ymd' );
+		}
+	} else {		
+		$random		= date( 'dmY' );
+	}
+	// the prefix ensures that the hash is non-numeric
+	// otherwise it will be intercepted by globals.php
+	$validate 	= 'j' . mosHash( $mainframe->getCfg( 'db' ) . $random );
+	
+	return $validate;
 }
 ?>
