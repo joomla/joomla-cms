@@ -32,7 +32,7 @@ class BannerController extends JController
 	}
 }
 
-$controller = new BannerController( array('default_task' = > 'click') );
+$controller = new BannerController( array('default_task' => 'click') );
 $controller->execute( $task );
 $controller->redirect();
 ?>
