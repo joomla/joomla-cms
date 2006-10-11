@@ -21,6 +21,7 @@ jimport( 'joomla.database.table.plugin'    );
 jimport( 'joomla.database.table.menu'      );
 jimport( 'joomla.database.table.module'    );
 jimport( 'joomla.database.table.section'   );
+jimport( 'joomla.database.table.user'   );
 
 /**
  * Legacy class, derive from JApplication instead
