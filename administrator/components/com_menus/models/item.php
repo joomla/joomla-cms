@@ -118,7 +118,7 @@ class JMenuModelItem extends JModel
 		$return['option'] = JRequest::getVar('expand');
 		$menutype = JRequest::getVar('menutype');
 		if ($return['option']) {
-			require_once(COM_MENUS.DS.'classes'.DS.'ilink.php');
+			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php');
 			$handler		= new iLink($return['option'], $item->id, $menutype);
 			$return['html'] = $handler->getTree();
 			return $return;			
