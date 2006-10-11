@@ -703,7 +703,7 @@ function josSpoofCheck( $header=false, $alternate=false )
 {
 	// Lets make sure they saw the html form
 	$check = true;
-	$hash	= JUtility::getToken();
+	$hash	= josSpoofValue();
 	$valid	= JRequest::getVar( $hash, 0, 'post' );
 	if (!$valid) {
 		$check = false;
