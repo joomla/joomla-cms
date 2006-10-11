@@ -280,15 +280,15 @@ td.pill_r {
 }
 
 #pillmenu a:hover {
-  color: #00f;
+  color: #2a5da7;
 }
 
-#pillmenu a#active_menu {
+#pillmenu a#active_menu-nav {
   background: url(../images/mw_menu_active_bg.png) repeat-x;
   color: #fff;
 }
 
-#pillmenu a#active_menu:hover {
+#pillmenu a#active_menu-nav:hover {
   color: #fff;
 }
 
@@ -462,14 +462,6 @@ a.mainlevel:link, a.mainlevel:visited {
 
 a.mainlevel:hover {
 
-}
-
-a.mainlevel#active_menu {
-	font-weight: bold;
-}
-
-a.mainlevel-nav#active_menu-nav {
-	color: red;
 }
 
 /* spacers */
