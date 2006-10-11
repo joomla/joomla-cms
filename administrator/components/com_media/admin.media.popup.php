@@ -32,13 +32,13 @@ class MediaViews
 		<div id="messages" style="display: none;"><span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." /></div>
 		<fieldset>
 			<div style="float: left">
-				<label for="folder">Directory</label>
+				<label for="folder"><?php echo JText::_('Directory') ?></label>
 				<?php echo $dirPath; ?>
-				<button type="button" onclick="document.imagemanager.upFolder()" title="Directory Up">Up</button>
+				<button type="button" onclick="document.imagemanager.upFolder()" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
 			</div>
 			<div style="float: right">
-				<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();">Insert</button>
-				<button type="button" onclick="window.top.document.popup.hide();">Cancel</button>
+				<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();"><?php echo JText::_('Insert') ?></button>
+				<button type="button" onclick="window.top.document.popup.hide();"><?php echo JText::_('Cancel') ?></button>
 		    </div>
 		</fieldset>
 		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component" id="imageview"></iframe>
@@ -54,9 +54,9 @@ class MediaViews
 				<td><label for="f_align"><?php echo JText::_('Align') ?></label></td>
 				<td>
 					<select size="1" id="f_align"  title="Positioning of this image">
-						<option value="" selected="selected" >Not Set</option>
-						<option value="left"                 >Left</option>
-						<option value="right"                >Right</option>
+						<option value="" selected="selected" ><?php echo JText::_('Not Set') ?></option>
+						<option value="left"                 ><?php echo JText::_('Left') ?></option>
+						<option value="right"                ><?php echo JText::_('Right') ?></option>
 					</select>
 				</td>
 			</tr>
@@ -85,7 +85,7 @@ class MediaViews
 			</table>
 			</fieldset>
 			<div id="uploadpanel">
-			<h3 id="uploadtoggler" class="toggler title"><span>Upload</span></h3>
+			<h3 id="uploadtoggler" class="toggler title"><span><?php echo JText::_('Upload') ?></span></h3>
 			<div id="uploadpane" class="content">
 			<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component" id="uploadview" name="uploadview" onload="document.imagemanager.setFolder(window.frames['uploadview'].document.adminForm.dirPath.value, true);"></iframe>
 			</div>
