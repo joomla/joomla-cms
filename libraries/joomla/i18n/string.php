@@ -17,7 +17,7 @@ jimport('phputf8.utf8');
 /**
  * String handling class for utf-8 data
  * Wraps the phputf8 library
- * All functions assume the validity of utf-8 strings. If in doubt use TODO
+ * All functions assume the validity of utf-8 strings. 
  *
  * @static
  * @author 		David Gal <david@joomla.co.il>
