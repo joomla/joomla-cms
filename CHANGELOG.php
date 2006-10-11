@@ -41,6 +41,7 @@ Legend:
  # Fixed [artf6326] : legacy mosConfig missing as GLOBALS in legacy mode
  # Fixed [artf6320] : web-link is locked after close
  # Fixed [artf6340] : Menu Manager window caption is incorrect
+ # Fixed [artf6353] : IIS 6.0 JURI::base() SCRIPT_FILENAME
 
 10-Oct-2006 Rastin Mehr
  # Fixed [art6319] : Cannot select section for Category

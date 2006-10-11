@@ -120,16 +120,12 @@ class JURI extends JObject
 	{
 		static $instances = array();
 
-		if (!isset ($instances[$uri])) {
-
-			/*
-			 * Are we obtaining the URI from the server?
-			 */
-			if ($uri == 'SERVER') {
-
-				/*
-				 * Determine if the request was over SSL (HTTPS)
-				 */
+		if (!isset ($instances[$uri])) 
+		{
+			// Are we obtaining the URI from the server?
+			if ($uri == 'SERVER') 
+			{
+				// Determine if the request was over SSL (HTTPS)
 				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
 					$https = 's://';
 				} else {
@@ -154,29 +150,25 @@ class JURI extends JObject
 				 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 				 * QUERY_STRING environment variables.
 				 */
-				} else {
-					/*
-					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-					 */
+				}
+				 else 
+				 {
+					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
-					/*
-					 * If the query string exists append it to the URI string
-					 */
+					// If the query string exists append it to the URI string
 					if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
-			} else {
-				/*
-				 * We were given a URI
-				 */
+			} 
+			else 
+			{
+				// We were given a URI
 				$theURI = $uri;
 			}
 
-			/*
-			 * Create the new JURI instance
-			 */
+			// Create the new JURI instance
 			$instances[$uri] = new JURI($theURI);
 		}
 		return $instances[$uri];
@@ -203,9 +195,6 @@ class JURI extends JObject
 			}
 			if (empty($_SERVER['REQUEST_URI'])) {
 				// IIS
-				$BASE .=  rtrim(dirname($_SERVER['SCRIPT_FILENAME']), '/\\').'/';
-			} else {
-				// Sane
 				$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
 			}
 		}
