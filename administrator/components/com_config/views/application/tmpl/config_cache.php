@@ -16,7 +16,8 @@
 				<?php echo JText::_( 'Extension Cache' ); ?>
 			</td>
 			<td>
-				<?php echo $lists['caching']; ?>
+				<?php /*$lists['caching'];*/  
+					echo '<strong>Disabled</strong> (will be available in beta 2)'?>
 			</td>
 		</tr>
 		<tr>
@@ -24,7 +25,8 @@
 				<?php echo JText::_( 'Page Cache' ); ?>
 			</td>
 			<td>
-				<?php echo $lists['caching_page']; ?>
+				<?php /*$lists['caching_page'];*/ 
+					echo '<strong>Disabled</strong> (will be available in beta 2)'?>
 			</td>
 		</tr>
 		<tr>
