@@ -53,7 +53,7 @@ class JModel extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	function __construct($options = array())
 	{
 		global $Itemid;
 		

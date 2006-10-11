@@ -23,7 +23,7 @@ class PollController extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __construct( $default )
+	function __construct( $default = array())
 	{
 		parent::__construct( $default );
 		$this->registerTask( 'add' , 'editPoll' );

@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @package Joomla
  * @subpackage Menus
  */
-class JMenuController extends JController
+class MenusController extends JController
 {
 	/**
 	 * New menu item wizard

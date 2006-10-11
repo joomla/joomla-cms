@@ -19,16 +19,14 @@ jimport( 'joomla.application.component.controller' );
  * @package Joomla
  * @subpackage Config
  */
-class ConfigComponentController extends JController
+class ConfigControllerComponent extends JController
 {
-	var $_name		= 'component';
-
 	var $_option	= 'com_config';
 
 	/**
 	 * Custom Constructor
 	 */
-	function __constuct( $default )
+	function __constuct( $default = array())
 	{
 		parent::__construct( $default );
 		$this->registerTask( 'apply', 'save' );

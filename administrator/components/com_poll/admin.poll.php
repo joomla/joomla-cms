@@ -26,7 +26,7 @@ require_once( JPATH_COMPONENT.DS.'controller.php' );
 // Set the table directory
 JTable::addTableDir( JPATH_COMPONENT.DS.'tables' );
 
-$controller = new PollController( 'showPolls' );
+$controller = new PollController( array('default_task' => 'showPolls') );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();

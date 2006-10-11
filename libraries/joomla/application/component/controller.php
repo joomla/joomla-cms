@@ -26,6 +26,14 @@
 class JController extends JObject
 {
 	/**
+	 * The name of the controller
+	 *
+	 * @var		array
+	 * @access protected
+	 */
+	var $_name = null;
+	
+	/**
 	 * Array of class methods
 	 *
 	 * @var	array
@@ -48,6 +56,17 @@ class JController extends JObject
 	 * @access protected
 	 */
 	var $_task 		= null;
+	
+   /**
+	* The set of search directories for resources (views or models)
+	* 
+	* @var array
+	* @access protected
+	*/
+	var $_path = array(
+		'model' => array(),
+		'view'  => array()
+	);
 
 	/**
 	 * URL for redirection
@@ -98,14 +117,6 @@ class JController extends JObject
 	var $_view = null;
 
 	/**
-	 * View file base path
-	 *
-	 * @var	string
-	 * @access protected
-	 */
-	var $_viewPath = null;
-
-	/**
 	 * Name of the current view
 	 *
 	 * @var	string
@@ -130,14 +141,6 @@ class JController extends JObject
 	var $_viewPrefix = null;
 
 	/**
-	 * Model file base path
-	 *
-	 * @var	string
-	 * @access protected
-	 */
-	var $_modelPath = null;
-
-	/**
 	 * An error message
 	 *
 	 * @var string
@@ -152,13 +155,12 @@ class JController extends JObject
 	 * @param	string	$default	The default task [optional]
 	 * @since	1.5
 	 */
-	function __construct( $default='' )
+	function __construct( $config = array() )
 	{
-		/*
-		 * Initialize private variables
-		 */
+		//Initialize private variables
 		$this->_redirect	= null;
 		$this->_message		= null;
+		$this->_messageType = 'message';
 		$this->_taskMap		= array();
 		$this->_methods		= array();
 		$this->_data		= array();
@@ -181,9 +183,44 @@ class JController extends JObject
 				$this->_taskMap[strtolower( $method )] = $method;
 			}
 		}
+		
+		//Set the controller name
+		if (empty( $this->_name ))
+		{
+			if (isset($config['name']))  {
+				$this->_name = $config['name'];
+			}
+			else
+			{
+				$r = null;
+				if (!preg_match('/Controller(.*)/i', get_class($this), $r)) {
+					JError::raiseError (500, "JController::__construct() : Can't get or parse class name.");
+				}
+				$this->_name = strtolower( $r[1] );
+			}
+		}
+		
 		// If the default task is set, register it as such
-		if ($default) {
-			$this->registerDefaultTask( $default );
+		if (isset($config['default_task'])) {
+			$this->registerDefaultTask( $config['default_task'] );
+		} else {
+			$this->registerDefaultTask('display' );
+		}
+		
+		// set the default model search path
+		if (isset($config['model_path'])) {
+			// user-defined dirs
+			$this->_setPath('model', $config['model_path']);
+		} else {
+			$this->setModelPath(null);
+		}
+		
+		// set the default view search path
+		if (isset($config['view_path'])) {
+			// user-defined dirs
+			$this->_setPath('view', $config['view_path']);
+		} else {
+			$this->setViewPath(null);
 		}
 	}
 
@@ -302,28 +339,16 @@ class JController extends JObject
 	}
 
 	/**
-	 * Method to get the current model path
-	 *
-	 * @access	public
-	 * @param	string	Model class file base directory
-	 * @return	string	The path
-	 * @since	1.5
-	 */
-	function getModelPath() {
-		return $this->_modelPath;
-	}
-
-	/**
-	 * Method to set the current model path
-	 *
-	 * @access	public
-	 * @return	string	Model class file base directory
-	 * @since	1.5
-	 */
+     * Resets the stack of controller model paths.
+     *
+     * To clear all paths, use JController::setModelPath(null).
+     *
+     * @param string|array The directory (-ies) to set as the path.
+     * @return void
+     */
 	function setModelPath( $path )
 	{
-		$this->_modelPath = $path.DS;
-		return $this->_modelPath;
+		$this->_setPath('model', $path);
 	}
 
 	/**
@@ -333,7 +358,8 @@ class JController extends JObject
 	 * @return	string	The task that was or is being performed
 	 * @since	1.5
 	 */
-	function getTask() {
+	function getTask() 
+	{
 		return $this->_task;
 	}
 
@@ -385,25 +411,12 @@ class JController extends JObject
 	 * Method to get the current view path
 	 *
 	 * @access	public
-	 * @param	string	View class file base directory
-	 * @return	string	The path
-	 * @since	1.5
-	 */
-	function getViewPath() {
-		return $this->_viewPath;
-	}
-
-	/**
-	 * Method to get the current view path
-	 *
-	 * @access	public
 	 * @return	string	View class file base directory
 	 * @since	1.5
 	 */
 	function setViewPath( $path )
 	{
-		$this->_viewPath = $path.DS;
-		return $this->_viewPath;
+		$this->_setPath('view', $path);
 	}
 
 	/**
@@ -455,8 +468,7 @@ class JController extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function registerDefaultTask( $method )
-	{
+	function registerDefaultTask( $method ) {
 		$this->registerTask( '__default', $method );
 	}
 
@@ -475,7 +487,8 @@ class JController extends JObject
 	 * @return string The new error message
 	 * @since 1.5
 	 */
-	function setError( $value ) {
+	function setError( $value ) 
+	{
 		$this->_error = $value;
 		return $this->_error;
 	}
@@ -490,14 +503,14 @@ class JController extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setRedirect( $url, $msg = null, $type = null )
+	function setRedirect( $url, $msg = null, $type = 'message' )
 	{
 		$this->_redirect	= $url;
 		$this->_message		= $msg;
 		$this->_messageType	= $type;
 	}
 
-		/**
+	/**
 	 * Sets the access control levels
 	 *
 	 * @access	public
@@ -533,11 +546,8 @@ class JController extends JObject
 
 		if (!class_exists( $modelClass ))
 		{
-			// Build the path to the model based upon a supplied base path
-			$path = $this->getModelPath().strtolower($modelName).'.php';
-
 			// If the model file exists include it and try to instantiate the object
-			if (file_exists( $path ))
+			if ($path = $this->_findFile('model', strtolower($modelName).'.php'))
 			{
 				require( $path );
 				if (!class_exists( $modelClass ))
@@ -569,56 +579,169 @@ class JController extends JObject
 	 */
 	function &_createView( $name, $prefix = '', $type = '' )
 	{
+		$false = false;
+		
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
 		$viewType	 = preg_replace( '#\W#', '', $type );
 		
-		$view		= null;
-
-		// Build the path to the default view based upon a supplied base path
-		$basePath	= $this->getViewPath().strtolower($viewName);
-		$viewPath	= '';
-
 		if (!empty($type)) {
 			$type = '.'.$type;
 		}
-
-		if (file_exists( $basePath.DS.'view'.$type.'.php' ))
-		{
-			// default setting, /views/viewName/view.type.php
-			$viewPath = $basePath.DS.'view'.$type.'.php';
-		}
-		else
-		{
-			// alternative file name, /views/viewName/viewName.php
-			if (file_exists( $basePath.DS.$viewName.'.php' )) {
-				$viewPath = $basePath.DS.$viewName.'.php';
-			}
-		}
 		
-		// If the default view file exists include it and try to instantiate the object
-		if ($viewPath)
+		$view		= null;
+		
+		// Build the view class name
+		$viewClass = $classPrefix.$viewName;
+		
+		if (!class_exists( $viewClass ))
 		{
-			require_once( $viewPath );
-			// Build the view class name
-			$viewClass = $classPrefix.$viewName;
-			if (!class_exists( $viewClass ))
+			// If the default view file exists include it and try to instantiate the object
+			if ($path = $this->_findFile('view', strtolower($viewName).DS.'view'.$type.'.php'))
 			{
-				JError::raiseNotice( 0, 'View class ' . $viewClass . ' not found in file.' );
+				require_once( $path );
+			
+				if (!class_exists( $viewClass ))
+				{
+					JError::raiseWarning( 0, 'View class ' . $viewClass . ' not found in file.' );
+					return $false;
+				}
 			}
 			else
 			{
-				$view = new $viewClass();
-				//$view->setTemplatePath($basePath.DS.'tmpl');
+				JError::raiseWarning( 0, 'View ' . $viewName . ' not supported. File not found.' );
+				return $false;
 			}
 		}
-		else
-		{
-			JError::raiseNotice( 0, 'View ' . $viewName . ' not supported. File not found.' );
-		}
 
+		$view = new $viewClass();
 		return $view;
+	}
+	
+   /**
+	* Sets an entire array of search paths for resources.
+	*
+	* @access protected
+	* @param string $type The type of path to set, typically 'view' or 'model.
+	* @param string|array $path The new set of search paths.  If null or
+	* false, resets to the current directory only.
+	*/
+	function _setPath($type, $path)
+	{
+		global $mainframe, $option;
+			
+		// clear out the prior search dirs
+		$this->_path[$type] = array();
+		
+		// always add the fallback directories as last resort
+		switch (strtolower($type)) 
+		{
+			case 'view':
+				// the current directory
+				$this->_addPath($type, JPATH_COMPONENT.DS.'views');
+				break;
+				
+			case 'model':
+				// the current directory
+				$this->_addPath($type, JPATH_COMPONENT.DS.'models');
+				break;
+		}
+			
+		// actually add the user-specified directories
+		$this->_addPath($type, $path);
+	}
+	
+   /**
+	* Adds to the search path for templates and resources.
+	*
+	* @access protected
+	* @param string|array $path The directory or stream to search.
+	*/
+	function _addPath($type, $path)
+	{
+		// convert from path string to array of directories
+		if (is_string($path) && ! strpos($path, '://')) 
+		{
+			// the path config is a string, and it's not a stream
+			// identifier (the "://" piece). add it as a path string.
+			$path = explode(PATH_SEPARATOR, $path);
+			
+			// typically in path strings, the first one is expected
+			// to be searched first. however, JView uses a stack,
+			// so the first would be last.  reverse the path string
+			// so that it behaves as expected with path strings.
+			$path = array_reverse($path);
+		} 
+		else 
+		{
+			// just force to array
+			settype($path, 'array');	
+		}
+		
+		// loop through the path directories
+		foreach ($path as $dir) 
+		{
+			// no surrounding spaces allowed!
+			$dir = trim($dir);
+			
+			// add trailing separators as needed
+			if (strpos($dir, '://') && substr($dir, -1) != '/') {
+				// stream
+				$dir .= '/';
+			} elseif (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+				// directory
+				$dir .= DIRECTORY_SEPARATOR;
+			}
+			
+			// add to the top of the search dirs
+			array_unshift($this->_path[$type], $dir);
+		}
+	}
+	
+   /**
+	* Searches the directory paths for a given file.
+	* 
+	* @access protected
+	* @param array $type The type of path to search (template or resource).
+	* @param string $file The file name to look for.
+	* 
+	* @return string|bool The full path and file name for the target file,
+	* or boolean false if the file is not found in any of the paths.
+	*/
+	function _findFile($type, $file)
+	{
+		// get the set of paths
+		$set = $this->_path[$type];
+		
+		// start looping through the path set
+		foreach ($set as $path) 
+		{	
+			// get the path to the file
+			$fullname = $path . $file;
+				
+			// is the path based on a stream?
+			if (strpos($path, '://') === false)
+			{
+				// not a stream, so do a realpath() to avoid directory 
+				// traversal attempts on the local file system.
+				$path = realpath($path); // needed for substr() later
+				$fullname = realpath($fullname);
+			}
+			
+			// the substr() check added to make sure that the realpath() 
+			// results in a directory registered with Savant so that 
+			// non-registered directores are not accessible via directory 
+			// traversal attempts.
+			if (file_exists($fullname) && is_readable($fullname) &&
+				substr($fullname, 0, strlen($path)) == $path)
+			{
+				return $fullname;
+			}
+		}
+		
+		// could not find the file in the set of paths
+		return false;
 	}
 }
 ?>

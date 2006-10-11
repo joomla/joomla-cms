@@ -24,11 +24,7 @@ JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'ta
 $document =& JFactory::getDocument();
 
 // Create the controller
-$controller = new WeblinksController( 'display' );
-
-// need to tell the controller where to look for views and models
-$controller->setViewPath ( JPATH_COMPONENT.DS.'views'  );
-$controller->setModelPath( JPATH_COMPONENT.DS.'models' );
+$controller = new WeblinksController( );
 
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view' );

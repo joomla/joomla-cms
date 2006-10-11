@@ -23,7 +23,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerController extends JController
+class InstallerController extends JController
 {
 	/**
 	 * Display the extension installer form

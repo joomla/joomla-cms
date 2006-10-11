@@ -23,13 +23,11 @@ if (!$user->authorize('com_installer', 'installer')) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-define( 'COM_EXTENSIONMANAGER', dirname( __FILE__ ) . DS );
-require_once( COM_EXTENSIONMANAGER . 'controller.php' );
-//require_once( COM_EXTENSIONMANAGER . 'helper.php' );
+require_once( JPATH_COMPONENT.DS.'controller.php' );
 
-$controller = new ExtensionManagerController( 'installform' );
-$controller->setModelPath( COM_EXTENSIONMANAGER.'models' );
-$controller->setViewPath( COM_EXTENSIONMANAGER.'views' );
+$controller = new InstallerController( array('default_task' => 'installform') );
+$controller->setModelPath( JPATH_COMPONENT.DS.'models' );
+$controller->setViewPath( JPATH_COMPONENT.DS.'views' );
 $controller->execute( JRequest::getVar('task') );
 $controller->redirect();
 ?>

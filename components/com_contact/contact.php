@@ -25,10 +25,7 @@ JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tab
 $document =& JFactory::getDocument();
 $mParams =& JSiteHelper::getMenuParams();
 
-$controller	= new ContactController( 'display' );
-
-$controller->setViewPath ( JPATH_COMPONENT. '/views'  );
-$controller->setModelPath( JPATH_COMPONENT . '/models' );
+$controller	= new ContactController();
 
 $viewName = JRequest::getVar( 'view', $mParams->get( 'view', 'category' ) );
 $viewType = $document->getType();

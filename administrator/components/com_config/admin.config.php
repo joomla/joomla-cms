@@ -27,7 +27,7 @@ switch (JRequest::getVar( 'c', 'global' ))
 		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'application.php' );
 		require_once( JPATH_COMPONENT.DS.'views'.DS.'application'.DS.'view.php' );
 
-		$controller = new ConfigApplicationController( 'showConfig' );
+		$controller = new ConfigControllerApplication( array('default_task' => 'showConfig' ));
 		break;
 
 	default:
@@ -36,7 +36,7 @@ switch (JRequest::getVar( 'c', 'global' ))
 		require_once( JPATH_COMPONENT.DS.'models'.DS.'component.php' );
 		require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
 
-		$controller = new ConfigComponentController( 'edit' );
+		$controller = new ConfigControllerComponent( array('default_task' => 'edit') );
 		break;
 }
 

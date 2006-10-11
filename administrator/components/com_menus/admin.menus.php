@@ -16,15 +16,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-define( 'COM_MENUS', dirname( __FILE__ ) . DS );
-require_once( COM_MENUS . 'controller.php' );
-require_once( COM_MENUS . 'helper.php' );
+require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once( JPATH_COMPONENT.DS.'helper.php' );
 
 $task = JRequest::getVar( 'task' );
 
-$controller = new JMenuController( 'viewMenus' );
-$controller->setModelPath( COM_MENUS.'models'.DS );
-$controller->setViewPath( COM_MENUS.'views'.DS );
+$controller = new MenusController( array('default_task' => 'viewMenus') );
+$controller->setModelPath( JPATH_COMPONENT.DS.'models'.DS );
+$controller->setViewPath( JPATH_COMPONENT.DS.'views'.DS );
 $controller->registerTask('apply', 'save');
 $controller->execute( $task );
 $controller->redirect();

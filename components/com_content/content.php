@@ -25,11 +25,7 @@ jimport('joomla.application.component.helper');
 $document =& JFactory::getDocument();
 
 // Create the controller
-$controller = new ContentController( 'display' );
-
-// need to tell the controller where to look for views and models
-$controller->setViewPath ( JPATH_COMPONENT.DS.'views'  );
-$controller->setModelPath( JPATH_COMPONENT.DS.'models' );
+$controller = new ContentController( );
 
 // Set the default view name from the Request
 $viewName = JRequest::getVar( 'view' );

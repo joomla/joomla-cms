@@ -56,9 +56,8 @@ class JView extends JObject
 	 */
 	var $_layout = 'default';
 	
-	/**
-	* The set of search directories for resources (templates) 
-	* and templates.
+   /**
+	* The set of search directories for resources (templates)
 	* 
 	* @var array
 	* @access protected
@@ -117,7 +116,7 @@ class JView extends JObject
 		// set the default template search path
 		if (isset($config['template_path'])) {
 			// user-defined dirs
-			$this->setPath('template', $config['template_path']);
+			$this->_setPath('template', $config['template_path']);
 		} else {
 			$this->setTemplatePath(null);
 		}
@@ -565,7 +564,7 @@ class JView extends JObject
 		}
 	}
 	
-		/**
+   /**
 	* Sets an entire array of search paths for templates or resources.
 	*
 	* @access protected
