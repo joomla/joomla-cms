@@ -69,7 +69,7 @@ class ContactViewCategory extends JView
 		{
 			$contact =& $contacts[$i];
 
-			$contact->link    = sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;contact_id='.$contact->id.'&amp;Itemid='.$Itemid);
+			$contact->link    = sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;id='.$contact->id.'&amp;Itemid='.$Itemid);
 
 			$contact->odd   = $k;
 			$contact->count = $i;

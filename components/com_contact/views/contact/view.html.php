@@ -43,7 +43,7 @@ class ContactViewContact extends JView
 		$modelCat	= &$this->getModel( 'ContactModelCategory' );
 
 		// Selected Request vars
-		$contactId	= JRequest::getVar( 'contact_id', $params->get('contact_id', 0 ), '', 'int' );
+		$contactId	= JRequest::getVar( 'id', $params->get('id', 0 ), '', 'int' );
 
 		// query options
 		$options['id']	= $contactId;

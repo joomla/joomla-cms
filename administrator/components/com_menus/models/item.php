@@ -234,7 +234,6 @@ class JMenuModelItem extends JModel
 			case 'component':
 				break;
 		}
-
 		if (!$row->bind( $post )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
@@ -261,6 +260,8 @@ class JMenuModelItem extends JModel
 				}
 				$url = null;
 				$row->link = $prefix . '?' . implode( '&', $temp3 );
+var_dump($row->link);
+die('at the end');
 			}
 		}
 
