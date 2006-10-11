@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Oct-2006 Emir Sakic
+ ^ Added installation language file for Bosnian
+ # Typo in English installation language file
+
 10-Oct-2006 Johan Janssens
  # Fixed [artf6326] : legacy mosConfig missing as GLOBALS in legacy mode
  # Fixed [artf6320] : web-link is locked after close
@@ -76,7 +80,7 @@ Legend:
 07-Oct-2006 David Gal
  + Added provisions for localisation of TinyMCE and JS Calendar (to be included only in localised releases)
  + Added provisions for defaulting installation, site and admin languages in localised packages of Joomla!
-  
+
 06-Oct-2006 Johan Janssens
  - Removed system error message from configuration, unused in 1.5
  # Fixed [artf6254] : Launching search from the menu
@@ -87,7 +91,7 @@ Legend:
 
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images
- 
+
 05-Oct-2006 Hannes Papenberg
  # Fixed [artf6246] : [5297] Calling frontend component includes toolbar...
  # Fixed [artf6233] : Blog view does not show any content
@@ -2039,13 +2043,13 @@ Legend:
 
 05-Oct-2006 Louis Landry
  + Added legacy patFactory class to legacy classes -- Thanks to pollen8 (Rob) --
- 
+
 05-Oct-2006 David Gal
  ^ Fixed front end user parameter editing in "My Details" and added access level filtering of parameters
- 
+
 05-Oct-2006 Andy Miller
  ^ Updated on mod_menu tree css and images
- 
+
 05-Oct-2006 Hannes Papenberg
  # Fixed [artf6246] : [5297] Calling frontend component includes toolbar...
  # Fixed [artf6233] : Blog view does not show any content
