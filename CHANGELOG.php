@@ -40,6 +40,9 @@ Legend:
 12-Oct-2006 Johan Janssens
  # Fixed [artf6358] : Incorrect mod_title description
 
+11-Oct-2006 Andy Miller
+ # Fixed pillmenu colors and hover
+
 11-Oct-2006 Emir Sakic
  ^ Added installation language file for Bosnian
  # Typo in English installation language file
