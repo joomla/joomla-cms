@@ -77,9 +77,9 @@ class ContentViewFrontpage extends JView
 		//add alternate feed link
 		$link    = ampReplace(JURI::base() .'feed.php?option=com_content&view=frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&amp;format=feed&amp;feedformat=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&amp;format=feed&amp;feedformat=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 
 		// Set section/category description text and images for
 		//TODO :: Fix this !

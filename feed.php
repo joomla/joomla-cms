@@ -49,7 +49,7 @@ $mainframe->authorize($Itemid);
 
 $option = JSiteHelper::findOption(); 
 $params = array(
-	'feedformat' =>  JRequest::getVar( 'feedformat', 'rss', '', 'string' )
+	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
 );
 
 $document =& JFactory::getDocument('feed');
