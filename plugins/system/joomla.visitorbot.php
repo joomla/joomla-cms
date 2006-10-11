@@ -41,7 +41,7 @@ function botDetectVisitor()
 
 	setcookie( 'mosvisitor', '1' );
 
-	$agent    = $browser->getFeature('parent');
+	$agent    = $browser->getBrowser();
 	$platform = $browser->getPlatform();
 
 	if (phpversion() <= '4.2.1') {
@@ -73,14 +73,14 @@ function botDetectVisitor()
 
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__stats_agents"
-	. "\n WHERE agent = '$agent'"
+	. "\n WHERE agent = '$platform'"
 	. "\n AND type = '1'"
 	;
 	$db->setQuery( $query );
 	if ($db->loadResult()) {
 		$query = "UPDATE #__stats_agents"
 		. "\n SET hits = ( hits + 1 )"
-		. "\n WHERE agent = '$agent'"
+		. "\n WHERE agent = '$platform'"
 		. "\n AND type = '1'"
 		;
 		$db->setQuery( $query );
