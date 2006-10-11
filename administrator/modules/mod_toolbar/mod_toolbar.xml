@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module shows the Toolbar icons used to control actions throughout the admin area</description>
+	<description>This module shows the toolbar icons used to control actions throughout the administrator area</description>
 	<files>
 		<filename module="mod_toolbar">mod_toolbar.php</filename>
 	</files>

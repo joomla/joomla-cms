@@ -14,16 +14,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Get the component title div
- */
+// Get the component title div
 $title = $mainframe->get('JComponentTitle');
 
-/*
- * Echo title if it exists
- */
-if (!empty($title))
-{
+// Echo title if it exists
+if (!empty($title)) {
 	echo $title;
 }
 ?>
