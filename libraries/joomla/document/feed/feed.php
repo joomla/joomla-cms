@@ -85,11 +85,11 @@ class JDocumentFeed extends JDocument
 	 var $editor = "";
 
 	/**
-     * Docs feed element
-     *
-     * @var       string
-     * @access    public
-     */
+	* Docs feed element
+	*
+	* @var       string
+	* @access    public
+	*/
 	 var $docs = "";
 
 	 /**
@@ -197,7 +197,7 @@ class JDocumentFeed extends JDocument
 	{
 		global $mainframe, $option;
 
-		$format     = isset($params['format']) ? $params['format'] : 'RSS';
+		$format     = isset($params['feedformat']) ? $params['feedformat'] : 'RSS';
 		$cache      = 0;
 		$cache_time = 3600;
 		$cache_path = $mainframe->getCfg('cachepath');
@@ -223,9 +223,9 @@ class JDocumentFeed extends JDocument
 		$result .= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
 		 // Generate stylesheet links
-        foreach ($this->_styleSheets as $src => $attr ) {
-            $result .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
-        }
+		foreach ($this->_styleSheets as $src => $attr ) {
+			$result .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
+		}
 
 		// Render the feed
 		$result .= $renderer->render( );
