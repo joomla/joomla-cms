@@ -45,7 +45,7 @@ See COPYRIGHT.php for copyright notices and details.
 		<div id="border-top">
 			<div>
 				<div>
-					<span class="version"><jdoc:translate>Version#</jdoc:translate></span>
+					<span class="version"><jdoc:translate>Version</jdoc:translate> <?php echo JVERSION; ?></span>
 					<span class="title"><jdoc:translate>Administration</jdoc:translate></span>
 				</div>
 			</div>
