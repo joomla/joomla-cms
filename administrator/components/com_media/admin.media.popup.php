@@ -41,7 +41,7 @@ class MediaViews
 				<button type="button" onclick="window.top.document.popup.hide();">Cancel</button>
 		    </div>
 		</fieldset>
-		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component.html" id="imageview"></iframe>
+		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component" id="imageview"></iframe>
 		<fieldset>
 		<table class="properties">
 			<tr>
@@ -87,12 +87,12 @@ class MediaViews
 			<div id="uploadpanel">
 			<h3 id="uploadtoggler" class="toggler title"><span>Upload</span></h3>
 			<div id="uploadpane" class="content">
-			<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component.html" id="uploadview" name="uploadview" onload="document.imagemanager.setFolder(window.frames['uploadview'].document.adminForm.dirPath.value, true);"></iframe>
+			<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component" id="uploadview" name="uploadview" onload="document.imagemanager.setFolder(window.frames['uploadview'].document.adminForm.dirPath.value, true);"></iframe>
 			</div>
 			</div>
 			</div>
 			<input type="hidden" id="f_file" name="f_file" />
-			<input type="hidden" id="tmpl" name="component.html" />
+			<input type="hidden" id="tmpl" name="component" />
 		</form>
 		<?php
 	}
@@ -172,7 +172,7 @@ class MediaViews
 			$listdir = '';
 		}
 
-		$link = 'index.php?option=com_media&amp;task=imgManagerList&amp;tmpl=component.html&amp;folder='.$listdir.$path;
+		$link = 'index.php?option=com_media&amp;task=imgManagerList&amp;tmpl=component&amp;folder='.$listdir.$path;
 
 		?>
 		<div class="item">
@@ -221,7 +221,7 @@ class MediaViews
 		</tr>
 		</table>
 
-		<input type="hidden" name="tmpl" value="component.html" />
+		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="dirPath" value="/<?php echo $dirPath ?>" />
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="popupUpload" />

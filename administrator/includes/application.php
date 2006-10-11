@@ -52,19 +52,19 @@ class JAdministrator extends JApplication
 	function execute( $option )
 	{
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$file 	  = JRequest::getVar( 'tmpl', 'index.php',  '', 'string'  );
+		$file 	  = JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
 
 		//TODO :: put cpanel in a component
 		if(empty($option)) {
-			$file = 'cpanel.php';
+			$file = 'cpanel';
 		}
 
 		$session =& JFactory::getSession();
 		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
-			$file = 'login.php';
+			$file = 'login';
 		}
 
-		$this->_display($template, $file);
+		$this->_display($template, $file.'.php');
 	}
 
 	/**

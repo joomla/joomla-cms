@@ -382,12 +382,12 @@ class JHTML
 	{
 		$js = "
 				function keepAlive() {
-					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component.html&task=keepalive\';', 60000);
+					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component&task=keepalive\';', 60000);
 				}";
 
 		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
 				"style=\"width:0px; height:0px; border: 0px\" " .
-				"src=\"index.php?option=com_admin&tmpl=component.html&task=keepalive\" " .
+				"src=\"index.php?option=com_admin&tmpl=component&task=keepalive\" " .
 				"onload=\"keepAlive();\"></iframe>";
 
 		$doc =& JFactory::getDocument();

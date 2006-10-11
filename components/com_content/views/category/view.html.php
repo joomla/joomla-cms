@@ -324,7 +324,7 @@ class ContentViewCategory extends JView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$this->item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&amp;task=view&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component';
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));

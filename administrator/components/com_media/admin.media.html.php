@@ -71,7 +71,7 @@ class MediaViews
 						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create Folder' ); ?></button>
 					</div>
 					<div class="view">
-						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onloadframe();"></iframe>
+						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" onload="document.mediamanager.onloadframe();"></iframe>
 					</div>
 				</fieldset>
 			</td>
@@ -263,7 +263,7 @@ class MediaViews
 			$listdir = '';
 		}
 
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$listdir.$path;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$listdir.$path;
 
 		?>
 		<div class="imgOutline">
@@ -293,7 +293,7 @@ class MediaViews
 
 		$folder = str_replace("\\", "/", dirname($path));
 
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$folder;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$folder;
 
 		?>
 		<div class="imgOutline">
@@ -391,7 +391,7 @@ class MediaViews
 			$listdir = '';
 		}
 
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$listdir.$path;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$listdir.$path;
 		?>
 		<tr>
 			<td class="imgTotal">
@@ -429,7 +429,7 @@ class MediaViews
 
 		$folder = str_replace("\\", "/", dirname($path));
 
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component.html&amp;cFolder='.$folder;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$folder;
 		?>
 		<tr>
 			<td class="imgTotal">

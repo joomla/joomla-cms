@@ -251,7 +251,7 @@ class JDocumentHTML extends JDocument
 
 		//Legacy for popups
 		//This is a dirty fix for now until we reach some sort of better way.
-		//Requests running through component.html are supposed to load the default css for BC
+		//Requests running through component are supposed to load the default css for BC
 		global $mainframe;
 		$a_template = $mainframe->getTemplate();
 		$instance->addVar( 'document', 'assigned_template', $a_template);

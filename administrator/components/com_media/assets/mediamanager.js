@@ -82,7 +82,7 @@ JMediaManager.prototype = {
 		document.getElementById(type).className = 'active';
 		document.getElementById(cStyle).className = '';
 		cStyle = type;
-		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component.html&cFolder='+folder+'&listStyle='+type;
+		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component&cFolder='+folder+'&listStyle='+type;
 	},
 	
 	getFolder: function()

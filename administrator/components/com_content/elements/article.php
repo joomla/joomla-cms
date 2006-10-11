@@ -53,7 +53,7 @@ class JElement_Article extends JElement
 			document.popup.hide();
 		}";
 
-		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component.html';
+		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component';
 		$doc->addScriptDeclaration($js);
 		$doc->addScript($url.'includes/js/joomla/modal.js');
 		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');

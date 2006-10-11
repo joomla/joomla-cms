@@ -62,7 +62,7 @@ class JSite extends JApplication
 		$this->_createPathWay();
 
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$file 	  = JRequest::getVar( 'tmpl', 'index.php', '', 'string'  );
+		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 		
 		$user     =& JFactory::getUser();
 
@@ -70,7 +70,7 @@ class JSite extends JApplication
 			$file = 'offline.php';
 		}
 
-		$this->_display($template, $file);
+		$this->_display($template, $file.'.php');
 	}
 
 	/**

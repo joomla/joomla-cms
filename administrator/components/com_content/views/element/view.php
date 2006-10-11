@@ -54,7 +54,7 @@ class ContentViewElement extends JView
 		$page = &$this->get('Pagination');
 		JCommonHTML::loadOverlib();
 		?>
-		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component.html" method="post" name="adminForm">
+		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component" method="post" name="adminForm">
 
 			<table>
 				<tr>

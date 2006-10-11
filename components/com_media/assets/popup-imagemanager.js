@@ -109,7 +109,7 @@ JImageManager.prototype = {
 			}
 		}
 		
-		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component.html&folder=' + directory;		
+		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + directory;		
 	
 		if(refresh) {
 			this.imageview.location.reload(true);
