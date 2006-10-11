@@ -21,8 +21,6 @@ require_once( JPATH_COMPONENT.DS.'helper.php' );
 require_once (JApplicationHelper::getPath('admin_html'));
 
 $controller = new ContentController();
-$controller->setModelPath( JPATH_COMPONENT.DS.'models'.DS );
-$controller->setViewPath( JPATH_COMPONENT.DS.'views'.DS );
 
 switch (strtolower($task))
 {
