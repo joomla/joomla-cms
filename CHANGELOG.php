@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.0 Beta Released [12-Oct-2006] ------------------------
+
 12-Oct-2006 Johan Janssens
  # Fixed [artf6369] : New menu on Component doesn't work with Community Buider
  # Fixed [artf4245] : Installer: FTP auto-detector adds wrong / at the begining
+ # Fixed [artf6321] : Login button for admin doesn't work
 
 12-Oct-2006 Alex Kempkens
  # Fixed missing variable in search helper

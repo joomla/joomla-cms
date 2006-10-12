@@ -29,19 +29,19 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.5';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Alpha 2';
+	var $DEV_STATUS = 'Beta';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '$Revision: 2250 $';
+	var $BUILD	 	= '$Revision: $';
 	/** @var string Codename */
 	var $CODENAME 	= 'Khepri';
 	/** @var string Date */
-	var $RELDATE 	= '06-Feb-2006';
+	var $RELDATE 	= '12-Oct-2006';
 	/** @var string Time */
 	var $RELTIME 	= '00:00';
 	/** @var string Timezone */
-	var $RELTZ 		= 'UTC';
+	var $RELTZ 		= 'GMT';
 	/** @var string Copyright Text */
 	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2006-2006 Open Source Matters. All rights reserved.';
 	/** @var string URL */
