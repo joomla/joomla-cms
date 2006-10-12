@@ -919,6 +919,9 @@ class JInstallationHelper
 			$ftpPath .= $parts[$i]."/";
 		}
 		$thePath = str_replace($thePath, '', JPATH_SITE);
+		if ( substr( $thePath, 0, 1 ) == "/" ) {
+			$thePath = substr( $thePath, 1 );
+		}
 
 		return ($thePath == '') ? null : $thePath."/";
 	}

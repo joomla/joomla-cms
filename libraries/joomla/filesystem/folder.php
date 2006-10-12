@@ -196,11 +196,14 @@ class JFolder
 	    // as long as the owner is either the webserver or the ftp
 	    if(@rmdir($path)){
 	    	$ret = true;
-	    } else {
+	    } elseif($ftpFlag == true) {
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
 			$ret = $ftp->delete($path);
-	    }
+	    } else {
+			$ret = false;
+		}
+		
 	    if($ftpFlag){
 			$ftp->quit();
 		}
