@@ -1327,7 +1327,7 @@ class JInstallationHelper
 		/*
 		 * First remove all 3pd component links from migrated menu
 		 */
-		$query = "DELETE FROM `".$newPrefix."menu_migration` WHERE `componentid` > 16 ;";
+		$query = "DELETE FROM `".$newPrefix."menu_migration` WHERE `componentid` > 33 ;";
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1366,7 +1366,7 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// contact item link
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `control` = 'view_name=contact\ntemplate_name=default', `params` = CONCAT_WS( '', params, '\ncontact_id=', componentid ), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'contact_item_link';";
+		$query = "UPDATE `".$newPrefix."menu_migration` SET `control` = 'view_name=contact\ntemplate_name=default', `params` = CONCAT_WS( '', params, '\nid=', componentid ), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'contact_item_link';";
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );

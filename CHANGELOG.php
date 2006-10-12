@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Oct-2006 David Gal
+ + Added new sample data for Beta1 release
+ 
 11-Oct-2006 Rastin Mehr
  # Fixed [artf6257] : Menu Manager allows to save incomplete menu items
 

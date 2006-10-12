@@ -28,8 +28,10 @@ Johan Janssens, Alex Kempkens, Peter Koch, James Logan, Andy Miller,
 Mitch Pirtle, Steen Rabol, Peter Russel, Phil Taylor, Brian Teeman, Emir
 Sakic, Jean-Marie Simonet, Andy Stewart, Trijnie Wanders, Arno Zijlstra,
 David Gal, Louis Landry, Marko Schmuck, Mateusz Kreszowiec, Richard Allinson,
-Rob Schley, Tonie deWilde, Samuel Moffatt
+Rob Schley, Tonie deWilde, Samuel Moffatt 
 or Miro International Pty Ltd.
+
+Translators of Installation Language packs (to be expanded)
 
 Joomla! includes or is derivative of works distributed under the following copyright notices:
 
