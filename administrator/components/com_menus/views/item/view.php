@@ -29,7 +29,7 @@ class JMenuViewItem extends JView
 	function edit($tpl = null)
 	{
 		global $mainframe;
-
+		
 		$lang =& JFactory::getLanguage();
 		$this->_layout = 'form';
 
@@ -77,10 +77,10 @@ class JMenuViewItem extends JView
 		if (!$item->published) {
 			$item->published = 0;
 		}
-
 		$lists = new stdClass();
 		$lists->published = JMenuHelper::Published($item);
 		$lists->disabled = ($item->type != 'url' ? 'disabled="true"' : '');
+		
 		if ($item->type != 'url') {
 			$lists->disabled = 'disabled="true"';
 			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
@@ -93,7 +93,7 @@ class JMenuViewItem extends JView
 			$lists->disabled = null;
 			$item->linkfield = null;
 		}
-
+		
 		$this->assignRef('lists', $lists);
 		$this->assignRef('item', $item);
 		$this->assignRef('urlparams', $urlparams);

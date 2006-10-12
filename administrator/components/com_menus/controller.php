@@ -43,7 +43,6 @@ class MenusController extends JController
 		$model	=& $this->getModel( 'Item', 'JMenuModel' );
 		$view =& $this->getView( 'Item', 'JMenuView' );
 		$view->setModel( $model, true );
-
 		// Set the layout and display
 		$view->setLayout('form');
 		$view->edit();

@@ -3,14 +3,18 @@
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	var type = form.type.value;
-	if (pressbutton == 'cancelItem') {
 	
+	if (pressbutton == 'cancelItem') {
 		submitform( pressbutton );
 		return;
 	}
 	if ( (type != "separator") && (trim( form.name.value ) == "") ){
 		alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
-	} else {
+	}
+	<?php if( $this->name == "Standard Article Layout" ){ ?>
+	else if( document.getElementById('a_id').value == 0 ){
+		alert( "<?php echo JText::_('Please select an Article', true ); ?>" );
+	} <?php } ?> else {
 		submitform( pressbutton );
 	}
 }
