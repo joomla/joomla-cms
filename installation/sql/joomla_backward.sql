@@ -26,8 +26,8 @@ CREATE TABLE `#__banner` (
   `description` TEXT NOT NULL DEFAULT '',
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00', 
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00', 
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
   `tags` TEXT NOT NULL DEFAULT '',
   `params` TEXT NOT NULL DEFAULT '',
   PRIMARY KEY  (`bid`),
@@ -509,6 +509,7 @@ INSERT INTO `#__modules` VALUES (36, 'Admin SubMenu','', 1,'submenu', 0,'0000-00
 INSERT INTO `#__modules` VALUES (37, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (38, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (40, 'Cpanel Shell', '', 1, 'cp_shell', 0, '0000-00-00 00:00:00', 1, 'mod_cpanel', 0, 23, 1, '', 1, 1, '');
+INSERT INTO `#__modules` VALUES (41, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 1, 1, '');
 
 # --------------------------------------------------------
 
