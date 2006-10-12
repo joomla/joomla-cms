@@ -60,7 +60,7 @@ class ContentModelArchive extends JModel
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 			
 			$query = $this->_buildQuery();
-
+			
 			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
 		

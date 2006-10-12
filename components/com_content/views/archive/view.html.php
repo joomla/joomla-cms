@@ -53,7 +53,7 @@ class ContentViewArchive extends JView
 		// Get some data from the model
 		$items = & $this->get( 'data'  );
 		$total = & $this->get( 'total' );
-
+	
 		// Add item to pathway
 		$pathway->addItem(JText::_('Archive'), '');
 
@@ -108,6 +108,7 @@ class ContentViewArchive extends JView
 			JHTML::makeOption( '12', JText::_( 'DEC' ) )
 		);
 		$form->monthField	= JHTML::selectList( $months, 'month', 'size="1" class="inputbox"', 'value', 'text', $month );
+		
 		// Year Field
 		$years = array();
 		$years[] = JHTML::makeOption( null, JText::_( 'Year' ) );
@@ -120,8 +121,6 @@ class ContentViewArchive extends JView
 		$this->assign('filter' 		, $filter);
 		$this->assign('year'  		, $year);
 		$this->assign('month' 		, $month);
-		$this->assign('limit' 		, $limit);
-		$this->assign('limitstart' 	, $limitstart);
 
 		$this->assignRef('form'      , $form);
 		$this->assignRef('items'     , $items);

@@ -13,7 +13,7 @@
 		<button type="submit" class="button"><?php echo JText::_('Filter'); ?></button>
 	</p>
 
-<?php $this->loadTemplate('items'); ?>
+<?php echo $this->loadTemplate('items'); ?>
 
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 	<input type="hidden" name="view" value="archive" />
