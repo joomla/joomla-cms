@@ -37,13 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Oct-2006 Johan Janssens
+ # Fixed [artf6369] : New menu on Component doesn't work with Community Buider
+
 12-Oct-2006 Alex Kempkens
  # Fixed missing variable in search helper
  # Removed unneeded parameter in admin.sections, contact
  # Fixed pw check in user frontend
  # Fixed missing moduleclass_sfx in mod_feed
  # corrected spellings mistakes in modules var declarations
-
 
 11-Oct-2006 Rastin Mehr
  # Fixed [artf6260] "Email this link to" is not working

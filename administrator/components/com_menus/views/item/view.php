@@ -63,7 +63,7 @@ class JMenuViewItem extends JView
 		$description	= $this->get( 'StateDescription' );
 		$menuTypes 		= JMenuHelper::getMenuTypeList();
 		$components		= JMenuHelper::getComponentList();
-
+		
 		JCommonHTML::loadOverlib();
 
 		$document = & JFactory::getDocument();
@@ -94,13 +94,13 @@ class JMenuViewItem extends JView
 			$item->linkfield = null;
 		}
 		
-		$this->assignRef('lists', $lists);
-		$this->assignRef('item', $item);
+		$this->assignRef('lists'	, $lists);
+		$this->assignRef('item'		, $item);
 		$this->assignRef('urlparams', $urlparams);
-		$this->assignRef('params', $params);
-		$this->assignRef('advanced', $advanced);
+		$this->assignRef('params'	, $params);
+		$this->assignRef('advanced'	, $advanced);
 		$this->assignRef('menutypes', $menuTypes);
-		$this->assignRef('name', $name);
+		$this->assignRef('name'		, $name);
 		$this->assignRef('description', $description);
 
 		// Add slider pane
@@ -145,8 +145,12 @@ class JMenuViewItem extends JView
 		JCommonHTML::loadOverlib();
 
 		// Load component language files
-		$components		= JMenuHelper::getComponentList();
-		for($i = 0; $i < count($components); $i++) {
+		$components	= JMenuHelper::getComponentList();
+		for($i = 0; $i < count($components); $i++) 
+		{
+			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';	
+			$components[$i]->legacy = !is_dir($path);
+			
 			$lang->load($components[$i]->option, JPATH_ADMINISTRATOR);
 		}
 		
@@ -165,9 +169,9 @@ class JMenuViewItem extends JView
 			$document->setTitle('New Menu Item Type');
 		}
 
-		$this->assignRef('item', $item);
+		$this->assignRef('item'      , $item);
 		$this->assignRef('components', $components);
-		$this->assignRef('expansion', $expansion);
+		$this->assignRef('expansion' , $expansion);
 		parent::display($tpl);
 	}
 }

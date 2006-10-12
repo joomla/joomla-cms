@@ -36,7 +36,8 @@ class JMenuModelItem extends JModel
 	{
 		parent::__construct();
 		$url = JRequest::getVar('url', array(), '', 'array');
-		if (isset($url['option'])) {
+		if (isset($url['option']))
+		 {
 			$this->_url = 'index.php?option='.$url['option'];
 			unset($url['option']);
 			if (count($url)) {
@@ -116,8 +117,10 @@ class JMenuModelItem extends JModel
 	{
 		$item = &$this->getItem();
 		$return['option'] = JRequest::getVar('expand');
-		$menutype = JRequest::getVar('menutype');
-		if ($return['option']) {
+		$menutype         = JRequest::getVar('menutype');
+		
+		if ($return['option']) 
+		{
 			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php');
 			$handler		= new iLink($return['option'], $item->id, $menutype);
 			$return['html'] = $handler->getTree();
@@ -134,8 +137,10 @@ class JMenuModelItem extends JModel
 		$item	=& $this->getItem();
 		$params	= new JParameter('');
 
-		if ($state =& $this->_getStateXML()) {
-			if (is_a($state, 'JSimpleXMLElement')) {
+		if ($state =& $this->_getStateXML()) 
+		{
+			if (is_a($state, 'JSimpleXMLElement')) 
+			{
 				$sp =& $state->getElementByPath('url');
 				$params->setXML($sp);
 				if (isset($item->linkparts) && is_array($item->linkparts)) {
@@ -152,8 +157,10 @@ class JMenuModelItem extends JModel
 		$item	=& $this->getItem();
 		$params	= new JParameter($item->params);
 
-		if ($state =& $this->_getStateXML()) {
-			if (is_a($state, 'JSimpleXMLElement')) {
+		if ($state =& $this->_getStateXML()) 
+		{
+			if (is_a($state, 'JSimpleXMLElement')) 
+			{
 				$sp =& $state->getElementByPath('params');
 				$params->setXML($sp);
 			}
@@ -167,8 +174,10 @@ class JMenuModelItem extends JModel
 		$item	=& $this->getItem();
 		$params	= new JParameter($item->params);
 
-		if ($state =& $this->_getStateXML()) {
-			if (is_a($state, 'JSimpleXMLElement')) {
+		if ($state =& $this->_getStateXML()) 
+		{
+			if (is_a($state, 'JSimpleXMLElement')) 
+			{
 				$ap =& $state->getElementByPath('advanced');
 				$params->setXML($ap);
 			}
@@ -179,8 +188,10 @@ class JMenuModelItem extends JModel
 	function getStateName()
 	{
 		$name = null;
-		if ($state =& $this->_getStateXML()) {
-			if (is_a($state, 'JSimpleXMLElement')) {
+		if ($state =& $this->_getStateXML()) 
+		{
+			if (is_a($state, 'JSimpleXMLElement')) 
+			{
 				$sn =& $state->getElementByPath('name');
 				if ($sn) {
 					$name = $sn->data();
@@ -193,8 +204,10 @@ class JMenuModelItem extends JModel
 	function getStateDescription()
 	{
 		$description = null;
-		if ($state =& $this->_getStateXML()) {
-			if (is_a($state, 'JSimpleXMLElement')) {
+		if ($state =& $this->_getStateXML()) 
+		{
+			if (is_a($state, 'JSimpleXMLElement')) 
+			{
 				$sd =& $state->getElementByPath('description');
 				if ($sd) {
 					$description = $sd->data();
@@ -390,7 +403,8 @@ class JMenuModelItem extends JModel
 				break;
 			case 'component':
 			default:
-				if (isset($item->linkparts['view'])) {
+				if (isset($item->linkparts['view'])) 
+				{
 					// View is set... so we konw to look in view file
 					if (isset($item->linkparts['layout'])) {
 						$layout = $item->linkparts['layout'];
@@ -407,11 +421,15 @@ class JMenuModelItem extends JModel
 				}
 				if (!$xmlpath && isset($item->linkparts['option'])) {
 					$xmlpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'metadata.xml';
+					if(!file_exists($xmlpath)) {
+						$xmlpath = JApplicationHelper::getPath('com_xml', $item->linkparts['option']);
+					}
 				}
 				break;
 		}
 
-		if (file_exists($xmlpath)) {
+		if (file_exists($xmlpath)) 
+		{
 			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($xmlpath)) {
 				$this->_xml = &$xml;
@@ -425,7 +443,8 @@ class JMenuModelItem extends JModel
 				/*
 				 * HANDLE A SWITCH IF IT EXISTS
 				 */
-				if ($switch = $xml->attributes('switch')) {
+				if ($switch = $xml->attributes('switch')) 
+				{
 					$default = $xml->attributes('default');
 					// Handle switch
 					$switchVal = ($item->linkparts[$switch])? $item->linkparts[$switch] : 'default';
@@ -453,7 +472,8 @@ class JMenuModelItem extends JModel
 				 * HANDLE INCLUDED PARAMS
 				 */
 				$children = $xml->children();
-				if (count($children) == 1) {
+				if (count($children) == 1) 
+				{
 					if ($children[0]->name() == 'include') {
 						$ret =& $this->_getIncludedParams($children[0]);
 						if ($ret) {
@@ -462,7 +482,8 @@ class JMenuModelItem extends JModel
 					}
 				}
 
-				if ($switch = $xml->attributes('switch')) {
+				if ($switch = $xml->attributes('switch')) 
+				{
 					$default = $xml->attributes('default');
 					// Handle switch
 					$switchVal = ($item->linkparts[$switch])? $item->linkparts[$switch] : 'default';
@@ -506,7 +527,8 @@ class JMenuModelItem extends JModel
 		}
 
 		// load the source xml file
-		if (file_exists( JPATH_ROOT.$source )) {
+		if (file_exists( JPATH_ROOT.$source )) 
+		{
 			$xml = & JFactory::getXMLParser('Simple');
 
 			if ($xml->loadFile(JPATH_ROOT.$source)) {

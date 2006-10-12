@@ -127,10 +127,19 @@ function submitbutton(pressbutton) {
 					$this->pane->startPane("menu-pane");
 					$this->pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
 					echo $this->urlparams->render('urlparams');
-					echo $this->params->render('params');
+					if($params = $this->params->render('params')) : 
+						echo $params;
+					else :
+						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no paramaters for this item')."</div>";
+					endif;
 					$this->pane->endPanel();
+					
 					$this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
-					echo $this->advanced->render('params');
+					if($params = $this->advanced->render('params')) : 
+						echo $params;
+					else :
+						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced paramaters for this item')."</div>";
+					endif;
 					$this->pane->endPanel();
 					$this->pane->endPane();
 				?>
