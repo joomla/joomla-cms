@@ -177,7 +177,7 @@ class MediaViews
 		?>
 		<div class="item">
 			<a href="<?php echo $link; ?>" onclick="window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
-				<img src="components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
+				<img src="administrator/components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
 				<span><?php echo $dir; ?></span>
 			</a>
 		</div>
