@@ -16,44 +16,44 @@
 <div style="padding: 10px;">
 	<div style="text-align:right">
 		<a href="javascript: void window.close()">
-			<?php echo JText::_('close window'); ?> <img src="components/com_mailto/assets/close-x.png" border="0" alt="" title="" />
+			<?php echo JText::_('CLOSE_WINDOW'); ?> <img src="components/com_mailto/assets/close-x.png" border="0" alt="" title="" />
 		</a>
 	</div>
 
 	<div class="componentheading">
-		<?php echo JText::_('Email this link to a friend.'); ?>
+		<?php echo JText::_('EMAIL_THIS_LINK_TO_A_FRIEND'); ?>
 	</div>
 
 	<p>
-		<?php echo JText::_('Email to'); ?>:
+		<?php echo JText::_('EMAIL_TO'); ?>:
 		<br/>
 		<input type="text" name="mailto" class="inputbox" size="25" />
 	</p>
 
 	<p>
-		<?php echo JText::_('Sender'); ?>:
+		<?php echo JText::_('SENDER'); ?>:
 		<br/>
 		<input type="text" name="sender" class="inputbox" value="<?php echo $this->data->sender ?>" size="25" />
 	</p>
 
 	<p>
-		<?php echo JText::_('Your email'); ?>:
+		<?php echo JText::_('YOUR_EMAIL'); ?>:
 		<br/>
 		<input type="text" name="from" class="inputbox" value="<?php echo $this->data->from ?>" size="25" />
 	</p>
 
 	<p>
-		<?php echo JText::_('Subject'); ?>:
+		<?php echo JText::_('SUBJECT'); ?>:
 		<br/>
 		<input type="text" name="subject" class="inputbox" value="" size="25" />
 	</p>
 
 	<p>
 		<button class="button" onclick="return submitbutton(this.form);">
-			<?php echo JText::_('Send'); ?>
+			<?php echo JText::_('SEND'); ?>
 		</button>
 		<button class="button" onclick="window.close();return false;">
-			<?php echo JText::_('Cancel'); ?>
+			<?php echo JText::_('CANCEL'); ?>
 		</button>
 	</p>
 </div>
