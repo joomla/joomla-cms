@@ -140,7 +140,7 @@ class JAdministrator extends JApplication
 	function setConfiguration($file, $type = 'config')
 	{
 		parent::setConfiguration($file, $type);
-		
+
 		$registry =& JFactory::getConfig();
 		$registry->setValue('config.live_site', substr_replace($this->getSiteURL(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
@@ -148,14 +148,14 @@ class JAdministrator extends JApplication
 		// Create the JConfig object
 		$config = new JConfig();
 
-		if ( $config->legacy == 1 ) 
+		if ( $config->legacy == 1 )
 		{
 			//Insert configuration values into global scope (for backwards compatibility)
 			foreach (get_object_vars($config) as $k => $v) {
 				$name = 'mosConfig_'.$k;
 				$GLOBALS[$name] = $v;
 			}
-			
+
 			$GLOBALS['mosConfig_live_site']		= substr_replace($this->getSiteURL(), '', -1, 1);
 			$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		}

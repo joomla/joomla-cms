@@ -66,7 +66,7 @@ See COPYRIGHT.php for copyright notices and details.
                 </div>
               </div>
               <div class="m">
-								<jdoc:include type="module" name="login" />
+							<jdoc:include type="module" name="login" />
 							</div>
               <div class="b">
                 <div class="b">
