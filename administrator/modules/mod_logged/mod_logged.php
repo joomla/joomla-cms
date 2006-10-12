@@ -103,10 +103,20 @@ foreach ( $rows as $row )
 		<?php echo $clientInfo->name;?>
 		</td>
 		<?php
-		if ( $user->authorize( 'com_users', 'manage' ) && $user->get('gid') > 24) {
+		if ( $user->authorize( 'com_users', 'manage' ) && $user->get('gid') > 24 && $row->userid != $user->get('id')) {
 			?>
 			<td>
 			<a href="index.php?option=com_users&amp;task=flogout&amp;cid[]=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">
+			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" title="<?php echo JText::_( 'Force Logout User' ); ?>" />
+			</a>
+			</td>
+			<?php
+		} 
+		else
+		{
+			?>
+			<td>
+			<a href="index.php?option=com_login&amp;task=logout">
 			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" title="<?php echo JText::_( 'Force Logout User' ); ?>" />
 			</a>
 			</td>

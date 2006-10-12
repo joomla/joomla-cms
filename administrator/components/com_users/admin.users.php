@@ -568,7 +568,7 @@ function logoutUser( )
 	else if ($task == 'flogout')
 	{
 		$query = "DELETE FROM #__session"
-		. "\n WHERE userid = $id"
+		. "\n WHERE userid = $cids"
 		. "\n AND client_id = $client"
 		;
 	}
