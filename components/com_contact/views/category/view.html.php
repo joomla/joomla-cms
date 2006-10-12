@@ -38,7 +38,7 @@ class ContactViewCategory extends JView
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
-		
+
 		// Set some defaults against system variables
 		$params->def('header', 				$menu->name);
 		$params->def('headings', 			1);
@@ -62,7 +62,7 @@ class ContactViewCategory extends JView
 		$categories   = $model->getCategories( $options );
 		$contacts     = $model->getContacts( $options );
 		$total 		  = $model->getContactCount( $options );
-		
+
 		//prepare contacts
 		$k = 0;
 		for($i = 0; $i <  count( $contacts ); $i++)
@@ -92,7 +92,7 @@ class ContactViewCategory extends JView
 		}
 
 		// Set the page title and pathway
-		if ($category->name) 
+		if ($category->name)
 		{
 			// Add the category breadcrumbs item
 			$pathway->addItem($category->name, '');
@@ -109,14 +109,14 @@ class ContactViewCategory extends JView
 		}
 		$lists['order'] = $filter_order;
 		$selected = '';
-		
+
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
-				
+
 		$this->assignRef('items'     , $contacts);
 		$this->assignRef('lists'     , $lists);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('data'      , $data);
+		//$this->assignRef('data'      , $data);
 		$this->assignRef('category'  , $category);
 		$this->assignRef('params'    , $params);
 
@@ -125,7 +125,7 @@ class ContactViewCategory extends JView
 
 	function getItems()
 	{
-		
+
 	}
 }
 ?>

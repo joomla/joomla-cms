@@ -37,12 +37,20 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Oct-2006 Alex Kempkens
+ # Fixed missing variable in search helper
+ # Removed unneeded parameter in admin.sections, contact
+ # Fixed pw check in user frontend
+ # Fixed missing moduleclass_sfx in mod_feed
+ # corrected spellings mistakes in modules var declarations
+
+
 11-Oct-2006 Rastin Mehr
  # Fixed [artf6260] "Email this link to" is not working
 
 11-Oct-2006 David Gal
  + Added new sample data for Beta1 release
- 
+
 11-Oct-2006 Rastin Mehr
  # Fixed [artf6257] : Menu Manager allows to save incomplete menu items
 

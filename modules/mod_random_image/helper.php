@@ -48,7 +48,7 @@ class modRandomImageHelper
 		$type 		= $params->get( 'type', 'jpg' );
 
 		$files	= array();
-		$imags 	= array();
+		$images	= array();
 
 		$dir = JPATH_BASE.DS.$folder;
 

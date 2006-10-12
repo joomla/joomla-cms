@@ -27,7 +27,7 @@ class WeblinksViewWeblink extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
@@ -38,7 +38,7 @@ class WeblinksViewWeblink extends JView
 		$user		= & JFactory::getUser();
 		$document	= & JFactory::getDocument();
 		$id			= JRequest::getVar( 'id', 0, '', 'int' );
-		
+
 		// Get the weblink table object and load it
 		$weblink =& JTable::getInstance('weblink', $db, 'Table');
 		$weblink->load($id);
@@ -78,7 +78,7 @@ class WeblinksViewWeblink extends JView
 
 		parent::display($tpl);
 	}
-	
+
 	function _displayForm($tpl)
 	{
 		global $mainframe;
@@ -97,7 +97,7 @@ class WeblinksViewWeblink extends JView
 
 		// security check to see if link exists in a menu
 		/*$menus =& JMenu::getInstance();
-		$exists = $menus->getItems('link', 'index.php?option=com_weblinks&view=weblink&layout=form'); 
+		$exists = $menus->getItems('link', 'index.php?option=com_weblinks&view=weblink&layout=form');
 		if ( !count($exists) ) {
 		    JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
@@ -159,9 +159,9 @@ class WeblinksViewWeblink extends JView
 		$this->assign('returnid', $returnid);
 
 		$this->assignRef('lists'   , $lists);
-		$this->assignRef('data'    , $data);
+		//$this->assignRef('data'    , $data);		//TODO: Remove if not needed
 		$this->assignRef('weblink' , $row);
-		
+
 		parent::display($tpl);
 	}
 }

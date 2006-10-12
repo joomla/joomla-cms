@@ -19,7 +19,7 @@
  */
 class SearchHelper
 {
-	function santiseSearchWord(&$searchword)
+	function santiseSearchWord(&$searchword, $searchphrase)
 	{
 		$ignored = false;
 

@@ -104,7 +104,7 @@ class SearchController
 		}
 
 		//sanatise searchword
-		if(SearchHelper::santiseSearchWord($searchword)) {
+		if(SearchHelper::santiseSearchWord($searchword, $searchphrase)) {
 			$error = JText::_( 'IGNOREKEYWORD' );
 		}
 
@@ -126,16 +126,16 @@ class SearchController
 		$view->assign('ordering'    , $ordering);
 		$view->assign('searchword'  , $searchword);
 		$view->assign('searchphrase', $searchphrase);
-		
+
 		$view->assign('total', $total);
 		$view->assign('error', $error);
-		
+
 		$view->assignRef('results' , $rows);
 		$view->assignRef('lists'   , $lists);
 		$view->assignRef('params'  , $params);
-		$view->assignRef('request' , $request);
-		$view->assignRef('data'    , $data);
-		
+		//$view->assignRef('request' , $request);		// TODO: remove if unneded
+		//$view->assignRef('data'    , $data);			// TODO: remove if unneded
+
 		$view->display();
 	}
 

@@ -21,6 +21,7 @@ class modStatsHelper
 		global $mainframe;
 
 		$db =& JFactory::getDBO();
+		$rows = array();
 
 		$serverinfo 		= $params->get( 'serverinfo' );
 		$siteinfo 			= $params->get( 'siteinfo' );

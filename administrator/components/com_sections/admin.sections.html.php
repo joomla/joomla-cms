@@ -190,7 +190,7 @@ class sections_html
 	* @param string The html for the ordering list
 	* @param string The html for the groups select list
 	*/
-	function edit( &$row, $option, &$lists, &$menus )
+	function edit( &$row, $option, &$lists )
 	{
 		global $mainframe;
 
@@ -375,7 +375,7 @@ class sections_html
 	/**
 	* Form to select Section to copy Category to
 	*/
-	function copySectionSelect( $option, $cid, $categories, $contents, $section ) 
+	function copySectionSelect( $option, $cid, $categories, $contents, $section )
 	{
 		?>
 		<form action="index.php" method="post" name="adminForm">

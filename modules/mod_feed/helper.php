@@ -26,6 +26,8 @@ class modFeedHelper
 		$rssitemdesc		= $params->get('rssitemdesc', 1);
 		$words				= $params->def('word_count', 0);
 		$rsstitle			= $params->get('rsstitle', 1);
+		$rssrtl				= $params->get('rssrtl', 0);
+		$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
 
 		//  get RSS parsed object
 		$options = array();

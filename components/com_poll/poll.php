@@ -148,10 +148,10 @@ class PollController
 
 		$view->assignRef('lists'   , $lists);
 		$view->assignRef('params'  , $params);
-		$view->assignRef('data'    , $data);
+		//$view->assignRef('data'    , $data);
 		$view->assignRef('poll'    , $poll);
 		$view->assignRef('votes'   , $votes);
-		
+
 		$view->display();
 	}
 

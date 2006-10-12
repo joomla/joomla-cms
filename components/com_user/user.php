@@ -61,7 +61,7 @@ class UserController
 	function display()
 	{
 		global $mainframe;
-		
+
 		$user =& JFactory::getUser();
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
@@ -89,7 +89,7 @@ class UserController
 
 		// Set page title
 		$mainframe->setPageTitle( $menu->name );
-		
+
 		// check to see if Frontend User Params have been enabled
 		$check = $mainframe->getCfg('frontend_userparams');
 		if ($check == '1' || $check == 1 || $check == NULL) {
@@ -102,10 +102,10 @@ class UserController
 				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users_registered.xml');
 			}
 		}
-		
+
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'user'.DS.'view.php');
 		$view = new UserViewUser();
-		
+
 		$view->assignRef('user'  , $user);
 		$view->assignRef('params', $params);
 
@@ -135,8 +135,8 @@ class UserController
 		$post['verify']   = JRequest::getVar('verify', '', 'post', 'string');
 
 		// do a password safety check
-		if($password != "") {
-			if($verify == $password) {
+		if($post['password'] != "") {
+			if($post['password'] != $post['verify']) {
 				echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
 				exit();
 			}

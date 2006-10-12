@@ -100,7 +100,7 @@ class ContentViewSection extends JView
 		$pagination = new JPagination(count($items), $limitstart, $limit);
 
 		$this->assignRef('items'     , $items);
-		$this->assignRef('request'   , $request);
+		//$this->assignRef('request'   , $request);			// TODO: remove if unneded
 		$this->assignRef('section'   , $section);
 		$this->assignRef('categories', $categories);
 		$this->assignRef('params'    , $params);
@@ -250,10 +250,10 @@ class ContentViewSection extends JView
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
-				
+
 				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
-				
+
 			} break;
 
 			case 'edit' :

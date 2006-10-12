@@ -156,7 +156,7 @@ class mosDBTable extends JTable
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
 	}
-	
+
 	/**
 	 * Legacy Method, make sure u use JRequest::get or JRequest::getVar
 	 * @deprecated As of 1.5
@@ -794,7 +794,7 @@ class mosEmpty
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosHTML 
+class mosHTML
 {
 	/**
  	 * Legacy function, JHTML::makeOption instead
@@ -812,7 +812,7 @@ class mosHTML
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function writableCell( $folder, $relative=1, $text='', $visible=1 ) 
+	function writableCell( $folder, $relative=1, $text='', $visible=1 )
 	{
 		$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
 		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
@@ -969,7 +969,7 @@ class mosHTML
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function sortIcon( $text, $base_href, $field, $state='none' ) 
+	function sortIcon( $text, $base_href, $field, $state='none' )
 	{
 		$alts = array(
 			'none' 	=> JText::_( 'No Sorting' ),
@@ -1129,7 +1129,7 @@ class mosHTML
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class mosCommonHTML 
+class mosCommonHTML
 {
 	/**
  	 * Legacy function, use JHTML::keepAlive instead
@@ -1147,7 +1147,7 @@ class mosCommonHTML
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function menuLinksContent( &$menus ) 
+	function menuLinksContent( &$menus )
 	{
 		foreach( $menus as $menu ) {
 			?>
@@ -1215,7 +1215,7 @@ class mosCommonHTML
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function menuLinksSecCat( &$menus ) 
+	function menuLinksSecCat( &$menus )
 	{
 		$i = 1;
 		foreach( $menus as $menu ) {
@@ -1321,7 +1321,7 @@ class mosCommonHTML
  	 * @package		Joomla.Legacy
  	*/
 	function AccessProcessing( &$row, $i, $archived=NULL ) {
-		return JCommonHTML::AccessProcessing($orw, $i, $archived);
+		return JCommonHTML::AccessProcessing($row, $i, $archived);
 	}
 
 	/**
@@ -1433,7 +1433,7 @@ class mosAdminMenus
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function Category( &$menu, $id, $javascript='' ) 
+	function Category( &$menu, $id, $javascript='' )
 	{
 		$db =& JFactory::getDBO();
 
@@ -1453,14 +1453,14 @@ class mosAdminMenus
 		return $category;
 	}
 
-	
+
 	/**
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function Section( &$menu, $id, $all=0 ) 
+	function Section( &$menu, $id, $all=0 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -1483,14 +1483,14 @@ class mosAdminMenus
 		return $section;
 	}
 
-	
+
 	/**
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function Component( &$menu, $id ) 
+	function Component( &$menu, $id )
 	{
 		$db =& JFactory::getDBO();
 
@@ -1507,14 +1507,14 @@ class mosAdminMenus
 		return $component;
 	}
 
-	
+
 	/**
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function ComponentName( &$menu, $id ) 
+	function ComponentName( &$menu, $id )
 	{
 		$db =& JFactory::getDBO();
 
@@ -1536,7 +1536,7 @@ class mosAdminMenus
 		return $component;
 	}
 
-	
+
 	/**
  	 * Legacy function, use JAdminMenus::Images instead
  	 *
@@ -1624,7 +1624,7 @@ class mosAdminMenus
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function MenuSelect( $name='menuselect', $javascript=NULL ) 
+	function MenuSelect( $name='menuselect', $javascript=NULL )
 	{
 		$db =& JFactory::getDBO();
 
@@ -1658,7 +1658,7 @@ class mosAdminMenus
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function ReadImages( $imagePath, $folderPath, &$folders, &$images ) 
+	function ReadImages( $imagePath, $folderPath, &$folders, &$images )
 	{
 		jimport( 'joomla.filesystem.folder' );
 		$imgFiles = JFolder::files( $imagePath );
@@ -1685,14 +1685,14 @@ class mosAdminMenus
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function GetImageFolders( &$folders, $path ) 
+	function GetImageFolders( &$folders, $path )
 	{
 		$javascript 	= "onchange=\"changeDynaList( 'imagefiles', folderimages, document.adminForm.folders.options[document.adminForm.folders.selectedIndex].value, 0, 0);  previewImage( 'imagefiles', 'view_imagefiles', '$path/' );\"";
 		$getfolders 	= JHTML::selectList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
 		return $getfolders;
 	}
 
-	function GetImages( &$images, $path ) 
+	function GetImages( &$images, $path )
 	{
 		if ( !isset($images['/'] ) ) {
 			$images['/'][] = JHTML::makeOption( '' );
@@ -1704,14 +1704,14 @@ class mosAdminMenus
 
 		return $getimages;
 	}
-	
+
 	/**
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
  	 * @package		Joomla.Legacy
  	*/
-	function GetSavedImages( &$row, $path ) 
+	function GetSavedImages( &$row, $path )
 	{
 		$images2 = array();
 		foreach( $row->images as $file ) {

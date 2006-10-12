@@ -25,7 +25,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) 
+switch ($task)
 {
 	case 'add' :
 	case 'edit':
@@ -109,7 +109,7 @@ function showSections( $scope, $option )
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -263,7 +263,7 @@ function editSection( )
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
-	sections_html::edit( $row, $option, $lists, $menus );
+	sections_html::edit( $row, $option, $lists );
 }
 
 /**
@@ -308,7 +308,7 @@ function saveSection( $option, $scope, $task )
 	$row->checkin();
 	$row->reorder( "scope='$row->scope'" );
 
-	switch ( $task ) 
+	switch ( $task )
 	{
 		case 'go2menu':
 			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
