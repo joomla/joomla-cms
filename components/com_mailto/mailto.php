@@ -22,6 +22,7 @@ require_once( JPATH_COMPONENT . '/controller.php' );
 $mParams =& JSiteHelper::getMenuParams();
 
 $viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'mailto' ) );
+
 $controller	= new MailtoController( );
 
 // get view name from URL or menu params

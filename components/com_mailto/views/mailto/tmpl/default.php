@@ -11,6 +11,8 @@
 -->
 </script>
 
+<form action="index2.php?option=com_mailto&amp;task=send" name="mailtoform" method="post" onSubmit="return submitbutton();">
+
 <div style="padding: 10px;">
 	<div style="text-align:right">
 		<a href="javascript: void window.close()">
@@ -21,10 +23,6 @@
 	<div class="componentheading">
 		<?php echo JText::_('Email this link to a friend.'); ?>
 	</div>
-
-	<p>
-		<small><?php echo $this->data->link ?></small>
-	</p>
 
 	<p>
 		<?php echo JText::_('Email to'); ?>:
@@ -60,7 +58,8 @@
 	</p>
 </div>
 
-<input type="hidden" name="option" value="com_mailto" />
-<input type="hidden" name="task" value="send" />
-<input type="hidden" name="link" value="{LINK|urlencode}" />
-<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+	<input type="hidden" name="option" value="com_mailto" />
+	<input type="hidden" name="task" value="send" />
+	<input type="hidden" name="link" value="<?php echo $this->data->link; ?>" />
+	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+</form>

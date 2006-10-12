@@ -24,10 +24,10 @@ class MailtoController extends JController
 	{
 		global $mainframe;
 
-		$db			=& JFactory::getDBO();
+		$db	=& JFactory::getDBO();
 
 		jimport( 'joomla.utilities.mail' );
-
+		
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
@@ -85,7 +85,8 @@ class MailtoController extends JController
 		$link = sefRelToAbs($link);
 
 		// Build the message to send
-		$body = sprintf(JText :: _('_EMAIL_MSG'), $SiteName, $sender, $from, $link);
+		$msg = JText :: _('EMAIL_MSG');
+		$body = sprintf( $msg, $SiteName, $sender, $from, $link);
 		
 		// Clean the email data
 		$subject = JMailHelper::cleanSubject($subject);

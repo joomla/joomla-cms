@@ -19,6 +19,6 @@
 	</div>
 
 	<div class="componentheading">
-		<?php echo JText::_('Email Sent'); ?>
+		<?php echo JText::_('EMAIL_SENT'); ?>
 	</div>
 </div>

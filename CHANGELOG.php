@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Oct-2006 Rastin Mehr
+ # Fixed [artf6260] "Email this link to" is not working
+
 11-Oct-2006 David Gal
  + Added new sample data for Beta1 release
  

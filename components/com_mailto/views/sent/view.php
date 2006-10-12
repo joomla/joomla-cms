@@ -22,10 +22,5 @@ class MailtoViewSent extends JView
 	{
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');
 	}
-
-	function display()
-	{
-		$this->_loadTemplate('sent');
-	}
 }
 ?>
