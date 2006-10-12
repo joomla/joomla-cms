@@ -48,12 +48,15 @@ $langs = JHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 't
 		<label for="lang"><?php echo JText::_('Language'); ?></label>
 		<?php echo $langs; ?>
 	</p>
-	<p class="button">
-		<button type="submit" class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
-			<a class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>"><?php echo JText::_( 'Login' ); ?></a>
-		</button>
-		<div class="clr"></div>
-	</p>
+	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
+		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
+			<a onclick="loginForm.submit();">
+				<?php echo JText::_( 'Login' ); ?>
+			</a>
+			<input type="submit" style="border: 0; padding: 0; margin: 0; width: 0px; height: 0px;" value="<?php echo JText::_( 'Login' ); ?>" />
+		</div>
+	</div>
+	<div class="clr"></div>
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />

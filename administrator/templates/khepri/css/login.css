@@ -27,12 +27,6 @@
 form  			{ margin: 0px; padding: 0px; }
 form .inputbox { width: 120px; margin-left: 10px; }
 form br 			{ display: none; }
-form button       { border: 0 none; padding: 0; cursor: pointer; }
-form button:hover { text-decoration: underline;}
-form button .next { margin: -1px -3px 0 0;  }
-
-form .button      { padding-left: 180px; }
-
 .login      { margin: 0 auto; width: 500px; margin-bottom: 100px; }
 
 .section-box  { float: right; width: 320px; margin-left: 10px;}
