@@ -25,6 +25,10 @@
 					$cf[$k] = 'var $password = \'xxxxxx\'';
 				} else if (eregi( 'var \$db ', $v)) {
 					$cf[$k] = 'var $db = \'xxxxxx\'';
+				} else if (eregi( 'var \$ftp_user ', $v)) {
+					$cf[$k] = 'var $ftp_user = \'xxxxxx\'';
+				} else if (eregi( 'var \$ftp_pass ', $v)) {
+					$cf[$k] = 'var $ftp_pass = \'xxxxxx\'';
 				} else if (eregi( '<?php', $v)) {
 					$cf[$k] = '';
 				} else if (eregi( '\?>', $v)) {

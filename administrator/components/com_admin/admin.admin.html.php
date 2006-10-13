@@ -63,7 +63,7 @@ class HTML_admin_misc
 
 		$contents = '';
 		ob_start();
-		require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'navigation.html');
+		require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'navigation.php');
 		$contents = ob_get_contents();
 		ob_clean();
 
@@ -76,7 +76,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_system.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_system.php'); ?>
 					</td>
 				</tr>
 				</table>
@@ -86,7 +86,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_phpsettings.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_phpsettings.php'); ?>
 					</td>
 				</tr>
 				</table>
@@ -96,7 +96,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_config.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_config.php'); ?>
 					</td>
 				</tr>
 				</table>
@@ -106,7 +106,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_directory.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_directory.php'); ?>
 					</td>
 				</tr>
 				</table>
@@ -116,7 +116,7 @@ class HTML_admin_misc
 				<table class="noshow">
 				<tr>
 					<td>
-						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_phpinfo.html'); ?>
+						<?php require_once(JPATH_COMPONENT.DS.'tmpl'.DS.'sysinfo_phpinfo.php'); ?>
 					</td>
 				</tr>
 				</table>

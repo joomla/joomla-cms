@@ -27,8 +27,9 @@ class modWhosonlineHelper
 		// show online count
 		if ($showmode == 0 || $showmode == 2)
 		{
-			$query = "SELECT guest, usertype" .
-					"\n FROM #__session";
+			$query = "SELECT guest, usertype, client_id" .
+					"\n FROM #__session" .
+					"\n WHERE client_id = 0";
 			$db->setQuery($query);
 			$sessions = $db->loadObjectList();
 

@@ -491,6 +491,15 @@ class mosMenuBar extends JMenuBar
 	 */
 	function addNewX($task = 'new', $alt = 'New') {
 		parent::addNew($task, $alt);
+	}
+	
+	/**
+	 * Deprecated
+	 * 
+	 * @deprecated As of Version 1.5
+	 */
+	function saveedit() {
+		parent::save('saveedit');
 	} 
 
 }

@@ -14,13 +14,18 @@
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
-jimport( 'joomla.database.table.category'  );
-jimport( 'joomla.database.table.component' );
-jimport( 'joomla.database.table.content'   );
-jimport( 'joomla.database.table.plugin'    );
-jimport( 'joomla.database.table.menu'      );
-jimport( 'joomla.database.table.module'    );
-jimport( 'joomla.database.table.section'   );
+
+/** 
+ * Tables need to be included using a regular include to avoid conflict
+ */
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'component.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'content.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'plugin.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'menu.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'module.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'section.php');
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'user.php');
 
 /**
  * Legacy class, derive from JApplication instead

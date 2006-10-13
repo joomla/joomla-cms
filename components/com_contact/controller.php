@@ -88,7 +88,7 @@ class ContactController extends JController
 		$FromName 	= $mainframe->getCfg('fromname');
 
 		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
-		$contactId 	= JRequest::getVar('contact_id', 	0, 			'post', 'int');
+		$contactId 	= JRequest::getVar('id', 			0, 			'post', 'int');
 		$name 		= JRequest::getVar('name', 			'', 		'post');
 		$email 		= JRequest::getVar('email', 		'', 		'post');
 		$subject 	= JRequest::getVar('subject', 		$default, 	'post');
