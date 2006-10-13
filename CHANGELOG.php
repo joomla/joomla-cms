@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Oct-2006 Rastin Mehr
+ # Fixed [artf6387] : error.css-typo
+
 -------------------- 1.5.0 Beta Released [12-Oct-2006] ------------------------
 
 12-Oct-2006 Johan Janssens

@@ -54,7 +54,7 @@ class NewsfeedsViewCategory extends JView
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$this->image = JHTML::Image('/images/stories/'.$this->category->image, JText::_('News Feeds'), $attribs);
+			$this->image = JHTML::Image('/images/stories/'.$this->category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
 		
 		parent::display($tpl);
