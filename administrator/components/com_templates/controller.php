@@ -16,7 +16,7 @@
  * @package Joomla
  * @subpackage Templates
  */
-class JTemplatesController
+class TemplatesController
 {
 	/**
 	* Compiles a list of installed, version 4.5+ templates
@@ -44,12 +44,12 @@ class JTemplatesController
 
 		//get template xml file info
 		$rows = array();
-		$rows = JTemplatesHelper::parseXMLTemplateFiles($tBaseDir);
+		$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
 
 		// set dynamic template information
 		for($i = 0; $i < count($rows); $i++)  {
-			$rows[$i]->assigned  = JTemplatesHelper::isTemplateAssigned($rows[$i]->directory);
-			$rows[$i]->published = JTemplatesHelper::isTemplateDefault($rows[$i]->directory, $client->id);
+			$rows[$i]->assigned  = TemplatesHelper::isTemplateAssigned($rows[$i]->directory);
+			$rows[$i]->published = TemplatesHelper::isTemplateDefault($rows[$i]->directory, $client->id);
 		}
 
 		jimport('joomla.html.pagination');
@@ -57,7 +57,8 @@ class JTemplatesController
 
 		$rows = array_slice($rows, $page->limitstart, $page->limit);
 
-		JTemplatesView::showTemplates($rows, $lists, $page, $option, $client);
+		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+		TemplatesView::showTemplates($rows, $lists, $page, $option, $client);
 	}
 
 	/**
@@ -74,7 +75,8 @@ class JTemplatesController
 			return JError::raiseWarning( 500, 'Template not specified' );
 		}
 
-		JTemplatesView::previewTemplate($template, true, $client, $option);
+		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+		TemplatesView::previewTemplate($template, true, $client, $option);
 	}
 
 	/**
@@ -136,8 +138,8 @@ class JTemplatesController
 		$ini		= $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 		$xml		= $client->path.DS.'templates'.DS.$template.DS.'templateDetails.xml';
 
-		$row = JTemplatesHelper::parseXMLTemplateFile($tBaseDir, $template);
-		$row->published = JTemplatesHelper::isTemplateDefault($row->directory, $client->id);
+		$row = TemplatesHelper::parseXMLTemplateFile($tBaseDir, $template);
+		$row->published = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
 
 		jimport('joomla.filesystem.file');
 		// Read the ini file
@@ -155,14 +157,15 @@ class JTemplatesController
 		if($client->id == '1')  {
 			$lists['selections'] =  JText::_("Can't assign an administrator template");
 		} else  {
-			if(JTemplatesHelper::isTemplateDefault($row->directory, $client->id)) {
+			if(TemplatesHelper::isTemplateDefault($row->directory, $client->id)) {
 				$lists['selections'] =  JText::_("Can't assign a default template");
 			} else {
-				$lists['selections'] = JTemplatesHelper::createMenuList($template);
+				$lists['selections'] = TemplatesHelper::createMenuList($template);
 			}
 		}
 
-		JTemplatesView::editTemplate($row, $lists, $params, $option, $client);
+		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+		TemplatesView::editTemplate($row, $lists, $params, $option, $client);
 	}
 
 	function saveTemplate()
@@ -261,9 +264,11 @@ class JTemplatesController
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
 
-		if ($content !== false) {
+		if ($content !== false) 
+		{
 			$content = htmlspecialchars($content);
-			JTemplatesView::editTemplateSource($template, $content, $option, $client);
+			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+			TemplatesView::editTemplateSource($template, $content, $option, $client);
 		} else {
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $file);
 			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, $msg);
@@ -333,7 +338,8 @@ class JTemplatesController
 			$fs_dir = null;
 			$fs_files = null;
 
-			JTemplatesView::chooseCSSFiles($template, $a_dir, $a_files, $option, $client);
+			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+			TemplatesView::chooseCSSFiles($template, $a_dir, $a_files, $option, $client);
 
 		}
 		else
@@ -345,7 +351,8 @@ class JTemplatesController
 			jimport('joomla.filesystem.folder');
 			$f_files = JFolder::files($f_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
 
-			JTemplatesView::chooseCSSFiles($template, $f_dir, $f_files, $option, $client);
+			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+			TemplatesView::chooseCSSFiles($template, $f_dir, $f_files, $option, $client);
 
 		}
 	}
@@ -365,9 +372,11 @@ class JTemplatesController
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($client->path.$filename);
 
-		if ($content !== false) {
+		if ($content !== false) 
+		{
 			$content = htmlspecialchars($content);
-			JTemplatesView::editCSSSource($template, $filename, $content, $option, $client);
+			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+			TemplatesView::editCSSSource($template, $filename, $content, $option, $client);
 		}
 		else {
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $client->path.$filename);
@@ -428,7 +437,8 @@ class JTemplatesController
 		$db->setQuery($query);
 		$positions = $db->loadObjectList();
 
-		JTemplatesView::editPositions($positions, $option);
+		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+		TemplatesView::editPositions($positions, $option);
 	}
 
 	/**

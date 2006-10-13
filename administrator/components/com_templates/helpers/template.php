@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: helper.php 5369 2006-10-08 00:36:33Z Jinx $
  * @package Joomla
  * @subpackage Templates
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  *
  */
-class JTemplatesHelper
+class TemplatesHelper
 {
 	function isTemplateDefault($template, $clientId)
 	{
@@ -60,7 +60,7 @@ class JTemplatesHelper
 		// Check that the directory contains an xml file
 		foreach ($templateDirs as $templateDir)
 		{
-			if(!$data = JTemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
+			if(!$data = TemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
 				continue;
 			} else {
 				$rows[]  = $data;

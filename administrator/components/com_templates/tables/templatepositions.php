@@ -16,14 +16,13 @@
 * @package Joomla
 * @subpackage Templates
 */
-class mosTemplatePosition extends JTable
+class TableTemplatePositions extends JTable
 {
 	var $id				= null;
 	var $position		= null;
 	var $description	= null;
 
-	function mosTemplatePosition() {
-		$db =& JFactory::getDBO();
+	function __construct(&$db) {
 		parent::__construct( '#__template_positions', 'id', $db );
 	}
 }

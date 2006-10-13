@@ -19,13 +19,15 @@ defined('_JEXEC') or die('Restricted access');
 * @package Joomla
 * @subpackage Templates
 */
-class JTemplatesView {
+class TemplatesView 
+{
 	/**
 	* @param array An array of data objects
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates(& $rows, & $lists, & $page, $option, & $client) {
+	function showTemplates(& $rows, & $lists, & $page, $option, & $client) 
+	{
 		global $mainframe;
 
 		$limitstart = JRequest :: getVar('limitstart', '0', '', 'int');
@@ -222,7 +224,8 @@ class JTemplatesView {
 
 	}
 
-	function previewTemplate($template, $showPositions, $client, $option) {
+	function previewTemplate($template, $showPositions, $client, $option) 
+	{
 		global $mainframe;
 
 		$tp = intval($showPositions);
@@ -261,7 +264,8 @@ class JTemplatesView {
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplate($row, $lists, & $params, $option, & $client) {
+	function editTemplate($row, $lists, & $params, $option, & $client) 
+	{
 		JCommonHTML :: loadOverlib();
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -358,7 +362,8 @@ class JTemplatesView {
 
 	}
 
-	function editTemplateSource($template, & $content, $option, & $client) {
+	function editTemplateSource($template, & $content, $option, & $client) 
+	{
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -408,7 +413,8 @@ class JTemplatesView {
 		<?php
 	}
 
-	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client) {
+	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client) 
+	{
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -470,7 +476,8 @@ class JTemplatesView {
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource($template, $filename, & $content, $option, & $client) {
+	function editCSSSource($template, $filename, & $content, $option, & $client) 
+	{
 		$css_path = $client->path . $filename;
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -535,7 +542,8 @@ class JTemplatesView {
 	* @param array
 	* @param string The option
 	*/
-	function editPositions(& $positions, $option) {
+	function editPositions(& $positions, $option) 
+	{
 
 		$rows = 25;
 		$cols = 2;

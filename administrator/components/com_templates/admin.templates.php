@@ -23,69 +23,70 @@ if (!$user->authorize('com_templates', 'manage')) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
+// Set the table directory
+JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_templates'.DS.'tables');
+
 // Import file dependencies
-require_once (JPATH_COMPONENT.'/helper.php');
-require_once (JPATH_COMPONENT.'/admin.templates.html.php');
-require_once (JPATH_COMPONENT.'/tables/template_positions.php');
-require_once (JPATH_COMPONENT.'/controller.php');
+require_once (JPATH_COMPONENT.DS.'helpers'.DS.'template.php');
+require_once (JPATH_COMPONENT.DS.'controller.php');
 
 $task = JRequest::getVar('task');
 switch ($task)
 {
 	case 'edit' :
-		JTemplatesController::editTemplate();
+		TemplatesController::editTemplate();
 		break;
 
 	case 'save'  :
 	case 'apply' :
-		JTemplatesController::saveTemplate();
+		TemplatesController::saveTemplate();
 		break;
 
 	case 'edit_source' :
-		JTemplatesController::editTemplateSource();
+		TemplatesController::editTemplateSource();
 		break;
 
 	case 'save_source'  :
 	case 'apply_source' :
-		JTemplatesController::saveTemplateSource();
+		TemplatesController::saveTemplateSource();
 		break;
 
 	case 'choose_css' :
-		JTemplatesController::chooseTemplateCSS();
+		TemplatesController::chooseTemplateCSS();
 		break;
 
 	case 'edit_css' :
-		JTemplatesController::editTemplateCSS();
+		TemplatesController::editTemplateCSS();
 		break;
 
 	case 'save_css'  :
 	case 'apply_css' :
-		JTemplatesController::saveTemplateCSS();
+		TemplatesController::saveTemplateCSS();
 		break;
 
 	case 'publish' :
 	case 'default' :
-		JTemplatesController::publishTemplate();
+		TemplatesController::publishTemplate();
 		break;
 
 	case 'cancel' :
-		JTemplatesController::cancelTemplate();
+		TemplatesController::cancelTemplate();
 		break;
 
 	case 'positions' :
-		JTemplatesController::editPositions();
+		TemplatesController::editPositions();
 		break;
 
 	case 'save_positions' :
-		JTemplatesController::savePositions();
+		TemplatesController::savePositions();
 		break;
 
 	case 'preview' :
-		JTemplatesController::previewTemplate();
+		TemplatesController::previewTemplate();
 		break;
 
 	default :
-		JTemplatesController::viewTemplates();
+		TemplatesController::viewTemplates();
 		break;
 }
 ?>
