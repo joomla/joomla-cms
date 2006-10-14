@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Oct-2006 Johan Janssens
+ # Fixed [artf6388] : Enable Legacy Mode ERROR
+ # Fixed [artf6398] : fatal error on Enable Legacy Mode
+
 13-Oct-2006 Rastin Mehr
  # Fixed [artf6387] : error.css-typo
 
