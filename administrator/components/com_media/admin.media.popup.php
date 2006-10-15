@@ -164,6 +164,8 @@ class MediaViews
 
 	function renderFolder($path, $dir, $listdir)
 	{
+		global $mainframe;
+		$img_path	= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
@@ -177,7 +179,7 @@ class MediaViews
 		?>
 		<div class="item">
 			<a href="<?php echo $link; ?>" onclick="window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
-				<img src="administrator/components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
+				<img src="<?php echo $img_path; ?>administrator/components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
 				<span><?php echo $dir; ?></span>
 			</a>
 		</div>
