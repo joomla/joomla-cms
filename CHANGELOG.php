@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Oct-2006 Enno Klasing
+ # Fixed [artf6430] : htaccess tweak
+
 14-Oct-2006 Johan Janssens
  # Fixed [artf6388] : Enable Legacy Mode ERROR
  # Fixed [artf6398] : fatal error on Enable Legacy Mode
