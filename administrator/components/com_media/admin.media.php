@@ -246,6 +246,10 @@ class MediaController
 	{
 		global $mainframe;
 
+		$lang = & JFactory::getLanguage();
+		$lang->load('', JPATH_ADMINISTRATOR);
+		$lang->load(JRequest::getVar( 'option' ), JPATH_ADMINISTRATOR);
+		
 		$mainframe->setPageTitle(JText::_('Insert Image'));
 
 		// Load the admin popup view
