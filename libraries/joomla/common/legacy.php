@@ -53,7 +53,7 @@ DEFINE('_DATE_FORMAT_LC',"%A, %d %B %Y"); //Uses PHP's strftime Command Format
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-DEFINE('DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
+DEFINE('_DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
 
 /**
  * Legacy global, use JVersion->getLongVersion() instead
