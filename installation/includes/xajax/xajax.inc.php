@@ -31,12 +31,11 @@
 
 // Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
 // the xajax and xajaxResponse classes
-if (!defined ('XAJAX_DEFAULT_CHAR_ENCODING'))
-{
+if (!defined ('XAJAX_DEFAULT_CHAR_ENCODING')) {
 	define ('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8' );
 }
 
-require_once("xajaxResponse.inc.php");
+require_once(dirname( __FILE__ ).DS."xajaxResponse.inc.php");
 
 // Communication Method Defines
 if (!defined ('XAJAX_GET'))

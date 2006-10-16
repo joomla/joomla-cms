@@ -33,7 +33,7 @@ define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
 // Require the library loader
 require_once( JPATH_LIBRARIES . DS .'loader.php' );
 // Require the xajax library
-require_once ('xajax'.DS.'xajax.inc.php');
+require_once (JXPATH_BASE.DS.'xajax'.DS.'xajax.inc.php');
 $xajax = new xajax();
 $xajax->errorHandlerOn();
 
@@ -54,8 +54,8 @@ jimport( 'joomla.filesystem.*' );
  * @subpackage Installer
  * @since 1.5
  */
-class JAJAXHandler {
-
+class JAJAXHandler 
+{
 	/**
 	 * Method to get the database collations
 	 */
