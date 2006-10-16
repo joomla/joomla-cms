@@ -10,7 +10,7 @@
 	<?php if ($this->params->get('item_title')) : ?>
 	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="100%">
 		<?php if ($this->params->get('link_titles') && $this->item->readmore_link != '') : ?>
-		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $this->item->title; ?>
 		</a>
 		<?php else : ?>
