@@ -200,7 +200,7 @@ class JDocumentFeed extends JDocument
 		$format     = isset($params['format']) ? $params['format'] : 'RSS';
 		$cache      = 0;
 		$cache_time = 3600;
-		$cache_path = $mainframe->getCfg('cachepath');
+		$cache_path = JPATH_BASE.DS.'cache';
 
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $format ) );

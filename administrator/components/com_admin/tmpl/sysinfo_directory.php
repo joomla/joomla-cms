@@ -20,7 +20,6 @@
 		</tfoot>
 		<tbody>
 			<?php
-			$sp = ini_get('session.save_path');
 			writableCell( 'administrator/backups' );
 			writableCell( 'administrator/components' );
 			writableCell( 'administrator/modules' );
@@ -41,8 +40,8 @@
 			writableCell( 'plugins/xmlrpc' );
 			writableCell( 'tmp' );
 			writableCell( 'templates' );
-			writableCell( $mainframe->getCfg('cachepath'), 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
-			writableCell( $sp, 0, '<strong>'. JText::_( 'Session Directory' ) .'</strong> ' );
+			writableCell( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+			writableCell( JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
 			?>
 		</tbody>
 		</table>

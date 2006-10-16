@@ -84,7 +84,7 @@ function modChrome_feed($module, & $params)
 {
 	// Initialize variables
 	$config		= & JFactory::getConfig();
-	$cacheDir	= $config->getValue('config.cachepath').DS;
+	$cacheDir	= JPATH_BASE.DS.'cache';
 	$rssurl 	= $params->get( 'rssurl', '' );
 	$rssitems 	= $params->get( 'rssitems', '' );
 	$rssdesc 	= $params->get( 'rssdesc', '' );
