@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.helper');
 
-require_once( JPATH_COMPONENT . '/controller.php' );
+require_once( JPATH_COMPONENT . DS . 'controller.php' );
 
 // Set the table directory
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
