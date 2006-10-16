@@ -130,7 +130,7 @@ function submitbutton(pressbutton) {
 					if($params = $this->params->render('params')) : 
 						echo $params;
 					else :
-						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no paramaters for this item')."</div>";
+						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 					endif;
 					$this->pane->endPanel();
 					
@@ -138,7 +138,7 @@ function submitbutton(pressbutton) {
 					if($params = $this->advanced->render('params')) : 
 						echo $params;
 					else :
-						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced paramaters for this item')."</div>";
+						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
 					endif;
 					$this->pane->endPanel();
 					$this->pane->endPane();
