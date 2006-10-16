@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Single Feed Layout">
+	<layout title="NEWSFEED SINGLE LAYOUT">
 		<message>
-			<![CDATA[This layout shows a single newsfeed.]]>
+			<![CDATA[NEWSFEED SINGLE LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Newsfeed  Layout</name>
-		<description>This layout shows a single newsfeed.</description>
+		<name>Newsfeed Layout</name>
+		<description>NEWSFEED SINGLE LAYOUT DESC</description>
 		<url addParameterDir="/administrator/components/com_newsfeeds/elements">
 			<param name="id" type="newsfeed" default="0" label="Feed" description="A feed" />
 		</url>

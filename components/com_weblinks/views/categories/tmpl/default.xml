@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Category List Layout">
+	<layout title="WEBLINK CATEGORY LIST LAYOUT">
 		<message>
-			<![CDATA[This layout shows a list of all weblink categories.]]>
+			<![CDATA[WEBLINK CATEGORY LIST LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Weblinks category List Layout</name>
-		<description>This layout shows a list of all weblink categories.</description>
+		<name>WEBLINK CATEGORY LIST LAYOUT</name>
+		<description>WEBLINK CATEGORY LIST LAYOUT DESC</description>
 		<params>
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
-			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-			<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+			<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 				<option value="">Use Global</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
@@ -20,7 +20,7 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="header" type="text" size="30" default="" label="Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
+			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
 				<option value="0">Hide</option>
@@ -31,17 +31,17 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="item_description" type="radio" default="1" label="Link Descriptions" description="Show/Hide the Description text of the Links">
+			<param name="item_description" type="radio" default="1" label="Link Descriptions" description="PARAMSHOWHIDEDESC">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="Show/Hide the List of Categories in List view page">
+			<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="PARAMOTHERCATSECTION">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="other_cat" type="radio" default="1" label="Category List - Category" description="Show/Hide the List of Categories in Table view page">
+			<param name="other_cat" type="radio" default="1" label="Category List - Category" description="PARAMOTHERCAT">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
@@ -50,13 +50,13 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page, if left blank it will load _WEBLINKS_DESC from your language file"/>
-			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="Image for page, must be located in the /images/stories folder. Default will load web_links.jpg, No image will mean an image is not loaded" />
+			<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="PARAMDESCTEXT"/>
+			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
 			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
 				<option value="left">Left</option>
 				<option value="right">Right</option>
 			</param>
-			<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="Icon to be used to the left of the url links in Table view" />
+			<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMICONIMG" />
 		</params>
 		<advanced>
 		</advanced>

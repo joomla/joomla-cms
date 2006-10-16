@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Search">
 		<message>
-			<![CDATA[The standard search layout displays the search form and result.]]>
+			<![CDATA[STANDARD SEARCH LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Search</name>
-		<description>The standard search layout displays the search form and result.</description>
+		<description>STANDARD SEARCH LAYOUT DESC</description>
 		<params>
 			<param name="menu_image" type="imagelist" directory="/images/stories" default="" label="Menu Image" description="PARAMMENUIMAGE"/>
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">

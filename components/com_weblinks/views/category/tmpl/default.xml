@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Standard Category Layout">
+	<layout title="WEBLINK STANDARD CATEGORY LAYOUT">
 		<message>
-			<![CDATA[This layout displays articles in a category.]]>
+			<![CDATA[WEBLINK STANDARD CATEGORY LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Newsfeed Category Layout</name>
-		<description>This layout shows a list of weblinks in a category.</description>
+		<name>WEBLINK STANDARD CATEGORY LAYOUT</name>
+		<description>WEBLINK STANDARD CATEGORY LAYOUT DESC</description>
 		<url>
-			<param name="id" type="category" section="com_weblinks" default="0" label="Category" description="A weblinks category (optional)" />
+			<param name="id" type="category" section="com_weblinks" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
@@ -45,7 +45,7 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="Icon to be used to the left of the url links in Table view" />
+			<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMICONIMG" />
 		</params>
 		<advanced>
 		</advanced>

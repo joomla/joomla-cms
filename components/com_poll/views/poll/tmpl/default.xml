@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Poll">
 		<message>
-			<![CDATA[The standard poll layout displays the poll results.]]>
+			<![CDATA[STANDARD POLL LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Poll</name>
-		<description>The standard poll layout displays the poll results.</description>
+		<description>STANDARD POLL LAYOUT DESC</description>
 		<params>
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 		<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">

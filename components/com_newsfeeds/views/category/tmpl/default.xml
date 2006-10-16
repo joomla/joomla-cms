@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Category Layout">
+	<layout title="NEWSFEED CATEGORY LAYOUT">
 		<message>
-			<![CDATA[This layout shows a list of newsfeeds in a category.]]>
+			<![CDATA[NEWSFEED CATEGORY LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Newsfeed Category Layout</name>
-		<description>This layout shows a list of newsfeeds in a category.</description>
+		<description>NEWSFEED CATEGORY LAYOUT DESC</description>
 		<url addParameterDir="/administrator/components/com_newsfeeds/elements">
-			<param name="id" type="category" section="com_newsfeeds" default="0" label="Category" description="A newsfeed category (optional)" />
+			<param name="id" type="category" section="com_newsfeeds" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />

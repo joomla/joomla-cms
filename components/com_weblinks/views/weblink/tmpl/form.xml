@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<layout title="Weblink Submission Layout">
+	<layout title="WEBLINK SUBMISSION LAYOUT">
 		<message>
 			<![CDATA[WEBLINK SUBMISSION LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Weblink Submission Layout</name>
+		<name>WEBLINK SUBMISSION LAYOUT</name>
 		<description>WEBLINK SUBMISSION LAYOUT DESC</description>
 		<params>
 		</params>

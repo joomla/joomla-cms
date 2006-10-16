@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf8"?>
 <metadata>
-	<view title="Category">
+	<view title="CATEGORY GROUP">
 		<message>
-			<![CDATA[This view shows a newsfeed category.]]>
+			<![CDATA[CATEGORY GROUP DESC]]>
 		</message>
 	</view>
 </metadata>
