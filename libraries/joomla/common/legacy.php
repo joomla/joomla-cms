@@ -40,6 +40,22 @@ define( '_VALID_MOS', 1 );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
 /**
+ * Legacy constant, use DATE_FORMAT_LC instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+DEFINE('_DATE_FORMAT_LC',"%A, %d %B %Y"); //Uses PHP's strftime Command Format
+
+/**
+ * Legacy constant, use DATE_FORMAT_LC2 instead
+ *
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ */
+DEFINE('DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
+
+/**
  * Legacy global, use JVersion->getLongVersion() instead
  *
  * @name $_VERSION
