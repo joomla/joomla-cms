@@ -191,7 +191,7 @@ function sefRelToAbs($string)
 			if ($port = $uri->getPort()) {
 				$LiveSite .= ":$port";
 			}
-			$LiveSite .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+			$LiveSite .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		}
 	
 		// Get config variables

@@ -194,7 +194,7 @@ class JURI extends JObject
 				$BASE .= ":$port";
 			}
 			
-			$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
+			$BASE .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
 		}
 		return $BASE;
 	}
