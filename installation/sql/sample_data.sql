@@ -1,4 +1,4 @@
-﻿# $Id: sample_data.sql 3136 2006-04-16 21:53:53Z Jinx $
+# $Id: sample_data.sql 3136 2006-04-16 21:53:53Z Jinx $
 
 
 -- 
@@ -116,7 +116,8 @@ INSERT INTO `#__content_frontpage` VALUES (16, 5);
 -- Dumping data for table `#__menu`
 -- 
 
-INSERT INTO `#__menu` VALUES (2, 'mainmenu', 'Joomla! License', 'index.php?option=com_content&view=article&id=5', 'component', 1, 0, 20, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'article_id=5', '', 0, 0, 0);
+INSERT INTO `#__menu` VALUES (2, 'mainmenu', 'Joomla! License', 'index.php?option=com_content&view=article&id=5', 'component', 
+1, 0, 20, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'article_id=5', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (41, 'mainmenu', 'FAQ', 'index.php?option=com_content&view=section&id=3', 'component', 1, 0, 20, 0, 6, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'orderby=\nother_cat_section=1\nempty_cat_section=0\npage_title=1\ndescription=0\ndescription_image=0\nother_cat=1\nempty_cat=0\ncat_items=1\ncat_description=1\ndate_format=\ndate=\nauthor=\nhits=\nheadings=1\nnavigation=1\norder_select=1\ndisplay=1\ndisplay_num=50\nfilter=1\nfilter_type=title\nmenu_image=-1\npageclass_sfx=\nsecure=0\n\n', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (11, 'othermenu', 'Joomla! Home', 'http://www.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '', '', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (12, 'othermenu', 'Joomla! Forums', 'http://forum.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '', '', 0, 0, 0);
