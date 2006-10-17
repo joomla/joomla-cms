@@ -270,15 +270,18 @@ class JRegistry extends JObject
 
 		// Get the contents of the file
 		jimport('joomla.filesystem.file');
-		$data =& JFile::read($file);
+		$data = JFile::read($file);
 
-		if (!isset($this->_registry[$namespace])) {
+		if (!isset($this->_registry[$namespace])) 
+		{
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
 			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
-		} else {
+		} 
+		else 
+		{
 			// Get the data in object format
-			$ns =& $handler->stringToObject($data);
+			$ns = $handler->stringToObject($data);
 
 			/*
 			 * We want to leave groups that are already in the namespace and add the
@@ -448,12 +451,14 @@ class JRegistry extends JObject
 	 * @param $format string The format to return
 	 * @return object Formatting object
 	 */
-	function _loadFormat($format)
+	function &_loadFormat($format)
 	{
 		$lformat = strtolower($format);
-		if(jimport('joomla.registry.format.'.$lformat)) {
+		if(jimport('joomla.registry.format.'.$lformat)) 
+		{
 			$return = null;
-			eval('$return = new JRegistryFormat'.$format.'();');
+			$class =  'JRegistryFormat'.$format;
+			$return = new $class();
 			return $return;
 		} else {
 			die('Unable to load format');
