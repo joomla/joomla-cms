@@ -1687,7 +1687,8 @@ class JInstallationHelper
 	 * returns the langauge code and help url set in the localise.xml file.
 	 * 		   Used for forcing a particular language in localised releases
 	 */
-	function getLocalise(){
+	function getLocalise()
+	{
 		jimport('joomla.factory');
 		$xml = & JFactory::getXMLParser('Simple');
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {

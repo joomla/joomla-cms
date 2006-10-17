@@ -151,7 +151,7 @@ class JPluginHelper
 	 */
 	function _import( $folder, $element, $published, $params='' )
 	{
-		static $paths;
+		static $paths; 
 
 		if (!$paths) {
 			$paths = array();
@@ -170,7 +170,7 @@ class JPluginHelper
 			{
 				//needed for backwards compatibility
 				global $_MAMBOTS, $mainframe; 
-
+				
 				require_once( $path );
 
 				$lang =& JFactory::getLanguage();
