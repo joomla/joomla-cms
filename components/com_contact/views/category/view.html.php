@@ -34,7 +34,7 @@ class ContactViewCategory extends JView
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar( 'catid', 0, '', 'int' );
-		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limit				= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
