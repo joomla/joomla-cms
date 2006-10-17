@@ -1,11 +1,13 @@
 <script language="javascript" type="text/javascript">
-	function tableOrdering( order, dir, task ) {
-	var form = document.adminForm;
+	
+	function tableOrdering( order, dir, task ) 
+	{
+		var form = document.adminForm;
 
-	form.filter_order.value 	= order;
-	form.filter_order_Dir.value	= dir;
-	document.adminForm.submit( task );
-}
+		form.filter_order.value 	= order;
+		form.filter_order_Dir.value	= dir;
+		document.adminForm.submit( task );
+	}
 </script>
 <form action="index.php" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -40,12 +42,12 @@
 	</td>
 	<?php if ($this->params->get('title')) : ?>
  	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="45%">
-		<?php JCommonHTML::tableOrdering( 'Item Title', 'a.title', $lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Item Title', 'a.title', $this->lists ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('date')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="25%">
-		<?php JCommonHTML::tableOrdering( 'Date', 'a.created', $lists ); ?>
+		<?php JCommonHTML::tableOrdering( 'Date', 'a.created', $this->lists ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('author')) : ?>
@@ -124,4 +126,5 @@
 <input type="hidden" name="option" value="com_content" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
+<input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 </form>

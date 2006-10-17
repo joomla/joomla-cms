@@ -95,7 +95,7 @@ class ContentViewCategory extends JView
 		$i		= $limitstart;
 
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination(count($items), $limitstart, $limit);
+		$pagination = new JPagination( count($items), $limitstart, $limit);
 
 		$this->assignRef('items'     , $items);
 		$this->assignRef('category'  , $category);
@@ -103,7 +103,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('user'      , $user);
 		$this->assignRef('access'    , $access);
 		$this->assignRef('pagination', $pagination);
-
+		
 		parent::display($tpl);
 	}
 
@@ -252,7 +252,7 @@ class ContentViewCategory extends JView
 		}
 
 		$this->assign('lists'     , $lists);
-
+		
 		return $this->items;
 	}
 

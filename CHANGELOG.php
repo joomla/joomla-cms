@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Oct-2006 Rastin Mehr
+ # Fixed [artf6386] : "Category Table" ordering fails w/ "Unknown table 'f'"
+
 15-Oct-2006 Enno Klasing
  # Fixed [artf6430] : htaccess tweak
 
