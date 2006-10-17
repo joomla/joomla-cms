@@ -821,6 +821,14 @@ class JApplication extends JObject
 	function getPath($varname, $user_option=null) {
 		return JApplicationHelper::getPath ($varname, $user_option);
 	}
+	
+	/**
+	* Depreacted, use JURI::base() instead
+	* @since 1.5
+	*/
+	function getBasePath($client=0, $addTrailingSlash=true) {
+		return JURI::base();
+	}
 }
 
 /**
