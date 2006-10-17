@@ -62,7 +62,7 @@ class JHelp
 		else
 		{
 	   		// Included html help files
-			$helpURL = '/help/' .$lang->getTag() .'/';
+			$helpURL = 'help/' .$lang->getTag() .'/';
 			$ref = $ref . '.html';
 
 			// Check if the file exists within a different language!
@@ -70,14 +70,14 @@ class JHelp
 				$localeURL = JPATH_BASE . $helpURL .$ref;
 				jimport( 'joomla.filesystem.file' );
 				if( !JFile::exists( $localeURL ) ) {
-					$helpURL = '/help/en-GB/';
+					$helpURL = 'help/en-GB/';
 				}
 			}
 			$url .= $helpURL . $ref;
 		}
 		
 		// TODO - re-implement in Beta 2
-		$url = '/help/en-GB/screen.temp_notice.html';
+		$url = 'help/en-GB/screen.temp_notice.html';
 		return $url;
 	}
 
