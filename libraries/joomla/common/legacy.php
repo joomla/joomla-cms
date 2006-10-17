@@ -141,5 +141,5 @@ if (file_exists( $file )) {
  *  use JPlugingHelper::importPlugin to load bot code
  *  @deprecated As of version 1.5
  */
-$_MAMBOTS = new mosMambotHandler();
+$GLOBALS['_MAMBOTS'] = new mosMambotHandler();
 ?>
