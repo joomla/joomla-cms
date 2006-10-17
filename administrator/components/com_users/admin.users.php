@@ -91,8 +91,8 @@ function showUsers( )
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where 				= array();
 	
-	$limit		= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int');
-	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
 	if (isset( $search ) && $search!= '')
 	{

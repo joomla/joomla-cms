@@ -109,13 +109,13 @@ function viewModules()
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.filter_position", 	'filter_position', 	0 );
-	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
+	$filter_type	 		= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
 	$filter_assigned 	= $mainframe->getUserStateFromRequest( "$option.filter_assigned",	'filter_assigned',	0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	
-	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
-	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 	
 	$where[] = "m.client_id = ".$client->id;
 
