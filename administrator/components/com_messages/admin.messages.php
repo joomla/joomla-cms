@@ -73,7 +73,7 @@ function showMessages( $option )
 	$context			= 'com_messages.list';
 	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order', 	'filter_order', 	'a.date_time' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( $context.'.filter_state', 	'filter_state', 	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $context.'.filter_state', 	'filter_state', 	'*' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 					'limit',  			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( $context.'.limitstart', 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( $context.'search', 			'search', 			'' );

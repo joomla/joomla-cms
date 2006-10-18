@@ -31,7 +31,7 @@ class BannerController
 		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order", 	'filter_order', 	'cc.name' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
 		$filter_catid		= $mainframe->getUserStateFromRequest( "$context.filter_catid",		'filter_catid',		'' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( "$context.filter_state", 	'filter_state', 	'P' );
+		$filter_state 		= $mainframe->getUserStateFromRequest( "$context.filter_state", 	'filter_state', 	'*' );
 		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
 		
 		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);

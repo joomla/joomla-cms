@@ -591,7 +591,8 @@ class JCommonHTML {
 		return $href;
 	}
 
-	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
+	function selectState( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )	
+	{
 		$state[] = JHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
 		$state[] = JHTML::makeOption( '*', JText::_( 'Any' ) );
 		$state[] = JHTML::makeOption( 'P', JText::_( $published ) );

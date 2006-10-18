@@ -54,7 +54,7 @@ class ContentController extends JController
 		$context			= 'com_content.viewcontent';
 		$filter_order		= $mainframe->getUserStateFromRequest("$context.filter_order", 'filter_order', '');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest("$context.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $mainframe->getUserStateFromRequest("$context.filter_state", 'filter_state', '');
+		$filter_state		= $mainframe->getUserStateFromRequest("$context.filter_state", 'filter_state', '*');
 		$catid				= $mainframe->getUserStateFromRequest("$context.catid", 'catid', 0);
 		$filter_authorid	= $mainframe->getUserStateFromRequest("$context.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid	= $mainframe->getUserStateFromRequest("$context.filter_sectionid", 'filter_sectionid', -1);

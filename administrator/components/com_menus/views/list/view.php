@@ -150,7 +150,7 @@ class JMenuViewList extends JView
 		$menutype 			= $mainframe->getUserStateFromRequest( "com_menus.menutype",				 	'menutype', 		'mainmenu' );
 		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
-		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'' );
+		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'*' );
 		$levellimit 		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.levellimit", 		'levellimit', 		10 );
 		$search 			= $mainframe->getUserStateFromRequest( "com_menus.$menutype.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );

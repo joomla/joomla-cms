@@ -60,7 +60,7 @@ class ContentModelElement extends JModel
 		$option				= JRequest::getVar( 'option' );
 		$filter_order		= $mainframe->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $mainframe->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '');
+		$filter_state		= $mainframe->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '*');
 		$catid				= $mainframe->getUserStateFromRequest("articleelement.catid", 'catid', 0);
 		$filter_authorid	= $mainframe->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid	= $mainframe->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);

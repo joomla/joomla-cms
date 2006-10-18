@@ -87,7 +87,7 @@ function viewFrontPage( $option )
 	$db 				=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'fpordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 	'filter_authorid', 	0 );
 	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 	'filter_sectionid', 0 );

@@ -107,7 +107,7 @@ function viewModules()
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.position' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
 	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.filter_position", 	'filter_position', 	0 );
 	$filter_type	 		= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
 	$filter_assigned 	= $mainframe->getUserStateFromRequest( "$option.filter_assigned",	'filter_assigned',	0 );

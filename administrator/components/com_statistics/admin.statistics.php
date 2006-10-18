@@ -147,7 +147,7 @@ function showPageImpressions( $option, $task )
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'DESC' );
 	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.$task.filter_catid", 		'filter_catid', 	'' );
 	$filter_sectionid	= $mainframe->getUserStateFromRequest( "$option.$task.filter_sectionid", 	'filter_sectionid', '' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$task.filter_state", 		'filter_state', 	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$task.filter_state", 		'filter_state', 	'*' );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
