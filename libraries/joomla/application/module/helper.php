@@ -224,8 +224,7 @@ class JModuleHelper
 
 		static $modules;
 
-		if (isset($modules))
-		{
+		if (isset($modules)) {
 			return $modules;
 		}
 
@@ -259,8 +258,9 @@ class JModuleHelper
 			$user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
 			$modules[$i]->user  = $user;
 			// CHECK: custom module name is given by the title field, otherwise it's just 'om' ??
-			$modules[$i]->name  = $user ? $modules[$i]->title : substr( $file, 4 );
-			$modules[$i]->style = null;
+			$modules[$i]->name     = $user ? $modules[$i]->title : substr( $file, 4 );
+			$modules[$i]->style    = null;
+			$modules[$i]->position = strtolower($modules[$i]->position);
 		}
 
 		return $modules;
