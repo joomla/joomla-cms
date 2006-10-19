@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: xmlrpc.client.php 5382 2006-10-09 23:08:34Z Laurens $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -27,11 +27,9 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 
 jimport('phpxmlrpc.xmlrpc');
 
-
 $uri 	= dirname( $_SERVER['PHP_SELF'] );
 
 $host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
-//$path 	= JRequest::getVar( 'path', $uri . '/xmlrpc/', 'post' );
 $path 	= JRequest::getVar( 'path', '', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post' );
@@ -54,13 +52,18 @@ if ($task)
 	switch ($task)
 	{
 		case 'list_methods':
+		{
+			jimport('joomla.html.html');
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
 
-			if ($xmlrpcdoc->faultCode() == 0) {
+			if ($xmlrpcdoc->faultCode() == 0) 
+			{
 				$result = $xmlrpcdoc->value();
 				$array = $result->scalarval();
-			} else {
+			} 
+			else 
+			{
 				print $xmlrpcdoc->faultString();
 			}
 
@@ -77,24 +80,28 @@ if ($task)
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
-			break;
+		}	break;
 
 		case 'exec':
+		{
 			$method = JRequest::getVar( 'method' );
 			$args 	= JRequest::getVar( 'args' );
 
-			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
+			$message = new xmlrpcmsg($method, $args);
 
 			$xmlrpcdoc = $client->send($message);
 
-			if ($xmlrpcdoc->faultCode()== 0) {
+			if ($xmlrpcdoc->faultCode()== 0) 
+			{
 				$scalar_var = $xmlrpcdoc->value();
 				$output = var_export($scalar_var->scalarval(), true);
-			} else {
+			} 
+			else 
+			{
 				print $xmlrpcdoc->faultString();
 			}
 
-			break;
+		}	break;
 	}
 
 }

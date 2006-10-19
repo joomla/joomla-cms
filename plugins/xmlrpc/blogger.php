@@ -17,7 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $dispatcher =& JEventDispatcher::getInstance();
 $dispatcher->attach(new BloggerXMLRPC($dispatcher));
 
-class BloggerXMLRPC extends JPlugin {
+class BloggerXMLRPC extends JPlugin 
+{
 	function BloggerXMLRPC(&$subject) {
 		parent::__construct($subject);
 	}
@@ -25,57 +26,59 @@ class BloggerXMLRPC extends JPlugin {
 	/**
 	* @return array An array of associative arrays defining the available methods
 	*/
-	function onGetWebServices() {
+	function onGetWebServices() 
+	{
 		global $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		return array(
+		return array
+		(
 				'blogger.getUsersBlogs' => array(
-				'function' => 'BloggerXMLRPCServices::getUserBlogs',
+				'function' => 'BloggerXMLRPC::getUserBlogs',
 				'docstring' => 'Returns a list of weblogs to which an author has posting privileges.',
 				'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString ))
 			),
 				'blogger.getUserInfo' => array(
-				'function' => 'BloggerXMLRPCServices::getUserInfo',
+				'function' => 'BloggerXMLRPC::getUserInfo',
 				'docstring' => 'Returns information about an author in the system.',
 				'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.getPost' => array(
-				'function' => 'BloggerXMLRPCServices::getPost',
+				'function' => 'BloggerXMLRPC::getPost',
 				'docstring' => 'Returns information about a specific post.',
 				'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.getRecentPosts' => array(
-				'function' => 'BloggerXMLRPCServices::getRecentPosts',
+				'function' => 'BloggerXMLRPC::getRecentPosts',
 				'docstring' => 'Returns a list of the most recent posts in the system.',
 				'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcInt))
 			),
 				'blogger.getTemplate' => array(
-				'function' => 'BloggerXMLRPCServices::getTemplate',
+				'function' => 'BloggerXMLRPC::getTemplate',
 				'docstring' => '',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.setTemplate' => array(
-				'function' => 'BloggerXMLRPCServices::setTemplate',
+				'function' => 'BloggerXMLRPC::setTemplate',
 				'docstring' => '',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.newPost' => array(
-				'function' => 'BloggerXMLRPCServices::newPost',
+				'function' => 'BloggerXMLRPC::newPost',
 				'docstring' => 'Creates a new post, and optionally publishes it.',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 				'blogger.deletePost' => array(
-				'function' => 'BloggerXMLRPCServices::deletePost',
+				'function' => 'BloggerXMLRPC::deletePost',
 				'docstring' => 'Deletes a post.',
 				'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 				'blogger.editPost' => array(
-				'function' => 'BloggerXMLRPCServices::editPost',
+				'function' => 'BloggerXMLRPC::editPost',
 				'docstring' => 'Updates the information about an existing post.',
 				'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 			'blogger.helloworld' => array(
-				'function' => 'BloggerXMLRPCServices::helloworld',
+				'function' => 'BloggerXMLRPC::helloworld',
 				'docstring' => 'Updates the information about an existing post.',
 				'signature' => array(array($xmlrpcBoolean))
 			)
@@ -83,7 +86,8 @@ class BloggerXMLRPC extends JPlugin {
 	}
 }
 
-class BloggerXMLRPCServices {
+class BloggerXMLRPCServices 
+{
 	/*
 	 * Note : blogger.getUsersBlogs will make more sense once we support multiple blogs
 	 */
