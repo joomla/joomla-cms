@@ -150,7 +150,7 @@ class JLDAP {
 			$username = $this->username;
 		}
 		if (is_null($password)) {
-			$username = $this->password;
+			$password = $this->password;
 		}
 		$this->setDN($username);
 		$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
