@@ -303,7 +303,7 @@ class TemplatesController
 			switch($task)
 			{
 				case 'apply_source' :
-					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&template='.$template);
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$template);
 					break;
 
 				case 'save_source'  :
@@ -371,14 +371,15 @@ class TemplatesController
 
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($client->path.$filename);
-
+		
 		if ($content !== false) 
 		{
 			$content = htmlspecialchars($content);
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 			TemplatesView::editCSSSource($template, $filename, $content, $option, $client);
 		}
-		else {
+		else 
+		{
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $client->path.$filename);
 			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, $msg);
 		}
@@ -410,12 +411,12 @@ class TemplatesController
 			switch($task)
 			{
 				case 'apply_css' :
-					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&template='.$template.'&filename='.$filename);
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&id='.$template.'&filename='.$filename);
 					break;
 
 				case 'save_css'  :
 				default          :
-					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id);
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$template);
 					break;
 			}
 		}

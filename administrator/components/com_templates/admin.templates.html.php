@@ -478,7 +478,9 @@ class TemplatesView
 	*/
 	function editCSSSource($template, $filename, & $content, $option, & $client) 
 	{
+	
 		$css_path = $client->path . $filename;
+	
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -492,9 +494,11 @@ class TemplatesView
 			<?php
 
 		jimport('joomla.filesystem.path');
-		if (JPath::canCHMOD($css_path)) {
-			if (is_writable($css_path)) {
-?>
+		if (JPath::canCHMOD($css_path)) 
+		{
+			if (is_writable($css_path)) 
+			{
+				?>
 				<td>
 					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
 					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
@@ -502,7 +506,7 @@ class TemplatesView
 				<?php
 
 			} else {
-?>
+				?>
 				<td>
 					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
 					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
@@ -511,7 +515,7 @@ class TemplatesView
 
 			} // if
 		} // if
-?>
+		?>
 		</tr>
 		</table>
 
@@ -527,6 +531,7 @@ class TemplatesView
 			</td>
 		</tr>
 		</table>
+	
 
 		<input type="hidden" name="id" value="<?php echo $template; ?>" />
 		<input type="hidden" name="filename" value="<?php echo $filename; ?>" />
@@ -535,7 +540,6 @@ class TemplatesView
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
-
 	}
 
 	/**
