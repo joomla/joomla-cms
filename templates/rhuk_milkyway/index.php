@@ -39,7 +39,7 @@ See COPYRIGHT.php for copyright notices and details.
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<jdoc:include type="modules" name="topLeft" style="-1" />
+						<jdoc:include type="modules" name="top" style="-1" />
 					</div>
 				</div>
 			</div>
