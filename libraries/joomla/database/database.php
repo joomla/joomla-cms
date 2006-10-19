@@ -211,7 +211,7 @@ class JDatabase extends JObject
 	 * @return boolean
 	 * @since 1.5
 	 */
-	function getUtfSupport() {
+	function getUTFSupport() {
 		return $this->_utf;
 	}
 
