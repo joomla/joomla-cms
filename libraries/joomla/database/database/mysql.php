@@ -150,7 +150,7 @@ class JDatabaseMySQL extends JDatabase
 	* Execute a batch query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function query_batch( $abort_on_error=true, $p_transaction_safe = false)
+	function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';

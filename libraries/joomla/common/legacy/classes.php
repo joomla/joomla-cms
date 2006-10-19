@@ -591,6 +591,17 @@ class database extends JDatabaseMySQL
 			return $object;
 		}
 	}
+	
+	/**
+	* Execute a batch query
+	*
+    * @abstract
+    * @access public
+	* @return mixed A database resource if successful, FALSE if not.
+	*/
+	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
+		return parent::queryBatch( $abort_on_error, $p_transaction_safe);
+	}
 }
 
  /**
