@@ -17,7 +17,7 @@
  * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Base
+ * @subpackage	Abstract
  * @since		1.5
  */
 class JObserver extends JObject {
@@ -60,7 +60,7 @@ class JObserver extends JObject {
  * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Base
+ * @subpackage	Abstract
  * @since		1.5
  */
 class JObservable extends JObject {

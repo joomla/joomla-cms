@@ -16,7 +16,7 @@
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Base
+ * @subpackage 	Abstract
  * @since		1.5
  */
 class JTree extends JObject
@@ -61,7 +61,7 @@ class JTree extends JObject
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Base
+ * @subpackage 	Abstract
  * @since		1.5
  */
 class JNode extends JObject

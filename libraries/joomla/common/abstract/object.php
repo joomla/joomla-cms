@@ -17,7 +17,7 @@
  * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Base
+ * @subpackage	Abstract
  * @since		1.5
  */
 class JObject
