@@ -13,14 +13,18 @@
 
 /**
  * Base search class
- * @package Joomla
- * @since 1.5
+ *
+ * @author		Andrew Eddie
+ * @package 	Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
  */
-class JSearch extends JObject {
+class JSearch extends JObject 
+{
 	/**
 	 * @var string The text or phrase to search for
 	 */
-	var $text = null;
+	var $needle = null;
 
 	/**
 	 * @var string The ordering for the search
@@ -67,8 +71,9 @@ class JSearch extends JObject {
 	/**
 	 * Constructor
 	 */
-	function __construct( $text, $matchType, $ordering, $areas, $limitstart=0, $limit=0 ) {
-		$this->text			= $text;
+	function __construct( $needle, $matchType, $ordering, $areas, $limitstart=0, $limit=0 ) 
+	{
+		$this->needle		= $text;
 		$this->matchType	= $matchType;
 		$this->ordering		= $ordering;
 		$this->areas		= $areas;
@@ -110,8 +115,8 @@ class JSearch extends JObject {
 	/**
 	 * @return string
 	 */
-	function getText() {
-		return $this->text;
+	function getNeedle() {
+		return $this->needle;
 	}
 
 	/**
@@ -126,7 +131,8 @@ class JSearch extends JObject {
 	 * running total and determines the limit and limitstart for the query
 	 * @param int
 	 */
-	function addResultCount( $n ) {
+	function addResultCount( $n ) 
+	{
 		// the start and end points for this query
 		$qStart = $this->count;
 		$this->count += $n;
@@ -201,15 +207,20 @@ class JSearch extends JObject {
 }
 
 /**
- * Base search class
- * @package Joomla
- * @since 1.5
+ * Search helper class
+ *
+ * @author		Andrew Eddie
+ * @package 	Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
  */
-class JSearchHelper {
+class JSearchHelper 
+{
 	/**
 	 * @return JParameter Parameters for the serach plugin
 	 */
-	function &getPluginParams( $folder, $name ) {
+	function &getPluginParams( $folder, $name ) 
+	{
 		if ($folder && $name) {
 	 		$plugin =& JPluginHelper::getPlugin($this->folder, $this->name);
 	 		$pluginParams = new JParameter( $plugin->params );
@@ -225,7 +236,8 @@ class JSearchHelper {
 	 * @param array A named array of search areas for the plugin
 	 * @return boolean
 	 */
-	function inArea( $formAreas, $pluginAreas ) {
+	function inArea( $formAreas, $pluginAreas ) 
+	{
 		if (is_array( $formAreas )) {
 			if (!array_intersect( $formAreas, array_keys( $pluginAreas ) )) {
 				return false;
