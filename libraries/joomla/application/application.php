@@ -724,11 +724,11 @@ class JApplication extends JObject
   }
 
 	 /**
- 	 * Depreceated, use JPathWay->getNamePathWay() method instead
+ 	 * Depreceated, use JPathWay->getPathWayNames() method instead
  	 * @since 1.5
  	 */
 	function getCustomPathWay() {
-		return $this->_pathway->getNamePathWay();
+		return $this->_pathway->getPathWayNames();
 	}
 
 	 /**

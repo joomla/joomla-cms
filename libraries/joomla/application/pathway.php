@@ -77,7 +77,7 @@ class JPathWay extends JObject {
 	 * @return array Array of names of pathway items
 	 * @since 1.5
 	 */
-	function getNamePathWay($showHome = true, $showComponent = true)
+	function getPathWayNames($showHome = true, $showComponent = true)
 	{
 		/*
 		 * Initialize variables
