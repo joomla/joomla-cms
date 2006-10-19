@@ -64,7 +64,7 @@ class JTableComponent extends JTable
 		$db = &$this->getDBO();
 		$query = 'SELECT id' .
 				' FROM #__components' .
-				' WHERE ' . $db->NameQuote( 'option' ) . '=' . $db->Quote( $option ) .
+				' WHERE ' . $db->nameQuote( 'option' ) . '=' . $db->Quote( $option ) .
 				' AND parent = 0';
 		$db->setQuery( $query, 0, 1 );
 		$id = $db->loadResult();

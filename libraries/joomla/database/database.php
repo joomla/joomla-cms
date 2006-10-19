@@ -254,7 +254,8 @@ class JDatabase extends JObject
 	 * @param string The name
 	 * @return string The quoted name
 	 */
-	function NameQuote( $s ) {
+	function nameQuote( $s ) 
+	{
 		$q = $this->_nameQuote;
 		if (strlen( $q ) == 1) {
 			return $q . $s . $q;

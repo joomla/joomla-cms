@@ -398,7 +398,7 @@ class JDatabaseMySQL extends JDatabase
 			if ($k[0] == '_') { // internal field
 				continue;
 			}
-			$fields[] = $this->NameQuote( $k );;
+			$fields[] = $this->nameQuote( $k );;
 			$values[] = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
@@ -440,7 +440,7 @@ class JDatabaseMySQL extends JDatabase
 			} else {
 				$val = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
 			}
-			$tmp[] = $this->NameQuote( $k ) . '=' . $val;
+			$tmp[] = $this->nameQuote( $k ) . '=' . $val;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $tmp ) , $where ) );
 		return $this->query();
