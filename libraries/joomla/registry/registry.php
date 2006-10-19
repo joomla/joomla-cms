@@ -276,7 +276,7 @@ class JRegistry extends JObject
 		{
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = $handler->stringToObject($data);
 		} 
 		else 
 		{

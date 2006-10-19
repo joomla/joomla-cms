@@ -106,8 +106,8 @@ class MenusController extends JController
 //			$menu->id = $menuid;
 //		}
 //		$menu->checkin();
-		$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
+		//$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$this->setRedirect( 'index.php?option=com_menus');
 	}
 
 	/**

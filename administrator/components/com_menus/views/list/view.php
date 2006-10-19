@@ -34,6 +34,7 @@ class JMenuViewList extends JView
 		 * Set toolbar items for the page
 		 */
 		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		$bar = & JToolBar::getInstance('JComponent');
 		$bar->appendButton( 'Link', 'menus', 'Menus', "index.php?option=com_menus" );
@@ -83,7 +84,7 @@ class JMenuViewList extends JView
 		 */
 		JMenuBar::title( JText::_( 'Copy Menu Items' ) );
 		JMenuBar::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
-		JMenuBar::cancel();
+		JMenuBar::cancel('cancelItem');
 		JMenuBar::help( 'screen.menus.copy' );
 
 		$document = & JFactory::getDocument();
@@ -100,6 +101,7 @@ class JMenuViewList extends JView
 
 		$items = &$this->get('ItemsFromRequest');
 
+		$this->assignRef('menutype', $menutype);
 		$this->assignRef('items', $items);
 		$this->assignRef('menutypes', $menuTypes);
 		$this->assignRef('MenuList', $MenuList);
@@ -118,7 +120,7 @@ class JMenuViewList extends JView
 		 */
 		JMenuBar::title( JText::_( 'Move Menu Items' ) );
 		JMenuBar::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
-		JMenuBar::cancel();
+		JMenuBar::cancel('cancelItem');
 		JMenuBar::help( 'screen.menus.move' );
 
 		$document = & JFactory::getDocument();
@@ -135,6 +137,7 @@ class JMenuViewList extends JView
 
 		$items = &$this->get('ItemsFromRequest');
 
+		$this->assignRef('menutype', $menutype);
 		$this->assignRef('items', $items);
 		$this->assignRef('menutypes', $menuTypes);
 		$this->assignRef('MenuList', $MenuList);
