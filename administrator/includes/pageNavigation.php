@@ -23,8 +23,8 @@ jimport('joomla.html.pagination');
 * @package Joomla.Legacy
 * @subpackage 1.5
 */
-class mosPageNav extends JPagination {
-
+class mosPageNav extends JPagination 
+{
 	function mosPageNav( $total, $limitstart, $limit ) {
 		parent::__construct($total, $limitstart, $limit);
 	}

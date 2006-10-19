@@ -75,13 +75,14 @@ class mosMainFrame extends JApplication
 	 * @param mixed A client identifier
 	 * @param boolean True (default) to add traling slash
 	 */
-	function getBasePath( $client=0, $addTrailingSlash=true ) {
+	function getBasePath( $client=0, $addTrailingSlash=true ) 
+	{
 		switch ($client) {
 			case '0':
 			case 'site':
 			case 'front':
 			default:
-				return mosPathName( JPATH_BASE, $addTrailingSlash );
+				return mosPathName( JPATH_SITE, $addTrailingSlash );
 				break;
 
 			case '2':
