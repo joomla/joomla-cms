@@ -292,23 +292,6 @@ class JDocument extends JObject
 	}
 
 	 /**
-	 * Unsets a meta tag.
-	 *
-	 * @param string  $name		   Value of name or http-equiv tag
-	 * @param bool	$http_equiv	 META type "http-equiv" defaults to null
-	 * @return void
-	 * @access public
-	 */
-	function unsetMetaData($name, $http_equiv = false)
-	{
-		if ($http_equiv == true) {
-			unset($this->_metaTags['http-equiv'][$name]);
-		} else {
-			unset($this->_metaTags['standard'][$name]);
-		}
-	}
-
-	 /**
 	 * Adds a linked script to the page
 	 *
 	 * @param	string  $url		URL to the linked script
