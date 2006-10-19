@@ -84,7 +84,7 @@ class TableContact extends JTable
 	{
 		$this->default_con = intval( $this->default_con );
 
-		if (JInputFilter::isAttributeInvalid(array ('href', $this->webpage))) {
+		if (JInputFilter::checkAttribute(array ('href', $this->webpage))) {
 			$this->_error = JText::_('Please provide a valid URL');
 			return false;
 		}

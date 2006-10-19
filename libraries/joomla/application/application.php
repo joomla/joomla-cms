@@ -104,7 +104,7 @@ class JApplication extends JObject
 			$msg = $filter->clean( $msg );
 		}
 
-		if (JInputFilter::isAttributeInvalid( array( 'href', $url ))) {
+		if (JInputFilter::checkAttribute( array( 'href', $url ))) {
 			$url = JURI::base();
 		}
 

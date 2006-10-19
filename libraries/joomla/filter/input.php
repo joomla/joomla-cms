@@ -164,7 +164,7 @@ class JInputFilter extends JObject
 	 * @return	boolean True if bad code is detected
 	 * @since	1.5
 	 */
-	function isAttributeInvalid($attrSubSet)
+	function checkAttribute($attrSubSet)
 	{
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
@@ -403,7 +403,7 @@ class JInputFilter extends JObject
 			}
 
 			// Autostrip script tags
-			if (JInputFilter::isAttributeInvalid($attrSubSet)) {
+			if (JInputFilter::checkAttribute($attrSubSet)) {
 				continue;
 			}
 
