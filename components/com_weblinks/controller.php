@@ -24,7 +24,7 @@ jimport('joomla.application.component.controller');
 class WeblinksController extends JController
 {
 	/**
-	 * Method to show an article as the main page display
+	 * Method to show a weblinks view
 	 *
 	 * @access	public
 	 * @since	1.5
@@ -33,28 +33,25 @@ class WeblinksController extends JController
 	{
 		$document =& JFactory::getDocument();
 		
-		$viewName  = null;
-		$viewType  = $document->getType();
-		$modelName = null;
+		$viewType   = $document->getType();	
+		$viewName	= JRequest::getVar( 'view', 'categories' );
+		$viewLayout = JRequest::getVar( 'layout', 'default' );
 		
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
-			//index.php?option=com_weblinks&task=x&id=x&Itemid=x
-			case 'category':
-				$viewName	= 'category';
-				$modelName	= 'category';
-				$layout = 'default';
-				break;
+			//index.php?option=com_weblinks&task=x&catid=xid=x&Itemid=x
 			case 'view':
-				$viewName	= 'article';
-				$modelName	= 'article';
-				$layout = 'default';
-				break;
+			{
+				$viewName	= 'newsfeed';
+			} break;
+			
 			default:
-				$viewName	= JRequest::getVar( 'view', 'categories' );
-				$modelName	= JRequest::getVar( 'view', 'categories' );
-				$layout = JRequest::getVar( 'layout', 'default' );
+			{
+				if(JRequest::getVar( 'catid', 0)) {
+					$viewName = 'category';
+				} 
+			}
 		}
 
 		// Create the view
@@ -62,13 +59,13 @@ class WeblinksController extends JController
 		if ($view = & $this->getView())
 		{
 			// Get/Create the model
-			if ($model = & $this->getModel($modelName, 'WeblinksModel'))
+			if ($model = & $this->getModel($viewName, 'WeblinksModel'))
 			{
 				// Push the model into the view (as default)
 				$view->setModel($model, true);
 			}
 			// Set the layout
-			$view->setLayout($layout);
+			$view->setLayout($viewLayout);
 	
 			// Display the view
 			$view->display();

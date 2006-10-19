@@ -15,14 +15,14 @@
 jimport('joomla.application.component.model');
 
 /**
- * Weblinks Component Categories Model
+ * Newsfeeds Component Weblink Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
+ * @author Johan Janssens <johan.janssens@joomla.org>
  * @package Joomla
- * @subpackage Weblinks
+ * @subpackage Newsfeeds
  * @since 1.5
  */
-class WeblinksModelCategories extends JModel
+class NewsfeedsModelCategory extends JModel
 {
 	/**
 	 * Constructor
@@ -34,5 +34,7 @@ class WeblinksModelCategories extends JModel
 		parent::__construct();
 
 	}
+
+	
 }
 ?>
