@@ -33,52 +33,52 @@ class BloggerXMLRPC extends JPlugin
 		return array
 		(
 				'blogger.getUsersBlogs' => array(
-				'function' => 'BloggerXMLRPC::getUserBlogs',
+				'function' => 'BloggerXMLRPCServices::getUserBlogs',
 				'docstring' => 'Returns a list of weblogs to which an author has posting privileges.',
 				'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString ))
 			),
 				'blogger.getUserInfo' => array(
-				'function' => 'BloggerXMLRPC::getUserInfo',
+				'function' => 'BloggerXMLRPCServices::getUserInfo',
 				'docstring' => 'Returns information about an author in the system.',
 				'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.getPost' => array(
-				'function' => 'BloggerXMLRPC::getPost',
+				'function' => 'BloggerXMLRPCServices::getPost',
 				'docstring' => 'Returns information about a specific post.',
 				'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.getRecentPosts' => array(
-				'function' => 'BloggerXMLRPC::getRecentPosts',
+				'function' => 'BloggerXMLRPCServices::getRecentPosts',
 				'docstring' => 'Returns a list of the most recent posts in the system.',
 				'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcInt))
 			),
 				'blogger.getTemplate' => array(
-				'function' => 'BloggerXMLRPC::getTemplate',
+				'function' => 'BloggerXMLRPCServices::getTemplate',
 				'docstring' => '',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.setTemplate' => array(
-				'function' => 'BloggerXMLRPC::setTemplate',
+				'function' => 'BloggerXMLRPCServices::setTemplate',
 				'docstring' => '',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.newPost' => array(
-				'function' => 'BloggerXMLRPC::newPost',
+				'function' => 'BloggerXMLRPCServices::newPost',
 				'docstring' => 'Creates a new post, and optionally publishes it.',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 				'blogger.deletePost' => array(
-				'function' => 'BloggerXMLRPC::deletePost',
+				'function' => 'BloggerXMLRPCServices::deletePost',
 				'docstring' => 'Deletes a post.',
 				'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 				'blogger.editPost' => array(
-				'function' => 'BloggerXMLRPC::editPost',
+				'function' => 'BloggerXMLRPCServices::editPost',
 				'docstring' => 'Updates the information about an existing post.',
 				'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 			'blogger.helloworld' => array(
-				'function' => 'BloggerXMLRPC::helloworld',
+				'function' => 'BloggerXMLRPCServices::helloworld',
 				'docstring' => 'Updates the information about an existing post.',
 				'signature' => array(array($xmlrpcBoolean))
 			)
