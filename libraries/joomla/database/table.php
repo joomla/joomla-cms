@@ -533,7 +533,7 @@ class JTable extends JObject
 			if ($obj = $this->_db->loadObject())
 			{
 				$this->setError($this->_db->getErrorMsg());
-				$this->setErrorNum($db->getErrorNum());
+				$this->setErrorNum($this->_db->getErrorNum());
 				return false;
 			}
 			$msg = array();
@@ -594,7 +594,7 @@ class JTable extends JObject
 		else
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($db->getErrorNum());
+			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 	}
