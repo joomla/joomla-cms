@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Oct-2006 Sam Moffatt
+ # Fixed issue where GMail autocreate fails.
+
 17-Oct-2006 Rastin Mehr
  # Fixed [artf6313] : Returning on first page after saving module
 
