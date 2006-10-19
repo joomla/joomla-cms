@@ -280,14 +280,10 @@ class JDocument extends JObject
 	 */
 	function setMetaData($name, $content, $http_equiv = false)
 	{
-		if ($content == '') {
-			$this->unsetMetaData($name, $http_equiv);
+		 if ($http_equiv == true) {
+			$this->_metaTags['http-equiv'][$name] = $content;
 		} else {
-			if ($http_equiv == true) {
-				$this->_metaTags['http-equiv'][$name] = $content;
-			} else {
-				$this->_metaTags['standard'][$name] = $content;
-			}
+			$this->_metaTags['standard'][$name] = $content;
 		}
 	}
 
