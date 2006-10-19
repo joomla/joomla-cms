@@ -394,7 +394,7 @@ class ContentController extends JController
 			if ($row->publish_down == $nullDate) {
 				$row->publish_down = JText::_('Never');
 			} else {
-				$row->publish_down =  JHTML::Date($row->publised_down, '%Y-%m-%d %H:%M:%S');
+				$row->publish_down =  JHTML::Date($row->publish_down, '%Y-%m-%d %H:%M:%S');
 			}
 
 			$query = "SELECT name" .
