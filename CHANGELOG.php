@@ -39,11 +39,12 @@ Legend:
 
 18-Oct-2006 Sam Moffatt
  # Fixed issue where GMail autocreate fails.
+ 
+17-Oct-2006 Johan Janssens
+ # Fixed [artf6428] : Category Blog Problem
 
 17-Oct-2006 Rastin Mehr
  # Fixed [artf6313] : Returning on first page after saving module
-
-17-Oct-2006 Rastin Mehr
  # Fixed [artf6386] : "Category Table" ordering fails w/ "Unknown table 'f'"
 
 15-Oct-2006 Enno Klasing
