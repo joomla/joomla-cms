@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Oct-2006 David Gal
+ ^ Restored help system that was disabled for Beta 1 release
+
 19-Oct-2006 Johan Janssens
  # Fixed [artf6475] : legacy: mosMainFrame::getBasePath() incorrect when called from admin
 

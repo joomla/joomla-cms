@@ -62,7 +62,7 @@ class JHelp
 		else
 		{
 	   		// Included html help files
-			$helpURL = 'help/' .$lang->getTag() .'/';
+			$helpURL = '/administrator/help/' .$lang->getTag() .'/';
 			$ref = $ref . '.html';
 
 			// Check if the file exists within a different language!
@@ -76,8 +76,6 @@ class JHelp
 			$url .= $helpURL . $ref;
 		}
 		
-		// TODO - re-implement in Beta 2
-		$url = 'help/en-GB/screen.temp_notice.html';
 		return $url;
 	}
 

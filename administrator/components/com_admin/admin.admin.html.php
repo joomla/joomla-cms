@@ -180,53 +180,6 @@ class HTML_admin_misc
 
 		<table class="adminform" border="1">
 		<tr>
-			<td >
-				<table width="100%">
-					<tr>
-						<td>
-							<strong>Help System to be re-implemented in Beta 2 Release</strong>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		</table>
-
-		<input type="hidden" name="task" value="help" />
-		</form>
-		<?php
-	}
-
-
-	function help_bak()
-	{
-		global $mainframe;
-		jimport( 'joomla.filesystem.folder' );
-
-		// Get Help URL - an empty helpurl is interpreted as locale help files!
-		$helpurl 		= $mainframe->getCfg('helpurl');
-		if ( $helpurl == 'http://help.mamboserver.com' ) {
-			$helpurl = 'http://help.joomla.org';
-		}
-		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&pop=1&keyref=';
-
-		$helpsearch = JRequest::getVar( 'helpsearch' );
-		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
-		$toc 		= getHelpToc( $helpsearch );
-		$lang		= JFactory::getLanguage();
-		$langTag = $lang->getTag();
-		if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
-			$langTag = 'en-GB';		// use english as fallback
-		}
-
-		if (!eregi( '\.html$', $page )) {
-			$page .= '.xml';
-		}
-		?>
-		<form action="index.php?option=com_admin&amp;task=help" method="post" name="adminForm">
-
-		<table class="adminform" border="1">
-		<tr>
 			<td colspan="2">
 				<table width="100%">
 					<tr>
