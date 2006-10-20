@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Oct-2006 Johan Janssens
+ # Fixed [artf6475] : legacy: mosMainFrame::getBasePath() incorrect when called from admin
+
 18-Oct-2006 Sam Moffatt
  # Fixed issue where GMail autocreate fails.
  
