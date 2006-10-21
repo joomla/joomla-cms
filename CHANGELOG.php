@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Oct-2006 Hannes Papenberg
+ + Added function to check integrity of core files
+ + Added welcome module in backend in sample data
+ ^ Cleaned up indexes of module table
+
 20-Oct-2006 David Gal
  ^ Restored help system that was disabled for Beta 1 release
 
