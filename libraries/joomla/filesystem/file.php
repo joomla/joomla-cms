@@ -432,5 +432,49 @@ class JFile
 		$file = JPath::clean($file, false);
 		return is_file($file);
 	}
+
+	/**
+	 * Checks a list of files against a list of MD5 hashes
+	 * The hashes have to be in a file with
+	 * one <hash> <file> per line. The path of the file
+	 * has to be relative to the Joomla root
+	 *
+	 * @param string $file File path
+	 * @return mixed array when files found, true when all ok, false when md5 file not found or not in the right format
+	 * @since 1.5
+	 */
+	function checkMD5sum( $md5file, $basepath = '' ) {
+
+		$md5file = JPATH_ROOT . JPath::clean( $md5file, false );
+		if (!is_readable($md5file)) {
+			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file: '.$md5file));
+			return false;
+		}
+
+		// Reading the file into an array
+		$md5files = file( $md5file );
+
+		foreach($md5files as $md5file) {
+			// Getting filename and path from line
+			$file = JPATH_ROOT . DS . $basepath . JPath::clean( substr( $md5file, 33, strlen( $md5file ) - 35 ), 0 );
+			$md5data = substr( $md5file, 0, 32);
+			if (is_readable($file)) {
+				$currentmd5 = md5( JFile::read( $file ) );
+				if (!($md5data == $currentmd5)) {
+					$files[]['filename'] = $file;
+					$files[]['exists'] = true;
+				}
+			} else {
+				$files[]['filename'] = $file;
+				$files[]['exists'] = false;
+			}
+		}
+
+		if (isset($files)) {
+			return $files;
+		} else {
+			return false;
+		}
+	}
 }
 ?>
