@@ -447,7 +447,6 @@ class JFile
 
 		$md5file = JPATH_ROOT . JPath::clean( $md5file, false );
 		if (!is_readable($md5file)) {
-			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file: '.$md5file));
 			return false;
 		}
 
@@ -473,7 +472,7 @@ class JFile
 		if (isset($files)) {
 			return $files;
 		} else {
-			return false;
+			return true;
 		}
 	}
 }

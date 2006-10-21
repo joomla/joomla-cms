@@ -33,6 +33,7 @@ class ExtensionManagerViewComponents extends JView
 		 * Set toolbar items for the page
 		 */
 		JMenuBar::title( JText::_( 'Extension Manager'), 'install.png' );
+		JMenuBar::custom( 'check_integrity', 'apply', '', JText::_( 'Check Integrity' ) );
 		JMenuBar::deleteList( '', 'remove', 'Uninstall' );
 		JMenuBar::help( 'screen.installer2' );
 
@@ -72,6 +73,14 @@ class ExtensionManagerViewComponents extends JView
 		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
 
 		$this->assignRef('item', $item);
+	}
+
+	function check_integrity() {
+		$model = $this->getModel();
+		$eid = JRequest::getVar('eid', array(), '', 'array');
+		$result = $model->check_integrity($eid);
+		$this->assign('result', $result);
+		parent::display('check');
 	}
 }
 ?>

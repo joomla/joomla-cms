@@ -139,5 +139,22 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
+
+	/**
+	 * Check file integrity
+	 * 
+	 * @access	public
+	 * @return	void
+	 * @since	1.5
+	 */
+	function check_integrity()
+	{
+		$type	= JRequest::getVar('type', 'components');
+		$model	= &$this->getModel( $type, 'ExtensionManagerModel' );
+		$view	= &$this->getView( $type, 'ExtensionManagerView' );
+
+		$view->setModel( $model, true );
+		$view->check_integrity();
+	}
 }
 ?>
