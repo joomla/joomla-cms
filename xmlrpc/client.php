@@ -87,7 +87,7 @@ if ($task)
 			$method = JRequest::getVar( 'method' );
 			$args 	= JRequest::getVar( 'args' );
 
-			$message = new xmlrpcmsg($method, $args);
+			$message = new xmlrpcmsg($method, array(new xmlrpcval(0, "int")));
 
 			$xmlrpcdoc = $client->send($message);
 
