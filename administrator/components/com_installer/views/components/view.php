@@ -76,6 +76,10 @@ class ExtensionManagerViewComponents extends JView
 	}
 
 	function check_integrity() {
+		JMenuBar::title( JText::_( 'Extension Manager'), 'install.png' );
+		JMenuBar::back();
+		JMenuBar::help( 'screen.installer2' );
+
 		$model = $this->getModel();
 		$eid = JRequest::getVar('eid', array(), '', 'array');
 		$result = $model->check_integrity($eid);

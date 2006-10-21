@@ -452,7 +452,7 @@ class JFile
 
 		// Reading the file into an array
 		$md5files = file( $md5file );
-
+		$i = 0;
 		foreach($md5files as $md5file) {
 			// Getting filename and path from line
 			$file = JPATH_ROOT . DS . $basepath . JPath::clean( substr( $md5file, 33, strlen( $md5file ) - 35 ), 0 );
@@ -460,12 +460,12 @@ class JFile
 			if (is_readable($file)) {
 				$currentmd5 = md5( JFile::read( $file ) );
 				if (!($md5data == $currentmd5)) {
-					$files[]['filename'] = $file;
-					$files[]['exists'] = true;
+					$files[$i] = array( 'filename' => $file, 'exists' => true );
+					$i++;
 				}
 			} else {
-				$files[]['filename'] = $file;
-				$files[]['exists'] = false;
+				$files[$i] = array( 'filename' => $file, 'exists' => false );
+				$i++;
 			}
 		}
 
