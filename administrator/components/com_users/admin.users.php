@@ -325,7 +325,8 @@ function saveUser(  )
 	$user = new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
 	$original_gid = $user->get('gid');
 
-	if (!$user->bind(JRequest::get('post')))
+	$post = JRequest::get('post');
+	if (!$user->bind($post))
 	{
 		$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
 		return false;
