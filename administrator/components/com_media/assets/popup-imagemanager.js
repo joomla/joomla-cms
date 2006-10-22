@@ -160,7 +160,7 @@ JImageManager.prototype = {
 	},
 	
 	populateFields: function(file) {
-		document.getElementById("f_url").value = "images"+file;
+		document.getElementById("f_url").value = "images/stories"+file;
 	},
 	
 	showMessage: function(text) 
