@@ -257,7 +257,7 @@ class JController extends JObject
 		if ($this->authorize( $doTask ))
 		{
 			// Yep, lets do it already
-			return call_user_func( array( &$this, $doTask ) );
+			return $this->$doTask();
 		}
 		else
 		{
@@ -386,7 +386,7 @@ class JController extends JObject
 				$type = $this->_viewType;
 			}
 
-			$view = $this->_createView( $name, $prefix, $type );
+			$view =& $this->_createView( $name, $prefix, $type );
 			$this->setView( $view );
 		}
 		return $this->_view;

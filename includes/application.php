@@ -67,7 +67,7 @@ class JSite extends JApplication
 		$user     =& JFactory::getUser();
 
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
-			$file = 'offline.php';
+			$file = 'offline';
 		}
 
 		$this->_display($template, $file.'.php');

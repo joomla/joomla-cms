@@ -47,7 +47,6 @@ Legend:
 21-Oct-2006 Hannes Papenberg
  + Added function to check integrity of core files
  + Added welcome module in backend in sample data
- + Implemented file integrity check in component installer
  ^ Cleaned up indexes of module table
 
 20-Oct-2006 David Gal
