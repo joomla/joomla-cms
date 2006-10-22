@@ -33,44 +33,6 @@ class ExtensionManagerModelComponents extends ExtensionManagerModel
 	var $_type = 'component';
 
 	/**
-	 * Check File Integrity
-	 *
-	 * @param int ID of component
-	 * @return mixed array of corrupted/missing files, true for all okay, false for missing md5 file
-	 * @since 1.5
-	 */
-	function check_integrity($eid=array())
-	{
-		// Initialize variables
-		$result	= false;
-
-		/*
-		 * Ensure eid is an array of extension ids
-		 * TODO: If it isn't an array do we want to set an error and fail?
-		 */
-		if (!is_array($eid)) {
-			$eid = array ($eid);
-		}
-
-		// Get a database connector
-		$db =& JFactory::getDBO();
-
-		// Get a table object for the extension type
-		$table = & JTable::getInstance($this->_type, $db);
-		$result = array();
-		jimport('joomla.filesystem.file');
-		// Enable the extension in the table and store it in the database
-		foreach ($eid as $id)
-		{
-			$table->load($id);
-			$result[] = array('component' => $table->name, 'files' => JFile::checkMD5sum( DS.'components'.DS.$table->option.DS.$table->option.'.md5' ));
-		}
-
-		return $result;		
-	}
-
-
-	/**
 	 * Enable a component
 	 *
 	 * @static
