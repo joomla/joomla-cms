@@ -120,6 +120,10 @@ switch (strtolower($task))
 	case 'preview' :
 		ContentController::previewContent();
 		break;
+		
+	case 'ins_pagebreak' :
+		ContentController::insertPagebreak();
+		break;
 
 	default :
 		ContentController::viewContent();

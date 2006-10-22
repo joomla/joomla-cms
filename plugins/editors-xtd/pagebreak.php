@@ -37,8 +37,7 @@ function pluginPagebreakButton()
 			break;
 
 		default:
-
-			$link = $url.'plugins/editors-xtd/pagebreak/pagebreak.html';
+			$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component';
 
 			$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
 			$doc->addStyleDeclaration($css);
