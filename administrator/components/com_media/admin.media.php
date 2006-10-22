@@ -37,8 +37,8 @@ if (is_int(strpos($folder, "..")) && $folder != '') {
 	$mainframe->redirect("index.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
 }
 
-define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
-define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images' : JURI::base().'images');
+define('COM_MEDIA_BASE', JPATH_SITE.DS.'images'.DS.'stories');
+define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images/stories' : JURI::base().'images/stories');
 
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 
