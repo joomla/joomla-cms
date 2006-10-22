@@ -43,7 +43,7 @@ class WeblinksController extends JController
 			//index.php?option=com_weblinks&task=x&catid=xid=x&Itemid=x
 			case 'view':
 			{
-				$viewName	= 'newsfeed';
+				$viewName	= 'weblink';
 			} break;
 			
 			default:
