@@ -182,17 +182,17 @@ function showUsers( )
 	. "\n AND name != 'USERS'"
 	;
 	$db->setQuery( $query );
-	$types[] 		= JHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
+	$types[] 		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Group' ) .' -' );
 	foreach( $db->loadObjectList() as $obj )
 	{
-		$types[] = JHTML::makeOption( $obj->value, JText::_( $obj->text ) );
+		$types[] = JHTMLSelect::option( $obj->value, JText::_( $obj->text ) );
 	}
-	$lists['type'] 	= JHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
+	$lists['type'] 	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
-	$logged[] = JHTML::makeOption( 0, '- '. JText::_( 'Select Log Status' ) .' -');
-	$logged[] = JHTML::makeOption( 1, JText::_( 'Logged In' ) );
-	$lists['logged'] = JHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
+	$logged[] = JHTMLSelect::option( 0, '- '. JText::_( 'Select Log Status' ) .' -');
+	$logged[] = JHTMLSelect::option( 1, JText::_( 'Logged In' ) );
+	$lists['logged'] = JHTMLSelect::genericList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' )
@@ -293,13 +293,13 @@ function editUser( )
 		//	}
 		//}
 
-		$lists['gid'] 	= JHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );
+		$lists['gid'] 	= JHTMLSelect::genericList( $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );
 	}
 
 	// build the html select list
-	$lists['block'] 	= JHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $user->get('block') );
+	$lists['block'] 	= JHTMLSelect::yesnoList( 'block', 'class="inputbox" size="1"', $user->get('block') );
 	// build the html select list
-	$lists['sendEmail'] = JHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
+	$lists['sendEmail'] = JHTMLSelect::yesnoList( 'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
 
 	HTML_users::edituser( $user, $contact, $lists, $option );
 }

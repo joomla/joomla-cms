@@ -11,7 +11,7 @@
 		<form method="post" name="selectForm" target="_top" id="selectForm">
 		<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
-			<?php echo JHTML::selectList($this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
+			<?php echo JHTMLSelect::genericList($this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
 			<option type="hidden" name="option" value="com_contact" />
 			<option type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 		</form>

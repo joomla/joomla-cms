@@ -46,10 +46,10 @@ class ExtensionManagerViewTemplates extends JView
 		$pagination	= &$this->get('Pagination');
 
 		$lists = new stdClass();
-		$select[] = JHTML::makeOption('-1', JText::_('All'));
-		$select[] = JHTML::makeOption('0', JText::_('Site Templates'));
-		$select[] = JHTML::makeOption('1', JText::_('Admin Templates'));
-		$lists->client = JHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
+		$select[] = JHTMLSelect::option('-1', JText::_('All'));
+		$select[] = JHTMLSelect::option('0', JText::_('Site Templates'));
+		$select[] = JHTMLSelect::option('1', JText::_('Admin Templates'));
+		$lists->client = JHTMLSelect::genericList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);

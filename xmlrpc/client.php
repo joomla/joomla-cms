@@ -53,7 +53,7 @@ if ($task)
 	{
 		case 'list_methods':
 		{
-			jimport('joomla.html.html');
+			jimport( 'joomla.html.html.select' );
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
 
@@ -72,11 +72,11 @@ if ($task)
 				$var = new xmlrpcval($array[$i]);
 				$array_method = $var->scalarval();
 
-				$methods[$i] = JHTML::makeOption($array_method->scalarval());
+				$methods[$i] = JHTMLSelect::option($array_method->scalarval());
 			}
 
 			$output = 'Methods<br />';
-			$output .= JHTML::selectList( $methods, 'method', 'size="10"', 'value', 'text' );
+			$output .= JHTMLSelect::genericList( $methods, 'method', 'size="10"', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 

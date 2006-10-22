@@ -77,20 +77,20 @@ class SearchController
 
 		// built select lists
 		$orders = array();
-		$orders[] = JHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
-		$orders[] = JHTML::makeOption( 'oldest', JText::_( 'Oldest first' ) );
-		$orders[] = JHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
-		$orders[] = JHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
-		$orders[] = JHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
+		$orders[] = JHTMLSelect::option( 'newest', JText::_( 'Newest first' ) );
+		$orders[] = JHTMLSelect::option( 'oldest', JText::_( 'Oldest first' ) );
+		$orders[] = JHTMLSelect::option( 'popular', JText::_( 'Most popular' ) );
+		$orders[] = JHTMLSelect::option( 'alpha', JText::_( 'Alphabetical' ) );
+		$orders[] = JHTMLSelect::option( 'category', JText::_( 'Section/Category' ) );
 		$ordering = JRequest::getVar( 'ordering', 'newest');
 		$lists = array();
-		$lists['ordering'] = JHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
+		$lists['ordering'] = JHTMLSelect::genericList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
 		$searchphrases 		= array();
-		$searchphrases[] 	= JHTML::makeOption( 'any', JText::_( 'Any words' ) );
-		$searchphrases[] 	= JHTML::makeOption( 'all', JText::_( 'All words' ) );
-		$searchphrases[] 	= JHTML::makeOption( 'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= JHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
+		$searchphrases[] 	= JHTMLSelect::option( 'any', JText::_( 'Any words' ) );
+		$searchphrases[] 	= JHTMLSelect::option( 'all', JText::_( 'All words' ) );
+		$searchphrases[] 	= JHTMLSelect::option( 'exact', JText::_( 'Exact phrase' ) );
+		$lists['searchphrase' ]= JHTMLSelect::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
 		JPluginHelper::importPlugin( 'search' );
 		$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );

@@ -169,10 +169,10 @@ class ContentController extends JController
 				"\n AND c.state <> -2" .
 				"\n GROUP BY u.name" .
 				"\n ORDER BY u.name";
-		$authors[] = JHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
+		$authors[] = JHTMLSelect::option('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
-		$lists['authorid'] = JHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		$lists['authorid'] = JHTMLSelect::genericList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// state filter
 		$lists['state'] = JCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
@@ -306,9 +306,9 @@ class ContentController extends JController
 				"\n GROUP BY u.name" .
 				"\n ORDER BY u.name";
 		$db->setQuery($query);
-		$authors[] = JHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
+		$authors[] = JHTMLSelect::option('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$authors = array_merge($authors, $db->loadObjectList());
-		$lists['authorid'] = JHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		$lists['authorid'] = JHTMLSelect::genericList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// table ordering
 		if ($filter_order_Dir == 'DESC')
@@ -456,10 +456,10 @@ class ContentController extends JController
 				"\n ORDER BY s.ordering";
 		$db->setQuery($query);
 
-		$sections[] = JHTML::makeOption('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = JHTML::makeOption('0', JText::_('Uncategorized'), 'id', 'title');
+		$sections[] = JHTMLSelect::option('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = JHTMLSelect::option('0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHTML::selectList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
+		$lists['sectionid'] = JHTMLSelect::genericList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
 
 		foreach ($sections as $section)
 		{
@@ -478,7 +478,7 @@ class ContentController extends JController
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
+		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = "SELECT id, name, section" .
@@ -505,7 +505,7 @@ class ContentController extends JController
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHTML::makeOption($row2->id, $row2->name, 'id', 'name');
+				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->name, 'id', 'name');
 			}
 		}
 
@@ -513,9 +513,9 @@ class ContentController extends JController
 			$categoriesA[] = $cat;
 		}
 
-		$categories[] = JHTML::makeOption('-1', JText::_( 'Select Category' ), 'id', 'name');
+		$categories[] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$categories = array_merge($categories, $categoriesA);
-		$lists['catid'] = JHTML::selectList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
+		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
 
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text" .
@@ -526,9 +526,9 @@ class ContentController extends JController
 		$lists['ordering'] = JAdminMenus::SpecificOrdering($row, $id, $query, 1);
 
 		// build the html radio buttons for frontpage
-		$lists['frontpage'] = JHTML::yesnoradioList('frontpage', '', $row->frontpage);
+		$lists['frontpage'] = JHTMLSelect::yesnoList('frontpage', '', $row->frontpage);
 		// build the html radio buttons for published
-		$lists['state'] = JHTML::yesnoradioList('state', '', $row->state);
+		$lists['state'] = JHTMLSelect::yesnoList('state', '', $row->state);
 		// build list of users
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$lists['created_by'] = JAdminMenus::UserSelect('created_by', $active);
@@ -987,10 +987,10 @@ class ContentController extends JController
 				"\n WHERE s.scope = 'content'" .
 				"\n ORDER BY s.name, c.name";
 		$db->setQuery($query);
-		$rows[] = JHTML::makeOption("0, 0", 'Static Content');
+		$rows[] = JHTMLSelect::option("0, 0", 'Static Content');
 		$rows = array_merge($rows, $db->loadObjectList());
 		// build the html select list
-		$sectCatList = JHTML::selectList($rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null);
+		$sectCatList = JHTMLSelect::genericList($rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null);
 
 		ContentView::moveSection($cid, $sectCatList, 'com_content', $sectionid, $items);
 	}
@@ -1109,7 +1109,7 @@ class ContentController extends JController
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		// build the html select list
-		$sectCatList = JHTML::selectList($rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
+		$sectCatList = JHTMLSelect::genericList($rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
 
 		ContentView::copySection($option, $cid, $sectCatList, $sectionid, $items);
 	}

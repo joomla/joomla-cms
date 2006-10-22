@@ -261,7 +261,7 @@ function editSection( )
 	// build the html select list for the group access
 	$lists['access'] 			= JAdminMenus::Access( $row );
 	// build the html radio buttons for published
-	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
 	sections_html::edit( $row, $option, $lists );
 }

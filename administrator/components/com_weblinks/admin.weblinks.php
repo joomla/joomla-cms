@@ -215,7 +215,7 @@ function editWeblink()
 	// build list of categories
 	$lists['catid'] 			= JAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
 	// build the html select list
-	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
 	$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/weblinks_item.xml';
 	$params = new JParameter( $row->params, $file, 'component' );

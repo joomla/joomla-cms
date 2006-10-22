@@ -38,11 +38,11 @@ class JElement_Menu extends JElement
 		$menuTypes 	= JMenuHelper::getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {
-			$options[] = JHTML::makeOption($menutype, $menutype);
+			$options[] = JHTMLSelect::option($menutype, $menutype);
 		}
-		array_unshift($options, JHTML::makeOption('', '- '.JText::_('Select Menu').' -'));
+		array_unshift($options, JHTMLSelect::option('', '- '.JText::_('Select Menu').' -'));
 
-		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }
 ?>

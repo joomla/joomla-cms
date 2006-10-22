@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Oct-2006 Johan Janssens
+ ^ Deprecated JHTML::makeOption, use JHTMLSelect::option instead
+ ^ Deprecated JHTML::selectList, use JHTMLSelect::genericList instead
+ ^ Deprecated JHTML::integerSelectList, use JHTMLSelect::integerList instead
+ ^ Deprecated JHTML::radioList, use JHTMLSelect::radioList instead
+ ^ Deprecated JHTML::yesnoRadioList, use JHTMLSelect::yesnoList instead
+
 21-Oct-2006 Hannes Papenberg
  + Added function to check integrity of core files
  + Added welcome module in backend in sample data

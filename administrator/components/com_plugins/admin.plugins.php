@@ -157,10 +157,10 @@ function viewPlugins( $option, $client )
 	. "\n GROUP BY folder"
 	. "\n ORDER BY folder"
 	;
-	$types[] = JHTML::makeOption( 1, '- '. JText::_( 'Select Type' ) .' -' );
+	$types[] = JHTMLSelect::option( 1, '- '. JText::_( 'Select Type' ) .' -' );
 	$db->setQuery( $query );
 	$types 			= array_merge( $types, $db->loadObjectList() );
-	$lists['type']	= JHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
+	$lists['type']	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -284,7 +284,7 @@ function editPlugin( )
 			. "\n ORDER BY ordering"
 			;
 			$order = mosGetOrderingList( $query );
-			$lists['ordering'] = JHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$lists['ordering'] = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
@@ -305,7 +305,7 @@ function editPlugin( )
 
 	$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
 
-	$lists['published'] = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
 	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'bot_xml', $row->folder.DS.$row->element ), 'plugin' );

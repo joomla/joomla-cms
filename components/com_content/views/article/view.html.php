@@ -338,14 +338,14 @@ class ContentViewArticle extends JView
 		$lists['ordering'] = JAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
-		$lists['state'] = JHTML::yesnoradioList('state', '', $article->state);
+		$lists['state'] = JHTMLSelect::yesnoList('state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
 		$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
 		$db->setQuery($query);
 		$article->frontpage = $db->loadResult();
 
-		$lists['frontpage'] = JHTML::yesnoradioList('frontpage', '', (boolean) $article->frontpage);
+		$lists['frontpage'] = JHTMLSelect::yesnoList('frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
 		$lists['access'] = JAdminMenus::Access($article);

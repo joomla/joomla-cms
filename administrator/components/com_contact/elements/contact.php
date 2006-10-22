@@ -45,9 +45,9 @@ class JElement_Contact extends JElement
 
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		//array_unshift($options, JHTML::makeOption('0', 'None', 'id', 'text'));
+		//array_unshift($options, JHTMLSelect::option('0', 'None', 'id', 'text'));
 
-		return JHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox" size="10"', 'id', 'text', $value, $control_name.$name );
+		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox" size="10"', 'id', 'text', $value, $control_name.$name );
 	}
 }
 ?>

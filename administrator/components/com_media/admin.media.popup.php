@@ -235,18 +235,18 @@ class MediaViews
 	{
 		$imgFiles = mosFS::listFolders($basePath, '.', true, true);
 		$folders = array ();
-		$folders[] = JHTML::makeOption('/');
+		$folders[] = JHTMLSelect::option('/');
 
 		$len = strlen($basePath);
 		foreach ($imgFiles as $file) {
-			$folders[] = JHTML::makeOption(str_replace('\\', '/', substr($file, $len)));
+			$folders[] = JHTMLSelect::option(str_replace('\\', '/', substr($file, $len)));
 		}
 
 		if (is_array($folders)) {
 			sort($folders);
 		}
 		// create folder selectlist
-		$dirPath = JHTML::selectList($folders, 'dirPath', 'class="inputbox" size="1"', 'value', 'text', '.');
+		$dirPath = JHTMLSelect::genericList($folders, 'dirPath', 'class="inputbox" size="1"', 'value', 'text', '.');
 		?>
 		<form action="index.php" name="adminForm" method="post">
 

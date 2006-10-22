@@ -182,10 +182,10 @@ function viewModules()
 	. "\n GROUP BY t.position"
 	. "\n ORDER BY t.position"
 	;
-	$positions[] = JHTML::makeOption( '0', '- '. JText::_( 'Select Position' ) .' -' );
+	$positions[] = JHTMLSelect::option( '0', '- '. JText::_( 'Select Position' ) .' -' );
 	$db->setQuery( $query );
 	$positions = array_merge( $positions, $db->loadObjectList() );
-	$lists['position']	= JHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
+	$lists['position']	= JHTMLSelect::genericList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
 
 	// get list of Positions for dropdown filter
 	$query = "SELECT module AS value, module AS text"
@@ -195,9 +195,9 @@ function viewModules()
 	. "\n ORDER BY module"
 	;
 	$db->setQuery( $query );
-	$types[] 		= JHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
+	$types[] 		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Type' ) .' -' );
 	$types 			= array_merge( $types, $db->loadObjectList() );
-	$lists['type']	= JHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
+	$lists['type']	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -207,9 +207,9 @@ function viewModules()
 			"\nFROM #__templates_menu" .
 			"\nWHERE client_id = " . $client->id;
 	$db->setQuery( $query );
-	$assigned[]		= JHTML::makeOption( '0', '- '. JText::_( 'Select Template' ) .' -' );
+	$assigned[]		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Template' ) .' -' );
 	$assigned 		= array_merge( $assigned, $db->loadObjectList() );
-	$lists['assigned']	= JHTML::selectList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
+	$lists['assigned']	= JHTMLSelect::genericList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
 
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
@@ -444,7 +444,7 @@ function editModule( )
 	$pos 		= array();
 	foreach ($positions as $position) {
 		$orders2[$position->position] = array();
-		$pos[] = JHTML::makeOption( $position->position, $position->description );
+		$pos[] = JHTMLSelect::option( $position->position, $position->description );
 	}
 
 	$l = 0;
@@ -455,13 +455,13 @@ function editModule( )
 			$ord =count( array_keys( $orders2[$orders[$i]->position] ) ) + 1;
 		}
 
-		$orders2[$orders[$i]->position][] = JHTML::makeOption( $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
+		$orders2[$orders[$i]->position][] = JHTMLSelect::option( $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
 	}
 
 	// build the html select list
 	$pos_select 		= 'onchange="changeDynaList(\'ordering\',orders,document.adminForm.position.options[document.adminForm.position.selectedIndex].value, originalPos, originalOrder)"';
 	$active 			= ( $row->position ? $row->position : 'left' );
-	$lists['position'] 	= JHTML::selectList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
+	$lists['position'] 	= JHTMLSelect::genericList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
 
 	// get selected pages for $lists['selections']
 	if ( $cid[0] ) {
@@ -472,7 +472,7 @@ function editModule( )
 		$db->setQuery( $query );
 		$lookup = $db->loadObjectList();
 	} else {
-		$lookup = array( JHTML::makeOption( 0, JText::_( 'All' ) ) );
+		$lookup = array( JHTMLSelect::option( 0, JText::_( 'All' ) ) );
 	}
 
 	if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {
@@ -487,11 +487,11 @@ function editModule( )
 			$lists['access'] 		= JAdminMenus::Access( $row );
 			$lists['selections'] 	= JAdminMenus::MenuLinks( $lookup, 1, 1 );
 		}
-		$lists['showtitle'] = JHTML::yesnoRadioList( 'showtitle', 'class="inputbox"', $row->showtitle );
+		$lists['showtitle'] = JHTMLSelect::yesnoList( 'showtitle', 'class="inputbox"', $row->showtitle );
 	}
 
 	// build the html select list for published
-	$lists['published'] = JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
 	$row->description = '';
 

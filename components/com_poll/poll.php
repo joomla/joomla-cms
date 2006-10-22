@@ -132,9 +132,9 @@ class PollController
 		// dropdown output
 		$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
 
-		array_unshift( $polls, JHTML::makeOption( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
+		array_unshift( $polls, JHTMLSelect::option( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
 
-		$lists['polls'] = JHTML::selectList( $polls, 'id',
+		$lists['polls'] = JHTMLSelect::genericList( $polls, 'id',
 			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}"',
 			'id', 'title',
 			$poll->id

@@ -204,9 +204,9 @@ function showPageImpressions( $option, $task )
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
 	$db->setQuery( $query );
-	$categories[] 	= JHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
+	$categories[] 	= JHTMLSelect::option( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$categories 	= array_merge( $categories, $db->loadObjectList() );
-	$lists['catid'] = JHTML::selectList( $categories, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid );
+	$lists['catid'] = JHTMLSelect::genericList( $categories, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid );
 
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';

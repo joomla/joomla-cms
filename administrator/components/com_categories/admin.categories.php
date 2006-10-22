@@ -325,7 +325,7 @@ function editCategory( )
 	$max = intval( $db->loadResult() ) + 1;
 
 	for ($i=1; $i < $max; $i++) {
-		$order[] = JHTML::makeOption( $i );
+		$order[] = JHTMLSelect::option( $i );
 	}
 
 	// build the html select list for sections
@@ -336,7 +336,7 @@ function editCategory( )
 		;
 		$db->setQuery( $query );
 		$sections = $db->loadObjectList();
-		$lists['section'] = JHTML::selectList( $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );;
+		$lists['section'] = JHTMLSelect::genericList( $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );;
 	} else {
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );
@@ -366,7 +366,7 @@ function editCategory( )
 	// build the html select list for the group access
 	$lists['access'] 			= JAdminMenus::Access( $row );
 	// build the html radio buttons for published
-	$lists['published'] 		= JHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
  	categories_html::edit( $row, $lists, $redirect );
 }
@@ -658,7 +658,7 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 	$sections = $db->loadObjectList();
 
 	// build the html select list
-	$SectionList = JHTML::selectList( $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
+	$SectionList = JHTMLSelect::genericList( $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
 
 	categories_html::moveCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect );
 }
@@ -743,7 +743,7 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 	$sections = $db->loadObjectList();
 
 	// build the html select list
-	$SectionList = JHTML::selectList( $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
+	$SectionList = JHTMLSelect::genericList( $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
 
 	categories_html::copyCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect );
 }

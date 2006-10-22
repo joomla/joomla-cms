@@ -140,163 +140,7 @@ class JHTML
 		return $instance->toFormat($format);
 	}
 
-	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) 
-	{
-		$obj = new stdClass;
-		$obj->$value_name = $value;
-		$obj->$text_name = trim( $text ) ? $text : $value;
-		return $obj;
-	}
-
-	/**
-	* Generates an HTML select list
-	* @param array An array of objects
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param string The name of the object variable for the option value
-	* @param string The name of the object variable for the option text
-	* @param mixed The key that is selected
-	* @returns string HTML for the select list
-	*/
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) 
-	{
-		// check if array
-		if ( is_array( $arr ) ) {
-			reset( $arr );
-		}
-
-        $id = $tag_name;
-		if ( $idtag ) {
-			$id = $idtag;
-		}
-		$id = str_replace('[','',$id);
-		$id = str_replace(']','',$id);
-
-		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
-		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-			if( is_array( $arr[$i] ) ) {
-				$k 		= $arr[$i][$key];
-				$t	 	= $arr[$i][$text];
-				$id 	= ( isset( $arr[$i]['id'] ) ? $arr[$i]['id'] : null );
-			} else {
-				$k 		= $arr[$i]->$key;
-				$t	 	= $arr[$i]->$text;
-				$id 	= ( isset( $arr[$i]->id ) ? $arr[$i]->id : null );
-			}
-            //if no string after hypen - take hypen out
-            $splitText = explode( " - ", $t, 2 );
-            $t = $splitText[0];
-            if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
-
-			$extra = '';
-			//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
-			if (is_array( $selected )) {
-				foreach ($selected as $obj) {
-					$k2 = $obj->$key;
-					if ($k == $k2) {
-						$extra .= ' selected="selected"';
-						break;
-					}
-				}
-			} else {
-				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
-			}
-			//if flag translate text
-			if($flag) $t = JText::_( $t );
-
-			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
-		}
-		$html .= '</select>';
-
-		return $html;
-	}
-
-	/**
-	* Writes a select list of integers
-	* @param int The start integer
-	* @param int The end integer
-	* @param int The increment
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param mixed The key that is selected
-	* @param string The printf format to be applied to the number
-	* @returns string HTML for the select list
-	*/
-	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) 
-	{
-		$start 	= intval( $start );
-		$end 	= intval( $end );
-		$inc 	= intval( $inc );
-		$arr 	= array();
-
-		for ($i=$start; $i <= $end; $i+=$inc) {
-			$fi = $format ? sprintf( "$format", $i ) : "$i";
-			$arr[] = JHTML::makeOption( $fi, $fi );
-		}
-
-		return JHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
-	}
-
-	/**
-	* Generates an HTML radio list
-	* @param array An array of objects
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param mixed The key that is selected
-	* @param string The name of the object variable for the option value
-	* @param string The name of the object variable for the option text
-	* @returns string HTML for the select list
-	*/
-	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) 
-	{
-		reset( $arr );
-		$html = '';
-
-		$id_text = $tag_name;
-		if ( $idtag ) {
-			$id_text = $idtag;
-		}
-
-		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-			$k = $arr[$i]->$key;
-			$t = $arr[$i]->$text;
-			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
-
-			$extra = '';
-			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
-			if (is_array( $selected )) {
-				foreach ($selected as $obj) {
-					$k2 = $obj->$key;
-					if ($k == $k2) {
-						$extra .= " selected=\"selected\"";
-						break;
-					}
-				}
-			} else {
-				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
-			}
-			$html .= "\n\t<input type=\"radio\" name=\"$tag_name\" id=\"$id_text$k\" value=\"".$k."\"$extra $tag_attribs />";
-			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";
-		}
-		$html .= "\n";
-		return $html;
-	}
-
-	/**
-	* Writes a yes/no radio list
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param mixed The key that is selected
-	* @returns string HTML for the radio list
-	*/
-	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
-
-		$arr = array(
-			JHTML::makeOption( '0', JText::_( $no ) ),
-			JHTML::makeOption( '1', JText::_( $yes ) )
-		);
-		return JHTML::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
-	}
+	
 
 	/**
 	* @param int The row index
@@ -305,7 +149,8 @@ class JHTML
 	* @param string The name of the form element
 	* @return string
 	*/
-	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
+	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) 
+	{
 		if ( $checkedOut ) {
 			return '';
 		} else {
@@ -318,7 +163,8 @@ class JHTML
 	* email cloacking
  	* by default replaces an email with a mailto link with email cloacked
 	*/
-	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
+	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) 
+	{
 		// convert text
 		$mail 			= JHTML::_encoding_converter( $mail );
 		// split email by @ symbol
@@ -395,7 +241,8 @@ class JHTML
 		echo $html;
 	}
 
-	function _encoding_converter( $text ) {
+	function _encoding_converter( $text ) 
+	{
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );
 		$text 	= str_replace( 'e', '&#101;', $text );
@@ -424,6 +271,179 @@ class JHTML
 }
 
 /**
+ * Utility class for creating HTML select lists
+ *
+ * @static
+ * @package 	Joomla.Framework
+ * @subpackage	HTML
+ * @since		1.5
+ */
+class JHTMLSelect
+{
+	function option( $value, $text='', $value_name='value', $text_name='text' ) 
+	{
+		$obj = new stdClass;
+		$obj->$value_name = $value;
+		$obj->$text_name = trim( $text ) ? $text : $value;
+		return $obj;
+	}
+
+	/**
+	* Generates an HTML select list
+	* 
+	* @param array An array of objects
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param string The name of the object variable for the option value
+	* @param string The name of the object variable for the option text
+	* @param mixed The key that is selected
+	* @returns string HTML for the select list
+	*/
+	function genericList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) 
+	{
+		// check if array
+		if ( is_array( $arr ) ) {
+			reset( $arr );
+		}
+
+        $id = $tag_name;
+		if ( $idtag ) {
+			$id = $idtag;
+		}
+		$id = str_replace('[','',$id);
+		$id = str_replace(']','',$id);
+
+		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
+		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
+			if( is_array( $arr[$i] ) ) {
+				$k 		= $arr[$i][$key];
+				$t	 	= $arr[$i][$text];
+				$id 	= ( isset( $arr[$i]['id'] ) ? $arr[$i]['id'] : null );
+			} else {
+				$k 		= $arr[$i]->$key;
+				$t	 	= $arr[$i]->$text;
+				$id 	= ( isset( $arr[$i]->id ) ? $arr[$i]->id : null );
+			}
+            //if no string after hypen - take hypen out
+            $splitText = explode( " - ", $t, 2 );
+            $t = $splitText[0];
+            if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
+
+			$extra = '';
+			//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
+			if (is_array( $selected )) {
+				foreach ($selected as $obj) {
+					$k2 = $obj->$key;
+					if ($k == $k2) {
+						$extra .= ' selected="selected"';
+						break;
+					}
+				}
+			} else {
+				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
+			}
+			//if flag translate text
+			if($flag) $t = JText::_( $t );
+
+			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
+		}
+		$html .= '</select>';
+
+		return $html;
+	}
+
+	/**
+	* Generates a select list of integers
+	* 
+	* @param int The start integer
+	* @param int The end integer
+	* @param int The increment
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @param string The printf format to be applied to the number
+	* @returns string HTML for the select list
+	*/
+	function integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) 
+	{
+		$start 	= intval( $start );
+		$end 	= intval( $end );
+		$inc 	= intval( $inc );
+		$arr 	= array();
+
+		for ($i=$start; $i <= $end; $i+=$inc) {
+			$fi = $format ? sprintf( "$format", $i ) : "$i";
+			$arr[] = JHTMLSelect::option( $fi, $fi );
+		}
+
+		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+	}
+
+	/**
+	* Generates an HTML radio list
+	* 
+	* @param array An array of objects
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @param string The name of the object variable for the option value
+	* @param string The name of the object variable for the option text
+	* @returns string HTML for the select list
+	*/
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) 
+	{
+		reset( $arr );
+		$html = '';
+
+		$id_text = $tag_name;
+		if ( $idtag ) {
+			$id_text = $idtag;
+		}
+
+		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
+			$k = $arr[$i]->$key;
+			$t = $arr[$i]->$text;
+			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
+
+			$extra = '';
+			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
+			if (is_array( $selected )) {
+				foreach ($selected as $obj) {
+					$k2 = $obj->$key;
+					if ($k == $k2) {
+						$extra .= " selected=\"selected\"";
+						break;
+					}
+				}
+			} else {
+				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
+			}
+			$html .= "\n\t<input type=\"radio\" name=\"$tag_name\" id=\"$id_text$k\" value=\"".$k."\"$extra $tag_attribs />";
+			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";
+		}
+		$html .= "\n";
+		return $html;
+	}
+
+	/**
+	* Generates a yes/no radio list
+	* 
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @returns string HTML for the radio list
+	*/
+	function yesnoList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
+
+		$arr = array(
+			JHTMLSelect::Option( '0', JText::_( $no ) ),
+			JHTMLSelect::Option( '1', JText::_( $yes ) )
+		);
+		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
+	}
+} 
+
+/**
  * Utility class for drawing common HTML elements
  *
  * @static
@@ -431,8 +451,8 @@ class JHTML
  * @subpackage	HTML
  * @since		1.5
  */
-class JCommonHTML {
-
+class JCommonHTML 
+{
 	function ContentLegend( ) 
 	{
 		?>
@@ -575,8 +595,8 @@ class JCommonHTML {
 		return $checked;
 	}
 
-	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
-
+	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) 
+	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
 		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
@@ -593,19 +613,20 @@ class JCommonHTML {
 
 	function selectState( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )	
 	{
-		$state[] = JHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = JHTML::makeOption( '*', JText::_( 'Any' ) );
-		$state[] = JHTML::makeOption( 'P', JText::_( $published ) );
-		$state[] = JHTML::makeOption( 'U', JText::_( $unpublished ) );
+		$state[] = JHTMLSelect::option( '', '- '. JText::_( 'Select State' ) .' -' );
+		$state[] = JHTMLSelect::option( '*', JText::_( 'Any' ) );
+		$state[] = JHTMLSelect::option( 'P', JText::_( $published ) );
+		$state[] = JHTMLSelect::option( 'U', JText::_( $unpublished ) );
 
 		if ($archived) {
-			$state[] = JHTML::makeOption( 'A', JText::_( $archived ) );
+			$state[] = JHTMLSelect::option( 'A', JText::_( $archived ) );
 		}
 
-		return JHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
+		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}
 
-	function saveorderButton( $rows, $image='filesave.png' ) {
+	function saveorderButton( $rows, $image='filesave.png' ) 
+	{
 		$image = JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
 		?>
 		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>)" title="<?php echo JText::_( 'Save Order' ); ?>">
@@ -661,7 +682,7 @@ class JAdminMenus
 			. "\n ORDER BY ordering"
 			;
 			$order = mosGetOrderingList( $query );
-			$ordering = JHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
 		}
@@ -681,7 +702,7 @@ class JAdminMenus
 		;
 		$db->setQuery( $query );
 		$groups = $db->loadObjectList();
-		$access = JHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = JHTMLSelect::genericList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}
@@ -706,7 +727,8 @@ class JAdminMenus
 		// establish the hierarchy of the menu
 		$children = array();
 		// first pass - collect children
-		foreach ( $mitems as $v ) {
+		foreach ( $mitems as $v ) 
+		{
 			$id = $v->id;
 			$pt = $v->parent;
 			$list = @$children[$pt] ? $children[$pt] : array();
@@ -719,16 +741,19 @@ class JAdminMenus
 		// Code that adds menu name to Display of Page(s)
 		$text_count 	= 0;
 		$mitems_spacer 	= $mitems_temp[0]->menutype;
-		foreach ($list as $list_a) {
-			foreach ($mitems_temp as $mitems_a) {
-				if ($mitems_a->id == $list_a->id) {
+		foreach ($list as $list_a) 
+		{
+			foreach ($mitems_temp as $mitems_a) 
+			{
+				if ($mitems_a->id == $list_a->id) 
+				{
 					// Code that inserts the blank line that seperates different menus
 					if ($mitems_a->menutype <> $mitems_spacer) {
-						$list_temp[] 	= JHTML::makeOption( -999, '----' );
+						$list_temp[] 	= JHTMLSelect::option( -999, '----' );
 						$mitems_spacer 	= $mitems_a->menutype;
 					}
 					$text = $mitems_a->menutype." | ".$list_a->treename;
-					$list_temp[] = JHTML::makeOption( $list_a->id, $text );
+					$list_temp[] = JHTMLSelect::option( $list_a->id, $text );
 					if ( JString::strlen($text) > $text_count) {
 						$text_count = JString::strlen($text);
 					}
@@ -740,27 +765,27 @@ class JAdminMenus
 		$mitems = array();
 		if ( $all ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = JHTML::makeOption( 0, JText::_( 'All' ) );
+			$mitems[] = JHTMLSelect::option( 0, JText::_( 'All' ) );
 			// adds space, in select box which is not saved
-			$mitems[] = JHTML::makeOption( -999, '----' );
+			$mitems[] = JHTMLSelect::option( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = JHTML::makeOption( -999, JText::_( 'None' ) );
+			$mitems[] = JHTMLSelect::option( -999, JText::_( 'None' ) );
 			// adds space, in select box which is not saved
-			$mitems[] = JHTML::makeOption( -999, '----' );
+			$mitems[] = JHTMLSelect::option( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = JHTML::makeOption( 99999999, JText::_( 'Unassigned' ) );
+			$mitems[] = JHTMLSelect::option( 99999999, JText::_( 'Unassigned' ) );
 			// adds space, in select box which is not saved
-			$mitems[] = JHTML::makeOption( -999, '----' );
+			$mitems[] = JHTMLSelect::option( -999, '----' );
 		}
 		// append the rest of the menu items to the array
 		foreach ($list as $item) {
-			$mitems[] = JHTML::makeOption( $item->value, $item->text );
+			$mitems[] = JHTMLSelect::option( $item->value, $item->text );
 		}
-		$pages = JHTML::selectList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		$pages = JHTMLSelect::genericList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $pages;
 	}
 
@@ -779,13 +804,13 @@ class JAdminMenus
 
 		jimport( 'joomla.filesystem.folder' );
 		$imageFiles = JFolder::files( JPATH_SITE . $directory );
-		$images 	= array(  JHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
+		$images 	= array(  JHTMLSelect::option( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
-				$images[] = JHTML::makeOption( $file );
+				$images[] = JHTMLSelect::option( $file );
 			}
 		}
-		$images = JHTML::selectList( $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$images = JHTMLSelect::genericList( $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $images;
 	}
@@ -799,7 +824,7 @@ class JAdminMenus
 
 		if ( $id ) {
 			$order = mosGetOrderingList( $query );
-			$ordering = JHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
     		if ( $neworder ) {
     			$text = JText::_( 'descNewItemsFirst' );
@@ -832,13 +857,13 @@ class JAdminMenus
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = JHTML::makeOption( '0', '- '. JText::_( 'No User' ) .' -' );
+			$users[] = JHTMLSelect::option( '0', '- '. JText::_( 'No User' ) .' -' );
 			$users = array_merge( $users, $db->loadObjectList() );
 		} else {
 			$users = $db->loadObjectList();
 		}
 
-		$users = JHTML::selectList( $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$users = JHTMLSelect::genericList( $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $users;
 	}
@@ -846,22 +871,22 @@ class JAdminMenus
 	/**
 	* Select list of positions - generally used for location of images
 	*/
-	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
-
+	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) 
+	{
 		if ( $none ) {
-			$pos[] = JHTML::makeOption( '', JText::_( 'None' ) );
+			$pos[] = JHTMLSelect::option( '', JText::_( 'None' ) );
 		}
 		if ( $center ) {
-			$pos[] = JHTML::makeOption( 'center', JText::_( 'Center' ) );
+			$pos[] = JHTMLSelect::option( 'center', JText::_( 'Center' ) );
 		}
 		if ( $left ) {
-			$pos[] = JHTML::makeOption( 'left', JText::_( 'Left' ) );
+			$pos[] = JHTMLSelect::option( 'left', JText::_( 'Left' ) );
 		}
 		if ( $right ) {
-			$pos[] = JHTML::makeOption( 'right', JText::_( 'Right' ) );
+			$pos[] = JHTMLSelect::option( 'right', JText::_( 'Right' ) );
 		}
 
-		$positions = JHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
+		$positions = JHTMLSelect::genericList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
 
 		return $positions;
 	}
@@ -883,7 +908,7 @@ class JAdminMenus
 		;
 		$db->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = JHTML::makeOption( '0', '- '. JText::_( 'Select a Category' ) .' -' );
+			$categories[] = JHTMLSelect::option( '0', '- '. JText::_( 'Select a Category' ) .' -' );
 			$categories = array_merge( $categories, $db->loadObjectList() );
 		} else {
 			$categories = $db->loadObjectList();
@@ -893,7 +918,7 @@ class JAdminMenus
 			$mainframe->redirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
 
-		$category = JHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
+		$category = JHTMLSelect::genericList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}
@@ -905,8 +930,8 @@ class JAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$categories[] = JHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -' );
-		$categories[] = JHTML::makeOption( '0', JText::_( 'Uncategorized' ) );
+		$categories[] = JHTMLSelect::option( '-1', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = JHTMLSelect::option( '0', JText::_( 'Uncategorized' ) );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"
@@ -915,7 +940,7 @@ class JAdminMenus
 		$db->setQuery( $query );
 		$sections = array_merge( $categories, $db->loadObjectList() );
 
-		$category = JHTML::selectList( $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$category = JHTMLSelect::genericList( $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}
