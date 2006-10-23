@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
@@ -9,22 +9,22 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 ?>
-<?= '<?xml version="1.0" encoding="utf-8"?' .'>' ?>
+<?php echo '<?xml version="1.0" encoding="utf-8"?' .'>' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
 
 <link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
-<link rel="stylesheet" href="templates/<?= $this->template ?>/css/template.css" type="text/css" />
+<link rel="stylesheet" href="templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 
 <!--[if lte IE 6]>
-<link href="templates/<?= $this->template ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo $this->template ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<? if($this->direction == 'rtl') : ?>
-	<link href="templates/<?= $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<? endif; ?>
+<?php if($this->direction == 'rtl') : ?>
+	<link href="templates/<?php echo $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
+<?php endif; ?>
 
 <script type="text/javascript" src="includes/js/joomla/common.js"></script>
 <script type="text/javascript" src="includes/js/joomla/caption.js"></script>
@@ -87,47 +87,47 @@
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
-						<? if($this->countModules('left')) : ?>
+						<?php if($this->countModules('left')) : ?>
 							<jdoc:include type="modules" name="left" style="rounded" />
-						<? endif; ?>
+						<?php endif; ?>
 						</div>
 
 						<div id="maincolumn">
-							<? if($this->countModules('user1 or user2')) : ?>
+							<?php if($this->countModules('user1 or user2')) : ?>
 								<table class="nopad user1user2">
 									<tr valign="top">
-										<? if($this->countModules('user1')) : ?>
+										<?php if($this->countModules('user1')) : ?>
 											<td>
 												<jdoc:include type="modules" name="user1" style="xhtml" />
 											</td>
-										<? endif; ?>
-										<? if($this->countModules('user1 and user2')) : ?>
+										<?php endif; ?>
+										<?php if($this->countModules('user1 and user2')) : ?>
 											<td class="greyline">&nbsp;</td>
-										<? endif; ?>
-										<? if($this->countModules('user2')) : ?>
+										<?php endif; ?>
+										<?php if($this->countModules('user2')) : ?>
 											<td>
 												<jdoc:include type="modules" name="user2" style="xhtml" />
 											</td>
-										<? endif; ?>
+										<?php endif; ?>
 									</tr>
 								</table>
 
 								<div id="maindivider"></div>
-							<? endif; ?>
+							<?php endif; ?>
 
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<? if($this->params->get('showComponent')) : ?> 
+										<?php if($this->params->get('showComponent')) : ?> 
 											<jdoc:include type="component" />
-										<? endif; ?>
+										<?php endif; ?>
 									</td>
-									<? if($this->countModules('right')) : ?>
+									<?php if($this->countModules('right')) : ?>
 										<td class="greyline">&nbsp;</td>
 										<td width="170">
 											<jdoc:include type="modules" name="right" style="xhtml"/>
 										</td>
-									<? endif; ?>
+									<?php endif; ?>
 								</tr>
 							</table>
 
