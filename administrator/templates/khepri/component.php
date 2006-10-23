@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
@@ -10,18 +10,18 @@
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
 
-<? if($this->direction == 'rtl') : ?>
-	<link href="templates/<?= $this->template ?>/css/component_rtl.css" rel="stylesheet" type="text/css" />
-<? else : ?>
-	<link href="templates/<?= $this->template ?>/css/component.css" rel="stylesheet" type="text/css" />
-<? endif; ?>
+<?php if($this->direction == 'rtl') : ?>
+	<link href="templates/<?php echo  $this->template ?>/css/component_rtl.css" rel="stylesheet" type="text/css" />
+<?php else : ?>
+	<link href="templates/<?php echo  $this->template ?>/css/component.css" rel="stylesheet" type="text/css" />
+<?php endif; ?>
 
-<script type="text/javascript" src="templates/<?= $this->template ?>/js/fat.js"></script>
-<script type="text/javascript" src="templates/<?= $this->template ?>/js/component.js"></script>
+<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/fat.js"></script>
+<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/component.js"></script>
 </head>
 <body class="contentpane">
 	<jdoc:include type="component" />
