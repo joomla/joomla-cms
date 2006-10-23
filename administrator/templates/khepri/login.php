@@ -1,4 +1,4 @@
-<?
+<?php 
 /**
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
@@ -10,25 +10,25 @@
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
 
-<? if($this->direction == 'rtl') : ?>
-	<link href="templates/<?= $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
-<? else : ?>
-	<link href="templates/<?= $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
-<? endif; ?>
+<?php  if($this->direction == 'rtl') : ?>
+	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
+<?php  else : ?>
+	<link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
+<?php  endif; ?>
 
 <!--[if lte IE 6]>
-<link href="templates/<?= $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<? if($this->params->get('useRoundedCorners')) : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?= $this->template ?>/css/rounded.css" />
-<? else : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?= $this->template ?>/css/norounded.css" />
-<? endif; ?>
+<?php  if($this->params->get('useRoundedCorners')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/rounded.css" />
+<?php  else : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/norounded.css" />
+<?php  endif; ?>
 
 <script language="javascript" type="text/javascript">
 	function setFocus() {
@@ -41,7 +41,7 @@
 	<div id="border-top">
 		<div>
 			<div>
-				<span class="title"><?= JText::_('Administration') ?></span>
+				<span class="title"><?php echo JText::_('Administration') ?></span>
 			</div>
 		</div>
 	</div>
@@ -54,11 +54,11 @@
             		</div>
           		</div>
           		<div class="m">
-					<h1><?= JText::_('Joomla! Administration Login') ?></h1>
+					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
             		<jdoc:include type="module" name="login" style="rounded" id="section-box" />
-					<p><?= JText::_('DESCUSEVALIDLOGIN') ?></p>
+					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
 					<p>
-						<a href="<?= $mainframe->getSiteURL(); ?>"><?= JText::_('Return to site Home Page') ?></a>
+						<a href="<?php echo $mainframe->getSiteURL(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
 					</p>
 					<div id="lock"></div>
 					<div class="clr"></div>
@@ -70,7 +70,7 @@
           		</div>
         	</div>
 			<noscript>
-				<?= JText::_('WARNJAVASCRIPT') ?>
+				<?php echo JText::_('WARNJAVASCRIPT') ?>
 			</noscript>
 			<div class="clr"></div>
 		</div>
@@ -80,7 +80,7 @@
 <div id="footer">
 	<p class="copyright">
 		<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-		<?= JText::_('ISFREESOFTWARE') ?>
+		<?php echo JText::_('ISFREESOFTWARE') ?>
 	</p>
 </div>
 </body>

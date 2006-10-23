@@ -10,38 +10,38 @@
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
 
-<? if($this->direction == 'rtl') : ?>
-	<link href="templates/<?= $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<? else : ?>
-	<link href="templates/<?= $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-<? endif; ?>
+<?php if($this->direction == 'rtl') : ?>
+	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
+<?php else : ?>
+	<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+<?php endif; ?>
 
 <!--[if lte IE 6]>
-<link href="templates/<?= $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<? if($this->params->get('useRoundedCorners')) : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?= $this->template ?>/css/rounded.css" />
-<? else : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?= $this->template ?>/css/norounded.css" />
-<? endif; ?>
+<?php if($this->params->get('useRoundedCorners')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/rounded.css" />
+<?php else : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/norounded.css" />
+<?php endif; ?>
 
-<script type="text/javascript" src="templates/<?= $this->template ?>/js/menu.js"></script>
+<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
 
-<script type="text/javascript" src="templates/<?= $this->template ?>/js/fat.js"></script>
-<script type="text/javascript" src="templates/<?= $this->template ?>/js/index.js"></script>
+<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/fat.js"></script>
+<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 
 </head>
 <body>
 	<div id="border-top">
 		<div>
 			<div>
-				<span class="version"><?= JText::_('Version') ?><?= JVERSION; ?></span>
-				<span class="title"><?= JText::_('Administration') ?></span>
+				<span class="version"><?php echo  JText::_('Version') ?><?php echo  JVERSION; ?></span>
+				<span class="title"><?php echo  JText::_('Administration') ?></span>
 			</div>
 		</div>
 	</div>
@@ -84,7 +84,7 @@
             		</div>
           		</div>
 				<noscript>
-					<?= JText::_('WARNJAVASCRIPT') ?>
+					<?php echo  JText::_('WARNJAVASCRIPT') ?>
 				</noscript>
 				<div class="clr"></div>
 			</div>
@@ -94,7 +94,7 @@
 	<div id="footer">
 		<p class="copyright">
 			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?= JText::_('ISFREESOFTWARE') ?>
+			<?php echo  JText::_('ISFREESOFTWARE') ?>
 		</p>
 	</div>
 </body>
