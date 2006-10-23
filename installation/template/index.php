@@ -2,14 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 	<head>
 		<jdoc:include type="head" />
-		<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
-			<jdoc:sub condition="rtl">
-				<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
-			</jdoc:sub>
-			<jdoc:sub condition="ltr">
-				<link href="template/css/template.css" rel="stylesheet" type="text/css" />
-			</jdoc:sub>
-		</jdoc:tmpl>
+		
+		<? if($this->direction == 'rtl') : ?>
+			<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
+		<? else : ?>
+			<link href="template/css/template.css" rel="stylesheet" type="text/css" />
+		<? endif; ?>
+		
 		<script type="text/javascript" src="includes/js/installation.js"></script>
 		<script type="text/javascript" src="../includes/js/joomla/common.js"></script>
 		<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
@@ -21,8 +20,8 @@
 		<div id="header1">
 			<div id="header2">
 				<div id="header3">
-					<div id="version"><jdoc:translate>Version#</jdoc:translate></div>
-					<span><jdoc:translate>Installation</jdoc:translate></span>
+					<div id="version"><?= JText::_('Version#') ?></div>
+					<span><?= JText::_('Installation') ?></span>
 				</div>
 			</div>
 		</div>
@@ -38,8 +37,8 @@
 			</div>
 		</div>
 
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank"><jdoc:translate key="Joomla!">Joomla!</jdoc:translate></a>
-			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>
+		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
+			<?= JText::_('ISFREESOFTWARE') ?>
 		</div>
 		<script type="text/javascript">
 			init_moofx();

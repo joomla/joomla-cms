@@ -174,12 +174,11 @@ class JDocumentFeed extends JDocument
 	 * Class constructor
 	 *
 	 * @access protected
-	 * @param	string	$type 		(either html or tex)
-	 * @param	array	$attributes Associative array of attributes
+	 * @param	array	$options Associative array of options
 	 */
-	function __construct($attributes = array())
+	function __construct($options = array())
 	{
-		parent::__construct($attributes);
+		parent::__construct($options);
 
 		//set document type
 		$this->_type = 'feed';

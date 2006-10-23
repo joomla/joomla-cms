@@ -15,17 +15,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /*
- * show a naked module - no wrapper and no title
- */
-function modChrome_raw($module, & $params)
-{
-	echo $module->content;
-}
-
-/*
  * xhtml (divs and font headder tags)
  */
-function modChrome_xhtml($module, & $params)
+function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
 		<div class="module<?php echo $params->get('moduleclass_sfx'); ?>">
@@ -40,7 +32,7 @@ function modChrome_xhtml($module, & $params)
 /*
  * allows for rounded corners
  */
-function modChrome_sliders($module, & $params)
+function modChrome_sliders($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
 	// Initialize variables
@@ -60,7 +52,7 @@ function modChrome_sliders($module, & $params)
 /*
  * allows for rounded corners
  */
-function modChrome_tabs($module, & $params)
+function modChrome_tabs($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
 	// Initialize variables
@@ -80,7 +72,7 @@ function modChrome_tabs($module, & $params)
 /*
  * allows for rounded corners
  */
-function modChrome_feed($module, & $params)
+function modChrome_feed($module, &$params, &$attribs)
 {
 	// Initialize variables
 	$config		= & JFactory::getConfig();

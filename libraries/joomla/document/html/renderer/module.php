@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.module.helper');
-
 /**
  * JDocument Module renderer
  *
@@ -31,13 +29,12 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $module, $params = array() )
+	function render( $module, $params = array(), $content = null )
 	{
 		if (!is_object($module))
 		{
 			$module = JModuleHelper::getModule($module);
-			if (!is_object($module))
-			{
+			if (!is_object($module)) {
 				return '';
 			}
 		}
@@ -45,6 +42,9 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		// get the user and configuration object
 		$user =& JFactory::getUser();
 		$conf =& JFactory::getConfig();
+		
+		//set the module content
+		$module->content = $content;
 
 		//get module parameters
 		$mod_params = new JParameter( $module->params );

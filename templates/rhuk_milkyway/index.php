@@ -1,27 +1,30 @@
-<jdoc:comment>
-@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-@license GNU/GPL, see LICENSE.php
-Joomla! is free software. This version may have been modified pursuant
-to the GNU General Public License, and as distributed it includes or
-is derivative of works licensed under the GNU General Public License or
-other free or open source software licenses.
-See COPYRIGHT.php for copyright notices and details.
-</jdoc:comment><?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
+<?
+/**
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+?>
+<?= '<?xml version="1.0" encoding="utf-8"?' .'>' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
 
 <link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
-<link rel="stylesheet" href="templates/{TEMPLATE}/css/template.css" type="text/css" />
+<link rel="stylesheet" href="templates/<?= $this->template ?>/css/template.css" type="text/css" />
+
 <!--[if lte IE 6]>
-<link href="templates/{TEMPLATE}/css/ieonly.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?= $this->template ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
-	<jdoc:sub condition="rtl">
-		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
-	</jdoc:sub>
-</jdoc:tmpl>
+
+<? if($this->direction == 'rtl') : ?>
+	<link href="templates/<?= $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
+<? endif; ?>
 
 <script type="text/javascript" src="includes/js/joomla/common.js"></script>
 <script type="text/javascript" src="includes/js/joomla/caption.js"></script>
@@ -39,7 +42,7 @@ See COPYRIGHT.php for copyright notices and details.
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<jdoc:include type="modules" name="top" style="-1" />
+						<jdoc:include type="modules" name="top"  />
 					</div>
 				</div>
 			</div>
@@ -53,7 +56,7 @@ See COPYRIGHT.php for copyright notices and details.
 	    				      <td class="pill_l">&nbsp;</td>
 	    				      <td class="pill_m">
 	    				        <div id="pillmenu">
-	    				        	<jdoc:include type="modules" name="user3" style="-1" />
+	    				        	<jdoc:include type="modules" name="user3" />
 	    				        </div>
 	    				      </td>
 	    				      <td class="pill_r">&nbsp;</td>
@@ -65,11 +68,11 @@ See COPYRIGHT.php for copyright notices and details.
 			</div>
 
 			<div id="search">
-				<jdoc:include type="modules" name="user4" style="-1" />
+				<jdoc:include type="modules" name="user4" />
 			</div>
 
 			<div id="pathway">
-				<jdoc:include type="module" name="breadcrumbs" style="-1" />
+				<jdoc:include type="module" name="breadcrumbs" />
 			</div>
 
 			<div class="clr"></div>
@@ -84,52 +87,47 @@ See COPYRIGHT.php for copyright notices and details.
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
-						<jdoc:exists type="modules" condition="left" >
-							<jdoc:include type="modules" name="left" style="-3" />
-						</jdoc:exists>
+						<? if($this->countModules('left')) : ?>
+							<jdoc:include type="modules" name="left" style="rounded" />
+						<? endif; ?>
 						</div>
 
 						<div id="maincolumn">
-							<jdoc:exists type="modules" condition="user1 or user2" >
+							<? if($this->countModules('user1 or user2')) : ?>
 								<table class="nopad user1user2">
 									<tr valign="top">
-										<jdoc:exists type="modules" condition="user1" >
+										<? if($this->countModules('user1')) : ?>
 											<td>
-												<jdoc:include type="modules" name="user1" style="-2" />
+												<jdoc:include type="modules" name="user1" style="xhtml" />
 											</td>
-										</jdoc:exists>
-										<jdoc:exists type="modules" condition="user1 and user2" >
+										<? endif; ?>
+										<? if($this->countModules('user1 and user2')) : ?>
 											<td class="greyline">&nbsp;</td>
-										</jdoc:exists>
-										<jdoc:exists type="modules" condition="user2" >
+										<? endif; ?>
+										<? if($this->countModules('user2')) : ?>
 											<td>
-												<jdoc:include type="modules" name="user2" style="-2" />
+												<jdoc:include type="modules" name="user2" style="xhtml" />
 											</td>
-										</jdoc:exists>
+										<? endif; ?>
 									</tr>
 								</table>
 
 								<div id="maindivider"></div>
-							</jdoc:exists>
+							<? endif; ?>
 
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<jdoc:tmpl name="showComponent" varscope="document" type="condition" conditionvar="PARAM_SHOWCOMPONENT">
-											<jdoc:sub condition="1">
-												<jdoc:include type="component" />
-											</jdoc:sub>
-											<jdoc:sub condition="0">
-												&nbsp;
-											</jdoc:sub>
-										</jdoc:tmpl>
+										<? if($this->params->get('showComponent')) : ?> 
+											<jdoc:include type="component" />
+										<? endif; ?>
 									</td>
-									<jdoc:exists type="modules" condition="right">
+									<? if($this->countModules('right')) : ?>
 										<td class="greyline">&nbsp;</td>
 										<td width="170">
-											<jdoc:include type="modules" name="right" style="-2"/>
+											<jdoc:include type="modules" name="right" style="xhtml"/>
 										</td>
-									</jdoc:exists>
+									<? endif; ?>
 								</tr>
 							</table>
 
@@ -153,11 +151,10 @@ See COPYRIGHT.php for copyright notices and details.
 			<div id="footer_l">
 				<div id="footer_r">
 					<p style="float:left; padding-left: 25px;">
-						<jdoc:include type="modules" name="syndicate" style="-1" />
+						<jdoc:include type="modules" name="syndicate" />
 					</p>
 					<p style="float:right; padding-right: 25px;">
      				 	Powered by <a href="http://joomla.org">Joomla!</a>.
-
       					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
     				</p>
 				</div>
@@ -166,7 +163,7 @@ See COPYRIGHT.php for copyright notices and details.
 	</div>
 </div>
 
-<jdoc:include type="modules" name="debug" style="-1"/>
+<jdoc:include type="modules" name="debug" />
 
 </body>
 </html>

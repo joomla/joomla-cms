@@ -29,8 +29,6 @@ form .inputbox { width: 120px; margin-left: 10px; }
 form br 			{ display: none; }
 .login      { margin: 0 auto; width: 500px; margin-bottom: 100px; }
 
-.section-box  { float: right; width: 320px; margin-left: 10px;}
-
 h1 {
   margin: 15px 0;
 }
@@ -55,11 +53,12 @@ p {
   padding: 30px 0;
 }
 
+#section-box  { float: right; width: 320px; margin-left: 10px;}
 
-.section-box .m {
+#section-box .m {
   padding: 5px;
 }
-.section-box .padding {
+#section-box .padding {
 	background: none; padding: 0;
 }
 

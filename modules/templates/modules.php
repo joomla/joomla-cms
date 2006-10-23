@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Module chrome that wraps the module in a table
  */
-function modChrome_table($module, & $params)
+function modChrome_table($module, &$params, &$attribs)
 { ?>
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php if ($module->showtitle != 0) : ?>
@@ -39,7 +39,7 @@ function modChrome_table($module, & $params)
 /*
  * Module chrome that wraps the tabled module output in a <td> tag of another table
  */
-function modChrome_horz($module, & $params)
+function modChrome_horz($module, &$params, &$attribs)
 { ?>
 	<table cellspacing="1" cellpadding="0" border="0" width="100%">
 		<tr>
@@ -52,17 +52,9 @@ function modChrome_horz($module, & $params)
 }
 
 /*
- * Module chrome that applies no chrome, just the raw content
- */
-function modChrome_raw($module, & $params)
-{
-	echo $module->content;
-}
-
-/*
  * xhtml (divs and font headder tags)
  */
-function modChrome_xhtml($module, & $params)
+function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
@@ -77,7 +69,7 @@ function modChrome_xhtml($module, & $params)
 /*
  * Module chrome that allows for rounded corners by wrapping in nested div tags
  */
-function modChrome_rounded($module, & $params)
+function modChrome_rounded($module, &$params, &$attribs)
 { ?>
 		<div class="module<?php echo $params->get('moduleclass_sfx'); ?>">
 			<div>

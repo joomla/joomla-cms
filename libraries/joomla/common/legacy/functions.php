@@ -38,7 +38,31 @@ function mosMainBody() {
  * @deprecated		As of version 1.5
  * @package			Joomla.Legacy
  */
-function mosLoadModules( $position='left', $style=0 ) {
+function mosLoadModules( $position='left', $style=0 ) 
+{	
+	// Select the module chrome function
+	if (is_numeric($style)) 
+	{
+		switch ( $style )
+		{
+			case -3:
+				$style = 'rounded';
+				break;
+
+			case -2:
+				$style = 'xhtml';
+				break;
+			
+			case -1:
+				$style = 'raw';
+				break;
+
+			case 0  :
+			default :
+				$style = 'table';
+				break;
+		}
+	}
 	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>"/><?php
 }
 
@@ -91,6 +115,22 @@ function mosMainBody_Admin() {
  */
 
 function mosLoadAdminModules( $position='left', $style=0 ) {
+	
+	// Select the module chrome function
+	if (is_numeric($style)) 
+	{
+		switch ( $style )
+		{
+			case 2:
+				$style = 'xhtml';
+				break;
+			
+			case 0  :
+			default :
+				$style = 'raw';
+				break;
+		}
+	}
 	?><jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" /><?php
 }
 

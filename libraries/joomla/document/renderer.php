@@ -55,9 +55,10 @@ class JDocumentRenderer extends JObject
 	 * @access public
 	 * @param string 	$name		The name of the element to render
 	 * @param array 	$array		Array of values
+	 * @param string 	$content	Override the output of the renderer
 	 * @return string	The output of the script
 	 */
-	function render( $name, $params = array() )
+	function render( $name, $params = array(), $content = null )
 	{
 
 	}

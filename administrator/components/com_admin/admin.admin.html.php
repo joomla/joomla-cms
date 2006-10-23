@@ -67,7 +67,7 @@ class HTML_admin_misc
 		$contents = ob_get_contents();
 		ob_clean();
 
-		$document->set('module', 'submenu', $contents);
+		$document->setInclude('module', 'submenu', $contents);
 		?>
 		<form action="index.php" method="post" name="adminForm">
 

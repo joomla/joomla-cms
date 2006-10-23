@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.application.module.helper');
+
 /**
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
@@ -50,11 +52,11 @@ class JDocumentHTML extends JDocument
 	 * Class constructor
 	 *
 	 * @access protected
-	 * @param	array	$attributes Associative array of attributes
+	 * @param	array	$options Associative array of options
 	 */
-	function __construct($attributes = array())
+	function __construct($options = array())
 	{
-		parent::__construct($attributes);
+		parent::__construct($options);
 
 		//set document type
 		$this->_type = 'html';
@@ -120,38 +122,38 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Get the contents of the document buffer
+	 * Get the contents of a document include
 	 *
 	 * @access public
 	 * @param string 	$type	The type of renderer
-	 * @param string 	$name	The name of the element to render
+	 * @param string 	$name	 The name of the element to render
+	 * @param array   	$attribs Associative array of remaining attributes.
 	 * @return 	The output of the renderer
 	 */
-	function get($type, $name = null, $params = array())
+	function getInclude($type, $name = null, $attribs = array())
 	{
 		$result = null;
 		if(isset($this->_buffer[$type][$name])) {
-			return $this->_buffer[$type][$name];
+			$result = $this->_buffer[$type][$name];
 		}
-
-		$renderer = $this->loadRenderer( $type );
-		$result = $renderer->render($name, $params);
-
-		$this->set($type, $name, $result);
+		
+		if($renderer = $this->loadRenderer( $type )) {
+			$result = $renderer->render($name, $attribs, $result);
+		};
 
 		return $result;
 
 	}
 
 	/**
-	 * Set the contents the document buffer
+	 * Set the contents a document include
 	 *
 	 * @access public
 	 * @param string 	$type		The type of renderer
 	 * @param string 	$name		oke The name of the element to render
 	 * @param string 	$content	The content to be set in the buffer
 	 */
-	function set($type, $name = null, $contents)
+	function setInclude($type, $name = null, $contents)
 	{
 		$this->_buffer[$type][$name] = $contents;
 	}
@@ -168,13 +170,14 @@ class JDocumentHTML extends JDocument
 	{
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		$outline   = isset($params['outline'])   ? $params['outline']   : 0;
 		$template  = $params['template'];
 		$file      = $params['file'];
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
-
+		
 		/*
 		 * Buffer the output of the component before loading the template.  This is done so
 		 * that non-display tasks, like save, published, etc, will not go thru the overhead of
@@ -182,23 +185,24 @@ class JDocumentHTML extends JDocument
 		 */
 		$renderer = $this->loadRenderer( 'component' );
 		$result   = $renderer->render();
-		$this->set('component', null, $result);
+		$this->setInclude('component', null, $result);
+		
+		// Parse the template INI file if it exists for parameters and insert
+		// them into the template.
+		if (is_readable( $directory.DS.$template.DS.'params.ini' ) ) 
+		{
+			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
+			$this->params = new JParameter($content);
+		}
+		
+		$this->template =& $template; 
 
-		//create the document engine
-		$this->_engine = $this->_initEngine($template, $caching);
-
+		// load
+		$data = $this->_loadTemplate($directory.DS.$template, $file);
+		
 		// parse
-		$this->_parseTemplate($directory.DS.$template, $file);
-
-		// buffer
-		$this->_bufferTemplate($params);
-
-		// render
-		$this->_renderTemplate($params);
-
-		// fecth
-		$data = $this->_engine->fetch('document');
-
+		$data = $this->_parseTemplate($data, array('outline' => $outline));
+		
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -213,89 +217,35 @@ class JDocumentHTML extends JDocument
 		}
 
 		echo $data;
-
 	}
-
+	
 	/**
-	 * Create document engine
+	 * Count the modules based on the given condition
 	 *
 	 * @access public
-	 * @param string 	$template 	The actual template name
-	 * @param boolean 	$caching	If true, cache the template
-	 * @return object
+	 * @param  string 	$condition	The condition to use
+	 * @return integer  Number of modules found
 	 */
-	function _initEngine($template, $caching = false)
+	function countModules($condition)
 	{
-		jimport('joomla.template.template');
-		$instance =& JTemplate::getInstance();
-
-		//set a reference to the document in the engine
-		$instance->doc =& $this;
-
-		//set the caching
-		if($caching) {
-			$instance->enableTemplateCache('File', JPATH_BASE.DS.'cache'.DS);
-			$instance->setTemplateCachePrefix('tmpl_');
-		}
-
-		//set the namespace
-		$instance->setNamespace( 'jdoc' );
-
-		//add module directories
-		$instance->addModuleDir('Function'    , dirname(__FILE__). DS .'function');
-
-		//Add template variables
-		$instance->addVar( 'document', 'lang_tag', $this->getLanguage() );
-		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
-		$instance->addVar( 'document', 'template', $template);
-
-		//Legacy for popups
-		//This is a dirty fix for now until we reach some sort of better way.
-		//Requests running through component are supposed to load the default css for BC
-		global $mainframe;
-		$a_template = $mainframe->getTemplate();
-		$instance->addVar( 'document', 'assigned_template', $a_template);
-
-		return $instance;
-	}
-
-	/**
-	 * Parse a document template
-	 *
-	 * @access public
-	 * @param string 	$directory	The template directory
-	 * @param string 	$file 		The actual template file
-	 */
-	function _parseTemplate($directory, $file = 'index.php')
-	{
-		$contents = $this->_loadTemplate( $directory, $file);
-		$this->_engine->readTemplatesFromInput( $contents, 'String' );
+		$result = '';
 		
-		// Parse the template INI file if it exists for parameters and insert
-		// them into the template.
-		if (is_readable( $directory.DS.'params.ini' ) )
+		$words = explode(' ', $condition);
+		for($i=0; $i < count($words); $i++)
 		{
-			$content = file_get_contents($directory.DS.'params.ini');
-			$params = new JParameter($content);
-			$this->_engine->addVars( 'document', $params->toArray(), 'param_');
-		}
-
-		// Try to find a favicon by checking the template and root folder
-		$path = $directory . DS;
-		$dirs = array( $path, JPATH_BASE . DS );
-		foreach ($dirs as $dir )
-		{
-			$icon =   $dir . 'favicon.ico';
-			if (file_exists( $icon ))
+			if($i % 2 == 0)
 			{
-				$path = str_replace( JPATH_BASE . DS, '', $dir );
-				$path = str_replace( '\\', '/', $path );
-				$this->addFavicon( JURI::base() . $path . 'favicon.ico' );
-				break;
+				//odd parts (modules)
+				$name = strtolower($words[$i]);
+				$words[$i] = count(JModuleHelper::getModules($name));
 			}
 		}
-	}
 
+		$str = 'return '.implode(' ', $words).';';
+
+		return eval($str);
+	}
+	
 	/**
 	 * Load a template file
 	 *
@@ -329,69 +279,61 @@ class JDocumentHTML extends JDocument
 
 			//get the file content
 			ob_start();
-			?><jdoc:tmpl name="document" autoclear="yes" unusedvars="ignore"><?php
-				require_once($directory.DS.$filename );
-			?></jdoc:tmpl><?php
+			require_once($directory.DS.$filename );
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
-
-		// Add the option variable to the template
-		$this->_engine->addVar('document', 'option', $option);
+		
+		// Try to find a favicon by checking the template and root folder
+		$path = $directory . DS;
+		$dirs = array( $path, JPATH_BASE . DS );
+		foreach ($dirs as $dir )
+		{
+			$icon =   $dir . 'favicon.ico';
+			if (file_exists( $icon ))
+			{
+				$path = str_replace( JPATH_BASE . DS, '', $dir );
+				$path = str_replace( '\\', '/', $path );
+				$this->addFavicon( JURI::base() . $path . 'favicon.ico' );
+				break;
+			}
+		}
 
 		return $contents;
 	}
 
 	/**
-	 * Buffer the document
+	 * Parse a document template
 	 *
-	 * @access private
+	 * @access public
+	 * @param string 	$directory	The template directory
+	 * @param string 	$file 		The actual template file
 	 */
-	function _bufferTemplate(&$params)
+	function _parseTemplate($data, $params = array())
 	{
-		if (isset( $this->_engine->_discoveredPlaceholders['document'] ))
+		$replace = array();
+		$matches = array();
+		
+		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $data, $matches)) 
 		{
-			// TODO: Johan, for some reason this is empty for a wizard
-			foreach($this->_engine->_discoveredPlaceholders['document'] as $type => $includes)
+			$matches[0] = array_reverse($matches[0]);
+			$matches[1] = array_reverse($matches[1]);
+			$matches[2] = array_reverse($matches[2]);
+			
+			$count   = count($matches[1]);
+			
+			for($i = 0; $i < $count; $i++) 
 			{
-				foreach($includes as $include)
-				{
-					$result = $this->get($type, $include, $params);
-
-					if(!$result) {
-						$result = " ";
-					}
-
-					$this->set($type, $include, $result);
-				}
+				$attribs = JUtility::parseAttributes( $matches[2][$i] );
+				$type = $matches[1][$i];
+				$name = isset($attribs['name']) ? $attribs['name'] : null;
+				$replace[$i] = $this->getInclude($type, $name, array_merge($attribs, $params));
 			}
+			
+			$data = str_replace($matches[0], $replace, $data);
 		}
-
-		// Render the document head
-		$renderer = $this->loadRenderer( 'head' );
-		$result   = $renderer->render();
-		$this->set('head', null, $result);
-
-		// Render the errors
-		$renderer = $this->loadRenderer( 'message' );
-		$result   = $renderer->render();
-		$this->set('message', null, $result);
-	}
-
-	/**
-	 * Render the document
-	 *
-	 * @access private
-	 */
-	function _renderTemplate(&$params)
-	{
-		foreach($this->_buffer as $type => $buffers)
-		{
-			foreach($buffers as $buffer => $content)
-			{
-				$this->_engine->addVar('document', $type.'_'.$buffer, $content);
-			}
-		}
+		
+		return $data;
 	}
 }
 ?>

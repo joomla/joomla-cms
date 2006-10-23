@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.module.helper');
-
 /**
  * JDocument Modules renderer
  *
@@ -31,12 +29,12 @@ class JDocumentRenderer_Modules extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $position, $params = array() )
+	function render( $position, $params = array(), $content = null )
 	{
 		$contents = '';
 		foreach (JModuleHelper::getModules($position) as $mod)  {
 			$renderer =  $this->_doc->loadRenderer( 'module');
-			$contents .= $renderer->render($mod, $params);
+			$contents .= $renderer->render($mod, $params, $content);
 		}
 		return $contents;
 	}

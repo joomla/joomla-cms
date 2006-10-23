@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Oct-2006 Johan Janssens
+ ^ Overhaulted site template implementation. 
+ 	- removed patTemplate engine to improve speed and flexibility
+ 	- removed jdoc::exist ... />, use countModules function instead
+ 	- removed <jodc::empty ... />, use countModules function instead
+ 	- <jdoc::inlcude /> attributes are now also passed to the module chrome functions
+
 23-Oct-2006 Hannes Papenberg
  # Fixed [artf6360] : 'Home' should be translated
  # Fixed [artf6364] : Untranslated elements in the breadcrumbs

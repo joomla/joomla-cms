@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: modules.php 5218 2006-09-27 21:49:32Z Jinx $
  * @package Joomla
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
@@ -19,8 +19,8 @@ defined('_JEXEC') or die('Restricted access');
  * set the style attribute for the given module(s) include in your template to use the style
  * for each given modChrome function.
  *
- * eg.  To render a module mod_test in the sliders style, you would use the following include:
- * <jdoc:include type="module" name="test" style="slider" />
+ * eg.  To render a module mod_test in the submenu style, you would use the following include:
+ * <jdoc:include type="module" name="test" style="submenu" />
  *
  * This gives template designers ultimate control over how modules are rendered.
  *
@@ -29,15 +29,30 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 /*
- * Module chrome for rendering the module in a slider
+ * Module chrome for rendering the module in a submenu
  */
-function modChrome_slider($module, &$params, &$attribs)
+function modChrome_rounded($module, &$params, &$attribs)
 {
-	jimport('joomla.html.pane');
-	// Initialize variables
-	$sliders = & JPane::getInstance('sliders');
-	$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );
-	echo $module->content;
-	$sliders->endPanel();
+	if($module->content) 
+	{
+		?>
+		<div id="<?php echo $attribs['id'] ?>">
+			<div class="t">
+        		<div class="t">
+           			<div class="t"></div>
+         		</div>
+     		</div>
+       		<div class="m">
+				<?php echo $module->content; ?>
+				<div class="clr"></div>
+			</div>
+       		<div class="b">
+       			<div class="b">
+         			<div class="b"></div>
+           		</div>
+      		</div>
+		</div>
+		<?php
+	}
 }
 ?>

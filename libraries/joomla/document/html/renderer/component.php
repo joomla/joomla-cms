@@ -31,8 +31,13 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	 * @param array 	$params	Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $component = null, $params = array() )
+	function render( $component = null, $params = array(), $content = null )
 	{
+		//Component has already been rendered
+		if(isset($content)) {
+			return $content; 
+		}
+		
 		// preload toolbar in case component handles it manually
 		require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 

@@ -1,30 +1,27 @@
-<jdoc:comment>
-@version $Id$
-@package Joomla
-@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-@license GNU/GPL, see LICENSE.php
-Joomla! is free software. This version may have been modified pursuant
-to the GNU General Public License, and as distributed it includes or
-is derivative of works licensed under the GNU General Public License or
-other free or open source software licenses.
-See COPYRIGHT.php for copyright notices and details.
-</jdoc:comment>
+<?
+/**
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>" >
 <head>
-	<jdoc:include type="head" />
+<jdoc:include type="head" />
 
-	<jdoc:tmpl name="loadcss" varscope="document" type="condition" conditionvar="LANG_DIR">
-		<jdoc:sub condition="rtl">
-			<link href="templates/{TEMPLATE}/css/component_rtl.css" rel="stylesheet" type="text/css" />
-		</jdoc:sub>
-		<jdoc:sub condition="ltr">
-			<link href="templates/{TEMPLATE}/css/component.css" rel="stylesheet" type="text/css" />
-		</jdoc:sub>
-	</jdoc:tmpl>
+<? if($this->direction == 'rtl') : ?>
+	<link href="templates/<?= $this->template ?>/css/component_rtl.css" rel="stylesheet" type="text/css" />
+<? else : ?>
+	<link href="templates/<?= $this->template ?>/css/component.css" rel="stylesheet" type="text/css" />
+<? endif; ?>
 
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/fat.js"></script>
-	<script type="text/javascript" src="templates/{TEMPLATE}/js/component.js"></script>
+<script type="text/javascript" src="templates/<?= $this->template ?>/js/fat.js"></script>
+<script type="text/javascript" src="templates/<?= $this->template ?>/js/component.js"></script>
 </head>
 <body class="contentpane">
 	<jdoc:include type="component" />

@@ -29,7 +29,7 @@ class JDocumentRenderer_Message extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render($name = null, $params = array ())
+	function render($name = null, $params = array (), $content = null)
 	{
 		global $mainframe;
 

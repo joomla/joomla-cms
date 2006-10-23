@@ -179,34 +179,34 @@ class JDocument extends JObject
 	* Class constructor
 	*
 	* @access protected
-	* @param	array	$attributes Associative array of attributes
+	* @param	array	$options Associative array of options
 	*/
-	function __construct( $attributes = array())
+	function __construct( $options = array())
 	{
 		parent::__construct();
 
-		if (isset($attributes['lineend'])) {
-			$this->setLineEnd($attributes['lineend']);
+		if (isset($options['lineend'])) {
+			$this->setLineEnd($options['lineend']);
 		}
 
-		if (isset($attributes['charset'])) {
-			$this->setCharset($attributes['charset']);
+		if (isset($options['charset'])) {
+			$this->setCharset($options['charset']);
 		}
 
-		if (isset($attributes['language'])) {
-			$this->setLanguage($attributes['language']);
+		if (isset($options['language'])) {
+			$this->setLanguage($options['language']);
 		}
 
-		 if (isset($attributes['direction'])) {
-			$this->setDirection($attributes['direction']);
+		 if (isset($options['direction'])) {
+			$this->setDirection($options['direction']);
 		}
 
-		if (isset($attributes['tab'])) {
-			$this->setTab($attributes['tab']);
+		if (isset($options['tab'])) {
+			$this->setTab($options['tab']);
 		}
 
-		if (isset($attributes['link'])) {
-			$this->setLink($attributes['link']);
+		if (isset($options['link'])) {
+			$this->setLink($options['link']);
 		}
 	}
 

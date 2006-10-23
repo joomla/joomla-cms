@@ -1,16 +1,16 @@
-<jdoc:comment>
-@version $Id: component.php 1584 2005-12-30 02:54:29Z Jinx $
-@package Joomla
-@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-@license GNU/GPL, see LICENSE.php
-Joomla! is free software. This version may have been modified pursuant
-to the GNU General Public License, and as distributed it includes or
-is derivative of works licensed under the GNU General Public License or
-other free or open source software licenses.
-See COPYRIGHT.php for copyright notices and details.
-</jdoc:comment>
+<?
+/**
+ * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?= $this->language; ?>" lang="<?= $this->language; ?>" dir="<?= $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
 </head>

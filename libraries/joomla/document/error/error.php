@@ -34,9 +34,9 @@ class JDocumentError extends JDocument
 	 * @param	string	$type 		(either html or tex)
 	 * @param	array	$attributes Associative array of attributes
 	 */
-	function __construct($attributes = array())
+	function __construct($options = array())
 	{
-		parent::__construct($attributes);
+		parent::__construct($options);
 
 		//set mime type
 		$this->_mime = 'text/html';
@@ -85,18 +85,18 @@ class JDocumentError extends JDocument
 		{
 			case '403':
 				header('HTTP/1.1 403 Forbidden');
-				$file = "403.html";
+				$file = "403.php";
 				break;
 
 			case '404':
 				header('HTTP/1.1 404 Not Found');
-				$file = "404.html";
+				$file = "404.php";
 				break;
 
 			case '500':
 			default:
 				header('HTTP/1.1 500 Internal Server Error');
-				$file = "500.html";
+				$file = "500.php";
 				break;
 		}
 
@@ -109,7 +109,8 @@ class JDocumentError extends JDocument
 
 		// create the document engine
 		$this->_engine = $this->_initEngine($template);
-		if (file_exists($directory.DS.$template.DS.$file)) {
+		if (file_exists($directory.DS.$template.DS.$file)) 
+		{
 			//get the file content
 			ob_start();
 			?>

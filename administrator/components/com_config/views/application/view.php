@@ -34,7 +34,7 @@ class ConfigApplicationView
 		$contents = ob_get_contents();
 		ob_end_clean();
 
-		$document->set('module', 'submenu', $contents);
+		$document->setInclude('module', 'submenu', $contents);
 		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.php');
 		JCommonHTML::loadOverlib();
 		?>

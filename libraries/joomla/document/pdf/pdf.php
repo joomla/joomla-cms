@@ -28,12 +28,11 @@ class JDocumentPDF extends JDocument
 	 * Class constructore
 	 *
 	 * @access protected
-	 * @param	string	$type 		(either html or tex)
-	 * @param	array	$attributes Associative array of attributes
+	 * @param	array	$options Associative array of options
 	 */
-	function __construct($attributes = array())
+	function __construct($options = array())
 	{
-		parent::__construct($attributes);
+		parent::__construct($options);
 
 		//set mime type
 		$this->_mime = 'text/html';

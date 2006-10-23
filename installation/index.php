@@ -97,12 +97,12 @@ switch ($task)
 
 $params = array(
 	'template' 	=> 'template',
-	'file'		=> 'index.html',
+	'file'		=> 'index.php',
 	'directory' => JPATH_BASE
 );
 
 $document =& JFactory::getDocument();
-$document->set('installation', '' , $result);
+$document->setInclude('installation', '' , $result);
 $document->setTitle(JText::_('PAGE_TITLE'));
 $document->display( false, false, $params);
 ?>

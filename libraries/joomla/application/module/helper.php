@@ -70,14 +70,14 @@ class JModuleHelper
 		return $result;
 	}
 
-	function renderModule($module, $params = array())
+	function renderModule($module, $attribs = array())
 	{
 		static $chrome;
 		global $mainframe, $Itemid, $option;
-
+		
 		// Initialize variables
-		$style		= isset($params['style']) ? $params['style'] : $module->style;
-		$outline	= isset($params['outline']) ? $params['outline'] : false;
+		$style		= isset($attribs['style'])   ? $attribs['style']   : $module->style;
+		$outline	= isset($attribs['outline']) ? $attribs['outline'] : false;
 
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy')) 
@@ -103,7 +103,7 @@ class JModuleHelper
 		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists( $path )) 
+		if (!$module->user && file_exists( $path ) && !isset($module->content)) 
 		{
 			$lang =& JFactory::getLanguage();
 			$lang->load($module->module);
@@ -128,36 +128,12 @@ class JModuleHelper
 			$chrome[$chromePath] = true;
 		}
 
-		// Select the module chrome function
-		if (is_numeric($style)) {
-			switch ( $style )
-			{
-				case -3:
-					$style = 'rounded';
-					break;
-
-				case -2:
-					$style = 'xhtml';
-					break;
-
-				case -1:
-					$style = 'raw';
-					break;
-
-				case 1:
-					$style = 'horiz';
-					break;
-
-				case 0:
-					$style = 'table';
-					break;
-			}
-		}
 		$chromeMethod = 'modChrome_'.$style;
 
 		// Handle template preview outlining
 		$contents = null;
-		if($outline && !$mainframe->isAdmin()) {
+		if($outline && !$mainframe->isAdmin()) 
+		{
 			$doc =& JFactory::getDocument();
 			$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
 			$css .= ".mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
@@ -174,7 +150,7 @@ class JModuleHelper
 			if (!function_exists($chromeMethod)) {
 				echo $module->content;
 			} else {
-				$chromeMethod($module, $params);
+				$chromeMethod($module, $params, $attribs);
 			}
 		$contents .= ob_get_contents();
 		ob_end_clean();
