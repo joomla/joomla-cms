@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Oct-2006 Hannes Papenberg
+ # Fixed [artf6360] : 'Home' should be translated
+ # Fixed [artf6364] : Untranslated elements in the breadcrumbs
+
 22-Oct-2006 Johan Janssens
  ^ Deprecated JHTML::makeOption, use JHTMLSelect::option instead
  ^ Deprecated JHTML::selectList, use JHTMLSelect::genericList instead

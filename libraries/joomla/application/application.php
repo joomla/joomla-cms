@@ -553,14 +553,14 @@ class JApplication extends JObject
 		if (($option == 'com_frontpage') || ($option == '')) {
 
 			// Add the home item to the pathway only and it is not linked
-			$this->_pathway->addItem( 'Home', '' );
+			$this->_pathway->addItem( JText::_('Home'), '' );
 		} else {
 
 			// Initialize variables
 			$IIDstring = null;
 
 			// Add the home item to the pathway
-			$this->_pathway->addItem( 'Home', 'index.php' );
+			$this->_pathway->addItem( JText::_('Home'), 'index.php' );
 
 			// Get the actual component name
 			if (substr($option, 0, 4) == 'com_') {
