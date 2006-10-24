@@ -68,12 +68,12 @@ class CacheView
 			for ($i = 0, $n = count($rows); $i < $n; $i ++) {
 				$row = & $rows[$i];
 				?>
-				<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
+				<tr class="<?php echo "row$rc"; ?>" >
 					<td>
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 					<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->group; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->group; ?>" onclick="isChecked(this.checked);" />
 					</td>
 					<td>
 						<span class="bold">

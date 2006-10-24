@@ -73,7 +73,7 @@ class JSearch extends JObject
 	 */
 	function __construct( $needle, $matchType, $ordering, $areas, $limitstart=0, $limit=0 ) 
 	{
-		$this->needle		= $text;
+		$this->needle		= $needle;
 		$this->matchType	= $matchType;
 		$this->ordering		= $ordering;
 		$this->areas		= $areas;

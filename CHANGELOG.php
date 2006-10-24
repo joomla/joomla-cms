@@ -39,6 +39,7 @@ Legend:
 
 24-Oct-2006 Rastin Mehr
  # Fixed [artf6462] : File Size Upload Issues
+ # Fixed [art6481] : undefined vars + typos
 
 23-Oct-2006 Johan Janssens
  ^ Overhaulted site template implementation. 

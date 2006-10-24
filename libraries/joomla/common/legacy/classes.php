@@ -1581,7 +1581,7 @@ class mosAdminMenus
  	 * @package		Joomla.Legacy
  	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
-		return JAdminMenus::UserSelect($name, $actove, $nouser, $javascript, $order, $reg);
+		return JAdminMenus::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
 	}
 
 	/**
