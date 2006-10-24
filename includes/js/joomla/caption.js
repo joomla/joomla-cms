@@ -28,11 +28,11 @@
 var JCaption = function() { this.constructor.apply(this, arguments);}
 JCaption.prototype = {
 
-	constructor: function(class) 
+	constructor: function(aClass) 
 	{	
-		this.class = class;
+		this.sClass = aClass;
 		
-		var images = document.getElementsByClassName(class);
+		var images = document.getElementsByClassName(aClass);
 		for ( var i=0; i < images.length; i++) {
 			this.createCaption(images[i]);
 		}
@@ -56,7 +56,7 @@ JCaption.prototype = {
 		if ( element.title != "" ) {
 			container.appendChild(text);
 		}
-		container.className   = this.class;
+		container.className   = this.sClass;
 		container.setAttribute("style","float:"+align);
 		container.style.width = width + "px";
 		
