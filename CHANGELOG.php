@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Oct-2006 Rastin Mehr
+ # Fixed [artf6462] : File Size Upload Issues
+
 23-Oct-2006 Johan Janssens
  ^ Overhaulted site template implementation. 
  	- removed patTemplate engine to improve speed and flexibility

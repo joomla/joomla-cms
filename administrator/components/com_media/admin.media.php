@@ -394,25 +394,21 @@ class MediaController
 		$err			= null;
 		$file['size']	= 0;
 		JRequest::setVar('cFolder', $dirPath);
-
 		jimport('joomla.filesystem.file');
 
 		if (is_array($files) && isset ($dirPath)) {
 			for ($i=0;$i<count($files['name']);$i++) {
 				$dirPathPost = $dirPath;
-				$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
-
+				$destDir = COM_MEDIA_BASE.$dirPathPost;
 				if (file_exists($destDir.$files['name'][$i])) {
 					return false;
 				}
-
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
 				if (!MediaHelper::canUpload( $file, $err )) {
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
 					return;
 				}
-
 				if (!JFile::upload($files['tmp_name'][$i], $destDir.strtolower($files['name'][$i]))) {
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
 				}

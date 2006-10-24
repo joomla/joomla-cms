@@ -55,7 +55,6 @@ JMediaManager.prototype = {
 		this.folderpath.value = basepath + folder;
 		var node = d.getNodeByTitle(folder);
 		d.openTo(node, true, true);
-
 		document.getElementById(cStyle).className = 'active';
 	},
 	

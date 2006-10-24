@@ -47,7 +47,7 @@ class MediaViews
 		";
 
 		$document =& JFactory::getDocument();
-		$document->set('module', 'submenu', $listStyle);
+		$document->setInclude('module', 'submenu', $listStyle);
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 
@@ -78,17 +78,18 @@ class MediaViews
 		</tr>
 		</table>
 		<fieldset>
-			<legend><?php echo JText::_( 'Upload File' ); ?></legend>
+			<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</legend>
 			<div id="uploads">
 				<div class="upload">
-					<button onclick="document.mediamanager.addFile();return false;">
-						+ <?php echo JText::_( 'Add file' ); ?>
-					</button>
+					
 					<input class="inputbox" name="uploads[]" type="file" size="60" />
-					[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]
 				</div>
 			</div>
 			<div style="padding: 4px;">
+				<button onclick="document.mediamanager.addFile();return false;">
+						+ <?php echo JText::_( 'Add file' ); ?>
+				</button>
+				&nbsp;
 				<button onclick="document.mediamanager.onuploadfiles()" /><?php echo JText::_( 'Upload Files' ); ?></button>
 			</div>
 		</fieldset>
