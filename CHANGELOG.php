@@ -39,6 +39,8 @@ Legend:
 
 24-Oct-2006 Rastin Mehr
  # Fixed [artf6462] : File Size Upload Issues
+ 	^ - File size limit now displays on the legend, representing the sum of all the files being uploaded
+ 	^ - Add File button is now next to the upload files
  # Fixed [art6481] : undefined vars + typos
 
 23-Oct-2006 Johan Janssens
