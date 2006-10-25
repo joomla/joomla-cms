@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Oct-2006 David Gal
+ # Fixed menu item creator link for weblink category
+ # Fixed menu item creator link for newsfeed category
+ # Fixed migration conversion errors regarding menu items
+ - Removed privileges check from step 4 of installation. If db creation fails a more detailed error message is provided
+ 
 25-Oct-2006 Rastin Mehr
  # Fixed [artf6375] : Starting poll, title: test, options: 1, 2 & 3 -> delete crashes Joomla
  # Fixed [artf6383] : Description testarea is a bit wide on Web Link Edit page

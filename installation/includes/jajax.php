@@ -38,7 +38,7 @@ $xajax = new xajax();
 $xajax->errorHandlerOn();
 
 $xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
-$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
+//$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
 $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
@@ -119,57 +119,57 @@ class JAJAXHandler
 	/**
 	 * Method to get the database privileges
 	 */
-	function dbpriv($args) {
-
-		jimport( 'joomla.utilities.error' );
-		jimport( 'joomla.application.application' );
-		jimport( 'joomla.database.database' );
-		jimport( 'joomla.registry.registry' );
-
-		$objResponse = new xajaxResponse();
-		$args = $args['vars'];
-
-		$lang = new JAJAXLang($args['lang']);
-//		$lang->setDebug(true);
-
-		/*
-		 * Get a database connection instance
-		 */
-		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], "mysql" );
-
-		if ($err = $db->getErrorNum()) {
-			if ($err != 3) {
-				$objResponse->addAlert($lang->_('CONNECTION FAIL'));
-				return $objResponse;
-			}
-		}
-		/*
-		 * establish the privileges of the given user
-		 */
-		$query = "FLUSH PRVILEGES";
-		$db->setQuery( $query );
-
-		$query = "SHOW GRANTS FOR '".$args['DBuserName']."'@'".$args['DBhostname']."'";
-		$db->setQuery( $query );
-		$privs = $db->loadResultArray();
-		$errMsg = $db->getErrorMsg();
-
-		$privNotes = array();
-		if ( strpos($privs[0], '*.*') && ( strpos($privs[0], 'ALL') || strpos($privs[0], 'CREATE')) ) {
-			$privNotes[] = $lang->_('PRIVGLOBALCREATEOK');
-		} else {
-			$privNotes[] = $lang->_('PRIVGLOBALCREATENONE');
-		}
-		$privNotes[] = '------ Actual DB Report -----';
-		$outmsgs = array_merge($privNotes, $privs);
-		if ($errMsg == '') {
-			$objResponse->addAlert(implode(chr(10).chr(13), $outmsgs));
-		} else {
-			$objResponse->addAlert($errMsg);
-
-		}
-		return $objResponse;
-	}
+//	function dbpriv($args) {
+//
+//		jimport( 'joomla.utilities.error' );
+//		jimport( 'joomla.application.application' );
+//		jimport( 'joomla.database.database' );
+//		jimport( 'joomla.registry.registry' );
+//
+//		$objResponse = new xajaxResponse();
+//		$args = $args['vars'];
+//
+//		$lang = new JAJAXLang($args['lang']);
+////		$lang->setDebug(true);
+//
+//		/*
+//		 * Get a database connection instance
+//		 */
+//		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], "mysql" );
+//
+//		if ($err = $db->getErrorNum()) {
+//			if ($err != 3) {
+//				$objResponse->addAlert($lang->_('CONNECTION FAIL'));
+//				return $objResponse;
+//			}
+//		}
+//		/*
+//		 * establish the privileges of the given user
+//		 */
+//		$query = "FLUSH PRVILEGES";
+//		$db->setQuery( $query );
+//
+//		$query = "SHOW GRANTS FOR '".$args['DBuserName']."'@'".$args['DBhostname']."'";
+//		$db->setQuery( $query );
+//		$privs = $db->loadResultArray();
+//		$errMsg = $db->getErrorMsg();
+//
+//		$privNotes = array();
+//		if ( strpos($privs[0], '*.*') && ( strpos($privs[0], 'ALL') || strpos($privs[0], 'CREATE')) ) {
+//			$privNotes[] = $lang->_('PRIVGLOBALCREATEOK');
+//		} else {
+//			$privNotes[] = $lang->_('PRIVGLOBALCREATENONE');
+//		}
+//		$privNotes[] = '------ Actual DB Report -----';
+//		$outmsgs = array_merge($privNotes, $privs);
+//		if ($errMsg == '') {
+//			$objResponse->addAlert(implode(chr(10).chr(13), $outmsgs));
+//		} else {
+//			$objResponse->addAlert($errMsg);
+//
+//		}
+//		return $objResponse;
+//	}
 
 	/**
 	 * Method to get the path from the FTP root to the Joomla root directory
