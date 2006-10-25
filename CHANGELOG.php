@@ -45,6 +45,7 @@ Legend:
  # Fixed [artf6462] : File Size Upload Issues
  	^ - File size limit now displays on the legend, representing the sum of all the files being uploaded
  	^ - Add File button is now next to the upload files
+ 	! - Testing on IE6, and IE7 has to be done. I am using a Mac, somebody else please take over 
  # Fixed [art6481] : undefined vars + typos
 
 23-Oct-2006 Johan Janssens
