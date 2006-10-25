@@ -33,7 +33,7 @@ class JDocumentRAW extends JDocument
 	 */
 	function __construct($options = array())
 	{
-		parent::__construct($optiosn);
+		parent::__construct($options);
 
 		//set mime type
 		$this->_mime = 'text/html';

@@ -499,7 +499,7 @@ INSERT INTO `#__modules` VALUES (23, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:0
 INSERT INTO `#__modules` VALUES (24, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,23,1,'',1,1, '');
 INSERT INTO `#__modules` VALUES (25, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0, '');
 INSERT INTO `#__modules` VALUES (26, 'Wrapper','',10,'left',0,'0000-00-00 00:00:00',0,'mod_wrapper',0,0,1,'',0, 0, '');
-INSERT INTO `#__modules` VALUES (27, 'Logged in Users','',0,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,23,1,'',0,1, '');
+INSERT INTO `#__modules` VALUES (27, 'Logged in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,23,1,'',0,1, '');
 INSERT INTO `#__modules` VALUES (28, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (29, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1, '');
 INSERT INTO `#__modules` VALUES (30, 'Feed Display', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0, '');
