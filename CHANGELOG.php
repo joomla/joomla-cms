@@ -42,6 +42,7 @@ Legend:
  # Fixed menu item creator link for newsfeed category
  # Fixed [artf6413] migration conversion errors regarding menu items
  - Removed privileges check from step 4 of installation. If db creation fails a more detailed error message is provided
+ # Fixed ordering of new menu items
  
 25-Oct-2006 Rastin Mehr
  # Fixed [artf6375] : Starting poll, title: test, options: 1, 2 & 3 -> delete crashes Joomla
