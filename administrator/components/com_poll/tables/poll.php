@@ -97,7 +97,7 @@ class TablePoll extends JTable
 			$this->$k = intval( $oid );
 		}
 
-		if (mosDBTable::delete( $oid )) {
+		if ( parent::delete( $oid )) {
 			$query = "DELETE FROM #__poll_data"
 			. "\n WHERE pollid = ". $this->$k
 			;

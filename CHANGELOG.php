@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Oct-2006 Rastin Mehr
+ # Fixed [artf6375] : Starting poll, title: test, options: 1, 2 & 3 -> delete crashes Joomla
+
 24-Oct-2006 Rastin Mehr
  # Fixed [artf6462] : File Size Upload Issues
  	^ - File size limit now displays on the legend, representing the sum of all the files being uploaded
