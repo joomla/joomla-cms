@@ -216,7 +216,7 @@ class HTML_weblinks
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="title" id="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
+						<input class="text_area" type="text" name="title" id="title" size="32" maxlength="250" value="<?php echo $row->title;?>" />
 					</td>
 				</tr>
 				<tr>
@@ -244,7 +244,7 @@ class HTML_weblinks
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="url" id="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
+						<input class="text_area" type="text" name="url" id="url" value="<?php echo $row->url; ?>" size="32" maxlength="250" />
 					</td>
 				</tr>
 				<tr>
@@ -283,7 +283,7 @@ class HTML_weblinks
 				<table class="admintable">
 				<tr>
 					<td>
-						<textarea class="text_area" cols="20" rows="9" name="description" id="description" style="width:500px"><?php echo $row->description; ?></textarea>
+						<textarea class="text_area" cols="44" rows="9" name="description" id="description"><?php echo $row->description; ?></textarea>
 					</td>
 				</tr>
 				</table>

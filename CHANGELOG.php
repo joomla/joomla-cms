@@ -39,6 +39,7 @@ Legend:
 
 25-Oct-2006 Rastin Mehr
  # Fixed [artf6375] : Starting poll, title: test, options: 1, 2 & 3 -> delete crashes Joomla
+ # Fixed [artf6383] : Description testarea is a bit wide on Web Link Edit page
 
 24-Oct-2006 Rastin Mehr
  # Fixed [artf6462] : File Size Upload Issues
