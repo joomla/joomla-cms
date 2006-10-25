@@ -40,7 +40,7 @@ Legend:
 25-Oct-2006 David Gal
  # Fixed menu item creator link for weblink category
  # Fixed menu item creator link for newsfeed category
- # Fixed migration conversion errors regarding menu items
+ # Fixed [artf6413] migration conversion errors regarding menu items
  - Removed privileges check from step 4 of installation. If db creation fails a more detailed error message is provided
  
 25-Oct-2006 Rastin Mehr
