@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Oct-2006 Rastin Mehr
+ # Fixed [artf6547] : Error if enable readmore in newflash
+
 25-Oct-2006 David Gal
  # Fixed menu item creator link for weblink category
  # Fixed menu item creator link for newsfeed category
