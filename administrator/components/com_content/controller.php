@@ -59,7 +59,7 @@ class ContentController extends JController
 		$filter_authorid	= $mainframe->getUserStateFromRequest("$context.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid	= $mainframe->getUserStateFromRequest("$context.filter_sectionid", 'filter_sectionid', -1);
 		$search				= $mainframe->getUserStateFromRequest("$context.search", 'search', '');
-		
+
 		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -378,24 +378,19 @@ class ContentController extends JController
 			$mainframe->redirect('index.php?option=com_content', $msg);
 		}
 
-		if ($id) 
+		if ($id)
 		{
 			$row->checkout($user->get('id'));
-			
+
 			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
 			} else {
 				$row->images = array ();
 			}
 
-			$row->created  = JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S');
-			$row->modified = $row->modified == $nullDate ? '' :  JHTML::Date($row->modified, '%Y-%m-%d %H:%M:%S');
-
-			if ($row->publish_down == $nullDate) {
-				$row->publish_down = JText::_('Never');
-			} else {
-				$row->publish_down =  JHTML::Date($row->publish_down, '%Y-%m-%d %H:%M:%S');
-			}
+			$row->created  = _validateDate($row->created);
+			$row->modified = _validateDate($row->modified);
+			$row->publish_down = _validateDate($row->publish_down);
 
 			$query = "SELECT name" .
 					"\n FROM #__users" .
@@ -427,7 +422,7 @@ class ContentController extends JController
 				$sectionid =JRequest::getVar('filter_sectionid');
 			}
 
-			if (@JRequest::getVar('catid')) 
+			if (@JRequest::getVar('catid'))
 			{
 				$row->catid	 = JRequest::getVar('catid');
 				$category 	 = & JTable::getInstance('category', $db);
@@ -592,27 +587,27 @@ class ContentController extends JController
 		if ($row->created && strlen(trim( $row->created )) <= 10) {
 			$row->created 	.= ' 00:00:00';
 		}
-		
+
 		jimport('joomla.utilities.date');
 		$date = new JDate($row->created);
 		$date->setOffset( -$mainframe->getCfg('offset'));
 		$row->created = $date->toMySQL();
-	
+
 		// Append time if not added to publish date
 		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
-		
+
 		$date = new JDate($row->publish_up);
 		$date->setOffset( -$mainframe->getCfg('offset'));
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == JText::_('Never') || trim( $row->publish_down ) == '') 
+		if (trim($row->publish_down) == JText::_('Never') || trim( $row->publish_down ) == '')
 		{
 			$row->publish_down = $nullDate;
-		} 
-		else 
+		}
+		else
 		{
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
@@ -625,7 +620,7 @@ class ContentController extends JController
 		// Get a state and parameter variables from the request
 		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
 		$params		= JRequest::getVar( 'params', '', 'post' );
-		
+
 
 		// Build parameter INI string
 		if (is_array($params))
@@ -1338,9 +1333,21 @@ class ContentController extends JController
 	function insertPagebreak()
 	{
 		global $mainframe;
-		
+
 		$mainframe->setPageTitle(JText::_('PGB ARTICLE PAGEBRK'));
 		ContentView::insertPagebreak();
+	}
+
+	function _validateDate($date) {
+		$db = &JFactory::getDBO();
+
+		if ($date == $db->getNullDate() || JHTML::Date($date, '%Y') < date('Y')) {
+			$newDate = JText::_('Never');
+		} else {
+			$newDate =  JHTML::Date($date, '%Y-%m-%d %H:%M:%S');
+		}
+
+		return $newDate;
 	}
 }
 ?>
