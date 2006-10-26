@@ -388,8 +388,8 @@ class ContentController extends JController
 				$row->images = array ();
 			}
 
-			$row->created  		= ContentController::_validateDate($row->created);
-			$row->modified 		= ContentController::_validateDate($row->modified);
+			$row->created  		= $newDate = JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S');
+			$row->modified 		= $newDate = JHTML::Date($row->modified, '%Y-%m-%d %H:%M:%S');
 			$row->publish_down 	= ContentController::_validateDate($row->publish_down);
 
 			$query = "SELECT name" .
@@ -1333,7 +1333,7 @@ class ContentController extends JController
 	function _validateDate($date) {
 		$db =& JFactory::getDBO();
 
-		if (JHTML::Date($date, '$Y') == 1969 || $date == $db->getNullDate()) {
+		if (JHTML::Date($date, '%Y') == 1969 || $date == $db->getNullDate()) {
 			$newDate = JText::_('Never');
 		} else {
 			$newDate = JHTML::Date($date, '%Y-%m-%d %H:%M:%S');
