@@ -34,7 +34,6 @@ class ContentViewArticle extends JView
 		// Initialize some variables
 		$article	= & $this->get( 'Article' );
 		$params 	= & $article->parameters;
-
 		$params->def('introtext', 1);
 		$params->set('intro_only', 0);
 
@@ -46,7 +45,7 @@ class ContentViewArticle extends JView
 		}
 
 		// process the new plugins
-		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('content', 'image');
 		$dispatcher->trigger('onPrepareContent', array (& $article, & $params, 0));
 
 		//create new PDF document (document units are set by default to millimeters)

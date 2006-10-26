@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Oct-2006 David Gal
+ # Fixed [artf6511] : Pagebreak in content truncates PDF output
+
 26-Oct-2006 Rastin Mehr
  # Fixed [artf6547] : Error if enable readmore in newflash
 
