@@ -45,7 +45,7 @@ class ContentViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_content&task=view&id='. $row->id . $Itemid;
+			$link = 'index.php?option=com_content&view=article&id='. $row->id . '&Itemid=' . $Itemid;
 			$link = sefRelToAbs( $link );
 
 			// strip html from feed item description text
