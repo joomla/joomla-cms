@@ -39,6 +39,7 @@ Legend:
 
 28-Oct-2006 Laurens Vandeput
  # Fixed 5578: fatal errors on content
+ # Minor bugs fixed
 
 26-Oct-2006 David Gal
  # Fixed [artf6511] : Pagebreak in content truncates PDF output
