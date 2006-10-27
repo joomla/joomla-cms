@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Oct-2006 Laurens Vandeput
+ # Fixed 5578: fatal errors on content
+
 26-Oct-2006 David Gal
  # Fixed [artf6511] : Pagebreak in content truncates PDF output
  # Fixed syndication article link error
@@ -50,7 +53,7 @@ Legend:
  # Fixed [artf6413] migration conversion errors regarding menu items
  - Removed privileges check from step 4 of installation. If db creation fails a more detailed error message is provided
  # Fixed ordering of new menu items
- 
+
 25-Oct-2006 Rastin Mehr
  # Fixed [artf6375] : Starting poll, title: test, options: 1, 2 & 3 -> delete crashes Joomla
  # Fixed [artf6383] : Description testarea is a bit wide on Web Link Edit page
@@ -59,11 +62,11 @@ Legend:
  # Fixed [artf6462] : File Size Upload Issues
  	^ - File size limit now displays on the legend, representing the sum of all the files being uploaded
  	^ - Add File button is now next to the upload files
- 	! - Testing on IE6, and IE7 has to be done. I am using a Mac, somebody else please take over 
+ 	! - Testing on IE6, and IE7 has to be done. I am using a Mac, somebody else please take over
  # Fixed [art6481] : undefined vars + typos
 
 23-Oct-2006 Johan Janssens
- ^ Overhaulted site template implementation. 
+ ^ Overhaulted site template implementation.
  	- removed patTemplate engine to improve speed and flexibility
  	- removed jdoc::exist ... />, use countModules function instead
  	- removed <jodc::empty ... />, use countModules function instead
@@ -93,7 +96,7 @@ Legend:
 
 18-Oct-2006 Sam Moffatt
  # Fixed issue where GMail autocreate fails.
- 
+
 17-Oct-2006 Johan Janssens
  # Fixed [artf6428] : Category Blog Problem
 
