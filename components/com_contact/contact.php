@@ -35,3 +35,5 @@ $controller->setViewName( $viewName, 'ContactView', $viewType );
 
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
+
+?>
