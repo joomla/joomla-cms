@@ -169,10 +169,10 @@ class ContentController extends JController
 				"\n AND c.state <> -2" .
 				"\n GROUP BY u.name" .
 				"\n ORDER BY u.name";
-		$authors[] = JHTML::makeOption('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
+		$authors[] = JHTMLSelect::option('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
-		$lists['authorid'] = JHTML::selectList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		$lists['authorid'] = JHTMLSelect::genericList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// state filter
 		$lists['state'] = JCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
