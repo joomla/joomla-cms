@@ -312,7 +312,6 @@ function saveSection( $option, $scope, $task )
 		exit();
 	}
 	$row->checkin();
-	$row->reorder( "scope='$row->scope'" );
 
 	switch ( $task )
 	{

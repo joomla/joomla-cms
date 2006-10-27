@@ -204,13 +204,18 @@ class BannerController
 			exit();
 		}
 
+		// if new item order last in appropriate group
+		if (!$row->id) {
+			$where = "catid = " . $row->catid ;
+			$row->ordering = $row->getNextOrder ( $where );
+		}
+
 		if (!$row->store())
 		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
 		$row->checkin();
-		$row->reorder( 'catid = ' . intval( $post['catid'] ) );
 
 		switch ($task)
 		{

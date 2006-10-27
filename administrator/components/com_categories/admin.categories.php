@@ -404,14 +404,12 @@ function saveCategory()
 		$where = "section = '" . $row->section . "'";
 		$row->ordering = $row->getNextOrder ( $where );
 	}
-		
 	
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$row->checkin();
-//	$row->reorder( "section = '$row->section'" );
 
 	if ( $oldtitle ) {
 		if ($oldtitle != $row->title) {
