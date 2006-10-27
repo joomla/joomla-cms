@@ -15,7 +15,7 @@
 jimport('joomla.application.component.view');
 
 /**
- * @pacakge Joomla
+ * @package Joomla
  * @subpackage Contacts
  */
 class ContactViewContact extends JView
@@ -28,7 +28,7 @@ class ContactViewContact extends JView
 		$pathway  = & $mainframe->getPathWay();
 		$document = & JFactory::getDocument();
 		$model	  = &$this->getModel();
-		
+
 		// Get the paramaters of the active menu item
 		$menu    =& JSiteHelper::getCurrentMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
@@ -140,7 +140,7 @@ class ContactViewContact extends JView
 				$contact->params->set('column_width', 		'40');
 				break;
 		}
-		
+
 		$document->addScript('includes/js/joomla/common.js');
 		$document->addScript('includes/js/joomla/validation.js');
 
