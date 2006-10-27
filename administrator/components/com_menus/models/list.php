@@ -483,39 +483,30 @@ class JMenuModelList extends JModel
 		$total		= count( $items );
 		$order 		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		$row		=& $this->getTable();
-		$conditions = array();
-
+		$groupings = array();
+	
 		// update ordering values
 		for( $i=0; $i < $total; $i++ ) {
 			$row->load( $items[$i] );
+			// track parents
+			$groupings[] = $row->parent;
 			if ($row->ordering != $order[$i]) {
 				$row->ordering = $order[$i];
 				if (!$row->store()) {
 					$this->setError($row->getError());
 					return false;
 				}
-				// remember to updateOrder this group
-				$condition = "menutype = '$menutype' AND parent = $row->parent AND published >= 0";
-				$found = false;
-				foreach ( $conditions as $cond )
-				{
-					if ($cond[1]==$condition) {
-						$found = true;
-						break;
-					} // if
-				}
-				if (!$found) {
-					$conditions[] = array($row->id, $condition);
-				}
-			} // for
+				
+			} // if
 		} // for
 
-		// execute updateOrder for each group
-		foreach ( $conditions as $cond )
-		{
-			$row->load( $cond[0] );
-			$row->reorder( $cond[1] );
+		// execute updateOrder for each parent group
+		$groupings = array_unique( $groupings );
+		foreach ($groupings as $group){
+			$row->reorder("menutype = '$menutype' AND parent = $group AND published >=0");
 		}
+		
+		
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');

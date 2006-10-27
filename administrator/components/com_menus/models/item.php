@@ -253,9 +253,13 @@ class JMenuModelItem extends JModel
 		}
 
 		$row->name = ampReplace( $row->name );
+
+		// if new item order last in appropriate group
 		if (!$row->id) {
-			$row->ordering = $this->_getNextOrdering ($row->menutype, $row->parent);
+			$where = "menutype = '" . $row->menutype . "' AND published >= 0 AND parent = ".$row->parent;
+			$row->ordering = $row->getNextOrder ( $where );
 		}
+		
 		if (is_array($post['urlparams'])) {
 			
 			$pos = strpos( $row->link, '?' );
@@ -541,24 +545,6 @@ class JMenuModelItem extends JModel
 		return $state;
 	}
 	
-	function _getNextOrdering ($type, $parent)
-	{
-		$db = &$this->getDBO();
 
-		$query = 'SELECT MAX(ordering)' .
-				' FROM #__menu' .
-				' WHERE menutype = ' . $db->Quote( $type ) .
-				' AND published = 1 AND parent = '.$parent;
-		
-		$db->setQuery( $query );
-		$maxord = $db->loadResult();
-
-		if ($db->getErrorNum())
-		{
-			$this->setError( $db->getErrorMsg() );
-			return false;
-		}
-		return $maxord + 1;
-	}
 }
 ?>

@@ -400,6 +400,38 @@ class JTable extends JObject
 	}
 
 	/**
+	 * Returns the ordering value to place a new item last in its group
+	 * 
+	 * @access public
+	 * @param string query WHERE clause for selecting MAX(`ordering`).
+	 */
+	function getNextOrder ( $where='' )
+	{
+		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) ))
+		{
+			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support ordering.");
+			$this->setErrorNum(21);
+			return false;
+		}
+
+		$query = 'SELECT MAX(ordering)' .
+				' FROM ' . $this->_tbl .
+				' WHERE '.$where;
+		
+		$this->_db->setQuery( $query );
+		$maxord = $this->_db->loadResult();
+
+		if ($this->_db->getErrorNum())
+		{
+			$this->setError($this->_db->getErrorMsg());
+			$this->setErrorNum($this->_db->getErrorNum());
+			return false;
+		}
+		return $maxord + 1;
+	}
+
+
+	/**
 	* Compacts the ordering sequence of the selected records
 	*
 	* @access public
@@ -437,61 +469,73 @@ class JTable extends JObject
 			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
-		// first pass, compact the ordering numbers
+		// compact the ordering numbers
 		for ($i=0, $n=count( $orders ); $i < $n; $i++)
 		{
 			if ($orders[$i]->ordering >= 0)
 			{
-				$orders[$i]->ordering = $i+1;
+				if ($orders[$i]->ordering != $i+1) 
+				{
+					$orders[$i]->ordering = $i+1;
+					$query = "UPDATE $this->_tbl"
+					. "\n SET ordering = '". $orders[$i]->ordering ."'"
+					. "\n WHERE $k = '". $orders[$i]->$k ."'"
+					;
+					$this->_db->setQuery( $query);
+					$this->_db->query();
+				}
 			}
 		}
+		
+	return true;	
+		
 
-		$shift = 0;
-		$n=count( $orders );
-		for ($i=0; $i < $n; $i++)
-		{
-			//echo "i=$i id=".$orders[$i]->$k." order=".$orders[$i]->ordering;
-			if ($orders[$i]->$k == $this->$k)
-			{
-				// place 'this' record in the desired location
-				$orders[$i]->ordering = min( $this->ordering, $n );
-				$shift = 1;
-			}
-			else if ($orders[$i]->ordering >= $this->ordering && $this->ordering > 0)
-			{
-				$orders[$i]->ordering++;
-			}
-		}
-	//echo '<pre>';print_r($orders);echo '</pre>';
-		// compact once more until I can find a better algorithm
-		for ($i=0, $n=count( $orders ); $i < $n; $i++)
-		{
-			if ($orders[$i]->ordering >= 0)
-			{
-				$orders[$i]->ordering = $i+1;
-				$query = "UPDATE $this->_tbl"
-				. "\n SET ordering = '". $orders[$i]->ordering ."'"
-				. "\n WHERE $k = '". $orders[$i]->$k ."'"
-				;
-				$this->_db->setQuery( $query);
-				$this->_db->query();
-	//echo '<br />'.$this->_db->getQuery();
-			}
-		}
-
-		// if we didn't reorder the current record, make it last
-		if ($shift == 0)
-		{
-			$order = $n+1;
-			$query = "UPDATE $this->_tbl"
-			. "\n SET ordering = '$order'"
-			. "\n WHERE $k = '". $this->$k ."'"
-			;
-			$this->_db->setQuery( $query );
-			$this->_db->query();
-	//echo '<br />'.$this->_db->getQuery();
-		}
-		return true;
+//		$shift = 0;
+//		$n=count( $orders );
+//		for ($i=0; $i < $n; $i++)
+//		{
+//			//echo "i=$i id=".$orders[$i]->$k." order=".$orders[$i]->ordering;
+//			if ($orders[$i]->$k == $this->$k)
+//			{
+//				// place 'this' record in the desired location
+//				$orders[$i]->ordering = min( $this->ordering, $n );
+//				$shift = 1;
+//			}
+//			else if ($orders[$i]->ordering >= $this->ordering && $this->ordering > 0)
+//			{
+//				$orders[$i]->ordering++;
+//			}
+//		}
+//	//echo '<pre>';print_r($orders);echo '</pre>';
+//		// compact once more until I can find a better algorithm
+//		for ($i=0, $n=count( $orders ); $i < $n; $i++)
+//		{
+//			if ($orders[$i]->ordering >= 0)
+//			{
+//				$orders[$i]->ordering = $i+1;
+//				$query = "UPDATE $this->_tbl"
+//				. "\n SET ordering = '". $orders[$i]->ordering ."'"
+//				. "\n WHERE $k = '". $orders[$i]->$k ."'"
+//				;
+//				$this->_db->setQuery( $query);
+//				$this->_db->query();
+//	//echo '<br />'.$this->_db->getQuery();
+//			}
+//		}
+//
+//		// if we didn't reorder the current record, make it last
+//		if ($shift == 0)
+//		{
+//			$order = $n+1;
+//			$query = "UPDATE $this->_tbl"
+//			. "\n SET ordering = '$order'"
+//			. "\n WHERE $k = '". $this->$k ."'"
+//			;
+//			$this->_db->setQuery( $query );
+//			$this->_db->query();
+//	//echo '<br />'.$this->_db->getQuery();
+//		}
+//		return true;
 	}
 
 	/**
