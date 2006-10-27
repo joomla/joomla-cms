@@ -140,7 +140,7 @@ INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, '',
 INSERT INTO `#__components` VALUES (16, 'Categories','',0,1,'option=com_categories&section=com_banner', 'Categories','',3,'',1,'',1);
 INSERT INTO `#__components` VALUES (17,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (18,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
-INSERT INTO `#__components` VALUES (19,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=jpg,png,gif,png\r\nupload_maxsize=1000000\r\n\r\n',1);
+INSERT INTO `#__components` VALUES (19,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (20,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (21,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (22,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);

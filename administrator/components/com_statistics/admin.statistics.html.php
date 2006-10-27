@@ -29,6 +29,13 @@ class HTML_statistics
 		jimport( 'joomla.html.pane' );
 		$tabs 	=& JPane::getInstance();
 		?>
+		<style type="text/css">
+		.bar_1{ background-color: #8D1B1B; border: 2px ridge #B22222; }
+		.bar_2{ background-color: #6740E1; border: 2px ridge #4169E1; }
+		.bar_3{ background-color: #8D8D8D; border: 2px ridge #D2D2D2; }
+		.bar_4{ background-color: #CC8500; border: 2px ridge #FFA500; }
+		.bar_5{ background-color: #5B781E; border: 2px ridge #6B8E23; }
+		</style>
 		<form action="index.php?option=com_statistics" method="post" name="adminForm">
 
 		<div id="tablecell">
