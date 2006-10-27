@@ -43,7 +43,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	$user =& JFactory::getUser();
 
 	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( botSearchCategoryAreas() ) )) {
+		if (!array_intersect( $areas, array_keys( botSearchNewfeedAreas() ) )) {
 			return array();
 		}
 	}
