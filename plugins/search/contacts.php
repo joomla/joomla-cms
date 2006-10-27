@@ -81,7 +81,7 @@ function botSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	. "\n '' AS created,"
 	. "\n CONCAT_WS( ' / ', '$section', b.title ) AS section,"
 	. "\n '2' AS browsernav,"
-	. "\n CONCAT( 'index.php?option=com_contact&task=view&contact_id=', a.id ) AS href"
+	. "\n CONCAT( 'index.php?option=com_contact&task=view&id=', a.id ) AS href"
 	. "\n FROM #__contact_details AS a"
 	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
 	. "\n WHERE ( a.name LIKE '%$text%'"

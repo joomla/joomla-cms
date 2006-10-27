@@ -39,6 +39,7 @@ Legend:
 
 28-Oct-2006 Laurens Vandeput
  # Fixed 5578: fatal errors on content
+ # Contact search plugin href fixed
  # Minor bugs fixed
 
 26-Oct-2006 David Gal
