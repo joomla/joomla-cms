@@ -103,7 +103,7 @@ class JModuleHelper
 		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists( $path )) 
+		if (!$module->user && file_exists( $path ) && !isset($module->content)) 
 		{
 			$lang =& JFactory::getLanguage();
 			$lang->load($module->module);
