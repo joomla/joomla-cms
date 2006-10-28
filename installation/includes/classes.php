@@ -1311,14 +1311,15 @@ class JInstallationHelper
 		/*
 		 * Check to see if migration is from 4.5.1
 		 */
-		$query = "SELECT id, usertype FROM ".$newPrefix."users WHERE id = 62";
-		$row = $db->getRow( $query );
+		$query = "SELECT id FROM ".$newPrefix."users WHERE usertype = 'superadministrator'";
+		$db->setQuery($query);
+		$rows = $db->loadRowList(  );
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		/*
 		 * if it is, then fill usertype field with correct values from aro_group
 		 */
-		if ( $row[1] == 'superadministrator' )
+		if ( count($rows) > 0 )
 		{
 			$query = "UPDATE ".$newPrefix."users AS u, ".$newPrefix."core_acl_aro_groups AS g" .
 					"\n SET u.usertype = g.value" .
@@ -1327,14 +1328,7 @@ class JInstallationHelper
 			$db->query();
 			JInstallationHelper::getDBErrors($errors, $db );
 		}
-		/*
-		 * First remove all 3pd component links from migrated menu
-		 */
-		$query = "DELETE FROM `".$newPrefix."menu_migration` WHERE `componentid` > 18 ;";
-		$db->setQuery( $query );
-		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );
-
+//		/*
 
 		/*
 		 * Construct the menu table based on old table references to core items
@@ -1490,7 +1484,12 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// set default to lowest ordering published on mainmenu
-		$query = "SELECT `id`, `menutype`, MIN( `ordering` ) FROM `".$newPrefix."menu_migration` WHERE `published` = 1 GROUP BY `menutype` HAVING `menutype` = 'mainmenu' ;";
+		$query = "SELECT MIN( `ordering` ) FROM `".$newPrefix."menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = 'mainmenu'";
+		$db->setQuery( $query );
+		JInstallationHelper::getDBErrors($errors, $db );
+		$minorder = $db->loadResult();
+		
+		$query = "SELECT `id` FROM `".$newPrefix."menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = 'mainmenu' AND `ordering` = $minorder";
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$menuitemid = $db->loadResult();
@@ -1528,7 +1527,7 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 		$newMenuItems = $db->loadObjectList();
 
-		// filter out url links to 3pd components
+		// filter out links to 3pd components
 		foreach( $oldMenuItems as $item )
 		{
 			if ( $item->type == 'url' && !strpos( $item->link, 'com_') )
@@ -1539,7 +1538,7 @@ class JInstallationHelper
 			{
 				$newMenuItems[] = $item;
 			}
-			else if ( $item->type == 'component' ) 
+			else if ( $item->type == 'component' && JInstallationHelper::isValidItem( $item->link, $lookup )) 
 			{
 				$newMenuItems[] = $item;
 			}
