@@ -295,11 +295,7 @@ class JFolder
 	 */
 	function files($path, $filter = '.', $recurse = false, $fullpath = false)
 	{
-		$config =& JFactory::getConfig();
-
 		// Initialize variables
-		$ftpFlag = true;
-		$ftpRoot = $config->getValue('config.ftp_root');
 		$arr = array ();
 
 		// Check to make sure the path valid and clean
@@ -312,79 +308,30 @@ class JFolder
 			return false;
 		}
 
-		// Do NOT use ftp if it is not enabled
-		if ($config->getValue('config.ftp_enable') != 1) {
-			$ftpFlag = false;
-		}
-
-		if ($ftpFlag == true) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
-			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
-
-			//Translate path for the FTP account
-			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
-
-
-			// Use FTP get the file listing
-			if (($list = $ftp->listDir($ftpPath, 'files')) === false) {
-				$ftp->quit();
-				// Warning will be thrown by the FTP connector
-				return false;
-			}
-			// Close the FTP connection
-			$ftp->quit();
-
-			$path .= DS;
-			foreach ($list as $file) {
-				if ($file['type'] == 1) {
-					$isDir = true;
+		// read the source directory
+		$handle = opendir($path);
+		while ($file = readdir($handle)) {
+			$dir = $path.$file;
+			$isDir = is_dir($dir);
+			if ($file != '.' && $file != '..' && $file != '.svn') {
+				if ($isDir) {
+					if ($recurse) {
+						$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
+						$arr = array_merge($arr, $arr2);
+					}
 				} else {
-					$isDir = false;
-				}
-				if ($file['name'] != '.' && $file['name'] != '..' && $file['name'] != '.svn') {
-					if ($isDir) {
-						if ($recurse) {
-							$arr2 = JFolder::files($path.$file['name'], $filter, $recurse, $fullpath);
-							$arr = array_merge($arr, $arr2);
-						}
-					} else {
-						if (preg_match("/$filter/", $file['name'])) {
-							if ($fullpath) {
-								$arr[] = $path.$file['name'];
-							} else {
-								$arr[] = $file['name'];
-							}
+					if (preg_match("/$filter/", $file)) {
+						if ($fullpath) {
+							$arr[] = $path.$file;
+						} else {
+							$arr[] = $file;
 						}
 					}
 				}
 			}
-		} else {
-			// read the source directory
-			$handle = opendir($path);
-			while ($file = readdir($handle)) {
-				$dir = $path.$file;
-				$isDir = is_dir($dir);
-				if ($file != '.' && $file != '..' && $file != '.svn') {
-					if ($isDir) {
-						if ($recurse) {
-							$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
-							$arr = array_merge($arr, $arr2);
-						}
-					} else {
-						if (preg_match("/$filter/", $file)) {
-							if ($fullpath) {
-								$arr[] = $path.$file;
-							} else {
-								$arr[] = $file;
-							}
-						}
-					}
-				}
-			}
-			closedir($handle);
 		}
+		closedir($handle);
+
 		asort($arr);
 		return $arr;
 	}
@@ -401,12 +348,8 @@ class JFolder
 	 */
 	function folders($path, $filter = '.', $recurse = false, $fullpath = false)
 	{
-		$config =& JFactory::getConfig();
-
 		// Initialize variables
-		$ftpFlag = true;
 		$arr = array ();
-		$ftpRoot = $config->getValue('config.ftp_root');
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
@@ -418,74 +361,28 @@ class JFolder
 			return false;
 		}
 
-		// Don't use FTP if it isn't enabled.
-		if ($config->getValue('config.ftp_enable') != 1) {
-			$ftpFlag = false;
+		// read the source directory
+		$handle = opendir($path);
+		while ($file = readdir($handle)) {
+			$dir = $path.$file;
+			$isDir = is_dir($dir);
+			if (($file != '.') && ($file != '..') && ($file != '.svn') && $isDir) {
+				// removes SVN directores from list
+				if (preg_match("/$filter/", $file)) {
+					if ($fullpath) {
+						$arr[] = $dir;
+					} else {
+						$arr[] = $file;
+					}
+				}
+				if ($recurse) {
+					$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+					$arr = array_merge($arr, $arr2);
+				}
+			}
 		}
+		closedir($handle);
 
-		// Are we using FTP?
-		if ($ftpFlag == true) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
-			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
-
-			//Translate path for the FTP account
-			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
-
-			// Use FTP get the file listing
-			if (($list = $ftp->listDir($ftpPath, 'folders')) === false) {
-				$ftp->quit();
-				// Warning will be thrown by the FTP connector
-				return false;
-			}
-			// Close the FTP connection
-			$ftp->quit();
-
-			foreach ($list as $file) {
-				if ($file['type'] == 1) {
-					$isDir = true;
-				} else {
-					$isDir = false;
-				}
-				if (($file['name'] != '.') && ($file['name'] != '..') && ($file['name'] != '.svn') && $isDir) {
-					// removes SVN directores from list
-					if (preg_match("/$filter/", $file['name'])) {
-						if ($fullpath) {
-							$arr[] = $path.$file['name'];
-						} else {
-							$arr[] = $file['name'];
-						}
-					}
-					if ($recurse) {
-						$arr2 = JFolder::folders($path.$file['name'], $filter, $recurse, $fullpath);
-						$arr = array_merge($arr, $arr2);
-					}
-				}
-			}
-		} else {
-			// read the source directory
-			$handle = opendir($path);
-			while ($file = readdir($handle)) {
-				$dir = $path.$file;
-				$isDir = is_dir($dir);
-				if (($file != '.') && ($file != '..') && ($file != '.svn') && $isDir) {
-					// removes SVN directores from list
-					if (preg_match("/$filter/", $file)) {
-						if ($fullpath) {
-							$arr[] = $dir;
-						} else {
-							$arr[] = $file;
-						}
-					}
-					if ($recurse) {
-						$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
-						$arr = array_merge($arr, $arr2);
-					}
-				}
-			}
-			closedir($handle);
-		}
 		asort($arr);
 		return $arr;
 	}

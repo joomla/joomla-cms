@@ -249,65 +249,24 @@ class JFile
 	 */
 	function read($filename, $incpath = false)
 	{
-		$config =& JFactory::getConfig();
-
 		// Initialize variables
-		$ftpFlag	= false;
-		$ftpRoot	= $config->getValue('config.ftp_root');
-		$data		= null;
+		$data = null;
 
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
-		 */
-		if (!is_readable($filename)) {
-			$ftpFlag = true;
+		if (false === $fh = fopen($filename, 'rb', $incpath)) {
+			JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file ').$filename);
+			return false;
 		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
-		}
-
-		// Now check for http protocol
-		if (substr($filename, 0, 7) == 'http://') {
-			$ftpFlag = false;
-		}
-
-		// Do NOT use ftp if it is not enabled
-		if ($config->getValue('config.ftp_enable') != 1) {
-			$ftpFlag = false;
-		}
-		if ($ftpFlag == true) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
-			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
-
-			//Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $filename), false);
-
-			// Use FTP write buffer to file
-			if (!$ftp->read($file, $data)) {
-				$ret = false;
-			}
-			$ret = true;
+		clearstatcache();
+		if ($fsize = @ filesize($filename)) {
+			$data = fread($fh, $fsize);
 		} else {
-			if (false === $fh = fopen($filename, 'rb', $incpath)) {
-				JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file ').$filename);
-				return false;
+			$data = '';
+			while (!feof($fh)) {
+				$data .= fread($fh, 8192);
 			}
-			clearstatcache();
-			if ($fsize = @ filesize($filename)) {
-				$data = fread($fh, $fsize);
-			} else {
-				$data = '';
-				while (!feof($fh)) {
-					$data .= fread($fh, 8192);
-				}
-			}
-			fclose($fh);
 		}
+		fclose($fh);
+
 		return $data;
 	}
 

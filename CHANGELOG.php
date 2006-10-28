@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Oct-2006 Louis Landry
+ ^ Removed FTP layer from filesystem read methods -- not necessary
+
 28-Oct-2006 Laurens Vandeput
  # Fixed 5578: fatal errors on content
  # Contact search plugin href fixed
