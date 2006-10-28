@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Oct-2006 David Gal
+ # Fixed ordering functionality in adminlists
+
 28-Oct-2006 Louis Landry
  ^ Removed FTP layer from filesystem read methods -- not necessary
 
