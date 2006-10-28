@@ -1329,6 +1329,14 @@ class ContentController extends JController
 		// Render article preview
 		ContentView::previewContent();
 	}
+	
+	function insertPagebreak()
+	{
+		global $mainframe;
+
+		$mainframe->setPageTitle(JText::_('PGB ARTICLE PAGEBRK'));
+		ContentView::insertPagebreak();
+	}
 
 	function _validateDate($date) {
 		$db =& JFactory::getDBO();
