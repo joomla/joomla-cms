@@ -15,7 +15,7 @@
 jimport('joomla.application.component.view');
 
 /**
- * @pacakge Joomla
+ * @package Joomla
  * @subpackage Contacts
  */
 class ContactViewCategory extends JView
@@ -53,7 +53,7 @@ class ContactViewCategory extends JView
 		$params->def('display_num', 		$limit);
 
 		// query options
-		$pptions['gid'] 		= $user->get('gid');
+		$options['gid'] 		= $user->get('gid');
 		$options['category_id']	= $categoryId;
 		$options['limit']		= $limit;
 		$options['limitstart']	= $limitstart;
