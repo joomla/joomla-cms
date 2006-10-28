@@ -153,7 +153,7 @@ class MediaController
 		$current = JRequest::getVar( 'cFolder' );
 
 		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.DS.$current;
+		$basePath 	= COM_MEDIA_BASE.$current;
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
@@ -295,7 +295,7 @@ class MediaController
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 
 		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
+		$basePath 	= COM_MEDIA_BASE.$listFolder;
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
@@ -362,9 +362,9 @@ class MediaController
 
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
 			$dirPathPost = $dirPath;
-			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
+			$destDir = COM_MEDIA_BASE.$dirPathPost;
 
-			if (file_exists($destDir.$file['name'])) {
+			if (file_exists($destDir.DS.$file['name'])) {
 				MediaController::showUpload(JText::_('Upload FAILED.File allready exists'));
 				return;
 			}
@@ -374,7 +374,7 @@ class MediaController
 				return;
 			}
 
-			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
+			if (!JFile::upload($file['tmp_name'], $destDir.DS.strtolower($file['name']))) {
 				MediaController::showUpload(JText::_('Upload FAILED'));
 				return;
 
@@ -400,7 +400,7 @@ class MediaController
 			for ($i=0;$i<count($files['name']);$i++) {
 				$dirPathPost = $dirPath;
 				$destDir = COM_MEDIA_BASE.$dirPathPost;
-				if (file_exists($destDir.$files['name'][$i])) {
+				if (file_exists($destDir.DS.$files['name'][$i])) {
 					return false;
 				}
 				$file['name'] = $files['name'][$i];
@@ -409,7 +409,7 @@ class MediaController
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
 					return;
 				}
-				if (!JFile::upload($files['tmp_name'][$i], $destDir.strtolower($files['name'][$i]))) {
+				if (!JFile::upload($files['tmp_name'][$i], $destDir.DS.strtolower($files['name'][$i]))) {
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
 				}
 			}
