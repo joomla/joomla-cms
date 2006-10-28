@@ -63,7 +63,8 @@
 	$k = 0;
 	$i = 0;
 	$n = count( $this->items );
-	foreach ($this->items as $row) :
+	$rows = &$this->items;
+	foreach ($rows as $row) :
 		$access 	= JCommonHTML::AccessProcessing( $row, $i );
 		$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 		$published 	= JCommonHTML::PublishedProcessing( $row, $i );
@@ -93,8 +94,8 @@
 				<?php echo $published;?>
 			</td>
 			<td class="order" colspan="2" nowrap="nowrap">
-				<span><?php echo $this->pagination->orderUpIcon( $i, true, 'orderup', 'Move Up', $this->ordering); ?></span>
-				<span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $this->ordering ); ?></span>
+				<span><?php echo $this->pagination->orderUpIcon( $i, $row->parent == 0 || $row->parent == @$rows[$i-1]->parent, 'orderup', 'Move Up', $this->ordering); ?></span>
+				<span><?php echo $this->pagination->orderDownIcon( $i, $n, $row->parent == 0 || $row->parent == @$rows[$i+1]->parent, 'orderdown', 'Move Down', $this->ordering ); ?></span>
 				<?php $disabled = $this->ordering ?  '' : '"disabled=disabled"'; ?>
 				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 			</td>

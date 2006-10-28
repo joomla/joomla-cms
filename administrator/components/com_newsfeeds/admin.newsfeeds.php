@@ -110,7 +110,11 @@ function showNewsFeeds(  )
 	}
 
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, catname, a.ordering";
+	if ($filter_order == 'a.ordering'){
+		$orderby 	= "\n ORDER BY catname, a.ordering";
+	} else {
+		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, catname, a.ordering";
+	}
 
 	// get the total number of records
 	$query = "SELECT COUNT(*) "
@@ -233,13 +237,18 @@ function saveNewsFeed(  )
 		exit();
 	}
 
+	// if new item, order last in appropriate group
+	if (!$row->id) {
+		$where = "catid = " . $row->catid ;
+		$row->ordering = $row->getNextOrder ( $where );
+	}
+
 	// save the changes
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$row->checkin();
-	$row->reorder();
 
 	switch ($task) 
 	{
@@ -416,21 +425,29 @@ function saveOrder(  )
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+	$groupings = array();
 
+	// update ordering values
 	for( $i=0; $i < $total; $i++ ) {
-		$query = "UPDATE #__newsfeeds"
-		. "\n SET ordering = " . (int) $order[$i]
-		. "\n WHERE id = " . (int) $cid[$i];
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
+		$row->load( (int) $cid[$i] );
+		// track categories
+		$groupings[] = $row->catid;
+		
+		if ($row->ordering != $order[$i]) {
+			$row->ordering = $order[$i];
+			if (!$row->store()) {
+				//TODO - convert to JError
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
+			}
 		}
+	}
 
-		// update ordering
-		$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
-		$row->load( $cid[$i] );
-		$row->reorder( "catid = $row->catid AND published != 0" );
+	// execute updateOrder for each parent group
+	$groupings = array_unique( $groupings );
+	foreach ($groupings as $group){
+		$row->reorder("catid = $group");
 	}
 
 	$msg 	= 'New ordering saved';

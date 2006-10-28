@@ -305,13 +305,18 @@ function saveModule( $option, $task )
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	
+	// if new item, order last in appropriate group
+	if (!$row->id) {
+		$where = "position='".$row->position."' AND client_id=".$client->id ;
+		$row->ordering = $row->getNextOrder ( $where );
+	}
+
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$row->checkin();
-
-	$row->reorder( "position='".$row->position."' AND client_id=".$client->id );
 
 	$menus = JRequest::getVar( 'selections', array(), 'post', 'array' );
 
@@ -778,34 +783,28 @@ function saveOrder( &$cid )
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row 		=& JTable::getInstance('module', $db );
-	$conditions = array();
+	$groupings = array();
 
 	// update ordering values
-	for( $i=0; $i < $total; $i++ )
-	{
+	for( $i=0; $i < $total; $i++ ) {
 		$row->load( (int) $cid[$i] );
+		// track postions
+		$groupings[] = $row->position;
+		
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
+				//TODO - convert to JError
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			}
-			// remember to updateOrder this group
-			$condition = "position = '$row->position' AND client_id = $row->client_id";
-			$found = false;
-			foreach ( $conditions as $cond )
-				if ($cond[1]==$condition) {
-					$found = true;
-					break;
-				}
-			if (!$found) $conditions[] = array($row->id, $condition);
 		}
 	}
 
-	// execute updateOrder for each group
-	foreach ( $conditions as $cond ) {
-		$row->load( $cond[0] );
-		$row->reorder( $cond[1] );
+	// execute updateOrder for each parent group
+	$groupings = array_unique( $groupings );
+	foreach ($groupings as $group){
+		$row->reorder("position = '$group' AND client_id = $client->id");
 	}
 
 	$msg 	= JText::_( 'New ordering saved' );

@@ -169,7 +169,12 @@ function showCategories( $section, $option )
 		$content_add 	= "\n , z.title AS section_name";
 		$content_join 	= "\n LEFT JOIN #__sections AS z ON z.id = c.section";
 		$where 			= "\n WHERE c.section NOT LIKE '%com_%'";
-		$order 			= "\n ORDER BY  $filter_order $filter_order_Dir, c.section, c.ordering";
+		if ($filter_order == 'c.ordering'){
+			$order 			= "\n ORDER BY  z.title, c.ordering";
+		} else {
+			$order 			= "\n ORDER BY  $filter_order $filter_order_Dir, z.title, c.ordering";
+		}
+		
 		$section_name 	= JText::_( 'All Content:' );
 
 		// get the total number of records
@@ -867,6 +872,7 @@ function saveOrder( &$cid, $section )
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
+				//TODO - convert to JError
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			}
