@@ -38,7 +38,7 @@ Legend:
 ! -> Note
 
 29-Oct-2006 David Gal
- # Fixed mod_mainmenu to build menu tree correctly even with 'older' children
+ # Fixed mod_mainmenu to build menu tree correctly even when child-id is less than parent-id
  
 28-Oct-2006 David Gal
  # Fixed ordering functionality in adminlists
