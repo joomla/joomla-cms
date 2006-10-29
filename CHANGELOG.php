@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Oct-2006 David Gal
+ # Fixed mod_mainmenu to build menu tree correctly even with 'older' children
+ 
 28-Oct-2006 David Gal
  # Fixed ordering functionality in adminlists
  # Fixed several migration bugs

@@ -50,11 +50,22 @@ class modMainMenuHelper
 				// Get Menu Items
 				$rows = $items->getItems('menutype', $params->get('menutype'));
 
-				// Build Menu Tree
+				// Build Menu Tree root down (orphan proof - child might have lower id than parent)
 				$user =& JFactory::getUser();
-				foreach ($rows as $row) {
-					if($row->access <= $user->get('gid')) {
-						$menu->addNode($row);
+				$ids = array();
+				$ids[0] = true;
+				
+				// pop the first item until the array is empty
+				while ( !is_null($row = array_shift($rows))){
+					if(array_key_exists($row->parent, $ids)){
+						if($row->access <= $user->get('gid')) {
+							$menu->addNode($row);
+							// record loaded parents
+							$ids[$row->id] = true;
+						}
+					} else {
+						// no parent yet so push item to back of list						
+						array_push($rows, $row);
 					}
 				}
 
