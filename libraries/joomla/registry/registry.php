@@ -453,7 +453,7 @@ class JRegistry extends JObject
 	 */
 	function &_loadFormat($format)
 	{
-		$lformat = strtolower($format);
+		$lformat = JString::strtolower($format);
 		if(jimport('joomla.registry.format.'.$lformat)) 
 		{
 			$return = null;

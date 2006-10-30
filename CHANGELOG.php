@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Oct-2006 David Gal
+ # Fixed a utf-8 non-compatible string function in registry formating function
+ 
 29-Oct-2006 David Gal
  # Fixed mod_mainmenu to build menu tree correctly even when child-id is less than parent-id
  
