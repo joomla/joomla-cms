@@ -1059,10 +1059,10 @@ class JInstallationHelper
 		/*
 		 * Move uploaded file
 		 */
-		jimport('joomla.filesystem.file');
-		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
 		// Set permissions for tmp dir
 		JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
+		jimport('joomla.filesystem.file');
+		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
 
 		if( !eregi('.sql$', $sqlFile['name']) )
 		{

@@ -39,7 +39,8 @@ Legend:
 
 30-Oct-2006 David Gal
  # Fixed a utf-8 non-compatible string function in registry formating function
- 
+ # Fixed logical bug in sql file upload in installation (chmod tmp before upload)
+  
 29-Oct-2006 David Gal
  # Fixed mod_mainmenu to build menu tree correctly even when child-id is less than parent-id
  
