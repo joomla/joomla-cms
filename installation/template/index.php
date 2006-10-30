@@ -3,11 +3,11 @@
 	<head>
 		<jdoc:include type="head" />
 		
-		<? if($this->direction == 'rtl') : ?>
+		<?php if($this->direction == 'rtl') : ?>
 			<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
-		<? else : ?>
+		<?php else : ?>
 			<link href="template/css/template.css" rel="stylesheet" type="text/css" />
-		<? endif; ?>
+		<?php endif; ?>
 		
 		<script type="text/javascript" src="includes/js/installation.js"></script>
 		<script type="text/javascript" src="../includes/js/joomla/common.js"></script>
