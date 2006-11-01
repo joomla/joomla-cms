@@ -39,7 +39,7 @@ Legend:
 
 01-Nov-2006 Andrew Eddie
  # Fixed bug in phputf8 native library: case conversions arrays were not global enforced
- # Fixed moronic bug in JModuleHelper::_load that overwrites the user object
+ # Fixed bug in JModuleHelper::_load that overwrites the user object
 
 30-Oct-2006 David Gal
  # Fixed a utf-8 non-compatible string function in registry formating function
