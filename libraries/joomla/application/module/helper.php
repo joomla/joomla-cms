@@ -229,14 +229,14 @@ class JModuleHelper
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++)
 		{
-			//determine if this is a user module
-			$file = $modules[$i]->module;
-			$user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
-			$modules[$i]->user  = $user;
+			//determine if this is a custom module
+			$file					= $modules[$i]->module;
+			$custom 				= substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
+			$modules[$i]->user  	= $custom;
 			// CHECK: custom module name is given by the title field, otherwise it's just 'om' ??
-			$modules[$i]->name     = $user ? $modules[$i]->title : substr( $file, 4 );
-			$modules[$i]->style    = null;
-			$modules[$i]->position = strtolower($modules[$i]->position);
+			$modules[$i]->name		= $custom ? $modules[$i]->title : substr( $file, 4 );
+			$modules[$i]->style		= null;
+			$modules[$i]->position	= strtolower($modules[$i]->position);
 		}
 
 		return $modules;
