@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Nov-2006 Andrew Eddie
+ # Fixed bug in phputf8 native library: case conversions arrays were not global enforced
+
 30-Oct-2006 David Gal
  # Fixed a utf-8 non-compatible string function in registry formating function
  # Fixed logical bug in sql file upload in installation (chmod tmp before upload)
