@@ -211,7 +211,7 @@ class JPluginHelper
 		$query = "SELECT id, name, folder, element, published, params"
 			. "\n FROM #__plugins"
 			. "\n WHERE published >= 1"
-			. "\n AND access <= $gid"
+			. "\n AND access <= " . (int) $gid
 			. "\n ORDER BY ordering"
 			;
 

@@ -104,6 +104,8 @@ class JAuthenticate extends JObject
 						// Whilst a plugin may validate the login, it might not actually exist
 						return true;
 					} else {
+						// Authentication failed
+						$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
 						return false;
 					}
 					break;
@@ -120,8 +122,14 @@ class JAuthenticate extends JObject
 					if($user->save()) {
 						return true;
 					} else {
+						// Authentication failed
+						$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
 						return false;
 					}
+					break;
+				default:
+					// Authentication failed
+					$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
 					break;
 			}
 		}
