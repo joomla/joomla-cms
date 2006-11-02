@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Nov-2006 Louis Landry
+ # Fixed bug in rendering custom modules
+
 01-Nov-2006 Andrew Eddie
  # Fixed bug in phputf8 native library: case conversions arrays were not global enforced
  # Fixed bug in JModuleHelper::_load that overwrites the user object

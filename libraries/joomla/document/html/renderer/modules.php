@@ -31,9 +31,10 @@ class JDocumentRenderer_Modules extends JDocumentRenderer
 	 */
 	function render( $position, $params = array(), $content = null )
 	{
+		$renderer =  $this->_doc->loadRenderer( 'module');
+
 		$contents = '';
 		foreach (JModuleHelper::getModules($position) as $mod)  {
-			$renderer =  $this->_doc->loadRenderer( 'module');
 			$contents .= $renderer->render($mod, $params, $content);
 		}
 		return $contents;
