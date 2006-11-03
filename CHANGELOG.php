@@ -41,6 +41,7 @@ Legend:
  # Fixed small table bug while rendering section and category blog
  # Added missing index.html files
  # Fixed Backend, Help screen: Changelog isn't displayed correctly
+ # Fixed irregular output in contacts
 
 01-Nov-2006 Louis Landry
  # Fixed bug in rendering custom modules

@@ -28,7 +28,7 @@
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->country && $this->params->get( 'country' ) ) : ?>
+<?php if ( $this->contact->country && $this->contact->params->get( 'country' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo $this->contact->country; ?>
@@ -50,7 +50,7 @@
 <?php if ( $this->contact->email_to && $this->contact->params->get( 'email' ) ) : ?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
-		<?php echo $this->params->get( 'marker_email' ); ?>
+		<?php echo $this->contact->params->get( 'marker_email' ); ?>
 	</td>
 	<td>
 		<?php echo $this->contact->email_to; ?>
@@ -88,7 +88,7 @@
 <?php endif; ?>
 <?php if ( $this->contact->webpage && $this->contact->params->get( 'webpage' )) : ?>
 <tr>
-	<td width="<?php echo $this->params->get( 'column_width' ); ?>" >
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 	</td>
 	<td>
 		<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
@@ -103,7 +103,7 @@
 <?php if ( $this->contact->misc && $this->contact->params->get( 'misc' ) ) : ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="<?php echo $this->params->get( 'column_width' ); ?>" valign="top" >
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" valign="top" >
 		<?php echo $this->contact->params->get( 'marker_misc' ); ?>
 	</td>
 	<td>
