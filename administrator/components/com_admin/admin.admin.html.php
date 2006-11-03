@@ -215,7 +215,7 @@ class HTML_admin_misc
 							|
 							<?php echo JHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo JHTML::Link('index.php?option=com_admin&task=changelog&file=component.html', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link('index.php?option=com_admin&task=changelog&tmpl=component', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
 							<?php echo JHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>

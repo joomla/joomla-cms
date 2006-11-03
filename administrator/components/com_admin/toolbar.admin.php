@@ -32,7 +32,7 @@ switch ($task){
 		break;
 
 	default:
-		if ($GLOBALS['task']) {
+		if ($task) {
 			TOOLBAR_admin::_DEFAULT();
 		} else {
 			TOOLBAR_admin::_CPANEL();

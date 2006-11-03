@@ -40,6 +40,7 @@ Legend:
 03-Nov-2006 Enno Klasing
  # Fixed small table bug while rendering section and category blog
  # Added missing index.html files
+ # Fixed Backend, Help screen: Changelog isn't displayed correctly
 
 01-Nov-2006 Louis Landry
  # Fixed bug in rendering custom modules
