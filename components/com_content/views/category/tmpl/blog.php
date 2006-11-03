@@ -83,5 +83,5 @@
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</td>
 </tr>
-</table>
 <?php endif; ?>
+</table>

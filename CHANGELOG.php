@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Nov-2006 Enno Klasing
+ # Fixed small table bug while rendering section and category blog
+ # Added missing index.html files
+
 01-Nov-2006 Louis Landry
  # Fixed bug in rendering custom modules
 
