@@ -303,12 +303,12 @@ class TemplatesController
 			switch($task)
 			{
 				case 'apply_source' :
-					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$template);
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$template, JText::_('Template source saved'));
 					break;
 
 				case 'save_source'  :
 				default          :
-					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id);
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Template source saved'));
 					break;
 			}
 		}
