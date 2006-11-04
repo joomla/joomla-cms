@@ -830,7 +830,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
-		return JHTMLSelect::genericList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
+		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
 	}
 	
 	/**
@@ -850,7 +850,7 @@ class mosHTML
  	 * @package		Joomla.Legacy
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )  {
-		return JHTMLSelect::radioList( &$arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
+		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
 	}
 	
 	/**
