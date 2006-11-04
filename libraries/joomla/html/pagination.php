@@ -118,6 +118,8 @@ class JPagination extends JObject
 					$this->_link .= 'index.php?';
 				}
 			}
+			// Strip out limit and limitstart variables from base link
+			$this->_link = preg_replace('#&?limit(start)?=\d+#', '', $this->_link);
 		}
 
 		// If we are viewing all records set the view all flag to true
