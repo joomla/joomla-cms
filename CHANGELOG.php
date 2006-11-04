@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Nov-2006 Louis Landry
+ # Fixed loadposition content plugin
+
 04-Nov-2006 Hannes Papenberg
  + Adding _JEXEC check to all views
 

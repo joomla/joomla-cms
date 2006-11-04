@@ -68,7 +68,7 @@ function processPositions ( &$row, &$matches, $count, $regex, $style )
  	$positions 	= $db->loadResultArray();
 
  	for ( $i=0; $i < $count; $i++ ) {
- 		$load = str_replace( 'oadposition', '', $matches[0][$i] );
+ 		$load = str_replace( 'loadposition', '', $matches[0][$i] );
  		$load = str_replace( '{', '', $load );
  		$load = str_replace( '}', '', $load );
  		$load = trim( $load );
@@ -88,14 +88,14 @@ function processPositions ( &$row, &$matches, $count, $regex, $style )
 
 function loadPosition( $position, $style=-2 ) 
 {
-	$modules = '';
-	if ( mosCountModules( $position ) ) {
-		ob_start();
-		mosLoadModules ( $position, $style );
-		$modules = ob_get_contents();
-		ob_end_clean();
-	}
+	$document	= &JFactory::getDocument();
+	$renderer	= $document->loadRenderer( 'module');
+	$params		= array('style'=>$style);
 
-	return $modules;
+	$contents = '';
+	foreach (JModuleHelper::getModules($position) as $mod)  {
+		$contents .= $renderer->render($mod, $params);
+	}
+	return $contents;
 }
 ?>
