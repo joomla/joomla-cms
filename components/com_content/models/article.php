@@ -384,18 +384,19 @@ class ContentModelArticle extends JModel
 		}
 
 		// Handle global overides for some article parameters if set
-		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
-		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',		!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
-		$params->def('email',		!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',		$mainframe->getCfg('vote'));
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$params->def('link_titles',	$contentConfig->get('link_titles'));
+		$params->def('author',		!$contentConfig->get('hideAuthor'));
+		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
+		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
+		$params->def('print',		!$contentConfig->get('hidePrint'));
+		$params->def('pdf',		!$contentConfig->get('hidePdf'));
+		$params->def('email',		!$contentConfig->get('hideEmail'));
+		$params->def('rating',		$contentConfig->get('vote'));
 
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-		$params->def('icons',		$mainframe->getCfg('icons'));
-		$params->def('readmore',	$mainframe->getCfg('readmore'));
+		$params->def('back_button', $contentConfig->get('back_button'));
+		$params->def('icons',		$contentConfig->get('icons'));
+		$params->def('readmore',	$contentConfig->get('readmore'));
 
 		// Get some article specific parameter defaults
 		$params->def('image',			1);

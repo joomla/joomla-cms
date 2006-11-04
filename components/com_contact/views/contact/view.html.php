@@ -32,11 +32,11 @@ class ContactViewContact extends JView
 		// Get the paramaters of the active menu item
 		$menu    =& JSiteHelper::getCurrentMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
-
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('header', 					$menu->name );
-		$params->def('print', 					!$mainframe->getCfg('hidePrint'));
+		$params->def('print', 					!$contentConfig->get('hidePrint'));
 		$params->def('email_description_text', JText::_('Send an Email to this Contact:'));
-		$params->def('icons', 					$mainframe->getCfg('icons'));
+		$params->def('icons', 					$contentConfig->get('icons'));
 
 		// Push a model into the view
 		$model		= &$this->getModel();

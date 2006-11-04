@@ -30,7 +30,7 @@ class TOOLBAR_poll {
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
+		JMenuBar::Preview('index.php?option=com_poll&tmpl=component&pollid='.$pollid);
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ($cid[0]) {

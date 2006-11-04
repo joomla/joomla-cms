@@ -245,17 +245,18 @@ class ContentViewFrontpage extends JView
 		$linkText	= null;
 
 		// Get some parameters from global configuration
-		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
-		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',		!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
-		$params->def('email',		!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',		$mainframe->getCfg('vote'));
-		$params->def('icons',		$mainframe->getCfg('icons'));
-		$params->def('readmore',	$mainframe->getCfg('readmore'));
-		$params->def('back_button', $mainframe->getCfg('back_button'));
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$params->def('link_titles',	$contentConfig->get('link_titles'));
+		$params->def('author',		!$contentConfig->get('hideAuthor'));
+		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
+		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
+		$params->def('print',		!$contentConfig->get('hidePrint'));
+		$params->def('pdf',		!$contentConfig->get('hidePdf'));
+		$params->def('email',		!$contentConfig->get('hideEmail'));
+		$params->def('rating',		$contentConfig->get('vote'));
+		$params->def('icons',		$contentConfig->get('icons'));
+		$params->def('readmore',	$contentConfig->get('readmore'));
+		$params->def('back_button', 	$contentConfig->get('back_button'));
 
 		// Get some item specific parameters
 		$params->def('image',			1);

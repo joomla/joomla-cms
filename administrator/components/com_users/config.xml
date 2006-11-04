@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+ <params>
+  <param name="@spacer" type="spacer" default="" label="Registration settings" description="" />
+  <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="If yes, allows users to self-register">
+   <option value="0">No</option>
+   <option value="1">Yes</option>
+  </param>
+  <param name="new_usertype" type="list" default="Registered" label="New User Registration Type" description="TIPNEWUSERTYPE">
+   <option value="Registered">Registered</option>
+   <option value="Author">Author</option>
+   <option value="Editor">Editor</option>
+   <option value="Publisher">Publisher</option>
+  </param>
+  <param name="useractivation" type="radio" default="1" label="Use New Account Activation" description="TIPIFYESUSERMAILEDLINK">
+   <option value="0">No</option>
+   <option value="1">Yes</option>
+  </param>
+  <param name="@spacer" type="spacer" default="" label="User settings" description="" />
+  <param name="frontend_userparams" type="radio" default="1" label="Frontend User Params" description="TIPFRONTENDUSERPARAMS">
+   <option value="0">No</option>
+   <option value="1">Yes</option>
+  </param>
+ </params>
+</config>

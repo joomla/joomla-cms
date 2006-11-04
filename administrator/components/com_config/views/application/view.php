@@ -52,34 +52,7 @@ class ConfigApplicationView
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.php'); ?>
-						</td>
-					</tr>
-				</table>
-			</div>
-
-			<div id="page-user">
-				<table class="noshow">
-					<tr>
-						<td with="50%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_register.php'); ?>
-						</td>
-						<td with="50%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_user.php'); ?>
-						</td>
-					</tr>
-				</table>
-
-			</div>
-
-			<div id="page-content">
-				<table class="noshow">
-					<tr>
-						<td with="50%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.php'); ?>
-						</td>
-						<td width="50%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_content2.php'); ?>
 						</td>
 					</tr>
 				</table>

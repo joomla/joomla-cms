@@ -42,7 +42,7 @@ class TOOLBAR_media {
 		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
 
 		// Add a popup configuration button
-		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_media', '570', '150' );
+		JMenuBar::configuration('com_media');
 		JMenuBar::help( 'screen.mediamanager' );
 	}
 }

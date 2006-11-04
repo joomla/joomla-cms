@@ -232,7 +232,8 @@ class ContentModelSection extends JModel
 		if (empty($this->_categories))
 		{
 			$user		=& JFactory::getUser();
-			$noauth		= !$mainframe->getCfg('shownoauth');
+			$params 	= &JComponentHelper::getParams( 'com_content' );
+			$noauth	= !$params->get('shownoauth');
 			$gid		= $user->get('gid');
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
@@ -414,7 +415,8 @@ class ContentModelSection extends JModel
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');
-		$noauth		= !$mainframe->getCfg('shownoauth');
+		$params 	= &JComponentHelper::getParams( 'com_content' );
+		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		$Itemid    	= JRequest::getVar('Itemid');

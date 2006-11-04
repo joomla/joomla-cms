@@ -46,6 +46,7 @@ class TOOLBAR_users {
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
+		JMenuBar::configuration('com_users', 300);
 		JMenuBar::help( 'screen.users' );
 	}
 }

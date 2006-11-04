@@ -158,19 +158,6 @@ class ConfigControllerApplication extends JController
 		$lists['caching_tmpl'] 		= JHTMLSelect::yesnoList('caching_tmpl', 'class="inputbox"', $row->caching_tmpl);
 		$lists['caching_page'] 		= JHTMLSelect::yesnoList('caching_page', 'class="inputbox"', $row->caching_page);
 
-		// USER SETTINGS
-		$lists['allowUserRegistration'] = JHTMLSelect::yesnoList('allowUserRegistration', 'class="inputbox"', $row->allowUserRegistration);
-		$lists['useractivation'] 		= JHTMLSelect::yesnoList('useractivation', 'class="inputbox"', $row->useractivation);
-		$lists['shownoauth'] 			= JHTMLSelect::yesnoList('shownoauth', 'class="inputbox"', $row->shownoauth);
-		$lists['frontend_userparams'] 	= JHTMLSelect::yesnoList('frontend_userparams', 'class="inputbox"', $row->frontend_userparams);
-		$new_usertype = array (
-			JHTMLSelect::option('Registered', 	JText::_('Registered')),
-			JHTMLSelect::option('Author', 		JText::_('Author')),
-			JHTMLSelect::option('Editor', 		JText::_('Editor')),
-			JHTMLSelect::option('Publisher', 	JText::_('Publisher')),
-		);
-		$lists['new_usertype']			= JHTMLSelect::genericList($new_usertype, 'new_usertype', 'class="inputbox" size="1"', 'value', 'text', $row->new_usertype);
-
 		// META SETTINGS
 		$lists['MetaAuthor'] 	= JHTMLSelect::yesnoList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
 		$lists['MetaTitle'] 	= JHTMLSelect::yesnoList('MetaTitle', 'class="inputbox"', $row->MetaTitle);
@@ -183,22 +170,6 @@ class ConfigControllerApplication extends JController
 		// SEO SETTINGS
 		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
 
-		// CONTENT SETTINGS
-		$lists['link_titles'] 	= JHTMLSelect::yesnoList('link_titles', 'class="inputbox"', $row->link_titles);
-		$lists['readmore'] 		= JHTMLSelect::radioList($show_hide_r, 'readmore', 'class="inputbox"', $row->readmore, 'value', 'text');
-		$lists['vote'] 			= JHTMLSelect::radioList($show_hide_r, 'vote', 'class="inputbox"', $row->vote, 'value', 'text');
-		$lists['hideAuthor'] 	= JHTMLSelect::radioList($show_hide, 'hideAuthor', 'class="inputbox"', $row->hideAuthor, 'value', 'text');
-		$lists['hideCreateDate'] = JHTMLSelect::radioList($show_hide, 'hideCreateDate', 'class="inputbox"', $row->hideCreateDate, 'value', 'text');
-		$lists['hideModifyDate'] = JHTMLSelect::radioList($show_hide, 'hideModifyDate', 'class="inputbox"', $row->hideModifyDate, 'value', 'text');
-		$lists['hits'] 			= JHTMLSelect::radioList($show_hide_r, 'hits', 'class="inputbox"', $row->hits, 'value', 'text');
-		if (is_writable(JPATH_SITE.DS.'tmp'.DS)) {
-			$lists['hidePdf'] = JHTMLSelect::radioList($show_hide, 'hidePdf', 'class="inputbox"', $row->hidePdf, 'value', 'text');
-		} else {
-			$lists['hidePdf'] = '<input type="hidden" name="hidePdf" value="1" /><strong>Hide</strong>';
-		}
-		$lists['hidePrint'] 	= JHTMLSelect::radioList($show_hide, 'hidePrint', 'class="inputbox"', $row->hidePrint, 'value', 'text');
-		$lists['hideEmail'] 	= JHTMLSelect::radioList($show_hide, 'hideEmail', 'class="inputbox"', $row->hideEmail, 'value', 'text');
-		$lists['icons'] 		= JHTMLSelect::yesnoList('icons', 'class="inputbox"', $row->icons, 'icons', 'text');
 		$lists['ml_support'] 	= JHTMLSelect::yesnoList('multilingual_support', 'class="inputbox" onclick="if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
 
 		// FEED SETTINGS
@@ -219,8 +190,77 @@ class ConfigControllerApplication extends JController
 		global $mainframe;
 
 		$config =& JFactory::getConfig();
-		$config->loadArray(JRequest::get( 'post' ));
-		
+		$config_array = array();
+
+		// SITE SETTINGS
+		$config_array['offline'] 	= JRequest::getVar('offline', 0, 'post');
+		$config_array['editor'] 	= JRequest::getVar('editor', 'tinymce', 'post');
+		$config_array['list_limit'] 	= JRequest::getVar('list_limit', 20, 'post');
+		$config_array['helpurl'] 	= JRequest::getVar('helpurl', 'http://help.joomla.org', 'post');
+
+		// DEBUG
+		$config_array['debug'] 		= JRequest::getVar('debug', 0, 'post');
+		$config_array['debug_db'] 	= JRequest::getVar('debug_db', 0, 'post');
+		$config_array['debug_lang'] 	= JRequest::getVar('debug_lang', 0, 'post');
+
+		// STATISTICS SETTINGS
+		$config_array['enable_stats'] = JRequest::getVar('enable_stats', 0, 'post');
+		$config_array['enable_log_items'] 	= JRequest::getVar('enable_log_items', 0, 'post');
+		$config_array['enable_log_searches'] = JRequest::getVar('enable_log_searches', 0, 'post');
+
+		// SEO SETTINGS
+		$config_array['sef'] 		= JRequest::getVar('sef', 0, 'post');
+
+		// FEED SETTINGS
+		$config_array['feed_limit']   = JRequest::getVar('feed_limit', 10, 'post');
+		$config_array['feed_summary'] = JRequest::getVar('feed_summary', 0, 'post');
+
+		// SERVER SETTINGS
+		$config_array['gzip'] 		= JRequest::getVar('gzip', 0, 'post');
+		$config_array['lifetime'] 		= JRequest::getVar('lifetime', 0, 'post');
+		$config_array['error_reporting'] = JRequest::getVar('error_reporting', -1, 'post');
+		$config_array['xmlrpc_server'] = JRequest::getVar('xmlrpc_server', 0, 'post');
+		$config_array['legacy']		= JRequest::getVar('legacy', 0, 'post');
+
+		// LOCALE SETTINGS
+		$config_array['offset'] 	= JRequest::getVar('offset', 0, 'post');
+
+		// CACHE SETTINGS
+		$config_array['caching'] 	= JRequest::getVar('caching', 0, 'post');
+		$config_array['caching_tmpl'] = JRequest::getVar('caching_tmpl', 0, 'post');
+		$config_array['caching_page'] = JRequest::getVar('caching_page', 0, 'post');
+
+		// FTP SETTINGS
+		$config_array['ftp_enable'] 	= JRequest::getVar('ftp_enable', 0, 'post');
+		$config_array['ftp_host'] 	= JRequest::getVar('ftp_host', '', 'post');
+		$config_array['ftp_port'] 	= JRequest::getVar('ftp_port', '', 'post');
+		$config_array['ftp_user'] 	= JRequest::getVar('ftp_user', '', 'post');
+		$config_array['ftp_pass'] 	= JRequest::getVar('ftp_pass', '', 'post');
+		$config_array['ftp_root'] 	= JRequest::getVar('ftp_root', '', 'post');
+
+		// DATABASE SETTINGS
+		$config_array['dbtype'] 	= JRequest::getVar('dbtype', 'mysql', 'post');
+		$config_array['host'] 		= JRequest::getVar('host', 'localhost', 'post');
+		$config_array['user'] 		= JRequest::getVar('user', '', 'post');
+		$config_array['db'] 		= JRequest::getVar('db', '', 'post');
+		$config_array['db_prefix'] 	= JRequest::getVar('db_prefix', 'jos_', 'post');
+
+		// MAIL SETTINGS
+		$config_array['mailer'] 	= JRequest::getVar('mailer', 'mail', 'post');
+		$config_array['mailfrom'] 	= JRequest::getVar('mailfrom', '', 'post');
+		$config_array['fromname'] 	= JRequest::getVar('fromname', 'Joomla 1.5', 'post');
+		$config_array['sendmail'] 	= JRequest::getVar('sendmail', '/usr/sbin/sendmail', 'post');
+		$config_array['smtpauth'] 	= JRequest::getVar('smtpauth', 0, 'post');
+		$config_array['smtpuser'] 	= JRequest::getVar('smtpuser', '', 'post');
+		$config_array['smtppass'] 	= JRequest::getVar('smtppass', '', 'post');
+		$config_array['smtphost'] 	= JRequest::getVar('smtphost', '', 'post');
+
+		// META SETTINGS
+		$config_array['MetaAuthor'] 	= JRequest::getVar('MetaAuthor', 1, 'post');
+		$config_array['MetaTitle'] 	= JRequest::getVar('MetaTitle', 1, 'post');
+
+		$config->loadArray($config_array);
+
 		//override any possible database password change
 		$config->setValue('config.password', $mainframe->getCfg('password'));
 

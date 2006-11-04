@@ -26,7 +26,8 @@ class modSectionsHelper
 		$user   =& JFactory::getUser();
 
 		$count	= intval($params->get('count', 20));
-		$access	= !$mainframe->getCfg('shownoauth');
+		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );
+		$access	= !$contentConfig->get('shownoauth');
 
 		$gid 		= $user->get('gid');
 		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);

@@ -55,10 +55,11 @@ class WeblinksViewCategories extends JView
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
 		$params->def('headings', 1);
-		$params->def('hits', $mainframe->getCfg('hits'));
+		$params->def('hits', $contentConfig->get('hits'));
 		$params->def('item_description', 1);
 		$params->def('other_cat_section', 1);
 		$params->def('other_cat', 1);

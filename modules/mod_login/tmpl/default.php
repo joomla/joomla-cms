@@ -40,7 +40,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</td>
 	</tr>
-	<?php if ($mainframe->getCfg('allowUserRegistration')) : ?>
+	<?php
+	$usersConfig = &JComponentHelper::getParams( 'com_users' );
+	if ($usersConfig->get('allowUserRegistration')) : ?>
 	<tr>
 		<td>
 			<?php echo JText::_( 'No account yet?'); ?>

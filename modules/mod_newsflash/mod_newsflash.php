@@ -30,7 +30,6 @@ $access->canEditOwn = 0;
 $access->canPublish = 0;
 
 $layout 		= $params->get('layout', 'default');
-$link_titles 	= $params->get('link_titles', $mainframe->getCfg('link_titles'));
 
 $list = modNewsFlashHelper::getList($params, $access);
 

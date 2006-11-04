@@ -43,10 +43,6 @@ class ContentView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
-		$document =& JFactory::getDocument();
-		$document->addScript('../includes/js/joomla/modal.js');
-		$document->addStyleSheet('../includes/js/joomla/modal.css');
-
 		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">

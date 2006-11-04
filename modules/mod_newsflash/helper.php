@@ -69,7 +69,8 @@ class modNewsFlashHelper
 		$catid 	= intval($params->get('catid'));
 		$items 	= intval($params->get('items', 0));
 
-		$noauth  = !$mainframe->getCfg('shownoauth');
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$noauth  = !$contentConfig->get('shownoauth');
 
 		$now 	 = date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate = $db->getNullDate();

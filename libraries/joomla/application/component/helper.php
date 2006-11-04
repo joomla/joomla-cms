@@ -136,6 +136,18 @@ class JComponentHelper
 				$name = 'mosConfig_'.$k;
 				$$name = $v;
 			}
+			$contentConfig = &JComponentHelper::getParams( 'com_content' );
+			foreach (get_object_vars($contentConfig->toObject()) as $k => $v)
+			{
+				$name = 'mosConfig_'.$k;
+				$$name = $v;
+			}
+			$usersConfig = &JComponentHelper::getParams( 'com_users' );
+			foreach (get_object_vars($usersConfig->toObject()) as $k => $v)
+			{
+				$name = 'mosConfig_'.$k;
+				$$name = $v;
+			}
 		}
 
 		// Load common language files

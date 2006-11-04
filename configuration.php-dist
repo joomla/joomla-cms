@@ -64,6 +64,7 @@ class JConfig {
 	/* Locale Settings */
 	var $lang_site = 'en-GB';					
 	var $lang_administrator = 'en-GB';
+	var $language = 'en-GB';
 	var $lang = 'english';					// Site language
 	var $offset = '0';
 	var $offset_user = '0';
@@ -83,21 +84,12 @@ class JConfig {
 	var $caching_tmpl = '0';
 	var $caching_page = '0';
 	var $cachetime = '900';
-	var $cachepath = '/path/to/joomla/install/cache';
 
 	/* Debug Settings */
 	var $debug      = '0';
 	var $debug_db 	= '0';
 	var $debug_lang = '0';
 	
-	/* User Settings */
-	var $allowUserRegistration = '1';
-	var $new_usertype = 'Registered';
-	var $useractivation = '1';
-	var $uniquemail = '1';
-	var $shownoauth = '0';
-	var $frontend_userparams = '1';	
-
 	/* Meta Settings */
 	var $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
 	var $MetaKeys = 'joomla, Joomla';
@@ -111,25 +103,10 @@ class JConfig {
 
 	/* SEO Settings */
 	var $sef = '0';
-	var $meta_pagetitle = '{site} - {title}';
-	
-	/* Content Settings */
-	var $link_titles = '0';
-	var $readmore = '1';
-	var $vote = '0';
-	var $hideAuthor = '0';
-	var $hideCreateDate = '0';
-	var $hideModifyDate = '0';
-	var $hits = '1';
-	var $hidePdf = '0';
-	var $hidePrint = '0';
-	var $hideEmail = '0';
-	var $icons = '1';
-	var $item_navigation = '1';
-	var $multilingual_support = '0';
-		
+			
 	/* Feed Settings */
 	var $feed_limit   = 10;
 	var $feed_excerpt = 0;
+	var $feed_summary = 0;
 }
 ?>

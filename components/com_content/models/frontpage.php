@@ -177,7 +177,8 @@ class ContentModelFrontpage extends JModel
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');
-		$noauth		= !$mainframe->getCfg('shownoauth');
+		$params 	= &JComponentHelper::getParams( 'com_content' );
+		$noauth	= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		/*

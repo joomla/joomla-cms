@@ -37,7 +37,7 @@ class TOOLBAR_modules {
 		JMenuBar::title( JText::_( 'Module Manager' ) .' - <span>' . JText::_( 'Edit Module' ) . '</span>', 'module.png' );
 
 		if($moduleType == 'custom') {
-			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$cid[0]);
+			JMenuBar::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$cid[0]);
 		}
 
 		JMenuBar::save();

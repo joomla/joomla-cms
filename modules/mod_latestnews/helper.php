@@ -32,7 +32,8 @@ class modLatestNewsHelper
 		$secid		= trim( $params->get('secid') );
 		$show_front	= $params->get('show_front', 1);
 
-		$access		= !$mainframe->getCfg('shownoauth');
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
 		$now		= date('Y-m-d H:i:s', time());

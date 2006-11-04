@@ -2,8 +2,6 @@
 	<div class="submenu-pad">
 		<ul id="submenu">
 			<li><a id="site" class="active"><?php echo JText::_( 'Site' ); ?></a></li>
-			<li><a id="user"><?php echo JText::_( 'Users' ); ?></a></li>
-			<li><a id="content"><?php echo JText::_( 'Content' ); ?></a></li>
 			<li><a id="server"><?php echo JText::_( 'Server' ); ?></a></li>
 		</ul>
 		<div class="clr"></div>

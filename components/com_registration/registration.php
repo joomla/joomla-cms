@@ -67,8 +67,8 @@ class RegistrationController
 	function displayRegisterForm()
 	{
 		global $mainframe;
-
-		if (!$mainframe->getCfg( 'allowUserRegistration' )) {
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		if (!$usersConfig->get( 'allowUserRegistration' )) {
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 			return;
 		}
@@ -200,14 +200,15 @@ class RegistrationController
 		$authorize	=& JFactory::getACL();
 
 		// If user registration is not allowed, show 403 not authorized.
-		$allowUserRegistration = $config->getValue( 'config.allowUserRegistration' );
-		if ($allowUserRegistration=='0') {
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		if ($usersConfig->get('allowUserRegistration') == '0') {
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 			return;
 		}
 
 		// Initialize new usertype setting
-		$newUsertype = $config->getValue( 'config.new_usertype' );
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$newUsertype = $usersConfig->get( 'new_usertype' );
 		if (!$newUsertype) {
 			$newUsertype = 'Registered';
 		}
@@ -225,7 +226,7 @@ class RegistrationController
 		$user->set('registerDate', date('Y-m-d H:i:s'));
 
 		// If user activation is turned on, we need to set the activation information
-		$useractivation = $config->getValue( 'config.useractivation' );
+		$useractivation = $usersConfig->get( 'useractivation' );
 		if ($useractivation == '1') {
 			jimport('joomla.user.authenticate');
 			$user->set('activation', md5( JAuthenticateHelper::genRandomPassword()) );
@@ -290,8 +291,9 @@ class RegistrationController
 		$user 		=& JFactory::getUser();
 		$pathway 	=& $mainframe->getPathWay();
 
-		$userActivation			= $mainframe->getCfg('useractivation');
-		$allowUserRegistration	= $mainframe->getCfg('allowUserRegistration');
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$userActivation			= $usersConfig->get('useractivation');
+		$allowUserRegistration	= $usersConfig->get('allowUserRegistration');
 
 		// Check to see if they're logged in, because they don't need activating!
 		if($user->get('id')) {
@@ -365,8 +367,9 @@ class RegistrationController
 		$email 		= $user->get('email');
 		$username 	= $user->get('username');
 
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$sitename 		= $mainframe->getCfg( 'sitename' );
-		$useractivation = $mainframe->getCfg( 'useractivation' );
+		$useractivation = $usersConfig->get( 'useractivation' );
 		$mailfrom 		= $mainframe->getCfg( 'mailfrom' );
 		$fromname 		= $mainframe->getCfg( 'fromname' );
 		$siteURL		= JURI::base();

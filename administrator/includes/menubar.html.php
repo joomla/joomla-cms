@@ -157,7 +157,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add an upload button
-		$bar->appendButton( 'Popup', 'upload', $alt, "index3.php?option=com_media&task=popupUpload&directory=$directory", 550, 80 );
+		$bar->appendButton( 'Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&directory=$directory", 550, 80 );
 	}
 
 	/**
@@ -263,6 +263,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add an unpublish button (list)
+
 		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, true, false );
 	}
 
@@ -452,6 +453,19 @@ class JMenuBar
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a cancel button
 		$bar->appendButton( 'Standard', 'cancel', $alt, $task, false, false );
+	}
+
+	/**
+	* Writes a configuration button and invokes a cancel operation (eg a checkin)
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function configuration($component, $height='150', $width='570', $alt = 'Configuration')
+	{
+		$bar = & JToolBar::getInstance('JComponent');
+		// Add a configuration button
+		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&tmpl=component&c=component&component='. $component, $width, $height );
 	}
 }
 

@@ -361,10 +361,8 @@ class MediaController
 		JRequest::setVar('cFolder', $dirPath);
 
 		if (isset ($file) && is_array($file) && isset ($dirPath)) {
-			$dirPathPost = $dirPath;
-			$destDir = COM_MEDIA_BASE.$dirPathPost;
 
-			if (file_exists($destDir.DS.$file['name'])) {
+			if (file_exists(COM_MEDIA_BASE.$dirPath.DS.$file['name'])) {
 				MediaController::showUpload(JText::_('Upload FAILED.File allready exists'));
 				return;
 			}
@@ -374,7 +372,7 @@ class MediaController
 				return;
 			}
 
-			if (!JFile::upload($file['tmp_name'], $destDir.DS.strtolower($file['name']))) {
+			if (!JFile::upload($file['tmp_name'], COM_MEDIA_BASE.$dirPath.DS.strtolower($file['name']))) {
 				MediaController::showUpload(JText::_('Upload FAILED'));
 				return;
 
@@ -398,9 +396,7 @@ class MediaController
 
 		if (is_array($files) && isset ($dirPath)) {
 			for ($i=0;$i<count($files['name']);$i++) {
-				$dirPathPost = $dirPath;
-				$destDir = COM_MEDIA_BASE.$dirPathPost;
-				if (file_exists($destDir.DS.$files['name'][$i])) {
+				if (file_exists(COM_MEDIA_BASE.$dirPath.DS.$files['name'][$i])) {
 					return false;
 				}
 				$file['name'] = $files['name'][$i];
@@ -409,7 +405,7 @@ class MediaController
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
 					return;
 				}
-				if (!JFile::upload($files['tmp_name'][$i], $destDir.DS.strtolower($files['name'][$i]))) {
+				if (!JFile::upload($files['tmp_name'][$i], COM_MEDIA_BASE.$dirPath.DS.strtolower($files['name'][$i]))) {
 					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
 				}
 			}

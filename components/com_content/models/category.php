@@ -225,7 +225,8 @@ class ContentModelCategory extends JModel
 		if (empty($this->_siblings))
 		{
 			$user		=& JFactory::getUser();
-			$noauth		= !$mainframe->getCfg('shownoauth');
+			$params = &JComponentHelper::getParams( 'com_content' );
+			$noauth		= !$params->get('shownoauth');
 			$gid		= $user->get('gid');
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
@@ -357,7 +358,8 @@ class ContentModelCategory extends JModel
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');
-		$noauth		= !$mainframe->getCfg('shownoauth');
+		$params 	= &JComponentHelper::getParams( 'com_content' );
+		$noauth	= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		// Get the paramaters of the active menu item

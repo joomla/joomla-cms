@@ -37,6 +37,20 @@ Legend:
 - -> Removed
 ! -> Note
 
+<<<<<<< .mine
+04-Nov-2006 Louis Landry
+ # Fixed loadposition content plugin
+ # Fixed error in legacy mosParameters class - Thanks Geraint
+ # Fixed pagination issue not using default link value - Thanks tcp
+
+04-Nov-2006 Hannes Papenberg
+ + Adding _JEXEC check to all views
+ + Adding configuration to com_content and com_users
+ - Removed content and user setting from global configuration
+ - Removed references to index3.php
+ # Fixed com_config to only save config relevant values
+
+=======
 04-Nov-2006 Louis Landry
  # Fixed loadposition content plugin
  # Fixed error in legacy mosParameters class - Thanks Geraint
@@ -45,6 +59,7 @@ Legend:
 04-Nov-2006 Hannes Papenberg
  + Adding _JEXEC check to all views
 
+>>>>>>> .r5643
 03-Nov-2006 Enno Klasing
  # Fixed small table bug while rendering section and category blog
  # Added missing index.html files

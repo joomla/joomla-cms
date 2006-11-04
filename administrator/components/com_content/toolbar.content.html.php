@@ -63,6 +63,8 @@ class TOOLBAR_content
 	function _DEFAULT() {
 		global $filter_state;
 
+		$user = JFactory::getUser();
+
 		JMenuBar::title( JText::_( 'Article Manager' ), 'addedit.png' );
 		if ($filter_state == 'A' || $filter_state == NULL) {
 			JMenuBar::unarchiveList();
@@ -77,6 +79,9 @@ class TOOLBAR_content
 		JMenuBar::trash();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
+		if ($user->get('gid') == 25) {
+			JMenuBar::configuration('com_content', '450');
+		}
 		JMenuBar::help( 'screen.content' );
 	}
 }

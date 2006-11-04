@@ -141,7 +141,8 @@ class JContentHelper
 		global $mainframe;
 
 		$db 		=& JFactory::getDBO();
-		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$params 	= &JComponentHelper::getParams( 'com_content' );
+		$noauth 	= !$params->get('shownoauth');
 		$nullDate 	= $db->getNullDate();
 		$where = array ();
 
@@ -197,9 +198,8 @@ class JContentHelper
 
 	function buildVotingQuery()
 	{
-		global $mainframe;
-
-		$voting = $mainframe->getCfg('vote');
+		$params = &JComponentHelper::getParams( 'com_content' );
+		$voting = $params->get('vote');
 
 		if ($voting) {
 			// calculate voting count

@@ -91,7 +91,8 @@ class UserController
 		$mainframe->setPageTitle( $menu->name );
 
 		// check to see if Frontend User Params have been enabled
-		$check = $mainframe->getCfg('frontend_userparams');
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$check = $usersConfig->get('frontend_userparams');
 		if ($check == '1' || $check == 1 || $check == NULL) {
 			$params = $user->getParameters();
 			if( $user->authorize( 'mydetails', 'manage' ) ){
