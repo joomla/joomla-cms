@@ -79,7 +79,7 @@ class JMainMenu extends JTree
 		switch ($item->type)
 		{
 			case 'separator' :
-				$node =& new JMenuNode(null, $item->name, 'seperator', false);
+				$node =& new JMenuNode(null, $item->name, null, 'separator', false);
 				if (isset($item->mid)) {
 					$nid = $item->mid;
 				} else {
@@ -179,7 +179,7 @@ class JMainMenu extends JTree
 		}
 
 		// Build the CSS class selectors
-		$classes = "level$depth item".$this->_depthHash[$depth];
+		$classes = "item".$this->_depthHash[$depth];
 		$id = "";
 
 		if ($this->_current->hasChildren() && (($depth < $end) || ($end == 0))) {
@@ -248,10 +248,10 @@ class JMainMenu extends JTree
 						echo "<a href=\"javascript:void window.open('".$link."','targetWindow','".$attribs."')\">".$this->_current->title."</a>";
 						break;
 				}
-			} else if ($this->_current->title != null) {
+			} else if ($this->_current->title != null && $this->_current->class != 'separator') {
 				echo "<a>".$this->_current->title."</a>\n";
 			} else {
-				echo "<span></span>";
+				echo "<span>".$this->_current->title."</span>";
 			}
 		}
 
