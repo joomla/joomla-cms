@@ -331,6 +331,11 @@ class JPagination extends JObject
 		// Initialize variables
 		$limits = array ();
 
+		// Use the default link
+		if ( is_null($link) ) {
+			$link = $this->_link;
+		}
+
 		// Make the option list
 		for ($i = 5; $i <= 30; $i += 5) {
 			$limits[] = JHTMLSelect::option("$i");
