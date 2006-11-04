@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="get">
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>

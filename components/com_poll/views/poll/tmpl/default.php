@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <script type = "text/javascript">
 <!--
 	var link = document.createElement('link');

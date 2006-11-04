@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="get">
 	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
 		<?php echo $inputfield ?>

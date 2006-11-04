@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($params->get('item_title')) : ?>
 <table class="contentpaneopen<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 <tr>

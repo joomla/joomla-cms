@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <div>
 	<strong><?php echo JText::_( 'Read more...' ); ?></strong>
 </div>

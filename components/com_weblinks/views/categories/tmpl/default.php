@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ( $this->params->def( 'page_title', 1 ) ) : ?>
 	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo $this->params->get('header'); ?>

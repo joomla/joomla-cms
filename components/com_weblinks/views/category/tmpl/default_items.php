@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <script language="javascript" type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;

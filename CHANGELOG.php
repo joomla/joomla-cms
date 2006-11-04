@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Nov-2006 Hannes Papenberg
+ + Adding _JEXEC check to all views
+
 03-Nov-2006 Enno Klasing
  # Fixed small table bug while rendering section and category blog
  # Added missing index.html files

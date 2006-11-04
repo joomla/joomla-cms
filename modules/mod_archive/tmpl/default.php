@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <ul>
 	<?php foreach ($list as $item) : ?>
 	<li>

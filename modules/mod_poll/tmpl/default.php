@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <form name="form2" method="post" action="index.php">
 
 <table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $params->get('moduleclass_sfx'); ?>">

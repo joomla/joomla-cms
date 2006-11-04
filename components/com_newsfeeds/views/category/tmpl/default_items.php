@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get('display')) : ?>

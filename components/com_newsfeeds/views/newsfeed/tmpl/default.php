@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <div style="direction: <?php echo $this->newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $this->newsfeed->rtl ? 'right' :'left'; ?>">
 <table width="100%" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php if ( $this->params->get( 'header' ) ) : ?>

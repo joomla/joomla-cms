@@ -1,3 +1,5 @@
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <br />
 <table class="pollstableborder" cellspacing="0" cellpadding="0" border="0">
 <thead>
