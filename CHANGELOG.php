@@ -39,6 +39,8 @@ Legend:
 
 04-Nov-2006 Louis Landry
  # Fixed loadposition content plugin
+ # Fixed error in legacy mosParameters class - Thanks Geraint
+ # Fixed pagination issue not using default link value - Thanks tcp
 
 04-Nov-2006 Hannes Papenberg
  + Adding _JEXEC check to all views

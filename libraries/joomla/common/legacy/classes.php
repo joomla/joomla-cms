@@ -671,7 +671,7 @@ class mosParameters extends JParameter
 	 * @deprecated As of version 1.5
 	 */
 	function toObject() {
-		$this->toObject();
+		parent::toObject();
 	}
 
 	/**
@@ -680,7 +680,7 @@ class mosParameters extends JParameter
 	 * @deprecated As of version 1.5
 	 */
 	function toArray() {
-		$this->toArray();
+		parent::toArray();
 	}
 
 	/**
