@@ -47,11 +47,11 @@ class JRegistryFormatXML extends JRegistryFormat {
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
 		foreach (get_object_vars( $object ) as $key=>$item) {
 			if (is_object($item)) {
-				$retval .= "\t<group name=\"$key\">\n";
+				$retval .= "\t<group name=\"".$key."\">\n";
 				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= "\t</group>\n";
 			} else {
-				$retval .= "\t<entry name=\"$key\">$item</entry>\n";
+				$retval .= "\t<entry name=\"".$key."\">".$item."</entry>\n";
 			}
 		}
 		$retval .= '</config>';
@@ -75,11 +75,11 @@ class JRegistryFormatXML extends JRegistryFormat {
 
 		foreach (get_object_vars( $object ) as $key=>$item) {
 			if (is_object($item)) {
-				$retval .= $tab."<group name=\"$key\">\n";
+				$retval .= $tab."<group name=\"".$key."\">\n";
 				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= $tab."</group>\n";
 			} else {
-				$retval .= $tab."<entry name=\"$key\">$item</entry>\n";
+				$retval .= $tab."<entry name=\"".$key."\">".$item."</entry>\n";
 			}
 		}
 		return $retval;

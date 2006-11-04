@@ -43,15 +43,15 @@ class JRegistryFormatINI extends JRegistryFormat {
 
 			if (is_object($level1)) {
 				// This field is an object, so we treat it as a section
-				$retval .= "[$key]\n";
+				$retval .= "[".$key."]\n";
 				foreach (get_object_vars( $level1 ) as $key => $level2) {
 					if (!is_object($level2) && !is_array($level2)) {
-						$retval .= "$key=$level2\n";
+						$retval .= $key."=".$level2."\n";
 					}
 				}
 				$retval .= "\n";
 			} else {
-				$prepend .= "$key=$level1\n";
+				$prepend .= $key."=".$level1."\n";
 			}
 		}
 		return $prepend."\n".$retval;
@@ -127,7 +127,7 @@ class JRegistryFormatINI extends JRegistryFormat {
 					if ($process_sections) {
 						$value = str_replace('\n', "\n", $value);
 						if ($sec_name != '') {
-							$obj->$sec_name-> $property = $value;
+							$obj->$sec_name->$property = $value;
 						} else {
 							$obj->$property = $value;
 						}
@@ -142,7 +142,7 @@ class JRegistryFormatINI extends JRegistryFormat {
 						$property = '__invalid'.$unparsed ++.'__';
 						if ($process_sections) {
 							if ($sec_name != '') {
-								$obj->$sec_name-> $property = trim($line);
+								$obj->$sec_name->$property = trim($line);
 							} else {
 								$obj->$property = trim($line);
 							}

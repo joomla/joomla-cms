@@ -626,9 +626,8 @@ class JTable extends JObject
 			$this->$k = intval( $oid );
 		}
 
-		$query = "DELETE FROM $this->_tbl"
-		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
-		;
+		$query = "DELETE FROM `".$this->_tbl."`" .
+				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
 		if ($this->_db->query())
@@ -667,10 +666,9 @@ class JTable extends JObject
 		if (intval( $who ))
 		{
 			// new way of storing editor, by id
-			$query = "UPDATE $this->_tbl"
-			. "\n SET checked_out = $who, checked_out_time = '$time'"
-			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
-			;
+			$query = "UPDATE `".$this->_tbl."`" .
+				"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
+				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 			$this->_db->setQuery( $query );
 
 			$this->checked_out = $who;
@@ -679,10 +677,9 @@ class JTable extends JObject
 		else
 		{
 			// old way of storing editor, by name
-			$query = "UPDATE $this->_tbl"
-			. "\n SET checked_out = 1, checked_out_time = '$time', editor = '".$who."' "
-			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
-			;
+			$query = "UPDATE `".$this->_tbl."`" .
+				"\n SET checked_out = 1, checked_out_time = ".$this->_db->Quote($time).", editor = ".$this->_db->Quote($who) .
+				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 			$this->_db->setQuery( $query );
 
 			$this->checked_out = 1;
@@ -718,10 +715,9 @@ class JTable extends JObject
 			return false;
 		}
 
-		$query = "UPDATE $this->_tbl"
-		. "\n SET checked_out = 0, checked_out_time = '$this->_db->_nullDate'"
-		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
-		;
+		$query = "UPDATE `".$this->_tbl."`" .
+				"\n SET checked_out = 0, checked_out_time = ".$this->_db->Quote($this->_db->_nullDate) .
+				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
 		$this->checked_out = 0;
