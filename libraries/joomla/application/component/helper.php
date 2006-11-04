@@ -111,10 +111,11 @@ class JComponentHelper
 		// Define component path
 		define( 'JPATH_COMPONENT', $path);
 
-		if(is_file($path.DS.$file.'.php')) {
-			$path = $path.DS.$file.'.php';
-		} else {
+		// Load the correct initial file
+		if ( $mainframe->isAdmin() && is_file($path.DS.'admin.'.$file.'.php') ) {
 			$path = $path.DS.'admin.'.$file.'.php';
+		} else {
+			$path = $path.DS.$file.'.php';
 		}
 
 		// If component disabled throw error
