@@ -329,7 +329,6 @@ function restoreTrash( $cid, $option ) {
 	global $mainframe;
 
 	$db		= & JFactory::getDBO();
-	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 
 	$total = count( $cid );
@@ -339,6 +338,7 @@ function restoreTrash( $cid, $option ) {
 	$ordering 	= 9999;
 
 	if ( $type == 'content' ) {
+		$return = 'viewContent';
 		//seperate contentids
 		$cids = implode( ',', $cid );
 
@@ -353,11 +353,12 @@ function restoreTrash( $cid, $option ) {
 			exit();
 		}
 	} else if ( $type == 'menu' ) {
+		$return = 'viewMenu';
 		sort( $cid );
 
 		foreach ( $cid as $id ) {
 			$check = 1;
-			$row = new mosMenu( $db );
+			$row = JTable::getInstance('menu', $db );
 			$row->load( $id );
 
 			// check if menu item is a child item
