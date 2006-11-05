@@ -170,8 +170,6 @@ class ConfigControllerApplication extends JController
 		// SEO SETTINGS
 		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
 
-		$lists['ml_support'] 	= JHTMLSelect::yesnoList('multilingual_support', 'class="inputbox" onclick="if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
-
 		// FEED SETTINGS
 		$formats  = array (JHTMLSelect::option('RSS2.0', JText::_('RSS')), JHTMLSelect::option('Atom', JText::_('Atom')));
 		$summary = array (JHTMLSelect::option(1, JText::_('Full Text')), JHTMLSelect::option(0, JText::_('Intro Text')),);
