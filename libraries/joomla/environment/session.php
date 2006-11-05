@@ -506,11 +506,15 @@ class JSession extends JObject
 			{
 				$ip = $_SERVER['REMOTE_ADDR'];
 
-				if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false)
+				if(isset($_SERVER['HTTP_USER_AGENT'])) 
 				{
-					$address	= explode('.',$ip);
-					$ip	   = $address[0] .'.'. $address[1] .'.'. $address[2];
+					if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false)
+					{
+						$address	= explode('.',$ip);
+						$ip	   = $address[0] .'.'. $address[1] .'.'. $address[2];
+					}
 				}
+				
 				$this->set( 'session.client.address', $ip );
 			}
 			else if( $_SERVER['REMOTE_ADDR'] !== $ip )
