@@ -30,15 +30,15 @@ switch ($task) {
 		break;
 
 	case 'resetStats':
-		resetStats ( $option, $task );
+		resetStats();
 		break;
 
 	default:
-		showSummary( $option, $task );
+		showSummary( $task );
 		break;
 }
 
-function showSummary( $option, $task )
+function showSummary( $task )
 {
 	$db	=& JFactory::getDBO();
 	// get sort field and check against allowable field names
@@ -60,7 +60,7 @@ function showSummary( $option, $task )
 	$order_by = '';
 	$sorts = array();
 	$tab = JRequest::getVar( 'tab', 'tab1' );
-	$sort_base = "index.php?option=$option&task=$task";
+	$sort_base = "index.php?option=com_statistics&task=$task";
 
 	switch ($field) 
 	{
@@ -135,24 +135,24 @@ function showSummary( $option, $task )
 	$dstats = null;
 	$dstats = $db->loadObject();
 
-	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option );
+	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts );
 }
 
-function showPageImpressions( $option, $task )
+function showPageImpressions( $task )
 {
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'c.hits' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'DESC' );
-	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.$task.filter_catid", 		'filter_catid', 	'' );
-	$filter_sectionid	= $mainframe->getUserStateFromRequest( "$option.$task.filter_sectionid", 	'filter_sectionid', '' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$task.filter_state", 		'filter_state', 	'*' );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order", 		'filter_order', 	'c.hits' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order_Dir",	'filter_order_Dir',	'DESC' );
+	$filter_catid		= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_catid", 		'filter_catid', 	'' );
+	$filter_sectionid	= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_sectionid", 	'filter_sectionid', '' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_state", 		'filter_state', 	'*' );
+	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 	
-	$limit		= $mainframe->getUserStateFromRequest("$option.$task.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limit		= $mainframe->getUserStateFromRequest("com_statistics.$task.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 	// used by filter
@@ -234,11 +234,11 @@ function showSearches( $option, $task, $showResults=null )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order", 		'filter_order', 	'hits' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
+	$limitstart			= $mainframe->getUserStateFromRequest( "com_statistics.$task.limitstart", 			'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 
@@ -303,10 +303,10 @@ function showSearches( $option, $task, $showResults=null )
 	// search filter
 	$lists['search']= $search;
 
-	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task, $showResults );
+	HTML_statistics::showSearches( $rows, $pageNav, $lists, $task, $showResults );
 }
 
-function resetStats( $option, $task )
+function resetStats()
 {
 	global $mainframe;
 

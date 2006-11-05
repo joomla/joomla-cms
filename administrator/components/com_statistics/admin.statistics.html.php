@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_statistics
 {
-	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option )
+	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts )
 	{
 		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
@@ -215,7 +215,7 @@ class HTML_statistics
 			?>
 		</div>
 
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="option" value="com_statistics" />
 		<input type="hidden" name="tab" value="<?php echo $tab;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="op" value="bod" />
@@ -357,7 +357,7 @@ class HTML_statistics
 		<?php
 	}
 
-	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults )
+	function showSearches( &$rows, $pageNav, &$lists, $task, $showResults )
 	{
 		global $mainframe;
 
@@ -462,7 +462,7 @@ class HTML_statistics
 			</table>
 		</div>
 
-	  	<input type="hidden" name="option" value="<?php echo $option;?>" />
+	  	<input type="hidden" name="option" value="com_statistics" />
 	  	<input type="hidden" name="task" value="<?php echo $task;?>" />
 	  	<input type="hidden" name="op" value="set" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
