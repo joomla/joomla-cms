@@ -161,7 +161,8 @@ class WeblinksViewCategory extends JView
 
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 
-			switch ($params->get( 'target' ))
+			$itemParams = new JParameter($item->params);
+			switch ($itemParams->get( 'target' ))
 			{
 				// cases are slightly different
 				case 1:

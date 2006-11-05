@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Nov-2006 Enno Klasing
+ # Fixed weblink "target" settings not making it into the URL
+
 04-Nov-2006 Louis Landry
  # Fixed loadposition content plugin
  # Fixed error in legacy mosParameters class - Thanks Geraint
