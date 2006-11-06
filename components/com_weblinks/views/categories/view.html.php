@@ -72,11 +72,11 @@ class WeblinksViewCategories extends JView
 		// Define image tag attributes
 		if ($params->get('image') != -1)
 		{
-			$attribs['align'] = '"'. $this->params->get('image_align').'"';
+			$attribs['align'] = '"'. $params->get('image_align').'"';
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag
-			$image = JHTML::Image('/images/stories/'.$this->params->get('image'), JText::_('Web Links'), $attribs);
+			$image = JHTML::Image('/images/stories/'.$params->get('image'), JText::_('Web Links'), $attribs);
 		}
 
 		for($i = 0; $i < count($categories); $i++)
