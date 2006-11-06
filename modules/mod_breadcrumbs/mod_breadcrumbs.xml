@@ -13,6 +13,7 @@
 		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 	</files>
 	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
 			<option value="0">Never</option>
 		</param>
