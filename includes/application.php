@@ -87,7 +87,7 @@ class JSite extends JApplication
 			$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 			$password = trim( JRequest::getVar( 'passwd', '', 'post' ) );
 		}
-
+	
 		return parent::login($username, $password);
 	}
 
@@ -354,7 +354,7 @@ class JSiteHelper
 	{
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$option = strtolower(JRequest::getVar('option', null));
-
+		
 		if ( $itemid === 0 )
 		{
 			$menus =& JMenu::getInstance();

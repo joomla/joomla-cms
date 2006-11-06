@@ -54,6 +54,7 @@
             		</div>
           		</div>
           		<div class="m">
+          			<jdoc:include type="component" />
 					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
             		<jdoc:include type="module" name="login" style="rounded" id="section-box" />
 					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>

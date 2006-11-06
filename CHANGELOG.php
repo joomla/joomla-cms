@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Nov-2006 Johan Janssens
+ # Fixed help file handling for components
+
 06-Nov-2006 Andrew Eddie
  # Removed trim operation from values when parsing ini data - fixes problems in class suffixes
  # Fixed syntax error in offline system template

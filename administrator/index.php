@@ -61,6 +61,7 @@ $mainframe->set( 'loadOverlib', false );
 // trigger the onBeforeDisplay events
 $mainframe->triggerEvent( 'onBeforeDisplay' );
 
+
 /**
  * EXECUTE THE APPLICATION
  *

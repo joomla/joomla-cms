@@ -39,7 +39,7 @@ class ContentViewFrontpage extends JView
 		$id			= JRequest::getVar('id');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
+		
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);

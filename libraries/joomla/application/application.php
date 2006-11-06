@@ -311,7 +311,7 @@ class JApplication extends JObject
 		if(empty($password)) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));
 		}
-
+		
 		// Get the global database connector object
 		$db = JFactory::getDBO();
 

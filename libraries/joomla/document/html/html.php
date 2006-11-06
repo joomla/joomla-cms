@@ -178,15 +178,6 @@ class JDocumentHTML extends JDocument
 			$template = '_system';
 		}
 		
-		/*
-		 * Buffer the output of the component before loading the template.  This is done so
-		 * that non-display tasks, like save, published, etc, will not go thru the overhead of
-		 * loading the template if it simply redirected.
-		 */
-		$renderer = $this->loadRenderer( 'component' );
-		$result   = $renderer->render();
-		$this->setInclude('component', null, $result);
-		
 		// Parse the template INI file if it exists for parameters and insert
 		// them into the template.
 		if (is_readable( $directory.DS.$template.DS.'params.ini' ) ) 
@@ -319,6 +310,13 @@ class JDocumentHTML extends JDocument
 			$matches[0] = array_reverse($matches[0]);
 			$matches[1] = array_reverse($matches[1]);
 			$matches[2] = array_reverse($matches[2]);
+			
+			if(in_array('component', $matches[1])) 
+			{
+				$renderer = $this->loadRenderer( 'component' );
+				$result   = $renderer->render();
+				$this->setInclude('component', null, $result);
+			}
 			
 			$count   = count($matches[1]);
 			

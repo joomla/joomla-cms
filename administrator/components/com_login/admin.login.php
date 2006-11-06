@@ -32,6 +32,8 @@ switch ( JRequest::getVar('task'))
 		break;
 }
 
+
+
 if (!JError::isError($result)) {
 	$mainframe->redirect('index.php');
 }
