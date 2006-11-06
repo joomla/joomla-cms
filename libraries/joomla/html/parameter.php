@@ -240,8 +240,8 @@ class JParameter extends JRegistry
 		/**
 		 * error happened
 		 */
-		if ($element === false) {
-
+		if ($element === false)
+		{
 			$result = array();
 			$result[0] = $node->attributes('name');
 			$result[1] = JText::_('Element not defined for type').' = '.$type;
@@ -306,19 +306,23 @@ class JParameter extends JRegistry
 		}
 
 		$elementClass	=	'JElement_' . $type;
-		if( !class_exists( $elementClass ) ) {
-			if( isset( $this->_elementDirs ) )
+		if( !class_exists( $elementClass ) )
+		{
+			if( isset( $this->_elementDirs ) ) {
 				$dirs = $this->_elementDirs;
-			else
+			} else {
 				$dirs = array();
+			}
 
 			array_push( $dirs, $this->getIncludePath());
 
 			$found = false;
-			foreach( $dirs as $dir ) {
+			foreach( $dirs as $dir )
+			{
 				$elementFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $type ) );
 
-				if (@include_once $elementFile) {
+				if (@include_once $elementFile)
+				{
 					$found = true;
 					break;
 				}
