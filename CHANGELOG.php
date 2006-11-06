@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Nov-2006 Enno Klasing
+ # Removed trim operation from values when parsing ini data - fixes problems in class suffixes
+
 05-Nov-2006 Enno Klasing
  # Fixed weblink "target" settings not making it into the URL
 
