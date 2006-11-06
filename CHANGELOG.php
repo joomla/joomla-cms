@@ -39,6 +39,7 @@ Legend:
 
 06-Nov-2006 Andrew Eddie
  # Removed trim operation from values when parsing ini data - fixes problems in class suffixes
+ # Fixed syntax error in offline system template
 
 05-Nov-2006 Enno Klasing
  # Fixed weblink "target" settings not making it into the URL
