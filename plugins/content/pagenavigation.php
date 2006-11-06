@@ -23,6 +23,14 @@ function pluginNavigation( &$row, &$params, $page=0 )
 	$task 		= JRequest::getVar( 'task' );
 	$user		=& JFactory::getUser();
 
+	// Get Plugin info
+	$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');
+
+	// check whether plugin has been unpublished
+	if (!$plugin->published) {
+		return true;
+	}
+
 	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup'))
 	{
 		$html 		= '';
@@ -195,10 +203,8 @@ function pluginNavigation( &$row, &$params, $page=0 )
 			</table>'
 			;
 
-			// Get Plugin info
-			$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');
+			// Get the plugin parameters
 			$pluginParams = new JParameter( $plugin->params );
-
 			$position = $pluginParams->get('position', 1);
 
 			if ($position) {

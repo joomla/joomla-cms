@@ -719,12 +719,12 @@ class ContentView
 
 				// Get the pagebreak toc alias -- not inserting for now
 				// don't know which attribute to use...
-				var alias = document.getElementById("alias").value;
-				if (alias != '') {
-					alias = "alias=\""+alias+"\" ";
+				var alt = document.getElementById("alt").value;
+				if (alt != '') {
+					alt = "alt=\""+alt+"\" ";
 				}
 
-				var tag = "<hr class=\"system-pagebreak\" "+title+"/>";
+				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 	
 				window.parent.jInsertEditorText(tag);
 				return false;
@@ -750,7 +750,7 @@ class ContentView
 					</label>
 				</td>
 				<td>
-					<input type="text" id="alias" name="alias" />
+					<input type="text" id="alt" name="alt" />
 				</td>
 			</tr>
 		</table>

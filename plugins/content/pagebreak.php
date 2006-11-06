@@ -20,14 +20,14 @@ $mainframe->registerEvent( 'onPrepareContent', 'convertPagebreak' );
 * Page break plugin
 *
 * <b>Usage:</b>
-* <code>{pagebreak}</code>
-* <code>{pagebreak title=The page title}</code>
+* <code><hr class="system-pagebreak" /></code>
+* <code><hr class="system-pagebreak" title="The page title" /></code>
 * or
-* <code>{pagebreak heading=The first page}</code>
+* <code><hr class="system-pagebreak" alt="The first page" /></code>
 * or
-* <code>{pagebreak title=The page title&heading=The first page}</code>
+* <code><hr class="system-pagebreak" title="The page title" alt="The first page" /></code>
 * or
-* <code>{pagebreak heading=The first page&title=The page title}</code>
+* <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
 *
 */
 function convertPagebreak( &$row, &$params, $page=0 )
@@ -83,8 +83,8 @@ function convertPagebreak( &$row, &$params, $page=0 )
 				// processing for first page
 				$attrs = JUtility::parseAttributes($matches[0][1]);
 
-				if ( @$attrs['heading'] ) {
-					$row->page_title = $attrs['heading'];
+				if ( @$attrs['alt'] ) {
+					$row->page_title = $attrs['alt'];
 				} else {
 					$row->page_title = '';
 				}
@@ -151,8 +151,8 @@ function createTOC( &$row, &$matches, &$page )
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][1] ) {
 		$attrs = JUtility::parseAttributes($matches[0][1]);
-		if ( @$attrs['heading'] ) {
-			$heading = $attrs['heading'];
+		if ( @$attrs['alt'] ) {
+			$heading = $attrs['alt'];
 			$row->title .= ': '. $heading;
 		}
 	}
