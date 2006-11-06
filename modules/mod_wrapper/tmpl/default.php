@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	src="<?php echo $url; ?>"
 	width="<?php echo $width ?>"
 	height="<?php echo $height ?>"
-	scrolling="<?php echo $scoll ?>"
+	scrolling="<?php echo $scroll ?>"
 	align="top"
 	frameborder="0"
 	class="wrapper<?php echo $class ?>">
