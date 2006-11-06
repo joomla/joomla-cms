@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <joshelp>
 <sites>
   <site tag="ar-EG" url="http://help.joomlatona.org">Arabic - help.joomlatona.org</site>
@@ -36,7 +36,7 @@
   <site tag="ro-RO" url="http://www.joomla.ro">Romanian - www.joomla.ro</site>
   <site tag="rus_RU" url="http://www.joomla.readonly.ru">Russian - www.joomla.readonly.ru</site>
   <site tag="scr_CS" url="http://www.joomlaserbia.com">Serbian - www.joomlaserbia.com</site>
-  <site tag="es-ES" url="http://ayuda.joomlaspanish.org">Ayuda en Español (es_ES) - ayuda.joomlaspanish.org/</site>
+  <site tag="es-ES" url="http://ayuda.joomlaspanish.org">Ayuda en EspaÃ±ol (es_ES) - ayuda.joomlaspanish.org/</site>
   <site tag="spa_ES" url="http://www.joomlahispano.org">Spanish (SP) - www.joomlahispano.org</site>
   <site tag="sv-SE" url="http://www.svenskjoomla.se">Swedish - www.svenskjoomla.se</site>
   <site tag="tha_TH" url="http://www.joomlaCorner.com">Thai - www.joomlaCorner.com</site>
