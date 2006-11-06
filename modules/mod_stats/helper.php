@@ -47,7 +47,7 @@ class modStatsHelper
 			$rows[$i]->data 	=  $mainframe->getCfg('caching') ? JText::_( 'Enabled' ):JText::_( 'Disabled' );
 			$i++;
 			$rows[$i]->title 	= JText::_( 'GZip' );
-			$rows[$i]->data 	= $mainframe->getCfg('gzip') ? JText::_( 'Enabled' ):JText::_( 'Disabled' );;
+			$rows[$i]->data 	= $mainframe->getCfg('gzip') ? JText::_( 'Enabled' ):JText::_( 'Disabled' );
 			$i++;
 		}
 
