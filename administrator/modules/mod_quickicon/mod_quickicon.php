@@ -60,11 +60,6 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		$user = &JFactory::getUser();
 
 		if ( $user->get('gid') > 23 ) {
-			$link = 'index.php?option=com_trash';
-			quickiconButton( $link, 'icon-48-trash.png', JText::_( 'Trash Manager' ) );
-		}
-
-		if ( $user->get('gid') > 23 ) {
 			$link = 'index.php?option=com_menus';
 			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
 		}
