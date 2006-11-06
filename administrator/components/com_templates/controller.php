@@ -180,6 +180,7 @@ class TemplatesController
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
 		$params		= JRequest::getVar('params', array (), '', 'array');
+		$published	= JRequest::getVar('published', 0);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -200,12 +201,20 @@ class TemplatesController
 			}
 		}
 
-		$query = "DELETE FROM #__templates_menu" .
-				"\n WHERE client_id =" .$client->id.
-				"\n AND template = " . $db->Quote( $template ) .
-				"\n AND menuid <> 0";
-		$db->setQuery($query);
-		$db->query();
+		
+		if ($published)
+		{
+			$query = "DELETE FROM #__templates_menu" .
+					"\n WHERE client_id = $client->id" .
+					"\n AND menuid = 0";
+			$db->setQuery($query);
+			$db->query();
+	
+			$query = "INSERT INTO #__templates_menu" .
+					"\n SET client_id = $client->id, template = ".$db->Quote( $template ).", menuid = 0";
+			$db->setQuery($query);
+			$db->query();
+		}
 
 		if (!in_array('', $menus))
 		{
