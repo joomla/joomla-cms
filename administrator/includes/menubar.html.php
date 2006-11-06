@@ -27,8 +27,7 @@ class JMenuBar
 	* this title fucntion must be called before the starttable function and the toolbars icons
 	* this is due to the nature of how the css has been used to postion the title in respect to the toolbar
 	* @param string The title
-	* @param string The image.  If starting with / it using the component image directory
-	* @param string
+	* @param string The name of the image
 	* @since 1.5
 	*/
 	function title($title, $icon = 'generic.png')

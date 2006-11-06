@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Admin
 */
-class TOOLBAR_admin {
+class TOOLBAR_admin 
+{
 	function _SYSINFO() {
 
 		JMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );

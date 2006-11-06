@@ -27,7 +27,7 @@ class JHelp
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/
-	function createURL($ref, $com = false)
+	function createURL($ref, $useComponent = false)
 	{
 		global $mainframe, $_VERSION, $option;
 
@@ -35,19 +35,31 @@ class JHelp
 		$userHelpUrl	= $user->getParam( 'helpsite' );
 
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
-		$url 			= $mainframe->getCfg('live_site');
 		$lang			= JFactory::getLanguage();
 
-		if ($com)
+		if ($useComponent)
 		{
-	   		// help file for 3PD Components
-			$url .= '/components/' . $option. '/help/';
-			if (!eregi( '\.html$', $ref )) {
+	   		if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}
-			$url .= $ref;
+	   		
+			$url = 'components/' . $option. '/help/';
+			$tag =  $lang->getTag();
+			
+			// Check if the file exists within a different language!
+			if( $lang->getTag() != 'en-GB' ) {
+				$localeURL = JPATH_BASE . $url . DS. $tag.DS.$ref;
+				jimport( 'joomla.filesystem.file' );
+				if( !JFile::exists( $localeURL ) ) {
+					$tag = 'en-GB';
+				}
+			}
+			
+			return $url.DS.$tag.DS.$ref;
 		}
-		else if ( $userHelpUrl )
+		
+		
+		if ( $userHelpUrl )
 		{
 	   		// Online help site as defined in GC
 			$ref .= $_VERSION->getHelpVersion();
@@ -62,8 +74,11 @@ class JHelp
 		else
 		{
 	   		// Included html help files
-			$helpURL = '/administrator/help/' .$lang->getTag() .'/';
-			$ref = $ref . '.html';
+			$helpURL = 'help/' .$lang->getTag() .'/';
+			
+			if (!eregi( '\.html$', $ref )) {
+				$ref = $ref . '.html';
+			}
 
 			// Check if the file exists within a different language!
 			if( $lang->getTag() != 'en-GB' ) {
@@ -73,7 +88,7 @@ class JHelp
 					$helpURL = 'help/en-GB/';
 				}
 			}
-			$url .= $helpURL . $ref;
+			$url = $helpURL . $ref;
 		}
 		
 		return $url;
