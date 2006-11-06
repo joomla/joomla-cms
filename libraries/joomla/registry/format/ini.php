@@ -110,7 +110,10 @@ class JRegistryFormatINI extends JRegistryFormat {
 							$property = stripcslashes(substr($property, 1, $propLen - 2));
 						}
 					}
-					$value = trim(substr($line, $pos +1));
+					// AJE: 2006-11-06 Fixes problem where you want leading spaces
+					// for some parameters, eg, class suffix
+					// $value = trim(substr($line, $pos +1));
+					$value = substr($line, $pos +1);
 					if ($value == 'false') {
 						$value = false;
 					}
