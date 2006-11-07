@@ -11,6 +11,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Import library dependencies
+jimport('joomla.application.component.helper');
+
 /**
 * Module helper class
 *
