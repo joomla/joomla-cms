@@ -102,15 +102,17 @@ function sendMail()
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 
-		// Build e-mail message format
-		$message_header 	= sprintf( _MASSMAIL_MESSAGE, $mainframe->getCfg('sitename') );
-		$message 			= $message_header . $message_body;
-		$subject 			= $mainframe->getCfg('sitename'). ' / '. stripslashes( $subject);
+		$mailer = JFactory::getMailer();
 
-		//Send email
+		// Build e-mail message format
+		$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname'));
+		$mailer->setSubject($mainframe->getCfg('sitename'). ' / '. stripslashes( $subject));
+		$mailer->setBody(sprintf( _MASSMAIL_MESSAGE, $mainframe->getCfg('sitename') ) . $message_body);
+
 		foreach ($rows as $row) {
-			mosMail( $mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname'), $row->email, $subject, $message, $mode );
+			$mailer->addRecipient($row->email);
 		}
+		$mailer->Send();
 	}
 
 	$msg = sprintf( JText::_( 'E-mail sent to' ), count( $rows ) );
