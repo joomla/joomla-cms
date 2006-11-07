@@ -1,20 +1,18 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.19 $
- * $Date: 2006/02/10 16:29:37 $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('advhr', 'en,tr,de,sv,zh_cn,cs,fa,fr_ca,fr,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,es,cy,is,zh_tw,zh_tw_utf8,sk');
+tinyMCE.importPluginLanguagePack('advhr');
 
 var TinyMCE_AdvancedHRPlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Advanced HR',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_advhr.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion

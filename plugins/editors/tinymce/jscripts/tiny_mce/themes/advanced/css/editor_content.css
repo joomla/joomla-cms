@@ -56,15 +56,3 @@ a {
 	scrollbar-shadow-color: #F0F0EE;
 	scrollbar-track-color: #F5F5F5;
 }
-
-/* Joomla! Specific */
-
-hr#system-readmore {
-	border-top: 2px dashed #f00;
-	height: 5px;
-}
-
-hr.system-pagebreak {
-	border-top: 2px dashed #ccc;
-	height: 5px;
-}

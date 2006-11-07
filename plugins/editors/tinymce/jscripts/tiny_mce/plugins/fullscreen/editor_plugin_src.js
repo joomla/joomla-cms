@@ -1,24 +1,27 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.16 $
- * $Date: 2006/03/14 17:33:39 $
+ * $Id: editor_plugin_src.js 128 2006-10-22 19:55:28Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('fullscreen', 'en,tr,sv,cs,fr_ca,zh_cn,da,he,nb,de,hu,ru,ru_KOI8-R,ru_UTF-8,nn,es,cy,is,pl,nl,fr,pt_br');
+tinyMCE.importPluginLanguagePack('fullscreen');
 
 var TinyMCE_FullScreenPlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Fullscreen',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_fullscreen.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
 		};
+	},
+
+	initInstance : function(inst) {
+		if (!tinyMCE.settings['fullscreen_skip_plugin_css'])
+			tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/plugins/fullscreen/css/content.css");
 	},
 
 	getControlHTML : function(cn) {
@@ -34,17 +37,7 @@ var TinyMCE_FullScreenPlugin = {
 		// Handle commands
 		switch (command) {
 			case "mceFullScreen":
-				if (tinyMCE.getParam('fullscreen_is_enabled')) {
-					// In fullscreen mode
-					window.opener.tinyMCE.execInstanceCommand(tinyMCE.getParam('fullscreen_editor_id'), 'mceSetContent', false, tinyMCE.getContent(editor_id));
-					top.close();
-				} else {
-					tinyMCE.setWindowArg('editor_id', editor_id);
-
-					var win = window.open(tinyMCE.baseURL + "/plugins/fullscreen/fullscreen.htm", "mceFullScreenPopup", "fullscreen=yes,menubar=no,toolbar=no,scrollbars=no,resizable=yes,left=0,top=0,width=" + screen.availWidth + ",height=" + screen.availHeight);
-					try { win.resizeTo(screen.availWidth, screen.availHeight); } catch (e) {}
-				}
-		
+				this._toggleFullscreen(tinyMCE.getInstanceById(editor_id));
 				return true;
 		}
 
@@ -52,11 +45,144 @@ var TinyMCE_FullScreenPlugin = {
 		return false;
 	},
 
-	handleNodeChange : function(editor_id, node, undo_index, undo_levels, visual_aid, any_selection) {
-		if (tinyMCE.getParam('fullscreen_is_enabled'))
-			tinyMCE.switchClass(editor_id + '_fullscreen', 'mceButtonSelected');
+	_toggleFullscreen : function(inst) {
+		var ds = inst.getData('fullscreen'), editorContainer, tableElm, iframe, vp, cw, cd, re, w, h, si;
 
-		return true;
+		cw = inst.getContainerWin();
+		cd = cw.document;
+		editorContainer = cd.getElementById(inst.editorId + '_parent');
+		tableElm = editorContainer.firstChild;
+		iframe = inst.iframeElement;
+		re = cd.getElementById(inst.editorId + '_resize');
+
+		if (!ds.enabled) {
+			ds.parents = [];
+
+			tinyMCE.getParentNode(tableElm.parentNode, function (n) {
+				var st = n.style;
+
+				if (n.nodeType == 1 && st) {
+					if (n.nodeName == 'BODY')
+						return true;
+
+					ds.parents.push({
+						el : n,
+						position : st.position,
+						left : st.left,
+						top : st.top,
+						right : st.right,
+						bottom : st.bottom,
+						width : st.width,
+						height : st.height,
+						margin : st.margin,
+						padding : st.padding,
+						border : st.border
+					});
+
+					st.position = 'static';
+					st.left = st.top = st.margin = st.padding = st.border = '0';
+					st.width = st.height = st.right = st.bottom = 'auto';
+				}
+
+				return false;
+			});
+
+			ds.oldOverflow = cd.body.style.overflow;
+			cd.body.style.overflow = 'hidden';
+
+			if (re)
+				re.style.display = 'none';
+
+			vp = tinyMCE.getViewPort(cw);
+
+			ds.oldWidth = iframe.style.width ? iframe.style.width : iframe.offsetWidth;
+			ds.oldHeight = iframe.style.height ? iframe.style.height : iframe.offsetHeight;
+			ds.oldTWidth = tableElm.style.width ? tableElm.style.width : tableElm.offsetWidth;
+			ds.oldTHeight = tableElm.style.height ? tableElm.style.height : tableElm.offsetHeight;
+
+			// Handle % width
+			if (ds.oldWidth && ds.oldWidth.indexOf)
+				ds.oldTWidth = ds.oldWidth.indexOf('%') != -1 ? ds.oldWidth : ds.oldTWidth;
+
+			tableElm.style.position = 'absolute';
+			tableElm.style.zIndex = 1000;
+			tableElm.style.left = tableElm.style.top = '0';
+
+			tableElm.style.width = vp.width + 'px';
+			tableElm.style.height = vp.height + 'px';
+
+			if (tinyMCE.isRealIE) {
+				iframe.style.width = vp.width + 'px';
+				iframe.style.height = vp.height + 'px';
+
+				// Calc new width/height based on overflow
+				w = iframe.parentNode.clientWidth - (tableElm.offsetWidth - vp.width);
+				h = iframe.parentNode.clientHeight - (tableElm.offsetHeight - vp.height);
+			} else {
+				w = iframe.parentNode.clientWidth;
+				h = iframe.parentNode.clientHeight;
+			}
+
+			iframe.style.width = w + "px";
+			iframe.style.height = h + "px";
+
+			tinyMCE.selectElements(cd, 'SELECT,INPUT,BUTTON,TEXTAREA', function (n) {
+				tinyMCE.addCSSClass(n, 'mceItemFullScreenHidden');
+
+				return false;
+			});
+
+			tinyMCE.switchClass(inst.editorId + '_fullscreen', 'mceButtonSelected');
+			ds.enabled = true;
+		} else {
+			si = 0;
+			tinyMCE.getParentNode(tableElm.parentNode, function (n) {
+				var st = n.style, s = ds.parents[si++];
+
+				if (n.nodeName == 'BODY')
+					return true;
+
+				if (st) {
+					st.position = s.position;
+					st.left = s.left;
+					st.top = s.top;
+					st.bottom = s.bottom;
+					st.right = s.right;
+					st.width = s.width;
+					st.height = s.height;
+					st.margin = s.margin;
+					st.padding = s.padding;
+					st.border = s.border;
+				}
+			});
+
+			ds.parents = [];
+
+			cd.body.style.overflow = ds.oldOverflow ? ds.oldOverflow : '';
+
+			if (re && tinyMCE.getParam("theme_advanced_resizing", false))
+				re.style.display = 'block';
+
+			tableElm.style.position = 'static';
+			tableElm.style.zIndex = '';
+			tableElm.style.width = '';
+			tableElm.style.height = '';
+
+			tableElm.style.width = ds.oldTWidth ? ds.oldTWidth : '';
+			tableElm.style.height = ds.oldTHeight ? ds.oldTHeight : '';
+
+			iframe.style.width = ds.oldWidth ? ds.oldWidth : '';
+			iframe.style.height = ds.oldHeight ? ds.oldHeight : '';
+
+			tinyMCE.selectElements(cd, 'SELECT,INPUT,BUTTON,TEXTAREA', function (n) {
+				tinyMCE.removeCSSClass(n, 'mceItemFullScreenHidden');
+
+				return false;
+			});
+
+			tinyMCE.switchClass(inst.editorId + '_fullscreen', 'mceButtonNormal');
+			ds.enabled = false;
+		}
 	}
 };
 

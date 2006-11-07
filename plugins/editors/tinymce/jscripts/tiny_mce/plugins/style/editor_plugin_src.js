@@ -1,20 +1,18 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.1 $
- * $Date: 2006/05/03 10:46:42 $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('style', 'en');
+tinyMCE.importPluginLanguagePack('style');
 
 var TinyMCE_StylePlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Style',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_style.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
@@ -24,7 +22,7 @@ var TinyMCE_StylePlugin = {
 	getControlHTML : function(cn) {
 		switch (cn) {
 			case "styleprops":
-				return tinyMCE.getButtonHTML(cn, 'lang_style_styleinfo_desc', '{$pluginurl}/images/style_info.gif', 'mceStyleProps', true);
+				return tinyMCE.getButtonHTML(cn, 'lang_style_styleinfo_desc', '{$pluginurl}/images/styleprops.gif', 'mceStyleProps', true);
 		}
 
 		return "";

@@ -1,14 +1,11 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.31 $
- * $Date: 2006/05/03 10:46:41 $
+ * $Id: editor_plugin_src.js 129 2006-10-23 09:45:17Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-//tinyMCE.importPluginLanguagePack('contextmenu', 'en,tr,zh_cn,cs,fa,fr_ca,fr,de,nb');
 if (!tinyMCE.settings['contextmenu_skip_plugin_css']) {
 	tinyMCE.loadCSS(tinyMCE.baseURL + "/plugins/contextmenu/css/contextmenu.css");
 }
@@ -20,7 +17,7 @@ var TinyMCE_ContextMenuPlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Context menus',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_contextmenu.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
@@ -116,8 +113,10 @@ var TinyMCE_ContextMenuPlugin = {
 						contextMenu.addSeparator();
 
 						// If flash
-						if (tinyMCE.getAttrib(elm, 'class').indexOf('mceItemFlash') != -1)
+						if (tinyMCE.hasPlugin('flash') && tinyMCE.getAttrib(elm, 'class').indexOf('mceItemFlash') != -1)
 							contextMenu.addItem(tinyMCE.baseURL + "/plugins/flash/images/flash.gif", "$lang_flash_props", "mceFlash");
+						else if (tinyMCE.hasPlugin('media') && /mceItem(Flash|ShockWave|WindowsMedia|QuickTime|RealMedia)/.test(tinyMCE.getAttrib(elm, 'class')))
+							contextMenu.addItem(tinyMCE.baseURL + "/plugins/flash/images/flash.gif", "$lang_media_title", "mceMedia");
 						else
 							contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/image.gif", "$lang_image_props_desc", inst.hasPlugin("advimage") ? "mceAdvImage" : "mceImage");
 						break;
@@ -216,12 +215,12 @@ tinyMCE.addPlugin("contextmenu", TinyMCE_ContextMenuPlugin);
 // Context menu class
 
 function TinyMCE_ContextMenu(settings) {
+	var doc, self = this;
+
 	// Default value function
 	function defParam(key, def_val) {
 		settings[key] = typeof(settings[key]) != "undefined" ? settings[key] : def_val;
 	}
-
-	var self = this;
 
 	this.isMSIE = (navigator.appName == "Microsoft Internet Explorer");
 
@@ -302,7 +301,7 @@ TinyMCE_ContextMenu.prototype = {
 	},
 
 	show : function(x, y) {
-		var vp, width, height;
+		var vp, width, height, yo;
 
 		if (this.html == "")
 			return;
@@ -329,15 +328,17 @@ TinyMCE_ContextMenu.prototype = {
 			this.pop.show(x, y, width, height);
 		} else {
 			vp = this.getViewPort();
-
-			this.contextMenuDiv.style.left = (x > vp.width - width ? vp.width - width : x) + 'px';
-			this.contextMenuDiv.style.top = (y > vp.height - height ? vp.height - height : y) + 'px';
+			yo = tinyMCE.isMSIE5_0 ? document.body.scrollTop : self.pageYOffset;
+			this.contextMenuDiv.style.left = (x > vp.left + vp.width - width ? vp.left + vp.width - width : x) + 'px';
+			this.contextMenuDiv.style.top = (y > vp.top + vp.height - height ? vp.top + vp.height - height : y) + 'px';
 			this.contextMenuDiv.style.display = "block";
 		}
 	},
 
 	getViewPort : function() {
 		return {
+			left : self.pageXOffset || self.document.documentElement.scrollLeft || self.document.body.scrollLeft,
+			top: self.pageYOffset || self.document.documentElement.scrollTop || self.document.body.scrollTop,
 			width : document.documentElement.offsetWidth || document.body.offsetWidth,
 			height : self.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 		};

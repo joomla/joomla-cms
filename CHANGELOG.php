@@ -37,8 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-09-Nov-2006 Johan Janssens
+07-Nov-2006 Johan Janssens
  # Fixed help file handling for components
+ ^ Upgraded TinyMCE Compressor [1.0.9]
+ ^ Upgraded TinyMCE [2.0.8]
 
 06-Nov-2006 Andrew Eddie
  # Removed trim operation from values when parsing ini data - fixes problems in class suffixes
