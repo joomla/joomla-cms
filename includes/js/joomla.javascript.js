@@ -293,7 +293,9 @@ function listItemTask( id, task ) {
 }
 
 function hideMainMenu() {
-	document.adminForm.hidemainmenu.value=1;
+	if (document.adminForm.hidemainmenu) {
+		document.adminForm.hidemainmenu.value=1;
+	}
 }
 
 function isChecked(isitchecked){
