@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Nov-2006 Hannes Papenberg
+ + Added configuration screen for massmail with Subjectprefix and Mailbodysuffix
+
 07-Nov-2006 Johan Janssens
  + Added JPATH_PLUGINS define
 
@@ -63,6 +66,7 @@ Legend:
  - Removed content and user setting from global configuration
  - Removed references to index3.php
  # Fixed com_config to only save config relevant values
+ ^ Cleaned up com_statistics a bit
 
 04-Nov-2006 Louis Landry
  # Fixed loadposition content plugin

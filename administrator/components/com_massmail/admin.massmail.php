@@ -49,7 +49,7 @@ function messageForm( $option )
 
 	// get list of groups
 	$lists = array();
-	$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'USERS', false ) );
+	$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'users', false ) );
 	$lists['gid'] = JHTMLSelect::genericList( $gtree, 'mm_group', 'size="10"', 'value', 'text', 0 );
 
 	HTML_massmail::messageForm( $lists, $option );
@@ -103,11 +103,11 @@ function sendMail()
 		$rows = $db->loadObjectList();
 
 		$mailer = JFactory::getMailer();
-
+		$params = &JComponentHelper::getParams( 'com_massmail' );
 		// Build e-mail message format
 		$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
-		$mailer->setSubject($mainframe->getCfg('sitename'). ' / '. stripslashes( $subject));
-		$mailer->setBody(sprintf( _MASSMAIL_MESSAGE, $mainframe->getCfg('sitename') ) . $message_body);
+		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes( $subject));
+		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
 
 		foreach ($rows as $row) {
 			$mailer->addRecipient($row->email);

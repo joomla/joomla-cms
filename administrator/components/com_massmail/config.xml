@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+<params>
+ <param name="mailSubjectPrefix" type="text" default="" label="Subject Prefix" description="SubjectPrefixTip" />
+ <param name="mailBodySuffix" type="textarea" default="" rows="5" cols="30" label="Mailbody Suffix"  description="BodySuffixTip"/>
+</params>
+</config>

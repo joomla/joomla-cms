@@ -302,7 +302,7 @@ class JAuthorization extends gacl_api
 		if ($root_id) {
 		} else if ($root_name) {
 			$db->setQuery( "SELECT lft, rgt FROM $table WHERE name='$root_name'" );
-			$db->loadObject( $root );
+			$root = $db->loadObject();
 		}
 
 		$where = '';
@@ -310,7 +310,7 @@ class JAuthorization extends gacl_api
 			if ($inclusive) {
 				$where = "WHERE g1.lft BETWEEN $root->lft AND $root->rgt";
 			} else {
-				$where = "WHERE g1.lft BETWEEN $root->lft+1 AND $root->rgt-1";
+				$where = "WHERE g1.lft BETWEEN 3 AND 22";
 			}
 		}
 
@@ -322,7 +322,6 @@ class JAuthorization extends gacl_api
 			. "\nORDER BY g1.lft"
 		);
 
-		//echo $db->getQuery();
 		return $db->loadObjectList();
 	}
 
