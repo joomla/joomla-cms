@@ -105,7 +105,7 @@ function sendMail()
 		$mailer = JFactory::getMailer();
 
 		// Build e-mail message format
-		$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname'));
+		$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
 		$mailer->setSubject($mainframe->getCfg('sitename'). ' / '. stripslashes( $subject));
 		$mailer->setBody(sprintf( _MASSMAIL_MESSAGE, $mainframe->getCfg('sitename') ) . $message_body);
 
