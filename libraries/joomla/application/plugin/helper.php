@@ -158,7 +158,7 @@ class JPluginHelper
 		}
 
 		$result	= false;
-		$path	= JPATH_ROOT.DS.'plugins'.DS.$folder.DS.$element.'.php';
+		$path	= JPATH_PLUGINS.DS.$folder.DS.$element.'.php';
 
 		if (isset( $paths[$path] ))
 		{

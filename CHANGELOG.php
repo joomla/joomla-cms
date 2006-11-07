@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 07-Nov-2006 Johan Janssens
+ + Added JPATH_PLUGINS define
+
+06-Nov-2006 Johan Janssens
  # Fixed help file handling for components
  ^ Upgraded TinyMCE Compressor [1.0.9]
  ^ Upgraded TinyMCE [2.0.8]
