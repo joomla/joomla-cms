@@ -23,7 +23,7 @@ jimport( 'joomla.application.component.view');
  */
 class ContentViewCategory extends JView
 {
-	function display($layout)
+	function display()
 	{
 		global $mainframe, $Itemid;
 
