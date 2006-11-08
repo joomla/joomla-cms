@@ -95,7 +95,7 @@ class modRandomImageHelper
 		}
 		// if folder includes absolute path, remove
 		if ( JString::strpos($folder, JPATH_SITE) === 0 ) {
-			$folder= JString::str_replace( JPATH_BASE, '', $folder );
+			$folder= str_replace( JPATH_BASE, '', $folder );
 		}
 		$folder = str_replace('\\',DS,$folder);
 		$folder = str_replace('/',DS,$folder);
