@@ -29,11 +29,8 @@ class WeblinksViewCategory extends JView
 		global $mainframe, $Itemid, $option;
 
 		// Initialize some variables
-		$db			= & JFactory::getDBO();
-		$user		= & JFactory::getUser();
-		$document	= & JFactory::getDocument();
-		$gid		= $user->get('gid');
-		$page		= '';
+		$document = & JFactory::getDocument();
+		$pathway  = & $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
 		$menus  = &JMenu::getInstance();
@@ -41,54 +38,29 @@ class WeblinksViewCategory extends JView
 		$params = new JParameter($menu->params);
 		
 		// Get some request variables
-		$limit				= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limit				= JRequest::getVar('limit',$mainframe->getCfg('list_limit'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
-		$catid				= JRequest::getVar( 'catid', 0, '', 'int' );
-
-		// Ordering control
-		$orderby = "\n ORDER BY $filter_order $filter_order_dir, ordering";
-
-		$query = "SELECT COUNT(id) as numitems" .
-				"\n FROM #__weblinks" .
-				"\n WHERE catid = ". (int)$catid .
-				"\n AND published = 1";
-		$db->setQuery($query);
-		$counter = $db->loadObjectList();
-
-		$total = $counter[0]->numitems;
-		// Always set at least a default of viewing 5 at a time
-		$limit = $limit ? $limit : 5;
-
-		if ($total <= $limit) {
-			$limitstart = 0;
-		}
-
-		// We need to get a list of all weblinks in the given category
-		$query = "SELECT id, url, title, description, date, hits, params, catid" .
-				"\n FROM #__weblinks" .
-				"\n WHERE catid = $catid" .
-				"\n AND published = 1" .
-				"\n AND archived = 0".$orderby;
-		$db->setQuery($query, $limitstart, $limit);
-		$weblinks = $db->loadObjectList();
-
-		// current category info
-		$query = "SELECT id, name, description, image, image_position" .
-				"\n FROM #__categories" .
-				"\n WHERE id = $catid" .
-				"\n AND section = 'com_weblinks'" .
-				"\n AND published = 1" .
-				"\n AND access <= $gid";
-		$db->setQuery($query);
-		$category = $db->loadObject();
-
-		// Check to see if the category is published or if access level allows access
-		if (!$category->name) {
-			JError::raiseError( 404, JText::_( 'You need to login.' ));
-			return;
-		}
+		
+		// Get some data from the model
+		$items =& $this->get('data' );
+		$total =& $this->get('total');
+		$category = & $this->get( 'Category' );
+		$category->total = $total;
+		
+		//add alternate feed link
+		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&Itemid='.$Itemid;
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
+		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
+		
+		// Set the component name in the pathway
+		$pathway->setItemName(1, JText::_('Links'));
+		
+		// Add pathway item based on category name
+		$pathway->addItem($category->name, '');
 
 		// table ordering
 		if ($filter_order_dir == 'DESC') {
@@ -96,9 +68,12 @@ class WeblinksViewCategory extends JView
 		} else {
 			$lists['order_Dir'] = 'DESC';
 		}
+		
 		$lists['order'] = $filter_order;
+		
 		$selected = '';
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
 		$params->def('hits', $contentConfig->get('hits'));
@@ -110,27 +85,7 @@ class WeblinksViewCategory extends JView
 		$params->def('image', -1);
 		$params->def('weblink_icons', '');
 		$params->def('image_align', 'right');
-
-		// pagination parameters
 		$params->def('display', 1);
-		$params->def('display_num', $mainframe->getCfg('list_limit'));
-
-		$params->set( 'type', 'category' );
-
-		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$catid.'&Itemid='.$Itemid;
-		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		//$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
-		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		//$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
-		
-		$pathway = & $mainframe->getPathWay();
-		
-		// Set the component name in the pathway
-		$pathway->setItemName(1, JText::_('Links'));
-		
-		// Add pathway item based on category name
-		$pathway->addItem($category->name, '');
 
 		// Define image tag attributes
 		if (isset ($category->image))
@@ -152,9 +107,9 @@ class WeblinksViewCategory extends JView
 		}
 
 		$k = 0;
-		for($i = 0; $i < count($weblinks); $i++)
+		for($i = 0; $i < $total; $i++)
 		{
-			$item =& $weblinks[$i];
+			$item =& $items[$i];
 
 			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
 			$link = ampReplace( $link );
@@ -189,15 +144,12 @@ class WeblinksViewCategory extends JView
 			$k = 1 - $k;
 		}
 		
-		$this->assign('total', count($weblinks));
-		$this->assign('catid', $catid);
-		$this->assign('limit', $limit);
-		$this->assign('limitstart', $limitstart);
-
+		$this->assign('total', $total);
+		
 		$this->assignRef('lists'     , $lists);
 		$this->assignRef('params'    , $params);
 		$this->assignRef('category'  , $category);
-		$this->assignRef('items'     , $weblinks);
+		$this->assignRef('items'     , $items);
 		$this->assignRef('pagination', $pagination);
 
 		parent::display($tpl);

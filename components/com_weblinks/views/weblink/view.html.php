@@ -33,47 +33,17 @@ class WeblinksViewWeblink extends JView
 			return;
 		}
 
-		// Initialize variables
-		$db			= & JFactory::getDBO();
-		$user		= & JFactory::getUser();
-		$document	= & JFactory::getDocument();
-		$id			= JRequest::getVar( 'id', 0, '', 'int' );
-
-		// Get the weblink table object and load it
-		$weblink =& JTable::getInstance('weblink', $db, 'Table');
-		$weblink->load($id);
-
-		// Check if link is published
-		if (!$weblink->published) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-
-		// Get the category table object and load it
-		$cat =& JTable::getInstance('category', $db);
-		$cat->load($weblink->catid);
-
-		// Check to see if the category is published
-		if (!$cat->published) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-
-		// Check whether category access level allows access
-		if ($cat->access > $user->get('gid')) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-
-		// Record the hit
-		$weblink->hit(null, $mainframe->getCfg('enable_log_items'));
-
-		if ($weblink->url) {
+		//get the weblink
+		$weblink =& $this->get('weblink');
+		
+		if ($weblink->url) 
+		{	
+			// Record the hit
+			$model =& $this->getModel();
+			$model->incrementHit();
+		
 			// redirects to url if matching id found
 			$mainframe->redirect($weblink->url);
-		} else {
-			// redirects to weblink category page if no matching id found
-			//WeblinksController::showCategory($cat->id);
 		}
 
 		parent::display($tpl);
@@ -81,53 +51,44 @@ class WeblinksViewWeblink extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
+		global $mainframe, $option;
 
 		// Get some objects from the JApplication
-		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
 		$document	= & JFactory::getDocument();
+		$model      =& $this->getModel();
 
 		// Make sure you are logged in
 		if ($user->get('gid') < 1) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-
-		// security check to see if link exists in a menu
-		/*$menus =& JMenu::getInstance();
-		$exists = $menus->getItems('link', 'index.php?option=com_weblinks&view=weblink&layout=form');
-		if ( !count($exists) ) {
-		    JError::raiseError( 403, JText::_('Access Forbidden') );
-			return;
-		}*/
-
+		
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be used instead of a 0
 		 */
-		$id 	  = JRequest::getVar( 'id', 0, '', 'int' );
 		$returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 
-		// Create and load a weblink table object
-		$row =& JTable::getInstance('weblink', $db, 'Table');
-		$row->load($id);
-
+		//get the weblink
+		$weblink =& $this->get('weblink');
+		$isNew   = ($weblink->id < 1);
+		
 		// Is this link checked out?  If not by me fail
-		if ($row->isCheckedOut($user->get('id'))) {
-			$mainframe->redirect("index2.php?option=$option", "The module $row->title is currently being edited by another administrator.");
+		if ($model->isCheckedOut($user->get('id'))) {
+			$mainframe->redirect("index2.php?option=$option", "The module $weblink->title is currently being edited by another administrator.");
 		}
 
 		// Edit or Create?
-		if ($id)
+		if ($isNew)
 		{
 			/*
 			 * The web link already exists so we are editing it.  Here we want to
 			 * manipulate the pathway and pagetitle to indicate this, plus we want
 			 * to check the web link out so no one can edit it while we are editing it
 			 */
-			$row->checkout($user->get('id'));
+			$model->checkout($user->get('id'));
 
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('Edit'));
@@ -142,9 +103,9 @@ class WeblinksViewWeblink extends JView
 			 * we want to manipulate the pathway and pagetitle to indicate this.  Also,
 			 * we need to initialize some values.
 			 */
-			$row->published = 0;
-			$row->approved = 1;
-			$row->ordering = 0;
+			$weblink->published = 0;
+			$weblink->approved = 1;
+			$weblink->ordering = 0;
 
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('New'));
@@ -154,12 +115,11 @@ class WeblinksViewWeblink extends JView
 		}
 
 		// build list of categories
-		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', JRequest::getVar('option'), intval($row->catid));
+		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', $option, intval($weblink->catid));
 
 		$this->assign('returnid', $returnid);
 
 		$this->assignRef('lists'   , $lists);
-		//$this->assignRef('data'    , $data);		//TODO: Remove if not needed
 		$this->assignRef('weblink' , $row);
 
 		parent::display($tpl);

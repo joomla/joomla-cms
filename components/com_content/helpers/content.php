@@ -353,8 +353,9 @@ class JContentHelper
 			// Do we have a content item linked to the menu with this id?
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
+				$params =& $menus->getParams($item->id);
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($params->get('article_id') == $id)) {
 					return $item->id;
 				}
 			}
@@ -371,8 +372,9 @@ class JContentHelper
 			// Check to see if it is in a published category
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
+				$params =& $menus->getParams($item->id);
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == $article->catid)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($params->get('category_id') == $article->catid)) {
 					return $item->id;
 				}
 			}
@@ -380,8 +382,9 @@ class JContentHelper
 			// Check to see if it is in a published section
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
+				$params =& $menus->getParams($item->id);
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('section_id') == $article->sectionid)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($params->get('section_id') == $article->sectionid)) {
 					return $item->id;
 				}
 			}
@@ -395,16 +398,18 @@ class JContentHelper
 			// Category
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
+				$params =& $menus->getParams($item->id);
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == 0)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($params->get('category_id') == 0)) {
 					return $item->id;
 				}
 			}
 			// Section
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
+				$params =& $menus->getParams($item->id);
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('category_id') == 0)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($params->get('category_id') == 0)) {
 					return $item->id;
 				}
 			}

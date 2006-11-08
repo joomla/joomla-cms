@@ -64,9 +64,9 @@ class ContentModelSection extends JModel
 		$Itemid  = JRequest::getVar('Itemid');
 
 		// Get the paramaters of the active menu item
-		$mParams =& JSiteHelper::getMenuParams();
+		$params =& JSiteHelper::getMenuParams();
 
-		$id = JRequest::getVar('id', $mParams->get( 'section_id', 0 ), '', 'int');
+		$id = JRequest::getVar('id', $params->get( 'section_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
 

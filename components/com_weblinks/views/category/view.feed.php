@@ -29,8 +29,15 @@ class WeblinksViewCategory extends JView
 		global $mainframe, $Itemid, $option;
 
 		$document =& JFactory::getDocument();
+		
+		$limit = '10';
+		JRequest::setVar('limit', $limit);
+		
+		// Get some data from the model
+		$items    = & $this->get( 'data' );
+		$category = & $this->get( 'Category' );
 
-		foreach ( $this->items as $item )
+		foreach ( $items as $item )
 		{
 			// strip html from feed item title
 			$title = htmlspecialchars( $item->title );

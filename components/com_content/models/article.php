@@ -25,9 +25,9 @@ jimport('joomla.application.component.model');
 class ContentModelArticle extends JModel
 {
 	/**
-	 * Content data in category array
+	 * Article data
 	 *
-	 * @var array
+	 * @var object
 	 */
 	var $_article = null;
 
@@ -43,9 +43,9 @@ class ContentModelArticle extends JModel
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
-		$mParams =& JSiteHelper::getMenuParams();
+		$params =& JSiteHelper::getMenuParams();
 
-		$id = JRequest::getVar('id', $mParams->get( 'article_id', 0 ), '', 'int');
+		$id = JRequest::getVar('id', $params->get( 'article_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
 
@@ -113,8 +113,7 @@ class ContentModelArticle extends JModel
 			$user	= & JFactory::getUser();
 
 			// Is the category published?
-			if (!$this->_article->cat_pub && $this->_article->catid)
-			{
+			if (!$this->_article->cat_pub && $this->_article->catid) {
 				JError::raiseError( 404, JText::_("Article category not published") );
 			}
 			// Is the section published?
@@ -205,7 +204,8 @@ class ContentModelArticle extends JModel
 	 */
 	function isCheckedOut( $uid=0 )
 	{
-		if (_loadArticle()) {
+		if ($this->_loadArticle()) 
+		{
 			if ($uid) {
 				return ($this->_article->checked_out && $this->_article->checked_out != $uid);
 			} else {
@@ -321,9 +321,7 @@ class ContentModelArticle extends JModel
 	 */
 	function _loadArticle()
 	{
-		/*
-		 * Lets load the content if it doesn't already exist
-		 */
+		// Load the content if it doesn't already exist
 		if (empty($this->_article))
 		{
 			// If voting is turned on, get voting data as well for the article
@@ -455,7 +453,8 @@ class ContentModelArticle extends JModel
 		$where = "\n WHERE a.id = $this->_id";
 		$where .= "\n AND a.access <= $gid";
 
-		if (!$user->authorize('action', 'edit', 'content', 'all')) {
+		if (!$user->authorize('action', 'edit', 'content', 'all')) 
+		{
 			$where .= " AND ( a.state = 1 OR a.state = -1 )" .
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";

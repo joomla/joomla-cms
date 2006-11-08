@@ -50,16 +50,16 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		// Paramters for menu item as determined by controlling Itemid
 		$menu = & JTable::getInstance( 'menu', $db );
 		$menu->load($Itemid);
-		$mparams = new JParameter($menu->params);
+		$params = new JParameter($menu->params);
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
 		// for Table and List views it is the `orderby` param
-		$mparams_list = $mparams->toArray();
-		if (array_key_exists('orderby_sec', $mparams_list)) {
-			$order_method = $mparams->get('orderby_sec', '');
+		$params_list = $params->toArray();
+		if (array_key_exists('orderby_sec', $params_list)) {
+			$order_method = $params->get('orderby_sec', '');
 		} else {
-			$order_method = $mparams->get('orderby', '');
+			$order_method = $params->get('orderby', '');
 		}
 		// additional check for invalid sort ordering
 		if ( $order_method == 'front' ) {

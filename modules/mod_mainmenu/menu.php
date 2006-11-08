@@ -109,8 +109,7 @@ class JMainMenu extends JTree
 		$item->link = ampReplace( $item->link );
 
 		// Handle SSL links
-		//$iParams =& new JParameter($item->params);
-		$iParams =& $item->mParams;
+		$iParams =& new JParameter($item->params);
 		$iSecure = $iParams->def('secure', 0);
 		if (strcasecmp(substr($item->link, 0, 4), 'http')) {
 			$item->url = JURI::resolve($item->link, $iSecure);

@@ -39,13 +39,6 @@ class ContentModelFrontpage extends JModel
 	var $_total = null;
 	
 	/**
-	 * Frontpage total
-	 *
-	 * @var integer
-	 */
-	var $_state = null;
-
-	/**
 	 * Method to set the section id
 	 *
 	 * @access	public
@@ -56,27 +49,6 @@ class ContentModelFrontpage extends JModel
 		$this->_content	= null;
 	}
 	
-	/**
-	 * Gets the state based on the current menu item
-	 *
-	 * @static
-	 * @return	object	Reference to the current a JParamtere object
-	 * @since	1.5
-	 */
-	function &getState()
-	{
-		global $Itemid;
-		
-		if (empty($this->_state))
-		{
-			$menu	= &JMenu::getInstance();
-			$result = &$menu->getParams( $Itemid );
-			$this->_state =& $result;
-		}
-		
-		return $this->_state;
-	}
-
 	/**
 	 * Method to get content item data for the frontpage
 	 * 

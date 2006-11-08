@@ -383,7 +383,6 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default 0,
   `utaccess` tinyint(3) unsigned NOT NULL default 0,
   `params` text NOT NULL,
-  `control` TEXT NOT NULL default '',
   `lft` int(11) unsigned NOT NULL default 0,
   `rgt` int(11) unsigned NOT NULL default 0,
   `home` INTEGER(1) UNSIGNED NOT NULL DEFAULT 0,
@@ -392,7 +391,7 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', 'view_name=', 0, 0, 1);
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', 0, 0, 1);
 
 # --------------------------------------------------------
 

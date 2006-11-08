@@ -23,11 +23,11 @@ require_once( JPATH_COMPONENT . DS . 'controller.php' );
 JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
 $document =& JFactory::getDocument();
-$mParams =& JSiteHelper::getMenuParams();
+$params   =& JSiteHelper::getMenuParams();
 
 $controller	= new ContactController();
 
-$viewName = JRequest::getVar( 'view', $mParams->get( 'view', 'category' ) );
+$viewName = JRequest::getVar( 'view', $params->get( 'view', 'category' ) );
 $viewType = $document->getType();
 
 // get view name from URL or menu params

@@ -737,8 +737,7 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if ($oid !== null)
-		{
+		if ($oid !== null) {
 			$this->$k = intval( $oid );
 		}
 

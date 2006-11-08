@@ -56,8 +56,6 @@ class JMenu extends JObject
 			if ($item->home) {
 				$this->_default = $item->id;
 			}
-			$this->_items[$k]->cParams = new JParameter( $item->control );
-			$this->_items[$k]->mParams = new JParameter( $item->params );
 		}
 	}
 
@@ -145,7 +143,7 @@ class JMenu extends JObject
 	{
 		$ini = '';
 		if ($menu =& $this->getItem($id)) {
-			$ini = new JParameter( $menu->params );
+			$ini = $menu->params;
 		}
 		$result = new JParameter( $ini );
 

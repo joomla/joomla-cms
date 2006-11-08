@@ -29,11 +29,7 @@ class WeblinksViewCategories extends JView
 		global $Itemid, $mainframe;
 		
 		// Initialize some variables
-		$db			= & JFactory::getDBO();
-		$user		= & JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
-		$gid		= $user->get('gid');
-		$page		= '';
 
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
@@ -43,17 +39,8 @@ class WeblinksViewCategories extends JView
 		$menu   = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
 
-		//Query to retrieve all categories that belong under the web links section and that are published.
-		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
-				"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
-				"\n WHERE a.published = 1" .
-				"\n AND section = 'com_weblinks'" .
-				"\n AND cc.published = 1" .
-				"\n AND cc.access <= $gid" .
-				"\n GROUP BY cc.id" .
-				"\n ORDER BY cc.ordering";
-		$db->setQuery($query);
-		$categories = $db->loadObjectList();
+		$categories = $this->get('data');
+		$total      = $this->get('total');
 
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('header', $menu->name);

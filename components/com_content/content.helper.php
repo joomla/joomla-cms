@@ -354,7 +354,7 @@ class JContentHelper
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->mParams->get('article_id') == $id)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "article") && ($item->params->get('article_id') == $id)) {
 					return $item->id;
 				}
 			}
@@ -372,7 +372,7 @@ class JContentHelper
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == $article->catid)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->params->get('category_id') == $article->catid)) {
 					return $item->id;
 				}
 			}
@@ -381,7 +381,7 @@ class JContentHelper
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('section_id') == $article->sectionid)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->params->get('section_id') == $article->sectionid)) {
 					return $item->id;
 				}
 			}
@@ -396,7 +396,7 @@ class JContentHelper
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->mParams->get('category_id') == 0)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "category") && ($item->params->get('category_id') == 0)) {
 					return $item->id;
 				}
 			}
@@ -404,7 +404,7 @@ class JContentHelper
 			for ($i = 0; $i < $n; $i++) {
 				$item = &$items[$i];
 
-				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->mParams->get('category_id') == 0)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($item->cParams->get('view_name') == "section") && ($item->params->get('category_id') == 0)) {
 					return $item->id;
 				}
 			}

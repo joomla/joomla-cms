@@ -1,5 +1,4 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 <script language="javascript" type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;
@@ -71,7 +70,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 <input type="hidden" name="option" value="com_weblinks" />
 <input type="hidden" name="view" value="weblink" />
-<input type="hidden" name="catid" value="<?php echo $this->catid;?>" />
+<input type="hidden" name="catid" value="<?php echo $this->category->id;?>" />
 <input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_dir" value="" />

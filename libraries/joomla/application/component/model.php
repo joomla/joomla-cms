@@ -47,6 +47,14 @@ class JModel extends JObject
 	 * @access protected
 	 */
 	var $_error;
+	
+	/**
+	 * An state object
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	var $_state;
 
 	/**
 	 * Constructor
@@ -57,7 +65,7 @@ class JModel extends JObject
 	{
 		global $Itemid;
 		
-		$this->_db = &JFactory::getDBO();
+		$this->_db    = &JFactory::getDBO();
 		$this->_state = new JObject();
 
 		// Get menu item information if Itemid exists (wrapping it this way allows for JModel usage outside of Joomla! CMS Scope)
@@ -65,7 +73,7 @@ class JModel extends JObject
 		{
 			$menu		= &JMenu::getInstance();
 			$item		= &$menu->getItem( $Itemid );
-			$params	    = &$item->mParams;
+			$params	    = &$item->params;
 
 			// Set Default State Data
 			$this->_state->set( 'menu.parameters', $params);

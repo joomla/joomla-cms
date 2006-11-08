@@ -327,20 +327,8 @@ class JSiteHelper
 	function &getMenuParams()
 	{
 		$item = &JSiteHelper::getCurrentMenuItem();
-		return $item->mParams;
-	}
-
-	/**
-	 * Gets the control parameters object for the current menu
-	 *
-	 * @static
-	 * @return	object	A JParameter object
-	 * @since	1.5
-	 */
-	function &getControlParams()
-	{
-		$item = &JSiteHelper::getCurrentMenuItem();
-		return $item->cParams;
+		$params = new JParameter( $item->params );
+		return $params;
 	}
 
 	/**

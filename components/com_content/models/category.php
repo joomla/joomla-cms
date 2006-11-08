@@ -64,9 +64,9 @@ class ContentModelCategory extends JModel
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
-		$mParams =& JSiteHelper::getMenuParams();
+		$params =& JSiteHelper::getMenuParams();
 
-		$id = JRequest::getVar('id', $mParams->get( 'category_id', 0 ), '', 'int');
+		$id = JRequest::getVar('id', $params->get( 'category_id', 0 ), '', 'int');
 		$this->setId($id);
 	}
 
@@ -92,12 +92,12 @@ class ContentModelCategory extends JModel
 	 */
 	function getCategory()
 	{
-		 // Initialize some variables
-		$user	= &JFactory::getUser();
-
 		// Load the Category data
 		if ($this->_loadCategory())
 		{
+			// Initialize some variables
+			$user = &JFactory::getUser();
+			
 			// Make sure the category is published
 			if (!$this->_category->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));

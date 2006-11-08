@@ -19,9 +19,9 @@ jimport('joomla.application.component.helper');
 
 require_once( JPATH_COMPONENT . '/controller.php' );
 
-$mParams =& JSiteHelper::getMenuParams();
+$params =& JSiteHelper::getMenuParams();
 
-$viewName	= JRequest::getVar( 'view', $mParams->get( 'view', 'mailto' ) );
+$viewName	= JRequest::getVar( 'view', $params->get( 'view', 'mailto' ) );
 
 $controller	= new MailtoController( );
 

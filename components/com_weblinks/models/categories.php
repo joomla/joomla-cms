@@ -25,6 +25,20 @@ jimport('joomla.application.component.model');
 class WeblinksModelCategories extends JModel
 {
 	/**
+	 * Frontpage data array
+	 *
+	 * @var array
+	 */
+	var $_data = null;
+	
+	/**
+	 * Frontpage total
+	 *
+	 * @var integer
+	 */
+	var $_total = null;
+	
+	/**
 	 * Constructor
 	 *
 	 * @since 1.5
@@ -33,6 +47,55 @@ class WeblinksModelCategories extends JModel
 	{
 		parent::__construct();
 
+	}
+	
+	/**
+	 * Method to get weblink item data for the category
+	 * 
+	 * @access public
+	 * @return array
+	 */
+	function getData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query);
+		}
+		
+		return $this->_data;
+	}
+
+	/**
+	 * Method to get the total number of weblink items for the category
+	 * 
+	 * @access public
+	 * @return integer
+	 */
+	function getTotal()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+		
+		return $this->_total;
+	}
+	
+	function _buildQuery()
+	{
+		//Query to retrieve all categories that belong under the web links section and that are published.
+		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
+			"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
+			"\n WHERE a.published = 1" .
+			"\n AND section = 'com_weblinks'" .
+			"\n GROUP BY cc.id" .
+			"\n ORDER BY cc.ordering";
+		
+		return $query;
 	}
 }
 ?>
