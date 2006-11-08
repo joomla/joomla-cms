@@ -28,11 +28,11 @@ class LoginViewLogin extends JView
 		$errors =& JError::getErrors();
 
 		// Build login image if enabled
-		if ( $this->params->get( 'image_login' ) != -1 ) {
-			$image = 'images/stories/'. $this->params->get( 'image_login' );
-			$this->image = '<img src="'. $image  .'" align="'. $this->params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
+		if ( $this->params->get( 'image_'.$this->type ) != -1 ) {
+			$image = 'images/stories/'. $this->params->get( 'image_'.$this->type );
+			$this->image = '<img src="'. $image  .'" align="'. $this->params->get( 'image_'.$this->type.'_align' ) .'" hspace="10" alt="" />';
 		}
-
+		
 		parent::display($tpl);
 	}
 }

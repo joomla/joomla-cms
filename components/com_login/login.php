@@ -99,10 +99,10 @@ class LoginController
 			$viewname = 'login';
 		}
 		
-		require_once (JPATH_COMPONENT.DS.'views'.DS.$viewname.DS.'view.php');
-		$classname = 'LoginView'.$viewname;
-		$view = new $classname();
+		require_once (JPATH_COMPONENT.DS.'views'.DS.'login'.DS.'view.php');
+		$view = new LoginViewLogin();
 		
+		$view->assign('type', ($user->get('id')) ? 'logout' : 'login');
 		$view->assignRef('params', $params);
 		
 		$view->display();
