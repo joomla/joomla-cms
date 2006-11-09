@@ -595,15 +595,15 @@ class JCommonHTML
 		return $checked;
 	}
 
-	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) 
+	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png', $prefix='' ) 
 	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
 		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$action 	= $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
+		$action = $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
 
 		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">
+		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
