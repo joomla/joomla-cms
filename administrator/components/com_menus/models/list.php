@@ -35,7 +35,7 @@ class JMenuModelList extends JModel
 	{
 		if ($this->_table == null)
 		{
-			$this->_table =& JTable::getInstance( 'menu', $this->getDBO() );
+			$this->_table =& JTable::getInstance( 'menu');
 		}
 		return $this->_table;
 	}
@@ -218,7 +218,7 @@ class JMenuModelList extends JModel
 	function &getComponent()
 	{
 		$id = $this->_table->componentid;
-		$component	= & JTable::getInstance( 'component', $this->getDBO() );
+		$component	= & JTable::getInstance( 'component');
 		$component->load( $id );
 		return $component;
 	}
@@ -228,7 +228,7 @@ class JMenuModelList extends JModel
 	*/
 	function copy( $items, $menu )
 	{
-		$curr =& JTable::getInstance('menu', $this->getDBO() );
+		$curr =& JTable::getInstance('menu');
 		$itemref = array();
 		foreach( $items as $id )
 		{

@@ -365,7 +365,7 @@ class JContentHelper
 			 */
 
 			// First we must load the article data to know what section/category it is in.
-			$article = JTable::getInstance('content', $db);
+			$article = JTable::getInstance('content');
 			$article->load($id);
 
 			// Check to see if it is in a published category

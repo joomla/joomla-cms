@@ -313,7 +313,7 @@ function editCategory( )
 		exit();
 	}
 
-	$row =& JTable::getInstance('category', $db );
+	$row =& JTable::getInstance('category');
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -350,7 +350,7 @@ function editCategory( )
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );
 		} else {
-			$temp =& JTable::getInstance('section', $db );
+			$temp =& JTable::getInstance('section');
 			$temp->load( $row->section );
 			$section_name = $temp->name;
 		}
@@ -399,7 +399,7 @@ function saveCategory()
 	// fix up special html fields
 	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', _J_ALLOWRAW );
 
-	$row = JTable::getInstance('category', $db );
+	$row = JTable::getInstance('category');
 	if (!$row->bind( $post )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -582,7 +582,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('category', $db );
+		$row =& JTable::getInstance('category');
 		$row->checkin( $cid[0] );
 	}
 
@@ -603,7 +603,7 @@ function cancelCategory()
 
 	$redirect = JRequest::getVar( 'redirect', '', 'post' );
 
-	$row =& JTable::getInstance('category', $db );
+	$row =& JTable::getInstance('category');
 	$row->bind( JRequest::get( 'post' ));
 	$row->checkin();
 
@@ -620,7 +620,7 @@ function orderCategory( $uid, $inc )
 
 	// Initialize variables
 	$db  =& JFactory::getDBO();
-	$row =& JTable::getInstance('category', $db );
+	$row =& JTable::getInstance('category' );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
 	$section = JRequest::getVar('section');
@@ -708,7 +708,7 @@ function moveCategorySave( $cid, $sectionOld )
 		echo "<script> alert('". $db->getErrorMsg() ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	$sectionNew =& JTable::getInstance('section', $db );
+	$sectionNew =& JTable::getInstance('section');
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
@@ -776,7 +776,7 @@ function copyCategorySave( $cid, $sectionOld )
 	$contentid 		= JRequest::getVar( 'item' );
 	$total 			= count( $contentid  );
 
-	$category =& JTable::getInstance('category', $db );
+	$category =& JTable::getInstance('category');
 
 	foreach( $cid as $id )
 	{
@@ -801,7 +801,7 @@ function copyCategorySave( $cid, $sectionOld )
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content =& JTable::getInstance('content', $db );
+	$content =& JTable::getInstance('content');
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id 		= NULL;
@@ -824,7 +824,7 @@ function copyCategorySave( $cid, $sectionOld )
 		$content->checkin();
 	}
 
-	$sectionNew =& JTable::getInstance('section', $db );
+	$sectionNew =& JTable::getInstance('section');
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
@@ -842,7 +842,7 @@ function accessMenu( $uid, $access, $section )
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
-	$row =& JTable::getInstance('category', $db );
+	$row =& JTable::getInstance('category');
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -865,7 +865,7 @@ function saveOrder( &$cid, $section )
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row		=& JTable::getInstance('category', $db );
+	$row		=& JTable::getInstance('category');
 	$groupings = array();
 
 	// update ordering values

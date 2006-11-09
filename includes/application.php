@@ -370,7 +370,7 @@ class JSiteHelper
 			$menu =& JMenu::getInstance();
 			$item =& $menu->getItem(JSiteHelper::findItemid());
 
-			$component = JTable::getInstance( 'component', JFactory::getDBO() );
+			$component = JTable::getInstance( 'component');
 			$component->load($item->componentid);
 
 			$option = $component->option;

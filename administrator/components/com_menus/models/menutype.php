@@ -34,7 +34,7 @@ class JMenuModelMenutype extends JModel
 	function &getTable()
 	{
 		if ($this->_table == null) {
-			$this->_table = & JTable::getInstance('menuTypes', $this->getDBO());
+			$this->_table = & JTable::getInstance('menuTypes');
 			if ($id = JRequest::getVar('id', false, '', 'int')) {
 				$this->_table->load($id);
 			}
@@ -218,7 +218,7 @@ class JMenuModelMenutype extends JModel
 		}
 
 		// TODO: Should invoke JModuleModel::delete to delete the actual module
-		$moduleTable= &JTable::getInstance( 'module', $db );
+		$moduleTable= &JTable::getInstance( 'module');
 		$items		= &$this->getModules( $table->menutype );
 		$modulesIds	= array();
 		foreach ($items as $item)

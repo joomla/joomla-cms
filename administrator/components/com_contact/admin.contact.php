@@ -196,7 +196,7 @@ function editContact( )
 		$cid = array(0);
 	}
 
-	$row =& JTable::getInstance('contact', $db, 'Table');
+	$row =& JTable::getInstance('contact', 'Table');
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -250,7 +250,7 @@ function saveContact( $task )
 
 	// Initialize variables
 	$db  =& JFactory::getDBO();
-	$row =& JTable::getInstance('contact', $db, 'Table');
+	$row =& JTable::getInstance('contact', 'Table');
 	if (!$row->bind( JRequest::get( 'post' ))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -381,7 +381,7 @@ function changeContact( $cid=null, $state=0 )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('contact', $db, 'Table');
+		$row =& JTable::getInstance('contact', 'Table');
 		$row->checkin( intval( $cid[0] ) );
 	}
 
@@ -399,7 +399,7 @@ function orderContacts( $uid, $inc )
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
-	$row =& JTable::getInstance('contact', $db, 'Table');
+	$row =& JTable::getInstance('contact', 'Table');
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -415,7 +415,7 @@ function cancelContact()
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
-	$row =& JTable::getInstance('contact', $db, 'Table');
+	$row =& JTable::getInstance('contact', 'Table');
 	$row->bind( JRequest::get( 'post' ));
 	$row->checkin();
 
@@ -433,7 +433,7 @@ function changeAccess( $id, $access  )
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
-	$row =& JTable::getInstance('contact', $db, 'Table');
+	$row =& JTable::getInstance('contact', 'Table');
 	$row->load( $id );
 	$row->access = $access;
 
@@ -455,7 +455,7 @@ function saveOrder( &$cid )
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row =& JTable::getInstance('contact', $db, 'Table');
+	$row =& JTable::getInstance('contact', 'Table');
 	$groupings = array();
 
 	// update ordering values

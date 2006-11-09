@@ -238,7 +238,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('content', $db );
+		$row =& JTable::getInstance('content');
 		$row->checkin( $cid[0] );
 	}
 
@@ -257,13 +257,13 @@ function removeFrontPage( &$cid, $option )
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp =& JTable::getInstance('frontpage', $db, 'Table');
+	$fp =& JTable::getInstance('frontpage', 'Table');
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
 			exit();
 		}
-		$obj =& JTable::getInstance('content', $db );
+		$obj =& JTable::getInstance('content');
 		$obj->load( $id );
 		$obj->mask = 0;
 		if (!$obj->store()) {
@@ -289,7 +289,7 @@ function orderFrontPage( $uid, $inc, $option )
 
 	$db =& JFactory::getDBO();
 
-	$fp =& JTable::getInstance('frontpage', $db, 'Table');
+	$fp =& JTable::getInstance('frontpage','Table');
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -309,7 +309,7 @@ function accessMenu( $uid, $access )
 	global $mainframe;
 
 	$db = & JFactory::getDBO();
-	$row =& JTable::getInstance('content', $db );
+	$row =& JTable::getInstance('content');
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -346,7 +346,7 @@ function saveOrder( &$cid )
 		}
 
 		// update ordering
-		$row =& JTable::getInstance('frontpage', $db, 'Table');
+		$row =& JTable::getInstance('frontpage','Table');
 		$row->load( $cid[$i] );
 		$row->reorder();
 	}

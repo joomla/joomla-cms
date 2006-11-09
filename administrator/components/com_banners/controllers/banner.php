@@ -121,7 +121,7 @@ class BannerController
 
 		$lists = array();
 
-		$row =& JTable::getInstance('banner', $db, 'Table');
+		$row =& JTable::getInstance('banner', 'Table');
 		$row->load( $cid[0] );
 
 		if ($cid[0]){
@@ -177,7 +177,7 @@ class BannerController
 		// fix up special html fields
 		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', _J_ALLOWRAW );
 
-		$row =& JTable::getInstance('banner', $db, 'Table');
+		$row =& JTable::getInstance('banner', 'Table');
 
 		if (!$row->bind( $post ))
 		{
@@ -241,7 +241,7 @@ class BannerController
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 		$post	= JRequest::get( 'post' );
-		$row	=& JTable::getInstance('banner', $db, 'Table');
+		$row	=& JTable::getInstance('banner', 'Table');
 		$row->bind( $post );
 		$row->checkin();
 
@@ -258,7 +258,7 @@ class BannerController
 		$cid	= JRequest::getVar( 'cid', null, 'post', 'array' );
 
 		$db		=& JFactory::getDBO();
-		$table	=& JTable::getInstance('banner', $db, 'Table');
+		$table	=& JTable::getInstance('banner', 'Table');
 		$user	= &JFactory::getUser();
 
 		$msg = '';
@@ -329,7 +329,7 @@ class BannerController
 
 		if (count( $cid ) == 1)
 		{
-			$row =& JTable::getInstance('banner', $db, 'Table');
+			$row =& JTable::getInstance('banner', 'Table');
 			$row->checkin( (int) $cid[0] );
 		}
 		$mainframe->redirect( 'index.php?option=com_banners' );
@@ -371,7 +371,7 @@ class BannerController
 		$db			=& JFactory::getDBO();
 		$total		= count( $cid );
 		$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-		$row		=& JTable::getInstance('banner', $db, 'Table');
+		$row		=& JTable::getInstance('banner', 'Table');
 		$conditions	= array();
 
 		// update ordering values

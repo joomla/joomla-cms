@@ -39,7 +39,7 @@ class JElement_Article extends JElement
 		$template 	= $mainframe->getTemplate();
 		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$fieldName	= $control_name.'['.$name.']';
-		$article =& JTable::getInstance('content', $db);
+		$article =& JTable::getInstance('content');
 		if ($value) {
 			$article->load($value);
 		} else {

@@ -89,7 +89,7 @@ class ContentViewFrontpage extends JView
 			switch ($menu->type)
 			{
 				case 'content_blog_section' :
-					$section = & JTable::getInstance('section', $db);
+					$section = & JTable::getInstance('section');
 					$section->load($menu->componentid);
 
 					$description = new stdClass();
@@ -100,7 +100,7 @@ class ContentViewFrontpage extends JView
 					break;
 
 				case 'content_blog_category' :
-					$category = & JTable::getInstance('category', $db);
+					$category = & JTable::getInstance('category');
 					$category->load($menu->componentid);
 
 					$description = new stdClass();

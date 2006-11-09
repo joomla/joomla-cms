@@ -229,7 +229,7 @@ function editSection( )
 		$cid = array(0);
 	}
 
-	$row =& JTable::getInstance('section', $db );
+	$row =& JTable::getInstance('section');
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -280,7 +280,7 @@ function saveSection( $option, $scope, $task )
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
 
-	$row =& JTable::getInstance('section', $db );
+	$row =& JTable::getInstance('section');
 	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
@@ -440,7 +440,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 	}
 
 	if ( $count == 1 ) {
-		$row =& JTable::getInstance('section', $db );
+		$row =& JTable::getInstance('section');
 		$row->checkin( $cid[0] );
 	}
 
@@ -480,7 +480,7 @@ function cancelSection( $option, $scope )
 	global $mainframe;
 
 	$db =& JFactory::getDBO();
-	$row =& JTable::getInstance('section', $db );
+	$row =& JTable::getInstance('section');
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
@@ -496,7 +496,7 @@ function orderSection( $uid, $inc, $option, $scope )
 	global $mainframe;
 
 	$db =& JFactory::getDBO();
-	$row =& JTable::getInstance('section', $db );
+	$row =& JTable::getInstance('section');
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
@@ -550,7 +550,7 @@ function copySectionSave( $sectionid )
 	$categoryid = JRequest::getVar( 'category' );
 
 	// copy section
-	$section =& JTable::getInstance('section', $db );
+	$section =& JTable::getInstance('section');
 	foreach( $sectionid as $id ) {
 		$section->load( $id );
 		$section->id 	= NULL;
@@ -575,7 +575,7 @@ function copySectionSave( $sectionid )
 	$sectionMove = $section->id;
 
 	// copy categories
-	$category =& JTable::getInstance('category', $db );
+	$category =& JTable::getInstance('category');
 	foreach( $categoryid as $id ) {
 		$category->load( $id );
 		$category->id = NULL;
@@ -602,7 +602,7 @@ function copySectionSave( $sectionid )
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content =& JTable::getInstance('content', $db );
+	$content =& JTable::getInstance('content');
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id = NULL;
@@ -628,7 +628,7 @@ function copySectionSave( $sectionid )
 		}
 		$content->checkin();
 	}
-	$sectionOld =& JTable::getInstance('section', $db );
+	$sectionOld =& JTable::getInstance('section');
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
@@ -644,7 +644,7 @@ function accessMenu( $uid, $access, $option )
 	global $mainframe;
 
 	$db	=& JFactory::getDBO();
-	$row =& JTable::getInstance('section', $db );
+	$row =& JTable::getInstance('section');
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -666,7 +666,7 @@ function saveOrder( &$cid )
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JTable::getInstance('section', $db );
+	$row 		=& JTable::getInstance('section');
 
 	// update ordering values
 	for( $i=0; $i < $total; $i++ )

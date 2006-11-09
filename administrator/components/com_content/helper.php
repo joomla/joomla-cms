@@ -60,7 +60,7 @@ class JContentHelper
 		$db	= & JFactory::getDBO();
 
 		// Instantiate and load an article table
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		$row->Load($id);
 		$row->hits = 0;
 		$row->store();

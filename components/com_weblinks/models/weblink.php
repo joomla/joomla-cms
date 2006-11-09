@@ -118,7 +118,7 @@ class WeblinksModelWeblink extends JModel
 
 		if ($this->_id)
 		{
-			$weblink = & JTable::getInstance('weblink', $this->_db, 'Table');
+			$weblink = & JTable::getInstance('weblink', 'Table');
 			$weblink->hit($this->_id, $mainframe->getCfg('enable_log_items'));
 			return true;
 		}
@@ -159,7 +159,7 @@ class WeblinksModelWeblink extends JModel
 	{
 		if ($this->_id)
 		{
-			$weblink = & JTable::getInstance('weblinks', $this->_db, 'Table');
+			$weblink = & JTable::getInstance('weblinks', 'Table');
 			return $weblink->checkin($this->_id);
 		}
 		return false;
@@ -183,7 +183,7 @@ class WeblinksModelWeblink extends JModel
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$weblink = & JTable::getInstance('weblinks', $this->_db, 'Table');
+			$weblink = & JTable::getInstance('weblinks', 'Table');
 			return $weblink->checkout($uid, $this->_id);
 		}
 		return false;

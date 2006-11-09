@@ -152,7 +152,7 @@ class BloggerXMLRPCServices
 		//TODO::implement generic access check
 
 		// load the row from the db table
-		$item =& JTable::getInstance('content', JFactory::getDBO() );
+		$item =& JTable::getInstance('content' );
 		$item->load( $postid );
 
 		$content  = '<title>'.$item->title.'</title>';
@@ -188,11 +188,11 @@ class BloggerXMLRPCServices
 	 	$params = new JParameter( $plugin->params );
 
 		// load the category
-		$cat =& JTable::getInstance('category', $db);
+		$cat =& JTable::getInstance('category');
 		$cat->load($params->get( 'catid', 1 ));
 
 		// create a new content item
-		$item =& JTable::getInstance('content', $db );
+		$item =& JTable::getInstance('content');
 
 		$item->title     = JBloggerHelper::getPostTitle($content);
 		$item->introtext = JBloggerHelper::getPostIntroText($content);
@@ -234,7 +234,7 @@ class BloggerXMLRPCServices
 		//TODO::implement generic access check
 
 		// load the row from the db table
-		$item =& JTable::getInstance('content', JFactory::getDBO() );
+		$item =& JTable::getInstance('content');
 		if(!$item->load( $postid )) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 		}
@@ -280,7 +280,7 @@ class BloggerXMLRPCServices
 		//TODO::implement generic access check
 
 		// load the row from the db table
-		$item =& JTable::getInstance('content', JFactory::getDBO() );
+		$item =& JTable::getInstance('content');
 		if(!$item->load( $postid )) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 		}

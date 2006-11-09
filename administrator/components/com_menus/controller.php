@@ -82,7 +82,7 @@ class MenusController extends JController
 	function cancelItem()
 	{
 		global $mainframe;
-//		$menu =& JTable::getInstance('menu', $this->getDBO() );
+//		$menu =& JTable::getInstance('menu');
 //		$menu->bind( $_POST );
 //		$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
 //		if ( $menuid ) {
@@ -99,7 +99,7 @@ class MenusController extends JController
 	function cancel()
 	{
 		global $mainframe;
-//		$menu =& JTable::getInstance('menu', $this->getDBO() );
+//		$menu =& JTable::getInstance('menu');
 //		$menu->bind( $_POST );
 //		$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
 //		if ( $menuid ) {
@@ -400,10 +400,10 @@ class MenusController extends JController
 		$db		=& JFactory::getDBO();
 		$id		= JRequest::getVar( 'id', 0, '', 'int' );
 
-		$oldType =& JTable::getInstance('menutypes', $db, 'JTable');
+		$oldType =& JTable::getInstance('menutypes', 'JTable');
 		$oldType->load( $id );
 
-		$menuType =& JTable::getInstance('menutypes', $db, 'JTable');
+		$menuType =& JTable::getInstance('menutypes', 'JTable');
 		$menuType->bind( JRequest::get( 'post' ) );
 
 		$isNew		= ($menuType->id == 0);
@@ -429,7 +429,7 @@ class MenusController extends JController
 		{
 			$title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' );
 
-			$module =& JTable::getInstance( 'module', $db );
+			$module =& JTable::getInstance( 'module');
 			$module->title 		= $title;
 			$module->position 	= 'left';
 			$module->module 	= 'mod_mainmenu';
@@ -475,7 +475,7 @@ class MenusController extends JController
 			$modules = $db->loadResultArray();
 
 			foreach ($modules as $id) {
-				$row =& JTable::getInstance('module', $db );
+				$row =& JTable::getInstance('module');
 				$row->load( $id );
 
 				$row->params = str_replace( $oldTerm, $newTerm, $row->params );
@@ -580,8 +580,8 @@ class MenusController extends JController
 		// copy the menu items
 		$mids 		= JRequest::getVar( 'mids', array(), 'post', 'array' );
 		$total 		= count( $mids );
-		$copy 		=& JTable::getInstance('menu', $db );
-		$original 	=& JTable::getInstance('menu', $db );
+		$copy 		=& JTable::getInstance('menu');
+		$original 	=& JTable::getInstance('menu');
 		sort( $mids );
 		$a_ids 		= array();
 
@@ -604,7 +604,7 @@ class MenusController extends JController
 		}
 
 		// create the module copy
-		$row =& JTable::getInstance('module', $db );
+		$row =& JTable::getInstance('module');
 		$row->load( 0 );
 		$row->title 	= $module_name;
 		$row->iscore 	= 0;

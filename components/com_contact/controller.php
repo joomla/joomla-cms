@@ -178,7 +178,7 @@ class ContactController extends JController
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 
 		// Get a Contact table object and load the selected contact details
-		$contact =& JTable::getInstance('contact', $db, 'Table');
+		$contact =& JTable::getInstance('contact', 'Table');
 		$contact->load($contactId);
 
 		// Get the contact detail parameters

@@ -30,7 +30,7 @@ class ConfigComponentModel extends JModel
 	function &getTable()
 	{
 		if ($this->_table == null) {
-			$this->_table = JTable::getInstance('component', $this->getDBO() );
+			$this->_table = JTable::getInstance('component');
 		}
 		return $this->_table;
 	}

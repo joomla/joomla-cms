@@ -54,7 +54,7 @@ class PollController
 
 		$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
 
-		$poll =& JTable::getInstance('poll', $db, 'Table');
+		$poll =& JTable::getInstance('poll', 'Table');
 		$poll->load( $poll_id );
 
 		// if id value is passed and poll not published then exit
@@ -64,7 +64,7 @@ class PollController
 		}
 
 		// Adds parameter handling
-		$menu =& JTable::getInstance('menu', $db );
+		$menu =& JTable::getInstance('menu');
 		$menu->load( $Itemid );
 
 		$params = new JParameter( $menu->params );
@@ -167,7 +167,7 @@ class PollController
 		$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
 		$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
 
-		$poll =& JTable::getInstance('poll', $db, 'Table');
+		$poll =& JTable::getInstance('poll','Table');
 		if (!$poll->load( $poll_id ) || $poll->published != 1) {
 			JError::raiseWarning( 404, JText::_('ALERTNOTAUTH') );
 			return;

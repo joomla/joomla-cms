@@ -56,7 +56,7 @@ class ExtensionManagerModelComponents extends ExtensionManagerModel
 		$db =& JFactory::getDBO();
 
 		// Get a table object for the extension type
-		$table = & JTable::getInstance($this->_type, $db);
+		$table = & JTable::getInstance($this->_type);
 
 		// Enable the extension in the table and store it in the database
 		foreach ($eid as $id)
@@ -92,7 +92,7 @@ class ExtensionManagerModelComponents extends ExtensionManagerModel
 		$db =& JFactory::getDBO();
 
 		// Get a table object for the extension type
-		$table = & JTable::getInstance($this->_type, $db);
+		$table = & JTable::getInstance($this->_type);
 
 		// Disable the extension in the table and store it in the database
 		foreach ($eid as $id)

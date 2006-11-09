@@ -188,7 +188,7 @@ function editWeblink()
 
 	$lists = array();
 
-	$row =& JTable::getInstance('weblink', $db, 'Table');
+	$row =& JTable::getInstance('weblink', 'Table');
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -236,7 +236,7 @@ function saveWeblink( $task )
 	global $mainframe;
 
 	$db	=& JFactory::getDBO();
-	$row =& JTable::getInstance('weblink', $db, 'Table');
+	$row =& JTable::getInstance('weblink', 'Table');
 	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -348,7 +348,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance('weblink', $db, 'Table');
+		$row =& JTable::getInstance('weblink', 'Table');
 		$row->checkin( $cid[0] );
 	}
 	$mainframe->redirect( "index.php?option=". $option );
@@ -364,7 +364,7 @@ function orderWeblinks( $uid, $inc )
 	$option = JRequest::getVar( 'option');
 
 	$db =& JFactory::getDBO();
-	$row =& JTable::getInstance('weblink', $db, 'Table');
+	$row =& JTable::getInstance('weblink', 'Table');
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published >= 0" );
 
@@ -381,7 +381,7 @@ function cancelWeblink()
 
 	$id	= JRequest::getVar( 'id', 0, '', 'int' );
 	$db =& JFactory::getDBO();
-	$row =& JTable::getInstance('weblink', $db, 'Table');
+	$row =& JTable::getInstance('weblink', 'Table');
 	$row->checkin($id);
 
 	$mainframe->redirect( 'index.php?option=com_weblinks' );
@@ -394,7 +394,7 @@ function saveOrder( &$cid )
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row =& JTable::getInstance('weblink', $db, 'Table');
+	$row =& JTable::getInstance('weblink', 'Table');
 	$groupings = array();
 
 	// update ordering values

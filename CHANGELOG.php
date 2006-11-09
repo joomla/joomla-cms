@@ -40,6 +40,7 @@ Legend:
 09-Nov-2006 Johan Janssens
  + Added JPATH_COMPONENT_SITE define
  + Added JPATH_COMPONENT_ADMINISTRATOR define
+ ^ Changed order of parameters in the JTable::getInstance function. 
 
 09-Nov-2006 Hannes Papenberg
  + Added parameter for breadcrumbs module to set the string for the home entry

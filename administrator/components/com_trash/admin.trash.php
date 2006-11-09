@@ -259,7 +259,7 @@ function deleteTrash( $cid, $option )
 
 	if ( $type == 'content' )
 	{
-		$obj =& JTable::getInstance('content', $db );
+		$obj =& JTable::getInstance('content');
 
 		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
 		$fp = new TableFrontPage( $db );
@@ -269,7 +269,7 @@ function deleteTrash( $cid, $option )
 			$fp->delete( $id );
 		}
 	} else if ( $type == "menu" ) {
-		$obj =& JTable::getInstance('menu', $db );
+		$obj =& JTable::getInstance('menu');
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );
@@ -358,7 +358,7 @@ function restoreTrash( $cid, $option ) {
 
 		foreach ( $cid as $id ) {
 			$check = 1;
-			$row = JTable::getInstance('menu', $db );
+			$row = JTable::getInstance('menu');
 			$row->load( $id );
 
 			// check if menu item is a child item

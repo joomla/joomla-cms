@@ -132,7 +132,7 @@ class PollController extends JController
 		$option = JRequest::getVar( 'option');
 		$uid 	= (int) @$cid[0];
 
-		$row =& JTable::getInstance('poll', $db, 'Table');
+		$row =& JTable::getInstance('poll', 'Table');
 		// load the row from the db table
 		$row->load( $uid );
 
@@ -188,7 +188,7 @@ class PollController extends JController
 		$db		=& JFactory::getDBO();
 
 		// save the poll parent information
-		$row =& JTable::getInstance('poll', $db, 'Table');
+		$row =& JTable::getInstance('poll', 'Table');
 
 		if (!$row->bind( JRequest::get( 'post' ) ))
 		{
@@ -281,7 +281,7 @@ class PollController extends JController
 
 		for ($i=0, $n=count($cid); $i < $n; $i++)
 		{
-			$poll =& JTable::getInstance('poll', $db, 'Table');
+			$poll =& JTable::getInstance('poll', 'Table');
 			if (!$poll->delete( $cid[$i] ))
 			{
 				$msg .= $poll->getError();
@@ -332,7 +332,7 @@ class PollController extends JController
 
 		if (count( $cid ) == 1)
 		{
-			$row =& JTable::getInstance('poll', $db, 'Table');
+			$row =& JTable::getInstance('poll', 'Table');
 			$row->checkin( $cid[0] );
 		}
 		$mainframe->redirect( 'index.php?option='. $option );
@@ -344,7 +344,7 @@ class PollController extends JController
 
 		$id		= JRequest::getVar( 'id', 0, '', 'int' );
 		$db		=& JFactory::getDBO();
-		$row	=& JTable::getInstance('poll', $db, 'Table');
+		$row	=& JTable::getInstance('poll', 'Table');
 
 		$row->checkin( $id );
 		$this->setRedirect( 'index.php?option='. $option );

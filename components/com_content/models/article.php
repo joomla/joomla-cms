@@ -160,7 +160,7 @@ class ContentModelArticle extends JModel
 		}
 		else
 		{
-			$article =& JTable::getInstance('content', $this->_db);
+			$article =& JTable::getInstance('content');
 			$article->state			= 1;
 			$article->cat_pub		= null;
 			$article->sec_pub		= null;
@@ -187,7 +187,7 @@ class ContentModelArticle extends JModel
 
 		if ($this->_id)
 		{
-			$article = & JTable::getInstance('content', $this->_db);
+			$article = & JTable::getInstance('content');
 			$article->hit($this->_id, $mainframe->getCfg('enable_log_items'));
 			return true;
 		}
@@ -228,7 +228,7 @@ class ContentModelArticle extends JModel
 	{
 		if ($this->_id)
 		{
-			$article = & JTable::getInstance('content', $this->_db);
+			$article = & JTable::getInstance('content');
 			return $article->checkin($this->_id);
 		}
 		return false;
@@ -252,7 +252,7 @@ class ContentModelArticle extends JModel
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$article = & JTable::getInstance('content', $this->_db);
+			$article = & JTable::getInstance('content');
 			return $article->checkout($uid, $this->_id);
 		}
 		return false;

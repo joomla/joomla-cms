@@ -179,7 +179,7 @@ function editNewsFeed(  )
 		$cid = array(0);
 	}
 
-	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	// load the row from the db table
 	$row->load( $cid[0] );
 
@@ -219,7 +219,7 @@ function saveNewsFeed(  )
 	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
 
-	$row 		=& JTable::getInstance( 'newsfeed', $db, 'Table' );
+	$row 		=& JTable::getInstance( 'newsfeed', 'Table' );
 	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -318,7 +318,7 @@ function changePublishNewsFeeds( $publish )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+		$row =& JTable::getInstance( 'newsfeed', 'Table' );
 		$row->checkin( $cid[0] );
 	}
 
@@ -367,7 +367,7 @@ function cancelNewsFeed(  )
 	$db 	=& JFactory::getDBO();
 	$option = JRequest::getVar( 'option');
 
-	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 	$mainframe->redirect( 'index.php?option='. $option );
@@ -406,7 +406,7 @@ function orderNewsFeed( $inc )
 	$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 
-	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$row->load( $cid[0] );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -425,7 +425,7 @@ function saveOrder(  )
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$groupings = array();
 
 	// update ordering values

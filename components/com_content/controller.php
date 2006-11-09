@@ -159,7 +159,7 @@ class ContentController extends JController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		if (!$row->bind(JRequest::get('post')))
 		{
 			JError::raiseError( 500, $row->getError());
@@ -376,7 +376,7 @@ class ContentController extends JController
 		$Itemid		= JRequest::getVar('Returnid', '0', 'post');
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
-		$article = & JTable::getInstance('content', $db);
+		$article = & JTable::getInstance('content');
 		$article->bind(JRequest::get('post'));
 
 		if ($user->authorize('action', 'edit', 'content', 'all') || ($user->authorize('action', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {

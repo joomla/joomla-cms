@@ -224,7 +224,7 @@ class JMenuModelItem extends JModel
 	{
 		$item		=& $this->getItem();
 		$id			= $item->componentid;
-		$component	= & JTable::getInstance( 'component', $this->getDBO() );
+		$component	= & JTable::getInstance( 'component');
 		$component->load( $id );
 		return $component;
 	}
@@ -380,7 +380,7 @@ class JMenuModelItem extends JModel
 	function &_getTable()
 	{
 		if ($this->_table == null) {
-			$this->_table =& JTable::getInstance( 'menu', $this->getDBO() );
+			$this->_table =& JTable::getInstance( 'menu');
 		}
 		return $this->_table;
 	}

@@ -91,7 +91,7 @@ class BannerClientController
 		$userId	= $user->get ( 'id' );
 		$cid 	= JRequest::getVar( 'cid', array(0), 'method', 'array' );
 
-		$row =& JTable::getInstance('bannerclient', $db, 'Table');
+		$row =& JTable::getInstance('bannerclient', 'Table');
 		$row->load( (int) $cid[0] );
 
 		// fail if checked out not by 'me'
@@ -119,7 +119,7 @@ class BannerClientController
 
 		// Initialize variables
 		$db		=& JFactory::getDBO();
-		$table	=& JTable::getInstance('bannerclient', $db, 'Table');
+		$table	=& JTable::getInstance('bannerclient', 'Table');
 		
 		if (!$table->bind( JRequest::get( 'post' ) )) {
 			echo "<script> alert('".$table->getError()."'); window.history.go(-1); </script>\n";
@@ -156,7 +156,7 @@ class BannerClientController
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
-		$table		=& JTable::getInstance('bannerclient', $db, 'Table');
+		$table		=& JTable::getInstance('bannerclient', 'Table');
 		$table->cid	= JRequest::getVar( 'cid', 0, 'post', 'int' );
 		$table->checkin();
 
@@ -170,7 +170,7 @@ class BannerClientController
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$table	=& JTable::getInstance('bannerclient', $db, 'Table');
+		$table	=& JTable::getInstance('bannerclient', 'Table');
 		$msg	= '';
 
 		for ($i = 0, $n = count( $cid ); $i < $n; $i++)

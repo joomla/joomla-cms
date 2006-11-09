@@ -74,8 +74,12 @@ class JTable extends JObject
 	* @param string $table name of the table in the db schema relating to child class
 	* @param string $key name of the primary key field in the table
 	*/
-	function __construct( $table, $key, &$db )
+	function __construct( $table, $key, &$db = null)
 	{
+		if ( ! is_object($db) ) {
+			$db =& JFactory::getDBO();
+		}
+		
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		=& $db;
@@ -90,7 +94,7 @@ class JTable extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, &$db, $prefix='JTable' )
+	function &getInstance( $type, $prefix='JTable', &$db = null)
 	{
 		$adapter = $prefix.ucfirst($type);
 		if (!class_exists( $adapter ))
@@ -99,8 +103,7 @@ class JTable extends JObject
 			foreach( $dirs as $dir )
 			{
 				$tableFile = $dir.DS.strtolower($type).'.php';
-				if (@include_once $tableFile)
-				{
+				if (@include_once $tableFile) {
 					break;
 				}
 			}

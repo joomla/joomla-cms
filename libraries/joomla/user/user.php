@@ -69,7 +69,7 @@ class JUser extends JObject
 		$db	=& JFactory::getDBO();
 
 		// Create the user table object
-		$this->_table 	=& JTable::getInstance( 'user', $db );
+		$this->_table 	=& JTable::getInstance( 'user');
 
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );

@@ -367,7 +367,7 @@ class JApplication extends JObject
 				$session->set('session.user.id', $user->get('id'));
 
 				// Get the session object
-				$table = & JTable::getInstance('session', JFactory::getDBO());
+				$table = & JTable::getInstance('session');
 				$table->load( $session->getId());
 
 				$table->guest 		= 0;
@@ -431,7 +431,7 @@ class JApplication extends JObject
 			$session =& JFactory::getSession();
 
 			// Remove the session from the session table
-			$table = & JTable::getInstance('session', JFactory::getDBO());
+			$table = & JTable::getInstance('session');
 			$table->load( $session->getId());
 			$table->destroy();
 
@@ -625,7 +625,7 @@ class JApplication extends JObject
 
 		$session =& JFactory::getSession($options);
 
-		$storage = & JTable::getInstance('session', JFactory::getDBO());
+		$storage = & JTable::getInstance('session');
 		$storage->purge( intval( $this->getCfg( 'lifetime' ) * 60) );
 
 		if ($storage->load( $session->getId())) {

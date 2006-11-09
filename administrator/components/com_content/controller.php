@@ -294,7 +294,7 @@ class ContentController extends JController
 		$javascript = 'onchange="document.adminForm.submit();"';
 		$lists['sectionid'] = JAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
-		$section = & JTable::getInstance('section', $db);
+		$section = & JTable::getInstance('section');
 		$section->load($sectionid);
 
 		// get list of Authors for dropdown filter
@@ -350,7 +350,7 @@ class ContentController extends JController
 		$sectionid  	= 0;
 
 		// Create and load the content table row
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		$row->load($id);
 
 		if ($id) {
@@ -425,7 +425,7 @@ class ContentController extends JController
 			if (@JRequest::getVar('catid'))
 			{
 				$row->catid	 = JRequest::getVar('catid');
-				$category 	 = & JTable::getInstance('category', $db);
+				$category 	 = & JTable::getInstance('category');
 				$category->load(JRequest::getVar('catid'));
 				$sectionid = $category->section;
 			} else {
@@ -567,7 +567,7 @@ class ContentController extends JController
 		$menuid		= JRequest::getVar( 'menuid', 0, 'post' );
 		$nullDate	= $db->getNullDate();
 
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		if (!$row->bind(JRequest::get('post'))) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
@@ -766,7 +766,7 @@ class ContentController extends JController
 		}
 
 		if (count($cid) == 1) {
-			$row = & JTable::getInstance('content', $db);
+			$row = & JTable::getInstance('content');
 			$row->checkin($cid[0]);
 		}
 
@@ -915,7 +915,7 @@ class ContentController extends JController
 		$db	= & JFactory::getDBO();
 
 		// Check the article in if checked out
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		$row->bind(JRequest::get('post'));
 		$row->checkin();
 
@@ -937,7 +937,7 @@ class ContentController extends JController
 
 		if (isset( $cid[0] ))
 		{
-			$row = & JTable::getInstance('content', $db);
+			$row = & JTable::getInstance('content');
 			$row->load( (int) $cid[0] );
 			$row->move($direction, 'catid = ' . (int) $row->catid . ' AND state >= 0' );
 
@@ -1030,7 +1030,7 @@ class ContentController extends JController
 		$cids		= implode(',', $cid);
 		$uid		= $user->get('id');
 
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		// update old orders - put existing items in last place
 		foreach ($cid as $id)
 		{
@@ -1150,7 +1150,7 @@ class ContentController extends JController
 		$total = count($cid);
 		for ($i = 0; $i < $total; $i ++)
 		{
-			$row = & JTable::getInstance('content', $db);
+			$row = & JTable::getInstance('content');
 
 			// main query
 			$query = "SELECT a.*" .
@@ -1221,7 +1221,7 @@ class ContentController extends JController
 		$uid	= $cid[0];
 
 		// Create and load the article table object
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 		$row->load($uid);
 		$row->access = $access;
 
@@ -1258,7 +1258,7 @@ class ContentController extends JController
 		$conditions	= array ();
 
 		// Instantiate an article table object
-		$row = & JTable::getInstance('content', $db);
+		$row = & JTable::getInstance('content');
 
 		// Update the ordering for items in the cid array
 		for ($i = 0; $i < $total; $i ++)

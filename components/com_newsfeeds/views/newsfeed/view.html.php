@@ -47,7 +47,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		$feedid = JRequest::getVar( 'feedid', $params->get( 'feed_id' ), '', 'int' );
 
-		$newsfeed =& JTable::getInstance( 'newsfeed', $db, 'Table' );
+		$newsfeed =& JTable::getInstance( 'newsfeed', 'Table' );
 		$newsfeed->load($feedid);
 
 		// Check if newsfeed is published
@@ -56,7 +56,7 @@ class NewsfeedsViewNewsfeed extends JView
 			return;
 		}
 
-		$category =& JTable::getInstance('category', $db);
+		$category =& JTable::getInstance('category');
 		$category->load($newsfeed->catid);
 
 		// Check if newsfeed category is published
