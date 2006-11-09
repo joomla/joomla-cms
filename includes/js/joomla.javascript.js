@@ -507,12 +507,17 @@ function tableOrdering( order, dir, task ) {
 	submitform( task );
 }
 
-function saveorder( n ) {
-	checkAll_button( n );
+function saveorder( n,  task ) {
+	checkAll_button( n, task );
 }
 
 //needed by saveorder function
-function checkAll_button( n ) {
+function checkAll_button( n, task ) {
+    
+    if (!task ) {
+		task = 'saveorder';
+	}
+
 	for ( var j = 0; j <= n; j++ ) {
 		box = eval( "document.adminForm.cb" + j );
 		if ( box ) {
@@ -524,7 +529,7 @@ function checkAll_button( n ) {
 			return;
 		}
 	}
-	submitform('saveorder');
+	submitform(task);
 }
 /**
 * @param object A form element
