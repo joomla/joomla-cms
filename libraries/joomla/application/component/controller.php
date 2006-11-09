@@ -50,19 +50,27 @@ class JController extends JObject
 	var $_taskMap 	= null;
 
 	/**
-	 * Task to be preformed
+	 * Requested task to be preformed
 	 *
 	 * @var	string
 	 * @access protected
 	 */
 	var $_task 		= null;
 	
-   /**
-	* The set of search directories for resources (views or models)
-	* 
-	* @var array
-	* @access protected
-	*/
+	/**
+	 * The mapped task that was performed
+	 *
+	 * @var	string
+	 * @access protected
+	 */
+	var $_doTask 	= null;
+	
+    /**
+	 * The set of search directories for resources (views or models)
+	 * 
+	 * @var array
+	 * @access protected
+	 */
 	var $_path = array(
 		'model' => array(),
 		'view'  => array()
@@ -253,6 +261,10 @@ class JController extends JObject
 			JError::raiseError( 404, JText::_('Task ['.$task.'] not found') );
 			return false;
 		}
+
+		// Record the actual task being fired
+		$this->_doTask = $doTask;
+
 		// Time to make sure we have access to do what we want to do...
 		if ($this->authorize( $doTask ))
 		{
@@ -334,7 +346,11 @@ class JController extends JObject
 	 */
 	function &getModel($name, $prefix='')
 	{
-		$model = & $this->_createModel( $name, $prefix );
+		if ($model = &$this->_createModel( $name, $prefix ))
+		{
+			// task is a reserved state
+			$model->setState( 'task', $this->_doTask );
+		}
 		return $model;
 	}
 
