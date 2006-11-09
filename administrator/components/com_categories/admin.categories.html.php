@@ -123,7 +123,7 @@ class categories_html
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
+			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&id='. $row->section );
 
 			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
 

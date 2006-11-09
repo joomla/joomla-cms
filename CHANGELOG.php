@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Nov-2006 Hannes Papenberg
+ + Added parameter for breadcrumbs module to set the string for the home entry
+ # Fixed all ampersands in URLs in components and modules to use &amp;
+
 09-Nov-2006 Andrew Eddie
  + Added protected var JController::_doTask to record the actual mapped task executed
  + Added reserved state variable 'task' to JController::getModel

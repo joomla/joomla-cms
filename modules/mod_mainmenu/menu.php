@@ -94,7 +94,7 @@ class JMainMenu extends JTree
 			case 'url' :
 				if (eregi('index.php\?', $item->link)) {
 					if (!eregi('Itemid=', $item->link)) {
-						$item->link .= '&Itemid='.$item->id;
+						$item->link .= '&amp;Itemid='.$item->id;
 					}
 				}
 				break;

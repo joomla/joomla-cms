@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 foreach ($list as $item) :
 ?>
 <li>
-	<a href="<?php echo sefRelToAbs("index.php?option=com_content&view=section&layout=blog&id=".$item->id."&Itemid=".$Itemid);?>">
+	<a href="<?php echo sefRelToAbs("index.php?option=com_content&amp;view=section&amp;layout=blog&amp;id=".$item->id."&amp;Itemid=".$Itemid);?>">
 		<?php echo $item->title;?>
 	</a>
 </li>

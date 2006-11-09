@@ -49,11 +49,11 @@ class ContentViewSection extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&task=section&id='.$section->id.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_content&amp;task=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access					= new stdClass();

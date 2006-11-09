@@ -50,11 +50,11 @@ class WeblinksViewCategory extends JView
 		$category->total = $total;
 		
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 		
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
@@ -111,7 +111,7 @@ class WeblinksViewCategory extends JView
 		{
 			$item =& $items[$i];
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&amp;view=weblink&amp;id='. $item->id.'&amp;Itemid='.$Itemid );
 			$link = ampReplace( $link );
 
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );

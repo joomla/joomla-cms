@@ -163,7 +163,7 @@ class FrontpageView
 
 				// section handling
 				if ($row->sectionid) {
-					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
 				} else {
 					$row->sect_name = JText::_( 'Static Content' );
@@ -172,7 +172,7 @@ class FrontpageView
 				}
 				// category handling
 				if ($row->catid) {
-					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&hidemainmenu=1&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
 				} else {
 					$row->name 		= JText::_( 'Static Content' );

@@ -9,13 +9,13 @@
    <option value="0">No</option>
    <option value="1">Yes</option>
   </param>
-  <param name="readmore" type="radio" default="0" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
-   <option value="1">Hide</option>
-   <option value="0">Show</option>
+  <param name="readmore" type="radio" default="1" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
+   <option value="0">Hide</option>
+   <option value="1">Show</option>
   </param>
-  <param name="vote" type="radio" default="1" label="Item Rating/Voting" description="TIPIFSETTOSHOWVOTING">
-   <option value="1">Hide</option>
-   <option value="0">Show</option>
+  <param name="vote" type="radio" default="0" label="Item Rating/Voting" description="TIPIFSETTOSHOWVOTING">
+   <option value="0">Hide</option>
+   <option value="1">Show</option>
   </param>
   <param name="hideAuthor" type="radio" default="0" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
    <option value="1">Hide</option>

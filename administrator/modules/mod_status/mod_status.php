@@ -38,9 +38,9 @@ $unread = $db->loadResult();
 
 // Print the inbox message
 if ($unread) {
-	$output[] = "<span class=\"unread-messages\"><a href=\"index.php?option=com_messages\">$unread</a></span>";
+	$output[] = "<a href=\"index.php?option=com_messages\"><span class=\"unread-messages\">$unread</span></a>";
 } else {
-	$output[] = "<span class=\"no-unread-messages\"><a href=\"index.php?option=com_messages\">$unread</a></span>";
+	$output[] = "<a href=\"index.php?option=com_messages\"><span class=\"no-unread-messages\">$unread</span></a>";
 }
 
 // Get the number of logged in users

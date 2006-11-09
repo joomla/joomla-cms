@@ -47,13 +47,13 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		case 'url' :
 			if (eregi('index.php\?', $mitem->link)) {
 				if (!eregi('Itemid=', $mitem->link)) {
-					$mitem->link .= '&Itemid='.$mitem->id;
+					$mitem->link .= '&amp;Itemid='.$mitem->id;
 				}
 			}
 			break;
 
 		default :
-			$mitem->link .= '&Itemid='.$mitem->id;
+			$mitem->link .= '&amp;Itemid='.$mitem->id;
 			break;
 	}
 

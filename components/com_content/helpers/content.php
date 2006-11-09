@@ -409,7 +409,7 @@ class JContentHelper
 				$item = &$items[$i];
 				$params =& $menus->getParams($item->id);
 
-				if (($item->componentid == $component->id) && ($item->published) && ($params->get('category_id') == 0)) {
+				if (($item->componentid == $component->id) && ($item->published) && ($params->get('section_id') == 0)) {
 					return $item->id;
 				}
 			}

@@ -374,7 +374,6 @@ class ContentController extends JController
 
 		// At some point in the future these will be in a request object
 		$Itemid		= JRequest::getVar('Returnid', '0', 'post');
-		$referer	= JRequest::getVar('referer', '', 'post');
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
 		$article = & JTable::getInstance('content', $db);
@@ -385,12 +384,14 @@ class ContentController extends JController
 		}
 
 		// If the task was edit or cancel, we go back to the content item
-		if ($this->_task == 'edit' || $this->_task == 'cancel') {
+		if (($this->_task == 'edit' || $this->_task == 'cancel') && $article->id) {
 			$referer = 'index.php?option=com_content&task=view&id='.$article->id.'&Itemid='.$Itemid;
+		} else {
+			$referer = JRequest::getVar('referer', JURI::Base() .'index.php', 'post');
 		}
 
 		// If the task was not new, we go back to the referrer
-		if ($referer && $article->id) {
+		if ($referer) {
 			$this->setRedirect($referer);
 		}
 		else {

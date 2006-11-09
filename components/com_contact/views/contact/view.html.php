@@ -67,7 +67,7 @@ class ContactViewContact extends JView
 
 		// Add the breadcrumbs items
 		if (!$params->get('hideCatCrumbs')) {
-			$pathway->addItem($contact->category_name, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
+			$pathway->addItem($contact->category_name, "index.php?option=com_contact&amp;catid=$contact->catid&amp;Itemid=$Itemid");
 		}
 		$pathway->addItem($contact->name, '');
 

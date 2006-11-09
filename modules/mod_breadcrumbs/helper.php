@@ -46,6 +46,9 @@ class modBreadCrumbsHelper
 		$count = count($items);
 		for ($i = 0; $i < $count; $i ++)
 		{
+			if (($showHome) && ($i == 0)) {
+				$items[$i]->name = $params->get('homeText');
+			}
 			$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
 
 			// If a link is present create an html link, if not just use the name

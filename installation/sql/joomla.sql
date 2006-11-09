@@ -141,7 +141,7 @@ INSERT INTO `#__components` VALUES (16, 'Categories','',0,1,'option=com_categori
 INSERT INTO `#__components` VALUES (17,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (18,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (19,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\n\n',1);
-INSERT INTO `#__components` VALUES (20,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'shownoauth=0\nlink_titles=0\nreadmore=0\nvote=1\nhideAuthor=0\nhideCreateDate=0\nhideModifyDate=0\nhidePdf=0\nhidePrint=0\nhideEmail=0\nicons=0\nhits=0\n\n',1);
+INSERT INTO `#__components` VALUES (20,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'shownoauth=0\nlink_titles=0\nreadmore=1\nvote=0\nhideAuthor=0\nhideCreateDate=0\nhideModifyDate=0\nhidePdf=0\nhidePrint=0\nhideEmail=0\nicons=1\nhits=1\n\n',1);
 INSERT INTO `#__components` VALUES (21,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (22,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (23,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);
@@ -502,7 +502,7 @@ INSERT INTO `#__modules` VALUES (27, 'Logged in Users','',2,'cpanel',0,'0000-00-
 INSERT INTO `#__modules` VALUES (28, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (29, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1, '');
 INSERT INTO `#__modules` VALUES (30, 'Feed Display', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0, '');
-INSERT INTO `#__modules` VALUES (31, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (31, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (32, 'Syndication', '', 3, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (33, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (34, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1, '');

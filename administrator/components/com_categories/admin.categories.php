@@ -304,7 +304,11 @@ function editCategory( )
 	;
 	$db->setQuery( $query );
 	$sections = $db->loadResult();
-	if (!$sections && $type != 'other') {
+	if (!$sections && $type != 'other' 
+			&& $section != "com_weblinks"
+			&& $section != "com_newsfeeds"
+			&& $section != "com_contact_details"
+			&& $section != "com_banner") {
 		echo "<script> alert('". JText::_( 'WARNSECTION', true ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}

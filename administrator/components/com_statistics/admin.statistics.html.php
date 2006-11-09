@@ -282,7 +282,7 @@ class HTML_statistics
 
 				// section handling
 				if ($row->sectionid) {
-					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
 				} else {
 					$row->sec_title = JText::_( 'Static Content' );
@@ -291,7 +291,7 @@ class HTML_statistics
 				}
 				// category handling
 				if ($row->catid) {
-					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&hidemainmenu=1&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
 				} else {
 					$row->cat_title = JText::_( 'Static Content' );

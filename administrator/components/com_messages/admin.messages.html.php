@@ -54,14 +54,14 @@ class HTML_messages
 					<th width="20" class="title">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
-					<th width="25%" class="title">
-						<?php JCommonHTML::tableOrdering( 'From', 'user_from', $lists ); ?>
+					<th width="50%" class="title">
+						<?php JCommonHTML::tableOrdering( 'Subject', 'a.subject', $lists ); ?>
 					</th>
 					<th width="5%" class="title" align="center">
 						<?php JCommonHTML::tableOrdering( 'Read', 'a.state', $lists ); ?>
 					</th>
-					<th width="50%" class="title">
-						<?php JCommonHTML::tableOrdering( 'Subject', 'a.subject', $lists ); ?>
+					<th width="25%" class="title">
+						<?php JCommonHTML::tableOrdering( 'From', 'user_from', $lists ); ?>
 					</th>
 					<th width="15%" class="title" nowrap="nowrap" align="center">
 						<?php JCommonHTML::tableOrdering( 'Date', 'a.date_time', $lists ); ?>
@@ -91,15 +91,15 @@ class HTML_messages
 						<?php echo JHTML::idBox( $i, $row->message_id ); ?>
 					</td>
 					<td>
-						<?php echo $author; ?>
+						<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','view')">
+							<?php echo $row->subject; ?></a>
 					</td>
 					<td align="center">
 						<a href="javascript: void(0);">
 							<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
 					</td>
 					<td>
-						<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','view')">
-							<?php echo $row->subject; ?></a>
+						<?php echo $author; ?>
 					</td>
 					<td>
 						<?php echo $row->date_time; ?>
