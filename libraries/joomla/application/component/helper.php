@@ -95,7 +95,7 @@ class JComponentHelper
 	{
 		global $mainframe, $option, $Itemid;
 
-		$component	= is_null($component) ? $option : $component;
+		$component	= is_null($component) ? $option : 'com_'.$component;
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
 		

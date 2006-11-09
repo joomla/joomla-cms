@@ -15,27 +15,64 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// Get the task variable from the page request variables
-$result = null;
-
 switch ( JRequest::getVar('task')) 
 {
 	case 'login' :
-		$result =& $mainframe->login();
+		LoginController::login();
 		break;
 
 	case 'logout' :
-		$result =& $mainframe->logout();
+		LoginController::logout();
 		break;
 
 	default :
+		LoginController::display();
 		break;
 }
 
 
+/**
+ * Static class to hold controller functions for the Login component
+ *
+ * @static
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @subpackage	Login
+ * @since		1.5
+ */
 
-if (!JError::isError($result)) {
-	$mainframe->redirect('index.php');
+class LoginController
+{
+	function display()
+	{
+		global $mainframe, $Itemid, $option;
+		
+		$document =& JFactory::getDocument();
+		echo $document->getInclude('module', 'login', array('style' => 'rounded', 'id' => 'section-box'));
+	}
+
+	function login()
+	{
+		global $mainframe;
+		
+		$result =& $mainframe->login();
+		
+		if (!JError::isError($result)) {
+			$mainframe->redirect('index.php');
+		}
+	}
+
+	function logout()
+	{
+		global $mainframe;
+		
+		$result =& $mainframe->logout();
+		
+		if (!JError::isError($result)) {
+			$mainframe->redirect('index.php');
+		}
+	}
 }
+
 
 ?>

@@ -56,7 +56,7 @@
 				<?php echo JText::_( 'SMTP Pass' ); ?>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="smtppass" size="30" value="<?php echo $row->smtppass; ?>" />
+				<input class="text_area" type="password" name="smtppass" size="30" value="<?php echo $row->smtppass; ?>" />
 			</td>
 		</tr>
 		<tr>

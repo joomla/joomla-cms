@@ -4,8 +4,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table class="contentpaneopen<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 <tr>
 	<td class="contentheading<?php echo $params->get( 'moduleclass_sfx' ); ?>" width="100%">
-	<?php if ($params->get('link_titles') && $linkOn != '') : ?>
-		<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'moduleclass_sfx' ); ?>">
+	<?php if ($params->get('link_titles') && $item->linkOn != '') : ?>
+		<a href="<?php echo $item->linkOn;?>" class="contentpagetitle<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 			<?php echo $item->title;?>
 		</a>
 	<?php else : ?>
@@ -27,4 +27,6 @@ endif; ?>
 		<td valign="top" colspan="2"><?php echo $item->text; ?></td>
 	</tr>
 </table>
-<span class="article_separator">&nbsp;</span>
+<?php if ($item->linkOn && $item->readmore) :
+	echo '<a href="'.$item->linkOn.'">'.JText::_('Read more').'</a>';
+endif; ?>

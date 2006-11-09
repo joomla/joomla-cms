@@ -48,6 +48,8 @@ class modNewsFlashHelper
 					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 				}
 			}
+			
+			$item->linkOn = $linkOn;
 		}
 
 		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
