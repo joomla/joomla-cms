@@ -18,9 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 // Require the com_content helper library
 require_once (JPATH_COMPONENT . '/controller.php');
 
-// Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'tables');
-
 $document =& JFactory::getDocument();
 
 // Create the controller

@@ -106,16 +106,17 @@ class JComponentHelper
 		
 		// Build the component path
 		$file = substr( $component, 4 );
-		$path = JPATH_BASE.DS.'components'.DS.$component;
 		
 		// Define component path
-		define( 'JPATH_COMPONENT', $path);
+		define( 'JPATH_COMPONENT'              ,  JPATH_BASE.DS.'components'.DS.$component);
+		define( 'JPATH_COMPONENT_SITE'         ,  JPATH_SITE.DS.'components'.DS.$component);
+		define( 'JPATH_COMPONENT_ADMINISTRATOR',  JPATH_ADMINISTRATOR.'components'.DS.$component);
 
 		// Load the correct initial file
-		if ( $mainframe->isAdmin() && is_file($path.DS.'admin.'.$file.'.php') ) {
-			$path = $path.DS.'admin.'.$file.'.php';
+		if ( $mainframe->isAdmin() && is_file(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
+			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
-			$path = $path.DS.$file.'.php';
+			$path = JPATH_COMPONENT.DS.$file.'.php';
 		}
 
 		// If component disabled throw error

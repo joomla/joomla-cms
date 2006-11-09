@@ -77,8 +77,10 @@ class JModel extends JObject
 
 			// Set Default State Data
 			$this->_state->set( 'menu.parameters', $params);
-
 		}
+		
+		//set the table directory
+		JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 	}
 	
 	/**

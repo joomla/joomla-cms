@@ -19,9 +19,6 @@ jimport('joomla.application.component.helper');
 
 require_once( JPATH_COMPONENT . DS . 'controller.php' );
 
-// Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
-
 $document =& JFactory::getDocument();
 $params   =& JSiteHelper::getMenuParams();
 
