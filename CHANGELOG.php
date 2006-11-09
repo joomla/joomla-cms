@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Nov-2006 Andrew Eddie
+ + Added protected var JController::_doTask to record the actual mapped task executed
+ + Added reserved state variable 'task' to JController::getModel
+
 07-Nov-2006 Hannes Papenberg
  + Added configuration screen for massmail with Subjectprefix and Mailbodysuffix
 
