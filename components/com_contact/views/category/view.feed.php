@@ -60,7 +60,7 @@ class ContactViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_contact&task=view&id='. $row->id . '&catid='.$row->catid. '&Itemid='. $Itemid;;
+			$link = 'index.php?option=com_contact&view=contact&id='. $row->id . '&catid='.$row->catid. '&Itemid='. $Itemid;;
 			$link = sefRelToAbs( $link );
 
 			// strip html from feed item description text

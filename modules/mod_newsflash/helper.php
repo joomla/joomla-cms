@@ -41,7 +41,7 @@ class modNewsFlashHelper
 				if ($item->access <= $user->get('gid')) 
 				{
 					$Itemid = JContentHelper::getItemid($item->id);
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$item->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
 				} 
 				else 
 				{

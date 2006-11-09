@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <ul>
 <?php foreach ($this->links as $link) : ?>
 	<li>
-		<a class="blogsection" href="<?php echo sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$link->id.'&amp;Itemid='.$Itemid); ?>">
+		<a class="blogsection" href="<?php echo sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$link->id.'&amp;Itemid='.$Itemid); ?>">
 			<?php echo $link->title; ?>
 		</a>
 	</li>

@@ -156,12 +156,12 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		}
 
 		if ($row->prev) {
-			$row->prev = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->prev.'&amp;Itemid='.$Itemid);
+			$row->prev = sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$row->prev.'&amp;Itemid='.$Itemid);
 		} else {
 			$row->prev = '';
 		}
 		if ($row->next) {
-			$row->next = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->next.'&amp;Itemid='.$Itemid);
+			$row->next = sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$row->next.'&amp;Itemid='.$Itemid);
 		} else {
 			$row->next = '';
 		}

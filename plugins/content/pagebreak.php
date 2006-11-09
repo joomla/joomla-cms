@@ -130,7 +130,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 
 		// page links shown at bottom of page if TOC disabled
 		if (!$hasToc) {
-			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid );
+			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid );
 		}
 
 		$row->text .= '</div><br />';
@@ -143,8 +143,8 @@ function createTOC( &$row, &$matches, &$page )
 {
 	global $Itemid;
 
-	$nonseflink = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
-	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
+	$nonseflink = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
+	$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 	$link = sefRelToAbs( $link );
 
 	$heading = $row->title;
@@ -229,7 +229,7 @@ function createNavigation( &$row, $page, $n )
 {
 	global $Itemid;
 
-	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
+	$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 
 	$pnSpace = "";
     if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";

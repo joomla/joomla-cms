@@ -129,7 +129,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n a.created AS created,"
 		. "\n CONCAT(a.introtext, a.`fulltext`) AS text,"
 		. "\n CONCAT_WS( '/', u.title, b.title ) AS section,"
-		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
+		. "\n CONCAT( 'index.php?option=com_content&view=article&id=', a.id ) AS href,"
 		. "\n '2' AS browsernav"
 		. "\n FROM #__content AS a"
 		. "\n INNER JOIN #__categories AS b ON b.id=a.catid"
@@ -156,7 +156,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	if ( $sUncategorised ) {
 		$query = "SELECT id, a.title AS title, a.created AS created,"
 		. "\n a.introtext AS text,"
-		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
+		. "\n CONCAT( 'index.php?option=com_content&view=article&id=', a.id ) AS href,"
 		. "\n '2' as browsernav, '". JText::_('Uncategorised Content') ."' AS section"
 		. "\n FROM #__content AS a"
 		. "\n WHERE ($where)"
@@ -182,7 +182,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n a.created AS created,"
 		. "\n a.introtext AS text,"
 		. "\n CONCAT_WS( '/', '". $searchArchived ." ', u.title, b.title ) AS section,"
-		. "\n CONCAT('index.php?option=com_content&task=view&id=',a.id) AS href,"
+		. "\n CONCAT('index.php?option=com_content&view=article&id=',a.id) AS href,"
 		. "\n '2' AS browsernav"
 		. "\n FROM #__content AS a"
 		. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= " .$user->get( 'gid' )

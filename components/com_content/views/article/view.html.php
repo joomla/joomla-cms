@@ -97,7 +97,7 @@ class ContentViewArticle extends JView
 				// Check to see if the user has access to view the full article
 				if ($article->access <= $user->get('gid'))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$article->id."&amp;Itemid=".$Itemid);
 
 					if (@$article->readmore) {
 						// text for the readmore link
@@ -175,7 +175,7 @@ class ContentViewArticle extends JView
 
 			case 'print' :
 			{
-				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
+				$url    = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded

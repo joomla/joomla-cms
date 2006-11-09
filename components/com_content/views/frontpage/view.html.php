@@ -156,7 +156,7 @@ class ContentViewFrontpage extends JView
 
 			case 'print' :
 			{
-				$url    = 'index2.php?option=com_content&amp;task=view&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
+				$url    = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -286,7 +286,7 @@ class ContentViewFrontpage extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('gid'))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$item->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
 				else
@@ -300,7 +300,7 @@ class ContentViewFrontpage extends JView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+		$item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));

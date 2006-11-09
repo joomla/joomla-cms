@@ -124,7 +124,7 @@ class modMostReadHelper
 			// & xhtml compliance conversion
 			$row->title = ampReplace( $row->title );
 
-			$link = sefRelToAbs( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id . '&amp;Itemid='. $row->my_itemid );
+			$link = sefRelToAbs( 'index.php?option=com_content&amp;view=article&amp;id='. $row->id . '&amp;Itemid='. $row->my_itemid );
 
 			$lists[$i]->link	= $link;
 			$lists[$i]->text	= $row->title;

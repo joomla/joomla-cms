@@ -105,7 +105,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	. "\n '' AS created,"
 	. "\n a.link AS text,"
 	. "\n CONCAT_WS( ' / ','". $searchNewsfeeds ."', b.title )AS section,"
-	. "\n CONCAT( 'index.php?option=com_newsfeeds&task=view&feedid=', a.id ) AS href,"
+	. "\n CONCAT( 'index.php?option=com_newsfeeds&view=article&feedid=', a.id ) AS href,"
 	. "\n '1' AS browsernav"
 	. "\n FROM #__newsfeeds AS a"
 	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
