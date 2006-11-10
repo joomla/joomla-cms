@@ -74,12 +74,8 @@ class JTable extends JObject
 	* @param string $table name of the table in the db schema relating to child class
 	* @param string $key name of the primary key field in the table
 	*/
-	function __construct( $table, $key, $db = null)
+	function __construct( $table, $key, &$db)
 	{
-		if ( ! is_object($db) ) {
-			$db =& JFactory::getDBO();
-		}
-		
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		=& $db;
@@ -89,12 +85,11 @@ class JTable extends JObject
 	 * Returns a reference to the a Model object, always creating it
 	 *
 	 * @param type $type The table type to instantiate
-	 * @param object A JDatabase object
 	 * @param string A prefix for the table class name
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix='JTable', $db = null)
+	function &getInstance( $type, $prefix='JTable')
 	{
 		$adapter = $prefix.ucfirst($type);
 		if (!class_exists( $adapter ))
@@ -114,6 +109,7 @@ class JTable extends JObject
 		}
 		else
 		{
+			$db =& JFactory::getDBO();		
 			$m = new $adapter($db);
 		}
 		return $m;
