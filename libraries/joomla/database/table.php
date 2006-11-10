@@ -74,7 +74,7 @@ class JTable extends JObject
 	* @param string $table name of the table in the db schema relating to child class
 	* @param string $key name of the primary key field in the table
 	*/
-	function __construct( $table, $key, &$db)
+	function __construct( $table, $key, $db = null)
 	{
 		if ( ! is_object($db) ) {
 			$db =& JFactory::getDBO();
@@ -94,7 +94,7 @@ class JTable extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix='JTable', &$db)
+	function &getInstance( $type, $prefix='JTable', $db = null)
 	{
 		$adapter = $prefix.ucfirst($type);
 		if (!class_exists( $adapter ))
