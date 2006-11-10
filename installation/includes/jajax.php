@@ -40,10 +40,15 @@ $xajax->errorHandlerOn();
 $xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
 //$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
 $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
+$xajax->registerFunction(array('FTPVerify', 'JAJAXHandler', 'ftpverify'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
 jimport( 'joomla.common.abstract.object' );
 //jimport( 'joomla.i18n.string' );
+jimport( 'joomla.utilities.error' );
+JError::setErrorHandling(E_ERROR, 'callback', array('JAJAXHandler','handleError'));
+JError::setErrorHandling(E_WARNING, 'callback', array('JAJAXHandler','handleError'));
+JError::setErrorHandling(E_NOTICE, 'callback', array('JAJAXHandler','handleError'));
 jimport( 'joomla.filesystem.*' );
 
 /**
@@ -61,7 +66,6 @@ class JAJAXHandler
 	 */
 	function dbcollate($args) {
 
-		jimport( 'joomla.utilities.error' );
 		jimport( 'joomla.application.application' );
 		jimport( 'joomla.database.database' );
 		jimport( 'joomla.registry.registry' );
@@ -121,7 +125,6 @@ class JAJAXHandler
 	 */
 //	function dbpriv($args) {
 //
-//		jimport( 'joomla.utilities.error' );
 //		jimport( 'joomla.application.application' );
 //		jimport( 'joomla.database.database' );
 //		jimport( 'joomla.registry.registry' );
@@ -176,7 +179,6 @@ class JAJAXHandler
 	 */
 	function ftproot($args) {
 
-		jimport( 'joomla.utilities.error' );
 		jimport( 'joomla.application.application' );
 
 		$objResponse = new xajaxResponse();
@@ -189,10 +191,30 @@ class JAJAXHandler
 	}
 
 	/**
+	 * Method to verify the ftp values are valid
+	 */
+	function ftpverify($args) {
+
+		jimport( 'joomla.application.application' );
+
+		$objResponse = new xajaxResponse();
+		$args = $args['vars'];
+
+		require_once(JXPATH_BASE.DS."classes.php");
+		$status =  JInstallationHelper::FTPVerify($args['ftpUser'], $args['ftpPassword'], $args['ftpRoot'], $args['ftpHost'], $args['ftpPort']);
+		if (JError::isError($status)) {
+			$objResponse->addAlert($status->getMessage);
+		} else {
+			$objResponse->addAlert('VALID');
+		}
+		return $objResponse;
+	}
+
+	/**
 	 * Method to load and execute a sql script
 	 */
-	function sampledata($args) {
-		jimport( 'joomla.utilities.error' );
+	function sampledata($args)
+	{
 		jimport( 'joomla.database.database');
 		jimport( 'joomla.i18n.language');
 		jimport( 'joomla.registry.registry');
@@ -231,7 +253,18 @@ class JAJAXHandler
 		return $objResponse;
 	}
 
-
+	/**
+	 * Handle a raised error : for now just silently return
+	 *
+	 * @access	private
+	 * @param	object	$error	JError object
+	 * @return	object	$error	JError object
+	 * @since	1.5
+	 */
+	function & handleError(& $error)
+	{
+		return $error;
+	}
 }
 
 

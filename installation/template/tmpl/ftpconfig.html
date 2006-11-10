@@ -6,6 +6,7 @@
 @license GNU/GPL
 </jtmpl:comment>
 <script language="JavaScript" type="text/javascript">
+<!--
 	document.addLoadEvent(function() {
  	document.formvalidator.attachToForm(document.getElementById('adminForm'));
  	document.formvalidator.handlers['isftp'] = { enabled : true,
@@ -22,6 +23,7 @@
 									}
 								  }
 	});
+
 	function validateForm( frm, task ) {
 		var valid = document.formvalidator.isValid(frm);
 		if (valid == false) {
@@ -32,7 +34,6 @@
 		var ftpRoot = document.getElementById("ftproot");
 	
 		if (ftpEnable.checked == false) {
-			alert( '<jtmpl:translate key="warnFtpEnable" escape="yes">Disabling the FTP Filesystem layer can cause problems\nwith filesystem ownership permissions.</jtmpl:translate>' );
 			submitForm( frm, task );
 		} else if (ftpRoot.value == '') {
 			alert( '<jtmpl:translate key="warnFtpRoot" escape="yes">Please enter an FTP Root or use\nthe autofind root button.</jtmpl:translate>' );
@@ -41,7 +42,11 @@
 			submitForm( frm, task );
 		}
 	}
-	
+
+	function doFTPVerify() {
+		xajax_FTPVerify(xajax.getFormValues('adminForm'));
+	}
+
 	function JProcess() {
 	
 		if ( document.getElementById("ftphost").value == '' ) {
@@ -57,6 +62,7 @@
 			xajax_getFtpRoot(xajax.getFormValues('adminForm'));
 		}
 	}
+//-->
 </script>
 <form action="index.php" method="post" name="adminForm" id="adminForm" autocomplete="off">
 
@@ -173,6 +179,7 @@
 									</tr>
 								</table>
 								<input type="button" id="findbutton" class="button" value="<jtmpl:translate>Autofind FTP Path</jtmpl:translate>" onclick="JProcess();" />
+								<input type="button" id="verifybutton" class="button" value="<jtmpl:translate>Verify FTP Settings</jtmpl:translate>" onclick="doFTPVerify();" />
 
 								<br /><br />
 							</div>

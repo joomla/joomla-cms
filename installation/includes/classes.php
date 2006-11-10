@@ -306,29 +306,25 @@ class JInstallationController
 		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'includes/jajax.php');
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
+		$xajax->registerFunction(array('FTPVerify', 'JAJAXHandler', 'ftpverify'));
 		//$xajax->debugOn();
 
 		$vars['DBcreated'] = JArrayHelper::getValue($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
 
-		if (!isset ($vars['ftpEnable']))
-		{
+		if (!isset ($vars['ftpEnable'])) {
 			$vars['ftpEnable'] = '1';
 		}
-		if (!isset ($vars['ftpHost']))
-		{
+		if (!isset ($vars['ftpHost'])) {
 			$vars['ftpHost'] = '127.0.0.1';
 		}
-		if (!isset ($vars['ftpPort']))
-		{
+		if (!isset ($vars['ftpPort'])) {
 			$vars['ftpPort'] = '21';
 		}
-		if (!isset ($vars['ftpUser']))
-		{
+		if (!isset ($vars['ftpUser'])) {
 			$vars['ftpUser'] = '';
 		}
-		if (!isset ($vars['ftpPassword']))
-		{
+		if (!isset ($vars['ftpPassword'])) {
 			$vars['ftpPassword'] = '';
 		}
 
@@ -924,6 +920,48 @@ class JInstallationHelper
 		}
 
 		return ($thePath == '') ? null : $thePath."/";
+	}
+
+	/**
+	 * Verify the FTP configuration values are valid
+	 *
+	 * @static
+	 * @param string $user Username of the ftp user to determine root for
+	 * @param string $pass Password of the ftp user to determine root for
+	 * @return string Filesystem root for given FTP user
+	 * @since 1.5
+	 */
+	function FTPVerify($user, $pass, $root, $host='127.0.0.1', $port='21')
+	{
+		jimport('joomla.client.ftp');
+		$ftp = & JFTP::getInstance($host, $port);
+		
+		// Verify connection
+		if (!$ftp->isConnected()) {
+			return JError::raiseWarning('31', 'NOCONNECT');
+		}
+
+		// Verify username and password
+		if (!$ftp->login($user, $pass)) {
+			return JError::raiseWarning('31', 'NOLOGIN');
+		}
+
+		// Verify root path exists
+		if (!$ftp->chdir($root)) {
+			return JError::raiseWarning('31', 'NOROOT');
+		}
+
+		// Verify valid root path
+		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'feed.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
+		$rootList = $ftp->nameList();
+		$ftp->quit();
+		foreach ($checkList as $check) {
+			if (!in_array($check, $rootList)) {
+				return JError::raiseWarning('31', 'INVALIDROOT');
+			}
+		}
+
+		return true;
 	}
 
 	/**
