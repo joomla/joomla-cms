@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Nov-2006 Rastin Mehr
+ # Fixed [artf6564] : Can't hide email form
+
 09-Nov-2006 Johan Janssens
  + Added JPATH_COMPONENT_SITE define
  + Added JPATH_COMPONENT_ADMINISTRATOR define

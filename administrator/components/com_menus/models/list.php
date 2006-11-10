@@ -394,6 +394,7 @@ class JMenuModelList extends JModel
 	*/
 	function setState( $items, $state )
 	{
+		
 		$row =& $this->getTable();
 		foreach ($items as $id)
 		{

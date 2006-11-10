@@ -66,6 +66,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</a>
 	</td>
 </tr>
-<?php endif; ?>
-<?php echo $this->loadTemplate('form'); ?>
+<?php endif;
+
+if ( $this->params->get('email_form') )
+	echo $this->loadTemplate('form'); 
+?>
 </table>

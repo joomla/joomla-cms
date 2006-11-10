@@ -29,6 +29,7 @@ class ContactController extends JController
 	 */
 	function display()
 	{
+		
 		$document =& JFactory::getDocument();
 		
 		$viewName  = JRequest::getVar('view');
