@@ -94,7 +94,7 @@ class JTable extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix='JTable', &$db = null)
+	function &getInstance( $type, $prefix='JTable', &$db)
 	{
 		$adapter = $prefix.ucfirst($type);
 		if (!class_exists( $adapter ))
