@@ -203,7 +203,7 @@ class JAJAXHandler
 		require_once(JXPATH_BASE.DS."classes.php");
 		$status =  JInstallationHelper::FTPVerify($args['ftpUser'], $args['ftpPassword'], $args['ftpRoot'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($status)) {
-			$objResponse->addAlert($status->getMessage);
+			$objResponse->addAlert($status->getMessage());
 		} else {
 			$objResponse->addAlert('VALID');
 		}
