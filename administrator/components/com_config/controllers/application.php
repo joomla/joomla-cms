@@ -174,7 +174,7 @@ class ConfigControllerApplication extends JController
 		$formats  = array (JHTMLSelect::option('RSS2.0', JText::_('RSS')), JHTMLSelect::option('Atom', JText::_('Atom')));
 		$summary = array (JHTMLSelect::option(1, JText::_('Full Text')), JHTMLSelect::option(0, JText::_('Intro Text')),);
 		$lists['feed_limit']   = JHTMLSelect::genericList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-		$lists['feed_excerpt'] = JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_excerpt);
+		$lists['feed_summary'] = JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->summary);
 
 		// SHOW EDIT FORM
 		ConfigApplicationView::showConfig($row, $lists);

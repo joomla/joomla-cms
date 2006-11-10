@@ -15,7 +15,7 @@
 				<?php echo JText::_( 'For each article, show' ); ?>
 			</td>
 			<td>
-				<?php echo $lists['feed_excerpt']; ?>
+				<?php echo $lists['feed_summary']; ?>
 			</td>
 		</tr>
 		</tbody>

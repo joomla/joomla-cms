@@ -106,7 +106,6 @@ class JConfig {
 			
 	/* Feed Settings */
 	var $feed_limit   = 10;
-	var $feed_excerpt = 0;
 	var $feed_summary = 0;
 }
 ?>
