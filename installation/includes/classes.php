@@ -875,12 +875,30 @@ class JInstallationHelper
 	}
 
 	/**
+	 * Check the webserver user permissions for writing files/folders
+	 *
+	 * @static
+	 * @return	boolean	True if correct permissions exist
+	 * @since	1.5
+	 */
+	function fsPermissionsCheck()
+	{
+		/*
+		 * HANNES, here is where you put your filesystem check logic
+		 * 
+		 * true means that the user has access to write files in the filesystem ... false means not
+		 */
+
+		return true;
+	}
+
+	/**
 	 * Find the ftp filesystem root for a given user/pass pair
 	 *
 	 * @static
-	 * @param string $user Username of the ftp user to determine root for
-	 * @param string $pass Password of the ftp user to determine root for
-	 * @return string Filesystem root for given FTP user
+	 * @param	string	$user	Username of the ftp user to determine root for
+	 * @param	string	$pass	Password of the ftp user to determine root for
+	 * @return	string	Filesystem root for given FTP user
 	 * @since 1.5
 	 */
 	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21')
@@ -926,10 +944,10 @@ class JInstallationHelper
 	 * Verify the FTP configuration values are valid
 	 *
 	 * @static
-	 * @param string $user Username of the ftp user to determine root for
-	 * @param string $pass Password of the ftp user to determine root for
-	 * @return string Filesystem root for given FTP user
-	 * @since 1.5
+	 * @param	string	$user	Username of the ftp user to determine root for
+	 * @param	string	$pass	Password of the ftp user to determine root for
+	 * @return	mixed	Boolean true on success or JError object on fail
+	 * @since	1.5
 	 */
 	function FTPVerify($user, $pass, $root, $host='127.0.0.1', $port='21')
 	{
@@ -960,6 +978,8 @@ class JInstallationHelper
 				return JError::raiseWarning('31', 'INVALIDROOT');
 			}
 		}
+
+		// TODO: Perhaps check various needed ftp functions to see if they exist and are available
 
 		return true;
 	}
