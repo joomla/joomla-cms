@@ -45,6 +45,8 @@ Legend:
  # Fixed [artf6644] : Section Blog Layout doesn't paint contents
  # Fixed [artf6424] : Backend- Accessing Menu options from Admn panel
  # Fixed [artf6378] : contact: Using invalid Itemid cause call to undefined function
+ # Fixed [artf6630] : Multi-page navigation broken
+ # Fixed [artf6496] : The pagination is broken in view=section&layout=blog
 
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form

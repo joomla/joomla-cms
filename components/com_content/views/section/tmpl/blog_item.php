@@ -1,5 +1,4 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
 		<?php echo $this->getIcon('edit'); ?>

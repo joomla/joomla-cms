@@ -33,20 +33,33 @@ class ContentViewSection extends JView
 		$document =& JFactory::getDocument();
 		$pathway  = & $mainframe->getPathWay();
 
-		// Get some data from the model
-		$categories	= & $this->get( 'Categories' );
-		$items      = & $this->get( 'Content');
-		$section    = & $this->get( 'Section' );
-		$section->total = count($items);
-
 		// Get the menu object of the active menu item
 		$menu    =& JSiteHelper::getCurrentMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Request variables
-		$task 	    = JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		
+		//parameters
+		$intro		= $params->def('intro', 	4);
+		$leading	= $params->def('leading', 	1);
+		$links		= $params->def('link', 		4);
+		
+		$limit	= $intro + $leading + $links;
+		JRequest::setVar('limit', $limit);
+		
+		// Get some data from the model
+		$items      = & $this->get( 'Data');
+		$total      = & $this->get( 'Total');
+		$categories	= & $this->get( 'Categories' );
+		$section    = & $this->get( 'Section' );
+		
+		// Create a user access object for the user
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
 		$link    = JURI::base() .'feed.php?option=com_content&amp;task=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
@@ -55,12 +68,6 @@ class ContentViewSection extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
 
-		// Create a user access object for the user
-		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
 		// Set the page title and breadcrumbs
 		$pathway->addItem($section->title, '');
 
@@ -68,10 +75,12 @@ class ContentViewSection extends JView
 			$mainframe->setPageTitle($menu->name);
 		}
 
-		$intro		= $params->def('intro', 	4);
-		$leading	= $params->def('leading', 	1);
-		$links		= $params->def('link', 		4);
-
+		for($i = 0; $i < count($categories); $i++)
+		{
+			$category =& $categories[$i];
+			$category->link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$section->id.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
+		}
+		
 		$params->def('empty_cat_section', 	0);
 		$params->def('other_cat', 			1);
 		$params->def('empty_cat', 			0);
@@ -79,7 +88,7 @@ class ContentViewSection extends JView
 		$params->def('pageclass_sfx', 		'');
 		$params->set('intro_only', 			1);
 
-		if ($section->total == 0) {
+		if ($total == 0) {
 			$params->set('other_cat_section', false);
 		}
 
@@ -87,20 +96,12 @@ class ContentViewSection extends JView
 			$params->def('header', $menu->name);
 		}
 
-		for($i = 0; $i < count($categories); $i++)
-		{
-			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$section->id.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
-		}
-
-		$limit	= $intro + $leading + $links;
-		$i		= $limitstart;
-
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination(count($items), $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit);
+		
+		$this->assign('total'        , $total);
 
 		$this->assignRef('items'     , $items);
-		//$this->assignRef('request'   , $request);			// TODO: remove if unneded
 		$this->assignRef('section'   , $section);
 		$this->assignRef('categories', $categories);
 		$this->assignRef('params'    , $params);
@@ -152,7 +153,7 @@ class ContentViewSection extends JView
 		$params->set('image',			1);
 
 		$item =& $this->items[$index];
-
+	
 		// Process the content preparation plugins
 		$item->text	= ampReplace($item->introtext);
 		JPluginHelper::importPlugin('content');

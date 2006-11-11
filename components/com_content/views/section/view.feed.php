@@ -31,7 +31,7 @@ class ContentViewSection extends JView
 		$doc =& JFactory::getDocument();
 
 		// Lets get our data from the model
-		$rows = & $this->get( 'Content' );
+		$rows = & $this->get( 'Data' );
 
 		foreach ( $rows as $row )
 		{

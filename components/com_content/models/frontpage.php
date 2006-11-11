@@ -38,17 +38,7 @@ class ContentModelFrontpage extends JModel
 	 */
 	var $_total = null;
 	
-	/**
-	 * Method to set the section id
-	 *
-	 * @access	public
-	 * @param	int	Section ID number
-	 */
-	function setId($id)
-	{
-		$this->_content	= null;
-	}
-	
+
 	/**
 	 * Method to get content item data for the frontpage
 	 * 
@@ -56,6 +46,45 @@ class ContentModelFrontpage extends JModel
 	 * @return array
 	 */
 	function getData()
+	{
+		// Load the Category data
+		if ($this->_loadData())
+		{
+			// Initialize some variables
+			$user	=& JFactory::getUser();
+			
+			// raise errors
+		}
+	
+		return $this->_data;
+	}
+
+	/**
+	 * Method to get the total number of content items for the frontpage
+	 * 
+	 * @access public
+	 * @return integer
+	 */
+	function getTotal()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+		
+		return $this->_total;
+	}
+	
+	/**
+	 * Method to load content item data for items in the frontpage
+	 * exist.
+	 *
+	 * @access	private
+	 * @return	boolean	True on success
+	 */
+	function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -78,26 +107,7 @@ class ContentModelFrontpage extends JModel
 			}
 			$this->_data = $rows;
 		}
-		
-		return $this->_data;
-	}
-
-	/**
-	 * Method to get the total number of content items for the frontpage
-	 * 
-	 * @access public
-	 * @return integer
-	 */
-	function getTotal()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-		
-		return $this->_total;
+		return true;
 	}
 	
 	function _buildQuery()

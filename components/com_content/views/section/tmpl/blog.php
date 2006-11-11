@@ -1,5 +1,4 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->params->get('page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx');?>">
 	<?php echo $this->params->get('header'); ?>
@@ -24,7 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td valign="top">
 	<?php for ($i = 0; $i < $this->params->get('leading'); $i ++) : ?>
-		<?php if ($i >= $this->section->total) : break; endif; ?>
+		<?php if ($i >= $this->total) : break; endif; ?>
 		<div>
 		<?php 
 			$this->item =& $this->getItem($i, $this->params); 
@@ -35,7 +34,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php else : $i = 0; endif; ?>
-<?php if ($this->params->def('intro', 4) && ($i < $this->section->total)) : ?>
+<?php if ($this->params->def('intro', 4) && ($i < $this->total)) : ?>
 <tr>
 	<td valign="top">
 		<table width="100%" cellpadding="0" cellspacing="0">
@@ -46,7 +45,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('columns')) ?>%" class="article_column <?php echo $divider;?>">
 				<?php for ($y = 0; $y < $this->params->get('intro') / $this->params->get('columns'); $y ++) :
-					if ($i <= $this->params->get('intro') && ($i < $this->section->total)) :
+					if ($i < $this->params->get('intro') && ($i < $this->total)) :
 						$this->item =& $this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
 						$i ++;
@@ -59,7 +58,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('link', 4) && ($i < $this->section->total)) : ?>
+<?php if ($this->params->def('link', 4) && ($i < $this->total)) : ?>
 <tr>
 	<td valign="top">
 		<div class="blog_more<?php echo $this->params->get('pageclass_sfx');?>">

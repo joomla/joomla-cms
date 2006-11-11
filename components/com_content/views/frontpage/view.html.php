@@ -61,7 +61,6 @@ class ContentViewFrontpage extends JView
 		}
 		
 		$limit = $intro + $leading + $links;
-		
 		JRequest::setVar('limit', $limit);
 
 		//set data model
