@@ -829,6 +829,15 @@ class JApplication extends JObject
 	function getBasePath($client=0, $addTrailingSlash=true) {
 		return JURI::base();
 	}
+	
+	/**
+	* Depreacted, use JFactory::getUser instead
+	* @since 1.5
+	*/
+	function &getUser() {
+		$user =& JFactory::getUser();
+		return $user;
+	}
 }
 
 /**

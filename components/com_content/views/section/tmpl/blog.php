@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div>
 		<?php 
 			$this->item =& $this->getItem($i, $this->params); 
-			$this->loadTemplate('item');
+			echo $this->loadTemplate('item');
 		?>
 		</div>
 	<?php endfor; ?>

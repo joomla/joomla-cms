@@ -230,23 +230,20 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if ($oid !== null)
-		{
+		if ($oid !== null) {
 			$this->$k = $oid;
 		}
 
 		$oid = $this->$k;
 
-		if ($oid === null)
-		{
+		if ($oid === null) {
 			return false;
 		}
 
 		$class_vars = get_class_vars(get_class($this));
 		foreach ($class_vars as $name => $value)
 		{
-			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key"))
-			{
+			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key")) {
 				$this->$name = $value;
 			}
 		}
@@ -261,8 +258,7 @@ class JTable extends JObject
 
 		if ($result = $db->loadAssoc( ))
 		{
-			$this->bind($result);
-			return true;
+			return $this->bind($result);
 		}
 		else
 		{
@@ -968,7 +964,7 @@ class JTable extends JObject
 				array_push( $directories, $dir );
 			}
 		}
-
+		$directories = array_unique($directories);
 		return $directories;
 	}
 }

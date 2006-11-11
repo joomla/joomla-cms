@@ -211,7 +211,7 @@ class JModuleHelper
 	 */
 	function &_load()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		static $modules;
 
@@ -223,7 +223,6 @@ class JModuleHelper
 		$db		=& JFactory::getDBO();
 
 		$gid	= $user->get('gid');
-		$Itemid = JRequest::getVar('Itemid');
 
 		$modules	= array();
 

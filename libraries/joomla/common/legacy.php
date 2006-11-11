@@ -62,11 +62,8 @@ DEFINE('_DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-$_VERSION = new JVersion();
-$version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
-. $_VERSION->DEV_STATUS
-.' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '
-. $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
+ $_VERSION = new JVersion();
+ $version  = $_VERSION->getLongVersion();
 
 /**
  * Legacy global, use JFactory::getDBO() instead

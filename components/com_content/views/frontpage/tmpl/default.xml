@@ -50,10 +50,6 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="image" type="radio" default="1" label="MOSImages" description="Display {mosimages}.">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 	 		<param name="description" type="radio" default="0" label="Description" description="Show/Hide the Section Description">
 	 			<option value="0">Hide</option>

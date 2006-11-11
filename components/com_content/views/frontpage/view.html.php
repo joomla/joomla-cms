@@ -67,7 +67,7 @@ class ContentViewFrontpage extends JView
 		//set data model
 		$items =& $this->get('data' );
 		$total =& $this->get('total');
-
+		
 		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');

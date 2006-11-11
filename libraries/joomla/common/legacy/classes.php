@@ -116,15 +116,6 @@ class mosMainFrame extends JApplication
 		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
-
-	/**
-	* Depreacted, use JFactory::getUser instead
-	* @since 1.5
-	*/
-	function &getUser() {
-		$user =& JFactory::getUser();
-		return $user;
-	}
 }
 
 /**

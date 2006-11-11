@@ -343,14 +343,13 @@ class JSiteHelper
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$option = strtolower(JRequest::getVar('option', null));
 		
-		if ( $itemid === 0 )
+		$menus =& JMenu::getInstance();
+		if(!is_object($menus->getItem($itemid)) || $itemid === 0)
 		{
-			$menus =& JMenu::getInstance();
 			$item  =& $menus->getDefault();
-
 			$itemid = $item->id;
 		}
-
+		
 		return JRequest::setVar( 'Itemid', $itemid );
 	}
 

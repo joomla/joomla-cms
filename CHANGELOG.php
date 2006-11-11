@@ -37,9 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Nov-2006 Johan Janssens
+ # Fixed [artf6651] : legacy mode failed when $mainframe is called directly from component 1.0 style
+ # Fixed [artf6531] : Legacy notes
+ # Fixed [artf6394] : Notice: Undefined property: ContentViewCategory::$lists
+ # Fixed [artf6633] : Notice: Undefined property: JTableContent::$publised_down
+ # Fixed [artf6644] : Section Blog Layout doesn't paint contents
+ # Fixed [artf6424] : Backend- Accessing Menu options from Admn panel
+ # Fixed [artf6378] : contact: Using invalid Itemid cause call to undefined function
+
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form
- ! [artf6516] : much of the & has been replace with &amp; in all the ADMIN components. I think this issue 
+ ! Note  [artf6516] : much of the & has been replace with &amp; in all the ADMIN components. I think this issue 
  	has to be treated as a coding practice not a bug.
 
 09-Nov-2006 Johan Janssens
