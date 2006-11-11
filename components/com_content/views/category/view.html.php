@@ -38,14 +38,23 @@ class ContentViewCategory extends JView
 
 		// Request variables
 		$task 	    = JRequest::getVar('task');
-		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limit		= JRequest::getVar('limit', $params->def('display_num', 0), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		
+		// parameters
+		$intro		= $params->def('intro', 	0);
+		$leading	= $params->def('leading', 	0);
+		$links		= $params->def('link', 		0);
+		
+		//In case we are in a blog view set the limit
+		if($limit ==  0) $limit = $intro + $leading + $links;
+		JRequest::setVar('limit', $limit);
 
 		// Get some data from the model
-		$items	  = & $this->get( 'Content' );
+		$items	  = & $this->get( 'Data' );
+		$total	  = & $this->get( 'Total' );
 		$category = & $this->get( 'Category' );
-		$category->total = count($items);
-
+		
 		//add alternate feed link
 		$link    = JURI::base() .'feed.php?option=com_content&task='.$task.'&id='.$category->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -65,10 +74,6 @@ class ContentViewCategory extends JView
 		$pathway->addItem($category->title, '');
 
 		$mainframe->setPageTitle($menu->name);
-
-		$intro		= $params->def('intro', 	4);
-		$leading	= $params->def('leading', 	1);
-		$links		= $params->def('link', 		4);
 
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('title',			1);
@@ -92,11 +97,10 @@ class ContentViewCategory extends JView
 			$params->def('header', $menu->name);
 		}
 
-		$limit	= $intro + $leading + $links;
-		$i		= $limitstart;
-
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination( count($items), $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit);
+		
+		$this->assign('total'        , $total);
 
 		$this->assignRef('items'     , $items);
 		$this->assignRef('category'  , $category);

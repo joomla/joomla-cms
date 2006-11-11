@@ -30,6 +30,20 @@ class ContentModelCategory extends JModel
 	 * @var int
 	 */
 	var $_id = null;
+	
+	/**
+	 * Category items data
+	 *
+	 * @var array
+	 */
+	var $_data = null;
+	
+	/**
+	 * Category number items
+	 *
+	 * @var integer
+	 */
+	var $_total = null;
 
 	/**
 	 * Category data
@@ -46,13 +60,6 @@ class ContentModelCategory extends JModel
 	var $_siblings = null;
 
 	/**
-	 * Content data in category array
-	 *
-	 * @var array
-	 */
-	var $_content = array();
-
-	/**
 	 * Constructor
 	 *
 	 * @since 1.5
@@ -60,8 +67,6 @@ class ContentModelCategory extends JModel
 	function __construct()
 	{
 		parent::__construct();
-
-		global $Itemid;
 
 		// Get the paramaters of the active menu item
 		$params =& JSiteHelper::getMenuParams();
@@ -82,7 +87,58 @@ class ContentModelCategory extends JModel
 		$this->_id			= $id;
 		$this->_category	= null;
 		$this->_siblings	= null;
-		$this->_content		= array();
+		$this->_data		= array();
+		$this->_total		= null;
+	}
+	
+	/**
+	 * Method to get content item data for the current category
+	 *
+	 * @param	int	$state	The content state to pull from for the current
+	 * category
+	 * @since 1.5
+	 */
+	function getData($state = 1)
+	{
+		// Load the Category data
+		if ($this->_loadCategory() && $this->_loadData($state))
+		{
+			// Initialize some variables
+			$user	=& JFactory::getUser();
+			
+			// Make sure the category is published
+			if (!$this->_category->published)
+			{
+				JError::raiseError(404, JText::_("Resource Not Found"));
+				return false;
+			}
+
+			// check whether category access level allows access
+			if ($this->_category->access > $user->get('gid'))
+			{
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+				return false;
+			}
+		}
+		return $this->_data[$state];
+	}
+
+	/**
+	 * Method to get the total number of content items for the frontpage
+	 * 
+	 * @access public
+	 * @return integer
+	 */
+	function getTotal($state = 1)
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery($state);
+			$this->_total[$state] = $this->_getListCount($query);
+		}
+		
+		return $this->_total[$state];
 	}
 
 	/**
@@ -151,38 +207,6 @@ class ContentModelCategory extends JModel
 	function getArchives($state = -1)
 	{
 		return $this->getContent(-1);
-	}
-
-	/**
-	 * Method to get content item data for the current category
-	 *
-	 * @param	int	$state	The content state to pull from for the current
-	 * category
-	 * @since 1.5
-	 */
-	function getContent($state = 1)
-	{
-		// Initialize some variables
-		$user	=& JFactory::getUser();
-
-		// Load the Category data
-		if ($this->_loadCategory() && $this->_loadContent($state))
-		{
-			// Make sure the category is published
-			if (!$this->_category->published)
-			{
-				JError::raiseError(404, JText::_("Resource Not Found"));
-				return false;
-			}
-
-			// check whether category access level allows access
-			if ($this->_category->access > $user->get('gid'))
-			{
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-				return false;
-			}
-		}
-		return $this->_content[$state];
 	}
 
 	/**
@@ -279,10 +303,9 @@ class ContentModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadContent($state = 1)
+	function _loadData($state = 1)
 	{
-		if (empty($this->_category))
-		{
+		if (empty($this->_category)) {
 			return false; // TODO: set error -- can't get siblings when we don't know the category
 		}
 
@@ -293,26 +316,32 @@ class ContentModelCategory extends JModel
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-			// If voting is turned on, get voting data as well for the content items
-			$voting	= JContentHelper::buildVotingQuery();
-
-			// Get the WHERE and ORDER BY clauses for the query
-			$where	= $this->_buildContentWhere($state);
-			$orderby	= $this->_buildContentOrderBy($state);
-
-			$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-					"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-					"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
-					"\n FROM #__content AS a" .
-					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-					"\n LEFT JOIN #__groups AS g ON a.access = g.id".
-					$voting['join'].
-					$where.
-					$orderby;
-			$this->_db->setQuery($query, $limitstart, $limit);
-			$this->_content[$state] = $this->_db->loadObjectList();
+			$query = $this->_buildQuery($state);
+			$this->_data[$state] = $this->_getList($query, $limitstart, $limit);
 		}
 		return true;
+	}
+	
+	function _buildQuery($state = 1)
+	{
+		// If voting is turned on, get voting data as well for the content items
+		$voting	= JContentHelper::buildVotingQuery();
+
+		// Get the WHERE and ORDER BY clauses for the query
+		$where		= $this->_buildContentWhere($state);
+		$orderby	= $this->_buildContentOrderBy($state);
+		
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
+			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
+			"\n FROM #__content AS a" .
+			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
+			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+			$voting['join'].
+			$where.
+			$orderby;
+			
+		return $query;
 	}
 
 	function _buildContentOrderBy($state = 1)

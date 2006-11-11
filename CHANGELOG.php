@@ -47,6 +47,8 @@ Legend:
  # Fixed [artf6378] : contact: Using invalid Itemid cause call to undefined function
  # Fixed [artf6630] : Multi-page navigation broken
  # Fixed [artf6496] : The pagination is broken in view=section&layout=blog
+ # Fixed [artf6478] : Dropdown menu's "Display #" in o.a. FAQ don't work
+ # Fixed [artf6685] : Display # -Picklist-
 
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form
