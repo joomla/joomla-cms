@@ -52,6 +52,7 @@ Legend:
  # Fixed [artf6558] : mod_custom have no contents
  # Fixed [artf6654] : Section description doesn't saves in HTML format
  # Fixed [artf6426] : Just a warning while debugging is on
+ # Fixed [artf6385] : Weblinks, JS Error: form.filter_order_Dir has no properties
 
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form
