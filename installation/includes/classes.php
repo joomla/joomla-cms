@@ -883,12 +883,24 @@ class JInstallationHelper
 	 */
 	function fsPermissionsCheck()
 	{
-		/*
-		 * HANNES, here is where you put your filesystem check logic
-		 * 
-		 * true means that the user has access to write files in the filesystem ... false means not
-		 */
-
+		if(!is_writable(JPATH_ROOT.DS.'tmp')) {
+			return false;
+		}
+		if(!mkdir(JPATH_ROOT.DS.'tmp'.DS.'test', 0755)) {
+			return false;
+		}
+		if(!copy(JPATH_ROOT.DS.'tmp'.DS.'index.html', JPATH_ROOT.DS.'tmp'.DS.'test'.DS.'index.html')) {
+			return false;
+		}
+		if(!chmod(JPATH_ROOT.DS.'tmp'.DS.'test'.DS.'index.html', 0777)) {
+			return false;
+		}
+		if(!unlink(JPATH_ROOT.DS.'tmp'.DS.'test'.DS.'index.html')) {
+			return false;
+		}
+		if(!rmdir(JPATH_ROOT.DS.'tmp'.DS.'test')) {
+			return false;
+		}
 		return true;
 	}
 
