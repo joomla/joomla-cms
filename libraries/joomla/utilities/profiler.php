@@ -149,7 +149,7 @@ class JProfiler extends JObject
 				// Windows workaround
 				$output = array();
 				$pid = getmypid();
-				exec( 'tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output );
+				@exec( 'tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output );
 				if (!isset($output[5])) { 
 					$output[5] = null;
 				}

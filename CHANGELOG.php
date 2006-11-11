@@ -49,6 +49,9 @@ Legend:
  # Fixed [artf6496] : The pagination is broken in view=section&layout=blog
  # Fixed [artf6478] : Dropdown menu's "Display #" in o.a. FAQ don't work
  # Fixed [artf6685] : Display # -Picklist-
+ # Fixed [artf6558] : mod_custom have no contents
+ # Fixed [artf6654] : Section description doesn't saves in HTML format
+ # Fixed [artf6426] : Just a warning while debugging is on
 
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form
