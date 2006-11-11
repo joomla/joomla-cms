@@ -161,7 +161,7 @@ class HTML_admin_misc
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
-		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&pop=1&keyref=';
+		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
 
 		$helpsearch = JRequest::getVar( 'helpsearch' );
 		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
@@ -215,7 +215,7 @@ class HTML_admin_misc
 							|
 							<?php echo JHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo JHTML::Link('index.php?option=com_admin&task=changelog&tmpl=component', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::Link('index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
 							<?php echo JHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>

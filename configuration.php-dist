@@ -42,15 +42,15 @@ class JConfig {
 	/* Database Settings */
 	var $dbtype = 'mysql';					// Normally mysql
 	var $host = 'localhost';				// This is normally set to localhost
-	var $user = '';							// MySQL username
+	var $user = 'root';							// MySQL username
 	var $password = '';						// MySQL password
-	var $db = '';							// MySQL database name
+	var $db = 'joomla15';							// MySQL database name
 	var $dbprefix = 'jos_';					// Do not change unless you need to!
 	
 	/* Server Settings */
 	var $secret = 'FBVtggIk5lAzEU9H'; 		//Change this to something more secure
 	var $gzip = '0';
-	var $lifetime = '900';					// Session time
+	var $lifetime = '900000';					// Session time
 	var $error_reporting = '-1';
 	var $helpurl = 'http://help.joomla.org';
 	var $xmlrpc_server = '0';

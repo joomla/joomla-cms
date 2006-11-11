@@ -275,7 +275,7 @@ function copyModule( $option, $uid )
 	}
 
 	$msg = sprintf( JText::_( 'Module Copied' ), $row->title );
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client, $msg );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client, $msg );
 }
 
 /**
@@ -356,13 +356,13 @@ function saveModule( $option, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
-			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id .'&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Module' ), $row->title );
-			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id, $msg );
 			break;
 	}
 }
@@ -689,7 +689,7 @@ function publishModule( $cid=null, $publish=1, $option )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
 }
 
 /**
@@ -708,7 +708,7 @@ function cancelModule( $option )
 	$row->bind(JRequest::get('post'), 'selections params' );
 	$row->checkin();
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
 }
 
 /**
@@ -729,7 +729,7 @@ function orderModule( $uid, $inc, $option )
 
 	$row->move( $inc, "position = '".$row->position."' AND client_id=".$client->id  );
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
 }
 
 /**
@@ -769,7 +769,7 @@ function accessMenu( $uid, $access, $option )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
 }
 
 function saveOrder( &$cid )
@@ -808,7 +808,7 @@ function saveOrder( &$cid )
 	}
 
 	$msg 	= JText::_( 'New ordering saved' );
-	$mainframe->redirect( 'index.php?option=com_modules&client='. $client->id, $msg );
+	$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id, $msg );
 }
 
 function previewModule($id )

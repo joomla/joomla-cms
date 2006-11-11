@@ -576,7 +576,7 @@ class JLanguageHelper
 			$option['text'] = $metadata['name'];
 			$option['value'] = $lang;
 			if ($lang == $actualLanguage) {
-				$option['selected'] = 'selected="true"';
+				$option['selected'] = 'selected="selected"';
 			}
 			$list[] = $option;
 		}

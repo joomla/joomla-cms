@@ -254,7 +254,7 @@ function saveNewsFeed(  )
 	{
 		case 'apply':
 			$msg = JText::_( 'Changes to Newsfeed saved' );
-			$link = 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
+			$link = 'index.php?option=com_newsfeeds&amp;task=edit&amp;cid[]='. $row->id .'&amp;hidemainmenu=1';
 			break;
 
 		case 'save':

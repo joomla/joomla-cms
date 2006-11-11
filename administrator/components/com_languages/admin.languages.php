@@ -137,9 +137,9 @@ function publishLanguage( $language )
 	 */
     jimport('joomla.filesystem.file');
 	if (JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')))) {
-		$mainframe->redirect("index.php?option=com_languages&client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
+		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
 	} else {
-		$mainframe->redirect("index.php?option=com_languages&client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
+		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
 }
 ?>

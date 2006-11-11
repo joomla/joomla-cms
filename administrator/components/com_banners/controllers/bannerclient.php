@@ -97,7 +97,7 @@ class BannerClientController
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $userId )) {
 	    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
-			$mainframe->redirect( 'index.php?option=com_banners&task=listclients', $msg );
+			$mainframe->redirect( 'index.php?option=com_banners&amp;task=listclients', $msg );
 		}
 
 		if ($row->cid) {
@@ -138,12 +138,12 @@ class BannerClientController
 		switch (JRequest::getVar( 'task' )) 
 		{
 			case 'applyclient':
-				$link = 'index.php?option=com_banners&task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';
+				$link = 'index.php?option=com_banners&amp;task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';
 				break;
 
 			case 'saveclient':
 			default:
-				$link = 'index.php?option=com_banners&task=listclients';
+				$link = 'index.php?option=com_banners&amp;task=listclients';
 				break;
 		}
 
@@ -160,7 +160,7 @@ class BannerClientController
 		$table->cid	= JRequest::getVar( 'cid', 0, 'post', 'int' );
 		$table->checkin();
 
-		$mainframe->redirect( "index.php?option=com_banners&task=listclients" );
+		$mainframe->redirect( "index.php?option=com_banners&amp;task=listclients" );
 	}
 
 	function remove()
@@ -193,7 +193,7 @@ class BannerClientController
 				$table->delete( (int) $cid[$i] );
 			}
 		}
-		$mainframe->redirect( 'index.php?option=com_banners&task=listclients', $msg, 'error' );
+		$mainframe->redirect( 'index.php?option=com_banners&amp;task=listclients', $msg, 'error' );
 	}
 }
 ?>

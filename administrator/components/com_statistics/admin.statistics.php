@@ -60,29 +60,29 @@ function showSummary( $task )
 	$order_by = '';
 	$sorts = array();
 	$tab = JRequest::getVar( 'tab', 'tab1' );
-	$sort_base = "index.php?option=com_statistics&task=$task";
+	$sort_base = "index.php?option=com_statistics&amp;task=$task";
 
 	switch ($field) 
 	{
 		case 'hits':
 			$order_by = "hits $order";
-			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent' );
-			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab1", 'hits', $order );
-			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent' );
-			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab2", 'hits', $order );
-			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent' );
-			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab3", 'hits', $order );
+			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&amp;tab=tab1", 'agent' );
+			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab1", 'hits', $order );
+			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&amp;tab=tab2", 'agent' );
+			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab2", 'hits', $order );
+			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&amp;tab=tab3", 'agent' );
+			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab3", 'hits', $order );
 			break;
 
 		case 'agent':
 		default:
 			$order_by = "agent $order";
-			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent', $order );
-			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab1", 'hits' );
-			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent', $order );
-			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab2", 'hits' );
-			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent', $order );
-			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&tab=tab3", 'hits' );
+			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&amp;tab=tab1", 'agent', $order );
+			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab1", 'hits' );
+			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&amp;tab=tab2", 'agent', $order );
+			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab2", 'hits' );
+			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&amp;tab=tab3", 'agent', $order );
+			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab3", 'hits' );
 			break;
 	}
 
@@ -344,7 +344,7 @@ function resetStats()
 
 			if ( $total == 0 ) {
 				$msg = JText::_( 'reset statistics failed' );
-				$redirecturl = 'index.php?option=com_statistics&task=pageimp';
+				$redirecturl = 'index.php?option=com_statistics&amp;task=pageimp';
 			}
 			else {
 				$query = "UPDATE #__content"
@@ -352,7 +352,7 @@ function resetStats()
 				. "\n WHERE hits != 0"
 				;
 				$msg = JText::_( 'reset statistics success' );
-				$redirecturl = 'index.php?option=com_statistics&task=pageimp';
+				$redirecturl = 'index.php?option=com_statistics&amp;task=pageimp';
 			}
 			break;
 
@@ -366,12 +366,12 @@ function resetStats()
 
 			if ( $total == 0 ) {
 				$msg = JText::_( 'reset statistics failed' );
-				$redirecturl = 'index.php?option=com_statistics&task=searches';
+				$redirecturl = 'index.php?option=com_statistics&amp;task=searches';
 			}
 			else {
    				$query = "DELETE FROM #__core_log_searches";
 				$msg = JText::_( 'reset statistics success' );
-				$redirecturl = 'index.php?option=com_statistics&task=searches';
+				$redirecturl = 'index.php?option=com_statistics&amp;task=searches';
 			}
 			break;
 		}
@@ -403,7 +403,7 @@ function sortIcon( $text, $base_href, $field, $state='none' )
 		$img = "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />";
 	}
 
-	$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
+	$html = "<a href=\"$base_href&amp;field=$field&amp;order=$next_state\">"
 	. JText::_( $text )
 	. '&nbsp;&nbsp;'
 	. $img

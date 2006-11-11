@@ -39,6 +39,8 @@ Legend:
 
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form
+ ! [artf6516] : much of the & has been replace with &amp; in all the ADMIN components. I think this issue 
+ 	has to be treated as a coding practice not a bug.
 
 09-Nov-2006 Johan Janssens
  + Added JPATH_COMPONENT_SITE define

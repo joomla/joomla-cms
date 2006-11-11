@@ -696,11 +696,11 @@ class ContentController extends JController
 		switch ($task)
 		{
 			case 'go2menu' :
-				$mainframe->redirect('index.php?option=com_menus&menutype='.$menu);
+				$mainframe->redirect('index.php?option=com_menus&amp;menutype='.$menu);
 				break;
 
 			case 'go2menuitem' :
-				$mainframe->redirect('index.php?option=com_menus&menutype='.$menu.'&task=edit&hidemainmenu=1&id='.$menuid);
+				$mainframe->redirect('index.php?option=com_menus&amp;menutype='.$menu.'&amp;task=edit&amp;hidemainmenu=1&amp;id='.$menuid);
 				break;
 
 			case 'menulink' :
@@ -713,13 +713,13 @@ class ContentController extends JController
 
 			case 'apply' :
 				$msg = sprintf(JText::_('Successfully Saved changes to Item'), $row->title);
-				$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&cid[]='.$row->id, $msg);
+				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect.'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='.$row->id, $msg);
 				break;
 
 			case 'save' :
 			default :
 				$msg = sprintf(JText::_('Successfully Saved Item'), $row->title);
-				$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect, $msg);
+				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect, $msg);
 				break;
 		}
 	}
@@ -802,7 +802,7 @@ class ContentController extends JController
 			$rtask = '';
 		}
 
-		$mainframe->redirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect.'&josmsg='.$msg);
+		$mainframe->redirect('index.php?option='.$option.$rtask.'&amp;sectionid='.$redirect.'&amp;josmsg='.$msg);
 	}
 
 	/**
@@ -901,7 +901,7 @@ class ContentController extends JController
 		$cache->cleanCache();
 
 		$msg = sprintf(JText::_('Item(s) sent to the Trash'), count($cid));
-		$mainframe->redirect('index.php?option='.$option.'&task='.$return, $msg);
+		$mainframe->redirect('index.php?option='.$option.'&amp;task='.$return, $msg);
 	}
 
 	/**
@@ -1009,7 +1009,7 @@ class ContentController extends JController
 		list ($newsect, $newcat) = explode(',', $sectcat);
 
 		if (!$newsect && !$newcat) {
-			$mainframe->redirect("index.php?option=com_content&sectionid=$sectionid&josmsg=".JText::_('An error has occurred'));
+			$mainframe->redirect("index.php?option=com_content&amp;sectionid=$sectionid&amp;josmsg=".JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1065,7 +1065,7 @@ class ContentController extends JController
 			$msg = JText::_('Item(s) successfully moved to Static Content');
 		}
 
-		$mainframe->redirect('index.php?option='.$option.'&sectionid='.$sectionid, $msg);
+		$mainframe->redirect('index.php?option='.$option.'&amp;sectionid='.$sectionid, $msg);
 	}
 
 	/**
@@ -1130,7 +1130,7 @@ class ContentController extends JController
 		list ($newsect, $newcat) = $sectcat;
 
 		if (!$newsect && !$newcat) {
-			$mainframe->redirect('index.php?option=com_content&sectionid='.$sectionid.'&josmsg='.JText::_('An error has occurred'));
+			$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$sectionid.'&amp;josmsg='.JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1201,7 +1201,7 @@ class ContentController extends JController
 		}
 
 		$msg = sprintf(JText::_('Item(s) successfully copied to Section'), $total, $section, $category);
-		$mainframe->redirect('index.php?option='.$option.'&sectionid='.$sectionid.'&josmsg='.$msg);
+		$mainframe->redirect('index.php?option='.$option.'&amp;sectionid='.$sectionid.'&amp;josmsg='.$msg);
 	}
 
 	/**
@@ -1297,11 +1297,11 @@ class ContentController extends JController
 		switch ($rettask)
 		{
 			case 'showarchive' :
-				$mainframe->redirect('index.php?option=com_content&task=showarchive&sectionid='.$redirect, $msg);
+				$mainframe->redirect('index.php?option=com_content&amp;task=showarchive&amp;sectionid='.$redirect, $msg);
 				break;
 
 			default :
-				$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect, $msg);
+				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect, $msg);
 				break;
 		}
 	}

@@ -273,7 +273,7 @@ function saveWeblink( $task )
 	{
 		case 'apply':
 			$msg = JText::_( 'Changes to Weblink saved' );
-			$link = 'index.php?option=com_weblinks&task=edit&cid[]='. $row->id .'&hidemainmenu=1';
+			$link = 'index.php?option=com_weblinks&amp;task=edit&amp;cid[]='. $row->id .'&amp;hidemainmenu=1';
 			break;
 
 		case 'save':

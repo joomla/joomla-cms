@@ -66,12 +66,12 @@ class MenusController extends JController
 		$item =& $model->getItem();
 		switch ( $this->_task ) {
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype.'&task=edit&cid[]='.$item->id.'&hidemainmenu=1' , $msg );
+				$this->setRedirect( 'index.php?option=com_menus&amp;menutype='.$item->menutype.'&amp;task=edit&amp;cid[]='.$item->id.'&amp;hidemainmenu=1' , $msg );
 				break;
 
 			case 'save':
 			default:
-				$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$item->menutype, $msg );
+				$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$item->menutype, $msg );
 				break;
 		}
 	}
@@ -90,7 +90,7 @@ class MenusController extends JController
 //		}
 //		$menu->checkin();
 		$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menu, $msg );
 	}
 
 	/**
@@ -167,7 +167,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menu, $msg );
 	}
 
 	/**
@@ -185,7 +185,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -203,7 +203,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -216,7 +216,7 @@ class MenusController extends JController
 		if ($cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, JText::_('No Items Selected') );
+			$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, JText::_('No Items Selected') );
 			return false;
 		}
 
@@ -226,7 +226,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -239,7 +239,7 @@ class MenusController extends JController
 		if ($cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, JText::_('No Items Selected') );
+			$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, JText::_('No Items Selected') );
 			return false;
 		}
 
@@ -249,7 +249,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -266,7 +266,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -284,7 +284,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -302,7 +302,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -320,7 +320,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**
@@ -338,7 +338,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	function remove()
@@ -353,7 +353,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype, $msg );
 	}
 
 	/**

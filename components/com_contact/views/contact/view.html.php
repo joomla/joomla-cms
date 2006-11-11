@@ -31,7 +31,7 @@ class ContactViewContact extends JView
 
 		// Get the paramaters of the active menu item
 		$menu    =& JSiteHelper::getCurrentMenuItem();
-		$params  =& JSiteHelper::getMenuParams();	
+		$params  =& JSiteHelper::getMenuParams();
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('header', 					$menu->name );
 		$params->def('print', 					!$contentConfig->get('hidePrint'));

@@ -215,12 +215,12 @@ function savePlugin( $option, $client, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
-			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client .'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->id, $msg );
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Plugin' ), $row->name );
-			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client, $msg );
 			break;
 	}
 }
@@ -349,7 +349,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client );
 }
 
 /**
@@ -364,7 +364,7 @@ function cancelPlugin( $option, $client )
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client );
 }
 
 /**
