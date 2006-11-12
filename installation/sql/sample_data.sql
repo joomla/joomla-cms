@@ -1,4 +1,4 @@
-﻿# $Id: sample_data.sql 3136 2006-04-16 21:53:53Z Jinx $
+# $Id: sample_data.sql 3136 2006-04-16 21:53:53Z Jinx $
 #
 # IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING
 # 
