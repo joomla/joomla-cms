@@ -85,9 +85,9 @@ class sefURL extends JPlugin {
 			if (count($urlArray))
 			{
 				// Check for index.php, index2.php, etc, in no-rewrite mode 
-				if (preg_match( '#index\d?\.php#', $urlArray[0])) {
+				if ((preg_match( '#index\d?\.php#', $urlArray[0])) || (strpos($urlArray[0], 'feed.php') !== false)) {
 					array_shift($urlArray);
-				}
+				} 
 
 				$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
 				if ($component == '') {
@@ -184,16 +184,7 @@ function sefRelToAbs($string)
 		}
 	
 		// Get the base request URL if not set
-		static $LiveSite;
-		if (!isset($LiveSite)) {
-			$uri =& JFactory::getURI();
-			$LiveSite  = $uri->getScheme().'://';
-			$LiveSite .= $uri->getHost();
-			if ($port = $uri->getPort()) {
-				$LiveSite .= ":$port";
-			}
-			$LiveSite .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-		}
+		$LiveSite .=  JURI::base();
 	
 		// Get config variables
 		$rewrite  = $params->get('mode', 0);
@@ -261,9 +252,9 @@ function sefRelToAbs($string)
 
 			// Prepend the base URI
 			if ($rewrite) {
-				return $LiveSite.'/index.php/'.$string;
+				return $LiveSite.'index.php/'.$string;
 			} else {
-				return $LiveSite.'/'.$string;
+				return $LiveSite.$string;
 			}
 		} else {
 			// Handling for when SEF is not activated

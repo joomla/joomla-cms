@@ -19,9 +19,9 @@ function newsfeeds_buildURL($ARRAY, &$params)
 	// TODO: Resolve category names
 
 	$parts = array();
-	switch (@$ARRAY['task'])
+	switch (@$ARRAY['view'])
 	{
-		case 'view':
+		case 'newsfeed':
 			$parts[]	= 'feed';
 			$id			= @$ARRAY['feedid'];
 			$parts[]	= $id;
