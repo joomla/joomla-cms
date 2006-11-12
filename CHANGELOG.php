@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Nov-2006 Louis Landry
+ # Fixed feeds not rendering with SEF URLs enabled
+
 11-Nov-2006 Johan Janssens
  # Fixed [artf6651] : legacy mode failed when $mainframe is called directly from component 1.0 style
  # Fixed [artf6531] : Legacy notes
