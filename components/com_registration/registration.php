@@ -249,6 +249,7 @@ class RegistrationController
 
 			$message->title = JText::_( 'REGERROR' );
 			$message->text = $user->getError();
+			JError::raiseWarning( 500, JText::_( 'REGERROR' ));
 			$view->assign('message', $message);
 			$view->display();
 
