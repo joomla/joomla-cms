@@ -120,6 +120,7 @@ class categories_html
 		<tbody>
 		<?php
 		$k = 0;
+		if( count( $rows ) ) {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
@@ -191,6 +192,17 @@ class categories_html
 				?>
 			</tr>
 			<?php
+		}
+		} else {
+			if( $type == 'content') {
+				?>
+				<tr><td colspan="10"><?php echo JText::_('There are no Categories'); ?></td></tr>
+				<?php
+			} else {
+				?>
+				<tr><td colspan="8"><?php echo JText::_('There are no Categories'); ?></td></tr>
+				<?php
+			}
 		}
 		?>
 		</tbody>
