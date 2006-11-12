@@ -72,17 +72,17 @@ class WeblinksViewWeblink extends JView
 		$returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 
 		//get the weblink
-		$weblink =& $this->get('weblink');
+		$weblink =& $this->get('Weblink');
 		$isNew   = ($weblink->id < 1);
-		
-		// Is this link checked out?  If not by me fail
-		if ($model->isCheckedOut($user->get('id'))) {
-			$mainframe->redirect("index2.php?option=$option", "The module $weblink->title is currently being edited by another administrator.");
-		}
 
 		// Edit or Create?
-		if ($isNew)
+		if (!$isNew)
 		{
+			// Is this link checked out?  If not by me fail
+			if ($model->isCheckedOut($user->get('id'))) {
+				$mainframe->redirect("index2.php?option=$option", "The module $weblink->title is currently being edited by another administrator.");
+			}
+
 			/*
 			 * The web link already exists so we are editing it.  Here we want to
 			 * manipulate the pathway and pagetitle to indicate this, plus we want
@@ -120,7 +120,7 @@ class WeblinksViewWeblink extends JView
 		$this->assign('returnid', $returnid);
 
 		$this->assignRef('lists'   , $lists);
-		$this->assignRef('weblink' , $row);
+		$this->assignRef('weblink' , $weblink);
 
 		parent::display($tpl);
 	}

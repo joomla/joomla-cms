@@ -100,8 +100,26 @@ class WeblinksModelWeblink extends JModel
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 				return;
 			}
+		} else {
+			$weblink->id		= 0;
+			$weblink->catid		= 0;
+			$weblink->sid		= 0;
+			$weblink->title		= null;
+			$weblink->url		= null;
+			$weblink->description	= null;
+			$weblink->date		= null;
+			$weblink->hits		= 0;
+			$weblink->published	= 0;
+			$weblink->checked_out	= 0;
+			$weblink->checked_out_time	= 0;
+			$weblink->ordering	= 0;
+			$weblink->archived	= 0;
+			$weblink->approved	= 0;
+			$weblink->params		= null;
+			$weblink->category	= null;
+			$this->_weblink			= $weblink;
 		}
-		
+
 		return $this->_weblink;
 	}
 	

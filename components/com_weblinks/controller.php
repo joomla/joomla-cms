@@ -97,7 +97,7 @@ class WeblinksController extends JController
 		}
 
 		// Create a web link table
-		$row =& JTable::getInstance('weblink','Table');
+		$row =& JTable::getInstance('weblink','JTable');
 
 		// Get the form fields.
 		$fields = JRequest::getVar('jform', array(), 'post', 'array');
