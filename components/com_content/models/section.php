@@ -30,14 +30,14 @@ class ContentModelSection extends JModel
 	 * @var int
 	 */
 	var $_id = null;
-	
+
 	/**
 	 * Frontpage data array
 	 *
 	 * @var array
 	 */
 	var $_data = null;
-	
+
 	/**
 	 * Frontpage total
 	 *
@@ -90,9 +90,9 @@ class ContentModelSection extends JModel
 		$this->_total 		= null;
 		$this->_section		= null;
 		$this->_categories	= null;
-		
+
 	}
-	
+
 	/**
 	 * Method to get content item data for the section
 	 *
@@ -107,7 +107,7 @@ class ContentModelSection extends JModel
 		{
 			// Initialize some variables
 			$user	=& JFactory::getUser();
-			
+
 			// Make sure the category is published
 			if (!$this->_section->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
@@ -122,10 +122,10 @@ class ContentModelSection extends JModel
 		}
 		return $this->_data[$state];
 	}
-	
+
 	/**
 	 * Method to get the total number of content items for the section
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 */
@@ -137,7 +137,7 @@ class ContentModelSection extends JModel
 			$query = $this->_buildQuery($state);
 			$this->_total[$state] = $this->_getListCount($query);
 		}
-		
+
 		return $this->_total[$state];
 	}
 
@@ -334,7 +334,7 @@ class ContentModelSection extends JModel
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-			
+
 			$query = $this->_buildQuery();
 			$this->_data[$state] = $this->_getList($query, $limitstart, $limit);
 		}
@@ -382,7 +382,7 @@ class ContentModelSection extends JModel
 		}
 		return true;
 	}
-	
+
 	function _buildQuery($state = 1)
 	{
 		// If voting is turned on, get voting data as well for the content items
@@ -403,7 +403,7 @@ class ContentModelSection extends JModel
 				$voting['join'].
 				$where.
 				$orderby;
-			
+
 		return $query;
 	}
 

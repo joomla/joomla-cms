@@ -95,7 +95,7 @@ function showWeblinks( $option )
 	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid', 	0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
@@ -181,7 +181,7 @@ function editWeblink()
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 	$cid 	= JRequest::getVar( 'cid', array(0));
-	
+
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
@@ -269,7 +269,7 @@ function saveWeblink( $task )
 	}
 	$row->checkin();
 
-	switch ($task) 
+	switch ($task)
 	{
 		case 'apply':
 			$msg = JText::_( 'Changes to Weblink saved' );
@@ -402,7 +402,7 @@ function saveOrder( &$cid )
 		$row->load( (int) $cid[$i] );
 		// track categories
 		$groupings[] = $row->catid;
-		
+
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {

@@ -24,9 +24,9 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch (JRequest::getVar('task')) 
+switch (JRequest::getVar('task'))
 {
-	case 'add' : 
+	case 'add' :
 	case 'edit':
 		editCategory( );
 		break;
@@ -114,7 +114,7 @@ function showCategories( $section, $option )
 	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
@@ -174,7 +174,7 @@ function showCategories( $section, $option )
 		} else {
 			$order 			= "\n ORDER BY  $filter_order $filter_order_Dir, z.title, c.ordering";
 		}
-		
+
 		$section_name 	= JText::_( 'All Content:' );
 
 		// get the total number of records
@@ -304,7 +304,7 @@ function editCategory( )
 	;
 	$db->setQuery( $query );
 	$sections = $db->loadResult();
-	if (!$sections && $type != 'other' 
+	if (!$sections && $type != 'other'
 			&& $section != "com_weblinks"
 			&& $section != "com_newsfeeds"
 			&& $section != "com_contact_details"
@@ -413,7 +413,7 @@ function saveCategory()
 		$where = "section = '" . $row->section . "'";
 		$row->ordering = $row->getNextOrder ( $where );
 	}
-	
+
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -447,7 +447,7 @@ function saveCategory()
 		exit();
 	}
 
-	switch ( JRequest::getVar('task') ) 
+	switch ( JRequest::getVar('task') )
 	{
 		case 'go2menu':
 			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu );

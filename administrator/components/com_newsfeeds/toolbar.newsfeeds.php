@@ -17,9 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-switch ($task) 
+switch ($task)
 {
-	case 'add' : 
+	case 'add' :
 	case 'edit':
 		TOOLBAR_newsfeeds::_EDIT();
 		break;

@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-switch ( JRequest::getVar('task')) 
+switch ( JRequest::getVar('task'))
 {
 	case 'login' :
 		LoginController::login();
@@ -46,7 +46,7 @@ class LoginController
 	function display()
 	{
 		global $mainframe, $Itemid, $option;
-		
+
 		$document =& JFactory::getDocument();
 		echo $document->getInclude('module', 'login', array('style' => 'rounded', 'id' => 'section-box'));
 	}
@@ -54,9 +54,9 @@ class LoginController
 	function login()
 	{
 		global $mainframe;
-		
+
 		$result =& $mainframe->login();
-		
+
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}
@@ -65,9 +65,9 @@ class LoginController
 	function logout()
 	{
 		global $mainframe;
-		
+
 		$result =& $mainframe->logout();
-		
+
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}

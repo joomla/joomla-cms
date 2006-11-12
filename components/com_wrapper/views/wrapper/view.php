@@ -20,14 +20,14 @@ jimport( 'joomla.application.component.view');
 */
 class WrapperViewWrapper extends JView
 {
-	function display( $tpl = null ) 
-	{	
+	function display( $tpl = null )
+	{
 		global $Itemid;
-		
+
 		// get menu
 		$menus  =& JMenu::getInstance();
 		$menu   =& $menus->getItem($Itemid);
-		
+
 		$this->params->def( 'header', $menu->name );
 		$this->params->def( 'scrolling', 'auto' );
 		$this->params->def( 'page_title', '1' );
@@ -36,15 +36,15 @@ class WrapperViewWrapper extends JView
 		$this->params->def( 'height_auto', '0' );
 		$this->params->def( 'width', '100%' );
 		$this->params->def( 'add', '1' );
-		
-		
+
+
 		// auto height control
 		if ( $this->params->def( 'height_auto' ) ) {
 			$this->wrapper->load = 'onload="iFrameHeight()"';
 		} else {
 			$this->wrapper->load = '';
 		}
-		
+
 		parent::display($tpl);
 	}
 }

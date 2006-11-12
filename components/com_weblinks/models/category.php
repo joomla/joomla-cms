@@ -30,14 +30,14 @@ class WeblinksModelCategory extends JModel
 	 * @var int
 	 */
 	var $_id = null;
-	
+
 	/**
 	 * Category ata array
 	 *
 	 * @var array
 	 */
 	var $_data = null;
-	
+
 	/**
 	 * Category total
 	 *
@@ -51,7 +51,7 @@ class WeblinksModelCategory extends JModel
 	 * @var object
 	 */
 	var $_category = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -60,7 +60,7 @@ class WeblinksModelCategory extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
@@ -70,7 +70,7 @@ class WeblinksModelCategory extends JModel
 		$this->setId($id);
 
 	}
-	
+
 	/**
 	 * Method to set the category id
 	 *
@@ -83,10 +83,10 @@ class WeblinksModelCategory extends JModel
 		$this->_id			= $id;
 		$this->_category	= null;
 	}
-	
+
 	/**
 	 * Method to get weblink item data for the category
-	 * 
+	 *
 	 * @access public
 	 * @return array
 	 */
@@ -98,18 +98,18 @@ class WeblinksModelCategory extends JModel
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-			
+
 			$query = $this->_buildQuery();
-			
+
 			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
-		
+
 		return $this->_data;
 	}
 
 	/**
 	 * Method to get the total number of weblink items for the category
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 */
@@ -121,7 +121,7 @@ class WeblinksModelCategory extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
-		
+
 		return $this->_total;
 	}
 
@@ -137,7 +137,7 @@ class WeblinksModelCategory extends JModel
 		{
 			// Initialize some variables
 			$user = &JFactory::getUser();
-			
+
 			// Make sure the category is published
 			if (!$this->_category->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
@@ -151,7 +151,7 @@ class WeblinksModelCategory extends JModel
 		}
 		return $this->_category;
 	}
-	
+
 	/**
 	 * Method to load category data if it doesn't exist.
 	 *
@@ -172,12 +172,12 @@ class WeblinksModelCategory extends JModel
 		}
 		return true;
 	}
-	
+
 	function _buildQuery()
 	{
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
-		
+
 		// We need to get a list of all weblinks in the given category
 		$query = "SELECT *" .
 			"\n FROM #__weblinks" .
@@ -185,8 +185,8 @@ class WeblinksModelCategory extends JModel
 			"\n AND published = 1" .
 			"\n AND archived = 0";
 			"\n ORDER BY $filter_order $filter_order_dir, ordering";
-		
+
 		return $query;
-	}	
+	}
 }
 ?>

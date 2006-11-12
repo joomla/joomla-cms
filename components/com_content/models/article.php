@@ -204,7 +204,7 @@ class ContentModelArticle extends JModel
 	 */
 	function isCheckedOut( $uid=0 )
 	{
-		if ($this->_loadArticle()) 
+		if ($this->_loadArticle())
 		{
 			if ($uid) {
 				return ($this->_article->checked_out && $this->_article->checked_out != $uid);
@@ -277,8 +277,8 @@ class ContentModelArticle extends JModel
 					"\n WHERE content_id = $this->_id";
 			$this->_db->setQuery($query);
 			$rating = $this->_db->loadObject();
-			
-			if (!$rating) 
+
+			if (!$rating)
 			{
 				// There are no ratings yet, so lets insert our rating
 				$query = "INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )" .
@@ -288,9 +288,9 @@ class ContentModelArticle extends JModel
 					JError::raiseError( 500, $this->_db->stderr());
 				}
 			}
-			else 
+			else
 			{
-				if ($userIP != ($rating->lastip)) 
+				if ($userIP != ($rating->lastip))
 				{
 					// We weren't the last voter so lets add our vote to the ratings totals for the article
 					$query = "UPDATE #__content_rating" .
@@ -301,7 +301,7 @@ class ContentModelArticle extends JModel
 						JError::raiseError( 500, $this->_db->stderr());
 					}
 				}
-				else 
+				else
 				{
 					return false;
 				}
@@ -356,7 +356,7 @@ class ContentModelArticle extends JModel
 	function _loadArticleParams()
 	{
 		global $mainframe;
-		
+
 		$user	=& JFactory::getUser();
 		$pop	= JRequest::getVar('pop', 0, '', 'int');
 
@@ -440,7 +440,7 @@ class ContentModelArticle extends JModel
 	function _buildContentWhere()
 	{
 		global $mainframe;
-		
+
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');
@@ -453,7 +453,7 @@ class ContentModelArticle extends JModel
 		$where = "\n WHERE a.id = $this->_id";
 		$where .= "\n AND a.access <= $gid";
 
-		if (!$user->authorize('action', 'edit', 'content', 'all')) 
+		if (!$user->authorize('action', 'edit', 'content', 'all'))
 		{
 			$where .= " AND ( a.state = 1 OR a.state = -1 )" .
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .

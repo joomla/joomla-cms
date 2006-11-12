@@ -49,7 +49,7 @@ class JMenuModelItem extends JModel
 		}
 	}
 
-	function &getItem() 
+	function &getItem()
 	{
 		static $item;
 		if (isset($item)) {
@@ -118,13 +118,13 @@ class JMenuModelItem extends JModel
 		$item = &$this->getItem();
 		$return['option'] = JRequest::getVar('expand');
 		$menutype         = JRequest::getVar('menutype');
-		
-		if ($return['option']) 
+
+		if ($return['option'])
 		{
 			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php');
 			$handler		= new iLink($return['option'], $item->id, $menutype);
 			$return['html'] = $handler->getTree();
-			return $return;			
+			return $return;
 		} else {
 			$return['html'] = null;
 		}
@@ -137,9 +137,9 @@ class JMenuModelItem extends JModel
 		$item	=& $this->getItem();
 		$params	= new JParameter('');
 
-		if ($state =& $this->_getStateXML()) 
+		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement')) 
+			if (is_a($state, 'JSimpleXMLElement'))
 			{
 				$sp =& $state->getElementByPath('url');
 				$params->setXML($sp);
@@ -157,9 +157,9 @@ class JMenuModelItem extends JModel
 		$item	=& $this->getItem();
 		$params	= new JParameter($item->params);
 
-		if ($state =& $this->_getStateXML()) 
+		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement')) 
+			if (is_a($state, 'JSimpleXMLElement'))
 			{
 				$sp =& $state->getElementByPath('params');
 				$params->setXML($sp);
@@ -174,9 +174,9 @@ class JMenuModelItem extends JModel
 		$item	=& $this->getItem();
 		$params	= new JParameter($item->params);
 
-		if ($state =& $this->_getStateXML()) 
+		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement')) 
+			if (is_a($state, 'JSimpleXMLElement'))
 			{
 				$ap =& $state->getElementByPath('advanced');
 				$params->setXML($ap);
@@ -188,9 +188,9 @@ class JMenuModelItem extends JModel
 	function getStateName()
 	{
 		$name = null;
-		if ($state =& $this->_getStateXML()) 
+		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement')) 
+			if (is_a($state, 'JSimpleXMLElement'))
 			{
 				$sn =& $state->getElementByPath('name');
 				if ($sn) {
@@ -204,9 +204,9 @@ class JMenuModelItem extends JModel
 	function getStateDescription()
 	{
 		$description = null;
-		if ($state =& $this->_getStateXML()) 
+		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement')) 
+			if (is_a($state, 'JSimpleXMLElement'))
 			{
 				$sd =& $state->getElementByPath('description');
 				if ($sd) {
@@ -234,7 +234,7 @@ class JMenuModelItem extends JModel
 		// Initialize variables
 		$row	=& $this->getItem();
 		$post	= JRequest::get('post');
-	
+
 		switch ($post['type'])
 		{
 			case 'separator':
@@ -259,9 +259,9 @@ class JMenuModelItem extends JModel
 			$where = "menutype = '" . $row->menutype . "' AND published >= 0 AND parent = ".$row->parent;
 			$row->ordering = $row->getNextOrder ( $where );
 		}
-		
+
 		if (is_array($post['urlparams'])) {
-			
+
 			$pos = strpos( $row->link, '?' );
 			if ($pos !== false)
 			{
@@ -271,7 +271,7 @@ class JMenuModelItem extends JModel
 				$temp = array();
 				parse_str( $query, $temp );
 				$temp2 = array_merge( $temp, $post['urlparams'] );
-	
+
 				$temp3 = array();
 				foreach ($temp2 as $k => $v)
 				{
@@ -409,7 +409,7 @@ class JMenuModelItem extends JModel
 				break;
 			case 'component':
 			default:
-				if (isset($item->linkparts['view'])) 
+				if (isset($item->linkparts['view']))
 				{
 					// View is set... so we konw to look in view file
 					if (isset($item->linkparts['layout'])) {
@@ -434,7 +434,7 @@ class JMenuModelItem extends JModel
 				break;
 		}
 
-		if (file_exists($xmlpath)) 
+		if (file_exists($xmlpath))
 		{
 			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($xmlpath)) {
@@ -449,7 +449,7 @@ class JMenuModelItem extends JModel
 				/*
 				 * HANDLE A SWITCH IF IT EXISTS
 				 */
-				if ($switch = $xml->attributes('switch')) 
+				if ($switch = $xml->attributes('switch'))
 				{
 					$default = $xml->attributes('default');
 					// Handle switch
@@ -478,7 +478,7 @@ class JMenuModelItem extends JModel
 				 * HANDLE INCLUDED PARAMS
 				 */
 				$children = $xml->children();
-				if (count($children) == 1) 
+				if (count($children) == 1)
 				{
 					if ($children[0]->name() == 'include') {
 						$ret =& $this->_getIncludedParams($children[0]);
@@ -488,7 +488,7 @@ class JMenuModelItem extends JModel
 					}
 				}
 
-				if ($switch = $xml->attributes('switch')) 
+				if ($switch = $xml->attributes('switch'))
 				{
 					$default = $xml->attributes('default');
 					// Handle switch
@@ -533,7 +533,7 @@ class JMenuModelItem extends JModel
 		}
 
 		// load the source xml file
-		if (file_exists( JPATH_ROOT.$source )) 
+		if (file_exists( JPATH_ROOT.$source ))
 		{
 			$xml = & JFactory::getXMLParser('Simple');
 
@@ -544,7 +544,7 @@ class JMenuModelItem extends JModel
 		}
 		return $state;
 	}
-	
+
 
 }
 ?>

@@ -42,10 +42,10 @@ class JHelp
 	   		if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}
-	   		
+
 			$url = 'components/' . $option. '/help/';
 			$tag =  $lang->getTag();
-			
+
 			// Check if the file exists within a different language!
 			if( $lang->getTag() != 'en-GB' ) {
 				$localeURL = JPATH_BASE . $url . DS. $tag.DS.$ref;
@@ -54,11 +54,11 @@ class JHelp
 					$tag = 'en-GB';
 				}
 			}
-			
+
 			return $url.DS.$tag.DS.$ref;
 		}
-		
-		
+
+
 		if ( $userHelpUrl )
 		{
 	   		// Online help site as defined in GC
@@ -75,7 +75,7 @@ class JHelp
 		{
 	   		// Included html help files
 			$helpURL = 'help/' .$lang->getTag() .'/';
-			
+
 			if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}
@@ -90,7 +90,7 @@ class JHelp
 			}
 			$url = $helpURL . $ref;
 		}
-		
+
 		return $url;
 	}
 

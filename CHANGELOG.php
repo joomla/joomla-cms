@@ -59,13 +59,13 @@ Legend:
 
 10-Nov-2006 Rastin Mehr
  # Fixed [artf6564] : Can't hide email form
- ! Note  [artf6516] : much of the & has been replace with &amp; in all the ADMIN components. I think this issue 
+ ! Note  [artf6516] : much of the & has been replace with &amp; in all the ADMIN components. I think this issue
  	has to be treated as a coding practice not a bug.
 
 09-Nov-2006 Johan Janssens
  + Added JPATH_COMPONENT_SITE define
  + Added JPATH_COMPONENT_ADMINISTRATOR define
- ^ Changed order of parameters in the JTable::getInstance function. 
+ ^ Changed order of parameters in the JTable::getInstance function.
 
 09-Nov-2006 Hannes Papenberg
  + Added parameter for breadcrumbs module to set the string for the home entry
@@ -130,10 +130,10 @@ Legend:
 30-Oct-2006 David Gal
  # Fixed a utf-8 non-compatible string function in registry formating function
  # Fixed logical bug in sql file upload in installation (chmod tmp before upload)
-  
+
 29-Oct-2006 David Gal
  # Fixed mod_mainmenu to build menu tree correctly even when child-id is less than parent-id
- 
+
 28-Oct-2006 David Gal
  # Fixed ordering functionality in adminlists
  # Fixed several migration bugs

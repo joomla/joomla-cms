@@ -89,12 +89,12 @@ class JAuthenticateLdap extends JPlugin {
 					$result->email = $userdetails[0]['mail'][0];
 					if(isset($userdetails[0]['fullName'][0])) {
 						$result->fullname = $userdetails[0]['fullName'][0];
-					} else { 
+					} else {
 						$result->fullname = $username;
 					}
 					$result->autocreate = 1;		// May change the handling of this in the future
 				}
-			} 
+			}
 		}
 		$ldap->close();
 		return $result;

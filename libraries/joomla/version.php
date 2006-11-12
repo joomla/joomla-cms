@@ -74,10 +74,10 @@ class JVersion
 			return '';
 		}
 	}
-	
+
 	/**
 	 * Compares two "A PHP standardized" version number against the current Joomla! version
-	 * 
+	 *
 	 * @return boolean
 	 * @see http://www.php.net/version_compare
 	 */

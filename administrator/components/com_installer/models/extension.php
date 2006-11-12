@@ -17,7 +17,7 @@ jimport( 'joomla.application.component.model' );
 
 /**
  * Extension Manager Abstract Extension Model
- * 
+ *
  * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
@@ -86,7 +86,7 @@ class ExtensionManagerModel extends JModel
 
 		// Initialize variables
 		$failed = array ();
-		
+
 		/*
 		 * Ensure eid is an array of extension ids
 		 * TODO: If it isn't an array do we want to set an error and fail?

@@ -92,7 +92,7 @@ class JDatabase extends JObject
 		// If we opened the connection lets make sure we close it
 		register_shutdown_function(array(&$this,'__destruct'));
 	}
-	
+
 	/**
 	 * Returns a reference to the global Database object, only creating it
 	 * if it doesn't already exist.
@@ -254,7 +254,7 @@ class JDatabase extends JObject
 	 * @param string The name
 	 * @return string The quoted name
 	 */
-	function nameQuote( $s ) 
+	function nameQuote( $s )
 	{
 		$q = $this->_nameQuote;
 		if (strlen( $q ) == 1) {

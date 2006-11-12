@@ -36,22 +36,22 @@ class JOutputFilter
 	*					 to be parsed (eg, for a textarea)
 	* @since 1.5
 	*/
-	function objectHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) 
+	function objectHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' )
 	{
-		if (is_object( $mixed )) 
+		if (is_object( $mixed ))
 		{
-			foreach (get_object_vars( $mixed ) as $k => $v) 
+			foreach (get_object_vars( $mixed ) as $k => $v)
 			{
 				if (is_array( $v ) || is_object( $v ) || $v == NULL || substr( $k, 1, 1 ) == '_' ) {
 					continue;
 				}
-				
+
 				if (is_string( $exclude_keys ) && $k == $exclude_keys) {
 					continue;
 				} else if (is_array( $exclude_keys ) && in_array( $k, $exclude_keys )) {
 					continue;
 				}
-				
+
 				$mixed->$k = htmlspecialchars( $v, $quote_style );
 			}
 		}
@@ -65,7 +65,7 @@ class JOutputFilter
 	* @static
 	* @since 1.5
 	*/
-	function ampReplace( $text ) 
+	function ampReplace( $text )
 	{
 		$text = str_replace( '&&', '*--*', $text );
 		$text = str_replace( '&#', '*-*', $text );
@@ -104,11 +104,11 @@ class JOutputFilter
 		 $rx = '&(?!amp;)';
 		 return preg_replace( '#'.$rx.'#', '&amp;', $m[0] );
 	}
-	
+
 	/**
 	* Cleans text of all formating and scripting code
 	*/
-	function cleanText ( &$text ) 
+	function cleanText ( &$text )
 	{
 		$text = preg_replace( "'<script[^>]*>.*?</script>'si", '', $text );
 		$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text );

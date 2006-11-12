@@ -291,7 +291,7 @@ class HTML_admin_misc
 	}
 }
 
-function writableCell( $folder, $relative=1, $text='', $visible=1 ) 
+function writableCell( $folder, $relative=1, $text='', $visible=1 )
 {
 	$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
 	$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';

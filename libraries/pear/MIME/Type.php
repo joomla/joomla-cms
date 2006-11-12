@@ -38,21 +38,21 @@ class MIME_Type {
      * @var string
      */
     var $media = '';
-    
+
     /**
      * The MIME media sub-type
      *
      * @var string
      */
     var $subType = '';
-    
+
     /**
      * Optional MIME parameters
      *
      * @var array
      */
     var $parameters = array();
-    
+
     /**
      * List of valid media types
      *
@@ -140,7 +140,7 @@ class MIME_Type {
         }
         return $params;
     }
-    
+
 
     /**
      * Strip paramaters from a MIME type string
@@ -274,11 +274,11 @@ class MIME_Type {
         if (!MIME_Type::isWildcard($card)) {
             return false;
         }
-        
+
         if ($card == '*/*') {
             return true;
         }
-        
+
         if (MIME_Type::getMedia($card) ==
             MIME_Type::getMedia($type)) {
             return true;
@@ -373,11 +373,11 @@ class MIME_Type {
         if (!file_exists($file)) {
             return PEAR::raiseError("File \"$file\" doesn't exist");
         }
-        
+
         if (!is_readable($file)) {
             return PEAR::raiseError("File \"$file\" is not readable");
         }
-        
+
         $cmd = new System_Command;
 
 

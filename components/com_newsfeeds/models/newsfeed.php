@@ -35,6 +35,6 @@ class NewsfeedsModelNewsfeed extends JModel
 
 	}
 
-	
+
 }
 ?>

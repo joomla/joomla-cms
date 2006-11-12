@@ -53,7 +53,7 @@ class modLatestNewsHelper
 				$where .= ' AND (created_by <> ' . $userId . ' AND modified_by <> ' . $userId . ')';
 				break;
 		}
-		
+
 		// Ordering
 		switch ($params->get( 'ordering' ))
 		{
@@ -78,7 +78,7 @@ class modLatestNewsHelper
 					"\n AND m.type = 'content_typed' ".
 					($access ? "\n AND a.access <= " .$user->get('gid') : '').
 					"\n ORDER BY $ordering";
-	
+
 				$db->setQuery($query, 0, $count);
 				$rows = $db->loadObjectList();
 				break;

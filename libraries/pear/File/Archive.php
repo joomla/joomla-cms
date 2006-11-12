@@ -29,7 +29,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL
  * @version    CVS: $Id: Archive.php,v 1.85 2005/08/16 08:48:59 vincentlascaux Exp $
  * @link       http://pear.php.net/package/File_Archive
- * 
+ *
  * NOTE:   Archive/Writer/Files.php has been modified for use with Joomla!
  */
 

@@ -27,7 +27,7 @@ class ContentViewSection extends JView
 	function display()
 	{
 		global $Itemid;
-		
+
 		$doc =& JFactory::getDocument();
 
 		// Lets get our data from the model

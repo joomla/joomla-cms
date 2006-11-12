@@ -18,7 +18,7 @@ jimport( 'joomla.installer.installer' );
 
 /**
  * Extension Manager Install Model
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer

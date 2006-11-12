@@ -121,7 +121,7 @@ class TableWeblink extends JTable
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function check() 
+	function check()
 	{
 		if (JInputFilter::checkAttribute(array ('href', $this->url))) {
 			$this->_error = JText::_('Please provide a valid URL');

@@ -1,8 +1,8 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <script language="javascript" type="text/javascript">
-	
-	function tableOrdering( order, dir, task ) 
+
+	function tableOrdering( order, dir, task )
 	{
 		var form = document.adminForm;
 
@@ -69,7 +69,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td align="center">
 		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
 	</td>
-	<?php if ($this->params->get('title'))              : ?>    
+	<?php if ($this->params->get('title'))              : ?>
 	<?php if ($item->access <= $this->user->get('gid')) : ?>
 	<td>
 		<a href="<?php echo $item->link; ?>">
@@ -78,7 +78,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php else : ?>
 	<td>
-		<?php 
+		<?php
 			echo $item->title.' : ';
 			$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
 		?>

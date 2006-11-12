@@ -32,14 +32,14 @@ class MIME_Type_Parameter {
      * @var string
      */
     var $name;
-    
+
     /**
      * Parameter value
      *
      * @var string
      */
     var $value;
-    
+
     /**
      * Parameter comment
      *
@@ -61,7 +61,7 @@ class MIME_Type_Parameter {
         }
     }
 
-    
+
     /**
      * Parse a MIME type parameter and set object fields
      *

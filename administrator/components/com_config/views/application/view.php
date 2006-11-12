@@ -88,8 +88,8 @@ class ConfigApplicationView
 		</form>
 		<?php
 	}
-	
-	function WarningIcon($warning, $title='Joomla Warning')	
+
+	function WarningIcon($warning, $title='Joomla Warning')
 	{
 		global $mainframe;
 

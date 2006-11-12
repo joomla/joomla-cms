@@ -84,10 +84,10 @@ class sefURL extends JPlugin {
 			$urlArray = explode('/', urldecode(trim(str_replace($BASE, '', $FULL), '/')));
 			if (count($urlArray))
 			{
-				// Check for index.php, index2.php, etc, in no-rewrite mode 
+				// Check for index.php, index2.php, etc, in no-rewrite mode
 				if ((preg_match( '#index\d?\.php#', $urlArray[0])) || (strpos($urlArray[0], 'feed.php') !== false)) {
 					array_shift($urlArray);
-				} 
+				}
 
 				$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
 				if ($component == '') {
@@ -131,7 +131,7 @@ class sefURL extends JPlugin {
 								JRequest::setVar($temp[0], $temp[1], 'get');
 							}
 						}
-					}			
+					}
 				} else {
 					//
 					// FORMAT: /key1,value1/key2,value2/.../keyN,valueN
@@ -182,10 +182,10 @@ function sefRelToAbs($string)
 			$plugin = & JPluginHelper::getPlugin('system', 'sefurl');
 			$params = new JParameter($plugin->params);
 		}
-	
+
 		// Get the base request URL if not set
 		$LiveSite =  JURI::base();
-	
+
 		// Get config variables
 		$rewrite  = $params->get('mode', 0);
 		$SEF	  = $config->getValue('config.sef');
@@ -194,33 +194,33 @@ function sefRelToAbs($string)
 		if ($SEF && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) {
 			// Replace all &amp; with &
 			$string = str_replace('&amp;', '&', $string);
-	
+
 			// Home index.php
 			if ($string == 'index.php') {
 				$string = '';
 			}
-	
+
 			// break link into url component parts
 			$url = parse_url($string);
-	
+
 			// check if link contained a query component
 			if (isset ($url['query'])) {
 				// special handling for javascript
 				$url['query'] = stripslashes(str_replace('+', '%2b', $url['query']));
 				// clean possible xss attacks
 				$url['query'] = preg_replace("'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $url['query']);
-	
+
 				// break query into component parts
 				$parts = null;
 				parse_str($url['query'], $parts);
-	
+
 				$sefstring = '';
-	
+
 				if (isset($parts['option'])) {
 					// Build component name and sef handler path
 					$component = str_replace('com_', '', $parts['option']);
 					$path = JPATH_BASE.DS.'components'.DS.$parts['option'].DS.'sef.php';
-	
+
 					// Use the custom sef handler if it exists
 					if (file_exists($path)) {
 						require_once $path;
@@ -240,7 +240,7 @@ function sefRelToAbs($string)
 					}
 				}
 			}
-	
+
 			// check if link contained fragment identifiers (ex. #foo)
 			$fragment = null;
 			if (isset ($url['fragment'])) {
@@ -265,7 +265,7 @@ function sefRelToAbs($string)
 					// splits http(s)://xx.xx/yy/zz..." into [1]="http(s)://xx.xx" and [2]="/yy/zz...":
 					$live_site_parts = array ();
 					eregi("^(https?:[\/]+[^\/]+)(.*$)", $LiveSite, $live_site_parts);
-	
+
 					$string = $live_site_parts[1] . $string;
 					/*
 					// check that url does not contain `http`, `https`, `ftp`, `mailto` or `javascript` at start of string
@@ -276,17 +276,17 @@ function sefRelToAbs($string)
 					*/
 				} else {
 					$check = 1;
-	
+
 					// array list of URL schemes
 					$url_schemes = array ('data:','file:','ftp:','gopher:','imap:','ldap:','mailto:','news:','nntp:','telnet:','javascript:','irc:','http:','https:');
-	
+
 					foreach ($url_schemes as $url)
 					{
 						if (strpos($string, $url) === 0) {
 							$check = 0;
 						}
 					}
-	
+
 					if ($check) {
 						$string = $LiveSite . '/' . $string;
 					}

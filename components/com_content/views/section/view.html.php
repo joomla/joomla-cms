@@ -40,21 +40,21 @@ class ContentViewSection extends JView
 		// Request variables
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		//parameters
 		$intro		= $params->def('intro', 	4);
 		$leading	= $params->def('leading', 	1);
 		$links		= $params->def('link', 		4);
-		
+
 		$limit	= $intro + $leading + $links;
 		JRequest::setVar('limit', $limit);
-		
+
 		// Get some data from the model
 		$items      = & $this->get( 'Data');
 		$total      = & $this->get( 'Total');
 		$categories	= & $this->get( 'Categories' );
 		$section    = & $this->get( 'Section' );
-		
+
 		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
@@ -80,7 +80,7 @@ class ContentViewSection extends JView
 			$category =& $categories[$i];
 			$category->link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$section->id.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
 		}
-		
+
 		$params->def('empty_cat_section', 	0);
 		$params->def('other_cat', 			1);
 		$params->def('empty_cat', 			0);
@@ -98,7 +98,7 @@ class ContentViewSection extends JView
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
-		
+
 		$this->assign('total'        , $total);
 
 		$this->assignRef('items'     , $items);
@@ -153,7 +153,7 @@ class ContentViewSection extends JView
 		$params->set('image',			1);
 
 		$item =& $this->items[$index];
-	
+
 		// Process the content preparation plugins
 		$item->text	= ampReplace($item->introtext);
 		JPluginHelper::importPlugin('content');

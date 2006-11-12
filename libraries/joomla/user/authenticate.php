@@ -392,7 +392,7 @@ class JAuthenticateHelper
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since 1.5
 	 */
-	function _toAPRMD5($value, $count) 
+	function _toAPRMD5($value, $count)
 	{
 		/* 64 characters that are valid for APRMD5 passwords. */
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -414,7 +414,7 @@ class JAuthenticateHelper
 	 * @return string  Binary data.
 	 * @since 1.5
 	 */
-	function _bin($hex) 
+	function _bin($hex)
 	{
 		$bin = '';
 		$length = strlen($hex);
@@ -434,7 +434,7 @@ class JAuthenticateHelper
  * @subpackage	User
  * @since		1.5
  */
-class JAuthenticateResponse extends JObject 
+class JAuthenticateResponse extends JObject
 {
 	/** @var type string Response Type (success, failure, critical_failure, error, critical_error,autocreate) */
 	var $type 			= null;
@@ -444,7 +444,7 @@ class JAuthenticateResponse extends JObject
 	var $error_message 	= '';
 	/** @var autocreate int Flag to autocreate a user */
 	var $autocreate		= 0;
-	
+
 	/** @var fullname string The fullname of the user (JUser->name) */
 	var $fullname 		= '';
 	/** @var gid int The group id to use (default should be fine for most uses) */

@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Config
 */
-class TOOLBAR_config 
+class TOOLBAR_config
 {
 	function _DEFAULT() {
 

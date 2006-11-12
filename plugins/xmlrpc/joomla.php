@@ -26,7 +26,7 @@ $dispatcher->attach(new JoomlaXMLRPC($dispatcher));
  * @package XML-RPC
  * @since 1.5
  */
-class JoomlaXMLRPC extends JPlugin 
+class JoomlaXMLRPC extends JPlugin
 {
 
 	/**
@@ -68,7 +68,7 @@ class JoomlaXMLRPC extends JPlugin
 	}
 }
 
-class JoomlaXMLRPCServices 
+class JoomlaXMLRPCServices
 {
 	/**
 	 * Remote Search method

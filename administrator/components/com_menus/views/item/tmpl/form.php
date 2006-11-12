@@ -1,9 +1,9 @@
 <script language="javascript" type="text/javascript">
-<!-- 
+<!--
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	var type = form.type.value;
-	
+
 	if (pressbutton == 'cancelItem') {
 		submitform( pressbutton );
 		return;
@@ -123,19 +123,19 @@ function submitbutton(pressbutton) {
 			</td>
 			<!-- Menu Item Parameters Section -->
 			<td width="40%">
-				<?php	
+				<?php
 					$this->pane->startPane("menu-pane");
 					$this->pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
 					echo $this->urlparams->render('urlparams');
-					if($params = $this->params->render('params')) : 
+					if($params = $this->params->render('params')) :
 						echo $params;
 					else :
 						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 					endif;
 					$this->pane->endPanel();
-					
+
 					$this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
-					if($params = $this->advanced->render('params')) : 
+					if($params = $this->advanced->render('params')) :
 						echo $params;
 					else :
 						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";

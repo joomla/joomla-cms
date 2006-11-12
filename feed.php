@@ -47,7 +47,7 @@ $mainframe->authorize($Itemid);
 //	$file = 'offline.php';
 //}
 
-$option = JSiteHelper::findOption(); 
+$option = JSiteHelper::findOption();
 $params = array(
 	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
 );

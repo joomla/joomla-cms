@@ -109,7 +109,7 @@ class JTable extends JObject
 		}
 		else
 		{
-			$db =& JFactory::getDBO();		
+			$db =& JFactory::getDBO();
 			$m = new $adapter($db);
 		}
 		return $m;
@@ -117,17 +117,17 @@ class JTable extends JObject
 
 	/**
 	 * Get the internal database object
-	 * 
+	 *
 	 * @return object A JDatabase based object
 	 */
-	function &getDBO() 
+	function &getDBO()
 	{
 		return $this->_db;
 	}
 
 	/**
 	 * Gets the internal table name for the object
-	 * 
+	 *
 	 * @return string
 	 * @since 1.5
 	 */
@@ -138,7 +138,7 @@ class JTable extends JObject
 
 	/**
 	 * Gets the internal primary key name
-	 * 
+	 *
 	 * @return string
 	 * @since 1.5
 	 */
@@ -186,7 +186,7 @@ class JTable extends JObject
 			$this->setErrorNum(20);
 			return false;
 		}
-		
+
 		$fromArray = is_array( $from );
 		$fromObject = is_object( $from );
 
@@ -201,7 +201,7 @@ class JTable extends JObject
 					if (strpos( $ignore, $k) === false)
 					{
 						$ak = $k;
-				
+
 						if ($fromArray && isset( $from[$ak] )) {
 							$this->$k = $from[$ak];
 						} else if ($fromObject && isset( $from->$ak )) {
@@ -218,7 +218,7 @@ class JTable extends JObject
 
 		return true;
 	}
-	
+
 	/**
 	* Binds an array/hash to this object
 	*
@@ -396,7 +396,7 @@ class JTable extends JObject
 
 	/**
 	 * Returns the ordering value to place a new item last in its group
-	 * 
+	 *
 	 * @access public
 	 * @param string query WHERE clause for selecting MAX(`ordering`).
 	 */
@@ -412,7 +412,7 @@ class JTable extends JObject
 		$query = 'SELECT MAX(ordering)' .
 				' FROM ' . $this->_tbl .
 				' WHERE '.$where;
-		
+
 		$this->_db->setQuery( $query );
 		$maxord = $this->_db->loadResult();
 
@@ -469,7 +469,7 @@ class JTable extends JObject
 		{
 			if ($orders[$i]->ordering >= 0)
 			{
-				if ($orders[$i]->ordering != $i+1) 
+				if ($orders[$i]->ordering != $i+1)
 				{
 					$orders[$i]->ordering = $i+1;
 					$query = "UPDATE $this->_tbl"
@@ -481,9 +481,9 @@ class JTable extends JObject
 				}
 			}
 		}
-		
-	return true;	
-		
+
+	return true;
+
 
 //		$shift = 0;
 //		$n=count( $orders );
@@ -843,7 +843,7 @@ class JTable extends JObject
 
 	/**
 	 * Sets the internal error number
-	 * 
+	 *
 	 * @param int Set the error number with this value
 	 */
 	function setErrorNum( $value )
@@ -853,7 +853,7 @@ class JTable extends JObject
 
 	/**
 	 * Generic Publish/Unpublish function
-	 * 
+	 *
 	 * @access public
 	 * @param array An array of id numbers
 	 * @param integer 0 if unpublishing, 1 if publishing

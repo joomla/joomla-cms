@@ -26,7 +26,7 @@ jimport( 'joomla.application.component.view');
 class NewsfeedsViewCategory extends JView
 {
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe, $Itemid, $option;
 
 		$db		 	= & JFactory::getDBO();
@@ -141,13 +141,13 @@ class NewsfeedsViewCategory extends JView
 			// Use the static HTML library to build the image tag
 			$image = JHTML::Image('/images/stories/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
-		
+
 		$this->assignRef('image'     , $image);
 		$this->assignRef('params'    , $params);
 		$this->assignRef('items'     , $items);
 		$this->assignRef('category'  , $category);
 		$this->assignRef('pagination', $pagination);
-		
+
 		parent::display($tpl);
 	}
 }

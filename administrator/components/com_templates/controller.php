@@ -101,7 +101,7 @@ class TemplatesController
 					"\n AND menuid = 0";
 			$db->setQuery($query);
 			$db->query();
-	
+
 			$query = "INSERT INTO #__templates_menu" .
 					"\n SET client_id = $client->id, template = ".$db->Quote( $template ).", menuid = 0";
 			$db->setQuery($query);
@@ -201,7 +201,7 @@ class TemplatesController
 			}
 		}
 
-		
+
 		if ($published)
 		{
 			$query = "DELETE FROM #__templates_menu" .
@@ -209,7 +209,7 @@ class TemplatesController
 					"\n AND menuid = 0";
 			$db->setQuery($query);
 			$db->query();
-	
+
 			$query = "INSERT INTO #__templates_menu" .
 					"\n SET client_id = $client->id, template = ".$db->Quote( $template ).", menuid = 0";
 			$db->setQuery($query);
@@ -273,7 +273,7 @@ class TemplatesController
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($file);
 
-		if ($content !== false) 
+		if ($content !== false)
 		{
 			$content = htmlspecialchars($content);
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
@@ -380,14 +380,14 @@ class TemplatesController
 
 		jimport('joomla.filesystem.file');
 		$content = JFile::read($client->path.$filename);
-		
-		if ($content !== false) 
+
+		if ($content !== false)
 		{
 			$content = htmlspecialchars($content);
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 			TemplatesView::editCSSSource($template, $filename, $content, $option, $client);
 		}
-		else 
+		else
 		{
 			$msg = sprintf(JText::_('Operation Failed Could not open'), $client->path.$filename);
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, $msg);

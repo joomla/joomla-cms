@@ -20,13 +20,13 @@ jimport('joomla.filesystem.file');
 
 /**
  * Internal link builder
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla!
  * @subpackage	Menus
  * @since		1.5
  */
- 
+
 class iLink extends JTree
 {
 	var $_com		= null;
@@ -36,23 +36,23 @@ class iLink extends JTree
 	function __construct($component, $id=null, $menutype=null)
 	{
 		parent::__construct();
-		
+
 		if ($id) {
 			$this->_cid = "&amp;cid[]=".$id;
 		} else {
 			$this->_cid = null;
 		}
-		
+
 		if ($menutype) {
 			$this->_menutype = "&amp;menutype=".$menutype;
 		} else {
 			$this->_menutype = null;
 		}
-		
+
 		$this->_com = preg_replace( '#\W#', '', $component );
-		
+
 		// Build the tree
-		if (!$this->_getViews()) 
+		if (!$this->_getViews())
 		{
 			if (!$this->_getOptions($this->_getXML(JPATH_SITE.'/components/com_'.$this->_com.'/metadata.xml', 'menu/options'), $this->_root)) {
 				// Default behavior
@@ -169,14 +169,14 @@ class iLink extends JTree
 	{
 		$return = false;
 		$path = JPATH_SITE.DS.'components'.DS.'com_'.$this->_com.DS.'views';
-		
+
 		if (JFolder::exists($path)) {
 			$views = JFolder::folders($path);
 		} else {
 			return $return;
 		}
 
-		if (is_array($views) && count($views)) 
+		if (is_array($views) && count($views))
 		{
 			//$this->addChild(new iLinkNode('Views', null, 'Select the view'), true);
 			$return = true;
@@ -276,7 +276,7 @@ class iLink extends JTree
 
 	function _findNodes(&$node)
 	{
-		foreach ($node->children() as $step) 
+		foreach ($node->children() as $step)
 		{
 			/*
 			 * For each child we need to see if it is an include and if so we

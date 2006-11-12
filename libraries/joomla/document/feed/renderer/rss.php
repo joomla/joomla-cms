@@ -46,7 +46,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 	{
 		$now  = new JDate();
 		$data =& $this->_doc;
-		
+
 		$feed = "<rss version=\"2.0\">\n";
 		$feed.= "	<channel>\n";
 		$feed.= "		<title>".$data->title."</title>\n";

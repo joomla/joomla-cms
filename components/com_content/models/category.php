@@ -30,14 +30,14 @@ class ContentModelCategory extends JModel
 	 * @var int
 	 */
 	var $_id = null;
-	
+
 	/**
 	 * Category items data
 	 *
 	 * @var array
 	 */
 	var $_data = null;
-	
+
 	/**
 	 * Category number items
 	 *
@@ -90,7 +90,7 @@ class ContentModelCategory extends JModel
 		$this->_data		= array();
 		$this->_total		= null;
 	}
-	
+
 	/**
 	 * Method to get content item data for the current category
 	 *
@@ -105,7 +105,7 @@ class ContentModelCategory extends JModel
 		{
 			// Initialize some variables
 			$user	=& JFactory::getUser();
-			
+
 			// Make sure the category is published
 			if (!$this->_category->published)
 			{
@@ -125,7 +125,7 @@ class ContentModelCategory extends JModel
 
 	/**
 	 * Method to get the total number of content items for the frontpage
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 */
@@ -137,7 +137,7 @@ class ContentModelCategory extends JModel
 			$query = $this->_buildQuery($state);
 			$this->_total[$state] = $this->_getListCount($query);
 		}
-		
+
 		return $this->_total[$state];
 	}
 
@@ -153,7 +153,7 @@ class ContentModelCategory extends JModel
 		{
 			// Initialize some variables
 			$user = &JFactory::getUser();
-			
+
 			// Make sure the category is published
 			if (!$this->_category->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
@@ -321,7 +321,7 @@ class ContentModelCategory extends JModel
 		}
 		return true;
 	}
-	
+
 	function _buildQuery($state = 1)
 	{
 		// If voting is turned on, get voting data as well for the content items
@@ -330,7 +330,7 @@ class ContentModelCategory extends JModel
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
-		
+
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
@@ -340,7 +340,7 @@ class ContentModelCategory extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-			
+
 		return $query;
 	}
 
@@ -383,7 +383,7 @@ class ContentModelCategory extends JModel
 	function _buildContentWhere($state = 1)
 	{
 		global $mainframe, $Itemid;
-		
+
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('gid');
 		$now		= $mainframe->get('requestTime');

@@ -311,7 +311,7 @@ class JApplication extends JObject
 		if(empty($password)) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));
 		}
-		
+
 		// Get the global database connector object
 		$db = JFactory::getDBO();
 
@@ -821,7 +821,7 @@ class JApplication extends JObject
 	function getPath($varname, $user_option=null) {
 		return JApplicationHelper::getPath ($varname, $user_option);
 	}
-	
+
 	/**
 	* Depreacted, use JURI::base() instead
 	* @since 1.5
@@ -829,7 +829,7 @@ class JApplication extends JObject
 	function getBasePath($client=0, $addTrailingSlash=true) {
 		return JURI::base();
 	}
-	
+
 	/**
 	* Depreacted, use JFactory::getUser instead
 	* @since 1.5

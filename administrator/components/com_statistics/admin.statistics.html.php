@@ -174,10 +174,10 @@ class HTML_statistics
 				</thead>
 				<?php
 				$c = 1;
-				if (is_array($tldomains) && count($tldomains) > 0) 
+				if (is_array($tldomains) && count($tldomains) > 0)
 				{
 					$k = 0;
-					foreach ($tldomains as $b) 
+					foreach ($tldomains as $b)
 					{
 						$f = $dstats->totalhits > 0 ? $b->hits / $dstats->totalhits : 0;
 						$w = $width * $f;

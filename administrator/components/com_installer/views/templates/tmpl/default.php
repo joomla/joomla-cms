@@ -25,7 +25,7 @@
 		</tfoot>
 		<tbody>
 		<?php for ($i=0, $n=count($this->items), $rc=0; $i < $n; $i++, $rc = 1 - $rc) : ?>
-			<?php 
+			<?php
 				$this->loadItem($i);
 				echo $this->loadTemplate('item');
 			?>

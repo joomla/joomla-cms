@@ -19,7 +19,7 @@ jimport( 'joomla.filesystem.folder' );
 
 /**
  * Extension Manager Templates Model
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer

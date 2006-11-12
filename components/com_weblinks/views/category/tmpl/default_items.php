@@ -28,7 +28,7 @@
 		<?php JCommonHTML::tableOrdering( 'Web Link', 'title', $this->lists ); ?>
 	</td>
 	<?php if ( $this->params->get( 'hits' ) ) : ?>
-	
+
 	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
 		<?php JCommonHTML::tableOrdering( 'Hits', 'hits', $this->lists ); ?>
 	</td>

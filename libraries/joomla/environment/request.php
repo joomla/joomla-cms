@@ -245,11 +245,11 @@ class JRequest
 		}
 		return $hashes[$signature];
 	}
-	
+
 	/**
 	 * Cleans the request from script injection.
-	 * 
-	 * @static 
+	 *
+	 * @static
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -261,7 +261,7 @@ class JRequest
 		JRequest::_cleanArray( $_POST );
 		JRequest::_cleanArray( $_COOKIE );
 		JRequest::_cleanArray( $_SERVER );
-	
+
 		if (isset( $_SESSION )) {
 			JRequest::_cleanArray( $_SESSION );
 		}
@@ -273,11 +273,11 @@ class JRequest
 		$FILES   = $_FILES;
 		$ENV     = $_ENV;
 		$SERVER  = $_SERVER;
-		
+
 		if (isset ( $_SESSION )) {
 			$SESSION = $_SESSION;
 		}
-		
+
 		foreach ($GLOBALS as $key => $value) {
 			if ( $key != 'GLOBALS' ) {
 				unset ( $GLOBALS [ $key ] );
@@ -290,7 +290,7 @@ class JRequest
 		$_FILES 	= $FILES;
 		$_ENV 		= $ENV;
 		$_SERVER 	= $SERVER;
-		
+
 		if (isset ( $SESSION )) {
 			$_SESSION = $SESSION;
 		}
@@ -301,21 +301,21 @@ class JRequest
 
 	/**
 	 * Adds an array to the GLOBALS array and checks that the GLOBALS variable is not being attacked
-	 * 
+	 *
 	 * @access	protected
 	 * @param	array	$array	Array to clean
 	 * @param	boolean	True if the array is to be added to the GLOBALS
 	 * @since	1.5
 	 */
-	function _cleanArray( &$array, $globalise=false ) 
+	function _cleanArray( &$array, $globalise=false )
 	{
 		static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
-	
-		foreach ($array as $key => $value) 
+
+		foreach ($array as $key => $value)
 		{
 			// PHP GLOBALS injection bug
 			$failed = in_array( strtolower( $key ), $banned );
-			
+
 			// PHP Zend_Hash_Del_Key_Or_Index bug
 			$failed |= is_numeric( $key );
 			if ($failed) {
@@ -327,7 +327,7 @@ class JRequest
 		}
 	}
 
-	function _cleanVar($var, $mask=0, $type=null) 
+	function _cleanVar($var, $mask=0, $type=null)
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
@@ -339,12 +339,12 @@ class JRequest
 		}
 
 		// Now we handle input filtering
-		if ($mask & 2) 
+		if ($mask & 2)
 		{
 			// If the allow raw flag is set, do not modify the variable
 			$var = $var;
-		} 
-		elseif ($mask & 4) 
+		}
+		elseif ($mask & 4)
 		{
 			// If the allow html flag is set, apply a safe html filter to the variable
 			if (is_null($safeHtmlFilter)) {

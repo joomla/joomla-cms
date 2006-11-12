@@ -44,7 +44,7 @@ class JMenuModelMenutype extends JModel
 
 	/**
 	 * Get a list of the menu records associated with the type
-	 * 
+	 *
 	 * @param string The menu type
 	 * @return array An array of records as objects
 	 */
@@ -109,7 +109,7 @@ class JMenuModelMenutype extends JModel
 
 	/**
 	 * Get a list of the menu records associated with the type
-	 * 
+	 *
 	 * @param string The menu type
 	 * @return array An array of records as objects
 	 */

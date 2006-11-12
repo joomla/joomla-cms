@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $dispatcher =& JEventDispatcher::getInstance();
 $dispatcher->attach(new BloggerXMLRPC($dispatcher));
 
-class BloggerXMLRPC extends JPlugin 
+class BloggerXMLRPC extends JPlugin
 {
 	function BloggerXMLRPC(&$subject) {
 		parent::__construct($subject);
@@ -26,7 +26,7 @@ class BloggerXMLRPC extends JPlugin
 	/**
 	* @return array An array of associative arrays defining the available methods
 	*/
-	function onGetWebServices() 
+	function onGetWebServices()
 	{
 		global $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
@@ -86,7 +86,7 @@ class BloggerXMLRPC extends JPlugin
 	}
 }
 
-class BloggerXMLRPCServices 
+class BloggerXMLRPCServices
 {
 	/*
 	 * Note : blogger.getUsersBlogs will make more sense once we support multiple blogs

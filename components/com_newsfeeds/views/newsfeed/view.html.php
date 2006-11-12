@@ -65,7 +65,7 @@ class NewsfeedsViewNewsfeed extends JView
 			return;
 		}
 
-	
+
 		// check whether category access level allows access
 		if ( $category->access > $user->get('gid') ) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
@@ -94,7 +94,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		// items
 		$newsfeed->items = $rssDoc->items;
-		
+
 		// feed elements
 		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
 
@@ -123,7 +123,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$this->assignRef('params'  , $params   );
 		$this->assignRef('newsfeed', $newsfeed );
 		$this->assignRef('category', $category );
-		
+
 		parent::display($tpl);
 	}
 

@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	}
 </script>
 
-<iframe <?php echo $load; ?> 
-	id="blockrandom" 
-	name="<?php echo $target ?>" 
+<iframe <?php echo $load; ?>
+	id="blockrandom"
+	name="<?php echo $target ?>"
 	src="<?php echo $url; ?>"
 	width="<?php echo $width ?>"
 	height="<?php echo $height ?>"

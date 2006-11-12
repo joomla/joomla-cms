@@ -125,24 +125,24 @@ class JMenuHelper
 	/**
 	* build the select list for target window
 	*/
-	function Target( &$row ) 
+	function Target( &$row )
 	{
 		$click[] = JHTMLSelect::option( '0', JText::_( 'Parent Window With Browser Navigation' ) );
 		$click[] = JHTMLSelect::option( '1', JText::_( 'New Window With Browser Navigation' ) );
 		$click[] = JHTMLSelect::option( '2', JText::_( 'New Window Without Browser Navigation' ) );
 		$target = JHTMLSelect::genericList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
-		
+
 		return $target;
 	}
 
 	/**
 	* build the select list for target window
 	*/
-	function Published( &$row ) 
+	function Published( &$row )
 	{
 		$put[] = JHTMLSelect::option( '0', JText::_( 'No' ));
 		$put[] = JHTMLSelect::option( '1', JText::_( 'Yes' ));
-		
+
 		// If not a new item, trash is not an option
 		if ( $row->id ) {
 			$put[] = JHTMLSelect::option( '-1', JText::_( 'Trash' ));

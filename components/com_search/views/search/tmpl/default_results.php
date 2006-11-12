@@ -62,7 +62,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<div>
 				<?php echo ampReplace( $result->text );?>
 			</div>
-			<?php 
+			<?php
 				$contentConfig = &JComponentHelper::getParams( 'com_content' );
 				if ( !$contentConfig->get( 'hideCreateDate' )) : ?>
 			<div class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

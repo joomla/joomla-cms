@@ -1481,7 +1481,7 @@ class patTemplate
 					$paths[$moduleFile] = true;
 				}
 			}
-			
+
 			if (!$paths[$moduleFile]) {
 				continue;
 			}

@@ -100,13 +100,13 @@ class RegistrationController
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'lostpass'.DS.'view.php');
 		$view = new RegistrationViewLostpass();
-		
+
 		$view->display();
 	}
 
 	/**
 	 * Sends a new password or username reminder to a verified user
-	 * 
+	 *
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -176,7 +176,7 @@ class RegistrationController
 
 				// Send the username reminder email
 				JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $email, $subject, $message);
-		
+
 				$mainframe->redirect( 'index.php', JText::_( 'Username resent' ) );
 			} else {
 				// We have nothing ... send fail
@@ -236,7 +236,7 @@ class RegistrationController
 		// create the view
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
 		$view = new RegistrationViewRegister();
-			
+
 		$view->assignRef('user', $user);
 		$message = new stdClass();
 
@@ -310,7 +310,7 @@ class RegistrationController
 		// create the view
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
 		$view = new RegistrationViewRegister();
-		
+
 		$message = new stdClass();
 
 		// Do we even have an activation string?

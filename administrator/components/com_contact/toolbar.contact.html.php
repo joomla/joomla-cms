@@ -29,7 +29,7 @@ class TOOLBAR_contact {
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Contact' ) .': <small><small>[ '. $text .' ]</small></small>', 'generic.png' );
-		
+
 		//JMenuBar::custom( 'save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false );
 		//JMenuBar::custom( 'save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false );
 		JMenuBar::save();

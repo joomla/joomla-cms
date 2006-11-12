@@ -84,7 +84,7 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-			
+
 			$viewname = 'logout';
 		}
 		else
@@ -95,16 +95,16 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-			
+
 			$viewname = 'login';
 		}
-		
+
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'login'.DS.'view.php');
 		$view = new LoginViewLogin();
-		
+
 		$view->assign('type', ($user->get('id')) ? 'logout' : 'login');
 		$view->assignRef('params', $params);
-		
+
 		$view->display();
 	}
 

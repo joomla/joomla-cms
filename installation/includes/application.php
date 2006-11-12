@@ -110,7 +110,7 @@ class JInstallation extends JApplication
 	 *
 	 * @access private
 	 * @param string		The sessions name
-	 * @return	object 		JSession 
+	 * @return	object 		JSession
 	 */
 	function &_createSession( $name )
 	{

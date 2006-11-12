@@ -138,7 +138,7 @@ class JEditor_xstandard extends JPlugin {
  			<param name="Base" value="<?php echo $url ?>" />
  			<param name="ExpandWidth" value="100%" />
  			<param name="ExpandHeight" value="400" />
-		
+
  			<param name="LatestVersion" value="1.7.1.0" />
 
  			<param name="Namespaces" value="xmlns:joomla='http://joomla.org'" />

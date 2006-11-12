@@ -27,7 +27,7 @@ class SearchViewSearch extends JView
 	function display($tpl = null)
 	{
 		global $option, $Itemid;
-		
+
 		$showAreas = JArrayHelper::getValue( $this->lists, 'areas', array() );
 
 		$areas  = array();
@@ -61,7 +61,7 @@ class SearchViewSearch extends JView
 			$result->created = $created;
 			$result->count   = $i + 1;
 		}
-		
+
 		$this->assign('pagination', $pagination);
 
 		parent::display($tpl);

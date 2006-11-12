@@ -676,9 +676,9 @@ class ContentView
 	{
 		$document =& JFactory::getDocument();
 		$editor   =& JFactory::getEditor();
-		
+
 		$document->addScript('../includes/js/joomla/caption.js');
-		
+
 		?>
 		<script>
 		var form = window.top.document.adminForm
@@ -687,8 +687,8 @@ class ContentView
 		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
 		alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
 		</script>
-		
-		
+
+
 
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
 			<tr>
@@ -706,7 +706,7 @@ class ContentView
 	*
 	*/
 	function insertPagebreak()
-	{	
+	{
 		?>
 		<script type="text/javascript">
 			function insertPagebreak()
@@ -725,7 +725,7 @@ class ContentView
 				}
 
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
-	
+
 				window.parent.jInsertEditorText(tag);
 				return false;
 			}

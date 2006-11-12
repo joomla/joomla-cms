@@ -410,7 +410,7 @@ class JContentHelper
 			}
 		}
 
-			
+
 		return $Itemid;
 	}
 }

@@ -1,5 +1,5 @@
 <script language="javascript" type="text/javascript">
-<!-- 
+<!--
 	function submitbutton(task)
 	{
 		var f = document.adminForm;
@@ -10,7 +10,7 @@
 			submitform(task);
 		}
 	}
-	
+
 	function menu_listItemTask( id, task, option )
 	{
 		var f = document.adminForm;

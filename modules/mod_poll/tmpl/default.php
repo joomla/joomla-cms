@@ -24,12 +24,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						</label>
 					</td>
 				</tr>
-				<?php 
+				<?php
 					if ($tabcnt == 1) : $tabcnt = 0;
 					else 			  : $tabcnt ++;
 					endif;
 				?>
-			<?php endfor; ?> 
+			<?php endfor; ?>
 			</table>
 		</td>
 	</tr>

@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 	<head>
 		<jdoc:include type="head" />
-		
+
 		<?php if($this->direction == 'rtl') : ?>
 			<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php else : ?>
 			<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
-		
+
 		<script type="text/javascript" src="includes/js/installation.js"></script>
 		<script type="text/javascript" src="../includes/js/joomla/common.js"></script>
 		<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
@@ -28,7 +28,7 @@
 		<div id="content-box">
 			<div id="content-pad">
 				<jdoc:include type="installation" />
-				
+
 			</div>
 		</div>
 		<div id="footer1">

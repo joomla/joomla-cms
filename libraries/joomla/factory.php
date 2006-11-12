@@ -45,7 +45,7 @@ class JFactory
 
 		return $instance;
 	}
-	
+
 	/**
 	 * Get a session object
 	 *
@@ -121,7 +121,7 @@ class JFactory
 		// object with the logged in user.
 		$session  =& JFactory::getSession();
 		$instance =& JUser::getInstance((int)$session->get('session.user.id', 0));
-		
+
 		return $instance;
 	}
 
@@ -271,7 +271,7 @@ class JFactory
 					{
 						define('MAGPIE_CACHE_AGE', $options['cache_time']);
 					}
-	
+
 					jimport('magpierss.rss_fetch');
 					$doc = fetch_rss( $options['rssUrl'] );
 				}
@@ -356,10 +356,10 @@ class JFactory
 
 		// Load the configuration values into the registry
 		$registry->loadObject($config);
-		
+
 		return $registry;
 	}
-	
+
 	/**
 	 * Create a session object
 	 *
@@ -370,13 +370,13 @@ class JFactory
 	function &_createSession($options = array())
 	{
 		jimport('joomla.environment.session');
-		
+
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
 		$options['expire'] = $conf->getValue('config.lifetime', 900);
 
 		$session = new JSession($options);
-	
+
 		return $session;
 	}
 
@@ -558,7 +558,7 @@ class JFactory
 		jimport('joomla.document.document');
 
 		$lang  =& JFactory::getLanguage();
-		
+
 		//Keep backwards compatibility with Joomla! 1.0
 		$raw  = JRequest::getVar( 'no_html', 0, '', 'int' );
 		$type = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );

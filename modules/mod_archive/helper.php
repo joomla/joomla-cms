@@ -32,10 +32,10 @@ class modArchiveHelper
 
 		$i 	   = 0;
 		$lists = array();
-		foreach ( $rows as $row ) 
+		foreach ( $rows as $row )
 		{
 			$date = new JDate($row->created);
-			
+
 			$created_month	= $date->toFormat("%m");
 			$month_name		= $date->toFormat("%B");
 			$created_year	= $date->toFormat("%Y");

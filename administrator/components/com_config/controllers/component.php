@@ -61,7 +61,7 @@ class ConfigControllerComponent extends JController
 	/**
 	 * Save the configuration
 	 */
-	function save() 
+	function save()
 	{
 		$model = &JModel::getInstance( 'ConfigComponentModel' );
 		$table = &$model->getTable();

@@ -40,7 +40,7 @@ class ContentViewArticle extends JView
 			$this->_displayForm($tpl);
 			return;
 		}
-		
+
 		if (($article->id == 0))
 		{
 			$id = JRequest::getVar( 'id' );
@@ -200,10 +200,10 @@ class ContentViewArticle extends JView
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
-				
+
 				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
-				
+
 			} break;
 
 			case 'edit' :
@@ -261,12 +261,12 @@ class ContentViewArticle extends JView
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-		
+
 		// Initialize variables
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
 		$isNew      = ($article->id < 1);
-			
+
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
@@ -294,7 +294,7 @@ class ContentViewArticle extends JView
 
 		// Set page title
 		$document->setTitle($title);
-		
+
 		// get pathway
 		$pathway =& $mainframe->getPathWay();
 		$pathway->addItem($title, '');

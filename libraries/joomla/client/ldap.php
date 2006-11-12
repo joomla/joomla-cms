@@ -223,25 +223,25 @@ class JLDAP {
 		return $address;
 	}
 
-	/** 
-	  * extract readable network address from the LDAP encoded networkAddress attribute. 
+	/**
+	  * extract readable network address from the LDAP encoded networkAddress attribute.
 	  * @author Jay Burrell, Systems & Networks, Mississippi State University
-	  * Please keep this document block and author attribution in place. 
-	  *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624 
-	  *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html 
-	  *  LDAP Format, String: 
-	  *     taggedData = uint32String "#" octetstring 
-	  *     byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address 
-	  *     byte 1 = char = "#" - separator 
-	  *     byte 2+ = octetstring - the ordinal value of the address 
-	  *   Note: with eDirectory 8.6.2, the IP address (type 1) returns 
-	  *                 correctly, however, an IPX address does not seem to.  eDir 8.7 may 
-	  *                correct this. 
+	  * Please keep this document block and author attribution in place.
+	  *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
+	  *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
+	  *  LDAP Format, String:
+	  *     taggedData = uint32String "#" octetstring
+	  *     byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
+	  *     byte 1 = char = "#" - separator
+	  *     byte 2+ = octetstring - the ordinal value of the address
+	  *   Note: with eDirectory 8.6.2, the IP address (type 1) returns
+	  *                 correctly, however, an IPX address does not seem to.  eDir 8.7 may
+	  *                correct this.
 	  */
 	function LDAPNetAddr($networkaddress) {
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
-		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator 
+		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
 		$addrtypes = array (
 			'IPX',
 			'IP',
@@ -264,11 +264,11 @@ class JLDAP {
 			for ($i = 0; $i < $len; $i += 1) {
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
-				if ($addrtype == 1) { // dot separate IP addresses... 
+				if ($addrtype == 1) { // dot separate IP addresses...
 					$addr .= ".";
 				}
 			}
-			if ($addrtype == 1) { // strip last period from end of $addr 
+			if ($addrtype == 1) { // strip last period from end of $addr
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		} else {

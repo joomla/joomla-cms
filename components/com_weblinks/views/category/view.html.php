@@ -36,29 +36,29 @@ class WeblinksViewCategory extends JView
 		$menus  = &JMenu::getInstance();
 		$menu   = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
-		
+
 		// Get some request variables
 		$limit				= JRequest::getVar('limit',$mainframe->getCfg('list_limit'), '', 'int');
 		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
-		
+
 		// Get some data from the model
 		$items =& $this->get('data' );
 		$total =& $this->get('total');
 		$category = & $this->get( 'Category' );
 		$category->total = $total;
-		
+
 		//add alternate feed link
 		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
-		
+
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));
-		
+
 		// Add pathway item based on category name
 		$pathway->addItem($category->name, '');
 
@@ -68,12 +68,12 @@ class WeblinksViewCategory extends JView
 		} else {
 			$lists['order_Dir'] = 'DESC';
 		}
-		
+
 		$lists['order'] = $filter_order;
-		
+
 		$selected = '';
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
-		
+
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
 		$params->def('hits', $contentConfig->get('hits'));
@@ -96,7 +96,7 @@ class WeblinksViewCategory extends JView
 			// Use the static HTML library to build the image tag
 			$category->image = JHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $attribs);
 		}
-		
+
 		//create pagination
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
@@ -136,16 +136,16 @@ class WeblinksViewCategory extends JView
 					$item->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
 					break;
 			}
-			
+
 			$item->image = $image;
 
 			$item->odd   = $k;
 			$item->count = $i;
 			$k = 1 - $k;
 		}
-		
+
 		$this->assign('total', $total);
-		
+
 		$this->assignRef('lists'     , $lists);
 		$this->assignRef('params'    , $params);
 		$this->assignRef('category'  , $category);

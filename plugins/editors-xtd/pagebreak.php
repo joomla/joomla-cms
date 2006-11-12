@@ -28,7 +28,7 @@ function pluginPagebreakButton()
 	$template = $mainframe->getTemplate();
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 	// button is not active in specific content components
-	switch ( $option ) 
+	switch ( $option )
 	{
 		case 'com_sections'  :
 		case 'com_categories':

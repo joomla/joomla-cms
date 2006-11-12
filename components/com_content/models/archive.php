@@ -30,7 +30,7 @@ class ContentModelArchive extends JModel
 	 * @var array
 	 */
 	var $_data = array();
-	
+
 	/**
 	 * Article total
 	 *
@@ -47,7 +47,7 @@ class ContentModelArchive extends JModel
 	function getData()
 	{
 		global $Itemid;
-		
+
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
@@ -58,18 +58,18 @@ class ContentModelArchive extends JModel
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-			
+
 			$query = $this->_buildQuery();
-			
+
 			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
-		
+
 		return $this->_data;
 	}
-	
+
 	/**
 	 * Method to get the total number of content items for the frontpage
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 */
@@ -81,10 +81,10 @@ class ContentModelArchive extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
-		
+
 		return $this->_total;
 	}
-	
+
 	function _buildQuery()
 	{
 		// If voting is turned on, get voting data as well for the content items
@@ -93,7 +93,7 @@ class ContentModelArchive extends JModel
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
-		
+
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups".$voting['select'] .
@@ -105,7 +105,7 @@ class ContentModelArchive extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-			
+
 		return $query;
 	}
 

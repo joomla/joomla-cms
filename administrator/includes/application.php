@@ -63,7 +63,7 @@ class JAdministrator extends JApplication
 		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
 			$file = 'login';
 		}
-		
+
 		$this->_display($template, $file.'.php');
 	}
 
@@ -79,7 +79,7 @@ class JAdministrator extends JApplication
 	{
 		$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
-		
+
 		$result = parent::login($username, $password);
 		if(!JError::isError($result))
 		{

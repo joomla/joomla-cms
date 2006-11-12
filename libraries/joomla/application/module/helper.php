@@ -77,13 +77,13 @@ class JModuleHelper
 	{
 		static $chrome;
 		global $mainframe, $Itemid, $option;
-		
+
 		// Initialize variables
 		$style		= isset($attribs['style'])   ? $attribs['style']   : $module->style;
 		$outline	= isset($attribs['outline']) ? $attribs['outline'] : false;
 
 		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy')) 
+		if ($mainframe->getCfg('legacy'))
 		{
 			// Include legacy globals
 			global $my, $database, $acl;
@@ -118,7 +118,7 @@ class JModuleHelper
 		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists( $path ) && empty($module->content)) 
+		if (!$module->user && file_exists( $path ) && empty($module->content))
 		{
 			$lang =& JFactory::getLanguage();
 			$lang->load($module->module);
@@ -147,7 +147,7 @@ class JModuleHelper
 
 		// Handle template preview outlining
 		$contents = null;
-		if($outline && !$mainframe->isAdmin()) 
+		if($outline && !$mainframe->isAdmin())
 		{
 			$doc =& JFactory::getDocument();
 			$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
@@ -190,7 +190,7 @@ class JModuleHelper
 	function getLayoutPath($module, $layout = 'default')
 	{
 		global $mainframe;
-		
+
 		// Build the template and base path for the layout
 		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
 		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';

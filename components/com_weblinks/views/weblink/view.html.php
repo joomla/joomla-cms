@@ -35,13 +35,13 @@ class WeblinksViewWeblink extends JView
 
 		//get the weblink
 		$weblink =& $this->get('weblink');
-		
-		if ($weblink->url) 
-		{	
+
+		if ($weblink->url)
+		{
 			// Record the hit
 			$model =& $this->getModel();
 			$model->incrementHit();
-		
+
 			// redirects to url if matching id found
 			$mainframe->redirect($weblink->url);
 		}
@@ -64,7 +64,7 @@ class WeblinksViewWeblink extends JView
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-		
+
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be used instead of a 0

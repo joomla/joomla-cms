@@ -29,12 +29,12 @@ class JMenuViewItem extends JView
 	function edit($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$lang =& JFactory::getLanguage();
 		$this->_layout = 'form';
 
 		$item = &$this->get('Item');
-		
+
 		// Set toolbar items for the page
 		if (!$item->id) {
 			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
@@ -54,7 +54,7 @@ class JMenuViewItem extends JView
 		// Load component language files
 		$component		= &$this->get('Component');
 		$lang->load($component->option, JPATH_ADMINISTRATOR);
-		
+
 		// Initialize variables
 		$urlparams		= $this->get( 'UrlParams' );
 		$params			= $this->get( 'StateParams' );
@@ -63,7 +63,7 @@ class JMenuViewItem extends JView
 		$description	= $this->get( 'StateDescription' );
 		$menuTypes 		= JMenuHelper::getMenuTypeList();
 		$components		= JMenuHelper::getComponentList();
-		
+
 		JCommonHTML::loadOverlib();
 
 		$document = & JFactory::getDocument();
@@ -80,7 +80,7 @@ class JMenuViewItem extends JView
 		$lists = new stdClass();
 		$lists->published = JMenuHelper::Published($item);
 		$lists->disabled = ($item->type != 'url' ? 'disabled="true"' : '');
-		
+
 		if ($item->type != 'url') {
 			$lists->disabled = 'disabled="true"';
 			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
@@ -93,7 +93,7 @@ class JMenuViewItem extends JView
 			$lists->disabled = null;
 			$item->linkfield = null;
 		}
-		
+
 		$this->assignRef('lists'	, $lists);
 		$this->assignRef('item'		, $item);
 		$this->assignRef('urlparams', $urlparams);
@@ -113,12 +113,12 @@ class JMenuViewItem extends JView
 	function type($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$lang =& JFactory::getLanguage();
 		$this->_layout = 'type';
-		
+
 		$item = &$this->get('Item');
-		
+
 		// Set toolbar items for the page
 		if (!$item->id) {
 			JMenuBar::title(  JText::_( 'Add Menu Item' ), 'menu.png' );
@@ -146,14 +146,14 @@ class JMenuViewItem extends JView
 
 		// Load component language files
 		$components	= JMenuHelper::getComponentList();
-		for($i = 0; $i < count($components); $i++) 
+		for($i = 0; $i < count($components); $i++)
 		{
-			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';	
+			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);
-			
+
 			$lang->load($components[$i]->option, JPATH_ADMINISTRATOR);
 		}
-		
+
 		// Initialize variables
 		$item			= &$this->get('Item');
 		$expansion		= &$this->get('Expansion');

@@ -112,7 +112,7 @@ class JUtility
 		$conf =& JFactory::getConfig();
 		return md5( $conf->getValue('config.secret') . md5( $seed ) );
 	}
-	
+
 	/**
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
@@ -120,7 +120,7 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function getToken() 
+	function getToken()
 	{
 		$session =& JFactory::getSession();
 		return $session->get('session.token');

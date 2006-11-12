@@ -37,11 +37,11 @@ class JAdminCSSMenu extends JTree
 		global $mainframe;
 
 		$depth = 1;
-	
+
 		if(!empty($id)) {
 			$id='id="'.$id.'"';
 		}
-		
+
 		if(!empty($class)) {
 			$class='class="'.$class.'"';
 		}

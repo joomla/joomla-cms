@@ -1,6 +1,6 @@
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'User Settings' ); ?></legend>
-	
+
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>

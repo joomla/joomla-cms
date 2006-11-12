@@ -81,7 +81,7 @@ switch ($task) {
 function showNewsFeeds(  )
 {
 	global $mainframe, $option;
-	
+
 	$db 				= JFactory::getDBO();
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
@@ -90,7 +90,7 @@ function showNewsFeeds(  )
 	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid',		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
@@ -250,7 +250,7 @@ function saveNewsFeed(  )
 	}
 	$row->checkin();
 
-	switch ($task) 
+	switch ($task)
 	{
 		case 'apply':
 			$msg = JText::_( 'Changes to Newsfeed saved' );
@@ -433,7 +433,7 @@ function saveOrder(  )
 		$row->load( (int) $cid[$i] );
 		// track categories
 		$groupings[] = $row->catid;
-		
+
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {

@@ -27,7 +27,7 @@ class WeblinksViewCategories extends JView
 	function display( $tpl = null)
 	{
 		global $Itemid, $mainframe;
-		
+
 		// Initialize some variables
 		$pathway	= & $mainframe->getPathWay();
 
@@ -55,7 +55,7 @@ class WeblinksViewCategories extends JView
 		$params->def('image', -1);
 		$params->def('weblink_icons', '');
 		$params->def('image_align', 'right');
-	
+
 		// Define image tag attributes
 		if ($params->get('image') != -1)
 		{
@@ -75,7 +75,7 @@ class WeblinksViewCategories extends JView
 		$this->assignRef('image'     , $image);
 		$this->assignRef('params'    , $params);
 		$this->assignRef('categories', $categories);
-		
+
 		parent::display($tpl);
 	}
 }

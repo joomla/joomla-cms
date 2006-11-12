@@ -51,7 +51,7 @@ class MailtoViewMailto extends JView
 		else
 		{
 			$data->sender = '';
-			$data->from   = '';			
+			$data->from   = '';
 		}
 
 		return $data;

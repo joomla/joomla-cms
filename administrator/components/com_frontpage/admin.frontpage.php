@@ -93,7 +93,7 @@ function viewFrontPage( $option )
 	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 	'filter_sectionid', 0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 

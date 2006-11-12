@@ -28,11 +28,11 @@ class ConfigComponentView extends JView
 		// load the component's language file
 		$lang = & JFactory::getLanguage();
 		$lang->load(JRequest::getVar( 'component' ));
-		
+
 		$model	= &$this->getModel();
 		$params	= &$model->getParams();
 		$table	= &$model->getTable();
-		
+
 		$document = & JFactory::getDocument();
 		$document->setTitle( JText::_('Edit Configuration') );
 		$document->addStyleSheet('../includes/js/joomla/modal.css');

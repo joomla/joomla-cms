@@ -946,7 +946,7 @@ class gacl_api extends gacl {
 			$enabled=0;
 		}
 
-		if (!empty($section_value) 
+		if (!empty($section_value)
 			AND !$this->get_object_section_section_id(NULL, $section_value, 'ACL')) {
 			$this->debug_text("add_acl(): Section Value: $section_value DOES NOT exist in the database.");
 			return false;
@@ -990,12 +990,12 @@ class gacl_api extends gacl {
 					}
 				}
 			}
-			
+
 			//ACL not specified, so create acl_id
 			if (empty($acl_id)) {
 				//Create ACL row first, so we have the acl_id
 				$acl_id = $this->db->GenID($this->_db_table_prefix.'acl_seq',10);
-	
+
 				//Double check the ACL ID was generated.
 				if (empty($acl_id)) {
 					$this->debug_text("add_acl(): ACL_ID generation failed!");

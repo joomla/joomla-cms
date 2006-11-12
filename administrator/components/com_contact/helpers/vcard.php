@@ -19,11 +19,11 @@ jimport('bitfolge.vcard');
 
 /**
  * Class needed to extend vcard class and to correct minor errors
- * 
+ *
  * @pacakge Joomla
  * @subpackage Contacts
  */
-class JvCard extends vCard 
+class JvCard extends vCard
 {
 	// needed to fix bug in vcard class
 	function setName( $family='', $first='', $additional='', $prefix='', $suffix='' ) {

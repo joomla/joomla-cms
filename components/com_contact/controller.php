@@ -29,12 +29,12 @@ class ContactController extends JController
 	 */
 	function display()
 	{
-		
+
 		$document =& JFactory::getDocument();
-		
+
 		$viewName  = JRequest::getVar('view');
 		$viewType  = $document->getType();
-		
+
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -48,7 +48,7 @@ class ContactController extends JController
 				$layout = 'default';
 				break;
 		}
-		
+
 		// Set the default view name from the Request
 		$this->setViewName( $viewName, 'ContactView', $viewType );
 		$view = &$this->getView();
@@ -142,7 +142,7 @@ class ContactController extends JController
 		$emailcopyCheck = $menuParams->get( 'email_copy', 0 );
 
 		// check whether email copy function activated
-		if ( $emailCopy && $emailcopyCheck ) 
+		if ( $emailCopy && $emailcopyCheck )
 		{
 			$copyText 		= sprintf(JText::_('Copy of:'), $contact->name, $SiteName);
 			$copyText 		.= "\r\n\r\n".$body;
@@ -256,16 +256,16 @@ class ContactController extends JController
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Validates some inputs based on component configuration
-	 * 
+	 *
 	 * @return boolean
 	 */
 	function _validateInputs( $email, $subject, $body )
 	{
 		$session =& JFactory::getSession();
-		
+
 		$config 		= &JComponentHelper::getParams( 'com_contact' );
 		$bannedEmail 	= $config->get( 'bannedEmail', 	'' );
 		$bannedSubject 	= $config->get( 'bannedSubject', 	'' );

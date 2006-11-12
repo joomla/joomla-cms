@@ -20,19 +20,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>
-	
+
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('pdf'); ?>
 	</td>
 	<?php endif; ?>
-	
+
 	<?php if ( $this->params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('print'); ?>
 	</td>
 	<?php endif; ?>
-	
+
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('email'); ?>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 endif; ?>
 
 <?php echo $this->article->event->beforeDisplayContent; ?>
-<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">	
+<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php if (($this->params->get('section') && $this->article->sectionid) || ($this->params->get('category') && $this->article->catid)) : ?>
 <tr>
 	<td>

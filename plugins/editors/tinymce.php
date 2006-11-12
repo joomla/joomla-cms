@@ -23,7 +23,7 @@ jimport( 'joomla.application.plugin.helper' );
  * @package Editors
  * @since 1.5
  */
-class JEditor_tinymce extends JPlugin 
+class JEditor_tinymce extends JPlugin
 {
 	/**
 	 * Constructor
@@ -78,7 +78,7 @@ class JEditor_tinymce extends JPlugin
 		$compressed			= $params->def( 'compressed', 0 );
 		$langPrefix			= $params->def( 'lang_code', 'en' );
 		$langMode			= $params->def( 'lang_mode', 0 );
-	
+
 		// Plugins
 		// insert date
 		$insertdate			= $params->def( 'insertdate', 1 );
@@ -130,17 +130,17 @@ class JEditor_tinymce extends JPlugin
 			$db->setQuery( $query );
 			$template = $db->loadResult();
 
-			
-			if($content_css) 
+
+			if($content_css)
 			{
 				$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
-			
+
 				$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
 				if ( file_exists( $file_path .DS. 'editor.css' ) ) {
 					$content_css = $content_css . 'editor.css' .'", ';
 				} else {
 					$content_css = $content_css . 'template_css.css", ';
-				}			
+				}
 			}
 		}
 

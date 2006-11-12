@@ -95,11 +95,11 @@ class NewsfeedsViewCategories extends JView
 			// Use the static HTML library to build the image tag
 			$image = JHTML::Image('/images/stories/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
 		}
-		
+
 		$this->assignRef('image'     , $image);
 		$this->assignRef('params'    , $params);
 		$this->assignRef('categories', $categories);
-		
+
 		parent::display($tpl);
 	}
 }

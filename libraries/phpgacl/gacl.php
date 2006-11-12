@@ -179,7 +179,7 @@ class gacl {
 			$this->_debugLog = array();
 		}
 
-		$this->_debugLog[] = $text; 
+		$this->_debugLog[] = $text;
 		if ($this->_debug) {
 			echo "$text<br>\n";
 		}

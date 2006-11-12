@@ -30,14 +30,14 @@ class WeblinksModelWeblink extends JModel
 	 * @var int
 	 */
 	var $_id = null;
-	
+
 	/**
 	 * Weblink data
 	 *
 	 * @var array
 	 */
 	var $_weblink = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -46,7 +46,7 @@ class WeblinksModelWeblink extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
@@ -56,7 +56,7 @@ class WeblinksModelWeblink extends JModel
 		$this->setId($id);
 
 	}
-	
+
 	/**
 	 * Method to set the weblink identifier
 	 *
@@ -69,7 +69,7 @@ class WeblinksModelWeblink extends JModel
 		$this->_id	    = $id;
 		$this->_weblink = null;
 	}
-	
+
 	/**
 	 * Method to get a weblink
 	 *
@@ -82,13 +82,13 @@ class WeblinksModelWeblink extends JModel
 		{
 			// Initialize some variables
 			$user = &JFactory::getUser();
-			
+
 			// Make sure the category is published
 			if (!$this->_weblink->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
-			
+
 			// Check to see if the category is published
 			if (!$this->_weblink->cat_pub) {
 				JError::raiseError( 404, JText::_("Resource Not Found") );
@@ -122,7 +122,7 @@ class WeblinksModelWeblink extends JModel
 
 		return $this->_weblink;
 	}
-	
+
 	/**
 	 * Method to increment the hit counter for the weblink
 	 *
@@ -142,7 +142,7 @@ class WeblinksModelWeblink extends JModel
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Tests if weblink is checked out
 	 *
@@ -153,7 +153,7 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function isCheckedOut( $uid=0 )
 	{
-		if ($this->_loadWeblink()) 
+		if ($this->_loadWeblink())
 		{
 			if ($uid) {
 				return ($this->_weblink->checked_out && $this->_weblink->checked_out != $uid);
@@ -165,7 +165,7 @@ class WeblinksModelWeblink extends JModel
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Method to checkin/unlock the weblink
 	 *
@@ -233,7 +233,7 @@ class WeblinksModelWeblink extends JModel
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Method to build the WHERE clause of the query to select a content article
 	 *
@@ -244,12 +244,12 @@ class WeblinksModelWeblink extends JModel
 	function _buildContentWhere()
 	{
 		global $mainframe;
-		
+
 		// Make sure that the weblink is the one we are looking for.
 		$where = "\n WHERE w.id = $this->_id";
 
 		return $where;
 	}
-	
+
 }
 ?>

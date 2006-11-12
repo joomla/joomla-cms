@@ -17,7 +17,7 @@ jimport('joomla.application.component.controller');
 
 /**
  * Extension Manager Controller
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
@@ -27,7 +27,7 @@ class InstallerController extends JController
 {
 	/**
 	 * Display the extension installer form
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 * @since	1.5
@@ -43,7 +43,7 @@ class InstallerController extends JController
 
 	/**
 	 * Install an extension
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 * @since	1.5
@@ -61,7 +61,7 @@ class InstallerController extends JController
 
 	/**
 	 * Manage an extension type (List extensions of a given type)
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 * @since	1.5
@@ -78,7 +78,7 @@ class InstallerController extends JController
 
 	/**
 	 * Enable an extension (If supported)
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 * @since	1.5
@@ -100,7 +100,7 @@ class InstallerController extends JController
 
 	/**
 	 * Disable an extension (If supported)
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 * @since	1.5
@@ -122,7 +122,7 @@ class InstallerController extends JController
 
 	/**
 	 * Remove an extension (Uninstall)
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 * @since	1.5

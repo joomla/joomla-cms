@@ -108,10 +108,10 @@
 			<td align="center">
 				<?php echo $row->id; ?>
 			</td>
-		</tr>	
+		</tr>
 		<?php
 		$k = 1 - $k;
-		$i++; 
+		$i++;
 		?>
 	<?php endforeach; ?>
 	</tbody>

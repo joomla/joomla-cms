@@ -33,7 +33,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) 
+switch ($task)
 {
 	case 'add' :
 	case 'edit':
@@ -110,7 +110,7 @@ function showContacts( $option )
 
 	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-	
+
 	$where = array();
 
 	if ( $search ) {
@@ -463,7 +463,7 @@ function saveOrder( &$cid )
 		$row->load( (int) $cid[$i] );
 		// track categories
 		$groupings[] = $row->catid;
-		
+
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {

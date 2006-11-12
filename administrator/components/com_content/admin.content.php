@@ -30,8 +30,8 @@ switch (strtolower($task))
 		$controller->redirect();
 		break;
 
-	case 'add'  : 
-	case 'new'  : 
+	case 'add'  :
+	case 'new'  :
 	case 'edit' :
 		ContentController::editContent();
 		break;
@@ -120,7 +120,7 @@ switch (strtolower($task))
 	case 'preview' :
 		ContentController::previewContent();
 		break;
-		
+
 	case 'ins_pagebreak' :
 		ContentController::insertPagebreak();
 		break;

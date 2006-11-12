@@ -59,7 +59,7 @@ jimport( 'joomla.filesystem.*' );
  * @subpackage Installer
  * @since 1.5
  */
-class JAJAXHandler 
+class JAJAXHandler
 {
 	/**
 	 * Method to get the database collations

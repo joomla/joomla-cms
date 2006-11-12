@@ -14,7 +14,7 @@
 /**
  * Base class for a Joomla Controller
  *
- * Controller (controllers are where you put all the actual code) Provides basic 
+ * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
  * @abstract
@@ -32,7 +32,7 @@ class JController extends JObject
 	 * @access protected
 	 */
 	var $_name = null;
-	
+
 	/**
 	 * Array of class methods
 	 *
@@ -56,7 +56,7 @@ class JController extends JObject
 	 * @access protected
 	 */
 	var $_task 		= null;
-	
+
 	/**
 	 * The mapped task that was performed
 	 *
@@ -64,10 +64,10 @@ class JController extends JObject
 	 * @access protected
 	 */
 	var $_doTask 	= null;
-	
+
     /**
 	 * The set of search directories for resources (views or models)
-	 * 
+	 *
 	 * @var array
 	 * @access protected
 	 */
@@ -191,7 +191,7 @@ class JController extends JObject
 				$this->_taskMap[strtolower( $method )] = $method;
 			}
 		}
-		
+
 		//Set the controller name
 		if (empty( $this->_name ))
 		{
@@ -207,14 +207,14 @@ class JController extends JObject
 				$this->_name = strtolower( $r[1] );
 			}
 		}
-		
+
 		// If the default task is set, register it as such
 		if (isset($config['default_task'])) {
 			$this->registerDefaultTask( $config['default_task'] );
 		} else {
 			$this->registerDefaultTask('display' );
 		}
-		
+
 		// set the default model search path
 		if (isset($config['model_path'])) {
 			// user-defined dirs
@@ -222,7 +222,7 @@ class JController extends JObject
 		} else {
 			$this->setModelPath(null);
 		}
-		
+
 		// set the default view search path
 		if (isset($config['view_path'])) {
 			// user-defined dirs
@@ -374,7 +374,7 @@ class JController extends JObject
 	 * @return	string	The task that was or is being performed
 	 * @since	1.5
 	 */
-	function getTask() 
+	function getTask()
 	{
 		return $this->_task;
 	}
@@ -503,7 +503,7 @@ class JController extends JObject
 	 * @return string The new error message
 	 * @since 1.5
 	 */
-	function setError( $value ) 
+	function setError( $value )
 	{
 		$this->_error = $value;
 		return $this->_error;
@@ -596,28 +596,28 @@ class JController extends JObject
 	function &_createView( $name, $prefix = '', $type = '' )
 	{
 		$false = false;
-		
+
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
 		$viewType	 = preg_replace( '#\W#', '', $type );
-		
+
 		if (!empty($type)) {
 			$type = '.'.$type;
 		}
-		
+
 		$view		= null;
-		
+
 		// Build the view class name
 		$viewClass = $classPrefix.$viewName;
-		
+
 		if (!class_exists( $viewClass ))
 		{
 			// If the default view file exists include it and try to instantiate the object
 			if ($path = $this->_findFile('view', strtolower($viewName).DS.'view'.$type.'.php'))
 			{
 				require_once( $path );
-			
+
 				if (!class_exists( $viewClass ))
 				{
 					JError::raiseWarning( 0, 'View class ' . $viewClass . ' not found in file.' );
@@ -634,7 +634,7 @@ class JController extends JObject
 		$view = new $viewClass();
 		return $view;
 	}
-	
+
    /**
 	* Sets an entire array of search paths for resources.
 	*
@@ -646,28 +646,28 @@ class JController extends JObject
 	function _setPath($type, $path)
 	{
 		global $mainframe, $option;
-			
+
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
-		
+
 		// always add the fallback directories as last resort
-		switch (strtolower($type)) 
+		switch (strtolower($type))
 		{
 			case 'view':
 				// the current directory
 				$this->_addPath($type, JPATH_COMPONENT.DS.'views');
 				break;
-				
+
 			case 'model':
 				// the current directory
 				$this->_addPath($type, JPATH_COMPONENT.DS.'models');
 				break;
 		}
-			
+
 		// actually add the user-specified directories
 		$this->_addPath($type, $path);
 	}
-	
+
    /**
 	* Adds to the search path for templates and resources.
 	*
@@ -677,30 +677,30 @@ class JController extends JObject
 	function _addPath($type, $path)
 	{
 		// convert from path string to array of directories
-		if (is_string($path) && ! strpos($path, '://')) 
+		if (is_string($path) && ! strpos($path, '://'))
 		{
 			// the path config is a string, and it's not a stream
 			// identifier (the "://" piece). add it as a path string.
 			$path = explode(PATH_SEPARATOR, $path);
-			
+
 			// typically in path strings, the first one is expected
 			// to be searched first. however, JView uses a stack,
 			// so the first would be last.  reverse the path string
 			// so that it behaves as expected with path strings.
 			$path = array_reverse($path);
-		} 
-		else 
+		}
+		else
 		{
 			// just force to array
-			settype($path, 'array');	
+			settype($path, 'array');
 		}
-		
+
 		// loop through the path directories
-		foreach ($path as $dir) 
+		foreach ($path as $dir)
 		{
 			// no surrounding spaces allowed!
 			$dir = trim($dir);
-			
+
 			// add trailing separators as needed
 			if (strpos($dir, '://') && substr($dir, -1) != '/') {
 				// stream
@@ -709,19 +709,19 @@ class JController extends JObject
 				// directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
-			
+
 			// add to the top of the search dirs
 			array_unshift($this->_path[$type], $dir);
 		}
 	}
-	
+
    /**
 	* Searches the directory paths for a given file.
-	* 
+	*
 	* @access protected
 	* @param array $type The type of path to search (template or resource).
 	* @param string $file The file name to look for.
-	* 
+	*
 	* @return string|bool The full path and file name for the target file,
 	* or boolean false if the file is not found in any of the paths.
 	*/
@@ -729,25 +729,25 @@ class JController extends JObject
 	{
 		// get the set of paths
 		$set = $this->_path[$type];
-		
+
 		// start looping through the path set
-		foreach ($set as $path) 
-		{	
+		foreach ($set as $path)
+		{
 			// get the path to the file
 			$fullname = $path . $file;
-				
+
 			// is the path based on a stream?
 			if (strpos($path, '://') === false)
 			{
-				// not a stream, so do a realpath() to avoid directory 
+				// not a stream, so do a realpath() to avoid directory
 				// traversal attempts on the local file system.
 				$path = realpath($path); // needed for substr() later
 				$fullname = realpath($fullname);
 			}
-			
-			// the substr() check added to make sure that the realpath() 
-			// results in a directory registered with Savant so that 
-			// non-registered directores are not accessible via directory 
+
+			// the substr() check added to make sure that the realpath()
+			// results in a directory registered with Savant so that
+			// non-registered directores are not accessible via directory
 			// traversal attempts.
 			if (file_exists($fullname) && is_readable($fullname) &&
 				substr($fullname, 0, strlen($path)) == $path)
@@ -755,7 +755,7 @@ class JController extends JObject
 				return $fullname;
 			}
 		}
-		
+
 		// could not find the file in the set of paths
 		return false;
 	}

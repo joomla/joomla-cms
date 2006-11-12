@@ -500,7 +500,7 @@ class JInstallerComponent extends JInstaller
 
 		if (!$this->_findInstallFile())
 		{
-			// Make sure we delete the folders 
+			// Make sure we delete the folders
 			JFolder::delete($this->_extensionAdminDir);
 			JFolder::delete($this->_extensionDir);
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: XML File invalid or not found');

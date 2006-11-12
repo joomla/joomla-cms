@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
 
 /**
  * Extension Manager Plugins View
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer

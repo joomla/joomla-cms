@@ -45,7 +45,7 @@ class JDate extends JObject
 	 * @access	protected
 	 */
 	var $_date   = 0;
-	
+
 	/**
 	 * Timeoffset (in hours)
 	 *
@@ -56,15 +56,15 @@ class JDate extends JObject
 
 	/**
 	 * Creates a new instance of JDate representing a given date.
-	 * 
-	 * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps. 
+	 *
+	 * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps.
 	 * If not specified, the current date and time is used.
 	 *
-	 * @param mixed $date optional the date this JDate will represent. 
+	 * @param mixed $date optional the date this JDate will represent.
 	 */
 	function __construct($date = 'now')
 	{
-		if ($date == 'now' || empty($date)) 
+		if ($date == 'now' || empty($date))
 		{
 			$this->_date = gmdate('U');
 			return;
@@ -119,22 +119,22 @@ class JDate extends JObject
 
 		$this->_date = strtotime($date);
 	}
-	
+
 	/**
 	 * Set the date offset (in hours)
-	 * 
+	 *
 	 * @access public
 	 * @param integer $offset The offset in hours
 	 */
 	function setOffset($offset) {
 		$this->_offset = $offset;
 	}
-	
+
 	/**
 	 * Get the date offset (in hours)
-	 * 
+	 *
 	 * @access public
-	 * @return integer 
+	 * @return integer
 	 */
 	function getOffset() {
 		return $this->_offset;
@@ -161,33 +161,33 @@ class JDate extends JObject
 		$date = gmdate("Y-m-d\TH:i:sO", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
-	
+
 	/**
 	 * Gets the date as in MySQL datetime format
 	 *
-	 * @return a date in MySQL datetime format 
+	 * @return a date in MySQL datetime format
 	 */
 	function toMySQL()
 	{
 		$date = gmdate("Y-m-d H:i:s", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
-	
+
 	/**
 	 * Gets the date as UNIX time stamp.
 	 *
 	 * @return a date as a unix time stamp
 	 */
-	function toUnix()  
+	function toUnix()
 	{
 		$date =  $this->_date + ($this->_offset * 3600);
 		return $date;
 	}
-	
+
 	/**
 	 * Gets the date in a specific format
-	 * 
-	 * Returns a string formatted according to the given format. Month and weekday names and 
+	 *
+	 * Returns a string formatted according to the given format. Month and weekday names and
 	 * other language dependent strings respect the current locale
 	 *
 	 * @params string $format  The date format
@@ -198,13 +198,13 @@ class JDate extends JObject
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
 		$date = gmstrftime($format, $this->_date + ($this->_offset * 3600));
-		
+
 		// for Windows there is a need to convert the OS date string to utf-8.
 		$lang = JFactory::getLanguage();
 		if ( JUtility::isWinOS() && function_exists('iconv') ) {
 			return iconv($lang->getWinCP(), "UTF-8", $date);
 		}
-		
+
 		return $date;
 	}
 }

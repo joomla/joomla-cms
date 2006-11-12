@@ -9,17 +9,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php echo $item->title;?>
 		</a>
 	<?php else : ?>
-		<?php echo $item->title; ?> 
+		<?php echo $item->title; ?>
 	<?php endif; ?>
 	</td>
 </tr>
 </table>
 <?php endif; ?>
 
-<?php if (!$params->get('intro_only')) : 
+<?php if (!$params->get('intro_only')) :
 	echo $item->afterDisplayTitle;
 endif; ?>
-	
+
 <?php echo $item->beforeDisplayContent; ?>
 
 <table class="contentpaneopen<?php echo $params->get( 'moduleclass_sfx' ); ?>">

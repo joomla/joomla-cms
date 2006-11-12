@@ -94,7 +94,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<td>
 		<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
-			<?php echo $this->contact->webpage; ?>	
+			<?php echo $this->contact->webpage; ?>
 		</a>
 	</td>
 </tr>

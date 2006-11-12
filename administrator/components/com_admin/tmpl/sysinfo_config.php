@@ -14,7 +14,7 @@
 		<tbody>
 			<tr>
 			<?php
-			$cf = file( JPATH_CONFIGURATION . '/configuration.php' );									
+			$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
 			$config_output = array();
 			foreach ($cf as $k => $v) {
 				if (eregi( 'var \$host', $v)) {
@@ -34,7 +34,7 @@
 				} else if (eregi( '\?>', $v)) {
 					$cf[$k] = '';
 				} else if (eregi( '}', $v)) {
-					$cf[$k] = ''; 
+					$cf[$k] = '';
 				} else if (eregi( 'class JConfig {', $v)) {
 					$cf[$k] = '';
 				}
@@ -56,4 +56,4 @@
 			</td>
 		</tfoot>
 		</table>
-</fieldset>		
+</fieldset>

@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 function modChrome_rounded($module, &$params, &$attribs)
 {
-	if($module->content) 
+	if($module->content)
 	{
 		?>
 		<div id="<?php echo $attribs['id'] ?>">

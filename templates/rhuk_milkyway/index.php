@@ -118,7 +118,7 @@
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<?php if($this->params->get('showComponent')) : ?> 
+										<?php if($this->params->get('showComponent')) : ?>
 											<jdoc:include type="component" />
 										<?php endif; ?>
 									</td>

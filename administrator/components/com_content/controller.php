@@ -1329,7 +1329,7 @@ class ContentController extends JController
 		// Render article preview
 		ContentView::previewContent();
 	}
-	
+
 	function insertPagebreak()
 	{
 		global $mainframe;

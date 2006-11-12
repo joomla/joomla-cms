@@ -70,11 +70,11 @@ class JParameter extends JRegistry
 		}
 
 		parent::__construct('parameter');
-		
+
 		if (trim( $data )) {
 			$this->loadINI($data);
 		}
-		
+
 		if ($path) {
 			$this->loadSetupFile($path);
 		}
@@ -90,7 +90,7 @@ class JParameter extends JRegistry
 	 * @param string The value of the parameter
 	 * @return string The set value
 	 */
-	function set($key, $value = '') 
+	function set($key, $value = '')
 	{
 		$this->setValue('parameter.'.$key, (string) $value);
 		return $this->getValue('parameter.'.$key);

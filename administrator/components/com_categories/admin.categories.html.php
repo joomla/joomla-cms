@@ -378,7 +378,7 @@ class categories_html
 
 				</table>
 			</fieldset>
-			
+
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -394,7 +394,7 @@ class categories_html
 					</table>
 			</fieldset>
 		</div>
-		
+
 		<div class="col40">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>

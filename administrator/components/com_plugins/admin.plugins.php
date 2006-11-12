@@ -87,14 +87,14 @@ function viewPlugins( $option, $client )
 	global $mainframe, $option;
 
 	$db =& JFactory::getDBO();
-	
+
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'*' );
 	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		1 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	
+
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 

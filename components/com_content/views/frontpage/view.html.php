@@ -34,24 +34,24 @@ class ContentViewFrontpage extends JView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$lang 		=& JFactory::getLanguage();
-		
+
 		// Request variables
 		$id			= JRequest::getVar('id');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
-		
+
 		// parameters
 		$intro				= $params->def('intro', 			4);
 		$leading			= $params->def('leading', 			1);
 		$links				= $params->def('link', 				4);
 		$descrip			= $params->def('description', 		1);
 		$descrip_image		= $params->def('description_image', 1);
-		
+
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 	1);
 		$params->def('page_title', 	1);
@@ -59,20 +59,20 @@ class ContentViewFrontpage extends JView
 		if ($params->get('page_title')) {
 			$params->def('header', $menu->name);
 		}
-		
+
 		$limit = $intro + $leading + $links;
 		JRequest::setVar('limit', $limit);
 
 		//set data model
 		$items =& $this->get('data' );
 		$total =& $this->get('total');
-		
+
 		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-	
+
 		//add alternate feed link
 		$link    = ampReplace(JURI::base() .'feed.php?option=com_content&view=frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -113,15 +113,15 @@ class ContentViewFrontpage extends JView
 
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
-		
+
 		$this->assign('total'        , $total);
-		
+
 		$this->assignRef('user'      , $user);
 		$this->assignRef('access'    , $access);
 		$this->assignRef('params'    , $params);
 		$this->assignRef('items'     , $items);
 		$this->assignRef('frontpage' , $frontpage);
-		
+
 		parent::display($tpl);
 	}
 
@@ -180,10 +180,10 @@ class ContentViewFrontpage extends JView
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
-				
+
 				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
-				
+
 			} break;
 
 			case 'edit' :
@@ -231,7 +231,7 @@ class ContentViewFrontpage extends JView
 	function &getItem($index = 0, &$params)
 	{
 		global $mainframe, $Itemid;
-		
+
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$dispatcher	=& JEventDispatcher::getInstance();

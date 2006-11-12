@@ -400,7 +400,7 @@ class JMenuModelList extends JModel
 			{
 				$row->load( $id );
 				$row->published = $state;
-	
+
 				if ($state != 1) {
 					// Set any alias menu types to not point to unpublished menu items
 					$db = &$this->getDBO();
@@ -411,11 +411,11 @@ class JMenuModelList extends JModel
 						return false;
 					}
 				}
-	
+
 				if (!$row->check()) {
 					$this->setError($row->getError());
 					return false;
-				}	
+				}
 				if (!$row->store()) {
 					$this->setError($row->getError());
 					return false;
@@ -486,7 +486,7 @@ class JMenuModelList extends JModel
 		$order 		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		$row		=& $this->getTable();
 		$groupings = array();
-	
+
 		// update ordering values
 		for( $i=0; $i < $total; $i++ ) {
 			$row->load( $items[$i] );
@@ -498,7 +498,7 @@ class JMenuModelList extends JModel
 					$this->setError($row->getError());
 					return false;
 				}
-				
+
 			} // if
 		} // for
 
@@ -507,8 +507,8 @@ class JMenuModelList extends JModel
 		foreach ($groupings as $group){
 			$row->reorder("menutype = '$menutype' AND parent = $group AND published >=0");
 		}
-		
-		
+
+
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');

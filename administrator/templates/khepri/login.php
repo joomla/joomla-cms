@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
@@ -54,7 +54,7 @@
             		</div>
           		</div>
           		<div class="m">
-          			
+
 					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
 					<jdoc:include type="component" name="login" />
 					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>

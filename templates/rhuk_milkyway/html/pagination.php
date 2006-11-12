@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted access');
  * 		$list[limitfield]	: string
  * 		$list[pagescounter]	: string
  * 		$list[pageslinks]	: string
- * 
+ *
  * pagination_list_render
  * 	Input variable $list is an array with offsets:
  * 		$list[all]
@@ -46,13 +46,13 @@ defined('_JEXEC') or die('Restricted access');
  * 		$list[pages]
  * 			[{PAGE}][data]		: string
  * 			[{PAGE}][active]	: boolean
- * 
+ *
  * pagination_item_active
  * 	Input variable $item is an object with fields:
  * 		$item->base	: integer
  * 		$item->link	: string
  * 		$item->text	: string
- * 
+ *
  * pagination_item_inactive
  * 	Input variable $item is an object with fields:
  * 		$item->base	: integer
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access');
  * 		$item->text	: string
  *
  * This gives template designers ultimate control over how pagination is rendered.
- * 
+ *
  * NOTE: If you override pagination_item_active OR pagination_item_inactive you MUST override them both
  */
 
@@ -70,13 +70,13 @@ function pagination_list_footer($list)
 	$lang =& JFactory::getLanguage();
 	$html = "<div class=\"list-footer\">\n";
 
-	if ($lang->isRTL()) 
+	if ($lang->isRTL())
 	{
 		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
-	} 
-	else 
+	}
+	else
 	{
 		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
 		$html .= $list['pageslinks'];
@@ -96,20 +96,20 @@ function pagination_list_render($list)
 	$html = "<span class=\"pagination\">";
 
 	// Reverse output rendering for right-to-left display
-	if($lang->isRTL()) 
+	if($lang->isRTL())
 	{
 		$html .= '&laquo; '.$list['start']['data'];
 		$html .= '&nbsp;'.$list['previous']['data'];
 
 		$list['pages'] = array_reverse( $list['pages'] );
-		
+
 		foreach( $list['pages'] as $page ) {
 			if($page['data']['active']) {
 				$html .= '<strong>';
 			}
-			
+
 			$html .= '&nbsp;'.$page['data'];
-			
+
 			if($page['data']['active']) {
 				$html .= '</strong>';
 			}
@@ -118,20 +118,20 @@ function pagination_list_render($list)
 		$html .= '&nbsp;'.$list['next']['data'];
 		$html .= '&nbsp;'.$list['end']['data'];
 		$html .= ' &raquo;';
-	} 
-	else 
+	}
+	else
 	{
 		$html .= '&laquo; '.$list['start']['data'];
 		$html .= $list['previous']['data'];
 
-		foreach( $list['pages'] as $page ) 
+		foreach( $list['pages'] as $page )
 		{
 			if($page['data']['active']) {
 				$html .= '<strong>';
 			}
-			
+
 			$html .= $page['data'];
-			
+
 			if($page['data']['active']) {
 				$html .= '</strong>';
 			}

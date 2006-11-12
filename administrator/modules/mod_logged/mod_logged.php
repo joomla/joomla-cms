@@ -111,7 +111,7 @@ foreach ( $rows as $row )
 			</a>
 			</td>
 			<?php
-		} 
+		}
 		else
 		{
 			?>

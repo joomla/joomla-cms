@@ -62,7 +62,7 @@ function showSummary( $task )
 	$tab = JRequest::getVar( 'tab', 'tab1' );
 	$sort_base = "index.php?option=com_statistics&amp;task=$task";
 
-	switch ($field) 
+	switch ($field)
 	{
 		case 'hits':
 			$order_by = "hits $order";
@@ -151,7 +151,7 @@ function showPageImpressions( $task )
 	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
-	
+
 	$limit		= $mainframe->getUserStateFromRequest("com_statistics.$task.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -382,7 +382,7 @@ function resetStats()
 		$mainframe->redirect( $redirecturl, $msg );
 }
 
-function sortIcon( $text, $base_href, $field, $state='none' ) 
+function sortIcon( $text, $base_href, $field, $state='none' )
 {
 	$alts = array(
 		'none' 	=> JText::_( 'No Sorting' ),

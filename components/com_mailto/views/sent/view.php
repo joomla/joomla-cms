@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
 class MailtoViewSent extends JView
 {
 	var $_viewName = 'sent';
-	
+
 	function __construct()
 	{
 		$this->setTemplatePath(dirname(__FILE__).DS.'tmpl');

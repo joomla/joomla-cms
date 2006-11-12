@@ -15,7 +15,7 @@
 
 /**
  * Extension Manager Helper
- * 
+ *
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla

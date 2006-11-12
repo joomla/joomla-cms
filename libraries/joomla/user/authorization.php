@@ -38,7 +38,7 @@ class JAuthorization extends gacl_api
 		// this changes to user id in proper implementation
 		// No hierarchial inheritance so have to do that the long way
 		$this->acl = array();
-		
+
 		// my details
 		$this->_mos_add_acl( 'mydetails', 'manage', 'users', 'super administrator' );
 		$this->_mos_add_acl( 'mydetails', 'manage', 'users', 'administrator' );

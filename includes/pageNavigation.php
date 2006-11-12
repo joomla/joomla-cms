@@ -28,7 +28,7 @@ class mosPageNav extends JPagination {
 	function mosPageNav( $total, $limitstart, $limit ) {
 		parent::__construct($total, $limitstart, $limit);
 	}
-	
+
 	/**
 	 * Writes the dropdown select list for number of rows to show per page
 	 * Use: print $pagination->getLimitBox();

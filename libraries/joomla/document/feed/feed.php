@@ -204,9 +204,9 @@ class JDocumentFeed extends JDocument
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
-		
+
 		echo JComponentHelper::renderComponent();
-		
+
 		$renderer = $this->loadRenderer($format);
 
 		//output

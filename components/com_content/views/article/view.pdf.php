@@ -28,7 +28,7 @@ class ContentViewArticle extends JView
 		global $mainframe;
 
 		jimport('tcpdf.tcpdf');
-		
+
 		$dispatcher	=& JEventDispatcher::getInstance();
 
 		// Initialize some variables
@@ -83,7 +83,7 @@ class ContentViewArticle extends JView
 		//Close and output PDF document
 		$pdf->Output("joomla.pdf", "I");
 	}
-	
+
 	function _getHeaderText(& $article, & $params)
 	{
 		// Initialize some variables

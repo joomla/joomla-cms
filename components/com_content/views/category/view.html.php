@@ -40,12 +40,12 @@ class ContentViewCategory extends JView
 		$task 	    = JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->def('display_num', 0), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// parameters
 		$intro		= $params->def('intro', 	0);
 		$leading	= $params->def('leading', 	0);
 		$links		= $params->def('link', 		0);
-		
+
 		//In case we are in a blog view set the limit
 		if($limit ==  0) $limit = $intro + $leading + $links;
 		JRequest::setVar('limit', $limit);
@@ -54,7 +54,7 @@ class ContentViewCategory extends JView
 		$items	  = & $this->get( 'Data' );
 		$total	  = & $this->get( 'Total' );
 		$category = & $this->get( 'Category' );
-		
+
 		//add alternate feed link
 		$link    = JURI::base() .'feed.php?option=com_content&task=category&id='.$category->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -99,7 +99,7 @@ class ContentViewCategory extends JView
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
-		
+
 		$this->assign('total'        , $total);
 
 		$this->assignRef('items'     , $items);
@@ -108,7 +108,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('user'      , $user);
 		$this->assignRef('access'    , $access);
 		$this->assignRef('pagination', $pagination);
-		
+
 		parent::display($tpl);
 	}
 
@@ -216,10 +216,10 @@ class ContentViewCategory extends JView
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
-				
+
 				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
-				
+
 			} break;
 		}
 
@@ -257,7 +257,7 @@ class ContentViewCategory extends JView
 		}
 
 		$this->assign('lists'     , $lists);
-		
+
 		return $this->items;
 	}
 
@@ -345,23 +345,23 @@ class ContentViewCategory extends JView
 
 		return $item;
 	}
-	
+
 	function _buildSortLists()
 	{
 		// Table ordering values
 		$filter				= JRequest::getVar('filter');
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
-		
+
 		$lists['task'] = 'category';
 		$lists['filter'] = $filter;
-		
+
 		if ($filter_order_Dir == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
 		} else {
 			$lists['order_Dir'] = 'DESC';
 		}
-		
+
 		$lists['order'] = $filter_order;
 
 		return $lists;

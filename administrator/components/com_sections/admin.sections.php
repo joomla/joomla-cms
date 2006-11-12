@@ -279,9 +279,9 @@ function saveSection( $option, $scope, $task )
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
-	
+
 	$post = JRequest::get('post');
-	
+
 	// fix up special html fields
 	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', _J_ALLOWHTML );
 

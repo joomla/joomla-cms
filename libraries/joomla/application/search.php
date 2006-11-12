@@ -19,7 +19,7 @@
  * @subpackage	Application
  * @since		1.5
  */
-class JSearch extends JObject 
+class JSearch extends JObject
 {
 	/**
 	 * @var string The text or phrase to search for
@@ -71,7 +71,7 @@ class JSearch extends JObject
 	/**
 	 * Constructor
 	 */
-	function __construct( $needle, $matchType, $ordering, $areas, $limitstart=0, $limit=0 ) 
+	function __construct( $needle, $matchType, $ordering, $areas, $limitstart=0, $limit=0 )
 	{
 		$this->needle		= $needle;
 		$this->matchType	= $matchType;
@@ -131,7 +131,7 @@ class JSearch extends JObject
 	 * running total and determines the limit and limitstart for the query
 	 * @param int
 	 */
-	function addResultCount( $n ) 
+	function addResultCount( $n )
 	{
 		// the start and end points for this query
 		$qStart = $this->count;
@@ -214,12 +214,12 @@ class JSearch extends JObject
  * @subpackage	Application
  * @since		1.5
  */
-class JSearchHelper 
+class JSearchHelper
 {
 	/**
 	 * @return JParameter Parameters for the serach plugin
 	 */
-	function &getPluginParams( $folder, $name ) 
+	function &getPluginParams( $folder, $name )
 	{
 		if ($folder && $name) {
 	 		$plugin =& JPluginHelper::getPlugin($this->folder, $this->name);
@@ -236,7 +236,7 @@ class JSearchHelper
 	 * @param array A named array of search areas for the plugin
 	 * @return boolean
 	 */
-	function inArea( $formAreas, $pluginAreas ) 
+	function inArea( $formAreas, $pluginAreas )
 	{
 		if (is_array( $formAreas )) {
 			if (!array_intersect( $formAreas, array_keys( $pluginAreas ) )) {

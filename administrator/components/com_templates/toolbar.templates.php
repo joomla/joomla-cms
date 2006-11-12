@@ -19,7 +19,7 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 $client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-switch ($task) 
+switch ($task)
 {
 	case 'view'   :
 	case 'preview':

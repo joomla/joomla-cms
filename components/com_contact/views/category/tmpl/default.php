@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ( $this->params->get( 'page_title' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ($this->category->name) : 
+<?php if ($this->category->name) :
 	echo $this->params->get('header').' - '.$this->category->name;
 else :
 	echo $this->params->get('header');
@@ -34,7 +34,7 @@ endif; ?>
 	<thead>
 		<tr>
 			<td align="right" colspan="6">
-			<?php if ($this->params->get('display')) : 
+			<?php if ($this->params->get('display')) :
 				echo JText::_('Display Num') .'&nbsp;';
 				echo $this->pagination->getLimitBox();
 			endif; ?>

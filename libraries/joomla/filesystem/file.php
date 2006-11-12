@@ -161,7 +161,7 @@ class JFile
 		foreach ($files as $file) {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
-			
+
 		    // In case of restricted permissions we zap it one way or the other
 		    // as long as the owner is either the webserver or the ftp
 			if(@unlink($file)){

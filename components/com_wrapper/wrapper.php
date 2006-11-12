@@ -45,7 +45,7 @@ class WrapperController
 		$menus  = &JMenu::getInstance();
 		$menu   = $menus->getItem($Itemid);
 		$params = new JParameter( $menu->params );
-	
+
 		//set page title
 		$mainframe->SetPageTitle($menu->name);
 
@@ -54,7 +54,7 @@ class WrapperController
 		$pathway->setItemName(1, $menu->name);
 
 		$url = $params->def( 'url', '' );
-		
+
 		$row = new stdClass();
 		if ( $params->def( 'add', 1 ) )
 		{
@@ -83,7 +83,7 @@ class WrapperController
 
 		$view->assignRef('params'  , $params);
 		$view->assignRef('wrapper' , $row);
-		
+
 		$view->display();
 	}
 }

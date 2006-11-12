@@ -42,7 +42,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		// get the user and configuration object
 		$user =& JFactory::getUser();
 		$conf =& JFactory::getConfig();
-		
+
 		// set the module content
 		if (!is_null($content)) {
 			$module->content = $content;

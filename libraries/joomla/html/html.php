@@ -19,7 +19,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTML 
+class JHTML
 {
 	/**
 	 * Write a <a></a> element
@@ -32,7 +32,7 @@ class JHTML
 	 * @since 1.5
 	 */
 
-	function Link($url, $text, $attribs = null, $ssl = 0) 
+	function Link($url, $text, $attribs = null, $ssl = 0)
 	{
 		global $mainframe;
 
@@ -41,7 +41,7 @@ class JHTML
 		if (is_array($attribs)) {
             $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
-		 
+
 		return '<a href="'.$href.'" '.$attribs.'>'.$text.'</a>';
 	}
 
@@ -54,7 +54,7 @@ class JHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.5
 	 */
-	function Image($url, $alt, $attribs = null) 
+	function Image($url, $alt, $attribs = null)
 	{
 		global $mainframe;
 
@@ -77,7 +77,7 @@ class JHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.5
 	 */
-	function Script($url, $attribs = null) 
+	function Script($url, $attribs = null)
 	{
 		global $mainframe;
 
@@ -100,7 +100,7 @@ class JHTML
 	 * @param integer	Set the SSL functionality
 	 * @since 1.5
 	 */
-	function Iframe($url, $name, $attribs = null, $ssl = 0)	
+	function Iframe($url, $name, $attribs = null, $ssl = 0)
 	{
 		global $mainframe;
 
@@ -113,7 +113,7 @@ class JHTML
 		return '<iframe src="'.$src.'" '.$attribs.' />';
 
 	}
-	
+
 	/**
 	 * Returns formated date according to current local and adds time offset
 	 *
@@ -127,20 +127,20 @@ class JHTML
 	function Date($date, $format = DATE_FORMAT_LC, $offset = NULL)
 	{
 		jimport('joomla.utilities.date');
-		
-		if(is_null($offset)) 
+
+		if(is_null($offset))
 		{
 			$config =& JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
 		}
-		
+
 		$instance = new JDate($date);
 		$instance->setOffset($offset);
-		
+
 		return $instance->toFormat($format);
 	}
 
-	
+
 
 	/**
 	* @param int The row index
@@ -149,7 +149,7 @@ class JHTML
 	* @param string The name of the form element
 	* @return string
 	*/
-	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) 
+	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' )
 	{
 		if ( $checkedOut ) {
 			return '';
@@ -163,7 +163,7 @@ class JHTML
 	* email cloacking
  	* by default replaces an email with a mailto link with email cloacked
 	*/
-	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) 
+	function emailCloaking( $mail, $mailto=1, $text='', $email=1 )
 	{
 		// convert text
 		$mail 			= JHTML::_encoding_converter( $mail );
@@ -241,7 +241,7 @@ class JHTML
 		echo $html;
 	}
 
-	function _encoding_converter( $text ) 
+	function _encoding_converter( $text )
 	{
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );
@@ -256,7 +256,7 @@ class JHTML
 	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
     {
         $output = array();
-		
+
         foreach($array as $key => $item)
         if (is_array ($item)) {
             if ($keepOuterKey)
@@ -265,7 +265,7 @@ class JHTML
             $output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
         } else
             $output[] = $key . $inner_glue . $item;
-				
+
         return implode($outer_glue, $output);
     }
 }
@@ -280,7 +280,7 @@ class JHTML
  */
 class JHTMLSelect
 {
-	function option( $value, $text='', $value_name='value', $text_name='text' ) 
+	function option( $value, $text='', $value_name='value', $text_name='text' )
 	{
 		$obj = new stdClass;
 		$obj->$value_name = $value;
@@ -290,7 +290,7 @@ class JHTMLSelect
 
 	/**
 	* Generates an HTML select list
-	* 
+	*
 	* @param array An array of objects
 	* @param string The value of the HTML name attribute
 	* @param string Additional HTML attributes for the <select> tag
@@ -299,7 +299,7 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the select list
 	*/
-	function genericList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) 
+	function genericList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
 	{
 		// check if array
 		if ( is_array( $arr ) ) {
@@ -354,7 +354,7 @@ class JHTMLSelect
 
 	/**
 	* Generates a select list of integers
-	* 
+	*
 	* @param int The start integer
 	* @param int The end integer
 	* @param int The increment
@@ -364,7 +364,7 @@ class JHTMLSelect
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	function integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) 
+	function integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
 	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
@@ -381,7 +381,7 @@ class JHTMLSelect
 
 	/**
 	* Generates an HTML radio list
-	* 
+	*
 	* @param array An array of objects
 	* @param string The value of the HTML name attribute
 	* @param string Additional HTML attributes for the <select> tag
@@ -390,7 +390,7 @@ class JHTMLSelect
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) 
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
 	{
 		reset( $arr );
 		$html = '';
@@ -427,7 +427,7 @@ class JHTMLSelect
 
 	/**
 	* Generates a yes/no radio list
-	* 
+	*
 	* @param string The value of the HTML name attribute
 	* @param string Additional HTML attributes for the <select> tag
 	* @param mixed The key that is selected
@@ -441,7 +441,7 @@ class JHTMLSelect
 		);
 		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
 	}
-} 
+}
 
 /**
  * Utility class for drawing common HTML elements
@@ -451,9 +451,9 @@ class JHTMLSelect
  * @subpackage	HTML
  * @since		1.5
  */
-class JCommonHTML 
+class JCommonHTML
 {
-	function ContentLegend( ) 
+	function ContentLegend( )
 	{
 		?>
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
@@ -492,7 +492,7 @@ class JCommonHTML
 		<?php
 	}
 
-	function checkedOut( &$row, $overlib=1 ) 
+	function checkedOut( &$row, $overlib=1 )
 	{
 		$hover = '';
 		if ( $overlib ) {
@@ -557,7 +557,7 @@ class JCommonHTML
 		}
 	}
 
-	function AccessProcessing( &$row, $i, $archived=NULL ) 
+	function AccessProcessing( &$row, $i, $archived=NULL )
 	{
 		if ( !$row->access ) {
 			$color_access = 'style="color: green;"';
@@ -595,7 +595,7 @@ class JCommonHTML
 		return $checked;
 	}
 
-	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png', $prefix='' ) 
+	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png', $prefix='' )
 	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
@@ -611,7 +611,7 @@ class JCommonHTML
 		return $href;
 	}
 
-	function selectState( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )	
+	function selectState( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
 	{
 		$state[] = JHTMLSelect::option( '', '- '. JText::_( 'Select State' ) .' -' );
 		$state[] = JHTMLSelect::option( '*', JText::_( 'Any' ) );
@@ -625,7 +625,7 @@ class JCommonHTML
 		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}
 
-	function saveorderButton( $rows, $image='filesave.png', $task="saveorder" ) 
+	function saveorderButton( $rows, $image='filesave.png', $task="saveorder" )
 	{
 		$image = JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
 		?>
@@ -634,7 +634,7 @@ class JCommonHTML
 		<?php
 	}
 
-	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) 
+	function tableOrdering( $text, $ordering, &$lists, $task=NULL )
 	{
 		?>
 		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
@@ -643,7 +643,7 @@ class JCommonHTML
 		<?php
 	}
 
-	function tableOrdering_img( $current, &$lists ) 
+	function tableOrdering_img( $current, &$lists )
 	{
 		if ( $current == $lists['order']) {
 			if ( $lists['order_Dir'] == 'ASC' ) {
@@ -669,7 +669,7 @@ class JAdminMenus
 	/**
 	* build the select list for Menu Ordering
 	*/
-	function Ordering( &$row, $id ) 
+	function Ordering( &$row, $id )
 	{
 		$db =& JFactory::getDBO();
 
@@ -692,7 +692,7 @@ class JAdminMenus
 	/**
 	* build the select list for access level
 	*/
-	function Access( &$row ) 
+	function Access( &$row )
 	{
 		$db =& JFactory::getDBO();
 
@@ -710,7 +710,7 @@ class JAdminMenus
 	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
-	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) 
+	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -727,7 +727,7 @@ class JAdminMenus
 		// establish the hierarchy of the menu
 		$children = array();
 		// first pass - collect children
-		foreach ( $mitems as $v ) 
+		foreach ( $mitems as $v )
 		{
 			$id = $v->id;
 			$pt = $v->parent;
@@ -741,11 +741,11 @@ class JAdminMenus
 		// Code that adds menu name to Display of Page(s)
 		$text_count 	= 0;
 		$mitems_spacer 	= $mitems_temp[0]->menutype;
-		foreach ($list as $list_a) 
+		foreach ($list as $list_a)
 		{
-			foreach ($mitems_temp as $mitems_a) 
+			foreach ($mitems_temp as $mitems_a)
 			{
-				if ($mitems_a->id == $list_a->id) 
+				if ($mitems_a->id == $list_a->id)
 				{
 					// Code that inserts the blank line that seperates different menus
 					if ($mitems_a->menutype <> $mitems_spacer) {
@@ -792,7 +792,7 @@ class JAdminMenus
 	/**
 	* build the select list to choose an image
 	*/
-	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) 
+	function Images( $name, &$active, $javascript=NULL, $directory=NULL )
 	{
 		if ( !$directory ) {
 			$directory = '/images/stories/';
@@ -818,7 +818,7 @@ class JAdminMenus
 	/**
 	* build the select list for Ordering of a specified Table
 	*/
-	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) 
+	function SpecificOrdering( &$row, $id, $query, $neworder=0 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -839,7 +839,7 @@ class JAdminMenus
 	/**
 	* Select list of active users
 	*/
-	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) 
+	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -871,7 +871,7 @@ class JAdminMenus
 	/**
 	* Select list of positions - generally used for location of images
 	*/
-	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) 
+	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false )
 	{
 		if ( $none ) {
 			$pos[] = JHTMLSelect::option( '', JText::_( 'None' ) );
@@ -894,7 +894,7 @@ class JAdminMenus
 	/**
 	* Select list of active categories for components
 	*/
-	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) 
+	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 )
 	{
 		global $mainframe;
 
@@ -926,7 +926,7 @@ class JAdminMenus
 	/**
 	* Select list of active sections
 	*/
-	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) 
+	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' )
 	{
 		$db =& JFactory::getDBO();
 
@@ -951,7 +951,7 @@ class JAdminMenus
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) 
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' )
 	{
 		static $paths;
 		global $mainframe;
@@ -1005,7 +1005,7 @@ class JAdminMenus
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
 	{
 		global $mainframe;
 

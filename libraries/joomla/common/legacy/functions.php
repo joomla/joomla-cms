@@ -38,10 +38,10 @@ function mosMainBody() {
  * @deprecated		As of version 1.5
  * @package			Joomla.Legacy
  */
-function mosLoadModules( $position='left', $style=0 ) 
-{	
+function mosLoadModules( $position='left', $style=0 )
+{
 	// Select the module chrome function
-	if (is_numeric($style)) 
+	if (is_numeric($style))
 	{
 		switch ( $style )
 		{
@@ -52,7 +52,7 @@ function mosLoadModules( $position='left', $style=0 )
 			case -2:
 				$style = 'xhtml';
 				break;
-			
+
 			case -1:
 				$style = 'raw';
 				break;
@@ -115,16 +115,16 @@ function mosMainBody_Admin() {
  */
 
 function mosLoadAdminModules( $position='left', $style=0 ) {
-	
+
 	// Select the module chrome function
-	if (is_numeric($style)) 
+	if (is_numeric($style))
 	{
 		switch ( $style )
 		{
 			case 2:
 				$style = 'xhtml';
 				break;
-			
+
 			case 0  :
 			default :
 				$style = 'raw';
@@ -494,7 +494,7 @@ function mosGetOS( $agent ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosGetParam( &$arr, $name, $def=null, $mask=0 ) 
+function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 {
 	// Static input filters for specific settings
 	static $noHtmlFilter	= null;
@@ -546,7 +546,7 @@ function mosParseParams( $txt ) {
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function mosLoadComponent( $name ) 
+function mosLoadComponent( $name )
 {
 	// set up some global variables for use by the frontend component
 	global $mainframe, $database;
@@ -559,7 +559,7 @@ function mosLoadComponent( $name )
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function initEditor() 
+function initEditor()
 {
 	$editor =& JFactory::getEditor();
 	echo $editor->init();
@@ -571,7 +571,7 @@ function initEditor()
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function getEditorContents($editorArea, $hiddenField) 
+function getEditorContents($editorArea, $hiddenField)
 {
 	jimport( 'joomla.html.editor' );
 	$editor =& JEditor::getInstance();
@@ -584,7 +584,7 @@ function getEditorContents($editorArea, $hiddenField)
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
+function editorArea($name, $content, $hiddenField, $width, $height, $col, $row)
 {
 	jimport( 'joomla.html.editor' );
 	$editor =& JEditor::getInstance();
@@ -638,7 +638,7 @@ function mosCurrentDate( $format="" )
 	if ($format=="") {
 		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
-	
+
 	return JHTML::Date('now', $format);
 }
 
@@ -648,7 +648,7 @@ function mosCurrentDate( $format="" )
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function initGzip() 
+function initGzip()
 {
 	global $mainframe, $do_gzip_compress;
 
@@ -699,10 +699,10 @@ function initGzip()
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function doGzip() 
+function doGzip()
 {
 	global $do_gzip_compress;
-	if ( $do_gzip_compress ) 
+	if ( $do_gzip_compress )
 	{
 		$gzip_contents = ob_get_contents();
 		ob_end_clean();
@@ -728,7 +728,7 @@ function doGzip()
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function SortArrayObjects( &$a, $k, $sort_direction=1 ) 
+function SortArrayObjects( &$a, $k, $sort_direction=1 )
 {
 	JArrayHelper::sortObjects($a, $k, $sort_direction);
 }
@@ -739,7 +739,7 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 )
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function josSpoofCheck( $header=false, $alternate=false ) 
+function josSpoofCheck( $header=false, $alternate=false )
 {
 	// Lets make sure they saw the html form
 	$check = true;
@@ -759,8 +759,8 @@ function josSpoofCheck( $header=false, $alternate=false )
 	if ($requestMethod != 'POST') {
 		$check = false;
 	}
-	
-	if (!$check) 
+
+	if (!$check)
 	{
 		header( 'HTTP/1.0 403 Forbidden' );
 		die( JText::_('E_SESSION_TIMEOUT') );
@@ -773,23 +773,23 @@ function josSpoofCheck( $header=false, $alternate=false )
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-function josSpoofValue($alt = NULL) 
+function josSpoofValue($alt = NULL)
 {
 	global $mainframe;
-	
+
 	if ($alt) {
 		if ( $alt == 1 ) {
 			$random		= date( 'Ymd' );
 		} else {
 			$random		= $alt . date( 'Ymd' );
 		}
-	} else {		
+	} else {
 		$random		= date( 'dmY' );
 	}
 	// the prefix ensures that the hash is non-numeric
 	// otherwise it will be intercepted by globals.php
 	$validate 	= 'j' . mosHash( $mainframe->getCfg( 'db' ) . $random );
-	
+
 	return $validate;
 }
 ?>

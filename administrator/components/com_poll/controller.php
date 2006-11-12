@@ -50,7 +50,7 @@ class PollController extends JController
 		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
 		$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-		
+
 		$limit		= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 

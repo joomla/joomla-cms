@@ -81,7 +81,7 @@ class MediaViews
 			<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</legend>
 			<div id="uploads">
 				<div class="upload">
-					
+
 					<input class="inputbox" name="uploads[]" type="file" size="60" />
 				</div>
 			</div>

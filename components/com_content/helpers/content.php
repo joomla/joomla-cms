@@ -415,7 +415,7 @@ class JContentHelper
 			}
 		}
 
-			
+
 		return $Itemid;
 	}
 }

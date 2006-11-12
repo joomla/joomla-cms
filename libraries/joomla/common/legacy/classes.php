@@ -15,7 +15,7 @@ jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
 
-/** 
+/**
  * Tables need to be included using a regular include to avoid conflict
  */
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
@@ -75,7 +75,7 @@ class mosMainFrame extends JApplication
 	 * @param mixed A client identifier
 	 * @param boolean True (default) to add traling slash
 	 */
-	function getBasePath( $client=0, $addTrailingSlash=true ) 
+	function getBasePath( $client=0, $addTrailingSlash=true )
 	{
 		switch ($client) {
 			case '0':
@@ -583,7 +583,7 @@ class database extends JDatabaseMySQL
 			return $object;
 		}
 	}
-	
+
 	/**
 	* Execute a batch query
 	*
@@ -813,7 +813,7 @@ class mosHTML
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		return JHTMLSelect::option($value, $text, $value_name, $text_name);
 	}
-	
+
 	/**
  	 * Legacy function, JHTMLSelect::selectList instead
  	 *
@@ -823,7 +823,7 @@ class mosHTML
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
 		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
 	}
-	
+
 	/**
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
@@ -833,7 +833,7 @@ class mosHTML
 	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )  {
 		return JHTMLSelect::integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
 	}
-	
+
 	/**
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
@@ -843,7 +843,7 @@ class mosHTML
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )  {
 		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
 	}
-	
+
 	/**
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *

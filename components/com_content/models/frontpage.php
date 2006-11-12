@@ -30,18 +30,18 @@ class ContentModelFrontpage extends JModel
 	 * @var array
 	 */
 	var $_data = null;
-	
+
 	/**
 	 * Frontpage total
 	 *
 	 * @var integer
 	 */
 	var $_total = null;
-	
+
 
 	/**
 	 * Method to get content item data for the frontpage
-	 * 
+	 *
 	 * @access public
 	 * @return array
 	 */
@@ -52,16 +52,16 @@ class ContentModelFrontpage extends JModel
 		{
 			// Initialize some variables
 			$user	=& JFactory::getUser();
-			
+
 			// raise errors
 		}
-	
+
 		return $this->_data;
 	}
 
 	/**
 	 * Method to get the total number of content items for the frontpage
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 */
@@ -73,10 +73,10 @@ class ContentModelFrontpage extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
-		
+
 		return $this->_total;
 	}
-	
+
 	/**
 	 * Method to load content item data for items in the frontpage
 	 * exist.
@@ -92,10 +92,10 @@ class ContentModelFrontpage extends JModel
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-	
+
 			$query = $this->_buildQuery();
 			$Arows = $this->_getList($query, $limitstart, $limit);
-		
+
 			// special handling required as static content does not have a section / category id linkage
 			$i = $limitstart;
 			$rows = array();
@@ -109,7 +109,7 @@ class ContentModelFrontpage extends JModel
 		}
 		return true;
 	}
-	
+
 	function _buildQuery()
 	{
 		// Voting is turned on, get voting data as well for the content items
@@ -118,7 +118,7 @@ class ContentModelFrontpage extends JModel
 		// Get the WHERE and ORDER BY clauses for the query
 		$where	 = $this->_buildContentWhere();
 		$orderby = $this->_buildContentOrderBy();
-		
+
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore," .
@@ -131,17 +131,17 @@ class ContentModelFrontpage extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-			
+
 		return $query;
 	}
 
 	function _buildContentOrderBy()
 	{
 		global $Itemid;
-		
+
 		// Get the menu object of the active menu item
 		$params  =& JSiteHelper::getMenuParams();
-	
+
 		$orderby_sec	= $params->def('orderby_sec', '');
 		$orderby_pri	= $params->def('orderby_pri', '');
 		$secondary		= JContentHelper::orderbySecondary($orderby_sec);

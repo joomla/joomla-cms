@@ -120,10 +120,10 @@ class JURI extends JObject
 	{
 		static $instances = array();
 
-		if (!isset ($instances[$uri])) 
+		if (!isset ($instances[$uri]))
 		{
 			// Are we obtaining the URI from the server?
-			if ($uri == 'SERVER') 
+			if ($uri == 'SERVER')
 			{
 				// Determine if the request was over SSL (HTTPS)
 				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
@@ -151,7 +151,7 @@ class JURI extends JObject
 				 * QUERY_STRING environment variables.
 				 */
 				}
-				 else 
+				 else
 				 {
 					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
@@ -161,8 +161,8 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
-			} 
-			else 
+			}
+			else
 			{
 				// We were given a URI
 				$theURI = $uri;
@@ -193,7 +193,7 @@ class JURI extends JObject
 			if ($port = $uri->getPort()) {
 				$BASE .= ":$port";
 			}
-			
+
 			$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
 		}
 		return $BASE;

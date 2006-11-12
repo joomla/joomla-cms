@@ -25,8 +25,8 @@
 	<?php for ($i = 0; $i < $this->params->get('leading'); $i ++) : ?>
 		<?php if ($i >= $this->total) : break; endif; ?>
 		<div>
-		<?php 
-			$this->item =& $this->getItem($i, $this->params); 
+		<?php
+			$this->item =& $this->getItem($i, $this->params);
 			echo $this->loadTemplate('item');
 		?>
 		</div>
@@ -62,7 +62,7 @@
 <tr>
 	<td valign="top">
 		<div class="blog_more<?php echo $this->params->get('pageclass_sfx');?>">
-			<?php 
+			<?php
 				$this->links = array_splice($this->items, $i);
 				echo $this->loadTemplate('links');
 			?>

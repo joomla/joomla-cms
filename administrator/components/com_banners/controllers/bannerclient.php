@@ -29,7 +29,7 @@ class BannerClientController
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
 		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
-		
+
 		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -120,7 +120,7 @@ class BannerClientController
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 		$table	=& JTable::getInstance('bannerclient', 'Table');
-		
+
 		if (!$table->bind( JRequest::get( 'post' ) )) {
 			echo "<script> alert('".$table->getError()."'); window.history.go(-1); </script>\n";
 			exit();
@@ -135,7 +135,7 @@ class BannerClientController
 		}
 		$table->checkin();
 
-		switch (JRequest::getVar( 'task' )) 
+		switch (JRequest::getVar( 'task' ))
 		{
 			case 'applyclient':
 				$link = 'index.php?option=com_banners&amp;task=editclient&cid[]='. $table->cid .'&hidemainmenu=1';

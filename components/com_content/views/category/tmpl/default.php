@@ -16,11 +16,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
 	<td>
-	<?php 
-		$this->items =& $this->getItems(); 
+	<?php
+		$this->items =& $this->getItems();
 		echo $this->loadTemplate('items');
 	?>
-	
+
 	<?php if ($this->access->canEdit || $this->access->canEditOwn) :
 		echo $this->getIcon($this->items[0], 'new');
 	endif; ?>

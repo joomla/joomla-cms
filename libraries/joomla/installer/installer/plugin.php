@@ -295,7 +295,7 @@ class JInstallerPlugin extends JInstaller
 				JError::raiseWarning(1, 'JInstallerPlugin::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
 				$retval = false;
 			}
-			
+
 			// Remove the installation file if it exists
 			JFile::delete($xmlfile);
 		} else

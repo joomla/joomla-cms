@@ -98,15 +98,15 @@ class JComponentHelper
 		$component	= is_null($component) ? $option : 'com_'.$component;
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
-		
+
 		//if no component found return
 		if(empty($component)) {
 			return false;
 		}
-		
+
 		// Build the component path
 		$file = substr( $component, 4 );
-		
+
 		// Define component path
 		define( 'JPATH_COMPONENT'              ,  JPATH_BASE.DS.'components'.DS.$component);
 		define( 'JPATH_COMPONENT_SITE'         ,  JPATH_SITE.DS.'components'.DS.$component);
@@ -125,11 +125,11 @@ class JComponentHelper
 		}
 
 		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy')) 
+		if ($mainframe->getCfg('legacy'))
 		{
 			// Include legacy globals
 			global $my, $database, $id, $acl, $task;
-			
+
 			// For backwards compatibility extract the config vars as globals
 			$registry =& JFactory::getConfig();
 			foreach (get_object_vars($registry->toObject()) as $k => $v)
@@ -175,7 +175,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
-		
+
 		// Close template preview outlining if enabled
 		if($outline && !$mainframe->isAdmin()) {
 			$contents .= "</div></div>";

@@ -19,14 +19,14 @@ defined('_JEXEC') or die('Restricted access');
 * @package Joomla
 * @subpackage Templates
 */
-class TemplatesView 
+class TemplatesView
 {
 	/**
 	* @param array An array of data objects
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates(& $rows, & $lists, & $page, $option, & $client) 
+	function showTemplates(& $rows, & $lists, & $page, $option, & $client)
 	{
 		global $mainframe;
 
@@ -224,7 +224,7 @@ class TemplatesView
 
 	}
 
-	function previewTemplate($template, $showPositions, $client, $option) 
+	function previewTemplate($template, $showPositions, $client, $option)
 	{
 		global $mainframe;
 
@@ -264,7 +264,7 @@ class TemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplate($row, $lists, & $params, $option, & $client) 
+	function editTemplate($row, $lists, & $params, $option, & $client)
 	{
 		JCommonHTML :: loadOverlib();
 ?>
@@ -362,7 +362,7 @@ class TemplatesView
 
 	}
 
-	function editTemplateSource($template, & $content, $option, & $client) 
+	function editTemplateSource($template, & $content, $option, & $client)
 	{
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
 ?>
@@ -413,7 +413,7 @@ class TemplatesView
 		<?php
 	}
 
-	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client) 
+	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client)
 	{
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -476,11 +476,11 @@ class TemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource($template, $filename, & $content, $option, & $client) 
+	function editCSSSource($template, $filename, & $content, $option, & $client)
 	{
-	
+
 		$css_path = $client->path . $filename;
-	
+
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -494,9 +494,9 @@ class TemplatesView
 			<?php
 
 		jimport('joomla.filesystem.path');
-		if (JPath::canCHMOD($css_path)) 
+		if (JPath::canCHMOD($css_path))
 		{
-			if (is_writable($css_path)) 
+			if (is_writable($css_path))
 			{
 				?>
 				<td>
@@ -531,7 +531,7 @@ class TemplatesView
 			</td>
 		</tr>
 		</table>
-	
+
 
 		<input type="hidden" name="id" value="<?php echo $template; ?>" />
 		<input type="hidden" name="filename" value="<?php echo $filename; ?>" />
@@ -546,7 +546,7 @@ class TemplatesView
 	* @param array
 	* @param string The option
 	*/
-	function editPositions(& $positions, $option) 
+	function editPositions(& $positions, $option)
 	{
 
 		$rows = 25;

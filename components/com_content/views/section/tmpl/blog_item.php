@@ -19,19 +19,19 @@
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>
-	
+
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('pdf'); ?>
 	</td>
 	<?php endif; ?>
-	
+
 	<?php if ( $this->params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('print'); ?>
 	</td>
 	<?php endif; ?>
-	
+
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('email'); ?>

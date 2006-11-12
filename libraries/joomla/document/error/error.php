@@ -109,7 +109,7 @@ class JDocumentError extends JDocument
 
 		// create the document engine
 		$this->_engine = $this->_initEngine($template);
-		if (file_exists($directory.DS.$template.DS.$file)) 
+		if (file_exists($directory.DS.$template.DS.$file))
 		{
 			//get the file content
 			ob_start();

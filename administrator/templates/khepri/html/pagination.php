@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted access');
  * 		$list[limitfield]	: string
  * 		$list[pagescounter]	: string
  * 		$list[pageslinks]	: string
- * 
+ *
  * pagination_list_render
  * 	Input variable $list is an array with offsets:
  * 		$list[all]
@@ -46,13 +46,13 @@ defined('_JEXEC') or die('Restricted access');
  * 		$list[pages]
  * 			[{PAGE}][data]		: string
  * 			[{PAGE}][active]	: boolean
- * 
+ *
  * pagination_item_active
  * 	Input variable $item is an object with fields:
  * 		$item->base	: integer
  * 		$item->link	: string
  * 		$item->text	: string
- * 
+ *
  * pagination_item_inactive
  * 	Input variable $item is an object with fields:
  * 		$item->base	: integer
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access');
  * 		$item->text	: string
  *
  * This gives template designers ultimate control over how pagination is rendered.
- * 
+ *
  * NOTE: If you override pagination_item_active OR pagination_item_inactive you MUST override them both
  */
 
@@ -126,8 +126,8 @@ function pagination_list_render($list)
 
 
 
-	} 
-	else 
+	}
+	else
 	{
 		if ($list['start']['active']) {
 			$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";

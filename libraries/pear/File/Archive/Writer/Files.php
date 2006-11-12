@@ -27,8 +27,8 @@
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL
  * @version    CVS: $Id: Files.php,v 1.21 2005/06/18 23:08:16 vincentlascaux Exp $
  * @link       http://pear.php.net/package/File_Archive
- * 
- * NOTE: modified for use with Joomla! 
+ *
+ * NOTE: modified for use with Joomla!
  */
 
 //require_once "File/Archive/Writer.php";
@@ -92,7 +92,7 @@ class File_Archive_Writer_Files extends File_Archive_Writer
         if (PEAR::isError($error)) {
             return $error;
         }
-        
+
         //Following change made by david.gal@joomla.org
         //to allow use with Joomla! in safe mode
 //      if (!@mkdir($pathname)) {

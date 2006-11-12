@@ -19,7 +19,7 @@ jimport( 'joomla.filesystem.folder' );
 
 /**
  * Extension Manager Languages Model
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
@@ -117,7 +117,7 @@ class ExtensionManagerModelLanguages extends ExtensionManagerModel
 				$row->id 		= $rowid;
 				$row->client_id = $language->client;
 				$row->language 	= $language->baseDir . $language->folder;
-				
+
 				// If we didn't get valid data from the xml file, move on...
 				if (!is_array($data)) {
 					continue;
@@ -146,7 +146,7 @@ class ExtensionManagerModelLanguages extends ExtensionManagerModel
 		$this->setState('pagination.total', count($rows));
 		$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
 	}
-	
+
 	/**
 	 * Remove (uninstall) an extension
 	 *
@@ -160,7 +160,7 @@ class ExtensionManagerModelLanguages extends ExtensionManagerModel
 
 		// Initialize variables
 		$failed = array ();
-		
+
 		/*
 		 * Ensure eid is an array of extension ids
 		 * TODO: If it isn't an array do we want to set an error and fail?

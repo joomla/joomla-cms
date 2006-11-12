@@ -23,11 +23,11 @@
  * @since 1.5
  */
 class ContentViewFrontpage extends JView
-{ 
+{
 	function display($tpl = null)
 	{
 		global $mainframe, $Itemid;
-			
+
 		// parameters
 		$db       =& JFactory::getDBO();
 		$document =& JFactory::getDocument();
@@ -35,7 +35,7 @@ class ContentViewFrontpage extends JView
 
 		JRequest::setVar('limit', $limit);
 		$rows = $this->get('data');
-		
+
 		foreach ( $rows as $row )
 		{
 			// strip html from feed item title

@@ -114,16 +114,16 @@ class JRegistry extends JObject
 			} else {
 				$namespace = $nodes[0];
 			}
-	
+
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
 				$pathNodes = count($nodes) - 1;
-		
+
 				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
 					$ns =& $ns->$nodes[$i];
 				}
-		
+
 				if(isset($ns->$nodes[$i])) {
 					$result = $ns->$nodes[$i];
 				}
@@ -272,13 +272,13 @@ class JRegistry extends JObject
 		jimport('joomla.filesystem.file');
 		$data = JFile::read($file);
 
-		if (!isset($this->_registry[$namespace])) 
+		if (!isset($this->_registry[$namespace]))
 		{
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
 			$this->_registry[$namespace]['data'] = $handler->stringToObject($data);
-		} 
-		else 
+		}
+		else
 		{
 			// Get the data in object format
 			$ns = $handler->stringToObject($data);
@@ -454,7 +454,7 @@ class JRegistry extends JObject
 	function &_loadFormat($format)
 	{
 		$lformat = JString::strtolower($format);
-		if(jimport('joomla.registry.format.'.$lformat)) 
+		if(jimport('joomla.registry.format.'.$lformat))
 		{
 			$return = null;
 			$class =  'JRegistryFormat'.$format;

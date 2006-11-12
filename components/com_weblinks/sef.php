@@ -14,25 +14,25 @@
 function weblinks_buildURL($ARRAY, &$params)
 {
 	$resolveNames = $params->get('realnames',0);
-	
+
 	// TODO: Resolve category names
 	$parts = array();
 	if(isset($ARRAY['view'])) {
 		$parts[] = $ARRAY['view'];
 	};
-	
+
 	if(isset($ARRAY['layout'])) {
 		$parts[] = $ARRAY['layout'];
 	};
-	
+
 	if(isset($ARRAY['catid'])) {
 		$parts[] = $ARRAY['catid'];
 	};
-	
+
 	if(isset($ARRAY['id'])) {
 		$parts[] = $ARRAY['id'];
 	};
-	
+
 	if (isset( $ARRAY['limit'] ))
 	{
 		// Do all pages if limit = 0
@@ -54,69 +54,69 @@ function weblinks_parseURL($ARRAY, &$params)
 	// view is always the first element of the array
 	$view	= array_shift($ARRAY);
 	$nArray	= count($ARRAY);
-	
+
 	JRequest::setVar('view', $view, 'get');
 
 	switch ($view)
 	{
 		case 'categories':
 		{
-			if (count($ARRAY)) 
+			if (count($ARRAY))
 			{
  				$variable = array_shift($ARRAY);
 				JRequest::setVar('layout', $variable, 'get');
 			}
 		} break;
-		
+
 		case 'category':
 		{
-			if (count($ARRAY)) 
+			if (count($ARRAY))
 			{
  				$variable = array_shift($ARRAY);
-				
-				if(is_numeric($variable)) 
+
+				if(is_numeric($variable))
 				{
 					JRequest::setVar('catid', $variable, 'get');
-				} 
-				else 
+				}
+				else
 				{
 					JRequest::setVar('layout', $variable, 'get');
 					$variable = array_shift($ARRAY);
 					JRequest::setVar('catid', $variable, 'get');
 				}
 			}
-			
+
 		} break;
-		
+
 		case 'weblink':
 		{
-			if (count($ARRAY)) 
+			if (count($ARRAY))
 			{
  				$variable = array_shift($ARRAY);
-				
-				if(is_numeric($variable)) 
+
+				if(is_numeric($variable))
 				{
 					JRequest::setVar('id', $variable, 'get');
-				} 
-				else 
+				}
+				else
 				{
 					JRequest::setVar('layout', $variable, 'get');
 					$variable = array_shift($ARRAY);
 					JRequest::setVar('id', $variable, 'get');
 				}
 			}
-			
+
 			// Handle Pagination
 			$last = @$ARRAY[$nArray-1];
-			if ($last == 'all') 
+			if ($last == 'all')
 			{
 				array_pop( $ARRAY );
 				$nArray--;
 				JRequest::setVar('limitstart', 0, 'get');
 				JRequest::setVar('limit', 0, 'get');
 				// if you want more than 1e6 on your page then you are nuts!
-			} 
-			elseif (strpos( $last, 'page' ) === 0) 
+			}
+			elseif (strpos( $last, 'page' ) === 0)
 			{
 				array_pop( $ARRAY );
 				$nArray--;
@@ -128,7 +128,7 @@ function weblinks_parseURL($ARRAY, &$params)
 			}
 		}
 		break;
-		
+
 		default: break;
 	}
 }

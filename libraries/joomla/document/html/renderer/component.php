@@ -35,9 +35,9 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	{
 		//Component has already been rendered
 		if(isset($content)) {
-			return $content; 
+			return $content;
 		}
-		
+
 		// preload toolbar in case component handles it manually
 		require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 

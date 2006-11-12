@@ -19,9 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Newsfeeds
 */
-class TOOLBAR_newsfeeds  
+class TOOLBAR_newsfeeds
 {
-	function _DEFAULT() 
+	function _DEFAULT()
 	{
 		JMenuBar::title(  JText::_( 'Newsfeed Manager' ) );
 		JMenuBar::publishList();
@@ -32,7 +32,7 @@ class TOOLBAR_newsfeeds
 		JMenuBar::help( 'screen.newsfeeds' );
 	}
 
-	function _EDIT() 
+	function _EDIT()
 	{
 		$cid = JRequest::getVar( 'cid', array(0));
 

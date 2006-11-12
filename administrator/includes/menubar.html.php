@@ -33,17 +33,17 @@ class JMenuBar
 	function title($title, $icon = 'generic.png')
 	{
 		global $mainframe;
-		
+
 		//strip the extension
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
 
 		$html  = "<div class=\"header icon-48-$icon\">\n";
 		$html .= "$title\n";
 		$html .= "</div>\n";
-		
+
 		$mainframe->set('JComponentTitle', $html);
 	}
-	
+
 	/**
 	* Writes a spacer cell
 	* @param string The width for the cell
@@ -472,7 +472,7 @@ class JMenuBar
  * Legacy class, use JMenuBar instead
  * @deprecated As of version 1.5
  */
-class mosMenuBar extends JMenuBar 
+class mosMenuBar extends JMenuBar
 {
 	/**
 	* @deprecated As of Version 1.5
@@ -487,10 +487,10 @@ class mosMenuBar extends JMenuBar
 	function endTable() {
 		return;
 	}
-	
+
 	/**
 	 * Default $task has been changed to edit instead of new
-	 * 
+	 *
 	 * @deprecated As of Version 1.5
 	 */
 	function addNew($task = 'new', $alt = 'New') {
@@ -499,21 +499,21 @@ class mosMenuBar extends JMenuBar
 
 	/**
 	 * Default $task has been changed to edit instead of new
-	 * 
+	 *
 	 * @deprecated As of Version 1.5
 	 */
 	function addNewX($task = 'new', $alt = 'New') {
 		parent::addNew($task, $alt);
 	}
-	
+
 	/**
 	 * Deprecated
-	 * 
+	 *
 	 * @deprecated As of Version 1.5
 	 */
 	function saveedit() {
 		parent::save('saveedit');
-	} 
+	}
 
 }
 ?>

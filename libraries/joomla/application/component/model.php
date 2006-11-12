@@ -47,7 +47,7 @@ class JModel extends JObject
 	 * @access protected
 	 */
 	var $_error;
-	
+
 	/**
 	 * An state object
 	 *
@@ -64,12 +64,12 @@ class JModel extends JObject
 	function __construct($options = array())
 	{
 		global $Itemid;
-		
+
 		$this->_db    = &JFactory::getDBO();
 		$this->_state = new JObject();
 
 		// Get menu item information if Itemid exists (wrapping it this way allows for JModel usage outside of Joomla! CMS Scope)
-		if (isset($Itemid)) 
+		if (isset($Itemid))
 		{
 			$menu		= &JMenu::getInstance();
 			$item		= &$menu->getItem( $Itemid );
@@ -78,14 +78,14 @@ class JModel extends JObject
 			// Set Default State Data
 			$this->_state->set( 'menu.parameters', $params);
 		}
-		
+
 		//set the table directory
 		JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 	}
-	
+
 	/**
 	 * Get instance
-	 * 
+	 *
 	 * @return JModelMenu
 	 */
 	function &getInstance( $modelName )
@@ -102,7 +102,7 @@ class JModel extends JObject
 
 	/**
 	 * Method to get the model name
-	 * 
+	 *
 	 * @return string The model name
 	 */
 	function getModelName()
@@ -150,7 +150,7 @@ class JModel extends JObject
 
 	/**
 	 * Get the error message
-	 * 
+	 *
 	 * @return string The error message
 	 * @since 1.5
 	 */
@@ -160,7 +160,7 @@ class JModel extends JObject
 
 	/**
 	 * Sets the error message
-	 * 
+	 *
 	 * @param string The error message
 	 * @return string The new error message
 	 * @since 1.5
@@ -169,10 +169,10 @@ class JModel extends JObject
 		$this->_error = $value;
 		return $this->_error;
 	}
-	
+
 	/**
 	 * Returns an object list
-	 * 
+	 *
 	 * @param string The query
 	 * @param int Offset
 	 * @param int The number of records
@@ -191,7 +191,7 @@ class JModel extends JObject
 
 	/**
 	 * Returns a record count for the query
-	 * 
+	 *
 	 * @param string The query
 	 * @return int
 	 * @access protected

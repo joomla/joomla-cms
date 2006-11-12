@@ -15,7 +15,7 @@ function submitbutton(pressbutton) {
 	try {
 		form.onsubmit();
 	} catch(e) {
-		alert(e);	
+		alert(e);
 	}
 
 	// do field validation

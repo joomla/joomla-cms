@@ -38,7 +38,7 @@ $rows = $db->loadObjectList();
 	</td>
 </tr>
 <?php
-foreach ($rows as $row) 
+foreach ($rows as $row)
 {
 	$link = 'index.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 	?>

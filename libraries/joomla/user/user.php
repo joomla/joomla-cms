@@ -73,7 +73,7 @@ class JUser extends JObject
 
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
-		
+
 		// Load the user if it exists
 		if (!empty($identifier))
 		{
@@ -103,7 +103,7 @@ class JUser extends JObject
 
 		// Find the user id
 		if(!is_numeric($id))
-		{		
+		{
 			if (!$id =  JUserHelper::getUserId($id))
 			{
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
@@ -113,7 +113,7 @@ class JUser extends JObject
 
 		if (empty($instances[$id]))
 		{
-			
+
 			$user = new JUser($id);
 			$instances[$id] = $user;
 		}

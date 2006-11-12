@@ -57,12 +57,12 @@ if ($task)
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
 
-			if ($xmlrpcdoc->faultCode() == 0) 
+			if ($xmlrpcdoc->faultCode() == 0)
 			{
 				$result = $xmlrpcdoc->value();
 				$array = $result->scalarval();
-			} 
-			else 
+			}
+			else
 			{
 				print $xmlrpcdoc->faultString();
 			}
@@ -91,12 +91,12 @@ if ($task)
 
 			$xmlrpcdoc = $client->send($message);
 
-			if ($xmlrpcdoc->faultCode()== 0) 
+			if ($xmlrpcdoc->faultCode()== 0)
 			{
 				$scalar_var = $xmlrpcdoc->value();
 				$output = var_export($scalar_var->scalarval(), true);
-			} 
-			else 
+			}
+			else
 			{
 				print $xmlrpcdoc->faultString();
 			}

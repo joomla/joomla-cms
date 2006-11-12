@@ -121,7 +121,7 @@ class JRegistryFormatINI extends JRegistryFormat {
 						$value = true;
 					}
 					else if ($value && $value{0} == '"') {
-						$valueLen = strlen( $value );	
+						$valueLen = strlen( $value );
 						if ($value{$valueLen-1} == '"') {
 							$value = stripcslashes(substr($value, 1, $valueLen - 2));
 						}

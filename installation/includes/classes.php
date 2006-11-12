@@ -424,9 +424,9 @@ class JInstallationController
 	function saveConfig(&$vars)
 	{
 		global $mainframe;
-		
+
 		$lang =& JFactory::getLanguage();
-		
+
 		// Import authentication library
 		jimport( 'joomla.user.authenticate' );
 
@@ -434,7 +434,7 @@ class JInstallationController
 		$vars['siteUrl']		= $mainframe->getSiteURL();
 		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
 		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
-		
+
 		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );
 		$vars['errormsg']		= JText::_( 'STDERRORMSG' );
 		$vars['metadesc']		= JText::_( 'STDMETADESC' );
@@ -449,13 +449,13 @@ class JInstallationController
 			$vars['deflang'] = $forced['lang'];
 			$vars['bclang'] = $lang->getBackwardLang();
 		}
-		
+
 		if ( empty( $forced['helpurl'] ) ) {
 			$vars['helpurl'] = 'http://help.joomla.org';
 		} else {
 			$vars['helpurl'] = $forced['helpurl'];
 		}
-		
+
 		// If FTP has not been enabled, set the value to 0
 		if (!isset($vars['ftpEnable']))
 		{
@@ -477,8 +477,8 @@ class JInstallationController
 				$vars['ZERO_DATE'] = '0000-00-00 00:00:00';
 				break;
 		}
-		
-		
+
+
 		JInstallationHelper::createAdminUser($vars);
 
 		$tmpl = & JInstallationView::createTemplate();
@@ -965,7 +965,7 @@ class JInstallationHelper
 	{
 		jimport('joomla.client.ftp');
 		$ftp = & JFTP::getInstance($host, $port);
-		
+
 		// Verify connection
 		if (!$ftp->isConnected()) {
 			return JError::raiseWarning('31', 'NOCONNECT');
@@ -1076,7 +1076,7 @@ class JInstallationHelper
 	 * @return string Success or error messages
 	 * @since 1.5
 	 */
-	function uploadSql( &$args, $migration = false ) 
+	function uploadSql( &$args, $migration = false )
 	{
 		global $mainframe;
 		$archive = '';
@@ -1244,7 +1244,7 @@ class JInstallationHelper
 	 * @since 1.5
 	 */
 	function unpack($p_filename, &$vars) {
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -1257,9 +1257,9 @@ class JInstallationHelper
 		// Clean the paths to use for archive extraction
 		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
 		$archivename = JPath::clean($archivename, false);
-		
+
 		$result = JArchive::extract( $archivename, $extractdir);
-		
+
 		if ( $result === false ) {
 			return false;
 		}
@@ -1409,7 +1409,7 @@ class JInstallationHelper
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
-		// Component Item Link 
+		// Component Item Link
 		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = SUBSTRING(link, 1, LOCATE('&Itemid=', link) -1), `type` = 'component' WHERE `type` = 'component_item_link';";
 		$db->setQuery( $query );
 		$db->query();
@@ -1439,7 +1439,7 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
 
-		// front page 
+		// front page
 		$query = "UPDATE `".$newPrefix."menu_migration` SET `control` = 'view_name=', `link` = 'index.php?option=com_content&view=frontpage', `type` = 'component', `componentid` = ".$compId." WHERE `link` LIKE '%option=com_frontpage%';";
 		$db->setQuery( $query );
 		$db->query();
@@ -1558,12 +1558,12 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$minorder = $db->loadResult();
-		
+
 		$query = "SELECT `id` FROM `".$newPrefix."menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = 'mainmenu' AND `ordering` = $minorder";
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$menuitemid = $db->loadResult();
-		
+
 		$query = "UPDATE `".$newPrefix."menu_migration` SET `home` = 1 WHERE `id` = ".$menuitemid." ;";
 		$db->setQuery( $query );
 		$db->query();
@@ -1603,12 +1603,12 @@ class JInstallationHelper
 			if ( $item->type == 'url' && !strpos( $item->link, 'com_') )
 			{
 				$newMenuItems[] = $item;
-			} 
+			}
 			else if ( $item->type == 'url' && JInstallationHelper::isValidItem( $item->link, $lookup ) )
 			{
 				$newMenuItems[] = $item;
 			}
-			else if ( $item->type == 'component' && JInstallationHelper::isValidItem( $item->link, $lookup )) 
+			else if ( $item->type == 'component' && JInstallationHelper::isValidItem( $item->link, $lookup ))
 			{
 				$newMenuItems[] = $item;
 			}
@@ -1774,7 +1774,7 @@ class JInstallationHelper
 
 		return $ret;
 	}
-	
+
 	/**
 	 * returns the langauge code and help url set in the localise.xml file.
 	 * 		   Used for forcing a particular language in localised releases
@@ -1796,7 +1796,7 @@ class JInstallationHelper
 		$ret['lang'] = $tags[0]->data();
 		$ret['helpurl'] = $tags[1]->data();
 		return  $ret;
-		
+
 	}
 
 

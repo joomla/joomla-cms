@@ -54,7 +54,7 @@ class modMainMenuHelper
 				$user =& JFactory::getUser();
 				$ids = array();
 				$ids[0] = true;
-				
+
 				// pop the first item until the array is empty
 				while ( !is_null($row = array_shift($rows))){
 					if(array_key_exists($row->parent, $ids)){
@@ -64,7 +64,7 @@ class modMainMenuHelper
 							$ids[$row->id] = true;
 						}
 					} else {
-						// no parent yet so push item to back of list						
+						// no parent yet so push item to back of list
 						array_push($rows, $row);
 					}
 				}

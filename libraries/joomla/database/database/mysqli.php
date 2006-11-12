@@ -47,10 +47,10 @@ class JDatabaseMySQLi extends JDatabase
 				$port	= $targetSlot;
 			else
 				$socket	= $targetSlot;
-				
+
 			// Extract the host name only
 			$host = substr( $host, 0, strlen( $host ) - (strlen( $targetSlot ) + 1) );
-			// This will take care of the following notation: ":3306" 
+			// This will take care of the following notation: ":3306"
 			if($host == '')
 				$host = 'localhost';
 		}
@@ -71,7 +71,7 @@ class JDatabaseMySQLi extends JDatabase
 			$this->_errorMsg = 'Could not connect to database';
 			return;
 		}
-		
+
 		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
 		if ( strpos( $this->getVersion(), '5' ) === 0 ) {
 			$this->setQuery( "SET sql_mode = 'MYSQL40'" );
@@ -95,10 +95,10 @@ class JDatabaseMySQLi extends JDatabase
 		}
 		return $return;
 	}
-	
+
 	function _parseHost( $host )
 	{
-		
+
 	}
 
 	/**

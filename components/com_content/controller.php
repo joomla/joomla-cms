@@ -32,11 +32,11 @@ class ContentController extends JController
 	function display()
 	{
 		$document =& JFactory::getDocument();
-		
+
 		$viewName  = null;
 		$viewType  = $document->getType();
 		$modelName = null;
-		
+
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -95,7 +95,7 @@ class ContentController extends JController
 			}
 			// Set the layout
 			$view->setLayout($layout);
-	
+
 			// Display the view
 			$view->display();
 		}
@@ -128,10 +128,10 @@ class ContentController extends JController
 
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
-		
+
 		// Set the layout
 		$view->setLayout('form');
-		
+
 		// Display the view
 		$view->display();
 	}
@@ -194,13 +194,13 @@ class ContentController extends JController
 		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
-		
+
 		$date = new JDate($row->publish_up);
 		$date->setOffset( -$mainframe->getCfg('offset'));
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '') 
+		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '')
 		{
 			$row->publish_down = $nullDate;
 		}
@@ -209,7 +209,7 @@ class ContentController extends JController
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			
+
 			$date = new JDate($row->publish_down);
 			$date->setOffset( -$mainframe->getCfg('offset'));
 			$row->publish_down = $date->toMySQL();
@@ -325,7 +325,7 @@ class ContentController extends JController
 
 		if ($access->canPublish)
 		{
-			// Publishers, admins, etc just get the stock msg 
+			// Publishers, admins, etc just get the stock msg
 			$msg = JText::_('Item successfully saved.');
 		}
 		else

@@ -1083,7 +1083,7 @@ class JInstallerHelper
 
 		// do the unpacking of the archive
 		$result = JArchive::extract( $archivename, $extractdir);
-		
+
 		if ( $result === false ) {
 			return false;
 		}

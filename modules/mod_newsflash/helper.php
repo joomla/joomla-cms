@@ -21,7 +21,7 @@ class modNewsFlashHelper
 	function renderItem(&$item, &$params, &$access)
 	{
 		global $mainframe;
-		
+
 		$user 	=& JFactory::getUser();
 
 		$item->text 	= ampReplace($item->introtext);
@@ -32,23 +32,23 @@ class modNewsFlashHelper
 		$item->access 	= '';
 		$item->created 	= '';
 		$item->modified = '';
-		
-		if ($params->get('readmore') || $params->get('link_titles')) 
+
+		if ($params->get('readmore') || $params->get('link_titles'))
 		{
-			if ($params->get('intro_only')) 
+			if ($params->get('intro_only'))
 			{
 				// Check to see if the user has access to view the full article
-				if ($item->access <= $user->get('gid')) 
+				if ($item->access <= $user->get('gid'))
 				{
 					$Itemid = JContentHelper::getItemid($item->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
-				} 
-				else 
+				}
+				else
 				{
 					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 				}
 			}
-			
+
 			$item->linkOn = $linkOn;
 		}
 

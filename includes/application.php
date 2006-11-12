@@ -32,7 +32,7 @@ class JSite extends JApplication
 	* @access protected
 	* @param integer A client id
 	*/
-	function __construct() 
+	function __construct()
 	{
 		parent::__construct(0);
 	}
@@ -63,7 +63,7 @@ class JSite extends JApplication
 
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
-		
+
 		$user     =& JFactory::getUser();
 
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
@@ -87,7 +87,7 @@ class JSite extends JApplication
 			$username = trim( JRequest::getVar( 'username', '', 'post' ) );
 			$password = trim( JRequest::getVar( 'passwd', '', 'post' ) );
 		}
-	
+
 		return parent::login($username, $password);
 	}
 
@@ -127,7 +127,7 @@ class JSite extends JApplication
 	* @return string The page title
 	* @since 1.5
 	*/
-	function getPageTitle() 
+	function getPageTitle()
 	{
 		$document=& JFactory::getDocument();
 		return $document->getTitle();
@@ -144,7 +144,7 @@ class JSite extends JApplication
 	function setConfiguration($file, $type = 'config')
 	{
 		parent::setConfiguration($file, $type);
-		
+
 		$registry =& JFactory::getConfig();
 		$registry->setValue('config.live_site', substr_replace(JURI::base(), '', -1, 1));
 		$registry->setValue('config.absolute_path', JPATH_SITE);
@@ -152,8 +152,8 @@ class JSite extends JApplication
 
 		// Create the JConfig object
 		$config = new JConfig();
-		
-		if ( $config->legacy == 1 ) 
+
+		if ( $config->legacy == 1 )
 		{
 			//Insert configuration values into global scope (for backwards compatibility)
 			foreach (get_object_vars($config) as $k => $v) {
@@ -265,7 +265,7 @@ class JSite extends JApplication
 	{
 		$user     =& JFactory::getUser();
 		$document =& JFactory::getDocument();
-		
+
 		switch($document->getType())
 		{
 			case 'html':
@@ -342,14 +342,14 @@ class JSiteHelper
 	{
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 		$option = strtolower(JRequest::getVar('option', null));
-		
+
 		$menus =& JMenu::getInstance();
 		if(!is_object($menus->getItem($itemid)) || $itemid === 0)
 		{
 			$item  =& $menus->getDefault();
 			$itemid = $item->id;
 		}
-		
+
 		return JRequest::setVar( 'Itemid', $itemid );
 	}
 
@@ -385,7 +385,7 @@ class JSiteHelper
 				}
 			}
 		}
-		
+
 		//provide backwards compatibility for frontpage component
 		if($option == 'com_frontpage') {
 			$option = 'com_content';

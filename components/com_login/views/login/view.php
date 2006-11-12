@@ -32,7 +32,7 @@ class LoginViewLogin extends JView
 			$image = 'images/stories/'. $this->params->get( 'image_'.$this->type );
 			$this->image = '<img src="'. $image  .'" align="'. $this->params->get( 'image_'.$this->type.'_align' ) .'" hspace="10" alt="" />';
 		}
-		
+
 		parent::display($tpl);
 	}
 }

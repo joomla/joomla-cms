@@ -18,7 +18,7 @@ require_once(dirname(__FILE__).DS.'extension.php');
 
 /**
  * Extension Manager Plugins Model
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer

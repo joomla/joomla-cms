@@ -86,7 +86,7 @@ function processPositions ( &$row, &$matches, $count, $regex, $style )
 	$row->text = preg_replace( $regex, '', $row->text );
 }
 
-function loadPosition( $position, $style=-2 ) 
+function loadPosition( $position, $style=-2 )
 {
 	$document	= &JFactory::getDocument();
 	$renderer	= $document->loadRenderer( 'module');

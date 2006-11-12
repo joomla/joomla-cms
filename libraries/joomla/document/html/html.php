@@ -136,7 +136,7 @@ class JDocumentHTML extends JDocument
 		if(isset($this->_buffer[$type][$name])) {
 			$result = $this->_buffer[$type][$name];
 		}
-		
+
 		if($renderer = $this->loadRenderer( $type )) {
 			$result = $renderer->render($name, $attribs, $result);
 		};
@@ -177,23 +177,23 @@ class JDocumentHTML extends JDocument
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
-		
+
 		// Parse the template INI file if it exists for parameters and insert
 		// them into the template.
-		if (is_readable( $directory.DS.$template.DS.'params.ini' ) ) 
+		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
 		{
 			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
 			$this->params = new JParameter($content);
 		}
-		
-		$this->template =& $template; 
+
+		$this->template =& $template;
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
-		
+
 		// parse
 		$data = $this->_parseTemplate($data, array('outline' => $outline));
-		
+
 		//output
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -209,7 +209,7 @@ class JDocumentHTML extends JDocument
 
 		echo $data;
 	}
-	
+
 	/**
 	 * Count the modules based on the given condition
 	 *
@@ -220,7 +220,7 @@ class JDocumentHTML extends JDocument
 	function countModules($condition)
 	{
 		$result = '';
-		
+
 		$words = explode(' ', $condition);
 		for($i=0; $i < count($words); $i++)
 		{
@@ -236,7 +236,7 @@ class JDocumentHTML extends JDocument
 
 		return eval($str);
 	}
-	
+
 	/**
 	 * Load a template file
 	 *
@@ -245,13 +245,13 @@ class JDocumentHTML extends JDocument
 	 * @return string The contents of the template
 	 */
 	function _loadTemplate($directory, $filename)
-	{	
+	{
 		global $mainframe, $Itemid, $option;
-		
-		if ($mainframe->getCfg('legacy')) 
+
+		if ($mainframe->getCfg('legacy'))
 		{
 			global $task, $_VERSION, $my, $cur_template, $database, $acl;
-		
+
 			//For backwards compatibility extract the config vars as globals
 			$registry =& JFactory::getConfig();
 			foreach (get_object_vars($registry->toObject()) as $k => $v) {
@@ -259,9 +259,9 @@ class JDocumentHTML extends JDocument
 				$$name = $v;
 			}
 		}
-		
+
 		$contents = '';
-		
+
 		//Check to see if we have a valid template file
 		if ( file_exists( $directory.DS.$filename ) )
 		{
@@ -274,7 +274,7 @@ class JDocumentHTML extends JDocument
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
-		
+
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . DS;
 		$dirs = array( $path, JPATH_BASE . DS );
@@ -304,14 +304,14 @@ class JDocumentHTML extends JDocument
 	{
 		$replace = array();
 		$matches = array();
-		
-		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $data, $matches)) 
+
+		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $data, $matches))
 		{
 			$matches[0] = array_reverse($matches[0]);
 			$matches[1] = array_reverse($matches[1]);
 			$matches[2] = array_reverse($matches[2]);
-			
-			if($key = array_search('component', $matches[1])) 
+
+			if($key = array_search('component', $matches[1]))
 			{
 				$attribs = JUtility::parseAttributes( $matches[2][$key] );
 				$name = isset($attribs['name']) ? $attribs['name'] : null;
@@ -319,20 +319,20 @@ class JDocumentHTML extends JDocument
 				$result   = $renderer->render( $name, array_merge($attribs, $params));
 				$this->setInclude('component', null, $result);
 			}
-			
+
 			$count   = count($matches[1]);
-			
-			for($i = 0; $i < $count; $i++) 
+
+			for($i = 0; $i < $count; $i++)
 			{
 				$attribs = JUtility::parseAttributes( $matches[2][$i] );
 				$type = $matches[1][$i];
 				$name = isset($attribs['name']) ? $attribs['name'] : null;
 				$replace[$i] = $this->getInclude($type, $name, array_merge($attribs, $params));
 			}
-			
+
 			$data = str_replace($matches[0], $replace, $data);
 		}
-		
+
 		return $data;
 	}
 }
