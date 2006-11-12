@@ -184,7 +184,7 @@ function sefRelToAbs($string)
 		}
 	
 		// Get the base request URL if not set
-		$LiveSite .=  JURI::base();
+		$LiveSite =  JURI::base();
 	
 		// Get config variables
 		$rewrite  = $params->get('mode', 0);
