@@ -21,7 +21,7 @@ $rssurl	= $params->get('rssurl', '');
 $rssrtl	= $params->get('rssrtl', 0);
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = JATH_BASE.DS.'cache';
+$cacheDir = JPATH_BASE.DS.'cache';
 if (!is_writable($cacheDir))
 {
 	echo '<div>';
