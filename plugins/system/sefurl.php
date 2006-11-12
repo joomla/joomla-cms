@@ -68,7 +68,7 @@ class sefURL extends JPlugin {
 			$URI = JURI::getInstance();
 
 			// Check for normal index.php?option= ... style
-			$path = $URI->getPath();
+			$path = $URI->toString();
 			if ((strpos($path, 'index.php?') !== false) || (strpos($path, 'feed.php?') !== false)) {
 				return;
 			}
