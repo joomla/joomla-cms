@@ -76,6 +76,7 @@
 			$feed.= "    <entry>\n";
 			$feed.= "        <title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
 			$feed.= "        <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->items[$i]->link)."\"/>\n";
+
 			if ($data->items[$i]->date=="") {
 				$data->items[$i]->date = time();
 			}
@@ -91,7 +92,7 @@
 				$feed.= "        </author>\n";
 			}
 			if ($data->items[$i]->description!="") {
-				$feed.= "        <summary>".htmlspecialchars($data->items[$i]->description)."</summary>\n";
+				$feed.= "        <summary type=\"html\">".htmlspecialchars($data->items[$i]->description)."</summary>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL) {
 			$feed.="        <link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";
