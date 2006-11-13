@@ -37,40 +37,14 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		// Get some objects from the JApplication
-		$db		 = & JFactory::getDBO();
-		$user 	 = & JFactory::getUser();
 		$pathway =& $mainframe->getPathWay();
 
 		// Get the current menu item
 		$menu    =& JSiteHelper::getCurrentMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
-
-		$feedid = JRequest::getVar( 'feedid', $params->get( 'feed_id' ), '', 'int' );
-
-		$newsfeed =& JTable::getInstance( 'newsfeed', 'Table' );
-		$newsfeed->load($feedid);
-
-		// Check if newsfeed is published
-		if(!$newsfeed->published) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
-
-		$category =& JTable::getInstance('category');
-		$category->load($newsfeed->catid);
-
-		// Check if newsfeed category is published
-		if(!$category->published) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
-
-
-		// check whether category access level allows access
-		if ( $category->access > $user->get('gid') ) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
+		
+		//get the newsfeed
+		$newsfeed =& $this->get('data');
 
 		//  get RSS parsed object
 		$options = array();
@@ -117,8 +91,6 @@ class NewsfeedsViewNewsfeed extends JView
 
 		// Add breadcrumb item per category
 		$pathway->addItem($newsfeed->name, '');
-
-		$this->assign('feedid', $feedid);
 
 		$this->assignRef('params'  , $params   );
 		$this->assignRef('newsfeed', $newsfeed );

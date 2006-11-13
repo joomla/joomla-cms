@@ -29,10 +29,7 @@ class NewsfeedsViewCategories extends JView
 	{
 		global $mainframe, $Itemid, $option;
 
-		$db		 	= & JFactory::getDBO();
-		$user 		= & JFactory::getUser();
 		$pathway 	= & $mainframe->getPathWay();
-		$gid		= $user->get('gid');
 
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('News Feeds'));
@@ -40,6 +37,8 @@ class NewsfeedsViewCategories extends JView
 		// Load the menu object and parameters
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
+		
+		$categories =& $this->get('data');
 
 		// Parameters
 		$params = new JParameter($menu->params);
@@ -63,23 +62,6 @@ class NewsfeedsViewCategories extends JView
 		// pagination parameters
 		$params->def('display', 			1 );
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
-
-		// Handle the type
-		$params->set( 'type', 'section' );
-
-		/* Query to retrieve all categories that belong under the contacts section and that are published. */
-		$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
-			. "\n FROM #__categories AS cc"
-			. "\n LEFT JOIN #__newsfeeds AS a ON a.catid = cc.id"
-			. "\n WHERE a.published = 1"
-			. "\n AND cc.section = 'com_newsfeeds'"
-			. "\n AND cc.published = 1"
-			. "\n AND cc.access <= $gid"
-			. "\n GROUP BY cc.id"
-			. "\n ORDER BY cc.ordering"
-		;
-		$db->setQuery( $query );
-		$categories = $db->loadObjectList();
 
 		for($i = 0; $i < count($categories); $i++)
 		{

@@ -29,8 +29,6 @@ class NewsfeedsViewCategory extends JView
 	{
 		global $mainframe, $Itemid, $option;
 
-		$db		 	= & JFactory::getDBO();
-		$user 		= & JFactory::getUser();
 		$pathway 	= & $mainframe->getPathWay();
 		$document	= & JFactory::getDocument();
 
@@ -38,10 +36,13 @@ class NewsfeedsViewCategory extends JView
 		$menu    =& JSiteHelper::getCurrentMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
-		$limit 			= JRequest::getVar('limit', 		0, '', 'int');
-		$limitstart 	= JRequest::getVar('limitstart',	0, '', 'int');
+		$limit 			= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
 		$catid 			= JRequest::getVar( 'catid', 0, '', 'int' );
-		$gid			= $user->get('gid');
+		
+		$category = $this->get('category');
+		$items    = $this->get('data');
+		$total    = $this->get('total');
 
 		// Parameters
 		$params->def( 'page_title', 		1 );
@@ -65,50 +66,6 @@ class NewsfeedsViewCategory extends JView
 		// pagination parameters
 		$params->def('display', 			1 );
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
-
-		$params->set( 'type', 'category' );
-
-		$query = "SELECT COUNT(id) as numitems"
-			. "\n FROM #__newsfeeds"
-			. "\n WHERE catid = $catid"
-			. "\n AND published = 1"
-		;
-		$db->setQuery($query);
-
-		$counter = $db->loadObjectList();
-		$total   = $counter[0]->numitems;
-
-		$limit = $limit ? $limit : $params->get('display_num');
-
-		if ($total <= $limit) {
-			$limitstart = 0;
-		}
-
-		// We need to get a list of all newsfeeds in the given category
-		$query = "SELECT *"
-			. "\n FROM #__newsfeeds"
-			. "\n WHERE catid = $catid"
-			. "\n AND published = 1"
-			. "\n ORDER BY ordering"
-		;
-		$db->setQuery( $query );
-		$items = $db->loadObjectList();
-
-		// current category info
-		$query = "SELECT id, name, description, image, image_position"
-			. "\n FROM #__categories"
-			. "\n WHERE id = $catid"
-			. "\n AND published = 1"
-			. "\n AND access <= $gid"
-		;
-		$db->setQuery( $query );
-		$category = $db->loadObject();
-
-		// Check if the category is published and if access level allows access
-		if (!$category->name) {
-			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-			return;
-		}
 
 		// Set page title per category
 		$document->setTitle( $menu->name. ' - ' .$category->name );
