@@ -85,7 +85,7 @@ class JMenuViewItem extends JView
 			$lists->disabled = 'disabled="true"';
 			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
 			if (($item->id) && ($item->type == 'component')) {
-				$item->expansion = '&amp;expand='.str_replace('com_', '', $item->linkparts['option']);
+				$item->expansion = '&amp;expand='.trim(str_replace('com_', '', $item->linkparts['option']));
 			} else {
 				$item->expansion = null;
 			}
