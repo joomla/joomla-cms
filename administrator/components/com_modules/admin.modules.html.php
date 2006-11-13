@@ -403,7 +403,7 @@ class HTML_modules {
 		<input type="hidden" name="original" value="<?php echo $row->ordering; ?>" />
 		<input type="hidden" name="module" value="<?php echo $row->module; ?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client->id ?>" />
+		<input type="hidden" name="client_id" value="<?php echo $client->id ?>" />
 		</form>
 		<?php
 	}

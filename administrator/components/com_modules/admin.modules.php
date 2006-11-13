@@ -113,10 +113,10 @@ function viewModules()
 	$filter_assigned 	= $mainframe->getUserStateFromRequest( "$option.filter_assigned",	'filter_assigned',	0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-
+	
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
-
+	
 	$where[] = "m.client_id = ".$client->id;
 
 	$joins[] = 'LEFT JOIN #__users AS u ON u.id = m.checked_out';
@@ -289,7 +289,7 @@ function saveModule( $option, $task )
 
 	// Initialize some variables
 	$db		=& JFactory::getDBO();
-	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client_id', '0', '', 'int'));
 
 	$post	= JRequest::get( 'post' );
 	// fix up special html fields
@@ -305,7 +305,6 @@ function saveModule( $option, $task )
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-
 	// if new item, order last in appropriate group
 	if (!$row->id) {
 		$where = "position='".$row->position."' AND client_id=".$client->id ;
@@ -541,9 +540,9 @@ function selectnew()
 
 	// path to search for modules
 	if ($client->id == '1') {
-		$path = JPATH_ADMINISTRATOR .'/modules/';
+		$path = JPATH_ADMINISTRATOR .DS.'modules'.DS;
 	} else {
-		$path = JPATH_ROOT .'/modules/';
+		$path = JPATH_ROOT .DS.'modules'.DS;
 	}
 
 	$i = 1;
@@ -552,13 +551,16 @@ function selectnew()
 
 	foreach ($dirs as $dir)
 	{
-		$file 			= JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
-		$files_php[] 	= $file[0];
+		if(substr($dir, 0, 4) == 'mod_') {
+			$file 			= JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
 
-		$modules[$i]->file 		= $file[0];
-		$modules[$i]->module 	= str_replace( '.xml', '', $file[0] );
-		$modules[$i]->path 		= $path . $dir;
-		$i++;
+			$files_php[] 	= $file[0];
+
+			$modules[$i]->file 		= $file[0];
+			$modules[$i]->module 	= str_replace( '.xml', '', $file[0] );
+			$modules[$i]->path 		= $path . $dir;
+			$i++;
+		}
 	}
 
 	ReadModuleXML( $modules, $client );
@@ -790,7 +792,7 @@ function saveOrder( &$cid )
 		$row->load( (int) $cid[$i] );
 		// track postions
 		$groupings[] = $row->position;
-
+		
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
