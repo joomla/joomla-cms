@@ -147,7 +147,7 @@ class JDate extends JObject
 	 */
 	function toRFC822()
 	{
-		$date = date("D, d M Y H:i:s", $this->_date + ($this->_offset * 3600));
+		$date = date("D, d M Y H:i:s O", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
 
@@ -158,7 +158,7 @@ class JDate extends JObject
 	 */
 	function toISO8601()
 	{
-		$date = gmdate("Y-m-d\TH:i:sO", $this->_date + ($this->_offset * 3600));
+		$date = gmdate("Y-m-d\TH:i:sP", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
 
