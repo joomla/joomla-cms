@@ -349,7 +349,7 @@ class JController extends JObject
 		if ($model = &$this->_createModel( $name, $prefix ))
 		{
 			// task is a reserved state
-			$model->setState( 'task', $this->_doTask );
+			$model->setState( 'task', $this->_task );
 		}
 		return $model;
 	}
