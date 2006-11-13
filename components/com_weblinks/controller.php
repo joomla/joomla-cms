@@ -95,6 +95,8 @@ class WeblinksController extends JController
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
+		
+		$row->checkin();
 
 		// Create a web link table
 		$row =& JTable::getInstance('weblink','Table');
@@ -109,9 +111,7 @@ class WeblinksController extends JController
 		}
 
 		// sanitise id field
-		// $row->id = (int) $row->id;
-		// until full edit capabilities are given for weblinks - limit saving to new weblinks only
-		$row->id = 0;
+		$row->id = (int) $row->id;
 
 		// Is the web link a new one?
 		$isNew = $row->id < 1;
@@ -155,7 +155,7 @@ class WeblinksController extends JController
 		}
 
 		$msg = $isNew ? JText::_('THANK_SUB') : '';
-		$mainframe->redirect('index.php?option=com_weblinks&task=new&Itemid='.$Itemid, $msg);
+		$mainframe->redirect('index.php?option=com_weblinks&Itemid='.$Itemid, $msg);
 	}
 
 	/**

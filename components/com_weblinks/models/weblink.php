@@ -36,7 +36,7 @@ class WeblinksModelWeblink extends JModel
 	 *
 	 * @var array
 	 */
-	var $_weblink = null;
+	var $_data = null;
 
 	/**
 	 * Constructor
@@ -67,7 +67,7 @@ class WeblinksModelWeblink extends JModel
 	{
 		// Set weblink id and wipe data
 		$this->_id	    = $id;
-		$this->_weblink = null;
+		$this->_data = null;
 	}
 
 	/**
@@ -75,52 +75,44 @@ class WeblinksModelWeblink extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function &getWeblink()
+	function &getData()
 	{
-		// Load the Category data
-		if ($this->_loadWeblink())
+		$state =& $this->getState();
+		
+		// Load the weblink data
+		if ($this->_loadData())
 		{
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
 			// Make sure the category is published
-			if (!$this->_weblink->published) {
+			if (!$this->_data->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
 
 			// Check to see if the category is published
-			if (!$this->_weblink->cat_pub) {
+			if (!$this->_data->cat_pub) {
 				JError::raiseError( 404, JText::_("Resource Not Found") );
 				return;
 			}
 
 			// Check whether category access level allows access
-			if ($this->_weblink->cat_access > $user->get('gid')) {
+			if ($this->_data->cat_access > $user->get('gid')) {
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 				return;
 			}
-		} else {
-			$weblink->id		= 0;
-			$weblink->catid		= 0;
-			$weblink->sid		= 0;
-			$weblink->title		= null;
-			$weblink->url		= null;
-			$weblink->description	= null;
-			$weblink->date		= null;
-			$weblink->hits		= 0;
-			$weblink->published	= 0;
-			$weblink->checked_out	= 0;
-			$weblink->checked_out_time	= 0;
-			$weblink->ordering	= 0;
-			$weblink->archived	= 0;
-			$weblink->approved	= 0;
-			$weblink->params		= null;
-			$weblink->category	= null;
-			$this->_weblink			= $weblink;
+		} 
+		else  $this->_initData();
+		
+		// Act on the task if needed
+		switch($state->get('task')) 
+		{
+			case 'display' :
+				$this->incrementHit();
 		}
-
-		return $this->_weblink;
+		
+		return $this->_data;
 	}
 
 	/**
@@ -153,16 +145,13 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function isCheckedOut( $uid=0 )
 	{
-		if ($this->_loadWeblink())
+		if ($this->_loadData())
 		{
 			if ($uid) {
-				return ($this->_weblink->checked_out && $this->_weblink->checked_out != $uid);
+				return ($this->_data->checked_out && $this->_weblink->checked_out != $uid);
 			} else {
-				return $this->_weblink->checked_out;
+				return $this->_data->checked_out;
 			}
-		} else {
-			JError::raiseWarning( 0, 'Unable to Load Data');
-			return false;
 		}
 	}
 
@@ -177,7 +166,7 @@ class WeblinksModelWeblink extends JModel
 	{
 		if ($this->_id)
 		{
-			$weblink = & JTable::getInstance('weblinks', 'Table');
+			$weblink = & JTable::getInstance('weblink', 'Table');
 			return $weblink->checkin($this->_id);
 		}
 		return false;
@@ -201,7 +190,7 @@ class WeblinksModelWeblink extends JModel
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$weblink = & JTable::getInstance('weblinks', 'Table');
+			$weblink = & JTable::getInstance('weblink', 'Table');
 			return $weblink->checkout($uid, $this->_id);
 		}
 		return false;
@@ -214,42 +203,55 @@ class WeblinksModelWeblink extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _loadWeblink()
+	function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_weblink))
+		if (empty($this->_data))
 		{
-			// Get the WHERE clause
-			$where	= $this->_buildContentWhere();
-
 			$query = "SELECT w.*, cc.title AS category," .
 					"\n cc.published AS cat_pub, cc.access AS cat_access".
 					"\n FROM #__weblinks AS w" .
 					"\n LEFT JOIN #__categories AS cc ON cc.id = w.catid" .
-					$where;
+					"\n WHERE w.id = $this->_id";
 			$this->_db->setQuery($query);
-			$this->_weblink = $this->_db->loadObject();
-			return (boolean) $this->_weblink;
+			$this->_data = $this->_db->loadObject();
+			return (boolean) $this->_data;
 		}
 		return true;
 	}
-
+	
 	/**
-	 * Method to build the WHERE clause of the query to select a content article
+	 * Method to initialise the weblink data
 	 *
 	 * @access	private
-	 * @return	string	WHERE clause
+	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _buildContentWhere()
+	function _initData()
 	{
-		global $mainframe;
-
-		// Make sure that the weblink is the one we are looking for.
-		$where = "\n WHERE w.id = $this->_id";
-
-		return $where;
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$weblink->id				= 0;
+			$weblink->catid				= 0;
+			$weblink->sid				= 0;
+			$weblink->title				= null;
+			$weblink->url				= null;
+			$weblink->description		= null;
+			$weblink->date				= null;
+			$weblink->hits				= 0;
+			$weblink->published			= 0;
+			$weblink->checked_out		= 0;
+			$weblink->checked_out_time	= 0;
+			$weblink->ordering			= 0;
+			$weblink->archived			= 0;
+			$weblink->approved			= 0;
+			$weblink->params			= null;
+			$weblink->category			= null;
+			$this->_data				= $weblink;
+			return (boolean) $this->_data;
+		}
+		return true;
 	}
-
 }
 ?>

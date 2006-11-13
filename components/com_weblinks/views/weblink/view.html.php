@@ -34,14 +34,9 @@ class WeblinksViewWeblink extends JView
 		}
 
 		//get the weblink
-		$weblink =& $this->get('weblink');
+		$weblink =& $this->get('data');
 
-		if ($weblink->url)
-		{
-			// Record the hit
-			$model =& $this->getModel();
-			$model->incrementHit();
-
+		if ($weblink->url) {
 			// redirects to url if matching id found
 			$mainframe->redirect($weblink->url);
 		}
@@ -72,7 +67,7 @@ class WeblinksViewWeblink extends JView
 		$returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 
 		//get the weblink
-		$weblink =& $this->get('Weblink');
+		$weblink =& $this->get('data');
 		$isNew   = ($weblink->id < 1);
 
 		// Edit or Create?
@@ -80,15 +75,8 @@ class WeblinksViewWeblink extends JView
 		{
 			// Is this link checked out?  If not by me fail
 			if ($model->isCheckedOut($user->get('id'))) {
-				$mainframe->redirect("index2.php?option=$option", "The module $weblink->title is currently being edited by another administrator.");
+				$mainframe->redirect("index.php?option=$option", "The weblink $weblink->title is currently being edited by another administrator.");
 			}
-
-			/*
-			 * The web link already exists so we are editing it.  Here we want to
-			 * manipulate the pathway and pagetitle to indicate this, plus we want
-			 * to check the web link out so no one can edit it while we are editing it
-			 */
-			$model->checkout($user->get('id'));
 
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('Edit'));

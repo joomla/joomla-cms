@@ -77,7 +77,6 @@ function submitbutton(pressbutton)
 		<?php echo JText::_('Cancel') ?>
 	</button>
 </div>
-</table>
 
 <input type="hidden" name="jform[id]" value="<?php echo $this->weblink->id; ?>" />
 <input type="hidden" name="jform[ordering]" value="<?php echo $this->weblink->ordering; ?>" />

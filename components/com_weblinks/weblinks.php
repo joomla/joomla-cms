@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JPATH_COMPONENT . '/controller.php');
 
 $document =& JFactory::getDocument();
-JTable::addTableDir(JPATH_BASE.DS.'administrator'.DS.'components'.DS.'com_weblinks'.DS.'tables');
+
 // Create the controller
 $controller = new WeblinksController( );
 
