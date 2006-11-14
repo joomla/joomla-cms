@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Nov-2006 Andrew Eddie
+ # Fixed js error in TinyMCE editor when Template CSS set to No
+
 11-Nov-2006 Louis Landry
  # Fixed feeds not rendering with SEF URLs enabled
 
