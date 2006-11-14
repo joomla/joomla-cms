@@ -24,7 +24,7 @@ class ConfigControllerComponent extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __constuct( $default = array())
+	function __construct( $default = array())
 	{
 		parent::__construct( $default );
 		$this->registerTask( 'apply', 'save' );
