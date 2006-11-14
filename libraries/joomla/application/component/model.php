@@ -290,8 +290,9 @@ class JModel extends JObject
 				return $false;
 			}
 		}
-
-		$table = new $tableClass();
+			
+		$db =& $this->getDBO();
+		$table = new $tableClass($db);
 		return $table;
 	}
 	

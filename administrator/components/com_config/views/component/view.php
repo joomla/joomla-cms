@@ -55,8 +55,8 @@ class ConfigViewComponent extends JView
 			<?php echo $params->render();?>
 		</fieldset>
 
-		<input type="hidden" name="id" value="<?php echo $table->id;?>" />
-		<input type="hidden" name="component" value="<?php echo $table->option;?>" />
+		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
+		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
 
 		<input type="hidden" name="c" value="component" />
 		<input type="hidden" name="option" value="com_config" />

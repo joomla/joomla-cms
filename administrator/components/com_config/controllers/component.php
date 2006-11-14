@@ -21,8 +21,6 @@ jimport( 'joomla.application.component.controller' );
  */
 class ConfigControllerComponent extends JController
 {
-	var $_option	= 'com_config';
-
 	/**
 	 * Custom Constructor
 	 */
@@ -39,21 +37,24 @@ class ConfigControllerComponent extends JController
 	function edit()
 	{
 		$component = JRequest::getVar( 'component' );
-
+		
 		if (empty( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );
 			return false;
 		}
-
+		
 		$model = $this->getModel('Component' );
 		$table = JTable::getInstance('component');
+		
 		if (!$table->loadByOption( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );
 			return false;
 		}
+		
 		$view = new ConfigViewComponent( );
+		$view->assignRef('component', $table);
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -63,24 +64,31 @@ class ConfigControllerComponent extends JController
 	 */
 	function save()
 	{
+		$component = JRequest::getVar( 'component' );
+		
 		$table = JTable::getInstance('component');
+		if (!$table->loadByOption( $component ))
+		{
+			JError::raiseWarning( 500, 'Not a valid component' );
+			return false;
+		}
 
-		$table->bind( JRequest::get( 'post' ) );
-		// reset the option
-		$table->option = null;
+		$post = JRequest::get( 'post' );
+		$post['option'] = $component;
+		$table->bind( $post );
 
 		// pre-save checks
 		if (!$table->check()) {
-			JError::raiseWarning( 500, $row->getError() );
+			JError::raiseWarning( 500, $table->getError() );
 			return false;
 		}
 
 		// save the changes
 		if (!$table->store()) {
-			JError::raiseWarning( 500, $row->getError() );
+			JError::raiseWarning( 500, $table->getError() );
 			return false;
 		}
-
+			
 		//$this->setRedirect( 'index.php?option=com_config', $msg );
 		$this->edit();
 	}
