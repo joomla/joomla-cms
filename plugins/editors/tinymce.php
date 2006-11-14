@@ -141,6 +141,8 @@ class JEditor_tinymce extends JPlugin
 				} else {
 					$content_css = $content_css . 'template_css.css", ';
 				}
+			} else {
+				$content_css = '';
 			}
 		}
 
