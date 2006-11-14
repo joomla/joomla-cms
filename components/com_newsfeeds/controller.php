@@ -56,24 +56,19 @@ class NewsfeedsController extends JController
 
 		// Create the view
 		$this->setViewName( $viewName, 'NewsfeedsView', $viewType );
-		if ($view = & $this->getView())
+		$view = & $this->getView();
+		
+		// Get/Create the model
+		if ($model = & $this->getModel($viewName))
 		{
-			// Get/Create the model
-			if ($model = & $this->getModel($viewName))
-			{
-				// Push the model into the view (as default)
-				$view->setModel($model, true);
-			}
-			// Set the layout
-			$view->setLayout($viewLayout);
+			// Push the model into the view (as default)
+			$view->setModel($model, true);
+		}
+		// Set the layout
+		$view->setLayout($viewLayout);
 
-			// Display the view
-			$view->display();
-		}
-		else
-		{
-			return JError::raiseError( 500, 'The view ['.$viewName.'] could not be found' );
-		}
+		// Display the view
+		$view->display();
 	}
 }
 

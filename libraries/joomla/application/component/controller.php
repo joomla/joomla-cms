@@ -406,8 +406,12 @@ class JController extends JObject
 				$type = $this->_viewType;
 			}
 
-			$view =& $this->_createView( $name, $prefix, $type );
-			$this->setView( $view );
+			if($view =& $this->_createView( $name, $prefix, $type )) {
+				$this->setView( $view );
+			} else {
+				JError::raiseError( 500, 'The view ['.$name.'] could not be found' );
+				return null;
+			}
 		}
 		return $this->_view;
 	}

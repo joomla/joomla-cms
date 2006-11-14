@@ -85,24 +85,19 @@ class ContentController extends JController
 
 		// Create the view
 		$this->setViewName( $viewName, 'ContentView', $viewType );
-		if ($view = & $this->getView())
+		$view = & $this->getView();
+		
+		// Get/Create the model
+		if ($model = & $this->getModel($modelName))
 		{
-			// Get/Create the model
-			if ($model = & $this->getModel($modelName))
-			{
-				// Push the model into the view (as default)
-				$view->setModel($model, true);
-			}
-			// Set the layout
-			$view->setLayout($layout);
+			// Push the model into the view (as default)
+			$view->setModel($model, true);
+		}
+		// Set the layout
+		$view->setLayout($layout);
 
-			// Display the view
-			$view->display();
-		}
-		else
-		{
-			return JError::raiseError( 500, 'The view ['.$viewName.'] could not be found' );
-		}
+		// Display the view
+		$view->display();
 	}
 
 	/**
