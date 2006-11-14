@@ -535,7 +535,7 @@ class JView extends JObject
 		$file = preg_replace( '#[^\w_\.]#', '', $file );
 
 		// load the template script
-		if ($this->_template = $this->_findFile('template', $file.'.php'))
+		if ($this->_template = $this->_findFile('template', $this->_createFileName('template', array('name' => $file))))
 		{
 			// unset so as not to introduce into template scope
 			unset($tpl);
@@ -688,6 +688,29 @@ class JView extends JObject
 
 		// could not find the file in the set of paths
 		return false;
+	}
+	
+	/**
+	 * Create the filename for a resource
+	 *
+	 * @access private
+	 * @param string 	$type  The resource type to create the filename for
+	 * @param array 	$parts An associative array of filename information
+	 * @return string The filename
+	 * @since 1.5
+	 */
+	function _createFileName($type, $parts = array())
+	{
+		$filename = '';
+		
+		switch($type)
+		{
+			case 'template' :
+				 $filename = strtolower($parts['name']).'.php';
+				break;
+			 
+		}
+		return $filename;
 	}
 }
 ?>

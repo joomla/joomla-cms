@@ -275,7 +275,7 @@ class JModel extends JObject
 		if (!class_exists( $tableClass ))
 		{
 			// If the model file exists include it and try to instantiate the object
-			if ($path = $this->_findFile('table', strtolower($tableName).'.php'))
+			if ($path = $this->_findFile('table', $this->_createFileName('table', array('name' => $tableName))))
 			{
 				require( $path );
 				if (!class_exists( $tableClass ))
@@ -414,6 +414,29 @@ class JModel extends JObject
 
 		// could not find the file in the set of paths
 		return false;
+	}
+	
+	/**
+	 * Create the filename for a resource
+	 *
+	 * @access private
+	 * @param string 	$type  The resource type to create the filename for
+	 * @param array 	$parts An associative array of filename information
+	 * @return string The filename
+	 * @since 1.5
+	 */
+	function _createFileName($type, $parts = array())
+	{
+		$filename = '';
+		
+		switch($type)
+		{
+			case 'table' :
+				 $filename = strtolower($parts['name']).'.php';
+				break;
+			 
+		}
+		return $filename;
 	}
 }
 ?>

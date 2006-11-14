@@ -567,7 +567,7 @@ class JController extends JObject
 		if (!class_exists( $modelClass ))
 		{
 			// If the model file exists include it and try to instantiate the object
-			if ($path = $this->_findFile('model', strtolower($modelName).'.php'))
+			if ($path = $this->_findFile('model',$this->_createFileName('model', array('name' => $modelName))))
 			{
 				require( $path );
 				if (!class_exists( $modelClass ))
@@ -606,10 +606,6 @@ class JController extends JObject
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
 		$viewType	 = preg_replace( '#\W#', '', $type );
 
-		if (!empty($type)) {
-			$type = '.'.$type;
-		}
-
 		$view		= null;
 
 		// Build the view class name
@@ -618,7 +614,7 @@ class JController extends JObject
 		if (!class_exists( $viewClass ))
 		{
 			// If the default view file exists include it and try to instantiate the object
-			if ($path = $this->_findFile('view', strtolower($viewName).DS.'view'.$type.'.php'))
+			if ($path = $this->_findFile('view',$this->_createFileName('view', array('name' => $viewName, 'type' => $viewType)) ))
 			{
 				require_once( $path );
 
@@ -761,5 +757,38 @@ class JController extends JObject
 		// could not find the file in the set of paths
 		return false;
 	}
+	
+	/**
+	 * Create the filename for a resource
+	 *
+	 * @access private
+	 * @param string 	$type  The resource type to create the filename for
+	 * @param array 	$parts An associative array of filename information
+	 * @return string The filename
+	 * @since 1.5
+	 */
+	function _createFileName($type, $parts = array())
+	{
+		$filename = '';
+		
+		switch($type)
+		{
+			case 'view' :
+			{
+				if (!empty($parts['type'])) {
+					$type = '.'.$parts['type'];
+				}
+				
+				$filename = strtolower($parts['name']).DS.'view'.$type.'.php';
+			}	break;
+			
+			case 'model' :
+				 $filename = strtolower($parts['name']).'.php';
+				break;
+			 
+		}
+		return $filename;
+	}
+
 }
 ?>
