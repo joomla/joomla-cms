@@ -98,8 +98,8 @@ class JTable extends JObject
 			foreach( $dirs as $dir )
 			{
 				$tableFile = $dir.DS.strtolower($type).'.php';
-				if (@include_once $tableFile) {
-					break;
+				if (file_exists( $tableFile )) {
+					require_once $tableFile;
 				}
 			}
 		}
