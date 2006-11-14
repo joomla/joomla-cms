@@ -112,7 +112,7 @@ class HTML_modules {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
-				$link 		= ampReplace( 'index.php?option=com_modules&client='. $client->id .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link 		= ampReplace( 'index.php?option=com_modules&client_id='. $client->id .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
 
 				$access 	= JCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
@@ -185,7 +185,7 @@ class HTML_modules {
 			</table>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
+		<input type="hidden" name="client_id" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
@@ -465,7 +465,7 @@ class HTML_modules {
 		for ( $i=0; $i < $count; $i++ ) {
 			$row = &$modules[$i];
 
-			$link = 'index.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
+			$link = 'index.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client_id='. $client->id;
 			if ( !$k ) {
 				?>
 				<tr class="<?php echo "row$x"; ?>" valign="top">
@@ -494,7 +494,7 @@ class HTML_modules {
 		</table>
 
 		<input type="hidden" name="option" value="com_modules" />
-		<input type="hidden" name="client" value="<?php echo $client->id; ?>" />
+		<input type="hidden" name="client_id" value="<?php echo $client->id; ?>" />
 		<input type="hidden" name="created" value="1" />
 		<input type="hidden" name="task" value="edit" />
 		<input type="hidden" name="boxchecked" value="0" />
