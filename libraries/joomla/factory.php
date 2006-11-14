@@ -235,10 +235,11 @@ class JFactory
 	{
 		static $instance;
 
-		if (!is_object($instance)) {
-			$instance = JFactory::_createMailer();
-		}
+		if (is_object($instance))
+			unset($instance);
 
+		$instance = JFactory::_createMailer();
+		
 		return $instance;
 	}
 

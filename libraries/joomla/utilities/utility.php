@@ -62,11 +62,14 @@ class JUtility
 		$mail->addAttachment($attachment);
 
 		// Take care of reply email addresses
-		$numReplyTo = count($replyto);
-		for ($i=0;$i < $numReplyTo; $i++) {
-			$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
-		}
-
+		if( is_array( $replyto ) )
+		{
+			for ( $i=0; $i < count($replyto); $i++)
+				$mail->addReplyTo( array($replyto[$i], $replytoname[$i]) );
+				
+		} else
+			$mail->addReplyTo( array( $replyto, $replytoname ) );
+		
 		return  $mail->Send();
 	}
 

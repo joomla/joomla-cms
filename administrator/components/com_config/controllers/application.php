@@ -237,14 +237,14 @@ class ConfigControllerApplication extends JController
 		$config_array['ftp_root'] 	= JRequest::getVar('ftp_root', '', 'post');
 
 		// DATABASE SETTINGS
-		$config_array['dbtype'] 	= JRequest::getVar('dbtype', 'mysql', 'post');
+		$config_array['dbtype'] 		= JRequest::getVar('dbtype', 'mysql', 'post');
 		$config_array['host'] 		= JRequest::getVar('host', 'localhost', 'post');
 		$config_array['user'] 		= JRequest::getVar('user', '', 'post');
-		$config_array['db'] 		= JRequest::getVar('db', '', 'post');
+		$config_array['db'] 			= JRequest::getVar('db', '', 'post');
 		$config_array['db_prefix'] 	= JRequest::getVar('db_prefix', 'jos_', 'post');
 
 		// MAIL SETTINGS
-		$config_array['mailer'] 	= JRequest::getVar('mailer', 'mail', 'post');
+		$config_array['mailer'] 		= JRequest::getVar('mailer', 'mail', 'post');
 		$config_array['mailfrom'] 	= JRequest::getVar('mailfrom', '', 'post');
 		$config_array['fromname'] 	= JRequest::getVar('fromname', 'Joomla 1.5', 'post');
 		$config_array['sendmail'] 	= JRequest::getVar('sendmail', '/usr/sbin/sendmail', 'post');

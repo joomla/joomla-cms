@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Nov-2006 Rastin Mehr
+ # Fixed [artf6679] : 3 bad email bugs causing emails mixups (with fixes) including bug #4
+
 14-Nov-2006 Andrew Eddie
  # Fixed js error in TinyMCE editor when Template CSS set to No
  
