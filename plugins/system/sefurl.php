@@ -288,7 +288,7 @@ function sefRelToAbs($string)
 					}
 
 					if ($check) {
-						$string = $LiveSite . '/' . $string;
+						$string = $LiveSite.$string;
 					}
 				}
 			}
