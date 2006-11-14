@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.model' );
 * @package Joomla
 * @subpackage Polls
 */
-class ModelPolls extends JModel
+class PollModelPoll extends JModel
 {
 	/**
 	 * Add vote

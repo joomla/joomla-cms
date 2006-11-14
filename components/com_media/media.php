@@ -16,5 +16,5 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the admin HTML view
-require_once (JPATH_ADMINISTRATOR . '/components/com_media/admin.media.php');
+require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'admin.media.php');
 ?>

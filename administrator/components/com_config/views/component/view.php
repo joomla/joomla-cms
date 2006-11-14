@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.view' );
  * @package Joomla
  * @subpackage Config
  */
-class ConfigComponentView extends JView
+class ConfigViewComponent extends JView
 {
 	/**
 	 * Display the view

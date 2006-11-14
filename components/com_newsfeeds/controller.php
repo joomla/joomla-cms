@@ -59,7 +59,7 @@ class NewsfeedsController extends JController
 		if ($view = & $this->getView())
 		{
 			// Get/Create the model
-			if ($model = & $this->getModel($viewName, 'NewsfeedsModel'))
+			if ($model = & $this->getModel($viewName))
 			{
 				// Push the model into the view (as default)
 				$view->setModel($model, true);

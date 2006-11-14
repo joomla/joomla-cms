@@ -21,12 +21,6 @@ jimport('joomla.application.component.model');
 class ContactModelCategory extends JModel
 {
 	/**
-	 * Model Name
-	 * @var string
-	 */
-	var $_modelName = 'Category';
-
-	/**
 	 * Builds the query to select contact categories
 	 * @param array
 	 * @return string

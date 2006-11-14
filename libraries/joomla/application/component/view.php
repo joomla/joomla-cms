@@ -441,7 +441,7 @@ class JView extends JObject
 		return $this->_layout;
 	}
 
-	 /**
+	/**
      * Adds to the stack of view script paths in LIFO order.
      *
      * @param string|array The directory (-ies) to add.

@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_poll'.DS.'tables');
+JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
 /*
  * This is our main control structure for the component
@@ -191,7 +191,7 @@ class PollController
 		setcookie( $cookieName, '1', time() + $poll->lag );
 
 		require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
-		$model = new ModelPolls();
+		$model = new PollModelPoll();
 		$model->addVote( $poll_id, $option_id );
 
 		$mainframe->redirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );

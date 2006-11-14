@@ -88,7 +88,7 @@ class ContentController extends JController
 		if ($view = & $this->getView())
 		{
 			// Get/Create the model
-			if ($model = & $this->getModel($modelName, 'ContentModel'))
+			if ($model = & $this->getModel($modelName))
 			{
 				// Push the model into the view (as default)
 				$view->setModel($model, true);
@@ -120,7 +120,7 @@ class ContentController extends JController
 		$view = & $this->getView();
 
 		// Get/Create the model
-		$model = & $this->getModel('Article', 'ContentModel');
+		$model = & $this->getModel('Article');
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -412,7 +412,7 @@ class ContentController extends JController
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
 		// Get/Create the model
-		$model = & $this->getModel('Article', 'ContentModel');
+		$model = & $this->getModel('Article' );
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
@@ -447,7 +447,7 @@ class ContentController extends JController
 			$view = & $this->getView();
 
 			// Get/Create the model
-			$model = & $this->getModel('Article', 'ContentModel');
+			$model = & $this->getModel('Article' );
 
 			// Get the id of the article to display and set the model
 			$id = JRequest::getVar('id', 0, '', 'int');

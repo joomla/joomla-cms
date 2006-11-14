@@ -18,21 +18,21 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.controller' );
 
-class BannerController extends JController
+class BannersController extends JController
 {
 	function click()
 	{
 		$bid = JRequest::getVar( 'bid', 0, '', 'int' );
 		if ($bid)
 		{
-			$model = &$this->getModel( 'Banner', 'Model' );
+			$model = &$this->getModel( 'Banner' );
 			$model->click( $bid );
 			$this->setRedirect( $model->getUrl( $bid ) );
 		}
 	}
 }
 
-$controller = new BannerController( array('default_task' => 'click') );
+$controller = new BannersController( array('default_task' => 'click') );
 $controller->execute( $task );
 $controller->redirect();
 ?>

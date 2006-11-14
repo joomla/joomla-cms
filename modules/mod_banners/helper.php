@@ -44,7 +44,7 @@ class modBannersHelper
 
 	function getModel()
 	{
-		if (!class_exists( 'BannerModel' ))
+		if (!class_exists( 'BannersModelBanner' ))
 		{
 			// Build the path to the model based upon a supplied base path
 			$path = JPATH_SITE . '/components/com_banners/models/banner.php';
@@ -53,17 +53,17 @@ class modBannersHelper
 			// If the model file exists include it and try to instantiate the object
 			if (file_exists( $path )) {
 				require_once( $path );
-				if (!class_exists( 'ModelBanner' )) {
-					JError::raiseWarning( 0, 'Model class ModelBanner not found in file.' );
+				if (!class_exists( 'BannersModelBanner' )) {
+					JError::raiseWarning( 0, 'Model class BannersModelBanner not found in file.' );
 					return $false;
 				}
 			} else {
-				JError::raiseWarning( 0, 'Model ModelBanner not supported. File not found.' );
+				JError::raiseWarning( 0, 'Model BannersModelBanner not supported. File not found.' );
 				return $false;
 			}
 		}
 
-		$model = new ModelBanner();
+		$model = new BannersModelBanner();
 		return $model;
 	}
 

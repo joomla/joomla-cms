@@ -18,23 +18,8 @@ jimport( 'joomla.application.component.model' );
  * @package Joomla
  * @subpackage Config
  */
-class ConfigComponentModel extends JModel
+class ConfigModelComponent extends JModel
 {
-	/** @var object JTable object */
-	var $_table = null;
-
-	/**
-	 * Returns the internal table object
-	 * @return JTable
-	 */
-	function &getTable()
-	{
-		if ($this->_table == null) {
-			$this->_table = JTable::getInstance('component');
-		}
-		return $this->_table;
-	}
-
 	/**
 	 * Get the params for the configuration variables
 	 */
@@ -44,17 +29,19 @@ class ConfigComponentModel extends JModel
 
 		if ($instance == null)
 		{
-			$table = &$this->getTable();
+			$component = JRequest::getVar( 'component' );
+			
+			$table = JTable::getInstance('component');
+			$table->loadByOption( $component );
+			
 			$option = preg_replace( '#\W#', '', $table->option );
 
 			// work out file path
 			$path = JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml';
-			if (file_exists( $path ))
-			{
+			
+			if (file_exists( $path )) {
 				$instance = new JParameter( $table->params, $path );
-			}
-			else
-			{
+			} else {
 				$instance = new JParameter( $table->params );
 			}
 		}

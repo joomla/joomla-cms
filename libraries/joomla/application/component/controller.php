@@ -201,7 +201,7 @@ class JController extends JObject
 			else
 			{
 				$r = null;
-				if (!preg_match('/Controller(.*)/i', get_class($this), $r)) {
+				if (!preg_match('/(.*)Controller/i', get_class($this), $r)) {
 					JError::raiseError (500, "JController::__construct() : Can't get or parse class name.");
 				}
 				$this->_name = strtolower( $r[1] );
@@ -346,6 +346,10 @@ class JController extends JObject
 	 */
 	function &getModel($name, $prefix='')
 	{
+		if (empty($prefix)) {
+			$prefix = $this->_name.'Model';
+		}
+		
 		if ($model = &$this->_createModel( $name, $prefix ))
 		{
 			// task is a reserved state
@@ -645,8 +649,6 @@ class JController extends JObject
 	*/
 	function _setPath($type, $path)
 	{
-		global $mainframe, $option;
-
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
 

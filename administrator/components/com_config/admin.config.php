@@ -33,7 +33,6 @@ switch (JRequest::getVar( 'c', 'global' ))
 	default:
 		// TODO: Lock down access to config changes
 		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'component.php' );
-		require_once( JPATH_COMPONENT.DS.'models'.DS.'component.php' );
 		require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
 
 		$controller = new ConfigControllerComponent( array('default_task' => 'edit') );

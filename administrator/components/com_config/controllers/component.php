@@ -46,14 +46,14 @@ class ConfigControllerComponent extends JController
 			return false;
 		}
 
-		$model = &JModel::getInstance( 'ConfigComponentModel' );
-		$table = &$model->getTable();
+		$model = $this->getModel('Component' );
+		$table = JTable::getInstance('component');
 		if (!$table->loadByOption( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );
 			return false;
 		}
-		$view = new ConfigComponentView( );
+		$view = new ConfigViewComponent( );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -63,8 +63,7 @@ class ConfigControllerComponent extends JController
 	 */
 	function save()
 	{
-		$model = &JModel::getInstance( 'ConfigComponentModel' );
-		$table = &$model->getTable();
+		$table = JTable::getInstance('component');
 
 		$table->bind( JRequest::get( 'post' ) );
 		// reset the option

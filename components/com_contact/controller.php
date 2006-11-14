@@ -54,7 +54,7 @@ class ContactController extends JController
 		$view = &$this->getView();
 
 		// Push a model into the view
-		$model	= &$this->getModel( $viewName, 'ContactModel' );
+		$model	= &$this->getModel( $viewName );
 		if (!JError::isError( $model )) {
 			$view->setModel( $model, true );
 		}
@@ -62,7 +62,7 @@ class ContactController extends JController
 		// Workaround for the item view
 		if ($viewName == 'contact')
 		{
-			$modelCat	= &$this->getModel( 'category', 'ContactModel' );
+			$modelCat	= &$this->getModel( 'category' );
 			$view->setModel( $modelCat );
 		}
 
@@ -97,7 +97,7 @@ class ContactController extends JController
 		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post', 'int');
 
 		 // load the contact details
-		$model		= &$this->getModel('contact', 'ContactModel');
+		$model		= &$this->getModel('contact');
 
 		// query options
 		$qOptions['id']	= $contactId;

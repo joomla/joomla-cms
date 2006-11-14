@@ -646,26 +646,25 @@ class JTable extends JObject
 	 */
 	function checkout( $who, $oid=null )
 	{
-		if (!isset($this->checked_out))
+		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
 		{
-			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support checkouts.");
-			$this->setErrorNum(23);
-			return false;
+			//$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
+			return true;
 		}
 		$k = $this->_tbl_key;
-		if ($oid !== null)
-		{
+		if ($oid !== null) {
 			$this->$k = $oid;
 		}
 		$time = date( 'Y-m-d H:i:s' );
-		if (intval( $who ))
+		
+		if (is_numeric( $who ))
 		{
 			// new way of storing editor, by id
 			$query = "UPDATE `".$this->_tbl."`" .
 				"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
 				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 			$this->_db->setQuery( $query );
-
+			
 			$this->checked_out = $who;
 			$this->checked_out_time = $time;
 		}
@@ -958,9 +957,10 @@ class JTable extends JObject
 		if( is_array( $dir ) )
 		{
 			$directories = array_merge( $directories, $dir );
-		} else {
-			if (!empty($dir))
-			{
+		} 
+		else 
+		{
+			if (!empty($dir)) {
 				array_push( $directories, $dir );
 			}
 		}
