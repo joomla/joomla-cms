@@ -354,9 +354,9 @@ INSERT INTO `#__plugins` VALUES (23, 'Joomla SEF URLs', 'sefurl', 'system', 0, 2
 INSERT INTO `#__plugins` VALUES (24, 'Visitor Statistics', 'joomla.visitorbot', 'system', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (25, 'Content - Page Navigation','pagenavigation','content',0,2,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (26, 'Editor - XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (27, 'XML-RPC - Joomla', 'joomla', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (28, 'XML-RPC - Blogger API', 'blogger', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-#INSERT INTO `#__plugins` VALUES (29, 'XML-RPC - MetaWeblog API', 'metaweblog', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (27, 'XML-RPC - Joomla', 'joomla', 'xmlrpc', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (28, 'XML-RPC - Blogger API', 'blogger', 'xmlrpc', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+#INSERT INTO `#__plugins` VALUES (29, 'XML-RPC - MetaWeblog API', 'metaweblog', 'xmlrpc', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (30, 'Editor Button - Readmore','readmore','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 
 # --------------------------------------------------------
