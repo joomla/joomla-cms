@@ -12,16 +12,16 @@
 */
 
 /**
-* Base class for a Joomla Model
-*
-* Acts as a Factory class for application specific objects and
-* provides many supporting API functions.
-*
-* @abstract
-* @package		Joomla.Framework
-* @subpackage	Application
-* @since		1.5
-*/
+ * Base class for a Joomla Model
+ *
+ * Acts as a Factory class for application specific objects and
+ * provides many supporting API functions.
+ *
+ * @abstract
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
+ */
 class JModel extends JObject
 {
 	/**
@@ -112,6 +112,59 @@ class JModel extends JObject
 		} else {
 			$this->setTablePath(null);
 		}
+	}
+
+	/**
+	 * Add a directory where JTable should search for table types. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @access	public
+	 * @param	string	A path to search.
+	 * @return	array	An array with directory elements
+	 * @since 1.5
+	 */
+	function addIncludePath( $path='' )
+	{
+		static $paths;
+
+		if (!isset($paths)) {
+			$paths = array();
+		}
+		if (!empty( $path ) && !in_array( $path, $paths )) {
+			$paths[] = $path;
+		}
+		return $paths;
+	}
+
+	/**
+	 * Returns a reference to the a Model object, always creating it
+	 *
+	 * @param	string	The model type to instantiate
+	 * @param	string	Prefix for the model class name
+	 * @return	object
+	 * @since 1.5
+	*/
+	function &getInstance( $type, $prefix='' )
+	{
+		$adapter = $prefix.ucfirst($type);
+		if (!class_exists( $adapter ))
+		{
+			$paths = JModel::addIncludePath();
+			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			{
+				$file = $paths[$i].DS.strtolower($type).'.php';
+				if (file_exists( $file )) {
+					require_once $file;
+				}
+			}
+		}
+		if (!class_exists( $adapter )) {
+			return JError::raiseError(20, JText::sprintf('Model object [%s] does not exist', $prefix.$type));
+		}
+		else {
+			$m = new $adapter();
+		}
+		return $m;
 	}
 
 	/**
@@ -296,14 +349,14 @@ class JModel extends JObject
 		return $table;
 	}
 	
-	 /**
-	* Sets an entire array of search paths for resources.
-	*
-	* @access protected
-	* @param string $type The type of path to set, typically 'view' or 'model.
-	* @param string|array $path The new set of search paths.  If null or
-	* false, resets to the current directory only.
-	*/
+	/**
+	 * Sets an entire array of search paths for resources.
+	 *
+	 * @access protected
+	 * @param string $type The type of path to set, typically 'view' or 'model.
+	 * @param string|array $path The new set of search paths.  If null or
+	 * false, resets to the current directory only.
+	 */
 	function _setPath($type, $path)
 	{
 		global $mainframe, $option;
@@ -324,12 +377,12 @@ class JModel extends JObject
 		$this->_addPath($type, $path);
 	}
 
-   /**
-	* Adds to the search path for tables and resources
-	*
-	* @access protected
-	* @param string|array $path The directory or stream to search.
-	*/
+    /**
+	 * Adds to the search path for tables and resources
+	 *
+	 * @access protected
+	 * @param string|array $path The directory or stream to search.
+	 */
 	function _addPath($type, $path)
 	{
 		// convert from path string to array of directories
@@ -371,16 +424,16 @@ class JModel extends JObject
 		}
 	}
 
-   /**
-	* Searches the directory paths for a given file.
-	*
-	* @access protected
-	* @param array $type The type of path to search (template or resource).
-	* @param string $file The file name to look for.
-	*
-	* @return string|bool The full path and file name for the target file,
-	* or boolean false if the file is not found in any of the paths.
-	*/
+    /**
+	 * Searches the directory paths for a given file.
+	 *
+	 * @access protected
+	 * @param array $type The type of path to search (template or resource).
+	 * @param string $file The file name to look for.
+	 *
+	 * @return string|bool The full path and file name for the target file,
+	 * or boolean false if the file is not found in any of the paths.
+	 */
 	function _findFile($type, $file)
 	{
 		// get the set of paths

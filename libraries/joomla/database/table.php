@@ -82,29 +82,28 @@ class JTable extends JObject
 	}
 
 	/**
-	 * Returns a reference to the a Model object, always creating it
+	 * Returns a reference to the a Table object, always creating it
 	 *
 	 * @param type $type The table type to instantiate
 	 * @param string A prefix for the table class name
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix='JTable')
+	function &getInstance( $type, $prefix='JTable' )
 	{
 		$adapter = $prefix.ucfirst($type);
 		if (!class_exists( $adapter ))
 		{
-			$dirs = JTable::addTableDir();
-			foreach( $dirs as $dir )
+			$paths = JTable::addIncludePath();
+			for ($i = 0, $n = count($paths); $i < $n; $i++)
 			{
-				$tableFile = $dir.DS.strtolower($type).'.php';
-				if (file_exists( $tableFile )) {
-					require_once $tableFile;
+				$file = $paths[$i].DS.strtolower($type).'.php';
+				if (file_exists( $file )) {
+					require_once $file;
 				}
 			}
 		}
-		if (!class_exists( $adapter ))
-		{
+		if (!class_exists( $adapter )) {
 			return JError::raiseError(20, JText::sprintf('Database Table object [%s] does not exist', $prefix.$type));
 		}
 		else
@@ -933,6 +932,28 @@ class JTable extends JObject
 		$xml .= '</record>';
 
 		return $xml;
+	}
+
+	/**
+	 * Add a directory where JTable should search for table types. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @access	public
+	 * @param	string	A path to search.
+	 * @return	array	An array with directory elements
+	 * @since 1.5
+	 */
+	function addIncludePath( $path='' )
+	{
+		static $paths;
+
+		if (!isset($paths)) {
+			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table' );
+		}
+		if (!empty( $path ) && !in_array( $path, $paths )) {
+			$paths[] = $path;
+		}
+		return $paths;
 	}
 
 	/**
