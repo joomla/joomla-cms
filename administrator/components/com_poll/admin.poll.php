@@ -24,7 +24,7 @@ if (!$user->authorize( 'com_poll', 'manage' )) {
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 
 // Set the table directory
-JTable::addTableDir( JPATH_COMPONENT.DS.'tables' );
+JTable::addIncludePath( JPATH_COMPONENT.DS.'tables' );
 
 $controller = new PollController( array('default_task' => 'showPolls') );
 

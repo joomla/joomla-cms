@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 // Require the com_content helper library
 require_once (JPATH_COMPONENT . '/controller.php');
 
-JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
 // Create the controller
 $controller = new NewsfeedsController( );

@@ -27,7 +27,7 @@ if (!$user->authorize( 'com_weblinks', 'manage' )) {
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'tables');
 
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, 'get', 'int' );

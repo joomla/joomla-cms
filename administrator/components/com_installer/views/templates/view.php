@@ -63,6 +63,7 @@ class InstallerViewTemplates extends JView
 	function loadItem($index=0)
 	{
 		$item =& $this->items[$index];
+		$item->id		= $item->directory;
 		$item->index	= $index;
 
 		if ($item->active) {

@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Set the table directory
-JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
 /*
  * This is our main control structure for the component

@@ -25,7 +25,7 @@ if (!$user->authorize( 'com_contact', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
 $id 	= JRequest::getVar(  'id', 0, 'get', 'int' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );

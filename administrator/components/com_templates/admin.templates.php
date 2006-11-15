@@ -24,7 +24,7 @@ if (!$user->authorize('com_templates', 'manage')) {
 }
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_templates'.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_templates'.DS.'tables');
 
 // Import file dependencies
 require_once (JPATH_COMPONENT.DS.'helpers'.DS.'template.php');

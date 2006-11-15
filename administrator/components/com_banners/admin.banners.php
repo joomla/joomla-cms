@@ -22,7 +22,7 @@ if (!$user->authorize( 'com_banners', 'manage' )) {
 }
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
 
 require_once( JPATH_COMPONENT.DS.'controllers'.DS.'banner.php' );
 require_once( JPATH_COMPONENT.DS.'controllers'.DS.'bannerclient.php' );

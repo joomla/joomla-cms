@@ -24,7 +24,7 @@ if (!$user->authorize( 'com_newsfeeds', 'manage' )) {
 }
 
 // Set the table directory
-JTable::addTableDir(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS.'tables');
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 

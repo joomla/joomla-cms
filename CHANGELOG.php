@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Nov-2006
+ ^ JTable::addTableDir -> JTable::addIncludePath
+ + JModel::addIncludePath and fixed JModel::getInstance to suit
+
 14-Nov-2006 Rastin Mehr
  # Fixed [artf6679] : 3 bad email bugs causing emails mixups (with fixes) including bug #4
 
@@ -705,7 +709,7 @@ Legend:
  ^ updated installation language file for German
 
 16-Jul-2006 Wilco Jansen
- ^ Added JTable::addTableDir enabling 3rd party components to make use of the JTable::getInstance method
+ ^ Added JTable::addIncludePath enabling 3rd party components to make use of the JTable::getInstance method
 
 16-Jul-2006 David Gal
  ^ Moved session creation and language setting prior to plugin loading index.php (admin and site)
