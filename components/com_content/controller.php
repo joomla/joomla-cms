@@ -164,7 +164,7 @@ class ContentController extends JController
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == 'Never' || trim( $row->publish_down ) == '')
+		if (trim($row->publish_down) == JText::_('Never') || trim( $row->publish_down ) == '')
 		{
 			$row->publish_down = $nullDate;
 		}

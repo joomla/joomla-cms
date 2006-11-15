@@ -341,6 +341,9 @@ class ContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
+			if($this->_article->publish_down == $this->_db->getNullDate()) {
+				$this->_article->publish_down = JText::_('Never');
+			}
 			return (boolean) $this->_article;
 		}
 		return true;
