@@ -22,7 +22,7 @@
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerHelper
+class InstallerHelper
 {
 	/**
 	 * Get HTML string for writable state of a folder

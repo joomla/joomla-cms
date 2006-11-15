@@ -25,7 +25,7 @@ jimport( 'joomla.filesystem.folder' );
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerModelTemplates extends ExtensionManagerModel
+class InstallerModelTemplates extends InstallerModel
 {
 	/**
 	 * Extension Type

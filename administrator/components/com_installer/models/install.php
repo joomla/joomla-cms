@@ -24,7 +24,7 @@ jimport( 'joomla.installer.installer' );
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerModelInstall extends JModel
+class InstallerModelInstall extends JModel
 {
 	/** @var object JTable object */
 	var $_table = null;

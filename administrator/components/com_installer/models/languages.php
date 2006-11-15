@@ -18,14 +18,14 @@ require_once(dirname(__FILE__).DS.'extension.php');
 jimport( 'joomla.filesystem.folder' );
 
 /**
- * Extension Manager Languages Model
+ * Installer Languages Model
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerModelLanguages extends ExtensionManagerModel
+class InstallerModelLanguages extends InstallerModel
 {
 	/**
 	 * Extension Type

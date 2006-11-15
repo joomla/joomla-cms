@@ -24,7 +24,7 @@ require_once(dirname(__FILE__).DS.'extension.php');
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerModelModules extends ExtensionManagerModel
+class InstallerModelModules extends InstallerModel
 {
 	/**
 	 * Extension Type

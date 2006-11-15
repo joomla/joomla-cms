@@ -24,7 +24,7 @@ jimport( 'joomla.application.component.model' );
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerModel extends JModel
+class InstallerModel extends JModel
 {
 	/** @var array Array of installed components */
 	var $_items = array();

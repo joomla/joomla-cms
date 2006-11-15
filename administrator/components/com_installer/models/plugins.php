@@ -17,14 +17,14 @@
 require_once(dirname(__FILE__).DS.'extension.php');
 
 /**
- * Extension Manager Plugins Model
+ * Installer Plugins Model
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerModelPlugins extends ExtensionManagerModel
+class InstallerModelPlugins extends InstallerModel
 {
 	/**
 	 * Extension Type

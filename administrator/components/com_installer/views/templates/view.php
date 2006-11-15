@@ -25,7 +25,7 @@ jimport('joomla.application.component.view');
  * @subpackage	Installer
  * @since		1.5
  */
-class ExtensionManagerViewTemplates extends JView
+class InstallerViewTemplates extends JView
 {
 	function display($tpl=null)
 	{

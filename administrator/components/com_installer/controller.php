@@ -16,7 +16,7 @@
 jimport('joomla.application.component.controller');
 
 /**
- * Extension Manager Controller
+ * Installer Controller
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
@@ -34,8 +34,8 @@ class InstallerController extends JController
 	 */
 	function installform()
 	{
-		$model	= &$this->getModel( 'Install', 'ExtensionManagerModel' );
-		$view	= &$this->getView( 'Install', 'ExtensionManagerView' );
+		$model	= &$this->getModel( 'Install' );
+		$view	= &$this->getView( 'Install', 'InstallerView' );
 
 		$view->setModel( $model, true );
 		$view->display();
@@ -50,8 +50,8 @@ class InstallerController extends JController
 	 */
 	function doInstall()
 	{
-		$model	= &$this->getModel( 'Install', 'ExtensionManagerModel' );
-		$view	= &$this->getView( 'Install', 'ExtensionManagerView' );
+		$model	= &$this->getModel( 'Install' );
+		$view	= &$this->getView( 'Install', 'InstallerView' );
 
 		$model->install();
 
@@ -69,8 +69,8 @@ class InstallerController extends JController
 	function manage()
 	{
 		$type	= JRequest::getVar('type', 'components');
-		$model	= &$this->getModel( $type, 'ExtensionManagerModel' );
-		$view	= &$this->getView( $type, 'ExtensionManagerView' );
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type, 'InstallerView' );
 
 		$view->setModel( $model, true );
 		$view->display();
@@ -86,8 +86,8 @@ class InstallerController extends JController
 	function enable()
 	{
 		$type	= JRequest::getVar('type', 'components');
-		$model	= &$this->getModel( $type, 'ExtensionManagerModel' );
-		$view	= &$this->getView( $type, 'ExtensionManagerView' );
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type, 'InstallerView' );
 
 		if (method_exists($model, 'enable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -108,8 +108,8 @@ class InstallerController extends JController
 	function disable()
 	{
 		$type	= JRequest::getVar('type', 'components');
-		$model	= &$this->getModel( $type, 'ExtensionManagerModel' );
-		$view	= &$this->getView( $type, 'ExtensionManagerView' );
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type, 'InstallerView' );
 
 		if (method_exists($model, 'disable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -130,8 +130,8 @@ class InstallerController extends JController
 	function remove()
 	{
 		$type	= JRequest::getVar('type', 'components');
-		$model	= &$this->getModel( $type, 'ExtensionManagerModel' );
-		$view	= &$this->getView( $type, 'ExtensionManagerView' );
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type, 'InstallerView' );
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
 		$result = $model->remove($eid);

@@ -26,8 +26,6 @@ if (!$user->authorize('com_installer', 'installer')) {
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 
 $controller = new InstallerController( array('default_task' => 'installform') );
-$controller->setModelPath( JPATH_COMPONENT.DS.'models' );
-$controller->setViewPath( JPATH_COMPONENT.DS.'views' );
 $controller->execute( JRequest::getVar('task') );
 $controller->redirect();
 ?>
