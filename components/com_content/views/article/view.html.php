@@ -41,6 +41,11 @@ class ContentViewArticle extends JView
 			return;
 		}
 
+		if($this->getLayout() == 'pagebreak') {
+			$this->_displayPagebreak($tpl);
+			return;
+		}
+
 		if (($article->id == 0))
 		{
 			$id = JRequest::getVar( 'id' );
@@ -343,6 +348,14 @@ class ContentViewArticle extends JView
 		$lists['access'] = JAdminMenus::Access($article);
 
 		return $lists;
+	}
+
+	function _displayPagebreak($tpl)
+	{
+		global $mainframe;
+		$mainframe->setPageTitle(JText::_('PGB ARTICLE PAGEBRK'));
+
+		parent::display($tpl);
 	}
 }
 ?>

@@ -426,6 +426,27 @@ class ContentController extends JController
 			JError::raiseError( 404, JText::_("Key Not Found") );
 		}
 	}
+
+	/**
+	 * Output the pagebreak dialog
+	 *
+	 * @access 	public
+	 * @since 	1.5
+	 */
+	function ins_pagebreak()
+	{
+		// Set the view name to article view
+		$this->setViewName( 'article', 'ContentView', 'html' );
+
+		// Create the view
+		$view = & $this->getView();
+
+		// Set the layout
+		$view->setLayout('pagebreak');
+
+		// Display the view
+		$view->display();	
+	}
 }
 
 ?>
