@@ -19,18 +19,13 @@ jimport('joomla.application.component.helper');
 
 require_once( JPATH_COMPONENT . DS . 'controller.php' );
 
-$document =& JFactory::getDocument();
-$params   =& JSiteHelper::getMenuParams();
-
+// Create the controller
 $controller	= new ContactController();
 
-$viewName = JRequest::getVar( 'view', $params->get( 'view', 'category' ) );
-$viewType = $document->getType();
-
-// get view name from URL or menu params
-$controller->setViewName( $viewName, 'ContactView', $viewType );
-
+// Perform the Request task
 $controller->execute( JRequest::getVar( 'task' ) );
+
+// Redirect if set by the controller
 $controller->redirect();
 
 ?>

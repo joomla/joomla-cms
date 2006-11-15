@@ -31,11 +31,7 @@ class NewsfeedsController extends JController
 	 */
 	function display()
 	{
-		$document =& JFactory::getDocument();
-
-		$viewType   = $document->getType();
 		$viewName	= JRequest::getVar( 'view', 'categories' );
-		$viewLayout = JRequest::getVar( 'layout', 'default' );
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
@@ -54,21 +50,10 @@ class NewsfeedsController extends JController
 			}
 		}
 
-		// Create the view
-		$this->setViewName( $viewName, 'NewsfeedsView', $viewType );
-		$view = & $this->getView();
+		JRequest::setVar('view', $viewName);
 		
-		// Get/Create the model
-		if ($model = & $this->getModel($viewName))
-		{
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-		// Set the layout
-		$view->setLayout($viewLayout);
-
-		// Display the view
-		$view->display();
+		parent::display();
+		
 	}
 }
 

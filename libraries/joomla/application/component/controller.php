@@ -207,7 +207,11 @@ class JController extends JObject
 				$this->_name = strtolower( $r[1] );
 			}
 		}
-
+		
+		// Set default view information
+		$this->_viewName   = $this->_name;
+		$this->_viewPrefix = $this->_name.'View';
+		
 		// If the default task is set, register it as such
 		if (isset($config['default_task'])) {
 			$this->registerDefaultTask( $config['default_task'] );
@@ -315,7 +319,27 @@ class JController extends JObject
 	 */
 	function display()
 	{
-		$view = &$this->getView();
+		$document =& JFactory::getDocument();
+
+		$viewType   = $document->getType();
+		$viewName	= JRequest::getVar( 'view', $this->_viewName );
+		$viewLayout = JRequest::getVar( 'layout', 'default' );
+
+		// Create the view
+		$this->setViewName( $viewName, $this->_viewPrefix, $viewType );
+		$view = & $this->getView();
+		
+		// Get/Create the model
+		if ($model = & $this->getModel($viewName))
+		{
+			// Push the model into the view (as default)
+			$view->setModel($model, true);
+		}
+		
+		// Set the layout
+		$view->setLayout($viewLayout);
+
+		// Display the view
 		$view->display();
 	}
 
@@ -604,7 +628,7 @@ class JController extends JObject
 	function &_createView( $name, $prefix = '', $type = '' )
 	{
 		$false = false;
-
+		
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
@@ -774,23 +798,24 @@ class JController extends JObject
 	function _createFileName($type, $parts = array())
 	{
 		$filename = '';
-
+		
 		switch($type)
 		{
 			case 'view' :
 			{
 				if (!empty($parts['type'])) {
-					$type .= '.'.$parts['type'];
+					$parts['type'] = '.'.$parts['type'];
 				}
-
-				$filename = strtolower($parts['name']).DS.$type.'.php';
+				
+				$filename = strtolower($parts['name']).DS.'view'.$parts['type'].'.php';
 			}	break;
 			
 			case 'model' :
 				 $filename = strtolower($parts['name']).'.php';
 				break;
+			 
 		}
-
+		
 		return $filename;
 	}
 

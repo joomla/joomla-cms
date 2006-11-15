@@ -31,73 +31,42 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		$document =& JFactory::getDocument();
-
-		$viewName  = null;
-		$viewType  = $document->getType();
-		$modelName = null;
-
+		$viewName  = JRequest::getVar( 'view', 'article' );
+		$layout    = JRequest::getVar( 'layout', 'default' );
+		
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
 			//index.php?option=com_content&task=x&id=x&Itemid=x
 			case 'blogsection':
 				$viewName	= 'section';
-				$modelName	= 'section';
 				$layout = 'blog';
 				break;
 			case 'section':
 				$viewName	= 'section';
-				$modelName	= 'section';
-				$layout = 'default';
 				break;
 			case 'category':
 				$viewName	= 'category';
-				$modelName	= 'category';
-				$layout = 'default';
 				break;
 			case 'blogcategory':
 				$viewName	= 'section';
-				$modelName	= 'section';
-				$layout = 'blog';
 				break;
 			case 'archivesection':
 			case 'archivecategory':
 				$viewName	= 'archive';
-				$modelName	= 'archive';
-				$layout = 'default';
 				break;
 			case 'frontpage' :
 				$viewName = 'frontpage';
-				$modelName = 'frontpage';
-				$layout = 'default';
 				break;
 			case 'view':
 				$viewName	= 'article';
-				$modelName	= 'article';
-				$layout = 'default';
 				break;
-			default:
-				$viewName	= JRequest::getVar( 'view', 'article' );
-				$modelName	= JRequest::getVar( 'view', 'article' );
-				$layout = JRequest::getVar( 'layout', 'default' );
 		}
-
-		// Create the view
-		$this->setViewName( $viewName, 'ContentView', $viewType );
-		$view = & $this->getView();
 		
-		// Get/Create the model
-		if ($model = & $this->getModel($modelName))
-		{
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-		// Set the layout
-		$view->setLayout($layout);
+		JRequest::setVar('view', $viewName);
+		JRequest::setVar('layout', $layout);
 
-		// Display the view
-		$view->display();
+		parent::display();
 	}
 
 	/**

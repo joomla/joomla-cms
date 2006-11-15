@@ -31,12 +31,8 @@ class WeblinksController extends JController
 	 */
 	function display()
 	{
-		$document =& JFactory::getDocument();
-
-		$viewType   = $document->getType();
 		$viewName	= JRequest::getVar( 'view', 'categories' );
-		$viewLayout = JRequest::getVar( 'layout', 'default' );
-
+		
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -53,23 +49,10 @@ class WeblinksController extends JController
 				}
 			}
 		}
-
-		// Create the view
-		$this->setViewName( $viewName, 'WeblinksView', $viewType );
-		$view = & $this->getView();
 		
-		// Get/Create the model
-		if ($model = & $this->getModel($viewName))
-		{
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-		
-		// Set the layout
-		$view->setLayout($viewLayout);
+		JRequest::setVar('view', $viewName);
 
-		// Display the view
-		$view->display();
+		parent::display();
 	}
 
 	/**

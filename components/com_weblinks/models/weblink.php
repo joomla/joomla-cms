@@ -77,7 +77,7 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function &getData()
 	{
-		$state =& $this->getState();
+		$state = $this->getState();
 		
 		// Load the weblink data
 		if ($this->_loadData())

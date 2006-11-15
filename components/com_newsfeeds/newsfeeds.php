@@ -20,16 +20,8 @@ require_once (JPATH_COMPONENT . '/controller.php');
 
 JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
-$document =& JFactory::getDocument();
-
 // Create the controller
 $controller = new NewsfeedsController( );
-
-// Set the default view name from the Request
-$viewName = JRequest::getVar( 'view' );
-$viewType = $document->getType();
-
-$controller->setViewName( $viewName, 'NewsfeedsView', $viewType );
 
 // Perform the Request task
 $controller->execute( JRequest::getVar('task'));

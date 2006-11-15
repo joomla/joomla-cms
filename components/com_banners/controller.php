@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: banners.php 5761 2006-11-14 03:33:35Z Jinx $
  * @package  Joomla
  * @subpackage Banners
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
@@ -13,18 +13,19 @@
  * details.
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.component.controller' );
 
-// Require the com_content helper library
-require_once (JPATH_COMPONENT . '/controller.php');
-
-// Create the controller
-$controller = new BannersController( array('default_task' => 'click') );
-
-// Perform the Request task
-$controller->execute( $task );
-
-// Redirect if set by the controller
-$controller->redirect();
+class BannersController extends JController
+{
+	function click()
+	{
+		$bid = JRequest::getVar( 'bid', 0, '', 'int' );
+		if ($bid)
+		{
+			$model = &$this->getModel( 'Banner' );
+			$model->click( $bid );
+			$this->setRedirect( $model->getUrl( $bid ) );
+		}
+	}
+}
 ?>

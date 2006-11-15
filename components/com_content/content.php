@@ -22,16 +22,8 @@ require_once (JPATH_COMPONENT . '/helpers/content.php');
 // Component Helper
 jimport('joomla.application.component.helper');
 
-$document =& JFactory::getDocument();
-
 // Create the controller
 $controller = new ContentController( );
-
-// Set the default view name from the Request
-$viewName = JRequest::getVar( 'view' );
-$viewType = $document->getType();
-
-$controller->setViewName( $viewName, 'ContentView', $viewType );
 
 // Register Extra tasks
 $controller->registerTask( 'new'  , 	'edit' );
@@ -40,7 +32,5 @@ $controller->registerTask( 'apply_new', 'save' );
 
 // Perform the Request task
 $controller->execute( JRequest::getVar('task'));
-
-// Redirect if set by the controller
 $controller->redirect();
 ?>

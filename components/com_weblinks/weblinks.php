@@ -21,16 +21,8 @@ require_once (JPATH_COMPONENT . '/controller.php');
 //Add table directory
 JTable::addTableDir(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
-$document =& JFactory::getDocument();
-
 // Create the controller
 $controller = new WeblinksController( );
-
-// Set the default view name from the Request
-$viewName = JRequest::getVar( 'view' );
-$viewType = $document->getType();
-
-$controller->setViewName( $viewName, 'WeblinksView', $viewType );
 
 // Perform the Request task
 $controller->execute( JRequest::getVar('task'));

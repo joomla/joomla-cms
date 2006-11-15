@@ -19,14 +19,6 @@ jimport('joomla.application.component.helper');
 
 require_once( JPATH_COMPONENT . '/controller.php' );
 
-$params =& JSiteHelper::getMenuParams();
-
-$viewName	= JRequest::getVar( 'view', $params->get( 'view', 'mailto' ) );
-
 $controller	= new MailtoController( );
-
-// get view name from URL or menu params
-$controller->setViewName( $viewName, 'MailtoView' );
-
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
