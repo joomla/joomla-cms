@@ -372,17 +372,6 @@ class JController extends JObject
 	}
 
 	/**
-     * An alias to the JTable::addTableDir for consistency
-     *
-     * @param string|array The directory (-ies) to set as the path.
-     * @return void
-     */
-	function setTablePath( $path )
-	{
-		JTable::addTableDir( $path );
-	}
-
-	/**
 	 * Get the last task that was to be performed
 	 *
 	 * @access	public
