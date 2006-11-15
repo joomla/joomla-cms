@@ -372,6 +372,17 @@ class JController extends JObject
 	}
 
 	/**
+     * An alias to the JTable::addTableDir for consistency
+     *
+     * @param string|array The directory (-ies) to set as the path.
+     * @return void
+     */
+	function setTablePath( $path )
+	{
+		JTable::addTableDir( $path );
+	}
+
+	/**
 	 * Get the last task that was to be performed
 	 *
 	 * @access	public
@@ -629,7 +640,7 @@ class JController extends JObject
 				}
 			}
 			else
-			{
+			{die();
 				JError::raiseWarning( 0, 'View ' . $viewName . ' not supported. File not found.' );
 				return $false;
 			}
@@ -774,23 +785,23 @@ class JController extends JObject
 	function _createFileName($type, $parts = array())
 	{
 		$filename = '';
-		
+
 		switch($type)
 		{
 			case 'view' :
 			{
 				if (!empty($parts['type'])) {
-					$type = '.'.$parts['type'];
+					$type .= '.'.$parts['type'];
 				}
-				
-				$filename = strtolower($parts['name']).DS.'view'.$type.'.php';
+
+				$filename = strtolower($parts['name']).DS.$type.'.php';
 			}	break;
 			
 			case 'model' :
 				 $filename = strtolower($parts['name']).'.php';
 				break;
-			 
 		}
+
 		return $filename;
 	}
 
