@@ -1,7 +1,8 @@
 <?php
 /**
  * @version $Id$
- * @package Joomla
+ * @package Joomla.Framework
+ * @subpackage Application
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -17,7 +18,7 @@
  * @author Louis Landry   <louis.landry@joomla.org>
  * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Environment
+ * @subpackage	Application
  * @since		1.5
  */
 class JMenu extends JObject
