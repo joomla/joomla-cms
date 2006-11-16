@@ -653,7 +653,7 @@ class JController extends JObject
 				}
 			}
 			else
-			{die();
+			{
 				JError::raiseWarning( 0, 'View ' . $viewName . ' not supported. File not found.' );
 				return $false;
 			}
