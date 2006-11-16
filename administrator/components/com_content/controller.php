@@ -29,8 +29,8 @@ class ContentController extends JController
 	 */
 	function element()
 	{
-		$model	= &$this->getModel( 'element', 'ContentModel' );
-		$view   = &$this->getView( 'element', 'ContentView' );
+		$model	= &$this->getModel( 'element' );
+		$view   = &$this->getView( 'element');
 		$view->setModel( $model, true );
 		$view->display();
 	}

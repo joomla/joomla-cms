@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: view.php 5747 2006-11-12 21:49:30Z louis $
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -22,7 +22,7 @@ jimport('joomla.application.component.view');
  * @subpackage Menus
  * @since 1.5
  */
-class JMenuViewList extends JView
+class MenusViewList extends JView
 {
 	function display($tpl=null)
 	{

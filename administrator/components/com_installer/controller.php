@@ -35,7 +35,7 @@ class InstallerController extends JController
 	function installform()
 	{
 		$model	= &$this->getModel( 'Install' );
-		$view	= &$this->getView( 'Install', 'InstallerView' );
+		$view	= &$this->getView( 'Install');
 
 		$view->setModel( $model, true );
 		$view->display();
@@ -51,7 +51,7 @@ class InstallerController extends JController
 	function doInstall()
 	{
 		$model	= &$this->getModel( 'Install' );
-		$view	= &$this->getView( 'Install', 'InstallerView' );
+		$view	= &$this->getView( 'Install' );
 
 		$model->install();
 
@@ -70,7 +70,7 @@ class InstallerController extends JController
 	{
 		$type	= JRequest::getVar('type', 'components');
 		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type, 'InstallerView' );
+		$view	= &$this->getView( $type );
 
 		$view->setModel( $model, true );
 		$view->display();
@@ -87,7 +87,7 @@ class InstallerController extends JController
 	{
 		$type	= JRequest::getVar('type', 'components');
 		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type, 'InstallerView' );
+		$view	= &$this->getView( $type );
 
 		if (method_exists($model, 'enable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -109,7 +109,7 @@ class InstallerController extends JController
 	{
 		$type	= JRequest::getVar('type', 'components');
 		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type, 'InstallerView' );
+		$view	= &$this->getView( $type );
 
 		if (method_exists($model, 'disable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -131,7 +131,7 @@ class InstallerController extends JController
 	{
 		$type	= JRequest::getVar('type', 'components');
 		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type, 'InstallerView' );
+		$view	= &$this->getView( $type );
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
 		$result = $model->remove($eid);

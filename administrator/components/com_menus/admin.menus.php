@@ -19,12 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 require_once( JPATH_COMPONENT.DS.'helper.php' );
 
-$task = JRequest::getVar( 'task' );
-
 $controller = new MenusController( array('default_task' => 'viewMenus') );
-$controller->setModelPath( JPATH_COMPONENT.DS.'models'.DS );
-$controller->setViewPath( JPATH_COMPONENT.DS.'views'.DS );
 $controller->registerTask('apply', 'save');
-$controller->execute( $task );
+$controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
 ?>

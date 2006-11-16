@@ -21,7 +21,9 @@
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Application
- * @author		Andrew Eddie
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @auhtor 		Andrew Eddie
  * @since		1.5
  */
 class JController extends JObject
@@ -118,38 +120,6 @@ class JController extends JObject
 	var $_acoSectionValue 	= null;
 
 	/**
-	 * View object
-	 *
-	 * @var	object
-	 * @access protected
-	 */
-	var $_view = null;
-
-	/**
-	 * Name of the current view
-	 *
-	 * @var	string
-	 * @access protected
-	 */
-	var $_viewName = null;
-
-	/**
-	 * Type of the current view
-	 *
-	 * @var	string
-	 * @access protected
-	 */
-	var $_viewType = null;
-
-	/**
-	 * View name prefix
-	 *
-	 * @var	string
-	 * @access protected
-	 */
-	var $_viewPrefix = null;
-
-	/**
 	 * An error message
 	 *
 	 * @var string
@@ -209,10 +179,6 @@ class JController extends JObject
 			}
 		}
 		
-		// Set default view information
-		$this->_viewName   = $this->_name;
-		$this->_viewPrefix = $this->_name.'View';
-		
 		// If the default task is set, register it as such
 		if (isset($config['default_task'])) {
 			$this->registerDefaultTask( $config['default_task'] );
@@ -225,7 +191,7 @@ class JController extends JObject
 			// user-defined dirs
 			$this->_setPath('model', $config['model_path']);
 		} else {
-			$this->setModelPath(null);
+			$this->_setPath('model', null);
 		}
 
 		// set the default view search path
@@ -233,7 +199,7 @@ class JController extends JObject
 			// user-defined dirs
 			$this->_setPath('view', $config['view_path']);
 		} else {
-			$this->setViewPath(null);
+			$this->_setPath('view', null);
 		}
 	}
 
@@ -323,12 +289,10 @@ class JController extends JObject
 		$document =& JFactory::getDocument();
 
 		$viewType   = $document->getType();
-		$viewName	= JRequest::getVar( 'view', $this->_viewName );
+		$viewName	= JRequest::getVar( 'view', $this->_name );
 		$viewLayout = JRequest::getVar( 'layout', 'default' );
 
-		// Create the view
-		$this->setViewName( $viewName, $this->_viewPrefix, $viewType );
-		$view = & $this->getView();
+		$view = & $this->getView( $viewName, $viewType);
 		
 		// Get/Create the model
 		if ($model = & $this->getModel($viewName))
@@ -384,16 +348,15 @@ class JController extends JObject
 	}
 
 	/**
-     * Resets the stack of controller model paths.
+     * Adds to the stack of controller model paths in LIFO order.
      *
-     * To clear all paths, use JController::setModelPath(null).
-     *
-     * @param string|array The directory (-ies) to set as the path.
+     * @static
+     * @param string|array The directory (-ies) to add.
      * @return void
      */
-	function setModelPath( $path )
+	function addModelPath( $path )
 	{
-		$this->_setPath('model', $path);
+		$this->_addPath('model', $path);
 	}
 
 	/**
@@ -415,79 +378,45 @@ class JController extends JObject
 	 * @return	object	The view
 	 * @since	1.5
 	 */
-	function &getView($name='', $prefix='', $type='')
+	function &getView($name='', $type='', $prefix='')
 	{
-		if (is_null( $this->_view ))
+		static $views;
+
+		if (!isset( $views )) {
+			$instances = array();
+		}
+		
+		if (empty($name)) {
+			$name = $this->_name;
+		}
+		
+		if (empty($prefix)) {
+			$prefix = $this->_name.'View';
+		}
+
+		if (empty($views[$name])) 
 		{
-			if (empty($name)) {
-				$name = $this->_viewName;
-			}
-
-			if (empty($prefix)) {
-				$prefix = $this->_viewPrefix;
-			}
-
-			if (empty($type)) {
-				$type = $this->_viewType;
-			}
-
 			if($view =& $this->_createView( $name, $prefix, $type )) {
-				$this->setView( $view );
+				$views[$name] =& $view;
 			} else {
 				JError::raiseError( 500, 'The view ['.$name.'] could not be found' );
 				return null;
 			}
 		}
-		return $this->_view;
+
+		return $views[$name];	
 	}
 
 	/**
-	 * Method to set the current view.  Normally this would be done automatically, but this method is provided
-	 * for maximum flexibility
-	 *
-	 * @access	public
-	 * @param	object	The view object to set
-	 * @return	object	The view
-	 * @since	1.5
-	 */
-	function &setView( &$view )
+     * Adds to the stack of controller view paths in LIFO order.
+     *
+     * @static
+     * @param string|array The directory (-ies) to add.
+     * @return void
+     */
+	function addViewPath( $path )
 	{
-		$this->_view = &$view;
-		return $view;
-	}
-
-	/**
-	 * Method to get the current view path
-	 *
-	 * @access	public
-	 * @return	string	View class file base directory
-	 * @since	1.5
-	 */
-	function setViewPath( $path )
-	{
-		$this->_setPath('view', $path);
-	}
-
-	/**
-	 * Method to set the view name and options for loading the view class.
-	 *
-	 * @access	public
-	 * @param	string	$viewName	The name of the view
-	 * @param	string	$prefix		Optional prefix for the view class name
-	 * @return	void
-	 * @since	1.5
-	 */
-	function setViewName( $viewName, $prefix = null, $type = null )
-	{
-		$this->_viewName = $viewName;
-
-		if ($prefix !== null) {
-			$this->_viewPrefix = $prefix;
-		}
-
-		if ($prefix !== null) {
-			$this->_viewType = $type;
-		}
+		$this->_addPath('view', $path);
 	}
 
 	/**
@@ -595,8 +524,8 @@ class JController extends JObject
 
 		if (!class_exists( $modelClass ))
 		{
-			// If the model file exists include it and try to instantiate the object
-			if ($path = $this->_findFile('model',$this->_createFileName('model', array('name' => $modelName))))
+			jimport('joomla.filesystem.path');
+			if($path = JPath::find($this->_path['model'], $this->_createFileName('model', array('name' => $modelName))))
 			{
 				require( $path );
 				if (!class_exists( $modelClass ))
@@ -642,8 +571,8 @@ class JController extends JObject
 
 		if (!class_exists( $viewClass ))
 		{
-			// If the default view file exists include it and try to instantiate the object
-			if ($path = $this->_findFile('view',$this->_createFileName('view', array('name' => $viewName, 'type' => $viewType)) ))
+			jimport('joomla.filesystem.path');
+			if ($path = JPath::find($this->_path['view'] ,$this->_createFileName('view', array('name' => $viewName, 'type' => $viewType)) ))
 			{
 				require_once( $path );
 
@@ -703,24 +632,8 @@ class JController extends JObject
 	*/
 	function _addPath($type, $path)
 	{
-		// convert from path string to array of directories
-		if (is_string($path) && ! strpos($path, '://'))
-		{
-			// the path config is a string, and it's not a stream
-			// identifier (the "://" piece). add it as a path string.
-			$path = explode(PATH_SEPARATOR, $path);
-
-			// typically in path strings, the first one is expected
-			// to be searched first. however, JView uses a stack,
-			// so the first would be last.  reverse the path string
-			// so that it behaves as expected with path strings.
-			$path = array_reverse($path);
-		}
-		else
-		{
-			// just force to array
-			settype($path, 'array');
-		}
+		// just force path to array
+		settype($path, 'array');
 
 		// loop through the path directories
 		foreach ($path as $dir)
@@ -729,10 +642,7 @@ class JController extends JObject
 			$dir = trim($dir);
 
 			// add trailing separators as needed
-			if (strpos($dir, '://') && substr($dir, -1) != '/') {
-				// stream
-				$dir .= '/';
-			} elseif (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
@@ -742,51 +652,6 @@ class JController extends JObject
 		}
 	}
 
-   /**
-	* Searches the directory paths for a given file.
-	*
-	* @access protected
-	* @param array $type The type of path to search (template or resource).
-	* @param string $file The file name to look for.
-	*
-	* @return string|bool The full path and file name for the target file,
-	* or boolean false if the file is not found in any of the paths.
-	*/
-	function _findFile($type, $file)
-	{
-		// get the set of paths
-		$set = $this->_path[$type];
-
-		// start looping through the path set
-		foreach ($set as $path)
-		{
-			// get the path to the file
-			$fullname = $path . $file;
-
-			// is the path based on a stream?
-			if (strpos($path, '://') === false)
-			{
-				// not a stream, so do a realpath() to avoid directory
-				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
-				$fullname = realpath($fullname);
-			}
-
-			// the substr() check added to make sure that the realpath()
-			// results in a directory registered with Savant so that
-			// non-registered directores are not accessible via directory
-			// traversal attempts.
-			if (file_exists($fullname) && is_readable($fullname) &&
-				substr($fullname, 0, strlen($path)) == $path)
-			{
-				return $fullname;
-			}
-		}
-
-		// could not find the file in the set of paths
-		return false;
-	}
-	
 	/**
 	 * Create the filename for a resource
 	 *

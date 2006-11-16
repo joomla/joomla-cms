@@ -20,7 +20,9 @@
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Application
- * @author		Louis Landry, Andrew Eddie
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @auhtor 		Andrew Eddie
  * @since		1.5
  */
 class JView extends JObject
@@ -119,7 +121,7 @@ class JView extends JObject
 			// user-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
-			$this->setTemplatePath(null);
+			$this->_setPath('template', null);
 		}
 
 		// set the layout
@@ -368,11 +370,6 @@ class JView extends JObject
 		}
 		else
 		{
-			/*
-			// Model wasn't found, return throw a warning and return false
-			JError::raiseWarning( 0, 'Unknown Model', "$model model was not found");
-			$result = false;
-			*/
 			// degrade to JObject::get
 			$result = parent::get( $method, $model );
 		}
@@ -453,19 +450,6 @@ class JView extends JObject
         $this->_addPath('template', $path);
     }
 
-    /**
-     * Resets the stack of view template paths.
-     *
-     * To clear all paths, use JView::setTemplatePath(null).
-     *
-     * @param string|array The directory (-ies) to set as the path.
-     * @return void
-     */
-    function setTemplatePath($path)
-    {
-        $this->_setPath('template', $path);
-    }
-
 	/**
 	* Clears then sets the callbacks to use when calling JView::escape().
 	*
@@ -536,7 +520,8 @@ class JView extends JObject
 		$file = preg_replace( '#[^\w_\.]#', '', $file );
 
 		// load the template script
-		if ($this->_template = $this->_findFile('template', $this->_createFileName('template', array('name' => $file))))
+		jimport('joomla.filesystem.path');
+		if ($this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file))))
 		{
 			// unset so as not to introduce into template scope
 			unset($tpl);
@@ -607,24 +592,8 @@ class JView extends JObject
 	*/
 	function _addPath($type, $path)
 	{
-		// convert from path string to array of directories
-		if (is_string($path) && ! strpos($path, '://'))
-		{
-			// the path config is a string, and it's not a stream
-			// identifier (the "://" piece). add it as a path string.
-			$path = explode(PATH_SEPARATOR, $path);
-
-			// typically in path strings, the first one is expected
-			// to be searched first. however, JView uses a stack,
-			// so the first would be last.  reverse the path string
-			// so that it behaves as expected with path strings.
-			$path = array_reverse($path);
-		}
-		else
-		{
-			// just force to array
-			settype($path, 'array');
-		}
+		// just force to array
+		settype($path, 'array');
 
 		// loop through the path directories
 		foreach ($path as $dir)
@@ -633,10 +602,7 @@ class JView extends JObject
 			$dir = trim($dir);
 
 			// add trailing separators as needed
-			if (strpos($dir, '://') && substr($dir, -1) != '/') {
-				// stream
-				$dir .= '/';
-			} elseif (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
@@ -646,51 +612,6 @@ class JView extends JObject
 		}
 	}
 
-   /**
-	* Searches the directory paths for a given file.
-	*
-	* @access protected
-	* @param array $type The type of path to search (template or resource).
-	* @param string $file The file name to look for.
-	*
-	* @return string|bool The full path and file name for the target file,
-	* or boolean false if the file is not found in any of the paths.
-	*/
-	function _findFile($type, $file)
-	{
-		// get the set of paths
-		$set = $this->_path[$type];
-
-		// start looping through the path set
-		foreach ($set as $path)
-		{
-			// get the path to the file
-			$fullname = $path . $file;
-
-			// is the path based on a stream?
-			if (strpos($path, '://') === false)
-			{
-				// not a stream, so do a realpath() to avoid directory
-				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
-				$fullname = realpath($fullname);
-			}
-
-			// the substr() check added to make sure that the realpath()
-			// results in a directory registered with Savant so that
-			// non-registered directores are not accessible via directory
-			// traversal attempts.
-			if (file_exists($fullname) && is_readable($fullname) &&
-				substr($fullname, 0, strlen($path)) == $path)
-			{
-				return $fullname;
-			}
-		}
-
-		// could not find the file in the set of paths
-		return false;
-	}
-	
 	/**
 	 * Create the filename for a resource
 	 *

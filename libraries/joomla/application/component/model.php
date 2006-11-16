@@ -21,6 +21,9 @@
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Application
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @auhtor 		Andrew Eddie
  * @since		1.5
  */
 class JModel extends JObject
@@ -31,7 +34,7 @@ class JModel extends JObject
 	 * @var string
 	 * @access protected
 	 */
-	var $_modelName;
+	var $_name;
 
 	/**
 	 * Database Connector
@@ -57,16 +60,6 @@ class JModel extends JObject
 	 */
 	var $_state;
 	
-	/**
-	 * The set of search directories for resources (tables)
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	var $_path = array(
-		'table' => array()
-	);
-
 	/**
 	 * Constructor
 	 *
@@ -109,32 +102,10 @@ class JModel extends JObject
 		// set the default view search path
 		if (isset($config['table_path'])) {
 			// user-defined dirs
-			$this->_setPath('table', $config['table_path']);
+			$this->addTablePath($config['table_path']);
 		} else {
-			$this->setTablePath(null);
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 		}
-	}
-
-	/**
-	 * Add a directory where JTable should search for table types. You may
-	 * either pass a string or an array of directories.
-	 *
-	 * @access	public
-	 * @param	string	A path to search.
-	 * @return	array	An array with directory elements
-	 * @since 1.5
-	 */
-	function addIncludePath( $path='' )
-	{
-		static $paths;
-
-		if (!isset($paths)) {
-			$paths = array();
-		}
-		if (!empty( $path ) && !in_array( $path, $paths )) {
-			$paths[] = $path;
-		}
-		return $paths;
 	}
 
 	/**
@@ -147,25 +118,30 @@ class JModel extends JObject
 	*/
 	function &getInstance( $type, $prefix='' )
 	{
-		$adapter = $prefix.ucfirst($type);
-		if (!class_exists( $adapter ))
+		$modelClass = $prefix.ucfirst($type);
+		
+		if (!class_exists( $modelClass ))
 		{
-			$paths = JModel::addIncludePath();
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			jimport('joomla.filesystem.path');
+			if($path = JPath::find(JModel::addIncludePath(), strtolower($type).'.php'))
 			{
-				$file = $paths[$i].DS.strtolower($type).'.php';
-				if (file_exists( $file )) {
-					require_once $file;
+				require_once $path;
+				
+				if (!class_exists( $modelClass ))
+				{
+					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
+					return false;
 				}
 			}
+			else
+			{
+				JError::raiseWarning( 0, 'Model ' . $type . ' not supported. File not found.' );
+				return false;
+			}
 		}
-		if (!class_exists( $adapter )) {
-			return JError::raiseError(20, JText::sprintf('Model object [%s] does not exist', $prefix.$type));
-		}
-		else {
-			$m = new $adapter();
-		}
-		return $m;
+		
+		$instance = new $modelClass();
+		return $instance;
 	}
 
 	/**
@@ -248,29 +224,39 @@ class JModel extends JObject
 	}
 	
 	/**
-     * Adds to the stack of view table paths in LIFO order.
+	 * Add a directory where JModel should search for models. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @access	public
+	 * @param	string	A path to search.
+	 * @return	array	An array with directory elements
+	 * @since 1.5
+	 */
+	function addIncludePath( $path='' )
+	{
+		static $paths;
+
+		if (!isset($paths)) {
+			$paths = array();
+		}
+		if (!empty( $path ) && !in_array( $path, $paths )) {
+			$paths[] = $path;
+		}
+		return $paths;
+	}
+	
+	/**
+     * Adds to the stack of model table paths in LIFO order.
      *
+     * @static
      * @param string|array The directory (-ies) to add.
      * @return void
      */
     function addTablePath($path)
     {
-        $this->_addPath('table', $path);
+        JTable::addIncludePath($path);
     }
 
-    /**
-     * Resets the stack of model table paths.
-     *
-     * To clear all paths, use JView::setTemplatePath(null).
-     *
-     * @param string|array The directory (-ies) to set as the path.
-     * @return void
-     */
-    function setTablePath($path)
-    {
-        $this->_setPath('table', $path);
-    }
-	
 	/**
 	 * Returns an object list
 	 *
@@ -315,7 +301,7 @@ class JModel extends JObject
 	 * @return	mixed	Model object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_createTable( $name, $prefix = '')
+	function &_createTable( $name, $prefix = 'Table')
 	{
 		$false = false;
 
@@ -325,149 +311,31 @@ class JModel extends JObject
 
 		// Build the model class name
 		$tableClass = $classPrefix.$tableName;
-
+			
 		if (!class_exists( $tableClass ))
 		{
-			// If the model file exists include it and try to instantiate the object
-			if ($path = $this->_findFile('table', $this->_createFileName('table', array('name' => $tableName))))
+			jimport('joomla.filesystem.path');
+			if($path = JPath::find(JTable::addIncludePath(), $this->_createFileName('table', array('name' => $tableName))))
 			{
-				require( $path );
+				require_once $path;
+				
 				if (!class_exists( $tableClass ))
 				{
 					JError::raiseWarning( 0, 'Table class ' . $tableClass . ' not found in file.' );
-					return $false;
+					return false;
 				}
 			}
 			else
 			{
-				JError::raiseWarning( 0, 'Table ' . $tableName . ' not supported. File not found.' );
-				return $false;
+				JError::raiseWarning( 0, 'Table ' . $type . ' not supported. File not found.' );
+				return false;
 			}
 		}
-			
+		
 		$db =& $this->getDBO();
-		$table = new $tableClass($db);
-		return $table;
-	}
-	
-	/**
-	 * Sets an entire array of search paths for resources.
-	 *
-	 * @access protected
-	 * @param string $type The type of path to set, typically 'view' or 'model.
-	 * @param string|array $path The new set of search paths.  If null or
-	 * false, resets to the current directory only.
-	 */
-	function _setPath($type, $path)
-	{
-		global $mainframe, $option;
+		$instance = new $tableClass($db);
 
-		// clear out the prior search dirs
-		$this->_path[$type] = array();
-
-		// always add the fallback directories as last resort
-		switch (strtolower($type))
-		{
-			case 'table':
-				// the current directory
-				$this->_addPath($type, JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
-				break;
-		}
-
-		// actually add the user-specified directories
-		$this->_addPath($type, $path);
-	}
-
-    /**
-	 * Adds to the search path for tables and resources
-	 *
-	 * @access protected
-	 * @param string|array $path The directory or stream to search.
-	 */
-	function _addPath($type, $path)
-	{
-		// convert from path string to array of directories
-		if (is_string($path) && ! strpos($path, '://'))
-		{
-			// the path config is a string, and it's not a stream
-			// identifier (the "://" piece). add it as a path string.
-			$path = explode(PATH_SEPARATOR, $path);
-
-			// typically in path strings, the first one is expected
-			// to be searched first. however, JView uses a stack,
-			// so the first would be last.  reverse the path string
-			// so that it behaves as expected with path strings.
-			$path = array_reverse($path);
-		}
-		else
-		{
-			// just force to array
-			settype($path, 'array');
-		}
-
-		// loop through the path directories
-		foreach ($path as $dir)
-		{
-			// no surrounding spaces allowed!
-			$dir = trim($dir);
-
-			// add trailing separators as needed
-			if (strpos($dir, '://') && substr($dir, -1) != '/') {
-				// stream
-				$dir .= '/';
-			} elseif (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
-			}
-
-			// add to the top of the search dirs
-			array_unshift($this->_path[$type], $dir);
-		}
-	}
-
-    /**
-	 * Searches the directory paths for a given file.
-	 *
-	 * @access protected
-	 * @param array $type The type of path to search (template or resource).
-	 * @param string $file The file name to look for.
-	 *
-	 * @return string|bool The full path and file name for the target file,
-	 * or boolean false if the file is not found in any of the paths.
-	 */
-	function _findFile($type, $file)
-	{
-		// get the set of paths
-		$set = $this->_path[$type];
-
-		// start looping through the path set
-		foreach ($set as $path)
-		{
-			// get the path to the file
-			$fullname = $path . $file;
-
-			// is the path based on a stream?
-			if (strpos($path, '://') === false)
-			{
-				// not a stream, so do a realpath() to avoid directory
-				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
-				$fullname = realpath($fullname);
-			}
-
-			// the substr() check added to make sure that the realpath()
-			// results in a directory registered with Savant so that
-			// non-registered directores are not accessible via directory
-			// traversal attempts.
-			if (file_exists($fullname) && is_readable($fullname) &&
-				substr($fullname, 0, strlen($path)) == $path)
-			{
-				return $fullname;
-			}
-		}
-
-		// could not find the file in the set of paths
-		return false;
+		return $instance;
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: view.php 5755 2006-11-13 22:23:14Z eddiea $
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
@@ -23,7 +23,7 @@ jimport('joomla.html.pane');
  * @subpackage Menus
  * @since 1.5
  */
-class JMenuViewItem extends JView
+class MenusViewItem extends JView
 {
 
 	function edit($tpl = null)

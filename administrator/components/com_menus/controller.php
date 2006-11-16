@@ -26,8 +26,8 @@ class MenusController extends JController
 	 */
 	function type()
 	{
-		$model	=& $this->getModel( 'Item', 'JMenuModel' );
-		$view =& $this->getView( 'Item', 'JMenuView' );
+		$model	=& $this->getModel( 'Item' );
+		$view =& $this->getView( 'Item' );
 		$view->setModel( $model, true );
 
 		// Set the layout and display
@@ -40,8 +40,8 @@ class MenusController extends JController
 	 */
 	function edit()
 	{
-		$model	=& $this->getModel( 'Item', 'JMenuModel' );
-		$view =& $this->getView( 'Item', 'JMenuView' );
+		$model	=& $this->getModel( 'Item' );
+		$view =& $this->getView( 'Item' );
 		$view->setModel( $model, true );
 		// Set the layout and display
 		$view->setLayout('form');
@@ -56,7 +56,7 @@ class MenusController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		$model =& $this->getModel( 'Item', 'JMenuModel' );
+		$model =& $this->getModel( 'Item' );
 		if ($model->store()) {
 			$msg = JText::_( 'Menu item Saved' );
 		} else {
@@ -115,8 +115,8 @@ class MenusController extends JController
 	*/
 	function copy()
 	{
-		$model	=& $this->getModel( 'List', 'JMenuModel' );
-		$view =& $this->getView( 'List', 'JMenuView' );
+		$model	=& $this->getModel( 'List' );
+		$view =& $this->getView( 'List' );
 		$view->setModel( $model, true );
 		$view->copyForm();
 	}
@@ -130,7 +130,7 @@ class MenusController extends JController
 		$menu	= JRequest::getVar( 'menu', '', 'post' );
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
-		$model	=& $this->getModel( 'List', 'JMenuModel' );
+		$model	=& $this->getModel( 'List' );
 
 		if ($model->copy($cid, $menu)) {
 			$msg = sprintf( JText::_( 'Menu Items Copied to' ), count( $cid ), $menu );
@@ -145,8 +145,8 @@ class MenusController extends JController
 	*/
 	function move()
 	{
-		$model	=& $this->getModel( 'List', 'JMenuModel' );
-		$view =& $this->getView( 'List', 'JMenuView' );
+		$model	=& $this->getModel( 'List');
+		$view =& $this->getView( 'List' );
 		$view->setModel( $model, true );
 		$view->moveForm();
 	}
@@ -160,7 +160,7 @@ class MenusController extends JController
 		$menu	= JRequest::getVar( 'menu', '', 'post' );
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
-		$model	=& $this->getModel( 'List', 'JMenuModel' );
+		$model	=& $this->getModel( 'List' );
 
 		if ($model->move($cid, $menu)) {
 			$msg = sprintf( JText::_( 'Menu Items Moved to' ), count( $cid ), $menu );
@@ -179,7 +179,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setState($cid, 1)) {
 			$msg = sprintf( JText::_( 'Menu Items Published' ), count( $cid ) );
 		} else {
@@ -197,7 +197,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setState($cid, 0)) {
 			$msg = sprintf( JText::_( 'Menu Items Unpublished' ), count( $cid ) );
 		} else {
@@ -220,7 +220,7 @@ class MenusController extends JController
 			return false;
 		}
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->orderItem($id, -1)) {
 			$msg = JText::_( 'Menu Item Moved Up' );
 		} else {
@@ -243,7 +243,7 @@ class MenusController extends JController
 			return false;
 		}
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->orderItem($id, 1)) {
 			$msg = JText::_( 'Menu Item Moved Down' );
 		} else {
@@ -260,7 +260,7 @@ class MenusController extends JController
 		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setOrder($cid, $menutype)) {
 			$msg = JText::_( 'New ordering saved' );
 		} else {
@@ -278,7 +278,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 0)) {
 			$msg = sprintf( JText::_( 'Menu Items Set Public' ), count( $cid ) );
 		} else {
@@ -296,7 +296,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 1)) {
 			$msg = sprintf( JText::_( 'Menu Items Set Registered' ), count( $cid ) );
 		} else {
@@ -314,7 +314,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 2)) {
 			$msg = sprintf( JText::_( 'Menu Items Set Special' ), count( $cid ) );
 		} else {
@@ -332,7 +332,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->setHome($cid[0])) {
 			$msg = JText::_( 'Default Menu Item Set' );
 		} else {
@@ -347,7 +347,7 @@ class MenusController extends JController
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$menutype	= JRequest::getVar('menutype');
 
-		$model =& $this->getModel( 'List', 'JMenuModel' );
+		$model =& $this->getModel( 'List' );
 		if ($model->toTrash($cid, $menutype)) {
 			$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), count( $cid ) );
 		} else {
@@ -361,8 +361,8 @@ class MenusController extends JController
 	*/
 	function view()
 	{
-		$model	=& $this->getModel( 'List', 'JMenuModel' );
-		$view =& $this->getView( 'List', 'JMenuView' );
+		$model	=& $this->getModel( 'List' );
+		$view =& $this->getView( 'List' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -374,8 +374,9 @@ class MenusController extends JController
 	 */
 	function viewMenus()
 	{
-		$view =& $this->getView( 'Menus', 'JMenuView' );
-		$model	=& $this->getModel( 'Menutype', 'JMenuModel' );
+		
+		$view =& $this->getView( 'Menus');
+		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -386,8 +387,8 @@ class MenusController extends JController
 	 */
 	function editMenu()
 	{
-		$view =& $this->getView( 'Menus', 'JMenuView' );
-		$model	=& $this->getModel( 'Menutype', 'JMenuModel' );
+		$view =& $this->getView( 'Menus' );
+		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );
 		$view->editForm();
 	}
@@ -400,10 +401,10 @@ class MenusController extends JController
 		$db		=& JFactory::getDBO();
 		$id		= JRequest::getVar( 'id', 0, '', 'int' );
 
-		$oldType =& JTable::getInstance('menutypes', 'JTable');
+		$oldType =& JTable::getInstance('menutypes' );
 		$oldType->load( $id );
 
-		$menuType =& JTable::getInstance('menutypes', 'JTable');
+		$menuType =& JTable::getInstance('menutypes');
 		$menuType->bind( JRequest::get( 'post' ) );
 
 		$isNew		= ($menuType->id == 0);
@@ -511,8 +512,8 @@ class MenusController extends JController
 	 */
 	function deleteMenu()
 	{
-		$view =& $this->getView( 'Menus', 'JMenuView' );
-		$model	=& $this->getModel( 'Menutype', 'JMenuModel' );
+		$view =& $this->getView( 'Menus' );
+		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );
 		$view->deleteForm();
 	}
@@ -528,7 +529,7 @@ class MenusController extends JController
 			return false;
 		}
 
-		$model =& $this->getModel( 'Menutype', 'JMenuModel' );
+		$model =& $this->getModel( 'Menutype' );
 		if (!$model->canDelete()) {
 			JError::raiseError( 500, $model->getError() );
 			return false;
@@ -545,8 +546,8 @@ class MenusController extends JController
 	*/
 	function copyMenu()
 	{
-		$view =& $this->getView( 'Menus', 'JMenuView' );
-		$model	=& $this->getModel( 'Menutype', 'JMenuModel' );
+		$view =& $this->getView( 'Menus' );
+		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );
 		$view->copyForm();
 	}

@@ -96,7 +96,7 @@ class MailtoController extends JController
 		// Send the email
 		JUtility::sendMail($from, $sender, $email, $subject, $body);
 
-		$this->setViewName( 'sent' );
+		JRequest::setVar( 'view', 'sent' );
 		$this->display();
 	}
 }

@@ -77,11 +77,8 @@ class ContentController extends JController
 	*/
 	function edit()
 	{
-		// Set the view name to article view
-		$this->setViewName( 'article', 'ContentView', 'html' );
-
 		// Create the view
-		$view = & $this->getView();
+		$view = & $this->getView('article', 'html');
 
 		// Get/Create the model
 		$model = & $this->getModel('Article');
@@ -403,12 +400,10 @@ class ContentController extends JController
 				"\n WHERE attribs LIKE '%keyref=$keyref%'";
 		$db->setQuery($query);
 		$id = $db->loadResult();
-		if ($id > 0) {
-			// Set the view name to article view
-			$this->setViewName( 'article', 'ContentView', 'html' );
-
+		if ($id > 0) 
+		{
 			// Create the view
-			$view = & $this->getView();
+			$view = & $this->getView('article', 'html');
 
 			// Get/Create the model
 			$model = & $this->getModel('Article' );
@@ -435,11 +430,8 @@ class ContentController extends JController
 	 */
 	function ins_pagebreak()
 	{
-		// Set the view name to article view
-		$this->setViewName( 'article', 'ContentView', 'html' );
-
 		// Create the view
-		$view = & $this->getView();
+		$view = & $this->getView('article', 'html');
 
 		// Set the layout
 		$view->setLayout('pagebreak');

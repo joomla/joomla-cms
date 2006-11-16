@@ -37,7 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
-15-Nov-2006
+16-Nov-2006 Johan Janssens
+ - Removed JController::setViewName, use JController::getView instead
+ + Implemented factory method in JController::getView to be able to handle multiple views
+ + Added JPath::find function to easily search a array of paths for a certain file
+ ^ General MVC improvements to simply component implementations that follow conventions
+
+15-Nov-2006 Andrew Eddie
  ^ JTable::addTableDir -> JTable::addIncludePath
  + JModel::addIncludePath and fixed JModel::getInstance to suit
 

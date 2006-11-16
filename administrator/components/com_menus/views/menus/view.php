@@ -22,7 +22,7 @@ jimport('joomla.application.component.view');
  * @subpackage Menus
  * @since 1.5
  */
-class JMenuViewMenus extends JView
+class MenusViewMenus extends JView
 {
 	function display($tpl=null)
 	{

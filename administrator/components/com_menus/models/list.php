@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.model' );
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JMenuModelList extends JModel
+class MenusModelList extends JModel
 {
 	/** @var object JTable object */
 	var $_table = null;

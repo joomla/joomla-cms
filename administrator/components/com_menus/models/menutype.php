@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.model' );
  * @subpackage Menus
  * @author Andrew Eddie
  */
-class JMenuModelMenutype extends JModel
+class MenusModelMenutype extends JModel
 {
 	var $_modelName = 'menutype';
 

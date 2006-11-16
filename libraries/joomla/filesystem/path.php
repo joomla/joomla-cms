@@ -231,5 +231,45 @@ class JPath {
 	{
 		return (posix_getuid() == fileowner($path));
 	}
+	
+	 /**
+	 * Searches the directory paths for a given file.
+	 *
+	 * @access protected
+	 * @param array $path An array of paths to search in
+	 * @param string $file The file name to look for.
+	 *
+	 * @return string|bool The full path and file name for the target file,
+	 * or boolean false if the file is not found in any of the paths.
+	 */
+	function find($paths, $file)
+	{
+		// start looping through the path set
+		foreach ($paths as $path)
+		{
+			// get the path to the file
+			$fullname = $path . $file;
+			
+			// is the path based on a stream?
+			if (strpos($path, '://') === false)
+			{
+				// not a stream, so do a realpath() to avoid directory
+				// traversal attempts on the local file system.
+				$path = realpath($path); // needed for substr() later
+				$fullname = realpath($fullname);
+			}
+
+			// the substr() check added to make sure that the realpath()
+			// results in a directory registered so that
+			// non-registered directores are not accessible via directory
+			// traversal attempts.
+			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path) {
+				return $fullname;
+			}
+		}
+
+		// could not find the file in the set of paths
+		return false;
+	}
 }
 ?>

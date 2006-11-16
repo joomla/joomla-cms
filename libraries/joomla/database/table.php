@@ -91,27 +91,34 @@ class JTable extends JObject
 	*/
 	function &getInstance( $type, $prefix='JTable' )
 	{
-		$adapter = $prefix.ucfirst($type);
-		if (!class_exists( $adapter ))
+		$false = false;
+		
+		$tableClass = $prefix.ucfirst($type);
+		
+		if (!class_exists( $tableClass ))
 		{
-			$paths = JTable::addIncludePath();
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			jimport('joomla.filesystem.path');
+			if($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
 			{
-				$file = $paths[$i].DS.strtolower($type).'.php';
-				if (file_exists( $file )) {
-					require_once $file;
+				require_once $path;
+				
+				if (!class_exists( $tableClass ))
+				{
+					JError::raiseWarning( 0, 'Table class ' . $tableClass . ' not found in file.' );
+					return $false;
 				}
 			}
+			else
+			{
+				JError::raiseWarning( 0, 'Table ' . $type . ' not supported. File not found.' );
+				return $false;
+			}
 		}
-		if (!class_exists( $adapter )) {
-			return JError::raiseError(20, JText::sprintf('Database Table object [%s] does not exist', $prefix.$type));
-		}
-		else
-		{
-			$db =& JFactory::getDBO();
-			$m = new $adapter($db);
-		}
-		return $m;
+		
+		$db =& JFactory::getDBO();
+		$instance = new $tableClass($db);
+
+		return $instance;
 	}
 
 	/**
@@ -946,14 +953,37 @@ class JTable extends JObject
 	function addIncludePath( $path='' )
 	{
 		static $paths;
-
+		
 		if (!isset($paths)) {
-			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table' );
+			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS );
 		}
-		if (!empty( $path ) && !in_array( $path, $paths )) {
-			$paths[] = $path;
+		
+		// just force path to array
+		settype($path, 'array');
+	
+		if (!empty( $path ) && !in_array( $path, $paths )) 
+		{
+			// loop through the path directories
+			foreach ($path as $dir)
+			{
+				// no surrounding spaces allowed!
+				$dir = trim($dir);
+
+				// add trailing separators as needed
+				if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+					// directory
+					$dir .= DIRECTORY_SEPARATOR;
+				}
+
+				// add to the top of the search dirs
+				//array_unshift($paths, $dir);
+				$paths[] = $dir;
+			}
+			
+			
 		}
 		return $paths;
+		
 	}
 }
 ?>
