@@ -955,38 +955,5 @@ class JTable extends JObject
 		}
 		return $paths;
 	}
-
-	/**
-	* Add a directory where JTable should search for table types. You may
-	* either pass a string or an array of directories.
-	*
-	* @access	public
-	* @param	string|array	directory or directories to search.
-	* @return	array			An array with directory elements
-	* @since 1.5
-	*/
-	function addTableDir( $dir = '' )
-	{
-		static $directories;
-
-		if (!isset($directories))
-		{
-			$directories = array(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table');
-		}
-
-		// Handle datatype of $dir element (string/array)
-		if( is_array( $dir ) )
-		{
-			$directories = array_merge( $directories, $dir );
-		} 
-		else 
-		{
-			if (!empty($dir)) {
-				array_push( $directories, $dir );
-			}
-		}
-		$directories = array_unique($directories);
-		return $directories;
-	}
 }
 ?>
