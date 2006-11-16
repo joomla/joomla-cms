@@ -41,6 +41,7 @@ Legend:
  - Removed JController::setViewName, use JController::getView instead
  + Implemented factory method in JController::getView to be able to handle multiple views
  + Added JPath::find function to easily search a array of paths for a certain file
+ ^ Switched parameter order in the JController::getView function
  ^ General MVC improvements to simply component implementations that follow conventions
 
 15-Nov-2006 Andrew Eddie
