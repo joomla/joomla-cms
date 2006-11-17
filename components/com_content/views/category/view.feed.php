@@ -30,12 +30,11 @@ class ContentViewCategory extends JView
 		$doc =& JFactory::getDocument();
 
 		// Get some data from the model
-		$rows  = & $this->get( 'Content' );
 		$limit = '10';
 
 		JRequest::setVar('limit', $limit);
 		$category = & $this->get( 'Category' );
-		$rows 	  = & $this->get( 'Content' );
+		$rows 	  = & $this->get( 'Data' );
 
 		foreach ( $rows as $row )
 		{
