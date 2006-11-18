@@ -49,7 +49,8 @@ class ContentViewFrontpage extends JView
 
 			// strip html from feed item description text
 			$description = $row->introtext;
-			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
+			$author      = $row->author;
+			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 
 			// load individual item creator class
 			$item = new JFeedItem();
@@ -57,6 +58,7 @@ class ContentViewFrontpage extends JView
 			$item->link 		= $link;
 			$item->description 	= $description;
 			$item->date			= $date;
+			$item->author		= $author;
 			$item->category   	= 'frontpage';
 
 			// loads item info into rss array

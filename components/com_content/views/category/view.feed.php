@@ -48,8 +48,9 @@ class ContentViewCategory extends JView
 			$link = sefRelToAbs( $link );
 
 			// strip html from feed item description text
-			$description = $row->introtext;
-			@$date = ( $row->created ? date( 'r', $row->created ) : '' );
+			$description	= $row->introtext;
+			$author			= $row->author;
+			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 
 			// load individual item creator class
 			$item = new JFeedItem();
@@ -57,6 +58,7 @@ class ContentViewCategory extends JView
 			$item->link 		= $link;
 			$item->description 	= $description;
 			$item->date			= $date;
+			$item->author		= $author;
 			$item->category   	= $category->title;
 
 			// loads item info into rss array
