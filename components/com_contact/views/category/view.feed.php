@@ -65,7 +65,7 @@ class ContactViewCategory extends JView
 
 			// strip html from feed item description text
 			$description = $row->description;
-			$date = ( $row->date ? date( 'r', $row->date ) : '' );
+			$date = ( $row->date ? date( 'r', strtotime($row->date) ) : '' );
 
 			// load individual item creator class
 			$item = new JFeedItem();

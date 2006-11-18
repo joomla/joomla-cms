@@ -50,7 +50,7 @@ class WeblinksViewCategory extends JView
 
 			// strip html from feed item description text
 			$description = $item->description;
-			$date = ( $item->date ? date( 'r', (int)$item->date ) : '' );
+			$date = ( $item->date ? date( 'r', strtotime($item->date) ) : '' );
 
 			// load individual item creator class
 			$feeditem = new JFeedItem();
