@@ -194,6 +194,7 @@ class JApplication extends JObject
 	 * @access public
 	 * @param string 	$varname 	The name of the value to get
 	 * @return The user state
+	 * @example application/japplication-getcfg.php
 	 */
 	function getCfg( $varname )
 	{
