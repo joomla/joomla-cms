@@ -347,6 +347,8 @@ class JView extends JObject
 		// If $model is null we use the default model
 		if (is_null($model)) {
 			$model = $this->_defaultModel;
+		} else {
+			$model = strtolower( $model );
 		}
 
 		// First check to make sure the model requested exists

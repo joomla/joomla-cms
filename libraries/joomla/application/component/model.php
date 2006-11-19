@@ -241,7 +241,7 @@ class JModel extends JObject
 			$paths = array();
 		}
 		if (!empty( $path ) && !in_array( $path, $paths )) {
-			$paths[] = $path;
+			$paths[] = JPath::clean( $path );
 		}
 		return $paths;
 	}
