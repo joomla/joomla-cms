@@ -322,13 +322,13 @@ class JModel extends JObject
 				if (!class_exists( $tableClass ))
 				{
 					JError::raiseWarning( 0, 'Table class ' . $tableClass . ' not found in file.' );
-					return false;
+					return $false;
 				}
 			}
 			else
 			{
 				JError::raiseWarning( 0, 'Table ' . $type . ' not supported. File not found.' );
-				return false;
+				return $false;
 			}
 		}
 		
