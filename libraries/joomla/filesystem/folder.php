@@ -95,7 +95,7 @@ class JFolder
 				$inOBD = false;
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test) {
-					if (!(strpos($path, $test) === false)) {
+					if (strpos($path, $test) === 0) {
 						$obdpath = $test;
 						$inOBD = true;
 						break;
@@ -106,9 +106,9 @@ class JFolder
 					return false;
 				}
 			}
-			// Just to make sure
-			$inOBD = true;
-
+			// Try creating the folder and its parent folders, if necessary:
+			// TODO: there's potential for an infinite loop here..!
+			$ret = true;
 			$dir = $path;
 			while ($dir != dirname($dir)) {
 				$dir = $path;
