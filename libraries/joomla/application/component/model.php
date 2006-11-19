@@ -119,7 +119,8 @@ class JModel extends JObject
 	function &getInstance( $type, $prefix='' )
 	{
 		$modelClass = $prefix.ucfirst($type);
-		
+		$result = false;
+
 		if (!class_exists( $modelClass ))
 		{
 			jimport('joomla.filesystem.path');
@@ -130,18 +131,18 @@ class JModel extends JObject
 				if (!class_exists( $modelClass ))
 				{
 					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					return false;
+					$result = false;
 				}
 			}
 			else
 			{
 				JError::raiseWarning( 0, 'Model ' . $type . ' not supported. File not found.' );
-				return false;
+				$result = false;
 			}
 		}
 		
-		$instance = new $modelClass();
-		return $instance;
+		$result = new $modelClass();
+		return $result;
 	}
 
 	/**
