@@ -20,6 +20,7 @@
 
 /* -- Imported styles ----------------------------- */
 
+@import url("general_rtl.css");
 @import url("icon.css");
 @import url("menu_rtl.css");
 @import url("component_rtl.css");
