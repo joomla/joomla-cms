@@ -314,20 +314,23 @@ class JHTMLSelect
 		$id = str_replace(']','',$id);
 
 		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
-		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-			if( is_array( $arr[$i] ) ) {
-				$k 		= $arr[$i][$key];
-				$t	 	= $arr[$i][$text];
-				$id 	= ( isset( $arr[$i]['id'] ) ? $arr[$i]['id'] : null );
+//		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
+		while(current($arr) !== FALSE) {
+			$element =& $arr[key($arr)]; // since current doesn't return a reference, need to do this
+			if( is_array( $element ) ) {
+				$k 		= $element[$key];
+				$t	 	= $element[$text];
+				$id 	= ( isset( $element['id'] ) ? $element['id'] : null );
 			} else {
-				$k 		= $arr[$i]->$key;
-				$t	 	= $arr[$i]->$text;
-				$id 	= ( isset( $arr[$i]->id ) ? $arr[$i]->id : null );
+				$k 		= $element->$key;
+				$t	 	= $element->$text;
+				$id 	= ( isset( $element->id ) ? $element->id : null );
 			}
-            //if no string after hypen - take hypen out
-            $splitText = explode( " - ", $t, 2 );
-            $t = $splitText[0];
-            if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
+			
+			//if no string after hypen - take hypen out
+			$splitText = explode( " - ", $t, 2 );
+			$t = $splitText[0];
+			if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
 
 			$extra = '';
 			//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
@@ -346,6 +349,7 @@ class JHTMLSelect
 			if($flag) $t = JText::_( $t );
 
 			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
+			next($arr);
 		}
 		$html .= '</select>';
 

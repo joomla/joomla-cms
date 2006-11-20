@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Nov-2006 Sam Moffatt
+ ^ Altered behaviour of JHTMLSelect::genericList to accept nonlinear arrays
+
 16-Nov-2006 Johan Janssens
  - Removed JController::setViewName, use JController::getView instead
  + Implemented factory method in JController::getView to be able to handle multiple views
