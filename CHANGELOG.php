@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Nov-2006 Andrew Eddie
+ # Fixed bug in JModel where JPATH_COMPONENT* has not been loaded
+ ^ Changed handling of request data in backend menu model.  Now pushed into model to allow for 3rd parties to use the model directly to create menus.
+ ^ Changed JController::setRedirect.  If null message is passed then no change is made to the internal variable.  This allows for setting on the message directly in complicated scripts.
+ ^ Added argument to JArrayHelper::toObject to allow a JObject to be returned 
+
 21-Nov-2006 Johan Janssens
  ^ Refactored administrator weblinks component to use MVC component framework
 

@@ -62,7 +62,7 @@ class JModel extends JObject
 	
 	/**
 	 * Constructor
-	 *get
+	 *
 	 * @since 1.5
 	 */
 	function __construct($options = array())
@@ -103,7 +103,7 @@ class JModel extends JObject
 		if (isset($config['table_path'])) {
 			// user-defined dirs
 			$this->addTablePath($config['table_path']);
-		} else {
+		} else if (defined( 'JPATH_COMPONENT_ADMINISTRATOR' )){
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 		}
 	}
@@ -113,31 +113,31 @@ class JModel extends JObject
 	 *
 	 * @param	string	The model type to instantiate
 	 * @param	string	Prefix for the model class name
-	 * @return	object
+	 * @return	mixed	A model object, or false on failure
 	 * @since 1.5
 	*/
 	function &getInstance( $type, $prefix='' )
 	{
-		$modelClass = $prefix.ucfirst($type);
-		$result = false;
+		$modelClass	= $prefix.ucfirst($type);
+		$result		= false;
 
 		if (!class_exists( $modelClass ))
 		{
 			jimport('joomla.filesystem.path');
-			if($path = JPath::find(JModel::addIncludePath(), strtolower($type).'.php'))
+			if ($path = JPath::find(JModel::addIncludePath(), strtolower($type).'.php'))
 			{
 				require_once $path;
 				
 				if (!class_exists( $modelClass ))
 				{
 					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					$result = false;
+					return $result;
 				}
 			}
 			else
 			{
 				JError::raiseWarning( 0, 'Model ' . $type . ' not supported. File not found.' );
-				$result = false;
+				return $result;
 			}
 		}
 		
@@ -163,12 +163,13 @@ class JModel extends JObject
 	 * Method to get model state variables
 	 *
 	 * @access	public
-	 * @return	object	The model state object
+	 * @param	string	Optional parameter name
+	 * @return	object	The property where specified, the state object where omitted
 	 * @since	1.5
 	 */
-	function getState($property)
+	function getState($property = null)
 	{
-		return $this->_state->get($property);
+		return $property === null ? $this->_state : $this->_state->get($property);
 	}
 
 	/**
@@ -189,7 +190,8 @@ class JModel extends JObject
 	 * @return string The error message
 	 * @since 1.5
 	 */
-	function getError() {
+	function getError()
+	{
 		return $this->_error;
 	}
 
@@ -200,7 +202,8 @@ class JModel extends JObject
 	 * @return string The new error message
 	 * @since 1.5
 	 */
-	function setError( $value ) {
+	function setError( $value )
+	{
 		$this->_error = $value;
 		return $this->_error;
 	}
@@ -308,7 +311,7 @@ class JModel extends JObject
 	 */
 	function &_createTable( $name, $prefix = 'Table')
 	{
-		$false = false;
+		$result = null;
 
 		// Clean the model name
 		$tableName   = preg_replace( '#\W#', '', $name );
@@ -326,20 +329,19 @@ class JModel extends JObject
 				
 				if (!class_exists( $tableClass ))
 				{
-					JError::raiseError( 500, 'Table class ' . $tableClass . ' not found in file.' );
-					return null;
+					$result = JError::raiseError( 500, 'Table class ' . $tableClass . ' not found in file.' );
+					return $result;
 				}
 			}
-			else
-			{
-				return null;
+			else {
+				return $result;
 			}
 		}
 		
 		$db =& $this->getDBO();
-		$instance = new $tableClass($db);
+		$result = new $tableClass($db);
 
-		return $instance;
+		return $result;
 	}
 	
 	/**

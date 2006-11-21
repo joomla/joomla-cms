@@ -56,7 +56,9 @@ class MenusController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		$model =& $this->getModel( 'Item' );
+		$model	=& $this->getModel( 'Item' );
+		$model->setState( 'request', JRequest::get('post') );
+
 		if ($model->store()) {
 			$msg = JText::_( 'Menu item Saved' );
 		} else {

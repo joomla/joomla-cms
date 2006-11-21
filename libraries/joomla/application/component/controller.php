@@ -375,7 +375,7 @@ class JController extends JObject
 	 * Method to get the current view and load it if necessary..
 	 *
 	 * @access	public
-	 * @return	object	The view
+	 * @return	object	The view or an error
 	 * @since	1.5
 	 */
 	function &getView($name='', $type='', $prefix='')
@@ -399,8 +399,8 @@ class JController extends JObject
 			if($view =& $this->_createView( $name, $prefix, $type )) {
 				$views[$name] =& $view;
 			} else {
-				JError::raiseError( 500, 'The view ['.$name.'] could not be found' );
-				return null;
+				$result = JError::raiseError( 500, 'The view ['.$name.'] could not be found' );
+				return $result;
 			}
 		}
 
@@ -484,7 +484,10 @@ class JController extends JObject
 	function setRedirect( $url, $msg = null, $type = 'message' )
 	{
 		$this->_redirect	= $url;
-		$this->_message		= $msg;
+		if ($msg !== null) {
+			// controller may have set this directly 
+			$this->_message	= $msg;
+		}
 		$this->_messageType	= $type;
 	}
 
@@ -513,6 +516,8 @@ class JController extends JObject
 	 */
 	function &_createModel( $name, $prefix = '')
 	{
+		$result = null;
+
 		// Clean the model name
 		$modelName   = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
@@ -528,18 +533,17 @@ class JController extends JObject
 				require( $path );
 				if (!class_exists( $modelClass ))
 				{
-					return JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					return null;
+					$result = JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
+					return $result;
 				}
 			}
-			else
-			{
-				return null;
+			else {
+				return $result;
 			}
 		}
 
-		$model = new $modelClass();
-		return $model;
+		$result = new $modelClass();
+		return $result;
 	}
 
 	/**
@@ -554,12 +558,12 @@ class JController extends JObject
 	 */
 	function &_createView( $name, $prefix = '', $type = '' )
 	{
+		$result = null;
+
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
 		$viewType	 = preg_replace( '#\W#', '', $type );
-
-		$view		= null;
 
 		// Build the view class name
 		$viewClass = $classPrefix.$viewName;
@@ -572,18 +576,17 @@ class JController extends JObject
 				require_once( $path );
 
 				if (!class_exists( $viewClass )) {
-					JError::raiseError( 500, 'View class ' . $viewClass . ' not found in file.' );
-					return null;
+					$result = JError::raiseError( 500, 'View class ' . $viewClass . ' not found in file.' );
+					return $result;
 				}
 			}
-			else
-			{
-				return null;
+			else {
+				return $result;
 			}
 		}
 
-		$view = new $viewClass();
-		return $view;
+		$result = new $viewClass();
+		return $result;
 	}
 
    /**

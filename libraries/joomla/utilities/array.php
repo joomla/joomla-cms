@@ -53,21 +53,23 @@ class JArrayHelper
 	 * Utility function to map an array to a stdClass object.
 	 *
 	 * @static
-	 * @param	array	$array	The array to map.
+	 * @param	array	$array		The array to map.
+	 * @param	boolean	$jobject	Optionally create a JObject
 	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */
-	function toObject(&$array)
+	function toObject(&$array, $toJObject = false)
 	{
 		$obj = null;
-		if (is_array($array)) {
-			$obj = new stdClass();
+		if (is_array($array))
+		{
+			$obj = $toJObject ? new JObject() : new stdClass();
 			foreach ($array as $k => $v)
 			{
 				if (is_array($v)) {
-					$obj-> $k = JArrayHelper::toObject($v);
+					$obj->$k = JArrayHelper::toObject($v, $toJObject);
 				} else {
-					$obj-> $k = $v;
+					$obj->$k = $v;
 				}
 			}
 		}

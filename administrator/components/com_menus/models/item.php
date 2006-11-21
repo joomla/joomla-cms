@@ -97,7 +97,7 @@ class MenusModelItem extends JModel
 				parse_str($url, $table->linkparts);
 
 				$db = &$this->getDBO();
-				if ($component = $table->linkparts['option']) {
+				if ($component = @$table->linkparts['option']) {
 					$query = "SELECT `id`" .
 							"\n FROM `#__components`" .
 							"\n WHERE `link` <> ''" .
@@ -232,8 +232,9 @@ class MenusModelItem extends JModel
 	function store()
 	{
 		// Initialize variables
+		$db		=& JFactory::getDBO();
 		$row	=& $this->getItem();
-		$post	= JRequest::get('post');
+		$post	= $this->_state->get( 'request' );
 
 		switch ($post['type'])
 		{
@@ -291,8 +292,9 @@ class MenusModelItem extends JModel
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
+
 		$row->checkin();
-		//$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
+		$row->reorder( 'menutype='.$db->Quote( $row->menutype ).' AND parent='.(int)$row->parent );
 
 		return true;
 	}
