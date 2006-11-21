@@ -51,6 +51,13 @@ class WeblinksModelCategory extends JModel
 	 * @var object
 	 */
 	var $_category = null;
+	
+	/**
+	 * Pagination object
+	 *
+	 * @var object
+	 */
+	var $_pagination = null;
 
 	/**
 	 * Constructor
@@ -60,13 +67,14 @@ class WeblinksModelCategory extends JModel
 	function __construct()
 	{
 		parent::__construct();
+		
+		global $mainframe;
 
-		global $Itemid;
-
-		// Get the paramaters of the active menu item
-		$params =& JSiteHelper::getMenuParams();
-
-		$id = JRequest::getVar('catid', $params->get( 'category_id', 0 ), '', 'int');
+		// Get the pagination request variables
+		$this->setState('limit', JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int'));
+		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
+		
+		$id = JRequest::getVar('catid', 0, '', 'int');
 		$this->setId($id);
 
 	}
@@ -95,13 +103,8 @@ class WeblinksModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			// Get the pagination request variables
-			$limit		= JRequest::getVar('limit', 0, '', 'int');
-			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
 			$query = $this->_buildQuery();
-
-			$this->_data = $this->_getList($query, $limitstart, $limit);
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_data;
@@ -123,6 +126,24 @@ class WeblinksModelCategory extends JModel
 		}
 
 		return $this->_total;
+	}
+	
+	/**
+	 * Method to get a pagination object of the weblink items for the category
+	 *
+	 * @access public
+	 * @return integer
+	 */
+	function getPagination()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+		}
+
+		return $this->_pagination;
 	}
 
 	/**

@@ -38,15 +38,14 @@ class WeblinksViewCategory extends JView
 		$params = new JParameter($menu->params);
 
 		// Get some request variables
-		$limit				= JRequest::getVar('limit',$mainframe->getCfg('list_limit'), '', 'int');
-		$limitstart			= JRequest::getVar('limitstart', 0, '', 'int');
 		$filter_order		= JRequest::getVar('filter_order', 'ordering');
 		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 
 		// Get some data from the model
-		$items =& $this->get('data' );
-		$total =& $this->get('total');
-		$category = & $this->get( 'Category' );
+		$items      =& $this->get('data' );
+		$total      =& $this->get('total');
+		$pagination =& $this->get('pagination'); 
+		$category   =& $this->get( 'category' );
 		$category->total = $total;
 
 		//add alternate feed link
@@ -96,10 +95,6 @@ class WeblinksViewCategory extends JView
 			// Use the static HTML library to build the image tag
 			$category->image = JHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $attribs);
 		}
-
-		//create pagination
-		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {

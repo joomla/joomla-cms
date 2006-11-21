@@ -47,12 +47,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	{
 		parent::__construct();
 		
-		global $Itemid;
-
-		// Get the paramaters of the active menu item
-		$params =& JSiteHelper::getMenuParams();
-
-		$id = JRequest::getVar('feedid', $params->get( 'feed_id', 0 ), '', 'int');
+		$id = JRequest::getVar('feedid', 0, '', 'int');
 		$this->setId($id);
 	}
 

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Nov-2006 Johan Janssens
+ ^ Refactored administrator weblinks component to use MVC component framework
+
 20-Nov-2006 Sam Moffatt
  ^ Altered behaviour of JHTMLSelect::genericList to accept nonlinear arrays
 
@@ -45,7 +48,7 @@ Legend:
  + Implemented factory method in JController::getView to be able to handle multiple views
  + Added JPath::find function to easily search a array of paths for a certain file
  ^ Switched parameter order in the JController::getView function
- ^ General MVC improvements to simply component implementations that follow conventions
+ ^ General MVC improvements to simplify component implementations that follow conventions
 
 15-Nov-2006 Andrew Eddie
  ^ JTable::addTableDir -> JTable::addIncludePath
@@ -57,9 +60,6 @@ Legend:
 14-Nov-2006 Andrew Eddie
  # Fixed js error in TinyMCE editor when Template CSS set to No
  
-13-Nov-2006 Johan Janssens
- + Added path handling to JModel
-
 11-Nov-2006 Louis Landry
  # Fixed feeds not rendering with SEF URLs enabled
 

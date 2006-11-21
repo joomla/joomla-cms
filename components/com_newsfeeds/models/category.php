@@ -60,13 +60,8 @@ class NewsfeedsModelCategory extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
-		global $Itemid;
-
-		// Get the paramaters of the active menu item
-		$params =& JSiteHelper::getMenuParams();
-
-		$id = JRequest::getVar('catid', $params->get( 'category_id', 0 ), '', 'int');
+	
+		$id = JRequest::getVar('catid', 0, '', 'int');
 		$this->setId($id);
 
 	}

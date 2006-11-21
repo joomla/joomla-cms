@@ -62,7 +62,7 @@ class JModel extends JObject
 	
 	/**
 	 * Constructor
-	 *
+	 *get
 	 * @since 1.5
 	 */
 	function __construct($options = array())
@@ -166,9 +166,9 @@ class JModel extends JObject
 	 * @return	object	The model state object
 	 * @since	1.5
 	 */
-	function getState()
+	function getState($property)
 	{
-		return $this->_state;
+		return $this->_state->get($property);
 	}
 
 	/**
@@ -220,8 +220,12 @@ class JModel extends JObject
 			$name = $this->_name;
 		}
 		
-		$table = &$this->_createTable( $name, $prefix );
-		return $table;
+		if($table = &$this->_createTable( $name, $prefix )) {
+			return $table;
+		} else {
+			JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
+			return null;
+		}
 	}
 	
 	/**
@@ -322,14 +326,13 @@ class JModel extends JObject
 				
 				if (!class_exists( $tableClass ))
 				{
-					JError::raiseWarning( 0, 'Table class ' . $tableClass . ' not found in file.' );
-					return $false;
+					JError::raiseError( 500, 'Table class ' . $tableClass . ' not found in file.' );
+					return null;
 				}
 			}
 			else
 			{
-				JError::raiseWarning( 0, 'Table ' . $type . ' not supported. File not found.' );
-				return $false;
+				return null;
 			}
 		}
 		

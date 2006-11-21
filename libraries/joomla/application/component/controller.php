@@ -513,8 +513,6 @@ class JController extends JObject
 	 */
 	function &_createModel( $name, $prefix = '')
 	{
-		$false = false;
-
 		// Clean the model name
 		$modelName   = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
@@ -530,14 +528,13 @@ class JController extends JObject
 				require( $path );
 				if (!class_exists( $modelClass ))
 				{
-					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					return $false;
+					return JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
+					return null;
 				}
 			}
 			else
 			{
-				JError::raiseWarning( 0, 'Model ' . $modelName . ' not supported. File not found.' );
-				return $false;
+				return null;
 			}
 		}
 
@@ -557,8 +554,6 @@ class JController extends JObject
 	 */
 	function &_createView( $name, $prefix = '', $type = '' )
 	{
-		$false = false;
-		
 		// Clean the view name
 		$viewName	 = preg_replace( '#\W#', '', $name );
 		$classPrefix = preg_replace( '#\W#', '', $prefix );
@@ -576,16 +571,14 @@ class JController extends JObject
 			{
 				require_once( $path );
 
-				if (!class_exists( $viewClass ))
-				{
-					JError::raiseWarning( 0, 'View class ' . $viewClass . ' not found in file.' );
-					return $false;
+				if (!class_exists( $viewClass )) {
+					JError::raiseError( 500, 'View class ' . $viewClass . ' not found in file.' );
+					return null;
 				}
 			}
 			else
 			{
-				JError::raiseWarning( 0, 'View ' . $viewName . ' not supported. File not found.' );
-				return $false;
+				return null;
 			}
 		}
 

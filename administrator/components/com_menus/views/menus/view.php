@@ -30,9 +30,7 @@ class MenusViewMenus extends JView
 
 		$this->_layout = 'default';
 
-		/*
-		 * Set toolbar items for the page
-		 */
+		// Set toolbar items for the page
 		JMenuBar::title( JText::_( 'Menu Manager' ), 'menumgr.png' );
 		JMenuBar::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JMenuBar::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );

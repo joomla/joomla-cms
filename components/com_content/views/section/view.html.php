@@ -78,7 +78,7 @@ class ContentViewSection extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$section->id.'&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
+			$category->link = sefRelToAbs('index.php?option=com_content&amp;view=category&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
 		}
 
 		$params->def('empty_cat_section', 	0);

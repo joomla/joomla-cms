@@ -104,6 +104,9 @@ class WeblinksViewWeblink extends JView
 
 		// build list of categories
 		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', $option, intval($weblink->catid));
+		
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
 		$this->assign('returnid', $returnid);
 

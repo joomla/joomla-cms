@@ -47,8 +47,8 @@ class WeblinksModelWeblink extends JModel
 	{
 		parent::__construct();
 
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$this->setId($id);
+		$array = JRequest::getVar('cid',  0, '', 'array');
+		$this->setId((int)$array[0]);
 
 	}
 
@@ -98,34 +98,7 @@ class WeblinksModelWeblink extends JModel
 		} 
 		else  $this->_initData();
 		
-		// Act on the task if needed
-		switch($this->getState('task')) 
-		{
-			case 'display' :
-				$this->incrementHit();
-		}
-		
 		return $this->_data;
-	}
-
-	/**
-	 * Method to increment the hit counter for the weblink
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function incrementHit()
-	{
-		global $mainframe;
-
-		if ($this->_id)
-		{
-			$weblink = & $this->getTable();
-			$weblink->hit($this->_id, $mainframe->getCfg('enable_log_items'));
-			return true;
-		}
-		return false;
 	}
 
 	/**

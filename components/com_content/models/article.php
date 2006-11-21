@@ -40,12 +40,7 @@ class ContentModelArticle extends JModel
 	{
 		parent::__construct();
 
-		global $Itemid;
-
-		// Get the paramaters of the active menu item
-		$params =& JSiteHelper::getMenuParams();
-
-		$id = JRequest::getVar('id', $params->get( 'article_id', 0 ), '', 'int');
+		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
 	}
 

@@ -36,7 +36,7 @@ class JOutputFilter
 	*					 to be parsed (eg, for a textarea)
 	* @since 1.5
 	*/
-	function objectHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' )
+	function objectHTMLSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' )
 	{
 		if (is_object( $mixed ))
 		{
