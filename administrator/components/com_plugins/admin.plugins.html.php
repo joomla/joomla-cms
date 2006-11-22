@@ -139,13 +139,13 @@ class HTML_modules {
 					<td align="center">
 						<?php echo $access;?>
 					</td>
-					<td nowrap="true">
+					<td nowrap="nowrap">
 						<?php echo $row->id;?>
 					</td>
-					<td nowrap="true">
+					<td nowrap="nowrap">
 						<?php echo $row->folder;?>
 					</td>
-					<td nowrap="true">
+					<td nowrap="nowrap">
 						<?php echo $row->element;?>
 					</td>
 				</tr>
