@@ -57,7 +57,10 @@ class MenusController extends JController
 		$cache->cleanCache();
 
 		$model	=& $this->getModel( 'Item' );
-		$model->setState( 'request', JRequest::get('post') );
+		$post	= JRequest::get('post');
+		// allow name only to contain html
+		$post['name'] = JRequest::getVar( 'name', '', 'post', 'string', _J_ALLOWHTML );
+		$model->setState( 'request', $post );
 
 		if ($model->store()) {
 			$msg = JText::_( 'Menu item Saved' );

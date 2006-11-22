@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2006 Andrew Eddie
+ ^ Allowed menu name fields to have basic html tags to allow for dynamic styling (to a degree) of menu items 
+
 21-Nov-2006 Andrew Eddie
  # Fixed bug in JModel where JPATH_COMPONENT* has not been loaded
  ^ Changed handling of request data in backend menu model.  Now pushed into model to allow for 3rd parties to use the model directly to create menus.
