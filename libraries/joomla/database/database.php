@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: database.php 4350 2006-07-28 03:34:45Z eddiea $
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Database
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

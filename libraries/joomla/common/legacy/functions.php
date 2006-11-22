@@ -15,7 +15,6 @@
  * Legacy function, use <jdoc:exists type="modules" condition="{POSITION}" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosCountModules( $position='left' ) {
 	jimport('joomla.application.module.helper');
@@ -26,7 +25,6 @@ function mosCountModules( $position='left' ) {
  * Legacy function, use <jdoc:include type="component" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosMainBody() {
 	?><jdoc:include type="component" /><?php
@@ -36,7 +34,6 @@ function mosMainBody() {
  * Legacy function, use <jdoc:include type="modules" /> instead
  *
  * @deprecated		As of version 1.5
- * @package			Joomla.Legacy
  */
 function mosLoadModules( $position='left', $style=0 )
 {
@@ -70,7 +67,6 @@ function mosLoadModules( $position='left', $style=0 )
  * Legacy function, use <jdoc:include type="module" /> instead
  *
  * @deprecated		As of version 1.5
- * @package			Joomla.Legacy
  */
 function mosLoadModule( $name, $style=-1 ) {
 	?><jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" /><?php
@@ -80,7 +76,6 @@ function mosLoadModule( $name, $style=-1 ) {
  * Legacy function, use <jdoc:include type="head" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosShowHead() {
 	?><jdoc:include type="head" /><?php
@@ -90,7 +85,6 @@ function mosShowHead() {
  * Legacy function, using <jdoc:exists> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosCountAdminModules(  $position='left' ) {
 	$document =& JFactory::getDocument();
@@ -101,7 +95,6 @@ function mosCountAdminModules(  $position='left' ) {
  * Legacy function, using <jdoc:include type="component" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosMainBody_Admin() {
 	?><jdoc:include type="component" /><?php
@@ -111,7 +104,6 @@ function mosMainBody_Admin() {
  * Legacy function, using <jdoc:include type="modules" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 
 function mosLoadAdminModules( $position='left', $style=0 ) {
@@ -138,7 +130,6 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
  * Legacy function, using <jdoc:include type="module" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosLoadAdminModule( $name, $style=0 ) {
 	?><jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" /><?php
@@ -148,7 +139,6 @@ function mosLoadAdminModule( $name, $style=0 ) {
  * Legacy function, using <jdoc:include type="head" /> instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosShowHead_Admin() {
 	?><jdoc:include type="head" /><?php
@@ -158,7 +148,6 @@ function mosShowHead_Admin() {
  * Legacy function, always use JRequest::getVar
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosStripslashes( &$value )
 {
@@ -182,7 +171,6 @@ function mosStripslashes( &$value )
  * Legacy function, use JObject->bind instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSlashes=true )
 {
@@ -216,7 +204,6 @@ function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSl
  * Legacy function, use JUtility::getHash instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosHash( $seed ) {
 	return JUtility::getHash( $seed );
@@ -226,7 +213,6 @@ function mosHash( $seed ) {
 * Legacy function
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
 */
 function mosNotAuth()
 {
@@ -241,7 +227,6 @@ function mosNotAuth()
  * Legacy function, use josErrorAlert instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 	return josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 );
@@ -251,7 +236,6 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
  * Legacy function, use JPath::clean instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosPathName($p_path, $p_addtrailingslash = true)
 {
@@ -263,7 +247,6 @@ function mosPathName($p_path, $p_addtrailingslash = true)
  * Legacy function, use JFolder::files or JFolder::folders instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  )
 {
@@ -284,7 +267,6 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
  * Legacy function, use JFactory::getMailer() instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
@@ -302,7 +284,6 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
  * Legacy function, use JUtility::sendMail instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
 	return JUTility::sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc, $bcc, $attachment, $replyto, $replytoname );
@@ -312,7 +293,6 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
  * Legacy function, use JUtility::sendAdminMail instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	JUtility::sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
@@ -322,7 +302,6 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  * Legacy function, use JAuthenticateHelper::genRandomPassword() instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosMakePassword() {
 	jimport('joomla.user.authenticate');
@@ -333,7 +312,6 @@ function mosMakePassword() {
  * Legacy function, use JApplication->redirect instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosRedirect( $url, $msg='' ) {
 	global $mainframe;
@@ -344,7 +322,6 @@ function mosRedirect( $url, $msg='' ) {
  * Legacy function, use JFolder::create
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosMakePath($base, $path='', $mode = NULL) {
 
@@ -360,7 +337,6 @@ function mosMakePath($base, $path='', $mode = NULL) {
  * Legacy function, use JArrayHelper::toInteger instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosArrayToInts( &$array, $default=null ) {
 	return JArrayHelper::toInteger( $array, $default );
@@ -370,7 +346,6 @@ function mosArrayToInts( &$array, $default=null ) {
  * Legacy function, use JError->getBackTrace instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosBackTrace( $message='' ) {
 	if (function_exists( 'debug_backtrace' )) {
@@ -391,7 +366,6 @@ function mosBackTrace( $message='' ) {
  * Legacy function, use JPath::setPermissions instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosChmod( $path ) {
 	jimport('joomla.filesystem.path');
@@ -402,7 +376,6 @@ function mosChmod( $path ) {
  * Legacy function, use JPath::setPermissions instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 	jimport('joomla.filesystem.path');
@@ -413,7 +386,6 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
  * Legacy function, use JPath::canCHMOD
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosIsChmodable( $file ) {
 	jimport('joomla.filesystem.path');
@@ -424,7 +396,6 @@ function mosIsChmodable( $file ) {
  * Legacy function, replaced by geshi bot
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosShowSource( $filename, $withLineNums=false ) {
 
@@ -459,7 +430,6 @@ function mosShowSource( $filename, $withLineNums=false ) {
  * Legacy function, use mosLoadModule('breadcrumbs); instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosPathWay() {
 	mosLoadModule('breadcrumb', -1);
@@ -469,7 +439,6 @@ function mosPathWay() {
  * Legacy function, use JBrowser::getInstance() instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosGetBrowser( $agent ) {
 	jimport('joomla.environment.browser');
@@ -481,7 +450,6 @@ function mosGetBrowser( $agent ) {
  * Legacy function, use JApplication::getBrowser() instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -492,7 +460,6 @@ function mosGetOS( $agent ) {
  * Legacy function, use JArrayHelper::getValue instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 {
@@ -531,7 +498,6 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
  * Legacy function, use JRegsitry instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosParseParams( $txt ) {
 
@@ -544,7 +510,6 @@ function mosParseParams( $txt ) {
  * Legacy function, removed
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosLoadComponent( $name )
 {
@@ -557,7 +522,6 @@ function mosLoadComponent( $name )
  * Legacy function, use JEditor::init instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function initEditor()
 {
@@ -569,7 +533,6 @@ function initEditor()
  * Legacy function, use JEditor::save or JEditor::getContent instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function getEditorContents($editorArea, $hiddenField)
 {
@@ -582,7 +545,6 @@ function getEditorContents($editorArea, $hiddenField)
  * Legacy function, use JEditor::display instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function editorArea($name, $content, $hiddenField, $width, $height, $col, $row)
 {
@@ -596,7 +558,6 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row)
 * Legacy function, use JMenu::authorize instead
 *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
@@ -609,7 +570,6 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
  * Legacy function, use JArrayHelper::fromObject instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
 {
@@ -621,7 +581,6 @@ function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
 * Legacy function, use JHTML::Date instead
 *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
 */
 function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null )  {
 	return JHTML::Date($date, $format, $offset);
@@ -631,7 +590,6 @@ function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null 
 * Legacy function, use JHTML::Date instead
 *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
 */
 function mosCurrentDate( $format="" )
 {
@@ -646,7 +604,6 @@ function mosCurrentDate( $format="" )
  * Legacy function, handled by JDocument Zlib outputfilter
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function initGzip()
 {
@@ -697,7 +654,6 @@ function initGzip()
  * Legacy function, handled by JDocument Zlib outputfilter
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function doGzip()
 {
@@ -726,7 +682,6 @@ function doGzip()
  * Legacy function, use JArrayHelper::sortObjects instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function SortArrayObjects( &$a, $k, $sort_direction=1 )
 {
@@ -737,7 +692,6 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 )
  * Legacy function, JSession transparently checks for spoofing attacks
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function josSpoofCheck( $header=false, $alternate=false )
 {
@@ -771,7 +725,6 @@ function josSpoofCheck( $header=false, $alternate=false )
  * Legacy function, use JUtility::getToken() instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 function josSpoofValue($alt = NULL)
 {

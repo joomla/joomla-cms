@@ -100,7 +100,7 @@ class mosMainFrame extends JApplication
 	}
 
 	/**
-	* Depreacted, use JDocument->setTitle instead or override in your application class
+	* Deprecated, use JDocument->setTitle instead or override in your application class
 	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) {
@@ -109,7 +109,7 @@ class mosMainFrame extends JApplication
 	}
 
 	/**
-	* Depreacted, use JDocument->getTitle instead or override in your application class
+	* Deprecated, use JDocument->getTitle instead or override in your application class
 	* @since 1.5
 	*/
 	function getPageTitle() {
@@ -808,7 +808,6 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::option instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		return JHTMLSelect::option($value, $text, $value_name, $text_name);
@@ -818,7 +817,6 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::selectList instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
 		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
@@ -828,7 +826,6 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )  {
 		return JHTMLSelect::integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
@@ -838,7 +835,6 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )  {
 		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
@@ -848,7 +844,6 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )  {
 		return JHTMLSelect::yesnoList( $tag_name, $tag_attribs, $selected, $yes, $no, $id ) ;
@@ -858,7 +853,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function writableCell( $folder, $relative=1, $text='', $visible=1 )
 	{
@@ -886,7 +880,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
 		$arr = array(
@@ -911,7 +904,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function treeSelectList( &$src_list, $src_id, $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected ) {
 
@@ -950,7 +942,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
 		$arr = array(
@@ -965,7 +956,6 @@ class mosHTML
  	 * Legacy function, use JHTML::idBox instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
 		return JHTML::idBox($rowNum, $recId, $checkedOut, $name);
@@ -975,7 +965,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function sortIcon( $text, $base_href, $field, $state='none' )
 	{
@@ -1011,7 +1000,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function CloseButton ( &$params, $hide_js=NULL ) {
 
@@ -1038,7 +1026,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function BackButton ( &$params, $hide_js=NULL ) {
 
@@ -1057,7 +1044,6 @@ class mosHTML
  	 * Legacy function, use JOutputFilter::cleanText instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function cleanText ( &$text ) {
 		jimport('joomla.filter.output');
@@ -1068,7 +1054,6 @@ class mosHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
 
@@ -1113,7 +1098,6 @@ class mosHTML
  	 * Legacy function, use JHTML::emailCloaking instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 		return JHTML::emailCloaking($mail, $mailto, $text, $email);
@@ -1123,7 +1107,6 @@ class mosHTML
  	 * Legacy function, use JHTML::keepAlive instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function keepAlive() {
 		JHTML::keepAlive();
@@ -1143,7 +1126,6 @@ class mosCommonHTML
  	 * Legacy function, use JHTML::keepAlive instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function ContentLegend( ) {
 		JCommonHTML::ContentLegend();
@@ -1153,7 +1135,6 @@ class mosCommonHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function menuLinksContent( &$menus )
 	{
@@ -1221,7 +1202,6 @@ class mosCommonHTML
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function menuLinksSecCat( &$menus )
 	{
@@ -1296,7 +1276,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::checkedOut instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function checkedOut( &$row, $overlib=1 ) {
 		return JCommonHTML::checkedOut($row, $overlib);
@@ -1306,7 +1285,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::loadOverlib instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function loadOverlib() {
 		JCommonHTML::loadOverlib();
@@ -1316,7 +1294,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::loadCalendar instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function loadCalendar() {
 		JCommonHTML::loadCalendar();
@@ -1326,7 +1303,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::AccessProcessing instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function AccessProcessing( &$row, $i, $archived=NULL ) {
 		return JCommonHTML::AccessProcessing($row, $i, $archived);
@@ -1336,7 +1312,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::CheckedOutProcessing
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function CheckedOutProcessing( &$row, $i ) {
 		return JCommonHTML::CheckedOutProcessing($row, $i);
@@ -1346,7 +1321,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::PublishedProcessing instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
 		return JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
@@ -1356,7 +1330,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::selectState instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
 		return JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
@@ -1366,7 +1339,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::saveorderButton instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function saveorderButton( $rows, $image='filesave.png' ) {
 		JCommonHTML::saveorderButton($rows, $image);
@@ -1376,7 +1348,6 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::tableOrdering instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
 		JCommonHTML::tableOrdering($text, $ordering, $lists, $task);
@@ -1397,7 +1368,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Ordering instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Ordering( &$row, $id ) {
 		return JAdminMenus::Ordering($row, $id);
@@ -1407,7 +1377,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Access instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Access( &$row ) {
 		return JAdminMenus::Access($row);
@@ -1417,7 +1386,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Published( &$row ) {
 		$published = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
@@ -1428,7 +1396,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::MenuLinks instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		return JAdminMenus::MenuLinks($lookup, $all, $none, $unassigned);
@@ -1439,7 +1406,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Category( &$menu, $id, $javascript='' )
 	{
@@ -1466,7 +1432,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Section( &$menu, $id, $all=0 )
 	{
@@ -1496,7 +1461,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Component( &$menu, $id )
 	{
@@ -1520,7 +1484,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function ComponentName( &$menu, $id )
 	{
@@ -1549,7 +1512,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Images instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		return JAdminMenus::Images($name, $active, $javascript, $directory);
@@ -1559,7 +1521,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::SpecificOrdering instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		return JAdminMenus::SpecificOrdering($row, $id, $query, $neworder);
@@ -1569,7 +1530,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::UserSelect instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
 		return JAdminMenus::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
@@ -1579,7 +1539,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Positions instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
 		return JAdminMenus::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
@@ -1589,7 +1548,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::ComponentCategry instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
 		return JAdminMenus::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
@@ -1599,7 +1557,6 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::SelectSection instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		return JAdminMenus::SelectSection($name, $active, $javascript, $order);
@@ -1609,7 +1566,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function Links2Menu( $type, $and ) {
 		$db =& JFactory::getDBO();
@@ -1630,7 +1586,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function MenuSelect( $name='menuselect', $javascript=NULL )
 	{
@@ -1664,7 +1619,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function ReadImages( $imagePath, $folderPath, &$folders, &$images )
 	{
@@ -1691,7 +1645,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function GetImageFolders( &$folders, $path )
 	{
@@ -1717,7 +1670,6 @@ class mosAdminMenus
  	 * Legacy function, deprecated
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function GetSavedImages( &$row, $path )
 	{
@@ -1742,7 +1694,6 @@ class mosAdminMenus
  	 * Legacy function, use ImageCheck instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
 		return JAdminMenus::ImageCheck($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
@@ -1752,7 +1703,6 @@ class mosAdminMenus
  	 * Legacy function, use ImageCheckAdmin instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
 		return JAdminMenus::ImageCheckAdmin($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
@@ -1762,7 +1712,6 @@ class mosAdminMenus
  	 * Legacy function, use JMenuHelper::getMenuTypes instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function menutypes() {
 		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
@@ -1772,7 +1721,6 @@ class mosAdminMenus
  	 * Legacy function, use JMenuHelper::menuItem instead
  	 *
  	 * @deprecated	As of version 1.5
- 	 * @package		Joomla.Legacy
  	*/
 	function menuItem( $item ) {
 		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );

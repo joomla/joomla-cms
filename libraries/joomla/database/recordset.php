@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: recordset.php 4449 2006-08-09 22:07:55Z eddiea $
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Database
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

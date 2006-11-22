@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Compatibility
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,8 +15,6 @@
  /**
  * PHP 5.0.x Compatibility functions
  *
- * @package		Joomla.Framework
- * @subpackage	Compatibility
  * @since		1.5
  */
 
@@ -35,7 +34,6 @@ if (!defined('FILE_APPEND')) {
  * @version	 	$Revision: 47 $
  * @internal	resource_context is not supported
  * @since	   	PHP 5
- * @require	 	PHP 4.0.1 (trigger_error)
  */
 if (!function_exists('file_put_contents')) {
 	function file_put_contents($filename, $content, $flags = null, $resource_context = null)

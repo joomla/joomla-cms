@@ -19,7 +19,6 @@ jimport( 'joomla.common.legacy.functions' );
  * Legacy define, _ISO defined not used anymore. All output is forced as utf-8
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 DEFINE('_ISO','charset=utf-8');
 
@@ -27,7 +26,6 @@ DEFINE('_ISO','charset=utf-8');
  * Legacy constant, use _JEXEC instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 define( '_VALID_MOS', 1 );
 
@@ -35,7 +33,6 @@ define( '_VALID_MOS', 1 );
  * Legacy constant, use _JEXEC instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
@@ -43,7 +40,6 @@ define( '_MOS_MAMBO_INCLUDED', 1 );
  * Legacy constant, use DATE_FORMAT_LC instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 DEFINE('_DATE_FORMAT_LC',"%A, %d %B %Y"); //Uses PHP's strftime Command Format
 
@@ -51,7 +47,6 @@ DEFINE('_DATE_FORMAT_LC',"%A, %d %B %Y"); //Uses PHP's strftime Command Format
  * Legacy constant, use DATE_FORMAT_LC2 instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 DEFINE('_DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
 
@@ -119,7 +114,6 @@ $GLOBALS['task'] = JRequest::getVar('task');
  * Load the site language file (the old way - to be deprecated)
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
  */
 global $mosConfig_lang;
 $file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';
