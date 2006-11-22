@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: model.php 4526 2006-08-15 01:18:17Z webImagery $
+ * @version $Id$
  * @package Joomla
  * @subpackage Menus
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
