@@ -19,6 +19,10 @@ jimport('joomla.application.plugin.helper');
 jimport('joomla.environment.request');
 jimport('joomla.environment.uri');
 
+// Attach sef handler to event dispatcher
+$dispatcher = & JEventDispatcher::getInstance();
+$dispatcher->attach(new JRouterJoomla($dispatcher));
+
 /**
  * Joomla! Search Engine Friendly URL plugin
  *
@@ -26,7 +30,7 @@ jimport('joomla.environment.uri');
  * @package		Joomla!
  * @subpackage	SEF
  */
-class sefURL extends JPlugin 
+class  JRouterJoomla extends JPlugin 
 {
 	/**
 	 * Constructor
@@ -39,12 +43,12 @@ class sefURL extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function sefURL(& $subject) 
+	function JRouterJoomla(& $subject) 
 	{
 		parent::__construct($subject);
 
 		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'sefurl');
+		$this->_plugin = & JPluginHelper::getPlugin('system', 'joomla.router');
 		$this->_params = new JParameter($this->_plugin->params);
 	}
 
@@ -83,68 +87,61 @@ class sefURL extends JPlugin
 			$doc = & JFactory::getDocument();
 			$doc->setLink($BASE);
 
-			$urlArray = explode('/', urldecode(trim(str_replace($BASE, '', $FULL), '/')));
-			if (count($urlArray))
+			$url = urldecode(trim(str_replace($BASE, '', $FULL), '/'));
+			$this->parseURL($url);
+		}
+	}
+	
+	function parseURL($url)
+	{
+		$urlArray = explode('/', $url);
+		if (count($urlArray))
+		{
+			// Check for index.php, index2.php, etc, in no-rewrite mode
+			if ((preg_match( '#index\d?\.php#', $urlArray[0])) || (strpos($urlArray[0], 'feed.php') !== false)) {
+				array_shift($urlArray);
+			}
+
+			$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
+			if ($component == '') {
+				return;
+			} 
+			elseif (strpos($component,'option,') === false) 
 			{
-				// Check for index.php, index2.php, etc, in no-rewrite mode
-				if ((preg_match( '#index\d?\.php#', $urlArray[0])) || (strpos($urlArray[0], 'feed.php') !== false)) {
-					array_shift($urlArray);
+				//
+				// FORMAT: /component_name/.../...
+				//
+
+				// shift the option off that array stack
+				array_shift($urlArray);
+
+				// component can only have letters, numbers and underscores
+				$component = preg_replace( '#\W#', '', $component );
+
+				$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
+				// Do a quick check to make sure component exists
+				if (!file_exists($path)) {
+					JError::raiseError(404, JText::_('Invalid Request'));
+					exit (404);
+				}
+				JRequest::setVar('option', 'com_'.$component, 'get');
+
+				// If Itemid is set -- last item in array -- pop it off and set it
+				if (is_numeric($urlArray[count($urlArray)-1])) {
+					JRequest::setVar('Itemid', array_pop($urlArray), 'get');
 				}
 
-				$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
-				if ($component == '') {
-					return;
-				} 
-				elseif (strpos($component,'option,') === false) 
+				// Use the custom sef handler if it exists
+				$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'sef.php';
+				if (file_exists($path)) 
 				{
-					//
-					// FORMAT: /component_name/.../...
-					//
-
-					// shift the option off that array stack
-					array_shift($urlArray);
-
-					// component can only have letters, numbers and underscores
-					$component = preg_replace( '#\W#', '', $component );
-
-					$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
-					// Do a quick check to make sure component exists
-					if (!file_exists($path)) {
-						JError::raiseError(404, JText::_('Invalid Request'));
-						exit (404);
-					}
-					JRequest::setVar('option', 'com_'.$component, 'get');
-
-					// If Itemid is set -- last item in array -- pop it off and set it
-					if (is_numeric($urlArray[count($urlArray)-1])) {
-						JRequest::setVar('Itemid', array_pop($urlArray), 'get');
-					}
-
-					// Use the custom sef handler if it exists
-					$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'sef.php';
-					if (file_exists($path)) 
-					{
-						require_once $path;
-						$function = $component.'_parseURL';
-						$function($urlArray,$this->_params);
-					} 
-					else 
-					{
-						// No handler set, just try to parse url by , separation
-						foreach ($urlArray as $value)
-						{
-							$temp = explode(',', $value);
-							if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') {
-								JRequest::setVar($temp[0], $temp[1], 'get');
-							}
-						}
-					}
+					require_once $path;
+					$function = $component.'_parseURL';
+					$function($urlArray,$this->_params);
 				} 
 				else 
 				{
-					//
-					// FORMAT: /key1,value1/key2,value2/.../keyN,valueN
-					//
+					// No handler set, just try to parse url by , separation
 					foreach ($urlArray as $value)
 					{
 						$temp = explode(',', $value);
@@ -153,18 +150,26 @@ class sefURL extends JPlugin
 						}
 					}
 				}
+			} 
+			else 
+			{
+				//
+				// FORMAT: /key1,value1/key2,value2/.../keyN,valueN
+				//
+				foreach ($urlArray as $value)
+				{
+					$temp = explode(',', $value);
+					if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') {
+						JRequest::setVar($temp[0], $temp[1], 'get');
+					}
+				}
 			}
 		}
 	}
 }
 
-// Attach sef handler to event dispatcher
-$dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new sefURL($dispatcher));
-
 /**
- * Function to convert an internal Joomla URL to an absolute Search Engine
- * Friendly URL.
+ * Function to convert an internal Joomla URL to a humanly readible URL.
  *
  * @param	string	$string	The internal URL
  * @return	string	The absolute search engine friendly URL
@@ -188,7 +193,7 @@ function sefRelToAbs($string)
 		static $params;
 		if (!isset($params)) {
 			// load plugin parameters
-			$plugin = & JPluginHelper::getPlugin('system', 'sefurl');
+			$plugin = & JPluginHelper::getPlugin('system', 'joomla.router');
 			$params = new JParameter($plugin->params);
 		}
 
@@ -198,9 +203,10 @@ function sefRelToAbs($string)
 		// Get config variables
 		$rewrite  = $params->get('mode', 0);
 		$SEF	  = $config->getValue('config.sef');
-
+		
 		// SEF URL Handling
-		if ($SEF && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) {
+		if ($SEF && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) 
+		{
 			// Replace all &amp; with &
 			$string = str_replace('&amp;', '&', $string);
 
@@ -211,9 +217,10 @@ function sefRelToAbs($string)
 
 			// break link into url component parts
 			$url = parse_url($string);
-
+			
 			// check if link contained a query component
-			if (isset ($url['query'])) {
+			if (isset ($url['query'])) 
+			{
 				// special handling for javascript
 				$url['query'] = stripslashes(str_replace('+', '%2b', $url['query']));
 				// clean possible xss attacks
@@ -225,20 +232,24 @@ function sefRelToAbs($string)
 
 				$sefstring = '';
 
-				if (isset($parts['option'])) {
+				if (isset($parts['option'])) 
+				{
 					// Build component name and sef handler path
 					$component = str_replace('com_', '', $parts['option']);
 					$path = JPATH_BASE.DS.'components'.DS.$parts['option'].DS.'sef.php';
 
 					// Use the custom sef handler if it exists
-					if (file_exists($path)) {
+					if (file_exists($path)) 
+					{
 						require_once $path;
 						$function	= $component.'_buildURL';
 						$sefstring	.= $component.'/';
 						unset($parts['option']);
 						$sefstring	.= $function($parts,$params);
 						$string		= $sefstring.intval( @$parts['Itemid'] ) .'/';
-					} else {
+					} 
+					else 
+					{
 						// Components with no custom handler
 						foreach ($parts as $key => $value)
 						{
@@ -265,7 +276,9 @@ function sefRelToAbs($string)
 			} else {
 				return $LiveSite.$string;
 			}
-		} else {
+		} 
+		else 
+		{
 			// Handling for when SEF is not activated
 			// Relative link handling
 			if (!(strpos($string, $LiveSite) === 0)) {

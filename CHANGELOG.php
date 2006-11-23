@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Nov-2006 Johan Janssens
+ ^ Changed content models to dynamicaly create article slugs
+ ^ Implemented article slug rendering in content views
+
 23-Nov-2006 Johan Janssens
  + Added stringURLSafe function to JOutputFilter
  + Added dynamic alias creation to com_content

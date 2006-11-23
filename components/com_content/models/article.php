@@ -326,6 +326,7 @@ class ContentModelArticle extends JModel
 			$where	= $this->_buildContentWhere();
 
 			$query = "SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section," .
+					"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
 					"\n g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access".$voting['select'].
 					"\n FROM #__content AS a" .
 					"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -336,6 +337,7 @@ class ContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
+
 			if($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
 			}

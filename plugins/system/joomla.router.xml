@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="system">
-	<name>SEF URLs</name>
+	<name>Router - Joomla</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>November 2006</creationDate>
+	<copyright>(C) 2005 - 2006 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
 	<description>Converts Joomla! URLs to Search Engine Friendly ones</description>
 	<files>
-		<filename plugin="sefurl">sefurl.php</filename>
+		<filename plugin="joomla.router">joomla.router.php</filename>
 	</files>
 	<params>
-		<param name="mode" type="list" default="0" label="mod_rewrite options" description="Option for SEF URLs on servers without mod_rewrite support">
+		<param name="mode" type="list" default="0" label="mod_rewrite options" description="Option for url rewriting on servers without mod_rewrite support">
 			<option value="0">mod_rewrite supported</option>
 			<option value="1">mod_rewrite not supported</option>
 		</param>
-		<param name="realnames" type="radio" default="0" label="Build with Real Names" description="Builds links with real names if supported by the component">
+		<param name="realnames" type="radio" default="0" label="Build with Real Names" description="Builds url's with real names if supported by the component">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

@@ -45,7 +45,7 @@ class ContentViewArticle extends JView
 			$this->_displayPagebreak($tpl);
 			return;
 		}
-
+		
 		if (($article->id == 0))
 		{
 			$id = JRequest::getVar( 'id' );
@@ -63,11 +63,11 @@ class ContentViewArticle extends JView
 		{
 			// Section
 			if (!empty ($article->section)) {
-				$pathway->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
+				$pathway->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;view=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
 			}
 			// Category
 			if (!empty ($article->category)) {
-				$pathway->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$article->sectionid.'&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
+				$pathway->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;view=category&amp;&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
 			}
 		}
 		// Article
@@ -102,7 +102,7 @@ class ContentViewArticle extends JView
 				// Check to see if the user has access to view the full article
 				if ($article->access <= $user->get('gid'))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$article->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$article->slug."&amp;Itemid=".$Itemid);
 
 					if (@$article->readmore) {
 						// text for the readmore link
@@ -163,7 +163,7 @@ class ContentViewArticle extends JView
 		{
 			case 'pdf' :
 			{
-				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url   = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -180,7 +180,7 @@ class ContentViewArticle extends JView
 
 			case 'print' :
 			{
-				$url    = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
+				$url    = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&amp;Itemid='.$Itemid.'&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -197,7 +197,7 @@ class ContentViewArticle extends JView
 
 			case 'email' :
 			{
-				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getURI());
+				$url   = 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{

@@ -484,25 +484,6 @@ class JPagination extends JObject
 		return $output;
 	}
 
-	/**
-	 * Sets the vars for the page navigation template
-	 *
-	 * @access public
-	 * @param object $tmpl PatTemplate Object to add the pagination footer template to
-	 * @param string $name Name of the pagination footer template to add
-	 * @return boolean True if successful
-	 * @since 1.5
-	 */
-	function setTemplateVars(& $tmpl, $name = 'admin-list-footer', $link = null)
-	{
-		// Set the template variables
-		$tmpl->addVar($name, 'PAGE_LINKS', $this->getPagesLinks($link));
-		$tmpl->addVar($name, 'PAGE_LIST_OPTIONS', $this->getLimitBox($link));
-		$tmpl->addVar($name, 'PAGE_COUNTER', $this->getPagesCounter());
-
-		return true;
-	}
-
 	function _list_footer($list)
 	{
 		// Initialize variables

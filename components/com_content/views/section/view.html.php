@@ -62,7 +62,7 @@ class ContentViewSection extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&amp;task=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
+		$link    = JURI::base() .'feed.php?option=com_content&amp;view=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -167,7 +167,7 @@ class ContentViewSection extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('gid'))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->slug."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
 				else
@@ -181,7 +181,7 @@ class ContentViewSection extends JView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;Itemid='.$Itemid.'&amp;pop=1';
+		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;tmpl=component&amp;Itemid='.$Itemid;
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));
@@ -209,7 +209,7 @@ class ContentViewSection extends JView
 		{
 			case 'pdf' :
 			{
-				$url   = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url   = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -226,7 +226,7 @@ class ContentViewSection extends JView
 
 			case 'print' :
 			{
-				$url    = 'index2.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $this->request->limitstart;
+				$url    = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -243,7 +243,7 @@ class ContentViewSection extends JView
 
 			case 'email' :
 			{
-				$url   = 'index2.php?option=com_mailto&amp;link='.urlencode( JRequest::getURI());
+				$url   = 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
