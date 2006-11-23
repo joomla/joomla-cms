@@ -453,7 +453,8 @@ class ContentView
 		}
 		?>
 
-		function submitbutton(pressbutton) {
+		function submitbutton(pressbutton) 
+		{
 			var form = document.adminForm;
 
 			if ( pressbutton == 'menulink' ) {
@@ -510,6 +511,8 @@ class ContentView
 			</td>
 			<td valign="top" width="320" style="padding: 7px 0 0 5px">
 			<?php
+				ContentView::_displayArticleStats($row, $lists, $params);
+			
 				$title = JText::_( 'PARAMBASIC' );
 				$pane->startPane("content-pane");
 				$pane->startPanel( $title, "detail-page" );
@@ -850,7 +853,6 @@ class ContentView
 		</tr>
 		</table>
 		<?php
-		ContentView::_displayArticleStats($row, $lists, $params);
 	}
 
 	function _paneMetaInfo( &$row, &$lists, &$params )
@@ -974,7 +976,7 @@ class ContentView
 		}
 
 		?>
-		<table width="100%" style="border-top: 1px dashed silver; padding: 5px;">
+		<table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
 		<?php
 		if ( $row->id ) {
 		?>

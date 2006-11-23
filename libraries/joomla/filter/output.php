@@ -56,6 +56,45 @@ class JOutputFilter
 			}
 		}
 	}
+	
+	/**
+	 * This method processes a string and replaces all instances of & with &amp; in links only
+	 *
+	 * @static
+	 * @param	string	$input	String to process
+	 * @return	string	Processed string
+	 * @since	1.5
+	 */
+	function linkXHTMLSafe($input)
+	{
+		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
+		return preg_replace_callback( "#$regex#i", array('JOutputFilter', '_ampReplaceCallback'), $input );
+	}
+	
+	/**
+	 * This method processes a string all replaces all accented UTF-8 characters by unaccented 
+	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
+	 * 
+	 * @static
+	 * @param	string	$input	String to process
+	 * @return	string	Processed string
+	 * @since	1.5
+	 */
+	function stringURLSafe($string)
+	{
+		$str = htmlentities(utf8_decode($string));
+		$str = preg_replace(
+			array('/&szlig;/','/&(..)lig;/', '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
+			array('ss',"$1","$1".'e',"$1"),
+			$str);
+			
+		// remove any duplicate whitespace, and ensure all characters are alphanumeric
+		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array('-',''), $str);
+		
+		// lowercase and trim
+		$str = trim(strtolower($str));
+		return $str;
+	}
 
 	/**
 	* Replaces &amp; with & for xhtml compliance
@@ -77,19 +116,7 @@ class JOutputFilter
 		return $text;
 	}
 
-	/**
-	 * This method processes a string and replaces all instances of & with &amp; in links only
-	 *
-	 * @static
-	 * @param	string	$input	String to process
-	 * @return	string	Processed string
-	 * @since	1.5
-	 */
-	function linkXHTMLSafe($input)
-	{
-		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
-		return preg_replace_callback( "#$regex#i", array('JOutputFilter', '_ampReplaceCallback'), $input );
-	}
+	
 
 	/**
 	 * Callback method for replacing & with &amp; in a string

@@ -26,7 +26,8 @@ jimport('joomla.environment.uri');
  * @package		Joomla!
  * @subpackage	SEF
  */
-class sefURL extends JPlugin {
+class sefURL extends JPlugin 
+{
 	/**
 	 * Constructor
 	 *
@@ -38,7 +39,8 @@ class sefURL extends JPlugin {
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function sefURL(& $subject) {
+	function sefURL(& $subject) 
+	{
 		parent::__construct($subject);
 
 		// load plugin parameters
@@ -92,7 +94,9 @@ class sefURL extends JPlugin {
 				$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
 				if ($component == '') {
 					return;
-				} elseif (strpos($component,'option,') === false) {
+				} 
+				elseif (strpos($component,'option,') === false) 
+				{
 					//
 					// FORMAT: /component_name/.../...
 					//
@@ -118,11 +122,14 @@ class sefURL extends JPlugin {
 
 					// Use the custom sef handler if it exists
 					$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'sef.php';
-					if (file_exists($path)) {
+					if (file_exists($path)) 
+					{
 						require_once $path;
 						$function = $component.'_parseURL';
 						$function($urlArray,$this->_params);
-					} else {
+					} 
+					else 
+					{
 						// No handler set, just try to parse url by , separation
 						foreach ($urlArray as $value)
 						{
@@ -132,7 +139,9 @@ class sefURL extends JPlugin {
 							}
 						}
 					}
-				} else {
+				} 
+				else 
+				{
 					//
 					// FORMAT: /key1,value1/key2,value2/.../keyN,valueN
 					//
