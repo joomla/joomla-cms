@@ -292,7 +292,8 @@ class ContentViewArticle extends JView
 		$editor =& JFactory::getEditor();
 
 		// Ensure the row data is safe html
-		mosMakeHtmlSafe($article);
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $article);
 
 		// Build the page title string
 		$title = $article->id ? JText::_('Edit') : JText::_('New');

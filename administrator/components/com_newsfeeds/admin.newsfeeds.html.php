@@ -186,7 +186,8 @@ class HTML_newsfeeds
 
 	function editNewsFeed( &$row, &$lists, $option )
 	{
-		mosMakeHtmlSafe( $row, ENT_QUOTES );
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

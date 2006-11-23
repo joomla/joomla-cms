@@ -123,7 +123,8 @@ class BannersViewClients
 
 	function bannerClientForm( &$row, $option )
 	{
-		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--

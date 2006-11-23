@@ -16,35 +16,6 @@
 jimport('joomla.filter.input');
 
 /**
-* Makes a variable safe to display in forms
-*
-* Object parameters that are non-string, array, object or start with underscore
-* will be converted
-*
-* @package Joomla.Framework
-* @param object An object to be parsed
-* @param int The optional quote style for the htmlspecialchars function
-* @param string|array An optional single field name or array of field names not
-*					 to be parsed (eg, for a textarea)
-* @since 1.0
-*/
-function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
-	if (is_object( $mixed )) {
-		foreach (get_object_vars( $mixed ) as $k => $v) {
-			if (is_array( $v ) || is_object( $v ) || $v == NULL || substr( $k, 1, 1 ) == '_' ) {
-				continue;
-			}
-			if (is_string( $exclude_keys ) && $k == $exclude_keys) {
-				continue;
-			} else if (is_array( $exclude_keys ) && in_array( $k, $exclude_keys )) {
-				continue;
-			}
-			$mixed->$k = htmlspecialchars( $v, $quote_style );
-		}
-	}
-}
-
-/**
 * Replaces &amp; with & for xhtml compliance
 *
 * Needed to handle unicode conflicts due to unicode conflicts

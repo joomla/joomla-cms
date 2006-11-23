@@ -205,7 +205,8 @@ class sections_html
 			$row->image = 'blank.png';
 		}
 
-		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'description' );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

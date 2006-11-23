@@ -180,7 +180,8 @@ class BannersView
 
 	function edit( &$row, &$lists, $_option )
 	{
-		mosMakeHtmlSafe( $row, ENT_QUOTES, 'custombannercode' );
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--

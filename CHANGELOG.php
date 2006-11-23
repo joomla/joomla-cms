@@ -41,6 +41,7 @@ Legend:
  + Added stringURLSafe function to JOutputFilter
  + Added dynamic alias creation to com_content
  + Added sef handlers to com_content
+ ^ Deprecated mosMakeHTMLSafe, use JOutputFilter::objectHTMLSafe instead
 
 22-Nov-2006 Andrew Eddie
  ^ Allowed menu name fields to have basic html tags to allow for dynamic styling (to a degree) of menu items 

@@ -136,7 +136,8 @@ class PollView
 
 	function editPoll( &$row, &$options, &$lists )
 	{
-		mosMakeHtmlSafe( $row, ENT_QUOTES );
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton)

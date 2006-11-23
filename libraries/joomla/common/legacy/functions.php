@@ -601,6 +601,16 @@ function mosCurrentDate( $format="" )
 }
 
 /**
+* Legacy function, use JOutputFilter::objectHTMLSafe instead
+*
+ * @deprecated	As of version 1.5
+*/
+function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
+	jimport('joomla.filter.output');
+	JOutputFilter::objectHTMLSafe( $mixed, $quote_style, $exclude_keys );
+}
+
+/**
  * Legacy function, handled by JDocument Zlib outputfilter
  *
  * @deprecated	As of version 1.5

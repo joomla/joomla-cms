@@ -172,7 +172,8 @@ class HTML_contact
 
 		JCommonHTML::loadOverlib();
 
-		mosMakeHtmlSafe( $row, ENT_QUOTES, 'misc' );
+		jimport('joomla.filter.output');
+		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
