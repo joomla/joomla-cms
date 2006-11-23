@@ -25,117 +25,13 @@ switch ($task) {
 		showSearches( $option, $task, 1 );
 		break;
 
-	case 'pageimp':
-		showPageImpressions( $option, $task );
-		break;
-
 	case 'resetStats':
 		resetStats();
 		break;
 
 	default:
-		showSummary( $task );
+		showSearches( $option, $task );
 		break;
-}
-
-function showSummary( $task )
-{
-	$db	=& JFactory::getDBO();
-	// get sort field and check against allowable field names
-	$field = strtolower( JRequest::getVar( 'field' ) );
-	if (!in_array( $field, array( 'agent', 'hits' ) )) {
-		$field = '';
-	}
-
-	// get field ordering or set the default field to order
-	$order = strtolower( JRequest::getVar( 'order', 'asc' ) );
-	if ($order != 'asc' && $order != 'desc' && $order != 'none') {
-		$order = 'asc';
-	} else if ($order == 'none') {
-		$field = 'agent';
-		$order = 'asc';
-	}
-
-	// browser stats
-	$order_by = '';
-	$sorts = array();
-	$tab = JRequest::getVar( 'tab', 'tab1' );
-	$sort_base = "index.php?option=com_statistics&amp;task=$task";
-
-	switch ($field)
-	{
-		case 'hits':
-			$order_by = "hits $order";
-			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&amp;tab=tab1", 'agent' );
-			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab1", 'hits', $order );
-			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&amp;tab=tab2", 'agent' );
-			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab2", 'hits', $order );
-			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&amp;tab=tab3", 'agent' );
-			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab3", 'hits', $order );
-			break;
-
-		case 'agent':
-		default:
-			$order_by = "agent $order";
-			$sorts['b_agent'] 	= sortIcon( 'Browser', "$sort_base&amp;tab=tab1", 'agent', $order );
-			$sorts['b_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab1", 'hits' );
-			$sorts['o_agent'] 	= sortIcon( 'Operating System', "$sort_base&amp;tab=tab2", 'agent', $order );
-			$sorts['o_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab2", 'hits' );
-			$sorts['d_agent'] 	= sortIcon( 'Domain', "$sort_base&amp;tab=tab3", 'agent', $order );
-			$sorts['d_hits'] 	= sortIcon( ' % ', "$sort_base&amp;tab=tab3", 'hits' );
-			break;
-	}
-
-	$query = "SELECT *"
-	. "\n FROM #__stats_agents"
-	. "\n WHERE type = 0"
-	. "\n ORDER BY $order_by"
-	;
-	$db->setQuery( $query );
-	$browsers = $db->loadObjectList();
-
-	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"
-	. "\n FROM #__stats_agents"
-	. "\n WHERE type = 0"
-	;
-	$db->setQuery( $query );
-	$bstats = $db->loadObject( );
-
-	// platform statistics
-	$query = "SELECT *"
-	. "\n FROM #__stats_agents"
-	. "\n WHERE type = 1"
-	. "\n ORDER BY hits DESC"
-	;
-	$db->setQuery( $query );
-	$platforms = $db->loadObjectList();
-
-	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"
-	. "\n FROM #__stats_agents"
-	. "\n WHERE type = 1"
-	;
-	$db->setQuery( $query );
-	$pstats = null;
-	$pstats = $db->loadObject();
-
-	// domain statistics
-	$query = "SELECT *"
-	. "\n FROM #__stats_agents"
-	. "\n WHERE type = 2"
-	. "\n ORDER BY hits DESC"
-	;
-	$db->setQuery( $query );
-	$tldomains = $db->loadObjectList();
-
-	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"
-	. "\n FROM #__stats_agents"
-	. "\n WHERE type = 2"
-	;
-	$db->setQuery( $query );
-	$dstats = null;
-	$dstats = $db->loadObject();
-
-	HTML_statistics::show( $browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts );
 }
 
 function showSearches( $option, $task, $showResults=null )

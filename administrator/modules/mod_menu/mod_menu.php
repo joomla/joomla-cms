@@ -43,8 +43,6 @@ function & buildMenu($usertype = '')
 	$lang			= & JFactory::getLanguage();
 	$user			= & JFactory::getUser();
 	$db				= & JFactory::getDBO();
-	$enableStats	= $mainframe->getCfg('enable_stats');
-	$enableSearches	= $mainframe->getCfg('enable_log_searches');
 	$caching		= $mainframe->getCfg('caching');
 
 	// cache some acl checks
@@ -103,9 +101,8 @@ function & buildMenu($usertype = '')
 	}
 	$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
 	$menu->addSeparator();
-	if ($enableStats || $enableSearches) {
-		$menu->addChild(new JMenuNode(JText::_('Statistics'), 'index.php?option=com_statistics', 'class:stats'));
-	}
+	$menu->addChild(new JMenuNode(JText::_('Statistics'), 'index.php?option=com_statistics', 'class:stats'));
+	$menu->addSeparator();
 	if ($canConfig) {
 		$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 		$menu->addSeparator();

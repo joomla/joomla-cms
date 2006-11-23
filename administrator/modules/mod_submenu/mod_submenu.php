@@ -150,17 +150,6 @@ class JAdminSubMenu
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
 
-			case 'com_statistics' :
-				$subMenuList = array();
-				if ($enableStats) {
-					$subMenuList[] = array ('title' => JText::_('Browser, OS, Domain'), 'link' => 'index.php?option=com_statistics', 'img' => '../includes/js/ThemeOffice/globe4.png');
-				}
-				if ($enableSearches) {
-					$subMenuList[] = array ('title' => JText::_('Search Text'), 'link' => 'index.php?option=com_statistics&task=searches', 'img' => '../includes/js/ThemeOffice/search_text.png');
-				}
-				$menu = JAdminSubMenu::_buildList($subMenuList);
-				break;
-
 			case 'com_categories' :
 				$section = JRequest::getVar('section');
 

@@ -40,6 +40,8 @@ Legend:
 24-Nov-2006 Johan Janssens
  ^ Changed content models to dynamicaly create article slugs
  ^ Implemented article slug rendering in content views
+ - Removed visitor plugin
+ - Removed visitor statistics 
 
 23-Nov-2006 Johan Janssens
  + Added stringURLSafe function to JOutputFilter

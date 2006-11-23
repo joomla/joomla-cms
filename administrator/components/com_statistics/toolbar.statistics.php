@@ -19,15 +19,6 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ($task) {
 
-	case 'searches':
-	case 'searchesresults':
-		TOOLBAR_statistics::_SEARCHES();
-		break;
-
-	case 'pageimp':
-		TOOLBAR_statistics::_PAGEIMP();
-		break;
-
 	default:
 		TOOLBAR_statistics::_DEFAULT();
 		break;
