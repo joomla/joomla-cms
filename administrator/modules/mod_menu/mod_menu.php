@@ -152,7 +152,6 @@ function & buildMenu($usertype = '')
 	$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=com_content', 'class:category'));
 	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
-	$menu->addChild(new JMenuNode(JText::_('Article Statistics'), 'index.php?option=com_statistics&task=pageimp', 'class:stats'));
 
 	$menu->getParent();
 

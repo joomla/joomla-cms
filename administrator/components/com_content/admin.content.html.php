@@ -110,6 +110,9 @@ class ContentView
 					<th align="center" width="10">
 						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
 					</th>
+					<th align="center" width="10">
+						<?php JCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists ); ?>
+					</th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -249,6 +252,9 @@ class ContentView
 					</td>
 					<td nowrap="nowrap">
 						<?php echo JHTML::Date( $row->created, DATE_FORMAT_LC4 ); ?>
+					</td>
+					<td nowrap="nowrap" align="center">
+						<?php echo $row->hits ?>
 					</td>
 				</tr>
 				<?php
