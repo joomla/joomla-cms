@@ -27,14 +27,14 @@ class JComponentHelper
 	 * Get the component info
 	 *
 	 * @access public
-	 * @param string The component option
+	 * @param string $name 	The component name
 	 * @return object A JComponent object
 	 */
-	function &getInfo( $option )
+	function &getInfo( $name )
 	{
 		static $instances;
 
-		if (!isset( $instances[$option] ))
+		if (!isset( $instances[$name] ))
 		{
 			$db = &JFactory::getDBO();
 
@@ -45,9 +45,9 @@ class JComponentHelper
 			$instances = $db->loadObjectList( 'option' );
 		}
 
-		if (isset( $instances[$option] ))
+		if (isset( $instances[$name] ))
 		{
-			$result = &$instances[$option];
+			$result = &$instances[$name];
 		}
 		else
 		{
@@ -63,14 +63,14 @@ class JComponentHelper
 	 * Checks if the component is enabled
 	 *
 	 * @access public
-	 * @param string The component option
+	 * @param string $name The component name
 	 * @return boolean
 	 */
-	function isEnabled( $option )
+	function isEnabled( $name )
 	{
 		global $mainframe;
 
-		$component = &JComponentHelper::getInfo( $option );
+		$component = &JComponentHelper::getInfo( $name );
 		return ($component->enabled | $mainframe->isAdmin());
 	}
 
@@ -78,25 +78,25 @@ class JComponentHelper
 	 * Gets the parameter object for the component
 	 *
 	 * @access public
-	 * @param string The component option
+	 * @param string $name The component name
 	 * @return object A JParameter object
 	 */
-	function &getParams( $option )
+	function &getParams( $name )
 	{
 		static $instances;
-		if (!isset( $instances[$option] ))
+		if (!isset( $instances[$name] ))
 		{
-			$component = &JComponentHelper::getInfo( $option );
-			$instances[$option] = new JParameter($component->params);
+			$component = &JComponentHelper::getInfo( $name );
+			$instances[$name] = new JParameter($component->params);
 		}
-		return $instances[$option];
+		return $instances[$name];
 	}
 
-	function renderComponent($component = null, $params = array())
+	function renderComponent($name = null, $params = array())
 	{
-		global $mainframe, $option, $Itemid;
+		global $mainframe, $option;
 
-		$component	= is_null($component) ? $option : 'com_'.$component;
+		$component	= is_null($name) ? $option : 'com_'.$name;
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
 

@@ -44,7 +44,7 @@ class ContentViewFrontpage extends JView
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
-
+		
 		// parameters
 		$intro				= $params->def('intro', 			4);
 		$leading			= $params->def('leading', 			1);

@@ -103,6 +103,7 @@ class WeblinksModelWeblink extends JModel
 		{
 			case 'display' :
 				$this->incrementHit();
+				break;
 		}
 		
 		return $this->_data;
@@ -187,6 +188,40 @@ class WeblinksModelWeblink extends JModel
 			return $weblink->checkout($uid, $this->_id);
 		}
 		return false;
+	}
+	
+	/**
+	 * Method to store the weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function store()
+	{
+		$row  =& $this->getTable();
+		$post = $this->getState( 'request' );
+		
+		// Bind the form fields to the web link table
+		if (!$row->bind($post, "published")) {
+			JError::raiseError( 500, $row->getError());
+			return;
+		}
+
+		// Create the timestamp for the date
+		$row->date = date('Y-m-d H:i:s');
+
+		// Make sure the web link table is valid
+		if (!$row->check()) {
+			JError::raiseError( 500, $row->getError());
+			return;
+		}
+
+		// Store the web link table to the database
+		if (!$row->store()) {
+			JError::raiseError( 500, $row->getError());
+			return;
+		}
 	}
 
 	/**

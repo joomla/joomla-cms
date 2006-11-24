@@ -35,7 +35,7 @@ class ContentViewArticle extends JView
 		// Initialize variables
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
-
+		
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;

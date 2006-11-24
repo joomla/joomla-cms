@@ -22,7 +22,7 @@ class TOOLBAR_modules {
 	*/
 	function _NEW($client)	{
 		JMenuBar::title( JText::_( 'Module Manager' ) . ' - <span>' . JText::_( 'New Module' ) . '</span>', 'module.png' );
-		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', 'Next', true );
+		JMenuBar::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.modules.new' );
 	}

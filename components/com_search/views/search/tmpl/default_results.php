@@ -76,7 +76,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td colspan="3">
 		<div align="center">
-			<?php $this->pagination->getPagesLinks( ); ?>
+			<?php echo $this->pagination->getPagesLinks( ); ?>
 		</div>
 	</td>
 </tr>

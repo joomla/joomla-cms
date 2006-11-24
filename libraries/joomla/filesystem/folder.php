@@ -76,7 +76,9 @@ class JFolder
 				$ret = false;
 			}
 			$ftp->quit();
-		} else {
+		} 
+		else 
+		{
 			// First set umask
 			$origmask = @ umask(0);
 
@@ -84,7 +86,8 @@ class JFolder
 			$obd = ini_get('open_basedir');
 
 			// If open_basedir is et we need to get the open_basedir that the path is in
-			if ($obd != null) {
+			if ($obd != null) 
+			{
 				if (JPATH_ISWIN) {
 					$obdSeparator = ";";
 				} else {
@@ -110,7 +113,8 @@ class JFolder
 			// TODO: there's potential for an infinite loop here..!
 			$ret = true;
 			$dir = $path;
-			while ($dir != dirname($dir)) {
+			while ($dir != dirname($dir)) 
+			{
 				$dir = $path;
 				while (!@ mkdir($dir, $mode)) {
 					$dir = dirname($dir);
@@ -132,13 +136,6 @@ class JFolder
 			}
 			// Reset umask
 			@ umask($origmask);
-			// If there is no open_basedir restriction this should always be true
-			if ($inOBD == false) {
-				// Return false for JFolder::create -- could not create path without violating open_basedir restrictions
-				$ret = false;
-			} else {
-				$ret = true;
-			}
 		}
 		return $ret;
 	}

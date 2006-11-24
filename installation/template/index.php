@@ -20,8 +20,8 @@
 		<div id="header1">
 			<div id="header2">
 				<div id="header3">
-					<div id="version"><?= JText::_('Version#') ?></div>
-					<span><?= JText::_('Installation') ?></span>
+					<div id="version"><?php echo JText::_('Version#') ?></div>
+					<span><?php echo JText::_('Installation') ?></span>
 				</div>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 		</div>
 
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?= JText::_('ISFREESOFTWARE') ?>
+			<?php echo JText::_('ISFREESOFTWARE') ?>
 		</div>
 		<script type="text/javascript">
 			init_moofx();

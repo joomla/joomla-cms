@@ -75,43 +75,20 @@ class WeblinksController extends JController
 			return;
 		}
 		
-		$row->checkin();
+		//get data from the request
+		$post = JRequest::getVar('jform', array(), 'post', 'array');
+		
+		$model = $this->getModel('weblink');
+		$model->setState( 'request', $post );
 
-		// Create a web link table
-		$row =& JTable::getInstance('weblink','Table');
-
-		// Get the form fields.
-		$fields = JRequest::getVar('jform', array(), 'post', 'array');
-
-		// Bind the form fields to the web link table
-		if (!$row->bind($fields, "published")) {
-			JError::raiseError( 500, $row->getError());
-			return;
+		if ($model->store()) {
+			$msg = JText::_( 'Weblink Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Weblink' );
 		}
-
-		// sanitise id field
-		$row->id = (int) $row->id;
-
-		// Is the web link a new one?
-		$isNew = $row->id < 1;
-
-		// Create the timestamp for the date
-		$row->date = date('Y-m-d H:i:s');
-
-		// Make sure the web link table is valid
-		if (!$row->check()) {
-			JError::raiseError( 500, $row->getError());
-			return;
-		}
-
-		// Store the web link table to the database
-		if (!$row->store()) {
-			JError::raiseError( 500, $row->getError());
-			return;
-		}
-
+		
 		// Check the table in so it can be edited.... we are done with it anyway
-		$row->checkin();
+		$model->checkin();
 
 		// admin users gid
 		$gid = 25;
@@ -130,11 +107,10 @@ class WeblinksController extends JController
 
 		// send email notification to admins
 		foreach ($adminRows as $adminRow) {
-			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $user->get('username'), JURI::base());
+			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title'], $user->get('username'), JURI::base());
 		}
 
-		$msg = $isNew ? JText::_('THANK_SUB') : '';
-		$mainframe->redirect('index.php?option=com_weblinks&Itemid='.$Itemid, $msg);
+		$this->setRedirect('index.php?option=com_weblinks&Itemid='.$Itemid, $msg);
 	}
 
 	/**
@@ -145,10 +121,7 @@ class WeblinksController extends JController
 	*/
 	function cancel()
 	{
-		global $mainframe, $Itemid;
-
 		// Get some objects from the JApplication
-		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
 		// Must be logged in
@@ -157,14 +130,11 @@ class WeblinksController extends JController
 			return;
 		}
 
-		// Create and load a web link table
-		$row =& JTable::getInstance('weblink', 'Table');
-		$row->load(JRequest::getVar( 'id', 0, 'post', 'int' ));
-
 		// Checkin the weblink
-		$row->checkin();
-
-		$mainframe->redirect('index.php');
+		$model = $this->getModel('weblink');
+		$model->checkin();
+		
+		$this->setRedirect('index.php');
 	}
 }
 

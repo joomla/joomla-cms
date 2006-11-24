@@ -26,7 +26,8 @@ class JArchive {
 	 * @param array of path to the files that must be added to the archive
 	 * $return boolean for success
 	 */
-	function create($archive, $files ) {
+	function create($archive, $files ) 
+	{
 		jimport('pear.File.Archive');
 
 		// $files is an array of path to the files that must be added to the archive
@@ -47,7 +48,8 @@ class JArchive {
 	 * @param string Directory to unpack into
 	 * $return boolean for success
 	 */
-	function extract( $archivename, $extractdir){
+	function extract( $archivename, $extractdir)
+	{
 		jimport( 'pear.File.Archive' );
 
 		$r = File_Archive::extract( File_Archive::read($archivename.'/'), File_Archive::toFiles($extractdir) );
@@ -55,7 +57,7 @@ class JArchive {
 		if (PEAR::isError($r)) {
 			return false;
 		}
-	return true;
+		return true;
 	}
 }
 ?>

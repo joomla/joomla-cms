@@ -38,13 +38,26 @@ Legend:
 ! -> Note
 
 24-Nov-2006 Johan Janssens
+ # Fixed [artf6823] : Category order in Frontpage blog layout
+ # Fixed [artf6427] : Fatal error: Only variables can be passed by reference
+ # Fixed [artf6824] : Ordering articles on frontpage.
+ # Fixed [artf6813] : Replaced PHP short tags
+ # Fixed [artf6785] : section blog layout: table not closed when pagination_results = 0
+ # Fixed [artf6725] : a template with an hyphen in it's name cannot be set to default
+ # Fixed [artf6741] : Button 'Next' in com_modules is missing
+ # Fixed [artf6811] : com_users/admin.users.php
+ # Fixed [artf6782] : "Order By " ignored in standard category layout menu item
+ # Fixed [artf6795] : Pagination missing from search results
+ # Fixed [artf6838] : "Passwords do not match" JS popup when changing passwords
+
+23-Nov-2006 Johan Janssens
  ^ Changed content models to dynamicaly create article slugs
  ^ Implemented article slug rendering in content views
  - Removed visitor plugin
  - Removed visitor statistics 
  ! Changes require a reinstall
 
-23-Nov-2006 Johan Janssens
+22-Nov-2006 Johan Janssens
  + Added stringURLSafe function to JOutputFilter
  + Added dynamic alias creation to com_content
  + Added sef handlers to com_content

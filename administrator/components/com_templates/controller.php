@@ -94,7 +94,7 @@ class TemplatesController
 
 		if (count( $cid ))
 		{
-			$template	= preg_replace( '#\W#', '', $cid[0] );
+			$template	= preg_replace( '#[^a-zA-Z0-9\-_]#', '', $cid[0] );
 
 			$query = "DELETE FROM #__templates_menu" .
 					"\n WHERE client_id = $client->id" .

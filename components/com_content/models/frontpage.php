@@ -127,6 +127,7 @@ class ContentModelFrontpage extends JModel
 			$voting['select'] .
 			"\n FROM #__content AS a" .
 			"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .
+			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid".
 			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
 			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
 			$voting['join'].

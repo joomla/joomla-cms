@@ -132,12 +132,12 @@ class UserController
 
 		$post = JRequest::get( 'post' );
 
-		$post['password'] = JRequest::getVar('password', '', 'post', 'string');
-		$post['verify']   = JRequest::getVar('verify', '', 'post', 'string');
+		$post['password'] 	 = JRequest::getVar('password', '', 'post', 'string');
+		$post['verifyPass']  = JRequest::getVar('verifyPass', '', 'post', 'string');
 
 		// do a password safety check
-		if($post['password'] != "") {
-			if($post['password'] != $post['verify']) {
+		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
+			if($post['password'] != $post['verifyPass']) {
 				echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
 				exit();
 			}

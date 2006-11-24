@@ -17,7 +17,7 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
+			<param name="orderby_sec" type="list" default="" label="Order by" description="PARAMORDERBY">
 				<option value="">Default</option>
 				<option value="date">Oldest first</option>
 				<option value="rdate">Most recent first</option>

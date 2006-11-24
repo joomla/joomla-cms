@@ -374,7 +374,7 @@ class ContentModelCategory extends JModel
 				break;
 		}
 		$orderby .= "$primary $secondary a.created DESC";
-
+		
 		return $orderby;
 	}
 
