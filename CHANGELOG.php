@@ -42,6 +42,7 @@ Legend:
  ^ Implemented article slug rendering in content views
  - Removed visitor plugin
  - Removed visitor statistics 
+ ! Changes require a reinstall
 
 23-Nov-2006 Johan Janssens
  + Added stringURLSafe function to JOutputFilter
