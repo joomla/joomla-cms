@@ -127,7 +127,7 @@ class JHTML
 	function Date($date, $format = DATE_FORMAT_LC, $offset = NULL)
 	{
 		jimport('joomla.utilities.date');
-
+		
 		if(is_null($offset))
 		{
 			$config =& JFactory::getConfig();

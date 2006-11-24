@@ -49,6 +49,9 @@ Legend:
  # Fixed [artf6782] : "Order By " ignored in standard category layout menu item
  # Fixed [artf6795] : Pagination missing from search results
  # Fixed [artf6838] : "Passwords do not match" JS popup when changing passwords
+ # Fixed [artf6726] : Start and finish publishing are modified unexpectedly
+ # Fixed [artf6632] : "Start Publishing" date drifts forward in time
+ # Fixed [artf4580] : Every save|apply to content item add 3 hours
 
 23-Nov-2006 Johan Janssens
  ^ Changed content models to dynamicaly create article slugs

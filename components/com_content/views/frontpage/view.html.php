@@ -200,7 +200,7 @@ class ContentViewFrontpage extends JView
 
 				JCommonHTML::loadOverlib();
 
-				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {

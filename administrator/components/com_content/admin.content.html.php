@@ -787,12 +787,12 @@ class ContentView
 		<table>
 		<tr>
 			<td>
-				<label for="title_alias">
-					<?php echo JText::_( 'Title Alias' ); ?>:
+				<label for="created_by">
+					<?php echo JText::_( 'Author' ); ?>:
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="title_alias" id="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
+				<?php echo $lists['created_by']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -817,22 +817,12 @@ class ContentView
 		</tr>
 		<tr>
 			<td>
-				<label for="created_by">
-					<?php echo JText::_( 'Change Creator' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?php echo $lists['created_by']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
 				<label for="created">
-					<?php echo JText::_( 'Override Created Date' ); ?>
+					<?php echo JText::_( 'Created Date' ); ?>
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo $row->created; ?>" />
+				<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo JHTML::Date($row->created, "%Y-%m-%d %H:%M:%S"); ?>" />
 				<input name="reset" type="reset" class="button" onclick="return showCalendar('created', 'y-mm-dd');" value="..." />
 			</td>
 		</tr>
@@ -843,7 +833,7 @@ class ContentView
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
+				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo JHTML::Date($row->publish_up, "%Y-%m-%d %H:%M:%S"); ?>" />
 				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
 			</td>
 		</tr>
@@ -854,7 +844,7 @@ class ContentView
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
+				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down;  ?>" />
 				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
 			</td>
 		</tr>
@@ -936,12 +926,12 @@ class ContentView
 		</tr>
 		<tr>
 			<td>
-				<label for="sectionid">
-					<?php echo JText::_( 'Section' ); ?>
+				<label for="title_alias">
+					<?php echo JText::_( 'Title Alias' ); ?>:
 				</label>
 			</td>
 			<td>
-				<?php echo $lists['sectionid']; ?>
+				<input class="inputbox" type="text" name="title_alias" id="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
 			</td>
 			<td>
 				<label>
@@ -954,14 +944,20 @@ class ContentView
 		</tr>
 		<tr>
 			<td>
+				<label for="sectionid">
+					<?php echo JText::_( 'Section' ); ?>
+				</label>
+			</td>
+			<td>
+				<?php echo $lists['sectionid']; ?>
+			</td>
+			<td>
 				<label for="catid">
 					<?php echo JText::_( 'Category' ); ?>
 				</label>
 			</td>
 			<td>
 				<?php echo $lists['catid']; ?>
-			</td>
-			<td colspan="2">
 			</td>
 		</tr>
 		</table>
@@ -1034,7 +1030,7 @@ class ContentView
 				if ( $row->created == $nullDate ) {
 					echo JText::_( 'New document' );
 				} else {
-					echo JHTML::Date( $row->modified,  DATE_FORMAT_LC2);
+					echo JHTML::Date( $row->created,  DATE_FORMAT_LC2);
 				}
 				?>
 			</td>
@@ -1048,7 +1044,7 @@ class ContentView
 					if ( $row->modified == $nullDate ) {
 						echo JText::_( 'Not modified' );
 					} else {
-						echo JHTML::Date( $row->created, DATE_FORMAT_LC2);
+						echo JHTML::Date( $row->modified, DATE_FORMAT_LC2);
 					}
 				?>
 			</td>

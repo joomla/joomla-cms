@@ -137,7 +137,7 @@ class ContentController extends JController
 			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
-			$row->created 		= date('Y-m-d H:i:s');
+			$row->created 		= gmdate('Y-m-d H:i:s');
 			$row->created_by 	= $user->get('id');
 		}
 		else
@@ -147,7 +147,7 @@ class ContentController extends JController
 			{
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
-			$row->modified 		= date('Y-m-d H:i:s');
+			$row->modified 		= gmdate('Y-m-d H:i:s');
 			$row->modified_by 	= $user->get('id');
 		}
 

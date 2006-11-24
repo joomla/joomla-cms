@@ -158,7 +158,7 @@ class JDate extends JObject
 	 */
 	function toISO8601()
 	{
-		$date = gmdate("Y-m-d\TH:i:sP", $this->_date + ($this->_offset * 3600));
+		$date = date("Y-m-d\TH:i:sP", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
 
@@ -169,7 +169,7 @@ class JDate extends JObject
 	 */
 	function toMySQL()
 	{
-		$date = gmdate("Y-m-d H:i:s", $this->_date + ($this->_offset * 3600));
+		$date = date("Y-m-d H:i:s", $this->_date + ($this->_offset * 3600));
 		return $date;
 	}
 
@@ -197,7 +197,7 @@ class JDate extends JObject
 	 */
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
-		$date = gmstrftime($format, $this->_date + ($this->_offset * 3600));
+		$date = strftime($format, $this->_date + ($this->_offset * 3600));
 
 		// for Windows there is a need to convert the OS date string to utf-8.
 		$lang = JFactory::getLanguage();

@@ -388,8 +388,6 @@ class ContentController extends JController
 				$row->images = array ();
 			}
 
-			$row->created  		= $newDate = JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S');
-			$row->modified 		= $newDate = JHTML::Date($row->modified, '%Y-%m-%d %H:%M:%S');
 			$row->publish_down 	= ContentController::_validateDate($row->publish_down);
 
 			$query = "SELECT name" .
@@ -417,7 +415,9 @@ class ContentController extends JController
 			if (!$row->frontpage) {
 				$row->frontpage = 0;
 			}
-		} else {
+		} 
+		else 
+		{
 			if (!$sectionid && @ JRequest::getVar('filter_sectionid')) {
 				$sectionid =JRequest::getVar('filter_sectionid');
 			}
@@ -436,9 +436,10 @@ class ContentController extends JController
 			$row->state = 1;
 			$row->ordering = 0;
 			$row->images = array ();
-			$row->publish_up = date('Y-m-d', time() + $mainframe->getCfg('offset') * 60 * 60);
+			$row->publish_up = gmdate('Y-m-d H:i:s');
 			$row->publish_down = JText::_('Never');
 			$row->creator = '';
+			$row->created = gmdate('Y-m-d H:i:s');
 			$row->modified = $nullDate;
 			$row->modifier = '';
 			$row->frontpage = 0;
@@ -578,7 +579,7 @@ class ContentController extends JController
 
 		// Are we saving from an item edit?
 		if ($row->id) {
-			$row->modified 		= date( 'Y-m-d H:i:s' );
+			$row->modified 		= gmdate( 'Y-m-d H:i:s' );
 			$row->modified_by 	= $user->get('id');
 		}
 
@@ -1338,7 +1339,8 @@ class ContentController extends JController
 		ContentView::insertPagebreak();
 	}
 
-	function _validateDate($date) {
+	function _validateDate($date) 
+	{
 		$db =& JFactory::getDBO();
 
 		if (JHTML::Date($date, '%Y') == 1969 || $date == $db->getNullDate()) {
