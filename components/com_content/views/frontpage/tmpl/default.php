@@ -72,19 +72,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->def('pagination', 2)) : ?>
+<?php if ($this->params->def('pagination', 2) == 1  || ($this->params->get('pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
 <tr>
 	<td valign="top" align="center">
 		<?php echo $this->pagination->getPagesLinks(); ?>
 		<br /><br />
 	</td>
 </tr>
-<?php endif; ?>
 <?php if ($this->params->def('pagination_results', 1)) : ?>
 <tr>
 	<td valign="top" align="center">
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</td>
 </tr>
+<?php endif; ?>
 <?php endif; ?>
 </table>

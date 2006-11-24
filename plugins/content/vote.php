@@ -25,7 +25,8 @@ function pluginVote( &$row, &$params, $page=0 )
 	$task 	= JRequest::getVar( 'task' );
 	$html 	= '';
 
-	if ($params->get( 'rating' ) && !$params->get( 'popup' )){
+	if ($params->get( 'rating' ) && !$params->get( 'popup' ))
+	{
 
 		$html .= '<form method="post" action="' . sefRelToAbs( 'index.php' ) . '">';
 		$img = '';
