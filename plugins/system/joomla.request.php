@@ -19,10 +19,6 @@ jimport('joomla.application.plugin.helper');
 jimport('joomla.environment.request');
 jimport('joomla.environment.uri');
 
-// Attach sef handler to event dispatcher
-$dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new JRequestJoomla($dispatcher));
-
 /**
  * Joomla! Search Engine Friendly URL plugin
  *
@@ -167,6 +163,11 @@ class  JRequestJoomla extends JPlugin
 		}
 	}
 }
+
+// Attach sef handler to event dispatcher
+$dispatcher = & JEventDispatcher::getInstance();
+$dispatcher->attach(new JRequestJoomla($dispatcher));
+
 
 /**
  * Function to convert an internal Joomla URL to a humanly readible URL.
