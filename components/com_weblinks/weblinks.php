@@ -15,14 +15,17 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Require the com_content helper library
-require_once (JPATH_COMPONENT . '/controller.php');
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
 
-//Add table directory
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+// Require specific controller if requested
+if($controller = JRequest::getVar('controller')) {
+	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+} 
 
 // Create the controller
-$controller = new WeblinksController( );
+$classname  = 'WeblinksController'.$controller;
+$controller = new $classname( );
 
 // Perform the Request task
 $controller->execute( JRequest::getVar('task'));

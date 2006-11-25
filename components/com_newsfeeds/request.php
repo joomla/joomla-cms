@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function newsfeeds_buildURL($ARRAY, &$params)
+function NewsfeedsBuildURL($ARRAY, &$params)
 {
 	static $categories;
 	$resolveNames = $params->get('realnames',0);
@@ -48,11 +48,11 @@ function newsfeeds_buildURL($ARRAY, &$params)
 			$parts[]	= 'page'.$page.'-'.$limit;
 		}
 	}
-	$string = implode('/', $parts);
-	return ($string)?$string.'/':null;
+	
+	return $parts;
 }
 
-function newsfeeds_parseURL($ARRAY, &$params)
+function NewsfeedsParseURL($ARRAY, &$params)
 {
 	// view is always the first element of the array
 	$task	= array_shift($ARRAY);

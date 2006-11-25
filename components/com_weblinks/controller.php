@@ -15,7 +15,7 @@
 jimport('joomla.application.component.controller');
 
 /**
- * Weblink Component Controller
+ * Weblinks Component Controller
  *
  * @package Joomla
  * @subpackage Weblinks
@@ -49,92 +49,16 @@ class WeblinksController extends JController
 				}
 			}
 		}
-		
+			
 		JRequest::setVar('view', $viewName);
+		
+		//update the hit count for the weblink
+		if($view = 'weblink') {
+			$model =& $this->getModel('weblink');
+			$model->hit();
+		}
 
 		parent::display();
-	}
-
-	/**
-	* Saves the record on an edit form submit
-	*
-	* @acces public
-	* @since 1.5
-	*/
-	function save()
-	{
-		global $mainframe, $Itemid;
-
-		// Get some objects from the JApplication
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
-
-		// Must be logged in
-		if ($user->get('id') < 1) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-		
-		//get data from the request
-		$post = JRequest::getVar('jform', array(), 'post', 'array');
-		
-		$model = $this->getModel('weblink');
-		$model->setState( 'request', $post );
-
-		if ($model->store()) {
-			$msg = JText::_( 'Weblink Saved' );
-		} else {
-			$msg = JText::_( 'Error Saving Weblink' );
-		}
-		
-		// Check the table in so it can be edited.... we are done with it anyway
-		$model->checkin();
-
-		// admin users gid
-		$gid = 25;
-
-		// list of admins
-		$query = "SELECT email, name" .
-				"\n FROM #__users" .
-				"\n WHERE gid = $gid" .
-				"\n AND sendEmail = 1";
-		$db->setQuery($query);
-		if (!$db->query()) {
-			JError::raiseError( 500, $db->stderr(true));
-			return;
-		}
-		$adminRows = $db->loadObjectList();
-
-		// send email notification to admins
-		foreach ($adminRows as $adminRow) {
-			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title'], $user->get('username'), JURI::base());
-		}
-
-		$this->setRedirect('index.php?option=com_weblinks&Itemid='.$Itemid, $msg);
-	}
-
-	/**
-	* Cancel the editing of a web link
-	*
-	* @access	public
-	* @since	1.5
-	*/
-	function cancel()
-	{
-		// Get some objects from the JApplication
-		$user	= & JFactory::getUser();
-
-		// Must be logged in
-		if ($user->get('id') < 1) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-
-		// Checkin the weblink
-		$model = $this->getModel('weblink');
-		$model->checkin();
-		
-		$this->setRedirect('index.php');
 	}
 }
 

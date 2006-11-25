@@ -1,5 +1,4 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton)
 {
@@ -22,7 +21,7 @@ function submitbutton(pressbutton)
 }
 </script>
 
-<form action="<?php echo sefRelToAbs("index.php"); ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php" method="post" name="adminForm" id="adminForm">
 <div class="componentheading">
 	<?php echo JText::_( 'Submit A Web Link' );?>
 </div>
@@ -82,6 +81,7 @@ function submitbutton(pressbutton)
 <input type="hidden" name="jform[ordering]" value="<?php echo $this->weblink->ordering; ?>" />
 <input type="hidden" name="jform[approved]" value="<?php echo $this->weblink->approved; ?>" />
 <input type="hidden" name="option" value="<?php echo $option;?>" />
+<input type="hidden" name="controller" value="weblink" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
 <input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />

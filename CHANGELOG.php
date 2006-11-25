@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Nov-2006 Johan Janssens
+ ^ Improvements to search engine friendly url handling
+ ! Changes require a reinstall 
+
 24-Nov-2006 Louis Landry
  + Added ability to delete multiple files at a time in media manager
  # Fixed mediamanager javascript error

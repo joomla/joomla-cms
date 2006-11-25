@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="system">
-	<name>Router - Joomla</name>
+	<name>Request modifier - Joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2006</creationDate>
 	<copyright>(C) 2005 - 2006 Open Source Matters. All rights reserved.</copyright>
@@ -8,9 +8,9 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Converts Joomla! URLs to Search Engine Friendly ones</description>
+	<description>Converts Joomla! URL's to Search Engine Friendly ones</description>
 	<files>
-		<filename plugin="joomla.router">joomla.router.php</filename>
+		<filename plugin="joomla.request">joomla.request.php</filename>
 	</files>
 	<params>
 		<param name="mode" type="list" default="0" label="mod_rewrite options" description="Option for url rewriting on servers without mod_rewrite support">

@@ -97,15 +97,7 @@ class WeblinksModelWeblink extends JModel
 			}
 		} 
 		else  $this->_initData();
-		
-		// Act on the task if needed
-		switch($this->getState('task')) 
-		{
-			case 'display' :
-				$this->incrementHit();
-				break;
-		}
-		
+			
 		return $this->_data;
 	}
 
@@ -116,7 +108,7 @@ class WeblinksModelWeblink extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function incrementHit()
+	function hit()
 	{
 		global $mainframe;
 
@@ -222,6 +214,8 @@ class WeblinksModelWeblink extends JModel
 			JError::raiseError( 500, $row->getError());
 			return;
 		}
+		
+		return true;
 	}
 
 	/**

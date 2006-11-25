@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: sef.php 5747 2006-11-12 21:49:30Z louis $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function content_buildURL($ARRAY, &$params)
+function WeblinksBuildURL($ARRAY, &$params)
 {
 	$resolveNames = $params->get('realnames',0);
 
@@ -45,11 +45,11 @@ function content_buildURL($ARRAY, &$params)
 			$parts[]	= 'page'.$page.':'.$limit;
 		}
 	}
-	$string = implode('/', $parts);
-	return ($string)?$string.'/':null;
+	
+	return $parts;
 }
 
-function content_parseURL($ARRAY, &$params)
+function WeblinksParseURL($ARRAY, &$params)
 {
 	// view is always the first element of the array
 	$view	= array_shift($ARRAY);
@@ -59,46 +59,73 @@ function content_parseURL($ARRAY, &$params)
 
 	switch ($view)
 	{
-		case 'section'  :
-		case 'category' :
-		case 'article'  :
+		case 'categories':
 		{
 			if (count($ARRAY))
 			{
  				$variable = array_shift($ARRAY);
-				
-				if(is_numeric((int)$variable) && ((int)$variable != 0))
+				JRequest::setVar('layout', $variable, 'get');
+			}
+		} break;
+
+		case 'category':
+		{
+			if (count($ARRAY))
+			{
+ 				$variable = array_shift($ARRAY);
+
+				if(is_numeric($variable))
 				{
-					JRequest::setVar('id', (int)$variable, 'get');
+					JRequest::setVar('catid', $variable, 'get');
 				}
 				else
 				{
 					JRequest::setVar('layout', $variable, 'get');
 					$variable = array_shift($ARRAY);
-					JRequest::setVar('id', (int)$variable, 'get');
+					JRequest::setVar('catid', $variable, 'get');
 				}
-				
-				// Handle Pagination
-				$last = array_shift($ARRAY);
-				if ($last == 'all')
+			}
+
+		} break;
+
+		case 'weblink':
+		{
+			if (count($ARRAY))
+			{
+ 				$variable = array_shift($ARRAY);
+
+				if(is_numeric($variable))
 				{
-					array_pop( $ARRAY );
-					$nArray--;
-					JRequest::setVar('limitstart', 0, 'get');
-					JRequest::setVar('limit', 0, 'get');
-					// if you want more than 1e6 on your page then you are nuts!
+					JRequest::setVar('id', $variable, 'get');
 				}
-				elseif (strpos( $last, 'page' ) === 0)
+				else
 				{
-					array_pop( $ARRAY );
-					$nArray--;
-					$pts		= explode( ':', $last );
-					$limit		= @$pts[1];
-					$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-					JRequest::setVar('limit',$limit, 'get');
-					JRequest::setVar('limitstart', $limitstart, 'get');
+					JRequest::setVar('layout', $variable, 'get');
+					$variable = array_shift($ARRAY);
+					JRequest::setVar('id', $variable, 'get');
 				}
-			}	
+			}
+
+			// Handle Pagination
+			$last = @$ARRAY[$nArray-1];
+			if ($last == 'all')
+			{
+				array_pop( $ARRAY );
+				$nArray--;
+				JRequest::setVar('limitstart', 0, 'get');
+				JRequest::setVar('limit', 0, 'get');
+				// if you want more than 1e6 on your page then you are nuts!
+			}
+			elseif (strpos( $last, 'page' ) === 0)
+			{
+				array_pop( $ARRAY );
+				$nArray--;
+				$pts		= explode( ':', $last );
+				$limit		= @$pts[1];
+				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
+				JRequest::setVar('limit',$limit, 'get');
+				JRequest::setVar('limitstart', $limitstart, 'get');
+			}
 		}
 		break;
 
