@@ -124,6 +124,7 @@ JMediaManager.prototype = {
 document.mediamanager = null;
 document.addLoadEvent(function() {
  	document.mediamanager = new JMediaManager();
- 	// Added to populate data on initial page load
+ 	// Added to populate data on iframe load
  	document.mediamanager.onloadframe();
+ 	$('folderframe').onload = document.mediamanager.onloadframe();
 });
