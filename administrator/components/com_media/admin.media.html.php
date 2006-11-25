@@ -131,7 +131,7 @@ class MediaViews
 			ksort($docs);
 
 			$method = 'draw'.$style.'Header';
-			MediaViews::$method();
+			MediaViews::$method($current);
 
 			$method = 'showUp'.$style;
 			MediaViews::$method($current);
@@ -183,9 +183,13 @@ class MediaViews
 		<?php
 	}
 
-	function drawThumbsHeader()
+	function drawThumbsHeader($current)
 	{
+		if ($current == '/') {
+			$current = '';
+		}
 		?>
+		<form action="index.php?option=com_media&amp;tmpl=component&amp;cFolder=<?php echo $current; ?>&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 		<div class="manager">
 		<?php
 	}
@@ -194,12 +198,18 @@ class MediaViews
 	{
 		?>
 		</div>
+		<input type="hidden" name="task" value="list" />
+		</form>
 		<?php
 	}
 
-	function drawDetailsHeader()
+	function drawDetailsHeader($current)
 	{
+		if ($current == '/') {
+			$current = '';
+		}
 		?>
+		<form action="index.php?option=com_media&amp;tmpl=component&amp;cFolder=<?php echo $current; ?>&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 		<div class="manager">
 		<table width="100%" cellspacing="0">
 		<thead>
@@ -221,6 +231,8 @@ class MediaViews
 		</tbody>
 		</table>
 		</div>
+		<input type="hidden" name="task" value="list" />
+		</form>
 		<?php
 	}
 
@@ -338,7 +350,7 @@ class MediaViews
 			<div class="imginfoBorder">
 				<?php echo $doc; ?>
 				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
+					<a href="index.php?option=com_media&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
 				</div>
@@ -374,9 +386,10 @@ class MediaViews
 				<?php echo $filesize; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
+				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
+				<input type="checkbox" name="rm[]" value="<?php echo $file; ?>" />
 			</td>
 		</tr>
 		<?php
@@ -410,9 +423,10 @@ class MediaViews
 				&nbsp;
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;task=deletefolder&amp;delFolder=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" target="_top" title="<?php echo JText::_( 'Delete Item' ); ?>">
+				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
+				<input type="checkbox" name="rm[]" value="<?php echo $path; ?>" />
 			</td>
 		</tr>
 		<?php
@@ -478,9 +492,10 @@ class MediaViews
 				<?php echo $size; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;task=delete&amp;delFile=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
+				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
+				<input type="checkbox" name="rm[]" value="<?php echo $doc; ?>" />
 			</td>
 		</tr>
 		<?php

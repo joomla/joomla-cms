@@ -48,6 +48,13 @@ JMediaManager.prototype = {
 		}
 	},
 	
+	submit: function(task)
+	{
+		var form = window.frames['folderframe'].document.getElementById('mediamanager-form');
+		form.task.value = task;
+		form.submit();
+	},
+	
 	onloadframe: function()
 	{
 		var folder = this.getFolder();
@@ -125,6 +132,6 @@ document.mediamanager = null;
 document.addLoadEvent(function() {
  	document.mediamanager = new JMediaManager();
  	// Added to populate data on iframe load
+ 	$('folderframe').onload = function() {document.mediamanager.onloadframe();}
  	document.mediamanager.onloadframe();
- 	$('folderframe').onload = document.mediamanager.onloadframe();
 });

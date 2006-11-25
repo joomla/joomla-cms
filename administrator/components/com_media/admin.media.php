@@ -60,8 +60,8 @@ switch ($task) {
 		break;
 
 	case 'delete' :
-		MediaController::deleteFile($folder);
-		MediaController::showMedia();
+		MediaController::delete($folder);
+		MediaController::listMedia();
 		break;
 
 	case 'deletefolder' :
@@ -439,6 +439,43 @@ class MediaController
 				JFile::write($folder."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
 			}
 		}
+	}
+
+	/**
+	 * Deletes paths from the current path
+	 *
+	 * @param string $listFolder The image directory to delete a file from
+	 * @since 1.5
+	 */
+	function delete($current)
+	{
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
+
+		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
+		$ret	= false;
+		if (count($paths)) {
+			foreach ($paths as $path)
+			{
+				$fullPath = COM_MEDIA_BASE.$current.DS.$path;
+				if (is_file($fullPath)) {
+					$ret |= !JFile::delete($fullPath);
+				} else if (is_dir($fullPath)) {
+					$files = JFolder::files($fullPath, '.', true);
+					foreach ($files as $file) {
+						if ($file != 'index.html') {
+							$canDelete = false;
+						}
+					}
+					if ($canDelete) {
+						$ret |= !JFolder::delete($fullPath);
+					} else {
+						echo '<font color="red">'.JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!').'</font>';
+					}
+				}
+			}
+		}
+		return !$ret;
 	}
 
 	/**

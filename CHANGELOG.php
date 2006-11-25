@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Nov-2006 Louis Landry
+ + Added ability to delete multiple files at a time in media manager
+ # Fixed mediamanager javascript error
+
 24-Nov-2006 Johan Janssens
  # Fixed [artf6823] : Category order in Frontpage blog layout
  # Fixed [artf6427] : Fatal error: Only variables can be passed by reference

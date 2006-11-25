@@ -41,6 +41,14 @@ class TOOLBAR_media {
 		// Set the titlebar text
 		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
 
+		// Add a delete button
+		$bar = & JToolBar::getInstance('JComponent');
+		$dhtml = "<a href=\"#\" onclick=\"document.mediamanager.submit('delete')\" class=\"toolbar\">
+					<div class=\"icon-32-delete\" title=\"Delete\" type=\"Custom\"></div>
+					Delete
+				</a>";
+		$bar->appendButton( 'Custom', $dhtml, 'delete' );
+
 		// Add a popup configuration button
 		JMenuBar::configuration('com_media');
 		JMenuBar::help( 'screen.mediamanager' );
