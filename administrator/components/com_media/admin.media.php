@@ -457,11 +457,12 @@ class MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				$fullPath = COM_MEDIA_BASE.$current.DS.$path;
+				$fullPath = JPath::clean(COM_MEDIA_BASE.$current.DS.$path, false);
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
 				} else if (is_dir($fullPath)) {
 					$files = JFolder::files($fullPath, '.', true);
+					$canDelete = true;
 					foreach ($files as $file) {
 						if ($file != 'index.html') {
 							$canDelete = false;
