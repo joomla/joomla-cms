@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Nov-2006 Johan Janssnes
+ ^ Added fix to JURI::base to solves issues on Apache CGI
+
 25-Nov-2006 Johan Janssens
  ^ Improvements to search engine friendly url handling
  ! Changes require a reinstall 

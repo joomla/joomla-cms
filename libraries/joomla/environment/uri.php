@@ -194,6 +194,12 @@ class JURI extends JObject
 				$BASE .= ":$port";
 			}
 
+			//Apache CGI
+			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
+				$BASE .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
+			}
+			
+			//Others
 			$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
 		}
 		return $BASE;
