@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( dirname(__FILE__)  .'/../../libraries/cache/Lite.php' );
+require_once( dirname(__FILE__)  .'/../../libraries/pear/cache/Lite.php' );
 ?>
