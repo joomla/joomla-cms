@@ -99,7 +99,6 @@ class NewsfeedsViewNewsfeed extends JView
 
 		$this->assignRef('params'  , $params   );
 		$this->assignRef('newsfeed', $newsfeed );
-		$this->assignRef('category', $category );
 
 		parent::display($tpl);
 	}
