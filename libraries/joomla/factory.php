@@ -262,19 +262,19 @@ class JFactory
 		switch ($type)
 		{
 			case 'RSS' :
-				if (!is_null( $options['rssUrl'] ))
-				{
-					define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
-					define('MAGPIE_CACHE_ON', true);
-					define('MAGPIE_CACHE_DIR',JPATH_BASE.DS.'cache');
-
-					if( !is_null( $options['cache_time']))
-					{
-						define('MAGPIE_CACHE_AGE', $options['cache_time']);
-					}
-
-					jimport('magpierss.rss_fetch');
-					$doc = fetch_rss( $options['rssUrl'] );
+			case 'Atom' :
+				if (!is_null( $options['rssUrl'] )) {
+				    jimport ('simplepie.simplepie');
+				    $simplepie = new SimplePie();
+				    $simplepie->feed_url($options['rssUrl']);
+				    $simplepie->cache_location(JPATH_BASE.DS.'cache');
+				    $simplepie->init();
+				    $simplepie->handle_content_type();
+				    if ($simplepie->data) {
+				        $doc = $simplepie;
+				    } else {
+					// Raise Error
+				    }
 				}
 				break;
 

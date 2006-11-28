@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Nov-2006 Louis Landry
+ - Removed MagPie Feed parser
+ + Added SimplePie Feed parser -- Thanks CoolAcid --
+ ! Much improved feed parsing and feed support
+
 27-Nov-2006 Johan Janssens
  ^ Weblinks component cleanup and code improvements
  ^ Changed JSiteHelper::getCurrentMenuItem to JSiteHelper::getActiveMenuItem
