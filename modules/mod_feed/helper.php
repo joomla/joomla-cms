@@ -38,29 +38,37 @@ class modFeedHelper
 
 		if ($rssDoc != false)
 		{
-			// feed elements
-			$currChannel	= $rssDoc->channel;
-			$image			= $rssDoc->image;
-			$items 			= $rssDoc->items;
-			$iUrl = 0;
+			// channel header and link
+			$channel['title'] = $rssDoc->get_feed_title();
+			$channel['link'] = $rssDoc->get_feed_link();
+			$channel['description'] = $rssDoc->get_feed_description();
+
+			// channel image if exists
+			if ($rssDoc->get_image_exist()) {
+				$image['url'] = $rssDoc->get_image_url();
+				$image['title'] = $rssDoc->get_image_title();
+			}
 
 			//image handling
 			$iUrl 	= isset($image['url']) ? $image['url'] : null;
 			$iTitle = isset($image['title']) ? $image['title'] : null;
 
+			// items
+			$items = $rssDoc->get_items();
+
+			// feed elements
+			$items = array_slice($items, 0, $rssitems);
 			?>
 			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php
-
 			// feed description
-			if (!is_null( $currChannel['title'] ) && $rsstitle)
-			{
+			if (!is_null( $channel['title'] ) && $rsstitle) {
 			?>
 				<tr>
 				<td>
 					<strong>
-						<a href="<?php echo ampReplace( $currChannel['link'] ); ?>" target="_blank">
-						<?php echo $currChannel['title']; ?></a>
+						<a href="<?php echo ampReplace( $channel['link'] ); ?>" target="_blank">
+						<?php echo $channel['title']; ?></a>
 					</strong>
 				</td>
 				</tr>
@@ -68,20 +76,18 @@ class modFeedHelper
 			}
 
 			// feed description
-			if ($rssdesc)
-			{
+			if ($rssdesc) {
 			?>
 				<tr>
 					<td>
-						<?php echo $currChannel['description']; ?>
+						<?php echo $channel['description']; ?>
 					</td>
 				</tr>
 			<?php
 			}
 
 			// feed image
-			if ($rssimage && $iUrl)
-			{
+			if ($rssimage && $iUrl) {
 			?>
 				<tr>
 					<td align="center">
@@ -94,12 +100,9 @@ class modFeedHelper
 			$actualItems = count( $items );
 			$setItems = $rssitems;
 
-			if ($setItems > $actualItems)
-			{
+			if ($setItems > $actualItems) {
 				$totalItems = $actualItems;
-			}
-			else
-			{
+			} else {
 				$totalItems = $setItems;
 			}
 			?>
@@ -114,30 +117,25 @@ class modFeedHelper
 					?>
 					<li>
 					<?php
-
-					if ( !is_null( $currItem['link'] ) )
-					{
+					if ( !is_null( $currItem->get_link() ) ) {
 					?>
-						<a href="<?php echo $currItem['link']; ?>" target="_child">
-						<?php echo $currItem['title']; ?>
+						<a href="<?php echo $currItem->get_link(); ?>" target="_child">
+						<?php echo $currItem->get_title(); ?>
 						</a>
 					<?php
 					}
 
 					// item description
-					if ($rssitemdesc)
-					{
+					if ($rssitemdesc) {
 						// item description
-						$text = html_entity_decode($currItem['description']);
+						$text = html_entity_decode($currItem->get_description());
 						$text = str_replace('&apos;', "'", $text);
 
 						// word limit check
-						if ($words)
-						{
+						if ($words) {
 							$texts = explode(' ', $text);
 							$count = count($texts);
-							if ($count > $words)
-							{
+							if ($count > $words) {
 								$text = '';
 								for ($i = 0; $i < $words; $i ++)
 								{
