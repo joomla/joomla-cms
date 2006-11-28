@@ -60,6 +60,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 		 * - This will move to a MVC controller at some point in the future
 		 */
 		global $mainframe;
+		jimport( 'joomla.application.helper' );
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
 			$task = JRequest::getVar( 'task' );
 			include_once( $path );

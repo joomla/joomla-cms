@@ -267,6 +267,7 @@ class JUser extends JObject
 		 */
 		if (is_null($path))
 		{
+			jimport( 'joomla.application.helper' );
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		}
 

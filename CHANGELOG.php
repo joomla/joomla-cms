@@ -41,6 +41,7 @@ Legend:
  ^ Weblinks component cleanup and code improvements
  ^ Changed JSiteHelper::getCurrentMenuItem to JSiteHelper::getActiveMenuItem
  ^ JURI class cleanup
+ ^ Moved JApplicationHelper to a seperate file
 
 26-Nov-2006 Johan Janssnes
  ^ Added fix to JURI::base to solves issues on Apache CGI

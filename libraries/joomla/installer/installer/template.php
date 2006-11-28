@@ -60,6 +60,7 @@ class JInstallerTemplate extends JInstaller
 		 */
 		if ($client = $root->getAttribute('client'))
 		{
+			jimport('joomla.application.helper');
 			$clientVals = JApplicationHelper::getClientInfo($client, true);
 			if ($clientVals === false)
 			{

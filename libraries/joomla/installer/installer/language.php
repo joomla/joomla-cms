@@ -52,8 +52,10 @@ class JInstallerLanguage extends JInstaller
 		$root = & $this->_xmldoc->documentElement;
 
 		// Get the client application target
-		if ($client = $root->getAttribute('client')) {
+		if ($client = $root->getAttribute('client')) 
+		{
 			// Attempt to map the client to a base path
+			jimport('joomla.application.helper');
 			$clientVals = JApplicationHelper::getClientInfo($client, true);
 			if ($clientVals === false) {
 				JError::raiseWarning(1, 'JInstallerLanguage::install: '.JText::_('Unknown client type').' ['.$client.']');

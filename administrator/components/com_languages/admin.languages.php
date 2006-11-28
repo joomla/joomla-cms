@@ -23,7 +23,6 @@ if (!$user->authorize( 'com_languages', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $task 	= trim( strtolower( JRequest::getVar( 'task' ) ) );

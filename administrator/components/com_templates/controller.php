@@ -11,7 +11,7 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
-
+ 
 /**
  * @package Joomla
  * @subpackage Templates
