@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Nov-2006 Johan Janssens
+ ^ Weblinks component cleanup and code improvements
+ ^ Changed JSiteHelper::getCurrentMenuItem to JSiteHelper::getActiveMenuItem
+ ^ JURI class cleanup
+
 26-Nov-2006 Johan Janssnes
  ^ Added fix to JURI::base to solves issues on Apache CGI
 

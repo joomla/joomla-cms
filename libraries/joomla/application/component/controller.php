@@ -335,6 +335,8 @@ class JController extends JObject
 	 */
 	function &getModel($name, $prefix='')
 	{
+		global $Itemid;
+		
 		if (empty($prefix)) {
 			$prefix = $this->_name.'Model';
 		}
@@ -343,6 +345,17 @@ class JController extends JObject
 		{
 			// task is a reserved state
 			$model->setState( 'task', $this->_task );
+			
+			// Get menu item information if Itemid exists
+			if (isset($Itemid))
+			{
+				$menu		= &JMenu::getInstance();
+				$item		= &$menu->getItem( $Itemid );
+				$params	    = new JParameter($item->params);
+
+				// Set Default State Data
+				$model->setState( 'parameters.menu', $params);
+			}
 		}
 		return $model;
 	}

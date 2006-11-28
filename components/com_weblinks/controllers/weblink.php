@@ -31,6 +31,14 @@ class WeblinksControllerWeblink extends WeblinksController
 	*/
 	function edit()
 	{
+		$user = & JFactory::getUser();
+		
+		// Make sure you are logged in
+		if ($user->get('gid') < 1) {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return;
+		}
+		
 		JRequest::setVar('view', 'weblink');
 		JRequest::setVar('layout', 'form');
 		
@@ -64,9 +72,8 @@ class WeblinksControllerWeblink extends WeblinksController
 		$post = JRequest::getVar('jform', array(), 'post', 'array');
 		
 		$model = $this->getModel('weblink');
-		$model->setState( 'request', $post );
 
-		if ($model->store()) {
+		if ($model->store($post)) {
 			$msg = JText::_( 'Weblink Saved' );
 		} else {
 			$msg = JText::_( 'Error Saving Weblink' );

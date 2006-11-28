@@ -37,7 +37,8 @@ class WeblinksViewWeblinks extends JView
 		JMenuBar::addNewX();
 		JMenuBar::help( 'screen.weblink' );
 		
-		$db =& JFactory::getDBO();
+		$db  =& JFactory::getDBO();
+		$uri =& JFactory::getURI();
 		
 		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
 		$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid', 	0 );
@@ -69,9 +70,10 @@ class WeblinksViewWeblinks extends JView
 		// search filter
 		$lists['search']= $search;
 		
-		$this->assignRef('lists'     , $lists);
-		$this->assignRef('items'     , $items);
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('lists'      , $lists);
+		$this->assignRef('items'      , $items);
+		$this->assignRef('pagination' , $pagination);
+		$this->assignRef('request_url', $uri->toString());
 
 		parent::display($tpl);
 	}

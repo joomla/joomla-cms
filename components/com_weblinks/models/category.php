@@ -69,12 +69,18 @@ class WeblinksModelCategory extends JModel
 		parent::__construct();
 		
 		global $mainframe;
+		
+		//TODO :: Maybe the controller should do this ?
 
 		// Get the pagination request variables
 		$this->setState('limit', JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 		
-		$id = JRequest::getVar('catid', 0, '', 'int');
+		// Get the filter request variables
+		$this->setState('filter_order', JRequest::getVar('filter_order', 'ordering'));
+		$this->setState('filter_order_dir', JRequest::getVar('filter_order_Dir', 'DESC'));
+		
+		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
 
 	}
@@ -196,17 +202,17 @@ class WeblinksModelCategory extends JModel
 
 	function _buildQuery()
 	{
-		$filter_order		= JRequest::getVar('filter_order', 'ordering');
-		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
+		$filter_order		= $this->getState('filter_order');
+		$filter_order_dir	= $this->getState('filter_order_dir');
 
 		// We need to get a list of all weblinks in the given category
 		$query = "SELECT *" .
 			"\n FROM #__weblinks" .
 			"\n WHERE catid = $this->_id".
 			"\n AND published = 1" .
-			"\n AND archived = 0";
+			"\n AND archived = 0".
 			"\n ORDER BY $filter_order $filter_order_dir, ordering";
-
+			
 		return $query;
 	}
 }

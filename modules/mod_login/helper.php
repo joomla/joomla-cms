@@ -18,31 +18,8 @@ class modLoginHelper
 {
 	function getReturnURL()
 	{
-		// url of current page that user will be returned to after login
-		$url = JArrayHelper::getValue($_SERVER, 'REQUEST_URI', null);
-
-		// if return link does not contain https:// & http:// and to url
-		if (strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0)
-		{
-			$url = JArrayHelper::getValue($_SERVER, 'HTTP_HOST', null).$url;
-
-			// check if link is https://
-			if (isset ($_SERVER['HTTPS']) && (!empty ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')) {
-				$return = 'https://'.$url;
-			}
-			else
-			{
-				// normal http:// link
-				$return = 'http://'.$url;
-			}
-		}
-		else
-		{
-			$return = $url;
-		}
-
-		// converts & to &amp; for xtml compliance
-		$return = str_replace('&', '&amp;', $return);
+		$uri = JURI::getInstance();
+		return $uri->toString();;
 	}
 
 	function getType()

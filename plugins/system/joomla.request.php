@@ -60,11 +60,11 @@ class  JRequestJoomla extends JPlugin
 		$config	= & JFactory::getConfig();
 
 		// Get config variables
-		$rewrite	= $this->_params->get('mode', 0);
-		$SEF	 	= $config->getValue('config.sef');
+		$mode    = $this->_params->get('mode', 0);
+		$rewrite = $config->getValue('config.sef');
 
 		//Only use SEF is enabled and not in the administrator
-		if ($SEF && !$mainframe->isAdmin())
+		if ($rewrite && !$mainframe->isAdmin())
 		{
 			// get the full request URI
 			$URI = JURI::getInstance();
@@ -78,7 +78,7 @@ class  JRequestJoomla extends JPlugin
 			// Get the base and full URLs
 			$FULL = $URI->toString();
 			$BASE = JURI::base();
-
+			
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($BASE);
@@ -200,12 +200,9 @@ function sefRelToAbs($string)
 			$params = new JParameter($plugin->params);
 		}
 
-		// Get the base request URL if not set
-		$LiveSite =  JURI::base();
-
 		// Get config variables
-		$rewrite  = $params->get('mode', 0);
-		$SEF	  = $config->getValue('config.sef');
+		$mode    = $params->get('mode', 0);
+		$rewrite = $config->getValue('config.sef');
 		
 		// Replace all &amp; with &
 		$string = str_replace('&amp;', '&', $string);
@@ -215,47 +212,46 @@ function sefRelToAbs($string)
 			$string = '';
 		}
 
-		// break link into url component parts
-		$parts = array();
-		$url   = parse_url($string);
+		// decompose link into url component parts
+		$uri = JURI::getInstance($string);
 		
 		// check if link contained a query component
-		if (isset ($url['query'])) 
+		if ($query = $uri->getQuery()) 
 		{
 			// special handling for javascript
-			$url['query'] = stripslashes(str_replace('+', '%2b', $url['query']));
+			$query = stripslashes(str_replace('+', '%2b', $query));
 			
 			// clean possible xss attacks
-			$url['query'] = preg_replace("'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $url['query']);
+			$query = preg_replace("'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $query);
+			
+			//set the query
+			$uri->setQuery($query);
 
-			// break query into component parts
-			parse_str($url['query'], $parts);
-		
 			// make sure we have a valid itemid set	
-			if(!isset($parts['Itemid'])) {
-				$parts['Itemid'] = $Itemid;
+			if(!$uri->getVar('Itemid')) {
+				$uri->setVar('Itemid', $Itemid);
 			}
 			
 			// make sure we have a valid option set	
-			if(!isset($parts['option'])) {
-				$parts['option'] = $option;
+			if(!$uri->getVar('option')) {
+				$uri->setVar('option', $option);
 			}
 		}
 		
-		// SEF URL Handling
-		if ($SEF && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) 
+		// rewite URL
+		if ($rewrite && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) 
 		{
 			//get component name
-			$component = str_replace('com_', '', $parts['option']);	
-			$itemid    = intval( @$parts['Itemid'] );
+			$component = str_replace('com_', '', $uri->getVar('option'));	
+			$itemid    = intval( $uri->getVar('Itemid'));
 				
 			$route     = ''; //the route created
 				
 			// Build component name and sef handler path
-			$path = JPATH_BASE.DS.'components'.DS.$parts['option'].DS.'request.php';
+			$path = JPATH_BASE.DS.'components'.DS.$uri->getVar('option').DS.'request.php';
 				
-			unset($parts['option']); //don't need the option anymore
-			unset($parts['Itemid']); //don't need the itemid anymore
+			$uri->delVar('option'); //don't need the option anymore
+			$uri->delVar('Itemid'); //don't need the itemid anymore
 
 			// Use the custom request handler if it exists
 			if (file_exists($path)) 
@@ -263,16 +259,18 @@ function sefRelToAbs($string)
 				require_once $path;
 				$function  = $component.'BuildURL';
 						
-				$parts  = $function($parts,$params);
-							
+				$parts  = $function($uri->getQuery(true),$params);
+								
 				$route = implode('/', $parts);
 				$route = ($route) ? $route.'/' : null;
 						
 			}	 
 			else
 			{
+				$vars = $uri->getQuery(true);
+				
 				// Components with no custom handler
-				foreach ($parts as $key => $value)
+				foreach ($vars as $key => $value)
 				{
 					// remove slashes automatically added by parse_str
 					$route .= $key.','.stripslashes($value).'/';
@@ -282,66 +280,26 @@ function sefRelToAbs($string)
 			
 			// check if link contained fragment identifiers (ex. #foo)
 			$fragment = null;
-			if (isset ($url['fragment'])) {
+			if ($fragment = $uri->getFragment()) {
 				// ensure fragment identifiers are compatible with HTML4
-				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $url['fragment'])) {
-					$fragment = '#'.$url['fragment'];
+				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $fragment)) {
+					$fragment = '#'.$fragment;
 				}
 			}
 			
 			$url = $component.'/'.$route.$itemid.$fragment;
+			
+			// Prepend the base URI if we are not using mod_rewrite
+			if ($mode) {
+				$url = 'index.php/'.$url;
+			} 
 						 	
-			// Prepend the base URI
-			if ($rewrite) {
-				return $LiveSite.'index.php/'.$url;
-			} else {
-				return $LiveSite.$url;
-			}
-		} 
-		else 
-		{
-			// Handling for when SEF is not activated
-			// Relative link handling
-			if (!(strpos($string, $LiveSite) === 0)) 
-			{
-				// if URI starts with a "/", means URL is at the root of the host...
-				if (strncmp($string, '/', 1) == 0) 
-				{
-					// splits http(s)://xx.xx/yy/zz..." into [1]="http(s)://xx.xx" and [2]="/yy/zz...":
-					$live_site_parts = array ();
-					eregi("^(https?:[\/]+[^\/]+)(.*$)", $LiveSite, $live_site_parts);
-
-					$string = $live_site_parts[1] . $string;
-					/*
-					// check that url does not contain `http`, `https`, `ftp`, `mailto` or `javascript` at start of string
-					} else if ( ( strpos( $string, 'http' ) !== 0 ) && ( strpos( $string, 'https' ) !== 0 ) && ( strpos( $string, 'ftp' ) !== 0 ) && ( strpos( $string, 'file' ) !== 0 ) && ( strpos( $string, 'mailto' ) !== 0 ) && ( strpos( $string, 'javascript' ) !== 0 ) ) {
-						// URI doesn't start with a "/" so relative to the page (live-site):
-						$string = $LiveSite .'/'. $string;
-					}
-					*/
-				} 
-				else 
-				{
-					$check = 1;
-
-					// array list of URL schemes
-					$url_schemes = array ('data:','file:','ftp:','gopher:','imap:','ldap:','mailto:','news:','nntp:','telnet:','javascript:','irc:','http:','https:');
-
-					foreach ($url_schemes as $url)
-					{
-						if (strpos($string, $url) === 0) {
-							$check = 0;
-						}
-					}
-
-					if ($check) {
-						$string = $LiveSite.$string;
-					}
-				}
-			}
-			$strings[$string] = $string;
+			return $url;
 		}
+		
+		$strings[$string] = $uri->toString();
 	}
-	return $strings[$string];
+	
+	return str_replace( '&', '&amp;', $strings[$string] );;
 }
 ?>

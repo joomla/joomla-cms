@@ -28,7 +28,7 @@
 	}
 </style>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo sefReltoAbs($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Details' ); ?></legend>
@@ -115,6 +115,6 @@
 <div class="clr"></div>
 
 <input type="hidden" name="cid[]" value="<?php echo $this->weblink->id; ?>" />
-<input type="hidden" name="option" value="<?php echo $option;?>" />
 <input type="hidden" name="task" value="" />
+<input type="hidden" name="controller" value="weblink" />
 </form>

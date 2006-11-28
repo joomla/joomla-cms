@@ -309,7 +309,7 @@ class JSiteHelper
 	 * @return	object	Reference to the current menu item, an an empty menu object if none set
 	 * @since	1.5
 	 */
-	function &getCurrentMenuItem()
+	function &getActiveMenuItem()
 	{
 		global $Itemid;
 		$menu	= &JMenu::getInstance();
@@ -326,7 +326,7 @@ class JSiteHelper
 	 */
 	function &getMenuParams()
 	{
-		$item = &JSiteHelper::getCurrentMenuItem();
+		$item = &JSiteHelper::getActiveMenuItem();
 		$params = new JParameter( $item->params );
 		return $params;
 	}

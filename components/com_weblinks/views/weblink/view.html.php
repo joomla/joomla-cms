@@ -49,16 +49,9 @@ class WeblinksViewWeblink extends JView
 		global $mainframe, $option;
 
 		// Get some objects from the JApplication
-		$user		= & JFactory::getUser();
-		$pathway	= & $mainframe->getPathWay();
-		$document	= & JFactory::getDocument();
+		$pathway	=& $mainframe->getPathWay();
+		$document	=& JFactory::getDocument();
 		$model      =& $this->getModel();
-
-		// Make sure you are logged in
-		if ($user->get('gid') < 1) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
 
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable

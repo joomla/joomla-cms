@@ -49,15 +49,16 @@ class WeblinksViewWeblink extends JView
 		global $mainframe, $option;
 
 		$db		=& JFactory::getDBO();
+		$uri 	=& JFactory::getURI();
 		$user 	=& JFactory::getUser();
-		$model   =& $this->getModel();
+		$model  =& $this->getModel();
 
 		$lists = array();
 		
 		//get the weblink
 		$weblink =& $this->get('data');
 		$isNew   = ($weblink->id < 1);
-
+		
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut( $user->get('id') )) {
 			$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
@@ -78,7 +79,7 @@ class WeblinksViewWeblink extends JView
 		JMenuBar::help( 'screen.weblink.edit' );
 
 		// Edit or Create?
-		if ($isNew) 
+		if (!$isNew) 
 		{
 			$model->checkout( $user->get('id') );
 		} 
@@ -111,9 +112,10 @@ class WeblinksViewWeblink extends JView
 		$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/weblinks_item.xml';
 		$params = new JParameter( $weblink->params, $file, 'component' );
 		
-		$this->assignRef('lists' 	, $lists);
-		$this->assignRef('weblink'  , $weblink);
-		$this->assignRef('params'	, $params);
+		$this->assignRef('lists' 	   , $lists);
+		$this->assignRef('weblink'     , $weblink);
+		$this->assignRef('params'	   , $params);
+		$this->assignRef('request_url' , $uri->toString());
 
 		parent::display($tpl);
 	}

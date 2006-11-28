@@ -30,26 +30,24 @@ class WeblinksViewCategory extends JView
 
 		// Initialize some variables
 		$document = & JFactory::getDocument();
+		$uri 	  =& JFactory::getURI();
 		$pathway  = & $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
 		$menus  = &JMenu::getInstance();
 		$menu   = $menus->getItem($Itemid);
-		$params = new JParameter($menu->params);
-
-		// Get some request variables
-		$filter_order		= JRequest::getVar('filter_order', 'ordering');
-		$filter_order_dir	= JRequest::getVar('filter_order_Dir', 'DESC');
 
 		// Get some data from the model
 		$items      =& $this->get('data' );
 		$total      =& $this->get('total');
 		$pagination =& $this->get('pagination'); 
-		$category   =& $this->get( 'category' );
+		$category   =& $this->get('category' );
+		$state      =& $this->get('state');
+		$params     =  $state->get('parameters.menu');
 		$category->total = $total;
 
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&amp;Itemid='.$Itemid;
+		$link    = 'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -62,13 +60,13 @@ class WeblinksViewCategory extends JView
 		$pathway->addItem($category->name, '');
 
 		// table ordering
-		if ($filter_order_dir == 'DESC') {
+		if ($state->get('filter_order_dir') == 'DESC') {
 			$lists['order_Dir'] = 'ASC';
 		} else {
 			$lists['order_Dir'] = 'DESC';
 		}
 
-		$lists['order'] = $filter_order;
+		$lists['order'] = $state->get('filter_order');
 
 		$selected = '';
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
@@ -106,8 +104,7 @@ class WeblinksViewCategory extends JView
 		{
 			$item =& $items[$i];
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&amp;view=weblink&amp;id='. $item->id.'&amp;Itemid='.$Itemid );
-			$link = ampReplace( $link );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id );
 
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 
@@ -146,6 +143,7 @@ class WeblinksViewCategory extends JView
 		$this->assignRef('category'  , $category);
 		$this->assignRef('items'     , $items);
 		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
 
 		parent::display($tpl);
 	}

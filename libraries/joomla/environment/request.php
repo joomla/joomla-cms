@@ -28,9 +28,6 @@ define("_J_ALLOWHTML", 4);
  * request variables.  This includes $_POST, $_GET, and naturally $_REQUEST.  Variables
  * can be passed through an input filter to avoid injection or returned raw.
  *
- * The concept and implementation of this class is inspired by the binary cloud
- * environment package.  <http://www.binarycloud.com/>
- *
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework

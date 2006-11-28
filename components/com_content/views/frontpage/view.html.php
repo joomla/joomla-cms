@@ -74,7 +74,7 @@ class ContentViewFrontpage extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link    = ampReplace(JURI::base() .'feed.php?option=com_content&view=frontpage&Itemid='.$Itemid);
+		$link    = ampReplace('feed.php?option=com_content&view=frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

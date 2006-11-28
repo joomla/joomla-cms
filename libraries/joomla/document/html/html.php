@@ -285,7 +285,7 @@ class JDocumentHTML extends JDocument
 			{
 				$path = str_replace( JPATH_BASE . DS, '', $dir );
 				$path = str_replace( '\\', '/', $path );
-				$this->addFavicon( JURI::base() . $path . 'favicon.ico' );
+				$this->addFavicon( $path . 'favicon.ico' );
 				break;
 			}
 		}

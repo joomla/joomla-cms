@@ -54,7 +54,7 @@ class LoginController
 		$user 		=& JFactory::getUser();
 		$pathway	= & $mainframe->getPathway();
 
-		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$menu    =& JSiteHelper::getActiveMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Set some default page parameters if not set
@@ -62,7 +62,6 @@ class LoginController
 		$params->def( 'header_login', 				$menu->name );
 		$params->def( 'header_logout', 				$menu->name );
 		$params->def( 'pageclass_sfx', 				'' );
-		$params->def( 'back_button', 				$mainframe->getCfg( 'back_button' ) );
 		$params->def( 'login', 						'index.php' );
 		$params->def( 'logout', 					'index.php' );
 		$params->def( 'description_login', 			1 );
@@ -115,7 +114,7 @@ class LoginController
 		$username = JRequest::getVar( 'username' );
 		$password = JRequest::getVar( 'password' );
 		$return = JRequest::getVar('return', false);
-
+		
 		$error = $mainframe->login($username, $password);
 
 		if(!JError::isError($error))

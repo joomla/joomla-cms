@@ -40,7 +40,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$pathway =& $mainframe->getPathWay();
 
 		// Get the current menu item
-		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$menu    =& JSiteHelper::getActiveMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 		
 		//get the newsfeed

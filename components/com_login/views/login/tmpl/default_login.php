@@ -75,6 +75,6 @@
 
 <input type="hidden" name="option" value="com_login" />
 <input type="hidden" name="task" value="login" />
-<input type="hidden" name="return" value="<?php echo JURI::resolve( $this->params->get('login') ); ?>" />
+<input type="hidden" name="return" value="<?php echo $this->params->get('login'); ?>" />
 <input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
 </form>

@@ -33,7 +33,7 @@ class ContentViewCategory extends JView
 		$pathway  = & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$menu    =& JSiteHelper::getActiveMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Request variables
@@ -56,7 +56,7 @@ class ContentViewCategory extends JView
 		$category = & $this->get( 'Category' );
 
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&view=category&id='.$category->id.'&Itemid='.$Itemid;
+		$link    = 'feed.php?option=com_content&view=category&id='.$category->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

@@ -9,7 +9,7 @@
 }
 </script>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo sefRelToAbs($this->request_url); ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td align="right" colspan="4">
@@ -68,10 +68,6 @@
 	</td>
 </tr>
 </table>
-<input type="hidden" name="option" value="com_weblinks" />
-<input type="hidden" name="view" value="weblink" />
-<input type="hidden" name="catid" value="<?php echo $this->category->id;?>" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-<input type="hidden" name="filter_order_dir" value="" />
+<input type="hidden" name="filter_order_Dir" value="" />
 </form>

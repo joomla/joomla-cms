@@ -29,7 +29,7 @@ class ContactViewCategory extends JView
 		$model	 = &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$menu    =& JSiteHelper::getActiveMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Selected Request vars

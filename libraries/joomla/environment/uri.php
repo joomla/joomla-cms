@@ -18,9 +18,6 @@
  * for the Joomla Framework to access and manipulate a URI.  Second to attain the URI of
  * the current executing script from the server regardless of server.
  *
- * The concept and implementation of this class is drawn heavily from the binary cloud
- * environment package.  <http://www.binarycloud.com/>
- *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
@@ -41,6 +38,20 @@ class JURI extends JObject
 	 * @var string
 	 */
 	var $_scheme = null;
+	
+	/**
+	 * Host
+	 *
+	 * @var string
+	 */
+	var $_host = null;
+	
+	/**
+	 * Port
+	 *
+	 * @var integer
+	 */
+	var $_port = null;
 
 	/**
 	 * Username
@@ -57,25 +68,25 @@ class JURI extends JObject
 	var $_pass = null;
 
 	/**
-	 * Host
-	 *
-	 * @var string
-	 */
-	var $_host = null;
-
-	/**
-	 * Port
-	 *
-	 * @var integer
-	 */
-	var $_port = null;
-
-	/**
 	 * Path
 	 *
 	 * @var string
 	 */
 	var $_path = null;
+	
+	/**
+	 * Query
+	 *
+	 * @var string
+	 */
+	var $_query = null;
+	
+	/**
+	 * Anchor
+	 *
+	 * @var string
+	 */
+	var $_fragment = null;
 
 	/**
 	 * Query variable hash
@@ -83,13 +94,6 @@ class JURI extends JObject
 	 * @var array
 	 */
 	var $_vars = array ();
-
-	/**
-	 * Anchor
-	 *
-	 * @var string
-	 */
-	var $_anchor = null;
 
 	/**
 	 * Constructor.
@@ -183,26 +187,26 @@ class JURI extends JObject
 	 */
 	function base()
 	{
-		static $BASE;
+		static $base;
 
 		// Get the base request URL if not set
-		if (!isset($BASE)) {
+		if (!isset($base)) {
 			$uri =& JFactory::getURI();
-			$BASE  = $uri->getScheme().'://';
-			$BASE .= $uri->getHost();
+			$base  = $uri->getScheme().'://';
+			$base .= $uri->getHost();
 			if ($port = $uri->getPort()) {
-				$BASE .= ":$port";
+				$base .= ":$port";
 			}
 
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 				//Apache CGI
-				$BASE .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
+				$base .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
 			} else {
 				//Others
-				$BASE .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
+				$base .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
 			}			
 		}
-		return $BASE;
+		return $base;
 	}
 
 	/**
@@ -223,7 +227,7 @@ class JURI extends JObject
 	function resolve( $url, $ssl=0, $sef=1 )
 	{
 		// Initialize variables
-		$BASE = JURI::base();
+		$base = JURI::base();
 
 		/*
 		 * First we need to get the secure/unsecure URLs.  If the first 5
@@ -232,17 +236,17 @@ class JURI extends JObject
 		 * and the scheme is 'http', then we need to do a quick string manipulation
 		 * to switch schemes.
 		 */
-		if ( substr( $BASE, 0, 5 ) == 'https' ) {
-			$secure 	= $BASE;
-			$unsecure	= 'http'.substr( $BASE, 5 );
-		} elseif ( substr( $BASE, 0, 4 ) == 'http' ) {
-			$secure		= 'https'.substr( $BASE, 4 );
-			$unsecure	= $BASE;
+		if ( substr( $base, 0, 5 ) == 'https' ) {
+			$secure 	= $base;
+			$unsecure	= 'http'.substr( $base, 5 );
+		} elseif ( substr( $base, 0, 4 ) == 'http' ) {
+			$secure		= 'https'.substr( $base, 4 );
+			$unsecure	= $base;
 		}
 
 		// If $url is / the we set the base url as the given one
 		if ($url == '/') {
-			$url = $BASE;
+			$url = $base;
 		}
 
 		/*
@@ -255,7 +259,7 @@ class JURI extends JObject
 
 		// Were we fed a relative URL?
 		if ( substr( $url,0,4 ) != 'http' ) {
-			$url = $BASE . $url;
+			$url = $base . $url;
 		}
 
 		/*
@@ -287,9 +291,7 @@ class JURI extends JObject
 	 */
 	function parse($uri)
 	{
-		/*
-		 * Initialize variables
-		 */
+		//Initialize variables
 		$retval = false;
 
 		// Set the original URI to fall back on
@@ -309,8 +311,11 @@ class JURI extends JObject
 		$this->_host = isset ($_parts['host']) ? $_parts['host'] : null;
 		$this->_port = isset ($_parts['port']) ? $_parts['port'] : null;
 		$this->_path = isset ($_parts['path']) ? $_parts['path'] : null;
-		$this->_vars = isset ($_parts['query']) ? $this->_parseQueryString($_parts['query']) : array ();
-		$this->_anchor = isset ($_parts['fragment']) ? $_parts['fragment'] : null;
+		$this->_query = isset ($_parts['query'])? $_parts['query'] : null;
+		$this->_fragment = isset ($_parts['fragment']) ? $_parts['fragment'] : null;
+		
+		//parse the query
+		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 
 		return $retval;
 	}
@@ -325,8 +330,6 @@ class JURI extends JObject
 	 */
 	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
-		$query = $this->getQueryString();
-
 		$uri = '';
 		$uri .= in_array('scheme', $parts)   ? $this->_scheme.'://' : '';
 		$uri .= in_array('user', $parts)     ? $this->_user : '';
@@ -334,8 +337,8 @@ class JURI extends JObject
 		$uri .= in_array('host', $parts)     ? $this->_host : '';
 		$uri .= in_array('port', $parts)     ? (!empty ($this->_port) ? ':' : '').$this->_port : '';
 		$uri .= in_array('path', $parts)     ? $this->_path : '';
-		$uri .= in_array('query', $parts)    ? (!empty ($query) ? '?'.$query : '') : '';
-		$uri .= in_array('fragment', $parts) ? (!empty ($this->_anchor) ? '#'.$this->_anchor : '') : '';
+		$uri .= in_array('query', $parts)    ? (!empty ($this->_query) ? '?'.$this->_query : '') : '';
+		$uri .= in_array('fragment', $parts) ? (!empty ($this->_fragment) ? '#'.$this->_fragment : '') : '';
 
 		return $uri;
 	}
@@ -358,14 +361,19 @@ class JURI extends JObject
 	}
 
 	/**
-	 * Returns an array with all of the query variables
+	 * Returns a query variable by name
 	 *
 	 * @access public
+	 * @param string $name Name of the query variable to get
 	 * @return array Query variables
 	 * @since 1.5
 	 */
-	function getVars() {
-		return $this->_vars;
+	function getVar($name = null, $default=null) 
+	{	
+		if(isset($this->_vars[$name])) {
+			return $this->_vars[$name];
+		}
+		return $default;
 	}
 
 	/**
@@ -390,39 +398,25 @@ class JURI extends JObject
 	 * @param string $query The query string
 	 * @since 1.5
 	 */
-	function setQueryString($query) {
-		$this->_vars = $this->_parseQueryString($query);
+	function setQuery($query) 
+	{
+		$this->_query = $query;
+		parse_str($query, $this->_vars);
 	}
 
 	/**
-	 * Returns flat query string from (array) $_vars hash
+	 * Returns flat query string
 	 *
 	 * @access public
 	 * @return string Query string
 	 * @since 1.5
 	 */
-	function getQueryString()
+	function getQuery($toArray = false) 
 	{
-		if (!empty ($this->_vars)) {
-			$query = array ();
-			foreach ($this->_vars as $name => $value) {
-				if (is_array($value)) {
-					foreach ($value as $k => $v) {
-						$query[] = $name.'='.$v;
-					}
-				}
-				elseif (!is_null($value)) {
-					$query[] = $name.'='.$value;
-				} else {
-					$query[] = $name;
-				}
-			}
-			$query = implode('&', $query);
-		} else {
-			$query = null;
+		if($toArray) {
+			return $this->_vars;
 		}
-
-		return $query;
+		return $this->_query;
 	}
 
 	/**
@@ -457,7 +451,7 @@ class JURI extends JObject
 	 * @return string The URI username
 	 * @since 1.5
 	 */
-	function getUsername() {
+	function getUser() {
 		return $this->_user;
 	}
 
@@ -468,7 +462,7 @@ class JURI extends JObject
 	 * @param string $user The URI username
 	 * @since 1.5
 	 */
-	function setUsername($user) {
+	function setUser($user) {
 		$this->_user = $user;
 	}
 
@@ -480,7 +474,7 @@ class JURI extends JObject
 	 * @return string The URI password
 	 * @since 1.5
 	 */
-	function getPassword() {
+	function getPass() {
 		return $this->_pass;
 	}
 
@@ -491,7 +485,7 @@ class JURI extends JObject
 	 * @param string $pass The URI password
 	 * @since 1.5
 	 */
-	function setPassword($pass) {
+	function setPass($pass) {
 		$this->_pass = $pass;
 	}
 
@@ -570,8 +564,8 @@ class JURI extends JObject
 	 * @return string The URI anchor string
 	 * @since 1.5
 	 */
-	function getAnchor() {
-		return $this->_anchor;
+	function getFragment() {
+		return $this->_fragment;
 	}
 
 	/**
@@ -582,8 +576,8 @@ class JURI extends JObject
 	 * @param string $anchor The URI anchor string
 	 * @since 1.5
 	 */
-	function setAnchor($anchor) {
-		$this->_anchor = $anchor;
+	function setFragment($anchor) {
+		$this->_fragment = $anchor;
 	}
 
 	/**
@@ -595,51 +589,6 @@ class JURI extends JObject
 	 */
 	function isSSL() {
 		return $this->getScheme() == 'https' ? true : false;
-	}
-
-	/**
-	 * Parses raw query and returns an array of key/value pairs representing the query
-	 * string variables.
-	 *
-	 * @access private
-	 * @param string $query The query string to parse
-	 * @return array An array of the query data
-	 * @since 1.5
-	 */
-	function _parseQueryString($query)
-	{
-		$query = rawurldecode($query);
-		$parts = preg_split('/&/', $query, -1, PREG_SPLIT_NO_EMPTY);
-
-		$return = array ();
-
-		foreach ($parts as $part) {
-			if (strpos($part, '=') !== false) {
-				$value = rawurlencode(substr($part, strpos($part, '=') + 1));
-				$key = substr($part, 0, strpos($part, '='));
-			} else {
-				$value = null;
-				$key = $part;
-			}
-
-			if (substr($key, -2) == '[]') {
-				$key = substr($key, 0, -2);
-				if (@ !is_array($return[$key])) {
-					$return[$key] = array ();
-					$return[$key][] = $value;
-				} else {
-					$return[$key][] = $value;
-				}
-			}
-			elseif (!empty ($return[$key])) {
-				$return[$key] = (array) $return[$key];
-				$return[$key][] = $value;
-			} else {
-				$return[$key] = $value;
-			}
-		}
-
-		return $return;
 	}
 
 	/**

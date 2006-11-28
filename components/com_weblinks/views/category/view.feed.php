@@ -34,8 +34,8 @@ class WeblinksViewCategory extends JView
 		JRequest::setVar('limit', $limit);
 
 		// Get some data from the model
-		$items    = & $this->get( 'data' );
-		$category = & $this->get( 'Category' );
+		$items    =& $this->get( 'data' );
+		$category =& $this->get( 'category' );
 
 		foreach ( $items as $item )
 		{
@@ -44,9 +44,7 @@ class WeblinksViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_weblinks&view=weblink&id='. $item->id . '&catid='.$item->catid.$Itemid;
-			$link = sefRelToAbs( $link );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id );
 
 			// strip html from feed item description text
 			$description = $item->description;

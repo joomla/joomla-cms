@@ -7,7 +7,7 @@ $ordering = ($this->lists['order'] == 'a.ordering');
 
 JCommonHTML::loadOverlib();
 ?>
-<form action="index.php?option=com_weblinks" method="post" name="adminForm">
+<form action="<?php echo sefReltoAbs($this->request_url) ?>" method="post" name="adminForm">
 <table>
 <tr>
 	<td align="left" width="100%">
@@ -65,7 +65,7 @@ JCommonHTML::loadOverlib();
 	{
 		$row = &$this->items[$i];
 
-		$link 	= ampReplace( 'index.php?option=com_weblinks&task=edit&cid[]='. $row->id );
+		$link 	= ampReplace( 'index.php?option=com_weblinks&controller=weblink&task=edit&cid[]='. $row->id );
 
 		$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 		$published 	= JCommonHTML::PublishedProcessing( $row, $i );
@@ -124,7 +124,7 @@ JCommonHTML::loadOverlib();
 	</table>
 </div>
 
-<input type="hidden" name="option" value="<?php echo $option;?>" />
+<input type="hidden" name="controller" value="weblink" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />

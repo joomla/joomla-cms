@@ -34,7 +34,7 @@ class ContentViewSection extends JView
 		$pathway  = & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$menu    =& JSiteHelper::getActiveMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Request variables
@@ -62,7 +62,7 @@ class ContentViewSection extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link    = JURI::base() .'feed.php?option=com_content&amp;view=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
+		$link    = 'feed.php?option=com_content&amp;view=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

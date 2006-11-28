@@ -133,7 +133,10 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_id)
 		{
 			$weblink = & $this->getTable();
-			return $weblink->checkin($this->_id);
+			if(! $weblink->checkin($this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
 		}
 		return false;
 	}
@@ -157,9 +160,172 @@ class WeblinksModelWeblink extends JModel
 			}
 			// Lets get to it and checkout the thing...
 			$weblink = & $this->getTable();
-			return $weblink->checkout($uid, $this->_id);
+			if(!$weblink->checkout($uid, $this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+			
+			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Method to store the weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function store($data)
+	{
+		$row  =& $this->getTable();
+		
+		// Bind the form fields to the web link table
+		if (!$row->bind($data, "published")) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
+		// Create the timestamp for the date
+		$row->date = gmdate('Y-m-d H:i:s');
+		
+		// if new item, order last in appropriate group
+		if (!$row->id) {
+			$where = "catid = " . $row->catid ;
+			$row->ordering = $row->getNextOrder ( $where );
+		}
+
+		// Make sure the web link table is valid
+		if (!$row->check()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Store the web link table to the database
+		if (!$row->store()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Method to remove a weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function delete($cid = array())
+	{
+		$result = false;
+		
+		if (count( $cid )) 
+		{
+			$cids = implode( ',', $cid );
+			$query = "DELETE FROM #__weblinks"
+				. "\n WHERE id IN ( $cids )";
+			$this->_db->setQuery( $query );
+			if(!$this->_db->query()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Method to (un)publish a weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function publish($cid = array(), $publish = 1)
+	{
+		$user 	=& JFactory::getUser();
+
+		if (count( $cid )) 
+		{
+			$cids = implode( ',', $cid );
+
+			$query = "UPDATE #__weblinks"
+				. "\n SET published = " . intval( $publish )
+				. "\n WHERE id IN ( $cids )"
+				. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
+			;
+			$this->_db->setQuery( $query );
+			if (!$this->_db->query()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Method to move a weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function move($direction)
+	{
+		$row  =& $this->getTable();
+		if (!$row->load($this->_id)) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
+		if (!$row->move( $direction, "catid = $row->catid AND published >= 0" )) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+	
+		return true;
+	}
+	
+	/**
+	 * Method to move a weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function saveorder($cid = array(), $order)
+	{
+		$row =& $this->getTable();
+		$groupings = array();
+		
+		// update ordering values
+		for( $i=0; $i < count($cid); $i++ ) 
+		{
+			$row->load( (int) $cid[$i] );
+			// track categories
+			$groupings[] = $row->catid;
+
+			if ($row->ordering != $order[$i]) 
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+			}
+		}
+
+		// execute updateOrder for each parent group
+		$groupings = array_unique( $groupings );
+		foreach ($groupings as $group){
+			$row->reorder("catid = $group");
+		}
+
+		return true;
 	}
 
 	/**

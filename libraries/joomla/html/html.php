@@ -919,9 +919,9 @@ class JAdminMenus
 		}
 
 		if ( count( $categories ) < 1 ) {
-			$mainframe->redirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
+			$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
-
+		
 		$category = JHTMLSelect::genericList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
 
 		return $category;

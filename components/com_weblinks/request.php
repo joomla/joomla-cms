@@ -25,10 +25,6 @@ function WeblinksBuildURL($ARRAY, &$params)
 		$parts[] = $ARRAY['layout'];
 	};
 
-	if(isset($ARRAY['catid'])) {
-		$parts[] = $ARRAY['catid'];
-	};
-
 	if(isset($ARRAY['id'])) {
 		$parts[] = $ARRAY['id'];
 	};
@@ -76,13 +72,13 @@ function WeblinksParseURL($ARRAY, &$params)
 
 				if(is_numeric($variable))
 				{
-					JRequest::setVar('catid', $variable, 'get');
+					JRequest::setVar('id', $variable, 'get');
 				}
 				else
 				{
 					JRequest::setVar('layout', $variable, 'get');
 					$variable = array_shift($ARRAY);
-					JRequest::setVar('catid', $variable, 'get');
+					JRequest::setVar('id', $variable, 'get');
 				}
 			}
 

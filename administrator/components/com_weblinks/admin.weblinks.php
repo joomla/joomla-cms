@@ -23,19 +23,17 @@ if (!$user->authorize( 'com_weblinks', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-// Set the table directory
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
-
-// Require the com_content helper library
+// Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
-// Create the controller
-$controller = new WeblinksController( );
+// Require specific controller if requested
+if($controller = JRequest::getVar('controller')) {
+	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+} 
 
-// Register Extra tasks
-$controller->registerTask( 'add'  , 	'edit' );
-$controller->registerTask( 'apply', 	'save' );
-$controller->registerTask( 'apply_new', 'save' );
+// Create the controller
+$classname  = 'WeblinksController'.$controller;
+$controller = new $classname( );
 
 // Perform the Request task
 $controller->execute( JRequest::getVar('task'));

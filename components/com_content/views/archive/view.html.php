@@ -39,7 +39,7 @@ class ContentViewArchive extends JView
 		$pathway  = & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu    =& JSiteHelper::getCurrentMenuItem();
+		$menu    =& JSiteHelper::getActiveMenuItem();
 		$params  =& JSiteHelper::getMenuParams();
 
 		// Request variables

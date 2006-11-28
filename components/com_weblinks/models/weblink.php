@@ -153,7 +153,11 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_id)
 		{
 			$weblink = & $this->getTable();
-			return $weblink->checkin($this->_id);
+			if(! $weblink->checkin($this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+			return true;
 		}
 		return false;
 	}
@@ -177,7 +181,12 @@ class WeblinksModelWeblink extends JModel
 			}
 			// Lets get to it and checkout the thing...
 			$weblink = & $this->getTable();
-			return $weblink->checkout($uid, $this->_id);
+			if(!$weblink->checkout($uid, $this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+			
+			return true;
 		}
 		return false;
 	}
@@ -189,30 +198,29 @@ class WeblinksModelWeblink extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function store()
+	function store($data)
 	{
 		$row  =& $this->getTable();
-		$post = $this->getState( 'request' );
 		
 		// Bind the form fields to the web link table
-		if (!$row->bind($post, "published")) {
-			JError::raiseError( 500, $row->getError());
-			return;
+		if (!$row->bind($data, "published")) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
 		}
 
 		// Create the timestamp for the date
-		$row->date = date('Y-m-d H:i:s');
+		$row->date = gmdate('Y-m-d H:i:s');
 
 		// Make sure the web link table is valid
 		if (!$row->check()) {
-			JError::raiseError( 500, $row->getError());
-			return;
+			$this->setError($this->_db->getErrorMsg());
+			return false;
 		}
 
 		// Store the web link table to the database
 		if (!$row->store()) {
-			JError::raiseError( 500, $row->getError());
-			return;
+			$this->setError($this->_db->getErrorMsg());
+			return false;
 		}
 		
 		return true;

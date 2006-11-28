@@ -30,7 +30,11 @@ function ContentBuildURL($ARRAY, &$params)
 	};
 
 	if(isset($ARRAY['id'])) {
-		$parts[] = $ARRAY['id'];
+		if(!$resolveNames) {
+			$parts[] = (int)$ARRAY['id'];
+		} else {
+			$parts[] = $ARRAY['id'];
+		}
 	};
 
 	if (isset( $ARRAY['limit'] ))
