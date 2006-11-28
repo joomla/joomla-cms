@@ -305,7 +305,7 @@ class JURI extends JObject
 			$retval = true;
 		}
 
-		$this->_scheme = isset ($_parts['scheme']) ? $_parts['scheme'] : 'http';
+		$this->_scheme = isset ($_parts['scheme']) ? $_parts['scheme'] : null;
 		$this->_user = isset ($_parts['user']) ? $_parts['user'] : null;
 		$this->_pass = isset ($_parts['pass']) ? $_parts['pass'] : null;
 		$this->_host = isset ($_parts['host']) ? $_parts['host'] : null;
@@ -331,7 +331,7 @@ class JURI extends JObject
 	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		$uri = '';
-		$uri .= in_array('scheme', $parts)   ? $this->_scheme.'://' : '';
+		$uri .= in_array('scheme', $parts)   ? (!empty($this->_scheme) ? $this->_scheme.'://' : '') : '';
 		$uri .= in_array('user', $parts)     ? $this->_user : '';
 		$uri .= in_array('pass', $parts)     ? (!empty ($this->_pass) ? ':' : '') .$this->_pass. (!empty ($this->_user) ? '@' : '') : '';
 		$uri .= in_array('host', $parts)     ? $this->_host : '';
