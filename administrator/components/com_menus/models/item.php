@@ -455,7 +455,7 @@ class MenusModelItem extends JModel
 				{
 					$default = $xml->attributes('default');
 					// Handle switch
-					$switchVal = ($item->linkparts[$switch])? $item->linkparts[$switch] : 'default';
+					$switchVal = (isset($item->linkparts[$switch]))? $item->linkparts[$switch] : 'default';
 					$found = false;
 
 					foreach ($xml->children() as $child) {
