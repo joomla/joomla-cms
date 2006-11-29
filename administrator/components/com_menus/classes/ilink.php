@@ -26,7 +26,6 @@ jimport('joomla.filesystem.file');
  * @subpackage	Menus
  * @since		1.5
  */
-
 class iLink extends JTree
 {
 	var $_com		= null;
@@ -52,9 +51,9 @@ class iLink extends JTree
 		$this->_com = preg_replace( '#\W#', '', $component );
 
 		// Build the tree
-		if (!$this->_getViews())
-		{
-			if (!$this->_getOptions($this->_getXML(JPATH_SITE.'/components/com_'.$this->_com.'/metadata.xml', 'menu/options'), $this->_root)) {
+		if (!$this->_getOptions($this->_getXML(JPATH_SITE.'/components/com_'.$this->_com.'/metadata.xml', 'menu'), $this->_root)) {
+			if (!$this->_getViews())
+			{
 				// Default behavior
 			}
 		}
@@ -143,8 +142,23 @@ class iLink extends JTree
 		if (!$purl) {
 			$purl = 'url[option]=com_'.$this->_com;
 		}
-		if ($e) {
-			$children = $e->children();
+
+		// No metadata xml file in component root
+		if (!$e) {
+			return false;
+		}
+
+		// Does the metadata file say no options available?
+		if ($e->attributes('options') == 'none') {
+			$node =& new iLinkNode($e->attributes('name'), $purl, $e->attributes('msg'));
+			$parent->addChild($node);
+			return true;
+		}
+
+		// Do we have defined options available?
+		$options = &$e->getElementByPath('options');
+		if ($options) {
+			$children = $options->children();
 			foreach ($children as $child)
 			{
 				if ($child->name() == 'option') {
@@ -192,16 +206,18 @@ class iLink extends JTree
 
 				$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.$view;
 				if ($data) {
-					$m = $data->getElementByPath('message');
-					if ($m) {
-						$message = $m->data();
-					}
-					$node =& new iLinkNode($data->attributes('title'), $url, $message);
-					$this->addChild($node);
-					if ($options = $data->getElementByPath('options')) {
-						$this->_getOptions($options, $node, $url);
-					} else {
-						$this->_getLayouts(dirname($xmlpath), $node);
+					if ($data->attributes('hidden') != 'true') {
+						$m = $data->getElementByPath('message');
+						if ($m) {
+							$message = $m->data();
+						}
+						$node =& new iLinkNode($data->attributes('title'), $url, $message);
+						$this->addChild($node);
+						if ($options = $data->getElementByPath('options')) {
+							$this->_getOptions($options, $node, $url);
+						} else {
+							$this->_getLayouts(dirname($xmlpath), $node);
+						}
 					}
 				} else {
 					$onclick = null;
