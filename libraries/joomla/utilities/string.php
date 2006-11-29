@@ -22,7 +22,7 @@ jimport('phputf8.utf8');
  * @static
  * @author 		David Gal <david@joomla.co.il>
  * @package 	Joomla.Framework
- * @subpackage	I18N
+ * @subpackage	Utilities
  * @since		1.5
  */
 class JString

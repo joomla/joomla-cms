@@ -173,7 +173,7 @@ class JAdministrator extends JApplication
 		if ($session->getState() == 'expired')
 		{
 			// Build the URL
-			$uri = JURI::getInstance();
+			$uri = JFactory::getURI();
 			$url = basename($uri->getPath());
 			$url .= $uri->toString(array('query', 'fragment'));
 

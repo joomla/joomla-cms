@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Nov-2006 Johan Janssens
+ ^ Moved JString class to utilities package
+
 28-Nov-2006 Johan Janssens
  ^ Components are now rendered by the application and not by the template
 

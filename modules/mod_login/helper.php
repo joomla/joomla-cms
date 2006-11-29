@@ -16,12 +16,6 @@ defined('_JEXEC') or die('Restricted access');
 
 class modLoginHelper
 {
-	function getReturnURL()
-	{
-		$uri = JURI::getInstance();
-		return $uri->toString();;
-	}
-
 	function getType()
 	{
 		$user = & JFactory::getUser();

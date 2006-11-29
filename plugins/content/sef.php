@@ -76,8 +76,8 @@ function contentSEF_replacer( &$matches )
 	// will only process links containing 'index.php?option
 	if ( JString::strpos( $matches[1], 'index.php?option' ) !== false )
 	{
-		$uriLocal =& JURI::getInstance();
-		$uriHREF  =& JURI::getInstance($matches[1]);
+		$uriLocal =& JFactory::getURI();
+		$uriHREF  =& JFactory::getURI($matches[1]);
 
 		//disbale bot from being applied to external links
 		if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost()))

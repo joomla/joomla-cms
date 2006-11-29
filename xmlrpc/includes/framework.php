@@ -63,6 +63,6 @@ jimport( 'joomla.user.user' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.i18n.language' );
-jimport( 'joomla.i18n.string' );
+jimport( 'joomla.utilities.string' );
 jimport( 'joomla.utilities.error' );
 ?>

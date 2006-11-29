@@ -72,6 +72,6 @@ jimport( 'joomla.version' );
 // JString should only be loaded after pre-install checks
 $task = JRequest::getVar( 'task' );
 if (!($task == '' || $task == 'preinstall' || $task == 'lang')) {
-	jimport( 'joomla.i18n.string' );
+	jimport( 'joomla.utilities.string' );
 }
 ?>

@@ -42,7 +42,7 @@ class JRequest
 	 */
 	function getURI()
 	{
-		$uri = &JURI::getInstance();
+		$uri = &JFactory::getURI();
 		return $uri->toString();
 	}
 
