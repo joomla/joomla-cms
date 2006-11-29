@@ -141,11 +141,11 @@ class iLink extends JTree
 	{
 		if (!$purl) {
 			$purl = 'url[option]=com_'.$this->_com;
-		}
 
-		// No metadata xml file in component root
-		if (!$e) {
-			return false;
+			// No metadata xml file in component root
+			if (!$e) {
+				return false;
+			}
 		}
 
 		// Does the metadata file say no options available?
@@ -214,7 +214,7 @@ class iLink extends JTree
 						$node =& new iLinkNode($data->attributes('title'), $url, $message);
 						$this->addChild($node);
 						if ($options = $data->getElementByPath('options')) {
-							$this->_getOptions($options, $node, $url);
+							$this->_getOptions($data, $node, $url);
 						} else {
 							$this->_getLayouts(dirname($xmlpath), $node);
 						}
@@ -256,12 +256,14 @@ class iLink extends JTree
 						$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.basename($path);
 					}
 					if ($data) {
-						$m = $data->getElementByPath('message');
-						if ($m) {
-							$message = $m->data();
+						if ($data->attributes('hidden') != 'true') {
+							$m = $data->getElementByPath('message');
+							if ($m) {
+								$message = $m->data();
+							}
+							$child =& new iLinkNode($data->attributes('title'), $url, $message);
+							$node->addChild($child);
 						}
-						$child =& new iLinkNode($data->attributes('title'), $url, $message);
-						$node->addChild($child);
 					} else {
 						// Add default info for the layout
 						$child =& new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
