@@ -446,12 +446,9 @@ class MenusModelItem extends JModel
 				/*
 				 * HANDLE NO OPTION CASE
 				 */
-				$xml =& $document->getElementByPath('menu');
-				if (!is_a($xml, 'JSimpleXMLElement')) {
-					return $document;
-				}
-				if ($xml->attributes('options') == 'none') {
-					$xml =& $xml->getElementByPath('state');
+				$menus =& $document->getElementByPath('menu');
+				if (is_a($menus, 'JSimpleXMLElement') && $menus->attributes('options') == 'none') {
+					$xml =& $menus->getElementByPath('state');
 				} else {
 					$xml =& $document->getElementByPath('state');
 				}
