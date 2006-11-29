@@ -196,34 +196,36 @@ class iLink extends JTree
 			$return = true;
 			foreach ($views as $view)
 			{
-				// Load view metadata if it exists
-				$xmlpath = $path.DS.$view.DS.'metadata.xml';
-				if (JFile::exists($xmlpath)) {
-					$data = $this->_getXML($xmlpath, 'view');
-				} else {
-					$data = null;
-				}
-
-				$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.$view;
-				if ($data) {
-					if ($data->attributes('hidden') != 'true') {
-						$m = $data->getElementByPath('message');
-						if ($m) {
-							$message = $m->data();
-						}
-						$node =& new iLinkNode($data->attributes('title'), $url, $message);
-						$this->addChild($node);
-						if ($options = $data->getElementByPath('options')) {
-							$this->_getOptions($data, $node, $url);
-						} else {
-							$this->_getLayouts(dirname($xmlpath), $node);
-						}
+				if (strpos($view, '_') === false) {
+					// Load view metadata if it exists
+					$xmlpath = $path.DS.$view.DS.'metadata.xml';
+					if (JFile::exists($xmlpath)) {
+						$data = $this->_getXML($xmlpath, 'view');
+					} else {
+						$data = null;
 					}
-				} else {
-					$onclick = null;
-					$node =& new iLinkNode(ucfirst($view), $url);
-					$this->addChild($node);
-					$this->_getLayouts(dirname($xmlpath), $node);
+	
+					$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.$view;
+					if ($data) {
+						if ($data->attributes('hidden') != 'true') {
+							$m = $data->getElementByPath('message');
+							if ($m) {
+								$message = $m->data();
+							}
+							$node =& new iLinkNode($data->attributes('title'), $url, $message);
+							$this->addChild($node);
+							if ($options = $data->getElementByPath('options')) {
+								$this->_getOptions($data, $node, $url);
+							} else {
+								$this->_getLayouts(dirname($xmlpath), $node);
+							}
+						}
+					} else {
+						$onclick = null;
+						$node =& new iLinkNode(ucfirst($view), $url);
+						$this->addChild($node);
+						$this->_getLayouts(dirname($xmlpath), $node);
+					}
 				}
 			}
 		}
