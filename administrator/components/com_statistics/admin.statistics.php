@@ -16,13 +16,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-switch ($task) {
+switch (JRequest::getVar('task')) 
+{
 	case 'searches':
-		showSearches( $option, $task );
+		showSearches();
 		break;
 
 	case 'searchesresults':
-		showSearches( $option, $task, 1 );
+		showSearches( 1 );
 		break;
 
 	case 'resetStats':
@@ -30,14 +31,14 @@ switch ($task) {
 		break;
 
 	default:
-		showSearches( $option, $task );
+		showSearches( );
 		break;
 }
 
-function showSearches( $option, $task, $showResults=null )
+function showSearches( $showResults=null )
 {
-	global $mainframe;
-
+	global $mainframe, $option, $task;
+	
 	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order", 		'filter_order', 	'hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -46,7 +47,7 @@ function showSearches( $option, $task, $showResults=null )
 	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.$task.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
-
+	
 	if ($search) {
 		$where[] = "LOWER( search_term ) LIKE '%$search%'";
 	}

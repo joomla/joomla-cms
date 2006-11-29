@@ -24,7 +24,6 @@
 	<p>
 		<?php echo $mainframe->getCfg('offline_message'); ?>
 	</p>
-	<jdoc:include type="component" />
 	<form action="index.php" method="post" name="login" id="frmlogin">
 	<fieldset class="input">
 		<p>

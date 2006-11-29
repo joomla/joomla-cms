@@ -56,21 +56,21 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function execute($option)
+	function execute($component)
 	{
 		// Build the application pathway
 		$this->_createPathWay();
 
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
-
+		
 		$user     =& JFactory::getUser();
 
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 			$file = 'offline';
 		}
 
-		$this->_display($template, $file.'.php');
+		$this->_display($component, $template, $file.'.php');
 	}
 
 	/**
@@ -261,8 +261,10 @@ class JSite extends JApplication
 	* @access protected
 	* @since 1.5
 	*/
-	function _display($template, $file)
+	function _display($component, $template, $file)
 	{
+		global $option;
+		
 		$user     =& JFactory::getUser();
 		$document =& JFactory::getDocument();
 
@@ -284,9 +286,11 @@ class JSite extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-
+		
+		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
+		$document->setInclude('component', null, $contents);
+		
 		$params = array(
-			'outline'   => JRequest::getVar('tp', 0 ),
 			'template' 	=> $template,
 			'file'		=> $file,
 			'directory'	=> JPATH_BASE.DS.'templates'

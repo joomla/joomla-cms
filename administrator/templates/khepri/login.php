@@ -56,7 +56,7 @@
           		<div class="m">
 
 					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
-					<jdoc:include type="component" name="login" />
+					<jdoc:include type="component" />
 					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
 					<p>
 						<a href="<?php echo $mainframe->getSiteURL(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>

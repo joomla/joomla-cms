@@ -49,22 +49,21 @@ class JAdministrator extends JApplication
 	*
 	* @access public
 	*/
-	function execute( $option )
+	function execute( $component )
 	{
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
-
+	
 		//TODO :: put cpanel in a component
-		if(empty($option)) {
+		if($component == 'com_admin') {
 			$file = 'cpanel';
 		}
-
-		$session =& JFactory::getSession();
-		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
+		
+		if($component == 'com_login') {
 			$file = 'login';
 		}
 
-		$this->_display($template, $file.'.php');
+		$this->_display($component, $template, $file.'.php');
 	}
 
 	/**
@@ -361,7 +360,7 @@ class JAdministrator extends JApplication
 	* @access protected
 	* @since 1.5
 	*/
-	function _display($template, $file)
+	function _display($component, $template, $file)
 	{
 		$document =& JFactory::getDocument();
 		$user     =& JFactory::getUser();
@@ -383,6 +382,9 @@ class JAdministrator extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
+		
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setInclude('component', null, $contents);
 
 		$params = array(
 			'template' 	=> $template,
@@ -410,7 +412,18 @@ class JAdministratorHelper
 	function findOption()
 	{
 		$option = strtolower(JRequest::getVar('option', null));
-		return $option;
+		
+		if(empty($option)) 
+		{	
+			$option = 'com_admin';
+
+			$session =& JFactory::getSession();
+			if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
+				$option = 'com_login';
+			}
+		}
+		
+		return JRequest::setVar('option', $option);
 	}
 }
 ?>

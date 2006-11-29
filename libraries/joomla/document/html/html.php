@@ -311,15 +311,6 @@ class JDocumentHTML extends JDocument
 			$matches[1] = array_reverse($matches[1]);
 			$matches[2] = array_reverse($matches[2]);
 
-			if($key = array_search('component', $matches[1]))
-			{
-				$attribs = JUtility::parseAttributes( $matches[2][$key] );
-				$name = isset($attribs['name']) ? $attribs['name'] : null;
-				$renderer = $this->loadRenderer( 'component');
-				$result   = $renderer->render( $name, array_merge($attribs, $params));
-				$this->setInclude('component', null, $result);
-			}
-
 			$count   = count($matches[1]);
 
 			for($i = 0; $i < $count; $i++)

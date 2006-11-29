@@ -28,10 +28,10 @@ class HTML_admin_misc
 	{
 		global $mainframe;
 
-		$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
-		if (file_exists( $path )) {
-			require_once $path;
-		}
+		//$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
+		//if (file_exists( $path )) {
+		//	require_once $path;
+		//}
 	}
 
 	function get_php_setting($val)

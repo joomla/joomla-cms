@@ -14,14 +14,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Import the JToolBar library
- */
+//Import the JToolBar library
 jimport('joomla.html.toolbar');
 
-/*
- * Get the JComponent instance of JToolBar
- */
+// Get the JComponent instance of JToolBar
 $bar = & JToolBar::getInstance('JComponent');
 
 // Render the toolbar

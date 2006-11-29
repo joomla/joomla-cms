@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Nov-2006 Johan Janssens
+ ^ Components are now rendered by the application and not by the template
+
 27-Nov-2006 Louis Landry
  - Removed MagPie Feed parser
  + Added SimplePie Feed parser -- Thanks CoolAcid --

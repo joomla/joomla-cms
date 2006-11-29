@@ -33,40 +33,7 @@ class JDocumentRenderer_Component extends JDocumentRenderer
 	 */
 	function render( $component = null, $params = array(), $content = null )
 	{
-		//Component has already been rendered
-		if(isset($content)) {
-			return $content;
-		}
-
-		// preload toolbar in case component handles it manually
-		require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
-
-		$contents = '';
-		ob_start();
-
-		$msg = stripslashes(urldecode(JRequest::getVar( 'josmsg' )));
-		if (!empty($msg)) {
-			echo "\n<div id=\"system-message\" class=\"message fade\">$msg</div>";
-		}
-
-		echo JComponentHelper::renderComponent($component, $params);
-
-		$contents = ob_get_contents();
-		ob_end_clean();
-
-
-		/*
-		 * Build the component toolbar
-		 * - This will move to a MVC controller at some point in the future
-		 */
-		global $mainframe;
-		jimport( 'joomla.application.helper' );
-		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
-			$task = JRequest::getVar( 'task' );
-			include_once( $path );
-		}
-
-		return $contents;
+		return $content;
 	}
 }
 ?>

@@ -95,23 +95,21 @@ class JComponentHelper
 	function renderComponent($name = null, $params = array())
 	{
 		global $mainframe, $option;
+		
+		if(empty($name)) {
+			return;
+		}
 
-		$component	= is_null($name) ? $option : 'com_'.$name;
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
 
-		//if no component found return
-		if(empty($component)) {
-			return false;
-		}
-
 		// Build the component path
-		$file = substr( $component, 4 );
+		$file = substr( $name, 4 );
 
 		// Define component path
-		define( 'JPATH_COMPONENT'              ,  JPATH_BASE.DS.'components'.DS.$component);
-		define( 'JPATH_COMPONENT_SITE'         ,  JPATH_SITE.DS.'components'.DS.$component);
-		define( 'JPATH_COMPONENT_ADMINISTRATOR',  JPATH_ADMINISTRATOR.DS.'components'.DS.$component);
+		define( 'JPATH_COMPONENT'              ,  JPATH_BASE.DS.'components'.DS.$name);
+		define( 'JPATH_COMPONENT_SITE'         ,  JPATH_SITE.DS.'components'.DS.$name);
+		define( 'JPATH_COMPONENT_ADMINISTRATOR',  JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// Load the correct initial file
 		if ( $mainframe->isAdmin() && is_file(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
@@ -121,7 +119,7 @@ class JComponentHelper
 		}
 
 		// If component disabled throw error
-		if (!JComponentHelper::isEnabled( $component ) || !file_exists($path)) {
+		if (!JComponentHelper::isEnabled( $name ) || !file_exists($path)) {
 			JError::raiseError( 404, JText::_('Component Not Found') );
 		}
 
@@ -154,7 +152,7 @@ class JComponentHelper
 
 		// Load common language files
 		$lang =& JFactory::getLanguage();
-		$lang->load($component);
+		$lang->load($name);
 
 		// Handle template preview outlining
 		$contents = null;
@@ -167,7 +165,7 @@ class JComponentHelper
 
 			$contents .= "
 			<div class=\"com-preview\">
-			<div class=\"com-preview-info\">".JText::_('Component')."[".$component."]</div>
+			<div class=\"com-preview-info\">".JText::_('Component')."[".$name."]</div>
 			<div class=\"com-preview-wrapper\">";
 		}
 
@@ -176,6 +174,13 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
+		
+		// Build the component toolbar
+		jimport( 'joomla.application.helper' );
+		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
+			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
+			include_once( $path );
+		}
 
 		// Close template preview outlining if enabled
 		if($outline && !$mainframe->isAdmin()) {

@@ -60,6 +60,8 @@ class LoginController
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}
+		
+		LoginController::display();
 	}
 
 	function logout()
@@ -71,6 +73,8 @@ class LoginController
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}
+		
+		LoginController::display();
 	}
 }
 
