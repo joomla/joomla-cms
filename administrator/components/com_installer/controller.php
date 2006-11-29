@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: admin.menus.php 3607 2006-05-24 01:09:39Z eddieajau $
+ * @version $Id$
  * @package		Joomla
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights
