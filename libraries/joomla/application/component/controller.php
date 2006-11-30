@@ -373,6 +373,17 @@ class JController extends JObject
 	}
 
 	/**
+	 * Gets the available tasks in the controller
+	 * @access	public
+	 * @return	array
+	 * @since	1.5
+	 */
+	function getTasks()
+	{
+		return $this->_methods;
+	}
+
+	/**
 	 * Get the last task that was to be performed
 	 *
 	 * @access	public
