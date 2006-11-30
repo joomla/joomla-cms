@@ -160,6 +160,26 @@ INSERT INTO `#__menu_types` VALUES (7, 'keyconcepts', 'Key Concepts', 'This desc
 -- 
 
 DELETE FROM `#__modules` WHERE `id` = 25 ;
+INSERT INTO `#__modules` VALUES (1, 'Polls', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_poll', 0, 0, 1, '', 0, 0, '');
+INSERT INTO `#__modules` VALUES (2, 'User Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 1, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\n', 1, 0, '');
+INSERT INTO `#__modules` VALUES (4, 'Login Form', '', 6, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, 'greeting=1\nname=0', 1, 0, '');
+INSERT INTO `#__modules` VALUES (5, 'Latest News', '', 4, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_latestnews', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (6, 'Statistics', '', 4, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_stats', 0, 0, 1, 'serverinfo=1\nsiteinfo=1\ncounter=1\nincrease=0\nmoduleclass_sfx=', 0, 0, '');
+INSERT INTO `#__modules` VALUES (7, 'Who\'s Online', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_whosonline', 0, 0, 1, 'online=1\nusers=1\nmoduleclass_sfx=', 0, 0, '');
+INSERT INTO `#__modules` VALUES (8, 'Popular', '', 6, 'user2', 0, '0000-00-00 00:00:00', 1, 'mod_mostread', 0, 0, 1, '', 0, 0, '');
+INSERT INTO `#__modules` VALUES (10, 'Archive', '', 7, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_archive', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (11, 'Sections', '', 8, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_sections', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (12, 'Newsflash', '', 1, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_newsflash', 0, 0, 1, 'catid=3\r\nstyle=random\r\nitems=\r\nmoduleclass_sfx=', 0, 0, '');
+INSERT INTO `#__modules` VALUES (13, 'Related Items', '', 9, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_related_items', 0, 0, 1, '', 0, 0, '');
+INSERT INTO `#__modules` VALUES (14, 'Search', '', 1, 'user4', 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 0, '', 0, 0, '');
+INSERT INTO `#__modules` VALUES (15, 'Random Image', '', 9, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 0, 1, '', 0, 0, '');
+INSERT INTO `#__modules` VALUES (16, 'Top Menu', '', 1, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=topmenu\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\nmoduleclass_sfx=\nindent_image1=0\nindent_image2=0\nindent_image3=0\nindent_image4=0\nindent_image5=0\nindent_image6=0', 1, 0, '');
+INSERT INTO `#__modules` VALUES (17, 'Banners', '', 1, 'banner', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 0, 'banner_cids=\nmoduleclass_sfx=\n', 1, 0, '');
+INSERT INTO `#__modules` VALUES (25, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0, '');
+INSERT INTO `#__modules` VALUES (26, 'Wrapper','',10,'left',0,'0000-00-00 00:00:00',0,'mod_wrapper',0,0,1,'',0, 0, '');
+INSERT INTO `#__modules` VALUES (28, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (30, 'Feed Display', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (32, 'Syndication', '', 3, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (25, 'Resources', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'cache=0\nclass_sfx=\nmoduleclass_sfx=_menu\nmenutype=othermenu\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nspacer=\nend_spacer=\nwindow_open=\n\n', 0, 0, '');
 INSERT INTO `#__modules` VALUES (38, 'Advertisement', '', 3, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 1, 'count=4\r\nrandomise=0\r\ncid=0\r\ncatid=14\r\nheader_text=Featured Links:\r\nfooter_text=<a href="http://www.joomla.org">Ads by Joomla!</a>\r\nmoduleclass_sfx=_text\r\ncache=0\r\n\r\n', 0, 0, '');
 INSERT INTO `#__modules` VALUES (39, 'Example Pages', '', 3, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'cache=0\nclass_sfx=\nmoduleclass_sfx=_menu\nmenutype=ExamplePages\nmenu_style=list_flat\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nspacer=\nend_spacer=\nwindow_open=\n\n', 0, 0, '');
@@ -170,6 +190,29 @@ INSERT INTO `#__modules` VALUES (41, 'Welcome to Joomla!', '<div style="padding:
 -- Dumping data for table `#__modules_menu`
 -- 
 
+INSERT INTO `#__modules_menu` VALUES (1,1);
+INSERT INTO `#__modules_menu` VALUES (2,0);
+INSERT INTO `#__modules_menu` VALUES (4,1);
+INSERT INTO `#__modules_menu` VALUES (5,1);
+INSERT INTO `#__modules_menu` VALUES (5,2);
+INSERT INTO `#__modules_menu` VALUES (5,4);
+INSERT INTO `#__modules_menu` VALUES (5,27);
+INSERT INTO `#__modules_menu` VALUES (5,36);
+INSERT INTO `#__modules_menu` VALUES (7,1);
+INSERT INTO `#__modules_menu` VALUES (8,1);
+INSERT INTO `#__modules_menu` VALUES (8,2);
+INSERT INTO `#__modules_menu` VALUES (8,4);
+INSERT INTO `#__modules_menu` VALUES (8,27);
+INSERT INTO `#__modules_menu` VALUES (8,36);
+INSERT INTO `#__modules_menu` VALUES (12,0);
+INSERT INTO `#__modules_menu` VALUES (14,0);
+INSERT INTO `#__modules_menu` VALUES (16,0);
+INSERT INTO `#__modules_menu` VALUES (17,0);
+INSERT INTO `#__modules_menu` VALUES (25,1);
+INSERT INTO `#__modules_menu` VALUES (26,0);
+INSERT INTO `#__modules_menu` VALUES (28,0);
+INSERT INTO `#__modules_menu` VALUES (30,0);
+INSERT INTO `#__modules_menu` VALUES (32,0);
 INSERT INTO `#__modules_menu` VALUES (40, 0);
 INSERT INTO `#__modules_menu` VALUES (42, 0);
 INSERT INTO `#__modules_menu` VALUES (43, 0);

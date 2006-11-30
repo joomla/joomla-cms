@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Dec-2006 Andrew Eddie
+ # Shuffled some modules out of joomla.sql into sample data to make a clean install, well, cleaner
+
 30-Nov-2006 Johan Janssens
  # Fixed [artf6932] : use of unassigned variable in weblink model
 
