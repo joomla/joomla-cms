@@ -65,6 +65,7 @@ class BannerController
 		// get the total number of records
 		$query = "SELECT COUNT(*)"
 		. "\n FROM #__banner AS b"
+		. "\n LEFT JOIN #__categories AS cc ON cc.id = b.catid"
 		. $where
 		;
 		$db->setQuery( $query );
