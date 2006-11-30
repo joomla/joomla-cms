@@ -115,7 +115,7 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_id)
 		{
 			$weblink = & $this->getTable();
-			$weblink->hit($this->_id, true);
+			$weblink->hit($this->_id);
 			return true;
 		}
 		return false;

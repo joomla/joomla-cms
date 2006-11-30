@@ -44,7 +44,7 @@ class WeblinksViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
 
 			// strip html from feed item description text
 			$description = $item->description;

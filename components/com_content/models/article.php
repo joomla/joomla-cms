@@ -183,7 +183,7 @@ class ContentModelArticle extends JModel
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content');
-			$article->hit($this->_id, true);
+			$article->hit($this->_id);
 			return true;
 		}
 		return false;

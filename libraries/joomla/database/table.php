@@ -743,40 +743,9 @@ class JTable extends JObject
 
 		$query = "UPDATE $this->_tbl"
 		. "\n SET hits = ( hits + 1 )"
-		. "\n WHERE $this->_tbl_key = '$this->id'"
-		;
+		. "\n WHERE $this->_tbl_key =". $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 		$this->_db->query();
-
-		if ($log)
-		{
-			$now = date( 'Y-m-d' );
-			$query = "SELECT hits"
-			. "\n FROM #__core_log_items"
-			. "\n WHERE time_stamp = '$now'"
-			. "\n AND item_table = '$this->_tbl'"
-			. "\n AND item_id = ". $this->$k .""
-			;
-			$this->_db->setQuery( $query );
-			$hits = intval( $this->_db->loadResult() );
-			if ($hits)
-			{
-				$query = "UPDATE #__core_log_items"
-				. "\n SET hits = ( hits + 1 )"
-				. "\n WHERE time_stamp = '$now'"
-				. "\n AND item_table = '$this->_tbl'"
-				. "\n AND item_id = ".$this->$k.""
-				;
-				$this->_db->setQuery( $query );
-				$this->_db->query();
-			} else {
-				$query = "INSERT INTO #__core_log_items"
-				. "\n VALUES ( '$now', '$this->_tbl', ". $this->$k .", 1 )"
-				;
-				$this->_db->setQuery( $query );
-				$this->_db->query();
-			}
-		}
 	}
 
 	/**

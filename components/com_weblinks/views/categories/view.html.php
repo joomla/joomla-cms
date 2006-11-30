@@ -69,7 +69,7 @@ class WeblinksViewCategories extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_weblinks&view=category&id='. $category->catid );
+			$category->link = sefRelToAbs('index.php?option=com_weblinks&view=category&id='. $category->catid.'&Itemid='.$Itemid );
 		}
 
 		$this->assignRef('image'     , $image);

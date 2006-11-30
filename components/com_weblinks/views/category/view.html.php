@@ -104,7 +104,7 @@ class WeblinksViewCategory extends JView
 		{
 			$item =& $items[$i];
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id );
+			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
 
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 

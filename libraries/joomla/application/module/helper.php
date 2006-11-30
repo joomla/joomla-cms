@@ -78,7 +78,7 @@ class JModuleHelper
 	{
 		static $chrome;
 		global $mainframe, $Itemid, $option;
-
+		
 		// Initialize variables
 		$style		= isset($attribs['style'])   ? $attribs['style']   : $module->style;
 		$outline	= isset($attribs['outline']) ? $attribs['outline'] : false;

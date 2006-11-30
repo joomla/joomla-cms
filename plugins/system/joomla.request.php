@@ -125,7 +125,7 @@ class  JRequestJoomla extends JPlugin
 				if (is_numeric($urlArray[count($urlArray)-1])) {
 					JRequest::setVar('Itemid', array_pop($urlArray), 'get');
 				}
-
+				
 				// Use the custom sef handler if it exists
 				$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'request.php';
 				if (file_exists($path)) 
@@ -225,16 +225,6 @@ function sefRelToAbs($string)
 			
 			//set the query
 			$uri->setQuery($query);
-
-			// make sure we have a valid itemid set	
-			if(!$uri->getVar('Itemid')) {
-				$uri->setVar('Itemid', $Itemid);
-			}
-			
-			// make sure we have a valid option set	
-			if(!$uri->getVar('option')) {
-				$uri->setVar('option', $option);
-			}
 		}
 		
 		// rewite URL
@@ -243,7 +233,7 @@ function sefRelToAbs($string)
 			//get component name
 			$component = str_replace('com_', '', $uri->getVar('option'));	
 			$itemid    = intval( $uri->getVar('Itemid'));
-				
+					
 			$route     = ''; //the route created
 				
 			// Build component name and sef handler path

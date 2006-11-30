@@ -20,16 +20,18 @@ class modArchiveHelper
 {
 	function getList(&$params)
 	{
+		global $Itemid;
+			
 		//get database
 		$db =& JFactory::getDBO();
 
 		$query = "SELECT MONTH( created ) AS created_month, created, id, sectionid, title, YEAR(created) AS created_year" .
 			"\n FROM #__content" .
-			"\n WHERE ( state = -1 AND checked_out = 0 AND sectionid > 0 )" .
+			"\n WHERE ( state = -1 AND checked_out = 0 )" .
 			"\n GROUP BY created_year DESC, created_month DESC";
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
-
+			
 		$i 	   = 0;
 		$lists = array();
 		foreach ( $rows as $row )
@@ -40,7 +42,7 @@ class modArchiveHelper
 			$month_name		= $date->toFormat("%B");
 			$created_year	= $date->toFormat("%Y");
 
-			$lists[$i]->link	= sefRelToAbs('index.php?option=com_content&amp;task=archivecategory&amp;year='.$created_year.'&amp;month='.$created_month.'&amp;module=1');
+			$lists[$i]->link	= sefRelToAbs('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$Itemid);
 			$lists[$i]->text	= $month_name.', '.$created_year;
 			$i++;
 		}

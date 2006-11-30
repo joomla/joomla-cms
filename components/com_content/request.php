@@ -36,7 +36,15 @@ function ContentBuildURL($ARRAY, &$params)
 			$parts[] = $ARRAY['id'];
 		}
 	};
-
+	
+	if(isset($ARRAY['year'])) {
+		$parts[] = $ARRAY['year'];
+	};
+	
+	if(isset($ARRAY['month'])) {
+		$parts[] = $ARRAY['month'];
+	};
+	
 	if (isset( $ARRAY['limit'] ))
 	{
 		// Do all pages if limit = 0
@@ -56,57 +64,59 @@ function ContentBuildURL($ARRAY, &$params)
 function ContentParseURL($ARRAY, &$params)
 {
 	// view is always the first element of the array
-	$view	= array_shift($ARRAY);
-	$nArray	= count($ARRAY);
-
+	$view = array_shift($ARRAY);
 	JRequest::setVar('view', $view, 'get');
-
-	switch ($view)
+	
+	$next = array_shift($ARRAY);
+				
+	switch($view)
 	{
-		case 'section'  :
-		case 'category' :
 		case 'article'  :
+		case 'category' :
+		case 'section'  :
 		{
-			if (count($ARRAY))
+			if(is_numeric((int)$next) && ((int)$next != 0)) {
+				JRequest::setVar('id', (int)$next, 'get');
+			}
+			else
 			{
- 				$variable = array_shift($ARRAY);
-				
-				if(is_numeric((int)$variable) && ((int)$variable != 0))
-				{
-					JRequest::setVar('id', (int)$variable, 'get');
-				}
-				else
-				{
-					JRequest::setVar('layout', $variable, 'get');
-					$variable = array_shift($ARRAY);
-					JRequest::setVar('id', (int)$variable, 'get');
-				}
-				
-				// Handle Pagination
-				$last = array_shift($ARRAY);
-				if ($last == 'all')
-				{
-					array_pop( $ARRAY );
-					$nArray--;
-					JRequest::setVar('limitstart', 0, 'get');
-					JRequest::setVar('limit', 0, 'get');
-					// if you want more than 1e6 on your page then you are nuts!
-				}
-				elseif (strpos( $last, 'page' ) === 0)
-				{
-					array_pop( $ARRAY );
-					$nArray--;
-					$pts		= explode( ':', $last );
-					$limit		= @$pts[1];
-					$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-					JRequest::setVar('limit',$limit, 'get');
-					JRequest::setVar('limitstart', $limitstart, 'get');
-				}
+				JRequest::setVar('layout', $next, 'get');
+				JRequest::setVar('id', (int)array_shift($ARRAY), 'get');
+			}
+		} break;
+			
+		case 'archive'   :
+		{
+			if(is_numeric((int)$next) && ((int)$next != 0)) {
+				JRequest::setVar('year', $next, 'get');
+				JRequest::setVar('month', array_shift($ARRAY), 'get');
+			}
+			else
+			{
+				JRequest::setVar('layout', $next, 'get');
+				JRequest::setVar('year', array_shift($ARRAY), 'get');
+				JRequest::setVar('month', array_shift($ARRAY), 'get');
 			}	
-		}
-		break;
-
-		default: break;
+		} break;
+	}
+			
+ 	// Handle Pagination
+	$last = array_shift($ARRAY);
+	if ($last == 'all')
+	{
+		array_pop( $ARRAY );
+		JRequest::setVar('limitstart', 0, 'get');
+		JRequest::setVar('limit', 0, 'get');
+		// if you want more than 1e6 on your page then you are nuts!
+	}
+	elseif (strpos( $last, 'page' ) === 0)
+	{
+		array_pop( $ARRAY );
+		$pts		= explode( ':', $last );
+		$limit		= @$pts[1];
+		$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
+		JRequest::setVar('limit',$limit, 'get');
+		JRequest::setVar('limitstart', $limitstart, 'get');
 	}
 }
 ?>

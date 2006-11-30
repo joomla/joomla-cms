@@ -106,7 +106,7 @@ class ContentModelArchive extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-
+		
 		return $query;
 	}
 

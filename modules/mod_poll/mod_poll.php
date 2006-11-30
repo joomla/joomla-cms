@@ -21,7 +21,7 @@ $tabclass_arr = array ('sectiontableentry2', 'sectiontableentry1');
 
 $menu 	= &JMenu::getInstance();
 $items	= $menu->getItems('link', 'index.php?option=com_poll');
-$Itemid = isset($items[0]) ? $items[0]->id : '0';
+$itemid = isset($items[0]) ? $items[0]->id : '0';
 
 $list = modPollHelper::getList($params);
 $layout = JModuleHelper::getLayoutPath('mod_poll');
