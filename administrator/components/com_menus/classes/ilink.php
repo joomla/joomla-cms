@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: component.php 4890 2006-09-03 00:25:44Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @subpackage Menus
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
@@ -162,7 +162,7 @@ class iLink extends JTree
 			foreach ($children as $child)
 			{
 				if ($child->name() == 'option') {
-					$url = $purl.'&amp;url['.$e->attributes('var').']='.$child->attributes('value');
+					$url = $purl.'&amp;url['.$options->attributes('var').']='.$child->attributes('value');
 					$node =& new iLinkNode($child->attributes('name'), $url, $child->attributes('msg'));
 					$parent->addChild($node);
 				} elseif ($child->name() == 'default') {

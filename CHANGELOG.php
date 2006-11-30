@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2006 Andrew Eddie
+ + Added JController::getTasks - returns a list of the available tasks in a controller
+
 29-Nov-2006 Johan Janssens
  ^ Moved JString class to utilities package
  - Removed language loading from JPluginHelper::_import function. If a plugin needs
