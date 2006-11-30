@@ -174,8 +174,9 @@ class JPluginHelper
 
 				require_once( $path );
 
-				$lang =& JFactory::getLanguage();
-				$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
+				//Jinx :: if plugins need languages they need to load them themselves
+				//$lang =& JFactory::getLanguage();
+				//$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
 
 				$paths[$path] = true;
 			}

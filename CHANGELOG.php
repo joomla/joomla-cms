@@ -39,6 +39,8 @@ Legend:
 
 29-Nov-2006 Johan Janssens
  ^ Moved JString class to utilities package
+ - Removed language loading from JPluginHelper::_import function. If a plugin needs
+   to load a language he should load it himself.
 
 28-Nov-2006 Johan Janssens
  ^ Components are now rendered by the application and not by the template

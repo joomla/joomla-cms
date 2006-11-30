@@ -27,6 +27,12 @@ $mainframe = new JSite();
 // looad the configuration settings
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
+// load system plugin group
+JPluginHelper::importPlugin( 'system' );
+
+// trigger the onStart events
+$mainframe->triggerEvent( 'onBeforeStart' );
+
 // create the session
 $mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId() );
 
@@ -35,12 +41,6 @@ $mainframe->setLanguage();
 
 // load the legacy libraries if enabled
 $mainframe->setLegacy();
-
-// load system plugin group
-JPluginHelper::importPlugin( 'system' );
-
-// trigger the onStart events
-$mainframe->triggerEvent( 'onBeforeStart' );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );

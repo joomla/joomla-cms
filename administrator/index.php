@@ -29,6 +29,12 @@ $mainframe = new JAdministrator();
 // load the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
+// load system plugin group
+JPluginHelper::importPlugin( 'system' );
+
+// trigger the onStart events
+$mainframe->triggerEvent( 'onBeforeStart' );
+
 // create the session
 $mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId());
 
@@ -37,12 +43,6 @@ $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
 
 // load the legacy libraries if enabled
 $mainframe->setLegacy();
-
-// load system plugin group
-JPluginHelper::importPlugin( 'system' );
-
-// trigger the onStart events
-$mainframe->triggerEvent( 'onBeforeStart' );
 
 // load a stored user state if it exists
 $mainframe->loadStoredUserState();

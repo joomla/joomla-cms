@@ -467,7 +467,7 @@ class JApplication extends JObject
 	/**
 	 * Set the application language
 	 *
-	 * @access private
+	 * @access public
 	 * @param string 	The language name
 	 * @since 1.5
 	 */
