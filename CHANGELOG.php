@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2006 Johan Janssens
+ # Fixed [artf6932] : use of unassigned variable in weblink model
+
 30-Nov-2006 Andrew Eddie
  + Added JController::getTasks - returns a list of the available tasks in a controller
 

@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( dirname(__FILE__)  .'/../../../libraries/pcl/pcltar.lib.php' );
+require_once( dirname(__FILE__)  .'/../../../libraries/pcl/pcltar.php' );
 ?>

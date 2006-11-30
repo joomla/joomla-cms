@@ -364,6 +364,7 @@ class WeblinksModelWeblink extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
+			$weblink = new stdClass();
 			$weblink->id				= 0;
 			$weblink->catid				= 0;
 			$weblink->sid				= 0;
