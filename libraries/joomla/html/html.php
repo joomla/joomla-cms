@@ -299,7 +299,7 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the select list
 	*/
-	function genericList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
+	function genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
 	{
 		// check if array
 		if ( is_array( $arr ) ) {
@@ -394,7 +394,7 @@ class JHTMLSelect
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
+	function radioList( $arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
 	{
 		reset( $arr );
 		$html = '';

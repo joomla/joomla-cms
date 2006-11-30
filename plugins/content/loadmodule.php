@@ -26,7 +26,7 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 	if ( JString::strpos( $row->text, 'loadposition' ) === false ) {
 		return true;
 	}
-
+	
 	// Get plugin info
 	$plugin =& JPluginHelper::getPlugin('content', 'loadmodule');
 

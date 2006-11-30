@@ -123,7 +123,7 @@ class ContentModelFrontpage extends JModel
 			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 			"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
 			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore," .
-			"\n u.name AS author, u.usertype, g.name AS groups".
+			"\n u.name AS author, u.usertype, g.name AS groups, cc.name AS category".
 			$voting['select'] .
 			"\n FROM #__content AS a" .
 			"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .

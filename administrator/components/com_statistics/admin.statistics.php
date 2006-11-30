@@ -37,14 +37,15 @@ switch (JRequest::getVar('task'))
 
 function showSearches( $showResults=null )
 {
-	global $mainframe, $option, $task;
+	global $mainframe, $option;
 	
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order", 		'filter_order', 	'hits' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_statistics.$task.filter_order_Dir",	'filter_order_Dir',	'' );
+	
+	$filter_order		= $mainframe->getUserStateFromRequest( "com_statistics.filter_order", 		'filter_order', 	'hits' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_statistics.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart			= $mainframe->getUserStateFromRequest( "com_statistics.$task.limitstart", 			'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.$task.search", 				'search', 			'' );
+	$limitstart			= $mainframe->getUserStateFromRequest( "com_statistics.limitstart", 			'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
 	
@@ -109,7 +110,7 @@ function showSearches( $showResults=null )
 	// search filter
 	$lists['search']= $search;
 
-	HTML_statistics::showSearches( $rows, $pageNav, $lists, $task, $showResults );
+	HTML_statistics::showSearches( $rows, $pageNav, $lists, 'searches', $showResults );
 }
 
 function resetStats()

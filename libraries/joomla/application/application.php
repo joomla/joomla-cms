@@ -826,6 +826,7 @@ class JApplication extends JObject
 	* @since 1.5
 	*/
 	function getPath($varname, $user_option=null) {
+		jimport('joomla.application.helper');
 		return JApplicationHelper::getPath ($varname, $user_option);
 	}
 

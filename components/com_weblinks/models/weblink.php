@@ -115,7 +115,7 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_id)
 		{
 			$weblink = & $this->getTable();
-			$weblink->hit($this->_id, $mainframe->getCfg('enable_log_items'));
+			$weblink->hit($this->_id, true);
 			return true;
 		}
 		return false;

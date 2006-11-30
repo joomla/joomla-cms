@@ -164,8 +164,6 @@ class ConfigControllerApplication extends JController
 
 		// STATISTICS SETTINGS
 		$lists['log_searches'] 	= JHTMLSelect::yesnoList('enable_log_searches', 'class="inputbox"', $row->enable_log_searches);
-		$lists['enable_stats'] 	= JHTMLSelect::yesnoList('enable_stats', 'class="inputbox"', $row->enable_stats);
-		$lists['log_items'] 	= JHTMLSelect::yesnoList('enable_log_items', 'class="inputbox"', $row->enable_log_items);
 
 		// SEO SETTINGS
 		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
@@ -202,8 +200,6 @@ class ConfigControllerApplication extends JController
 		$config_array['debug_lang'] 	= JRequest::getVar('debug_lang', 0, 'post');
 
 		// STATISTICS SETTINGS
-		$config_array['enable_stats'] = JRequest::getVar('enable_stats', 0, 'post');
-		$config_array['enable_log_items'] 	= JRequest::getVar('enable_log_items', 0, 'post');
 		$config_array['enable_log_searches'] = JRequest::getVar('enable_log_searches', 0, 'post');
 
 		// SEO SETTINGS

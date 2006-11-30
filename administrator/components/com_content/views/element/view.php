@@ -129,7 +129,7 @@ class ContentViewElement extends JView
 							echo "<td>";
 		                }
 						?>
-						<a onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo $row->title; ?>');">
+						<a onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo addSlashes($row->title); ?>');">
 							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
 						</a>
 					</td>

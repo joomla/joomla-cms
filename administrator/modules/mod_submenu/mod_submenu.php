@@ -99,10 +99,10 @@ class JAdminSubMenu
 				$client	= JRequest::getVar('client', 0, '', 'int');
 				if ($client == 1) {
 					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_modules&client_id=0', 'img' => '../includes/js/ThemeOffice/module.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_modules&client_id=1', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
 				} else {
 					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_modules&client_id=0', 'img' => '../includes/js/ThemeOffice/module.png', 'active' => 1);
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_modules&client_id=1', 'img' => '../includes/js/ThemeOffice/module.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_modules&client=1', 'img' => '../includes/js/ThemeOffice/module.png');
 				}
 				//$subMenuList[] = array ('title' => JText::_('Manage Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::_buildList($subMenuList);

@@ -271,7 +271,7 @@ class ContentController extends JController
 		if ($isNew)
 		{
 			// messaging for new items
-			require_once (JPATH_ADMINISTRATOR.'/components/com_messages/tables/message.php');
+			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
 			$query = "SELECT id" .
 					"\n FROM #__users" .
 					"\n WHERE sendEmail = 1";

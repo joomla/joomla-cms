@@ -82,7 +82,7 @@ function & buildMenu($usertype = '')
 	}
 
 	// Menu Types
-	require_once( JPATH_ADMINISTRATOR.'/components/com_menus/helper.php' );
+	require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helper.php' );
 	$menuTypes 	= JMenuHelper::getMenuTypelist();
 
 	/*

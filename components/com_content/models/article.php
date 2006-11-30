@@ -183,7 +183,7 @@ class ContentModelArticle extends JModel
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content');
-			$article->hit($this->_id, $mainframe->getCfg('enable_log_items'));
+			$article->hit($this->_id, true);
 			return true;
 		}
 		return false;
