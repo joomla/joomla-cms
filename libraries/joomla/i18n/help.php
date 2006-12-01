@@ -43,19 +43,18 @@ class JHelp
 				$ref = $ref . '.html';
 			}
 
-			$url = 'components/' . $option. '/help/';
+			$url = 'components/' . $option. '/help';
 			$tag =  $lang->getTag();
 
 			// Check if the file exists within a different language!
 			if( $lang->getTag() != 'en-GB' ) {
-				$localeURL = JPATH_BASE . $url . DS. $tag.DS.$ref;
+				$localeURL = JPATH_BASE.$url.DS.$tag.DS.$ref;
 				jimport( 'joomla.filesystem.file' );
 				if( !JFile::exists( $localeURL ) ) {
 					$tag = 'en-GB';
 				}
 			}
-
-			return $url.DS.$tag.DS.$ref;
+			return $url.'/'.$tag.'/'.$ref;
 		}
 
 
