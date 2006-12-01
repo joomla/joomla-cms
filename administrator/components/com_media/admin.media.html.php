@@ -47,7 +47,7 @@ class MediaViews
 		";
 
 		$document =& JFactory::getDocument();
-		$document->setInclude('module', 'submenu', $listStyle);
+		$document->setBuffer($listStyle, 'module', 'submenu');
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 

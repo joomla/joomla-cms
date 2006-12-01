@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.component.helper');
-
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
@@ -205,8 +203,8 @@ class JDocumentFeed extends JDocument
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 
-		echo JComponentHelper::renderComponent();
-
+		echo $this->getBuffer();
+		
 		$renderer = $this->loadRenderer($format);
 
 		//output

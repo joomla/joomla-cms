@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_BASE.DS.'includes'.DS.'framework.php' );
+jimport('joomla.application.component.helper');
 
 /**
 * Joomla! Application class
@@ -51,19 +51,44 @@ class JAdministrator extends JApplication
 	*/
 	function execute( $component )
 	{
+		$document =& JFactory::getDocument();
+		$user     =& JFactory::getUser();
+
+		switch($document->getType())
+		{
+			case 'html' :
+			{
+				$document->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
+
+				if ( $user->get('id') ) {
+					$document->addScript( '../includes/js/joomla/common.js');
+					$document->addScript( '../includes/js/joomla.javascript.js');
+				}
+			} break;
+
+			default : break;
+		}
+
+		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+		$document->setDescription( $this->getCfg('MetaDesc') );
+	
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
+		
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
-	
-		//TODO :: put cpanel in a component
-		if($component == 'com_admin') {
-			$file = 'cpanel';
-		}
 		
 		if($component == 'com_login') {
 			$file = 'login';
 		}
 
-		$this->_display($component, $template, $file.'.php');
+		$params = array(
+			'template' 	=> $template,
+			'file'		=> $file.'.php',
+			'directory'	=> JPATH_BASE.DS.'templates'
+		);
+
+		$document->display($this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params );
 	}
 
 	/**
@@ -353,47 +378,6 @@ class JAdministrator extends JApplication
 
 		parent::setLanguage($lang);
 	}
-
-	/**
-	* Display the application
-	*
-	* @access protected
-	* @since 1.5
-	*/
-	function _display($component, $template, $file)
-	{
-		$document =& JFactory::getDocument();
-		$user     =& JFactory::getUser();
-
-		switch($document->getType())
-		{
-			case 'html' :
-			{
-				$document->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
-
-				if ( $user->get('id') ) {
-					$document->addScript( '../includes/js/joomla/common.js');
-					$document->addScript( '../includes/js/joomla.javascript.js');
-				}
-			} break;
-
-			default : break;
-		}
-
-		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-		$document->setDescription( $this->getCfg('MetaDesc') );
-		
-		$contents = JComponentHelper::renderComponent($component);
-		$document->setInclude('component', null, $contents);
-
-		$params = array(
-			'template' 	=> $template,
-			'file'		=> $file,
-			'directory'	=> JPATH_BASE.DS.'templates'
-		);
-
-		$document->display($this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params );
-	}
 }
 
 /**
@@ -415,7 +399,7 @@ class JAdministratorHelper
 		
 		if(empty($option)) 
 		{	
-			$option = 'com_admin';
+			$option = 'com_cpanel';
 
 			$session =& JFactory::getSession();
 			if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {

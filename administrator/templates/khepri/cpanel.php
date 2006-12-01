@@ -71,7 +71,7 @@
 								<jdoc:include type="modules" name="icon" />
 							</td>
 							<td width="45%" valign="top">
-								<jdoc:include type="modules" name="cp_shell" />
+								<jdoc:include type="component" />
 							</td>
 						</tr>
 						</table>

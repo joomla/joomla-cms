@@ -33,4 +33,5 @@ $controller->registerTask( 'apply_new', 'save' );
 // Perform the Request task
 $controller->execute( JRequest::getVar('task'));
 $controller->redirect();
+
 ?>

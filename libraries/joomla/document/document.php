@@ -173,6 +173,14 @@ class JDocument extends JObject
 	 * @access  private
 	 */
 	var $_type = null;
+	
+	/**
+     * Array of buffered output
+     *
+     * @var       mixed (depends on the renderer)
+     * @access    private
+     */
+	var $_buffer = null;
 
 
 	/**
@@ -248,6 +256,26 @@ class JDocument extends JObject
 	 */
 	function getType() {
 		return $this->_type;
+	}
+	
+	/**
+	 * Get the contents of the document buffer
+	 *
+	 * @access public
+	 * @return 	The contents of the document buffer
+	 */
+	function getBuffer() {
+		return $this->_buffer;
+	}
+
+	/**
+	 * Set the contents of the document buffer
+	 *
+	 * @access public
+	 * @param string 	$content	The content to be set in the buffer
+	 */
+	function setBuffer($content) {
+		$this->_buffer = $content;
 	}
 
 	/**

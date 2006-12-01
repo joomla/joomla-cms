@@ -1,8 +1,8 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: toolbar.admin.html.php 5747 2006-11-12 21:49:30Z louis $
 * @package Joomla
-* @subpackage Installation
+* @subpackage Admin
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,39 +16,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* Joomla! XML-RPC Application class
-*
-* Provide many supporting API functions
-*
 * @package Joomla
-* @final
+* @subpackage Admin
 */
-class JXMLRPC extends JApplication
+class TOOLBAR_cpanel
 {
-	/**
-	 * The url of the site
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_siteURL = null;
-
-	/**
-	 * Get the url of the site
-	 *
-	 * @return string The site URL
-	 * @since 1.5
-	 */
-	function getSiteURL()
-	{
-		if(isset($this->_siteURL)) {
-			return $this->_siteURL;
-		}
-
-		$url = JURI::base();
-		$url = str_replace('xmlrpc/', '', $url);
-		$this->_siteURL = $url;
-		return $url;
+	function _DEFAULT() {
+		JMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
+		JMenuBar::help( 'screen.cpanel' );
 	}
 }
 ?>

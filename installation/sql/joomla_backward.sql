@@ -155,6 +155,7 @@ INSERT INTO `#__components` VALUES (30,'Statistics','',0,0,'','Statistics','com_
 INSERT INTO `#__components` VALUES (31,'Template Manager','',0,0,'','Templates','com_templates',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (32,'User Manager','',0,0,'','Users','com_users',0,'',1,'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n',1);
 INSERT INTO `#__components` VALUES (33,'Cache Manager','',0,0,'','Cache','com_cache',0,'',1,'',1);
+INSERT INTO `#__components` VALUES (34,'Control Panel','',0,0,'','Control Panel','com_cpanel',0,'',1,'',1);
 
 # --------------------------------------------------------
 
@@ -507,7 +508,6 @@ INSERT INTO `#__modules` VALUES (33, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00
 INSERT INTO `#__modules` VALUES (34, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (35, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1, '');
 INSERT INTO `#__modules` VALUES (36, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (37, 'Cpanel Shell', '', 1, 'cp_shell', 0, '0000-00-00 00:00:00', 1, 'mod_cpanel', 0, 23, 1, '', 1, 1, '');
 
 # --------------------------------------------------------
 

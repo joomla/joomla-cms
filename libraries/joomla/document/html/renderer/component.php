@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.component.helper');
-
 /**
  * Component renderer
  *

@@ -1,7 +1,8 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: toolbar.admin.php 5631 2006-11-03 20:51:19Z friesengeist $
 * @package Joomla
+* @subpackage Admin
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,27 +15,12 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.html.pane');
-jimport('joomla.application.module.helper');
+require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-$modules = JModuleHelper::getModules('cpanel');
-
-$pane   =& JPane::getInstance('sliders');
-$pane->startPane("content-pane");
-
-foreach ($modules as $module) {
-	$title = $module->title ;
-	$pane->startPanel( $title, "cpanel-panel" );
-	echo JModuleHelper::renderModule($module);
-	$pane->endPanel();
+switch (JRequest::getVar('task'))
+{
+	default:
+		TOOLBAR_cpanel::_DEFAULT();
+		break;
 }
-
-$pane->endPane();
-
-
-
-
-
-
-
-
+?>

@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Dec-2006 Johan Janssens
+ + Added new cpanel component to handle the control panel in the administrator
+ ^ Renamed JDocument setInclude and getInclude functions to setBuffer and getBuffer
+ ! Changes require a reinstall 
+
 01-Dec-2006 Andrew Eddie
  # Shuffled some modules out of joomla.sql into sample data to make a clean install, well, cleaner
 

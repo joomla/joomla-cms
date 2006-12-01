@@ -486,7 +486,6 @@ class JApplication extends JObject
 		define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
 		define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
 		define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
-		jimport('joomla.utilities.date');
 
 		if($conf->getValue('config.legacy')) {
 			// create the backward compatible language value for old 3PD components
@@ -541,12 +540,10 @@ class JApplication extends JObject
 	 */
 	function &_createPathWay()
 	{
+		global $option, $Itemid;
+		
 		//Load the pathway object
 		jimport( 'joomla.application.pathway' );
-
-		//Get some request variables
-		$ItemID = JRequest::getVar( 'Itemid', null, '', 'int' );
-		$option = JRequest::getVar('option');
 
 		// Create a JPathWay object
 		$this->_pathway = new JPathWay();
@@ -556,8 +553,9 @@ class JApplication extends JObject
 
 			// Add the home item to the pathway only and it is not linked
 			$this->_pathway->addItem( JText::_('Home'), '' );
-		} else {
-
+		} 
+		else 
+		{
 			// Initialize variables
 			$IIDstring = null;
 
@@ -571,8 +569,8 @@ class JApplication extends JObject
 				$comName = $option;
 			}
 			// Handle the ItemID
-			if ($ItemID) {
-				$IIDstring = '&Itemid='.$ItemID;
+			if ($Itemid) {
+				$IIDstring = '&Itemid='.$Itemid;
 			}
 
 			$this->_pathway->addItem( $comName, 'index.php?option='.$option.$IIDstring);

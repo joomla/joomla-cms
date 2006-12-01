@@ -40,13 +40,6 @@ class JDocumentHTML extends JDocument
      */
     var $_custom = array();
 
-	/**
-     * Array of buffered output
-     *
-     * @var       array
-     * @access    private
-     */
-	var $_buffer = array();
 
 	/**
 	 * Class constructor
@@ -130,7 +123,7 @@ class JDocumentHTML extends JDocument
 	 * @param array   	$attribs Associative array of remaining attributes.
 	 * @return 	The output of the renderer
 	 */
-	function getInclude($type, $name = null, $attribs = array())
+	function getBuffer($type, $name = null, $attribs = array())
 	{
 		$result = null;
 		if(isset($this->_buffer[$type][$name])) {
@@ -153,7 +146,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name		oke The name of the element to render
 	 * @param string 	$content	The content to be set in the buffer
 	 */
-	function setInclude($type, $name = null, $contents)
+	function setBuffer($contents, $type, $name = null)
 	{
 		$this->_buffer[$type][$name] = $contents;
 	}
@@ -318,7 +311,7 @@ class JDocumentHTML extends JDocument
 				$attribs = JUtility::parseAttributes( $matches[2][$i] );
 				$type = $matches[1][$i];
 				$name = isset($attribs['name']) ? $attribs['name'] : null;
-				$replace[$i] = $this->getInclude($type, $name, array_merge($attribs, $params));
+				$replace[$i] = $this->getBuffer($type, $name, array_merge($attribs, $params));
 			}
 
 			$data = str_replace($matches[0], $replace, $data);

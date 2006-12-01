@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_BASE.DS.'includes'.DS.'framework.php' );
+jimport('joomla.application.component.helper');
 
 /**
 * Joomla! Application class
@@ -60,17 +60,47 @@ class JSite extends JApplication
 	{
 		// Build the application pathway
 		$this->_createPathWay();
+		
+		$document =& JFactory::getDocument();
+		
+		switch($document->getType())
+		{
+			case 'html':
+				//set metadata
+				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
+				
+				$user =& JFactory::getUser();
+				if ( $user->get('id') ) {
+					$document->addScript( 'includes/js/joomla/common.js');
+					$document->addScript( 'includes/js/joomla.javascript.js');
+				}
+				break;
 
+			default: break;
+		}
+
+
+		$document->setTitle( $this->getCfg('sitename' ));
+		$document->setDescription( $this->getCfg('MetaDesc') );
+		
+		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
+		$document->setBuffer( $contents, 'component');
+		
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 		
-		$user     =& JFactory::getUser();
-
+		
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 			$file = 'offline';
 		}
+		
+		$params = array(
+			'template' 	=> $template,
+			'file'		=> $file.'.php',
+			'directory'	=> JPATH_BASE.DS.'templates'
+		);
 
-		$this->_display($component, $template, $file.'.php');
+		$document->display( $this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params);
 	}
 
 	/**
@@ -263,40 +293,7 @@ class JSite extends JApplication
 	*/
 	function _display($component, $template, $file)
 	{
-		global $option;
 		
-		$user     =& JFactory::getUser();
-		$document =& JFactory::getDocument();
-
-		switch($document->getType())
-		{
-			case 'html':
-				//set metadata
-				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-
-				if ( $user->get('id') ) {
-					$document->addScript( 'includes/js/joomla/common.js');
-					$document->addScript( 'includes/js/joomla.javascript.js');
-				}
-				break;
-
-			default: break;
-		}
-
-
-		$document->setTitle( $this->getCfg('sitename' ));
-		$document->setDescription( $this->getCfg('MetaDesc') );
-		
-		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
-		$document->setInclude('component', null, $contents);
-		
-		$params = array(
-			'template' 	=> $template,
-			'file'		=> $file,
-			'directory'	=> JPATH_BASE.DS.'templates'
-		);
-
-		$document->display( $this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params);
 	}
 }
 

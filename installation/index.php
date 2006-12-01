@@ -102,7 +102,7 @@ $params = array(
 );
 
 $document =& JFactory::getDocument();
-$document->setInclude('installation', '' , $result);
+$document->setBuffer( $result, 'installation');
 $document->setTitle(JText::_('PAGE_TITLE'));
 $document->display( false, false, $params);
 ?>

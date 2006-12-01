@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.component.helper');
-
 /**
  * DocumentRAW class, provides an easy interface to parse and display raw output
  *
@@ -52,7 +50,7 @@ class JDocumentRAW extends JDocument
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
-		echo JComponentHelper::renderComponent();
+		echo $this->getBuffer();
 		parent::display( $cache, $compress, $params );
 	}
 }

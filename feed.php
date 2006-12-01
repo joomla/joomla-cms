@@ -16,7 +16,8 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( JPATH_BASE .'/includes/defines.php' );
+require_once ( JPATH_BASE .'/includes/defines.php'     );
+require_once ( JPATH_BASE .'/includes/framework.php'   );
 require_once ( JPATH_BASE .'/includes/application.php' );
 
 // create the mainframe object
@@ -34,6 +35,9 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
+// set the language
+$mainframe->setLanguage();
+
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
@@ -47,14 +51,16 @@ $mainframe->authorize($Itemid);
 //	$file = 'offline.php';
 //}
 
-$option = JSiteHelper::findOption();
 $params = array(
 	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
 );
 
 JRequest::setVar('format', 'feed');
+$document =& JFactory::getDocument('feed');
 
-$document =& JFactory::getDocument();
+$option = JSiteHelper::findOption();
+$document->setBuffer( JComponentHelper::renderComponent($option), 'component');
+
 $document->setTitle( $mainframe->getCfg('sitename' ));
 $document->display( false, $mainframe->getCfg('gzip'), $params);
 

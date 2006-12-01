@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.application.component.helper');
-
 /**
  * DocumentPDF class, provides an easy interface to parse and display a pdf document
  *
@@ -51,7 +49,7 @@ class JDocumentPDF extends JDocument
 	 */
 	function display( $cache = false, $compress = false, $params = array())
 	{
-		echo JComponentHelper::renderComponent();
+		echo $this->getBuffer();
 		parent::display( $cache, $compress, $params );
 	}
 }
