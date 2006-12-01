@@ -65,7 +65,7 @@ class JModel extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function __construct($options = array())
+	function __construct($config = array())
 	{
 		$this->_db    = &JFactory::getDBO();
 		$this->_state = new JObject();

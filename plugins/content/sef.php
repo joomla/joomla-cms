@@ -85,15 +85,15 @@ function contentSEF_replacer( &$matches )
 			return $original;
 		}
 
-		if ($qstring = $uriHREF->getQueryString())
+		if ($qstring = $uriHREF->getQuery())
 		{
 			$qstring = '?' . $qstring;
 		}
-		if ($anchor = $uriHREF->getAnchor())
+		if ($anchor = $uriHREF->getFragment())
 		{
 			$anchor = '#' . $anchor;
 		}
-		return 'href="'. JURI::resolve( 'index.php' . $qstring ) . $uriHREF->getAnchor() .'"';
+		return 'href="'. JURI::resolve( 'index.php' . $qstring ) . $uriHREF->getFragment() .'"';
 	}
 	else
 	{

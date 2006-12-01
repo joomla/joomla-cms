@@ -394,7 +394,8 @@ class MenusModelList extends JModel
 	*/
 	function setState( $items, $state )
 	{
-		if(is_array($items)) {
+		if(is_array($items)) 
+		{
 			$row =& $this->getTable();
 			foreach ($items as $id)
 			{
