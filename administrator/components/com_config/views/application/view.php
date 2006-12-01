@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: global.php 5104 2006-09-20 18:28:54Z davidgal $
+* @version $Id$
 * @package Joomla
 * @subpackage Config
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
