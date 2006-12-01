@@ -30,14 +30,14 @@ $mainframe = new JAdministrator();
 // load the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
+// create the session
+$mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId());
+
 // load system plugin group
 JPluginHelper::importPlugin( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
-
-// create the session
-$mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId());
 
 // set the language
 $mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
