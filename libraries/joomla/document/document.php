@@ -629,6 +629,7 @@ class JDocument extends JObject
 
 		$level = 4; //ideal level
 
+		/*
 		$size = strlen($data);
 		$crc  = crc32($data);
 
@@ -637,7 +638,9 @@ class JDocument extends JObject
 
 		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
 		$gzdata .= pack("V",$crc) . pack("V", $size);
-
+		*/
+		
+		$gzdata = gzencode($data, $level);
 
 		Header('Content-Encoding: ' . $encoding);
 		Header('Content-Length: ' . strlen($gzdata));
