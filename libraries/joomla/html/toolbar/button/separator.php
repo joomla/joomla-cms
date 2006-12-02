@@ -37,23 +37,13 @@ class JButton_Separator extends JButton
 		$html	= null;
 		$class	= null;
 		$style	= null;
-
+		
 		// Separator class name
-		if (empty($definition[1]))
-		{
-			$class = "spacer";
-		}
-
+		$class = (empty($definition[1])) ? 'spacer' : $definition[1];
 		// Custom width
-		if (!empty($definition[2]))
-		{
-			$style = " style=\"width: $definition[1] px;\"";
-		}
+		$style = (!empty($definition[2])) ? null : ' style="width:' .  intval($definition[1]) . 'px;"';
 
-		$html	 = "<td class=\"$class\"$style>\n";
-		$html	.= "</td>\n";
-
-		return $html;
+		return '<td class="' . $class . '"' . $style . ">\n</td>\n";
 	}
 }
 ?>
