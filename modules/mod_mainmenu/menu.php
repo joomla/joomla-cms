@@ -61,9 +61,11 @@ class JMainMenu extends JTree
 	{
 
 		// Menu Link is a special type that is a link to another item
-		if ($item->type == 'menulink') {
+		if ($item->type == 'menulink') 
+		{
 			$menu = &JMenu::getInstance();
-			if ($tmp = $menu->getItem($item->link)) {
+			if ($tmp = $menu->getItem($item->link)) 
+			{
 				$name = $item->name;
 				$mid = $item->id;
 				$parent = $item->parent;
@@ -178,7 +180,7 @@ class JMainMenu extends JTree
 		}
 
 		// Build the CSS class selectors
-		$classes = "item".$this->_depthHash[$depth];
+		$classes = "";
 		$id = "";
 
 		if ($this->_current->hasChildren() && (($depth < $end) || ($end == 0))) {
@@ -221,7 +223,8 @@ class JMainMenu extends JTree
 			}
 			return;
 		}
-		if ($inBounds) {
+		if ($inBounds) 
+		{
 			// Print the item
 			echo "<li".$id." class=\"".$classes."\">";
 
@@ -254,7 +257,8 @@ class JMainMenu extends JTree
 			}
 		}
 
-		if ((($depth < $end) || ($end == 0)) && $showChildren) {
+		if ((($depth < $end) || ($end == 0)) && $showChildren) 
+		{
 			// Recurse through children if they exist
 			while ($this->_current->hasChildren())
 			{

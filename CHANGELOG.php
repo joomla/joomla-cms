@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Dec-2006 Johan Janssens
+ + Enabled module caching
+
 01-Dec-2006 Johan Janssens
  + Added new cpanel component to handle the control panel in the administrator
  ^ Renamed JDocument setInclude and getInclude functions to setBuffer and getBuffer

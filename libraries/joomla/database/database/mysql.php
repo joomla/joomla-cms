@@ -124,7 +124,7 @@ class JDatabaseMySQL extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		$this->_cursor = mysql_query( $this->_sql, $this->_resource );
-
+		
 		if (!$this->_cursor)
 		{
 			$this->_errorNum = mysql_errno( $this->_resource );

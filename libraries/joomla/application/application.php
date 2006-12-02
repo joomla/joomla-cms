@@ -48,14 +48,6 @@ class JApplication extends JObject
 	var $_clientId = null;
 
 	/**
-	 * The url of the application
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_baseURL = null;
-
-	/**
 	 * The application message queue
 	 *
 	 * @var array

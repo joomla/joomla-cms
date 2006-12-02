@@ -25,6 +25,7 @@ jimport('pear.cache.Lite');
 class JCache extends Cache_Lite
 {
 	var $_defaultGroup = 'JCache';
+	
 	var $_validateCache = false;
 
 	/**
