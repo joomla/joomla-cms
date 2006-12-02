@@ -39,7 +39,6 @@ class JAdminSubMenu
 		$db 			=& JFactory::getDBO();
 		$lang 			=& JFactory::getLanguage();
 		$user			=& JFactory::getUser();
-		$enableStats	= $mainframe->getCfg('enable_stats');
 		$enableSearches = $mainframe->getCfg('enable_log_searches');
 		$option 		= JRequest::getVar('option');
 		$task 			= JRequest::getVar('task');

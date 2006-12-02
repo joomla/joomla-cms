@@ -342,7 +342,7 @@ class JEditor_tinymce extends JPlugin
 		if (is_numeric( $height )) {
 			$height .= 'px';
 		}
-
+		
 		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>";
 	}
 

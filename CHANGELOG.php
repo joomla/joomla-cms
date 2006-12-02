@@ -39,7 +39,8 @@ Legend:
 
 02-Dec-2006 Johan Janssens
  + Enabled module caching
-
+ ^ Improved JFactory::getEditor method, added support for 'force' loading an editor
+ 
 01-Dec-2006 Johan Janssens
  + Added new cpanel component to handle the control panel in the administrator
  ^ Renamed JDocument setInclude and getInclude functions to setBuffer and getBuffer

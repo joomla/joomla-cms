@@ -247,12 +247,12 @@ class JFactory
 	 * Get a XML document
 	 *
 	 * @access public
-	 * @return object
 	 * $param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
 	 * @param array:
 	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
 	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
+	 * @return object
 	 */
 
 	 function &getXMLParser( $type = 'DOM', $options = array())
@@ -304,15 +304,19 @@ class JFactory
 	* Get an JEditor object
 	*
 	* @access public
+	* $param string $editor The editor to load, depends on the editor plugins that are installed
 	* @return object A JEditor object
 	*/
-	function &getEditor()
+	function &getEditor($editor = null)
 	{
 		jimport( 'joomla.html.editor' );
 
 		//get the editor configuration setting
-		$conf =& JFactory::getConfig();
-		$editor = $conf->getValue('config.editor');
+		if(is_null($editor)) 
+		{
+			$conf =& JFactory::getConfig();
+			$editor = $conf->getValue('config.editor');
+		}
 
 		$instance =& JEditor::getInstance($editor);
 

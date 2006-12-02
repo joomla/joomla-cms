@@ -61,7 +61,7 @@ class JEditor extends JObservable
 	function &getInstance($editor = 'none')
 	{
 		static $instances;
-
+		
 		if (!isset ($instances)) {
 			$instances = array ();
 		}
@@ -79,7 +79,7 @@ class JEditor extends JObservable
 	 * Initialize the editor
 	 *
 	 */
-	function init()
+	function initialise()
 	{
 		//check if editor is already loaded
 		if(is_null(($this->_editor))) {
@@ -96,8 +96,9 @@ class JEditor extends JObservable
 				$return = $result;
 			}
 		}
-
-		return $return;
+		
+		$document =& JFactory::getDocument();
+		$document->addCustomTag($return);
 	}
 
 	/**
@@ -185,7 +186,8 @@ class JEditor extends JObservable
 		$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $editor) );
 
 		$html = null;
-		foreach ($results as $result) {
+		foreach ($results as $result) 
+		{
 			/*
 			 * Results should be a three offset array consisting of:
 			 * [0] - onclick event
@@ -259,7 +261,7 @@ class JEditor extends JObservable
 		if(!is_null(($this->_editor))) {
 			return;
 		}
-
+		
 		// Build the path to the needed editor plugin
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$this->_name.'.php';
 
@@ -270,9 +272,11 @@ class JEditor extends JObservable
 
 		// Build editor plugin classname
 		$name = 'JEditor_'.$this->_name;
-		$this->_editor = new $name ($this);
-
-		JPluginHelper::importPlugin('editors-xtd');
+		if($this->_editor = new $name ($this)) 
+		{
+			$this->initialise();
+			JPluginHelper::importPlugin('editors-xtd');
+		}
 	}
 }
 ?>

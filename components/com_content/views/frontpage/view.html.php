@@ -121,7 +121,7 @@ class ContentViewFrontpage extends JView
 		$this->assignRef('params'    , $params);
 		$this->assignRef('items'     , $items);
 		$this->assignRef('frontpage' , $frontpage);
-
+		
 		parent::display($tpl);
 	}
 

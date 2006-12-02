@@ -64,8 +64,8 @@ class JObserver extends JObject {
  * @subpackage	Abstract
  * @since		1.5
  */
-class JObservable extends JObject {
-
+class JObservable extends JObject 
+{
 	/**
 	 * An array of Observer objects to notify
 	 *
@@ -108,7 +108,8 @@ class JObservable extends JObject {
 	 * @return array Array of return values from the observers
 	 * @since 1.5
 	 */
-	function notify() {
+	function notify() 
+	{
 		// Iterate through the _observers array
 		foreach ($this->_observers as $observer) {
 			$return[] = $observer->update();
@@ -124,9 +125,11 @@ class JObservable extends JObject {
 	 * @return void
 	 * @since 1.5
 	 */
-	function attach( &$observer) {
+	function attach( &$observer) 
+	{
 		// Make sure we haven't already attached this object as an observer
-		if (is_object($observer)) {
+		if (is_object($observer)) 
+		{
 			$class = get_class($observer);
 			foreach ($this->_observers as $check) {
 				if (is_a($check, $class)) {
@@ -147,11 +150,13 @@ class JObservable extends JObject {
 	 * @return boolean True if the observer object was detached
 	 * @since 1.5
 	 */
-	function detach( $observer) {
+	function detach( $observer) 
+	{
 		// Initialize variables
 		$retval = false;
 
-		if ($k = array_search($observer, $this->_observers)) {
+		if ($k = array_search($observer, $this->_observers)) 
+		{
 			unset($this->_observers[$k]);
 			$retval = true;
 		}

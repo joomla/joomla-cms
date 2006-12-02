@@ -397,14 +397,14 @@ class JAdministratorHelper
 	{
 		$option = strtolower(JRequest::getVar('option', null));
 		
-		if(empty($option)) 
-		{	
+		$session =& JFactory::getSession();
+		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
+			$option = 'com_login';
+		}
+		
+		if(empty($option)) {	
 			$option = 'com_cpanel';
 
-			$session =& JFactory::getSession();
-			if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
-				$option = 'com_login';
-			}
 		}
 		
 		return JRequest::setVar('option', $option);

@@ -35,11 +35,6 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 
 		echo $this->fetchHead($this->_doc);
 
-		if(class_exists('JEditor')) {
-			$editor =& JFactory::getEditor();
-			echo $editor->init();
-		}
-
 		$contents = ob_get_contents();
 		ob_end_clean();
 
