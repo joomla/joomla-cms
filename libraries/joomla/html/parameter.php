@@ -110,6 +110,18 @@ class JParameter extends JRegistry
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
 		return $result;
 	}
+	
+	/**
+	 * Sets a default value if not alreay assigned
+	 *
+	 * @access public
+	 * @param string The name of the param
+	 * @param string The value of the parameter
+	 * @return string The set value
+	 */
+	function def($key, $value = '') {
+		return $this->set($key, $this->get($key, (string) $value));
+	}
 
 	/**
 	 * Sets the XML object from custom xml files
@@ -128,15 +140,22 @@ class JParameter extends JRegistry
 	}
 
 	/**
-	 * Sets a default value if not alreay assigned
+	 * Bind data to the parameter
 	 *
+	 * @param mixed $data Array or Object
+	 * @return boolean True if the data was successfully bound
 	 * @access public
-	 * @param string The name of the param
-	 * @param string The value of the parameter
-	 * @return string The set value
+	 * @since 1.5
 	 */
-	function def($key, $value = '') {
-		return $this->set($key, $this->get($key, (string) $value));
+	function bind($data)
+	{
+		if ( is_array($data) ) {
+			return $this->loadArray($data, 'parameter');
+		} elseif ( is_object($data) ) {
+			return $this->loadObject($data, 'parameter');
+		} 
+		
+		return false;
 	}
 
 	/**
