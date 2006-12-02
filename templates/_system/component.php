@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="templates/<?php echo $mainframe->getTemplate(); ?>/css/general.css" type="text/css" />
 </head>
 <body class="contentpane">
+	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>
 </html>

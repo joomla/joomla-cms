@@ -347,7 +347,7 @@ class JPagination extends JObject
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
+			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $this->limit);
 		} else {
 			$link = JURI::resolve($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
 			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
@@ -547,7 +547,7 @@ class JPagination extends JObject
 	{
 		global $mainframe;
 		if ($mainframe->isAdmin()) {
-			return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; document.adminForm.submit();return false;\">".$item->text."</a>";
+			return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
 		} else {
 			return "<a title=\"".$item->text."\" href=\"".$item->link."\" class=\"pagenav\">".$item->text."</a>";
 		}

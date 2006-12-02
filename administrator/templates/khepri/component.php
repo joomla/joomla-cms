@@ -26,6 +26,7 @@
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/component.js"></script>
 </head>
 <body class="contentpane">
+	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>
 </html>

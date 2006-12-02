@@ -296,7 +296,7 @@ class JHTMLSelect
 	* @param string Additional HTML attributes for the <select> tag
 	* @param string The name of the object variable for the option value
 	* @param string The name of the object variable for the option text
-	* @param mixed The key that is selected
+	* @param mixed The key that is selected (accepts an array or a string)
 	* @returns string HTML for the select list
 	*/
 	function genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
@@ -305,7 +305,7 @@ class JHTMLSelect
 		if ( is_array( $arr ) ) {
 			reset( $arr );
 		}
-
+		
         $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -532,9 +532,7 @@ class JCommonHTML
 			$doc =& JFactory::getDocument();
 			$doc->addScript($url.'includes/js/overlib_mini.js');
 			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
-			?>
-			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-			<?php
+			
 			// change state so it isnt loaded a second time
 			$mainframe->set( 'loadOverlib', true );
 		}
@@ -626,7 +624,7 @@ class JCommonHTML
 			$state[] = JHTMLSelect::option( 'A', JText::_( $archived ) );
 		}
 
-		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
+		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submitform( );"', 'value', 'text', $filter_state );
 	}
 
 	function saveorderButton( $rows, $image='filesave.png', $task="saveorder" )

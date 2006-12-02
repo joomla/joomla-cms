@@ -61,7 +61,7 @@ class WeblinksViewWeblink extends JView
 		
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+			$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The weblink' ), $weblink->title );
 			$mainframe->redirect( 'index.php?option='. $option, $msg );
 		}
 		
