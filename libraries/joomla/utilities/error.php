@@ -414,6 +414,7 @@ class JError extends patErrorManager
 		$document->setError($error);
 
 		@ob_end_clean();
+		jimport('joomla.i18n.language');
 		$document->setTitle(JText::_('Error').': '.$error->code);
 		$document->display(false, false, array (
 			//'template' => '_system',
