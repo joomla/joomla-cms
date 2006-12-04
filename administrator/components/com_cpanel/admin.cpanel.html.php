@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.admin.html.php 5877 2006-11-29 03:29:00Z Jinx $
+* @version $Id$
 * @package Joomla
 * @subpackage Admin
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

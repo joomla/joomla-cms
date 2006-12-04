@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.admin.php 5631 2006-11-03 20:51:19Z friesengeist $
+* @version $Id$
 * @package Joomla
 * @subpackage Admin
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
