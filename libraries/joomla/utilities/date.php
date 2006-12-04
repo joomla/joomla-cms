@@ -16,7 +16,7 @@ if(!defined('DATE_FORMAT_LC')) {
 }
 
 if(!defined('DATE_FORMAT_LC2')) {
-	define('DATE_FORMAT_LC', '%A, %d %B %Y %H:%M');
+	define('DATE_FORMAT_LC2', '%A, %d %B %Y %H:%M');
 }
 
 if(!defined('DATE_FORMAT_LC3')) {
