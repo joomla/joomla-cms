@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: raw.php 4184 2006-07-08 01:08:35Z Jinx $
+* @version $Id$
 * @package Joomla.Framework
 * @subpackage Document
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.

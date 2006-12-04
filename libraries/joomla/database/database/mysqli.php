@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mysqli.php 4598 2006-08-20 03:42:36Z eddiea $
+* @version $Id$
 * @package Joomla.Framework
 * @subpackage Database
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
