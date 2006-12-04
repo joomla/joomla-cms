@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Document
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -247,7 +248,6 @@ class JDocumentFeed extends JDocument
  * JFeedItem is an internal class that stores feed item information
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package 	Joomla.Framework
  * @subpackage 	Document
  * @since	1.5
@@ -391,7 +391,6 @@ class JFeedItem extends JObject
  * JFeedEnclosure is an internal class that stores feed enclosure information
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package 	Joomla.Framework
  * @subpackage 	Document
  * @since	1.5
@@ -433,7 +432,6 @@ class JFeedEnclosure extends JObject
  * JFeedImage is an internal class that stores feed image information
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package 	Joomla.Framework
  * @subpackage 	Document
  * @since	1.5

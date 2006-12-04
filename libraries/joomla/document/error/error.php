@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: raw.php 4184 2006-07-08 01:08:35Z Jinx $
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Document
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

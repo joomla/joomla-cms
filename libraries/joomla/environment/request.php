@@ -1,7 +1,8 @@
 <?php
 /**
  * @version $Id$
- * @package Joomla
+ * @package Joomla.Framework
+ * @subpackage Environment
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -31,7 +32,7 @@ define("_J_ALLOWHTML", 4);
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Application
+ * @subpackage		Environment
  * @since		1.5
  */
 class JRequest

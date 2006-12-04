@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Parameter
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,7 +16,7 @@
  * Renders a menu item element
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
- * @package 	Menus
+ * @package 	Joomla.Framework
  * @subpackage 	Parameter
  * @since		1.5
  */
