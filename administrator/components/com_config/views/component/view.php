@@ -58,7 +58,7 @@ class ConfigViewComponent extends JView
 		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
 		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
 
-		<input type="hidden" name="c" value="component" />
+		<input type="hidden" name="controller" value="component" />
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="task" value="" />
 	</form>

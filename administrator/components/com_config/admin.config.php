@@ -21,24 +21,19 @@ if (!$user->authorize( 'com_config', 'manage' )) {
 	$mainframe->redirect('index.php?', JText::_('ALERTNOTAUTH'));
 }
 
-switch (JRequest::getVar( 'c', 'global' ))
-{
-	case 'global':
-		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'application.php' );
-		require_once( JPATH_COMPONENT.DS.'views'.DS.'application'.DS.'view.php' );
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
 
-		$controller = new ConfigControllerApplication( array('default_task' => 'showConfig' ));
-		break;
+// Require specific controller if requested
+if($controller = JRequest::getVar('controller', 'application')) {
+	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+} 
 
-	default:
-		// TODO: Lock down access to config changes
-		require_once( JPATH_COMPONENT.DS.'controllers'.DS.'component.php' );
-		require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
+// Create the controller
+$classname  = 'ConfigController'.$controller;
+$controller = new $classname( );
 
-		$controller = new ConfigControllerComponent( array('default_task' => 'edit') );
-		break;
-}
-
+// Perform the Request task
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
 ?>

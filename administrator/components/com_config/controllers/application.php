@@ -12,20 +12,22 @@
  * details.
  */
 
-jimport( 'joomla.application.component.controller' );
+require_once( JPATH_COMPONENT.DS.'views'.DS.'application'.DS.'view.php' );
 
 /**
  * @package Joomla
  * @subpackage Config
  */
-class ConfigControllerApplication extends JController
+class ConfigControllerApplication extends ConfigController
 {
 	/**
 	 * Custom Constructor
 	 */
 	function __construct( $default = array() )
 	{
+		$default['default_task'] = 'showConfig';
 		parent::__construct( $default );
+		
 		$this->registerTask( 'apply', 'save' );
 	}
 

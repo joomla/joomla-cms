@@ -12,7 +12,7 @@
  * details.
  */
 
-jimport( 'joomla.application.component.controller' );
+require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -26,16 +26,19 @@ class ConfigControllerComponent extends JController
 	 */
 	function __construct( $default = array())
 	{
+		$default['default_task'] = 'edit';
 		parent::__construct( $default );
+		
 		$this->registerTask( 'apply', 'save' );
 	}
-
+	
 	/**
 	 * Show the configuration edit form
 	 * @param string The URL option
 	 */
 	function edit()
 	{
+		JRequest::setVar('tmpl', 'component'); //force the component template
 		$component = JRequest::getVar( 'component' );
 		
 		if (empty( $component ))
