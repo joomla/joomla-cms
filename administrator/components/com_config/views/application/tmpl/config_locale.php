@@ -7,7 +7,7 @@
 				<span class="editlinktip">
 				<?php
 					$tip = JText::_( 'Current date/time configured to display' ) .': '. JHTML::Date( 'now', DATE_FORMAT_LC2);
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Time Offset', '', 0 );
+					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Time Zone', '', 0 );
 				?>
 				</span>
 			</td>

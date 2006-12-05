@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Dec-2006 Johan Janssens
+ + Added JElement_Timezones
+ + Added Timezone settings to user parameters
+ ! Timezone language strings haven been moved from the config to the main ini file
+
 02-Dec-2006 Johan Janssens
  + Enabled module caching
  ^ Improved JFactory::getEditor method, added support for 'force' loading an editor

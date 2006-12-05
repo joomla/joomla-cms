@@ -464,7 +464,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a configuration button
-		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&tmpl=component&c=component&component='. $component, $width, $height );
+		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&controller=component&component='. $component, $width, $height );
 	}
 }
 

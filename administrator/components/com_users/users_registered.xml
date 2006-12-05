@@ -11,5 +11,6 @@
 	<description>User Manager</description>
 	<params>
 		<param name="language" type="languages" client="site" default="" label="Front-end Language" description="paramLanguage" />
+		<param name="timezone" type="timezones" default="" label="Timezone" description="Timezone for this User" />
 	</params>
 </install>
