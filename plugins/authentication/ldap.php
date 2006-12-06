@@ -77,20 +77,34 @@ class JAuthenticateLdap extends JPlugin {
 			$result->error_message = 'Unable to connect to LDAP server';
 			return $result;
 		}
-		$bind_method = $pluginParams->get('bind_method');
-		if($bind_method == 'anonymous') { 
-			// Need to do some work!
-			if($ldap->anonymous_bind()) {
-				// Comparison time
-				$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);
-			} else {
-				$result->type = 'failure';
-				$result->error_message = 'Anonymous bind failed.';
-				return $result;
-			}
-		} else {
-			// We just accept the result here
-	    	$success = $ldap->bind($username,$password);
+		$auth_method = $pluginParams->get('auth_method');
+		switch($auth_method) {
+			case 'anonymous': 
+				// Need to do some work!
+				if($ldap->anonymous_bind()) {
+					// Comparison time
+					$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);
+				} else {
+					$result->type = 'failure';
+					$result->error_message = 'Anonymous bind failed.';
+					return $result;
+				}
+				break;
+			case 'bind':
+				// We just accept the result here
+		    	$success = $ldap->bind($username,$password);
+		    	break;
+		    case 'authenticated':
+		    	if($ldap->bind()) {
+					// Comparison time
+					$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);		    		
+		    	} else {
+		    		die('Authenticated Bind Failed');
+		    		$result->type = 'failure';
+		    		$result->error_message = 'Authenticated bind failed.';
+		    		return $result;
+		    	}
+		    	break;
 		}
 
 		if(!$success) {
@@ -99,7 +113,7 @@ class JAuthenticateLdap extends JPlugin {
 		} else {
 			$result->type = 'success';	// By default autocreate is disabled.
 			if (intval($pluginParams->get('autocreate'))) {
-				$attributes = $this->simple_search(str_replace("[search]", $username, $pluginParams->get('search_string')));
+				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $pluginParams->get('search_string')));
 				$ldap_email = $pluginParams->get('ldap_email');
 				$ldap_fullname = $pluginParams->get('ldap_fullname');
 				if (isset($userdetails[0][$ldap_email][0])) {
@@ -118,6 +132,7 @@ class JAuthenticateLdap extends JPlugin {
 			}
 		}
 		$ldap->close();
+		//print_r($result); die();
 		return $result;
 	}
 }

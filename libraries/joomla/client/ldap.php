@@ -23,9 +23,9 @@ class JLDAP {
 	/** @var string Hostname of LDAP server
 	    @access public */
 	var $host = null;
-	/** @var bool Bind Method to use
+	/** @var bool Authorization Method to use
 	    @access public */
-	var $bind_method = null;
+	var $auth_method = null;
 	/** @var int Port of LDAP server
 	    @access public */
 	var $port = null;
@@ -138,6 +138,14 @@ class JLDAP {
 	function getDN() {
 		return $this->_dn;
 	}
+	
+	/**
+	 * Anonymously Binds to LDAP Directory
+	 */
+	function anonymous_bind() {
+		$bindResult = @ldap_bind($this->_resource);
+		return $bindResult;
+	}	
 
 	/**
 	 * Binds to the LDAP directory

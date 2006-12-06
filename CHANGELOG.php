@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2006 Sam Moffatt
+ ^ Making some alterations to LDAP authentication systems to improve them
+ + Added Anonymous Compare and Authorized Compare authentication options for LDAP bot (in addition to Bind as User)
+ + Added some mapping tools
+
 06-Dec-2006 Andrew Eddie
  ^ Added ability to describe an abitrary path for the configuration xml file for a component using com_config
 
