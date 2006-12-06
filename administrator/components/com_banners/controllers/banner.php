@@ -27,15 +27,15 @@ class BannerController
 
 		$db =& JFactory::getDBO();
 
-		$context			= "$option.viewbanners";
-		$filter_order		= $mainframe->getUserStateFromRequest( "$context.filter_order", 	'filter_order', 	'cc.name' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$context.filter_order_Dir",	'filter_order_Dir',	'' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( "$context.filter_catid",		'filter_catid',		'' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( "$context.filter_state", 	'filter_state', 	'*' );
-		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
+		$context			= $option.'.viewbanners.';
+		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order', 	'filter_order', 	'cc.name' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'' );
+		$filter_catid		= $mainframe->getUserStateFromRequest( $context.'filter_catid',		'filter_catid',		'' );
+		$filter_state 		= $mainframe->getUserStateFromRequest( $context.'filter_state', 	'filter_state', 	'*' );
+		$search 			= $mainframe->getUserStateFromRequest( $context.'search', 			'search', 			'' );
 
-		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		$limit		= $mainframe->getUserStateFromRequest( $context.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
 
 		$where = array();
 
