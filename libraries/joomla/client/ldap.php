@@ -23,6 +23,9 @@ class JLDAP {
 	/** @var string Hostname of LDAP server
 	    @access public */
 	var $host = null;
+	/** @var bool Bind Method to use
+	    @access public */
+	var $bind_method = null;
 	/** @var int Port of LDAP server
 	    @access public */
 	var $port = null;
@@ -91,17 +94,14 @@ class JLDAP {
 			if ($this->use_ldapV3) {
 				if (!ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					return false;
-					echo "<script> alert(\"" . JText :: _('failed to set LDAP protocol V3', true) . "\"); </script>\n";
 				}
 			}
 			if (!ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals))) {
 				return false;
-				echo "<script> alert(\"" . JText :: _('failed to set LDAP_OPT_REFERRALS option', true) . "\"); </script>\n";
 			}
 			if ($this->negotiate_tls) {
 				if (!ldap_start_tls($this->_resource)) {
 					return false;
-					echo "<script> alert(\"" . JText :: _('ldap_start_tls failed', true) . "\"); </script>\n";
 				}
 			}
 			return true;
@@ -147,18 +147,36 @@ class JLDAP {
 	 * @access public
 	 */
 	function bind($username = null, $password = null) {
-		if (is_null($username)) {
-			$username = $this->username;
+		switch($this->bind_method) {
+			case 'anonymous':
+				$bindResult = @ldap_bind($this->_resource);
+				break;
+			default:
+				if (is_null($username)) {
+					$username = $this->username;
+				}
+				if (is_null($password)) {
+					$password = $this->password;
+				}
+				$this->setDN($username);
+				$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
 		}
-		if (is_null($password)) {
-			$password = $this->password;
-		}
-		$this->setDN($username);
-		$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
-
 		return $bindResult;
 	}
 
+	/**
+	 * Perform an LDAP search using comma seperated search strings
+	 * @param string search string of search values
+	 */
+	function simple_search($search) {
+		$results = explode(';', $search);
+		foreach($results as $key=>$result) {
+	        $results[$key] = '('.$result.')';
+		}
+		return $this->search($results);
+	}
+
+	
 	/**
 	 * Perform an LDAP search
 	 * @param array Search Filters (array of strings)
@@ -203,6 +221,17 @@ class JLDAP {
 		}
 		return $attributes;
 	}
+
+	/**
+	 * Compare an entry and return a true or false result
+	 * @param string dn The DN which contains the attribute you want to compare
+	 * @param string attribute The attribute whose value you want to compare
+	 * @param string value The value you want to check against the LDAP attribute
+	 * @return mixed result of comparison (true, false, -1 on error)
+	 */
+	function compare($dn, $attribute, $value) {
+		return ldap_compare($this->_resource, $dn, $attribute, $value);
+	}	
 
 	/**
 	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
@@ -277,6 +306,5 @@ class JLDAP {
 		}
 		return ($addrtypes[$addrtype] . ": " . $addr);
 	}
-
 }
 ?>

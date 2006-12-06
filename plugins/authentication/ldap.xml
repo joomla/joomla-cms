@@ -13,10 +13,6 @@
         <filename plugin="ldap">ldap.php</filename>
     </files>
     <params>
-		<param name="autocreate" type="radio" default="0" label="Auto Create Users" description="Automatically created registered users where possible">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>			
         <param name="host" type="text" size="20" default="" label="Host" description="For example, openldap.mycompany.org" />
         <param name="port" type="text" size="20" default="389" label="Port" description="Default port is 389" />
         <param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="PARAMLDAPV3">
@@ -32,10 +28,22 @@
             <option value="1">Yes</option>
         </param>
         <param name="base_dn" type="text" size="20" default="" label="Base DN" description="The base DN of your LDAP server" />
-        <param name="@spacer" type="spacer" default="" label="" description="" />
-        <param name="connect" type="text" size="20" default="" label="Connect string" description="PARAMCONNECTSTRING" />
-        <param name="password" type="text" size="20" default="" label="Connect password" description="" />
-        <param name="search_string" type="text" size="20" default="" label="Search string" description="PARAMSEARCHSTRING" />
+		<param name="search_string" type="text" size="20" default="" label="Search string" description="PARAMSEARCHSTRING" />
         <param name="users_dn" type="text" size="20" default="" label="Users DN" description="PARAMUSERSDN" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="bind_method" default="authenticated" type="radio" label="Bind Method" description="The bind method to use (anonymous bind or authenticated bind)">
+			<option value="anonymous">Anonymous</option>
+			<option value="authenticated">Authenticated</option>
+		</param>
+        <param name="username" type="text" size="20" default="" label="Connect string" description="PARAMCONNECTSTRING" />
+        <param name="password" type="text" size="20" default="" label="Connect password" description="PARAMCONNECTPASSWORD" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="autocreate" type="radio" default="0" label="Auto Create Users" description="Automatically create registered users where possible">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>			
+        <param name="ldap_fullname" type="text" size="20" default="fullName" label="Map: FullName" description="PARAMMAPFN" />
+        <param name="ldap_email" type="text" size="20" default="mail" label="Map: Email" description="PARAMMAPEMAIL" />
+        <param name="ldap_password" type="text" size="20" default="userPassword" label="Map: Password" description="PARAMMAPPASSWORD" />
     </params>
 </install>
