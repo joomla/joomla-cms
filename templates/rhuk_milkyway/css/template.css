@@ -426,6 +426,11 @@ a.readon {
 	height: 16px;
 }
 
+/* form validation */
+.invalid { border-color: #ff0000; }
+label.invalid { color: #ff0000; }
+
+
 /** overlib **/
 
 .ol-foreground {

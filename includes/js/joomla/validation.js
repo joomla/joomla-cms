@@ -1,5 +1,5 @@
 /**
-* @version $Id: $
+* @version $Id: validate.js 1431 2006-09-14 10:18:10Z louis $
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -16,8 +16,8 @@
  * Inspired by: Chris Campbell <www.particletree.com>
  * 
  * @author		Louis Landry <louis.landry@joomla.org>
- * @package		Joomla
- * @subpackage	Installation
+ * @package		Joomla.Framework
+ * @subpackage	Forms
  * @since		1.5
  */
 
@@ -60,7 +60,7 @@ JFormValidator.prototype = {
 								  }
 		this.handlers['password']	= { enabled : true,
 									exec : function (value) {
-										regex=/^[a-zA-Z]\w{6,19}$/;
+										regex=/^[a-zA-Z]\w{3,14}$/;
 										return regex.test(value);
 									}
 								  }
@@ -101,10 +101,14 @@ JFormValidator.prototype = {
 		// Iterate through the form object and attach the validate
 		// method to all input fields.
 		for (var i=0;i < form.elements.length; i++) {
-			form.elements[i].onchange = function(){return document.formvalidator.validate(this);}
+			if (form.elements[i].tagName == 'INPUT' && form.elements[i].type == 'submit') {
+				if (this.hasClass(form.elements[i], 'validate')) {
+					form.elements[i].onclick = function(){return document.formvalidator.isValid(this.form);}
+				}
+			} else {
+				form.elements[i].onchange = function(){return document.formvalidator.validate(this);}
+			}
 		}
-		// Attach the validate method to the onsubmit event for the given form
-		form.onsubmit = function(){return validate(this);}
 	},
 	
 	validate: function(target)
@@ -204,40 +208,77 @@ JFormValidator.prototype = {
 		for (var i=0;i < form.elements.length; i++) {
 			if (this.validate(form.elements[i]) == false) {
 				valid = false;
-				form.elements[i].invalid = true;
-			} else {
-				form.elements[i].invalid = false;
 			}
 		}
 		return valid;
 	},
 
+	submit: function(form, k, v)
+	{
+		if (this.isValid(form)) {
+			if (k) {
+				form.k.value = v;
+			}
+			form.submit();
+		}
+	},
+
 	handleResponse: function(state, target, feedback)
 	{
-		// Set the default values for the target and extra objects
-		if (target.origBorder != '') {
-			target.origBorder = target.style.borderColor;
-		}
 		// Set color to red if the object doesn't validate
 		if (state == false) {
-			target.style.borderColor = '#f00';
+			this.addClass(target, 'invalid');
 		} else {
-			target.style.borderColor = target.origBorder;
+			this.removeClass(target, 'invalid');
 		}
 
 		// Get the extra object
-		var	extra = document.getElementById(feedback);
+		var	extra = $(feedback);
 		// Set extra color to red if the object doesn't validate
 		if (extra) {
-			if (extra.origColor != '') {
-				extra.origColor = extra.style.color;
-			}
 			if (state == false) {
-				extra.style.color = '#f00';
+				this.addClass(extra, 'invalid');
 			} else {
-				extra.style.color = extra.origColor;
+				this.removeClass(extra, 'invalid');
 			}
 		}
+	},
+
+	/* has the DOM object a certain class ? obj = DOM object, cName = a class name */
+	hasClass: function(obj,cName)
+	{
+		return new RegExp('\\b'+cName+'\\b').test(obj.className);
+	},
+
+	/* has the DOM object a set of classes ? obj = DOM object, classes=array of class names */
+	hasClasses: function(obj,classes)
+	{
+		for (f=0; f<classes.length; f++)
+		{
+			if (!this.hasClass(obj,classes[i])) {
+				return false;
+			}
+		}
+		return true;
+	},
+
+	/* add a class to a DOM object if necessary obj = DOM object, cName = a class name */
+	addClass: function(obj,cName)
+	{
+		if (!this.hasClass(obj,cName)) {
+			obj.className+=obj.className?' '+cName:cName;
+		}
+		return true;
+	},
+
+	/* removes a class from a DOM object obj = DOM object, cName = a class name */
+	removeClass: function(obj,cName)
+	{
+		if (!this.hasClass(obj,cName)) {
+			return false;
+		}
+		var rep=obj.className.match(' '+cName)?' '+cName:cName; obj.className=obj.className.replace(rep,'');
+		return true;
 	}
 }
 

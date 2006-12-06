@@ -90,7 +90,7 @@ class JAuthenticateLdap extends JPlugin {
 			}
 		} else {
 			// We just accept the result here
-	    	$success = $ldap->bind($username,$password);		} else {
+	    	$success = $ldap->bind($username,$password);
 		}
 
 		if(!$success) {
