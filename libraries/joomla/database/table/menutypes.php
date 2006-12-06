@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: menutypes.php 4033 2006-06-14 23:21:36Z eddieajau $
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Model
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: content.php 4481 2006-08-12 04:07:07Z webImagery $
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Model
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

@@ -1,7 +1,8 @@
 <?php
 /**
  * @version $Id$
- * @package Joomla
+ * @package Joomla.Framework
+ * @subpackage Installer
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -261,7 +262,7 @@ class JInstaller extends JObject
 	/**
 	 * Tries to find the package XML file
 	 *
-	 * @protected
+	 * @access protected
 	 * @return boolean True on success, False on error
 	 * @since 1.0
 	 */

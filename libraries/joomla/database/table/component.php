@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: component.php 3996 2006-06-12 03:44:31Z spacemonkey $
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Model
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -90,7 +91,7 @@ class JTableComponent extends JTable
 	/**
 	* Overloaded bind function
 	*
-	* @acces public
+	* @access public
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind

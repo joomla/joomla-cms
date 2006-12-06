@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id: HTML_toolbar.php 5369 2006-10-08 00:36:33Z Jinx $
-* @package Joomla
+* @package Joomla.Legacy
+* @subpackage 1.5
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

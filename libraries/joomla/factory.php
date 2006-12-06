@@ -247,7 +247,7 @@ class JFactory
 	 * Get a XML document
 	 *
 	 * @access public
-	 * $param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
+	 * @param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
 	 * @param array:
 	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
 	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
@@ -304,7 +304,7 @@ class JFactory
 	* Get an JEditor object
 	*
 	* @access public
-	* $param string $editor The editor to load, depends on the editor plugins that are installed
+	* @param string $editor The editor to load, depends on the editor plugins that are installed
 	* @return object A JEditor object
 	*/
 	function &getEditor($editor = null)

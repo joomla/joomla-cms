@@ -1,7 +1,8 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
+* @subpackage Model
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -179,7 +180,7 @@ class JTable extends JObject
 	*
 	* can be overloaded/supplemented by the child class
 	*
-	* @acces public
+	* @access public
 	* @param $array  mixed Either and associative array or another object
 	* @param $ignore string	Space separated list of fields not to bind
 	* @return	boolean
@@ -323,8 +324,8 @@ class JTable extends JObject
 	 * Description
 	 *
 	 * @access public
-	 * @param
-	 * @param
+	 * @param $dirn
+	 * @param $where
 	 */
 	function move( $dirn, $where='' )
 	{
@@ -647,8 +648,8 @@ class JTable extends JObject
 	 * Description
 	 *
 	 * @access public
-	 * @param
-	 * @param
+	 * @param $who
+	 * @param $oid
 	 */
 	function checkout( $who, $oid=null )
 	{
@@ -694,8 +695,7 @@ class JTable extends JObject
 	 * Description
 	 *
 	 * @access public
-	 * @param
-	 * @param
+	 * @param $oid
 	 */
 	function checkin( $oid=null )
 	{
@@ -730,8 +730,8 @@ class JTable extends JObject
 	 * Description
 	 *
 	 * @access public
-	 * @param
-	 * @param
+	 * @param $oid
+	 * @param $log
 	 */
 	function hit( $oid=null, $log=false )
 	{

@@ -620,7 +620,7 @@ class JDatabase extends JObject
 	 * List tables in a database
 	 *
 	 * @abstract
-	 * @acces public
+	 * @access public
      * @return array A list of all the tables in the database
 	 */
 	function getTableList() {
@@ -643,7 +643,7 @@ class JDatabase extends JObject
 	 * List database table fields
 	 *
 	 * @abstract
-	 * @acces public
+	 * @access public
      * @param array A list of table names
 	 * @return array An array of fields by table
 	 */
