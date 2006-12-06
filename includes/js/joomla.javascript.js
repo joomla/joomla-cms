@@ -318,7 +318,9 @@ function submitbutton(pressbutton) {
 * Submit the admin form
 */
 function submitform(pressbutton){
-	document.adminForm.task.value=pressbutton;
+	if (pressbutton) {
+		document.adminForm.task.value=pressbutton;
+	}
 	try {
 		document.adminForm.onsubmit();
 		}
