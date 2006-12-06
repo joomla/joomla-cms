@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: english.ignore.php 3009 2006-04-02 00:46:14Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
