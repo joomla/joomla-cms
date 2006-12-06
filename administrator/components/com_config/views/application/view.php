@@ -57,7 +57,31 @@ class ConfigApplicationView
 					</tr>
 				</table>
 			</div>
+			<div id="page-misc">
+				<table class="noshow">
+					<tr>
+						<td with="100%">
+<?php
+$table = JTable::getInstance('component');
+$table->loadByOption( 'com_users' );
+$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_users/config.xml' );
 
+$table = null;
+$table = JTable::getInstance('component');
+$table->loadByOption( 'com_media' );
+$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_media/config.xml' );
+?>
+<fieldset class="adminform">
+	<legend><?php echo JText::_( 'User Settings' ); ?></legend>
+<?php echo $userparams->render(); ?>
+</fieldset>	
+<fieldset class="adminform">
+	<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
+<?php echo $mediaparams->render(); ?>
+</fieldset>						</td>
+					</tr>
+				</table>
+			</div>
 			<div id="page-server">
 				<table class="noshow">
 					<tr>

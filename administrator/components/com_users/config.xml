@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
  <params>
-  <param name="@spacer" type="spacer" default="" label="Registration settings" description="" />
   <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="If yes, allows users to self-register">
    <option value="0">No</option>
    <option value="1">Yes</option>
@@ -16,7 +15,6 @@
    <option value="0">No</option>
    <option value="1">Yes</option>
   </param>
-  <param name="@spacer" type="spacer" default="" label="User settings" description="" />
   <param name="frontend_userparams" type="radio" default="1" label="Frontend User Params" description="TIPFRONTENDUSERPARAMS">
    <option value="0">No</option>
    <option value="1">Yes</option>

@@ -187,6 +187,47 @@ class ConfigControllerApplication extends ConfigController
 	{
 		global $mainframe;
 
+		//Save user and media manager settings
+		$table = JTable::getInstance('component');
+		$params = JRequest::getVar('params');
+
+		$userpost['params'] = array('allowUserRegistration' => $params['allowUserRegistration'],
+					'new_usertype' => $params['new_usertype'],
+					'useractivation' => $params['useractivation'],
+					'frontend_userparams' => $params['frontend_userparams']);
+		$userpost['option'] = 'com_users';
+		$table->loadByOption( 'com_users' );
+		$table->bind( $userpost );
+		// pre-save checks
+		if (!$table->check()) {
+			JError::raiseWarning( 500, $table->getError() );
+			return false;
+		}
+
+		// save the changes
+		if (!$table->store()) {
+			JError::raiseWarning( 500, $table->getError() );
+			return false;
+		}
+
+		$mediapost['params'] = array('upload_extensions' => $params['upload_extensions'],
+					'upload_maxsize' => $params['upload_maxsize']);
+		$mediapost['option'] = 'com_media';
+		$table->loadByOption( 'com_media' );
+		$table->bind( $mediapost );
+
+		// pre-save checks
+		if (!$table->check()) {
+			JError::raiseWarning( 500, $table->getError() );
+			return false;
+		}
+
+		// save the changes
+		if (!$table->store()) {
+			JError::raiseWarning( 500, $table->getError() );
+			return false;
+		}
+
 		$config =& JFactory::getConfig();
 		$config_array = array();
 

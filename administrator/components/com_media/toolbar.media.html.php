@@ -50,7 +50,6 @@ class TOOLBAR_media {
 		$bar->appendButton( 'Custom', $dhtml, 'delete' );
 
 		// Add a popup configuration button
-		JMenuBar::configuration('com_media');
 		JMenuBar::help( 'screen.mediamanager' );
 	}
 }
