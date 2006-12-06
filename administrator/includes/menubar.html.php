@@ -456,15 +456,20 @@ class JMenuBar
 
 	/**
 	* Writes a configuration button and invokes a cancel operation (eg a checkin)
-	* @param string An override for the task
-	* @param string An override for the alt text
+	* @param	string	The name of the component, eg, com_content
+	* @param	int		The height of the popup
+	* @param	int		The width of the popup
+	* @param	string	The name of the button
+	* @param	string	An alternative path for the configuation xml relative to JPATH_SITE
 	* @since 1.0
 	*/
-	function configuration($component, $height='150', $width='570', $alt = 'Configuration')
+	function configuration($component, $height='150', $width='570', $alt = 'Configuration', $path = '')
 	{
+		$component	= urlencode( $component );
+		$path		= urlencode( $path );
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a configuration button
-		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&controller=component&component='. $component, $width, $height );
+		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&controller=component&component='.$component.'&path='.$path, $width, $height );
 	}
 }
 

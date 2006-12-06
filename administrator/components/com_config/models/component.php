@@ -29,15 +29,21 @@ class ConfigModelComponent extends JModel
 
 		if ($instance == null)
 		{
-			$component = JRequest::getVar( 'component' );
+			$component	= JRequest::getVar( 'component' );
+
+			// work out file path
+			if ($path = JRequest::getVar( 'path' )) {
+				$path = JPath::clean( JPATH_SITE.DS.$path );
+				JPath::check( $path );
+			} else {
+				$path = JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml';
+			}
 			
 			$table = JTable::getInstance('component');
 			$table->loadByOption( $component );
 			
 			$option = preg_replace( '#\W#', '', $table->option );
 
-			// work out file path
-			$path = JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml';
 			
 			if (file_exists( $path )) {
 				$instance = new JParameter( $table->params, $path );

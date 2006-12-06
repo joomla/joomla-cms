@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2006 Andrew Eddie
+ ^ Added ability to describe an abitrary path for the configuration xml file for a component using com_config
+
 04-Dec-2006 Johan Janssens
  + Added JElement_Timezones
  + Added Timezone settings to user parameters
