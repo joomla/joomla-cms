@@ -128,6 +128,7 @@ class JAuthenticateLdap extends JPlugin {
 			$result->type = 'success';	// By default autocreate is disabled.
 			if (intval($pluginParams->get('autocreate'))) {
 				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $pluginParams->get('search_string')));
+				//die(str_replace("[search]", $username, $pluginParams->get('search_string')));
 				$ldap_email = $pluginParams->get('ldap_email');
 				$ldap_fullname = $pluginParams->get('ldap_fullname');
 				if (isset($userdetails[0][$ldap_email][0])) {
@@ -146,7 +147,7 @@ class JAuthenticateLdap extends JPlugin {
 			}
 		}
 		$ldap->close();
-//		print_r($result); die();
+		//print_r($result); die();
 		return $result;
 	}
 }

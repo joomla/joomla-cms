@@ -167,7 +167,6 @@ class JLDAP {
 					$password = $this->password;
 				}
 				$this->setDN($username,$nosub);
-				echo 'DN: '. $this->getDN().'<br>PW: '.$password.'<br>';
 				$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
 		}
 		return $bindResult;

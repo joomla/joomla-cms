@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2006 Sam Moffatt
+ ^ Added translation strings to the appropriate location (language and XML file)
+ ! Tested all features successfully against a Novell eDirectory LDAP server
+
 06-Dec-2006 Sam Moffatt
  ^ Making some alterations to LDAP authentication systems to improve them
  + Added Anonymous Compare and Authorized Compare authentication options for LDAP bot (in addition to Bind as User)
