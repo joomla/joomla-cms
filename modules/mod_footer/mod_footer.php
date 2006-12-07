@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 global $mainframe;
 
-$date = date();
+$date = new JDate();
 $cur_year	= $date->toFormat('%Y');
 $csite_name	= $mainframe->getCfg('sitename');
 
