@@ -123,8 +123,8 @@ class JLDAP {
 	 * @param string The username
 	 * @access public
 	 */
-	function setDN($username) {
-		if ($this->users_dn == '') {
+	function setDN($username,$nosub=0) {
+		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
 		} else {
 			$this->_dn = str_replace('[username]', $username, $this->users_dn);
@@ -154,7 +154,7 @@ class JLDAP {
 	 * @return boolean Result
 	 * @access public
 	 */
-	function bind($username = null, $password = null) {
+	function bind($username = null, $password = null, $nosub = 0) {
 		switch($this->bind_method) {
 			case 'anonymous':
 				$bindResult = @ldap_bind($this->_resource);
@@ -166,7 +166,8 @@ class JLDAP {
 				if (is_null($password)) {
 					$password = $this->password;
 				}
-				$this->setDN($username);
+				$this->setDN($username,$nosub);
+				echo 'DN: '. $this->getDN().'<br>PW: '.$password.'<br>';
 				$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
 		}
 		return $bindResult;
@@ -201,7 +202,7 @@ class JLDAP {
 		}
 
 		$resource = $this->_resource;
-
+		
 		foreach ($filters as $search_filter) {
 			$search_result = ldap_search($resource, $dn, $search_filter);
 			if ($search_result && ($count = ldap_count_entries($resource, $search_result)) > 0) {

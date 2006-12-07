@@ -73,6 +73,7 @@ class JAuthenticateLdap extends JPlugin {
 		$result = new JAuthenticateResponse('LDAP');
 
 		if (!$ldap->connect()) {
+			//die('Unable to connect to ldap server');
 			$result->type = 'failure';
 			$result->error_message = 'Unable to connect to LDAP server';
 			return $result;
@@ -85,6 +86,7 @@ class JAuthenticateLdap extends JPlugin {
 					// Comparison time
 					$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);
 				} else {
+					//die('Anonymous bind failed');
 					$result->type = 'failure';
 					$result->error_message = 'Anonymous bind failed.';
 					return $result;
@@ -92,19 +94,31 @@ class JAuthenticateLdap extends JPlugin {
 				break;
 			case 'bind':
 				// We just accept the result here
-		    	$success = $ldap->bind($username,$password);
+		    		$success = $ldap->bind($username,$password);
 		    	break;
-		    case 'authenticated':
-		    	if($ldap->bind()) {
+
+			case 'authbind':
+				// First bind as a search enabled account
+				if($ldap->bind()) {
+					$ldap_uid = $pluginParams->get('ldap_uid');
+					$userdetails = $ldap->simple_search($pluginParams->get('ldap_uid').'='.$username);
+					if(isset($userdetails[0][$ldap_uid][0])) {
+						$success = $ldap->bind($userdetails[0][dn], $password,1);
+					}
+				}
+				break;
+
+			case 'authenticated':
+				if($ldap->bind()) {
 					// Comparison time
 					$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);		    		
-		    	} else {
-		    		die('Authenticated Bind Failed');
-		    		$result->type = 'failure';
-		    		$result->error_message = 'Authenticated bind failed.';
-		    		return $result;
-		    	}
-		    	break;
+				} else {
+					//die('Authenticated Bind Failed');
+					$result->type = 'failure';
+					$result->error_message = 'Authenticated bind failed.';
+					return $result;
+				}
+				break;
 		}
 
 		if(!$success) {
@@ -132,7 +146,7 @@ class JAuthenticateLdap extends JPlugin {
 			}
 		}
 		$ldap->close();
-		//print_r($result); die();
+//		print_r($result); die();
 		return $result;
 	}
 }
