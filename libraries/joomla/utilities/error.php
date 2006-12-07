@@ -14,6 +14,7 @@
 
 // Import library dependencies
 jimport('pattemplate.patErrorManager');
+jimport('joomla.i18n.language');
 
 define('JERR_PHP5', version_compare(phpversion(), '5') >= 0);
 

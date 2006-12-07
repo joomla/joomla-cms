@@ -233,6 +233,18 @@ class JSession extends JObject
 
 		session_cache_limiter('none');
 		session_start();
+		
+		// Check to see if the user id is already set
+		if(($userid = $this->get('session.user.id'))) {
+			// And if they have a valid session entry in the table
+			$db = JFactory::getDBO();
+			$db->setQuery('SELECT session_id FROM #__session WHERE userid = '. $userid);
+			$db->Query() or die($db->getErrorMsg());
+			if(!$db->getNumRows()) {
+				// No rows for this user, their session was wiped out :)
+				$this->restart();
+			}
+		}
 
 		// Send modified header for IE 6.0 Security Policy
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
@@ -567,12 +579,12 @@ class JSession extends JObject
 				$this->_state = 'error';
 				return false;
 			}
+			
 		}
 
 		// save new token
 		$token	=	$this->_createToken( 12 );
 		$this->set( 'session.token', $token );
-
 		return true;
 	}
 }

@@ -38,8 +38,13 @@ Legend:
 ! -> Note
 
 07-Dec-2006 Sam Moffatt
- ^ Added translation strings to the appropriate location (language and XML file)
- ! Tested all features successfully against a Novell eDirectory LDAP server
+ ^ LDAP: Added translation strings to the appropriate location (language and XML file)
+ ! LDAP: Tested all features successfully against a Novell eDirectory LDAP server
+ # Fixed problem where session table was being ignored (could not end a users session via user manager)
+ # Fixed problem where user deletion didn't destroy sessions (see next)
+ + Added Session Cleaner Plugin, activated on user deletion
+ + Added JUserHelper::getUserName($uid)
+ # Added joomla.i18n.language to joomla.utilies.error to ensure JText is available 
 
 06-Dec-2006 Sam Moffatt
  ^ Making some alterations to LDAP authentication systems to improve them
