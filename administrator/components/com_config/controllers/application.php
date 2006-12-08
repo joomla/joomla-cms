@@ -189,12 +189,8 @@ class ConfigControllerApplication extends ConfigController
 
 		//Save user and media manager settings
 		$table = JTable::getInstance('component');
-		$params = JRequest::getVar('params');
 
-		$userpost['params'] = array('allowUserRegistration' => $params['allowUserRegistration'],
-					'new_usertype' => $params['new_usertype'],
-					'useractivation' => $params['useractivation'],
-					'frontend_userparams' => $params['frontend_userparams']);
+		$userpost['params'] = JRequest::getVar('userparams');
 		$userpost['option'] = 'com_users';
 		$table->loadByOption( 'com_users' );
 		$table->bind( $userpost );
@@ -210,8 +206,7 @@ class ConfigControllerApplication extends ConfigController
 			return false;
 		}
 
-		$mediapost['params'] = array('upload_extensions' => $params['upload_extensions'],
-					'upload_maxsize' => $params['upload_maxsize']);
+		$mediapost['params'] = JRequest::getVar('mediaparams');
 		$mediapost['option'] = 'com_media';
 		$table->loadByOption( 'com_media' );
 		$table->bind( $mediapost );

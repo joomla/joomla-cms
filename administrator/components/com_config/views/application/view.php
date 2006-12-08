@@ -73,11 +73,11 @@ $mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/component
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'User Settings' ); ?></legend>
-<?php echo $userparams->render(); ?>
+<?php echo $userparams->render('userparams'); ?>
 </fieldset>	
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
-<?php echo $mediaparams->render(); ?>
+<?php echo $mediaparams->render('mediaparams'); ?>
 </fieldset>						</td>
 					</tr>
 				</table>
