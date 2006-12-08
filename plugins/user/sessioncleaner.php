@@ -14,11 +14,7 @@
 
 jimport('joomla.application.plugin.helper');
 
-/**
- * Attach the plugin to the event dispatcher
- */
-$dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new JSessionCleaner($dispatcher));
+
 
 /**
  * Session Cleaner Plugin
@@ -65,4 +61,10 @@ class JSessionCleaner extends JPlugin {
 	}
 
 }
+
+/**
+ * Attach the plugin to the event dispatcher
+ */
+$dispatcher =& JEventDispatcher::getInstance();
+$dispatcher->attach(new JSessionCleaner($dispatcher));
 ?>

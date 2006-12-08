@@ -1,10 +1,10 @@
 # $Id$
 #
 # IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING
-# 
--- 
+#
+--
 -- Dumping data for table `#__banner`
--- 
+--
 
 INSERT INTO `#__banner` VALUES (1, 1, 'banner', 'OSM 1', 0, 43, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2004-07-07 15:31:29', 1, 0, '0000-00-00 00:00:00', '', '', 13, '', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 INSERT INTO `#__banner` VALUES (2, 1, 'banner', 'OSM 2', 0, 49, 0, 'osmbanner2.png', 'http://www.opensourcematters.org', '2004-07-07 15:31:29', 1, 0, '0000-00-00 00:00:00', '', '', 13, '', 0, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
@@ -12,16 +12,16 @@ INSERT INTO `#__banner` VALUES (3, 1, '', 'Joomla!', 0, 11, 0, '', 'http://www.j
 INSERT INTO `#__banner` VALUES (4, 1, '', 'Joomla! Forge', 0, 11, 0, '', 'http://forge.joomla.org', '2006-05-29 14:19:26', 1, 0, '0000-00-00 00:00:00', '', '<a href="{CLICKURL}" target="_blank">{NAME}</a>\r\n<br/>\r\nJoomla! Forge, development and distribution made easy.', 14, '', 0, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 INSERT INTO `#__banner` VALUES (5, 1, '', 'Joomla! Extensions', 0, 6, 0, '', 'http://extensions.joomla.org', '2006-05-29 14:23:21', 1, 0, '0000-00-00 00:00:00', '', '<a href="{CLICKURL}" target="_blank">{NAME}</a>\r\n<br/>\r\nJoomla! components, modules, plugins and languages by the bucket load.', 14, '', 0, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 
--- 
+--
 -- Dumping data for table `#__bannerclient`
--- 
+--
 
 INSERT INTO `#__bannerclient` VALUES (1, 'Open Source Matters', 'Administrator', 'admin@opensourcematters.org', '', 0, '00:00:00', NULL);
 
 
--- 
+--
 -- Dumping data for table `#__categories`
--- 
+--
 
 INSERT INTO `#__categories` VALUES (1, 0, 'Latest', 'Latest News', 'taking_notes.jpg', '1', 'left', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', '', 1, 0, 1, '');
 INSERT INTO `#__categories` VALUES (2, 0, 'Joomla! Specific Links', 'Joomla! Specific Links', 'clock.jpg', 'com_weblinks', 'left', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
@@ -48,15 +48,15 @@ INSERT INTO `#__categories` VALUES (31, 0, 'General', 'General', '', '3', 'left'
 INSERT INTO `#__categories` VALUES (32, 0, 'Languages', 'Languages', '', '3', 'left', 'Questions related to localisation and languages', 1, 0, '0000-00-00 00:00:00', NULL, 4, 0, 0, '');
 
 
--- 
+--
 -- Dumping data for table `#__contact_details`
--- 
+--
 
 INSERT INTO `#__contact_details` VALUES (1, 'Name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, 'menu_image=-1\r\npageclass_sfx=\r\nprint=\r\nname=1\r\nposition=1\r\nemail=0\r\nstreet_address=1\r\nsuburb=1\r\nstate=1\r\ncountry=1\r\npostcode=1\r\ntelephone=1\r\nfax=1\r\nmisc=1\r\nimage=1\r\nvcard=0\r\nemail_description=1\r\nemail_description_text=\r\nemail_form=1\r\nemail_copy=1\r\ndrop_down=0\r\ncontact_icons=0\r\nicon_address=\r\nicon_email=\r\nicon_telephone=\r\nicon_fax=\r\nicon_misc=', 0, 12, 0, '', '');
 
--- 
+--
 -- Dumping data for table `#__content`
--- 
+--
 
 INSERT INTO `#__content` VALUES (1, 'Welcome to Joomla!', 'welcome-to-joomla', '<div style="color: red; font-weight: bold; text-align: center">** Joomla! 1.5.0 Beta should NOT to be used for `live` or `production` sites. **</div><p><strong>Joomla! is a free open source framework and content publishing system designed for quickly creating highly interactive multi-language Web sites, online communities, media portals, blogs and eCommerce applications. <br /><br /></strong>Joomla! provides an easy-to-use graphical user interface that simplifies the management and publishing of large volumes of content including HTML, documents, and rich media.  Joomla! is used by organisations of all sizes for Public Websites, Intranets and Extranets and is supported by a community of thousands of users. <br /></p>', 'With fully documented library of developer resources, Joomla! allows the customisation of every aspect of a Website including presentation, layout, administration and rapid integration with third-party applications.<p>Joomla! has a rich heritage and has been crowned CMS king many times over.  Now with more power under the hood, Joomla! is shifting gear and provides developer power while making the user experience all the more friendly.  For those who always wanted increased extensibility, Joomla! 1.5 can make this happen. </p>', 1, 1, 0, 1, '2006-10-12 11:54:06', 62, '', '2006-10-11 16:37:44', 67, 0, '0000-00-00 00:00:00', '2006-01-02 20:00:00', '0000-00-00 00:00:00', 'powered_by.png|left|Joomla! Logo|1|Example Caption|bottom|center|180', '', 'pageclass_sfx=\nitem_title=1\nlink_titles=\nintrotext=1\nsection=0\nsection_link=0\ncategory=0\ncategory_link=0\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nlanguage=\nkeyref=', 17, 0, 1, '', '', 0, 33, '');
 INSERT INTO `#__content` VALUES (31, 'Content Layouts', 'content-layouts', '<p>Joomla! provides plenty of flexibility when displaying your web content. Whether you are using Joomla! for a blog site, news or a website for a company, youâ??ll find one or more content styles to showcase your information. You can also change the style of content dynamically depending on your preferences. Joomla calls how a page is laid out a <strong>layout</strong>. Use the guide below to understand which layouts are available and how you might use them. </p> <h2>Content </h2> <p>Joomla! makes it extremely easy to add and display content. All content  is placed where your mainbody tag in your template is located. There are three main types of layouts available in Joomla! and all of them can be customised via parameters. The display and parameters are set in the menu item used to display the content your working on. You create these layouts by creating a menu item and choosing how you want the content to display.</p> <h3>Blog layout<br /> </h3> <p>Blog layout will show a listing of all content items of the selected blog type (section or category) in the mainbody position of your template. It will give you the standard title, and Intro of each content article in that particular Category and/or Section. You can customise this layout via the use of the content parameters, (See Content Parameters) this is done from the menu not the section manager!</p> <h3>Blog Archive layout<br /> </h3> <p>A Blog Archive layout will give you a similar output of content as the normal Blog Display but will add at the top two dropdown boxes for Month and year plus a search button to allow users to search for all archived content from a specific month and year</p> <h3>Table layout<br /> </h3> <p>Table layout will simply give you a table of all the titles in that particular section or category. No intro will be displayed just the titles. You can set how many titles will be displayed in this table by Parameters. The table layout will also provide a filter section so that users can reorder, filter and set how many titles are listed on a single page (up to 50)</p> <h2>Wrapper</h2> <p>Wrappers allow you to place stand alone applications and 3rd party websites inside your Joomla! site. The content within a wrapper appears within the primary content area defined by the "mainbody" tag and allows you to display content to display them as part of your own site. A Wrapper will place an IFRAME into the content section of your website and wrap your standard template navigation around it so it appears in the same way a content item would.</p> <h2>Content Parameters</h2> <p>The parameters for each layout type can be found on the right hand side of the editor boxes in the menu item configuration screen. The parameters available depend largely on what kind of layout you are configuring.</p>', '', 1, 4, 0, 29, '2006-10-13 00:33:10', 62, '', '2006-10-11 15:59:47', 67, 0, '0000-00-00 00:00:00', '2006-10-11 08:00:00', '0000-00-00 00:00:00', '', '', 'pageclass_sfx=\nitem_title=1\nlink_titles=\nintrotext=1\nsection=0\nsection_link=0\ncategory=0\ncategory_link=0\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nlanguage=\nkeyref=', 8, 0, 5, '', '', 0, 45, '');
@@ -102,9 +102,9 @@ INSERT INTO `#__content` VALUES (44, 'Where did the installer go?', 'where-did-t
 INSERT INTO `#__content` VALUES (45, 'Where did the Mambots go?', 'where-did-the-mambots-go', 'Mambots have been renamed as "Plugins" Mambots were introduced in Mambo and offered possibilities to add plugin logic to your site to mainly for the purpose of manipulating content. In Joomla!, Plugins will now have much broader capabilities than Mambots. Plugins are able to extend functionality at the framework layer as well.', '', 1, 3, 0, 28, '2006-10-11 11:17:00', 62, '', '2006-10-11 14:44:47', 67, 0, '0000-00-00 00:00:00', '2006-10-10 12:00:00', '0000-00-00 00:00:00', '', '', 'pageclass_sfx=\nitem_title=1\nlink_titles=\nintrotext=1\nsection=0\nsection_link=0\ncategory=0\ncategory_link=0\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nlanguage=\nkeyref=', 3, 0, 5, '', '', 0, 0, '');
 INSERT INTO `#__content` VALUES (48, 'What is the difference between archiving and trashing an article?', 'what-is-the-difference-between-archiving-and-trashing-an-article', '<p>When you archive an article, the content is put into a state which removes it from your site as published content. The article is still available from within the administration interface and can be retrieved for archival purposes. Trashed articles are just one step from being deleted but are still available until you remove the items from the trash manager. You should use archive if you consider an article important, but not current. Trashed should be used when you want to delete the content entirely from your site and from future search results.  </p><br />', '', 1, 3, 0, 27, '2006-10-11 11:19:43', 62, '', '2006-10-11 14:40:55', 67, 0, '0000-00-00 00:00:00', '2006-10-10 12:00:00', '0000-00-00 00:00:00', '', '', 'pageclass_sfx=\nitem_title=1\nlink_titles=\nintrotext=1\nsection=0\nsection_link=0\ncategory=0\ncategory_link=0\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nlanguage=\nkeyref=', 3, 0, 1, '', '', 0, 1, '');
 
--- 
+--
 -- Dumping data for table `#__content_frontpage`
--- 
+--
 
 INSERT INTO `#__content_frontpage` VALUES (6, 2);
 INSERT INTO `#__content_frontpage` VALUES (14, 4);
@@ -112,9 +112,9 @@ INSERT INTO `#__content_frontpage` VALUES (7, 3);
 INSERT INTO `#__content_frontpage` VALUES (1, 1);
 INSERT INTO `#__content_frontpage` VALUES (16, 5);
 
--- 
+--
 -- Dumping data for table `#__menu`
--- 
+--
 
 INSERT INTO `#__menu` VALUES (2, 'mainmenu', 'Joomla! License', 'index.php?option=com_content&view=article&id=5', 'component', 1, 0, 20, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'article_id=5', 0, 0, 0);
 INSERT INTO `#__menu` VALUES (41, 'mainmenu', 'FAQ', 'index.php?option=com_content&view=section&id=3', 'component', 1, 0, 20, 0, 6, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'orderby=\nother_cat_section=1\nempty_cat_section=0\npage_title=1\ndescription=0\ndescription_image=0\nother_cat=1\nempty_cat=0\ncat_items=1\ncat_description=1\ndate_format=\ndate=\nauthor=\nhits=\nheadings=1\nnavigation=1\norder_select=1\ndisplay=1\ndisplay_num=50\nfilter=1\nfilter_type=title\nmenu_image=-1\npageclass_sfx=\nsecure=0\n\n', 0, 0, 0);
@@ -145,9 +145,9 @@ INSERT INTO `#__menu` VALUES (49, 'mainmenu', 'News Feeds', 'index.php?option=co
 INSERT INTO `#__menu` VALUES (50, 'mainmenu', 'The News', 'index.php?option=com_content&view=category&layout=blog&id=1', 'component', 1, 0, 20, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'header=\npage_title=1\nleading=0\nintro=3\ncolumns=1\nlink=6\norderby_pri=\norderby_sec=\npagination=2\npagination_results=1\nimage=1\ndescription=0\ndescription_image=0\ncategory=0\ncategory_link=0\nitem_title=1\nlink_titles=\nreadmore=\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nmenu_image=-1\npageclass_sfx=\nsecure=0\n\n', 0, 0, 0);
 
 
--- 
+--
 -- Dumping data for table `#__menu_types`
--- 
+--
 
 INSERT INTO `#__menu_types` VALUES (2, 'usermenu', 'User Menu', 'A menu for logged in users');
 INSERT INTO `#__menu_types` VALUES (3, 'topmenu', 'Top Menu', 'Top level navigation');
@@ -155,9 +155,9 @@ INSERT INTO `#__menu_types` VALUES (4, 'othermenu', 'Other Menu', 'Additional li
 INSERT INTO `#__menu_types` VALUES (8, 'ExamplePages', 'Example Pages', 'Example Pages');
 INSERT INTO `#__menu_types` VALUES (7, 'keyconcepts', 'Key Concepts', 'This describes some critical information for new users.');
 
--- 
+--
 -- Dumping data for table `#__modules`
--- 
+--
 
 DELETE FROM `#__modules` WHERE `id` = 25 ;
 INSERT INTO `#__modules` VALUES (1, 'Polls', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_poll', 0, 0, 1, '', 0, 0, '');
@@ -186,9 +186,9 @@ INSERT INTO `#__modules` VALUES (39, 'Example Pages', '', 3, 'left', 0, '0000-00
 INSERT INTO `#__modules` VALUES (40, 'Key Concepts', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'cache=0\nclass_sfx=\nmoduleclass_sfx=_menu\nmenutype=keyconcepts\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nspacer=\nend_spacer=\nwindow_open=\n\n', 0, 0, '');
 INSERT INTO `#__modules` VALUES (41, 'Welcome to Joomla!', '<div style="padding: 5px"><p>Congratulations on choosing Joomla! as your content management system. We hope you are able to create a successful website with our program and maybe, you are able to give something back to the community later.</p><p>To make your start with Joomla! as smooth as possible, we want to give you some pointers to documentation, common questions and help on securing your server.</p><p>You should start with the &quot;<a href="http://forum.joomla.org/index.php/topic,47524.0.html" target="_blank">Beginners guide to Joomla!</a>&quot; and for securing your server, you should read this <a href="http://forum.joomla.org/index.php/topic,81058.0.html" target="_blank">security checklist</a>.</p><p>For your most common questions, you should first look in the <a href="http://forum.joomla.org" target="_blank">forum</a> and there especially into the <a href="http://forum.joomla.org/index.php/board,49.0.html" target="_blank">FAQ forum</a>. The forum is most likely the biggest resource on Joomla! there is and you will find almost every question answered at least once, so please first use the search function and then ask your question. <img alt="Smile" border="0" src="../plugins/editors/tinymce/jscripts/tiny_mce/plugins/emotions/images/smiley-smile.gif" title="Smile" /></p><p>Security is a big concern for us, which is why we would like you to subscribe to the <a href="http://forum.joomla.org/index.php/board,8.0.html" target="_blank">anouncenment forum</a> to always get the latest informations on new releases for Joomla! Also, you should regularly check the <a href="http://forum.joomla.org/index.php/board,267.0.html" target="_blank">security forum</a>.</p><p>We hope you have much fun and success with Joomla! and hope to see you in the forum among the hundreds and thousands of contributors.</p><p>Your Joomla! team</p><p>P.S.: To remove this message, delete the &quot;Welcome to Joomla!&quot;-module in the administrator screen of the module manager.</p></div>', 1, 'cpanel', 0, '0000-00-00 00:00:00', 1, 'mod_custom', 0, 23, 1, 'moduleclass_sfx=\n\n', 1, 1, '');
 
--- 
+--
 -- Dumping data for table `#__modules_menu`
--- 
+--
 
 INSERT INTO `#__modules_menu` VALUES (1,1);
 INSERT INTO `#__modules_menu` VALUES (2,0);
@@ -222,9 +222,9 @@ INSERT INTO `#__modules_menu` VALUES (45, 44);
 INSERT INTO `#__modules_menu` VALUES (45, 45);
 INSERT INTO `#__modules_menu` VALUES (45, 46);
 INSERT INTO `#__modules_menu` VALUES (45, 47);
--- 
+--
 -- Dumping data for table `#__newsfeeds`
--- 
+--
 
 INSERT INTO `#__newsfeeds` VALUES (4, 1, 'Joomla! - Official News', 'http://www.joomla.org/index.php?option=com_rss_xtd&feed=RSS2.0&type=com_frontpage&Itemid=1', '', 1, 5, 3600, 0, '0000-00-00 00:00:00', 8, 0);
 INSERT INTO `#__newsfeeds` VALUES (4, 2, 'Joomla! - Community News', 'http://www.joomla.org/index.php?option=com_rss_xtd&feed=RSS2.0&type=com_content&task=blogcategory&id=0&Itemid=33', '', 1, 5, 3600, 0, '0000-00-00 00:00:00', 9, 0);
@@ -237,9 +237,9 @@ INSERT INTO `#__newsfeeds` VALUES (10, 8, 'Linux Central:Best Selling', 'http://
 INSERT INTO `#__newsfeeds` VALUES (10, 9, 'Linux Central:Daily Specials', 'http://linuxcentral.com/backend/lcspecialns.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 6, 0);
 
 
--- 
+--
 -- Dumping data for table `#__poll_data`
--- 
+--
 
 INSERT INTO `#__poll_data` VALUES (1, 14, 'Community Sites', 2);
 INSERT INTO `#__poll_data` VALUES (2, 14, 'Public Brand Sites', 2);
@@ -254,9 +254,9 @@ INSERT INTO `#__poll_data` VALUES (10, 14, '', 0);
 INSERT INTO `#__poll_data` VALUES (11, 14, '', 0);
 INSERT INTO `#__poll_data` VALUES (12, 14, '', 0);
 
--- 
+--
 -- Dumping data for table `#__poll_date`
--- 
+--
 
 INSERT INTO `#__poll_date` VALUES (1, '2006-10-09 13:01:58', 1, 14);
 INSERT INTO `#__poll_date` VALUES (2, '2006-10-10 15:19:43', 7, 14);
@@ -266,29 +266,29 @@ INSERT INTO `#__poll_date` VALUES (5, '2006-10-11 15:43:03', 7, 14);
 INSERT INTO `#__poll_date` VALUES (6, '2006-10-11 15:43:38', 7, 14);
 INSERT INTO `#__poll_date` VALUES (7, '2006-10-12 00:51:13', 2, 14);
 
--- 
+--
 -- Dumping data for table `#__poll_menu`
--- 
+--
 
 INSERT INTO `#__poll_menu` VALUES (14, 1);
 
--- 
+--
 -- Dumping data for table `#__polls`
--- 
+--
 
 INSERT INTO `#__polls` VALUES (14, 'Joomla! is used for?', 8, 0, '0000-00-00 00:00:00', 1, 0, 86400);
 
--- 
+--
 -- Dumping data for table `#__sections`
--- 
+--
 
 INSERT INTO `#__sections` VALUES (1, 'News', 'The News', 'articles.jpg', 'content', 'right', 'Select a news topic from the list below, then select a news article to read.', 1, 0, '0000-00-00 00:00:00', 3, 0, 2, '');
 INSERT INTO `#__sections` VALUES (3, 'FAQs', 'Frequently Asked Questions', 'key.jpg', 'content', 'left', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 0, '0000-00-00 00:00:00', 5, 0, 22, '');
 INSERT INTO `#__sections` VALUES (4, 'About Joomla!', 'About Joomla!', '', 'content', 'left', '', 1, 0, '0000-00-00 00:00:00', 2, 0, 14, '');
 
--- 
+--
 -- Dumping data for table `#__weblinks`
--- 
+--
 
 INSERT INTO `#__weblinks` VALUES (1, 2, 0, 'Joomla!', 'http://www.joomla.org', 'Home of Joomla!', '2005-02-14 15:19:02', 2, 1, 0, '0000-00-00 00:00:00', 1, 0, 1, 'target=0');
 INSERT INTO `#__weblinks` VALUES (2, 2, 0, 'php.net', 'http://www.php.net', 'The language that Joomla! is developed in', '2004-07-07 11:33:24', 5, 1, 0, '0000-00-00 00:00:00', 3, 0, 1, '');
