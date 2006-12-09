@@ -36,7 +36,17 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		{
 			$module = JModuleHelper::getModule($module);
 			if (!is_object($module)) {
-				return '';
+				if (is_null($content)) {
+					return '';
+				} else {
+					// If module isn't found in the database but data has been pushed in the buffer we want to render it
+					$tmp = $module;
+					$module = new stdClass();
+					$module->params = null;
+					$module->module = $tmp;
+					$module->id = 0;
+					$module->user = 0;
+				}
 			}
 		}
 
