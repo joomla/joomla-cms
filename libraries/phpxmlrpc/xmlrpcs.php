@@ -417,7 +417,7 @@
 		* or 'auto' (use client-specified charset encoding or same as request if request headers do not specify it (unless request is US-ASCII: then use library default anyway).
 		* NB: pretty dangerous if you accept every charset and do not have mbstring enabled)
 		*/
-		var $response_charset_encoding = '';
+		var $response_charset_encoding = 'UTF-8';
 		/// storage for internal debug info
 		var $debug_info = '';
 
