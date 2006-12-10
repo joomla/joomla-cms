@@ -51,7 +51,12 @@ class JSessionCleaner extends JPlugin {
 	{
 		global $mainframe;
 		$db = JFactory::getDBO();
-		$username = JUserHelper::getUserName($user['id']);
+		if($user = JUser::getInstance( $id )) {
+			$username = $user->get('username');
+		} else { 
+			// This should never happen?!?
+			return false;
+		}
 		$db->setQuery('DELETE FROM #__session WHERE username = "'.$username.'"');
 		$db->Query();
 

@@ -609,20 +609,5 @@ class JUserHelper
 		return $db->loadResult();
 	}
 	
-	/**
-	 * Returns username if a userid exists
-	 *
-	 * @param string The userid to search on
-	 * @return int The user name or null if not found
-	 */
-	function getUserName($uid)
-	{
-		// Initialize some variables
-		$db = & JFactory::getDBO();
-
-		$query = 'SELECT username FROM #__users WHERE id = ' . $db->Quote( $uid );
-		$db->setQuery($query, 0, 1);
-		return $db->loadResult();
-	}	
 }
 ?>
