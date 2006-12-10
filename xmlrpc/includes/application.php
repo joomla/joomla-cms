@@ -32,6 +32,40 @@ class JXMLRPC extends JApplication
 	 * @access protected
 	 */
 	var $_siteURL = null;
+	/**
+	 * The encoding (default: UTF-8)
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	var $_encoding = null;
+
+	function __construct() {
+		$url = JURI::base();
+		$url = str_replace('xmlrpc/', '', $url);
+
+		$this->_siteURL = $url;
+		$this->_encoding = "UTF-8";
+	}
+
+	/**
+	 * Get the charset encoding
+	 *
+	 * @return string the charset encoding
+	 * @since 1.5
+	 */
+	function getEncoding() {
+		return $this->_encoding;
+	}
+
+	/**
+	 * Set the charset encoding
+	 *
+	 * @var $encoding The encoding of the charset
+	 */
+	function setEncoding($encoding) {
+		$this->_encoding = $encoding;
+	}
 
 	/**
 	 * Get the url of the site
@@ -41,14 +75,7 @@ class JXMLRPC extends JApplication
 	 */
 	function getSiteURL()
 	{
-		if(isset($this->_siteURL)) {
-			return $this->_siteURL;
-		}
-
-		$url = JURI::base();
-		$url = str_replace('xmlrpc/', '', $url);
-		$this->_siteURL = $url;
-		return $url;
+		return $this->_siteURL;
 	}
 }
 ?>

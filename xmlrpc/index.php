@@ -34,6 +34,9 @@ $mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 jimport('phpxmlrpc.xmlrpc' );
 jimport('phpxmlrpc.xmlrpcs' );
 
+// define UTF-8 as the internal encoding for the XML-RPC server
+$xmlrpc_internalencoding = $mainframe->getEncoding();
+
 // load all available remote calls
 JPluginHelper::importPlugin('xmlrpc');
 $allCalls = $mainframe->triggerEvent('onGetWebServices');
