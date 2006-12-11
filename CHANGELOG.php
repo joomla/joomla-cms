@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Dec-2006 Hannes Papenberg
+ # Fixed [artf7017] : [patch] mod_footer fails to load JDate before use (@ SVN 5956)
+
 07-Dec-2006 Sam Moffatt
  ^ LDAP: Added translation strings to the appropriate location (language and XML file)
  ! LDAP: Tested all features successfully against a Novell eDirectory LDAP server
