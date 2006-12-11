@@ -55,8 +55,6 @@ class JUserExample extends JPlugin {
 	{
 		global $mainframe;
 
-		//Make sure
-		mysql_select_db($mainframe->getCfg('db'));
 	}
 
 	/**
@@ -90,9 +88,6 @@ class JUserExample extends JPlugin {
 			// Call a function in the external app to update the user
 			// ThirdPartyApp::updateUser($user['id'], $args);
 		}
-
-		//Make sure
-		mysql_select_db($mainframe->getCfg('db'));
 	}
 
 	/**
@@ -105,8 +100,6 @@ class JUserExample extends JPlugin {
 	{
 		global $mainframe;
 
-		//Make sure
-		mysql_select_db($mainframe->getCfg('db'));
 	}
 
 	/**
@@ -127,8 +120,6 @@ class JUserExample extends JPlugin {
 		// Call a function in the external app to delete the user
 		// ThirdPartyApp::deleteUser($user['id']);
 
-		//Make sure
-		mysql_select_db($mainframe->getCfg('db'));
 	}
 
 	/**
