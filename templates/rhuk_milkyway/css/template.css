@@ -14,7 +14,6 @@ form {
 
 body {
 	margin: 0px 0px 0px 0px;
-	height: 100%;
 	font-size: 76%;
 }
 
@@ -48,7 +47,6 @@ div, p, table, td, th {
 /*** Template specific layout elements ***/
 /*****************************************/
 #page_bg {
-	height: 100%;
 	padding: 10px 0;
 	margin-bottom: 1px;
 	background: #0C3A6D;
@@ -59,7 +57,6 @@ div.center {
 }
 
 div#wrapper {
-		height: 100%;
 		background: #f7f7f7 url(../images/mw_shadow_blue_l.png) 0 0 repeat-y;
 		margin-left: auto;
 		margin-right: auto;

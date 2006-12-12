@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2006 Andy Miller
+ ^ Milkyway Template - Removed Quirks mode requirement for < IE6, minor tweaks for IE7
+
 12-Dec-2006 Johan Janssens
  # Fixed [artf7014] : Sample data installs othermenu with legacy style
  # Fixed [artf7008] : Docstring, code format cleanup on application/application.php
