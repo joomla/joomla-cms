@@ -47,7 +47,7 @@
 		<?php echo $item->link; ?>
 		<?php if ( $this->params->get( 'item_description' ) ) : ?>
 		<br />
-		<?php echo $item->description; ?>
+		<?php echo nl2br($item->description); ?>
 		<?php endif; ?>
 	</td>
 	<?php if ( $this->params->get( 'hits' ) ) : ?>

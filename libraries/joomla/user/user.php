@@ -90,7 +90,7 @@ class JUser extends JObject
 	 * 		<pre>  $user = JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
-	 * @param 	int 	$id 	The user id to load - if integer then the id field is referend, for strings the username!
+	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically. 
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */

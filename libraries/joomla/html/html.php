@@ -625,7 +625,7 @@ class JCommonHTML
 			$state[] = JHTMLSelect::option( 'A', JText::_( $archived ) );
 		}
 
-		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submitform( );"', 'value', 'text', $filter_state );
+		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
 	}
 
 	function saveorderButton( $rows, $image='filesave.png', $task="saveorder" )

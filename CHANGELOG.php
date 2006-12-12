@@ -37,8 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2006 Johan Janssens
+ 
+
 11-Dec-2006 Hannes Papenberg
  # Fixed [artf7017] : [patch] mod_footer fails to load JDate before use (@ SVN 5956)
+ # Fixed [artf7013] : Add content publish end time not multilingual compliant
 
 07-Dec-2006 Sam Moffatt
  ^ LDAP: Added translation strings to the appropriate location (language and XML file)

@@ -36,8 +36,8 @@ class JApplicationHelper
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
-	function getClientInfo($id, $byName = false) {
-
+	function getClientInfo($id, $byName = false) 
+	{
 		static $clients;
 
 		// Only create the array if it does not exist

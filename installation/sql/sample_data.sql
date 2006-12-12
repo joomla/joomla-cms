@@ -246,7 +246,7 @@ INSERT INTO `#__poll_data` VALUES (3, 14, 'eCommerce', 0);
 INSERT INTO `#__poll_data` VALUES (4, 14, 'Blogs', 0);
 INSERT INTO `#__poll_data` VALUES (5, 14, 'Intranets', 0);
 INSERT INTO `#__poll_data` VALUES (6, 14, 'Photo and Media Sites', 0);
-INSERT INTO `#__poll_data` VALUES (7, 14, 'All of the Above!', 4);
+INSERT INTO `#__poll_data` VALUES (7, 14, 'All of the Above!', 3);
 INSERT INTO `#__poll_data` VALUES (8, 14, '', 0);
 INSERT INTO `#__poll_data` VALUES (9, 14, '', 0);
 INSERT INTO `#__poll_data` VALUES (10, 14, '', 0);
@@ -275,7 +275,7 @@ INSERT INTO `#__poll_menu` VALUES (14, 1);
 -- Dumping data for table `#__polls`
 --
 
-INSERT INTO `#__polls` VALUES (14, 'Joomla! is used for?', 8, 0, '0000-00-00 00:00:00', 1, 0, 86400);
+INSERT INTO `#__polls` VALUES (14, 'Joomla! is used for?', 7, 0, '0000-00-00 00:00:00', 1, 0, 86400);
 
 --
 -- Dumping data for table `#__sections`
