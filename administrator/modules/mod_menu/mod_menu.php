@@ -160,8 +160,8 @@ function & buildMenu($usertype = '')
 
 		$query = "SELECT *" .
 				"\n FROM #__components" .
-				"\n WHERE name <> '".JText::_('frontpage')."'" .
-				"\n AND name <> '".JText::_('media manager')."'" .
+				"\n WHERE ".$db->NameQuote( 'option' )." <> 'com_frontpage'" .
+				"\n AND ".$db->NameQuote( 'option' )." <> 'com_media'" .
 				"\n ORDER BY ordering, name";
 		$db->setQuery($query);
 		$comps = $db->loadObjectList(); // component list
