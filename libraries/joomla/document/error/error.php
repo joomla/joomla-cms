@@ -104,71 +104,50 @@ class JDocumentError extends JDocument
 		// check template
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = isset($params['template']) ? $params['template'] : '_system';
+		
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
+		
+		//set variables
+		$this->template = $template;
+		$this->debug    = isset($params['debug']) ? $params['debug'] : false;
+		$this->message  = JText::_($this->_error->message);
+		
+		// load
+		$data = $this->_loadTemplate($directory.DS.$template, $file);
 
-		// create the document engine
-		$this->_engine = $this->_initEngine($template);
-		if (file_exists($directory.DS.$template.DS.$file))
+		echo $data;
+	}
+	
+	/**
+	 * Load a template file
+	 *
+	 * @param string 	$template	The name of the template
+	 * @param string 	$filename	The actual filename
+	 * @return string The contents of the template
+	 */
+	function _loadTemplate($directory, $filename)
+	{
+		$contents = '';
+
+		//Check to see if we have a valid template file
+		if ( file_exists( $directory.DS.$filename ) )
 		{
+			//store the file path
+			$this->_file = $directory.DS.$filename;
+
 			//get the file content
 			ob_start();
-			?>
-			<jdoc:tmpl name="document" autoclear="yes">
-			<?php require_once($directory.DS.$template.DS.$file); ?>
-			</jdoc:tmpl>
-			<?php
+			require_once($directory.DS.$filename );
 			$contents = ob_get_contents();
 			ob_end_clean();
-			$this->_engine->readTemplatesFromInput( $contents, 'String' );
-		}
-		// set the base href message
-		$this->_engine->addVar('document', 'base_href', JURI::base());
-
-		$this->_engine->addVar('document', 'sitename', $mainframe->getCfg( 'sitename' ));
-
-		// set the error message
-		$this->_engine->addVar('document', 'message', JText::_($this->_error->message));
-
-		// if debugging is enabled set the error backtrace text
-		$debug = isset($params['debug']) ? $params['debug'] : false;
-		if ($debug) {
-			$this->_engine->addVar('document', 'backtrace', $this->_fetchBacktrace());
 		}
 
-		// render the page
-		$this->_engine->display('document');
+		return $contents;
 	}
-
-	/**
-	 * Create document engine
-	 *
-	 * @access public
-	 * @param string 	$template 	The actual template name
-	 * @param boolean 	$caching	If true, cache the template
-	 * @return object
-	 */
-	function _initEngine($template)
-	{
-		jimport('joomla.template.template');
-		$instance = new JTemplate();
-
-		//set a reference to the document in the engine
-		$instance->doc =& $this;
-
-		//set the namespace
-		$instance->setNamespace( 'jdoc' );
-
-		//Add template variables
-		$instance->addVar( 'document', 'lang_tag', $this->getLanguage() );
-		$instance->addVar( 'document', 'lang_dir', $this->getDirection() );
-		$instance->addVar( 'document', 'template', $template );
-
-		return $instance;
-	}
-
-	function _fetchBacktrace()
+	
+	function renderBacktrace()
 	{
 		$contents  = null;
 		$backtrace = $this->_error->getBacktrace();

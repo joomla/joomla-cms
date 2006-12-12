@@ -12,8 +12,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<title>404 - {SITENAME}</title>
-	<base href="{BASE_HREF}" />
+	<title>404 - <?php echo $this->title; ?></title>
 	<link rel="stylesheet" href="templates/_system/css/error.css" type="text/css" />
 </head>
 <body>
@@ -37,8 +36,12 @@
 				</ul>
 			</p>
 			<div id="techinfo">
-			<p>{MESSAGE}</p>
-			<p>{BACKTRACE}</p>
+			<p><?php echo $this->message;   ?></p>
+			<p>
+				<?php if($this->debug) : 
+					echo $this->renderBacktrace(); 
+				endif; ?>
+			</p>
 			</div>
 			</div>
 		</div>

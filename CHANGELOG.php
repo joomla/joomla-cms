@@ -43,6 +43,7 @@ Legend:
 12-Dec-2006 Johan Janssens
  # Fixed [artf7014] : Sample data installs othermenu with legacy style
  # Fixed [artf7008] : Docstring, code format cleanup on application/application.php
+ - Removed patTemplate engine from JDocumentError
 
 11-Dec-2006 Hannes Papenberg
  # Fixed [artf7017] : [patch] mod_footer fails to load JDate before use (@ SVN 5956)

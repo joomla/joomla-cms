@@ -229,8 +229,7 @@ class JController extends JObject
 		else
 		{
 			// Don't have a default method either...
-			JError::raiseError( 404, JText::_('Task ['.$task.'] not found') );
-			return false;
+			return JError::raiseError( 404, JText::_('Task ['.$task.'] not found') );
 		}
 
 		// Record the actual task being fired
@@ -245,8 +244,7 @@ class JController extends JObject
 		else
 		{
 			// No access... better luck next time
-			JError::raiseError( 403, JText::_('Access Forbidden') );
-			return false;
+			return JError::raiseError( 403, JText::_('Access Forbidden') );
 		}
 	}
 
