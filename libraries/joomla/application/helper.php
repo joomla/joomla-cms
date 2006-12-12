@@ -36,9 +36,15 @@ class JApplicationHelper
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
-	function getClientInfo($id, $byName = false) 
+	function getClientInfo($id = null, $byName = false) 
 	{
+		global $mainframe;
+		
 		static $clients;
+		
+		if(!isset($id)) {
+			$id = $mainframe->getClientId();
+		}
 
 		// Only create the array if it does not exist
 		if (!is_array($clients))

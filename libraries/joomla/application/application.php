@@ -17,10 +17,10 @@ jimport('joomla.filter.input');
 jimport('joomla.application.plugin.helper');
 
 /**
-* Base class for a Joomla! application
+* Base class for a Joomla! application.
 *
-* Acts as a Factory class for application specific objects and
-* provides many supporting API functions.
+* Acts as a Factory class for application specific objects and provides many
+* supporting API functions. Derived clases should supply the execute() function.
 *
 * @abstract
 * @package		Joomla.Framework
@@ -31,7 +31,7 @@ jimport('joomla.application.plugin.helper');
 class JApplication extends JObject
 {
 	/**
-	 * The pathway store
+	 * The pathway store (for breadcrumb generation).
 	 *
 	 * @var object  JPathWay object
 	 * @access protected
@@ -39,7 +39,7 @@ class JApplication extends JObject
 	var $_pathway = null;
 
 	/**
-	 * The client identifier
+	 * The client identifier.
 	 *
 	 * @var integer
 	 * @access protected
@@ -48,7 +48,7 @@ class JApplication extends JObject
 	var $_clientId = null;
 
 	/**
-	 * The application message queue
+	 * The application message queue.
 	 *
 	 * @var array
 	 * @access protected
@@ -56,10 +56,10 @@ class JApplication extends JObject
 	var $_messageQueue = array();
 
 	/**
-	* Class constructor
+	* Class constructor.
 	*
-	* @param string 	The URL option passed in
-	* @param integer	A client identifier
+	* @param string 	The URL option passed in.
+	* @param integer	A client identifier.
 	*/
 	function __construct( $clientId = 0 )
 	{
@@ -68,10 +68,12 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Execute the application
+	* Execute the application.
 	*
 	* @abstract
 	* @access public
+    * @param mixed Execution options. Typically this is a task or component
+    * name.
 	*/
 	function execute( $option )
 	{
@@ -79,11 +81,12 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Redirect to another URL
+	 * Redirect to another URL.
 	 *
 	 * @access	public
-	 * @param	string	$url	The URL to redirect to
-	 * @param	string	$msg	A message to display on redirect
+	 * @param	string	$url	The URL to redirect to.
+	 * @param	string	$msg	An optional message to display on redirect.
+     * @return  none; calls exit().
 	 * @since	1.5
 	 */
 	function redirect( $url, $msg='', $msgType='message' )
@@ -128,21 +131,21 @@ class JApplication extends JObject
 			//@ob_end_clean(); // clear output buffer
 			session_write_close();
 			header( 'HTTP/1.1 301 Moved Permanently' );
-			header( "Location: ". $url );
+			header( 'Location: ' . $url );
 		}
 		exit();
 	}
 
 	/**
-	 * Enqueue a system message
+	 * Enqueue a system message.
 	 *
 	 * @access	public
-	 * @param	string 	$msg 	The message to enqueue
-	 * @param	string	$type	The message type
+	 * @param	string 	$msg 	The message to enqueue.
+	 * @param	string	$type	The message type.
 	 * @return	void
 	 * @since	1.5
 	 */
-	function enqueueMessage( $msg, $type="message" )
+	function enqueueMessage( $msg, $type = 'message' )
 	{
 		// For empty queue, if messages exists in the session, enqueue them first
 		if (!count($this->_messageQueue))
@@ -159,10 +162,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Get the system message queue
+	 * Get the system message queue.
 	 *
 	 * @access	public
-	 * @return	The system message queue
+	 * @return	The system message queue.
 	 * @since	1.5
 	 */
 	function getMessageQueue()
@@ -181,25 +184,25 @@ class JApplication extends JObject
 	}
 
 	 /**
-	 * Gets a configuration value
+	 * Gets a configuration value.
 	 *
 	 * @access public
-	 * @param string 	$varname 	The name of the value to get
-	 * @return The user state
+	 * @param string	The name of the value to get.
+	 * @return The user state.
 	 * @example application/japplication-getcfg.php
 	 */
 	function getCfg( $varname )
 	{
 		$config =& JFactory::getConfig();
-		return $config->getValue('config.'.$varname);
+		return $config->getValue('config.' . $varname);
 	}
 
 	/**
-	 * Gets a user state
+	 * Gets a user state.
 	 *
 	 * @access public
-	 * @param string 	$key 	The path of the state
-	 * @return The user state
+	 * @param string The path of the state.
+	 * @return mixed The user state.
 	 */
 	function getUserState( $key )
 	{
@@ -212,12 +215,12 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Sets the value of a user state variable
+	* Sets the value of a user state variable.
 	*
 	* @access public
-	* @param string $key 	The path of the state
-	* @param string $value 	The value of the variable
-	* @return mixed The previous state if exist
+	* @param string	The path of the state.
+	* @param string	The value of the variable.
+	* @return mixed The previous state, if one existed.
 	*/
 	function setUserState( $key, $value )
 	{
@@ -230,18 +233,18 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Gets the value of a user state variable
+	 * Gets the value of a user state variable.
 	 *
 	 * @access public
-	 * @param string The key of the user state variable
-	 * @param string The name of the variable passed in a request
-	 * @param string The default value for the variable if not found
-	 * @return The request user state
+	 * @param string The key of the user state variable.
+	 * @param string The name of the variable passed in a request.
+	 * @param string The default value for the variable if not found. Optional.
+	 * @return The request user state.
 	 */
-	function getUserStateFromRequest( $key, $request, $default=null )
+	function getUserStateFromRequest( $key, $request, $default = null )
 	{
 		//Force namespace
-		$key = 'request.'.$key;
+		$key = 'request.' . $key;
 
 		$old_state = $this->getUserState( $key );
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
@@ -252,47 +255,50 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Registers a handler to a particular event group
+	 * Registers a handler to a particular event group.
 	 *
 	 * @static
-	 * @param string The event name
-	 * @param mixed The handler, a function or an instance of a event object
+	 * @param string The event name.
+	 * @param mixed The handler, a function or an instance of a event object.
+     * @return void
 	 * @since 1.5
 	 */
-	function registerEvent($event, $handler) {
+	function registerEvent($event, $handler)
+    {
 		$dispatcher =& JEventDispatcher::getInstance();
-		return $dispatcher->register($event, $handler);
+		$dispatcher->register($event, $handler);
 	}
 
 	/**
-	 * Calls all handlers associated with an event group
+	 * Calls all handlers associated with an event group.
 	 *
 	 * @static
-	 * @param string The event name
-	 * @param array An array of arguments
-	 * @return array An array of results from each function call
+	 * @param string The event name.
+	 * @param array An array of arguments.
+	 * @return array An array of results from each function call.
 	 * @since 1.5
 	 */
-	function triggerEvent($event, $args=null) {
+	function triggerEvent($event, $args=null)
+    {
 		$dispatcher =& JEventDispatcher::getInstance();
 		return $dispatcher->trigger($event, $args);
 	}
 
 	/**
-	 * Login authentication function
+	 * Login authentication function.
 	 *
-	 * Username and encoded password are passed the the onLoginUser event who
-	 * is responsible for the user validation.
-	 * A successful validation updates the current session record with the
-	 * users details.
+	 * Username and encoded password are passed the the onLoginUser event which
+	 * is responsible for the user validation. A successful validation updates
+	 * the current session record with the users details.
 	 *
-	 * Username and Password are sent as credentials (along with other possibilities)
-	 * to each observer (JAuthenticatePlugin) for user validation.  Successful validation will
-	 * update the current session with the user details
+	 * Username and encoded password are sent as credentials (along with other
+	 * possibilities) to each observer (JAuthenticatePlugin) for user
+	 * validation.  Successful validation will update the current session with
+	 * the user details.
 	 *
-	 * @param string The username
-	 * @param string The password
-	 * @return boolean True on success
+	 * @param string The username.
+	 * @param string The password.
+	 * @return boolean True on success.
 	 * @access public
 	 * @since 1.5
 	 */
@@ -324,13 +330,14 @@ class JApplication extends JObject
 			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
-			$results = $this->triggerEvent( 'onLogin', $credentials);
+			$results = $this->triggerEvent( 'onLogin', $credentials );
 
 			/*
-			 * If any of the authentication plugins did not successfully complete the login
-			 * routine then the whole method fails.  Any errors raised should be done in
-			 * the plugin as this provides the ability to provide much more information
-			 * about why the routine may have failed.
+			 * If any of the authentication plugins did not successfully
+			 * complete the login routine then the whole method fails.  Any
+			 * errors raised should be done in the plugin as this provides the
+			 * ability to provide much more information about why the routine
+			 * may have failed.
 			 */
 			if (!in_array(false, $results, true))
 			{
@@ -339,7 +346,9 @@ class JApplication extends JObject
 
 				// If the user is blocked, redirect with an error
 				if ($user->get('block') == 1) {
-					return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
+					return JError::raiseWarning(
+                        'SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED')
+                    );
 				}
 
 				// Fudge the ACL stuff for now...
@@ -350,7 +359,8 @@ class JApplication extends JObject
 				$row->gid = 1;
 
 				// ToDO: Add simple mapping based on the group table to allow positive references between content and user groups
-				if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
+				if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO')
+                    || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
 					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
 					$user->set('gid', 2);
 				}
@@ -362,7 +372,7 @@ class JApplication extends JObject
 
 				// Get the session object
 				$table = & JTable::getInstance('session');
-				$table->load( $session->getId());
+				$table->load( $session->getId() );
 
 				$table->guest 		= 0;
 				$table->username 	= $user->get('username');
@@ -390,10 +400,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Logout authentication function
+	* Logout authentication function.
 	*
 	* Passed the current user information to the onLogoutUser event and reverts the current
-	* session record back to 'anonymous' parameters
+	* session record back to 'anonymous' parameters.
 	* @access public
 	*/
 	function logout()
@@ -412,13 +422,13 @@ class JApplication extends JObject
 		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $this->triggerEvent( 'onLogout', $credentials);
+		$results = $this->triggerEvent( 'onLogout', $credentials );
 
 		/*
-		 * If any of the authentication plugins did not successfully complete the logout
-		 * routine then the whole method fails.  Any errors raised should be done in
-		 * the plugin as this provides the ability to provide much more information
-		 * about why the routine may have failed.
+		 * If any of the authentication plugins did not successfully complete
+		 * the logout routine then the whole method fails.  Any errors raised
+		 * should be done in the plugin as this provides the ability to provide
+		 * much more information about why the routine may have failed.
 		 */
 		if (!in_array(false, $results, true))
 		{
@@ -442,10 +452,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Set the user session
+	 * Set the user session.
 	 *
 	 * @access public
-	 * @param string	The sessions name
+	 * @param string The session's name.
 	 */
 	function setSession($name)
 	{
@@ -457,10 +467,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Set the application language
+	 * Set the application language.
 	 *
 	 * @access public
-	 * @param string 	The language name
+	 * @param string The language name.
 	 * @since 1.5
 	 */
 	function setLanguage( $lang )
@@ -499,35 +509,36 @@ class JApplication extends JObject
 
 		// Set the database debug
 		$db =& JFactory::getDBO();
-		$db->debug( $config->debug_db);
-
+		$db->debug( $config->debug_db );
 	}
 
 	/**
-	 * Gets the name of the current template
+	 * Gets the name of the current template.
 	 *
 	 * @return string
 	 */
-	function getTemplate() {
+	function getTemplate()
+    {
 		return '_system';
 	}
 
 	/**
-	 * Return a reference to the JPathWay object
+	 * Return a reference to the JPathWay object.
 	 *
 	 * @access public
-	 * @return jpathway 	JPathWay object
+     * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathWay() {
+	function &getPathWay()
+    {
 		return $this->_pathway;
 	}
 
 	/**
-	 * Create a JPathWay object and set the home/component items of the pathway
+	 * Create a JPathWay object and set the home/component items of the pathway.
 	 *
 	 * @access private
-	 * @return object JPathway
+     * @return object JPathway.
 	 * @since 1.5
 	 */
 	function &_createPathWay()
@@ -545,9 +556,7 @@ class JApplication extends JObject
 
 			// Add the home item to the pathway only and it is not linked
 			$this->_pathway->addItem( JText::_('Home'), '' );
-		} 
-		else 
-		{
+		} else {
 			// Initialize variables
 			$IIDstring = null;
 
@@ -597,7 +606,7 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Create the user session
+	 * Create the user session.
 	 *
 	 * Old sessions are flushed based on the configuration value for the cookie
 	 * lifetime. If an existing session, then the last access time is updated.
@@ -605,8 +614,8 @@ class JApplication extends JObject
 	 * the #__sessions table.
 	 *
 	 * @access	private
-	 * @param	string		The sessions name
-	 * @return	object 		JSession
+	 * @param	string The sessions name.
+	 * @return	object JSession on success. May call exit() on database error.
 	 * @since	1.5
 	 */
 	function &_createSession( $name )
@@ -619,16 +628,14 @@ class JApplication extends JObject
 		$storage = & JTable::getInstance('session');
 		$storage->purge( intval( $this->getCfg( 'lifetime' ) * 60) );
 
-		if ($storage->load( $session->getId())) {
+		if ($storage->load( $session->getId() )) {
 			// Session cookie exists, update time in session table
 			$storage->update();
-		}
-		else
-		{
+		} else {
 			//create persistance store in the session
 			$session->set('registry', new JRegistry('session'));
 
-			if (!$storage->insert( $session->getId(), $this->getClientId())) {
+			if (!$storage->insert( $session->getId(), $this->getClientId() )) {
 				die( $storage->getError() );
 			}
 
@@ -656,13 +663,14 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Gets the client id of the current running application
+	 * Gets the client id of the current running application.
 	 *
 	 * @access	public
-	 * @return	int			A client identifier
+	 * @return	int A client identifier.
 	 * @since		1.5
 	 */
-	function getClientId( ) {
+	function getClientId( )
+    {
 		return $this->_clientId;
 	}
 
@@ -670,22 +678,24 @@ class JApplication extends JObject
 	 * Is admin interface?
 	 *
 	 * @access	public
-	 * @return	boolean		True if this application is administrator
+	 * @return	boolean		True if this application is administrator.
 	 * @since	1.0.2
 	 */
-	function isAdmin() {
-		return ($this->_clientId == 1) ?  true : false;
+	function isAdmin()
+    {
+		return ($this->_clientId == 1);
 	}
 
 	/**
 	 * Is site interface?
 	 *
 	 * @access	public
-	 * @return	boolean		True of this application is site
+	 * @return	boolean		True of this application is site.
 	 * @since	1.5
 	 */
-	function isSite() {
-		return ($this->_clientId == 0) ?  true : false;
+	function isSite()
+    {
+		return ($this->_clientId == 0);
 	}
 
 	/**
@@ -693,7 +703,7 @@ class JApplication extends JObject
 	 */
 
 	 /**
-	 * Depreceated, use JPathWay->addItem() method instead
+	 * Depreceated, use JPathWay->addItem() method instead.
 	 * @since 1.5
 	 */
 	function appendPathWay( $name, $link = null )
@@ -714,134 +724,151 @@ class JApplication extends JObject
 		return false;
   }
 
-	 /**
- 	 * Depreceated, use JPathWay->getPathWayNames() method instead
+	/**
+ 	 * Depreceated, use JPathWay->getPathWayNames() method instead.
  	 * @since 1.5
  	 */
-	function getCustomPathWay() {
+	function getCustomPathWay()
+    {
 		return $this->_pathway->getPathWayNames();
 	}
 
-	 /**
-	* Depreacted, use JDocument->renderHead instead
-	* @since 1.5
-	*/
-	 function getHead() {
+	/**
+	 * Depreacted, use JDocument->renderHead instead.
+	 * @since 1.5
+	 */
+	function getHead()
+    {
 		$document=& JFactory::getDocument();
 		return $document->get('head');
-	 }
+	}
 
 	/**
-	* Depreacted, use JDocument->setMetadata instead
-	* @since 1.5
-	*/
-	function addMetaTag( $name, $content, $prepend='', $append='' ) {
+	 * Depreacted, use JDocument->setMetadata instead.
+	 * @since 1.5
+	 */
+	function addMetaTag( $name, $content, $prepend = '', $append = '' )
+    {
 		$document=& JFactory::getDocument();
 		$document->setMetadata($name, $content);
 	}
 
 	/**
-	* Depreacted, use JDocument->setMetadata instead
-	* @since 1.5
-	*/
-	function appendMetaTag( $name, $content ) {
+	 * Depreacted, use JDocument->setMetadata instead.
+	 * @since 1.5
+	 */
+	function appendMetaTag( $name, $content )
+    {
 		$this->addMetaTag($name, $content);
 	}
 
 	/**
-	* Depreacted, use JDocument->setMetadata instead
-	* @since 1.5
-	*/
-	function prependMetaTag( $name, $content ) {
+	 * Depreacted, use JDocument->setMetadata instead
+	 * @since 1.5
+	 */
+	function prependMetaTag( $name, $content )
+    {
 		$this->addMetaTag($name, $content);
 	}
 
 	/**
-	* Depreacted, use JDocument->addCustomTag instead
-	* @since 1.5
-	*/
-	function addCustomHeadTag( $html ) {
+	 * Depreacted, use JDocument->addCustomTag instead. (only when document type is HTML)
+	 * @since 1.5
+	 */
+	function addCustomHeadTag( $html )
+    {
 		$document=& JFactory::getDocument();
-		return $document->addCustomTag($html);
+		if($document->getType() == 'html') {
+			$document->addCustomTag($html);
+		}
 	}
 
 	/**
-	* Depreacted
-	* @since 1.5
-	*/
-	function getBlogSectionCount( ) {
+	 * Depreacted.
+	 * @since 1.5
+	 */
+	function getBlogSectionCount( )
+    {
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_blog_section'));
 	}
 
 	/**
-	* Depreacted
-	* @since 1.5
-	*/
-	function getBlogCategoryCount( ) {
+	 * Depreacted.
+	 * @since 1.5
+	 */
+	function getBlogCategoryCount( )
+    {
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_blog_category'));
 	}
 
 	/**
-	* Depreacted
-	* @since 1.5
-	*/
-	function getGlobalBlogSectionCount( ) {
+	 * Depreacted.
+	 * @since 1.5
+	 */
+	function getGlobalBlogSectionCount( )
+    {
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_blog_section'));
 	}
 
 	/**
-	* Depreacted
-	* @since 1.5
-	*/
-	function getStaticContentCount( ) {
+	 * Depreacted.
+	 * @since 1.5
+	 */
+	function getStaticContentCount( )
+    {
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_typed'));
 	}
 
 	/**
-	* Depreacted
-	* @since 1.5
-	*/
-	function getContentItemLinkCount( ) {
+	 * Depreacted.
+	 * @since 1.5
+	 */
+	function getContentItemLinkCount( )
+    {
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_item_link'));
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getPath instead
-	* @since 1.5
-	*/
-	function getPath($varname, $user_option=null) {
+	 * Depreacted, use JApplicationHelper::getPath instead.
+	 * @since 1.5
+	 */
+	function getPath($varname, $user_option = null)
+    {
 		jimport('joomla.application.helper');
 		return JApplicationHelper::getPath ($varname, $user_option);
 	}
 
 	/**
-	* Depreacted, use JURI::base() instead
-	* @since 1.5
-	*/
-	function getBasePath($client=0, $addTrailingSlash=true) {
+	 * Depreacted, use JURI::base() instead.
+	 * @since 1.5
+	 */
+	function getBasePath($client=0, $addTrailingSlash = true)
+    {
 		return JURI::base();
 	}
 
 	/**
-	* Depreacted, use JFactory::getUser instead
-	* @since 1.5
-	*/
-	function &getUser() {
+	 * Depreacted, use JFactory::getUser instead.
+	 * @since 1.5
+	 */
+	function &getUser()
+    {
 		$user =& JFactory::getUser();
 		return $user;
 	}
 	
 	/**
-	 * Deprecated, use JContentHelper::getItemid instead
+	 * Deprecated, use JContentHelper::getItemid instead.
 	 * @since 1.5
 	 */
-	function getItemid( $id ) {
-		require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
+	function getItemid( $id )
+    {
+		require_once JPATH_SITE . '/components/com_content/helpers/content.php';
 		return JContentHelper::getItemid($id);
 	}
 }
