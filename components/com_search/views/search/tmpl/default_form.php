@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form action="index.php" method="get">
+<form action="index.php" method="post">
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td nowrap="nowrap">
@@ -31,8 +31,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 <?php if ($this->params->get( 'search_areas', 1 )) : ?>
 	<?php echo JText::_( 'Search Only' );?>:
-	<?php foreach ($this->areas as $val => $txt) :
-		$checked = is_array( $this->areas ) && in_array( $val, $this->areas ) ? 'checked="true"' : '';
+	<?php foreach ($this->searchareas['search'] as $val => $txt) :
+		$checked = is_array( $this->searchareas['active'] ) && in_array( $val, $this->searchareas['active'] ) ? 'checked="true"' : '';
 	?>
 	<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
 		<label for="area_<?php echo $val;?>">
@@ -40,6 +40,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	<?php endforeach; ?>
 <?php endif; ?>
+<input type="hidden" name="task"   value="search" />
 <input type="hidden" name="option" value="com_search" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
 </form>

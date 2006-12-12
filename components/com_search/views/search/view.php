@@ -27,16 +27,9 @@ class SearchViewSearch extends JView
 	function display($tpl = null)
 	{
 		global $option, $Itemid;
-
-		$showAreas = JArrayHelper::getValue( $this->lists, 'areas', array() );
-
-		$areas  = array();
-		foreach ($showAreas as $area) {
-			$areas = array_merge( $areas, $area );
-		}
-
-		$this->areas = $areas;
-
+		
+		$uri =& JFactory::getURI();
+		
 		$searchword   = $this->searchword;
 		$searchphrase = $this->searchphrase;
 		$ordering     = $this->ordering;
@@ -62,7 +55,8 @@ class SearchViewSearch extends JView
 			$result->count   = $i + 1;
 		}
 
-		$this->assign('pagination', $pagination);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
 
 		parent::display($tpl);
 	}

@@ -111,7 +111,7 @@ class JComponentHelper
 		define( 'JPATH_COMPONENT_SITE'         ,  JPATH_SITE.DS.'components'.DS.$name);
 		define( 'JPATH_COMPONENT_ADMINISTRATOR',  JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
-		// Load the correct initial file
+		// get component path
 		if ( $mainframe->isAdmin() && is_file(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {

@@ -115,7 +115,7 @@ class JApplication extends JObject
 		if (count($this->_messageQueue))
 		{
 			$session =& JFactory::getSession();
-			$session->set('_JApplication_queue', $this->_messageQueue);
+			$session->set('application.queue', $this->_messageQueue);
 		}
 
 		/*
@@ -148,10 +148,10 @@ class JApplication extends JObject
 		if (!count($this->_messageQueue))
 		{
 			$session =& JFactory::getSession();
-			$sessionQueue = $session->get('_JApplication_queue');
+			$sessionQueue = $session->get('application.queue');
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
-				$session->set('_JApplication_queue', null);
+				$session->set('application.queue', null);
 			}
 		}
 		// Enqueue the message
@@ -171,10 +171,10 @@ class JApplication extends JObject
 		if (!count($this->_messageQueue))
 		{
 			$session =& JFactory::getSession();
-			$sessionQueue = $session->get('_JApplication_queue');
+			$sessionQueue = $session->get('application.queue');
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
-				$session->set('_JApplication_queue', null);
+				$session->set('application.queue', null);
 			}
 		}
 		return $this->_messageQueue;
@@ -493,9 +493,9 @@ class JApplication extends JObject
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file, $type = 'config')
+	function setConfiguration($file)
 	{
-		$config =& $this->_createConfiguration($file, $type);
+		$config =& $this->_createConfiguration($file);
 
 		// Set the database debug
 		$db =& JFactory::getDBO();
@@ -576,10 +576,9 @@ class JApplication extends JObject
 	 *
 	 * @access private
 	 * @param string $file 	The path to the configuration file
-	 * @param string $type	The format type
 	 * return object JConfig
 	 */
-	function &_createConfiguration($file, $type = 'PHP')
+	function &_createConfiguration($file)
 	{
 		jimport( 'joomla.registry.registry' );
 

@@ -96,7 +96,7 @@ class  JRequestJoomla extends JPlugin
 			if ((preg_match( '#index\d?\.php#', $urlArray[0])) || (strpos($urlArray[0], 'feed.php') !== false)) {
 				array_shift($urlArray);
 			}
-
+			
 			$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
 			if ($component == '') {
 				return;
@@ -146,19 +146,6 @@ class  JRequestJoomla extends JPlugin
 					}
 				}
 			} 
-			else 
-			{
-				//
-				// FORMAT: /key1,value1/key2,value2/.../keyN,valueN
-				//
-				foreach ($urlArray as $value)
-				{
-					$temp = explode(',', $value);
-					if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') {
-						JRequest::setVar($temp[0], $temp[1], 'get');
-					}
-				}
-			}
 		}
 	}
 }
@@ -241,31 +228,24 @@ function sefRelToAbs($string)
 				
 			$uri->delVar('option'); //don't need the option anymore
 			$uri->delVar('Itemid'); //don't need the itemid anymore
-
+			
+			$query = $uri->getQuery(true);
+			
 			// Use the custom request handler if it exists
 			if (file_exists($path)) 
 			{
 				require_once $path;
-				$function  = $component.'BuildURL';
-						
-				$parts  = $function($uri->getQuery(true),$params);
+				$function  = $component.'BuildURL';		
+				$parts     = $function($query,$params);
 								
 				$route = implode('/', $parts);
 				$route = ($route) ? $route.'/' : null;
-						
+		
+				$uri->setQuery($query);
 			}	 
-			else
-			{
-				$vars = $uri->getQuery(true);
-				
-				// Components with no custom handler
-				foreach ($vars as $key => $value)
-				{
-					// remove slashes automatically added by parse_str
-					$route .= $key.','.stripslashes($value).'/';
-				}
-				$route = str_replace('=', ',', $route);
-			}
+			
+			// get the query
+			$query = $uri->getQuery();
 			
 			// check if link contained fragment identifiers (ex. #foo)
 			$fragment = null;
@@ -276,7 +256,11 @@ function sefRelToAbs($string)
 				}
 			}
 			
-			$url = $component.'/'.$route.$itemid.$fragment;
+			if($query) {
+				$query = '?'.$query;
+			}
+			
+			$url = $component.'/'.$route.$itemid.$fragment.$query;
 			
 			// Prepend the base URI if we are not using mod_rewrite
 			if ($mode) {

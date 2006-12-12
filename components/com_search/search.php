@@ -15,10 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php' );
-
-// First thing we want to do is set the page title
-$mainframe->setPageTitle(JText::_('Search'));
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php' );
 
 /*
  * This is our main control structure for the component
@@ -27,6 +24,10 @@ $mainframe->setPageTitle(JText::_('Search'));
  */
 switch ( JRequest::getVar( 'task' ) )
 {
+	case 'search' :
+		SearchController::search();
+		break;
+	
 	default:
 		SearchController::display();
 		break;
@@ -60,11 +61,13 @@ class SearchController
 		$phrase 		= JRequest::getVar( 'searchphrase' );
 		$searchphrase 	= JRequest::getVar( 'searchphrase', 'any' );
 		$ordering 		= JRequest::getVar( 'ordering', 'newest' );
-		$areas 			= JRequest::getVar( 'areas' );
+		$activeareas 	= JRequest::getVar( 'areas' );
 		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
 		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
-
-
+		
+		// First thing we want to do is set the page title
+		$mainframe->setPageTitle(JText::_('Search'));
+		
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_( 'Search' ) );
 
@@ -92,9 +95,17 @@ class SearchController
 		$searchphrases[] 	= JHTMLSelect::option( 'exact', JText::_( 'Exact phrase' ) );
 		$lists['searchphrase' ]= JHTMLSelect::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
+		$areas = array();
+		$areas['active'] = $activeareas;
+		$areas['search'] = array();
+		
 		JPluginHelper::importPlugin( 'search' );
-		$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
-
+		$searchareas = $mainframe->triggerEvent( 'onSearchAreas' );
+		
+		foreach ($searchareas as $area) {
+			$areas['search'] = array_merge( $areas['search'], $area );
+		}
+		
 		// log the search
 		SearchHelper::logSearch( $searchword );
 
@@ -113,7 +124,7 @@ class SearchController
 		}
 
 		if(!$error) {
-			$rows  = SearchController::getResults($searchword, $phrase, $ordering, $areas);
+			$rows  = SearchController::getResults($searchword, $phrase, $ordering, $activeareas);
 			$total = count($rows);
 			$rows  = array_splice($rows, $limitstart, $limit);
 		}
@@ -126,6 +137,7 @@ class SearchController
 		$view->assign('ordering'    , $ordering);
 		$view->assign('searchword'  , $searchword);
 		$view->assign('searchphrase', $searchphrase);
+		$view->assign('searchareas',  $areas);
 
 		$view->assign('total', $total);
 		$view->assign('error', $error);
@@ -137,6 +149,21 @@ class SearchController
 		//$view->assignRef('data'    , $data);			// TODO: remove if unneded
 
 		$view->display();
+	}
+	
+	function search()
+	{
+		global $mainframe;
+		$post = JRequest::get('post');
+		
+		unset($post['task']);
+		unset($post['submit']);
+		
+		$uri = new JURI();
+		$uri->setQuery($post);
+	
+		$mainframe->redirect(sefRelToAbs('index.php?'.$uri->getQuery()));
+		
 	}
 
 	function getResults($searchword, $phrase, $ordering, $areas)

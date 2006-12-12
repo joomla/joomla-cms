@@ -21,7 +21,6 @@ require_once( JPATH_BASE.'/includes/framework.php'   );
 require_once( JPATH_BASE.'/includes/application.php' );
 require_once( JPATH_BASE.'/includes/menubar.html.php' );
 
-
 /**
  * CREATE THE APPLICATION
  */

@@ -97,8 +97,7 @@ class JRegistry extends JObject
 	 *
 	 * @access public
 	 * @param 	$regpath	string 	Registry path (e.g. joomla.content.showauthor)
-	 * @param 	int    User Id
-	 * @return 	mixed Value of entry or boolean false
+	 * @return 	mixed Value of entry or null
 	 */
 	function getValue($regpath)
 	{

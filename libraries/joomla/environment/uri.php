@@ -396,13 +396,20 @@ class JURI extends JObject
 	 * 		foo=bar&x=y
 	 *
 	 * @access public
-	 * @param string $query The query string
+	 * @param mixed (array|string) $query The query string
 	 * @since 1.5
 	 */
 	function setQuery($query) 
 	{
-		$this->_query = $query;
-		parse_str($query, $this->_vars);
+		if(!is_array($query)) {
+			$this->_query = $query;
+			parse_str($query, $this->_vars);
+		}
+		
+		if(is_array($query)) {
+			$this->_query = JURI::_buildQuery($query);
+			$this->_vars = $query;
+		}
 	}
 
 	/**
@@ -634,6 +641,42 @@ class JURI extends JObject
 		}
 
 		return implode('/', $path);
+	}
+	
+	/**
+	 * Build a query from a array (reverse of the PHP parse_str())
+	 *
+	 * @access private
+	 * @return string The resulting query string
+	 * @since 1.5
+	 * @see parse_str()
+	 */
+	function _buildQuery ($params, $akey = null) 
+	{
+		if ( !is_array($params) || count($params) == 0 ) {
+			return false;
+		}
+		
+		static $out = array();
+
+		//reset in case we are looping
+		if( !isset($akey) && !count($out) )  {
+			unset($out);
+			$out = array();
+		} 
+  
+		foreach ( $params as $key => $val ) 
+		{
+			if ( is_array($val) ) {   
+				JURI::_buildQuery($val,$key);
+				continue;
+			}
+
+			$thekey = ( !$akey ) ? $key : $akey.'[]';
+			$out[] = $thekey."=".$val;
+		}
+  
+		return implode("&",$out);   
 	}
 }
 ?>

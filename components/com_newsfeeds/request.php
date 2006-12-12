@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function NewsfeedsBuildURL($ARRAY, &$params)
+function NewsfeedsBuildURL(&$ARRAY, &$params)
 {
 	static $categories;
 	$resolveNames = $params->get('realnames',0);
@@ -23,13 +23,11 @@ function NewsfeedsBuildURL($ARRAY, &$params)
 	{
 		case 'newsfeed':
 			$parts[]	= 'feed';
-			$id			= @$ARRAY['feedid'];
-			$parts[]	= $id;
+			$parts[]	= @$ARRAY['feedid'];
 			break;
 		case 'category':
 			$parts[]	= 'category';
-			$id			= @$ARRAY['catid'];
-			$parts[]	= $id;
+			$parts[]	= @$ARRAY['catid'];
 			break;
 		default:
 			// Do Nothing
@@ -48,6 +46,9 @@ function NewsfeedsBuildURL($ARRAY, &$params)
 			$parts[]	= 'page'.$page.'-'.$limit;
 		}
 	}
+	
+	//unset the whole array
+	$ARRAY = array();
 	
 	return $parts;
 }

@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function WeblinksBuildURL($ARRAY, &$params)
+function WeblinksBuildURL(&$ARRAY, &$params)
 {
 	$resolveNames = $params->get('realnames',0);
 
@@ -41,6 +41,9 @@ function WeblinksBuildURL($ARRAY, &$params)
 			$parts[]	= 'page'.$page.':'.$limit;
 		}
 	}
+	
+	//unset the whole array
+	$ARRAY = array();
 	
 	return $parts;
 }
