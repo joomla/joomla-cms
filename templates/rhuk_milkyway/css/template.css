@@ -18,12 +18,12 @@ body {
 }
 
 a:link, a:visited {
-	color: #1B57B1; text-decoration: none;
+	text-decoration: none;
 	font-weight: normal;
 }
 
 a:hover {
-	color: #00c;	text-decoration: underline;
+	text-decoration: underline;
 	font-weight: normal;
 }
 
@@ -49,7 +49,6 @@ div, p, table, td, th {
 #page_bg {
 	padding: 10px 0;
 	margin-bottom: 1px;
-	background: #0C3A6D;
 }
 
 div.center {
@@ -57,29 +56,29 @@ div.center {
 }
 
 div#wrapper {
-		background: #f7f7f7 url(../images/mw_shadow_blue_l.png) 0 0 repeat-y;
-		margin-left: auto;
-		margin-right: auto;
-		min-width: 750px;
-		max-width: 1050px;
+	margin-left: auto;
+	margin-right: auto;	
 }
 
-div#wrapper_r {
-	background: url(../images/mw_shadow_blue_r.png) 100% 0 repeat-y;
+body.width_medium div#wrapper {
+	width: 950px;
 }
 
-div#header {
-	background: url(../images/mw_header_blue_t.png) 0 0 repeat-x;
+body.width_small div#wrapper {
+	width: 773px;
+}
+
+body.width_fmax div#wrapper {
+	min-width: 750px;
+	max-width: 1050px;
 }
 
 div#header_l {
-	background: url(../images/mw_header_blue_t_l.png) 0 0 no-repeat;
 	position: relative;
 }
 
 div#header_r {
 	height: 90px;
-	background: url(../images/mw_header_blue_t_r.png) 100% 0 no-repeat;
 	padding-left: 370px;
 	padding-right: 30px;
 	padding-top: 25px;
@@ -123,16 +122,7 @@ div#tabarea_r {
 	padding-right: 1px;
 }
 
-div#footer {
-	background: #f7f7f7 url(../images/mw_footer_blue_b.png) 0 100% repeat-x;
-}
-
-div#footer_l {
-	background: url(../images/mw_footer_blue_b_l.png) 0 0 no-repeat;
-}
-
 div#footer_r {
-	background: url(../images/mw_footer_blue_b_r.png) 100% 0 no-repeat;
 	padding-top: 10px;
 	height: 47px;
 	overflow: hidden;
@@ -276,19 +266,6 @@ td.pill_r {
   text-decoration: none;
 }
 
-#pillmenu a:hover {
-  color: #2a5da7;
-}
-
-#pillmenu a#active_menu-nav {
-  background: url(../images/mw_menu_active_bg.png) repeat-x;
-  color: #fff;
-}
-
-#pillmenu a#active_menu-nav:hover {
-  color: #fff;
-}
-
 #leftcolumn {
 	padding: 0;
 	margin: 0;
@@ -378,7 +355,6 @@ h3, .componentheading, table.moduletable th {
   font-weight: bold;
   font-family: Helvetica,Arial,sans-serif;
   font-size: 1.5em;
-  color: #135cae;
   padding-left: 0px;
 	margin-bottom: 10px;
 	text-align: left;
@@ -585,22 +561,12 @@ div.module_menu h3 {
 }
 
 div.module_menu {
-	background: url(../images/mw_box_blue_br.png) 100% 100% no-repeat;
 	margin: 0;
 	padding: 0;
 	margin-bottom: 15px;
 }
 
-div.module_menu div {
-	background: url(../images/mw_box_blue_bl.png) 0 100% no-repeat;
-}
-
-div.module_menu div div {
-	background: url(../images/mw_box_blue_tr.png) 100% 0 no-repeat;
-}
-
 div.module_menu div div div {
-	background: url(../images/mw_box_blue_tl.png) 0 0 no-repeat;
 	padding: 10px;
 	padding-top: 30px;
 	padding-bottom: 15px;

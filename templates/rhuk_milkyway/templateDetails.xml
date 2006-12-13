@@ -2,7 +2,7 @@
 <install version="1.5" type="template">
     <name>rhuk_milkyway</name>
     <version>1.0.2</version>
-    <creationDate>11/20/05</creationDate>
+    <creationDate>11/20/06</creationDate>
     <author>rhuk</author>
     <authorEmail>rhuk@rockettheme.com.com</authorEmail>
     <authorUrl>http://www.rockettheme.com</authorUrl>
@@ -65,6 +65,28 @@
 			<position>right</position>
 		</positions>
     <params>
+		<param name="colorVariation" type="list" default="white" label="Color Variation" description="Color variation to use">
+			<option value="blue">Blue</option>
+			<option value="red">Red</option>
+			<option value="green">Green</option>
+			<option value="orange">Orange</option>
+			<option value="black">Black</option>
+			<option value="white">White</option>
+		</param>
+		<param name="backgroundVariation" type="list" default="blue" label="Background Variation" description="Background color variation to use">
+			<option value="blue">Blue</option>
+			<option value="red">Red</option>
+			<option value="green">Green</option>
+			<option value="orange">Orange</option>
+			<option value="black">Black</option>
+			<option value="white">White</option>
+		</param>
+		<param name="widthStyle" type="list" default="fmax" label="Template Width" description="Width style of the template">
+			<option value="fmax">Fluid with maximum</option>
+			<option value="medium">Medium</option>
+			<option value="small">Small</option>
+			<option value="fluid">Fluid</option>
+		</param>
 		<param name="showComponent" type="radio" default="1" label="Show Component" description="Show/Hide the component output">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

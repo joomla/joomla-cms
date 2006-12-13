@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Dec-2006 Andy Miller
+ + Added color variations and width template parameters to Milkyway template
+
 12-Dec-2006 Andy Miller
  ^ Milkyway Template - Removed Quirks mode requirement for < IE6, minor tweaks for IE7
 
