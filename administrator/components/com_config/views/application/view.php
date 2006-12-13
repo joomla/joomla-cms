@@ -27,7 +27,14 @@ class ConfigApplicationView
 
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
+		
+		$table = JTable::getInstance('component');
+		$table->loadByOption( 'com_users' );
+		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_users/config.xml' );
 
+		$table = JTable::getInstance('component');
+		$table->loadByOption( 'com_media' );
+		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_media/config.xml' );
 		$contents = '';
 		ob_start();
 			require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.php');
@@ -49,36 +56,34 @@ class ConfigApplicationView
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.php'); ?>
 						</td>
 						<td width="35%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.php'); ?>
+							
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.php'); ?>
 						</td>
 					</tr>
 				</table>
 			</div>
-			<div id="page-misc">
+			<div id="page-system">
 				<table class="noshow">
 					<tr>
-						<td with="100%">
-<?php
-$table = JTable::getInstance('component');
-$table->loadByOption( 'com_users' );
-$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_users/config.xml' );
-
-$table = null;
-$table = JTable::getInstance('component');
-$table->loadByOption( 'com_media' );
-$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_media/config.xml' );
-?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_( 'User Settings' ); ?></legend>
-<?php echo $userparams->render('userparams'); ?>
-</fieldset>	
-<fieldset class="adminform">
-	<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
-<?php echo $mediaparams->render('mediaparams'); ?>
-</fieldset>						</td>
+						<td with="60%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_system.php'); ?>
+							<fieldset class="adminform">
+								<legend><?php echo JText::_( 'User Settings' ); ?></legend>
+								<?php echo $userparams->render('userparams'); ?>
+							</fieldset>	
+							<fieldset class="adminform">
+								<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
+								<?php echo $mediaparams->render('mediaparams'); ?>
+							</fieldset>	
+						</td>
+						<td with="40%">
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.php'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.php'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.php'); ?>
+						</td>
+						
+					</td>
 					</tr>
 				</table>
 			</div>
@@ -88,7 +93,6 @@ $mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/component
 						<td with="60%">
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS. (JUtility::isWinOS() ? 'config_noftp.php':'config_ftp.php')); ?>
 						</td>
 						<td width="40%">

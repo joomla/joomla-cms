@@ -410,7 +410,7 @@ class JError extends patErrorManager
 		$config		= & JFactory::getConfig();
 
 		// Get the current template from the application
-		//$template = $mainframe->getTemplate();
+		$template = $mainframe->getTemplate();
 
 		// Push the error object into the document
 		$document->setError($error);
@@ -419,7 +419,7 @@ class JError extends patErrorManager
 		jimport('joomla.i18n.language');
 		$document->setTitle(JText::_('Error').': '.$error->code);
 		$document->display(false, false, array (
-			//'template' => '_system',
+			'template' => $template,
 			'directory' => JPATH_BASE.DS.'templates',
 			'debug' => $config->getValue('config.debug'
 		)));

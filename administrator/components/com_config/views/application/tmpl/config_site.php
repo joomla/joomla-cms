@@ -52,15 +52,6 @@
 				<?php echo $lists['list_limit']; ?>
 			</td>
 		</tr>
-		<tr>
-			<td class="key">
-				<?php echo JText::_( 'Help Server' ); ?>
-			</td>
-			<td>
-				<?php echo $lists['helpsites']; ?>
-				<button onclick="submitbutton('refreshhelp')"><?php echo JText::_( 'Refresh' ); ?></button>
-			</td>
-		</tr>
 	</tbody>
 	</table>
 </fieldset>
