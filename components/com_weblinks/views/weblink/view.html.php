@@ -67,9 +67,9 @@ class WeblinksViewWeblink extends JView
 		if (!$isNew)
 		{
 			// Is this link checked out?  If not by me fail
-			if ($model->isCheckedOut($user->get('id'))) {
-				$mainframe->redirect("index.php?option=$option", "The weblink $weblink->title is currently being edited by another administrator.");
-			}
+			//if ($model->isCheckedOut($user->get('id'))) {
+			//	$mainframe->redirect("index.php?option=$option", "The weblink $weblink->title is currently being edited by another administrator.");
+			//}
 
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('Edit'));
@@ -97,7 +97,7 @@ class WeblinksViewWeblink extends JView
 
 		// build list of categories
 		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', $option, intval($weblink->catid));
-		
+
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 

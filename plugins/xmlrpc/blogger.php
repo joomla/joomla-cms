@@ -334,7 +334,7 @@ class BloggerXMLRPCServices
 
 		$query = "SELECT *"
 			. "\n FROM #__content"
-			. $where
+			. "\n WHERE state =1"
 			. "\n ORDER BY created"
 			;
 		$db->setQuery($query, 0, $numposts);

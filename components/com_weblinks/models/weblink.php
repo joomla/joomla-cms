@@ -95,9 +95,9 @@ class WeblinksModelWeblink extends JModel
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 				return;
 			}
-		} 
+		}
 		else  $this->_initData();
-			
+
 		return $this->_data;
 	}
 
@@ -185,12 +185,12 @@ class WeblinksModelWeblink extends JModel
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			
+
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to store the weblink
 	 *
@@ -201,7 +201,7 @@ class WeblinksModelWeblink extends JModel
 	function store($data)
 	{
 		$row  =& $this->getTable();
-		
+
 		// Bind the form fields to the web link table
 		if (!$row->bind($data, "published")) {
 			$this->setError($this->_db->getErrorMsg());
@@ -222,7 +222,7 @@ class WeblinksModelWeblink extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -249,7 +249,7 @@ class WeblinksModelWeblink extends JModel
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Method to initialise the weblink data
 	 *
@@ -262,6 +262,7 @@ class WeblinksModelWeblink extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
+			$weblink = new stdClass();
 			$weblink->id				= 0;
 			$weblink->catid				= 0;
 			$weblink->sid				= 0;

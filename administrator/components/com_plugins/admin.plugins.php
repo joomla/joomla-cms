@@ -268,6 +268,8 @@ function editPlugin( )
 		$lists['access'] = JAdminMenus::Access( $row );
 	}
 
+
+
 	if ($cid[0])
 	{
 		$row->checkout( $user->get('id') );
@@ -283,7 +285,7 @@ function editPlugin( )
 			. "\n AND ordering < 10000"
 			. "\n ORDER BY ordering"
 			;
-			$order = mosGetOrderingList( $query );
+			$order = JAdminMenus::GenericOrdering( $query );
 			$lists['ordering'] = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
@@ -303,7 +305,8 @@ function editPlugin( )
 		$row->description 	= '';
 	}
 
-	$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
+	// Jinx 14-120-6:: Unsure why this is needed
+	//$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
 
 	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 

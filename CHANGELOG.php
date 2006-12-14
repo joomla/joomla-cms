@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Dec-2006 Johan Janssens
+ ^ Deprecated mosGetOrderingList, use JAdminMenus::GenericOrdering instead
+
 13-Dec-2006 Andy Miller
  + Added color variations and width template parameters to Milkyway template
 
@@ -59,7 +62,7 @@ Legend:
  # Fixed problem where user deletion didn't destroy sessions (see next)
  + Added Session Cleaner Plugin, activated on user deletion
  + Added JUserHelper::getUserName($uid)
- # Added joomla.i18n.language to joomla.utilies.error to ensure JText is available 
+ # Added joomla.i18n.language to joomla.utilies.error to ensure JText is available
 
 06-Dec-2006 Sam Moffatt
  ^ Making some alterations to LDAP authentication systems to improve them
@@ -77,11 +80,11 @@ Legend:
 02-Dec-2006 Johan Janssens
  + Enabled module caching
  ^ Improved JFactory::getEditor method, added support for 'force' loading an editor
- 
+
 01-Dec-2006 Johan Janssens
  + Added new cpanel component to handle the control panel in the administrator
  ^ Renamed JDocument setInclude and getInclude functions to setBuffer and getBuffer
- ! Changes require a reinstall 
+ ! Changes require a reinstall
 
 01-Dec-2006 Andrew Eddie
  # Shuffled some modules out of joomla.sql into sample data to make a clean install, well, cleaner
@@ -116,7 +119,7 @@ Legend:
 
 25-Nov-2006 Johan Janssens
  ^ Improvements to search engine friendly url handling
- ! Changes require a reinstall 
+ ! Changes require a reinstall
 
 24-Nov-2006 Louis Landry
  + Added ability to delete multiple files at a time in media manager
@@ -142,7 +145,7 @@ Legend:
  ^ Changed content models to dynamicaly create article slugs
  ^ Implemented article slug rendering in content views
  - Removed visitor plugin
- - Removed visitor statistics 
+ - Removed visitor statistics
  ! Changes require a reinstall
 
 22-Nov-2006 Johan Janssens
@@ -153,13 +156,13 @@ Legend:
  - Removed article statistics manager, added hit count to article manager
 
 22-Nov-2006 Andrew Eddie
- ^ Allowed menu name fields to have basic html tags to allow for dynamic styling (to a degree) of menu items 
+ ^ Allowed menu name fields to have basic html tags to allow for dynamic styling (to a degree) of menu items
 
 21-Nov-2006 Andrew Eddie
  # Fixed bug in JModel where JPATH_COMPONENT* has not been loaded
  ^ Changed handling of request data in backend menu model.  Now pushed into model to allow for 3rd parties to use the model directly to create menus.
  ^ Changed JController::setRedirect.  If null message is passed then no change is made to the internal variable.  This allows for setting on the message directly in complicated scripts.
- ^ Added argument to JArrayHelper::toObject to allow a JObject to be returned 
+ ^ Added argument to JArrayHelper::toObject to allow a JObject to be returned
 
 21-Nov-2006 Johan Janssens
  ^ Refactored administrator weblinks component to use MVC component framework
@@ -183,7 +186,7 @@ Legend:
 
 14-Nov-2006 Andrew Eddie
  # Fixed js error in TinyMCE editor when Template CSS set to No
- 
+
 11-Nov-2006 Louis Landry
  # Fixed feeds not rendering with SEF URLs enabled
 

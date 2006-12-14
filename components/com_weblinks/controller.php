@@ -32,7 +32,7 @@ class WeblinksController extends JController
 	function display()
 	{
 		$viewName	= JRequest::getVar( 'view', 'categories' );
-		
+
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -50,11 +50,11 @@ class WeblinksController extends JController
 				}
 			}
 		}
-			
+
 		JRequest::setVar('view', $viewName);
-		
+
 		//update the hit count for the weblink
-		if($view = 'weblink') {
+		if($view == 'weblink') {
 			$model =& $this->getModel('weblink');
 			$model->hit();
 		}

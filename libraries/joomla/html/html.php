@@ -128,7 +128,7 @@ class JHTML
 	function Date($date, $format = DATE_FORMAT_LC, $offset = NULL)
 	{
 		jimport('joomla.utilities.date');
-		
+
 		if(is_null($offset))
 		{
 			$config =& JFactory::getConfig();
@@ -306,7 +306,7 @@ class JHTMLSelect
 		if ( is_array( $arr ) ) {
 			reset( $arr );
 		}
-		
+
         $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -327,7 +327,7 @@ class JHTMLSelect
 				$t	 	= $element->$text;
 				$id 	= ( isset( $element->id ) ? $element->id : null );
 			}
-			
+
 			//if no string after hypen - take hypen out
 			$splitText = explode( " - ", $t, 2 );
 			$t = $splitText[0];
@@ -533,7 +533,7 @@ class JCommonHTML
 			$doc =& JFactory::getDocument();
 			$doc->addScript($url.'includes/js/overlib_mini.js');
 			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
-			
+
 			// change state so it isnt loaded a second time
 			$mainframe->set( 'loadOverlib', true );
 		}
@@ -684,7 +684,7 @@ class JAdminMenus
 			. "\n AND published != -2"
 			. "\n ORDER BY ordering"
 			;
-			$order = mosGetOrderingList( $query );
+			$order = JAdminMenus::GenericOrdering( $query );
 			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
@@ -819,6 +819,43 @@ class JAdminMenus
 	}
 
 	/**
+	 * Description
+	 *
+ 	 * @param string SQL with ordering As value and 'name field' AS text
+ 	 * @param integer The length of the truncated headline
+ 	 * @since 1.5
+ 	 */
+	function GenericOrdering( $sql, $chop='30' )
+	{
+		$db =& JFactory::getDBO();
+		$order = array();
+		$db->setQuery( $sql );
+		if (!($orders = $db->loadObjectList())) {
+			if ($db->getErrorNum()) {
+				echo $db->stderr();
+				return false;
+			} else {
+				$order[] = JHTMLSelect::option( 1, JText::_( 'first' ) );
+				return $order;
+			}
+		}
+		$order[] = JHTMLSelect::option( 0, '0 '. JText::_( 'first' ) );
+		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
+
+			if (JString::strlen($orders[$i]->text) > $chop) {
+				$text = JString::substr($orders[$i]->text,0,$chop)."...";
+			} else {
+				$text = $orders[$i]->text;
+			}
+
+			$order[] = JHTMLSelect::option( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
+		}
+		$order[] = JHTMLSelect::option( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
+
+		return $order;
+	}
+
+	/**
 	* build the select list for Ordering of a specified Table
 	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 )
@@ -826,7 +863,7 @@ class JAdminMenus
 		$db =& JFactory::getDBO();
 
 		if ( $id ) {
-			$order = mosGetOrderingList( $query );
+			$order = JAdminMenus::GenericOrdering( $query );
 			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
     		if ( $neworder ) {
@@ -920,7 +957,7 @@ class JAdminMenus
 		if ( count( $categories ) < 1 ) {
 			$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
-		
+
 		$category = JHTMLSelect::genericList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
 
 		return $category;

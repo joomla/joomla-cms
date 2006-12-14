@@ -85,42 +85,6 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 }
 
 /**
- * @package Joomla.Framework
- * @param string SQL with ordering As value and 'name field' AS text
- * @param integer The length of the truncated headline
- * @since 1.0
- */
-function mosGetOrderingList( $sql, $chop='30' ) {
-
-	$db =& JFactory::getDBO();
-	$order = array();
-	$db->setQuery( $sql );
-	if (!($orders = $db->loadObjectList())) {
-		if ($db->getErrorNum()) {
-			echo $db->stderr();
-			return false;
-		} else {
-			$order[] = JHTMLSelect::option( 1, JText::_( 'first' ) );
-			return $order;
-		}
-	}
-	$order[] = JHTMLSelect::option( 0, '0 '. JText::_( 'first' ) );
-	for ($i=0, $n=count( $orders ); $i < $n; $i++) {
-
-		if (JString::strlen($orders[$i]->text) > $chop) {
-			$text = JString::substr($orders[$i]->text,0,$chop)."...";
-		} else {
-			$text = $orders[$i]->text;
-		}
-
-		$order[] = JHTMLSelect::option( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
-	}
-	$order[] = JHTMLSelect::option( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
-
-	return $order;
-}
-
-/**
 * Utility function to provide ToolTips
 *
 * @package Joomla.Framework
