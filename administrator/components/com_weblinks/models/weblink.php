@@ -78,12 +78,6 @@ class WeblinksModelWeblink extends JModel
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
-			// Make sure the category is published
-			if (!$this->_data->published) {
-				JError::raiseError(404, JText::_("Resource Not Found"));
-				return false;
-			}
-
 			// Check to see if the category is published
 			if (!$this->_data->cat_pub) {
 				JError::raiseError( 404, JText::_("Resource Not Found") );
@@ -182,7 +176,7 @@ class WeblinksModelWeblink extends JModel
 		$row  =& $this->getTable();
 		
 		// Bind the form fields to the web link table
-		if (!$row->bind($data, "published")) {
+		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
