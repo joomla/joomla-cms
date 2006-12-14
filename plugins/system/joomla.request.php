@@ -162,7 +162,7 @@ $dispatcher->attach(new JRequestJoomla($dispatcher));
  * @return	string	The absolute search engine friendly URL
  * @since	1.0
  */
-function sefRelToAbs($string)
+function sefRelToAbs($value)
 {
 	global $mainframe, $Itemid, $option;
 	
@@ -172,7 +172,7 @@ function sefRelToAbs($string)
 		$strings = array();
 	}
 
-	if (!isset( $strings[$string] ))
+	if (!isset( $strings[$value] ))
 	{
 		// Initialize some variables
 		$config	= & JFactory::getConfig();
@@ -191,7 +191,7 @@ function sefRelToAbs($string)
 		$rewrite = $config->getValue('config.sef');
 		
 		// Replace all &amp; with &
-		$string = str_replace('&amp;', '&', $string);
+		$string = str_replace('&amp;', '&', $value);
 		
 		// Home index.php
 		if ($string == 'index.php') {
@@ -228,7 +228,6 @@ function sefRelToAbs($string)
 				
 			$uri->delVar('option'); //don't need the option anymore
 			$uri->delVar('Itemid'); //don't need the itemid anymore
-			
 			$query = $uri->getQuery(true);
 			
 			// Use the custom request handler if it exists
@@ -266,13 +265,14 @@ function sefRelToAbs($string)
 			if ($mode) {
 				$url = 'index.php/'.$url;
 			} 
+			$strings[$value] = $url;
 						 	
 			return $url;
 		}
 		
-		$strings[$string] = $uri->toString();
+		$strings[$value] = $uri->toString();
 	}
-	
-	return str_replace( '&', '&amp;', $strings[$string] );;
+
+	return str_replace( '&', '&amp;', $strings[$value] );;
 }
 ?>
