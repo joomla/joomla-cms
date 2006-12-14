@@ -13,18 +13,7 @@
 
 jimport('joomla.database.table');
 
-/**
- * Message Class
- *
- * Provides a common interface to send an internal message to
- * a JUser via the Joomla! Framework
- *
- * @author		Louis Landry <louis.landry@joomla.org>
- * @package 	Joomla.Framework
- * @subpackage 	Utilities
- * @since		1.5
- */
-class JMessage extends JTable
+class TableMessage extends JTable
 {
 	/**
 	 * Primary Key
@@ -97,7 +86,7 @@ class JMessage extends JTable
 	var $message			= null;
 
 	/**
-	 * JMessage constructor
+	 * Constructor
 	 *
 	 * @access	protected
 	 * @param database A database connector object

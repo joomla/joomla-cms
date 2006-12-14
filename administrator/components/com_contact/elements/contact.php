@@ -11,15 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/**
- * Renders a category element
- *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
- * @package 	Joomla.Framework
- * @subpackage 	Parameter
- * @since		1.5
- */
-
 class JElement_Contact extends JElement
 {
    /**

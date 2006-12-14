@@ -11,15 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/**
- * Renders an article element
- *
- * @author 		Louis Landry <louis.landry@joomla.org>
- * @package 	Joomla.Framework
- * @subpackage 	Parameter
- * @since		1.5
- */
-
 class JElement_Article extends JElement
 {
    /**

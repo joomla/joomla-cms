@@ -233,7 +233,7 @@ function saveMessage( $option )
 	require_once(dirname(__FILE__).DS.'tables'.DS.'message.php');
 
 	$db =& JFactory::getDBO();
-	$row = new JMessage( $db );
+	$row = new TableMessage( $db );
 
 	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
