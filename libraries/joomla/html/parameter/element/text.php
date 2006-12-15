@@ -35,7 +35,7 @@ class JElement_Text extends JElement {
 		$size = ( $node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '' );
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );
 
-		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' '.$size.' />';
+		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.htmlspecialchars($value).'" '.$class.' '.$size.' />';
 	}
 }
 ?>
