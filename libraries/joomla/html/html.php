@@ -458,6 +458,9 @@ class JHTMLSelect
  */
 class JCommonHTML
 {
+	/*
+	 * Function is only used in the administrator
+	 */
 	function ContentLegend( )
 	{
 		?>
@@ -497,6 +500,9 @@ class JCommonHTML
 		<?php
 	}
 
+	/*
+	 * Function is only used in the administrator
+	 */
 	function checkedOut( &$row, $overlib=1 )
 	{
 		$hover = '';
@@ -522,6 +528,12 @@ class JCommonHTML
 	/*
 	* Loads all necessary files for JS Overlib tooltips
 	*/
+	/*
+	 * Function is used in the site/administrator
+	 */
+	 /*
+	 * Function is used in the administrator/site : move in JTooptip
+	 */
 	function loadOverlib()
 	{
 		global $mainframe;
@@ -542,6 +554,9 @@ class JCommonHTML
 	/*
 	* Loads all necessary files for JS Calendar
 	*/
+	/*
+	 * Function is used in the administrator/site : move into JCalendar
+	 */
 	function loadCalendar()
 	{
 		global $mainframe;
@@ -560,6 +575,9 @@ class JCommonHTML
 		}
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function AccessProcessing( &$row, $i, $archived=NULL )
 	{
 		if ( !$row->access ) {
@@ -586,6 +604,9 @@ class JCommonHTML
 		return $href;
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function CheckedOutProcessing( &$row, $i )
 	{
 		$user =& JFactory::getUser();
@@ -598,6 +619,9 @@ class JCommonHTML
 		return $checked;
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png', $prefix='' )
 	{
 		$img 	= $row->published ? $imgY : $imgX;
@@ -614,6 +638,9 @@ class JCommonHTML
 		return $href;
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function selectState( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
 	{
 		$state[] = JHTMLSelect::option( '', '- '. JText::_( 'Select State' ) .' -' );
@@ -628,6 +655,9 @@ class JCommonHTML
 		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function saveorderButton( $rows, $image='filesave.png', $task="saveorder" )
 	{
 		$image = JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
@@ -637,6 +667,9 @@ class JCommonHTML
 		<?php
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL )
 	{
 		?>
@@ -646,6 +679,9 @@ class JCommonHTML
 		<?php
 	}
 
+	/*
+	 * Function is used only in the administrator : move to JHTMLGrid
+	 */
 	function tableOrdering_img( $current, &$lists )
 	{
 		if ( $current == $lists['order']) {
@@ -672,6 +708,9 @@ class JAdminMenus
 	/**
 	* build the select list for Menu Ordering
 	*/
+	/*
+	 * Function is only used in administrator/component/com_menus/views/item/tmpl/form.php
+	 */
 	function Ordering( &$row, $id )
 	{
 		$db =& JFactory::getDBO();
@@ -695,6 +734,9 @@ class JAdminMenus
 	/**
 	* build the select list for access level
 	*/
+	/*
+	 * Function is used in administrator/site (com_content) : move into parameters
+	 */
 	function Access( &$row )
 	{
 		$db =& JFactory::getDBO();
@@ -713,6 +755,9 @@ class JAdminMenus
 	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
+	/*
+	 * Function is only used in the administrator (multiple components)
+	 */
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 )
 	{
 		$db =& JFactory::getDBO();
@@ -795,6 +840,9 @@ class JAdminMenus
 	/**
 	* build the select list to choose an image
 	*/
+	/*
+	 * Function is only used in the administrator (multiple components) : duplicate with JElement_imagelist
+	 */
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL )
 	{
 		if ( !$directory ) {
@@ -825,6 +873,9 @@ class JAdminMenus
  	 * @param integer The length of the truncated headline
  	 * @since 1.5
  	 */
+ 	 /*
+	 * Function is only used in the administrator (com_plugins)
+	 */
 	function GenericOrdering( $sql, $chop='30' )
 	{
 		$db =& JFactory::getDBO();
@@ -858,6 +909,9 @@ class JAdminMenus
 	/**
 	* build the select list for Ordering of a specified Table
 	*/
+	/*
+	 * Function is only used in the administrator (multiple components)
+	 */
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 )
 	{
 		$db =& JFactory::getDBO();
@@ -879,6 +933,9 @@ class JAdminMenus
 	/**
 	* Select list of active users
 	*/
+	/*
+	 * Function is only used in the administrator (multiple components) : function could create preformance issues
+	 */
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 )
 	{
 		$db =& JFactory::getDBO();
@@ -911,6 +968,9 @@ class JAdminMenus
 	/**
 	* Select list of positions - generally used for location of images
 	*/
+	/*
+	 * Function is only used in the administrator (com_categories, com_sections)
+	 */
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false )
 	{
 		if ( $none ) {
@@ -934,6 +994,9 @@ class JAdminMenus
 	/**
 	* Select list of active categories for components
 	*/
+	/*
+	 * Function is used in the site/administrator : duplicate in JElement_category
+	 */
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 )
 	{
 		global $mainframe;
@@ -966,6 +1029,9 @@ class JAdminMenus
 	/**
 	* Select list of active sections
 	*/
+	/*
+	 * Function is only used in the administrator : duplicate in JElement_section
+	 */
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' )
 	{
 		$db =& JFactory::getDBO();
@@ -991,6 +1057,9 @@ class JAdminMenus
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
+	/*
+	 * Function is only used in the site/administrator : move to JHTML::Image
+	 */
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' )
 	{
 		static $paths;
@@ -1045,6 +1114,9 @@ class JAdminMenus
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
+	/*
+	 * Function is only used in the site/administrator : move to JHTML::Image (combine with ImageCheck)
+	 */
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
 	{
 		global $mainframe;
