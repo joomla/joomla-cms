@@ -3,12 +3,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <script type="text/javascript">
 <!--
 	document.addLoadEvent(function() {
- 	document.formvalidator.attachToForm(document.getElementById('josForm'));
- 	document.formvalidator.handlers['passverify'] = { enabled : true,
-									exec : function (value) {
-										return (document.getElementById('password').value == value);
-									}
-								  }
+ 	document.formvalidator.handlers['passverify'] = {
+	 		enabled : true,
+			exec : function (value) { return ($('password').value == value); }
+		}
 	});
 
 function validateForm( frm ) {
@@ -38,7 +36,7 @@ function validateForm( frm ) {
 	<?php $this->loadTemplate('message'); ?>
 <?php endif; ?>
 
-<form action="<?php echo JURI::resolve( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" id="josForm" name="josForm">
+<form action="<?php echo JURI::resolve( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Registration' ); ?>
@@ -100,7 +98,7 @@ function validateForm( frm ) {
 	</td>
 </tr>
 </table>
-<button class="button" type="submit" onclick="validateForm( this.form );return false;"><?php echo JText::_('Register'); ?></button>
+<button class="button validate" type="submit"><?php echo JText::_('Register'); ?></button>
 <input type="hidden" name="task" value="save" />
 <input type="hidden" name="id" value="0" />
 <input type="hidden" name="gid" value="0" />

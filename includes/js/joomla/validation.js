@@ -14,7 +14,7 @@
  * Unobtrusive Form Validation library
  *
  * Inspired by: Chris Campbell <www.particletree.com>
- * 
+ *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Forms
@@ -25,14 +25,14 @@
 JFormValidator = function() { this.constructor.apply(this, arguments);}
 JFormValidator.prototype = {
 
-	constructor: function() 
-	{	
+	constructor: function()
+	{
 		var self = this;
-		
+
 		this.valid		= true;
 		this.vContinue	= true;
 		this.handlers	= Object();
-		
+
 		// Default regexes
 		this.handlers['date']		= { enabled : true,
 									exec : function (value) {
@@ -76,32 +76,40 @@ JFormValidator.prototype = {
 										return regex.test(value);
 									}
 								  }
+
+		// Attach to forms with class 'form-validate'
+		var forms = document.getElementsByClassName('form-validate');
+		for ( var i=0; i < forms.length; i++) {
+			if (forms[i].tagName == 'FORM') {
+				this.attachToForm(forms[i]);
+			}
+		}
 	},
-	
-	registerEvent: function(target,type,args) 
+
+	registerEvent: function(target,type,args)
 	{
 		//use a closure to keep scope
 		var self = this;
-			
-		if (target.addEventListener)   { 
+
+		if (target.addEventListener)   {
     		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
+		} else if (target.attachEvent) {
 	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
+		}
+
 		function onEvent(e)	{
 			e = e||window.event;
 			e.element = target;
 			return self["on"+type](e, args);
 		}
 	},
-	
+
 	attachToForm: function(form)
 	{
 		// Iterate through the form object and attach the validate
 		// method to all input fields.
 		for (var i=0;i < form.elements.length; i++) {
-			if (form.elements[i].tagName == 'INPUT' && form.elements[i].type == 'submit') {
+			if ((form.elements[i].tagName == 'INPUT' || form.elements[i].tagName == 'BUTTON') && form.elements[i].type == 'submit') {
 				if (this.hasClass(form.elements[i], 'validate')) {
 					form.elements[i].onclick = function(){return document.formvalidator.isValid(this.form);}
 				}
@@ -110,7 +118,7 @@ JFormValidator.prototype = {
 			}
 		}
 	},
-	
+
 	validate: function(target)
 	{
 		// Get the value of the target tag.
@@ -127,7 +135,7 @@ JFormValidator.prototype = {
 		var pivot = target.className.indexOf('validate');
 
 		// Make sure we are set to go...
-		this.vContinue = true; 
+		this.vContinue = true;
 
 		// get all the rules from the input box classname
 		if (pivot != -1) {
@@ -161,10 +169,10 @@ JFormValidator.prototype = {
 
 		//validateRequired() checks if it is required and then sends back feedback
 		state = this.validateRequired (required, value, type);
-		
+
 		/**
 		 * If the field is required and blank the fvContinue field will be false
-		 * and we shouldn't bother validating the specific type... it will just 
+		 * and we shouldn't bother validating the specific type... it will just
 		 * cause potential errors.
 		 */
 		if (this.vContinue)
@@ -185,8 +193,8 @@ JFormValidator.prototype = {
 		// Return validation state
 		return state;
 	},
-	
-	validateRequired: function(required, value, type) 
+
+	validateRequired: function(required, value, type)
 	{
 		//check if required if not, continue validation script
 		if (required == "required") {
@@ -202,7 +210,7 @@ JFormValidator.prototype = {
 		}
 	},
 
-	isValid: function(form) 
+	isValid: function(form)
 	{
 		var valid = true;
 		for (var i=0;i < form.elements.length; i++) {

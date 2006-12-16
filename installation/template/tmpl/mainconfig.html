@@ -7,10 +7,7 @@
 </jtmpl:comment>
 
 <script language="JavaScript" type="text/javascript">
-	document.addLoadEvent(function() {
- 	document.formvalidator.attachToForm(document.getElementById('adminForm'));
-	});
-
+<!--
 	function validateForm( frm, task ) {
 		var valid = document.formvalidator.isValid(frm);
 
@@ -93,18 +90,18 @@
 			submitForm(frm, task);
 		}
 	}
-	
+
 	function clearPasswordFields(frm) {
 		var adminPassword 			= getElementByName( frm, 'vars[adminPassword]' );
 		var confirmAdminPassword 	= getElementByName( frm, 'vars[confirmAdminPassword]' );
-		
+
 		if( adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value ) {
 			adminPassword.value 		= '';
 			confirmAdminPassword.value 	= '';
 		}
 		return;
 	}
-
+//-->
 </script>
 
 <div id="right">
@@ -145,7 +142,7 @@
       </div>
       <div class="m">
 
-			<form action="index.php" method="post" name="adminForm" id="adminForm">
+			<form action="index.php" method="post" name="adminForm" id="adminForm" class="form-validate">
 			<div id="installerpad">
 
 
@@ -232,7 +229,7 @@
 							  <td align="center">
 							  	<input onfocus="clearPasswordFields( adminForm );" class="inputbox" type="password" id="confirmAdminPassword" name="vars[confirmAdminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
 							  </td>
-							</tr>							
+							</tr>
 							</table>
 						</fieldset>
           </div>
@@ -247,9 +244,9 @@
 			</div>
 			<input type="hidden" name="task" value="" />
 			</form>
-			
+
 			<div class="clr"></div>
-			
+
 			 <form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
 
 				<h2><jtmpl:translate key="loadSampleOrMigrate">Load Sample Data, Restore or Migrate Backed Up Content</jtmpl:translate></h2>
@@ -417,7 +414,7 @@
   			<input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
   			<input type="hidden" name="lang" value="{VAR_LANG}" />
   		</form>
-			
+
 
       <div class="clr"></div>
       </div>

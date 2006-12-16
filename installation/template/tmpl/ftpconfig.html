@@ -8,7 +8,6 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 	document.addLoadEvent(function() {
- 	document.formvalidator.attachToForm(document.getElementById('adminForm'));
  	document.formvalidator.handlers['isftp'] = { enabled : true,
 									exec : function (value) {
 										if (document.getElementById('ftpenable').checked == true) {
@@ -32,7 +31,7 @@
 
 		var ftpEnable = document.getElementById("ftpenable");
 		var ftpRoot = document.getElementById("ftproot");
-	
+
 		if (ftpEnable.checked == false) {
 			submitForm( frm, task );
 		} else if (ftpRoot.value == '') {
@@ -48,7 +47,7 @@
 	}
 
 	function JProcess() {
-	
+
 		if ( document.getElementById("ftphost").value == '' ) {
 			alert( '<jtmpl:translate key="validFtpHost" escape="yes">Please enter a correct FTP host</jtmpl:translate>' );
 			return;
@@ -64,7 +63,7 @@
 	}
 //-->
 </script>
-<form action="index.php" method="post" name="adminForm" id="adminForm" autocomplete="off">
+<form action="index.php" method="post" name="adminForm" id="adminForm" class="form-validate" autocomplete="off">
 
 <div id="right">
 	<div id="rightpad">
@@ -224,7 +223,7 @@
             </div>
           </div>
 					<div class="clr"></div>
-				</div>	
+				</div>
         <div class="clr"></div>
       </div>
       <div class="b">

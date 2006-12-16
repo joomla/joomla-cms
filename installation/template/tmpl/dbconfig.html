@@ -5,67 +5,65 @@
 @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 @license GNU/GPL
 </jtmpl:comment>
+
 <script language="JavaScript" type="text/javascript">
-	document.addLoadEvent(function() {
- 	document.formvalidator.attachToForm(document.getElementById('adminForm'));
-	});
-
-function validateForm( frm, task ) {
-	var valid = document.formvalidator.isValid(frm);
-	if (valid == false) {
-		return false;
-	}
-	var DBtype = getElementByName( frm, 'vars[DBtype]' );
-	var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
-	var DBname = getElementByName( frm, 'vars[DBname]' );
-	var DBPrefix = getElementByName( frm, 'vars[DBPrefix]' );
-
-	if ( DBtype.selectedIndex == 0 ) {
-		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
-		return;
-	} else if (DBhostname.value == '') {
-		alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
-		return;
-	} else if (DBname.value == '') {
-		alert( '<jtmpl:translate key="validName" escape="yes">Please enter a database name</jtmpl:translate>' );
-		return;
-	} else if (DBPrefix.value == '') {
-		alert('<jtmpl:translate key="validPrefix" escape="yes">You must enter a MySQL Table Prefix for Joomla to operate correctly</jtmpl:translate>');
-		return;
-	} else if (!document.getElementById('vars_dbcollation')) {
-		if (confirm( '<jtmpl:translate key="validCollation" escape="yes"></jtmpl:translate>' )) {
-			submitForm( frm, task);
-		} else {
-			return;
+<!--
+	function validateForm( frm, task ) {
+		var valid = document.formvalidator.isValid(frm);
+		if (valid == false) {
+			return false;
 		}
-	} else {
-		submitForm( frm, task );
+		var DBtype = getElementByName( frm, 'vars[DBtype]' );
+		var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
+		var DBname = getElementByName( frm, 'vars[DBname]' );
+		var DBPrefix = getElementByName( frm, 'vars[DBPrefix]' );
+
+		if ( DBtype.selectedIndex == 0 ) {
+			alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
+			return;
+		} else if (DBhostname.value == '') {
+			alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
+			return;
+		} else if (DBname.value == '') {
+			alert( '<jtmpl:translate key="validName" escape="yes">Please enter a database name</jtmpl:translate>' );
+			return;
+		} else if (DBPrefix.value == '') {
+			alert('<jtmpl:translate key="validPrefix" escape="yes">You must enter a MySQL Table Prefix for Joomla to operate correctly</jtmpl:translate>');
+			return;
+		} else if (!document.getElementById('vars_dbcollation')) {
+			if (confirm( '<jtmpl:translate key="validCollation" escape="yes"></jtmpl:translate>' )) {
+				submitForm( frm, task);
+			} else {
+				return;
+			}
+		} else {
+			submitForm( frm, task );
+		}
 	}
-}
 
-function JProcess( action ) {
+	function JProcess( action ) {
 
-	if ( document.getElementById("vars_dbtype").selectedIndex == 0 ) {
-		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
-		return;
-	} else if (document.getElementById("vars_dbhostname").value == '') {
-		alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
-		return;
-	} else if (document.getElementById("vars_dbusername").value == '') {
-		alert( '<jtmpl:translate key="validUser" escape="yes">Please enter a database username</jtmpl:translate>' );
-		return;
-	} else {
-		if ( action == 'collation' ) {
-			xajax_getCollations(xajax.getFormValues('adminForm'));
-		} else if ( action == 'privs' ) {
-			xajax_getPrivileges(xajax.getFormValues('adminForm'));
-		} 
+		if ( document.getElementById("vars_dbtype").selectedIndex == 0 ) {
+			alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
+			return;
+		} else if (document.getElementById("vars_dbhostname").value == '') {
+			alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
+			return;
+		} else if (document.getElementById("vars_dbusername").value == '') {
+			alert( '<jtmpl:translate key="validUser" escape="yes">Please enter a database username</jtmpl:translate>' );
+			return;
+		} else {
+			if ( action == 'collation' ) {
+				xajax_getCollations(xajax.getFormValues('adminForm'));
+			} else if ( action == 'privs' ) {
+				xajax_getPrivileges(xajax.getFormValues('adminForm'));
+			}
+		}
 	}
-}
-
+//-->
 </script>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm" autocomplete="off">
+<form action="index.php" method="post" name="adminForm" id="adminForm" class="form-validate" autocomplete="off">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
@@ -272,7 +270,7 @@ function JProcess( action ) {
 						  		    </td>
 								</tr>
 					  			</table>
-		
+
 						</div>
 						<div class="clr"></div>
           </div>
@@ -282,7 +280,7 @@ function JProcess( action ) {
             </div>
           </div>
 					<div class="clr"></div>
-				</div>	
+				</div>
         <div class="clr"></div>
       </div>
       <div class="b">
