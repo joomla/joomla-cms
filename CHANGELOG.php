@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Dec-2006 Johan Janssens
+ + Added PHP OpenID library to the framework
+
 17-Dec-2006 Rastin Mehr
-# Fixed [6555] - Make unwritable after saving does not work
-+ Added ability to enable or disable writing into the application configruation.php file
+ # Fixed [6555] - Make unwritable after saving does not work
+ + Added ability to enable or disable writing into the application configruation.php file
 
 14-Dec-2006 Johan Janssens
  ^ Deprecated mosGetOrderingList, use JAdminMenus::GenericOrdering instead

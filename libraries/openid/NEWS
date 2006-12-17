@@ -1,0 +1,88 @@
+What's New in PHP OpenID 1.1.0
+==============================
+
+Version 1.1 of the PHP OpenID library implements recent changes to the
+OpenID specification as well as making API changes that should make
+integration with applications easier.  The consumer and server
+examples have been updated to use the new APIs.  As usual, if you have
+any questions or would like to provide any kind of feedback at all,
+please subscribe to our development discussion list (see README) and
+let us know!
+
+Yadis Support
+-------------
+
+One of the major changes to OpenID since the last release has been the
+approval of Yadis discovery as the preferred way to specify the OpenID
+metadata for an identity URL instead of using <link> tags in
+HTML. This library does Yadis discovery, and if that fails, it falls
+back to old-style discovery.
+
+Some advantages of Yadis support are:
+
+ * Support for fallback if your primary OpenID provider is not
+   available
+
+ * Support for load-balancing between OpenID servers
+
+ * Easy interoperability for different identity services
+
+For more information about Yadis, see http://yadis.org/ or
+http://www.openidenabled.com/yadis/.
+
+Extension Support
+-----------------
+
+OpenID also has formalized support for extensions. Extensions are a
+mechanism for transferring information from the consumer to the server
+and from the server to the consumer in the process of performing
+OpenID authentication. Extensions are implemented as additional
+namespaced query arguments that go along with standard OpenID requests
+and responses. This library provides a simple API for adding extension
+arguments to requests and extracting extension responses from replies.
+
+Consumer API
+------------
+
+The consumer API has been changed for more natural use as well as to
+support extension arguments.
+
+ * Auth_OpenID_Consumer($store, [$fetcher], [$immediate]) is now
+   Auth_OpenID_Consumer($store, [$session]).  The session object is an
+   instance of Services_Yadis_PHPSession or a subclass thereof.  The
+   default implementation wraps PHP's session machinery.
+
+ * Auth_OpenID_Consumer::beginAuth($user_url) is now
+   Auth_OpenID_Consumer::begin($user_url) and either returns an
+   Auth_OpenID_AuthRequest object or returns null. There is no more
+   tuple unpacking or status codes.
+
+ * Auth_OpenID_Consumer::constructRedirect($auth_req, $return_to,
+   $trust_root) is now
+   Auth_OpenID_AuthRequest::redirectURL($trust_root, $return_to,
+   [$immediate]).
+
+ * Auth_OpenID_Consumer::completeAuth($token, $query) is now
+   Auth_OpenID_Consumer::complete($query). It no longer returns a
+   tuple. Instead it returns an object that has a status code and
+   additional information about the response. See the API
+   documentation and examples for more information.
+
+Server API
+----------
+
+The server API has been changed for greater extensibility.  Instead of
+taking an "is_authorized" callback, processing happens in several
+stages, allowing you to insert extension data into the response before
+it is signed and returned.  See the documentation for the Server.php
+file.  Particularly, see the server example code in the examples/
+directory.
+
+Upgrading
+---------
+
+The server changed the way it indexes associations in the store, so if
+you're upgrading a server installation, we recommend you clear the old
+records from your store when you do so.  As a consequence, consumers
+will re-establish associations with your server a little sooner than
+they would have otherwise.
