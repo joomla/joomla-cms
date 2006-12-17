@@ -99,8 +99,10 @@ class JAuthenticate extends JObject
 		 */
 		foreach($results as $result)
 		{
-			switch($result->type) {
+			switch($result->type) 
+			{
 				case 'success':
+				{
 					if(JUserHelper::getUserId( $credentials['username'] )) {
 						// Whilst a plugin may validate the login, it might not actually exist
 						return true;
@@ -109,10 +111,13 @@ class JAuthenticate extends JObject
 						$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
 						return false;
 					}
-					break;
+				}	break;
+					
 				case 'autocreate':
+				{
 					// We need to create the user if they don't exist
 					if(intval(JUserHelper::getUserId($credentials['username']))) { return true; }
+					
 					$user = new JUser();
 					$user->set( 'id', 0 );
 					$user->set( 'name', $result->fullname );
@@ -120,6 +125,7 @@ class JAuthenticate extends JObject
 					$user->set( 'gid', $result->gid );
 					$user->set( 'usertype', $result->usertype );
 					$user->set( 'email', $result->email );	// Result should contain an email
+					
 					if($user->save()) {
 						return true;
 					} else {
@@ -127,7 +133,8 @@ class JAuthenticate extends JObject
 						$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
 						return false;
 					}
-					break;
+				}	break;
+				
 				default:
 					// Authentication failed
 					$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
@@ -428,7 +435,7 @@ class JAuthenticateHelper
 }
 
 /**
- * Authorization response class, provides an object for storing error details
+ * Authorization response class, provides an object for storing user and error details
  *
  * @author 		Samuel Moffatt <sam.moffatt@joomla.org>
  * @package 	Joomla.Framework
@@ -437,22 +444,67 @@ class JAuthenticateHelper
  */
 class JAuthenticateResponse extends JObject
 {
-	/** @var type string Response Type (success, failure, critical_failure, error, critical_error,autocreate) */
+	/** 
+	 * Response Type (success, failure, critical_failure, error, critical_error,autocreate)
+	 * 
+	 * @var type string  
+	 * @access public
+	 */
 	var $type 			= null;
-	/** @var name string Name of Response */
+	/** 
+	 * Name of Response
+	 * 
+	 * @var name string
+	 * @access public
+	 */
 	var $name 			= '';
-	/** @var error_message string The error message */
+	
+	/** 
+	 *  The error message
+	 * 
+	 * @var error_message string 
+	 * @access public
+	 */
 	var $error_message 	= '';
-	/** @var autocreate int Flag to autocreate a user */
+	
+	/** 
+	 * Flag to autocreate a user
+	 * 
+	 * @var autocreate int  
+	 * @access public
+	 */
 	var $autocreate		= 0;
 
-	/** @var fullname string The fullname of the user (JUser->name) */
+	/** 
+	 * The fullname of the user (JUser->name)
+	 * 
+	 * @var fullname string 
+	 * @access public
+	 */
 	var $fullname 		= '';
-	/** @var gid int The group id to use (default should be fine for most uses) */
+	
+	/** 
+	 * The group id to use (default should be fine for most uses)
+	 * 
+	 * @var gid int  
+	 * @access public 
+	 */
 	var $gid 			= 18;
-	/** @var usertype string The usertype to use (default should be fine for most uses) */
+	
+	/** 
+	 * The usertype to use (default should be fine for most uses)
+	 * 
+	 * @var usertype string  
+	 * @access public
+	 */
 	var $usertype 		= 'Registered';
-	/** @var email string The email to use */
+	
+	/** 
+	 * The email to use
+	 * 
+	 * @var email string  
+	 * @access public
+	 */
 	var $email			= '';
 
 	/**
