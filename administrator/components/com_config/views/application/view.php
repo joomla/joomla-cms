@@ -42,10 +42,11 @@ class ConfigApplicationView
 		ob_end_clean();
 
 		$document->setBuffer($contents, 'module', 'submenu');
-		require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.php');
 		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php" method="post" name="adminForm">
+
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.php'); ?>
 
 		<div id="config-document">
 			<div id="page-site">

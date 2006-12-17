@@ -316,6 +316,13 @@ class ConfigControllerApplication extends ConfigController
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';
+		
+		jimport('joomla.filesystem.path');
+		
+		$oldperms = JPath::getPermissions($fname);
+		// if enable_write == 1 make config file writable
+		if( JRequest::getVar('enable_write', 0) )
+			JPath::setPermissions($fname, '0644');
 
 		/*
 		 * Now we get the config registry in PHP class format and write it to
@@ -323,7 +330,11 @@ class ConfigControllerApplication extends ConfigController
 		 */
 		jimport('joomla.filesystem.file');
 		if (JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')))) {
-
+			
+			// if disable_write == 1 make config file unwritable
+			if( JRequest::getVar('disable_write', 0) )
+				JPath::setPermissions($fname, '0555');
+			
 			$msg = JText::_('The Configuration Details have been updated');
 
 			$task = $this->getTask();
