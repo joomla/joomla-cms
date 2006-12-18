@@ -40,10 +40,6 @@
 		<param name="username" type="text" size="20" default="" label="Connect username" description="PARAMCONNECTSTRING" />
 		<param name="password" type="password" size="20" default="" label="Connect password" description="PARAMCONNECTPASSWORD" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="autocreate" type="radio" default="0" label="Auto Create Users" description="PARAMAUTOCREATEUSERS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 		<param name="ldap_fullname" type="text" size="20" default="fullName" label="Map FullName" description="PARAMMAPFN" />
 		<param name="ldap_email" type="text" size="20" default="mail" label="Map Email" description="PARAMMAPEMAIL" />
 		<param name="ldap_uid" type="text" size="20" default="uid" label="Map User ID" description="PARAMMAPUID" />

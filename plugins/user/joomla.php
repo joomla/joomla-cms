@@ -73,57 +73,78 @@ class JUserJoomla extends JPlugin
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLogin($user, $remember)
+	function onLoginUser($user, $remember)
 	{
+		// load plugin parameters
+	 	$plugin =& JPluginHelper::getPlugin('authentication', 'joomla');
+	 	$params = new JParameter( $plugin->params );
+		
+		// We need to create the user if they don't exist
+		if(!$id = intval(JUserHelper::getUserId($user['username']))) 
+		{
+			$my = new JUser();
+			$my->set( 'id'			, 0 );
+			$my->set( 'name'		, $user['fullname'] );
+			$my->set( 'username'	, $user['username'] );
+			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
+			$my->set( 'gid'			, 18 );			  	//Make configurable
+			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
+					
+			if(!$my->save()) {
+				return false;
+			}
+			
+			//get the id of the new user
+			$id = intval($my->get('id'));
+		}
+					
 		// Get the JUser object for the user to login
-		$user =& JUser::getInstance( $user['username'] );
+		$my =& JUser::getInstance( $id );
 
 		// If the user is blocked, redirect with an error
-		if ($user->get('block') == 1) {
-			return JError::raiseWarning(
-             	'SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED')
-            	);
+		if ($my->get('block') == 1) {
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
 		}
 
 		// Fudge the ACL stuff for now...
 		// TODO: Implement ACL :)
 		jimport('joomla.factory');
 		$acl = &JFactory::getACL();
-		$grp = $acl->getAroGroup($user->get('id'));
-		$row->gid = 1;
+		$grp = $acl->getAroGroup($my->get('id'));
+		$my->set('gid', 1);
 
 		// ToDO: Add simple mapping based on the group table to allow positive references between content and user groups
 		if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
 				// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-				$user->set('gid', 2);
+				$my->set('gid', 2);
 		}
-		$user->set('usertype', $grp->name);
+		$my->set('usertype', $grp->name);
 
 		// Register the needed session variables
 		$session =& JFactory::getSession();
-		$session->set('session.user.id', $user->get('id'));
+		$session->set('session.user.id', $my->get('id'));
 
 		// Get the session object
 		$table = & JTable::getInstance('session');
 		$table->load( $session->getId() );
 
 		$table->guest 		= 0;
-		$table->username 	= $user->get('username');
-		$table->userid 		= intval($user->get('id'));
-		$table->usertype 	= $user->get('usertype');
-		$table->gid 			= intval($user->get('gid'));
+		$table->username 	= $my->get('username');
+		$table->userid 		= intval($my->get('id'));
+		$table->usertype 	= $my->get('usertype');
+		$table->gid 		= intval($my->get('gid'));
 
 		$table->update();
 
 		// Hit the user last visit field
-		$user->setLastVisit();
+		$my->setLastVisit();
 
 		// Set remember me option
 		if ($remember == 'yes')
 		{
 			$lifetime = time() + 365*24*60*60;
-			setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );
-			setcookie( 'usercookie[password]', $user->get('password'), $lifetime, '/' );
+			setcookie( 'usercookie[username]', $my->get('username'), $lifetime, '/' );
+			setcookie( 'usercookie[password]', $my->get('password'), $lifetime, '/' );
 		}
 
 		return true;
@@ -137,7 +158,7 @@ class JUserJoomla extends JPlugin
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function onLogout($user)
+	function onLogoutUser($user)
 	{
 		$session =& JFactory::getSession();
 

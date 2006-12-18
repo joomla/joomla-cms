@@ -3,14 +3,14 @@
     <name>Authentication - GMail</name>
     <author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
-	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-    <description>Handles user authentication with a GMail account (Requires cURL)</description>
+    <description>Handles user authentication with an OpenID (Requires PHP5)</description>
     <files>
-        <filename plugin="gmail">gmail.php</filename>
+        <filename plugin="openid">openid.php</filename>
     </files>
     <params />
-</install>
+</install>

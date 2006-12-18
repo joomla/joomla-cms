@@ -17,7 +17,7 @@ jimport('joomla.application.plugin.helper');
 /**
  * GMail Authenticate Plugin
  *
- * @author Samuel Moffatt <pasamio@gmail.com>
+ * @author Samuel Moffatt <sam.moffatt@joomla.org>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.5
@@ -94,14 +94,13 @@ class JAuthenticateGMail extends JPlugin
 
 		if ($success)
 		{
-			$return->autocreate  = 1;
-			$return->type 		= 'autocreate';		// Autocreate is the default, the system will create as needed
+			$return->status 	= JAUTHENTICATE_STATUS_SUCCESS;
 			$return->email 		= $username;
 			$return->fullname 	= $username;
 		}
 		else
 		{
-			$return->type 		  = 'failure';
+			$return->status 	   = JAUTHENTICATE_STATUS_FAILURE;
 			$return->error_message = 'Failed to authenticate: ' . $message;
 		}
 		return $return;

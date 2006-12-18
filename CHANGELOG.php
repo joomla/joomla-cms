@@ -43,6 +43,8 @@ Legend:
 17-Dec-2006 Johan Janssens
  + Added PHP OpenID library to the framework
  + Added Joomla! User plugin, moved login, logout and sessions cleaning into this plugin
+ + Added OpenID authentication plugin (based on work from Rob and Jason Kendall)
+ ^ Refactord authentication and user plugins to improve flexibility and decoupling
  ! Changes require a reinstall
 
 17-Dec-2006 Rastin Mehr
@@ -116,7 +118,7 @@ Legend:
 
 27-Nov-2006 Louis Landry
  - Removed MagPie Feed parser
- + Added SimplePie Feed parser -- Thanks CoolAcid --
+ + Added SimplePie Feed parser (suggested by Jason Kendall)
  ! Much improved feed parsing and feed support
 
 27-Nov-2006 Johan Janssens

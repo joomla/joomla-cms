@@ -17,7 +17,7 @@ jimport('joomla.application.plugin.helper');
 /**
  * Example User Plugin
  *
- * @author		Louis Landry <louis.landry@joomla.org>
+ * @author		Johan Janssens  <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 		1.5
@@ -129,7 +129,7 @@ class JUserExample extends JPlugin {
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLogin($user)
+	function onLoginUser($user)
 	{
 		// Initialize variables
 		$success = false;
@@ -158,7 +158,7 @@ class JUserExample extends JPlugin {
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function onLogout($user)
+	function onLogoutUser($user)
 	{
 		// Initialize variables
 		$success = false;

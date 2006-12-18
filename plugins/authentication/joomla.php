@@ -52,7 +52,7 @@ class JAuthenticateJoomla extends JPlugin
 	function onAuthenticate( $username, $password )
 	{
 		global $mainframe;
-
+		
 		// Initialize variables
 		$conditions = '';
 
@@ -76,11 +76,11 @@ class JAuthenticateJoomla extends JPlugin
 
 		if($result)
 		{
-			$return->type = 'success';
+			$return->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}
 		else
 		{
-			$return->type = 'error';
+			$return->status = JAUTHENTICATE_STATUS_FAILURE;
 			$return->error_message = 'Invalid response from database';
 		}
 		return $return;

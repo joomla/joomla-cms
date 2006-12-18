@@ -18,13 +18,13 @@ jimport('joomla.client.ldap');
 /**
  * LDAP Authenticate Plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
+ * @author Sam Moffatt <sam.moffatt@joomla.org>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.5
  */
-class JAuthenticateLdap extends JPlugin {
-
+class JAuthenticateLdap extends JPlugin 
+{
 	/**
 	 * Constructor
 	 *
@@ -59,40 +59,37 @@ class JAuthenticateLdap extends JPlugin {
 		// Get a database connector
 		$db = JFactory::getDBO();
 
-		// If we are in the admin panel, make sure we have access to it
-		if ($mainframe->isAdmin()) {
-			$conditions = "AND gid > 22";
-		}
-
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');
-	 	$pluginParams = new JParameter( $plugin->params );
+	 	$params = new JParameter( $plugin->params );
 
-		$ldap = new JLDAP($pluginParams);
-
+		$ldap   = new JLDAP($params);
 		$result = new JAuthenticateResponse('LDAP');
 
 		if (!$ldap->connect())
 		{
 			//die('Unable to connect to ldap server');
-			$result->type = 'failure';
+			$result->status = JAUTHENTICATE_STATUS_FAILURE;
 			$result->error_message = 'Unable to connect to LDAP server';
 			return $result;
 		}
 
-		$auth_method = $pluginParams->get('auth_method');
+		$auth_method = $params->get('auth_method');
 
 		switch($auth_method)
 		{
 			case 'anonymous':
 			{
 				// Need to do some work!
-				if($ldap->anonymous_bind()) {
+				if($ldap->anonymous_bind()) 
+				{
 					// Comparison time
-					$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);
-				} else {
+					$success = $ldap->compare(str_replace("[username]",$username,$params->get('users_dn')),$params->get('ldap_password'),$password);
+				} 
+				else 
+				{
 					//die('Anonymous bind failed');
-					$result->type = 'failure';
+					$result->status = JAUTHENTICATE_STATUS_FAILURE;
 					$result->error_message = 'Anonymous bind failed.';
 					return $result;
 				}
@@ -106,9 +103,10 @@ class JAuthenticateLdap extends JPlugin {
 
 			case 'authbind':
 			{	// First bind as a search enabled account
-				if($ldap->bind()) {
-					$ldap_uid = $pluginParams->get('ldap_uid');
-					$userdetails = $ldap->simple_search($pluginParams->get('ldap_uid').'='.$username);
+				if($ldap->bind()) 
+				{
+					$ldap_uid = $params->get('ldap_uid');
+					$userdetails = $ldap->simple_search($params->get('ldap_uid').'='.$username);
 					if(isset($userdetails[0][$ldap_uid][0])) {
 						$success = $ldap->bind($userdetails[0][dn], $password,1);
 					}
@@ -117,12 +115,15 @@ class JAuthenticateLdap extends JPlugin {
 
 			case 'authenticated':
 			{
-				if($ldap->bind()) {
+				if($ldap->bind()) 
+				{
 					// Comparison time
-					$success = $ldap->compare(str_replace("[username]",$username,$pluginParams->get('users_dn')),$pluginParams->get('ldap_password'),$password);
-				} else {
+					$success = $ldap->compare(str_replace("[username]",$username,$params->get('users_dn')),$params->get('ldap_password'),$password);
+				} 
+				else 
+				{
 					//die('Authenticated Bind Failed');
-					$result->type = 'failure';
+					$result->status = JAUTHENTICATE_STATUS_FAILURE;
 					$result->error_message = 'Authenticated bind failed.';
 					return $result;
 				}
@@ -131,37 +132,25 @@ class JAuthenticateLdap extends JPlugin {
 
 		if(!$success)
 		{
-			$result->type = 'error';
+			$result->status = JAUTHENTICATE_STATUS_FAILURE;
 			$result->error_message = 'Failed to bind to LDAP server';
 		}
 		else
 		{
-			$result->type = 'success';	// By default autocreate is disabled.
+			$result->status = JAUTHENTICATE_STATUS_SUCCESS;
 
-			if (intval($pluginParams->get('autocreate')))
+			$userdetails 	= $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
+			$ldap_email 	= $params->get('ldap_email');
+			$ldap_fullname  = $params->get('ldap_fullname');
+
+			if (isset($userdetails[0][$ldap_email][0]))
 			{
-				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $pluginParams->get('search_string')));
-				//die(str_replace("[search]", $username, $pluginParams->get('search_string')));
-				$ldap_email = $pluginParams->get('ldap_email');
-				$ldap_fullname = $pluginParams->get('ldap_fullname');
+				$result->email = $userdetails[0][$ldap_email][0];
 
-				if (isset($userdetails[0][$ldap_email][0]))
-				{
-					$result->type = 'autocreate';
-					$result->email = $userdetails[0][$ldap_email][0];
-
-					if(isset($userdetails[0][$ldap_fullname][0])) {
-						$result->fullname = $userdetails[0][$ldap_fullname][0];
-					} else {
-						$result->fullname = $username;
-					}
-
-					$result->autocreate = 1;		// May change the handling of this in the future
-				}
-				else
-				{
-				    $result->type = 'failure';
-				    $result->error_message = 'Unable to map email!';
+				if(isset($userdetails[0][$ldap_fullname][0])) {
+					$result->fullname = $userdetails[0][$ldap_fullname][0];
+				} else {
+					$result->fullname = $username;
 				}
 			}
 		}

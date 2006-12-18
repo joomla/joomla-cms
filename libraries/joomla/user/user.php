@@ -76,8 +76,7 @@ class JUser extends JObject
 		$this->_params = new JParameter( '' );
 
 		// Load the user if it exists
-		if (!empty($identifier))
-		{
+		if (!empty($identifier)) {
 			$this->_load($identifier);
 		}
 	}
@@ -386,8 +385,7 @@ class JUser extends JObject
 		$this->_params->loadINI($this->_table->params);
 
 		// If the table user id is set, lets set the id for the JUser object.
-		if ($this->get( 'id' ))
-		{
+		if ($this->get( 'id' )) {
 			$this->_id = $this->get( 'id' );
 		}
 
@@ -410,7 +408,8 @@ class JUser extends JObject
 		 * don't ya think?
 		 */
 		$me = & JFactory::getUser();
-
+		
+		
 		/*
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
@@ -420,7 +419,7 @@ class JUser extends JObject
 			$this->_setError("JUser::save: ".$this->_table->getError());
 			return false;
 		}
-
+		
 		// if user is made a Super Admin group and user is NOT a Super Admin
 		if ( $this->get('gid') == 25 && $me->get('gid') != 25 )
 		{
@@ -442,8 +441,7 @@ class JUser extends JObject
 		 * the JUserModel ... if a fail condition exists throw a warning
 		 */
 		$result = false;
-		if (!$result = $this->_table->store())
-		{
+		if (!$result = $this->_table->store()) {
 			$this->_setError("JUser::save: ".$this->_table->getError());
 		}
 
@@ -452,8 +450,7 @@ class JUser extends JObject
 		 * might happen if we just inserted a new user... and need to update
 		 * this objects id value with the inserted id.
 		 */
-		if (empty($this->_id))
-		{
+		if (empty($this->_id)) {
 			$this->_id = $this->get( 'id' );
 		}
 

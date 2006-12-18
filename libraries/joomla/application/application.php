@@ -325,16 +325,16 @@ class JApplication extends JObject
 
 		// Get the global JAuthenticate object
 		jimport( 'joomla.user.authenticate');
-		$auth = & JAuthenticate::getInstance();
-		$authenticated = $auth->authenticate($credentials);
+		$authenticate = & JAuthenticate::getInstance();
+		$response     = $authenticate->authenticate($username, $password);
 
-		if ($authenticated !== false)
+		if (is_a($response, 'JAuthenticateResponse'))
 		{
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
-			$results = $this->triggerEvent('onLogin', array($credentials, $remember));
+			$results = $this->triggerEvent('onLoginUser', array((array)$response, $remember));
 
 			/*
 			 * If any of the user plugins did not successfully
@@ -375,7 +375,7 @@ class JApplication extends JObject
 		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $this->triggerEvent('onLogout', array($parameters));
+		$results = $this->triggerEvent('onLogoutUser', array($parameters));
 
 		/*
 		 * If any of the authentication plugins did not successfully complete
@@ -570,10 +570,13 @@ class JApplication extends JObject
 		$storage = & JTable::getInstance('session');
 		$storage->purge( intval( $this->getCfg( 'lifetime' ) * 60) );
 
-		if ($storage->load( $session->getId() )) {
+		if ($storage->load( $session->getId() )) 
+		{
 			// Session cookie exists, update time in session table
 			$storage->update();
-		} else {
+		} 
+		else 
+		{
 			//create persistance store in the session
 			$session->set('registry', new JRegistry('session'));
 

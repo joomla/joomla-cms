@@ -21,31 +21,95 @@
  */
 class JTableUser extends JTable
 {
-	/** @var int Unique id*/
+	/** 
+	 * Unique id
+	 * 
+	 * @var int 
+	 */
 	var $id				= null;
-	/** @var string The users real name (or nickname)*/
+	
+	/** 
+	 * The users real name (or nickname)
+	 * 
+	 * @var string 
+	 */
 	var $name			= null;
-	/** @var string The login name*/
+	
+	/** 
+	 * The login name
+	 * 
+	 * @var string 
+	 */
 	var $username		= null;
-	/** @var string email*/
+	
+	/** 
+	 * The email
+	 * 
+	 * @var string 
+	 */
 	var $email			= null;
-	/** @var string MD5 encrypted password*/
+	
+	/** 
+	 * MD5 encrypted password
+	 * 
+	 * @var string 
+	 */
 	var $password		= null;
-	/** @var string */
+	
+	/** 
+	 * Description
+	 * 
+	 * @var string 
+	 */
 	var $usertype		= null;
-	/** @var int */
+	
+	/** 
+	 * Description
+	 * 
+	 * @var int 
+	 */
 	var $block			= null;
-	/** @var int */
+	
+	/** 
+	 * Description
+	 * 
+	 * @var int 
+	 */
 	var $sendEmail		= null;
-	/** @var int The group id number */
+	
+	/** 
+	 * The group id number 
+	 * 
+	 * @var int 
+	 */
 	var $gid			= null;
-	/** @var datetime */
+	
+	/** 
+	 * Description
+	 * 
+	 * @var datetime 
+	 */
 	var $registerDate	= null;
-	/** @var datetime */
+	
+	/** 
+	 * Description
+	 * 
+	 * @var datetime 
+	 */
 	var $lastvisitDate	= null;
-	/** @var string activation hash*/
+	
+	/** 
+	 * Description
+	 * 
+	 * @var string activation hash
+	 */
 	var $activation		= null;
-	/** @var string */
+	
+	/** 
+	 * Description
+	 * 
+	 * @var string 
+	 */
 	var $params			= null;
 
 	/**
@@ -71,22 +135,23 @@ class JTableUser extends JTable
 			$this->_error = JText::_( 'Please enter your name.' );
 			return false;
 		}
-
+		
 		if (trim( $this->username ) == '') {
 			$this->_error = JText::_( 'Please enter a user name.');
 			return false;
 		}
 
+		
 		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || JString::strlen( $this->username ) < 3) {
 			$this->_error = sprintf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 2 );
 			return false;
 		}
-
+	
 		if ((trim($this->email == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
 			$this->_error = JText::_( 'WARNREG_MAIL' );
 			return false;
 		}
-
+		
 		// check for existing username
 		$query = "SELECT id"
 		. "\n FROM #__users "

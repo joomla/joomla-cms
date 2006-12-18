@@ -13,6 +13,21 @@
 */
 
 /**
+ * This is the status code returned when the authentication is success.
+ */
+define('JAUTHENTICATE_STATUS_SUCCESS', 1);
+
+/**
+ * Status to indicate cancellation of authentication.
+ */
+define('JAUTHENTICATE_STATUS_CANCEL', 2);
+
+/**
+ * This is the status code returned when the authentication failed
+ */
+define('JAUTHENTICATE_STATUS_FAILURE', 4);
+
+/**
  * Authorization class, provides an interface for the Joomla authentication system
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
@@ -76,11 +91,12 @@ class JAuthenticate extends JObject
 	 * objects to run their respective authentication routines.
 	 *
 	 * @access public
-	 * @param array $credentials  The credentials to authenticate.
+	 * @param string 	The username.
+	 * @param string 	The password.
 	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
 	 * @since 1.5
 	 */
-	function authenticate($credentials)
+	function authenticate($username, $password)
 	{
 		// Initialize variables
 		$auth = false;
@@ -89,56 +105,43 @@ class JAuthenticate extends JObject
 		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Time to authenticate the credentials.  Lets fire the auth event
-		$results = $dispatcher->trigger( 'onAuthenticate', $credentials);
-
+		$results = $dispatcher->trigger( 'onAuthenticate', array($username, $password));
+		
 		/*
 		 * Check each of the results to see if a valid user ID was returned. and use the
-		 * furst ID to log into the system.
+		 * first ID to log into the system.
+		 
 		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
 		 * and handled appropriately.
 		 */
 		foreach($results as $result)
 		{
-			switch($result->type) 
+			switch($result->status) 
 			{
-				case 'success':
+				case JAUTHENTICATE_STATUS_SUCCESS :
 				{
-					if(JUserHelper::getUserId( $credentials['username'] )) {
-						// Whilst a plugin may validate the login, it might not actually exist
-						return true;
-					} else {
-						// Authentication failed
-						$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
-						return false;
+					if(empty($result->username)) {
+						$result->username = $username;
 					}
+					
+					if(empty($result->fullname)) {
+						$result->fullname = $username;
+					}
+					
+					//TODO :: this needs to be changed, should only return at the end
+					return $result;
+					
 				}	break;
 					
-				case 'autocreate':
+				case JAUTHENTICATE_STATUS_CANCEL :
 				{
-					// We need to create the user if they don't exist
-					if(intval(JUserHelper::getUserId($credentials['username']))) { return true; }
-					
-					$user = new JUser();
-					$user->set( 'id', 0 );
-					$user->set( 'name', $result->fullname );
-					$user->set( 'username', $credentials['username'] );
-					$user->set( 'gid', $result->gid );
-					$user->set( 'usertype', $result->usertype );
-					$user->set( 'email', $result->email );	// Result should contain an email
-					
-					if($user->save()) {
-						return true;
-					} else {
-						// Authentication failed
-						$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
-						return false;
-					}
-				}	break;
+					// do nothing
+				} break;
 				
-				default:
-					// Authentication failed
-					$results = $dispatcher->trigger( 'onAuthenticateFailure', $credentials, $result);
-					break;
+				case JAUTHENTICATE_STATUS_FAILURE :
+				{
+					//do nothing
+				}	break;
 			}
 		}
 
@@ -445,19 +448,20 @@ class JAuthenticateHelper
 class JAuthenticateResponse extends JObject
 {
 	/** 
-	 * Response Type (success, failure, critical_failure, error, critical_error,autocreate)
-	 * 
-	 * @var type string  
-	 * @access public
-	 */
-	var $type 			= null;
-	/** 
-	 * Name of Response
+	 * User type (refers to the authentication method used)
 	 * 
 	 * @var name string
 	 * @access public
 	 */
-	var $name 			= '';
+	var $type	= '';
+	
+	/** 
+	 * Response status (see status codes)
+	 * 
+	 * @var type string  
+	 * @access public
+	 */
+	var $status 		= 4;
 	
 	/** 
 	 *  The error message
@@ -468,15 +472,23 @@ class JAuthenticateResponse extends JObject
 	var $error_message 	= '';
 	
 	/** 
-	 * Flag to autocreate a user
+	 * Any UTF-8 string that the End User wants to use as a username.
 	 * 
-	 * @var autocreate int  
+	 * @var fullname string 
 	 * @access public
 	 */
-	var $autocreate		= 0;
-
+	var $username 		= '';
+	
 	/** 
-	 * The fullname of the user (JUser->name)
+	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
+	 * 
+	 * @var email string  
+	 * @access public
+	 */
+	var $email			= '';
+	
+	/** 
+	 * UTF-8 string free text representation of the End User's full name.
 	 * 
 	 * @var fullname string 
 	 * @access public
@@ -484,37 +496,67 @@ class JAuthenticateResponse extends JObject
 	var $fullname 		= '';
 	
 	/** 
-	 * The group id to use (default should be fine for most uses)
+	 * The End User's date of birth as YYYY-MM-DD. Any values whose representation uses 
+	 * fewer than the specified number of digits should be zero-padded. The length of this 
+	 * value MUST always be 10. If the End User user does not want to reveal any particular 
+	 * component of this value, it MUST be set to zero.
 	 * 
-	 * @var gid int  
-	 * @access public 
-	 */
-	var $gid 			= 18;
-	
-	/** 
-	 * The usertype to use (default should be fine for most uses)
+	 * For instance, if a End User wants to specify that his date of birth is in 1980, but 
+	 * not the month or day, the value returned SHALL be "1980-00-00".
 	 * 
-	 * @var usertype string  
+	 * @var fullname string 
 	 * @access public
 	 */
-	var $usertype 		= 'Registered';
+	var $birthdate	 	= '';
 	
 	/** 
-	 * The email to use
+	 * The End User's gender, "M" for male, "F" for female.
 	 * 
-	 * @var email string  
+	 * @var fullname string 
 	 * @access public
 	 */
-	var $email			= '';
-
+	var $gender 		= '';
+	
+	/** 
+	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
+	 * 
+	 * @var fullname string 
+	 * @access public
+	 */
+	var $postcode 		= '';
+	
+	/** 
+	 * The End User's country of residence as specified by ISO3166.
+	 * 
+	 * @var fullname string 
+	 * @access public
+	 */
+	var $country 		= '';
+	
+	/** 
+	 * End User's preferred language as specified by ISO639.
+	 * 
+	 * @var fullname string 
+	 * @access public
+	 */
+	var $language 		= '';
+	
+	/** 
+	 * ASCII string from TimeZone database  
+	 * 
+	 * @var fullname string 
+	 * @access public
+	 */
+	var $timezone 		= '';
+	
 	/**
 	 * Constructor
 	 *
-	 * @param string $name The name of the response
+	 * @param string $name The type of the response
 	 * @since 1.5
 	 */
-	function __construct($name) {
-		$this->name = $name;
+	function __construct($type) {
+		$this->type = $type;
 	}
 }
 ?>
