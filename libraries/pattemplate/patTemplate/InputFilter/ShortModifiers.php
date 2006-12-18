@@ -81,12 +81,16 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	{
 		if ($this->getParam('copyVars') === true) {
 			$newName = $matches[2] . '_' . $matches[3];
+			if (isset( $matches[4] )) {
+				$newName .= $matches[4];
+			}
 			$replace = $matches[1] . '<' . $this->_ns . ':var copyFrom="' . $matches[2] . '" name="' . $newName . '" modifier="' . $matches[3] . '"';
 		} else {
 			$replace = $matches[1] . '<' . $this->_ns . ':var name="' . $matches[2] . '" modifier="' . $matches[3] . '"';
 		}
 
-		for ($i = 4; $i < count($matches) - 1; $i++ ) {
+		$n = count($matches) - 1;
+		for ($i = 4; $i < $n; $i++ ) {
 			$replace .= ' ' . $matches[++$i] . '="' . $matches[++$i] . '"';
 		}
 		$replace .= '/>';

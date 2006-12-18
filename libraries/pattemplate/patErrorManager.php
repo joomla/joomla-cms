@@ -205,7 +205,17 @@ class patErrorManager
 		$handling	=	patErrorManager::getErrorHandling( $level );
 
 		$function	=	'handleError' . ucfirst( $handling['mode'] );
-		return patErrorManager::$function( $error, $handling );
+		if (is_callable( array( 'patErrorManager', $function ) )) {
+			return patErrorManager::$function( $error, $handling );
+		} else {
+			// This is required to prevent a very unhelpful white-screen-of-death
+			die(
+				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
+				' Contact a developer to debug' .
+				'<br/><strong>Error was</strong> ' .
+				'<br/>' . $error->getMessage()
+			);
+		}
     }
 
    /**
