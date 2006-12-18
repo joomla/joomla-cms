@@ -15,12 +15,6 @@
 jimport('joomla.application.plugin.helper');
 
 /**
- * Attach the plugin to the event dispatcher
- */
-$dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new JUserExample($dispatcher));
-
-/**
  * Example User Plugin
  *
  * @author		Louis Landry <louis.landry@joomla.org>
@@ -46,6 +40,7 @@ class JUserExample extends JPlugin {
 
 	/**
 	 * Example store user method
+	 *
 	 * Method is called before user data is stored in the database
 	 *
 	 * @param 	array	  	holds the user data
@@ -59,6 +54,7 @@ class JUserExample extends JPlugin {
 
 	/**
 	 * Example store user method
+	 *
 	 * Method is called after user data is stored in the database
 	 *
 	 * @param 	array	  	holds the user data
@@ -94,6 +90,7 @@ class JUserExample extends JPlugin {
 	 * Example store user method
 	 *
 	 * Method is called before user data is deleted from the database
+	 *
 	 * @param 	array	  	holds the user data
 	 */
 	function onBeforeDeleteUser($user)
@@ -104,7 +101,9 @@ class JUserExample extends JPlugin {
 
 	/**
 	 * Example store user method
+	 *
 	 * Method is called after user data is deleted from the database
+	 *
 	 * @param 	array	  	holds the user data
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
@@ -126,12 +125,11 @@ class JUserExample extends JPlugin {
 	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access	public
-	 * @param	string	$username	Username for authentication
-	 * @param	string	$password	Password for authentication
+	 * @param 	array	holds the user data
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLogin(& $credentials)
+	function onLogin($user)
 	{
 		// Initialize variables
 		$success = false;
@@ -147,7 +145,7 @@ class JUserExample extends JPlugin {
 		 * if the login routine succeeds
 		 */
 
-		 //ThirdPartyApp::loginUser($username, $password);
+		 //ThirdPartyApp::loginUser($user['username'], $user['password']);
 
 		return $success;
 	}
@@ -156,11 +154,11 @@ class JUserExample extends JPlugin {
 	 * This method should handle any logout logic and report back to the subject
 	 *
 	 * @access public
-	 * @param array Authentication credentials
+	 * @param  array	  holds the user data
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function onLogout(& $credentials)
+	function onLogout($user)
 	{
 		// Initialize variables
 		$success = false;
@@ -172,9 +170,15 @@ class JUserExample extends JPlugin {
 		 * if the logout routine succeeds
 		 */
 
-		 // ThirdPartyApp::logoutUser($user->username, $user->password);
+		  //ThirdPartyApp::loginUser($user['username'], $user['password']);
 
 		return $success;
 	}
 }
+
+/**
+ * Attach the plugin to the event dispatcher
+ */
+$dispatcher =& JEventDispatcher::getInstance();
+$dispatcher->attach(new JUserExample($dispatcher));
 ?>

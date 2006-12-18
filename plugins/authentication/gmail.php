@@ -15,15 +15,15 @@
 jimport('joomla.application.plugin.helper');
 
 /**
- * GMail JAuthenticate Plugin
+ * GMail Authenticate Plugin
  *
  * @author Samuel Moffatt <pasamio@gmail.com>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.5
  */
-class JAuthenticateGMail extends JPlugin {
-
+class JAuthenticateGMail extends JPlugin
+{
 	/**
 	 * Constructor
 	 *
@@ -76,7 +76,9 @@ class JAuthenticateGMail extends JPlugin {
 		$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
 		$message = '';
 		$success = 0;
-		switch($code) {
+
+		switch($code)
+		{
 			case 200:
          		$message = 'Access Granted';
          		$success = 1;
@@ -89,13 +91,17 @@ class JAuthenticateGMail extends JPlugin {
 
 				break;
 		}
-		if ($success) {
-			$return->type = 'autocreate';		// Autocreate is the default, the system will create as needed
-			$return->autocreate = 1;
-			$return->email = $username;
-			$return->fullname = $username;
-		} else {
-			$return->type = 'failure';
+
+		if ($success)
+		{
+			$return->autocreate  = 1;
+			$return->type 		= 'autocreate';		// Autocreate is the default, the system will create as needed
+			$return->email 		= $username;
+			$return->fullname 	= $username;
+		}
+		else
+		{
+			$return->type 		  = 'failure';
 			$return->error_message = 'Failed to authenticate: ' . $message;
 		}
 		return $return;

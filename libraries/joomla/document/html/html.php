@@ -315,6 +315,7 @@ class JDocumentHTML extends JDocument
 				$replace[$i] = $this->getBuffer($type, $name, array_merge($attribs, $params));
 			}
 
+			//would this work with an associative array ??? -> could solve debug data issues using system onbeforedisplay
 			$data = str_replace($matches[0], $replace, $data);
 		}
 

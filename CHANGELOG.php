@@ -39,6 +39,8 @@ Legend:
 
 17-Dec-2006 Johan Janssens
  + Added PHP OpenID library to the framework
+ + Added Joomla! User plugin, moved login, logout and sessions cleaning into this plugin
+ ! Changes require a reinstall
 
 17-Dec-2006 Rastin Mehr
  # Fixed [6555] - Make unwritable after saving does not work
@@ -67,7 +69,6 @@ Legend:
  ! LDAP: Tested all features successfully against a Novell eDirectory LDAP server
  # Fixed problem where session table was being ignored (could not end a users session via user manager)
  # Fixed problem where user deletion didn't destroy sessions (see next)
- + Added Session Cleaner Plugin, activated on user deletion
  + Added JUserHelper::getUserName($uid)
  # Added joomla.i18n.language to joomla.utilies.error to ensure JText is available
 

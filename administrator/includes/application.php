@@ -71,13 +71,13 @@ class JAdministrator extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-	
+
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
-		
+
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
-		
+
 		if($component == 'com_login') {
 			$file = 'login';
 		}
@@ -99,12 +99,13 @@ class JAdministrator extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username=null, $password=null)
+	function login($username=null, $password=null, $remember = false)
 	{
-		$username = trim( JRequest::getVar( 'username', '', 'post' ) );
-		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
+		$username = trim( JRequest::getVar( 'username', $username, 'post' ) );
+		$password = trim( JRequest::getVar( 'passwd', $password, 'post' ) );
+		$remember = JRequest::getVar( 'remember', $remember, 'post' );
 
-		$result = parent::login($username, $password);
+		$result = parent::login($username, $password, $remember);
 		if(!JError::isError($result))
 		{
 			$lang = JRequest::getVar( 'lang' );
@@ -396,17 +397,17 @@ class JAdministratorHelper
 	function findOption()
 	{
 		$option = strtolower(JRequest::getVar('option', null));
-		
+
 		$session =& JFactory::getSession();
 		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
 			$option = 'com_login';
 		}
-		
-		if(empty($option)) {	
+
+		if(empty($option)) {
 			$option = 'com_cpanel';
 
 		}
-		
+
 		return JRequest::setVar('option', $option);
 	}
 }

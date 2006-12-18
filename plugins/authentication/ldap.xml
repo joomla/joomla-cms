@@ -3,7 +3,7 @@
 	<name>Authentication - LDAP</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2006 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -43,7 +43,7 @@
 		<param name="autocreate" type="radio" default="0" label="Auto Create Users" description="PARAMAUTOCREATEUSERS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
-		</param>			
+		</param>
 		<param name="ldap_fullname" type="text" size="20" default="fullName" label="Map FullName" description="PARAMMAPFN" />
 		<param name="ldap_email" type="text" size="20" default="mail" label="Map Email" description="PARAMMAPEMAIL" />
 		<param name="ldap_uid" type="text" size="20" default="uid" label="Map User ID" description="PARAMMAPUID" />

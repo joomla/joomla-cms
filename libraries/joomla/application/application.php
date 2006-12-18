@@ -296,24 +296,22 @@ class JApplication extends JObject
 	 * validation.  Successful validation will update the current session with
 	 * the user details.
 	 *
-	 * @param string The username.
-	 * @param string The password.
-	 * @return boolean True on success.
+	 * @param string 	The username.
+	 * @param string 	The password.
+	 * @param boolean  	True, if the user login needs to be remembered by the application.
+	 * @return boolean 	True on success.
 	 * @access public
 	 * @since 1.5
 	 */
-	function login($username,$password)
+	function login($username, $password, $remember)
 	{
-		if (empty($username))  {
+		/*if (empty($username))  {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_USERNAME'));
 		}
 
 		if(empty($password)) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));
-		}
-
-		// Get the global database connector object
-		$db = JFactory::getDBO();
+		}*/
 
 		// Build the credentials array
 		$credentials['username'] = $username;
@@ -330,69 +328,17 @@ class JApplication extends JObject
 			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
-			$results = $this->triggerEvent( 'onLogin', $credentials );
+			$results = $this->triggerEvent('onLogin', array($credentials, $remember));
 
 			/*
-			 * If any of the authentication plugins did not successfully
+			 * If any of the user plugins did not successfully
 			 * complete the login routine then the whole method fails.  Any
 			 * errors raised should be done in the plugin as this provides the
 			 * ability to provide much more information about why the routine
 			 * may have failed.
 			 */
-			if (!in_array(false, $results, true))
-			{
-				// Get the JUser object for the user to login
-				$user =& JUser::getInstance( $username );
-
-				// If the user is blocked, redirect with an error
-				if ($user->get('block') == 1) {
-					return JError::raiseWarning(
-                        'SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED')
-                    );
-				}
-
-				// Fudge the ACL stuff for now...
-				// TODO: Implement ACL :)
-				jimport('joomla.factory');
-				$acl = &JFactory::getACL();
-				$grp = $acl->getAroGroup($user->get('id'));
-				$row->gid = 1;
-
-				// ToDO: Add simple mapping based on the group table to allow positive references between content and user groups
-				if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO')
-                    || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
-					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-					$user->set('gid', 2);
-				}
-				$user->set('usertype', $grp->name);
-
-				// Register the needed session variables
-				$session =& JFactory::getSession();
-				$session->set('session.user.id', $user->get('id'));
-
-				// Get the session object
-				$table = & JTable::getInstance('session');
-				$table->load( $session->getId() );
-
-				$table->guest 		= 0;
-				$table->username 	= $user->get('username');
-				$table->userid 		= intval($user->get('id'));
-				$table->usertype 	= $user->get('usertype');
-				$table->gid 		= intval($user->get('gid'));
-
-				$table->update();
-
-				// Hit the user last visit field
-				$user->setLastVisit();
-
-				// Set remember me option
-				$remember = JRequest::getVar( 'remember' ); //needs to be a paramater
-				if ($remember == 'yes') {
-					$lifetime = time() + 365*24*60*60;
-					setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );
-					setcookie( 'usercookie[password]', $user->get('password'), $lifetime, '/' );
-				}
-
+			//TODO :: need to handle error reporting here
+			if (!in_array(false, $results, true)) {
 				return true;
 			}
 		}
@@ -415,14 +361,14 @@ class JApplication extends JObject
 		$user = JFactory::getUser();
 
 		// Build the credentials array
-		$credentials['username'] 	= $user->get('username');
-		$credentials['id'] 			= $user->get('id');
+		$parameters['username'] = $user->get('username');
+		$parameters['id'] 	   = $user->get('id');
 
 		// Import the user plugin group
 		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $this->triggerEvent( 'onLogout', $credentials );
+		$results = $this->triggerEvent('onLogout', array($parameters));
 
 		/*
 		 * If any of the authentication plugins did not successfully complete
@@ -430,18 +376,7 @@ class JApplication extends JObject
 		 * should be done in the plugin as this provides the ability to provide
 		 * much more information about why the routine may have failed.
 		 */
-		if (!in_array(false, $results, true))
-		{
-			$session =& JFactory::getSession();
-
-			// Remove the session from the session table
-			$table = & JTable::getInstance('session');
-			$table->load( $session->getId());
-			$table->destroy();
-
-			// Destroy the php session for this user
-			$session->destroy();
-
+		if (!in_array(false, $results, true)) {
 			$retval = true;
 		}
 
@@ -544,7 +479,7 @@ class JApplication extends JObject
 	function &_createPathWay()
 	{
 		global $option, $Itemid;
-		
+
 		//Load the pathway object
 		jimport( 'joomla.application.pathway' );
 
@@ -861,7 +796,7 @@ class JApplication extends JObject
 		$user =& JFactory::getUser();
 		return $user;
 	}
-	
+
 	/**
 	 * Deprecated, use JContentHelper::getItemid instead.
 	 * @since 1.5

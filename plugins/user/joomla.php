@@ -1,0 +1,159 @@
+<?php
+/**
+* @version $Id: example.php 5979 2006-12-11 22:13:41Z hackwar $
+* @package Joomla
+* @subpackage JFramework
+* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @license GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+jimport('joomla.application.plugin.helper');
+
+/**
+ * Joomla User plugin
+ *
+ * @author		Johan Janssens  <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @since 		1.5
+ */
+class JUserJoomla extends JPlugin
+{
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @since 1.5
+	 */
+	function JUserJoomla(& $subject) {
+		parent::__construct($subject);
+	}
+
+	/**
+	 * Remove all sessions for the user name
+	 *
+	 * Method is called before user data is deleted from the database
+	 *
+	 * @param 	array	  	holds the user data
+	 */
+	function onBeforeDeleteUser($user)
+	{
+		global $mainframe;
+
+		$db = JFactory::getDBO();
+		if($user = JUser::getInstance( $user['id'] )) {
+			$username = $user->get('username');
+		} else {
+			// This should never happen?!?
+			return false;
+		}
+		$db->setQuery('DELETE FROM #__session WHERE username = "'.$username.'"');
+		$db->Query();
+
+
+		//Make sure
+		mysql_select_db($mainframe->getCfg('db'));
+
+	}
+
+	/**
+	 * This method should handle any login logic and report back to the subject
+	 *
+	 * @access	public
+	 * @param 	array	holds the user data
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function onLogin($user, $remember)
+	{
+		// Get the JUser object for the user to login
+		$user =& JUser::getInstance( $user['username'] );
+
+		// If the user is blocked, redirect with an error
+		if ($user->get('block') == 1) {
+			return JError::raiseWarning(
+             	'SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED')
+            	);
+		}
+
+		// Fudge the ACL stuff for now...
+		// TODO: Implement ACL :)
+		jimport('joomla.factory');
+		$acl = &JFactory::getACL();
+		$grp = $acl->getAroGroup($user->get('id'));
+		$row->gid = 1;
+
+		// ToDO: Add simple mapping based on the group table to allow positive references between content and user groups
+		if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
+				// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
+				$user->set('gid', 2);
+		}
+		$user->set('usertype', $grp->name);
+
+		// Register the needed session variables
+		$session =& JFactory::getSession();
+		$session->set('session.user.id', $user->get('id'));
+
+		// Get the session object
+		$table = & JTable::getInstance('session');
+		$table->load( $session->getId() );
+
+		$table->guest 		= 0;
+		$table->username 	= $user->get('username');
+		$table->userid 		= intval($user->get('id'));
+		$table->usertype 	= $user->get('usertype');
+		$table->gid 			= intval($user->get('gid'));
+
+		$table->update();
+
+		// Hit the user last visit field
+		$user->setLastVisit();
+
+		// Set remember me option
+		if ($remember == 'yes')
+		{
+			$lifetime = time() + 365*24*60*60;
+			setcookie( 'usercookie[username]', $user->get('username'), $lifetime, '/' );
+			setcookie( 'usercookie[password]', $user->get('password'), $lifetime, '/' );
+		}
+
+		return true;
+	}
+
+	/**
+	 * This method should handle any logout logic and report back to the subject
+	 *
+	 * @access public
+	* @param   array	  holds the user data
+	 * @return boolean True on success
+	 * @since 1.5
+	 */
+	function onLogout($user)
+	{
+		$session =& JFactory::getSession();
+
+		// Remove the session from the session table
+		$table = & JTable::getInstance('session');
+		$table->load( $session->getId());
+		$table->destroy();
+
+		// Destroy the php session for this user
+		$session->destroy();
+	}
+}
+
+/**
+ * Attach the plugin to the event dispatcher
+ */
+$dispatcher =& JEventDispatcher::getInstance();
+$dispatcher->attach(new JUserJoomla($dispatcher));
+?>

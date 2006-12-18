@@ -233,8 +233,9 @@ class JSession extends JObject
 
 		session_cache_limiter('none');
 		session_start();
-		
+
 		// Check to see if the user id is already set
+		// TODO :: this needs to be moved somewehere
 		if(($userid = $this->get('session.user.id'))) {
 			// And if they have a valid session entry in the table
 			$db = JFactory::getDBO();
@@ -579,7 +580,7 @@ class JSession extends JObject
 				$this->_state = 'error';
 				return false;
 			}
-			
+
 		}
 
 		// save new token

@@ -60,15 +60,15 @@ class JSite extends JApplication
 	{
 		// Build the application pathway
 		$this->_createPathWay();
-		
+
 		$document =& JFactory::getDocument();
-		
+
 		switch($document->getType())
 		{
 			case 'html':
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-				
+
 				$user =& JFactory::getUser();
 				if ( $user->get('id') ) {
 					$document->addScript( 'includes/js/joomla/common.js');
@@ -82,18 +82,18 @@ class JSite extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-		
+
 		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
 		$document->setBuffer( $contents, 'component');
-		
+
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
-		
-		
+
+
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 			$file = 'offline';
 		}
-		
+
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
@@ -111,14 +111,13 @@ class JSite extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username=null, $password=null, $return=null)
+	function login($username=null, $password=null, $remember=null)
 	{
-		if(!$username || !$password) {
-			$username = trim( JRequest::getVar( 'username', '', 'post' ) );
-			$password = trim( JRequest::getVar( 'passwd', '', 'post' ) );
-		}
+		$username = trim( JRequest::getVar( 'username', $username, 'post' ) );
+		$password = trim( JRequest::getVar( 'passwd', $password, 'post' ) );
+		$remember = JRequest::getVar( 'remember', $remember, 'post' );
 
-		return parent::login($username, $password);
+		return parent::login($username, $password, $remember);
 	}
 
 	/**
@@ -293,7 +292,7 @@ class JSite extends JApplication
 	*/
 	function _display($component, $template, $file)
 	{
-		
+
 	}
 }
 

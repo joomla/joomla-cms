@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="user">
-	<name>User - Session Cleaner</name>
+	<name>User - Joomla!</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2006 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0</version>
-	<description>Cleans out the session table when a user is deleted to ensure all sessions are terminated.</description>
+	<version>1.5</version>
+	<description>Handles Joomla's default user synchronisation</description>
 	<files>
-		<filename plugin="sessioncleaner">sessioncleaner.php</filename>
+		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<params/>
 </install>

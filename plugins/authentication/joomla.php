@@ -16,14 +16,15 @@ jimport('joomla.application.plugin.helper');
 
 
 /**
- * Joomla Core JAuthenticate plugin
+ * Joomla Authenticate plugin
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.5
  */
-class JAuthenticateJoomla extends JPlugin {
+class JAuthenticateJoomla extends JPlugin
+{
 
 	/**
 	 * Constructor
@@ -72,9 +73,13 @@ class JAuthenticateJoomla extends JPlugin {
 		$db->setQuery( $query );
 		$result = $db->loadResult();
 		$return = new JAuthenticateResponse('Joomla');
-		if($result) {
+
+		if($result)
+		{
 			$return->type = 'success';
-		} else {
+		}
+		else
+		{
 			$return->type = 'error';
 			$return->error_message = 'Invalid response from database';
 		}

@@ -16,7 +16,7 @@ jimport('joomla.application.plugin.helper');
 
 
 /**
- * Example JAuthenticate Plugin
+ * Example Authenticate Plugin
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @package Joomla
