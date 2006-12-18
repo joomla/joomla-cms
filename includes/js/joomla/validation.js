@@ -1,5 +1,5 @@
 /**
-* @version $Id: validate.js 1431 2006-09-14 10:18:10Z louis $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
