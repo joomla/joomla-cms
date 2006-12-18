@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Dec-2006 Rastin Mehr
+ # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)
+
 17-Dec-2006 Johan Janssens
  + Added PHP OpenID library to the framework
  + Added Joomla! User plugin, moved login, logout and sessions cleaning into this plugin

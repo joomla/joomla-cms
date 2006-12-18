@@ -90,7 +90,7 @@ class NewsfeedsViewCategory extends JView
 		}
 
 		// Define image tag attributes
-		if (isset ($category->image))
+		if (!empty ($category->image))
 		{
 			$attribs['align'] = '"'.$category->image_position.'"';
 			$attribs['hspace'] = '"6"';
