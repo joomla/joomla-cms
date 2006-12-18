@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: ldap.php 2034 2006-01-28 20:45:57Z webImagery $
+* @version $Id$
 * @package Joomla
 * @subpackage JFramework
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
