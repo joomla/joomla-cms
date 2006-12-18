@@ -103,6 +103,8 @@ class mosMainFrame extends JApplication
 	/**
 	* Deprecated, use JDocument->setTitle instead or override in your application class
 	* @since 1.5
+	* @deprecated As of version 1.5
+	* @see JDocument::setTitle()
 	*/
 	function setPageTitle( $title=null ) {
 		$document=& JFactory::getDocument();
@@ -112,6 +114,8 @@ class mosMainFrame extends JApplication
 	/**
 	* Deprecated, use JDocument->getTitle instead or override in your application class
 	* @since 1.5
+	* @deprecated As of version 1.5
+	* @see JDocument::getTitle()
 	*/
 	function getPageTitle() {
 		$document=& JFactory::getDocument();
@@ -142,6 +146,7 @@ class mosDBTable extends JTable
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -150,14 +155,17 @@ class mosDBTable extends JTable
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
 	}
 
 	/**
-	 * Legacy Method, make sure u use JRequest::get or JRequest::getVar
+	 * Legacy Method, make sure you use JRequest::get or JRequest::getVar
 	 * @deprecated As of 1.5
+	 * @see JRequest::get()
+	 * @see JRequest::getVar()
 	 */
 	function filter( $ignoreList=null )
 	{
@@ -199,6 +207,7 @@ class mosCategory extends JTableCategory
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -207,6 +216,7 @@ class mosCategory extends JTableCategory
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -236,6 +246,7 @@ class mosComponent extends JTableComponent
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -244,6 +255,7 @@ class mosComponent extends JTableComponent
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -273,6 +285,7 @@ class mosContent extends JTableContent
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -281,6 +294,7 @@ class mosContent extends JTableContent
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -310,6 +324,7 @@ class mosMambot extends JTablePlugin
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -318,6 +333,7 @@ class mosMambot extends JTablePlugin
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -347,6 +363,7 @@ class mosMenu extends JTableMenu
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -355,6 +372,7 @@ class mosMenu extends JTableMenu
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -384,6 +402,7 @@ class mosModule extends JTableModule
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -392,6 +411,7 @@ class mosModule extends JTableModule
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -421,6 +441,7 @@ class mosSection extends JTableSection
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -429,6 +450,7 @@ class mosSection extends JTableSection
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -488,6 +510,7 @@ class mosSession extends JTableSession
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -496,6 +519,7 @@ class mosSession extends JTableSession
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -525,6 +549,7 @@ class mosUser extends JTableUser
 	/**
 	 * Legacy Method, use reorder() instead
 	 * @deprecated As of 1.5
+	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
@@ -533,6 +558,7 @@ class mosUser extends JTableUser
 	/**
 	 * Legacy Method, use publish() instead
 	 * @deprecated As of 1.0.3
+	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -603,6 +629,7 @@ class database extends JDatabaseMySQL
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
+ * @see JFactory::getCache()
  */
 class mosCache
 {
@@ -661,6 +688,7 @@ class mosParameters extends JParameter
 	 * Legacy function, use JParameter->toObject instead
 	 *
 	 * @deprecated As of version 1.5
+	 * @see JParameter::toObject()
 	 */
 	function toObject() {
 		parent::toObject();
@@ -670,6 +698,7 @@ class mosParameters extends JParameter
 	 * Legacy function, use JParameter->toArray instead
 	 *
 	 * @deprecated As of version 1.5
+	 * @see JParameter::toArray()
 	 */
 	function toArray() {
 		parent::toArray();
@@ -768,6 +797,8 @@ class mosMambotHandler extends JEventDispatcher
 	* Deprecated, use JEventDispatcher->trigger intead and handle return values
 	* in your code
 	* @since 1.5
+	* @deprecated As of 1.5
+	* @see JEventDispatcher::trigger()
 	*/
 	function call($event)
 	{
@@ -802,6 +833,7 @@ class mosEmpty
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
+ * @see JHTML
  */
 class mosHTML
 {
@@ -809,6 +841,7 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::option instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTMLSelect::option()
  	*/
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		return JHTMLSelect::option($value, $text, $value_name, $text_name);
@@ -818,6 +851,7 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::selectList instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTMLSelect::selectList()
  	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
 		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
@@ -827,6 +861,7 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTMLSelect::integerList()
  	*/
 	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )  {
 		return JHTMLSelect::integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
@@ -836,6 +871,7 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTMLSelect::integerList()
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )  {
 		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
@@ -845,6 +881,7 @@ class mosHTML
  	 * Legacy function, JHTMLSelect::integerList instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTMLSelect::integerList()
  	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )  {
 		return JHTMLSelect::yesnoList( $tag_name, $tag_attribs, $selected, $yes, $no, $id ) ;
@@ -957,6 +994,7 @@ class mosHTML
  	 * Legacy function, use JHTML::idBox instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTML::idBox()
  	*/
 	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
 		return JHTML::idBox($rowNum, $recId, $checkedOut, $name);
@@ -1045,6 +1083,7 @@ class mosHTML
  	 * Legacy function, use JOutputFilter::cleanText instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JOutputFilter::cleanText()
  	*/
 	function cleanText ( &$text ) {
 		jimport('joomla.filter.output');
@@ -1099,6 +1138,7 @@ class mosHTML
  	 * Legacy function, use JHTML::emailCloaking instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTML::emailCloaking()
  	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 		return JHTML::emailCloaking($mail, $mailto, $text, $email);
@@ -1108,6 +1148,7 @@ class mosHTML
  	 * Legacy function, use JHTML::keepAlive instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTML::keepAlive()
  	*/
 	function keepAlive() {
 		JHTML::keepAlive();
@@ -1120,6 +1161,7 @@ class mosHTML
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
+ * @see JCommonHTML
  */
 class mosCommonHTML
 {
@@ -1127,6 +1169,7 @@ class mosCommonHTML
  	 * Legacy function, use JHTML::keepAlive instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JHTML::keepAlive()
  	*/
 	function ContentLegend( ) {
 		JCommonHTML::ContentLegend();
@@ -1277,6 +1320,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::checkedOut instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::checkedOut()
  	*/
 	function checkedOut( &$row, $overlib=1 ) {
 		return JCommonHTML::checkedOut($row, $overlib);
@@ -1286,6 +1330,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::loadOverlib instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::loadOverlib()
  	*/
 	function loadOverlib() {
 		JCommonHTML::loadOverlib();
@@ -1295,6 +1340,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::loadCalendar instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::loadCalendar()
  	*/
 	function loadCalendar() {
 		JCommonHTML::loadCalendar();
@@ -1304,6 +1350,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::AccessProcessing instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::AccessProcessing()
  	*/
 	function AccessProcessing( &$row, $i, $archived=NULL ) {
 		return JCommonHTML::AccessProcessing($row, $i, $archived);
@@ -1313,6 +1360,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::CheckedOutProcessing
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::CheckedOutProcessing()
  	*/
 	function CheckedOutProcessing( &$row, $i ) {
 		return JCommonHTML::CheckedOutProcessing($row, $i);
@@ -1322,6 +1370,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::PublishedProcessing instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::PublishedProcessing()
  	*/
 	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
 		return JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
@@ -1331,6 +1380,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::selectState instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::selectState()
  	*/
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
 		return JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
@@ -1340,6 +1390,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::saveorderButton instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::saveorderButton()
  	*/
 	function saveorderButton( $rows, $image='filesave.png' ) {
 		JCommonHTML::saveorderButton($rows, $image);
@@ -1349,6 +1400,7 @@ class mosCommonHTML
  	 * Legacy function, use JCommonHTML::tableOrdering instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JCommonHTML::tableOrdering()
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
 		JCommonHTML::tableOrdering($text, $ordering, $lists, $task);
@@ -1359,9 +1411,10 @@ class mosCommonHTML
  * Utility class for drawing admin menu HTML elements
  *
  * @static
- * @package 	Joomla.Framework
- * @subpackage	HTML
- * @since		1.0
+ * @package 	Joomla.Legacy
+ * @subpackage	1.5
+ * @since	1.0
+ * @deprecated	As of version 1.5
  */
 class mosAdminMenus
 {
@@ -1369,6 +1422,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Ordering instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::Ordering()
  	*/
 	function Ordering( &$row, $id ) {
 		return JAdminMenus::Ordering($row, $id);
@@ -1378,6 +1432,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Access instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::Access()
  	*/
 	function Access( &$row ) {
 		return JAdminMenus::Access($row);
@@ -1397,6 +1452,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::MenuLinks instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::MenuLinks()
  	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		return JAdminMenus::MenuLinks($lookup, $all, $none, $unassigned);
@@ -1513,6 +1569,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Images instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::Images()
  	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		return JAdminMenus::Images($name, $active, $javascript, $directory);
@@ -1522,6 +1579,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::SpecificOrdering instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::SpecificOrdering()
  	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		return JAdminMenus::SpecificOrdering($row, $id, $query, $neworder);
@@ -1531,6 +1589,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::UserSelect instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::UserSelect()
  	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
 		return JAdminMenus::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
@@ -1540,6 +1599,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::Positions instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::Positions()
  	*/
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
 		return JAdminMenus::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
@@ -1549,6 +1609,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::ComponentCategry instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::ComponentCategory()
  	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
 		return JAdminMenus::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
@@ -1558,6 +1619,7 @@ class mosAdminMenus
  	 * Legacy function, use JAdminMenus::SelectSection instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::SelectSection()
  	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		return JAdminMenus::SelectSection($name, $active, $javascript, $order);
@@ -1695,6 +1757,7 @@ class mosAdminMenus
  	 * Legacy function, use ImageCheck instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::ImageCheck()
  	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
 		return JAdminMenus::ImageCheck($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
@@ -1704,6 +1767,7 @@ class mosAdminMenus
  	 * Legacy function, use ImageCheckAdmin instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JAdminMenus::ImageCheckAdmin()
  	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
 		return JAdminMenus::ImageCheckAdmin($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
@@ -1713,6 +1777,7 @@ class mosAdminMenus
  	 * Legacy function, use JMenuHelper::getMenuTypes instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JMenuHelper::getMenuTypes()
  	*/
 	function menutypes() {
 		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
@@ -1722,6 +1787,7 @@ class mosAdminMenus
  	 * Legacy function, use JMenuHelper::menuItem instead
  	 *
  	 * @deprecated	As of version 1.5
+	 * @see JMenuHelper::menuItem()
  	*/
 	function menuItem( $item ) {
 		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );
@@ -1755,6 +1821,7 @@ class MENU_Default
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
+ * @see JPanel
  */
 jimport('joomla.html.pane');
 class mosTabs extends JPaneTabs
@@ -1780,6 +1847,7 @@ class mosTabs extends JPaneTabs
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  * @subpackage	1.5
+ * @see JTemplate::getInstance()
  */
 class patFactory
 {

@@ -58,7 +58,6 @@ class JApplication extends JObject
 	/**
 	* Class constructor.
 	*
-	* @param string 	The URL option passed in.
 	* @param integer	A client identifier.
 	*/
 	function __construct( $clientId = 0 )
@@ -72,8 +71,7 @@ class JApplication extends JObject
 	*
 	* @abstract
 	* @access public
-    * @param mixed Execution options. Typically this is a task or component
-    * name.
+	* @param mixed Execution options. Typically this is a task or component name.
 	*/
 	function execute( $option )
 	{
@@ -83,11 +81,19 @@ class JApplication extends JObject
 	/**
 	 * Redirect to another URL.
 	 *
+	 * Optionally enqueues a message in the system message queue (which will be displayed
+	 * the next time a page is loaded) using the enqueueMessage method. If the headers have
+	 * not been sent the redirect will be accomplished using a "301 Moved Permanently"
+	 * code in the header pointing to the new location. If the headers have already been
+	 * sent this will be accomplished using a JavaScript statement.
+	 *
 	 * @access	public
 	 * @param	string	$url	The URL to redirect to.
 	 * @param	string	$msg	An optional message to display on redirect.
-     * @return  none; calls exit().
+	 * @param	string  $msgType An optional message type.
+	 * @return	none; calls exit().
 	 * @since	1.5
+	 * @see		JApplication::enqueueMessage()
 	 */
 	function redirect( $url, $msg='', $msgType='message' )
 	{
@@ -189,7 +195,7 @@ class JApplication extends JObject
 	 * @access public
 	 * @param string	The name of the value to get.
 	 * @return The user state.
-	 * @example application/japplication-getcfg.php
+	 * @example application/japplication-getcfg.php Getting a configuration value
 	 */
 	function getCfg( $varname )
 	{
@@ -260,7 +266,7 @@ class JApplication extends JObject
 	 * @static
 	 * @param string The event name.
 	 * @param mixed The handler, a function or an instance of a event object.
-     * @return void
+	 * @return void
 	 * @since 1.5
 	 */
 	function registerEvent($event, $handler)
@@ -350,6 +356,7 @@ class JApplication extends JObject
 	*
 	* Passed the current user information to the onLogoutUser event and reverts the current
 	* session record back to 'anonymous' parameters.
+	*
 	* @access public
 	*/
 	function logout()
@@ -461,7 +468,7 @@ class JApplication extends JObject
 	 * Return a reference to the JPathWay object.
 	 *
 	 * @access public
-     * @return object JPathway.
+	 * @return object JPathway.
 	 * @since 1.5
 	 */
 	function &getPathWay()
@@ -473,7 +480,7 @@ class JApplication extends JObject
 	 * Create a JPathWay object and set the home/component items of the pathway.
 	 *
 	 * @access private
-     * @return object JPathway.
+	 * @return object JPathway.
 	 * @since 1.5
 	 */
 	function &_createPathWay()
@@ -625,7 +632,7 @@ class JApplication extends JObject
 	 * Is site interface?
 	 *
 	 * @access	public
-	 * @return	boolean		True of this application is site.
+	 * @return	boolean		True if this application is site.
 	 * @since	1.5
 	 */
 	function isSite()
@@ -634,12 +641,15 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreceated functions
+	 * Deprecated functions
 	 */
 
 	 /**
-	 * Depreceated, use JPathWay->addItem() method instead.
+	 * Deprecated, use JPathWay->addItem() method instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JPathWay::addItem()
 	 */
 	function appendPathWay( $name, $link = null )
 	{
@@ -660,17 +670,24 @@ class JApplication extends JObject
   }
 
 	/**
- 	 * Depreceated, use JPathWay->getPathWayNames() method instead.
- 	 * @since 1.5
- 	 */
+	 * Deprecated, use JPathWay->getPathWayNames() method instead.
+	 *
+	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JPathWay::getPathWayNames()
+	 */
 	function getCustomPathWay()
     {
 		return $this->_pathway->getPathWayNames();
 	}
 
 	/**
-	 * Depreacted, use JDocument->renderHead instead.
+	 * Deprecated, use JDocument->get( 'head' ) instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JDocument
+	 * @see JObject::get()
 	 */
 	function getHead()
     {
@@ -679,8 +696,15 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JDocument->setMetadata instead.
+	 * Deprecated, use JDocument->setMetaData instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @param string Name of the metadata tag
+	 * @param string Content of the metadata tag
+	 * @param string Deprecated, ignored
+	 * @param string Deprecated, ignored
+	 * @see JDocument::setMetaData()
 	 */
 	function addMetaTag( $name, $content, $prepend = '', $append = '' )
     {
@@ -689,8 +713,13 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JDocument->setMetadata instead.
+	 * Deprecated, use JDocument->setMetaData instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+         * @param string Name of the metadata tag
+         * @param string Content of the metadata tag
+	 * @see JDocument::setMetaData()
 	 */
 	function appendMetaTag( $name, $content )
     {
@@ -698,8 +727,13 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JDocument->setMetadata instead
+	 * Deprecated, use JDocument->setMetaData instead
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+         * @param string Name of the metadata tag
+         * @param string Content of the metadata tag
+	 * @see JDocument::setMetaData()
 	 */
 	function prependMetaTag( $name, $content )
     {
@@ -707,8 +741,12 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JDocument->addCustomTag instead. (only when document type is HTML)
+	 * Deprecated, use JDocument->addCustomTag instead (only when document type is HTML).
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @param string Valid HTML
+	 * @see JDocumentHTML::addCustomTag()
 	 */
 	function addCustomHeadTag( $html )
     {
@@ -719,8 +757,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted.
+	 * Deprecated.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
 	 */
 	function getBlogSectionCount( )
     {
@@ -729,8 +769,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted.
+	 * Deprecated.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
 	 */
 	function getBlogCategoryCount( )
     {
@@ -739,8 +781,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted.
+	 * Deprecated.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
 	 */
 	function getGlobalBlogSectionCount( )
     {
@@ -749,8 +793,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted.
+	 * Deprecated.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
 	 */
 	function getStaticContentCount( )
     {
@@ -759,8 +805,10 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted.
+	 * Deprecated.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
 	 */
 	function getContentItemLinkCount( )
     {
@@ -769,8 +817,11 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JApplicationHelper::getPath instead.
+	 * Deprecated, use JApplicationHelper::getPath instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JApplicationHelper::getPath()
 	 */
 	function getPath($varname, $user_option = null)
     {
@@ -779,8 +830,11 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JURI::base() instead.
+	 * Deprecated, use JURI::base() instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JURI::base()
 	 */
 	function getBasePath($client=0, $addTrailingSlash = true)
     {
@@ -788,8 +842,11 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Depreacted, use JFactory::getUser instead.
+	 * Deprecated, use JFactory::getUser instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JFactory::getUser()
 	 */
 	function &getUser()
     {
@@ -799,7 +856,10 @@ class JApplication extends JObject
 
 	/**
 	 * Deprecated, use JContentHelper::getItemid instead.
+	 *
 	 * @since 1.5
+	 * @deprecated As of version 1.5
+	 * @see JContentHelper::getItemid()
 	 */
 	function getItemid( $id )
     {
