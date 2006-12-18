@@ -312,7 +312,7 @@ class JLDAP {
 		} else {
 			$addr .= "address not available.";
 		}
-		return ($addrtypes[$addrtype] . ": " . $addr);
+		return Array('protocol'=>$addrtypes[$addrtype], 'address'=>$addr);
 	}
 }
 ?>
