@@ -43,6 +43,7 @@ Legend:
  # Fixed [6774] : Moving a submenu to another menu by editing "Display in"
  # Fixed [6550] : CVS directories not ignored
  # Fixed [6700] : Menu Manager - Bug in new menu creation
+ # Fixed bug preventing language files correctly loading in Legacy Mode
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)
