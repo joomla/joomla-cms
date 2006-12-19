@@ -284,21 +284,24 @@ class JFolder
 	/**
 	 * Utility function to read the files in a folder
 	 *
-	 * @param string $path The path of the folder to read
-	 * @param string $filter A filter for file names
-	 * @param boolean $recurse True to recursively search into sub-folders
-	 * @param boolean $fullpath True to return the full path to the file
-	 * @return array Files in the given folder
+	 * @param	string	$path		The path of the folder to read
+	 * @param	string	$filter		A filter for file names
+	 * @param	boolean	$recurse	True to recursively search into sub-folders
+	 * @param	boolean	$fullpath	True to return the full path to the file
+	 * @param	boolean	$pathCheck	True (default) to do a check that the path in under the Joomla install
+	 * @return	array	Files in the given folder
 	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false)
+	function files($path, $filter = '.', $recurse = false, $fullpath = false, $pathCheck = true)
 	{
 		// Initialize variables
 		$arr = array ();
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
-		JPath::check($path);
+		if ($pathCheck) {
+			JPath::check($path);
+		}
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
@@ -314,7 +317,7 @@ class JFolder
 			if ($file != '.' && $file != '..' && $file != '.svn') {
 				if ($isDir) {
 					if ($recurse) {
-						$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
+						$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath, $pathCheck);
 						$arr = array_merge($arr, $arr2);
 					}
 				} else {
@@ -337,21 +340,24 @@ class JFolder
 	/**
 	 * Utility function to read the folders in a folder
 	 *
-	 * @param string $path The path of the folder to read
-	 * @param string $filter A filter for folder names
-	 * @param boolean $recurse True to recursively search into sub-folders
-	 * @param boolean $fullpath True to return the full path to the folders
-	 * @return array Folders in the given folder
+	 * @param	string	$path		The path of the folder to read
+	 * @param	string	$filter		A filter for folder names
+	 * @param	boolean	$recurse	True to recursively search into sub-folders
+	 * @param	boolean	$fullpath	True to return the full path to the folders
+	 * @param	boolean	$pathCheck	True (default) to do a check that the path in under the Joomla install
+	 * @return	array	Folders in the given folder
 	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false)
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false, $pathCheck = true)
 	{
 		// Initialize variables
 		$arr = array ();
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
-		JPath::check($path);
+		if ($pathCheck) {
+			JPath::check($path);
+		}
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
@@ -374,7 +380,7 @@ class JFolder
 					}
 				}
 				if ($recurse) {
-					$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+					$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath, $pathCheck);
 					$arr = array_merge($arr, $arr2);
 				}
 			}
