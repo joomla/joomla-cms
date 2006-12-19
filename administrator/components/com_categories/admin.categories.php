@@ -533,7 +533,7 @@ function removeCategories( $section, $cid )
 	}
 
 	if (count( $err )) {
-		$cids = implode( "\', \'", $err );
+		$cids = implode( ", ", $err );
     	$msg = JText::sprintf( 'WARNNOTREMOVEDRECORDS', $cids );
 		$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section, $msg );
 	}
