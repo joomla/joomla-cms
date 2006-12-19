@@ -75,12 +75,6 @@
 		<td>
 			<input class="inputbox" type="text" name="module_title" id="module_title" size="30" value="" />
 			<?php echo mosToolTip( JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' ) ); ?>
-			<br /><br /><br />
-			<strong>
-				<?php echo JText::_( 'TIPTITLECREATED' ); ?>
-				<br /><br />
-				<?php echo JText::_( 'DESCPARAMMODULEMANAGER' ); ?>
-			</strong>
 		</td>
 	</tr>
 	<?php endif; ?>

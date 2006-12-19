@@ -433,35 +433,44 @@ class MenusController extends JController
 
 		if ($isNew)
 		{
-			$title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' );
+			if ($title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' ))
+			{
+				$module =& JTable::getInstance( 'module');
+				$module->title 		= $title;
+				$module->position 	= 'left';
+				$module->module 	= 'mod_mainmenu';
+				$module->published	= 0;
+				$module->iscore 	= 0;
+				$module->params		= 'menutype='. $menuType->menutype;
+	
+				// check then store data in db
+				if (!$module->check()) {
+					josErrorAlert( $module->getError() );
+					exit();
+				}
+				if (!$module->store()) {
+					josErrorAlert( $module->getError() );
+					exit();
+				}
+				$module->checkin();
+				$module->reorder( "position='". $module->position ."'" );
+	
+				// module assigned to show on All pages by default
+				// Clean up possible garbage first
+				$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $module->id;
+				$db->setQuery( $query );
+				if (!$db->query()) {
+					josErrorAlert( $db->getErrorMsg() );
+					exit();
+				}
 
-			$module =& JTable::getInstance( 'module');
-			$module->title 		= $title;
-			$module->position 	= 'left';
-			$module->module 	= 'mod_mainmenu';
-			$module->published	= 0;
-			$module->iscore 	= 0;
-			$module->params		= 'menutype='. $menuType->menutype;
-
-			// check then store data in db
-			if (!$module->check()) {
-				josErrorAlert( $module->getError() );
-				exit();
-			}
-			if (!$module->store()) {
-				josErrorAlert( $module->getError() );
-				exit();
-			}
-			$module->checkin();
-			$module->reorder( "position='". $module->position ."'" );
-
-			// module assigned to show on All pages by default
-			// ToDO: Changed to become a Joomla! db-object
-			$query = "INSERT INTO #__modules_menu VALUES ( $module->id, 0 )";
-			$db->setQuery( $query );
-			if ( !$db->query() ) {
-				josErrorAlert( $db->getErrorMsg() );
-				exit();
+				// ToDO: Changed to become a Joomla! db-object
+				$query = 'INSERT INTO #__modules_menu VALUES ( '.(int) $module->id.', 0 )';
+				$db->setQuery( $query );
+				if (!$db->query()) {
+					josErrorAlert( $db->getErrorMsg() );
+					exit();
+				}
 			}
 
 	    	$msg = sprintf( JText::_( 'New Menu created' ), $menuType->menutype );
