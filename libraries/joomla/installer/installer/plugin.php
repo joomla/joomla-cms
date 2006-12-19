@@ -32,7 +32,6 @@ class JInstallerPlugin extends JInstaller
 	 */
 	function install($p_fromdir)
 	{
-
 		// Get database connector object
 		$db = & $this->_db;
 
@@ -207,65 +206,44 @@ class JInstallerPlugin extends JInstaller
 	 *
 	 * @access	public
 	 * @param	int		$cid	The id of the plugin to uninstall
+	 * @param	int		$clientId	The id of the client (unused)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id )
+	function uninstall($id, $clientId )
 	{
-
-		/*
-		 * Initialize variables
-		 */
-		$row = null;
+		// Initialize variables
+		$row	= null;
 		$retval = true;
+		$db		= & $this->_db;
 
-		// Get database connector object
-		$db = & $this->_db;
-
-		/*
-		 * First order of business will be to load the plugin object table from the database.
-		 * This should give us the necessary information to proceed.
-		 */
+		// First order of business will be to load the plugin object table from the database.
+		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('plugin');
 		$row->load($id);
 
-		/*
-		 * Is the component we are trying to uninstall a core one?
-		 * Because that is not a good idea...
-		 */
+		// Is the component we are trying to uninstall a core one?
+		// Because that is not a good idea...
 		if ($row->iscore)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerPlugin::uninstall: '.sprintf(JText::_('WARNCOREPLUGIN'), $row->name)."<br />".JText::_('WARNCOREPLUGIN2'));
 			return false;
 		}
 
-		/*
-		 * Get the plugin folder so we can properly build the plugin path
-		 */
+		// Get the plugin folder so we can properly build the plugin path
 		if (trim($row->folder) == '')
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerPlugin::uninstall: '.JText::_('Folder field empty, cannot remove files'));
 			return false;
 		}
 
-		/*
-		 * Use the client id to determine which plugin path to use for the xml install file
-		 */
-		$basepath = JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS;
+		// Use the client id to determine which plugin path to use for the xml install file
+		$folder		= $row->folder;
+		$basepath	= JPATH_ROOT.DS.'plugins'.DS.$folder.DS;
+		$xmlfile	= $basepath.$row->element.'.xml';
 
 		$this->_extensionDir = $basepath;
-		$xmlfile = $basepath.$row->element.'.xml';
-		$folder = $row->folder;
 
-		/*
-		 * Now we will no longer need the plugin object, so lets delete it
-		 */
-		$row->delete($row->id);
-		unset ($row);
-
-		/*
-		 * Now is time to process the xml install file stuff...
-		 */
 		if (file_exists($xmlfile))
 		{
 			$this->_xmldoc = & JFactory::getXMLParser();
@@ -273,44 +251,39 @@ class JInstallerPlugin extends JInstaller
 
 			if ($this->_xmldoc->loadXML($xmlfile, false, true))
 			{
-
-				/*
-				 * Let's remove the files for the plugin
-				 */
+				// Let's remove the files for the plugin
 				if ($this->_removeFiles('files') === false)
 				{
 					JError::raiseWarning(1, 'JInstallerPlugin::uninstall: '.JText::_('Unable to remove all files'));
 					$retval = false;
 				}
 
-				/*
-				 * Remove other files
-				 */
+				// Remove other files
 				$this->_removeFiles('images');
 				$this->_removeFiles('media');
 				$this->_removeFiles('languages');
 				$this->_removeFiles('administration/languages');
-
-			} else
-			{
-				JError::raiseWarning(1, 'JInstallerPlugin::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
-				$retval = false;
 			}
-
+			else
+			{
+				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
+				return false;
+			}
 			// Remove the installation file if it exists
 			JFile::delete($xmlfile);
-		} else
-		{
-			JError::raiseWarning(1, 'JInstallerPlugin::uninstall: '.JText::_('File does not exist').' '.$xmlfile);
-			$retval = false;
+		}
+		else {
+			JError::raiseNotice('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: XML File invalid or not found');
+			return false;
 		}
 
-		/*
-		 * If the folder is empty, let's delete it
-		 */
+		// Now we will no longer need the plugin object, so lets delete it
+		$row->delete($row->id);
+		unset ($row);
+
+		// If the folder is empty, let's delete it
 		$files = JFolder::files($this->_extensionDir);
-		if (!count($files))
-		{
+		if (!count($files)) {
 			JFolder::delete($this->_extensionDir);
 		}
 

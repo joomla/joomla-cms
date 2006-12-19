@@ -77,7 +77,8 @@ class InstallerModel extends JModel
 	 * Remove (uninstall) an extension
 	 *
 	 * @static
-	 * @return boolean True on success
+	 * @param	array	An array of identifiers
+	 * @return	boolean	True on success
 	 * @since 1.0
 	 */
 	function remove($eid=array())
@@ -88,11 +89,11 @@ class InstallerModel extends JModel
 		$failed = array ();
 
 		/*
-		 * Ensure eid is an array of extension ids
+		 * Ensure eid is an array of extension ids in the form id => client_id
 		 * TODO: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid)) {
-			$eid = array ($eid);
+			$eid = array($eid => 0);
 		}
 
 		// Get a database connector
@@ -103,9 +104,10 @@ class InstallerModel extends JModel
 		$installer = & JInstaller::getInstance($db, $this->_type);
 
 		// Uninstall the chosen extensions
-		foreach ($eid as $id)
+		foreach ($eid as $id => $clientId)
 		{
-			$result = $installer->uninstall( $id );
+			$id		= trim( $id );
+			$result	= $installer->uninstall( $id, $clientId );
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {

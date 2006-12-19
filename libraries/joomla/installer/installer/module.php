@@ -219,24 +219,26 @@ class JInstallerModule extends JInstaller
 				return false;
 			}
 
-			/*
-			 * Since we have created a module item, we add it to the installation step stack
-			 * so that if we have to rollback the changes we can undo it.
-			 */
+			// Since we have created a module item, we add it to the installation step stack
+			// so that if we have to rollback the changes we can undo it.
 			$this->_stepStack[] = array ('type' => 'module', 'id' => $row->id);
 
-			/*
-			 * Time to create a menu entry for the module
-			 */
+			// Clean up possible garbage first
+			$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $row->id;
+			$db->setQuery( $query );
+			if (!$db->query())
+			{
+				JError::raiseWarning(1, 'JInstallerModule::install: '.$db->stderr(true));
+				return false;
+			}
+
+			// Time to create a menu entry for the module
 			$query = "INSERT INTO `#__modules_menu` " .
-					"\nVALUES ( $row->id, 0 )";
+					"\nVALUES (".(int) $row->id.", 0 )";
 			$db->setQuery($query);
 			if (!$db->query())
 			{
 				JError::raiseWarning(1, 'JInstallerModule::install: '.$db->stderr(true));
-
-				// Install failed, roll back changes
-				$this->_rollback();
 				return false;
 			}
 
@@ -300,48 +302,37 @@ class JInstallerModule extends JInstaller
 	/**
 	 * Custom uninstall method
 	 *
-	 * @access public
-	 * @param int $cid The id of the module to uninstall
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @access	public
+	 * @param	int		$id The id of the module to uninstall
+	 * @param	int		$clientId	The id of the client (unused)
+	 * @return	boolean	True on success
+	 * @since	1.5
 	 */
-	function uninstall($id )
+	function uninstall( $id, $clientId )
 	{
-
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$row    = null;
 		$retval = true;
+		$db		= &$this->_db;
 
-		// Get database connector object
-		$db = & $this->_db;
-
-		/*
-		 * First order of business will be to load the module object table from the database.
-		 * This should give us the necessary information to proceed.
-		 */
+		// First order of business will be to load the module object table from the database.
+		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('module');
-		$row->load($id);
+		$row->load((int) $id);
 
-		/*
-		 * Is the component we are trying to uninstall a core one?
-		 * Because that is not a good idea...
-		 */
+		// Is the component we are trying to uninstall a core one?
+		// Because that is not a good idea...
 		if ($row->iscore)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.sprintf(JText::_('WARNCOREMODULE'), $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
 
-		/*
-		 * Use the client id to determine which module path to use for the xml install file
-		 */
+		// Use the client id to determine which module path to use for the xml install file
 		if (!$row->client_id)
 		{
 			$basepath = JPATH_SITE.DS.'modules'.DS.$row->module.DS;
-		} else
-		{
+		} else {
 			$basepath = JPATH_ADMINISTRATOR.DS.'modules'.DS.$row->module.DS;
 		}
 		$this->_extensionDir = $basepath;
@@ -349,9 +340,37 @@ class JInstallerModule extends JInstaller
 		// Get the path to the xml install file
 		$xmlfile = $basepath.$row->module.'.xml';
 
-		/*
-		 * Lets delete all the module copies for the type we are uninstalling
-		 */
+		if ($this->_findInstallFile())
+		{
+			$this->_xmldoc = & JFactory::getXMLParser();
+			$this->_xmldoc->resolveErrors(true);
+
+			if ($this->_xmldoc->loadXML($xmlfile, false, true))
+			{
+				// Remove other files
+				$this->_removeFiles('images');
+				$this->_removeFiles('media');
+				$this->_removeFiles('languages');
+				$this->_removeFiles('administration/languages');
+			}
+			else {
+				JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
+			}
+		}
+		else {
+			JError::raiseNotice('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: XML File invalid or not found');
+		}
+
+		// Just to be sure
+		JPath::check($this->_extensionDir);
+
+		// Remove the installation folder
+		if (!JFolder::delete($this->_extensionDir)) {
+			// JFolder should raise an error
+			//return false;
+		}
+
+		// Lets delete all the module copies for the type we are uninstalling
 		$query = "SELECT `id` " .
 				"\nFROM `#__modules` " .
 				"\nWHERE module = '".$row->module."' " .
@@ -360,9 +379,7 @@ class JInstallerModule extends JInstaller
 		$db->setQuery($query);
 		$modules = $db->loadResultArray();
 
-		/*
-		 * Do we have any module copies?
-		 */
+		// Do we have any module copies?
 		if (count($modules))
 		{
 			$modID = implode(',', $modules);
@@ -379,60 +396,11 @@ class JInstallerModule extends JInstaller
 			}
 		}
 
-		/*
-		 * Now we will no longer need the module object, so lets delete it
-		 */
+		// Now we will no longer need the module object, so lets delete it
 		$row->delete($row->id);
 
 		// Free up memory
 		unset ($row);
-
-		/*
-		 * Now is time to load the xml file and process it
-		 */
-		if (file_exists($xmlfile))
-		{
-			$this->_xmldoc = & JFactory::getXMLParser();
-			$this->_xmldoc->resolveErrors(true);
-
-			if ($this->_xmldoc->loadXML($xmlfile, false, true))
-			{
-
-				/*
-				 * Let's remove the files for the module
-				 */
-				if ($this->_removeFiles('files') === false)
-				{
-					JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Unable to remove all files'));
-					$retval = false;
-				}
-
-				/*
-				 * Remove other files
-				 */
-				$this->_removeFiles('images');
-				$this->_removeFiles('media');
-				$this->_removeFiles('languages');
-				$this->_removeFiles('administration/languages');
-
-				/*
-				 * Remove module folder
-				 */
-				JFolder::delete($basepath);
-
-			} else
-			{
-				JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
-				$retval = false;
-			}
-
-			// Remove the installation file if it exists
-			JFile::delete($xmlfile);
-		} else
-		{
-			JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('File does not exist').' '.$xmlfile);
-			$retval = false;
-		}
 
 		return $retval;
 	}

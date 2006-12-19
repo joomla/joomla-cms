@@ -160,10 +160,11 @@ class JInstallerLanguage extends JInstaller
 	/**
 	 * Custom uninstall method
 	 *
-	 * @access public
-	 * @param int $id The path of the language to uninstall
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @access	public
+	 * @param	int $id The path of the language to uninstall
+	 * @param	int		$clientId	The id of the client (unused)
+	 * @return	boolean True on success
+	 * @since	1.5
 	 */
 	function uninstall($path)
 	{

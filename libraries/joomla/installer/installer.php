@@ -270,7 +270,6 @@ class JInstaller extends JObject
 	{
 		// Get an array of all the xml files from teh installation directory
 		$xmlfiles = JFolder::files($this->_installDir, '.xml$', true, true);
-
 		// If at least one xml file exists
 		if (count($xmlfiles) > 0) {
 			foreach ($xmlfiles as $file)
@@ -280,6 +279,8 @@ class JInstaller extends JObject
 				if (!is_null($packagefile)) {
 					$this->_xmldoc = & $packagefile;
 					$this->_installFile = $file;
+					// reset the install directory to the location of the xml file
+					$this->_installDir	= dirname( $file ).DS;
 					return true;
 				}
 			}
@@ -837,10 +838,8 @@ class JInstaller extends JObject
 		$filesElement = & $root->getElementsByPath($tagName, 1);
 		if (is_null($filesElement) || !$filesElement->hasChildNodes())
 		{
-			/*
-			 * Either the tag does not exist or has no children therefore we return
-			 * zero files processed.
-			 */
+			// Either the tag does not exist or has no children therefore we return
+			// zero files processed.
 			return 0;
 		}
 
@@ -848,9 +847,7 @@ class JInstaller extends JObject
 		$files = $filesElement->childNodes;
 		if (count($files) == 0)
 		{
-			/*
-			 * No files to process
-			 */
+			// No files to process
 			return 0;
 		}
 
@@ -883,12 +880,9 @@ class JInstaller extends JObject
 						$removeFrom = $this->_extensionDir;
 					}
 
-		/*
-		 * Process each file in the $files array (children of $tagName).
-		 */
+		// Process each file in the $files array (children of $tagName).
 		foreach ($files as $file)
 		{
-
 			/*
 			 * If the file is a language, we must handle it differently.  Language files
 			 * go in a subdirectory based on the language code, ie.

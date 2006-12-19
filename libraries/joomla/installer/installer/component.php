@@ -432,53 +432,39 @@ class JInstallerComponent extends JInstaller
 	 *
 	 * @access	public
 	 * @param	int		$cid	The id of the component to uninstall
+	 * @param	int		$clientId	The id of the client (unused)
 	 * @return	mixed	Return value for uninstall method in component uninstall
 	 * file
 	 * @since	1.0
 	 */
-	function uninstall($id)
+	function uninstall($id, $clientId)
 	{
+		// Initialize variables
+		$row	= null;
+		$retval	= true;
+		$db		= & $this->_db;
 
-		/*
-		 * Initialize variables
-		 */
-		$row = null;
-		$retval = true;
-
-		// Get database connector object
-		$db = & $this->_db;
-
-		/*
-		 * First order of business will be to load the component object table from the database.
-		 * This should give us the necessary information to proceed.
-		 */
+		// First order of business will be to load the component object table from the database.
+		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('component');
 		$row->load($id);
 
-		/*
-		 * Is the component we are trying to uninstall a core one?
-		 * Because that is not a good idea...
-		 */
+		// Is the component we are trying to uninstall a core one?
+		// Because that is not a good idea...
 		if ($row->iscore)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.sprintf(JText::_('WARNCORECOMPONENT'), $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
 			return false;
 		}
 
-		/*
-		 * Get the admin and site paths for the component
-		 */
+		// Get the admin and site paths for the component
 		$this->_extensionAdminDir = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option);
 		$this->_extensionDir = JPath::clean(JPATH_SITE.DS.'components'.DS.$row->option);
 
-		/*
-		 * Find and load the XML install file for the component
-		 */
+		// Find and load the XML install file for the component
 		$this->_installDir = $this->_extensionAdminDir;
 
-		/*
-		 * Next, lets delete the submenus for the component.
-		 */
+		// Next, lets delete the submenus for the component.
 		$sql = "DELETE " .
 				"\nFROM #__components " .
 				"\nWHERE parent = ".(int)$row->id;
@@ -490,9 +476,7 @@ class JInstallerComponent extends JInstaller
 			$retval = false;
 		}
 
-		/*
-		 * Next, we will delete the component object
-		 */
+		// Next, we will delete the component object
 		if (!$row->delete($row->id))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.JText::_('Unable to delete the component from the database'));
@@ -511,10 +495,8 @@ class JInstallerComponent extends JInstaller
 		// Get the root node of the xml document
 		$root = & $this->_xmldoc->documentElement;
 
-		/*
-		 * Now lets load the uninstall file if there is one and execute the uninstall
-		 * function if it exists.
-		 */
+		// Now lets load the uninstall file if there is one and execute the uninstall
+		// function if it exists.
 		$uninstallfileElement = & $root->getElementsByPath('uninstallfile', 1);
 		if (!is_null($uninstallfileElement))
 		{
@@ -560,18 +542,14 @@ class JInstallerComponent extends JInstaller
 				}
 			}
 
-		/*
-		 * Let's remove language files and media in the JROOT/images/ folder that are
-		 * associated with the component we are uninstalling
-		 */
+		// Let's remove language files and media in the JROOT/images/ folder that are
+		// associated with the component we are uninstalling
 		$this->_removeFiles('media');
 		$this->_removeFiles('languages');
 		$this->_removeFiles('administration/languages');
 
-		/*
-		 * Now we need to delete the installation directories.  This is the final step
-		 * in uninstalling the component.
-		 */
+		// Now we need to delete the installation directories.  This is the final step
+		// in uninstalling the component.
 		if (trim($row->option))
 		{
 

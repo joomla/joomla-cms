@@ -172,54 +172,45 @@ class JInstallerTemplate extends JInstaller
 	 * Custom uninstall method
 	 *
 	 * @access	public
-	 * @param	int		$path	The path of the template to uninstall
+	 * @param	int		$path		The template name
+	 * @param	int		$clientId	The id of the client
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($path )
+	function uninstall( $name, $clientId )
 	{
-
-		// Initialize variables
-		$retval = true;
-
-		/*
-		 * For a template the id will be the template name which represents the
-		 * subfolder of the templates folder that the template resides in.
-		 */
-		$path = trim($path);
-		if (!$path)
+		// For a template the id will be the template name which represents the
+		// subfolder of the templates folder that the template resides in.
+		if (!$name)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: '.JText::_('Template id is empty, cannot uninstall files'));
 			return false;
 		}
 
-		/*
-		 * Set some internal paths for smooth operation :)
-		 */
-		$this->_installDir = $path;
-		$this->_extensionDir = $path;
+		// Initialize variables
+		$retval	= true;
+		$client = JApplicationHelper::getClientInfo( $clientId );
+		$path	= JPath::clean( $client->path.DS.'templates'.DS.$name );
 
-		/*
-		 * See if there is an xml install file
-		 */
+		// Set some internal paths for smooth operation :)
+		$this->_installDir		= $path;
+		$this->_extensionDir	= $path;
+
+		// See if there is an xml install file
 		if (!$this->_findInstallFile())
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: '.JText::_('Could not find xml install file'));
 			return false;
 		}
 
-		/*
-		 * Remove any files added to the Joomla images/ folder
-		 */
+		// Remove any files added to the Joomla images/ folder
 		if ($this->_removeFiles('media') === false)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: '.JText::_('Unable to remove media files'));
 			$retval = false;
 		}
 
-		/*
-		 * Delete the template directory
-		 */
+		// Delete the template directory
 		if (JFolder::exists($path))
 		{
 			$retval = JFolder::delete(JPath::clean($path));
