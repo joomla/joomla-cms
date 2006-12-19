@@ -145,7 +145,8 @@ class MenusViewItem extends JView
 
 		// Load component language files
 		$components	= JMenuHelper::getComponentList();
-		for($i = 0; $i < count($components); $i++)
+		$n = count($components);
+		for($i = 0; $i < $n; $i++)
 		{
 			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);

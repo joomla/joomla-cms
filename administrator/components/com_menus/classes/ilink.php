@@ -238,38 +238,42 @@ class iLink extends JTree
 	function _getLayouts($path, &$node)
 	{
 		$return = false;
-		$files = JFolder::files($path.DS.'tmpl', ".php$");
-		if (count($files)) {
-			foreach ($files as $file)
-			{
-				if (strpos($file, '_') === false) {
-					// Load view metadata if it exists
-					$layout = JFile::stripext($file);
-					$xmlpath = $path.DS.'tmpl'.DS.$layout.'.xml';
-					if (JFile::exists($xmlpath)) {
-						$data = $this->_getXML($xmlpath, 'layout');
-					} else {
-						$data = null;
-					}
-
-					if ($layout != 'default') {
-						$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.basename($path).'&amp;url[layout]='.$layout;
-					} else {
-						$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.basename($path);
-					}
-					if ($data) {
-						if ($data->attributes('hidden') != 'true') {
-							$m = $data->getElementByPath('message');
-							if ($m) {
-								$message = $m->data();
+		$folder	= $path.DS.'tmpl';
+		if (is_dir( $folder ))
+		{
+			$files = JFolder::files($path.DS.'tmpl', '.php$');
+			if (count($files)) {
+				foreach ($files as $file)
+				{
+					if (strpos($file, '_') === false) {
+						// Load view metadata if it exists
+						$layout = JFile::stripext($file);
+						$xmlpath = $path.DS.'tmpl'.DS.$layout.'.xml';
+						if (JFile::exists($xmlpath)) {
+							$data = $this->_getXML($xmlpath, 'layout');
+						} else {
+							$data = null;
+						}
+	
+						if ($layout != 'default') {
+							$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.basename($path).'&amp;url[layout]='.$layout;
+						} else {
+							$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.basename($path);
+						}
+						if ($data) {
+							if ($data->attributes('hidden') != 'true') {
+								$m = $data->getElementByPath('message');
+								if ($m) {
+									$message = $m->data();
+								}
+								$child =& new iLinkNode($data->attributes('title'), $url, $message);
+								$node->addChild($child);
 							}
-							$child =& new iLinkNode($data->attributes('title'), $url, $message);
+						} else {
+							// Add default info for the layout
+							$child =& new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
 							$node->addChild($child);
 						}
-					} else {
-						// Add default info for the layout
-						$child =& new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
-						$node->addChild($child);
 					}
 				}
 			}
