@@ -56,6 +56,10 @@ class modPollHelper
 			echo "MD ".$db->stderr(true);
 			return;
 		}
+		
+		foreach( $options as $option ){
+			$option->text = stripslashes( $option->text );
+		}
 
 		return $options;
 	}

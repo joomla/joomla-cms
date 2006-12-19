@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Dec-2006 Rastin Mehr
+ # Fixed [artf7004] : Apostrophes in poll choices shows escape character
+
 19-Dec-2006 Andrew Eddie
  # Fixed bug in patTemplate shortModifier tags (patch submitted to author)
  # Added patch to patErrorManager where a class method handler is not found

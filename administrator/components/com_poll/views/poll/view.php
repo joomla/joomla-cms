@@ -256,7 +256,7 @@ class PollView
 			{?>
 			<tr>
 				<td valign="top" height="30"><input type="radio" name="poll" value="<?php echo $text; ?>"></td>
-				<td class="poll" width="100%" valign="top"><?php echo $text; ?></td>
+				<td class="poll" width="100%" valign="top"><?php echo stripslashes($text); ?></td>
 			</tr>
 			<?php }
 		} ?>

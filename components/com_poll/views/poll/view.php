@@ -40,6 +40,8 @@ class PollViewPoll extends JView
 		for ($i = 0; $i < count( $this->votes ); $i++)
 		{
 			$vote =& $this->votes[$i];
+			
+			$vote->text = stripslashes( $vote->text );
 
 			if ($maxval > 0 && $sumval > 0)
 			{
