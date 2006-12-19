@@ -268,8 +268,6 @@ function editPlugin( )
 		$lists['access'] = JAdminMenus::Access( $row );
 	}
 
-
-
 	if ($cid[0])
 	{
 		$row->checkout( $user->get('id') );
