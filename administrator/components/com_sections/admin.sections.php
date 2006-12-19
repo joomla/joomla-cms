@@ -235,7 +235,7 @@ function editSection( )
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
-    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
+    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The section' ), $row->title );
 		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $row->scope, $msg );
 	}
 
@@ -393,12 +393,12 @@ function removeSections( $cid, $scope, $option )
 
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
-    	$msg = sprintf( JText::_( 'DESCCANNOTBEREMOVED' ), $cids );
+    	$msg = JText::sprintf( 'DESCCANNOTBEREMOVED', $cids );
 		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
-	$msg = sprintf( JText::_( 'Sections successfully deleted' ), $names );
+	$msg = JText::sprintf( 'Sections successfully deleted', $names );
 	$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
 }
 
@@ -636,7 +636,7 @@ function copySectionSave( $sectionid )
 	$sectionOld =& JTable::getInstance('section');
 	$sectionOld->load( $sectionMove );
 
-	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
+	$msg = JText::sprintf( 'DESCCATANDITEMSCOPIED', $sectionOld-> name, $title );
 	$mainframe->redirect( 'index.php?option=com_sections&amp;scope=content', $msg );
 }
 

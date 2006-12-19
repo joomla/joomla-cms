@@ -196,7 +196,7 @@ class JPagination extends JObject
 
 		// If there are results found
 		if ($this->total > 0) {
-			$msg = sprintf(JText::_('Results of'), $fromResult, $toResult, $this->total);
+			$msg = JText::sprintf('Results of', $fromResult, $toResult, $this->total);
 			$html .= "\n".$msg;
 		} else {
 			$html .= "\n".JText::_('No records found');

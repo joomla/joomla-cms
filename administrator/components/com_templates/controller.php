@@ -279,7 +279,7 @@ class TemplatesController
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 			TemplatesView::editTemplateSource($template, $content, $option, $client);
 		} else {
-			$msg = sprintf(JText::_('Operation Failed Could not open'), $file);
+			$msg = JText::sprintf('Operation Failed Could not open', $file);
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, $msg);
 		}
 	}
@@ -389,7 +389,7 @@ class TemplatesController
 		}
 		else
 		{
-			$msg = sprintf(JText::_('Operation Failed Could not open'), $client->path.$filename);
+			$msg = JText::sprintf('Operation Failed Could not open', $client->path.$filename);
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, $msg);
 		}
 	}

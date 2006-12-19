@@ -75,7 +75,7 @@ class JTableModule extends JTable
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Module') );
+			$this->_error = JText::sprintf( 'must contain a title', JText::_( 'Module') );
 			return false;
 		}
 

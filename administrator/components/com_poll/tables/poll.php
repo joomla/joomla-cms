@@ -82,7 +82,7 @@ class TablePoll extends JTable
 		$xid = intval( $this->_db->loadResult() );
 		if ( $xid && $xid != intval( $this->id ) )
 		{
-			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Module') );
+			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Module') );
 			return false;
 		}
 

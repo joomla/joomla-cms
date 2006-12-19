@@ -78,7 +78,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
 			$page_text = $page + 1;
-			$row->page_title = sprintf( JText::_( 'Page #' ), $page_text );
+			$row->page_title = JText::sprintf( 'Page #', $page_text );
 			if ( !$page ) {
 				// processing for first page
 				$attrs = JUtility::parseAttributes($matches[0][1]);
@@ -202,7 +202,7 @@ function createTOC( &$row, &$matches, &$page )
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. sprintf( JText::_( 'Page #' ), $i ) .
+					. JText::sprintf( 'Page #', $i ) .
 					'</a>
 					</td>
 				</tr>
@@ -213,7 +213,7 @@ function createTOC( &$row, &$matches, &$page )
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. sprintf( JText::_( 'Page #' ), $i ) .
+				. JText::sprintf( 'Page #', $i ) .
 				'</a>
 				</td>
 			</tr>

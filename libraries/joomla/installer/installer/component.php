@@ -453,7 +453,7 @@ class JInstallerComponent extends JInstaller
 		// Because that is not a good idea...
 		if ($row->iscore)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.sprintf(JText::_('WARNCORECOMPONENT'), $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '.JText::sprintf('WARNCORECOMPONENT', $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
 			return false;
 		}
 

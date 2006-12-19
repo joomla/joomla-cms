@@ -165,7 +165,7 @@ class TableWeblink extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->_error = sprintf(JText::_('WARNNAMETRYAGAIN'), JText::_('Web Link'));
+			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('Web Link'));
 			return false;
 		}
 		return true;

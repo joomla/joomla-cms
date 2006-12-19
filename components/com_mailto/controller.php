@@ -74,7 +74,7 @@ class MailtoController extends JController
 		$email 				= JRequest::getVar( 'mailto', '', 'post' );
 		$sender 			= JRequest::getVar( 'sender', '', 'post' );
 		$from 				= JRequest::getVar( 'from', '', 'post' );
-		$subject_default 	= sprintf(JText::_('Item sent by'), $sender);
+		$subject_default 	= JText::sprintf('Item sent by', $sender);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
 		if (!$email || !$from || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($from) == false)) {

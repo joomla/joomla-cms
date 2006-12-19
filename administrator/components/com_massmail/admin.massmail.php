@@ -115,7 +115,7 @@ function sendMail()
 		$mailer->Send();
 	}
 
-	$msg = sprintf( JText::_( 'E-mail sent to' ), count( $rows ) );
+	$msg = JText::sprintf( 'E-mail sent to', count( $rows ) );
 	$mainframe->redirect( 'index.php?option=com_massmail', $msg );
 }
 ?>

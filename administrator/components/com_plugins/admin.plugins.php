@@ -214,12 +214,12 @@ function savePlugin( $option, $client, $task )
 
 	switch ( $task ) {
 		case 'apply':
-        	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
+        	$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
 			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client .'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->id, $msg );
 
 		case 'save':
 		default:
-        	$msg = sprintf( JText::_( 'Successfully Saved Plugin' ), $row->name );
+        	$msg = JText::sprintf( 'Successfully Saved Plugin', $row->name );
 			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client, $msg );
 			break;
 	}
@@ -250,7 +250,7 @@ function editPlugin( )
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
-    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index.php?option=$option'" );
 	}
 

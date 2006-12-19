@@ -62,11 +62,11 @@ class JTableCategory extends JTable
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Category') );
+			$this->_error = JText::sprintf( 'must contain a title', JText::_( 'Category') );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = sprintf( JText::_( 'must have a name' ), JText::_( 'Category') );
+			$this->_error = JText::sprintf( 'must have a name', JText::_( 'Category') );
 			return false;
 		}
 		// check for existing name
@@ -79,7 +79,7 @@ class JTableCategory extends JTable
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Category') );
+			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Category') );
 			return false;
 		}
 		return true;

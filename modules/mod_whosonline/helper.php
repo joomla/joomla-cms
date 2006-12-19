@@ -60,13 +60,13 @@ class modWhosonlineHelper
 				if ($guest_array == 1)
 				{
 					// 1 guest only
-					$output .= sprintf(JText::_('guest'), $guest_array);
+					$output .= JText::sprintf('guest', $guest_array);
 				}
 				else
 					if ($guest_array > 1)
 					{
 						// more than 1 guest
-						$output .= sprintf(JText::_('guests'), $guest_array);
+						$output .= JText::sprintf('guests', $guest_array);
 					}
 
 				// if there are guests and members online
@@ -81,13 +81,13 @@ class modWhosonlineHelper
 				if ($user_array == 1)
 				{
 					// 1 member only
-					$output .= sprintf(JText::_('member'), $user_array);
+					$output .= JText::sprintf('member', $user_array);
 				}
 				else
 					if ($user_array > 1)
 					{
 						// more than 1 member
-						$output .= sprintf(JText::_('members'), $user_array);
+						$output .= JText::sprintf('members', $user_array);
 					}
 
 				$output .= '&nbsp;';

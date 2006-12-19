@@ -242,7 +242,7 @@ function copyModule( $option, $uid )
 
 	// load the row from the db table
 	$row->load( $uid );
-	$row->title 		= sprintf( JText::_( 'Copy of' ), $row->title );
+	$row->title 		= JText::sprintf( 'Copy of', $row->title );
 	$row->id 			= 0;
 	$row->iscore 		= 0;
 	$row->published 	= 0;
@@ -274,7 +274,7 @@ function copyModule( $option, $uid )
 		$db->query();
 	}
 
-	$msg = sprintf( JText::_( 'Module Copied' ), $row->title );
+	$msg = JText::sprintf( 'Module Copied', $row->title );
 	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id, $msg );
 }
 
@@ -354,13 +354,13 @@ function saveModule( $option, $task )
 
 	switch ( $task ) {
 		case 'apply':
-        	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
+        	$msg = JText::sprintf( 'Successfully Saved changes to Module', $row->title );
 			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id .'&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-        	$msg = sprintf( JText::_( 'Successfully Saved Module' ), $row->title );
+        	$msg = JText::sprintf( 'Successfully Saved Module', $row->title );
 			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id, $msg );
 			break;
 	}
@@ -392,7 +392,7 @@ function editModule( )
 	$row->load( $cid[0] );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
-    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index.php?option=$option" );
 	}
 

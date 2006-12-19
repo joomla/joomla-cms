@@ -96,7 +96,7 @@ class BannerClientController
 
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $userId )) {
-	    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
+	    	$msg = JText::sprintf( 'WARNEDITEDBYPERSON', $row->name );
 			$mainframe->redirect( 'index.php?option=com_banners&amp;task=listclients', $msg );
 		}
 

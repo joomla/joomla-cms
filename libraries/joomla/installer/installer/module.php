@@ -324,7 +324,7 @@ class JInstallerModule extends JInstaller
 		// Because that is not a good idea...
 		if ($row->iscore)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.sprintf(JText::_('WARNCOREMODULE'), $row->name)."<br />".JText::_('WARNCOREMODULE2'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
 

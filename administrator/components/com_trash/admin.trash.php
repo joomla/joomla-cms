@@ -276,7 +276,7 @@ function deleteTrash( $cid, $option )
 		}
 	}
 
-	$msg = sprintf( JText::_( 'Item(s) successfully Deleted' ), $total );
+	$msg = JText::sprintf( 'Item(s) successfully Deleted', $total );
 	$mainframe->redirect( "index.php?option=$option&amp;task=$return", $msg );
 }
 
@@ -396,7 +396,7 @@ function restoreTrash( $cid, $option ) {
 		}
 	}
 
-	$msg = sprintf( JText::_( 'Item(s) successfully Restored' ), $total );
+	$msg = JText::sprintf( 'Item(s) successfully Restored', $total );
 	$mainframe->redirect( "index.php?option=$option&amp;task=$return", $msg );
 }
 

@@ -226,7 +226,7 @@ class JInstallerPlugin extends JInstaller
 		// Because that is not a good idea...
 		if ($row->iscore)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerPlugin::uninstall: '.sprintf(JText::_('WARNCOREPLUGIN'), $row->name)."<br />".JText::_('WARNCOREPLUGIN2'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerPlugin::uninstall: '.JText::sprintf('WARNCOREPLUGIN', $row->name)."<br />".JText::_('WARNCOREPLUGIN2'));
 			return false;
 		}
 

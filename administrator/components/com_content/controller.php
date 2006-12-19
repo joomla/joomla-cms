@@ -374,7 +374,7 @@ class ContentController extends JController
 		 */
 		if ($row->checked_out && ($row->checked_out != $user->get('id')))
 		{
-			$msg = sprintf(JText::_('DESCBEINGEDITTED'), JText::_('The module'), $row->title);
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The module'), $row->title);
 			$mainframe->redirect('index.php?option=com_content', $msg);
 		}
 
@@ -713,13 +713,13 @@ class ContentController extends JController
 				break;
 
 			case 'apply' :
-				$msg = sprintf(JText::_('Successfully Saved changes to Item'), $row->title);
+				$msg = JText::sprintf('Successfully Saved changes to Item', $row->title);
 				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect.'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='.$row->id, $msg);
 				break;
 
 			case 'save' :
 			default :
-				$msg = sprintf(JText::_('Successfully Saved Item'), $row->title);
+				$msg = JText::sprintf('Successfully Saved Item', $row->title);
 				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect, $msg);
 				break;
 		}
@@ -774,19 +774,19 @@ class ContentController extends JController
 		switch ($state)
 		{
 			case -1 :
-				$msg = sprintf(JText::_('Item(s) successfully Archived'), $total);
+				$msg = JText::sprintf('Item(s) successfully Archived', $total);
 				break;
 
 			case 1 :
-				$msg = sprintf(JText::_('Item(s) successfully Published'), $total);
+				$msg = JText::sprintf('Item(s) successfully Published', $total);
 				break;
 
 			case 0 :
 			default :
 				if ($task == 'unarchive') {
-					$msg = sprintf(JText::_('Item(s) successfully Unarchived'), $total);
+					$msg = JText::sprintf('Item(s) successfully Unarchived', $total);
 				} else {
-					$msg = sprintf(JText::_('Item(s) successfully Unpublished'), $total);
+					$msg = JText::sprintf('Item(s) successfully Unpublished', $total);
 				}
 				break;
 		}
@@ -901,7 +901,7 @@ class ContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
 
-		$msg = sprintf(JText::_('Item(s) sent to the Trash'), count($cid));
+		$msg = JText::sprintf('Item(s) sent to the Trash', count($cid));
 		$mainframe->redirect('index.php?option='.$option.'&amp;task='.$return, $msg);
 	}
 
@@ -1061,7 +1061,7 @@ class ContentController extends JController
 		}
 
 		if ($section && $category) {
-			$msg = sprintf(JText::_('Item(s) successfully moved to Section'), $total, $section, $category);
+			$msg = JText::sprintf('Item(s) successfully moved to Section', $total, $section, $category);
 		} else {
 			$msg = JText::_('Item(s) successfully moved to Static Content');
 		}
@@ -1201,7 +1201,7 @@ class ContentController extends JController
 			$row->reorder("catid='".$row->catid."' AND state >= 0");
 		}
 
-		$msg = sprintf(JText::_('Item(s) successfully copied to Section'), $total, $section, $category);
+		$msg = JText::sprintf('Item(s) successfully copied to Section', $total, $section, $category);
 		$mainframe->redirect('index.php?option='.$option.'&amp;sectionid='.$sectionid, $msg);
 	}
 

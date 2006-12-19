@@ -138,7 +138,7 @@ class MenusController extends JController
 		$model	=& $this->getModel( 'List' );
 
 		if ($model->copy($cid, $menu)) {
-			$msg = sprintf( JText::_( 'Menu Items Copied to' ), count( $cid ), $menu );
+			$msg = JText::sprintf( 'Menu Items Copied to', count( $cid ), $menu );
 		} else {
 			$msg = $model->getError();
 		}
@@ -168,7 +168,7 @@ class MenusController extends JController
 		$model	=& $this->getModel( 'List' );
 
 		if ($model->move($cid, $menu)) {
-			$msg = sprintf( JText::_( 'Menu Items Moved to' ), count( $cid ), $menu );
+			$msg = JText::sprintf( 'Menu Items Moved to', count( $cid ), $menu );
 		} else {
 			$msg = $model->getError();
 		}
@@ -186,7 +186,7 @@ class MenusController extends JController
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setState($cid, 1)) {
-			$msg = sprintf( JText::_( 'Menu Items Published' ), count( $cid ) );
+			$msg = JText::sprintf( 'Menu Items Published', count( $cid ) );
 		} else {
 			$msg = $model->getError();
 		}
@@ -204,7 +204,7 @@ class MenusController extends JController
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setState($cid, 0)) {
-			$msg = sprintf( JText::_( 'Menu Items Unpublished' ), count( $cid ) );
+			$msg = JText::sprintf( 'Menu Items Unpublished', count( $cid ) );
 		} else {
 			$msg = $model->getError();
 		}
@@ -285,7 +285,7 @@ class MenusController extends JController
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 0)) {
-			$msg = sprintf( JText::_( 'Menu Items Set Public' ), count( $cid ) );
+			$msg = JText::sprintf( 'Menu Items Set Public', count( $cid ) );
 		} else {
 			$msg = $model->getError();
 		}
@@ -303,7 +303,7 @@ class MenusController extends JController
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 1)) {
-			$msg = sprintf( JText::_( 'Menu Items Set Registered' ), count( $cid ) );
+			$msg = JText::sprintf( 'Menu Items Set Registered', count( $cid ) );
 		} else {
 			$msg = $model->getError();
 		}
@@ -321,7 +321,7 @@ class MenusController extends JController
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 2)) {
-			$msg = sprintf( JText::_( 'Menu Items Set Special' ), count( $cid ) );
+			$msg = JText::sprintf( 'Menu Items Set Special', count( $cid ) );
 		} else {
 			$msg = $model->getError();
 		}
@@ -354,7 +354,7 @@ class MenusController extends JController
 
 		$model =& $this->getModel( 'List' );
 		if ($model->toTrash($cid, $menutype)) {
-			$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), count( $cid ) );
+			$msg = JText::sprintf( 'Item(s) sent to the Trash', count( $cid ) );
 		} else {
 			$msg = $model->getError();
 		}
@@ -473,7 +473,7 @@ class MenusController extends JController
 				}
 			}
 
-	    	$msg = sprintf( JText::_( 'New Menu created' ), $menuType->menutype );
+	    	$msg = JText::sprintf( 'New Menu created', $menuType->menutype );
 		}
 		else if ($isChanged)
 		{
@@ -657,7 +657,7 @@ class MenusController extends JController
 			exit();
 		}
 
-		$msg = sprintf( JText::_( 'Copy of Menu created' ), $type, $total );
+		$msg = JText::sprintf( 'Copy of Menu created', $type, $total );
 		$mainframe->redirect( 'index.php?option=com_menus', $msg );
 	}
 }

@@ -87,7 +87,7 @@ class ContactController extends JController
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 
-		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
+		$default 	= JText::sprintf('MAILENQUIRY', $SiteName);
 		$contactId 	= JRequest::getVar('id', 			0, 			'post', 'int');
 		$name 		= JRequest::getVar('name', 			'', 		'post');
 		$email 		= JRequest::getVar('email', 		'', 		'post');
@@ -121,7 +121,7 @@ class ContactController extends JController
 		}
 
 		// Prepare email body
-		$prefix = sprintf(JText::_('ENQUIRY_TEXT'), JURI::base());
+		$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
 		$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 		$mail = new JMail();
@@ -143,7 +143,7 @@ class ContactController extends JController
 		// check whether email copy function activated
 		if ( $emailCopy && $emailcopyCheck )
 		{
-			$copyText 		= sprintf(JText::_('Copy of:'), $contact->name, $SiteName);
+			$copyText 		= JText::sprintf('Copy of:', $contact->name, $SiteName);
 			$copyText 		.= "\r\n\r\n".$body;
 			$copySubject 	= JText::_('Copy of:')." ".$subject;
 

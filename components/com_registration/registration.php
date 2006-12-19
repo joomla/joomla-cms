@@ -147,9 +147,9 @@ class RegistrationController
 			}
 
 			// Build the email body and subject
-			$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $username, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
+			$message = JText::sprintf( 'NEWPASS_MAIL_MSG', $username, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
 			eval ("\$message = \"$message\";");
-			$subject = sprintf( JText::_( 'New password for' ), $config->getValue('config.sitename'), $username );
+			$subject = JText::sprintf( 'New password for', $config->getValue('config.sitename'), $username );
 			eval ("\$subject = \"$subject\";");
 
 			// Send the new password email
@@ -169,9 +169,9 @@ class RegistrationController
 				}
 
 				// Build the email body and subject
-				$message = sprintf( JText::_( 'RESEND_MAIL_MSG' ), $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
+				$message = JText::sprintf( 'RESEND_MAIL_MSG', $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
 				eval ("\$message = \"$message\";");
-				$subject = sprintf( JText::_( 'Resend username for' ), $config->getValue('config.sitename') );
+				$subject = JText::_( 'Resend username for', $config->getValue('config.sitename') );
 				eval ("\$subject = \"$subject\";");
 
 				// Send the username reminder email

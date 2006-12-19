@@ -130,7 +130,7 @@ function showCategories( $section, $option )
 		. "\n WHERE id = $section";
 		$db->setQuery( $query );
 		$section_name = $db->loadResult();
-		$section_name = sprintf( JText::_( 'Content:' ), JText::_( $section_name ) );
+		$section_name = JText::sprintf( 'Content:', JText::_( $section_name ) );
 		$where 	= "\n WHERE c.section = '$section'";
 		$type 	= 'content';
 	} else if (strpos( $section, 'com_' ) === 0) {
@@ -148,7 +148,7 @@ function showCategories( $section, $option )
 		if ( $section == 'com_contact_details' ) {
 			$section_name 	= JText::_( 'Contact' );
 		}
-		$section_name = sprintf( JText::_( 'Component:' ), $section_name );
+		$section_name = JText::sprintf( 'Component:', $section_name );
 	} else {
 		$table 	= $section;
 		$where 	= "\n WHERE c.section = '$section'";
@@ -319,7 +319,7 @@ function editCategory( )
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $user->get('id')) {
-    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The category' ), $row->title );
+    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
 		$mainframe->redirect( 'index.php?option=categories&amp;section='. $row->section, $msg );
 	}
 
@@ -784,8 +784,8 @@ function copyCategorySave( $cid, $sectionOld )
 	{
 		$category->load( $id );
 		$category->id 		= NULL;
-		$category->title 	= sprintf( JText::_( 'Copy of' ), $category->title );
-		$category->name 	= sprintf( JText::_( 'Copy of' ), $category->name );
+		$category->title 	= JText::sprintf( 'Copy of', $category->title );
+		$category->name 	= JText::sprintf( 'Copy of', $category->name );
 		$category->section 	= $sectionMove;
 		if (!$category->check()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";

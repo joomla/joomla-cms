@@ -245,12 +245,12 @@ class JInstallationController
 						$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					} else {
 						$error = $db->getErrorMsg();
-						return JInstallationView::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
+						return JInstallationView::error($vars, array (JText::sprintf('WARNCREATEDB', $DBname)), 'dbconfig', $error);
 					}
 				} else {
 					// connection failed
 					//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $db->getErrorNum() ), 'dbconfig', $db->getErrorMsg() );
-					return JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
+					return JInstallationView::error($vars, array (JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
 				}
 			} else {
 				// pre-existing database - need to set character set to utf8

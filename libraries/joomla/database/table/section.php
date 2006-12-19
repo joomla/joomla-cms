@@ -59,11 +59,11 @@ class JTableSection extends JTable
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Section') );
+			$this->_error = JText::sprintf( 'must contain a title', JText::_( 'Section') );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = sprintf( JText::_( 'must have a name' ), JText::_( 'Section') );
+			$this->_error = JText::sprintf( 'must have a name', JText::_( 'Section') );
 			return false;
 		}
 		// check for existing name
@@ -76,7 +76,7 @@ class JTableSection extends JTable
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Section') );
+			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Section') );
 			return false;
 		}
 		return true;
