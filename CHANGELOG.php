@@ -45,6 +45,7 @@ Legend:
  # Fixed [6700] : Menu Manager - Bug in new menu creation
  # Fixed bug preventing language files correctly loading in Legacy Mode
  ^ Removed JPath:check calls in methods JPath, JFiles, and JFolder methods (too tightly coupled to Joomla install)
+ # Fixed [6414] : Template installation from directory requires trailing slash
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)

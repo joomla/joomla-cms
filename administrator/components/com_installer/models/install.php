@@ -151,6 +151,7 @@ class InstallerModelInstall extends JModel
 	{
 		// Get the path to the package to install
 		$p_dir = JRequest::getVar('userfile');
+		$p_dir = JPath::clean( $p_dir );
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir)) {

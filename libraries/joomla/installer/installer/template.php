@@ -32,22 +32,16 @@ class JInstallerTemplate extends JInstaller
 	 */
 	function install($p_fromdir)
 	{
-
-		/*
-		 * First lets set the installation directory, find and check the installation file and verify
-		 * that it is the proper installation type
-		 */
-		if (!$this->preInstallCheck($p_fromdir, 'template'))
-		{
+		// First lets set the installation directory, find and check the installation file and verify
+		// that it is the proper installation type
+		if (!$this->preInstallCheck($p_fromdir, 'template')) {
 			return false;
 		}
 
 		// Get the root node of the XML document
 		$root = & $this->_xmldoc->documentElement;
 
-		/*
-		 * LEGACY CHECK
-		 */
+		// LEGACY CHECK
 		$version	= $root->getAttribute('version');
 		$rootName	= $root->getTagName();
 		$config		= &JFactory::getConfig();
@@ -56,9 +50,7 @@ class JInstallerTemplate extends JInstaller
 			return false;
 		}
 
-		/*
-		 * Get the client application target
-		 */
+		// Get the client application target
 		if ($client = $root->getAttribute('client'))
 		{
 			jimport('joomla.application.helper');
@@ -72,32 +64,24 @@ class JInstallerTemplate extends JInstaller
 			$clientId = $clientVals->id;
 		} else
 		{
-			/*
-			 * No client attribute was found so we assume the site as the client
-			 */
+			// No client attribute was found so we assume the site as the client
 			$client = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
 		}
 
-		/*
-		 * Set the template name
-		 */
+		// Set the template name
 		$e = & $root->getElementsByPath('name', 1);
 		$this->_extensionName = $e->getText();
 
-		/*
-		 * Set the template installation directory
-		 */
+		// Set the template installation directory
 		$this->_extensionDir = JPath::clean($basePath.DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->_extensionName)));
 
-		/*
-		 * If the template directory does not exists, lets create it
-		 */
+		// If the template directory does not exists, lets create it
 		$created = false;
 		if (JFolder::exists($this->_extensionDir)) {
 			JError::raiseWarning(1, 'JInstallerTemplate::install: '.JText::_('Template Already Exists'));
-			return false;
+			//return false;
 		} else {
 			if (!$created = JFolder::create($this->_extensionDir)) {
 				JError::raiseWarning(1, 'JInstallerTemplate::install: '.JText::_('Failed to create directory').' "'.$this->_extensionDir.'"');
@@ -105,15 +89,11 @@ class JInstallerTemplate extends JInstaller
 			}
 		}
 
-		/*
-		 * Since we created the template directory and will want to remove it if we have to roll back
-		 * the installation, lets add it to the installation step stack
-		 */
+		// Since we created the template directory and will want to remove it if we have to roll back
+		// the installation, lets add it to the installation step stack
 		$this->_stepStack[] = array ('type' => 'folder', 'path' => $this->_extensionDir);
 
-		/*
-		 * Copy all necessary files
-		 */
+		// Copy all necessary files
 		if ($this->_parseFiles('files') === false)
 		{
 			JError::raiseWarning(1, 'JInstallerTemplate::install: '.JText::_('Failed to create directory').' "'.$this->_extensionDir.'"');
@@ -147,9 +127,7 @@ class JInstallerTemplate extends JInstaller
 			return false;
 		}
 
-		/*
-		 * Get the template description
-		 */
+		// Get the template description
 		$e = & $root->getElementsByPath('description', 1);
 		if (!is_null($e))
 		{
@@ -159,9 +137,7 @@ class JInstallerTemplate extends JInstaller
 			$this->description = $this->_extensionName;
 		}
 
-		/*
-		 * Now, lets create the necessary template positions
-		 */
+		// Now, lets create the necessary template positions
 		$templatePositions = & $root->getElementsByPath('install/positions', 1);
 		if (!is_null($templatePositions))
 		{
@@ -173,18 +149,14 @@ class JInstallerTemplate extends JInstaller
 
 				if ($id)
 				{
-					/*
-					 * Since we have created a template positions item, we add it to the installation step stack
-					 * so that if we have to rollback the changes we can undo it.
-					 */
+					// Since we have created a template positions item, we add it to the installation step stack
+					// so that if we have to rollback the changes we can undo it.
 					$step = $this->_stepStack[] = array ('type' => 'position', 'id' => $id);
 				}
 			}
 		}
 
-		/*
-		 * Lastly, we will copy the setup file to its appropriate place.
-		 */
+		// Lastly, we will copy the setup file to its appropriate place.
 		if (!$this->_copyInstallFile(0))
 		{
 			JError::raiseWarning(1, 'JInstallerTemplate::install: '.JText::_('Could not copy setup file'));

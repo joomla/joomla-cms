@@ -749,26 +749,26 @@ class JInstaller extends JObject
 			foreach ($p_files as $file)
 			{
 				// Get the source and destination paths
-				$filesource = JPath::clean($file['src'], false);
-				$filedest = JPath::clean($file['dest'], false);
+				$filesource	= JPath::clean($file['src'], false);
+				$filedest	= JPath::clean($file['dest'], false);
 
 				if (!file_exists($filesource)) {
 					/*
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					JError::raiseWarning(1, 'JInstaller::install: '.sprintf(JText::_('File does not exist'), $filesource));
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('File does not exist', $filesource));
 					return false;
 				} elseif (file_exists($filedest) && !$overwrite) {
 						/*
 						 * The destination file already exists and the overwrite flag is false.
 						 * Set an error and return false.
 						 */
-						JError::raiseWarning(1, 'JInstaller::install: '.sprintf(JText::_('WARNSAME'), $filedest));
+						JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('WARNSAME', $filedest));
 						return false;
 				} else {
 					if (!(JFile::copy($filesource, $filedest))) {
-						JError::raiseWarning(1, 'JInstaller::install: '.sprintf(JText::_('Failed to copy file to'), $filesource, $filedest));
+						JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
 						return false;
 					}
 
@@ -1143,7 +1143,6 @@ class JInstallerHelper
 	 */
 	function detectType($p_dir)
 	{
-
 		// Search the install dir for an xml file
 		$files = JFolder::files($p_dir, '\.xml$', true, true);
 
