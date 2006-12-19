@@ -271,7 +271,7 @@ class HTML_trash
 			 <td valign="top"><?php echo JText::_( '* This will' ); ?>
 			 <strong><font color="#FF0000"><?php echo JText::_( 'Permanently Delete' ); ?></font></strong> <br /><?php echo JText::_( 'these Items from the Database *' ); ?>
 			<br /><br /><br />
-			<a class="icon-32-delete" style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px; background-repeat: no-repeat; padding-left: 40px; "  href="javascript:if (confirm('<?php echo JText::_( 'WARNWANTDELLISTEDITEMS' ); ?>')){ submitbutton('delete');}">
+			<a class="icon-32-delete" style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px; background-repeat: no-repeat; padding-left: 40px; "  href="javascript:void submitbutton('delete')">
 			&nbsp;<?php echo JText::_( 'Delete' ); ?>
 			</a>
 			</td>
