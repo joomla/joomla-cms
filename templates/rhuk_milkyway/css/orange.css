@@ -12,7 +12,7 @@ a:hover {
 }
 
 #pillmenu a#active_menu-nav {
-  background: url(../images/orange/mw_menu_active_bg.png) repeat-x;
+  background: url(../images/orange/mw_menu_active_bg.png) 0 0 repeat-x;
   color: #fff;
 }
 

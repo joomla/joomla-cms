@@ -266,6 +266,13 @@ td.pill_r {
   text-decoration: none;
 }
 
+#pillmenu a#active_menu-nav {
+	margin-top:2px;
+	height: 21px;
+	line-height: 21px;
+	background-position: 0 0;
+}
+
 #leftcolumn {
 	padding: 0;
 	margin: 0;
