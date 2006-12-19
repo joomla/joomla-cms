@@ -83,8 +83,7 @@ class JFile
 		}
 
 		// Check that both paths are in the Joomla filesystem root
-		JPath::check($src);
-		JPath::check($dest);
+		// Source is not necessarily in the joomla root, eg install template from directory
 
 		//Check src path
 		if (!is_readable($src)) {
@@ -161,7 +160,6 @@ class JFile
 		$retval = true;
 		foreach ($files as $file) {
 			$file = JPath::clean($file, false);
-			JPath::check($file);
 
 		    // In case of restricted permissions we zap it one way or the other
 		    // as long as the owner is either the webserver or the ftp
@@ -202,8 +200,6 @@ class JFile
 			$src = JPath::clean($path.$src, false);
 			$dest = JPath::clean($path.$dest, false);
 		}
-		JPath::check($src);
-		JPath::check($dest);
 
 		//Check src path
 		if (!is_readable($src) && !is_writable($src)) {
@@ -286,7 +282,6 @@ class JFile
 		// Initialize variables
 		$ftpFlag	= true;
 		$ftpRoot	= $config->getValue('config.ftp_root');
-		JPath::check($file);
 
 		// Do NOT use ftp if it is not enabled
 		if ($config->getValue('config.ftp_enable') != 1) {
@@ -336,7 +331,6 @@ class JFile
 
 		// Ensure that the path is valid and clean
 		$dest = JPath::clean($dest, false);
-		JPath::check($dest);
 
 		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
