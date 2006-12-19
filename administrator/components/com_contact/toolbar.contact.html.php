@@ -51,10 +51,7 @@ class TOOLBAR_contact {
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
-
-		// Add a popup configuration button
-		$bar = & JToolBar::getInstance('JComponent');
-		$bar->appendButton( 'Popup', 'config', 'Configuration', 'index3.php?option=com_config&c=component&component=com_contact', '700', '500' );
+		JMenuBar::configuration('com_contact', '500');
 
 		JMenuBar::help( 'screen.contactmanager' );
 	}
