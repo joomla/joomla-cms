@@ -253,16 +253,28 @@ class MenusModelItem extends JModel
 			return false;
 		}
 
-		$row->name = ampReplace( $row->name );
-
-		// if new item order last in appropriate group
-		if (!$row->id) {
+		if ($row->id > 0)
+		{
+			// existing item
+			$query		= 'SELECT menutype FROM #__menu WHERE id = '.(int) $row->id;
+			$this->_db->setQuery( $query );
+			$oldType	= $this->_db->loadResult();
+			if ($oldType != $row->menutype) {
+				// moved to another menu, disconnect the old parent
+				$row->parent = 0;
+			}		
+		}
+		else
+		{
+			// if new item order last in appropriate group
 			$where = "menutype = '" . $row->menutype . "' AND published >= 0 AND parent = ".$row->parent;
 			$row->ordering = $row->getNextOrder ( $where );
 		}
 
-		if (is_array($post['urlparams'])) {
+		$row->name = ampReplace( $row->name );
 
+		if (is_array($post['urlparams']))
+		{
 			$pos = strpos( $row->link, '?' );
 			if ($pos !== false)
 			{
@@ -283,12 +295,14 @@ class MenusModelItem extends JModel
 			}
 		}
 
-		if (!$row->check()) {
+		if (!$row->check())
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
 
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			return false;
 		}
