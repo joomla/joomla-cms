@@ -31,7 +31,6 @@ class TOOLBAR_banners
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::title( JText::_( 'Banner' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
-		JMenuBar::media_manager( 'banners' );
 		JMenuBar::save();
 		JMenuBar::apply();
 		if ($cid[0]) {
