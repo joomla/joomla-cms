@@ -25,7 +25,7 @@ jimport('joomla.environment.uri');
  * @package		Joomla!
  * @subpackage	SEF
  */
-class  JRequestJoomla extends JPlugin 
+class  JRequestJoomla extends JPlugin
 {
 	/**
 	 * Constructor
@@ -38,7 +38,7 @@ class  JRequestJoomla extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function JRequestJoomla(& $subject) 
+	function JRequestJoomla(& $subject)
 	{
 		parent::__construct($subject);
 
@@ -77,7 +77,7 @@ class  JRequestJoomla extends JPlugin
 			// Get the base and full URLs
 			$FULL = $URI->toString();
 			$BASE = JURI::base();
-			
+
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($BASE);
@@ -86,7 +86,7 @@ class  JRequestJoomla extends JPlugin
 			$this->parseURI($url);
 		}
 	}
-	
+
 	function parseURI($url)
 	{
 		$urlArray = explode('/', $url);
@@ -96,12 +96,12 @@ class  JRequestJoomla extends JPlugin
 			if ((preg_match( '#index\d?\.php#', $urlArray[0])) || (strpos($urlArray[0], 'feed.php') !== false)) {
 				array_shift($urlArray);
 			}
-			
+
 			$component = isset( $urlArray[0] ) ? $urlArray[0] : '';
 			if ($component == '') {
 				return;
-			} 
-			elseif (strpos($component,'option,') === false) 
+			}
+			elseif (strpos($component,'option,') === false)
 			{
 				//
 				// FORMAT: /component_name/.../...
@@ -125,16 +125,16 @@ class  JRequestJoomla extends JPlugin
 				if (is_numeric($urlArray[count($urlArray)-1])) {
 					JRequest::setVar('Itemid', array_pop($urlArray), 'get');
 				}
-				
+
 				// Use the custom sef handler if it exists
 				$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'request.php';
-				if (file_exists($path)) 
+				if (file_exists($path))
 				{
 					require_once $path;
 					$function = $component.'ParseURL';
 					$function($urlArray,$this->_params);
-				} 
-				else 
+				}
+				else
 				{
 					// No handler set, just try to parse url by , separation
 					foreach ($urlArray as $value)
@@ -145,7 +145,7 @@ class  JRequestJoomla extends JPlugin
 						}
 					}
 				}
-			} 
+			}
 		}
 	}
 }
@@ -165,7 +165,7 @@ $dispatcher->attach(new JRequestJoomla($dispatcher));
 function sefRelToAbs($value)
 {
 	global $mainframe, $Itemid, $option;
-	
+
 	static $strings;
 
 	if (!$strings) {
@@ -179,7 +179,7 @@ function sefRelToAbs($value)
 
 		// Get the plugin parameters if not set
 		static $params;
-		if (!isset($params)) 
+		if (!isset($params))
 		{
 			// load plugin parameters
 			$plugin = & JPluginHelper::getPlugin('system', 'joomla.request');
@@ -189,10 +189,10 @@ function sefRelToAbs($value)
 		// Get config variables
 		$mode    = $params->get('mode', 0);
 		$rewrite = $config->getValue('config.sef');
-		
+
 		// Replace all &amp; with &
 		$string = str_replace('&amp;', '&', $value);
-		
+
 		// Home index.php
 		if ($string == 'index.php') {
 			$string = '';
@@ -200,52 +200,52 @@ function sefRelToAbs($value)
 
 		// decompose link into url component parts
 		$uri = JURI::getInstance($string);
-		
+
 		// check if link contained a query component
-		if ($query = $uri->getQuery()) 
+		if ($query = $uri->getQuery())
 		{
 			// special handling for javascript
 			$query = stripslashes(str_replace('+', '%2b', $query));
-			
+
 			// clean possible xss attacks
 			$query = preg_replace("'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $query);
-			
+
 			//set the query
 			$uri->setQuery($query);
 		}
-		
+
 		// rewite URL
-		if ($rewrite && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php')) 
+		if ($rewrite && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
 		{
 			//get component name
-			$component = str_replace('com_', '', $uri->getVar('option'));	
+			$component = str_replace('com_', '', $uri->getVar('option'));
 			$itemid    = intval( $uri->getVar('Itemid'));
-					
+
 			$route     = ''; //the route created
-				
+
 			// Build component name and sef handler path
 			$path = JPATH_BASE.DS.'components'.DS.$uri->getVar('option').DS.'request.php';
-				
+
 			$uri->delVar('option'); //don't need the option anymore
 			$uri->delVar('Itemid'); //don't need the itemid anymore
 			$query = $uri->getQuery(true);
-			
+
 			// Use the custom request handler if it exists
-			if (file_exists($path)) 
+			if (file_exists($path))
 			{
 				require_once $path;
-				$function  = $component.'BuildURL';		
+				$function  = $component.'BuildURL';
 				$parts     = $function($query,$params);
-								
+
 				$route = implode('/', $parts);
 				$route = ($route) ? $route.'/' : null;
-		
+
 				$uri->setQuery($query);
-			}	 
-			
+			}
+
 			// get the query
 			$query = $uri->getQuery();
-			
+
 			// check if link contained fragment identifiers (ex. #foo)
 			$fragment = null;
 			if ($fragment = $uri->getFragment()) {
@@ -254,25 +254,25 @@ function sefRelToAbs($value)
 					$fragment = '#'.$fragment;
 				}
 			}
-			
+
 			if($query) {
 				$query = '?'.$query;
 			}
-			
+
 			$url = $component.'/'.$route.$itemid.$fragment.$query;
-			
+
 			// Prepend the base URI if we are not using mod_rewrite
 			if ($mode) {
 				$url = 'index.php/'.$url;
-			} 
+			}
 			$strings[$value] = $url;
-						 	
-			return $url;
+
+			return str_replace( '&', '&amp;', $url );
 		}
-		
+
 		$strings[$value] = $uri->toString();
 	}
 
-	return str_replace( '&', '&amp;', $strings[$value] );;
+	return str_replace( '&', '&amp;', $strings[$value] );
 }
 ?>
