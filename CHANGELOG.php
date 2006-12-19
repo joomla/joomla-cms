@@ -44,6 +44,7 @@ Legend:
  # Fixed [6550] : CVS directories not ignored
  # Fixed [6700] : Menu Manager - Bug in new menu creation
  # Fixed bug preventing language files correctly loading in Legacy Mode
+ ^ Added argument to turn off the path file check in JFolder::files and JFolder::folders
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)
