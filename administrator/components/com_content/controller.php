@@ -803,7 +803,7 @@ class ContentController extends JController
 			$rtask = '';
 		}
 
-		$mainframe->redirect('index.php?option='.$option.$rtask.'&amp;sectionid='.$redirect.'&amp;josmsg='.$msg);
+		$mainframe->redirect('index.php?option='.$option.$rtask.'&amp;sectionid='.$redirect, $msg);
 	}
 
 	/**
@@ -1010,7 +1010,7 @@ class ContentController extends JController
 		list ($newsect, $newcat) = explode(',', $sectcat);
 
 		if (!$newsect && !$newcat) {
-			$mainframe->redirect("index.php?option=com_content&amp;sectionid=$sectionid&amp;josmsg=".JText::_('An error has occurred'));
+			$mainframe->redirect("index.php?option=com_content&amp;sectionid=$sectionid", JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1131,7 +1131,7 @@ class ContentController extends JController
 		list ($newsect, $newcat) = $sectcat;
 
 		if (!$newsect && !$newcat) {
-			$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$sectionid.'&amp;josmsg='.JText::_('An error has occurred'));
+			$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$sectionid, JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1202,7 +1202,7 @@ class ContentController extends JController
 		}
 
 		$msg = sprintf(JText::_('Item(s) successfully copied to Section'), $total, $section, $category);
-		$mainframe->redirect('index.php?option='.$option.'&amp;sectionid='.$sectionid.'&amp;josmsg='.$msg);
+		$mainframe->redirect('index.php?option='.$option.'&amp;sectionid='.$sectionid, $msg);
 	}
 
 	/**

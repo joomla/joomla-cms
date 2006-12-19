@@ -55,6 +55,7 @@ Legend:
  + Added "Tags" column to Banners list view
  # Fixed [6597] : Polls: Poll is assigned to menu both by module and by poll component
  # Fixed [7050] : backend localization was gone in rev. 6013
+ # Fixed lingering &josmsg=??? in page redirect methods
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)

@@ -506,7 +506,8 @@ function removeCategories( $section, $cid )
 	$db->setQuery( $query );
 
 	if (!($rows = $db->loadObjectList())) {
-		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		JError::raiseError( 500, $db->stderr() );
+		return false;
 	}
 
 	$err = array();
@@ -526,14 +527,15 @@ function removeCategories( $section, $cid )
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			JError::raiseError( 500, $db->stderr() );
+			return false;
 		}
 	}
 
 	if (count( $err )) {
 		$cids = implode( "\', \'", $err );
-    	$msg = sprintf( JText::_( 'WARNNOTREMOVEDRECORDS' ), $cids );
-		$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section .'&josmsg='. $msg );
+    	$msg = JText::sprintf( 'WARNNOTREMOVEDRECORDS', $cids );
+		$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section, $msg );
 	}
 
 	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section );
@@ -711,8 +713,8 @@ function moveCategorySave( $cid, $sectionOld )
 	$sectionNew =& JTable::getInstance('section');
 	$sectionNew->load( $sectionMove );
 
-	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $sectionOld .'&josmsg='. $msg );
+	$msg = JText::sprintf( 'Categories moved to', $sectionNew->name );
+	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $sectionOld, $msg );
 }
 
 /**
@@ -827,8 +829,8 @@ function copyCategorySave( $cid, $sectionOld )
 	$sectionNew =& JTable::getInstance('section');
 	$sectionNew->load( $sectionMove );
 
-	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $sectionOld .'&josmsg='. $msg );
+	$msg = JText::sprintf( 'Categories copied to', $total, $sectionNew->name );
+	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $sectionOld, $msg );
 }
 
 /**

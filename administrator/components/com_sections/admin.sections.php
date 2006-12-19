@@ -236,7 +236,7 @@ function editSection( )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
-		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $row->scope .'&amp;josmsg='. $msg );
+		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $row->scope, $msg );
 	}
 
 	if ( $cid[0] ) {
@@ -637,7 +637,7 @@ function copySectionSave( $sectionid )
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
-	$mainframe->redirect( 'index.php?option=com_sections&amp;scope=content&amp;josmsg='. $msg );
+	$mainframe->redirect( 'index.php?option=com_sections&amp;scope=content', $msg );
 }
 
 /**

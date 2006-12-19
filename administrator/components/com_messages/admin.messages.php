@@ -246,7 +246,7 @@ function saveMessage( $option )
 	}
 
 	if (!$row->send()) {
-		$mainframe->redirect( "index.php?option=com_messages&amp;josmsg=" . $row->getError() );
+		$mainframe->redirect( "index.php?option=com_messages", $row->getError() );
 	}
 	$mainframe->redirect( "index.php?option=com_messages" );
 }
