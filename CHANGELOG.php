@@ -40,6 +40,7 @@ Legend:
 19-Dec-2006 Andrew Eddie
  # Fixed bug in patTemplate shortModifier tags (patch submitted to author)
  # Added patch to patErrorManager where a class method handler is not found
+ # Fixed [6774] : Moving a submenu to another menu by editing "Display in"
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)
