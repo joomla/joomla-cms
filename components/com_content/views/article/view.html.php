@@ -49,7 +49,7 @@ class ContentViewArticle extends JView
 		if (($article->id == 0))
 		{
 			$id = JRequest::getVar( 'id' );
-			return JError::raiseError( 404, JText::sprintf( 'Article #%d not found', $id ) );
+			return JError::raiseError( 404, JText::sprintf( 'Article # not found', $id ) );
 		}
 
 		$linkOn   = null;

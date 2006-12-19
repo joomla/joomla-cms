@@ -57,6 +57,7 @@ Legend:
  # Fixed [7050] : backend localization was gone in rev. 6013
  # Fixed lingering &josmsg=??? in page redirect methods
  ^ Removed annoying js confirmation when you try to empty trash
+ # Fixed [6362] : Untranslated error message
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)
