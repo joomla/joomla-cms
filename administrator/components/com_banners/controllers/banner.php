@@ -206,7 +206,7 @@ class BannerController
 		}
 
 		// if new item order last in appropriate group
-		if (!$row->id) {
+		if (!$row->bid) {
 			$where = "catid = " . $row->catid ;
 			$row->ordering = $row->getNextOrder ( $where );
 		}
