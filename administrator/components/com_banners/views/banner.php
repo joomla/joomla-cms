@@ -73,15 +73,15 @@ class BannersView
 						<?php echo JText::_( 'Sticky' ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
-					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo JText::_( 'Impressions Left' ); ?>
+						<?php JCommonHTML::tableOrdering( 'Impressions', 'b.impmade', $lists ); ?>
 					</th>
 					<th width="80">
 						<?php JCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
 					</th>
-					<th width="50" nowrap="nowrap">
+					<th width="5%" nowrap="nowrap">
+						<?php echo JText::_( 'Tags' ); ?>
+					</th>
+					<th width="1%" nowrap="nowrap">
 						<?php JCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
 					</th>
 				</tr>
@@ -144,14 +144,14 @@ class BannersView
 						<?php echo $row->sticky ? JText::_( 'Yes' ) : 'No';?>
 					</td>
 					<td align="center">
-						<?php echo $row->impmade;?>
-					</td>
-					<td align="center">
-						<?php echo JText::_( $impleft ); ?>
+						<?php echo $row->impmade;?> of <?php echo JText::_( $impleft );?>
 					</td>
 					<td align="center">
 						<?php echo $row->clicks;?> -
 						<?php echo sprintf( '%.2f%%', $percentClicks );?>
+					</td>
+					<td>
+						<?php echo $row->tags; ?>
 					</td>
 					<td align="center">
 						<?php echo $row->id; ?>
