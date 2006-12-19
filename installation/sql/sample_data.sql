@@ -213,14 +213,7 @@ INSERT INTO `#__modules_menu` VALUES (28,0);
 INSERT INTO `#__modules_menu` VALUES (30,0);
 INSERT INTO `#__modules_menu` VALUES (32,0);
 INSERT INTO `#__modules_menu` VALUES (40, 0);
-INSERT INTO `#__modules_menu` VALUES (42, 0);
-INSERT INTO `#__modules_menu` VALUES (43, 0);
-INSERT INTO `#__modules_menu` VALUES (44, 0);
-INSERT INTO `#__modules_menu` VALUES (45, 43);
-INSERT INTO `#__modules_menu` VALUES (45, 44);
-INSERT INTO `#__modules_menu` VALUES (45, 45);
-INSERT INTO `#__modules_menu` VALUES (45, 46);
-INSERT INTO `#__modules_menu` VALUES (45, 47);
+
 --
 -- Dumping data for table `#__newsfeeds`
 --
