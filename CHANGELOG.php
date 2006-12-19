@@ -47,6 +47,7 @@ Legend:
  ^ Removed JPath:check calls in methods JPath, JFiles, and JFolder methods (too tightly coupled to Joomla install)
  # Fixed [6414] : Template installation from directory requires trailing slash
  # Fixed [6678] : Delete Template Fails
+ # Fixed [7030] : Missing function reference in installer.php
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)

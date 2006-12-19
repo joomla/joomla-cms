@@ -528,7 +528,7 @@ class JInstaller extends JObject
 				$newdir = dirname($path['dest']);
 
 				if (!JFolder::create($newdir)) {
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'. ($this->elementDir()).$newdir.'"');
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$newdir.'"');
 					return false;
 				}
 			}
