@@ -48,6 +48,7 @@ Legend:
  # Fixed [6414] : Template installation from directory requires trailing slash
  # Fixed [6678] : Delete Template Fails
  # Fixed [7030] : Missing function reference in installer.php
+ # Fixed bug in Banners list, category filter
 
 18-Dec-2006 Rastin Mehr
  # Fixed [6836] - Broken images get displayed in newsfeed categories (patch)
