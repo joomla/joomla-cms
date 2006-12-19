@@ -208,7 +208,7 @@ class PollView
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" id="polloption<?php echo $options[$i]->id; ?>" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
+							<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" id="polloption<?php echo $options[$i]->id; ?>" value="<?php echo $options[$i]->text; ?>" size="60" />
 						</td>
 					</tr>
 					<?php
@@ -256,7 +256,7 @@ class PollView
 			{?>
 			<tr>
 				<td valign="top" height="30"><input type="radio" name="poll" value="<?php echo $text; ?>"></td>
-				<td class="poll" width="100%" valign="top"><?php echo stripslashes($text); ?></td>
+				<td class="poll" width="100%" valign="top"><?php echo $text; ?></td>
 			</tr>
 			<?php }
 		} ?>

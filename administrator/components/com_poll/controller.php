@@ -170,9 +170,9 @@ class PollController extends JController
 		$db		=& JFactory::getDBO();
 
 		// save the poll parent information
-		$row =& JTable::getInstance('poll', 'Table');
-
-		if (!$row->bind( JRequest::get( 'post' ) ))
+		$row	=& JTable::getInstance('poll', 'Table');
+		$post	= JRequest::get( 'post' );
+		if (!$row->bind( $post ))
 		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
@@ -192,7 +192,7 @@ class PollController extends JController
 		}
 		$row->checkin();
 		// save the poll options
-		$options = JRequest::getVar( 'polloption', array(), 'post', 'array' );
+		$options = JArrayHelper::getValue( $post, 'polloption', array(), 'array' );
 
 		foreach ($options as $i=>$text)
 		{
