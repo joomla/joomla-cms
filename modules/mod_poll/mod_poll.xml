@@ -12,7 +12,8 @@
 	<files>
 	<filename module="mod_poll">mod_poll.php</filename>
 	</files>
-	<params>
+	<params addParameterDir="/administrator/components/com_poll/elements">
+		<param name="id" type="poll" default="" label="Poll" description="PARAMMODULEPOLL" />
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>

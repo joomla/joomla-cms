@@ -59,17 +59,17 @@ class PollView
 					<th width="8%" align="center">
 						<?php JCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 					</th>
-					<th width="3%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
-					</th>
 					<th width="8%" align="center">
 						<?php JCommonHTML::tableOrdering( 'Votes', 'm.voters', $lists ); ?>
 					</th>
 					<th width="8%" align="center">
 						<?php JCommonHTML::tableOrdering( 'Options', 'numoptions', $lists ); ?>
 					</th>
-					<th width="10%" align="center">
+					<th width="8%" align="center">
 						<?php JCommonHTML::tableOrdering( 'Lag', 'm.lag', $lists ); ?>
+					</th>
+					<th width="1%" nowrap="nowrap">
+						<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -99,9 +99,6 @@ class PollView
 						<?php echo $published;?>
 					</td>
 					<td align="center">
-						<?php echo $row->id; ?>
-					</td>
-					<td align="center">
 						<?php echo $row->voters; ?>
 					</td>
 					<td align="center">
@@ -109,6 +106,9 @@ class PollView
 					</td>
 					<td align="center">
 						<?php echo $row->lag; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php
@@ -134,7 +134,7 @@ class PollView
 	}
 
 
-	function editPoll( &$row, &$options, &$lists )
+	function editPoll( &$row, &$options )
 	{
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES );
@@ -187,16 +187,6 @@ class PollView
 					<td>
 						<input class="inputbox" type="text" name="lag" id="lag" size="10" value="<?php echo $row->lag; ?>" />
 						<?php echo JText::_( '(seconds between votes)' ); ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<label for="selections">
-							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php echo $lists['select']; ?>
 					</td>
 				</tr>
 				</table>

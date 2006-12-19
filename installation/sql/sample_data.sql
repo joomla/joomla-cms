@@ -159,7 +159,7 @@ INSERT INTO `#__menu_types` VALUES (7, 'keyconcepts', 'Key Concepts', 'This desc
 --
 
 DELETE FROM `#__modules` WHERE `id` = 25 ;
-INSERT INTO `#__modules` VALUES (1, 'Polls', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_poll', 0, 0, 1, '', 0, 0, '');
+INSERT INTO `#__modules` VALUES (1, 'Polls', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_poll', 0, 0, 1, 'id=1', 0, 0, '');
 INSERT INTO `#__modules` VALUES (2, 'User Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 1, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (4, 'Login Form', '', 6, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, 'greeting=1\nname=0', 1, 0, '');
 INSERT INTO `#__modules` VALUES (5, 'Latest News', '', 4, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_latestnews', 0, 0, 1, '', 1, 0, '');
@@ -257,12 +257,6 @@ INSERT INTO `#__poll_date` VALUES (4, '2006-10-11 15:02:26', 2, 14);
 INSERT INTO `#__poll_date` VALUES (5, '2006-10-11 15:43:03', 7, 14);
 INSERT INTO `#__poll_date` VALUES (6, '2006-10-11 15:43:38', 7, 14);
 INSERT INTO `#__poll_date` VALUES (7, '2006-10-12 00:51:13', 2, 14);
-
---
--- Dumping data for table `#__poll_menu`
---
-
-INSERT INTO `#__poll_menu` VALUES (14, 1);
 
 --
 -- Dumping data for table `#__polls`

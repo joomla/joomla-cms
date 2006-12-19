@@ -585,6 +585,7 @@ CREATE TABLE `#__polls` (
 
 #
 # Table structure for table `#__poll_menu`
+# !!!DEPRECATED!!!
 #
 
 CREATE TABLE `#__poll_menu` (

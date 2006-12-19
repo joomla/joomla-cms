@@ -161,26 +161,8 @@ class PollController extends JController
 			$row->lag = 3600*24;
 		}
 
-		// get selected pages
-		if ($uid)
-		{
-			$query = "SELECT menuid AS value"
-			. "\n FROM #__poll_menu"
-			. "\n WHERE pollid = $row->id"
-			;
-			$db->setQuery( $query );
-			$lookup = $db->loadObjectList();
-		}
-		else
-		{
-			$lookup = array( JHTMLSelect::option( 0, JText::_( 'All' ) ) );
-		}
-
-		// build the html select list
-		$lists['select'] = JAdminMenus::MenuLinks( $lookup, 1, 1 );
-
 		require_once( JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php' );
-		PollView::editPoll($row, $options, $lists );
+		PollView::editPoll($row, $options );
 	}
 
 	function savePoll()
@@ -234,24 +216,6 @@ class PollController extends JController
 				$db->setQuery( $query );
 				$db->query();
 			}
-		}
-
-		// update the menu visibility
-		$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
-
-		$query = "DELETE FROM #__poll_menu"
-		. "\n WHERE pollid = $row->id"
-		;
-		$db->setQuery( $query );
-		$db->query();
-
-		for ($i=0, $n=count($selections); $i < $n; $i++)
-		{
-			$query = "INSERT INTO #__poll_menu"
-			. "\n SET pollid = $row->id, menuid = ". $selections[$i]
-			;
-			$db->setQuery( $query );
-			$db->query();
 		}
 
 		switch ($this->_task)

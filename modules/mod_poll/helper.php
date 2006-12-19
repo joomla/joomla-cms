@@ -22,21 +22,23 @@ class modPollHelper
 
 		$Itemid = JRequest::getVar( 'Itemid' );
 		$db		=& JFactory::getDBO();
-
-		$query = "SELECT p.id, p.title" .
-			"\n FROM #__polls AS p, #__poll_menu AS pm" .
-			"\n WHERE (pm.menuid = ".(int) $Itemid." OR pm.menuid = 0)" .
-			"\n AND p.id = pm.pollid" .
-			"\n AND p.published = 1";
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-
-		if ($db->getErrorNum()) {
-			echo $db->stderr(true);
-			return;
+		$result	= array();
+		
+		if ($id = $params->get( 'id', 0 ))
+		{
+			$query = "SELECT p.id, p.title" .
+				"\n FROM #__polls AS p, #__poll_menu AS pm" .
+				"\n WHERE p.id = ".(int) $id.
+				"\n AND p.published = 1";
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
+	
+			if ($db->getErrorNum()) {
+				JError::raiseWarning( 500, $db->stderr(true) );
+			}
 		}
 
-		return $rows;
+		return $result;
 	}
 
 	function getPollOptions($id)
