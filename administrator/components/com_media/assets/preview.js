@@ -291,6 +291,15 @@ JMediaPreview.prototype = {
 	    for(i = 0; i < selects.length; i++) {
 	        selects[i].style.visibility = state;
 	    }
+	    // IFrame elements
+	    iframes = window.top.document.getElementsByTagName('iframe');
+	    for(i=0;i<iframes.length;i++) {
+			if (state == 'hidden') {
+			   	iframes[i].scrolling = 'no';
+			} else {
+			   	iframes[i].scrolling = 'auto';
+			}
+	    }
 	},
 
 // getPageScroll()
