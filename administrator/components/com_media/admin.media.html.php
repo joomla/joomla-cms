@@ -119,6 +119,7 @@ class MediaViews
 		$doc   =& JFactory::getDocument();
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
+		$doc->addScript('components/com_media/assets/preview.js');
 
 		$style = ucfirst($style);
 		MediaViews::imageStyle($current);
@@ -260,7 +261,7 @@ class MediaViews
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				<?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?>
+				<a href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" rel="preview"><?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -374,7 +375,7 @@ class MediaViews
 		?>
 		<tr>
 			<td>
-				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
+				<a href="<?php echo $img_url; ?>" title="<?php echo $file;?>" rel="preview"><img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" /></a>
 			</td>
 			<td class="description">
 				<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
