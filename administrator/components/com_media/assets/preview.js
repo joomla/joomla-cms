@@ -85,7 +85,7 @@ JMediaPreview.prototype = {
 		var caption			= window.top.document.getElementById('previewCaption');
 		var image			= window.top.document.getElementById('previewImage');
 		var loadingImage	= window.top.document.getElementById('loadingImage');
-		var container		= window.top.document.getElementById('previewDetails');
+		var container		= window.top.document.getElementById('previewContainer');
 
 		// Get screen information
 		var arrayPageSize	= this.getPageSize();
@@ -265,7 +265,7 @@ JMediaPreview.prototype = {
 
 		// create details div, a container for the caption and keyboard message
 		var container = document.createElement("div");
-		container.setAttribute('id','previewDetails');
+		container.setAttribute('id','previewContainer');
 		preview.appendChild(container);
 
 		// create caption

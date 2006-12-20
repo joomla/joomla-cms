@@ -50,6 +50,7 @@ class MediaViews
 		$document->setBuffer($listStyle, 'module', 'submenu');
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
+		$document->addStyleSheet('components/com_media/assets/preview.css');
 
 		MediaViews::_loadJS();
 		?>
