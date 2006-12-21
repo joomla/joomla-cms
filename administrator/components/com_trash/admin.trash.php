@@ -95,10 +95,12 @@ function viewTrashContent( $option )
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.name, cc.name, c.title";
 
 	// get the total number of content
-	$query = "SELECT count(*)"
+	$query = "SELECT count(c.id)"
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
+	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
+	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. $where
 	;
 	$db->setQuery( $query );
@@ -112,7 +114,7 @@ function viewTrashContent( $option )
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
-	. "\n INNER JOIN #__groups AS g ON g.id = c.access"
+	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. $where
 	. $orderby

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2006 Andrew Eddie
+ # Fixed [6819] : Errors on Trash Manager
+
 19-Dec-2006 Rastin Mehr
  # Fixed [artf7004] : Apostrophes in poll choices shows escape character
 
