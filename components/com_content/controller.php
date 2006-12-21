@@ -156,6 +156,7 @@ class ContentController extends JController
 			$row->publish_up .= ' 00:00:00';
 		}
 
+		jimport( 'joomla.utilities.date' );
 		$date = new JDate($row->publish_up);
 		$date->setOffset( -$mainframe->getCfg('offset'));
 		$row->publish_up = $date->toMySQL();

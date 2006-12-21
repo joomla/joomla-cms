@@ -40,6 +40,7 @@ Legend:
 21-Dec-2006 Andrew Eddie
  # Fixed [6819] : Errors on Trash Manager
  # Fixed [6537] : Admin Template (ul classes being incorrectly assigned a translated string)
+ # Fixed bug: JDate not defined when saving a frontend article
 
 19-Dec-2006 Rastin Mehr
  # Fixed [artf7004] : Apostrophes in poll choices shows escape character
