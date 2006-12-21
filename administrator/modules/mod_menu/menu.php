@@ -107,7 +107,11 @@ class JAdminCSSMenu extends JTree
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul id=\"menu-".strtolower($this->_current->title)."\">\n";
+			if ($this->_current->class) {
+				echo '<ul id="menu-'.strtolower($this->_current->class).'">'."\n";
+			} else {
+				echo '<ul>'."\n";
+			}
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
