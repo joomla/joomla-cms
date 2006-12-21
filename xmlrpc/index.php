@@ -20,6 +20,11 @@ require_once( JPATH_BASE.'/includes/application.php' );
 
 error_reporting( E_ALL );
 
+// We want to echo the errors so that the xmlrpc client has a chance to capture them in the payload
+JError::setErrorHandling( E_ERROR,	'echo' );
+JError::setErrorHandling( E_WARNING,'echo' );
+JError::setErrorHandling( E_NOTICE,	'echo' );
+
 // create the mainframe object
 $mainframe = new JXMLRPC(3);
 

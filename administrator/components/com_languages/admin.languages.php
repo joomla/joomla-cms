@@ -56,7 +56,7 @@ function viewLanguages()
 	$rows	= array ();
 
 	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
-	$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
 	$rowid = 0;
 

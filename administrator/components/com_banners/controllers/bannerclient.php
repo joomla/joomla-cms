@@ -30,8 +30,8 @@ class BannerClientController
 		$search 			= $mainframe->getUserStateFromRequest( "$context.search", 			'search', 			'' );
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
-		$limit		= $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		$limit		= (int) $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= (int) $mainframe->getUserStateFromRequest("$context.limitstart", 'limitstart', 0);
 
 		$where = array();
 

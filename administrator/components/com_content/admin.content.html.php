@@ -33,12 +33,9 @@ class ContentView
 	{
 		global $mainframe;
 
+		// Initialize variables
 		$db     =& JFactory::getDBO();
 		$user	=& JFactory::getUser();
-
-		// Initialize variables
-		$limit		= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
