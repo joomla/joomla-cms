@@ -60,7 +60,8 @@ class JModuleHelper
 	 */
 	function &getModules($position)
 	{
-		$result = array();
+		$position	= strtolower( $position );
+		$result		= array();
 
 		$modules =& JModuleHelper::_load();
 

@@ -41,6 +41,7 @@ Legend:
  # Fixed [6819] : Errors on Trash Manager
  # Fixed [6537] : Admin Template (ul classes being incorrectly assigned a translated string)
  # Fixed bug: JDate not defined when saving a frontend article
+ # Fixed bug: removed case sensitivity when loading modules by position
 
 19-Dec-2006 Rastin Mehr
  # Fixed [artf7004] : Apostrophes in poll choices shows escape character
