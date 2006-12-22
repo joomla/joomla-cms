@@ -138,7 +138,7 @@ class JInstallerTemplate extends JInstaller
 		}
 
 		// Now, lets create the necessary template positions
-		$templatePositions = & $root->getElementsByPath('install/positions', 1);
+		$templatePositions = & $root->getElementsByPath('positions', 1);
 		if (!is_null($templatePositions))
 		{
 			$positions = $templatePositions->childNodes;
