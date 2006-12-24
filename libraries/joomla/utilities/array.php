@@ -35,10 +35,8 @@ class JArrayHelper
 	function toInteger( &$array, $default = null)
 	{
 		if (is_array($array)) {
-			$n = count($array);
-			for ($i = 0; $i < $n; $i++)
-			{
-				$array[$i] = intval($array[$i]);
+			foreach ($array as $i => $v) {
+				$array[$i] = intval($v);
 			}
 		} else {
 			if (is_null($default)) {
