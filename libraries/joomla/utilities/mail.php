@@ -324,29 +324,33 @@ class JMail extends PHPMailer
 class JMailHelper
 {
 	/**
-	 * Cleans single line inputs
-	 * @param string
-	 * @return string
+	 * Cleans single line inputs.
+	 *
+	 * @static
+	 * @param string $value String to be cleaned.
+	 * @return string Cleaned string.
 	 */
 	function cleanLine( $value ) {
 		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)/i', '', $value ) );
 	}
 
 	/**
-	 * Cleans multi-line inputs
-	 * @param string
-	 * @return string
+	 * Cleans multi-line inputs.
+	 *
+	 * @static
+	 * @param string $value Multi-line string to be cleaned.
+	 * @return string Cleaned multi-line string.
 	 */
 	function cleanText( $value ) {
 		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value ) );
 	}
 
 	/**
-	 * This method cleans any injected headers from the E-Mail body
+	 * Cleans any injected headers from the E-Mail body.
 	 *
 	 * @static
-	 * @param string $body E-Mail body string
-	 * @return string Cleaned E-Mail body string
+	 * @param string $body E-Mail body string.
+	 * @return string Cleaned E-Mail body string.
 	 * @since 1.5
 	 */
 	function cleanBody($body) {
@@ -355,11 +359,11 @@ class JMailHelper
 	}
 
 	/**
-	 * This method cleans any injected headers from the subject string.
+	 * Cleans any injected headers from the subject string.
 	 *
 	 * @static
-	 * @param string $subject E-Mail subject string
-	 * @return string Cleaned E-Mail subject string
+	 * @param string $subject E-Mail subject string.
+	 * @return string Cleaned E-Mail subject string.
 	 * @since 1.5
 	 */
 	function cleanSubject($subject) {
@@ -367,12 +371,11 @@ class JMailHelper
 	}
 
 	/**
-	 * This method verifies that an e-mail address does not have any extra headers
-	 * injected into it.  Tests one e-mail address.
+	 * Verifies that an e-mail address does not have any extra headers injected into it.
 	 *
 	 * @static
-	 * @param string $address E-Mail address
-	 * @return mixed E-Mail address string or boolean false if injected headers are present
+	 * @param string $address E-Mail address.
+	 * @return string|false E-Mail address string or boolean false if injected headers are present.
 	 * @since 1.5
 	 */
 	function cleanAddress($address)
@@ -383,6 +386,14 @@ class JMailHelper
 		return $address;
 	}
 
+	/**
+	 * Verifies that the string is in a proper e-mail address format.
+	 *
+	 * @static
+	 * @param string $email String to be verified.
+	 * @return boolean True if string has the correct format; false otherwise.
+	 * @since 1.5
+	 */
 	function isEmailAddress($email) {
 		$rBool = false;
 

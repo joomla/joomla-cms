@@ -1,13 +1,15 @@
 <?php // compatibility
+/**
+ * @package Joomla
+ * @deprecated As of version 1.5
+ */
 require_once( dirname(__FILE__)  .'/../libraries/loader.php' );
 
-/**
-* Legacy class, derive from JTable instead
-* @deprecated As of version 1.5
-*/
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysql' );
 /**
+ * Legacy class, derive from JDatabase instead.
+ *
  * @package Joomla
  * @deprecated As of version 1.5
  */

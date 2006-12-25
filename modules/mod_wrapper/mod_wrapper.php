@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla_1.0.0
+* @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

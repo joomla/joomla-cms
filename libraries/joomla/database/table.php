@@ -2,7 +2,7 @@
 /**
 * @version $Id$
 * @package Joomla.Framework
-* @subpackage Model
+* @subpackage Table
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -18,10 +18,10 @@
  * Parent classes to all tables.
  *
  * @abstract
- * @author		Andrew Eddie <eddieajau@users.sourceforge.net>
+ * @author	Andrew Eddie <eddieajau@users.sourceforge.net>
  * @package 	Joomla.Framework
- * @subpackage 	Model
- * @since		1.0
+ * @subpackage 	Table
+ * @since	1.0
  * @tutorial	Joomla.Framework/jtable.cls
  */
 class JTable extends JObject

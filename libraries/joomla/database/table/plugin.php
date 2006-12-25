@@ -2,7 +2,7 @@
 /**
  * @version $Id: plugin.php 4390 2006-08-04 15:39:12Z Jinx $
  * @package Joomla.Framework
- * @subpackage Model
+ * @subpackage Table
  * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -16,8 +16,8 @@
  * Plugin table
  *
  * @package 	Joomla.Framework
- * @subpackage 	Model
- * @since		1.0
+ * @subpackage 	Table
+ * @since	1.0
  */
 class JTablePlugin extends JTable
 {

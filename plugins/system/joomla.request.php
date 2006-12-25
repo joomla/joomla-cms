@@ -22,7 +22,7 @@ jimport('joomla.environment.uri');
  * Joomla! Search Engine Friendly URL plugin
  *
  * @author		Louis Landry <louis.landry@joomla.org>
- * @package		Joomla!
+ * @package		Joomla
  * @subpackage	SEF
  */
 class  JRequestJoomla extends JPlugin

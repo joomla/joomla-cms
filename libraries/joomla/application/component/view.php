@@ -22,7 +22,7 @@
  * @subpackage	Application
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @author		Louis Landry <louis.landry@joomla.org>
- * @auhtor 		Andrew Eddie
+ * @author 		Andrew Eddie
  * @since		1.5
  */
 class JView extends JObject

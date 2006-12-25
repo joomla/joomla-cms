@@ -17,10 +17,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.html.pagination');
 
 /**
-* Legacy class, derive from JPagination instead
+* Legacy class, derive from {@link JPagination} instead
 *
 * @deprecated As of version 1.5
-* @package Joomla.Legacy
+* @package Joomla
 * @subpackage 1.5
 */
 class mosPageNav extends JPagination {

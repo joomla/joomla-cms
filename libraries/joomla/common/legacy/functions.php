@@ -146,7 +146,7 @@ function mosShowHead_Admin() {
 }
 
 /**
- * Legacy function, always use JRequest::getVar
+ * Legacy function, always use {@link JRequest::getVar()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -169,7 +169,7 @@ function mosStripslashes( &$value )
 }
 
 /**
- * Legacy function, use JObject->bind instead
+ * Legacy function, use {@link JObject::bind() JObject->bind()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -202,7 +202,7 @@ function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSl
 }
 
 /**
- * Legacy function, use JUtility::getHash instead
+ * Legacy function, use {@link JUtility::getHash()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -225,7 +225,7 @@ function mosNotAuth()
 }
 
 /**
- * Legacy function, use josErrorAlert instead
+ * Legacy function, use {@link josErrorAlert} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -234,7 +234,7 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 }
 
 /**
- * Legacy function, use JPath::clean instead
+ * Legacy function, use {@link JPath::clean()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -245,7 +245,7 @@ function mosPathName($p_path, $p_addtrailingslash = true)
 }
 
 /**
- * Legacy function, use JFolder::files or JFolder::folders instead
+ * Legacy function, use {@link JFolder::files()} or {@link JFolder::folders()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -265,7 +265,7 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 }
 
 /**
- * Legacy function, use JFactory::getMailer() instead
+ * Legacy function, use {@link JFactory::getMailer()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -282,7 +282,7 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 }
 
 /**
- * Legacy function, use JUtility::sendMail instead
+ * Legacy function, use {@link JUtility::sendMail()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -291,7 +291,7 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 }
 
 /**
- * Legacy function, use JUtility::sendAdminMail instead
+ * Legacy function, use {@link JUtility::sendAdminMail()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -300,7 +300,7 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 }
 
 /**
- * Legacy function, use JAuthenticateHelper::genRandomPassword() instead
+ * Legacy function, use {@link JAuthenticateHelper::genRandomPassword()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -310,7 +310,7 @@ function mosMakePassword() {
 }
 
 /**
- * Legacy function, use JApplication->redirect instead
+ * Legacy function, use {@link JApplication::redirect() JApplication->redirect()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -320,7 +320,7 @@ function mosRedirect( $url, $msg='' ) {
 }
 
 /**
- * Legacy function, use JFolder::create
+ * Legacy function, use {@link JFolder::create()}
  *
  * @deprecated	As of version 1.5
  */
@@ -335,7 +335,7 @@ function mosMakePath($base, $path='', $mode = NULL) {
 }
 
 /**
- * Legacy function, use JArrayHelper::toInteger instead
+ * Legacy function, use {@link JArrayHelper::toInteger()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -344,7 +344,7 @@ function mosArrayToInts( &$array, $default=null ) {
 }
 
 /**
- * Legacy function, use JError->getBackTrace instead
+ * Legacy function, use {@link JError::getBackTrace() JError->getBackTrace()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -364,7 +364,7 @@ function mosBackTrace( $message='' ) {
 }
 
 /**
- * Legacy function, use JPath::setPermissions instead
+ * Legacy function, use {@link JPath::setPermissions()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -374,7 +374,7 @@ function mosChmod( $path ) {
 }
 
 /**
- * Legacy function, use JPath::setPermissions instead
+ * Legacy function, use {@link JPath::setPermissions()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -384,7 +384,7 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 }
 
 /**
- * Legacy function, use JPath::canCHMOD
+ * Legacy function, use {@link JPath::canChmod()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -428,7 +428,7 @@ function mosShowSource( $filename, $withLineNums=false ) {
 }
 
 /**
- * Legacy function, use mosLoadModule('breadcrumbs); instead
+ * Legacy function, use mosLoadModule( 'breadcrumb', -1 ); instead
  *
  * @deprecated	As of version 1.5
  */
@@ -437,7 +437,7 @@ function mosPathWay() {
 }
 
 /**
- * Legacy function, use JBrowser::getInstance() instead
+ * Legacy function, use {@link JBrowser::getInstance()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -448,7 +448,7 @@ function mosGetBrowser( $agent ) {
 }
 
 /**
- * Legacy function, use JApplication::getBrowser() instead
+ * Legacy function, use {@link JApplication::getBrowser()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -458,7 +458,7 @@ function mosGetOS( $agent ) {
 }
 
 /**
- * Legacy function, use JArrayHelper::getValue instead
+ * Legacy function, use {@link JArrayHelper::getValue()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -496,7 +496,7 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 }
 
 /**
- * Legacy function, use JAdminMenus::GenericOrdering instead
+ * Legacy function, use {@link JAdminMenus::GenericOrdering()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -506,7 +506,7 @@ function mosGetOrderingList( $sql, $chop='30' )
 }
 
 /**
- * Legacy function, use JRegsitry instead
+ * Legacy function, use {@link JRegistry} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -530,7 +530,7 @@ function mosLoadComponent( $name )
 }
 
 /**
- * Legacy function, use JEditor::init instead
+ * Legacy function, use {@link JEditor::init()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -541,7 +541,7 @@ function initEditor()
 }
 
 /**
- * Legacy function, use JEditor::save or JEditor::getContent instead
+ * Legacy function, use {@link JEditor::save()} or {@link JEditor::getContent()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -553,7 +553,7 @@ function getEditorContents($editorArea, $hiddenField)
 }
 
 /**
- * Legacy function, use JEditor::display instead
+ * Legacy function, use {@link JEditor::display()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -566,8 +566,8 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row)
 }
 
 /**
-* Legacy function, use JMenu::authorize instead
-*
+ * Legacy function, use {@link JMenu::authorize()} instead
+ *
  * @deprecated	As of version 1.5
  */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
@@ -578,7 +578,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 }
 
 /**
- * Legacy function, use JArrayHelper::fromObject instead
+ * Legacy function, use {@link JArrayHelper::fromObject()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -589,19 +589,19 @@ function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
 }
 
 /**
-* Legacy function, use JHTML::Date instead
-*
+ * Legacy function, use {@link JHTML::Date()} instead
+ *
  * @deprecated	As of version 1.5
-*/
+ */
 function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null )  {
 	return JHTML::Date($date, $format, $offset);
 }
 
 /**
-* Legacy function, use JHTML::Date instead
-*
+ * Legacy function, use {@link JHTML::Date()} instead
+ *
  * @deprecated	As of version 1.5
-*/
+ */
 function mosCurrentDate( $format="" )
 {
 	if ($format=="") {
@@ -612,17 +612,17 @@ function mosCurrentDate( $format="" )
 }
 
 /**
-* Legacy function, use JOutputFilter::objectHTMLSafe instead
-*
+ * Legacy function, use {@link JOutputFilter::objectHTMLSafe()} instead
+ *
  * @deprecated	As of version 1.5
-*/
+ */
 function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 	jimport('joomla.filter.output');
 	JOutputFilter::objectHTMLSafe( $mixed, $quote_style, $exclude_keys );
 }
 
 /**
- * Legacy function, handled by JDocument Zlib outputfilter
+ * Legacy function, handled by {@link JDocument} Zlib outputfilter
  *
  * @deprecated	As of version 1.5
  */
@@ -672,7 +672,7 @@ function initGzip()
 }
 
 /**
- * Legacy function, handled by JDocument Zlib outputfilter
+ * Legacy function, handled by {@link JDocument} Zlib outputfilter
  *
  * @deprecated	As of version 1.5
  */
@@ -700,7 +700,7 @@ function doGzip()
 }
 
 /**
- * Legacy function, use JArrayHelper::sortObjects instead
+ * Legacy function, use {@link JArrayHelper::sortObjects()} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -710,7 +710,7 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 )
 }
 
 /**
- * Legacy function, JSession transparently checks for spoofing attacks
+ * Legacy function, {@link JSession} transparently checks for spoofing attacks
  *
  * @deprecated	As of version 1.5
  */
@@ -743,7 +743,7 @@ function josSpoofCheck( $header=false, $alternate=false )
 }
 
 /**
- * Legacy function, use JUtility::getToken() instead
+ * Legacy function, use {@link JUtility::getToken()} instead
  *
  * @deprecated	As of version 1.5
  */

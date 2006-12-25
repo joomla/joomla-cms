@@ -2,7 +2,7 @@
 /**
 * @version $Id: session.php 4330 2006-07-26 06:24:14Z webImagery $
 * @package Joomla.Framework
-* @subpackage Model
+* @subpackage Table
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,8 +16,8 @@
  * Session table
  *
  * @package 	Joomla.Framework
- * @subpackage 	Model
- * @since		1.0
+ * @subpackage 	Table
+ * @since	1.0
  */
 class JTableSession extends JTable
 {

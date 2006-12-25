@@ -51,10 +51,11 @@ switch( JRequest::getVar( 'task' ) )
  * Static class to hold controller functions for the User component
  *
  * @static
- * @author		Louis Landry <johan.janssens@joomla.org>
- * @package		Joomla
- * @subpackage	User
- * @since		1.5
+ * @author	Louis Landry <louis.landry@joomla.org>
+ * @author	Johan Janssens <johan.janssens@joomla.org>
+ * @package	Joomla
+ * @subpackage	Users
+ * @since	1.5
  */
 class UserController
 {

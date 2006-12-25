@@ -29,10 +29,10 @@ include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'section.ph
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'user.php');
 
 /**
- * Legacy class, derive from JApplication instead
+ * Legacy class, derive from {@link JApplication} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosMainFrame extends JApplication
@@ -101,10 +101,10 @@ class mosMainFrame extends JApplication
 	}
 
 	/**
-	* Deprecated, use JDocument->setTitle instead or override in your application class
+	* Deprecated, use {@link JDocument::setTitle() JDocument->setTitle()} instead or override in your application class
+	*
 	* @since 1.5
 	* @deprecated As of version 1.5
-	* @see JDocument::setTitle()
 	*/
 	function setPageTitle( $title=null ) {
 		$document=& JFactory::getDocument();
@@ -112,10 +112,9 @@ class mosMainFrame extends JApplication
 	}
 
 	/**
-	* Deprecated, use JDocument->getTitle instead or override in your application class
+	* Deprecated, use {@link JDocument::getTitle() JDocument->getTitle()} instead or override in your application class
 	* @since 1.5
 	* @deprecated As of version 1.5
-	* @see JDocument::getTitle()
 	*/
 	function getPageTitle() {
 		$document=& JFactory::getDocument();
@@ -124,10 +123,10 @@ class mosMainFrame extends JApplication
 }
 
 /**
- * Legacy class, derive from JTable instead
+ * Legacy class, derive from {@link JTable} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosDBTable extends JTable
@@ -144,28 +143,24 @@ class mosDBTable extends JTable
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
 	}
 
 	/**
-	 * Legacy Method, make sure you use JRequest::get or JRequest::getVar
+	 * Legacy Method, make sure you use {@link JRequest::get()} or {@link JRequest::getVar()} instead
 	 * @deprecated As of 1.5
-	 * @see JRequest::get()
-	 * @see JRequest::getVar()
 	 */
 	function filter( $ignoreList=null )
 	{
@@ -185,10 +180,10 @@ class mosDBTable extends JTable
 }
 
 /**
- * Legacy class, use JTableCategory instead
+ * Legacy class, use {@link JTableCategory} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosCategory extends JTableCategory
@@ -205,18 +200,16 @@ class mosCategory extends JTableCategory
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -224,10 +217,10 @@ class mosCategory extends JTableCategory
 }
 
 /**
- * Legacy class, use JTableComponent instead
+ * Legacy class, use {@link JTableComponent} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosComponent extends JTableComponent
@@ -244,18 +237,16 @@ class mosComponent extends JTableComponent
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -263,10 +254,10 @@ class mosComponent extends JTableComponent
 }
 
 /**
- * Legacy class, use JTableContent instead
+ * Legacy class, use {@link JTableContent} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosContent extends JTableContent
@@ -283,18 +274,16 @@ class mosContent extends JTableContent
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -302,10 +291,10 @@ class mosContent extends JTableContent
 }
 
 /**
- * Legacy class, replaced by JTablePlugin
+ * Legacy class, replaced by {@link JTablePlugin}
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosMambot extends JTablePlugin
@@ -322,18 +311,16 @@ class mosMambot extends JTablePlugin
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -341,10 +328,10 @@ class mosMambot extends JTablePlugin
 }
 
 /**
- * Legacy class, use JTableMenu instead
+ * Legacy class, use {@link JTableMenu} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosMenu extends JTableMenu
@@ -361,18 +348,16 @@ class mosMenu extends JTableMenu
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -380,10 +365,10 @@ class mosMenu extends JTableMenu
 }
 
 /**
- * Legacy class, use JTableModule instead
+ * Legacy class, use {@link JTableModule} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosModule extends JTableModule
@@ -400,18 +385,16 @@ class mosModule extends JTableModule
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -419,10 +402,10 @@ class mosModule extends JTableModule
 }
 
 /**
- * Legacy class, use JTableSection instead
+ * Legacy class, use {@link JTableSection} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosSection extends JTableSection
@@ -439,18 +422,16 @@ class mosSection extends JTableSection
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -458,10 +439,10 @@ class mosSection extends JTableSection
 }
 
 /**
- * Legacy class, use JTableSession instead
+ * Legacy class, use {@link JTableSession} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosSession extends JTableSession
@@ -508,18 +489,16 @@ class mosSession extends JTableSession
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -527,10 +506,10 @@ class mosSession extends JTableSession
 }
 
 /**
- * Legacy class, use JTableUser instead
+ * Legacy class, use {@link JTableUser} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosUser extends JTableUser
@@ -547,18 +526,16 @@ class mosUser extends JTableUser
 	}
 
 	/**
-	 * Legacy Method, use reorder() instead
+	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
-	 * @see JTable::reorder()
 	 */
 	function updateOrder( $where='' )	{
 		return $this->reorder( $where );
 	}
 
 	/**
-	 * Legacy Method, use publish() instead
+	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
-	 * @see JTable::publish()
 	 */
 	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
 		$this->publish( $cid, $publish, $user_id );
@@ -566,10 +543,10 @@ class mosUser extends JTableUser
 }
 
 /**
- * Legacy class, use JDatabase
+ * Legacy class, use {@link JDatabase} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class database extends JDatabaseMySQL
@@ -614,8 +591,8 @@ class database extends JDatabaseMySQL
 	/**
 	* Execute a batch query
 	*
-    * @abstract
-    * @access public
+	* @abstract
+	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
 	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
@@ -624,12 +601,11 @@ class database extends JDatabaseMySQL
 }
 
  /**
- * Legacy class, use & JFactory::getCache instead
+ * Legacy class, use &{@link JFactory::getCache()} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
- * @see JFactory::getCache()
  */
 class mosCache
 {
@@ -649,10 +625,10 @@ class mosCache
 }
 
  /**
- * Legacy class, use JProfiler instead
+ * Legacy class, use {@link JProfiler} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 jimport('joomla.utilities.profiler');
@@ -667,10 +643,10 @@ class mosProfiler extends JProfiler
 }
 
  /**
- * Legacy class, use JParameter instead
+ * Legacy class, use {@link JParameter} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosParameters extends JParameter
@@ -685,20 +661,18 @@ class mosParameters extends JParameter
 	}
 
 	/**
-	 * Legacy function, use JParameter->toObject instead
+	 * Legacy function, use {@link JParameter::toObject() JParameter->toObject()} instead
 	 *
 	 * @deprecated As of version 1.5
-	 * @see JParameter::toObject()
 	 */
 	function toObject() {
 		parent::toObject();
 	}
 
 	/**
-	 * Legacy function, use JParameter->toArray instead
+	 * Legacy function, use {@link JParameter::toArray() JParameter->toArray()} instead
 	 *
 	 * @deprecated As of version 1.5
-	 * @see JParameter::toArray()
 	 */
 	function toArray() {
 		parent::toArray();
@@ -740,10 +714,10 @@ class mosParameters extends JParameter
 }
 
 /**
- * Legacy class, replaced by full MVC implementation
+ * Legacy class, replaced by full MVC implementation.  See {@link JController}
  *
- * @deprecated	As of version 1.5, use JController instead
- * @package		Joomla.Legacy
+ * @deprecated	As of version 1.5
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosAbstractTasker {
@@ -753,10 +727,10 @@ class mosAbstractTasker {
 }
 
 /**
- * Legacy class, use JEventDispatcher instead
+ * Legacy class, use {@link JEventDispatcher} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosMambotHandler extends JEventDispatcher
@@ -794,11 +768,12 @@ class mosMambotHandler extends JEventDispatcher
 	}
 
 	/**
-	* Deprecated, use JEventDispatcher->trigger intead and handle return values
+	* Deprecated, use {@link JEventDispatcher::trigger() JEventDispatcher->trigger()} instead and handle return values
 	* in your code
+	*
+	* @param string The event name
 	* @since 1.5
 	* @deprecated As of 1.5
-	* @see JEventDispatcher::trigger()
 	*/
 	function call($event)
 	{
@@ -814,7 +789,7 @@ class mosMambotHandler extends JEventDispatcher
  * Legacy class, removed
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class mosEmpty
@@ -828,60 +803,54 @@ class mosEmpty
 }
 
 /**
- * Legacy class, use JHTML instead
+ * Legacy class, use {@link JHTML} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
- * @see JHTML
  */
 class mosHTML
 {
 	/**
- 	 * Legacy function, JHTMLSelect::option instead
+ 	 * Legacy function, use {@link JHTMLSelect::option()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTMLSelect::option()
  	*/
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		return JHTMLSelect::option($value, $text, $value_name, $text_name);
 	}
 
 	/**
- 	 * Legacy function, JHTMLSelect::selectList instead
+ 	 * Legacy function, use {@link JHTMLSelect::genericList()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTMLSelect::selectList()
  	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
 		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
 	}
 
 	/**
- 	 * Legacy function, JHTMLSelect::integerList instead
+ 	 * Legacy function, use {@link JHTMLSelect::integerList()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTMLSelect::integerList()
  	*/
 	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )  {
 		return JHTMLSelect::integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
 	}
 
 	/**
- 	 * Legacy function, JHTMLSelect::integerList instead
+ 	 * Legacy function, use {@link JHTMLSelect::radioList()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTMLSelect::integerList()
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )  {
 		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
 	}
 
 	/**
- 	 * Legacy function, JHTMLSelect::integerList instead
+ 	 * Legacy function, use {@link JHTMLSelect::yesnoList()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTMLSelect::integerList()
  	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )  {
 		return JHTMLSelect::yesnoList( $tag_name, $tag_attribs, $selected, $yes, $no, $id ) ;
@@ -991,10 +960,9 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use JHTML::idBox instead
+ 	 * Legacy function, use {@link JHTML::idBox()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTML::idBox()
  	*/
 	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
 		return JHTML::idBox($rowNum, $recId, $checkedOut, $name);
@@ -1080,10 +1048,9 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use JOutputFilter::cleanText instead
+ 	 * Legacy function, use {@link JOutputFilter::cleanText()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JOutputFilter::cleanText()
  	*/
 	function cleanText ( &$text ) {
 		jimport('joomla.filter.output');
@@ -1135,20 +1102,18 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use JHTML::emailCloaking instead
+ 	 * Legacy function, use {@link JHTML::emailCloaking()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTML::emailCloaking()
  	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
 		return JHTML::emailCloaking($mail, $mailto, $text, $email);
 	}
 
 	/**
- 	 * Legacy function, use JHTML::keepAlive instead
+ 	 * Legacy function, use {@link JHTML::keepAlive()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTML::keepAlive()
  	*/
 	function keepAlive() {
 		JHTML::keepAlive();
@@ -1156,20 +1121,18 @@ class mosHTML
 }
 
 /**
- * Legacy class, use JCommonHTML instead
+ * Legacy class, use {@link JCommonHTML} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
- * @see JCommonHTML
  */
 class mosCommonHTML
 {
 	/**
- 	 * Legacy function, use JHTML::keepAlive instead
+ 	 * Legacy function, use {@link JCommonHTML::ContentLegend()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JHTML::keepAlive()
  	*/
 	function ContentLegend( ) {
 		JCommonHTML::ContentLegend();
@@ -1317,90 +1280,81 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::checkedOut instead
+ 	 * Legacy function, use {@link JCommonHTML::checkedOut()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::checkedOut()
  	*/
 	function checkedOut( &$row, $overlib=1 ) {
 		return JCommonHTML::checkedOut($row, $overlib);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::loadOverlib instead
+ 	 * Legacy function, use {@link JCommonHTML::loadOverlib()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::loadOverlib()
  	*/
 	function loadOverlib() {
 		JCommonHTML::loadOverlib();
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::loadCalendar instead
+ 	 * Legacy function, use {@link JCommonHTML::loadCalendar()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::loadCalendar()
  	*/
 	function loadCalendar() {
 		JCommonHTML::loadCalendar();
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::AccessProcessing instead
+ 	 * Legacy function, use {@link JCommonHTML::AccessProcessing()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::AccessProcessing()
  	*/
 	function AccessProcessing( &$row, $i, $archived=NULL ) {
 		return JCommonHTML::AccessProcessing($row, $i, $archived);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::CheckedOutProcessing
+ 	 * Legacy function, use {@link JCommonHTML::CheckedOutProcessing()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::CheckedOutProcessing()
  	*/
 	function CheckedOutProcessing( &$row, $i ) {
 		return JCommonHTML::CheckedOutProcessing($row, $i);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::PublishedProcessing instead
+ 	 * Legacy function, use {@link JCommonHTML::PublishedProcessing()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::PublishedProcessing()
  	*/
 	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
 		return JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::selectState instead
+ 	 * Legacy function, use {@link JCommonHTML::selectState()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::selectState()
  	*/
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
 		return JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::saveorderButton instead
+ 	 * Legacy function, use {@link JCommonHTML::saveorderButton()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::saveorderButton()
  	*/
 	function saveorderButton( $rows, $image='filesave.png' ) {
 		JCommonHTML::saveorderButton($rows, $image);
 	}
 
 	/**
- 	 * Legacy function, use JCommonHTML::tableOrdering instead
+ 	 * Legacy function, use {@link JCommonHTML::tableOrdering()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JCommonHTML::tableOrdering()
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
 		JCommonHTML::tableOrdering($text, $ordering, $lists, $task);
@@ -1419,20 +1373,18 @@ class mosCommonHTML
 class mosAdminMenus
 {
 	/**
- 	 * Legacy function, use JAdminMenus::Ordering instead
+ 	 * Legacy function, use {@link JAdminMenus::Ordering()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::Ordering()
  	*/
 	function Ordering( &$row, $id ) {
 		return JAdminMenus::Ordering($row, $id);
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::Access instead
+ 	 * Legacy function, use {@link JAdminMenus::Access()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::Access()
  	*/
 	function Access( &$row ) {
 		return JAdminMenus::Access($row);
@@ -1449,10 +1401,9 @@ class mosAdminMenus
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::MenuLinks instead
+ 	 * Legacy function, use {@link JAdminMenus::MenuLinks()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::MenuLinks()
  	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		return JAdminMenus::MenuLinks($lookup, $all, $none, $unassigned);
@@ -1566,60 +1517,54 @@ class mosAdminMenus
 
 
 	/**
- 	 * Legacy function, use JAdminMenus::Images instead
+ 	 * Legacy function, use {@link JAdminMenus::Images()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::Images()
  	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		return JAdminMenus::Images($name, $active, $javascript, $directory);
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::SpecificOrdering instead
+ 	 * Legacy function, use {@link JAdminMenus::SpecificOrdering()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::SpecificOrdering()
  	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		return JAdminMenus::SpecificOrdering($row, $id, $query, $neworder);
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::UserSelect instead
+ 	 * Legacy function, use {@link JAdminMenus::UserSelect()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::UserSelect()
  	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
 		return JAdminMenus::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::Positions instead
+ 	 * Legacy function, use {@link JAdminMenus::Positions()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::Positions()
  	*/
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
 		return JAdminMenus::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::ComponentCategry instead
+ 	 * Legacy function, use {@link JAdminMenus::ComponentCategory()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::ComponentCategory()
  	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
 		return JAdminMenus::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
 	}
 
 	/**
- 	 * Legacy function, use JAdminMenus::SelectSection instead
+ 	 * Legacy function, use {@link JAdminMenus::SelectSection()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::SelectSection()
  	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		return JAdminMenus::SelectSection($name, $active, $javascript, $order);
@@ -1716,6 +1661,11 @@ class mosAdminMenus
 		return $getfolders;
 	}
 
+	/**
+	 * Legacy function, deprecated
+	 *
+	 * @deprecated	As of version 1.5
+	 */
 	function GetImages( &$images, $path )
 	{
 		if ( !isset($images['/'] ) ) {
@@ -1754,40 +1704,36 @@ class mosAdminMenus
 	}
 
 	/**
- 	 * Legacy function, use ImageCheck instead
+ 	 * Legacy function, use {@link JAdminMenus::ImageCheck()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::ImageCheck()
  	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
 		return JAdminMenus::ImageCheck($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
 	}
 
 	/**
- 	 * Legacy function, use ImageCheckAdmin instead
+ 	 * Legacy function, use {@link JAdminMenus::ImageCheckAdmin()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JAdminMenus::ImageCheckAdmin()
  	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
 		return JAdminMenus::ImageCheckAdmin($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
 	}
 
 	/**
- 	 * Legacy function, use JMenuHelper::getMenuTypes instead
+ 	 * Legacy function, use {@link JMenuHelper::getMenuTypes()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JMenuHelper::getMenuTypes()
  	*/
 	function menutypes() {
 		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
 	}
 
 	/**
- 	 * Legacy function, use JMenuHelper::menuItem instead
+ 	 * Legacy function, use {@link JMenuHelper::menuItem()} instead
  	 *
  	 * @deprecated	As of version 1.5
-	 * @see JMenuHelper::menuItem()
  	*/
 	function menuItem( $item ) {
 		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );
@@ -1798,7 +1744,7 @@ class mosAdminMenus
  * Legacy class, removed
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
  */
 class MENU_Default
@@ -1816,12 +1762,11 @@ class MENU_Default
 }
 
 /**
- * Legacy class, use JPanel instead
+ * Legacy class, use {@link JPanel} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
- * @see JPanel
  */
 jimport('joomla.html.pane');
 class mosTabs extends JPaneTabs
@@ -1842,12 +1787,11 @@ class mosTabs extends JPaneTabs
 }
 
 /**
- * Legacy class, use JTemplate::getInstance instead
+ * Legacy class, use {@link JTemplate::getInstance()} instead
  *
  * @deprecated	As of version 1.5
- * @package		Joomla.Legacy
+ * @package	Joomla.Legacy
  * @subpackage	1.5
- * @see JTemplate::getInstance()
  */
 class patFactory
 {

@@ -15,11 +15,16 @@
 jimport('joomla.common.abstract.observer');
 
 /**
- * Class to handle dispatching events
+ * Class to handle dispatching of events.
+ *
+ * This is the Observable part of the Observer design pattern
+ * for the plugin architecture.
  *
  * @package 	Joomla.Framework
  * @subpackage	Application
- * @since		1.5
+ * @since	1.5
+ * @see		JPlugin
+ * @link http://dev.joomla.org/component/option,com_jd-wiki/Itemid,31/id,tutorials:plugins/ Plugins tutorial
  */
 class JEventDispatcher extends JObservable
 {
@@ -34,7 +39,7 @@ class JEventDispatcher extends JObservable
 	}
 
 	/**
-	 * Returns a reference to the global Language object, only creating it
+	 * Returns a reference to the global Event Dispatcher object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
@@ -91,7 +96,7 @@ class JEventDispatcher extends JObservable
 	 * @access	public
 	 * @param	string	$event			The event name
 	 * @param	array	$args			An array of arguments
-	 * @param	boolean	$doUnpublished	[DEPRECEATED]
+	 * @param	boolean	$doUnpublished	[DEPRECATED]
 	 * @return	array	An array of results from each function call
 	 * @since	1.5
 	 */
