@@ -16,9 +16,9 @@ jimport('joomla.application.component.view');
 
 class MailtoViewSent extends JView
 {
-	function __construct()
+	function display($tpl = null)
 	{
-		
+		parent::display($tpl);
 	}
 }
 ?>
