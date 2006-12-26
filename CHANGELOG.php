@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Dec-2006 Andrew Eddie
+ # Moved onBeforeDisplay and onAfterDisplay triggers close to the actually application display method
+
 21-Dec-2006 Andrew Eddie
  # Fixed [6819] : Errors on Trash Manager
  # Fixed [6537] : Admin Template (ul classes being incorrectly assigned a translated string)

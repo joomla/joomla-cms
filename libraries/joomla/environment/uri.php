@@ -192,7 +192,7 @@ class JURI extends JObject
 
 		// Get the base request URL if not set
 		if (!isset($base)) {
-			$uri =& JFactory::getURI();
+			$uri =& JURI::getInstance();
 			$base  = $uri->getScheme().'://';
 			$base .= $uri->getHost();
 			if ($port = $uri->getPort()) {

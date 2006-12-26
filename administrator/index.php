@@ -60,10 +60,6 @@ $GLOBALS['_VERSION'] = new JVersion();
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
-// trigger the onBeforeDisplay events
-$mainframe->triggerEvent( 'onBeforeDisplay' );
-
-
 /**
  * EXECUTE THE APPLICATION
  *
@@ -71,9 +67,6 @@ $mainframe->triggerEvent( 'onBeforeDisplay' );
  */
 $option = JAdministratorHelper::findOption();
 $mainframe->execute( $option );
-
-// trigger the onAfterDisplay events
-$mainframe->triggerEvent( 'onAfterDisplay' );
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
 JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;

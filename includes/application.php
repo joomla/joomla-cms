@@ -100,7 +100,13 @@ class JSite extends JApplication
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
 
+		// trigger the onBeforeDisplay events
+		$this->triggerEvent( 'onBeforeDisplay' );
+
 		$document->display( $this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params);
+
+		// trigger the onAfterDisplay events
+		$this->triggerEvent( 'onAfterDisplay' );
 	}
 
 	/**
