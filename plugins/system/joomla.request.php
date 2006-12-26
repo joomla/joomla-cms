@@ -23,7 +23,7 @@ jimport('joomla.environment.uri');
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
- * @subpackage	SEF
+ * @subpackage	System
  */
 class  JRequestJoomla extends JPlugin
 {
@@ -122,8 +122,13 @@ class  JRequestJoomla extends JPlugin
 				JRequest::setVar('option', 'com_'.$component, 'get');
 
 				// If Itemid is set -- last item in array -- pop it off and set it
-				if (is_numeric($urlArray[count($urlArray)-1])) {
-					JRequest::setVar('Itemid', array_pop($urlArray), 'get');
+				$last = $urlArray[count($urlArray)-1];
+				if ($pos = strpos($last, '?') !== false) {
+					$last = substr($last, 0, $pos);
+				}
+				if (is_numeric($last)) {
+					array_pop($urlArray);
+					JRequest::setVar('Itemid', $last, 'get');
 				}
 
 				// Use the custom sef handler if it exists
