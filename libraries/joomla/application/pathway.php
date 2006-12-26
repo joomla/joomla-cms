@@ -63,14 +63,12 @@ class JPathWay extends JObject {
 			unset($pw[0]);
 		}
 
-		/*
-		 * Use array_values to reset the array keys numerically
-		 */
+		// Use array_values to reset the array keys numerically
 		return array_values($pw);
 	}
 
 	/**
-	 * Create and return an array of the pathway names.  Useful for things like SEF URLs
+	 * Create and return an array of the pathway names.
 	 *
 	 * @access public
 	 * @param boolean $showHome True to show the home element of the JPathWay array
@@ -80,9 +78,7 @@ class JPathWay extends JObject {
 	 */
 	function getPathWayNames($showHome = true, $showComponent = true)
 	{
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$names = array (null);
 
 		// Build the names array using just the names of each pathway item
@@ -97,9 +93,7 @@ class JPathWay extends JObject {
 			unset($names[0]);
 		}
 
-		/*
-		 * Use array_values to reset the array keys numerically
-		 */
+		//Use array_values to reset the array keys numerically
 		return array_values($names);
 	}
 

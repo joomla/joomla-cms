@@ -126,6 +126,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Validation and filtering
+	 * 
 	 * @return boolean True is satisfactory
 	 */
 	function check()
@@ -272,6 +273,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Updates last visit time of user
+	 * 
 	 * @param int The timestamp, defaults to 'now'
 	 * @return boolean False if an error occurs
 	 */
@@ -333,6 +335,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Returns a complete user list
+	 * 
 	 * @return array
 	 */
 	function getUserList()
@@ -343,6 +346,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Gets the users from a group
+	 * 
 	 * @param string The value for the group (not used 1.0)
 	 * @param string The name for the group
 	 * @param string If RECURSE, will drill into child groups

@@ -104,7 +104,7 @@ class JUser extends JObject
 		// Find the user id
 		if(!is_numeric($id))
 		{
-			if (!$id =  JUserHelper::getUserId($id))
+			if (!$id = JUserHelper::getUserId($id))
 			{
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
 				return false;
@@ -113,7 +113,6 @@ class JUser extends JObject
 
 		if (empty($instances[$id]))
 		{
-
 			$user = new JUser($id);
 			$instances[$id] = $user;
 		}

@@ -31,14 +31,6 @@ jimport('joomla.application.plugin.helper');
 class JApplication extends JObject
 {
 	/**
-	 * The pathway store (for breadcrumb generation).
-	 *
-	 * @var object  JPathWay object
-	 * @access protected
-	 */
-	var $_pathway = null;
-
-	/**
 	 * The client identifier.
 	 *
 	 * @var integer
@@ -462,64 +454,6 @@ class JApplication extends JObject
 	function getTemplate()
     {
 		return '_system';
-	}
-
-	/**
-	 * Return a reference to the JPathWay object.
-	 *
-	 * @access public
-	 * @return object JPathway.
-	 * @since 1.5
-	 */
-	function &getPathWay()
-    {
-		return $this->_pathway;
-	}
-
-	/**
-	 * Create a JPathWay object and set the home/component items of the pathway.
-	 *
-	 * @access private
-	 * @return object JPathway.
-	 * @since 1.5
-	 */
-	function &_createPathWay()
-	{
-		global $option, $Itemid;
-
-		//Load the pathway object
-		jimport( 'joomla.application.pathway' );
-
-		// Create a JPathWay object
-		$this->_pathway = new JPathWay();
-
-		// If not on the frontpage, add the component item to the pathway
-		if (($option == 'com_frontpage') || ($option == '')) {
-
-			// Add the home item to the pathway only and it is not linked
-			$this->_pathway->addItem( JText::_('Home'), '' );
-		} else {
-			// Initialize variables
-			$IIDstring = null;
-
-			// Add the home item to the pathway
-			$this->_pathway->addItem( JText::_('Home'), 'index.php' );
-
-			// Get the actual component name
-			if (substr($option, 0, 4) == 'com_') {
-				$comName = substr($option, 4);
-			} else {
-				$comName = $option;
-			}
-			// Handle the ItemID
-			if ($Itemid) {
-				$IIDstring = '&Itemid='.$Itemid;
-			}
-
-			$this->_pathway->addItem( $comName, 'index.php?option='.$option.$IIDstring);
-		}
-
-		return $this->_pathway;
 	}
 
 	/**
