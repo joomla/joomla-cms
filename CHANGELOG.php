@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Dec-2006 Johan Janssens
+ + Added administrator feed module
+
 26-Dec-2006 Andrew Eddie
  # Moved onBeforeDisplay and onAfterDisplay triggers close to the actually application display method
 
