@@ -30,7 +30,7 @@
    <option value="0">Show</option>
   </param>
   <param name="@spacer" type="spacer" default="" label="" description="" />
-  <param name="hidePdf" type="radio" default="0" label="PDF Icon" description="TIPOPTIONMEDIA">
+  <param name="hidePdf" type="radio" default="0" label="PDF Icon" description="">
    <option value="1">Hide</option>
    <option value="0">Show</option>
   </param>
