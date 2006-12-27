@@ -293,7 +293,7 @@ function saveModule( $option, $task )
 
 	$post	= JRequest::get( 'post' );
 	// fix up special html fields
-	$post['content'] = JRequest::getVar( 'content', '', 'post', 'string', _J_ALLOWRAW );
+	$post['content'] = JRequest::getVar( 'content', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 	$row =& JTable::getInstance('module');
 

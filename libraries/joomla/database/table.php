@@ -18,7 +18,7 @@
  * Parent classes to all tables.
  *
  * @abstract
- * @author	Andrew Eddie <eddieajau@users.sourceforge.net>
+ * @author		Andrew Eddie <eddieajau@users.sourceforge.net>
  * @package 	Joomla.Framework
  * @subpackage 	Table
  * @since	1.0

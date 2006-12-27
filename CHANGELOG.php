@@ -39,6 +39,9 @@ Legend:
 
 27-Dec-2006 Johan Janssens
  + Added administrator feed module
+ ^ Changed _J_ALLOWRAW to JREQUEST_ALLOWRAW to suit naming conventions and to avoid naming conflicts 
+ ^ Changed _J_ALLOWHTML to JREQUEST_ALLOWHTML to suit naming conventions and to avoid naming conflicts
+ ^ Changed _J_NOTRIM to JREQUEST_NOTRIM to suit naming conventions and to avoid naming conflicts
 
 26-Dec-2006 Andrew Eddie
  # Moved onBeforeDisplay and onAfterDisplay triggers close to the actually application display method
@@ -1368,7 +1371,7 @@ Legend:
  ^ Changed version information from 1.5 to 1.5
  # Fixed [artf4208] : JError::isError()
  # Fixed [artf4137] : JDocumentHelper::implodeAttribs...
- # Fixed [artf4120] : _J_ALLOWHTML and _J_ALLOWRAW mixed up in JRequest::getVar
+ # Fixed [artf4120] : JREQUEST_ALLOWHTML and JREQUEST_ALLOWRAW mixed up in JRequest::getVar
 
 31-Mar-2006 David Gal
  + Integrated new RSS parsing library - MagpieRSS (adds conversion to utf-8 from all encodings)

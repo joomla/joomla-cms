@@ -59,7 +59,7 @@ class MenusController extends JController
 		$model	=& $this->getModel( 'Item' );
 		$post	= JRequest::get('post');
 		// allow name only to contain html
-		$post['name'] = JRequest::getVar( 'name', '', 'post', 'string', _J_ALLOWHTML );
+		$post['name'] = JRequest::getVar( 'name', '', 'post', 'string', JREQUEST_ALLOWHTML );
 		$model->setState( 'request', $post );
 
 		if ($model->store()) {

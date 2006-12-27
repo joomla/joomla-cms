@@ -293,7 +293,7 @@ class TemplatesController
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('id', '', 'method', 'word');
 		$enableWrite	= JRequest::getVar('enable_write', 0, '', 'int');
-		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWRAW);
+		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -403,7 +403,7 @@ class TemplatesController
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('id', '', 'method', 'word');
 		$filename		= JRequest::getVar('filename');
-		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWRAW);
+		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));

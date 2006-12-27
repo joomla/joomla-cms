@@ -397,7 +397,7 @@ function saveCategory()
 	$post		= JRequest::get( 'post' );
 
 	// fix up special html fields
-	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', _J_ALLOWRAW );
+	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 	$row = JTable::getInstance('category');
 	if (!$row->bind( $post )) {

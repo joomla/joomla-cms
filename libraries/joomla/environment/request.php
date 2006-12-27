@@ -16,11 +16,16 @@ jimport('joomla.utilities.array');
 jimport('joomla.utilities.functions');
 
 /**
+ * Create the request global object
+ */
+$GLOBALS['_JREQUEST'] = array();
+
+/**
  * Set the available masks for cleaning variables
  */
-define("_J_NOTRIM"   , 1);
-define("_J_ALLOWRAW" , 2);
-define("_J_ALLOWHTML", 4);
+define("JREQUEST_NOTRIM"   , 1);
+define("JREQUEST_ALLOWRAW" , 2);
+define("JREQUEST_ALLOWHTML", 4);
 
 /**
  * JRequest Class
@@ -103,11 +108,11 @@ class JRequest
 				break;
 		}
 
-		if (isset($GLOBALS['JRequest'][$name]) && ($GLOBALS['JRequest'][$name] == 'SET')) {
+		if (isset($GLOBALS['_JREQUEST'][$name]) && ($GLOBALS['_JREQUEST'][$name] == 'SET')) {
 			// Get the variable from the input hash
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 		}
-		elseif (!isset($GLOBALS['JRequest'][$name][$sig]))
+		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
 		{
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			// Get the variable from the input hash
@@ -121,12 +126,12 @@ class JRequest
 				}
 			}
 			if ($var !== null) {
-				$GLOBALS['JRequest'][$name][$sig] = $var;
+				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
 			} else {
 				$var = $default;
 			}
 		} else {
-			$var = $GLOBALS['JRequest'][$name][$sig];
+			$var = $GLOBALS['_JREQUEST'][$name][$sig];
 		}
 
 		return $var;
@@ -135,7 +140,7 @@ class JRequest
 	function setVar($name, $value = null, $hash = 'default')
 	{
 		// Clean global request var
-		$GLOBALS['JRequest'][$name] = 'SET';
+		$GLOBALS['_JREQUEST'][$name] = 'SET';
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
@@ -294,7 +299,7 @@ class JRequest
 		}
 
 		// Make sure the request hash is clean on file inclusion
-		$GLOBALS['JRequest'] = array();
+		$GLOBALS['_JREQUEST'] = array();
 	}
 
 	/**
@@ -349,7 +354,9 @@ class JRequest
 				$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
 			}
 			$var = $safeHtmlFilter->clean($var, $type);
-		} else {
+		}
+		else 
+		{	
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			if (is_null($noHtmlFilter)) {
 				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);

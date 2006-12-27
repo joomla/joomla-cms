@@ -46,7 +46,8 @@ class JPlugin extends JObserver {
 	 * @return mixed Routine return value
 	 * @since 1.5
 	 */
-	function update(& $args) {
+	function update(& $args) 
+	{
 		/*
 		 * First lets get the event from the argument array.  Next we will unset the
 		 * event argument as it has no bearing on the method to handle the event.

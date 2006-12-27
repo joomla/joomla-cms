@@ -27,7 +27,7 @@ class JContentHelper
 	{
 
 		// Get submitted text from the request variables
-		$text = JRequest::getVar( 'text', '', 'post', 'string', _J_ALLOWRAW );
+		$text = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 		// Clean text for xhtml transitional compliance
 		$text		= str_replace( '<br>', '<br />', $text );

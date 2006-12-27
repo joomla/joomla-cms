@@ -176,7 +176,7 @@ class BannerController
 
 		$post	= JRequest::get( 'post' );
 		// fix up special html fields
-		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', _J_ALLOWRAW );
+		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 		$row =& JTable::getInstance('banner', 'Table');
 
