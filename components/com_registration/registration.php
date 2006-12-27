@@ -326,7 +326,8 @@ class RegistrationController
 
 			$message->title = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
 			$message->text = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
-			$view->displayMessage();
+			$view->assign('message', $message);
+			$view->display('message');
 			return;
 		}
 

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Dec-2006 Hannes Papenberg
+ # Fixed [6853] : Error when new user activates account
+
 27-Dec-2006 Johan Janssens
  + Added administrator feed module
  ^ Changed _J_ALLOWRAW to JREQUEST_ALLOWRAW to suit naming conventions and to avoid naming conflicts 
