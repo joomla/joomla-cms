@@ -39,6 +39,7 @@ Legend:
 
 27-Dec-2006 Hannes Papenberg
  # Fixed [6853] : Error when new user activates account
+ # Fixed [6262] : Incorrect description on the Lost your password page
 
 27-Dec-2006 Johan Janssens
  + Added administrator feed module
