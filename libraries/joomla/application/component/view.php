@@ -109,7 +109,7 @@ class JView extends JObject
 			else
 			{
 				$r = null;
-				if (!preg_match('/View(.*)/i', get_class($this), $r)) {
+				if (!preg_match('/View([^view].*(view)?)$/i', get_class($this), $r)) {
 					JError::raiseError (500, "JView::__construct() : Can't get or parse class name.");
 				}
 				$this->_name = strtolower( $r[1] );
