@@ -20,7 +20,8 @@ class TOOLBAR_modules {
 	/**
 	* Draws the menu for a New module
 	*/
-	function _NEW($client)	{
+	function _NEW($client)
+	{
 		JMenuBar::title( JText::_( 'Module Manager' ) . ' - <span>' . JText::_( 'New Module' ) . '</span>', 'module.png' );
 		JMenuBar::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
 		JMenuBar::cancel();
@@ -30,7 +31,8 @@ class TOOLBAR_modules {
 	/**
 	* Draws the menu for Editing an existing module
 	*/
-	function _EDIT( $client ) {
+	function _EDIT( $client )
+	{
 		$cid 		= JRequest::getVar( 'cid', array(0));
 		$moduleType = JRequest::getVar( 'module' );
 

@@ -78,6 +78,7 @@ class JEditor_tinymce extends JPlugin
 		$compressed			= $params->def( 'compressed', 0 );
 		$langPrefix			= $params->def( 'lang_code', 'en' );
 		$langMode			= $params->def( 'lang_mode', 0 );
+		$relative_urls		= $params->def( 'relative_urls', 		0 );
 
 		// Plugins
 		// insert date
@@ -253,7 +254,7 @@ class JEditor_tinymce extends JPlugin
 			mode : \"specific_textareas\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",
-			relative_urls : false,
+			relative_urls : $relative_urls,
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",

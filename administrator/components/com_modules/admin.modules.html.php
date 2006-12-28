@@ -25,7 +25,7 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, &$client, &$page, $option, &$lists )
+	function showModules( &$rows, &$client, &$page, &$lists )
 	{
 		$user =& JFactory::getUser();
 
@@ -184,7 +184,7 @@ class HTML_modules {
 			</tbody>
 			</table>
 
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
@@ -209,7 +209,7 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client )
+	function editModule( &$row, &$orders2, &$lists, &$params, $client )
 	{
 		// Check for component metadata.xml file
 		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
@@ -397,7 +397,7 @@ class HTML_modules {
 		}
 		?>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="original" value="<?php echo $row->ordering; ?>" />
@@ -503,4 +503,3 @@ class HTML_modules {
 		<?php
 	}
 }
-?>

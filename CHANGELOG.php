@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Dec-2006 Andrew Eddie
+ # Removed restriction for removing core modules from the Modules Manager
+ # Added 'relative image paths' setting to TinyMCE
+
 27-Dec-2006 Hannes Papenberg
  # Fixed [6853] : Error when new user activates account
  # Fixed [6262] : Incorrect description on the Lost your password page

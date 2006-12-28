@@ -8,7 +8,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			alert( '<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>' );
 			return false;
 		}
-		return true;
+		frm.submit();
 	}
 -->
 </script>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</p>
 
 	<p>
-		<button class="button" onclick="return submitbutton(this.form);">
+		<button class="button" onclick="submitbutton(this.form);">
 			<?php echo JText::_('SEND'); ?>
 		</button>
 		<button class="button" onclick="window.close();return false;">

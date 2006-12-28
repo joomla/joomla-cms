@@ -37,7 +37,7 @@ if ($cid[0] == 0 && isset($moduleid) ) {
 switch ( $task )
 {
 	case 'copy':
-		copyModule( $option, intval( $cid[0] ));
+		copyModule( intval( $cid[0] ));
 		break;
 
 	case 'add' :
@@ -52,33 +52,33 @@ switch ( $task )
 	case 'apply':
 		$cache = & JFactory::getCache();
 		$cache->cleanCache( 'com_content' );
-		saveModule( $option, $task );
+		saveModule( $task );
 		break;
 
 	case 'remove':
-		removeModule( $cid, $option );
+		removeModule();
 		break;
 
 	case 'cancel':
-		cancelModule( $option );
+		cancelModule();
 		break;
 
 	case 'publish':
 	case 'unpublish':
 		$cache = & JFactory::getCache();
 		$cache->cleanCache( 'com_content' );
-		publishModule( $cid, ($task == 'publish'), $option );
+		publishModule( $cid, ($task == 'publish') );
 		break;
 
 	case 'orderup':
 	case 'orderdown':
-		orderModule( $cid[0], ($task == 'orderup' ? -1 : 1), $option );
+		orderModule( $cid[0], ($task == 'orderup' ? -1 : 1) );
 		break;
 
 	case 'accesspublic':
 	case 'accessregistered':
 	case 'accessspecial':
-		accessMenu( $cid[0], $task, $option );
+		accessMenu( $cid[0], $task );
 		break;
 
 	case 'saveorder':
@@ -90,7 +90,7 @@ switch ( $task )
 		break;
 
 	default:
-		viewModules( $option );
+		viewModules();
 		break;
 }
 
@@ -99,11 +99,12 @@ switch ( $task )
 */
 function viewModules()
 {
-	global $mainframe, $option;
+	global $mainframe;
 
 	// Initialize some variables
 	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$option	= 'com_modules';
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.position' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -222,7 +223,7 @@ function viewModules()
 	// search filter
 	$lists['search']= $search;
 
-	HTML_modules::showModules( $rows, $client, $pageNav, $option, $lists );
+	HTML_modules::showModules( $rows, $client, $pageNav, $lists );
 }
 
 /**
@@ -230,7 +231,7 @@ function viewModules()
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function copyModule( $option, $uid )
+function copyModule( $uid )
 {
 	global $mainframe;
 
@@ -275,7 +276,7 @@ function copyModule( $option, $uid )
 	}
 
 	$msg = JText::sprintf( 'Module Copied', $row->title );
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id, $msg );
+	$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id, $msg );
 }
 
 /**
@@ -283,7 +284,7 @@ function copyModule( $option, $uid )
  * @param	string	The url option
  * @param	string	The task variable
  */
-function saveModule( $option, $task )
+function saveModule( $task )
 {
 	global $mainframe;
 
@@ -355,13 +356,13 @@ function saveModule( $option, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = JText::sprintf( 'Successfully Saved changes to Module', $row->title );
-			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id .'&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id .'&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = JText::sprintf( 'Successfully Saved Module', $row->title );
-			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id, $msg );
+			$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id, $msg );
 			break;
 	}
 }
@@ -379,7 +380,6 @@ function editModule( )
 
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$module = JRequest::getVar( 'module' );
-	$option = JRequest::getVar( 'option');
 	$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
 	$cid 	= JRequest::getVar( 'cid', array( $id ));
 	if (!is_array( $cid )) {
@@ -393,7 +393,7 @@ function editModule( )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
     	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
-		mosErrorAlert( $msg, "document.location.href='index.php?option=$option" );
+		mosErrorAlert( $msg, "document.location.href='index.php?option=com_modules" );
 	}
 
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
@@ -524,7 +524,7 @@ function editModule( )
 	// get params definitions
 	$params = new JParameter( $row->params, $xmlfile, 'module' );
 
-	HTML_modules::editModule( $row, $orders2, $lists, $params, $option, $client );
+	HTML_modules::editModule( $row, $orders2, $lists, $params, $client );
 }
 
 /**
@@ -577,79 +577,50 @@ function selectnew()
 * Also deletes associated entries in the #__module_menu table.
 * @param array An array of unique category id numbers
 */
-function removeModule( &$cid, $option )
+function removeModule()
 {
 	global $mainframe;
 
 	// Initialize some variables
 	$db		=& JFactory::getDBO();
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+	$n		= count( $cid );
+	JArrayHelper::toInteger( $cid );
 
-	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
-		exit;
+	if ($n < 1) {
+		JError::raiseWarning( 1, JText::_( 'Select a module to delete' ) );
+		$mainframe->redirect( 'index.php?option=com_modules&client='. $client->id );
 	}
 
 	$cids = implode( ',', $cid );
 
 	$query = "SELECT id, module, title, iscore, params"
-	. "\n FROM #__modules WHERE id IN ( $cids )"
+	. "\n FROM #__modules WHERE id IN ($cids)"
 	;
 	$db->setQuery( $query );
 	if (!($rows = $db->loadObjectList())) {
-		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		exit;
+		return JError::raiseError( 500, $db->getErrorMsg() );
 	}
 
-	$err = array();
-	$cid = array();
-	foreach ($rows as $row)
-	{
-		if ($row->module == '' || $row->iscore == 0) {
-			$cid[] = $row->id;
-		} else {
-			$err[] = $row->title;
-		}
-		// mod_mainmenu modules only deletable via Menu Manager
-		if ( $row->module == 'mod_mainmenu' ) {
-			if ( strstr( $row->params, 'mainmenu' ) ) {
-				echo "<script> alert('". JText::_( 'WARNMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
-				exit;
-			}
-		}
-	}
-
-	if (count( $cid ))
-	{
-		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__modules"
-		. "\n WHERE id IN ( $cids )"
-		;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit;
-		}
-		$query = "DELETE FROM #__modules_menu"
+	// remove mappings first (lest we leave orphans)
+	$query = "DELETE FROM #__modules_menu"
 		. "\n WHERE moduleid IN ( $cids )"
 		;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg()."');</script>\n";
-			exit;
-		}
-		$mod =& JTable::getInstance('module');
-		$mod->ordering = 0;
-		$mod->reorder( "position='left'" );
-		$mod->reorder( "position='right'" );
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		return JError::raiseError( 500, $db->getErrorMsg() );
+	}
+	// remove module
+	$query = "DELETE FROM #__modules"
+		. "\n WHERE id IN ($cids)"
+		;
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		return JError::raiseError( 500, $db->getErrorMsg() );
 	}
 
-	if (count( $err )) {
-		$cids = addslashes( implode( "', '", $err ) );
-		echo "<script>alert('". JText::_( 'Module(s)', true ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES', true ) ."');</script>\n";
-	}
-
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client->id );
+	$mainframe->redirect( 'index.php?option=com_modules&client='. $client->id, JText::sprintf( 'Items removed', $n ) );
 }
 
 /**
@@ -657,7 +628,7 @@ function removeModule( &$cid, $option )
 * @param array An array of unique record id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function publishModule( $cid=null, $publish=1, $option )
+function publishModule( $cid=null, $publish=1 )
 {
 	global $mainframe;
 
@@ -691,13 +662,13 @@ function publishModule( $cid=null, $publish=1, $option )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
+	$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id );
 }
 
 /**
 * Cancels an edit operation
 */
-function cancelModule( $option )
+function cancelModule()
 {
 	global $mainframe;
 
@@ -710,7 +681,7 @@ function cancelModule( $option )
 	$row->bind(JRequest::get('post'), 'selections params' );
 	$row->checkin();
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
+	$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id );
 }
 
 /**
@@ -718,7 +689,7 @@ function cancelModule( $option )
 * @param integer The unique id of record
 * @param integer The increment to reorder by
 */
-function orderModule( $uid, $inc, $option )
+function orderModule( $uid, $inc )
 {
 	global $mainframe;
 
@@ -731,14 +702,14 @@ function orderModule( $uid, $inc, $option )
 
 	$row->move( $inc, "position = '".$row->position."' AND client_id=".$client->id  );
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
+	$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id );
 }
 
 /**
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $option )
+function accessMenu( $uid, $access )
 {
 	global $mainframe;
 
@@ -771,7 +742,7 @@ function accessMenu( $uid, $access, $option )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client->id );
+	$mainframe->redirect( 'index.php?option=com_modules&amp;client='. $client->id );
 }
 
 function saveOrder( &$cid )
@@ -843,4 +814,3 @@ function ReadModuleXML( &$rows  )
 		}
 	}
 }
-?>

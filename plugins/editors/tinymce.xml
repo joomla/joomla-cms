@@ -32,6 +32,10 @@
  			<option value="1">On</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
+  		<param name="relative_urls" type="list" default="0" label="Urls" description="URL behaviour">
+ 			<option value="0">Absolute</option>
+ 			<option value="1">Relative</option>
+ 		</param>
  		<param name="text_direction" type="list" default="ltr" label="Text Direction" description="Ability to change text direction">
  			<option value="ltr">Left to Right</option>
  			<option value="rtl">Right to Left</option>
