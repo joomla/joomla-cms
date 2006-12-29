@@ -24,6 +24,8 @@ jimport('joomla.application.component.view');
  */
 class MenusViewList extends JView
 {
+	var $_name = 'list';
+
 	function display($tpl=null)
 	{
 		global $mainframe;
