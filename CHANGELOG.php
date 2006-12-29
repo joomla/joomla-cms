@@ -50,6 +50,7 @@ Legend:
 
 28-Dec-2006 Louis Landry
  # Fixed problem with nested menu item removal
+ ^ HTTP header SEO patch : Joomlatwork
 
 28-Dec-2006 Andrew Eddie
  # Removed restriction for removing core modules from the Modules Manager
