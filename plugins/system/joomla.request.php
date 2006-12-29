@@ -177,7 +177,10 @@ function sefRelToAbs($value)
 		$strings = array();
 	}
 
-	if (!isset( $strings[$value] ))
+	// Replace all &amp; with & - ensures cache integrity
+	$string = str_replace('&amp;', '&', $value);
+
+	if (!isset( $strings[$string] ))
 	{
 		// Initialize some variables
 		$config	= & JFactory::getConfig();
@@ -194,9 +197,6 @@ function sefRelToAbs($value)
 		// Get config variables
 		$mode    = $params->get('mode', 0);
 		$rewrite = $config->getValue('config.sef');
-
-		// Replace all &amp; with &
-		$string = str_replace('&amp;', '&', $value);
 
 		// Home index.php
 		if ($string == 'index.php') {
@@ -270,14 +270,13 @@ function sefRelToAbs($value)
 			if ($mode) {
 				$url = 'index.php/'.$url;
 			}
-			$strings[$value] = $url;
+			$strings[$string] = $url;
 
 			return str_replace( '&', '&amp;', $url );
 		}
 
-		$strings[$value] = $uri->toString();
+		$strings[$string] = $uri->toString();
 	}
 
-	return str_replace( '&', '&amp;', $strings[$value] );
+	return str_replace( '&', '&amp;', $strings[$string] );
 }
-?>
