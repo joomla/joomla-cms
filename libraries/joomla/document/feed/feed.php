@@ -203,31 +203,32 @@ class JDocumentFeed extends JDocument
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 
-		echo $this->getBuffer();
-		
 		$renderer = $this->loadRenderer($format);
 
 		//output
-		JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT' );
-		JResponse::setHeader( 'Last-Modified', gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-		JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
-		JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0' );		// HTTP/1.5
-		JResponse::setHeader( 'Pragma', 'no-cache' );								// HTTP/1.0
-		JResponse::setHeader( 'Content-Type', $renderer->getContentType() .  '; charset=' . $this->_charset);
-
 		// Generate prolog
-		$result  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
-		$result .= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
+		$data  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
+		$data .= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
 		 // Generate stylesheet links
         foreach ($this->_styleSheets as $src => $attr ) {
-            $result .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
+            $data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
         }
 
 		// Render the feed
-		$result .= $renderer->render( );
+		$data .= $renderer->render( );
 
-		JResponse::setBody($result);
+		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+		if ($mdate = $this->getModifiedDate()) {
+			JResponse::setHeader( 'Last-Modified', $mdate );
+		}
+		//JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
+		//JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false );	// HTTP/1.1
+		JResponse::setHeader( 'Pragma', 'no-cache' );									// HTTP/1.0
+		JResponse::setHeader( 'Content-Type', $renderer->getContentType() .  '; charset=' . $this->_charset);
+		JResponse::setHeader( 'Content-Length', strlen($data) );									// HTTP/1.0
+
+		JResponse::setBody($data);
 	}
 
 	/**

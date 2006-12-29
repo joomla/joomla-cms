@@ -72,6 +72,14 @@ class JDocument extends JObject
 	 var $_generator = 'Joomla! 1.5';
 
 	/**
+	 * Document modified date
+	 *
+	 * @var	  string
+	 * @access   private
+	 */
+	var $_mdate = '';
+
+	/**
 	 * Tab string
 	 *
 	 * @var	   string
@@ -174,7 +182,7 @@ class JDocument extends JObject
 	 * @access  private
 	 */
 	var $_type = null;
-	
+
 	/**
      * Array of buffered output
      *
@@ -258,7 +266,7 @@ class JDocument extends JObject
 	function getType() {
 		return $this->_type;
 	}
-	
+
 	/**
 	 * Get the contents of the document buffer
 	 *
@@ -507,6 +515,27 @@ class JDocument extends JObject
 	 */
 	function getGenerator() {
 		return $this->_generator;
+	}
+
+	 /**
+	 * Sets the document modified date
+	 *
+	 * @param   string
+	 * @access  public
+	 * @return  void
+	 */
+	function setModifiedDate($date) {
+		$this->_mdate = $date;
+	}
+
+	/**
+	 * Returns the document modified date
+	 *
+	 * @access public
+	 * @return string
+	 */
+	function getModifiedDate() {
+		return $this->_mdate;
 	}
 
 	 /**

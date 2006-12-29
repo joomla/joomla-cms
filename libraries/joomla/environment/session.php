@@ -248,7 +248,7 @@ class JSession extends JObject
 		}
 
 		// Send modified header for IE 6.0 Security Policy
-		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
         return true;
     }

@@ -188,12 +188,15 @@ class JDocumentHTML extends JDocument
 		$data = $this->_parseTemplate($data, array('outline' => $outline));
 
 		//output
-		JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT' );
-		JResponse::setHeader( 'Last-Modified', gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-		JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
-		JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false );	// HTTP/1.1
+		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+		if ($mdate = $this->getModifiedDate()) {
+			JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+		}
+		//JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
+		//JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false );	// HTTP/1.1
 		JResponse::setHeader( 'Pragma', 'no-cache' );									// HTTP/1.0
 		JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+		JResponse::setHeader( 'Content-Length', strlen($data) );									// HTTP/1.0
 
 		JResponse::setBody($data);
 	}
