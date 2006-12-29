@@ -12,7 +12,7 @@
  * details.
  */
 
- jimport( 'joomla.application.component.view');
+jimport( 'joomla.application.component.view');
 
 /**
  * Frontpage View class

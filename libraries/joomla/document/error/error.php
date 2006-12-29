@@ -103,22 +103,23 @@ class JDocumentError extends JDocument
 		// check template
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template  = isset($params['template']) ? $params['template'] : '_system';
-			
+
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
 		}
-		
+
 		//set variables
 		$this->template = $template;
 		$this->debug    = isset($params['debug']) ? $params['debug'] : false;
 		$this->message  = JText::_($this->_error->message);
-		
+
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
 
+		parent::display();
 		JResponse::setBody($data);
 	}
-	
+
 	/**
 	 * Load a template file
 	 *
@@ -145,7 +146,7 @@ class JDocumentError extends JDocument
 
 		return $contents;
 	}
-	
+
 	function renderBacktrace()
 	{
 		$contents  = null;

@@ -11,14 +11,14 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 /**
  * Create the response global object
  */
 $GLOBALS['_JRESPONSE'] = new stdClass();
 $GLOBALS['_JRESPONSE']->headers = array();
 $GLOBALS['_JRESPONSE']->body    = array();
- 
+
  /**
  * JResponse Class
  *
@@ -49,8 +49,8 @@ class JResponse
     {
         $name  = (string) $name;
         $value = (string) $value;
-		
-        if ($replace) 
+
+        if ($replace)
 		{
             foreach ($GLOBALS['_JRESPONSE']->headers as $key => $header) {
                 if ($name == $header['name']) {
@@ -77,7 +77,7 @@ class JResponse
 
     /**
      * Clear headers
-     * 
+     *
      * @access public
      */
     function clearHeaders() {
@@ -86,17 +86,17 @@ class JResponse
 
     /**
      * Send all headers
-     * 
+     *
      * @access public
      * @return void
      */
     function sendHeaders()
     {
-        if (!headers_sent()) 
+        if (!headers_sent())
 		{
-			foreach ($GLOBALS['_JRESPONSE']->headers as $header) 
+			foreach ($GLOBALS['_JRESPONSE']->headers as $header)
 			{
-				if ('status' == strtolower($header['name'])) 
+				if ('status' == strtolower($header['name']))
 				{
                     // 'status' headers indicate an HTTP status, and need to be handled slightly differently
                     header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
@@ -118,7 +118,7 @@ class JResponse
     function setBody($content) {
         $GLOBALS['_JRESPONSE']->body = array((string) $content);
     }
-	
+
 	 /**
      * Prepend content to the body content
      *
@@ -143,7 +143,7 @@ class JResponse
      * Return the body content
      *
      * @access public
-     * @param boolean $toArray Whether or not to return the body content as an 
+     * @param boolean $toArray Whether or not to return the body content as an
      * array of strings or as a single string; defaults to false
      * @return string|array
      */
@@ -173,11 +173,12 @@ class JResponse
 		if($compress) {
 			$data = JResponse::_compress($data);
 		}
-		
+
+		JResponse::setHeader( 'Content-Length', strlen($data) );
 		JResponse::sendHeaders();
         return $data;
     }
-	
+
 	/**
 	* Compress the data
 	*
@@ -218,7 +219,7 @@ class JResponse
 		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
 		$gzdata .= pack("V",$crc) . pack("V", $size);
 		*/
-		
+
 		$gzdata = gzencode($data, $level);
 
 		JResponse::setHeader('Content-Encoding', $encoding);
@@ -227,7 +228,7 @@ class JResponse
 
 		return $gzdata;
 	}
-	
+
 	 /**
 	* check, whether client supports compressed data
 	*
