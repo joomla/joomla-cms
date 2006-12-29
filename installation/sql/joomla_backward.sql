@@ -772,7 +772,7 @@ INSERT INTO `#__template_positions` VALUES (0, 'cp_shell', '');
 CREATE TABLE `#__users` (
   `id` int(11) NOT NULL auto_increment,
   `name` TEXT NOT NULL default '',
-  `username` varchar(225) NOT NULL default '',
+  `username` varchar(150) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
   `password` varchar(100) NOT NULL default '',
   `usertype` varchar(75) NOT NULL default '',

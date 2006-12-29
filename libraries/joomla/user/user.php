@@ -297,9 +297,7 @@ class JUser extends JObject
 	{
 		jimport('joomla.user.authenticate');
 
-		/*
-		 * Lets check to see if the user is new or not
-		 */
+		// Lets check to see if the user is new or not
 		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/)
 		{
 			/*
@@ -321,25 +319,23 @@ class JUser extends JObject
 
 			// check that username is not greater than 25 characters
 			$username = $this->get( 'username' );
-			if ( strlen($username) > 25 )
+			if ( strlen($username) > 150 )
 			{
-				$username = substr( $username, 0, 25 );
+				$username = substr( $username, 0, 150 );
 				$this->set( 'username', $username );
 			}
 
 			// check that password is not greater than 50 characters
 			$password = $this->get( 'password' );
-			if ( strlen($password) > 50 )
+			if ( strlen($password) > 100 )
 			{
-				$password = substr( $password, 0, 50 );
+				$password = substr( $password, 0, 100 );
 				$this->set( 'password', $password );
 			}
 		}
 		else
 		{
-			/*
-			 * We are updating an existing user.. so lets get down to it.
-			 */
+			// We are updating an existing user.. so lets get down to it.
 			if (!empty($array['password']))
 			{
 				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
