@@ -30,11 +30,10 @@ class JHelp
 	*/
 	function createURL($ref, $useComponent = false)
 	{
-		global $mainframe, $_VERSION, $option;
+		global $mainframe, $option;
 
 		$user			=& JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
-
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$lang			= JFactory::getLanguage();
 
@@ -62,13 +61,15 @@ class JHelp
 		if ( $userHelpUrl )
 		{
 	   		// Online help site as defined in GC
-			$ref .= $_VERSION->getHelpVersion();
+			$version = new JVersion();
+			$ref .= $version->getHelpVersion();
 			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		}
 		else if ( $globalHelpUrl )
 		{
 	   		// Online help site as defined in GC
-			$ref .= $_VERSION->getHelpVersion();
+			$version = new JVersion();
+			$ref .= $version->getHelpVersion();
 			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		}
 		else

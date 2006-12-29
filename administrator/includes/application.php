@@ -43,7 +43,7 @@ class JAdministrator extends JApplication
 	function __construct() {
 		parent::__construct(1);
 	}
-	
+
    /**
 	* Initialise the application.
 	*
@@ -63,7 +63,7 @@ class JAdministrator extends JApplication
 		if (empty($options['language'])) {
 			$options['language'] = 'en-GB';
 		}
-		
+
 		$config = & JFactory::getConfig();
 		if ($config->getValue('config.legacy')) {
 			jimport('joomla.common.legacy');
@@ -103,7 +103,7 @@ class JAdministrator extends JApplication
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
 	}
-	
+
 	/**
 	* Display the application.
 	*
